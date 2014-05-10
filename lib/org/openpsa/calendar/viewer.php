@@ -46,6 +46,11 @@ class org_openpsa_calendar_viewer extends midcom_baseclasses_components_request
         return true;
     }
 
+    /**
+     * @param String $handler_id    Name of the request handler
+     * @param array $args           Variable arguments
+     * @param array &$data          Public request data, passed by reference
+     */
     public function _handler_frontpage($handler_id, array $args, array &$data)
     {
         midcom::get('auth')->require_valid_user();

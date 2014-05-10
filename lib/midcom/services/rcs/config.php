@@ -36,7 +36,7 @@ class midcom_services_rcs_config
      *
      * @return midcom_services_rcs_backend
      */
-    function get_handler(&$object)
+    function get_handler($object)
     {
         $class = $this->_get_handler_class();
         return new $class($object, $this);

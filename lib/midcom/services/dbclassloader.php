@@ -112,7 +112,7 @@ class midcom_services_dbclassloader
      *
      * @param array $definition_list A reference to the definition list to verify.
      */
-    function _validate_class_definition_list(array &$definition_list)
+    function _validate_class_definition_list(array $definition_list)
     {
         foreach ($definition_list as $mgdschema_class => $midcom_class)
         {
@@ -178,10 +178,10 @@ class midcom_services_dbclassloader
      * The generic by-GUID loader and the class conversion tools in the dbfactory
      * require this information to be able to load the required components on-demand.
      *
-     * @param array &$definitions The list of classes which have been loaded along with the meta information.
+     * @param array $definitions The list of classes which have been loaded along with the meta information.
      * @param string $component The component name of the classes to add
      */
-    private function _register_loaded_classes(&$definitions, $component)
+    private function _register_loaded_classes(array $definitions, $component)
     {
         $this->_validate_class_definition_list($definitions);
 

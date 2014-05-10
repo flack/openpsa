@@ -18,10 +18,10 @@ class org_openpsa_helpers_list
     /**
      * Function for listing groups task/saelsproject contacts are members of
      *
-     * @param midcom_core_dbaobject &$task The task/salesproject we're working with
+     * @param midcom_core_dbaobject $task The task/salesproject we're working with
      * @param string $mode By which property should groups be listed
      */
-    static function task_groups(midcom_core_dbaobject &$task, $mode = 'id')
+    static function task_groups(midcom_core_dbaobject $task, $mode = 'id')
     {
         //TODO: Localize something for the empty choice ?
         $ret = array(0 => '');
@@ -63,7 +63,7 @@ class org_openpsa_helpers_list
         return $ret;
     }
 
-    static function task_groups_put(&$ret, $mode, $company_id)
+    static function task_groups_put(array &$ret, $mode, $company_id)
     {
         if (!empty(self::$_seen[$company_id]))
         {

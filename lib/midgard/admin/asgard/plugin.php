@@ -41,7 +41,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
      * @param string $title     Page title
      * @param array &$data      Local request data
      */
-    public static function prepare_plugin($title, &$data)
+    public static function prepare_plugin($title, array &$data)
     {
         midcom::get('auth')->require_user_do('midgard.admin.asgard:access', null, 'midgard_admin_asgard_plugin');
         // Disable content caching
@@ -69,14 +69,14 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
     /**
      * Static method for binding view to an object
      */
-    public static function bind_to_object($object, $handler_id, &$data)
+    public static function bind_to_object($object, $handler_id, array &$data)
     {
         // Tell our object to MidCOM
         midcom::get('metadata')->set_request_metadata($object->metadata->revised, $object->guid);
         $data['object_reflector'] = midcom_helper_reflector::get($object);
         $data['tree_reflector'] = midcom_helper_reflector_tree::get($object);
 
-        $data['object'] =& $object;
+        $data['object'] = $object;
 
         // Populate toolbars
         if (midcom::get('dbclassloader')->is_midcom_db_object($object))
@@ -96,7 +96,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
         self::set_pagetitle($object, $handler_id, $data);
     }
 
-    public static function set_pagetitle($object, $handler_id, &$data)
+    public static function set_pagetitle($object, $handler_id, array &$data)
     {
         // Figure out correct title and language handling
         switch ($handler_id)
@@ -151,7 +151,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
     /**
      * Helper function that sets the default object mode
      */
-    public static function get_default_mode(&$data)
+    public static function get_default_mode(array &$data)
     {
         //only set mode once per request
         if (!empty($data['default_mode']))
@@ -191,7 +191,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
      * @param String $handler_id   Initialized handler id
      * @param array $data          Local request data
      */
-    private static function _set_object_breadcrumb($object, $handler_id, &$data)
+    private static function _set_object_breadcrumb($object, $handler_id, array $data)
     {
         $tmp = array();
 

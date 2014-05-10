@@ -40,7 +40,7 @@ class midcom_helper_datamanager2_qfrule_manager
         'select' => array('requiremultiselect')
     );
 
-    public function __construct(HTML_QuickForm &$form, midcom_services_i18n_l10n $l10n)
+    public function __construct(HTML_QuickForm $form, midcom_services_i18n_l10n $l10n)
     {
         $this->_form = $form;
         $this->_l10n = $l10n;

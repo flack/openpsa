@@ -82,7 +82,7 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
         midcom::get('auth')->drop_sudo();
     }
 
-    private function _prepare_send(&$data)
+    private function _prepare_send(array &$data)
     {
         $nap = new midcom_helper_nav();
         $node = $nap->get_node($nap->get_current_node());

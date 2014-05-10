@@ -19,7 +19,7 @@
 abstract class midcom_helper_nav_itemlist
 {
     /**
-     * A reference to the NAP instance we belong to.
+     * The NAP instance we belong to.
      *
      * @var midcom_helper_nav
      */
@@ -30,12 +30,12 @@ abstract class midcom_helper_nav_itemlist
     /**
      * Initialize the object, used by the factory function.
      *
-     * @param midcom_helper_nav &$nap A reference to a NAP object to use.
+     * @param midcom_helper_nav $nap NAP object to use.
      * @param integer $parent_topic_id An ID of the topic in which we operate.
      */
-    public function __construct(&$nap, $parent_topic_id)
+    public function __construct(midcom_helper_nav $nap, $parent_topic_id)
     {
-        $this->_nap =& $nap;
+        $this->_nap = $nap;
         $this->parent_node_id = $parent_topic_id;
     }
 
@@ -77,12 +77,12 @@ abstract class midcom_helper_nav_itemlist
      *
      *
      * @param string $sorting sorttype (e.g. topicsfirst)
-     * @param midcom_helper_nav &$nap pointer to the NAP object.
+     * @param midcom_helper_nav $nap pointer to the NAP object.
      * @param integer $parent_topic pointer to the topic to base the list on.
      * @return midcom_helper_nav_itemlist sortobject
      */
     /** @ignore */
-    static public function factory ($sorting, midcom_helper_nav &$nap, $parent_topic)
+    static public function factory ($sorting, midcom_helper_nav $nap, $parent_topic)
     {
         $class = "midcom_helper_nav_itemlist_{$sorting}";
         return new $class($nap, $parent_topic);

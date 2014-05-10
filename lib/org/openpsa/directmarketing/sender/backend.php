@@ -24,14 +24,14 @@ interface org_openpsa_directmarketing_sender_backend
     /**
      * Adds necessary constraints to member QB to find valid entries
      *
-     * @param midcom_core_querybuilder &$qb The QB instance to work on
+     * @param midcom_core_querybuilder $qb The QB instance to work on
      */
-    public function add_member_constraints(&$qb);
+    public function add_member_constraints($qb);
 
     /**
      * Validate results before send
      *
-     * @param array $results Array of member objects
+     * @param array &$results Array of member objects
      * @param boolean Indicating success
      */
     public function check_results(array &$results);

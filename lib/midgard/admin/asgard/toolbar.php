@@ -227,7 +227,7 @@ class midgard_admin_asgard_toolbar extends midcom_helper_toolbar
         $this->_disable_active_item($handler_id, $object, $data);
     }
 
-    private function _disable_active_item($handler_id, $object, &$data)
+    private function _disable_active_item($handler_id, $object, array $data)
     {
         switch ($handler_id)
         {

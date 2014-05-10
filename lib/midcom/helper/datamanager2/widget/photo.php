@@ -23,7 +23,7 @@ class midcom_helper_datamanager2_widget_photo extends midcom_helper_datamanager2
      * @param array &$elements The array where the references to the created elements should
      *     be added.
      */
-    function _create_upload_elements(&$elements)
+    function _create_upload_elements(array &$elements)
     {
         $static_html = "<label for='{$this->_namespace}{$this->name}'>" . $this->_l10n->get('upload image') . ": \n";
         $elements[] = $this->_form->createElement('static', "{$this->name}_start", '', $static_html);
@@ -40,7 +40,7 @@ class midcom_helper_datamanager2_widget_photo extends midcom_helper_datamanager2
      * @param array &$elements The array where the references to the created elements should
      *     be added.
      */
-    function _create_replace_elements(&$elements)
+    function _create_replace_elements(array &$elements)
     {
         switch (true)
         {

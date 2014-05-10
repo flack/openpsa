@@ -182,10 +182,10 @@ implements midcom_services_permalinks_resolver, org_openpsa_contacts_duplicates_
      * AT handler for fetching Semantic Web data for person or group
      *
      * @param array $args handler arguments
-     * @param object &$handler reference to the cron_handler object calling this method.
+     * @param object $handler The cron_handler object calling this method.
      * @return boolean indicating success/failure
      */
-    function check_url($args, &$handler)
+    function check_url($args, $handler)
     {
         if (array_key_exists('person', $args))
         {

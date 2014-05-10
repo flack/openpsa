@@ -254,20 +254,11 @@ class org_openpsa_products_handler_group_groupsblock  extends midcom_baseclasses
         }
     }
 
-    private function _add_ordering(&$qb, $ordering)
+    private function _add_ordering($qb, $ordering)
     {
         if (preg_match('/\s*reversed?\s*/', $ordering))
         {
-            $reversed = true;
             $ordering = preg_replace('/\s*reversed?\s*/', '', $ordering);
-        }
-        else
-        {
-            $reversed = false;
-        }
-
-        if ($reversed)
-        {
             $qb->add_order($ordering, 'DESC');
         }
         else

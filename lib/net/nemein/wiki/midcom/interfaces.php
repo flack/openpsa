@@ -63,7 +63,7 @@ implements midcom_services_permalinks_resolver
      *
      * Returns true if word is free, false if reserved
      */
-    public static function node_wikiword_is_free(&$node, $wikiword)
+    public static function node_wikiword_is_free($node, $wikiword)
     {
         if (empty($node))
         {

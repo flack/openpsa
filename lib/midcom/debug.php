@@ -355,13 +355,13 @@ class midcom_debug
      * Dump a variables type (by reference)
      *
      * @param string $message    The message to be logged
-     * @param mixed &$variable    The variable of which the type should be logged
+     * @param mixed $variable    The variable of which the type should be logged
      * @param int $loglevel        The log level
      */
-    function print_type ($message, &$variable, $loglevel = MIDCOM_LOG_DEBUG)
+    function print_type ($message, $variable, $loglevel = MIDCOM_LOG_DEBUG)
     {
-        if (   ! $this->_enabled
-                || $this->_loglevel < $loglevel)
+        if (   !$this->_enabled
+            || $this->_loglevel < $loglevel)
         {
             return;
         }
@@ -445,13 +445,13 @@ function debug_print_function_stack($message, $loglevel = MIDCOM_LOG_DEBUG)
 }
 
 /**
- * Shortcut: Dump a variables type (by reference)
+ * Shortcut: Dump a variable's type
  *
  * @param string $message    The message to be logged
- * @param mixed &$variable    The variable of which the type should be logged
+ * @param mixed $variable    The variable of which the type should be logged
  * @param int $loglevel        The log level
  */
-function debug_print_type($message, &$variable, $loglevel = MIDCOM_LOG_DEBUG)
+function debug_print_type($message, $variable, $loglevel = MIDCOM_LOG_DEBUG)
 {
     midcom::get('debug')->print_type($message, $variable, $loglevel);
 }

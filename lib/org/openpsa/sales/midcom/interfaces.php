@@ -54,7 +54,7 @@ implements midcom_services_permalinks_resolver
      * Current rule: all participants of event must be either manager,contact or resource in task
      * that overlaps in time with the event.
      */
-    private function _find_suspects_event(midcom_core_dbaobject $object, &$defaults, array &$links_array)
+    private function _find_suspects_event(midcom_core_dbaobject $object, $defaults, array &$links_array)
     {
         if (   !is_array($object->participants)
             || count($object->participants) < 2)
@@ -104,7 +104,7 @@ implements midcom_services_permalinks_resolver
     /**
      * Used by org_openpsa_relatedto_find_suspects to in case the given object is a person
      */
-    private function _find_suspects_person(midcom_core_dbaobject $object, &$defaults, array &$links_array)
+    private function _find_suspects_person(midcom_core_dbaobject $object, $defaults, array &$links_array)
     {
         $seen_sp = array();
         $mc = org_openpsa_contacts_role_dba::new_collector('role', org_openpsa_sales_salesproject_dba::ROLE_MEMBER);
@@ -153,10 +153,10 @@ implements midcom_services_permalinks_resolver
      * AT handler for handling subscription cycles.
      *
      * @param array $args handler arguments
-     * @param object &$handler reference to the cron_handler object calling this method.
+     * @param object $handler reference to the cron_handler object calling this method.
      * @return boolean indicating success/failure
      */
-    function new_subscription_cycle($args, &$handler)
+    function new_subscription_cycle($args, $handler)
     {
         if (   !isset($args['deliverable'])
             || !isset($args['cycle']))
@@ -183,7 +183,7 @@ implements midcom_services_permalinks_resolver
     /**
      * Function to send a notification to owner of the deliverable - guid of deliverable is passed
      */
-    public function new_notification_message($args, &$handler)
+    public function new_notification_message($args, $handler)
     {
         if (!isset($args['deliverable']))
         {

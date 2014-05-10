@@ -224,7 +224,7 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
         midcom_show_style('invoices_report-end');
     }
 
-    private function _show_table($type, &$invoices, &$data)
+    private function _show_table($type, $invoices, array &$data)
     {
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
         $data['invoices_url'] = $siteconfig->get_node_full_url('org.openpsa.invoices');

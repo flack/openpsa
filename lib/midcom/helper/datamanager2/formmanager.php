@@ -121,12 +121,12 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
     /**
      * Initializes the Form manager with a list of types for a given schema.
      *
-     * @param midcom_helper_datamanager2_schema &$schema The schema to use for processing. This
+     * @param midcom_helper_datamanager2_schema $schema The schema to use for processing. This
      *     variable is taken by reference.
      * @param array &$types A list of types matching the passed schema, used as a basis for the
      *     form types. This variable is taken by reference.
      */
-    public function __construct(midcom_helper_datamanager2_schema $schema, &$types, $state = 'edit')
+    public function __construct(midcom_helper_datamanager2_schema $schema, array &$types, $state = 'edit')
     {
         parent::__construct();
 
@@ -521,9 +521,9 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
     /**
      * Sets the form's renderer based on an existing renderer instance.
      *
-     * @param mixed &$renderer A prepared HTML_QuickForm_Renderer (or subclass thereof) instance.
+     * @param HTML_QuickForm_Renderer $renderer A prepared renderer instance.
      */
-    function set_renderer ($renderer)
+    function set_renderer (HTML_QuickForm_Renderer $renderer)
     {
         $this->renderer = $renderer;
     }

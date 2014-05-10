@@ -265,7 +265,7 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
         }
     }
 
-    private function _add_identifier_constraint(midcom_core_query &$qb, $identifier)
+    private function _add_identifier_constraint(midcom_core_query $qb, $identifier)
     {
         if (mgd_is_guid($identifier))
         {

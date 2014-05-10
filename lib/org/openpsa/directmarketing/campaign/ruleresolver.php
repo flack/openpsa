@@ -424,7 +424,7 @@ class org_openpsa_directmarketing_campaign_ruleresolver
      * @param midcom_core_dbaobject $object
      * @param midcom_services_i18n_l10n $l10n
      */
-    public static function list_object_properties(&$object, &$l10n)
+    public static function list_object_properties($object, midcom_services_i18n_l10n $l10n)
     {
         // These are internal to midgard and/or not valid QB constraints
         $skip_properties = array();

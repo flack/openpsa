@@ -50,7 +50,7 @@ abstract class midcom_helper_datamanager2_storage extends midcom_baseclasses_com
      * Specific storage implementation subclasses will need to expand this constructor
      * to take care of linking to the right storage object, where applicable.
      *
-     * @param midcom_helper_datamanager2_schema &$schema The data schema to use for processing.
+     * @param midcom_helper_datamanager2_schema $schema The data schema to use for processing.
      */
     public function __construct($schema)
     {
@@ -92,7 +92,7 @@ abstract class midcom_helper_datamanager2_storage extends midcom_baseclasses_com
      * @param array &$types A reference to an array of types matching the schema definition.
      * @return boolean Indicating success.
      */
-    function store(&$types)
+    function store(array &$types)
     {
         foreach ($this->_schema->fields as $name => $type_definition)
         {
@@ -156,7 +156,7 @@ abstract class midcom_helper_datamanager2_storage extends midcom_baseclasses_com
      *
      * @param array &$types A reference to an array of types matching the schema definition.
      */
-    function load(&$types)
+    function load(array &$types)
     {
         foreach ($this->_schema->fields as $name => $type_definition)
         {

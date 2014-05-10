@@ -309,10 +309,10 @@ class midcom_core_user
      *
      * If the class specified is unknown, an empty array is returned.
      *
-     * @param object &$object The object for which we should look up privileges for. This is passed by-reference.
+     * @param object $object The object for which we should look up privileges for. This is passed by-reference.
      * @return Array Array keys are the privilege names, the values are the Privilege states (ALLOW/DENY).
      */
-    function get_per_class_privileges(&$object)
+    function get_per_class_privileges($object)
     {
         if (is_null($this->_per_class_privileges))
         {

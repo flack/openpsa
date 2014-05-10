@@ -139,7 +139,7 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
         midcom::get('cache')->content->content_type('text/plain');
     }
 
-    private function _create_link_receipt(&$receipt, &$token, &$target)
+    private function _create_link_receipt($receipt, $token, $target)
     {
         if (!array_key_exists('create_status', $this->_request_data))
         {

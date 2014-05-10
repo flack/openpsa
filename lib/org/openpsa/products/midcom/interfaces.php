@@ -201,7 +201,7 @@ implements midcom_services_permalinks_resolver
         return true;
     }
 
-    public function _on_reindex_tree_iterator(&$indexer, &$dms, &$topic, &$group, &$config)
+    public function _on_reindex_tree_iterator(&$indexer, array $dms, $topic, $group, $config)
     {
         if ($dms['group']->autoset_storage($group))
         {

@@ -964,7 +964,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         }
     }
 
-    public function check_dl_hit(&$context, &$dl_config)
+    public function check_dl_hit($context, $dl_config)
     {
         if (   $this->_no_cache
             || $this->_live_mode)
@@ -998,7 +998,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         return true;
     }
 
-    public function store_dl_content(&$context, &$dl_config, &$dl_cache_data)
+    public function store_dl_content($context, $dl_config, $dl_cache_data)
     {
         if (   $this->_no_cache
             || $this->_live_mode)

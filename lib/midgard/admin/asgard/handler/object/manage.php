@@ -435,7 +435,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         midcom_show_style('midgard_admin_asgard_object_create');
     }
 
-    private function _object_to_jsdata(&$object)
+    private function _object_to_jsdata($object)
     {
         $jsdata = array
         (

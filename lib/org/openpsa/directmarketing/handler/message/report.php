@@ -41,7 +41,7 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
     /**
      * Builds the message report array
      */
-    private function _analyze_message_report(&$data)
+    private function _analyze_message_report(array $data)
     {
         $this->_request_data['report'] = array
         (

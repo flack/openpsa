@@ -419,7 +419,7 @@ class midcom_helper_nav
         return false;
     }
 
-    public function find_closest_topic(&$object)
+    public function find_closest_topic($object)
     {
         if (!is_object($object))
         {

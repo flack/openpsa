@@ -19,12 +19,12 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
      * Creates missing tags and tag_links, sets tag_link navorder
      * Deletes tag links from object that are not in the list provided
      *
-     * @param object &$object MidCOM DBA object
+     * @param object $object MidCOM DBA object
      * @param array $tags List of tags and urls, tag is key, url is value
      * @return boolean indicating success/failure
      * @todo Set the link->navorder property
      */
-    public static function tag_object(&$object, $tags, $component = null)
+    public static function tag_object($object, $tags, $component = null)
     {
         if (is_null($component))
         {
@@ -234,7 +234,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
      *
      * @return array list of tags and urls, tag is key, url is value (or false on failure)
      */
-    public static function get_object_tags(&$object)
+    public static function get_object_tags($object)
     {
         return self::get_tags_by_guid($object->guid);
     }
@@ -358,7 +358,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
      *
      * @return array list of contexts containing arrays of tags and urls, tag is key, url is value
      */
-    public static function get_object_tags_by_contexts(&$object)
+    public static function get_object_tags_by_contexts($object)
     {
         $tags = array();
         $link_mc = net_nemein_tag_link::new_collector('fromGuid', $object->guid);
@@ -438,7 +438,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
      *
      * @return array of matching tags and values, tag is key, value is value
      */
-    public static function get_object_machine_tags_in_context(&$object, $context)
+    public static function get_object_machine_tags_in_context($object, $context)
     {
         $tags = array();
         $qb = net_nemein_tag_link_dba::new_query_builder();

@@ -411,12 +411,12 @@ class midcom_services_auth
      * to the same object do not cause repeating checks. Be aware that this means, that
      * new privileges set are not guaranteed to take effect until the next request.
      *
-     * @param MidgardObject &$content_object A Midgard Content Object
+     * @param MidgardObject $content_object A Midgard Content Object
      * @param midcom_core_user $user The user against which to check the privilege, defaults to the currently authenticated user.
      *     You may specify "EVERYONE" instead of an object to check what an anonymous user can do.
      * @return Array Associative listing of all privileges and their value.
      */
-    function get_privileges(&$content_object, $user = null)
+    function get_privileges($content_object, $user = null)
     {
         $user_id = $this->acl->get_user_id($user);
 
@@ -542,7 +542,7 @@ class midcom_services_auth
      * @param MidgardObject $content_object A Midgard Content Object
      * @param string $message The message to show if the privilege has been denied.
      */
-    function require_do($privilege, &$content_object, $message = null)
+    function require_do($privilege, $content_object, $message = null)
     {
         if (!$this->can_do($privilege, $content_object))
         {

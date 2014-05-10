@@ -101,7 +101,7 @@ class net_nemein_wiki_notes extends midcom_baseclasses_components_purecode
             {
                 $qb = new org_openpsa_qbpager_direct('midgard_parameter', 'related_notes');
                 $qb->results_per_page = 10;
-                $this->_paged_qb = &$qb;
+                $this->_paged_qb = $qb;
             }
             else
             {
@@ -130,7 +130,7 @@ class net_nemein_wiki_notes extends midcom_baseclasses_components_purecode
         }
     }
 
-    function populate_toolbar(&$toolbar)
+    function populate_toolbar(midcom_helper_toolbar $toolbar)
     {
         $enable_creation = false;
         if (   $this->wiki[MIDCOM_NAV_OBJECT]->can_do('midgard:create')

@@ -50,7 +50,7 @@ class org_openpsa_projects_task_resource_dba extends midcom_core_dbaobject
      *
      * @param org_openpsa_projects_task_dba $object The object for which we search the parent
      */
-    function add_resource_to_parent(&$object)
+    function add_resource_to_parent($object)
     {
         $parent = $object->get_parent();
         if (!$parent)
@@ -86,7 +86,7 @@ class org_openpsa_projects_task_resource_dba extends midcom_core_dbaobject
      *
      * @param org_openpsa_projects_task_dba $object The object for which we search the parent
      */
-    function remove_resource_from_parent(&$object)
+    function remove_resource_from_parent($object)
     {
         $parent = $object->get_parent();
         if (!$parent)

@@ -371,7 +371,7 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
     /**
      * sets LIMIT and OFFSET for requested page
      */
-    protected function _qb_limits(&$qb)
+    protected function _qb_limits($qb)
     {
         $this->_check_page_vars();
 

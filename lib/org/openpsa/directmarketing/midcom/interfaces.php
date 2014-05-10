@@ -44,10 +44,10 @@ implements midcom_services_permalinks_resolver, org_openpsa_contacts_duplicates_
      * Background message sending AT batch handler
      *
      * @param array $args handler arguments
-     * @param object &$handler reference to the cron_handler object calling this method.
+     * @param object $handler reference to the cron_handler object calling this method.
      * @return boolean indicating success/failure
      */
-    function background_send_message($args, &$handler)
+    function background_send_message($args, $handler)
     {
         if (   !isset($args['url_base'])
             || !isset($args['batch']))
@@ -72,10 +72,10 @@ implements midcom_services_permalinks_resolver, org_openpsa_contacts_duplicates_
      * For updating smart campaigns members in background
      *
      * @param array $args handler arguments
-     * @param object &$handler reference to the cron_handler object calling this method.
+     * @param object $handler reference to the cron_handler object calling this method.
      * @return boolean indicating success/failure
      */
-    function background_update_campaign_members($args, &$handler)
+    function background_update_campaign_members(array $args, $handler)
     {
         if (!array_key_exists('campaign_guid', $args))
         {

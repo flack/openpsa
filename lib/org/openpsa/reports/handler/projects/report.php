@@ -100,7 +100,7 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
         return $qb_hr->execute();
     }
 
-    private function _apply_filter(midcom_core_query &$qb, $name, $field, $value)
+    private function _apply_filter(midcom_core_query $qb, $name, $field, $value)
     {
         $filter = $name . '_filter';
         debug_add('checking for ' . $filter);
@@ -127,7 +127,7 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
         }
     }
 
-    private function _sort_rows_recursive(&$data)
+    private function _sort_rows_recursive(array &$data)
     {
         usort($data, array('self', '_sort_by_key'));
         foreach ($data as $row)
@@ -371,7 +371,7 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
         midcom_show_style("projects_report{$bpr}-end");
     }
 
-    public function _show_generator_group(&$data, $bpr, $level = 0)
+    public function _show_generator_group(array $data, $bpr, $level = 0)
     {
         foreach ($data as $row)
         {

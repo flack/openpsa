@@ -55,7 +55,7 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
         );
     }
 
-    private function _list_events_between(&$data_array, $person, $from, $to)
+    private function _list_events_between(array &$data_array, $person, $from, $to)
     {
         // List user's event memberships
         $qb = midcom_db_eventmember::new_query_builder();
@@ -108,7 +108,7 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
         }
     }
 
-    private function _list_task_statuses_between(&$data_array, $person, $from, $to)
+    private function _list_task_statuses_between(array &$data_array, $person, $from, $to)
     {
         // List user's hour reports
         $qb = org_openpsa_projects_task_status_dba::new_query_builder();
@@ -136,7 +136,7 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
         }
     }
 
-    private function _list_positions_between(&$data_array, $person, $from, $to)
+    private function _list_positions_between(array &$data_array, $person, $from, $to)
     {
         if (!midcom::get('config')->get('positioning_enable'))
         {

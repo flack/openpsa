@@ -114,9 +114,9 @@ class org_openpsa_widgets_grid_provider
         $this->_sort_direction = $direction;
     }
 
-    public function set_grid(org_openpsa_widgets_grid &$grid)
+    public function set_grid(org_openpsa_widgets_grid $grid)
     {
-        $this->_grid =& $grid;
+        $this->_grid = $grid;
         $this->_grid->set_provider($this);
         $this->_datatype = $grid->get_option('datatype');
     }

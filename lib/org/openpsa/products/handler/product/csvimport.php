@@ -34,7 +34,7 @@ class org_openpsa_products_handler_product_csvimport extends midcom_baseclasses_
         midcom::get()->disable_limits();
     }
 
-    private function _datamanager_process(&$productdata, &$object)
+    private function _datamanager_process(array $productdata, $object)
     {
         $data =& $this->_request_data;
         // Load datamanager2 for the object

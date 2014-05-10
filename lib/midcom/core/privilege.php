@@ -220,10 +220,10 @@ class midcom_core_privilege
      * - Any midcom_core_user or midcom_core_group object or subtype thereof.
      * - Any string identifier which can be resolved using midcom_services_auth::get_assignee().
      *
-     * @param mixed &$assignee An assignee representation as outlined above.
+     * @param mixed $assignee An assignee representation as outlined above.
      * @return boolean indicating success.
      */
-    public function set_assignee(&$assignee)
+    public function set_assignee($assignee)
     {
         if (   is_a($assignee, 'midcom_core_user')
             || is_a($assignee, 'midcom_core_group'))

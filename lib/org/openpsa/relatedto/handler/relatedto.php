@@ -315,10 +315,10 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
      *
      * See the _show_render documentation for details about styling
      *
-     * @param array &$link The necessary link information
+     * @param array $link The necessary link information
      * @param object &other_obj The link target
      */
-    private function _render_line(&$link, &$other_obj)
+    private function _render_line(array $link, &$other_obj)
     {
         $this->_request_data['link'] =& $link;
         $this->_request_data['other_obj'] =& $other_obj;

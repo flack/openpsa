@@ -160,7 +160,7 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
     /**
      * Sends $content to all members of the campaign
      */
-    function send_bg($url_base, $batch, &$content, &$from, &$subject)
+    function send_bg($url_base, $batch, $content, &$from, &$subject)
     {
         if (!$from)
         {
@@ -321,10 +321,10 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
     /**
      * Check is given member has denied contacts of given type
      *
-     * @param object $member reference to campaign_member object related to the person
+     * @param object $member campaign_member object related to the person
      * @return mixed org_openpsa_contacts_person_dba person on success, false if denied
      */
-    private function _get_person(&$member)
+    private function _get_person($member)
     {
         try
         {
@@ -402,7 +402,7 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
         return $results;
     }
 
-    private function _qb_chunk_limits(&$qb)
+    private function _qb_chunk_limits($qb)
     {
         debug_add("Processing chunk {$this->_chunk_num}");
         $offset = $this->_chunk_num * $this->chunk_size;
@@ -485,7 +485,7 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
     /**
      * Sets the common constrains for campaign members queries
      */
-    protected function _qb_common_constraints(&$qb)
+    protected function _qb_common_constraints($qb)
     {
         debug_add("Setting constraint campaign = {$this->_message->campaign}");
         $qb->add_constraint('campaign', '=', $this->_message->campaign);

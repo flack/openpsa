@@ -23,7 +23,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
 
     private $_config;
 
-    public function __construct(&$object, &$config)
+    public function __construct($object, $config)
     {
         $this->_config = $config;
         $this->_guid = $object->guid;
@@ -47,7 +47,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
      * @param object object to be saved
      * @return boolean true on success.
      */
-    public function update(&$object, $updatemessage = null)
+    public function update($object, $updatemessage = null)
     {
         // Store user identifier and IP address to the update string
         if (midcom::get('auth')->user)

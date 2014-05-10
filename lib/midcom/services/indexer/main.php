@@ -148,9 +148,9 @@ class midcom_services_indexer
      * already trigger indexing of dependent objects: A datamanager instance for example will
      * automatically reindex all BLOBs defined in the schema.
      *
-     * @param midcom_helper_datamanager2_datamanager &$object A reference to the DM2 object
+     * @param midcom_helper_datamanager2_datamanager $object A reference to the DM2 object
      */
-    protected function _index_cast_to_document(midcom_helper_datamanager2_datamanager &$object)
+    protected function _index_cast_to_document(midcom_helper_datamanager2_datamanager $object)
     {
         $object = $this->new_document($object);
     }
@@ -326,11 +326,11 @@ class midcom_services_indexer
      * @todo Move to a full factory pattern here to save document php file parsings where possible.
      *     This means that all document creations will in the future be handled by this method.
      *
-     * @param object &$object The object for which a document instance is required, passed by reference.
+     * @param object $object The object for which a document instance is required, passed by reference.
      * @return midcom_services_indexer_document A valid document class as specific as possible. Returns
      *     false on error or if no specific class match could be found.
      */
-    function new_document(&$object)
+    function new_document($object)
     {
         // Scan for datamanager instances.
         if (is_a($object, 'midcom_helper_datamanager2_datamanager'))

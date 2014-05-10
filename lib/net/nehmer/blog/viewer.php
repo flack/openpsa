@@ -246,12 +246,12 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
     /**
      * Indexes an article.
      *
-     * @param midcom_helper_datamanager2_datamanager &$dm The Datamanager encapsulating the event.
-     * @param midcom_services_indexer &$indexer The indexer instance to use.
+     * @param midcom_helper_datamanager2_datamanager $dm The Datamanager encapsulating the event.
+     * @param midcom_services_indexer $indexer The indexer instance to use.
      * @param midcom_db_topic The topic which we are bound to. If this is not an object, the code
      *     tries to load a new topic instance from the database identified by this parameter.
      */
-    public static function index(&$dm, &$indexer, $topic)
+    public static function index($dm, $indexer, $topic)
     {
         $config = new midcom_helper_configuration($topic, 'net.nehmer.blog');
 
@@ -310,9 +310,9 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
      * @param midgard_query_builder $qb reference to the QB object
      * @param array $data reference to the request_data array
      */
-    public static function article_qb_constraints(&$qb, &$data, $handler_id)
+    public static function article_qb_constraints($qb, array $data, $handler_id)
     {
-        $config =& $data['config'];
+        $config = $data['config'];
         $guids_array = array();
 
         // Resolve any other topics we may need

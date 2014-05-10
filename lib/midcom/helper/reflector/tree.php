@@ -138,11 +138,11 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
     /**
      * Statically callable method to determine if given object has children
      *
-     * @param midgard_object &$object object to get children for
+     * @param midgard_object $object object to get children for
      * @param boolean $deleted whether to count (only) deleted or not-deleted objects
      * @return array multidimensional array (keyed by classname) of objects or false on failure
      */
-    function has_child_objects(&$object, $deleted = false)
+    function has_child_objects($object, $deleted = false)
     {
         if (!self::_check_permissions($deleted))
         {
@@ -175,11 +175,11 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
     /**
      * Statically callable method to count children of given object
      *
-     * @param midgard_object &$object object to get children for
+     * @param midgard_object $object object to get children for
      * @param boolean $deleted whether to count (only) deleted or not-deleted objects
      * @return array multidimensional array (keyed by classname) of objects or false on failure
      */
-    function count_child_objects(&$object, $deleted = false)
+    function count_child_objects($object, $deleted = false)
     {
         if (!self::_check_permissions($deleted))
         {
@@ -204,12 +204,12 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
     /**
      * Method to get rendered path for object
      *
-     * @param midgard_object &$object, the object to get path for
+     * @param midgard_object $object, the object to get path for
      * @param string $separator the string used to separate path components
      * @param GUID $stop_at in case we wish to stop resolving at certain object give guid here
      * @return string resolved path
      */
-    public static function resolve_path(&$object, $separator = ' &gt; ', $stop_at = null)
+    public static function resolve_path($object, $separator = ' &gt; ', $stop_at = null)
     {
         static $cache = array();
         $cache_key = $object->guid . $separator . $stop_at;
@@ -236,11 +236,11 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
     /**
      * Get path components for object
      *
-     * @param midgard_object &$object, the object to get path for
+     * @param midgard_object $object, the object to get path for
      * @param GUID $stop_at in case we wish to stop resolving at certain object give guid here
      * @return array path components
      */
-    public static function resolve_path_parts(&$object, $stop_at = null)
+    public static function resolve_path_parts($object, $stop_at = null)
     {
         static $cache = array();
         $cache_key = $object->guid . $stop_at;
@@ -250,31 +250,26 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         }
 
         $ret = array();
-        $object_reflector =& midcom_helper_reflector::get($object);
         $part = array
         (
             'object' => $object,
-            'label' => $object_reflector->get_object_label($object),
+            'label' => midcom_helper_reflector::get($object)->get_object_label($object),
         );
         $ret[] = $part;
-        unset($part, $object_reflector);
 
         $parent = self::get_parent($object);
         while (is_object($parent))
         {
-            $parent_reflector =& midcom_helper_reflector::get($parent);
             $part = array
             (
                 'object' => $parent,
-                'label' => $parent_reflector->get_object_label($parent),
+                'label' => midcom_helper_reflector::get($parent)->get_object_label($parent),
             );
             $ret[] = $part;
-            unset($part, $parent_reflector);
             $parent = self::get_parent($parent);
         }
 
-        $ret = array_reverse($ret);
-        $cache[$cache_key] = $ret;
+        $cache[$cache_key] = array_reverse($ret);
         return $cache[$cache_key];
     }
 
@@ -287,9 +282,9 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
      * NOTE: since this might fall back to pure MgdSchema never trust that MidCOM DBA features
      * are available, check for is_callable/method_exists first !
      *
-     * @param midgard_object &$object the object to get parent for
+     * @param midgard_object $object the object to get parent for
      */
-    public static function get_parent(&$object)
+    public static function get_parent($object)
     {
         $parent_object = false;
         $dba_parent_callback = array($object, 'get_parent');
@@ -306,10 +301,9 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         return $parent_object;
     }
 
-    function _get_parent_objectresolver(&$object, &$property)
+    function _get_parent_objectresolver($object, $property)
     {
-        $ref =& $this->_mgd_reflector;
-        $target_class = $ref->get_link_name($property);
+        $target_class = $this->_mgd_reflector->get_link_name($property);
         $dummy_object = new $target_class();
         $midcom_dba_classname = midcom::get('dbclassloader')->get_midcom_class_name_for_mgdschema_object($dummy_object);
         if (!empty($midcom_dba_classname))
@@ -320,12 +314,11 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
                 return false;
             }
             // DBA classes can supposedly handle their own typecasts correctly
-            $parent_object = new $midcom_dba_classname($object->$property);
-            return $parent_object;
+            return new $midcom_dba_classname($object->$property);
         }
         debug_add("MidCOM DBA does not know how to handle {$target_class}, falling back to pure MgdSchema", MIDCOM_LOG_WARN);
 
-        $linktype = $ref->get_midgard_type($property);
+        $linktype = $this->_mgd_reflector->get_midgard_type($property);
         switch ($linktype)
         {
             case MGD_TYPE_STRING:
@@ -360,11 +353,11 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
     /**
      * Get children of given object
      *
-     * @param midgard_object &$object object to get children for
+     * @param midgard_object $object object to get children for
      * @param boolean $deleted whether to get (only) deleted or not-deleted objects
      * @return array multidimensional array (keyed by classname) of objects or false on failure
      */
-    public static function get_child_objects(&$object, $deleted = false)
+    public static function get_child_objects($object, $deleted = false)
     {
         if (!self::_check_permissions($deleted))
         {
@@ -798,10 +791,10 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
     /**
      * Static method to add default ("title" and "name") sorts to a QB instance
      *
-     * @param midgard_query_builder $qb reference to QB instance
+     * @param midgard_query_builder $qb QB instance
      * @param string $schema_type valid mgdschema class name
      */
-    public static function add_schema_sorts_to_qb(&$qb, $schema_type)
+    public static function add_schema_sorts_to_qb($qb, $schema_type)
     {
         // Sort by "title" and "name" if available
         $ref = self::get($schema_type);

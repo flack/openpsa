@@ -859,11 +859,11 @@ class midcom_baseclasses_core_dbobject
      * This call wraps the original get_by_id call to provide access control.
      * The calling sequence is as with the corresponding constructor.
      *
-     * @param midcom_core_dbaobject &$object The DBA object we're working on
+     * @param midcom_core_dbaobject $object The DBA object we're working on
      * @param int $id The id of the object to load from the database.
      * @return bool Indicating Success
      */
-    public static function get_by_id(midcom_core_dbaobject &$object, $id)
+    public static function get_by_id(midcom_core_dbaobject $object, $id)
     {
         if (!$id)
         {
@@ -899,11 +899,11 @@ class midcom_baseclasses_core_dbobject
      * This call wraps the original get_by_guid call to provide access control.
      * The calling sequence is as with the corresponding constructor.
      *
-     * @param midcom_core_dbaobject &$object The DBA object we're working on
+     * @param midcom_core_dbaobject $object The DBA object we're working on
      * @param string $guid The guid of the object to load from the database.
      * @return bool Indicating Success
      */
-    public static function get_by_guid(midcom_core_dbaobject &$object, $guid)
+    public static function get_by_guid(midcom_core_dbaobject $object, $guid)
     {
         $object->__exec_get_by_guid((string) $guid);
 

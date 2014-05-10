@@ -53,9 +53,9 @@ class midcom_core_account
     /**
      * @param object midgard_person, midcom_db_person or similar
      */
-    public function __construct(&$person)
+    public function __construct($person)
     {
-        $this->_person =& $person;
+        $this->_person = $person;
         if (method_exists('midgard_user', 'login'))
         {
             $this->_midgard2 = true;
@@ -70,7 +70,7 @@ class midcom_core_account
      * @throws midcom_error
      * @return midcom_core_account
      */
-    public static function &get(&$person)
+    public static function get($person)
     {
         if (empty($person->guid))
         {
@@ -215,11 +215,11 @@ class midcom_core_account
      * Modify a query instance for searching by username, with differences between
      * mgd1 and mgd2 abstracted away
      *
-     * @param midcom_core_query &$query The QB or MC instance to work on
+     * @param midcom_core_query $query The QB or MC instance to work on
      * @param string $operator The operator for the username constraint
      * @param string $value The value for the username constraint
      */
-    public static function add_username_constraint(midcom_core_query &$query, $operator, $value)
+    public static function add_username_constraint(midcom_core_query $query, $operator, $value)
     {
         if (method_exists('midgard_user', 'login'))
         {
@@ -262,10 +262,10 @@ class midcom_core_account
      * Note that it actually does nothing under mgd2 right now, because it's still
      * unclear how this could be implemented
      *
-     * @param midcom_core_query &$query The QB or MC instance to work on
+     * @param midcom_core_query $query The QB or MC instance to work on
      * @param string $direction The value for the username constraint
      */
-    public static function add_username_order(midcom_core_query &$query, $direction)
+    public static function add_username_order(midcom_core_query $query, $direction)
     {
         if (method_exists('midgard_user', 'login'))
         {

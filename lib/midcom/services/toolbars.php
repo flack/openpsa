@@ -279,11 +279,11 @@ class midcom_services_toolbars
      *
      * Repeated calls to the same toolbar are intercepted accordingly.
      *
-     * @param midcom_helper_toolbar &$toolbar A reference to the toolbar to use.
+     * @param midcom_helper_toolbar $toolbar A reference to the toolbar to use.
      * @param int $context_id The context to use (the topic is drawn from there). This defaults
      *     to the currently active context.
      */
-    function add_topic_management_commands(&$toolbar, $context_id = null)
+    function add_topic_management_commands(midcom_helper_toolbar $toolbar, $context_id = null)
     {
         if (array_key_exists('midcom_services_toolbars_bound_to_topic', $toolbar->customdata))
         {
@@ -528,11 +528,11 @@ class midcom_services_toolbars
      *
      * Repeated calls to the same toolbar are intercepted accordingly.
      *
-     * @param midcom_helper_toolbar &$toolbar A reference to the toolbar to use.
+     * @param midcom_helper_toolbar $toolbar A reference to the toolbar to use.
      * @param int $context_id The context to use (the topic is drawn from there). This defaults
      *     to the currently active context.
      */
-    function add_host_management_commands(&$toolbar, $context_id = null)
+    function add_host_management_commands(midcom_helper_toolbar $toolbar, $context_id = null)
     {
         if (array_key_exists('midcom_services_toolbars_bound_to_host', $toolbar->customdata))
         {
@@ -599,11 +599,11 @@ class midcom_services_toolbars
      *
      * Repeated calls to the same toolbar are intercepted accordingly.
      *
-     * @param midcom_helper_toolbar &$toolbar A reference to the toolbar to use.
+     * @param midcom_helper_toolbar $toolbar A reference to the toolbar to use.
      * @param int $context_id The context to use (the topic is drawn from there). This defaults
      *     to the currently active context.
      */
-    function add_help_management_commands(&$toolbar, $context_id = null)
+    function add_help_management_commands(midcom_helper_toolbar $toolbar, $context_id = null)
     {
         if (array_key_exists('midcom_services_toolbars_bound_to_help', $toolbar->customdata))
         {
@@ -683,9 +683,9 @@ class midcom_services_toolbars
      *
      * @see midcom_helper_toolbar::bind_to()
      * @see create_object_toolbar()
-     * @param &$toolbar
+     * @param midcom_helper_toolbar $toolbar
      */
-    function bind_toolbar_to_object(&$toolbar, &$object)
+    function bind_toolbar_to_object(midcom_helper_toolbar $toolbar, $object)
     {
         if (array_key_exists('midcom_services_toolbars_bound_to_object', $toolbar->customdata))
         {

@@ -420,10 +420,10 @@ class midcom_services_auth_sessionmgr
      *
      * Access to this function is restricted to midcom_core_account.
      *
-     * @param midcom_core_user $user A reference to the user object which has been updated.
+     * @param midcom_core_user $user The user object which has been updated.
      * @param string $new The new password (plain text).
      */
-    function _update_user_password(&$user, $new)
+    function _update_user_password($user, $new)
     {
         if (empty($new))
         {
@@ -452,10 +452,10 @@ class midcom_services_auth_sessionmgr
      *
      * Access to this function is restricted to midcom_core_account.
      *
-     * @param midcom_core_user $user A reference to the user object which has been updated.
+     * @param midcom_core_user $user The user object which has been updated.
      * @param string $new The new username.
      */
-    function _update_user_username(&$user, $new)
+    function _update_user_username($user, $new)
     {
         if (empty($new))
         {

@@ -132,7 +132,7 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
         midcom::get('head')->add_jsonload("jQuery('.midcom_helper_datamanager2_widget_downloads_download').dm2ImagePopupConvert();");
     }
 
-    private function _run_search(&$data)
+    private function _run_search(array $data)
     {
         $qb = midcom_db_attachment::new_query_builder();
         $query = str_replace('*', '%', $data['query']);

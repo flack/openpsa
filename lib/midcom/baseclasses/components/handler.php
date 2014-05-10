@@ -85,7 +85,7 @@ abstract class midcom_baseclasses_components_handler extends midcom_baseclasses_
 
     /**
      * Initializes the request handler class, called by the component interface after
-     * instantiation. Required to allow safe $this references during startup.
+     * instantiation.
      *
      * Be aware that it is possible that a handler can come from a different component
      * (or library) than the master class. Take this into account when getting the
@@ -93,15 +93,15 @@ abstract class midcom_baseclasses_components_handler extends midcom_baseclasses_
      * during runtime based on the system defaults and all parameters attached to the
      * topic <i>we're currently operating on.</i>
      *
-     * @param midcom_baseclasses_components_request &$master A reference to the request class
+     * @param midcom_baseclasses_components_request $master A reference to the request class
      *     handling the request.
      */
-    function initialize(&$master)
+    function initialize($master)
     {
-        $this->_master =& $master;
+        $this->_master = $master;
 
         $this->_request_data =& $master->_request_data;
-        $this->_topic =& $master->_topic;
+        $this->_topic = $master->_topic;
 
         // Load component specific stuff, special treatment if the handler has
         // a component different than the master handler set.

@@ -18,10 +18,10 @@ class org_openpsa_projects_projectbroker
     /**
      * Does a local search for persons that match the task constraints
      *
-     * @param org_openpsa_projects_task_dba &$task Task object to search prospect resources for
+     * @param org_openpsa_projects_task_dba $task Task object to search prospect resources for
      * @return array of prospect persons (or false on critical failure)
      */
-    function find_task_prospects(&$task)
+    function find_task_prospects($task)
     {
         if (!class_exists('net_nemein_tag_handler'))
         {
@@ -75,7 +75,7 @@ class org_openpsa_projects_projectbroker
         return $return;
     }
 
-    private function _find_task_prospects_filter_by_minimum_time_slot(&$task, &$prospects)
+    private function _find_task_prospects_filter_by_minimum_time_slot($task, array &$prospects)
     {
         $minimum_time_slot = $task->get_parameter('org.openpsa.projects.projectbroker', 'minimum_slot');
         if (empty($minimum_time_slot))
@@ -106,10 +106,10 @@ class org_openpsa_projects_projectbroker
     /**
      * Calls find_task_prospects and saves the results as prospects
      *
-     * @param org_openpsa_projects_task_dba &$task object to search prospect resources for
+     * @param org_openpsa_projects_task_dba $task object to search prospect resources for
      * @return boolean indicating success/failure
      */
-    function save_task_prospects(&$task)
+    function save_task_prospects($task)
     {
         midcom::get('auth')->request_sudo('org.openpsa.projects');
         $task->set_parameter('org.openpsa.projects.projectbroker', 'local_search', 'SEARCH_IN_PROGRESS');
@@ -146,10 +146,10 @@ class org_openpsa_projects_projectbroker
      * are the previous and next events etc
      *
      * @parameter $person person object (alternatively ID, full person will then be loaded from DB)
-     * @parameter &$task the task object to search for
+     * @parameter $task the task object to search for
      * @return array of slots
      */
-    function resolve_person_timeslots($person, &$task)
+    function resolve_person_timeslots($person, $task)
     {
         $minimum_time_slot = $task->get_parameter('org.openpsa.projects.projectbroker', 'minimum_slot');
         if (empty($minimum_time_slot))

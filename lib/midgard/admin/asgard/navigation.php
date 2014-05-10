@@ -78,7 +78,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
         }
     }
 
-    function &_get_reflector(&$object)
+    function &_get_reflector($object)
     {
         if (is_string($object))
         {
@@ -189,9 +189,9 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
     /**
      * Renders the given root objects to HTML and calls _list_child_elements()
      *
-     * @param midcom_helper_reflector_tree &$ref Reflector singleton
+     * @param midcom_helper_reflector_tree $ref Reflector singleton
      */
-    private function _list_root_elements(midcom_helper_reflector_tree &$ref)
+    private function _list_root_elements(midcom_helper_reflector_tree $ref)
     {
         $qb = $ref->_root_objects_qb(false);
 
@@ -320,7 +320,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
         return (in_array($object->guid, $this->_object_path));
     }
 
-    protected function _common_css_classes(&$object, &$ref, &$css_class)
+    protected function _common_css_classes($object, $ref, &$css_class)
     {
         $css_class .= " {$ref->mgdschema_class}";
 

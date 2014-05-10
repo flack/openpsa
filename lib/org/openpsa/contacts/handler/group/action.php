@@ -86,7 +86,7 @@ class org_openpsa_contacts_handler_group_action extends midcom_baseclasses_compo
                 $qb->add_constraint('gid', '=', $this->_request_data['group']->id);
                 $qb->results_per_page = 10;
                 $results = $qb->execute();
-                $this->_request_data['members_qb'] = &$qb;
+                $this->_request_data['members_qb'] = $qb;
 
                 if (count($results) > 0)
                 {

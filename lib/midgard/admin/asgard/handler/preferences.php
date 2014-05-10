@@ -39,7 +39,7 @@ implements midcom_helper_datamanager2_interfaces_edit
     /**
      * Process the UI information
      */
-    private function _process_request_data(&$data)
+    private function _process_request_data(array &$data)
     {
         $data['view_title'] = $this->_l10n->get('user preferences');
 

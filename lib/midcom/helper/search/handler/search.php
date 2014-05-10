@@ -255,7 +255,7 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
         $_REQUEST = array_merge($defaults, $_REQUEST);
     }
 
-    private function _do_advanced_query(&$data)
+    private function _do_advanced_query(array &$data)
     {
         $data['request_topic'] = trim($_REQUEST['topic']);
         $data['component'] = trim($_REQUEST['component']);

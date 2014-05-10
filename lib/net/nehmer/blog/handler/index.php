@@ -127,7 +127,7 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
         }
     }
 
-    private function _process_category_constraint(&$qb)
+    private function _process_category_constraint($qb)
     {
         if (!in_array($this->_request_data['category'], $this->_request_data['categories']))
         {

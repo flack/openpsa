@@ -78,14 +78,14 @@ implements midcom_helper_datamanager2_interfaces_create
     }
 
     /**
-     * Show list of the style elements for the currently createed topic component
+     * Show list of the style elements for the currently created topic component
      *
      * @param string $handler_id Name of the used handler
      * @param array &$data Data passed to the show method
      */
     public function _show_create($handler_id, array &$data)
     {
-        $data['group'] =& $this->_group;
+        $data['group'] = $this->_group;
         midcom_show_style('midcom-admin-user-group-create');
     }
 }

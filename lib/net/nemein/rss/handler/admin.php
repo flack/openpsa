@@ -13,7 +13,7 @@
  */
 class net_nemein_rss_handler_admin extends midcom_baseclasses_components_handler
 {
-    private function _load_controller(&$data)
+    private function _load_controller(array &$data)
     {
         $data['schemadb'] = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_feed'));
         $data['controller'] = midcom_helper_datamanager2_controller::create('simple');

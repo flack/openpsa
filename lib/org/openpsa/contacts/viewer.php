@@ -82,7 +82,7 @@ class org_openpsa_contacts_viewer extends midcom_baseclasses_components_request
         return null;
     }
 
-    public static function add_breadcrumb_path_for_group($group, &$handler)
+    public static function add_breadcrumb_path_for_group($group, $handler)
     {
         if (!is_object($group))
         {

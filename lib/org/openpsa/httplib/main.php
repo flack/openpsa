@@ -145,20 +145,19 @@ class org_openpsa_httplib extends midcom_baseclasses_components_purecode
      * Post variables and get the resulting page
      *
      * @param string $uri Fully qualified URL
-     * @param array &$variables The data to POST (key => value pairs)
+     * @param array $variables The data to POST (key => value pairs)
      * @param array $headers Additional HTTP headers
      * @return string Contents
      */
-    function post($uri, &$variables, $headers = null)
+    function post($uri, array $variables, $headers = null)
     {
         $browser = $this->_get_browser();
         $request = $this->_get_request(RequestInterface::METHOD_POST, $uri, $headers, $this->basicauth['user'], $this->basicauth['password']);
 
         // Handle the variables to POST
-        if (   !is_array($variables)
-            || empty($variables))
+        if (empty($variables))
         {
-            $this->error = '$variables is not array or is empty';
+            $this->error = '$variables is empty';
             debug_add($this->error, MIDCOM_LOG_ERROR);
             return false;
         }

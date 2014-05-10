@@ -121,7 +121,7 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
      * @param array &$elements The array where the references to the created elements should
      *     be added.
      */
-    private function _create_upload_elements(&$elements)
+    private function _create_upload_elements(array &$elements)
     {
         // Get preview image size
         if ($this->_type->auto_thumbnail)
@@ -195,7 +195,7 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
      * @param array &$elements The array where the references to the created elements should
      *     be added.
      */
-    function _create_replace_elements(&$elements)
+    function _create_replace_elements(array &$elements)
     {
         switch (true)
         {
@@ -336,7 +336,7 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
      * @param array &$elements The array where the references to the created elements should
      *     be added.
      */
-    function _create_frozen_elements(&$elements)
+    function _create_frozen_elements(array &$elements)
     {
         if ($this->_type->attachments)
         {
@@ -507,7 +507,7 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
      *
      * @param array &$elements reference to the elements array to add the actions to
      */
-    function add_action_elements(&$elements)
+    function add_action_elements(array &$elements)
     {
         // TODO: namespace the inputs properly (NOTE: the on_submit checks need to be changed accordingly!)
         $static_html = "\n<div class='midcom_helper_datamanager2_widget_image_actions_container' id='{$this->_namespace}{$this->name}_image_actions_container'>\n";

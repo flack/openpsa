@@ -272,7 +272,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
      * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_view($handler_id, $args, &$data, $view_mode = true)
+    public function _handler_view($handler_id, $args, &$data)
     {
         if (!$this->_page)
         {
@@ -436,7 +436,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
      * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_raw($handler_id, $args, &$data, $view_mode = true)
+    public function _handler_raw($handler_id, $args, &$data)
     {
         $this->_load_page($args[0]);
         if (!$this->_page)
@@ -477,7 +477,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
      * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_source($handler_id, $args, &$data, $view_mode = true)
+    public function _handler_source($handler_id, $args, &$data)
     {
         $this->_load_page($args[0]);
         if (!$this->_page)
@@ -573,7 +573,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
      * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_whatlinks($handler_id, $args, &$data, $view_mode = true)
+    public function _handler_whatlinks($handler_id, $args, &$data)
     {
         $this->_load_page($args[0]);
         if (!$this->_page)

@@ -48,9 +48,9 @@ class org_openpsa_directmarketing_sender_backend_email implements org_openpsa_di
     /**
      * Adds necessary constraints to member QB to find valid entries
      *
-     * @param midcom_core_querybuilder &$qb The QB instance to work on
+     * @param midcom_core_querybuilder $qb The QB instance to work on
      */
-    public function add_member_constraints(&$qb)
+    public function add_member_constraints($qb)
     {
         $qb->add_constraint('person.email', 'LIKE', '%@%');
     }

@@ -195,9 +195,9 @@ abstract class midcom_helper_datamanager2_widget extends midcom_baseclasses_comp
     /**
      * Set the form reference.
      *
-     * @param HTMLQuickForm &$form The form to use.
+     * @param HTMLQuickForm $form The form to use.
      */
-    function set_form($form)
+    function set_form(HTML_QuickForm $form)
     {
         $this->_form = $form;
     }

@@ -53,7 +53,7 @@ class midcom_services_rcs
      *
      * @return midcom_services_rcs_backend
      */
-    function load_handler(&$object)
+    function load_handler($object)
     {
         if (!$object->guid)
         {
@@ -71,10 +71,10 @@ class midcom_services_rcs
     /**
      * Create or update the RCS file for the object.
      *
-     * @param object &$object the midgard object to be saved
+     * @param object $object the midgard object to be saved
      * @param string $message the update message to save (optional)
      */
-    function update(&$object, $message = null)
+    function update($object, $message = null)
     {
         if (!$this->config->use_rcs())
         {

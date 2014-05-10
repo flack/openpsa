@@ -121,7 +121,7 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
         $fields['customer']['type_config']['options'] = $organizations;
     }
 
-    private function _populate_schema_contacts_for_customer(&$customer)
+    private function _populate_schema_contacts_for_customer($customer)
     {
         $fields =& $this->_schemadb['default']->fields;
         // We know the customer company, present contact as a select widget

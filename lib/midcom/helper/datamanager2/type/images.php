@@ -515,9 +515,9 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
      * Checks the info array for required mapping keys and regenerates them if missing
      *
      * @param array &$info reference to the info array of given attachment
-     * @param string &$identifier reference to the attachments' identifier
+     * @param string $identifier reference to the attachments' identifier
      */
-    function _info_heuristics(&$info, &$identifier)
+    function _info_heuristics(array &$info, $identifier)
     {
         if (!array_key_exists('images_identifier', $info))
         {
@@ -538,7 +538,7 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
      *
      * @see midcom_helper_datamanager2_type_blobs::_store_att_map_parameters()
      */
-    function _store_att_map_parameters($identifier, &$attachment)
+    function _store_att_map_parameters($identifier, $attachment)
     {
         parent::_store_att_map_parameters($identifier, $attachment);
         $this->_update_attachment_info($identifier);

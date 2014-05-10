@@ -21,15 +21,15 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
      * For example, if a task is created under a sales project, that task is
      * the from object, and the sales project the to object.
      *
-     * @param object &$from_obj The from object
+     * @param object $from_obj The from object
      * @param string $from_component The from component name
-     * @param object &$to_obj The to object
+     * @param object $to_obj The to object
      * @param string $to_component The to component name
      * @param int $status The status of the relation
      * @param array $extra Array with the possible extra-properties
      * @return mixed The newly-created relatedto object or false on failure
      */
-    public static function create(&$from_obj, $from_component, &$to_obj, $to_component, $status = false, $extra = false)
+    public static function create($from_obj, $from_component, $to_obj, $to_component, $status = false, $extra = false)
     {
         if (   !is_object($from_obj)
             || !is_object($to_obj))
@@ -202,7 +202,7 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
         midcom::get('head')->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.relatedto/related_to.css");
     }
 
-    static function add_button(&$toolbar, $guid, $mode = 'both')
+    static function add_button(midcom_helper_toolbar $toolbar, $guid, $mode = 'both')
     {
         $toolbar->add_item
         (
@@ -215,7 +215,7 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
         );
     }
 
-    static function common_node_toolbar_buttons_sanitycheck(&$data, &$button_component, &$bind_object, &$calling_component)
+    static function common_node_toolbar_buttons_sanitycheck(array &$data, $button_component, $bind_object, $calling_component)
     {
         if (!midcom::get('componentloader')->load_graceful($button_component))
         {
@@ -282,7 +282,7 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
         );
     }
 
-    static function common_node_toolbar_buttons(&$toolbar, &$bind_object, $calling_component, $buttons = 'default')
+    static function common_node_toolbar_buttons(midcom_helper_toolbar $toolbar, $bind_object, $calling_component, $buttons = 'default')
     {
         self::add_header_files();
         if ($buttons == 'default')
@@ -409,7 +409,7 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
     /**
      * function to add the button for journal_entry to the toolbar
      */
-    static function add_journal_entry_button(&$toolbar, $guid, $mode = 'both')
+    static function add_journal_entry_button(midcom_helper_toolbar $toolbar, $guid, $mode = 'both')
     {
         $toolbar->add_item
         (

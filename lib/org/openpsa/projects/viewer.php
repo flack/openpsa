@@ -32,9 +32,9 @@ class org_openpsa_projects_viewer extends midcom_baseclasses_components_request
      * location.
      *
      * @param org_openpsa_projects_task_dba $task
-     * @param mixed &$handler The current handler
+     * @param mixed $handler The current handler
      */
-    public static function add_breadcrumb_path($task, &$handler)
+    public static function add_breadcrumb_path($task, $handler)
     {
         $tmp = array();
         while ($task)

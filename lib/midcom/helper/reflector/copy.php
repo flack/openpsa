@@ -147,10 +147,10 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
     /**
      * Get object properties
      *
-     * @param mixed &$object
+     * @param mixed $object
      * @return array
      */
-    public function get_object_properties(&$object)
+    public function get_object_properties($object)
     {
         $mgdschema_class = midcom_helper_reflector::resolve_baseclass(get_class($object));
 
@@ -182,10 +182,10 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
     /**
      * Get the parent property for overriding it
      *
-     * @param mixed &$object     MgdSchema object for resolving the parent property
+     * @param mixed $object     MgdSchema object for resolving the parent property
      * @return string            Parent property
      */
-    public function get_parent_property(&$object)
+    public function get_parent_property($object)
     {
         $properties = self::get_target_properties($object);
         return $properties['parent'];
@@ -524,11 +524,11 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
     /**
      * Copy parameters for the object
      *
-     * @param mixed &$source      MgdSchema object for reading the parameters
-     * @param mixed &$target      MgdSchema object for storing the parameters
+     * @param mixed $source      MgdSchema object for reading the parameters
+     * @param mixed $target      MgdSchema object for storing the parameters
      * @return boolean Indicating success
      */
-    public function copy_parameters(&$source, &$target)
+    public function copy_parameters($source, $target)
     {
         if (!$this->copy_parameters)
         {
@@ -562,11 +562,11 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
     /**
      * Copy metadata for the object
      *
-     * @param mixed &$source      MgdSchema object for reading the metadata
-     * @param mixed &$target      MgdSchema object for storing the metadata
+     * @param mixed $source      MgdSchema object for reading the metadata
+     * @param mixed $target      MgdSchema object for storing the metadata
      * @return boolean Indicating success
      */
-    public function copy_metadata(&$source, &$target)
+    public function copy_metadata($source, $target)
     {
         foreach ($this->copy_metadata_fields as $property)
         {
@@ -607,11 +607,11 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
     /**
      * Copy privileges
      *
-     * @param mixed &$source      MgdSchema object for reading the privileges
-     * @param mixed &$target      MgdSchema object for storing the privileges
+     * @param mixed $source      MgdSchema object for reading the privileges
+     * @param mixed $target      MgdSchema object for storing the privileges
      * @return boolean Indicating success
      */
-    public function copy_privileges(&$source, &$target)
+    public function copy_privileges($source, $target)
     {
         $qb = midcom_db_privilege::new_query_builder();
         $qb->add_constraint('objectguid', '=', $source->guid);

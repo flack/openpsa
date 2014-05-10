@@ -618,9 +618,9 @@ class midcom_services_indexer_document
     /**
      * Tries to resolve created,revised,author,editor and creator for the document from Midgard object
      *
-     * @param midgard_object &$object object to use as source for the info
+     * @param midgard_object $object object to use as source for the info
      */
-    function read_metadata_from_object(&$object)
+    function read_metadata_from_object($object)
     {
         debug_add("Called for {$object->guid} (" . get_class($object) . ')');
         switch (true)

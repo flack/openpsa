@@ -435,7 +435,7 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
     /**
      * Renderer for organization address cards
      */
-    public static function show_address_card(&$customer, $cards)
+    public static function show_address_card($customer, $cards)
     {
         $cards_to_show = array();
         $multiple_addresses = false;

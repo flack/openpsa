@@ -493,7 +493,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
      *
      * @todo Refactor in subfunctions for better readability.
      */
-    private function _complete_field_defaults(&$config)
+    private function _complete_field_defaults(array &$config)
     {
         // Sanity check for b0rken schemas, missing type/widget would cause DM & PHP to barf later on...
         if (empty($config['type']))

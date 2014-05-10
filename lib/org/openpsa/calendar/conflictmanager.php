@@ -39,7 +39,7 @@ class org_openpsa_calendar_conflictmanager
         $this->_event = $event;
     }
 
-    private function _add_event_constraints(&$qb, $fieldname = 'eid')
+    private function _add_event_constraints($qb, $fieldname = 'eid')
     {
         $qb->add_constraint($fieldname . '.busy', '<>', false);
         if ($this->_event->id)
@@ -177,7 +177,7 @@ class org_openpsa_calendar_conflictmanager
         return $ret;
     }
 
-    private function _process_resource($member, &$modified_events, $rob_tentative)
+    private function _process_resource($member, array &$modified_events, $rob_tentative)
     {
         //We might get multiple matches for same event/resource
         static $processed_events_resources = array();
@@ -250,7 +250,7 @@ class org_openpsa_calendar_conflictmanager
         }
     }
 
-    private function _process_participant($member, &$modified_events, $rob_tentative)
+    private function _process_participant($member, array &$modified_events, $rob_tentative)
     {
         //We might get multiple matches for same event/person
         static $processed_events_participants = array();

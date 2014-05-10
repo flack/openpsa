@@ -20,7 +20,7 @@ class midcom_helper_reflector_nameresolver
      */
     private $_object;
 
-    public function __construct(&$object)
+    public function __construct($object)
     {
         $this->_object = $object;
     }
@@ -217,7 +217,7 @@ class midcom_helper_reflector_nameresolver
      * @param array $sibling_classes array of classes to check
      * @return boolean true means no clashes, false means clash.
      */
-    private function _name_is_unique_check_siblings($sibling_classes, &$parent)
+    private function _name_is_unique_check_siblings($sibling_classes, $parent)
     {
         $name_copy = $this->get_object_name();
 

@@ -56,7 +56,7 @@ class org_routamc_positioning_dm2_callbacks_countries extends midcom_baseclasses
         $this->_populate_data($countries);
     }
 
-    private function _populate_data(&$countries)
+    private function _populate_data(array $countries)
     {
         foreach ($countries as $country)
         {

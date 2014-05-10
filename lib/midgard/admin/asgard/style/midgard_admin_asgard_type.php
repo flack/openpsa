@@ -55,15 +55,7 @@ if (isset($data['search_results']))
             return;
         }
         $reflector = midcom_helper_reflector_tree::get($object);
-        $label_property = $reflector->get_label_property();
-        if (method_exists($object, 'get_label'))
-        {
-            $label = $object->get_label();
-        }
-        else
-        {
-            $label = $object->$label_property;
-        }
+        $label = $reflector->get_object_label($object);
         try
         {
             $parent = $object->get_parent();

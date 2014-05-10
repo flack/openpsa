@@ -148,11 +148,11 @@ class midcom_services_metadata
      * - unapproved: approvals are enabled for the site but the object is not translated
      * - hidden: object is hidden via metadata settings or scheduling
      *
-     * @param DBAobject &$object The DBA class instance to get CSS classes for
+     * @param DBAobject $object The DBA class instance to get CSS classes for
      * @param string Existing CSS classes to append to
      * @return string CSS classes for that object
      */
-    public function get_object_classes(&$object, $existing_classes = null)
+    public function get_object_classes($object, $existing_classes = null)
     {
         $css_classes = array();
         if (!is_null($existing_classes))
@@ -192,9 +192,9 @@ class midcom_services_metadata
     /**
      * Binds view metadata to a DBA content object
      *
-     * @param DBAObject &$object The DBA class instance to bind to.
+     * @param DBAObject $object The DBA class instance to bind to.
      */
-    function bind_to(&$object)
+    function bind_to($object)
     {
         $this->bind_metadata_to_object(MIDCOM_METADATA_VIEW, $object);
     }
@@ -202,7 +202,7 @@ class midcom_services_metadata
     /**
      * Binds object to given metadata type.
      */
-    function bind_metadata_to_object($metadata_type, &$object, $context_id = null)
+    function bind_metadata_to_object($metadata_type, $object, $context_id = null)
     {
         $context = midcom_core_context::get($context_id);
 

@@ -72,9 +72,9 @@ class org_openpsa_helpers
      * @param object $handler The current handler object reference
      * @param string $action The DM's principal action (save or delete)
      */
-    public static function dm2_savecancel(&$handler, $action = 'save')
+    public static function dm2_savecancel($handler, $action = 'save')
     {
-        $toolbar =& $handler->_view_toolbar;
+        $toolbar = $handler->_view_toolbar;
         if (   !is_object($toolbar)
             || !method_exists($toolbar, 'add_item'))
         {

@@ -112,7 +112,7 @@ abstract class midcom_helper_datamanager2_controller extends midcom_baseclasses_
      *     instances, which is taken by reference.
      * @see load_schemadb()
      */
-    function set_schemadb(&$schemadb)
+    function set_schemadb(array &$schemadb)
     {
         foreach ($schemadb as $value)
         {
@@ -132,13 +132,13 @@ abstract class midcom_helper_datamanager2_controller extends midcom_baseclasses_
      *
      * You must load a schema database before actually
      *
-     * @param object &$storage A reference to either an initialized datamanager, an initialized
-     *     storage backend or to a DBA compatible class instance.
+     * @param object $storage Either an initialized datamanager, an initialized
+     *     storage backend or a DBA compatible class instance.
      * @param string $schema This is an optional schema name that should be used to edit the
      *     storage object. If it is null, the controller will try to autodetect the schema
      *     to use by using the datamanager's autoset_storage interface.
      */
-    function set_storage(&$storage, $schema = null)
+    function set_storage($storage, $schema = null)
     {
         if (count($this->schemadb) == 0)
         {

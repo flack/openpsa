@@ -219,10 +219,10 @@ class org_openpsa_documents_handler_directory_view extends midcom_baseclasses_co
     /**
      * Helper function to get directories for passed topic of the passed component
      *
-     * @param root_topic - the topic to search the directories for
-     * @param current_component - component of the topic/directories
+     * @param midgard_topic $root_topic - the topic to search the directories for
+     * @param string $current_component - component of the topic/directories
      */
-    private function _prepare_directories(&$root_topic, &$current_component)
+    private function _prepare_directories($root_topic, $current_component)
     {
         $qb = midcom_db_topic::new_query_builder();
         $qb->add_constraint("component", "=", $current_component);

@@ -465,7 +465,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         return new midgard_admin_asgard_response($this, '_show_edit');
     }
 
-    private function _save_configuration(array &$data)
+    private function _save_configuration(array $data)
     {
         $config_array = $this->_get_config_from_controller();
 

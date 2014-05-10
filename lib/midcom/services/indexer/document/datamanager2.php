@@ -116,15 +116,15 @@ class midcom_services_indexer_document_datamanager2 extends midcom_services_inde
      * The document is ready for indexing after construction. On any
      * critical error, midcom_error is triggered.
      *
-     * @param midcom_helper_datamanager2_datamanager &$datamanager The fully initialized datamanager2 instance to use
+     * @param midcom_helper_datamanager2_datamanager $datamanager The fully initialized datamanager2 instance to use
      */
-    public function __construct(&$datamanager)
+    public function __construct($datamanager)
     {
         parent::__construct($datamanager->storage->object);
 
         $this->_set_type('datamanager2');
 
-        $this->_datamanager =& $datamanager;
+        $this->_datamanager = $datamanager;
         $this->_schema =& $this->_datamanager->schema;
 
         $this->_process_datamanager();

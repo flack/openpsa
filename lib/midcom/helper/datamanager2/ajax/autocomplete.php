@@ -93,7 +93,7 @@ class midcom_helper_datamanager2_ajax_autocomplete
         return $qb;
     }
 
-    private function _apply_constraints(midcom_core_query &$query, array $constraints)
+    private function _apply_constraints(midcom_core_query $query, array $constraints)
     {
         $mgdschema_class = midcom_helper_reflector::resolve_baseclass($query->get_classname());
         $reflector = new midgard_reflection_property($mgdschema_class);

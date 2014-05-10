@@ -153,7 +153,7 @@ class net_nehmer_static_handler_autoindex extends midcom_baseclasses_components_
     /**
      * Converts the main document to a view entry.
      */
-    private function _process_datamanager (&$datamanager, &$article, &$view)
+    private function _process_datamanager ($datamanager, $article, array &$view)
     {
         $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
         $filename = "{$article->name}/";

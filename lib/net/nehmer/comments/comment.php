@@ -196,7 +196,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
      *
      * This will update post status on the background and log the information.
      */
-    function check_spam(&$config)
+    function check_spam($config)
     {
         if (!$config->get('enable_spam_check'))
         {

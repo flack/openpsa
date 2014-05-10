@@ -20,7 +20,7 @@ class midgard_admin_asgard_stylehelper
      */
     private $_data;
 
-    public function __construct(&$data)
+    public function __construct(array &$data)
     {
         $this->_data =& $data;
 

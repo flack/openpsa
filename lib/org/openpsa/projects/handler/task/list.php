@@ -497,7 +497,7 @@ implements org_openpsa_widgets_grid_provider_client
     /**
      * Helper to get the relevant data for cells in table view
      */
-    public function get_table_row_data(&$task, &$data)
+    public function get_table_row_data($task, &$data)
     {
         $ret = array
         (

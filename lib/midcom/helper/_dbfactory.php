@@ -132,10 +132,10 @@ class midcom_helper__dbfactory
      *
      * We also ensure that the corresponding component has been loaded.
      *
-     * @param MidgardObject &$object MgdSchema Object
+     * @param MidgardObject $object MgdSchema Object
      * @return MidCOMDBAObject
      */
-    function convert_midgard_to_midcom(&$object)
+    function convert_midgard_to_midcom($object)
     {
         if (! is_object($object))
         {
@@ -173,10 +173,10 @@ class midcom_helper__dbfactory
      * If the conversion cannot be done for some reason, the function returns null and logs
      * an error.
      *
-     * @param MidCOMDBAObject &$object MidCOM DBA Object
+     * @param MidCOMDBAObject $object MidCOM DBA Object
      * @return MidgardObject MgdSchema Object
      */
-    function convert_midcom_to_midgard(&$object)
+    function convert_midcom_to_midgard($object)
     {
         if (! is_object($object))
         {

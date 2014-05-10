@@ -242,9 +242,9 @@ implements org_openpsa_widgets_grid_provider_client
     /**
      * Helper that adds a customer/deliverable constraints to list QBs
      *
-     * @param midcom_core_querybuilder &$qb th QB we're working with
+     * @param midcom_core_querybuilder $qb th QB we're working with
      */
-    private function _add_filters(&$qb)
+    private function _add_filters($qb)
     {
         if ($this->_deliverable)
         {

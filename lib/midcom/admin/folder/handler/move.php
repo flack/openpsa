@@ -190,7 +190,7 @@ class midcom_admin_folder_handler_move extends midcom_baseclasses_components_han
     public function _show_move($handler_id, array &$data)
     {
         // Bind object details to the request data
-        $data['object'] =& $this->_object;
+        $data['object'] = $this->_object;
 
         midcom_show_style('midcom-admin-show-folder-move');
     }
