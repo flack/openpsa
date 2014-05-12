@@ -406,14 +406,12 @@ class midcom_helper_misc
     {
         $theme = midcom::get('config')->get('theme');
         $path_array = explode('/', $theme);
-        $theme_array = array_reverse($path_array);
 
         //get the page if there is one
         $page = midcom_connection::get('page_style');
-        $content = false;
 
         //check if we have elements for the sub-styles
-        foreach ($theme_array as $sub_style)
+        while (!empty($path_array))
         {
             $theme_path = implode('/', $path_array);
             //check possible theme and page element
@@ -422,18 +420,17 @@ class midcom_helper_misc
 
             if (file_exists($filename_page))
             {
-                $content = file_get_contents($filename_page);
-                return $content;
+                return file_get_contents($filename_page);
             }
             else if (file_exists($filename))
             {
-                $content = file_get_contents($filename);
-                return $content;
+                return file_get_contents($filename);
             }
             //remove last theme part
             array_pop($path_array);
         }
-        return $content;
+
+        return false;
     }
 
     /**
@@ -446,16 +443,15 @@ class midcom_helper_misc
     public static function check_page_exists($page_name, $theme_root = OPENPSA2_THEME_ROOT)
     {
         $path_array = explode('/', midcom::get('config')->get('theme'));
-        $theme_array = $path_array;
 
-        foreach ($path_array as $sub_style)
+        while (!empty($path_array))
         {
-            $theme_path = implode('/', $theme_array);
+            $theme_path = implode('/', $path_array);
             if (is_dir($theme_root . $theme_path . '/style/' . $page_name))
             {
                 return true;
             }
-            array_pop($theme_array);
+            array_pop($path_array);
         }
         return false;
     }

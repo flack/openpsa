@@ -383,10 +383,8 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
 
     /**
      * Adds the table footer.
-     *
-     * @param boolean $frozen Set this to true, if you want to skip all elements which cannot be frozen.
      */
-    private function _add_table_footer($frozen)
+    private function _add_table_footer()
     {
         $html = "</tbody>\n</table>\n";
         $this->_elements['s_footer'] = $this->_form->createElement('static', 's_footer', '', $html);
@@ -426,7 +424,7 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
             $this->_add_attachment_row($identifier, $info, $frozen);
         }
         $this->_add_new_upload_row($frozen);
-        $this->_add_table_footer($frozen);
+        $this->_add_table_footer();
     }
 
     function _extension_to_mimetype($extension, $mimetype)

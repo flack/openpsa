@@ -539,7 +539,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
         if (!empty($subscriptions))
         {
             //Go through each subscription
-            foreach ($subscriptions as $user_guid => $subscription_time)
+            foreach (array_keys($subscriptions) as $user_guid)
             {
                 // Send notice
                 org_openpsa_notifications::notify('net.nehmer.comments:subscription', $user_guid, $message);

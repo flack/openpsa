@@ -106,7 +106,14 @@ class midgard_admin_asgard_stylehelper
     {
         $results = array
         (
-            'elements' => array(),
+            'elements' => array
+            (
+                'midcom' => array
+                (
+                    'style-init' => '',
+                    'style-finish' => '',
+                 )
+            ),
             'nodes' => array(),
         );
 
@@ -122,22 +129,12 @@ class midgard_admin_asgard_stylehelper
             if (!isset($results['nodes'][$node->component]))
             {
                 $results['nodes'][$node->component] = array();
+                // Get the list of style elements for the component
+                $results['elements'][$component] = $this->_get_component_default_elements($component);
             }
 
             $results['nodes'][$node->component][] = $node;
         }
-
-        foreach ($results['nodes'] as $component => $nodes)
-        {
-            // Get the list of style elements for the component
-            $results['elements'][$component] = $this->_get_component_default_elements($component);
-        }
-
-        $results['elements']['midcom'] = array
-        (
-            'style-init' => '',
-            'style-finish' => '',
-        );
 
         if ($style_id == midcom_connection::get('style'))
         {

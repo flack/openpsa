@@ -93,7 +93,7 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
                 $message['title'] = sprintf($l10n->get('event "%s" was updated'), $event->title);
                 $message['abstract'] = sprintf($l10n->get('event "%s" (%s) was updated'), $event->title, $event->format_timeframe());
                 $message['content'] = sprintf($l10n->get('event "%s" was modified, updated information below.') . "{$nl}{$nl}", $event->title);
-                $message['content'] .= $event->details_text(false, $this, $nl);
+                $message['content'] .= $event->details_text(false, $nl);
                 break;
                 //Participant was added to the event
             case 'add':
@@ -101,7 +101,7 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
                 $message['title'] = sprintf($l10n->get('you have been added to event "%s"'), $event->title);
                 $message['abstract'] = sprintf($l10n->get('you have been added to event "%s" (%s)'), $event->title, $event->format_timeframe());
                 $message['content'] = sprintf($l10n->get('you have been added to event "%s" participants list, event information below.') . "{$nl}{$nl}", $event->title);
-                $message['content'] .= $event->details_text(false, $this, $nl);
+                $message['content'] .= $event->details_text(false, $nl);
                 break;
                 //Participant was removed from event
             case 'remove':

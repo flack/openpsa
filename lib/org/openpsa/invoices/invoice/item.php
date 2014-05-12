@@ -142,7 +142,7 @@ class org_openpsa_invoices_invoice_item_dba extends midcom_core_dbaobject
         $mc->execute();
         $keys = $mc->list_keys();
 
-        foreach ($keys as $key => $empty)
+        foreach (array_keys($keys) as $key)
         {
             $sum += $mc->get_subkey($key, 'units') * $mc->get_subkey($key, 'pricePerUnit');
         }

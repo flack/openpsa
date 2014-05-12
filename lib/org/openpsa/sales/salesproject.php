@@ -148,13 +148,8 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
     /**
      * Fills the next and previous action properties
      * based on the confirmed relatedto links
-     *
-     * If optional argument is set only considers actions
-     * where said person is involved, NOT IMPLEMENTED
-     *
-     * @todo Implement $limit_to_person support
      */
-    function get_actions($limit_to_person = false)
+    function get_actions()
     {
         $default = array
         (

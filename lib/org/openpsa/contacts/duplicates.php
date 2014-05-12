@@ -332,7 +332,7 @@ class org_openpsa_contacts_duplicates
             return $persons;
         }
 
-        foreach ($results as $guid => $result)
+        foreach (array_keys($results) as $guid)
         {
             $person = $mc->get($guid);
             $persons[] = self::_normalize_person_fields($person, $guid);

@@ -13,8 +13,6 @@
  */
 class org_openpsa_invoices_handler_pdf extends midcom_baseclasses_components_handler
 {
-    private $_update_attachment = false;
-
     private $_invoice;
 
     /**

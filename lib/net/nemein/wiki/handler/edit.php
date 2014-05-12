@@ -49,9 +49,9 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
         $operations['save'] = '';
         $operations['preview'] = $this->_l10n->get('preview');
         $operations['cancel'] = '';
-        foreach ($this->_schemadb as $name => $schema)
+        foreach ($this->_schemadb as $schema)
         {
-            $this->_schemadb[$name]->operations = $operations;
+            $schema->operations = $operations;
         }
     }
 

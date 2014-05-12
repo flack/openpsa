@@ -148,7 +148,7 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
         // First, look at post data (from in-form replace/delete buttons)
         if (!empty($_POST['document']))
         {
-            foreach ($_POST['document'] as $key => $value)
+            foreach (array_keys($_POST['document']) as $key)
             {
                 if (    strpos($key, '_delete')
                     || (    strpos($key, '_upload')

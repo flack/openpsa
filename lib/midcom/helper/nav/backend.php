@@ -748,18 +748,18 @@ class midcom_helper_nav_backend
         $fullprefix = midcom::get('config')->get('midcom_site_url');
         $absoluteprefix = midcom_connection::get_url('self');
 
-        foreach ($leaves as $id => $copy)
+        foreach ($leaves as &$leaf)
         {
-            $leaves[$id][MIDCOM_NAV_FULLURL] = $fullprefix . $leaves[$id][MIDCOM_NAV_RELATIVEURL];
-            $leaves[$id][MIDCOM_NAV_ABSOLUTEURL] = $absoluteprefix . $leaves[$id][MIDCOM_NAV_RELATIVEURL];
+            $leaf[MIDCOM_NAV_FULLURL] = $fullprefix . $leaf[MIDCOM_NAV_RELATIVEURL];
+            $leaf[MIDCOM_NAV_ABSOLUTEURL] = $absoluteprefix . $leaf[MIDCOM_NAV_RELATIVEURL];
 
-            if (is_null($leaves[$id][MIDCOM_NAV_GUID]))
+            if (is_null($leaf[MIDCOM_NAV_GUID]))
             {
-                $leaves[$id][MIDCOM_NAV_PERMALINK] = $leaves[$id][MIDCOM_NAV_FULLURL];
+                $leaf[MIDCOM_NAV_PERMALINK] = $leaf[MIDCOM_NAV_FULLURL];
             }
             else
             {
-                $leaves[$id][MIDCOM_NAV_PERMALINK] = midcom::get('permalinks')->create_permalink($leaves[$id][MIDCOM_NAV_GUID]);
+                $leaf[MIDCOM_NAV_PERMALINK] = midcom::get('permalinks')->create_permalink($leaf[MIDCOM_NAV_GUID]);
             }
         }
     }
@@ -1130,7 +1130,6 @@ class midcom_helper_nav_backend
 
         if (!isset($cache[$nodeid]))
         {
-            $up = null;
             $ids = explode("_", $nodeid);
             array_shift($ids);
             $cache[$nodeid] = implode('_', $ids);

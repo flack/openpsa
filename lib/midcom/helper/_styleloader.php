@@ -237,7 +237,7 @@ class midcom_helper__styleloader
             $mc->execute();
             $styles = $mc->list_keys();
 
-            foreach ($styles as $style_guid => $value)
+            foreach (array_keys($styles) as $style_guid )
             {
                 $current_style = $mc->get_subkey($style_guid, 'id');
                 midcom::get('cache')->content->register($style_guid);

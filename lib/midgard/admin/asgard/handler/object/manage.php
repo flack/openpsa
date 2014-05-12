@@ -443,7 +443,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
             'pre_selected' => true
         );
 
-        foreach ($this->_schemadb['object']->fields as $field => $field_data)
+        foreach (array_keys($this->_schemadb['object']->fields) as $field)
         {
             $value = @$object->$field;
             $value = rawurlencode($value);

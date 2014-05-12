@@ -297,7 +297,7 @@ class midcom_helper_datamanager2_type_photo extends midcom_helper_datamanager2_t
      */
     function apply_filter_all($filter)
     {
-        foreach ($this->attachments as $identifier => $image)
+        foreach (array_keys($this->attachments) as $identifier)
         {
             if ($identifier === 'archival')
             {

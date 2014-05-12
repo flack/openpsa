@@ -39,7 +39,6 @@ class org_openpsa_directmarketing_importer_csv extends org_openpsa_directmarketi
 
             if ($percentage >= 20)
             {
-                $data['rows'][] = $csv_line;
                 $read_rows++;
             }
             else

@@ -409,7 +409,7 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
     /**
      * function to add the button for journal_entry to the toolbar
      */
-    static function add_journal_entry_button(midcom_helper_toolbar $toolbar, $guid, $mode = 'both')
+    static function add_journal_entry_button(midcom_helper_toolbar $toolbar, $guid)
     {
         $toolbar->add_item
         (

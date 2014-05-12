@@ -653,7 +653,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
 
         $schemadb = array();
 
-        foreach ($raw_db as $name => $raw_schema)
+        foreach (array_keys($raw_db) as $name)
         {
             $schemadb[$name] = new static($raw_db, $name, $path);
         }

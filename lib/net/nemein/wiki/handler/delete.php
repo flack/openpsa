@@ -45,7 +45,7 @@ class net_nemein_wiki_handler_delete extends midcom_baseclasses_components_handl
      * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_delete($handler_id, $args, &$data, $delete_mode = true)
+    public function _handler_delete($handler_id, $args, &$data)
     {
         $this->_page = $this->_master->load_page($args[0]);
         $this->_page->require_do('midgard:delete');

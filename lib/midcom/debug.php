@@ -144,7 +144,7 @@ class midcom_debug
         $error = error_get_last();
         if (!empty($error['message']))
         {
-            $this->log('Last PHP error was: ' . $error['message']);
+            $this->log('Last PHP error was: ' . $error['message'], $loglevel);
         }
     }
 

@@ -25,7 +25,7 @@ class org_openpsa_reports_viewer extends midcom_baseclasses_components_request
     public function _on_initialize()
     {
         $components = $this->_get_available_generators();
-        foreach ($components as $component => $loc)
+        foreach (array_keys($components) as $component)
         {
             $parts = explode('.', $component);
             $last = array_pop($parts);

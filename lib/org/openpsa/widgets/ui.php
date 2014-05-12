@@ -59,7 +59,7 @@ class org_openpsa_widgets_ui extends midcom_baseclasses_components_purecode
     public static function initialize_search()
     {
         $providers = self::get_search_providers();
-        foreach ($providers as $component => $config)
+        foreach ($providers as $config)
         {
             if ($config['autocomplete'] === true)
             {

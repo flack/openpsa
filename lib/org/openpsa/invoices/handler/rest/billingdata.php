@@ -34,7 +34,7 @@ class org_openpsa_invoices_handler_rest_billingdata extends midcom_baseclasses_c
         {
             $person = new org_openpsa_contacts_person_dba($linkGuid);
         }
-        catch(Exception $e)
+        catch (midcom_error $e)
         {
             $this->_stop("Failed to autocreate billingdata. Invalid linkGuid: " . $e->getMessage());
         }

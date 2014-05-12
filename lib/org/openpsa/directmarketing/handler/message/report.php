@@ -222,9 +222,8 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
         if ($segmentation_param)
         {
             ksort($link_data['segments']);
-            foreach ($link_data['segments'] as $segment => $dummy)
+            foreach ($link_data['segments'] as &$segment_data)
             {
-                $segment_data =& $link_data['segments'][$segment];
                 arsort($segment_data['counts']);
                 arsort($segment_data['percentages']['of_links']);
                 arsort($segment_data['percentages']['of_recipients']);

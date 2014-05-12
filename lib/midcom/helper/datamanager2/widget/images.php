@@ -310,23 +310,24 @@ END;
      * Adds a row for an existing image
      *
      * @param string $identifier The identifier of the image to add.
+     * @param array $images The images to add.
      * @param boolean $frozen Set this to true, if you want to skip all elements which cannot be frozen.
      */
-    private function _add_image_row($identifier, $frozen)
+    private function _add_image_row($identifier, array $images, $frozen)
     {
-        debug_print_r("\$this->_type->images[{$identifier}]", $this->_type->images[$identifier]);
+        debug_print_r("images for {$identifier}", $images);
 
-        if (isset($this->_type->images[$identifier]['main']))
+        if (isset($images['main']))
         {
-            $info = $this->_type->images[$identifier]['main'];
+            $info = $images['main'];
         }
-        else if (isset($this->_type->images[$identifier]['original']))
+        else if (isset($images['original']))
         {
-            $info = $this->_type->images[$identifier]['original'];
+            $info = $images['original'];
         }
         else
         {
-            foreach ($this->_type->images[$identifier] as $data)
+            foreach ($images as $data)
             {
                 $info = $data;
                 break;
@@ -478,7 +479,7 @@ END;
      *
      * @param boolean $frozen Set this to true, if you want to skip all elements which cannot be frozen.
      */
-    private function _add_table_footer($frozen)
+    private function _add_table_footer()
     {
         $html = "    </tbody>\n
                  </table>\n";
@@ -521,7 +522,7 @@ END;
 
         foreach ($this->_type->images as $identifier => $images)
         {
-            $this->_add_image_row($identifier, $frozen);
+            $this->_add_image_row($identifier, $images, $frozen);
         }
 
         if ($this->set_name_and_title_on_upload)
@@ -532,7 +533,7 @@ END;
         {
             $this->_add_new_upload_row($frozen);
         }
-        $this->_add_table_footer($frozen);
+        $this->_add_table_footer();
     }
 
     /**
@@ -738,7 +739,7 @@ END;
             return null;
         }
         $defaults = array();
-        foreach ($this->_type->images as $identifier => $images)
+        foreach (array_keys($this->_type->images) as $identifier)
         {
             if (isset($this->_type->titles[$identifier]))
             {

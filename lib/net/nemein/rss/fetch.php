@@ -37,13 +37,6 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
     private $_node = null;
 
     /**
-     * Datamanager for handling saves
-     *
-     * @var midcom_helper_datamanager2
-     */
-    private $_datamanager = null;
-
-    /**
      * Initializes the class with a given feed
      */
     public function __construct(net_nemein_rss_feed_dba $feed)
@@ -148,7 +141,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
         // Reverse items so that creation times remain in correct order even for feeds without timestamps
         $items = array_reverse($items);
 
-        foreach ($items as $item_id => $item)
+        foreach ($items as $item)
         {
             $guid = $this->import_item($item);
 

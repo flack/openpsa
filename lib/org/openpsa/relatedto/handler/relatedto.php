@@ -168,7 +168,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
         $mc->execute();
         $links = $mc->list_keys();
 
-        foreach ($links as $guid => $link)
+        foreach (array_keys($links) as $guid)
         {
             //TODO: check for duplicates ?
             $to_arr = array('link' => false, 'other_obj' => false, 'sort_time' => false);

@@ -593,9 +593,9 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
     function freeze()
     {
         $this->form->freeze();
-        foreach ($this->widgets as $id => $copy)
+        foreach ($this->widgets as $widget)
         {
-            $this->widgets[$id]->freeze();
+            $widget->freeze();
         }
     }
 
@@ -605,9 +605,9 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
     function unfreeze()
     {
         $this->form->unfreeze();
-        foreach ($this->widgets as $id => $copy)
+        foreach ($this->widgets as $widget)
         {
-            $this->widgets[$id]->unfreeze();
+            $widget->unfreeze();
         }
     }
 
@@ -723,11 +723,11 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
     function display_view()
     {
         // iterate over all widgets so that they can add their piece to the form
-        foreach ($this->widgets as $name => $copy)
+        foreach ($this->widgets as $name => $widget)
         {
             echo '<div class="title" style="font-weight: bold;">' . $this->_translate($this->_schema->fields[$name]['title']) . "</div>\n";
             echo '<div class="value" style="margin-left: 5em;">';
-            echo $this->widgets[$name]->render_content();
+            echo $widget->render_content();
             echo "</div>\n";
         }
     }

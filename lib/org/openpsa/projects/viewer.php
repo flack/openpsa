@@ -16,10 +16,6 @@ class org_openpsa_projects_viewer extends midcom_baseclasses_components_request
     public function _on_handle($handler, array $args)
     {
         $this->_request_data['view'] = 'default';
-        $this->_request_data['config'] = $this->_config;
-
-        // Pass the topic on to handlers
-        $this->_request_data['project_topic'] = $this->_topic;
 
         // Always run in uncached mode
         midcom::get('cache')->content->no_cache();

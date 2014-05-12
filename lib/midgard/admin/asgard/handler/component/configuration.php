@@ -199,7 +199,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         foreach ($data['config']->_global as $key => $value)
         {
             $data['key'] = $this->_i18n->get_string($key, $data['name']);
-            $data['global'] = $this->_detect($data['config']->_global[$key]);
+            $data['global'] = $this->_detect($value);
 
             if (isset($data['config']->_local[$key]))
             {
@@ -333,7 +333,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      */
     private function _save_topic($topic, $config)
     {
-        foreach ($this->_request_data['config']->_global as $global_key => $global_val)
+        foreach (array_keys($this->_request_data['config']->_global) as $global_key)
         {
             if (isset($config[$global_key]))
             {

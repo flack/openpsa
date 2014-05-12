@@ -39,7 +39,6 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
 
     private function _list_products()
     {
-        $product_list = array();
         $mc = org_openpsa_products_product_dba::new_collector('metadata.deleted', false);
 
         $mc->add_order('productGroup');

@@ -165,9 +165,9 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
         // For reasons I do not completely comprehend, PHP drops the storage references into the types
         // in the lines above. Right now the only solution (except debugging this 5 hours long line
         // by line) I see is explicitly setting the storage references in the types.
-        foreach ($this->types as $type => $copy)
+        foreach ($this->types as $type)
         {
-            $this->types[$type]->set_storage($this->storage);
+            $type->set_storage($this->storage);
         }
 
         $this->storage->load($this->types);
@@ -195,15 +195,14 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
 
         foreach ($this->schema->fields as $name => $config)
         {
-            $this->_load_type($name);
+            $this->_load_type($name, $config);
         }
 
         return true;
     }
 
-    private function _load_type($name)
+    private function _load_type($name, $config)
     {
-        $config = $this->schema->fields[$name];
         if (!isset($config['type']))
         {
             throw new midcom_error("The field {$name} is missing type");
@@ -288,14 +287,14 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
     function recreate()
     {
         $stat = true;
-        foreach ($this->types as $name => $copy)
+        foreach ($this->types as $type)
         {
-            if (!method_exists($this->types[$name], 'recreate'))
+            if (!method_exists($type, 'recreate'))
             {
                 // This type doesn't support recreation
                 continue;
             }
-            if (!$this->types[$name]->recreate())
+            if (!$type->recreate())
             {
                 $stat = false;
             }
@@ -334,7 +333,7 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
     {
         $this->validation_errors = Array();
         $validated = true;
-        foreach ($this->schema->fields as $name => $config)
+        foreach (array_keys($this->schema->fields) as $name)
         {
             if ($this->_schema_field_is_broken($name))
             {

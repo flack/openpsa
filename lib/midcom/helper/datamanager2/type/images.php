@@ -271,7 +271,7 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
     {
         if (array_key_exists($identifier, $this->images))
         {
-            foreach ($this->images[$identifier] as $name => $info)
+            foreach (array_keys($this->images[$identifier]) as $name)
             {
                 $blob_identifier = "{$identifier}{$name}";
                 unset($this->_attachment_map[$blob_identifier]);
@@ -632,22 +632,22 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
             if (   is_array($a)
                 && is_array($b))
             {
-                foreach ($a as $key => $data)
+                foreach ($a as $data)
                 {
-                    if (   !empty($a[$key]['object'])
-                        && !empty($b[$key]['object']))
+                    if (   !empty($data['object'])
+                        && !empty($data['object']))
                     {
-                        $a_obj = $a[$key]['object'];
-                        $b_obj = $b[$key]['object'];
+                        $a_obj = $data['object'];
+                        $b_obj = $data['object'];
+                        break;
                     }
                 }
             }
-        }
-
-        if (   empty($a_obj)
-            && empty($b_obj))
-        {
-            return 0;
+            if (   empty($a_obj)
+                && empty($b_obj))
+            {
+                return 0;
+            }
         }
 
         return midcom_helper_datamanager2_type_blobs::sort_attachments_cmp($a_obj, $b_obj);
@@ -742,7 +742,7 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
             debug_add("identifier '{$images_identifier}' not found in \$this->images", MIDCOM_LOG_ERROR);
             return false;
         }
-        foreach ($this->images[$images_identifier] as $sub_identifier => $info)
+        foreach (array_keys($this->images[$images_identifier]) as $sub_identifier)
         {
             if ($sub_identifier === 'original')
             {

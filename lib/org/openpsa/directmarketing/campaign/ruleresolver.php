@@ -135,7 +135,7 @@ class org_openpsa_directmarketing_campaign_ruleresolver
         $this->_result_mc->execute();
         $results = $this->_result_mc->list_keys();
         $ret = array();
-        foreach ($results as $key => $value)
+        foreach (array_keys($results) as $key)
         {
             $ret[$this->_result_mc->get_subkey($key, 'id')] = array
             (
@@ -295,7 +295,7 @@ class org_openpsa_directmarketing_campaign_ruleresolver
 
         $mc_group->execute();
         $keys = $mc_group->list_keys();
-        foreach ($keys as $key => $value)
+        foreach (arry_keys($keys) as $key)
         {
             // get user-id
             $group_member[] = $mc_group->get_subkey($key, 'uid');
@@ -333,7 +333,7 @@ class org_openpsa_directmarketing_campaign_ruleresolver
             return false;
         }
         //iterate over found parameters & call needed rule-functions
-        foreach ($parameter_keys as $parameter_key => $value)
+        foreach (array_keys($parameter_keys) as $parameter_key)
         {
             $guid = $mc_parameter->get_subkey($parameter_key, 'parentguid');
             try
@@ -404,10 +404,9 @@ class org_openpsa_directmarketing_campaign_ruleresolver
         $mc_misc->add_value_property($person_property);
 
         $mc_misc->execute();
-
         $keys = $mc_misc->list_keys();
 
-        foreach ($keys as $key => $value)
+        foreach (array_keys($keys) as $key)
         {
             // get user-id
             $persons[] = $mc_misc->get_subkey($key, $person_property);

@@ -90,7 +90,7 @@ class midcom_connection
                 else if ($path = ini_get('midgard.configuration_file'))
                 {
                     $config = new midgard_config();
-                    $config->read_file_at_path(ini_get('midgard.configuration_file'));
+                    $config->read_file_at_path($path);
                     $stat = $midgard->open_config($config);
                 }
             }

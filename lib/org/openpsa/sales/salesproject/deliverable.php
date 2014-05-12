@@ -213,7 +213,7 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
         $mc->execute();
         $other_tasks = $mc->list_keys();
 
-        foreach ($other_tasks as $guid => $task)
+        foreach (array_keys($other_tasks) as $guid)
         {
             // Add the hours of the other tasks to agreement's totals
             $agreement_hours['reported'] += $mc->get_subkey($guid, 'reportedHours');

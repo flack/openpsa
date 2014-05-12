@@ -219,7 +219,6 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
     function create_task($start, $end, $title, $source_task = null)
     {
         $salesproject = org_openpsa_sales_salesproject_dba::get_cached($this->_deliverable->salesproject);
-        $product = org_openpsa_products_product_dba::get_cached($this->_deliverable->product);
 
         // Check if we already have a project for the sales project
         $project = $salesproject->get_project();

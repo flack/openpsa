@@ -92,7 +92,7 @@ class net_nemein_redirector_viewer extends midcom_baseclasses_components_request
                 midcom::get()->relocate("{$this->_topic->name}/edit/{$args[0]}/");
             }
 
-            foreach ($results as $guid => $array)
+            foreach (array_keys($results) as $guid)
             {
                 $url = $mc->get_subkey($guid, 'url');
                 $code = $mc->get_subkey($guid, 'code');

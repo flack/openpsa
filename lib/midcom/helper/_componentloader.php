@@ -539,7 +539,7 @@ class midcom_helper__componentloader
             return $checked[$component];
         }
 
-        foreach ($this->manifests[$component]->_raw_data['package.xml']['dependencies'] as $dependency => $dependency_data)
+        foreach (array_keys($this->manifests[$component]->_raw_data['package.xml']['dependencies']) as $dependency)
         {
             if (   $dependency == 'midcom'
                 || $dependency == $called_from)

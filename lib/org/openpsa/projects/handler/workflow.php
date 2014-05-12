@@ -92,7 +92,7 @@ class org_openpsa_projects_handler_workflow extends midcom_baseclasses_component
         }
 
         //Go trough the array, in theory it should have only one element and in any case only the last of them will be processed
-        foreach ($_POST['org_openpsa_projects_workflow_action'] as $action => $val)
+        foreach (array_keys($_POST['org_openpsa_projects_workflow_action']) as $action)
         {
             $this->_request_data['action'] = $action;
         }

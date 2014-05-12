@@ -48,9 +48,6 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
 
         if ($this->_root_event->can_do('midgard:create'))
         {
-            $nap = new midcom_helper_nav();
-            $this_node = $nap->get_node($nap->get_current_node());
-
             $this->_view_toolbar->add_item
             (
                 array
@@ -159,7 +156,6 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
     public function _handler_json($handler_id, array $args, array &$data)
     {
         midcom::get('auth')->require_valid_user();
-        $response = new midcom_response_json;
         $uids = $this->_load_uids(midcom::get('auth')->user->get_storage());
         $events = $this->_load_events($uids, $_GET['start'], $_GET['end']);
         return new midcom_response_json($events);
@@ -179,7 +175,6 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
                 continue;
             }
 
-            $persons = array();
             // Include each type
             switch ($type)
             {
@@ -369,9 +364,9 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
         // Muck schema on private events
         if (!$this->_request_data['event']->can_do('org.openpsa.calendar:read'))
         {
-            foreach ($this->_datamanager->_schemadb as $schemaname => $schema)
+            foreach ($this->_datamanager->_schemadb as $schema)
             {
-                foreach ($this->_datamanager->_schemadb[$schemaname]->fields as $fieldname => $field)
+                foreach ($schema->fields as &$field)
                 {
                     switch ($fieldname)
                     {
@@ -380,7 +375,7 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
                         case 'end':
                             break;
                         default:
-                            $this->_datamanager->_schemadb[$schemaname]->fields[$fieldname]['hidden'] = true;
+                            $fields['hidden'] = true;
                     }
                 }
             }

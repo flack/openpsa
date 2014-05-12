@@ -145,8 +145,6 @@ class org_openpsa_products_handler_product_search extends midcom_baseclasses_com
         $qb = new org_openpsa_qbpager('org_openpsa_products_product_dba', 'org_openpsa_products_product_dba');
         $qb->results_per_page = $this->_config->get('products_per_page');
 
-        $return_products = array();
-
         // Check that the object has correct schema
         $qb->begin_group('AND');
         $qb->add_constraint('parameter.domain', '=', 'midcom.helper.datamanager2');

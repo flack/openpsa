@@ -430,7 +430,7 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
      */
     function apply_filter_all($filter)
     {
-        foreach ($this->attachments as $identifier => $image)
+        foreach (array_keys($this->attachments) as $identifier)
         {
             if ($identifier === 'original')
             {
@@ -626,7 +626,7 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
 
     function _clean_pending_attachments()
     {
-        foreach ($this->_pending_attachments as $identifier => $attachment)
+        foreach (array_keys($this->_pending_attachments) as $identifier)
         {
             $this->delete_attachment($identifier);
         }
@@ -663,7 +663,7 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
     {
         if ($this->derived_images)
         {
-            foreach ($this->derived_images as $identifier => $filter_chain)
+            foreach (array_keys($this->derived_images) as $identifier)
             {
                 // PONDER: Shouldn't the derived images be derived from the 'main' image (now derived from original) ??
                 $this->_current_tmpname = $this->_filter->create_tmp_copy($this->_original_tmpname);

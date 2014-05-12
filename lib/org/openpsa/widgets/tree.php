@@ -137,7 +137,7 @@ JSINIT;
             return;
         }
 
-        foreach ($keys as $guid => $array)
+        foreach (array_keys($keys) as $guid)
         {
             $entry = array('guid' => $guid);
 

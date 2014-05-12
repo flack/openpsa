@@ -410,7 +410,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
         }
 
         // Handle ACL accordingly
-        foreach ($this->participants as $person_id => $selected)
+        foreach (array_keys($this->participants) as $person_id)
         {
             $user = midcom::get('auth')->get_user($person_id);
 
@@ -570,7 +570,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
     /**
      * Returns a string describing the event and its participants
      */
-    function details_text($display_title = true, $member = false, $nl = "\n")
+    function details_text($display_title = true, $nl = "\n")
     {
         $l10n = midcom::get('i18n')->get_l10n('org.openpsa.calendar');
         $str = '';
@@ -594,7 +594,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
     function implode_members(array $array)
     {
         $output = array();
-        foreach ($array as $pid => $bool)
+        foreach (array_keys($array) as $pid)
         {
             $person = org_openpsa_contacts_person_dba::get_cached($pid);
             $output[] = $person->name;

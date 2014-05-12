@@ -283,7 +283,7 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
 
             $mc_task_key = $mc_task_agreement->list_keys();
             $deliverable = null;
-            foreach ($mc_task_key as $key => $empty)
+            foreach (array_keys($mc_task_key) as $key)
             {
                 try
                 {

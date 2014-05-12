@@ -804,10 +804,9 @@ class midcom_helper_metadata
      * Set the object lock
      *
      * @param int $timeout   Length of the lock timeout
-     * @param String $user   GUID of the midgard_person object
      * @return boolean       Indicating success
      */
-    public function lock($timeout = null, $user = null)
+    public function lock($timeout = null)
     {
         midcom::get('auth')->require_do('midgard:update', $this->__object);
 
@@ -843,10 +842,9 @@ class midcom_helper_metadata
     /**
      * Unlock the object
      *
-     * @param boolean $soft_unlock If this is true, the changes are not written to disk
      * @return boolean    Indicating success
      */
-    public function unlock($soft_unlock = false)
+    public function unlock()
     {
         if (!$this->can_unlock())
         {
@@ -857,8 +855,6 @@ class midcom_helper_metadata
         {
             return false;
         }
-
-        // TODO: Should we support soft unlock somehow?
 
         // Run the unlock call
         $stat = $this->__object->unlock();

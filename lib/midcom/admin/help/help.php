@@ -406,7 +406,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
     function read_schema_properties()
     {
         $helper = new helper;
-        foreach ($this->_request_data['mgdschemas'] as $mgdschema_class => $midcom_class)
+        foreach (array_keys($this->_request_data['mgdschemas']) as $mgdschema_class)
         {
             $mrp = new midgard_reflection_property($mgdschema_class);
             $class_props = $helper->get_all_properties($mgdschema_class);

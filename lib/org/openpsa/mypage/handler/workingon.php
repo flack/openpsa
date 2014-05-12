@@ -73,7 +73,7 @@ class org_openpsa_mypage_handler_workingon extends midcom_baseclasses_components
             'total_uninvoiceable' => 0,
         );
 
-        foreach ($hours as $guid => $values)
+        foreach (array_keys($hours) as $guid)
         {
             $this->_add_hour_data($hours_mc->get($guid));
         }

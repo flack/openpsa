@@ -35,7 +35,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
         // Determine operations
         $add_tags = array();
         $update_tags = array();
-        $remove_tags = array();
+
         foreach ($tags as $tagname => $url)
         {
             if (empty($tagname))
@@ -52,16 +52,10 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
                 $update_tags[$tagname] = $url;
             }
         }
-        foreach ($existing_tags as $tagname => $url)
-        {
-            if (!array_key_exists($tagname, $tags))
-            {
-                $remove_tags[$tagname] = true;
-            }
-        }
+        $remove_tags = array_diff_key($existing_tags, $tags);
 
-        // Excute
-        foreach ($remove_tags as $tagname => $bool)
+        // Execute
+        foreach (array_keys($remove_tags) as $tagname)
         {
             self::_remove_tag($tagname, $object->guid);
         }
@@ -649,7 +643,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
     public static function tag_array2string($tags)
     {
         $ret = '';
-        foreach ($tags as $tag => $url)
+        foreach (array_keys($tags) as $tag)
         {
             if (strpos($tag, ' '))
             {

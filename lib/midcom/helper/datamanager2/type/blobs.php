@@ -722,7 +722,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
      */
     function delete_all_attachments()
     {
-        foreach ($this->attachments as $identifier => $attachment)
+        foreach (array_keys($this->attachments) as $identifier)
         {
             if (!$this->delete_attachment($identifier))
             {

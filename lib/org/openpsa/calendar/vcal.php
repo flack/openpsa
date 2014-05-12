@@ -91,7 +91,7 @@ class org_openpsa_calendar_vcal
     private function _add_participants(VEvent $vevent, array $participants)
     {
         $participants = array_filter($participants);
-        foreach ($participants as $uid => $bool)
+        foreach (array_keys($participants) as $uid)
         {
             $person = midcom_db_person::get_cached($uid);
             if (empty($person->email))

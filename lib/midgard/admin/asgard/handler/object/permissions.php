@@ -123,11 +123,7 @@ implements midcom_helper_datamanager2_interfaces_edit
         {
             $current_manifest = $component_loader->manifests[midcom_core_context::get()->get_key(MIDCOM_CONTEXT_COMPONENT)];
         }
-
-        foreach ($current_manifest->privileges as $privilege => $default_value)
-        {
-            $this->_privileges[] = $privilege;
-        }
+        $this->_privileges = array_merge($this->_privileges, array_keys($current_manifest->privileges));
 
         if (!empty($current_manifest->customdata['midgard.admin.asgard.acl']['extra_privileges']))
         {
@@ -541,7 +537,7 @@ implements midcom_helper_datamanager2_interfaces_edit
 
     private function _render_row_actions($row_name)
     {
-        foreach ($this->_row_labels as $key => $label)
+        foreach (array_keys($this->_row_labels) as $key)
         {
             if (strpos($row_name, $key) !== false)
             {
@@ -563,7 +559,7 @@ implements midcom_helper_datamanager2_interfaces_edit
 
     private function _get_row_value_class($row_name)
     {
-        foreach ($this->_row_labels as $key => $label)
+        foreach (array_keys($this->_row_labels) as $key)
         {
             if (strpos($row_name, $key) !== false)
             {
