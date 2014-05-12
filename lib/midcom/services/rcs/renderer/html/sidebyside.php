@@ -18,13 +18,12 @@ class midcom_services_rcs_renderer_html_sidebyside extends Diff_Renderer_Html_Ar
      */
     public function render()
     {
-        $changes = parent::render();
-
         $html = '';
-        if(empty($changes)) {
+        $changes = parent::render();
+        if (empty($changes))
+        {
             return $html;
         }
-
         $ln = midcom::get('i18n')->get_l10n("midcom");
         $html .= '<table class="Differences DifferencesSideBySide">';
         $html .= '<thead>';
@@ -33,51 +32,37 @@ class midcom_services_rcs_renderer_html_sidebyside extends Diff_Renderer_Html_Ar
         $html .= '<th colspan="2">' . $ln->get("New Version") . '</th>';
         $html .= '</tr>';
         $html .= '</thead>';
+        $html .= '<tbody>';
+
         foreach($changes as $i => $blocks) {
             if($i > 0) {
-                $html .= '<tbody class="Skipped">';
+                $html .= '<tr class="Skipped">';
                 $html .= '<th>&hellip;</th><td>&nbsp;</td>';
                 $html .= '<th>&hellip;</th><td>&nbsp;</td>';
-                $html .= '</tbody>';
+                $html .= '</tr>';
             }
 
             foreach($blocks as $change) {
-                $html .= '<tbody class="Change'.ucfirst($change['tag']).'">';
                 // Equal changes should be shown on both sides of the diff
                 if($change['tag'] == 'equal') {
                     foreach($change['base']['lines'] as $no => $line) {
                         $fromLine = $change['base']['offset'] + $no + 1;
                         $toLine = $change['changed']['offset'] + $no + 1;
-                        $html .= '<tr>';
-                        $html .= '<th>'.$fromLine.'</th>';
-                        $html .= '<td class="Left"><span>'.$line.'</span>&nbsp;</td>';
-                        $html .= '<th>'.$toLine.'</th>';
-                        $html .= '<td class="Right"><span>'.$line.'</span>&nbsp;</td>';
-                        $html .= '</tr>';
+                        $this->add_line($html, $fromLine, $line, $toLine, $line);
                     }
                 }
                 // Added lines only on the right side
                 else if($change['tag'] == 'insert') {
                     foreach($change['changed']['lines'] as $no => $line) {
                         $toLine = $change['changed']['offset'] + $no + 1;
-                        $html .= '<tr>';
-                        $html .= '<th>&nbsp;</th>';
-                        $html .= '<td class="Left">&nbsp;</td>';
-                        $html .= '<th>'.$toLine.'</th>';
-                        $html .= '<td class="Right"><ins>'.$line.'</ins>&nbsp;</td>';
-                        $html .= '</tr>';
+                        $this->add_line($html, '&nbsp;', '&nbsp;', $toLine, '<ins>' . $line . '</ins>');
                     }
                 }
                 // Show deleted lines only on the left side
                 else if($change['tag'] == 'delete') {
                     foreach($change['base']['lines'] as $no => $line) {
                         $fromLine = $change['base']['offset'] + $no + 1;
-                        $html .= '<tr>';
-                        $html .= '<th>'.$fromLine.'</th>';
-                        $html .= '<td class="Left"><del>'.$line.'</del>&nbsp;</td>';
-                        $html .= '<th>&nbsp;</th>';
-                        $html .= '<td class="Right">&nbsp;</td>';
-                        $html .= '</tr>';
+                        $this->add_line($html, $fromLine, '<del>' . $line . '</del>');
                     }
                 }
                 // Show modified lines on both sides
@@ -85,47 +70,49 @@ class midcom_services_rcs_renderer_html_sidebyside extends Diff_Renderer_Html_Ar
                     if(count($change['base']['lines']) >= count($change['changed']['lines'])) {
                         foreach($change['base']['lines'] as $no => $line) {
                             $fromLine = $change['base']['offset'] + $no + 1;
-                            $html .= '<tr>';
-                            $html .= '<th>'.$fromLine.'</th>';
-                            $html .= '<td class="Left"><del>'.$line.'</del>&nbsp;</td>';
                             if(!isset($change['changed']['lines'][$no])) {
                                 $toLine = '&nbsp;';
                                 $changedLine = '&nbsp;';
                             }
                             else {
+                                $line = '<del>' . $line . '</del>';
                                 $toLine = $change['base']['offset'] + $no + 1;
-                                $changedLine = '<span>'.$change['changed']['lines'][$no].'</span>';
+                                $changedLine = '<ins>'.$change['changed']['lines'][$no].'</ins>';
                             }
-                            $html .= '<th>'.$toLine.'</th>';
-                            $html .= '<td class="Right"><ins>'.$changedLine.'</ins></td>';
-                            $html .= '</tr>';
+
+                            $this->add_line($html, $fromLine, $line, $toLine, $changedLine);
                         }
                     }
                     else {
                         foreach($change['changed']['lines'] as $no => $changedLine) {
                             if(!isset($change['base']['lines'][$no])) {
                                 $fromLine = '&nbsp;';
-                                $line = '&nbsp;';
+                                $line = '<span>&nbsp;</span>';
                             }
                             else {
                                 $fromLine = $change['base']['offset'] + $no + 1;
                                 $line = '<span>'.$change['base']['lines'][$no].'</span>';
                             }
-                            $html .= '<tr>';
-                            $html .= '<th>'.$fromLine.'</th>';
-                            $html .= '<td class="Left"><span>'.$line.'</span>&nbsp;</td>';
                             $toLine = $change['changed']['offset'] + $no + 1;
-                            $html .= '<th>'.$toLine.'</th>';
-                            $html .= '<td class="Right">'.$changedLine.'</td>';
-                            $html .= '</tr>';
+                            $this->add_line($html, $fromLine, $line, $toLine, $changedLine);
                         }
                     }
                 }
-                $html .= '</tbody>';
             }
         }
+        $html .= '</tbody>';
         $html .= '</table>';
         return $html;
+    }
+
+    private function add_line(&$html, $from_no, $from_content, $to_no = '&nbsp;', $to_content = '&nbsp;')
+    {
+        $html .= '<tr>';
+        $html .= '<th>' . $from_no . '</th>';
+        $html .= '<td class="Left">' . $from_content . '&nbsp;</td>';
+        $html .= '<th>' . $to_no . '</th>';
+        $html .= '<td class="Right">' . $to_content . '</td>';
+        $html .= '</tr>';
     }
 }
 ?>

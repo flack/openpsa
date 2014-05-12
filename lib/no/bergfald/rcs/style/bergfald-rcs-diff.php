@@ -49,7 +49,7 @@ foreach ($diff as $attribute => $values)
 
     echo "<dt>". $data['handler']->translate($attribute) ."</dt>\n";
     echo "    <dd>\n";
-    echo nl2br($values['diff']);
+    echo $values['diff'];
     echo "    </dd>\n";
 }
 
