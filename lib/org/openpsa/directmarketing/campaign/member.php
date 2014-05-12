@@ -134,7 +134,7 @@ class org_openpsa_directmarketing_campaign_member_dba extends midcom_core_dbaobj
         {
             foreach ($callback_matches[0] as $k => $search)
             {
-                $callback_func =& $callback_matches[1][$k];
+                $callback_func = $callback_matches[1][$k];
                 if (!is_callable($callback_func))
                 {
                     continue;

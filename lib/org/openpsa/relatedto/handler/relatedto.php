@@ -124,7 +124,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
 
         org_openpsa_relatedto_plugin::add_journal_entry_button($this->_view_toolbar, $this->_object->guid);
 
-        $this->_request_data['object'] =& $this->_object;
+        $this->_request_data['object'] = $this->_object;
 
         $this->_request_data['show_title'] = false;
         if (   $this->_mode == 'both'
@@ -320,7 +320,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
      */
     private function _render_line(array $link, &$other_obj)
     {
-        $this->_request_data['link'] =& $link;
+        $this->_request_data['link'] = $link;
         $this->_request_data['other_obj'] =& $other_obj;
 
         $ref = midcom_helper_reflector::get($link['class']);
@@ -718,7 +718,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
         $response->result = false;
 
         //Request mode switch
-        $this->_mode =& $args[0];
+        $this->_mode = $args[0];
         $this->_object = false;
         if (isset($args[1]))
         {

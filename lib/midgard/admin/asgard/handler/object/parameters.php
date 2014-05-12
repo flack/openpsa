@@ -26,7 +26,7 @@ class midgard_admin_asgard_handler_object_parameters extends midcom_baseclasses_
      */
     private function _prepare_request_data()
     {
-        $this->_request_data['object'] =& $this->_object;
+        $this->_request_data['object'] = $this->_object;
     }
 
     /**

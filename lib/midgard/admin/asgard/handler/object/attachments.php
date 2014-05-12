@@ -240,8 +240,8 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
      */
     public function _show_create($handler_id, array &$data)
     {
-        $data['files'] =& $this->_files;
-        $data['object'] =& $this->_object;
+        $data['files'] = $this->_files;
+        $data['object'] = $this->_object;
         midcom_show_style('midgard_admin_asgard_object_attachments_header');
 
         $data['attachment_text_types'] = $this->_config->get('attachment_text_types');
@@ -321,10 +321,10 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
         $host_prefix = midcom::get()->get_host_prefix();
         $delete_url = $host_prefix . '__mfa/asgard/object/attachments/delete/' . $this->_object->guid . '/' . $this->_file->name;
 
-        $data['delete_url'] =& $delete_url;
-        $data['files'] =& $this->_files;
-        $data['file'] =& $this->_file;
-        $data['object'] =& $this->_object;
+        $data['delete_url'] = $delete_url;
+        $data['files'] = $this->_files;
+        $data['file'] = $this->_file;
+        $data['object'] = $this->_object;
         midcom_show_style('midgard_admin_asgard_object_attachments_header');
         midcom_show_style('midgard_admin_asgard_object_attachments_file');
         midcom_show_style('midgard_admin_asgard_object_attachments_footer');
@@ -381,7 +381,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
      */
     public function _show_delete($handler_id, array &$data)
     {
-        $data['file'] =& $this->_file;
+        $data['file'] = $this->_file;
         $data['attachment_text_types'] = $this->_config->get('attachment_text_types');
         midcom_show_style('midgard_admin_asgard_object_attachments_delete');
     }

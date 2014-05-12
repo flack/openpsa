@@ -41,7 +41,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
      */
     public function _root_objects_qb($deleted)
     {
-        $schema_type =& $this->mgdschema_class;
+        $schema_type = $this->mgdschema_class;
         $root_classes = self::get_root_classes();
         if (!in_array($schema_type, $root_classes))
         {
@@ -390,38 +390,33 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
 
     private function _get_type_qb($schema_type, $deleted)
     {
-        $qb = false;
-
         if (empty($schema_type))
         {
             debug_add('Passed schema_type argument is empty, this is fatal', MIDCOM_LOG_ERROR);
-            return $qb;
+            return false;
         }
         if ($deleted)
         {
             $qb = new midgard_query_builder($schema_type);
             $qb->include_deleted();
             $qb->add_constraint('metadata.deleted', '<>', 0);
+            return $qb;
         }
-        else
+        // Figure correct MidCOM DBA class to use and get midcom QB
+        $midcom_dba_classname = midcom::get('dbclassloader')->get_midcom_class_name_for_mgdschema_object($schema_type);
+        if (empty($midcom_dba_classname))
         {
-            // Figure correct MidCOM DBA class to use and get midcom QB
-            $midcom_dba_classname = midcom::get('dbclassloader')->get_midcom_class_name_for_mgdschema_object($schema_type);
-            if (empty($midcom_dba_classname))
-            {
-                debug_add("MidCOM DBA does not know how to handle {$schema_type}", MIDCOM_LOG_ERROR);
-                return $qb;
-            }
-
-            if (!midcom::get('dbclassloader')->load_component_for_class($midcom_dba_classname))
-            {
-                debug_add("Failed to load the handling component for {$midcom_dba_classname}, cannot continue.", MIDCOM_LOG_ERROR);
-                return $qb;
-            }
-
-            $qb = call_user_func(array($midcom_dba_classname, 'new_query_builder'));
+            debug_add("MidCOM DBA does not know how to handle {$schema_type}", MIDCOM_LOG_ERROR);
+            return false;
         }
-        return $qb;
+
+        if (!midcom::get('dbclassloader')->load_component_for_class($midcom_dba_classname))
+        {
+            debug_add("Failed to load the handling component for {$midcom_dba_classname}, cannot continue.", MIDCOM_LOG_ERROR);
+            return false;
+        }
+
+        return call_user_func(array($midcom_dba_classname, 'new_query_builder'));
     }
 
     /**
@@ -631,15 +626,9 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         static $child_classes_all = array();
         if (!isset($child_classes_all[$this->mgdschema_class]))
         {
-            $child_classes_all[$this->mgdschema_class] = false;
+            $child_classes_all[$this->mgdschema_class] = $this->_resolve_child_classes();;
         }
-        $child_classes =& $child_classes_all[$this->mgdschema_class];
-
-        if ($child_classes === false)
-        {
-            $child_classes = $this->_resolve_child_classes();
-        }
-        return $child_classes;
+        return $child_classes_all[$this->mgdschema_class];
     }
 
     /**

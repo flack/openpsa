@@ -1,5 +1,5 @@
 <?php
-$task =& $data['task'];
+$task = $data['task'];
 $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX)
 ?>
 <div class="org_openpsa_projects_projectbroker">

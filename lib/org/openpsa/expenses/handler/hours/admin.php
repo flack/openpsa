@@ -54,8 +54,8 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
      */
     private function _prepare_request_data()
     {
-        $this->_request_data['controller'] =& $this->_controller;
-        $this->_request_data['schema'] =& $this->_schema;
+        $this->_request_data['controller'] = $this->_controller;
+        $this->_request_data['schema'] = $this->_schema;
         $this->_request_data['schemadb'] =& $this->_schemadb;
     }
 
@@ -344,7 +344,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
         $this->_load_schemadb();
         $dm = new midcom_helper_datamanager2_datamanager($this->_schemadb);
         $dm->autoset_storage($this->_hour_report);
-        $data['datamanager'] =& $dm;
+        $data['datamanager'] = $dm;
         $data['controller'] = $this->_controller;
 
         $this->_update_breadcrumb_line($handler_id);

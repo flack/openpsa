@@ -1,6 +1,6 @@
 <?php
 //If we need to do any specific mangling etc, we do it here.
-$query =& $data['query_data'];
+$query = $data['query_data'];
 $report =& $data['report'];
 if (empty($report['title']))
 {

@@ -88,7 +88,7 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
         {
             case 'preview':
                 $this->_preview = true;
-                $data['formmanager'] =& $this->_controller->formmanager;
+                $data['formmanager'] = $this->_controller->formmanager;
                 break;
             case 'save':
                 // Reindex the article
@@ -175,7 +175,7 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
      */
     public function _show_edit($handler_id, array &$data)
     {
-        $data['controller'] =& $this->_controller;
+        $data['controller'] = $this->_controller;
         $data['preview_mode'] = $this->_preview;
 
         if ($this->_preview)
@@ -207,7 +207,7 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
             $datamanager->autoset_storage($data['preview_page']);
 
             $data['wikipage_view'] = $datamanager->get_content_html();
-            $data['wikipage'] =& $data['preview_page'];
+            $data['wikipage'] = $data['preview_page'];
             $data['autogenerate_toc'] = false;
             $data['display_related_to'] = false;
 

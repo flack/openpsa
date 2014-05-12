@@ -1,6 +1,6 @@
 <?php
-$link =& $data['link'];
-$page =& $data['other_obj'];
+$link = $data['link'];
+$page = $data['other_obj'];
 $page_url = $data['page_url'] . $page->name;
 $author_card = org_openpsa_widgets_contact::get($page->metadata->creator);
 ?>

@@ -79,7 +79,7 @@ implements midcom_helper_datamanager2_interfaces_edit
     {
         $this->_person = new midcom_db_person($args[0]);
         $this->_person->require_do('midgard:privileges');
-        $this->_request_data['person'] =& $this->_person;
+        $this->_request_data['person'] = $this->_person;
 
         $data['acl_dm'] = $this->get_controller('simple', $this->_person);
 

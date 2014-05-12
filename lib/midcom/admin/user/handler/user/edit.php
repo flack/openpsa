@@ -127,9 +127,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      */
     public function _show_edit($handler_id, array &$data)
     {
-        $data['handler_id'] = $handler_id;
-        $data['l10n'] =& $this->_l10n;
-        $data['person'] =& $this->_person;
+        $data['person'] = $this->_person;
         midcom_show_style('midcom-admin-user-person-edit');
     }
 
@@ -204,9 +202,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      */
     public function _show_edit_account($handler_id, array &$data)
     {
-        $data['handler_id'] = $handler_id;
-        $data['l10n'] =& $this->_l10n;
-        $data['person'] =& $this->_person;
+        $data['person'] = $this->_person;
         midcom_show_style('midcom-admin-user-person-edit-account');
 
         if (isset($_GET['f_submit']))
@@ -235,8 +231,6 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      */
     public function _show_passwords($handler_id, array &$data)
     {
-        // Show passwords
-        $data['l10n'] =& $this->_l10n;
         midcom_show_style('midcom-admin-user-generate-passwords');
     }
 }

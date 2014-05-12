@@ -36,7 +36,6 @@ class org_openpsa_products_handler_product_csvimport extends midcom_baseclasses_
 
     private function _datamanager_process(array $productdata, $object)
     {
-        $data =& $this->_request_data;
         // Load datamanager2 for the object
         if (!$this->_datamanager->set_storage($object))
         {
@@ -47,7 +46,7 @@ class org_openpsa_products_handler_product_csvimport extends midcom_baseclasses_
         foreach ($productdata as $key => $value)
         {
             if (   array_key_exists($key, $this->_datamanager->types)
-                && !in_array($key, $data['fields_to_skip']))
+                && !in_array($key, $this->_request_data['fields_to_skip']))
             {
                 $this->_datamanager->types[$key]->convert_from_csv($value);
             }
@@ -105,7 +104,7 @@ class org_openpsa_products_handler_product_csvimport extends midcom_baseclasses_
 
     private function _import_product($productdata)
     {
-        $data =& $this->_request_data;
+        $data = $this->_request_data;
 
         // Convert fields from latin-1 to MidCOM charset (usually utf-8)
         foreach ($productdata as $key => $value)

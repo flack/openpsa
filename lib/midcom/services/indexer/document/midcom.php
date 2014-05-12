@@ -57,7 +57,7 @@ class midcom_services_indexer_document_midcom extends midcom_services_indexer_do
 
         if (is_a($object, 'midcom_helper_metadata'))
         {
-            $this->_metadata =& $object;
+            $this->_metadata = $object;
         }
         else
         {

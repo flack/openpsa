@@ -63,7 +63,7 @@ implements midcom_helper_datamanager2_interfaces_create
      */
     public function _on_initialize()
     {
-        $this->_content_topic =& $this->_request_data['content_topic'];
+        $this->_content_topic = $this->_request_data['content_topic'];
     }
 
     public function load_schemadb()
@@ -187,7 +187,7 @@ implements midcom_helper_datamanager2_interfaces_create
 
         // Get the link
         $results = $qb->execute_unchecked();
-        $this->_link =& $results[0];
+        $this->_link = $results[0];
         $this->_link->require_do('midgard:delete');
 
         $this->_process_delete();
@@ -238,7 +238,7 @@ implements midcom_helper_datamanager2_interfaces_create
      */
     public function _show_delete($handler_id, array &$data)
     {
-        $data['article'] =& $this->_article;
+        $data['article'] = $this->_article;
         $nap = new midcom_helper_nav();
         $node = $nap->get_node($this->_article->topic);
 

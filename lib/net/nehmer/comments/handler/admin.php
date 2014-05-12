@@ -49,9 +49,9 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
      */
     private function _prepare_request_data()
     {
-        $this->_request_data['comments'] =& $this->_comments;
-        $this->_request_data['objectguid'] =& $this->_objectguid;
-        $this->_request_data['custom_view'] =& $this->custom_view;
+        $this->_request_data['comments'] = $this->_comments;
+        $this->_request_data['objectguid'] = $this->_objectguid;
+        $this->_request_data['custom_view'] = $this->custom_view;
     }
 
     /**
@@ -61,7 +61,7 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
     {
         $this->_load_schemadb();
         $this->_display_datamanager = new midcom_helper_datamanager2_datamanager($this->_schemadb);
-        $this->_request_data['display_datamanager'] =& $this->_display_datamanager;
+        $this->_request_data['display_datamanager'] = $this->_display_datamanager;
     }
 
     /**
@@ -286,7 +286,7 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
             foreach ($this->_comments as $comment)
             {
                 $this->_display_datamanager->autoset_storage($comment);
-                $data['comment'] =& $comment;
+                $data['comment'] = $comment;
                 $data['comment_toolbar'] = $this->_master->_populate_post_toolbar($comment, $data['handler']);
                 midcom_show_style('admin-comments-item');
             }

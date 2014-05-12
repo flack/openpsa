@@ -47,9 +47,9 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
      */
     private function _prepare_request_data($handler_id)
     {
-        $this->_request_data['message'] =& $this->_message;
-        $this->_request_data['datamanager'] =& $this->_datamanager;
-        $this->_request_data['controller'] =& $this->_controller;
+        $this->_request_data['message'] = $this->_message;
+        $this->_request_data['datamanager'] = $this->_datamanager;
+        $this->_request_data['controller'] = $this->_controller;
 
         $this->_view_toolbar->add_item
         (
@@ -165,7 +165,7 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
         $this->set_active_leaf('campaign_' . $data['campaign']->id);
 
         $this->_load_controller();
-        $data['message_dm'] =& $this->_controller;
+        $data['message_dm'] = $this->_controller;
 
         switch ($this->_controller->process_form())
         {
@@ -293,7 +293,7 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
 
                 if (count($copy_objects) > 1)
                 {
-                    $data['targets'] =& $copy_objects;
+                    $data['targets'] = $copy_objects;
                     break;
                 }
                 // Fall through
@@ -312,7 +312,7 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
      */
     public function _show_copy($handler_id, array &$data)
     {
-        $data['controller'] =& $this->_controller;
+        $data['controller'] = $this->_controller;
 
         if (count($data['targets']) > 0)
         {

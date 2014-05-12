@@ -1217,7 +1217,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
                     {
                         $cache_control .= ' must-revalidate';
                     }
-                    $pragma =& $strategy;
+                    $pragma = $strategy;
                     break;
             }
         }

@@ -26,7 +26,7 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
      */
     private function _prepare_request_data()
     {
-        $this->_request_data['product'] =& $this->_product;
+        $this->_request_data['product'] = $this->_product;
 
         $this->_view_toolbar->add_item
         (
@@ -109,7 +109,7 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
             $data['controller']->schemadb =& $data['schemadb_product'];
             $data['controller']->set_storage($this->_product);
             $data['controller']->process_ajax();
-            $data['datamanager'] =& $data['controller']->datamanager;
+            $data['datamanager'] = $data['controller']->datamanager;
         }
         else
         {

@@ -1,5 +1,5 @@
 <?php
-$node =& $data['node'];
+$node = $data['node'];
 $prefix = midcom::get()->get_host_name() . midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 ?>
 <OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/"

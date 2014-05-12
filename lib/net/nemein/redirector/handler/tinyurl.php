@@ -166,7 +166,7 @@ implements midcom_helper_datamanager2_interfaces_create
         $data['controller'] = $this->get_controller('simple', $this->_tinyurl);
         $this->_controller->schemadb =& $this->_schemadb;
         $this->_controller->set_storage($this->_tinyurl);
-        $data['tinyurl'] =& $this->_tinyurl;
+        $data['tinyurl'] = $this->_tinyurl;
 
         switch ($data['controller']->process_form())
         {
@@ -227,11 +227,11 @@ implements midcom_helper_datamanager2_interfaces_create
     {
         midcom_show_style('tinyurl-list-start');
 
-        $data['datamanager'] =& $this->_datamanager;
+        $data['datamanager'] = $this->_datamanager;
 
         foreach ($this->_tinyurls as $tinyurl)
         {
-            $data['tinyurl'] =& $tinyurl;
+            $data['tinyurl'] = $tinyurl;
             $data['datamanager']->autoset_storage($tinyurl);
             $data['view_tinyurl'] = $data['datamanager']->get_content_html();
 

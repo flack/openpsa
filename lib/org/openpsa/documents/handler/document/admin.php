@@ -127,7 +127,7 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
                 return new midcom_response_relocate("document/" . $this->_document->guid . "/");
         }
 
-        $this->_request_data['controller'] =& $this->_controller;
+        $this->_request_data['controller'] = $this->_controller;
 
         midcom::get('head')->set_pagetitle(sprintf($this->_l10n_midcom->get('edit %s'), $this->_document->title));
 

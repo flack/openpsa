@@ -121,7 +121,7 @@ class org_openpsa_calendar_handler_admin extends midcom_baseclasses_components_h
             midcom::get('head')->add_jsonload('window.opener.location.reload();');
             midcom::get('head')->add_jsonload('window.close();');
         }
-        $this->_request_data['event'] =& $this->_event;
+        $this->_request_data['event'] = $this->_event;
     }
 
     /**
@@ -144,7 +144,7 @@ class org_openpsa_calendar_handler_admin extends midcom_baseclasses_components_h
 
         // Show popup
         midcom_show_style('show-popup-header');
-        $this->_request_data['event_dm'] =& $this->_datamanager;
+        $this->_request_data['event_dm'] = $this->_datamanager;
         midcom_show_style('show-event-delete');
         midcom_show_style('show-popup-footer');
     }

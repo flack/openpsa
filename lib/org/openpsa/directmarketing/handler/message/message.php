@@ -45,9 +45,9 @@ class org_openpsa_directmarketing_handler_message_message extends midcom_basecla
 
         $this->add_breadcrumb("message/{$this->_message->guid}/", $this->_message->title);
 
-        $data['message'] =& $this->_message;
-        $data['campaign'] =& $this->_campaign;
-        $data['datamanager'] =& $this->_datamanager;
+        $data['message'] = $this->_message;
+        $data['campaign'] = $this->_campaign;
+        $data['datamanager'] = $this->_datamanager;
 
         $this->_populate_toolbar();
 

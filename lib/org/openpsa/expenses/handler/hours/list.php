@@ -167,7 +167,7 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
      */
     public function _show_list($handler_id, array &$data)
     {
-        $data['reporters'] =& $this->reporters;
+        $data['reporters'] = $this->reporters;
 
         midcom_show_style('hours_list_top');
 

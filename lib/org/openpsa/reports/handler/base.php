@@ -167,7 +167,7 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
                 return new midcom_response_relocate('');
         }
 
-        $this->_request_data['controller'] =& $this->_controller;
+        $this->_request_data['controller'] = $this->_controller;
         $this->_request_data['datamanager'] = $this->_datamanagers[$this->module];
 
         org_openpsa_helpers::dm2_savecancel($this);

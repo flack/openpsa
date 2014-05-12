@@ -27,7 +27,7 @@ class net_nehmer_static_viewer extends midcom_baseclasses_components_request
     public function _on_initialize()
     {
         $this->_determine_content_topic();
-        $this->_request_data['content_topic'] =& $this->_content_topic;
+        $this->_request_data['content_topic'] = $this->_content_topic;
 
         // View mode handler, set index viewer according to autoindex setting.
         // These, especially the general view handler, must come last, otherwise we'll hide other

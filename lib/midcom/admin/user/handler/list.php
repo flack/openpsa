@@ -199,9 +199,7 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
      */
     public function _show_list($handler_id, array &$data)
     {
-        $data['config'] =& $this->_config;
-
-        $data['persons'] =& $this->_persons;
+        $data['persons'] = $this->_persons;
         midcom_show_style('midcom-admin-user-personlist-header');
 
         foreach ($data['persons'] as $person)

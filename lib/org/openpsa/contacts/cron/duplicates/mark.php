@@ -28,7 +28,7 @@ class org_openpsa_contacts_cron_duplicates_mark extends midcom_baseclasses_compo
         ignore_user_abort();
 
         $dfinder = new org_openpsa_contacts_duplicates();
-        $dfinder->config =& $this->_config;
+        $dfinder->config = $this->_config;
         $dfinder->mark_all(false);
 
         midcom::get('auth')->drop_sudo();

@@ -179,9 +179,9 @@ class org_openpsa_relatedto_collector extends midcom_core_collector
     /**
      * Helper function that applies constraints (if any) to the final object QBs
      *
-     * @param midcom_core_querybuilder &$qb the QB instance in question
+     * @param midcom_core_querybuilder $qb the QB instance in question
      */
-    private function _apply_object_constraints(&$qb)
+    private function _apply_object_constraints($qb)
     {
         if (empty($this->_object_constraints))
         {
@@ -196,9 +196,9 @@ class org_openpsa_relatedto_collector extends midcom_core_collector
     /**
      * Helper function that applies orders (if any) to the final object QBs
      *
-     * @param midcom_core_querybuilder &$qb the QB instance in question
+     * @param midcom_core_querybuilder $qb the QB instance in question
      */
-    private function _apply_object_orders(&$qb)
+    private function _apply_object_orders($qb)
     {
         if (empty($this->_object_orders))
         {
@@ -213,9 +213,9 @@ class org_openpsa_relatedto_collector extends midcom_core_collector
     /**
      * Helper function that applies the limit (if any) to the final object QBs
      *
-     * @param midcom_core_querybuilder &$qb the QB instance in question
+     * @param midcom_core_querybuilder $qb the QB instance in question
      */
-    private function _apply_object_limit(&$qb)
+    private function _apply_object_limit($qb)
     {
         if ($this->_object_limit == 0)
         {

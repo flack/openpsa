@@ -399,7 +399,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
         $this->_component = $component;
         midcom_core_context::get()->set_custom_key('request_data', $this->_request_data);
 
-        $this->_request_data['config'] =& $this->_config;
+        $this->_request_data['config'] = $this->_config;
         $this->_request_data['topic'] = null;
         $this->_request_data['l10n'] = $this->_l10n;
         $this->_request_data['l10n_midcom'] = $this->_l10n_midcom;
@@ -713,7 +713,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
         }
 
         // Call the handler:
-        $handler =& $this->_handler['handler'][0];
+        $handler = $this->_handler['handler'][0];
         $method = "_show_{$this->_handler['handler'][1]}";
 
         $handler->$method($this->_handler['id'], $this->_request_data);

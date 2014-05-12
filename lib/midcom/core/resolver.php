@@ -166,7 +166,7 @@ class midcom_core_resolver
         $cache = midcom::get('cache');
         $cache->content->register($attachment->guid);
         $stats = $attachment->stat();
-        $last_modified =& $stats[9];
+        $last_modified = $stats[9];
         $app = midcom::get();
 
         $etag = md5("{$last_modified}{$attachment->name}{$attachment->mimetype}{$attachment->guid}");

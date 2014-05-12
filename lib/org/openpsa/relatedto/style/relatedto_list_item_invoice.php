@@ -1,6 +1,6 @@
 <?php
-$link =& $data['link'];
-$invoice =& $data['other_obj'];
+$link = $data['link'];
+$invoice = $data['other_obj'];
 
 // Sum and due date
 $paid = '';

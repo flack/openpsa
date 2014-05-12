@@ -1,5 +1,5 @@
 <?php
-$view =& $data['view_deliverable'];
+$view = $data['view_deliverable'];
 $state = $data['deliverable']->get_state();
 
 $costType = $view['costType'];

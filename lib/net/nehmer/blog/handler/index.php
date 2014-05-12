@@ -42,7 +42,7 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
      */
     public function _on_initialize()
     {
-        $this->_content_topic =& $this->_request_data['content_topic'];
+        $this->_content_topic = $this->_request_data['content_topic'];
     }
 
     /**
@@ -51,7 +51,7 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
      */
     private function _prepare_request_data()
     {
-        $this->_request_data['datamanager'] =& $this->_datamanager;
+        $this->_request_data['datamanager'] = $this->_datamanager;
     }
 
     /**
@@ -71,7 +71,7 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
 
         $this->_datamanager = new midcom_helper_datamanager2_datamanager($data['schemadb']);
         $qb = new org_openpsa_qbpager('midcom_db_article', 'net_nehmer_blog_index');
-        $data['qb'] =& $qb;
+        $data['qb'] = $qb;
         net_nehmer_blog_viewer::article_qb_constraints($qb, $data, $handler_id);
 
         // Set default page title
@@ -228,7 +228,7 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
                     continue;
                 }
 
-                $data['article'] =& $article;
+                $data['article'] = $article;
                 $data['article_counter'] = $article_counter;
 
                 $data['local_view_url'] = $prefix . $this->_master->get_url($article);

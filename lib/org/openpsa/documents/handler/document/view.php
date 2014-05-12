@@ -206,8 +206,8 @@ implements org_openpsa_widgets_grid_provider_client
         org_openpsa_widgets_ui::enable_ui_tab();
         org_openpsa_widgets_contact::add_head_elements();
 
-        $this->_request_data['document_dm'] =& $this->_datamanager;
-        $this->_request_data['document'] =& $this->_document;
+        $this->_request_data['document_dm'] = $this->_datamanager;
+        $this->_request_data['document'] = $this->_document;
 
         midcom::get('head')->set_pagetitle($this->_document->title);
 

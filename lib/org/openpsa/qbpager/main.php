@@ -118,7 +118,7 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
         $this->_request_data['display_pages'] = $this->display_pages;
         //Won't work (wrong scope), so the code is copied below.
         //midcom_show_style('show-pages');
-        $data =& $this->_request_data;
+        $data = $this->_request_data;
 
         //Skip the header in case we only have one page
         if ($data['page_count'] <= 1)
@@ -162,7 +162,7 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
             return $pages;
         }
 
-        $data =& $this->_request_data;
+        $data = $this->_request_data;
         $page_var = $data['prefix'] . 'page';
 
         $display_start = max(($data['current_page'] - ceil($data['display_pages'] / 2)), 1);

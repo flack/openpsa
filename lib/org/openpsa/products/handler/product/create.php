@@ -41,7 +41,7 @@ implements midcom_helper_datamanager2_interfaces_create
      */
     private function _prepare_request_data()
     {
-        $this->_request_data['schema'] =& $this->_schema;
+        $this->_request_data['schema'] = $this->_schema;
         $this->_request_data['schemadb'] =& $this->_schemadb;
     }
 
@@ -115,7 +115,7 @@ implements midcom_helper_datamanager2_interfaces_create
         {
             throw new midcom_error_notfound('Schema ' . $data['selected_schema'] . ' was not found in schemadb');
         }
-        $this->_schema =& $data['selected_schema'];
+        $this->_schema = $data['selected_schema'];
 
         $data['controller'] = $this->get_controller('create');
 

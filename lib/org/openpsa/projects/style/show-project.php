@@ -1,5 +1,5 @@
 <?php
-$project =& $data['object'];
+$project = $data['object'];
 $project->get_members();
 $view = $data['object_view'];
 $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);

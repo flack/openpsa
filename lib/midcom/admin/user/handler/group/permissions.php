@@ -88,7 +88,7 @@ class midcom_admin_user_handler_group_permissions extends midcom_baseclasses_com
      */
     public function _show_folders($handler_id, array &$data)
     {
-        $data['group'] =& $this->_group;
+        $data['group'] = $this->_group;
         midcom_show_style('midcom-admin-user-group-folders');
     }
 }

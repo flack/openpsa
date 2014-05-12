@@ -1,6 +1,6 @@
 <?php
-$report =& $data['report'];
-$query_data =& $data['query_data'];
+$report = $data['report'];
+$query_data = $data['query_data'];
 ?>
         <div class="org_openpsa_reports_report org_openpsa_reports_basic">
             <div class="header">

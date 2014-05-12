@@ -1,6 +1,6 @@
 <?php
-$link =& $data['link'];
-$document =& $data['other_obj'];
+$link = $data['link'];
+$document = $data['other_obj'];
 $atts = org_openpsa_helpers::get_dm2_attachments($document, 'document');
 ?>
 

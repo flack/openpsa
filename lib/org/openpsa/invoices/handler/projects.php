@@ -116,7 +116,7 @@ class org_openpsa_invoices_handler_projects extends midcom_baseclasses_component
                 $this->_customers[$task->customer] = array();
             }
 
-            $this->_customers[$task->customer][$task->id] =& $this->_tasks[$task->id];
+            $this->_customers[$task->customer][$task->id] = $this->_tasks[$task->id];
         }
 
         // Check if we're sending an invoice here

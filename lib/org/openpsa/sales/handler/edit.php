@@ -75,7 +75,7 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
         $this->_controller->schemadb =& $this->_schemadb;
         $this->_controller->schemaname = $this->_schema;
         $this->_controller->callback_object =& $this;
-        $this->_controller->defaults =& $this->_defaults;
+        $this->_controller->defaults = $this->_defaults;
         if (! $this->_controller->initialize())
         {
             throw new midcom_error("Failed to initialize a DM2 create controller.");
@@ -152,7 +152,7 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
             case 'cancel':
                 return new midcom_response_relocate("salesproject/" . $this->_salesproject->guid);
         }
-        $this->_request_data['controller'] =& $this->_controller;
+        $this->_request_data['controller'] = $this->_controller;
         $this->_request_data['salesproject'] = $this->_salesproject;
 
         // Add toolbar items
@@ -200,7 +200,7 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
             case 'cancel':
                 return new midcom_response_relocate('');
         }
-        $this->_request_data['controller'] =& $this->_controller;
+        $this->_request_data['controller'] = $this->_controller;
 
         midcom::get('head')->set_pagetitle(sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('salesproject')));
 

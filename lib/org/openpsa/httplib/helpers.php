@@ -88,7 +88,7 @@ class org_openpsa_httplib_helpers extends midcom_baseclasses_components_purecode
             }
             foreach ($property_matches[1] as $k => $property)
             {
-                $value =& $property_matches[3][$k];
+                $value = $property_matches[3][$k];
                 if (!array_key_exists($property, $tag))
                 {
                     // WTF unsupported property ??
@@ -139,7 +139,7 @@ class org_openpsa_httplib_helpers extends midcom_baseclasses_components_purecode
             }
             foreach ($property_matches[1] as $k => $property)
             {
-                $value =& $property_matches[3][$k];
+                $value = $property_matches[3][$k];
                 if (!array_key_exists($property, $tag))
                 {
                     // WTF unsupported property ??

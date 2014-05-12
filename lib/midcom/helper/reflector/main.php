@@ -476,9 +476,8 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
             return $cache[$this->mgdschema_class];
         }
         debug_add("Starting analysis for class {$this->mgdschema_class}");
-        $obj =& $this->_dummy_object;
 
-        $properties = self::get_object_fieldnames($obj);
+        $properties = self::get_object_fieldnames($this->_dummy_object);
 
         $default_properties = array
         (
@@ -506,7 +505,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
 
         if (    is_string($label_prop)
              && $label_prop != 'guid'
-             && midcom::get('dbfactory')->property_exists($obj, $label_prop))
+             && midcom::get('dbfactory')->property_exists($this->_dummy_object, $label_prop))
         {
             $search_properties[$label_prop] = true;
         }
@@ -554,8 +553,8 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         debug_add("Starting analysis for class {$this->mgdschema_class}");
 
         // Shorthands
-        $ref =& $this->_mgd_reflector;
-        $obj =& $this->_dummy_object;
+        $ref = $this->_mgd_reflector;
+        $obj = $this->_dummy_object;
 
         // Get property list and start checking (or abort on error)
         $properties = self::get_object_fieldnames($obj);

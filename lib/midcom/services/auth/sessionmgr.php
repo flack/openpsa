@@ -582,7 +582,7 @@ class midcom_services_auth_sessionmgr
                 if (   $user
                     && $user->is_online())
                 {
-                    $result[$user->guid] =& $user;
+                    $result[$user->guid] = $user;
                 }
             }
         }

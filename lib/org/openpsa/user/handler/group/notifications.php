@@ -42,7 +42,7 @@ implements midcom_helper_datamanager2_interfaces_edit
                 return new midcom_response_relocate("group/" . $group->guid . "/");
         }
 
-        $data['notifications_dm'] =& $controller;
+        $data['notifications_dm'] = $controller;
         $data['object'] = $group;
 
         midcom::get('head')->set_pagetitle($group->get_label() . ": ". $this->_l10n->get("notification settings"));

@@ -73,7 +73,7 @@ else
     {
         echo "\n<h3>" . $l10n->get('link statistics') . "</h3>\n";
         midcom_show_style('show-message-report-links-header');
-        $data['use_link_data'] =& $report['link_data'];
+        $data['use_link_data'] = $report['link_data'];
         $data['body_class'] = 'all';
         midcom_show_style('show-message-report-links-body');
         if (   isset($report['link_data']['segments'])
@@ -82,7 +82,7 @@ else
             foreach ($report['link_data']['segments'] as $segment => $segment_data)
             {
                 unset($data['use_link_data']);
-                $data['use_link_data'] =& $segment_data;
+                $data['use_link_data'] = $segment_data;
                 $data['body_class'] = 'segment';
                 $data['body_title'] = sprintf($l10n->get('segment "%s" link statistics'), $segment);
                 midcom_show_style('show-message-report-links-body');

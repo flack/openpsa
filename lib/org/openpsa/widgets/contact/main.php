@@ -136,7 +136,7 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
         $widget = new self($person);
 
         $cache[$person->guid] = $widget;
-        $cache[$person->id] =& $cache[$person->guid];
+        $cache[$person->id] = $cache[$person->guid];
         return $cache[$person->guid];
     }
 

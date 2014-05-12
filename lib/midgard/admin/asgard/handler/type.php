@@ -42,7 +42,7 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
         $type_class = $this->type;
         $dummy_type_object = new $type_class();
 
-        $dummy_objects[] =& $dummy_type_object;
+        $dummy_objects[] = $dummy_type_object;
         $resolver = new midcom_helper_reflector_tree($dummy_type_object);
         $child_classes = $resolver->get_child_classes();
         foreach ($child_classes as $child_class)

@@ -144,9 +144,9 @@ class net_nemein_wiki_handler_latest extends midcom_baseclasses_components_handl
                 {
                     foreach ($versions as $version => $history)
                     {
-                        $data['version'] =& $version;
-                        $data['history'] =& $history;
-                        $data['wikipage'] =& $history['object'];
+                        $data['version'] = $version;
+                        $data['history'] = $history;
+                        $data['wikipage'] = $history['object'];
                         midcom_show_style('view-latest-item');
                     }
                 }

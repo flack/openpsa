@@ -28,7 +28,7 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
      */
     private function _prepare_request_data()
     {
-        $this->_request_data['salesproject'] =& $this->_salesproject;
+        $this->_request_data['salesproject'] = $this->_salesproject;
 
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
         $this->_request_data['projects_url'] = $siteconfig->get_node_relative_url('org.openpsa.projects');
@@ -207,7 +207,7 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
                 foreach ($data['deliverables_objects'] as $deliverable)
                 {
                     $data['deliverable'] = $this->_controllers[$deliverable->id]->get_content_html();
-                    $data['deliverable_object'] =& $deliverable;
+                    $data['deliverable_object'] = $deliverable;
                     $data['deliverable_toolbar'] = $this->_build_deliverable_toolbar($deliverable);
                     try
                     {

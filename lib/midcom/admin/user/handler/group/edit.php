@@ -93,8 +93,8 @@ implements midcom_helper_datamanager2_interfaces_edit
                 return new midcom_response_relocate('__mfa/asgard_midcom.admin.user/');
         }
 
-        $data['group'] =& $this->_group;
-        $data['controller'] =& $controller;
+        $data['group'] = $this->_group;
+        $data['controller'] = $controller;
 
         $ref = new midcom_helper_reflector($this->_group);
         $data['view_title'] = sprintf($this->_l10n->get('edit %s'), $ref->get_object_title($this->_group));

@@ -87,7 +87,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         $this->_request_data['object'] = $this->_object;
         $this->_request_data['controller'] = $this->_controller;
         $this->_request_data['schemadb'] = $this->_schemadb;
-        $this->_request_data['datamanager'] =& $this->_datamanager;
+        $this->_request_data['datamanager'] = $this->_datamanager;
         $this->_request_data['asgard_prefix'] = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . '__mfa/asgard/';
         $this->_request_data['style_helper'] = new midgard_admin_asgard_stylehelper($this->_request_data);
     }
@@ -128,8 +128,6 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
 
         midcom::get('auth')->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
 
-        $this->_prepare_request_data();
-
         $this->_load_schemadb();
 
         // Hide the revision message
@@ -143,6 +141,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         }
 
         midgard_admin_asgard_plugin::bind_to_object($this->_object, $handler_id, $data);
+        $this->_prepare_request_data();
         return new midgard_admin_asgard_response($this, '_show_view');
     }
 
@@ -508,11 +507,8 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
     public function _handler_delete($handler_id, array $args, array &$data)
     {
         $this->_load_object($args[0]);
-
         $this->_object->require_do('midgard:delete');
         midcom::get('auth')->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
-
-        $this->_prepare_request_data();
 
         $this->_load_schemadb();
         $this->_datamanager = new midcom_helper_datamanager2_datamanager($this->_schemadb);
@@ -548,7 +544,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         }
 
         midgard_admin_asgard_plugin::bind_to_object($this->_object, $handler_id, $data);
-
+        $this->_prepare_request_data();
         $this->_add_jscripts();
         return new midgard_admin_asgard_response($this, '_show_delete');
     }

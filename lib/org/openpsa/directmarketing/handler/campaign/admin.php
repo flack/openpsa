@@ -47,9 +47,9 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
      */
     private function _prepare_request_data($handler_id)
     {
-        $this->_request_data['campaign'] =& $this->_campaign;
-        $this->_request_data['datamanager'] =& $this->_datamanager;
-        $this->_request_data['controller'] =& $this->_controller;
+        $this->_request_data['campaign'] = $this->_campaign;
+        $this->_request_data['datamanager'] = $this->_datamanager;
+        $this->_request_data['controller'] = $this->_controller;
     }
 
     /**

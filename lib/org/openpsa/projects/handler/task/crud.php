@@ -304,7 +304,7 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
      */
     public function _show_read($handler_id, array &$data)
     {
-        $data['datamanager'] =& $this->_datamanager;
+        $data['datamanager'] = $this->_datamanager;
 
         $data['task_bookings'] = $this->_list_bookings();
 

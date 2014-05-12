@@ -1,5 +1,5 @@
 <?php
-$component =& $data['component_data'];
+$component = $data['component_data'];
 $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 ?>
 

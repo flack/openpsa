@@ -54,9 +54,9 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
      */
     private function _prepare_request_data()
     {
-        $this->_request_data['article'] =& $this->_article;
-        $this->_request_data['datamanager'] =& $this->_datamanager;
-        $this->_request_data['controller'] =& $this->_controller;
+        $this->_request_data['article'] = $this->_article;
+        $this->_request_data['datamanager'] = $this->_datamanager;
+        $this->_request_data['controller'] = $this->_controller;
 
         // Populate the toolbar
         if ($this->_article->can_do('midgard:update'))
@@ -92,7 +92,7 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
      */
     public function _on_initialize()
     {
-        $this->_content_topic =& $this->_request_data['content_topic'];
+        $this->_content_topic = $this->_request_data['content_topic'];
     }
 
     /**
@@ -262,7 +262,7 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
 
         // Get the link
         $results = $qb->execute_unchecked();
-        $this->_link =& $results[0];
+        $this->_link = $results[0];
         $this->_link->require_do('midgard:delete');
 
         $this->_process_link_delete();
@@ -314,7 +314,7 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
      */
     public function _show_deletelink($handler_id, array &$data)
     {
-        $data['article'] =& $this->_article;
+        $data['article'] = $this->_article;
         $nap = new midcom_helper_nav();
         $node = $nap->get_node($this->_article->topic);
 

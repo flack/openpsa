@@ -54,9 +54,9 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
      */
     private function _prepare_request_data($handler_id)
     {
-        $this->_request_data['deliverable'] =& $this->_deliverable;
-        $this->_request_data['datamanager'] =& $this->_datamanager;
-        $this->_request_data['controller'] =& $this->_controller;
+        $this->_request_data['deliverable'] = $this->_deliverable;
+        $this->_request_data['datamanager'] = $this->_datamanager;
+        $this->_request_data['controller'] = $this->_controller;
 
         $this->_view_toolbar->add_item
         (

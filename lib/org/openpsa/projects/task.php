@@ -516,7 +516,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
     static function get_task_resources()
     {
         $resource_array = array();
-        $view_data =& midcom_core_context::get()->get_custom_key('request_data');
+        $view_data = midcom_core_context::get()->get_custom_key('request_data');
         if (!array_key_exists('task', $view_data))
         {
             return $resource_array;

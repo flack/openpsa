@@ -95,7 +95,7 @@ class org_openpsa_calendar_cron_reporthours extends midcom_baseclasses_component
                 $qb2->add_constraint('status', '=', org_openpsa_relatedto_dba::CONFIRMED);
                 $event_links[$event->guid] = $qb2->execute();
             }
-            $links =& $event_links[$event->guid];
+            $links = $event_links[$event->guid];
             // These checks are done here (instead of few lines above) on purpose
             if (empty($links))
             {

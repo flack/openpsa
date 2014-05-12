@@ -594,6 +594,10 @@ Objekt "%s" freigegeben
 Objekt "%s" gelöscht
 ---STRINGEND
 
+---STRING object deleted
+Objekt gelöscht
+---STRINGEND
+
 ---STRING objects expiring within
 Objekte mit Ablaufdatum innerhalb
 ---STRINGEND

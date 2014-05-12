@@ -1,6 +1,6 @@
 <?php
 $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
-$query =& $data['query_data'];
+$query = $data['query_data'];
 
 //TODO: See report start about output depending on context
 if (empty($query['skip_html_headings']))

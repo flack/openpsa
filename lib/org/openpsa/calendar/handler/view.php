@@ -408,7 +408,7 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
 
             // Show popup
             midcom_show_style('show-popup-header');
-            $this->_request_data['event_dm'] =& $this->_datamanager;
+            $this->_request_data['event_dm'] = $this->_datamanager;
             midcom_show_style('show-event');
             midcom_show_style('show-popup-footer');
         }

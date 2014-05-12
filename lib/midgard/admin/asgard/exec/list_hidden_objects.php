@@ -56,10 +56,10 @@ $qb->add_order('name');
 $articles = $qb->execute();
 foreach ($articles as $article)
 {
-    $node =& $nap->get_node($article->topic);
+    $node = $nap->get_node($article->topic);
     /* FIXME correct way to figure out leaf id ?
-    $leaf =& $nap->get_leaf($article->id);
-    $crumbs =& $nap->get_breadcrumb_data($leaf[MIDCOM_NAV_ID]);
+    $leaf = $nap->get_leaf($article->id);
+    $crumbs = $nap->get_breadcrumb_data($leaf[MIDCOM_NAV_ID]);
     render_breadcrumb($crumbs);
     */
     $node_crumbs = $nap->get_breadcrumb_data($node[MIDCOM_NAV_ID]);

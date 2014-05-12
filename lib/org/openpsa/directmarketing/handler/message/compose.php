@@ -54,8 +54,8 @@ class org_openpsa_directmarketing_handler_message_compose extends midcom_basecla
 
         $this->_load_datamanager();
         $this->_datamanager->autoset_storage($this->_message);
-        $data['message'] =& $this->_message;
-        $data['message_dm'] =& $this->_datamanager;
+        $data['message'] = $this->_message;
+        $data['message_dm'] = $this->_datamanager;
 
         if ($handler_id === 'compose4person')
         {

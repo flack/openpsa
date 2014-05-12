@@ -270,9 +270,9 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
      */
     function _prepare_request_data()
     {
-        $this->_request_data['object'] =& $this->_object;
-        $this->_request_data['datamanager'] =& $this->_datamanager;
-        $this->_request_data['controller'] =& $this->_controller;
+        $this->_request_data['object'] = $this->_object;
+        $this->_request_data['datamanager'] = $this->_datamanager;
+        $this->_request_data['controller'] = $this->_controller;
     }
 
     /**

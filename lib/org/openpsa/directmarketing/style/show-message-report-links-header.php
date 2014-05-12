@@ -1,12 +1,12 @@
 <?php
-$l10n =& $data['l10n'];
-$report =& $data['report'];
-$link_data =& $data['use_link_data'];
+$l10n = $data['l10n'];
+$report = $data['report'];
+$link_data = $data['use_link_data'];
 if (!isset($data['form_suffix']))
 {
     $data['form_suffix'] = '';
 }
-$form_suffix =& $data['form_suffix'];
+$form_suffix = $data['form_suffix'];
 ?>
 <style type="text/css">
 table.link_statistics th.title

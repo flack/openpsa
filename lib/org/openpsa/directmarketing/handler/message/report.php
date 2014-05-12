@@ -369,14 +369,14 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
         midcom::get('auth')->require_valid_user();
 
         $this->_message = new org_openpsa_directmarketing_campaign_message_dba($args[0]);
-        $data['message'] =& $this->_message;
+        $data['message'] = $this->_message;
 
         $this->_load_datamanager();
         $this->_datamanager->autoset_storage($this->_message);
         $data['message_array'] = $this->_datamanager->get_content_raw();
 
         $this->_campaign = $this->_master->load_campaign($this->_message->campaign);
-        $data['campaign'] =& $this->_campaign;
+        $data['campaign'] = $this->_campaign;
         $this->set_active_leaf('campaign_' . $this->_campaign->id);
 
         if (   isset($_POST['org_openpsa_directmarketing_campaign_userule'])

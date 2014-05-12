@@ -27,7 +27,7 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
     public function _on_initialize()
     {
         $this->_determine_content_topic();
-        $this->_request_data['content_topic'] =& $this->_content_topic;
+        $this->_request_data['content_topic'] = $this->_content_topic;
 
         if ($this->_config->get('view_in_url'))
         {

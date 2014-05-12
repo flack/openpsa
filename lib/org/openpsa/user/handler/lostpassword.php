@@ -68,7 +68,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      */
     private function _prepare_request_data()
     {
-        $this->_request_data['controller'] =& $this->_controller;
+        $this->_request_data['controller'] = $this->_controller;
         $this->_request_data['processing_msg'] = $this->_processing_msg;
         $this->_request_data['processing_msg_raw'] = $this->_processing_msg_raw;
     }

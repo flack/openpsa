@@ -44,6 +44,11 @@
     $groups = array();
     foreach ($memberships as $member)
     {
+        if ($member->gid == 0)
+        {
+            $groups[] = 'Midgard Administrators';
+            continue;
+        }
         try
         {
             $group = midcom_db_group::get_cached($member->gid);
@@ -56,14 +61,7 @@
         }
         catch (midcom_error $e)
         {
-            if ($member->gid == 0)
-            {
-                $groups[] = 'Midgard Administrators';
-            }
-            else
-            {
-                $groups[] = "#{$member->gid}";
-            }
+            $groups[] = "#{$member->gid}";
         }
     }
     echo "<td>" . implode(', ', $groups) . "</td>\n";

@@ -49,7 +49,7 @@ abstract class midcom_helper_datamanager2_baseclasses_filter
     public function __construct(midcom_helper_datamanager2_formmanager $formmanager, $config)
     {
         $this->_formmanager = $formmanager;
-        $this->_config =& $config;
+        $this->_config = $config;
     }
 
     /**

@@ -63,9 +63,8 @@ implements midcom_helper_datamanager2_interfaces_create
      */
     private function _prepare_request_data()
     {
-        $this->_request_data['indexmode'] =& $this->_indexmode;
-        $this->_request_data['schema'] =& $this->_schema;
-        $this->_request_data['schemadb'] =& $this->_schemadb;
+        $this->_request_data['indexmode'] = $this->_indexmode;
+        $this->_request_data['schema'] = $this->_schema;
     }
 
     /**
@@ -73,7 +72,7 @@ implements midcom_helper_datamanager2_interfaces_create
      */
     public function _on_initialize()
     {
-        $this->_content_topic =& $this->_request_data['content_topic'];
+        $this->_content_topic = $this->_request_data['content_topic'];
     }
 
     /**
@@ -87,7 +86,7 @@ implements midcom_helper_datamanager2_interfaces_create
      */
     public function load_schemadb()
     {
-        $this->_schemadb =& $this->_request_data['schemadb'];
+        $this->_schemadb = $this->_request_data['schemadb'];
         if ($this->_config->get('simple_name_handling'))
         {
             foreach (array_keys($this->_schemadb) as $name)

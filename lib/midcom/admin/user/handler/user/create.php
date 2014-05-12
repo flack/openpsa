@@ -85,7 +85,7 @@ implements midcom_helper_datamanager2_interfaces_create
      */
     public function _show_create($handler_id, array &$data)
     {
-        $data['person'] =& $this->_person;
+        $data['person'] = $this->_person;
         midcom_show_style('midcom-admin-user-person-create');
     }
 }

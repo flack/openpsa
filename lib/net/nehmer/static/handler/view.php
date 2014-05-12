@@ -18,21 +18,21 @@ class net_nehmer_static_handler_view extends midcom_baseclasses_components_handl
      *
      * @var midcom_db_topic
      */
-    private $_content_topic = null;
+    private $_content_topic;
 
     /**
      * The article to display
      *
      * @var midcom_db_article
      */
-    private $_article = null;
+    private $_article;
 
     /**
      * The Datamanager of the article to display.
      *
      * @var midcom_helper_datamanager2_datamanager
      */
-    private $_datamanager = null;
+    private $_datamanager;
 
     /**
      * Simple helper which references all important members to the request data listing
@@ -40,8 +40,8 @@ class net_nehmer_static_handler_view extends midcom_baseclasses_components_handl
      */
     private function _prepare_request_data()
     {
-        $this->_request_data['article'] =& $this->_article;
-        $this->_request_data['datamanager'] =& $this->_datamanager;
+        $this->_request_data['article'] = $this->_article;
+        $this->_request_data['datamanager'] = $this->_datamanager;
 
         // Populate the toolbar
         if ($this->_article->can_do('midgard:update'))
@@ -91,7 +91,7 @@ class net_nehmer_static_handler_view extends midcom_baseclasses_components_handl
      */
     public function _on_initialize()
     {
-        $this->_content_topic =& $this->_request_data['content_topic'];
+        $this->_content_topic = $this->_request_data['content_topic'];
     }
 
     /**

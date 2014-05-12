@@ -166,10 +166,10 @@ abstract class org_openpsa_directmarketing_importer extends midcom_baseclasses_c
 
             if (!$person->create())
             {
-                $this->_new_objects['person'] =& $person;
                 $this->_import_status['failed_create']++;
                 throw new midcom_error("Failed to create person, reason " . midcom_connection::get_error_string());
             }
+            $this->_new_objects['person'] = $person;
         }
 
         $this->_datamanager_process('person', $subscriber, $person);
@@ -242,7 +242,7 @@ abstract class org_openpsa_directmarketing_importer extends midcom_baseclasses_c
                 $this->_import_status['failed_add']++;
                 throw new midcom_error('Failed to create membership: ' . midcom_connection::get_error_string());
             }
-            $this->_new_objects['campaign_member'] =& $member;
+            $this->_new_objects['campaign_member'] = $member;
             $this->_import_status['subscribed_new']++;
         }
 

@@ -20,7 +20,7 @@ class net_nehmer_static_handler_autoindex extends midcom_baseclasses_components_
      *
      * @var midcom_db_topic
      */
-    private $_content_topic = null;
+    private $_content_topic;
 
     /**
      * The list of index entries
@@ -34,7 +34,7 @@ class net_nehmer_static_handler_autoindex extends midcom_baseclasses_components_
      */
     public function _on_initialize()
     {
-        $this->_content_topic =& $this->_request_data['content_topic'];
+        $this->_content_topic = $this->_request_data['content_topic'];
     }
 
     /**

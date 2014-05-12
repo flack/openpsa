@@ -80,8 +80,8 @@ implements midcom_helper_datamanager2_interfaces_create
                 break;
         }
 
-        $data['controller'] =& $this->_controller;
-        $data['action'] =& $this->_action;
+        $data['controller'] = $this->_controller;
+        $data['action'] = $this->_action;
 
         midcom::get()->skip_page_style = true;
 

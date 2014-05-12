@@ -1,7 +1,7 @@
 <?php
 $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
-$page =& $data['wikipage'];
-$history =& $data['history'];
+$page = $data['wikipage'];
+$history = $data['history'];
 
 $version_string = "<a href=\"{$prefix}__ais/rcs/preview/{$page->guid}/{$data['version']}\">{$data['version']}</a>";
 

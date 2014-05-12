@@ -332,7 +332,7 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
         {
             try
             {
-                $object =& midcom::get('dbfactory')->get_object_by_guid($guid);
+                $object = midcom::get('dbfactory')->get_object_by_guid($guid);
             }
             catch (midcom_error $e)
             {

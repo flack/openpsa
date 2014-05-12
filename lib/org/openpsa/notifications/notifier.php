@@ -86,7 +86,7 @@ class org_openpsa_notifications_notifier extends midcom_baseclasses_components_p
         {
             midcom::get('auth')->request_sudo($this->_component);
             $user = midcom::get('auth')->get_user($message['from']);
-            $sender =& $user->get_storage();
+            $sender = $user->get_storage();
             midcom::get('auth')->drop_sudo();
             // Avoid double dump
             unset($message['from']);

@@ -9,7 +9,7 @@
  * Example function:
  * function add_place_x($args)
  * {
- *     $map =& $args[0];
+ *     $map = $args[0];
  *     if (strpos($map->id, 'chooser_widget_map'))
  *     {
  *         // Don't add to DM2 location widget map

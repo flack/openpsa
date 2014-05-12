@@ -183,7 +183,7 @@ class org_openpsa_products_handler_product_search extends midcom_baseclasses_com
         $qb = new org_openpsa_qbpager('org_openpsa_products_product_dba', 'org_openpsa_products_product_dba');
         $qb->results_per_page = $this->_config->get('products_per_page');
         /* FIXME: It this the right way to do this? */
-        $this->_request_data['search_qb'] =& $qb;
+        $this->_request_data['search_qb'] = $qb;
 
         // Check that the object has correct schema
         $mc = new midgard_collector('midgard_parameter', 'domain', 'midcom.helper.datamanager2');

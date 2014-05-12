@@ -82,7 +82,7 @@ implements midcom_helper_datamanager2_interfaces_edit
             $data['parent_group'] = false;
         }
 
-        $data['group'] =& $this->_group;
+        $data['group'] = $this->_group;
 
         org_openpsa_helpers::dm2_savecancel($this);
         $this->bind_view_to_object($this->_group);

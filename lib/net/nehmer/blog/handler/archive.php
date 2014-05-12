@@ -55,8 +55,7 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
      */
     public function _on_initialize()
     {
-        $this->_content_topic =& $this->_request_data['content_topic'];
-        $this->_request_data['config'] =& $this->_config;
+        $this->_content_topic = $this->_request_data['content_topic'];
     }
 
     /**
@@ -65,9 +64,9 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
      */
     private function _prepare_request_data()
     {
-        $this->_request_data['datamanager'] =& $this->_datamanager;
-        $this->_request_data['start'] =& $this->_start;
-        $this->_request_data['end'] =& $this->_end;
+        $this->_request_data['datamanager'] = $this->_datamanager;
+        $this->_request_data['start'] = $this->_start;
+        $this->_request_data['end'] = $this->_end;
     }
 
     /**
@@ -164,7 +163,7 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
         $total_count = 0;
         $year_data = Array();
         $first_post = $this->_compute_welcome_first_post();
-        $this->_request_data['first_post'] =& $first_post;
+        $this->_request_data['first_post'] = $first_post;
         $this->_request_data['total_count'] =& $total_count;
         $this->_request_data['year_data'] =& $year_data;
         if (! $first_post)
@@ -490,7 +489,7 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
                     continue;
                 }
 
-                $data['article'] =& $article;
+                $data['article'] = $article;
                 $data['article_counter'] = $article_counter;
                 $data['article_count'] = $total_count;
                 $data['local_view_url'] = $prefix . $this->_master->get_url($article);

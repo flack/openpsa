@@ -141,7 +141,7 @@ implements midcom_services_permalinks_resolver, org_openpsa_contacts_duplicates_
         switch (true)
         {
             case midcom::get('dbfactory')->is_a($from_object, 'org_openpsa_calendar_event_dba'):
-                $event =& $from_object;
+                $event = $from_object;
                 $hr->date = $event->start;
                 $hr->hours = round((($event->end - $event->start) / 3600), 2);
                 // TODO: Localize ? better indicator that this is indeed from event ??

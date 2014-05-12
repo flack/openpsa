@@ -56,7 +56,7 @@ implements midcom_helper_datamanager2_interfaces_create
      */
     public function _on_initialize()
     {
-        $this->_content_topic =& $this->_request_data['content_topic'];
+        $this->_content_topic = $this->_request_data['content_topic'];
     }
 
     /**

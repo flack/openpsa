@@ -35,7 +35,7 @@ class org_openpsa_directmarketing_handler_message_list extends midcom_baseclasse
         $this->_campaign = $this->_master->load_campaign($args[1]);
         $this->set_active_leaf('campaign_' . $this->_campaign->id);
 
-        $data['campaign'] =& $this->_campaign;
+        $data['campaign'] = $this->_campaign;
         $this->_load_datamanager();
     }
 
@@ -50,13 +50,13 @@ class org_openpsa_directmarketing_handler_message_list extends midcom_baseclasse
         $qb->add_constraint('campaign', '=', $this->_campaign->id);
 
         $ret = $qb->execute();
-        $data['qbpager'] =& $qb;
+        $data['qbpager'] = $qb;
         midcom_show_style("show-message-list-header");
 
         foreach ($ret as $message)
         {
             $this->_datamanager->autoset_storage($message);
-            $data['message'] =& $message;
+            $data['message'] = $message;
             $data['message_array'] = $this->_datamanager->get_content_html();
             $data['message_class'] = $message->get_css_class();
             midcom_show_style('show-message-list-item');

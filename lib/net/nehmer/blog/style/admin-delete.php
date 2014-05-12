@@ -1,6 +1,6 @@
 <?php
-$dn_data= $data['datamanager']->get_content_html();
-$data['view_article'] =& $dn_data;
+$dn_data = $data['datamanager']->get_content_html();
+$data['view_article'] = $dn_data;
 ?>
 
 <h2><?php echo $data['l10n']->get('delete article'); ?>: &(dn_data['title']);</h2>

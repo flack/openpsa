@@ -1,6 +1,6 @@
 <?php
-$link =& $data['link'];
-$task =& $data['other_obj'];
+$link = $data['link'];
+$task = $data['other_obj'];
 ?>
 
 <li class="&(data['type']);" id="org_openpsa_relatedto_line_&(link['guid']);">

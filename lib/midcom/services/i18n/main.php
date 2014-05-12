@@ -404,7 +404,7 @@ class midcom_services_i18n
         $obj->set_language($this->_current_language);
         $obj->set_charset($this->_current_charset);
         $obj->set_fallback_language($this->_fallback_language);
-        $this->_obj_l10n[$cacheid] =& $obj;
+        $this->_obj_l10n[$cacheid] = $obj;
     }
 
     /**

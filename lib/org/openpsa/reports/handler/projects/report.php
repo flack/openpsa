@@ -325,7 +325,7 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
             if (array_key_exists($this->_request_data['query_data']['grouping'], $this->_valid_groupings))
             {
                 debug_add('Setting grouping to: ' . $this->_request_data['query_data']['grouping']);
-                $this->_grouping =& $this->_request_data['query_data']['grouping'];
+                $this->_grouping = $this->_request_data['query_data']['grouping'];
             }
             else
             {
@@ -334,7 +334,7 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
         }
 
         // Put grouping to request data
-        $this->_request_data['grouping'] =& $this->_grouping;
+        $this->_request_data['grouping'] = $this->_grouping;
 
         //Get our results
         $results_hr = $this->_get_hour_reports();
@@ -376,11 +376,11 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
         foreach ($data as $row)
         {
             $row['level'] = $level;
-            $this->_request_data['current_row'] =& $row;
+            $this->_request_data['current_row'] = $row;
             if (   array_key_exists('is_group', $row)
                 && $row['is_group'] == true)
             {
-                $this->_request_data['current_group'] =& $row;
+                $this->_request_data['current_group'] = $row;
                 //Indented to make style flow clearer
                 midcom_show_style("projects_report{$bpr}-group-start");
                     midcom_show_style("projects_report{$bpr}-group-header");

@@ -397,8 +397,7 @@ class midcom_helper_reflector_nameresolver
             // This sibling class does not use names
             return false;
         }
-        $resolver =& midcom_helper_reflector_tree::get($schema_type);
-        $qb = $resolver->_root_objects_qb(false);
+        $qb = midcom_helper_reflector_tree::get($schema_type)->_root_objects_qb(false);
         if (!$qb)
         {
             return false;

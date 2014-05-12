@@ -40,8 +40,8 @@ class net_nehmer_blog_handler_view extends midcom_baseclasses_components_handler
      */
     private function _prepare_request_data()
     {
-        $this->_request_data['article'] =& $this->_article;
-        $this->_request_data['datamanager'] =& $this->_datamanager;
+        $this->_request_data['article'] = $this->_article;
+        $this->_request_data['datamanager'] = $this->_datamanager;
 
         // Populate the toolbar
         if ($this->_article->can_do('midgard:update'))
@@ -91,8 +91,7 @@ class net_nehmer_blog_handler_view extends midcom_baseclasses_components_handler
      */
     public function _on_initialize()
     {
-        $this->_content_topic =& $this->_request_data['content_topic'];
-        $this->_request_data['config'] =& $this->_config;
+        $this->_content_topic = $this->_request_data['content_topic'];
     }
 
     /**

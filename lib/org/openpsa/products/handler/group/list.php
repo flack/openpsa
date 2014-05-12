@@ -179,7 +179,7 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
                 $data['controller']->schemadb =& $data['schemadb_group'];
                 $data['controller']->set_storage($data['group']);
                 $data['controller']->process_ajax();
-                $data['datamanager_group'] =& $data['controller']->datamanager;
+                $data['datamanager_group'] = $data['controller']->datamanager;
             }
             else
             {
@@ -467,8 +467,7 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
         }
 
         $this->_request_data['products'] = $product_qb->execute();
-
-        $this->_request_data['products_qb'] =& $product_qb;
+        $this->_request_data['products_qb'] = $product_qb;
     }
 
     /**

@@ -1,7 +1,7 @@
 <?php
 $l10n = $data['l10n'];
-$report =& $data['report'];
-$link_data =& $data['use_link_data'];
+$report = $data['report'];
+$link_data = $data['use_link_data'];
 if (!isset($data['form_suffix']))
 {
     $data['form_suffix'] = '';

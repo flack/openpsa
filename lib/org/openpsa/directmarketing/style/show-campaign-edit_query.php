@@ -1,13 +1,13 @@
 <?php
-$current_rules =& $data['campaign']->rules;
-if (isset($data['new_rule_from'])
+$current_rules = $data['campaign']->rules;
+if (   isset($data['new_rule_from'])
     && is_array($data['new_rule_from']))
 {
-    $generated_from =& $data['new_rule_from'];
+    $generated_from = $data['new_rule_from'];
 }
 else if (array_key_exists('generated_from', $current_rules))
 {
-    $generated_from =& $current_rules['generated_from'];
+    $generated_from = $current_rules['generated_from'];
 }
 else
 {

@@ -41,7 +41,7 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
         {
             $config = midcom_baseclasses_components_configuration::get('org.openpsa.products', 'config');
         }
-        $object =& $dm->storage->object;
+        $object = $dm->storage->object;
         if (!is_object($topic))
         {
             $topic = new midcom_db_topic($topic);

@@ -62,7 +62,7 @@ class org_openpsa_documents_handler_document_create extends midcom_baseclasses_c
         $this->_controller->schemadb =& $this->_schemadb;
         $this->_controller->schemaname = $this->_schema;
         $this->_controller->callback_object =& $this;
-        $this->_controller->defaults =& $this->_defaults;
+        $this->_controller->defaults = $this->_defaults;
         if (! $this->_controller->initialize())
         {
             throw new midcom_error("Failed to initialize a DM2 create controller.");
@@ -129,7 +129,7 @@ class org_openpsa_documents_handler_document_create extends midcom_baseclasses_c
             case 'cancel':
                 return new midcom_response_relocate('');
         }
-        $this->_request_data['controller'] =& $this->_controller;
+        $this->_request_data['controller'] = $this->_controller;
 
         // Add toolbar items
         org_openpsa_helpers::dm2_savecancel($this);

@@ -448,7 +448,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
                 return new midcom_response_relocate("__mfa/asgard/components/configuration/{$data['name']}/");
         }
 
-        $data['controller'] =& $this->_controller;
+        $data['controller'] = $this->_controller;
 
         if ($handler_id == '____mfa-asgard-components_configuration_edit_folder')
         {

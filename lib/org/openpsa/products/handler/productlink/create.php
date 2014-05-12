@@ -40,8 +40,7 @@ class org_openpsa_products_handler_productlink_create extends midcom_baseclasses
      */
     private function _prepare_request_data()
     {
-        $this->_request_data['indexmode'] =& $this->_indexmode;
-        $this->_request_data['schema'] =& $this->_schema;
+        $this->_request_data['schema'] = $this->_schema;
         $this->_request_data['schemadb'] =& $this->_schemadb;
     }
 
@@ -114,7 +113,7 @@ class org_openpsa_products_handler_productlink_create extends midcom_baseclasses
         {
             throw new midcom_error_notfound('Invalid schema selected');
         }
-        $this->_schema =& $data['selected_schema'];
+        $this->_schema = $data['selected_schema'];
 
         $data['controller'] = $this->get_controller('create');
 

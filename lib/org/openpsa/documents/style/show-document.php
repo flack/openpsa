@@ -1,5 +1,5 @@
 <?php
-$view =& $data['document_dm'];
+$view = $data['document_dm'];
 ?>
 <div class="sidebar">
     <?php midcom_show_style("show-directory-navigation"); ?>

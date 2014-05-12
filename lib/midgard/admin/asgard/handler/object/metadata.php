@@ -36,8 +36,8 @@ implements midcom_helper_datamanager2_interfaces_edit
      */
     private function _prepare_request_data()
     {
-        $this->_request_data['object'] =& $this->_object;
-        $this->_request_data['controller'] =& $this->_controller;
+        $this->_request_data['object'] = $this->_object;
+        $this->_request_data['controller'] = $this->_controller;
     }
 
     public function get_schema_name()

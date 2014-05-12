@@ -1,6 +1,6 @@
 <?php
 $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
-$project =& $data['project'];
+$project = $data['project'];
 $manager_card = org_openpsa_widgets_contact::get($project->manager);
 ?>
 <tr>

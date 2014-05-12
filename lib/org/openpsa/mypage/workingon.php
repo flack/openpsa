@@ -58,7 +58,7 @@ class org_openpsa_mypage_workingon
         else
         {
             // TODO: Check that this is really a person object
-            $this->person =& $person;
+            $this->person = $person;
         }
 
         // Figure out what the person is working on

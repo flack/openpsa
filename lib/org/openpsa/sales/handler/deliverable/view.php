@@ -33,8 +33,8 @@ class org_openpsa_sales_handler_deliverable_view extends midcom_baseclasses_comp
      */
     private function _prepare_request_data()
     {
-        $this->_request_data['deliverable'] =& $this->_deliverable;
-        $this->_request_data['salesproject'] =& $this->_salesproject;
+        $this->_request_data['deliverable'] = $this->_deliverable;
+        $this->_request_data['salesproject'] = $this->_salesproject;
 
         // Populate the toolbar
         $this->_view_toolbar->add_item

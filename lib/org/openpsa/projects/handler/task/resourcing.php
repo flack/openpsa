@@ -26,7 +26,7 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
      */
     private function _prepare_request_data($handler_id)
     {
-        $this->_request_data['task'] =& $this->_task;
+        $this->_request_data['task'] = $this->_task;
 
         $this->_view_toolbar->add_item
         (

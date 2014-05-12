@@ -49,8 +49,7 @@ class net_nehmer_blog_handler_feed extends midcom_baseclasses_components_handler
      */
     public function _on_initialize()
     {
-        $this->_content_topic =& $this->_request_data['content_topic'];
-        $this->_request_data['config'] =& $this->_config;
+        $this->_content_topic = $this->_request_data['content_topic'];
     }
 
     /**
@@ -176,7 +175,7 @@ class net_nehmer_blog_handler_feed extends midcom_baseclasses_components_handler
      */
     public function _show_feed($handler_id, array &$data)
     {
-        $data['feedcreator'] =& $this->_feed;
+        $data['feedcreator'] = $this->_feed;
 
         // Add each article now.
         if ($this->_articles)
@@ -184,8 +183,8 @@ class net_nehmer_blog_handler_feed extends midcom_baseclasses_components_handler
             foreach ($this->_articles as $article)
             {
                 $this->_datamanager->autoset_storage($article);
-                $data['article'] =& $article;
-                $data['datamanager'] =& $this->_datamanager;
+                $data['article'] = $article;
+                $data['datamanager'] = $this->_datamanager;
                 midcom_show_style('feeds-item');
             }
         }

@@ -18,14 +18,14 @@ class net_nehmer_comments_handler_moderate extends midcom_baseclasses_components
      *
      * @var net_nehmer_comments_comment
      */
-    private $_comment = null;
+    private $_comment;
 
     /**
      * The GUID of the object we're bound to.
      *
      * @var string GUID
      */
-    private $_objectguid = null;
+    private $_objectguid;
 
     /**
      * Simple helper which references all important members to the request data listing
@@ -33,8 +33,8 @@ class net_nehmer_comments_handler_moderate extends midcom_baseclasses_components
      */
     function _prepare_request_data()
     {
-        $this->_request_data['objectguid'] =& $this->_objectguid;
-        $this->_request_data['comment'] =& $this->_comment;
+        $this->_request_data['objectguid'] = $this->_objectguid;
+        $this->_request_data['comment'] = $this->_comment;
     }
 
     /**

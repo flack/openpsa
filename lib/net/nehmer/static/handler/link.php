@@ -19,37 +19,28 @@ implements midcom_helper_datamanager2_interfaces_create
      *
      * @var midcom_db_topic
      */
-    private $_content_topic = null;
+    private $_content_topic;
 
     /**
      * The article which has been created
      *
      * @var midcom_db_article
      */
-    private $_article = null;
+    private $_article;
 
     /**
      * The article link which has been created
      *
      * @var net_nehmer_static_link_dba
      */
-    private $_link = null;
-
-    /**
-     * Simple helper which references all important members to the request data listing
-     * for usage within the style listing.
-     */
-    private function _prepare_request_data()
-    {
-        $this->_request_data['indexmode'] =& $this->_indexmode;
-    }
+    private $_link;
 
     /**
      * Maps the content topic from the request data to local member variables.
      */
     public function _on_initialize()
     {
-        $this->_content_topic =& $this->_request_data['content_topic'];
+        $this->_content_topic = $this->_request_data['content_topic'];
     }
 
     public function load_schemadb()
@@ -121,7 +112,6 @@ implements midcom_helper_datamanager2_interfaces_create
                 return new midcom_response_relocate('');
         }
 
-        $this->_prepare_request_data();
         $title = sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('article link'));
         midcom::get('head')->set_pagetitle("{$this->_topic->extra}: {$title}");
         $this->add_breadcrumb("create/link/", sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('article link')));

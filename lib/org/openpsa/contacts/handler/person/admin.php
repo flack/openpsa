@@ -54,9 +54,9 @@ class org_openpsa_contacts_handler_person_admin extends midcom_baseclasses_compo
      */
     private function _prepare_request_data($handler_id)
     {
-        $this->_request_data['person'] =& $this->_contact;
-        $this->_request_data['datamanager'] =& $this->_datamanager;
-        $this->_request_data['controller'] =& $this->_controller;
+        $this->_request_data['person'] = $this->_contact;
+        $this->_request_data['datamanager'] = $this->_datamanager;
+        $this->_request_data['controller'] = $this->_controller;
 
         $this->_view_toolbar->add_item
         (

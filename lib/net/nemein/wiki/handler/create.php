@@ -81,11 +81,11 @@ implements midcom_helper_datamanager2_interfaces_create
 
         if (!empty($resolved['latest_parent']))
         {
-            $to_node =& $resolved['latest_parent'];
+            $to_node = $resolved['latest_parent'];
         }
         else
         {
-            $to_node =& $resolved['folder'];
+            $to_node = $resolved['folder'];
         }
         $created_page = false;
         switch (true)
@@ -116,7 +116,7 @@ implements midcom_helper_datamanager2_interfaces_create
 
                 if (count($results) == 1)
                 {
-                    $article =& $results[0];
+                    $article = $results[0];
                     $article->name = 'index';
                     $article->topic = $topic->id;
                     if (!$article->update())

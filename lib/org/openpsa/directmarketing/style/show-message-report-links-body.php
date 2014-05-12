@@ -1,17 +1,17 @@
 <?php
-$l10n =& $data['l10n'];
-$report =& $data['report'];
-$link_data =& $data['use_link_data'];
+$l10n = $data['l10n'];
+$report = $data['report'];
+$link_data = $data['use_link_data'];
 if (!isset($data['form_suffix']))
 {
     $data['form_suffix'] = '';
 }
-$form_suffix =& $data['form_suffix'];
+$form_suffix = $data['form_suffix'];
 if (!isset($data['body_title']))
 {
     $data['body_title'] = '';
 }
-$body_title =& $data['body_title'];
+$body_title = $data['body_title'];
 if (!isset($data['body_class']))
 {
     $data['body_class'] = '';

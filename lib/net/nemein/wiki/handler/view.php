@@ -50,7 +50,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
             $this->_controller->schemadb =& $this->_request_data['schemadb'];
             $this->_controller->set_storage($this->_page);
             $this->_controller->process_ajax();
-            $this->_datamanager =& $this->_controller->datamanager;
+            $this->_datamanager = $this->_controller->datamanager;
         }
         else
         {
@@ -329,7 +329,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
         {
             $data['wikipage_view'] = $this->_datamanager->get_content_html();
         }
-        $data['wikipage'] =& $this->_page;
+        $data['wikipage'] = $this->_page;
         if ($this->_config->get('autogenerate_toc'))
         {
             $data['wikipage_view']['content'] = $this->_autogenerate_toc($data['wikipage_view']['content']);

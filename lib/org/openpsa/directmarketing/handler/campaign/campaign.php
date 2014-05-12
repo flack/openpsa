@@ -41,8 +41,8 @@ class org_openpsa_directmarketing_handler_campaign_campaign extends midcom_basec
 
         $this->set_active_leaf('campaign_' . $this->_campaign->id);
 
-        $this->_request_data['campaign'] =& $this->_campaign;
-        $this->_request_data['datamanager'] =& $this->_datamanager;
+        $this->_request_data['campaign'] = $this->_campaign;
+        $this->_request_data['datamanager'] = $this->_datamanager;
 
         org_openpsa_widgets_contact::add_head_elements();
         $this->_populate_toolbar();
@@ -152,7 +152,7 @@ class org_openpsa_directmarketing_handler_campaign_campaign extends midcom_basec
         $qb->add_order('person.email', 'ASC');
         $qb->add_order('person.id', 'ASC');
 
-        $data['campaign_members_qb'] =& $qb;
+        $data['campaign_members_qb'] = $qb;
         $data['memberships'] = $qb->execute_unchecked();
         $data['campaign_members_count'] =  $qb->count_unchecked();
 

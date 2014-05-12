@@ -70,7 +70,7 @@ implements midcom_helper_datamanager2_interfaces_edit
      */
     public function _show_edit($handler_id, array &$data)
     {
-        $data['person'] =& $this->_person;
+        $data['person'] = $this->_person;
 
         midcom_show_style('calendar-filter-chooser');
     }
