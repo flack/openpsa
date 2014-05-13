@@ -25,12 +25,12 @@ class midcom_services_rcs_renderer_html_sidebyside extends Diff_Renderer_Html_Ar
         {
             return $this->html;
         }
-        $ln = midcom::get('i18n')->get_l10n("midcom");
+
         $this->html .= '<table class="Differences DifferencesSideBySide">';
         $this->html .= '<thead>';
         $this->html .= '<tr>';
-        $this->html .= '<th colspan="2">' . $ln->get("Old Version") . '</th>';
-        $this->html .= '<th colspan="2">' . $ln->get("New Version") . '</th>';
+        $this->html .= '<th colspan="2">' . $this->options['old'] . '</th>';
+        $this->html .= '<th colspan="2">' . $this->options['new'] . '</th>';
         $this->html .= '</tr>';
         $this->html .= '</thead>';
         $this->html .= '<tbody>';

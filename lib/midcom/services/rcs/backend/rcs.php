@@ -565,7 +565,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
                 }
                 else
                 {
-                    $renderer = new midcom_services_rcs_renderer_html_sidebyside;
+                    $renderer = new midcom_services_rcs_renderer_html_sidebyside(array('old' => $oldest_revision, 'new' => $latest_revision));
                 }
 
                 if ($lines1 != $lines2)
