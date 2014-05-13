@@ -823,8 +823,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         }
         try
         {
-            $resolver = self::get($object);
-            return $resolver->get_name_property_nonstatic($object);
+            self::$_cache['name'][$key] = self::get($object)->get_name_property_nonstatic($object);
         }
         catch (midcom_error $e)
         {

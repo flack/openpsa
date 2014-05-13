@@ -286,19 +286,17 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
      */
     public static function get_parent($object)
     {
-        $parent_object = false;
-        $dba_parent_callback = array($object, 'get_parent');
-        if (is_callable($dba_parent_callback))
+        if (method_exists($object, 'get_parent'))
         {
-            $parent_object = $object->get_parent();
             /**
              * The object might have valid reasons for returning empty value here, but we can't know if it's
              * because it's valid or because the get_parent* methods have not been overridden in the actually
              * used class
              */
+            return $object->get_parent();
         }
 
-        return $parent_object;
+        return false;
     }
 
     function _get_parent_objectresolver($object, $property)

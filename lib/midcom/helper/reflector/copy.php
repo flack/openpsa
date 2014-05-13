@@ -154,29 +154,27 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
     {
         $mgdschema_class = midcom_helper_reflector::resolve_baseclass(get_class($object));
 
-        if (isset($this->properties[$mgdschema_class]))
+        if (!isset($this->properties[$mgdschema_class]))
         {
-            return $this->properties[$mgdschema_class];
-        }
+            // Get property list and start checking (or abort on error)
+            if (midcom::get('dbclassloader')->is_midcom_db_object($object))
+            {
+                $properties = $object->get_object_vars();
+            }
+            else
+            {
+                $helper = new helper;
+                $properties = $helper->get_all_properties($object);
+            }
 
-        // Get property list and start checking (or abort on error)
-        if (midcom::get('dbclassloader')->is_midcom_db_object($object))
-        {
-            $properties = $object->get_object_vars();
-        }
-        else
-        {
-            $helper = new helper;
-            $properties = $helper->get_all_properties($object);
-        }
+            $return = array_diff($properties, array('id', 'guid', 'metadata'));
 
-        $return = array_diff($properties, array('id', 'guid', 'metadata'));
-
-        // Cache them
-        $this->properties[$mgdschema_class] = $return;
+            // Cache them
+            $this->properties[$mgdschema_class] = $return;
+        }
 
         // ...and return
-        return $return;
+        return $this->properties[$mgdschema_class];
     }
 
     /**

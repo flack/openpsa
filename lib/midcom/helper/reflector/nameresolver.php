@@ -44,8 +44,7 @@ class midcom_helper_reflector_nameresolver
             return false;
         }
         // Make copy via typecast, very important or we might accidentally manipulate the given object
-        $name_copy = (string)$this->_object->{$name_property};
-        return $name_copy;
+        return (string)$this->_object->{$name_property};
     }
 
     /**
