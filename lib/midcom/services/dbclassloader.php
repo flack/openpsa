@@ -53,13 +53,6 @@
 class midcom_services_dbclassloader
 {
     /**
-     * The filename of the class definition currently being read.
-     *
-     * @var string
-     */
-    private $_class_definition_filename = '';
-
-    /**
      * List of all midgard classes which have been loaded.
      *
      * This list only contains the class definitions that have been used to
@@ -93,13 +86,7 @@ class midcom_services_dbclassloader
     {
         if (is_null($definition_list))
         {
-            $this->_create_class_definition_filename($component, $filename);
-            $contents = $this->_read_class_definition_file();
-            $result = eval ("\$definition_list = Array ( {$contents} \n );");
-            if ($result === false)
-            {
-                throw new midcom_error("Failed to parse the class definition file '{$this->_class_definition_filename}', see above for PHP errors.");
-            }
+            $definition_list = $this->_read_class_definition_file($component, $filename);;
         }
 
         $this->_register_loaded_classes($definition_list, $component);
@@ -129,46 +116,33 @@ class midcom_services_dbclassloader
     }
 
     /**
-     * Little helper which converts a component / filename combination into a fully
-     * qualified path/filename.
-     *
-     * The filename is assigned to the $_class_definition_filename member variable of this class.
-     *
-     * @param string $component The name of the component for which the class file has to be loaded. The path must
-     *     resolve with the component loader unless you use 'midcom' to load MidCOM core class definition files.
-     */
-    function _create_class_definition_filename($component, $filename)
-    {
-        if ($component == 'midcom')
-        {
-            $this->_class_definition_filename = MIDCOM_ROOT . "/midcom/config/{$filename}";
-        }
-        else
-        {
-            $this->_class_definition_filename = midcom::get('componentloader')->path_to_snippetpath($component) . "/config/{$filename}";
-        }
-    }
-
-    /**
      * This helper function loads a class definition file from the disk and
      * returns its contents.
      *
-     * The source must be stored in the $_class_definition_filename
-     * member.
-     *
      * It will translate component and filename into a full path and delivers
-     * the contents verbatim.
+     * the contents as an array.
      *
-     * @return string The contents of the file.
+     * @param string $component The name of the component for which the class file has to be loaded. The path must
+     *     resolve with the component loader unless you use 'midcom' to load MidCOM core class definition files.
+     * @return array The contents of the file.
      */
-    function _read_class_definition_file()
+    private function _read_class_definition_file($component, $filename)
     {
-        if (! file_exists($this->_class_definition_filename))
+        if ($component == 'midcom')
         {
-            throw new midcom_error("Failed to access the file {$this->_class_definition_filename}: File does not exist.");
+            $filename = MIDCOM_ROOT . "/midcom/config/{$filename}";
+        }
+        else
+        {
+            $filename = midcom::get('componentloader')->path_to_snippetpath($component) . "/config/{$filename}";
+        }
+        if (! file_exists($filename))
+        {
+            throw new midcom_error("Failed to access the file {$filename}: File does not exist.");
         }
 
-        return file_get_contents($this->_class_definition_filename);
+        $contents = file_get_contents($filename);
+        return midcom_helper_misc::parse_config($contents);
     }
 
     /**
