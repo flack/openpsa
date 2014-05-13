@@ -176,7 +176,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         return new midgard_admin_asgard_response($this, '_show_edit_account');
     }
 
-    public function _save_account(midcom_helper_datamanager2_controller $controller)
+    private function _save_account(midcom_helper_datamanager2_controller $controller)
     {
         $password = $controller->formmanager->_types['password']->value;
         $username = $controller->formmanager->_types['username']->value;

@@ -392,7 +392,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
             $info_id = "urlmethod_" . str_replace('.php', '', $file);
 
             $data[$file]['url'] = '/midcom-exec-' . $component . '/' . $file;
-            $data[$file]['description'] = midcom_admin_help_help::get_help_contents($info_id, $component);
+            $data[$file]['description'] = self::get_help_contents($info_id, $component);
 
             if (midcom_admin_help_help::help_exists($info_id, $component))
             {
@@ -626,7 +626,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
             midcom::get('componentloader')->load($data['component']);
         }
 
-        $data['view_title'] = sprintf($this->_l10n->get('help for %s'), midcom::get('i18n')->get_string($data['component'], $data['component']));
+        $data['view_title'] = sprintf($this->_l10n->get('help for %s'), $this->_i18n->get_string($data['component'], $data['component']));
         midcom::get('head')->set_pagetitle($data['view_title']);
 
         $data['help_files'] = $this->list_files($data['component']);
@@ -687,7 +687,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         (
             $this->_l10n->get('help for %s in %s'),
             self::get_help_title($data['help_id'], $data['component']),
-            midcom::get('i18n')->get_string($data['component'], $data['component'])
+            $this->_i18n->get_string($data['component'], $data['component'])
         );
         midcom::get('head')->set_pagetitle($data['view_title']);
         $this->_prepare_breadcrumb($handler_id);

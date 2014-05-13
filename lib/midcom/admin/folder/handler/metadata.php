@@ -124,8 +124,8 @@ class midcom_admin_folder_handler_metadata extends midcom_baseclasses_components
     public function _show_metadata($handler_id, array &$data)
     {
         // Bind object details to the request data
-        $data['controller'] =& $this->_controller;
-        $data['object'] =& $this->_object;
+        $data['controller'] = $this->_controller;
+        $data['object'] = $this->_object;
 
         if (   is_a($this->_object, 'midcom_db_topic')
             && !empty($this->_object->symlink))

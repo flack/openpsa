@@ -230,8 +230,8 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
             $this->_request_data['title'] = sprintf($this->_l10n->get('edit folder %s'), $this->_topic->get_label());
         }
 
-        $this->_request_data['topic'] =& $this->_topic;
-        $this->_request_data['controller'] =& $this->_controller;
+        $this->_request_data['topic'] = $this->_topic;
+        $this->_request_data['controller'] = $this->_controller;
     }
 
     private function _update_topic($prefix, $old_name)

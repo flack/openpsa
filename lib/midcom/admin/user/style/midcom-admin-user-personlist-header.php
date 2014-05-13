@@ -9,11 +9,7 @@
     <input type="submit" value="<?php echo $data['l10n']->get('go'); ?>" />
     <div class="helptext">
         <?php
-        $data['search_fields_l10n'] = array();
-        foreach ($data['search_fields'] as $field)
-        {
-            $data['search_fields_l10n'][] = $data['l10n']->get($field);
-        }
+        $data['search_fields_l10n'] = array_map(array($data['l10n'], 'get'), $data['search_fields']);
         echo sprintf($data['l10n']->get('the following fields will be searched: %s'), implode(', ', $data['search_fields_l10n']));
         ?>
     </div>

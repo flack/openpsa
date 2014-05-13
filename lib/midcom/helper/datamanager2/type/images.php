@@ -632,13 +632,13 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
             if (   is_array($a)
                 && is_array($b))
             {
-                foreach ($a as $data)
+                foreach ($a as $key => $data)
                 {
                     if (   !empty($data['object'])
-                        && !empty($data['object']))
+                        && !empty($b[$key]['object']))
                     {
                         $a_obj = $data['object'];
-                        $b_obj = $data['object'];
+                        $b_obj = $b[$key]['object'];
                         break;
                     }
                 }

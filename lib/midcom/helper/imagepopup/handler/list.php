@@ -120,7 +120,7 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
         }
 
         $this->_controller->initialize();
-        $this->_request_data['form'] = & $this->_controller;
+        $this->_request_data['form'] = $this->_controller;
         switch ($this->_controller->process_form())
         {
             case 'cancel':
@@ -183,46 +183,40 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
      */
     private function _load_schema()
     {
-        $schema = array
+        return array
         (
-            'description' => 'generated schema',
-            'fields' => array
+            $this->_request_data['schema_name'] => new midcom_helper_datamanager2_schema
             (
-                'midcom_helper_imagepopup_images' => array
+                array
                 (
-                    'title' => $this->_l10n->get('images'),
-                    'storage' => null,
-                    'type' => 'images',
-                    'widget' => 'images',
-                    'widget_config' => array
+                    $this->_request_data['schema_name'] => array
                     (
-                        'set_name_and_title_on_upload' => false
-                    ),
-                ),
+                        'description' => 'generated schema',
+                        'fields' => array
+                        (
+                            'midcom_helper_imagepopup_images' => array
+                            (
+                                'title' => $this->_l10n->get('images'),
+                                'storage' => null,
+                                'type' => 'images',
+                                'widget' => 'images',
+                                'widget_config' => array
+                                (
+                                    'set_name_and_title_on_upload' => false
+                                ),
+                            ),
 
-                'midcom_helper_imagepopup_files' => array
-                (
-                    'title' => $this->_l10n->get('files'),
-                    'storage' => null,
-                    'type' => 'blobs',
-                    'widget' => 'downloads',
+                            'midcom_helper_imagepopup_files' => array
+                            (
+                                'title' => $this->_l10n->get('files'),
+                                'storage' => null,
+                                'type' => 'blobs',
+                                'widget' => 'downloads',
+                            )
+                        )
+                    )
                 )
             )
         );
-
-        $schema_object = new midcom_helper_datamanager2_schema
-        (
-            array
-            (
-                $this->_request_data['schema_name'] => $schema
-            )
-        );
-
-        $schemadb = Array
-        (
-            $this->_request_data['schema_name'] => $schema_object
-        );
-
-        return $schemadb;
     }
 }
