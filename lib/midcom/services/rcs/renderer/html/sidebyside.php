@@ -43,45 +43,44 @@ class midcom_services_rcs_renderer_html_sidebyside extends Diff_Renderer_Html_Ar
                 $this->html .= '</tr>';
             }
 
-            foreach($blocks as $change) {
+            foreach ($blocks as $change)
+            {
+                $from_offset = $change['base']['offset'] + 1;
+                $to_offset = $change['changed']['offset'] + 1;
+
                 // Equal changes should be shown on both sides of the diff
-                if($change['tag'] == 'equal') {
+                if ($change['tag'] == 'equal') {
                     foreach($change['base']['lines'] as $no => $line) {
-                        $fromLine = $change['base']['offset'] + $no + 1;
-                        $toLine = $change['changed']['offset'] + $no + 1;
-                        $this->add_line($change['tag'], $fromLine, $line, $toLine, $line);
+                        $this->add_line($change['tag'], $from_offset + $no, $line, $to_offset + $no, $line);
                     }
                 }
                 // Added lines only on the right side
                 else if($change['tag'] == 'insert') {
                     foreach($change['changed']['lines'] as $no => $line) {
-                        $toLine = $change['changed']['offset'] + $no + 1;
-                        $this->add_line($change['tag'], '&nbsp;', '&nbsp;', $toLine, '<ins>' . $line . '</ins>');
+                        $this->add_line($change['tag'], '&nbsp;', '&nbsp;', $to_offset + $no, '<ins>' . $line . '</ins>');
                     }
                 }
                 // Show deleted lines only on the left side
                 else if($change['tag'] == 'delete') {
                     foreach($change['base']['lines'] as $no => $line) {
-                        $fromLine = $change['base']['offset'] + $no + 1;
-                        $this->add_line($change['tag'], $fromLine, '<del>' . $line . '</del>');
+                        $this->add_line($change['tag'], $from_offset + $no, '<del>' . $line . '</del>');
                     }
                 }
                 // Show modified lines on both sides
                 else if($change['tag'] == 'replace') {
                     if(count($change['base']['lines']) >= count($change['changed']['lines'])) {
                         foreach($change['base']['lines'] as $no => $line) {
-                            $fromLine = $change['base']['offset'] + $no + 1;
                             if(!isset($change['changed']['lines'][$no])) {
                                 $toLine = '&nbsp;';
                                 $changedLine = '&nbsp;';
                             }
                             else {
                                 $line = '<del>' . $line . '</del>';
-                                $toLine = $change['base']['offset'] + $no + 1;
+                                $toLine = $to_offset + $no;
                                 $changedLine = '<ins>'.$change['changed']['lines'][$no].'</ins>';
                             }
 
-                            $this->add_line($change['tag'], $fromLine, $line, $toLine, $changedLine);
+                            $this->add_line($change['tag'], $from_offset + $no, $line, $toLine, $changedLine);
                         }
                     }
                     else {
@@ -91,11 +90,10 @@ class midcom_services_rcs_renderer_html_sidebyside extends Diff_Renderer_Html_Ar
                                 $line = '<span>&nbsp;</span>';
                             }
                             else {
-                                $fromLine = $change['base']['offset'] + $no + 1;
+                                $fromLine = $from_offset + $no;
                                 $line = '<span>'.$change['base']['lines'][$no].'</span>';
                             }
-                            $toLine = $change['changed']['offset'] + $no + 1;
-                            $this->add_line($change['tag'], $fromLine, $line, $toLine, $changedLine);
+                            $this->add_line($change['tag'], $fromLine, $line, $to_offset + $no, $changedLine);
                         }
                     }
                 }
