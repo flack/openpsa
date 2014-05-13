@@ -307,9 +307,7 @@ class midcom_helper_nav
     function resolve_guid($guid, $node_is_sufficient = false)
     {
         // First, check if the GUID is already known by the backend:
-        $cached_result = $this->_backend->get_loaded_object_by_guid($guid);
-
-        if ($cached_result)
+        if ($cached_result = $this->_backend->get_loaded_object_by_guid($guid))
         {
             debug_add('The GUID was already known by the backend instance, returning the cached copy directly.');
             return $cached_result;
@@ -343,18 +341,9 @@ class midcom_helper_nav
                     debug_add("The GUID {$guid} leads to an unknown topic not in our tree.", MIDCOM_LOG_WARN);
                     return false;
                 }
-
-                $topic = midcom_db_topic::get_cached($object->topic);
-
-                $leaves = $this->list_leaves($object->topic, true);
-
-                foreach ($leaves as $leafid)
+                if ($leaf = $this->_find_leaf_in_topic($object->topic, $guid))
                 {
-                    $leaf = $this->get_leaf($leafid);
-                    if ($leaf[MIDCOM_NAV_GUID] == $guid)
-                    {
-                        return $leaf;
-                    }
+                    return $leaf;
                 }
 
                 debug_add("The Article GUID {$guid} is somehow hidden from the NAP data in its topic, no results shown.", MIDCOM_LOG_INFO);
@@ -368,18 +357,12 @@ class midcom_helper_nav
 
         // Ok, unfortunately, this is not an immediate topic. We try to traverse
         // upwards in the object chain to find a topic.
-        $topic = $this->find_closest_topic($object);
-        if ($topic !== null)
+        if ($topic = $this->find_closest_topic($object))
         {
             debug_add("Found topic #{$topic->id}, searching the leaves");
-            $leaves = $this->list_leaves($topic->id, true);
-            foreach ($leaves as $leafid)
+            if ($leaf = $this->_find_leaf_in_topic($topic->id, $guid))
             {
-                $leaf = $this->get_leaf($leafid);
-                if ($leaf[MIDCOM_NAV_GUID] == $guid)
-                {
-                    return $leaf;
-                }
+                return $leaf;
             }
             if ($node_is_sufficient)
             {
@@ -398,15 +381,9 @@ class midcom_helper_nav
             $node_id = array_shift($unprocessed_node_ids);
 
             // Check leaves of this node first.
-            $leaves = $this->list_leaves($node_id, true);
-
-            foreach ($leaves as $leafid)
+            if ($leaf = $this->_find_leaf_in_topic($node_id, $guid))
             {
-                $leaf = $this->get_leaf($leafid);
-                if ($leaf[MIDCOM_NAV_GUID] == $guid)
-                {
-                    return $leaf;
-                }
+                return $leaf;
             }
 
             // Ok, append all subnodes to the queue.
@@ -414,6 +391,19 @@ class midcom_helper_nav
         }
 
         debug_add("We were unable to find the GUID {$guid} in the MidCOM tree even with a full scan.", MIDCOM_LOG_INFO);
+        return false;
+    }
+
+    private function _find_leaf_in_topic($topic, $guid)
+    {
+        foreach ($this->list_leaves($topic, true) as $leafid)
+        {
+            $leaf = $this->get_leaf($leafid);
+            if ($leaf[MIDCOM_NAV_GUID] == $guid)
+            {
+                return $leaf;
+            }
+        }
         return false;
     }
 

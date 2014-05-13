@@ -457,10 +457,9 @@ class midcom_core_context
             $configs[$context_id] = array();
         }
 
-        $path = $this->get_key(MIDCOM_CONTEXT_COMPONENT);
-
         if (!isset($configs[$context_id][$object->guid]))
         {
+            $path = $this->get_key(MIDCOM_CONTEXT_COMPONENT);
             $configs[$context_id][$object->guid] = new midcom_helper_configuration($object, $path);
         }
 

@@ -33,10 +33,7 @@ class midcom_db_event extends midcom_core_dbaobject
         {
             return $this->title;
         }
-        else
-        {
-            return strftime('%x', $this->start) . " {$this->title}";
-        }
+        return strftime('%x', $this->start) . " {$this->title}";
     }
 
     /**

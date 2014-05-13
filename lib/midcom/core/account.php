@@ -398,10 +398,7 @@ class midcom_core_account
             }
             return $result[0];
         }
-        else
-        {
-            return $this->_person;
-        }
+        return $this->_person;
     }
 
     private function _is_username_unique()

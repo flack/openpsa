@@ -35,10 +35,7 @@ class midcom_helper_datamanager2_qfrule_checkjsdate extends HTML_QuickForm_Rule
             {
                 return false;
             }
-            else
-            {
-                $date .= $time;
-            }
+            $date .= $time;
         }
 
         /*
@@ -67,9 +64,7 @@ class midcom_helper_datamanager2_qfrule_checkjsdate extends HTML_QuickForm_Rule
             $date_array = explode("-", $date_time[0]);
         }
 
-        $ret = checkdate($date_array[1], $date_array[2], $date_array[0]);
-
-        return $ret;
+        return checkdate($date_array[1], $date_array[2], $date_array[0]);
     }
 
     private function _sanitize_time($value, $options)

@@ -502,31 +502,28 @@ EOT;
         {
             return $this->_translate('type select: no selection');
         }
-        else
+        $labels = array();
+        foreach ($selection as $key)
         {
-            $labels = array();
-            foreach ($selection as $key)
+            if ($this->id_field == 'id')
             {
-                if ($this->id_field == 'id')
-                {
-                    $key = (int) $key;
-                }
-                try
-                {
-                    $object = new $this->class($key);
-                }
-                catch (midcom_error $e)
-                {
-                    $e->log();
-                    continue;
-                }
-
-                $ref = new midcom_helper_reflector($object);
-
-                $labels[] = $ref->get_object_label($object);
+                $key = (int) $key;
             }
-            return implode(', ', $labels);
+            try
+            {
+                $object = new $this->class($key);
+            }
+            catch (midcom_error $e)
+            {
+                $e->log();
+                continue;
+            }
+
+            $ref = new midcom_helper_reflector($object);
+
+            $labels[] = $ref->get_object_label($object);
         }
+        return implode(', ', $labels);
     }
 
     public static function create_item_label($object, $result_headers, $get_label_for)

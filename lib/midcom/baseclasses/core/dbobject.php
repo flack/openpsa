@@ -1193,9 +1193,7 @@ class midcom_baseclasses_core_dbobject
 
         // Clean up internal marker and empty arrays
         unset($copy['__midcom_baseclasses_core_dbobject_all']);
-        $copy = array_filter($copy, 'count');
-
-        return $copy;
+        return array_filter($copy, 'count');
     }
 
     /**
@@ -1457,9 +1455,7 @@ class midcom_baseclasses_core_dbobject
         {
             $assignee = $assignee->id;
         }
-        $obj = midcom_core_privilege::get_privilege($object, $privilege, $assignee, $classname);
-
-        return $obj;
+        return midcom_core_privilege::get_privilege($object, $privilege, $assignee, $classname);
     }
 
     /**

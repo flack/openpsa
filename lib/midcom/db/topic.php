@@ -26,10 +26,7 @@ class midcom_db_topic extends midcom_core_dbaobject
         {
             return $this->name;
         }
-        else
-        {
-            return '#' . $this->id;
-        }
+        return '#' . $this->id;
     }
 }
 ?>

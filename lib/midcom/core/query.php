@@ -307,22 +307,18 @@ abstract class midcom_core_query
      */
     public function add_order($field, $direction = 'ASC')
     {
-        $result = $this->_query->add_order($field, $direction);
-
-        if (! $result)
+        if (!$this->_query->add_order($field, $direction))
         {
             debug_add("Failed to execute add_order for column '{$field}', midgard error: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
+            return false;
         }
-        else
-        {
-            $this->_orders[] = array
-            (
-                'field' => $field,
-                'direction' => $direction
-            );
-        }
+        $this->_orders[] = array
+        (
+            'field' => $field,
+            'direction' => $direction
+        );
 
-        return $result;
+        return true;
     }
 
     /**

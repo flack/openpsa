@@ -161,10 +161,7 @@ class midcom_db_person extends midcom_core_dbaobject
         {
             return $this->username;
         }
-        else
-        {
-            return '#' . $this->id;
-        }
+        return '#' . $this->id;
     }
 
     /**

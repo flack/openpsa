@@ -379,9 +379,7 @@ class midcom_core_privilege
      */
     public static function get_all_privileges($guid)
     {
-        $return = array_merge(self::get_content_privileges($guid), self::get_self_privileges($guid));
-
-        return $return;
+        return array_merge(self::get_content_privileges($guid), self::get_self_privileges($guid));
     }
 
     /**
@@ -643,7 +641,6 @@ class midcom_core_privilege
                 {
                     return false;
                 }
-                $this->_invalidate_cache();
             }
             else
             {
@@ -672,45 +669,36 @@ class midcom_core_privilege
             $this->_invalidate_cache();
             return true;
         }
-        else
+
+        $object = $this->get_object();
+        $privilege = $this->get_privilege($object, $this->privilegename, $this->assignee, $this->classname);
+        if (!empty($privilege->__guid))
         {
-            $object = $this->get_object();
-            $privilege = $this->get_privilege($object, $this->privilegename, $this->assignee, $this->classname);
-            if (!empty($privilege->__guid))
+            $privilege->value = $this->value;
+            if (!$privilege->store())
             {
-                $privilege->value = $this->value;
-                if (!$privilege->store())
-                {
-                    debug_add('Update of the existing privilege failed.', MIDCOM_LOG_WARN);
-                    return false;
-                }
-                $this->__guid = $privilege->__guid;
-                $this->objectguid = $privilege->objectguid;
-                $this->privilegename = $privilege->privilegename;
-                $this->assignee = $privilege->assignee;
-                $this->classname = $privilege->classname;
-                $this->value = $privilege->value;
-
-                $this->_invalidate_cache();
-
-                return true;
+                debug_add('Update of the existing privilege failed.', MIDCOM_LOG_WARN);
+                return false;
             }
-            else
-            {
-                $result = $this->__privilege_object->create();
-                if ($result)
-                {
-                    $this->__guid = $this->__privilege_object->guid;
-                    $this->_invalidate_cache();
-                }
-                else
-                {
-                    debug_add('Creating new privilege failed: ' . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
-                }
+            $this->__guid = $privilege->__guid;
+            $this->objectguid = $privilege->objectguid;
+            $this->privilegename = $privilege->privilegename;
+            $this->assignee = $privilege->assignee;
+            $this->classname = $privilege->classname;
+            $this->value = $privilege->value;
 
-                return $result;
-            }
+            $this->_invalidate_cache();
+            return true;
         }
+
+        if (!$this->__privilege_object->create())
+        {
+            debug_add('Creating new privilege failed: ' . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
+            return false;
+        }
+        $this->__guid = $this->__privilege_object->guid;
+        $this->_invalidate_cache();
+        return true;
     }
 
     /**
