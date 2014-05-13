@@ -8,7 +8,7 @@ sudo apt-get install rcs
 if [ "$MIDGARD_EXT_VERSION" != "portable" ]
 then
     # Install Pake
-    ${COMPOSER} install indeyets/pake
+    ${COMPOSER} create-project indeyets/pake
 
     # Install Midgard2 library dependencies
     sudo apt-get install -y dbus libgda-4.0-4 libgda-4.0-dev libxml2-dev libdbus-1-dev libdbus-glib-1-dev
