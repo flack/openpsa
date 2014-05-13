@@ -14,7 +14,6 @@
 class org_openpsa_directmarketing_handler_message_list extends midcom_baseclasses_components_handler
 {
     private $_campaign = false;
-    private $_list_type = false;
 
     /**
      * Internal helper, loads the datamanager for the current message. Any error triggers a 500.
@@ -31,7 +30,6 @@ class org_openpsa_directmarketing_handler_message_list extends midcom_baseclasse
     public function _handler_list ($handler_id, array $args, array &$data)
     {
         midcom::get('auth')->require_valid_user();
-        $this->_list_type = $args[0];
         $this->_campaign = $this->_master->load_campaign($args[1]);
         $this->set_active_leaf('campaign_' . $this->_campaign->id);
 

@@ -41,6 +41,10 @@ implements midcom_helper_datamanager2_interfaces_create
     public function load_schemadb()
     {
         $this->_schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_message'));
+        if (!array_key_exists($this->_schema, $this->_schemadb))
+        {
+            throw new midcom_error_notfound('The type ' . $this->_schema . ' isn\'t available in the schemadb');
+        }
         return $this->_schemadb;
     }
 
@@ -84,12 +88,6 @@ implements midcom_helper_datamanager2_interfaces_create
         $this->set_active_leaf('campaign_' . $data['campaign']->id);
 
         $this->_schema = $args[1];
-        $this->load_schemadb();
-
-        if (!array_key_exists($this->_schema, $this->_schemadb))
-        {
-            throw new midcom_error_notfound('The type ' . $this->_schema . ' isn\'t available in the schemadb');
-        }
 
         $data['controller'] = $this->get_controller('create');
 
