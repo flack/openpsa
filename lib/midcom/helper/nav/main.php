@@ -283,9 +283,7 @@ class midcom_helper_nav
         }
 
         $nav_object = midcom_helper_nav_itemlist::factory($navorder, $this, $parent_node_id);
-        $result = $nav_object->get_sorted_list();
-
-        return $result;
+        return $nav_object->get_sorted_list();
     }
 
     /**

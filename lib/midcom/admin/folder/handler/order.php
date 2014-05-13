@@ -94,7 +94,7 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
         if (!$object->metadata->set('score', $score))
         {
             // Show an error message on an update failure
-            $reflector =& midcom_helper_reflector::get($object);
+            $reflector = midcom_helper_reflector::get($object);
             $title = $reflector->get_class_label() . ' ' . $reflector->get_object_label($object);
             midcom::get('uimessages')->add($this->_l10n->get('midcom.admin.folder'), sprintf($this->_l10n->get('failed to update %s due to: %s'), $title, midcom_connection::get_error_string()), 'error');
             return false;
@@ -170,7 +170,7 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
      */
     public function _show_order($handler_id, array &$data)
     {
-        $data['navorder'] = $this->_topic->get_parameter('midcom.helper.nav', 'navorder');
+        $data['navorder'] = (int) $this->_topic->get_parameter('midcom.helper.nav', 'navorder');
 
         // Navorder list for the selection
         $data['navorder_list'] = array
@@ -208,18 +208,11 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
         // Initialize the midcom_helper_nav or navigation access point
         $nap = new midcom_helper_nav();
 
-        switch ((int) $this->_topic->get_parameter('midcom.helper.nav', 'navorder'))
+        switch ($this->_request_data['navorder'])
         {
             case MIDCOM_NAVORDER_DEFAULT:
-                $ret['nodes'] = array();
                 $nodes = $nap->list_nodes($nap->get_current_node());
-
-                foreach ($nodes as $id => $node_id)
-                {
-                    $node = $nap->get_node($node_id);
-                    $node[MIDCOM_NAV_TYPE] = 'node';
-                    $ret['nodes'][$id] = $node;
-                }
+                $ret['nodes'] = array_map(array($nap, 'get_node'), $nodes);
                 break;
 
             case MIDCOM_NAVORDER_TOPICSFIRST:
@@ -233,7 +226,6 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
 
             case MIDCOM_NAVORDER_ARTICLESFIRST:
                 // Sort the array to have the leaves first
-
                 if (!isset($ret['leaves']))
                 {
                     $ret = array
@@ -245,48 +237,17 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
 
                 // Get the nodes
                 $nodes = $nap->list_nodes($nap->get_current_node());
-
-                foreach ($nodes as $id => $node_id)
-                {
-                    $node = $nap->get_node($node_id);
-                    $node[MIDCOM_NAV_TYPE] = 'node';
-                    $ret['nodes'][$id] = $node;
-                }
+                $ret['nodes'] = array_map(array($nap, 'get_node'), $nodes);
 
                 // Get the leafs
                 $leaves = $nap->list_leaves($nap->get_current_node());
-
-                foreach ($leaves as $id => $leaf_id)
-                {
-                    $leaf = $nap->get_leaf($leaf_id);
-                    $leaf[MIDCOM_NAV_TYPE] = 'leaf';
-                    $ret['leaves'][$id] = $leaf;
-                }
+                $ret['leaves'] = array_map(array($nap, 'get_leaf'), $leaves);
                 break;
 
             case MIDCOM_NAVORDER_SCORE:
             default:
-                $ret['mixed'] = array();
-
                 // Get the navigation items
-                $items = $nap->list_child_elements($nap->get_current_node());
-
-                foreach ($items as $id => $item)
-                {
-                    if ($item[MIDCOM_NAV_TYPE] === 'node')
-                    {
-                        $element = $nap->get_node($item[MIDCOM_NAV_ID]);
-                    }
-                    else
-                    {
-                        $element = $nap->get_leaf($item[MIDCOM_NAV_ID]);
-                    }
-
-                    // Store the type information
-                    $element[MIDCOM_NAV_TYPE] = $item[MIDCOM_NAV_TYPE];
-
-                    $ret['mixed'][] = $element;
-                }
+                $ret['mixed'] = $nap->list_child_elements($nap->get_current_node());
                 break;
         }
 
