@@ -38,8 +38,8 @@ class midcom_services_rcs_renderer_html_sidebyside extends Diff_Renderer_Html_Ar
         foreach($changes as $i => $blocks) {
             if($i > 0) {
                 $this->html .= '<tr class="Skipped">';
-                $this->html .= '<th>&hellip;</th><td>&nbsp;</td>';
-                $this->html .= '<th>&hellip;</th><td>&nbsp;</td>';
+                $this->html .= '<th class="line-number">&hellip;</th><td>&nbsp;</td>';
+                $this->html .= '<th class="line-number">&hellip;</th><td>&nbsp;</td>';
                 $this->html .= '</tr>';
             }
 
@@ -107,9 +107,9 @@ class midcom_services_rcs_renderer_html_sidebyside extends Diff_Renderer_Html_Ar
     private function add_line($tag, $from_no, $from_content, $to_no = '&nbsp;', $to_content = '&nbsp;')
     {
         $this->html .= '<tr class="' . $tag . '">';
-        $this->html .= '<th>' . $from_no . '</th>';
+        $this->html .= '<th class="line-number">' . $from_no . '</th>';
         $this->html .= '<td class="Left">' . $from_content . '&nbsp;</td>';
-        $this->html .= '<th>' . $to_no . '</th>';
+        $this->html .= '<th class="line-number">' . $to_no . '</th>';
         $this->html .= '<td class="Right">' . $to_content . '</td>';
         $this->html .= '</tr>';
     }

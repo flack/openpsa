@@ -12,3 +12,16 @@ dl.no_bergfald_rcs_diff span.inserted
     background-color: #e0ffa0;
     color: #000000;
 }
+
+dl.no_bergfald_rcs_diff .line-number
+{
+    color: #555;
+    font-weight: normal;
+    text-align: right;
+    padding-right: .7em;
+}
+
+dl.no_bergfald_rcs_diff tbody tr:hover
+{
+    background-color: #ffc
+}

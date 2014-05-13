@@ -18,6 +18,30 @@ dl.midgard_admin_asgard_rcs_diff dd
     white-space: pre-wrap
 }
 
+dl.midgard_admin_asgard_rcs_diff table
+{
+    width: 90%
+}
+dl.midgard_admin_asgard_rcs_diff .Right,
+dl.midgard_admin_asgard_rcs_diff .Left
+{
+    width: 45%
+}
+
+dl.midgard_admin_asgard_rcs_diff .line-number
+{
+    text-align: right;
+    color: #444;
+    font-weight: normal;
+    padding-right: .7em;
+    vertical-align: top;
+}
+
+dl.midgard_admin_asgard_rcs_diff td
+{
+    vertical-align: top;
+}
+
 div.rcs_navigation
 {
   text-align: center;
@@ -34,17 +58,7 @@ div.rcs_navigation ul li
 {
   display: inline;
   padding: 0 0.5em;
-/*
-  border-left: solid 1px #000000;
-*/
 }
-
-/*
-div.rcs_navigation ul li.last_item
-{
-  border-right: solid 1px #000000;
-}
-*/
 
 div.rcs_navigation ul li img,
 div.rcs_navigation ul li a img
