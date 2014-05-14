@@ -451,14 +451,11 @@ class midcom_services_auth_acl
 
         $cache_id = $user->id . '::' . $classname;
 
-        if (array_key_exists($cache_id, $cache))
+        if (!array_key_exists($cache_id, $cache))
         {
-            return $cache[$cache_id];
+            $tmp_object = new $classname;
+            $cache[$cache_id] = $user->get_per_class_privileges($tmp_object);
         }
-
-        $tmp_object = new $classname;
-
-        $cache[$cache_id] = $user->get_per_class_privileges($tmp_object);
 
         return $cache[$cache_id];
     }

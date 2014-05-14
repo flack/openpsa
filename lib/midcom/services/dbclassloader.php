@@ -335,25 +335,17 @@ class midcom_services_dbclassloader
         if ($classname == midcom::get('config')->get('person_class'))
         {
             $component = 'midcom';
-        }
-        else
-        {
-            $component = $this->get_component_for_class($classname);
-        }
-
-        if (!$component)
-        {
-            debug_add("Component for class {$classname} cannot be found", MIDCOM_LOG_WARN);
-            $dba_classes_by_mgdschema[$classname] = false;
-            return false;
-        }
-
-        if ($component == 'midcom')
-        {
             $definitions = $this->get_midgard_classes();
         }
         else
         {
+            $component = $this->get_component_for_class($classname);
+            if (!$component)
+            {
+                debug_add("Component for class {$classname} cannot be found", MIDCOM_LOG_WARN);
+                $dba_classes_by_mgdschema[$classname] = false;
+                return false;
+            }
             $definitions = $this->get_component_classes($component);
         }
 
@@ -380,21 +372,19 @@ class midcom_services_dbclassloader
     {
         static $mapping = array();
 
-        if (array_key_exists($classname, $mapping))
+        if (!array_key_exists($classname, $mapping))
         {
-            return $mapping[$classname];
-        }
+            $mapping[$classname] = false;
 
-        $mapping[$classname] = false;
-
-        if (class_exists($classname))
-        {
-            $dummy_object = new $classname();
-            if (!$this->is_midcom_db_object($dummy_object))
+            if (class_exists($classname))
             {
-                return false;
+                $dummy_object = new $classname();
+                if (!$this->is_midcom_db_object($dummy_object))
+                {
+                    return false;
+                }
+                $mapping[$classname] = $dummy_object->__mgdschema_class_name__;
             }
-            $mapping[$classname] = $dummy_object->__mgdschema_class_name__;
         }
 
         return $mapping[$classname];

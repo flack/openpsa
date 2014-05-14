@@ -728,18 +728,14 @@ class midcom_helper_metadata
         {
             if (is_array($source))
             {
-                if (   array_key_exists(MIDCOM_NAV_GUID, $source)
-                    && ! is_null($source[MIDCOM_NAV_GUID]))
-                {
-                    $guid = $source[MIDCOM_NAV_GUID];
-                    $object = $source[MIDCOM_NAV_OBJECT];
-                }
-                else
+                if (   !array_key_exists(MIDCOM_NAV_GUID, $source)
+                    || is_null($source[MIDCOM_NAV_GUID]))
                 {
                     debug_print_r('We got an invalid input, cannot return metadata:', $source);
-
                     return false;
                 }
+                $guid = $source[MIDCOM_NAV_GUID];
+                $object = $source[MIDCOM_NAV_OBJECT];
             }
             else
             {
@@ -764,9 +760,7 @@ class midcom_helper_metadata
         }
 
         // $object is now populated, too
-        $meta = new self($guid, $object, midcom::get('config')->get('metadata_schema'));
-
-        return $meta;
+        return new self($guid, $object, midcom::get('config')->get('metadata_schema'));
     }
 
     /**

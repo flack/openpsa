@@ -518,6 +518,5 @@ class midcom_services_metadata
 
         return $meta;
     }
-
 }
 ?>

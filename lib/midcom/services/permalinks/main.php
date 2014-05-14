@@ -124,8 +124,7 @@ class midcom_services_permalinks
                 // which point to the outside f.x.
                 if ($nav->is_node_in_tree($parent->id, $nav->get_root_node()))
                 {
-                    $return_value = $this->_resolve_permalink_in_topic($parent, $object);
-                    if ($return_value !== null)
+                    if ($return_value = $this->_resolve_permalink_in_topic($parent, $object))
                     {
                         return $return_value;
                     }
@@ -143,8 +142,7 @@ class midcom_services_permalinks
         $topics = $topic_qb->execute();
         foreach ($topics as $topic)
         {
-            $result = $this->_resolve_permalink_in_topic($topic, $object);
-            if ($result !== null)
+            if ($result = $this->_resolve_permalink_in_topic($topic, $object))
             {
                 return $result;
             }
