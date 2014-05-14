@@ -526,14 +526,12 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
             try
             {
                 $tag = net_nemein_tag_tag_dba::get_cached($link->tag);
+                $link_object_map[$link->fromGuid]['links'][$tag->tag] = $link;
             }
             catch (midcom_error $e)
             {
                 $e->log();
-                continue;
             }
-
-            $link_object_map[$link->fromGuid]['links'][$tag->tag] = $link;
         }
 
         // For AND matches, make sure we have all the required tags.
@@ -595,7 +593,6 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
      */
     public static function string2tag_array($from_string)
     {
-        $tag_array = array();
         // Clean all whitespace sequences to single space
         $tags_string = preg_replace('/\s+/', ' ', $from_string);
         // Parse the tags string byte by byte
@@ -627,11 +624,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
             $current_tag .= $char;
         }
         $tags = array_filter(array_map('trim', $tags));
-        foreach ($tags as $tag)
-        {
-            $tag_array[$tag] = '';
-        }
-        return $tag_array;
+        return array_fill_keys($tags, '');
     }
 
     /**
@@ -642,19 +635,16 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
      */
     public static function tag_array2string($tags)
     {
-        $ret = '';
-        foreach (array_keys($tags) as $tag)
+        $tags = array_keys($tags);
+        foreach ($tags as &$tag)
         {
             if (strpos($tag, ' '))
             {
                 // This tag contains whitespace, surround with quotes
                 $tag = "\"{$tag}\"";
             }
-
-            // Simply place the tags into a string
-            $ret .= "{$tag} ";
         }
-        return trim($ret);
+        return implode(' ', $tags);
     }
 
     /**
@@ -695,7 +685,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
 
         if ($delete)
         {
-            $from_tag->delete();
+            return $from_tag->delete();
         }
 
         return true;

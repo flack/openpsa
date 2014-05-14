@@ -143,16 +143,14 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
 
         foreach ($items as $item)
         {
-            $guid = $this->import_item($item);
-
-            if (!$guid)
-            {
-                debug_add("Failed to import item " . $item->get_id() . ': ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-            }
-            else
+            if ($guid = $this->import_item($item))
             {
                 $item->set_local_guid($guid);
                 debug_add("Imported item " . $item->get_id() . ' as ' . $guid, MIDCOM_LOG_INFO);
+            }
+            else
+            {
+                debug_add("Failed to import item " . $item->get_id() . ': ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
             }
         }
 
