@@ -44,6 +44,7 @@
     <?php
     $file_url = midcom::get('permalinks')->create_attachment_link($data['file']->guid, $data['file']->name);
     $mime_icon = midcom_helper_misc::get_mime_icon($data['file']->mimetype);
+    $stat = $data['file']->stat();
     ?>
     <fieldset>
         <legend><?php echo $data['l10n']->get('file information'); ?></legend>
@@ -51,7 +52,7 @@
         <div class="icon">
             <a href="&(file_url);">
                 <img src="&(mime_icon);" />
-                <?php echo midcom_helper_misc::filesize_to_string($data['file']->metadata->size) . " {$data['file']->mimetype}"; ?>
+                <?php echo midcom_helper_misc::filesize_to_string($stat[7]) . " {$data['file']->mimetype}"; ?>
             </a>
         </div>
 

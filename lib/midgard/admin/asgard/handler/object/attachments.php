@@ -120,28 +120,26 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
             $local_file = $this->_file;
         }
 
-        $success = true;
+        $needs_update = false;
 
         if (   !empty($_POST['midgard_admin_asgard_filename'])
             && $local_file->name != $_POST['midgard_admin_asgard_filename'])
         {
             $local_file->name = $_POST['midgard_admin_asgard_filename'];
-
-            if (!$local_file->update())
-            {
-                $success = false;
-            }
+            $needs_update = true;
         }
 
         if (   !empty($_POST['midgard_admin_asgard_mimetype'])
             && $local_file->mimetype != $_POST['midgard_admin_asgard_mimetype'])
         {
             $local_file->mimetype = $_POST['midgard_admin_asgard_mimetype'];
+            $needs_update = true;
+        }
 
-            if (!$local_file->update())
-            {
-                $success = false;
-            }
+        if (   $needs_update
+            && !$local_file->update())
+        {
+            return false;
         }
 
         // We should always store at least an empty string so it can be edited later
@@ -152,11 +150,6 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
         }
 
         if (!$local_file->copy_from_memory($contents))
-        {
-            $success = false;
-        }
-
-        if (!$success)
         {
             return false;
         }
