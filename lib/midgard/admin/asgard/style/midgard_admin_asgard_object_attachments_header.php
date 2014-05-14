@@ -53,7 +53,7 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
                 {
                     echo "<td>&nbsp;</td>\n";
                 }
-                $stat = $data['file']->stat();
+                $stat = $file->stat();
                 echo "  <td>" . midcom_helper_misc::filesize_to_string($stat[7]) . "</td>\n";
                 echo "  <td>\n";
                 $class = "";
