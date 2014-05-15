@@ -177,15 +177,13 @@ class org_openpsa_projects_handler_project_crud extends midcom_baseclasses_compo
      */
     function & dm2_create_callback(&$controller)
     {
-        $project = new org_openpsa_projects_project();
+        $this->_object = new org_openpsa_projects_project();
 
-        if (! $project->create())
+        if (! $this->_object->create())
         {
-            debug_print_r('We operated on this object:', $project);
+            debug_print_r('We operated on this object:', $this->_object);
             throw new midcom_error("Failed to create a new project. Error: " . midcom_connection::get_error_string());
         }
-
-        $this->_object = new org_openpsa_projects_project($project->id);
 
         return $this->_object;
     }

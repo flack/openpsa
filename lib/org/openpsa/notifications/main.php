@@ -103,15 +103,7 @@ class org_openpsa_notifications extends midcom_baseclasses_components_purecode
         if (   count($personal_preferences) > 0
             && array_key_exists("{$component}:{$action}", $personal_preferences))
         {
-            $preference = $personal_preferences[$action];
-            return $preference;
-        }
-
-        // Fall back to component defaults
-        $customdata = midcom::get('componentloader')->get_all_manifest_customdata('org.openpsa.notifications');
-        if (!empty($customdata[$component][$action]['default']))
-        {
-            $preference = $customdata[$component][$action]['default'];
+            return $personal_preferences[$action];
         }
 
         // Seek possible preferences for this action from user's groups
@@ -141,10 +133,14 @@ class org_openpsa_notifications extends midcom_baseclasses_components_purecode
         $group_preferences = $qb->execute();
         if (count($group_preferences) > 0)
         {
-            foreach ($group_preferences as $preference)
-            {
-                $preference = $preference->value;
-            }
+            return $group_preferences[0]->value;
+        }
+
+        // Fall back to component defaults
+        $customdata = midcom::get('componentloader')->get_all_manifest_customdata('org.openpsa.notifications');
+        if (!empty($customdata[$component][$action]['default']))
+        {
+            $preference = $customdata[$component][$action]['default'];
         }
 
         return $preference;

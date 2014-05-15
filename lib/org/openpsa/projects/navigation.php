@@ -18,33 +18,29 @@ class org_openpsa_projects_navigation extends midcom_baseclasses_components_navi
      */
     public function get_leaves()
     {
-        $leaves = array();
-
-        $leaves["{$this->_topic->id}:tasks_open"] = array
+        return array
         (
-            MIDCOM_NAV_URL => "task/list/all/open/",
-            MIDCOM_NAV_NAME => $this->_l10n->get('open tasks'),
+            "{$this->_topic->id}:tasks_open" => array
+            (
+                MIDCOM_NAV_URL => "task/list/all/open/",
+                MIDCOM_NAV_NAME => $this->_l10n->get('open tasks'),
+            ),
+            "{$this->_topic->id}:tasks_closed" => array
+            (
+                MIDCOM_NAV_URL => "task/list/all/closed/",
+                MIDCOM_NAV_NAME => $this->_l10n->get('closed tasks'),
+            ),
+            "{$this->_topic->id}:tasks_invoiceable" => array
+            (
+                MIDCOM_NAV_URL => "task/list/all/invoiceable/",
+                MIDCOM_NAV_NAME => $this->_l10n->get('invoiceable tasks'),
+            ),
+            "{$this->_topic->id}:tasks_invoiced" => array
+            (
+                MIDCOM_NAV_URL => "task/list/all/invoiced/",
+                MIDCOM_NAV_NAME => $this->_l10n->get('invoiced tasks'),
+            )
         );
-
-        $leaves["{$this->_topic->id}:tasks_closed"] = array
-        (
-            MIDCOM_NAV_URL => "task/list/all/closed/",
-            MIDCOM_NAV_NAME => $this->_l10n->get('closed tasks'),
-        );
-
-        $leaves["{$this->_topic->id}:tasks_invoiceable"] = array
-        (
-            MIDCOM_NAV_URL => "task/list/all/invoiceable/",
-            MIDCOM_NAV_NAME => $this->_l10n->get('invoiceable tasks'),
-        );
-
-        $leaves["{$this->_topic->id}:tasks_invoiced"] = array
-        (
-            MIDCOM_NAV_URL => "task/list/all/invoiced/",
-            MIDCOM_NAV_NAME => $this->_l10n->get('invoiced tasks'),
-        );
-
-        return $leaves;
     }
 }
 ?>

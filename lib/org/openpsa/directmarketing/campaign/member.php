@@ -172,12 +172,10 @@ class org_openpsa_directmarketing_campaign_member_dba extends midcom_core_dbaobj
 
         midcom::get('auth')->request_sudo('org.openpsa.directmarketing');
 
-        $stat = $receipt->create();
-
-        if (!$stat)
+        if (!$receipt->create())
         {
             debug_add('Failed to create, errstr: ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-            return $stat;
+            return;
         }
         foreach ($parameters as $param_data)
         {

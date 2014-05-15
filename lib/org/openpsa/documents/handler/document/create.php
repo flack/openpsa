@@ -74,19 +74,17 @@ class org_openpsa_documents_handler_document_create extends midcom_baseclasses_c
      */
     public function & dm2_create_callback(&$datamanager)
     {
-        $document = new org_openpsa_documents_document_dba();
-        $document->topic = $this->_request_data['directory']->id;
-        $document->orgOpenpsaAccesstype = org_openpsa_core_acl::ACCESS_WGPRIVATE;
+        $this->_document = new org_openpsa_documents_document_dba();
+        $this->_document->topic = $this->_request_data['directory']->id;
+        $this->_document->orgOpenpsaAccesstype = org_openpsa_core_acl::ACCESS_WGPRIVATE;
 
-        if (! $document->create())
+        if (! $this->_document->create())
         {
-            debug_print_r('We operated on this object:', $document);
+            debug_print_r('We operated on this object:', $this->_document);
             throw new midcom_error("Failed to create a new document. Error: " . midcom_connection::get_error_string());
         }
 
-        $this->_document = $document;
-
-        return $document;
+        return $this->_document;
     }
 
     /**

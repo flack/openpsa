@@ -104,8 +104,7 @@ implements midcom_helper_datamanager2_interfaces_create
             return false;
         }
 
-        $item = new net_nemein_redirector_tinyurl_dba(key($keys));
-        return $item;
+        return new net_nemein_redirector_tinyurl_dba(key($keys));
     }
 
     /**
