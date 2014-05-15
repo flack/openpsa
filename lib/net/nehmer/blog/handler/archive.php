@@ -312,27 +312,19 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
         switch ($handler_id)
         {
             case 'archive-year-category':
-                if (!$this->_config->get('archive_years_enable'))
-                {
-                    throw new midcom_error_notfound('Year archive not allowed');
-                }
-
                 $data['category'] = trim(strip_tags($args[1]));
-                $multiple_categories = true;
                 if (   isset($data['schemadb']['default']->fields['categories'])
                     && array_key_exists('allow_multiple', $data['schemadb']['default']->fields['categories']['type_config'])
                     && !$data['schemadb']['default']->fields['categories']['type_config']['allow_multiple'])
                 {
-                    $multiple_categories = false;
-                }
-                if ($multiple_categories)
-                {
-                    $qb->add_constraint('extra1', 'LIKE', "%|{$this->_request_data['category']}|%");
+                    $qb->add_constraint('extra1', '=', (string) $data['category']);
                 }
                 else
                 {
-                    $qb->add_constraint('extra1', '=', (string) $data['category']);
+                    $qb->add_constraint('extra1', 'LIKE', "%|{$this->_request_data['category']}|%");
                 }
+                //Fall-through
+
             case 'archive-year':
                 if (!$this->_config->get('archive_years_enable'))
                 {
@@ -492,25 +484,17 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
                 $data['article'] = $article;
                 $data['article_counter'] = $article_counter;
                 $data['article_count'] = $total_count;
-                $data['local_view_url'] = $prefix . $this->_master->get_url($article);
+                $data['view_url'] = $prefix . $this->_master->get_url($article);
+                $data['local_view_url'] = $data['view_url'];
                 if (   $this->_config->get('link_to_external_url')
                     && !empty($article->url))
                 {
                     $data['view_url'] = $article->url;
                 }
-                else
-                {
-                    $data['view_url'] = $data['local_view_url'];
-                }
 
-                if ($article->topic === $this->_content_topic->id)
+                $data['linked'] = ($article->topic !== $this->_content_topic->id);
+                if ($data['linked'])
                 {
-                    $data['linked'] = false;
-                }
-                else
-                {
-                    $data['linked'] = true;
-
                     $nap = new midcom_helper_nav();
                     $data['node'] = $nap->get_node($article->topic);
                 }

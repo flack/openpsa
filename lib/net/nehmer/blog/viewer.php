@@ -51,8 +51,15 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
         }
     }
 
-    public function get_url(midcom_db_article $article)
+    public function get_url(midcom_db_article $article, $allow_external = false)
     {
+        if (   $allow_external
+            && $this->_config->get('link_to_external_url')
+            && !empty($article->url))
+        {
+            return $article->url;
+        }
+
         $view_url = $article->name ?: $article->guid;
 
         if ($this->_config->get('view_in_url'))

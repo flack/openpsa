@@ -43,9 +43,7 @@ implements midcom_helper_datamanager2_interfaces_create
      */
     private function _update_breadcrumb_line($handler_id)
     {
-        $view_url = $this->_master->get_url($this->_article);
-
-        $this->add_breadcrumb($view_url, $this->_article->title);
+        $this->add_breadcrumb($this->_master->get_url($this->_article), $this->_article->title);
 
         switch ($handler_id)
         {

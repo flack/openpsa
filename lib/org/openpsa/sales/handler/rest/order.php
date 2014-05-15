@@ -92,8 +92,7 @@ class org_openpsa_sales_handler_rest_order extends midcom_baseclasses_components
         $deliverable->state = org_openpsa_sales_salesproject_deliverable_dba::STATE_NEW;
         $deliverable->start = gmmktime(0, 0, 0, gmdate('n'), gmdate('j'), gmdate('Y'));
 
-        $stat = $deliverable->create();
-        if (!$stat)
+        if (!$deliverable->create())
         {
             $this->_stop("Failed creating deliverable: " . midcom_connection::get_error_string());
         }
@@ -108,8 +107,7 @@ class org_openpsa_sales_handler_rest_order extends midcom_baseclasses_components
         }
 
         // finally, order the product
-        $stat = $deliverable->order();
-        if (!$stat)
+        if (!$deliverable->order())
         {
             $this->_stop("Failed ordering deliverable: " . midcom_connection::get_error_string());
         }

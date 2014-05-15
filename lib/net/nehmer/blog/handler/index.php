@@ -218,7 +218,6 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
         {
             $total_count = count($this->_articles);
             $data['article_count'] = $total_count;
-            $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
             foreach ($this->_articles as $article_counter => $article)
             {
                 if (! $this->_datamanager->autoset_storage($article))
@@ -231,26 +230,12 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
                 $data['article'] = $article;
                 $data['article_counter'] = $article_counter;
 
-                $data['local_view_url'] = $prefix . $this->_master->get_url($article);
+                $data['local_view_url'] = $this->_master->get_url($article);
+                $data['view_url'] = $this->_master->get_url($article, true);
 
-                if (   $this->_config->get('link_to_external_url')
-                    && !empty($article->url))
+                $data['linked'] = ($article->topic !== $this->_content_topic->id);
+                if ($data['linked'])
                 {
-                    $data['view_url'] = $article->url;
-                }
-                else
-                {
-                    $data['view_url'] = $data['local_view_url'];
-                }
-
-                if ($article->topic === $this->_content_topic->id)
-                {
-                    $data['linked'] = false;
-                }
-                else
-                {
-                    $data['linked'] = true;
-
                     $nap = new midcom_helper_nav();
                     $data['node'] = $nap->get_node($article->topic);
                 }
