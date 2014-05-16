@@ -29,8 +29,6 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         MGD_TYPE_GUID => "guid",
     );
 
-    var $special_ids = array('handlers', 'dependencies', 'urlmethods', 'mgdschemas');
-
     public function __construct()
     {
         parent::__construct();

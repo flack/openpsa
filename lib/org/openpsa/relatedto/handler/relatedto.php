@@ -13,8 +13,6 @@
  */
 class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_components_handler
 {
-    var $realcomponent = false;
-
     /**
      * The object we're working with
      */

@@ -42,8 +42,6 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
      */
     private $_display_datamanager = null;
 
-    var $custom_view = null;
-
     /**
      * Prepares the request data
      */
@@ -51,7 +49,6 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
     {
         $this->_request_data['comments'] = $this->_comments;
         $this->_request_data['objectguid'] = $this->_objectguid;
-        $this->_request_data['custom_view'] = $this->custom_view;
     }
 
     /**

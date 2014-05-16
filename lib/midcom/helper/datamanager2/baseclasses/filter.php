@@ -37,8 +37,6 @@ abstract class midcom_helper_datamanager2_baseclasses_filter
      */
     protected $_fieldname = null;
 
-    var $_lastfield = null;
-
     /**
      * Standard constructor, as defined by the schema specification. Pre initializes all
      * members.

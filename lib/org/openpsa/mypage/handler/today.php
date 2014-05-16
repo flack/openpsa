@@ -13,8 +13,6 @@
  */
 class org_openpsa_mypage_handler_today extends midcom_baseclasses_components_handler
 {
-    var $user = null;
-
     private function _populate_toolbar()
     {
         $this->_view_toolbar->add_item
@@ -53,8 +51,6 @@ class org_openpsa_mypage_handler_today extends midcom_baseclasses_components_han
      */
     public function _handler_today($handler_id, array $args, array &$data)
     {
-        $this->user = midcom::get('auth')->user->get_storage();
-
         if ($handler_id == 'today')
         {
             $data['requested_time'] = date('Y-m-d');

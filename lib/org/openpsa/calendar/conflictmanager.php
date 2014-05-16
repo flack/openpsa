@@ -156,7 +156,6 @@ class org_openpsa_calendar_conflictmanager
             $qb = org_openpsa_calendar_event_member_dba::new_query_builder();
             $this->_add_event_constraints($qb, 'eid');
             //Shared eventmembers
-            reset ($this->_event->participants);
             $qb->add_constraint('uid', 'IN', array_keys($this->_event->participants));
             $ret = $qb->execute();
         }
@@ -170,7 +169,6 @@ class org_openpsa_calendar_conflictmanager
         {
             $qb = org_openpsa_calendar_event_resource_dba::new_query_builder();
             $this->_add_event_constraints($qb, 'event');
-            reset ($this->_event->resources);
             $qb->add_constraint('resource', 'IN', array_keys($this->_event->resources));
             $ret = $qb->execute();
         }
