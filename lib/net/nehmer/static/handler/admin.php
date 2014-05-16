@@ -295,16 +295,13 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
         }
 
         // Delete the link
-        if ($this->_link->delete())
-        {
-            midcom::get('uimessages')->add($this->_l10n->get('net.nehmer.static'), $this->_l10n->get('article link deleted'));
-            midcom::get()->relocate('');
-            // This will exit
-        }
-        else
+        if (!$this->_link->delete())
         {
             throw new midcom_error($this->_l10n->get('failed to delete the article link, contact the site administrator'));
         }
+        midcom::get('uimessages')->add($this->_l10n->get('net.nehmer.static'), $this->_l10n->get('article link deleted'));
+        midcom::get()->relocate('');
+        // This will exit
     }
 
     /**

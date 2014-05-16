@@ -217,16 +217,13 @@ implements midcom_helper_datamanager2_interfaces_create
         }
 
         // Delete the link
-        if ($this->_link->delete())
-        {
-            midcom::get('uimessages')->add($this->_l10n->get('net.nehmer.blog'), $this->_l10n->get('blog link deleted'));
-            midcom::get()->relocate('');
-            // This will exit
-        }
-        else
+        if (!$this->_link->delete())
         {
             throw new midcom_error($this->_l10n->get('failed to delete the blog link, contact the site administrator'));
         }
+        midcom::get('uimessages')->add($this->_l10n->get('net.nehmer.blog'), $this->_l10n->get('blog link deleted'));
+        midcom::get()->relocate('');
+        // This will exit
     }
 
     /**

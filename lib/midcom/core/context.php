@@ -184,24 +184,21 @@ class midcom_core_context
             {
                 throw new midcom_error_forbidden(midcom::get('i18n')->get_string('access denied', 'midcom'));
             }
-            else
+            // Fall back to another topic so that admin has a chance to fix this
+            midcom::get('auth')->require_admin_user("Root folder is misconfigured. Please log in as administrator and fix this in settings.");
+            $qb = midcom_db_topic::new_query_builder();
+            $qb->add_constraint('up', '=', 0);
+            $qb->add_constraint('component', '<>', '');
+            $topics = $qb->execute();
+            if (count($topics) == 0)
             {
-                // Fall back to another topic so that admin has a chance to fix this
-                midcom::get('auth')->require_admin_user("Root folder is misconfigured. Please log in as administrator and fix this in settings.");
-                $qb = midcom_db_topic::new_query_builder();
-                $qb->add_constraint('up', '=', 0);
-                $qb->add_constraint('component', '<>', '');
-                $topics = $qb->execute();
-                if (count($topics) == 0)
-                {
-                    throw new midcom_error
-                    (
-                        "Fatal error: Unable to load website root folder with GUID '" . midcom::get('config')->get('midcom_root_topic_guid') . "<br />" .
-                        'Last Midgard Error was: ' . midcom_connection::get_error_string()
-                    );
-                }
-                $root_node = $topics[0];
+                throw new midcom_error
+                (
+                    "Fatal error: Unable to load website root folder with GUID '" . midcom::get('config')->get('midcom_root_topic_guid') . "<br />" .
+                    'Last Midgard Error was: ' . midcom_connection::get_error_string()
+                );
             }
+            $root_node = $topics[0];
         }
 
         $this->set_key(MIDCOM_CONTEXT_ROOTTOPIC, $root_node);
@@ -394,8 +391,8 @@ class midcom_core_context
         {
             throw new midcom_error("Component " . $this->get_key(MIDCOM_CONTEXT_COMPONENT) . " failed to handle the request");
         }
-        else if (   is_object($result)
-                 && $result instanceof midcom_response)
+        if (   is_object($result)
+             && $result instanceof midcom_response)
         {
             $result->send();
             //this will exit

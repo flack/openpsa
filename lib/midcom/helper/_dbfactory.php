@@ -143,28 +143,24 @@ class midcom_helper__dbfactory
             throw new midcom_error("Cannot cast the object to a MidCOM DBA type, it is not an object.");
         }
 
-        if (midcom::get('dbclassloader')->is_mgdschema_object($object))
-        {
-            $classname = midcom::get('dbclassloader')->get_midcom_class_name_for_mgdschema_object($object);
-
-            if (! midcom::get('dbclassloader')->load_mgdschema_class_handler($classname))
-            {
-                throw new midcom_error("Failed to load the handling component for {$classname}, cannot convert.");
-            }
-
-            if (!class_exists($classname))
-            {
-                throw new midcom_error("Got non-existing DBA class {$classname} for object of type " . get_class($object) . ", cannot convert.");
-            }
-
-            $result = new $classname($object);
-        }
-        else
+        if (!midcom::get('dbclassloader')->is_mgdschema_object($object))
         {
             debug_print_r("Object dump:", $object);
             throw new midcom_error("Cannot cast the object to a MidCOM DBA type, it is not a regular MgdSchema object, we got this type:");
         }
-        return $result;
+        $classname = midcom::get('dbclassloader')->get_midcom_class_name_for_mgdschema_object($object);
+
+        if (! midcom::get('dbclassloader')->load_mgdschema_class_handler($classname))
+        {
+            throw new midcom_error("Failed to load the handling component for {$classname}, cannot convert.");
+        }
+
+        if (!class_exists($classname))
+        {
+            throw new midcom_error("Got non-existing DBA class {$classname} for object of type " . get_class($object) . ", cannot convert.");
+        }
+
+        return new $classname($object);
     }
 
     /**

@@ -137,20 +137,17 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
             }
         }
 
+        if (!empty($this->errstr))
+        {
+            throw new midcom_error('Could not create account: ' . $this->errstr);
+        }
         if ($auto_relocate)
         {
             // Relocate to group view
             midcom::get()->relocate("view/{$this->_person->guid}/");
             // This will exit
         }
-        else
-        {
-            if (!empty($this->errstr))
-            {
-                throw new midcom_error('Could not create account: ' . $this->errstr);
-            }
-            return true;
-        }
+        return true;
     }
 
     /**

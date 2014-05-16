@@ -249,8 +249,7 @@ class midcom_helper_imagefilter
      */
     function process_command($cmd)
     {
-        $i = preg_match('/([a-z_]*)\(([^)]*)\)/', $cmd, $matches);
-        if (!$i)
+        if (!preg_match('/([a-z_]*)\(([^)]*)\)/', $cmd, $matches))
         {
             throw new midcom_error("Failed to parse command {$cmd}");
         }

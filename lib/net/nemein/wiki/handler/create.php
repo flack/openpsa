@@ -69,8 +69,6 @@ implements midcom_helper_datamanager2_interfaces_create
             throw new midcom_error('Failed to create a new page. Last Midgard error was: '. midcom_connection::get_error_string());
         }
 
-        $this->_page = new net_nemein_wiki_wikipage($this->_page->id);
-
         return $this->_page;
     }
 
@@ -174,10 +172,7 @@ implements midcom_helper_datamanager2_interfaces_create
             {
                 throw new midcom_error_notfound('No wiki word given');
             }
-            else
-            {
-                $this->_wikiword = $data['session']->get('wikiword');
-            }
+            $this->_wikiword = $data['session']->get('wikiword');
         }
         else
         {

@@ -468,15 +468,12 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
 
         $this->_store_att_map_parameters($identifier, $attachment);
 
-        if ($tmpfile !== null)
-        {
-            $this->_set_attachment_info_additional($identifier, $tmpfile);
-        }
-        else
+        if ($tmpfile === null)
         {
             // TODO: needs create temporary copy function.
             throw new midcom_error('TODO');
         }
+        $this->_set_attachment_info_additional($identifier, $tmpfile);
 
         $this->_update_attachment_info($identifier);
         $this->_sort_attachments();
@@ -658,15 +655,12 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
 
         $this->_store_att_map_parameters($identifier, $attachment);
 
-        if ($tmpfile !== null)
-        {
-            $this->_set_attachment_info_additional($identifier, $tmpfile);
-        }
-        else
+        if ($tmpfile === null)
         {
             // TODO: needs create temporary copy function.
             throw new midcom_error('TODO');
         }
+        $this->_set_attachment_info_additional($identifier, $tmpfile);
 
         $this->_update_attachment_info($identifier);
         $this->_sort_attachments();

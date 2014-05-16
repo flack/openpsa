@@ -324,10 +324,7 @@ class midcom_application
                 {
                     throw new midcom_error_forbidden(midcom::get('i18n')->get_string('access denied', 'midcom'));
                 }
-                else
-                {
-                    throw new midcom_error_notfound("This page is not available on this server.");
-                }
+                throw new midcom_error_notfound("This page is not available on this server.");
             }
 
             $this->_status = MIDCOM_STATUS_ABORT;

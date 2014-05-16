@@ -236,16 +236,13 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
         {
             throw new midcom_error_notfound('No matching group');
         }
-        else
-        {
-            $categories_qb = org_openpsa_products_product_group_dba::new_query_builder();
-            $categories_qb->add_constraint('up', '=', $groups[0]->id);
-            $categories_qb->add_constraint('code', '=', $args[1]);
-            $categories = $categories_qb->execute();
+        $categories_qb = org_openpsa_products_product_group_dba::new_query_builder();
+        $categories_qb->add_constraint('up', '=', $groups[0]->id);
+        $categories_qb->add_constraint('code', '=', $args[1]);
+        $categories = $categories_qb->execute();
 
-            $this->_request_data['parent_category_id'] = $categories[0]->id;
-            $this->_request_data['parent_category'] = $groups[0]->code;
-        }
+        $this->_request_data['parent_category_id'] = $categories[0]->id;
+        $this->_request_data['parent_category'] = $groups[0]->code;
     }
 
     private function _handle_listall($args)
@@ -258,10 +255,7 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
         {
             throw new midcom_error_notfound('No matching group');
         }
-        else
-        {
-            $this->_request_data['group'] = $groups[0];
-        }
+        $this->_request_data['group'] = $groups[0];
     }
 
     private function _handle_list($args)

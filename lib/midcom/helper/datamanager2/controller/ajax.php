@@ -339,22 +339,17 @@ class midcom_helper_datamanager2_controller_ajax extends midcom_helper_datamanag
                 );
             }
 
-            if ($result == 'save')
+            if (   $result == 'save'
+                && !$this->datamanager->save())
             {
-                if (! $this->datamanager->save())
+                if (count($this->datamanager->validation_errors) == 0)
                 {
-                    if (count($this->datamanager->validation_errors) > 0)
-                    {
-                        debug_add('Type validation failed. Reverting to edit mode transparently.');
-                        debug_print_r('Validation error listing:', $this->datamanager->validation_errors);
-                        $result = 'edit';
-                    }
-                    else
-                    {
-                        // It seems to be a critical error.
-                        throw new midcom_error('Failed to save the data to disk, last midgard error code: ' . midcom_connection::get_error_string() . '. Check the debug level log for more information.');
-                    }
+                    // It seems to be a critical error.
+                    throw new midcom_error('Failed to save the data to disk, last midgard error code: ' . midcom_connection::get_error_string() . '. Check the debug level log for more information.');
                 }
+                debug_add('Type validation failed. Reverting to edit mode transparently.');
+                debug_print_r('Validation error listing:', $this->datamanager->validation_errors);
+                $result = 'edit';
             }
         }
         // all others stay untouched.

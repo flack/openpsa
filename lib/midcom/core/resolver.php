@@ -261,15 +261,12 @@ class midcom_core_resolver
                 else
                 {
                     $method_name = '_process_' . $key;
-                    if (method_exists($this, $method_name))
-                    {
-                        $this->$method_name($value);
-                    }
-                    else
+                    if (!method_exists($this, $method_name))
                     {
                         debug_add("Unknown URL method: {$key} => {$value}", MIDCOM_LOG_WARN);
                         throw new midcom_error_notfound("This URL method is unknown.");
                     }
+                    $this->$method_name($value);
                 }
             }
         }

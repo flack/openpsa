@@ -130,14 +130,11 @@ class org_openpsa_directmarketing_sender_backend_email implements org_openpsa_di
 
         $mail->attachments = $this->_get_attachments();
 
-        if ($mail->send())
-        {
-            debug_add('Mail sent to: ' . $mail->to);
-        }
-        else
+        if (!$mail->send())
         {
             throw new midcom_error(sprintf(midcom::get('i18n')->get_string('FAILED to send mail to: %s, reason: %s', 'org.openpsa.directmarketing'), $mail->to, $mail->get_error_message()));
         }
+        debug_add('Mail sent to: ' . $mail->to);
     }
 
     /**
