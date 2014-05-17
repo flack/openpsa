@@ -533,22 +533,16 @@ class midcom_services_auth_sessionmgr
      * as long as their session did not expire.
      *
      * @return int The count of users online
-     * @todo Move this to a SELECT DISTINCT for performance reasons ASAP.
      */
     function get_online_users_count()
     {
         $timed_out = time() - midcom::get('config')->get('auth_login_session_timeout');
-        $qb = new midgard_query_builder('midcom_core_login_session_db');
-        $qb->add_constraint('timestamp', '>=', $timed_out);
-        $result = @$qb->execute();
+        $mc = new midgard_collector('midcom_core_login_session_db', 'metadata.deleted', false);
+        $mc->set_key_property('userid');
+        $mc->add_constraint('timestamp', '>=', $timed_out);
+        $mc->execute();
 
-        // Filter out duplicate sessions.
-        $userids = Array();
-        foreach ($result as $session)
-        {
-            $userids[] = $session->userid;
-        }
-        return count(array_unique($userids));
+        return count($mc->list_keys());
     }
 
     /**
@@ -560,32 +554,26 @@ class midcom_services_auth_sessionmgr
      * of invisible users.
      *
      * @return Array List of visible users that are online.
-     * @todo Move this to a SELECT DISTINCT for performance reasons ASAP.
      */
     function get_online_users()
     {
         $timed_out = time() - midcom::get('config')->get('auth_login_session_timeout');
-        $qb = new midgard_query_builder('midcom_core_login_session_db');
-        $qb->add_constraint('timestamp', '>=', $timed_out);
-        $query_result = @$qb->execute();
-        $result = Array();
-        if ($query_result)
+        $mc = new midgard_collector('midcom_core_login_session_db', 'metadata.deleted', false);
+        $mc->set_key_property('userid');
+        $mc->add_constraint('timestamp', '>=', $timed_out);
+        $mc->execute();
+
+        $result = array();
+        $query_result = array_keys($mc->list_keys());
+        foreach ($query_result as $userid)
         {
-            foreach ($query_result as $session)
+            if (   ($user = $this->auth->get_user($userid))
+                && $user->is_online())
             {
-                $user = $this->auth->get_user($session->userid);
-                if (array_key_exists($user->guid, $result))
-                {
-                    // Skip duplicate login sessions
-                    continue;
-                }
-                if (   $user
-                    && $user->is_online())
-                {
-                    $result[$user->guid] = $user;
-                }
+                $result[$user->guid] = $user;
             }
         }
+
         return $result;
     }
 }
