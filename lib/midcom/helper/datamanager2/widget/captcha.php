@@ -84,8 +84,7 @@ class midcom_helper_datamanager2_widget_captcha extends midcom_helper_datamanage
         }
         else
         {
-            $hash = $_SERVER['REQUEST_URI'];
-            $this->_session_key = md5($hash);
+            $this->_session_key = md5($_SERVER['REQUEST_URI']);
         }
     }
 

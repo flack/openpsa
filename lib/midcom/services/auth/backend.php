@@ -159,8 +159,7 @@ abstract class midcom_services_auth_backend
      */
     function logout()
     {
-        if (   is_null($this->session_id)
-            || ! $this->session_id)
+        if (!$this->session_id)
         {
             debug_add('You were not logged in, so we do nothing.', MIDCOM_LOG_INFO);
             return;

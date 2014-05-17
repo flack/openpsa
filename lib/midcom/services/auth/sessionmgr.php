@@ -114,15 +114,13 @@ class midcom_services_auth_sessionmgr
             return false;
         }
 
-        $result = array
+        $this->current_session_id = $session->guid;
+        $this->_loaded_sessions[$session->guid] = $session;
+        return array
         (
             'session_id' => $session->guid,
             'user' => $user
         );
-
-        $this->current_session_id = $session->guid;
-        $this->_loaded_sessions[$session->guid] = $session;
-        return $result;
     }
 
     /**
@@ -169,15 +167,13 @@ class midcom_services_auth_sessionmgr
             return false;
         }
 
-        $result = array
+        $this->current_session_id = $session->guid;
+
+        return array
         (
             'session_id' => $session->guid,
             'user' => $user
         );
-
-        $this->current_session_id = $session->guid;
-
-        return $result;
     }
 
     /**
