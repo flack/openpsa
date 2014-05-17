@@ -6,6 +6,9 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\Attribute\NamespacedAttributeBag;
+
 /**
  * Base singleton class of the MidCOM sessioning service.
  *
@@ -48,21 +51,17 @@
 class midcom_services__sessioning
 {
     /**
-     * The constructor will initialize the sessioning, set the output nocacheable
-     * and initialize the session data. This might involve creating an empty
-     * session array.
+     *
+     * @var Session
      */
-    public function __construct()
-    {
-        static $started = false;
+    private $session;
 
-        if ($started)
-        {
-            throw new midcom_error("MidCOM Sessioning has already been started, it must not be started twice");
-        }
-
-        $started = true;
-    }
+    /**
+     * The AttributeBag's namespace separator
+     *
+     * @var string
+     */
+    private $ns_separator = '/';
 
     private function _initialize($unconditional_start = false)
     {
@@ -79,36 +78,24 @@ class midcom_services__sessioning
             return false;
         }
 
+        $this->session = new Session(null, new NamespacedAttributeBag('midcom_session_data', $this->ns_separator));
         // Try to start session only if the client sends the id OR we need to set data
-        if (   !isset($_REQUEST[session_name()])
+        if (   !isset($_REQUEST[$this->session->getName()])
             && !$unconditional_start)
         {
             return false;
         }
 
-        if (_midcom_headers_sent())
+        try
         {
-            // Don't try starting a session if we're past the headers phase
-            debug_add("Aborting session start, headers have already been sent", MIDCOM_LOG_WARN);
-            return;
+            $this->session->start();
         }
-
-        @session_start();
-        if (!isset($_SESSION))
+        catch (RuntimeException $e)
         {
-            debug_add("\$_SESSION is not set", MIDCOM_LOG_ERROR);
-            midcom::get('debug')->log_php_error(MIDCOM_LOG_ERROR);
+            debug_add($e->getMessage(), MIDCOM_LOG_ERROR);
             return false;
         }
 
-        /* Cache disabling made conditional based on domain/key existence */
-
-        // Check for session data and load or initialize it, if necessary
-        if (! array_key_exists('midcom_session_data', $_SESSION))
-        {
-            $_SESSION['midcom_session_data'] = Array();
-            $_SESSION['midcom_session_data']['midcom.service.sessioning']['startup'] = serialize(time());
-        }
         $initialized = true;
         return true;
     }
@@ -128,26 +115,7 @@ class midcom_services__sessioning
         {
             return false;
         }
-        if (!isset($_SESSION['midcom_session_data'][$domain]))
-        {
-            debug_add("Request for the domain '{$domain}' failed, because the domain doesn't exist.");
-            return false;
-        }
-
-        return (isset($_SESSION['midcom_session_data'][$domain][$key]));
-    }
-
-    /**
-     * This is a small, internal helper function, which will load, unserialize and
-     * return a given key's value. It is shared by get and remove.
-     *
-     * @param string $domain    The domain in which to search for the key.
-     * @param mixed $key        The key to query.
-     * @return mixed            The session key's data value, or null on failure.
-     */
-    private function _get_helper ($domain, $key)
-    {
-        return unserialize($_SESSION["midcom_session_data"][$domain][$key]);
+        return $this->session->has($domain . $this->ns_separator . $key);
     }
 
     /**
@@ -163,20 +131,20 @@ class midcom_services__sessioning
      * @return mixed            The session key's data value, or null on failure.
      * @see midcom_services__sessioning::exists()
      */
-    function get ($domain, $key)
+    function get($domain, $key)
     {
         static $no_cache = false;
-        if ($this->exists($domain, $key))
+        if (!$this->exists($domain, $key))
         {
-            if (!$no_cache)
-            {
-                midcom::get('cache')->content->no_cache();
-                $no_cache = true;
-            }
-            return $this->_get_helper($domain, $key);
+            debug_add("Request for the key '{$key}' in the domain '{$domain}' failed, because the key doesn't exist.");
+            return null;
         }
-        debug_add("Request for the key '{$key}' in the domain '{$domain}' failed, because the key doesn't exist.");
-        return null;
+        if (!$no_cache)
+        {
+            midcom::get('cache')->content->no_cache();
+            $no_cache = true;
+        }
+        return $this->session->get($domain . $this->ns_separator . $key);
     }
 
     /**
@@ -190,15 +158,15 @@ class midcom_services__sessioning
      * @return mixed            The session key's data value, or null on failure.
      * @see midcom_services__sessioning::exists()
      */
-    function remove ($domain, $key)
+    function remove($domain, $key)
     {
-        if ($this->exists($domain, $key))
+        if (!$this->exists($domain, $key))
         {
-            $data = $this->_get_helper($domain, $key);
-            unset($_SESSION["midcom_session_data"][$domain][$key]);
-            return $data;
+            return null;
         }
-        return null;
+        $data = $this->session->get($domain . $this->ns_separator . $key);
+        $this->session->remove($domain . $this->ns_separator . $key);
+        return $data;
     }
 
     /**
@@ -212,7 +180,7 @@ class midcom_services__sessioning
      * @param mixed    $key        Session value identifier.
      * @param mixed    $value        Session value.
      */
-    function set ($domain, $key, $value)
+    function set($domain, $key, $value)
     {
         if (!$this->_initialize(true))
         {
@@ -224,7 +192,7 @@ class midcom_services__sessioning
             midcom::get('cache')->content->no_cache();
             $no_cache = true;
         }
-        $_SESSION["midcom_session_data"][$domain][$key] = serialize($value);
+        $this->session->set($domain . $this->ns_separator . $key, $value);
     }
 
     /**
@@ -235,13 +203,12 @@ class midcom_services__sessioning
      */
     public function get_session_data($domain)
     {
-        if (   empty($_SESSION['midcom_session_data'])
-            || !array_key_exists($domain, $_SESSION['midcom_session_data']))
+        if (!$this->session->exists($domain))
         {
             return false;
         }
 
-        return array_map('unserialize', $_SESSION['midcom_session_data'][$domain]);
+        return $this->session->get($domain);
     }
 }
 ?>
