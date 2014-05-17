@@ -210,5 +210,16 @@ class midcom_services__sessioning
 
         return $this->session->get($domain);
     }
+
+    /**
+     * Get the session object
+     *
+     * @return Session
+     */
+    public function get_session()
+    {
+        $this->_initialize(true);
+        return $this->session;
+    }
 }
 ?>

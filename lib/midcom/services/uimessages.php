@@ -53,9 +53,9 @@ class midcom_services_uimessages
     /**
      * The current message stack
      *
-     * @var Array
+     * @var Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface
      */
-    private $_message_stack = array();
+    private $_message_stack;
 
     /**
      * List of allowed message types
@@ -78,11 +78,16 @@ class midcom_services_uimessages
      */
     public $uimessage_holder = 'body';
 
+    public function __construct()
+    {
+        $this->_message_stack = midcom::get('session')->get_session()->getFlashBag();
+    }
+
     /**
      * Initialize the message stack on service start-up. Reads older unshown
      * messages from user session.
      */
-    function initialize()
+    public function initialize()
     {
         if (midcom::get('auth')->can_user_do('midcom:ajax', null, 'midcom_services_uimessages'))
         {
@@ -98,28 +103,9 @@ class midcom_services_uimessages
         {
             midcom::get('head')->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.services.uimessages/simple.css', 'screen');
         }
-
-        // Read messages from session
-        $session = new midcom_services_session('midcom_services_uimessages');
-        if ($session->exists('midcom_services_uimessages_stack'))
-        {
-            // We've got old messages in the session
-            $stored_messages = $session->get('midcom_services_uimessages_stack');
-            $session->remove('midcom_services_uimessages_stack');
-            if (!is_array($stored_messages))
-            {
-                return false;
-            }
-
-            foreach ($stored_messages as $message)
-            {
-                $id = $this->add($message['title'], $message['message'], $message['type']);
-                $this->_messages_from_session[$id] = true;
-            }
-        }
     }
 
-    function get_class_magic_default_privileges()
+    public function get_class_magic_default_privileges()
     {
         return array
         (
@@ -130,46 +116,13 @@ class midcom_services_uimessages
     }
 
     /**
-     * Store unshown UI messages from the stack to user session.
-     */
-    function store()
-    {
-        if (count($this->_message_stack) == 0)
-        {
-            // No unshown messages
-            return true;
-        }
-
-        // We have to be careful what messages to store to session to prevent them
-        // from accumulating
-        $messages_to_store = array_diff_key($this->_message_stack, $this->_messages_from_session);
-
-        if (count($messages_to_store) == 0)
-        {
-            // We have only messages coming from earlier sessions, and we ditch those
-            return true;
-        }
-
-        $session = new midcom_services_session('midcom_services_uimessages');
-
-        // Check if some other request has added stuff to session as well
-        if ($session->exists('midcom_services_uimessages_stack'))
-        {
-            $old_stack = $session->get('midcom_services_uimessages_stack');
-            $messages_to_store = array_merge($old_stack, $messages_to_store);
-        }
-        $session->set('midcom_services_uimessages_stack', $messages_to_store);
-        $this->_message_stack = array();
-    }
-
-    /**
      * Add a message to be shown to the user.
      *
      * @param string $title Message title
      * @param string $message Message contents, may contain HTML
      * @param string $type Type of the message
      */
-    function add($title, $message, $type = 'info')
+    public function add($title, $message, $type = 'info')
     {
         // Make sure the given class is allowed
         if (!in_array($type, $this->_allowed_types))
@@ -179,13 +132,14 @@ class midcom_services_uimessages
             return false;
         }
 
-        // Append to message stack
-        $this->_message_stack[] = array
+        $msg = array
         (
             'title'   => $title,
             'message' => $message,
             'type'    => $type,
         );
+        // Append to message stack
+        $this->_message_stack->add($type, json_encode($msg));
         return true;
     }
 
@@ -194,7 +148,7 @@ class midcom_services_uimessages
      *
      * @param boolean $show_simple Show simple HTML
      */
-    function show($show_simple = false)
+    public function show($show_simple = false)
     {
         if (   $show_simple
             || !midcom::get('auth')->can_user_do('midcom:ajax', null, 'midcom_services_uimessages'))
@@ -213,9 +167,12 @@ class midcom_services_uimessages
         echo "                    .appendTo('{$this->uimessage_holder}');\n";
         echo "            }\n";
 
-        while ($message = array_shift($this->_message_stack))
+        foreach ($this->_message_stack as $messages)
         {
-            echo "            jQuery('#midcom_services_uimessages_wrapper').midcom_services_uimessage(" . json_encode($message) . ")\n";
+            foreach ($messages as $message)
+            {
+                echo "            jQuery('#midcom_services_uimessages_wrapper').midcom_services_uimessage(" . $message . ")\n";
+            }
         }
 
         echo "        })\n";
@@ -227,7 +184,7 @@ class midcom_services_uimessages
     /**
      * Show the message stack via simple html only
      */
-    function show_simple($prefer_fancy = false)
+    public function show_simple($prefer_fancy = false)
     {
         if (   $prefer_fancy
             && midcom::get('auth')->can_user_do('midcom:ajax', null, 'midcom_services_uimessages'))
@@ -235,13 +192,16 @@ class midcom_services_uimessages
             return $this->show();
         }
 
-        if (count($this->_message_stack) > 0)
+        if (count($this->_message_stack->all()) > 0)
         {
             echo "<div id=\"midcom_services_uimessages_wrapper\">\n";
 
-            while ($message = array_shift($this->_message_stack))
+            foreach ($this->_message_stack as $messages)
             {
-                $this->_render_message($message);
+                foreach ($messages as $message)
+                {
+                    $this->_render_message($message);
+                }
             }
 
             echo "</div>\n";
@@ -253,6 +213,7 @@ class midcom_services_uimessages
      */
     private function _render_message($message)
     {
+        $message = json_decode($message);
         echo "<div class=\"midcom_services_uimessages_message msu_{$message['type']}\">";
 
         echo "    <div class=\"midcom_services_uimessages_message_type\">{$message['type']}</div>";
