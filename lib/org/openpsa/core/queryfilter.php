@@ -98,12 +98,7 @@ class org_openpsa_core_queryfilter
         }
         else if (isset($_POST[$filtername]))
         {
-            $selection = $_POST[$filtername];
-            if (!is_array($selection))
-            {
-                $selection = array($selection);
-            }
-
+            $selection = (array) $_POST[$filtername];
             $filter_string = serialize($selection);
             if (!$user->set_parameter("org_openpsa_core_filter", $filter_id, $filter_string))
             {
@@ -113,12 +108,7 @@ class org_openpsa_core_queryfilter
         }
         else if (isset($_GET[$filtername]))
         {
-            $selection = $_GET[$filtername];
-            if (!is_array($selection))
-            {
-                $selection = array($selection);
-            }
-            return $selection;
+            return (array) $_GET[$filtername];
         }
         else if ($filter_string = $user->get_parameter("org_openpsa_core_filter", $filter_id))
         {

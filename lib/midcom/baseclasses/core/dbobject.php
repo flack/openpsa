@@ -503,14 +503,7 @@ class midcom_baseclasses_core_dbobject
     public static function undelete($guids, $type)
     {
         $undeleted_size = 0;
-
-        if (!is_array($guids))
-        {
-            $guids = array
-            (
-                $guids,
-            );
-        }
+        $guids = (array) $guids;
 
         foreach ($guids as $guid)
         {

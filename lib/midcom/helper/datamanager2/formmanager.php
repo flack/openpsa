@@ -314,11 +314,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
         $buttons = array();
         foreach ($this->_schema->operations as $operation => $button_labels)
         {
-            if (!is_array($button_labels))
-            {
-                $button_labels = array($button_labels);
-            }
-            foreach ($button_labels as $key => $label)
+            foreach ((array) $button_labels as $key => $label)
             {
                 if ($label == '')
                 {
@@ -387,11 +383,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
             // Compute the field list.
             if (!empty($config['fields']))
             {
-                $fields = $config['fields'];
-                if (is_string($fields))
-                {
-                    $fields = Array($fields);
-                }
+                $fields = (array) $config['fields'];
             }
             else
             {

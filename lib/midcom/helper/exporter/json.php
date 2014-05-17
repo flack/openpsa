@@ -21,10 +21,6 @@ class midcom_helper_exporter_json extends midcom_helper_exporter
      */
     public function array2data(array $array)
     {
-        if (!is_array($array))
-        {
-            return false;
-        }
         foreach ($array as $key => $val)
         {
             if (is_object($array[$key]))

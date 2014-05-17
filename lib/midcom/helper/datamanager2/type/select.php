@@ -274,11 +274,7 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
             debug_add('Failed to load ' . $widget_config['class'] . ' ' . $key . ': ' . $e->getMessage());
             return null;
         }
-        $field_options = $widget_config['titlefield'];
-        if (is_string($field_options))
-        {
-            $field_options = array($field_options);
-        }
+        $field_options = (array) $widget_config['titlefield'];
 
         foreach ($field_options as $field)
         {

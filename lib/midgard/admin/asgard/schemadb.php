@@ -92,12 +92,8 @@ class midgard_admin_asgard_schemadb
 
         if (!empty($include_fields))
         {
-            if (is_string($include_fields))
-            {
-                $include_fields = (array) $include_fields;
-            }
             // Skip the fields that aren't requested, if inclusion list has been defined
-            $type_fields = array_intersect($type_fields, $include_fields);
+            $type_fields = array_intersect($type_fields, (array) $include_fields);
         }
 
         $type_fields = array_filter($type_fields, array($this, '_filter_schema_fields'));

@@ -927,16 +927,9 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         foreach ($this->context_guids[$context] as $guid)
         {
             // Getting old map from cache
-            if ($this->_meta_cache->exists($guid))
-            {
-                $guidmap = $this->_meta_cache->get($guid);
-                if (!is_array($guidmap))
-                {
-                    $guidmap = array();
-                }
-            }
+            $guidmap = $this->_meta_cache->get($guid);
             // Or creating new, empty one
-            else
+            if (!is_array($guidmap))
             {
                 $guidmap = array();
             }

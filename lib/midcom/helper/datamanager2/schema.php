@@ -575,14 +575,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
         $validation = array();
         if (array_key_exists('validation', $config))
         {
-            if (is_array($config['validation']))
-            {
-                $validation = $config['validation'];
-            }
-            else
-            {
-                $validation = array($config['validation']);
-            }
+            $validation = (array) $config['validation'];
         }
 
         foreach ($validation as $key => $rule)

@@ -107,10 +107,7 @@ class midcom_services_indexer
             return true;
         }
 
-        if (!is_array($documents))
-        {
-            $documents = array($documents);
-        }
+        $documents = (array) $documents;
         if (count($documents) == 0)
         {
             // Nothing to do.
@@ -168,10 +165,7 @@ class midcom_services_indexer
         {
             return true;
         }
-        if (!is_array($RIs))
-        {
-            $RIs = array($RIs);
-        }
+        $RIs = (array) $RIs;
         if (count($RIs) == 0)
         {
             // Nothing to do.

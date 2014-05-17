@@ -74,13 +74,9 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
     public function index($documents)
     {
         $this->factory->reset();
-        if (!is_array($documents))
-        {
-            $documents = array($documents);
-        }
 
         $added = false;
-        foreach ($documents as $document)
+        foreach ((array) $documents as $document)
         {
             if (!$document->actually_index)
             {
@@ -107,11 +103,7 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
     public function delete($RIs)
     {
         $this->factory->reset();
-        if (!is_array($RIs))
-        {
-            $RIs = array($RIs);
-        }
-        foreach ($RIs as $RI)
+        foreach ((array) $RIs as $RI)
         {
             $this->factory->delete($RI);
         }

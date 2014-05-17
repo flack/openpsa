@@ -427,20 +427,20 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
      */
     public function _prepare_request_switch()
     {
-        foreach ($this->_request_switch as $key => $value)
+        foreach ($this->_request_switch as $key => &$value)
         {
             if (empty($value['fixed_args']))
             {
-                $this->_request_switch[$key]['fixed_args'] = Array();
+                $value['fixed_args'] = Array();
             }
-            else if (is_string($value['fixed_args']))
+            else
             {
-                $this->_request_switch[$key]['fixed_args'] = Array($value['fixed_args']);
+                $value['fixed_args'] = (array) $value['fixed_args'];
             }
 
             if (! array_key_exists('variable_args', $value))
             {
-                $this->_request_switch[$key]['variable_args'] = 0;
+                $value['variable_args'] = 0;
             }
 
             if (is_string($value['handler']))

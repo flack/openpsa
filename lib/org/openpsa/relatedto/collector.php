@@ -78,43 +78,21 @@ class org_openpsa_relatedto_collector extends midcom_core_collector
         if (is_string($guids))
         {
             parent::__construct('org_openpsa_relatedto_dba', $this->_object_prefix . 'Guid', $guids);
-            $this->initialize();
-            if (is_string($classes))
-            {
-                $this->add_constraint($this->_other_prefix . 'Class', '=', $classes);
-            }
-            else
-            {
-                $this->add_constraint($this->_other_prefix . 'Class', 'IN', $classes);
-            }
+            $this->add_constraint($this->_other_prefix . 'Class', 'IN', (array) $classes);
         }
         else if (is_string($classes))
         {
             parent::__construct('org_openpsa_relatedto_dba', $this->_other_prefix . 'Class', $classes);
-            $this->initialize();
-            if (is_string($guids))
-            {
-                $this->add_constraint($this->_object_prefix . 'Guid', '=', $guids);
-            }
-            else
-            {
-                $this->add_constraint($this->_object_prefix . 'Guid', 'IN', $guids);
-            }
+            $this->add_constraint($this->_object_prefix . 'Guid', 'IN', (array) $guids);
         }
         else
         {
             throw new midcom_error('None of the arguments was passed as a string');
         }
+        $this->initialize();
 
         //save target classes for later use
-        if (is_string($classes))
-        {
-            $this->_target_classes = array($classes);
-        }
-        else
-        {
-            $this->_target_classes = $classes;
-        }
+        $this->_target_classes = (array) $classes;
 
         $this->add_value_property($this->_other_prefix . 'Guid');
     }

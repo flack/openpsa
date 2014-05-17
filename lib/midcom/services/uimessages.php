@@ -72,13 +72,6 @@ class midcom_services_uimessages
     private $_messages_from_session = array();
 
     /**
-     * ID of the latest UI message added so we can auto-increment
-     *
-     * @var integer
-     */
-    private $_latest_message_id = 0;
-
-    /**
      * DOM path of the UI message holder object
      *
      * @var String
@@ -186,20 +179,14 @@ class midcom_services_uimessages
             return false;
         }
 
-        // Properly escape the title and message contents
-        $title = str_replace("'", '\\\'', $title);
-        $message = str_replace("'", '\\\'', $message);
-
-        $this->_latest_message_id++;
-
         // Append to message stack
-        $this->_message_stack[$this->_latest_message_id] = array
+        $this->_message_stack[] = array
         (
             'title'   => $title,
             'message' => $message,
             'type'    => $type,
         );
-        return $this->_latest_message_id;
+        return true;
     }
 
     /**

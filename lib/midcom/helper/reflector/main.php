@@ -442,8 +442,8 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         //sanity
         if (!is_array($icons2classes))
         {
-            debug_add('Config key "create_type_magic" is not an array', MIDCOM_LOG_ERROR);
-            debug_print_r("\$this->_config->get('create_type_magic')", $icons2classes, MIDCOM_LOG_INFO);
+            debug_add('Config key "' . $config_key . '" is not an array', MIDCOM_LOG_ERROR);
+            debug_print_r("\$this->_config->get('" . $config_key . "')", $icons2classes, MIDCOM_LOG_INFO);
         }
         else
         {

@@ -214,10 +214,9 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
      */
     function get_leaves($key)
     {
-        $result = false;
         if ($this->_cache === null)
         {
-            return $result;
+            return false;
         }
 
         $lang_id = midcom::get('i18n')->get_current_language();
@@ -273,12 +272,9 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
         $result = $this->_cache->get("{$this->_prefix}-{$key}");
         if (!is_array($result))
         {
-            $result = array($lang_id => $data);
+            $result = array();
         }
-        else
-        {
-            $result[$lang_id] = $data;
-        }
+        $result[$lang_id] = $data;
         $this->_cache->put("{$this->_prefix}-{$key}", $result, $timeout);
         $this->_cache->put($this->_prefix . '-' . $data[MIDCOM_NAV_GUID], $result, $timeout);
     }
@@ -301,12 +297,9 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
         $result = $this->_cache->get("{$this->_prefix}-{$guid}");
         if (!is_array($result))
         {
-            $result = array($lang_id => $data);
+            $result = array();
         }
-        else
-        {
-            $result[$lang_id] = $data;
-        }
+        $result[$lang_id] = $data;
         $this->_cache->put($this->_prefix . '-' . $guid, $result, $timeout);
     }
 
@@ -351,12 +344,9 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
         $result = $this->_cache->get("{$this->_prefix}-{$key}");
         if (!is_array($result))
         {
-            $result = array($lang_id => $data);
+            $result = array();
         }
-        else
-        {
-            $result[$lang_id] = $data;
-        }
+        $result[$lang_id] = $data;
         $this->_cache->put("{$this->_prefix}-{$key}", $result, $timeout);
     }
 }

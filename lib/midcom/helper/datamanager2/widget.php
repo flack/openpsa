@@ -176,12 +176,7 @@ abstract class midcom_helper_datamanager2_widget extends midcom_baseclasses_comp
 
     protected function _require_type_class($classes)
     {
-        if (!is_array($classes))
-        {
-            $classes = (array) $classes;
-        }
-
-        foreach ($classes as $class)
+        foreach ((array) $classes as $class)
         {
             if (is_a($this->_type, $class))
             {
