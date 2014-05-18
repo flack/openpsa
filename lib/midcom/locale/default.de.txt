@@ -474,10 +474,6 @@ GUID des Elternelements
 Passwort
 ---STRINGEND
 
----STRING password mismatch
-Die Passwörter stimmen nicht überein.
----STRINGEND
-
 ---STRING permalink
 Permalink
 ---STRINGEND

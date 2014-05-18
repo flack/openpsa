@@ -178,10 +178,6 @@ The new password was already used
 Password strength is too weak
 ---STRINGEND
 
----STRING passwords don't match
-Passwords don't match!
----STRINGEND
-
 ---STRING permissions
 Permissions
 ---STRINGEND

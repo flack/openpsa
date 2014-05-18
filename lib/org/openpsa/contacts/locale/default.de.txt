@@ -110,10 +110,6 @@ Untergruppe erstellen
 Kontakte von %s
 ---STRINGEND
 
----STRING customers invoices
-Rechnungen des Kunden
----STRINGEND
-
 ---STRING daughter organization
 Unterorganisation
 ---STRINGEND

@@ -98,10 +98,6 @@ Create subgroup
 Contacts of %s
 ---STRINGEND
 
----STRING customers invoices
-Customer's invoices
----STRINGEND
-
 ---STRING daughter organization
 Daughter organization
 ---STRINGEND

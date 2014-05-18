@@ -442,10 +442,6 @@ Parametrar
 Lösenord
 ---STRINGEND
 
----STRING password mismatch
-Lösenorden matchar inte
----STRINGEND
-
 ---STRING permalink
 Permalänk
 ---STRINGEND

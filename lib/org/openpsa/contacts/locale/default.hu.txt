@@ -34,10 +34,6 @@ Szervezet létrehozása
 Személy létrehozása
 ---STRINGEND
 
----STRING customers invoices
-Ügyfelek számlái
----STRINGEND
-
 ---STRING daughter organization
 Leány vállalat
 ---STRINGEND
@@ -177,12 +173,3 @@ Szervezetek
 ---STRING partner
 Partner
 ---STRINGEND
-
----STRING password repeat
-Jelszó (még egyszer)
----STRINGEND
-
----STRING passwords don't match
-A jelszavak nem egyeznek
----STRINGEND
-

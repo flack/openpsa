@@ -462,10 +462,6 @@ Vanhemman GUID
 Salasana
 ---STRINGEND
 
----STRING password mismatch
-Salasanat eivät täsmää
----STRINGEND
-
 ---STRING permalink
 Pysyvä linkki
 ---STRINGEND

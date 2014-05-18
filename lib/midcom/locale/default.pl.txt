@@ -470,10 +470,6 @@ GUID rodzica
 Hasło
 ---STRINGEND
 
----STRING password mismatch
-Hasło nie pasuje
----STRINGEND
-
 ---STRING permalink
 Permalink
 ---STRINGEND

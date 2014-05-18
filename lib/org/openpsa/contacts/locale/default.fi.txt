@@ -70,10 +70,6 @@ Luo henkilö
 Luo aliorganisaatio
 ---STRINGEND
 
----STRING customers invoices
-Asiakkaan laskut
----STRINGEND
-
 ---STRING daughter organization
 Tytäryhtiö
 ---STRINGEND

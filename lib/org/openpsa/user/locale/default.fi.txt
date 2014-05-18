@@ -106,10 +106,6 @@ Uutta salasanaa on jo käytetty
 Salasana on liian heikko
 ---STRINGEND
 
----STRING passwords don't match
-Salasanat eivät täsmää!
----STRINGEND
-
 ---STRING permissions
 Käyttöoikeudet
 ---STRINGEND

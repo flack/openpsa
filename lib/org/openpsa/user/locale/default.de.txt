@@ -182,10 +182,6 @@ Passwortstärke ist sehr gut
 Das neue Passwort wurde schon einmal benutzt
 ---STRINGEND
 
----STRING passwords don't match
-Kennwörter stimmen nicht überein!
----STRINGEND
-
 ---STRING password expired
 Ihr Passwort ist abgelaufen, bitte erstellen Sie ein neues.
 ---STRINGEND

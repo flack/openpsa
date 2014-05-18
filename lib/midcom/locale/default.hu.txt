@@ -182,10 +182,6 @@ Oldal
 Jelszó
 ---STRINGEND
 
----STRING password mismatch
-Hibás jelszó
----STRINGEND
-
 ---STRING previous
 Előző
 ---STRINGEND

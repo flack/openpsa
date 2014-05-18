@@ -241,13 +241,13 @@ if ($invoice->cancelationInvoice)
     if ($view['files'] != "")
     { ?>
         <p><strong><?php echo $data['l10n']->get('files'); ?></strong></p>
-        <?php echo org_openpsa_helpers::render_fileinfo($invoice, 'files'); ?>
-    <?php }
+        <?php echo org_openpsa_helpers::render_fileinfo($invoice, 'files');
+    }
     if ($view['pdf_file'] != "")
     { ?>
         <p><strong><?php echo $data['l10n']->get('pdf file'); ?></strong></p>
-        <?php echo org_openpsa_helpers::render_fileinfo($invoice, 'pdf_file'); ?>
-    <?php }
+        <?php echo org_openpsa_helpers::render_fileinfo($invoice, 'pdf_file');
+    }
 
 // Display invoiced hours and tasks
 if (!empty($data['reports']))

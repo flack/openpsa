@@ -186,10 +186,6 @@ Eier
 Passord
 ---STRINGEND
 
----STRING password mismatch
-Passordene er ikke like
----STRINGEND
-
 ---STRING photo in %s
 Bilde i %s
 ---STRINGEND

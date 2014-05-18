@@ -502,10 +502,6 @@ Parent GUID
 Password
 ---STRINGEND
 
----STRING password mismatch
-Passwords do not match
----STRINGEND
-
 ---STRING permalink
 Permalink
 ---STRINGEND
