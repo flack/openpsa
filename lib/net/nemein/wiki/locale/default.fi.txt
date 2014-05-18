@@ -6,24 +6,8 @@
 Sivun päivitys
 ---STRINGEND
 
----STRING allow_anonymous
-Salli julkinen muokkaaminen
----STRINGEND
-
 ---STRING anonymous
 Tuntematon käyttäjä
----STRINGEND
-
----STRING anonymous password
-Julkisen käyttäjän salasana
----STRINGEND
-
----STRING anonymous posting
-Julkinen muokkaaminen
----STRINGEND
-
----STRING anonymous username
-Julkisen käyttäjän käyttäjätunnus
 ---STRINGEND
 
 ---STRING author
@@ -56,10 +40,6 @@ Lisää muistiinpanot
 
 ---STRING create page %s
 Luo sivu "%s"
----STRINGEND
-
----STRING create pages by linking
-Voit lisätä sivuja tähän <a href="http://fi.wikipedia.org/wiki/Wiki">Wikiin</a> linkittämällä olemassa olemattomiin sivuihin käyttämällä hakasulkeita. Aloita muokkaamalla wikin etusivua.
 ---STRINGEND
 
 ---STRING create redirection page %s

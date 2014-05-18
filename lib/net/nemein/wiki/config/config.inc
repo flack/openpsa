@@ -1,5 +1,4 @@
 'schemadb'        => 'file:/net/nemein/wiki/config/schemadb_default.inc',
-'allow_anonymous' => false,
 'wikilink_regexp' => '/\[(.*?)\](.|)/',
 'rss_count'       => 20,
 'latest_count'     => 10,

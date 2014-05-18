@@ -10,24 +10,8 @@
 Seite aktualisiert
 ---STRINGEND
 
----STRING allow_anonymous
-Anonyme Beiträge erlauben
----STRINGEND
-
 ---STRING anonymous
 Anonym
----STRINGEND
-
----STRING anonymous password
-Passwort für den anonymen Zugriff
----STRINGEND
-
----STRING anonymous posting
-Anonyme Beiträge
----STRINGEND
-
----STRING anonymous username
-Benutzername für den anonymen Zugriff
 ---STRINGEND
 
 ---STRING author
@@ -60,10 +44,6 @@ Notiz erstellen
 
 ---STRING create page %s
 Seite "%s" erstellen
----STRINGEND
-
----STRING create pages by linking
-Sie können Seiten zu diesem <a href="http://de.wikipedia.org/wiki/Wiki">Wiki</a> hinzufügen, indem sie auf nichtexistente Seiten im Wiki linking-Format verweisen. Beginnen sie mit der Bearbietung der Startseite.
 ---STRINGEND
 
 ---STRING create redirection page %s

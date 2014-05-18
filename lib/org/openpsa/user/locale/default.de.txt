@@ -154,10 +154,6 @@ Willkommens-Mail schicken?
 Der Benutzer ist online
 ---STRINGEND
 
----STRING password_too_weak
-Passwort zu schwach
----STRINGEND
-
 ---STRING password is the same as the current one
 Das Passwort ist gleich dem derzeitigen Passwort
 ---STRINGEND

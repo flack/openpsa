@@ -2,28 +2,8 @@
 ---VERSION 2.1.0
 ---LANGUAGE sv
 
----STRING allow_anonymous
-Tillåt anonyma onlägg
----STRINGEND
-
----STRING anonymous password
-Anonymt lösenord
----STRINGEND
-
----STRING anonymous posting
-Anonyma inlägg
----STRINGEND
-
----STRING anonymous username
-Anonymt anmndarnamn
----STRINGEND
-
 ---STRING click to create
 Klicka för att skapa Wiki sida
----STRINGEND
-
----STRING create pages by linking
-Du kan lägga till sidor genom att länka till icke exiterande sidor genom att använda <a href="http://sv.wikipedia.org/wiki/CamelCase">CamelCase</a> notering.
 ---STRINGEND
 
 ---STRING edit wikipage

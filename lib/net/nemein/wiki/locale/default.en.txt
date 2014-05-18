@@ -10,24 +10,8 @@
 Page updated
 ---STRINGEND
 
----STRING allow_anonymous
-Allow anonymous posting
----STRINGEND
-
 ---STRING anonymous
 Anonymous
----STRINGEND
-
----STRING anonymous password
-Anonymous user's password
----STRINGEND
-
----STRING anonymous posting
-Anonymous posting
----STRINGEND
-
----STRING anonymous username
-Anonymous user's username
 ---STRINGEND
 
 ---STRING author
@@ -60,10 +44,6 @@ Create note
 
 ---STRING create page %s
 Create page "%s"
----STRINGEND
-
----STRING create pages by linking
-You can add pages to this <a href="http://en.wikipedia.org/wiki/Wiki">Wiki</a>  by linking to non-existing pages using Wiki linking format. Start by editing the wiki front page.
 ---STRINGEND
 
 ---STRING create redirection page %s

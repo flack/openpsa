@@ -146,10 +146,6 @@ Send welcome mail?
 User is online
 ---STRINGEND
 
----STRING password_too_weak
-Password too weak.
----STRINGEND
-
 ---STRING password expired
 Your password has expired, please choose a new one.
 ---STRINGEND
