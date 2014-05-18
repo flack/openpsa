@@ -14,7 +14,7 @@ if (!is_null($workingon->task))
     $current_task = '[' . $workingon->task->guid . ']';
     $helptext = $workingon->task->get_label();
 }
-
+midcom::get('uimessages')->show();
 ?>
 
 <div id="org_openpsa_mypage_workingon_widget">

@@ -62,16 +62,16 @@ Viikon yhteenveto
 Laskutettava
 ---STRINGEND
 
----STRING reporting %d hours to task %s failed, reason %s
-%d tunnin raportointi tehtävään %s epäonnistui, syy %s
+---STRING reporting %f hours to task %s failed, reason %s
+%01.2f tunnin raportointi tehtävään %s epäonnistui, syy %s
 ---STRINGEND
 
 ---STRING see all %s hours
 Näytä kaikki %s tunnit
 ---STRINGEND
 
----STRING successfully reported %d hours to task %s
-%d tunnin raportointi tehtävään %s onnistui
+---STRING successfully reported %f hours to task %s
+%01.2f tunnin raportointi tehtävään %s onnistui
 ---STRINGEND
 
 ---STRING this week

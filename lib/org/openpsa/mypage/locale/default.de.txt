@@ -78,8 +78,8 @@ Nicht abrechenbar
 Sie arbeiten an
 ---STRINGEND
 
----STRING reporting %d hours to task %s failed, reason %s
-Melden von %d Arbeitsstunden für Aufgabe "%s" ist fehlgeschlagen, Ursache: %s
+---STRING reporting %f hours to task %s failed, reason %s
+Melden von %01.2f Arbeitsstunden für Aufgabe "%s" ist fehlgeschlagen, Ursache: %s
 ---STRINGEND
 
 ---STRING start
@@ -90,8 +90,8 @@ Start
 Stop
 ---STRINGEND
 
----STRING successfully reported %d hours to task %s
-%d Arbeitsstunden für Aufgabe "%s" erfolgreich gemeldet
+---STRING successfully reported %f hours to task %s
+%01.2f Arbeitsstunden für Aufgabe "%s" erfolgreich gemeldet
 ---STRINGEND
 
 ---STRING worked from %s to %s

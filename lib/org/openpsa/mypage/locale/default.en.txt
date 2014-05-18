@@ -42,8 +42,8 @@ Personal Summary
 Preview for week %s
 ---STRINGEND
 
----STRING reporting %d hours to task %s failed, reason %s
-Reporting %d hours to task %s failed, reason %s
+---STRING reporting %f hours to task %s failed, reason %s
+Reporting %01.2f hours to task %s failed, reason %s
 ---STRINGEND
 
 ---STRING review of week %s
@@ -62,8 +62,8 @@ Start
 Stop
 ---STRINGEND
 
----STRING successfully reported %d hours to task %s
-Successfully reported %d hours to task %s
+---STRING successfully reported %f hours to task %s
+Successfully reported %01.2f hours to task %s
 ---STRINGEND
 
 ---STRING this week

@@ -173,8 +173,7 @@ class org_openpsa_mypage_handler_workingon extends midcom_baseclasses_components
 
         // Set the "now working on" status
         $workingon = new org_openpsa_mypage_workingon();
-        $stat = $workingon->set($_POST['task']);
-        if (!$stat)
+        if (!$workingon->set($_POST['task']))
         {
             midcom::get('uimessages')->add($this->_l10n->get('org.openpsa.mypage'),  'Failed to set "working on" parameter to "' . $_POST['task'] . '", reason ' . midcom_connection::get_error_string(), 'error');
         }
