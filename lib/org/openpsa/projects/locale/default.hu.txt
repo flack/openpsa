@@ -2,10 +2,6 @@
 ---VERSION 2.1.0
 ---LANGUAGE hu
 
----STRING %s projects
-%s projektek
----STRINGEND
-
 ---STRING accept
 Elfogva
 ---STRINGEND
@@ -336,18 +332,6 @@ Az egész OpenPSA-ból
 
 ---STRING work started by %s
 %s által a munka elkezdve
----STRINGEND
-
----STRING you are not subscribed to project
-Ön nem megrendelője a projektnek
----STRINGEND
-
----STRING you are project participant
-Ön a projekt résztvevője
----STRINGEND
-
----STRING you are project subscriber
-Ön a projekt megrendelője
 ---STRINGEND
 
 ---STRING %s of %s planned hours booked

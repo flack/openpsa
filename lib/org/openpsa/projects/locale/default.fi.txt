@@ -10,10 +10,6 @@
 %sh %s:stä arvioidusta tunnista varattu kalenterista
 ---STRINGEND
 
----STRING %s projects
-%s projektia
----STRINGEND
-
 ---STRING accept
 Hyväksy
 ---STRINGEND
@@ -428,18 +424,6 @@ Tee tehtävää %s
 
 ---STRING work started by %s
 Työn aloittanut %s
----STRINGEND
-
----STRING you are not subscribed to project
-Et ole projektissa yhteyshenkilönä
----STRINGEND
-
----STRING you are project participant
-Olet projektin osallistuja
----STRINGEND
-
----STRING you are project subscriber
-Olet projektin yhteyshenkilö
 ---STRINGEND
 
 ---STRING task deletion now allowed because of hour reports

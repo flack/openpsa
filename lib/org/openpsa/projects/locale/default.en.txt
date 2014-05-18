@@ -10,10 +10,6 @@
 %s of %s planned hours booked in calendar
 ---STRINGEND
 
----STRING %s projects
-%s projects
----STRINGEND
-
 ---STRING accept
 Accept
 ---STRINGEND
@@ -468,18 +464,6 @@ Work for task %s
 
 ---STRING work started by %s
 Work started by %s
----STRINGEND
-
----STRING you are not subscribed to project
-You are not subscribed to project
----STRINGEND
-
----STRING you are project participant
-You are project participant
----STRINGEND
-
----STRING you are project subscriber
-You are project subscriber
 ---STRINGEND
 
 ---STRING priority

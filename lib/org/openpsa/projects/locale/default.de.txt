@@ -10,10 +10,6 @@
 %s von %s geplanten Arbeitsstunden sind im Kalender gebucht
 ---STRINGEND
 
----STRING %s projects
-%s Projekte
----STRINGEND
-
 ---STRING accept
 Annehmen
 ---STRINGEND
@@ -464,18 +460,6 @@ Arbeit an Aufgabe %s
 
 ---STRING work started by %s
 Arbeit begonnen von %s
----STRINGEND
-
----STRING you are not subscribed to project
-Sie haben dieses Projekt nicht abonniert
----STRINGEND
-
----STRING you are project participant
-Sie sind Projektteilehmer
----STRINGEND
-
----STRING you are project subscriber
-Sie haben das Projekt abonniert
 ---STRINGEND
 
 ---STRING pending_accept tasks

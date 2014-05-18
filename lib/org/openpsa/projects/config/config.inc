@@ -17,5 +17,4 @@
 'schemadb_project' => 'file:/org/openpsa/projects/config/schemadb_default_project.inc',
 'schemadb_csvexport_project' => 'file:/org/openpsa/projects/config/schemadb_default_project.inc',
 
-'list_projects_by_status' => true,
 'default_minimum_time_slot' => 0.25,

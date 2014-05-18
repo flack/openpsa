@@ -1,17 +1,3 @@
-// Match /project/list/<status>
-'project-list-status' => array
-(
-    'handler' => array('org_openpsa_projects_handler_project_list', 'list'),
-    'fixed_args' => array('project', 'list'),
-    'variable_args' => 1,
-),
-// Match /project/list
-'project-list' => array
-(
-    'handler' => array('org_openpsa_projects_handler_project_list', 'list'),
-    'fixed_args' => array('project', 'list'),
-),
-
 // Match /project/edit/<GUID>
 'project-edit' => array
 (
