@@ -194,10 +194,6 @@ Brak newsów
 Brak schematów
 ---STRINGEND
 
----STRING not enough privileges to create articles
-Nie masz wystarczających uprawnień by stworzyć nowy artykuł
----STRINGEND
-
 ---STRING posted on %s.
 Wysłano %s.
 ---STRINGEND
@@ -220,14 +216,6 @@ RSS 1.0
 
 ---STRING rss 2.0 feed
 RSS 2.0
----STRINGEND
-
----STRING rss export settings
-Ustawienia RSS
----STRINGEND
-
----STRING rss feed
-Wsad RSS
 ---STRINGEND
 
 ---STRING rss_subscription_enable

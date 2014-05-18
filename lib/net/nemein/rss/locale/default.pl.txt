@@ -10,24 +10,8 @@ Elementów zaimportowanych: %s
 Dodaj RSS
 ---STRINGEND
 
----STRING aggregator mode
-Agregator
----STRINGEND
-
----STRING aggregator settings
-Ustawienia
----STRINGEND
-
 ---STRING approve new items automatically
 Automatycznie zatwierdzaj nowe elementy
----STRINGEND
-
----STRING bloglines
-Bloglines
----STRINGEND
-
----STRING bloglines account
-Konto Bloglines
 ---STRINGEND
 
 ---STRING cancel
@@ -46,10 +30,6 @@ Połącz różne kanaly wg daty
 Domyślny autor
 ---STRINGEND
 
----STRING delete feed
-Usuń wsad
----STRINGEND
-
 ---STRING details
 Szczegóły
 ---STRINGEND
@@ -60,10 +40,6 @@ Wyświetl elementy jako
 
 ---STRING edit feed %s
 Edytuj wsad "%s"
----STRINGEND
-
----STRING feed icon url
-Ikona (opcja)
 ---STRINGEND
 
 ---STRING feed title
@@ -96,10 +72,6 @@ Ostatnie pobranie: %s
 
 ---STRING latest item from %s
 Ostatni element: %s
----STRINGEND
-
----STRING latest items to show
-Ilość elementów
 ---STRINGEND
 
 ---STRING local
@@ -142,28 +114,12 @@ Odśwież wszystkie wsady
 Odśwież wsad
 ---STRINGEND
 
----STRING remote from feed
-Ustawienia zdalne
----STRINGEND
-
 ---STRING remote item
 Element wsadu
 ---STRINGEND
 
 ---STRING remove feed
 Usuń feed
----STRINGEND
-
----STRING rss aggregator
-Agregator RSS
----STRINGEND
-
----STRING rss description
-Opis
----STRINGEND
-
----STRING rss items to show
-Ilość elementów do pokazania
 ---STRINGEND
 
 ---STRING rss output settings
@@ -180,10 +136,6 @@ Dodaj wsady
 
 ---STRING subscribe feeds for %s
 Dodaj wsady do folderu "%s"
----STRINGEND
-
----STRING subscription mode
-Tryb subskrybcji
 ---STRINGEND
 
 ---STRING titles
@@ -208,10 +160,6 @@ Język
 
 ---STRING language (native)
 Język (naturalny)
----STRINGEND
-
----STRING rss export settings
-Ustawienia eksportu RSS
 ---STRINGEND
 
 ---STRING rss_count

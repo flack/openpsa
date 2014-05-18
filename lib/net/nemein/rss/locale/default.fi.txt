@@ -14,24 +14,8 @@ ISO kielikoodi
 Lisää uusi RSS-lähde
 ---STRINGEND
 
----STRING aggregator mode
-Aggregaattorin moodi
----STRINGEND
-
----STRING aggregator settings
-Aggregaattorin asetukset
----STRINGEND
-
 ---STRING approve new items automatically
 Hyväksy uudet uutiset automaattisesti
----STRINGEND
-
----STRING bloglines
-Bloglines-palvelu
----STRINGEND
-
----STRING bloglines account
-Bloglines-tunnus
 ---STRINGEND
 
 ---STRING cancel
@@ -50,10 +34,6 @@ Järjestele uutiset yhteen julkaisuajan mukaan
 Uutisten oletuskirjoittaja
 ---STRINGEND
 
----STRING delete feed
-Poista syöte
----STRINGEND
-
 ---STRING details
 Koko uutinen
 ---STRINGEND
@@ -64,10 +44,6 @@ Näytä uutiset muodossa
 
 ---STRING edit feed %s
 Muokkaa uutissyötettä "%s"
----STRINGEND
-
----STRING feed icon url
-Lähteen kuvakkeen osoite (valinnainen)
 ---STRINGEND
 
 ---STRING feed title
@@ -110,10 +86,6 @@ Viimeisin sisäänluku oli %s
 Viimeisin uutinen on päivätty %s
 ---STRINGEND
 
----STRING latest items to show
-Kuinka monta viimeisintä uutista näytetään?
----STRINGEND
-
 ---STRING local
 Paikallinen tietokanta
 ---STRINGEND
@@ -154,28 +126,12 @@ Päivitä kaikki syötteet
 Päivitä syöte
 ---STRINGEND
 
----STRING remote from feed
-Luetaan lähteestä
----STRINGEND
-
 ---STRING remote item
 Uutinen syötteessä
 ---STRINGEND
 
 ---STRING remove feed
 Poista lähde
----STRINGEND
-
----STRING rss aggregator
-RSS- ja Atom-uutisaggregaattori
----STRINGEND
-
----STRING rss description
-RSS:n kuvaus
----STRINGEND
-
----STRING rss items to show
-Kuinka monta uutista näytetään RSS:ssä?
 ---STRINGEND
 
 ---STRING rss output settings
@@ -196,10 +152,6 @@ Tilaa uusia uutissyötteitä
 
 ---STRING subscribe feeds for %s
 Tilaa uutissyötteitä kansioon "%s"
----STRINGEND
-
----STRING subscription mode
-Tilausten hallinta
 ---STRINGEND
 
 ---STRING titles
@@ -228,10 +180,6 @@ Ylläpitäjän sähköpostiosoite
 
 ---STRING rss_language
 Kieli
----STRINGEND
-
----STRING rss export settings
-RSS-asetukset
 ---STRINGEND
 
 ---STRING rss_count

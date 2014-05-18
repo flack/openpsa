@@ -218,10 +218,6 @@ No news found.
 No Layout Schema available
 ---STRINGEND
 
----STRING not enough privileges to create articles
-You do not have the privileges required to cretate new articles.
----STRINGEND
-
 ---STRING posted on %s.
 Posted on %s.
 ---STRINGEND
@@ -244,14 +240,6 @@ RSS 1.0 feed
 
 ---STRING rss 2.0 feed
 RSS 2.0 feed
----STRINGEND
-
----STRING rss export settings
-RSS export
----STRINGEND
-
----STRING rss feed
-RSS Feed
 ---STRINGEND
 
 ---STRING rss_subscription_enable

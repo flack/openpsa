@@ -6,10 +6,6 @@
 Opret artikel
 ---STRINGEND
 
----STRING newsticker administration
-Administration af nyhedsliste
----STRINGEND
-
 ---STRING no schema available
 Intet layoutskema tilgængeligt
 ---STRINGEND

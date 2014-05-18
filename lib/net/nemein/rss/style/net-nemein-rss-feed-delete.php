@@ -2,7 +2,7 @@
 $view = $data['controller']->datamanager->get_content_html();
 ?>
 
-<h2><?php echo $data['l10n']->get('delete feed'); ?>: &(view['title']:h);</h2>
+<h2><?php echo $data['l10n']->get('remove feed'); ?>: &(view['title']:h);</h2>
 
 <form action="" method="post">
   <input type="submit" name="net_nemein_rss_deleteok" class="delete" accesskey="d" value="<?php echo $data['l10n_midcom']->get('delete'); ?> " />

@@ -178,10 +178,6 @@ Keine Artikel gefunden.
 Kein Layout-Schema verfügbar
 ---STRINGEND
 
----STRING not enough privileges to create articles
-Sie haben keine ausreichenden Berechtigungen, um neue Artikel zu erstellen.
----STRINGEND
-
 ---STRING posted on %s.
 Veröffentlicht am %s.
 ---STRINGEND
@@ -200,14 +196,6 @@ RSS 1.0-Feed
 
 ---STRING rss 2.0 feed
 RSS 2.0-Feed
----STRINGEND
-
----STRING rss export settings
-RSS-Export
----STRINGEND
-
----STRING rss feed
-RSS-Feed
 ---STRINGEND
 
 ---STRING rss_subscription_enable

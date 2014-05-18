@@ -22,7 +22,7 @@ URL ленты новостей
 Удалить ленту новостей
 ---STRINGEND
 
----STRING rss aggregator
+---STRING net.nemein.rss
 Информационный центр RSS
 ---STRINGEND
 

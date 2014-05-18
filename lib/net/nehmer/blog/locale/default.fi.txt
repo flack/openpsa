@@ -198,10 +198,6 @@ Ei uutisia.
 Tietokantakuvausta (schema) ei löydy
 ---STRINGEND
 
----STRING not enough privileges to create articles
-Sinulla ei ole riittäviä oikeuksia artikkelien luontiin.
----STRINGEND
-
 ---STRING posted on %s.
 Julkaistu %s.
 ---STRINGEND
@@ -224,10 +220,6 @@ RSS 1.0 -syöte
 
 ---STRING rss 2.0 feed
 RSS 2.0 -syöte
----STRINGEND
-
----STRING rss feed
-RSS-syöte
 ---STRINGEND
 
 ---STRING rss_subscription_enable

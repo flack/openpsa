@@ -10,24 +10,8 @@
 Lägg till ny kanal
 ---STRINGEND
 
----STRING aggregator mode
-Aggregator läge
----STRINGEND
-
----STRING aggregator settings
-Aggregator inställningar
----STRINGEND
-
 ---STRING approve new items automatically
 Godkänn nya artiklar automatiskt
----STRINGEND
-
----STRING bloglines
-Bloglines
----STRINGEND
-
----STRING bloglines account
-Bloglines konto
 ---STRINGEND
 
 ---STRING cancel
@@ -46,10 +30,6 @@ Kombinera objekt från alla kanaler efter publiceringsdatum
 Standard författare för artiklar
 ---STRINGEND
 
----STRING delete feed
-Radera feed
----STRINGEND
-
 ---STRING details
 Alla detaljer
 ---STRINGEND
@@ -60,10 +40,6 @@ Visa objekt som
 
 ---STRING edit feed %s
 Ändra feed "%s"
----STRINGEND
-
----STRING feed icon url
-Kanalens icon url
 ---STRINGEND
 
 ---STRING feed title
@@ -98,10 +74,6 @@ Senaste hämtning gjordes %s
 Senaste artikel är från %s
 ---STRINGEND
 
----STRING latest items to show
-Hur många senaste objekt ska visas?
----STRINGEND
-
 ---STRING local
 Spara lokalt
 ---STRINGEND
@@ -134,24 +106,12 @@ Inga artiklar funna i feed.
 OPML fil
 ---STRINGEND
 
----STRING remote from feed
-Från feed
----STRINGEND
-
 ---STRING remote item
 Artikel i feed
 ---STRINGEND
 
 ---STRING remove feed
 Radera feed
----STRINGEND
-
----STRING rss aggregator
-RSS nyhets aggregator
----STRINGEND
-
----STRING rss description
-RSS beskrivning
 ---STRINGEND
 
 ---STRING rss items to show
@@ -168,10 +128,6 @@ Spara
 
 ---STRING subscribe feeds
 Prenumerera på nya feeds
----STRINGEND
-
----STRING subscription mode
-Prenumerations läge
 ---STRINGEND
 
 ---STRING titles

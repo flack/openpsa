@@ -18,24 +18,8 @@ ISO code
 Add new feed
 ---STRINGEND
 
----STRING aggregator mode
-Aggregator mode
----STRINGEND
-
----STRING aggregator settings
-Aggregator settings
----STRINGEND
-
 ---STRING approve new items automatically
 Approve new items automatically
----STRINGEND
-
----STRING bloglines
-Bloglines
----STRINGEND
-
----STRING bloglines account
-Bloglines account
 ---STRINGEND
 
 ---STRING cancel
@@ -54,10 +38,6 @@ Combine items from all channels by publication date
 Default author for items
 ---STRINGEND
 
----STRING delete feed
-Delete feed
----STRINGEND
-
 ---STRING details
 Full details
 ---STRINGEND
@@ -68,10 +48,6 @@ Display items as
 
 ---STRING edit feed %s
 Edit feed "%s"
----STRINGEND
-
----STRING feed icon url
-Feed icon's URL (optional)
 ---STRINGEND
 
 ---STRING feed title
@@ -114,10 +90,6 @@ Latest fetch was on %s
 Latest item is from %s
 ---STRINGEND
 
----STRING latest items to show
-How many latest items to show?
----STRINGEND
-
 ---STRING local
 Local storage
 ---STRINGEND
@@ -158,28 +130,12 @@ Refresh all feeds
 Refresh feed
 ---STRINGEND
 
----STRING remote from feed
-Remote from feed
----STRINGEND
-
 ---STRING remote item
 Item in feed
 ---STRINGEND
 
 ---STRING remove feed
 Remove feed
----STRINGEND
-
----STRING rss aggregator
-RSS and Atom news aggregator
----STRINGEND
-
----STRING rss description
-RSS description
----STRINGEND
-
----STRING rss items to show
-How many news items to show?
 ---STRINGEND
 
 ---STRING rss output settings
@@ -224,10 +180,6 @@ Subscribe new feeds
 
 ---STRING subscribe feeds for %s
 Subscribe feeds for folder "%s"
----STRINGEND
-
----STRING subscription mode
-Subscription mode
 ---STRINGEND
 
 ---STRING titles

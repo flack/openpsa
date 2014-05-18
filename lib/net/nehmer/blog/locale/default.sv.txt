@@ -166,10 +166,6 @@ Inga nyheter funna.
 Inget Schema tillgängligt
 ---STRINGEND
 
----STRING not enough privileges to create articles
-Du saknar rättigheter för att skapa nya artiklar
----STRINGEND
-
 ---STRING posted on %s.
 Postad %s.
 ---STRINGEND
@@ -188,14 +184,6 @@ RSS 1.0 feed
 
 ---STRING rss 2.0 feed
 RSS 2.0 feed
----STRINGEND
-
----STRING rss export settings
-RSS export
----STRINGEND
-
----STRING rss feed
-RSS Feed
 ---STRINGEND
 
 ---STRING schema database

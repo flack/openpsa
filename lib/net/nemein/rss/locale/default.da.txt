@@ -22,7 +22,7 @@ URL for kilde
 Fjern nyhedskilde
 ---STRINGEND
 
----STRING rss aggregator
+---STRING net.nemein.rss
 RSS news aggregator
 ---STRINGEND
 

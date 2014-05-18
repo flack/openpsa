@@ -10,24 +10,8 @@
 Neuen Feed hinzufügen
 ---STRINGEND
 
----STRING aggregator mode
-Aggregator-Modus
----STRINGEND
-
----STRING aggregator settings
-Aggregator-Einstellungen
----STRINGEND
-
 ---STRING approve new items automatically
 Neue Einträge automatisch freigeben
----STRINGEND
-
----STRING bloglines
-Bloglines
----STRINGEND
-
----STRING bloglines account
-Bloglines-Account
 ---STRINGEND
 
 ---STRING cancel
@@ -46,10 +30,6 @@ Die Einträge aller Kanäle kombinieren und nach Veröffentlichungsdatum sortier
 Standard-Verfasser für Einträge
 ---STRINGEND
 
----STRING delete feed
-Feed löschen
----STRINGEND
-
 ---STRING details
 Alle Details
 ---STRINGEND
@@ -60,10 +40,6 @@ Einträge anzeigen als
 
 ---STRING edit feed %s
 Feed "%s" bearbeiten
----STRINGEND
-
----STRING feed icon url
-URL des Feed-Icons (optional)
 ---STRINGEND
 
 ---STRING feed title
@@ -96,10 +72,6 @@ Zuletzt abgerufen: %s
 
 ---STRING latest item from %s
 Der neueste Eintrag ist vom %s
----STRINGEND
-
----STRING latest items to show
-Wieviele Einträge sollen in der "latest"-Ansicht angezeigt werden?`
 ---STRINGEND
 
 ---STRING local
@@ -142,10 +114,6 @@ All Feeds aktualisieren
 Feed aktualisieren
 ---STRINGEND
 
----STRING remote from feed
-Aus dem Feed entfernen
----STRINGEND
-
 ---STRING remote item
 Eintrag im Feed
 ---STRINGEND
@@ -178,18 +146,6 @@ Titel des RSS-Feeds (keine Eingabe verwendet den Titel des Ordners als Standardw
 E-Mail-Adresse des Webmasters
 ---STRINGEND
 
----STRING rss aggregator
-RSS und Atom News-Aggregator
----STRINGEND
-
----STRING rss description
-RSS-Beschreibung
----STRINGEND
-
----STRING rss items to show
-Wieviele Einträge sollen angezeigt werden?
----STRINGEND
-
 ---STRING rss output settings
 Einstellungen für die RSS-Ausgabe
 ---STRINGEND
@@ -204,10 +160,6 @@ Neue Feeds abonnieren
 
 ---STRING subscribe feeds for %s
 Feeds für Ordner "%s" abonnieren
----STRINGEND
-
----STRING subscription mode
-Abonnement-Modus
 ---STRINGEND
 
 ---STRING titles

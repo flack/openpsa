@@ -69,7 +69,7 @@ if ($data['feed']->can_do('midgard:delete'))
         array
         (
             MIDCOM_TOOLBAR_URL => "__feeds/rss/delete/{$data['feed']->guid}/",
-            MIDCOM_TOOLBAR_LABEL => $data['l10n']->get('delete feed'),
+            MIDCOM_TOOLBAR_LABEL => $data['l10n']->get('remove feed'),
             MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
         )
     );
