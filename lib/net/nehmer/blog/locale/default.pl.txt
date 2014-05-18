@@ -6,10 +6,6 @@
 %s: kategoria "%s"
 ---STRINGEND
 
----STRING add a new entry
-Dodaj
----STRINGEND
-
 ---STRING advanced schema and data settings
 Zaawansowane
 ---STRINGEND
@@ -134,20 +130,8 @@ Włącz szczegóły
 Włącz filtry pola (jako parametry GET)
 ---STRINGEND
 
----STRING enable public posting
-Włącz publikacje anonimowe ("Książka gości")
----STRINGEND
-
 ---STRING enable scheduled publishing
 Włącz planowanie publikacji
----STRINGEND
-
----STRING enable subdirectories
-Dołącz podkategorie do Indeksu oraz RSS
----STRINGEND
-
----STRING expert settings
-Zaawansowane
 ---STRINGEND
 
 ---STRING failed to delete the blog link, contact the site administrator
@@ -160,10 +144,6 @@ Pierwszy post: %s
 
 ---STRING from
 Z
----STRINGEND
-
----STRING help_style
-Elementy szablonów
 ---STRINGEND
 
 ---STRING if you want to delete the original article, <a href="%s">click here</a>
@@ -198,24 +178,12 @@ Wyświetla ostatnich {$args[0]} wpisów.
 Linkuj do zewnętrznych URLi jeśli możliwe
 ---STRINGEND
 
----STRING list old items in index
-Pokaż stare elementy w indeksie
----STRINGEND
-
 ---STRING navigation options
 Opcje nawigacji
 ---STRINGEND
 
 ---STRING net.nehmer.blog
 Newsy/Blogi
----STRINGEND
-
----STRING newsticker
-Aktualności
----STRINGEND
-
----STRING newsticker administration
-Zarządzanie aktualnościami
 ---STRINGEND
 
 ---STRING no news found.
@@ -232,22 +200,6 @@ Nie masz wystarczających uprawnień by stworzyć nowy artykuł
 
 ---STRING posted on %s.
 Wysłano %s.
----STRINGEND
-
----STRING public posting
-Tryb "Książki gości"
----STRINGEND
-
----STRING public posting password
-Hasło Midgarda w trybie "Książki gości"
----STRINGEND
-
----STRING public posting schema
-Schemat danych w trybie "Książki gości"
----STRINGEND
-
----STRING public posting user
-Użytkownik Midgarda w trybie "Książki gości"
 ---STRINGEND
 
 ---STRING related stories
@@ -278,36 +230,8 @@ Ustawienia RSS
 Wsad RSS
 ---STRINGEND
 
----STRING rss_count
-Ilość elementów w rss.xml
----STRINGEND
-
----STRING rss_description
-Opis
----STRINGEND
-
----STRING rss_enable
-Włącz eksport RSS (włącza URL'e rss.xml oraz rss/$ilosc.xml
----STRINGEND
-
----STRING rss_include_image
-Dołącz pełnowymiarowy obraz z pola "obraz" do elementów RSS
----STRINGEND
-
----STRING rss_language
-Język
----STRINGEND
-
 ---STRING rss_subscription_enable
 Dodawaj newsy ze zdalnych wsadów RSS i ATOM
----STRINGEND
-
----STRING rss_title
-Tytuł RSS (puste - tytuł kategorii)
----STRINGEND
-
----STRING rss_webmaster
-Adres email webmastera
 ---STRINGEND
 
 ---STRING schema database

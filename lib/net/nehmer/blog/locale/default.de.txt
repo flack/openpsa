@@ -6,10 +6,6 @@
 %s: Kategorie "%s"
 ---STRINGEND
 
----STRING add a new entry
-Einen neuen Eintrag hinzufügen
----STRINGEND
-
 ---STRING advanced schema and data settings
 Erweiterte Einstellungen zu Schema und Daten
 ---STRINGEND
@@ -134,18 +130,6 @@ Detail-Seiten aktivieren
 Feldfilter via HTTP GET aktivieren
 ---STRINGEND
 
----STRING enable public posting
-Öffentliche Eingaben aktivieren ("Gästebuch-Stil")
----STRINGEND
-
----STRING enable subdirectories
-News-Artikel aus Unterordnern in die Übersicht einbeziehen (auch RSS)
----STRINGEND
-
----STRING expert settings
-Experten-Einstellungen
----STRINGEND
-
 ---STRING failed to delete the blog link, contact the site administrator
 Der Blog-Link konnte nicht gelöscht werden, verständigen Sie bitte den Site-Administrator
 ---STRINGEND
@@ -178,24 +162,12 @@ Wieviele Einträge sollen auf der Übersichtsseite angezeigt werden
 Einträge mit externer URL verknüpfen falls möglich
 ---STRINGEND
 
----STRING list old items in index
-Vergangene Artikel in der Übersicht
----STRINGEND
-
 ---STRING navigation options
 Navigations-Optionen
 ---STRINGEND
 
 ---STRING net.nehmer.blog
 News-Liste
----STRINGEND
-
----STRING newsticker
-News-Liste
----STRINGEND
-
----STRING newsticker administration
-News-Verwaltung
 ---STRINGEND
 
 ---STRING no news found.
@@ -212,22 +184,6 @@ Sie haben keine ausreichenden Berechtigungen, um neue Artikel zu erstellen.
 
 ---STRING posted on %s.
 Veröffentlicht am %s.
----STRINGEND
-
----STRING public posting
-Öffentliche Eingaben ("Gästebuch-Stil")
----STRINGEND
-
----STRING public posting password
-Midgard Passwort für die öffentlichen Eingaben (nur notwendig, wenn ein Benutzername eingegeben wurde)
----STRINGEND
-
----STRING public posting schema
-Datamanager-Schema für die öffentlichen Beiträge
----STRINGEND
-
----STRING public posting user
-Midgard Benutzername für die öffentlichen Eingaben (leer um den gerade aktiven Benutzer zu verwenden)
 ---STRINGEND
 
 ---STRING related stories
@@ -254,36 +210,8 @@ RSS-Export
 RSS-Feed
 ---STRINGEND
 
----STRING rss_count
-Anzahl der Artikel, die in rss.xml gelistet werden sollen
----STRINGEND
-
----STRING rss_description
-Beschreibung
----STRINGEND
-
----STRING rss_enable
-RSS-Export aktivieren (stellt die URLs rss.xml und rss/$anzahl.xml bereit)
----STRINGEND
-
----STRING rss_include_image
-Das Bild aus dem Schema-Feld "image" den RSS-Einträgen in voller Auflösung hinzufügen
----STRINGEND
-
----STRING rss_language
-Sprache
----STRINGEND
-
 ---STRING rss_subscription_enable
 Das Erstellen von Einträgen über entfernte RSS- und ATOM-Feeds zulassen
----STRINGEND
-
----STRING rss_title
-Titel des RSS-Feeds (keine Eingabe verwendet den Titel des Ordners als Standardwert)
----STRINGEND
-
----STRING rss_webmaster
-E-Mail-Adresse des Webmasters
 ---STRINGEND
 
 ---STRING schema database

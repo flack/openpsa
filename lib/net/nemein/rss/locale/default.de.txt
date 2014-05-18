@@ -154,6 +154,30 @@ Eintrag im Feed
 Feed entfernen
 ---STRINGEND
 
+---STRING rss_count
+Anzahl der Artikel, die in rss.xml gelistet werden sollen
+---STRINGEND
+
+---STRING rss_description
+Beschreibung
+---STRINGEND
+
+---STRING rss_enable
+RSS-Export aktivieren (stellt die URLs rss.xml und rss/$anzahl.xml bereit)
+---STRINGEND
+
+---STRING rss_language
+Sprache
+---STRINGEND
+
+---STRING rss_title
+Titel des RSS-Feeds (keine Eingabe verwendet den Titel des Ordners als Standardwert)
+---STRINGEND
+
+---STRING rss_webmaster
+E-Mail-Adresse des Webmasters
+---STRINGEND
+
 ---STRING rss aggregator
 RSS und Atom News-Aggregator
 ---STRINGEND

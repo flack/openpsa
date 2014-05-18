@@ -6,10 +6,6 @@
 %s: kategori "%s"
 ---STRINGEND
 
----STRING add a new entry
-Lägg till nytt inlägg
----STRINGEND
-
 ---STRING advanced schema and data settings
 Avancerade schema och data inställningar
 ---STRINGEND
@@ -118,20 +114,8 @@ Slå på detaljerade sidor
 Slå på fält filter (GET parameter)
 ---STRINGEND
 
----STRING enable public posting
-Slå på publik postning ("Gästbok och liknande")
----STRINGEND
-
 ---STRING enable scheduled publishing
 Slå på schemalagd publicering
----STRINGEND
-
----STRING enable subdirectories
-Inkludera alla underämnenas Nyhets Artiklar i Index (och RSS)
----STRINGEND
-
----STRING expert settings
-Avancerade inställningar
 ---STRINGEND
 
 ---STRING first post was made on %s.
@@ -166,24 +150,12 @@ Språk
 Länka artiklar till extern URL om tillgänglig
 ---STRINGEND
 
----STRING list old items in index
-Lista gamla artiklar i Index
----STRINGEND
-
 ---STRING navigation options
 Navigerings inställningar
 ---STRINGEND
 
 ---STRING net.nehmer.blog
 Nyhets listning
----STRINGEND
-
----STRING newsticker
-Nyhets lista
----STRINGEND
-
----STRING newsticker administration
-Administrera nyheter
 ---STRINGEND
 
 ---STRING no news found.
@@ -200,22 +172,6 @@ Du saknar rättigheter för att skapa nya artiklar
 
 ---STRING posted on %s.
 Postad %s.
----STRINGEND
-
----STRING public posting
-Publik postning ("Gästbok och liknande")
----STRINGEND
-
----STRING public posting password
-Midgard Lösenord att använda för publik access (endast nödvändigt om ett användarnamn har angivits)
----STRINGEND
-
----STRING public posting schema
-Datamanager schema att abvända för publik postning
----STRINGEND
-
----STRING public posting user
-Midgard användarnamn att använda för publik postning (lämna tomt för att använda inloggad användare)
 ---STRINGEND
 
 ---STRING related stories
@@ -240,10 +196,6 @@ RSS export
 
 ---STRING rss feed
 RSS Feed
----STRINGEND
-
----STRING rss_include_image
-Inkludera orginalstorlek på bilder från schema fält "image" till rss artiklar
 ---STRINGEND
 
 ---STRING schema database

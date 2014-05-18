@@ -6,10 +6,6 @@
 %s: kategoria "%s"
 ---STRINGEND
 
----STRING add a new entry
-Lisää uusi artikkeli
----STRINGEND
-
 ---STRING advanced schema and data settings
 Tehokäyttäjän asetukset
 ---STRINGEND
@@ -138,20 +134,8 @@ Salli lisätietosivut
 Salli sisältökentillä suodatus (GET-parametri)
 ---STRINGEND
 
----STRING enable public posting
-Salli avoin artikkelien lisäys ("vieraskirja-tyylisesti")
----STRINGEND
-
 ---STRING enable scheduled publishing
 Käytä ajastettua julkaisua
----STRINGEND
-
----STRING enable subdirectories
-Lisää alikansioiden artikkelit listaan (ja RSS-listaan)
----STRINGEND
-
----STRING expert settings
-Tehokäyttäjän asetukset
 ---STRINGEND
 
 ---STRING failed to delete the blog link, contact the site administrator
@@ -164,10 +148,6 @@ Julkaistu %s.
 
 ---STRING from
 Kansiosta
----STRINGEND
-
----STRING help_style
-Ulkoasupohjat
 ---STRINGEND
 
 ---STRING if you want to delete the original article, <a href="%s">click here</a>
@@ -202,24 +182,12 @@ Viimeisimmän {$args[0]} uutisen näyttö.
 Linkitä artikkelit ulkoiseen osoitteeseen jos saatavilla
 ---STRINGEND
 
----STRING list old items in index
-Näytä vanhat artikkelit listassa
----STRINGEND
-
 ---STRING navigation options
 Navigaatioasetukset
 ---STRINGEND
 
 ---STRING net.nehmer.blog
 Uutiskansio
----STRINGEND
-
----STRING newsticker
-Uutiskansio
----STRINGEND
-
----STRING newsticker administration
-Uutiskansion ylläpito
 ---STRINGEND
 
 ---STRING no news found.
@@ -236,22 +204,6 @@ Sinulla ei ole riittäviä oikeuksia artikkelien luontiin.
 
 ---STRING posted on %s.
 Julkaistu %s.
----STRINGEND
-
----STRING public posting
-Avoin artikkelien lisäys ("vieraskirja-tyyliin")
----STRINGEND
-
----STRING public posting password
-Midgard-salasana avoimeen artikkelien lisäykseen (tarvitaan vain jos käyttäjätunnus on lisätty)
----STRINGEND
-
----STRING public posting schema
-Avoimessa lisäyksessä käytettävä tietokantakuvaus
----STRINGEND
-
----STRING public posting user
-Midgard-käyttäjätunnus avoimeen artikkelien lisäykseen (jätä tyhjäksi käyttääksesi kirjautunutta tunnusta)
 ---STRINGEND
 
 ---STRING related stories
@@ -276,10 +228,6 @@ RSS 2.0 -syöte
 
 ---STRING rss feed
 RSS-syöte
----STRINGEND
-
----STRING rss_include_image
-Lisää täysikokoinen kuva tietokantakuvauksen kentästä "image" RSS-syötteeseen
 ---STRINGEND
 
 ---STRING rss_subscription_enable

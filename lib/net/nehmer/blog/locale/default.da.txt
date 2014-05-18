@@ -6,10 +6,6 @@
 Opret artikel
 ---STRINGEND
 
----STRING newsticker
-Nyhedsliste
----STRINGEND
-
 ---STRING newsticker administration
 Administration af nyhedsliste
 ---STRINGEND

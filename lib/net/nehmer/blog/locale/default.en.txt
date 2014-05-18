@@ -6,10 +6,6 @@
 %s: category "%s"
 ---STRINGEND
 
----STRING add a new entry
-Add a new entry
----STRINGEND
-
 ---STRING advanced schema and data settings
 Advanced schema and data settings
 ---STRINGEND
@@ -150,20 +146,8 @@ Enable detail pages
 Enable field filters (GET parameter)
 ---STRINGEND
 
----STRING enable public posting
-Enable public posting ("Guestbook style")
----STRINGEND
-
 ---STRING enable scheduled publishing
 Enable scheduled publishing
----STRINGEND
-
----STRING enable subdirectories
-Include all subtopic's News Articles into Index (and RSS)
----STRINGEND
-
----STRING expert settings
-Expert settings
 ---STRINGEND
 
 ---STRING failed to delete the blog link, contact the site administrator
@@ -176,10 +160,6 @@ The first posting was made on %s.
 
 ---STRING from
 From
----STRINGEND
-
----STRING help_style
-Style elements
 ---STRINGEND
 
 ---STRING if you want to delete the original article, <a href="%s">click here</a>
@@ -222,24 +202,12 @@ List articles also from folders
 Folders
 ---STRINGEND
 
----STRING list old items in index
-List old items in Index
----STRINGEND
-
 ---STRING navigation options
 Navigation options
 ---STRINGEND
 
 ---STRING net.nehmer.blog
 News listing
----STRINGEND
-
----STRING newsticker
-News listing
----STRINGEND
-
----STRING newsticker administration
-News Administration
 ---STRINGEND
 
 ---STRING no news found.
@@ -256,22 +224,6 @@ You do not have the privileges required to cretate new articles.
 
 ---STRING posted on %s.
 Posted on %s.
----STRINGEND
-
----STRING public posting
-Public posting ("Guestbook style")
----STRINGEND
-
----STRING public posting password
-Midgard Password to use for public posting (only necessary if an username has been entered)
----STRINGEND
-
----STRING public posting schema
-Datamanager schema to use for public posting
----STRINGEND
-
----STRING public posting user
-Midgard username to use for public posting (leave empty to use the currently authenticated user)
 ---STRINGEND
 
 ---STRING related stories
@@ -300,10 +252,6 @@ RSS export
 
 ---STRING rss feed
 RSS Feed
----STRINGEND
-
----STRING rss_include_image
-Include full-size image from schema field "image" to RSS items
 ---STRINGEND
 
 ---STRING rss_subscription_enable

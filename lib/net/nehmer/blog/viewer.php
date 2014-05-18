@@ -7,7 +7,7 @@
  */
 
 /**
- * Newsticker / Blog site interface class
+ * Blog site interface class
  *
  * @package net.nehmer.blog
  */
