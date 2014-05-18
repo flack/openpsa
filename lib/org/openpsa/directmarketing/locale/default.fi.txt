@@ -402,10 +402,6 @@ seuraavista
 Viesti
 ---STRINGEND
 
----STRING message %s sent to testers
-Viesti <i>%s</i> lähetettiin testaajille
----STRINGEND
-
 ---STRING message report
 Viestiraportti
 ---STRINGEND
@@ -422,20 +418,12 @@ Viestistatistiikka
 Viesti kopioitiin seuraaviin kampanjoihin
 ---STRINGEND
 
----STRING message was sent to the following group of testers
-Viesti lähetettiin alla olevalle testaajaryhmälle
----STRINGEND
-
 ---STRING messages
 Viestit
 ---STRINGEND
 
 ---STRING messages sent
 Viestejä lähetetty
----STRINGEND
-
----STRING messto (http)
-Messto (HTTP)
 ---STRINGEND
 
 ---STRING new %s
@@ -460,10 +448,6 @@ Ei segmenttiä
 
 ---STRING no testers
 Ei testaajia
----STRINGEND
-
----STRING no testers have been defined to the campaign %s
-Testaajia ei ole määritelty kampanjalle <i>%s</i>
 ---STRINGEND
 
 ---STRING normal campaign
@@ -800,10 +784,6 @@ Vcard-kortit
 
 ---STRING with name
 nimellä
----STRINGEND
-
----STRING write email addresses
-Kirjoita sähköpostiosoitteet
 ---STRINGEND
 
 ---STRING you can also write the addresses to the text field

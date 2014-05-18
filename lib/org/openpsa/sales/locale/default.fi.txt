@@ -170,16 +170,12 @@ Merkittiin toimitus "%s" toimitetuksi
 Seuraava toimenpide
 ---STRINGEND
 
----STRING next invoice will be sent on %s
+---STRING next invoice will be generated on %s
 Seuraava lasku lähetetään %s
 ---STRINGEND
 
 ---STRING next run
 Seuraava ajo
----STRINGEND
-
----STRING no action
-Ei toimenpidettä
 ---STRINGEND
 
 ---STRING no customer
@@ -222,10 +218,6 @@ Yksikköhinta
 Hinnoittelu
 ---STRINGEND
 
----STRING pricing information
-Hinnoittelutiedot
----STRINGEND
-
 ---STRING probability
 Todennäköisyys
 ---STRINGEND
@@ -240,10 +232,6 @@ Kate
 
 ---STRING proposed
 Tarjottu
----STRINGEND
-
----STRING purchase invoice
-Ostolasku OK
 ---STRINGEND
 
 ---STRING sales report
@@ -353,8 +341,3 @@ Laskutetut myyntiprojektit
 ---STRING salesprojects lost
 Hävityt myyntiprojektit
 ---STRINGEND
-
----STRING the amount youre trying to invoice %s exceeds the open amount of the deliverable %s
-Summa jota yrität laskuttaa (%s) ylittää tilauksessa auki olevan summan (%s). Muokkaa ensin tilausta
----STRINGEND
-

@@ -402,10 +402,6 @@ of the following
 Message
 ---STRINGEND
 
----STRING message %s sent to testers
-Message <i>%s</i> sent to testers
----STRINGEND
-
 ---STRING message report
 Message report
 ---STRINGEND
@@ -422,20 +418,12 @@ Message statistics
 Message was copied to the following campaigns
 ---STRINGEND
 
----STRING message was sent to the following group of testers
-Message was sent to the following group of testers
----STRINGEND
-
 ---STRING messages
 Messages
 ---STRINGEND
 
 ---STRING messages sent
 Messages sent
----STRINGEND
-
----STRING messto (http)
-Messto (HTTP)
 ---STRINGEND
 
 ---STRING new %s
@@ -460,10 +448,6 @@ No segment
 
 ---STRING no testers
 No testers
----STRINGEND
-
----STRING no testers have been defined to the campaign %s
-No testers have been defined to the campaign <i>%s</i>
 ---STRINGEND
 
 ---STRING normal campaign
@@ -805,10 +789,6 @@ vCards
 
 ---STRING with name
 with name
----STRINGEND
-
----STRING write email addresses
-Write email addresses
 ---STRINGEND
 
 ---STRING you can also write the addresses to the text field

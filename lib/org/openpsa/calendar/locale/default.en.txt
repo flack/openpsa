@@ -6,10 +6,6 @@
 Available time slot
 ---STRINGEND
 
----STRING back to calendar
-Back to calendar
----STRINGEND
-
 ---STRING calendar
 Calendar
 ---STRINGEND
@@ -94,10 +90,6 @@ Event information
 Events on %s
 ---STRINGEND
 
----STRING failed to delete event, reason
-Failed to delete event, reason
----STRINGEND
-
 ---STRING go to
 Go to
 ---STRINGEND
@@ -158,10 +150,6 @@ Print
 Private event
 ---STRINGEND
 
----STRING privilege read
-Read private event
----STRINGEND
-
 ---STRING really delete event
 Really delete event?
 ---STRINGEND
@@ -180,14 +168,6 @@ time
 
 ---STRING today
 Today
----STRINGEND
-
----STRING week #%s %s
-Week #%s %s
----STRINGEND
-
----STRING week %s
-Week %s
 ---STRINGEND
 
 ---STRING week view

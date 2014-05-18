@@ -6,10 +6,6 @@
 Saatavilla oleva aika
 ---STRINGEND
 
----STRING back to calendar
-Takaisin kalenteriin
----STRINGEND
-
 ---STRING calendar
 Kalenteri
 ---STRINGEND
@@ -74,10 +70,6 @@ Tapahtuman tiedot
 Kalenterissa %s
 ---STRINGEND
 
----STRING failed to delete event, reason
-Tapahtuman poistaminen epäonnistui, syy
----STRINGEND
-
 ---STRING go to
 Mene ajankohtaan
 ---STRINGEND
@@ -138,10 +130,6 @@ Tulosta
 Yksityinen tapahtuma
 ---STRINGEND
 
----STRING privilege read
-Yksityisen tapahtuman luku
----STRINGEND
-
 ---STRING really delete event
 Oletko varma että haluat poistaa tapahtuman?
 ---STRINGEND
@@ -162,15 +150,6 @@ klo
 Tänään
 ---STRINGEND
 
----STRING week #%s %s
-Viikko %s. %s
----STRINGEND
-
 ---STRING week view
 Viikkonäkym
 ---STRINGEND
-
----STRING week %s
-Viikko %s
----STRINGEND
-

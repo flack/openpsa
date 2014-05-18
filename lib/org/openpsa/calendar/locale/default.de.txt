@@ -6,10 +6,6 @@
 Verfügbarer Time-Slot
 ---STRINGEND
 
----STRING back to calendar
-Zurück zum Kalender
----STRINGEND
-
 ---STRING choose calendars
 Kalender auswählen
 ---STRINGEND
@@ -90,10 +86,6 @@ Termin-Daten
 Termine am %s
 ---STRINGEND
 
----STRING failed to delete event, reason
-Termin konnte nicht gelöscht werden. Ursache:
----STRINGEND
-
 ---STRING go to
 Gehe zu
 ---STRINGEND
@@ -146,10 +138,6 @@ Drucken
 Privater Termin
 ---STRINGEND
 
----STRING privilege read
-Privaten Termin lesen
----STRINGEND
-
 ---STRING really delete event
 Termin wirklich löschen?
 ---STRINGEND
@@ -164,10 +152,6 @@ Uhrzeit
 
 ---STRING today
 Heute
----STRINGEND
-
----STRING week #%s %s
-Kalenderwoche %s %s
 ---STRINGEND
 
 ---STRING week view
@@ -188,10 +172,6 @@ Leute
 
 ---STRING resources
 Ressourcen
----STRINGEND
-
----STRING week %s
-Kalenderwoche %s
 ---STRINGEND
 
 ---STRING you have been added to event "%s"

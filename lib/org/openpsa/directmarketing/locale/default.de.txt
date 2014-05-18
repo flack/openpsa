@@ -378,10 +378,6 @@ der folgenden Bedingungen
 Nachricht
 ---STRINGEND
 
----STRING message %s sent to testers
-Nachricht <i>%s</i> an Tester verschickt
----STRINGEND
-
 ---STRING message report
 Nachrichten-Report
 ---STRINGEND
@@ -398,20 +394,12 @@ Nachrichten-Statistik
 Nachricht wurde in folgende Kampagnen kopiert
 ---STRINGEND
 
----STRING message was sent to the following group of testers
-Nachricht wurde an folgende Testgruppe verschickt
----STRINGEND
-
 ---STRING messages
 Nachrichten
 ---STRINGEND
 
 ---STRING messages sent
 Nachrichten verschickt
----STRINGEND
-
----STRING messto (http)
-Messto (HTTP)
 ---STRINGEND
 
 ---STRING new %s
@@ -436,10 +424,6 @@ Kein Segment
 
 ---STRING no testers
 Keine Tester
----STRINGEND
-
----STRING no testers have been defined to the campaign %s
-Für die Kampagne <i>%s</i> wurden keine Tester angegeben
 ---STRINGEND
 
 ---STRING normal campaign
@@ -760,10 +744,6 @@ vCards
 
 ---STRING with name
 mit Namen
----STRINGEND
-
----STRING write email addresses
-Geben sie die E-Mail-Adresse ein
 ---STRINGEND
 
 ---STRING you can also write the addresses to the text field

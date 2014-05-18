@@ -150,10 +150,6 @@ Megrendeltnek megjelöl
 Következő esemény
 ---STRINGEND
 
----STRING no action
-Nincs esemény
----STRINGEND
-
 ---STRING no customer
 Nincs vevő
 ---STRINGEND
@@ -190,10 +186,6 @@ Darab ár
 Árazás
 ---STRINGEND
 
----STRING pricing information
-Árazási információ
----STRINGEND
-
 ---STRING probability
 Valószínüség
 ---STRINGEND
@@ -208,10 +200,6 @@ Nyereség
 
 ---STRING proposed
 Tevezett
----STRINGEND
-
----STRING purchase invoice
-Vételi számlák rendben
 ---STRINGEND
 
 ---STRING sales report

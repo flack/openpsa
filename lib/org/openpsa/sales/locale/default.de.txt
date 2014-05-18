@@ -226,10 +226,6 @@ Die nächste Rechnung wird am %s erstellt
 Nächster Rechnungslauf
 ---STRINGEND
 
----STRING no action
-Keine Aktion
----STRINGEND
-
 ---STRING no customer
 Kein Kunde
 ---STRINGEND
@@ -286,10 +282,6 @@ Stückpreis
 Preisgestaltung
 ---STRINGEND
 
----STRING pricing information
-Preis-Informationen
----STRINGEND
-
 ---STRING probability
 Wahrscheinlichkeit
 ---STRINGEND
@@ -304,10 +296,6 @@ Gewinn
 
 ---STRING proposed
 Vorgeschlagen
----STRINGEND
-
----STRING purchase invoice
-Verkaufsrechnung OK
 ---STRINGEND
 
 ---STRING sales report
@@ -400,10 +388,6 @@ Abonnement beginnt
 
 ---STRING supplier
 Zulieferer
----STRINGEND
-
----STRING the amount youre trying to invoice %s exceeds the open amount of the deliverable %s
-Die Summe, die sie abrechnen möchten (%s) ist höher als die der Lieferung (%s). Bitte bearbeiten sie die Lieferung
 ---STRINGEND
 
 ---STRING title

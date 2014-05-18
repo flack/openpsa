@@ -225,10 +225,6 @@ The next invoice will be generated on %s
 Next run
 ---STRINGEND
 
----STRING no action
-No action
----STRINGEND
-
 ---STRING no customer
 No customer
 ---STRINGEND
@@ -285,10 +281,6 @@ Price per unit
 Pricing
 ---STRINGEND
 
----STRING pricing information
-Pricing information
----STRINGEND
-
 ---STRING probability
 Probability
 ---STRINGEND
@@ -303,10 +295,6 @@ Profit
 
 ---STRING proposed
 Proposed
----STRINGEND
-
----STRING purchase invoice
-Purchase invoice OK
 ---STRINGEND
 
 ---STRING sales report
@@ -403,10 +391,6 @@ Subscription starts
 
 ---STRING supplier
 Supplier
----STRINGEND
-
----STRING the amount youre trying to invoice %s exceeds the open amount of the deliverable %s
-The amount youre trying to invoice (%s) exceeds the open amount of the deliverable (%s). Please edit the deliverable
 ---STRINGEND
 
 ---STRING title

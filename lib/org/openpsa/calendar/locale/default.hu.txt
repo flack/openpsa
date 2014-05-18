@@ -2,10 +2,6 @@
 ---VERSION 2.1.0
 ---LANGUAGE hu
 
----STRING back to calendar
-Vissza a naptárhoz
----STRINGEND
-
 ---STRING choose calendars
 Válasszon megjelenítendő naptárt
 ---STRINGEND
@@ -60,10 +56,6 @@ Törölt esemény
 
 ---STRING event information
 Esemény adatai
----STRINGEND
-
----STRING failed to delete event, reason
-Az esemény törlése nem sikerült, az oka
 ---STRINGEND
 
 ---STRING go to
@@ -122,10 +114,6 @@ idő
 Ma
 ---STRINGEND
 
----STRING week #%s %s
-#%s hét, %s
----STRINGEND
-
 ---STRING week view
 Heti nézet
 ---STRINGEND
@@ -148,9 +136,5 @@ Pop-Up
 
 ---STRING private event
 Privát esemény
----STRINGEND
-
----STRING privilege read
-Privát esemény olvasása
 ---STRINGEND
 
