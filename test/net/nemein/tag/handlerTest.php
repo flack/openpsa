@@ -67,7 +67,7 @@ class net_nemein_tag_handlerTest extends openpsa_testcase
             ),
             array
             (
-                'context:"Tag Name"',
+                'context:tagname="Tag Name"',
                 '"Tag Name"'
             ),
             array
@@ -78,7 +78,7 @@ class net_nemein_tag_handlerTest extends openpsa_testcase
             array
             (
                 'tagname',
-                'tagname'
+                ''
             ),
         );
     }

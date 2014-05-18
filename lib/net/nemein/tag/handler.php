@@ -184,9 +184,9 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
         if (strpos($tagname, '='))
         {
             $exploded = explode('=', $tagname, 2);
-            $tagname = $exploded[1];
+            return trim($exploded[1]);
         }
-        return trim($tagname);
+        return '';
     }
 
     /**
