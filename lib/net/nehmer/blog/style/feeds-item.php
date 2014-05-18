@@ -59,7 +59,7 @@ if ($data['config']->get('rss_use_content'))
 }
 
 // Replace links
-$item->description = preg_replace(',<(a|link|img|script|form|input)([^>]+)(href|src|action)="/([^>"\s]+)",ie', '"<\1\2\3=\"' . midcom::get()->get_host_name() . '/\4\""', $item->description);
+$item->description = preg_replace(',<(a|link|img|script|form|input)([^>]+)(href|src|action)="/([^>"\s]+)",i', '"<\1\2\3=\"' . midcom::get()->get_host_name() . '/\4\""', $item->description);
 
 // TODO: Figure out the RSS multi-category support for real
 $categories = explode('|', $data['article']->extra1);
