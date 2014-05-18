@@ -198,10 +198,6 @@ verschickt
 Mail versenden
 ---STRINGEND
 
----STRING marked %s hours as invoiced
-%s Arbeitsstunden als abgerechnet markiert
----STRINGEND
-
 ---STRING marked invoice %s paid
 Rechnung %s wurde als bezahlt markiert
 ---STRINGEND
@@ -358,10 +354,6 @@ USt-ID.
 MwSt-Betrag
 ---STRINGEND
 
----STRING invoice options
-Weitere Optionen
----STRINGEND
-
 ---STRING sending option
 Versandmethode
 ---STRINGEND
@@ -412,10 +404,6 @@ Neuberechnung mittels Stundenberichten
 
 ---STRING invoice sum
 Rechnungssumme
----STRINGEND
-
----STRING fix price
-Festpreis
 ---STRINGEND
 
 ---STRING price per unit

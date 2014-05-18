@@ -38,10 +38,6 @@ Genehmigt
 Genehmigt durch %s
 ---STRINGEND
 
----STRING automatic resource search
-Automatische Ressourcen-Suche
----STRINGEND
-
 ---STRING back to project
 Zurück zum Projekt
 ---STRINGEND
@@ -394,14 +390,6 @@ Status-Verlauf
 Abonnieren
 ---STRINGEND
 
----STRING synchronization
-Synchronisation
----STRINGEND
-
----STRING synchronized with %s by %s
-Synchronisiert mit %s von %s
----STRINGEND
-
 ---STRING system
 System
 ---STRINGEND
@@ -448,10 +436,6 @@ Typ
 
 ---STRING unsubscribe
 Abonnement beenden
----STRINGEND
-
----STRING whole openpsa
-Aus dem gesamten OpenPSA-System
 ---STRINGEND
 
 ---STRING work for task %s

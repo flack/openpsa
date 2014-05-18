@@ -38,10 +38,6 @@ Approved
 Approved by %s
 ---STRINGEND
 
----STRING automatic resource search
-Automatic resource search
----STRINGEND
-
 ---STRING back to project
 Back to project
 ---STRINGEND
@@ -398,14 +394,6 @@ Status history
 Subscribe
 ---STRINGEND
 
----STRING synchronization
-Synchronization
----STRINGEND
-
----STRING synchronized with %s by %s
-Synchronized with %s by %s
----STRINGEND
-
 ---STRING system
 system
 ---STRINGEND
@@ -452,10 +440,6 @@ Type
 
 ---STRING unsubscribe
 Unsubscribe
----STRINGEND
-
----STRING whole openpsa
-From whole OpenPSA
 ---STRINGEND
 
 ---STRING work for task %s

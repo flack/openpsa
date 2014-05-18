@@ -38,7 +38,7 @@ class org_openpsa_invoices_handler_projects extends midcom_baseclasses_component
 
         if (!$invoice->create())
         {
-            midcom::get('uimessages')->add($this->_l10n->get('org.openpsa.invoices'), $this->_l10n->get('failed to create invoice, reason ') . midcom_connection::get_error_string(), 'error');
+            midcom::get('uimessages')->add($this->_l10n->get('org.openpsa.invoices'), $this->_l10n->get('failed to create invoice, reason') . midcom_connection::get_error_string(), 'error');
             return false;
         }
 

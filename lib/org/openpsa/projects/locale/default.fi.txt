@@ -34,10 +34,6 @@ Hyväksytty
 Hyväksynyt valmiiksi %s
 ---STRINGEND
 
----STRING automatic resource search
-Automaattinen resurssien haku
----STRINGEND
-
 ---STRING back to project
 Takaisin projektiin
 ---STRINGEND
@@ -370,14 +366,6 @@ Historia
 Liity
 ---STRINGEND
 
----STRING synchronization
-Synkronointi
----STRINGEND
-
----STRING synchronized with %s by %s
-Synkronoinut %s:n kanssa %s
----STRINGEND
-
 ---STRING system
 järjestelmä
 ---STRINGEND
@@ -412,10 +400,6 @@ Tyyppi
 
 ---STRING unsubscribe
 Poista itsesi
----STRINGEND
-
----STRING whole openpsa
-Koko OpenPSA:sta
 ---STRINGEND
 
 ---STRING work for task %s

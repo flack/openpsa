@@ -26,10 +26,6 @@ Jóváhagyva
 %s által jóváhagyva
 ---STRINGEND
 
----STRING automatic resource search
-Automatikus erőforrás kereső
----STRINGEND
-
 ---STRING back to task
 Vissza a feladathoz
 ---STRINGEND
@@ -290,14 +286,6 @@ Előzmények
 Megrendelés
 ---STRINGEND
 
----STRING synchronization
-Szinkronizálás
----STRINGEND
-
----STRING synchronized with %s by %s
-%s szinkronizálva %s
----STRINGEND
-
 ---STRING system
 rendszer
 ---STRINGEND
@@ -324,10 +312,6 @@ Fajta
 
 ---STRING unsubscribe
 Megrendelés lemondása
----STRINGEND
-
----STRING whole openpsa
-Az egész OpenPSA-ból
 ---STRINGEND
 
 ---STRING work started by %s

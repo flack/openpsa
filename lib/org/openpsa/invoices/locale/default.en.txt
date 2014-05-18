@@ -202,10 +202,6 @@ Mark sent
 send per mail
 ---STRINGEND
 
----STRING marked %s hours as invoiced
-Marked %s hours as invoiced
----STRINGEND
-
 ---STRING marked invoice %s paid
 Marked invoice %s as paid
 ---STRINGEND
@@ -382,10 +378,6 @@ VAT registration number
 VAT amount
 ---STRINGEND
 
----STRING invoice options
-Further options
----STRINGEND
-
 ---STRING sending option
 How to send?
 ---STRINGEND
@@ -404,10 +396,6 @@ Recalculate by hour-reports
 
 ---STRING invoice sum
 Invoice sum
----STRINGEND
-
----STRING fix price
-Fix price
 ---STRINGEND
 
 ---STRING price per unit

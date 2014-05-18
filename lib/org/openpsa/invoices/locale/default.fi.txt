@@ -110,10 +110,6 @@ Merkkaa maksetuksi
 Merkkaa lähetetyksi
 ---STRINGEND
 
----STRING marked %s hours as invoiced
-Merkitty %s tuntia laskutetuiksi
----STRINGEND
-
 ---STRING marked invoice %s paid
 Lasku %s merkattu maksetuksi
 ---STRINGEND
