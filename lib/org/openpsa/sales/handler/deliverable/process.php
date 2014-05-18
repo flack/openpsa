@@ -49,34 +49,20 @@ class org_openpsa_sales_handler_deliverable_process extends midcom_baseclasses_c
             'decline', 'order', 'deliver', 'invoice', 'run_cycle'
         );
 
-        /*
-         * TODO: The logic is a bit backwards here to allow for easier unittesting
-         * (ATM relocate doesn't cause the test execution to abort, so the relocate
-         * has to be at the end of the function)
-         */
-        $action = null;
         foreach ($supported_operations as $operation)
         {
             if (array_key_exists($operation, $_POST))
             {
-                $action = $operation;
-                break;
+                if (!$this->_deliverable->$operation())
+                {
+                    throw new midcom_error('Operation failed. Last Midgard error was: ' . midcom_connection::get_error_string());
+                }
+                // Get user back to the sales project
+                return new midcom_response_relocate("salesproject/{$this->_salesproject->guid}/");
             }
         }
 
-        if ($action === null)
-        {
-            throw new midcom_error('No valid operation specified.');
-        }
-
-        if (!$this->_deliverable->$operation())
-        {
-            throw new midcom_error('Operation failed. Last Midgard error was: ' . midcom_connection::get_error_string());
-        }
-
-        // Get user back to the sales project
-        return new midcom_response_relocate("salesproject/{$this->_salesproject->guid}/");
+        throw new midcom_error('No valid operation specified.');
     }
-
 }
 ?>
