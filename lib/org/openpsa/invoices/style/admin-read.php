@@ -16,6 +16,15 @@ $siteconfig = org_openpsa_core_siteconfig::get_instance();
 $projects_url = $siteconfig->get_node_full_url('org.openpsa.projects');
 $expenses_url = $siteconfig->get_node_full_url('org.openpsa.expenses');
 $contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts');
+
+$cancelation_invoice_link = false;
+if ($invoice->cancelationInvoice)
+{
+    $cancelation_invoice = new org_openpsa_invoices_invoice_dba($invoice->cancelationInvoice);
+    $cancelation_invoice_link = $prefix . 'invoice/' . $cancelation_invoice->guid . '/';
+
+    $cancelation_invoice_link = "<a href=\"" . $cancelation_invoice_link . "\">" . $data['l10n']->get('invoice') . " " . $cancelation_invoice->get_label() . "</a>";
+}
 ?>
     <div class="sidebar">
         <?php
@@ -56,6 +65,10 @@ $contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts');
                         echo '<span class="bad">' . sprintf($data['l10n']->get('overdue since %s'), date($data['l10n_midcom']->get('short date'), $invoice->due)) . '</span>';
                     }
                 }
+                else if ($cancelation_invoice_link)
+                {
+                    echo sprintf($data['l10n']->get('invoice canceled on %s'), date($data['l10n_midcom']->get('short date'), $invoice->paid));
+                }
                 else
                 {
                     echo sprintf($data['l10n']->get('paid on %s'), date($data['l10n_midcom']->get('short date'), $invoice->paid));
@@ -71,32 +84,19 @@ $contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts');
             }
 
             echo "<ul>\n";
-            if ($invoice->paid)
+            if ($cancelation_invoice_link)
+            {
+                echo '<li><span class="date">' . date($data['l10n_midcom']->get('short date') . ' H:i', $cancelation_invoice->metadata->created) . '</span>: <br />';
+                echo sprintf($data['l10n']->get('invoice got canceled by %s'), $cancelation_invoice_link);
+            }
+            else if ($invoice->paid)
             {
                 echo '<li><span class="date">' . date($data['l10n_midcom']->get('short date') . ' H:i', $invoice->paid) . '</span>: <br />';
-
-                // does the invoice has a cancelation invoice?
-                if ($invoice->cancelationInvoice)
-                {
-                    $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
-                    $cancelation_invoice = new org_openpsa_invoices_invoice_dba($invoice->cancelationInvoice);
-                    $cancelation_invoice_link = $prefix . 'invoice/' . $cancelation_invoice->guid . '/';
-
-                    $link = "<a href=\"" . $cancelation_invoice_link . "\">" . $data['l10n']->get('invoice') . " " . $cancelation_invoice->get_label() . "</a>";
-                    echo sprintf($data['l10n']->get('invoice got canceled by %s'), $link);
-                }
-                else
-                {
-                    echo sprintf($data['l10n']->get('marked invoice %s paid'), '') . '</li>';
-                    if ($invoice->due < $invoice->paid)
-                    {
-                        echo '<li><span class="date">' . date($data['l10n_midcom']->get('short date') . ' H:i', $invoice->due) . '</span>: <br />';
-                        echo $data['l10n']->get('overdue') . '</li>';
-                    }
-                }
+                echo sprintf($data['l10n']->get('marked invoice %s paid'), '') . '</li>';
             }
             else if (   $invoice->due
-                     && $invoice->due < time())
+                     && (   $invoice->due < time()
+                         || $invoice->due < $invoice->paid))
             {
                 echo '<li><span class="date">' . date($data['l10n_midcom']->get('short date') . ' H:i', $invoice->due) . '</span>: <br />';
                 echo $data['l10n']->get('overdue') . '</li>';
@@ -161,14 +161,11 @@ $contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts');
 
     <?php
     // does the invoice has a cancelation invoice?
-    if ($invoice->cancelationInvoice)
+    if ($cancelation_invoice_link)
     {
-        $cancelation_invoice = new org_openpsa_invoices_invoice_dba($invoice->cancelationInvoice);
-        $cancelation_invoice_link = $prefix . 'invoice/' . $cancelation_invoice->guid . '/';
-
         echo "<div class=\"field\">";
         echo "<div class=\"title\">" . $data['l10n']->get('cancelation invoice') .":</div>";
-        echo "<div class=\"value\"><a href=\"" . $cancelation_invoice_link . "\">" . $data['l10n']->get('invoice') . " " . $cancelation_invoice->get_label() . "</a></div>";
+        echo "<div class=\"value\">" . $cancelation_invoice_link . "</a></div>";
         echo "</div>";
     }
     // is the invoice a cancelation invoice itself?

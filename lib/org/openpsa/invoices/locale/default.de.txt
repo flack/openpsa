@@ -166,8 +166,8 @@ Storniert durch
 Rechnung wurde storniert durch %s
 ---STRINGEND
 
----STRING invoice canceled at %s by %s
-Storniert am %s durch %s
+---STRING invoice canceled on %s
+Storniert am %s
 ---STRINGEND
 
 ---STRING create cancelation for invoice

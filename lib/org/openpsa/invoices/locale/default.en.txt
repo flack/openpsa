@@ -394,6 +394,10 @@ Manually
 Recalculate by hour-reports
 ---STRINGEND
 
+---STRING invoice canceled on %s
+Canceled on %s
+---STRINGEND
+
 ---STRING invoice sum
 Invoice sum
 ---STRINGEND
@@ -419,7 +423,7 @@ Create PDF
 ---STRINGEND
 
 ---STRING pdf created
-PDF file created successfully 
+PDF file created successfully
 ---STRINGEND
 
 ---STRING pdf creation failed
