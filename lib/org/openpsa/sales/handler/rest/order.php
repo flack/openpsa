@@ -53,8 +53,7 @@ class org_openpsa_sales_handler_rest_order extends midcom_baseclasses_components
         }
         // add username to salesproject title
         $salesproject->title .= $person->lastname . ", " . $person->firstname;
-        $stat = $salesproject->create();
-        if (!$stat)
+        if (!$salesproject->create())
         {
             $this->_stop("Failed creating salesproject: " . midcom_connection::get_error_string());
         }

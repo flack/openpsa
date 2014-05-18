@@ -216,11 +216,9 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
         }
 
         $backup->nextVersion = $this->id;
-        $stat = $backup->create();
-
-        if (!$stat)
+        if (!$backup->create())
         {
-            return $stat;
+            return false;
         }
         $backup = new org_openpsa_documents_document_dba($backup->id);
 
@@ -247,7 +245,7 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
 
         if (!$attachments)
         {
-            return $stat;
+            return true;
         }
 
         foreach ($attachments as $original_attachment)

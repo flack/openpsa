@@ -172,8 +172,6 @@ class midcom_helper_datamanager2_controller_create extends midcom_helper_dataman
      */
     function process_ajax()
     {
-        $state = 'view';
-
         $this->form_identifier = "dm2_composite_{$this->form_identifier}";
 
         midcom::get('head')->enable_jquery();
@@ -212,14 +210,12 @@ class midcom_helper_datamanager2_controller_create extends midcom_helper_dataman
                 // User has requested editor
                 $this->formmanager->initialize($this->form_identifier . '_qf');
                 $this->formmanager->display_form($this->form_identifier);
-                $state = 'ajax_editing';
                 midcom::get()->finish();
 
             case (array_key_exists("{$this->form_identifier}_preview", $_REQUEST)):
                 $this->formmanager->initialize($this->form_identifier . '_qf');
                 $this->formmanager->process_form();
                 $this->formmanager->display_view($this->form_identifier);
-                $state = 'ajax_preview';
                 midcom::get()->finish();
 
             case (array_key_exists("{$this->form_identifier}_save", $_POST)):
@@ -239,17 +235,14 @@ class midcom_helper_datamanager2_controller_create extends midcom_helper_dataman
                 {
                     $this->datamanager->save();
                     $this->formmanager->display_view($this->form_identifier, "midcom_helper_datamanager2_controller_ajax_{$this->datamanager->storage->object->guid}");
-                    $state = 'ajax_created';
                 }
                 else
                 {
                     $this->formmanager->display_form($this->form_identifier);
-                    $state = 'ajax_editing';
                 }
                 midcom::get()->finish();
 
             case (array_key_exists("{$this->form_identifier}_cancel", $_REQUEST)):
-                $state = 'ajax_editing';
                 $this->formmanager->initialize($this->form_identifier . '_qf');
                 $this->formmanager->display_view($this->form_identifier);
 

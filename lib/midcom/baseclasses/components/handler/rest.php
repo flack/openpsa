@@ -322,19 +322,15 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
     public function handle_delete()
     {
         $this->retrieve_object();
-        $stat = $this->_object->delete();
-        if ($stat)
-        {
-            // on success, return id
-            $this->_responseStatus = MIDCOM_ERROK;
-            $this->_response["id"] = $this->_object->id;
-            $this->_response["guid"] = $this->_object->guid;
-            $this->_response["message"] = $this->_mode . "ok";
-        }
-        else
+        if (!$this->_object->delete())
         {
             $this->_stop("Failed to delete object, last error was: " . midcom_connection::get_error_string(), MIDCOM_ERRCRIT);
         }
+        // on success, return id
+        $this->_responseStatus = MIDCOM_ERROK;
+        $this->_response["id"] = $this->_object->id;
+        $this->_response["guid"] = $this->_object->guid;
+        $this->_response["message"] = $this->_mode . "ok";
     }
 }
 ?>

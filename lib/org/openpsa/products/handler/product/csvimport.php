@@ -93,13 +93,12 @@ class org_openpsa_products_handler_product_csvimport extends midcom_baseclasses_
         }
 
         // Ragnaroek-todo: Use try-catch to prevent error_handler trouble
-        $stat = @iconv($encoding, $iconv_target, $data);
-        if (empty($stat))
+        $converted = @iconv($encoding, $iconv_target, $data);
+        if (empty($converted))
         {
             return $data;
         }
-        $data = $stat;
-        return $data;
+        return $converted;
     }
 
     private function _import_product($productdata)

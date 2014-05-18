@@ -173,14 +173,13 @@ class midcom_services_indexer
         }
         try
         {
-            $stat = $this->_backend->delete($RIs);
+            return $this->_backend->delete($RIs);
         }
         catch (Exception $e)
         {
             debug_add("Deleting error: " . $e->getMessage(), MIDCOM_LOG_ERROR);
-            $stat = false;
+            return false;
         }
-        return $stat;
     }
 
     /**

@@ -94,8 +94,7 @@ implements midcom_services_permalinks_resolver, org_openpsa_contacts_duplicates_
             return false;
         }
 
-        $stat = $campaign->update_smart_campaign_members();
-        if (!$stat)
+        if (!$campaign->update_smart_campaign_members())
         {
             $handler->print_error('Error while calling campaign->update_smart_campaign_members(), see error log for details');
             return false;

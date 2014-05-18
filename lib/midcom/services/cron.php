@@ -164,22 +164,21 @@ class midcom_services_cron
                 $stat = false;
                 try
                 {
-                    $stat = $this->_validate_job($job);
+                    if ($this->_validate_job($job))
+                    {
+                        $job['component'] = $component;
+                        if (!array_key_exists('handler_config', $job))
+                        {
+                            $job['handler_config'] = Array();
+                        }
+                        $this->_jobs[] = $job;
+                    }
                 }
                 catch (midcom_error $e)
                 {
                     $e->log(MIDCOM_LOG_ERROR);
                     debug_print_r('Got this job declaration:', $job);
                     echo "ERROR: Failed to register a job for {$component}: " . $e->getMessage() . "\n";
-                }
-                if ($stat)
-                {
-                    $job['component'] = $component;
-                    if (!array_key_exists('handler_config', $job))
-                    {
-                        $job['handler_config'] = Array();
-                    }
-                    $this->_jobs[] = $job;
                 }
             }
         }

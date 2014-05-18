@@ -41,8 +41,7 @@ class org_openpsa_reports_cron_clearold extends midcom_baseclasses_components_cr
         foreach ($ret as $query)
         {
             debug_add("removing temporary query #{$query->id}");
-            $stat = $query->delete();
-            if (!$stat)
+            if (!$query->delete())
             {
                 debug_add("FAILED to delete query #{$query->id}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
             }

@@ -230,12 +230,13 @@ class org_openpsa_directmarketing_campaign_dba extends midcom_core_dbaobject
         if (!$stat)
         {
             debug_add('Failed to register an AT job for members update, errstr: ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-            midcom::get('auth')->drop_sudo();
-            return false;
         }
-        $this->set_parameter('org.openpsa.directmarketing_smart_campaign', 'members_update_scheduled', $time);
+        else
+        {
+            $this->set_parameter('org.openpsa.directmarketing_smart_campaign', 'members_update_scheduled', $time);
+        }
         midcom::get('auth')->drop_sudo();
-        return true;
+        return $stat;
     }
 }
 ?>

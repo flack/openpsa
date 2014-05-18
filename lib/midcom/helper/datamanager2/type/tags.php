@@ -29,7 +29,7 @@ class midcom_helper_datamanager2_type_tags extends midcom_helper_datamanager2_ty
 
     public function convert_from_storage($source)
     {
-        
+
         if (! $this->storage->object)
         {
             if (is_string($source) && !empty($source))
@@ -61,8 +61,7 @@ class midcom_helper_datamanager2_type_tags extends midcom_helper_datamanager2_ty
             }
             $tag_array = $new_tag_array;
         }
-        $status = net_nemein_tag_handler::tag_object($this->storage->object, $tag_array);
-        if (!$status)
+        if (!net_nemein_tag_handler::tag_object($this->storage->object, $tag_array))
         {
             debug_add("Tried to save the tags \"{$this->value}\" for field {$this->name}, but failed. Ignoring silently.",
                 MIDCOM_LOG_WARN);

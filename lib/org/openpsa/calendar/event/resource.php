@@ -52,7 +52,7 @@ class org_openpsa_calendar_event_resource_dba extends midcom_core_dbaobject
             debug_add("Cannot fetch resource #{$this->resource} returning false", MIDCOM_LOG_INFO);
             return false;
         }
-        $stat =  $resource->can_do('org.openpsa.calendar:reserve');
+        $stat = $resource->can_do('org.openpsa.calendar:reserve');
         if (!$stat)
         {
             debug_add("\$resource->can_do('org.openpsa.calendar:reserve'), returned false, so will we", MIDCOM_LOG_INFO);

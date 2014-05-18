@@ -286,7 +286,6 @@ class midcom_helper_datamanager2_type_text extends midcom_helper_datamanager2_ty
         }
 
         $stat = $this->validate_forbidden_patterns(array($this->name => $this->value));
-
         if (is_array($stat))
         {
             $this->validation_error = $stat[$this->name];
