@@ -54,10 +54,6 @@ Uutissyötteet
 Seuraavat sisällön syndikointiformaatit ovat saatavilla:
 ---STRINGEND
 
----STRING back to overview
-Takaisin etusivulle
----STRINGEND
-
 ---STRING blog link deleted
 Blogilinkki poistettu
 ---STRINGEND

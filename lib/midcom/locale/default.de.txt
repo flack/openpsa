@@ -10,10 +10,6 @@
 %s der Pakete des Typs %s
 ---STRINGEND
 
----STRING Edit this page
-Diese Seite bearbeiten
----STRINGEND
-
 ---STRING More...
 Mehr...
 ---STRINGEND
@@ -82,10 +78,6 @@ Freigaben
 Freigeben
 ---STRINGEND
 
----STRING approve topic
-Ordner freigeben
----STRINGEND
-
 ---STRING approved
 Freigegeben
 ---STRINGEND
@@ -104,14 +96,6 @@ Score für Sortierung
 
 ---STRING back
 Zurück
----STRINGEND
-
----STRING back to configuration
-Zurück zur Konfiguration
----STRINGEND
-
----STRING back to index
-Zurück zur Rubrik
 ---STRINGEND
 
 ---STRING body
@@ -234,28 +218,12 @@ Domain
 nach unten
 ---STRINGEND
 
----STRING download %s
-%s herunterladen
----STRINGEND
-
 ---STRING edit
 Bearbeiten
 ---STRINGEND
 
 ---STRING edit %s
 %s bearbeiten
----STRINGEND
-
----STRING edit design
-Design bearbeiten
----STRINGEND
-
----STRING edit page
-Seite bearbeiten
----STRINGEND
-
----STRING edit photos
-Photos bearbeiten
 ---STRINGEND
 
 ---STRING edited
@@ -434,10 +402,6 @@ Besitzer
 Seite
 ---STRINGEND
 
----STRING page %d of %d
-Seite %d von %d
----STRINGEND
-
 ---STRING parameters
 Parameter
 ---STRINGEND
@@ -452,10 +416,6 @@ Passwort
 
 ---STRING permalink
 Permalink
----STRINGEND
-
----STRING photo in %s
-Foto in %s
 ---STRINGEND
 
 ---STRING previous
@@ -688,10 +648,6 @@ Rubrik
 
 ---STRING unapprove
 Freigabe zurücknehmen
----STRINGEND
-
----STRING unapprove topic
-Ordner-Freigabe zurücknehmen
 ---STRINGEND
 
 ---STRING unapproved

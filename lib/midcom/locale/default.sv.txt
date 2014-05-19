@@ -10,10 +10,6 @@
 %s paket av typen %s
 ---STRINGEND
 
----STRING Edit this page
-Ändra sidan
----STRINGEND
-
 ---STRING More...
 Mera...
 ---STRINGEND
@@ -78,10 +74,6 @@ Godkännande
 Godkänn
 ---STRINGEND
 
----STRING approve topic
-Godkänn katalog
----STRINGEND
-
 ---STRING approved
 Godkänd
 ---STRINGEND
@@ -100,14 +92,6 @@ poäng
 
 ---STRING back
 Tillbaka
----STRINGEND
-
----STRING back to configuration
-Tillbaka till inställningarna
----STRINGEND
-
----STRING back to index
-Tillbaka till ämnets index
 ---STRINGEND
 
 ---STRING body
@@ -210,28 +194,12 @@ Utvecklare
 ner
 ---STRINGEND
 
----STRING download %s
-Ladda ner %s
----STRINGEND
-
 ---STRING edit
 Ändra
 ---STRINGEND
 
 ---STRING edit %s
 Ändra %s
----STRINGEND
-
----STRING edit design
-Ändra design
----STRINGEND
-
----STRING edit page
-Ändra sida
----STRINGEND
-
----STRING edit photos
-Ändra bild
 ---STRINGEND
 
 ---STRING edited
@@ -406,10 +374,6 @@ Valfri
 Sida
 ---STRINGEND
 
----STRING page %d of %d
-Sida %d av %d
----STRINGEND
-
 ---STRING parameters
 Parametrar
 ---STRINGEND
@@ -420,10 +384,6 @@ Lösenord
 
 ---STRING permalink
 Permalänk
----STRINGEND
-
----STRING photo in %s
-Bilder i %s
 ---STRINGEND
 
 ---STRING previous
@@ -648,10 +608,6 @@ Titel
 
 ---STRING unapprove
 Godkänn inte
----STRINGEND
-
----STRING unapprove topic
-Godkänn inte folder
 ---STRINGEND
 
 ---STRING unapproved

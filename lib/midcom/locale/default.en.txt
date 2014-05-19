@@ -10,10 +10,6 @@
 %s of packages of type %s
 ---STRINGEND
 
----STRING Edit this page
-Edit this page
----STRINGEND
-
 ---STRING More...
 More...
 ---STRINGEND
@@ -86,10 +82,6 @@ Approvals
 Approve
 ---STRINGEND
 
----STRING approve topic
-Approve folder
----STRINGEND
-
 ---STRING approved
 Approved
 ---STRINGEND
@@ -108,14 +100,6 @@ Arrangement score
 
 ---STRING back
 Back
----STRINGEND
-
----STRING back to configuration
-Back to configuration
----STRINGEND
-
----STRING back to index
-Back to folder index
 ---STRINGEND
 
 ---STRING body
@@ -246,28 +230,12 @@ Domain
 down
 ---STRINGEND
 
----STRING download %s
-Download %s
----STRINGEND
-
 ---STRING edit
 Edit
 ---STRINGEND
 
 ---STRING edit %s
 Edit %s
----STRINGEND
-
----STRING edit design
-Edit design
----STRINGEND
-
----STRING edit page
-Edit page
----STRINGEND
-
----STRING edit photos
-Edit photos
 ---STRINGEND
 
 ---STRING edited
@@ -462,10 +430,6 @@ Owner
 Page
 ---STRINGEND
 
----STRING page %d of %d
-Page %d of %d
----STRINGEND
-
 ---STRING parameters
 Parameters
 ---STRINGEND
@@ -480,10 +444,6 @@ Password
 
 ---STRING permalink
 Permalink
----STRINGEND
-
----STRING photo in %s
-Photo in %s
 ---STRINGEND
 
 ---STRING previous
@@ -728,10 +688,6 @@ Folder
 
 ---STRING unapprove
 Unapprove
----STRINGEND
-
----STRING unapprove topic
-Unapprove folder
 ---STRINGEND
 
 ---STRING unapproved

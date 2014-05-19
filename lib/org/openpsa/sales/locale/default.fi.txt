@@ -106,10 +106,6 @@ Toimitukset
 Ei merkitty toimitettavaksi kohdetta "%s" muiden tehtävien takia
 ---STRINGEND
 
----STRING download as CSV
-Lataa CSV-tiedostona
----STRINGEND
-
 ---STRING estimated closing date
 Arvioitu kaupantekopäivä
 ---STRINGEND

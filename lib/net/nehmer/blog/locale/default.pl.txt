@@ -50,10 +50,6 @@ Dostępne wsady
 Dostępne są następujące wsady
 ---STRINGEND
 
----STRING back to overview
-Powrót
----STRINGEND
-
 ---STRING blog link deleted
 Link do newsa usunięto.
 ---STRINGEND

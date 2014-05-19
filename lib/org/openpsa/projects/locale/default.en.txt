@@ -38,14 +38,6 @@ Approved
 Approved by %s
 ---STRINGEND
 
----STRING back to project
-Back to project
----STRINGEND
-
----STRING back to task
-Back to task
----STRINGEND
-
 ---STRING basic information
 Basic information
 ---STRINGEND

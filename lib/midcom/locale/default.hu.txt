@@ -2,10 +2,6 @@
 ---VERSION 2.1.0
 ---LANGUAGE hu
 
----STRING Edit this page
-Oldal szerkesztése
----STRINGEND
-
 ---STRING More...
 Tovább
 ---STRINGEND
@@ -74,24 +70,8 @@ Leírás
 Le
 ---STRINGEND
 
----STRING download %s
-Letöltés
----STRINGEND
-
 ---STRING edit
 Szerkesztés
----STRINGEND
-
----STRING edit design
-Design szerkesztése
----STRINGEND
-
----STRING edit page
-Oldal szerkesztése
----STRINGEND
-
----STRING edit photos
-Képek szerkesztése
 ---STRINGEND
 
 ---STRING encrypted

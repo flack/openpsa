@@ -42,10 +42,6 @@ Luo automaattinen sisällysluettelo kansiolle?
 Sisällysluettelo korvaa index-artikkelin ja sisältää listan kaikista kansiossa olevista artikkeleista ja liitteistä.
 ---STRINGEND
 
----STRING back to overview
-Takaisin etusivulle
----STRINGEND
-
 ---STRING callback_function
 Luonnin jälkeen kutsuttava callback-funktio jota käytetään esim. sivujen linkitykseen
 ---STRINGEND

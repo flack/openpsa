@@ -38,14 +38,6 @@ Genehmigt
 Genehmigt durch %s
 ---STRINGEND
 
----STRING back to project
-Zurück zum Projekt
----STRINGEND
-
----STRING back to task
-Zurück zur Aufgabe
----STRINGEND
-
 ---STRING basic information
 Basis-Informationen
 ---STRINGEND

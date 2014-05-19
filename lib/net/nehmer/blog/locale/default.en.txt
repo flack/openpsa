@@ -54,10 +54,6 @@ Available feeds
 The following content syndication feed formats are available:
 ---STRINGEND
 
----STRING back to overview
-Back to overview
----STRINGEND
-
 ---STRING blog link deleted
 Blog link deleted
 ---STRINGEND

@@ -26,10 +26,6 @@ Jóváhagyva
 %s által jóváhagyva
 ---STRINGEND
 
----STRING back to task
-Vissza a feladathoz
----STRINGEND
-
 ---STRING basic information
 Alap információk
 ---STRINGEND

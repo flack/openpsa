@@ -90,10 +90,6 @@ Vevő
 a projekt végrehajtásával kapcsolatos dokumentumok/produktumok
 ---STRINGEND
 
----STRING download as CSV
-Ment CSV-ként
----STRINGEND
-
 ---STRING estimated closing date
 Várható befejezési idő
 ---STRINGEND

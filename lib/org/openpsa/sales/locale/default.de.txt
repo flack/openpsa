@@ -138,10 +138,6 @@ Geliefert
 Die Bestellung "%s" wurde aufgrund anderer Aufgaben nicht als geliefert markiert
 ---STRINGEND
 
----STRING download as CSV
-Als CSV herunterladen
----STRINGEND
-
 ---STRING estimated closing date
 Geschätztes Abschlussdatum
 ---STRINGEND

@@ -42,10 +42,6 @@ Auto-Index-Einstellungen
 Die automatische Index-Seite ersetzt den Artikel mit dem URL-Namen index und besteht aus einer Liste aller Artikel und Dateianhängen der aktuellen Rubrik.
 ---STRINGEND
 
----STRING back to overview
-Zurück zur Übersicht
----STRINGEND
-
 ---STRING callback_function
 Callback-Funktion, die nach Erstellung ausgeführt wird, um z.B. ein Interface zum Seitenverlinkungssystem bereitzustellen
 ---STRINGEND

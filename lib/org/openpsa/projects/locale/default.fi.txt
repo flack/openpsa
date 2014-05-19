@@ -34,14 +34,6 @@ Hyväksytty
 Hyväksynyt valmiiksi %s
 ---STRINGEND
 
----STRING back to project
-Takaisin projektiin
----STRINGEND
-
----STRING back to task
-Takaisin tehtävään
----STRINGEND
-
 ---STRING basic information
 Perustiedot
 ---STRINGEND

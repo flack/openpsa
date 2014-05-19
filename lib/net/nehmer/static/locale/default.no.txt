@@ -22,10 +22,6 @@ Vis alle nye artikkler automatisk?
 Dette valget skifter ut førstesiden med en liste av alle artikler som ligger under dette emner.
 ---STRINGEND
 
----STRING back to overview
-Tilbake til oversikten
----STRINGEND
-
 ---STRING create article
 Ny artikkel
 ---STRINGEND

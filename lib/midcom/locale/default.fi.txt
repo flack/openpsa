@@ -10,10 +10,6 @@
 %s paketeille tyyppiä %s
 ---STRINGEND
 
----STRING Edit this page
-Muokkaa sivua
----STRINGEND
-
 ---STRING More...
 Lisää...
 ---STRINGEND
@@ -82,10 +78,6 @@ Hyväksynnät
 Hyväksy
 ---STRINGEND
 
----STRING approve topic
-Hyväksy kansio
----STRINGEND
-
 ---STRING approved
 Hyväksytty
 ---STRINGEND
@@ -104,14 +96,6 @@ Järjestelyarvo
 
 ---STRING back
 Takaisin
----STRINGEND
-
----STRING back to configuration
-Takaisin asetuksiin
----STRINGEND
-
----STRING back to index
-Takaisin kansion pääsivulle
 ---STRINGEND
 
 ---STRING body
@@ -226,28 +210,12 @@ Nimialue
 alas
 ---STRINGEND
 
----STRING download %s
-Lataa %s
----STRINGEND
-
 ---STRING edit
 Muokkaa
 ---STRINGEND
 
 ---STRING edit %s
 Muokkaa %s
----STRINGEND
-
----STRING edit design
-Muokkaa ulkoasua
----STRINGEND
-
----STRING edit page
-Muokkaa sivua
----STRINGEND
-
----STRING edit photos
-Muokkaa valokuvia
 ---STRINGEND
 
 ---STRING edited
@@ -422,10 +390,6 @@ Omistaja
 Sivu
 ---STRINGEND
 
----STRING page %d of %d
-Sivu %s/%s
----STRINGEND
-
 ---STRING parameters
 Parametrit
 ---STRINGEND
@@ -440,10 +404,6 @@ Salasana
 
 ---STRING permalink
 Pysyvä linkki
----STRINGEND
-
----STRING photo in %s
-valokuva kansiossa %s
 ---STRINGEND
 
 ---STRING previous
@@ -680,10 +640,6 @@ Kansio
 
 ---STRING unapprove
 Poista hyväksyntä
----STRINGEND
-
----STRING unapprove topic
-Poista kansion hyväksyntä
 ---STRINGEND
 
 ---STRING unapproved

@@ -2,10 +2,6 @@
 ---VERSION 2.1.0
 ---LANGUAGE no
 
----STRING Edit this page
-Rediger
----STRINGEND
-
 ---STRING abstract
 Ingress
 ---STRINGEND
@@ -24,14 +20,6 @@ Synlig
 
 ---STRING back
 Tilbake
----STRINGEND
-
----STRING back to configuration
-Tilbake til innstillinger
----STRINGEND
-
----STRING back to index
-Tilbake til visningssiden
 ---STRINGEND
 
 ---STRING body
@@ -82,24 +70,8 @@ Slett
 Beskrivelse
 ---STRINGEND
 
----STRING download %s
-Last ned %s
----STRINGEND
-
 ---STRING edit
 Rediger
----STRINGEND
-
----STRING edit design
-Rediger utseende
----STRINGEND
-
----STRING edit page
-Rediger side
----STRINGEND
-
----STRING edit photos
-Rediger bilder
 ---STRINGEND
 
 ---STRING encrypted
@@ -172,10 +144,6 @@ Eier
 
 ---STRING password
 Passord
----STRINGEND
-
----STRING photo in %s
-Bilde i %s
 ---STRINGEND
 
 ---STRING reject

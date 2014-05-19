@@ -42,10 +42,6 @@ Ustawienia autoindeksu
 Artykuł indeksowy to artykuł wyświetlany po podaniu adresu URL kategorii. Składa się z listy artykułów i załączników w folderze.
 ---STRINGEND
 
----STRING back to overview
-Wstecz
----STRINGEND
-
 ---STRING callback_function
 Funkcja zwrotna uruchamiana po utworzeniu artykułu.
 ---STRINGEND

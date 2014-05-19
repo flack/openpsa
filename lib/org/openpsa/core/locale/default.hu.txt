@@ -1,0 +1,7 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---LANGUAGE hu
+
+---STRING download as CSV
+Ment CSV-ként
+---STRINGEND

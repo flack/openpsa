@@ -10,10 +10,6 @@
 %s pakietów typu %s
 ---STRINGEND
 
----STRING Edit this page
-Edytuj stronę
----STRINGEND
-
 ---STRING More...
 Więcej...
 ---STRINGEND
@@ -82,10 +78,6 @@ Zatwierdzenia
 Zatwierdź
 ---STRINGEND
 
----STRING approve topic
-Zatwierdź folder
----STRINGEND
-
 ---STRING approved
 Zatwierdzono dnia
 ---STRINGEND
@@ -104,14 +96,6 @@ Pozycja
 
 ---STRING back
 Wstecz
----STRINGEND
-
----STRING back to configuration
-Powrót do konfiguracji
----STRINGEND
-
----STRING back to index
-Powrót do folderu
 ---STRINGEND
 
 ---STRING body
@@ -230,28 +214,12 @@ Domena
 dół
 ---STRINGEND
 
----STRING download %s
-Pobierz %s
----STRINGEND
-
 ---STRING edit
 Edytuj
 ---STRINGEND
 
 ---STRING edit %s
 Edytuj %s
----STRINGEND
-
----STRING edit design
-Edytuj szablon
----STRINGEND
-
----STRING edit page
-Edytuj stronę
----STRINGEND
-
----STRING edit photos
-Edytuj zdjęcia
 ---STRINGEND
 
 ---STRING edited
@@ -430,10 +398,6 @@ Właściciel
 Strona
 ---STRINGEND
 
----STRING page %d of %d
-Strona %d z %d
----STRINGEND
-
 ---STRING parameters
 Parametry
 ---STRINGEND
@@ -448,10 +412,6 @@ Hasło
 
 ---STRING permalink
 Permalink
----STRINGEND
-
----STRING photo in %s
-Zdjęcia w %s
 ---STRINGEND
 
 ---STRING previous
@@ -684,10 +644,6 @@ Folder
 
 ---STRING unapprove
 Odtwierdź
----STRINGEND
-
----STRING unapprove topic
-Odtwierdź folder
 ---STRINGEND
 
 ---STRING unapproved

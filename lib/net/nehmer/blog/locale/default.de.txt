@@ -50,10 +50,6 @@ Verfügbare Newsfeeds
 Die folgenden Formate zur Content Syndication sind verfügbar:
 ---STRINGEND
 
----STRING back to overview
-Zurück zur Übersicht
----STRINGEND
-
 ---STRING blog link deleted
 Blog-link gelöscht
 ---STRINGEND

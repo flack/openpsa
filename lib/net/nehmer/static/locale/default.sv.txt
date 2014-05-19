@@ -38,10 +38,6 @@ Automatiskt skapa en index sida för det här ämnet?
 Index sidan ersätter artikeln vars URL namn är index och innehåller en lista av alla artiklar och bifogade filer under det nuvarande ämnet.
 ---STRINGEND
 
----STRING back to overview
-Tillbaka till översikten
----STRINGEND
-
 ---STRING content
 Innehåll
 ---STRINGEND

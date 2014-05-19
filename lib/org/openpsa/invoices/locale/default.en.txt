@@ -30,10 +30,6 @@ All invoices for deliverable %s
 Amount
 ---STRINGEND
 
----STRING back to invoice
-Back to invoice
----STRINGEND
-
 ---STRING bank code
 Bankcode
 ---STRINGEND

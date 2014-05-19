@@ -34,10 +34,6 @@ ATOM feed
 Tillgängliga feeds
 ---STRINGEND
 
----STRING back to overview
-Tillbaka till överblick
----STRINGEND
-
 ---STRING blog link deleted
 Blog länk raderad
 ---STRINGEND

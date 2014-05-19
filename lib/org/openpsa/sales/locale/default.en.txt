@@ -137,10 +137,6 @@ Delivered
 Did not mark the deliverable "%s" delivered due to other tasks
 ---STRINGEND
 
----STRING download as CSV
-Download as CSV
----STRINGEND
-
 ---STRING estimated closing date
 Estimated closing date
 ---STRINGEND
