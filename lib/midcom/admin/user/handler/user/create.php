@@ -50,8 +50,6 @@ implements midcom_helper_datamanager2_interfaces_create
     }
 
     /**
-     * Handler method for listing style elements for the currently used component topic
-     *
      * @param string $handler_id Name of the used handler
      * @param array $args Array containing the variable arguments passed to the handler
      * @param array &$data Data passed to the show method
@@ -78,8 +76,6 @@ implements midcom_helper_datamanager2_interfaces_create
     }
 
     /**
-     * Show list of the style elements for the currently createed topic component
-     *
      * @param string $handler_id Name of the used handler
      * @param array &$data Data passed to the show method
      */

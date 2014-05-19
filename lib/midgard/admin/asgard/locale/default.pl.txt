@@ -226,6 +226,10 @@ Kopiowanie zakończone. Zostałeś przeniesiony do nowego obiektu.
 Kopiowanie zakończone. Zostałeś przeniesiony do węzła głównego nowego obiektu.
 ---STRINGEND
 
+---STRING copy to editor
+Kopiuj do edytora
+---STRINGEND
+
 ---STRING copy tree
 Kopiuj drzewo
 ---STRINGEND

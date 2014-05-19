@@ -222,6 +222,10 @@ Kopiointi onnistui, sinut on ohjattu kopioituun kohteeseen.
 Kopiointi onnistui, sinut on uudelleenohjattu uuden objektipuun juurelle.
 ---STRINGEND
 
+---STRING copy to editor
+Kopioi editoriin
+---STRINGEND
+
 ---STRING copy tree
 Kopioi puu
 ---STRINGEND

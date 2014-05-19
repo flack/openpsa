@@ -6,20 +6,8 @@
 %s status
 ---STRINGEND
 
----STRING a folder with name %s already exists
-En katalog med namnet "%s" finns redan!
----STRINGEND
-
 ---STRING all descendants will be deleted
 Allting i den här katalogen kommer att ta bort:
----STRINGEND
-
----STRING all style elements
-Alla stilelement
----STRINGEND
-
----STRING alpha
-Alpha
 ---STRINGEND
 
 ---STRING are you sure you want to delete this folder
@@ -34,24 +22,12 @@ Författare
 Författare
 ---STRINGEND
 
----STRING beta
-Beta
----STRINGEND
-
 ---STRING by score
 Manuell ordning
 ---STRINGEND
 
 ---STRING cancelled
 Avbruten
----STRINGEND
-
----STRING change component
-Ändra komponent
----STRINGEND
-
----STRING copy to editor
-Kopiera till editor
 ---STRINGEND
 
 ---STRING could not save folder: %s
@@ -126,16 +102,12 @@ Ta bort katalog "%s"
 Ändra metadata på "%s"
 ---STRINGEND
 
----STRING experimental, use with your own risk
-Experimentell, använd på egen risk
----STRINGEND
-
 ---STRING exported
 Exporterad
 ---STRINGEND
 
----STRING failed to create a new style template
-Misslyckades att skapa ny stilmall.
+---STRING failed to create a new style template: %s
+Misslyckades att skapa ny stilmall: %s
 ---STRINGEND
 
 ---STRING folder created
@@ -154,10 +126,6 @@ Katalag sparad
 Katalogtyp
 ---STRINGEND
 
----STRING folder with name %s already exists
-Katalog med namnet "%s" existerar redan!
----STRINGEND
-
 ---STRING folders first
 Katalog först
 ---STRINGEND
@@ -172,14 +140,6 @@ Importerad
 
 ---STRING inherit style
 Ärv template till underkataloger
----STRINGEND
-
----STRING list of %s folders using the same style template path
-Lista över "%s" kataloger som använder samma stilmalls sökväg
----STRINGEND
-
----STRING local element
-Lokalt element
 ---STRINGEND
 
 ---STRING midcom.admin.folder
@@ -286,28 +246,12 @@ Sortera sidor
 Stilmall
 ---STRINGEND
 
----STRING style editor
-Stil editor
----STRINGEND
-
----STRING style element list
-Lista över stil element
----STRINGEND
-
----STRING style elements for %s
-Stil element för stilen %s
----STRINGEND
-
 ---STRING style template
 Stilmall
 ---STRINGEND
 
 ---STRING submitting the form
 Skickar formuläret
----STRINGEND
-
----STRING this component is still being developed and tested and might contain undocumented features
-Den här komponenten är fortfarande under utveckling och kan innehålla odokumenterade features
 ---STRINGEND
 
 ---STRING title is empty

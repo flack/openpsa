@@ -226,6 +226,10 @@ Kopiervorgang erfolgreich, Sie wurden zum neuen Objekt weitergeleitet
 Kopiervorgang erfolgreich, Sie wurden zum Wurzelement des neuen Objektbaums weitergeleitet
 ---STRINGEND
 
+---STRING copy to editor
+In den Editor kopieren
+---STRINGEND
+
 ---STRING copy tree
 Objektbaum kopieren
 ---STRINGEND

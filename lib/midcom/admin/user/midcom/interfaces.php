@@ -7,8 +7,6 @@
  */
 
 /**
- * Style editor class for listing style elements
- *
  * @package midcom.admin.user
  */
 class midcom_admin_user_interface extends midcom_baseclasses_components_interface

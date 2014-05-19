@@ -214,6 +214,10 @@ Kopiering lyckades, du är flyttad till det nya objektet.
 Kopiering lyckades, du har blivit flyttad till rooten av det nya objektträdet.
 ---STRINGEND
 
+---STRING copy to editor
+Kopiera till editor
+---STRINGEND
+
 ---STRING copy tree
 Kopiera träd
 ---STRINGEND

@@ -6,20 +6,8 @@
 Stan: %s
 ---STRINGEND
 
----STRING a folder with name %s already exists
-Folder '%s' już istnieje
----STRINGEND
-
 ---STRING all descendants will be deleted
 Cała zawartość folderu zostanie usunięta:
----STRINGEND
-
----STRING all style elements
-Wszystkie style
----STRINGEND
-
----STRING alpha
-Alfa
 ---STRINGEND
 
 ---STRING are you sure you want to delete this folder
@@ -34,10 +22,6 @@ Autor
 Autorzy
 ---STRINGEND
 
----STRING beta
-Beta
----STRINGEND
-
 ---STRING by score
 Sortowanie ręczne
 ---STRINGEND
@@ -46,16 +30,8 @@ Sortowanie ręczne
 Anulowano
 ---STRINGEND
 
----STRING change component
-Zmień moduł
----STRINGEND
-
 ---STRING component default
 Domyślnie dla modułu
----STRINGEND
-
----STRING copy to editor
-Kopiuj do edytora
 ---STRINGEND
 
 ---STRING could not save folder: %s
@@ -130,16 +106,12 @@ Edytuj metadane
 Edytuj metadane "%s"
 ---STRINGEND
 
----STRING experimental, use with your own risk
-Eksperymentalny. Tylko na własne ryzyko.
----STRINGEND
-
 ---STRING exported
 Eksportowano
 ---STRINGEND
 
----STRING failed to create a new style template
-Błąd dodania stylu
+---STRING failed to create a new style template: %s
+Błąd dodania stylu: %s
 ---STRINGEND
 
 ---STRING folder created
@@ -158,10 +130,6 @@ Folder zapisano
 Typ folderu
 ---STRINGEND
 
----STRING folder with name %s already exists
-Folder '%s' już istnieje
----STRINGEND
-
 ---STRING folders first
 Najpierw foldery
 ---STRINGEND
@@ -176,14 +144,6 @@ Importowano
 
 ---STRING inherit style
 Dziedzicz szablon do podfolderów
----STRINGEND
-
----STRING list of %s folders using the same style template path
-Foldery typu "%s" korzystające z tego samego stylu
----STRINGEND
-
----STRING local element
-Element lokalny
 ---STRINGEND
 
 ---STRING midcom.admin.folder
@@ -306,28 +266,12 @@ Sortowanie stron
 Szablon stylu
 ---STRINGEND
 
----STRING style editor
-Edytor szablonów
----STRINGEND
-
----STRING style element list
-Lista elementów
----STRINGEND
-
----STRING style elements for %s
-Elementy stylu %s
----STRINGEND
-
 ---STRING style template
 Szablon stylu
 ---STRINGEND
 
 ---STRING submitting the form
 wysyłanie formularza
----STRINGEND
-
----STRING this component is still being developed and tested and might contain undocumented features
-Moduł jest w fazie testów i może zawierać niepełny i nieudokumentowany kod
 ---STRINGEND
 
 ---STRING title is empty

@@ -7,8 +7,6 @@
  */
 
 /**
- * Style editor class for listing style elements
- *
  * @package midcom.admin.user
  */
 class midcom_admin_user_handler_list extends midcom_baseclasses_components_handler
@@ -58,8 +56,6 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
     }
 
     /**
-     * Handler method for listing style elements for the currently used component topic
-     *
      * @param string $handler_id Name of the used handler
      * @param array $args Array containing the variable arguments passed to the handler
      * @param array &$data Data passed to the show method
@@ -192,8 +188,6 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
     }
 
     /**
-     * Show list of the style elements for the currently edited topic component
-     *
      * @param string $handler_id Name of the used handler
      * @param array &$data Data passed to the show method
      */
@@ -212,8 +206,6 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
     }
 
     /**
-     * Handler method for listing style elements for the currently used component topic
-     *
      * @param string $handler_id Name of the used handler
      * @param array $args Array containing the variable arguments passed to the handler
      * @param array &$data Data passed to the show method

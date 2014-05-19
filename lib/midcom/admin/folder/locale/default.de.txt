@@ -6,20 +6,8 @@
 %s-Status
 ---STRINGEND
 
----STRING a folder with name %s already exists
-Ein Ordner mit dem Namen "%s" existiert bereits!
----STRINGEND
-
 ---STRING all descendants will be deleted
 Alle Inhalte dieses Ordners werden gelöscht:
----STRINGEND
-
----STRING all style elements
-Alle Style-Elemente
----STRINGEND
-
----STRING alpha
-Alpha
 ---STRINGEND
 
 ---STRING are you sure you want to delete this folder
@@ -34,10 +22,6 @@ Verfasser
 Verfasser
 ---STRINGEND
 
----STRING beta
-Beta
----STRINGEND
-
 ---STRING by score
 von Hand sortiert
 ---STRINGEND
@@ -46,16 +30,8 @@ von Hand sortiert
 Abgebrochen
 ---STRINGEND
 
----STRING change component
-Komponente ändern
----STRINGEND
-
 ---STRING component default
 Standardeinstellung der Komponente
----STRINGEND
-
----STRING copy to editor
-In den Editor kopieren
 ---STRINGEND
 
 ---STRING could not save folder: %s
@@ -130,16 +106,12 @@ Metadaten bearbeiten
 Metadaten von '%s' bearbeiten
 ---STRINGEND
 
----STRING experimental, use with your own risk
-Experimentell, Benutzung auf eigene Gefahr
----STRINGEND
-
 ---STRING exported
 Exportiert
 ---STRINGEND
 
----STRING failed to create a new style template
-Neue Stilvorlage konnte nicht erstellt werden!
+---STRING failed to create a new style template: %s
+Neue Stilvorlage konnte nicht erstellt werden: %s
 ---STRINGEND
 
 ---STRING folder created
@@ -158,10 +130,6 @@ Ordner gespeichert
 Ordner-Typ
 ---STRINGEND
 
----STRING folder with name %s already exists
-Ein Ordner mit dem Namen "%s" existiert bereits!
----STRINGEND
-
 ---STRING folders first
 Ordner zuerst
 ---STRINGEND
@@ -176,14 +144,6 @@ Importiert
 
 ---STRING inherit style
 Stilvorlage an Unterordner vererben
----STRINGEND
-
----STRING list of %s folders using the same style template path
-Zeige alle "%s"-Ordner, die den selben Stilvorlagen-Pfad benutzen
----STRINGEND
-
----STRING local element
-Lokales Element
 ---STRINGEND
 
 ---STRING midcom.admin.folder
@@ -302,24 +262,8 @@ Seiten anordnen
 Stilvorlage
 ---STRINGEND
 
----STRING style editor
-Style-Editor
----STRINGEND
-
----STRING style element list
-Liste der Style-Elemente
----STRINGEND
-
----STRING style elements for %s
-Style-Elemente der Stilvorlage %s
----STRINGEND
-
 ---STRING style template
 Stilvorlage
----STRINGEND
-
----STRING this component is still being developed and tested and might contain undocumented features
-Diese Komponente befindet sich noch in der Entwicklung und könnte undokumentierte Features enthalten
 ---STRINGEND
 
 ---STRING title is empty

@@ -226,8 +226,6 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
     }
 
     /**
-     * Show the editing view for the requested style
-     *
      * @param string $handler_id Name of the used handler
      * @param array &$data Data passed to the show method
      */
@@ -243,8 +241,6 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
     }
 
     /**
-     * Handler method for listing style elements for the currently used component topic
-     *
      * @param string $handler_id Name of the used handler
      * @param array $args Array containing the variable arguments passed to the handler
      * @param array &$data Data passed to the show method

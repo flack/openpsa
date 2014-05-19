@@ -187,8 +187,6 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
     }
 
     /**
-     * Show list of the style elements for the currently edited topic component
-     *
      * @param string $handler_id Name of the used handler
      * @param array &$data Data passed to the show method
      */
@@ -522,8 +520,6 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
     }
 
     /**
-     * Show list of the style elements for the currently edited topic component
-     *
      * @param string $handler_id Name of the used handler
      * @param array &$data Data passed to the show method
      */

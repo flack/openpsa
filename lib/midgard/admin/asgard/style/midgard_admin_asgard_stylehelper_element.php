@@ -13,7 +13,7 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
         {
             ?>
             <button type="button" class="copy">
-                <?php echo $data['l10n']->get('copy default value'); ?>
+                <?php echo $data['l10n']->get('copy to editor'); ?>
             </button>
             <?php
         }

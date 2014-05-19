@@ -218,10 +218,6 @@ Copy "%s" and its descendants
 Copy attachments
 ---STRINGEND
 
----STRING copy default value
-Copy from the default
----STRINGEND
-
 ---STRING copy metadata
 Copy metadata
 ---STRINGEND
@@ -236,6 +232,10 @@ Copy successful, you have been relocated to the new object.
 
 ---STRING copy successful, you have been relocated to the root of the new object tree
 Copy successful, you have been relocated to the root of the new object tree.
+---STRINGEND
+
+---STRING copy to editor
+Copy to editor
 ---STRINGEND
 
 ---STRING copy tree
