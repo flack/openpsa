@@ -30,10 +30,6 @@ von Hand sortiert
 Abgebrochen
 ---STRINGEND
 
----STRING component default
-Standardeinstellung der Komponente
----STRINGEND
-
 ---STRING could not save folder: %s
 Ordner konnte nicht gespeichert werden. Ursache: %s
 ---STRINGEND
@@ -222,10 +218,6 @@ Revision
 Revisor
 ---STRINGEND
 
----STRING saving changes
-Änderungen werden gespeichert
----STRINGEND
-
 ---STRING schedule end
 Anzeigen bis (für unbegrenzte Anzeige frei lassen)
 ---STRINGEND
@@ -266,20 +258,8 @@ Stilvorlage
 Stilvorlage
 ---STRINGEND
 
----STRING title is empty
-Der Titel ist leer!
----STRINGEND
-
----STRING warning, might result in data loss
-Warnung! Kann zu Datenverlust führen!
----STRINGEND
-
 ---STRING objects with no navigation entry are still accessible on-site if the url is known
 Objekte ohne Navigationseintrag sind weiterhin verfügbar, insofern die URL bekannt ist
----STRINGEND
-
----STRING submitting the form
-Formular wird abgeschickt
 ---STRINGEND
 
 ---STRING createlink folder %s

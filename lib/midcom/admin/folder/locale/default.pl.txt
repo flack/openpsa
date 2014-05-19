@@ -30,10 +30,6 @@ Sortowanie ręczne
 Anulowano
 ---STRINGEND
 
----STRING component default
-Domyślnie dla modułu
----STRINGEND
-
 ---STRING could not save folder: %s
 Nie mogę zapisać folderu. Powód:
 ---STRINGEND
@@ -226,10 +222,6 @@ Wersja
 Autor zmiany
 ---STRINGEND
 
----STRING saving changes
-Zapisywanie
----STRINGEND
-
 ---STRING schedule end
 Wyświetlaj do (puste - bez limitu)
 ---STRINGEND
@@ -268,18 +260,6 @@ Szablon stylu
 
 ---STRING style template
 Szablon stylu
----STRINGEND
-
----STRING submitting the form
-wysyłanie formularza
----STRINGEND
-
----STRING title is empty
-Tytuł jest pusty!
----STRINGEND
-
----STRING warning, might result in data loss
-Uwaga! Możliwa utrata danych!
 ---STRINGEND
 
 ---STRING createlink folder %s

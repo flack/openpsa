@@ -254,10 +254,6 @@ Luotu
 Päivämäärä
 ---STRINGEND
 
----STRING default language
-Oletuskieli
----STRINGEND
-
 ---STRING delete %s %s
 Poista %s %s
 ---STRINGEND
@@ -312,10 +308,6 @@ Muokkaa tekstitiedostoa
 
 ---STRING editor options
 Tekstieditorien ominaisuudet
----STRINGEND
-
----STRING enable breaking of the editing lock
-Salli muokkauslukon murtaminen
 ---STRINGEND
 
 ---STRING enable quicklinks
@@ -396,10 +388,6 @@ HTML
 
 ---STRING in %s
 %s:ssa
----STRINGEND
-
----STRING in fallback language
-oletuskielellä
 ---STRINGEND
 
 ---STRING in total %s purged
@@ -837,8 +825,3 @@ Versio %s kohteesta %s
 ---STRING xml
 XML
 ---STRINGEND
-
----STRING copy multilingual content
-Kopioi monikielinen sisältö
----STRINGEND
-

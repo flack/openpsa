@@ -18,10 +18,6 @@
 %s on enintään
 ---STRINGEND
 
----STRING business area schema database
-Bisnesalueen tietokantakuvaus
----STRINGEND
-
 ---STRING code
 Koodi
 ---STRINGEND

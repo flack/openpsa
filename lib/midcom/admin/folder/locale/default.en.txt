@@ -30,10 +30,6 @@ Manually ordered
 Cancelled
 ---STRINGEND
 
----STRING component default
-Component default
----STRINGEND
-
 ---STRING could not save folder: %s
 Could not save folder. Reason: %s
 ---STRINGEND
@@ -222,10 +218,6 @@ Revision
 Revisor
 ---STRINGEND
 
----STRING saving changes
-Saving changes
----STRINGEND
-
 ---STRING schedule end
 Display until (leave empty for unlimited display)
 ---STRINGEND
@@ -266,20 +258,8 @@ Style template
 Style template
 ---STRINGEND
 
----STRING title is empty
-Title is empty!
----STRINGEND
-
----STRING warning, might result in data loss
-Warning! Might result in data loss!
----STRINGEND
-
 ---STRING objects with no navigation entry are still accessible on-site if the url is known
 Objects that are hidden from navigation are still accessible on-site if the URL is known
----STRINGEND
-
----STRING submitting the form
-Submitting the form
 ---STRINGEND
 
 ---STRING createlink folder %s

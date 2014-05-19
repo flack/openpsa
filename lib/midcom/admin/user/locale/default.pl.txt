@@ -139,10 +139,6 @@ Odwróć zaznaczenie
 Nazwisko
 ---STRINGEND
 
----STRING long dateformat
-Format długi
----STRINGEND
-
 ---STRING long dateformat (%s)
 Format długi (%s)
 ---STRINGEND
@@ -209,10 +205,6 @@ Użytkownik %s zapisany
 
 ---STRING postcode
 Kod pocztowy
----STRINGEND
-
----STRING prevent repeating character
-Unikaj powtórzeń znaków
 ---STRINGEND
 
 ---STRING prevent repeating characters

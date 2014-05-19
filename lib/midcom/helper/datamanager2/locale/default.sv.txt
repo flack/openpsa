@@ -234,8 +234,3 @@ Inte satt (ärvd)
 ---STRING widget select: other value
 Annat
 ---STRINGEND
-
----STRING write the order, lower numbers are placed first
-Skriv i ordning, låga nummer är placerade först
----STRINGEND
-

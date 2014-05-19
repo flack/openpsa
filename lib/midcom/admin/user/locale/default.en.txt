@@ -142,10 +142,6 @@ Invert selection
 Lastname
 ---STRINGEND
 
----STRING long dateformat
-Long dateformat
----STRINGEND
-
 ---STRING long dateformat (%s)
 Long dateformat (%s)
 ---STRINGEND
@@ -220,10 +216,6 @@ Personalized equal
 
 ---STRING postcode
 Postcode
----STRINGEND
-
----STRING prevent repeating character
-Prevent repeating character
 ---STRINGEND
 
 ---STRING prevent repeating characters

@@ -134,10 +134,6 @@ Auswahl umkehren
 Nachname
 ---STRINGEND
 
----STRING long dateformat
-Ausführliches Datumsformat
----STRINGEND
-
 ---STRING long dateformat (%s)
 Ausführliches Datumsformat (%s)
 ---STRINGEND
@@ -212,10 +208,6 @@ Personalized equal
 
 ---STRING postcode
 Postleitzahl
----STRINGEND
-
----STRING prevent repeating character
-Zeichenwiederholungen verhindern
 ---STRINGEND
 
 ---STRING prevent repeating characters

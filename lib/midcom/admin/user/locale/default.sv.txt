@@ -134,10 +134,6 @@ Invertera val
 Efternamn
 ---STRINGEND
 
----STRING long dateformat
-Långt datumformat
----STRINGEND
-
 ---STRING long dateformat (%s)
 Långt datumformat (%s)
 ---STRINGEND
@@ -204,10 +200,6 @@ Användare %s sparad
 
 ---STRING postcode
 Postnummer
----STRINGEND
-
----STRING prevent repeating character
-Förhindra upprepning av tecken
 ---STRINGEND
 
 ---STRING prevent repeating characters

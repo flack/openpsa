@@ -283,10 +283,6 @@ Nicht gesetzt (vererbt)
 Andere Eingabe
 ---STRINGEND
 
----STRING write the order, lower numbers are placed first
-Reihenfolge speichern, niedrige Nummern erscheinen zuerst
----STRINGEND
-
 ---STRING delete video
 Video löschen
 ---STRINGEND

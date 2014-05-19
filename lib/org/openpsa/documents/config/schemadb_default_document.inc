@@ -40,7 +40,7 @@
         ),
         'status_select' => array
         (
-            'title' => 'Document status',
+            'title' => 'document status',
             'storage'    => 'docStatus',
             'type'     => 'select',
             'type_config' => array

@@ -54,14 +54,6 @@ Metatag refresh speed
 Redirection folder
 ---STRINGEND
 
----STRING no guid found for permalink
-No GUID found for permalink
----STRINGEND
-
----STRING no url found for guid %s
-No url found for GUID %s
----STRINGEND
-
 ---STRING permalink guid
 Permalink GUID
 ---STRINGEND

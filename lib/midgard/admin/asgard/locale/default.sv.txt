@@ -246,10 +246,6 @@ Skapad på
 Datum
 ---STRINGEND
 
----STRING default language
-Standard språk
----STRINGEND
-
 ---STRING delete %s %s
 Radera %s "%s"
 ---STRINGEND
@@ -372,10 +368,6 @@ HTML
 
 ---STRING in %s
 i %s
----STRINGEND
-
----STRING in fallback language
-I standard språk
 ---STRINGEND
 
 ---STRING in total %s purged

@@ -287,10 +287,6 @@ Not set (inherited)
 Other
 ---STRINGEND
 
----STRING write the order, lower numbers are placed first
-Write the order, lower numbers are placed first
----STRINGEND
-
 ---STRING validation failed for field %s: %s
 Validation failed for field <em>%s</em>: %s
 ---STRINGEND

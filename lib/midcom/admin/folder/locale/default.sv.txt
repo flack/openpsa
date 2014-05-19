@@ -214,10 +214,6 @@ Uppdatering
 Uppdaterare
 ---STRINGEND
 
----STRING saving changes
-Sparar ändringar
----STRINGEND
-
 ---STRING scheduling
 Schemaläggning
 ---STRINGEND
@@ -248,22 +244,6 @@ Stilmall
 
 ---STRING style template
 Stilmall
----STRINGEND
-
----STRING submitting the form
-Skickar formuläret
----STRINGEND
-
----STRING title is empty
-Titeln är tom!
----STRINGEND
-
----STRING warning, might result in data loss
-Varning! Kan resultera i förlust av data!
----STRINGEND
-
----STRING component default
-Komponentens standard inställning
 ---STRINGEND
 
 ---STRING prevent entering

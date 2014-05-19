@@ -258,10 +258,6 @@ Utworzono %s
 Data
 ---STRINGEND
 
----STRING default language
-Język domyślny
----STRINGEND
-
 ---STRING delete %s %s
 Usuń %s %s
 ---STRINGEND
@@ -316,10 +312,6 @@ Edycja pliku tekstowego
 
 ---STRING editor options
 Opcje edytora
----STRINGEND
-
----STRING enable breaking of the editing lock
-Pozwól na obejście blokady edycji
 ---STRINGEND
 
 ---STRING enable quicklinks
@@ -400,10 +392,6 @@ HTML
 
 ---STRING in %s
 w %s
----STRINGEND
-
----STRING in fallback language
-W języku podstawowym
 ---STRINGEND
 
 ---STRING in total %s purged

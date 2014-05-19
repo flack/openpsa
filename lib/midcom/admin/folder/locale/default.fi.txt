@@ -30,10 +30,6 @@ Järjestellyn mukaan
 Peruutettu
 ---STRINGEND
 
----STRING component default
-Komponentin vakiotyyli
----STRINGEND
-
 ---STRING could not save folder: %s
 Kansion tallennus epäonnistui. Syy: %s
 ---STRINGEND
@@ -226,10 +222,6 @@ Revisio
 Muokannut
 ---STRINGEND
 
----STRING saving changes
-Muutoksia tallennetaan
----STRINGEND
-
 ---STRING schedule end
 Näytä päivämäärään asti (jätä tyhjäksi näyttääksesi aina)
 ---STRINGEND
@@ -268,18 +260,6 @@ Ulkoasupohja
 
 ---STRING style template
 Ulkoasupohja
----STRINGEND
-
----STRING submitting the form
-Tallennetaan muutos
----STRINGEND
-
----STRING title is empty
-Otsikko on tyhjä!
----STRINGEND
-
----STRING warning, might result in data loss
-Varoitus! Saattaa johtaa tietojen katoamiseen!
 ---STRINGEND
 
 ---STRING createlink folder %s

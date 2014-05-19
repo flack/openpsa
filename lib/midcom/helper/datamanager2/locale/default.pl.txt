@@ -234,10 +234,6 @@ Nie ustawione (dziedziczone)
 Inne
 ---STRINGEND
 
----STRING write the order, lower numbers are placed first
-Podaj kolejność. Mniejsze wartości umieszczane są najpierw
----STRINGEND
-
 ---STRING delete video
 Usuń film
 ---STRINGEND

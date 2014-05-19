@@ -258,10 +258,6 @@ Erstellt am
 Datum
 ---STRINGEND
 
----STRING default language
-Standardsprache
----STRINGEND
-
 ---STRING delete %s %s
 %s "%s" löschen
 ---STRINGEND
@@ -320,10 +316,6 @@ Text-Datei bearbeiten
 
 ---STRING editor options
 Editor-Optionen
----STRINGEND
-
----STRING enable breaking of the editing lock
-Aufheben der Bearbeitungssperre zulassen
 ---STRINGEND
 
 ---STRING enable quicklinks
@@ -404,10 +396,6 @@ HTML
 
 ---STRING in %s
 in %s
----STRINGEND
-
----STRING in fallback language
-in Fallback-Sprache
 ---STRINGEND
 
 ---STRING in total %s purged

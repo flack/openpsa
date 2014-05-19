@@ -94,10 +94,6 @@ Mappák rendezése
 Oldalak rendezése
 ---STRINGEND
 
----STRING warning, might result in data loss
-Figyelem! Adatvesztés fordulhat elő!
----STRINGEND
-
 ---STRING symlinks are currently disabled                 
 (Symlinks are currently disabled.)
 ---STRINGEND

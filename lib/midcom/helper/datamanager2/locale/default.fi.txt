@@ -258,10 +258,6 @@ Ei asetettu (peritty)
 Muu
 ---STRINGEND
 
----STRING write the order, lower numbers are placed first
-Kirjoita järjestys, pienet numerot näytetään ensimmäisenä
----STRINGEND
-
 ---STRING validation failed for field %s: %s
 Kentän <em>%s</em> tarkistus epäonnistui: %s
 ---STRINGEND

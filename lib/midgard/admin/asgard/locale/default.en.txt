@@ -274,10 +274,6 @@ Elements you can use in this Style
 Date
 ---STRINGEND
 
----STRING default language
-Default language
----STRINGEND
-
 ---STRING delete %s %s
 Delete %s "%s"
 ---STRINGEND
@@ -344,10 +340,6 @@ Element "%s" used in %s
 
 ---STRING element defaults
 Default contents of the element
----STRINGEND
-
----STRING enable breaking of the editing lock
-Enable breaking of the editing lock
 ---STRINGEND
 
 ---STRING enable quicklinks
@@ -428,10 +420,6 @@ HTML
 
 ---STRING in %s
 in %s
----STRINGEND
-
----STRING in fallback language
-In fallback language
 ---STRINGEND
 
 ---STRING in total %s purged
@@ -904,9 +892,5 @@ Version %s of %s
 
 ---STRING xml
 XML
----STRINGEND
-
----STRING copy multilingual content
-Copy multilingual content
 ---STRINGEND
 

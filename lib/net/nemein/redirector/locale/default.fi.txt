@@ -54,14 +54,6 @@ Meta-tagin päivitysnopeus
 Uudelleenohjauskansio
 ---STRINGEND
 
----STRING no guid found for permalink
-GUID-tunnistetta ei löytynyt pysyvää linkkiä varten
----STRINGEND
-
----STRING no url found for guid %s
-GUID:lle %s ei löytynyt osoitetta
----STRINGEND
-
 ---STRING permalink guid
 Pysyvä linkki GUID:lla
 ---STRINGEND

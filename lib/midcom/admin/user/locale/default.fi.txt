@@ -142,10 +142,6 @@ Käännä valinnat päinvastaisiksi
 Sukunimi
 ---STRINGEND
 
----STRING long dateformat
-Pitkä aikamuoto
----STRINGEND
-
 ---STRING long dateformat (%s)
 Pitkä aikamuoto (%s)
 ---STRINGEND
@@ -216,10 +212,6 @@ Personoitu vastine
 
 ---STRING postcode
 Postinumero
----STRINGEND
-
----STRING prevent repeating character
-Estä samojen merkkien toistuminen
 ---STRINGEND
 
 ---STRING prevent repeating characters
