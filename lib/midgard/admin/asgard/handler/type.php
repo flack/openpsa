@@ -271,7 +271,7 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
         if (count($types) > 0)
         {
             midcom_show_style('midgard_admin_asgard_type_children_start');
-            $this->_show_child_types($types, $data);
+            $this->show_child_types($types, $data);
             midcom_show_style('midgard_admin_asgard_type_children_end');
         }
     }
