@@ -24,7 +24,7 @@
             // COMPONENT-REQUIRED
             'title' => 'password',
             'storage' => null,
-            'type' => 'password',
+            'type' => 'text',
             'widget' => 'password',
             'index_method' => 'noindex',
         ),
