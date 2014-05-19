@@ -162,10 +162,6 @@ Utwórz
 Utwórz %s
 ---STRINGEND
 
----STRING create page
-Dodaj stronę
----STRINGEND
-
 ---STRING created
 Utworzono dnia
 ---STRINGEND
@@ -230,10 +226,6 @@ Zmodyfikowano dnia
 Zmodyfikował
 ---STRINGEND
 
----STRING encrypted
-Szyfrowane
----STRINGEND
-
 ---STRING end date
 Koniec
 ---STRINGEND
@@ -268,10 +260,6 @@ Obraz
 
 ---STRING in %s
 w %s
----STRINGEND
-
----STRING inherited from parent
-Dziedziczone
 ---STRINGEND
 
 ---STRING internal metadata

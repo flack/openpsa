@@ -46,10 +46,6 @@ Létrehozás
 %s létrehozása
 ---STRINGEND
 
----STRING create page
-Oldal étrehozása
----STRINGEND
-
 ---STRING date
 Dátum
 ---STRINGEND
@@ -72,10 +68,6 @@ Le
 
 ---STRING edit
 Szerkesztés
----STRINGEND
-
----STRING encrypted
-Titkosított
 ---STRINGEND
 
 ---STRING end date

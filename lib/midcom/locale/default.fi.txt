@@ -162,10 +162,6 @@ Luo
 Luo %s
 ---STRINGEND
 
----STRING create page
-Luo sivu
----STRINGEND
-
 ---STRING created
 Luotu
 ---STRINGEND
@@ -226,10 +222,6 @@ Muokattu
 Muokannut
 ---STRINGEND
 
----STRING encrypted
-Salattu
----STRINGEND
-
 ---STRING end date
 Päättymispäivämäärä
 ---STRINGEND
@@ -264,10 +256,6 @@ Kuva
 
 ---STRING in %s
 kansiossa %s
----STRINGEND
-
----STRING inherited from parent
-Peritty ylemmältä tasolta
 ---STRINGEND
 
 ---STRING internal metadata

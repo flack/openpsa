@@ -174,10 +174,6 @@ Create
 Create %s
 ---STRINGEND
 
----STRING create page
-Create page
----STRINGEND
-
 ---STRING created
 by date created (oldest first)
 ---STRINGEND
@@ -246,10 +242,6 @@ Edited on
 Edited by
 ---STRINGEND
 
----STRING encrypted
-Encrypted
----STRINGEND
-
 ---STRING end date
 End date
 ---STRINGEND
@@ -284,10 +276,6 @@ Image
 
 ---STRING in %s
 in %s
----STRINGEND
-
----STRING inherited from parent
-Inherited from parent element
 ---STRINGEND
 
 ---STRING internal metadata

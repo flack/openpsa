@@ -10,10 +10,6 @@
 თემის %s
 ---STRINGEND
 
----STRING create page
-თემის შექმნა
----STRINGEND
-
 ---STRING delete
 წაშლა
 ---STRINGEND

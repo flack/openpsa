@@ -154,10 +154,6 @@ Skapa
 Skapa %s
 ---STRINGEND
 
----STRING create page
-Skapa sida
----STRINGEND
-
 ---STRING created
 efter datum (äldst först)
 ---STRINGEND
@@ -210,10 +206,6 @@ ner
 Ändrad av
 ---STRINGEND
 
----STRING encrypted
-Krypterad
----STRINGEND
-
 ---STRING end date
 Slut datum
 ---STRINGEND
@@ -248,10 +240,6 @@ Bild
 
 ---STRING in %s
 i %s
----STRINGEND
-
----STRING inherited from parent
-Ärvd från förälder objekt
 ---STRINGEND
 
 ---STRING internal metadata

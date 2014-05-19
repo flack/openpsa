@@ -166,10 +166,6 @@ Erstellen
 %s erstellen
 ---STRINGEND
 
----STRING create page
-Neue Seite erstellen
----STRINGEND
-
 ---STRING created
 nach Erstellungsdatum (älteste zuerst)
 ---STRINGEND
@@ -234,10 +230,6 @@ Bearbeitet um
 Bearbeitet von
 ---STRINGEND
 
----STRING encrypted
-Verschlüsselt
----STRINGEND
-
 ---STRING end date
 Enddatum
 ---STRINGEND
@@ -272,10 +264,6 @@ Bild
 
 ---STRING in %s
 In %s
----STRINGEND
-
----STRING inherited from parent
-Vom übergeordneten Element übernommen
 ---STRINGEND
 
 ---STRING internal metadata

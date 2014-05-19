@@ -7,7 +7,7 @@
  */
 
 /**
- * n.n.blog create page handler
+ * n.n.blog link handler
  *
  * @package net.nehmer.blog
  */

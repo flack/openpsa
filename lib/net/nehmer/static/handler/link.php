@@ -7,7 +7,7 @@
  */
 
 /**
- * n.n.static create page handler
+ * n.n.static link handler
  *
  * @package net.nehmer.static
  */
