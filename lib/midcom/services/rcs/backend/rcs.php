@@ -534,9 +534,9 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
 
         $ln = midcom::get('i18n')->get_l10n("midcom");
         $repl = array(
-            '<del>' => "<span class=\"deleted\" title=\"" . sprintf($ln->get("removed in %s"), $latest_revision) . "\">",
+            '<del>' => "<span class=\"deleted\">",
             '</del>' => '</span>',
-            '<ins>' => "<span class=\"inserted\" title=\"" . sprintf($ln->get("added in %s"), $latest_revision) . "\">",
+            '<ins>' => "<span class=\"inserted\">",
             '</ins>' => '</span>'
         );
         foreach ($oldest as $attribute => $oldest_value)

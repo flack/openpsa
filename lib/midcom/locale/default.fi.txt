@@ -46,14 +46,6 @@ Pääsy estetty: sinulla ei ole %s oikeutta.
 Pääsy estetty: et ole ryhmän %s jäsen
 ---STRINGEND
 
----STRING access denied: you do not have write permission
-Pääsy estetty: sinulla ei ole kirjoitusoikeutta.
----STRINGEND
-
----STRING access denied: you must be logged in
-Pääsy estetty: sisäänkirjautuminen vaaditaan
----STRINGEND
-
 ---STRING access type
 Tyyppi
 ---STRINGEND
@@ -146,10 +138,6 @@ Peruuta
 Turvatarkastus
 ---STRINGEND
 
----STRING close configuration screen
-Sulje asetukset
----STRINGEND
-
 ---STRING component
 Komponentti
 ---STRINGEND
@@ -224,10 +212,6 @@ Kuvaus
 
 ---STRING developer
 Kehittäjä
----STRINGEND
-
----STRING discussion in %s
-keskustelu kansiossa %s
 ---STRINGEND
 
 ---STRING do not index (midcom's indexer)
@@ -362,16 +346,8 @@ Käyttäjätunnus tai salasana oli virheellinen
 Kirjaudu ulos
 ---STRINGEND
 
----STRING lowercase, no special characters or spaces
-Pienet kirjaimet, ei erikoismerkkejä, ääkkösiä tai välejä
----STRINGEND
-
 ---STRING metadata
 Metatiedot
----STRINGEND
-
----STRING midcom administration
-Midgard CMS:n ylläpito
 ---STRINGEND
 
 ---STRING move
@@ -782,16 +758,8 @@ Näyttö
 Näkyvyysasetukset
 ---STRINGEND
 
----STRING visibilty settings
-Näkyvyysasetukset
----STRINGEND
-
 ---STRING workgroup
 Työryhmä
----STRINGEND
-
----STRING write mail
-Kirjoita sähköposti
 ---STRINGEND
 
 ---STRING yes

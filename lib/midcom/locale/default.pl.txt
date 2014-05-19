@@ -46,14 +46,6 @@ Brak dostępu: Wymagane uprawnienia %s.
 Brak dostępu: Wymagane członkostwo w grupie %s.
 ---STRINGEND
 
----STRING access denied: you do not have write permission
-Brak dostępu: Wymagane uprawnienia do zapisu.
----STRINGEND
-
----STRING access denied: you must be logged in
-Brak dostępu: Musisz być zalogowany.
----STRINGEND
-
 ---STRING access type
 Typ dostępu
 ---STRINGEND
@@ -146,10 +138,6 @@ Anuluj
 Kod dostępu
 ---STRINGEND
 
----STRING close configuration screen
-Zamknij konfigurację
----STRINGEND
-
 ---STRING component
 Moduł
 ---STRINGEND
@@ -232,10 +220,6 @@ Opis
 
 ---STRING developer
 Programista
----STRINGEND
-
----STRING discussion in %s
-Dyskusja w %s
 ---STRINGEND
 
 ---STRING domain
@@ -366,20 +350,12 @@ Niepoprawny użytkownik lub hasło.
 Logout
 ---STRINGEND
 
----STRING lowercase, no special characters or spaces
-Małe litery, bez znaków specjalnych i spacji
----STRINGEND
-
 ---STRING metadata
 Metadane
 ---STRINGEND
 
 ---STRING midcom
 Framework MidCOM CMS
----STRINGEND
-
----STRING midcom administration
-Administracja Midgard CMS
 ---STRINGEND
 
 ---STRING move
@@ -786,16 +762,8 @@ Pokaż
 Ustawienia widoczności
 ---STRINGEND
 
----STRING visibilty settings
-Ustawienia widoczności
----STRINGEND
-
 ---STRING workgroup
 Grupa robocza
----STRINGEND
-
----STRING write mail
-Napisz maila
 ---STRINGEND
 
 ---STRING yes

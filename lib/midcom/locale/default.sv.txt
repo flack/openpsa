@@ -46,14 +46,6 @@ Resumé
 Åtkomst nekad: Du är inte medlem i grupp %s.
 ---STRINGEND
 
----STRING access denied: you do not have write permission
-Åtkomst nekad: Du har inte skriv rättigheter.
----STRINGEND
-
----STRING access denied: you must be logged in
-Åtkomst nekad: Du måste vara inloggad.
----STRINGEND
-
 ---STRING access type
 Åtkomst typ
 ---STRINGEND
@@ -142,10 +134,6 @@ Avbryt
 Säkerhetskod
 ---STRINGEND
 
----STRING close configuration screen
-Stäng konfigurations skärmen
----STRINGEND
-
 ---STRING component
 Komponent
 ---STRINGEND
@@ -216,10 +204,6 @@ Beskrivning
 
 ---STRING developer
 Utvecklare
----STRINGEND
-
----STRING discussion in %s
-Diskussion i %s
 ---STRINGEND
 
 ---STRING down
@@ -346,16 +330,8 @@ Användarnamn eller lösenord är felaktigt.
 Logga ut
 ---STRINGEND
 
----STRING lowercase, no special characters or spaces
-Gemener, inga specialtecken eller mellanslag
----STRINGEND
-
 ---STRING metadata
 Metadata
----STRINGEND
-
----STRING midcom administration
-Midgard CMS Administration
 ---STRINGEND
 
 ---STRING move
@@ -746,16 +722,8 @@ Visa
 Synlighets inställningar
 ---STRINGEND
 
----STRING visibilty settings
-Synlighets inställningar
----STRINGEND
-
 ---STRING workgroup
 Arbetsgrupp
----STRINGEND
-
----STRING write mail
-Skriv mail
 ---STRINGEND
 
 ---STRING yes

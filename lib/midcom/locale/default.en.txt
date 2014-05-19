@@ -46,14 +46,6 @@ Access denied: You need the privilege %s.
 Access denied: You are not a member of the group %s.
 ---STRINGEND
 
----STRING access denied: you do not have write permission
-Access denied: You do not have write permission.
----STRINGEND
-
----STRING access denied: you must be logged in
-Access denied: You must be logged in.
----STRINGEND
-
 ---STRING access type
 Access type
 ---STRINGEND
@@ -154,10 +146,6 @@ Cancel
 Security code
 ---STRINGEND
 
----STRING close configuration screen
-Close configuration screen
----STRINGEND
-
 ---STRING component
 Component
 ---STRINGEND
@@ -244,10 +232,6 @@ Description
 
 ---STRING developer
 Developer
----STRINGEND
-
----STRING discussion in %s
-Discussion in %s
 ---STRINGEND
 
 ---STRING do not index (midcom's indexer)
@@ -386,20 +370,12 @@ Username or password was invalid.
 Logout
 ---STRINGEND
 
----STRING lowercase, no special characters or spaces
-Lowercase, no special characters or spaces
----STRINGEND
-
 ---STRING metadata
 Metadata
 ---STRINGEND
 
 ---STRING midcom
 MidCOM CMS Framework
----STRINGEND
-
----STRING midcom administration
-Midgard CMS Administration
 ---STRINGEND
 
 ---STRING move
@@ -830,36 +806,10 @@ View
 Visibility settings
 ---STRINGEND
 
----STRING visibilty settings
-Visibility Settings
----STRINGEND
-
 ---STRING workgroup
 Workgroup
----STRINGEND
-
----STRING write mail
-Write mail
 ---STRINGEND
 
 ---STRING yes
 Yes
 ---STRINGEND
-
----STRING Old Version
-Old Version
----STRINGEND
-
----STRING New Version
-New Version
----STRINGEND
-
----STRING removed in %s
-removed in %s
----STRINGEND
-
----STRING added in %s
-added in %s
----STRINGEND
-
-

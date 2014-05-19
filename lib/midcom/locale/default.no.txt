@@ -82,10 +82,6 @@ Slett
 Beskrivelse
 ---STRINGEND
 
----STRING discussion in %s
-diskusjon i %s
----STRINGEND
-
 ---STRING download %s
 Last ned %s
 ---STRINGEND
@@ -140,14 +136,6 @@ Logg inn
 
 ---STRING logout
 Logg av
----STRINGEND
-
----STRING lowercase, no special characters or spaces
-Små bokstaver, ikke æøå, mellomrom eller andre "sære" tegn.
----STRINGEND
-
----STRING midcom administration
-Midcom administrasjon
 ---STRINGEND
 
 ---STRING move

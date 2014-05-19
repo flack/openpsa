@@ -254,10 +254,6 @@ Felhasználónév
 Jelszó jóváhagyása
 ---STRINGEND
 
----STRING write mail
-Levél írása
----STRINGEND
-
 ---STRING yes
 Igen
 ---STRINGEND
@@ -276,14 +272,6 @@ Hozzáférés megtagadva! Szüksége van %s jogra.
 
 ---STRING access denied: user is not member of the group %s
 Hozzáférés megtagadva! Nem tagja a(z) %s csoportnak.
----STRINGEND
-
----STRING access denied: you do not have write permission
-Hozzáférés megtagadva! Nincs íráshoz jogosultsága.
----STRINGEND
-
----STRING access denied: you must be logged in
-Hozzáférés megtagadva! Nincs bejelentkezve.
 ---STRINGEND
 
 ---STRING access type

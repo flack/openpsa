@@ -46,14 +46,6 @@ Zugriff verweigert: Sie benötigen das Recht %s.
 Zugriff verweigert: Sie müssen Mitglied der Gruppe %s sein.
 ---STRINGEND
 
----STRING access denied: you do not have write permission
-Zugriff verweigert: Sie haben keinen Schreibzugriff.
----STRINGEND
-
----STRING access denied: you must be logged in
-Zugriff verweigert: Sie müssen am System angemeldet sein.
----STRINGEND
-
 ---STRING access type
 Zugriffsart
 ---STRINGEND
@@ -150,10 +142,6 @@ Abbrechen
 Sicherheitscode
 ---STRINGEND
 
----STRING close configuration screen
-Konfiguration schließen
----STRINGEND
-
 ---STRING component
 Komponente
 ---STRINGEND
@@ -236,10 +224,6 @@ Beschreibung
 
 ---STRING developer
 Entwickler
----STRINGEND
-
----STRING discussion in %s
-Diskussion in %s
 ---STRINGEND
 
 ---STRING domain
@@ -374,16 +358,8 @@ Benutzername oder Passwort waren ungültig.
 Abmelden
 ---STRINGEND
 
----STRING lowercase, no special characters or spaces
-Kleinbuchstaben, keine Sonderzeichen oder Leerzeichen
----STRINGEND
-
 ---STRING metadata
 Metadaten
----STRINGEND
-
----STRING midcom administration
-MidCOM-Administration
 ---STRINGEND
 
 ---STRING move
@@ -790,16 +766,8 @@ Ansicht
 Einstellungen zur Sichtbarkeit
 ---STRINGEND
 
----STRING visibilty settings
-Einstellungen zur Sichtbarkeit
----STRINGEND
-
 ---STRING workgroup
 Arbeitsgruppe
----STRINGEND
-
----STRING write mail
-Nachricht schreiben
 ---STRINGEND
 
 ---STRING yes
@@ -828,21 +796,5 @@ Bilder im Ordner "%s" erneut erzeugen
 
 ---STRING restore submitted form data
 Abgeschickte Formulardaten wiederherstellen
----STRINGEND
-
----STRING Old Version
-Alte Version
----STRINGEND
-
----STRING New Version
-Neue Version
----STRINGEND
-
----STRING removed in %s
-entfernt in %s
----STRINGEND
-
----STRING added in %s
-neu in %s
 ---STRINGEND
 
