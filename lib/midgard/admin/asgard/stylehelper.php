@@ -130,7 +130,7 @@ class midgard_admin_asgard_stylehelper
             {
                 $results['nodes'][$node->component] = array();
                 // Get the list of style elements for the component
-                $results['elements'][$component] = $this->_get_component_default_elements($component);
+                $results['elements'][$node->component] = $this->_get_component_default_elements($node->component);
             }
 
             $results['nodes'][$node->component][] = $node;
