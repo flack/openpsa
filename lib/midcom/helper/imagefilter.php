@@ -207,6 +207,11 @@ class midcom_helper_imagefilter
         return true;
     }
 
+    /**
+     * Get the filename
+     *
+     * @return string
+     */
     public function get_file()
     {
         return $this->_filename;

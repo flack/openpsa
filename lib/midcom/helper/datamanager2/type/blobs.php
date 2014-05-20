@@ -358,7 +358,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
             return false;
         }
 
-        if (! $this->add_attachment_by_handle($identifier, $filename, $title, $mimetype, $handle, true, $tmpname))
+        if (! $this->add_attachment_by_handle($identifier, $filename, $title, $mimetype, $handle))
         {
             fclose($handle);
             debug_add('Failed to create attachment, see above for details.');
@@ -416,14 +416,9 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
      * @param string $title The title of the attachment to use.
      * @param string $mimetype The MIME Type of the file.
      * @param resource $source A file handle prepared to read the source file.
-     * @param boolean $autoclose Set this to true if the file handle should automatically be closed
-     *     after successful processing.
-     * @param string $tmpfile In case you have a filename to the source handle, you should specify
-     *     it here. It will be used to load getimagesize information directly (rather than doing a
-     *     temporary copy). The default null indicates that the source file location is unknown.
      * @return boolean Indicating success.
      */
-    function add_attachment_by_handle($identifier, $filename, $title, $mimetype, $source, $autoclose = true, $tmpfile = null)
+    function add_attachment_by_handle($identifier, $filename, $title, $mimetype, $source)
     {
         if ( array_key_exists($identifier, $this->attachments))
         {
@@ -458,22 +453,14 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
             return false;
         }
 
-        if ($autoclose)
-        {
-            fclose($source);
-        }
+        $meta_data = stream_get_meta_data($source);
+        fclose($source);
 
         $this->attachments[$identifier] = $attachment;
         $this->_save_attachment_listing();
 
         $this->_store_att_map_parameters($identifier, $attachment);
-
-        if ($tmpfile === null)
-        {
-            // TODO: needs create temporary copy function.
-            throw new midcom_error('TODO');
-        }
-        $this->_set_attachment_info_additional($identifier, $tmpfile);
+        $this->_set_attachment_info_additional($identifier, $meta_data["uri"]);
 
         $this->_update_attachment_info($identifier);
         $this->_sort_attachments();

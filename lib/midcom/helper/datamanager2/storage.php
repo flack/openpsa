@@ -41,7 +41,7 @@ abstract class midcom_helper_datamanager2_storage extends midcom_baseclasses_com
      * be done. The storage object user must take care of the information stored
      * on that object.
      *
-     * @var MidCOMDBAObject
+     * @var midcom_core_dbaobject
      */
     var $object = null;
 
