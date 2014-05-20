@@ -150,14 +150,6 @@ Matkapuhelin
 Omat yhteyshenkilöt
 ---STRINGEND
 
----STRING new organization
-Uusi organisaatio
----STRINGEND
-
----STRING new person
-Uusi henkilö
----STRINGEND
-
 ---STRING no duplicates found
 Ei päällekkäisyyksiä
 ---STRINGEND

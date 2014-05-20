@@ -150,14 +150,6 @@ Heti munkaórák
 Munkahelyi telefon
 ---STRINGEND
 
----STRING new organization
-Új szervezet
----STRINGEND
-
----STRING new person
-Új személy
----STRINGEND
-
 ---STRING organization
 Szervezet
 ---STRINGEND

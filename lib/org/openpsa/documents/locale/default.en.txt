@@ -2,10 +2,6 @@
 ---VERSION 2.1.0
 ---LANGUAGE en
 
----STRING %s %s document
-%s %s document
----STRINGEND
-
 ---STRING %s document
 %s document
 ---STRINGEND

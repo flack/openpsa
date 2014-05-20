@@ -306,10 +306,6 @@ vCards importieren
 in Domain
 ---STRINGEND
 
----STRING include to campaigns
-Zu Kampagnen hinzufügen
----STRINGEND
-
 ---STRING iso-latin-1 encoding
 ISO Latin 1-Encoding
 ---STRINGEND

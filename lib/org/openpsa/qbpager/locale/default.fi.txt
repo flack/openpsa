@@ -21,11 +21,3 @@ edellinen
 ---STRING last
 &raquo;
 ---STRINGEND
-
----STRING newer
-uudemmat
----STRINGEND
-
----STRING older
-vanhemmat
----STRINGEND

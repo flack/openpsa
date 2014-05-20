@@ -22,10 +22,6 @@
 %s-Textdatei
 ---STRINGEND
 
----STRING %s %s document
-%s %s-Dokument
----STRINGEND
-
 ---STRING application/octet-stream
 Binärdatei
 ---STRINGEND

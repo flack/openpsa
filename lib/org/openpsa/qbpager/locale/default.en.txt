@@ -10,16 +10,8 @@
 &raquo;
 ---STRINGEND
 
----STRING newer
-newer
----STRINGEND
-
 ---STRING next
 next
----STRINGEND
-
----STRING older
-older
 ---STRINGEND
 
 ---STRING org.openpsa.qbpager

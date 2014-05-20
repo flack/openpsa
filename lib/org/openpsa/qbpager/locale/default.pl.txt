@@ -10,16 +10,8 @@
 &raquo;
 ---STRINGEND
 
----STRING newer
-nowsze
----STRINGEND
-
 ---STRING next
 dalej
----STRINGEND
-
----STRING older
-starsze
 ---STRINGEND
 
 ---STRING org.openpsa.qbpager
@@ -29,4 +21,3 @@ Stronicowanie wyszukiwania
 ---STRING previous
 wstecz
 ---STRINGEND
-

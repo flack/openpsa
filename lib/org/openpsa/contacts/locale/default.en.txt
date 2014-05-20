@@ -214,14 +214,6 @@ Ms
 My contacts
 ---STRINGEND
 
----STRING new organization
-New organization
----STRINGEND
-
----STRING new person
-New person
----STRINGEND
-
 ---STRING no duplicates found
 No duplicates found
 ---STRINGEND

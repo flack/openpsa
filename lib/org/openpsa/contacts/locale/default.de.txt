@@ -222,14 +222,6 @@ Frau
 Meine Kontakte
 ---STRINGEND
 
----STRING new organization
-Neue Organisation
----STRINGEND
-
----STRING new person
-Neue Person
----STRINGEND
-
 ---STRING no duplicates found
 Keine Doppelungen gefunden
 ---STRINGEND

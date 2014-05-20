@@ -326,10 +326,6 @@ Tuo vCard-tiedostosta
 domainissa
 ---STRINGEND
 
----STRING include to campaigns
-Sisällytä kampanjoihin
----STRINGEND
-
 ---STRING iso-latin-1 encoding
 ISO-Latin-1 merkistökoodaus
 ---STRINGEND
