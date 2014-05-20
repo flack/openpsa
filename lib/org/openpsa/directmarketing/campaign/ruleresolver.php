@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+use midgard\introspection\helper;
+
 /**
  * Resolves smart-campaign rules array to one or more QB instances
  * with correct constraints, and merges the results.
@@ -426,10 +428,14 @@ class org_openpsa_directmarketing_campaign_ruleresolver
     public static function list_object_properties($object, midcom_services_i18n_l10n $l10n)
     {
         // These are internal to midgard and/or not valid QB constraints
-        $skip_properties = array();
-        // These will be deprecated soon
-        $skip_properties[] = 'orgOpenpsaAccesstype';
-        $skip_properties[] = 'orgOpenpsaWgtype';
+        $skip_properties = array
+        (
+            // These will be deprecated soon
+            'orgOpenpsaAccesstype',
+            'orgOpenpsaWgtype',
+            // Skip metadata for now
+            'metadata'
+        );
 
         if (midcom::get('dbfactory')->is_a($object, 'org_openpsa_person'))
         {
@@ -449,10 +455,10 @@ class org_openpsa_directmarketing_campaign_ruleresolver
             // The info field is a special case
             $skip_properties[] = 'info';
         }
-        // Skip metadata for now
-        $skip_properties[] = 'metadata';
         $ret = array();
-        while (list ($property, $value) = each($object))
+        $helper = new helper;
+
+        foreach ($helper->get_object_vars($object) as $property => $value)
         {
             if (   preg_match('/^_/', $property)
                 || in_array($property, $skip_properties))
