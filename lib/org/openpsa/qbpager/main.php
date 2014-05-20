@@ -14,27 +14,30 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
     protected $_midcom_qb_count = false;
     protected $_pager_id = false;
     private $_offset = 0;
-    protected $_limit;
     protected $_prefix = '';
     private $_request_data = array();
     private $_current_page = 1;
-    var $results_per_page = 25;
+    public $results_per_page = 25;
     var $count = false;
     private $_count_mode = false;
     var $display_pages = 10;
-    var $string_next = 'next';
-    var $string_previous = 'previous';
+    public $string_next = 'next';
+    public $string_previous = 'previous';
 
     public function __construct($classname, $pager_id)
     {
         parent::__construct();
 
-        $this->_limit =& $this->results_per_page;
         $this->_pager_id = $pager_id;
+        $this->_prefix = 'org_openpsa_qbpager_' . $this->_pager_id . '_';
+        $this->_prepare_qbs($classname);
+    }
+
+    protected function _prepare_qbs($classname)
+    {
         $this->_midcom_qb = midcom::get('dbfactory')->new_query_builder($classname);
         // Make another QB for counting, we need to do this to avoid trouble with core internal references system
         $this->_midcom_qb_count = midcom::get('dbfactory')->new_query_builder($classname);
-        $this->_prefix = 'org_openpsa_qbpager_' . $this->_pager_id . '_';
     }
 
     /**
@@ -113,7 +116,7 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
         $this->_request_data['prefix'] = $this->_prefix;
         $this->_request_data['current_page'] = $this->_current_page;
         $this->_request_data['page_count'] = $this->count_pages($acl_checks);
-        $this->_request_data['results_per_page'] = $this->_limit;
+        $this->_request_data['results_per_page'] = $this->results_per_page;
         $this->_request_data['offset'] = $this->_offset;
         $this->_request_data['display_pages'] = $this->display_pages;
         //Won't work (wrong scope), so the code is copied below.
@@ -153,7 +156,7 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
         $this->_request_data['prefix'] = $this->_prefix;
         $this->_request_data['current_page'] = $this->_current_page;
         $this->_request_data['page_count'] = $this->count_pages($acl_checks);
-        $this->_request_data['results_per_page'] = $this->_limit;
+        $this->_request_data['results_per_page'] = $this->results_per_page;
         $this->_request_data['offset'] = $this->_offset;
         $this->_request_data['display_pages'] = $this->display_pages;
 
@@ -381,9 +384,9 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
             return;
         }
 
-        $qb->set_limit($this->_limit);
+        $qb->set_limit($this->results_per_page);
         $qb->set_offset($this->_offset);
-        debug_add("set offset to {$this->_offset} and limit to {$this->_limit}");
+        debug_add("set offset to {$this->_offset} and limit to {$this->results_per_page}");
     }
 
     function execute()

@@ -9,15 +9,11 @@
  */
 class org_openpsa_qbpager_direct extends org_openpsa_qbpager
 {
-    public function __construct($classname, $pager_id)
+    protected function _prepare_qbs($classname)
     {
-        midcom_baseclasses_components_purecode::__construct();
-        $this->_limit =& $this->results_per_page;
-        $this->_pager_id = $pager_id;
         $this->_midcom_qb = new midgard_query_builder($classname);
         // Make another QB for counting, we need to do this to avoid trouble with core internal references system
         $this->_midcom_qb_count = new midgard_query_builder($classname);
-        $this->_prefix = 'org_openpsa_qbpager_' . $this->_pager_id . '_';
     }
 
     function execute()
