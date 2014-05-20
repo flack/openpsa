@@ -10,10 +10,6 @@ O Midgardzie
 Metoda
 ---STRINGEND
 
----STRING available url methods
-Dostępne metody URL
----STRINGEND
-
 ---STRING available urls
 Dostępne linki w tym folderze
 ---STRINGEND

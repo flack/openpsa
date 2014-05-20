@@ -10,10 +10,6 @@
 Aktion
 ---STRINGEND
 
----STRING available url methods
-Verfügbare URL-Methoden
----STRINGEND
-
 ---STRING available urls
 Verfügbare URLs in diesem Ordner
 ---STRINGEND

@@ -3,8 +3,6 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 echo "<h1>" . $data['l10n']->get('urlmethods') . "</h1>\n";
 if (count($data['urlmethods']) > 0)
 {
-    echo "<h2>" . $data['l10n']->get('available url methods') . "</h2>\n";
-
     $i = 0;
     foreach ($data['urlmethods'] as $file => $method_info)
     {

@@ -10,10 +10,6 @@ Tietoa Midgardista
 Käsky
 ---STRINGEND
 
----STRING available url methods
-Käytettävissä olevat URL-metodit
----STRINGEND
-
 ---STRING available urls
 Kansiossa käytettävissä olevat URL-osoitteet
 ---STRINGEND

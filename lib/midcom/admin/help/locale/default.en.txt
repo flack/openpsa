@@ -10,10 +10,6 @@ About Midgard
 Action
 ---STRINGEND
 
----STRING available url methods
-Available URL methods
----STRINGEND
-
 ---STRING available urls
 Available URLs in this folder
 ---STRINGEND
