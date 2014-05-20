@@ -4,27 +4,6 @@ $view = $data['view_campaign'];
 $nap = new midcom_helper_nav();
 $node = $nap->get_node($nap->get_current_node());
 ?>
-<script type="text/javascript">
-function org_openpsa_directmarketing_ajax_unsubscribe(person_guid, membership_guid)
-{
-    url = '&(node[MIDCOM_NAV_ABSOLUTEURL]);campaign/unsubscribe/ajax/' + membership_guid;
-    ooAjaxPost(url, 'org_openpsa_ajax_mode=unsubscribe&amp;org_openpsa_ajax_person_guid=' + person_guid, document.getElementById('org_openpsa_directmarketing_unsubscribe-' +  person_guid), false, 'org_openpsa_directmarketing_ajax_unsubscribe_callback');
-}
-function org_openpsa_directmarketing_ajax_unsubscribe_callback(response, element)
-{
-    newId = new String(element.id);
-    regEx = /org_openpsa_directmarketing_unsubscribe-/;
-    newId = newId.replace(regEx, 'org_openpsa_widgets_contact-');
-    //alert('new id:' + newId.valueOf());
-    contactwidget_div = document.getElementById(newId.valueOf());
-    setTimeout('hideElement(document.getElementById("' + contactwidget_div.id + '"))', 2000);
-}
-function hideElement(element)
-{
-    element.style.display = 'none';
-}
-</script>
-
 <div class="sidebar">
     <?php
     midcom::get()->dynamic_load($node[MIDCOM_NAV_RELATIVEURL] . "message/list/campaign/{$data['campaign']->guid}");
@@ -80,7 +59,7 @@ function hideElement(element)
 
             //TODO: Localize, use proper constants, better icon for bounce etc
             $delete_string = sprintf($data['l10n']->get('remove %s from campaign'), $member->name);
-            $contact->prefix_html .= '<input type="image" style="float: right;" src="' . MIDCOM_STATIC_URL . '/stock-icons/16x16/trash.png" class="delete" id="org_openpsa_directmarketing_unsubscribe-' . $member->guid . '" onclick="org_openpsa_directmarketing_ajax_unsubscribe(\'' . $member->guid . '\', \'' . $data['memberships'][$k]->guid . '\')" value="' . $delete_string . '" title="' . $delete_string . '" alt="' . $delete_string . '" />';
+            $contact->prefix_html .= '<input type="image" style="float: right;" src="' . MIDCOM_STATIC_URL . '/stock-icons/16x16/trash.png" class="delete" id="org_openpsa_directmarketing_unsubscribe-' . $member->guid . '" data-member-guid="' . $data['memberships'][$k]->guid . '" value="' . $delete_string . '" title="' . $delete_string . '" alt="' . $delete_string . '" />';
             if ($data['memberships'][$k]->orgOpenpsaObtype == org_openpsa_directmarketing_campaign_member_dba::BOUNCED)
             {
                 $bounce_string = sprintf($data['l10n']->get('%s has bounced'), $member->email);
@@ -96,3 +75,22 @@ function hideElement(element)
     }
     ?>
 </div>
+
+<script type="text/javascript">
+$('input.delete').bind('click', function(){
+    var guid = this.id.substr(40),
+    loading = "<img src='" + MIDCOM_STATIC_URL + "/stock-icons/32x32/ajax-loading.gif' alt='loading' />";
+    member_guid = $(this).data('member-guid'),
+    post_data = {org_openpsa_ajax_mode: 'unsubscribe', org_openpsa_ajax_person_guid: guid};
+
+    $('#org_openpsa_widgets_contact-' + guid).css('text-align', 'center');
+    $('#org_openpsa_widgets_contact-' + guid).html(loading);
+    $.post('&(node[MIDCOM_NAV_ABSOLUTEURL]);campaign/unsubscribe/ajax/' + member_guid + '/', post_data, function()
+    {
+        $('#org_openpsa_widgets_contact-' + guid).fadeOut('fast', function()
+        {
+            $('#org_openpsa_widgets_contact-' + guid).remove();
+        });
+    });
+});
+</script>
