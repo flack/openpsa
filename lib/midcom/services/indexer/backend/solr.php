@@ -71,12 +71,12 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
      * @param array $documents A list of midcom_services_indexer_document objects.
      * @return boolean Indicating success.
      */
-    public function index($documents)
+    public function index(array $documents)
     {
         $this->factory->reset();
 
         $added = false;
-        foreach ((array) $documents as $document)
+        foreach ($documents as $document)
         {
             if (!$document->actually_index)
             {
@@ -100,10 +100,10 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
      * @param array $RIs The resource identifier(s) of the document(s) that should be deleted.
      * @return boolean Indicating success.
      */
-    public function delete($RIs)
+    public function delete(array $RIs)
     {
         $this->factory->reset();
-        foreach ((array) $RIs as $RI)
+        foreach ($RIs as $RI)
         {
             $this->factory->delete($RI);
         }

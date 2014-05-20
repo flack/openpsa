@@ -107,23 +107,26 @@ class midcom_services_indexer
             return true;
         }
 
-        $documents = (array) $documents;
+        if (!is_array($documents))
+        {
+            $documents = array($documents);
+        }
         if (count($documents) == 0)
         {
             // Nothing to do.
             return true;
         }
 
-        foreach ($documents as $key => $value)
+        foreach ($documents as &$value)
         {
             // We don't have a document. Try auto-cast to a suitable document.
             // arg to _cast_to_document is passed by-reference.
             if (! is_a($value, 'midcom_services_indexer_document'))
             {
-                $this->_index_cast_to_document($documents[$key]);
+                $this->_index_cast_to_document($value);
             }
 
-            $documents[$key]->members_to_fields();
+            $value->members_to_fields();
         }
 
         try
@@ -145,9 +148,9 @@ class midcom_services_indexer
      * already trigger indexing of dependent objects: A datamanager instance for example will
      * automatically reindex all BLOBs defined in the schema.
      *
-     * @param midcom_helper_datamanager2_datamanager $object A reference to the DM2 object
+     * @param midcom_helper_datamanager2_datamanager &$object A reference to the DM2 object
      */
-    protected function _index_cast_to_document(midcom_helper_datamanager2_datamanager $object)
+    protected function _index_cast_to_document(midcom_helper_datamanager2_datamanager &$object)
     {
         $object = $this->new_document($object);
     }

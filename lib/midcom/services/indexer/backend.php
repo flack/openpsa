@@ -20,7 +20,7 @@ interface midcom_services_indexer_backend
      * @param array $documents A list of midcom_services_indexer_document objects.
      * @return boolean Indicating success.
      */
-    public function index($documents);
+    public function index(array $documents);
 
     /**
      * Removes the document(s) with the given resource identifier(s) from the index.
@@ -28,7 +28,7 @@ interface midcom_services_indexer_backend
      * @param array $RIs The resource identifier(s) of the document(s) that should be deleted.
      * @return boolean Indicating success.
      */
-    public function delete($RIs);
+    public function delete(array $RIs);
 
     /**
      * Clear the index completely or drop documents matching a query.
