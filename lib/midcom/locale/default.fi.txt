@@ -230,10 +230,6 @@ Päättymispäivämäärä
 Kansio
 ---STRINGEND
 
----STRING get help
-Apu
----STRINGEND
-
 ---STRING hidden
 Piilotettu
 ---STRINGEND
@@ -442,10 +438,6 @@ Muokkausjärjestyksessä
 Arvon mukaan
 ---STRINGEND
 
----STRING revert to default setting
-Palauta oletukset
----STRINGEND
-
 ---STRING revised
 Muokkausjärjestyksessä
 ---STRINGEND
@@ -650,14 +642,6 @@ ylös
 Päivitä
 ---STRINGEND
 
----STRING update configuration
-Päivitä asetukset
----STRINGEND
-
----STRING update preferences
-Päivitä asetukset
----STRINGEND
-
 ---STRING updated
 Päivitetty
 ---STRINGEND
@@ -688,10 +672,6 @@ Käyttäjän nimi
 
 ---STRING value
 Arvo
----STRINGEND
-
----STRING verify password
-Varmista salasana
 ---STRINGEND
 
 ---STRING view

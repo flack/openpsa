@@ -74,10 +74,6 @@ Rediger
 Sluttdato
 ---STRINGEND
 
----STRING get help
-Hjelpesider
----STRINGEND
-
 ---STRING id
 ID
 ---STRINGEND
@@ -140,10 +136,6 @@ Avvist
 
 ---STRING reset
 Reset
----STRINGEND
-
----STRING revert to default setting
-Set til standardinnstillingen
 ---STRINGEND
 
 ---STRING save
@@ -238,14 +230,6 @@ Ikke vist på siden
 Oppdater
 ---STRINGEND
 
----STRING update configuration
-Oppdater innstillinger
----STRINGEND
-
----STRING update preferences
-Oppdater innstillinger
----STRINGEND
-
 ---STRING updated
 Oppdatert
 ---STRINGEND
@@ -264,10 +248,6 @@ Bruker
 
 ---STRING username
 Brukernavn
----STRINGEND
-
----STRING verify password
-Gjenta passord
 ---STRINGEND
 
 ---STRING view

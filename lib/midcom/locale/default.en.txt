@@ -250,10 +250,6 @@ End date
 Folder
 ---STRINGEND
 
----STRING get help
-Get help
----STRINGEND
-
 ---STRING hidden
 Hidden
 ---STRINGEND
@@ -486,10 +482,6 @@ by date last changed (reverse)
 by score (reverse)
 ---STRINGEND
 
----STRING revert to default setting
-Revert to default setting
----STRINGEND
-
 ---STRING revised
 by date last changed
 ---STRINGEND
@@ -698,14 +690,6 @@ up
 Update
 ---STRINGEND
 
----STRING update configuration
-Update configuration
----STRINGEND
-
----STRING update preferences
-Update preferences
----STRINGEND
-
 ---STRING updated
 Updated
 ---STRINGEND
@@ -736,10 +720,6 @@ User name
 
 ---STRING value
 Value
----STRINGEND
-
----STRING verify password
-Verify password
 ---STRINGEND
 
 ---STRING view

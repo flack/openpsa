@@ -214,10 +214,6 @@ Slut datum
 Katalog
 ---STRINGEND
 
----STRING get help
-Hämta hjälp
----STRINGEND
-
 ---STRING hidden
 Dold
 ---STRINGEND
@@ -412,10 +408,6 @@ efter datum senast ändrad(baklänges)
 
 ---STRING reverse score
 efter poäng (baklänges)
----STRINGEND
-
----STRING revert to default setting
-Återställ standard inställningar
 ---STRINGEND
 
 ---STRING revised
@@ -618,14 +610,6 @@ upp
 Uppdatera
 ---STRINGEND
 
----STRING update configuration
-Uppdatera konfiguration
----STRINGEND
-
----STRING update preferences
-Uppdatera inställningar
----STRINGEND
-
 ---STRING updated
 Updaterad
 ---STRINGEND
@@ -652,10 +636,6 @@ Användare
 
 ---STRING username
 Användarnamn
----STRINGEND
-
----STRING verify password
-Verifiera lösenord
 ---STRINGEND
 
 ---STRING view

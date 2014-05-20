@@ -234,10 +234,6 @@ Koniec
 Folder
 ---STRINGEND
 
----STRING get help
-Pomoc
----STRINGEND
-
 ---STRING hidden
 Ukryte
 ---STRINGEND
@@ -440,10 +436,6 @@ wg daty modyfikacji (malejąco)
 
 ---STRING reverse score
 wg wag (malejąco)
----STRINGEND
-
----STRING revert to default setting
-Przywróć domyślne
 ---STRINGEND
 
 ---STRING revised
@@ -654,14 +646,6 @@ góra
 Aktualizuj
 ---STRINGEND
 
----STRING update configuration
-Aktualizuj konfigurację
----STRINGEND
-
----STRING update preferences
-Aktualizuj preferencje
----STRINGEND
-
 ---STRING updated
 Zaktualizowano
 ---STRINGEND
@@ -692,10 +676,6 @@ Nazwa użytkownika
 
 ---STRING value
 Wartość
----STRINGEND
-
----STRING verify password
-Hasło
 ---STRINGEND
 
 ---STRING view

@@ -238,10 +238,6 @@ Enddatum
 Ordner
 ---STRINGEND
 
----STRING get help
-Hilfe
----STRINGEND
-
 ---STRING hidden
 Versteckt
 ---STRINGEND
@@ -444,10 +440,6 @@ nach letztem Änderungsdatum (umgekehrt)
 
 ---STRING reverse score
 nach Score (umgekehrt)
----STRINGEND
-
----STRING revert to default setting
-Auf die Standardeinstellung zurücksetzen
 ---STRINGEND
 
 ---STRING revised
@@ -658,14 +650,6 @@ nach oben
 Aktualisieren
 ---STRINGEND
 
----STRING update configuration
-Konfiguration aktualisieren
----STRINGEND
-
----STRING update preferences
-Einstellungen aktualisieren
----STRINGEND
-
 ---STRING updated
 Aktualisiert
 ---STRINGEND
@@ -696,10 +680,6 @@ Benutzername
 
 ---STRING value
 Wert
----STRINGEND
-
----STRING verify password
-Passwort bestätigen
 ---STRINGEND
 
 ---STRING view

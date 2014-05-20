@@ -78,10 +78,6 @@ Befejezés dátuma
 Mappa
 ---STRINGEND
 
----STRING get help
-Segítség kérése
----STRINGEND
-
 ---STRING hidden
 Rejtett
 ---STRINGEND
@@ -220,10 +216,6 @@ Felhasználó
 
 ---STRING username
 Felhasználónév
----STRINGEND
-
----STRING verify password
-Jelszó jóváhagyása
 ---STRINGEND
 
 ---STRING yes
