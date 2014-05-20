@@ -130,19 +130,16 @@ class midcom_helper_datamanager2_type_urlname extends midcom_helper_datamanager2
 
         if (!$resolver->name_is_unique())
         {
-            $new_name = $resolver->generate_unique_name();
-            if ($this->allow_catenate)
-            {
-                // If allowed to, silently use the generated name
-                $this->value = $new_name;
-                $this->_orig_value = $new_name;
-                $copy->{$property} = $this->value;
-            }
-            else
+            if (!$this->allow_catenate)
             {
                 $this->validation_error = sprintf($this->_l10n->get('type urlname: name is already taken, try "%s"'), $new_name);
                 return false;
             }
+            // If allowed to, silently use the generated name
+            $new_name = $resolver->generate_unique_name();
+            $this->value = $new_name;
+            $this->_orig_value = $new_name;
+            $copy->{$property} = $this->value;
         }
 
         return true;

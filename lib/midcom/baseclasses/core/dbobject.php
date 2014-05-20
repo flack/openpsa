@@ -229,7 +229,6 @@ class midcom_baseclasses_core_dbobject
             {
                 $object->{$name_property} = $new_name;
             }
-            unset($new_name);
         }
 
         /**
@@ -259,10 +258,7 @@ class midcom_baseclasses_core_dbobject
                     $object->{$name_property} = $new_name;
                     return true;
                 }
-                else
-                {
-                    debug_add('allow_name_catenate was set but midcom_helper_reflector_nameresolver::generate_unique_name() returned empty value, falling through', MIDCOM_LOG_WARN);
-                }
+                debug_add('allow_name_catenate was set but midcom_helper_reflector_nameresolver::generate_unique_name() returned empty value, falling through', MIDCOM_LOG_WARN);
             }
             midcom_connection::set_error(MGD_ERR_OBJECT_NAME_EXISTS);
             return false;

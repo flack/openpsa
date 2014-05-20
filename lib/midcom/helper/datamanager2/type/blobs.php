@@ -471,8 +471,6 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
 
     /**
      * Make sure we have unique filename
-     *
-     * @todo Isn't there a reflector method that already does this (for filenames)?
      */
     private function _generate_unique_name($filename)
     {
