@@ -128,7 +128,8 @@ class midcom_config_test
     public function check_midcom()
     {
         $this->print_header('Framework');
-        if (version_compare(mgd_version(), '8.09.9', '<'))
+        if (   extension_loaded('midgard')
+            && version_compare(mgd_version(), '8.09.9', '<'))
         {
             $this->println('Midgard Version', self::ERROR, 'Midgard 8.09.9 or greater is required for OpenPSA.');
         }
