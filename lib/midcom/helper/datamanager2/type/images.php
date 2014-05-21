@@ -599,25 +599,23 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
      * This override adds a sorting call for the images member, which is sorted by main image
      * filename.
      */
-    function _sort_attachments()
+    protected function _sort_attachments()
     {
         parent::_sort_attachments();
 
-        uasort($this->images,
-            array('midcom_helper_datamanager2_type_images', '_sort_images_callback'));
+        uasort($this->images, array($this, '_sort_images_callback'));
     }
 
     /**
      * User-defined array sorting callback, used for sorting $images. See the
      * usort() documentation for further details.
      *
-     * @access protected
      * @param array $a The first image list.
      * @param array $b The second image list.
      * @return int A value according to the rules from strcmp().
      * @todo compare based on metadata->score and filename (or title ???)
      */
-    function _sort_images_callback($a, $b)
+    protected function _sort_images_callback($a, $b)
     {
         // safety against broken images
         if (   !empty($a['main']['object'])
@@ -650,7 +648,7 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
             }
         }
 
-        return midcom_helper_datamanager2_type_blobs::sort_attachments_cmp($a_obj, $b_obj);
+        return $this->sort_attachments_cmp($a_obj, $b_obj);
     }
 
     /**

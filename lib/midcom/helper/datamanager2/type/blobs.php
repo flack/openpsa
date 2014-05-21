@@ -149,10 +149,8 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
     {
         // Sortable attachments should be already sorted in the correct order
 
-        uasort($this->attachments,
-            Array('midcom_helper_datamanager2_type_blobs', 'sort_attachments_cmp'));
-        uasort($this->attachments_info,
-            Array('midcom_helper_datamanager2_type_blobs', '_sort_attachments_info_callback'));
+        uasort($this->attachments, array($this, 'sort_attachments_cmp'));
+        uasort($this->attachments_info, array($this, '_sort_attachments_info_callback'));
     }
 
     /**
@@ -164,7 +162,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
      * @param midcom_db_attachment $b The second attachment.
      * @return int A value according to the rules from strcmp().
      */
-    static public function sort_attachments_cmp($a, $b)
+    public function sort_attachments_cmp($a, $b)
     {
         if ($a->metadata->score > $b->metadata->score)
         {
@@ -182,14 +180,13 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
      *
      * See the usort() documentation for further details.
      *
-     * @access protected
      * @param array $a The first attachment info array.
      * @param array $b The second attachment info array.
      * @return int A value according to the rules from strcmp().
      */
-    static function _sort_attachments_info_callback($a, $b)
+    protected function _sort_attachments_info_callback($a, $b)
     {
-        return midcom_helper_datamanager2_type_blobs::sort_attachments_cmp($a['object'], $b['object']);
+        return $this->sort_attachments_cmp($a['object'], $b['object']);
     }
 
     /**
