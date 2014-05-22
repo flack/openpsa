@@ -69,7 +69,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
     var $search_relatedtos = true;
 
     public $ignorebusy_em = false;
-    public $rob_tentantive = false;
+    public $rob_tentative = false;
 
     public function get_label()
     {
@@ -179,7 +179,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
         if (!$this->ignorebusy_em)
         {
             $conflictmanager = new org_openpsa_calendar_conflictmanager($this);
-            if (!$conflictmanager->run($this->rob_tentantive))
+            if (!$conflictmanager->run($this->rob_tentative))
             {
                 debug_add("Unresolved resource conflicts, aborting", MIDCOM_LOG_WARN);
                 return false;

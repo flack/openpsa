@@ -346,7 +346,7 @@ class midcom_helper_datamanager2_controller_create extends midcom_helper_dataman
      * cast $storage to a simple midgard storage implementation. the reference should propagate this.
      * use a callback to work.
      */
-    function _cast_to_storage_object()
+    private function _cast_to_storage_object()
     {
         $object = $this->callback_object->{$this->callback_method}($this);
 

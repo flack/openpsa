@@ -74,6 +74,11 @@ Nachfolgender Termin
 Vorheriger Termin
 ---STRINGEND
 
+---STRING event conflict
+Es gibt Konflikte mit anderen Terminen. Versuchen sie, die Zeit oder
+die Teilnehmer zu verändern
+---STRINGEND
+
 ---STRING event deleted
 Termin gelöscht
 ---STRINGEND

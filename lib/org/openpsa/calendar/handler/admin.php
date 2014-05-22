@@ -59,6 +59,8 @@ class org_openpsa_calendar_handler_admin extends midcom_baseclasses_components_h
         {
             throw new midcom_error("Failed to initialize a DM2 controller instance for article {$this->_article->id}.");
         }
+        $data['conflictmanager'] = new org_openpsa_calendar_conflictmanager($this->_event);
+        $data['controller']->formmanager->form->addFormRule(array($data['conflictmanager'], 'validate_form'));
 
         switch ($data['controller']->process_form())
         {
@@ -89,6 +91,10 @@ class org_openpsa_calendar_handler_admin extends midcom_baseclasses_components_h
 
         // Show popup
         midcom_show_style('show-popup-header');
+        if (!empty($data['conflictmanager']->busy_members))
+        {
+            midcom_show_style('show-event-conflict');
+        }
         midcom_show_style('show-event-edit');
         midcom_show_style('show-popup-footer');
     }

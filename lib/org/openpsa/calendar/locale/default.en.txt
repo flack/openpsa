@@ -78,6 +78,10 @@ Event after
 Event before
 ---STRINGEND
 
+---STRING event conflict
+There was a resource conflict with another event, try changing the time or participants
+---STRINGEND
+
 ---STRING event deleted
 Event deleted
 ---STRINGEND
@@ -237,5 +241,3 @@ h:mm{ - h:mm}
 ---STRING time format axis
 h(:mm)tt
 ---STRINGEND
-
-

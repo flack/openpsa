@@ -14,18 +14,18 @@
 class org_openpsa_calendar_conflictmanager
 {
     /**
-     * In case of busy eventmembers this is an array
+     * busy eventmembers
      *
      * @var mixed
      */
-    var $busy_members = false;
+    public $busy_members = array();
 
     /**
-     * In case of busy event resources this is an array
+     * busy event resources
      *
      * @var mixed
      */
-    var $busy_resources = false;
+    public $busy_resources = array();
 
     /**
      * The event we're working on
@@ -39,6 +39,39 @@ class org_openpsa_calendar_conflictmanager
         $this->_event = $event;
     }
 
+    /**
+     * Helper function to validate create/edit forms
+     *
+     * @param array $input Form submit values
+     * @return mixed Array with error message or true on success
+     */
+    public function validate_form(array $input)
+    {
+        if (array_key_exists('busy', $input))
+        {
+            $this->_event->busy = $input['busy'];
+        }
+        if (array_key_exists('participants', $input))
+        {
+            $this->_event->participants = array_fill_keys(json_decode($input['participants']['selection']), true);
+        }
+        if (array_key_exists('start_date', $input))
+        {
+            $this->_event->start = strtotime($input['start_date'] . ' ' . $input['start_hours'] . ':' . $input['start_minutes'] . ':01');
+        }
+        if (array_key_exists('end_date', $input))
+        {
+            $this->_event->end = strtotime($input['end_date'] . ' ' . $input['end_hours'] . ':' . $input['end_minutes'] . ':00');
+        }
+
+        if (!$this->run($this->_event->rob_tentative))
+        {
+            return array('participants' => '');
+        }
+
+        return true;
+    }
+
     private function _add_event_constraints($qb, $fieldname = 'eid')
     {
         $qb->add_constraint($fieldname . '.busy', '<>', false);
@@ -46,7 +79,7 @@ class org_openpsa_calendar_conflictmanager
         {
             $qb->add_constraint($fieldname . '.id', '<>', (int) $this->_event->id);
         }
-        //Target event starts or ends inside this events window or starts before and ends after
+        //Target event starts or ends inside this event's window or starts before and ends after
         $qb->add_constraint($fieldname . '.start', '<=', (int) $this->_event->end);
         $qb->add_constraint($fieldname . '.end', '>=', (int) $this->_event->start);
     }
@@ -76,41 +109,23 @@ class org_openpsa_calendar_conflictmanager
         //Storage for events that have been modified due the course of this method
         $modified_events = array();
 
-        /*
-         * Look for duplicate events only if we have participants or resources, otherwise we incorrectly get all events at
-         * the same timeframe as duplicates since there are no participant constraints to narrow things down
-         */
-        $ret_ev = $this->_load_participants();
-        $ret_ev2 = $this->_load_resources();
-
-        // TODO: Shared tasks need a separate check (different member object)
-
-        // Both QBs returned empty sets
-        if (   empty($ret_ev)
-            && empty($ret_ev2))
-        {
-            //No busy events found within the timeframe
-            midcom::get('auth')->drop_sudo();
-            debug_add('no overlaps found');
-            return true;
-        }
-
-        foreach ($ret_ev as $member)
+        foreach ($this->_load_participants() as $member)
         {
             $this->_process_participant($member, $modified_events, $rob_tentative);
         }
 
-        foreach ($ret_ev2 as $member)
+        foreach ($this->_load_resources() as $resource)
         {
             $this->_process_resource($member, $modified_events, $rob_tentative);
         }
+        // TODO: Shared tasks need a separate check (different member object)
 
-        if (   is_array($this->busy_members)
-            || is_array($this->busy_resources))
+        if (   !empty($this->busy_members)
+            || !empty($this->busy_resources))
         {
             //Unresolved conflicts (note return value is for conflicts not lack of them)
             midcom::get('auth')->drop_sudo();
-            debug_print_r('unresolvable conflicts found', $this->busy_members);
+            debug_add(count($this->busy_members) . ' unresolvable conflicts found');
             midcom_connection::set_error(MGD_ERR_ERROR);
             return false;
         }
@@ -121,8 +136,7 @@ class org_openpsa_calendar_conflictmanager
             $creator = midcom_db_person::get_cached($event->metadata->creator);
             if (   (   count($event->participants) == 0
                     || (   count($event->participants) == 1
-                        && array_key_exists($creator->id, $event->participants)
-                       ))
+                        && array_key_exists($creator->id, $event->participants)))
                 &&  count($event->resources) == 0)
             {
                 /* If modified event has no-one or only creator as participant and no resources
@@ -142,8 +156,6 @@ class org_openpsa_calendar_conflictmanager
 
         midcom::get('auth')->drop_sudo();
         //No conflicts found or they could be automatically resolved
-        $this->busy_members = false;
-        $this->busy_resources = false;
         return true;
     }
 
@@ -181,13 +193,11 @@ class org_openpsa_calendar_conflictmanager
         static $processed_events_resources = array();
 
         //Check if we have processed this resource/event combination already
-        if (   array_key_exists($member->event, $processed_events_resources)
-            && array_key_exists($member->resource, $processed_events_resources[$member->event]))
+        if (!empty($processed_events_resources[$member->event][$member->resource]))
         {
             return;
         }
-        if (   !array_key_exists($member->event, $processed_events_resources)
-            || !is_array($processed_events_resources[$member->event]))
+        if (!array_key_exists($member->event, $processed_events_resources))
         {
             $processed_events_resources[$member->event] = array();
         }
@@ -232,19 +242,13 @@ class org_openpsa_calendar_conflictmanager
         {
             debug_add('event is normal, flagging busy');
             //Non tentative event, flag busy resources
-            if (!is_array($this->busy_resources))
-            {
-                //this is false under normal circumstances
-                $this->busy_resources = array();
-            }
-            if (   !array_key_exists($member->guid, $this->busy_resources)
-                || !is_array($this->busy_resources[$member->resource]))
+            if (!array_key_exists($member->resource, $this->busy_resources))
             {
                 //for mapping
                 $this->busy_resources[$member->resource] = array();
             }
             //PONDER: The display end might have issues with event guid that they cannot see without sudo...
-            $this->busy_resources[$member->resource][] = $event->guid;
+            $this->busy_resources[$member->resource][] = $event;
         }
     }
 
@@ -254,13 +258,11 @@ class org_openpsa_calendar_conflictmanager
         static $processed_events_participants = array();
 
         //Check if we have processed this participant/event combination already
-        if (   array_key_exists($member->eid, $processed_events_participants)
-            && array_key_exists($member->uid, $processed_events_participants[$member->eid]))
+        if (!empty($processed_events_participants[$member->eid][$member->uid]))
         {
             return;
         }
-        if (   !array_key_exists($member->eid, $processed_events_participants)
-            || !is_array($processed_events_participants[$member->eid]))
+        if (!array_key_exists($member->eid, $processed_events_participants))
         {
             $processed_events_participants[$member->eid] = array();
         }
@@ -293,19 +295,13 @@ class org_openpsa_calendar_conflictmanager
         {
             debug_add('event is normal, flagging busy');
             //Non tentative event, flag busy resources
-            if (!is_array($this->busy_members))
-            {
-                //this is false under normal circumstances
-                $this->busy_members = array();
-            }
-            if (   !array_key_exists($member->guid, $this->busy_members)
-                || !is_array($this->busy_members[$member->uid]))
+            if (!array_key_exists($member->uid, $this->busy_members))
             {
                 //for mapping
                 $this->busy_members[$member->uid] = array();
             }
             //PONDER: The display end might have issues with event guid that they cannot see without sudo...
-            $this->busy_members[$member->uid][] = $event->guid;
+            $this->busy_members[$member->uid][] = $event;
         }
     }
 }

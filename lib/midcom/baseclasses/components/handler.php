@@ -161,6 +161,7 @@ abstract class midcom_baseclasses_components_handler extends midcom_baseclasses_
      * @todo Maybe we should do a class_implements check here
      * @param string $type The controller type
      * @param midcom_core_dbaobject $object The object, if any
+     * @return midcom_helper_datamanager2_controller The initialized controller
      */
     public function get_controller($type, $object = null)
     {

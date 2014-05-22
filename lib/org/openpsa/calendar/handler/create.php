@@ -14,7 +14,7 @@ class org_openpsa_calendar_handler_create extends midcom_baseclasses_components_
 implements midcom_helper_datamanager2_interfaces_create
 {
     /**
-     * The reuqested start time
+     * The requested start time
      *
      * @var int
      */
@@ -86,6 +86,8 @@ implements midcom_helper_datamanager2_interfaces_create
 
         // Load the controller instance
         $data['controller'] = $this->get_controller('create');
+        $data['conflictmanager'] = new org_openpsa_calendar_conflictmanager(new org_openpsa_calendar_event_dba);
+        $data['controller']->formmanager->form->addFormRule(array($data['conflictmanager'], 'validate_form'));
 
         // Process form
         switch ($data['controller']->process_form())
@@ -98,6 +100,10 @@ implements midcom_helper_datamanager2_interfaces_create
                 midcom::get('head')->add_jsonload('window.opener.location.reload();');
                 midcom::get('head')->add_jsonload('window.close();');
                 break;
+        }
+        if (!empty($data['conflictmanager']->busy_members))
+        {
+            midcom_show_style('show-event-conflict');
         }
 
         // Add toolbar items
@@ -115,23 +121,16 @@ implements midcom_helper_datamanager2_interfaces_create
      */
     public function _show_create($handler_id, array &$data)
     {
-        if (   array_key_exists('view', $this->_request_data)
-            && $this->_request_data['view'] === 'conflict_handler')
+        // Set title to popup
+        $this->_request_data['popup_title'] = $this->_l10n->get('create event');
+        // Show popup
+        midcom_show_style('show-popup-header');
+        if (!empty($data['conflictmanager']->busy_members))
         {
-            $this->_request_data['popup_title'] = 'resource conflict';
-            midcom_show_style('show-popup-header');
             midcom_show_style('show-event-conflict');
-            midcom_show_style('show-popup-footer');
         }
-        else
-        {
-            // Set title to popup
-            $this->_request_data['popup_title'] = $this->_l10n->get('create event');
-            // Show popup
-            midcom_show_style('show-popup-header');
-            midcom_show_style('show-event-new');
-            midcom_show_style('show-popup-footer');
-        }
+        midcom_show_style('show-event-new');
+        midcom_show_style('show-popup-footer');
     }
 }
 ?>
