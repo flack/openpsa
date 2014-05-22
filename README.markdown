@@ -11,13 +11,20 @@ Read more in <http://openpsa2.org/>
 
 ## Dependencies
 
-* PHP 5.3 or newer
-* Apache (or Lighttpd with the midgard2 backend)
-* Midgard2
-  * Midgard2 Content Repository (`libmidgard2-2010`)
-  * PHP bindings to Midgard2 (`php5-midgard2`)
-  * GNOME database abstraction layer (`libgda-4.0`) and some database back-end
-* alternatively, the legacy Midgard1 8.09 branch is also still supported
+OpenPSA interacts with database backends through the [Midgard](http://midgard-project.org/) API. There are currently 
+three different environments supported:
+
+* legacy Midgard1 8.09 (in which case you must use PHP 5.3, Apache and MySQL backend)
+
+* [Midgard2 Content Repository](https://github.com/midgardproject/midgard-core), provided by `libmidgard2-2010` with 
+  PHP bindings to Midgard2 (`php5-midgard2`), and GNOME database abstraction layer (`libgda-4.0`). No restrictions on
+  webserver or database choice. PHP 5.4 is recommended
+
+* [midgard-portable](https://github.com/flack/midgard-portable), which is based on [Doctrine](http://www.doctrine-project.org/), 
+  so it will support all environments Doctrine supports. Be advised that midgard-portable is still considered experimental
+
+The repository's `composer.json` does not force any of those choices, but you will have to select one to be able to 
+run the application.
 
 On the client side, all modern web browser should work
 
