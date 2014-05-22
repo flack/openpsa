@@ -7,10 +7,9 @@ $per_unit = $data['l10n']->get('per unit');
 try
 {
     $product = org_openpsa_products_product_dba::get_cached($data['deliverable']->product);
-    $unit_options = org_openpsa_products_viewer::get_unit_options();
-    if (array_key_exists($product->unit, $unit_options))
+    if ($unit_option = org_openpsa_products_viewer::get_unit_option($product->unit))
     {
-        $per_unit = sprintf($data['l10n']->get('per %s'), $unit_options[$product->unit]);
+        $per_unit = sprintf($data['l10n']->get('per %s'), $unit_option);
     }
 }
 catch (midcom_error $e)

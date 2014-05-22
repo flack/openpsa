@@ -33,15 +33,13 @@ implements org_openpsa_widgets_grid_provider_client
         $deliverable_link = "<a href='{$prefix}deliverable/{$deliverable->guid}/'>" . $deliverable->title . "</a>";
         $salesproject_link = "<a href='{$prefix}salesproject/{$salesproject->guid}/'>" . $salesproject->title . "</a>";
 
-        $unit_options = org_openpsa_products_viewer::get_unit_options();
-
         $entry = array();
         $entry['id'] = $deliverable->id;
         $entry['index_title'] = $deliverable->title;
         $entry['title'] = $deliverable_link;
         $entry['index_salesproject'] = $salesproject->title;
         $entry['salesproject'] = $salesproject_link;
-        $entry['unit'] = $unit_options[$deliverable->unit];
+        $entry['unit'] = org_openpsa_products_viewer::get_unit_option($deliverable->unit);
         $entry['index_state'] = $deliverable->state;
         $entry['state'] = $this->_l10n->get($deliverable->get_state());
         if ($deliverable->invoiceByActualUnits)
