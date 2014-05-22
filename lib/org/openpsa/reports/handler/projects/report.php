@@ -206,48 +206,47 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
             switch ($this->_grouping)
             {
                 case 'date':
-                    $group =& $this->_get_report_group('date:' . date('Ymd', $row['hour']->date), date('Ymd', $row['hour']->date), strftime('%x', $row['hour']->date));
+                    $group =& $this->_get_report_group('date:' . date('Ymd', $row['hour']->date), date('Ymd', $row['hour']->date), strftime('%x', $row['hour']->date), $this->_request_data['report']['rows']);
                 break;
                 case 'person':
-                    $group =& $this->_get_report_group('person:' . $row['person']->guid, $row['person']->rname, $row['person']->rname);
+                    $group =& $this->_get_report_group('person:' . $row['person']->guid, $row['person']->rname, $row['person']->rname, $this->_request_data['report']['rows']);
                 break;
             }
 
-            //Place data to group
-            $group['rows'][] = $row;
-            $group['total_hours'] += $hour->hours;
+            if ($group)
+            {
+                //Place data to group
+                $group['rows'][] = $row;
+                $group['total_hours'] += $hour->hours;
 
-            //Place data to report
-            $this->_request_data['report']['total_hours'] += $hour->hours;
+                //Place data to report
+                $this->_request_data['report']['total_hours'] += $hour->hours;
+            }
         }
 
         return true;
     }
 
-    function &_get_report_group($matching, $sort, $title, $rows = false, $recursed = 0)
+    function &_get_report_group($matching, $sort, $title, array &$rows, $recursed = 0)
     {
-        if (!$rows)
-        {
-            debug_add('rows is not defined, using report[rows]');
-            $rows =& $this->_request_data['report']['rows'];
-        }
-
         foreach ($rows as $k => $row)
         {
-            if (empty($row['is_group']))
+            if (   !is_array($row)
+                || empty($row['is_group']))
             {
                 continue;
             }
             if ($row['matching'] === $matching)
             {
                 debug_add(sprintf('found match in key "%s", returning it', $k));
-                return $rows[$k];
+                return $row;
             }
+
             if (    array_key_exists('rows', $row)
                 &&  is_array($row['rows']))
             {
                 debug_add(sprintf('found subgroup in key "%s", recursing it', $k));
-                $got =& $this->_get_report_group($matching, $sort, $title, $rows[$k], $recursed+1);
+                $got =& $this->_get_report_group($matching, $sort, $title, $row, ++$recursed);
                 if ($got !== false)
                 {
                     debug_add('Got result from recurser, returning it');
@@ -262,21 +261,18 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
             $x = false;
             return $x;
         }
-        else
-        {
-            debug_add('No match found, creating new group and returning it');
-            //Othewise create a new group to the report
-            $group = array();
-            $group['is_group'] = true;
-            $group['matching'] = $matching;
-            $group['sort'] = $sort;
-            $group['title'] = $title;
-            $group['rows'] = array();
-            $group['total_hours'] = 0;
-            $next_key = count($rows);
-            $rows[$next_key] = $group;
-            return $rows[$next_key];
-        }
+        debug_add('No match found, creating new group and returning it');
+        //Othewise create a new group to the report
+        $group = array();
+        $group['is_group'] = true;
+        $group['matching'] = $matching;
+        $group['sort'] = $sort;
+        $group['title'] = $title;
+        $group['rows'] = array();
+        $group['total_hours'] = 0;
+        $next_key = count($rows);
+        $rows[$next_key] = $group;
+        return $rows[$next_key];
     }
 
     /**
