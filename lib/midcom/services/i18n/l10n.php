@@ -250,7 +250,7 @@ class midcom_services_i18n_l10n
                 {
                     continue;
                 }
-                else if (substr($string, 0, 3) == '---')
+                if (substr($string, 0, 3) == '---')
                 {
                     // this is a command
                     if (strlen($string) < 4)

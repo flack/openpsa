@@ -180,7 +180,7 @@ class midcom_core_querybuilder extends midcom_core_query
                     $this->_set_limit_offset_window(++$i);
                     continue;
                 }
-                else if ($offset)
+                if ($offset)
                 {
                     $resultset = array_slice($resultset, $offset);
                     $size = $size - $offset;

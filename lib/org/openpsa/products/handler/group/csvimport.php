@@ -255,16 +255,13 @@ class org_openpsa_products_handler_group_csvimport extends midcom_baseclasses_co
             $columns_with_content = count(array_filter($csv_line));
             $percentage = round(100 / $total_columns * $columns_with_content);
 
-            if ($percentage >= 20)
-            {
-                $data['rows'][] = $csv_line;
-                $read_rows++;
-            }
-            else
+            if ($percentage < 20)
             {
                 // This line has no proper content, skip
                 continue;
             }
+            $data['rows'][] = $csv_line;
+            $read_rows++;
 
             $group = array();
 

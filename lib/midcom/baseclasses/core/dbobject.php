@@ -767,28 +767,25 @@ class midcom_baseclasses_core_dbobject
      */
     public static function cast_object(midcom_core_dbaobject $newobject, $oldobject)
     {
-        if (is_a($oldobject, $newobject->__mgdschema_class_name__))
-        {
-            $helper = new helper;
-            $vars = $helper->get_object_vars($oldobject);
-            foreach ($vars as $name => $value)
-            {
-                if (   substr($name, 0, 2) == '__'
-                    && substr($name, -2) == '__')
-                {
-                    // This is a special variable, we must not overwrite it.
-                    continue;
-                }
-                $newobject->$name = $value;
-            }
-            return true;
-        }
-        else
+        if (!is_a($oldobject, $newobject->__mgdschema_class_name__))
         {
             debug_add('Failed to cast ' . get_class($oldobject) . " to a {$newobject->__mgdschema_class_name__}: Incompatible Types", MIDCOM_LOG_INFO);
             self::_clear_object($newobject);
             return false;
         }
+        $helper = new helper;
+        $vars = $helper->get_object_vars($oldobject);
+        foreach ($vars as $name => $value)
+        {
+            if (   substr($name, 0, 2) == '__'
+                && substr($name, -2) == '__')
+            {
+                // This is a special variable, we must not overwrite it.
+                continue;
+            }
+            $newobject->$name = $value;
+        }
+        return true;
     }
 
     /**

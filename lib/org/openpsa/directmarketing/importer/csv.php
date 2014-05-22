@@ -37,15 +37,12 @@ class org_openpsa_directmarketing_importer_csv extends org_openpsa_directmarketi
             }
             $percentage = round(100 / $total_columns * $columns_with_content);
 
-            if ($percentage >= 20)
-            {
-                $read_rows++;
-            }
-            else
+            if ($percentage < 20)
             {
                 // This line has no proper content, skip
                 continue;
             }
+            $read_rows++;
 
             if ($read_rows == 1)
             {

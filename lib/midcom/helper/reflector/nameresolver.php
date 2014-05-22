@@ -501,32 +501,29 @@ class midcom_helper_reflector_nameresolver
                 debug_add("Object " . get_class($this->_object) . " #" . $this->_object->id . " has no valid parent but is not listed in the root classes, don't know what to do, letting higher level decide", MIDCOM_LOG_ERROR);
                 return array($i, $base_name);
             }
-            else
+            foreach ($root_classes as $schema_type)
             {
-                foreach ($root_classes as $schema_type)
+                $qb = $this->_get_root_qb($schema_type);
+                if (!$qb)
                 {
-                    $qb = $this->_get_root_qb($schema_type);
-                    if (!$qb)
-                    {
-                        continue;
-                    }
-                    $child_name_property = midcom_helper_reflector::get_name_property(new $schema_type);
+                    continue;
+                }
+                $child_name_property = midcom_helper_reflector::get_name_property(new $schema_type);
 
-                    $qb->add_constraint($child_name_property, 'LIKE', "{$base_name}-%" . $extension);
-                    $siblings = $qb->execute();
-                    if (empty($siblings))
-                    {
-                        // we dont' care about fatal qb errors here
-                        continue;
-                    }
-                    $sibling = $siblings[0];
-                    $sibling_name = $sibling->{$child_name_property};
+                $qb->add_constraint($child_name_property, 'LIKE', "{$base_name}-%" . $extension);
+                $siblings = $qb->execute();
+                if (empty($siblings))
+                {
+                    // we dont' care about fatal qb errors here
+                    continue;
+                }
+                $sibling = $siblings[0];
+                $sibling_name = $sibling->{$child_name_property};
 
-                    list ($sibling_i, $sibling_name) = $this->_parse_filename($sibling_name, $extension);
-                    if ($sibling_i >= $i)
-                    {
-                        $i = $sibling_i + 1;
-                    }
+                list ($sibling_i, $sibling_name) = $this->_parse_filename($sibling_name, $extension);
+                if ($sibling_i >= $i)
+                {
+                    $i = $sibling_i + 1;
                 }
             }
         }
