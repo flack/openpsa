@@ -81,7 +81,7 @@ class org_openpsa_directmarketing_campaign_ruleresolver
 
     public function __construct()
     {
-        // if querybuilder is used response-time will increase -> set_key_property hast to be removed
+        // if querybuilder is used response-time will increase -> set_key_property has to be removed
         $this->_result_mc = org_openpsa_contacts_person_dba::new_collector('metadata.deleted', false);
     }
 
@@ -266,50 +266,41 @@ class org_openpsa_directmarketing_campaign_ruleresolver
      */
     function add_group_rule(array $rule)
     {
-        //TODO: better way to preserve IN-Constraint on an empty array
-        $group_member = array ( 0 => -1);
-
         $match = $rule['match'];
         $constraint_match = "IN";
 
         //check for match type- Needed to get persons who aren't a member of a group
-        if (   $rule['match'] == '<>'
-            || $rule['match'] == 'NOT LIKE')
+        if ($rule['match'] == '<>')
         {
             $constraint_match = "NOT IN";
-            switch ($rule['match'])
-            {
-                case '<>':
-                    $match = '=';
-                    break;
-                case 'NOT LIKE':
-                    $match = 'LIKE';
-                    break;
-                default:
-                    $match = '=';
-                    break;
-            }
+            $match = '=';
+        }
+        else if ($rule['match'] == 'NOT LIKE')
+        {
+            $constraint_match = "NOT IN";
+            $match = 'LIKE';
         }
         $mc_group = new midgard_collector('midgard_member', 'metadata.deleted', false);
-        $mc_group->set_key_property('guid');
+        $mc_group->set_key_property('uid');
         $mc_group->add_constraint("gid.{$rule['property']}", $match, $rule['value']);
-        $mc_group->add_value_property('uid');
-
         $mc_group->execute();
-        $keys = $mc_group->list_keys();
-        foreach (array_keys($keys) as $key)
-        {
-            // get user-id
-            $group_member[] = $mc_group->get_subkey($key, 'uid');
-        }
 
+        $group_members = $mc_group->list_keys();
+        if (empty($group_members))
+        {
+            $group_members = array(-1);
+        }
+        else
+        {
+            $group_members = array_keys($group_members);
+        }
         $this->_result_mc->add_constraint('id', $constraint_match, $group_member);
     }
 
     /**
      * Adds parameter rule to the querybuilder
      *
-     * @param array $rules array containing rules for the paramter
+     * @param array $rules array containing rules for the parameter
      */
     function add_parameter_rule(array $rules)
     {
@@ -384,22 +375,17 @@ class org_openpsa_directmarketing_campaign_ruleresolver
         $persons = array ( 0 => -1);
         $match = $rule['match'];
         $constraint_match = "IN";
-        if ($rule['match'] == '<>' || $rule['match'] == 'NOT LIKE')
+        if ($rule['match'] == '<>')
         {
             $constraint_match = "NOT IN";
-            switch ($rule['match'])
-            {
-                case '<>':
-                    $match = '=';
-                    break;
-                case 'NOT LIKE':
-                    $match = 'LIKE';
-                    break;
-                default:
-                    $match = '=';
-                    break;
-            }
+            $match = '=';
         }
+        else if ($rule['match'] == 'NOT LIKE')
+        {
+            $constraint_match = "NOT IN";
+            $match = 'LIKE';
+        }
+
         $mc_misc = new midgard_collector($class, 'metadata.deleted', false);
         $mc_misc->set_key_property('id');
         $mc_misc->add_constraint($rule['property'], $match, $rule['value']);
