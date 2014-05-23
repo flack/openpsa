@@ -43,8 +43,7 @@ $grid->set_column('priority', $data['l10n']->get('priority'), 'width: 18, align:
 
 if ($data['view_identifier'] != 'my_tasks')
 {
-    if (   $data['view_identifier'] != 'project_tasks'
-        && $data['view_identifier'] != 'agreement')
+    if ($data['view_identifier'] != 'agreement')
     {
         $grid->set_column('customer', $data['l10n']->get('customer'), 'width: 55, classes: "ui-ellipsis"', 'string');
     }
