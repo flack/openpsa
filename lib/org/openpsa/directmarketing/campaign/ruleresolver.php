@@ -297,7 +297,7 @@ class org_openpsa_directmarketing_campaign_ruleresolver
 
         $mc_group->execute();
         $keys = $mc_group->list_keys();
-        foreach (arry_keys($keys) as $key)
+        foreach (array_keys($keys) as $key)
         {
             // get user-id
             $group_member[] = $mc_group->get_subkey($key, 'uid');
