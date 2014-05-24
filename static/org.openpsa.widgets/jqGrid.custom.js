@@ -596,12 +596,19 @@ var org_openpsa_grid_helper =
                 }
                 config = $.extend(config, saved_values);
             }
-            if (   config.data
-                && config.data.length <= (config.rowNum * config.page))
+            if (config.data)
             {
-                config.page = Math.ceil(config.data.length / config.rowNum);
+                // if data was removed since last visit, decrease page number
+                if (config.data.length <= (config.rowNum * config.page))
+                {
+                    config.page = Math.ceil(config.data.length / config.rowNum);
+                }
+                // if data was added to grid that was empty on last visit, increase page number
+                else if (config.page === 0)
+                {
+                    config.page = 1;
+                }
             }
-
             if (org_openpsa_grid_helper.event_handler_added === false)
             {
                 $(window).bind('unload', org_openpsa_grid_helper.save_grid_data);
