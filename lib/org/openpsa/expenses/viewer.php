@@ -71,18 +71,16 @@ class org_openpsa_expenses_viewer extends midcom_baseclasses_components_request
     public function add_list_filter(midcom_core_query $query)
     {
         $qf = new org_openpsa_core_queryfilter('org_openpsa_expenses_list');
-        $person_filter = new org_openpsa_core_filter('person');
-        $person_filter->set('option_callback', array($this, 'get_person_options'));
-        $person_filter->set('mode', 'multiselect');
-        $person_filter->set('helptext', $this->_l10n->get("choose user"));
+        $person_filter = new org_openpsa_core_filter_multiselect('person');
+        $person_filter->set_callback(array($this, 'get_person_options'));
+        $person_filter->set_label($this->_l10n->get("choose user"));
         $qf->add_filter($person_filter);
 
         if (   $this->_request_data['handler_id'] != 'index_timestamp'
             && $this->_request_data['handler_id'] != 'index')
         {
-            $date_filter = new org_openpsa_core_filter('date');
-            $date_filter->set('mode', 'timeframe');
-            $date_filter->set('helptext', $this->_l10n->get("timeframe"));
+            $date_filter = new org_openpsa_core_filter_timeframe('date');
+            $date_filter->set_label($this->_l10n->get("timeframe"));
             $qf->add_filter($date_filter);
         }
         $qf->apply_filters($query);

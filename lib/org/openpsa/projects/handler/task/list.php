@@ -367,7 +367,7 @@ implements org_openpsa_widgets_grid_provider_client
         if ($args[0] != 'json')
         {
             $qf = new org_openpsa_core_queryfilter('org_openpsa_task_list');
-            $qf->add_filter(new org_openpsa_core_filter('priority', '<=', $this->_request_data['priority_array']));
+            $qf->add_filter(new org_openpsa_core_filter_select('priority', '<=', $this->_request_data['priority_array']));
             $qf->apply_filters($this->_qb);
             $this->_request_data["qf"] = $qf;
         }
@@ -448,11 +448,9 @@ implements org_openpsa_widgets_grid_provider_client
         }
 
         $qf = new org_openpsa_core_queryfilter('org_openpsa_task_list_' . $args[1]);
-        $qf->add_filter(new org_openpsa_core_filter('priority', '<=', $this->_request_data['priority_array']));
-        $date_filter = new org_openpsa_core_filter('timeframe');
-        $date_filter->set('mode', 'timeframe');
-        $date_filter->set('helptext', $this->_l10n->get("timeframe"));
-        $date_filter->set('fieldname', array('start' => 'start', 'end' => 'end'));
+        $qf->add_filter(new org_openpsa_core_filter_select('priority', '<=', $this->_request_data['priority_array']));
+        $date_filter = new org_openpsa_core_filter_timeframe('timeframe', 'start', 'end');
+        $date_filter->set_label($this->_l10n->get("timeframe"));
         $qf->add_filter($date_filter);
         $qf->apply_filters($this->_qb);
         $this->_request_data["qf"] = $qf;

@@ -28,8 +28,6 @@ class org_openpsa_core_queryfilter
      */
     private $_identifier;
 
-    private $_selection = array();
-
     /**
      * Constructor
      *
@@ -65,7 +63,6 @@ class org_openpsa_core_queryfilter
             if ($selection = $this->_get_selection($filter->name))
             {
                 $filter->apply($selection, $query);
-                $this->_selection[$filter->name] = $selection;
             }
         }
     }
@@ -78,7 +75,7 @@ class org_openpsa_core_queryfilter
      */
     private function _get_selection($filtername)
     {
-        $i18n = midcom::get('i18n');
+        $l10n = midcom::get('i18n')->get_l10n('org.openpsa.core');
         $filter_id = $this->_identifier . '_' . $filtername;
         $user = midcom::get('auth')->user->get_storage();
 
@@ -90,27 +87,28 @@ class org_openpsa_core_queryfilter
             {
                 $message_content = sprintf
                 (
-                    $i18n->get_string('the handed filter for %s could not be set as parameter', 'org.openpsa.core'),
-                    $i18n->get_string($filtername, 'org.openpsa.core')
+                    $l10n->get('the handed filter for %s could not be set as parameter'),
+                    $l10n->get_string($filtername)
                 );
-                midcom::get('uimessages')->add($i18n->get_string('filter error', 'org.openpsa.core'), $message_content, 'error');
+                midcom::get('uimessages')->add($l10n->get('filter error'), $message_content, 'error');
             }
+            return false;
         }
-        else if (isset($_POST[$filtername]))
+        if (isset($_POST[$filtername]))
         {
             $selection = (array) $_POST[$filtername];
             $filter_string = serialize($selection);
             if (!$user->set_parameter("org_openpsa_core_filter", $filter_id, $filter_string))
             {
-                midcom::get('uimessages')->add($i18n->get_string('filter error', 'org.openpsa.core'), $i18n->get_string('the handed filter for %s could not be set as parameter', 'org.openpsa.core'), 'error');
+                midcom::get('uimessages')->add($l10n->get('filter error'), $l10n->get('the handed filter for %s could not be set as parameter'), 'error');
             }
             return $selection;
         }
-        else if (isset($_GET[$filtername]))
+        if (isset($_GET[$filtername]))
         {
             return (array) $_GET[$filtername];
         }
-        else if ($filter_string = $user->get_parameter("org_openpsa_core_filter", $filter_id))
+        if ($filter_string = $user->get_parameter("org_openpsa_core_filter", $filter_id))
         {
             return unserialize($filter_string);
         }
