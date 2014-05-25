@@ -2,7 +2,6 @@
 <?php
 if (array_key_exists('qf', $data))
 {
-    echo $data['l10n']->get('only tasks with priority') . ': ';
     $data['qf']->render();
 }
 

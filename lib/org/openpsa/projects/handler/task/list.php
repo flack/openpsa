@@ -304,8 +304,7 @@ implements org_openpsa_widgets_grid_provider_client
             $status_type = $this->_get_status_type($task);
             $entry['index_status'] = $this->_status_order[$status_type];
             $entry['status'] = $this->_l10n->get($status_type . ' tasks');
-            $controls = $this->_render_workflow_controls($task);
-            if ($controls != '')
+            if ($controls = $this->_render_workflow_controls($task))
             {
                 $entry['task'] = '<div class="title">' . $entry['task'] . '</div><div class="details">' . $controls . '</div>';
             }
@@ -366,10 +365,7 @@ implements org_openpsa_widgets_grid_provider_client
         //don't filter for json
         if ($args[0] != 'json')
         {
-            $qf = new org_openpsa_core_queryfilter('org_openpsa_task_list');
-            $qf->add_filter(new org_openpsa_core_filter_select('priority', '<=', $this->_request_data['priority_array']));
-            $qf->apply_filters($this->_qb);
-            $this->_request_data["qf"] = $qf;
+            $this->_add_filters('project');
         }
     }
 
@@ -446,17 +442,22 @@ implements org_openpsa_widgets_grid_provider_client
             default:
                 throw new midcom_error("Filter {$args[1]} not recognized");
         }
+        $this->_add_filters($args[1]);
+        $this->_request_data['table-heading'] = $args[1] . ' tasks';
+        $this->_request_data['view'] = 'grid';
+    }
 
-        $qf = new org_openpsa_core_queryfilter('org_openpsa_task_list_' . $args[1]);
-        $qf->add_filter(new org_openpsa_core_filter_select('priority', '<=', $this->_request_data['priority_array']));
+    private function _add_filters($identifier)
+    {
+        $qf = new org_openpsa_core_queryfilter('org_openpsa_task_list_' . $identifier);
+        $p_filter = new org_openpsa_core_filter_select('priority', '<=', $this->_request_data['priority_array']);
+        $p_filter->set_label($this->_l10n->get('only tasks with priority'));
+        $qf->add_filter($p_filter);
         $date_filter = new org_openpsa_core_filter_timeframe('timeframe', 'start', 'end');
         $date_filter->set_label($this->_l10n->get("timeframe"));
         $qf->add_filter($date_filter);
         $qf->apply_filters($this->_qb);
         $this->_request_data["qf"] = $qf;
-
-        $this->_request_data['table-heading'] = $args[1] . ' tasks';
-        $this->_request_data['view'] = 'grid';
     }
 
     /**
@@ -549,9 +550,7 @@ implements org_openpsa_widgets_grid_provider_client
             {
                 $this->_request_data['priority_array'][$key] = $this->_l10n->get($title);
             }
-            return true;
         }
-        return false;
     }
 
     /**
