@@ -67,15 +67,10 @@ class org_openpsa_core_filter_select extends org_openpsa_core_filter
     }
 
     /**
-     * Renders the filter widget according to mode
-     *
-     * @param string $url The backend URL to send the data to
+     * @inheritdoc
      */
-    public function render($url)
+    public function render()
     {
-        echo '<form id="' . $this->name . '_filter" class="org_openpsa_filter" action="' . $url . '" method="post" style="display:inline">';
-        echo '<div class="org_openpsa_filter_widget">';
-
         $options = $this->_get_options();
 
         if (!empty($options))
@@ -93,9 +88,6 @@ class org_openpsa_core_filter_select extends org_openpsa_core_filter
             }
             echo "\n</select>\n";
         }
-
-        echo "</div>\n";
-        echo "\n</form>\n";
     }
 
     public function set_callback($callback)

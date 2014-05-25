@@ -80,7 +80,7 @@ class org_openpsa_core_queryfilter
         $user = midcom::get('auth')->user->get_storage();
 
         if (   isset($_POST['unset_filter'])
-            && $_POST['unset_filter'] == $filtername . '_filter')
+            && $_POST['unset_filter'] == $filter_id)
         {
             if (   $user->get_parameter("org_openpsa_core_filter", $filter_id)
                 && !$user->delete_parameter("org_openpsa_core_filter", $filter_id))
@@ -120,11 +120,16 @@ class org_openpsa_core_queryfilter
      */
     public function render()
     {
+        $url = midcom_connection::get_url('uri');
+        echo '<form id="org_openpsa_core_queryfilter" class="org_openpsa_queryfilter" action="' . $url . '" method="post" style="display:inline">';
+
         foreach ($this->_filters as $filter)
         {
-            $url = midcom_connection::get_url('uri');
+            echo '<div class="org_openpsa_filter_widget" id="' . $this->_identifier . '_' . $filter->name . '">';
             $filter->render($url);
+            echo "</div>\n";
         }
+        echo "\n</form>\n";
     }
 }
 ?>

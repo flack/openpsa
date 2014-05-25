@@ -74,15 +74,10 @@ class org_openpsa_core_filter_timeframe extends org_openpsa_core_filter
     }
 
     /**
-     * Renders the filter widget according to mode
-     *
-     * @param string $url The backend URL to send the data to
+     * @inheritdoc
      */
-    public function render($url)
+    public function render()
     {
-        echo '<form id="' . $this->name . '_filter" class="org_openpsa_filter" action="' . $url . '" method="post" style="display:inline">';
-        echo '<div class="org_openpsa_filter_widget">';
-
         $ids = array
         (
             'from' => 'datepicker_' . $this->name . '_from',
@@ -100,8 +95,5 @@ class org_openpsa_core_filter_timeframe extends org_openpsa_core_filter
         echo "\$(document).ready(function()\n{\n\norg_openpsa_filter.init_timeframe(\n";
         echo json_encode($ids) . " );\n});\n";
         echo "\n</script>\n";
-
-        echo "</div>\n";
-        echo "\n</form>\n";
     }
 }

@@ -48,10 +48,8 @@ abstract class org_openpsa_core_filter
 
     /**
      * Renders the filter widget according to mode
-     *
-     * @param string $url The backend URL to send the data to
      */
-    abstract public function render($url);
+    abstract public function render();
 
     public function set_label($label)
     {
