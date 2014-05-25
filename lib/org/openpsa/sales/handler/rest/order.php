@@ -2,7 +2,7 @@
 /**
  * @copyright CONTENT CONTROL GmbH, http://www.contentcontrol-berlin.de
  * @author Jan Floegel
- * @package midcom.baseclasses
+ * @package org.openpsa.sales
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General
  */
 
