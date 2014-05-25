@@ -584,14 +584,12 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
                 'up' => false,
                 'type' => $ref->get_midgard_type($property),
             );
-            if (   !empty($parent_property)
-                && $parent_property === $property)
+            if ($parent_property === $property)
             {
                 debug_add("Is 'parent' property");
                 $linkinfo['parent'] = true;
             }
-            if (   !empty($up_property)
-                && $up_property === $property)
+            if ($up_property === $property)
             {
                 debug_add("Is 'up' property");
                 $linkinfo['up'] = true;

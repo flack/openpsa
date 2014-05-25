@@ -478,12 +478,7 @@ EOT;
         {
             return null;
         }
-        $defaults = array();
-        foreach ($this->_type->selection as $key)
-        {
-            $defaults[$key] = true;
-        }
-        return array($this->name => $defaults);
+        return array($this->name => array_fill_keys($this->_type->selection, true));
     }
 
     /**

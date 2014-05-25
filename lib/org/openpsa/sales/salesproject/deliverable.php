@@ -144,9 +144,10 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
     /**
      *
      * helper function to copy some defaults from the given product to the deliverable
+     *
      * @param org_openpsa_products_product_dba $product
      */
-    function copyFromProduct($product)
+    function copyFromProduct(org_openpsa_products_product_dba $product)
     {
         $this->product = $product->id;
         $this->title = $product->title;

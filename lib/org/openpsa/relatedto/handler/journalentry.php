@@ -338,14 +338,7 @@ implements midcom_helper_datamanager2_interfaces_create
                 //"type-cast" for closed because it will be passed as string
                 if ($constraint['property'] == 'closed')
                 {
-                    if ($constraint['value'] = 'false')
-                    {
-                        $constraint['value'] = false;
-                    }
-                    else
-                    {
-                        $constraint['value'] = true;
-                    }
+                    $constraint['value'] = ($constraint['value'] != 'false');
                 }
                 $this->qb_journal_entries->add_constraint($constraint['property'], $constraint['operator'], $constraint['value']);
             }

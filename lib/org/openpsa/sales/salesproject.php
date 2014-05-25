@@ -308,17 +308,10 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
             return false;
         }
 
-        $this->_contacts = array();
-
         $mc = org_openpsa_contacts_role_dba::new_collector('objectGuid', $this->guid);
         $mc->add_constraint('role', '=', self::ROLE_MEMBER);
 
-        $members = $mc->get_values('person');
-
-        foreach ($members as $member)
-        {
-            $this->_contacts[$member] = true;
-        }
+        $this->_contacts = array_fill_keys($mc->get_values('person'), true);
 
         if ($this->customerContact)
         {
@@ -377,17 +370,7 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
      */
     private static function _sort_action_by_time($a, $b)
     {
-        $ap = $a['time'];
-        $bp = $b['time'];
-        if ($ap > $bp)
-        {
-            return 1;
-        }
-        if ($ap < $bp)
-        {
-            return -1;
-        }
-        return 0;
+        return $a['time'] - $b['time'];
     }
 
     /**
@@ -395,17 +378,7 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
      */
     private static function _sort_action_by_time_reverse($a, $b)
     {
-        $ap = $a['time'];
-        $bp = $b['time'];
-        if ($ap < $bp)
-        {
-            return 1;
-        }
-        if ($ap > $bp)
-        {
-            return -1;
-        }
-        return 0;
+        return $b['time'] - $a['time'];
     }
 }
 ?>

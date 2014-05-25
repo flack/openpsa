@@ -198,9 +198,7 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
 
         if ($this->_config->get('ajax_comments_enable'))
         {
-            $comments_node = $this->_seek_comments();
-
-            if ($comments_node)
+            if ($comments_node = $this->_seek_comments())
             {
                 $this->_request_data['ajax_comments_enable'] = true;
                 $this->_request_data['base_ajax_comments_url'] = $comments_node[MIDCOM_NAV_RELATIVEURL] . "comment/";

@@ -136,14 +136,8 @@ class org_openpsa_contacts_group_dba extends midcom_core_dbaobject
     {
         if (!$this->_members_loaded)
         {
-            $this->members = array();
             $mc = midcom_db_member::new_collector('gid', $this->id);
-            $uids = $mc->get_values('uid');
-
-            foreach ($uids as $uid)
-            {
-                $this->members[$uid] = true;
-            }
+            $this->members = array_fill_keys($mc->get_values('uid'), true);
             $this->_members_loaded = true;
         }
         return $this->members;

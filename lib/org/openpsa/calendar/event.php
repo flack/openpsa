@@ -512,32 +512,12 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
             return;
         }
 
-        //Reset to empty arrays
-        $this->resources = array();
-        $this->participants = array();
-
         // Participants
         $mc = org_openpsa_calendar_event_member_dba::new_collector('eid', $this->id);
-        $members = $mc->get_values('uid');
-
-        if (!empty($members))
-        {
-            foreach ($members as $member)
-            {
-                $this->participants[$member] = true;
-            }
-        }
+        $this->participants = array_fill_keys($mc->get_values('uid'), true);
         // Resources
         $mc2 = org_openpsa_calendar_event_resource_dba::new_collector('event', $this->id);
-        $resources = $mc2->get_values('resource');
-
-        if (!empty($resources))
-        {
-            foreach ($resources as $resource)
-            {
-                $this->resources[$resource] = true;
-            }
-        }
+        $this->resources = array_fill_keys($mc2->get_values('resource'), true);
     }
 
     /**
