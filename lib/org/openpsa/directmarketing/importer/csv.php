@@ -64,7 +64,7 @@ class org_openpsa_directmarketing_importer_csv extends org_openpsa_directmarketi
     {
         $contact = array();
 
-        foreach ($csv_line as $field => $value)
+        foreach (array_filter($csv_line) as $field => $value)
         {
             // Process the row accordingly
             $field_matching = $this->_settings['fields'][$field];
@@ -79,12 +79,6 @@ class org_openpsa_directmarketing_importer_csv extends org_openpsa_directmarketi
                     || !array_key_exists($schema_field, $this->_schemadbs[$schemadb]['default']->fields))
                 {
                     // Invalid matching, skip
-                    continue;
-                }
-
-                if ($value == '')
-                {
-                    // No value, skip
                     continue;
                 }
 

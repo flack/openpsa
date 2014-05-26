@@ -83,7 +83,7 @@ class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_comp
         switch ($this->membership_mode)
         {
             case 'all':
-                foreach ($memberships as $k2 => $membership)
+                foreach ($memberships as $membership)
                 {
                     $row['organization_member'] = $membership;
                     try
@@ -102,7 +102,7 @@ class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_comp
             case 'first':
                 // Fall-trough intentional
             case 'last':
-                foreach ($memberships as $k2 => $membership)
+                foreach ($memberships as $membership)
                 {
                     $row['organization_member'] = $membership;
                     try

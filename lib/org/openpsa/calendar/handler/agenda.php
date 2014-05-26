@@ -35,11 +35,15 @@ class org_openpsa_calendar_handler_agenda extends midcom_baseclasses_components_
         $mc->add_constraint('eid.end', '>=', $from);
 
         $eventmembers = $mc->get_values('eid');
-
-        $data['events'] = array();
-        foreach ($eventmembers as $eid)
+        if (!empty($eventmembers))
         {
-            $data['events'][] = new org_openpsa_calendar_event_dba($eid);
+            $qb = org_openpsa_calendar_event_dba::new_query_builder();
+            $qb->add_constraint('id', 'IN', $eventmembers);
+            $data['events'] = $qb->execute();
+        }
+        else
+        {
+            $data['events'] = array();
         }
         $data['from'] = $from;
     }

@@ -27,17 +27,13 @@ $node = $nap->get_node($nap->get_current_node());
     $data['campaign']->get_testers();
     if (count($data['campaign']->testers) > 0)
     {
-        $counter = 1;
-        foreach ($data['campaign']->testers as $id => $bool)
+        $testers = array();
+        foreach (array_keys($data['campaign']->testers) as $id)
         {
             $person = org_openpsa_widgets_contact::get($id);
-            echo $person->show_inline();
-
-            if (($counter++) < count($data['campaign']->testers))
-            {
-                echo ", ";
-            }
+            $testers[] = $person->show_inline();
         }
+        echo implode(', ', $testers);
     }
     else
     {

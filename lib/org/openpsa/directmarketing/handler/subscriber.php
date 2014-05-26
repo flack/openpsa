@@ -136,22 +136,20 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
             }
         }
 
-        if (!empty($campaigns))
+        foreach ($campaigns as $campaign)
         {
-            foreach ($campaigns as $campaign)
+            $this->_request_data['campaign'] = new org_openpsa_directmarketing_campaign_dba($campaign->guid);
+            if (   isset($campaign_membership_map)
+                && array_key_exists($campaign->id, $campaign_membership_map))
             {
-                $this->_request_data['campaign'] = new org_openpsa_directmarketing_campaign_dba($campaign->guid);
-                if (   isset($campaign_membership_map)
-                    && array_key_exists($campaign->id, $campaign_membership_map))
-                {
-                    $this->_request_data['membership'] = $campaign_membership_map[$campaign->id];
-                }
-
-                // TODO: Get count of members and messages here
-
-                midcom_show_style('show-campaign-list-item');
+                $this->_request_data['membership'] = $campaign_membership_map[$campaign->id];
             }
+
+            // TODO: Get count of members and messages here
+
+            midcom_show_style('show-campaign-list-item');
         }
+
         midcom_show_style("show-campaign-list-footer");
     }
 
