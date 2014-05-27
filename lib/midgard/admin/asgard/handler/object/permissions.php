@@ -276,10 +276,7 @@ implements midcom_helper_datamanager2_interfaces_edit
         }
 
         $header .= "        <th align=\"left\" scope=\"col\" class=\"assignee_name\"><span>&nbsp;</span></th>\n";
-        foreach ($header_items as $key => $item)
-        {
-            $header .= $item;
-        }
+        $header .= implode('', $header_items);
         $header .= "        <th scope=\"col\" class=\"row_actions\"><span>&nbsp;</span></th>\n";
 
         $this->_header = $header;
@@ -402,7 +399,7 @@ implements midcom_helper_datamanager2_interfaces_edit
                 if ($row->_name == 'form_toolbar')
                 {
                     $form_toolbar_html = "  <div class=\"actions\">\n";
-                    foreach ($row->_elements as $k => $element)
+                    foreach ($row->_elements as $element)
                     {
                         if (is_a($element, 'HTML_QuickForm_submit'))
                         {
@@ -415,7 +412,7 @@ implements midcom_helper_datamanager2_interfaces_edit
 
                 $html = $this->_render_row_label($row->_name);
 
-                foreach ($row->_elements as $k => $element)
+                foreach ($row->_elements as $element)
                 {
                     if (is_a($element, 'HTML_QuickForm_select'))
                     {

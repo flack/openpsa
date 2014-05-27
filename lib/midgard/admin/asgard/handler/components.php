@@ -127,29 +127,18 @@ class midgard_admin_asgard_handler_components extends midcom_baseclasses_compone
      */
     public function _show_list($handler_id, array &$data)
     {
-        $data['list_type'] = 'core_components';
-        midcom_show_style('midgard_admin_asgard_components_header');
-        foreach ($data['core_components'] as $component => $component_data)
-        {
-            $data['component_data'] = $component_data;
-            midcom_show_style('midgard_admin_asgard_components_item');
-        }
-        midcom_show_style('midgard_admin_asgard_components_footer');
+        $this->_show_lists('core_components');
+        $this->_show_lists('components');
+        $this->_show_lists('libraries');
+    }
 
-        $data['list_type'] = 'components';
+    private function _show_lists($type)
+    {
+        $this->_request_data['list_type'] = $type;
         midcom_show_style('midgard_admin_asgard_components_header');
-        foreach ($data['components'] as $component => $component_data)
+        foreach ($this->_request_data[$type] as $component => $component_data)
         {
-            $data['component_data'] = $component_data;
-            midcom_show_style('midgard_admin_asgard_components_item');
-        }
-        midcom_show_style('midgard_admin_asgard_components_footer');
-
-        $data['list_type'] = 'libraries';
-        midcom_show_style('midgard_admin_asgard_components_header');
-        foreach ($data['libraries'] as $component => $component_data)
-        {
-            $data['component_data'] = $component_data;
+            $this->_request_data['component_data'] = $component_data;
             midcom_show_style('midgard_admin_asgard_components_item');
         }
         midcom_show_style('midgard_admin_asgard_components_footer');

@@ -53,14 +53,13 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
                     continue;
                     // Done.
                 }
-                $component_icon = midcom::get('componentloader')->get_component_icon($dependency);
-                if (!$component_icon)
+                if ($component_icon = midcom::get('componentloader')->get_component_icon($dependency))
                 {
-                    echo "<li><img src=\"" . MIDCOM_STATIC_URL . "/stock-icons/16x16/cancel.png\" alt=\"\" /> {$dependency} <span class='alert'>Error: This component is not installed!</span></li>\n";
+                    echo "<li><a href=\"{$prefix}__mfa/asgard/components/{$dependency}/\"><img src=\"" . MIDCOM_STATIC_URL . "/" . $component_icon . "\" alt=\"\" /> {$dependency}</a></li>\n";
                 }
                 else
                 {
-                    echo "<li><a href=\"{$prefix}__mfa/asgard/components/{$dependency}/\"><img src=\"" . MIDCOM_STATIC_URL . "/" . $component_icon . "\" alt=\"\" /> {$dependency}</a></li>\n";
+                    echo "<li><img src=\"" . MIDCOM_STATIC_URL . "/stock-icons/16x16/cancel.png\" alt=\"\" /> {$dependency} <span class='alert'>Error: This component is not installed!</span></li>\n";
                 }
             }
             echo "</ul>\n";

@@ -12,22 +12,10 @@ echo $data['rcs_toolbar_2']->render();
 <?php
 foreach ($preview as $attribute => $value)
 {
-    if ($value == '')
-    {
-        continue;
-    }
-
-    if ($value == '0000-00-00')
-    {
-        continue;
-    }
-
-    if (!midcom_services_rcs::is_field_showable($attribute))
-    {
-        continue;
-    }
-
-    if (is_array($value))
+    if (   $value == ''
+        || $value == '0000-00-00'
+        || !midcom_services_rcs::is_field_showable($attribute)
+        || is_array($value))
     {
         continue;
     }

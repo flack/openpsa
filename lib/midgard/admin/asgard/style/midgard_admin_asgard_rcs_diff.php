@@ -16,17 +16,9 @@ echo $data['rcs_toolbar_2']->render();
 $changes = false;
 foreach ($diff as $attribute => $values)
 {
-    if (!array_key_exists('diff', $values))
-    {
-        continue;
-    }
-
-    if (!midcom_services_rcs::is_field_showable($attribute))
-    {
-        continue;
-    }
-
-    if (is_array($values['diff']))
+    if (   !array_key_exists('diff', $values)
+        || !midcom_services_rcs::is_field_showable($attribute)
+        || is_array($values['diff']))
     {
         continue;
     }

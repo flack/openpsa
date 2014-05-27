@@ -317,10 +317,9 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
 
             if ($object->can_do('midgard:delete'))
             {
-                $label = $object->guid;
                 if ($object->delete())
                 {
-                    midcom::get('uimessages')->add($this->_l10n->get('midgard.admin.asgard'), sprintf($this->_l10n->get('object %s removed'), $label));
+                    midcom::get('uimessages')->add($this->_l10n->get('midgard.admin.asgard'), sprintf($this->_l10n->get('object %s removed'), $object->guid));
                 }
             }
         }
@@ -342,11 +341,8 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
             if (   $object->can_do('midgard:update')
                 && $object->can_do('midcom:approve'))
             {
-                //$label = $object->get_label();
-                $label = $object->guid;
-                $metadata = $object->metadata;
-                $metadata->approve();
-                midcom::get('uimessages')->add($this->_l10n->get('midgard.admin.asgard'), sprintf($this->_l10n->get('object %s approved'), $label));
+                $object->metadata->approve();
+                midcom::get('uimessages')->add($this->_l10n->get('midgard.admin.asgard'), sprintf($this->_l10n->get('object %s approved'), $object->guid));
             }
         }
     }
