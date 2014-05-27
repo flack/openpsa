@@ -327,11 +327,7 @@ END;
         }
         else
         {
-            foreach ($images as $data)
-            {
-                $info = $data;
-                break;
-            }
+            $info = current($images);
         }
         if (empty($info['object']->guid))
         {

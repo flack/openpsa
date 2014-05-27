@@ -206,15 +206,15 @@ class midcom_core_group
             return array();
         }
 
-        $return = Array();
-        foreach ($result as $gid => $empty)
+        $return = array();
+        foreach (array_keys($result) as $gid)
         {
             try
             {
                 $group = new midcom_core_group($gid);
                 $return[$group->id] = $group;
             }
-            catch (Exception $e)
+            catch (midcom_error $e)
             {
                 debug_add("The group {$gid} is unknown, skipping the membership record.", MIDCOM_LOG_ERROR);
                 debug_add('Last Midgard error was: ' . midcom_connection::get_error_string());

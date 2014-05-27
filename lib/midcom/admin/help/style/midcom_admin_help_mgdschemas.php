@@ -19,16 +19,13 @@ if (count($data['mgdschemas']) > 0)
         echo "            </tr>\n";
 
         $i = 1;
-        foreach ($properties as $key=>$val)
+        foreach ($properties as $propname => $val)
         {
-            $propname = $key;
-
             $proplink = "";
             $proplink_description = '';
             if ($val['link'])
             {
-                $linked_component = midcom::get('dbclassloader')->get_component_for_class($val['link_name']);
-                if ($linked_component)
+                if ($linked_component = midcom::get('dbclassloader')->get_component_for_class($val['link_name']))
                 {
                     $proplink = "<a href='{$prefix}__ais/help/{$linked_component}/mgdschemas/#{$val['link_name']}' title='{$linked_component}/{$val['link_name']}::{$val['link_target']}'>{$val['link_name']}:{$val['link_target']}</a>";
                     $classname = str_replace('_', '\\_', $val['link_name']);
@@ -103,9 +100,7 @@ if (count($data['mgdschemas']) > 0)
 
                 echo "            <tr>\n";
                 echo "                <td>{$signature}</td>\n";
-                echo "                <td>" . $reflectionmethod->getDocComment();
-
-                echo "</td>\n";
+                echo "                <td>" . $reflectionmethod->getDocComment() . "</td>\n";
                 echo "            </tr>\n";
             }
 

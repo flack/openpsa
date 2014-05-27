@@ -189,9 +189,9 @@ class midcom_core_collector extends midcom_core_query
             $this->execute();
         }
         $results = $this->list_keys();
-        foreach (array_keys($results) as $guid)
+        foreach ($results as $guid => &$value)
         {
-            $results[$guid] = $this->get_subkey($guid, $field);
+            $value = $this->get_subkey($guid, $field);
         }
         return $results;
     }

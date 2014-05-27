@@ -1002,12 +1002,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
         // Centralized admin panel functionalities
 
         // Load plugins registered via component manifests
-        $manifest_plugins = array();
-        $customdata = midcom::get('componentloader')->get_all_manifest_customdata('request_handler_plugin');
-        foreach ($customdata as $component => $plugin_config)
-        {
-            $manifest_plugins[$component] = $plugin_config;
-        }
+        $manifest_plugins = midcom::get('componentloader')->get_all_manifest_customdata('request_handler_plugin');
         $customdata = midcom::get('componentloader')->get_all_manifest_customdata('asgard_plugin');
         foreach ($customdata as $component => $plugin_config)
         {

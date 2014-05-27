@@ -817,7 +817,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
         {
             // Iterate over the widgets and tell them to re-synchronize with their
             // types.
-            foreach ($this->widgets as $name => $copy)
+            foreach (array_keys($this->widgets) as $name)
             {
                 if (!array_key_exists($name, $results))
                 {

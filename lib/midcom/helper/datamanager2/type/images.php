@@ -457,7 +457,7 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
             case 'array':
                 $result = array();
                 // FIXME: this probably does not work as expected, look into this
-                foreach ($this->images as $identifier => $images)
+                foreach ($this->images as $images)
                 {
                     $tmp = $images['main'];
                     if (array_key_exists('thumbnail', $images))
@@ -699,8 +699,7 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
             {
                 $image = $images['main'];
             }
-
-            if (!$image)
+            else
             {
                 debug_add("Image {$identifier} has no 'original' or 'main' image, skipping recreation.", MIDCOM_LOG_INFO);
                 continue;

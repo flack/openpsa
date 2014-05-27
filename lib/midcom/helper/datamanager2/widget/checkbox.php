@@ -80,10 +80,7 @@ class midcom_helper_datamanager2_widget_checkbox extends midcom_helper_datamanag
 
         if (is_array($this->jsevents))
         {
-            foreach ($this->jsevents as $event => $action)
-            {
-                $attributes[$event] = $action;
-            }
+            $attributes = array_merge($attributes, $this->jsevents);
         }
 
         $this->_form->addElement('checkbox', $this->name, $title, $this->description, $attributes);

@@ -105,10 +105,7 @@ class midcom_helper_datamanager2_widget_select extends midcom_helper_datamanager
 
         if (is_array($this->jsevents))
         {
-            foreach ($this->jsevents as $event => $action)
-            {
-                $select_attributes[$event] = $action;
-            }
+            $select_attributes = array_merge($select_attributes, $this->jsevents);
         }
 
         $select_element = $this->_form->createElement('select', $this->name, $this->_translate($this->_field['title']),

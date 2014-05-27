@@ -443,8 +443,7 @@ class midcom_baseclasses_core_dbobject
 
         foreach ($child_classes as $class)
         {
-            $qb = $reflector->_child_objects_type_qb($class, $object, false);
-            if ($qb)
+            if ($qb = $reflector->_child_objects_type_qb($class, $object, false))
             {
                 $children = $qb->execute();
                 // Delete first the descendants

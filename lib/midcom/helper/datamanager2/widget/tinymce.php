@@ -411,8 +411,8 @@ EOT;
 
         foreach ($this->_form->_elements as $key => $element)
         {
-            if ((isset($element->_attributes['name']))
-                && ($element->_attributes['name'] == $this->name))
+            if (   isset($element->_attributes['name'])
+                && $element->_attributes['name'] == $this->name)
             {
                 if (isset($this->_form->_elements[$key + 1]->_attributes['name']))
                 {

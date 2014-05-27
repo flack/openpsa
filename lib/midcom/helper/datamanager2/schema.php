@@ -521,15 +521,8 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
             'index_method' => 'auto',
             'index_merge_with_content' => true,
             'customdata' => array()
-
         );
-        foreach ($simple_defaults as $property => $value)
-        {
-            if (!array_key_exists($property, $config))
-            {
-                $config[$property] = $value;
-            }
-        }
+        $config = array_merge($simple_defaults, $config);
 
         // And complex ones
         if (!array_key_exists('storage', $config))

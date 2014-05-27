@@ -594,24 +594,12 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
 
     function combine_values()
     {
-        $selection = array();
-        foreach ($this->selection as $item)
-        {
-            $selection[] = $this->get_name_for_key($item);
-        }
-        $values = $selection;
+        $selection = array_map(array($this, 'get_name_for_key'), $this->selection);
         if ($this->others)
         {
-            if (is_array($this->others))
-            {
-                $values = array_merge($selection, $this->others);
-            }
-            else
-            {
-                $values = array_merge($selection, array($this->others));
-            }
+            $selection = array_merge($selection, (array) $this->others);
         }
-        return $values;
+        return $selection;
     }
 
     public function convert_to_html()

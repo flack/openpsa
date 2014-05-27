@@ -446,7 +446,7 @@ class midcom_core_privilege
         $mc->execute();
         $privileges = $mc->list_keys();
 
-        foreach ($privileges as $privilege_guid => $value)
+        foreach (array_keys($privileges) as $privilege_guid)
         {
             $privilege = $mc->get($privilege_guid);
             $privilege['objectguid'] = $guid;

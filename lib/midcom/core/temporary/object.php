@@ -105,8 +105,7 @@ class midcom_core_temporary_object extends midcom_core_dbaobject
         }
 
         // Privileges are moved using the DBA API as well.
-        $privileges = $this->get_privileges();
-        if ($privileges)
+        if ($privileges = $this->get_privileges())
         {
             foreach ($privileges as $privilege)
             {

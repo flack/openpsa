@@ -373,14 +373,7 @@ EOT;
 
     private function _get_selection()
     {
-        $selection = array();
-        foreach ($this->_type->selection as $value)
-        {
-            if (!empty($value))
-            {
-                $selection[] = $value;
-            }
-        }
+        $selection = array_filter($this->_type->selection);
 
         $form_selection = $this->_get_form_selection($_REQUEST);
         if (!empty($form_selection))
