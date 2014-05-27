@@ -407,10 +407,7 @@ class midcom_helper_head
 
         if (!empty($this->_prepend_jshead))
         {
-            foreach ($this->_prepend_jshead as $js_call)
-            {
-                $this->_print_js($js_call);
-            }
+            array_map(array($this, '_print_js'), $this->_prepend_jshead);
         }
 
         foreach ($this->_linkhrefs as $url)
@@ -437,10 +434,7 @@ class midcom_helper_head
         echo $this->_style_head;
         echo $this->_meta_head;
 
-        foreach ($this->_jshead as $js_call)
-        {
-            $this->_print_js($js_call);
-        }
+        array_map(array($this, '_print_js'), $this->_jshead);
         $this->print_jquery_statuses();
     }
 

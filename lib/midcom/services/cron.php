@@ -230,11 +230,7 @@ class midcom_services_cron
             $data['midcom'] = $this->_midcom_jobs;
             $this->load_jobs($data);
         }
-
-        foreach ($this->_jobs as $job)
-        {
-            $this->_execute_job($job);
-        }
+        array_map(array($this, '_execute_job'), $this->_jobs);
     }
 
     /**

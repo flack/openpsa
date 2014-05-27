@@ -177,7 +177,7 @@ class midcom_services_i18n_l10n
             fwrite($file, "---VERSION 2.1.0\n");
             fwrite($file, "---LANGUAGE {$lang}\n\n");
 
-            foreach  ($table as $key => $translation)
+            foreach ($table as $key => $translation)
             {
                 $key = trim($key);
                 $translation = str_replace("\r\n", "\n", trim($translation));
@@ -378,7 +378,7 @@ class midcom_services_i18n_l10n
      */
     private function _load_all_languages()
     {
-        foreach ($this->_language_db as $lang => $data)
+        foreach (array_keys($this->_language_db) as $lang)
         {
             $this->_check_for_language($lang);
         }

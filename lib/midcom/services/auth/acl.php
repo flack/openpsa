@@ -749,10 +749,7 @@ class midcom_services_auth_acl
         // follows the basic rule that the deeper the group is, the smaller is its scope.
         foreach ($valid_privileges as $privileges)
         {
-            foreach ($privileges as $name => $value)
-            {
-                $collected_privileges[$name] = $value;
-            }
+            $collected_privileges = array_merge($collected_privileges, $privileges);
         }
 
         // printing debug-statements if object doesn't override base privileges

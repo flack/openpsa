@@ -445,11 +445,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
 
             debug_add("HIT {$content_id}");
             $content = $this->_data_cache->get($content_id);
-
-            foreach ($data['sent_headers'] as $header)
-            {
-                _midcom_header($header);
-            }
+            array_map('_midcom_header', $data['sent_headers']);
 
             echo $content;
         }
@@ -782,10 +778,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         // Emit the 304 header, then exit.
         _midcom_header('HTTP/1.0 304 Not Modified');
         _midcom_header("ETag: {$etag}");
-        foreach ($additional_headers as $header)
-        {
-            _midcom_header($header);
-        }
+        array_map('_midcom_header', $additional_headers);
         return true;
     }
 
@@ -1144,13 +1137,13 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
     private function _replace_sent_header($header, $header_string)
     {
         $matched = false;
-        foreach ($this->_sent_headers as $k => $value)
+        foreach ($this->_sent_headers as &$value)
         {
             if (!preg_match("%^{$header}:%", $value))
             {
                 continue;
             }
-            $this->_sent_headers[$k] = $header_string;
+            $value = $header_string;
             $matched =  true;
             break;
         }

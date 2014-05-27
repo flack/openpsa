@@ -184,7 +184,7 @@ abstract class midcom_services_cache_backend
         }
 
         // sync
-        foreach ($this->_unsynced_keys as $key => $_ignore)
+        foreach (array_keys($this->_unsynced_keys) as $key)
         {
             if (array_key_exists($key, $this->_local_cache))
             {

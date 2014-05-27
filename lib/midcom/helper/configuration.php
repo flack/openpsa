@@ -171,10 +171,7 @@ class midcom_helper_configuration
         if (   !empty($this->_local)
             && is_array($this->_local))
         {
-            foreach ($this->_local as $key => $value)
-            {
-                $this->_merged[$key] = $value;
-            }
+            $this->_merged = array_merge($this->_merged, $this->_local);
         }
     }
 
@@ -228,10 +225,7 @@ class midcom_helper_configuration
         {
             $this->reset_local();
         }
-        foreach ($params as $key => $value)
-        {
-            $this->_local[$key] = $value;
-        }
+        $this->_local = array_merge($this->_local, $params);
         $this->_update_cache();
         return true;
     }

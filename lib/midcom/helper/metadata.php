@@ -324,10 +324,7 @@ class midcom_helper_metadata
         {
             $return = true;
             // Update the corresponding cache variables
-            foreach ($properties as $key => $value)
-            {
-                $this->on_update($key);
-            }
+            array_map(array($this, 'on_update'), array_keys($properties));
         }
         return $return;
     }

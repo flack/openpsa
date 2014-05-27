@@ -398,11 +398,7 @@ class midcom_helper__componentloader
             $manifests = $this->get_manifests();
             midcom::get('cache')->memcache->put('MISC', 'midcom.componentloader.manifests', $manifests);
         }
-
-        foreach ($manifests as $manifest)
-        {
-            $this->_register_manifest($manifest);
-        }
+        array_map(array($this, '_register_manifest'), $manifests);
     }
 
     /**

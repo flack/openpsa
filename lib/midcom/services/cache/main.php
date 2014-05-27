@@ -63,10 +63,7 @@ class midcom_services_cache implements EventSubscriberInterface
      */
     public function __construct()
     {
-        foreach (midcom::get('config')->get('cache_autoload_queue') as $name)
-        {
-            $this->load_module($name);
-        }
+        array_map(array($this, 'load_module'), midcom::get('config')->get('cache_autoload_queue'));
         midcom::get('dispatcher')->addSubscriber($this);
     }
 
@@ -107,8 +104,7 @@ class midcom_services_cache implements EventSubscriberInterface
 
         if (midcom::get('config')->get('attachment_cache_enabled'))
         {
-            $atts = $object->list_attachments();
-            foreach ($atts as $att)
+            foreach ($object->list_attachments() as $att)
             {
                 $this->invalidate($att->guid);
                 // This basically ensures that attachment cache links are

@@ -135,9 +135,9 @@ class midcom_services_i18n
     {
         $charset = strtolower($charset);
         $this->_current_charset = $charset;
-        foreach ($this->_obj_l10n as $name => $object)
+        foreach ($this->_obj_l10n as $object)
         {
-            $this->_obj_l10n[$name]->set_charset($charset);
+            $object->set_charset($charset);
         }
     }
 
@@ -172,9 +172,9 @@ class midcom_services_i18n
          */
         setlocale (LC_ALL, $this->_language_db[$lang]['locale']);
 
-        foreach ($this->_obj_l10n as $name => $object)
+        foreach ($this->_obj_l10n as $object)
         {
-            $this->_obj_l10n[$name]->set_language($lang);
+            $object->set_language($lang);
         }
     }
 
@@ -242,9 +242,9 @@ class midcom_services_i18n
     function set_fallback_language($lang)
     {
         $this->_fallback_language = $lang;
-        foreach ($this->_obj_l10n as $name => $object)
+        foreach ($this->_obj_l10n as $object)
         {
-            $this->_obj_l10n[$name]->set_fallback_language($lang);
+            $object->set_fallback_language($lang);
         }
     }
 
@@ -425,7 +425,7 @@ class midcom_services_i18n
 
         if (count ($this->_http_lang) > 0)
         {
-            foreach ($this->_http_lang as $name => $q)
+            foreach (array_keys($this->_http_lang) as $name)
             {
                 if (array_key_exists($name, $this->_language_db))
                 {

@@ -103,10 +103,7 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
     public function delete(array $RIs)
     {
         $this->factory->reset();
-        foreach ($RIs as $RI)
-        {
-            $this->factory->delete($RI);
-        }
+        array_map(array($this->factory, 'delete'), $RIs);
         return $this->request->execute();
     }
 

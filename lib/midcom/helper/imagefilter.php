@@ -230,11 +230,7 @@ class midcom_helper_imagefilter
     function process_chain($chain)
     {
         $filters = array_filter(explode(";", $chain));
-
-        foreach ($filters as $cmd)
-        {
-            $this->process_command($cmd);
-        }
+        array_map(array($this, 'process_command'), $filters);
     }
 
     /**

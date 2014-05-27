@@ -564,12 +564,8 @@ class midcom_connection
 
         self::$_data['argv'] = array();
         $args_started = false;
-        foreach ($path_parts as $part)
+        foreach (array_filter($path_parts) as $part)
         {
-            if ($part === '')
-            {
-                continue;
-            }
             if (    midcom::get('config')->get('theme')
                  && !$args_started
                  && midcom_helper_misc::check_page_exists($part))

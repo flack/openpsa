@@ -569,8 +569,7 @@ class midcom_helper__styleloader
                 $chain = explode('/', $substyle);
                 foreach ($chain as $stylename)
                 {
-                    $_subst_id = $this->get_style_id_from_path($stylename, $_st);
-                    if ($_subst_id)
+                    if ($_subst_id = $this->get_style_id_from_path($stylename, $_st))
                     {
                         $_st = $_subst_id;
                     }
