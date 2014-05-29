@@ -160,13 +160,6 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
     protected $_filter = null;
 
     /**
-     * The original mimetype of the uploaded file.
-     *
-     * @var string
-     */
-    protected $_original_mimetype = null;
-
-    /**
      * This list is used when updating an existing attachment. It keeps track
      * of which attachments have been updated already when replacing an existing
      * image. All attachments still listed here after a set_image call will
@@ -226,15 +219,7 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
     /**
      * Recreate all images
      */
-    function recreate()
-    {
-        return $this->recreate_main_image();
-    }
-
-    /**
-     * recreates main image if original is available
-     */
-    function recreate_main_image()
+    public function recreate()
     {
         if (!array_key_exists('original', $this->attachments))
         {
@@ -242,14 +227,22 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
             debug_add("Image {$this->name} has no 'original' image, recreating derived images only.", MIDCOM_LOG_INFO);
             return $this->recreate_derived_images();
         }
+
+        return $this->recreate_main_image();
+    }
+
+    /**
+     * recreates main image
+     */
+    function recreate_main_image()
+    {
         if (   !$this->_prepare_recreate()
             || !$this->_auto_convert_to_web_type()
             || !$this->_save_image('main', $this->filter_chain))
         {
             return false;
         }
-        $this->recreate_derived_images(false);
-        return true;
+        return $this->recreate_derived_images(false);
     }
 
     /**
@@ -277,7 +270,7 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
     /**
      * Preparation operations for recreate_xxx()
      */
-    private function _prepare_recreate($force = false)
+    protected function _prepare_recreate($force = false)
     {
         if (   (   !empty($this->auto_thumbnail)
                 || !empty($this->filter_chain)
@@ -555,11 +548,12 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
      *
      * @param string $identifier The image identifier
      * @param string $filter_chain The filter chain
+     * @param boolean $is_original Are we saving the original image or a derived one
      * @return boolean Indicating success.
      */
-    protected function _save_image($identifier, $filter_chain)
+    protected function _save_image($identifier, $filter_chain, $is_original = false)
     {
-        if ($identifier == 'original')
+        if ($is_original)
         {
             $tmpname = $this->_original_tmpname;
         }
@@ -618,13 +612,13 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
      *
      * @return boolean Indicating success
      */
-    private function _save_original()
+    protected function _save_original()
     {
         if (!$this->keep_original)
         {
             return true;
         }
-        $this->_save_image('original', '');
+        $this->_save_image('original', '', true);
     }
 
     /**

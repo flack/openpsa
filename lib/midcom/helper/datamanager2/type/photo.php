@@ -23,7 +23,7 @@ class midcom_helper_datamanager2_type_photo extends midcom_helper_datamanager2_t
     /**
      * Preparation operations for recreate_xxx()
      */
-    private function _prepare_recreate($force = true)
+    protected function _prepare_recreate($force = true)
     {
         if (   !empty($this->_original_tmpname)
             && !$force)
@@ -33,7 +33,6 @@ class midcom_helper_datamanager2_type_photo extends midcom_helper_datamanager2_t
         }
         // Prepare internal members
         $this->_filter = new midcom_helper_imagefilter();
-        // PHP5-TODO: Must be copy-by-value
         $this->_pending_attachments = $this->attachments;
         // Remove archival and main from pending attachments
         if (!$this->do_not_save_archival)
@@ -44,65 +43,35 @@ class midcom_helper_datamanager2_type_photo extends midcom_helper_datamanager2_t
         {
             // PONDER: This could cause issues with RAW etc special format archived versions...
             // Copy archival as original
-            $src = $this->attachments['archival']->open('r');
+            $att = $this->attachments['archival'];
         }
         else if (array_key_exists('main', $this->attachments))
         {
             // Copy main as original
-            $src = $this->attachments['main']->open('r');
+            $att = $this->attachments['main'];
         }
         else
         {
             return false;
         }
-        // Create tmp file and copy by handles
-        $this->_original_tmpname = tempnam(midcom::get('config')->get('midcom_tempdir'), "midcom_helper_datamanager2_type_photo");
-        $dst = fopen($this->_original_tmpname, 'w+');
-        if (   !$src
-            || !$dst)
-        {
-            // TODO: Error reporting
-            return false;
-        }
-        stream_copy_to_stream($src, $dst);
-        fclose($src);
-        fclose($dst);
+        $this->_filter = new midcom_helper_imagefilter($att);
 
         $this->title = $this->attachments['main']->title;
         $this->_filename = $this->attachments['main']->name;
-        $this->_original_mimetype = midcom_helper_misc::get_mimetype($this->_original_tmpname);
         return true;
     }
 
     /**
      * recreates main image if archival is available
      */
-    function recreate_main_image()
+    function recreate()
     {
         if (!array_key_exists('archival', $this->attachments))
         {
             // Allow main image only be recreated if we have original stored
             return false;
         }
-        if (!$this->_prepare_recreate())
-        {
-            return false;
-        }
-        if (   !$this->_filter->set_file($this->_original_tmpname)
-            || !$this->_preprocess_raw()
-            || !$this->_auto_convert_to_web_type())
-        {
-            unlink ($this->_original_tmpname);
-            return false;
-        }
-        $ret = $this->_save_image('main', $this->filter_chain);
-        if (!$ret)
-        {
-            unlink ($this->_original_tmpname);
-            return false;
-        }
-        $this->recreate_derived_images(false);
-        return $ret;
+        return $this->recreate_main_image();
     }
 
     /**
@@ -111,120 +80,22 @@ class midcom_helper_datamanager2_type_photo extends midcom_helper_datamanager2_t
      * @param string $filename The name of the image attachment to be created.
      * @param string $tmpname The file to load.
      * @param string $title The title of the image.
-     * @param boolean $autodelete If this is true (the default), the temporary file will
-     *     be deleted after postprocessing and attachment-creation.
      * @return boolean Indicating success.
      */
-    function set_image($filename, $tmpname, $title, $autodelete = true)
+    function set_image($filename, $tmpname, $title)
     {
-        // Ensure that the filename is URL safe and contains only one extension
-        $filename = midcom_db_attachment::safe_filename($filename, true);
-
-        $this->_pending_attachments = $this->attachments;
-
-        // Prepare Internal Members
-        $this->title = $title;
-        $this->_filename = $filename;
-        $this->_original_tmpname = $tmpname;
-        $this->_original_mimetype = midcom_helper_misc::get_mimetype($this->_original_tmpname);
-        $this->_filter = new midcom_helper_imagefilter();
-
-        if (array_key_exists('archival', $this->_pending_attachments))
-        {
-            // we never touch the archival version after it has been uploaded
-            unset($this->_pending_attachments['archival']);
-        }
-        else
-        {
-            if (!$this->save_archival_image())
-            {
-                debug_add("Failed to store the archival image for the uploaded file {$filename} in {$tmpname}, aborting type processing.", MIDCOM_LOG_ERROR);
-                // Could not store even the archival image properly, clean up and abort
-                $this->delete_all_attachments();
-                return false;
-            }
-        }
-        if (!$this->_filter->set_file($this->_original_tmpname))
-        {
-            debug_add("this->_filter->set_file('{$this->_original_tmpname}') returned failure, aborting type processing.", MIDCOM_LOG_ERROR);
-            // NOTE: absense of delete_all_attachments is intentional
-            return false;
-        }
-        $this->_preprocess_raw();
-        if (!$this->_auto_convert_to_web_type())
-        {
-            debug_add("failed to convert to web type, aborting type processing.", MIDCOM_LOG_ERROR);
-            // NOTE: absense of delete_all_attachments is intentional
-            return false;
-        }
-        $this->_add_thumbnail_to_derived_images();
-        if (!$this->_save_image('main', $this->filter_chain))
-        {
-            debug_add("failed to save 'main' image, aborting type processing.", MIDCOM_LOG_ERROR);
-            // NOTE: absense of delete_all_attachments is intentional
-            return false;
-        }
-        if (!$this->_save_derived_images())
-        {
-            debug_add("failed to save derived images, aborting type processing.", MIDCOM_LOG_ERROR);
-            // NOTE: absense of delete_all_attachments is intentional
-            return false;
-        }
-
-        // Clear up all attachments no longer in use
-        $this->_clean_pending_attachments();
-
-        if ($autodelete)
-        {
-            unlink ($this->_original_tmpname);
-        }
-
-        return true;
+        $force_attachments = $this->attachments;
+        unset($force_attachments['archival']);
+        return parent::set_image($filename, $tmpname, $title, $force_attachments);
     }
 
-    /**
-     * If the original is a RAW file makes a PNG of it (or replaces with placeholder)
-     *
-     * We do not wish to rewrite _auto_convert_to_web_type() logic just because we
-     * must be able to handle also RAW files, so here we try to render a PNG and
-     * should we fail we use a placeholder image (which user can then replace with
-     * a web-compatible one).
-     *
-     * @return boolean indicating whether we could render the RAW to web type properly or not
-     */
-    function _preprocess_raw()
-    {
-        // TODO: More sophisticated RAW format detection ??
-        if (!preg_match('/\.raw$/', $this->_filename))
-        {
-            // Not a RAW image, no need for tricks.
-            return true;
-        }
-        if ($this->_auto_convert_to_web_type())
-        {
-            // Rendering succeeded
-            return true;
-        }
-        // PONDER: Read placeholder image file location from configuration somehow ??
-        $replacement = MIDCOM_ROOT . '/midcom/helper/datamanager2/type/type_photo_placeholder.png';
-        // TODO: Error handling
-        copy($replacement, $this->_original_tmpname);
-        return false;
-    }
-
-    function save_archival_image()
+    protected function _save_original()
     {
         if ($this->do_not_save_archival)
         {
             return true;
         }
-        $identifier = 'archival';
-        return $this->add_attachment($identifier,
-                                     "{$identifier}_{$this->_filename}",
-                                     $this->title,
-                                     midcom_helper_misc::get_mimetype($this->_original_tmpname),
-                                     $this->_original_tmpname,
-                                     false);
+        return $this->_save_image('archival', '', true);
     }
 
     function convert_to_html()
@@ -234,7 +105,6 @@ class midcom_helper_datamanager2_type_photo extends midcom_helper_datamanager2_t
             $ret = "";
             if (sizeof($this->attachments_info) > 0)
             {
-                // Could not figure out what to do, listing all files we have...
                 $ret .= "\n" . $this->_l10n->get('could not figure out which image to show, listing files') . "\n<ul>\n";
                 foreach ($this->attachments_info as $key => $data)
                 {
