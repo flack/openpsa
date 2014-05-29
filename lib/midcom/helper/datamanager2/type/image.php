@@ -418,13 +418,11 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
      * @param string $filename The name of the image attachment to be created.
      * @param string $tmpname The file to load.
      * @param string $title The title of the image.
-     * @param boolean $autodelete If this is true (the default), the temporary file will
-     *     be deleted after postprocessing and attachment-creation.
      * @return boolean Indicating success.
      */
-    function set_image($filename, $tmpname, $title, $autodelete = true)
+    function set_image($filename, $tmpname, $title)
     {
-        return $this->_set_image($filename, $tmpname, $title, $autodelete);
+        return $this->_set_image($filename, $tmpname, $title);
     }
 
     /**
@@ -433,12 +431,10 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
      * @param string $filename The name of the image attachment to be created.
      * @param string $tmpname The file to load.
      * @param string $title The title of the image.
-     * @param boolean $autodelete If this is true (the default), the temporary file will
-     *     be deleted after postprocessing and attachment-creation.
      * @param array $force_pending_attachments use this to override pending_attachments (when run from images type)
      * @return boolean Indicating success.
      */
-    protected function _set_image($filename, $tmpname, $title, $autodelete = true, $force_pending_attachments = false)
+    protected function _set_image($filename, $tmpname, $title, $force_pending_attachments = false)
     {
         if (   (   !empty($this->auto_thumbnail)
                 || !empty($this->filter_chain)
@@ -591,6 +587,7 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
         }
 
         $filename = $this->_filename;
+        $blob_identifier = $identifier;
         if ($identifier !== 'main')
         {
             $filename = $identifier . '_' . $filename;
@@ -599,7 +596,7 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
         if (isset($this->_identifier))
         {
             // we come from the image*s* type
-            $identifier = $this->_identifier . $identifier;
+            $blob_identifier = $this->_identifier . $identifier;
             $title = $this->_title;
         }
 
@@ -607,13 +604,13 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
         if (array_key_exists($identifier, $this->_pending_attachments))
         {
             unset($this->_pending_attachments[$identifier]);
-            return $this->update_attachment($identifier, $filename, $title, $mimetype, $tmpname, false);
+            return $this->update_attachment($blob_identifier, $filename, $title, $mimetype, $tmpname, false);
         }
         if (isset($this->_attachment_map))
         {
-            $this->_attachment_map[$identifier] = Array($this->_identifier, $identifier);
+            $this->_attachment_map[$blob_identifier] = Array($this->_identifier, $identifier);
         }
-        return $this->add_attachment($identifier, $filename, $title, $mimetype, $tmpname, false);
+        return $this->add_attachment($blob_identifier, $filename, $title, $mimetype, $tmpname, false);
     }
 
     /**

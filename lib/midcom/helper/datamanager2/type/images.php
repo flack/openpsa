@@ -217,48 +217,25 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
      * @param string $filename The name of the image attachment to be created.
      * @param string $tmpname The file to load.
      * @param string $title The title of the image.
-     * @param boolean $autodelete If this is true (the default), the temporary file will
-     *     be deleted after postprocessing and attachment-creation.
      * @return boolean Indicating success.
      */
-    function set_image($filename, $tmpname, $title, $autodelete = true)
+    function set_image($filename, $tmpname, $title)
     {
         $this->_title = $title;
         $this->titles[$this->_identifier] = $title;
         if (array_key_exists($this->_identifier, $this->images))
         {
-            // PHP5-TODO: Must be copy-by-value
             $force_pending_attachments = $this->images[$this->_identifier];
         }
         else
         {
             $force_pending_attachments = array();
         }
-        if (!$this->_set_image($filename, $tmpname, $title, true, $force_pending_attachments))
+        if (!$this->_set_image($filename, $tmpname, $title, $force_pending_attachments))
         {
             return false;
         }
         $this->_save_image_listing();
-        return true;
-    }
-
-    function update_image_title($identifier, $title)
-    {
-        if (!array_key_exists($identifier, $this->images))
-        {
-            debug_add("Failed to update the image title: The identifier {$identifier} is unknown", MIDCOM_LOG_INFO);
-            return false;
-        }
-
-        foreach ($this->images[$identifier] as $info)
-        {
-            if (!$this->update_attachment_title($info['identifier'], $title))
-            {
-                debug_add("Failed to update the image title: Could not update attachment {$info['identifier']} bailing out.");
-                return false;
-            }
-        }
-
         return true;
     }
 
@@ -285,63 +262,30 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
     }
 
     /**
-     * Resolve attachments map from imagemap
-     *
-     * @param string $source
-     * @return string Attachment map
+     * Popuplates attachments map
      */
-    static public function resolve_from_imagemap($source)
+    private function _load_attachment_map()
     {
-        if (!preg_match_all('/([0-9a-f]{32,})([^,]+?):/', $source, $regs))
-        {
-            return '';
-        }
-
-        $identifiers = array();
-
-        foreach ($regs[1] as $i => $reg)
-        {
-            $identifiers[] = "{$reg}{$regs[2][$i]}:{$reg}:{$regs[2][$i]}";
-        }
-
-        return implode(',', $identifiers);
-    }
-
-    /**
-     * First, we load the attachment_map information so that we can collect all images
-     * together. Then we call the base class.
-     */
-    function convert_from_storage($source)
-    {
-        $this->images = array();
-        $this->_attachment_map = array();
-
-        if ($this->storage->object === null)
-        {
-            // We don't have a storage object, skip the rest of the operations.
-            parent::convert_from_storage($source);
-            return;
-        }
-
         // TODO: Change to use the attachments' parameters as authorative mapping source and this map only as fallback
-
-        $raw_list = $this->storage->object->get_parameter('midcom.helper.datamanager2.type.images', "attachment_map_{$this->name}");
-
+        if ($raw_list = $this->storage->object->get_parameter('midcom.helper.datamanager2.type.images', "attachment_map_{$this->name}"))
+        {
+            $identifiers = explode(',', $raw_list);
+        }
         // If applicable, recreate imagemap from guids list stored for the object
-        if (!$raw_list)
+        else
         {
-            $raw_list = self::resolve_from_imagemap($this->storage->object->get_parameter('midcom.helper.datamanager2.type.blobs', "guids_{$this->name}"));
+            $identifiers = array();
+            $source = $this->storage->object->get_parameter('midcom.helper.datamanager2.type.blobs', "guids_{$this->name}");
+            if (preg_match_all('/([0-9a-f]{32,})([^,]+?):/', $source, $regs))
+            {
+                foreach ($regs[1] as $i => $reg)
+                {
+                    $identifiers[] = "{$reg}{$regs[2][$i]}:{$reg}:{$regs[2][$i]}";
+                }
+            }
         }
 
-        if (!$raw_list)
-        {
-            // No attachments found.
-            parent::convert_from_storage($source);
-            return;
-        }
-
-        $items = explode(',', $raw_list);
-        foreach ($items as $item)
+        foreach ($identifiers as $item)
         {
             $info = explode(':', $item);
             if (count($info) < 3)
@@ -352,6 +296,21 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
             }
             $this->_attachment_map[$info[0]] = array($info[1], $info[2]);
         }
+    }
+
+    /**
+     * First, we load the attachment_map information so that we can collect all images
+     * together. Then we call the base class.
+     */
+    function convert_from_storage($source)
+    {
+        if ($this->storage->object === null)
+        {
+            // We don't have a storage object, skip the rest of the operations.
+            return;
+        }
+
+        $this->_load_attachment_map();
 
         parent::convert_from_storage($source);
 
@@ -392,7 +351,7 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
     }
 
     /**
-     * The HTML-Version of the image type can take two forms, depending on
+     * The HTML version of the image type can take two forms, depending on
      * type configuration:
      *
      * 1. If an 'thumbnail' image is present, it is shown and encapsulated in an
@@ -517,19 +476,19 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
      * @param array &$info reference to the info array of given attachment
      * @param string $identifier reference to the attachments' identifier
      */
-    function _info_heuristics(array &$info, $identifier)
+    private function _info_heuristics(array &$info, $identifier)
     {
         if (!array_key_exists('images_identifier', $info))
         {
             // We have somehow broken data, try heuristics
             $info['images_identifier'] = substr($identifier, 0, 32); // NOTE: the 16 byte identifier is MD5 not GUID, so this is safe
-            debug_add("\$info['images_identifier'] was not set, used heuristics to set it to '{$info['images_identifier']}' (from '{$identifier}')", MIDCOM_LOG_WARN);
+            debug_add("Setting images_identifier to '{$info['images_identifier']}' (from '{$identifier}')", MIDCOM_LOG_WARN);
         }
         if (!array_key_exists('images_name', $info))
         {
             // We have somehow broken data, try heuristics
             $info['images_name'] = substr($identifier, 32); // NOTE: the 16 byte identifier is MD5 not GUID, so this is safe
-            debug_add("\$info['images_name'] was not set, used heuristics to set it to '{$info['images_name']}' (from '{$identifier}')", MIDCOM_LOG_WARN);
+            debug_add("Setting images_name to '{$info['images_name']}' (from '{$identifier}')", MIDCOM_LOG_WARN);
         }
     }
 
@@ -690,7 +649,6 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
     {
         foreach ($this->images as $identifier => $images)
         {
-            $image = null;
             if (isset($images['original']))
             {
                 $image = $images['original'];

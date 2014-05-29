@@ -315,8 +315,6 @@ END;
      */
     private function _add_image_row($identifier, array $images, $frozen)
     {
-        debug_print_r("images for {$identifier}", $images);
-
         if (isset($images['main']))
         {
             $info = $images['main'];
