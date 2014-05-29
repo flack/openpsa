@@ -42,7 +42,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
      *
      * @var Array
      */
-    public $attachments = Array();
+    public $attachments = array();
 
     /**
      * This member is populated and synchronized with all known changes to the
@@ -73,7 +73,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
      *
      * @var Array
      */
-    public $attachments_info = Array();
+    public $attachments_info = array();
 
     /**
      * Maximum amount of blobs allowed to be stored in the same field
@@ -103,9 +103,6 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
      */
     function convert_from_storage ($source)
     {
-        $this->attachments = Array();
-        $this->attachments_info = Array();
-
         if ($this->storage->object === null)
         {
             // We don't have a storage object, skip the rest of the operations.
@@ -164,15 +161,11 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
      */
     public function sort_attachments_cmp($a, $b)
     {
-        if ($a->metadata->score > $b->metadata->score)
+        if ($a->metadata->score == $b->metadata->score)
         {
-            return -1;
+            return strnatcasecmp($a->name, $b->name);
         }
-        if ($a->metadata->score < $b->metadata->score)
-        {
-            return 1;
-        }
-        return strnatcasecmp($a->name, $b->name);
+        return $b->metadata->score - $a->metadata->score;
     }
 
     /**
@@ -225,41 +218,24 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
         $att = $this->attachments[$identifier];
         $stats = $att->stat();
 
-        $info = Array();
-        $info['filename'] = $att->name;
-        $info['description'] = $att->title;
-        $info['mimetype'] = $att->mimetype;
-        $info['url'] = midcom_db_attachment::get_url($att);
-
-        $info['id'] = $att->id;
-        $info['guid'] = $att->guid;
-
-        $info['filesize'] = $stats[7];
-        $info['formattedsize'] = midcom_helper_misc::filesize_to_string($stats[7]);
-        $info['lastmod'] = $stats[9];
-        $info['isoformattedlastmod'] = strftime('%Y-%m-%d %T', $stats[9]);
-
-        $this->_update_attachment_info_additional($info, $att);
-
-        $info['object'] = $this->attachments[$identifier];
-        $info['identifier'] = $identifier;
-
-        $this->attachments_info[$identifier] = $info;
-    }
-
-    /**
-     * Read additional information from the attachment and add to the information array
-     *
-     * With images, it evaluates reads image size information from parameters.
-     *
-     * @param &$info Information array
-     * @param midcom_db_attachment $att Attachment to update information from
-     */
-    private function _update_attachment_info_additional(&$info, $att)
-    {
-        $info['size_x'] = $att->get_parameter('midcom.helper.datamanager2.type.blobs', 'size_x');
-        $info['size_y'] = $att->get_parameter('midcom.helper.datamanager2.type.blobs', 'size_y');
-        $info['size_line'] = $att->get_parameter('midcom.helper.datamanager2.type.blobs', 'size_line');
+        $this->attachments_info[$identifier] = array
+        (
+            'filename' => $att->name,
+            'description' => $att->title,
+            'mimetype' => $att->mimetype,
+            'url' => midcom_db_attachment::get_url($att),
+            'id' => $att->id,
+            'guid' => $att->guid,
+            'filesize' => $stats[7],
+            'formattedsize' => midcom_helper_misc::filesize_to_string($stats[7]),
+            'lastmod' => $stats[9],
+            'isoformattedlastmod' => strftime('%Y-%m-%d %T', $stats[9]),
+            'size_x' => $att->get_parameter('midcom.helper.datamanager2.type.blobs', 'size_x'),
+            'size_y' => $att->get_parameter('midcom.helper.datamanager2.type.blobs', 'size_y'),
+            'size_line' => $att->get_parameter('midcom.helper.datamanager2.type.blobs', 'size_line'),
+            'object' => $att,
+            'identifier' => $identifier
+        );
     }
 
     function convert_to_storage()
@@ -293,9 +269,8 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
             if (   $this->sortable
                 && isset($this->_sorted_list[$identifier]))
             {
-                $score = $count - $this->_sorted_list[$identifier] + 1;
                 // Store the attachment score
-                $attachment->metadata->score = $score;
+                $attachment->metadata->score = $count - $this->_sorted_list[$identifier] + 1;;
             }
 
             $data[] = "{$identifier}:{$attachment->guid}";
@@ -343,10 +318,6 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
             return false;
         }
 
-        // Ensure that the filename is URL safe (but allow multiple extensions)
-        // PONDER: make use of this configurable in type-config ??
-        $filename = midcom_db_attachment::safe_filename($filename, false);
-
         $handle = @fopen($tmpname, 'r');
         if (! $handle)
         {
@@ -355,6 +326,9 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
             return false;
         }
 
+        // Ensure that the filename is URL safe (but allow multiple extensions)
+        // PONDER: make use of this configurable in type-config ??
+        $filename = midcom_db_attachment::safe_filename($filename, false);
         if (! $this->add_attachment_by_handle($identifier, $filename, $title, $mimetype, $handle))
         {
             fclose($handle);
@@ -381,21 +355,20 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
      * With images, it evaluates the imagesize information of a given file and adds that information as
      * parameters to the attachment identified by its identifier.
      *
-     * @param string $identifier Attachment identifier
+     * @param midcom_db_attachment $attachment The attachment we're working on
      * @param string $filename Original file name
      */
-    protected function _set_attachment_info_additional($identifier, $filename)
+    protected function _set_attachment_info_additional(midcom_db_attachment $attachment, $filename)
     {
-        $data = @getimagesize($filename);
-        if ($data)
+        if ($data = @getimagesize($filename))
         {
-            $this->attachments[$identifier]->parameter('midcom.helper.datamanager2.type.blobs', 'size_x', $data[0]);
-            $this->attachments[$identifier]->parameter('midcom.helper.datamanager2.type.blobs', 'size_y', $data[1]);
-            $this->attachments[$identifier]->parameter('midcom.helper.datamanager2.type.blobs', 'size_line', $data[3]);
-            if (!$this->attachments[$identifier]->mimetype)
+            $attachment->set_parameter('midcom.helper.datamanager2.type.blobs', 'size_x', $data[0]);
+            $attachment->set_parameter('midcom.helper.datamanager2.type.blobs', 'size_y', $data[1]);
+            $attachment->set_parameter('midcom.helper.datamanager2.type.blobs', 'size_line', $data[3]);
+            if (!$attachment->mimetype)
             {
-                $this->attachments[$identifier]->mimetype = image_type_to_mime_type($data[2]);
-                $this->attachments[$identifier]->update();
+                $attachment->mimetype = image_type_to_mime_type($data[2]);
+                $attachment->update();
             }
         }
     }
@@ -457,7 +430,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
         $this->_save_attachment_listing();
 
         $this->_store_att_map_parameters($identifier, $attachment);
-        $this->_set_attachment_info_additional($identifier, $meta_data["uri"]);
+        $this->_set_attachment_info_additional($attachment, $meta_data["uri"]);
 
         $this->_update_attachment_info($identifier);
         $this->_sort_attachments();
@@ -514,7 +487,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
             return false;
         }
 
-        $this->_update_attachment_info($identifier);
+        $this->attachments_info[$identifier]['description'] = $title;
 
         return true;
     }
@@ -541,7 +514,6 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
             // the method will log errors and raise uimessages as needed
             return false;
         }
-        $filename = midcom_db_attachment::safe_filename($filename, false);
 
         $handle = @fopen($tmpname, 'r');
 
@@ -552,7 +524,8 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
             return false;
         }
 
-        if (! $this->update_attachment_by_handle($identifier, $filename, $title, $mimetype, $handle, true, $tmpname))
+        $filename = midcom_db_attachment::safe_filename($filename, false);
+        if (! $this->update_attachment_by_handle($identifier, $filename, $title, $mimetype, $handle, $tmpname))
         {
             debug_add('Failed to create attachment, see above for details.');
             return false;
@@ -595,14 +568,12 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
      *     keep the original title unchanged. If you are unsure of the mime type,
      *     set this to '' not null, this will enforce a redetection.
      * @param resource $source A file handle prepared to read of the source file.
-     * @param boolean $autoclose Set this to true if the file handle should automatically be closed
-     *     after successful processing.
      * @param string $tmpfile In case you have a filename to the source handle, you should specify
      *     it here. It will be used to load getimagesize information directly (rather than doing a
      *     temporary copy). The default null indicates that the source file location is unknown.
      * @return boolean Indicating success.
      */
-    function update_attachment_by_handle($identifier, $filename, $title, $mimetype, $source, $autoclose = true, $tmpfile = null)
+    function update_attachment_by_handle($identifier, $filename, $title, $mimetype, $source, $tmpfile = null)
     {
         if (! array_key_exists($identifier, $this->attachments))
         {
@@ -622,10 +593,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
             debug_add('Failed to update the attachment file.', MIDCOM_LOG_WARN);
             return false;
         }
-        if ($autoclose)
-        {
-            fclose($source);
-        }
+        fclose($source);
 
         $attachment->title = $title;
         $attachment->name = $filename;
@@ -637,12 +605,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
 
         $this->_store_att_map_parameters($identifier, $attachment);
 
-        if ($tmpfile === null)
-        {
-            // TODO: needs create temporary copy function.
-            throw new midcom_error('TODO');
-        }
-        $this->_set_attachment_info_additional($identifier, $tmpfile);
+        $this->_set_attachment_info_additional($attachment, $tmpfile);
 
         $this->_update_attachment_info($identifier);
         $this->_sort_attachments();
@@ -722,12 +685,9 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
     function convert_to_csv()
     {
         $results = array();
-        if ($this->attachments_info)
+        foreach ($this->attachments_info as $info)
         {
-            foreach ($this->attachments_info as $info)
-            {
-                $results[] = $info['url'];
-            }
+            $results[] = $info['url'];
         }
 
         if (empty($results))
@@ -772,7 +732,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
     function file_sanity_checks($filepath)
     {
         static $checked_files = array();
-        static $checks = array
+        $checks = array
         (
             'sizenotzero',
             'avscan',
@@ -856,26 +816,18 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
     private function _index_attachment($attachment)
     {
         if (   $this->storage->object
-            && midcom::get('config')->get('indexer_backend'))
+            && midcom::get('config')->get('indexer_backend')
+               //check if there is an index_method set
+            && (   !array_key_exists('index_method', $this->_datamanager->schema->fields[$this->name])
+                ||
+                   // do not index the attachment for index_method attachment & noindex
+                   // for index_method=attachment the content of the attachment is stored in content of the object
+                   (    $this->_datamanager->schema->fields[$this->name]['index_method'] !== 'attachment'
+                    &&  $this->_datamanager->schema->fields[$this->name]['index_method'] !== 'noindex')))
         {
-            $index_attachment = true;
-            //check if there is an index_method set
-            if (array_key_exists('index_method', $this->_datamanager->schema->fields[$this->name]))
-            {
-                // do not index the attachment for index_method attachment & noindex
-                // for index_method=attachment the content of the attachment is stored in content of the object
-                if (    $this->_datamanager->schema->fields[$this->name]['index_method'] == 'attachment'
-                    ||  $this->_datamanager->schema->fields[$this->name]['index_method'] == 'noindex')
-                {
-                    $index_attachment = false;
-                }
-            }
-            if ($index_attachment)
-            {
-                $document = new midcom_services_indexer_document_attachment($attachment, $this->storage->object);
-                $indexer = midcom::get('indexer');
-                $indexer->index($document);
-            }
+            $document = new midcom_services_indexer_document_attachment($attachment, $this->storage->object);
+            $indexer = midcom::get('indexer');
+            $indexer->index($document);
         }
     }
 }

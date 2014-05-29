@@ -509,7 +509,7 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
         }
 
         // Failing these is bad, but it's too late now that we already have overwritten the actual image data...
-        $this->_set_attachment_info_additional($identifier, $this->_filter->get_file());
+        $this->_set_attachment_info_additional($this->attachments[$identifier], $this->_filter->get_file());
         $this->_update_attachment_info($identifier);
         return true;
     }
