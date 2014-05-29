@@ -23,7 +23,7 @@ class midcom_helper_datamanager2_type_photo extends midcom_helper_datamanager2_t
     /**
      * Preparation operations for recreate_xxx()
      */
-    function _prepare_recreate($force = true)
+    private function _prepare_recreate($force = true)
     {
         if (   !empty($this->_original_tmpname)
             && !$force)
@@ -75,14 +75,6 @@ class midcom_helper_datamanager2_type_photo extends midcom_helper_datamanager2_t
     }
 
     /**
-     * Recreate all images
-     */
-    function recreate()
-    {
-        return $this->recreate_main_image();
-    }
-
-    /**
      * recreates main image if archival is available
      */
     function recreate_main_image()
@@ -103,7 +95,7 @@ class midcom_helper_datamanager2_type_photo extends midcom_helper_datamanager2_t
             unlink ($this->_original_tmpname);
             return false;
         }
-        $ret = $this->_save_main_image();
+        $ret = $this->_save_image('main', $this->filter_chain);
         if (!$ret)
         {
             unlink ($this->_original_tmpname);
@@ -166,7 +158,7 @@ class midcom_helper_datamanager2_type_photo extends midcom_helper_datamanager2_t
             return false;
         }
         $this->_add_thumbnail_to_derived_images();
-        if (!$this->_save_main_image())
+        if (!$this->_save_image('main', $this->filter_chain))
         {
             debug_add("failed to save 'main' image, aborting type processing.", MIDCOM_LOG_ERROR);
             // NOTE: absense of delete_all_attachments is intentional

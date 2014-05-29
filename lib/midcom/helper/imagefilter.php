@@ -42,6 +42,13 @@ class midcom_helper_imagefilter
      */
     private $_quality = "-quality 90";
 
+    /**
+     * Tmpfiles used by this instance
+     *
+     * @var array
+     */
+    private $_tmpfiles = array();
+
     public function __construct(midcom_db_attachment $input = null)
     {
         if (null !== $input)
@@ -63,10 +70,12 @@ class midcom_helper_imagefilter
 
     public function __destruct()
     {
-        if (   !empty($this->_filename)
-            && file_exists($this->_filename))
+        foreach ($this->_tmpfiles as $filename)
         {
-            unlink($this->_filename);
+            if (file_exists($filename))
+            {
+                unlink($filename);
+            }
         }
     }
 
@@ -202,6 +211,11 @@ class midcom_helper_imagefilter
         {
             debug_add("The File {$filename} is not writeable.", MIDCOM_LOG_ERROR);
             return false;
+        }
+        if (   !empty($this->_filename)
+            && $this->_filename !== $filename)
+        {
+            $this->_tmpfiles[] = $this->_filename;
         }
         $this->_filename = $filename;
         return true;
