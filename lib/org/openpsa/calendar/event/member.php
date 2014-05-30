@@ -199,7 +199,7 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
                 continue;
             }
             $ymd = date('Ymd', $event->start);
-            if (array_key_exists($ymd, $events_by_date))
+            if (!array_key_exists($ymd, $events_by_date))
             {
                 $events_by_date[$ymd] = array();
             }

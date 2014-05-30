@@ -84,11 +84,7 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
     public function _show_user_events($handler_id, array &$data)
     {
         $encoder = new org_openpsa_calendar_vcal;
-
-        foreach ($this->_request_data['events'] as $event)
-        {
-            $encoder->add_event($event);
-        }
+        array_map(array($encoder, 'add_event'), $this->_request_data['events']);
         echo $encoder;
     }
 
@@ -148,26 +144,24 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
         foreach ($this->_request_data['events'] as $event)
         {
             // clear all data not absolutely required for busy listing
-            foreach ($event->__object as $k => $v)
+            foreach ($event->get_properties() as $fieldname)
             {
-                switch(true)
+                switch (true)
                 {
-                    case ($k == 'metadata'):
+                    case ($fieldname == 'metadata'):
+                    case ($fieldname == 'guid'):
+                    case ($fieldname == 'start'):
+                    case ($fieldname == 'end'):
                         break;
-                    case ($k == 'title'):
-                        $event->title = 'busy';
+                    case ($fieldname == 'title'):
+                        $event->title = $this->_l10n->get('busy');
                         break;
-                    case ($k == 'guid'):
-                    case ($k == 'start'):
-                    case ($k == 'end'):
-                        $event->$k = $v;
+                    case is_array($event->$fieldname):
+                        $event->$fieldname = array();
                         break;
-                    case is_array($v):
-                        $event->$k = array();
-                        break;
-                    case is_string($v):
+                    case is_string($event->$fieldname):
                     default:
-                        $event->$k = '';
+                        $event->$fieldname = '';
                         break;
                 }
             }

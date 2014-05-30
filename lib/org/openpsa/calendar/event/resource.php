@@ -34,7 +34,6 @@ class org_openpsa_calendar_event_resource_dba extends midcom_core_dbaobject
      * Function to check whether we can reserve the resource we are trying to
      *
      * @return boolean indicating state
-     * @todo cache results
      */
     function verify_can_reserve()
     {
@@ -45,7 +44,7 @@ class org_openpsa_calendar_event_resource_dba extends midcom_core_dbaobject
         }
         try
         {
-            $resource = new org_openpsa_calendar_resource_dba($this->resource);
+            $resource = org_openpsa_calendar_resource_dba::get_cached($this->resource);
         }
         catch (midcom_error $e)
         {

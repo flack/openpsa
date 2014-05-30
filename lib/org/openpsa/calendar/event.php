@@ -113,8 +113,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
         if (!$this->can_do('org.openpsa.calendar:read'))
         {
             // Hide almost all properties
-            $properties = $this->get_properties();
-            foreach ($properties as $key)
+            foreach ($this->get_properties() as $key)
             {
                 switch ($key)
                 {
@@ -154,9 +153,9 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
 
         // Make sure we can actually reserve the resources we need
         $resources = array_keys(array_filter($this->resources));
+        $checker = new org_openpsa_calendar_event_resource_dba;
         foreach ($resources as $id)
         {
-            $checker = new org_openpsa_calendar_event_resource_dba();
             $checker->resource = $id;
             if (!$checker->verify_can_reserve())
             {
@@ -164,7 +163,6 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
                 midcom_connection::set_error(MGD_ERR_ACCESS_DENIED);
                 return false;
             }
-            unset ($id, $checker);
         }
 
         //Check up
