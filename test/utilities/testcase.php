@@ -241,6 +241,11 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
         return $url;
     }
 
+    /**
+     * @param string $classname
+     * @param array $data
+     * @return midcom_core_dbaobject
+     */
     public function create_object($classname, array $data = array())
     {
         $object = self::_create_object($classname, $data);

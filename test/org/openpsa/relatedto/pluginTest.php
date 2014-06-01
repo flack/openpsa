@@ -48,5 +48,19 @@ class org_openpsa_relatedto_pluginTest extends openpsa_testcase
         $this->assertTrue($stat);
         midcom::get('auth')->drop_sudo();
     }
+
+    public function test_relatedto2get()
+    {
+        midcom::get('auth')->request_sudo('org.openpsa.relatedto');
+        $invoice = $this->create_object('org_openpsa_invoices_invoice_dba');
+        $salesproject = $this->create_object('org_openpsa_sales_salesproject_dba');
+        $relatedto = org_openpsa_relatedto_plugin::create($invoice, 'org.openpsa.invoices', $salesproject, 'org.openpsa.sales');
+        midcom::get('auth')->drop_sudo();
+        $this->register_object($relatedto);
+
+        $expected = 'org_openpsa_relatedto%5B0%5D%5BtoGuid%5D=' . $salesproject->guid . '&amp;org_openpsa_relatedto%5B0%5D%5BtoComponent%5D=org.openpsa.sales&amp;org_openpsa_relatedto%5B0%5D%5BtoClass%5D=org_openpsa_sales_salesproject_dba&amp;org_openpsa_relatedto%5B0%5D%5Bstatus%5D=120&amp;org_openpsa_relatedto%5B0%5D%5BfromComponent%5D=org.openpsa.invoices&amp;org_openpsa_relatedto%5B0%5D%5BfromClass%5D=org_openpsa_invoices_invoice_dba&amp;org_openpsa_relatedto%5B0%5D%5BfromGuid%5D=' . $invoice->guid;
+
+        $this->assertEquals($expected, org_openpsa_relatedto_plugin::relatedto2get(array($relatedto)));
+    }
 }
 ?>
