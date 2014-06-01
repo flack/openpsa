@@ -207,11 +207,7 @@ class org_openpsa_products_handler_product_csvimport extends midcom_baseclasses_
         foreach ($results as $result)
         {
             $groups[$result->id] = midcom_helper_reflector_tree::resolve_path($result);
-            $subgroups = $this->_get_product_group_tree($result->id);
-            foreach ($subgroups as $k => $v)
-            {
-                $groups[$k] = $v;
-            }
+            $groups = array_merge($groups, $this->_get_product_group_tree($result->id));
         }
         return $groups;
     }
@@ -420,11 +416,7 @@ class org_openpsa_products_handler_product_csvimport extends midcom_baseclasses_
                 $data['groups'][] = $product;
             }
         }
-
-        foreach ($data['groups'] as $product)
-        {
-            $this->_import_product($product);
-        }
+        array_map(array($this, '_import_product'), $data['groups']);
 
         $data['time_end'] = time();
     }

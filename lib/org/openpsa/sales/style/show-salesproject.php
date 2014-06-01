@@ -10,8 +10,7 @@ $salesproject = $data['salesproject'];
         {
             echo "<h2>{$customer->get_label()}</h2>\n";
         }
-        $contacts = $data['salesproject']->contacts;
-        foreach ($contacts as $contact_id => $active)
+        foreach (array_keys($data['salesproject']->contacts) as $contact_id)
         {
             $person_card = org_openpsa_widgets_contact::get($contact_id);
             $person_card->show();

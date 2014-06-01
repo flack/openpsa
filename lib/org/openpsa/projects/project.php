@@ -55,8 +55,7 @@ class org_openpsa_projects_project extends midcom_core_dbaobject
      */
     function get_label()
     {
-        $label = '';
-        $label_elements = array();
+        $label_elements = array($this->title);
         $project = $this;
         while ($project = $project->get_parent())
         {
@@ -66,13 +65,7 @@ class org_openpsa_projects_project extends midcom_core_dbaobject
             }
         }
 
-        $label_elements = array_reverse($label_elements);
-        foreach ($label_elements as $element)
-        {
-            $label .= "{$element} / ";
-        }
-        $label .= $this->title;
-
+        $label = implode(' / ', array_reverse($label_elements));
         return trim($label);
     }
 
@@ -163,13 +156,9 @@ class org_openpsa_projects_project extends midcom_core_dbaobject
             'reportedHours' => 0
         );
         $task_mc = org_openpsa_projects_task_dba::new_collector('project', $this->id);
-        $task_mc->add_value_property('plannedHours');
-        $task_mc->add_value_property('reportedHours');
-        $task_mc->execute();
-        $tasks = $task_mc->list_keys();
-        foreach ($tasks as $guid => $empty)
+        $tasks = $task_mc->get_rows(array('plannedHours', 'reportedHours'));
+        foreach ($tasks as $values)
         {
-            $values = $task_mc->get($guid);
             $numbers['plannedHours'] += $values['plannedHours'];
             $numbers['reportedHours'] += $values['reportedHours'];
         }

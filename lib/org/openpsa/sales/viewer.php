@@ -77,7 +77,6 @@ class org_openpsa_sales_viewer extends midcom_baseclasses_components_request
                         $relatedto->fromGuid = $notification_entry->guid;
                         $relatedto->update();
                     }
-                    break;
                 }
             }
             $notification_entry->start = $formdata['notify']->value->format('U');

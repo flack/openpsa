@@ -23,7 +23,6 @@ implements org_openpsa_contacts_duplicates_support
 
     public function _on_watched_dba_create($object)
     {
-        $ret = array();
         //Check if we have data in session, if so use that.
         $session = new midcom_services_session('org.openpsa.relatedto');
         if ($session->exists('relatedto2get_array'))
@@ -35,23 +34,19 @@ implements org_openpsa_contacts_duplicates_support
         {
             $relatedto_arr = org_openpsa_relatedto_plugin::get2relatedto();
         }
-        foreach ($relatedto_arr as $k => $rel)
+        foreach ($relatedto_arr as $rel)
         {
-            $ret[$k] = array ('stat' => false, 'method' => false, 'obj' => false);
             $rel->fromClass = get_class($object);
             $rel->fromGuid = $object->guid;
             if (!$rel->id)
             {
-                $ret[$k]['method'] = 'create';
-                $ret[$k]['stat'] = $rel->create();
+                $rel->create();
             }
             else
             {
                 //In theory we should not ever hit this, but better to be sure.
-                $ret[$k]['method'] = 'update';
-                $ret[$k]['stat'] = $rel->update();
+                $rel->update();
             }
-            $ret[$k]['obj'] = $rel;
         }
     }
 

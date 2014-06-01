@@ -143,8 +143,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
      */
     function get_label()
     {
-        $label = '';
-        $label_elements = array();
+        $label_elements = array($this->title);
         $task = $this;
         while (   !is_null($task)
                && $task = $task->get_parent())
@@ -155,13 +154,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
             }
         }
 
-        $label_elements = array_reverse($label_elements);
-        foreach ($label_elements as $element)
-        {
-            $label .= "{$element} / ";
-        }
-        $label .= $this->title;
-
+        $label = implode(' / ', array_reverse($label_elements));
         return trim($label);
     }
 

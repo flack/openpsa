@@ -264,25 +264,21 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
         switch (get_class($dba_obj))
         {
             case 'midcom_core_group':
-                $members = $dba_obj->list_members();
-                if (is_array($members))
+                foreach ($dba_obj->list_members() as $core_user)
                 {
-                    foreach ($members as $core_user)
-                    {
-                        $user_obj = $core_user->get_storage();
-                        debug_add(sprintf('Adding user %s (id: %s)', $core_user->name, $user_obj->id));
-                        $ret[] = $user_obj->id;
-                    }
+                    $user_obj = $core_user->get_storage();
+                    debug_add(sprintf('Adding user %s (id: %s)', $core_user->name, $user_obj->id));
+                    $ret[] = $user_obj->id;
                 }
-            break;
+                break;
             case 'midcom_core_user':
                 $user_obj = $dba_obj->get_storage();
                 debug_add(sprintf('Adding user %s (id: %s)', $dba_obj->name, $user_obj->id));
                 $ret[] = $user_obj->id;
-            break;
+                break;
             default:
                 debug_add('Got unrecognized class for dba_obj: ' . get_class($dba_obj), MIDCOM_LOG_WARN);
-            break;
+                break;
         }
         return $ret;
     }

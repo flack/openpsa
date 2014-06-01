@@ -302,52 +302,38 @@ class org_openpsa_products_handler_group_csvimport extends midcom_baseclasses_co
             }
         }
 
-        $this->_import_groups();
+        $this->_import_groups($data['groups']);
 
         $data['time_end'] = time();
     }
 
-    private function _import_groups()
+    private function _import_groups(array $groups, $level = 0)
     {
         $secondary_groups = array();
-        $tertiary_groups = array();
 
-        if (count($this->_request_data['groups']) > 0)
+        foreach ($groups as $group)
         {
-            foreach ($this->_request_data['groups'] as $group)
+            if (isset($group['org_openpsa_products_import_parent_group']))
             {
-                if (isset($group['org_openpsa_products_import_parent_group']))
+                $qb = org_openpsa_products_product_group_dba::new_query_builder();
+                $qb->add_constraint('code', '=', (string) $group['org_openpsa_products_import_parent_group']);
+                if ($qb->count() == 0)
                 {
-                    $qb = org_openpsa_products_product_group_dba::new_query_builder();
-                    $qb->add_constraint('code', '=', (string) $group['org_openpsa_products_import_parent_group']);
-                    if ($qb->count() == 0)
-                    {
-                        // Parent not found, process later
-                        $secondary_groups[] = $group;
-                        continue;
-                    }
+                    // Parent not found, process later
+                    $secondary_groups[] = $group;
+                    continue;
                 }
-                $this->_import_group($group);
             }
+            $this->_import_group($group);
         }
 
-        if (count($secondary_groups) > 0)
+        if (!empty($secondary_groups))
         {
-            foreach ($secondary_groups as $group)
+            if ($level > 5)
             {
-                if (isset($group['org_openpsa_products_import_parent_group']))
-                {
-                    $qb = org_openpsa_products_product_group_dba::new_query_builder();
-                    $qb->add_constraint('code', '=', (string) $group['org_openpsa_products_import_parent_group']);
-                    if ($qb->count() == 0)
-                    {
-                        // Parent not found, process later
-                        $tertiary_groups[] = $group;
-                        continue;
-                    }
-                }
-                $this->_import_group($group);
+                throw new midcom_error('Too many retries because of missing parent groups, ' . count($secondary_groups) . ' remaining');
             }
+            $this->_import_groups($secondary_groups, ++$level);
         }
     }
 

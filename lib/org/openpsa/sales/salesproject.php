@@ -206,14 +206,10 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
                         $sort_next[] = $to_sort;
                     }
                     break;
-                default:
-                    continue 2;
             }
         }
         usort($sort_prev, array('self', '_sort_action_by_time_reverse'));
         usort($sort_next, array('self', '_sort_action_by_time'));
-        debug_print_r("sort_next:", $sort_next);
-        debug_print_r("sort_prev:", $sort_prev);
 
         if (isset($sort_next[0]))
         {

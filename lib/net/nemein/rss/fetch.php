@@ -48,6 +48,9 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
         parent::__construct();
     }
 
+    /**
+     * @return SimplePie
+     */
     public static function get_parser()
     {
         $parser = new SimplePie;

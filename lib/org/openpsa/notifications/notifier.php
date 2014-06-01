@@ -120,7 +120,6 @@ class org_openpsa_notifications_notifier extends midcom_baseclasses_components_p
         }
         if (array_key_exists('attachments', $message))
         {
-            // PHP5-TODO: Must be copy by value
             $mail->attachments = $message['attachments'];
             // Do not dump attachments as content
             unset($message['attachments']);

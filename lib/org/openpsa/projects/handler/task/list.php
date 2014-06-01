@@ -166,7 +166,7 @@ implements org_openpsa_widgets_grid_provider_client
                 if ( count($task->resources) > 0)
                 {
                     $resources_string = '';
-                    foreach ($task->resources as $id => $boolean)
+                    foreach (array_keys($task->resources) as $id)
                     {
                         $contact = org_openpsa_widgets_contact::get($id);
                         $resources_string .= ' ' . $contact->show_inline();
@@ -198,7 +198,7 @@ implements org_openpsa_widgets_grid_provider_client
                 if ( count($task->resources) > 0)
                 {
                     $resources_string = '';
-                    foreach ($task->resources as $id => $boolean)
+                    foreach (array_keys($task->resources) as $id)
                     {
                         $contact = org_openpsa_widgets_contact::get($id);
                         $resources_string .= ' ' . $contact->show_inline();

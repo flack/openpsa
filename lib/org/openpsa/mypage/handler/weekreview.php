@@ -69,17 +69,7 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
         foreach ($eventmembers as $eventmember)
         {
             $event = new org_openpsa_calendar_event_dba($eventmember->eid);
-            $time = $event->start;
-            $date = date('Y-m-d', $time);
-            if (!array_key_exists($date, $data_array))
-            {
-                $data_array[$date] = array();
-            }
-            if (!array_key_exists($time, $data_array[$date]))
-            {
-                $data_array[$date][$time] = array();
-            }
-            $data_array[$date][$time][$event->guid] = $event;
+            $this->_add_to($data_array, $event, $event->start);
         }
     }
 
@@ -95,16 +85,7 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
         foreach ($hour_reports as $hour_report)
         {
             $time = mktime(date('H', $hour_report->metadata->created), date('i', $hour_report->metadata->created), date('s', $hour_report->metadata->created), date('m', $hour_report->date), date('d', $hour_report->date), date('Y', $hour_report->date));
-            $date = date('Y-m-d', $time);
-            if (!array_key_exists($date, $data_array))
-            {
-                $data_array[$date] = array();
-            }
-            if (!array_key_exists($time, $data_array[$date]))
-            {
-                $data_array[$date][$time] = array();
-            }
-            $data_array[$date][$time][$hour_report->guid] = $hour_report;
+            $this->_add_to($data_array, $hour_report, $time);
         }
     }
 
@@ -122,17 +103,7 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
 
         foreach ($task_statuses as $task_status)
         {
-            $time = $task_status->timestamp;
-            $date = date('Y-m-d', $time);
-            if (!array_key_exists($date, $data_array))
-            {
-                $data_array[$date] = array();
-            }
-            if (!array_key_exists($time, $data_array[$date]))
-            {
-                $data_array[$date][$time] = array();
-            }
-            $data_array[$date][$time][$task_status->guid] = $task_status;
+            $this->_add_to($data_array, $task_status, $task_status->timestamp);
         }
     }
 
@@ -152,18 +123,22 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
 
         foreach ($positions as $position)
         {
-            $time = $position->date;
-            $date = date('Y-m-d', $time);
-            if (!array_key_exists($date, $data_array))
-            {
-                $data_array[$date] = array();
-            }
-            if (!array_key_exists($time, $data_array[$date]))
-            {
-                $data_array[$date][$time] = array();
-            }
-            $data_array[$date][$time][$position->guid] = $position;
+            $this->_add_to($data_array, $position, $position->date);
         }
+    }
+
+    private function _add_to(array &$array, midcom_core_dbaobject $object, $time)
+    {
+        $date = date('Y-m-d', $time);
+        if (!array_key_exists($date, $array))
+        {
+            $array[$date] = array();
+        }
+        if (!array_key_exists($time, $array[$dimension1]))
+        {
+            $array[$date][$time] = array();
+        }
+        $array[$date][$time][$object->guid] = $object;
     }
 
     /**

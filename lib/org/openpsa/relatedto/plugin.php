@@ -102,7 +102,7 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
             {
                 $rel = new org_openpsa_relatedto_dba($guid);
             }
-            $ret[]  = $rel;
+            $ret[] = $rel;
         }
         return $ret;
     }
@@ -140,19 +140,14 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
     }
 
     /**
-     * serializes an array or relatedto objects into GET parameters
+     * Serializes an array or relatedto objects into GET parameters
      *
      * NOTE: does not prefix the ? for the first parameter in case this needs
      * to be used with some other GET parameters.
      */
-    static function relatedto2get($array)
+    public static function relatedto2get(array $array)
     {
-        $ret = '';
-        if (!is_array($array))
-        {
-            return false;
-        }
-        $i = 0;
+        $ret = array('org_openpsa_relatedto' => array());
         foreach ($array as $rel)
         {
             if (!midcom::get('dbfactory')->is_a($rel, 'org_openpsa_relatedto_dba')) //Matches also 'org_openpsa_relatedto'
@@ -160,35 +155,33 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
                 //Wrong type of object found in array, cruelly abort the whole procedure
                 return false;
             }
-            if ($i > 0)
-            {
-                $ret .= '&amp;';
-            }
-            //These should be always specified
-            $ret .= rawurlencode("org_openpsa_relatedto[{$i}][toGuid]") . '=' . rawurlencode("{$rel->toGuid}");
-            $ret .= '&amp;' . rawurlencode("org_openpsa_relatedto[{$i}][toComponent]") . '=' . rawurlencode("{$rel->toComponent}");
-            $ret .= '&amp;' . rawurlencode("org_openpsa_relatedto[{$i}][toClass]") . '=' . rawurlencode("{$rel->toClass}");
+            $entry = array
+            (
+                'toGuid' => $rel->toGuid,
+                'toComponent' => $rel->toComponent,
+                'toClass' => $rel->toClass
+            );
+
             //To save GET space we only append these if they have values
             if ($rel->status)
             {
-                $ret .= '&amp;' . rawurlencode("org_openpsa_relatedto[{$i}][status]") . '=' . rawurlencode("{$rel->status}");
+                $entry['status'] = $rel->status;
             }
             if ($rel->fromComponent)
             {
-                $ret .= '&amp;' . rawurlencode("org_openpsa_relatedto[{$i}][fromComponent]") . '=' . rawurlencode("{$rel->fromComponent}");
+                $entry['fromComponent'] = $rel->fromComponent;
             }
             if ($rel->fromClass)
             {
-                $ret .= '&amp;' . rawurlencode("org_openpsa_relatedto[{$i}][fromClass]") . '=' . rawurlencode("{$rel->fromClass}");
+                $entry['fromClass'] = $rel->fromClass;
             }
             if ($rel->fromGuid)
             {
-                $ret .= '&amp;' . rawurlencode("org_openpsa_relatedto[{$i}][fromGuid]") . '=' . rawurlencode("{$rel->fromGuid}");
+                $entry['fromGuid'] = $rel->fromGuid;
             }
-
-            $i++;
+            $ret['org_openpsa_relatedto'][] = $entry;
         }
-        return $ret;
+        return http_build_query($ret, '', '&amp;');
     }
 
     /**

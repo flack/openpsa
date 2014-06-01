@@ -61,7 +61,7 @@ $expenses_url = $siteconfig->get_node_relative_url('org.openpsa.expenses');
         {
             echo '<div class="area">';
             echo "<h2>" . $data['l10n']->get('resources') . "</h2>\n";
-            foreach ($task->resources as $contact_id => $display)
+            foreach (array_keys($task->resources) as $contact_id)
             {
                 $contact = org_openpsa_widgets_contact::get($contact_id);
                 echo $contact->show_inline() . " ";
@@ -73,7 +73,7 @@ $expenses_url = $siteconfig->get_node_relative_url('org.openpsa.expenses');
         {
             echo '<div class="area">';
             echo "<h2>" . $data['l10n']->get('contacts') . "</h2>\n";
-            foreach ($task->contacts as $contact_id => $display)
+            foreach (array_keys($task->contacts) as $contact_id)
             {
                 $contact = org_openpsa_widgets_contact::get($contact_id);
                 echo $contact->show();
