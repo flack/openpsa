@@ -37,7 +37,11 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
      *
      * @var array
      */
-    private $_links = null;
+    private $_links = array
+    (
+        'incoming' => array(),
+        'outgoing' => array()
+    );
 
     public function __construct()
     {
@@ -59,12 +63,6 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
         {
             $this->_sort = $args[2];
         }
-
-        $this->_links = array
-        (
-            'incoming' => array(),
-            'outgoing' => array(),
-        );
 
         switch ($this->_mode)
         {
@@ -169,14 +167,15 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
         foreach (array_keys($links) as $guid)
         {
             //TODO: check for duplicates ?
-            $to_arr = array('link' => false, 'other_obj' => false, 'sort_time' => false);
-
-            $to_arr['link'] = array
+            $to_arr = array
             (
-                'guid' => $guid,
-                'component' => $mc->get_subkey($guid, $object_prefix . 'Component'),
-                'class' => $mc->get_subkey($guid, $object_prefix . 'Class'),
-                'status' => $mc->get_subkey($guid, 'status')
+                'link' => array
+                (
+                    'guid' => $guid,
+                    'component' => $mc->get_subkey($guid, $object_prefix . 'Component'),
+                    'class' => $mc->get_subkey($guid, $object_prefix . 'Class'),
+                    'status' => $mc->get_subkey($guid, 'status')
+                )
             );
             try
             {
@@ -194,10 +193,6 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
 
     /**
      * returns a unix timestamp for sorting relatedto arrays
-     *
-     * If components need to return very specific values here they should override
-     * this method to add their own handling and if they do not know what to do call this
-     * via parent::_get_object_links_sort_time()
      */
     private function _get_object_links_sort_time($obj)
     {
@@ -213,11 +208,6 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
 
     /**
      * Renders the selected view
-     *
-     * Due to this being a purecode component we can't use the MidCOM style engine
-     * but operations are divided into overrideable methods as much as possible so
-     * components then can override them and then use the style engine within their
-     * own context.
      *
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
@@ -241,7 +231,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
         $this->_request_data['direction'] = $direction;
 
         //Sort the array of links
-        $this->_sort_link_array($this->_links[$direction]);
+        uasort($this->_links[$direction], array($this, '_sort_by_time'));
 
         midcom_show_style('relatedto_list_top');
 
@@ -254,64 +244,21 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
     }
 
     /**
-     * Sorts the given link array based on $this->_sort
+     * Code to sort array by key 'sort_time', from smallest to greatest
      */
-    private function _sort_link_array(&$arr)
+    private function _sort_by_time($a, $b)
     {
+        $ap = $a['sort_time'];
+        $bp = $b['sort_time'];
         if ($this->_sort == 'reverse')
         {
-            uasort($arr, array('self', '_sort_by_time_reverse'));
+            return $bp - $ap;
         }
-        else
-        {
-            uasort($arr, array('self', '_sort_by_time'));
-        }
-    }
-
-    /**
-     * Code to sort array by key 'sort_time', from greatest to smallest
-     *
-     * Used by $this->_sort_link_array()
-     */
-    private static function _sort_by_time_reverse($a, $b)
-    {
-        $ap = $a['sort_time'];
-        $bp = $b['sort_time'];
-        if ($ap > $bp)
-        {
-            return -1;
-        }
-        if ($ap < $bp)
-        {
-            return 1;
-        }
-        return 0;
-    }
-
-    /**
-     * Code to sort array by key 'sort_time', from smallest to greatest
-     *
-     * Used by $this->_sort_link_array()
-     */
-    private static function _sort_by_time($a, $b)
-    {
-        $ap = $a['sort_time'];
-        $bp = $b['sort_time'];
-        if ($ap > $bp)
-        {
-            return 1;
-        }
-        if ($ap < $bp)
-        {
-            return -1;
-        }
-        return 0;
+        return $ap - $bp;
     }
 
     /**
      * Renders single link line
-     *
-     * See the _show_render documentation for details about styling
      *
      * @param array $link The necessary link information
      * @param object &other_obj The link target
@@ -342,42 +289,28 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
             //probably ACL prevents us from seeing anything about it
             return;
         }
-        /* Load renderer based on to which class tree the object belongs to
-           REMEMBER: to keep more complex rules above simpler ones, ESPECIALLY
-           if the simple one can match part of the complex one */
 
-        switch($link['class'])
+        switch ($link['class'])
         {
             case 'net_nemein_wiki_wikipage':
-                if ($other_obj->parameter('net.nemein.wiki:emailimport', 'is_email'))
-                {
-                    self::_render_line_wikipage_email($link, $other_obj);
-                }
-                else
-                {
-                    $this->_render_line_wikipage($link, $other_obj);
-                }
+                $this->_render_line_wikipage($other_obj);
                 break;
             case 'midcom_db_event':
-                //Fall-trough intentional
             case 'org_openpsa_calendar_event_dba':
-                $this->_render_line_event($link, $other_obj);
+                $this->_render_line_event($other_obj);
                 break;
             case 'org_openpsa_projects_task_dba':
             case 'org_openpsa_projects_project':
-                $this->_render_line_task($link, $other_obj);
+                $this->_render_line_task($other_obj);
                 break;
             case 'org_openpsa_documents_document_dba':
-                $this->_render_line_document($link, $other_obj);
+                $this->_render_line_document($other_obj);
                 break;
             case 'org_openpsa_sales_salesproject_dba':
-                $this->_render_line_salesproject($link, $other_obj);
-                break;
-            case 'org_openpsa_projects_hour_report_dba':
-                self::_render_line_hour_report($link, $other_obj);
+                $this->_render_line_salesproject($other_obj);
                 break;
             case 'org_openpsa_invoices_invoice_dba':
-                $this->_render_line_invoice($link, $other_obj);
+                $this->_render_line_invoice($other_obj);
                 break;
             default:
                 $this->_render_line_default($link, $other_obj);
@@ -386,26 +319,11 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
     }
 
     /**
-     * If a component wishes to show hour_report lines it must override this method
-     *
-     * See the _show_render documentation for details about styling
-     *
-     * @param array &$link The necessary link information
-     * @param object &other_obj The link target
-     */
-    private static function _render_line_hour_report(&$link, &$other_obj)
-    {
-    }
-
-    /**
      * Renders a document line
      *
-     * See the _show_render documentation for details about styling
-     *
-     * @param array &$link The necessary link information
-     * @param object &other_obj The link target
+     * @param object $other_obj The link target
      */
-    private function _render_line_document(&$link, &$other_obj)
+    private function _render_line_document($other_obj)
     {
         $this->_request_data['document_url'] = midcom::get('permalinks')->create_permalink($other_obj->guid);
 
@@ -415,103 +333,9 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
     /**
      * Renders a wikipage line
      *
-     * See the _show_render documentation for details about styling
-     *
-     * @param array &$link The necessary link information
-     * @param object &other_obj The link target
+     * @param object $other_obj The link target
      */
-    private static function _render_line_wikipage_email(&$link, &$other_obj)
-    {
-        echo "            <li class=\"note email\" id=\"org_openpsa_relatedto_line_{$link['guid']}\">\n";
-
-        $nap = new midcom_helper_nav();
-        $node = $nap->get_node($other_obj->topic);
-        if (!$node)
-        {
-            // The page isn't from this site
-            return;
-        }
-        $page_url = "{$node[MIDCOM_NAV_FULLURL]}{$other_obj->name}";
-
-        echo "                <span class=\"title\"><a href=\"{$page_url}\" target=\"wiki_{$other_obj->guid}\">{$other_obj->title}</a></span>\n";
-
-        // Start metadata UL
-        echo "                <ul class=\"metadata\">\n";
-        // Time
-        echo '                    <li class="time">' . strftime('%x', $other_obj->metadata->created) . "</li>\n";
-        // Author
-        echo "                    <li class=\"members\">" . midcom::get('i18n')->get_string('sender', 'net.nemein.wiki') . ": ";
-        $author_card = org_openpsa_widgets_contact::get($other_obj->metadata->creator);
-        echo $author_card->show_inline()." ";
-        echo "                    </li>\n";
-        // Recipients
-        self::_render_line_wikipage_email_recipients($other_obj);
-        // End metadata UL
-        echo "                </ul>\n";
-
-        echo "                <div id=\"org_openpsa_relatedto_details_url_{$other_obj->guid}\" style=\"display: none;\" title=\"{$node[MIDCOM_NAV_FULLURL]}raw/{$other_obj->name}/\"></div>\n";
-        echo "                <div id=\"org_openpsa_relatedto_details_{$other_obj->guid}\" class=\"details hidden\" style=\"display: none;\">\n";
-        echo "                </div>\n";
-        //TODO: get correct node and via it then handle details trough AHAH (and when we have node we can use proper link in page_url as well
-
-        self::render_line_controls($link, $other_obj);
-        echo "            </li>\n";
-    }
-
-    private static function _render_line_wikipage_email_recipients($page)
-    {
-        $seen_emails = array();
-        $qb = org_openpsa_relatedto_dba::new_query_builder();
-        $qb->add_constraint('fromGuid', '=', $page->guid);
-        $qb->add_constraint('fromComponent', '=', 'net.nemein.wiki');
-        $qb->add_constraint('toComponent', '=', 'org.openpsa.contacts');
-        $qb->begin_group('OR');
-            $qb->add_constraint('toClass', '=', 'midcom_db_person');
-            $qb->add_constraint('toClass', '=', 'org_openpsa_contacts_person_dba');
-        $qb->end_group();
-        $qb->add_constraint('status', '<>', org_openpsa_relatedto_dba::NOTRELATED);
-        $recipients = $qb->execute();
-        echo "                    <li class=\"members\">" . midcom::get('i18n')->get_string('recipients', 'net.nemein.wiki') . ": ";
-        foreach ($recipients as $recipient_link)
-        {
-            try
-            {
-                $recipient = new midcom_db_person($recipient_link->toGuid);
-                $seen_emails[$recipient->email] = true;
-            }
-            catch (midcom_error $e)
-            {
-                continue;
-            }
-            $recipient_card = new org_openpsa_widgets_contact($recipient);
-            echo $recipient_card->show_inline() . " ";
-        }
-        $other_emails = $page->listparameters('net.nemein.wiki:emailimport_recipients');
-        if ($other_emails)
-        {
-            while ($other_emails->fetch())
-            {
-                $email = $other_emails->name;
-                if (isset($seen_emails[$email]))
-                {
-                    continue;
-                }
-                echo $email . ' ';
-                $seen_emails[$email] = true;
-            }
-        }
-        echo "                    </li>\n";
-    }
-
-    /**
-     * Renders a wikipage line
-     *
-     * See the _show_render documentation for details about styling
-     *
-     * @param array &$link The necessary link information
-     * @param object &other_obj The link target
-     */
-    private function _render_line_wikipage(&$link, &$other_obj)
+    private function _render_line_wikipage($other_obj)
     {
         $nap = new midcom_helper_nav();
         $node = $nap->get_node($other_obj->topic);
@@ -529,12 +353,9 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
     /**
      * Renders an event line
      *
-     * See the _show_render documentation for details about styling
-     *
-     * @param array &$link The necessary link information
-     * @param object &other_obj The link target
+     * @param object $other_obj The link target
      */
-    private function _render_line_event(&$link, &$other_obj)
+    private function _render_line_event($other_obj)
     {
         $this->_request_data['raw_url'] = '';
 
@@ -558,12 +379,9 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
     /**
      * Renders a task line
      *
-     * See the _show_render documentation for details about styling
-     *
-     * @param array &$link The necessary link information
-     * @param object &other_obj The link target
+     * @param object $other_obj The link target
      */
-    private function _render_line_task(&$link, &$other_obj)
+    private function _render_line_task($other_obj)
     {
         if ($other_obj->orgOpenpsaObtype == org_openpsa_projects_task_dba::OBTYPE)
         {
@@ -593,12 +411,9 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
     /**
      * Renders a sales project line
      *
-     * See the _show_render documentation for details about styling
-     *
-     * @param array &$link The necessary link information
-     * @param object &other_obj The link target
+     * @param object $other_obj The link target
      */
-    private function _render_line_salesproject(&$link, &$other_obj)
+    private function _render_line_salesproject($other_obj)
     {
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
         $sales_url = $siteconfig->get_node_full_url('org.openpsa.sales');
@@ -618,12 +433,9 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
     /**
      * Renders an invoice line
      *
-     * See the _show_render documentation for details about styling
-     *
-     * @param array &$link The necessary link information
-     * @param object &other_obj The link target
+     * @param object $other_obj The link target
      */
-    private function _render_line_invoice(&$link, &$other_obj)
+    private function _render_line_invoice($other_obj)
     {
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
         $invoices_url = $siteconfig->get_node_full_url('org.openpsa.invoices');
@@ -645,10 +457,10 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
      * Tries to find certain properties likely to hold semi-useful information about
      * the object, failing that outputs class and guid.
      *
-     * @param array &$link The necessary link information
-     * @param object &other_obj The link target
+     * @param array $link The necessary link information
+     * @param object $other_obj The link target
      */
-    private function _render_line_default(&$link, &$other_obj)
+    private function _render_line_default(array $link, $other_obj)
     {
         $class = get_class($other_obj);
 
@@ -675,10 +487,10 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
     /**
      * Renders (if necessary) controls for confirming/deleting link object
      *
-     * @param array &$link The necessary link information
-     * @param object &other_obj The link target
+     * @param array $link The necessary link information
+     * @param object $other_obj The link target
      */
-    public static function render_line_controls(&$link, &$other_obj)
+    public static function render_line_controls(array $link, $other_obj)
     {
         echo "<ul class=\"relatedto_toolbar\" id=\"org_openpsa_relatedto_toolbar_{$link['guid']}\">\n";
 
