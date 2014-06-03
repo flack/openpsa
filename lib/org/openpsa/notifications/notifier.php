@@ -109,7 +109,6 @@ class org_openpsa_notifications_notifier extends midcom_baseclasses_components_p
 
         if (array_key_exists('title', $message))
         {
-            // PHP5-TODO: Must be copy by value
             $mail->subject = $message['title'];
             // Avoid double dump
             unset($message['title']);
