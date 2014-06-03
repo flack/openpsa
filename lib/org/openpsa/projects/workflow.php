@@ -45,32 +45,24 @@ class org_openpsa_projects_workflow
      */
     public static function get_status_type($status)
     {
-        $return = '';
-        switch ($status)
+        $map = array
+        (
+            org_openpsa_projects_task_status_dba::REJECTED => 'rejected',
+            org_openpsa_projects_task_status_dba::PROPOSED => 'not_started',
+            org_openpsa_projects_task_status_dba::DECLINED => 'not_started',
+            org_openpsa_projects_task_status_dba::ACCEPTED => 'not_started',
+            org_openpsa_projects_task_status_dba::STARTED => 'ongoing',
+            org_openpsa_projects_task_status_dba::REOPENED => 'ongoing',
+            org_openpsa_projects_task_status_dba::COMPLETED => 'closed',
+            org_openpsa_projects_task_status_dba::APPROVED => 'closed',
+            org_openpsa_projects_task_status_dba::CLOSED => 'closed',
+            org_openpsa_projects_task_status_dba::ONHOLD => 'on_hold'
+        );
+        if (array_key_exists($status, $map))
         {
-            case org_openpsa_projects_task_status_dba::REJECTED:
-                $return = 'rejected';
-                break;
-            case org_openpsa_projects_task_status_dba::PROPOSED:
-            case org_openpsa_projects_task_status_dba::DECLINED:
-            case org_openpsa_projects_task_status_dba::ACCEPTED:
-                $return = 'not_started';
-                break;
-            case org_openpsa_projects_task_status_dba::STARTED:
-            case org_openpsa_projects_task_status_dba::REOPENED:
-                $return = 'ongoing';
-                break;
-            case org_openpsa_projects_task_status_dba::COMPLETED:
-            case org_openpsa_projects_task_status_dba::APPROVED:
-            case org_openpsa_projects_task_status_dba::CLOSED:
-                $return = 'closed';
-                break;
-            case org_openpsa_projects_task_status_dba::ONHOLD:
-            default:
-                $return = 'on_hold';
-                break;
+            return $map[$status];
         }
-        return $return;
+        return 'on_hold';
     }
 
     public static function render_status_control($task)

@@ -173,31 +173,24 @@ class org_openpsa_projects_task_status_dba extends midcom_core_dbaobject
 
     function get_status_message()
     {
-        switch ($this->type)
+        $map = array
+        (
+            self::PROPOSED => 'proposed to %s by %s',
+            self::DECLINED => 'declined by %s',
+            self::ACCEPTED => 'accepted by %s',
+            self::ONHOLD => 'put on hold by %s',
+            self::STARTED => 'work started by %s',
+            self::REJECTED => 'rejected by %s',
+            self::REOPENED => 're-opened by %s',
+            self::COMPLETED => 'marked as completed by %s',
+            self::APPROVED => 'approved by %s',
+            self::CLOSED => 'closed by %s'
+        );
+        if (array_key_exists($this->type, $map))
         {
-            case self::PROPOSED:
-                return 'proposed to %s by %s';
-            case self::DECLINED:
-                return 'declined by %s';
-            case self::ACCEPTED:
-                return 'accepted by %s';
-            case self::ONHOLD:
-                return 'put on hold by %s';
-            case self::STARTED:
-                return 'work started by %s';
-            case self::REJECTED:
-                return 'rejected by %s';
-            case self::REOPENED:
-                return 're-opened by %s';
-            case self::COMPLETED:
-                return 'marked as completed by %s';
-            case self::APPROVED:
-                return 'approved by %s';
-            case self::CLOSED:
-                return 'closed by %s';
-            default:
-                return "{$this->type} by %s";
+            return $map[$this->type];
         }
+        return "{$this->type} by %s";
     }
 
     function gmtime()
