@@ -71,7 +71,7 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
 
         midcom::get('auth')->drop_sudo();
         midcom::get()->skip_page_style = true;
-        midcom::get('cache')->content->content_type('text/plain');
+        midcom::get()->header('Content-type: text/plain');
     }
 
     /**
@@ -136,7 +136,7 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
 
         midcom::get('auth')->drop_sudo();
         midcom::get()->skip_page_style = true;
-        midcom::get('cache')->content->content_type('text/plain');
+        midcom::get()->header('Content-type: text/plain');
     }
 
     private function _create_link_receipt($receipt, $token, $target)

@@ -84,6 +84,7 @@ class midcom_helper__styleloader
 
     /**
      * Path to file styles.
+     *
      * @var array
      */
     var $_filedirs = array();
@@ -218,14 +219,13 @@ class midcom_helper__styleloader
         }
 
         $path = preg_replace("/^\/(.*)/", "$1", $path); // leading "/"
+        $cached[$rootstyle][$path] = false;
+        $current_style = 0;
+
         $path_array = array_filter(explode('/', $path));
-
-        $current_style = $rootstyle;
-
-        if (count($path_array) == 0)
+        if (count($path_array) > 0)
         {
-            $cached[$rootstyle][$path] = false;
-            return false;
+            $current_style = $rootstyle;
         }
 
         foreach ($path_array as $path_item)
@@ -237,7 +237,7 @@ class midcom_helper__styleloader
             $mc->execute();
             $styles = $mc->list_keys();
 
-            foreach (array_keys($styles) as $style_guid )
+            foreach (array_keys($styles) as $style_guid)
             {
                 $current_style = $mc->get_subkey($style_guid, 'id');
                 midcom::get('cache')->content->register($style_guid);
@@ -247,11 +247,9 @@ class midcom_helper__styleloader
         if ($current_style != 0)
         {
             $cached[$rootstyle][$path] = $current_style;
-            return $current_style;
         }
 
-        $cached[$rootstyle][$path] = false;
-        return false;
+        return $cached[$rootstyle][$path];
     }
 
     /**

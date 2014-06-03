@@ -1,5 +1,4 @@
 <?php
-midcom::get('cache')->content->content_type("text/xml; charset=UTF-8");
 midcom::get()->header("Content-type: text/xml; charset=UTF-8");
 echo "<rdf:RDF\n";
 echo "xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\"\n";
