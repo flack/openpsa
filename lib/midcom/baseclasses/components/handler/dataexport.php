@@ -128,7 +128,7 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
         midcom::get()->skip_page_style = true;
 
         midcom::get('cache')->content->content_type($this->csv['mimetype']);
-        _midcom_header('Content-Disposition: filename=' . $data['filename']);
+        midcom::get()->header('Content-Disposition: filename=' . $data['filename']);
     }
 
     public function _show_csv($handler_id, array &$data)

@@ -27,6 +27,6 @@ $session = new midcom_services_session('midcom_helper_datamanager2_widget_captch
 $session->set($argv[0], $builder->getPhrase());
 
 // Render the Captcha
-_midcom_header('Content-Type: image/jpeg');
+midcom::get()->header('Content-Type: image/jpeg');
 $builder->output();
 ?>

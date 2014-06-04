@@ -18,9 +18,7 @@ else
     midcom::get('auth')->require_admin_user();
 }
 
-midcom::get('cache')->content->enable_live_mode();
-
-_midcom_header('Content-Type: text/plain');
+midcom::get()->header('Content-Type: text/plain');
 
 // Ensure cron doesn't timeout
 @ini_set('max_execution_time', 0);

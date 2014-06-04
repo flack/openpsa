@@ -52,7 +52,6 @@ abstract class midcom_helper_filesync_importer extends midcom_baseclasses_compon
         {
             midcom::get('auth')->require_admin_user();
         }
-        midcom::get('cache')->content->enable_live_mode();
         midcom::get()->header('Content-Type: text/plain');
 
         $this->import();
