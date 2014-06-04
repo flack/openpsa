@@ -116,11 +116,7 @@ class midcom_core_resolver
     }
 
     /**
-     * Deliver a blob to the client.
-     *
-     * This is a replacement for mgd_serve_attachment that should work around most of
-     * its bugs: It is missing all important HTTP Headers concerning file size,
-     * modification date and expiration. It will add the following HTTP Headers:
+     * Deliver a blob to the client. It will add the following HTTP Headers:
      *
      * - Cache-Control: public max-age=$expires
      * - Expires: GMT Date $now+$expires

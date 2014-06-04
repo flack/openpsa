@@ -446,6 +446,11 @@ class midcom_compat_superglobal
      */
     public function get_26_request_metadata($context_id = null)
     {
+        $context = midcom_core_context::get($context_id);
+        if ($context === false)
+        {
+            return array();
+        }
         return midcom::get('metadata')->get_request_metadata($context_id);
     }
 

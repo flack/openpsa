@@ -213,7 +213,7 @@ class midcom_services_metadata
         }
 
         // Update request metadata if appropriate
-        $request_metadata = $this->get_request_metadata($context->id);
+        $request_metadata = $this->get_request_metadata($context);
         $edited = $this->_metadata[$context->id][$metadata_type]->get('revised');
         if ($edited > $request_metadata['lastmodified'])
         {
@@ -489,18 +489,17 @@ class midcom_services_metadata
     /**
      * Get the currently known and required Request Metadata: The last modified timestamp and the permalink GUID.
      *
-     * @param int $context_id The context from which the request metadata should be retrieved. Omit
+     * @param midcom_core_context $context_id The context from which the request metadata should be retrieved. Omit
      *     to use the current context.
      * @return Array An array with the two keys 'lastmodified' and 'permalinkguid' containing the
      *     values set with the setter pendant. For ease of use, there is also a key 'permalink'
      *     which contains a ready-made permalink.
      */
-    public function get_request_metadata($context_id = null)
+    public function get_request_metadata(midcom_core_context $context = null)
     {
-        $context = midcom_core_context::get($context_id);
-        if ($context === false)
+        if ($context === null)
         {
-            return array();
+            $context = midcom_core_context::get();
         }
         $meta = array
         (

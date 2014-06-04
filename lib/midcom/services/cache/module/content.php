@@ -240,9 +240,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
                 $mc->set_key_property('gid');
                 $mc->execute();
                 $gids = $mc->list_keys();
-                unset($mc);
                 $identifier_source .= ';GROUPS=' . implode(',', array_keys($gids));
-                unset($gids);
                 break;
             case 'public':
                 $identifier_source .= ';USER=EVERYONE';
@@ -800,8 +798,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         // make it safe to call this multiple times
         // done this way since it's slightly less hacky than mucking about with the cache->_modules etc
         static $run_count = 0;
-        ++$run_count;
-        if ($run_count > 1)
+        if (++$run_count > 1)
         {
             return;
         }
@@ -840,15 +837,13 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             $etag = md5($cache_data);
         }
 
-        $etag_header = "ETag: {$etag}";
-        _midcom_header($etag_header);
-        $this->register_sent_header($etag_header);
+        midcom::get()->header("ETag: {$etag}");
 
         // Register additional Headers around the current output request
         // It has been sent already during calls to content_type
         $header = "Content-type: " . $this->_content_type;
         $this->register_sent_header($header);
-        $this->_complete_sent_headers($cache_data);
+        $this->_complete_sent_headers();
 
         // If-Modified-Since / If-None-Match checks, if no match, flush the output.
         if (! $this->_check_not_modified($this->_last_modified, $etag, $this->_sent_headers))
@@ -865,13 +860,11 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         if ($this->_uncached)
         {
             debug_add('Not writing cache file, we are in uncached operation mode.');
+            return;
         }
-        else
-        {
-            $content_id = 'C-' . $etag;
-            $this->write_meta_cache($content_id, $etag);
-            $this->_data_cache->put($content_id, $cache_data);
-        }
+        $content_id = 'C-' . $etag;
+        $this->write_meta_cache($content_id, $etag);
+        $this->_data_cache->put($content_id, $cache_data);
     }
 
     /**
@@ -974,7 +967,6 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             // DL content expired
             return false;
         }
-        unset($dl_metadata);
         if (!$this->_data_cache->exists($dl_content_id))
         {
             // Ghost read, we have everything but the actual content in cache
@@ -987,11 +979,8 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
     public function store_dl_content($context, $dl_config, $dl_cache_data)
     {
         if (   $this->_no_cache
-            || $this->_live_mode)
-        {
-            return;
-        }
-        if ($this->_uncached)
+            || $this->_live_mode
+            || $this->_uncached)
         {
             return;
         }
@@ -1011,7 +1000,6 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
 
         $this->_meta_cache->put($dl_request_id, $dl_content_id);
         $this->_meta_cache->put($dl_content_id, $dl_entry_data);
-        unset($dl_entry_data);
         $this->_data_cache->put($dl_content_id, $dl_cache_data);
         // Cache where the object have been
         $this->store_context_guid_map($context, $dl_content_id, $dl_request_id);
@@ -1025,10 +1013,8 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      *
      * To force browsers to revalidate the page on every request (login changes would
      * go unnoticed otherwise), the Cache-Control header max-age=0 is added automatically.
-     *
-     * @param array &$cache_data The current cache data that will be written to the database.
      */
-    private function _complete_sent_headers(& $cache_data)
+    private function _complete_sent_headers()
     {
         // Detected headers flags
         $ranges = false;
@@ -1065,9 +1051,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
 
         if (! $ranges)
         {
-            $header = "Accept-Ranges: none";
-            _midcom_header($header);
-            $this->_sent_headers[] = $header;
+            midcom::get()->header("Accept-Ranges: none");
         }
         if (! $size)
         {
@@ -1081,9 +1065,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
                 case 'private':
                     break;
                 default:
-                    $header = "Content-Length: " . ob_get_length();
-                    _midcom_header($header);
-                    $this->_sent_headers[] = $header;
+                    midcom::get()->header("Content-Length: " . ob_get_length());
                     break;
             }
         }
@@ -1093,9 +1075,9 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
              * Fallback to time() if this fails.
              */
             $time = 0;
-            foreach (midcom_core_context::get_all() as $id => $context)
+            foreach (midcom_core_context::get_all() as $context)
             {
-                $meta = midcom::get('metadata')->get_request_metadata($id);
+                $meta = midcom::get('metadata')->get_request_metadata($context);
                 if ($meta['lastmodified'] > $time)
                 {
                     $time = $meta['lastmodified'];
@@ -1107,9 +1089,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
                 $time = time();
             }
 
-            $header = "Last-Modified: " . gmdate('D, d M Y H:i:s', $time) . ' GMT';
-            _midcom_header($header);
-            $this->_sent_headers[] = $header;
+            midcom::get()->header("Last-Modified: " . gmdate('D, d M Y H:i:s', $time) . ' GMT');
             $this->_last_modified = $time;
         }
 
@@ -1155,76 +1135,63 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
 
     public function cache_control_headers()
     {
+        // Just to be sure not to mess the headers sent by no_cache in case it was called
+        if (!$this->_no_cache)
+        {
+            return;
+        }
         // Add Expiration and Cache Control headers
         $cache_control = false;
         $pragma = false;
         $expires = false;
-        // Just to be sure not to mess the headers sent by no_cache in case it was called
-        if (!$this->_no_cache)
+        $strategy = $this->_headers_strategy;
+        $default_lifetime = $this->_default_lifetime;
+        if (   midcom::get('auth')->is_valid_user()
+            || !midcom_connection::get_user())
         {
-            // Typecast to make copy instead of reference
-            $strategy = (string)$this->_headers_strategy;
-            $default_lifetime = (int)$this->_default_lifetime;
-            if (   midcom::get('auth')->is_valid_user()
-                || !midcom_connection::get_user())
-            {
-                // Typecast to make copy instead of reference
-                $strategy = (string)$this->_headers_strategy_authenticated;
-                $default_lifetime = (int)$this->_default_lifetime_authenticated;
-            }
-            switch ($strategy)
-            {
-                // included in case _headers_strategy_authenticated sets this
-                case 'no-cache':
-                    $this->no_cache();
-                    break;
-                case 'revalidate':
-                    // Currently, we *force* a cache client to revalidate the copy every time.
-                    // I hope that this fixes most of the problems outlined in #297 for the time being.
-                    // The timeout of a content cache entry is not affected by this.
-                    $cache_control = 'max-age=0 must-revalidate';
-                    $expires = time();
-                    break;
-                case 'private':
-                    // Fall-strough intentional
-                case 'public':
-                    if (!is_null($this->_expires))
-                    {
-                        $expires = $this->_expires;
-                        $max_age = $this->_expires - time();
-                    }
-                    else
-                    {
-                        $expires = time() + $default_lifetime;
-                        $max_age = $default_lifetime;
-                    }
-                    $cache_control = "{$strategy} max-age={$max_age}";
-                    if ($max_age == 0)
-                    {
-                        $cache_control .= ' must-revalidate';
-                    }
-                    $pragma = $strategy;
-                    break;
-            }
+            $strategy = $this->_headers_strategy_authenticated;
+            $default_lifetime = $this->_default_lifetime_authenticated;
         }
-        if ($cache_control !== false)
+        switch ($strategy)
         {
-            $header = "Cache-Control: {$cache_control}";
-            _midcom_header($header);
-            $this->_sent_headers[] = $header;
+            // included in case _headers_strategy_authenticated sets this
+            case 'no-cache':
+                $this->no_cache();
+                return;
+            case 'revalidate':
+                // Currently, we *force* a cache client to revalidate the copy every time.
+                // I hope that this fixes most of the problems outlined in #297 for the time being.
+                // The timeout of a content cache entry is not affected by this.
+                $cache_control = 'max-age=0 must-revalidate';
+                $expires = time();
+                break;
+            case 'private':
+                // Fall-strough intentional
+            case 'public':
+                if (!is_null($this->_expires))
+                {
+                    $expires = $this->_expires;
+                    $max_age = $this->_expires - time();
+                }
+                else
+                {
+                    $expires = time() + $default_lifetime;
+                    $max_age = $default_lifetime;
+                }
+                $cache_control = "{$strategy} max-age={$max_age}";
+                if ($max_age == 0)
+                {
+                    $cache_control .= ' must-revalidate';
+                }
+                $pragma = $strategy;
+                break;
         }
+        midcom::get()->header("Cache-Control: {$cache_control}");
         if ($pragma !== false)
         {
-            $header = "Pragma: {$pragma}";
-            _midcom_header($header);
-            $this->_sent_headers[] = $header;
+            midcom::get()->header("Pragma: {$pragma}");
         }
-        if ($expires !== false)
-        {
-            $header = "Expires: " . gmdate("D, d M Y H:i:s", $expires) . " GMT";
-            _midcom_header($header);
-            $this->_sent_headers[] = $header;
-        }
+        midcom::get()->header("Expires: " . gmdate("D, d M Y H:i:s", $expires) . " GMT");
     }
 }
 ?>
