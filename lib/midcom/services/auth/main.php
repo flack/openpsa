@@ -58,7 +58,7 @@ class midcom_services_auth
      *
      * @var midcom_services_auth_sessionmgr
      */
-    public $sessionmgr = null;
+    public $sessionmgr;
 
     /**
      * This is a reference to the ACL management system.

@@ -38,6 +38,9 @@ abstract class midcom_services_auth_backend
      */
     var $session_id = null;
 
+    /**
+     * @var midcom_services_auth
+     */
     var $auth = null;
 
     /**

@@ -54,6 +54,7 @@ class midcom_services_auth_backend_simple extends midcom_services_auth_backend
         }
 
         if (   !empty($_SERVER['HTTPS'])
+            && $_SERVER['HTTPS'] !== 'off'
             && midcom::get('config')->get('auth_backend_simple_cookie_secure'))
         {
             $this->_secure_cookie = true;
