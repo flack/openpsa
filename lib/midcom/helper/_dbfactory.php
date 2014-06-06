@@ -38,9 +38,9 @@ class midcom_helper__dbfactory
      * @see http://www.midgard-project.org/documentation/php_midgard_object_class/
      *
      * @param string $guid The object GUID.
-     * @return object A MidCOM DBA object if the set GUID is known
+     * @return midcom_core_dbaobject A MidCOM DBA object if the set GUID is known
      */
-    function get_object_by_guid($guid)
+    public function get_object_by_guid($guid)
     {
         try
         {
@@ -68,7 +68,7 @@ class midcom_helper__dbfactory
      * @param mixed $src GUID of object (ids work but are discouraged)
      * @return midcom_core_dbaobject reference to object
      */
-    function &get_cached($classname, $src)
+    public function &get_cached($classname, $src)
     {
         static $cache = array();
 
@@ -102,7 +102,7 @@ class midcom_helper__dbfactory
      * @return midcom_core_collector The initialized instance of the collector.
      * @see midcom_core_collector
      */
-    function new_collector($classname, $domain, $value)
+    public function new_collector($classname, $domain, $value)
     {
         $mc = new midcom_core_collector($classname, $domain, $value);
         $mc->initialize();
@@ -117,7 +117,7 @@ class midcom_helper__dbfactory
      * @return midcom_core_querybuilder The initialized instance of the query builder.
      * @see midcom_core_querybuilder
      */
-    function new_query_builder($classname)
+    public function new_query_builder($classname)
     {
         $qb = new midcom_core_querybuilder($classname);
         $qb->initialize();
@@ -133,9 +133,9 @@ class midcom_helper__dbfactory
      * We also ensure that the corresponding component has been loaded.
      *
      * @param MidgardObject $object MgdSchema Object
-     * @return MidCOMDBAObject
+     * @return midcom_core_dbaobject
      */
-    function convert_midgard_to_midcom($object)
+    public function convert_midgard_to_midcom($object)
     {
         if (! is_object($object))
         {
@@ -169,10 +169,10 @@ class midcom_helper__dbfactory
      * If the conversion cannot be done for some reason, the function returns null and logs
      * an error.
      *
-     * @param MidCOMDBAObject $object MidCOM DBA Object
-     * @return MidgardObject MgdSchema Object
+     * @param midcom_core_dbaobject $object MidCOM DBA Object
+     * @return midgard_object MgdSchema Object
      */
-    function convert_midcom_to_midgard($object)
+    public function convert_midcom_to_midgard($object)
     {
         if (! is_object($object))
         {
