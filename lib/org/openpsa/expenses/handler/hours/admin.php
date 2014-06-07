@@ -137,7 +137,6 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
             $task = new org_openpsa_projects_task_dba($args[1]);
             $task->require_do('midgard:create');
             $data['task'] = $task->id;
-            $this->_add_toolbar_items($task);
         }
         else
         {
@@ -166,6 +165,10 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
 
         // Add toolbar items
         org_openpsa_helpers::dm2_savecancel($this);
+        if (!empty($task))
+        {
+            $this->_add_toolbar_items($task);
+        }
 
         $data['view_title'] = sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get($this->_schemadb[$this->_schema]->description));
         midcom::get('head')->set_pagetitle($data['view_title']);
