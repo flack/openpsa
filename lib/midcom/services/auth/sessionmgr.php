@@ -30,9 +30,9 @@ class midcom_services_auth_sessionmgr
      * A list of loaded login sessions, indexed by their session identifier.
      * This is used for authentication purposes.
      *
-     * @var Array
+     * @var array
      */
-    private $_loaded_sessions = Array();
+    private $_loaded_sessions = array();
 
     /**
      * Once a session has been authenticated, this variable holds the ID of the current
@@ -43,28 +43,33 @@ class midcom_services_auth_sessionmgr
      *
      * @var string
      */
-    var $current_session_id = null;
+    var $current_session_id;
 
-    var $auth = null;
+    /**
+     * @var midcom_services_auth
+     */
+    var $auth;
 
     /**
      * Currently authenticated midgard_user object
      *
      * @var midgard_user
      */
-    var $user = null;
+    var $user;
 
     /**
      * Currently authenticated midgard_person object
      *
      * @var midgard_person
      */
-    var $person = null;
+    var $person;
 
     /**
      * Simple, currently empty default constructor.
+     *
+     * @param midcom_services_auth $auth Main authentication instance
      */
-    public function __construct($auth)
+    public function __construct(midcom_services_auth $auth)
     {
         $this->auth = $auth;
     }

@@ -28,7 +28,7 @@ abstract class midcom_services_auth_backend
      *
      * @var midcom_core_user
      */
-    var $user = null;
+    var $user;
 
     /**
      * The ID of the session we are currently using, usable as an authentication token
@@ -36,7 +36,7 @@ abstract class midcom_services_auth_backend
      *
      * @var string
      */
-    var $session_id = null;
+    var $session_id;
 
     /**
      * @var midcom_services_auth
@@ -45,8 +45,10 @@ abstract class midcom_services_auth_backend
 
     /**
      * The constructor should do only basic initialization.
+     *
+     * @param midcom_services_auth $auth Main authentication instance
      */
-    public function __construct($auth)
+    public function __construct(midcom_services_auth $auth)
     {
         $this->auth = $auth;
     }
@@ -75,7 +77,7 @@ abstract class midcom_services_auth_backend
      */
     function authenticate()
     {
-        return $this->auth->sessionmgr->authenticate($this->_session_id);
+        return $this->auth->sessionmgr->authenticate_session($this->_session_id);
     }
 
     /**
