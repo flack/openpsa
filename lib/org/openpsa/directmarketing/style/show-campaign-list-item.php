@@ -16,7 +16,7 @@ if (array_key_exists('membership', $data))
             break;
         default:
             $class = 'member';
-            $unsubscribe_code = "<a href='{$prefix}campaign/unsubscribe/{$data['membership']->guid}' class='target_blank'><img src='" . MIDCOM_STATIC_URL . "/stock-icons/16x16/trash.png' border=0/></a>";
+            $unsubscribe_code = '<a href="' . $prefix . 'campaign/unsubscribe/' . $data['membership']->guid .'/" target="_blank"><img src="' . MIDCOM_STATIC_URL . '/stock-icons/16x16/trash.png"/></a>';
             break;
     }
 }
