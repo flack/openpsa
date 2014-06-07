@@ -27,9 +27,9 @@ $even = 'even';
 foreach ($data['preview_persons'] as $person)
 {
     echo "<tr class='" . $even . "'>";
-    echo "<td><a class='target_blank' href='" . $url . $person['guid'] . "/'>" . $person['lastname'] . "</a></td>";
-    echo "<td><a class='target_blank' href='" . $url . $person['guid'] . "/'>" . $person['firstname'] . "</a></td>";
-    echo "<td><a class='target_blank' href='" . $url . $person['guid'] . "/'>" . $person['email'] . "</a></td>";
+    echo "<td><a target='_blank' href='" . $url . $person['guid'] . "/'>" . $person['lastname'] . "</a></td>";
+    echo "<td><a target='_blank' href='" . $url . $person['guid'] . "/'>" . $person['firstname'] . "</a></td>";
+    echo "<td><a target='_blank' href='" . $url . $person['guid'] . "/'>" . $person['email'] . "</a></td>";
     echo "</tr>";
     $even = ($even == 'even') ? 'odd' : 'even';
 }
