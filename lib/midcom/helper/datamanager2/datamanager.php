@@ -519,13 +519,6 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
                 continue;
             }
 
-            $field_value = $values[$name];
-            if (   $skip_empty
-                && trim($field_value) == '')
-            {
-                continue;
-            }
-
             if (isset($config['start_fieldset']))
             {
                 if (isset($config['start_fieldset']['title']))
@@ -571,14 +564,19 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
                 $fieldset_count++;
             }
 
-            echo "<div class=\"field\">\n";
-            echo '<div class="title">' . $this->schema->translate_schema_string($this->schema->fields[$name]['title']) . "</div>\n";
-            echo '<div class="value">';
+            $field_value = $values[$name];
+            if (   !$skip_empty
+                || trim($field_value) !== '')
+            {
+                echo "<div class=\"field\">\n";
+                echo '<div class="title">' . $this->schema->translate_schema_string($this->schema->fields[$name]['title']) . "</div>\n";
+                echo '<div class="value">';
 
-            echo $field_value;
+                echo $field_value;
 
-            echo "</div>\n";
-            echo "</div>\n";
+                echo "</div>\n";
+                echo "</div>\n";
+            }
 
             if (   !isset($config['end_fieldset'])
                 || $fieldset_count <= 0)
