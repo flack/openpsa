@@ -364,7 +364,7 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
         // Muck schema on private events
         if (!$this->_request_data['event']->can_do('org.openpsa.calendar:read'))
         {
-            foreach ($this->_datamanager->_schemadb as $schema)
+            foreach ($schemadb as $schema)
             {
                 foreach ($schema->fields as &$field)
                 {
