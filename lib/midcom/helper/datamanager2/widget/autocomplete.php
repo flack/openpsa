@@ -529,7 +529,7 @@ EOT;
             {
                 $value = midcom_helper_datamanager2_ajax_autocomplete::get_property_string($object, $item_name);
             }
-
+            $value = strip_tags($value);
             if (trim($value) !== '')
             {
                 $label[] = $value;
