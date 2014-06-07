@@ -428,7 +428,7 @@ class midcom_services_indexer_solrRequest
 
         if ($this->code != 200)
         {
-            debug_print_r($this->request->getUrl() . " returned response code {$this->code}, body:", $response->getBody());
+            debug_print_r($this->request->getUrl() . " returned response code {$this->code}, body:", $response->getContent());
             debug_print_r('Request content:', $this->request->getContent());
             return false;
         }
