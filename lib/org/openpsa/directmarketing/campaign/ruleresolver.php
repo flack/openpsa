@@ -294,7 +294,7 @@ class org_openpsa_directmarketing_campaign_ruleresolver
         {
             $group_members = array_keys($group_members);
         }
-        $this->_result_mc->add_constraint('id', $constraint_match, $group_member);
+        $this->_result_mc->add_constraint('id', $constraint_match, $group_members);
     }
 
     /**
