@@ -127,6 +127,9 @@ class midcom_core_privilege
             case 'ANONYMOUS':
                 $scope = MIDCOM_PRIVILEGE_SCOPE_ANONYMOUS;
                 break;
+            case 'SELF':
+                //scope is not applicable here
+                break;
             default:
                 $assignee = $this->get_assignee();
                 if (! $assignee)
@@ -451,7 +454,7 @@ class midcom_core_privilege
             $privilege = $mc->get($privilege_guid);
             $privilege['objectguid'] = $guid;
             $privilege['guid'] = $privilege_guid;
-            $privilege_object = new midcom_core_privilege($privilege);
+            $privilege_object = new static($privilege);
             if (!isset($privilege_object->assignee))
             {
                 // Invalid privilege, skip
@@ -566,8 +569,7 @@ class midcom_core_privilege
 
     private function _load($src)
     {
-        if (   is_object($src)
-            && is_a($src, 'midcom_core_privilege_db'))
+        if (is_a($src, 'midcom_core_privilege_db'))
         {
             // Got a privilege object as argument, use that
             $this->__guid = $src->guid;
