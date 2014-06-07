@@ -131,20 +131,6 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
 
         $this->_prepare_request_data($handler_id);
 
-        $this->_view_toolbar->add_item
-        (
-            array
-            (
-                MIDCOM_TOOLBAR_URL => "campaign/edit_query_advanced/{$this->_campaign->guid}/",
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('advanced rule editor'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/repair.png',
-            )
-        );
-        midcom::get('head')->enable_jquery();
-        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.directmarketing/edit_query.js');
-        $this->add_stylesheet(MIDCOM_STATIC_URL . '/org.openpsa.directmarketing/edit_query.css');
-        $this->add_stylesheet(MIDCOM_STATIC_URL . '/org.openpsa.core/list.css');
-
         // PONDER: Locking ?
 
         if (!empty($_POST['midcom_helper_datamanager2_cancel']))
@@ -197,6 +183,20 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
 
         // Add toolbar items
         org_openpsa_helpers::dm2_savecancel($this);
+        $this->_view_toolbar->add_item
+        (
+            array
+            (
+                MIDCOM_TOOLBAR_URL => "campaign/edit_query_advanced/{$this->_campaign->guid}/",
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('advanced rule editor'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/repair.png',
+            )
+        );
+
+        midcom::get('head')->enable_jquery();
+        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.directmarketing/edit_query.js');
+        $this->add_stylesheet(MIDCOM_STATIC_URL . '/org.openpsa.directmarketing/edit_query.css');
+        $this->add_stylesheet(MIDCOM_STATIC_URL . '/org.openpsa.core/list.css');
 
         $this->set_active_leaf('campaign_' . $this->_campaign->id);
 

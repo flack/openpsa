@@ -105,8 +105,8 @@ foreach ($properties_map as $class => $properties)
     <div id="dirmar_rules_editor_container">
     </div>
         <div class="form_toolbar" id="org_openpsa_directmarketing_rules_editor_form_toolbar">
-            <input name="midcom_helper_datamanager2_save" accesskey="s" class="save" value="<?php echo $data['l10n_midcom']->get('save'); ?>" type="submit" />
-            <input name="midcom_helper_datamanager2_cancel" class="cancel" value="<?php echo $data['l10n_midcom']->get('cancel'); ?>" type="submit" />
+            <input name="midcom_helper_datamanager2_save[0]" accesskey="s" class="save" value="<?php echo $data['l10n_midcom']->get('save'); ?>" type="submit" />
+            <input name="midcom_helper_datamanager2_cancel[0]" class="cancel" value="<?php echo $data['l10n_midcom']->get('cancel'); ?>" type="submit" />
             <input name="show_rule_preview" onclick="send_preview();" class="preview" value="<?php echo $data['l10n']->get('preview'); ?>" type="button" />
         </div>
         <script type="text/javascript">
