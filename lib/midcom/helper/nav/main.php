@@ -319,7 +319,13 @@ class midcom_helper_nav
         try
         {
             $object = midcom::get('dbfactory')->get_object_by_guid($guid);
-
+        }
+        catch (midcom_error $e)
+        {
+            debug_add("Could not load GUID {$guid}, trying to continue anyway. Last error was: " . $e->getMessage(), MIDCOM_LOG_WARN);
+        }
+        if (!empty($object))
+        {
             if (is_a($object, 'midcom_db_topic'))
             {
                 // Ok. This topic should be within the content tree,
@@ -349,25 +355,21 @@ class midcom_helper_nav
                 debug_add("The Article GUID {$guid} is somehow hidden from the NAP data in its topic, no results shown.", MIDCOM_LOG_INFO);
                 return false;
             }
-        }
-        catch (midcom_error $e)
-        {
-            debug_add("Could not load GUID {$guid}, trying to continue anyway. Last error was: " . $e->getMessage(), MIDCOM_LOG_WARN);
-        }
 
-        // Ok, unfortunately, this is not an immediate topic. We try to traverse
-        // upwards in the object chain to find a topic.
-        if ($topic = $this->find_closest_topic($object))
-        {
-            debug_add("Found topic #{$topic->id}, searching the leaves");
-            if ($leaf = $this->_find_leaf_in_topic($topic->id, $guid))
+            // Ok, unfortunately, this is not an immediate topic. We try to traverse
+            // upwards in the object chain to find a topic.
+            if ($topic = $this->find_closest_topic($object))
             {
-                return $leaf;
-            }
-            if ($node_is_sufficient)
-            {
-                debug_add("Could not find guid in leaves (maybe not listed?), but node is sufficient, returning node");
-                return $this->get_node($topic->id);
+                debug_add("Found topic #{$topic->id}, searching the leaves");
+                if ($leaf = $this->_find_leaf_in_topic($topic->id, $guid))
+                {
+                    return $leaf;
+                }
+                if ($node_is_sufficient)
+                {
+                    debug_add("Could not find guid in leaves (maybe not listed?), but node is sufficient, returning node");
+                    return $this->get_node($topic->id);
+                }
             }
         }
 
