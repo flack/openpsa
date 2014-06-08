@@ -50,9 +50,9 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
     public function update($object, $updatemessage = null)
     {
         // Store user identifier and IP address to the update string
-        if (midcom::get('auth')->user)
+        if (midcom::get()->auth->user)
         {
-            $update_string = midcom::get('auth')->user->id . "|{$_SERVER['REMOTE_ADDR']}";
+            $update_string = midcom::get()->auth->user->id . "|{$_SERVER['REMOTE_ADDR']}";
         }
         else
         {
@@ -62,9 +62,9 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
         // Generate update message if needed
         if (!$updatemessage)
         {
-            if (midcom::get('auth')->user !== null)
+            if (midcom::get()->auth->user !== null)
             {
-                $updatemessage = sprintf("Updated on %s by %s", strftime("%x %X"), midcom::get('auth')->user->name);
+                $updatemessage = sprintf("Updated on %s by %s", strftime("%x %X"), midcom::get()->auth->user->name);
             }
             else
             {
@@ -532,7 +532,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
         $return = array();
         $oldest = array_intersect_key($oldest, $newest);
 
-        $ln = midcom::get('i18n')->get_l10n("midcom");
+        $ln = midcom::get()->i18n->get_l10n("midcom");
         $repl = array(
             '<del>' => "<span class=\"deleted\">",
             '</del>' => '</span>',
@@ -613,7 +613,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
 
         try
         {
-            $object = midcom::get('dbfactory')->get_object_by_guid($this->_guid);
+            $object = midcom::get()->dbfactory->get_object_by_guid($this->_guid);
         }
         catch (midcom_error $e)
         {

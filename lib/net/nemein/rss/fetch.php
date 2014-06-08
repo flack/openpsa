@@ -55,8 +55,8 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
     {
         $parser = new SimplePie;
         $parser->get_registry()->register('Item', 'net_nemein_rss_parser_item');
-        $parser->set_output_encoding(midcom::get('i18n')->get_current_charset());
-        $parser->set_cache_location(midcom::get('config')->get('midcom_tempdir'));
+        $parser->set_output_encoding(midcom::get()->i18n->get_current_charset());
+        $parser->set_cache_location(midcom::get()->config->get('midcom_tempdir'));
         $parser->enable_cache(false); //enabling cache leads to segfaults for some reason
         if (version_compare(PHP_VERSION, '5.4', '>='))
         {
@@ -272,7 +272,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
         $article->extra1 = "|{$feed_category}|";
 
         $article->_activitystream_verb = 'http://community-equity.org/schema/1.0/clone';
-        $article->_rcs_message = sprintf(midcom::get('i18n')->get_string('%s was imported from %s', 'net.nemein.rss'), $article->title, $this->_feed->title);
+        $article->_rcs_message = sprintf(midcom::get()->i18n->get_string('%s was imported from %s', 'net.nemein.rss'), $article->title, $this->_feed->title);
 
         $categories = $item->get_categories();
         if (is_array($categories))
@@ -350,7 +350,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
         // Safety, make sure we have sane name (the allow_catenate was set earlier, so this will not clash
         if (empty($article->name))
         {
-            $generator = midcom::get('serviceloader')->load('midcom_core_service_urlgenerator');
+            $generator = midcom::get()->serviceloader->load('midcom_core_service_urlgenerator');
             $article->name = $generator->from_string($article->title);
             $updated = true;
         }
@@ -391,7 +391,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
             }
             if ($node_lang_code != '')
             {
-                $lang_id = midcom::get('i18n')->code_to_id($node_lang_code);
+                $lang_id = midcom::get()->i18n->code_to_id($node_lang_code);
                 $article->lang = $lang_id;
             }
             $article->allow_name_catenate = true;
@@ -450,8 +450,8 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
         $purge_guids = array();
         foreach ($local_items as $item)
         {
-            if (   midcom::get('componentloader')->is_installed('net.nemein.favourites')
-                && midcom::get('componentloader')->load_graceful('net.nemein.favourites'))
+            if (   midcom::get()->componentloader->is_installed('net.nemein.favourites')
+                && midcom::get()->componentloader->load_graceful('net.nemein.favourites'))
             {
                 // If it has been favorited keep it
                 $qb = net_nemein_favourites_favourite_dba::new_query_builder();
@@ -490,13 +490,13 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
             $email = $author->get_email();
             if (!empty($name))
             {
-                $name = html_entity_decode($name, ENT_QUOTES, midcom::get('i18n')->get_current_charset());
+                $name = html_entity_decode($name, ENT_QUOTES, midcom::get()->i18n->get_current_charset());
                 // Atom feed, the value can be either full name or username
                 $author_info['user_or_full'] = $name;
             }
             else
             {
-                $name = html_entity_decode($email, ENT_QUOTES, midcom::get('i18n')->get_current_charset());
+                $name = html_entity_decode($email, ENT_QUOTES, midcom::get()->i18n->get_current_charset());
             }
 
             if (!preg_match('/(<|\()/', $name))
@@ -566,7 +566,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
 
         if (!empty($author_info['username']))
         {
-            if ($person = midcom::get('auth')->get_user_by_name($author_info['username']))
+            if ($person = midcom::get()->auth->get_user_by_name($author_info['username']))
             {
                 return $person->get_storage();
             }

@@ -22,22 +22,22 @@ class org_openpsa_user_handler_listTest extends openpsa_testcase
 
     public function test_handler_list()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.user');
+        midcom::get()->auth->request_sudo('org.openpsa.user');
 
         $data = $this->run_handler('org.openpsa.user');
         $this->assertEquals('user_list', $data['handler_id']);
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
     public function test_handler_json()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.user');
+        midcom::get()->auth->request_sudo('org.openpsa.user');
 
         $data = $this->run_handler('org.openpsa.user', array('json'));
         $this->assertEquals('user_list_json', $data['handler_id']);
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 }
 ?>

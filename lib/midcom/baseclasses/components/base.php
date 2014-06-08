@@ -56,13 +56,13 @@ abstract class midcom_baseclasses_components_base
         switch ($field)
         {
             case '_i18n':
-                $instance = midcom::get('i18n');
+                $instance = midcom::get()->i18n;
                 break;
             case '_l10n':
-                $instance = midcom::get('i18n')->get_l10n($this->_component);
+                $instance = midcom::get()->i18n->get_l10n($this->_component);
                 break;
             case '_l10n_midcom':
-                $instance = midcom::get('i18n')->get_l10n('midcom');
+                $instance = midcom::get()->i18n->get_l10n('midcom');
                 break;
             case '_config':
                 $instance = midcom_baseclasses_components_configuration::get($this->_component, 'config');
@@ -94,7 +94,7 @@ abstract class midcom_baseclasses_components_base
      */
     public function add_stylesheet($url, $media = false)
     {
-        midcom::get('head')->add_stylesheet($url, $media);
+        midcom::get()->head->add_stylesheet($url, $media);
     }
 }
 ?>

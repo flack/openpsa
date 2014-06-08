@@ -124,7 +124,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
     public function _index_object(&$dm)
     {
         return;
-        $indexer = midcom::get('indexer');
+        $indexer = midcom::get()->indexer;
         $topic =& $this->_content_topic;
 
         $nav = new midcom_helper_nav();
@@ -149,7 +149,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
      */
     public function _get_object_url(midcom_core_dbaobject $object)
     {
-        return midcom::get('permalinks')->resolve_permalink($object->guid);
+        return midcom::get()->permalinks->resolve_permalink($object->guid);
     }
 
     /**
@@ -217,7 +217,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
                 break;
         }
 
-        midcom::get('head')->set_pagetitle($view_title);
+        midcom::get()->head->set_pagetitle($view_title);
     }
 
     /**
@@ -411,7 +411,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
         }
         else
         {
-            midcom::get('auth')->require_user_do('midgard:create', null, $this->_dba_class);
+            midcom::get()->auth->require_user_do('midgard:create', null, $this->_dba_class);
         }
 
         // Select schema name to use based on arguments
@@ -434,7 +434,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
                 // Redirect to parent page, if any.
                 if ($this->_parent)
                 {
-                    return new midcom_response_relocate(midcom::get('permalinks')->resolve_permalink($this->_parent->guid));
+                    return new midcom_response_relocate(midcom::get()->permalinks->resolve_permalink($this->_parent->guid));
                 }
                 // If nothing helps, try the topic's front page
                 else
@@ -453,7 +453,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
         if ($this->_object)
         {
             // Let MidCOM know about the object
-            midcom::get('metadata')->set_request_metadata($this->_object->metadata->revised, $this->_object->guid);
+            midcom::get()->metadata->set_request_metadata($this->_object->metadata->revised, $this->_object->guid);
             $this->_view_toolbar->bind_to($this->_object);
         }
 
@@ -485,7 +485,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
         $this->_load_object($handler_id, $args, $data);
 
         $this->_load_schemadb();
-        if (midcom::get('config')->get('enable_ajax_editing'))
+        if (midcom::get()->config->get('enable_ajax_editing'))
         {
             // AJAX editing is possible
             $this->_load_controller('ajax');
@@ -515,7 +515,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
         $this->_update_breadcrumb($handler_id);
 
         // Let MidCOM know about the object
-        midcom::get('metadata')->set_request_metadata($this->_object->metadata->revised, $this->_object->guid);
+        midcom::get()->metadata->set_request_metadata($this->_object->metadata->revised, $this->_object->guid);
         $this->bind_view_to_object($this->_object, $this->_datamanager->schema->name);
 
         $this->_handler_callback($handler_id, $args, $data);
@@ -569,7 +569,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
         $this->_update_breadcrumb($handler_id);
 
         // Let MidCOM know about the object
-        midcom::get('metadata')->set_request_metadata($this->_object->metadata->revised, $this->_object->guid);
+        midcom::get()->metadata->set_request_metadata($this->_object->metadata->revised, $this->_object->guid);
         $this->bind_view_to_object($this->_object, $this->_controller->datamanager->schema->name);
 
         $this->_handler_callback($handler_id, $args, $data);
@@ -621,11 +621,11 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
                 }
 
                 // Update the index
-                $indexer = midcom::get('indexer');
+                $indexer = midcom::get()->indexer;
                 $indexer->delete($this->_object->guid);
 
                 // Show user interface message
-                // midcom::get('uimessages')->add($this->_l10n->get('net.nehmer.blog'), sprintf($this->_l10n->get('object %s deleted'), $title));
+                // midcom::get()->uimessages->add($this->_l10n->get('net.nehmer.blog'), sprintf($this->_l10n->get('object %s deleted'), $title));
 
                 // Delete ok, relocating
                 $url = '';
@@ -650,7 +650,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
         $this->_update_breadcrumb($handler_id);
 
         // Let MidCOM know about the object
-        midcom::get('metadata')->set_request_metadata($this->_object->metadata->revised, $this->_object->guid);
+        midcom::get()->metadata->set_request_metadata($this->_object->metadata->revised, $this->_object->guid);
         $this->bind_view_to_object($this->_object, $this->_datamanager->schema->name);
 
         $this->_handler_callback($handler_id, $args, $data);

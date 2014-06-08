@@ -22,13 +22,13 @@ class org_openpsa_contacts_handler_frontpageTest extends openpsa_testcase
 
     public function testHandler_frontpage()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.contacts');
+        midcom::get()->auth->request_sudo('org.openpsa.contacts');
 
         $data = $this->run_handler('org.openpsa.contacts');
         $this->assertEquals('frontpage', $data['handler_id']);
 
         $this->show_handler($data);
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 }
 ?>

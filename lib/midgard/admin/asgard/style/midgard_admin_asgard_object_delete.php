@@ -4,7 +4,7 @@
         <input type="submit" name="midgard_admin_asgard_deleteok" value="<?php echo $data['l10n_midcom']->get('delete'); ?> " />
         <input type="submit" name="midgard_admin_asgard_deletecancel" value="<?php echo $data['l10n_midcom']->get('cancel'); ?>" />
         <?php
-        if (midcom::get('config')->get('midcom_services_rcs_enable'))
+        if (midcom::get()->config->get('midcom_services_rcs_enable'))
         {
             ?>
         <label for="midgard_admin_asgard_disablercs">
@@ -24,7 +24,7 @@
         <input type="submit" name="midgard_admin_asgard_deleteok" value="<?php echo $data['l10n_midcom']->get('delete'); ?> " />
         <input type="submit" name="midgard_admin_asgard_deletecancel" value="<?php echo $data['l10n_midcom']->get('cancel'); ?>" />
         <?php
-        if (midcom::get('config')->get('midcom_services_rcs_enable'))
+        if (midcom::get()->config->get('midcom_services_rcs_enable'))
         {
             ?>
         <label>

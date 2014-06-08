@@ -53,7 +53,7 @@ class midcom_services_indexer
      */
     public function __construct($backend = null)
     {
-        if (!midcom::get('config')->get('indexer_backend'))
+        if (!midcom::get()->config->get('indexer_backend'))
         {
             $this->_disabled = true;
             return;
@@ -61,7 +61,7 @@ class midcom_services_indexer
 
         if (is_null($backend))
         {
-            $class = midcom::get('config')->get('indexer_backend');
+            $class = midcom::get()->config->get('indexer_backend');
             if (strpos($class, '_') === false)
             {
                 // Built-in backend called using the shorthand notation
@@ -233,7 +233,7 @@ class midcom_services_indexer
         }
 
         // Do charset translations
-        $i18n = midcom::get('i18n');
+        $i18n = midcom::get()->i18n;
         $query = $i18n->convert_to_utf8($query);
 
         try
@@ -287,7 +287,7 @@ class midcom_services_indexer
                 // Strip language code from end of RI if it looks like "<GUID>_<LANG>"
                 try
                 {
-                    midcom::get('dbfactory')->get_object_by_guid(preg_replace('/^([0-9a-f]{32,80})_[a-z]{2}$/', '\\1', $document->RI));
+                    midcom::get()->dbfactory->get_object_by_guid(preg_replace('/^([0-9a-f]{32,80})_[a-z]{2}$/', '\\1', $document->RI));
                 }
                 catch (midcom_error $e)
                 {

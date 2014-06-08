@@ -113,7 +113,7 @@ implements midcom_helper_datamanager2_interfaces_create
         }
 
         $title = sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('article link'));
-        midcom::get('head')->set_pagetitle("{$this->_topic->extra}: {$title}");
+        midcom::get()->head->set_pagetitle("{$this->_topic->extra}: {$title}");
         $this->add_breadcrumb("create/link/", sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('article link')));
     }
 

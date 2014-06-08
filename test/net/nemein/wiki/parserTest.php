@@ -32,9 +32,9 @@ class net_nemein_wiki_parserTest extends openpsa_testcase
     public function test_find_links_in_content($text, $result)
     {
         self::$_page->content = $text;
-        midcom::get('auth')->request_sudo('net.nemein.wiki');
+        midcom::get()->auth->request_sudo('net.nemein.wiki');
         self::$_page->update();
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
 
         $parser = new net_nemein_wiki_parser(self::$_page);
         $links = $parser->find_links_in_content();

@@ -24,7 +24,7 @@ class org_openpsa_contacts_handler_group_viewTest extends openpsa_testcase
 
     public function testHandler_view_group()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.contacts');
+        midcom::get()->auth->request_sudo('org.openpsa.contacts');
 
         $data = $this->run_handler('org.openpsa.contacts', array('group', self::$_group->guid));
         $this->assertEquals('group_view', $data['handler_id']);
@@ -32,7 +32,7 @@ class org_openpsa_contacts_handler_group_viewTest extends openpsa_testcase
         $output = $this->show_handler($data);
 
         $this->show_handler($data);
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
     public function testHandler_view_organization()
@@ -42,7 +42,7 @@ class org_openpsa_contacts_handler_group_viewTest extends openpsa_testcase
             'orgOpenpsaObtype' => org_openpsa_contacts_group_dba::ORGANIZATION
         );
         $organization = $this->create_object('org_openpsa_contacts_group_dba', $attributes);
-        midcom::get('auth')->request_sudo('org.openpsa.contacts');
+        midcom::get()->auth->request_sudo('org.openpsa.contacts');
 
         $data = $this->run_handler('org.openpsa.contacts', array('group', $organization->guid));
         $this->assertEquals('group_view', $data['handler_id']);
@@ -50,12 +50,12 @@ class org_openpsa_contacts_handler_group_viewTest extends openpsa_testcase
         $output = $this->show_handler($data);
 
         $this->show_handler($data);
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
     public function testHandler_json()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.contacts');
+        midcom::get()->auth->request_sudo('org.openpsa.contacts');
 
         $data = $this->run_handler('org.openpsa.contacts', array('group', 'json', self::$_group->guid));
         $this->assertEquals('group_view_json', $data['handler_id']);
@@ -63,7 +63,7 @@ class org_openpsa_contacts_handler_group_viewTest extends openpsa_testcase
         $output = $this->show_handler($data);
 
         $this->show_handler($data);
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 }
 ?>

@@ -121,13 +121,13 @@ class midcom_helper_configuration
         $array = array();
 
         // Cast to DBA type.
-        if (! midcom::get('dbclassloader')->is_midcom_db_object($this->_object))
+        if (! midcom::get()->dbclassloader->is_midcom_db_object($this->_object))
         {
-            $this->_object = midcom::get('dbfactory')->convert_midgard_to_midcom($this->_object);
+            $this->_object = midcom::get()->dbfactory->convert_midgard_to_midcom($this->_object);
         }
 
         $array = array();
-        $manifest = midcom::get('componentloader')->manifests[$this->_path];
+        $manifest = midcom::get()->componentloader->manifests[$this->_path];
         if (!empty($manifest->extends))
         {
             $array = $this->_object->list_parameters($manifest->extends);

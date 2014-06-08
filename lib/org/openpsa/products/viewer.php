@@ -51,7 +51,7 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
         // of the index() method. Needs fixes there.
 
         $document = $indexer->new_document($dm);
-        if (midcom::get('dbfactory')->is_a($object, 'org_openpsa_products_product_dba'))
+        if (midcom::get()->dbfactory->is_a($object, 'org_openpsa_products_product_dba'))
         {
             if ($config->get('enable_scheduling'))
             {
@@ -177,7 +177,7 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
             {
                 foreach ($feeds as $title => $url)
                 {
-                    midcom::get('head')->add_link_head
+                    midcom::get()->head->add_link_head
                     (
                         array
                         (
@@ -192,7 +192,7 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
         }
         else
         {
-            midcom::get('head')->add_link_head
+            midcom::get()->head->add_link_head
             (
                 array
                 (
@@ -237,7 +237,7 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
 
         if ($this->_request_data['up'] == 0)
         {
-            midcom::get('auth')->require_user_do('midgard:create', null, 'org_openpsa_products_product_dba');
+            midcom::get()->auth->require_user_do('midgard:create', null, 'org_openpsa_products_product_dba');
         }
         else
         {
@@ -341,7 +341,7 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
     public static function get_unit_options()
     {
         $unit_options = midcom_baseclasses_components_configuration::get('org.openpsa.products', 'config')->get('unit_options');
-        $l10n = midcom::get('i18n')->get_l10n('org.openpsa.products');
+        $l10n = midcom::get()->i18n->get_l10n('org.openpsa.products');
         $options = array();
         foreach ($unit_options as $key => $name)
         {

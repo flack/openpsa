@@ -134,7 +134,7 @@ class midcom_services_dbclassloader
         }
         else
         {
-            $filename = midcom::get('componentloader')->path_to_snippetpath($component) . "/config/{$filename}";
+            $filename = midcom::get()->componentloader->path_to_snippetpath($component) . "/config/{$filename}";
         }
         if (! file_exists($filename))
         {
@@ -165,7 +165,7 @@ class midcom_services_dbclassloader
 
             if (   substr($mgdschema_class, 0, 8) == 'midgard_'
                 || substr($mgdschema_class, 0, 12) == 'midcom_core_'
-                || $mgdschema_class == midcom::get('config')->get('person_class'))
+                || $mgdschema_class == midcom::get()->config->get('person_class'))
             {
                 $this->_midgard_classes[$mgdschema_class] = $midcom_class;
             }
@@ -264,7 +264,7 @@ class midcom_services_dbclassloader
                 $component = $component_map[$component];
             }
 
-            if (midcom::get('componentloader')->is_installed($component))
+            if (midcom::get()->componentloader->is_installed($component))
             {
                 return $component;
             }
@@ -278,7 +278,7 @@ class midcom_services_dbclassloader
      * @param string $classname Class name to load a component for
      * @return boolean true if a component was found for the class, false otherwise
      */
-    function load_component_for_class($classname)
+    public function load_component_for_class($classname)
     {
         $component = $this->get_component_for_class($classname);
         if (!$component)
@@ -286,12 +286,12 @@ class midcom_services_dbclassloader
             return false;
         }
 
-        if (midcom::get('componentloader')->is_loaded($component))
+        if (midcom::get()->componentloader->is_loaded($component))
         {
             return true;
         }
 
-        return midcom::get('componentloader')->load_graceful($component);
+        return midcom::get()->componentloader->load_graceful($component);
     }
 
     /**
@@ -332,7 +332,7 @@ class midcom_services_dbclassloader
         }
 
         $component = false;
-        if ($classname == midcom::get('config')->get('person_class'))
+        if ($classname == midcom::get()->config->get('person_class'))
         {
             $component = 'midcom';
             $definitions = $this->get_midgard_classes();
@@ -417,7 +417,7 @@ class midcom_services_dbclassloader
         if (! array_key_exists($classname, $this->_mgdschema_class_handler))
         {
             $component = $this->get_component_for_class($classname);
-            midcom::get('componentloader')->load($component);
+            midcom::get()->componentloader->load($component);
             if (! array_key_exists($classname, $this->_mgdschema_class_handler))
             {
                 debug_add("Requested to load the classhandler for {$classname} which is not known.", MIDCOM_LOG_ERROR);
@@ -432,14 +432,14 @@ class midcom_services_dbclassloader
             return true;
         }
 
-        if (midcom::get('componentloader')->is_loaded($component))
+        if (midcom::get()->componentloader->is_loaded($component))
         {
             // Already loaded, so we're fine too.
             return true;
         }
 
         // This throws midcom_error on any problems.
-        midcom::get('componentloader')->load($component);
+        midcom::get()->componentloader->load($component);
 
         return true;
     }
@@ -473,7 +473,7 @@ class midcom_services_dbclassloader
             return $this->get_midgard_classes();
         }
 
-        return midcom::get('componentloader')->manifests[$component]->class_mapping;
+        return midcom::get()->componentloader->manifests[$component]->class_mapping;
     }
 
     function get_midgard_classes()

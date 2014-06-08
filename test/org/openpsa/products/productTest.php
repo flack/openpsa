@@ -29,7 +29,7 @@ class org_openpsa_products_productTest extends openpsa_testcase
         $product->_use_activitystream = false;
         $product->_use_rcs = false;
 
-        midcom::get('auth')->request_sudo('org.openpsa.products');
+        midcom::get()->auth->request_sudo('org.openpsa.products');
         $stat = $product->create();
         $this->assertTrue($stat);
         $this->register_object($product);
@@ -46,7 +46,7 @@ class org_openpsa_products_productTest extends openpsa_testcase
         $stat = $product->delete();
         $this->assertTrue($stat);
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 }
 ?>

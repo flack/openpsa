@@ -78,14 +78,14 @@ class midcom_debug
     {
         if (null === $filename)
         {
-            $filename = midcom::get('config')->get('log_filename');
+            $filename = midcom::get()->config->get('log_filename');
         }
         $this->_filename = $filename;
         $this->_enabled = true;
-        $this->_loglevel = midcom::get('config')->get('log_level');
+        $this->_loglevel = midcom::get()->config->get('log_level');
 
         // Load FirePHP logger if enabled
-        if (midcom::get('config')->get('log_firephp'))
+        if (midcom::get()->config->get('log_firephp'))
         {
             include_once('FirePHPCore/FirePHP.class.php');
             if (class_exists('FirePHP'))
@@ -418,7 +418,7 @@ class midcom_debug
  */
 function debug_add($message, $loglevel = MIDCOM_LOG_DEBUG)
 {
-    midcom::get('debug')->log($message, $loglevel);
+    midcom::get()->debug->log($message, $loglevel);
 }
 
 /**
@@ -430,7 +430,7 @@ function debug_add($message, $loglevel = MIDCOM_LOG_DEBUG)
  */
 function debug_print_r($message, $variable, $loglevel = MIDCOM_LOG_DEBUG)
 {
-    midcom::get('debug')->print_r($message, $variable, $loglevel);
+    midcom::get()->debug->print_r($message, $variable, $loglevel);
 }
 
 /**
@@ -441,7 +441,7 @@ function debug_print_r($message, $variable, $loglevel = MIDCOM_LOG_DEBUG)
  */
 function debug_print_function_stack($message, $loglevel = MIDCOM_LOG_DEBUG)
 {
-    midcom::get('debug')->print_function_stack($message, $loglevel);
+    midcom::get()->debug->print_function_stack($message, $loglevel);
 }
 
 /**
@@ -453,7 +453,7 @@ function debug_print_function_stack($message, $loglevel = MIDCOM_LOG_DEBUG)
  */
 function debug_print_type($message, $variable, $loglevel = MIDCOM_LOG_DEBUG)
 {
-    midcom::get('debug')->print_type($message, $variable, $loglevel);
+    midcom::get()->debug->print_type($message, $variable, $loglevel);
 }
 
 /**
@@ -464,6 +464,6 @@ function debug_print_type($message, $variable, $loglevel = MIDCOM_LOG_DEBUG)
 */
 function debug_dump_mem($message, $loglevel = MIDCOM_LOG_DEBUG)
 {
-    midcom::get('debug')->print_dump_mem($message, $loglevel);
+    midcom::get()->debug->print_dump_mem($message, $loglevel);
 }
 ?>

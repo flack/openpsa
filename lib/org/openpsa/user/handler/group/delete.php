@@ -38,7 +38,7 @@ implements midcom_helper_datamanager2_interfaces_view
      */
     public function _handler_delete($handler_id, array $args, array &$data)
     {
-        midcom::get('auth')->require_user_do('org.openpsa.user:manage', null, 'org_openpsa_user_interface');
+        midcom::get()->auth->require_user_do('org.openpsa.user:manage', null, 'org_openpsa_user_interface');
 
         $this->_group = new midcom_db_group($args[0]);
 
@@ -47,11 +47,11 @@ implements midcom_helper_datamanager2_interfaces_view
             if (!$this->_group->delete())
             {
                 // Failure, give a message
-                midcom::get('uimessages')->add($this->_l10n->get('org.openpsa.user'), $this->_l10n->get("failed to delete group, reason") . ' ' . midcom_connection::get_error_string(), 'error');
+                midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.user'), $this->_l10n->get("failed to delete group, reason") . ' ' . midcom_connection::get_error_string(), 'error');
                 return new midcom_response_relocate('group/' . $this->_group->guid . '/');
             }
             // Update the index
-            $indexer = midcom::get('indexer');
+            $indexer = midcom::get()->indexer;
             $indexer->delete($this->_group->guid);
 
             return new midcom_response_relocate('');

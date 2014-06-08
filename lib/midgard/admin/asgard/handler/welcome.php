@@ -30,7 +30,7 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
 
             $mgdschema_class = midcom_helper_reflector::class_rewrite($schema_type);
             $dummy_object = new $mgdschema_class();
-            $midcom_dba_classname = midcom::get('dbclassloader')->get_midcom_class_name_for_mgdschema_object($dummy_object);
+            $midcom_dba_classname = midcom::get()->dbclassloader->get_midcom_class_name_for_mgdschema_object($dummy_object);
             if (empty($midcom_dba_classname))
             {
                 continue;
@@ -42,7 +42,7 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
         // List all revised objects
         foreach ($classes as $class)
         {
-            if (!midcom::get('dbclassloader')->load_mgdschema_class_handler($class))
+            if (!midcom::get()->dbclassloader->load_mgdschema_class_handler($class))
             {
                 // Failed to load handling component, skip
                 continue;
@@ -56,9 +56,9 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
             }
 
             if (   $only_mine
-                && midcom::get('auth')->user)
+                && midcom::get()->auth->user)
             {
-                $qb->add_constraint('metadata.authors', 'LIKE', '|' . midcom::get('auth')->user->guid . '|');
+                $qb->add_constraint('metadata.authors', 'LIKE', '|' . midcom::get()->auth->user->guid . '|');
             }
 
             $qb->add_order('metadata.revision', 'DESC');
@@ -76,7 +76,7 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
                     }
                 }
 
-                $revisor = midcom::get('auth')->get_user($object->metadata->revisor);
+                $revisor = midcom::get()->auth->get_user($object->metadata->revisor);
 
                 $revised["{$object->metadata->revised}_{$object->guid}_{$object->metadata->revision}"] = array
                 (
@@ -154,8 +154,8 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
 
         $this->_prepare_tabledata($objects);
 
-        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.tablesorter.pack.js');
-        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/midgard.admin.asgard/jquery.batch_process.js');
+        midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.tablesorter.pack.js');
+        midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midgard.admin.asgard/jquery.batch_process.js');
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/midgard.admin.asgard/tablewidget.css');
 
         $this->_populate_toolbar();
@@ -170,7 +170,7 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
         {
             try
             {
-                $object = midcom::get('dbfactory')->get_object_by_guid($activity->target);
+                $object = midcom::get()->dbfactory->get_object_by_guid($activity->target);
             }
             catch (midcom_error $e)
             {
@@ -257,7 +257,7 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
             )
         );
 
-        if (midcom::get('auth')->admin)
+        if (midcom::get()->auth->admin)
         {
             $this->_request_data['asgard_toolbar']->add_item
             (
@@ -308,7 +308,7 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
         {
             try
             {
-                $object = midcom::get('dbfactory')->get_object_by_guid($guid);
+                $object = midcom::get()->dbfactory->get_object_by_guid($guid);
             }
             catch (midcom_error $e)
             {
@@ -319,7 +319,7 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
             {
                 if ($object->delete())
                 {
-                    midcom::get('uimessages')->add($this->_l10n->get('midgard.admin.asgard'), sprintf($this->_l10n->get('object %s removed'), $object->guid));
+                    midcom::get()->uimessages->add($this->_l10n->get('midgard.admin.asgard'), sprintf($this->_l10n->get('object %s removed'), $object->guid));
                 }
             }
         }
@@ -331,7 +331,7 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
         {
             try
             {
-                $object = midcom::get('dbfactory')->get_object_by_guid($guid);
+                $object = midcom::get()->dbfactory->get_object_by_guid($guid);
             }
             catch (midcom_error $e)
             {
@@ -342,7 +342,7 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
                 && $object->can_do('midcom:approve'))
             {
                 $object->metadata->approve();
-                midcom::get('uimessages')->add($this->_l10n->get('midgard.admin.asgard'), sprintf($this->_l10n->get('object %s approved'), $object->guid));
+                midcom::get()->uimessages->add($this->_l10n->get('midgard.admin.asgard'), sprintf($this->_l10n->get('object %s approved'), $object->guid));
             }
         }
     }
@@ -355,7 +355,7 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
      */
     public function _show_welcome($handler_id, array &$data)
     {
-        if (midcom::get('auth')->can_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin'))
+        if (midcom::get()->auth->can_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin'))
         {
             midcom_show_style('midgard_admin_asgard_welcome');
         }

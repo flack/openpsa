@@ -42,9 +42,9 @@ class net_nemein_wiki_handler_tagTest extends openpsa_testcase
         );
         $page2 = $this->create_object('net_nemein_wiki_wikipage', $article_properties);
 
-        midcom::get('auth')->request_sudo('net.nemein.wiki');
+        midcom::get()->auth->request_sudo('net.nemein.wiki');
         net_nemein_tag_handler::tag_object($page2, array(self::$_page->name => ''), 'net.nemein.wiki');
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
 
         $data = $this->run_handler(self::$_topic, array('tags', self::$_page->name));
         $this->assertEquals('tags', $data['handler_id']);

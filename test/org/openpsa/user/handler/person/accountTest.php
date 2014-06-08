@@ -22,38 +22,38 @@ class org_openpsa_user_handler_person_accountTest extends openpsa_testcase
 
     public function test_handler_create()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.user');
+        midcom::get()->auth->request_sudo('org.openpsa.user');
 
         $person = $this->create_object('midcom_db_person');
 
         $data = $this->run_handler('org.openpsa.user', array('account', 'create', $person->guid));
         $this->assertEquals('account_create', $data['handler_id']);
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
     public function test_handler_edit()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.user');
+        midcom::get()->auth->request_sudo('org.openpsa.user');
 
         $person = $this->create_object('midcom_db_person');
 
         $data = $this->run_handler('org.openpsa.user', array('account', 'edit', self::$_user->guid));
         $this->assertEquals('account_edit', $data['handler_id']);
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
     public function test_handler_delete()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.user');
+        midcom::get()->auth->request_sudo('org.openpsa.user');
 
         $person = $this->create_object('midcom_db_person');
 
         $data = $this->run_handler('org.openpsa.user', array('account', 'delete', self::$_user->guid));
         $this->assertEquals('account_delete', $data['handler_id']);
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 }
 ?>

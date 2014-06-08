@@ -3,7 +3,7 @@ if (! exec ('which which'))
 {
     throw new midcom_error("The 'which' utility cannot be found.");
 }
-midcom::get('auth')->require_admin_user();
+midcom::get()->auth->require_admin_user();
 ?>
 <html>
 <head><title>Configuration Test</title></head>
@@ -35,7 +35,7 @@ $runner->check_midcom();
 $runner->check_php();
 $runner->print_header('External Utilities');
 // ImageMagick
-$cmd = midcom::get('config')->get('utility_imagemagick_base') . "identify -version";
+$cmd = midcom::get()->config->get('utility_imagemagick_base') . "identify -version";
 exec ($cmd, $output, $result);
 if ($result !== 0 && $result !== 1)
 {
@@ -56,7 +56,7 @@ $runner->check_for_utility('jpegtran', midcom_config_test::WARNING, 'The jpegtra
 
 $runner->check_for_utility('diff', midcom_config_test::WARNING, 'diff is needed by the versioning library');
 
-if (midcom::get('config')->get('indexer_backend'))
+if (midcom::get()->config->get('indexer_backend'))
 {
     $runner->check_for_utility('catdoc', midcom_config_test::ERROR, 'Catdoc is required to properly index Microsoft Word documents. It is strongly recommended to install it, otherwise Word documents will be indexed as binary files.');
     $runner->check_for_utility('pdftotext', midcom_config_test::ERROR, 'pdftotext is required to properly index Adobe PDF documents. It is strongly recommended to install it, otherwise PDF documents will be indexed as binary files.');

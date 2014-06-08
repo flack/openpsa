@@ -21,7 +21,7 @@ class org_openpsa_helpers
         {
             $stat = $attachment->stat();
             $filesize = midcom_helper_misc::filesize_to_string($stat[7]);
-            $url = midcom::get('permalinks')->create_attachment_link($attachment->guid, $attachment->name);
+            $url = midcom::get()->permalinks->create_attachment_link($attachment->guid, $attachment->name);
             $mimetype = org_openpsa_documents_document_dba::get_file_type($attachment->mimetype);
             $mimetype_icon = midcom_helper_misc::get_mime_icon($attachment->mimetype);
 
@@ -128,8 +128,8 @@ class org_openpsa_helpers
 
         if (is_null($localeconv))
         {
-            $language = midcom::get('i18n')->get_current_language();
-            $language_db = midcom::get('i18n')->get_language_db();
+            $language = midcom::get()->i18n->get_current_language();
+            $language_db = midcom::get()->i18n->get_language_db();
             setlocale(LC_ALL, $language_db[$language]['locale']);
 
             $localeconv = localeconv();

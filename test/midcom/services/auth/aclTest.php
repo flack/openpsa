@@ -22,12 +22,12 @@ class midcom_services_auth_aclTest extends openpsa_testcase
         $article_denied = $this->create_object('midcom_db_article', array('topic' => $topic_denied->id));
         $person = $this->create_user();
 
-        midcom::get('auth')->request_sudo('midcom.core');
+        midcom::get()->auth->request_sudo('midcom.core');
         $person->set_privilege('midgard:read', 'SELF', MIDCOM_PRIVILEGE_DENY, 'midcom_db_article');
         $topic_denied->set_privilege('midgard:read', 'user:' . $person->guid, MIDCOM_PRIVILEGE_DENY);
 
         $user = new midcom_core_user($person);
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
 
         $auth = new midcom_services_auth;
         $auth->initialize();
@@ -56,10 +56,10 @@ class midcom_services_auth_aclTest extends openpsa_testcase
         $group = $this->create_object('midcom_db_group');
         $this->create_object('midcom_db_member', array('gid' => $group->id, 'uid' => $person->id));
 
-        midcom::get('auth')->request_sudo('midcom.core');
+        midcom::get()->auth->request_sudo('midcom.core');
         $topic->set_privilege('midgard:read', 'group:' . $group->guid, MIDCOM_PRIVILEGE_DENY);
         $user = new midcom_core_user($person);
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
 
         $auth = new midcom_services_auth;
         $auth->initialize();

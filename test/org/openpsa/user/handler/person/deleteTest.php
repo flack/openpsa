@@ -22,12 +22,12 @@ class org_openpsa_user_handler_person_deleteTest extends openpsa_testcase
 
     public function test_handler_delete()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.user');
+        midcom::get()->auth->request_sudo('org.openpsa.user');
 
         $data = $this->run_handler('org.openpsa.user', array('delete', self::$_user->guid));
         $this->assertEquals('user_delete', $data['handler_id']);
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 }
 ?>

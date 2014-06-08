@@ -182,7 +182,7 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
 
         $this->_populate_toolbar();
 
-        midcom::get('head')->set_pagetitle($this->_l10n->get('search'));
+        midcom::get()->head->set_pagetitle($this->_l10n->get('search'));
         $this->add_breadcrumb("", $this->_l10n->get('search'));
         $data['query_string'] = $this->_query_string;
     }
@@ -225,7 +225,7 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
                 MIDCOM_TOOLBAR_URL => 'person/create/',
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create person'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_person-new.png',
-                MIDCOM_TOOLBAR_ENABLED => midcom::get('auth')->can_user_do('midgard:create', null, 'org_openpsa_contacts_person_dba'),
+                MIDCOM_TOOLBAR_ENABLED => midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_contacts_person_dba'),
             )
         );
 
@@ -247,7 +247,7 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
                 MIDCOM_TOOLBAR_URL => 'group/create/group/',
                 MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('group')),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_people-new.png',
-                MIDCOM_TOOLBAR_ENABLED => midcom::get('auth')->can_user_do('midgard:create', null, 'org_openpsa_contacts_group_dba'),
+                MIDCOM_TOOLBAR_ENABLED => midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_contacts_group_dba'),
             )
         );
     }

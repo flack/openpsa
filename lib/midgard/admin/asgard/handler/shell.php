@@ -26,7 +26,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      */
     public function _handler_shell($handler_id, array $args, array &$data)
     {
-        midcom::get('auth')->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
+        midcom::get()->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
 
         $controller = $this->get_controller('nullstorage');
 
@@ -44,7 +44,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
                     {
                         $element =& $controller->formmanager->form->getElement($field);
                         $message = sprintf($this->_l10n->get('validation error in field %s: %s'), $element->getLabel(), $error);
-                        midcom::get('uimessages')->add
+                        midcom::get()->uimessages->add
                             (
                                 $this->_l10n->get('midgard.admin.asgard'),
                                 $message,
@@ -57,7 +57,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         $data['controller'] = $controller;
         $data['view_title'] = $this->_l10n->get('shell');
 
-        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/midgard.admin.asgard/shell.js');
+        midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midgard.admin.asgard/shell.js');
 
         $data['asgard_toolbar'] = $this->_prepare_toolbar();
 
@@ -115,7 +115,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         }
         else
         {
-            midcom::get('cache')->content->enable_live_mode();
+            midcom::get()->cache->content->enable_live_mode();
             while (@ob_end_flush());
             ob_implicit_flush(true);
             midcom_show_style('midgard_admin_asgard_shell_runner');

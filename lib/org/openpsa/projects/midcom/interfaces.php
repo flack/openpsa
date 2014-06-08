@@ -36,11 +36,11 @@ implements midcom_services_permalinks_resolver, org_openpsa_contacts_duplicates_
     {
         switch (true)
         {
-            case midcom::get('dbfactory')->is_a($object, 'midcom_db_person'):
+            case midcom::get()->dbfactory->is_a($object, 'midcom_db_person'):
                 $this->_find_suspects_person($object, $defaults, $links_array);
                 break;
-            case midcom::get('dbfactory')->is_a($object, 'midcom_db_event'):
-            case midcom::get('dbfactory')->is_a($object, 'org_openpsa_calendar_event_dba'):
+            case midcom::get()->dbfactory->is_a($object, 'midcom_db_event'):
+            case midcom::get()->dbfactory->is_a($object, 'org_openpsa_calendar_event_dba'):
                 $this->_find_suspects_event($object, $defaults, $links_array);
                 break;
 
@@ -140,7 +140,7 @@ implements midcom_services_permalinks_resolver, org_openpsa_contacts_duplicates_
 
         switch (true)
         {
-            case midcom::get('dbfactory')->is_a($from_object, 'org_openpsa_calendar_event_dba'):
+            case midcom::get()->dbfactory->is_a($from_object, 'org_openpsa_calendar_event_dba'):
                 $event = $from_object;
                 $hr->date = $event->start;
                 $hr->hours = round((($event->end - $event->start) / 3600), 2);

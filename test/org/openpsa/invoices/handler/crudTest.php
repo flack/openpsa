@@ -24,7 +24,7 @@ class org_openpsa_invoices_handler_crudTest extends openpsa_testcase
 
     public function testHandler_create()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.invoices');
+        midcom::get()->auth->request_sudo('org.openpsa.invoices');
 
         $data = $this->run_handler('org.openpsa.invoices', array('invoice', 'new'));
         $this->assertEquals('invoice_new_nocustomer', $data['handler_id']);
@@ -33,40 +33,40 @@ class org_openpsa_invoices_handler_crudTest extends openpsa_testcase
         $this->assertEquals('invoice_new', $data['handler_id']);
 
         $this->show_handler($data);
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
     public function testHandler_edit()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.invoices');
+        midcom::get()->auth->request_sudo('org.openpsa.invoices');
 
         $data = $this->run_handler('org.openpsa.invoices', array('invoice', 'edit', self::$_invoice->guid));
         $this->assertEquals('invoice_edit', $data['handler_id']);
 
         $this->show_handler($data);
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
     public function testHandler_delete()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.invoices');
+        midcom::get()->auth->request_sudo('org.openpsa.invoices');
 
         $data = $this->run_handler('org.openpsa.invoices', array('invoice', 'delete', self::$_invoice->guid));
         $this->assertEquals('invoice_delete', $data['handler_id']);
 
         $this->show_handler($data);
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
     public function testHandler_read()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.invoices');
+        midcom::get()->auth->request_sudo('org.openpsa.invoices');
 
         $data = $this->run_handler('org.openpsa.invoices', array('invoice', self::$_invoice->guid));
         $this->assertEquals('invoice', $data['handler_id']);
 
         $this->show_handler($data);
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 }
 ?>

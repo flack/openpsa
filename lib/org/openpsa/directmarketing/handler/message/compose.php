@@ -45,7 +45,7 @@ class org_openpsa_directmarketing_handler_message_compose extends midcom_basecla
      */
     public function _handler_compose($handler_id, array $args, array &$data)
     {
-        midcom::get('auth')->request_sudo($this->_component);
+        midcom::get()->auth->request_sudo($this->_component);
         //Load message
         $this->_message = new org_openpsa_directmarketing_campaign_message_dba($args[0]);
         $data['campaign'] = new org_openpsa_directmarketing_campaign_dba($this->_message->campaign);
@@ -86,7 +86,7 @@ class org_openpsa_directmarketing_handler_message_compose extends midcom_basecla
             && !preg_match('/^builtin:/', $data['message_array']['substyle']))
         {
             debug_add("Appending substyle {$data['message_array']['substyle']}");
-            midcom::get('style')->append_substyle($data['message_array']['substyle']);
+            midcom::get()->style->append_substyle($data['message_array']['substyle']);
         }
         //This isn't necessary for dynamic-loading, but is nice for "preview".
         midcom::get()->skip_page_style = true;
@@ -100,7 +100,7 @@ class org_openpsa_directmarketing_handler_message_compose extends midcom_basecla
                 break;
             //TODO: Other content type overrides ?
         }
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
     /**

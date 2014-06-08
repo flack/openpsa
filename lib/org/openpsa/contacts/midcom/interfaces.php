@@ -65,13 +65,13 @@ implements midcom_services_permalinks_resolver, org_openpsa_contacts_duplicates_
             debug_add("OpenPSA Contacts root group could not be found", MIDCOM_LOG_WARN);
 
             //Attempt to  auto-initialize the group.
-            midcom::get('auth')->request_sudo('org.openpsa.contacts');
+            midcom::get()->auth->request_sudo('org.openpsa.contacts');
             $grp = new midcom_db_group();
             $grp->owner = 0;
             $grp->name = $name;
-            $grp->official = midcom::get('i18n')->get_l10n('org.openpsa.contacts')->get($name);
+            $grp->official = midcom::get()->i18n->get_l10n('org.openpsa.contacts')->get($name);
             $ret = $grp->create();
-            midcom::get('auth')->drop_sudo();
+            midcom::get()->auth->drop_sudo();
             if (!$ret)
             {
                 throw new midcom_error("Could not auto-initialize the module, group creation failed: " . midcom_connection::get_error_string());

@@ -101,7 +101,7 @@ class midcom_helper_datamanager2_type_urlname extends midcom_helper_datamanager2
         $copy = $this->_copy_object($this->storage->object);
         $property = $schema['storage']['location'];
         $resolver = new midcom_helper_reflector_nameresolver($copy);
-        $generator = midcom::get('serviceloader')->load('midcom_core_service_urlgenerator');
+        $generator = midcom::get()->serviceloader->load('midcom_core_service_urlgenerator');
 
         if (empty($this->value))
         {

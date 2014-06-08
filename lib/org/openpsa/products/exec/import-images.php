@@ -1,5 +1,5 @@
 <?php
-midcom::get('auth')->require_admin_user();
+midcom::get()->auth->require_admin_user();
 
 if (   !isset($_POST['address'])
     || !strstr($_POST['address'], '__PRODUCT_CODE__'))
@@ -41,7 +41,7 @@ else
         }
 
         // Save image to a temp file
-        $tmp_name = tempnam(midcom::get('config')->get('midcom_tempdir'), 'org_openpsa_products_product_oldimage_');
+        $tmp_name = tempnam(midcom::get()->config->get('midcom_tempdir'), 'org_openpsa_products_product_oldimage_');
 
         if (!file_put_contents($tmp_name, $image))
         {

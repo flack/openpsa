@@ -55,13 +55,13 @@ else
             {
                 case 'net.nehmer.blog':
                     $local_article = new midcom_db_article($item->get_local_guid());
-                    $local_link = midcom::get('permalinks')->create_permalink($item->get_local_guid());
+                    $local_link = midcom::get()->permalinks->create_permalink($item->get_local_guid());
                     echo "    <td><a href=\"{$local_link}\">{$local_article->title}</a></td>\n";
                     break;
 
                 case 'net.nemein.calendar':
                     $local_event = new net_nemein_calendar_event($item->get_local_guid());
-                    $local_link = midcom::get('permalinks')->create_permalink($item->get_local_guid());
+                    $local_link = midcom::get()->permalinks->create_permalink($item->get_local_guid());
                     echo "    <td><a href=\"{$local_link}\">{$local_event->title}</a></td>\n";
                     break;
             }

@@ -108,7 +108,7 @@ if (   function_exists('gc_enabled')
 require MIDCOM_ROOT . '/midcom.php';
 
 //Clean up residue cache entries from previous runs
-midcom::get('cache')->invalidate_all();
+midcom::get()->cache->invalidate_all();
 //disable output buffering
-midcom::get('cache')->content->enable_live_mode();
+midcom::get()->cache->content->enable_live_mode();
 ?>

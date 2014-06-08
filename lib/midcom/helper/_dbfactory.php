@@ -52,7 +52,7 @@ class midcom_helper__dbfactory
 
             throw new midcom_error_midgard($e, $guid);
         }
-        $person_class =  midcom::get('config')->get('person_class');
+        $person_class =  midcom::get()->config->get('person_class');
         if (   get_class($tmp) == 'midgard_person'
             && $person_class != 'midgard_person')
         {
@@ -143,14 +143,14 @@ class midcom_helper__dbfactory
             throw new midcom_error("Cannot cast the object to a MidCOM DBA type, it is not an object.");
         }
 
-        if (!midcom::get('dbclassloader')->is_mgdschema_object($object))
+        if (!midcom::get()->dbclassloader->is_mgdschema_object($object))
         {
             debug_print_r("Object dump:", $object);
             throw new midcom_error("Cannot cast the object to a MidCOM DBA type, it is not a regular MgdSchema object, we got this type:");
         }
-        $classname = midcom::get('dbclassloader')->get_midcom_class_name_for_mgdschema_object($object);
+        $classname = midcom::get()->dbclassloader->get_midcom_class_name_for_mgdschema_object($object);
 
-        if (! midcom::get('dbclassloader')->load_mgdschema_class_handler($classname))
+        if (! midcom::get()->dbclassloader->load_mgdschema_class_handler($classname))
         {
             throw new midcom_error("Failed to load the handling component for {$classname}, cannot convert.");
         }
@@ -182,9 +182,9 @@ class midcom_helper__dbfactory
             return null;
         }
 
-        if (!midcom::get('dbclassloader')->is_midcom_db_object($object))
+        if (!midcom::get()->dbclassloader->is_midcom_db_object($object))
         {
-            if (midcom::get('dbclassloader')->is_mgdschema_object($object))
+            if (midcom::get()->dbclassloader->is_mgdschema_object($object))
             {
                 // Return it directly, it is already in the format we want
                 return $object;
@@ -318,7 +318,7 @@ class midcom_helper__dbfactory
                 $parent = null;
             }
             // Cache the classname so that we can avoid get_object_by_guid calls the next time
-            midcom::get('cache')->memcache->update_parent_data($object->guid, $parent_data);
+            midcom::get()->cache->memcache->update_parent_data($object->guid, $parent_data);
 
             return $parent;
         }
@@ -381,7 +381,7 @@ class midcom_helper__dbfactory
                 return $cached_parent_data[$object_guid];
             }
 
-            $parent_data = midcom::get('cache')->memcache->lookup_parent_data($object_guid);
+            $parent_data = midcom::get()->cache->memcache->lookup_parent_data($object_guid);
         }
         else if ($the_object === null)
         {
@@ -419,7 +419,7 @@ class midcom_helper__dbfactory
             $parent_data = array();
             if (!empty($classname))
             {
-                $classname = midcom::get('dbclassloader')->get_midcom_class_name_for_mgdschema_object($classname);
+                $classname = midcom::get()->dbclassloader->get_midcom_class_name_for_mgdschema_object($classname);
             }
             if (!mgd_is_guid($parent_guid))
             {
@@ -429,7 +429,7 @@ class midcom_helper__dbfactory
 
             if (mgd_is_guid($object_guid))
             {
-                midcom::get('cache')->memcache->update_parent_data($object_guid, $parent_data);
+                midcom::get()->cache->memcache->update_parent_data($object_guid, $parent_data);
             }
         }
 
@@ -470,7 +470,7 @@ class midcom_helper__dbfactory
             return array('', call_user_func(array($class_name, 'get_parent_guid_uncached_static'), $object_guid, $class_name));
         }
 
-        $class_name = midcom::get('dbclassloader')->get_mgdschema_class_name_for_midcom_class($class_name);
+        $class_name = midcom::get()->dbclassloader->get_mgdschema_class_name_for_midcom_class($class_name);
         $candidates = $this->_get_parent_candidates($class_name);
 
         foreach ($candidates as $data)
@@ -546,7 +546,7 @@ class midcom_helper__dbfactory
                 $target_class = $reflector->get_link_name($parent_property);
                 if ($target_class == 'midgard_person')
                 {
-                    $person_class =  midcom::get('config')->get('person_class');
+                    $person_class =  midcom::get()->config->get('person_class');
                     if ($person_class != 'midgard_person')
                     {
                         $target_class = $person_class;

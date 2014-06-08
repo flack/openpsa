@@ -6,7 +6,7 @@
         <link rel="stylesheet" type="text/css" href="<?php echo MIDCOM_STATIC_URL; ?>/midcom.admin.help/help.css" media="screen,projector" />
         <link rel="shortcut icon" href="<?php echo MIDCOM_STATIC_URL; ?>/stock-icons/logos/favicon.ico" />
         <?php
-        midcom::get('head')->print_head_elements();
+        midcom::get()->head->print_head_elements();
         ?>
     </head>
     <body>

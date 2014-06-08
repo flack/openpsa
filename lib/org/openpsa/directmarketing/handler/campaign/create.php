@@ -80,7 +80,7 @@ implements midcom_helper_datamanager2_interfaces_create
      */
     public function _handler_create($handler_id, array $args, array &$data)
     {
-        midcom::get('auth')->require_user_do('midgard:create', null, 'org_openpsa_directmarketing_campaign_dba');
+        midcom::get()->auth->require_user_do('midgard:create', null, 'org_openpsa_directmarketing_campaign_dba');
 
         $this->_schema = $args[0];
 
@@ -90,7 +90,7 @@ implements midcom_helper_datamanager2_interfaces_create
         {
             case 'save':
                 // Index the campaign
-                //$indexer = midcom::get('indexer');
+                //$indexer = midcom::get()->indexer;
                 //org_openpsa_directmarketing_viewer::index($data['controller']->datamanager, $indexer, $this->_topic);
 
                 return new midcom_response_relocate("campaign/{$this->_campaign->guid}/");
@@ -101,10 +101,10 @@ implements midcom_helper_datamanager2_interfaces_create
 
         if ($this->_campaign != null)
         {
-            midcom::get('metadata')->set_request_metadata($this->_campaign->metadata->revised, $this->_campaign->guid);
+            midcom::get()->metadata->set_request_metadata($this->_campaign->metadata->revised, $this->_campaign->guid);
         }
         $data['view_title'] = sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get($this->_schemadb[$this->_schema]->description));
-        midcom::get('head')->set_pagetitle($data['view_title']);
+        midcom::get()->head->set_pagetitle($data['view_title']);
         $this->add_breadcrumb("create/{$this->_schema}/", sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get($this->_schemadb[$this->_schema]->description)));
 
         org_openpsa_helpers::dm2_savecancel($this);

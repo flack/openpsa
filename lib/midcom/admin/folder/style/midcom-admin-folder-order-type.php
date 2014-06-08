@@ -35,7 +35,7 @@ foreach ($data['navigation_items'] as $i => $item)
     if (   isset($item[MIDCOM_NAV_COMPONENT])
         && $item[MIDCOM_NAV_COMPONENT] !== 'net.nehmer.static'
         && $item[MIDCOM_NAV_COMPONENT] !== 'net.nehmer.blog'
-        && ($tmp = midcom::get('componentloader')->get_component_icon($item[MIDCOM_NAV_COMPONENT], false)))
+        && ($tmp = midcom::get()->componentloader->get_component_icon($item[MIDCOM_NAV_COMPONENT], false)))
     {
         $icon = MIDCOM_STATIC_URL . "/{$tmp}";
     }

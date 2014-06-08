@@ -15,7 +15,7 @@ class org_openpsa_sales_salesprojectTest extends openpsa_testcase
 {
     public function testCRUD()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.sales');
+        midcom::get()->auth->request_sudo('org.openpsa.sales');
 
         $salesproject = new org_openpsa_sales_salesproject_dba();
         $salesproject->_use_activitystream = false;
@@ -36,7 +36,7 @@ class org_openpsa_sales_salesprojectTest extends openpsa_testcase
         $stat = $salesproject->delete();
         $this->assertTrue($stat);
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
      }
 }
 ?>

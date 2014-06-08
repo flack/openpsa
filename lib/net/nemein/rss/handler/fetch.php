@@ -21,7 +21,7 @@ class net_nemein_rss_handler_fetch extends midcom_baseclasses_components_handler
     public function _handler_fetch($handler_id, array $args, array &$data)
     {
         $this->_topic->require_do('midgard:create');
-        midcom::get('cache')->content->enable_live_mode();
+        midcom::get()->cache->content->enable_live_mode();
 
         midcom::get()->disable_limits();
         $data['error'] = '';
@@ -32,7 +32,7 @@ class net_nemein_rss_handler_fetch extends midcom_baseclasses_components_handler
             $fetcher = new net_nemein_rss_fetch($data['feed']);
             $data['items'] = $fetcher->import();
             $data['error'] = $fetcher->lasterror;
-            midcom::get('metadata')->set_request_metadata($data['feed']->metadata->revised, $data['feed']->guid);
+            midcom::get()->metadata->set_request_metadata($data['feed']->metadata->revised, $data['feed']->guid);
             $this->bind_view_to_object($data['feed']);
         }
         else

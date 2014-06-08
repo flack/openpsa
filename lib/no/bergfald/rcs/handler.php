@@ -60,7 +60,7 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_plugin
      */
     public function _on_initialize()
     {
-        midcom::get('style')->prepend_component_styledir('no.bergfald.rcs');
+        midcom::get()->style->prepend_component_styledir('no.bergfald.rcs');
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/no.bergfald.rcs/rcs.css");
     }
 
@@ -69,10 +69,10 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_plugin
      */
     private function _load_object()
     {
-        $this->_object = midcom::get('dbfactory')->get_object_by_guid($this->_guid);
+        $this->_object = midcom::get()->dbfactory->get_object_by_guid($this->_guid);
 
         // Get RCS handler from core
-        $rcs = midcom::get('rcs');
+        $rcs = midcom::get()->rcs;
         $this->_backend = $rcs->load_handler($this->_object);
 
         if (get_class($this->_object) != 'midcom_db_topic')
@@ -85,7 +85,7 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_plugin
     {
         if (!is_a($this->_object, 'midcom_db_topic'))
         {
-            $this->add_breadcrumb(midcom::get('permalinks')->create_permalink($this->_object->guid), $this->_resolve_object_title());
+            $this->add_breadcrumb(midcom::get()->permalinks->create_permalink($this->_object->guid), $this->_resolve_object_title());
         }
         $this->add_breadcrumb("__ais/rcs/{$this->_object->guid}/", $this->_l10n->get('show history'));
     }
@@ -98,7 +98,7 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_plugin
         $this->_view_toolbar->add_item(
             array
             (
-                MIDCOM_TOOLBAR_URL => midcom::get('permalinks')->create_permalink($this->_guid),
+                MIDCOM_TOOLBAR_URL => midcom::get()->permalinks->create_permalink($this->_guid),
                 MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n->get('back to %s'), $this->_resolve_object_title()),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_up.png',
             )
@@ -205,7 +205,7 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_plugin
         $this->_prepare_breadcrumb();
 
         $data['view_title'] = sprintf($this->_l10n->get('revision history of %s'), $this->_resolve_object_title());
-        midcom::get('head')->set_pagetitle($this->_request_data['view_title']);
+        midcom::get()->head->set_pagetitle($this->_request_data['view_title']);
     }
 
     /**
@@ -254,7 +254,7 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_plugin
         $this->_request_data['guid'] = $args[0];
 
         $this->_request_data['view_title'] = sprintf($this->_l10n->get('changes done in revision %s to %s'), $this->_request_data['latest_revision'], $this->_resolve_object_title());
-        midcom::get('head')->set_pagetitle($this->_request_data['view_title']);
+        midcom::get()->head->set_pagetitle($this->_request_data['view_title']);
 
         $this->_prepare_breadcrumb();
         $this->add_breadcrumb
@@ -284,10 +284,10 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_plugin
     public function translate($string)
     {
         $translated = $string;
-        $component = midcom::get('dbclassloader')->get_component_for_class($this->_object->__midcom_class_name__);
-        if (midcom::get('componentloader')->is_installed($component))
+        $component = midcom::get()->dbclassloader->get_component_for_class($this->_object->__midcom_class_name__);
+        if (midcom::get()->componentloader->is_installed($component))
         {
-            $translated = midcom::get('i18n')->get_l10n($component)->get($string);
+            $translated = midcom::get()->i18n->get_l10n($component)->get($string);
         }
         if ($translated === $string)
         {
@@ -317,7 +317,7 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_plugin
         $this->_view_toolbar->hide_item("__ais/rcs/preview/{$this->_guid}/{$revision}/");
 
         $this->_request_data['view_title'] = sprintf($this->_l10n->get('viewing version %s of %s'), $revision, $this->_resolve_object_title());
-        midcom::get('head')->set_pagetitle($this->_request_data['view_title']);
+        midcom::get()->head->set_pagetitle($this->_request_data['view_title']);
 
         $this->_prepare_breadcrumb();
         $this->add_breadcrumb
@@ -361,8 +361,8 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_plugin
         if (   $this->_backend->version_exists($args[1])
             && $this->_backend->restore_to_revision($args[1]))
         {
-            midcom::get('uimessages')->add($this->_l10n->get($this->_component), sprintf($this->_l10n->get('restore to version %s successful'), $args[1]), 'ok');
-            return new midcom_response_relocate(midcom::get('permalinks')->create_permalink($this->_object->guid));
+            midcom::get()->uimessages->add($this->_l10n->get($this->_component), sprintf($this->_l10n->get('restore to version %s successful'), $args[1]), 'ok');
+            return new midcom_response_relocate(midcom::get()->permalinks->create_permalink($this->_object->guid));
         }
         throw new midcom_error(sprintf($this->_l10n->get('restore to version %s failed, reason %s'), $args[1], $this->_backend->get_error()));
     }

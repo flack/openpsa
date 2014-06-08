@@ -22,7 +22,7 @@ class midcom_core_accountTest extends openpsa_testcase
 
     public function testCRUD()
     {
-        midcom::get('auth')->request_sudo('midcom.core');
+        midcom::get()->auth->request_sudo('midcom.core');
 
         $account = midcom_core_account::get(self::$_person);
         $this->assertTrue($account instanceOf midcom_core_account);
@@ -47,12 +47,12 @@ class midcom_core_accountTest extends openpsa_testcase
         $stat = $account->delete();
         $this->assertTrue($stat);
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
     public function testGet()
     {
-        midcom::get('auth')->request_sudo('midcom.core');
+        midcom::get()->auth->request_sudo('midcom.core');
 
         $account1 = midcom_core_account::get(self::$_person);
         $username = uniqid(__FUNCTION__ . ' user');
@@ -73,12 +73,12 @@ class midcom_core_accountTest extends openpsa_testcase
         $stat = $account2->delete();
         $this->assertTrue($stat);
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
     public function testNameUnique()
     {
-        midcom::get('auth')->request_sudo('midcom.core');
+        midcom::get()->auth->request_sudo('midcom.core');
 
         $account1 = midcom_core_account::get(self::$_person);
         $username = uniqid(__FUNCTION__ . ' user');
@@ -100,7 +100,7 @@ class midcom_core_accountTest extends openpsa_testcase
         $stat = $account2->save();
         $this->assertFalse($stat);
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
     private function getQueryMock()

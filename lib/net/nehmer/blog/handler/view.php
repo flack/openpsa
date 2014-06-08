@@ -180,8 +180,8 @@ class net_nehmer_blog_handler_view extends midcom_baseclasses_components_handler
         }
 
         $this->bind_view_to_object($this->_article, $this->_datamanager->schema->name);
-        midcom::get('metadata')->set_request_metadata($this->_article->metadata->revised, $this->_article->guid);
-        midcom::get('head')->set_pagetitle("{$this->_topic->extra}: {$this->_article->title}");
+        midcom::get()->metadata->set_request_metadata($this->_article->metadata->revised, $this->_article->guid);
+        midcom::get()->head->set_pagetitle("{$this->_topic->extra}: {$this->_article->title}");
     }
 
     /**
@@ -223,10 +223,10 @@ class net_nehmer_blog_handler_view extends midcom_baseclasses_components_handler
         $comments_node = midcom_helper_misc::find_node_by_component('net.nehmer.comments');
 
         // Cache the data
-        if (midcom::get('auth')->request_sudo('net.nehmer.blog'))
+        if (midcom::get()->auth->request_sudo('net.nehmer.blog'))
         {
             $this->_topic->set_parameter('net.nehmer.blog', 'comments_topic', $comments_node[MIDCOM_NAV_GUID]);
-            midcom::get('auth')->drop_sudo();
+            midcom::get()->auth->drop_sudo();
         }
 
         return $comments_node;

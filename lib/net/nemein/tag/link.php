@@ -34,7 +34,7 @@ class net_nemein_tag_link_dba extends midcom_core_dbaobject
                 debug_add("\$this->fromComponent is empty, don't know how to load missing class '{$class}'", MIDCOM_LOG_ERROR);
                 return null;
             }
-            if (!midcom::get('componentloader')->load_graceful($this->fromComponent))
+            if (!midcom::get()->componentloader->load_graceful($this->fromComponent))
             {
                 debug_add("Could not load component '{$this->fromComponent}' (to load missing class '{$class}')", MIDCOM_LOG_ERROR);
                 return null;
@@ -137,13 +137,13 @@ class net_nemein_tag_link_dba extends midcom_core_dbaobject
      */
     private function _geotag()
     {
-        if (!midcom::get('config')->get('positioning_enable'))
+        if (!midcom::get()->config->get('positioning_enable'))
         {
             return false;
         }
 
         // Get all "geo" tags of the object
-        $object = midcom::get('dbfactory')->get_object_by_guid($this->fromGuid);
+        $object = midcom::get()->dbfactory->get_object_by_guid($this->fromGuid);
         $geotags = net_nemein_tag_handler::get_object_machine_tags_in_context($object, 'geo');
 
         $position = array

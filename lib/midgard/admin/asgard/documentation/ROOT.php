@@ -4,14 +4,14 @@
     <head>
         <title><(title)> - <?php echo midcom_core_context::get()->get_key(MIDCOM_CONTEXT_PAGETITLE); ?></title>
          <?php
-         midcom::get('head')->print_head_elements();
+         midcom::get()->head->print_head_elements();
          ?>
     </head>
     <body>
         <?php
         midcom::get()->content();
-        midcom::get('uimessages')->show();
-        midcom::get('toolbars')->show();
+        midcom::get()->uimessages->show();
+        midcom::get()->toolbars->show();
         ?>
     </body>
 </html>

@@ -31,7 +31,7 @@ implements midcom_helper_datamanager2_interfaces_edit
         $schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_acl'));
 
         $fields =& $schemadb['default']->fields;
-        $user_object = midcom::get('auth')->get_user($this->_person->guid);
+        $user_object = midcom::get()->auth->get_user($this->_person->guid);
 
         $person_object = $user_object->get_storage();
 
@@ -91,7 +91,7 @@ implements midcom_helper_datamanager2_interfaces_edit
                 return new midcom_response_relocate("view/" . $this->_person->guid . "/");
         }
 
-        midcom::get('head')->set_pagetitle("{$this->_person->name}");
+        midcom::get()->head->set_pagetitle("{$this->_person->name}");
         org_openpsa_helpers::dm2_savecancel($this);
 
         $this->add_breadcrumb("view/{$this->_person->guid}/", $this->_person->name);

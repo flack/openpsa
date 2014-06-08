@@ -57,10 +57,10 @@ class net_nemein_wiki_handler_delete extends midcom_baseclasses_components_handl
                 throw new midcom_error("Failed to delete wikipage, reason " . midcom_connection::get_error_string());
             }
             $wikiword = $this->_page->title;
-            midcom::get('uimessages')->add($this->_l10n->get($this->_component), sprintf($this->_l10n->get('page %s deleted'), $wikiword), 'ok');
+            midcom::get()->uimessages->add($this->_l10n->get($this->_component), sprintf($this->_l10n->get('page %s deleted'), $wikiword), 'ok');
 
             // Update the index
-            $indexer = midcom::get('indexer');
+            $indexer = midcom::get()->indexer;
             $indexer->delete($this->_page->guid);
 
             return new midcom_response_relocate('');
@@ -82,7 +82,7 @@ class net_nemein_wiki_handler_delete extends midcom_baseclasses_components_handl
         $this->add_breadcrumb("{$this->_page->name}/", $this->_page->title);
         $this->add_breadcrumb("delete/{$this->_page->name}/", $this->_l10n_midcom->get('delete'));
 
-        midcom::get('head')->set_pagetitle($this->_page->title);
+        midcom::get()->head->set_pagetitle($this->_page->title);
     }
 
     /**

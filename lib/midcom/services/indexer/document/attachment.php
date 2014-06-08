@@ -70,7 +70,7 @@ class midcom_services_indexer_document_attachment extends midcom_services_indexe
 
         $this->source = $this->_source->guid;
         $this->RI = $attachment->guid;
-        $this->document_url = midcom::get('permalinks')->create_attachment_link($this->RI, $attachment->name);
+        $this->document_url = midcom::get()->permalinks->create_attachment_link($this->RI, $attachment->name);
 
         $this->_process_attachment();
         $this->_process_topic();
@@ -196,7 +196,7 @@ class midcom_services_indexer_document_attachment extends midcom_services_indexe
      */
     function _process_mime_word()
     {
-        if (!midcom::get('config')->get('utility_catdoc'))
+        if (!midcom::get()->config->get('utility_catdoc'))
         {
             debug_add('Could not find catdoc, indexing as binary.', MIDCOM_LOG_INFO);
             $this->_process_mime_binary();
@@ -208,7 +208,7 @@ class midcom_services_indexer_document_attachment extends midcom_services_indexe
         $txtfile = "{$wordfile}.txt";
         $encoding = (strtoupper($this->_i18n->get_current_charset()) == 'UTF-8') ? 'utf-8' : '8859-1';
 
-        $command = midcom::get('config')->get('utility_catdoc') . " -d{$encoding} -a $wordfile > $txtfile";
+        $command = midcom::get()->config->get('utility_catdoc') . " -d{$encoding} -a $wordfile > $txtfile";
         debug_add("Executing: {$command}");
         exec ($command, $result, $returncode);
         debug_print_r("Execution returned {$returncode}: ", $result);
@@ -236,7 +236,7 @@ class midcom_services_indexer_document_attachment extends midcom_services_indexe
      */
     function _process_mime_pdf()
     {
-        if (!midcom::get('config')->get('utility_pdftotext'))
+        if (!midcom::get()->config->get('utility_pdftotext'))
         {
             debug_add('Could not find pdftotext, indexing as binary.', MIDCOM_LOG_INFO);
             $this->_process_mime_binary();
@@ -248,7 +248,7 @@ class midcom_services_indexer_document_attachment extends midcom_services_indexe
         $txtfile = "{$pdffile}.txt";
         $encoding = (strtoupper($this->_i18n->get_current_charset()) == 'UTF-8') ? 'UTF-8' : 'Latin1';
 
-        $command = midcom::get('config')->get('utility_pdftotext') . " -enc {$encoding} -nopgbrk -eol unix $pdffile $txtfile 2>&1";
+        $command = midcom::get()->config->get('utility_pdftotext') . " -enc {$encoding} -nopgbrk -eol unix $pdffile $txtfile 2>&1";
         debug_add("Executing: {$command}");
         exec ($command, $result, $returncode);
         debug_print_r("Execution returned {$returncode}: ", $result);
@@ -274,7 +274,7 @@ class midcom_services_indexer_document_attachment extends midcom_services_indexe
      */
     function _process_mime_richtext()
     {
-        if (!midcom::get('config')->get('utility_unrtf'))
+        if (!midcom::get()->config->get('utility_unrtf'))
         {
             debug_add('Could not find unrtf, indexing as binary.', MIDCOM_LOG_INFO);
             $this->_process_mime_binary();
@@ -286,7 +286,7 @@ class midcom_services_indexer_document_attachment extends midcom_services_indexe
         $txtfile = "{$rtffile}.txt";
 
         // Kill the first five lines, they are crap from the converter.
-        $command = midcom::get('config')->get('utility_unrtf') . " --nopict --text $rtffile | sed '1,5d' > $txtfile";
+        $command = midcom::get()->config->get('utility_unrtf') . " --nopict --text $rtffile | sed '1,5d' > $txtfile";
         debug_add("Executing: {$command}");
         exec ($command, $result, $returncode);
         debug_print_r("Execution returned {$returncode}: ", $result);
@@ -377,7 +377,7 @@ class midcom_services_indexer_document_attachment extends midcom_services_indexe
      */
     function _write_attachment_tmpfile()
     {
-        $tmpname = tempnam(midcom::get('config')->get('midcom_tempdir'), 'midcom-indexer');
+        $tmpname = tempnam(midcom::get()->config->get('midcom_tempdir'), 'midcom-indexer');
         debug_add("Creating an attachment copy as {$tmpname}");
 
         $in = $this->_attachment->open('r');

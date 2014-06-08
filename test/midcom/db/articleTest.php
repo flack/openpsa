@@ -22,7 +22,7 @@ class midcom_db_articleTest extends openpsa_testcase
 
     public function testCRUD()
     {
-        midcom::get('auth')->request_sudo('midcom.core');
+        midcom::get()->auth->request_sudo('midcom.core');
 
         $article = new midcom_db_article();
         $stat = $article->create();
@@ -45,7 +45,7 @@ class midcom_db_articleTest extends openpsa_testcase
         $stat = $article->delete();
         $this->assertTrue($stat);
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
     public function test_get_parent()

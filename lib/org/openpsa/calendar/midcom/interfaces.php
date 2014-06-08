@@ -17,7 +17,7 @@ implements midcom_services_permalinks_resolver, org_openpsa_contacts_duplicates_
 {
     public static function create_root_event()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.calendar');
+        midcom::get()->auth->request_sudo('org.openpsa.calendar');
         $event = new midcom_db_event();
         $event->up = 0;
         $event->title = '__org_openpsa_calendar';
@@ -25,7 +25,7 @@ implements midcom_services_permalinks_resolver, org_openpsa_contacts_duplicates_
         $event->start = time();
         $event->end = time() + 1;
         $ret = $event->create();
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
         if (!$ret)
         {
             debug_add('Failed to create OpenPSA root event, reason ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);

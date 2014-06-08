@@ -30,9 +30,9 @@ class org_openpsa_notifications_notifier extends midcom_baseclasses_components_p
         $notification = new org_openpsa_notifications_notification_dba();
         $notification->recipient = $this->recipient->id;
 
-        if (midcom::get('auth')->user)
+        if (midcom::get()->auth->user)
         {
-            $user = midcom::get('auth')->user->get_storage();
+            $user = midcom::get()->auth->user->get_storage();
             $notification->sender = $user->id;
         }
 
@@ -84,10 +84,10 @@ class org_openpsa_notifications_notifier extends midcom_baseclasses_components_p
 
         if (!empty($message['from']))
         {
-            midcom::get('auth')->request_sudo($this->_component);
-            $user = midcom::get('auth')->get_user($message['from']);
+            midcom::get()->auth->request_sudo($this->_component);
+            $user = midcom::get()->auth->get_user($message['from']);
             $sender = $user->get_storage();
-            midcom::get('auth')->drop_sudo();
+            midcom::get()->auth->drop_sudo();
             // Avoid double dump
             unset($message['from']);
         }
@@ -145,7 +145,7 @@ class org_openpsa_notifications_notifier extends midcom_baseclasses_components_p
         }
         else
         {
-            midcom::get('uimessages')->add($this->_l10n->get($this->_component), sprintf($this->_l10n->get('notification sent to %s'), $growl_to));
+            midcom::get()->uimessages->add($this->_l10n->get($this->_component), sprintf($this->_l10n->get('notification sent to %s'), $growl_to));
         }
         return $ret;
     }

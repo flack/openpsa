@@ -26,6 +26,8 @@
  * @property midcom_services_indexer $indexer
  * @property midcom_config $config
  * @property midcom_services_cache $cache
+ * @property midcom\events\dispatcher $dispatcher
+ * @property midcom_debug $debug
  * @package midcom
  */
 class midcom_application
@@ -80,7 +82,6 @@ class midcom_application
 
     public function __construct()
     {
-        midcom::get('debug')->log("Start of MidCOM run" . (isset($_SERVER['REQUEST_URI']) ? ": {$_SERVER['REQUEST_URI']}" : ''));
         midcom_compat_environment::initialize();
         midcom_exception_handler::register();
     }
@@ -112,16 +113,16 @@ class midcom_application
         $this->_status = MIDCOM_STATUS_PREPARE;
 
         // Start-up some of the services
-        midcom::get('dbclassloader')->load_classes('midcom', 'legacy_classes.inc', null, true);
-        midcom::get('dbclassloader')->load_classes('midcom', 'core_classes.inc', null, true);
+        $this->dbclassloader->load_classes('midcom', 'legacy_classes.inc', null, true);
+        $this->dbclassloader->load_classes('midcom', 'core_classes.inc', null, true);
 
-        midcom::get('componentloader')->load_all_manifests();
+        $this->componentloader->load_all_manifests();
 
         // Initialize Context Storage
         $context = new midcom_core_context(0);
         $context->set_current();
         // Initialize the UI message stack from session
-        midcom::get('uimessages')->initialize();
+        $this->uimessages->initialize();
     }
 
     /* *************************************************************************
@@ -144,7 +145,7 @@ class midcom_application
         $context = midcom_core_context::get();
 
         // Parse the URL
-        $context->parser = midcom::get('serviceloader')->load('midcom_core_service_urlparser');
+        $context->parser = $this->serviceloader->load('midcom_core_service_urlparser');
         $context->parser->parse(midcom_connection::get_url('argv'));
 
         $this->_process($context);
@@ -153,7 +154,7 @@ class midcom_application
             && !$this->skip_page_style)
         {
             // Let metadata service add its meta tags
-            midcom::get('metadata')->populate_meta_head();
+            $this->metadata->populate_meta_head();
         }
     }
 
@@ -238,14 +239,14 @@ class midcom_application
 
         $context->set_current();
         /* "content-cache" for DLs, check_hit */
-        if (midcom::get('cache')->content->check_dl_hit($context->id, $config))
+        if ($this->cache->content->check_dl_hit($context->id, $config))
         {
             // The check_hit method serves cached content on hit
             return $context->id;
         }
 
         // Parser Init: Generate arguments and instantiate it.
-        $context->parser = midcom::get('serviceloader')->load('midcom_core_service_urlparser');
+        $context->parser = $this->serviceloader->load('midcom_core_service_urlparser');
         $argv = $context->parser->tokenize($url);
         $context->parser->parse($argv);
 
@@ -269,11 +270,11 @@ class midcom_application
         $dl_cache_data = ob_get_contents();
         ob_end_flush();
         /* Cache DL the content */
-        midcom::get('cache')->content->store_dl_content($context->id, $config, $dl_cache_data);
+        $this->cache->content->store_dl_content($context->id, $config, $dl_cache_data);
 
         // Leave Context
         $oldcontext->set_current();
-        midcom::get('style')->enter_context($oldcontext->id);
+        $this->style->enter_context($oldcontext->id);
 
         return $context->id;
     }
@@ -293,9 +294,9 @@ class midcom_application
 
         // Shutdown content-cache (ie flush content to user :) before possibly slow DBA watches
         // done this way since it's slightly less hacky than calling shutdown and then mucking about with the cache->_modules etc
-        midcom::get('cache')->content->_finish_caching();
+        $this->cache->content->_finish_caching();
 
-        if (midcom::get('config')->get('enable_included_list'))
+        if ($this->config->get('enable_included_list'))
         {
             $included = get_included_files();
             echo "<p>" . count($included) . " included files:</p>\n";
@@ -308,7 +309,7 @@ class midcom_application
         }
 
         // Shutdown rest of the caches
-        midcom::get('cache')->shutdown();
+        $this->cache->shutdown();
 
         debug_add("End of MidCOM run: {$_SERVER['REQUEST_URI']}");
         _midcom_stop_request();
@@ -348,7 +349,7 @@ class midcom_application
                 // We couldn't fetch a node due to access restrictions
                 if (midcom_connection::get_error() == MGD_ERR_ACCESS_DENIED)
                 {
-                    throw new midcom_error_forbidden(midcom::get('i18n')->get_string('access denied', 'midcom'));
+                    throw new midcom_error_forbidden($this->i18n->get_string('access denied', 'midcom'));
                 }
                 throw new midcom_error_notfound("This page is not available on this server.");
             }
@@ -379,7 +380,7 @@ class midcom_application
             debug_add("Entering Context {$context->id} (old Context: {$oldcontext->id})");
             $context->set_current();
         }
-        midcom::get('style')->enter_context($context->id);
+        $this->style->enter_context($context->id);
 
         ob_start();
         if ($include_template)
@@ -399,7 +400,7 @@ class midcom_application
             $oldcontext->set_current();
         }
 
-        midcom::get('style')->leave_context();
+        $this->style->leave_context();
     }
 
     /* *************************************************************************
@@ -546,7 +547,7 @@ class midcom_application
      */
     public function header($header, $response_code = null)
     {
-        midcom::get('cache')->content->register_sent_header($header);
+        $this->cache->content->register_sent_header($header);
 
         if (!is_null($response_code))
         {
@@ -588,15 +589,15 @@ class midcom_application
      */
     public function disable_limits()
     {
-        $stat = @ini_set('max_execution_time', midcom::get('config')->get('midcom_max_execution_time'));
+        $stat = @ini_set('max_execution_time', $this->config->get('midcom_max_execution_time'));
         if (false === $stat)
         {
-            debug_add('ini_set("max_execution_time", ' . midcom::get('config')->get('midcom_max_execution_time') . ') returned false', MIDCOM_LOG_WARN);
+            debug_add('ini_set("max_execution_time", ' . $this->config->get('midcom_max_execution_time') . ') returned false', MIDCOM_LOG_WARN);
         }
-        $stat = @ini_set('memory_limit', midcom::get('config')->get('midcom_max_memory'));
+        $stat = @ini_set('memory_limit', $this->config->get('midcom_max_memory'));
         if (false === $stat)
         {
-            debug_add('ini_set("memory_limit", ' . midcom::get('config')->get('midcom_max_memory') . ') returned false', MIDCOM_LOG_WARN);
+            debug_add('ini_set("memory_limit", ' . $this->config->get('midcom_max_memory') . ') returned false', MIDCOM_LOG_WARN);
         }
     }
 }

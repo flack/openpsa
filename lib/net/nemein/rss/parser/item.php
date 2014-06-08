@@ -25,7 +25,7 @@ class net_nemein_rss_parser_item extends SimplePie_Item
         $title = parent::get_title();
         if (empty($title))
         {
-            $title = midcom::get('i18n')->get_string('untitled', 'net.nemein.rss');
+            $title = midcom::get()->i18n->get_string('untitled', 'net.nemein.rss');
             $description = $this->get_description();
             $date = $this->get_date('U');
             if (!empty($description))
@@ -113,7 +113,7 @@ class net_nemein_rss_parser_item extends SimplePie_Item
 
     private function _decode($string)
     {
-        return html_entity_decode($string, ENT_QUOTES, midcom::get('i18n')->get_current_charset());
+        return html_entity_decode($string, ENT_QUOTES, midcom::get()->i18n->get_current_charset());
     }
 }
 ?>

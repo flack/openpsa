@@ -15,7 +15,7 @@ class org_openpsa_directmarketing_campaign_messagereceiptTest extends openpsa_te
 {
     public function testCRUD()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.directmarketing');
+        midcom::get()->auth->request_sudo('org.openpsa.directmarketing');
 
         $topic = $this->create_object('midcom_db_topic', array('component' => 'org.openpsa.directmarketing'));
         $campaign = $this->create_object('org_openpsa_directmarketing_campaign_dba', array('node' => $topic->id));
@@ -43,7 +43,7 @@ class org_openpsa_directmarketing_campaign_messagereceiptTest extends openpsa_te
         $stat = $receipt->delete();
         $this->assertTrue($stat);
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 }
 ?>

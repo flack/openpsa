@@ -18,14 +18,14 @@ class midgard_admin_asgard_schemadbTest extends openpsa_testcase
      */
     public function test_sort($object, $first, $second, $expected)
     {
-        midcom::get('auth')->request_sudo('midgard.admin.asgard');
+        midcom::get()->auth->request_sudo('midgard.admin.asgard');
 
         $config = midcom_baseclasses_components_configuration::get('midgard.admin.asgard', 'config');
         $schemadb = new midgard_admin_asgard_schemadb($object, $config);
 
         $this->assertEquals($expected, $schemadb->sort_schema_fields($first, $second));
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
     public function provider_sort()

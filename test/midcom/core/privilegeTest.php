@@ -21,7 +21,7 @@ class midcom_core_privilegeTest extends openpsa_testcase
      */
     public function testStoreArray($input, $output)
     {
-        midcom::get('auth')->request_sudo('midcom.core');
+        midcom::get()->auth->request_sudo('midcom.core');
 
         $privilege = new midcom_core_privilege($input);
         $stat = $privilege->store();
@@ -40,7 +40,7 @@ class midcom_core_privilegeTest extends openpsa_testcase
         $stat = $privilege->drop();
         $this->assertTrue($stat);
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
     public function providerStoreArray()

@@ -16,7 +16,7 @@ class midcom_admin_user_plugin extends midcom_baseclasses_components_plugin
 {
     public function _on_initialize()
     {
-        midcom::get('auth')->require_user_do('midcom.admin.user:access', null, 'midcom_admin_user_plugin');
+        midcom::get()->auth->require_user_do('midcom.admin.user:access', null, 'midcom_admin_user_plugin');
     }
 
     /**

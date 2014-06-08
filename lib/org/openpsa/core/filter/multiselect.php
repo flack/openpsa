@@ -15,7 +15,7 @@ class org_openpsa_core_filter_multiselect extends org_openpsa_core_filter_select
 {
     public function add_head_elements()
     {
-        $head = midcom::get('head');
+        $head = midcom::get()->head;
         $head->enable_jquery();
         $head->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/jquery-ui-multiselect-widget/jquery.multiselect.css");
         $head->add_jquery_ui_theme(array('widget'));
@@ -24,10 +24,10 @@ class org_openpsa_core_filter_multiselect extends org_openpsa_core_filter_select
         $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.widget.min.js');
         $head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.core/jquery-ui-multiselect-widget/src/jquery.multiselect.min.js');
 
-        $lang = midcom::get('i18n')->get_current_language();
+        $lang = midcom::get()->i18n->get_current_language();
         if (!file_exists(MIDCOM_STATIC_ROOT . "/org.openpsa.core/jquery-ui-multiselect-widget/i18n/jquery.multiselect.{$lang}.js"))
         {
-            $lang = midcom::get('i18n')->get_fallback_language();
+            $lang = midcom::get()->i18n->get_fallback_language();
             if (!file_exists(MIDCOM_STATIC_ROOT . "/org.openpsa.core/jquery-ui-multiselect-widget/i18n/jquery.multiselect.{$lang}.js"))
             {
                 $lang = false;

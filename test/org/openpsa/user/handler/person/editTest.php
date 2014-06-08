@@ -22,7 +22,7 @@ class org_openpsa_user_handler_person_editTest extends openpsa_testcase
 
     public function test_handler_edit()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.user');
+        midcom::get()->auth->request_sudo('org.openpsa.user');
 
         $data = $this->run_handler('org.openpsa.user', array('edit', self::$_user->guid));
         $this->assertEquals('user_edit', $data['handler_id']);
@@ -38,7 +38,7 @@ class org_openpsa_user_handler_person_editTest extends openpsa_testcase
 
         $this->assertEquals('view/' . self::$_user->guid . '/', $url);
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 }
 ?>

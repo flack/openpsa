@@ -104,8 +104,8 @@
             (
                 'options' => array
                 (
-                    org_openpsa_core_acl::ACCESS_PUBLIC => midcom::get('i18n')->get_string('public', 'org.openpsa.core'),
-                    org_openpsa_core_acl::ACCESS_PRIVATE => midcom::get('i18n')->get_string('private', 'org.openpsa.core'),
+                    org_openpsa_core_acl::ACCESS_PUBLIC => midcom::get()->i18n->get_string('public', 'org.openpsa.core'),
+                    org_openpsa_core_acl::ACCESS_PRIVATE => midcom::get()->i18n->get_string('private', 'org.openpsa.core'),
                 ),
             ),
             'widget' => 'select',

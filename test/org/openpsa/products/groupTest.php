@@ -21,7 +21,7 @@ class org_openpsa_products_groupTest extends openpsa_testcase
         $group->_use_activitystream = false;
         $group->_use_rcs = false;
 
-        midcom::get('auth')->request_sudo('org.openpsa.products');
+        midcom::get()->auth->request_sudo('org.openpsa.products');
         $stat = $group->create();
         $this->assertTrue($stat);
         $this->register_object($group);
@@ -35,7 +35,7 @@ class org_openpsa_products_groupTest extends openpsa_testcase
         $stat = $group->delete();
         $this->assertTrue($stat);
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
     public function test_get_parent()

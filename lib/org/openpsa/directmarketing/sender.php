@@ -224,9 +224,9 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
                 'url_base' => $url_base,
             );
             debug_add("Registering batch #{$args['batch']} for {$args['url_base']}");
-            midcom::get('auth')->request_sudo('org.openpsa.directmarketing');
+            midcom::get()->auth->request_sudo('org.openpsa.directmarketing');
             $atstat = midcom_services_at_interface::register(time() + 60, 'org.openpsa.directmarketing', 'background_send_message', $args);
-            midcom::get('auth')->drop_sudo();
+            midcom::get()->auth->drop_sudo();
             if (!$atstat)
             {
                 debug_add("FAILED to register batch #{$args['batch']} for {$args['url_base']}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
@@ -277,7 +277,7 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
             }
             if ($this->send_output)
             {
-                midcom::get('uimessages')->add($this->_l10n->get($this->_component), $e->getMessage(), 'error');
+                midcom::get()->uimessages->add($this->_l10n->get($this->_component), $e->getMessage(), 'error');
             }
         }
         if (!$this->test_mode)
@@ -473,9 +473,9 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
      */
     private function _check_campaign_up_to_date()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.directmarketing');
+        midcom::get()->auth->request_sudo('org.openpsa.directmarketing');
         $campaign = new org_openpsa_directmarketing_campaign_dba($this->_message->campaign);
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
         if ($campaign->orgOpenpsaObtype == org_openpsa_directmarketing_campaign_dba::TYPE_SMART)
         {
             $campaign->update_smart_campaign_members();

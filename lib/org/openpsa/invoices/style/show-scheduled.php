@@ -1,5 +1,5 @@
 <?php
-$i18n = midcom::get('i18n');
+$i18n = midcom::get()->i18n;
 $grid = $data['grid'];
 $footer_data = array
 (

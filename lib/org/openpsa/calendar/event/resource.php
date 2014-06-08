@@ -25,7 +25,7 @@ class org_openpsa_calendar_event_resource_dba extends midcom_core_dbaobject
         {
             $resource = new org_openpsa_calendar_resource_dba($this->resource);
             $event = new org_openpsa_calendar_event_dba($this->event);
-            return sprintf(midcom::get('i18n')->get_string('%s for %s', 'midcom'), $resource->title, $event->title);
+            return sprintf(midcom::get()->i18n->get_string('%s for %s', 'midcom'), $resource->title, $event->title);
         }
         return "member #{$this->id}";
     }

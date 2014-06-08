@@ -39,7 +39,7 @@ $unit_options = midcom_baseclasses_components_configuration::get('org.openpsa.pr
                         $desc .= ', ' . org_openpsa_helpers::format_number($product['price']);
                         if (array_key_exists($product['unit'], $unit_options))
                         {
-                            $unit = midcom::get('i18n')->get_string($unit_options[$product['unit']], 'org.openpsa.products');
+                            $unit = midcom::get()->i18n->get_string($unit_options[$product['unit']], 'org.openpsa.products');
                             $desc .= ' ' . sprintf($data['l10n']->get('per %s'), $unit);
                         }
 

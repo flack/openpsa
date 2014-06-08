@@ -1,5 +1,5 @@
 <?php
-midcom::get('auth')->require_valid_user();
+midcom::get()->auth->require_valid_user();
 error_reporting(E_ALL);
 ini_set('max_execution_time', 0);
 

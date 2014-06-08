@@ -1,7 +1,7 @@
 <?php
-midcom::get('auth')->require_valid_user();
+midcom::get()->auth->require_valid_user();
 
-$user = midcom::get('auth')->user->get_storage();
+$user = midcom::get()->auth->user->get_storage();
 
 $html = org_routamc_positioning_importer::create('html');
 $coordinates = $html->get_icbm_location($user);

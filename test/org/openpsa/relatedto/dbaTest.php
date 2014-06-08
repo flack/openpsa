@@ -17,7 +17,7 @@ class org_openpsa_relatedto_dbaTest extends openpsa_testcase
     {
         $relatedto = new org_openpsa_relatedto_dba();
 
-        midcom::get('auth')->request_sudo('org.openpsa.relatedto');
+        midcom::get()->auth->request_sudo('org.openpsa.relatedto');
         $stat = $relatedto->create();
         $this->assertTrue($stat);
         $this->assertEquals($relatedto->status, org_openpsa_relatedto_dba::SUSPECTED);
@@ -30,7 +30,7 @@ class org_openpsa_relatedto_dbaTest extends openpsa_testcase
         $stat = $relatedto->delete();
         $this->assertTrue($stat);
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 }
 ?>

@@ -73,7 +73,7 @@ class midcom_services_permalinks
 
         try
         {
-            $object = midcom::get('dbfactory')->get_object_by_guid($guid);
+            $object = midcom::get()->dbfactory->get_object_by_guid($guid);
         }
         catch (midcom_error $e)
         {
@@ -155,11 +155,11 @@ class midcom_services_permalinks
     private function _resolve_permalink_in_topic(midcom_db_topic $topic, midcom_core_dbaobject $object)
     {
         $component = $topic->component;
-        if (!midcom::get('componentloader')->is_installed($component))
+        if (!midcom::get()->componentloader->is_installed($component))
         {
             return null;
         }
-        $interface = midcom::get('componentloader')->get_interface_class($component);
+        $interface = midcom::get()->componentloader->get_interface_class($component);
         if ($interface === null)
         {
             debug_add("Failed to load the interface class for the component {$component} of the topic #{$topic->id}, cannot attempt to resolve the permalink here.",
@@ -204,7 +204,7 @@ class midcom_services_permalinks
      */
     function create_permalink($guid)
     {
-        return midcom::get('config')->get('midcom_site_url') . "midcom-permalink-{$guid}";
+        return midcom::get()->config->get('midcom_site_url') . "midcom-permalink-{$guid}";
     }
 
     /**
@@ -217,7 +217,7 @@ class midcom_services_permalinks
      */
     function create_attachment_link($guid, $filename)
     {
-        return midcom::get('config')->get('midcom_site_url') . 'midcom-serveattachmentguid-' . $guid . '/' . urlencode($filename);
+        return midcom::get()->config->get('midcom_site_url') . 'midcom-serveattachmentguid-' . $guid . '/' . urlencode($filename);
     }
 }
 ?>

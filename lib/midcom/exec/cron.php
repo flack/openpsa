@@ -1,11 +1,11 @@
 <?php
 // IP Address Checks
-$ips = midcom::get('config')->get('indexer_reindex_allowed_ips');
+$ips = midcom::get()->config->get('indexer_reindex_allowed_ips');
 $ip_sudo = false;
 if (   $ips
     && in_array($_SERVER['REMOTE_ADDR'], $ips))
 {
-    if (! midcom::get('auth')->request_sudo('midcom.services.indexer'))
+    if (! midcom::get()->auth->request_sudo('midcom.services.indexer'))
     {
         throw new midcom_error('Failed to acquire SUDO rights. Aborting.');
     }
@@ -14,8 +14,8 @@ if (   $ips
 else
 {
     // Require user to Basic-authenticate for security reasons
-    midcom::get('auth')->require_valid_user('basic');
-    midcom::get('auth')->require_admin_user();
+    midcom::get()->auth->require_valid_user('basic');
+    midcom::get()->auth->require_admin_user();
 }
 
 midcom::get()->header('Content-Type: text/plain');
@@ -45,6 +45,6 @@ $cron->execute();
 
 if ($ip_sudo)
 {
-    midcom::get('auth')->drop_sudo();
+    midcom::get()->auth->drop_sudo();
 }
 ?>

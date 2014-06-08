@@ -18,7 +18,7 @@ class org_openpsa_projects_viewer extends midcom_baseclasses_components_request
         $this->_request_data['view'] = 'default';
 
         // Always run in uncached mode
-        midcom::get('cache')->content->no_cache();
+        midcom::get()->cache->content->no_cache();
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.projects/projects.css");
     }

@@ -19,7 +19,7 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
         {
             try
             {
-                $object = midcom::get('dbfactory')->get_object_by_guid($guid);
+                $object = midcom::get()->dbfactory->get_object_by_guid($guid);
                 if (!is_a($object, 'midcom_db_topic'))
                 {
                     continue;

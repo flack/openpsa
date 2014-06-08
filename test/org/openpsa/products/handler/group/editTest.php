@@ -22,12 +22,12 @@ class org_openpsa_products_handler_group_editTest extends openpsa_testcase
 
     public function testHandler_edit()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.products');
+        midcom::get()->auth->request_sudo('org.openpsa.products');
 
         $data = $this->run_handler('org.openpsa.products', array('edit', self::$_group->guid));
         $this->assertEquals('edit_product_group', $data['handler_id']);
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 }
 ?>

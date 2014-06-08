@@ -22,7 +22,7 @@ class org_openpsa_products_handler_product_createTest extends openpsa_testcase
 
     public function testHandler_create()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.products');
+        midcom::get()->auth->request_sudo('org.openpsa.products');
 
         $data = $this->run_handler('org.openpsa.products', array('product', 'create', 'default'));
         $this->assertEquals('create_product', $data['handler_id']);
@@ -48,17 +48,17 @@ class org_openpsa_products_handler_product_createTest extends openpsa_testcase
         $this->assertEquals(1, sizeof($results));
         $this->assertEquals('product/' . $results[0]->guid . '/', $url);
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
     public function testHandler_create_group()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.products');
+        midcom::get()->auth->request_sudo('org.openpsa.products');
 
         $data = $this->run_handler('org.openpsa.products', array('product', 'create', self::$_group->code, 'default'));
         $this->assertEquals('create_group_product', $data['handler_id']);
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 }
 ?>

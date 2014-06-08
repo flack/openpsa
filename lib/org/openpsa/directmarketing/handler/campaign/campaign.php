@@ -64,8 +64,8 @@ class org_openpsa_directmarketing_handler_campaign_campaign extends midcom_basec
 
         // Populate calendar events for the campaign
         $this->bind_view_to_object($this->_campaign, $this->_datamanager->schema->name);
-        midcom::get('metadata')->set_request_metadata($this->_campaign->metadata->revised, $this->_campaign->guid);
-        midcom::get('head')->set_pagetitle($this->_campaign->title);
+        midcom::get()->metadata->set_request_metadata($this->_campaign->metadata->revised, $this->_campaign->guid);
+        midcom::get()->head->set_pagetitle($this->_campaign->title);
     }
 
     private function _populate_toolbar()
@@ -117,7 +117,7 @@ class org_openpsa_directmarketing_handler_campaign_campaign extends midcom_basec
                     MIDCOM_TOOLBAR_URL => "campaign/import/{$this->_campaign->guid}/",
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('import subscribers'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_people.png',
-                    MIDCOM_TOOLBAR_ENABLED => midcom::get('auth')->can_user_do('midgard:create', null, 'org_openpsa_contacts_person_dba'),
+                    MIDCOM_TOOLBAR_ENABLED => midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_contacts_person_dba'),
                 )
             );
         }

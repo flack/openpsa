@@ -36,11 +36,11 @@ class midcom_admin_folder_management extends midcom_baseclasses_components_plugi
         $this->_anchor_prefix = $this->_request_data['plugin_anchorprefix'];
 
         // Ensure we get the correct styles
-        midcom::get('style')->prepend_component_styledir('midcom.admin.folder');
+        midcom::get()->style->prepend_component_styledir('midcom.admin.folder');
 
         $this->_request_data['folder'] = $this->_topic;
 
-        if (!array_key_exists($this->_topic->component, midcom::get('componentloader')->manifests))
+        if (!array_key_exists($this->_topic->component, midcom::get()->componentloader->manifests))
         {
             $this->_topic->component = 'midcom.core.nullcomponent';
         }
@@ -56,7 +56,7 @@ class midcom_admin_folder_management extends midcom_baseclasses_components_plugi
     {
         $return = parent::get_plugin_handlers();
 
-        if (midcom::get('config')->get('symlinks'))
+        if (midcom::get()->config->get('symlinks'))
         {
             /**
              * Create a new topic symlink
@@ -83,7 +83,7 @@ class midcom_admin_folder_management extends midcom_baseclasses_components_plugi
         $components = array ();
 
         // Loop through the list of components of component loader
-        foreach (midcom::get('componentloader')->manifests as $manifest)
+        foreach (midcom::get()->componentloader->manifests as $manifest)
         {
             // Skip purecode components
             if ($manifest->purecode)
@@ -100,7 +100,7 @@ class midcom_admin_folder_management extends midcom_baseclasses_components_plugi
 
             if (array_key_exists('description', $manifest->_raw_data['package.xml']))
             {
-                $description = midcom::get('i18n')->get_string($manifest->_raw_data['package.xml']['description'], $manifest->name);
+                $description = midcom::get()->i18n->get_string($manifest->_raw_data['package.xml']['description'], $manifest->name);
             }
             else
             {
@@ -156,14 +156,14 @@ class midcom_admin_folder_management extends midcom_baseclasses_components_plugi
             if (   $component !== $parent_component
                 && !$all)
             {
-                if (   is_array(midcom::get('config')->get('component_listing_allowed'))
-                    && !in_array($component, midcom::get('config')->get('component_listing_allowed')))
+                if (   is_array(midcom::get()->config->get('component_listing_allowed'))
+                    && !in_array($component, midcom::get()->config->get('component_listing_allowed')))
                 {
                     continue;
                 }
 
-                if (   is_array(midcom::get('config')->get('component_listing_excluded'))
-                    && in_array($component, midcom::get('config')->get('component_listing_excluded')))
+                if (   is_array(midcom::get()->config->get('component_listing_excluded'))
+                    && in_array($component, midcom::get()->config->get('component_listing_excluded')))
                 {
                     continue;
                 }
@@ -181,12 +181,12 @@ class midcom_admin_folder_management extends midcom_baseclasses_components_plugi
     {
         static $style_array = array();
 
-        $style_array[''] = midcom::get('i18n')->get_string('default', 'midcom.admin.folder');
+        $style_array[''] = midcom::get()->i18n->get_string('default', 'midcom.admin.folder');
 
         // Give an option for creating a new layout template
-        $style_array['__create'] = midcom::get('i18n')->get_string('new layout template', 'midcom.admin.folder');
+        $style_array['__create'] = midcom::get()->i18n->get_string('new layout template', 'midcom.admin.folder');
 
-        if (   midcom::get('config')->get('styleengine_relative_paths')
+        if (   midcom::get()->config->get('styleengine_relative_paths')
             && $up == 0)
         {
             // Relative paths in use, start seeking from under the style used for the Midgard host
@@ -224,7 +224,7 @@ class midcom_admin_folder_management extends midcom_baseclasses_components_plugi
     {
         if (!empty($topic->symlink))
         {
-            midcom::get('auth')->request_sudo('midcom.admin.folder');
+            midcom::get()->auth->request_sudo('midcom.admin.folder');
             try
             {
                 $topic = new midcom_db_topic($topic->symlink);
@@ -234,7 +234,7 @@ class midcom_admin_folder_management extends midcom_baseclasses_components_plugi
                 debug_add("Could not get target for symlinked topic #{$topic->id}: " .
                           $e->getMessage(), MIDCOM_LOG_ERROR);
             }
-            midcom::get('auth')->drop_sudo();
+            midcom::get()->auth->drop_sudo();
         }
 
         if (in_array($topic->id, $stop))
@@ -244,11 +244,11 @@ class midcom_admin_folder_management extends midcom_baseclasses_components_plugi
 
         $stop[] = $topic->id;
 
-        midcom::get('auth')->request_sudo('midcom.admin.folder');
+        midcom::get()->auth->request_sudo('midcom.admin.folder');
         $qb = midcom_db_topic::new_query_builder();
         $qb->add_constraint('up', '=', $topic->id);
         $results = $qb->execute();
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
 
         foreach ($results as $topic)
         {

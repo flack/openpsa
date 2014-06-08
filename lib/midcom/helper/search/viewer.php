@@ -15,7 +15,7 @@ class midcom_helper_search_viewer extends midcom_baseclasses_components_request
 {
     public function _on_handle($handler_id, array $args)
     {
-        midcom::get('head')->add_link_head
+        midcom::get()->head->add_link_head
         (
             array
             (

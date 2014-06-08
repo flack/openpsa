@@ -1,5 +1,5 @@
 <?php
-midcom::get('auth')->require_valid_user();
+midcom::get()->auth->require_valid_user();
 
 // Read location from session or user's location log
 $user_location = org_routamc_positioning_user::get_location();

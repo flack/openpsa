@@ -96,7 +96,7 @@ implements midcom_helper_datamanager2_interfaces_create
                 $topic->up = $to_node[MIDCOM_NAV_ID];
                 $topic->extra = $folder_title;
                 $topic->title = $folder_title;
-                $generator = midcom::get('serviceloader')->load('midcom_core_service_urlgenerator');
+                $generator = midcom::get()->serviceloader->load('midcom_core_service_urlgenerator');
                 $topic->name = $generator->from_string($folder_title);
                 $topic->component = 'net.nemein.wiki';
                 if (!$topic->create())
@@ -204,10 +204,10 @@ implements midcom_helper_datamanager2_interfaces_create
         {
             case 'save':
                 // Reindex the article
-                $indexer = midcom::get('indexer');
+                $indexer = midcom::get()->indexer;
                 net_nemein_wiki_viewer::index($data['controller']->datamanager, $indexer, $this->_topic);
 
-                midcom::get('uimessages')->add($this->_l10n->get('net.nemein.wiki'), sprintf($this->_l10n->get('page %s added'), $this->_wikiword), 'ok');
+                midcom::get()->uimessages->add($this->_l10n->get('net.nemein.wiki'), sprintf($this->_l10n->get('page %s added'), $this->_wikiword), 'ok');
 
                 return new midcom_response_relocate("{$this->_page->name}/");
 
@@ -216,7 +216,7 @@ implements midcom_helper_datamanager2_interfaces_create
         }
 
         $data['view_title'] = sprintf($this->_l10n->get('create wikipage %s'), $this->_wikiword);
-        midcom::get('head')->set_pagetitle($data['view_title']);
+        midcom::get()->head->set_pagetitle($data['view_title']);
         $data['preview_mode'] = false;
 
         $this->add_breadcrumb

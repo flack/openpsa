@@ -10,7 +10,7 @@ $author_card = org_openpsa_widgets_contact::get($page->metadata->creator);
     <ul class="metadata">
       <li class="time"><?php echo strftime('%x', $page->metadata->created); ?></li>
       <li class="members"><?php
-        echo midcom::get('i18n')->get_string('author', 'net.nemein.wiki') . ': ' ;
+        echo midcom::get()->i18n->get_string('author', 'net.nemein.wiki') . ': ' ;
         echo $author_card->show_inline(); ?>
       </li>
     </ul>

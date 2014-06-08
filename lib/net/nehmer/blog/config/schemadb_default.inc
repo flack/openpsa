@@ -47,7 +47,7 @@
         ),
         'categories' => Array
         (
-            'title' => midcom::get('i18n')->get_string('categories', 'net.nehmer.blog'), // No idea why this didn't translate
+            'title' => midcom::get()->i18n->get_string('categories', 'net.nehmer.blog'), // No idea why this didn't translate
             'storage' => 'extra1',
             'type' => 'select',
             'widget' => 'select',

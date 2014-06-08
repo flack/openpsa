@@ -18,7 +18,7 @@ class midcom_services_dbclassloaderTest extends openpsa_testcase
      */
     public function testGet_component_classes($component, $result)
     {
-        $classes = midcom::get('dbclassloader')->get_component_classes($component);
+        $classes = midcom::get()->dbclassloader->get_component_classes($component);
         $this->assertEquals($result, $classes);
     }
 
@@ -46,7 +46,7 @@ class midcom_services_dbclassloaderTest extends openpsa_testcase
      */
     public function testGet_midcom_class_name_for_mgdschema_object($object, $result)
     {
-        $component = midcom::get('dbclassloader')->get_midcom_class_name_for_mgdschema_object($object);
+        $component = midcom::get()->dbclassloader->get_midcom_class_name_for_mgdschema_object($object);
         $this->assertEquals($result, $component);
     }
 

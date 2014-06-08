@@ -23,7 +23,7 @@ class net_nemein_wiki_handler_orphan extends midcom_baseclasses_components_handl
         $data['wiki_name'] = $this->_topic->extra;
 
         $data['view_title'] = sprintf($this->_l10n->get('orphaned pages in wiki %s'), $data['wiki_name']);
-        midcom::get('head')->set_pagetitle($data['view_title']);
+        midcom::get()->head->set_pagetitle($data['view_title']);
         $this->_node_toolbar->hide_item('orphans/');
 
         $data['orphans'] = array();

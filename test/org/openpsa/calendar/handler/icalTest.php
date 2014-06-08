@@ -36,7 +36,7 @@ class org_openpsa_calendar_handler_icalTest extends openpsa_testcase
         );
         $eventmember = $this->create_object('org_openpsa_calendar_event_member_dba', $attributes);
 
-        midcom::get('auth')->request_sudo('org.openpsa.calendar');
+        midcom::get()->auth->request_sudo('org.openpsa.calendar');
         $user->firstname = 'Firstname';
         $user->lastname = 'Lastname';
 
@@ -48,7 +48,7 @@ class org_openpsa_calendar_handler_icalTest extends openpsa_testcase
         $this->assertEquals($event->guid, $data['events'][0]->guid);
         $output = $this->show_handler($data);
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
 }

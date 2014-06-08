@@ -90,11 +90,11 @@ class org_openpsa_core_siteconfig extends midcom_baseclasses_components_purecode
             $this->set_config_value($last . '_relative_url', $node_relative_url);
         }
 
-        midcom::get('auth')->request_sudo('org.openpsa.core');
+        midcom::get()->auth->request_sudo('org.openpsa.core');
         $this->snippet->update();
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
 
-        midcom::get('uimessages')->add($this->_l10n->get('org.openpsa.core'), $this->_l10n->get('site structure cache created'), 'info');
+        midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.core'), $this->_l10n->get('site structure cache created'), 'info');
     }
 
     /**
@@ -120,7 +120,7 @@ class org_openpsa_core_siteconfig extends midcom_baseclasses_components_purecode
      */
     private function load_snippet()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.core');
+        midcom::get()->auth->request_sudo('org.openpsa.core');
         $lib_snippetdir = new midcom_db_snippetdir();
         $lib_snippetdir->get_by_path("/org.openpsa.cache");
         if (!$lib_snippetdir->guid)
@@ -145,7 +145,7 @@ class org_openpsa_core_siteconfig extends midcom_baseclasses_components_purecode
             $this->snippet->create();
             $this->initialize_site_structure();
         }
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
         $this->data = midcom_helper_misc::parse_config($this->snippet->code);
     }
 
@@ -219,11 +219,11 @@ class org_openpsa_core_siteconfig extends midcom_baseclasses_components_purecode
         {
             return null;
         }
-        if (!midcom::get('auth')->admin)
+        if (!midcom::get()->auth->admin)
         {
-            $user_id = midcom::get('auth')->acl->get_user_id();
+            $user_id = midcom::get()->auth->acl->get_user_id();
             if (   !$this->data[$type . '_guid']
-                || !midcom::get('auth')->acl->can_do_byguid('midgard:read', $this->data[$type . '_guid'], 'midcom_db_topic', $user_id))
+                || !midcom::get()->auth->acl->can_do_byguid('midgard:read', $this->data[$type . '_guid'], 'midcom_db_topic', $user_id))
             {
                 return null;
             }

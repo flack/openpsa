@@ -115,7 +115,7 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
         $this->_articles = $qb->execute();
 
         $this->_prepare_request_data();
-        midcom::get('metadata')->set_request_metadata(net_nehmer_blog_viewer::get_last_modified($this->_topic, $this->_content_topic), $this->_topic->guid);
+        midcom::get()->metadata->set_request_metadata(net_nehmer_blog_viewer::get_last_modified($this->_topic, $this->_content_topic), $this->_topic->guid);
 
         if ($qb->get_current_page() > 1)
         {
@@ -160,7 +160,7 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
 
         // Add category to title
         $this->_request_data['page_title'] = sprintf($this->_l10n->get('%s category %s'), $this->_topic->extra, $this->_request_data['category']);
-        midcom::get('head')->set_pagetitle($this->_request_data['page_title']);
+        midcom::get()->head->set_pagetitle($this->_request_data['page_title']);
 
         // Activate correct leaf
         if (   $this->_config->get('show_navigation_pseudo_leaves')
@@ -172,7 +172,7 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
         // Add RSS feed to headers
         if ($this->_config->get('rss_enable'))
         {
-            midcom::get('head')->add_link_head
+            midcom::get()->head->add_link_head
             (
                 array
                 (
@@ -280,10 +280,10 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
         $comments_node = midcom_helper_misc::find_node_by_component('net.nehmer.comments');
 
         // Cache the data
-        if (midcom::get('auth')->request_sudo('net.nehmer.blog'))
+        if (midcom::get()->auth->request_sudo('net.nehmer.blog'))
         {
             $this->_topic->set_parameter('net.nehmer.blog', 'comments_topic', $comments_node[MIDCOM_NAV_GUID]);
-            midcom::get('auth')->drop_sudo();
+            midcom::get()->auth->drop_sudo();
         }
 
         return $comments_node;

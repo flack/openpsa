@@ -126,11 +126,11 @@ implements midcom_helper_datamanager2_interfaces_create
                 if ($this->_config->get('index_products'))
                 {
                     // Index the product
-                    $indexer = midcom::get('indexer');
+                    $indexer = midcom::get()->indexer;
                     org_openpsa_products_viewer::index($data['controller']->datamanager, $indexer, $this->_topic);
                 }
 
-                midcom::get('cache')->invalidate($this->_product->guid);
+                midcom::get()->cache->invalidate($this->_product->guid);
 
                 return new midcom_response_relocate("product/{$this->_product->guid}/");
 
@@ -148,7 +148,7 @@ implements midcom_helper_datamanager2_interfaces_create
         org_openpsa_helpers::dm2_savecancel($this);
 
         $this->_request_data['view_title'] = sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get($this->_schemadb[$this->_schema]->description));
-        midcom::get('head')->set_pagetitle($this->_request_data['view_title']);
+        midcom::get()->head->set_pagetitle($this->_request_data['view_title']);
 
         $this->_update_breadcrumb_line();
     }

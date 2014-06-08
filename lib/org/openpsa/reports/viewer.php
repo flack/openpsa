@@ -95,7 +95,7 @@ class org_openpsa_reports_viewer extends midcom_baseclasses_components_request
     public function _on_handle($handler, array $args)
     {
         // Always run in uncached mode
-        midcom::get('cache')->content->no_cache();
+        midcom::get()->cache->content->no_cache();
     }
 
     /**
@@ -148,7 +148,7 @@ class org_openpsa_reports_viewer extends midcom_baseclasses_components_request
      */
     public function _handler_frontpage($handler_id, array $args, array &$data)
     {
-        midcom::get('auth')->require_valid_user();
+        midcom::get()->auth->require_valid_user();
 
         $data['available_components'] = $this->_get_available_generators();
     }

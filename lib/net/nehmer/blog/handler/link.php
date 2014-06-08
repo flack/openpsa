@@ -148,7 +148,7 @@ implements midcom_helper_datamanager2_interfaces_create
         }
 
         $title = sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('article link'));
-        midcom::get('head')->set_pagetitle("{$this->_topic->extra}: {$title}");
+        midcom::get()->head->set_pagetitle("{$this->_topic->extra}: {$title}");
         $this->_update_breadcrumb_line($handler_id);
     }
 
@@ -190,9 +190,9 @@ implements midcom_helper_datamanager2_interfaces_create
 
         $this->_process_delete();
 
-        midcom::get('metadata')->set_request_metadata($this->_article->metadata->revised, $this->_article->guid);
+        midcom::get()->metadata->set_request_metadata($this->_article->metadata->revised, $this->_article->guid);
         $this->_view_toolbar->bind_to($this->_article);
-        midcom::get('head')->set_pagetitle("{$this->_topic->extra}: {$this->_article->title}");
+        midcom::get()->head->set_pagetitle("{$this->_topic->extra}: {$this->_article->title}");
         $this->_update_breadcrumb_line($handler_id);
     }
 
@@ -204,7 +204,7 @@ implements midcom_helper_datamanager2_interfaces_create
     {
         if (isset($_POST['f_cancel']))
         {
-            midcom::get('uimessages')->add($this->_l10n->get('net.nehmer.blog'), $this->_l10n->get('delete cancelled'));
+            midcom::get()->uimessages->add($this->_l10n->get('net.nehmer.blog'), $this->_l10n->get('delete cancelled'));
 
             // Redirect to view page.
             midcom::get()->relocate($this->_master->get_url($this->_article));
@@ -221,7 +221,7 @@ implements midcom_helper_datamanager2_interfaces_create
         {
             throw new midcom_error($this->_l10n->get('failed to delete the blog link, contact the site administrator'));
         }
-        midcom::get('uimessages')->add($this->_l10n->get('net.nehmer.blog'), $this->_l10n->get('blog link deleted'));
+        midcom::get()->uimessages->add($this->_l10n->get('net.nehmer.blog'), $this->_l10n->get('blog link deleted'));
         midcom::get()->relocate('');
         // This will exit
     }

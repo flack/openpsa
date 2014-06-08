@@ -15,7 +15,7 @@ class org_openpsa_calendar_cron_reporthours extends midcom_baseclasses_component
 {
     public function _on_initialize()
     {
-        return array_key_exists('org.openpsa.projects', midcom::get('componentloader')->manifests);
+        return array_key_exists('org.openpsa.projects', midcom::get()->componentloader->manifests);
     }
 
     /**
@@ -41,7 +41,7 @@ class org_openpsa_calendar_cron_reporthours extends midcom_baseclasses_component
             return;
         }
 
-        if (!midcom::get('auth')->request_sudo('org.openpsa.calendar'))
+        if (!midcom::get()->auth->request_sudo('org.openpsa.calendar'))
         {
             $this->print_error("Could not get sudo, aborting operation, see error log for details");
             return;
@@ -64,7 +64,7 @@ class org_openpsa_calendar_cron_reporthours extends midcom_baseclasses_component
         $eventmembers = $qb->execute();
         if (empty($eventmembers))
         {
-            midcom::get('auth')->drop_sudo();
+            midcom::get()->auth->drop_sudo();
             return;
         }
 
@@ -133,7 +133,7 @@ class org_openpsa_calendar_cron_reporthours extends midcom_baseclasses_component
             }
         }
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
         debug_add('done');
     }
 }

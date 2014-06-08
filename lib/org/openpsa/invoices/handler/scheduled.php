@@ -26,7 +26,7 @@ implements org_openpsa_widgets_grid_provider_client
      */
     public function _handler_list($handler_id, array $args, array &$data)
     {
-        midcom::get('auth')->require_valid_user();
+        midcom::get()->auth->require_valid_user();
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
         $this->_sales_url = $siteconfig->get_node_full_url('org.openpsa.sales');
 
@@ -34,7 +34,7 @@ implements org_openpsa_widgets_grid_provider_client
         $provider->add_order('start');
 
         $data['grid'] = $provider->get_grid('scheduled');
-        midcom::get('head')->set_pagetitle($this->_l10n->get('scheduled invoices'));
+        midcom::get()->head->set_pagetitle($this->_l10n->get('scheduled invoices'));
         $this->add_breadcrumb('', $this->_l10n->get('scheduled invoices'));
         $this->_master->prepare_toolbar('scheduled');
     }

@@ -29,7 +29,7 @@ class org_openpsa_relatedto_suspect extends midcom_baseclasses_components_pureco
     public static function find_links_object(midcom_core_dbaobject $object, $defaults = false)
     {
         $ret = array();
-        $components = array_keys(midcom::get('componentloader')->manifests);
+        $components = array_keys(midcom::get()->componentloader->manifests);
         //Check all installed components
         foreach ($components as $component)
         {
@@ -60,14 +60,14 @@ class org_openpsa_relatedto_suspect extends midcom_baseclasses_components_pureco
         $ret = array();
 
         //Make sure we can load and access the component
-        if (!midcom::get('componentloader')->load_graceful($component))
+        if (!midcom::get()->componentloader->load_graceful($component))
         {
             //We could not load the component/interface
             debug_add("could not load component {$component}", MIDCOM_LOG_ERROR);
             return $ret;
         }
 
-        $interface = midcom::get('componentloader')->get_interface_class($component);
+        $interface = midcom::get()->componentloader->get_interface_class($component);
 
         if (!method_exists($interface, 'org_openpsa_relatedto_find_suspects'))
         {

@@ -15,7 +15,7 @@ class midcom_admin_folder_handler_deleteTest extends openpsa_testcase
 {
     public function testHandler_delete()
     {
-        midcom::get('auth')->request_sudo('midcom.admin.folder');
+        midcom::get()->auth->request_sudo('midcom.admin.folder');
         $parent = self::get_component_node('net.nehmer.static');
         $attributes = array
         (
@@ -35,7 +35,7 @@ class midcom_admin_folder_handler_deleteTest extends openpsa_testcase
         $qb->add_constraint('id', '=', $topic->id);
         $this->assertEquals(0, $qb->count());
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
 }

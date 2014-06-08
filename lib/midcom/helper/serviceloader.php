@@ -23,7 +23,7 @@ class midcom_helper_serviceloader
      */
     private function get_implementation($service)
     {
-        if (midcom::get('config')->get("service_{$service}") === null)
+        if (midcom::get()->config->get("service_{$service}") === null)
         {
             throw new midcom_error("Service interface {$service} could not be loaded: Not defined in system configuration");
         }
@@ -34,7 +34,7 @@ class midcom_helper_serviceloader
             throw new midcom_error("Service interface {$service} could not be loaded: File not found");
         }
 
-        return midcom::get('config')->get("service_{$service}");
+        return midcom::get()->config->get("service_{$service}");
     }
 
     /**

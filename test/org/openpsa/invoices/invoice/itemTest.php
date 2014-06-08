@@ -30,7 +30,7 @@ class org_openpsa_invoices_invoice_itemTest extends openpsa_testcase
 
     public function testCRUD()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.invoices');
+        midcom::get()->auth->request_sudo('org.openpsa.invoices');
         $item = new org_openpsa_invoices_invoice_item_dba();
         $item->invoice = self::$_invoice->id;
         $item->deliverable = self::$_deliverable->id;
@@ -66,7 +66,7 @@ class org_openpsa_invoices_invoice_itemTest extends openpsa_testcase
         $this->assertEquals(self::$_invoice->sum, 0);
         $this->assertEquals(self::$_deliverable->invoiced, 0);
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
     public function tearDown()

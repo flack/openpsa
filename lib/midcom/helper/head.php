@@ -267,7 +267,7 @@ class midcom_helper_head
      *                      'type' => 'text/css',
      *                      'href' => '/style.css'
      *                      );
-     * midcom::get('head')->add_link_head($attributes);
+     * midcom::get()->head->add_link_head($attributes);
      * </code>
      *
      * Each URL will only be added once. When trying to add the same URL a second time,
@@ -358,7 +358,7 @@ class midcom_helper_head
      *
      * <code>
      * <html>
-     *     <body <?php midcom::get('head')->print_jsonload();?>>
+     *     <body <?php midcom::get()->head->print_jsonload();?>>
      *            <!-- your actual body -->
      *     </body>
      * </html>
@@ -476,12 +476,12 @@ class midcom_helper_head
 
         if (!$version)
         {
-            $version = midcom::get('config')->get('jquery_version');
+            $version = midcom::get()->config->get('jquery_version');
         }
 
         $this->_jquery_init_scripts .= "\n";
 
-        if (midcom::get('config')->get('jquery_load_from_google'))
+        if (midcom::get()->config->get('jquery_load_from_google'))
         {
             // Use Google's hosted jQuery version
             $this->_jquery_init_scripts .= "<script src=\"http://www.google.com/jsapi\"></script>\n";
@@ -492,9 +492,9 @@ class midcom_helper_head
         else
         {
             $url = MIDCOM_STATIC_URL . "/jQuery/jquery-{$version}.js";
-            if (midcom::get('config')->get('jquery_version_oldie'))
+            if (midcom::get()->config->get('jquery_version_oldie'))
             {
-                $oldie_url = MIDCOM_STATIC_URL . '/jQuery/jquery-' . midcom::get('config')->get('jquery_version_oldie') . '.js';
+                $oldie_url = MIDCOM_STATIC_URL . '/jQuery/jquery-' . midcom::get()->config->get('jquery_version_oldie') . '.js';
                 $this->_jquery_init_scripts .= "<!--[if lt IE 9]>\n";
                 $this->_jquery_init_scripts .= "<script type=\"text/javascript\" src=\"{$oldie_url}\"></script>\n";
                 $this->_jquery_init_scripts .= "<![endif]-->\n";
@@ -510,7 +510,7 @@ class midcom_helper_head
 
         if (!defined('MIDCOM_JQUERY_UI_URL'))
         {
-            define('MIDCOM_JQUERY_UI_URL', MIDCOM_STATIC_URL . "/jQuery/jquery-ui-" . midcom::get('config')->get('jquery_ui_version'));
+            define('MIDCOM_JQUERY_UI_URL', MIDCOM_STATIC_URL . "/jQuery/jquery-ui-" . midcom::get()->config->get('jquery_ui_version'));
         }
 
         $script  = "var MIDCOM_STATIC_URL = '" . MIDCOM_STATIC_URL . "';\n";
@@ -564,9 +564,9 @@ class midcom_helper_head
      */
     public function add_jquery_ui_theme(array $components = array())
     {
-        if (midcom::get('config')->get('jquery_ui_theme'))
+        if (midcom::get()->config->get('jquery_ui_theme'))
         {
-            $this->add_stylesheet(midcom::get('config')->get('jquery_ui_theme'));
+            $this->add_stylesheet(midcom::get()->config->get('jquery_ui_theme'));
         }
         else
         {

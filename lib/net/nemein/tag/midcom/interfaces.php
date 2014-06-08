@@ -24,13 +24,13 @@ class net_nemein_tag_interface extends midcom_baseclasses_components_interface
         {
             return;
         }
-        midcom::get('auth')->request_sudo($this->_component);
+        midcom::get()->auth->request_sudo($this->_component);
         $tag_links = $qb->execute();
         foreach ($tag_links as $tag_link)
         {
             $tag_link->delete();
         }
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 }
 ?>

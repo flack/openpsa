@@ -22,18 +22,18 @@ class org_openpsa_contacts_handler_person_createTest extends openpsa_testcase
 
     public function testHandler_create()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.contacts');
+        midcom::get()->auth->request_sudo('org.openpsa.contacts');
 
         $data = $this->run_handler('org.openpsa.contacts', array('person', 'create'));
         $this->assertEquals('person_new', $data['handler_id']);
 
         $this->show_handler($data);
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
     public function testHandler_create_group()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.contacts');
+        midcom::get()->auth->request_sudo('org.openpsa.contacts');
 
         $group = $this->create_object('org_openpsa_contacts_group_dba');
 
@@ -41,7 +41,7 @@ class org_openpsa_contacts_handler_person_createTest extends openpsa_testcase
         $this->assertEquals('person_new_group', $data['handler_id']);
 
         $this->show_handler($data);
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 }
 ?>

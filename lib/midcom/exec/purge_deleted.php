@@ -1,12 +1,12 @@
 <?php
-midcom::get('auth')->require_admin_user();
+midcom::get()->auth->require_admin_user();
 midcom::get()->disable_limits();
 
 $chunk_size = 1000;
 
 if (!isset($_GET['days']))
 {
-    $grace_days = midcom::get('config')->get('cron_purge_deleted_after');
+    $grace_days = midcom::get()->config->get('cron_purge_deleted_after');
 }
 else
 {

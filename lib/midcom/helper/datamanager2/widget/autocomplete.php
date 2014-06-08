@@ -226,7 +226,7 @@ class midcom_helper_datamanager2_widget_autocomplete extends midcom_helper_datam
 
     public static function add_head_elements($creation_mode_enabled = false)
     {
-        $head = midcom::get('head');
+        $head = midcom::get()->head;
         $head->enable_jquery();
 
         $theme_files = array('autocomplete', 'menu');

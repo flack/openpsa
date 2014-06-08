@@ -365,7 +365,7 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
      */
     public function _handler_report($handler_id, array $args, array &$data)
     {
-        midcom::get('auth')->require_valid_user();
+        midcom::get()->auth->require_valid_user();
 
         $this->_message = new org_openpsa_directmarketing_campaign_message_dba($args[0]);
         $data['message'] = $this->_message;
@@ -399,9 +399,9 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_left.png',
             )
         );
-        if (!empty(midcom::get('auth')->user->guid))
+        if (!empty(midcom::get()->auth->user->guid))
         {
-            $preview_url = "message/compose/{$this->_message->guid}/" . midcom::get('auth')->user->guid .'/';
+            $preview_url = "message/compose/{$this->_message->guid}/" . midcom::get()->auth->user->guid .'/';
         }
         else
         {

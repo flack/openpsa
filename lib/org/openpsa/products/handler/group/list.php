@@ -173,7 +173,7 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
 
         if ($data['group'])
         {
-            if (midcom::get('config')->get('enable_ajax_editing'))
+            if (midcom::get()->config->get('enable_ajax_editing'))
             {
                 $data['controller'] = midcom_helper_datamanager2_controller::create('ajax');
                 $data['controller']->schemadb =& $data['schemadb_group'];
@@ -224,7 +224,7 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
             }
         }
 
-        midcom::get('head')->set_pagetitle($this->_request_data['view_title']);
+        midcom::get()->head->set_pagetitle($this->_request_data['view_title']);
     }
 
     private function _handle_list_intree($args)
@@ -316,8 +316,8 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
         }
         else
         {
-            $allow_create_group = midcom::get('auth')->can_user_do('midgard:create', null, 'org_openpsa_products_product_group_dba');
-            $allow_create_product = midcom::get('auth')->can_user_do('midgard:create', null, 'org_openpsa_products_product_dba');
+            $allow_create_group = midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_products_product_group_dba');
+            $allow_create_product = midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_products_product_dba');
         }
 
         $this->_add_schema_buttons('schemadb_group', 'new-dir', '', $allow_create_group);

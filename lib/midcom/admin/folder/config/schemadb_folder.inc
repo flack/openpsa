@@ -63,10 +63,10 @@
             (
                 'options' => array
                 (
-                    MIDCOM_NAVORDER_DEFAULT => midcom::get('i18n')->get_string('default sort order', 'midcom.admin.folder'),
-                    MIDCOM_NAVORDER_TOPICSFIRST => midcom::get('i18n')->get_string('folders first', 'midcom.admin.folder'),
-                    MIDCOM_NAVORDER_ARTICLESFIRST => midcom::get('i18n')->get_string('pages first', 'midcom.admin.folder'),
-                    MIDCOM_NAVORDER_SCORE => midcom::get('i18n')->get_string('by score', 'midcom.admin.folder'),
+                    MIDCOM_NAVORDER_DEFAULT => midcom::get()->i18n->get_string('default sort order', 'midcom.admin.folder'),
+                    MIDCOM_NAVORDER_TOPICSFIRST => midcom::get()->i18n->get_string('folders first', 'midcom.admin.folder'),
+                    MIDCOM_NAVORDER_ARTICLESFIRST => midcom::get()->i18n->get_string('pages first', 'midcom.admin.folder'),
+                    MIDCOM_NAVORDER_SCORE => midcom::get()->i18n->get_string('by score', 'midcom.admin.folder'),
                 ),
             ),
             'widget' => 'select',

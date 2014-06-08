@@ -126,10 +126,10 @@ $revised_after_choices[$date] = $data['l10n']->get('1 month');
                 echo "            <th class=\"review_by\">" . $data['l10n']->get('review date') . "</th>\n";
             } ?>
 
-            <th class="revised"><?php echo midcom::get('i18n')->get_string('revised', 'midcom.admin.folder'); ?></th>
-            <th class="revisor"><?php echo midcom::get('i18n')->get_string('revisor', 'midcom.admin.folder'); ?></th>
+            <th class="revised"><?php echo midcom::get()->i18n->get_string('revised', 'midcom.admin.folder'); ?></th>
+            <th class="revisor"><?php echo midcom::get()->i18n->get_string('revisor', 'midcom.admin.folder'); ?></th>
             <th class="approved"><?php echo $data['l10n_midcom']->get('approved'); ?></th>
-            <th class="revision"><?php echo midcom::get('i18n')->get_string('revision', 'midcom.admin.folder'); ?></th>
+            <th class="revision"><?php echo midcom::get()->i18n->get_string('revision', 'midcom.admin.folder'); ?></th>
           </tr>
         </thead>
         <tfoot>

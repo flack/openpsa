@@ -120,7 +120,7 @@ class midcom_services_i18n
             return false;
         }
 
-        $this->_fallback_language = midcom::get('config')->get('i18n_fallback_language');
+        $this->_fallback_language = midcom::get()->config->get('i18n_fallback_language');
         $this->set_language($this->_fallback_language);
 
         $this->_set_startup_langs();
@@ -542,7 +542,7 @@ class midcom_services_i18n
      */
     private function _load_language_db()
     {
-        $path = midcom::get('config')->get('i18n_language_db_path');
+        $path = midcom::get()->config->get('i18n_language_db_path');
         try
         {
             $data = midcom_helper_misc::get_snippet_content($path);
@@ -596,7 +596,7 @@ class midcom_services_i18n
         {
             debug_add("Iconv returned failed to convert a string, returning an empty string.", MIDCOM_LOG_WARN);
             debug_print_r("Tried to convert this string from {$source_charset} to {$destination_charset}:", $string);
-            midcom::get('debug')->log_php_error(MIDCOM_LOG_WARN);
+            midcom::get()->debug->log_php_error(MIDCOM_LOG_WARN);
             return false;
         }
         return $result;

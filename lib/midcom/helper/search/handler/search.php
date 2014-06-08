@@ -132,7 +132,7 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
         switch ($data['type'])
         {
             case 'basic':
-                $indexer = midcom::get('indexer');
+                $indexer = midcom::get()->indexer;
                 $final_query = $data['query'];
                 debug_add("Final query: {$final_query}");
                 $result = $indexer->query($final_query);
@@ -193,7 +193,7 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
 
         if ($count == 0)
         {
-            midcom::get('cache')->content->uncached();
+            midcom::get()->cache->content->uncached();
         }
 
         if ($count > 0)
@@ -222,7 +222,7 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
                     // Non-Midgard results don't need to go through cache registration
                     continue;
                 }
-                midcom::get('cache')->content->register($doc->source);
+                midcom::get()->cache->content->register($doc->source);
             }
             reset($this->_request_data['result']);
         }
@@ -271,7 +271,7 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
 
         if ($data['query'] != '')
         {
-            $final_query = (midcom::get('config')->get('indexer_backend') == 'solr') ? $data['query'] : "({$data['query']})";
+            $final_query = (midcom::get()->config->get('indexer_backend') == 'solr') ? $data['query'] : "({$data['query']})";
         }
         else
         {
@@ -303,7 +303,7 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
         }
 
         debug_add("Final query: {$final_query}");
-        $indexer = midcom::get('indexer');
+        $indexer = midcom::get()->indexer;
 
         return $indexer->query($final_query, $filter);
     }
@@ -335,7 +335,7 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
      */
     public function _handler_opensearchdescription($handler_id, array $args, array &$data)
     {
-        midcom::get('cache')->content->content_type("application/opensearchdescription+xml");
+        midcom::get()->cache->content->content_type("application/opensearchdescription+xml");
         midcom::get()->header("Content-type: application/opensearchdescription+xml; charset=UTF-8");
         midcom::get()->skip_page_style = true;
     }

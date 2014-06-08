@@ -54,7 +54,7 @@ class midcom_helper_filesync_exporter_structure extends midcom_helper_filesync_e
         $structure = array();
         $structure[$structure_name] = array();
         $structure[$structure_name]['name'] = $structure_name;
-        $structure[$structure_name]['title'] = midcom::get('config')->get('midcom_site_title');
+        $structure[$structure_name]['title'] = midcom::get()->config->get('midcom_site_title');
         // Read the topic data
         $structure[$structure_name]['root'] = $this->read_node($root_node);
 
@@ -108,7 +108,7 @@ class midcom_helper_filesync_exporter_structure extends midcom_helper_filesync_e
     function export()
     {
         // Generate a safe name for the structure
-        $generator = midcom::get('serviceloader')->load('midcom_core_service_urlgenerator');
+        $generator = midcom::get()->serviceloader->load('midcom_core_service_urlgenerator');
         $structure_name = $generator->from_string(midcom::get()->get_page_prefix());
 
         $root_topic = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ROOTTOPIC);

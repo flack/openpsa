@@ -210,7 +210,7 @@ abstract class midcom_baseclasses_components_handler extends midcom_baseclasses_
         // Bind the object into the view toolbar
         $this->_view_toolbar->bind_to($object);
 
-        $metadata = midcom::get('metadata');
+        $metadata = midcom::get()->metadata;
         // Bind the object to the metadata service
         $metadata->bind_to($object);
 
@@ -218,7 +218,7 @@ abstract class midcom_baseclasses_components_handler extends midcom_baseclasses_
         $page_class = $metadata->get_object_classes($object, $page_class);
         $metadata->set_page_class($page_class);
 
-        midcom::get('style')->append_substyle($page_class);
+        midcom::get()->style->append_substyle($page_class);
     }
 }
 ?>

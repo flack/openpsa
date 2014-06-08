@@ -22,14 +22,14 @@ class org_openpsa_user_handler_group_viewTest extends openpsa_testcase
 
     public function test_handler_view()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.user');
+        midcom::get()->auth->request_sudo('org.openpsa.user');
 
         $group = $this->create_object('midcom_db_group');
 
         $data = $this->run_handler('org.openpsa.user', array('group', $group->guid));
         $this->assertEquals('group_view', $data['handler_id']);
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 }
 ?>

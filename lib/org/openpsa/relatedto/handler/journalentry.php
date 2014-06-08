@@ -36,7 +36,7 @@ implements midcom_helper_datamanager2_interfaces_create
 
     public function _on_initialize()
     {
-        midcom::get('style')->prepend_component_styledir('org.openpsa.relatedto');
+        midcom::get()->style->prepend_component_styledir('org.openpsa.relatedto');
     }
 
     /**
@@ -46,14 +46,14 @@ implements midcom_helper_datamanager2_interfaces_create
      */
     public function _handler_entry($handler_id, array $args, array &$data)
     {
-        $this->_current_object = midcom::get('dbfactory')->get_object_by_guid($args[0]);
+        $this->_current_object = midcom::get()->dbfactory->get_object_by_guid($args[0]);
 
         if ($args[1])
         {
             $this->_output_mode = $args[1];
         }
 
-        $this->_relocate_url = midcom::get('permalinks')->create_permalink($this->_current_object->guid);
+        $this->_relocate_url = midcom::get()->permalinks->create_permalink($this->_current_object->guid);
         $this->_request_data['url_prefix'] = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . "__mfa/org.openpsa.relatedto/journalentry/";
 
          //add needed constraints etc. to the query-builder
@@ -80,7 +80,7 @@ implements midcom_helper_datamanager2_interfaces_create
             //prepare breadcrumb
             $ref = midcom_helper_reflector::get($this->_current_object);
             $object_label = $ref->get_object_label($this->_current_object);
-            $object_url = midcom::get('permalinks')->create_permalink($this->_current_object->guid);
+            $object_url = midcom::get()->permalinks->create_permalink($this->_current_object->guid);
             if ($object_url)
             {
                 $this->add_breadcrumb($object_url, $object_label);
@@ -136,7 +136,7 @@ implements midcom_helper_datamanager2_interfaces_create
 
     public function _handler_create($handler_id, array $args, array &$data)
     {
-        $this->_current_object = midcom::get('dbfactory')->get_object_by_guid($args[0]);
+        $this->_current_object = midcom::get()->dbfactory->get_object_by_guid($args[0]);
 
         $data['controller'] = $this->get_controller('create');
 
@@ -177,7 +177,7 @@ implements midcom_helper_datamanager2_interfaces_create
 
     public function _handler_remove($handler_id, array $args, array &$data)
     {
-        $this->_current_object = midcom::get('dbfactory')->get_object_by_guid($args[0]);
+        $this->_current_object = midcom::get()->dbfactory->get_object_by_guid($args[0]);
         $reminder = new org_openpsa_relatedto_journal_entry_dba($args[1]);
 
         $reminder->delete();
@@ -197,7 +197,7 @@ implements midcom_helper_datamanager2_interfaces_create
     public function _handler_edit($handler_id, array $args, array &$data)
     {
         $this->_journal_entry = new org_openpsa_relatedto_journal_entry_dba($args[0]);
-        $this->_current_object = midcom::get('dbfactory')->get_object_by_guid($this->_journal_entry->linkGuid);
+        $this->_current_object = midcom::get()->dbfactory->get_object_by_guid($this->_journal_entry->linkGuid);
 
         $data['controller'] = $this->get_controller('simple', $this->_journal_entry);
 
@@ -237,7 +237,7 @@ implements midcom_helper_datamanager2_interfaces_create
     public function _handler_delete($handler_id, array $args, array &$data)
     {
         $this->_journal_entry = new org_openpsa_relatedto_journal_entry_dba($args[0]);
-        $this->_current_object = midcom::get('dbfactory')->get_object_by_guid($this->_journal_entry->linkGuid);
+        $this->_current_object = midcom::get()->dbfactory->get_object_by_guid($this->_journal_entry->linkGuid);
 
         if (!$this->_journal_entry->delete())
         {
@@ -287,7 +287,7 @@ implements midcom_helper_datamanager2_interfaces_create
                     //create reflector with linked object to get the right label
                     try
                     {
-                        $linked_object = midcom::get('dbfactory')->get_object_by_guid($entry->linkGuid);
+                        $linked_object = midcom::get()->dbfactory->get_object_by_guid($entry->linkGuid);
                     }
                     catch (midcom_error $e)
                     {
@@ -297,7 +297,7 @@ implements midcom_helper_datamanager2_interfaces_create
                     }
 
                     $reflector = new midcom_helper_reflector($linked_object);
-                    $link_html = "<a href='" . midcom::get('permalinks')->create_permalink($linked_object->guid) . "'>" . $reflector->get_object_label($linked_object) ."</a>";
+                    $link_html = "<a href='" . midcom::get()->permalinks->create_permalink($linked_object->guid) . "'>" . $reflector->get_object_label($linked_object) ."</a>";
                     $this->_request_data['linked_objects'][$entry->linkGuid] = $link_html;
                     $this->_request_data['linked_raw_objects'][$entry->linkGuid] = $reflector->get_object_label($linked_object);
                 }
@@ -361,7 +361,7 @@ implements midcom_helper_datamanager2_interfaces_create
         $ref = midcom_helper_reflector::get($this->_current_object);
         $object_label = $ref->get_object_label($this->_current_object);
 
-        $this->add_breadcrumb(midcom::get('permalinks')->create_permalink($this->_current_object->guid), $object_label);
+        $this->add_breadcrumb(midcom::get()->permalinks->create_permalink($this->_current_object->guid), $object_label);
         $this->add_breadcrumb(midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . '__mfa/org.openpsa.relatedto/render/' . $this->_current_object->guid . '/both/', $this->_l10n->get('view related information'));
 
         $this->add_breadcrumb("", $this->_l10n->get('journal entry') . " : " . $object_label);

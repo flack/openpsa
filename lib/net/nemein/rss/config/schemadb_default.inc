@@ -34,7 +34,7 @@
             'storage' => 'autoapprove',
             'type'    => 'boolean',
             'widget'  => 'checkbox',
-            'hidden' => !midcom::get('config')->get('metadata_approval'),
+            'hidden' => !midcom::get()->config->get('metadata_approval'),
         ),
         'defaultauthor' => array
         (
@@ -103,17 +103,17 @@
                     array
                     (
                         'name' => 'code',
-                        'title' =>  midcom::get('i18n')->get_string('ISO code', 'net.nemein.rss'),
+                        'title' =>  midcom::get()->i18n->get_string('ISO code', 'net.nemein.rss'),
                     ),
                     array
                     (
                         'name' => 'name',
-                        'title' =>  midcom::get('i18n')->get_string('language (in english)', 'net.nemein.rss'),
+                        'title' =>  midcom::get()->i18n->get_string('language (in english)', 'net.nemein.rss'),
                     ),
                     array
                     (
                         'name' => 'native',
-                        'title' =>  midcom::get('i18n')->get_string('language (native)', 'net.nemein.rss'),
+                        'title' =>  midcom::get()->i18n->get_string('language (native)', 'net.nemein.rss'),
                     ),
                 ),
                 'id_field' => 'id',

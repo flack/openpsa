@@ -43,11 +43,11 @@ class org_openpsa_invoices_handler_pdf extends midcom_baseclasses_components_han
             $this->_request_data['billing_data'] = $this->_invoice->get_billing_data();
             if (self::render_and_attach_pdf($this->_invoice))
             {
-                midcom::get('uimessages')->add($this->_l10n->get($this->_component), $this->_l10n->get('pdf created'));
+                midcom::get()->uimessages->add($this->_l10n->get($this->_component), $this->_l10n->get('pdf created'));
             }
             else
             {
-                midcom::get('uimessages')->add($this->_l10n->get($this->_component), $this->_l10n->get('pdf creation failed') . ': ' . midcom_connection::get_error_string(), 'error');
+                midcom::get()->uimessages->add($this->_l10n->get($this->_component), $this->_l10n->get('pdf creation failed') . ': ' . midcom_connection::get_error_string(), 'error');
             }
             return new midcom_response_relocate($this->_request_data["invoice_url"]);
         }
@@ -136,11 +136,11 @@ class org_openpsa_invoices_handler_pdf extends midcom_baseclasses_components_han
             throw new midcom_error('Could not find PDF renderer ' . $client_class);
         }
         $pdf_builder = new $client_class($invoice);
-        $generator = midcom::get('serviceloader')->load('midcom_core_service_urlgenerator');
+        $generator = midcom::get()->serviceloader->load('midcom_core_service_urlgenerator');
         $filename = $generator->from_string($invoice->get_label()) . '.pdf';
 
         // tmp filename
-        $tmp_file = midcom::get('config')->get('midcom_tempdir') . "/". $filename;
+        $tmp_file = midcom::get()->config->get('midcom_tempdir') . "/". $filename;
 
         // render pdf to tmp filename
         $pdf_builder->render($tmp_file);

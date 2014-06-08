@@ -16,7 +16,7 @@ class org_openpsa_projects_handler_workflowTest extends openpsa_testcase
     public function testHandler_post()
     {
         $this->create_user(true);
-        midcom::get('auth')->request_sudo('org.openpsa.projects');
+        midcom::get()->auth->request_sudo('org.openpsa.projects');
 
         $project = $this->create_object('org_openpsa_projects_project');
         $task = $this->create_object('org_openpsa_projects_task_dba', array('project' => $project->id));
@@ -30,7 +30,7 @@ class org_openpsa_projects_handler_workflowTest extends openpsa_testcase
         $url = $this->run_relocate_handler('org.openpsa.projects', array('workflow', $task->guid));
         $this->assertEquals('test', $url);
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 }
 ?>

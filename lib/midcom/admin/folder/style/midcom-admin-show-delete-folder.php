@@ -20,7 +20,7 @@
         ?><p><?php
         echo sprintf($data['l10n']->get('this folder is a symlink to <a href="%s">%s</a> and confirming will delete only this symlink'), $data['symlink'], $data['symlink']);
         ?></p><?php
-        if (!midcom::get('config')->get('symlinks'))
+        if (!midcom::get()->config->get('symlinks'))
         {
             ?><p><?php
             echo $data['l10n']->get('symlinks are currently disabled');

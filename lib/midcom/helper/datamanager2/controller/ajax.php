@@ -57,7 +57,7 @@ class midcom_helper_datamanager2_controller_ajax extends midcom_helper_datamanag
      */
     private function _is_ajax_editable()
     {
-        if (!midcom::get('config')->get('enable_ajax_editing'))
+        if (!midcom::get()->config->get('enable_ajax_editing'))
         {
             // AJAX editing is globally disabled
             $this->_editable = false;
@@ -117,14 +117,14 @@ class midcom_helper_datamanager2_controller_ajax extends midcom_helper_datamanag
             return $state;
         }
 
-        midcom::get('head')->enable_jquery();
+        midcom::get()->head->enable_jquery();
 
-        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/jquery.dm2_ajax_editor.js');
+        midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/jquery.dm2_ajax_editor.js');
 
         $config = $this->_generate_editor_config();
 
         $script = "jQuery.dm2.ajax_editor.init('{$this->form_identifier}', {$config});";
-        midcom::get('head')->add_jquery_state_script($script);
+        midcom::get()->head->add_jquery_state_script($script);
 
         $this->add_stylesheet(MIDCOM_STATIC_URL."/midcom.helper.datamanager2/dm2_ajax_editor.css", 'screen');
 

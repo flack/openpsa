@@ -41,7 +41,7 @@ implements midcom_helper_datamanager2_interfaces_view
         $this->_person = new midcom_db_person($args[0]);
         if ($this->_person->id != midcom_connection::get_user())
         {
-            midcom::get('auth')->require_user_do('org.openpsa.user:manage', null, 'org_openpsa_user_interface');
+            midcom::get()->auth->require_user_do('org.openpsa.user:manage', null, 'org_openpsa_user_interface');
         }
 
         if (array_key_exists('org_openpsa_user_deleteok', $_POST))
@@ -49,11 +49,11 @@ implements midcom_helper_datamanager2_interfaces_view
             if (!$this->_person->delete())
             {
                 // Failure, give a message
-                midcom::get('uimessages')->add($this->_l10n->get('org.openpsa.user'), $this->_l10n->get("failed to delete person, reason") . ' ' . midcom_connection::get_error_string(), 'error');
+                midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.user'), $this->_l10n->get("failed to delete person, reason") . ' ' . midcom_connection::get_error_string(), 'error');
                 return new midcom_response_relocate('view/' . $this->_person->guid . '/');
             }
             // Update the index
-            $indexer = midcom::get('indexer');
+            $indexer = midcom::get()->indexer;
             $indexer->delete($this->_person->guid);
 
             return new midcom_response_relocate('');

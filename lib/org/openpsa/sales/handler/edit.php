@@ -167,7 +167,7 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
         org_openpsa_sales_viewer::add_breadcrumb_path($this->_salesproject, $this);
         $this->add_breadcrumb("", sprintf($this->_l10n_midcom->get('edit %s'), $this->_l10n->get('salesproject')));
 
-        midcom::get('head')->set_pagetitle(sprintf($this->_l10n_midcom->get('edit %s'), $this->_salesproject->title));
+        midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('edit %s'), $this->_salesproject->title));
     }
 
     /**
@@ -187,7 +187,7 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
      */
     public function _handler_new($handler_id, array $args, array &$data)
     {
-        midcom::get('auth')->require_user_do('midgard:create', null, 'org_openpsa_sales_salesproject_dba');
+        midcom::get()->auth->require_user_do('midgard:create', null, 'org_openpsa_sales_salesproject_dba');
 
         $this->_load_create_controller($args);
 
@@ -202,7 +202,7 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
         }
         $this->_request_data['controller'] = $this->_controller;
 
-        midcom::get('head')->set_pagetitle(sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('salesproject')));
+        midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('salesproject')));
 
         $this->add_breadcrumb('', $this->_l10n->get('create salesproject'));
 
@@ -237,10 +237,10 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
             case 'delete':
                 if (!$this->_salesproject->delete_tree())
                 {
-                    midcom::get('uimessages')->add($this->_l10n->get($this->_component), "Failed to delete salesproject. Last error: " . midcom_connection::get_error_string(), 'error');
+                    midcom::get()->uimessages->add($this->_l10n->get($this->_component), "Failed to delete salesproject. Last error: " . midcom_connection::get_error_string(), 'error');
                     return new midcom_response_relocate("salesproject/" . $this->_salesproject->guid);
                 }
-                midcom::get('uimessages')->add($this->_l10n->get($this->_component), sprintf($this->_l10n->get("salesproject %s deleted"), $this->_salesproject->title));
+                midcom::get()->uimessages->add($this->_l10n->get($this->_component), sprintf($this->_l10n->get("salesproject %s deleted"), $this->_salesproject->title));
                 return new midcom_response_relocate("");
             case 'cancel':
                 return new midcom_response_relocate("salesproject/" . $this->_salesproject->guid);
@@ -263,7 +263,7 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
         org_openpsa_sales_viewer::add_breadcrumb_path($this->_salesproject, $this);
         $this->add_breadcrumb("", sprintf($this->_l10n_midcom->get('delete %s'), $this->_l10n->get('salesproject')));
 
-        midcom::get('head')->set_pagetitle(sprintf($this->_l10n_midcom->get('delete %s'), $this->_salesproject->title));
+        midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('delete %s'), $this->_salesproject->title));
     }
 
     /**

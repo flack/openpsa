@@ -43,7 +43,7 @@ class org_openpsa_invoices_billing_data_dba extends midcom_core_dbaobject
 
         //html-ouptut
         echo '<div class="vcard">';
-        echo '<div style="text-align:center"><em>' . midcom::get('i18n')->get_string('invoice address', 'org.openpsa.contacts') . "</em></div>\n";
+        echo '<div style="text-align:center"><em>' . midcom::get()->i18n->get_string('invoice address', 'org.openpsa.contacts') . "</em></div>\n";
         echo "<strong>\n";
         echo nl2br($this->recipient) . "\n";
         echo "</strong>\n";
@@ -54,7 +54,7 @@ class org_openpsa_invoices_billing_data_dba extends midcom_core_dbaobject
 
     public function get_label()
     {
-        $label = midcom::get('i18n')->get_l10n('org.openpsa.invoices')->get('billing data') . ' (';
+        $label = midcom::get()->i18n->get_l10n('org.openpsa.invoices')->get('billing data') . ' (';
         if ($contact = $this->get_contact())
         {
             $label .= $contact->get_label() . ')';

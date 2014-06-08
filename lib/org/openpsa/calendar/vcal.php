@@ -33,7 +33,7 @@ class org_openpsa_calendar_vcal
 
         $this->_calendar = Component::create('VCALENDAR');
         $this->_calendar->VERSION = '2.0';
-        $this->_calendar->PRODID = "-//OpenPSA//Calendar " . org_openpsa_core_version::get_version_number() . "//" . strtoupper(midcom::get('i18n')->get_current_language());
+        $this->_calendar->PRODID = "-//OpenPSA//Calendar " . org_openpsa_core_version::get_version_number() . "//" . strtoupper(midcom::get()->i18n->get_current_language());
         $this->_calendar->METHOD = $method;
         //TODO: Determine server timezone and output correct header (we still send all times as UTC)
     }

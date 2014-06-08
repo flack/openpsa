@@ -69,7 +69,7 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
         $this->_schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb'));
 
         if (   $this->_config->get('use_captcha')
-            || (   ! midcom::get('auth')->user
+            || (   ! midcom::get()->auth->user
                 && $this->_config->get('use_captcha_if_anonymous')))
         {
             $this->_schemadb['comment']->append_field
@@ -101,7 +101,7 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
      */
     function _handler_welcome($handler_id, array $args, array &$data)
     {
-        midcom::get('auth')->require_valid_user();
+        midcom::get()->auth->require_valid_user();
 
         if (!$this->_topic->can_do('net.nehmer.comments:moderation'))
         {
@@ -194,7 +194,7 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
             throw new midcom_error("Failed to delete comment GUID '{$_REQUEST['guid']}': " . midcom_connection::get_error_string());
         }
 
-        midcom::get('cache')->invalidate($comment->objectguid);
+        midcom::get()->cache->invalidate($comment->objectguid);
 
         $this->_request_data['handler'] = $args[0];
         $comments = $this->_load_comments();
@@ -246,7 +246,7 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
      */
     public function _handler_moderate($handler_id, array $args, array &$data)
     {
-        midcom::get('auth')->require_valid_user();
+        midcom::get()->auth->require_valid_user();
 
         if (!$this->_topic->can_do('net.nehmer.comments:moderation'))
         {
@@ -261,8 +261,8 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
             $this->_init_display_datamanager();
         }
 
-        midcom::get('head')->enable_jquery();
-        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/net.nehmer.comments/moderate.js');
+        midcom::get()->head->enable_jquery();
+        midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/net.nehmer.comments/moderate.js');
 
         net_nehmer_comments_viewer::add_head_elements();
         $this->_prepare_request_data();

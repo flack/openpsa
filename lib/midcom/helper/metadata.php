@@ -453,7 +453,7 @@ class midcom_helper_metadata
 
         if (!empty($this->guid))
         {
-            midcom::get('cache')->invalidate($this->guid);
+            midcom::get()->cache->invalidate($this->guid);
         }
     }
 
@@ -626,9 +626,9 @@ class midcom_helper_metadata
     function is_object_visible_onsite()
     {
         return
-        (   (   midcom::get('config')->get('show_hidden_objects')
+        (   (   midcom::get()->config->get('show_hidden_objects')
              || $this->is_visible())
-         && (   midcom::get('config')->get('show_unapproved_objects')
+         && (   midcom::get()->config->get('show_unapproved_objects')
              || $this->is_approved())
         );
     }
@@ -642,8 +642,8 @@ class midcom_helper_metadata
      */
     function approve()
     {
-        midcom::get('auth')->require_do('midcom:approve', $this->__object);
-        midcom::get('auth')->require_do('midgard:update', $this->__object);
+        midcom::get()->auth->require_do('midcom:approve', $this->__object);
+        midcom::get()->auth->require_do('midgard:update', $this->__object);
 
         if (!is_object($this->__object))
         {
@@ -661,8 +661,8 @@ class midcom_helper_metadata
      */
     function force_approve()
     {
-        midcom::get('auth')->require_do('midcom:approve', $this->__object);
-        midcom::get('auth')->require_do('midgard:update', $this->__object);
+        midcom::get()->auth->require_do('midcom:approve', $this->__object);
+        midcom::get()->auth->require_do('midgard:update', $this->__object);
         if (!is_object($this->__object))
         {
             return false;
@@ -684,8 +684,8 @@ class midcom_helper_metadata
      */
     function unapprove()
     {
-        midcom::get('auth')->require_do('midcom:approve', $this->__object);
-        midcom::get('auth')->require_do('midgard:update', $this->__object);
+        midcom::get()->auth->require_do('midcom:approve', $this->__object);
+        midcom::get()->auth->require_do('midgard:update', $this->__object);
 
         if (!is_object($this->__object))
         {
@@ -745,7 +745,7 @@ class midcom_helper_metadata
         {
             try
             {
-                $object = midcom::get('dbfactory')->get_object_by_guid($guid);
+                $object = midcom::get()->dbfactory->get_object_by_guid($guid);
             }
             catch (midcom_error $e)
             {
@@ -757,7 +757,7 @@ class midcom_helper_metadata
         }
 
         // $object is now populated, too
-        return new self($guid, $object, midcom::get('config')->get('metadata_schema'));
+        return new self($guid, $object, midcom::get()->config->get('metadata_schema'));
     }
 
     /**
@@ -773,7 +773,7 @@ class midcom_helper_metadata
             return false;
         }
 
-        if (($this->get('locked') + (midcom::get('config')->get('metadata_lock_timeout') * 60)) < time())
+        if (($this->get('locked') + (midcom::get()->config->get('metadata_lock_timeout') * 60)) < time())
         {
             // lock expired, explicitly clear lock
             $this->unlock();
@@ -781,8 +781,8 @@ class midcom_helper_metadata
         }
 
         // Lock was created by the user, return "not locked"
-        if (   !empty(midcom::get('auth')->user->guid)
-            && $this->get('locker') === midcom::get('auth')->user->guid)
+        if (   !empty(midcom::get()->auth->user->guid)
+            && $this->get('locker') === midcom::get()->auth->user->guid)
         {
             return false;
         }
@@ -799,11 +799,11 @@ class midcom_helper_metadata
      */
     public function lock($timeout = null)
     {
-        midcom::get('auth')->require_do('midgard:update', $this->__object);
+        midcom::get()->auth->require_do('midgard:update', $this->__object);
 
         if (!$timeout)
         {
-            $timeout = midcom::get('config')->get('metadata_lock_timeout');
+            $timeout = midcom::get()->config->get('metadata_lock_timeout');
         }
 
         if (!is_object($this->__object))
@@ -823,7 +823,7 @@ class midcom_helper_metadata
     function can_unlock()
     {
         if (   !$this->__object->can_do('midcom:unlock')
-            && !midcom::get('auth')->can_user_do('midcom:unlock', null, 'midcom_services_auth', 'midcom'))
+            && !midcom::get()->auth->can_user_do('midcom:unlock', null, 'midcom_services_auth', 'midcom'))
         {
             return false;
         }

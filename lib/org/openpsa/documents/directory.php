@@ -45,14 +45,14 @@ class org_openpsa_documents_directory extends midcom_db_topic
         if (   $parent
             && $parent->component == 'org.openpsa.documents')
         {
-            midcom::get('auth')->request_sudo('org.openpsa.documents');
+            midcom::get()->auth->request_sudo('org.openpsa.documents');
 
             $parent = new org_openpsa_documents_directory($parent);
             $parent->_use_rcs = false;
             $parent->_use_activitystream = false;
             $parent->update();
 
-            midcom::get('auth')->drop_sudo();
+            midcom::get()->auth->drop_sudo();
         }
     }
 }

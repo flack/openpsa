@@ -41,7 +41,7 @@ echo $data['rcs_toolbar']->render();
                 echo "                    <td>";
 
                 if (   $history['user']
-                    && $user = midcom::get('auth')->get_user($history['user']))
+                    && $user = midcom::get()->auth->get_user($history['user']))
                 {
                     $person = $user->get_storage();
                     if (class_exists('org_openpsa_widgets_contact'))

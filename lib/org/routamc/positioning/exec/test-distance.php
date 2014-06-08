@@ -1,5 +1,5 @@
 <?php
-midcom::get('auth')->require_valid_user();
+midcom::get()->auth->require_valid_user();
 
 $cities = Array();
 /*
@@ -69,7 +69,7 @@ foreach ($cities_to_add as $city)
     }
 }*/
 
-$user = midcom::get('auth')->user->get_storage();
+$user = midcom::get()->auth->user->get_storage();
 $user_position = new org_routamc_positioning_person($user);
 $coordinates = $user_position->get_coordinates();
 

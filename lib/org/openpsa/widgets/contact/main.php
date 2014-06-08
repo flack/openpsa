@@ -97,7 +97,7 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
 
     public static function add_head_elements()
     {
-        midcom::get('head')->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.widgets/hcard.css");
+        midcom::get()->head->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.widgets/hcard.css");
     }
 
     /**
@@ -146,7 +146,7 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
     function read_object($person)
     {
         if (   !is_object($person)
-            || !midcom::get('dbfactory')->is_a($person, 'midcom_db_person'))
+            || !midcom::get()->dbfactory->is_a($person, 'midcom_db_person'))
         {
             // Given $person is not one
             return false;
@@ -507,7 +507,7 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
                 || (   $cardname != 'visiting'
                     && !$inherited_cards_only))
             {
-                echo '<div style="text-align:center"><em>' . midcom::get('i18n')->get_string($cardname . ' address', 'org.openpsa.contacts') . "</em></div>\n";
+                echo '<div style="text-align:center"><em>' . midcom::get()->i18n->get_string($cardname . ' address', 'org.openpsa.contacts') . "</em></div>\n";
             }
             echo "<strong>\n";
             if ($parent_name)

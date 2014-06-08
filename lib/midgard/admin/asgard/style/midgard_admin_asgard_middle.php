@@ -12,7 +12,7 @@ $extra_class = (!empty($data['asgard_toolbar']->items)) ? ' page-title-with-tool
                     </div>
 
                     <?php
-                    midcom::get('uimessages')->show_simple();
+                    midcom::get()->uimessages->show_simple();
                     ?>
 
                     <div class="page-title&(extra_class);">
@@ -27,7 +27,7 @@ $extra_class = (!empty($data['asgard_toolbar']->items)) ? ' page-title-with-tool
                                 if ($help_file)
                                 {
                                     echo "                                <li>\n";
-                                    echo "                                    <a href=\"{$prefix}__ais/help/midgard.admin.asgard/{$data['handler_id']}/\" target='_blank' title=\"" . midcom::get('i18n')->get_string('midcom.admin.help', 'midcom.admin.help') . "\"><img src=\"" . MIDCOM_STATIC_URL . "/stock-icons/16x16/stock_help-agent.png\" alt=\"" . midcom::get('i18n')->get_string('midcom.admin.help', 'midcom.admin.help') . "\" /></a>\n";
+                                    echo "                                    <a href=\"{$prefix}__ais/help/midgard.admin.asgard/{$data['handler_id']}/\" target='_blank' title=\"" . midcom::get()->i18n->get_string('midcom.admin.help', 'midcom.admin.help') . "\"><img src=\"" . MIDCOM_STATIC_URL . "/stock-icons/16x16/stock_help-agent.png\" alt=\"" . midcom::get()->i18n->get_string('midcom.admin.help', 'midcom.admin.help') . "\" /></a>\n";
                                     echo "                                </li>\n";
                                 }
                                 ?>

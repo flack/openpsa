@@ -211,7 +211,7 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
                 $this->_master->process_notify_date($formdata, $this->_deliverable);
 
                 // Reindex the deliverable
-                //$indexer = midcom::get('indexer');
+                //$indexer = midcom::get()->indexer;
                 //org_openpsa_sales_viewer::index($this->_controller->datamanager, $indexer, $this->_content_topic);
 
                 // *** FALL-THROUGH ***
@@ -220,7 +220,7 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
                 return new midcom_response_relocate("deliverable/{$this->_deliverable->guid}/");
         }
 
-        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/' . $this->_component . '/sales.js');
+        midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/' . $this->_component . '/sales.js');
         // Add toolbar items
         org_openpsa_helpers::dm2_savecancel($this);
 
@@ -228,7 +228,7 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
         $this->bind_view_to_object($this->_deliverable, $this->_request_data['controller']->datamanager->schema->name);
         $this->_update_breadcrumb_line($handler_id);
 
-        midcom::get('head')->set_pagetitle(sprintf($this->_l10n_midcom->get('edit %s'), $this->_deliverable->title));
+        midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('edit %s'), $this->_deliverable->title));
     }
 
     private function _process_at_entry(array $formdata)
@@ -323,7 +323,7 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
             }
 
             // Update the index
-            $indexer = midcom::get('indexer');
+            $indexer = midcom::get()->indexer;
             $indexer->delete($this->_deliverable->guid);
 
             // Delete ok, relocating to welcome.
@@ -337,7 +337,7 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
         }
 
         $this->_prepare_request_data($handler_id);
-        midcom::get('head')->set_pagetitle($this->_deliverable->title);
+        midcom::get()->head->set_pagetitle($this->_deliverable->title);
         $this->bind_view_to_object($this->_deliverable, $this->_request_data['controller']->datamanager->schema->title);
         $this->_update_breadcrumb_line($handler_id);
     }

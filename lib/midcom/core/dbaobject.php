@@ -85,7 +85,7 @@ abstract class midcom_core_dbaobject
     {
         if (is_object($id))
         {
-            $this->__object = midcom::get('dbfactory')->convert_midcom_to_midgard($id);
+            $this->__object = midcom::get()->dbfactory->convert_midcom_to_midgard($id);
         }
         else
         {
@@ -113,7 +113,7 @@ abstract class midcom_core_dbaobject
             }
 
             //Some useful information for performance tuning
-            if (   midcom::get('config')->get('log_level') >= MIDCOM_LOG_DEBUG
+            if (   midcom::get()->config->get('log_level') >= MIDCOM_LOG_DEBUG
                 && $this->__object->guid)
             {
                 static $guids = array();
@@ -188,7 +188,7 @@ abstract class midcom_core_dbaobject
      */
     public static function new_query_builder()
     {
-        return midcom::get('dbfactory')->new_query_builder(get_called_class());
+        return midcom::get()->dbfactory->new_query_builder(get_called_class());
     }
 
     /**
@@ -200,7 +200,7 @@ abstract class midcom_core_dbaobject
      */
     public static function new_collector($domain, $value)
     {
-        return midcom::get('dbfactory')->new_collector(get_called_class(), $domain, $value);
+        return midcom::get()->dbfactory->new_collector(get_called_class(), $domain, $value);
     }
 
     /**
@@ -211,7 +211,7 @@ abstract class midcom_core_dbaobject
      */
     public static function &get_cached($src)
     {
-        return midcom::get('dbfactory')->get_cached(get_called_class(), $src);
+        return midcom::get()->dbfactory->get_cached(get_called_class(), $src);
     }
 
     public function set_guid($guid)
@@ -369,7 +369,7 @@ abstract class midcom_core_dbaobject
     }
     public function get_parent()
     {
-        return midcom::get('dbfactory')->get_parent($this);
+        return midcom::get()->dbfactory->get_parent($this);
     }
     public function get_privilege($privilege, $assignee, $classname = '')
     {
@@ -506,7 +506,7 @@ abstract class midcom_core_dbaobject
         }
         if ($this->__object->approve())
         {
-            midcom::get('dispatcher')->dispatch(dbaevent::APPROVE, new dbaevent($this));
+            midcom::get()->dispatcher->dispatch(dbaevent::APPROVE, new dbaevent($this));
             return true;
         }
         return false;
@@ -520,7 +520,7 @@ abstract class midcom_core_dbaobject
         }
         if ($this->__object->unapprove())
         {
-            midcom::get('dispatcher')->dispatch(dbaevent::UNAPPROVE, new dbaevent($this));
+            midcom::get()->dispatcher->dispatch(dbaevent::UNAPPROVE, new dbaevent($this));
             return true;
         }
         return false;
@@ -541,7 +541,7 @@ abstract class midcom_core_dbaobject
     }
     public static function new_reflection_property()
     {
-        $classname = midcom::get('dbclassloader')->get_mgdschema_class_name_for_midcom_class(get_called_class());
+        $classname = midcom::get()->dbclassloader->get_mgdschema_class_name_for_midcom_class(get_called_class());
         return call_user_func(array($classname, 'new_reflection_property'));
     }
 
@@ -572,19 +572,19 @@ abstract class midcom_core_dbaobject
     // ACL Shortcuts
     public function can_do($privilege, $user = null)
     {
-        return midcom::get('auth')->can_do($privilege, $this, $user);
+        return midcom::get()->auth->can_do($privilege, $this, $user);
     }
     public function can_user_do($privilege, $user = null)
     {
-        return midcom::get('auth')->can_user_do($privilege, $user, $this->__midcom_class_name__);
+        return midcom::get()->auth->can_user_do($privilege, $user, $this->__midcom_class_name__);
     }
     public function require_do($privilege, $message = null)
     {
-        midcom::get('auth')->require_do($privilege, $this, $message);
+        midcom::get()->auth->require_do($privilege, $this, $message);
     }
     public function require_user_do($privilege, $message = null)
     {
-        midcom::get('auth')->require_user_do($privilege, $message, $this->__midcom_class_name__);
+        midcom::get()->auth->require_user_do($privilege, $message, $this->__midcom_class_name__);
     }
 
     // DBA API
@@ -602,7 +602,7 @@ abstract class midcom_core_dbaobject
     {
         foreach ($this->autodelete_dependents as $classname => $link_property)
         {
-            $qb = midcom::get('dbfactory')->new_query_builder($classname);
+            $qb = midcom::get()->dbfactory->new_query_builder($classname);
             $qb->add_constraint($link_property, '=', $this->id);
             $results = $qb->execute();
             foreach ($results as $result)

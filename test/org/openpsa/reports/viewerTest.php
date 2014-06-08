@@ -20,36 +20,36 @@ class org_openpsa_reports_viewerTest extends openpsa_testcase
 
     public function test_handler_frontpage()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.reports');
+        midcom::get()->auth->request_sudo('org.openpsa.reports');
 
         $data = $this->run_handler('org.openpsa.reports');
         $this->assertEquals('frontpage', $data['handler_id']);
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
     public function test_handler_csv()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.reports');
+        midcom::get()->auth->request_sudo('org.openpsa.reports');
 
         $_POST = array('org_openpsa_reports_csv' => 'TEST');
 
         $data = $this->run_handler('org.openpsa.reports', array('csv', 'testfile.csv'));
         $this->assertEquals('csv_export', $data['handler_id']);
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
     public function test_handler_delete_report()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.reports');
+        midcom::get()->auth->request_sudo('org.openpsa.reports');
 
         $query = $this->create_object('org_openpsa_reports_query_dba');
 
         $url = $this->run_relocate_handler('org.openpsa.reports', array('delete', $query->guid));
         $this->assertEquals('', $url);
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 }
 ?>

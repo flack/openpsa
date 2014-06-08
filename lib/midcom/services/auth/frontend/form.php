@@ -68,10 +68,10 @@ class midcom_services_auth_frontend_form implements midcom_services_auth_fronten
 
                 $data['restored_form_data'][$key] = base64_encode(serialize($value));
             }
-            midcom::get('style')->data = array_merge(midcom::get('style')->data, $data);
+            midcom::get()->style->data = array_merge(midcom::get()->style->data, $data);
         }
 
-        midcom::get('style')->show_midcom('midcom_services_auth_frontend_form');
+        midcom::get()->style->show_midcom('midcom_services_auth_frontend_form');
     }
 }
 ?>

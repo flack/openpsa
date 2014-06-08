@@ -57,9 +57,9 @@ class midcom_admin_folder_selectcomponent extends  midcom_helper_datamanager2_wi
         foreach ($this->_all_elements as $key => $value)
         {
             $option_attributes = array();
-            if ($icon = midcom::get('componentloader')->get_component_icon($key, false))
+            if ($icon = midcom::get()->componentloader->get_component_icon($key, false))
             {
-                $option_attributes['style'] = 'background-image: url("' . MIDCOM_STATIC_URL . '/' . midcom::get('componentloader')->get_component_icon($key) . '")';
+                $option_attributes['style'] = 'background-image: url("' . MIDCOM_STATIC_URL . '/' . midcom::get()->componentloader->get_component_icon($key) . '")';
             }
 
             $select_element->addOption($this->_translate($value), $key, $option_attributes);

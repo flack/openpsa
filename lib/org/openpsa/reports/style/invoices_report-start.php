@@ -7,7 +7,7 @@ $title = sprintf($data['l10n']->get('invoice report %s - %s'), strftime('%x', $d
         <title>OpenPSA - &(title);</title>
         <link rel="stylesheet" type="text/css" href="<?php echo MIDCOM_STATIC_URL; ?>/org.openpsa.reports/common.css" />
         <link rel="stylesheet" type="text/css" href="<?php echo MIDCOM_STATIC_URL; ?>/org.openpsa.invoices/invoices.css" />
-        <?php midcom::get('head')->print_head_elements(); ?>
+        <?php midcom::get()->head->print_head_elements(); ?>
         <script type="text/javascript">
 //copied from templates/OpenPsa2/ui.js, should be moved to a better place at some point...
 var org_openpsa_jsqueue = {

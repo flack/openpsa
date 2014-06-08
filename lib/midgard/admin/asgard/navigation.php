@@ -63,7 +63,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
             $object = $this->_object;
             if (!empty($this->_object_path))
             {
-                $object = midcom::get('dbfactory')->get_object_by_guid($this->_object_path[0]);
+                $object = midcom::get()->dbfactory->get_object_by_guid($this->_object_path[0]);
             }
 
             foreach ($this->root_types as $root_type)
@@ -236,7 +236,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
         $ref = midcom_helper_reflector::get($type);
         if (!empty($this->_object_path[$level]))
         {
-            $child = midcom::get('dbfactory')->get_object_by_guid($this->_object_path[$level]);
+            $child = midcom::get()->dbfactory->get_object_by_guid($this->_object_path[$level]);
             if (   $child->__mgdschema_class_name__ == $type
                 && !array_key_exists($child->guid, $this->shown_objects))
             {
@@ -285,14 +285,14 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
 
     private function _draw_plugins()
     {
-        $customdata = midcom::get('componentloader')->get_all_manifest_customdata('asgard_plugin');
+        $customdata = midcom::get()->componentloader->get_all_manifest_customdata('asgard_plugin');
         foreach ($customdata as $component => $plugin_config)
         {
             $this->_request_data['section_url'] = midcom_connection::get_url('self') . "__mfa/asgard_{$component}/";
             $this->_request_data['section_name'] = $this->_i18n->get_string($plugin_config['name'], $component);
             $class = $plugin_config['class'];
 
-            if (!midcom::get('auth')->can_user_do("{$component}:access", null, $class))
+            if (!midcom::get()->auth->can_user_do("{$component}:access", null, $class))
             {
                 // Disabled plugin
                 continue;
@@ -325,7 +325,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
         $css_class .= " {$ref->mgdschema_class}";
 
         // Populate common properties
-        $css_class = midcom::get('metadata')->get_object_classes($object, $css_class);
+        $css_class = midcom::get()->metadata->get_object_classes($object, $css_class);
 
         if ($this->_is_selected($object))
         {
@@ -422,12 +422,12 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
 
     function draw()
     {
-        $this->_request_data['chapter_name'] = midcom::get('config')->get('midcom_site_title');
+        $this->_request_data['chapter_name'] = midcom::get()->config->get('midcom_site_title');
         midcom_show_style('midgard_admin_asgard_navigation_chapter');
 
         $this->_draw_plugins();
 
-        if (!midcom::get('auth')->can_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin'))
+        if (!midcom::get()->auth->can_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin'))
         {
             return;
         }
@@ -484,7 +484,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
             $url = midcom_connection::get_url('self') . "__mfa/asgard/{$type}";
             echo "    <li class=\"mgdschema-type\">";
 
-            $dbaclass = midcom::get('dbclassloader')->get_midcom_class_name_for_mgdschema_object($type);
+            $dbaclass = midcom::get()->dbclassloader->get_midcom_class_name_for_mgdschema_object($type);
             if (   $dbaclass
                 && class_exists($dbaclass))
             {
@@ -508,7 +508,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
     {
         if (!empty($this->_object_path))
         {
-            $root_object = midcom::get('dbfactory')->get_object_by_guid($this->_object_path[0]);
+            $root_object = midcom::get()->dbfactory->get_object_by_guid($this->_object_path[0]);
             $this->_request_data['root_object'] = $root_object;
             $this->_request_data['navigation_type'] = $root_object->__mgdschema_class_name__;
         }

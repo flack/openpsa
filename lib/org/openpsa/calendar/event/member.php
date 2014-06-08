@@ -59,7 +59,7 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
 
     function notify($type, org_openpsa_calendar_event_dba $event = null, $nl = "\n")
     {
-        $l10n = midcom::get('i18n')->get_l10n('org.openpsa.calendar');
+        $l10n = midcom::get()->i18n->get_l10n('org.openpsa.calendar');
         $recipient = $this->get_person_obj();
 
         if (!$recipient)
@@ -129,7 +129,7 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
         }
         else
         {
-            $generator = midcom::get('serviceloader')->load('midcom_core_service_urlgenerator');
+            $generator = midcom::get()->serviceloader->load('midcom_core_service_urlgenerator');
             $encoder = new org_openpsa_calendar_vcal;
             $encoder->add_event($event);
             $message['attachments'] = array

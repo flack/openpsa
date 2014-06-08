@@ -57,11 +57,11 @@ class midcom_helper_datamanager2_widget_privilegeselection extends midcom_helper
             MIDCOM_PRIVILEGE_DENY => $this->_l10n->get('widget privilege: deny'),
         );
 
-        midcom::get('head')->enable_jquery();
+        midcom::get()->head->enable_jquery();
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/privilege/jquery.privilege.css');
 
-        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/privilege/jquery.privilege.js');
+        midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/privilege/jquery.privilege.js');
     }
 
     /**

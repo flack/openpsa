@@ -367,7 +367,7 @@ class midcom_core_manifest
     {
         if ($this->name_translated === null)
         {
-            $this->name_translated = midcom::get('i18n')->get_string($this->name, $this->name);
+            $this->name_translated = midcom::get()->i18n->get_string($this->name, $this->name);
         }
         return $this->name_translated;
     }

@@ -27,7 +27,7 @@ class org_openpsa_sales_viewer extends midcom_baseclasses_components_request
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.invoices/invoices.css");
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.sales/sales.css");
 
-        midcom::get('auth')->require_valid_user();
+        midcom::get()->auth->require_valid_user();
     }
 
     /**
@@ -117,7 +117,7 @@ class org_openpsa_sales_viewer extends midcom_baseclasses_components_request
 
         while ($object)
         {
-            if (midcom::get('dbfactory')->is_a($object, 'org_openpsa_sales_salesproject_deliverable_dba'))
+            if (midcom::get()->dbfactory->is_a($object, 'org_openpsa_sales_salesproject_deliverable_dba'))
             {
                 if ($object->orgOpenpsaObtype == org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION)
                 {

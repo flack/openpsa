@@ -71,8 +71,8 @@ class midcom_services__sessioning
             return true;
         }
 
-        if (   !midcom::get('config')->get('sessioning_service_enable')
-            && !(   midcom::get('config')->get('sessioning_service_always_enable_for_users')
+        if (   !midcom::get()->config->get('sessioning_service_enable')
+            && !(   midcom::get()->config->get('sessioning_service_always_enable_for_users')
                  && midcom_connection::get_user()))
         {
             return false;
@@ -141,7 +141,7 @@ class midcom_services__sessioning
         }
         if (!$no_cache)
         {
-            midcom::get('cache')->content->no_cache();
+            midcom::get()->cache->content->no_cache();
             $no_cache = true;
         }
         return $this->session->get($domain . $this->ns_separator . $key);
@@ -189,7 +189,7 @@ class midcom_services__sessioning
         static $no_cache = false;
         if (!$no_cache)
         {
-            midcom::get('cache')->content->no_cache();
+            midcom::get()->cache->content->no_cache();
             $no_cache = true;
         }
         $this->session->set($domain . $this->ns_separator . $key, $value);

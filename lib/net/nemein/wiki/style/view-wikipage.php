@@ -21,7 +21,7 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
     {
         usort($tagged_pages, array('net_nemein_wiki_handler_view', 'sort_by_title'));
         echo "<dl class=\"tagged\">\n";
-        echo "  <dt>" . sprintf($data['l10n']->get('%s for %s'), midcom::get('i18n')->get_string('tagged', 'net.nemein.tag'), $data['wikipage']->title) . "</dt>\n";
+        echo "  <dt>" . sprintf($data['l10n']->get('%s for %s'), midcom::get()->i18n->get_string('tagged', 'net.nemein.tag'), $data['wikipage']->title) . "</dt>\n";
         foreach ($tagged_pages as $page)
         {
             echo "    <dd><a href=\"{$prefix}{$page->name}/\">{$page->title}</a></dd>\n";
@@ -39,7 +39,7 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
         {
             if (!$context)
             {
-                $context = midcom::get('i18n')->get_string('tagged', 'net.nemein.tag');
+                $context = midcom::get()->i18n->get_string('tagged', 'net.nemein.tag');
             }
             echo "    <dt>{$context}</dt>\n";
             foreach ($tags as $tag => $url)

@@ -53,12 +53,12 @@
                     array
                     (
                         'name' => 'extra',
-                        'title' => midcom::get('i18n')->get_string('title', 'midcom'),
+                        'title' => midcom::get()->i18n->get_string('title', 'midcom'),
                     ),
                     array
                     (
                         'name' => 'name',
-                        'title' => midcom::get('i18n')->get_string('name', 'midcom'),
+                        'title' => midcom::get()->i18n->get_string('name', 'midcom'),
                     ),
                 ),
                 'categorize_by_parent_label' => true,
@@ -78,7 +78,7 @@
             (
                 'title' => 'display settings'
             ),
-            'hidden' => midcom::get('config')->get('symlinks'),
+            'hidden' => midcom::get()->config->get('symlinks'),
         ),
 
         'sort_order' => array
@@ -131,7 +131,7 @@
                 ),
             ),
             'widget' => 'select',
-            'hidden' => !midcom::get('config')->get('enable_ajax_editing'),
+            'hidden' => !midcom::get()->config->get('enable_ajax_editing'),
         ),
 
         'hide_navigation' => array

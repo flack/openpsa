@@ -108,7 +108,7 @@
                 'type' => 'select',
                 'type_config' => array
                 (
-                    'options' => array_merge(array('' => 'default setting'), midcom::get('i18n')->list_languages()),
+                    'options' => array_merge(array('' => 'default setting'), midcom::get()->i18n->list_languages()),
                 ),
                 'widget' => 'select',
                 'readonly' => net_nehmer_blog_viewer::disable_language_select(),
@@ -162,12 +162,12 @@
                         array
                         (
                             'name' => 'extra',
-                            'title' => midcom::get('i18n')->get_string('title', 'midcom'),
+                            'title' => midcom::get()->i18n->get_string('title', 'midcom'),
                         ),
                         array
                         (
                             'name' => 'name',
-                            'title' => midcom::get('i18n')->get_string('name', 'midcom'),
+                            'title' => midcom::get()->i18n->get_string('name', 'midcom'),
                         ),
                     ),
                     'categorize_by_parent_label' => true,
@@ -327,7 +327,7 @@
                     ),
                 ),
                 'widget' => 'radiocheckselect',
-                'hidden' => !midcom::get('config')->get('enable_ajax_editing'),
+                'hidden' => !midcom::get()->config->get('enable_ajax_editing'),
             ),
             'rss_subscription_enable' => array
             (
@@ -420,12 +420,12 @@
                         array
                         (
                             'name' => 'extra',
-                            'title' => midcom::get('i18n')->get_string('title', 'midcom'),
+                            'title' => midcom::get()->i18n->get_string('title', 'midcom'),
                         ),
                         array
                         (
                             'name' => 'name',
-                            'title' => midcom::get('i18n')->get_string('name', 'midcom'),
+                            'title' => midcom::get()->i18n->get_string('name', 'midcom'),
                         ),
                     ),
                     'categorize_by_parent_label' => true,
@@ -442,7 +442,7 @@
                     ),
                 ),
                 'end_fieldset' => 1,
-                'hidden' => midcom::get('config')->get('symlinks'),
+                'hidden' => midcom::get()->config->get('symlinks'),
             ),
             'show_latest_in_navigation' => array
             (

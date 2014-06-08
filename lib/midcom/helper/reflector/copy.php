@@ -157,7 +157,7 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
         if (!isset($this->properties[$mgdschema_class]))
         {
             // Get property list and start checking (or abort on error)
-            if (midcom::get('dbclassloader')->is_midcom_db_object($object))
+            if (midcom::get()->dbclassloader->is_midcom_db_object($object))
             {
                 $properties = $object->get_object_vars();
             }
@@ -220,7 +220,7 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
 
         // Try to get the parent property for determining, which property should be
         // used to point the parent of the new object. Attachments are a special case.
-        if (!midcom::get('dbfactory')->is_a($object, 'midcom_db_attachment'))
+        if (!midcom::get()->dbfactory->is_a($object, 'midcom_db_attachment'))
         {
             $parent_property = midgard_object_class::get_property_parent($mgdschema_object);
         }
@@ -270,7 +270,7 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
                 break;
 
             case (mgd_is_guid($object)):
-                $object = midcom::get('dbfactory')->get_object_by_guid($object);
+                $object = midcom::get()->dbfactory->get_object_by_guid($object);
                 break;
 
             case ($class):
@@ -448,7 +448,7 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
             && !$resolver->name_is_safe_or_empty($name_property))
         {
             debug_add('Source object ' . get_class($source) . " {$source->guid} has unsafe name, rewriting to safe form for the target", MIDCOM_LOG_WARN);
-            $generator = midcom::get('serviceloader')->load('midcom_core_service_urlgenerator');
+            $generator = midcom::get()->serviceloader->load('midcom_core_service_urlgenerator');
             $name_parts = explode('.', $target->$name_property, 2);
             if (isset($name_parts[1]))
             {

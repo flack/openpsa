@@ -21,7 +21,7 @@ class org_openpsa_helpers_listTest extends openpsa_testcase
         $this->create_object('midcom_db_member', array('uid' => $person->id, 'gid' => $org->id));
         $salesproject = $this->create_object('org_openpsa_sales_salesproject_dba', array('customerContact' => $person->id));
 
-        midcom::get('auth')->request_sudo('org.openpsa.helpers');
+        midcom::get()->auth->request_sudo('org.openpsa.helpers');
 
         $result = org_openpsa_helpers_list::task_groups($salesproject);
 
@@ -33,7 +33,7 @@ class org_openpsa_helpers_listTest extends openpsa_testcase
 
         $this->assertEquals($expected, $result);
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 }
 ?>

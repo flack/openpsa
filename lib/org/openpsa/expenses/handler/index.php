@@ -22,7 +22,7 @@ class org_openpsa_expenses_handler_index  extends midcom_baseclasses_components_
      */
     public function _handler_index ($handler_id, array $args, array &$data)
     {
-        midcom::get('auth')->require_valid_user();
+        midcom::get()->auth->require_valid_user();
 
         if (isset($args[0]))
         {
@@ -70,7 +70,7 @@ class org_openpsa_expenses_handler_index  extends midcom_baseclasses_components_
 
         $this->add_breadcrumb('', sprintf($this->_l10n->get("expenses in week %s"), strftime("%V %G", $this->_request_data['week_start'])));
 
-        midcom::get('head')->set_pagetitle(sprintf($this->_l10n->get("expenses in week %s"), strftime("%V %G", $this->_request_data['week_start'])));
+        midcom::get()->head->set_pagetitle(sprintf($this->_l10n->get("expenses in week %s"), strftime("%V %G", $this->_request_data['week_start'])));
     }
 
     private function _populate_toolbar($previous_week, $next_week)

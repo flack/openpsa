@@ -38,7 +38,7 @@ class org_openpsa_contacts_list_dba extends midcom_core_dbaobject
         if (!$this->official)
         {
             $person = new org_openpsa_contacts_person_dba($this->person);
-            $l10n = midcom::get('i18n')->get_l10n('org.openpsa.contacts');
+            $l10n = midcom::get()->i18n->get_l10n('org.openpsa.contacts');
             $this->official = sprintf($l10n->get('contacts of %s'), $person->name);
         }
 

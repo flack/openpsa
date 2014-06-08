@@ -27,7 +27,7 @@ class org_openpsa_sales_handler_deliverable_adminTest extends openpsa_testcase
 
     public function testHandler_edit()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.sales');
+        midcom::get()->auth->request_sudo('org.openpsa.sales');
 
         $deliverable_attributes = array
         (
@@ -78,7 +78,7 @@ class org_openpsa_sales_handler_deliverable_adminTest extends openpsa_testcase
         $this->assertEquals('deliverable/' . $deliverable->guid . '/', $url);
         $this->assertEquals(0, count($deliverable->get_at_entries()));
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 }
 ?>

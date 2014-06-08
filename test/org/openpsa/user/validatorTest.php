@@ -46,7 +46,7 @@ class org_openpsa_user_validatorTest extends openpsa_testcase
         $this->assertTrue(array_key_exists("current_password", $result));
 
         // now, use sudo..
-        midcom::get('auth')->request_sudo("midcom.core");
+        midcom::get()->auth->request_sudo("midcom.core");
         // try setting another password
         $fields = array(
             "person" => $person->guid,
@@ -62,7 +62,7 @@ class org_openpsa_user_validatorTest extends openpsa_testcase
             "current_password" => $account->get_password()
         );
         $this->assertTrue($val->validate_edit_form($fields));
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
     public function testUsername_exists()

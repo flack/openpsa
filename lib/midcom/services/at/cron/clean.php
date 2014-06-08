@@ -28,7 +28,7 @@ class midcom_services_at_cron_clean extends midcom_baseclasses_components_cron_h
         $qb->add_constraint('metadata.revised', '<=', date('Y-m-d H:i:s', time() - 3600 * 24 * 2));
         $qb->add_constraint('status', '>=', midcom_services_at_entry_dba::RUNNING);
 
-        midcom::get('auth')->request_sudo('midcom.services.at');
+        midcom::get()->auth->request_sudo('midcom.services.at');
         $qbret = $qb->execute();
 
         foreach ($qbret as $entry)
@@ -37,7 +37,7 @@ class midcom_services_at_cron_clean extends midcom_baseclasses_components_cron_h
             debug_print_r("Entry #{$entry->id} dump: ", $entry);
             $entry->delete();
         }
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 }
 ?>

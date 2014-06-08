@@ -22,28 +22,28 @@ class org_openpsa_relatedto_handler_relatedtoTest extends openpsa_testcase
         self::$_object_from = self::create_class_object('org_openpsa_invoices_invoice_dba');
         self::$_object_to = self::create_class_object('org_openpsa_sales_salesproject_dba');
 
-        midcom::get('auth')->request_sudo('org.openpsa.relatedto');
+        midcom::get()->auth->request_sudo('org.openpsa.relatedto');
         self::$_relation = org_openpsa_relatedto_plugin::create(self::$_object_from, 'org.openpsa.invoices', self::$_object_to, 'org.openpsa.sales');
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
     public function testHandler_render_sort()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.relatedto');
+        midcom::get()->auth->request_sudo('org.openpsa.relatedto');
         $data = $this->run_handler('org.openpsa.invoices', array('__mfa', 'org.openpsa.relatedto', 'render', self::$_object_from->guid, 'both', 'default'));
         $this->assertEquals('____mfa-org.openpsa.relatedto-render_sort', $data['handler_id']);
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
     public function testHandler_render()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.relatedto');
+        midcom::get()->auth->request_sudo('org.openpsa.relatedto');
 
         $data = $this->run_handler('org.openpsa.invoices', array('__mfa', 'org.openpsa.relatedto', 'render', self::$_object_from->guid, 'both'));
         $this->assertEquals('____mfa-org.openpsa.relatedto-render', $data['handler_id']);
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
 }

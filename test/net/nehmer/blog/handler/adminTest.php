@@ -30,24 +30,24 @@ class net_nehmer_blog_handler_adminTest extends openpsa_testcase
 
     public function testHandler_edit()
     {
-        midcom::get('auth')->request_sudo('net.nehmer.blog');
+        midcom::get()->auth->request_sudo('net.nehmer.blog');
 
         $data = $this->run_handler(self::$_topic, array('edit', self::$_article->guid));
         $this->assertEquals('edit', $data['handler_id']);
 
         $this->show_handler($data);
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
     public function testHandler_delete()
     {
-        midcom::get('auth')->request_sudo('net.nehmer.blog');
+        midcom::get()->auth->request_sudo('net.nehmer.blog');
 
         $data = $this->run_handler(self::$_topic, array('delete', self::$_article->guid));
         $this->assertEquals('delete', $data['handler_id']);
 
         $this->show_handler($data);
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 }
 ?>

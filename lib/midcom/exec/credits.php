@@ -1,13 +1,13 @@
 <?php
-midcom::get('head')->add_stylesheet(MIDCOM_STATIC_URL.'/midcom.services.auth/style.css');
+midcom::get()->head->add_stylesheet(MIDCOM_STATIC_URL.'/midcom.services.auth/style.css');
 
 $title = 'MidCOM Developers';
 
-midcom::get('auth')->require_valid_user();
+midcom::get()->auth->require_valid_user();
 
 $developers = array();
 
-foreach (midcom::get('componentloader')->manifests as $name => $manifest)
+foreach (midcom::get()->componentloader->manifests as $name => $manifest)
 {
     if (!array_key_exists('package.xml', $manifest->_raw_data))
     {
@@ -48,7 +48,7 @@ foreach (midcom::get('componentloader')->manifests as $name => $manifest)
             if (   array_key_exists('active', $details)
                 && $details['active'] == 'no')
             {
-                $details['role'] = sprintf(midcom::get('i18n')->get_string('not active %s', 'midcom'), midcom::get('i18n')->get_string($details['role'], 'midcom'));
+                $details['role'] = sprintf(midcom::get()->i18n->get_string('not active %s', 'midcom'), midcom::get()->i18n->get_string($details['role'], 'midcom'));
             }
 
             $developers[$identifier]['roles'][$details['role']][$package_type][$name] = $manifest->get_name_translated($name);
@@ -65,7 +65,7 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
     <head>
         <title>Midgard CMS - <?php echo $title; ?></title>
-        <?php echo midcom::get('head')->print_head_elements(); ?>
+        <?php echo midcom::get()->head->print_head_elements(); ?>
         <style type="text/css">
             <!--
             table.dev
@@ -163,14 +163,14 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
                                         ?>
                                         <dt>
                                             <?php
-                                            echo sprintf(midcom::get('i18n')->get_string('%s of packages of type %s', 'midcom'), midcom::get('i18n')->get_string($role, 'midcom'), midcom::get('i18n')->get_string($package_type, 'midcom'));
+                                            echo sprintf(midcom::get()->i18n->get_string('%s of packages of type %s', 'midcom'), midcom::get()->i18n->get_string($role, 'midcom'), midcom::get()->i18n->get_string($package_type, 'midcom'));
                                             ?>
                                         </dt>
                                         <dd>
                                         <?php
                                         foreach ($components as $component => $component_name)
                                         {
-                                            $icon = midcom::get('componentloader')->get_component_icon($component);
+                                            $icon = midcom::get()->componentloader->get_component_icon($component);
                                             echo "<a href=\"" . midcom::get()->get_host_prefix() . "__mfa/asgard/components/{$component}/\">";
                                             echo "<img src=\"" . MIDCOM_STATIC_URL . "/{$icon}\" alt=\"{$component_name} ({$component})\" title=\"{$component_name} ({$component})\" />";
                                             echo "</a>\n";

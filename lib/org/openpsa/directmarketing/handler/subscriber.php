@@ -27,7 +27,7 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
      */
     public function _handler_list($handler_id, array $args, array &$data)
     {
-        midcom::get('auth')->require_valid_user();
+        midcom::get()->auth->require_valid_user();
         $this->_request_data['person'] = new org_openpsa_contacts_person_dba($args[0]);
 
         if (array_key_exists('add_to_campaign', $_POST))
@@ -40,7 +40,7 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
             catch (midcom_error $e)
             {
                 // FIXME: More informative error message
-                midcom::get('uimessages')->add($this->_l10n->get('org.openpsa.directmarketing'),
+                midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.directmarketing'),
                     sprintf(
                         $this->_l10n->get('Failed adding person %s to campaign %s'),
                         "{$this->_request_data['person']->firstname} {$this->_request_data['person']->lastname}",
@@ -60,7 +60,7 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
             $member->campaign = $campaign->id;
             if ($member->create())
             {
-                midcom::get('uimessages')->add($this->_l10n->get('org.openpsa.directmarketing'),
+                midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.directmarketing'),
                     sprintf(
                         $this->_l10n->get('added person %s to campaign %s'),
                         "{$this->_request_data['person']->firstname} {$this->_request_data['person']->lastname}",
@@ -71,7 +71,7 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
             }
             else
             {
-                midcom::get('uimessages')->add($this->_l10n->get('org.openpsa.directmarketing'),
+                midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.directmarketing'),
                     sprintf(
                         $this->_l10n->get('Failed adding person %s to campaign %s'),
                         "{$this->_request_data['person']->firstname} {$this->_request_data['person']->lastname}",
@@ -162,7 +162,7 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
      */
     public function _handler_unsubscribe($handler_id, array $args, array &$data)
     {
-        midcom::get('auth')->request_sudo($this->_component);
+        midcom::get()->auth->request_sudo($this->_component);
 
         $data['membership'] = new org_openpsa_directmarketing_campaign_member_dba($args[0]);
         $data['campaign'] = $this->_master->load_campaign($data['membership']->campaign);
@@ -170,7 +170,7 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
         $data['membership']->orgOpenpsaObtype = org_openpsa_directmarketing_campaign_member_dba::UNSUBSCRIBED;
         $data['unsubscribe_status'] = $data['membership']->update();
         debug_add("Unsubscribe status: {$data['unsubscribe_status']}");
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
     /**
@@ -200,7 +200,7 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
      */
     public function _handler_unsubscribe_ajax($handler_id, array $args, array &$data)
     {
-        midcom::get('auth')->request_sudo($this->_component);
+        midcom::get()->auth->request_sudo($this->_component);
         $this->_request_data['membership'] = new org_openpsa_directmarketing_campaign_member_dba($args[0]);
         $this->_request_data['campaign'] = $this->_master->load_campaign($this->_request_data['membership']->campaign);
 
@@ -209,7 +209,7 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
 
         debug_add("Unsubscribe status: {$this->_request_data['unsubscribe_status']}");
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
 
         $response = new midcom_response_xml;
         $response->status = "Unsubscribe failed";
@@ -226,7 +226,7 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
      */
     public function _handler_unsubscribe_all($handler_id, array $args, array &$data)
     {
-        midcom::get('auth')->request_sudo($this->_component);
+        midcom::get()->auth->request_sudo($this->_component);
         $this->_request_data['person'] = new org_openpsa_contacts_person_dba($args[0]);
 
         if ($handler_id === 'subscriber_unsubscribe_all_future')
@@ -255,7 +255,7 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
             }
         }
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
     /**

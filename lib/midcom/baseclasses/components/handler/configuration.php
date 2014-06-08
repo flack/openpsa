@@ -115,11 +115,11 @@ implements midcom_helper_datamanager2_interfaces_edit
         switch ($this->_controller->process_form())
         {
             case 'save':
-                midcom::get('uimessages')->add($this->_l10n_midcom->get('component configuration'), $this->_l10n_midcom->get('configuration saved'));
+                midcom::get()->uimessages->add($this->_l10n_midcom->get('component configuration'), $this->_l10n_midcom->get('configuration saved'));
                 return new midcom_response_relocate('');
 
             case 'cancel':
-                midcom::get('uimessages')->add($this->_l10n_midcom->get('component configuration'), $this->_l10n_midcom->get('cancelled'));
+                midcom::get()->uimessages->add($this->_l10n_midcom->get('component configuration'), $this->_l10n_midcom->get('cancelled'));
                 return new midcom_response_relocate('');
         }
 
@@ -128,7 +128,7 @@ implements midcom_helper_datamanager2_interfaces_edit
 
         $data['component'] = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_COMPONENT);
         $data['title'] = sprintf($this->_l10n_midcom->get('component %s configuration for folder %s'), $this->_i18n->get_string($data['component'], $data['component']), $data['topic']->extra);
-        midcom::get('head')->set_pagetitle($data['title']);
+        midcom::get()->head->set_pagetitle($data['title']);
     }
 
     /**
@@ -139,9 +139,9 @@ implements midcom_helper_datamanager2_interfaces_edit
      */
     public function _show_config($handler_id, array &$data)
     {
-        midcom::get('style')->data['controller'] =& $this->_controller;
-        midcom::get('style')->data['title'] = $data['title'];
-        midcom::get('style')->show_midcom('dm2_config');
+        midcom::get()->style->data['controller'] =& $this->_controller;
+        midcom::get()->style->data['title'] = $data['title'];
+        midcom::get()->style->show_midcom('dm2_config');
     }
 
     /**
@@ -188,7 +188,7 @@ implements midcom_helper_datamanager2_interfaces_edit
         $this->add_breadcrumb('config/recreate/', $this->_l10n_midcom->get('recreate images'));
         $data['component'] = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_COMPONENT);
         $data['title'] = sprintf($this->_l10n_midcom->get('recreate images for folder %s'), $data['topic']->extra);
-        midcom::get('head')->set_pagetitle($data['title']);
+        midcom::get()->head->set_pagetitle($data['title']);
     }
 
     /**
@@ -201,11 +201,11 @@ implements midcom_helper_datamanager2_interfaces_edit
     {
         midcom::get()->disable_limits();
 
-        midcom::get('style')->data['title'] = $data['title'];
-        midcom::get('style')->data['objects'] = $this->_load_objects();
-        midcom::get('style')->data['datamanagers'] = $data['datamanagers'];
+        midcom::get()->style->data['title'] = $data['title'];
+        midcom::get()->style->data['objects'] = $this->_load_objects();
+        midcom::get()->style->data['datamanagers'] = $data['datamanagers'];
 
-        midcom::get('style')->show_midcom('dm2_config_recreate');
+        midcom::get()->style->show_midcom('dm2_config_recreate');
     }
 }
 ?>

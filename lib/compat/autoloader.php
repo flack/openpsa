@@ -32,7 +32,7 @@ class midcom_compat_autoloader
             // DBA object files are named objectname.php
 
             // Ensure we have the component loaded
-            if (!midcom::get('dbclassloader')->load_component_for_class($class_name))
+            if (!midcom::get()->dbclassloader->load_component_for_class($class_name))
             {
                 // Failed to load the component
                 return;
@@ -48,7 +48,7 @@ class midcom_compat_autoloader
                  && $class_name != 'midcom_baseclasses_components_interface')
         {
             // MidCOM component interfaces are named midcom/interface.php
-            midcom::get('dbclassloader')->load_component_for_class($class_name);
+            midcom::get()->dbclassloader->load_component_for_class($class_name);
             return;
         }
 
@@ -81,9 +81,9 @@ class midcom_compat_autoloader
         // file was not found in-tree, let's look somewhere else
         $component = preg_replace('|^([a-z].+?)/(.+?)/([^/\.]+).*$|', '$1.$2.$3', $path);
 
-        if (midcom::get('componentloader')->is_installed($component))
+        if (midcom::get()->componentloader->is_installed($component))
         {
-            $component_path = midcom::get('componentloader')->path_to_snippetpath($component);
+            $component_path = midcom::get()->componentloader->path_to_snippetpath($component);
             $class_part = preg_replace('|^/|', '', substr($path, strlen($component)));
             $path = str_replace('/.php', '.php', $component_path . '/' . $class_part);
 

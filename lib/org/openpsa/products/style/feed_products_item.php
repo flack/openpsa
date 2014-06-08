@@ -6,7 +6,7 @@ $author = new midcom_db_person($product->metadata->revisor);
 $item = new FeedItem();
 $item->title = $view_product['title'];
 $item->link = $data['view_product_url'];
-$item->guid = midcom::get('permalinks')->create_permalink($product->guid);
+$item->guid = midcom::get()->permalinks->create_permalink($product->guid);
 $item->date = $product->metadata->published;
 $item->author = $author->name;
 

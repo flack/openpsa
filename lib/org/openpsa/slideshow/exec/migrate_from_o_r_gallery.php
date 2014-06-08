@@ -1,5 +1,5 @@
 <?php
-midcom::get('auth')->require_admin_user();
+midcom::get()->auth->require_admin_user();
 if (   !class_exists('org_routamc_gallery_photolink')
     || !class_exists('org_routamc_photostream_photo'))
 {

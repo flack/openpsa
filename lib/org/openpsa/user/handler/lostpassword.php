@@ -103,7 +103,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         }
         $this->_prepare_request_data();
 
-        midcom::get('head')->set_pagetitle($this->_l10n->get('lost password'));
+        midcom::get()->head->set_pagetitle($this->_l10n->get('lost password'));
     }
 
     /**
@@ -111,7 +111,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      */
     private function _reset_password()
     {
-        if (! midcom::get('auth')->request_sudo($this->_component))
+        if (! midcom::get()->auth->request_sudo($this->_component))
         {
             throw new midcom_error('Failed to request sudo privileges.');
         }
@@ -119,10 +119,10 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         $qb = midcom_db_person::new_query_builder();
         if (array_key_exists('username', $this->_controller->datamanager->types))
         {
-            $user = midcom::get('auth')->get_user_by_name($this->_controller->datamanager->types['username']->value);
+            $user = midcom::get()->auth->get_user_by_name($this->_controller->datamanager->types['username']->value);
             if (!$user)
             {
-                midcom::get('auth')->drop_sudo();
+                midcom::get()->auth->drop_sudo();
                 throw new midcom_error("Cannot find user. For some reason the QuickForm validation failed.");
             }
             $qb->add_constraint('guid', '=', $user->guid);
@@ -135,7 +135,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
 
         if (sizeof($results) != 1)
         {
-            midcom::get('auth')->drop_sudo();
+            midcom::get()->auth->drop_sudo();
             throw new midcom_error("Cannot find user. For some reason the QuickForm validation failed.");
         }
         $person = $results[0];
@@ -147,11 +147,11 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         $account->set_password($password);
         if (!$account->save())
         {
-            midcom::get('auth')->drop_sudo();
+            midcom::get()->auth->drop_sudo();
             throw new midcom_error("Could not update the password: " . midcom_connection::get_error_string());
         }
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
 
         $this->_send_reset_mail($person, $password);
     }

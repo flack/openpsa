@@ -29,7 +29,7 @@ class org_openpsa_sales_handler_rest_deliverable extends midcom_baseclasses_comp
             $this->_request['params']['continuous'] = false;
 
             // cleanup at entries
-            midcom::get('auth')->request_sudo($this->_component);
+            midcom::get()->auth->request_sudo($this->_component);
             $at_entries = $this->_object->get_at_entries();
             $deliverable_end = $this->_request['params']['end'];
             foreach ($at_entries as $at_entry)
@@ -37,7 +37,7 @@ class org_openpsa_sales_handler_rest_deliverable extends midcom_baseclasses_comp
                 $deliverable_end = $at_entry->start;
                 $at_entry->delete();
             }
-            midcom::get('auth')->drop_sudo();
+            midcom::get()->auth->drop_sudo();
 
             $this->_request['params']['end'] = $deliverable_end;
         }

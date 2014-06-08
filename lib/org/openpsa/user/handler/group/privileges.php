@@ -32,7 +32,7 @@ implements midcom_helper_datamanager2_interfaces_edit
 
         $fields =& $schemadb['default']->fields;
 
-        $group_object = midcom::get('auth')->get_group("group:{$this->_request_data['group']->guid}");
+        $group_object = midcom::get()->auth->get_group("group:{$this->_request_data['group']->guid}");
 
         // Get the calendar root event
         $root_event = org_openpsa_calendar_interface::find_root_event();
@@ -69,7 +69,7 @@ implements midcom_helper_datamanager2_interfaces_edit
      */
     public function _handler_privileges($handler_id, array $args, array &$data)
     {
-        midcom::get('auth')->require_user_do('org.openpsa.user:manage', null, 'org_openpsa_user_interface');
+        midcom::get()->auth->require_user_do('org.openpsa.user:manage', null, 'org_openpsa_user_interface');
 
         // Check if we get the group
         $this->_group = new midcom_db_group($args[0]);
@@ -87,7 +87,7 @@ implements midcom_helper_datamanager2_interfaces_edit
                 return new midcom_response_relocate("group/" . $this->_group->guid . "/");
         }
 
-        midcom::get('head')->set_pagetitle($this->_group->official);
+        midcom::get()->head->set_pagetitle($this->_group->official);
         org_openpsa_helpers::dm2_savecancel($this);
 
         $this->add_breadcrumb("group/{$this->_group->guid}/", $this->_group->name);

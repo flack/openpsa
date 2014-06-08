@@ -108,7 +108,7 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
     {
         $this->_schemadb =& $this->_request_data['schemadb'];
         if (   $this->_config->get('simple_name_handling')
-            && ! midcom::get('auth')->admin)
+            && ! midcom::get()->auth->admin)
         {
             foreach (array_keys($this->_schemadb) as $name)
             {
@@ -208,7 +208,7 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
         {
             case 'save':
                 // Reindex the article
-                $indexer = midcom::get('indexer');
+                $indexer = midcom::get()->indexer;
                 net_nehmer_static_viewer::index($this->_controller->datamanager, $indexer, $this->_content_topic);
                 // *** FALL-THROUGH ***
 
@@ -222,10 +222,10 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
 
         $this->_prepare_request_data();
         $this->bind_view_to_object($this->_article, $this->_controller->datamanager->schema->name);
-        midcom::get('style')->append_substyle('admin');
-        midcom::get('metadata')->set_request_metadata($this->_article->metadata->revised, $this->_article->guid);
+        midcom::get()->style->append_substyle('admin');
+        midcom::get()->metadata->set_request_metadata($this->_article->metadata->revised, $this->_article->guid);
         $this->set_active_leaf($this->_article->id);
-        midcom::get('head')->set_pagetitle("{$this->_topic->extra}: {$this->_article->title}");
+        midcom::get()->head->set_pagetitle("{$this->_topic->extra}: {$this->_article->title}");
         $this->_update_breadcrumb_line($handler_id);
     }
 
@@ -268,9 +268,9 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
         $this->_process_link_delete();
 
         $this->_prepare_request_data();
-        midcom::get('metadata')->set_request_metadata($this->_article->metadata->revised, $this->_article->guid);
+        midcom::get()->metadata->set_request_metadata($this->_article->metadata->revised, $this->_article->guid);
         $this->_view_toolbar->bind_to($this->_article);
-        midcom::get('head')->set_pagetitle("{$this->_topic->extra}: {$this->_article->title}");
+        midcom::get()->head->set_pagetitle("{$this->_topic->extra}: {$this->_article->title}");
         $this->_update_breadcrumb_line($handler_id);
     }
 
@@ -282,7 +282,7 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
     {
         if (isset($_POST['f_cancel']))
         {
-            midcom::get('uimessages')->add($this->_l10n->get('net.nehmer.static'), $this->_l10n->get('delete cancelled'));
+            midcom::get()->uimessages->add($this->_l10n->get('net.nehmer.static'), $this->_l10n->get('delete cancelled'));
 
             // Redirect to view page.
             midcom::get()->relocate("{$this->_article->name}/");
@@ -299,7 +299,7 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
         {
             throw new midcom_error($this->_l10n->get('failed to delete the article link, contact the site administrator'));
         }
-        midcom::get('uimessages')->add($this->_l10n->get('net.nehmer.static'), $this->_l10n->get('article link deleted'));
+        midcom::get()->uimessages->add($this->_l10n->get('net.nehmer.static'), $this->_l10n->get('article link deleted'));
         midcom::get()->relocate('');
         // This will exit
     }
@@ -360,15 +360,15 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
             $qb->add_constraint('article', '=', $this->_article->id);
             $links = $qb->execute_unchecked();
 
-            midcom::get('auth')->request_sudo('net.nehmer.static');
+            midcom::get()->auth->request_sudo('net.nehmer.static');
             foreach ($links as $link)
             {
                 $link->delete();
             }
-            midcom::get('auth')->drop_sudo();
+            midcom::get()->auth->drop_sudo();
 
             // Update the index
-            $indexer = midcom::get('indexer');
+            $indexer = midcom::get()->indexer;
             $indexer->delete($this->_article->guid);
 
             // Delete ok, relocating to welcome.
@@ -383,9 +383,9 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
 
         $this->_prepare_request_data();
         $this->bind_view_to_object($this->_article, $this->_datamanager->schema->name);
-        midcom::get('style')->append_substyle('admin');
-        midcom::get('metadata')->set_request_metadata($this->_article->metadata->revised, $this->_article->guid);
-        midcom::get('head')->set_pagetitle("{$this->_topic->extra}: {$this->_article->title}");
+        midcom::get()->style->append_substyle('admin');
+        midcom::get()->metadata->set_request_metadata($this->_article->metadata->revised, $this->_article->guid);
+        midcom::get()->head->set_pagetitle("{$this->_topic->extra}: {$this->_article->title}");
         $this->set_active_leaf($this->_article->id);
         $this->_update_breadcrumb_line($handler_id);
     }

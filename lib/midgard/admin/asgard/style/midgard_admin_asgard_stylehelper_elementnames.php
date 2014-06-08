@@ -15,7 +15,7 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
             }
             else
             {
-                echo "<a href=\"{$prefix}__mfa/asgard/components/{$component}/\">" . midcom::get('i18n')->get_string($component, $component) ." </a>\n";
+                echo "<a href=\"{$prefix}__mfa/asgard/components/{$component}/\">" . midcom::get()->i18n->get_string($component, $component) ." </a>\n";
             }
 
             echo "<ul>\n";

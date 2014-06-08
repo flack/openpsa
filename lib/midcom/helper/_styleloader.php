@@ -9,7 +9,7 @@
 /**
  * This class is responsible for all style management and replaces
  * the old <[...]> syntax. It is instantiated by the MidCOM framework
- * and accessible through the midcom::get('style') object.
+ * and accessible through the midcom::get()->style object.
  *
  * The method <code>show($style)</code> returns the style element $style for the current
  * component:
@@ -169,7 +169,7 @@ class midcom_helper__styleloader
                         break;
                     }
 
-                    if (   midcom::get('config')->get('styleengine_relative_paths')
+                    if (   midcom::get()->config->get('styleengine_relative_paths')
                         && $style->up == midcom_connection::get('style'))
                     {
                         // Relative path, stop before going to main Midgard style
@@ -202,7 +202,7 @@ class midcom_helper__styleloader
     {
         static $cached = array();
 
-        if (   midcom::get('config')->get('styleengine_relative_paths')
+        if (   midcom::get()->config->get('styleengine_relative_paths')
             && $rootstyle == 0)
         {
             // Relative paths in use, start seeking from under the style used for the Midgard host
@@ -240,7 +240,7 @@ class midcom_helper__styleloader
             foreach (array_keys($styles) as $style_guid)
             {
                 $current_style = $mc->get_subkey($style_guid, 'id');
-                midcom::get('cache')->content->register($style_guid);
+                midcom::get()->cache->content->register($style_guid);
             }
         }
 
@@ -283,7 +283,7 @@ class midcom_helper__styleloader
         foreach ($elements as $element_guid => $value)
         {
             $value = $element_mc->get_subkey($element_guid, 'value');
-            midcom::get('cache')->content->register($element_guid);
+            midcom::get()->cache->content->register($element_guid);
             $cached[$id][$name] = $value;
             return $value;
         }
@@ -299,7 +299,7 @@ class midcom_helper__styleloader
         foreach ($styles as $style_guid => $value)
         {
             // FIXME: Should we register this also in the other case
-            midcom::get('cache')->content->register($style_guid);
+            midcom::get()->cache->content->register($style_guid);
 
             $up = $style_mc->get_subkey($style_guid, 'up');
             if ($up)
@@ -465,7 +465,7 @@ class midcom_helper__styleloader
         }
         else
         {
-            if (midcom::get('config')->get('theme'))
+            if (midcom::get()->config->get('theme'))
             {
                 $content = midcom_helper_misc::get_element_content($_element);
                 if ($content)
@@ -503,7 +503,7 @@ class midcom_helper__styleloader
             $data = array();
         }
 
-        if (midcom::get('config')->get('wrap_style_show_with_name'))
+        if (midcom::get()->config->get('wrap_style_show_with_name'))
         {
             $_style = "\n<!-- Start of style '{$path}' -->\n" . $_style;
             $_style .= "\n<!-- End of style '{$path}' -->\n";
@@ -547,12 +547,12 @@ class midcom_helper__styleloader
         else
         {
             // Get style from sitewide per-component defaults.
-            $styleengine_default_styles = midcom::get('config')->get('styleengine_default_styles');
+            $styleengine_default_styles = midcom::get()->config->get('styleengine_default_styles');
             if (isset($styleengine_default_styles[$topic->component]))
             {
                 $_st = $this->get_style_id_from_path($styleengine_default_styles[$topic->component]);
             }
-            else if (midcom::get('config')->get('styleengine_relative_paths'))
+            else if (midcom::get()->config->get('styleengine_relative_paths'))
             {
                 $_st = midcom_connection::get('style');
             }
@@ -588,7 +588,7 @@ class midcom_helper__styleloader
     private function _get_component_snippetdir($topic)
     {
         // get component's snippetdir (for default styles)
-        $loader = midcom::get('componentloader');
+        $loader = midcom::get()->componentloader;
         if (   !$topic
             || !$topic->guid)
         {
@@ -647,7 +647,7 @@ class midcom_helper__styleloader
      */
     function append_component_styledir ($component)
     {
-        $loader = midcom::get('componentloader');
+        $loader = midcom::get()->componentloader;
         $path = $loader->path_to_snippetpath($component) . "/style";
         $this->append_styledir($path);
     }
@@ -659,7 +659,7 @@ class midcom_helper__styleloader
      */
     function prepend_component_styledir ($component)
     {
-        $loader = midcom::get('componentloader');
+        $loader = midcom::get()->componentloader;
         $path = $loader->path_to_snippetpath($component) . "/style";
         $this->prepend_styledir($path);
     }
@@ -843,7 +843,7 @@ class midcom_helper__styleloader
         foreach ($attachments as $guid => $filename)
         {
             // TODO: Support media types
-            midcom::get('head')->add_stylesheet(midcom_connection::get_url('self') . "midcom-serveattachmentguid-{$guid}/{$filename}");
+            midcom::get()->head->add_stylesheet(midcom_connection::get_url('self') . "midcom-serveattachmentguid-{$guid}/{$filename}");
         }
 
         $called = true;
@@ -857,6 +857,6 @@ class midcom_helper__styleloader
  */
 function midcom_show_style($param)
 {
-    return midcom::get('style')->show($param);
+    return midcom::get()->style->show($param);
 }
 ?>

@@ -44,7 +44,7 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
      */
     public function _handler_calendar($handler_id, array $args, array &$data)
     {
-        midcom::get('auth')->require_valid_user();
+        midcom::get()->auth->require_valid_user();
 
         if ($this->_root_event->can_do('midgard:create'))
         {
@@ -90,7 +90,7 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
         $data['calendar_options'] = $this->_get_calendar_options();
 
         midcom_helper_datamanager2_widget_jsdate::add_head_elements();
-        $head = midcom::get('head');
+        $head = midcom::get()->head;
         $head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.widgets/fullcalendar-1.6.3/fullcalendar.min.js');
         $head->add_stylesheet(MIDCOM_STATIC_URL . '/org.openpsa.widgets/fullcalendar-1.6.3/fullcalendar.css');
         $head->add_stylesheet(MIDCOM_STATIC_URL . '/org.openpsa.calendar/calendar.css');
@@ -155,8 +155,8 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
      */
     public function _handler_json($handler_id, array $args, array &$data)
     {
-        midcom::get('auth')->require_valid_user();
-        $uids = $this->_load_uids(midcom::get('auth')->user->get_storage());
+        midcom::get()->auth->require_valid_user();
+        $uids = $this->_load_uids(midcom::get()->auth->user->get_storage());
         $events = $this->_load_events($uids, $_GET['start'], $_GET['end']);
         return new midcom_response_json($events);
     }
@@ -238,7 +238,7 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
                     $label = $event->$label_field;
                     if ($label_field == 'creator')
                     {
-                        $user = midcom::get('auth')->get_user($event->metadata->creator);
+                        $user = midcom::get()->auth->get_user($event->metadata->creator);
                         $label = $user->name;
                     }
 
@@ -295,7 +295,7 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
         // Reload parent if needed
         if (array_key_exists('reload', $_GET))
         {
-            midcom::get('head')->add_jsonload('window.opener.location.reload();');
+            midcom::get()->head->add_jsonload('window.opener.location.reload();');
         }
 
         // Add toolbar items
@@ -338,9 +338,9 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
 
             $relatedto_button_settings = null;
 
-            if (midcom::get('auth')->user)
+            if (midcom::get()->auth->user)
             {
-                $user = midcom::get('auth')->user->get_storage();
+                $user = midcom::get()->auth->user->get_storage();
                 $relatedto_button_settings = array
                 (
                     'wikinote'      => array

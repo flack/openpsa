@@ -15,7 +15,7 @@ class org_openpsa_reports_queryTest extends openpsa_testcase
 {
     public function testCRUD()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.reports');
+        midcom::get()->auth->request_sudo('org.openpsa.reports');
         $query = new org_openpsa_reports_query_dba();
         $stat = $query->create();
         $this->assertTrue($stat);
@@ -36,7 +36,7 @@ class org_openpsa_reports_queryTest extends openpsa_testcase
         $stat = $query->delete();
         $this->assertTrue($stat);
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 }
 ?>

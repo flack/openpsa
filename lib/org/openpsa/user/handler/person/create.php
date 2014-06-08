@@ -75,14 +75,14 @@ implements midcom_helper_datamanager2_interfaces_create
      */
     public function _handler_create($handler_id, array $args, array &$data)
     {
-        midcom::get('auth')->require_user_do('org.openpsa.user:manage', null, 'org_openpsa_user_interface');
+        midcom::get()->auth->require_user_do('org.openpsa.user:manage', null, 'org_openpsa_user_interface');
 
         if (count($args) > 0)
         {
             // Get the organization
             $this->_group = new midcom_db_group($args[0]);
             $this->_group->require_do('midgard:create');
-            midcom::get('head')->set_pagetitle($this->_group->official);
+            midcom::get()->head->set_pagetitle($this->_group->official);
             $this->add_breadcrumb('group/' . $this->_group->guid . '/', $this->_group->get_label());
         }
 
@@ -90,7 +90,7 @@ implements midcom_helper_datamanager2_interfaces_create
         switch ($data['controller']->process_form())
         {
             case 'save':
-                midcom::get('uimessages')->add($this->_l10n->get('org.openpsa.user'), sprintf($this->_l10n->get('person %s created'), $this->_person->name));
+                midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.user'), sprintf($this->_l10n->get('person %s created'), $this->_person->name));
                 $this->_master->create_account($this->_person, $data["controller"]->formmanager);
 
                 return new midcom_response_relocate('view/' . $this->_person->guid . '/');

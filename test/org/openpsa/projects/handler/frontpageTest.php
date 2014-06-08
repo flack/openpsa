@@ -16,13 +16,13 @@ class org_openpsa_projects_handler_frontpageTest extends openpsa_testcase
     public function testHandler_frontpage()
     {
         $this->create_user(true);
-        midcom::get('auth')->request_sudo('org.openpsa.projects');
+        midcom::get()->auth->request_sudo('org.openpsa.projects');
 
         $data = $this->run_handler('org.openpsa.projects');
         $this->assertEquals('frontpage', $data['handler_id']);
 
         $this->show_handler($data);
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 }
 ?>

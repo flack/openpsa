@@ -44,7 +44,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
      */
     private function _load_datamanager()
     {
-        if (midcom::get('config')->get('enable_ajax_editing'))
+        if (midcom::get()->config->get('enable_ajax_editing'))
         {
             $this->_controller = midcom_helper_datamanager2_controller::create('ajax');
             $this->_controller->schemadb =& $this->_request_data['schemadb'];
@@ -135,9 +135,9 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
             )
         );
 
-        if (midcom::get('auth')->user)
+        if (midcom::get()->auth->user)
         {
-            $user = midcom::get('auth')->user->get_storage();
+            $user = midcom::get()->auth->user->get_storage();
             if ($this->_page->get_parameter('net.nemein.wiki:watch', $user->guid))
             {
                 $this->_view_toolbar->add_item
@@ -176,7 +176,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
 
         if ($this->_page->can_do('midgard:update'))
         {
-            midcom::get('head')->add_link_head
+            midcom::get()->head->add_link_head
             (
                 array
                 (
@@ -188,7 +188,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
             );
         }
 
-        if (midcom::get('componentloader')->is_installed('org.openpsa.relatedto'))
+        if (midcom::get()->componentloader->is_installed('org.openpsa.relatedto'))
         {
             org_openpsa_relatedto_plugin::add_button($this->_view_toolbar, $this->_page->guid);
         }
@@ -230,7 +230,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
         // We need to get the node from NAP for safe redirect
         $nap = new midcom_helper_nav();
         $node = $nap->get_node($this->_topic->id);
-        $generator = midcom::get('serviceloader')->load('midcom_core_service_urlgenerator');
+        $generator = midcom::get()->serviceloader->load('midcom_core_service_urlgenerator');
         $urlized_wikiword = $generator->from_string($wikiword);
         if ($urlized_wikiword != $wikiword)
         {
@@ -298,7 +298,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
             {
                 return new midcom_response_relocate("{$result[0]->name}/");
             }
-            return new midcom_response_relocate(midcom::get('permalinks')->create_permalink($result[0]->guid));
+            return new midcom_response_relocate(midcom::get()->permalinks->create_permalink($result[0]->guid));
         }
 
         $this->_populate_toolbar();
@@ -309,9 +309,9 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
             $this->add_breadcrumb("{$this->_page->name}/", $this->_page->title);
         }
 
-        midcom::get('head')->set_pagetitle($this->_page->title);
+        midcom::get()->head->set_pagetitle($this->_page->title);
 
-        midcom::get('metadata')->set_request_metadata($this->_page->metadata->revised, $this->_page->guid);
+        midcom::get()->metadata->set_request_metadata($this->_page->metadata->revised, $this->_page->guid);
     }
 
     /**
@@ -521,16 +521,16 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
             throw new midcom_error_forbidden('Only POST requests are allowed here.');
         }
 
-        midcom::get('auth')->require_valid_user();
+        midcom::get()->auth->require_valid_user();
 
         if (!$this->_load_page($args[0]))
         {
             throw new midcom_error_notfound('The page ' . $args[0] . ' could not be found.');
         }
 
-        midcom::get('auth')->request_sudo('net.nemein.wiki');
+        midcom::get()->auth->request_sudo('net.nemein.wiki');
 
-        $user = midcom::get('auth')->user->get_storage();
+        $user = midcom::get()->auth->user->get_storage();
 
         if (   array_key_exists('target', $_POST)
             && $_POST['target'] == 'folder')
@@ -549,16 +549,16 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
         {
             // Subscribe to page
             $object->set_parameter('net.nemein.wiki:watch', $user->guid, time());
-            midcom::get('uimessages')->add($this->_l10n->get($this->_component), sprintf($this->_l10n->get('subscribed to changes in %s'), $target), 'ok');
+            midcom::get()->uimessages->add($this->_l10n->get($this->_component), sprintf($this->_l10n->get('subscribed to changes in %s'), $target), 'ok');
         }
         else
         {
             // Remove subscription
             $object->delete_parameter('net.nemein.wiki:watch', $user->guid);
-            midcom::get('uimessages')->add($this->_l10n->get($this->_component), sprintf($this->_l10n->get('unsubscribed from changes in %s'), $target), 'ok');
+            midcom::get()->uimessages->add($this->_l10n->get($this->_component), sprintf($this->_l10n->get('unsubscribed from changes in %s'), $target), 'ok');
         }
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
 
         // Redirect to editing
         if ($this->_page->name == 'index')

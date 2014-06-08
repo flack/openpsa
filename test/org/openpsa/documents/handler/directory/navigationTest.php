@@ -15,13 +15,13 @@ class org_openpsa_documents_handler_directory_navigationTest extends openpsa_tes
 {
     public function testHandler_navigation()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.documents');
+        midcom::get()->auth->request_sudo('org.openpsa.documents');
 
         $data = $this->run_handler('org.openpsa.documents', array('directory', 'navigation'));
         $this->assertEquals('navigation-show', $data['handler_id']);
 
         $this->show_handler($data);
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 }
 ?>

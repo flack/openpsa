@@ -36,12 +36,12 @@ implements midcom_services_permalinks_resolver
     {
         switch (true)
         {
-            case midcom::get('dbfactory')->is_a($object, 'midcom_db_person'):
+            case midcom::get()->dbfactory->is_a($object, 'midcom_db_person'):
                 //List all projects and tasks given person is involved with
                 $this->_find_suspects_person($object, $defaults, $links_array);
                 break;
-            case midcom::get('dbfactory')->is_a($object, 'midcom_db_event'):
-            case midcom::get('dbfactory')->is_a($object, 'org_openpsa_calendar_event_dba'):
+            case midcom::get()->dbfactory->is_a($object, 'midcom_db_event'):
+            case midcom::get()->dbfactory->is_a($object, 'org_openpsa_calendar_event_dba'):
                 $this->_find_suspects_event($object, $defaults, $links_array);
                 break;
                 //TODO: groups ? other objects ?
@@ -216,7 +216,7 @@ implements midcom_services_permalinks_resolver
             $this->_l10n->get('agreement %s ends on %s. click here: %s'),
             $deliverable->title,
             strftime('%x', $deliverable->end),
-            midcom::get('permalinks')->create_permalink($deliverable->guid)
+            midcom::get()->permalinks->create_permalink($deliverable->guid)
         );
 
         $message = array

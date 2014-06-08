@@ -62,10 +62,10 @@ class midcom_helper_misc
                 if (preg_match('|.+?/.+?/.+?/|', $filename))
                 {
                     $component_name = preg_replace('|(.+?)/(.+?)/(.+?)/.+|', '$1.$2.$3', $filename);
-                    if (midcom::get('componentloader')->is_installed($component_name))
+                    if (midcom::get()->componentloader->is_installed($component_name))
                     {
                         $filename = substr($filename, strlen($component_name));
-                        $filename = midcom::get('componentloader')->path_to_snippetpath($component_name) . $filename;
+                        $filename = midcom::get()->componentloader->path_to_snippetpath($component_name) . $filename;
                         if (file_exists($filename))
                         {
                             $found = true;
@@ -82,7 +82,7 @@ class midcom_helper_misc
         }
         else if (substr($path, 0, 5) == 'conf:')
         {
-            $filename = midcom::get('config')->get('midcom_config_basedir') . '/midcom' . substr($path, 5);
+            $filename = midcom::get()->config->get('midcom_config_basedir') . '/midcom' . substr($path, 5);
             if (! file_exists($filename))
             {
                 $cached_snippets[$path] = null;
@@ -102,9 +102,9 @@ class midcom_helper_misc
                 $cached_snippets[$path] = null;
                 return null;
             }
-            if (isset(midcom::get('cache')->content))
+            if (isset(midcom::get()->cache->content))
             {
-                midcom::get('cache')->content->register($snippet->guid);
+                midcom::get()->cache->content->register($snippet->guid);
             }
             $data = $snippet->code;
         }
@@ -190,7 +190,7 @@ class midcom_helper_misc
         switch ($element)
         {
             case 'title':
-                return midcom::get('config')->get('midcom_site_title');
+                return midcom::get()->config->get('midcom_site_title');
             case 'content':
                 return '<?php midcom_core_context::get()->show(); ?>';
             default:
@@ -268,7 +268,7 @@ class midcom_helper_misc
      */
     public static function get_mimetype($filename)
     {
-        return exec(midcom::get('config')->get('utility_file') . " -ib {$filename} 2>/dev/null");
+        return exec(midcom::get()->config->get('utility_file') . " -ib {$filename} 2>/dev/null");
     }
 
     /**
@@ -404,7 +404,7 @@ class midcom_helper_misc
      */
     public static function get_element_content($element_name, $theme_root = OPENPSA2_THEME_ROOT)
     {
-        $theme = midcom::get('config')->get('theme');
+        $theme = midcom::get()->config->get('theme');
         $path_array = explode('/', $theme);
 
         //get the page if there is one
@@ -442,7 +442,7 @@ class midcom_helper_misc
      */
     public static function check_page_exists($page_name, $theme_root = OPENPSA2_THEME_ROOT)
     {
-        $path_array = explode('/', midcom::get('config')->get('theme'));
+        $path_array = explode('/', midcom::get()->config->get('theme'));
 
         while (!empty($path_array))
         {

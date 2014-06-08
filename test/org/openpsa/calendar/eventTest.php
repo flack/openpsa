@@ -15,7 +15,7 @@ class org_openpsa_calendar_eventTest extends openpsa_testcase
 {
     public function testCRUD()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.calendar');
+        midcom::get()->auth->request_sudo('org.openpsa.calendar');
 
         $event = new org_openpsa_calendar_event_dba();
         $event->_use_activitystream = false;
@@ -49,7 +49,7 @@ class org_openpsa_calendar_eventTest extends openpsa_testcase
         $stat = $event->delete();
         $this->assertTrue($stat, midcom_connection::get_error_string());
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
      }
 
     private function _mktime($timestamp)

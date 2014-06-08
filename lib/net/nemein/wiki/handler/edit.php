@@ -92,9 +92,9 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
                 break;
             case 'save':
                 // Reindex the article
-                $indexer = midcom::get('indexer');
+                $indexer = midcom::get()->indexer;
                 net_nemein_wiki_viewer::index($this->_controller->datamanager, $indexer, $this->_topic);
-                midcom::get('uimessages')->add($this->_l10n->get($this->_component), sprintf($this->_request_data['l10n']->get('page %s saved'), $this->_page->title), 'ok');
+                midcom::get()->uimessages->add($this->_l10n->get($this->_component), sprintf($this->_request_data['l10n']->get('page %s saved'), $this->_page->title), 'ok');
                 // *** FALL-THROUGH ***
             case 'cancel':
                 if ($this->_page->name == 'index')
@@ -158,7 +158,7 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
         $this->bind_view_to_object($this->_page, $this->_controller->datamanager->schema->name);
 
         $data['view_title'] = sprintf($this->_l10n->get('edit %s'), $this->_page->title);
-        midcom::get('head')->set_pagetitle($data['view_title']);
+        midcom::get()->head->set_pagetitle($data['view_title']);
 
         // Set the breadcrumb pieces
         $this->add_breadcrumb("{$this->_page->name}/", $this->_page->title);

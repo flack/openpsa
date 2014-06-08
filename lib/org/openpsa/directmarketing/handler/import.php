@@ -29,7 +29,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
 
     private function _prepare_handler(array $args)
     {
-        midcom::get('auth')->require_user_do('midgard:create', null, 'org_openpsa_contacts_person_dba');
+        midcom::get()->auth->require_user_do('midgard:create', null, 'org_openpsa_contacts_person_dba');
 
         // Try to load the correct campaign
         $this->_request_data['campaign'] = $this->_master->load_campaign($args[0]);
@@ -274,7 +274,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
             if (is_uploaded_file($_FILES['org_openpsa_directmarketing_import_upload']['tmp_name']))
             {
                 // Copy the file for later processing
-                $data['tmp_file'] = tempnam(midcom::get('config')->get('midcom_tempdir'), 'org_openpsa_directmarketing_import_csv');
+                $data['tmp_file'] = tempnam(midcom::get()->config->get('midcom_tempdir'), 'org_openpsa_directmarketing_import_csv');
                 move_uploaded_file($_FILES['org_openpsa_directmarketing_import_upload']['tmp_name'], $data['tmp_file']);
 
                 // Read cell headers from the file

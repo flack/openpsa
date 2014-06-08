@@ -12,7 +12,7 @@ if ($data['product']->delivery == org_openpsa_products_product_dba::DELIVERY_SUB
 {
     $grid->set_column('unit', $data['l10n']->get('invoicing period'), 'width: 60');
 }
-$grid->set_column('type', midcom::get('i18n')->get_string('type', 'midgard.admin.asgard'), 'width: 100');
+$grid->set_column('type', midcom::get()->i18n->get_string('type', 'midgard.admin.asgard'), 'width: 100');
 $grid->set_column('pricePerUnit', $data['l10n']->get('price per unit'), 'width: 50, classes: "numeric", sorttype: "number", formatter: "number"');
 $grid->set_column('units', $data['l10n']->get('units'), 'width: 40, classes: "numeric", sorttype: "number", formatter: "number"');
 $grid->set_column('invoiced', $data['l10n']->get('invoiced'), 'width: 50, classes: "numeric", sorttype: "number", formatter: "number"');

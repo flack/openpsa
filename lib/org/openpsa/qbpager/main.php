@@ -35,9 +35,9 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
 
     protected function _prepare_qbs($classname)
     {
-        $this->_midcom_qb = midcom::get('dbfactory')->new_query_builder($classname);
+        $this->_midcom_qb = midcom::get()->dbfactory->new_query_builder($classname);
         // Make another QB for counting, we need to do this to avoid trouble with core internal references system
-        $this->_midcom_qb_count = midcom::get('dbfactory')->new_query_builder($classname);
+        $this->_midcom_qb_count = midcom::get()->dbfactory->new_query_builder($classname);
     }
 
     /**

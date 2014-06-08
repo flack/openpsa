@@ -60,7 +60,7 @@
  *
  * May take one of the following values: "invalidate" will clear the cache of the
  * current site, "nocache" will bypass the cache for the current request by
- * calling midcom::get('cache')->content->no_cache();
+ * calling midcom::get()->cache->content->no_cache();
  *
  * @package midcom
  */
@@ -141,12 +141,12 @@ class midcom_core_resolver
      */
     public function serve_attachment($attachment, $expires = -1)
     {
-        if (midcom::get('config')->get('attachment_cache_enabled'))
+        if (midcom::get()->config->get('attachment_cache_enabled'))
         {
             $path = '/' . substr($attachment->guid, 0, 1) . "/{$attachment->guid}_{$attachment->name}";
-            if (file_exists(midcom::get('config')->get('attachment_cache_root') . $path))
+            if (file_exists(midcom::get()->config->get('attachment_cache_root') . $path))
             {
-                $response = new midcom_response_relocate(midcom::get('config')->get('attachment_cache_url') . $path, 301);
+                $response = new midcom_response_relocate(midcom::get()->config->get('attachment_cache_url') . $path, 301);
                 $response->send();
             }
         }
@@ -159,7 +159,7 @@ class midcom_core_resolver
         }
 
         // Doublecheck that this is registered
-        $cache = midcom::get('cache');
+        $cache = midcom::get()->cache;
         $cache->content->register($attachment->guid);
         $stats = $attachment->stat();
         $last_modified = $stats[9];
@@ -214,7 +214,7 @@ class midcom_core_resolver
         $cache->content->cache_control_headers();
 
         $send_att_body = true;
-        if (midcom::get('config')->get('attachment_xsendfile_enable'))
+        if (midcom::get()->config->get('attachment_xsendfile_enable'))
         {
             $blob = new midgard_blob($attachment->__object);
             $att_local_path = $blob->get_path();
@@ -286,7 +286,7 @@ class midcom_core_resolver
 
     private function _process_permalink($value)
     {
-        $destination = midcom::get('permalinks')->resolve_permalink($value);
+        $destination = midcom::get()->permalinks->resolve_permalink($value);
         if ($destination === null)
         {
             throw new midcom_error_notfound("This Permalink is unknown.");
@@ -301,15 +301,15 @@ class midcom_core_resolver
     {
         if ($value == 'invalidate')
         {
-            if (   !is_array(midcom::get('config')->get('indexer_reindex_allowed_ips'))
-                || !in_array($_SERVER['REMOTE_ADDR'], midcom::get('config')->get('indexer_reindex_allowed_ips')))
+            if (   !is_array(midcom::get()->config->get('indexer_reindex_allowed_ips'))
+                || !in_array($_SERVER['REMOTE_ADDR'], midcom::get()->config->get('indexer_reindex_allowed_ips')))
             {
-                midcom::get('auth')->require_valid_user('basic');
-                midcom::get('auth')->require_admin_user();
+                midcom::get()->auth->require_valid_user('basic');
+                midcom::get()->auth->require_admin_user();
             }
-            midcom::get('cache')->content->enable_live_mode();
-            midcom::get('cache')->invalidate_all();
-            midcom::get('uimessages')->add(midcom::get('i18n')->get_string('MidCOM', 'midcom'), midcom::get('i18n')->get_string("cache invalidation successful", 'midcom'), 'info');
+            midcom::get()->cache->content->enable_live_mode();
+            midcom::get()->cache->invalidate_all();
+            midcom::get()->uimessages->add(midcom::get()->i18n->get_string('MidCOM', 'midcom'), midcom::get()->i18n->get_string("cache invalidation successful", 'midcom'), 'info');
 
             $url = (isset($_SERVER['HTTP_REFERER'])) ? $_SERVER['HTTP_REFERER'] : midcom_connection::get('self');
             $response = new midcom_response_relocate($url);
@@ -317,7 +317,7 @@ class midcom_core_resolver
         }
         else if ($value == 'nocache')
         {
-            midcom::get('cache')->content->no_cache();
+            midcom::get()->cache->content->no_cache();
         }
         else
         {
@@ -330,8 +330,8 @@ class midcom_core_resolver
         // rest of URL used as redirect
         $redirect_to = $this->_get_remaining_url($value);
 
-        midcom::get('cache')->content->no_cache();
-        midcom::get('auth')->logout();
+        midcom::get()->cache->content->no_cache();
+        midcom::get()->auth->logout();
         $response = new midcom_response_relocate($redirect_to);
         $response->send();
     }
@@ -341,13 +341,13 @@ class midcom_core_resolver
         // rest of URL used as redirect
         $redirect_to = $this->_get_remaining_url($value);
 
-        if (midcom::get('auth')->is_valid_user())
+        if (midcom::get()->auth->is_valid_user())
         {
             $response = new midcom_response_relocate($redirect_to);
             $response->send();
             // This will exit
         }
-        midcom::get('auth')->show_login_page();
+        midcom::get()->auth->show_login_page();
         // This will exit too
     }
 
@@ -405,7 +405,7 @@ class midcom_core_resolver
         }
         else
         {
-            $componentloader = midcom::get('componentloader');
+            $componentloader = midcom::get()->componentloader;
             if (!$componentloader->is_installed($component))
             {
                 throw new midcom_error_notfound('The requested component is not installed');
@@ -426,7 +426,7 @@ class midcom_core_resolver
         $GLOBALS['argv'] = $this->_context->parser->argv;
         array_shift($GLOBALS['argv']);
 
-        midcom::get('cache')->content->enable_live_mode();
+        midcom::get()->cache->content->enable_live_mode();
 
         midcom::get()->set_status(MIDCOM_STATUS_CONTENT);
 

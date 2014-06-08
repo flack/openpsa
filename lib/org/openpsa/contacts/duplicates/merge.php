@@ -58,7 +58,7 @@ class org_openpsa_contacts_duplicates_merge
                 return false;
         }
 
-        $components = array_keys(midcom::get('componentloader')->manifests);
+        $components = array_keys(midcom::get()->componentloader->manifests);
         //Check all installed components
         foreach ($components as $component)
         {
@@ -95,7 +95,7 @@ class org_openpsa_contacts_duplicates_merge
     {
         try
         {
-            $interface = midcom::get('componentloader')->get_interface_class($component);
+            $interface = midcom::get()->componentloader->get_interface_class($component);
         }
         catch (midcom_error $e)
         {
@@ -127,7 +127,7 @@ class org_openpsa_contacts_duplicates_merge
             {
                 continue;
             }
-            $qb = midcom::get('dbfactory')->new_query_builder($classname);
+            $qb = midcom::get()->dbfactory->new_query_builder($classname);
             $qb->begin_group('OR');
             foreach ($fieldconfig as $field => $conf)
             {

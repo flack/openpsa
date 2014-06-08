@@ -134,14 +134,14 @@ class midcom_services_i18n_l10n
      */
     public function __construct($library, $database)
     {
-        $path = midcom::get('componentloader')->path_to_snippetpath($library) . "/locale/" . $database;
+        $path = midcom::get()->componentloader->path_to_snippetpath($library) . "/locale/" . $database;
 
         $this->_library_filename = $path;
         $this->_library = $library . $database;
         $this->_component_name = $library;
 
-        $this->_language_db = midcom::get('i18n')->get_language_db();
-        $this->_fallback_language = midcom::get('i18n')->get_fallback_language();
+        $this->_language_db = midcom::get()->i18n->get_language_db();
+        $this->_fallback_language = midcom::get()->i18n->get_fallback_language();
 
         if (!isset(self::$_localedb[$this->_library]))
         {
@@ -150,8 +150,8 @@ class midcom_services_i18n_l10n
 
         $this->_stringdb =& self::$_localedb[$this->_library];
 
-        $this->set_language(midcom::get('i18n')->get_current_language());
-        $this->set_charset(midcom::get('i18n')->get_current_charset());
+        $this->set_language(midcom::get()->i18n->get_current_language());
+        $this->set_charset(midcom::get()->i18n->get_current_charset());
     }
 
     /**
@@ -168,7 +168,7 @@ class midcom_services_i18n_l10n
             $file = fopen("{$this->_library_filename}.{$lang}.txt", 'w');
             if (!$file)
             {
-                midcom::get('uimessages')->add("L10N Error", "Failed to open the file '{$this->_library_filename}.{$lang}.txt' for writing.", 'error');
+                midcom::get()->uimessages->add("L10N Error", "Failed to open the file '{$this->_library_filename}.{$lang}.txt' for writing.", 'error');
                 debug_add("Failed to open the file '{$this->_library_filename}.{$lang}.txt' for writing.", MIDCOM_LOG_ERROR);
                 return false;
             }
@@ -200,9 +200,9 @@ class midcom_services_i18n_l10n
         $this->_stringdb[$lang] = array();
         $filename = "{$this->_library_filename}.{$lang}.txt";
 
-        if (midcom::get('config')->get('cache_module_memcache_backend') != 'flatfile')
+        if (midcom::get()->config->get('cache_module_memcache_backend') != 'flatfile')
         {
-            $stringtable = midcom::get('cache')->memcache->get('L10N', $filename);
+            $stringtable = midcom::get()->cache->memcache->get('L10N', $filename);
             if (is_array($stringtable))
             {
                 $this->_stringdb[$lang] = $stringtable;
@@ -210,9 +210,9 @@ class midcom_services_i18n_l10n
             }
         }
 
-        if (!empty(midcom::get('componentloader')->manifests[$this->_component_name]->extends))
+        if (!empty(midcom::get()->componentloader->manifests[$this->_component_name]->extends))
         {
-            $parent_l10n = new self(midcom::get('componentloader')->manifests[$this->_component_name]->extends, 'default');
+            $parent_l10n = new self(midcom::get()->componentloader->manifests[$this->_component_name]->extends, 'default');
             $this->_stringdb[$lang] = $parent_l10n->get_stringdb($lang);
         }
 
@@ -224,7 +224,7 @@ class midcom_services_i18n_l10n
         $data = file($filename);
 
         // get site-specific l10n
-        $component_locale = midcom_helper_misc::get_snippet_content_graceful(midcom::get('config')->get('midcom_sgconfig_basedir') . "/" . $this->_component_name . "/l10n/" . $lang);
+        $component_locale = midcom_helper_misc::get_snippet_content_graceful(midcom::get()->config->get('midcom_sgconfig_basedir') . "/" . $this->_component_name . "/l10n/" . $lang);
         if (!empty($component_locale))
         {
             $data = array_merge($data, explode("\n", $component_locale));
@@ -300,7 +300,7 @@ class midcom_services_i18n_l10n
 
                         default:
                             $line++; // Array is 0-indexed
-                            if (   !midcom::get('config')->get('midcom_compat_ragnaroek')
+                            if (   !midcom::get()->config->get('midcom_compat_ragnaroek')
                                 || $command !== 'CVS')
                             {
                                 throw new midcom_error("L10n DB SYNTAX ERROR: Unknown command '{$command}' at {$filename}:{$line}");
@@ -351,9 +351,9 @@ class midcom_services_i18n_l10n
         ksort($stringtable, SORT_STRING);
         $this->_stringdb[$lang] = array_merge($this->_stringdb[$lang], $stringtable);
 
-        if (midcom::get('config')->get('cache_module_memcache_backend') != 'flatfile')
+        if (midcom::get()->config->get('cache_module_memcache_backend') != 'flatfile')
         {
-            midcom::get('cache')->memcache->put('L10N', $filename, $this->_stringdb[$lang]);
+            midcom::get()->cache->memcache->put('L10N', $filename, $this->_stringdb[$lang]);
         }
     }
 
@@ -508,7 +508,7 @@ class midcom_services_i18n_l10n
             }
         }
 
-        return midcom::get('i18n')->convert_from_utf8($this->_stringdb[$language][$string]);
+        return midcom::get()->i18n->convert_from_utf8($this->_stringdb[$language][$string]);
     }
 
     /**

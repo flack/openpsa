@@ -11,12 +11,12 @@
  */
 
 // IP Address Checks
-$ips = midcom::get('config')->get('indexer_reindex_allowed_ips');
+$ips = midcom::get()->config->get('indexer_reindex_allowed_ips');
 $ip_sudo = false;
 if (   $ips
     && in_array($_SERVER['REMOTE_ADDR'], $ips))
 {
-    if (! midcom::get('auth')->request_sudo('midcom.services.indexer'))
+    if (! midcom::get()->auth->request_sudo('midcom.services.indexer'))
     {
         throw new midcom_error('Failed to acquire SUDO rights. Aborting.');
     }
@@ -24,11 +24,11 @@ if (   $ips
 }
 else
 {
-    midcom::get('auth')->require_valid_user('basic');
-    midcom::get('auth')->require_admin_user();
+    midcom::get()->auth->require_valid_user('basic');
+    midcom::get()->auth->require_admin_user();
 }
 
-if (midcom::get('config')->get('indexer_backend') === false)
+if (midcom::get()->config->get('indexer_backend') === false)
 {
     throw new midcom_error('No indexer backend has been defined. Aborting.');
 }
@@ -41,7 +41,7 @@ if (empty($_REQUEST['nodeid']))
 //check if language is passed & set language if needed
 if (isset($_REQUEST['language']))
 {
-    midcom::get('i18n')->set_language($_REQUEST['language']);
+    midcom::get()->i18n->set_language($_REQUEST['language']);
 }
 
 debug_add('Disabling script abort through client.');
@@ -49,8 +49,8 @@ ignore_user_abort(true);
 
 midcom::get()->disable_limits();
 
-$loader = midcom::get('componentloader');
-$indexer = midcom::get('indexer');
+$loader = midcom::get()->componentloader;
+$indexer = midcom::get()->indexer;
 
 $nap = new midcom_helper_nav();
 $nodeid = $_REQUEST['nodeid'];
@@ -112,7 +112,7 @@ ignore_user_abort(false);
 
 if ($ip_sudo)
 {
-    midcom::get('auth')->drop_sudo();
+    midcom::get()->auth->drop_sudo();
 }
 
 echo "Reindex complete for node {$node[MIDCOM_NAV_FULLURL]}\n</pre>";

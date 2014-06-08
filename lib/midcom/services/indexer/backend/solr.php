@@ -46,7 +46,7 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
     {
         if (is_null($index_name))
         {
-            $this->_index_name = midcom::get('config')->get('indexer_index_name');
+            $this->_index_name = midcom::get()->config->get('indexer_index_name');
             if ($this->_index_name == 'auto')
             {
                 $this->_index_name = midcom_connection::get_unique_host_name();
@@ -132,7 +132,7 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
             $query .= ' AND ' . $filter->get_query_string();
         }
 
-        $url = 'http://' . midcom::get('config')->get('indexer_xmltcp_host') . ':' . midcom::get('config')->get('indexer_xmltcp_port') . '/solr/select';
+        $url = 'http://' . midcom::get()->config->get('indexer_xmltcp_host') . ':' . midcom::get()->config->get('indexer_xmltcp_port') . '/solr/select';
 
         // FIXME: Make this configurable, even better: adapt the whole indexer system to fetching enable querying for counts and slices
         $maxrows = 1000;
@@ -205,7 +205,7 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
             if (   isset($doc->source)
                 && mgd_is_guid($doc->source))
             {
-                midcom::get('cache')->content->register($doc->source);
+                midcom::get()->cache->content->register($doc->source);
             }
             */
             $result[] = $doc;
@@ -238,7 +238,7 @@ class midcom_services_indexer_solrDocumentFactory
     {
         if (is_null($index_name))
         {
-            $this->_index_name = midcom::get('config')->get('indexer_index_name');
+            $this->_index_name = midcom::get()->config->get('indexer_index_name');
             if ($this->_index_name == 'auto')
             {
                 $this->_index_name = midcom_connection::get_unique_host_name();
@@ -372,8 +372,8 @@ class midcom_services_indexer_solrRequest
      */
     function do_post($xml, $optimize = false)
     {
-        $host = "http://" . midcom::get('config')->get('indexer_xmltcp_host') .
-            ":" . midcom::get('config')->get('indexer_xmltcp_port');
+        $host = "http://" . midcom::get()->config->get('indexer_xmltcp_host') .
+            ":" . midcom::get()->config->get('indexer_xmltcp_port');
         $this->request = new Request(RequestInterface::METHOD_POST, "/solr/update", $host);
 
         $this->request->setContent($xml);

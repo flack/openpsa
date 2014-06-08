@@ -1,5 +1,5 @@
 <?php
-midcom::get('auth')->require_admin_user();
+midcom::get()->auth->require_admin_user();
 
 echo "<p>\n";
 

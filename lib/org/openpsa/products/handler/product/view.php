@@ -103,7 +103,7 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
 
         $this->_load_product($handler_id, $args);
 
-        if (midcom::get('config')->get('enable_ajax_editing'))
+        if (midcom::get()->config->get('enable_ajax_editing'))
         {
             $data['controller'] = midcom_helper_datamanager2_controller::create('ajax');
             $data['controller']->schemadb =& $data['schemadb_product'];
@@ -140,7 +140,7 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
 
         midcom_core_context::get()->set_custom_key('midcom.helper.nav.breadcrumb', $breadcrumb);
 
-        midcom::get('metadata')->set_request_metadata($this->_product->metadata->revised, $this->_product->guid);
+        midcom::get()->metadata->set_request_metadata($this->_product->metadata->revised, $this->_product->guid);
 
         $title = $this->_config->get('product_page_title');
 
@@ -163,7 +163,7 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
         $title = str_replace('<PRODUCT_TITLE>', $this->_product->title, $title);
         $title = str_replace('<TOPIC_TITLE>', $this->_topic->extra, $title);
         org_openpsa_widgets_ui::enable_ui_tab();
-        midcom::get('head')->set_pagetitle($title);
+        midcom::get()->head->set_pagetitle($title);
     }
 
     private function _load_product($handler_id, array $args)

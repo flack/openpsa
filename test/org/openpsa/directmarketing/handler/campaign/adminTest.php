@@ -27,7 +27,7 @@ class org_openpsa_directmarketing_handler_campaign_adminTest extends openpsa_tes
         $helper = new openpsa_test_campaign_helper($this);
         $campaign = $helper->get_campaign(org_openpsa_directmarketing_campaign_dba::TYPE_SMART);
 
-        midcom::get('auth')->request_sudo('org.openpsa.directmarketing');
+        midcom::get()->auth->request_sudo('org.openpsa.directmarketing');
 
         $data = $this->run_handler('org.openpsa.directmarketing', array('campaign', 'edit_query', $campaign->guid));
         $this->assertEquals('edit_campaign_query', $data['handler_id']);
@@ -70,7 +70,7 @@ class org_openpsa_directmarketing_handler_campaign_adminTest extends openpsa_tes
         $url = $this->run_relocate_handler('org.openpsa.directmarketing', array('campaign', 'edit_query', $campaign->guid));
         $this->assertEquals('campaign/' . $campaign->guid . '/', $url);
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
     public function testHandler_edit_query_advanced()
@@ -78,12 +78,12 @@ class org_openpsa_directmarketing_handler_campaign_adminTest extends openpsa_tes
         $helper = new openpsa_test_campaign_helper($this);
         $campaign = $helper->get_campaign();
 
-        midcom::get('auth')->request_sudo('org.openpsa.directmarketing');
+        midcom::get()->auth->request_sudo('org.openpsa.directmarketing');
 
         $data = $this->run_handler('org.openpsa.directmarketing', array('campaign', 'edit_query_advanced', $campaign->guid));
         $this->assertEquals('edit_campaign_query_advanced', $data['handler_id']);
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
     public function testHandler_edit()
@@ -91,12 +91,12 @@ class org_openpsa_directmarketing_handler_campaign_adminTest extends openpsa_tes
         $helper = new openpsa_test_campaign_helper($this);
         $campaign = $helper->get_campaign();
 
-        midcom::get('auth')->request_sudo('org.openpsa.directmarketing');
+        midcom::get()->auth->request_sudo('org.openpsa.directmarketing');
 
         $data = $this->run_handler('org.openpsa.directmarketing', array('campaign', 'edit', $campaign->guid));
         $this->assertEquals('edit_campaign', $data['handler_id']);
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
     public function testHandler_delete()
@@ -104,12 +104,12 @@ class org_openpsa_directmarketing_handler_campaign_adminTest extends openpsa_tes
         $helper = new openpsa_test_campaign_helper($this);
         $campaign = $helper->get_campaign();
 
-        midcom::get('auth')->request_sudo('org.openpsa.directmarketing');
+        midcom::get()->auth->request_sudo('org.openpsa.directmarketing');
 
         $data = $this->run_handler('org.openpsa.directmarketing', array('campaign', 'delete', $campaign->guid));
         $this->assertEquals('delete_campaign', $data['handler_id']);
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 }
 ?>

@@ -20,7 +20,7 @@
  * you should explicitly delete temporary objects you do no longer need using
  * the default delete call.
  *
- * This service is available as midcom::get('tmp').
+ * This service is available as midcom::get()->tmp.
  *
  * <b>Temporary object privileges</b>
  *
@@ -51,7 +51,7 @@ class midcom_services_tmp
      */
     function create_object()
     {
-        midcom::get('auth')->require_user_do('midgard:create', null, 'midcom_core_temporary_object');
+        midcom::get()->auth->require_user_do('midgard:create', null, 'midcom_core_temporary_object');
 
         $tmp = new midcom_core_temporary_object();
         if (! $tmp->create())
@@ -97,7 +97,7 @@ class midcom_services_tmp
         }
 
         // Check if the object has timeouted already.
-        $timeout = time() - midcom::get('config')->get('midcom_temporary_resource_timeout');
+        $timeout = time() - midcom::get()->config->get('midcom_temporary_resource_timeout');
         if ($tmp->timestamp < $timeout)
         {
             debug_add("The temporary object {$id}  has exceeded its maximum lifetime, rejecting access and dropping it",

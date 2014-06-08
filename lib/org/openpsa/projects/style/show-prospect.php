@@ -8,9 +8,9 @@ $contactwidget = new org_openpsa_widgets_contact($data['person']);
     <table class="slots">
         <thead>
             <tr>
-                <th><?php echo midcom::get('i18n')->get_string('event before', 'org.openpsa.calendar'); ?></th>
-                <th><?php echo midcom::get('i18n')->get_string('available slot', 'org.openpsa.calendar'); ?></th>
-                <th><?php echo midcom::get('i18n')->get_string('event after', 'org.openpsa.calendar'); ?></th>
+                <th><?php echo midcom::get()->i18n->get_string('event before', 'org.openpsa.calendar'); ?></th>
+                <th><?php echo midcom::get()->i18n->get_string('available slot', 'org.openpsa.calendar'); ?></th>
+                <th><?php echo midcom::get()->i18n->get_string('event after', 'org.openpsa.calendar'); ?></th>
             </tr>
         </thead>
         <tbody>
@@ -28,7 +28,7 @@ $contactwidget = new org_openpsa_widgets_contact($data['person']);
                 }
                 else
                 {
-                    echo '        ' . midcom::get('i18n')->get_string('no event', 'org.openpsa.calendar') . "\n";
+                    echo '        ' . midcom::get()->i18n->get_string('no event', 'org.openpsa.calendar') . "\n";
                 }
                 echo "    </td>\n";
                 $post_name = "org_openpsa_projects_prospects[{$data['prospect']->guid}][{$k}]";
@@ -54,7 +54,7 @@ $contactwidget = new org_openpsa_widgets_contact($data['person']);
                 }
                 else
                 {
-                    echo '        ' . midcom::get('i18n')->get_string('no event', 'org.openpsa.calendar') . "\n";
+                    echo '        ' . midcom::get()->i18n->get_string('no event', 'org.openpsa.calendar') . "\n";
                 }
                 echo "    </td>\n";
 

@@ -283,7 +283,7 @@ class midcom_services_indexer_document
      */
     public function __construct()
     {
-        $this->_i18n = midcom::get('i18n');
+        $this->_i18n = midcom::get()->i18n;
     }
 
     /**
@@ -717,7 +717,7 @@ class midcom_services_indexer_document
             $id = (!empty($id_arr)) ? array_shift($id_arr) : false;
         }
 
-        $author = midcom::get('auth')->get_user($id);
+        $author = midcom::get()->auth->get_user($id);
         if (!$author)
         {
             return '';

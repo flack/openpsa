@@ -42,7 +42,7 @@ class midcom_response_relocate extends midcom_response
         }
         $location = "Location: {$this->url}";
 
-        midcom::get('cache')->content->no_cache();
+        midcom::get()->cache->content->no_cache();
 
         debug_add("Relocating to {$location}");
         midcom::get()->header($location, $this->code);

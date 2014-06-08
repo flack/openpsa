@@ -90,7 +90,7 @@ class midcom_services_toolbars
     public function __construct()
     {
         // Default label for the "Page" toolbar
-        $this->_view_toolbar_label = midcom::get('i18n')->get_string('page', 'midcom');
+        $this->_view_toolbar_label = midcom::get()->i18n->get_string('page', 'midcom');
 
         // FIXME: initialize() should be called by the callee, not here in constructor
         $this->initialize();
@@ -112,34 +112,34 @@ class midcom_services_toolbars
             return;
         }
 
-        if (!midcom::get('auth')->user)
+        if (!midcom::get()->auth->user)
         {
             // Centralized toolbar is only for registered users
             $still_initializing = false;
             return;
         }
 
-        if (   !midcom::get('config')->get('toolbars_enable_centralized')
-            || !midcom::get('auth')->can_user_do('midcom:centralized_toolbar', null, $this))
+        if (   !midcom::get()->config->get('toolbars_enable_centralized')
+            || !midcom::get()->auth->can_user_do('midcom:centralized_toolbar', null, $this))
         {
             $still_initializing = false;
             return;
         }
 
-        if (midcom::get('auth')->can_user_do('midcom:ajax', null, $this))
+        if (midcom::get()->auth->can_user_do('midcom:ajax', null, $this))
         {
-            midcom::get('head')->enable_jquery();
-            midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.timers.src.js');
-            midcom::get('head')->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.core.min.js');
-            midcom::get('head')->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.widget.min.js');
-            midcom::get('head')->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.mouse.min.js');
-            midcom::get('head')->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.draggable.min.js');
+            midcom::get()->head->enable_jquery();
+            midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.timers.src.js');
+            midcom::get()->head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.core.min.js');
+            midcom::get()->head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.widget.min.js');
+            midcom::get()->head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.mouse.min.js');
+            midcom::get()->head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.draggable.min.js');
 
-            midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/midcom.services.toolbars/jquery.midcom_services_toolbars.js');
+            midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.services.toolbars/jquery.midcom_services_toolbars.js');
 
-            midcom::get('head')->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.services.toolbars/fancy.css', 'screen');
+            midcom::get()->head->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.services.toolbars/fancy.css', 'screen');
 
-            $this->type = midcom::get('config')->get('toolbars_type');
+            $this->type = midcom::get()->config->get('toolbars_type');
 
             if ($this->type == 'menu')
             {
@@ -150,11 +150,11 @@ class midcom_services_toolbars
                 $script = "jQuery('body div.midcom_services_toolbars_fancy').midcom_services_toolbar({});";
             }
 
-            midcom::get('head')->add_jquery_state_script($script);
+            midcom::get()->head->add_jquery_state_script($script);
         }
         else
         {
-            midcom::get('head')->add_stylesheet(midcom::get('config')->get('toolbars_simple_css_path'), 'screen');
+            midcom::get()->head->add_stylesheet(midcom::get()->config->get('toolbars_simple_css_path'), 'screen');
 
             $this->type = 'normal';
         }
@@ -247,27 +247,27 @@ class midcom_services_toolbars
         $this->_toolbars[$context_id][MIDCOM_TOOLBAR_NODE] =
             new midcom_helper_toolbar
             (
-                midcom::get('config')->get('toolbars_node_style_class'),
-                midcom::get('config')->get('toolbars_node_style_id')
+                midcom::get()->config->get('toolbars_node_style_class'),
+                midcom::get()->config->get('toolbars_node_style_id')
             );
         $this->_toolbars[$context_id][MIDCOM_TOOLBAR_VIEW] =
             new midcom_helper_toolbar
             (
-                midcom::get('config')->get('toolbars_view_style_class'),
-                midcom::get('config')->get('toolbars_view_style_id')
+                midcom::get()->config->get('toolbars_view_style_class'),
+                midcom::get()->config->get('toolbars_view_style_id')
             );
 
         $this->_toolbars[$context_id][MIDCOM_TOOLBAR_HOST] =
             new midcom_helper_toolbar
             (
-                midcom::get('config')->get('toolbars_host_style_class'),
-                midcom::get('config')->get('toolbars_host_style_id')
+                midcom::get()->config->get('toolbars_host_style_class'),
+                midcom::get()->config->get('toolbars_host_style_id')
             );
         $this->_toolbars[$context_id][MIDCOM_TOOLBAR_HELP] =
             new midcom_helper_toolbar
             (
-                midcom::get('config')->get('toolbars_help_style_class'),
-                midcom::get('config')->get('toolbars_help_style_id')
+                midcom::get()->config->get('toolbars_help_style_class'),
+                midcom::get()->config->get('toolbars_help_style_id')
             );
         $this->add_topic_management_commands($this->_toolbars[$context_id][MIDCOM_TOOLBAR_NODE], $context_id);
         $this->add_host_management_commands($this->_toolbars[$context_id][MIDCOM_TOOLBAR_HOST], $context_id);
@@ -317,7 +317,7 @@ class midcom_services_toolbars
                 array
                 (
                     MIDCOM_TOOLBAR_URL => "__ais/folder/edit/",
-                    MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('edit folder', 'midcom.admin.folder'),
+                    MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('edit folder', 'midcom.admin.folder'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
                     MIDCOM_TOOLBAR_ACCESSKEY => 'g',
                 )
@@ -328,7 +328,7 @@ class midcom_services_toolbars
                 array
                 (
                     MIDCOM_TOOLBAR_URL => "__ais/folder/metadata/{$urltopic->guid}/",
-                    MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('edit folder metadata', 'midcom.admin.folder'),
+                    MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('edit folder metadata', 'midcom.admin.folder'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/metadata.png',
                 )
             );
@@ -338,14 +338,14 @@ class midcom_services_toolbars
             && $urltopic->can_do('midcom.admin.folder:topic_management'))
         {
             // Allow to move other than root folder
-            if ($urltopic->guid !== midcom::get('config')->get('midcom_root_topic_guid'))
+            if ($urltopic->guid !== midcom::get()->config->get('midcom_root_topic_guid'))
             {
                 $toolbar->add_item
                 (
                     array
                     (
                         MIDCOM_TOOLBAR_URL => "__ais/folder/move/{$urltopic->guid}/",
-                        MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('move', 'midcom.admin.folder'),
+                        MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('move', 'midcom.admin.folder'),
                         MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/save-as.png',
                     )
                 );
@@ -360,7 +360,7 @@ class midcom_services_toolbars
                 array
                 (
                     MIDCOM_TOOLBAR_URL => "__ais/folder/order/",
-                    MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('order navigation', 'midcom.admin.folder'),
+                    MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('order navigation', 'midcom.admin.folder'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/topic-score.png',
                     MIDCOM_TOOLBAR_ACCESSKEY => 'o',
                 )
@@ -371,9 +371,9 @@ class midcom_services_toolbars
                 array
                 (
                     MIDCOM_TOOLBAR_URL => midcom_connection::get_url('self') . "__mfa/asgard/object/open/{$topic->guid}/",
-                    MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('manage object', 'midgard.admin.asgard'),
+                    MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('manage object', 'midgard.admin.asgard'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/properties.png',
-                    MIDCOM_TOOLBAR_ENABLED => midcom::get('auth')->can_user_do('midgard.admin.asgard:access', null, 'midgard_admin_asgard_plugin', 'midgard.admin.asgard') && midcom::get('auth')->can_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin'),
+                    MIDCOM_TOOLBAR_ENABLED => midcom::get()->auth->can_user_do('midgard.admin.asgard:access', null, 'midgard_admin_asgard_plugin', 'midgard.admin.asgard') && midcom::get()->auth->can_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin'),
                 )
             );
         }
@@ -381,13 +381,13 @@ class midcom_services_toolbars
         $this->add_approval_controls($toolbar, $topic, false);
 
         if (   $topic->can_do('midcom.admin.folder:template_management')
-            && midcom::get('auth')->can_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin'))
+            && midcom::get()->auth->can_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin'))
         {
             $enabled = false;
             $styleeditor_url = '';
             if ($topic->style != '')
             {
-                $style_id = midcom::get('style')->get_style_id_from_path($topic->style);
+                $style_id = midcom::get()->style->get_style_id_from_path($topic->style);
                 if ($style_id)
                 {
                     try
@@ -408,7 +408,7 @@ class midcom_services_toolbars
                 array
                 (
                     MIDCOM_TOOLBAR_URL => $styleeditor_url,
-                    MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('edit layout template', 'midcom.admin.folder'),
+                    MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('edit layout template', 'midcom.admin.folder'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/text-x-generic-template.png',
                     MIDCOM_TOOLBAR_ACCESSKEY => 't',
                     MIDCOM_TOOLBAR_ENABLED => $enabled,
@@ -424,12 +424,12 @@ class midcom_services_toolbars
                 array
                 (
                     MIDCOM_TOOLBAR_URL => "__ais/folder/create/",
-                    MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('create subfolder', 'midcom.admin.folder'),
+                    MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('create subfolder', 'midcom.admin.folder'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-dir.png',
                     MIDCOM_TOOLBAR_ACCESSKEY => 'f',
                 )
             );
-            if (   midcom::get('config')->get('symlinks')
+            if (   midcom::get()->config->get('symlinks')
                 && $topic->can_do('midcom.admin.folder:symlinks'))
             {
                 $toolbar->add_item
@@ -437,14 +437,14 @@ class midcom_services_toolbars
                     array
                     (
                         MIDCOM_TOOLBAR_URL => "__ais/folder/createlink/",
-                        MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('create folder link', 'midcom.admin.folder'),
+                        MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('create folder link', 'midcom.admin.folder'),
                         MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-dir.png',
                         MIDCOM_TOOLBAR_ACCESSKEY => 'f',
                     )
                 );
             }
         }
-        if (   $urltopic->guid !== midcom::get('config')->get('midcom_root_topic_guid')
+        if (   $urltopic->guid !== midcom::get()->config->get('midcom_root_topic_guid')
             && $urltopic->can_do('midgard:delete')
             && $urltopic->can_do('midcom.admin.folder:topic_management'))
         {
@@ -452,7 +452,7 @@ class midcom_services_toolbars
                 array
                 (
                     MIDCOM_TOOLBAR_URL => "__ais/folder/delete/",
-                    MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('delete folder', 'midcom.admin.folder'),
+                    MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('delete folder', 'midcom.admin.folder'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
                     // for terminate d is used by everyone to go to the location bar
                 )
@@ -462,12 +462,12 @@ class midcom_services_toolbars
 
     public function add_approval_controls(midcom_helper_toolbar $toolbar, midcom_core_dbaobject $object, $add_accesskey = false)
     {
-        if (midcom::get('config')->get('metadata_approval'))
+        if (midcom::get()->config->get('metadata_approval'))
         {
             if ($object->metadata->is_approved())
             {
                 $icon = 'stock-icons/16x16/page-approved.png';
-                if (   !midcom::get('config')->get('show_hidden_objects')
+                if (   !midcom::get()->config->get('show_hidden_objects')
                     && !$object->metadata->is_visible())
                 {
                     // Take scheduling into account
@@ -478,8 +478,8 @@ class midcom_services_toolbars
                     array
                     (
                         MIDCOM_TOOLBAR_URL => "__ais/folder/unapprove/",
-                        MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('unapprove', 'midcom'),
-                        MIDCOM_TOOLBAR_HELPTEXT => midcom::get('i18n')->get_string('approved', 'midcom'),
+                        MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('unapprove', 'midcom'),
+                        MIDCOM_TOOLBAR_HELPTEXT => midcom::get()->i18n->get_string('approved', 'midcom'),
                         MIDCOM_TOOLBAR_ICON => $icon,
                         MIDCOM_TOOLBAR_POST => true,
                         MIDCOM_TOOLBAR_POST_HIDDENARGS => array
@@ -495,7 +495,7 @@ class midcom_services_toolbars
             else
             {
                 $icon = 'stock-icons/16x16/page-notapproved.png';
-                if (   !midcom::get('config')->get('show_hidden_objects')
+                if (   !midcom::get()->config->get('show_hidden_objects')
                     && !$object->metadata->is_visible())
                 {
                     // Take scheduling into account
@@ -506,8 +506,8 @@ class midcom_services_toolbars
                     array
                     (
                         MIDCOM_TOOLBAR_URL => "__ais/folder/approve/",
-                        MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('approve', 'midcom'),
-                        MIDCOM_TOOLBAR_HELPTEXT => midcom::get('i18n')->get_string('unapproved', 'midcom'),
+                        MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('approve', 'midcom'),
+                        MIDCOM_TOOLBAR_HELPTEXT => midcom::get()->i18n->get_string('unapproved', 'midcom'),
                         MIDCOM_TOOLBAR_ICON => $icon,
                         MIDCOM_TOOLBAR_POST => true,
                         MIDCOM_TOOLBAR_POST_HIDDENARGS => array
@@ -544,14 +544,14 @@ class midcom_services_toolbars
             $toolbar->customdata['midcom_services_toolbars_bound_to_host'] = true;
         }
 
-        if (midcom::get('auth')->user)
+        if (midcom::get()->auth->user)
         {
             $toolbar->add_item
             (
                 array
                 (
                     MIDCOM_TOOLBAR_URL => midcom_connection::get_url('self') . "midcom-logout-",
-                    MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('logout', 'midcom'),
+                    MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('logout', 'midcom'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/exit.png',
                     MIDCOM_TOOLBAR_ACCESSKEY => 'l',
                 )
@@ -563,10 +563,10 @@ class midcom_services_toolbars
             array
             (
                 MIDCOM_TOOLBAR_URL => midcom_connection::get_url('self') . "__mfa/asgard/",
-                MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('midgard.admin.asgard', 'midgard.admin.asgard'),
+                MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('midgard.admin.asgard', 'midgard.admin.asgard'),
                 MIDCOM_TOOLBAR_ICON => 'midgard.admin.asgard/asgard2-16.png',
                 MIDCOM_TOOLBAR_ACCESSKEY => 'a',
-                MIDCOM_TOOLBAR_ENABLED => midcom::get('auth')->can_user_do('midgard.admin.asgard:access', null, 'midgard_admin_asgard_plugin', 'midgard.admin.asgard'),
+                MIDCOM_TOOLBAR_ENABLED => midcom::get()->auth->can_user_do('midgard.admin.asgard:access', null, 'midgard_admin_asgard_plugin', 'midgard.admin.asgard'),
             )
         );
 
@@ -577,7 +577,7 @@ class midcom_services_toolbars
                 array
                 (
                     MIDCOM_TOOLBAR_URL => midcom_connection::get_url('self') . "midcom-cache-invalidate",
-                    MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('invalidate cache', 'midcom'),
+                    MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('invalidate cache', 'midcom'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_refresh.png',
                 )
             );
@@ -587,7 +587,7 @@ class midcom_services_toolbars
                 array
                 (
                     MIDCOM_TOOLBAR_URL => midcom_connection::get_url('self') . "midcom-exec-midcom/config-test.php",
-                    MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('test settings', 'midcom'),
+                    MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('test settings', 'midcom'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/start-here.png',
                 )
             );
@@ -621,7 +621,7 @@ class midcom_services_toolbars
             array
             (
                 MIDCOM_TOOLBAR_URL => "__ais/help/{$calling_componentname}/",
-                MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('component help', 'midcom.admin.help'),
+                MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('component help', 'midcom.admin.help'),
                 MIDCOM_TOOLBAR_ACCESSKEY => 'h',
                 MIDCOM_TOOLBAR_OPTIONS => array('target' => '_blank'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_help-agent.png',
@@ -632,7 +632,7 @@ class midcom_services_toolbars
             array
             (
                 MIDCOM_TOOLBAR_URL => "http://midgard-project.org/midcom/",
-                MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('online documentation', 'midcom.admin.help'),
+                MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('online documentation', 'midcom.admin.help'),
                 MIDCOM_TOOLBAR_OPTIONS => array('target' => '_blank'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_internet.png',
             )
@@ -642,7 +642,7 @@ class midcom_services_toolbars
             array
             (
                 MIDCOM_TOOLBAR_URL => "http://lists.midgard-project.org/mailman/listinfo/user",
-                MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('user forum', 'midcom.admin.help'),
+                MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('user forum', 'midcom.admin.help'),
                 MIDCOM_TOOLBAR_OPTIONS => array('target' => '_blank'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock-discussion.png',
             )
@@ -652,7 +652,7 @@ class midcom_services_toolbars
             array
             (
                 MIDCOM_TOOLBAR_URL => "http://trac.openpsa2.org/roadmap",
-                MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('issue tracker', 'midcom.admin.help'),
+                MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('issue tracker', 'midcom.admin.help'),
                 MIDCOM_TOOLBAR_OPTIONS => array('target' => '_blank'),
                 MIDCOM_TOOLBAR_ICON => 'midcom.admin.help/applications-development.png',
             )
@@ -662,7 +662,7 @@ class midcom_services_toolbars
             array
             (
                 MIDCOM_TOOLBAR_URL => midcom_connection::get_url('self') . "midcom-exec-midcom/about.php",
-                MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('about midgard', 'midcom.admin.help'),
+                MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('about midgard', 'midcom.admin.help'),
                 MIDCOM_TOOLBAR_OPTIONS => array('target' => '_blank'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/logos/midgard-16x16.png',
             )
@@ -716,7 +716,7 @@ class midcom_services_toolbars
                 array
                 (
                     MIDCOM_TOOLBAR_URL => "__ais/folder/metadata/{$object->guid}/",
-                    MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('edit metadata', 'midcom.admin.folder'),
+                    MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('edit metadata', 'midcom.admin.folder'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/metadata.png',
                     MIDCOM_TOOLBAR_ACCESSKEY => 'm',
                 )
@@ -726,7 +726,7 @@ class midcom_services_toolbars
                 array
                 (
                     MIDCOM_TOOLBAR_URL => "__ais/folder/move/{$object->guid}/",
-                    MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('move', 'midcom.admin.folder'),
+                    MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('move', 'midcom.admin.folder'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/save-as.png',
                     MIDCOM_TOOLBAR_ENABLED => is_a($object, 'midcom_db_article')
                 )
@@ -736,14 +736,14 @@ class midcom_services_toolbars
                 array
                 (
                     MIDCOM_TOOLBAR_URL => midcom_connection::get_url('self') . "__mfa/asgard/object/open/{$object->guid}/",
-                    MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('manage object', 'midgard.admin.asgard'),
+                    MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('manage object', 'midgard.admin.asgard'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/properties.png',
-                    MIDCOM_TOOLBAR_ENABLED => midcom::get('auth')->can_user_do('midgard.admin.asgard:access', null, 'midgard_admin_asgard_plugin', 'midgard.admin.asgard') && midcom::get('auth')->can_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin'),
+                    MIDCOM_TOOLBAR_ENABLED => midcom::get()->auth->can_user_do('midgard.admin.asgard:access', null, 'midgard_admin_asgard_plugin', 'midgard.admin.asgard') && midcom::get()->auth->can_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin'),
                 )
             );
         }
 
-        if (   midcom::get('config')->get('midcom_services_rcs_enable')
+        if (   midcom::get()->config->get('midcom_services_rcs_enable')
             && $object->can_do('midgard:update')
             && $object->_use_rcs)
         {
@@ -752,7 +752,7 @@ class midcom_services_toolbars
                 array
                 (
                     MIDCOM_TOOLBAR_URL => "__ais/rcs/{$object->guid}/",
-                    MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('show history', 'no.bergfald.rcs'),
+                    MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('show history', 'no.bergfald.rcs'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/history.png',
                     MIDCOM_TOOLBAR_ACCESSKEY => 'v',
                 )
@@ -941,7 +941,7 @@ class midcom_services_toolbars
         $toolbar_style = "";
         $toolbar_class = "midcom_services_toolbars_simple";
 
-        if (midcom::get('auth')->can_user_do('midcom:ajax', null, 'midcom_services_toolbars'))
+        if (midcom::get()->auth->can_user_do('midcom:ajax', null, 'midcom_services_toolbars'))
         {
             $enable_drag = true;
             $toolbar_class = "midcom_services_toolbars_fancy";
@@ -965,15 +965,15 @@ class midcom_services_toolbars
         }
 
         echo "        <div id=\"midcom_services_toolbars_topic-folder\" class=\"item\">\n";
-        echo "            <span class=\"midcom_services_toolbars_topic_title folder\">". midcom::get('i18n')->get_string('folder', 'midcom') . "</span>\n";
+        echo "            <span class=\"midcom_services_toolbars_topic_title folder\">". midcom::get()->i18n->get_string('folder', 'midcom') . "</span>\n";
         echo $this->render_node_toolbar();
         echo "        </div>\n";
         echo "        <div id=\"midcom_services_toolbars_topic-host\" class=\"item\">\n";
-        echo "            <span class=\"midcom_services_toolbars_topic_title host\">". midcom::get('i18n')->get_string('host', 'midcom') . "</span>\n";
+        echo "            <span class=\"midcom_services_toolbars_topic_title host\">". midcom::get()->i18n->get_string('host', 'midcom') . "</span>\n";
         echo $this->render_host_toolbar();
         echo "        </div>\n";
         echo "        <div id=\"midcom_services_toolbars_topic-help\" class=\"item\">\n";
-        echo "            <span class=\"midcom_services_toolbars_topic_title help\">". midcom::get('i18n')->get_string('help', 'midcom.admin.help') . "</span>\n";
+        echo "            <span class=\"midcom_services_toolbars_topic_title help\">". midcom::get()->i18n->get_string('help', 'midcom.admin.help') . "</span>\n";
         echo $this->render_help_toolbar();
         echo "        </div>\n";
         echo "    </div>\n";

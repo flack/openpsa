@@ -25,7 +25,7 @@ class org_openpsa_invoices_handler_actionTest extends openpsa_testcase
 
     public function testHandler_process_create_cancelation()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.invoices');
+        midcom::get()->auth->request_sudo('org.openpsa.invoices');
 
         $data = array
         (
@@ -72,12 +72,12 @@ class org_openpsa_invoices_handler_actionTest extends openpsa_testcase
         $this->assertEquals('unsent', $cancelation_invoice->get_status());
         $this->assertEquals('paid', $invoice->get_status());
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
     public function testHandler_process_mark_sent()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.invoices');
+        midcom::get()->auth->request_sudo('org.openpsa.invoices');
         $_SERVER['REQUEST_METHOD'] = 'POST';
         $_POST = array
         (
@@ -88,12 +88,12 @@ class org_openpsa_invoices_handler_actionTest extends openpsa_testcase
         $url = $this->run_relocate_handler('org.openpsa.invoices', array('invoice', 'process'));
         $this->assertEquals('', $url);
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
     public function testHandler_process_mark_paid()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.invoices');
+        midcom::get()->auth->request_sudo('org.openpsa.invoices');
         $_SERVER['REQUEST_METHOD'] = 'POST';
         $_POST = array
         (
@@ -104,33 +104,33 @@ class org_openpsa_invoices_handler_actionTest extends openpsa_testcase
         $url = $this->run_relocate_handler('org.openpsa.invoices', array('invoice', 'process'));
         $this->assertEquals('', $url);
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
     public function testHandler_items()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.invoices');
+        midcom::get()->auth->request_sudo('org.openpsa.invoices');
 
         $data = $this->run_handler('org.openpsa.invoices', array('invoice', 'items', self::$_invoice->guid));
         $this->assertEquals('invoice_items', $data['handler_id']);
 
         $this->show_handler($data);
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
     public function testHandler_recalculation()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.invoices');
+        midcom::get()->auth->request_sudo('org.openpsa.invoices');
         $_SERVER['REQUEST_METHOD'] = 'POST';
         $url = $this->run_relocate_handler('org.openpsa.invoices', array('invoice', 'recalculation', self::$_invoice->guid));
         $this->assertEquals('invoice/items/' . self::$_invoice->guid . '/', $url);
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
     public function testHandler_itemedit()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.invoices');
+        midcom::get()->auth->request_sudo('org.openpsa.invoices');
         $item = $this->create_object('org_openpsa_invoices_invoice_item_dba', array('invoice' => self::$_invoice->id));
 
         $_POST = array
@@ -151,7 +151,7 @@ class org_openpsa_invoices_handler_actionTest extends openpsa_testcase
         $this->assertEquals('TEST DESCRIPTION', $item->description);
 
         $this->show_handler($data);
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 }
 ?>

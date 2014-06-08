@@ -16,7 +16,7 @@ class org_openpsa_calendar_handler_agendaTest extends openpsa_testcase
     public function testHandler_day()
     {
         $this->create_user(true);
-        midcom::get('auth')->request_sudo('org.openpsa.calendar');
+        midcom::get()->auth->request_sudo('org.openpsa.calendar');
 
         $attributes = array
         (
@@ -30,7 +30,7 @@ class org_openpsa_calendar_handler_agendaTest extends openpsa_testcase
 
         $this->show_handler($data);
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 }
 ?>

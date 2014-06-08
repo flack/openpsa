@@ -17,7 +17,7 @@ $url = midcom_connection::get_url('self') . "midcom-permalink-{$page->guid}";
     <td class="revisor">
         <?php
         if (   $history['user']
-            && $user = midcom::get('auth')->get_user($history['user']))
+            && $user = midcom::get()->auth->get_user($history['user']))
         {
             if (class_exists('org_openpsa_widgets_contact'))
             {

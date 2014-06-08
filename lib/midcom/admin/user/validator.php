@@ -26,13 +26,13 @@ class midcom_admin_user_validator
         $result = array();
         if (!empty($fields["username"]))
         {
-            $user = midcom::get('auth')->get_user_by_name($fields["username"]);
+            $user = midcom::get()->auth->get_user_by_name($fields["username"]);
 
             if (   $user
                 && (   !isset($fields['person'])
                     || $user->guid != $fields['person']))
             {
-                $result["username"] = sprintf(midcom::get('i18n')->get_string("username %s is already in use", "midcom.admin.user"), $fields['username']);
+                $result["username"] = sprintf(midcom::get()->i18n->get_string("username %s is already in use", "midcom.admin.user"), $fields['username']);
             }
         }
 

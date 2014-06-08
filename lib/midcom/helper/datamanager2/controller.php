@@ -82,7 +82,7 @@ abstract class midcom_helper_datamanager2_controller extends midcom_baseclasses_
     {
         if (is_null($this->lock_timeout))
         {
-            $this->lock_timeout = midcom::get('config')->get('metadata_lock_timeout');
+            $this->lock_timeout = midcom::get()->config->get('metadata_lock_timeout');
         }
 
         return true;
@@ -150,7 +150,7 @@ abstract class midcom_helper_datamanager2_controller extends midcom_baseclasses_
             $this->datamanager = $storage;
         }
         else if (   $storage instanceof midcom_helper_datamanager2_storage
-                 || midcom::get('dbclassloader')->is_midcom_db_object($storage))
+                 || midcom::get()->dbclassloader->is_midcom_db_object($storage))
         {
             $this->datamanager = new midcom_helper_datamanager2_datamanager($this->schemadb);
             if ($schema === null)
@@ -228,7 +228,7 @@ abstract class midcom_helper_datamanager2_controller extends midcom_baseclasses_
             if ($metadata->is_locked())
             {
                 // Drop us to uncached state when locked
-                midcom::get('cache')->content->uncached();
+                midcom::get()->cache->content->uncached();
                 $this->show_unlock();
                 return;
             }
@@ -242,8 +242,8 @@ abstract class midcom_helper_datamanager2_controller extends midcom_baseclasses_
      */
     public function show_unlock()
     {
-        midcom::get('style')->data['handler'] = $this;
-        midcom::get('style')->show_midcom('midcom_helper_datamanager2_unlock');
+        midcom::get()->style->data['handler'] = $this;
+        midcom::get()->style->show_midcom('midcom_helper_datamanager2_unlock');
     }
 }
 ?>

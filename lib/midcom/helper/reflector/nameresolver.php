@@ -38,7 +38,7 @@ class midcom_helper_reflector_nameresolver
             $name_property = midcom_helper_reflector::get_name_property($this->_object);
         }
         if (   empty($name_property)
-            || !midcom::get('dbfactory')->property_exists($this->_object, $name_property))
+            || !midcom::get()->dbfactory->property_exists($this->_object, $name_property))
         {
             // Could not resolve valid property
             return false;
@@ -62,7 +62,7 @@ class midcom_helper_reflector_nameresolver
             // empty name is not "clean"
             return false;
         }
-        $generator = midcom::get('serviceloader')->load('midcom_core_service_urlgenerator');
+        $generator = midcom::get()->serviceloader->load('midcom_core_service_urlgenerator');
         return ($name_copy === $generator->from_string($name_copy));
     }
 
@@ -162,7 +162,7 @@ class midcom_helper_reflector_nameresolver
         }
 
         // Start the magic
-        midcom::get('auth')->request_sudo('midcom.helper.reflector');
+        midcom::get()->auth->request_sudo('midcom.helper.reflector');
         $parent = midcom_helper_reflector_tree::get_parent($this->_object);
         if (!empty($parent->guid))
         {
@@ -175,7 +175,7 @@ class midcom_helper_reflector_nameresolver
             }
             if (!$this->_name_is_unique_check_siblings($sibling_classes, $parent))
             {
-                midcom::get('auth')->drop_sudo();
+                midcom::get()->auth->drop_sudo();
                 return false;
             }
         }
@@ -186,12 +186,12 @@ class midcom_helper_reflector_nameresolver
             $root_classes = midcom_helper_reflector_tree::get_root_classes();
             foreach ($root_classes as $classname)
             {
-                if (midcom::get('dbfactory')->is_a($this->_object, $classname))
+                if (midcom::get()->dbfactory->is_a($this->_object, $classname))
                 {
                     $is_root_class = true;
                     if (!$this->_name_is_unique_check_roots($root_classes))
                     {
-                        midcom::get('auth')->drop_sudo();
+                        midcom::get()->auth->drop_sudo();
                         return false;
                     }
                 }
@@ -199,13 +199,13 @@ class midcom_helper_reflector_nameresolver
             if (!$is_root_class)
             {
                 // This should not happen, logging error and returning true (even though it's potentially dangerous)
-                midcom::get('auth')->drop_sudo();
+                midcom::get()->auth->drop_sudo();
                 debug_add("Object " . get_class($this->_object) . " #" . $this->_object->id . " has no valid parent but is not listed in the root classes, don't know what to do, returning true and supposing user knows what he is doing", MIDCOM_LOG_ERROR);
                 return true;
             }
         }
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
         // If we get this far we know we don't have name clashes
         return true;
     }
@@ -319,7 +319,7 @@ class midcom_helper_reflector_nameresolver
                 debug_add("Object " . get_class($this->_object) . " #{$this->_object->id} has empty name and title, aborting", MIDCOM_LOG_WARN);
                 return false;
             }
-            $generator = midcom::get('serviceloader')->load('midcom_core_service_urlgenerator');
+            $generator = midcom::get()->serviceloader->load('midcom_core_service_urlgenerator');
             $current_name = $generator->from_string($title_copy);
             unset($title_copy);
         }
@@ -443,7 +443,7 @@ class midcom_helper_reflector_nameresolver
         list ($i, $base_name) = $this->_parse_filename($current_name, $extension, 1);
 
         // Look for siblings with similar names and see if they have higher i.
-        midcom::get('auth')->request_sudo('midcom.helper.reflector');
+        midcom::get()->auth->request_sudo('midcom.helper.reflector');
         $parent = midcom_helper_reflector_tree::get_parent($this->_object);
         if (!empty($parent->guid))
         {
@@ -488,7 +488,7 @@ class midcom_helper_reflector_nameresolver
             $root_classes = midcom_helper_reflector_tree::get_root_classes();
             foreach ($root_classes as $schema_type)
             {
-                if (midcom::get('dbfactory')->is_a($this->_object, $schema_type))
+                if (midcom::get()->dbfactory->is_a($this->_object, $schema_type))
                 {
                     $is_root_class = true;
                     break;
@@ -497,7 +497,7 @@ class midcom_helper_reflector_nameresolver
             if (!$is_root_class)
             {
                 // This should not happen, logging error and returning true (even though it's potentially dangerous)
-                midcom::get('auth')->drop_sudo();
+                midcom::get()->auth->drop_sudo();
                 debug_add("Object " . get_class($this->_object) . " #" . $this->_object->id . " has no valid parent but is not listed in the root classes, don't know what to do, letting higher level decide", MIDCOM_LOG_ERROR);
                 return array($i, $base_name);
             }
@@ -527,7 +527,7 @@ class midcom_helper_reflector_nameresolver
                 }
             }
         }
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
 
         return array($i, $base_name);
     }

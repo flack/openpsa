@@ -16,7 +16,7 @@ if ($sales_url)
     $tabs[] = array
     (
         'url' => $sales_url . "deliverable/list/product/{$data['product']->guid}/",
-        'title' => midcom::get('i18n')->get_string('deliverables', 'org.openpsa.sales'),
+        'title' => midcom::get()->i18n->get_string('deliverables', 'org.openpsa.sales'),
     );
 }
 

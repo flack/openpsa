@@ -24,35 +24,35 @@ class org_openpsa_projects_handler_project_crudTest extends openpsa_testcase
 
     public function testHandler_create()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.projects');
+        midcom::get()->auth->request_sudo('org.openpsa.projects');
 
         $data = $this->run_handler('org.openpsa.projects', array('project', 'new'));
         $this->assertEquals('project-new', $data['handler_id']);
 
         $this->show_handler($data);
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
     public function testHandler_read()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.projects');
+        midcom::get()->auth->request_sudo('org.openpsa.projects');
 
         $data = $this->run_handler('org.openpsa.projects', array('project', self::$_project->guid));
         $this->assertEquals('project',  $data['handler_id']);
 
         $this->show_handler($data);
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
     public function testHandler_update()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.projects');
+        midcom::get()->auth->request_sudo('org.openpsa.projects');
 
         $data = $this->run_handler('org.openpsa.projects', array('project', 'edit', self::$_project->guid));
         $this->assertEquals('project-edit', $data['handler_id']);
 
         $this->show_handler($data);
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 }
 ?>

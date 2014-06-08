@@ -4,8 +4,8 @@ if (extension_loaded('midgard'))
     throw new midcom_error("This script requires Midgard2 API support");
 }
 
-midcom::get('auth')->require_valid_user('basic');
-midcom::get('auth')->require_admin_user();
+midcom::get()->auth->require_valid_user('basic');
+midcom::get()->auth->require_admin_user();
 
 midcom::get()->disable_limits();
 

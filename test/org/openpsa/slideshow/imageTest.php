@@ -16,7 +16,7 @@ class org_openpsa_slideshow_imageTest extends openpsa_testcase
     public function testCRUD()
     {
         $topic = $this->get_component_node('org.openpsa.slideshow');
-        midcom::get('auth')->request_sudo('org.openpsa.slideshow');
+        midcom::get()->auth->request_sudo('org.openpsa.slideshow');
 
         $image = new org_openpsa_slideshow_image_dba();
         $image->_use_activitystream = false;
@@ -36,7 +36,7 @@ class org_openpsa_slideshow_imageTest extends openpsa_testcase
         $stat = $image->delete();
         $this->assertTrue($stat);
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 }
 ?>

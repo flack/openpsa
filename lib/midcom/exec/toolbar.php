@@ -1,5 +1,5 @@
 <?php
-midcom::get('auth')->require_valid_user('basic');
+midcom::get()->auth->require_valid_user('basic');
 
 // String output mode
 $x = 'false';
@@ -9,10 +9,10 @@ $y = 'false';
 if (   !isset($_REQUEST['position_x'])
     || !isset($_REQUEST['position_y']))
 {
-    switch (midcom::get('config')->get('toolbars_position_storagemode'))
+    switch (midcom::get()->config->get('toolbars_position_storagemode'))
     {
         case 'parameter':
-            $person = new midcom_db_person(midcom::get('auth')->user);
+            $person = new midcom_db_person(midcom::get()->auth->user);
             $x = $person->get_parameter('midcom.services.toolbars', 'position_x');
             $y = $person->get_parameter('midcom.services.toolbars', 'position_y');
             break;
@@ -39,10 +39,10 @@ if (   !isset($_REQUEST['position_x'])
 else
 {
     // Interface for storing the toolbar position
-    switch (midcom::get('config')->get('toolbars_position_storagemode'))
+    switch (midcom::get()->config->get('toolbars_position_storagemode'))
     {
         case 'parameter':
-            $person = new midcom_db_person(midcom::get('auth')->user);
+            $person = new midcom_db_person(midcom::get()->auth->user);
             $person->set_parameter('midcom.services.toolbars', 'position_x', $_REQUEST['position_x']);
             $person->set_parameter('midcom.services.toolbars', 'position_y', $_REQUEST['position_y']);
             break;

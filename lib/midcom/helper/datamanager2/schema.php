@@ -243,7 +243,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
                     || $schema['extends']['name'] === $schema_name)
                 {
                     $snippet_path = $this->_get_snippet_link($path);
-                    midcom::get('uimessages')->add($this->_l10n->get('midcom.helper.datamanager2'), sprintf($this->_l10n->get('schema %s:%s extends itself'), $snippet_path, $schema_name), 'error');
+                    midcom::get()->uimessages->add($this->_l10n->get('midcom.helper.datamanager2'), sprintf($this->_l10n->get('schema %s:%s extends itself'), $snippet_path, $schema_name), 'error');
 
                     debug_add(sprintf($this->_l10n->get('schema %s:%s extends itself'), $path, $schema_name), MIDCOM_LOG_WARN);
                     continue;
@@ -263,7 +263,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
                 debug_add(sprintf($this->_l10n->get('extended schema %s:%s was not found'), $path, $schema_name), MIDCOM_LOG_WARN);
 
                 $snippet_path = $this->_get_snippet_link($path);
-                midcom::get('uimessages')->add($this->_l10n->get('midcom.helper.datamanager2'), sprintf($this->_l10n->get('extended schema %s:%s was not found'), $snippet_path, $schema_name), 'error');
+                midcom::get()->uimessages->add($this->_l10n->get('midcom.helper.datamanager2'), sprintf($this->_l10n->get('extended schema %s:%s was not found'), $snippet_path, $schema_name), 'error');
                 continue;
             }
 
@@ -387,7 +387,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
         {
             $l10n_name = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_COMPONENT);
         }
-        if (!midcom::get('componentloader')->is_installed($l10n_name))
+        if (!midcom::get()->componentloader->is_installed($l10n_name))
         {
             $l10n_name = 'midcom';
         }
@@ -422,10 +422,10 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
         if (   $this->_config
             && $this->_config->get('include_metadata_required')
             && $this->_schemadb_path
-            && $this->_schemadb_path != midcom::get('config')->get('metadata_schema'))
+            && $this->_schemadb_path != midcom::get()->config->get('metadata_schema'))
         {
             // Include required fields from metadata schema to the schema
-            $metadata_schema = midcom_helper_datamanager2_schema::load_database(midcom::get('config')->get('metadata_schema'));
+            $metadata_schema = midcom_helper_datamanager2_schema::load_database(midcom::get()->config->get('metadata_schema'));
             if (isset($metadata_schema['metadata']))
             {
                 $prepended = false;

@@ -35,7 +35,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      */
     public function _handler_create($handler_id, array $args, array &$data)
     {
-        midcom::get('auth')->require_user_do('org.openpsa.user:manage', null, 'org_openpsa_user_interface');
+        midcom::get()->auth->require_user_do('org.openpsa.user:manage', null, 'org_openpsa_user_interface');
 
         $data['controller'] = $this->get_controller('nullstorage');
 
@@ -66,11 +66,11 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         else
         {
             // Otherwise use cleaned up firstname.lastname
-            $generator = midcom::get('serviceloader')->load('midcom_core_service_urlgenerator');
+            $generator = midcom::get()->serviceloader->load('midcom_core_service_urlgenerator');
             $this->_request_data['default_username'] = $generator->from_string($this->_person->firstname) . '.' . $generator->from_string($this->_person->lastname);
         }
 
-        midcom::get('head')->set_pagetitle("{$this->_person->firstname} {$this->_person->lastname}");
+        midcom::get()->head->set_pagetitle("{$this->_person->firstname} {$this->_person->lastname}");
         $this->_prepare_request_data();
 
         $this->_update_breadcrumb_line('create account');
@@ -118,7 +118,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      */
     public function _handler_su($handler_id, array $args, array &$data)
     {
-        if (!midcom::get('config')->get('auth_allow_trusted'))
+        if (!midcom::get()->config->get('auth_allow_trusted'))
         {
             throw new midcom_error_forbidden('Trusted logins are disabled by configuration');
         }
@@ -131,7 +131,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
             throw new midcom_error('Could not get username');
         }
 
-        if (!midcom::get('auth')->trusted_login($username))
+        if (!midcom::get()->auth->trusted_login($username))
         {
             throw new midcom_error('Login for user ' . $username . ' failed');
         }
@@ -149,7 +149,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         $this->_person->require_do('midgard:update');
         if ($this->_person->id != midcom_connection::get_user())
         {
-            midcom::get('auth')->require_user_do('org.openpsa.user:manage', null, 'org_openpsa_user_interface');
+            midcom::get()->auth->require_user_do('org.openpsa.user:manage', null, 'org_openpsa_user_interface');
         }
 
         //get existing account for gui
@@ -166,7 +166,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         $account_helper = new org_openpsa_user_accounthelper($midcom_person);
         if ($account_helper->is_blocked())
         {
-            midcom::get('uimessages')->add($this->_l10n->get('org.openpsa.user'), $this->_l10n->get("Account was blocked, since there is no password set."), 'error');
+            midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.user'), $this->_l10n->get("Account was blocked, since there is no password set."), 'error');
         }
         $data['controller'] = $this->get_controller('nullstorage');
         $formmanager = $data["controller"]->formmanager;
@@ -185,8 +185,8 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         }
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/midcom.helper.datamanager2/legacy.css");
-        midcom::get('head')->enable_jquery();
-        midcom::get('head')->set_pagetitle("{$this->_person->firstname} {$this->_person->lastname}");
+        midcom::get()->head->enable_jquery();
+        midcom::get()->head->set_pagetitle("{$this->_person->firstname} {$this->_person->lastname}");
         $this->_prepare_request_data();
 
         $this->_update_breadcrumb_line('edit account');
@@ -223,7 +223,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
             && midcom_connection::get_error() != MGD_ERR_OK)
         {
             // Failure, give a message
-            midcom::get('uimessages')->add($this->_l10n->get('org.openpsa.user'), $this->_l10n->get("failed to update the user account, reason") . ': ' . midcom_connection::get_error_string(), 'error');
+            midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.user'), $this->_l10n->get("failed to update the user account, reason") . ': ' . midcom_connection::get_error_string(), 'error');
         }
 
         return $stat;
@@ -241,7 +241,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         $this->_person->require_do('midgard:update');
         if ($this->_person->id != midcom_connection::get_user())
         {
-            midcom::get('auth')->require_user_do('org.openpsa.user:manage', null, 'org_openpsa_user_interface');
+            midcom::get()->auth->require_user_do('org.openpsa.user:manage', null, 'org_openpsa_user_interface');
         }
 
         $this->_account = new midcom_core_account($this->_person);
@@ -266,8 +266,8 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         }
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/midcom.helper.datamanager2/legacy.css");
-        midcom::get('head')->enable_jquery();
-        midcom::get('head')->set_pagetitle("{$this->_person->firstname} {$this->_person->lastname}");
+        midcom::get()->head->enable_jquery();
+        midcom::get()->head->set_pagetitle("{$this->_person->firstname} {$this->_person->lastname}");
         $this->_prepare_request_data();
 
         $this->_update_breadcrumb_line('delete account');

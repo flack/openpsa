@@ -1,5 +1,5 @@
 <?php
-midcom::get('auth')->require_admin_user();
+midcom::get()->auth->require_admin_user();
 
 $qb = net_nehmer_comments_comment::new_query_builder();
 $qb->add_constraint('metadata.creator', '<>', '');
@@ -11,7 +11,7 @@ $qb->end_group();
 $comments = $qb->execute();
 foreach ($comments as $comment)
 {
-    $author = midcom::get('auth')->get_user($comment->metadata->creator);
+    $author = midcom::get()->auth->get_user($comment->metadata->creator);
     if (!$author->guid)
     {
         continue;

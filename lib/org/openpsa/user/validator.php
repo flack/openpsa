@@ -37,7 +37,7 @@ class org_openpsa_user_validator extends midcom_admin_user_validator
      */
     public function verify_existing_password(array $fields)
     {
-        if (midcom::get('auth')->can_user_do('org.openpsa.user:manage', null, 'org_openpsa_user_interface'))
+        if (midcom::get()->auth->can_user_do('org.openpsa.user:manage', null, 'org_openpsa_user_interface'))
         {
             //User has the necessary rights, so we're good
             return true;
@@ -47,7 +47,7 @@ class org_openpsa_user_validator extends midcom_admin_user_validator
         {
             return array
             (
-                'current_password' => midcom::get('i18n')->get_string("wrong current password", "org.openpsa.user")
+                'current_password' => midcom::get()->i18n->get_string("wrong current password", "org.openpsa.user")
             );
         }
         return true;
@@ -62,10 +62,10 @@ class org_openpsa_user_validator extends midcom_admin_user_validator
     function username_exists(array $fields)
     {
         $result = array();
-        $user = midcom::get('auth')->get_user_by_name($fields["username"]);
+        $user = midcom::get()->auth->get_user_by_name($fields["username"]);
         if (!$user)
         {
-            $result["username"] = midcom::get('i18n')->get_string("unknown username", "org.openpsa.user");
+            $result["username"] = midcom::get()->i18n->get_string("unknown username", "org.openpsa.user");
         }
 
         if (!empty($result))
@@ -84,16 +84,16 @@ class org_openpsa_user_validator extends midcom_admin_user_validator
     public function email_exists(array $fields)
     {
         $result = array();
-        $qb = new midgard_query_builder(midcom::get('config')->get('person_class'));
+        $qb = new midgard_query_builder(midcom::get()->config->get('person_class'));
         $qb->add_constraint('email', '=', $fields["email"]);
         $count = $qb->count();
         if ($count == 0)
         {
-            $result["email"] = midcom::get('i18n')->get_string("unknown email address", "org.openpsa.user");
+            $result["email"] = midcom::get()->i18n->get_string("unknown email address", "org.openpsa.user");
         }
         else if ($count > 1)
         {
-            $result["email"] = midcom::get('i18n')->get_string("multiple entries found, cannot continue", "org.openpsa.user");
+            $result["email"] = midcom::get()->i18n->get_string("multiple entries found, cannot continue", "org.openpsa.user");
         }
 
         if (!empty($result))
@@ -112,20 +112,20 @@ class org_openpsa_user_validator extends midcom_admin_user_validator
     public function email_and_username_exist(array $fields)
     {
         $result = array();
-        $user = midcom::get('auth')->get_user_by_name($fields["username"]);
+        $user = midcom::get()->auth->get_user_by_name($fields["username"]);
         if (!$user)
         {
-            $result["username"] = midcom::get('i18n')->get_string("no user found with this username and email address", "org.openpsa.user");
+            $result["username"] = midcom::get()->i18n->get_string("no user found with this username and email address", "org.openpsa.user");
         }
         else
         {
-            $qb = new midgard_query_builder(midcom::get('config')->get('person_class'));
+            $qb = new midgard_query_builder(midcom::get()->config->get('person_class'));
             $qb->add_constraint('email', '=', $fields["email"]);
             $qb->add_constraint('guid', '=', $user->guid);
             $count = $qb->count();
             if ($count == 0)
             {
-                $result["username"] = midcom::get('i18n')->get_string("no user found with this username and email address", "org.openpsa.user");
+                $result["username"] = midcom::get()->i18n->get_string("no user found with this username and email address", "org.openpsa.user");
             }
         }
         if (!empty($result))

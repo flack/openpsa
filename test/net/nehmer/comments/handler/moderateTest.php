@@ -20,7 +20,7 @@ class net_nehmer_comments_handler_moderateTest extends openpsa_testcase
         $attributes = array('objectguid' => $topic->guid);
         $comment = $this->create_object('net_nehmer_comments_comment', $attributes);
 
-        midcom::get('auth')->request_sudo('net.nehmer.comments');
+        midcom::get()->auth->request_sudo('net.nehmer.comments');
 
         $_POST = array
         (
@@ -32,7 +32,7 @@ class net_nehmer_comments_handler_moderateTest extends openpsa_testcase
 
         $comment->refresh();
         $this->assertEquals(net_nehmer_comments_comment::ABUSE, $comment->status);
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 }
 ?>

@@ -2,7 +2,7 @@
 $view = $data['datamanager']->get_content_html();
 $view_counter = $data['article_counter'];
 $article_count = $data['article_count'];
-$class_str = midcom::get('metadata')->get_object_classes($data['article']);
+$class_str = midcom::get()->metadata->get_object_classes($data['article']);
 if ($view_counter == 0)
 {
     $class_str = ' first';

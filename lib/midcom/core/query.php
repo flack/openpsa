@@ -145,7 +145,7 @@ abstract class midcom_core_query
     {
         if (   !$this->_visibility_checks_added
             && $this->hide_invisible
-            && !midcom::get('config')->get('show_hidden_objects'))
+            && !midcom::get()->config->get('show_hidden_objects'))
         {
             $this->add_constraint('metadata.hidden', '=', false);
             $now = strftime('%Y-%m-%d %H:%M:%S');

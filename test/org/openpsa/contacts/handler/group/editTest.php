@@ -24,13 +24,13 @@ class org_openpsa_contacts_handler_group_editTest extends openpsa_testcase
 
     public function testHandler_edit()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.contacts');
+        midcom::get()->auth->request_sudo('org.openpsa.contacts');
 
         $data = $this->run_handler('org.openpsa.contacts', array('group', 'edit', self::$_group->guid));
         $this->assertEquals('group_edit', $data['handler_id']);
 
         $this->show_handler($data);
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 }
 ?>

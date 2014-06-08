@@ -35,9 +35,9 @@ class net_nemein_rss_fetchTest extends openpsa_testcase
 
         $items = $this->_get_items(__DIR__ . '/__files/article.xml');
 
-        midcom::get('auth')->request_sudo('net.nemein.rss');
+        midcom::get()->auth->request_sudo('net.nemein.rss');
         $guid = $fetcher->import_item($items[0]);
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
         $this->assertTrue(mgd_is_guid($guid));
         $article = new midcom_db_article($guid);
         $this->register_object($article);
@@ -57,9 +57,9 @@ class net_nemein_rss_fetchTest extends openpsa_testcase
         //Now for the update
         $update_items = $this->_get_items(__DIR__ . '/__files/article_update.xml');
 
-        midcom::get('auth')->request_sudo('net.nemein.rss');
+        midcom::get()->auth->request_sudo('net.nemein.rss');
         $guid2 = $fetcher->import_item($update_items[0]);
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
         $this->assertTrue(mgd_is_guid($guid2));
         $article = new midcom_db_article($guid2);
         $this->register_object($article);
@@ -85,7 +85,7 @@ class net_nemein_rss_fetchTest extends openpsa_testcase
         $item = $pie->get_item();
 
         $person = self::create_user();
-        $user = midcom::get('auth')->get_user($person->id);
+        $user = midcom::get()->auth->get_user($person->id);
         $item->data['child']['']['author'][0]['data'] = $user->username;
 
         $author = $fetcher->match_item_author($item);

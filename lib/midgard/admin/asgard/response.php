@@ -30,11 +30,11 @@ class midgard_admin_asgard_response extends midcom_response
     {
         $context = midcom_core_context::get();
         $data =& $context->get_custom_key('request_data');
-        midcom::get('style')->enter_context($context->id);
+        midcom::get()->style->enter_context($context->id);
 
         if (isset($data['view_title']))
         {
-            midcom::get('head')->set_pagetitle($data['view_title']);
+            midcom::get()->head->set_pagetitle($data['view_title']);
         }
 
         if (!isset($_GET['ajax']))

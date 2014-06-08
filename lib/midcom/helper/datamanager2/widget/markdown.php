@@ -60,9 +60,9 @@ class midcom_helper_datamanager2_widget_markdown extends midcom_helper_datamanag
     {
         $this->_require_type_value();
 
-        midcom::get('head')->enable_jquery();
-        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/markitup/jquery.markitup.pack.js');
-        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/markitup/sets/markdown/set.js');
+        midcom::get()->head->enable_jquery();
+        midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/markitup/jquery.markitup.pack.js');
+        midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/markitup/sets/markdown/set.js');
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/markitup/skins/markitup/style.css');
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/markitup/sets/markdown/style.css');
     }

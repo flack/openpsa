@@ -21,9 +21,9 @@ class org_openpsa_contacts_viewer extends midcom_baseclasses_components_request
     public function _on_handle($handler, array $args)
     {
         // Always run in uncached mode
-        midcom::get('cache')->content->no_cache();
+        midcom::get()->cache->content->no_cache();
 
-        midcom::get('auth')->require_valid_user();
+        midcom::get()->auth->require_valid_user();
         org_openpsa_widgets_contact::add_head_elements();
     }
 
@@ -58,9 +58,9 @@ class org_openpsa_contacts_viewer extends midcom_baseclasses_components_request
         if (   empty($my_company_guid)
             || !mgd_is_guid($my_company_guid))
         {
-            if (midcom::get('auth')->admin)
+            if (midcom::get()->auth->admin)
             {
-                midcom::get('uimessages')->add
+                midcom::get()->uimessages->add
                 (
                     $this->_l10n->get($this->_component),
                     $this->_l10n->get('owner organization couldnt be found'),

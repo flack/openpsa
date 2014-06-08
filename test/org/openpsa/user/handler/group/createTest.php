@@ -22,12 +22,12 @@ class org_openpsa_user_handler_group_createTest extends openpsa_testcase
 
     public function test_handler_create()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.user');
+        midcom::get()->auth->request_sudo('org.openpsa.user');
 
         $data = $this->run_handler('org.openpsa.user', array('group', 'create'));
         $this->assertEquals('group_create', $data['handler_id']);
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 }
 ?>

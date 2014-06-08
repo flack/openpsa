@@ -189,12 +189,12 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
         if (sizeof($this->_files) > 0)
         {
             // Add Colorbox
-            midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/colorbox/jquery.colorbox-min.js');
+            midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/colorbox/jquery.colorbox-min.js');
             $this->add_stylesheet(MIDCOM_STATIC_URL . '/jQuery/colorbox/colorbox.css', 'screen');
-            midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/midgard.admin.asgard/object_browser.js');
+            midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midgard.admin.asgard/object_browser.js');
 
             //add table widget
-            midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.tablesorter.pack.js');
+            midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.tablesorter.pack.js');
             $this->add_stylesheet(MIDCOM_STATIC_URL . '/midgard.admin.asgard/tablewidget.css');
         }
     }
@@ -208,10 +208,10 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
      */
     public function _handler_create($handler_id, array $args, array &$data)
     {
-        $this->_object = midcom::get('dbfactory')->get_object_by_guid($args[0]);
+        $this->_object = midcom::get()->dbfactory->get_object_by_guid($args[0]);
         $this->_object->require_do('midgard:update');
         $this->_object->require_do('midgard:attachments');
-        midcom::get('auth')->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
+        midcom::get()->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
 
         if ($filename = $this->_process_form())
         {
@@ -247,10 +247,10 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
      */
     public function _handler_edit($handler_id, array $args, array &$data)
     {
-        $this->_object = midcom::get('dbfactory')->get_object_by_guid($args[0]);
+        $this->_object = midcom::get()->dbfactory->get_object_by_guid($args[0]);
         $this->_object->require_do('midgard:update');
         $this->_object->require_do('midgard:attachments');
-        midcom::get('auth')->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
+        midcom::get()->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
 
         $data['filename'] = $args[1];
         $this->_file = $this->_get_file($data['filename']);
@@ -328,10 +328,10 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
      */
     public function _handler_delete($handler_id, array $args, array &$data)
     {
-        $this->_object = midcom::get('dbfactory')->get_object_by_guid($args[0]);
+        $this->_object = midcom::get()->dbfactory->get_object_by_guid($args[0]);
         $this->_object->require_do('midgard:update');
         $this->_object->require_do('midgard:attachments');
-        midcom::get('auth')->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
+        midcom::get()->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
 
         $data['filename'] = $args[1];
         $this->_file = $this->_get_file($data['filename']);
@@ -345,7 +345,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
 
         if (isset($_POST['f_cancel']))
         {
-            midcom::get('uimessages')->add($this->_l10n->get($this->_component), $this->_l10n->get('delete cancelled'));
+            midcom::get()->uimessages->add($this->_l10n->get($this->_component), $this->_l10n->get('delete cancelled'));
             return new midcom_response_relocate("__mfa/asgard/object/attachments/{$this->_object->guid}/{$data['filename']}/");
         }
 
@@ -353,7 +353,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
         {
             if ($this->_file->delete())
             {
-                midcom::get('uimessages')->add($this->_l10n->get($this->_component), sprintf($this->_l10n->get('file %s deleted'), $data['filename']));
+                midcom::get()->uimessages->add($this->_l10n->get($this->_component), sprintf($this->_l10n->get('file %s deleted'), $data['filename']));
                 return new midcom_response_relocate("__mfa/asgard/object/attachments/{$this->_object->guid}/");
             }
         }

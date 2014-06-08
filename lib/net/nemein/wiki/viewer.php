@@ -18,7 +18,7 @@ class net_nemein_wiki_viewer extends midcom_baseclasses_components_request
         $this->_request_data['schemadb'] = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb'));
 
         // Add machine-readable RSS link
-        midcom::get('head')->add_link_head
+        midcom::get()->head->add_link_head
         (
             array
             (
@@ -31,9 +31,9 @@ class net_nemein_wiki_viewer extends midcom_baseclasses_components_request
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/net.nemein.wiki/wiki.css");
 
-        if (midcom::get('auth')->user)
+        if (midcom::get()->auth->user)
         {
-            $user = midcom::get('auth')->user->get_storage();
+            $user = midcom::get()->auth->user->get_storage();
             if ($this->_topic->get_parameter('net.nemein.wiki:watch', $user->guid))
             {
                 $this->_node_toolbar->add_item
@@ -132,7 +132,7 @@ class net_nemein_wiki_viewer extends midcom_baseclasses_components_request
         $page->topic = $topic->id;
         $page->name = 'index';
         $page->title = $topic->extra;
-        $page->content = midcom::get('i18n')->get_string('wiki default page content', 'net.nemein.wiki');
+        $page->content = midcom::get()->i18n->get_string('wiki default page content', 'net.nemein.wiki');
         $page->author = midcom_connection::get_user();
         if (!$page->create())
         {

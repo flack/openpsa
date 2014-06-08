@@ -121,7 +121,7 @@ catch (midcom_error $e)
                           <th><?php echo $per_unit ?></th>
                           <th><?php echo $data['l10n']->get('plan'); ?></th>
                           <th><?php echo $data['l10n']->get('is'); ?></th>
-                          <th><?php echo midcom::get('i18n')->get_string('sum', 'org.openpsa.invoices'); ?></th>
+                          <th><?php echo midcom::get()->i18n->get_string('sum', 'org.openpsa.invoices'); ?></th>
                         </tr>
                       </thead>
                       <tbody>
@@ -167,7 +167,7 @@ catch (midcom_error $e)
         $tabs[] = array
         (
             'url' => $data['invoices_url'] . "list/deliverable/{$data['deliverable']->guid}/",
-            'title' => midcom::get('i18n')->get_string('invoices', 'org.openpsa.invoices'),
+            'title' => midcom::get()->i18n->get_string('invoices', 'org.openpsa.invoices'),
         );
     }
 
@@ -180,7 +180,7 @@ catch (midcom_error $e)
             $tabs[] = array
             (
                 'url' => $data['projects_url'] . "task/list/all/agreement/{$data['deliverable']->id}/",
-                'title' => midcom::get('i18n')->get_string('tasks', 'org.openpsa.projects'),
+                'title' => midcom::get()->i18n->get_string('tasks', 'org.openpsa.projects'),
             );
         }
     }

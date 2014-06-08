@@ -63,18 +63,18 @@ class midcom_helper_datamanager2_widget_codemirror extends midcom_helper_dataman
         if ($this->enabled)
         {
             $prefix = MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/codemirror-' . $this->_type->version;
-            midcom::get('head')->add_stylesheet($prefix . '/lib/codemirror.css');
-            midcom::get('head')->add_jsfile($prefix . '/lib/codemirror.js');
+            midcom::get()->head->add_stylesheet($prefix . '/lib/codemirror.css');
+            midcom::get()->head->add_jsfile($prefix . '/lib/codemirror.js');
             foreach ($this->_type->modes as $mode)
             {
-                midcom::get('head')->add_jsfile($prefix . '/mode/' . $mode . '/' . $mode . '.js');
+                midcom::get()->head->add_jsfile($prefix . '/mode/' . $mode . '/' . $mode . '.js');
             }
-            midcom::get('head')->add_jsfile($prefix . '/addon/edit/matchbrackets.js');
-            midcom::get('head')->add_jsfile($prefix . '/addon/dialog/dialog.js');
-            midcom::get('head')->add_stylesheet($prefix . '/addon/dialog/dialog.css');
-            midcom::get('head')->add_jsfile($prefix . '/addon/search/searchcursor.js');
-            midcom::get('head')->add_jsfile($prefix . '/addon/search/match-highlighter.js');
-            midcom::get('head')->add_jsfile($prefix . '/addon/search/search.js');
+            midcom::get()->head->add_jsfile($prefix . '/addon/edit/matchbrackets.js');
+            midcom::get()->head->add_jsfile($prefix . '/addon/dialog/dialog.js');
+            midcom::get()->head->add_stylesheet($prefix . '/addon/dialog/dialog.css');
+            midcom::get()->head->add_jsfile($prefix . '/addon/search/searchcursor.js');
+            midcom::get()->head->add_jsfile($prefix . '/addon/search/match-highlighter.js');
+            midcom::get()->head->add_jsfile($prefix . '/addon/search/search.js');
         }
     }
 
@@ -104,7 +104,7 @@ class midcom_helper_datamanager2_widget_codemirror extends midcom_helper_dataman
         $config = str_replace('{$id}', $attributes['id'], $config);
         $config = str_replace('{$read_only}', 'false', $config);
 
-        midcom::get('head')->add_jquery_state_script($config);
+        midcom::get()->head->add_jquery_state_script($config);
     }
 
     function get_default()

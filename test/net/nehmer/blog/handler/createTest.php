@@ -22,7 +22,7 @@ class net_nehmer_blog_handler_createTest extends openpsa_testcase
 
     public function testHandler_create()
     {
-        midcom::get('auth')->request_sudo('net.nehmer.blog');
+        midcom::get()->auth->request_sudo('net.nehmer.blog');
 
         $data = $this->run_handler(self::$_topic, array('create', 'default'));
         $this->assertEquals('create', $data['handler_id']);
@@ -44,7 +44,7 @@ class net_nehmer_blog_handler_createTest extends openpsa_testcase
         $this->register_objects($results);
         $this->assertEquals(1, sizeof($results));
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 }
 ?>

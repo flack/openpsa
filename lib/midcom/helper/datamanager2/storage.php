@@ -76,7 +76,7 @@ abstract class midcom_helper_datamanager2_storage extends midcom_baseclasses_com
     {
         if ($this->object === null)
         {
-            $this->object = midcom::get('tmp')->create_object();
+            $this->object = midcom::get()->tmp->create_object();
         }
     }
 
@@ -180,7 +180,7 @@ abstract class midcom_helper_datamanager2_storage extends midcom_baseclasses_com
                     if (!$data)
                     {
                         debug_add("Unserialization failed for field {$name}", MIDCOM_LOG_INFO);
-                        midcom::get('debug')->log_php_error(MIDCOM_LOG_INFO);
+                        midcom::get()->debug->log_php_error(MIDCOM_LOG_INFO);
                     }
                 }
             }
@@ -229,7 +229,7 @@ abstract class midcom_helper_datamanager2_storage extends midcom_baseclasses_com
     {
         if ($this->object === null)
         {
-            return midcom::get('auth')->can_user_do($privilege);
+            return midcom::get()->auth->can_user_do($privilege);
         }
         return $this->object->can_do($privilege);
     }

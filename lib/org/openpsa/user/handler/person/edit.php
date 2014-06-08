@@ -42,14 +42,14 @@ implements midcom_helper_datamanager2_interfaces_edit
 
         if ($this->_person->id != midcom_connection::get_user())
         {
-            midcom::get('auth')->require_user_do('org.openpsa.user:manage', null, 'org_openpsa_user_interface');
+            midcom::get()->auth->require_user_do('org.openpsa.user:manage', null, 'org_openpsa_user_interface');
         }
 
         $data['controller'] = $this->get_controller('simple', $this->_person);
         switch ($data['controller']->process_form())
         {
             case 'save':
-                midcom::get('uimessages')->add($this->_l10n->get('org.openpsa.user'), sprintf($this->_l10n->get('person %s saved'), $this->_person->name));
+                midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.user'), sprintf($this->_l10n->get('person %s saved'), $this->_person->name));
                 // Fall-through
 
             case 'cancel':

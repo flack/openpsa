@@ -22,7 +22,7 @@ class org_openpsa_slideshow_handler_edit extends midcom_baseclasses_components_h
 
     public function _on_initialize()
     {
-        midcom::get('auth')->require_valid_user();
+        midcom::get()->auth->require_valid_user();
     }
 
     /**
@@ -83,7 +83,7 @@ class org_openpsa_slideshow_handler_edit extends midcom_baseclasses_components_h
             $message = sprintf($this->_l10n->get('generated derived images for %s entries, %s errors occurred'), $successful, $failed);
             $type = 'error';
         }
-        midcom::get('uimessages')->add($this->_l10n->get($this->_component), $message, $type);
+        midcom::get()->uimessages->add($this->_l10n->get($this->_component), $message, $type);
         return new midcom_response_relocate('edit/');
     }
 
@@ -101,7 +101,7 @@ class org_openpsa_slideshow_handler_edit extends midcom_baseclasses_components_h
         $qb->add_order('position');
         $data['images'] = $qb->execute();
 
-        $head = midcom::get('head');
+        $head = midcom::get()->head;
         $head->enable_jquery();
         $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.core.min.js');
         $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.widget.min.js');

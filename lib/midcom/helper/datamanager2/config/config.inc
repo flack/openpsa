@@ -18,7 +18,7 @@
 'tinymce_default_config_snippet' => "file://midcom/helper/datamanager2/config/tinymce_default",
 'tinymce_use_compressor' => false,
 'tinymce_url' => MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/tinymce',
-//'tinymce_default_config_snippet' => midcom::get('config')->get('midcom_sgconfig_basedir') . "/midcom.helper.datamanager2/tinymce",
+//'tinymce_default_config_snippet' => midcom::get()->config->get('midcom_sgconfig_basedir') . "/midcom.helper.datamanager2/tinymce",
 
 'codemirror_config_snippet' => "file://midcom/helper/datamanager2/config/codemirror_default",
 
@@ -57,7 +57,7 @@
     ),
     'Cache' => array
     (
-        'SerializerPath' => midcom::get('config')->get('cache_base_directory') . 'htmlpurifier',
+        'SerializerPath' => midcom::get()->config->get('cache_base_directory') . 'htmlpurifier',
         /* Disable cache while testing
         'DefinitionImpl' => null,
         */

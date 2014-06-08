@@ -303,10 +303,10 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
     {
         $target_class = $this->_mgd_reflector->get_link_name($property);
         $dummy_object = new $target_class();
-        $midcom_dba_classname = midcom::get('dbclassloader')->get_midcom_class_name_for_mgdschema_object($dummy_object);
+        $midcom_dba_classname = midcom::get()->dbclassloader->get_midcom_class_name_for_mgdschema_object($dummy_object);
         if (!empty($midcom_dba_classname))
         {
-            if (!midcom::get('dbclassloader')->load_mgdschema_class_handler($midcom_dba_classname))
+            if (!midcom::get()->dbclassloader->load_mgdschema_class_handler($midcom_dba_classname))
             {
                 debug_add("Failed to load the handling component for {$midcom_dba_classname}, cannot continue.", MIDCOM_LOG_ERROR);
                 return false;
@@ -340,7 +340,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         // PONDER: Check for some generic user privilege instead  ??
         if (   $deleted
             && !midcom_connection::is_admin()
-            && !midcom::get('auth')->is_component_sudo())
+            && !midcom::get()->auth->is_component_sudo())
         {
             debug_add('Non-admins are not allowed to list deleted objects', MIDCOM_LOG_ERROR);
             return false;
@@ -401,14 +401,14 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
             return $qb;
         }
         // Figure correct MidCOM DBA class to use and get midcom QB
-        $midcom_dba_classname = midcom::get('dbclassloader')->get_midcom_class_name_for_mgdschema_object($schema_type);
+        $midcom_dba_classname = midcom::get()->dbclassloader->get_midcom_class_name_for_mgdschema_object($schema_type);
         if (empty($midcom_dba_classname))
         {
             debug_add("MidCOM DBA does not know how to handle {$schema_type}", MIDCOM_LOG_ERROR);
             return false;
         }
 
-        if (!midcom::get('dbclassloader')->load_component_for_class($midcom_dba_classname))
+        if (!midcom::get()->dbclassloader->load_component_for_class($midcom_dba_classname))
         {
             debug_add("Failed to load the handling component for {$midcom_dba_classname}, cannot continue.", MIDCOM_LOG_ERROR);
             return false;
@@ -742,7 +742,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
                 continue;
             }
 
-            $dba_class = midcom::get('dbclassloader')->get_midcom_class_name_for_mgdschema_object($schema_type);
+            $dba_class = midcom::get()->dbclassloader->get_midcom_class_name_for_mgdschema_object($schema_type);
             if (!$dba_class)
             {
                 // Not a MidCOM DBA object, skip
@@ -788,13 +788,13 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         $dummy = new $schema_type();
         $title_property = $ref->get_title_property($dummy);
         if (   is_string($title_property)
-            && midcom::get('dbfactory')->property_exists($schema_type, $title_property))
+            && midcom::get()->dbfactory->property_exists($schema_type, $title_property))
         {
             $qb->add_order($title_property);
         }
         $name_property = $ref->get_name_property($dummy);
         if (   is_string($name_property)
-            && midcom::get('dbfactory')->property_exists($schema_type, $name_property))
+            && midcom::get()->dbfactory->property_exists($schema_type, $name_property))
         {
             $qb->add_order($name_property);
         }

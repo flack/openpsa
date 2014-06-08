@@ -1,5 +1,5 @@
 <?php
-midcom::get('auth')->require_valid_user();
+midcom::get()->auth->require_valid_user();
 ?>
 <h1>Merge tags</h1>
 

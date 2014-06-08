@@ -350,7 +350,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
                         $reporter = 'linksleeve';
                         break;
                     default:
-                        $user = midcom::get('auth')->get_user($log_details[0]);
+                        $user = midcom::get()->auth->get_user($log_details[0]);
                         $reporter = $user->name;
                         break;
                 }
@@ -371,9 +371,9 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
     {
         if ($reporter === null)
         {
-            if (midcom::get('auth')->user)
+            if (midcom::get()->auth->user)
             {
-                $reporter = midcom::get('auth')->user->guid;
+                $reporter = midcom::get()->auth->user->guid;
             }
             else
             {
@@ -449,8 +449,8 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
 
             // Get parent object
             $parent_property = $config->get('ratings_cache_to_object_property');
-            midcom::get('auth')->request_sudo('net.nehmer.comments');
-            $parent_object = midcom::get('dbfactory')->get_object_by_guid($this->objectguid);
+            midcom::get()->auth->request_sudo('net.nehmer.comments');
+            $parent_object = midcom::get()->dbfactory->get_object_by_guid($this->objectguid);
 
             if ($config->get('ratings_cache_total'))
             {
@@ -489,7 +489,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
                 $parent_object->update();
                 $parent_object->_use_rcs = $orig_rcs;
             }
-            midcom::get('auth')->drop_sudo();
+            midcom::get()->auth->drop_sudo();
         }
     }
 
@@ -498,7 +498,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
         //Get the parent object
         try
         {
-            $parent = midcom::get('dbfactory')->get_object_by_guid($this->objectguid);
+            $parent = midcom::get()->dbfactory->get_object_by_guid($this->objectguid);
         }
         catch (midcom_error $e)
         {
@@ -556,27 +556,27 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
         $message = array();
 
         // Resolve parent title
-        $parent_object = midcom::get('dbfactory')->get_object_by_guid($this->objectguid);
+        $parent_object = midcom::get()->dbfactory->get_object_by_guid($this->objectguid);
         $ref = midcom_helper_reflector::get($parent_object);
         $parent_title = $ref->get_object_label($parent_object);
 
         // Resolve commenting user
-        $auth = midcom::get('auth');
+        $auth = midcom::get()->auth;
         if ($auth->user)
         {
             $user_string = "{$auth->user->name} ({$auth->user->username})";
         }
         else
         {
-            $user_string = "{$this->author} (" . midcom::get('i18n')->get_string('anonymous', 'midcom') . ")";
+            $user_string = "{$this->author} (" . midcom::get()->i18n->get_string('anonymous', 'midcom') . ")";
         }
 
-        $message['title'] = sprintf(midcom::get('i18n')->get_string('page %s has been commented by %s', 'net.nehmer.comments'), $parent_title, $user_string);
+        $message['title'] = sprintf(midcom::get()->i18n->get_string('page %s has been commented by %s', 'net.nehmer.comments'), $parent_title, $user_string);
 
         $message['content']  = "{$this->title}\n";
         $message['content'] .= "{$this->content}\n\n";
-        $message['content'] .= midcom::get('i18n')->get_string('link to page', 'net.nemein.wiki') . ":\n";
-        $message['content'] .= midcom::get('permalinks')->create_permalink($this->objectguid);
+        $message['content'] .= midcom::get()->i18n->get_string('link to page', 'net.nemein.wiki') . ":\n";
+        $message['content'] .= midcom::get()->permalinks->create_permalink($this->objectguid);
 
         $message['abstract'] = $message['title'];
 

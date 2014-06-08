@@ -19,7 +19,7 @@
             'type' => 'select',
             'type_config' => array
             (
-                'options' => midcom::get('metadata')->get_opengraph_types(),
+                'options' => midcom::get()->metadata->get_opengraph_types(),
             ),
             'widget' => 'select',
             'storage' => array
@@ -28,8 +28,8 @@
                 'domain'   => 'midcom.helper.metadata',
                 'name'     => 'opengraph_type',
             ),
-            'default' => midcom::get('metadata')->get_opengraph_type_default(),
-            'hidden' => ! midcom::get('config')->get('metadata_opengraph'),
+            'default' => midcom::get()->metadata->get_opengraph_type_default(),
+            'hidden' => ! midcom::get()->config->get('metadata_opengraph'),
         ),
         'navnoentry' => array
         (
@@ -55,11 +55,11 @@
                 'name' => "do_not_index",
             ),
             'widget' => 'checkbox',
-            'hidden' => !midcom::get('config')->get('indexer_backend'),
+            'hidden' => !midcom::get()->config->get('indexer_backend'),
         ),
         'schedulestart' => array
         (
-            'hidden' => ! midcom::get('config')->get('metadata_scheduling'),
+            'hidden' => ! midcom::get()->config->get('metadata_scheduling'),
             'title' => 'schedule start',
             'type' => 'date',
             'type_config' => array
@@ -72,7 +72,7 @@
         ),
         'scheduleend' => array
         (
-            'hidden' => ! midcom::get('config')->get('metadata_scheduling'),
+            'hidden' => ! midcom::get()->config->get('metadata_scheduling'),
             'title' => 'schedule end',
             'type' => 'date',
             'type_config' => array
@@ -364,11 +364,11 @@
             ),
             'widget' => 'jsdate',
             'readonly' => true,
-            'hidden' => ! midcom::get('config')->get('metadata_approval'),
+            'hidden' => ! midcom::get()->config->get('metadata_approval'),
         ),
         'approver' => array
         (
-            'hidden' => ! midcom::get('config')->get('metadata_approval'),
+            'hidden' => ! midcom::get()->config->get('metadata_approval'),
             'title' => 'approver',
             'storage' => 'metadata',
             'type' => 'select',

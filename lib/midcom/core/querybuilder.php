@@ -81,7 +81,7 @@ class midcom_core_querybuilder extends midcom_core_query
         if (!is_array($result))
         {
             debug_add('Last Midgard error was: ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-            midcom::get('debug')->log_php_error(MIDCOM_LOG_ERROR);
+            midcom::get()->debug->log_php_error(MIDCOM_LOG_ERROR);
             return array();
         }
         if (   empty($result)
@@ -111,7 +111,7 @@ class midcom_core_querybuilder extends midcom_core_query
 
             // Check approval
             if (   $this->hide_invisible
-                && !midcom::get('config')->get('show_unapproved_objects')
+                && !midcom::get()->config->get('show_unapproved_objects')
                 && !$object->__object->is_approved())
             {
                 continue;

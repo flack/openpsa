@@ -30,7 +30,7 @@ class org_openpsa_contacts_handler_frontpage extends midcom_baseclasses_componen
                 MIDCOM_TOOLBAR_URL => 'person/create/',
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create person'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_person-new.png',
-                MIDCOM_TOOLBAR_ENABLED => midcom::get('auth')->can_user_do('midgard:create', null, 'org_openpsa_contacts_person_dba'),
+                MIDCOM_TOOLBAR_ENABLED => midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_contacts_person_dba'),
             )
         );
 
@@ -41,7 +41,7 @@ class org_openpsa_contacts_handler_frontpage extends midcom_baseclasses_componen
                 MIDCOM_TOOLBAR_URL => 'group/create/organization/',
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create organization'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_people-new.png',
-                MIDCOM_TOOLBAR_ENABLED => midcom::get('auth')->can_user_do('midgard:create', null, 'org_openpsa_contacts_group_dba'),
+                MIDCOM_TOOLBAR_ENABLED => midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_contacts_group_dba'),
             )
         );
 
@@ -52,7 +52,7 @@ class org_openpsa_contacts_handler_frontpage extends midcom_baseclasses_componen
                 MIDCOM_TOOLBAR_URL => 'group/create/group/',
                 MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('group')),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_people-new.png',
-                MIDCOM_TOOLBAR_ENABLED => midcom::get('auth')->can_user_do('midgard:create', null, 'org_openpsa_contacts_group_dba'),
+                MIDCOM_TOOLBAR_ENABLED => midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_contacts_group_dba'),
             )
         );
 
@@ -66,7 +66,7 @@ class org_openpsa_contacts_handler_frontpage extends midcom_baseclasses_componen
                     MIDCOM_TOOLBAR_URL => 'duplicates/person/',
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('merge persons'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/repair.png',
-                    MIDCOM_TOOLBAR_ENABLED => midcom::get('auth')->can_user_do('midgard:update', null, 'org_openpsa_contacts_person_dba'),
+                    MIDCOM_TOOLBAR_ENABLED => midcom::get()->auth->can_user_do('midgard:update', null, 'org_openpsa_contacts_person_dba'),
                 )
             );
         }
@@ -86,7 +86,7 @@ class org_openpsa_contacts_handler_frontpage extends midcom_baseclasses_componen
             );
         }
 
-        midcom::get('head')->set_pagetitle($this->_l10n->get("my contacts"));
+        midcom::get()->head->set_pagetitle($this->_l10n->get("my contacts"));
     }
 
     /**

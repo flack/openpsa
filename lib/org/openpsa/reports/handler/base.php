@@ -28,7 +28,7 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
     public function _handler_generator_get($handler_id, array $args, array &$data)
     {
         $this->_set_active_leaf();
-        midcom::get('auth')->require_valid_user();
+        midcom::get()->auth->require_valid_user();
         if (   !array_key_exists('org_openpsa_reports_query_data', $_REQUEST)
             || !is_array($_REQUEST['org_openpsa_reports_query_data']))
         {
@@ -142,7 +142,7 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
     public function _handler_query_form($handler_id, array $args, array &$data)
     {
         $this->_set_active_leaf();
-        midcom::get('auth')->require_valid_user();
+        midcom::get()->auth->require_valid_user();
 
         if (isset($args[0]))
         {
@@ -240,7 +240,7 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
         if (!preg_match('/^builtin:(.+)/', $this->_request_data['query_data']['style']))
         {
             debug_add("appending '{$this->_request_data['query_data']['style']}' to substyle path");
-            midcom::get('style')->append_substyle($this->_request_data['query_data']['style']);
+            midcom::get()->style->append_substyle($this->_request_data['query_data']['style']);
         }
 
         //TODO: Check if we're inside DL if so do not force mimetype
@@ -259,7 +259,7 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
     protected function _expand_resource($resource_id, $ret = array())
     {
         debug_add('Got resource_id: ' . $resource_id);
-        $dba_obj = midcom::get('auth')->get_assignee($resource_id);
+        $dba_obj = midcom::get()->auth->get_assignee($resource_id);
 
         switch (get_class($dba_obj))
         {

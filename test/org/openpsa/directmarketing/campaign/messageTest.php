@@ -20,7 +20,7 @@ class org_openpsa_directmarketing_campaign_messageTest extends openpsa_testcase
         $helper = new openpsa_test_campaign_helper($this);
         $campaign = $helper->get_campaign();
 
-        midcom::get('auth')->request_sudo('org.openpsa.directmarketing');
+        midcom::get()->auth->request_sudo('org.openpsa.directmarketing');
 
         $message = new org_openpsa_directmarketing_campaign_message_dba();
         $message->_use_activitystream = false;
@@ -47,7 +47,7 @@ class org_openpsa_directmarketing_campaign_messageTest extends openpsa_testcase
         $stat = $message->delete();
         $this->assertTrue($stat);
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 }
 ?>

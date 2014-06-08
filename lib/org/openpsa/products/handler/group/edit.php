@@ -107,10 +107,10 @@ class org_openpsa_products_handler_group_edit extends midcom_baseclasses_compone
                 if ($this->_config->get('index_groups'))
                 {
                     // Index the group
-                    $indexer = midcom::get('indexer');
+                    $indexer = midcom::get()->indexer;
                     org_openpsa_products_viewer::index($this->_request_data['controller']->datamanager, $indexer, $this->_topic);
                 }
-                midcom::get('cache')->invalidate($this->_topic->guid);
+                midcom::get()->cache->invalidate($this->_topic->guid);
             case 'cancel':
                 return new midcom_response_relocate("{$this->_group->guid}/");
         }
@@ -122,8 +122,8 @@ class org_openpsa_products_handler_group_edit extends midcom_baseclasses_compone
         org_openpsa_helpers::dm2_savecancel($this);
         $this->_view_toolbar->bind_to($this->_group);
 
-        midcom::get('metadata')->set_request_metadata($this->_group->metadata->revised, $this->_group->guid);
-        midcom::get('head')->set_pagetitle($this->_group->title);
+        midcom::get()->metadata->set_request_metadata($this->_group->metadata->revised, $this->_group->guid);
+        midcom::get()->head->set_pagetitle($this->_group->title);
     }
 
     /**

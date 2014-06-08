@@ -39,7 +39,7 @@ class midcom_exception_handler
 
     private function _generate_http_response()
     {
-        if (midcom::get('config')->get('auth_login_form_httpcode') == 200)
+        if (midcom::get()->config->get('auth_login_form_httpcode') == 200)
         {
             _midcom_header('HTTP/1.0 200 OK');
             return;
@@ -82,17 +82,17 @@ class midcom_exception_handler
 
         // Determine login message
         $login_warning = '';
-        if (! is_null(midcom::get('auth')->user))
+        if (! is_null(midcom::get()->auth->user))
         {
             // The user has insufficient privileges
-            $login_warning = midcom::get('i18n')->get_string('login message - insufficient privileges', 'midcom');
+            $login_warning = midcom::get()->i18n->get_string('login message - insufficient privileges', 'midcom');
         }
-        else if (midcom::get('auth')->auth_credentials_found)
+        else if (midcom::get()->auth->auth_credentials_found)
         {
-            $login_warning = midcom::get('i18n')->get_string('login message - user or password wrong', 'midcom');
+            $login_warning = midcom::get()->i18n->get_string('login message - user or password wrong', 'midcom');
         }
 
-        $title = midcom::get('i18n')->get_string('access denied', 'midcom');
+        $title = midcom::get()->i18n->get_string('access denied', 'midcom');
 
         // Emergency check, if headers have been sent, kill MidCOM instantly, we cannot output
         // an error page at this point (dynamic_load from site style? Code in Site Style, something
@@ -106,17 +106,17 @@ class midcom_exception_handler
         }
 
         // Drop any output buffer first.
-        midcom::get('cache')->content->disable_ob();
+        midcom::get()->cache->content->disable_ob();
 
         $this->_generate_http_response();
 
-        midcom::get('cache')->content->no_cache();
+        midcom::get()->cache->content->no_cache();
 
-        midcom::get('style')->data['midcom_services_auth_access_denied_message'] = $message;
-        midcom::get('style')->data['midcom_services_auth_access_denied_title'] = $title;
-        midcom::get('style')->data['midcom_services_auth_access_denied_login_warning'] = $login_warning;
+        midcom::get()->style->data['midcom_services_auth_access_denied_message'] = $message;
+        midcom::get()->style->data['midcom_services_auth_access_denied_title'] = $title;
+        midcom::get()->style->data['midcom_services_auth_access_denied_login_warning'] = $login_warning;
 
-        midcom::get('style')->show_midcom('midcom_services_auth_access_denied');
+        midcom::get()->style->show_midcom('midcom_services_auth_access_denied');
 
         debug_add("Error Page output finished, exiting now");
         midcom::get()->finish();
@@ -236,7 +236,7 @@ class midcom_exception_handler
         _midcom_header ($header);
         _midcom_header ('Content-Type: text/html');
 
-        $style = midcom::get('style');
+        $style = midcom::get()->style;
 
         $style->data['error_title'] = $title;
         $style->data['error_message'] = $message;
@@ -250,7 +250,7 @@ class midcom_exception_handler
         }
 
         debug_add("Error Page output finished, exiting now");
-        midcom::get('cache')->content->no_cache();
+        midcom::get()->cache->content->no_cache();
         midcom::get()->finish();
     }
 
@@ -266,7 +266,7 @@ class midcom_exception_handler
      */
     private function send($httpcode, $message)
     {
-        $error_actions = midcom::get('config')->get('error_actions');
+        $error_actions = midcom::get()->config->get('error_actions');
         if (   !isset($error_actions[$httpcode])
             || !isset($error_actions[$httpcode]['action']))
         {
@@ -323,7 +323,7 @@ class midcom_exception_handler
             return;
         }
 
-        if (!midcom::get('componentloader')->is_installed('org.openpsa.mail'))
+        if (!midcom::get()->componentloader->is_installed('org.openpsa.mail'))
         {
             debug_add("Email sending library org.openpsa.mail, used for error notifications is not installed", MIDCOM_LOG_WARN);
             return;
@@ -451,7 +451,7 @@ class midcom_error_forbidden extends midcom_error
     {
         if (is_null($message))
         {
-            $message = midcom::get('i18n')->get_string('access denied', 'midcom');
+            $message = midcom::get()->i18n->get_string('access denied', 'midcom');
         }
         parent::__construct($message, $code);
     }
@@ -485,7 +485,7 @@ class midcom_error_midgard extends midcom_error
             else if ($last_error == MGD_ERR_ACCESS_DENIED)
             {
                 $code = MIDCOM_ERRFORBIDDEN;
-                $message = midcom::get('i18n')->get_string('access denied', 'midcom');
+                $message = midcom::get()->i18n->get_string('access denied', 'midcom');
             }
             else if ($last_error == MGD_ERR_OBJECT_DELETED)
             {

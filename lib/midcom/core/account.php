@@ -85,10 +85,10 @@ class midcom_core_account
 
     public function save()
     {
-        midcom::get('auth')->require_do('midgard:update', $this->_person);
+        midcom::get()->auth->require_do('midgard:update', $this->_person);
         if (!$this->_is_username_unique())
         {
-            midcom::get('uimessages')->add(midcom::get('i18n')->get_string('midcom'), midcom::get('i18n')->get_string('username already exists', 'org.openpsa.contacts'), 'error');
+            midcom::get()->uimessages->add(midcom::get()->i18n->get_string('midcom'), midcom::get()->i18n->get_string('username already exists', 'org.openpsa.contacts'), 'error');
             midcom_connection::set_error(MGD_ERR_DUPLICATE);
             return false;
         }
@@ -116,7 +116,7 @@ class midcom_core_account
      */
     public function delete()
     {
-        midcom::get('auth')->require_do('midgard:delete', $this->_person);
+        midcom::get()->auth->require_do('midgard:delete', $this->_person);
         $stat = false;
         if ($this->_midgard2)
         {
@@ -138,7 +138,7 @@ class midcom_core_account
             return false;
         }
         $user = new midcom_core_user($this->_person);
-        midcom::get('auth')->sessionmgr->_delete_user_sessions($user);
+        midcom::get()->auth->sessionmgr->_delete_user_sessions($user);
 
         // Delete all ACL records which have the user as assignee
         $qb = new midgard_query_builder('midcom_core_privilege_db');
@@ -223,7 +223,7 @@ class midcom_core_account
     {
         if (method_exists('midgard_user', 'login'))
         {
-            $mc = new midgard_collector('midgard_user', 'authtype', midcom::get('config')->get('auth_type'));
+            $mc = new midgard_collector('midgard_user', 'authtype', midcom::get()->config->get('auth_type'));
             $mc->set_key_property('person');
 
             if (   $operator !== '='
@@ -284,9 +284,9 @@ class midcom_core_account
         {
             return false;
         }
-        $this->_user->authtype = midcom::get('config')->get('auth_type');
+        $this->_user->authtype = midcom::get()->config->get('auth_type');
 
-        if (midcom::get('config')->get('person_class') != 'midgard_person')
+        if (midcom::get()->config->get('person_class') != 'midgard_person')
         {
             $mgd_person = new midgard_person($this->_person->guid);
         }
@@ -343,12 +343,12 @@ class midcom_core_account
         if (   !empty($this->_old_password)
             && $this->_old_password !== $new_password)
         {
-            midcom::get('auth')->sessionmgr->_update_user_password($user, $this->_new_password);
+            midcom::get()->auth->sessionmgr->_update_user_password($user, $this->_new_password);
         }
         if (   !empty($this->_old_username)
             && $this->_old_username !== $new_username)
         {
-            midcom::get('auth')->sessionmgr->_update_user_username($user, $new_username);
+            midcom::get()->auth->sessionmgr->_update_user_username($user, $new_username);
             if (!$history = @unserialize($this->_person->get_parameter('midcom', 'username_history')))
             {
                 $history = array();
@@ -378,7 +378,7 @@ class midcom_core_account
                     new midgard_query_constraint (
                         new midgard_query_property ('authtype'),
                         '=',
-                        new midgard_query_value (midcom::get('config')->get('auth_type'))));
+                        new midgard_query_value (midcom::get()->config->get('auth_type'))));
                 $qs->set_constraint($group);
                 $qs->toggle_readonly(false);
                 $qs->execute();
@@ -389,7 +389,7 @@ class midcom_core_account
             {
                 $qb = new midgard_query_builder('midgard_user');
                 $qb->add_constraint('person', '=', $this->_person->guid);
-                $qb->add_constraint('authtype', '=', midcom::get('config')->get('auth_type'));
+                $qb->add_constraint('authtype', '=', midcom::get()->config->get('auth_type'));
                 $result = $qb->execute();
             }
             if (sizeof($result) != 1)
@@ -407,11 +407,11 @@ class midcom_core_account
         {
             $qb = new midgard_query_builder('midgard_user');
             $qb->add_constraint('login', '=', $this->get_username());
-            $qb->add_constraint('authtype', '=', midcom::get('config')->get('auth_type'));
+            $qb->add_constraint('authtype', '=', midcom::get()->config->get('auth_type'));
         }
         else
         {
-            $qb = new midgard_query_builder(midcom::get('config')->get('person_class'));
+            $qb = new midgard_query_builder(midcom::get()->config->get('person_class'));
             $qb->add_constraint('username', '=', $this->get_username());
         }
         $qb->add_constraint('guid', '<>', $this->_user->guid);

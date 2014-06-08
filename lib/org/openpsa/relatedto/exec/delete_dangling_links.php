@@ -9,7 +9,7 @@
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
-midcom::get('auth')->require_admin_user();
+midcom::get()->auth->require_admin_user();
 
 midcom::get()->disable_limits();
 while(@ob_end_flush());
@@ -30,8 +30,8 @@ foreach ($results as $result)
     $i++;
     try
     {
-        midcom::get('dbfactory')->get_object_by_guid($result->fromGuid);
-        midcom::get('dbfactory')->get_object_by_guid($result->toGuid);
+        midcom::get()->dbfactory->get_object_by_guid($result->fromGuid);
+        midcom::get()->dbfactory->get_object_by_guid($result->toGuid);
     }
     catch (midcom_error $e)
     {

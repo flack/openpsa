@@ -8,7 +8,7 @@ if ($comment->rating > 0)
 {
     $rating = ', ' . sprintf('rated %s', $comment->rating);
 }
-$object_link = midcom::get('permalinks')->create_permalink($comment->objectguid) . '#net_nehmer_comments_' . $comment->guid;
+$object_link = midcom::get()->permalinks->create_permalink($comment->objectguid) . '#net_nehmer_comments_' . $comment->guid;
 
 $created = $comment->metadata->published;
 
@@ -17,14 +17,14 @@ $published = sprintf(
     $view['author'],
     strftime('%x %X', $created));
 
-if (   midcom::get('auth')->admin
-   || (   midcom::get('auth')->user
+if (   midcom::get()->auth->admin
+   || (   midcom::get()->auth->user
        && $comment->can_do('midgard:delete')))
 {
     $creator = $comment->metadata->creator;
     $created = $comment->metadata->created;
 
-    $user = midcom::get('auth')->get_user($creator);
+    $user = midcom::get()->auth->get_user($creator);
     if ($user)
     {
         $username = "{$user->name} ({$user->username})";

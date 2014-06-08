@@ -19,7 +19,7 @@ class org_openpsa_contacts_roleTest extends openpsa_testcase
         $person1 = $this->create_object('midcom_db_person');
         $person2 = $this->create_object('midcom_db_person');
 
-        midcom::get('auth')->request_sudo('org.openpsa.contacts');
+        midcom::get()->auth->request_sudo('org.openpsa.contacts');
 
         $member1 = new org_openpsa_contacts_role_dba();
         $member1->objectGuid = $salesproject->guid;
@@ -52,7 +52,7 @@ class org_openpsa_contacts_roleTest extends openpsa_testcase
         $stat = $member2->delete();
         $this->assertTrue($stat);
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
      }
 }
 ?>

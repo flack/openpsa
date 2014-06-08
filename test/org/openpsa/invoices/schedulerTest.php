@@ -302,7 +302,7 @@ class org_openpsa_invoices_schedulerTest extends openpsa_testcase
         $end_cmp = mktime(23, 59, 59, date('n', $end), date('j', $end), date('Y', $end));
 
         $scheduler = new org_openpsa_invoices_scheduler($deliverable);
-        midcom::get('auth')->request_sudo('org.openpsa.invoices');
+        midcom::get()->auth->request_sudo('org.openpsa.invoices');
         $task = $scheduler->create_task($start, $end, $title);
         $this->assertTrue(is_a($task, 'org_openpsa_projects_task_dba'));
         $this->register_object($task);
@@ -343,7 +343,7 @@ class org_openpsa_invoices_schedulerTest extends openpsa_testcase
         $this->assertEquals($member->id, $task2->manager);
         $this->assertEquals($task->resources, $task2->resources);
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 }
 ?>

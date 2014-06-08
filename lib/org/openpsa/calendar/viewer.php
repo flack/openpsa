@@ -21,14 +21,14 @@ class org_openpsa_calendar_viewer extends midcom_baseclasses_components_request
         if (!$this->_config->get('calendar_root_event'))
         {
             $stat = false;
-            if (midcom::get('auth')->can_user_do('midgard:create', null, 'org_openpsa_calendar_event_dba'))
+            if (midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_calendar_event_dba'))
             {
                 $stat = org_openpsa_calendar_interface::find_root_event();
             }
 
             if (!$stat)
             {
-                midcom::get('auth')->require_admin_user();
+                midcom::get()->auth->require_admin_user();
             }
         }
     }
@@ -39,7 +39,7 @@ class org_openpsa_calendar_viewer extends midcom_baseclasses_components_request
     public function _on_handle($handler, array $args)
     {
         // Always run in uncached mode
-        midcom::get('cache')->content->no_cache();
+        midcom::get()->cache->content->no_cache();
 
         $this->_request_data['view'] = 'default';
 
@@ -53,7 +53,7 @@ class org_openpsa_calendar_viewer extends midcom_baseclasses_components_request
      */
     public function _handler_frontpage($handler_id, array $args, array &$data)
     {
-        midcom::get('auth')->require_valid_user();
+        midcom::get()->auth->require_valid_user();
         $selected_time = time();
         switch ($this->_config->get('start_view'))
         {

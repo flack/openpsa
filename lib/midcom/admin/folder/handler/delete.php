@@ -57,10 +57,10 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
 
         // Set page title
         $data['title'] = sprintf($this->_l10n->get('delete folder %s'), $this->_topic->get_label());
-        midcom::get('head')->set_pagetitle($data['title']);
+        midcom::get()->head->set_pagetitle($data['title']);
 
         // Set the help object in the toolbar
-        $help_toolbar = midcom::get('toolbars')->get_help_toolbar();
+        $help_toolbar = midcom::get()->toolbars->get_help_toolbar();
         $help_toolbar->add_help_item('delete_folder', 'midcom.admin.folder', null, null, 1);
 
         // Add style sheet
@@ -72,7 +72,7 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
      */
     private function _delete_topic_update_index()
     {
-        if (midcom::get('config')->get('indexer_backend') === false)
+        if (midcom::get()->config->get('indexer_backend') === false)
         {
             // Indexer is not configured.
             return;
@@ -118,12 +118,12 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
         // them deleted too.
         //
         // Again we keep an eye on the script timeout.
-        $indexer = midcom::get('indexer');
+        $indexer = midcom::get()->indexer;
         foreach ($guids as $guid)
         {
             try
             {
-                $object = midcom::get('dbfactory')->get_object_by_guid($guid);
+                $object = midcom::get()->dbfactory->get_object_by_guid($guid);
                 $atts = $object->list_attachments();
                 foreach ($atts as $attachment)
                 {
@@ -146,9 +146,9 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
      */
     private function _process_delete_form()
     {
-        if (midcom::get('config')->get('symlinks'))
+        if (midcom::get()->config->get('symlinks'))
         {
-            midcom::get('auth')->request_sudo('midcom.admin.folder');
+            midcom::get()->auth->request_sudo('midcom.admin.folder');
             $qb_topic = midcom_db_topic::new_query_builder();
             $qb_topic->add_constraint('symlink', '=', $this->_topic->id);
             $symlinks = $qb_topic->execute();
@@ -164,25 +164,25 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
 
                 throw new midcom_error($msg);
             }
-            midcom::get('auth')->drop_sudo();
+            midcom::get()->auth->drop_sudo();
         }
         $this->_delete_topic_update_index();
 
         if (!$this->_delete_children($this->_topic))
         {
-            midcom::get('uimessages')->add($this->_l10n->get('midcom.admin.folder'), sprintf($this->_l10n->get('could not delete folder contents: %s'), midcom_connection::get_error_string()), 'error');
+            midcom::get()->uimessages->add($this->_l10n->get('midcom.admin.folder'), sprintf($this->_l10n->get('could not delete folder contents: %s'), midcom_connection::get_error_string()), 'error');
             return false;
         }
 
         if (!$this->_topic->delete())
         {
             debug_add("Could not delete Folder {$this->_topic->id}: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-            midcom::get('uimessages')->add($this->_l10n->get('midcom.admin.folder'), sprintf($this->_l10n->get('could not delete folder: %s'), midcom_connection::get_error_string()), 'error');
+            midcom::get()->uimessages->add($this->_l10n->get('midcom.admin.folder'), sprintf($this->_l10n->get('could not delete folder: %s'), midcom_connection::get_error_string()), 'error');
             return false;
         }
 
         // Invalidate everything since we operate recursive here.
-        midcom::get('cache')->invalidate_all();
+        midcom::get()->cache->invalidate_all();
 
         return true;
     }

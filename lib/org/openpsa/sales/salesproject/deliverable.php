@@ -409,7 +409,7 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
                     $tasks = $task_qb->execute();
                     foreach ($tasks as $task)
                     {
-                        org_openpsa_projects_workflow::close($task, sprintf(midcom::get('i18n')->get_string('completed from deliverable %s', 'org.openpsa.sales'), $this->title));
+                        org_openpsa_projects_workflow::close($task, sprintf(midcom::get()->i18n->get_string('completed from deliverable %s', 'org.openpsa.sales'), $this->title));
                     }
                     break;
                 case org_openpsa_products_product_dba::TYPE_GOODS:
@@ -427,7 +427,7 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
             $salesproject = new org_openpsa_sales_salesproject_dba($this->salesproject);
             $salesproject->mark_delivered();
 
-            midcom::get('uimessages')->add(midcom::get('i18n')->get_string('org.openpsa.sales', 'org.openpsa.sales'), sprintf(midcom::get('i18n')->get_string('marked deliverable "%s" delivered', 'org.openpsa.sales'), $this->title), 'ok');
+            midcom::get()->uimessages->add(midcom::get()->i18n->get_string('org.openpsa.sales', 'org.openpsa.sales'), sprintf(midcom::get()->i18n->get_string('marked deliverable "%s" delivered', 'org.openpsa.sales'), $this->title), 'ok');
             return true;
         }
         return false;

@@ -24,8 +24,8 @@ class org_openpsa_invoices_viewer extends midcom_baseclasses_components_request
         $invoices_url = org_openpsa_core_siteconfig::get_instance()->get_node_full_url('org.openpsa.invoices');
 
         org_openpsa_widgets_grid::add_head_elements();
-        midcom::get('head')->add_jscript('var INVOICES_URL ="' . $invoices_url . 'invoice/process/";');
-        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.invoices/invoices.js');
+        midcom::get()->head->add_jscript('var INVOICES_URL ="' . $invoices_url . 'invoice/process/";');
+        midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.invoices/invoices.js');
     }
 
     public function render_invoice_actions(org_openpsa_invoices_invoice_dba $invoice)
@@ -93,7 +93,7 @@ class org_openpsa_invoices_viewer extends midcom_baseclasses_components_request
                 MIDCOM_TOOLBAR_URL => 'invoice/new/',
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create invoice'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/printer.png',
-                MIDCOM_TOOLBAR_ENABLED => midcom::get('auth')->can_user_do('midgard:create', null, 'org_openpsa_invoices_invoice_dba'),
+                MIDCOM_TOOLBAR_ENABLED => midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_invoices_invoice_dba'),
             )
         );
 
@@ -106,7 +106,7 @@ class org_openpsa_invoices_viewer extends midcom_baseclasses_components_request
                     MIDCOM_TOOLBAR_URL => 'scheduled/',
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('scheduled invoices'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/scheduled_and_shown.png',
-                    MIDCOM_TOOLBAR_ENABLED => midcom::get('auth')->can_user_do('midgard:create', null, 'org_openpsa_invoices_invoice_dba'),
+                    MIDCOM_TOOLBAR_ENABLED => midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_invoices_invoice_dba'),
                 )
             );
         }
@@ -119,7 +119,7 @@ class org_openpsa_invoices_viewer extends midcom_baseclasses_components_request
                     MIDCOM_TOOLBAR_URL => 'projects/',
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('project invoicing'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/printer.png',
-                    MIDCOM_TOOLBAR_ENABLED => midcom::get('auth')->can_user_do('midgard:create', null, 'org_openpsa_invoices_invoice_dba'),
+                    MIDCOM_TOOLBAR_ENABLED => midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_invoices_invoice_dba'),
                 )
             );
         }

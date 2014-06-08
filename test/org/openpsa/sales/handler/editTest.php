@@ -22,24 +22,24 @@ class org_openpsa_sales_handler_editTest extends openpsa_testcase
 
     public function testHandler_edit()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.sales');
+        midcom::get()->auth->request_sudo('org.openpsa.sales');
 
         $salesproject = $this->create_object('org_openpsa_sales_salesproject_dba');
 
         $data = $this->run_handler('org.openpsa.sales', array('salesproject', 'edit', $salesproject->guid));
         $this->assertEquals('salesproject_edit', $data['handler_id']);
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
     public function testHandler_new()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.sales');
+        midcom::get()->auth->request_sudo('org.openpsa.sales');
 
         $data = $this->run_handler('org.openpsa.sales', array('salesproject', 'new'));
         $this->assertEquals('salesproject_new', $data['handler_id']);
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 }
 ?>

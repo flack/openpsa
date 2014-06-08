@@ -20,7 +20,7 @@ class org_openpsa_sales_validator
                 || $fields['end_date'] == '0000-00-00')
             && empty($fields['continuous']))
         {
-            $result['end'] = midcom::get('i18n')->get_string('select either end date or continuous', 'org.openpsa.sales');
+            $result['end'] = midcom::get()->i18n->get_string('select either end date or continuous', 'org.openpsa.sales');
             return $result;
         }
 

@@ -22,12 +22,12 @@ class org_openpsa_sales_handler_frontpageTest extends openpsa_testcase
 
     public function testHandler_list()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.sales');
+        midcom::get()->auth->request_sudo('org.openpsa.sales');
 
         $data = $this->run_handler('org.openpsa.sales');
         $this->assertEquals('frontpage', $data['handler_id']);
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 }
 ?>

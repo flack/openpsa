@@ -1,8 +1,8 @@
 <?php
 $config = midcom_baseclasses_components_configuration::get('org.routamc.positioning', 'config');
-midcom::get('auth')->require_valid_user();
+midcom::get()->auth->require_valid_user();
 
-$user = midcom::get('auth')->user->get_storage();
+$user = midcom::get()->auth->user->get_storage();
 
 if (array_key_exists('add_position', $_POST))
 {

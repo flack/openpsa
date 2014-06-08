@@ -171,7 +171,7 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
         {
             case 'save':
                 // Reindex the message
-                //$indexer = midcom::get('indexer');
+                //$indexer = midcom::get()->indexer;
                 //org_openpsa_directmarketing_viewer::index($this->_controller->datamanager, $indexer, $this->_content_topic);
 
                 // *** FALL-THROUGH ***
@@ -183,7 +183,7 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
         org_openpsa_helpers::dm2_savecancel($this);
 
         $this->_prepare_request_data($handler_id);
-        midcom::get('head')->set_pagetitle($this->_message->title);
+        midcom::get()->head->set_pagetitle($this->_message->title);
         $this->bind_view_to_object($this->_message, $this->_request_data['controller']->datamanager->schema->name);
         $this->_update_breadcrumb_line($handler_id);
     }
@@ -223,7 +223,7 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
             }
 
             // Update the index
-            $indexer = midcom::get('indexer');
+            $indexer = midcom::get()->indexer;
             $indexer->delete($this->_message->guid);
 
             // Delete ok, relocating to welcome.
@@ -237,7 +237,7 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
         }
 
         $this->_prepare_request_data($handler_id);
-        midcom::get('head')->set_pagetitle($this->_message->title);
+        midcom::get()->head->set_pagetitle($this->_message->title);
         $this->bind_view_to_object($this->_message, $this->_datamanager->schema->name);
         $this->_update_breadcrumb_line($handler_id);
     }
@@ -302,7 +302,7 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
                 return new midcom_response_relocate("message/{$guid}/");
         }
 
-        midcom::get('head')->set_pagetitle($this->_message->title);
+        midcom::get()->head->set_pagetitle($this->_message->title);
         $this->bind_view_to_object($this->_message);
         $this->_update_breadcrumb_line($handler_id);
     }

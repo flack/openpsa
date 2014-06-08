@@ -42,7 +42,7 @@ class org_openpsa_directmarketing_viewer extends midcom_baseclasses_components_r
     public function _on_handle($handler, array $args)
     {
         // Always run in uncached mode
-        midcom::get('cache')->content->no_cache();
+        midcom::get()->cache->content->no_cache();
         $this->_populate_node_toolbar();
     }
 

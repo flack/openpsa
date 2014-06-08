@@ -109,7 +109,7 @@ class midcom_services_metadata
         $context = midcom_core_context::get($context_id);
 
         // Append current topic to page class if enabled
-        if (midcom::get('config')->get('page_class_include_component'))
+        if (midcom::get()->config->get('page_class_include_component'))
         {
             $page_class .= ' ' . str_replace('.', '_', $context->get_key(MIDCOM_CONTEXT_COMPONENT));
         }
@@ -161,15 +161,15 @@ class midcom_services_metadata
         }
 
         // Approval attributes
-        if (   midcom::get('config')->get('metadata_approval')
+        if (   midcom::get()->config->get('metadata_approval')
             && !$object->metadata->is_approved())
         {
             $css_classes[] = 'unapproved';
         }
 
         // Hiding and scheduling attributes
-        if (   (   !midcom::get('config')->get('show_hidden_objects')
-                || midcom::get('config')->get('metadata_scheduling'))
+        if (   (   !midcom::get()->config->get('show_hidden_objects')
+                || midcom::get()->config->get('metadata_scheduling'))
             && !$object->metadata->is_visible())
         {
             $css_classes[] = 'hidden';
@@ -231,7 +231,7 @@ class midcom_services_metadata
         $request_metadata = $this->get_request_metadata();
 
         // HTML generator information
-        midcom::get('head')->add_meta_head
+        midcom::get()->head->add_meta_head
         (
             array
             (
@@ -241,7 +241,7 @@ class midcom_services_metadata
         );
 
         // PermaLink into machine-detectable format
-        midcom::get('head')->add_link_head
+        midcom::get()->head->add_link_head
         (
             array
             (
@@ -253,7 +253,7 @@ class midcom_services_metadata
         // Last revision time for the entire page
         if ($request_metadata['lastmodified'])
         {
-            midcom::get('head')->add_meta_head
+            midcom::get()->head->add_meta_head
             (
                 array
                 (
@@ -267,7 +267,7 @@ class midcom_services_metadata
         $view_metadata = $this->get_view_metadata();
         if ($view_metadata)
         {
-            foreach (midcom::get('config')->get('metadata_head_elements') as $property => $metatag)
+            foreach (midcom::get()->config->get('metadata_head_elements') as $property => $metatag)
             {
                 $content = $view_metadata->get($property);
                 if ($content)
@@ -284,7 +284,7 @@ class midcom_services_metadata
                             break;
                     }
 
-                    midcom::get('head')->add_meta_head
+                    midcom::get()->head->add_meta_head
                     (
                         array
                         (
@@ -296,12 +296,12 @@ class midcom_services_metadata
             }
             // TODO: Add support for tags here
 
-            if (midcom::get('config')->get('metadata_opengraph'))
+            if (midcom::get()->config->get('metadata_opengraph'))
             {
                 $this->_add_opengraph_metadata($view_metadata);
             }
 
-            if (midcom::get('config')->get('positioning_enable'))
+            if (midcom::get()->config->get('positioning_enable'))
             {
                 // Display position metadata
                 $object_position = new org_routamc_positioning_object($view_metadata->object);
@@ -318,7 +318,7 @@ class midcom_services_metadata
         {
             $request_metadata = $this->get_request_metadata();
 
-            midcom::get('head')->add_meta_head
+            midcom::get()->head->add_meta_head
             (
                 array
                 (
@@ -326,7 +326,7 @@ class midcom_services_metadata
                     'content' => $opengraph_type,
                 )
             );
-            midcom::get('head')->add_meta_head
+            midcom::get()->head->add_meta_head
             (
                 array
                 (
@@ -334,7 +334,7 @@ class midcom_services_metadata
                     'content' => midcom_core_context::get()->get_key(MIDCOM_CONTEXT_PAGETITLE),
                 )
             );
-            midcom::get('head')->add_meta_head
+            midcom::get()->head->add_meta_head
             (
                 array
                 (
@@ -342,7 +342,7 @@ class midcom_services_metadata
                     'content' => $request_metadata['permalink'],
                 )
             );
-            midcom::get('head')->add_meta_head
+            midcom::get()->head->add_meta_head
             (
                 array
                 (
@@ -350,7 +350,7 @@ class midcom_services_metadata
                     'content' => '',
                 )
             );
-            midcom::get('head')->add_meta_head
+            midcom::get()->head->add_meta_head
             (
                 array
                 (
@@ -369,7 +369,7 @@ class midcom_services_metadata
      */
     public function get_opengraph_types()
     {
-        if (!midcom::get('config')->get('metadata_opengraph'))
+        if (!midcom::get()->config->get('metadata_opengraph'))
         {
             return array();
         }
@@ -424,7 +424,7 @@ class midcom_services_metadata
      */
     public function get_opengraph_type_default($object = null)
     {
-        if (!midcom::get('config')->get('metadata_opengraph'))
+        if (!midcom::get()->config->get('metadata_opengraph'))
         {
             return '';
         }
@@ -449,13 +449,13 @@ class midcom_services_metadata
 
         $component = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_COMPONENT);
         if (   !$component
-            || !midcom::get('componentloader')->is_installed($component)
-            || !midcom::get('componentloader')->load_graceful($component))
+            || !midcom::get()->componentloader->is_installed($component)
+            || !midcom::get()->componentloader->load_graceful($component))
         {
             return '';
         }
 
-        $interface = midcom::get('componentloader')->get_interface_class($component);
+        $interface = midcom::get()->componentloader->get_interface_class($component);
         if (!method_exists($interface, 'get_opengraph_default'))
         {
             return '';
@@ -505,7 +505,7 @@ class midcom_services_metadata
         (
             'lastmodified' => $context->get_key(MIDCOM_CONTEXT_LASTMODIFIED),
             'permalinkguid' => $context->get_key(MIDCOM_CONTEXT_PERMALINKGUID),
-            'permalink' => midcom::get('permalinks')->create_permalink($context->get_key(MIDCOM_CONTEXT_PERMALINKGUID)),
+            'permalink' => midcom::get()->permalinks->create_permalink($context->get_key(MIDCOM_CONTEXT_PERMALINKGUID)),
         );
 
         if (   is_object($meta['lastmodified'])

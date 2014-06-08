@@ -9,10 +9,10 @@ $task = $data['other_obj'];
     <ul class="metadata">
     <?php
     // Deadline
-    echo "<li>" . midcom::get('i18n')->get_string('deadline', 'org.openpsa.projects') . ": " . strftime('%x', $task->end) . "</li>";
+    echo "<li>" . midcom::get()->i18n->get_string('deadline', 'org.openpsa.projects') . ": " . strftime('%x', $task->end) . "</li>";
 
     // Resources
-    echo "<li>" . midcom::get('i18n')->get_string('resources', 'org.openpsa.projects') . ": ";
+    echo "<li>" . midcom::get()->i18n->get_string('resources', 'org.openpsa.projects') . ": ";
     $task->get_members();
     foreach ($task->resources as $resource_id => $confirmed)
     {

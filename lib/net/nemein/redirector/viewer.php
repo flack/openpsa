@@ -134,7 +134,7 @@ class net_nemein_redirector_viewer extends midcom_baseclasses_components_request
             $data['redirection_url'] = $data['url'];
             $data['redirection_speed'] = $this->_config->get('redirection_metatag_speed');
 
-            midcom::get('head')->add_meta_head
+            midcom::get()->head->add_meta_head
             (
                 array
                 (
@@ -213,7 +213,7 @@ class net_nemein_redirector_viewer extends midcom_baseclasses_components_request
                 return $node[MIDCOM_NAV_FULLURL];
 
             case 'permalink':
-                if ($url = midcom::get('permalinks')->resolve_permalink($data['config']->get('redirection_guid')))
+                if ($url = midcom::get()->permalinks->resolve_permalink($data['config']->get('redirection_guid')))
                 {
                     return $url;
                 }

@@ -15,7 +15,7 @@ class org_openpsa_invoices_invoiceTest extends openpsa_testcase
 {
     public function testCRUD()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.invoices');
+        midcom::get()->auth->request_sudo('org.openpsa.invoices');
         $invoice = new org_openpsa_invoices_invoice_dba();
         $invoice->_use_activitystream = false;
         $invoice->_use_rcs = false;
@@ -42,7 +42,7 @@ class org_openpsa_invoices_invoiceTest extends openpsa_testcase
         $this->assertTrue($stat);
         $this->assertEquals($next_number, $invoice->generate_invoice_number());
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
     /**
@@ -80,7 +80,7 @@ class org_openpsa_invoices_invoiceTest extends openpsa_testcase
         $report_attributes['task'] = $task2->id;
         $report2 = $this->create_object('org_openpsa_projects_hour_report_dba', $report_attributes);
 
-        midcom::get('auth')->request_sudo('org.openpsa.invoices');
+        midcom::get()->auth->request_sudo('org.openpsa.invoices');
         $invoice->_recalculate_invoice_items();
         $invoice->refresh();
         $this->assertEquals(20, $invoice->sum);
@@ -112,7 +112,7 @@ class org_openpsa_invoices_invoiceTest extends openpsa_testcase
         $this->assertEquals(20, $invoice->sum);
         $this->assertEquals(2, $this->_count_invoice_items($invoice->id));
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
     private function _count_invoice_items($invoice_id)

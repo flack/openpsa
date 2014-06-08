@@ -122,7 +122,7 @@ class org_openpsa_projects_hour_report_dba extends midcom_core_dbaobject
         {
             return $this->description;
         }
-        $l10n = midcom::get('i18n')->get_l10n('org.openpsa.expenses');
+        $l10n = midcom::get()->i18n->get_l10n('org.openpsa.expenses');
         return "<em>" . $l10n->get('no description given') . "</em>";
     }
 }

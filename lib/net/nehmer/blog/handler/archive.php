@@ -89,9 +89,9 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
             $this->set_active_leaf($this->_topic->id . '_ARCHIVE');
         }
 
-        midcom::get('head')->set_pagetitle("{$this->_topic->extra}: " . $this->_l10n->get('archive'));
+        midcom::get()->head->set_pagetitle("{$this->_topic->extra}: " . $this->_l10n->get('archive'));
 
-        midcom::get('metadata')->set_request_metadata(net_nehmer_blog_viewer::get_last_modified($this->_topic, $this->_content_topic), $this->_topic->guid);
+        midcom::get()->metadata->set_request_metadata(net_nehmer_blog_viewer::get_last_modified($this->_topic, $this->_content_topic), $this->_topic->guid);
     }
 
     /**
@@ -114,10 +114,10 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
         $qb->add_order('metadata.published');
         $qb->set_limit(1);
 
-        if (midcom::get('auth')->request_sudo($this->_component))
+        if (midcom::get()->auth->request_sudo($this->_component))
         {
             $result = $qb->execute_unchecked();
-            midcom::get('auth')->drop_sudo();
+            midcom::get()->auth->drop_sudo();
         }
         else
         {
@@ -375,8 +375,8 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
             $this->set_active_leaf($this->_topic->id . '_ARCHIVE_' . $args[0]);
         }
 
-        midcom::get('metadata')->set_request_metadata(net_nehmer_blog_viewer::get_last_modified($this->_topic, $this->_content_topic), $this->_topic->guid);
-        midcom::get('head')->set_pagetitle("{$this->_topic->extra}: {$start} - {$end}");
+        midcom::get()->metadata->set_request_metadata(net_nehmer_blog_viewer::get_last_modified($this->_topic, $this->_content_topic), $this->_topic->guid);
+        midcom::get()->head->set_pagetitle("{$this->_topic->extra}: {$start} - {$end}");
     }
 
     /**

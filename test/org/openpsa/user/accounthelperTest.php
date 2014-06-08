@@ -22,7 +22,7 @@ class org_openpsa_user_accounthelperTest extends openpsa_testcase
 
     public function testCreate_account()
     {
-        midcom::get('auth')->request_sudo("midcom.core");
+        midcom::get()->auth->request_sudo("midcom.core");
 
         $helper = new org_openpsa_user_accounthelper;
         // test error cases
@@ -48,23 +48,23 @@ class org_openpsa_user_accounthelperTest extends openpsa_testcase
 
         $this->assertTrue($helper->create_account($person->guid, uniqid(__FUNCTION__ . "Bob"), "bob@nowhere.cc", $password, false, false), $helper->errstr);
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
     public function testDelete_account()
     {
-        midcom::get('auth')->request_sudo("midcom.core");
+        midcom::get()->auth->request_sudo("midcom.core");
 
         $person = self::create_user();
         $helper = new org_openpsa_user_accounthelper($person);
         $this->assertTrue($helper->delete_account());
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
     public function testClose_account()
     {
-        midcom::get('auth')->request_sudo("midcom.core");
+        midcom::get()->auth->request_sudo("midcom.core");
 
         $person = self::create_user();
         $helper = new org_openpsa_user_accounthelper($person);
@@ -88,12 +88,12 @@ class org_openpsa_user_accounthelperTest extends openpsa_testcase
         // try closing again.. this should just return true
         $this->assertTrue($helper->close_account());
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
     public function testReopen_account()
     {
-        midcom::get('auth')->request_sudo("midcom.core");
+        midcom::get()->auth->request_sudo("midcom.core");
 
         $person = self::create_user();
         $helper = new org_openpsa_user_accounthelper($person);
@@ -126,7 +126,7 @@ class org_openpsa_user_accounthelperTest extends openpsa_testcase
         catch(Exception $e)
         {}
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
     private function _get_person_by_formdata($data, $expected_result)
@@ -149,7 +149,7 @@ class org_openpsa_user_accounthelperTest extends openpsa_testcase
 
     public function testGet_person_by_formdata()
     {
-        midcom::get('auth')->request_sudo("midcom.core");
+        midcom::get()->auth->request_sudo("midcom.core");
 
         // try invalid data
         $this->_get_person_by_formdata(array(), false);
@@ -167,12 +167,12 @@ class org_openpsa_user_accounthelperTest extends openpsa_testcase
 
         $this->_get_person_by_formdata(array("username" => $username, "password" => "abc"), true);
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
     public function testCheck_login_attempts()
     {
-        midcom::get('auth')->request_sudo("midcom.core");
+        midcom::get()->auth->request_sudo("midcom.core");
 
         $person = self::create_user();
         $helper = new org_openpsa_user_accounthelper($person);
@@ -193,7 +193,7 @@ class org_openpsa_user_accounthelperTest extends openpsa_testcase
         $this->assertFalse($helper->check_login_attempts());
         $this->assertTrue($helper->is_blocked(), 'account should get blocked now!');
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
     public function testGenerate_password()
@@ -251,9 +251,9 @@ class org_openpsa_user_accounthelperTest extends openpsa_testcase
         } while ($password3 === $password || $password3 === $password1 || $password3 === $password2);
         $old_passwords = array($password1, $password2);
 
-        midcom::get('auth')->request_sudo('org.openpsa.user');
+        midcom::get()->auth->request_sudo('org.openpsa.user');
         self::$_user->set_parameter('org_openpsa_user_password', 'old_passwords', serialize($old_passwords));
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
 
         $this->assertFalse($accounthelper->check_password_reuse($password1));
         $this->assertTrue($accounthelper->check_password_reuse($password3));
@@ -264,11 +264,11 @@ class org_openpsa_user_accounthelperTest extends openpsa_testcase
         $accounthelper = new org_openpsa_user_accounthelper(self::$_user);
         $this->assertFalse($accounthelper->check_password_age());
 
-        midcom::get('auth')->request_sudo('org.openpsa.user');
+        midcom::get()->auth->request_sudo('org.openpsa.user');
         self::$_user->set_parameter('org_openpsa_user_password', 'last_change', time());
         $this->assertTrue($accounthelper->check_password_age());
         self::$_user->set_parameter('org_openpsa_user_password', 'last_change', (time() - 60 * 60 * 24 * 30 * 12));
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
         $this->assertFalse($accounthelper->check_password_age());
     }
 
@@ -281,7 +281,7 @@ class org_openpsa_user_accounthelperTest extends openpsa_testcase
         $account = midcom_core_account::get(self::$_user);
         $password = $account->get_password();
 
-        midcom::get('auth')->request_sudo('org.openpsa.user');
+        midcom::get()->auth->request_sudo('org.openpsa.user');
         $this->assertTrue($accounthelper->disable_account());
         $account = midcom_core_account::get(self::$_user);
         $this->assertEquals('', $account->get_password());
@@ -302,7 +302,7 @@ class org_openpsa_user_accounthelperTest extends openpsa_testcase
 
         $account->set_password($accounthelper->generate_safe_password());
         $account->save();
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
     /**
@@ -317,7 +317,7 @@ class org_openpsa_user_accounthelperTest extends openpsa_testcase
         $password = $account->get_password();
         $username = $account->get_username();
 
-        midcom::get('auth')->request_sudo('org.openpsa.user');
+        midcom::get()->auth->request_sudo('org.openpsa.user');
         self::$_user->delete_parameter('org_openpsa_user_password', 'old_passwords');
         self::$_user->delete_parameter('org_openpsa_user_password', 'last_change');
         do
@@ -328,7 +328,7 @@ class org_openpsa_user_accounthelperTest extends openpsa_testcase
         $new_username = $username . time();
 
         $this->assertTrue($accounthelper->set_account($new_username, $new_password));
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
         $this->assertEquals(midcom_connection::prepare_password($new_password), $account->get_password());
         $this->assertEquals($new_username, $account->get_username());
         $this->assertFalse(is_null(self::$_user->get_parameter('org_openpsa_user_password', 'last_change')));

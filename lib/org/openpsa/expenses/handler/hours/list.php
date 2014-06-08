@@ -32,7 +32,7 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
      */
     public function _handler_list($handler_id, array $args, array &$data)
     {
-        midcom::get('auth')->require_valid_user();
+        midcom::get()->auth->require_valid_user();
 
         // List hours
         $qb = org_openpsa_projects_hour_report_dba::new_query_builder();
@@ -94,7 +94,7 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
         midcom_helper_datamanager2_widget_autocomplete::add_head_elements();
         org_openpsa_widgets_contact::add_head_elements();
 
-        midcom::get('head')->set_pagetitle($data['view_title']);
+        midcom::get()->head->set_pagetitle($data['view_title']);
         $this->add_breadcrumb('', $data['breadcrumb_title']);
     }
 
@@ -208,7 +208,7 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
 
         return array
         (
-            'none' => array('label' => midcom::get('i18n')->get_string("choose action", "midcom.admin.user")),
+            'none' => array('label' => midcom::get()->i18n->get_string("choose action", "midcom.admin.user")),
             'change_task' => array
             (
                 'label' => $this->_l10n->get('change_task'),

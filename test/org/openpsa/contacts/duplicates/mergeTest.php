@@ -22,9 +22,9 @@ class org_openpsa_contacts_duplicates_mergeTest extends openpsa_testcase
         $this->create_object('midcom_db_member', array('uid' => $person2->id, 'gid' => $group->id));
         $merger = new org_openpsa_contacts_duplicates_merge('person');
 
-        midcom::get('auth')->request_sudo('org.openpsa.contacts');
+        midcom::get()->auth->request_sudo('org.openpsa.contacts');
         $stat = $merger->merge($person1, $person2, 'all');
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
         $this->assertTrue($stat);
         $qb = midcom_db_member::new_query_builder();
         $qb->add_constraint('gid', '=', $group->id);
@@ -40,9 +40,9 @@ class org_openpsa_contacts_duplicates_mergeTest extends openpsa_testcase
         $this->create_object('midcom_db_eventmember', array('uid' => $person2->id, 'eid' => $event->id));
         $merger = new org_openpsa_contacts_duplicates_merge('person');
 
-        midcom::get('auth')->request_sudo('org.openpsa.contacts');
+        midcom::get()->auth->request_sudo('org.openpsa.contacts');
         $stat = $merger->merge_delete($person1, $person2);
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
         $this->assertTrue($stat);
         $qb = midcom_db_eventmember::new_query_builder();
         $qb->add_constraint('eid', '=', $event->id);

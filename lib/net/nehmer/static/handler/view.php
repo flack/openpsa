@@ -189,7 +189,7 @@ class net_nehmer_static_handler_view extends midcom_baseclasses_components_handl
             );
         }
 
-        midcom::get('metadata')->set_request_metadata($this->_article->metadata->revised, $this->_article->guid);
+        midcom::get()->metadata->set_request_metadata($this->_article->metadata->revised, $this->_article->guid);
         $this->bind_view_to_object($this->_article, $this->_datamanager->schema->name);
 
         if (   $this->_config->get('indexinnav')
@@ -202,11 +202,11 @@ class net_nehmer_static_handler_view extends midcom_baseclasses_components_handl
         if (   $this->_config->get('folder_in_title')
             && $this->_topic->extra != $this->_article->title)
         {
-            midcom::get('head')->set_pagetitle("{$this->_topic->extra}: {$this->_article->title}");
+            midcom::get()->head->set_pagetitle("{$this->_topic->extra}: {$this->_article->title}");
         }
         else
         {
-            midcom::get('head')->set_pagetitle($this->_article->title);
+            midcom::get()->head->set_pagetitle($this->_article->title);
         }
     }
 

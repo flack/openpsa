@@ -120,7 +120,7 @@ class org_openpsa_contacts_handler_duplicates_person extends midcom_baseclasses_
                             $option2->delete_parameter('org.openpsa.contacts.duplicates:not_duplicate', $option1->guid);
 
                             // TODO: Localize
-                            midcom::get('uimessages')->add($this->_l10n->get('org.openpsa.contacts'), "Failed to mark #{$option1->id} and # {$option2->id} as not duplicates, errstr: {$errstr}", 'error');
+                            midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.contacts'), "Failed to mark #{$option1->id} and # {$option2->id} as not duplicates, errstr: {$errstr}", 'error');
 
                             // Switch is a "loop" so we continue 2 levels to get out of the foreach as well
                             continue(2);
@@ -130,7 +130,7 @@ class org_openpsa_contacts_handler_duplicates_person extends midcom_baseclasses_
                         $option2->delete_parameter('org.openpsa.contacts.duplicates:possible_duplicate', $option1->guid);
 
                         // TODO: Localize
-                        midcom::get('uimessages')->add($this->_l10n->get('org.openpsa.contacts'), "Keeping both \"{$option1->name}\" and \"{$option2->name}\", they will not be marked as duplicates in the future", 'ok');
+                        midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.contacts'), "Keeping both \"{$option1->name}\" and \"{$option2->name}\", they will not be marked as duplicates in the future", 'ok');
 
                         // Switch is a "loop" so we continue 2 levels to get out of the foreach as well
                         continue(2);
@@ -156,7 +156,7 @@ class org_openpsa_contacts_handler_duplicates_person extends midcom_baseclasses_
                 if (!$merger->merge_delete($person1, $person2))
                 {
                     // TODO: Localize
-                    midcom::get('uimessages')->add($this->_l10n->get('org.openpsa.contacts'), 'Merge failed, errstr: ' . $merger->errstr(), 'error');
+                    midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.contacts'), 'Merge failed, errstr: ' . $merger->errstr(), 'error');
                 }
             }
 

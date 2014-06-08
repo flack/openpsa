@@ -22,18 +22,18 @@ class org_openpsa_invoices_handler_projectsTest extends openpsa_testcase
 
     public function testHandler_uninvoiced()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.invoices');
+        midcom::get()->auth->request_sudo('org.openpsa.invoices');
 
         $data = $this->run_handler('org.openpsa.invoices', array('projects'));
         $this->assertEquals('list_projects_uninvoiced', $data['handler_id']);
 
         $this->show_handler($data);
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
     public function test_generate_invoice()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.invoices');
+        midcom::get()->auth->request_sudo('org.openpsa.invoices');
 
         $customer = $this->create_object('org_openpsa_contacts_group_dba');
         $salesproject = $this->create_object('org_openpsa_sales_salesproject_dba');
@@ -82,7 +82,7 @@ class org_openpsa_invoices_handler_projectsTest extends openpsa_testcase
         $deliverable->refresh();
         $this->assertEquals(org_openpsa_sales_salesproject_deliverable_dba::STATE_INVOICED, $deliverable->state);
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 }
 ?>

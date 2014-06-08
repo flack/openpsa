@@ -63,7 +63,7 @@ class net_nemein_wiki_parser extends midcom_baseclasses_components_purecode
             return $fulltag;
         }
 
-        midcom::get('componentloader')->load_graceful('org.routamc.photostream');
+        midcom::get()->componentloader->load_graceful('org.routamc.photostream');
         if (!class_exists('org_routamc_photostream_photo_dba'))
         {
             // TODO: do something to explain that we can't load o.r.photos...

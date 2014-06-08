@@ -28,7 +28,7 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
         // Form has been handled if cancel has been pressed
         if (isset($_POST['f_cancel']))
         {
-            midcom::get('uimessages')->add($this->_l10n->get($this->_component), $this->_l10n_midcom->get('cancelled'));
+            midcom::get()->uimessages->add($this->_l10n->get($this->_component), $this->_l10n_midcom->get('cancelled'));
             midcom::get()->relocate('');
             // This will exit
         }
@@ -66,7 +66,7 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
 
         if ($success)
         {
-            midcom::get('uimessages')->add($this->_l10n->get($this->_component), $this->_l10n_midcom->get('order saved'));
+            midcom::get()->uimessages->add($this->_l10n->get($this->_component), $this->_l10n_midcom->get('order saved'));
             midcom::get()->relocate('');
             // This will exit
         }
@@ -77,7 +77,7 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
         // Use the DB Factory to resolve the class and to get the object
         try
         {
-            $object = midcom::get('dbfactory')->get_object_by_guid($identifier);
+            $object = midcom::get()->dbfactory->get_object_by_guid($identifier);
         }
         catch (midcom_error $e)
         {
@@ -96,7 +96,7 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
             // Show an error message on an update failure
             $reflector = midcom_helper_reflector::get($object);
             $title = $reflector->get_class_label() . ' ' . $reflector->get_object_label($object);
-            midcom::get('uimessages')->add($this->_l10n->get('midcom.admin.folder'), sprintf($this->_l10n->get('failed to update %s due to: %s'), $title, midcom_connection::get_error_string()), 'error');
+            midcom::get()->uimessages->add($this->_l10n->get('midcom.admin.folder'), sprintf($this->_l10n->get('failed to update %s due to: %s'), $title, midcom_connection::get_error_string()), 'error');
             return false;
         }
 
@@ -119,18 +119,18 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
     public function _handler_order($handler_id, array $args, array &$data)
     {
         // jQuery sorting
-        midcom::get('head')->enable_jquery();
+        midcom::get()->head->enable_jquery();
 
-        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL.'/jQuery/jquery.form.js');
-        midcom::get('head')->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.core.min.js');
-        midcom::get('head')->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.widget.min.js');
-        midcom::get('head')->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.mouse.min.js');
-        midcom::get('head')->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.sortable.min.js');
+        midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL.'/jQuery/jquery.form.js');
+        midcom::get()->head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.core.min.js');
+        midcom::get()->head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.widget.min.js');
+        midcom::get()->head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.mouse.min.js');
+        midcom::get()->head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.sortable.min.js');
 
-        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL.'/midcom.admin.folder/jquery-postfix.js');
+        midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL.'/midcom.admin.folder/jquery-postfix.js');
 
         // These pages need no caching
-        midcom::get('cache')->content->no_cache();
+        midcom::get()->cache->content->no_cache();
 
         // Custom styles
         $this->add_stylesheet(MIDCOM_STATIC_URL.'/midcom.admin.folder/midcom-admin-order.css');
@@ -149,10 +149,10 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
         // Set page title
         $data['folder'] = $this->_topic;
         $data['title'] = sprintf($this->_l10n->get('order navigation in folder %s'), $this->_topic->get_label());
-        midcom::get('head')->set_pagetitle($data['title']);
+        midcom::get()->head->set_pagetitle($data['title']);
 
         // Set the help object in the toolbar
-        $help_toolbar = midcom::get('toolbars')->get_help_toolbar();
+        $help_toolbar = midcom::get()->toolbars->get_help_toolbar();
         $help_toolbar->add_help_item('navigation_order', 'midcom.admin.folder', null, null, 1);
 
         // Skip the page style on AJAX form handling

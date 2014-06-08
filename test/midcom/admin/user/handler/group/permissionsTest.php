@@ -22,12 +22,12 @@ class midcom_admin_user_handler_group_permissionsTest extends openpsa_testcase
 
     public function testHandler_folders()
     {
-        midcom::get('auth')->request_sudo('midcom.admin.user');
+        midcom::get()->auth->request_sudo('midcom.admin.user');
 
         $data = $this->run_handler('net.nehmer.static', array('__mfa', 'asgard_midcom.admin.user', 'group', 'folders', self::$_group->guid));
         $this->assertEquals('____mfa-asgard_midcom.admin.user-group_folders', $data['handler_id']);
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 }
 ?>

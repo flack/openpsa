@@ -34,25 +34,25 @@ class net_nemein_wiki_handler_editTest extends openpsa_testcase
 
     public function testHandler_edit()
     {
-        midcom::get('auth')->request_sudo('net.nemein.wiki');
+        midcom::get()->auth->request_sudo('net.nemein.wiki');
 
         $data = $this->run_handler(self::$_topic, array('edit', self::$_page->name));
         $this->assertEquals('edit', $data['handler_id']);
 
         $this->show_handler($data);
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
     public function testHandler_change()
     {
-        midcom::get('auth')->request_sudo('net.nemein.wiki');
+        midcom::get()->auth->request_sudo('net.nemein.wiki');
 
         $_SERVER['REQUEST_METHOD'] = 'POST';
         $_POST['change_to'] = 'default';
         $url = $this->run_relocate_handler(self::$_topic, array('change', self::$_page->name));
         $this->assertEquals('edit/' . self::$_page->name . '/', $url);
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 }
 ?>

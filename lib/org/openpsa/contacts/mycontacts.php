@@ -35,7 +35,7 @@ class org_openpsa_contacts_mycontacts
         }
         else
         {
-            $this->_user = midcom::get('auth')->user;
+            $this->_user = midcom::get()->auth->user;
         }
     }
 
@@ -59,10 +59,10 @@ class org_openpsa_contacts_mycontacts
             {
                 $this->_group = new org_openpsa_contacts_list_dba;
                 $this->_group->person = $this->_user->guid;
-                midcom::get('auth')->request_sudo('org.openpsa.contacts');
+                midcom::get()->auth->request_sudo('org.openpsa.contacts');
                 $this->_group->create();
                 $this->_group->set_privilege('midgard:owner', $this->_user->id, MIDCOM_PRIVILEGE_ALLOW);
-                midcom::get('auth')->drop_sudo();
+                midcom::get()->auth->drop_sudo();
             }
             else
             {

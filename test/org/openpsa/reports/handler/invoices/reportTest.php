@@ -21,19 +21,19 @@ class org_openpsa_reports_handler_invoices_reportTest extends openpsa_testcase
 
     public function test_handler_generator_get()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.reports');
+        midcom::get()->auth->request_sudo('org.openpsa.reports');
 
         $_REQUEST = array('org_openpsa_reports_query_data' => array('mimetype' => 'text/html'));
 
         $data = $this->run_handler('org.openpsa.reports', array('invoices', 'get'));
         $this->assertEquals('invoices_report_get', $data['handler_id']);
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
     public function test_handler_edit_report_guid()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.reports');
+        midcom::get()->auth->request_sudo('org.openpsa.reports');
 
         $query = $this->create_object('org_openpsa_reports_query_dba');
 
@@ -41,12 +41,12 @@ class org_openpsa_reports_handler_invoices_reportTest extends openpsa_testcase
         $this->assertEquals('invoices_edit_report_guid', $data['handler_id']);
 
         $this->show_handler($data);
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
     public function test_handler_report_guid_file()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.reports');
+        midcom::get()->auth->request_sudo('org.openpsa.reports');
 
         $query = $this->create_object('org_openpsa_reports_query_dba');
         $statuses =  array
@@ -63,12 +63,12 @@ class org_openpsa_reports_handler_invoices_reportTest extends openpsa_testcase
         $this->assertEquals('invoices_report_guid_file', $data['handler_id']);
 
         $this->show_handler($data);
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
     public function test_handler_report_guid()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.reports');
+        midcom::get()->auth->request_sudo('org.openpsa.reports');
 
         $query = $this->create_object('org_openpsa_reports_query_dba');
         $timestamp = strftime('%Y_%m_%d', $query->metadata->created);
@@ -77,18 +77,18 @@ class org_openpsa_reports_handler_invoices_reportTest extends openpsa_testcase
 
         $this->assertEquals('invoices/' . $query->guid . '/' . $timestamp . '_unnamed.html', $url);
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
     public function test_handler_report()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.reports');
+        midcom::get()->auth->request_sudo('org.openpsa.reports');
 
         $data = $this->run_handler('org.openpsa.reports', array('invoices'));
         $this->assertEquals('invoices_report', $data['handler_id']);
 
         $this->show_handler($data);
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 }
 ?>

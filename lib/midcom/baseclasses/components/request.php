@@ -377,9 +377,9 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
      */
     final public function __construct($topic, $config)
     {
-        if (! midcom::get('dbclassloader')->is_midcom_db_object($topic))
+        if (! midcom::get()->dbclassloader->is_midcom_db_object($topic))
         {
-            $this->_topic = midcom::get('dbfactory')->convert_midgard_to_midcom($topic);
+            $this->_topic = midcom::get()->dbfactory->convert_midgard_to_midcom($topic);
         }
         else
         {
@@ -409,7 +409,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
             $this->_register_core_plugin_namespaces();
         }
 
-        $manifest = midcom::get('componentloader')->manifests[$this->_component];
+        $manifest = midcom::get()->componentloader->manifests[$this->_component];
         if (!empty($manifest->extends))
         {
             $this->_request_switch = midcom_baseclasses_components_configuration::get($manifest->extends, 'routes');
@@ -601,10 +601,10 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
         // object. Note, if both are equal, we will have two assignments at this
         // point; it shouldn't bother us, it isn't a regular use-case anymore (besides
         // the fact that this is only a very very very minor performance issue).
-        $this->_node_toolbar = midcom::get('toolbars')->get_node_toolbar();
-        $this->_view_toolbar = midcom::get('toolbars')->get_view_toolbar();
-        $handler->_node_toolbar = midcom::get('toolbars')->get_node_toolbar();
-        $handler->_view_toolbar = midcom::get('toolbars')->get_view_toolbar();
+        $this->_node_toolbar = midcom::get()->toolbars->get_node_toolbar();
+        $this->_view_toolbar = midcom::get()->toolbars->get_view_toolbar();
+        $handler->_node_toolbar = midcom::get()->toolbars->get_node_toolbar();
+        $handler->_view_toolbar = midcom::get()->toolbars->get_view_toolbar();
 
         // Add the handler ID to request data
         $this->_request_data['handler_id'] = $this->_handler['id'];
@@ -643,11 +643,11 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
         // Check whether this request should not be cached by default:
         if ($this->_handler['no_cache'] == true)
         {
-            midcom::get('cache')->content->no_cache();
+            midcom::get()->cache->content->no_cache();
         }
         if ($this->_handler['expires'] >= 0)
         {
-            midcom::get('cache')->content->expires($this->_handler['expires']);
+            midcom::get()->cache->content->expires($this->_handler['expires']);
         }
 
         $this->_on_handled($this->_handler['id'], $this->_handler['args']);
@@ -908,7 +908,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
                 break;
 
             case 'component':
-                midcom::get('componentloader')->load($src);
+                midcom::get()->componentloader->load($src);
                 break;
 
             case 'snippet':
@@ -1002,8 +1002,8 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
         // Centralized admin panel functionalities
 
         // Load plugins registered via component manifests
-        $manifest_plugins = midcom::get('componentloader')->get_all_manifest_customdata('request_handler_plugin');
-        $customdata = midcom::get('componentloader')->get_all_manifest_customdata('asgard_plugin');
+        $manifest_plugins = midcom::get()->componentloader->get_all_manifest_customdata('request_handler_plugin');
+        $customdata = midcom::get()->componentloader->get_all_manifest_customdata('asgard_plugin');
         foreach ($customdata as $component => $plugin_config)
         {
             $manifest_plugins["asgard_{$component}"] = $plugin_config;

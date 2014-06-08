@@ -72,7 +72,7 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
         if ($data['person_rss_url'])
         {
             // We've autoprobed that this contact has a RSS feed available, link it
-            midcom::get('head')->add_link_head
+            midcom::get()->head->add_link_head
             (
                 array
                 (
@@ -93,7 +93,7 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
         $this->bind_view_to_object($this->_contact, $this->_datamanager->schema_name);
 
         $this->add_breadcrumb("person/{$this->_contact->guid}/", $this->_contact->name);
-        midcom::get('head')->set_pagetitle($this->_contact->name);
+        midcom::get()->head->set_pagetitle($this->_contact->name);
     }
 
     /**
@@ -120,7 +120,7 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
         $user_url = $siteconfig->get_node_full_url('org.openpsa.user');
 
         if (   $invoices_url
-            && midcom::get('auth')->can_user_do('midgard:create', null, 'org_openpsa_invoices_invoice_dba'))
+            && midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_invoices_invoice_dba'))
         {
             $billing_data_url = "create/" . $this->_contact->guid . "/";
             $qb_billing_data = org_openpsa_invoices_billing_data_dba::new_query_builder();
@@ -144,7 +144,7 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
 
         if (   $user_url
             && (   midcom_connection::get_user() == $this->_contact->id
-                || midcom::get('auth')->can_user_do('org.openpsa.user:access', null, 'org_openpsa_user_interface')))
+                || midcom::get()->auth->can_user_do('org.openpsa.user:access', null, 'org_openpsa_user_interface')))
         {
             $this->_view_toolbar->add_item
             (

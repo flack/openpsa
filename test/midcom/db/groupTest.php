@@ -15,7 +15,7 @@ class midcom_db_groupTest extends openpsa_testcase
 {
     public function testCRUD()
     {
-        midcom::get('auth')->request_sudo('midcom.core');
+        midcom::get()->auth->request_sudo('midcom.core');
 
         $group = new midcom_db_group();
         $group->_use_activitystream = false;
@@ -37,7 +37,7 @@ class midcom_db_groupTest extends openpsa_testcase
         $stat = $group->delete();
         $this->assertTrue($stat);
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
     /**
@@ -48,7 +48,7 @@ class midcom_db_groupTest extends openpsa_testcase
         $person = $this->create_object('midcom_db_person');
         $group = $this->create_object('midcom_db_group');
 
-        midcom::get('auth')->request_sudo('midcom.core');
+        midcom::get()->auth->request_sudo('midcom.core');
         $stat = $group->add_member($person);
         $this->assertTrue($stat);
         $this->assertTrue($group->is_member($person));
@@ -68,7 +68,7 @@ class midcom_db_groupTest extends openpsa_testcase
         $count = $this->_count_membership_objects($group->id, $person->id);
         $this->assertEquals($count, 0);
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
     private function _count_membership_objects($gid, $pid)

@@ -22,14 +22,14 @@ class org_openpsa_user_handler_group_notificationsTest extends openpsa_testcase
 
     public function test_handler_notifications()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.user');
+        midcom::get()->auth->request_sudo('org.openpsa.user');
 
         $group = $this->create_object('midcom_db_group');
 
         $data = $this->run_handler('org.openpsa.user', array('group', 'notifications', $group->guid));
         $this->assertEquals('group_notifications', $data['handler_id']);
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 }
 ?>

@@ -18,7 +18,7 @@
             'storage'     => null,
             'start_fieldset' => array
             (
-                'title' => midcom::get('i18n')->get_string('midcom'),
+                'title' => midcom::get()->i18n->get_string('midcom'),
                 'css_group' => 'area',
             ),
         ),
@@ -91,7 +91,7 @@
             'storage'     => null,
             'start_fieldset' => array
             (
-                'title' => midcom::get('i18n')->get_string('org.openpsa.calendar', 'org.openpsa.calendar'),
+                'title' => midcom::get()->i18n->get_string('org.openpsa.calendar', 'org.openpsa.calendar'),
                 'css_group' => 'area',
             ),
             'end_fieldset' => '',
@@ -112,7 +112,7 @@
             'widget'      => 'privilege',
             'start_fieldset' => array
             (
-                'title' => midcom::get('i18n')->get_string('org.openpsa.projects', 'org.openpsa.projects'),
+                'title' => midcom::get()->i18n->get_string('org.openpsa.projects', 'org.openpsa.projects'),
                 'css_group' => 'area',
             ),
             'hidden' => !org_openpsa_core_siteconfig::get_instance()->node_exists('org.openpsa.projects'),
@@ -256,7 +256,7 @@
             'widget'      => 'privilege',
             'start_fieldset' => array
             (
-                'title' => midcom::get('i18n')->get_string('org.openpsa.invoices', 'org.openpsa.invoices'),
+                'title' => midcom::get()->i18n->get_string('org.openpsa.invoices', 'org.openpsa.invoices'),
                 'css_group' => 'area',
             ),
             'hidden' => !org_openpsa_core_siteconfig::get_instance()->node_exists('org.openpsa.invoices'),
@@ -292,7 +292,7 @@
             'widget'      => 'privilege',
             'start_fieldset' => array
             (
-                'title' => midcom::get('i18n')->get_string('net.nemein.wiki', 'net.nemein.wiki'),
+                'title' => midcom::get()->i18n->get_string('net.nemein.wiki', 'net.nemein.wiki'),
                 'css_group' => 'area',
             ),
             'hidden' => !org_openpsa_core_siteconfig::get_instance()->node_exists('net.nemein.wiki'),
@@ -328,7 +328,7 @@
             'widget'      => 'privilege',
             'start_fieldset' => array
             (
-                'title' => midcom::get('i18n')->get_string('org.openpsa.products', 'org.openpsa.products'),
+                'title' => midcom::get()->i18n->get_string('org.openpsa.products', 'org.openpsa.products'),
                 'css_group' => 'area',
             ),
             'hidden' => !org_openpsa_core_siteconfig::get_instance()->node_exists('org.openpsa.products'),
@@ -364,7 +364,7 @@
             'widget'      => 'privilege',
             'start_fieldset' => array
             (
-                'title' => midcom::get('i18n')->get_string('org.openpsa.directmarketing', 'org.openpsa.directmarketing'),
+                'title' => midcom::get()->i18n->get_string('org.openpsa.directmarketing', 'org.openpsa.directmarketing'),
                 'css_group' => 'area',
             ),
             'hidden' => !org_openpsa_core_siteconfig::get_instance()->node_exists('org.openpsa.directmarketing'),
@@ -400,7 +400,7 @@
             'widget'      => 'privilege',
             'start_fieldset' => array
             (
-                'title' => midcom::get('i18n')->get_string('org.openpsa.sales', 'org.openpsa.sales'),
+                'title' => midcom::get()->i18n->get_string('org.openpsa.sales', 'org.openpsa.sales'),
                 'css_group' => 'area',
             ),
             'end_fieldset' => '',

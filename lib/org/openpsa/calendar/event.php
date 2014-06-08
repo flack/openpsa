@@ -92,7 +92,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
 
     public function _on_loaded()
     {
-        $l10n = midcom::get('i18n')->get_l10n('org.openpsa.calendar');
+        $l10n = midcom::get()->i18n->get_l10n('org.openpsa.calendar');
 
         // Check for empty title in existing events
         if (!$this->title)
@@ -410,7 +410,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
         // Handle ACL accordingly
         foreach (array_keys($this->participants) as $person_id)
         {
-            $user = midcom::get('auth')->get_user($person_id);
+            $user = midcom::get()->auth->get_user($person_id);
 
             // All participants can read and update
             $this->set_privilege('org.openpsa.calendar:read', $user->id, MIDCOM_PRIVILEGE_ALLOW);
@@ -454,7 +454,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
     public function _on_deleting()
     {
         //Remove participants
-        midcom::get('auth')->request_sudo('org.openpsa.calendar');
+        midcom::get()->auth->request_sudo('org.openpsa.calendar');
         foreach ($this->_get_participants() as $obj)
         {
             if ($this->send_notify)
@@ -476,7 +476,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
         }
 
         //Remove event parameters
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
 
         return true;
     }
@@ -550,7 +550,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
      */
     function details_text($display_title = true, $nl = "\n")
     {
-        $l10n = midcom::get('i18n')->get_l10n('org.openpsa.calendar');
+        $l10n = midcom::get()->i18n->get_l10n('org.openpsa.calendar');
         $str = '';
         if ($display_title)
         {

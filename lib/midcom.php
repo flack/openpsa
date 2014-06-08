@@ -69,8 +69,8 @@ class midcom
 
         // Instantiate the MidCOM main class
         self::$_application = new midcom_application();
+        self::get('debug')->log("Start of MidCOM run" . (isset($_SERVER['REQUEST_URI']) ? ": {$_SERVER['REQUEST_URI']}" : ''));
         self::get('auth')->initialize();
-
         /* Load and start up the cache system, this might already end the request
          * on a content cache hit. Note that the cache check hit depends on the i18n and auth code.
          */

@@ -84,7 +84,7 @@ class midcom_config_test
 
     public function check_for_utility ($testname, $fail_code, $fail_recommendations, $ok_notice = '&nbsp;')
     {
-        $executable = midcom::get('config')->get("utility_{$testname}");
+        $executable = midcom::get()->config->get("utility_{$testname}");
         if (is_null($executable))
         {
             $this->println($testname, $fail_code, "The path to the utility {$testname} is not configured. {$fail_recommendations}");
@@ -105,7 +105,7 @@ class midcom_config_test
 
     private function _check_rcs()
     {
-        $config = midcom::get('config');
+        $config = midcom::get()->config;
         if ($config->get('midcom_services_rcs_enable'))
         {
             try
@@ -144,7 +144,7 @@ class midcom_config_test
         }
 
         // Validate the Cache Base Directory.
-        $cachedir = midcom::get('config')->get('cache_base_directory');
+        $cachedir = midcom::get()->config->get('cache_base_directory');
         if  (! is_dir($cachedir))
         {
             $this->println('MidCOM cache base directory', self::ERROR, "The configured MidCOM cache base directory ({$cachedir}) does not exist or is not a directory. You have to create it as a directory writable by the Apache user.");
@@ -241,7 +241,7 @@ class midcom_config_test
         }
         else
         {
-            if (!midcom::get('config')->get('cache_module_memcache_backend'))
+            if (!midcom::get()->config->get('cache_module_memcache_backend'))
             {
                 $this->println('Memcache', self::WARNING, 'The PHP Memcache module is recommended for efficient MidCOM operation. It is available but is not set to be in use.');
             }

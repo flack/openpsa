@@ -22,7 +22,7 @@ class org_openpsa_sales_salesproject_deliverableTest extends openpsa_testcase
 
     public function testCRUD()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.sales');
+        midcom::get()->auth->request_sudo('org.openpsa.sales');
         $deliverable = new org_openpsa_sales_salesproject_deliverable_dba();
         $deliverable->salesproject = $this->_salesproject->id;
         $deliverable->plannedUnits = 2.5;
@@ -57,7 +57,7 @@ class org_openpsa_sales_salesproject_deliverableTest extends openpsa_testcase
         $this->assertEquals($this->_salesproject->value, 0);
         $this->assertEquals($this->_salesproject->profit, 0);
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
     public function testGet_parent()
@@ -83,9 +83,9 @@ class org_openpsa_sales_salesproject_deliverableTest extends openpsa_testcase
 
         $deliverable = $this->create_object('org_openpsa_sales_salesproject_deliverable_dba', $attributes['deliverable']);
 
-        midcom::get('auth')->request_sudo('org.openpsa.sales');
+        midcom::get()->auth->request_sudo('org.openpsa.sales');
         $stat = $deliverable->order();
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
 
         $this->assertEquals($stat, $retval);
 
@@ -197,7 +197,7 @@ class org_openpsa_sales_salesproject_deliverableTest extends openpsa_testcase
 
         $deliverable = $this->create_object('org_openpsa_sales_salesproject_deliverable_dba', $attributes);
 
-        midcom::get('auth')->request_sudo('org.openpsa.sales');
+        midcom::get()->auth->request_sudo('org.openpsa.sales');
         $stat = $deliverable->decline();
 
         $this->assertTrue($stat);
@@ -220,7 +220,7 @@ class org_openpsa_sales_salesproject_deliverableTest extends openpsa_testcase
         $this->assertTrue($deliverable3->decline());
         $this->_salesproject->refresh();
         $this->assertEquals(org_openpsa_sales_salesproject_dba::STATE_LOST, $this->_salesproject->state);
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
     /**

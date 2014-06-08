@@ -46,7 +46,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
     public function __construct()
     {
         parent::__construct();
-        midcom::get('style')->prepend_component_styledir('org.openpsa.relatedto');
+        midcom::get()->style->prepend_component_styledir('org.openpsa.relatedto');
     }
 
     /**
@@ -56,7 +56,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
      */
     public function _handler_render($handler_id, array $args, array &$data)
     {
-        $this->_object = midcom::get('dbfactory')->get_object_by_guid($args[0]);
+        $this->_object = midcom::get()->dbfactory->get_object_by_guid($args[0]);
         $this->_mode = $args[1];
         $this->_sort = 'default';
         if (isset($args[2]))
@@ -93,7 +93,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
     {
         org_openpsa_relatedto_plugin::add_header_files();
 
-        $object_url = midcom::get('permalinks')->create_permalink($this->_object->guid);
+        $object_url = midcom::get()->permalinks->create_permalink($this->_object->guid);
 
         if ($object_url)
         {
@@ -179,7 +179,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
             );
             try
             {
-                $to_arr['other_obj'] = midcom::get('dbfactory')->get_object_by_guid($mc->get_subkey($guid, $object_prefix . 'Guid'));
+                $to_arr['other_obj'] = midcom::get()->dbfactory->get_object_by_guid($mc->get_subkey($guid, $object_prefix . 'Guid'));
             }
             catch (midcom_error $e)
             {
@@ -198,8 +198,8 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
     {
         switch(true)
         {
-            case midcom::get('dbfactory')->is_a($obj, 'midcom_db_event'):
-            case midcom::get('dbfactory')->is_a($obj, 'org_openpsa_projects_task_dba'):
+            case midcom::get()->dbfactory->is_a($obj, 'midcom_db_event'):
+            case midcom::get()->dbfactory->is_a($obj, 'org_openpsa_projects_task_dba'):
                 return $obj->start;
             default:
                 return $obj->metadata->created;
@@ -274,7 +274,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
 
         //Make sure we have the component classes available and
         //fallback to default renderer if not
-        if (!midcom::get('componentloader')->load_graceful($link['component']))
+        if (!midcom::get()->componentloader->load_graceful($link['component']))
         {
             $this->_render_line_default($link, $other_obj);
             return;
@@ -325,7 +325,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
      */
     private function _render_line_document($other_obj)
     {
-        $this->_request_data['document_url'] = midcom::get('permalinks')->create_permalink($other_obj->guid);
+        $this->_request_data['document_url'] = midcom::get()->permalinks->create_permalink($other_obj->guid);
 
         midcom_show_style('relatedto_list_item_document');
     }
@@ -464,7 +464,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
     {
         $class = get_class($other_obj);
 
-        $object_url = midcom::get('permalinks')->create_permalink($other_obj->guid);
+        $object_url = midcom::get()->permalinks->create_permalink($other_obj->guid);
 
         $ref = midcom_helper_reflector::get($other_obj);
         $class_label = $ref->get_class_label();
@@ -498,7 +498,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
         {
             case 'net.nemein.wiki':
             case 'org.openpsa.calendar':
-                echo "<li><input type=\"button\" class=\"button\" id=\"org_openpsa_relatedto_details_button_{$other_obj->guid}\" onclick=\"ooToggleRelatedInfoDisplay('{$other_obj->guid}');\" class=\"info\" value=\"" . midcom::get('i18n')->get_string('details', 'org.openpsa.relatedto') . "\" /></li>\n";
+                echo "<li><input type=\"button\" class=\"button\" id=\"org_openpsa_relatedto_details_button_{$other_obj->guid}\" onclick=\"ooToggleRelatedInfoDisplay('{$other_obj->guid}');\" class=\"info\" value=\"" . midcom::get()->i18n->get_string('details', 'org.openpsa.relatedto') . "\" /></li>\n";
                 break;
         }
 
@@ -506,12 +506,12 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
         {
             $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
             echo "    <span id=\"org_openpsa_relatedto_toolbar_confirmdeny_{$link['guid']}\">\n";
-            echo "        <li id=\"org_openpsa_relatedto_toolbar_confirm_{$link['guid']}\"><input type=\"button\" class=\"button\" value=\"" . midcom::get('i18n')->get_string('confirm relation', 'org.openpsa.relatedto') . "\" onclick=\"ooRelatedDenyConfirm('{$prefix}', 'confirm', '{$link['guid']}');\" /></li>\n";
-            echo "        <li id=\"org_openpsa_relatedto_toolbar_deny_{$link['guid']}\"><input type=\"button\" class=\"button\" value=\"" . midcom::get('i18n')->get_string('deny relation', 'org.openpsa.relatedto') . "\" onclick=\"ooRelatedDenyConfirm('{$prefix}', 'deny', '{$link['guid']}');\" /><li>\n";
+            echo "        <li id=\"org_openpsa_relatedto_toolbar_confirm_{$link['guid']}\"><input type=\"button\" class=\"button\" value=\"" . midcom::get()->i18n->get_string('confirm relation', 'org.openpsa.relatedto') . "\" onclick=\"ooRelatedDenyConfirm('{$prefix}', 'confirm', '{$link['guid']}');\" /></li>\n";
+            echo "        <li id=\"org_openpsa_relatedto_toolbar_deny_{$link['guid']}\"><input type=\"button\" class=\"button\" value=\"" . midcom::get()->i18n->get_string('deny relation', 'org.openpsa.relatedto') . "\" onclick=\"ooRelatedDenyConfirm('{$prefix}', 'deny', '{$link['guid']}');\" /><li>\n";
             echo "    </span>\n";
         }
 
-        echo '<li><input type="button" class="button delete" id="org_openpsa_relatedto_delete-' . $link['guid'] . '" value="' . midcom::get('i18n')->get_string('delete relation', 'org.openpsa.relatedto') . '" /></li>';
+        echo '<li><input type="button" class="button delete" id="org_openpsa_relatedto_delete-' . $link['guid'] . '" value="' . midcom::get()->i18n->get_string('delete relation', 'org.openpsa.relatedto') . '" /></li>';
 
         echo "</ul>\n";
     }
@@ -523,7 +523,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
      */
     public function _handler_ajax($handler_id, array $args, array &$data)
     {
-        midcom::get('auth')->require_valid_user();
+        midcom::get()->auth->require_valid_user();
         $response = new midcom_response_xml;
         $response->result = false;
 
@@ -534,7 +534,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
         {
             try
             {
-                $this->_object = midcom::get('dbfactory')->get_object_by_guid($args[1]);
+                $this->_object = midcom::get()->dbfactory->get_object_by_guid($args[1]);
                 if (!($this->_object instanceof org_openpsa_relatedto_dba))
                 {
                     $response->status = "method '{$this->_mode}' requires guid of a link object as an argument";
@@ -572,7 +572,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
      */
     public function _handler_delete($handler_id, array $args, array &$data)
     {
-        midcom::get('auth')->require_valid_user();
+        midcom::get()->auth->require_valid_user();
 
         $response = new midcom_response_xml;
 

@@ -14,7 +14,7 @@
  *
  * <b>Site-specific configuration:</b>
  *
- * MidCOM will include the file <i>midcom::get('config')->get('midcom_config_basedir') . /midcom.conf</i> which must be a regular
+ * MidCOM will include the file <i>midcom::get()->config->get('midcom_config_basedir') . /midcom.conf</i> which must be a regular
  * PHP file. You may populate the global array $midcom_config_site in this file. It should
  * list all options that apply to all installations (like the Cache backend selection
  * or the indexer host).
@@ -252,7 +252,7 @@
  * - <b>string toolbars_simple_css_path:</b> this defaults to MIDCOM_ROOT_URL/midcom.services.toolbars/simple.css
  *   and is used to set the css for the toolbars used with onsite editing.
  * - <b>boolean toolbars_enable_centralized:</b> defaults to true, whether to enable the centralized,
- *   javascript-floating MidCOM toolbar that users can display with midcom::get('toolbars')->show();
+ *   javascript-floating MidCOM toolbar that users can display with midcom::get()->toolbars->show();
  *
  * <b>Utility Programs</b>
  *

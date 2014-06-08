@@ -72,7 +72,7 @@ implements midcom_helper_datamanager2_interfaces_create
     {
         $this->_schemadb =& $this->_request_data['schemadb'];
         if (   $this->_config->get('simple_name_handling')
-            && !midcom::get('auth')->can_user_do('midcom:urlname'))
+            && !midcom::get()->auth->can_user_do('midcom:urlname'))
         {
             foreach (array_keys($this->_schemadb) as $name)
             {
@@ -137,7 +137,7 @@ implements midcom_helper_datamanager2_interfaces_create
         {
             case 'save':
                 // Index the article
-                $indexer = midcom::get('indexer');
+                $indexer = midcom::get()->indexer;
                 net_nehmer_blog_viewer::index($data['controller']->datamanager, $indexer, $this->_content_topic);
                 // *** FALL THROUGH ***
 
@@ -148,7 +148,7 @@ implements midcom_helper_datamanager2_interfaces_create
         $this->_prepare_request_data();
 
         $title = sprintf($this->_l10n_midcom->get('create %s'), $this->_schemadb[$this->_schema]->description);
-        midcom::get('head')->set_pagetitle("{$this->_topic->extra}: {$title}");
+        midcom::get()->head->set_pagetitle("{$this->_topic->extra}: {$title}");
         $this->add_breadcrumb("create/{$this->_schema}/", sprintf($this->_l10n_midcom->get('create %s'), $this->_schemadb[$this->_schema]->description));
     }
 

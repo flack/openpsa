@@ -128,7 +128,7 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
      */
     public function testRun_cycle($params, $input, $result)
     {
-        midcom::get('auth')->request_sudo('org.openpsa.invoices');
+        midcom::get()->auth->request_sudo('org.openpsa.invoices');
         $this->_apply_input($input);
 
         $scheduler = new org_openpsa_invoices_scheduler($this->_deliverable);
@@ -158,7 +158,7 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
             }
         }
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
     private function _verify_new_task()
@@ -618,7 +618,7 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
      */
     public function testRun_cycle_multiple()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.invoices');
+        midcom::get()->auth->request_sudo('org.openpsa.invoices');
 
         $deliverable_attributes = array
         (
@@ -685,7 +685,7 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
         $this->assertEquals(200, $invoice->sum);
         $this->assertEquals(100, $deliverable2->invoiced);
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
 }

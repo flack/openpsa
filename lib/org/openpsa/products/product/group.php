@@ -89,11 +89,11 @@ class org_openpsa_products_product_group_dba extends midcom_core_dbaobject
             // TODO: use reflection to see what kind of property this is ?
             if ($keyproperty == 'id')
             {
-                $ret[0] = midcom::get('i18n')->get_string('toplevel', 'org.openpsa.products');
+                $ret[0] = midcom::get()->i18n->get_string('toplevel', 'org.openpsa.products');
             }
             else
             {
-                $ret[''] = midcom::get('i18n')->get_string('toplevel', 'org.openpsa.products');
+                $ret[''] = midcom::get()->i18n->get_string('toplevel', 'org.openpsa.products');
             }
         }
         if (mgd_is_guid($up))

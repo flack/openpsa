@@ -42,7 +42,7 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
         $this->orgOpenpsaObtype = self::OBTYPE_DOCUMENT;
         if (!$this->author)
         {
-            $user = midcom::get('auth')->user->get_storage();
+            $user = midcom::get()->auth->user->get_storage();
             $this->author = $user->id;
         }
         return true;
@@ -77,25 +77,25 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
         if (   $parent
             && $parent->component == 'org.openpsa.documents')
         {
-            midcom::get('auth')->request_sudo('org.openpsa.documents');
+            midcom::get()->auth->request_sudo('org.openpsa.documents');
 
             $parent = new org_openpsa_documents_directory($parent);
             $parent->_use_rcs = false;
             $parent->_use_activitystream = false;
             $parent->update();
 
-            midcom::get('auth')->drop_sudo();
+            midcom::get()->auth->drop_sudo();
         }
     }
 
     public function get_class()
     {
-        if (   !midcom::get('auth')->user
+        if (   !midcom::get()->auth->user
             || empty($this->guid))
         {
             return '';
         }
-        $person = midcom::get('auth')->user->get_storage();
+        $person = midcom::get()->auth->user->get_storage();
         $lastvisited = $person->get_parameter('org.openpsa.documents_visited', $this->guid);
 
         if (   $lastvisited
@@ -147,9 +147,9 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
         }
 
         //first, try if there is a direct translation
-        if ($mimetype != midcom::get('i18n')->get_string($mimetype, 'org.openpsa.documents'))
+        if ($mimetype != midcom::get()->i18n->get_string($mimetype, 'org.openpsa.documents'))
         {
-            return (midcom::get('i18n')->get_string($mimetype, 'org.openpsa.documents'));
+            return (midcom::get()->i18n->get_string($mimetype, 'org.openpsa.documents'));
         }
 
         //if nothing is found, do some heuristics
@@ -196,7 +196,7 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
             $subtype = strtoupper($subtype);
         }
 
-        return sprintf(midcom::get('i18n')->get_string('%s ' . $type, 'org.openpsa.documents'), $subtype);
+        return sprintf(midcom::get()->i18n->get_string('%s ' . $type, 'org.openpsa.documents'), $subtype);
     }
 
     function backup_version()

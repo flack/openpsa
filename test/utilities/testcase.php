@@ -24,7 +24,7 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
         $person->extra = substr('p_' . time(), 0, 11);
         $username = uniqid(__CLASS__ . '-user-');
 
-        midcom::get('auth')->request_sudo('midcom.core');
+        midcom::get()->auth->request_sudo('midcom.core');
         if (!$person->create())
         {
             throw new Exception('Person could not be created. Reason: ' . midcom_connection::get_error_string());
@@ -37,10 +37,10 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
         {
             throw new Exception('Account could not be saved. Reason: ' . midcom_connection::get_error_string());
         }
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
         if ($login)
         {
-            if (!midcom::get('auth')->login($username, $person->extra))
+            if (!midcom::get()->auth->login($username, $person->extra))
             {
                 throw new Exception('Login for user ' . $username . ' failed. Reason: ' . midcom_connection::get_error_string());
             }
@@ -54,7 +54,7 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
     public static function get_component_node($component)
     {
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
-        midcom::get('auth')->request_sudo($component);
+        midcom::get()->auth->request_sudo($component);
         if ($topic_guid = $siteconfig->get_node_guid($component))
         {
             $topic = new midcom_db_topic($topic_guid);
@@ -68,11 +68,11 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
             $result = $qb->execute();
             if (sizeof($result) == 1)
             {
-                midcom::get('auth')->drop_sudo();
+                midcom::get()->auth->drop_sudo();
                 return $result[0];
             }
 
-            $root_topic = midcom_db_topic::get_cached(midcom::get('config')->get('midcom_root_topic_guid'));
+            $root_topic = midcom_db_topic::get_cached(midcom::get()->config->get('midcom_root_topic_guid'));
 
             $topic_attributes = array
             (
@@ -82,7 +82,7 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
             );
             $topic = self::create_class_object('midcom_db_topic', $topic_attributes);
         }
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
         return $topic;
     }
 
@@ -108,7 +108,7 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
         $context->set_key(MIDCOM_CONTEXT_URI, midcom_connection::get_url('self') . $topic->name . '/' . implode('/', $args) . '/');
 
         // Parser Init: Generate arguments and instantiate it.
-        $context->parser = midcom::get('serviceloader')->load('midcom_core_service_urlparser');
+        $context->parser = midcom::get()->serviceloader->load('midcom_core_service_urlparser');
         $context->parser->parse($args);
         $handler = $context->get_handler($topic);
         $context->set_key(MIDCOM_CONTEXT_CONTENTTOPIC, $topic);
@@ -140,14 +140,14 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
 
         midcom::get()->set_status(MIDCOM_STATUS_CONTENT);
         $context = midcom_core_context::get();
-        midcom::get('style')->enter_context($context->id);
+        midcom::get()->style->enter_context($context->id);
         ob_start();
         $context->set_custom_key('request_data', $data);
         $handler->_request_data =& $data;
         $handler->$method($data['handler_id'], $data);
         $output = ob_get_contents();
         ob_end_clean();
-        midcom::get('style')->leave_context();
+        midcom::get()->style->leave_context();
         midcom::get()->set_status(MIDCOM_STATUS_PREPARE);
         return $output;
     }
@@ -284,12 +284,12 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
         $data = array_merge($presets, $data);
         $object = self::prepare_object($classname, $data);
 
-        midcom::get('auth')->request_sudo('midcom.core');
+        midcom::get()->auth->request_sudo('midcom.core');
         if (!$object->create())
         {
             throw new Exception('Object of type ' . $classname . ' could not be created. Reason: ' . midcom_connection::get_error_string());
         }
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
         return $object;
     }
 
@@ -325,7 +325,7 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
 
     public static function delete_linked_objects($classname, $link_field, $id)
     {
-        midcom::get('auth')->request_sudo('midcom.core');
+        midcom::get()->auth->request_sudo('midcom.core');
         $qb = call_user_func(array($classname, 'new_query_builder'));
         $qb->add_constraint($link_field, '=', $id);
         $results = $qb->execute();
@@ -337,7 +337,7 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
             $result->delete();
             $result->purge();
         }
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
     public function reset_server_vars()
@@ -373,14 +373,14 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
             midcom_core_context::get(0)->set_current();
         }
 
-        if (!midcom::get('config')->get('auth_allow_sudo'))
+        if (!midcom::get()->config->get('auth_allow_sudo'))
         {
-            midcom::get('config')->set('auth_allow_sudo', true);
+            midcom::get()->config->set('auth_allow_sudo', true);
         }
 
-        while (midcom::get('auth')->is_component_sudo())
+        while (midcom::get()->auth->is_component_sudo())
         {
-            midcom::get('auth')->drop_sudo();
+            midcom::get()->auth->drop_sudo();
         }
 
         //if object is also in class queue, we delay its deletion
@@ -396,12 +396,12 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
     {
         self::_process_delete_queue('class', self::$_class_objects);
         self::$_class_objects = array();
-        midcom::get('auth')->logout();
+        midcom::get()->auth->logout();
     }
 
     private static function _process_delete_queue($queue_name, $queue)
     {
-        midcom::get('auth')->request_sudo('midcom.core');
+        midcom::get()->auth->request_sudo('midcom.core');
         $limit = sizeof($queue) * 5;
         $iteration = 0;
         // we reverse the queue here because parents are usually created
@@ -464,7 +464,7 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
             }
         }
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 }
 ?>

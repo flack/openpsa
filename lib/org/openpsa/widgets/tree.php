@@ -116,7 +116,7 @@ JSINIT;
     {
         $data = array();
 
-        $mc = midcom::get('dbfactory')->new_collector($this->_object_class, $this->_parent_field, (int) $id);
+        $mc = midcom::get()->dbfactory->new_collector($this->_object_class, $this->_parent_field, (int) $id);
         $mc->add_value_property('id');
 
         foreach ($this->title_fields as $field)
@@ -198,7 +198,7 @@ JSINIT;
             return;
         }
 
-        $head = midcom::get('head');
+        $head = midcom::get()->head;
         $head->enable_jquery();
 
         $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.core.min.js');

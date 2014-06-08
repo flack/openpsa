@@ -64,13 +64,13 @@ implements org_openpsa_contacts_duplicates_support
         {
             return;
         }
-        midcom::get('auth')->request_sudo($this->_component);
+        midcom::get()->auth->request_sudo($this->_component);
         $links = $qb->execute();
         foreach ($links as $link)
         {
             $link->delete();
         }
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
     public function get_merge_configuration($object_mode, $merge_mode)

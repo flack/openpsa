@@ -218,7 +218,7 @@ class midcom_helper_toolbar
 
         if (is_null($label))
         {
-            $label = midcom::get('i18n')->get_string('help', 'midcom.admin.help');
+            $label = midcom::get()->i18n->get_string('help', 'midcom.admin.help');
         }
 
         $this->add_item
@@ -660,7 +660,7 @@ class midcom_helper_toolbar
             $accesskey = strtoupper($item[MIDCOM_TOOLBAR_ACCESSKEY]);
             $position = strpos($label, $accesskey);
             if (   $position === false
-                && midcom::get('i18n')->get_current_language() == 'en')
+                && midcom::get()->i18n->get_current_language() == 'en')
             {
                 // Try lowercase, too
                 $accesskey = strtolower($item[MIDCOM_TOOLBAR_ACCESSKEY]);
@@ -886,7 +886,7 @@ class midcom_helper_toolbar
      */
     function bind_to($object)
     {
-        midcom::get('toolbars')->bind_toolbar_to_object($this, $object);
+        midcom::get()->toolbars->bind_toolbar_to_object($this, $object);
     }
 }
 ?>

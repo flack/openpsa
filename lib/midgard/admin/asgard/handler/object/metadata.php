@@ -47,7 +47,7 @@ implements midcom_helper_datamanager2_interfaces_edit
 
     public function load_schemadb()
     {
-        $schemadb = midcom_helper_datamanager2_schema::load_database(midcom::get('config')->get('metadata_schema'));
+        $schemadb = midcom_helper_datamanager2_schema::load_database(midcom::get()->config->get('metadata_schema'));
 
         if (   $this->_config->get('enable_review_dates')
             && !isset($schemadb['metadata']->fields['review_date']))
@@ -86,10 +86,10 @@ implements midcom_helper_datamanager2_interfaces_edit
      */
     public function _handler_edit($handler_id, array $args, array &$data)
     {
-        $this->_object = midcom::get('dbfactory')->get_object_by_guid($args[0]);
+        $this->_object = midcom::get()->dbfactory->get_object_by_guid($args[0]);
         // FIXME: We should modify the schema according to whether or not scheduling is used
         $this->_object->require_do('midgard:update');
-        midcom::get('auth')->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
+        midcom::get()->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
 
         if (is_a($this->_object, 'midcom_db_topic'))
         {
@@ -103,9 +103,9 @@ implements midcom_helper_datamanager2_interfaces_edit
         {
             case 'save':
                 // Reindex the object
-                //$indexer = midcom::get('indexer');
+                //$indexer = midcom::get()->indexer;
                 //net_nemein_wiki_viewer::index($this->_request_data['controller']->datamanager, $indexer, $this->_topic);
-                midcom::get('cache')->invalidate($this->_object->guid);
+                midcom::get()->cache->invalidate($this->_object->guid);
                 return new midcom_response_relocate("__mfa/asgard/object/metadata/{$this->_object->guid}");
 
             case 'cancel':

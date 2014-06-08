@@ -31,13 +31,13 @@ implements midcom_services_permalinks_resolver, org_openpsa_contacts_duplicates_
             return;
         }
 
-        midcom::get('auth')->request_sudo($this->_component);
+        midcom::get()->auth->request_sudo($this->_component);
         $memberships = $qb->execute();
         foreach ($memberships as $membership)
         {
             $membership->delete();
         }
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
     /**
@@ -55,7 +55,7 @@ implements midcom_services_permalinks_resolver, org_openpsa_contacts_duplicates_
             $handler->print_error('url_base or batch number not set, aborting');
             return false;
         }
-        midcom::get('auth')->request_sudo($this->_component);
+        midcom::get()->auth->request_sudo($this->_component);
 
         $batch_url = "{$args['url_base']}/{$args['batch']}/{$args['midcom_services_at_entry_object']->guid}/";
         debug_add("batch_url: {$batch_url}");
@@ -64,7 +64,7 @@ implements midcom_services_permalinks_resolver, org_openpsa_contacts_duplicates_
         midcom::get()->dynamic_load($batch_url);
         ob_end_clean();
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
         return true;
     }
 
@@ -83,7 +83,7 @@ implements midcom_services_permalinks_resolver, org_openpsa_contacts_duplicates_
             return false;
         }
 
-        midcom::get('auth')->request_sudo($this->_component);
+        midcom::get()->auth->request_sudo($this->_component);
         try
         {
             $campaign = new org_openpsa_directmarketing_campaign_dba($args['campaign_guid']);
@@ -100,7 +100,7 @@ implements midcom_services_permalinks_resolver, org_openpsa_contacts_duplicates_
             return false;
         }
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
         return true;
     }
 

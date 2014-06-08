@@ -87,7 +87,7 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
 
     public function _handler_csv($handler_id, array $args, array &$data)
     {
-        midcom::get('auth')->require_valid_user();
+        midcom::get()->auth->require_valid_user();
         $this->_load_datamanagers($this->_load_schemadbs($handler_id, $args, $data));
 
         if (empty($args[0]))
@@ -127,14 +127,14 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
         $this->_init_csv_variables();
         midcom::get()->skip_page_style = true;
 
-        midcom::get('cache')->content->content_type($this->csv['mimetype']);
+        midcom::get()->cache->content->content_type($this->csv['mimetype']);
         midcom::get()->header('Content-Disposition: filename=' . $data['filename']);
     }
 
     public function _show_csv($handler_id, array &$data)
     {
         // Make real sure we're dumping data live
-        midcom::get('cache')->content->enable_live_mode();
+        midcom::get()->cache->content->enable_live_mode();
         while(@ob_end_flush());
 
         // Dump headers

@@ -11,7 +11,7 @@
  * manipulate accounts, instead, this is an abstraction used in the ACL system.
  *
  * You must not create these objects directly. Instead, use the factory method
- * midcom::get('auth')->get_user($id), where $id is any valid constructor argument
+ * midcom::get()->auth->get_user($id), where $id is any valid constructor argument
  * for a midcom_db_person.
  *
  * @package midcom
@@ -171,7 +171,7 @@ class midcom_core_user
      */
     public function __construct($id)
     {
-        $person_class = midcom::get('config')->get('person_class');
+        $person_class = midcom::get()->config->get('person_class');
 
         if (is_string($id))
         {
@@ -321,7 +321,7 @@ class midcom_core_user
         $result = Array();
         foreach ($this->_per_class_privileges as $class => $privileges)
         {
-            if (midcom::get('dbfactory')->is_a($object, $class))
+            if (midcom::get()->dbfactory->is_a($object, $class))
             {
                 $result = array_merge($result, $privileges);
             }
@@ -364,7 +364,7 @@ class midcom_core_user
         $result = $mc->list_keys();
         if (!empty($result))
         {
-            if ($group = midcom::get('auth')->get_group(key($result)))
+            if ($group = midcom::get()->auth->get_group(key($result)))
             {
                 return $group->get_storage()->guid;
             }
@@ -529,7 +529,7 @@ class midcom_core_user
         }
 
         // Process
-        if (midcom::get('dbfactory')->is_a($group, 'midcom_core_group'))
+        if (midcom::get()->dbfactory->is_a($group, 'midcom_core_group'))
         {
             return array_key_exists($group->id, $this->_all_groups);
         }
@@ -542,7 +542,7 @@ class midcom_core_user
             // We scan through our groups looking for a midgard group with the right name
             foreach ($this->_all_groups as $group_object)
             {
-                if (   midcom::get('dbfactory')->is_a($group_object, 'midcom_core_group')
+                if (   midcom::get()->dbfactory->is_a($group_object, 'midcom_core_group')
                     && $group_object->get_storage()->name == $group)
                 {
                     return true;
@@ -580,7 +580,7 @@ class midcom_core_user
      */
     public function is_online()
     {
-        return midcom::get('auth')->sessionmgr->is_user_online($this);
+        return midcom::get()->auth->sessionmgr->is_user_online($this);
     }
 
     /**

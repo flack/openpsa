@@ -22,7 +22,7 @@ class org_openpsa_sales_handler_viewTest extends openpsa_testcase
 
     public function testHandler_view()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.sales');
+        midcom::get()->auth->request_sudo('org.openpsa.sales');
 
         $salesproject = $this->create_object('org_openpsa_sales_salesproject_dba');
         $product_group = $this->create_object('org_openpsa_products_product_group_dba');
@@ -47,7 +47,7 @@ class org_openpsa_sales_handler_viewTest extends openpsa_testcase
 
         $this->show_handler($data);
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 }
 ?>

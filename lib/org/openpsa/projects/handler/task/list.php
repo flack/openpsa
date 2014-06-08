@@ -41,7 +41,7 @@ implements org_openpsa_widgets_grid_provider_client
 
     public function _on_initialize()
     {
-        midcom::get('auth')->require_valid_user();
+        midcom::get()->auth->require_valid_user();
         org_openpsa_widgets_contact::add_head_elements();
     }
 
@@ -393,7 +393,7 @@ implements org_openpsa_widgets_grid_provider_client
 
                 $deliverable = org_openpsa_sales_salesproject_deliverable_dba::get_cached($agreement_id);
                 $title = sprintf($this->_l10n->get('tasks for agreement %s'), $deliverable->title);
-                midcom::get('head')->set_pagetitle($title);
+                midcom::get()->head->set_pagetitle($title);
                 $this->add_breadcrumb("", $title);
 
                 $this->_qb->add_constraint('agreement', '=', $deliverable->id);
@@ -575,7 +575,7 @@ implements org_openpsa_widgets_grid_provider_client
                 MIDCOM_TOOLBAR_URL => 'project/new/',
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("create project"),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-dir.png',
-                MIDCOM_TOOLBAR_ENABLED => midcom::get('auth')->can_user_do('midgard:create', null, 'org_openpsa_projects_project'),
+                MIDCOM_TOOLBAR_ENABLED => midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_projects_project'),
             )
         );
 
@@ -586,7 +586,7 @@ implements org_openpsa_widgets_grid_provider_client
                 MIDCOM_TOOLBAR_URL => 'task/new/',
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("create task"),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new_task.png',
-                MIDCOM_TOOLBAR_ENABLED => midcom::get('auth')->can_user_do('midgard:create', null, 'org_openpsa_projects_task_dba'),
+                MIDCOM_TOOLBAR_ENABLED => midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_projects_task_dba'),
             )
         );
     }

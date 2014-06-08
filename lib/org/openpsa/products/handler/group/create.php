@@ -108,7 +108,7 @@ implements midcom_helper_datamanager2_interfaces_create
 
         if ($this->_request_data['up'] == 0)
         {
-            midcom::get('auth')->require_user_do('midgard:create', null, 'org_openpsa_products_product_group_dba');
+            midcom::get()->auth->require_user_do('midgard:create', null, 'org_openpsa_products_product_group_dba');
         }
         else
         {
@@ -133,10 +133,10 @@ implements midcom_helper_datamanager2_interfaces_create
                 if ($this->_config->get('index_groups'))
                 {
                     // Index the group
-                    $indexer = midcom::get('indexer');
+                    $indexer = midcom::get()->indexer;
                     org_openpsa_products_viewer::index($data['controller']->datamanager, $indexer, $this->_topic);
                 }
-                midcom::get('cache')->invalidate($this->_topic->guid);
+                midcom::get()->cache->invalidate($this->_topic->guid);
                 return new midcom_response_relocate("{$this->_group->guid}/");
 
             case 'cancel':
@@ -153,7 +153,7 @@ implements midcom_helper_datamanager2_interfaces_create
         org_openpsa_helpers::dm2_savecancel($this);
 
         $this->_request_data['view_title'] = sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get($this->_schemadb[$this->_schema]->description));
-        midcom::get('head')->set_pagetitle($this->_request_data['view_title']);
+        midcom::get()->head->set_pagetitle($this->_request_data['view_title']);
 
         $this->_update_breadcrumb_line();
     }

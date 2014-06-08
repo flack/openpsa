@@ -27,9 +27,9 @@ class org_openpsa_widgets_ui extends midcom_baseclasses_components_purecode
         $configured_providers = self::get_config_value('search_providers');
         $user_id = false;
 
-        if (!midcom::get('auth')->admin)
+        if (!midcom::get()->auth->admin)
         {
-            $user_id = midcom::get('auth')->acl->get_user_id();
+            $user_id = midcom::get()->auth->acl->get_user_id();
         }
         foreach ($configured_providers as $component => $config)
         {
@@ -42,11 +42,11 @@ class org_openpsa_widgets_ui extends midcom_baseclasses_components_purecode
             $node_url = $siteconfig->get_node_full_url($component);
             if (   $node_url
                 && (   !$user_id
-                    || midcom::get('auth')->acl->can_do_byguid('midgard:read', $siteconfig->get_node_guid($component), 'midcom_db_topic', $user_id)))
+                    || midcom::get()->auth->acl->can_do_byguid('midgard:read', $siteconfig->get_node_guid($component), 'midcom_db_topic', $user_id)))
             {
                 $providers[] = array
                 (
-                    'helptext' => midcom::get('i18n')->get_string('search title', $component),
+                    'helptext' => midcom::get()->i18n->get_string('search title', $component),
                     'url' => $node_url . $config['route'],
                     'identifier' => $component,
                     'autocomplete' => $config['autocomplete'],
@@ -67,7 +67,7 @@ class org_openpsa_widgets_ui extends midcom_baseclasses_components_purecode
             }
         }
 
-        midcom::get('head')->add_jquery_state_script('org_openpsa_layout.initialize_search
+        midcom::get()->head->add_jquery_state_script('org_openpsa_layout.initialize_search
         (
             ' . json_encode($providers) . ',
             "' . midgard_admin_asgard_plugin::get_preference('openpsa2_search_provider') . '"
@@ -76,7 +76,7 @@ class org_openpsa_widgets_ui extends midcom_baseclasses_components_purecode
 
     public static function add_head_elements()
     {
-        $head = midcom::get('head');
+        $head = midcom::get()->head;
         $head->enable_jquery();
 
         $head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.widgets/ui.js');
@@ -87,7 +87,7 @@ class org_openpsa_widgets_ui extends midcom_baseclasses_components_purecode
      */
     public static function enable_ui_tab()
     {
-        $head = midcom::get('head');
+        $head = midcom::get()->head;
         //first enable jquery - just in case it isn't loaded
         $head->enable_jquery();
 
@@ -123,12 +123,12 @@ class org_openpsa_widgets_ui extends midcom_baseclasses_components_purecode
             $tabdata[] = array
             (
                'url' => '__mfa/org.openpsa.relatedto/journalentry/' . $guid . '/html/',
-               'title' => midcom::get('i18n')->get_string('journal entries', 'org.openpsa.relatedto'),
+               'title' => midcom::get()->i18n->get_string('journal entries', 'org.openpsa.relatedto'),
             );
             $tabdata[] = array
             (
                'url' => '__mfa/org.openpsa.relatedto/render/' . $guid . '/both/',
-               'title' => midcom::get('i18n')->get_string('related objects', 'org.openpsa.relatedto'),
+               'title' => midcom::get()->i18n->get_string('related objects', 'org.openpsa.relatedto'),
             );
         }
 

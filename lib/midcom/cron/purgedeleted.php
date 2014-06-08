@@ -22,7 +22,7 @@ class midcom_cron_purgedeleted extends midcom_baseclasses_components_cron_handle
     {
         if (empty($this->_cutoff))
         {
-            $this->set_cutoff(midcom::get('config')->get('cron_purge_deleted_after'));
+            $this->set_cutoff(midcom::get()->config->get('cron_purge_deleted_after'));
         }
         return $this->_cutoff;
     }

@@ -101,7 +101,7 @@ class org_openpsa_products_handler_group_groupsblock  extends midcom_baseclasses
 
         if ($data['group'])
         {
-            if (midcom::get('config')->get('enable_ajax_editing'))
+            if (midcom::get()->config->get('enable_ajax_editing'))
             {
                 $data['controller'] = midcom_helper_datamanager2_controller::create('ajax');
                 $data['controller']->schemadb =& $data['schemadb_group'];
@@ -154,7 +154,7 @@ class org_openpsa_products_handler_group_groupsblock  extends midcom_baseclasses
             }
         }
 
-        midcom::get('head')->set_pagetitle($data['view_title']);
+        midcom::get()->head->set_pagetitle($data['view_title']);
     }
 
     private function _list_group_products()
@@ -212,8 +212,8 @@ class org_openpsa_products_handler_group_groupsblock  extends midcom_baseclasses
         }
         else
         {
-            $allow_create_group = midcom::get('auth')->can_user_do('midgard:create', null, 'org_openpsa_products_product_group_dba');
-            $allow_create_product = midcom::get('auth')->can_user_do('midgard:create', null, 'org_openpsa_products_product_dba');
+            $allow_create_group = midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_products_product_group_dba');
+            $allow_create_product = midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_products_product_dba');
         }
 
         foreach (array_keys($this->_request_data['schemadb_group']) as $name)

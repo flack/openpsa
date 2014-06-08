@@ -16,7 +16,7 @@ implements org_openpsa_widgets_grid_provider_client
 {
     public function _on_initialize()
     {
-        midcom::get('auth')->require_valid_user();
+        midcom::get()->auth->require_valid_user();
         org_openpsa_invoices_viewer::add_head_elements_for_invoice_grid();
     }
 
@@ -64,9 +64,9 @@ implements org_openpsa_widgets_grid_provider_client
      */
     public function _handler_frontpage($handler_id, array $args, array &$data)
     {
-        midcom::get('auth')->require_valid_user();
+        midcom::get()->auth->require_valid_user();
 
-        if (midcom::get('auth')->can_user_do('midgard:create', null, 'org_openpsa_directmarketing_campaign_dba'))
+        if (midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_directmarketing_campaign_dba'))
         {
             $schemadb_campaign = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_campaign'));
             foreach (array_keys($schemadb_campaign) as $name)

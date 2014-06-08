@@ -30,7 +30,7 @@ class midcom_db_member extends midcom_core_dbaobject
             $e->log();
             return 'Invalid membership record';
         }
-        return sprintf(midcom::get('i18n')->get_string('%s in %s', 'midcom'), $person->name, $grp->official);
+        return sprintf(midcom::get()->i18n->get_string('%s in %s', 'midcom'), $person->name, $grp->official);
     }
 
     /**
@@ -50,7 +50,7 @@ class midcom_db_member extends midcom_core_dbaobject
         {
             return;
         }
-        midcom::get('cache')->invalidate($person->guid);
+        midcom::get()->cache->invalidate($person->guid);
     }
 
     public function _on_creating()
@@ -68,7 +68,7 @@ class midcom_db_member extends midcom_core_dbaobject
         // Allow root group membership creation only for admins
         if ($this->gid == 0)
         {
-            if (!midcom::get('auth')->admin)
+            if (!midcom::get()->auth->admin)
             {
                 debug_add("Group #0 membership creation only allowed for admins");
                 debug_print_function_stack('Forbidden ROOT member creation called from');

@@ -88,7 +88,7 @@
  * {
  *     function _on_reindex($topic, $config, &$indexer)
  *     {
- *         $qb = midcom::get('dbfactory')->new_query_builder('midcom_db_article');
+ *         $qb = midcom::get()->dbfactory->new_query_builder('midcom_db_article');
  *         $qb->add_constraint('topic', '=', $topic->id);
  *         $articles = $qb->execute();
  *
@@ -187,19 +187,19 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
     {
         // Preparation
         $this->_component = $component;
-        $this->_manifest = midcom::get('componentloader')->manifests[$this->_component];
+        $this->_manifest = midcom::get()->componentloader->manifests[$this->_component];
 
         // Load libraries
         foreach ($this->_autoload_libraries as $library)
         {
-            if (! midcom::get('componentloader')->load_library($library))
+            if (! midcom::get()->componentloader->load_library($library))
             {
                 throw new midcom_error("Failed to load library {$library} while initializing {$this->_component}");
             }
         }
 
         // Load scripts
-        $loader = midcom::get('componentloader');
+        $loader = midcom::get()->componentloader;
         foreach ($this->_autoload_files as $file)
         {
             require_once $loader->path_to_snippetpath($this->_component) . '/' . $file;
@@ -256,7 +256,7 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
     public function can_handle($current_object, $argc, $argv, $contextid)
     {
         $data =& $this->_context_data[$contextid];
-        $loader = midcom::get('componentloader');
+        $loader = midcom::get()->componentloader;
         $class = $loader->path_to_prefix($this->_component) . '_' . $this->_site_class_suffix;
         $data['handler'] = new $class($current_object, $data['config']);
         if (is_a($data['handler'], 'midcom_baseclasses_components_request'))
@@ -307,7 +307,7 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
     {
         if (is_null($this->_nap_instance))
         {
-            $loader = midcom::get('componentloader');
+            $loader = midcom::get()->componentloader;
             $class = $loader->path_to_prefix($this->_component) . "_{$this->_nap_class_suffix}";
             $this->_nap_instance = new $class();
             if (is_a($this->_nap_instance, 'midcom_baseclasses_components_navigation'))
@@ -374,7 +374,7 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
      */
     public function reindex($topic)
     {
-        return $this->_on_reindex($topic, $this->get_config_for_topic($topic), midcom::get('indexer'));
+        return $this->_on_reindex($topic, $this->get_config_for_topic($topic), midcom::get()->indexer);
     }
 
     /**

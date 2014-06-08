@@ -4,7 +4,7 @@ $item->descriptionHtmlSyndicated = true;
 $authors = explode('|', substr($data['article']->metadata->authors, 1, -1));
 if ($authors)
 {
-    $author_user = midcom::get('auth')->get_user($authors[0]);
+    $author_user = midcom::get()->auth->get_user($authors[0]);
     if ($author_user)
     {
         $author = $author_user->get_storage();
@@ -38,7 +38,7 @@ else
     }
 }
 
-$item->guid = midcom::get('permalinks')->create_permalink($data['article']->guid);
+$item->guid = midcom::get()->permalinks->create_permalink($data['article']->guid);
 $item->date = (int) $data['article']->metadata->published;
 $item->description = '';
 
@@ -68,7 +68,7 @@ if (count($categories) > 1)
     $item->category = $categories[1];
 }
 
-if (midcom::get('config')->get('positioning_enable'))
+if (midcom::get()->config->get('positioning_enable'))
 {
     // Attach coordinates to the item if available
     $object_position = new org_routamc_positioning_object($data['article']);

@@ -27,7 +27,7 @@ class org_openpsa_core_acl_synchronizer
 
     private function _write_full_midcom_acls($object, $owner_id, $accesstype)
     {
-        $owner_object = midcom::get('auth')->get_assignee($owner_id);
+        $owner_object = midcom::get()->auth->get_assignee($owner_id);
         if (empty($owner_object->id))
         {
             debug_add('Given owner was invalid, aborting');
@@ -40,7 +40,7 @@ class org_openpsa_core_acl_synchronizer
         {
             foreach ($privileges as $privilege)
             {
-                if (   $privilege->assignee != midcom::get('auth')->user->id
+                if (   $privilege->assignee != midcom::get()->auth->user->id
                     && $privilege->assignee != $owner_id)
                 {
                     if (is_array($privilege->assignee))
@@ -70,8 +70,8 @@ class org_openpsa_core_acl_synchronizer
             case org_openpsa_core_acl::ACCESS_PRIVATE:
                 debug_add("Private object, only user can read and write");
                 $object->set_privilege('midgard:read', 'EVERYONE', MIDCOM_PRIVILEGE_DENY);
-                $object->set_privilege('midgard:owner', midcom::get('auth')->user->id, MIDCOM_PRIVILEGE_ALLOW);
-                $this->_set_attachment_permission($object, 'midgard:read', midcom::get('auth')->user->id, MIDCOM_PRIVILEGE_ALLOW);
+                $object->set_privilege('midgard:owner', midcom::get()->auth->user->id, MIDCOM_PRIVILEGE_ALLOW);
+                $this->_set_attachment_permission($object, 'midgard:read', midcom::get()->auth->user->id, MIDCOM_PRIVILEGE_ALLOW);
                 break;
             case org_openpsa_core_acl::ACCESS_WGRESTRICTED:
                 debug_add("Restricted object, only workgroup members can read and write. Subscribers can read");

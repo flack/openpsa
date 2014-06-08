@@ -84,7 +84,7 @@ implements org_openpsa_widgets_grid_provider_client
 
         $title = sprintf($this->_l10n->get('deliverables for product %s'), $this->_product->title);
         $this->add_breadcrumb("", $title);
-        midcom::get('head')->set_pagetitle($title);
+        midcom::get()->head->set_pagetitle($title);
     }
 
     /**

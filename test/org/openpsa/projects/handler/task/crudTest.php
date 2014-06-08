@@ -26,41 +26,41 @@ class org_openpsa_projects_handler_task_crudTest extends openpsa_testcase
 
     public function testHandler_create()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.projects');
+        midcom::get()->auth->request_sudo('org.openpsa.projects');
 
         $data = $this->run_handler('org.openpsa.projects', array('task', 'new'));
         $this->assertEquals('task-new', $data['handler_id']);
 
         $this->show_handler($data);
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
     public function testHandler_create2()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.projects');
+        midcom::get()->auth->request_sudo('org.openpsa.projects');
 
         $data = $this->run_handler('org.openpsa.projects', array('task', 'new', 'project', self::$_project->guid));
         $this->assertEquals('task-new-2', $data['handler_id']);
 
         $this->show_handler($data);
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
     public function testHandler_read()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.projects');
+        midcom::get()->auth->request_sudo('org.openpsa.projects');
 
         $data = $this->run_handler('org.openpsa.projects', array('task', self::$_task->guid));
         $this->assertEquals('task_view',  $data['handler_id']);
 
         $this->show_handler($data);
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
     public function testHandler_update()
     {
         $person = self::create_user(true);
-        midcom::get('auth')->request_sudo('org.openpsa.projects');
+        midcom::get()->auth->request_sudo('org.openpsa.projects');
 
         $data = $this->run_handler('org.openpsa.projects', array('task', 'edit', self::$_task->guid));
         $this->assertEquals('task_edit', $data['handler_id']);
@@ -89,18 +89,18 @@ class org_openpsa_projects_handler_task_crudTest extends openpsa_testcase
         self::$_task->refresh();
         $this->assertEquals(org_openpsa_projects_task_status_dba::ACCEPTED, self::$_task->status);
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
     public function testHandler_delete()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.projects');
+        midcom::get()->auth->request_sudo('org.openpsa.projects');
 
         $data = $this->run_handler('org.openpsa.projects', array('task', 'delete', self::$_task->guid));
         $this->assertEquals('task_delete', $data['handler_id']);
         $this->show_handler($data);
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 }
 ?>

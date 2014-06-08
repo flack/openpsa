@@ -34,7 +34,7 @@ class org_openpsa_invoices_handler_rest_billingdataTest extends openpsa_testcase
 
     public function testHandler_get()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.invoices');
+        midcom::get()->auth->request_sudo('org.openpsa.invoices');
 
         // test invalid request
         $response = $this->perform_get_request(array()); // invalid filter options, we need at least an id / guid
@@ -55,7 +55,7 @@ class org_openpsa_invoices_handler_rest_billingdataTest extends openpsa_testcase
         $this->assertEquals($obj->metadata->creator, self::$_person->guid);
         $this->assertEquals($obj->metadata->deleted, false);
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 }
 ?>

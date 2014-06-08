@@ -42,7 +42,7 @@ implements midcom_helper_datamanager2_interfaces_view
         $data['view'] = midcom_helper_datamanager2_handler::get_view_controller($this, $this->_person);
         $this->add_breadcrumb('', $this->_person->get_label());
 
-        $auth = midcom::get('auth');
+        $auth = midcom::get()->auth;
         if (   $this->_person->id == midcom_connection::get_user()
             || $auth->can_user_do('org.openpsa.user:manage', null, 'org_openpsa_user_interface'))
         {

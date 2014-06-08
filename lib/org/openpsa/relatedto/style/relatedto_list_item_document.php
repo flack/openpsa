@@ -13,14 +13,14 @@ $atts = org_openpsa_helpers::get_dm2_attachments($document, 'document');
     <?php
     if (empty($atts))
     {
-        echo midcom::get('i18n')->get_string('no files', 'org.openpsa.documents');
+        echo midcom::get()->i18n->get_string('no files', 'org.openpsa.documents');
     }
     else
     {
         $prefix = midcom_connection::get_url('self');
         foreach ($atts as $file)
         {
-            echo "<a target=\"document_{$document->guid}\" href=\"{$prefix}midcom-serveattachmentguid-{$file->guid}/{$file->name}\">{$file->name}</a> (" . sprintf(midcom::get('i18n')->get_string('%s document', 'org.openpsa.documents'), midcom::get('i18n')->get_string($file->mimetype, 'org.openpsa.documents')).")";
+            echo "<a target=\"document_{$document->guid}\" href=\"{$prefix}midcom-serveattachmentguid-{$file->guid}/{$file->name}\">{$file->name}</a> (" . sprintf(midcom::get()->i18n->get_string('%s document', 'org.openpsa.documents'), midcom::get()->i18n->get_string($file->mimetype, 'org.openpsa.documents')).")";
         }
     }
     ?>

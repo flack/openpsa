@@ -63,7 +63,7 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
     public function _on_initialize()
     {
         // try logging in over basic auth
-        midcom::get('auth')->_http_basic_auth();
+        midcom::get()->auth->_http_basic_auth();
     }
 
     /**

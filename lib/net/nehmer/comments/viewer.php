@@ -17,7 +17,7 @@ class net_nehmer_comments_viewer extends midcom_baseclasses_components_request
 {
     public static function add_head_elements()
     {
-        midcom::get('head')->add_stylesheet(MIDCOM_STATIC_URL . '/net.nehmer.comments/comments.css');
+        midcom::get()->head->add_stylesheet(MIDCOM_STATIC_URL . '/net.nehmer.comments/comments.css');
     }
 
     /**
@@ -109,7 +109,7 @@ class net_nehmer_comments_viewer extends midcom_baseclasses_components_request
     {
         $toolbar = new midcom_helper_toolbar();
 
-        if (   midcom::get('auth')->user
+        if (   midcom::get()->auth->user
             && $comment->status < net_nehmer_comments_comment::MODERATED)
         {
             if (!$comment->can_do('net.nehmer.comments:moderation'))

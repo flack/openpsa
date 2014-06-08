@@ -66,7 +66,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         $this->add_breadcrumb
         (
             "__mfa/asgard/components/{$this->_request_data['name']}/",
-            midcom::get('i18n')->get_string($this->_request_data['name'], $this->_request_data['name'])
+            midcom::get()->i18n->get_string($this->_request_data['name'], $this->_request_data['name'])
         );
         $this->add_breadcrumb
         (
@@ -100,7 +100,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
     public function load_schemadb()
     {
         // Load SchemaDb
-        $schemadb_config_path = midcom::get('componentloader')->path_to_snippetpath($this->_request_data['name']) . '/config/config_schemadb.inc';
+        $schemadb_config_path = midcom::get()->componentloader->path_to_snippetpath($this->_request_data['name']) . '/config/config_schemadb.inc';
         $schemadb = null;
         $schema = 'default';
 
@@ -173,7 +173,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
     public function _handler_view($handler_id, array $args, array &$data)
     {
         $data['name'] = $args[0];
-        if (!midcom::get('componentloader')->is_installed($data['name']))
+        if (!midcom::get()->componentloader->is_installed($data['name']))
         {
             throw new midcom_error_notfound("Component {$data['name']} was not found.");
         }
@@ -259,7 +259,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      */
     private function _check_config($config)
     {
-        $tmpfile = tempnam(midcom::get('config')->get('midcom_tempdir'), 'midgard_admin_asgard_handler_component_configuration_');
+        $tmpfile = tempnam(midcom::get()->config->get('midcom_tempdir'), 'midgard_admin_asgard_handler_component_configuration_');
         file_put_contents($tmpfile, "<?php\n\$data = array({$config}\n);\n?>");
         $parse_results = `php -l {$tmpfile}`;
         debug_add("'php -l {$tmpfile}' returned: \n===\n{$parse_results}\n===\n");
@@ -279,7 +279,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      */
     private function _save_snippet($config)
     {
-        $basedir = midcom::get('config')->get('midcom_sgconfig_basedir');
+        $basedir = midcom::get()->config->get('midcom_sgconfig_basedir');
         $sg_snippetdir = new midcom_db_snippetdir();
         $sg_snippetdir->get_by_path($basedir);
         if (!$sg_snippetdir->guid)
@@ -408,7 +408,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
     public function _handler_edit($handler_id, array $args, array &$data)
     {
         $data['name'] = $args[0];
-        if (!midcom::get('componentloader')->is_installed($data['name']))
+        if (!midcom::get()->componentloader->is_installed($data['name']))
         {
             throw new midcom_error_notfound("Component {$data['name']} was not found.");
         }
@@ -475,7 +475,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         }
         catch (Exception $e)
         {
-            midcom::get('uimessages')->add
+            midcom::get()->uimessages->add
             (
                 $this->_l10n_midcom->get('component configuration'),
                 sprintf($this->_l10n->get('configuration save failed: %s'), $e->getMessage()),
@@ -489,7 +489,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         {
             // Editing folder configuration
             $this->_save_topic($data['folder'], $config_array);
-            midcom::get('uimessages')->add
+            midcom::get()->uimessages->add
             (
                 $this->_l10n_midcom->get('component configuration'),
                 $this->_l10n->get('configuration saved successfully'),
@@ -501,7 +501,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
 
         if ($this->_save_snippet($config))
         {
-            midcom::get('uimessages')->add
+            midcom::get()->uimessages->add
             (
                 $this->_l10n_midcom->get('component configuration'),
                 $this->_l10n->get('configuration saved successfully'),
@@ -510,7 +510,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         }
         else
         {
-            midcom::get('uimessages')->add
+            midcom::get()->uimessages->add
             (
                 $this->_l10n_midcom->get('component configuration'),
                 sprintf($this->_l10n->get('configuration save failed: %s'), midcom_connection::get_error_string()),

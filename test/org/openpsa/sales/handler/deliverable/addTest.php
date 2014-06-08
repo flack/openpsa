@@ -44,17 +44,17 @@ class org_openpsa_sales_handler_deliverable_addTest extends openpsa_testcase
 
     public function testHandler_add()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.sales');
+        midcom::get()->auth->request_sudo('org.openpsa.sales');
 
         $data = $this->run_handler('org.openpsa.sales', array('deliverable', 'add', $this->_salesproject->guid));
         $this->assertEquals('deliverable_add', $data['handler_id']);
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
     public function testHandler_add_create()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.sales');
+        midcom::get()->auth->request_sudo('org.openpsa.sales');
 
         $data = $this->run_handler('org.openpsa.sales', array('deliverable', 'add', $this->_salesproject->guid));
 
@@ -74,12 +74,12 @@ class org_openpsa_sales_handler_deliverable_addTest extends openpsa_testcase
         $this->assertEquals(1, sizeof($results));
         $this->register_object($results[0]);
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
     public function testHandler_add_create_subscription()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.sales');
+        midcom::get()->auth->request_sudo('org.openpsa.sales');
 
         $this->_product->delivery = org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION;
         $this->_product->update();
@@ -107,7 +107,7 @@ class org_openpsa_sales_handler_deliverable_addTest extends openpsa_testcase
         $this->register_object($deliverable);
         $this->assertEquals(org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION, $deliverable->orgOpenpsaObtype);
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 }
 ?>

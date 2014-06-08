@@ -34,22 +34,22 @@ class net_nehmer_static_handler_createTest extends openpsa_testcase
 
     public function testHandler_create()
     {
-        midcom::get('auth')->request_sudo('net.nehmer.static');
+        midcom::get()->auth->request_sudo('net.nehmer.static');
 
         $data = $this->run_handler(self::$_topic, array('create', 'default'));
         $this->assertEquals('create', $data['handler_id']);
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
     public function testHandler_createindex()
     {
-        midcom::get('auth')->request_sudo('net.nehmer.static');
+        midcom::get()->auth->request_sudo('net.nehmer.static');
 
         $data = $this->run_handler(self::$_topic, array('createindex', 'default'));
         $this->assertEquals('createindex', $data['handler_id']);
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 }
 ?>

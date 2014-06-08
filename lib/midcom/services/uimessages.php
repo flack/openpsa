@@ -18,7 +18,7 @@
  * the following call inside the HTML BODY tags of your style:
  *
  * <code>
- * midcom::get('uimessages')->show();
+ * midcom::get()->uimessages->show();
  * </code>
  *
  * <b>Adding UI messages to show:</b>
@@ -33,13 +33,13 @@
  * To add a UI message, call the following:
  *
  * <code>
- * midcom::get('uimessages')->add($title, $message, $type);
+ * midcom::get()->uimessages->add($title, $message, $type);
  * </code>
  *
  * For example:
  *
  * <code>
- * midcom::get('uimessages')->add($this->_l10n->get('net.nemein.wiki'), sprintf($this->_l10n->get('page "%s" added'), $this->_wikiword), 'ok');
+ * midcom::get()->uimessages->add($this->_l10n->get('net.nemein.wiki'), sprintf($this->_l10n->get('page "%s" added'), $this->_wikiword), 'ok');
  * </code>
  *
  * <b>Configuration:</b>
@@ -80,7 +80,7 @@ class midcom_services_uimessages
 
     public function __construct()
     {
-        $this->_message_stack = midcom::get('session')->get_session()->getFlashBag();
+        $this->_message_stack = midcom::get()->session->get_session()->getFlashBag();
     }
 
     /**
@@ -89,19 +89,19 @@ class midcom_services_uimessages
      */
     public function initialize()
     {
-        if (midcom::get('auth')->can_user_do('midcom:ajax', null, 'midcom_services_uimessages'))
+        if (midcom::get()->auth->can_user_do('midcom:ajax', null, 'midcom_services_uimessages'))
         {
-            midcom::get('head')->enable_jquery();
-            midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/midcom.services.uimessages/jquery.midcom_services_uimessages.js');
-            midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.timers.src.js');
-            midcom::get('head')->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.effect.min.js');
-            midcom::get('head')->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.effect-pulsate.min.js');
+            midcom::get()->head->enable_jquery();
+            midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.services.uimessages/jquery.midcom_services_uimessages.js');
+            midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.timers.src.js');
+            midcom::get()->head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.effect.min.js');
+            midcom::get()->head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.effect-pulsate.min.js');
 
-            midcom::get('head')->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.services.uimessages/growl.css', 'screen');
+            midcom::get()->head->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.services.uimessages/growl.css', 'screen');
         }
         else
         {
-            midcom::get('head')->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.services.uimessages/simple.css', 'screen');
+            midcom::get()->head->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.services.uimessages/simple.css', 'screen');
         }
     }
 
@@ -151,7 +151,7 @@ class midcom_services_uimessages
     public function show($show_simple = false)
     {
         if (   $show_simple
-            || !midcom::get('auth')->can_user_do('midcom:ajax', null, 'midcom_services_uimessages'))
+            || !midcom::get()->auth->can_user_do('midcom:ajax', null, 'midcom_services_uimessages'))
         {
             $this->show_simple();
             return;
@@ -187,7 +187,7 @@ class midcom_services_uimessages
     public function show_simple($prefer_fancy = false)
     {
         if (   $prefer_fancy
-            && midcom::get('auth')->can_user_do('midcom:ajax', null, 'midcom_services_uimessages'))
+            && midcom::get()->auth->can_user_do('midcom:ajax', null, 'midcom_services_uimessages'))
         {
             return $this->show();
         }

@@ -20,7 +20,7 @@ class org_openpsa_helpers_handler_chooserTest extends openpsa_testcase
 
     public function testHandler_create()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.helpers');
+        midcom::get()->auth->request_sudo('org.openpsa.helpers');
 
         $_GET = array
         (
@@ -49,7 +49,7 @@ class org_openpsa_helpers_handler_chooserTest extends openpsa_testcase
         $this->register_object($person);
         $this->assertEquals('test', $person->lastname);
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 }
 ?>

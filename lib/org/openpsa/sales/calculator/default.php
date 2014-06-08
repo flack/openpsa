@@ -172,9 +172,9 @@ class org_openpsa_sales_calculator_default implements org_openpsa_invoices_inter
         $qb = org_openpsa_invoices_invoice_dba::new_query_builder();
         $qb->add_order('number', 'DESC');
         $qb->set_limit(1);
-        midcom::get('auth')->request_sudo('org.openpsa.invoices');
+        midcom::get()->auth->request_sudo('org.openpsa.invoices');
         $last_invoice = $qb->execute_unchecked();
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
 
         if (count($last_invoice) == 0)
         {

@@ -176,16 +176,16 @@ class midcom_core_context
         // Initialize Root Topic
         try
         {
-            $root_node = midcom_db_topic::get_cached(midcom::get('config')->get('midcom_root_topic_guid'));
+            $root_node = midcom_db_topic::get_cached(midcom::get()->config->get('midcom_root_topic_guid'));
         }
         catch (midcom_error $e)
         {
             if ($e instanceof midcom_error_forbidden)
             {
-                throw new midcom_error_forbidden(midcom::get('i18n')->get_string('access denied', 'midcom'));
+                throw new midcom_error_forbidden(midcom::get()->i18n->get_string('access denied', 'midcom'));
             }
             // Fall back to another topic so that admin has a chance to fix this
-            midcom::get('auth')->require_admin_user("Root folder is misconfigured. Please log in as administrator and fix this in settings.");
+            midcom::get()->auth->require_admin_user("Root folder is misconfigured. Please log in as administrator and fix this in settings.");
             $qb = midcom_db_topic::new_query_builder();
             $qb->add_constraint('up', '=', 0);
             $qb->add_constraint('component', '<>', '');
@@ -194,7 +194,7 @@ class midcom_core_context
             {
                 throw new midcom_error
                 (
-                    "Fatal error: Unable to load website root folder with GUID '" . midcom::get('config')->get('midcom_root_topic_guid') . "<br />" .
+                    "Fatal error: Unable to load website root folder with GUID '" . midcom::get()->config->get('midcom_root_topic_guid') . "<br />" .
                     'Last Midgard Error was: ' . midcom_connection::get_error_string()
                 );
             }
@@ -342,12 +342,12 @@ class midcom_core_context
         $this->set_key(MIDCOM_CONTEXT_COMPONENT, $path);
 
         // Get component interface class
-        $component_interface = midcom::get('componentloader')->get_interface_class($path);
+        $component_interface = midcom::get()->componentloader->get_interface_class($path);
         if ($component_interface === null)
         {
             $path = 'midcom.core.nullcomponent';
             $this->set_key(MIDCOM_CONTEXT_COMPONENT, $path);
-            $component_interface = midcom::get('componentloader')->get_interface_class($path);
+            $component_interface = midcom::get()->componentloader->get_interface_class($path);
         }
 
         // Load configuration
@@ -426,7 +426,7 @@ class midcom_core_context
             midcom_show_style('style-init');
         }
 
-        $component = midcom::get('componentloader')->get_interface_class($this->get_key(MIDCOM_CONTEXT_COMPONENT));
+        $component = midcom::get()->componentloader->get_interface_class($this->get_key(MIDCOM_CONTEXT_COMPONENT));
         $component->show_content($this->id);
 
         if (!midcom::get()->skip_page_style)

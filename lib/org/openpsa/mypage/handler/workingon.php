@@ -20,7 +20,7 @@ class org_openpsa_mypage_handler_workingon extends midcom_baseclasses_components
      */
     public function _handler_view($handler_id, array $args, array &$data)
     {
-        midcom::get('auth')->require_valid_user();
+        midcom::get()->auth->require_valid_user();
 
         // Set the "now working on" status
         $data['workingon'] = new org_openpsa_mypage_workingon();
@@ -175,7 +175,7 @@ class org_openpsa_mypage_handler_workingon extends midcom_baseclasses_components
         $workingon = new org_openpsa_mypage_workingon();
         if (!$workingon->set($_POST['task']))
         {
-            midcom::get('uimessages')->add($this->_l10n->get('org.openpsa.mypage'),  'Failed to set "working on" parameter to "' . $_POST['task'] . '", reason ' . midcom_connection::get_error_string(), 'error');
+            midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.mypage'),  'Failed to set "working on" parameter to "' . $_POST['task'] . '", reason ' . midcom_connection::get_error_string(), 'error');
         }
 
         return new midcom_response_relocate($relocate . "workingon/");

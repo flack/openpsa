@@ -15,7 +15,7 @@ class org_openpsa_directmarketing_campaign_memberTest extends openpsa_testcase
 {
     public function testCRUD()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.directmarketing');
+        midcom::get()->auth->request_sudo('org.openpsa.directmarketing');
 
         $member = new org_openpsa_directmarketing_campaign_member_dba();
 
@@ -34,7 +34,7 @@ class org_openpsa_directmarketing_campaign_memberTest extends openpsa_testcase
         $stat = $member->delete();
         $this->assertTrue($stat);
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
      }
 }
 ?>

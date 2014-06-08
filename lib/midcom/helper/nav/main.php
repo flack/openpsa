@@ -253,7 +253,7 @@ class midcom_helper_nav
         }
 
         $guid = $parent_node[MIDCOM_NAV_GUID];
-        if (midcom::get('config')->get('symlinks'))
+        if (midcom::get()->config->get('symlinks'))
         {
             $guid = $parent_node[MIDCOM_NAV_OBJECT]->guid;
         }
@@ -318,7 +318,7 @@ class midcom_helper_nav
         // the tree. This is, for example, used by the on-delete cache invalidation.
         try
         {
-            $object = midcom::get('dbfactory')->get_object_by_guid($guid);
+            $object = midcom::get()->dbfactory->get_object_by_guid($guid);
         }
         catch (midcom_error $e)
         {

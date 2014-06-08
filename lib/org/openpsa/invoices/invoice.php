@@ -77,13 +77,13 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
         $task->resources[$invoice_sender->id] = true;
         $task->manager = midcom_connection::get_user();
         // TODO: Connect the customer as the contact?
-        $task->title = sprintf(midcom::get('i18n')->get_string('send invoice %s', 'org.openpsa.invoices'), sprintf($config->get('invoice_number_format'), sprintf($config->get('invoice_number_format'), $this->number)));
+        $task->title = sprintf(midcom::get()->i18n->get_string('send invoice %s', 'org.openpsa.invoices'), sprintf($config->get('invoice_number_format'), sprintf($config->get('invoice_number_format'), $this->number)));
         // TODO: Store link to invoice into description
         $task->end = time() + 24 * 3600;
         if ($task->create())
         {
             org_openpsa_relatedto_plugin::create($task, 'org.openpsa.projects', $this, 'org.openpsa.invoices');
-            midcom::get('uimessages')->add(midcom::get('i18n')->get_string('org.openpsa.invoices', 'org.openpsa.invoices'), sprintf(midcom::get('i18n')->get_string('created "%s" task to %s', 'org.openpsa.invoices'), $task->title, $invoice_sender->name), 'ok');
+            midcom::get()->uimessages->add(midcom::get()->i18n->get_string('org.openpsa.invoices', 'org.openpsa.invoices'), sprintf(midcom::get()->i18n->get_string('created "%s" task to %s', 'org.openpsa.invoices'), $task->title, $invoice_sender->name), 'ok');
         }
     }
 
@@ -141,7 +141,7 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
      */
     public function _on_deleting()
     {
-        if (! midcom::get('auth')->request_sudo('org.openpsa.invoices'))
+        if (! midcom::get()->auth->request_sudo('org.openpsa.invoices'))
         {
             debug_add('Failed to get SUDO privileges, skipping invoice hour deletion silently.', MIDCOM_LOG_ERROR);
             return false;
@@ -174,7 +174,7 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
             catch (midcom_error $e){}
         }
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
         return parent::_on_deleting();
     }
 

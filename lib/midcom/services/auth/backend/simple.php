@@ -45,9 +45,9 @@ class midcom_services_auth_backend_simple extends midcom_services_auth_backend
      */
     public function __construct($auth)
     {
-        $this->_cookie_id .= midcom::get('config')->get('auth_backend_simple_cookie_id');
+        $this->_cookie_id .= midcom::get()->config->get('auth_backend_simple_cookie_id');
 
-        $this->_cookie_path = midcom::get('config')->get('auth_backend_simple_cookie_path');
+        $this->_cookie_path = midcom::get()->config->get('auth_backend_simple_cookie_path');
         if ($this->_cookie_path == 'auto')
         {
             $this->_cookie_path = midcom_connection::get_url('self');
@@ -55,7 +55,7 @@ class midcom_services_auth_backend_simple extends midcom_services_auth_backend
 
         if (   !empty($_SERVER['HTTPS'])
             && $_SERVER['HTTPS'] !== 'off'
-            && midcom::get('config')->get('auth_backend_simple_cookie_secure'))
+            && midcom::get()->config->get('auth_backend_simple_cookie_secure'))
         {
             $this->_secure_cookie = true;
         }
@@ -139,7 +139,7 @@ class midcom_services_auth_backend_simple extends midcom_services_auth_backend
             "{$this->session_id}-{$this->user->id}",
             0,
             $this->_cookie_path,
-            midcom::get('config')->get('auth_backend_simple_cookie_domain'),
+            midcom::get()->config->get('auth_backend_simple_cookie_domain'),
             $this->_secure_cookie
         );
         if (!$stat)
@@ -160,7 +160,7 @@ class midcom_services_auth_backend_simple extends midcom_services_auth_backend
             false,
             time() - 3600,
             $this->_cookie_path,
-            midcom::get('config')->get('auth_backend_simple_cookie_domain'),
+            midcom::get()->config->get('auth_backend_simple_cookie_domain'),
             $this->_secure_cookie
         );
         if (!$stat)

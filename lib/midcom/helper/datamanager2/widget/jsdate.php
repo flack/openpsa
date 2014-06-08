@@ -110,22 +110,22 @@ class midcom_helper_datamanager2_widget_jsdate extends midcom_helper_datamanager
 
         $executed = true;
 
-        $head = midcom::get('head');
+        $head = midcom::get()->head;
 
         $head->enable_jquery();
         $head->add_jsfile(MIDCOM_JQUERY_UI_URL . "/ui/jquery.ui.core.min.js");
         $head->add_jsfile(MIDCOM_JQUERY_UI_URL . "/ui/jquery.ui.datepicker.min.js");
 
-        $lang = midcom::get('i18n')->get_current_language();
+        $lang = midcom::get()->i18n->get_current_language();
         /*
          * The calendar doesn't have all lang files and some are named differently
          * Since a missing lang file causes the calendar to break, let's make extra sure
          * that this won't happen
          */
-        if (!file_exists(MIDCOM_STATIC_ROOT . "/jQuery/jquery-ui-" . midcom::get('config')->get('jquery_ui_version') . "/ui/i18n/jquery.ui.datepicker-{$lang}.min.js"))
+        if (!file_exists(MIDCOM_STATIC_ROOT . "/jQuery/jquery-ui-" . midcom::get()->config->get('jquery_ui_version') . "/ui/i18n/jquery.ui.datepicker-{$lang}.min.js"))
         {
-            $lang = midcom::get('i18n')->get_fallback_language();
-            if (!file_exists(MIDCOM_STATIC_ROOT . "/jQuery/jquery-ui-" . midcom::get('config')->get('jquery_ui_version') . "/ui/i18n/jquery.ui.datepicker-{$lang}.min.js"))
+            $lang = midcom::get()->i18n->get_fallback_language();
+            if (!file_exists(MIDCOM_STATIC_ROOT . "/jQuery/jquery-ui-" . midcom::get()->config->get('jquery_ui_version') . "/ui/i18n/jquery.ui.datepicker-{$lang}.min.js"))
             {
                 $lang = false;
             }

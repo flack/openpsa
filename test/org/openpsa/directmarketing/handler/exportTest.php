@@ -28,12 +28,12 @@ class org_openpsa_directmarketing_handler_exportTest extends openpsa_testcase
         $campaign = $helper->get_campaign();
         $member = $helper->get_member(self::$_person);
 
-        midcom::get('auth')->request_sudo('org.openpsa.directmarketing');
+        midcom::get()->auth->request_sudo('org.openpsa.directmarketing');
 
         $data = $this->run_handler('org.openpsa.directmarketing', array('campaign', 'export', 'csv', $campaign->guid));
         $this->assertEquals('export_csv', $data['handler_id']);
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 }
 ?>

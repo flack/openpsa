@@ -72,7 +72,7 @@ implements midcom_helper_datamanager2_interfaces_view, org_openpsa_widgets_grid_
             )
         );
 
-        if (   midcom::get('auth')->can_user_do('midgard:create', null, 'org_openpsa_contacts_person_dba')
+        if (   midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_contacts_person_dba')
             && $this->_group->can_do('midgard:create'))
         {
             $allow_person_create = true;
@@ -96,7 +96,7 @@ implements midcom_helper_datamanager2_interfaces_view, org_openpsa_widgets_grid_
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
         $user_url = $siteconfig->get_node_full_url('org.openpsa.user');
         if (   $user_url
-            && midcom::get('auth')->can_user_do('org.openpsa.user:access', null, 'org_openpsa_user_interface'))
+            && midcom::get()->auth->can_user_do('org.openpsa.user:access', null, 'org_openpsa_user_interface'))
         {
             $this->_view_toolbar->add_item
             (
@@ -180,7 +180,7 @@ implements midcom_helper_datamanager2_interfaces_view, org_openpsa_widgets_grid_
             }
 
             //pass billing-data if invoices is installed
-            if (midcom::get('componentloader')->is_installed('org.openpsa.invoices'))
+            if (midcom::get()->componentloader->is_installed('org.openpsa.invoices'))
             {
                 $qb_billing_data = org_openpsa_invoices_billing_data_dba::new_query_builder();
                 $qb_billing_data->add_constraint('linkGuid', '=', $this->_group->guid);
@@ -191,7 +191,7 @@ implements midcom_helper_datamanager2_interfaces_view, org_openpsa_widgets_grid_
                 }
             }
             // This handler uses Ajax, include the handler javascripts
-            midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . "/org.openpsa.helpers/ajaxutils.js");
+            midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . "/org.openpsa.helpers/ajaxutils.js");
             org_openpsa_widgets_ui::enable_ui_tab();
         }
         $data['view'] = midcom_helper_datamanager2_handler::get_view($this, $this->_group);
@@ -201,7 +201,7 @@ implements midcom_helper_datamanager2_interfaces_view, org_openpsa_widgets_grid_
 
         $this->bind_view_to_object($this->_group);
 
-        midcom::get('head')->set_pagetitle($this->_group->official);
+        midcom::get()->head->set_pagetitle($this->_group->official);
 
         org_openpsa_contacts_viewer::add_breadcrumb_path_for_group($this->_group, $this);
     }

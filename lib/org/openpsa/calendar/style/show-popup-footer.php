@@ -1,7 +1,7 @@
 </div>
     </div>
     <?php
-    midcom::get('uimessages')->show();
+    midcom::get()->uimessages->show();
     ?>
   </body>
 </html>

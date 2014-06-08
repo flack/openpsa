@@ -28,9 +28,9 @@ class midcom_helper_imagefilterTest extends openpsa_testcase
     {
         $attachment = $this->create_object('midcom_db_attachment', array('parentguid' => self::$_topic->guid));
 
-        midcom::get('auth')->request_sudo('midcom.core');
+        midcom::get()->auth->request_sudo('midcom.core');
         $stat = $attachment->copy_from_file(self::$_filename);
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
 
         $filter = new midcom_helper_imagefilter($attachment);
         $this->assertNotEquals(self::$_filename, $filter->get_file(), 'Tmp file should be named differently');

@@ -8,13 +8,13 @@ if (!empty($workingon->invoiceable))
     $checked = "checked = 'checked'";
 }
 $current_task = '';
-$helptext = midcom::get('i18n')->get_string('task', 'org.openpsa.projects');
+$helptext = midcom::get()->i18n->get_string('task', 'org.openpsa.projects');
 if (!is_null($workingon->task))
 {
     $current_task = '[' . $workingon->task->guid . ']';
     $helptext = $workingon->task->get_label();
 }
-midcom::get('uimessages')->show();
+midcom::get()->uimessages->show();
 ?>
 
 <div id="org_openpsa_mypage_workingon_widget">

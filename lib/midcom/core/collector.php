@@ -84,9 +84,9 @@ class midcom_core_collector extends midcom_core_query
             return false;
         }
 
-        if (!midcom::get('auth')->admin)
+        if (!midcom::get()->auth->admin)
         {
-            $this->_user_id = midcom::get('auth')->acl->get_user_id();
+            $this->_user_id = midcom::get()->auth->acl->get_user_id();
         }
 
         return $this->_real_execute();
@@ -160,7 +160,7 @@ class midcom_core_collector extends midcom_core_query
         foreach ($result as $object_guid => $empty_copy)
         {
             if (    $this->_user_id
-                && !midcom::get('auth')->acl->can_do_byguid('midgard:read', $object_guid, $classname, $this->_user_id))
+                && !midcom::get()->auth->acl->can_do_byguid('midgard:read', $object_guid, $classname, $this->_user_id))
             {
                 debug_add("Failed to load result, read privilege on {$object_guid} not granted for the current user.", MIDCOM_LOG_INFO);
                 continue;
@@ -169,7 +169,7 @@ class midcom_core_collector extends midcom_core_query
             // TODO: Implement $this->hide_invisible
 
             // Register the GUID as loaded in this request
-            midcom::get('cache')->content->register($object_guid);
+            midcom::get()->cache->content->register($object_guid);
 
             $newresult[$object_guid] = array();
         }
@@ -273,7 +273,7 @@ class midcom_core_collector extends midcom_core_query
     public function get_subkey($key, $property)
     {
         if (   $this->_user_id
-            && !midcom::get('auth')->acl->can_do_byguid('midgard:read', $key, $this->_real_class, $this->_user_id))
+            && !midcom::get()->auth->acl->can_do_byguid('midgard:read', $key, $this->_real_class, $this->_user_id))
         {
             midcom_connection::set_error(MGD_ERR_ACCESS_DENIED);
             return false;
@@ -284,7 +284,7 @@ class midcom_core_collector extends midcom_core_query
     public function get($key)
     {
         if (   $this->_user_id
-            && !midcom::get('auth')->acl->can_do_byguid('midgard:read', $key, $this->_real_class, $this->_user_id))
+            && !midcom::get()->auth->acl->can_do_byguid('midgard:read', $key, $this->_real_class, $this->_user_id))
         {
             midcom_connection::set_error(MGD_ERR_ACCESS_DENIED);
             return false;

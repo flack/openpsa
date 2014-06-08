@@ -49,7 +49,7 @@
 'show_navigation_pseudo_leaves' => true,   // Set this to false if you want to hide archive and feeds navigation items
 
 // Set this to true if you want to enable on-site AJAX editing
-'enable_ajax_editing' => midcom::get('config')->get('enable_ajax_editing'),
+'enable_ajax_editing' => midcom::get()->config->get('enable_ajax_editing'),
 
 // Comma-separated list of categories enabled in this blog
 'categories' => '',

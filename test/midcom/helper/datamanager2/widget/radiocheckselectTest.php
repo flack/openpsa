@@ -35,7 +35,7 @@ class midcom_helper_datamanager2_widget_radiocheckselectTest extends openpsa_tes
             'test_radiocheckselect_1' => 2
         );
 
-        midcom::get('auth')->request_sudo('midcom.helper.datamanager2');
+        midcom::get()->auth->request_sudo('midcom.helper.datamanager2');
 
         $dm2_helper = new openpsa_test_dm2_helper;
         $widget = $dm2_helper->get_widget('radiocheckselect', 'select', $config);
@@ -74,7 +74,7 @@ class midcom_helper_datamanager2_widget_radiocheckselectTest extends openpsa_tes
 
         $this->assertEquals($default_values, $widget->get_default(), 'simple/storage test failed');
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
     public function test_get_default_checkbox()
@@ -97,7 +97,7 @@ class midcom_helper_datamanager2_widget_radiocheckselectTest extends openpsa_tes
             'test_radiocheckselect_1' => array(2 => true)
         );
 
-        midcom::get('auth')->request_sudo('midcom.helper.datamanager2');
+        midcom::get()->auth->request_sudo('midcom.helper.datamanager2');
 
         $dm2_helper = new openpsa_test_dm2_helper;
         $widget = $dm2_helper->get_widget('radiocheckselect', 'select', $config);
@@ -135,7 +135,7 @@ class midcom_helper_datamanager2_widget_radiocheckselectTest extends openpsa_tes
 
         $this->assertEquals($default_values, $widget->get_default(), 'simple/storage test failed');
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
 }

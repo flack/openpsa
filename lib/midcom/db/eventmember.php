@@ -22,7 +22,7 @@ class midcom_db_eventmember extends midcom_core_dbaobject
     {
         $person = new midcom_db_person($this->uid);
         $event = new midcom_db_event($this->eid);
-        return sprintf(midcom::get('i18n')->get_string('%s in %s', 'midcom'), $person->name, $event->title);
+        return sprintf(midcom::get()->i18n->get_string('%s in %s', 'midcom'), $person->name, $event->title);
     }
 }
 ?>

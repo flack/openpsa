@@ -137,7 +137,7 @@ class org_openpsa_notifications extends midcom_baseclasses_components_purecode
         }
 
         // Fall back to component defaults
-        $customdata = midcom::get('componentloader')->get_all_manifest_customdata('org.openpsa.notifications');
+        $customdata = midcom::get()->componentloader->get_all_manifest_customdata('org.openpsa.notifications');
         if (!empty($customdata[$component][$action]['default']))
         {
             $preference = $customdata[$component][$action]['default'];
@@ -160,7 +160,7 @@ class org_openpsa_notifications extends midcom_baseclasses_components_purecode
         $notifiers = $this->_list_notifiers();
 
         // Load actions of various components
-        $customdata = midcom::get('componentloader')->get_all_manifest_customdata('org.openpsa.notifications');
+        $customdata = midcom::get()->componentloader->get_all_manifest_customdata('org.openpsa.notifications');
 
         foreach ($customdata as $component => $actions)
         {

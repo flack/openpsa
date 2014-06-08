@@ -22,7 +22,7 @@ class org_openpsa_user_handler_group_list extends midcom_baseclasses_components_
      */
     public function _handler_list($handler_id, array $args, array &$data)
     {
-        midcom::get('auth')->require_user_do('org.openpsa.user:access', null, 'org_openpsa_user_interface');
+        midcom::get()->auth->require_user_do('org.openpsa.user:access', null, 'org_openpsa_user_interface');
 
         $tree = new org_openpsa_widgets_tree('midcom_db_group', 'owner');
         $tree->title_fields = array('official', 'name');
@@ -37,7 +37,7 @@ class org_openpsa_user_handler_group_list extends midcom_baseclasses_components_
                 MIDCOM_TOOLBAR_URL => "group/create/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create group'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_people-new.png',
-                MIDCOM_TOOLBAR_ENABLED => midcom::get('auth')->can_user_do('midgard:create', null, 'midcom_db_group'),
+                MIDCOM_TOOLBAR_ENABLED => midcom::get()->auth->can_user_do('midgard:create', null, 'midcom_db_group'),
             )
         );
     }

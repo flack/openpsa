@@ -133,7 +133,7 @@ class midcom_helper_datamanager2_controller_create extends midcom_helper_dataman
         if (array_key_exists($this->_tmpid_fieldname, $_REQUEST))
         {
             $tmpid = $_REQUEST[$this->_tmpid_fieldname];
-            $object = midcom::get('tmp')->request_object($tmpid);
+            $object = midcom::get()->tmp->request_object($tmpid);
 
             if (!empty($object->guid))
             {
@@ -174,10 +174,10 @@ class midcom_helper_datamanager2_controller_create extends midcom_helper_dataman
     {
         $this->form_identifier = "dm2_composite_{$this->form_identifier}";
 
-        midcom::get('head')->enable_jquery();
+        midcom::get()->head->enable_jquery();
 
         // Add the required JavaScript
-        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/jquery.dm2_ajax_editor.js');
+        midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/jquery.dm2_ajax_editor.js');
 
         $this->formmanager = new midcom_helper_datamanager2_formmanager_ajax($this->datamanager->schema, $this->datamanager->types);
 
@@ -200,7 +200,7 @@ class midcom_helper_datamanager2_controller_create extends midcom_helper_dataman
 
         $config = "{mode: '{$mode}'}";//, allow_creation: {$creation_mode_enabled}}";
         $script = "jQuery.dm2.ajax_editor.init('{$this->form_identifier}', {$config}, true);";
-        midcom::get('head')->add_jquery_state_script($script);
+        midcom::get()->head->add_jquery_state_script($script);
 
         $this->add_stylesheet(MIDCOM_STATIC_URL."/midcom.helper.datamanager2/dm2_ajax_editor.css", 'screen');
 

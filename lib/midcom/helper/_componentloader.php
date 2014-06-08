@@ -64,7 +64,7 @@
  *
  * In case you need an instance of the component loader to verify or
  * transform component paths, use the function
- * midcom::get('componentloader'), which returns a
+ * midcom::get()->componentloader, which returns a
  * <i>reference</i> to the loader.
  *
  * @package midcom.helper
@@ -150,7 +150,7 @@ class midcom_helper__componentloader
      * Common example:
      *
      * <code>
-     * midcom::get('componentloader')->load_library('midcom.helper.datamanager2');
+     * midcom::get()->componentloader->load_library('midcom.helper.datamanager2');
      * </code>
      *
      * @param string $path    The name of the code library to load.
@@ -228,7 +228,7 @@ class midcom_helper__componentloader
         }
         $this->_interface_classes[$path] = new $classname();
 
-        midcom::get('dbclassloader')->load_classes($this->manifests[$path]->name, null, $this->manifests[$path]->class_mapping);
+        midcom::get()->dbclassloader->load_classes($this->manifests[$path]->name, null, $this->manifests[$path]->class_mapping);
 
         if ($this->_interface_classes[$path]->initialize($path) == false)
         {
@@ -390,13 +390,13 @@ class midcom_helper__componentloader
      */
     public function load_all_manifests()
     {
-        $manifests = midcom::get('cache')->memcache->get('MISC', 'midcom.componentloader.manifests');
+        $manifests = midcom::get()->cache->memcache->get('MISC', 'midcom.componentloader.manifests');
 
         if (! is_array($manifests))
         {
             debug_add('Cache miss, generating component manifest cache now.');
             $manifests = $this->get_manifests();
-            midcom::get('cache')->memcache->put('MISC', 'midcom.componentloader.manifests', $manifests);
+            midcom::get()->cache->memcache->put('MISC', 'midcom.componentloader.manifests', $manifests);
         }
         array_map(array($this, '_register_manifest'), $manifests);
     }
@@ -422,7 +422,7 @@ class midcom_helper__componentloader
             $candidates[] = "{$directory}/manifest.inc";
         }
         // now we look for extra components the user my have registered
-        $config = midcom::get('config');
+        $config = midcom::get()->config;
         foreach ($config->get('midcom_components', array()) as $path)
         {
             $candidates[] = $path . '/config/manifest.inc';
@@ -450,12 +450,12 @@ class midcom_helper__componentloader
         $this->manifests[$manifest->name] = $manifest;
 
         // Register Privileges
-        midcom::get('auth')->acl->register_default_privileges($manifest->privileges);
+        midcom::get()->auth->acl->register_default_privileges($manifest->privileges);
 
         // Register watches
         if ($manifest->watches !== null)
         {
-            midcom::get('dispatcher')->add_watches($manifest->watches, $manifest->name);
+            midcom::get()->dispatcher->add_watches($manifest->watches, $manifest->name);
         }
     }
 
@@ -483,7 +483,7 @@ class midcom_helper__componentloader
      */
     public function trigger_watches($operation, $object)
     {
-        midcom::get('dispatcher')->trigger_watch($operation, $object);
+        midcom::get()->dispatcher->trigger_watch($operation, $object);
     }
 
     /**

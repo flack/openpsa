@@ -22,17 +22,17 @@ class org_openpsa_calendar_viewerTest extends openpsa_testcase
             'component' => 'org.openpsa.calendar',
             'name' => __CLASS__ . time()
         );
-        midcom::get('auth')->request_sudo('org.openpsa.calendar');
+        midcom::get()->auth->request_sudo('org.openpsa.calendar');
         self::$_topic = self::create_class_object('midcom_db_topic', $attributes);
         self::$_topic->set_parameter('org.openpsa.calendar', 'calendar_root_event', 0);
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
 
         self::create_user(true);
     }
 
     public function testHandler_frontpage()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.calendar');
+        midcom::get()->auth->request_sudo('org.openpsa.calendar');
 
         $data = $this->run_handler(self::$_topic);
         $this->assertEquals('frontpage', $data['handler_id']);

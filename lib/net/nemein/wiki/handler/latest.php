@@ -34,7 +34,7 @@ class net_nemein_wiki_handler_latest extends midcom_baseclasses_components_handl
         $qb->add_order('metadata.revised', 'DESC');
         $result = $qb->execute();
 
-        $rcs = midcom::get('rcs');
+        $rcs = midcom::get()->rcs;
 
         foreach ($result as $page)
         {
@@ -113,7 +113,7 @@ class net_nemein_wiki_handler_latest extends midcom_baseclasses_components_handl
         }
 
         $data['view_title'] = sprintf($this->_l10n->get('latest updates in %s'), $this->_topic->extra);
-        midcom::get('head')->set_pagetitle($data['view_title']);
+        midcom::get()->head->set_pagetitle($data['view_title']);
 
         $this->add_breadcrumb('latest/', $data['view_title']);
         org_openpsa_widgets_contact::add_head_elements();

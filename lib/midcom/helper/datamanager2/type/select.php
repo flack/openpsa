@@ -253,10 +253,10 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
         }
 
         if (   !empty($widget_config['component'])
-            && !midcom::get('componentloader')->is_loaded($widget_config['component']))
+            && !midcom::get()->componentloader->is_loaded($widget_config['component']))
         {
             // Ensure the corresponding component is loaded
-            midcom::get('componentloader')->load($widget_config['component']);
+            midcom::get()->componentloader->load($widget_config['component']);
         }
 
         if (   isset($widget_config['id_field'])

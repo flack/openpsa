@@ -24,7 +24,7 @@ class org_openpsa_directmarketing_cron_cleanup extends midcom_baseclasses_compon
         }
         debug_add('_on_execute called');
 
-        if (!midcom::get('auth')->request_sudo('org.openpsa.directmarketing'))
+        if (!midcom::get()->auth->request_sudo('org.openpsa.directmarketing'))
         {
             $this->print_error("Could not get sudo, aborting operation, see error log for details");
             return;
@@ -33,7 +33,7 @@ class org_openpsa_directmarketing_cron_cleanup extends midcom_baseclasses_compon
         $cleanup = new org_openpsa_directmarketing_cleanup();
         $cleanup->delete();
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
 
         debug_add('Done');
     }

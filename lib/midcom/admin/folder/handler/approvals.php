@@ -29,7 +29,7 @@ class midcom_admin_folder_handler_approvals extends midcom_baseclasses_component
             throw new midcom_error('Cannot process approval request, request is incomplete.');
         }
 
-        $object = midcom::get('dbfactory')->get_object_by_guid($_REQUEST['guid']);
+        $object = midcom::get()->dbfactory->get_object_by_guid($_REQUEST['guid']);
         $object->require_do('midcom:approve');
 
         if ($handler_id == '____ais-folder-approve')

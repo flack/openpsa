@@ -18,7 +18,7 @@ class org_openpsa_products_handler_product_csvimport extends midcom_baseclasses_
     {
         // Mass importing is for now better left for admins only
         // TODO: Add smarter per-type ACL checks
-        midcom::get('auth')->require_admin_user();
+        midcom::get()->auth->require_admin_user();
         $this->_request_data['type'] = 'product';
 
         $this->_request_data['import_status'] = array
@@ -267,7 +267,7 @@ class org_openpsa_products_handler_product_csvimport extends midcom_baseclasses_
             if (is_uploaded_file($_FILES['org_openpsa_products_import_upload']['tmp_name']))
             {
                 // Copy the file for later processing
-                $data['tmp_file'] = tempnam(midcom::get('config')->get('midcom_tempdir'), 'org_openpsa_products_import_csv');
+                $data['tmp_file'] = tempnam(midcom::get()->config->get('midcom_tempdir'), 'org_openpsa_products_import_csv');
                 copy($_FILES['org_openpsa_products_import_upload']['tmp_name'], $data['tmp_file']);
 
                 // Read cell headers from the file

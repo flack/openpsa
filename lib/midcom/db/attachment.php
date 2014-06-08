@@ -187,7 +187,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
             $name = $filename;
             $ext = '';
         }
-        return midcom::get('serviceloader')->load('midcom_core_service_urlgenerator')->from_string($name) . $ext;
+        return midcom::get()->serviceloader->load('midcom_core_service_urlgenerator')->from_string($name) . $ext;
     }
 
     /**
@@ -197,13 +197,13 @@ class midcom_db_attachment extends midcom_core_dbaobject
      */
     public function get_cache_path()
     {
-        if (!midcom::get('config')->get('attachment_cache_enabled'))
+        if (!midcom::get()->config->get('attachment_cache_enabled'))
         {
             return null;
         }
 
         // Copy the file to the static directory
-        $cacheroot = midcom::get('config')->get('attachment_cache_root');
+        $cacheroot = midcom::get()->config->get('attachment_cache_root');
         $subdir = substr($this->guid, 0, 1);
         if (!file_exists("{$cacheroot}/{$subdir}"))
         {
@@ -235,17 +235,17 @@ class midcom_db_attachment extends midcom_core_dbaobject
             throw new midcom_error('Invalid attachment identifier');
         }
 
-        if (midcom::get('config')->get('attachment_cache_enabled'))
+        if (midcom::get()->config->get('attachment_cache_enabled'))
         {
             $subdir = substr($guid, 0, 1);
 
-            if (file_exists(midcom::get('config')->get('attachment_cache_root') . '/' . $subdir . '/' . $guid . '_' . $name))
+            if (file_exists(midcom::get()->config->get('attachment_cache_root') . '/' . $subdir . '/' . $guid . '_' . $name))
             {
-                return midcom::get('config')->get('attachment_cache_url') . '/' . $subdir . '/' . $guid . '_' . urlencode($name);
+                return midcom::get()->config->get('attachment_cache_url') . '/' . $subdir . '/' . $guid . '_' . urlencode($name);
             }
         }
 
-        if (    midcom::get('config')->get('midcom_compat_ragnaroek')
+        if (    midcom::get()->config->get('midcom_compat_ragnaroek')
              && is_object($attachment))
         {
             $nap = new midcom_helper_nav();
@@ -265,7 +265,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
     function file_to_cache()
     {
         // Check if the attachment can be read anonymously
-        if (!midcom::get('config')->get('attachment_cache_enabled'))
+        if (!midcom::get()->config->get('attachment_cache_enabled'))
         {
             return;
         }
@@ -401,12 +401,12 @@ class midcom_db_attachment extends midcom_core_dbaobject
     function update_cache()
     {
         // Check if the attachment can be read anonymously
-        if (   midcom::get('config')->get('attachment_cache_enabled')
+        if (   midcom::get()->config->get('attachment_cache_enabled')
             && !$this->can_do('midgard:read', 'EVERYONE'))
         {
             // Not public file, ensure it is removed
             $subdir = substr($this->guid, 0, 1);
-            $filename = midcom::get('config')->get('attachment_cache_root') . "/{$subdir}/{$this->guid}_{$this->name}";
+            $filename = midcom::get()->config->get('attachment_cache_root') . "/{$subdir}/{$this->guid}_{$this->name}";
             if (file_exists($filename))
             {
                 @unlink($filename);
@@ -427,7 +427,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
      */
     public function _on_deleted()
     {
-        if (midcom::get('config')->get('attachment_cache_enabled'))
+        if (midcom::get()->config->get('attachment_cache_enabled'))
         {
             // Remove attachment cache
             $filename = $this->get_cache_path();
@@ -494,7 +494,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
         if (! $source)
         {
             debug_add('Could not open file for reading.' . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
-            midcom::get('debug')->log_php_error(MIDCOM_LOG_WARN);
+            midcom::get()->debug->log_php_error(MIDCOM_LOG_WARN);
             return false;
         }
         $result = $this->copy_from_handle($source);

@@ -144,14 +144,14 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
         }
 
         $this->add_breadcrumb("salesproject/{$this->_salesproject->guid}/", $this->_salesproject->title);
-        midcom::get('metadata')->set_request_metadata($this->_salesproject->metadata->revised, $this->_salesproject->guid);
-        midcom::get('head')->set_pagetitle($this->_salesproject->title);
+        midcom::get()->metadata->set_request_metadata($this->_salesproject->metadata->revised, $this->_salesproject->guid);
+        midcom::get()->head->set_pagetitle($this->_salesproject->title);
 
         midcom_helper_datamanager2_widget_autocomplete::add_head_elements();
         org_openpsa_invoices_viewer::add_head_elements_for_invoice_grid();
 
-        midcom::get('head')->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.button.min.js');
-        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/' . $this->_component . '/sales.js');
+        midcom::get()->head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.button.min.js');
+        midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/' . $this->_component . '/sales.js');
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/list.css");
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/' . $this->_component . '/sales.css');
@@ -257,7 +257,7 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
                 {
                     $toolbar .= "<p>" . sprintf($this->_l10n->get('next invoice will be generated on %s'), strftime('%x', $entries[0]->start));
                     if (   $entries[0]->status == midcom_services_at_entry_dba::SCHEDULED
-                        && midcom::get('auth')->can_user_do('midgard:create', null, 'org_openpsa_invoices_invoice_dba'))
+                        && midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_invoices_invoice_dba'))
                     {
                         $toolbar .= ' <input type="submit" class="run_cycle" name="run_cycle" value="' . $this->_l10n->get('generate now') . "\" />\n";
                     }
@@ -278,7 +278,7 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
             }
         }
         else if (   $deliverable->orgOpenpsaObtype != org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION
-                 && midcom::get('auth')->can_user_do('midgard:create', null, 'org_openpsa_invoices_invoice_dba'))
+                 && midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_invoices_invoice_dba'))
         {
             //not invoiced yet
             $client_class = $this->_config->get('calculator');

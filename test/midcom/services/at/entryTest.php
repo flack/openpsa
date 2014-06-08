@@ -21,7 +21,7 @@ class midcom_services_at_entryTest extends openpsa_testcase
             'arg2' => 12,
         );
 
-        midcom::get('auth')->request_sudo('midcom.services.at');
+        midcom::get()->auth->request_sudo('midcom.services.at');
         $entry = new midcom_services_at_entry_dba();
         $entry->arguments = $args;
         $stat = $entry->create();
@@ -41,7 +41,7 @@ class midcom_services_at_entryTest extends openpsa_testcase
         $stat = $entry->delete();
         $this->assertTrue($stat);
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 }
 ?>

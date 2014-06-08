@@ -81,9 +81,9 @@ class org_openpsa_products_handler_productlink_view extends midcom_baseclasses_c
         $breadcrumb = org_openpsa_products_viewer::update_breadcrumb_line($this->_productlink);
         midcom_core_context::get()->set_custom_key('midcom.helper.nav.breadcrumb', $breadcrumb);
 
-        midcom::get('metadata')->set_request_metadata($this->_productlink->metadata->revised, $this->_productlink->guid);
+        midcom::get()->metadata->set_request_metadata($this->_productlink->metadata->revised, $this->_productlink->guid);
 
-//        midcom::get('head')->set_pagetitle($this->_request_data['view_title']);
+//        midcom::get()->head->set_pagetitle($this->_request_data['view_title']);
     }
 
     /**

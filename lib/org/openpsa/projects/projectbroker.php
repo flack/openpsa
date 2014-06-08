@@ -90,7 +90,7 @@ class org_openpsa_projects_projectbroker
         }
 
         debug_add('clearing prospects that do not have free time from the list');
-        midcom::get('auth')->request_sudo('org.openpsa.projects');
+        midcom::get()->auth->request_sudo('org.openpsa.projects');
         foreach ($prospects as $key => $person)
         {
             $slots = org_openpsa_calendar_event_member_dba::find_free_times(($minimum_time_slot * 60), $person, $task->start, $task->end);
@@ -100,7 +100,7 @@ class org_openpsa_projects_projectbroker
                 unset($prospects[$key]);
             }
         }
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
     /**
@@ -111,7 +111,7 @@ class org_openpsa_projects_projectbroker
      */
     function save_task_prospects($task)
     {
-        midcom::get('auth')->request_sudo('org.openpsa.projects');
+        midcom::get()->auth->request_sudo('org.openpsa.projects');
         $task->set_parameter('org.openpsa.projects.projectbroker', 'local_search', 'SEARCH_IN_PROGRESS');
         $task->get_members();
         $prospects = $this->find_task_prospects($task);
@@ -135,7 +135,7 @@ class org_openpsa_projects_projectbroker
             }
         }
         $task->set_parameter('org.openpsa.projects.projectbroker', 'local_search', 'SEARCH_COMPLETE');
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
         return true;
     }
 

@@ -51,7 +51,7 @@ implements midcom_helper_datamanager2_interfaces_create
 
     public function _on_initialize()
     {
-        midcom::get('style')->prepend_component_styledir('org.openpsa.helpers');
+        midcom::get()->style->prepend_component_styledir('org.openpsa.helpers');
     }
 
     /**
@@ -62,7 +62,7 @@ implements midcom_helper_datamanager2_interfaces_create
     public function _handler_create($handler_id, array $args, array &$data)
     {
         $this->_dbaclass = $args[0];
-        midcom::get('auth')->require_user_do('midgard:create', null, $this->_dbaclass);
+        midcom::get()->auth->require_user_do('midgard:create', null, $this->_dbaclass);
 
         $this->_load_component_node();
 
@@ -144,8 +144,8 @@ implements midcom_helper_datamanager2_interfaces_create
     {
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
         $nap = new midcom_helper_nav();
-        $component = midcom::get('dbclassloader')->get_component_for_class($this->_dbaclass);
-        midcom::get('componentloader')->load($component);
+        $component = midcom::get()->dbclassloader->get_component_for_class($this->_dbaclass);
+        midcom::get()->componentloader->load($component);
         $topic_guid = $siteconfig->get_node_guid($component);
         $this->_node = $nap->resolve_guid($topic_guid);
 

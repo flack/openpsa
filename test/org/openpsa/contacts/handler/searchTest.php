@@ -22,7 +22,7 @@ class org_openpsa_contacts_handler_searchTest extends openpsa_testcase
 
     public function testHandler_search()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.contacts');
+        midcom::get()->auth->request_sudo('org.openpsa.contacts');
 
         $data = $this->run_handler('org.openpsa.contacts', array('search'));
         $this->assertEquals('search', $data['handler_id']);
@@ -30,18 +30,18 @@ class org_openpsa_contacts_handler_searchTest extends openpsa_testcase
         $_GET = array('query' => 'firstname lastname');
         $data = $this->run_handler('org.openpsa.contacts', array('search'));
         $this->show_handler($data);
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
     public function testHandler_search_type()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.contacts');
+        midcom::get()->auth->request_sudo('org.openpsa.contacts');
 
         $data = $this->run_handler('org.openpsa.contacts', array('search', 'foaf'));
         $this->assertEquals('search_type', $data['handler_id']);
 
         $this->show_handler($data);
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 }
 ?>

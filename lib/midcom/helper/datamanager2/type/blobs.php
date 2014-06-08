@@ -322,7 +322,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
         if (! $handle)
         {
             debug_add("Cannot add attachment, could not open {$tmpname} for reading.", MIDCOM_LOG_INFO);
-            midcom::get('debug')->log_php_error(MIDCOM_LOG_INFO);
+            midcom::get()->debug->log_php_error(MIDCOM_LOG_INFO);
             return false;
         }
 
@@ -341,7 +341,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
             if (! @unlink($tmpname))
             {
                 debug_add('Failed to automatically delete the source file, ignoring silently.', MIDCOM_LOG_WARN);
-                midcom::get('debug')->log_php_error(MIDCOM_LOG_WARN);
+                midcom::get()->debug->log_php_error(MIDCOM_LOG_WARN);
             }
         }
 
@@ -520,7 +520,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
         if (! $handle)
         {
             debug_add("Cannot add attachment, could not open {$tmpname} for reading.", MIDCOM_LOG_INFO);
-            midcom::get('debug')->log_php_error(MIDCOM_LOG_INFO);
+            midcom::get()->debug->log_php_error(MIDCOM_LOG_INFO);
             return false;
         }
 
@@ -536,7 +536,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
             if (! @unlink($tmpname))
             {
                 debug_add('Failed to automatically delete the source file, ignoring silently.', MIDCOM_LOG_WARN);
-                midcom::get('debug')->log_php_error(MIDCOM_LOG_WARN);
+                midcom::get()->debug->log_php_error(MIDCOM_LOG_WARN);
             }
         }
 
@@ -775,7 +775,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
         {
             debug_add("filesize('{$filepath}') returned {$size} which evaluated to zero", MIDCOM_LOG_ERROR);
 
-            midcom::get('uimessages')->add($this->_l10n->get('midcom.helper.datamanager2'), $this->_l10n->get('uploaded file has zero size'), 'error');
+            midcom::get()->uimessages->add($this->_l10n->get('midcom.helper.datamanager2'), $this->_l10n->get('uploaded file has zero size'), 'error');
 
             return false;
         }
@@ -804,7 +804,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
             // Scan command returned error (likely infected file);
             debug_add("{$scan_command} returned {$exit_code}, likely file is infected", MIDCOM_LOG_ERROR);
             debug_print_r('scanner_output', $scan_output, MIDCOM_LOG_ERROR);
-            midcom::get('uimessages')->add($this->_l10n_midcom->get('midcom.helper.datamanager2'), $this->_l10n->get('virus found in uploaded file'), 'error');
+            midcom::get()->uimessages->add($this->_l10n_midcom->get('midcom.helper.datamanager2'), $this->_l10n->get('virus found in uploaded file'), 'error');
             return false;
         }
         return true;
@@ -816,7 +816,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
     private function _index_attachment($attachment)
     {
         if (   $this->storage->object
-            && midcom::get('config')->get('indexer_backend')
+            && midcom::get()->config->get('indexer_backend')
                //check if there is an index_method set
             && (   !array_key_exists('index_method', $this->_datamanager->schema->fields[$this->name])
                 ||
@@ -826,7 +826,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
                     &&  $this->_datamanager->schema->fields[$this->name]['index_method'] !== 'noindex')))
         {
             $document = new midcom_services_indexer_document_attachment($attachment, $this->storage->object);
-            $indexer = midcom::get('indexer');
+            $indexer = midcom::get()->indexer;
             $indexer->index($document);
         }
     }

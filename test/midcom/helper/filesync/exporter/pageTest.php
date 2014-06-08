@@ -32,9 +32,9 @@ class midcom_helper_filesync_exporter_pageTest extends openpsa_testcase
         $element = $this->create_object('midcom_db_pageelement', array('name' => $element_name, 'page' => $sub_page->id));
 
         $exporter = new midcom_helper_filesync_exporter_page(self::$_rootdir);
-        midcom::get('auth')->request_sudo('midcom.helper.filesync');
+        midcom::get()->auth->request_sudo('midcom.helper.filesync');
         $stat = $exporter->read_root($page->id);
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
 
         $this->assertTrue($stat);
         $this->assertFileExists(self::$_rootdir . $page_name);

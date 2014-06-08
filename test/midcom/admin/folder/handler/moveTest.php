@@ -15,13 +15,13 @@ class midcom_admin_folder_handler_moveTest extends openpsa_testcase
 {
     public function testHandler_move()
     {
-        midcom::get('auth')->request_sudo('midcom.admin.folder');
+        midcom::get()->auth->request_sudo('midcom.admin.folder');
         $parent = $this->create_object('midcom_db_topic');
         $topic = $this->create_object('midcom_db_topic', array('up' => $parent->id));
         $data = $this->run_handler('net.nehmer.static', array('__ais', 'folder', 'move', $topic->guid));
         $this->assertEquals('____ais-folder-move', $data['handler_id']);
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
 }

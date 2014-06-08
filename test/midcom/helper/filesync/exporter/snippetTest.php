@@ -31,9 +31,9 @@ class midcom_helper_filesync_exporter_snippetTest extends openpsa_testcase
         $element = $this->create_object('midcom_db_snippet', array('name' => $element_name, 'up' => $sub_snippetdir->id));
 
         $exporter = new midcom_helper_filesync_exporter_snippet(self::$_rootdir);
-        midcom::get('auth')->request_sudo('midcom.helper.filesync');
+        midcom::get()->auth->request_sudo('midcom.helper.filesync');
         $stat = $exporter->read_root($snippetdir->id);
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
 
         $this->assertTrue($stat);
         $this->assertFileExists(self::$_rootdir . $snippetdir_name);

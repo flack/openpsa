@@ -55,8 +55,8 @@ class org_openpsa_core_queryfilter
      */
     public function apply_filters(midcom_core_query $query)
     {
-        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.core/filter.js');
-        midcom::get('head')->add_stylesheet(MIDCOM_STATIC_URL . '/org.openpsa.core/filter.css');
+        midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.core/filter.js');
+        midcom::get()->head->add_stylesheet(MIDCOM_STATIC_URL . '/org.openpsa.core/filter.css');
         foreach ($this->_filters as $filter)
         {
             $filter->add_head_elements();
@@ -75,9 +75,9 @@ class org_openpsa_core_queryfilter
      */
     private function _get_selection($filtername)
     {
-        $l10n = midcom::get('i18n')->get_l10n('org.openpsa.core');
+        $l10n = midcom::get()->i18n->get_l10n('org.openpsa.core');
         $filter_id = $this->_identifier . '_' . $filtername;
-        $user = midcom::get('auth')->user->get_storage();
+        $user = midcom::get()->auth->user->get_storage();
 
         if (   isset($_POST['unset_filter'])
             && $_POST['unset_filter'] == $filter_id)
@@ -90,7 +90,7 @@ class org_openpsa_core_queryfilter
                     $l10n->get('the handed filter for %s could not be set as parameter'),
                     $l10n->get_string($filtername)
                 );
-                midcom::get('uimessages')->add($l10n->get('filter error'), $message_content, 'error');
+                midcom::get()->uimessages->add($l10n->get('filter error'), $message_content, 'error');
             }
             return false;
         }
@@ -100,7 +100,7 @@ class org_openpsa_core_queryfilter
             $filter_string = serialize($selection);
             if (!$user->set_parameter("org_openpsa_core_filter", $filter_id, $filter_string))
             {
-                midcom::get('uimessages')->add($l10n->get('filter error'), $l10n->get('the handed filter for %s could not be set as parameter'), 'error');
+                midcom::get()->uimessages->add($l10n->get('filter error'), $l10n->get('the handed filter for %s could not be set as parameter'), 'error');
             }
             return $selection;
         }

@@ -78,7 +78,7 @@ implements midcom_helper_datamanager2_interfaces_create
     {
         //get billing_data
         $this->_billing_data = new org_openpsa_invoices_billing_data_dba($args[0]);
-        $this->_linked_object = midcom::get('dbfactory')->get_object_by_guid($this->_billing_data->linkGuid);
+        $this->_linked_object = midcom::get()->dbfactory->get_object_by_guid($this->_billing_data->linkGuid);
 
         $this->_controller = $this->get_controller('simple', $this->_billing_data);
         $this->_process_billing_form();
@@ -106,11 +106,11 @@ implements midcom_helper_datamanager2_interfaces_create
 
     public function _handler_create($handler_id, array $args, array &$data)
     {
-        midcom::get('auth')->require_valid_user();
+        midcom::get()->auth->require_valid_user();
 
         try
         {
-            $this->_linked_object = midcom::get('dbfactory')->get_object_by_guid($args[0]);
+            $this->_linked_object = midcom::get()->dbfactory->get_object_by_guid($args[0]);
         }
         catch (midcom_error $e)
         {
@@ -137,7 +137,7 @@ implements midcom_helper_datamanager2_interfaces_create
     {
         $this->_billing_data = new org_openpsa_invoices_billing_data_dba($args[0]);
         $this->_billing_data->require_do('midgard:delete');
-        $this->_linked_object = midcom::get('dbfactory')->get_object_by_guid($this->_billing_data->linkGuid);
+        $this->_linked_object = midcom::get()->dbfactory->get_object_by_guid($this->_billing_data->linkGuid);
 
         $this->_controller = midcom_helper_datamanager2_handler::get_delete_controller();
         $this->_process_billing_form();
@@ -158,8 +158,8 @@ implements midcom_helper_datamanager2_interfaces_create
 
     private function _prepare_output($mode)
     {
-        midcom::get('head')->enable_jquery();
-        midcom::get('head')->set_pagetitle(sprintf($this->_l10n_midcom->get($mode . " %s"), $this->_l10n->get("billing data")));
+        midcom::get()->head->enable_jquery();
+        midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get($mode . " %s"), $this->_l10n->get("billing data")));
 
         $this->_update_breadcrumb();
 
@@ -191,7 +191,7 @@ implements midcom_helper_datamanager2_interfaces_create
                         $relocate .= 'group/' . $this->_linked_object->guid . '/';
                         break;
                     default:
-                        $relocate = midcom::get('permalinks')->create_permalink($this->_linked_object->guid);
+                        $relocate = midcom::get()->permalinks->create_permalink($this->_linked_object->guid);
                         break;
                 }
                 midcom::get()->relocate($relocate);
@@ -207,7 +207,7 @@ implements midcom_helper_datamanager2_interfaces_create
         $ref = midcom_helper_reflector::get($this->_linked_object);
         $object_label = $ref->get_object_label($this->_linked_object);
 
-        $this->add_breadcrumb(midcom::get('permalinks')->create_permalink($this->_linked_object->guid), $object_label);
+        $this->add_breadcrumb(midcom::get()->permalinks->create_permalink($this->_linked_object->guid), $object_label);
         $this->add_breadcrumb('', $this->_l10n->get('billing data') . " : " . $object_label);
     }
 }

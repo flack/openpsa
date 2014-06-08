@@ -27,7 +27,7 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
      */
     public function _handler_process($handler_id, array $args, array &$data)
     {
-        midcom::get('auth')->require_valid_user();
+        midcom::get()->auth->require_valid_user();
 
         if (   empty($_POST['id'])
             || empty($_POST['action']))
@@ -71,7 +71,7 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
 
         if (!empty($_POST['relocate']))
         {
-            midcom::get('uimessages')->add($this->_l10n->get('org.openpsa.invoices'), $data['message']['message'], $data['message']['type']);
+            midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.invoices'), $data['message']['message'], $data['message']['type']);
             return new midcom_response_relocate('');
         }
 
@@ -287,7 +287,7 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
             {
                 if (org_openpsa_projects_workflow::complete($task))
                 {
-                    midcom::get('uimessages')->add($this->_l10n->get('org.openpsa.invoices'), sprintf($this->_l10n->get('marked task "%s" finished'), $task->title), 'ok');
+                    midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.invoices'), sprintf($this->_l10n->get('marked task "%s" finished'), $task->title), 'ok');
                 }
             }
         }
@@ -499,7 +499,7 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
         $this->_master->add_next_previous($this->_object, $this->_view_toolbar, 'invoice/items/');
 
         //This Source is used (and necessary) for the Drag&Drop sorting of grid's <tr>s
-        midcom::get('head')->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.sortable.min.js');
+        midcom::get()->head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.sortable.min.js');
     }
 }
 ?>

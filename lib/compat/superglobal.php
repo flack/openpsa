@@ -138,18 +138,18 @@ class midcom_compat_superglobal
         $midcom->header("Content-Length: " . strlen($snippet->code));
         $midcom->header("Accept-Ranges: none");
         $midcom->header("Content-Type: $content_type");
-        midcom::get('cache')->content->content_type($content_type);
+        midcom::get()->cache->content->content_type($content_type);
 
         // TODO: This should be made aware of the cache headers strategy for content cache module
         if ($expire > 0)
         {
             $midcom->header("Cache-Control: public max-age=$expire");
             $midcom->header("Expires: " . gmdate("D, d M Y H:i:s", (time()+$expire)) . " GMT" );
-            midcom::get('cache')->content->expires(time()+$expire);
+            midcom::get()->cache->content->expires(time()+$expire);
         }
         else if ($expire == 0)
         {
-            midcom::get('cache')->content->no_cache();
+            midcom::get()->cache->content->no_cache();
         }
         echo $snippet->code;
     }
@@ -201,7 +201,7 @@ class midcom_compat_superglobal
      */
     function get_service($name)
     {
-        return midcom::get($name);
+        return midcom::get()->$name;
     }
 
     /**
@@ -211,7 +211,7 @@ class midcom_compat_superglobal
      */
     public function get_component_loader()
     {
-        return midcom::get('componentloader');
+        return midcom::get()->componentloader;
     }
 
     /**
@@ -225,7 +225,7 @@ class midcom_compat_superglobal
      * Common example:
      *
      * <code>
-     * midcom::get('componentloader')->load_library('midcom.helper.datamanager');
+     * midcom::get()->componentloader->load_library('midcom.helper.datamanager');
      * </code>
      *
      * @param string $path    The name of the code library to load.
@@ -233,7 +233,7 @@ class midcom_compat_superglobal
      */
     function load_library($path)
     {
-        return midcom::get('componentloader')->load_library($path);
+        return midcom::get()->componentloader->load_library($path);
     }
 
     /**
@@ -351,7 +351,7 @@ class midcom_compat_superglobal
      */
     function substyle_prepend($newsub)
     {
-        midcom::get('style')->prepend_substyle($newsub);
+        midcom::get()->style->prepend_substyle($newsub);
     }
 
     /**
@@ -370,7 +370,7 @@ class midcom_compat_superglobal
      */
     function substyle_append($newsub)
     {
-        midcom::get('style')->append_substyle($newsub);
+        midcom::get()->style->append_substyle($newsub);
     }
 
     /**
@@ -423,7 +423,7 @@ class midcom_compat_superglobal
      */
     function set_26_request_metadata($lastmodified, $permalinkguid)
     {
-        midcom::get('metadata')->set_request_metadata($lastmodified, $permalinkguid);
+        midcom::get()->metadata->set_request_metadata($lastmodified, $permalinkguid);
     }
 
     /**
@@ -451,7 +451,7 @@ class midcom_compat_superglobal
         {
             return array();
         }
-        return midcom::get('metadata')->get_request_metadata($context_id);
+        return midcom::get()->metadata->get_request_metadata($context_id);
     }
 
     /**
@@ -464,7 +464,7 @@ class midcom_compat_superglobal
      */
     public function set_pagetitle($string)
     {
-        midcom::get('head')->set_pagetitle($string);
+        midcom::get()->head->set_pagetitle($string);
     }
 
     /* *************************************************************************
@@ -543,17 +543,17 @@ class midcom_compat_superglobal
         $context = midcom_core_context::get();
 
         // Bind the object into the view toolbar
-        $view_toolbar = midcom::get('toolbars')->get_view_toolbar($context->id);
+        $view_toolbar = midcom::get()->toolbars->get_view_toolbar($context->id);
         $view_toolbar->bind_to($object);
 
         // Bind the object to the metadata service
-        midcom::get('metadata')->bind_metadata_to_object(MIDCOM_METADATA_VIEW, $object, $context->id);
+        midcom::get()->metadata->bind_metadata_to_object(MIDCOM_METADATA_VIEW, $object, $context->id);
 
         // Push the object's CSS classes to metadata service
-        $page_class = midcom::get('metadata')->get_object_classes($object, $page_class);
-        midcom::get('metadata')->set_page_class($page_class, $context->id);
+        $page_class = midcom::get()->metadata->get_object_classes($object, $page_class);
+        midcom::get()->metadata->set_page_class($page_class, $context->id);
 
-        midcom::get('style')->append_substyle($page_class);
+        midcom::get()->style->append_substyle($page_class);
     }
 
     /**
@@ -593,7 +593,7 @@ class midcom_compat_superglobal
      */
     public function add_jsfile($url, $prepend = false)
     {
-        midcom::get('head')->add_jsfile($url, $prepend);
+        midcom::get()->head->add_jsfile($url, $prepend);
     }
 
     /**
@@ -603,7 +603,7 @@ class midcom_compat_superglobal
      */
     public function add_jscript($script, $defer = '', $prepend = false)
     {
-        midcom::get('head')->add_jscript($script, $defer, $prepend);
+        midcom::get()->head->add_jscript($script, $defer, $prepend);
     }
 
     /**
@@ -614,7 +614,7 @@ class midcom_compat_superglobal
      */
     public function add_jquery_state_script($script, $state = 'document.ready')
     {
-        midcom::get('head')->add_jquery_state_script($script, $state);
+        midcom::get()->head->add_jquery_state_script($script, $state);
     }
 
     /**
@@ -625,7 +625,7 @@ class midcom_compat_superglobal
      */
     public function add_object_head ($script, $attributes = null)
     {
-        midcom::get('head')->add_object_head ($script, $attributes);
+        midcom::get()->head->add_object_head ($script, $attributes);
     }
 
     /**
@@ -635,7 +635,7 @@ class midcom_compat_superglobal
      */
     public function add_meta_head($attributes = null)
     {
-        midcom::get('head')->add_meta_head($attributes);
+        midcom::get()->head->add_meta_head($attributes);
     }
 
     /**
@@ -646,7 +646,7 @@ class midcom_compat_superglobal
      */
     public function add_style_head($script, $attributes = null)
     {
-        midcom::get('head')->add_style_head($script, $attributes);
+        midcom::get()->head->add_style_head($script, $attributes);
     }
 
     /**
@@ -656,7 +656,7 @@ class midcom_compat_superglobal
      */
     public function add_link_head( $attributes = null )
     {
-        return midcom::get('head')->add_link_head($attributes);
+        return midcom::get()->head->add_link_head($attributes);
     }
 
     /**
@@ -667,7 +667,7 @@ class midcom_compat_superglobal
      */
     public function add_stylesheet($url, $media = false)
     {
-        midcom::get('head')->add_stylesheet($url, $media);
+        midcom::get()->head->add_stylesheet($url, $media);
     }
 
     /**
@@ -677,7 +677,7 @@ class midcom_compat_superglobal
      */
     public function add_jsonload($method)
     {
-        midcom::get('head')->add_jsonload($method);
+        midcom::get()->head->add_jsonload($method);
     }
 
     /**
@@ -685,7 +685,7 @@ class midcom_compat_superglobal
      */
     public function print_jsonload()
     {
-        midcom::get('head')->print_jsonload();
+        midcom::get()->head->print_jsonload();
     }
 
     /**
@@ -693,7 +693,7 @@ class midcom_compat_superglobal
      */
     public function print_head_elements()
     {
-        midcom::get('head')->print_head_elements();
+        midcom::get()->head->print_head_elements();
     }
 
     /**
@@ -701,7 +701,7 @@ class midcom_compat_superglobal
      */
     public function enable_jquery($version = null)
     {
-        midcom::get('head')->enable_jquery($version);
+        midcom::get()->head->enable_jquery($version);
     }
 
     /**
@@ -709,7 +709,7 @@ class midcom_compat_superglobal
      */
     public function print_jquery_statuses()
     {
-        midcom::get('head')->print_jquery_statuses();
+        midcom::get()->head->print_jquery_statuses();
     }
 }
 ?>

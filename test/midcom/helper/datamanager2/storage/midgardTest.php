@@ -44,10 +44,10 @@ class midcom_helper_datamanager2_storage_midgardTest extends openpsa_testcase
         $storage = new midcom_helper_datamanager2_storage_midgard($schemadb['default'], $invoice);
         $storage->_on_store_data('description', 'TEST');
 
-        midcom::get('auth')->request_sudo('midcom.helper.datamanager2');
+        midcom::get()->auth->request_sudo('midcom.helper.datamanager2');
         $this->assertTrue($storage->_on_update_object(), midcom_connection::get_error_string());
         $invoice->refresh();
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
 
         $this->assertEquals('TEST', $storage->object->description);
         $this->assertEquals('TEST', $invoice->description);

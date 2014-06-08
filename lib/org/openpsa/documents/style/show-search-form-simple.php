@@ -1,7 +1,7 @@
 <?php
 $search_config = org_openpsa_widgets_ui::get_search_providers();
 if (   array_key_exists('org.openpsa.documents', $search_config)
-    && midcom::get('indexer')->enabled())
+    && midcom::get()->indexer->enabled())
 {
 $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 ?>

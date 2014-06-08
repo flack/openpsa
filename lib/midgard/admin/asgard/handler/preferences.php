@@ -47,7 +47,7 @@ implements midcom_helper_datamanager2_interfaces_edit
         $this->add_breadcrumb('__mfa/asgard/', $this->_l10n->get('midgard.admin.asgard'));
         $this->add_breadcrumb('__mfa/asgard/preferences/', $this->_l10n->get('user preferences'));
 
-        if ($this->_person->guid !== midcom::get('auth')->user->guid)
+        if ($this->_person->guid !== midcom::get()->auth->user->guid)
         {
             $this->add_breadcrumb("__mfa/asgard/preferences/{$this->_person->guid}/", $this->_person->name);
         }
@@ -62,7 +62,7 @@ implements midcom_helper_datamanager2_interfaces_edit
      */
     public function _handler_preferences($handler_id, array $args, array &$data)
     {
-        midcom::get('auth')->require_valid_user();
+        midcom::get()->auth->require_valid_user();
 
         if (isset($args[0]))
         {
@@ -85,11 +85,11 @@ implements midcom_helper_datamanager2_interfaces_edit
         switch ($data['controller']->process_form())
         {
             case 'save':
-                midcom::get('uimessages')->add($this->_l10n->get($this->_component), $this->_l10n->get('preferences saved'));
+                midcom::get()->uimessages->add($this->_l10n->get($this->_component), $this->_l10n->get('preferences saved'));
                 return new midcom_response_relocate($return_page);
 
             case 'cancel':
-                midcom::get('uimessages')->add($this->_l10n->get($this->_component), $this->_l10n_midcom->get('cancelled'));
+                midcom::get()->uimessages->add($this->_l10n->get($this->_component), $this->_l10n_midcom->get('cancelled'));
                 return new midcom_response_relocate($return_page);
         }
 
@@ -114,8 +114,8 @@ implements midcom_helper_datamanager2_interfaces_edit
      */
     public static function get_languages()
     {
-        $lang_str = midcom::get('i18n')->get_current_language();
-        $languages = midcom::get('i18n')->list_languages();
+        $lang_str = midcom::get()->i18n->get_current_language();
+        $languages = midcom::get()->i18n->list_languages();
 
         if (!array_key_exists($lang_str, $languages))
         {
@@ -125,7 +125,7 @@ implements midcom_helper_datamanager2_interfaces_edit
         // Initialize a new array for the current language
         $language = array
         (
-            '' => midcom::get('i18n')->get_string('default setting')
+            '' => midcom::get()->i18n->get_string('default setting')
         );
         $language[$lang_str] = $languages[$lang_str];
 
@@ -151,7 +151,7 @@ implements midcom_helper_datamanager2_interfaces_edit
         $this->_person->require_do('midgard:update');
 
         // Patch for Midgard ACL problem of setting person's own parameters
-        midcom::get('auth')->request_sudo('midgard.admin.asgard');
+        midcom::get()->auth->request_sudo('midgard.admin.asgard');
 
         foreach ($_POST as $key => $value)
         {
@@ -163,13 +163,13 @@ implements midcom_helper_datamanager2_interfaces_edit
              if (!$this->_person->set_parameter('midgard.admin.asgard:preferences', $key, $value))
              {
                  $this->_status = false;
-                 midcom::get('uimessages')->add($this->_l10n->get($this->_component), sprintf($this->_l10n->get('failed to save the preference for %s'), $this->_l10n->get($key)));
+                 midcom::get()->uimessages->add($this->_l10n->get($this->_component), sprintf($this->_l10n->get('failed to save the preference for %s'), $this->_l10n->get($key)));
              }
 
              debug_add("Added configuration key-value pair {$key} => {$value}");
         }
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
         return new midcom_response_json;
     }
 }

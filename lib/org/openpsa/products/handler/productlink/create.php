@@ -120,7 +120,7 @@ class org_openpsa_products_handler_productlink_create extends midcom_baseclasses
         switch ($data['controller']->process_form())
         {
             case 'save':
-                midcom::get('cache')->invalidate($this->_productlink->guid);
+                midcom::get()->cache->invalidate($this->_productlink->guid);
 
                 return new midcom_response_relocate("productlink/{$this->_productlink->guid}/");
 
@@ -139,10 +139,10 @@ class org_openpsa_products_handler_productlink_create extends midcom_baseclasses
 
         if ($this->_productlink)
         {
-            midcom::get('metadata')->set_request_metadata($this->_productlink->metadata->revised, $this->_productlink->guid);
+            midcom::get()->metadata->set_request_metadata($this->_productlink->metadata->revised, $this->_productlink->guid);
         }
         $this->_request_data['view_title'] = sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get($this->_schemadb[$this->_schema]->description));
-        midcom::get('head')->set_pagetitle($this->_request_data['view_title']);
+        midcom::get()->head->set_pagetitle($this->_request_data['view_title']);
 
         $this->_update_breadcrumb_line();
     }

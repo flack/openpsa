@@ -15,7 +15,7 @@ class midcom_admin_folder_handler_approvalsTest extends openpsa_testcase
 {
     public function testHandler_approve()
     {
-        midcom::get('auth')->request_sudo('midcom.admin.folder');
+        midcom::get()->auth->request_sudo('midcom.admin.folder');
 
         $node = self::get_component_node('net.nehmer.static');
 
@@ -27,12 +27,12 @@ class midcom_admin_folder_handler_approvalsTest extends openpsa_testcase
         $url = $this->run_relocate_handler('net.nehmer.static', array('__ais', 'folder', 'approve'));
         $this->assertEquals('TEST', $url);
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
     public function testHandler_unapprove()
     {
-        midcom::get('auth')->request_sudo('midcom.admin.folder');
+        midcom::get()->auth->request_sudo('midcom.admin.folder');
 
         $node = self::get_component_node('net.nehmer.static');
 
@@ -44,7 +44,7 @@ class midcom_admin_folder_handler_approvalsTest extends openpsa_testcase
         $url = $this->run_relocate_handler('net.nehmer.static', array('__ais', 'folder', 'unapprove'));
         $this->assertEquals('TEST', $url);
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
 }

@@ -37,8 +37,8 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
      */
     public function _handler_list($handler_id, array $args, array &$data)
     {
-        midcom::get('cache')->content->no_cache();
-        midcom::get('auth')->require_valid_user();
+        midcom::get()->cache->content->no_cache();
+        midcom::get()->auth->require_valid_user();
         midcom::get()->skip_page_style = true;
 
         if (!$this->_config->get('enable_page'))
@@ -60,7 +60,7 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
         if (   $handler_id != '____ais-imagepopup-list_folder_noobject'
             && isset($args[1]))
         {
-            $data['object'] = midcom::get('dbfactory')->get_object_by_guid($args[1]);
+            $data['object'] = midcom::get()->dbfactory->get_object_by_guid($args[1]);
         }
 
         switch ($handler_id)
@@ -85,7 +85,7 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
         }
         $this->_list_type = $data['list_type'];
 
-        midcom::get('head')->set_pagetitle($data['list_title']);
+        midcom::get()->head->set_pagetitle($data['list_title']);
 
         if ($data['list_type'] != 'unified')
         {
@@ -96,11 +96,11 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
             $this->_run_search($data);
         }
 
-        midcom::get('head')->enable_jquery();
-        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . "/midcom.helper.imagepopup/functions.js");
+        midcom::get()->head->enable_jquery();
+        midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . "/midcom.helper.imagepopup/functions.js");
 
         // Ensure we get the correct styles
-        midcom::get('style')->prepend_component_styledir('midcom.helper.imagepopup');
+        midcom::get()->style->prepend_component_styledir('midcom.helper.imagepopup');
     }
 
     private function _create_controller(&$data)
@@ -124,12 +124,12 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
         switch ($this->_controller->process_form())
         {
             case 'cancel':
-                midcom::get('head')->add_jsonload("window.close();");
+                midcom::get()->head->add_jsonload("window.close();");
                 break;
         }
 
-        midcom::get('head')->add_jsonload("jQuery('.midcom_helper_datamanager2_widget_images_image').dm2ImagePopupConvert()");
-        midcom::get('head')->add_jsonload("jQuery('.midcom_helper_datamanager2_widget_downloads_download').dm2ImagePopupConvert();");
+        midcom::get()->head->add_jsonload("jQuery('.midcom_helper_datamanager2_widget_images_image').dm2ImagePopupConvert()");
+        midcom::get()->head->add_jsonload("jQuery('.midcom_helper_datamanager2_widget_downloads_download').dm2ImagePopupConvert();");
     }
 
     private function _run_search(array $data)
@@ -144,7 +144,7 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
 
         $this->_search_results = $qb->execute();
 
-        midcom::get('head')->add_jsonload("jQuery('.midcom_helper_imagepopup_search_result_item').dm2ImagePopupConvert();");
+        midcom::get()->head->add_jsonload("jQuery('.midcom_helper_imagepopup_search_result_item').dm2ImagePopupConvert();");
     }
 
     public function _show_list()

@@ -22,12 +22,12 @@ class org_openpsa_user_handler_person_privilegesTest extends openpsa_testcase
 
     public function test_handler_privileges()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.user');
+        midcom::get()->auth->request_sudo('org.openpsa.user');
 
         $data = $this->run_handler('org.openpsa.user', array('privileges', self::$_user->guid));
         $this->assertEquals('user_privileges', $data['handler_id']);
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 }
 ?>

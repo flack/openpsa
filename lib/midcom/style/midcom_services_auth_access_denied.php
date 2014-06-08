@@ -3,7 +3,7 @@ $message = $this->data['midcom_services_auth_access_denied_message'];
 $title = $this->data['midcom_services_auth_access_denied_title'];
 $login_warning = $this->data['midcom_services_auth_access_denied_login_warning'];
 
-midcom::get('head')->add_stylesheet(MIDCOM_STATIC_URL.'/midcom.services.auth/style.css');
+midcom::get()->head->add_stylesheet(MIDCOM_STATIC_URL.'/midcom.services.auth/style.css');
 echo '<?xml version="1.0" encoding="UTF-8"?>';
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
@@ -11,7 +11,7 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
     <head>
         <title><?php echo $title; ?></title>
-        <?php echo midcom::get('head')->print_head_elements(); ?>
+        <?php echo midcom::get()->head->print_head_elements(); ?>
     </head>
 
     <body onload="self.focus();document.midcom_services_auth_frontend_form.username.focus();">
@@ -24,7 +24,7 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
             <div id="content">
                 <div id="login">
                     <?php
-                    midcom::get('auth')->show_login_form();
+                    midcom::get()->auth->show_login_form();
                     ?>
                     <div class="clear"></div>
                 </div>

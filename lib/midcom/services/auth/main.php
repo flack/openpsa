@@ -172,11 +172,11 @@ class midcom_services_auth
             debug_add("Username was {$credentials['username']}");
             // No password logging for security reasons.
 
-            if (is_callable(midcom::get('config')->get('auth_failure_callback')))
+            if (is_callable(midcom::get()->config->get('auth_failure_callback')))
             {
-                debug_print_r('Calling auth failure callback: ', midcom::get('config')->get('auth_failure_callback'));
+                debug_print_r('Calling auth failure callback: ', midcom::get()->config->get('auth_failure_callback'));
                 // Calling the failure function with the username as a parameter. No password sended to the user function for security reasons
-                call_user_func(midcom::get('config')->get('auth_failure_callback'), $credentials['username']);
+                call_user_func(midcom::get()->config->get('auth_failure_callback'), $credentials['username']);
             }
 
             return false;
@@ -186,9 +186,9 @@ class midcom_services_auth
 
         $this->_sync_user_with_backend();
 
-        $person_class = midcom::get('config')->get('person_class');
+        $person_class = midcom::get()->config->get('person_class');
         $person = new $person_class($this->user->guid);
-        if (   midcom::get('config')->get('auth_save_prev_login')
+        if (   midcom::get()->config->get('auth_save_prev_login')
             && $person->parameter('midcom', 'last_login'))
         {
             $person->parameter('midcom', 'prev_login', $person->parameter('midcom', 'last_login'));
@@ -201,11 +201,11 @@ class midcom_services_auth
             $person->parameter('midcom', 'first_login', time());
         }
 
-        if (is_callable(midcom::get('config')->get('auth_success_callback')))
+        if (is_callable(midcom::get()->config->get('auth_success_callback')))
         {
-            debug_print_r('Calling auth success callback:', midcom::get('config')->get('auth_success_callback'));
+            debug_print_r('Calling auth success callback:', midcom::get()->config->get('auth_success_callback'));
             // Calling the success function. No parameters, because authenticated user is stored in midcom_connection
-            call_user_func(midcom::get('config')->get('auth_success_callback'));
+            call_user_func(midcom::get()->config->get('auth_success_callback'));
         }
 
         // There was form data sent before authentication was re-required
@@ -292,14 +292,14 @@ class midcom_services_auth
      */
     private function _prepare_authentication_drivers()
     {
-        $classname = midcom::get('config')->get('auth_backend');
+        $classname = midcom::get()->config->get('auth_backend');
         if (strpos($classname, "_") === false)
         {
             $classname = 'midcom_services_auth_backend_' . $classname;
         }
         $this->_auth_backend = new $classname($this);
 
-        $classname = midcom::get('config')->get('auth_frontend');
+        $classname = midcom::get()->config->get('auth_frontend');
         if (strpos($classname, "_") === false)
         {
             $classname = 'midcom_services_auth_frontend_' . $classname;
@@ -336,14 +336,14 @@ class midcom_services_auth
         $user_id = $this->acl->get_user_id($user);
 
         //if we're handed the correct object type, we use it's class right away
-        if (midcom::get('dbclassloader')->is_midcom_db_object($content_object))
+        if (midcom::get()->dbclassloader->is_midcom_db_object($content_object))
         {
             $content_object_class = get_class($content_object);
         }
         //otherwise, we assume (hope) that it's a midgard object
         else
         {
-            $content_object_class = midcom::get('dbclassloader')->get_midcom_class_name_for_mgdschema_object($content_object);
+            $content_object_class = midcom::get()->dbclassloader->get_midcom_class_name_for_mgdschema_object($content_object);
         }
 
         return $this->acl->can_do_byguid($privilege, $content_object->guid, $content_object_class, $user_id);
@@ -437,7 +437,7 @@ class midcom_services_auth
      */
     function request_sudo ($domain = null)
     {
-        if (! midcom::get('config')->get('auth_allow_sudo'))
+        if (! midcom::get()->config->get('auth_allow_sudo'))
         {
             debug_add("SUDO is not allowed on this website.", MIDCOM_LOG_ERROR);
             return false;
@@ -548,7 +548,7 @@ class midcom_services_auth
         {
             if (is_null($message))
             {
-                $string = midcom::get('i18n')->get_string('access denied: privilege %s not granted', 'midcom');
+                $string = midcom::get()->i18n->get_string('access denied: privilege %s not granted', 'midcom');
                 $message = sprintf($string, $privilege);
             }
             throw new midcom_error_forbidden($message);
@@ -579,7 +579,7 @@ class midcom_services_auth
         {
             if (is_null($message))
             {
-                $string = midcom::get('i18n')->get_string('access denied: privilege %s not granted', 'midcom');
+                $string = midcom::get()->i18n->get_string('access denied: privilege %s not granted', 'midcom');
                 $message = sprintf($string, $privilege);
             }
             throw new midcom_error_forbidden($message);
@@ -605,7 +605,7 @@ class midcom_services_auth
         {
             if (is_null($message))
             {
-                $string = midcom::get('i18n')->get_string('access denied: user is not member of the group %s', 'midcom');
+                $string = midcom::get()->i18n->get_string('access denied: user is not member of the group %s', 'midcom');
                 if (is_object($group))
                 {
                     $message = sprintf($string, $group->name);
@@ -632,7 +632,7 @@ class midcom_services_auth
     {
         if ($message === null)
         {
-            $message = midcom::get('i18n')->get_string('access denied: admin level privileges required', 'midcom');
+            $message = midcom::get()->i18n->get_string('access denied: admin level privileges required', 'midcom');
         }
 
         if (   ! $this->admin
@@ -693,7 +693,7 @@ class midcom_services_auth
                 $this->_http_basic_auth();
             }
             // Figure out how to update midcom auth status
-            midcom::get('auth')->_initialize_user_from_midgard();
+            midcom::get()->auth->_initialize_user_from_midgard();
         }
     }
 
@@ -742,13 +742,13 @@ class midcom_services_auth
      */
     function get_user_by_name($name)
     {
-        $person_class = midcom::get('config')->get('person_class');
+        $person_class = midcom::get()->config->get('person_class');
         if (method_exists('midgard_user', 'login'))
         {
             //Midgard2
             $mc = new midgard_collector('midgard_user', 'login', $name);
             $mc->set_key_property('person');
-            $mc->add_constraint('authtype', '=', midcom::get('config')->get('auth_type'));
+            $mc->add_constraint('authtype', '=', midcom::get()->config->get('auth_type'));
         }
         else
         {
@@ -939,7 +939,7 @@ class midcom_services_auth
 
     public function trusted_login($username)
     {
-        if (midcom::get('config')->get('auth_allow_trusted') !== true)
+        if (midcom::get()->config->get('auth_allow_trusted') !== true)
         {
             debug_add("Trusted logins are prohibited", MIDCOM_LOG_ERROR);
             return false;
@@ -984,7 +984,7 @@ class midcom_services_auth
 
     private function _generate_http_response()
     {
-        if (midcom::get('config')->get('auth_login_form_httpcode') == 200)
+        if (midcom::get()->config->get('auth_login_form_httpcode') == 200)
         {
             _midcom_header('HTTP/1.0 200 OK');
             return;
@@ -1022,27 +1022,27 @@ class midcom_services_auth
     function show_login_page()
     {
         // Drop any output buffer first
-        midcom::get('cache')->content->disable_ob();
+        midcom::get()->cache->content->disable_ob();
 
         $this->_generate_http_response();
 
-        midcom::get('cache')->content->no_cache();
+        midcom::get()->cache->content->no_cache();
 
-        $title = midcom::get('i18n')->get_string('login', 'midcom');
+        $title = midcom::get()->i18n->get_string('login', 'midcom');
 
         // Determine login warning so that wrong user/pass is shown.
         $login_warning = '';
         if (   $this->auth_credentials_found
             && is_null($this->user))
         {
-            $login_warning = midcom::get('i18n')->get_string('login message - user or password wrong', 'midcom');
+            $login_warning = midcom::get()->i18n->get_string('login message - user or password wrong', 'midcom');
         }
 
         // Pass our local but very useful variables on to the style element
-        midcom::get('style')->data['midcom_services_auth_show_login_page_title'] = $title;
-        midcom::get('style')->data['midcom_services_auth_show_login_page_login_warning'] = $login_warning;
+        midcom::get()->style->data['midcom_services_auth_show_login_page_title'] = $title;
+        midcom::get()->style->data['midcom_services_auth_show_login_page_login_warning'] = $login_warning;
 
-        midcom::get('style')->show_midcom('midcom_services_auth_login_page');
+        midcom::get()->style->show_midcom('midcom_services_auth_login_page');
 
         midcom::get()->finish();
     }

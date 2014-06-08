@@ -24,7 +24,7 @@ class midcom_db_attachmentTest extends openpsa_testcase
 
     public function testCRUD()
     {
-        midcom::get('auth')->request_sudo('midcom.core');
+        midcom::get()->auth->request_sudo('midcom.core');
 
         $attachment = new midcom_db_attachment();
         $stat = $attachment->create();
@@ -48,16 +48,16 @@ class midcom_db_attachmentTest extends openpsa_testcase
         $stat = $attachment->delete();
         $this->assertTrue($stat);
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
     private function _get_attachment(array $attributes)
     {
         $attachment = $this->create_object('midcom_db_attachment', $attributes);
 
-        midcom::get('auth')->request_sudo('midcom.core');
+        midcom::get()->auth->request_sudo('midcom.core');
         $this->assertTrue($attachment->copy_from_file(self::$_filepath . 'attach.png'));
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
         return $attachment;
     }
 
@@ -65,9 +65,9 @@ class midcom_db_attachmentTest extends openpsa_testcase
     {
         $attachment = $this->create_object('midcom_db_attachment', array('parentguid' => self::$_topic->guid));
 
-        midcom::get('auth')->request_sudo('midcom.core');
+        midcom::get()->auth->request_sudo('midcom.core');
         $stat = $attachment->copy_from_file(self::$_filepath . 'attach.png');
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
         $this->assertTrue($stat, midcom_connection::get_error_string());
 
         $blob = new midgard_blob($attachment->__object);
@@ -83,15 +83,15 @@ class midcom_db_attachmentTest extends openpsa_testcase
         );
         $attachment = $this->_get_attachment($properties);
 
-        midcom::get('config')->set('attachment_cache_enabled', false);
+        midcom::get()->config->set('attachment_cache_enabled', false);
         $stat = $attachment->get_cache_path();
         $this->assertNull($stat);
 
-        midcom::get('config')->set('attachment_cache_enabled', true);
-        $expected_path = midcom::get('config')->get('attachment_cache_root') . '/' . substr($attachment->guid, 0,1) . '/' . $attachment->guid . '_attach.png';
+        midcom::get()->config->set('attachment_cache_enabled', true);
+        $expected_path = midcom::get()->config->get('attachment_cache_root') . '/' . substr($attachment->guid, 0,1) . '/' . $attachment->guid . '_attach.png';
 
         $stat = $attachment->get_cache_path();
-        midcom::get('config')->set('attachment_cache_enabled', false);
+        midcom::get()->config->set('attachment_cache_enabled', false);
         $this->assertEquals($expected_path, $stat);
     }
 
@@ -104,12 +104,12 @@ class midcom_db_attachmentTest extends openpsa_testcase
         );
         $attachment = $this->_get_attachment($properties);
 
-        midcom::get('config')->set('attachment_cache_enabled', true);
+        midcom::get()->config->set('attachment_cache_enabled', true);
 
-        $expected_path = midcom::get('config')->get('attachment_cache_root') . '/' . substr($attachment->guid, 0,1) . '/' . $attachment->guid . '_attach.png';
+        $expected_path = midcom::get()->config->get('attachment_cache_root') . '/' . substr($attachment->guid, 0,1) . '/' . $attachment->guid . '_attach.png';
 
         $attachment->file_to_cache();
-        midcom::get('config')->set('attachment_cache_enabled', false);
+        midcom::get()->config->set('attachment_cache_enabled', false);
         $this->assertFileExists($expected_path);
     }
 

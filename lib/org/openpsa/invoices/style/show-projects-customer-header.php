@@ -5,8 +5,8 @@
         <thead>
             <tr>
                 <th><?php echo $data['l10n']->get('invoice'); ?></th>
-                <th><?php echo midcom::get('i18n')->get_string('task', 'org.openpsa.projects'); ?></th>
-                <th><?php echo midcom::get('i18n')->get_string('hours', 'org.openpsa.projects'); ?></th>
+                <th><?php echo midcom::get()->i18n->get_string('task', 'org.openpsa.projects'); ?></th>
+                <th><?php echo midcom::get()->i18n->get_string('hours', 'org.openpsa.projects'); ?></th>
                 <th><?php echo $data['l10n']->get('units'); ?></th>
                 <th><?php echo $data['l10n']->get('price per unit'); ?></th>
                 <th><?php echo $data['l10n']->get('sum'); ?></th>

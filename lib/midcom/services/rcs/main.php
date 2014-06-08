@@ -42,7 +42,7 @@ class midcom_services_rcs
     {
         if (is_null($config))
         {
-            $config = midcom::get('config');
+            $config = midcom::get()->config;
         }
 
         $this->config = new midcom_services_rcs_config($config);
@@ -107,7 +107,7 @@ class midcom_services_rcs
             case 'sitegroup':
                 return false;
             case 'password':
-                return midcom::get('auth')->admin;
+                return midcom::get()->auth->admin;
             default:
                 return true;
         }

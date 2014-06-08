@@ -23,7 +23,7 @@ class net_nemein_wiki_wikipage extends midcom_db_article
         // Backwards compatibility
         if ($this->name == '')
         {
-            $generator = midcom::get('serviceloader')->load('midcom_core_service_urlgenerator');
+            $generator = midcom::get()->serviceloader->load('midcom_core_service_urlgenerator');
             $this->name = $generator->from_string($this->title);
             $this->update();
         }
@@ -51,7 +51,7 @@ class net_nemein_wiki_wikipage extends midcom_db_article
         // Generate URL-clean name
         if ($this->name != 'index')
         {
-            $generator = midcom::get('serviceloader')->load('midcom_core_service_urlgenerator');
+            $generator = midcom::get()->serviceloader->load('midcom_core_service_urlgenerator');
             $this->name = $generator->from_string($this->title);
         }
         return true;
@@ -59,13 +59,13 @@ class net_nemein_wiki_wikipage extends midcom_db_article
 
     public function _on_updating()
     {
-        if (midcom::get('auth')->user)
+        if (midcom::get()->auth->user)
         {
             // Place current user in the page authors list
             $authors = explode('|', substr($this->metadata->authors, 1, -1));
-            if (!in_array(midcom::get('auth')->user->guid, $authors))
+            if (!in_array(midcom::get()->auth->user->guid, $authors))
             {
-                $authors[] = midcom::get('auth')->user->guid;
+                $authors[] = midcom::get()->auth->user->guid;
                 $this->metadata->authors = '|' . implode('|', $authors) . '|';
             }
         }
@@ -161,27 +161,27 @@ class net_nemein_wiki_wikipage extends midcom_db_article
 
         // Construct the message
         $message = array();
-        $user_string = midcom::get('i18n')->get_string('anonymous', 'net.nemein.wiki');
-        if (midcom::get('auth')->user)
+        $user_string = midcom::get()->i18n->get_string('anonymous', 'net.nemein.wiki');
+        if (midcom::get()->auth->user)
         {
-            $user = midcom::get('auth')->user->get_storage();
+            $user = midcom::get()->auth->user->get_storage();
             $user_string = $user->name;
         }
         // Title for long notifications
-        $message['title'] = sprintf(midcom::get('i18n')->get_string('page %s has been updated by %s', 'net.nemein.wiki'), $this->title, $user_string);
+        $message['title'] = sprintf(midcom::get()->i18n->get_string('page %s has been updated by %s', 'net.nemein.wiki'), $this->title, $user_string);
         // Content for long notifications
         $message['content']  = "{$message['title']}\n\n";
 
         // TODO: Get RCS diff here
-        $message['content'] .= midcom::get('i18n')->get_string('page modifications', 'net.nemein.wiki') . ":\n";
+        $message['content'] .= midcom::get()->i18n->get_string('page modifications', 'net.nemein.wiki') . ":\n";
         $message['content'] .= "\n{$diff}\n\n";
 
-        $message['content'] .= midcom::get('i18n')->get_string('link to page', 'net.nemein.wiki') . ":\n";
-        $message['content'] .= midcom::get('permalinks')->create_permalink($this->guid);
+        $message['content'] .= midcom::get()->i18n->get_string('link to page', 'net.nemein.wiki') . ":\n";
+        $message['content'] .= midcom::get()->permalinks->create_permalink($this->guid);
 
         // Content for short notifications
         $topic = new midcom_db_topic($this->topic);
-        $message['abstract'] = sprintf(midcom::get('i18n')->get_string('page %s has been updated by %s in wiki %s', 'net.nemein.wiki'), $this->title, $user_string, $topic->extra);
+        $message['abstract'] = sprintf(midcom::get()->i18n->get_string('page %s has been updated by %s in wiki %s', 'net.nemein.wiki'), $this->title, $user_string, $topic->extra);
 
         debug_add("Processing list of Wiki subscribers");
 
@@ -196,7 +196,7 @@ class net_nemein_wiki_wikipage extends midcom_db_article
     private function _get_diff($field = 'content')
     {
         // Load the RCS handler
-        $rcs = midcom::get('rcs');
+        $rcs = midcom::get()->rcs;
         $rcs_handler = $rcs->load_handler($this);
         if (!$rcs_handler)
         {

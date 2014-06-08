@@ -34,7 +34,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         parent::__construct();
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.admin.help/style-editor.css');
 
-        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL.'/midcom.admin.help/twisty.js');
+        midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL.'/midcom.admin.help/twisty.js');
         if (defined('MGD_TYPE_NONE'))
         {
             $this->mgdtypes[MGD_TYPE_NONE] = 'none';
@@ -45,7 +45,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
     {
         midcom::get()->skip_page_style = true;
         // doing this here as this component most probably will not be called by itself.
-        midcom::get('style')->prepend_component_styledir('midcom.admin.help');
+        midcom::get()->style->prepend_component_styledir('midcom.admin.help');
     }
 
     static function check_component($component)
@@ -54,7 +54,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         {
             $component = 'midcom.core.nullcomponent';
         }
-        if (   !midcom::get('componentloader')->is_installed($component)
+        if (   !midcom::get()->componentloader->is_installed($component)
             && $component != 'midcom')
         {
             throw new midcom_error("Failed to generate documentation path for component {$component} as it is not installed.");
@@ -99,16 +99,16 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
     {
         if ($language === null)
         {
-            $language = midcom::get('i18n')->get_current_language();
+            $language = midcom::get()->i18n->get_current_language();
         }
 
         $file = self::get_documentation_dir($component) . "{$help_id}.{$language}.txt";
         if (!file_exists($file))
         {
-            if ($language != midcom::get('config')->get('i18n_fallback_language'))
+            if ($language != midcom::get()->config->get('i18n_fallback_language'))
             {
                 // Try MidCOM's default fallback language
-                return self::generate_file_path($help_id, $component, midcom::get('config')->get('i18n_fallback_language'));
+                return self::generate_file_path($help_id, $component, midcom::get()->config->get('i18n_fallback_language'));
             }
             return null;
         }
@@ -128,7 +128,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
             }
         }
 
-        return midcom::get('i18n')->get_string("help_" . $help_id, 'midcom.admin.help');
+        return midcom::get()->i18n->get_string("help_" . $help_id, 'midcom.admin.help');
     }
 
     /**
@@ -213,7 +213,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
     private function _add_virtual_files($files, $component)
     {
         // Schemas
-        $this->_request_data['mgdschemas'] = midcom::get('dbclassloader')->get_component_classes($component);
+        $this->_request_data['mgdschemas'] = midcom::get()->dbclassloader->get_component_classes($component);
         if (count($this->_request_data['mgdschemas']))
         {
             $files['mgdschemas'] = array
@@ -256,7 +256,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         }
 
         // Dependencies
-        $this->_request_data['dependencies'] = midcom::get('componentloader')->get_component_dependencies($component);
+        $this->_request_data['dependencies'] = midcom::get()->componentloader->get_component_dependencies($component);
         if (count($this->_request_data['dependencies']))
         {
             $files['dependencies'] = array
@@ -278,7 +278,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         }
 
         $files = array();
-        $pattern = $component_dir . '*.{' . midcom::get('i18n')->get_current_language() . ',' . midcom::get('config')->get('i18n_fallback_language') . '}.txt';
+        $pattern = $component_dir . '*.{' . midcom::get()->i18n->get_current_language() . ',' . midcom::get()->config->get('i18n_fallback_language') . '}.txt';
 
         foreach (glob($pattern, GLOB_NOSORT|GLOB_BRACE) as $path)
         {
@@ -309,7 +309,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         $data = array();
 
         // TODO: We're using "private" members here, better expose them through a method
-        $handler = midcom::get('componentloader')->get_interface_class($component);
+        $handler = midcom::get()->componentloader->get_interface_class($component);
         $request =& $handler->_context_data[midcom_core_context::get()->id]['handler'];
         if (!isset($request->_request_switch))
         {
@@ -452,15 +452,15 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
     {
         $component_array = array();
         $component_array['name'] = $name;
-        $component_array['title'] = midcom::get('i18n')->get_string($name, $name);
-        $component_array['icon'] = midcom::get('componentloader')->get_component_icon($name);
+        $component_array['title'] = midcom::get()->i18n->get_string($name, $name);
+        $component_array['icon'] = midcom::get()->componentloader->get_component_icon($name);
 
-        if (!isset(midcom::get('componentloader')->manifests[$name]))
+        if (!isset(midcom::get()->componentloader->manifests[$name]))
         {
             return $component_array;
         }
 
-        $manifest = midcom::get('componentloader')->manifests[$name];
+        $manifest = midcom::get()->componentloader->manifests[$name];
         $component_array['purecode'] = $manifest->purecode;
 
         if (isset($manifest->_raw_data['package.xml']['description']))
@@ -492,7 +492,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
 
         $this->_request_data['core_components']['midcom'] = $this->_load_component_data('midcom');
 
-        foreach (midcom::get('componentloader')->manifests as $name => $manifest)
+        foreach (midcom::get()->componentloader->manifests as $name => $manifest)
         {
             if (!array_key_exists('package.xml', $manifest->_raw_data))
             {
@@ -506,7 +506,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
                 $type = 'libraries';
             }
 
-            if (midcom::get('componentloader')->is_core_component($name))
+            if (midcom::get()->componentloader->is_core_component($name))
             {
                 $type = 'core_' . $type;
             }
@@ -532,7 +532,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
             $this->add_breadcrumb
             (
                 "__ais/help/{$this->_request_data['component']}/",
-                sprintf($this->_l10n->get('help for %s'), midcom::get('i18n')->get_string($this->_request_data['component'], $this->_request_data['component']))
+                sprintf($this->_l10n->get('help for %s'), midcom::get()->i18n->get_string($this->_request_data['component'], $this->_request_data['component']))
             );
         }
 
@@ -567,10 +567,10 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
      */
     public function _handler_welcome($handler_id, array $args, array &$data)
     {
-        midcom::get('auth')->require_valid_user();
+        midcom::get()->auth->require_valid_user();
 
         $data['view_title'] = $this->_l10n->get($this->_component);
-        midcom::get('head')->set_pagetitle($data['view_title']);
+        midcom::get()->head->set_pagetitle($data['view_title']);
 
         $this->_list_components();
 
@@ -610,22 +610,22 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
      */
     public function _handler_component($handler_id, array $args, array &$data)
     {
-        midcom::get('auth')->require_valid_user();
+        midcom::get()->auth->require_valid_user();
 
         $data['component'] = $args[0];
 
-        if (!midcom::get('componentloader')->is_installed($data['component']))
+        if (!midcom::get()->componentloader->is_installed($data['component']))
         {
             throw new midcom_error_notfound("Component {$data['component']} is not installed.");
         }
 
         if ($data['component'] != 'midcom')
         {
-            midcom::get('componentloader')->load($data['component']);
+            midcom::get()->componentloader->load($data['component']);
         }
 
         $data['view_title'] = sprintf($this->_l10n->get('help for %s'), $this->_i18n->get_string($data['component'], $data['component']));
-        midcom::get('head')->set_pagetitle($data['view_title']);
+        midcom::get()->head->set_pagetitle($data['view_title']);
 
         $data['help_files'] = $this->list_files($data['component']);
         $data['html'] = $this->get_help_contents('index', $data['component']);
@@ -655,18 +655,18 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
      */
     public function _handler_help($handler_id, array $args, array &$data)
     {
-        midcom::get('auth')->require_valid_user();
+        midcom::get()->auth->require_valid_user();
 
         $data['help_id'] = $args[1];
         $data['component'] = $args[0];
-        if (!midcom::get('componentloader')->is_installed($data['component']))
+        if (!midcom::get()->componentloader->is_installed($data['component']))
         {
             throw new midcom_error_notfound("Component {$data['component']} is not installed.");
         }
 
         if ($data['component'] != 'midcom')
         {
-            midcom::get('componentloader')->load($data['component']);
+            midcom::get()->componentloader->load($data['component']);
         }
 
         $data['help_files'] = $this->list_files($data['component']);
@@ -687,7 +687,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
             self::get_help_title($data['help_id'], $data['component']),
             $this->_i18n->get_string($data['component'], $data['component'])
         );
-        midcom::get('head')->set_pagetitle($data['view_title']);
+        midcom::get()->head->set_pagetitle($data['view_title']);
         $this->_prepare_breadcrumb($handler_id);
     }
 

@@ -88,16 +88,16 @@ class midcom_baseclasses_core_dbobject
      */
     public static function update_post_ops(midcom_core_dbaobject $object)
     {
-        if (   midcom::get('config')->get('midcom_services_rcs_enable')
+        if (   midcom::get()->config->get('midcom_services_rcs_enable')
             && $object->_use_rcs)
         {
-            $rcs = midcom::get('rcs');
+            $rcs = midcom::get()->rcs;
             $rcs->update($object, $object->get_rcs_message());
         }
 
         $object->_on_updated();
 
-        midcom::get('dispatcher')->dispatch(dbaevent::UPDATE, new dbaevent($object));
+        midcom::get()->dispatcher->dispatch(dbaevent::UPDATE, new dbaevent($object));
     }
 
     /**
@@ -108,7 +108,7 @@ class midcom_baseclasses_core_dbobject
      */
     private static function _set_owner_privileges(midcom_core_dbaobject $object)
     {
-        if (! midcom::get('auth')->user)
+        if (! midcom::get()->auth->user)
         {
             debug_add ("Could not retrieve the midcom_core_user instance for the creator of " . get_class($object) . " {$object->guid}, skipping owner privilege assignment.",
                 MIDCOM_LOG_INFO);
@@ -118,7 +118,7 @@ class midcom_baseclasses_core_dbobject
         // Circumvent the main privilege class as we need full access here regardless of
         // the actual circumstances.
         $privilege = new midcom_core_privilege_db();
-        $privilege->assignee = midcom::get('auth')->user->id;
+        $privilege->assignee = midcom::get()->auth->user->id;
         $privilege->privilegename = 'midgard:owner';
         $privilege->objectguid = $object->guid;
         $privilege->value = MIDCOM_PRIVILEGE_ALLOW;
@@ -143,7 +143,7 @@ class midcom_baseclasses_core_dbobject
         if (! is_null($parent))
         {
             // Attachments are a special case
-            if (midcom::get('dbfactory')->is_a($object, 'midgard_attachment'))
+            if (midcom::get()->dbfactory->is_a($object, 'midgard_attachment'))
             {
                 if (   !$parent->can_do('midgard:attachments')
                     || !$parent->can_do('midgard:update'))
@@ -155,7 +155,7 @@ class midcom_baseclasses_core_dbobject
                 }
             }
             else if (   !$parent->can_do('midgard:create')
-                     && !midcom::get('auth')->can_user_do('midgard:create', null, get_class($object)))
+                     && !midcom::get()->auth->can_user_do('midgard:create', null, get_class($object)))
             {
                 debug_add("Failed to create object, create privilege on the parent " . get_class($parent) . " {$parent->guid} or the actual object class not granted for the current user.",
                     MIDCOM_LOG_ERROR);
@@ -165,7 +165,7 @@ class midcom_baseclasses_core_dbobject
         }
         else
         {
-            if (! midcom::get('auth')->can_user_do('midgard:create', null, get_class($object)))
+            if (! midcom::get()->auth->can_user_do('midgard:create', null, get_class($object)))
             {
                 debug_add("Failed to create object, general create privilege not granted for the current user.", MIDCOM_LOG_ERROR);
                 midcom_connection::set_error(MGD_ERR_ACCESS_DENIED);
@@ -289,19 +289,19 @@ class midcom_baseclasses_core_dbobject
             return false;
         }
 
-        if (   !is_null(midcom::get('auth')->user)
+        if (   !is_null(midcom::get()->auth->user)
             && is_object($object->metadata))
         {
             // Default the authors to current user
             if (empty($object->metadata->authors))
             {
-                $object->metadata->set('authors', "|" . midcom::get('auth')->user->guid ."|");
+                $object->metadata->set('authors', "|" . midcom::get()->auth->user->guid ."|");
             }
 
             // Default the owner to first group of current user
             if (empty($object->metadata->owner))
             {
-                $first_group = midcom::get('auth')->user->get_first_group_guid();
+                $first_group = midcom::get()->auth->user->get_first_group_guid();
                 if ($first_group)
                 {
                     $object->metadata->set('owner', $first_group);
@@ -344,12 +344,12 @@ class midcom_baseclasses_core_dbobject
         self::_set_owner_privileges($object);
 
         $object->_on_created();
-        midcom::get('dispatcher')->dispatch(dbaevent::CREATE, new dbaevent($object));
+        midcom::get()->dispatcher->dispatch(dbaevent::CREATE, new dbaevent($object));
 
-        if (   midcom::get('config')->get('midcom_services_rcs_enable')
+        if (   midcom::get()->config->get('midcom_services_rcs_enable')
             && $object->_use_rcs)
         {
-            $rcs = midcom::get('rcs');
+            $rcs = midcom::get()->rcs;
             $rcs->update($object, $object->get_rcs_message());
         }
     }
@@ -478,11 +478,11 @@ class midcom_baseclasses_core_dbobject
     public static function delete_post_ops(midcom_core_dbaobject $object)
     {
         $object->_on_deleted();
-        midcom::get('dispatcher')->dispatch(dbaevent::DELETE, new dbaevent($object));
-        if (   midcom::get('config')->get('midcom_services_rcs_enable')
+        midcom::get()->dispatcher->dispatch(dbaevent::DELETE, new dbaevent($object));
+        if (   midcom::get()->config->get('midcom_services_rcs_enable')
             && $object->_use_rcs)
         {
-            $rcs = midcom::get('rcs');
+            $rcs = midcom::get()->rcs;
             $rcs->update($object, $object->get_rcs_message());
         }
     }
@@ -513,13 +513,13 @@ class midcom_baseclasses_core_dbobject
             if ($object->undelete($guid))
             {
                 // refresh
-                $object = midcom::get('dbfactory')->get_object_by_guid($guid);
+                $object = midcom::get()->dbfactory->get_object_by_guid($guid);
                 $undeleted_size += $object->metadata->size;
                 $parent = $object->get_parent();
                 if (!empty($parent->guid))
                 {
                     // Invalidate parent from cache so content caches have chance to react
-                    midcom::get('cache')->invalidate($parent->guid);
+                    midcom::get()->cache->invalidate($parent->guid);
                 }
 
                 // Invalidate Midgard pagecache if we touched style/page element
@@ -611,13 +611,13 @@ class midcom_baseclasses_core_dbobject
         {
             if ($att->undelete($att->guid))
             {
-                midcom::get('uimessages')->add(midcom::get('i18n')->get_string('midgard.admin.asgard', 'midgard.admin.asgard'), sprintf(midcom::get('i18n')->get_string('attachment %s undeleted', 'midgard.admin.asgard'), $att->name, midcom_connection::get_error_string()), 'ok');
+                midcom::get()->uimessages->add(midcom::get()->i18n->get_string('midgard.admin.asgard', 'midgard.admin.asgard'), sprintf(midcom::get()->i18n->get_string('attachment %s undeleted', 'midgard.admin.asgard'), $att->name, midcom_connection::get_error_string()), 'ok');
                 $undeleted_size += $att->metadata->size;
                 $undeleted_size += self::undelete_parameters($att->guid);
             }
             else
             {
-                midcom::get('uimessages')->add(midcom::get('i18n')->get_string('midgard.admin.asgard', 'midgard.admin.asgard'), sprintf(midcom::get('i18n')->get_string('failed undeleting attachment %s, reason %s', 'midgard.admin.asgard'), $att->name, midcom_connection::get_error_string()), 'error');
+                midcom::get()->uimessages->add(midcom::get()->i18n->get_string('midgard.admin.asgard', 'midgard.admin.asgard'), sprintf(midcom::get()->i18n->get_string('failed undeleting attachment %s, reason %s', 'midgard.admin.asgard'), $att->name, midcom_connection::get_error_string()), 'error');
             }
         }
 
@@ -710,10 +710,10 @@ class midcom_baseclasses_core_dbobject
             }
             else
             {
-                midcom::get('uimessages')->add
+                midcom::get()->uimessages->add
                 (
-                    midcom::get('i18n')->get_string('midgard.admin.asgard', 'midgard.admin.asgard'),
-                    sprintf(midcom::get('i18n')->get_string('failed purging parameter %s => %s, reason %s', 'midgard.admin.asgard'), $param->domain, $param->name, midcom_connection::get_error_string()),
+                    midcom::get()->i18n->get_string('midgard.admin.asgard', 'midgard.admin.asgard'),
+                    sprintf(midcom::get()->i18n->get_string('failed purging parameter %s => %s, reason %s', 'midgard.admin.asgard'), $param->domain, $param->name, midcom_connection::get_error_string()),
                     'error'
                 );
             }
@@ -750,7 +750,7 @@ class midcom_baseclasses_core_dbobject
             }
             else
             {
-                midcom::get('uimessages')->add(midcom::get('i18n')->get_string('midgard.admin.asgard', 'midgard.admin.asgard'), sprintf(midcom::get('i18n')->get_string('failed purging attachment %s => %s, reason %s', 'midgard.admin.asgard'), $att->guid, $att->name, midcom_connection::get_error_string()), 'error');
+                midcom::get()->uimessages->add(midcom::get()->i18n->get_string('midgard.admin.asgard', 'midgard.admin.asgard'), sprintf(midcom::get()->i18n->get_string('failed purging attachment %s => %s, reason %s', 'midgard.admin.asgard'), $att->guid, $att->name, midcom_connection::get_error_string()), 'error');
             }
         }
 
@@ -804,9 +804,9 @@ class midcom_baseclasses_core_dbobject
         $object->_on_loaded();
 
         // Register the GUID as loaded in this request
-        if (isset(midcom::get('cache')->content))
+        if (isset(midcom::get()->cache->content))
         {
-            midcom::get('cache')->content->register($object->guid);
+            midcom::get()->cache->content->register($object->guid);
         }
     }
 
@@ -1233,7 +1233,7 @@ class midcom_baseclasses_core_dbobject
             self::$parameter_cache[$object->guid][$domain][$name] = $value;
         }
 
-        midcom::get('dispatcher')->dispatch(dbaevent::PARAMETER, new dbaevent($object));
+        midcom::get()->dispatcher->dispatch(dbaevent::PARAMETER, new dbaevent($object));
 
         return true;
     }
@@ -1287,7 +1287,7 @@ class midcom_baseclasses_core_dbobject
         // Unset via MgdSchema API directly
         $result = $object->__object->parameter($domain, $name, '');
 
-        midcom::get('dispatcher')->dispatch(dbaevent::PARAMETER, new dbaevent($object));
+        midcom::get()->dispatcher->dispatch(dbaevent::PARAMETER, new dbaevent($object));
 
         return $result;
     }
@@ -1387,13 +1387,13 @@ class midcom_baseclasses_core_dbobject
 
         if ($assignee === null)
         {
-            if (midcom::get('auth')->user === null)
+            if (midcom::get()->auth->user === null)
             {
                 $assignee = 'EVERYONE';
             }
             else
             {
-                $assignee = midcom::get('auth')->user;
+                $assignee = midcom::get()->auth->user;
             }
         }
 
@@ -1587,7 +1587,7 @@ class midcom_baseclasses_core_dbobject
             return false;
         }
 
-        $qb = midcom::get('dbfactory')->new_query_builder('midcom_db_attachment');
+        $qb = midcom::get()->dbfactory->new_query_builder('midcom_db_attachment');
         $qb->add_constraint('parentguid', '=', $object->guid);
 
         return $qb;
@@ -1637,13 +1637,13 @@ class midcom_baseclasses_core_dbobject
 
         if ($assignee === null)
         {
-            if (midcom::get('auth')->user === null)
+            if (midcom::get()->auth->user === null)
             {
                 $assignee = 'EVERYONE';
             }
             else
             {
-                $assignee = midcom::get('auth')->user;
+                $assignee = midcom::get()->auth->user;
             }
         }
 

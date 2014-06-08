@@ -47,13 +47,13 @@ class midcom_helper_datamanager2_type_php extends midcom_helper_datamanager2_typ
         {
             $prefix = MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/codemirror-' . $this->version;
 
-            midcom::get('head')->add_stylesheet($prefix . '/lib/codemirror.css');
-            midcom::get('head')->add_stylesheet($prefix . '/theme/eclipse.css');
+            midcom::get()->head->add_stylesheet($prefix . '/lib/codemirror.css');
+            midcom::get()->head->add_stylesheet($prefix . '/theme/eclipse.css');
 
-            midcom::get('head')->add_jsfile($prefix . '/lib/codemirror.js');
+            midcom::get()->head->add_jsfile($prefix . '/lib/codemirror.js');
             foreach ($this->modes as $mode)
             {
-                midcom::get('head')->add_jsfile($prefix . '/mode/' . $mode . '/' . $mode . '.js');
+                midcom::get()->head->add_jsfile($prefix . '/mode/' . $mode . '/' . $mode . '.js');
             }
         }
     }
@@ -96,7 +96,7 @@ class midcom_helper_datamanager2_type_php extends midcom_helper_datamanager2_typ
             return false;
         }
 
-        $tmpfile = tempnam(midcom::get('config')->get('midcom_tempdir'), 'midcom_helper_datamanager2_type_php_');
+        $tmpfile = tempnam(midcom::get()->config->get('midcom_tempdir'), 'midcom_helper_datamanager2_type_php_');
         file_put_contents($tmpfile, $this->value);
         $return_status = 0;
         $parse_results = array();

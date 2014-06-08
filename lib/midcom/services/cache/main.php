@@ -35,6 +35,7 @@ use midcom\events\dbaevent;
  * the module is loaded in advance though. The class will automatically load all modules which
  * are configured in the autoload_queue in the cache configuration.
  *
+ * @property midcom_services_cache_module_content $content
  * @package midcom.services
  */
 class midcom_services_cache implements EventSubscriberInterface
@@ -63,8 +64,8 @@ class midcom_services_cache implements EventSubscriberInterface
      */
     public function __construct()
     {
-        array_map(array($this, 'load_module'), midcom::get('config')->get('cache_autoload_queue'));
-        midcom::get('dispatcher')->addSubscriber($this);
+        array_map(array($this, 'load_module'), midcom::get()->config->get('cache_autoload_queue'));
+        midcom::get()->dispatcher->addSubscriber($this);
     }
 
     public static function getSubscribedEvents()
@@ -102,7 +103,7 @@ class midcom_services_cache implements EventSubscriberInterface
         $object = $event->get_object();
         $this->invalidate($object);
 
-        if (midcom::get('config')->get('attachment_cache_enabled'))
+        if (midcom::get()->config->get('attachment_cache_enabled'))
         {
             foreach ($object->list_attachments() as $att)
             {
@@ -125,7 +126,7 @@ class midcom_services_cache implements EventSubscriberInterface
         {
             $this->_modules[$name]->shutdown();
         }
-        midcom::get('dispatcher')->removeSubscriber($this);
+        midcom::get()->dispatcher->removeSubscriber($this);
     }
 
     /**

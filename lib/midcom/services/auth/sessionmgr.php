@@ -15,7 +15,7 @@
  * status notifications and the like.
  *
  * The single instance of this class can be accessed as
- * midcom::get('auth')->sessionmgr.
+ * midcom::get()->auth->sessionmgr.
  *
  * <b>Checking whether a user is online</b>
  *
@@ -214,7 +214,7 @@ class midcom_services_auth_sessionmgr
             $clientip = $_SERVER['REMOTE_ADDR'];
         }
 
-        $timed_out = time() - midcom::get('config')->get('auth_login_session_timeout');
+        $timed_out = time() - midcom::get()->config->get('auth_login_session_timeout');
 
         if ($session->timestamp < $timed_out)
         {
@@ -223,7 +223,7 @@ class midcom_services_auth_sessionmgr
             return false;
         }
 
-        if (   midcom::get('config')->get('auth_check_client_ip')
+        if (   midcom::get()->config->get('auth_check_client_ip')
             && $session->clientip != $clientip)
         {
             debug_add("The session {$session->guid} (#{$session->id}) had mismatching client IP.", MIDCOM_LOG_INFO);
@@ -231,7 +231,7 @@ class midcom_services_auth_sessionmgr
             return false;
         }
 
-        if ($session->timestamp < time() - midcom::get('config')->get('auth_login_session_update_interval'))
+        if ($session->timestamp < time() - midcom::get()->config->get('auth_login_session_update_interval'))
         {
             // Update the timestamp if previous timestamp is older than specified interval
             $session->timestamp = time();
@@ -300,7 +300,7 @@ class midcom_services_auth_sessionmgr
         }
 
         $this->person = $this->user->get_person();
-        $person_class = midcom::get('config')->get('person_class');
+        $person_class = midcom::get()->config->get('person_class');
         if (get_class($this->person) != $person_class)
         {
             // Cast the person object to correct person class
@@ -513,7 +513,7 @@ class midcom_services_auth_sessionmgr
             return 'unknown';
         }
 
-        $timed_out = time() - midcom::get('config')->get('auth_login_session_timeout');
+        $timed_out = time() - midcom::get()->config->get('auth_login_session_timeout');
         $qb = new midgard_query_builder('midcom_core_login_session_db');
         $qb->add_constraint('userid', '=', $user->id);
         $qb->add_constraint('timestamp', '>=', $timed_out);
@@ -537,7 +537,7 @@ class midcom_services_auth_sessionmgr
      */
     function get_online_users_count()
     {
-        $timed_out = time() - midcom::get('config')->get('auth_login_session_timeout');
+        $timed_out = time() - midcom::get()->config->get('auth_login_session_timeout');
         $mc = new midgard_collector('midcom_core_login_session_db', 'metadata.deleted', false);
         $mc->set_key_property('userid');
         $mc->add_constraint('timestamp', '>=', $timed_out);
@@ -558,7 +558,7 @@ class midcom_services_auth_sessionmgr
      */
     function get_online_users()
     {
-        $timed_out = time() - midcom::get('config')->get('auth_login_session_timeout');
+        $timed_out = time() - midcom::get()->config->get('auth_login_session_timeout');
         $mc = new midgard_collector('midcom_core_login_session_db', 'metadata.deleted', false);
         $mc->set_key_property('userid');
         $mc->add_constraint('timestamp', '>=', $timed_out);

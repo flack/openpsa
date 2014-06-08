@@ -109,7 +109,7 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
 
     private function _list_positions_between(array &$data_array, $person, $from, $to)
     {
-        if (!midcom::get('config')->get('positioning_enable'))
+        if (!midcom::get()->config->get('positioning_enable'))
         {
             return false;
         }
@@ -170,7 +170,7 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
         // Then start looking for stuff to display
         $this->_list_events_between($data['review_data'], midcom_connection::get_user(), $data['week_start'], $data['week_end']);
         $this->_list_hour_reports_between($data['review_data'], midcom_connection::get_user(), $data['week_start'], $data['week_end']);
-        $this->_list_task_statuses_between($data['review_data'], midcom::get('auth')->user, $data['week_start'], $data['week_end']);
+        $this->_list_task_statuses_between($data['review_data'], midcom::get()->auth->user, $data['week_start'], $data['week_end']);
         $this->_list_positions_between($data['review_data'], midcom_connection::get_user(), $data['week_start'], $data['week_end']);
 
         // Arrange by date/time
@@ -187,7 +187,7 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
         }
 
         $data['title'] = sprintf($this->_l10n->get($title_string), strftime('%W %Y', $data['requested_time']));
-        midcom::get('head')->set_pagetitle($data['title']);
+        midcom::get()->head->set_pagetitle($data['title']);
 
         $this->_populate_toolbar();
 

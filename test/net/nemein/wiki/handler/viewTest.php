@@ -29,14 +29,14 @@ class net_nemein_wiki_handler_viewTest extends openpsa_testcase
         (
             'topic' => self::$_topic->id,
             'title' => __CLASS__ . ' ' . time(),
-            'content' => midcom::get('i18n')->get_l10n('net.nemein.wiki')->get('wiki default page content')
+            'content' => midcom::get()->i18n->get_l10n('net.nemein.wiki')->get('wiki default page content')
         );
         self::$_page = self::create_class_object('net_nemein_wiki_wikipage', $article_properties);
     }
 
     public function testHandler_start()
     {
-        midcom::get('auth')->request_sudo('net.nemein.wiki');
+        midcom::get()->auth->request_sudo('net.nemein.wiki');
 
         $data = $this->run_handler(self::$_topic);
         $this->assertEquals('start', $data['handler_id']);
@@ -47,7 +47,7 @@ class net_nemein_wiki_handler_viewTest extends openpsa_testcase
         $results = $qb->execute();
         $this->register_objects($results);
         $this->assertEquals(1, sizeof($results));
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
     public function testHandler_view()

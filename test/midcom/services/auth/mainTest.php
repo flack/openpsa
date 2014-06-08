@@ -39,9 +39,9 @@ class midcom_services_auth_mainTest extends openpsa_testcase
         $person2 = $this->create_user();
         $user2 = new midcom_core_user($person2);
         $topic2 = $this->create_object('midcom_db_topic');
-        midcom::get('auth')->request_sudo('midcom.core');
+        midcom::get()->auth->request_sudo('midcom.core');
         $topic2->set_privilege('midgard:delete', $user2->id, MIDCOM_PRIVILEGE_ALLOW);
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
         $auth->user = $user2;
 
         $this->assertTrue($auth->can_do('midgard:delete', $topic2));
@@ -71,9 +71,9 @@ class midcom_services_auth_mainTest extends openpsa_testcase
 
         $person2 = $this->create_user();
         $user2 = new midcom_core_user($person2);
-        midcom::get('auth')->request_sudo('midcom.core');
+        midcom::get()->auth->request_sudo('midcom.core');
         $person2->set_privilege('midgard:create', 'SELF', MIDCOM_PRIVILEGE_ALLOW);
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
 
         $this->assertTrue($auth->can_user_do('midgard:create', $user2));
     }
@@ -109,9 +109,9 @@ class midcom_services_auth_mainTest extends openpsa_testcase
         $this->assertTrue($auth->request_sudo('some_string'));
         $auth->drop_sudo();
 
-        midcom::get('config')->set('auth_allow_sudo', false);
+        midcom::get()->config->set('auth_allow_sudo', false);
         $stat = $auth->request_sudo();
-        midcom::get('config')->set('auth_allow_sudo', true);
+        midcom::get()->config->set('auth_allow_sudo', true);
         $this->assertFalse($stat);
     }
 }

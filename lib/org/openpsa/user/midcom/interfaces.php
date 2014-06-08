@@ -20,7 +20,7 @@ class org_openpsa_user_interface extends midcom_baseclasses_components_interface
      */
     function reopen_account($args, &$handler)
     {
-        midcom::get('auth')->request_sudo($this->_component);
+        midcom::get()->auth->request_sudo($this->_component);
         try
         {
             $person = new midcom_db_person($args['guid']);
@@ -28,7 +28,7 @@ class org_openpsa_user_interface extends midcom_baseclasses_components_interface
         catch (midcom_error $e)
         {
             $handler->print_error('Person with guid #' . $args['guid'] . ' does not exist');
-            midcom::get('auth')->drop_sudo();
+            midcom::get()->auth->drop_sudo();
             return false;
         }
         $accounthelper = new org_openpsa_user_accounthelper($person);
@@ -39,10 +39,10 @@ class org_openpsa_user_interface extends midcom_baseclasses_components_interface
         catch (midcom_error $e)
         {
             $handler->print_error($e->getMessage());
-            midcom::get('auth')->drop_sudo();
+            midcom::get()->auth->drop_sudo();
             return false;
         }
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
         return true;
     }
 }

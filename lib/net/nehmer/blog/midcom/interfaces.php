@@ -30,7 +30,7 @@ implements midcom_services_permalinks_resolver
         }
         else
         {
-            $qb = midcom::get('dbfactory')->new_query_builder('midcom_db_article');
+            $qb = midcom::get()->dbfactory->new_query_builder('midcom_db_article');
             $qb->add_constraint('topic', '=', $topic->id);
             $result = $qb->execute();
 
@@ -97,7 +97,7 @@ implements midcom_services_permalinks_resolver
 
     public function get_opengraph_default($object)
     {
-        if (midcom::get('dbfactory')->is_a($object, 'midgard_topic'))
+        if (midcom::get()->dbfactory->is_a($object, 'midgard_topic'))
         {
             return 'blog';
         }

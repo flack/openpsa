@@ -23,12 +23,12 @@ class org_openpsa_products_handler_product_deleteTest extends openpsa_testcase
 
     public function testHandler_edit()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.products');
+        midcom::get()->auth->request_sudo('org.openpsa.products');
 
         $data = $this->run_handler('org.openpsa.products', array('product', 'delete', self::$_product->guid));
         $this->assertEquals('delete_product', $data['handler_id']);
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 }
 ?>

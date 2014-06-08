@@ -65,7 +65,7 @@ class org_openpsa_sales_handler_list extends midcom_baseclasses_components_handl
                     MIDCOM_TOOLBAR_URL => 'salesproject/new/' . $data['customer']->guid . '/',
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create salesproject'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_people.png',
-                    MIDCOM_TOOLBAR_ENABLED => midcom::get('auth')->can_user_do('midgard:create', null, 'org_openpsa_sales_salesproject_dba'),
+                    MIDCOM_TOOLBAR_ENABLED => midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_sales_salesproject_dba'),
                 )
             );
         }
@@ -80,7 +80,7 @@ class org_openpsa_sales_handler_list extends midcom_baseclasses_components_handl
         // TODO: Filtering
 
         $data['grid'] = new org_openpsa_widgets_grid($data['mode'] . '_salesprojects_grid', 'local');
-        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.core/table2csv.js');
+        midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.core/table2csv.js');
 
         $this->add_breadcrumb("", $data['list_title']);
     }

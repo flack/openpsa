@@ -178,7 +178,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
         {
             $name = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_COMPONENT);
             // Replace the dots in the component name with underscores
-            $name = midcom::get('componentloader')->path_to_prefix($name);
+            $name = midcom::get()->componentloader->path_to_prefix($name);
         }
         if (! $name)
         {
@@ -565,7 +565,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
         if ($config['read_privilege'] !== null)
         {
             if (   array_key_exists('group', $config['read_privilege'])
-                && ! midcom::get('auth')->is_group_member($config['read_privilege']['group']))
+                && ! midcom::get()->auth->is_group_member($config['read_privilege']['group']))
             {
                 return false;
             }
@@ -620,7 +620,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
         if ($config['write_privilege'] !== null)
         {
             if (   array_key_exists('group', $config['write_privilege'])
-                && ! midcom::get('auth')->is_group_member($config['write_privilege']['group']))
+                && ! midcom::get()->auth->is_group_member($config['write_privilege']['group']))
             {
                 $widget->freeze();
             }

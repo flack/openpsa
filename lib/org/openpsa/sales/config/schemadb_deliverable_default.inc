@@ -467,11 +467,11 @@
             (
                 'options' => Array
                 (
-                    'd' =>  midcom::get('i18n')->get_string('day', 'org.openpsa.products'),       // per day
-                    'm' =>  midcom::get('i18n')->get_string('month', 'org.openpsa.products'),     // per month
-                    'q' =>  midcom::get('i18n')->get_string('quarter', 'org.openpsa.products'),   // per quarter
-                    'hy' => midcom::get('i18n')->get_string('half-year', 'org.openpsa.products'), // per half
-                    'y' =>  midcom::get('i18n')->get_string('year', 'org.openpsa.products'),      // per annum
+                    'd' =>  midcom::get()->i18n->get_string('day', 'org.openpsa.products'),       // per day
+                    'm' =>  midcom::get()->i18n->get_string('month', 'org.openpsa.products'),     // per month
+                    'q' =>  midcom::get()->i18n->get_string('quarter', 'org.openpsa.products'),   // per quarter
+                    'hy' => midcom::get()->i18n->get_string('half-year', 'org.openpsa.products'), // per half
+                    'y' =>  midcom::get()->i18n->get_string('year', 'org.openpsa.products'),      // per annum
                 ),
             ),
             'readonly' => false,

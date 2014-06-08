@@ -111,10 +111,10 @@ class midcom_helper_datamanager2_widget_images extends midcom_helper_datamanager
         // Create sortable
         if ($this->_type->sortable)
         {
-            midcom::get('head')->enable_jquery();
-            midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/datamanager2.tablesorter.js');
+            midcom::get()->head->enable_jquery();
+            midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/datamanager2.tablesorter.js');
             // Configuration options
-            midcom::get('head')->add_jscript("
+            midcom::get()->head->add_jscript("
                 jQuery(document).ready(function()
                 {
                     jQuery('#{$this->_namespace}{$this->name}')
@@ -127,7 +127,7 @@ class midcom_helper_datamanager2_widget_images extends midcom_helper_datamanager
             ");
         }
 
-        midcom::get('head')->add_jscript($this->_get_filename_validation_script());
+        midcom::get()->head->add_jscript($this->_get_filename_validation_script());
     }
 
     private function _get_filename_validation_script()

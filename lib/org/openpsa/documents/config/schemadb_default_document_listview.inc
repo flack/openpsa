@@ -111,7 +111,7 @@
 
                 ),
              ),
-             'default'     => midcom::get('auth')->user->id,
+             'default'     => midcom::get()->auth->user->id,
         ),
     )
 ),

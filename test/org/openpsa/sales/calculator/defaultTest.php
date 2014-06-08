@@ -23,7 +23,7 @@ class org_openpsa_sales_calculatorTest extends openpsa_testcase
 
     public function testGet_invoice_items()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.sales');
+        midcom::get()->auth->request_sudo('org.openpsa.sales');
 
         $project = $this->create_object('org_openpsa_projects_project');
         $task_attributes = array
@@ -41,7 +41,7 @@ class org_openpsa_sales_calculatorTest extends openpsa_testcase
         $this->assertTrue(sizeof($items) == 1);
         $this->assertEquals($task->id, $items[0]->task);
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
     public function testGenerate_invoice_number()
@@ -49,9 +49,9 @@ class org_openpsa_sales_calculatorTest extends openpsa_testcase
         $qb = org_openpsa_invoices_invoice_dba::new_query_builder();
         $qb->add_order('number', 'DESC');
         $qb->set_limit(1);
-        midcom::get('auth')->request_sudo('org.openpsa.invoices');
+        midcom::get()->auth->request_sudo('org.openpsa.invoices');
         $last_invoice = $qb->execute_unchecked();
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
 
         if (count($last_invoice) == 0)
         {

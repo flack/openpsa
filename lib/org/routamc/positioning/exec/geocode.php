@@ -72,7 +72,7 @@ if (is_null($positions))
     throw new midcom_error("Geocoding failed: {$error_str}");
 }
 
-midcom::get('cache')->content->content_type("text/xml; charset=UTF-8");
+midcom::get()->cache->content->content_type("text/xml; charset=UTF-8");
 midcom::get()->header("Content-type: text/xml; charset=UTF-8");
 
 echo "<results>\n";

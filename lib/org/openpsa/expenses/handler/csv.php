@@ -28,7 +28,7 @@ class org_openpsa_expenses_handler_csv extends midcom_baseclasses_components_han
 
     public function _load_data($handler_id, &$args, &$data)
     {
-        midcom::get('auth')->require_valid_user();
+        midcom::get()->auth->require_valid_user();
         if (   empty($_POST['guids'])
             || !is_array($_POST['guids']))
         {

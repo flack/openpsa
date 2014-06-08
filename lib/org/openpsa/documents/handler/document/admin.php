@@ -45,7 +45,7 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
 
     public function _on_initialize()
     {
-        midcom::get('auth')->require_valid_user();
+        midcom::get()->auth->require_valid_user();
         $this->_schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_document'));
         $this->_datamanager = new midcom_helper_datamanager2_datamanager($this->_schemadb);
     }
@@ -129,7 +129,7 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
 
         $this->_request_data['controller'] = $this->_controller;
 
-        midcom::get('head')->set_pagetitle(sprintf($this->_l10n_midcom->get('edit %s'), $this->_document->title));
+        midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('edit %s'), $this->_document->title));
 
         // Add toolbar items
         org_openpsa_helpers::dm2_savecancel($this);
@@ -201,7 +201,7 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
                 if ($this->_document->delete())
                 {
                     // Update the index
-                    $indexer = midcom::get('indexer');
+                    $indexer = midcom::get()->indexer;
                     $indexer->delete($this->_document->guid);
                     // Redirect to the directory
                     return new midcom_response_relocate('');
@@ -209,7 +209,7 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
                 else
                 {
                     // Failure, give a message
-                    midcom::get('uimessages')->add($this->_l10n->get('org.openpsa.documents'), $this->_l10n->get("failed to delete document, reason ").midcom_connection::get_error_string(), 'error');
+                    midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.documents'), $this->_l10n->get("failed to delete document, reason ").midcom_connection::get_error_string(), 'error');
                 }
                 //Fall-through
             case 'cancel':

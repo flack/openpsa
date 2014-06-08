@@ -77,7 +77,7 @@ implements midcom_helper_datamanager2_interfaces_create
         // ACL handling: require create privileges
         $this->_root_event->require_do('midgard:create');
 
-        $this->_person = midcom::get('auth')->user->get_storage();
+        $this->_person = midcom::get()->auth->user->get_storage();
 
         if (isset($args[0]))
         {
@@ -97,8 +97,8 @@ implements midcom_helper_datamanager2_interfaces_create
                 $indexer->index($data['controller']->datamanager);
                 //FALL-THROUGH
             case 'cancel':
-                midcom::get('head')->add_jsonload('window.opener.location.reload();');
-                midcom::get('head')->add_jsonload('window.close();');
+                midcom::get()->head->add_jsonload('window.opener.location.reload();');
+                midcom::get()->head->add_jsonload('window.close();');
                 break;
         }
         if (!empty($data['conflictmanager']->busy_members))

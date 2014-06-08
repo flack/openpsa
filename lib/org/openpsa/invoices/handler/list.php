@@ -37,7 +37,7 @@ implements org_openpsa_widgets_grid_provider_client
 
     public function _on_initialize()
     {
-        midcom::get('auth')->require_valid_user();
+        midcom::get()->auth->require_valid_user();
         // Locate Contacts node for linking
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
         $this->_request_data['contacts_url'] = $siteconfig->get_node_full_url('org.openpsa.contacts');
@@ -204,7 +204,7 @@ implements org_openpsa_widgets_grid_provider_client
 
         $this->_request_data['customer'] = $this->_customer;
 
-        midcom::get('head')->set_pagetitle($this->_l10n->get('dashboard'));
+        midcom::get()->head->set_pagetitle($this->_l10n->get('dashboard'));
     }
 
     /**
@@ -330,7 +330,7 @@ implements org_openpsa_widgets_grid_provider_client
         }
         $data['customer'] = $this->_customer;
 
-        if (midcom::get('auth')->can_user_do('midgard:create', null, 'org_openpsa_invoices_invoice_dba'))
+        if (midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_invoices_invoice_dba'))
         {
             $this->_view_toolbar->add_item
             (
@@ -378,7 +378,7 @@ implements org_openpsa_widgets_grid_provider_client
 
         $title = sprintf($this->_l10n->get('all invoices for customer %s'), $this->_customer->get_label());
 
-        midcom::get('head')->set_pagetitle($title);
+        midcom::get()->head->set_pagetitle($title);
 
         $this->add_breadcrumb("", $title);
     }
@@ -432,7 +432,7 @@ implements org_openpsa_widgets_grid_provider_client
         }
 
         $title = sprintf($this->_l10n->get('all invoices for deliverable %s'), $this->_deliverable->title);
-        midcom::get('head')->set_pagetitle($title);
+        midcom::get()->head->set_pagetitle($title);
         $this->add_breadcrumb("", $title);
     }
 

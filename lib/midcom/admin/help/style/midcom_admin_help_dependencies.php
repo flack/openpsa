@@ -9,7 +9,7 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
             echo "<ul>\n";
             foreach ($data['dependencies'] as $dependency)
             {
-                if ($component_icon = midcom::get('componentloader')->get_component_icon($dependency))
+                if ($component_icon = midcom::get()->componentloader->get_component_icon($dependency))
                 {
                     echo "<li><a href=\"{$prefix}__ais/help/{$dependency}/\"><img src=\"" . MIDCOM_STATIC_URL . "/" . $component_icon . "\" alt=\"\" /> {$dependency}</a></li>\n";
                 }

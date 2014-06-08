@@ -84,15 +84,15 @@ class midcom_baseclasses_components_configuration
      * Three files will be loaded in order:
      *
      * 1. The component's default configuration, placed in $prefix/config/config.inc
-     * 2. Any systemwide default configuration, currently placed in midcom::get('config')->get('midcom_config_basedir')/midcom/$component/config.inc.
-     * 3. Any site configuration in the snippet midcom::get('config')->get('midcom_sgconfig_basedir')/$component/config.
+     * 2. Any systemwide default configuration, currently placed in midcom::get()->config->get('midcom_config_basedir')/midcom/$component/config.inc.
+     * 3. Any site configuration in the snippet midcom::get()->config->get('midcom_sgconfig_basedir')/$component/config.
      *
      * @see midcom_helper_configuration
      */
     private static function _load_configuration($component)
     {
         $data = array();
-        $loader = midcom::get('componentloader');
+        $loader = midcom::get()->componentloader;
         if (!empty($loader->manifests[$component]->extends))
         {
             $component_path = $loader->path_to_snippetpath($loader->manifests[$component]->extends);
@@ -119,7 +119,7 @@ class midcom_baseclasses_components_configuration
         }
 
         // Finally, check the sitegroup config
-        $sn_data = self::read_array_from_snippet(midcom::get('config')->get('midcom_sgconfig_basedir') . "/{$component}/config");
+        $sn_data = self::read_array_from_snippet(midcom::get()->config->get('midcom_sgconfig_basedir') . "/{$component}/config");
         if ($sn_data !== false)
         {
             $data = array_merge($data, $sn_data);
@@ -130,7 +130,7 @@ class midcom_baseclasses_components_configuration
 
     private static function _load_routes($component)
     {
-        $loader = midcom::get('componentloader');
+        $loader = midcom::get()->componentloader;
         $component_path = $loader->path_to_snippetpath($component);
         // Load and parse the global config
         $data = self::read_array_from_file($component_path . '/config/routes.inc');

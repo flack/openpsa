@@ -212,7 +212,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             return $identifier_cache[$context];
         }
 
-        $module_name = midcom::get('config')->get('cache_module_content_name');
+        $module_name = midcom::get()->config->get('cache_module_content_name');
         if ($module_name == 'auto')
         {
             $module_name = midcom_connection::get_unique_host_name();
@@ -221,7 +221,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
 
         if (!isset($customdata['cache_module_content_caching_strategy']))
         {
-            $cache_strategy = midcom::get('config')->get('cache_module_content_caching_strategy');
+            $cache_strategy = midcom::get()->config->get('cache_module_content_caching_strategy');
         }
         else
         {
@@ -287,7 +287,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      */
     public function _on_initialize()
     {
-        $backend_config = midcom::get('config')->get('cache_module_content_backend');
+        $backend_config = midcom::get()->config->get('cache_module_content_backend');
         if (!isset($backend_config['directory']))
         {
             $backend_config['directory'] = 'content/';
@@ -306,12 +306,12 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         $backend_config['auto_serialize'] = false;
         $this->_data_cache = $this->_create_backend($data_backend_name, $backend_config);
 
-        $this->_uncached = midcom::get('config')->get('cache_module_content_uncached');
-        $this->_headers_strategy = strtolower(midcom::get('config')->get('cache_module_content_headers_strategy'));
-        $this->_headers_strategy_authenticated = strtolower(midcom::get('config')->get('cache_module_content_headers_strategy_authenticated'));
-        $this->_default_lifetime = (int)midcom::get('config')->get('cache_module_content_default_lifetime');
-        $this->_default_lifetime_authenticated = (int)midcom::get('config')->get('cache_module_content_default_lifetime_authenticated');
-        $this->_force_headers = midcom::get('config')->get('cache_module_content_headers_force');
+        $this->_uncached = midcom::get()->config->get('cache_module_content_uncached');
+        $this->_headers_strategy = strtolower(midcom::get()->config->get('cache_module_content_headers_strategy'));
+        $this->_headers_strategy_authenticated = strtolower(midcom::get()->config->get('cache_module_content_headers_strategy_authenticated'));
+        $this->_default_lifetime = (int)midcom::get()->config->get('cache_module_content_default_lifetime');
+        $this->_default_lifetime_authenticated = (int)midcom::get()->config->get('cache_module_content_default_lifetime_authenticated');
+        $this->_force_headers = midcom::get()->config->get('cache_module_content_headers_force');
 
         switch ($this->_headers_strategy)
         {
@@ -1077,7 +1077,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             $time = 0;
             foreach (midcom_core_context::get_all() as $context)
             {
-                $meta = midcom::get('metadata')->get_request_metadata($context);
+                $meta = midcom::get()->metadata->get_request_metadata($context);
                 if ($meta['lastmodified'] > $time)
                 {
                     $time = $meta['lastmodified'];
@@ -1146,7 +1146,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         $expires = false;
         $strategy = $this->_headers_strategy;
         $default_lifetime = $this->_default_lifetime;
-        if (   midcom::get('auth')->is_valid_user()
+        if (   midcom::get()->auth->is_valid_user()
             || !midcom_connection::get_user())
         {
             $strategy = $this->_headers_strategy_authenticated;

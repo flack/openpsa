@@ -110,7 +110,7 @@ class net_nehmer_blog_handler_admin extends midcom_baseclasses_components_handle
     {
         $this->_schemadb =& $this->_request_data['schemadb'];
         if (   $this->_config->get('simple_name_handling')
-            && ! midcom::get('auth')->admin)
+            && ! midcom::get()->auth->admin)
         {
             foreach (array_keys($this->_schemadb) as $name)
             {
@@ -200,7 +200,7 @@ class net_nehmer_blog_handler_admin extends midcom_baseclasses_components_handle
         {
             case 'save':
                 // Reindex the article
-                $indexer = midcom::get('indexer');
+                $indexer = midcom::get()->indexer;
                 net_nehmer_blog_viewer::index($this->_controller->datamanager, $indexer, $this->_content_topic);
                 // *** FALL-THROUGH ***
 
@@ -210,8 +210,8 @@ class net_nehmer_blog_handler_admin extends midcom_baseclasses_components_handle
 
         $this->_prepare_request_data();
         $this->_view_toolbar->bind_to($this->_article);
-        midcom::get('metadata')->set_request_metadata($this->_article->metadata->revised, $this->_article->guid);
-        midcom::get('head')->set_pagetitle("{$this->_topic->extra}: {$this->_article->title}");
+        midcom::get()->metadata->set_request_metadata($this->_article->metadata->revised, $this->_article->guid);
+        midcom::get()->head->set_pagetitle("{$this->_topic->extra}: {$this->_article->title}");
         $this->_update_breadcrumb_line($handler_id);
     }
 
@@ -266,19 +266,19 @@ class net_nehmer_blog_handler_admin extends midcom_baseclasses_components_handle
             $qb->add_constraint('article', '=', $this->_article->id);
             $links = $qb->execute_unchecked();
 
-            midcom::get('auth')->request_sudo('net.nehmer.blog');
+            midcom::get()->auth->request_sudo('net.nehmer.blog');
             foreach ($links as $link)
             {
                 $link->delete();
             }
-            midcom::get('auth')->drop_sudo();
+            midcom::get()->auth->drop_sudo();
 
             // Update the index
-            $indexer = midcom::get('indexer');
+            $indexer = midcom::get()->indexer;
             $indexer->delete($this->_article->guid);
 
             // Show user interface message
-            midcom::get('uimessages')->add($this->_l10n->get('net.nehmer.blog'), sprintf($this->_l10n->get('article %s deleted'), $title));
+            midcom::get()->uimessages->add($this->_l10n->get('net.nehmer.blog'), sprintf($this->_l10n->get('article %s deleted'), $title));
 
             // Delete ok, relocating to welcome.
             return new midcom_response_relocate('');
@@ -286,15 +286,15 @@ class net_nehmer_blog_handler_admin extends midcom_baseclasses_components_handle
 
         if (array_key_exists('net_nehmer_blog_deletecancel', $_REQUEST))
         {
-            midcom::get('uimessages')->add($this->_l10n->get('net.nehmer.blog'), $this->_l10n->get('delete cancelled'));
+            midcom::get()->uimessages->add($this->_l10n->get('net.nehmer.blog'), $this->_l10n->get('delete cancelled'));
 
             return new midcom_response_relocate($this->_master->get_url($this->_article));
         }
 
         $this->_prepare_request_data();
-        midcom::get('metadata')->set_request_metadata($this->_article->metadata->revised, $this->_article->guid);
+        midcom::get()->metadata->set_request_metadata($this->_article->metadata->revised, $this->_article->guid);
         $this->_view_toolbar->bind_to($this->_article);
-        midcom::get('head')->set_pagetitle("{$this->_topic->extra}: {$this->_article->title}");
+        midcom::get()->head->set_pagetitle("{$this->_topic->extra}: {$this->_article->title}");
         $this->_update_breadcrumb_line($handler_id);
     }
 

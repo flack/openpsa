@@ -22,13 +22,13 @@ class org_openpsa_invoices_handler_scheduledTest extends openpsa_testcase
 
     public function testHandler_list()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.invoices');
+        midcom::get()->auth->request_sudo('org.openpsa.invoices');
 
         $data = $this->run_handler('org.openpsa.invoices', array('scheduled'));
         $this->assertEquals('list_scheduled', $data['handler_id']);
 
         $this->show_handler($data);
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 }
 ?>

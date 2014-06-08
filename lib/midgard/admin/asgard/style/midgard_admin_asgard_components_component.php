@@ -53,7 +53,7 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
                     continue;
                     // Done.
                 }
-                if ($component_icon = midcom::get('componentloader')->get_component_icon($dependency))
+                if ($component_icon = midcom::get()->componentloader->get_component_icon($dependency))
                 {
                     echo "<li><a href=\"{$prefix}__mfa/asgard/components/{$dependency}/\"><img src=\"" . MIDCOM_STATIC_URL . "/" . $component_icon . "\" alt=\"\" /> {$dependency}</a></li>\n";
                 }
@@ -73,7 +73,7 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
         $files = $help->list_files($data['component'], true);
         if (count($files) > 0)
         {
-            echo "<h3>" . midcom::get('i18n')->get_string('component help', 'midcom.admin.help') . "</h3>\n";
+            echo "<h3>" . midcom::get()->i18n->get_string('component help', 'midcom.admin.help') . "</h3>\n";
             echo "<ul>\n";
             foreach ($files as $identifier => $filedata)
             {

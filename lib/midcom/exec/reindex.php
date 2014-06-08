@@ -13,12 +13,12 @@
  */
 
 // IP Address Checks
-$ips = midcom::get('config')->get('indexer_reindex_allowed_ips');
+$ips = midcom::get()->config->get('indexer_reindex_allowed_ips');
 $ip_sudo = false;
 if (   $ips
     && in_array($_SERVER['REMOTE_ADDR'], $ips))
 {
-    if (! midcom::get('auth')->request_sudo('midcom.services.indexer'))
+    if (! midcom::get()->auth->request_sudo('midcom.services.indexer'))
     {
         throw new midcom_error('Failed to acquire SUDO rights. Aborting.');
     }
@@ -26,17 +26,17 @@ if (   $ips
 }
 else
 {
-    midcom::get('auth')->require_valid_user('basic');
-    midcom::get('auth')->require_admin_user();
+    midcom::get()->auth->require_valid_user('basic');
+    midcom::get()->auth->require_admin_user();
 }
 
-if (midcom::get('config')->get('indexer_backend') === false)
+if (midcom::get()->config->get('indexer_backend') === false)
 {
     throw new midcom_error('No indexer backend has been defined. Aborting.');
 }
 
 //check if language is passed - if not take the current-one
-$language = midcom::get('i18n')->get_current_language();
+$language = midcom::get()->i18n->get_current_language();
 if (isset($_REQUEST['language']))
 {
     $language = $_REQUEST['language'];
@@ -57,8 +57,8 @@ $start = microtime(true);
 $nap = new midcom_helper_nav();
 $nodes = Array();
 $nodeid = $nap->get_root_node();
-$loader = midcom::get('componentloader');
-$indexer = midcom::get('indexer');
+$loader = midcom::get()->componentloader;
+$indexer = midcom::get()->indexer;
 
 // Use this to check that indexer is online (and hope the root topic isn't a gigantic wiki)
 $root_node = $nap->get_node($nodeid);
@@ -133,7 +133,7 @@ ignore_user_abort(false);
 
 if ($ip_sudo)
 {
-    midcom::get('auth')->drop_sudo();
+    midcom::get()->auth->drop_sudo();
 }
 
 //re-enable ob

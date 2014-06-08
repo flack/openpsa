@@ -1,8 +1,8 @@
 <?php
-midcom::get('auth')->require_admin_user();
+midcom::get()->auth->require_admin_user();
 
 // Ensure this is not buffered
-midcom::get('cache')->content->enable_live_mode();
+midcom::get()->cache->content->enable_live_mode();
 while(@ob_end_flush())
 
 midcom::get()->disable_limits();

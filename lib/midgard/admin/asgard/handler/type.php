@@ -19,13 +19,13 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
     {
         // Figure correct MidCOM DBA class to use and get midcom QB
         $qb = false;
-        $midcom_dba_classname = midcom::get('dbclassloader')->get_midcom_class_name_for_mgdschema_object($dummy_object);
+        $midcom_dba_classname = midcom::get()->dbclassloader->get_midcom_class_name_for_mgdschema_object($dummy_object);
         if (empty($midcom_dba_classname))
         {
             debug_add("MidCOM DBA does not know how to handle " . get_class($dummy_object), MIDCOM_LOG_ERROR);
             return $qb;
         }
-        if (!midcom::get('dbclassloader')->load_mgdschema_class_handler($midcom_dba_classname))
+        if (!midcom::get()->dbclassloader->load_mgdschema_class_handler($midcom_dba_classname))
         {
             debug_add("Failed to load the handling component for {$midcom_dba_classname}, cannot continue.", MIDCOM_LOG_ERROR);
             return $qb;
@@ -106,12 +106,12 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
     {
         // Figure out the component
         $dummy = new $this->type;
-        $midcom_dba_classname = midcom::get('dbclassloader')->get_midcom_class_name_for_mgdschema_object($dummy);
+        $midcom_dba_classname = midcom::get()->dbclassloader->get_midcom_class_name_for_mgdschema_object($dummy);
         if (!$midcom_dba_classname)
         {
             throw new midcom_error("Failed to load DBA class for type {$this->type}.");
         }
-        $component = midcom::get('dbclassloader')->get_component_for_class($midcom_dba_classname);
+        $component = midcom::get()->dbclassloader->get_component_for_class($midcom_dba_classname);
         $help_component = $component;
         if ($component == 'midcom')
         {
@@ -134,8 +134,8 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
     public function _handler_type($handler_id, array $args, array &$data)
     {
         $this->type = $args[0];
-        midcom::get('auth')->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
-        if (!midcom::get('dbclassloader')->get_midcom_class_name_for_mgdschema_object($this->type))
+        midcom::get()->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
+        if (!midcom::get()->dbclassloader->get_midcom_class_name_for_mgdschema_object($this->type))
         {
             throw new midcom_error_notfound("MgdSchema type '{$args[0]}' not installed.");
         }
@@ -149,7 +149,7 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
             {
                 return new midcom_response_relocate('__mfa/asgard/object/' . $data['default_mode'] . '/' . $data['search_results'][0]->guid . '/');
             }
-            midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.tablesorter.pack.js');
+            midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.tablesorter.pack.js');
             $this->add_stylesheet(MIDCOM_STATIC_URL . '/midgard.admin.asgard/tablewidget.css');
         }
 
@@ -172,7 +172,7 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
 
     private function _prepare_toolbar(&$data)
     {
-        if (midcom::get('auth')->can_user_do('midgard:create', null, $this->type))
+        if (midcom::get()->auth->can_user_do('midgard:create', null, $this->type))
         {
             $data['asgard_toolbar']->add_item
             (
@@ -185,7 +185,7 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
             );
         }
 
-        if (midcom::get('auth')->admin)
+        if (midcom::get()->auth->admin)
         {
             $qb = new midgard_query_builder($this->type);
             $qb->include_deleted();
@@ -260,7 +260,7 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
         midcom_show_style('midgard_admin_asgard_type');
 
         $data['used_types'][] = $data['type'];
-        $data['used_types'][] = midcom::get('dbclassloader')->get_midcom_class_name_for_mgdschema_object($this->type);
+        $data['used_types'][] = midcom::get()->dbclassloader->get_midcom_class_name_for_mgdschema_object($this->type);
 
         $data['prefix'] = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 

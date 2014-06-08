@@ -73,13 +73,13 @@ implements midcom_helper_datamanager2_interfaces_edit
         $this->_privileges[] = 'midgard:parameters';
         $this->_privileges[] = 'midgard:owner';
 
-        if (midcom::get('config')->get('metadata_approval'))
+        if (midcom::get()->config->get('metadata_approval'))
         {
             $this->_privileges[] = 'midcom:approve';
         }
 
         $script = "function submit_privileges(form){jQuery('#submit_action',form).attr({name: 'midcom_helper_datamanager2_add'}).val('add');form.submit();};function applyRowClasses(){jQuery('.maa_permissions_items tr.maa_permissions_rows_row:odd').addClass('odd');jQuery('.maa_permissions_items tr.maa_permissions_rows_row:even').addClass('even');};";
-        midcom::get('head')->add_jscript($script);
+        midcom::get()->head->add_jscript($script);
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/midgard.admin.asgard/permissions/layout.css');
     }
@@ -99,14 +99,14 @@ implements midcom_helper_datamanager2_interfaces_edit
      */
     private function _load_component_privileges()
     {
-        $component_loader = midcom::get('componentloader');
+        $component_loader = midcom::get()->componentloader;
 
         // Store temporarily the requested object
         $tmp = $this->_object;
 
         $i = 0;
         while (   !empty($tmp->guid)
-               && !midcom::get('dbfactory')->is_a($tmp, 'midgard_topic')
+               && !midcom::get()->dbfactory->is_a($tmp, 'midgard_topic')
                && $i < 100)
         {
             // Get the parent; wishing eventually to get a topic
@@ -115,7 +115,7 @@ implements midcom_helper_datamanager2_interfaces_edit
         }
 
         // If the temporary object eventually reached a topic, fetch its manifest
-        if (midcom::get('dbfactory')->is_a($tmp, 'midgard_topic'))
+        if (midcom::get()->dbfactory->is_a($tmp, 'midgard_topic'))
         {
             $current_manifest = $component_loader->manifests[$tmp->component];
         }
@@ -140,13 +140,13 @@ implements midcom_helper_datamanager2_interfaces_edit
         }
 
         // In addition, give component configuration privileges if we're in topic
-        if (midcom::get('dbfactory')->is_a($this->_object, 'midgard_topic'))
+        if (midcom::get()->dbfactory->is_a($this->_object, 'midgard_topic'))
         {
             $this->_privileges[] = 'midcom.admin.folder:topic_management';
             $this->_privileges[] = 'midcom.admin.folder:template_management';
             $this->_privileges[] = 'midcom:component_config';
             $this->_privileges[] = 'midcom:urlname';
-            if (midcom::get('config')->get('symlinks'))
+            if (midcom::get()->config->get('symlinks'))
             {
                 $this->_privileges[] = 'midcom.admin.folder:symlinks';
             }
@@ -203,7 +203,7 @@ implements midcom_helper_datamanager2_interfaces_edit
             else
             {
                 //Inconsistent privilige base will mess here. Let's give a chance to remove ghosts
-                $assignee = midcom::get('auth')->get_assignee($privilege->assignee);
+                $assignee = midcom::get()->auth->get_assignee($privilege->assignee);
 
                 if (is_object($assignee))
                 {
@@ -297,14 +297,14 @@ implements midcom_helper_datamanager2_interfaces_edit
      */
     public function _handler_edit($handler_id, array $args, array &$data)
     {
-        $this->_object = midcom::get('dbfactory')->get_object_by_guid($args[0]);
+        $this->_object = midcom::get()->dbfactory->get_object_by_guid($args[0]);
         $this->_object->require_do('midgard:privileges');
-        midcom::get('auth')->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
+        midcom::get()->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
 
         $script = "
             applyRowClasses();
         ";
-        midcom::get('head')->add_jquery_state_script($script);
+        midcom::get()->head->add_jquery_state_script($script);
 
         // Load possible additional component privileges
         $this->_load_component_privileges();
@@ -543,7 +543,7 @@ implements midcom_helper_datamanager2_interfaces_edit
                 $actions = "<div class=\"actions\" id=\"privilege_row_actions_{$key}\">";
                 $actions .= "</div>";
 
-                midcom::get('head')->add_jquery_state_script("jQuery('#privilege_row_{$key}').privilege_actions('{$key}');");
+                midcom::get()->head->add_jquery_state_script("jQuery('#privilege_row_{$key}').privilege_actions('{$key}');");
 
                 $html = "      <td class=\"row_value row_actions\">{$actions}</td>\n";
 

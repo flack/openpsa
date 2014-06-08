@@ -32,7 +32,7 @@ class midcom_admin_folder_handler_move extends midcom_baseclasses_components_han
      */
     public function _handler_move($handler_id, array $args, array &$data)
     {
-        $this->_object = midcom::get('dbfactory')->get_object_by_guid($args[0]);
+        $this->_object = midcom::get()->dbfactory->get_object_by_guid($args[0]);
 
         if (   !is_a($this->_object, 'midcom_db_topic')
             && !is_a($this->_object, 'midcom_db_article'))
@@ -45,7 +45,7 @@ class midcom_admin_folder_handler_move extends midcom_baseclasses_components_han
         if (isset($_POST['move_to']))
         {
             $this->_move_object((int) $_POST['move_to']);
-            return new midcom_response_relocate(midcom::get('permalinks')->create_permalink($this->_object->guid));
+            return new midcom_response_relocate(midcom::get()->permalinks->create_permalink($this->_object->guid));
         }
 
         $object_label = midcom_helper_reflector::get($this->_object)->get_object_label($this->_object);
@@ -62,7 +62,7 @@ class midcom_admin_folder_handler_move extends midcom_baseclasses_components_han
             // This is a regular object, bind to view
             $this->bind_view_to_object($this->_object);
 
-            $this->add_breadcrumb(midcom::get('permalinks')->create_permalink($this->_object->guid), $object_label);
+            $this->add_breadcrumb(midcom::get()->permalinks->create_permalink($this->_object->guid), $object_label);
             $this->_view_toolbar->hide_item("__ais/folder/move/{$this->_object->guid}/");
 
             $data['current_folder'] = new midcom_db_topic($this->_object->topic);
@@ -72,7 +72,7 @@ class midcom_admin_folder_handler_move extends midcom_baseclasses_components_han
         $this->add_breadcrumb("__ais/folder/move/{$this->_object->guid}/", $this->_l10n->get('move'));
 
         $data['title'] = sprintf($this->_l10n->get('move %s'), $object_label);
-        midcom::get('head')->set_pagetitle($data['title']);
+        midcom::get()->head->set_pagetitle($data['title']);
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.admin.folder/folder.css');
     }

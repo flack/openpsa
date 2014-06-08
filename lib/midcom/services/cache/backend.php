@@ -151,8 +151,8 @@ abstract class midcom_services_cache_backend
             $this->_auto_serialize = $this->_config['auto_serialize'];
         }
 
-        $this->_check_dir(midcom::get('config')->get('cache_base_directory'));
-        $this->_cache_dir = midcom::get('config')->get('cache_base_directory') . $this->_config['directory'];
+        $this->_check_dir(midcom::get()->config->get('cache_base_directory'));
+        $this->_cache_dir = midcom::get()->config->get('cache_base_directory') . $this->_config['directory'];
         $this->_check_dir($this->_cache_dir);
 
         $this->_on_initialize();
@@ -226,7 +226,7 @@ abstract class midcom_services_cache_backend
         {
             if (!@mkdir($directory, 0755))
             {
-                midcom::get('debug')->log_php_error(MIDCOM_LOG_ERROR);
+                midcom::get()->debug->log_php_error(MIDCOM_LOG_ERROR);
                 throw new midcom_error("Failed to create the cache base directory {$directory}");
             }
         }

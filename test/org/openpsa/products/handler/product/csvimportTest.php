@@ -15,12 +15,12 @@ class org_openpsa_products_handler_product_csvimportTest extends openpsa_testcas
 {
     public function testHandler_csvimport()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.products');
+        midcom::get()->auth->request_sudo('org.openpsa.products');
 
         $data = $this->run_handler('org.openpsa.products', array('import', 'product', 'csv'));
         $this->assertEquals('import_product_csv', $data['handler_id']);
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 }
 ?>

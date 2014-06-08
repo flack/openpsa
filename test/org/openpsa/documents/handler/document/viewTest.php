@@ -26,24 +26,24 @@ class org_openpsa_documents_handler_document_viewTest extends openpsa_testcase
 
     public function testHandler_versions()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.documents');
+        midcom::get()->auth->request_sudo('org.openpsa.documents');
 
         $data = $this->run_handler('org.openpsa.documents', array('document', 'versions', self::$_document->guid));
         $this->assertEquals('document-versions', $data['handler_id']);
 
         $this->show_handler($data);
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
     public function testHandler_view()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.documents');
+        midcom::get()->auth->request_sudo('org.openpsa.documents');
 
         $data = $this->run_handler('org.openpsa.documents', array('document', self::$_document->guid));
         $this->assertEquals('document-view', $data['handler_id']);
 
         $this->show_handler($data);
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 }
 ?>

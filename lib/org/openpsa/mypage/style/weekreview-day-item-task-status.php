@@ -1,7 +1,7 @@
 <?php
 $task_status = $data['object'];
-$status_changer_label = midcom::get('i18n')->get_string('system', 'org.openpsa.projects');
-$target_person_label = midcom::get('i18n')->get_string('system', 'org.openpsa.projects');
+$status_changer_label = midcom::get()->i18n->get_string('system', 'org.openpsa.projects');
+$target_person_label = midcom::get()->i18n->get_string('system', 'org.openpsa.projects');
 
 $fallback_creator = midcom_db_person::get_cached(1);
 if (    $task_status->metadata->creator
@@ -17,7 +17,7 @@ if ($task_status->targetPerson)
     $target_person_label = $target_person->show_inline();
 }
 
-$message = sprintf(midcom::get('i18n')->get_string($task_status->get_status_message(), 'org.openpsa.projects'), $status_changer_label, $target_person_label);
+$message = sprintf(midcom::get()->i18n->get_string($task_status->get_status_message(), 'org.openpsa.projects'), $status_changer_label, $target_person_label);
 ?>
 <tr class="hour_report &(data['class']);">
     <td class="time">

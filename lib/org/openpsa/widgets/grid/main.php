@@ -89,7 +89,7 @@ class org_openpsa_widgets_grid extends midcom_baseclasses_components_purecode
         $version = midcom_baseclasses_components_configuration::get('org.openpsa.widgets', 'config')->get('jqgrid_version');
         $jqgrid_path = '/org.openpsa.widgets/jquery.jqGrid-' . $version . '/';
 
-        $head = midcom::get('head');
+        $head = midcom::get()->head;
         //first enable jquery - just in case it isn't loaded
         $head->enable_jquery();
 
@@ -97,7 +97,7 @@ class org_openpsa_widgets_grid extends midcom_baseclasses_components_purecode
 
         //needed js/css-files for jqgrid
         $lang = "en";
-        $language = midcom::get('i18n')->get_current_language();
+        $language = midcom::get()->i18n->get_current_language();
         if (file_exists(MIDCOM_STATIC_ROOT . $jqgrid_path . 'js/i18n/grid.locale-' . $language . '.js'))
         {
             $lang = $language;

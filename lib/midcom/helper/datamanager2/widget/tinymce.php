@@ -24,7 +24,7 @@
  *   to 80.
  * - <i>string mce_config_snippet:</i> Indicates the name of the snippet which holds the base
  *   configuration. This is looked up in the DM2 directory in SG-Config. This defaults to
- *   midcom::get('config')->get('midcom_sgconfig_basedir') . '/midcom.helper.datamanager2/tinymce'.
+ *   midcom::get()->config->get('midcom_sgconfig_basedir') . '/midcom.helper.datamanager2/tinymce'.
  *   Any valid option for midcom_helper_misc::get_snippet_content() is allowed at this point.
  * - <i>string local_config:</i> Local configuration options which should overwrite the defaults
  *   from the config snippet. This defaults to an empty string.
@@ -131,11 +131,11 @@ class midcom_helper_datamanager2_widget_tinymce extends midcom_helper_datamanage
         $prefix = $this->_config->get('tinymce_url');
         if ($this->_config->get('tinymce_use_compressor'))
         {
-            midcom::get('head')->add_jsfile("{$prefix}/tiny_mce_gzip.js", true);
+            midcom::get()->head->add_jsfile("{$prefix}/tiny_mce_gzip.js", true);
         }
         else
         {
-            midcom::get('head')->add_jsfile("{$prefix}/tiny_mce.js", true);
+            midcom::get()->head->add_jsfile("{$prefix}/tiny_mce.js", true);
         }
     }
 
@@ -194,7 +194,7 @@ disk_cache : true,
 debug : false
 });
 EOT;
-            midcom::get('head')->add_jscript($script_gz);
+            midcom::get()->head->add_jscript($script_gz);
         }
 
         // Compute the final script:
@@ -214,7 +214,7 @@ browsers : "msie,gecko,opera,safari"
 });
 EOT;
 
-        midcom::get('head')->add_jscript($script);
+        midcom::get()->head->add_jscript($script);
     }
 
     /**

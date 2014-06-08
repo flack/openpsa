@@ -66,7 +66,7 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
      */
     public function _handler_user_events($handler_id, array $args, array &$data)
     {
-        midcom::get('auth')->require_valid_user('basic');
+        midcom::get()->auth->require_valid_user('basic');
 
         $username = $this->_strip_extension($args[0]);
         $data['person'] = $this->_find_person_by_name($username);
@@ -104,9 +104,9 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
         }
         $qb = org_openpsa_contacts_person_dba::new_query_builder();
         midcom_core_account::add_username_constraint($qb, '=', $username);
-        midcom::get('auth')->request_sudo($this->_component);
+        midcom::get()->auth->request_sudo($this->_component);
         $persons = $qb->execute();
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
         if (empty($persons))
         {
             throw new midcom_error_notfound('Could not find person with username ' . $username);

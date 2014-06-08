@@ -15,7 +15,7 @@ class net_nemein_wiki_wikipageTest extends openpsa_testcase
 {
     public function testCRUD()
     {
-        midcom::get('auth')->request_sudo('net.nemein.wiki');
+        midcom::get()->auth->request_sudo('net.nemein.wiki');
         $timestamp = time();
         $page = new net_nemein_wiki_wikipage();
         $page->_use_activitystream = false;
@@ -41,7 +41,7 @@ class net_nemein_wiki_wikipageTest extends openpsa_testcase
         $stat = $page->delete();
         $this->assertTrue($stat);
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 }
 ?>

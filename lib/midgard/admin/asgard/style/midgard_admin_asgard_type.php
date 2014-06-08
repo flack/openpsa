@@ -6,7 +6,7 @@ if ($data['component'] == 'midgard')
 }
 else
 {
-    $component_label = midcom::get('i18n')->get_string($data['component'], $data['component']);
+    $component_label = midcom::get()->i18n->get_string($data['component'], $data['component']);
 }
 echo "<h2>";
 echo sprintf($data['l10n_midcom']->get('%s in %s'),
@@ -92,7 +92,7 @@ if (isset($data['search_results']))
 
             if (!isset($persons[$result->metadata->creator]))
             {
-                $persons[$result->metadata->creator] = midcom::get('auth')->get_user($result->metadata->creator);
+                $persons[$result->metadata->creator] = midcom::get()->auth->get_user($result->metadata->creator);
             }
 
             echo "        <tr>\n";

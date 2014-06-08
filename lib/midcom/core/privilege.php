@@ -157,7 +157,7 @@ class midcom_core_privilege
         {
             try
             {
-                $this->__cached_object = midcom::get('dbfactory')->get_object_by_guid($this->objectguid);
+                $this->__cached_object = midcom::get()->dbfactory->get_object_by_guid($this->objectguid);
             }
             catch (midcom_error $e)
             {
@@ -195,7 +195,7 @@ class midcom_core_privilege
             return false;
         }
 
-        return midcom::get('auth')->get_assignee($this->assignee);
+        return midcom::get()->auth->get_assignee($this->assignee);
     }
 
     /**
@@ -241,7 +241,7 @@ class midcom_core_privilege
             }
             else
             {
-                $tmp = midcom::get('auth')->get_assignee($assignee);
+                $tmp = midcom::get()->auth->get_assignee($assignee);
                 if (! $tmp)
                 {
                     debug_add("Could not resolve the assignee string '{$assignee}', see above for more information.", MIDCOM_LOG_INFO);
@@ -275,7 +275,7 @@ class midcom_core_privilege
     public function validate()
     {
         // 1. Privilege name
-        if (! midcom::get('auth')->acl->privilege_exists($this->privilegename))
+        if (! midcom::get()->auth->acl->privilege_exists($this->privilegename))
         {
             debug_add("The privilege name '{$this->privilegename}' is unknown to the system. Perhaps the corresponding component is not loaded?",
                 MIDCOM_LOG_INFO);
@@ -400,13 +400,13 @@ class midcom_core_privilege
 
         if (!array_key_exists($cache_key, $cache))
         {
-            $return = midcom::get('cache')->memcache->get('ACL', $cache_key);
+            $return = midcom::get()->cache->memcache->get('ACL', $cache_key);
 
             if (! is_array($return))
             {
                 // Didn't get privileges from cache, get them from DB
                 $return = self::_query_privileges($guid, $type);
-                midcom::get('cache')->memcache->put('ACL', $cache_key, $return);
+                midcom::get()->cache->memcache->put('ACL', $cache_key, $return);
             }
 
             $cache[$cache_key] = $return;
@@ -514,13 +514,13 @@ class midcom_core_privilege
             debug_print_r('Content Object:', $object);
             debug_add("Privilege {$name} for assignee {$assignee} with classname {$classname} was queried.", MIDCOM_LOG_INFO);
             debug_print_r('Resultset was:', $result);
-            midcom::get('auth')->request_sudo('midcom.core');
+            midcom::get()->auth->request_sudo('midcom.core');
             while (count($result) > 1)
             {
                 $privilege = array_pop($result);
                 $privilege->delete();
             }
-            midcom::get('auth')->drop_sudo();
+            midcom::get()->auth->drop_sudo();
         }
 
         return new midcom_core_privilege($result[0]);
@@ -557,7 +557,7 @@ class midcom_core_privilege
                 }
                 else if (strstr($this->__privilege['assignee'], 'group:') !== false)
                 {
-                    $user = midcom::get('auth')->get_user($user_id);
+                    $user = midcom::get()->auth->get_user($user_id);
                     if (is_object($user))
                     {
                        return $user->is_in_group($this->__privilege['assignee']);
@@ -709,7 +709,7 @@ class midcom_core_privilege
      */
     private function _invalidate_cache()
     {
-        midcom::get('cache')->invalidate($this->objectguid);
+        midcom::get()->cache->invalidate($this->objectguid);
     }
 
     /**

@@ -27,7 +27,7 @@ implements midcom_helper_datamanager2_interfaces_edit
      */
     public function _handler_notifications($handler_id, array $args, array &$data)
     {
-        midcom::get('auth')->require_user_do('org.openpsa.user:manage', null, 'org_openpsa_user_interface');
+        midcom::get()->auth->require_user_do('org.openpsa.user:manage', null, 'org_openpsa_user_interface');
 
         $person = new org_openpsa_contacts_person_dba($args[0]);
         $person->require_do('midgard:update');
@@ -45,7 +45,7 @@ implements midcom_helper_datamanager2_interfaces_edit
         $data['notifications_dm'] = $controller;
         $data['object'] = $person;
 
-        midcom::get('head')->set_pagetitle($person->get_label() . ": ". $this->_l10n->get("notification settings"));
+        midcom::get()->head->set_pagetitle($person->get_label() . ": ". $this->_l10n->get("notification settings"));
 
         $this->add_breadcrumb('view/' . $person->guid . '/', $person->get_label());
         $this->add_breadcrumb("", $this->_l10n->get("notification settings"));

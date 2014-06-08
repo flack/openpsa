@@ -24,10 +24,10 @@ class midgard_admin_asgard_stylehelper
     {
         $this->_data =& $data;
 
-        midcom::get('head')->add_jquery_ui_theme(array('accordion'));
-        midcom::get('head')->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.core.min.js');
-        midcom::get('head')->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.widget.min.js');
-        midcom::get('head')->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.accordion.min.js');
+        midcom::get()->head->add_jquery_ui_theme(array('accordion'));
+        midcom::get()->head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.core.min.js');
+        midcom::get()->head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.widget.min.js');
+        midcom::get()->head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.accordion.min.js');
     }
 
     public function render_help()
@@ -38,13 +38,13 @@ class midgard_admin_asgard_stylehelper
             return;
         }
 
-        if (   midcom::get('dbfactory')->is_a($this->_data['object'], 'midgard_style')
+        if (   midcom::get()->dbfactory->is_a($this->_data['object'], 'midgard_style')
             && (   $this->_data['handler_id'] !== '____mfa-asgard-object_create'
                 || $this->_data['current_type'] == 'midgard_element'))
         {
             $help_element = $this->_get_help_style_elementnames($this->_data['object']);
         }
-        else if (   midcom::get('dbfactory')->is_a($this->_data['object'], 'midgard_element')
+        else if (   midcom::get()->dbfactory->is_a($this->_data['object'], 'midgard_element')
                  && $this->_data['handler_id'] !== '____mfa-asgard-object_create')
         {
             $help_element = $this->_get_help_element();
@@ -67,7 +67,7 @@ class midgard_admin_asgard_stylehelper
 
         if ($this->_data['object']->name == 'ROOT')
         {
-            $element_path = midcom::get('componentloader')->path_to_snippetpath('midgard.admin.asgard') . '/documentation/ROOT.php';
+            $element_path = midcom::get()->componentloader->path_to_snippetpath('midgard.admin.asgard') . '/documentation/ROOT.php';
             $this->_data['help_style_element'] = array
             (
                 'component' => 'midcom',
@@ -121,7 +121,7 @@ class midgard_admin_asgard_stylehelper
         {
             return $results;
         }
-        $style_path = midcom::get('style')->get_style_path_from_id($style_id);
+        $style_path = midcom::get()->style->get_style_path_from_id($style_id);
         $style_nodes = $this->_get_nodes_using_style($style_path);
 
         foreach ($style_nodes as $node)
@@ -213,7 +213,7 @@ class midgard_admin_asgard_stylehelper
         $elements = array();
 
         // Path to the file system
-        $path = midcom::get('componentloader')->path_to_snippetpath($component) . '/style';
+        $path = midcom::get()->componentloader->path_to_snippetpath($component) . '/style';
 
         if (!is_dir($path))
         {

@@ -58,10 +58,10 @@ abstract class midcom_services_indexer_client
     public function __construct($topic, midcom_services_indexer $indexer = null)
     {
         $this->_topic = $topic;
-        $this->_l10n = midcom::get('i18n')->get_l10n($topic->component);
+        $this->_l10n = midcom::get()->i18n->get_l10n($topic->component);
         if (null === $indexer)
         {
-            $indexer = midcom::get('indexer');
+            $indexer = midcom::get()->indexer;
         }
         $this->_indexer = $indexer;
 

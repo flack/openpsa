@@ -238,7 +238,7 @@ class midcom_connection
             $login_tokens = array
             (
                 'login' => $username,
-                'authtype' => midcom::get('config')->get('auth_type'),
+                'authtype' => midcom::get()->config->get('auth_type'),
             );
 
             if (!$trusted)
@@ -264,7 +264,7 @@ class midcom_connection
 
         // Ragnaroek
         $sg_name = '';
-        $mode = midcom::get('config')->get('auth_sitegroup_mode');
+        $mode = midcom::get()->config->get('auth_sitegroup_mode');
 
         if ($mode == 'auto')
         {
@@ -278,7 +278,7 @@ class midcom_connection
         }
         $stat = midgard_user::auth($username, $password, $sg_name, $trusted);
         if (   !$stat
-            && midcom::get('config')->get('auth_type') == 'Plaintext'
+            && midcom::get()->config->get('auth_type') == 'Plaintext'
             && strlen($password) > 11)
         {
             //mgd1 has the password field defined with length 13, but it doesn't complain
@@ -293,7 +293,7 @@ class midcom_connection
     {
         if (method_exists('midgard_user', 'login'))
         {
-            switch (midcom::get('config')->get('auth_type'))
+            switch (midcom::get()->config->get('auth_type'))
             {
                 case 'Plaintext':
                     // Compare plaintext to plaintext
@@ -319,7 +319,7 @@ class midcom_connection
         }
         else
         {
-            switch (midcom::get('config')->get('auth_type'))
+            switch (midcom::get()->config->get('auth_type'))
             {
                 case 'Plaintext':
                     //do not add the ** for empty passwords - in case it was set to empty do disable account
@@ -566,7 +566,7 @@ class midcom_connection
         $args_started = false;
         foreach (array_filter($path_parts) as $part)
         {
-            if (    midcom::get('config')->get('theme')
+            if (    midcom::get()->config->get('theme')
                  && !$args_started
                  && midcom_helper_misc::check_page_exists($part))
             {

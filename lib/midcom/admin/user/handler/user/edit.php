@@ -35,7 +35,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
                 array
                 (
                     MIDCOM_TOOLBAR_URL => "__mfa/asgard/preferences/{$this->_person->guid}/",
-                    MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('user preferences', 'midgard.admin.asgard'),
+                    MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('user preferences', 'midgard.admin.asgard'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/configuration.png',
                 )
             );
@@ -101,7 +101,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         {
             case 'save':
                 // Show confirmation for the user
-                midcom::get('uimessages')->add($this->_l10n->get('midcom.admin.user'), sprintf($this->_l10n->get('person %s saved'), $this->_person->name));
+                midcom::get()->uimessages->add($this->_l10n->get('midcom.admin.user'), sprintf($this->_l10n->get('person %s saved'), $this->_person->name));
                 return new midcom_response_relocate("__mfa/asgard_midcom.admin.user/edit/{$this->_person->guid}/");
 
             case 'cancel':
@@ -149,7 +149,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
             case 'save':
                 $this->_save_account($data['controller']);
                 // Show confirmation for the user
-                midcom::get('uimessages')->add($this->_l10n->get('midcom.admin.user'), sprintf($this->_l10n->get('person %s saved'), $this->_person->name));
+                midcom::get()->uimessages->add($this->_l10n->get('midcom.admin.user'), sprintf($this->_l10n->get('person %s saved'), $this->_person->name));
                 return new midcom_response_relocate("__mfa/asgard_midcom.admin.user/edit/{$this->_person->guid}/");
 
             case 'cancel':
@@ -164,7 +164,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         $this->add_breadcrumb("", $data['view_title']);
 
         // Add jQuery Form handling for generating passwords with AJAX
-        midcom::get('head')->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.form.js');
+        midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.form.js');
         return new midgard_admin_asgard_response($this, '_show_edit_account');
     }
 

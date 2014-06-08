@@ -26,27 +26,27 @@ class org_openpsa_expenses_handler_hours_adminTest extends openpsa_testcase
 
     public function testHandler_hours_edit()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.expenses');
+        midcom::get()->auth->request_sudo('org.openpsa.expenses');
 
         $data = $this->run_handler('org.openpsa.expenses', array('hours', 'edit', self::$_report->guid));
         $this->assertEquals('hours_edit', $data['handler_id']);
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
     public function testHandler_hours_delete()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.expenses');
+        midcom::get()->auth->request_sudo('org.openpsa.expenses');
 
         $data = $this->run_handler('org.openpsa.expenses', array('hours', 'delete', self::$_report->guid));
         $this->assertEquals('hours_delete', $data['handler_id']);
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
     public function testHandler_hours_create()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.expenses');
+        midcom::get()->auth->request_sudo('org.openpsa.expenses');
 
         $data = $this->run_handler('org.openpsa.expenses', array('hours', 'create', 'hour_report'));
         $this->assertEquals('hours_create', $data['handler_id']);
@@ -77,17 +77,17 @@ class org_openpsa_expenses_handler_hours_adminTest extends openpsa_testcase
         $this->assertEquals(1, sizeof($results));
         $this->assertEquals('hours/task/' . self::$_task->guid . '/', $url);
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
     public function testHandler_hours_create_task()
     {
-        midcom::get('auth')->request_sudo('org.openpsa.expenses');
+        midcom::get()->auth->request_sudo('org.openpsa.expenses');
 
         $data = $this->run_handler('org.openpsa.expenses', array('hours', 'create', 'hour_report', self::$_task->guid));
         $this->assertEquals('hours_create_task', $data['handler_id']);
 
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 }
 ?>

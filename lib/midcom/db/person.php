@@ -71,7 +71,7 @@ class midcom_db_person extends midcom_core_dbaobject
     {
         if ($this->__mgdschema_class_name__ == 'midgard_person')
         {
-            $this->__mgdschema_class_name__ = midcom::get('config')->get('person_class');
+            $this->__mgdschema_class_name__ = midcom::get()->config->get('person_class');
         }
         parent::__construct($id);
     }
@@ -175,7 +175,7 @@ class midcom_db_person extends midcom_core_dbaobject
      */
     function add_to_group($name)
     {
-        $group = midcom::get('auth')->get_midgard_group_by_name($name);
+        $group = midcom::get()->auth->get_midgard_group_by_name($name);
         if (! $group)
         {
             debug_add("Failed to add the person {$this->id} to group {$name}, the group does not exist.", MIDCOM_LOG_WARN);

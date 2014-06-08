@@ -29,35 +29,35 @@ class net_nehmer_blog_handler_archiveTest extends openpsa_testcase
 
     public function testHandler_welcome()
     {
-        midcom::get('auth')->request_sudo('net.nehmer.blog');
+        midcom::get()->auth->request_sudo('net.nehmer.blog');
 
         $data = $this->run_handler(self::$_topic, array('archive'));
         $this->assertEquals('archive-welcome', $data['handler_id']);
 
         $this->show_handler($data);
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
     public function testHandler_year()
     {
-        midcom::get('auth')->request_sudo('net.nehmer.blog');
+        midcom::get()->auth->request_sudo('net.nehmer.blog');
 
         $data = $this->run_handler(self::$_topic, array('archive', 'year', date('Y')));
         $this->assertEquals('archive-year', $data['handler_id']);
 
         $this->show_handler($data);
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 
     public function testHandler_month()
     {
-        midcom::get('auth')->request_sudo('net.nehmer.blog');
+        midcom::get()->auth->request_sudo('net.nehmer.blog');
 
         $data = $this->run_handler(self::$_topic, array('archive', 'month', date('Y'), date('m')));
         $this->assertEquals('archive-month', $data['handler_id']);
 
         $this->show_handler($data);
-        midcom::get('auth')->drop_sudo();
+        midcom::get()->auth->drop_sudo();
     }
 }
 ?>
