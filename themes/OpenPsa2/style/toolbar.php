@@ -1,9 +1,9 @@
 <?php
-$toolbars = midcom::get('toolbars');
-$i18n = midcom::get('i18n');
+$toolbars = midcom::get()->toolbars;
+$i18n = midcom::get()->i18n;
 $toolbar_class = "midcom_services_toolbars_simple";
 
-if (midcom::get('auth')->can_user_do('midcom:ajax', null, 'midcom_services_toolbars'))
+if (midcom::get()->auth->can_user_do('midcom:ajax', null, 'midcom_services_toolbars'))
 {
     $toolbar_class = "midcom_services_toolbars_fancy";
 }

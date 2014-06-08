@@ -1,5 +1,5 @@
 <?php
-$head = midcom::get('head');
+$head = midcom::get()->head;
 $message = $this->data['error_message'];
 $title = $this->data['error_title'];
 $exception = $this->data['error_exception'];

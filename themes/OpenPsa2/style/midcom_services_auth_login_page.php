@@ -1,5 +1,5 @@
 <?php
-$l10n = midcom::get('i18n')->get_l10n('midcom');
+$l10n = midcom::get()->i18n->get_l10n('midcom');
 $message = $l10n->get('login message - please enter credentials');
 $login_warning = '';
 $title = $l10n->get('login');
@@ -20,7 +20,7 @@ else
 <head>
   <title><(title)> OpenPSA</title>
   <?php
-    $head = midcom::get('head');
+    $head = midcom::get()->head;
     $head->add_stylesheet(MIDCOM_STATIC_URL . '/OpenPsa2/style.css', 'screen,projection');
     $head->add_stylesheet(MIDCOM_STATIC_URL . '/OpenPsa2/content.css', 'all');
     $head->add_stylesheet(MIDCOM_STATIC_URL . '/OpenPsa2/print.css', 'print');
@@ -44,7 +44,7 @@ else
   </p>
 
   <div class="login-form-container">
-  <?php midcom::get('auth')->show_login_form(); ?>
+  <?php midcom::get()->auth->show_login_form(); ?>
 
   <p class="login_warning" id="cookie_warning" style="display:none">
   <?php echo $l10n->get('cookies must be enabled to log in'); ?>

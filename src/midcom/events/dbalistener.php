@@ -52,7 +52,7 @@ class dbalistener
 
         try
         {
-            $interface = \midcom::get('componentloader')->get_interface_class($this->_component);
+            $interface = \midcom::get()->componentloader->get_interface_class($this->_component);
         }
         catch (\midcom_error $e)
         {

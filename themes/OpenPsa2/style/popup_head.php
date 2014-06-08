@@ -1,6 +1,6 @@
 <?php
-$i18n = midcom::get('i18n');
-$head = midcom::get('head');
+$i18n = midcom::get()->i18n;
+$head = midcom::get()->head;
 
 $title = '';
 if (array_key_exists('title', $data))
@@ -29,7 +29,7 @@ echo "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n";
             ?>
             <div id="org_openpsa_toolbar">
                     <?php
-                      midcom::get('toolbars')->show_view_toolbar();
+                      midcom::get()->toolbars->show_view_toolbar();
                     ?>
             </div>
             <div id="org_openpsa_messagearea">

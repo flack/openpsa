@@ -53,12 +53,12 @@ class dba2rdfMapper extends AbstractRdfMapper
 
     public function getBySubject($identifier)
     {
-        $identifier = str_replace(\midcom::get('config')->get('midcom_site_url') . 'midcom-permalink-', '', $identifier);
+        $identifier = str_replace(\midcom::get()->config->get('midcom_site_url') . 'midcom-permalink-', '', $identifier);
         $identifier = trim($identifier, '<>');
 
         try
         {
-            return \midcom::get('dbfactory')->get_object_by_guid($identifier);
+            return \midcom::get()->dbfactory->get_object_by_guid($identifier);
         }
         catch (\midcom_error $e)
         {
@@ -69,7 +69,7 @@ class dba2rdfMapper extends AbstractRdfMapper
 
     public function createSubject($object)
     {
-        return \midcom::get('permalinks')->create_permalink($object->guid);
+        return \midcom::get()->permalinks->create_permalink($object->guid);
     }
 
     public function prepareObject(TypeInterface $controller, $parent = null)
@@ -170,7 +170,7 @@ class dba2rdfMapper extends AbstractRdfMapper
         {
             $fieldname = $config['dba_name'];
         }
-        if (!\midcom::get('dbfactory')->property_exists($object, $fieldname))
+        if (!\midcom::get()->dbfactory->property_exists($object, $fieldname))
         {
             throw new \midcom_error('Could not find property mapping for ' . $fieldname);
         }

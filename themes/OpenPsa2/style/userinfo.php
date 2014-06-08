@@ -1,6 +1,6 @@
 <?php
-$auth = midcom::get('auth');
-$i18n = midcom::get('i18n');
+$auth = midcom::get()->auth;
+$i18n = midcom::get()->i18n;
 
 if ($auth->user)
 {

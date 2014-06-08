@@ -51,7 +51,7 @@ class createphp
      */
     public static function add_head_elements()
     {
-        $head = \midcom::get('head');
+        $head = \midcom::get()->head;
         $head->enable_jquery();
         $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.core.min.js');
         $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.position.min.js');

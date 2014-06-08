@@ -1,9 +1,9 @@
 <?php
-$back_button_name = midcom::get('i18n')->get_string("back" , "midcom");
+$back_button_name = midcom::get()->i18n->get_string("back" , "midcom");
 //remove the back-button
 //TODO: any better way to identify the back button ?
 
-$view_toolbar = midcom::get('toolbars')->get_view_toolbar();
+$view_toolbar = midcom::get()->toolbars->get_view_toolbar();
 foreach($view_toolbar->items as $key => $item)
 {
    if (   $item[1] == $back_button_name

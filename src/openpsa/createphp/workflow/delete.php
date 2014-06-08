@@ -26,7 +26,7 @@ class delete implements WorkflowInterface
             return array
             (
                 'name' => "delete",
-                'label' => \midcom::get('i18n')->get_l10n('midcom')->get('delete'),
+                'label' => \midcom::get()->i18n->get_l10n('midcom')->get('delete'),
                 'action' => array
                 (
                     'type' => "backbone_destroy"

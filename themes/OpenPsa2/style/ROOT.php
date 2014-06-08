@@ -1,6 +1,6 @@
 <?php
-$i18n = midcom::get('i18n');
-$head = midcom::get('head');
+$i18n = midcom::get()->i18n;
+$head = midcom::get()->head;
 $context = midcom_core_context::get();
 
 if (!defined('MIDCOM_STATIC_URL'))
@@ -44,7 +44,7 @@ echo "<?xml version=\"1.0\"?>\n";
         org_openpsa_widgets_ui::initialize_search();
 
         $head->add_jscript("var MIDGARD_ROOT = '" . midcom_connection::get_url('self') . "';");
-        $head->add_jscript("var TOOLBAR_MORE_LABEL = '" . midcom::get('i18n')->get_l10n('org.openpsa.widgets')->get('more') . "';");
+        $head->add_jscript("var TOOLBAR_MORE_LABEL = '" . midcom::get()->i18n->get_l10n('org.openpsa.widgets')->get('more') . "';");
         $head->print_head_elements();
 
         if ($pref_found)
@@ -90,7 +90,7 @@ echo "<?xml version=\"1.0\"?>\n";
               <div id="content-text">
                   <?php
                   //Display any UI messages added to stack on PHP level
-                  midcom::get('uimessages')->show();
+                  midcom::get()->uimessages->show();
                   ?>
                   <(content)>
               </div>

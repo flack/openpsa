@@ -14,11 +14,11 @@ if (!defined('MIDCOM_STATIC_URL'))
 $matches = array();
 $content_array = array
 (
-    'head_js' => midcom::get('head')->get_jshead_elements(),
+    'head_js' => midcom::get()->head->get_jshead_elements(),
     'head_css' => array()
 );
 
-$link_head = midcom::get('head')->get_link_head();
+$link_head = midcom::get()->head->get_link_head();
 
 foreach ($link_head as $link)
 {
