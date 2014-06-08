@@ -1,5 +1,5 @@
 <?php
-midcom::get('auth')->require_admin_user();
+midcom::get()->auth->require_admin_user();
 if (!class_exists('org_openpsa_task_old'))
 {
     throw new midcom_error('MgdSchemas for the converter could not be found');
