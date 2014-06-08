@@ -9,6 +9,23 @@
 /**
  * Main controlling instance of the MidCOM Framework
  *
+ * @property midcom_helper_serviceloader $serviceloader
+ * @property midcom_services_i18n $i18n
+ * @property midcom_helper__componentloader $componentloader
+ * @property midcom_services_dbclassloader $dbclassloader
+ * @property midcom_helper__dbfactory $dbfactory
+ * @property midcom_helper_head $head
+ * @property midcom_helper__styleloader $style
+ * @property midcom_services_permalinks $permalinks
+ * @property midcom_services_tmp $tmp
+ * @property midcom_services_toolbars $toolbars
+ * @property midcom_services_uimessages $uimessages
+ * @property midcom_services_metadata $metadata
+ * @property midcom_services_rcs $rcs
+ * @property midcom_services__sessioning $session
+ * @property midcom_services_indexer $indexer
+ * @property midcom_config $config
+ * @property midcom_services_cache $cache
  * @package midcom
  */
 class midcom_application
@@ -66,6 +83,22 @@ class midcom_application
         midcom::get('debug')->log("Start of MidCOM run" . (isset($_SERVER['REQUEST_URI']) ? ": {$_SERVER['REQUEST_URI']}" : ''));
         midcom_compat_environment::initialize();
         midcom_exception_handler::register();
+    }
+
+    /**
+     * Magic getter for service loading
+     */
+    public function __get($key)
+    {
+        return midcom::get($key);
+    }
+
+    /**
+     * Magic setter
+     */
+    public function __set($key, $value)
+    {
+        return midcom::get()->$key = $value;
     }
 
     /**
