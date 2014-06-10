@@ -83,17 +83,12 @@ class midcom_services_auth_sessionmgr
      * @param string $username The name of the user to store with the session.
      * @param string $password The clear text password to store with the session.
      * @param string $clientip The client IP to which this session is assigned to. This
-     *     defaults to the client IP reported by Apache.
+     *     defaults to the client IP reported by the web server.
      * @return Array An array holding the session identifier in the 'session_id' key and
-     *     the associated user in the 'user' key (take this by reference!). Failure returns false.
+     *     the associated user in the 'user' key. Failure returns false.
      */
     public function create_login_session($username, $password, $clientip = null)
     {
-        if ($clientip === null)
-        {
-            $clientip = $_SERVER['REMOTE_ADDR'];
-        }
-
         if (!$this->_do_midgard_auth($username, $password))
         {
             debug_add('Failed to create a new login session: Authentication Failure', MIDCOM_LOG_ERROR);
@@ -106,12 +101,8 @@ class midcom_services_auth_sessionmgr
             return false;
         }
 
-        $session = new midcom_core_login_session_db();
-        $session->userid = $user->id;
-        $session->username = $username;
+        $session = $this->_prepare_session_object($user, $clientip);
         $session->password = $this->_obfuscate_password($password);
-        $session->clientip = $clientip;
-        $session->timestamp = time();
 
         if (!$session->create())
         {
@@ -136,17 +127,12 @@ class midcom_services_auth_sessionmgr
      *
      * @param string $username The name of the user to store with the session.
      * @param string $clientip The client IP to which this session is assigned to. This
-     *     defaults to the client IP reported by Apache.
+     *     defaults to the client IP reported by the web server.
      * @return Array An array holding the session identifier in the 'session_id' key and
-     *     the associated user in the 'user' key (take this by reference!). Failure returns false.
+     *     the associated user in the 'user' key. Failure returns false.
      */
     public function create_trusted_login_session($username, $clientip = null)
     {
-        if ($clientip === null)
-        {
-            $clientip = $_SERVER['REMOTE_ADDR'];
-        }
-
         if (!$this->_do_trusted_midgard_auth($username))
         {
             debug_add('Failed to create a new login session: Authentication Failure', MIDCOM_LOG_ERROR);
@@ -159,12 +145,8 @@ class midcom_services_auth_sessionmgr
             return false;
         }
 
-        $session = new midcom_core_login_session_db();
-        $session->userid = $user->id;
-        $session->username = $username;
+        $session = $this->_prepare_session_object($user, $clientip);
         $session->trusted = true;
-        $session->clientip = $clientip;
-        $session->timestamp = time();
 
         if (!$session->create())
         {
@@ -179,6 +161,28 @@ class midcom_services_auth_sessionmgr
             'session_id' => $session->guid,
             'user' => $user
         );
+    }
+
+    /**
+     * Prepare the session object
+     *
+     * @param midcom_core_user $user
+     * @param string $clientip
+     * @return midcom_core_login_session_db
+     */
+    private function _prepare_session_object(midcom_core_user $user, $clientip)
+    {
+        if (empty($clientip))
+        {
+            $clientip = $_SERVER['REMOTE_ADDR'];
+        }
+
+        $session = new midcom_core_login_session_db;
+        $session->userid = $user->id;
+        $session->username = $user->username;
+        $session->clientip = $clientip;
+        $session->timestamp = time();
+        return $session;
     }
 
     /**
