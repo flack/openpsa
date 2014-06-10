@@ -109,19 +109,16 @@ class midcom
             return self::$_application;
         }
 
-        if (isset(self::$_services[$name]))
+        if (!isset(self::$_services[$name]))
         {
-            return self::$_services[$name];
-        }
-
-        if (isset(self::$_service_classes[$name]))
-        {
+            if (!isset(self::$_service_classes[$name]))
+            {
+                throw new midcom_error("Requested service '$name' is not available.");
+            }
             $service_class = self::$_service_classes[$name];
             self::$_services[$name] = new $service_class;
-            return self::$_services[$name];
         }
-
-        throw new midcom_error("Requested service '$name' is not available.");
+        return self::$_services[$name];
     }
 
     public static function get_version()
