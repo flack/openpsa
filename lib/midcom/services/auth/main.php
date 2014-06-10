@@ -693,7 +693,7 @@ class midcom_services_auth
                 $this->_http_basic_auth();
             }
             // Figure out how to update midcom auth status
-            midcom::get()->auth->_initialize_user_from_midgard();
+            $this->_initialize_user_from_midgard();
         }
     }
 
@@ -879,7 +879,7 @@ class midcom_services_auth
                     // This is a (v)group:... identifier
                     if ($id_parts[0] == 'group')
                     {
-                        $this->_load_group($id_parts[1]);
+                        $id = $this->_load_group($id_parts[1]);
                     }
                     else
                     {
@@ -891,14 +891,14 @@ class midcom_services_auth
                 {
                     // This must be a group ID, lets hope that the group constructor
                     // can take it.
-                    $this->_load_group($id);
+                    $id = $this->_load_group($id);
                 }
             }
         }
         else if (is_int($id))
         {
             // Looks like an object ID, again we try the group constructor.
-            $this->_load_group($id);
+            $id = $this->_load_group($id);
         }
         else
         {
@@ -922,6 +922,7 @@ class midcom_services_auth
             $this->_group_cache[$id] = false;
             debug_add("Group with identifier {$id} could not be loaded: " . $e->getMessage(), MIDCOM_LOG_WARN);
         }
+        return $id;
     }
 
     /**
