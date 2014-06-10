@@ -66,6 +66,7 @@
         "psr-0": {
             "openpsa": "src/",
             "midcom": "src/"
-        }
+        },
+        "files": ["lib/constants.php", "lib/compat/ragnaroek.php"]
     }
 }

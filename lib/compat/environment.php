@@ -22,8 +22,6 @@ abstract class midcom_compat_environment
 
     public static function initialize()
     {
-        require_once 'ragnaroek.php';
-
         if (class_exists('midgardmvc_core'))
         {
             self::$_implementation = new midcom_compat_ragnaland();

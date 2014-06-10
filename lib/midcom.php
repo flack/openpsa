@@ -64,9 +64,6 @@ class midcom
 
     public static function init()
     {
-        //Constants, Globals and Configuration
-        require_once __DIR__ . '/constants.php';
-
         // Instantiate the MidCOM main class
         self::$_application = new midcom_application();
         self::get('debug')->log("Start of MidCOM run" . (isset($_SERVER['REQUEST_URI']) ? ": {$_SERVER['REQUEST_URI']}" : ''));
@@ -102,7 +99,7 @@ class midcom
      */
     public static function get($name = null)
     {
-        if (!defined('MIDCOM_ERROK'))
+        if (!self::$_application)
         {
             self::init();
         }
