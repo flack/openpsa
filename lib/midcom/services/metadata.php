@@ -194,7 +194,7 @@ class midcom_services_metadata
      *
      * @param DBAObject $object The DBA class instance to bind to.
      */
-    function bind_to($object)
+    public function bind_to($object)
     {
         $this->bind_metadata_to_object(MIDCOM_METADATA_VIEW, $object);
     }
@@ -202,7 +202,7 @@ class midcom_services_metadata
     /**
      * Binds object to given metadata type.
      */
-    function bind_metadata_to_object($metadata_type, $object, $context_id = null)
+    public function bind_metadata_to_object($metadata_type, $object, $context_id = null)
     {
         $context = midcom_core_context::get($context_id);
 
@@ -225,7 +225,7 @@ class midcom_services_metadata
      * Populates appropriate metadata into XHTML documents based on metadata information
      * available to MidCOM for the request.
      */
-    function populate_meta_head()
+    public function populate_meta_head()
     {
         // Populate the request metadata into view
         $request_metadata = $this->get_request_metadata();
@@ -472,7 +472,7 @@ class midcom_services_metadata
      * @param int $lastmodified The date of last modification of this request.
      * @param string $permalinkguid The GUID used to create a permalink for this request.
      */
-    function set_request_metadata($lastmodified, $permalinkguid)
+    public function set_request_metadata($lastmodified, $permalinkguid)
     {
         if (   is_object($lastmodified)
             && is_a($lastmodified, 'midgard_datetime'))
@@ -489,7 +489,7 @@ class midcom_services_metadata
     /**
      * Get the currently known and required Request Metadata: The last modified timestamp and the permalink GUID.
      *
-     * @param midcom_core_context $context_id The context from which the request metadata should be retrieved. Omit
+     * @param midcom_core_context $context The context from which the request metadata should be retrieved. Omit
      *     to use the current context.
      * @return Array An array with the two keys 'lastmodified' and 'permalinkguid' containing the
      *     values set with the setter pendant. For ease of use, there is also a key 'permalink'

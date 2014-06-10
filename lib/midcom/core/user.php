@@ -29,14 +29,14 @@ class midcom_core_user
      *
      * @var midgard_person
      */
-    protected $_storage = null;
+    protected $_storage;
 
     /**
      * Username of the current user, it is to be considered read-only.
      *
      * @var string
      */
-    public $username = null;
+    public $username;
 
     /**
      * The full name of the current user.
@@ -46,7 +46,7 @@ class midcom_core_user
      *
      * @var string
      */
-    public $name = null;
+    public $name;
 
     /**
      * The full reversed name of the current user.
@@ -56,7 +56,7 @@ class midcom_core_user
      *
      * @var string
      */
-    public $rname = null;
+    public $rname;
 
     /**
      * Lists all groups in which a user is a member, both directly and indirectly.
