@@ -700,8 +700,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
     public function show()
     {
         // Call the event handler
-        $result = $this->_on_show($this->_handler['id']);
-        if (! $result)
+        if (!$this->_on_show($this->_handler['id']))
         {
             debug_add('The _on_show event handler returned false, aborting.');
             return;

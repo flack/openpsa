@@ -179,7 +179,7 @@ class midcom_services_dbclassloader
      * @param object $object The object to check
      * @return boolean true if this is a MgdSchema object, false otherwise.
      */
-    function is_mgdschema_object($object)
+    public function is_mgdschema_object($object)
     {
         // Sometimes we might get class string instead of an object
         if (is_string($object))
@@ -220,7 +220,7 @@ class midcom_services_dbclassloader
      * @param string $classname Class name to load a component for
      * @return string component name if found for the class, false otherwise
      */
-    function get_component_for_class($classname)
+    public function get_component_for_class($classname)
     {
         $class_parts = array_filter(explode('_', $classname));
         $component = '';
@@ -300,7 +300,7 @@ class midcom_services_dbclassloader
      * @param string|object $object The object (or classname) to check
      * @return string The corresponding MidCOM DB class name, false otherwise.
      */
-    function get_midcom_class_name_for_mgdschema_object($object)
+    public function get_midcom_class_name_for_mgdschema_object($object)
     {
         static $dba_classes_by_mgdschema = array();
 
@@ -368,7 +368,7 @@ class midcom_services_dbclassloader
      * @param string $classname The MidCOM DBA classname to check
      * @return string The corresponding MidCOM DBA class name, false otherwise.
      */
-    function get_mgdschema_class_name_for_midcom_class($classname)
+    public function get_mgdschema_class_name_for_midcom_class($classname)
     {
         static $mapping = array();
 
@@ -406,7 +406,7 @@ class midcom_services_dbclassloader
      *        classes and the like. Component loading failure will result in an HTTP 500, as
      *     always.
      */
-    function load_mgdschema_class_handler($classname)
+    public function load_mgdschema_class_handler($classname)
     {
         if (!is_string($classname))
         {
@@ -451,7 +451,7 @@ class midcom_services_dbclassloader
      * @param object|string $object The object (or classname) to check
      * @return boolean true if this is a MidCOM Database object, false otherwise.
      */
-    function is_midcom_db_object($object)
+    public function is_midcom_db_object($object)
     {
         if (is_object($object))
         {
@@ -466,7 +466,7 @@ class midcom_services_dbclassloader
         return false;
     }
 
-    function get_component_classes($component)
+    public function get_component_classes($component)
     {
         if ($component == 'midcom')
         {
@@ -476,7 +476,7 @@ class midcom_services_dbclassloader
         return midcom::get()->componentloader->manifests[$component]->class_mapping;
     }
 
-    function get_midgard_classes()
+    public function get_midgard_classes()
     {
         return $this->_midgard_classes;
     }

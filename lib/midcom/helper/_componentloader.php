@@ -22,7 +22,7 @@
  *
  * If you develop framework tools (like administration interfaces), you will also
  * need access to the component interface class, which can be obtained by
- * get_component_class(). This class is derived from the component interface
+ * get_interface_class(). This class is derived from the component interface
  * baseclass and should give you everything you need to work with the component
  * and its information itself.
  *
