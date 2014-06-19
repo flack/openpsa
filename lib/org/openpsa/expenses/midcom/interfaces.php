@@ -12,7 +12,7 @@
  * @package org.openpsa.expenses
  */
 class org_openpsa_expenses_interface extends midcom_baseclasses_components_interface
-implements midcom_services_permalinks_resolver, org_openpsa_contacts_duplicates_support
+implements midcom_services_permalinks_resolver
 {
     /**
      * @inheritdoc
@@ -26,25 +26,5 @@ implements midcom_services_permalinks_resolver, org_openpsa_contacts_duplicates_
         return null;
     }
 
-    public function get_merge_configuration($object_mode, $merge_mode)
-    {
-        $config = array();
-        if ($merge_mode == 'future')
-        {
-            /* In theory we could have future things (like resource/manager ships), but now we don't support that mode, we just exit */
-            return $config;
-        }
-        if ($object_mode == 'person')
-        {
-            $config['org_openpsa_expenses_expense'] = array
-            (
-                'person' => array
-                (
-                    'target' => 'id',
-                )
-            );
-        }
-        return $config;
-    }
 }
 ?>

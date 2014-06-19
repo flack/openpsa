@@ -3,10 +3,7 @@
 'version' => '9.0.0-rc.1+git',
 'state' => 'stable',
 'privileges' => array(),
-'class_mapping' => array
-(
-    'org_openpsa_expense' => 'org_openpsa_expenses_expense',
-),
+'class_mapping' => array(),
 'package.xml' => array
 (
     'summary' => 'Expense tracking',
