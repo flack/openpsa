@@ -771,7 +771,7 @@ class midcom_services_auth_acl
         return $final_privileges;
     }
 
-    function can_do_byclass($privilege, $user, $class)
+    public function can_do_byclass($privilege, $user, $class)
     {
         if ($this->_internal_sudo)
         {
@@ -851,7 +851,7 @@ class midcom_services_auth_acl
             $full_privileges = array_merge
             (
                 $full_privileges,
-                midcom::get()->auth->acl->get_owner_default_privileges()
+                $this->get_owner_default_privileges()
             );
         }
 
@@ -900,7 +900,7 @@ class midcom_services_auth_acl
             return self::$_privileges_cache[$cache_key][$privilege];
         }
 
-        if (self::_load_content_privilege($privilege, $object_guid, $object_class, $user_id))
+        if ($this->_load_content_privilege($privilege, $object_guid, $object_class, $user_id))
         {
             self::$_privileges_cache[$cache_key][$privilege] = self::$_content_privileges_cache[$cache_key][$privilege];
             return self::$_privileges_cache[$cache_key][$privilege];
@@ -966,7 +966,7 @@ class midcom_services_auth_acl
      * @param string $user_id The user against which to check the privilege, defaults to the currently authenticated user.
      * @return boolean True when privilege was found, otherwise false
      */
-    private static function _load_content_privilege($privilegename, $guid, $class, $user_id)
+    private function _load_content_privilege($privilegename, $guid, $class, $user_id)
     {
         $cache_id = $user_id . '::' . $guid;
 
@@ -1001,10 +1001,10 @@ class midcom_services_auth_acl
         if (   $privilegename != 'midgard:owner'
             && $last_scope < MIDCOM_PRIVILEGE_SCOPE_OWNER)
         {
-            $owner_privileges = midcom::get()->auth->acl->get_owner_default_privileges();
+            $owner_privileges = $this->get_owner_default_privileges();
             if (array_key_exists($privilegename, $owner_privileges))
             {
-                $found = self::_load_content_privilege('midgard:owner', $guid, $class, $user_id);
+                $found = $this->_load_content_privilege('midgard:owner', $guid, $class, $user_id);
                 if (    $found
                      && self::$_content_privileges_cache[$cache_id]['midgard:owner'])
                 {
@@ -1044,7 +1044,7 @@ class midcom_services_auth_acl
                 self::$_content_privileges_cache[$parent_cache_id] = array();
             }
 
-            if (self::_load_content_privilege($privilegename, $parent_guid, key($parent_data), $user_id))
+            if ($this->_load_content_privilege($privilegename, $parent_guid, key($parent_data), $user_id))
             {
                 self::$_content_privileges_cache[$cache_id][$privilegename] = self::$_content_privileges_cache[$parent_cache_id][$privilegename];
 
