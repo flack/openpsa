@@ -1,4 +1,4 @@
-tinyMCE.addI18n('de.imagepopup',{
-title: "Dateianhang einfügen",
-desc: "Dateianhang oder Bild einfügen"
+tinyMCE.addI18n('de',{
+imagepopup_title: "Dateianhang einfügen",
+imagepopup_desc: "Dateianhang oder Bild einfügen"
 });

@@ -88,14 +88,14 @@ class midcom_helper_datamanager2_widget_tinymce extends midcom_helper_datamanage
      *
      * @var string
      */
-    var $mce_config_snippet = null;
+    public $mce_config_snippet;
 
     /**
      * Local configuration to be added to the config snippet.
      *
      * @var string
      */
-    var $local_config = '';
+    public $local_config;
 
     /**
      * Define some simple configuration themes without having to create a config file.
@@ -104,14 +104,14 @@ class midcom_helper_datamanager2_widget_tinymce extends midcom_helper_datamanage
      *
      * @var string
      */
-    var $theme = null;
+    public $theme;
 
     /**
      * Should the imagepopup button be shown?
      *
      * @var boolean defaults to true.
      */
-    var $use_imagepopup = true;
+    public $use_imagepopup = true;
 
     /**
      * Adds the external HTML dependencies, both JS and CSS. A static flag prevents
@@ -131,11 +131,11 @@ class midcom_helper_datamanager2_widget_tinymce extends midcom_helper_datamanage
         $prefix = $this->_config->get('tinymce_url');
         if ($this->_config->get('tinymce_use_compressor'))
         {
-            midcom::get()->head->add_jsfile("{$prefix}/tiny_mce_gzip.js", true);
+            midcom::get()->head->add_jsfile("{$prefix}/tinymce.gzip.js", true);
         }
         else
         {
-            midcom::get()->head->add_jsfile("{$prefix}/tiny_mce.js", true);
+            midcom::get()->head->add_jsfile("{$prefix}/tinymce.min.js", true);
         }
     }
 
@@ -172,29 +172,13 @@ class midcom_helper_datamanager2_widget_tinymce extends midcom_helper_datamanage
             if ($this->_type->storage->object)
             {
                 // We have an existing object, link to "page attachments"
-                $imagepopup_url .= "{$this->_schema->name}/{$this->_type->storage->object->guid}\",";
+                $imagepopup_url .= "{$this->_schema->name}/{$this->_type->storage->object->guid}\"";
             }
             else
             {
                 // No object has been created yet, link to "folder attachments" without page specified
-                $imagepopup_url .= "folder/{$this->_schema->name}\",";
+                $imagepopup_url .= "folder/{$this->_schema->name}\"";
             }
-        }
-
-        if ($this->_config->get('tinymce_use_compressor'))
-        {
-            $gz_config = preg_replace("/^theme\s*?:/", "themes :", $config);
-            $script_gz = <<<EOT
-tinyMCE_GZ.init({
-{$gz_config}
-{$this->local_config}
-languages : "{$language}",
-{$imagepopup_url}
-disk_cache : true,
-debug : false
-});
-EOT;
-            midcom::get()->head->add_jscript($script_gz);
         }
 
         // Compute the final script:
@@ -209,8 +193,6 @@ remove_script_host : true,
 elements : "{$this->_namespace}{$this->name}",
 language : "{$language}",
 {$imagepopup_url}
-docs_language : "{$language}",
-browsers : "msie,gecko,opera,safari"
 });
 EOT;
 
@@ -227,7 +209,7 @@ EOT;
     {
         if ($this->_type->storage !== null)
         {
-            return ",imagepopup";
+            return " imagepopup";
         }
         return "";
     }
@@ -259,17 +241,7 @@ EOT;
     }
 
     /**
-     * Returns the default/simple configuration:
-     *
-     * <pre>
-     * theme : "advanced",
-     * button_title_map : false,
-     * apply_source_formatting : true,
-     * plugins : "table,contextmenu,paste,fullscreen",
-     * theme_advanced_buttons2_add : "separator,fullscreen,selectall,pastetext,pasteword,",
-     * theme_advanced_buttons3_add : "separator,tablecontrols",
-     * paste_create_linebreaks : false,
-     * </pre>
+     * Returns the default/simple configuration
      *
      * @return string The default configuration
      */
@@ -277,16 +249,11 @@ EOT;
     {
         $popup = $this->_get_imagepopup_jsstring();
         return <<<EOT
-theme : "advanced",
-button_title_map : false,
-apply_source_formatting : true,
-plugins : "table,contextmenu,advimage,advlink,paste,fullscreen$popup",
-theme_advanced_buttons1 : "cut,copy,paste,separator,undo,redo,separator,justifyleft,justifycenter,justifyright,separator,outdent,indent,separator,code,fullscreen",
-theme_advanced_buttons2 : "formatselect,separator,bold,italic,separator,bullist,numlist,separator,link,imagepopup",
-theme_advanced_buttons3 : "",
-theme_advanced_toolbar_align : "left",
-theme_advanced_toolbar_location : "top",
-paste_create_linebreaks : false,
+theme: "modern",
+menubar: false,
+plugins: ["table contextmenu paste link fullscreen$popup"],
+toolbar1: "cut copy paste | undo redo | alignleft alignjustify alignright | outdent indent | code fullscreen",
+toolbar2: "formatselect | bold italic | bullist numlist | link unlink | imagepopup table",
 EOT;
     }
 
@@ -297,19 +264,11 @@ EOT;
     {
         $popup = $this->_get_imagepopup_jsstring();
         return <<<EOT
-apply_source_formatting : true,
-theme : "advanced",
-plugins : "table,save,advhr,advimage,advlink,iespell,insertdatetime,preview,searchreplace,print,contextmenu,fullscreen{$popup}",
-theme_advanced_buttons1 : "cut,copy,paste,separator,undo,redo,separator,replace,separator,justifyleft,justifycenter,justifyright,separator,outdent,indent",
-theme_advanced_buttons2 : "formatselect,separator,bold,italic,strikethrough,sub,sup,separator,bullist,numlist,separator,imagepopup",
-theme_advanced_buttons3 : "tablecontrols,separator,cleanup,code,removeformat,visualaid,iespell,separator,fullscreen",
-theme_advanced_toolbar_location : "top",
-theme_advanced_toolbar_align : "left",
-theme_advanced_path_location : "bottom",
-plugin_insertdate_dateFormat : "%Y-%m-%d",
-plugin_insertdate_timeFormat : "%H:%M:%S",
+theme: "modern",
+plugins: ["table save hr link insertdatetime preview searchreplace print contextmenu fullscreen{$popup}"],
+toolbar1: "cut copy paste | undo redo | searchreplace | alignleft alignjustify alignright | outdent indent | code removeformat | fullscreen",
+toolbar2: "formatselect | bold italic strikethrough subscript superscript | link unlink | bullist numlist | imagepopup",
 extended_valid_elements : "a[name|href|target|title|onclick],img[class|src|border=0|alt|title|hspace|vspace|width|height|align|onmouseover|onmouseout|name|style],hr[class|width|size|noshade],font[face|size|color|style],span[class|align|style]",
-
 EOT;
     }
 
@@ -320,16 +279,12 @@ EOT;
     {
         $popup = $this->_get_imagepopup_jsstring();
         return <<<EOT
-apply_source_formatting : true,
-theme : "advanced",
-plugins : "table,save,advimage,advlink,contextmenu,fullscreen{$popup}",
-theme_advanced_buttons1 : "bold,italic,separator,bullist,separator,link,imagepopup,separator,code,fullscreen",
-theme_advanced_buttons2 : "",
-theme_advanced_buttons3 : "",
-theme_advanced_toolbar_location : "top",
-theme_advanced_toolbar_align : "left",
+theme : "modern",
+menubar: false,
+statusbar: false,
+plugins : ["table save contextmenu link fullscreen{$popup}"],
+toolbar: "bold italic | bullist | link imagepopup | code fullscreen",
 extended_valid_elements : "a[name|href|target|title|onclick],img[class|src|border=0|alt|title|hspace|vspace|width|height|align|onmouseover|onmouseout|name|style],hr[class|width|size|noshade],font[face|size|color|style],span[class|align|style]",
-
 EOT;
     }
 

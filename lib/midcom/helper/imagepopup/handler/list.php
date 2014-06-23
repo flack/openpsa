@@ -103,7 +103,7 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
         midcom::get()->style->prepend_component_styledir('midcom.helper.imagepopup');
     }
 
-    private function _create_controller(&$data)
+    private function _create_controller(array $data)
     {
         // Run datamanager for handling the images
         $this->_controller = midcom_helper_datamanager2_controller::create('simple');
@@ -124,7 +124,7 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
         switch ($this->_controller->process_form())
         {
             case 'cancel':
-                midcom::get()->head->add_jsonload("window.close();");
+                midcom::get()->head->add_jsonload("top.tinymce.activeEditor.windowManager.close();");
                 break;
         }
 

@@ -476,6 +476,11 @@ p
     border-radius: 3px;
 }
 
+#content form.datamanager2 div.mce-tinymce
+{
+    display: inline-block;
+}
+
 #container a:link,
 #container a:visited
 {
