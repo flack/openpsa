@@ -6,7 +6,7 @@ var openpsa_calendar_widget =
         {
             event.preventDefault();
             var date = $(selector).fullCalendar('getDate'),
-            url = prefix + 'event/new/' + (Math.round(date.getTime() / 1000) + 1) + '/',
+            url = prefix + 'event/new/' + (parseInt(date.format('X')) + 1) + '/',
             window_options = "toolbar=0,location=0,status=0,height=" + settings.height + ",width=" + settings.width + ",dependent=1,alwaysRaised=1,scrollbars=1,resizable=1";
 
             window.open(url, 'new_event', window_options);
@@ -34,7 +34,7 @@ var openpsa_calendar_widget =
                 $("#date-navigation").append("<div id=\"date-navigation-widget\"></div>");
                 $("#date-navigation-widget").css("position", "absolute");
                 $("#date-navigation-widget").css("z-index", "1000");
-                var default_date = $(selector).fullCalendar('getDate');
+                var default_date = $(selector).fullCalendar('getDate').toDate();
                 $("#date-navigation-widget").datepicker(
                 {
                     dateFormat: "yy-mm-dd",
@@ -43,7 +43,7 @@ var openpsa_calendar_widget =
                     nextText: "",
                     onSelect: function(dateText, inst)
                     {
-                        var date = $.fullCalendar.parseDate(dateText);
+                        var date = $.fullCalendar.moment(dateText);
                         $(selector).fullCalendar('gotoDate', date);
 
                         $("#date-navigation").parent().removeClass("active");
@@ -88,7 +88,7 @@ var openpsa_calendar_widget =
         view = $(selector).fullCalendar('getView'),
         state_data =
         {
-            date: $.fullCalendar.formatDate($(selector).fullCalendar('getDate'), 'yyyy-MM-dd'),
+            date: $.fullCalendar.moment($(selector).fullCalendar('getDate')).format('YYYY-MM-DD'),
             view: view.name
         },
         new_url = prefix + view.name + '/' + state_data.date + '/';
@@ -125,13 +125,13 @@ var openpsa_calendar_widget =
                 center: 'title',
                 right: 'today prev,next'
             },
-            events: function (start, end, callback) {
+            events: function (start, end, timezone, callback) {
                 $.ajax({
                     url: prefix + 'json/',
                     dataType: 'json',
                     data: {
-                        start: Math.round(start.getTime() / 1000),
-                        end: Math.round(end.getTime() / 1000)
+                        start: start.format('X'),
+                        end: end.format('X')
                     },
                     success: function (events) {
                         callback(events);
@@ -154,9 +154,9 @@ var openpsa_calendar_widget =
 
                 window.open(url, 'event' + guid, window_options);
             },
-            dayClick: function (date, allDay, jsEvent, view)
+            dayClick: function (date, jsEvent, view)
             {
-                var url = prefix + 'event/new/' + (Math.round(date.getTime() / 1000) + 1) + '/',
+                var url = prefix + 'event/new/' + (parseInt(date.format('X')) + 1) + '/',
                 window_options = "toolbar=0,location=0,status=0,height=" + settings.height + ",width=" + settings.width + ",dependent=1,alwaysRaised=1,scrollbars=1,resizable=1";
 
                 jsEvent.preventDefault();
@@ -164,7 +164,7 @@ var openpsa_calendar_widget =
             }
         };
 
-        settings = $.extend({}, defaults, openpsa_calendar_widget.parse_url(prefix), openpsa_calendar_widget.localize(), settings || {});
+        settings = $.extend({}, defaults, openpsa_calendar_widget.parse_url(prefix), settings || {});
 
         $(selector).fullCalendar(settings);
         openpsa_calendar_widget.prepare_toolbar_buttons(selector, prefix, settings);
@@ -175,7 +175,7 @@ var openpsa_calendar_widget =
         if ( History.enabled ) {
             History.Adapter.bind(window, 'statechange', function(){
                 var State = History.getState();
-                $(selector).fullCalendar('gotoDate', $.fullCalendar.parseDate(State.data.date));
+                $(selector).fullCalendar('gotoDate', $.fullCalendar.moment(State.data.date));
                 $(selector).fullCalendar('changeView', State.data.view);
             });
         }
@@ -184,28 +184,5 @@ var openpsa_calendar_widget =
         {
             openpsa_calendar_widget.set_height(selector);
         });
-    },
-    // this is a workaround until fullCalendar gets proper l10n support
-    localize: function()
-    {
-        var locale_id,
-        locale_data,
-        settings = {};
-
-        for (locale_id in $.datepicker.regional)
-        {
-            // for some reason, this awkward iteration is the only way
-            // to get the "array keys"
-            locale_data = $.datepicker.regional[locale_id];
-        }
-
-        settings.dayNames = locale_data.dayNames;
-        settings.dayNamesShort = locale_data.dayNamesShort;
-        settings.monthNames = locale_data.monthNames;
-        settings.monthNamesShort = locale_data.monthNamesShort;
-        settings.firstDay = locale_data.firstDay;
-        settings.weekNumberTitle = locale_data.weekHeader;
-
-        return settings;
     }
 };
