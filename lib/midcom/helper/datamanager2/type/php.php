@@ -24,7 +24,7 @@ class midcom_helper_datamanager2_type_php extends midcom_helper_datamanager2_typ
     /**
      * Widget version
      */
-    public $version = '3.1';
+    public $version = '4.3';
 
     /**
      * The current string encapsulated by this type.
