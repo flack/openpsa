@@ -7,7 +7,7 @@
  */
 
 /**
- * dynatree-based tree widget
+ * fancytree-based tree widget
  *
  * @package org.openpsa.widgets
  */
@@ -90,7 +90,7 @@ class org_openpsa_widgets_tree extends midcom_baseclasses_components_purecode
 
         $identifier = 't_' . md5('org_openpsa_widgets_treemenu_' . $this->_object_class);
 
-        echo '<div class="openpsa-dynatree-container" id="' . $identifier . "\">\n";
+        echo '<div class="openpsa-fancytree-container" id="' . $identifier . "\">\n";
         $this->_render_items($items);
         echo "\n</div>\n";
 
@@ -205,9 +205,9 @@ JSINIT;
         $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.widget.min.js');
 
         $head->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.cookie.js');
-        $head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.widgets/dynatree/jquery.dynatree.min.js');
-        $head->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.widgets/dynatree/skin/ui.dynatree.css");
-        $head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.widgets/dynatree.custom.js');
+        $head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.widgets/fancytree-2.1.0/jquery.fancytree-custom.min.js');
+        $head->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.widgets/fancytree-2.1.0/skin-win7/ui.fancytree.min.css");
+        $head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.widgets/fancytree.custom.js');
         $head->add_jquery_ui_theme();
         self::$_head_elements_added = true;
     }

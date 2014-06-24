@@ -5,45 +5,35 @@ var org_openpsa_tree =
         var default_options =
         {
             minExpandLevel: 1,
-            persist: true,
+            extensions: ['persist'],
             cookie: {path: prefix},
-            cookieId: identifier,
             clickFolderMode: 2,
             autoCollapse: false,
             debugLevel: -1,
 
-            onActivate: function(dtnode)
+            activate: function(event, data)
             {
-                if (dtnode.data.href !== undefined)
+                if (   data.node.data.href !== undefined
+                    && window.location.pathname !== data.node.data.href)
                 {
-                    window.location.href = dtnode.data.href;
+                    window.location.href = data.node.data.href;
                 }
+                data.node.scrollIntoView();
             },
-            onClick: function(dtnode, event)
+            click: function(event, data)
             {
-                if (   dtnode.tree.activeNode !== undefined
-                    && dtnode.tree.activeNode === dtnode)
+                if (   data.tree.activeNode !== undefined
+                    && data.tree.activeNode === data.node)
                 {
-                    dtnode.deactivate();
+                    data.node.setActive(false);
                 }
                 return true;
             },
-            onCustomRender: function(dtnode)
-            {
-                var url = '#',
-                tooltip = dtnode.data.tooltip ? " title='" + dtnode.data.tooltip + "'" : "";
-
-                if (dtnode.data.href !== undefined)
-                {
-                    url = dtnode.data.href;
-                }
-                return '<a href="' + url + '" class="' + dtnode.tree.options.classNames.title + '"' + tooltip + '>' + dtnode.data.title + '</a>';
-            },
-            onPostInit: function(isReloading, isError)
+            init: function(event, data)
             {
                 $(window).trigger('resize');
             },
-            onExpand: function(flag, dtnode)
+            expand: function(event, data)
             {
                 $(window).trigger('resize');
             }
@@ -58,12 +48,12 @@ var org_openpsa_tree =
 
         $('#' + identifier)
             .css('overflow', 'auto')
-            .dynatree(options);
+            .fancytree(options);
     },
     crop_height: function(tree)
     {
         var container_height = $('#content-text').height(),
-        tree_content_height = tree.find('.dynatree-container').height(),
+        tree_content_height = tree.find('.fancytree-container').height(),
         available_height = container_height - (tree.closest('.sidebar').height() - tree.outerHeight(true)),
         new_height = Math.max(Math.min(tree_content_height, available_height, container_height), 20);
 

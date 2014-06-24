@@ -27,7 +27,7 @@ class org_openpsa_documents_handler_directory_navigation extends midcom_baseclas
             {
                 $this->_request_data["name"] = $tree["topic"]->extra;
                 $this->_request_data["id"] = $tree["topic"]->id;
-                $this->_request_data["link_url"] = $link_url . "/" . $tree["topic"]->name;
+                $this->_request_data["link_url"] = $link_url . "/" . $tree["topic"]->name . '/';
                 midcom_show_style("show-navigation-item-begin");
 
                 if (count($tree) > 1)

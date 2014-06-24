@@ -1533,14 +1533,14 @@ body .ui-tooltip {
     line-height: 1.4;
 }
 
-ul.dynatree-container
+ul.fancytree-container
 {
     border: none;
     padding: 0;
     height: auto;
 }
 
-ul.dynatree-container span.dynatree-folder a
+ul.fancytree-container span.fancytree-folder a
 {
     font-weight: normal
 }
