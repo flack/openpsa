@@ -641,7 +641,6 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
 
         // Add jQuery file for the checkbox operations
         midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midgard.admin.asgard/jquery-copytree.js');
-        midcom::get()->head->add_jscript('jQuery(document).ready(function(){jQuery("#midgard_admin_asgard_copytree").tree_checker();})');
     }
 
     private function _process_copy($target)

@@ -13,6 +13,12 @@ $data['tree']->draw();
 $tree_select = ob_get_contents();
 ob_end_clean();
 ?>
+<script type="text/javascript">
+$(document).ready(function()
+{
+    $("#midgard_admin_asgard_copytree").tree_checker();
+});
+</script>
 <h1><?php echo $data['page_title']; ?></h1>
 <?php
 // Get the form with output buffering for modifications
