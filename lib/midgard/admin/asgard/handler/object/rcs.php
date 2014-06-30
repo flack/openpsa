@@ -355,20 +355,6 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
         $this->_rcs_toolbar();
 
         midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midgard.admin.asgard/rcs.js');
-        midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.tablesorter.pack.js');
-        midcom::get()->head->add_jscript("jQuery(document).ready(function()
-        {
-            jQuery('#midgard_admin_asgard_rcs_version_compare table').tablesorter({
-                headers:
-                {
-                    0: {sorter: false},
-                    4: {sorter: false},
-                    5: {sorter: false}
-                },
-                sortList: [[1,1]]
-            });
-        });
-        ");
         return new midgard_admin_asgard_response($this, '_show_history');
     }
 
