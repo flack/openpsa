@@ -9,9 +9,7 @@ if (isset($_POST['org_openpsa_export_csv_filename']))
 {
     $filename = $_POST['org_openpsa_export_csv_filename'];
     //some basic sanitation...
-    $filename = str_replace("\n", '', $filename);
-    $filename = str_replace("'", '', $filename);
-    $filename = str_replace('"', '', $filename);
+    $filename = str_replace(array("\n", '"', "'"), '', $filename);
     $filename = str_replace(' ', '_', $filename);
 }
 

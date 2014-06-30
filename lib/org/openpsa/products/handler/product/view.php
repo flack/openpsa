@@ -154,8 +154,7 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
             }
             catch (midcom_error $e)
             {
-                $title = str_replace('<PRODUCTGROUP_TITLE>', '', $title);
-                $title = str_replace('<PRODUCTGROUP_CODE>', '', $title);
+                $title = str_replace(array('<PRODUCTGROUP_TITLE>', '<PRODUCTGROUP_CODE>'), '', $title);
             }
         }
 

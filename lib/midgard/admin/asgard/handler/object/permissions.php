@@ -256,7 +256,7 @@ implements midcom_helper_datamanager2_interfaces_edit
                     $header_items[$privilege_label] = "        <th scope=\"col\" class=\"{$privilege_components[1]}\"><span>" . str_replace(' ', "\n", $this->_l10n->get($privilege_label)) . "</span></th>\n";
                 }
 
-                $schemadb['privileges']->append_field(str_replace(':', '_', $assignee) . '_' . str_replace(':', '_', str_replace('.', '_', $privilege)), Array
+                $schemadb['privileges']->append_field(str_replace(':', '_', $assignee) . '_' . str_replace(array(':', '.'), '_', $privilege), Array
                     (
                         'title' => $privilege_label,
                         'helptext'    => sprintf($this->_l10n->get('sets privilege %s'), $privilege),

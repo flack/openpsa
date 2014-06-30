@@ -204,7 +204,7 @@ class org_openpsa_notifications extends midcom_baseclasses_components_purecode
 
                 $schemadb['default']->append_field
                 (
-                    str_replace(':', '_', str_replace('.', '_', $action_key)),
+                    str_replace(array(':', '.'), '_', $action_key),
                     $field_config
                 );
             }
