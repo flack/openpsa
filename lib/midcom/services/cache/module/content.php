@@ -433,7 +433,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
 
         // Check If-Modified-Since and If-None-Match, do content output only if
         // we have a not modified match.
-        if (! $this->_check_not_modified($data['last_modified'], $data['etag'], $data['sent_headers']))
+        if (! $this->_check_not_modified($data['last_modified'], $data['etag']))
         {
             if (! $this->_data_cache->exists($content_id))
             {
@@ -446,6 +446,19 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             array_map('_midcom_header', $data['sent_headers']);
 
             echo $content;
+        }
+        else
+        {
+            if ($this->_obrunning)
+            {
+                // Drop the output buffer, if any.
+                ob_end_clean();
+            }
+
+            // Emit the 304 header, then exit.
+            _midcom_header('HTTP/1.0 304 Not Modified');
+            _midcom_header("ETag: {$etag}");
+            array_map('_midcom_header', $data['sent_headers']);
         }
 
         _midcom_stop_request();
@@ -703,24 +716,23 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
     }
 
     /**
-     * Checks, whether the browser supplied if-modified-since or if-none-match headers
-     * match the passed etag/last modified timestamp. If yes, a 304 not modified header
-     * is emitted and true is returned. Otherwise the function will return false
-     * without modifications to the current runtime state.
+     * Checks whether the browser supplied if-modified-since or if-none-match headers
+     * match the passed etag/last modified timestamp. If yes, true is returned. Otherwise
+     * the function will return false
      *
      * If the headers have already been sent, something is definitely wrong, so we
      * ignore the request silently returning false.
      *
      * Note, that if both If-Modified-Since and If-None-Match are present, both must
-     * actually match the given stamps to allow for a 304 Header to be emitted.
+     * actually match.
      *
      * @param int $last_modified The last modified timestamp of the current document. This timestamp
      *     is assumed to be in <i>local time</i>, and will be implicitly converted to a GMT time for
      *     correct HTTP header comparisons.
      * @param string $etag The etag header associated with the current document.
-     * @return boolean True, if an 304 match was detected and the appropriate headers were sent.
+     * @return boolean Indicating match
      */
-    function _check_not_modified($last_modified, $etag, $additional_headers = array())
+    function _check_not_modified($last_modified, $etag)
     {
         if (_midcom_headers_sent())
         {
@@ -728,8 +740,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             return false;
         }
 
-        // These variables are set to true if the corresponding header indicates a 403 is
-        // possible.
+        // These variables are set to true if the corresponding header indicates a 304 is possible.
         $if_modified_since = false;
         $if_none_match = false;
         if (array_key_exists('HTTP_IF_NONE_MATCH', $_SERVER))
@@ -761,23 +772,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             $if_modified_since = true;
         }
 
-        if (   !$if_modified_since
-            && !$if_none_match)
-        {
-            return false;
-        }
-
-        if ($this->_obrunning)
-        {
-            // Drop the output buffer, if any.
-            ob_end_clean();
-        }
-
-        // Emit the 304 header, then exit.
-        _midcom_header('HTTP/1.0 304 Not Modified');
-        _midcom_header("ETag: {$etag}");
-        array_map('_midcom_header', $additional_headers);
-        return true;
+        return ($if_modified_since || $if_none_match);
     }
 
     /**
@@ -820,7 +815,9 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             return;
         }
 
-        $cache_data = ob_get_contents();
+        $cache_data = ob_get_clean();
+        $this->_obrunning = false;
+
         /**
          * WARNING:
          *   From here on anything added to content is not included in cached
@@ -846,10 +843,15 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         $this->_complete_sent_headers();
 
         // If-Modified-Since / If-None-Match checks, if no match, flush the output.
-        if (! $this->_check_not_modified($this->_last_modified, $etag, $this->_sent_headers))
+        if (! $this->_check_not_modified($this->_last_modified, $etag))
         {
-            ob_end_flush();
-            $this->_obrunning = false;
+            echo $cache_data;
+        }
+        else
+        {
+            _midcom_header('HTTP/1.0 304 Not Modified');
+            _midcom_header("ETag: {$etag}");
+            array_map('_midcom_header', $this->_sent_headers);
         }
 
         /**
