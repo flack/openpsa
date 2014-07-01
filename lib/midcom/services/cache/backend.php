@@ -134,14 +134,8 @@ abstract class midcom_services_cache_backend
     function initialize($name, $config)
     {
         $this->_name = $name;
-        if (is_array($config))
-        {
-            $this->_config = $config;
-        }
-        else
-        {
-            $this->_config = Array($config);
-        }
+        $this->_config = (array) $config;
+
         if (!isset($this->_config['directory']))
         {
             $this->_config['directory'] = '';
@@ -188,13 +182,10 @@ abstract class midcom_services_cache_backend
         {
             if (array_key_exists($key, $this->_local_cache))
             {
+                $data = $this->_local_cache[$key];
                 if ($this->_auto_serialize)
                 {
-                    $data = serialize($this->_local_cache[$key]);
-                }
-                else
-                {
-                    $data = $this->_local_cache[$key];
+                    $data = serialize($data);
                 }
 
                 $this->_put($key, $data);
@@ -251,7 +242,7 @@ abstract class midcom_services_cache_backend
     /**
      * Backend shutdown
      *
-     * Called, if the backend is no longer used.
+     * Called if the backend is no longer used.
      */
     public function _on_shutdown() {}
 

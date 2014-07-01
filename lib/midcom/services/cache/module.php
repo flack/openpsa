@@ -63,9 +63,9 @@ abstract class midcom_services_cache_module
         $this->_on_shutdown();
 
         // Now close all backends.
-        foreach ($this->_backends as $key => $copy)
+        foreach ($this->_backends as $backend)
         {
-            $this->_backends[$key]->shutdown();
+            $backend->shutdown();
         }
     }
 
@@ -137,10 +137,10 @@ abstract class midcom_services_cache_module
      */
     function invalidate_all()
     {
-        foreach ($this->_backends as $name => $copy)
+        foreach ($this->_backends as $name => $backend)
         {
             debug_add("Invalidating cache backend {$name}...", MIDCOM_LOG_INFO);
-            $this->_backends[$name]->remove_all();
+            $backend->remove_all();
         }
     }
 
