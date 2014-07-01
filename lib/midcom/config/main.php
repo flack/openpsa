@@ -377,7 +377,6 @@ class midcom_config implements arrayaccess
         'log_filename' => '/tmp/midcom.log',
         'log_level' => MIDCOM_LOG_ERROR,
         'log_firephp' => false,
-        'enable_included_list' => false,
         'error_actions' => array(),
 
         // Core configuration

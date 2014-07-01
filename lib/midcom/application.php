@@ -296,18 +296,6 @@ class midcom_application
         // done this way since it's slightly less hacky than calling shutdown and then mucking about with the cache->_modules etc
         $this->cache->content->_finish_caching();
 
-        if ($this->config->get('enable_included_list'))
-        {
-            $included = get_included_files();
-            echo "<p>" . count($included) . " included files:</p>\n";
-            echo "<ul>\n";
-            foreach ($included as $filename)
-            {
-                echo "<li>{$filename}</li>\n";
-            }
-            echo "</ul>\n";
-        }
-
         // Shutdown rest of the caches
         $this->cache->shutdown();
 
