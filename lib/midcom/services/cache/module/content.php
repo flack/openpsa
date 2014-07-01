@@ -1147,7 +1147,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         $strategy = $this->_headers_strategy;
         $default_lifetime = $this->_default_lifetime;
         if (   midcom::get()->auth->is_valid_user()
-            || !midcom_connection::get_user())
+            || midcom_connection::get_user())
         {
             $strategy = $this->_headers_strategy_authenticated;
             $default_lifetime = $this->_default_lifetime_authenticated;
