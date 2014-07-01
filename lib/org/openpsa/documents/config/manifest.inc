@@ -6,7 +6,7 @@
 (
     'org_openpsa_document' => 'org_openpsa_documents_document_dba',
 ),
-'version' => '9.0.0-rc.2',
+'version' => '9.0.0-rc.2+git',
 'package.xml' => array
 (
     'summary' => 'Document management',

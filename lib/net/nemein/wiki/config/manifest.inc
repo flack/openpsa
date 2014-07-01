@@ -1,7 +1,7 @@
 'name' => 'net.nemein.wiki',
 'icon' => 'net.nemein.wiki/wiki.png',
 'purecode' => false,
-'version' => '9.0.0-rc.2',
+'version' => '9.0.0-rc.2+git',
 'state' => 'stable',
 'privileges' => array(),
 'class_mapping' => array
