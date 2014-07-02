@@ -1138,7 +1138,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
     public function cache_control_headers()
     {
         // Just to be sure not to mess the headers sent by no_cache in case it was called
-        if (!$this->_no_cache)
+        if ($this->_no_cache)
         {
             return;
         }
