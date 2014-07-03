@@ -258,28 +258,18 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
      * Resolve MgdSchema object from guid or miscellaneous extended object
      *
      * @param mixed &$object    MgdSchema object, GUID or ID
-     * @param string $class     MgdSchema class for resolving ID
      * @return mixed MgdSchema object or false on failure
      */
-    static public function resolve_object(&$object, $class = null)
+    static public function resolve_object(&$object)
     {
         // Check the type of the requested parent
-        switch (true)
+        if (mgd_is_guid($object))
         {
-            case (is_object($object)):
-                break;
-
-            case (mgd_is_guid($object)):
-                $object = midcom::get()->dbfactory->get_object_by_guid($object);
-                break;
-
-            case ($class):
-                $id = (int) $object;
-                $object = new $class($id);
-                break;
-
-            default:
-                return false;
+            $object = midcom::get()->dbfactory->get_object_by_guid($object);
+        }
+        if (!is_object($object))
+        {
+            return false;
         }
 
         $object_class = midcom_helper_reflector::resolve_baseclass(get_class($object));
