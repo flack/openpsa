@@ -31,27 +31,19 @@ class midcom_helper_datamanager2_ajax_autocomplete
         // Load component if possible
         midcom::get()->componentloader->load_graceful($this->_request['component']);
 
-        $error = '';
-        // Could not get required class defined, abort
         if (!class_exists($this->_request['class']))
         {
-            $error = "Class {$this->_request['class']} could not be loaded\n";
+            throw new midcom_error("Class {$this->_request['class']} could not be loaded");
         }
 
-        // No fields to search by, abort
         if (empty($this->_request['searchfields']))
         {
-            $error = "No fields to search for defined\n";
+            throw new midcom_error("No fields to search for defined");
         }
 
         if (empty($this->_request["term"]))
         {
-            $error = "Empty query string.";
-        }
-
-        if ($error != '')
-        {
-            throw new midcom_error($error);
+            throw new midcom_error("Empty query string.");
         }
 
         if (!isset($this->_request['get_label_for']))
