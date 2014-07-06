@@ -457,7 +457,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
 
             // Emit the 304 header, then exit.
             _midcom_header('HTTP/1.0 304 Not Modified');
-            _midcom_header("ETag: {$etag}");
+            _midcom_header("ETag: {$data['etag']}");
             array_map('_midcom_header', $data['sent_headers']);
         }
 
