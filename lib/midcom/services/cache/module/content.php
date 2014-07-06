@@ -815,7 +815,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             return;
         }
 
-        $cache_data = ob_get_clean();
+        $cache_data = ob_get_contents();
         $this->_obrunning = false;
 
         /**
@@ -841,6 +841,8 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         $header = "Content-type: " . $this->_content_type;
         $this->register_sent_header($header);
         $this->_complete_sent_headers();
+        //we need to run this after complete_sent_headers, since it's used for content-length calculation
+        ob_end_clean();
 
         // If-Modified-Since / If-None-Match checks, if no match, flush the output.
         if (! $this->_check_not_modified($this->_last_modified, $etag))
