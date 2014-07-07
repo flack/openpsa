@@ -69,6 +69,7 @@ class midcom_core_account
      * @param midcom_db_person $person
      * @throws midcom_error
      * @return midcom_core_account
+     * @deprecated This can cause all kinds of headaches, especially under midgard1, use only for read access
      */
     public static function get($person)
     {
@@ -92,7 +93,8 @@ class midcom_core_account
             midcom_connection::set_error(MGD_ERR_DUPLICATE);
             return false;
         }
-
+        //empty cache, since we might have come from a separate instantiation
+        unset(self::$_instances[$this->_person->guid]);
         if (!$this->_user->guid)
         {
             return $this->_create_user();

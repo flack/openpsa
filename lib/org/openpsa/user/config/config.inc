@@ -52,7 +52,7 @@ You can now log in to your account using the following credentials:
 Username: __USERNAME__
 Password: __PASSWORD__',
 
-'welcome_mail_from_address' => '',
+'welcome_mail_from_address' => 'noreply@openpsa2.org',
 
 'password_score_rules' => array
 (

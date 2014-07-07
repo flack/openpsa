@@ -87,13 +87,16 @@ implements midcom_helper_datamanager2_interfaces_create
         }
 
         $data['controller'] = $this->get_controller('create');
+
         switch ($data['controller']->process_form())
         {
             case 'save':
-                midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.user'), sprintf($this->_l10n->get('person %s created'), $this->_person->name));
-                $this->_master->create_account($this->_person, $data["controller"]->formmanager);
-
-                return new midcom_response_relocate('view/' . $this->_person->guid . '/');
+                if ($this->_master->create_account($this->_person, $data["controller"]->formmanager))
+                {
+                    midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.user'), sprintf($this->_l10n->get('person %s created'), $this->_person->name));
+                    return new midcom_response_relocate('view/' . $this->_person->guid . '/');
+                }
+                break;
 
             case 'cancel':
                 return new midcom_response_relocate('');
@@ -110,7 +113,7 @@ implements midcom_helper_datamanager2_interfaces_create
     function & dm2_create_callback (&$controller)
     {
         // Create a new person
-        $this->_person = new midcom_db_person();
+        $this->_person = new midcom_db_person;
         if (! $this->_person->create())
         {
             debug_print_r('We operated on this object:', $this->_person);

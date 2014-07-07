@@ -24,7 +24,7 @@ class midcom_core_accountTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('midcom.core');
 
-        $account = midcom_core_account::get(self::$_person);
+        $account = new midcom_core_account(self::$_person);
         $this->assertTrue($account instanceOf midcom_core_account);
 
         $password = 'password_' . time();
@@ -54,7 +54,7 @@ class midcom_core_accountTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('midcom.core');
 
-        $account1 = midcom_core_account::get(self::$_person);
+        $account1 = new midcom_core_account(self::$_person);
         $username = uniqid(__FUNCTION__ . ' user');
         $account1->set_username($username);
         $stat = $account1->save();
@@ -64,7 +64,7 @@ class midcom_core_accountTest extends openpsa_testcase
 
         // after deletion of account, try getting the account again
         // we should get a fresh object, not the one from the static cache
-        $account2 = midcom_core_account::get(self::$_person);
+        $account2 = new midcom_core_account(self::$_person);
         $this->assertNotEquals(spl_object_hash($account1), spl_object_hash($account2), "We should get a fresh account object");
         // save and delete should work as well
         $account2->set_username($username);
@@ -80,7 +80,7 @@ class midcom_core_accountTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('midcom.core');
 
-        $account1 = midcom_core_account::get(self::$_person);
+        $account1 = new midcom_core_account(self::$_person);
         $username = uniqid(__FUNCTION__ . ' user');
 
         $account1->set_username($username);
@@ -90,7 +90,7 @@ class midcom_core_accountTest extends openpsa_testcase
         $this->assertEquals($username, $account1->get_username());
 
         $person = $this->create_object('midcom_db_person');
-        $account2 = midcom_core_account::get($person);
+        $account2 = new midcom_core_account($person);
 
         $password = 'password_' . time();
         $account2->set_password($password);

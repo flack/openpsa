@@ -283,7 +283,7 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
 
         try
         {
-            $account = midcom_core_account::get($person);
+            $account = new midcom_core_account($person);
         }
         catch (midcom_error $e)
         {

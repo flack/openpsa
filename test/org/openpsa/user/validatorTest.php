@@ -25,7 +25,7 @@ class org_openpsa_user_validatorTest extends openpsa_testcase
         $val = new org_openpsa_user_validator;
 
         $person = self::create_user(true);
-        $account = midcom_core_account::get($person);
+        $account = new midcom_core_account($person);
 
         // this should work
         $fields = array(
@@ -70,7 +70,7 @@ class org_openpsa_user_validatorTest extends openpsa_testcase
         $val = new org_openpsa_user_validator;
 
         $person = self::create_user();
-        $account = midcom_core_account::get($person);
+        $account = new midcom_core_account($person);
 
         // try valid username
         $this->assertTrue($val->username_exists(array("username" => $account->get_username())));
@@ -105,7 +105,7 @@ class org_openpsa_user_validatorTest extends openpsa_testcase
         $val = new org_openpsa_user_validator;
 
         $person = self::create_user();
-        $account = midcom_core_account::get($person);
+        $account = new midcom_core_account($person);
 
         // try invalid combination
         $fields = array(

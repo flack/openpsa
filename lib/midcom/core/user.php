@@ -211,7 +211,7 @@ class midcom_core_user
             throw new midcom_error('storage GUID is not set');
         }
 
-        $account = midcom_core_account::get($this->_storage);
+        $account = new midcom_core_account($this->_storage);
 
         $this->username = $account->get_username();
         $this->name = trim("{$this->_storage->firstname} {$this->_storage->lastname}");

@@ -45,7 +45,8 @@ class org_openpsa_user_viewer extends midcom_baseclasses_components_request
         {
             $password = $formmanager->_types['password']->value;
         }
-        $account_helper->create_account
+
+        $stat = $account_helper->create_account
         (
             $person->guid,
             $formmanager->_types["username"]->value,
@@ -53,6 +54,11 @@ class org_openpsa_user_viewer extends midcom_baseclasses_components_request
             $password,
             $formmanager->_types["send_welcome_mail"]->value
         );
+        if (!$stat)
+        {
+            midcom::get()->uimessages->add($this->_l10n->get($this->_component), $account_helper->errstr, 'error');
+        }
+        return $stat;
     }
 
     public function _on_handle($handler_id, array $args)

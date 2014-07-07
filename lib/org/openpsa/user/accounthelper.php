@@ -34,9 +34,17 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
         if (null !== $person)
         {
             $this->_person = $person;
-            $this->_account = midcom_core_account::get($person);
         }
         parent::__construct();
+    }
+
+    private function _get_account()
+    {
+        if ($this->_account === null)
+        {
+            $this->_account = new midcom_core_account($this->_person);
+        }
+        return $this->_account;
     }
 
     /**
@@ -44,7 +52,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
      *
      * @param string password: leave blank for auto generated
      */
-    public function create_account($person_guid, $username, $usermail, $password = "", $send_welcome_mail = false, $auto_relocate = true)
+    public function create_account($person_guid, $username, $usermail, $password = "", $send_welcome_mail = false)
     {
         $this->errstr = ""; // start fresh
 
@@ -82,10 +90,10 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
             $generated_password = false;
         }
 
-        $this->_account = midcom_core_account::get($this->_person);
+        $account = $this->_get_account();
 
         //an account already existing?
-        if ($this->_account->get_password())
+        if ($account->get_password())
         {
             $this->errstr = "Creating new account for existing account is not possible";
             return false;
@@ -118,6 +126,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
             if (!$mail->send())
             {
                 $this->errstr = "Unable to deliver welcome mail: " . $mail->get_error_message();
+                $this->delete_account();
                 return false;
             }
         }
@@ -141,12 +150,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
         {
             throw new midcom_error('Could not create account: ' . $this->errstr);
         }
-        if ($auto_relocate)
-        {
-            // Relocate to group view
-            midcom::get()->relocate("view/{$this->_person->guid}/");
-            // This will exit
-        }
+
         return true;
     }
 
@@ -158,7 +162,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
      */
     public function set_account($username, $new_password)
     {
-        $this->_account = midcom_core_account::get($this->_person);
+        $account = $this->_get_account();
         if (!empty($new_password))
         {
             $new_password_encrypted = midcom_connection::prepare_password($new_password);
@@ -168,7 +172,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
                  && $this->check_password_strength($new_password))
             {
                 $this->_save_old_password();
-                $this->_account->set_password($new_password);
+                $account->set_password($new_password);
             }
             else
             {
@@ -177,10 +181,10 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
             }
         }
 
-        $this->_account->set_username($username);
+        $account->set_username($username);
 
         // probably username not unique
-        if (!$this->_account->save())
+        if (!$account->save())
         {
             $this->errstr = "Failed to save account, reason: " . midcom_connection::get_error_string();
             return false;
@@ -254,7 +258,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
     function check_password_reuse($password)
     {
         //check current password
-        if (($this->_account->get_password() == $password))
+        if (($this->_get_account()->get_password() == $password))
         {
             midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.user'), $this->_l10n->get('password is the same as the current one'), 'error');
             return false;
@@ -283,7 +287,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
             return;
         }
         $old_passwords_array = $this->_get_old_passwords();
-        array_unshift($old_passwords_array, $this->_account->get_password());
+        array_unshift($old_passwords_array, $this->_get_account()->get_password());
 
         if (count($old_passwords_array) > $max_old_passwords)
         {
@@ -438,7 +442,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
      */
     public function disable_account()
     {
-        $this->_account = midcom_core_account::get($this->_person);
+        $account = $this->_get_account();
 
         $timeframe_minutes = $this->_config->get('password_block_timeframe_min');
 
@@ -470,9 +474,9 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
         {
              throw new midcom_error("Failed to register interface for re_open the user account, last Midgard error was: " . midcom_connection::get_error_string());
         }
-        $this->_person->set_parameter("org_openpsa_user_blocked_account", "account_password", $this->_account->get_password());
-        $this->_account->set_password('', false);
-        return $this->_account->save();
+        $this->_person->set_parameter("org_openpsa_user_blocked_account", "account_password", $account->get_password());
+        $account->set_password('', false);
+        return $account->save();
     }
 
     /**
@@ -482,8 +486,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
      */
     public function delete_account()
     {
-        $this->_account = midcom_core_account::get($this->_person);
-        return $this->_account->delete();
+        return $this->_get_account()->delete();
     }
 
     /**
@@ -493,17 +496,17 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
      */
     public function close_account()
     {
-        $this->_account = midcom_core_account::get($this->_person);
+        $account = $this->_get_account();
 
-        if (!$this->_account->get_password())
+        if (!$account->get_password())
         {
             // the account is already blocked, so skip the rest
             return true;
         }
 
-        $this->_person->set_parameter("org_openpsa_user_blocked_account", "account_password", $this->_account->get_password());
-        $this->_account->set_password('', false);
-        return $this->_account->save();
+        $this->_person->set_parameter("org_openpsa_user_blocked_account", "account_password", $account->get_password());
+        $account->set_password('', false);
+        return $account->save();
     }
 
     /**
@@ -513,7 +516,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
      */
     public function reopen_account()
     {
-        $account = midcom_core_account::get($this->_person);
+        $account = new midcom_core_account($this->_person);
         if ($account->get_password())
         {
             $this->_person->set_parameter('org_openpsa_user_blocked_account', 'account_password', "");

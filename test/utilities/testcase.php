@@ -30,7 +30,7 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
             throw new Exception('Person could not be created. Reason: ' . midcom_connection::get_error_string());
         }
 
-        $account = midcom_core_account::get($person);
+        $account = new midcom_core_account($person);
         $account->set_password($person->extra);
         $account->set_username($username);
         if (!$account->save())

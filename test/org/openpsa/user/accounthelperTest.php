@@ -69,7 +69,7 @@ class org_openpsa_user_accounthelperTest extends openpsa_testcase
         $person = self::create_user();
         $helper = new org_openpsa_user_accounthelper($person);
 
-        $account = midcom_core_account::get($person);
+        $account = new midcom_core_account($person);
         $password = $account->get_password();
 
         // not blocked yet
@@ -98,7 +98,7 @@ class org_openpsa_user_accounthelperTest extends openpsa_testcase
         $person = self::create_user();
         $helper = new org_openpsa_user_accounthelper($person);
 
-        $account = midcom_core_account::get($person);
+        $account = new midcom_core_account($person);
         $password = $account->get_password();
 
         // close account
@@ -109,6 +109,7 @@ class org_openpsa_user_accounthelperTest extends openpsa_testcase
 
         // now try reopening it
         $helper->reopen_account();
+        $account = new midcom_core_account($person);
 
         // check that account password is set again and the parameter is deleted
         $this->assertEquals($password, $account->get_password(), "Password should be set again");

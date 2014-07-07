@@ -24,7 +24,7 @@ class midcom_services_auth_loginTest extends openpsa_testcase
         self::$_username = __CLASS__ . ' user ' . time();
 
         midcom::get()->auth->request_sudo('midcom.core');
-        $account = midcom_core_account::get(self::$_person);
+        $account = new midcom_core_account(self::$_person);
         $account->set_password(self::$_password);
         $account->set_username(self::$_username);
         $account->save();

@@ -52,7 +52,12 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         switch ($data['controller']->process_form())
         {
             case 'save':
-                $this->_master->create_account($this->_person, $data["controller"]->formmanager);
+                if ($this->_master->create_account($this->_person, $data["controller"]->formmanager))
+                {
+                    midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.user'), sprintf($this->_l10n->get('person %s created'), $this->_person->name));
+                    return new midcom_response_relocate('view/' . $this->_person->guid . '/');
+                }
+                break;
 
             case 'cancel':
                 return new midcom_response_relocate('view/' . $this->_person->guid . '/');
