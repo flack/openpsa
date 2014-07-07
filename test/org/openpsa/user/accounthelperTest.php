@@ -74,11 +74,11 @@ class org_openpsa_user_accounthelperTest extends openpsa_testcase
 
         // not blocked yet
         $this->assertFalse($helper->is_blocked());
-
         $this->assertTrue($helper->close_account());
+        $account_after = new midcom_core_account($person);
 
         // check that account password is empty and the parameter is set correctly
-        $this->assertEmpty($account->get_password());
+        $this->assertEmpty($account_after->get_password());
         $param = $person->get_parameter("org_openpsa_user_blocked_account", "account_password");
         $this->assertEquals($password, $param);
 
@@ -105,14 +105,15 @@ class org_openpsa_user_accounthelperTest extends openpsa_testcase
         $this->assertFalse($helper->is_blocked());
         $this->assertTrue($helper->close_account());
         $this->assertTrue($helper->is_blocked());
-        $this->assertEmpty($account->get_password());
+        $account_blocked = new midcom_core_account($person);
+        $this->assertEmpty($account_blocked->get_password());
 
         // now try reopening it
         $helper->reopen_account();
-        $account = new midcom_core_account($person);
+        $account_after = new midcom_core_account($person);
 
         // check that account password is set again and the parameter is deleted
-        $this->assertEquals($password, $account->get_password(), "Password should be set again");
+        $this->assertEquals($password, $account_after->get_password(), "Password should be set again");
         $this->assertNull($person->get_parameter("org_openpsa_user_blocked_account", "account_password"), "Param should have been deleted");
 
         // account is not blocked anymore
@@ -314,7 +315,7 @@ class org_openpsa_user_accounthelperTest extends openpsa_testcase
     public function testSet_account()
     {
         $accounthelper = new org_openpsa_user_accounthelper(self::$_user);
-        $account = midcom_core_account::get(self::$_user);
+        $account = new midcom_core_account(self::$_user);
         $password = $account->get_password();
         $username = $account->get_username();
 
@@ -330,6 +331,7 @@ class org_openpsa_user_accounthelperTest extends openpsa_testcase
 
         $this->assertTrue($accounthelper->set_account($new_username, $new_password));
         midcom::get()->auth->drop_sudo();
+        $account = new midcom_core_account(self::$_user);
         $this->assertEquals(midcom_connection::prepare_password($new_password), $account->get_password());
         $this->assertEquals($new_username, $account->get_username());
         $this->assertFalse(is_null(self::$_user->get_parameter('org_openpsa_user_password', 'last_change')));

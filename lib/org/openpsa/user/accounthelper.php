@@ -520,11 +520,15 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
         if ($account->get_password())
         {
             $this->_person->set_parameter('org_openpsa_user_blocked_account', 'account_password', "");
-            $msg = 'Person with id #' . $this->_person->id . ' does have a password so will not be set to the old one -- Account unblocked';
+            $msg = 'Account for person #' . $this->_person->id . ' does have a password already';
             throw new midcom_error($msg);
         }
 
         $account->set_password($this->_person->get_parameter('org_openpsa_user_blocked_account', 'account_password'), false);
+        if (!$account->save())
+        {
+            throw new midcom_error('Failed to save account: ' . midcom_connection::get_error_string());
+        }
         $this->_person->delete_parameter('org_openpsa_user_blocked_account', 'account_password');
     }
 
