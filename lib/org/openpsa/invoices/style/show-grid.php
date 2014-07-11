@@ -1,6 +1,7 @@
 <?php
 $grid = $data['grid'];
 $classes = $data['list_type'];
+$invoices_url = org_openpsa_core_siteconfig::get_instance()->get_node_full_url('org.openpsa.invoices');
 
 if ($data['list_type'] == 'overdue')
 {
@@ -59,5 +60,5 @@ $grid->set_footer_data($footer_data);
 </div>
 
 <script type="text/javascript">
-    bind_invoice_actions('<?php echo $classes ?>');
+    bind_invoice_actions('<?php echo $classes; ?>', '<?php echo $invoices_url; ?>');
 </script>

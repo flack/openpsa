@@ -21,10 +21,7 @@ class org_openpsa_invoices_viewer extends midcom_baseclasses_components_request
 
     public static function add_head_elements_for_invoice_grid()
     {
-        $invoices_url = org_openpsa_core_siteconfig::get_instance()->get_node_full_url('org.openpsa.invoices');
-
         org_openpsa_widgets_grid::add_head_elements();
-        midcom::get()->head->add_jscript('var INVOICES_URL ="' . $invoices_url . 'invoice/process/";');
         midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.invoices/invoices.js');
     }
 

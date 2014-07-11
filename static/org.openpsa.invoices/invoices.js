@@ -55,10 +55,10 @@ function calculate_invoices_total(table)
     totals_field.text(total);
 }
 
-function process_invoice(button, action)
+function process_invoice(button, action, invoice_url)
 {
     var id = button.parent().parent().attr('id');
-    $.post(INVOICES_URL, {id: id, action: action}, function(data, status)
+    $.post(invoice_url + 'invoice/process/', {id: id, action: action}, function(data, status)
     {
         var parsed = jQuery.parseJSON(data);
         if (parsed.success === false)
@@ -96,22 +96,22 @@ function process_invoice(button, action)
     });
 }
 
-function bind_invoice_actions(classes)
+function bind_invoice_actions(classes, invoice_url)
 {
     classes = classes.replace(/ /g, '.');
 
     $('.org_openpsa_invoices.' + classes + ' .ui-jqgrid-btable')
         .delegate('button.mark_sent', 'click', function()
         {
-            process_invoice($(this), 'mark_sent');
+            process_invoice($(this), 'mark_sent', invoice_url);
         })
         .delegate('button.mark_sent_per_mail', 'click', function()
         {
-            process_invoice($(this), 'send_by_mail');
+            process_invoice($(this), 'send_by_mail', invoice_url);
         })
         .delegate('button.mark_paid', 'click', function()
         {
-            process_invoice($(this), 'mark_paid');
+            process_invoice($(this), 'mark_paid', invoice_url);
         });
 }
 
