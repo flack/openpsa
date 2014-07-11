@@ -22,13 +22,7 @@ class org_openpsa_invoices_handler_goto extends midcom_baseclasses_components_ha
     {
         if (!isset($_GET['query']))
         {
-            $MessageContent = sprintf
-            (
-                $this->_l10n->get('no invoice number was handed over'),
-                $this->_l10n->get($_GET['query'])
-            );
-
-            midcom::get()->uimessages->add($this->_l10n->get('invoice was not found'), $MessageContent, 'info');
+            midcom::get()->uimessages->add($this->_l10n->get('invoice was not found'), $this->_l10n->get('no invoice number was handed over'), 'info');
             return new midcom_response_relocate('');
         }
 
