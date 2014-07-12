@@ -400,16 +400,7 @@ class midcom_helper_head
      */
     public function print_head_elements()
     {
-        if ($this->_jquery_enabled)
-        {
-            echo $this->_jquery_init_scripts;
-        }
-
-        if (!empty($this->_prepend_jshead))
-        {
-            array_map(array($this, '_print_js'), $this->_prepend_jshead);
-        }
-
+        echo $this->_meta_head;
         foreach ($this->_linkhrefs as $url)
         {
             $attributes = $this->_link_head[$url];
@@ -432,7 +423,16 @@ class midcom_helper_head
 
         echo $this->_object_head;
         echo $this->_style_head;
-        echo $this->_meta_head;
+
+        if ($this->_jquery_enabled)
+        {
+            echo $this->_jquery_init_scripts;
+        }
+
+        if (!empty($this->_prepend_jshead))
+        {
+            array_map(array($this, '_print_js'), $this->_prepend_jshead);
+        }
 
         array_map(array($this, '_print_js'), $this->_jshead);
         $this->print_jquery_statuses();
