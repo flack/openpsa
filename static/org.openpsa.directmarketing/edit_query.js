@@ -1,4 +1,3 @@
-
 //setting needed variables
 //Arrays containing groups & rules, indexed by their id
 var groups = [],
@@ -21,24 +20,6 @@ function count(array)
     return c;
 }
 
-// adds hover effect to group
-function group_hover()
-{
-    $("#" + this.id).hover(
-        //onhover
-        function()
-        {
-            $(this).addClass("focus");
-        },
-        //hover out
-        function()
-        {
-            $(this).removeClass("focus");
-        }
-    );
-}
-
-
 function send_preview()
 {
     var loading = "<img style='text-align:center;' src='" + MIDCOM_STATIC_URL + "/stock-icons/32x32/ajax-loading.gif'/>";
@@ -47,13 +28,12 @@ function send_preview()
     get_rules_array(zero_group_id);
     var rules_array = $("#midcom_helper_datamanager2_dummy_field_rules").val(),
     post_data = {show_rule_preview: true, midcom_helper_datamanager2_dummy_field_rules: rules_array};
-    $.post(document.URL, post_data,
-              function(data){
-                $("#preview_persons").html(data);
-                $("#preview_persons").css("text-align", "left");
-              });
+    $.post(document.URL, post_data, function(data)
+    {
+        $("#preview_persons").html(data);
+        $("#preview_persons").css("text-align", "left");
+    });
 }
-
 
 function render_parameters_div(domain, parameter_name, match, value)
 {
@@ -106,18 +86,16 @@ function remove_rule()
     }
 
     $("#" + this.id).remove();
-    rules[String(this.id)] = null;
-    delete(rules[String(this.id)]);
+    delete rules[String(this.id)];
     //check if this was last rule
     if (count_child_rules === 1)
     {
         if (this.parent !== zero_group_id && count_child_groups === 0)
         {
             //remove parent group from child_groups of the parent group of the parent
-            groups[groups[this.parent].parent].child_groups[this.parent] = null;
-            delete(groups[groups[this.parent].parent].child_groups[this.parent]);
+            delete groups[groups[this.parent].parent].child_groups[this.parent];
             groups[this.parent].remove();
-            delete(groups[this.parent]);
+            delete groups[this.parent];
         }
         else
         {
@@ -127,6 +105,7 @@ function remove_rule()
 
     return false;
 }
+
 function remove_group()
 {
     var rule_key,
@@ -138,8 +117,7 @@ function remove_group()
         if (this.child_rules[rule_key] !== null)
         {
             rules[this.child_rules[rule_key]].remove();
-            rules[this.child_rules[rule_key]] = null;
-            delete(rules[this.child_rules[rule_key]]);
+            delete rules[this.child_rules[rule_key]];
         }
     }
 
@@ -153,8 +131,7 @@ function remove_group()
                 groups[this.child_groups[group_key]].remove();
             }
             this.child_groups[group_key] = null;
-            groups[this.child_groups[group_key]] = null;
-            delete(groups[this.child_groups[group_key]]);
+            delete groups[this.child_groups[group_key]];
         }
     }
 
@@ -166,9 +143,9 @@ function remove_group()
     }
 
     $("#" + this.id).remove();
-    groups[String(this.id)] = null;
-    delete(groups[String(this.id)]);
+    delete groups[String(this.id)];
 }
+
 function render_match_selectinput(match, value)
 {
     var html = '',
@@ -212,40 +189,37 @@ function render_match_selectinput(match, value)
     }
 }
 
-function property_select_onchange(select)
-{
-    this.render_match_selectinput(false, false);
-}
-
 function render_properties_select(properties, selected)
 {
-    var html = '',
-    input_id = this.id + '_property',
-    input_name = this.id + '[property]',
-    jscall = "rules['" + String(this.id) +"'].property_select_onchange(this)";
+    var select = $('<select class="select" name="' + this.id + '[property]" id="' + this.id + '_property"/>'),
+        rule = rules[this.id],
+        option;
 
-    html += '<select class="select" name="' + input_name + '" id="' + input_id + '" onchange="' + jscall +'">';
-    html += '<option value=""></option>';
+    select
+        .on('change', function()
+        {
+            rule.render_match_selectinput(false, false);
+        })
+        .append($('<option value=""></option>'));
+
     $("#" + this.id + "_property").remove();
     $("#" + this.id + "_parameter_domain").remove();
     $("#" + this.id + "_parameter_name").remove();
     $.each(properties, function(key, value)
     {
+        option = $('<option value="' + key + '">' + value + '</option>');
         if (   selected !== false
             && selected === key)
         {
-            html += '<option selected="selected" value="' + key + '">' + value + '</option>';
+            option.prop('selected', true);
         }
-        else
-        {
-            html += '<option value="' + key + '">' + value + '</option>';
-        }
+        select.append(option);
     });
-    html += '</select>';
-    $("#" + this.id + "_object").after(html);
+
+    $("#" + this.id + "_object").after(select);
 }
 
-function object_select_onchange(object)
+function object_select_onchange()
 {
     /* Render next inputs based on value */
     var selected = $("#" + this.id + "_object").val(),
@@ -287,45 +261,50 @@ function object_select_onchange(object)
 
 function render_rule(selected)
 {
-    //var rule_id = this.id;
-    var html = "<div id='" + this.id + "' class='rule'> </div>",
-    parent_field = "<input type=\"hidden\" name=\"" + this.id + "[parent]\" value=\"" + this.parent + "\"/>";
-    $("#" + this.parent + "_add_group").before(html);
-    var object_select = $('<select>')
-        .attr(
-        {
-            id: this.id + '_object',
-            name: this.id + '[object]'
-        })
-        .addClass('select')
-        .change( function()
+    var rule_object = rules[this.id],
+        rule = $('<div id="' + this.id + '" class="rule" />'),
+        parent_field = $('<input type="hidden" name="' + this.id + '[parent]" value="' + this.parent + '"/>'),
+        object_select = $('<select class="select" id="' + this.id + '_object" name="' + this.id + '[object]" />'),
+        remove_button = $('<img src="' + MIDCOM_STATIC_URL + '/stock-icons/16x16/list-remove.png"  class="button remove_row" />'),
+        add_button = $('<img src="' + MIDCOM_STATIC_URL + '/stock-icons/16x16/list-add.png"  class="button add_row" />'),
+        option;
+
+    remove_button.on('click', function(e)
+    {
+        e.preventDefault();
+        rule_object.remove();
+    });
+
+    add_button.on('click', function(e)
+    {
+        e.preventDefault();
+        $(this).remove();
+        groups[rule_object.parent].add_rule();
+    });
+
+    object_select
+        .on('change', function()
         {
             var rule_id = $(this).parent().attr("id");
-            rules[rule_id].object_select_onchange(this);
-        });
+            rules[rule_id].object_select_onchange();
+        })
+        .append($('<option value=""></option>'));
 
-    html = '<option value=""></option>';
     $.each(org_openpsa_directmarketing_edit_query_property_map, function(key, value)
     {
+        option = $('<option value="' + key + '">' + value.localized + '</option>');
         if (selected !== false && selected === key)
         {
-            html += '<option selected="selected" value="' + key + '">' + value.localized + '</option>';
+            option.prop('selected', true);
         }
-        else
-        {
-            html += '<option value="' + key + '">' + value.localized + '</option>';
-        }
+        object_select.append(option);
     });
-    object_select.html(html);
+    rule.append(object_select);
+    rule.append(remove_button);
+    rule.append(add_button);
+    rule.append(parent_field);
 
-    $("#" + this.id).append(object_select);
-    html = "";
-
-    html += "<img src=\"" + MIDCOM_STATIC_URL + "/stock-icons/16x16/list-remove.png\"  class=\"button remove_row\" onclick=\"rules['" + this.id + "'].remove(); return false;\" />";
-
-    html += "<img id =\"" + this.id + "_add\" type=\"image\" src=\"" + MIDCOM_STATIC_URL + "/stock-icons/16x16/list-add.png\"  class=\"button add_row\" onclick=\"$(this).remove();groups['" + this.parent + "'].add_rule(); return false;\" />";
-    html += parent_field;
-    $("#" + this.id).append(html);
+    $("#" + this.parent + "_add_group").before(rule);
 
     // to display rules as one block
     if ($("#" + this.id).prev(".rule").length > 0 )
@@ -348,47 +327,51 @@ function rule(parent, id)
     this.object_select_onchange = object_select_onchange;
     this.render_properties_select = render_properties_select;
     this.render_parameters_div = render_parameters_div;
-    this.property_select_onchange = property_select_onchange;
     this.render_match_selectinput = render_match_selectinput;
     this.remove = remove_rule;
 }
 
 function render_group(selected)
 {
-    var parent_field = "<input type=\"hidden\" name=\"" + this.id + "[parent]\" value=\"" + this.parent + "\"/>",
-    group_select = "<select class=\"groupselect\" name=\"" + this.id + "[group]\" id=\"" + this.id + "_select\">",
-    group_button = "<br /> <input id=\"" + this.id + "_add_group\" class=\"add_group\" type=\"button\" value=\"" + org_openpsa_directmarketing_edit_query_l10n_map.add_group + "\" onclick=\"groups['" + this.id + "'].add_group(false);\">",
-    // no remove for first group
-    group_remove_button = "";
+    var group = this,
+        content_group = $('<div id="' + this.id + '" class="group"/>'),
+        group_select = $('<select class="groupselect" name="' + this.id + '[group]" id="' + this.id + '_select" />'),
+        group_button = $('<input id="' + this.id + '_add_group" class="add_group" type="button" value="' + org_openpsa_directmarketing_edit_query_l10n_map.add_group + '">'),
+        parent_field = $('<input type="hidden" name="' + this.id + '[parent]" value="' + this.parent + '"/>'),
+        group_remove_button, option;
+
+    group_button.on('click', function()
+    {
+        group.add_group(false);
+    });
     if (this.id !== "dirmar_rules_editor_container_group_0")
     {
-        group_remove_button = "<input id=\"" + this.id + "_remove_group\" class=\"remove_group\" type=\"button\" value=\"" + org_openpsa_directmarketing_edit_query_l10n_map.remove_group + "\" onclick=\"groups['" + this.id + "'].remove();\">";
+        group_remove_button = $('<input id=""' + this.id + '_remove_group" class="remove_group" type="button" value="' + org_openpsa_directmarketing_edit_query_l10n_map.remove_group + '">');
+        group_remove_button.on('click', function()
+        {
+            group.remove();
+        })
+        .appendTo(content_group);
     }
 
     $.each(org_openpsa_directmarketing_group_select_map, function(key, value)
     {
+        option = $('<option value="' + key + '">' + value + '</option>');
         //check for selected
         if (key === selected)
         {
-            group_select += '<option selected="selected" value="' + key + '">' + value + '</option>';
+            option.prop('selected', true);
         }
-        else
-        {
-            group_select += '<option value="' + key + '">' + value + '</option>';
-        }
+        group_select.append(option);
     });
-    group_select += '</select>';
-    var content_group ="<div id='" + this.id + "' class='group'>";
-    content_group += group_remove_button;
-    content_group += group_select;
+    content_group.append(group_select);
+    content_group.append($('<br>'));
+    content_group.append(group_button);
+    content_group.append(parent_field);
 
-    content_group += group_button;
-    content_group += parent_field;
-    content_group +="</div>";
     if (this.id !== "dirmar_rules_editor_container_group_0")
     {
         $("#" + this.parent + "_add_group").before(content_group);
-        this.hover();
     }
     else
     {
@@ -419,10 +402,6 @@ function add_rule(selected)
     rules[index].render(selected);
     this.child_rules[index] = rules[index].id;
 
-    if ($("#" + index).prev().children(".remove_row").length < 1)
-    {
-        remove_button = "<img  src=\"" + MIDCOM_STATIC_URL + "/stock-icons/16x16/list-remove.png\"  class=\"button remove_row\" onclick=\"rules['" + index + "'].remove(); return false;\" />";
-    }
     if ($("#" + index).prev().children(".add_row").length > 0)
     {
         $("#" + index).prev().children(".add_row").remove();
@@ -459,7 +438,6 @@ function group(parent, number)
     this.add_rule = add_rule;
     this.add_group = add_group;
     this.remove = remove_group;
-    this.hover = group_hover;
 
     this.child_groups = [];
     this.child_rules = [];
@@ -482,12 +460,14 @@ function first_group(id, selected)
 // function to gather the rules from the form & write them into midcom_helper_datamanager2_dummy_field_rules
 function get_rules_array(parent_id)
 {
-    var type = $("#" + parent_id + "_select").val();
     $("#midcom_helper_datamanager2_dummy_field_rules").empty();
+
+    var type = $("#" + parent_id + "_select").val(),
     array_append = "Array \n ( \n";
     array_append += "'type' => '" + type + "', 'groups' => '" + type + "',\n 'classes' => Array \n ( \n";
+
     $("#midcom_helper_datamanager2_dummy_field_rules").append(array_append);
-    get_rules_groups(parent_id, true, 0 );
+    get_rules_groups(parent_id, 0);
     array_append = "\n ), ) \n";
     $("#midcom_helper_datamanager2_dummy_field_rules").append(array_append);
 
@@ -497,41 +477,34 @@ function get_rules_array(parent_id)
 /**
  * function to gather rules for group
  *   parent_id - id to check for childs
- *   TODO: check for remove of first & id
- *   first - bool if this is the first group ( not needed anymore !?)
- *   id - also not needed anymore ?
  */
-function get_rules_groups(parent_id, first, group_start)
+function get_rules_groups(parent_id, group_start)
 {
-    var result = "",
-    i_group = group_start,
-    _key,
-    index,
-    type,
+    var i_group = group_start,
+    array_key, array_append,
+    index, type,
     i_rule,
     object,
     property,
-    match,
-    value;
-    console.log(groups);
-console.log(parent_id);
-    for (_key in groups[parent_id].child_groups)
+    domain, name, match, value;
+
+    for (array_key in groups[parent_id].child_groups)
     {
-        index = groups[parent_id].child_groups[_key];
+        index = groups[parent_id].child_groups[array_key];
         type = $("#" + index + "_select").val();
         if (type !== undefined)
         {
             $("#midcom_helper_datamanager2_dummy_field_rules").append(i_group + " => Array \n ( \n");
             i_group = i_group  + 1;
             $("#midcom_helper_datamanager2_dummy_field_rules").append("'type' => '" + type + "',\n 'groups' => '" + type + "',\n 'classes' => Array \n ( \n");
-            get_rules_groups(groups[parent_id].child_groups[_key], false, i_group + 1 );
+            get_rules_groups(index, i_group + 1 );
             $("#midcom_helper_datamanager2_dummy_field_rules").append("\n ), \n ), \n");
         }
     }
     i_rule = i_group  + 1 ;
-    for (_key in groups[parent_id].child_rules)
+    for (array_key in groups[parent_id].child_rules)
     {
-        index = groups[parent_id].child_rules[_key];
+        index = groups[parent_id].child_rules[array_key];
         object = $("#" + index + "_object").val();
         if (   object !== undefined
             && object !== "")
@@ -539,9 +512,9 @@ console.log(parent_id);
             // parameters must be handled differently
             if (object === 'generic_parameters')
             {
-                var domain  = $("#" + index + "_parameter_domain").val(),
-                name = $("#" + index + "_parameter_name").val(),
-                match = $("#" + index + "_match").val(),
+                domain  = $("#" + index + "_parameter_domain").val();
+                name = $("#" + index + "_parameter_name").val();
+                match = $("#" + index + "_match").val();
                 value = $("#" + index + "_value").val();
 
                 if (match === 'LIKE' || match === 'NOT LIKE')
@@ -605,16 +578,11 @@ console.log(parent_id);
  */
 function get_child_rules(parent, rules_array)
 {
-    var key,
-    value,
+    var key, value,
     map_class,
-    rule_match,
-    rule_value,
-    rule_property,
-    rule_id,
-    property_class_found,
-    properties,
-    parameters;
+    rule_match, rule_value, rule_property, rule_id,
+    property_class_found, properties, error_message,
+    parameters, group_id;
 
     for (key in rules_array)
     {
@@ -628,8 +596,8 @@ function get_child_rules(parent, rules_array)
                 $('<div></div>').attr({
                     id: 'midcom_services_uimessages_wrapper'
                     }).appendTo('body');
-                var error_message = error_message_class  + "\n Class : " + value['class'] + "\n <a href='" + window.location.href.replace(/edit_query/g, 'edit_query_advanced') + "'>\n Advanced Editor </a>";
-                $('#midcom_services_uimessages_wrapper').midcom_services_uimessage({title: 'org.openpsa.directmarketing', message: error_message, type: 'error'})
+                error_message = error_message_class  + "\n Class : " + value['class'] + "\n <a href='" + window.location.href.replace(/edit_query/g, 'edit_query_advanced') + "'>\n Advanced Editor </a>";
+                $('#midcom_services_uimessages_wrapper').midcom_services_uimessage({title: 'org.openpsa.directmarketing', message: error_message, type: 'error'});
             }
             //old-parameter-case
             if (value.groups && value.rules)
@@ -640,11 +608,11 @@ function get_child_rules(parent, rules_array)
                 rule_match = value.groups[0].rules[2].match;
                 rule_value = value.groups[0].rules[2].value;
                 rule_id = groups[parent].add_rule(map_class);
-                if (rule_value.substr(0,1) === '%')
+                if (rule_value.substr(0, 1) === '%')
                 {
                     rule_value = rule_value.substr(1);
                 }
-                if (rule_value.substr(rule_value.length - 1,1) === '%')
+                if (rule_value.substr(rule_value.length - 1, 1) === '%')
                 {
                     rule_value = rule_value.substr(0, rule_value.length -1);
                 }
@@ -652,7 +620,7 @@ function get_child_rules(parent, rules_array)
             }//normal group-case
             else if (value.groups)
             {
-                var group_id = groups[parent].add_group(value.type);
+                group_id = groups[parent].add_group(value.type);
                 get_child_rules(group_id, value.classes);
             }//normal rule-case
             else if (value.rules)
@@ -686,7 +654,7 @@ function get_child_rules(parent, rules_array)
                         rule_value = rule_value.substr(0, rule_value.length -1);
                     }
                      rules[rule_id].render_properties_select(properties, rule_property);
-                     rules[rule_id].render_match_selectinput(rule_match, rule_value)
+                     rules[rule_id].render_match_selectinput(rule_match, rule_value);
                 }
                 else if (parameters)
                 {
@@ -708,3 +676,17 @@ function get_child_rules(parent, rules_array)
         }
     }
 }
+
+$(document).ready(function()
+{
+    // adds hover effect to group
+    $("#org_openpsa_directmarketing_rules_editor")
+        .on('mouseenter', '#dirmar_rules_editor_container_group_0 .group', function()
+        {
+            $(this).addClass("focus");
+        })
+        .on('mouseleave', '#dirmar_rules_editor_container_group_0 .group', function()
+        {
+            $(this).removeClass("focus");
+        });
+});
