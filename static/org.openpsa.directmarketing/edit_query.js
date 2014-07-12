@@ -146,67 +146,21 @@ function remove_group()
     delete groups[String(this.id)];
 }
 
-function render_match_selectinput(match, value)
+function build_select(id, name, cssclass, options, selected, add_empty)
 {
-    var html = '',
-    input_id = this.id + '_match',
-    input_name = this.id + '[match]';
-
-    if ($("#" + input_id).length < 1 )
-    {
-        html += '<select class="select" name="' + input_name + '" id="' + input_id + '">';
-        $.each(org_openpsa_directmarketing_edit_query_match_map, function(key, value)
-        {
-            if (match === key)
-            {
-                html += '<option selected="selected" value="' + key + '">' + value + '</option>';
-            }
-            else
-            {
-                html += '<option value="' + key + '">' + value + '</option>';
-            }
-        });
-        html += '</select>';
-
-        var input_id2 = this.id + '_value',
-        input_name2 = this.id + '[value]';
-        if (value === false)
-        {
-            value = "";
-        }
-        html += '<input type="text" class="shorttext" value ="' + value + '" name="' + input_name2 + '" id="' + input_id2 + '" >';
-        $("#" + input_id).remove();
-        $("#" + input_id2).remove();
-
-        if ($("#" + this.id + "_object").val() === 'generic_parameters')
-        {
-            $("#" + this.id + "_parameter_name").after(html);
-        }
-        else
-        {
-            $("#" + this.id + "_property").after(html);
-        }
-    }
-}
-
-function render_properties_select(properties, selected)
-{
-    var select = $('<select class="select" name="' + this.id + '[property]" id="' + this.id + '_property"/>'),
-        rule = rules[this.id],
+    var select = $('<select class="' + cssclass + '" name="' + name + '" id="' + id + '"/>'),
         option;
 
-    select
-        .on('change', function()
-        {
-            rule.render_match_selectinput(false, false);
-        })
-        .append($('<option value=""></option>'));
-
-    $("#" + this.id + "_property").remove();
-    $("#" + this.id + "_parameter_domain").remove();
-    $("#" + this.id + "_parameter_name").remove();
-    $.each(properties, function(key, value)
+    if (add_empty === true)
     {
+        select.append($('<option value=""></option>'));
+    }
+    $.each(options, function(key, value)
+    {
+        if ($.isPlainObject(value))
+        {
+            value = value.localized;
+        }
         option = $('<option value="' + key + '">' + value + '</option>');
         if (   selected !== false
             && selected === key)
@@ -216,6 +170,45 @@ function render_properties_select(properties, selected)
         select.append(option);
     });
 
+    return select;
+}
+
+function render_match_selectinput(match, value)
+{
+    if ($("#" + this.id + '_match').length > 0)
+    {
+        return;
+    }
+    var input_id = this.id + "_match",
+        input_id2 = this.id + '_value',
+        holder = ($("#" + input_id).val() === 'generic_parameters') ? $("#" + this.id + "_parameter_name") : $("#" + this.id + "_property"),
+        select = build_select(this.id + '_match', this.id + '[match]', 'select', org_openpsa_directmarketing_edit_query_match_map, match, false),
+        input = $('<input type="text" class="shorttext" name="' + this.id + '[value]" id="' + input_id2 + '" >');
+
+    if (value === false)
+    {
+        value = "";
+    }
+    input.val(value);
+
+    holder.after(input);
+    holder.after(select);
+}
+
+function render_properties_select(properties, selected)
+{
+    var select = build_select(this.id + '_property', this.id + '[property]', 'select', properties, selected, true),
+        rule = rules[this.id];
+
+    select
+        .on('change', function()
+        {
+            rule.render_match_selectinput(false, false);
+        });
+
+    $("#" + this.id + "_property").remove();
+    $("#" + this.id + "_parameter_domain").remove();
+    $("#" + this.id + "_parameter_name").remove();
     $("#" + this.id + "_object").after(select);
 }
 
@@ -264,10 +257,9 @@ function render_rule(selected)
     var rule_object = rules[this.id],
         rule = $('<div id="' + this.id + '" class="rule" />'),
         parent_field = $('<input type="hidden" name="' + this.id + '[parent]" value="' + this.parent + '"/>'),
-        object_select = $('<select class="select" id="' + this.id + '_object" name="' + this.id + '[object]" />'),
+        object_select = build_select(this.id + '_object', this.id + '[object]', 'select', org_openpsa_directmarketing_edit_query_property_map, selected, true),
         remove_button = $('<img src="' + MIDCOM_STATIC_URL + '/stock-icons/16x16/list-remove.png"  class="button remove_row" />'),
-        add_button = $('<img src="' + MIDCOM_STATIC_URL + '/stock-icons/16x16/list-add.png"  class="button add_row" />'),
-        option;
+        add_button = $('<img src="' + MIDCOM_STATIC_URL + '/stock-icons/16x16/list-add.png"  class="button add_row" />');
 
     remove_button.on('click', function(e)
     {
@@ -287,18 +279,8 @@ function render_rule(selected)
         {
             var rule_id = $(this).parent().attr("id");
             rules[rule_id].object_select_onchange();
-        })
-        .append($('<option value=""></option>'));
+        });
 
-    $.each(org_openpsa_directmarketing_edit_query_property_map, function(key, value)
-    {
-        option = $('<option value="' + key + '">' + value.localized + '</option>');
-        if (selected !== false && selected === key)
-        {
-            option.prop('selected', true);
-        }
-        object_select.append(option);
-    });
     rule.append(object_select);
     rule.append(remove_button);
     rule.append(add_button);
@@ -335,10 +317,10 @@ function render_group(selected)
 {
     var group = this,
         content_group = $('<div id="' + this.id + '" class="group"/>'),
-        group_select = $('<select class="groupselect" name="' + this.id + '[group]" id="' + this.id + '_select" />'),
+        group_select = build_select(this.id + '_group', this.id + '[group]', 'groupselect', org_openpsa_directmarketing_group_select_map, selected, false),
         group_button = $('<input id="' + this.id + '_add_group" class="add_group" type="button" value="' + org_openpsa_directmarketing_edit_query_l10n_map.add_group + '">'),
         parent_field = $('<input type="hidden" name="' + this.id + '[parent]" value="' + this.parent + '"/>'),
-        group_remove_button, option;
+        group_remove_button;
 
     group_button.on('click', function()
     {
@@ -354,16 +336,6 @@ function render_group(selected)
         .appendTo(content_group);
     }
 
-    $.each(org_openpsa_directmarketing_group_select_map, function(key, value)
-    {
-        option = $('<option value="' + key + '">' + value + '</option>');
-        //check for selected
-        if (key === selected)
-        {
-            option.prop('selected', true);
-        }
-        group_select.append(option);
-    });
     content_group.append(group_select);
     content_group.append($('<br>'));
     content_group.append(group_button);
