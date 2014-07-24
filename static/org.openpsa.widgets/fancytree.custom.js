@@ -6,7 +6,10 @@ var org_openpsa_tree =
         {
             minExpandLevel: 1,
             extensions: ['persist'],
-            cookie: {path: prefix},
+            persist: 
+        	{
+                cookie: {path: prefix},            	
+        	},
             clickFolderMode: 2,
             autoCollapse: false,
             debugLevel: -1,
@@ -14,6 +17,7 @@ var org_openpsa_tree =
             activate: function(event, data)
             {
                 if (   data.node.data.href !== undefined
+                    && event.originalEvent !== undefined
                     && window.location.pathname !== data.node.data.href)
                 {
                     window.location.href = data.node.data.href;
