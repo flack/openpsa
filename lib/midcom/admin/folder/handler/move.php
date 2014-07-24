@@ -137,9 +137,8 @@ class midcom_admin_folder_handler_move extends midcom_baseclasses_components_han
     private function _move_object($target)
     {
         $move_to_topic = new midcom_db_topic();
-        $move_to_topic->get_by_id($target);
 
-        if (!$move_to_topic->guid)
+        if (!$move_to_topic->get_by_id($target))
         {
             throw new midcom_error( 'Failed to move the topic. Could not get the target topic');
         }
