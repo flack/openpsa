@@ -7,8 +7,6 @@ sudo apt-get update
 # MidCOM requires rcs
 sudo apt-get install rcs
 
-${COMPOSER} install
-
 if [ "$MIDGARD_EXT_VERSION" != "portable" ]
 then
     # Install Pake
@@ -32,4 +30,5 @@ else
     ${COMPOSER} require openpsa/midgard-portable:dev-master
 fi
 
+${COMPOSER} install
 sudo chown -R travis var/
