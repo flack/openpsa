@@ -166,8 +166,7 @@ class midcom_helper__dbfactory
     /**
      * Helper function, it takes a MidCOM DBA object and converts it into an MgdSchema object.
      *
-     * If the conversion cannot be done for some reason, the function returns null and logs
-     * an error.
+     * If the conversion cannot be done for some reason, the function throws an error.
      *
      * @param midcom_core_dbaobject $object MidCOM DBA Object
      * @return midgard_object MgdSchema Object
@@ -176,10 +175,8 @@ class midcom_helper__dbfactory
     {
         if (! is_object($object))
         {
-            debug_print_type("Cannot cast the object to an MgdSchema type, it is not an object, we got this type:",
-                $object, MIDCOM_LOG_ERROR);
             debug_print_r("Object dump:", $object);
-            return null;
+            throw new midcom_error("Cannot cast the object to an MgdSchema type, it is not an object");
         }
 
         if (!midcom::get()->dbclassloader->is_midcom_db_object($object))
@@ -189,19 +186,15 @@ class midcom_helper__dbfactory
                 // Return it directly, it is already in the format we want
                 return $object;
             }
-            debug_print_type("Cannot cast the object to an MgdSchema type, it is not a MidCOM DBA object, we got this type:",
-                $object, MIDCOM_LOG_ERROR);
             debug_print_r("Object dump:", $object);
-            return null;
+            throw new midcom_error("Cannot cast the object to an MgdSchema type, it is not a MidCOM DBA object");
         }
 
         if (   !isset($object->__object)
             || !is_object($object->__object))
         {
-            debug_print_type("Cannot cast the object to an MgdSchema type, as it doesn't contain it, we got this type:",
-                $object, MIDCOM_LOG_ERROR);
             debug_print_r("Object dump:", $object);
-            return null;
+            throw new midcom_error("Cannot cast the object to an MgdSchema type, as it doesn't contain it");
         }
 
         return $object->__object;

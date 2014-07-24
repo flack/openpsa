@@ -16,6 +16,7 @@
  * @property midcom_helper__dbfactory $dbfactory
  * @property midcom_helper_head $head
  * @property midcom_helper__styleloader $style
+ * @property midcom_services_auth $auth
  * @property midcom_services_permalinks $permalinks
  * @property midcom_services_tmp $tmp
  * @property midcom_services_toolbars $toolbars

@@ -762,6 +762,7 @@ class midcom_baseclasses_core_dbobject
      *
      * @param midcom_core_dbaobject $newobject A class inherited from one of the MgdSchema driven Midgard classes supporting the above callbacks.
      * @param midcom_core_dbaobject $oldobject a parent object (usually a midgard_* base class) which to copy.
+     * @deprecated
      * @return bool Indicating success.
      */
     public static function cast_object(midcom_core_dbaobject $newobject, $oldobject)
@@ -769,7 +770,6 @@ class midcom_baseclasses_core_dbobject
         if (!is_a($oldobject, $newobject->__mgdschema_class_name__))
         {
             debug_add('Failed to cast ' . get_class($oldobject) . " to a {$newobject->__mgdschema_class_name__}: Incompatible Types", MIDCOM_LOG_INFO);
-            self::_clear_object($newobject);
             return false;
         }
         $helper = new helper;
@@ -798,7 +798,6 @@ class midcom_baseclasses_core_dbobject
         if (!$object->can_do('midgard:read'))
         {
             debug_add("Failed to load object, read privilege on the " . get_class($object) . " {$object->guid} not granted for the current user.");
-            self::_clear_object($object);
             throw new midcom_error_forbidden();
         }
         $object->_on_loaded();
@@ -831,13 +830,12 @@ class midcom_baseclasses_core_dbobject
          */
         try
         {
-            $refreshed = $object->get_by_id($object->id);
+            return $object->get_by_id($object->id);
         }
         catch (exception $e)
         {
             return false;
         }
-        return $refreshed;
     }
 
     /**
@@ -853,7 +851,6 @@ class midcom_baseclasses_core_dbobject
         if (!$id)
         {
             debug_add("Failed to load " . get_class($object) . " object, incorrect ID provided.", MIDCOM_LOG_ERROR);
-            self::_clear_object($object);
             return false;
         }
 
@@ -866,18 +863,15 @@ class midcom_baseclasses_core_dbobject
             {
                 debug_add("Failed to load object, read privilege on the " . get_class($object) . " {$object->guid} not granted for the current user.",
                     MIDCOM_LOG_ERROR);
-                self::_clear_object($object);
+                $object->__object = new $object->__mgdschema_class_name__;
                 return false;
             }
 
             $object->_on_loaded();
             return true;
         }
-        else
-        {
-            debug_add("Failed to load the record identified by {$id}, last Midgard error was:" . midcom_connection::get_error_string(), MIDCOM_LOG_INFO);
-            return false;
-        }
+        debug_add("Failed to load the record identified by {$id}, last Midgard error was:" . midcom_connection::get_error_string(), MIDCOM_LOG_INFO);
+        return false;
     }
 
     /**
@@ -890,27 +884,22 @@ class midcom_baseclasses_core_dbobject
      */
     public static function get_by_guid(midcom_core_dbaobject $object, $guid)
     {
+        if (   !midcom::get()->auth->admin
+            && !midcom::get()->auth->acl->can_do_byguid('midgard:read', $guid, get_class($object), midcom::get()->auth->acl->get_user_id()))
+        {
+            debug_add("Failed to load object, read privilege on the " . get_class($object) . " {$guid} not granted for the current user.", MIDCOM_LOG_ERROR);
+            return false;
+        }
         $object->__exec_get_by_guid((string) $guid);
 
         if (   $object->id != 0
             && $object->action != 'delete')
         {
-            if (!$object->can_do('midgard:read'))
-            {
-                debug_add("Failed to load object, read privilege on the " . get_class($object) . " {$object->guid} not granted for the current user.",
-                    MIDCOM_LOG_ERROR);
-                self::_clear_object($object);
-                return false;
-            }
-
             $object->_on_loaded();
             return true;
         }
-        else
-        {
-            debug_add("Failed to load the record identified by {$guid}, last Midgard error was: " . midcom_connection::get_error_string(), MIDCOM_LOG_INFO);
-            return false;
-        }
+        debug_add("Failed to load the record identified by {$guid}, last Midgard error was: " . midcom_connection::get_error_string(), MIDCOM_LOG_INFO);
+        return false;
     }
 
     /**
@@ -930,38 +919,14 @@ class midcom_baseclasses_core_dbobject
         {
             if (!$object->can_do('midgard:read'))
             {
-                self::_clear_object($object);
+                $object->__object = new $object->__mgdschema_class_name__;
                 return false;
             }
 
             $object->_on_loaded();
             return true;
         }
-        else
-        {
-            return false;
-        }
-    }
-
-    /**
-     * This method is deprecated. It does nothing.
-     *
-     * @param midcom_core_dbaobject $object The DBA object we're working on
-     */
-    private static function _clear_object(midcom_core_dbaobject $object)
-    {
-        $helper = new helper;
-        $vars = $helper->get_all_properties($object);
-        foreach ($vars as $name)
-        {
-            if (   substr($name, 0, 2) == '__'
-                && substr($name, -2) == '__')
-            {
-                // This is a special variable, we must not overwrite them.
-                continue;
-            }
-            $object->$name = null;
-        }
+        return false;
     }
 
     /**
