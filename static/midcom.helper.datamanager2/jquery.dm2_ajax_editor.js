@@ -61,10 +61,7 @@
             {
                 return $.dm2.ajax_editor.instances[identifier];
             }
-            else
-            {
-                return {};
-            }
+            return {};
         },
         remove_instance: function(identifier)
         {
@@ -807,7 +804,7 @@
                         id: this.identifier + '_ajax_toolbar'
                     }).hide();
 
-                    this.toolbar.insertBefore(this.fields[this.first_field_id].elem);
+                    this.toolbar.insertBefore($('.ajax_editable:visible:first'));
                 }
 
                 this.toolbar.html('');
