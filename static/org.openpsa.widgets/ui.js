@@ -391,8 +391,14 @@ var org_openpsa_layout =
                     media: 'screen, projection'
                 }).appendTo(head);
             }
-            $.getScript(MIDCOM_STATIC_URL + '/midcom.services.toolbars/jquery.midcom_services_toolbars.js', function(){
-                $('body div.midcom_services_toolbars_fancy').midcom_services_toolbar({});
+            $.ajax({
+                url: MIDCOM_STATIC_URL + '/midcom.services.toolbars/jquery.midcom_services_toolbars.js',
+                success: function()
+                {
+                    $('body div.midcom_services_toolbars_fancy').midcom_services_toolbar({});
+                },
+                dataType: "script",
+                cache: true
             });
             $('#org_openpsa_toolbar_trigger').addClass('active');
             save_state(true);
