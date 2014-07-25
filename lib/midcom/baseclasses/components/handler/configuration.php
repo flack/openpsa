@@ -38,6 +38,12 @@ implements midcom_helper_datamanager2_interfaces_edit
      */
     private $_controller;
 
+    public function __construct()
+    {
+        $this->_component = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_COMPONENT);
+        parent::__construct();
+    }
+
     public function get_schema_name()
     {
         if (isset($this->_master->_handler['schema']))
