@@ -927,7 +927,7 @@
             var id = field.attr('id');
             $.dm2.ajax_editor.debug("Enable tinymce for "+id);
 
-            tinyMCE.execCommand('mceAddControl', false, id);
+            tinymce.EditorManager.execCommand('mceAddEditor', false, id);
         },
         disable: function(field)
         {
@@ -936,19 +936,18 @@
 
             if (tinyMCE.get(id))
             {
-                tinyMCE.execCommand('mceRemoveControl', true, id);
+                tinymce.EditorManager.execCommand('mceRemoveEditor', false, id);
             }
         },
         get_value: function(field, input)
         {
             if (typeof input === 'undefined')
             {
-                var id = field.attr('id');
-                var name = id.replace(self.identifier + '_', '');
+                var id = field.attr('id'),
+                name = id.replace(self.identifier + '_', ''),
+                input_id = self.identifier + '_qf_' + name,
+                input = $('#'+input_id);
 
-                var input_id = self.identifier + '_qf_' + name;
-
-                var input = $('#'+input_id);
                 if (! input) {
                     return '';
                 }
