@@ -9,17 +9,13 @@
         config: {
             mode: 'inline'
         },
-        instances: null,
+        instances: {},
         strings: {
             save_btn_value: 'Save',
             edit_btn_value: 'Edit',
             cancel_btn_value: 'Cancel',
             preview_btn_value: 'Preview',
-            delete_btn_value: 'Delete',
-            on_save_text: 'Please wait - saving...',
-            on_cancel_text: 'Please wait - restoring the original...',
-            on_preview_text: 'Please wait - generating preview...',
-            on_edit_text: 'Please wait - loading editing interface...'
+            delete_btn_value: 'Delete'
         }
     };
 
@@ -33,16 +29,11 @@
         },
         create_instance: function(identifier, config, is_composite)
         {
-            if (typeof is_composite === 'undefined') {
+            if (is_composite === undefined) {
                 is_composite = false;
             }
 
-            if ($.dm2.ajax_editor.instances === null)
-            {
-                $.dm2.ajax_editor.instances = {};
-            }
-
-            if (typeof $.dm2.ajax_editor[config.mode] !== 'undefined')
+            if ($.dm2.ajax_editor[config.mode] !== undefined)
             {
                 $.dm2.ajax_editor.instances[identifier] = $.dm2.ajax_editor[config.mode]();
                 $.dm2.ajax_editor.instances[identifier].init(identifier, config, is_composite);
@@ -57,7 +48,7 @@
         {
             $.dm2.ajax_editor.debug("Get editor instance " + identifier);
 
-            if (typeof $.dm2.ajax_editor.instances[identifier] !== 'undefined')
+            if ($.dm2.ajax_editor.instances[identifier] !== undefined)
             {
                 return $.dm2.ajax_editor.instances[identifier];
             }
@@ -67,17 +58,10 @@
         {
             $.dm2.ajax_editor.debug("Remove editor instance " + identifier);
 
-            if (typeof $.dm2.ajax_editor.instances[identifier] !== 'undefined')
+            if ($.dm2.ajax_editor.instances[identifier] !== undefined)
             {
-                $.dm2.ajax_editor.instances[identifier].remove_from_dom();
+                $('#' + this.identifier + '_area').remove();
                 delete $.dm2.ajax_editor.instances[identifier];
-            }
-        },
-        set_class_prefix: function(prefix)
-        {
-            if (typeof prefix !== 'undefined')
-            {
-                $.dm2.ajax_editor.class_prefix = prefix;
             }
         },
         generate_classname: function(suffix)
@@ -86,19 +70,17 @@
         },
         show_message: function(message, title, type)
         {
-            $.dm2.ajax_editor.debug("Show message " + message);
-
             if (typeof $.midcom_services_uimessage_add !== 'function')
             {
                 return;
             }
 
-            if (typeof type === 'undefined')
+            if (type === undefined)
             {
                 type = MIDCOM_SERVICES_UIMESSAGES_TYPE_OK;
             }
 
-            if (typeof title === 'undefined')
+            if (title === undefined)
             {
                 title = 'Datamanager';
             }
@@ -113,7 +95,7 @@
         {
             if ($.dm2.ajax_editor.debug_enabled)
             {
-                if (typeof window.console !== 'undefined') {
+                if (window.console !== undefined) {
                     console.log(msg);
                 }
             }
@@ -156,13 +138,13 @@
             {
                 $.dm2.ajax_editor.debug("Init editor");
 
-                if (typeof is_composite === 'undefined') {
+                if (is_composite === undefined) {
                     is_composite = false;
                 }
 
                 this.config = $.extend({}, DM2AjaxEditorBaseObject._defaults, config || {});
 
-                if (typeof identifier !== 'undefined')
+                if (identifier !== undefined)
                 {
                     this.identifier = identifier;
                 }
@@ -212,7 +194,7 @@
                 {
                     var field = $(this),
                     id = field.attr('id'),
-                    name = id.replace(self.identifier+'_', '');
+                    name = id.replace(self.identifier + '_', '');
 
                     if (i === 0)
                     {
@@ -320,8 +302,6 @@
 
                 this.state.previous = '' + this.state.current;
                 this.state.current = new_state;
-
-                this.state_changed();
             },
             _fields_to_form: function()
             {
@@ -330,11 +310,10 @@
                 var self = this;
 
                 this.form.set_state(this.state.current);
-                $.each($('.' + this.identifier), function(i)
+                $.each($('.' + this.identifier), function()
                 {
                     var field = $(this),
-                    id = field.attr('id'),
-                    name = id.replace(self.identifier + '_', ''),
+                    name = field.attr('id').replace(self.identifier + '_', ''),
 
                     child = $(field).children('input'),
                     child_name = null;
@@ -364,40 +343,30 @@
             {
                 $.dm2.ajax_editor.debug("Get field input value (" + field.attr('id') + ")");
 
-                var self = this,
-                id = field.attr('id'),
-                name = id.replace(this.identifier + '_', ''),
-                input_id = this.identifier + '_qf_' + name,
-
-                input = $('#'+input_id);
+                var input_id = this.identifier + '_qf_' + field.attr('id').replace(this.identifier + '_', ''),
+                input = $('#' + input_id);
 
                 //in case the input-element is somehow different named, check if there is an input inside
                 if (input.length < 1)
                 {
-                    var input_child = $(field).children('input');
-                    if (input_child.length > 0)
+                    input = $(field).children('input');
+                    if (input.length < 1)
                     {
-                        input = input_child;
+                        return null;
                     }
-                }
-
-                if (input.length < 1)
-                {
-                    return null;
                 }
 
                 var input_class = input.attr('class'),
                 value = null;
 
                 $.each($.dm2.ajax_editor.wysiwygs.configs, function(wysiwyg_name, config){
-                    if (   typeof config.className  === 'undefined'
-                        || typeof $.dm2.ajax_editor.wysiwygs[wysiwyg_name] === 'undefined')
+                    if (config.className  === undefined)
                     {
                         return;
                     }
 
                     if (config.className === input_class) {
-                        value = $.dm2.ajax_editor.wysiwygs[wysiwyg_name].get_value(field, input);
+                        value = $.dm2.ajax_editor.wysiwygs[wysiwyg_name].get_value(input);
                     }
                 });
 
@@ -412,14 +381,11 @@
                 $.dm2.ajax_editor.debug("Fields from form");
 
                 var self = this;
-                $.each($('.'+this.identifier), function(i)
+                $.each($('.' + this.identifier), function()
                 {
-                    var field = $(this),
-                    id = field.attr('id'),
-                    name = id.replace(self.identifier+'_', ''),
+                    var name = $(this).attr('id').replace(self.identifier + '_', ''),
                     value = self.form.get_value(name),
-                    input_id = self.identifier + '_qf_' + name,
-                    input = $('#'+input_id);
+                    input = $('#' + self.identifier + '_qf_' + name);
 
                     if (! input)
                     {
@@ -431,40 +397,16 @@
             },
             _on_form_submit: function(status)
             {
-                var on_submit_text;
                 $.dm2.ajax_editor.debug("On form submit (" + status + ")");
-
-                // Create the help text for hovering effect
-                switch (status)
-                {
-                    case 'save':
-                        on_submit_text = $.dm2.ajax_editor.strings.on_save_text;
-                        break;
-
-                    case 'cancel':
-                        on_submit_text = $.dm2.ajax_editor.strings.on_cancel_text;
-                        break;
-
-                    case 'preview':
-                        on_submit_text = $.dm2.ajax_editor.strings.on_preview_text;
-                        break;
-
-                    case 'edit':
-                        on_submit_text = $.dm2.ajax_editor.strings.on_edit_text;
-                        break;
-
-                    default:
-                        return;
-                }
 
                 // Disable toolbar buttons
                 $('#' + this.identifier + '_ajax_toolbar').find('input[type="submit"]').prop('disabled', true);
             },
             _fetch_fields: function(edit_mode)
             {
-                $.dm2.ajax_editor.debug("fetch fields for "+this.identifier);
+                $.dm2.ajax_editor.debug("fetch fields for " + this.identifier);
 
-                if (typeof edit_mode === 'undefined')
+                if (edit_mode === undefined)
                 {
                     edit_mode = false;
                 }
@@ -535,12 +477,9 @@
                     $.dm2.ajax_editor.debug(this.errors);
                     this._change_state('edit');
                 }
-                else
+                else if (this.parsed_data.exit_code === 'save')
                 {
-                    if (this.parsed_data.exit_code === 'save')
-                    {
-                        $.dm2.ajax_editor.show_message('Form saved successfully');
-                    }
+                    $.dm2.ajax_editor.show_message('Form saved successfully');
                 }
 
                 var xml_fields = $('form', data).find('field'),
@@ -559,7 +498,7 @@
                 {
                     var new_holder = self.creation_tpl.clone();
 
-                    $.each(xml_fields, function(index, element)
+                    $.each(xml_fields, function(index)
                     {
                         $(new_holder.children()[index])
                             .addClass(self.parsed_data.new_identifier)
@@ -593,8 +532,8 @@
                 {
                     $.each($.dm2.ajax_editor.wysiwygs.configs, function(wysiwyg_name, config)
                     {
-                        if (   typeof config.className === 'undefined'
-                            || typeof $.dm2.ajax_editor.wysiwygs[wysiwyg_name] === 'undefined')
+                        if (   config.className === undefined
+                            || $.dm2.ajax_editor.wysiwygs[wysiwyg_name] === undefined)
                         {
                             return;
                         }
@@ -612,11 +551,11 @@
 
                 var self = this;
                 $.each(this.fields, function(i, field)
-                        {
+                {
                     $.each($.dm2.ajax_editor.wysiwygs.configs, function(wysiwyg_name, config)
                     {
-                        if (   typeof config.className === 'undefined'
-                            || typeof $.dm2.ajax_editor.wysiwygs[wysiwyg_name] === 'undefined')
+                        if (   config.className === undefined
+                            || $.dm2.ajax_editor.wysiwygs[wysiwyg_name] === undefined)
                         {
                             return;
                         }
@@ -633,8 +572,6 @@
                 $.dm2.ajax_editor.debug("Build toolbar for state " + this.state.current);
 
                 this.buttons = {};
-
-                var self = this;
 
                 if (this.state.current === 'preview')
                 {
@@ -681,13 +618,13 @@
 
                 this.render_toolbar();
             },
-            _execute_action: function(action, event)
+            _execute_action: function(action)
             {
-                $.dm2.ajax_editor.debug("Execute action "+action);
+                $.dm2.ajax_editor.debug("Execute action " + action);
 
                 this._change_state(action);
 
-                switch(action)
+                switch (action)
                 {
                     case 'edit':
                         this._on_form_submit('edit');
@@ -730,13 +667,6 @@
                         }
                 }
             },
-            remove_from_dom: function()
-            {
-                $.dm2.ajax_editor.debug("Remove instance " + this.identifier+" from dom!");
-
-                $('#' + this.identifier + '_area').remove();
-            },
-            state_changed: function() {},
             render_toolbar: function() {},
             results_parsed: function() {}
         }
@@ -759,25 +689,12 @@
                 unreplaced_fields = [];
 
                 if (   this.parsed_data.is_editable
-                    && this.state.current === 'edit')
+                    || this.state.current !== 'edit')
                 {
                     unreplaced_fields = [];
-                    $.each(this.fields, function(i, field){
-                        if (typeof self.form_fields[field.name] === 'undefined')
-                        {
-                            unreplaced_fields.push(field.name);
-                            return;
-                        }
-
-                        field.elem.html(self.form_fields[field.name]);
-                    });
-                }
-
-                if (this.state.current !== 'edit')
-                {
-                    unreplaced_fields = [];
-                    $.each(this.fields, function(i, field){
-                        if (typeof self.form_fields[field.name] === 'undefined')
+                    $.each(this.fields, function(i, field)
+                    {
+                        if (self.form_fields[field.name] === undefined)
                         {
                             unreplaced_fields.push(field.name);
                             return;
@@ -789,7 +706,8 @@
             },
             render_toolbar: function()
             {
-                var toolbar_class = $.dm2.ajax_editor.generate_classname('toolbar');
+                var toolbar_class = $.dm2.ajax_editor.generate_classname('toolbar'),
+                self = this;
 
                 $.dm2.ajax_editor.debug("Render toolbar " + toolbar_class);
 
@@ -809,14 +727,13 @@
 
                 this.toolbar.html('');
 
-                var self = this;
                 $.each(this.buttons, function(action_name, button)
                 {
                     var element = $('<input type="submit" name="' + button.name + '" value="' + button.value + '" />');
                     element.appendTo(self.toolbar);
 
-                    element.bind('click', function(e){
-                        self._execute_action(action_name, e);
+                    element.bind('click', function(){
+                        self._execute_action(action_name);
                     });
 
                     self.buttons[action_name].elem = element;
@@ -858,12 +775,12 @@
 
                 $.each($.dm2.ajax_editor.possible_states, function(i, state)
                 {
-                    if (typeof self.values[editor.identifier + '_' + state] !== 'undefined')
+                    if (self.values[editor.identifier + '_' + state] !== undefined)
                     {
                         delete self.values[editor.identifier + '_' + state];
                     }
 
-                    if (typeof self.values['midcom_helper_datamanager2_' + state] !== 'undefined')
+                    if (self.values['midcom_helper_datamanager2_' + state] !== undefined)
                     {
                         delete self.values['midcom_helper_datamanager2_' + state];
                     }
@@ -883,7 +800,7 @@
             },
             do_submit: function(next_state)
             {
-                if (typeof next_state === 'undefined')
+                if (next_state === undefined)
                 {
                     next_state = 'view';
                 }
@@ -925,7 +842,7 @@
         enable: function(field)
         {
             var id = field.attr('id');
-            $.dm2.ajax_editor.debug("Enable tinymce for "+id);
+            $.dm2.ajax_editor.debug("Enable tinymce for " + id);
 
             tinymce.EditorManager.execCommand('mceAddEditor', false, id);
         },
@@ -939,23 +856,11 @@
                 tinymce.EditorManager.execCommand('mceRemoveEditor', false, id);
             }
         },
-        get_value: function(field, input)
+        get_value: function(input)
         {
-            if (typeof input === 'undefined')
-            {
-                var id = field.attr('id'),
-                name = id.replace(self.identifier + '_', ''),
-                input_id = self.identifier + '_qf_' + name,
-                input = $('#'+input_id);
-
-                if (! input) {
-                    return '';
-                }
-            }
-
             tinyMCE.triggerSave(true, true);
             return input.val();
         }
     };
 
-})(jQuery);
+}(jQuery));
