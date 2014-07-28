@@ -46,8 +46,6 @@
         },
         get_instance: function(identifier)
         {
-            $.dm2.ajax_editor.debug("Get editor instance " + identifier);
-
             if ($.dm2.ajax_editor.instances[identifier] !== undefined)
             {
                 return $.dm2.ajax_editor.instances[identifier];
@@ -56,8 +54,6 @@
         },
         remove_instance: function(identifier)
         {
-            $.dm2.ajax_editor.debug("Remove editor instance " + identifier);
-
             if ($.dm2.ajax_editor.instances[identifier] !== undefined)
             {
                 $('#' + this.identifier + '_area').remove();
@@ -91,15 +87,6 @@
                 message: message
             });
         },
-        debug: function(msg)
-        {
-            if ($.dm2.ajax_editor.debug_enabled)
-            {
-                if (window.console !== undefined) {
-                    console.log(msg);
-                }
-            }
-        },
         inline: function()
         {
             return (new DM2AjaxEditorInline());
@@ -119,10 +106,6 @@
             form: null,
             form_fields: null,
             parsed_data: null,
-            dimensions: {
-                fields: null,
-                form: null
-            },
             first_field_id: null,
             last_field_id: null,
             state: {
@@ -136,8 +119,6 @@
             errors: null,
             init: function(identifier, config, is_composite)
             {
-                $.dm2.ajax_editor.debug("Init editor");
-
                 if (is_composite === undefined) {
                     is_composite = false;
                 }
@@ -165,23 +146,10 @@
             },
             initialize: function()
             {
-                $.dm2.ajax_editor.debug("Initialize editor");
-
                 this.className = 'base';
             },
             _prepare_fields: function()
             {
-                $.dm2.ajax_editor.debug("prepare fields for " + this.identifier);
-
-                if (this.dimensions.fields === null)
-                {
-                    this.dimensions.fields = {};
-                }
-                if (this.dimensions.form === null)
-                {
-                    this.dimensions.form = {};
-                }
-
                 var self = this,
                 fields = $('.' + this.identifier);
 
@@ -230,8 +198,6 @@
                         field.addClass($.dm2.ajax_editor.generate_classname('editing_area'));
                     }
 
-                    self.dimensions.fields[id] = self._calculate_dimensions(field);
-
                     self.fields[id] = {
                         name: name,
                         elem: field
@@ -255,14 +221,10 @@
             },
             prepare_composite: function()
             {
-                $.dm2.ajax_editor.debug("Prepare composite");
-
                 var self = this,
                 button = $('#' + this.identifier + '_button');
 
                 button.bind('click', function() {
-                    $.dm2.ajax_editor.debug(button.attr('name') + " clicked");
-
                     if (self.creation_tpl === null) {
                         self.creation_tpl = $(this).parent().find('.temporary_item');
                         self.creation_tpl.removeClass('temporary_item').addClass('midcom_helper_datamanager2_composite_item_editing');
@@ -281,32 +243,13 @@
                     return false;
                 });
             },
-            _calculate_dimensions: function(field)
-            {
-                $.dm2.ajax_editor.debug("Calculate dimensions for field "+field.attr('id'));
-
-                var position = field.position(),
-                dimensions = {
-                    width: field.width(),
-                    height: field.height(),
-                    top: position.top,
-                    left: position.left
-                };
-
-                $.dm2.ajax_editor.debug(dimensions);
-                return dimensions;
-            },
             _change_state: function(new_state)
             {
-                $.dm2.ajax_editor.debug("Change state from " + this.state.current + " to " + new_state);
-
                 this.state.previous = '' + this.state.current;
                 this.state.current = new_state;
             },
             _fields_to_form: function()
             {
-                $.dm2.ajax_editor.debug("Fields to form");
-
                 var self = this;
 
                 this.form.set_state(this.state.current);
@@ -341,8 +284,6 @@
             },
             _get_field_input_value: function(field)
             {
-                $.dm2.ajax_editor.debug("Get field input value (" + field.attr('id') + ")");
-
                 var input_id = this.identifier + '_qf_' + field.attr('id').replace(this.identifier + '_', ''),
                 input = $('#' + input_id);
 
@@ -378,8 +319,6 @@
             },
             _fields_from_form: function()
             {
-                $.dm2.ajax_editor.debug("Fields from form");
-
                 var self = this;
                 $.each($('.' + this.identifier), function()
                 {
@@ -397,15 +336,10 @@
             },
             _on_form_submit: function(status)
             {
-                $.dm2.ajax_editor.debug("On form submit (" + status + ")");
-
-                // Disable toolbar buttons
                 $('#' + this.identifier + '_ajax_toolbar').find('input[type="submit"]').prop('disabled', true);
             },
             _fetch_fields: function(edit_mode)
             {
-                $.dm2.ajax_editor.debug("fetch fields for " + this.identifier);
-
                 if (edit_mode === undefined)
                 {
                     edit_mode = false;
@@ -437,17 +371,11 @@
                     data: send_data,
                     success: function(data) {
                         self._parse_response(data);
-                    },
-                    error: function(xhr,err,e){
-                        $.dm2.ajax_editor.debug("Error loading fields!");
-                        $.dm2.ajax_editor.debug(err);
                     }
                 });
             },
             _parse_response: function(data)
             {
-                $.dm2.ajax_editor.debug("Pre parse response");
-
                 if (this.state.current === 'delete')
                 {
                     var identifier = $('deletion', data).attr('id'),
@@ -473,8 +401,6 @@
 
                 if (this.errors.length > 0)
                 {
-                    $.dm2.ajax_editor.debug("errors: ");
-                    $.dm2.ajax_editor.debug(this.errors);
                     this._change_state('edit');
                 }
                 else if (this.parsed_data.exit_code === 'save')
@@ -525,8 +451,6 @@
             },
             _enable_wysiwygs: function()
             {
-                $.dm2.ajax_editor.debug("Enable wysiwygs");
-
                 var self = this;
                 $.each(this.fields, function(i, field)
                 {
@@ -547,8 +471,6 @@
             },
             _disable_wysiwygs: function()
             {
-                $.dm2.ajax_editor.debug("Disable wysiwygs");
-
                 var self = this;
                 $.each(this.fields, function(i, field)
                 {
@@ -569,16 +491,13 @@
             },
             _build_toolbar: function()
             {
-                $.dm2.ajax_editor.debug("Build toolbar for state " + this.state.current);
-
                 this.buttons = {};
 
                 if (this.state.current === 'preview')
                 {
                     this.buttons.edit = {
                         name: this.identifier + '_edit',
-                        value: $.dm2.ajax_editor.strings.edit_btn_value,
-                        elem: null
+                        value: $.dm2.ajax_editor.strings.edit_btn_value
                     };
                 }
 
@@ -586,8 +505,7 @@
                 {
                     this.buttons.preview = {
                         name: this.identifier + '_preview',
-                        value: $.dm2.ajax_editor.strings.preview_btn_value,
-                        elem: null
+                        value: $.dm2.ajax_editor.strings.preview_btn_value
                     };
                 }
 
@@ -596,14 +514,12 @@
                 {
                     this.buttons.save = {
                         name: this.identifier + '_save',
-                        value: $.dm2.ajax_editor.strings.save_btn_value,
-                        elem: null
+                        value: $.dm2.ajax_editor.strings.save_btn_value
                     };
 
                     this.buttons.cancel = {
                         name: this.identifier + '_cancel',
-                        value: $.dm2.ajax_editor.strings.cancel_btn_value,
-                        elem: null
+                        value: $.dm2.ajax_editor.strings.cancel_btn_value
                     };
                 }
 
@@ -611,8 +527,7 @@
                 {
                     this.buttons['delete'] = {
                         name: this.identifier + '_delete',
-                        value: $.dm2.ajax_editor.strings.delete_btn_value,
-                        elem: null
+                        value: $.dm2.ajax_editor.strings.delete_btn_value
                     };
                 }
 
@@ -620,8 +535,6 @@
             },
             _execute_action: function(action)
             {
-                $.dm2.ajax_editor.debug("Execute action " + action);
-
                 this._change_state(action);
 
                 switch (action)
@@ -630,12 +543,12 @@
                         this._on_form_submit('edit');
                         this._disable_wysiwygs();
                         this._fetch_fields();
-                    break;
+                        break;
                     case 'preview':
                         this._on_form_submit('preview');
                         this._fields_to_form();
                         this.form.do_submit('preview');
-                    break;
+                        break;
                     case 'save':
                         this._on_form_submit('save');
 
@@ -649,12 +562,12 @@
                         }
 
                         this.form.do_submit();
-                    break;
+                        break;
                     case 'delete':
                         this._on_form_submit('delete');
                         this.form.set_state('delete');
                         this.form.do_submit('delete');
-                    break;
+                        break;
                     case 'cancel':
                     default:
                         this._on_form_submit('cancel');
@@ -677,14 +590,10 @@
         return $.extend({}, DM2AjaxEditorBaseObject.methods, {
             initialize: function()
             {
-                $.dm2.ajax_editor.debug("Initialize inline editor!");
-
                 this.className = 'inline';
             },
             results_parsed: function()
             {
-                $.dm2.ajax_editor.debug("Results parsed");
-
                 var self = this,
                 unreplaced_fields = [];
 
@@ -708,8 +617,6 @@
             {
                 var toolbar_class = $.dm2.ajax_editor.generate_classname('toolbar'),
                 self = this;
-
-                $.dm2.ajax_editor.debug("Render toolbar " + toolbar_class);
 
                 if (this.toolbar === null)
                 {
@@ -735,8 +642,6 @@
                     element.bind('click', function(){
                         self._execute_action(action_name);
                     });
-
-                    self.buttons[action_name].elem = element;
                 });
 
                 if (   this.state.current !== 'view'
@@ -791,7 +696,6 @@
             },
             set_value: function(field_name, value)
             {
-                $.dm2.ajax_editor.debug("set value for " + field_name + ": " + value);
                 this.values[field_name] = value;
             },
             get_value: function(field_name)
@@ -820,11 +724,6 @@
                         editor.state.previous = editor.state.current;
                         editor.state.current = next_state;
                         editor._parse_response(data);
-                    },
-                    error: function(xhr, err, e)
-                    {
-                        $.dm2.ajax_editor.debug("Error saving form!");
-                        $.dm2.ajax_editor.debug(err);
                     }
                 });
             }
@@ -841,16 +740,11 @@
     $.dm2.ajax_editor.wysiwygs.tinymce = {
         enable: function(field)
         {
-            var id = field.attr('id');
-            $.dm2.ajax_editor.debug("Enable tinymce for " + id);
-
-            tinymce.EditorManager.execCommand('mceAddEditor', false, id);
+            tinymce.EditorManager.execCommand('mceAddEditor', false, field.attr('id'));
         },
         disable: function(field)
         {
             var id = field.attr('id');
-            $.dm2.ajax_editor.debug("Disable tinymce for " + id);
-
             if (tinyMCE.get(id))
             {
                 tinymce.EditorManager.execCommand('mceRemoveEditor', false, id);
