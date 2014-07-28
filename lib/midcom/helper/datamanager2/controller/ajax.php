@@ -109,8 +109,9 @@ class midcom_helper_datamanager2_controller_ajax extends midcom_helper_datamanag
     function process_ajax($exit = true)
     {
         $state = 'view';
-
         $this->form_identifier = "dm2_ajax_{$this->datamanager->storage->object->guid}";
+
+        $this->add_stylesheet(MIDCOM_STATIC_URL . "/midcom.helper.datamanager2/dm2_ajax_editor.css", 'screen');
 
         if (!$this->_is_ajax_editable())
         {
@@ -118,15 +119,12 @@ class midcom_helper_datamanager2_controller_ajax extends midcom_helper_datamanag
         }
 
         midcom::get()->head->enable_jquery();
-
         midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/jquery.dm2_ajax_editor.js');
 
         $config = $this->_generate_editor_config();
 
         $script = "jQuery.dm2.ajax_editor.init('{$this->form_identifier}', {$config});";
         midcom::get()->head->add_jquery_state_script($script);
-
-        $this->add_stylesheet(MIDCOM_STATIC_URL."/midcom.helper.datamanager2/dm2_ajax_editor.css", 'screen');
 
         // Clearer structure than an almost endless chain of if...elseif
         switch (true)
@@ -246,30 +244,32 @@ class midcom_helper_datamanager2_controller_ajax extends midcom_helper_datamanag
      */
     function get_content_html()
     {
-        if (!$this->_is_ajax_editable())
-        {
-            // Go with the defaults
-            return $this->datamanager->get_content_html();
-        }
+        $is_editable = $this->_is_ajax_editable();
+
         $result = Array();
         foreach ($this->datamanager->schema->field_order as $name)
         {
-            if ($this->datamanager->schema->fields[$name]['type'] == 'composite')
+            $html_contents = $this->datamanager->types[$name]->convert_to_html();
+            // Composite type has its own AJAX controller so we don't want to add triggers to this AJAX controller
+
+            if ($this->datamanager->schema->fields[$name]['type'] !== 'composite')
             {
-                // Composite type has its own AJAX controller so we don't want to add triggers to this AJAX controller
-                $result[$name] = $this->datamanager->types[$name]->convert_to_html();
-            }
-            else
-            {
-                $html_contents = $this->datamanager->types[$name]->convert_to_html();
-                if (   $this->datamanager->schema->fields[$name]['required']
-                    && $html_contents == '')
+                if ($is_editable)
                 {
-                    // Have an identifier people can actually click and edit
-                    $html_contents = "&lt;{$name}&gt;";
+                    if (   $this->datamanager->schema->fields[$name]['required']
+                        && $html_contents == '')
+                    {
+                        // Have an identifier people can actually click and edit
+                        $html_contents = "&lt;{$name}&gt;";
+                    }
+                    $html_contents = "<div class=\"ajax_editable {$this->form_identifier}\" title=\"" . $this->_l10n->get('double click to edit') . "\" id=\"{$this->form_identifier}_{$name}\">{$html_contents}</div>\n";
                 }
-                $result[$name] = "<div class=\"ajax_editable {$this->form_identifier}\" title=\"".$this->_l10n->get('double click to edit')."\" id=\"{$this->form_identifier}_{$name}\">{$html_contents}</div>\n";
+                else
+                {
+                    $html_contents = "<div class=\"ajax_noneditable {$this->form_identifier}\" id=\"{$this->form_identifier}_{$name}\">{$html_contents}</div>\n";
+                }
             }
+            $result[$name] = $html_contents;
         }
         return $result;
     }

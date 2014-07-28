@@ -1,6 +1,7 @@
-.dm2_ajax_editor_editable_area
+.ajax_editable,
+.ajax_noneditable
 {
-    display: inline;
+    display: inline-block;
 }
 
 .dm2_ajax_editor_editable_area:hover,
