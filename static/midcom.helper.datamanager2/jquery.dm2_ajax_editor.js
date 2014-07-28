@@ -3,7 +3,6 @@
     $.dm2 = $.dm2 || {};
 
     $.dm2.ajax_editor = {
-        debug_enabled: false,
         possible_states: ['view', 'edit', 'preview', 'save', 'cancel', 'delete'],
         class_prefix: 'dm2_ajax_editor',
         config: {
