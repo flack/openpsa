@@ -58,38 +58,33 @@ class org_openpsa_contacts_handler_person_admin extends midcom_baseclasses_compo
         $this->_request_data['datamanager'] = $this->_datamanager;
         $this->_request_data['controller'] = $this->_controller;
 
-        $this->_view_toolbar->add_item
-        (
-            array
-            (
-                MIDCOM_TOOLBAR_URL => "person/edit/{$this->_contact->guid}/",
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('edit'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
-                MIDCOM_TOOLBAR_ENABLED => $this->_contact->can_do('midgard:update'),
-                MIDCOM_TOOLBAR_ACCESSKEY => 'e',
-            )
-        );
-
-        $this->_view_toolbar->add_item
-        (
-            array
-            (
-                MIDCOM_TOOLBAR_URL => "person/delete/{$this->_contact->guid}/",
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('delete'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
-                MIDCOM_TOOLBAR_ENABLED => $this->_contact->can_do('midgard:delete'),
-                MIDCOM_TOOLBAR_ACCESSKEY => 'd',
-            )
-        );
-
-        switch ($handler_id)
+        if ($handler_id !== 'person_edit')
         {
-            case 'person_edit':
-                $this->_view_toolbar->disable_item("person/edit/{$this->_contact->guid}/");
-                break;
-            case 'person_delete':
-                $this->_view_toolbar->disable_item("person/delete/{$this->_contact->guid}/");
-                break;
+            $this->_view_toolbar->add_item
+            (
+                array
+                (
+                    MIDCOM_TOOLBAR_URL => "person/edit/{$this->_contact->guid}/",
+                    MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('edit'),
+                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
+                    MIDCOM_TOOLBAR_ENABLED => $this->_contact->can_do('midgard:update'),
+                    MIDCOM_TOOLBAR_ACCESSKEY => 'e',
+                )
+            );
+        }
+        if ($handler_id !== 'person_delete')
+        {
+            $this->_view_toolbar->add_item
+            (
+                array
+                (
+                    MIDCOM_TOOLBAR_URL => "person/delete/{$this->_contact->guid}/",
+                    MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('delete'),
+                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
+                    MIDCOM_TOOLBAR_ENABLED => $this->_contact->can_do('midgard:delete'),
+                    MIDCOM_TOOLBAR_ACCESSKEY => 'd',
+                )
+            );
         }
     }
 
@@ -220,7 +215,6 @@ class org_openpsa_contacts_handler_person_admin extends midcom_baseclasses_compo
     public function _handler_delete($handler_id, array $args, array &$data)
     {
         $this->_contact = new org_openpsa_contacts_person_dba($args[0]);
-
         $this->_contact->require_do('midgard:delete');
 
         $this->_load_datamanager();

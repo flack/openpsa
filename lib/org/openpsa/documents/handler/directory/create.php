@@ -53,7 +53,7 @@ class org_openpsa_documents_handler_directory_create extends midcom_baseclasses_
             throw new midcom_error("Failed to create a new topic, cannot continue. Error: " . midcom_connection::get_error_string());
         }
 
-        $this->_request_data['directory'] = new org_openpsa_documents_directory($topic->id);
+        $this->_request_data['directory'] = $topic;
 
         return $topic;
     }

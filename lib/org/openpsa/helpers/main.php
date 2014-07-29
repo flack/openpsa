@@ -59,7 +59,6 @@ class org_openpsa_helpers
              catch (midcom_error $e)
              {
                  $e->log();
-                 continue;
              }
          }
 
