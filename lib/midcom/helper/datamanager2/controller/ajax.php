@@ -126,71 +126,57 @@ class midcom_helper_datamanager2_controller_ajax extends midcom_helper_datamanag
         $script = "jQuery.dm2.ajax_editor.init('{$this->form_identifier}', {$config});";
         midcom::get()->head->add_jquery_state_script($script);
 
-        // Clearer structure than an almost endless chain of if...elseif
-        switch (true)
+        $action = (empty($_REQUEST[$this->form_identifier . '_action'])) ? 'view' : $_REQUEST[$this->form_identifier . '_action'];
+        if ($action === 'delete')
         {
-            case (array_key_exists("{$this->form_identifier}_edit", $_REQUEST)):
-                // User has requested editor
-                $this->formmanager = new midcom_helper_datamanager2_formmanager_ajax($this->datamanager->schema, $this->datamanager->types);
-                $this->formmanager->initialize($this->form_identifier . '_qf');
-                $this->formmanager->display_form($this->form_identifier);
-                $state = 'ajax_editing';
-                // TODO: Lock
-                break;
+            // User has deleted, try to comply
+            $this->datamanager->storage->object->delete();
+            $state = 'ajax_delete';
 
-            case (array_key_exists("{$this->form_identifier}_preview", $_REQUEST)):
-                // User has requested editor
-                $this->formmanager = new midcom_helper_datamanager2_formmanager_ajax($this->datamanager->schema, $this->datamanager->types);
-                $this->formmanager->initialize($this->form_identifier . '_qf');
-                $this->formmanager->process_form();
-                $this->formmanager->display_view($this->form_identifier);
-                $state = 'ajax_preview';
-                break;
+            if ($exit)
+            {
+                echo midcom_connection::get_error_string();
+            }
+        }
+        else
+        {
+            $this->formmanager = new midcom_helper_datamanager2_formmanager_ajax($this->datamanager->schema, $this->datamanager->types);
+            $this->formmanager->initialize($this->form_identifier . '_qf');
 
-            case (array_key_exists("{$this->form_identifier}_save", $_REQUEST)):
-
-                // User has requested editor
-                $this->formmanager = new midcom_helper_datamanager2_formmanager_ajax($this->datamanager->schema, $this->datamanager->types);
-                $this->formmanager->initialize($this->form_identifier . '_qf');
-                $exitcode = $this->formmanager->process_form();
-                if ($exitcode == 'save')
-                {
-                    $this->datamanager->save();
-                    $this->formmanager->display_view($this->form_identifier);
-                    $state = 'ajax_saved';
-                }
-                else
-                {
+            switch ($action)
+            {
+                case 'edit':
                     $this->formmanager->display_form($this->form_identifier);
                     $state = 'ajax_editing';
-                }
-                break;
-
-            case (array_key_exists("{$this->form_identifier}_cancel", $_REQUEST)):
-                // User has cancelled, display view
-                $this->formmanager = new midcom_helper_datamanager2_formmanager_ajax($this->datamanager->schema, $this->datamanager->types);
-                $this->formmanager->initialize($this->form_identifier . '_qf');
-                $this->formmanager->display_view($this->form_identifier);
-                $state = 'ajax_cancel';
-                break;
-
-            case (array_key_exists("{$this->form_identifier}_delete", $_REQUEST)):
-                // User has deleted, try to comply
-                $this->datamanager->storage->object->delete();
-                $state = 'ajax_delete';
-
-                if ($exit)
-                {
-                    echo midcom_connection::get_error_string();
-                }
-
-                break;
-
-            default:
-                // User isn't yet in editing stage. We must however initialize form manager to load JS dependencies etc
-                $this->formmanager = new midcom_helper_datamanager2_formmanager_ajax($this->datamanager->schema, $this->datamanager->types, 'view');
-                $this->formmanager->initialize($this->form_identifier . '_qf');
-                return $state;
+                    // TODO: Lock
+                    break;
+                case 'preview':
+                    $this->formmanager->process_form();
+                    $this->formmanager->display_view($this->form_identifier);
+                    $state = 'ajax_preview';
+                    break;
+                case 'save':
+                    $exitcode = $this->formmanager->process_form();
+                    if ($exitcode == 'save')
+                    {
+                        $this->datamanager->save();
+                        $this->formmanager->display_view($this->form_identifier);
+                        $state = 'ajax_saved';
+                    }
+                    else
+                    {
+                        $this->formmanager->display_form($this->form_identifier);
+                        $state = 'ajax_editing';
+                    }
+                    break;
+                case 'cancel':
+                    $this->formmanager->display_view($this->form_identifier);
+                    $state = 'ajax_cancel';
+                    break;
+                default:
+                    // User isn't yet in editing stage. We have however initialized form manager to load JS dependencies etc
+                    return $state;
+            }
         }
 
         if ($exit)

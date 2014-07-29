@@ -343,10 +343,6 @@
                 {
                     edit_mode = false;
                 }
-
-                var self = this,
-                send_data = {};
-
                 if (edit_mode)
                 {
                     if (this.state.current === 'edit')
@@ -354,13 +350,11 @@
                         return;
                     }
                     this._change_state('edit');
+                }
 
-                    send_data[this.identifier + '_edit'] = 1;
-                }
-                else
-                {
-                    send_data[this.identifier + '_' + this.state.current] = 1;
-                }
+                var self = this,
+                send_data = {};
+                send_data[this.identifier + '_action'] = this.state.current;
 
                 $.ajax({
                     global: false,
@@ -690,7 +684,7 @@
                     }
                 });
 
-                this.values[editor.identifier + '_' + state] = 1;
+                this.values[editor.identifier + '_action'] = state;
                 this.values['midcom_helper_datamanager2_' + state] = 1;
             },
             set_value: function(field_name, value)
@@ -708,8 +702,7 @@
                     next_state = 'view';
                 }
 
-                var self = this,
-                editor = $.dm2.ajax_editor.get_instance(this.identifier);
+                var editor = $.dm2.ajax_editor.get_instance(this.identifier);
 
                 $.ajax({
                     global: false,
