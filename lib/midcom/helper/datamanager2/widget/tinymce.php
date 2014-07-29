@@ -142,11 +142,11 @@ class midcom_helper_datamanager2_widget_tinymce extends midcom_helper_datamanage
     /**
      * This helper will construct the TinyMCE initscript based on the specified configuration.
      */
-    function _add_initscript($mode = 'exact')
+    private function _add_initscript($mode = 'exact')
     {
         $config = midcom_helper_misc::get_snippet_content_graceful($this->mce_config_snippet);
 
-        if (! $config)
+        if (!$config)
         {
             $config = $this->_get_configuration();
         }
@@ -367,12 +367,11 @@ EOT;
         foreach ($this->_form->_elements as $key => $element)
         {
             if (   isset($element->_attributes['name'])
-                && $element->_attributes['name'] == $this->name)
+                && $element->_attributes['name'] == $this->name
+                && isset($this->_form->_elements[$key + 1]->_attributes['name']))
             {
-                if (isset($this->_form->_elements[$key + 1]->_attributes['name']))
-                {
-                    $name_after = $this->_form->_elements[$key + 1]->_attributes['name'];
-                }
+                $name_after = $this->_form->_elements[$key + 1]->_attributes['name'];
+                break;
             }
         }
 
