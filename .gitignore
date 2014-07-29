@@ -13,3 +13,6 @@ phpunit.xml
 .DS_Store
 .directory
 *.*~
+/var
+/vendor
+/web
