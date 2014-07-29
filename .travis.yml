@@ -11,7 +11,7 @@ env:
   - MIDGARD_EXT_VERSION=portable
 
 matrix:
-  allow_failures:
+  exclude:
     - php: 5.5
       env: "MIDGARD_EXT_VERSION=ratatoskr"
     - php: 5.5
