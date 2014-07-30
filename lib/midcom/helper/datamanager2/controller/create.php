@@ -169,15 +169,12 @@ class midcom_helper_datamanager2_controller_create extends midcom_helper_dataman
 
     /**
      * Process AJAX-style creation requests
+     *
+     *@todo: Merge with similar code in ajax controller if possible
      */
     function process_ajax()
     {
         $this->form_identifier = "dm2_composite_{$this->form_identifier}";
-
-        midcom::get()->head->enable_jquery();
-
-        // Add the required JavaScript
-        midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/jquery.dm2_ajax_editor.js');
 
         $this->formmanager = new midcom_helper_datamanager2_formmanager_ajax($this->datamanager->schema, $this->datamanager->types);
 
@@ -200,53 +197,52 @@ class midcom_helper_datamanager2_controller_create extends midcom_helper_dataman
 
         $config = "{mode: '{$mode}'}";//, allow_creation: {$creation_mode_enabled}}";
         $script = "jQuery.dm2.ajax_editor.init('{$this->form_identifier}', {$config}, true);";
+
+        midcom::get()->head->enable_jquery();
+        midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/jquery.dm2_ajax_editor.js');
         midcom::get()->head->add_jquery_state_script($script);
 
-        $this->add_stylesheet(MIDCOM_STATIC_URL."/midcom.helper.datamanager2/dm2_ajax_editor.css", 'screen');
+        $this->add_stylesheet(MIDCOM_STATIC_URL . "/midcom.helper.datamanager2/dm2_ajax_editor.css", 'screen');
 
-        switch (true)
+        if (!empty($_REQUEST[$this->form_identifier . '_action']))
         {
-            case (array_key_exists("{$this->form_identifier}_edit", $_REQUEST)):
-                // User has requested editor
-                $this->formmanager->initialize($this->form_identifier . '_qf');
-                $this->formmanager->display_form($this->form_identifier);
-                midcom::get()->finish();
+            $this->formmanager->initialize($this->form_identifier . '_qf');
 
-            case (array_key_exists("{$this->form_identifier}_preview", $_REQUEST)):
-                $this->formmanager->initialize($this->form_identifier . '_qf');
-                $this->formmanager->process_form();
-                $this->formmanager->display_view($this->form_identifier);
-                midcom::get()->finish();
-
-            case (array_key_exists("{$this->form_identifier}_save", $_POST)):
-                $this->formmanager->initialize($this->form_identifier . '_qf');
-
-                // Pre process check for validation etc, we create a new object at this point if everything
-                // looks fine. The change of the storage backend will only be done if we have a clear
-                // save/next result from the QF layer.
-                $result = $this->formmanager->compute_form_result();
-                if ($result == 'save')
-                {
-                    $this->_cast_to_storage_object();
-                }
-
-                $exitcode = $this->formmanager->process_form();
-                if ($exitcode == 'save')
-                {
-                    $this->datamanager->save();
-                    $this->formmanager->display_view($this->form_identifier, "midcom_helper_datamanager2_controller_ajax_{$this->datamanager->storage->object->guid}");
-                }
-                else
-                {
+            switch ($_REQUEST[$this->form_identifier . '_action'])
+            {
+                case 'edit':
                     $this->formmanager->display_form($this->form_identifier);
-                }
-                midcom::get()->finish();
+                    break;
+                case 'preview':
+                    $this->formmanager->process_form();
+                    $this->formmanager->display_view($this->form_identifier);
+                    break;
+                case 'save':
+                    // Pre process check for validation etc, we create a new object at this point if everything
+                    // looks fine. The change of the storage backend will only be done if we have a clear
+                    // save/next result from the QF layer.
+                    $result = $this->formmanager->compute_form_result();
+                    if ($result == 'save')
+                    {
+                        $this->_cast_to_storage_object();
+                    }
 
-            case (array_key_exists("{$this->form_identifier}_cancel", $_REQUEST)):
-                $this->formmanager->initialize($this->form_identifier . '_qf');
-                $this->formmanager->display_view($this->form_identifier);
-
-                midcom::get()->finish();
+                    $exitcode = $this->formmanager->process_form();
+                    if ($exitcode == 'save')
+                    {
+                        $this->datamanager->save();
+                        $this->formmanager->display_view($this->form_identifier, "midcom_helper_datamanager2_controller_ajax_{$this->datamanager->storage->object->guid}");
+                    }
+                    else
+                    {
+                        $this->formmanager->display_form($this->form_identifier);
+                    }
+                    break;
+                case 'cancel':
+                    $this->formmanager->display_view($this->form_identifier);
+                    break;
+            }
+            midcom::get()->finish();
         }
     }
 
