@@ -226,7 +226,7 @@
                 button.bind('click', function() {
                     if (self.creation_tpl === null) {
                         self.creation_tpl = $(this).parent().find('.temporary_item');
-                        self.creation_tpl.removeClass('temporary_item').addClass('midcom_helper_datamanager2_composite_item_editing');
+                        self.creation_tpl.removeClass('temporary_item').addClass('ajax_editable midcom_helper_datamanager2_composite_item_editing');
                     }
 
                     self.config.in_creation_mode = true;
