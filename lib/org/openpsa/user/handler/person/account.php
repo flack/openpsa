@@ -199,15 +199,11 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         // Add toolbar items
         org_openpsa_helpers::dm2_savecancel($this);
 
-        $this->_view_toolbar->add_item
-        (
-            array
-            (
-                MIDCOM_TOOLBAR_URL => "account/delete/{$this->_person->guid}/",
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('delete account'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/properties.png',
-            )
-        );
+        if ($this->_person->can_do('midgard:update'))
+        {
+            $toolbar = new org_openpsa_widgets_toolbar($this->_view_toolbar);
+            $toolbar->add_delete_button("account/delete/{$this->_person->guid}/", $this->_l10n->get('account'));
+        }
     }
 
     private function _update_account($fields)
@@ -258,27 +254,15 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
 
         $data['controller'] = midcom_helper_datamanager2_handler::get_delete_controller();
 
-        switch ($data['controller']->process_form())
+        if ($data['controller']->process_form() == 'delete')
         {
-            case 'delete':
-                if (!$this->_account->delete())
-                {
-                    throw new midcom_error("Failed to delete account for {$this->_person->guid}, last Midgard error was: " . midcom_connection::get_error_string());
-                }
-                //Fall-through
-            case 'cancel':
-                return new midcom_response_relocate('view/' . $this->_person->guid . "/");
+            if (!$this->_account->delete())
+            {
+                throw new midcom_error("Failed to delete account for {$this->_person->guid}, last Midgard error was: " . midcom_connection::get_error_string());
+            }
+            midcom::get()->uimessages->add($this->_l10n->get($this->_component), sprintf($this->_l10n_midcom->get("%s deleted"), $this->_l10n->get('account')));
         }
-
-        $this->add_stylesheet(MIDCOM_STATIC_URL . "/midcom.helper.datamanager2/legacy.css");
-        midcom::get()->head->enable_jquery();
-        midcom::get()->head->set_pagetitle("{$this->_person->firstname} {$this->_person->lastname}");
-        $this->_prepare_request_data();
-
-        $this->_update_breadcrumb_line('delete account');
-
-        // Add toolbar items
-        org_openpsa_helpers::dm2_savecancel($this, 'delete');
+        return new midcom_response_relocate('view/' . $this->_person->guid . "/");
     }
 
     /**
@@ -309,16 +293,6 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
     public function _show_edit($handler_id, array &$data)
     {
         midcom_show_style("show-person-account-edit");
-    }
-
-    /**
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_delete($handler_id, array &$data)
-    {
-        midcom_show_style("show-person-account-delete");
     }
 }
 ?>

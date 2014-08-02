@@ -2,6 +2,10 @@
 ---VERSION 2.1.0
 ---LANGUAGE en
 
+---STRING account
+Account
+---STRINGEND
+
 ---STRING account blocked %s minutes
 Because of to many attempts with wrong passwords the account is blocked for %s minutes
 ---STRINGEND

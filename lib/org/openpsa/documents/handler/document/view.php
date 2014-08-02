@@ -238,15 +238,8 @@ implements org_openpsa_widgets_grid_provider_client
         }
         if ($this->_document->can_do('midgard:delete'))
         {
-            $this->_view_toolbar->add_item
-            (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => "document/delete/{$this->_document->guid}/",
-                    MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('delete'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
-                )
-            );
+            $helper = new org_openpsa_widgets_toolbar($this->_view_toolbar);
+            $helper->add_delete_button("document/delete/{$this->_document->guid}/", $this->_document->title);
         }
     }
 

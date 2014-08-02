@@ -6,6 +6,10 @@
 %s in %s
 ---STRINGEND
 
+---STRING %s deleted
+%s gelöscht
+---STRINGEND
+
 ---STRING %s of packages of type %s
 %s der Pakete des Typs %s
 ---STRINGEND

@@ -57,6 +57,7 @@ implements midcom_helper_datamanager2_interfaces_view
                     MIDCOM_TOOLBAR_ACCESSKEY => 'e',
                 )
             );
+            org_openpsa_widgets_toolbar::add_head_elements();
             $this->_view_toolbar->add_item
             (
                 array

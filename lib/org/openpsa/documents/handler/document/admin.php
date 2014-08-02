@@ -135,7 +135,8 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
         org_openpsa_helpers::dm2_savecancel($this);
         $this->bind_view_to_object($this->_document, $this->_controller->datamanager->schema->name);
 
-        $this->_update_breadcrumb_line('edit');
+        $this->add_breadcrumb("document/{$this->_document->guid}/", $this->_document->title);
+        $this->add_breadcrumb("", sprintf($this->_l10n_midcom->get('edit %s'), $this->_l10n->get('document')));
     }
 
     /**
@@ -193,60 +194,21 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
         $this->_document = $this->_load_document($args[0]);
         $this->_document->require_do('midgard:delete');
 
-        $data['controller'] = midcom_helper_datamanager2_handler::get_delete_controller();
+        $controller = midcom_helper_datamanager2_handler::get_delete_controller();
 
-        switch ($data['controller']->process_form())
+        if ($controller->process_form() == 'delete')
         {
-            case 'delete':
-                if ($this->_document->delete())
-                {
-                    // Update the index
-                    $indexer = midcom::get()->indexer;
-                    $indexer->delete($this->_document->guid);
-                    // Redirect to the directory
-                    return new midcom_response_relocate('');
-                }
-                else
-                {
-                    // Failure, give a message
-                    midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.documents'), $this->_l10n->get("failed to delete document, reason ").midcom_connection::get_error_string(), 'error');
-                }
-                //Fall-through
-            case 'cancel':
-                return new midcom_response_relocate("document/" . $this->_document->guid . "/");
+            if ($this->_document->delete())
+            {
+                $indexer = midcom::get()->indexer;
+                $indexer->delete($this->_document->guid);
+                midcom::get()->uimessages->add($this->_l10n->get($this->_component), sprintf($this->_l10n_midcom->get("%s deleted"), $this->_l10n->get('document')));
+                return new midcom_response_relocate('');
+            }
+            // Failure, give a message
+            midcom::get()->uimessages->add($this->_l10n->get($this->_component), $this->_l10n->get("failed to delete document, reason ") . midcom_connection::get_error_string(), 'error');
         }
-
-        $data['document_dm'] = $this->_datamanager;
-        $data['document'] = $this->_document;
-
-        org_openpsa_helpers::dm2_savecancel($this, 'delete');
-        $this->_update_breadcrumb_line('delete');
-    }
-
-    /**
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_delete($handler_id, array &$data)
-    {
-        midcom_show_style("show-document-delete");
-    }
-
-    /**
-     * Helper, updates the context so that we get a complete breadcrumb line towards the current
-     * location.
-     *
-     * @param mixed $action The current action
-     */
-    private function _update_breadcrumb_line($action = false)
-    {
-        $this->add_breadcrumb("document/{$this->_document->guid}/", $this->_document->title);
-
-        if ($action)
-        {
-            $this->add_breadcrumb("", sprintf($this->_l10n_midcom->get($action . ' %s'), $this->_l10n->get('document')));
-        }
+        return new midcom_response_relocate("document/" . $this->_document->guid . "/");
     }
 }
 ?>

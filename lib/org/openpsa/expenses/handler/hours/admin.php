@@ -245,17 +245,11 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
 
         // Add toolbar items
         org_openpsa_helpers::dm2_savecancel($this);
-
-        $this->_view_toolbar->add_item
-        (
-            array
-            (
-                MIDCOM_TOOLBAR_URL => "hours/delete/{$this->_hour_report->guid}/",
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('delete'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
-                MIDCOM_TOOLBAR_ACCESSKEY => 'd',
-            )
-        );
+        if ($this->_hour_report->can_do('midgard:delete'))
+        {
+            $toolbar = new org_openpsa_widgets_toolbar($this->_view_toolbar);
+            $toolbar->add_delete_button("hours/delete/{$this->_hour_report->guid}/", $this->_l10n->get('hour report'));
+        }
 
         $this->_add_toolbar_items($task);
 
@@ -330,42 +324,15 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
             $e->log();
         }
 
-        switch ($this->_controller->process_form())
+        if ($this->_controller->process_form() == 'delete')
         {
-            case 'delete':
-                // Deletion confirmed.
-                if (! $this->_hour_report->delete())
-                {
-                    throw new midcom_error("Failed to delete hour report {$args[0]}, last Midgard error was: " . midcom_connection::get_error_string());
-                }
-                //Fall-through
-
-            case 'cancel':
-                return new midcom_response_relocate($relocate_url);
+            if (!$this->_hour_report->delete())
+            {
+                throw new midcom_error("Failed to delete hour report {$args[0]}, last Midgard error was: " . midcom_connection::get_error_string());
+            }
+            midcom::get()->uimessages->add($this->_l10n->get($this->_component), sprintf($this->_l10n_midcom->get("%s deleted"), $this->_l10n->get('hour report')));
         }
-
-        $this->_load_schemadb();
-        $dm = new midcom_helper_datamanager2_datamanager($this->_schemadb);
-        $dm->autoset_storage($this->_hour_report);
-        $data['datamanager'] = $dm;
-        $data['controller'] = $this->_controller;
-
-        $this->_update_breadcrumb_line($handler_id);
-        org_openpsa_helpers::dm2_savecancel($this, 'delete');
-        $this->_view_toolbar->bind_to($this->_hour_report);
-
-        midcom::get()->metadata->set_request_metadata($this->_hour_report->metadata->revised, $this->_hour_report->guid);
-    }
-
-    /**
-     * Shows the delete hour_report form
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_delete($handler_id, array &$data)
-    {
-        midcom_show_style('hours_delete');
+        return new midcom_response_relocate($relocate_url);
     }
 
     /**

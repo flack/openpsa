@@ -85,16 +85,11 @@ implements midcom_helper_datamanager2_interfaces_create
 
         $this->_prepare_output('edit');
 
-        $this->_view_toolbar->add_item
-        (
-            array
-            (
-                MIDCOM_TOOLBAR_URL => "billingdata/delete/{$this->_billing_data->guid}/",
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('delete'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
-                MIDCOM_TOOLBAR_ENABLED => $this->_billing_data->can_do('midgard:delete'),
-            )
-        );
+        if ($this->_billing_data->can_do('midgard:delete'))
+        {
+            $toolbar = new org_openpsa_widgets_toolbar($this->_view_toolbar);
+            $toolbar->add_delete_button("billingdata/delete/{$this->_billing_data->guid}/", $this->_l10n->get('billing data'));
+        }
 
         $this->bind_view_to_object($this->_billing_data);
     }
@@ -141,19 +136,6 @@ implements midcom_helper_datamanager2_interfaces_create
 
         $this->_controller = midcom_helper_datamanager2_handler::get_delete_controller();
         $this->_process_billing_form();
-
-        $data['datamanager'] = midcom_helper_datamanager2_handler::get_view_controller($this, $this->_billing_data);
-        $this->_prepare_output('delete');
-    }
-
-    /**
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_delete($handler_id, array &$data)
-    {
-        midcom_show_style("show-billingdata-delete");
     }
 
     private function _prepare_output($mode)
@@ -178,11 +160,13 @@ implements midcom_helper_datamanager2_interfaces_create
         {
             case 'delete':
                 $this->_billing_data->delete();
+                midcom::get()->uimessages->add($this->_l10n->get($this->_component), sprintf($this->_l10n_midcom->get("%s deleted"), $this->_l10n->get('document')));
+
             case 'save':
             case 'cancel':
                 $siteconfig = org_openpsa_core_siteconfig::get_instance();
                 $relocate = $siteconfig->get_node_full_url('org.openpsa.contacts');
-                switch(true)
+                switch (true)
                 {
                     case is_a($this->_linked_object, 'org_openpsa_contacts_person_dba'):
                         $relocate .= 'person/' . $this->_linked_object->guid . '/';

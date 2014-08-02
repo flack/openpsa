@@ -78,11 +78,8 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
 
         if ($this->_salesproject->can_do('midgard:delete'))
         {
-            $this->_view_toolbar->add_item(Array(
-                MIDCOM_TOOLBAR_URL => "salesproject/delete/{$this->_salesproject->guid}/",
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('delete'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
-            ));
+            $toolbar = new org_openpsa_widgets_toolbar($this->_view_toolbar);
+            $toolbar->add_delete_button("salesproject/delete/{$this->_salesproject->guid}/", $this->_l10n->get('account');
         }
 
         if (!empty($this->_request_data['projects_url']))
