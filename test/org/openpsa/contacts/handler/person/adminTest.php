@@ -38,7 +38,6 @@ class org_openpsa_contacts_handler_person_adminTest extends openpsa_testcase
         $data = $this->run_handler('org.openpsa.contacts', array('person', 'delete', self::$_person->guid));
         $this->assertEquals('person_delete', $data['handler_id']);
 
-        $this->show_handler($data);
         midcom::get()->auth->drop_sudo();
     }
 }
