@@ -201,13 +201,6 @@ class org_openpsa_contacts_handler_person_admin extends midcom_baseclasses_compo
     }
 
     /**
-     * Displays a contact delete confirmation view.
-     *
-     * Note, that the contact for non-index mode operation is automatically determined in the can_handle
-     * phase.
-     *
-     * If create privileges apply, we relocate to the index creation contact
-     *
      * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
      * @param array &$data The local request data.
@@ -217,47 +210,21 @@ class org_openpsa_contacts_handler_person_admin extends midcom_baseclasses_compo
         $this->_contact = new org_openpsa_contacts_person_dba($args[0]);
         $this->_contact->require_do('midgard:delete');
 
-        $this->_load_datamanager();
-
-        if (array_key_exists('org_openpsa_contacts_deleteok', $_REQUEST))
+        $controller = midcom_helper_datamanager2_handler::get_delete_controller();
+        if ($controller->process_form() == 'delete')
         {
-            // Deletion confirmed.
             if (! $this->_contact->delete())
             {
                 throw new midcom_error("Failed to delete contact {$args[0]}, last Midgard error was: " . midcom_connection::get_error_string());
             }
 
-            // Update the index
             $indexer = midcom::get()->indexer;
             $indexer->delete($this->_contact->guid . '_' . $this->_i18n->get_content_language());
-
-            // Delete ok, relocating to welcome.
+            midcom::get()->uimessages->add($this->_l10n->get($this->_component), sprintf($this->_l10n_midcom->get("%s deleted"), $this->_contact->get_label()));
             return new midcom_response_relocate('');
         }
 
-        if (array_key_exists('org_openpsa_contacts_deletecancel', $_REQUEST))
-        {
-            // Redirect to view page.
-            return new midcom_response_relocate("person/{$this->_contact->guid}/");
-        }
-
-        $this->_prepare_request_data($handler_id);
-        midcom::get()->head->set_pagetitle($this->_contact->name);
-        $this->bind_view_to_object($this->_contact, $this->_datamanager->schema->name);
-        $this->_update_breadcrumb_line($handler_id);
-    }
-
-    /**
-     * Shows the loaded contact.
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_delete ($handler_id, array &$data)
-    {
-        $data['contact_view'] = $this->_datamanager->get_content_html();
-
-        midcom_show_style('show-person-delete');
+        return new midcom_response_relocate("person/{$this->_contact->guid}/");
     }
 }
 ?>

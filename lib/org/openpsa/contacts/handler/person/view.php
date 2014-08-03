@@ -84,10 +84,7 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
             );
         }
         $this->_prepare_request_data();
-
-        //enable ui_tab
         org_openpsa_widgets_ui::enable_ui_tab();
-
         $this->_populate_toolbar($handler_id);
 
         $this->bind_view_to_object($this->_contact, $this->_datamanager->schema_name);
@@ -157,17 +154,11 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
             );
         }
 
-        $this->_view_toolbar->add_item
-        (
-            array
-            (
-                MIDCOM_TOOLBAR_URL => "person/delete/{$this->_contact->guid}/",
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('delete'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
-                MIDCOM_TOOLBAR_ENABLED => $this->_contact->can_do('midgard:delete'),
-                MIDCOM_TOOLBAR_ACCESSKEY => 'd',
-            )
-        );
+        if ($this->_contact->can_do('midgard:delete'))
+        {
+            $helper = new org_openpsa_widgets_toolbar($this->_view_toolbar);
+            $helper->add_delete_button("person/delete/{$this->_contact->guid}/", $this->_contact->name);
+        }
 
         $mycontacts = new org_openpsa_contacts_mycontacts;
 
