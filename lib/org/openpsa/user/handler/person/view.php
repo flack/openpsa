@@ -58,16 +58,11 @@ implements midcom_helper_datamanager2_interfaces_view
                 )
             );
             org_openpsa_widgets_toolbar::add_head_elements();
-            $this->_view_toolbar->add_item
-            (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => "delete/{$this->_person->guid}/",
-                    MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get("delete"),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
-                    MIDCOM_TOOLBAR_ENABLED => $this->_person->can_do('midgard:delete'),
-                )
-            );
+            if ($this->_person->can_do('midgard:delete'))
+            {
+                $helper = new org_openpsa_widgets_toolbar($this->_view_toolbar);
+                $helper->add_delete_button("delete/{$this->_person->guid}/", $this->_person->name);
+            }
             if (midcom_connection::is_user($this->_person))
             {
                 $this->_view_toolbar->add_item

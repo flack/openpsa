@@ -60,16 +60,11 @@ implements midcom_helper_datamanager2_interfaces_view
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
             )
         );
-        $this->_view_toolbar->add_item
-        (
-            array
-            (
-                MIDCOM_TOOLBAR_URL => "group/delete/{$this->_group->guid}/",
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get("delete"),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
-                MIDCOM_TOOLBAR_ENABLED => $this->_group->can_do('midgard:delete'),
-            )
-        );
+        if ($this->_group->can_do('midgard:delete'))
+        {
+            $helper = new org_openpsa_widgets_toolbar($this->_view_toolbar);
+            $helper->add_delete_button("group/delete/{$this->_group->guid}/", $this->_group->get_label());
+        }
         $this->_view_toolbar->add_item
         (
             array
