@@ -52,15 +52,11 @@ class org_openpsa_sales_handler_deliverable_view extends midcom_baseclasses_comp
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
         $this->_request_data['projects_url'] = $siteconfig->get_node_relative_url('org.openpsa.projects');
         $this->_request_data['invoices_url'] = $siteconfig->get_node_relative_url('org.openpsa.invoices');
-
-        /*if ($this->_salesproject->can_do('midgard:delete'))
+        if ($this->_deliverable->can_do('midgard:delete'))
         {
-            $this->_view_toolbar->add_item(Array(
-                MIDCOM_TOOLBAR_URL => "salesproject/delete/{$this->_salesproject->guid}/",
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('delete'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
-            ));
-        }*/
+            $helper = new org_openpsa_widgets_toolbar($this->_view_toolbar);
+            $helper->add_delete_button("deliverable/delete/{$this->_deliverable->guid}/", $this->_deliverable->title);
+        }
     }
 
     private function _load_schema()

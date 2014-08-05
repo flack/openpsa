@@ -21,13 +21,6 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
     private $_deliverable = null;
 
     /**
-     * The Datamanager of the deliverable to display (for delete mode)
-     *
-     * @var midcom_helper_datamanager2_datamanager
-     */
-    private $_datamanager = null;
-
-    /**
      * The Controller of the deliverable used for editing
      *
      * @var midcom_helper_datamanager2_controller_simple
@@ -52,10 +45,9 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
      * Simple helper which references all important members to the request data listing
      * for usage within the style listing.
      */
-    private function _prepare_request_data($handler_id)
+    private function _prepare_request_data()
     {
         $this->_request_data['deliverable'] = $this->_deliverable;
-        $this->_request_data['datamanager'] = $this->_datamanager;
         $this->_request_data['controller'] = $this->_controller;
 
         $this->_view_toolbar->add_item
@@ -69,28 +61,6 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
             )
         );
-
-        /*$this->_view_toolbar->add_item
-        (
-            array
-            (
-                MIDCOM_TOOLBAR_URL => "deliverable/delete/{$this->_deliverable->guid}/",
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('delete'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
-                MIDCOM_TOOLBAR_ENABLED => $this->_deliverable->can_do('midgard:delete'),
-                MIDCOM_TOOLBAR_ACCESSKEY => 'd',
-            )
-        );*/
-
-        switch ($handler_id)
-        {
-            case 'deliverable_edit':
-                $this->_view_toolbar->disable_item("deliverable/edit/{$this->_deliverable->guid}/");
-                break;
-            case 'deliverable_delete':
-                $this->_view_toolbar->disable_item("deliverable/delete/{$this->_deliverable->guid}/");
-                break;
-        }
     }
 
     /**
@@ -101,20 +71,6 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
     private function _load_schemadb()
     {
         $this->_schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_deliverable'));
-    }
-
-    /**
-     * Internal helper, loads the datamanager for the current deliverable. Any error triggers a 500.
-     */
-    private function _load_datamanager()
-    {
-        $this->_load_schemadb();
-        $this->_datamanager = new midcom_helper_datamanager2_datamanager($this->_schemadb);
-
-        if (! $this->_datamanager->autoset_storage($this->_deliverable))
-        {
-            throw new midcom_error("Failed to create a DM2 instance for deliverable {$this->_deliverable->id}.");
-        }
     }
 
     /**
@@ -166,22 +122,11 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
     /**
      * Helper, updates the context so that we get a complete breadcrumb line towards the current
      * location.
-     *
-     * @param string $handler_id
      */
-    private function _update_breadcrumb_line($handler_id)
+    private function _update_breadcrumb_line()
     {
         org_openpsa_sales_viewer::add_breadcrumb_path($this->_request_data['deliverable'], $this);
-
-        switch ($handler_id)
-        {
-            case 'deliverable_edit':
-                $this->add_breadcrumb("deliverable/edit/{$this->_deliverable->guid}/", $this->_l10n_midcom->get('edit'));
-                break;
-            case 'deliverable_delete':
-                $this->add_breadcrumb("deliverable/delete/{$this->_deliverable->guid}/", $this->_l10n_midcom->get('delete'));
-                break;
-        }
+        $this->add_breadcrumb("deliverable/edit/{$this->_deliverable->guid}/", $this->_l10n_midcom->get('edit'));
     }
 
     /**
@@ -226,7 +171,7 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
 
         $this->_prepare_request_data($handler_id);
         $this->bind_view_to_object($this->_deliverable, $this->_request_data['controller']->datamanager->schema->name);
-        $this->_update_breadcrumb_line($handler_id);
+        $this->_update_breadcrumb_line();
 
         midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('edit %s'), $this->_deliverable->title));
     }
@@ -296,13 +241,6 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
     }
 
     /**
-     * Displays a deliverable delete confirmation view.
-     *
-     * Note, that the deliverable for non-index mode operation is automatically determined in the can_handle
-     * phase.
-     *
-     * If create privileges apply, we relocate to the index creation deliverable
-     *
      * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
      * @param array &$data The local request data.
@@ -312,47 +250,22 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
         $this->_deliverable = new org_openpsa_sales_salesproject_deliverable_dba($args[0]);
         $this->_deliverable->require_do('midgard:delete');
 
-        $this->_load_datamanager();
-
-        if (array_key_exists('org_openpsa_sales_deleteok', $_REQUEST))
+        $controller = midcom_helper_datamanager2_handler::get_delete_controller();
+        if ($controller->process_form() == 'delete')
         {
-            // Deletion confirmed.
-            if (! $this->_deliverable->delete())
+            if (!$this->_deliverable->delete())
             {
                 throw new midcom_error("Failed to delete deliverable {$args[0]}, last Midgard error was: " . midcom_connection::get_error_string());
             }
 
-            // Update the index
             $indexer = midcom::get()->indexer;
             $indexer->delete($this->_deliverable->guid);
+            midcom::get()->uimessages->add($this->_l10n->get($this->_component), sprintf($this->_l10n_midcom->get("%s deleted"), $this->_deliverable->title));
 
-            // Delete ok, relocating to welcome.
-            return new midcom_response_relocate('');
+            $salesproject = $this->_deliverable->get_parent();
+            return new midcom_response_relocate("salesproject/{$salesproject->guid}/");
         }
-
-        if (array_key_exists('org_openpsa_sales_deletecancel', $_REQUEST))
-        {
-            // Redirect to view page.
-            return new midcom_response_relocate("deliverable/{$this->_deliverable->guid}/");
-        }
-
-        $this->_prepare_request_data($handler_id);
-        midcom::get()->head->set_pagetitle($this->_deliverable->title);
-        $this->bind_view_to_object($this->_deliverable, $this->_request_data['controller']->datamanager->schema->title);
-        $this->_update_breadcrumb_line($handler_id);
-    }
-
-    /**
-     * Shows the loaded deliverable.
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_delete ($handler_id, array &$data)
-    {
-        $data['deliverable_view'] = $this->_datamanager->get_content_html();
-
-        midcom_show_style('show-deliverable-delete');
+        return new midcom_response_relocate("deliverable/{$this->_deliverable->guid}/");
     }
 }
 ?>

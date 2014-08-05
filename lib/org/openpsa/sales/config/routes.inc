@@ -76,6 +76,14 @@
     'variable_args' => 1,
 ),
 
+// Match /deliverable/delete/<deliverable>
+'deliverable_edit' => array
+(
+    'handler' => array('org_openpsa_sales_handler_deliverable_admin', 'delete'),
+    'fixed_args' => array('deliverable', 'delete'),
+    'variable_args' => 1,
+),
+
 // Match /deliverable/list/product/<product>
 'deliverable_list_product' => array
 (

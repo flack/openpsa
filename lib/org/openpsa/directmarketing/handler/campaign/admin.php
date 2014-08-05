@@ -21,13 +21,6 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
     private $_campaign = null;
 
     /**
-     * The Datamanager of the campaign to display (for delete mode)
-     *
-     * @var midcom_helper_datamanager2_datamanager
-     */
-    private $_datamanager = null;
-
-    /**
      * The Controller of the campaign used for editing
      *
      * @var midcom_helper_datamanager2_controller_simple
@@ -48,7 +41,6 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
     private function _prepare_request_data($handler_id)
     {
         $this->_request_data['campaign'] = $this->_campaign;
-        $this->_request_data['datamanager'] = $this->_datamanager;
         $this->_request_data['controller'] = $this->_controller;
     }
 

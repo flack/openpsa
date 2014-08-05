@@ -21,13 +21,6 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
     private $_message;
 
     /**
-     * The Datamanager of the message to display (for delete mode)
-     *
-     * @var midcom_helper_datamanager2_datamanager
-     */
-    private $_datamanager;
-
-    /**
      * The Controller of the message used for editing
      *
      * @var midcom_helper_datamanager2_controller_simple
@@ -48,7 +41,6 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
     private function _prepare_request_data()
     {
         $this->_request_data['message'] = $this->_message;
-        $this->_request_data['datamanager'] = $this->_datamanager;
         $this->_request_data['controller'] = $this->_controller;
 
         if ($this->_message->can_do('midgard:delete'))
