@@ -45,44 +45,16 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
      * Simple helper which references all important members to the request data listing
      * for usage within the style listing.
      */
-    private function _prepare_request_data($handler_id)
+    private function _prepare_request_data()
     {
         $this->_request_data['message'] = $this->_message;
         $this->_request_data['datamanager'] = $this->_datamanager;
         $this->_request_data['controller'] = $this->_controller;
 
-        $this->_view_toolbar->add_item
-        (
-            array
-            (
-                MIDCOM_TOOLBAR_URL => "message/edit/{$this->_message->guid}/",
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('edit message'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
-                MIDCOM_TOOLBAR_ENABLED => $this->_message->can_do('midgard:update'),
-                MIDCOM_TOOLBAR_ACCESSKEY => 'e',
-            )
-        );
-
-        $this->_view_toolbar->add_item
-        (
-            array
-            (
-                MIDCOM_TOOLBAR_URL => "message/delete/{$this->_message->guid}/",
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('delete message'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
-                MIDCOM_TOOLBAR_ENABLED => $this->_message->can_do('midgard:delete'),
-                MIDCOM_TOOLBAR_ACCESSKEY => 'd',
-            )
-        );
-
-        switch ($handler_id)
+        if ($this->_message->can_do('midgard:delete'))
         {
-            case 'message_edit':
-                $this->_view_toolbar->disable_item("message/edit/{$this->_message->guid}/");
-                break;
-            case 'message_delete':
-                $this->_view_toolbar->disable_item("message/delete/{$this->_message->guid}/");
-                break;
+            $helper = new org_openpsa_widgets_toolbar($this->_view_toolbar);
+            $helper->add_delete_button("message/delete/{$this->_message->guid}/", $this->_message->title);
         }
     }
 
@@ -94,19 +66,6 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
     private function _load_schemadb()
     {
         $this->_schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_message'));
-    }
-
-    /**
-     * Internal helper, loads the datamanager for the current message. Any error triggers a 500.
-     */
-    private function _load_datamanager()
-    {
-        $this->_load_schemadb();
-        $this->_datamanager = new midcom_helper_datamanager2_datamanager($this->_schemadb);
-        if (!$this->_datamanager->autoset_storage($this->_message))
-        {
-            throw new midcom_error("Failed to create a DM2 instance for message {$this->_message->id}.");
-        }
     }
 
     /**
@@ -134,27 +93,22 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
     {
         $this->add_breadcrumb("message/{$this->_message->guid}/", $this->_message->title);
 
-        switch ($handler_id)
+        if ($handler_id == 'message_edit')
         {
-            case 'message_edit':
-                $this->add_breadcrumb("message/edit/{$this->_message->guid}/", $this->_l10n->get('edit message'));
-                break;
-            case 'message_delete':
-                $this->add_breadcrumb("message/delete/{$this->_message->guid}/", $this->_l10n->get('delete message'));
-                break;
-            case 'message_copy':
-                $this->add_breadcrumb("message/copy/{$this->_message->guid}/", $this->_l10n->get('copy message'));
-                break;
+            $this->add_breadcrumb("message/edit/{$this->_message->guid}/", $this->_l10n->get('edit message'));
+        }
+        else if ($handler_id == 'message_copy')
+        {
+            $this->add_breadcrumb("message/copy/{$this->_message->guid}/", $this->_l10n->get('copy message'));
         }
     }
 
     /**
      * Displays an message edit view.
      *
-     * Note, that the message for non-index mode operation is automatically determined in the can_handle
-     * phase.
-     *
-     * If create privileges apply, we relocate to the index creation message,
+     * @param mixed $handler_id The ID of the handler.
+     * @param array $args The argument list.
+     * @param array &$data The local request data.
      */
     public function _handler_edit($handler_id, array $args, array &$data)
     {
@@ -182,7 +136,7 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
 
         org_openpsa_helpers::dm2_savecancel($this);
 
-        $this->_prepare_request_data($handler_id);
+        $this->_prepare_request_data();
         midcom::get()->head->set_pagetitle($this->_message->title);
         $this->bind_view_to_object($this->_message, $this->_request_data['controller']->datamanager->schema->name);
         $this->_update_breadcrumb_line($handler_id);
@@ -197,65 +151,38 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
     }
 
     /**
-     * Displays an message delete confirmation view.
-     *
-     * Note, that the message for non-index mode operation is automatically determined in the can_handle
-     * phase.
-     *
-     * If create privileges apply, we relocate to the index creation message,
+     * @param mixed $handler_id The ID of the handler.
+     * @param array $args The argument list.
+     * @param array &$data The local request data.
      */
     public function _handler_delete($handler_id, array $args, array &$data)
     {
         $this->_message = new org_openpsa_directmarketing_campaign_message_dba($args[0]);
         $this->_message->require_do('midgard:delete');
 
-        $data['campaign'] = new org_openpsa_directmarketing_campaign_dba($this->_message->campaign);
-        $this->set_active_leaf('campaign_' . $data['campaign']->id);
-
-        $this->_load_datamanager();
-
-        if (array_key_exists('org_openpsa_directmarketing_deleteok', $_REQUEST))
+        $controller = midcom_helper_datamanager2_handler::get_delete_controller();
+        if ($controller->process_form() == 'delete')
         {
-            // Deletion confirmed.
             if (!$this->_message->delete())
             {
                 throw new midcom_error("Failed to delete message {$args[0]}, last Midgard error was: " . midcom_connection::get_error_string());
             }
 
-            // Update the index
             $indexer = midcom::get()->indexer;
             $indexer->delete($this->_message->guid);
-
-            // Delete ok, relocating to welcome.
-            return new midcom_response_relocate("campaign/{$data['campaign']->guid}/");
+            midcom::get()->uimessages->add($this->_l10n->get($this->_component), sprintf($this->_l10n_midcom->get("%s deleted"), $this->_message->title));
+            $campaign = new org_openpsa_directmarketing_campaign_dba($this->_message->campaign);
+            return new midcom_response_relocate("campaign/{$campaign->guid}/");
         }
-
-        if (array_key_exists('org_openpsa_directmarketing_deletecancel', $_REQUEST))
-        {
-            // Redirect to view page.
-            return new midcom_response_relocate("message/{$this->_message->guid}/");
-        }
-
-        $this->_prepare_request_data($handler_id);
-        midcom::get()->head->set_pagetitle($this->_message->title);
-        $this->bind_view_to_object($this->_message, $this->_datamanager->schema->name);
-        $this->_update_breadcrumb_line($handler_id);
-    }
-
-    /**
-     * Shows the loaded message.
-     */
-    public function _show_delete ($handler_id, array &$data)
-    {
-        $data['view_message'] = $this->_datamanager->get_content_html();
-
-        midcom_show_style('show-message-delete');
+        return new midcom_response_relocate("message/{$this->_message->guid}/");
     }
 
     /**
      * Handle the message copying interface
      *
-     * @return boolean Indicating success
+     * @param mixed $handler_id The ID of the handler.
+     * @param array $args The argument list.
+     * @param array &$data The local request data.
      */
     public function _handler_copy($handler_id, array $args, array &$data)
     {

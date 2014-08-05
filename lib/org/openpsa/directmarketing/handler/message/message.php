@@ -70,17 +70,11 @@ class org_openpsa_directmarketing_handler_message_message extends midcom_basecla
                 MIDCOM_TOOLBAR_ENABLED => $this->_message->can_do('midgard:update')
             )
         );
-        $this->_view_toolbar->add_item
-        (
-            array
-            (
-                MIDCOM_TOOLBAR_URL => "message/delete/{$this->_message->guid}/",
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('delete message'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
-                MIDCOM_TOOLBAR_ACCESSKEY => 'd',
-                MIDCOM_TOOLBAR_ENABLED => $this->_message->can_do('midgard:delete')
-            )
-        );
+        if ($this->_message->can_do('midgard:delete'))
+        {
+            $helper = new org_openpsa_widgets_toolbar($this->_view_toolbar);
+            $helper->add_delete_button("message/delete/{$this->_message->guid}/", $this->_message->title);
+        }
         $this->_view_toolbar->add_item
         (
             array

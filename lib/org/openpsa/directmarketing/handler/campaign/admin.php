@@ -63,19 +63,6 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
     }
 
     /**
-     * Internal helper, loads the datamanager for the current campaign. Any error triggers a 500.
-     */
-    private function _load_datamanager()
-    {
-        $this->_load_schemadb();
-        $this->_datamanager = new midcom_helper_datamanager2_datamanager($this->_schemadb);
-        if (!$this->_datamanager->autoset_storage($this->_campaign))
-        {
-            throw new midcom_error("Failed to create a DM2 instance for campaign {$this->_campaign->id}.");
-        }
-    }
-
-    /**
      * Internal helper, loads the controller for the current campaign. Any error triggers a 500.
      */
     private function _load_controller()
@@ -103,9 +90,6 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
             case 'edit_campaign':
                 $this->add_breadcrumb("campaign/edit/{$this->_campaign->guid}/", $this->_l10n->get('edit campaign'));
                 break;
-            case 'delete_campaign':
-                $this->add_breadcrumb("campaign/delete/{$this->_campaign->guid}/", $this->_l10n->get('delete campaign'));
-                break;
             case 'edit_campaign_query':
                 $this->add_breadcrumb("campaign/edit_query/{$this->_campaign->guid}/", $this->_l10n->get('edit rules'));
                 break;
@@ -119,10 +103,9 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
     /**
      * Displays an campaign edit view.
      *
-     * Note, that the campaign for non-index mode operation is automatically determined in the can_handle
-     * phase.
-     *
-     * If create privileges apply, we relocate to the index creation campaign,
+     * @param mixed $handler_id The ID of the handler.
+     * @param array $args The argument list.
+     * @param array &$data The local request data.
      */
     public function _handler_edit_query($handler_id, array $args, array &$data)
     {
@@ -244,10 +227,9 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
     /**
      * Displays an campaign edit view.
      *
-     * Note, that the campaign for non-index mode operation is automatically determined in the can_handle
-     * phase.
-     *
-     * If create privileges apply, we relocate to the index creation campaign,
+     * @param mixed $handler_id The ID of the handler.
+     * @param array $args The argument list.
+     * @param array &$data The local request data.
      */
     public function _handler_edit_query_advanced($handler_id, array $args, array &$data)
     {
@@ -323,10 +305,9 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
     /**
      * Displays an campaign edit view.
      *
-     * Note, that the campaign for non-index mode operation is automatically determined in the can_handle
-     * phase.
-     *
-     * If create privileges apply, we relocate to the index creation campaign,
+     * @param mixed $handler_id The ID of the handler.
+     * @param array $args The argument list.
+     * @param array &$data The local request data.
      */
     public function _handler_edit($handler_id, array $args, array &$data)
     {
@@ -379,71 +360,30 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
     }
 
     /**
-     * Displays an campaign delete confirmation view.
-     *
-     * Note, that the campaign for non-index mode operation is automatically determined in the can_handle
-     * phase.
-     *
-     * If create privileges apply, we relocate to the index creation campaign,
+     * @param mixed $handler_id The ID of the handler.
+     * @param array $args The argument list.
+     * @param array &$data The local request data.
      */
     public function _handler_delete($handler_id, array $args, array &$data)
     {
         $this->_campaign = $this->_master->load_campaign($args[0]);
         $this->_campaign->require_do('midgard:delete');
 
-        $this->_load_datamanager();
-
-        if (array_key_exists('org_openpsa_directmarketing_deleteok', $_REQUEST))
+        $controller = midcom_helper_datamanager2_handler::get_delete_controller();
+        if ($controller->process_form() == 'delete')
         {
-            // Deletion confirmed.
             if (! $this->_campaign->delete())
             {
                 throw new midcom_error("Failed to delete campaign {$args[0]}, last Midgard error was: " . midcom_connection::get_error_string());
             }
 
-            // Update the index
             $indexer = midcom::get()->indexer;
             $indexer->delete($this->_campaign->guid);
-
-            // Delete ok, relocating to welcome.
+            midcom::get()->uimessages->add($this->_l10n->get($this->_component), sprintf($this->_l10n_midcom->get("%s deleted"), $this->_campaign->title));
             return new midcom_response_relocate('');
         }
 
-        if (array_key_exists('org_openpsa_directmarketing_deletecancel', $_REQUEST))
-        {
-            // Redirect to view page.
-            return new midcom_response_relocate("campaign/{$this->_campaign->guid}/");
-        }
-
-        $this->set_active_leaf('campaign_' . $this->_campaign->id);
-
-        $this->_prepare_request_data($handler_id);
-
-        $this->_view_toolbar->add_item
-        (
-            array
-            (
-                MIDCOM_TOOLBAR_URL => "campaign/edit/{$this->_campaign->guid}/",
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('edit campaign'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
-                MIDCOM_TOOLBAR_ENABLED => $this->_campaign->can_do('midgard:update'),
-                MIDCOM_TOOLBAR_ACCESSKEY => 'e',
-            )
-        );
-
-        midcom::get()->head->set_pagetitle($this->_campaign->title);
-        $this->bind_view_to_object($this->_campaign, $this->_datamanager->schema->name);
-        $this->_update_breadcrumb_line($handler_id);
-    }
-
-    /**
-     * Shows the loaded campaign.
-     */
-    public function _show_delete ($handler_id, array &$data)
-    {
-        $data['view_campaign'] = $this->_datamanager->get_content_html();
-
-        midcom_show_style('show-campaign-delete');
+        return new midcom_response_relocate("campaign/{$this->_campaign->guid}/");
     }
 }
 ?>

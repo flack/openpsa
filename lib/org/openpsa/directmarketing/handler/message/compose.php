@@ -39,7 +39,7 @@ class org_openpsa_directmarketing_handler_message_compose extends midcom_basecla
     /**
      * Phase for composing a message
      *
-     * @param String $handler_id    Name of the request handler
+     * @param string $handler_id    Name of the request handler
      * @param array $args           Variable arguments
      * @param array &$data          Public request data, passed by reference
      */

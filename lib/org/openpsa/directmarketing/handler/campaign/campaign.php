@@ -81,17 +81,12 @@ class org_openpsa_directmarketing_handler_campaign_campaign extends midcom_basec
                 MIDCOM_TOOLBAR_ENABLED => $this->_campaign->can_do('midgard:update')
             )
         );
-        $this->_view_toolbar->add_item
-        (
-            array
-            (
-                MIDCOM_TOOLBAR_URL => "campaign/delete/{$this->_campaign->guid}/",
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('delete campaign'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
-                MIDCOM_TOOLBAR_ACCESSKEY => 'd',
-                MIDCOM_TOOLBAR_ENABLED => $this->_campaign->can_do('midgard:delete')
-            )
-        );
+
+        if ($this->_campaign->can_do('midgard:delete'))
+        {
+            $helper = new org_openpsa_widgets_toolbar($this->_view_toolbar);
+            $helper->add_delete_button("campaign/delete/{$this->_campaign->guid}/", $this->_campaign->title);
+        }
 
         if ($this->_campaign->orgOpenpsaObtype == org_openpsa_directmarketing_campaign_dba::TYPE_SMART)
         {
