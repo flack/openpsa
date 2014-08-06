@@ -77,7 +77,7 @@
 ),
 
 // Match /deliverable/delete/<deliverable>
-'deliverable_edit' => array
+'deliverable_delete' => array
 (
     'handler' => array('org_openpsa_sales_handler_deliverable_admin', 'delete'),
     'fixed_args' => array('deliverable', 'delete'),
