@@ -29,37 +29,12 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
     /**
      * Get array of IDs of all tasks in subtree
      */
-    private function _expand_task($task, $ret = array())
+    private function _expand_task($task)
     {
-        //When recursing we get object, otherwise GUID
-        if (!is_object($task))
-        {
-            try
-            {
-                $task = org_openpsa_projects_task_dba::get_cached($task);
-            }
-            catch (midcom_error $e)
-            {
-                //Something went seriously wrong, abort as cleanly as possible
-                debug_add('Could not get task object, aborting', MIDCOM_LOG_ERROR);
-                return $ret;
-            }
-        }
-
-        //Add current ID
-        debug_add(sprintf('Adding task % (id: %s)', $task->title, $task->id));
-        $ret[] = $task->id;
-
-        //Get list of children and recurse
-        //We pop already here due to recursion
-        debug_add('Checking for children & recursing them');
-        $qb = org_openpsa_projects_task_dba::new_query_builder();
-        $qb->add_constraint('up', '=', $task->id);
-        $results = $qb->execute();
-        foreach ($results as $child_task)
-        {
-            $ret = $this->_expand_task($child_task, $ret);
-        }
+        $mc = org_openpsa_projects_task_dba::new_collector('metadata.deleted', false);
+        $mc->add_constraint('up', 'INTREE', $task);
+        $ret = $mc->get_values('id');
+        $ret[] = $task;
         return $ret;
     }
 
@@ -74,7 +49,7 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
         $qb_hr->add_constraint('date', '<=', (int) $this->_request_data['query_data']['end']);
         $qb_hr->add_constraint('date', '>=', (int) $this->_request_data['query_data']['start']);
         if (   array_key_exists('invoiceable_filter', $this->_request_data['query_data'])
-               && $this->_request_data['query_data']['invoiceable_filter'] != -1)
+            && $this->_request_data['query_data']['invoiceable_filter'] != -1)
         {
             $qb_hr->add_constraint('invoiceable', '=', (bool) $this->_request_data['query_data']['invoiceable_filter']);
         }
@@ -142,49 +117,33 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
 
     private static function _sort_by_key($a, $b)
     {
-        $ap = false;
-        $bp = false;
-        if (array_key_exists('sort', $a))
+        $ap = (array_key_exists('sort', $a)) ? $a['sort'] : false;
+        $bp = (array_key_exists('sort', $b)) ? $b['sort'] : false;
+        if (is_numeric($ap))
         {
-            $ap = $a['sort'];
-        }
-        if (array_key_exists('sort', $b))
-        {
-            $bp = $b['sort'];
-        }
-        switch (true)
-        {
-            default:
-            case is_numeric($ap):
-                if ($ap > $bp)
-                {
-                    return 1;
-                }
-                if ($ap < $bp)
-                {
-                    return -1;
-                }
+            if ($ap == $bp)
+            {
                 return 0;
-
-            case is_string($ap):
-                return strnatcmp($ap, $bp);
+            }
+            return ($ap > $bp) ? 1 : -1;
+        }
+        if (is_string($ap))
+        {
+            return strnatcmp($ap, $bp);
         }
         return 0;
     }
 
     private function _analyze_raw_hours()
     {
-        if (   empty($this->_request_data['raw_results']['hr'])
-            || !is_array($this->_request_data['raw_results']['hr']))
+        if (empty($this->_request_data['raw_results']['hr']))
         {
             debug_add('Hour reports array not found', MIDCOM_LOG_WARN);
-            return false;
+            return;
         }
 
         foreach ($this->_request_data['raw_results']['hr'] as $hour)
         {
-            debug_add('processing hour id: ' . $hour->id);
-
             $row = array();
             $row['is_group'] = false;
             $row['hour'] = $hour;
@@ -202,77 +161,71 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
             // Default (should work for almost every grouping) is to sort rows by the hour report date
             $row['sort'] = $row['hour']->date;
             //Determine our group
-            debug_add("grouping is {$this->_grouping}");
-            switch ($this->_grouping)
+            if ($this->_grouping == 'date')
             {
-                case 'date':
-                    $group =& $this->_get_report_group('date:' . date('Ymd', $row['hour']->date), date('Ymd', $row['hour']->date), strftime('%x', $row['hour']->date), $this->_request_data['report']['rows']);
-                break;
-                case 'person':
-                    $group =& $this->_get_report_group('person:' . $row['person']->guid, $row['person']->rname, $row['person']->rname, $this->_request_data['report']['rows']);
-                break;
+                $matching = 'date:' . date('Ymd', $row['hour']->date);
+                $sort = date('Ymd', $row['hour']->date);
+                $title = strftime('%x', $row['hour']->date);
+                $this->add_to_group($row, $matching, $sort, $title);
+            }
+            else if ($this->_grouping == 'person')
+            {
+                $matching = 'person:' . $row['person']->guid;
+                $sort = $row['person']->rname;
+                $title = $row['person']->rname;
+                $this->add_to_group($row, $matching, $sort, $title);
+            }
+            else
+            {
+                continue;
             }
 
-            if ($group)
-            {
-                //Place data to group
-                $group['rows'][] = $row;
-                $group['total_hours'] += $hour->hours;
-
-                //Place data to report
-                $this->_request_data['report']['total_hours'] += $hour->hours;
-            }
+            //Place data to report
+            $this->_request_data['report']['total_hours'] += $hour->hours;
         }
-
-        return true;
     }
 
-    function &_get_report_group($matching, $sort, $title, array &$rows, $recursed = 0)
+    private function add_to_group($new_row, $matching, $sort, $title, array &$rows = null)
     {
-        foreach ($rows as $k => $row)
+        $recursed = true;
+        if ($rows === null)
         {
-            if (   !is_array($row)
-                || empty($row['is_group']))
+            $rows =& $this->_request_data['report']['rows'];
+            $recursed = false;
+        }
+        foreach ($rows as &$row)
+        {
+            if (empty($row['is_group']))
             {
                 continue;
             }
             if ($row['matching'] === $matching)
             {
-                debug_add(sprintf('found match in key "%s", returning it', $k));
-                return $row;
+                $row['rows'][] = $new_row;
+                $row['total_hours'] += $new_row['hour']->hours;
+                return true;
             }
-
-            if (    array_key_exists('rows', $row)
-                &&  is_array($row['rows']))
+            if (   array_key_exists('rows', $row)
+                && $this->add_to_group($new_row, $matching, $sort, $title, $row['rows']))
             {
-                debug_add(sprintf('found subgroup in key "%s", recursing it', $k));
-                $got =& $this->_get_report_group($matching, $sort, $title, $row, ++$recursed);
-                if ($got !== false)
-                {
-                    debug_add('Got result from recurser, returning it');
-                    return $got;
-                }
+                return true;
             }
         }
         //Could not find group, but since we're inside recursion loop we won't create it yet
-        if ($recursed !== 0)
+        if ($recursed)
         {
-            debug_add('No match and we\'re in recursive mode, returning false');
-            $x = false;
-            return $x;
+            return false;
         }
-        debug_add('No match found, creating new group and returning it');
-        //Othewise create a new group to the report
-        $group = array();
-        $group['is_group'] = true;
-        $group['matching'] = $matching;
-        $group['sort'] = $sort;
-        $group['title'] = $title;
-        $group['rows'] = array();
-        $group['total_hours'] = 0;
-        $next_key = count($rows);
-        $rows[$next_key] = $group;
-        return $rows[$next_key];
+        $rows[] = array
+        (
+            'is_group' => true,
+            'matching' => $matching,
+            'sort' => $sort,
+            'title' => $title,
+            'rows' => array($new_row),
+            'total_hours' => $new_row['hour']->hours
+        );
+        return true;
     }
 
     /**
@@ -300,7 +253,6 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
         if (preg_match('/^builtin:(.+)/', $this->_request_data['query_data']['style'], $matches))
         {
             $bpr = '-' . $matches[1];
-            debug_add('Recognized builtin report, style prefix: ' . $bpr);
         }
         else
         {
@@ -309,15 +261,10 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
         }
 
         //Mangling if report wants to do it (done here to have style context, otherwise MidCOM will not like us.
-        debug_print_r("query data before mangle:", $this->_request_data['query_data']);
-        debug_add("calling midcom_show_style('report{$bpr}-mangle-query') to mangle the query data as necessary");
         midcom_show_style("projects_report{$bpr}-mangle-query");
-        debug_print_r("query data after mangle:", $this->_request_data['query_data']);
         //Handle grouping
-        debug_add('checking grouping');
         if (!empty($this->_request_data['query_data']['grouping']))
         {
-            debug_add("checking validity of grouping value '{$this->_request_data['query_data']['grouping']}'");
             if (array_key_exists($this->_request_data['query_data']['grouping'], $this->_valid_groupings))
             {
                 debug_add('Setting grouping to: ' . $this->_request_data['query_data']['grouping']);
@@ -336,21 +283,17 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
         $results_hr = $this->_get_hour_reports();
 
         //For debugging and sensible passing of data
-        $this->_request_data['raw_results'] = array();
-        $this->_request_data['raw_results']['hr'] = $results_hr;
+        $this->_request_data['raw_results'] = array('hr' => $results_hr);
         //TODO: Mileages, expenses
 
-        $this->_request_data['report'] = array();
-        $this->_request_data['report']['rows'] = array();
-        $this->_request_data['report']['total_hours'] = 0;
+        $this->_request_data['report'] = array('rows' => array(), 'total_hours' => 0);
 
         $this->_analyze_raw_hours();
 
         $this->_sort_rows_recursive($this->_request_data['report']['rows']);
 
         //TODO: add other report types when supported
-        if (   !is_array($this->_request_data['raw_results']['hr'])
-            || count($this->_request_data['raw_results']['hr']) == 0)
+        if (empty($this->_request_data['raw_results']['hr']))
         {
             midcom_show_style("projects_report{$bpr}-noresults");
             return;
