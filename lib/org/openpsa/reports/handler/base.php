@@ -58,8 +58,6 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
 
         // Initialize the datamanager with the schema
         $this->_datamanagers[$this->module] = new midcom_helper_datamanager2_datamanager($this->_schemadb);
-
-        return true;
     }
 
     private function _load_query($identifier, $dm_key)
