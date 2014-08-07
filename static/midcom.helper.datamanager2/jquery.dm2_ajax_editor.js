@@ -587,23 +587,42 @@
             },
             results_parsed: function()
             {
-                var self = this,
-                unreplaced_fields = [];
+                var form_fields = this.form_fields,
+                identifier = this.identifier,
+                unreplaced_fields = [],
+                notfound_wrapper = $('<div id="' + identifier + '_invisible_fields">'),
+                last_field, notfound_element;
 
                 if (   this.parsed_data.is_editable
                     || this.state.current !== 'edit')
                 {
-                    unreplaced_fields = [];
                     $.each(this.fields, function(i, field)
                     {
-                        if (self.form_fields[field.name] === undefined)
+                        if (form_fields[field.name] === undefined)
                         {
                             unreplaced_fields.push(field.name);
                             return;
                         }
 
-                        field.elem.html(self.form_fields[field.name]);
+                        field.elem.html(form_fields[field.name]);
+                        delete form_fields[field.name];
+                        last_field = field.elem;
                     });
+                    $.each(form_fields, function(name, field_html)
+                    {
+                        $('<div>')
+                            .addClass(identifier)
+                            .attr('id', identifier + '_' + name)
+                            .appendTo(notfound_wrapper)
+                            .append($(field_html));
+
+                    });
+                    if (notfound_wrapper.children().length > 0)
+                    {
+                        notfound_wrapper
+                            .hide()
+                            .appendTo(last_field);
+                    }
                 }
             },
             render_toolbar: function()
@@ -702,7 +721,18 @@
                     next_state = 'view';
                 }
 
-                var editor = $.dm2.ajax_editor.get_instance(this.identifier);
+                var editor = $.dm2.ajax_editor.get_instance(this.identifier),
+                values = this.values;
+
+                if ($('#' + this.identifier + '_invisible_fields').length > 0)
+                {
+                    $('#' + this.identifier + '_invisible_fields')
+                        .find('input, select, textarea')
+                        .each(function()
+                        {
+                            values[$(this).attr('name')] = $(this).val();
+                        });
+                }
 
                 $.ajax({
                     global: false,
@@ -710,7 +740,7 @@
                     url: location.href,
                     dataType: 'xml',
                     contentType: 'application/x-www-form-urlencoded',
-                    data: this.values,
+                    data: values,
                     success: function(data)
                     {
                         editor.state.previous = editor.state.current;
