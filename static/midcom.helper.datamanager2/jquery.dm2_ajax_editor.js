@@ -391,7 +391,6 @@
                 };
 
                 this.errors = $('form', data).find('error');
-
                 if (this.errors.length > 0)
                 {
                     this._change_state('edit');
@@ -587,7 +586,8 @@
             },
             results_parsed: function()
             {
-                var form_fields = this.form_fields,
+                var that = this,
+                form_fields = this.form_fields,
                 identifier = this.identifier,
                 unreplaced_fields = [],
                 notfound_wrapper = $('<div id="' + identifier + '_invisible_fields">'),
@@ -605,6 +605,14 @@
                         }
 
                         field.elem.html(form_fields[field.name]);
+
+                        if (that.errors.attr('field') === field.name)
+                        {
+                            field.elem
+                                .addClass('error')
+                                .prepend($('<span class="field_error">' + that.errors.text() + '</span><br>'));
+                        }
+
                         delete form_fields[field.name];
                         last_field = field.elem;
                     });
