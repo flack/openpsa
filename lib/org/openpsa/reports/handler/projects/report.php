@@ -29,13 +29,12 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
     /**
      * Get array of IDs of all tasks in subtree
      */
-    private function _expand_task($task)
+    private function _expand_task($project_guid)
     {
+        $project = org_openpsa_projects_project::get_cached($project_guid);
         $mc = org_openpsa_projects_task_dba::new_collector('metadata.deleted', false);
-        $mc->add_constraint('up', 'INTREE', $task);
-        $ret = $mc->get_values('id');
-        $ret[] = $task;
-        return $ret;
+        $mc->add_constraint('project', 'INTREE', $project->id);
+        return $mc->get_values('id');
     }
 
     /**
