@@ -45,7 +45,7 @@ class dba2rdfMapper extends AbstractRdfMapper
                 $child_map[$subject]->metadata->score = $index;
                 if (!$child_map[$subject]->update())
                 {
-                    throw new midcom_error(midcom_connection::get_error_string());
+                    throw new \midcom_error(midcom_connection::get_error_string());
                 }
             }
         }
