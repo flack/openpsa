@@ -13,6 +13,10 @@ use Midgard\CreatePHP\Entity\PropertyInterface;
 use Midgard\CreatePHP\Entity\CollectionInterface;
 use Midgard\CreatePHP\Entity\EntityInterface;
 use Midgard\CreatePHP\Type\TypeInterface;
+use midcom;
+use midcom_connection;
+use midcom_error;
+use midcom_helper_reflector;
 
 /**
  * Default RdfMapper implementation for MidCOM DBA
@@ -45,7 +49,7 @@ class dba2rdfMapper extends AbstractRdfMapper
                 $child_map[$subject]->metadata->score = $index;
                 if (!$child_map[$subject]->update())
                 {
-                    throw new \midcom_error(midcom_connection::get_error_string());
+                    throw new midcom_error(midcom_connection::get_error_string());
                 }
             }
         }
@@ -53,14 +57,14 @@ class dba2rdfMapper extends AbstractRdfMapper
 
     public function getBySubject($identifier)
     {
-        $identifier = str_replace(\midcom::get()->config->get('midcom_site_url') . 'midcom-permalink-', '', $identifier);
+        $identifier = str_replace(midcom::get()->config->get('midcom_site_url') . 'midcom-permalink-', '', $identifier);
         $identifier = trim($identifier, '<>');
 
         try
         {
-            return \midcom::get()->dbfactory->get_object_by_guid($identifier);
+            return midcom::get()->dbfactory->get_object_by_guid($identifier);
         }
-        catch (\midcom_error $e)
+        catch (midcom_error $e)
         {
             $e->log();
             return false;
@@ -69,7 +73,7 @@ class dba2rdfMapper extends AbstractRdfMapper
 
     public function createSubject($object)
     {
-        return \midcom::get()->permalinks->create_permalink($object->guid);
+        return midcom::get()->permalinks->create_permalink($object->guid);
     }
 
     public function prepareObject(TypeInterface $controller, $parent = null)
@@ -80,7 +84,7 @@ class dba2rdfMapper extends AbstractRdfMapper
 
         if (null !== $parent)
         {
-            $baseclass = \midcom_helper_reflector::resolve_baseclass($class);
+            $baseclass = midcom_helper_reflector::resolve_baseclass($class);
             $reflector = new \midgard_reflection_property($baseclass);
 
             $up_property = \midgard_object_class::get_property_up($baseclass);
@@ -88,7 +92,7 @@ class dba2rdfMapper extends AbstractRdfMapper
             {
                 $target_property = $reflector->get_link_target($up_property);
                 $target_class = $reflector->get_link_name($up_property);
-                if (\midcom_helper_reflector::resolve_baseclass($parent) === $target_class)
+                if (midcom_helper_reflector::resolve_baseclass($parent) === $target_class)
                 {
                     $object->{$up_property} = $parent->{$target_property};
                 }
@@ -99,7 +103,7 @@ class dba2rdfMapper extends AbstractRdfMapper
             {
                 $target_property = $reflector->get_link_target($parent_property);
                 $target_class = $reflector->get_link_name($parent_property);
-                if (\midcom_helper_reflector::resolve_baseclass($parent) === $target_class)
+                if (midcom_helper_reflector::resolve_baseclass($parent) === $target_class)
                 {
                     $object->{$parent_property} = $parent->{$target_property};
                 }
@@ -123,7 +127,7 @@ class dba2rdfMapper extends AbstractRdfMapper
         $config = $collection->getConfig();
         if (empty($config['parentfield']))
         {
-            throw new \midcom_error('parentfield was not defined in config');
+            throw new midcom_error('parentfield was not defined in config');
         }
         $parentfield = $config['parentfield'];
         // if storage is not defined, we assume it's the same as object
@@ -136,11 +140,11 @@ class dba2rdfMapper extends AbstractRdfMapper
             $storage = $config['storage'];
         }
 
-        $reflector = new \midgard_reflection_property(\midcom_helper_reflector::resolve_baseclass($storage));
+        $reflector = new \midgard_reflection_property(midcom_helper_reflector::resolve_baseclass($storage));
 
         if (!$reflector->is_link($parentfield))
         {
-            throw new \midcom_error('could not determine storage class');
+            throw new midcom_error('could not determine storage class');
         }
 
         $qb = call_user_func(array($storage, 'new_query_builder'));
@@ -170,9 +174,9 @@ class dba2rdfMapper extends AbstractRdfMapper
         {
             $fieldname = $config['dba_name'];
         }
-        if (!\midcom::get()->dbfactory->property_exists($object, $fieldname))
+        if (!midcom::get()->dbfactory->property_exists($object, $fieldname))
         {
-            throw new \midcom_error('Could not find property mapping for ' . $fieldname);
+            throw new midcom_error('Could not find property mapping for ' . $fieldname);
         }
         return $fieldname;
     }
@@ -201,7 +205,7 @@ class dba2rdfMapper extends AbstractRdfMapper
         }
         if (false === $stat)
         {
-            debug_add('Could not save entity: ' . \midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
+            debug_add('Could not save entity: ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
         }
         return $stat;
     }
