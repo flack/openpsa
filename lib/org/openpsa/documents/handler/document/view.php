@@ -328,4 +328,3 @@ implements org_openpsa_widgets_grid_provider_client
         midcom_show_style("show-document");
     }
 }
-?>

@@ -557,4 +557,3 @@ class midcom_helper__dbfactory
         return $this->_parent_candidates[$classname];
     }
 }
-?>

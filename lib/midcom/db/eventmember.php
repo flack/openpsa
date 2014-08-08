@@ -25,4 +25,3 @@ class midcom_db_eventmember extends midcom_core_dbaobject
         return sprintf(midcom::get()->i18n->get_string('%s in %s', 'midcom'), $person->name, $event->title);
     }
 }
-?>

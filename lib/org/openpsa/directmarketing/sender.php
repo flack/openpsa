@@ -510,4 +510,3 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
         $qb->add_order('person.id', 'ASC');
     }
 }
-?>

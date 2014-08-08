@@ -14,4 +14,3 @@
 class midgard_admin_asgard_interface extends midcom_baseclasses_components_interface
 {
 }
-?>

@@ -292,4 +292,3 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
         midcom_show_style('weekreview-footer');
     }
 }
-?>

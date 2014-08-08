@@ -556,4 +556,3 @@ EOT;
         return strcmp($a['label'], $b['label']);
     }
 }
-?>

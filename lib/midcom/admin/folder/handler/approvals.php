@@ -44,4 +44,3 @@ class midcom_admin_folder_handler_approvals extends midcom_baseclasses_component
         return new midcom_response_relocate($_REQUEST['return_to']);
     }
 }
-?>

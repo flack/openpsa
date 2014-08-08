@@ -600,4 +600,3 @@ class midcom_services_i18n_l10n
         return $this->_language_db;
     }
 }
-?>

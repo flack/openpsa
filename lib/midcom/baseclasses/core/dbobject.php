@@ -1674,4 +1674,3 @@ class midcom_baseclasses_core_dbobject
         return $object->_on_deleting();
     }
 }
-?>

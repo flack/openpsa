@@ -145,4 +145,3 @@ class org_openpsa_documents_handler_document_create extends midcom_baseclasses_c
         midcom_show_style("show-document-create");
     }
 }
-?>

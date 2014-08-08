@@ -138,4 +138,3 @@ class org_openpsa_products_handler_group_edit extends midcom_baseclasses_compone
         midcom_show_style('product_group_edit');
     }
 }
-?>

@@ -409,4 +409,3 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
         return (int) array_pop($selection);
     }
 }
-?>

@@ -442,4 +442,3 @@ class midcom_helper_reflector_reflectorTest extends openpsa_testcase
         }
     }
 }
-?>

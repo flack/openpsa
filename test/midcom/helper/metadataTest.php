@@ -100,6 +100,4 @@ class midcom_helper_metadataTest extends openpsa_testcase
             //array('publisher', $person->guid),
         );
     }
-
 }
-?>

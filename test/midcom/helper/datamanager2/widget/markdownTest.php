@@ -53,4 +53,3 @@ class midcom_helper_datamanager2_widget_markdownTest extends openpsa_testcase
         $this->assertEquals('TEST', $widget->get_default(), 'simple/storage test failed');
     }
 }
-?>

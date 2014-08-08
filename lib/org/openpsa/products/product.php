@@ -105,4 +105,3 @@ class org_openpsa_products_product_dba extends midcom_core_dbaobject
         return ($qb->count() == 0);
     }
 }
-?>

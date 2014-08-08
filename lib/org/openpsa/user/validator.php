@@ -135,4 +135,3 @@ class org_openpsa_user_validator extends midcom_admin_user_validator
         return true;
     }
 }
-?>

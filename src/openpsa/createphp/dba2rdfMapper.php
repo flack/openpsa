@@ -210,4 +210,3 @@ class dba2rdfMapper extends AbstractRdfMapper
         return $stat;
     }
 }
-?>

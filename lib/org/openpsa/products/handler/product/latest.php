@@ -214,4 +214,3 @@ class org_openpsa_products_handler_product_latest extends midcom_baseclasses_com
         echo $data['rss'];
     }
 }
-?>

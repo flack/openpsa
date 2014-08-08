@@ -135,4 +135,3 @@ class org_openpsa_user_validatorTest extends openpsa_testcase
         $this->assertTrue($val->email_and_username_exist($fields));
     }
 }
-?>

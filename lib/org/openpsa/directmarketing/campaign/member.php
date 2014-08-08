@@ -192,4 +192,3 @@ class org_openpsa_directmarketing_campaign_member_dba extends midcom_core_dbaobj
         midcom::get()->auth->drop_sudo();
     }
 }
-?>

@@ -104,4 +104,3 @@ class org_openpsa_documents_handler_directory_edit extends midcom_baseclasses_co
         midcom_show_style("show-directory-edit");
     }
 }
-?>

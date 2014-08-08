@@ -24,4 +24,3 @@ class org_openpsa_mail_backend_mail_sendmail extends org_openpsa_mail_backend
         return $this->_mail->send($message->get_message());
     }
 }
-?>

@@ -114,4 +114,3 @@ class midcom_services_rcs_renderer_html_sidebyside extends Diff_Renderer_Html_Ar
         $this->html .= '</tr>';
     }
 }
-?>

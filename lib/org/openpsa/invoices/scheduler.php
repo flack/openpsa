@@ -415,4 +415,3 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
         return $identifier;
     }
 }
-?>

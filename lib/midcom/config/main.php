@@ -619,4 +619,3 @@ class midcom_config implements arrayaccess
         return $this->get($offset);
     }
 }
-?>

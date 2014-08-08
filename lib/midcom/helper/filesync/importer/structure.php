@@ -171,4 +171,3 @@ class midcom_helper_filesync_importer_structure extends midcom_helper_filesync_i
         $this->read_structure($structure[$structure_name]['root']);
     }
 }
-?>

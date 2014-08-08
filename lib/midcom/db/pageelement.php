@@ -18,4 +18,3 @@ class midcom_db_pageelement extends midcom_db_cachemember
     public $__midcom_class_name__ = __CLASS__;
     public $__mgdschema_class_name__ = 'midgard_pageelement';
 }
-?>

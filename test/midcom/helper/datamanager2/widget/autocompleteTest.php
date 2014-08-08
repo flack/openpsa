@@ -125,4 +125,3 @@ class midcom_helper_datamanager2_widget_autocompleteTest extends openpsa_testcas
         $this->assertEquals($lastname, $string);
     }
 }
-?>

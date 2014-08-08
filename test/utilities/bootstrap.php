@@ -28,7 +28,7 @@ if (   file_exists(OPENPSA2_UNITTEST_OUTPUT_DIR)
 {
     $ret = false;
     $output = system('rm -R ' . OPENPSA2_UNITTEST_OUTPUT_DIR, $ret);
-    
+
     if ($ret)
     {
         throw new Exception('Could not remove old output dir: ' . $output);
@@ -111,4 +111,3 @@ require MIDCOM_ROOT . '/midcom.php';
 midcom::get()->cache->invalidate_all();
 //disable output buffering
 midcom::get()->cache->content->enable_live_mode();
-?>

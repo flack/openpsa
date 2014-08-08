@@ -98,4 +98,3 @@ class midcom_helper_exporter_jsonTest extends openpsa_testcase
         return $data;
     }
 }
-?>

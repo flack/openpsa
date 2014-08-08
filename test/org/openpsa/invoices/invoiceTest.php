@@ -124,4 +124,3 @@ class org_openpsa_invoices_invoiceTest extends openpsa_testcase
         return count($items);
     }
 }
-?>

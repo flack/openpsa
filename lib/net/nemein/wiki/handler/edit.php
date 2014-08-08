@@ -242,4 +242,3 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
         return new midcom_response_relocate("edit/{$this->_page->name}/");
     }
 }
-?>

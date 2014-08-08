@@ -93,4 +93,3 @@ class org_routamc_positioning_country_dba extends midcom_core_dbaobject
         return $matches[0];
     }
 }
-?>

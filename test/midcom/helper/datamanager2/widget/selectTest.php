@@ -77,4 +77,3 @@ class midcom_helper_datamanager2_widget_selectTest extends openpsa_testcase
         midcom::get()->auth->drop_sudo();
     }
 }
-?>

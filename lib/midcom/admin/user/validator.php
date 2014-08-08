@@ -43,4 +43,3 @@ class midcom_admin_user_validator
         return true;
     }
 }
-?>

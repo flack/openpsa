@@ -92,4 +92,3 @@ class midcom_helper_serviceloader
         return $this->instances[$service];
     }
 }
-?>

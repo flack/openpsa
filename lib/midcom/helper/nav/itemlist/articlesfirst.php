@@ -42,4 +42,3 @@ class midcom_helper_nav_itemlist_articlesfirst extends midcom_helper_nav_itemlis
         return $result;
     }
 }
-?>

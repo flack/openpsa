@@ -166,4 +166,3 @@ class midcom_helper_imagefilterTest extends openpsa_testcase
         $this->_testDimensions($filter->get_file(), 24, 24);
     }
 }
-?>

@@ -436,4 +436,3 @@ class midcom_core_querybuilder extends midcom_core_query
         }
     }
 }
-?>

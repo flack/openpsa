@@ -31,4 +31,3 @@ class org_openpsa_contacts_handler_person_duplicatesTest extends openpsa_testcas
         midcom::get()->auth->drop_sudo();
     }
 }
-?>

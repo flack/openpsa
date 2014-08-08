@@ -155,4 +155,3 @@ class org_openpsa_calendar_handler_admin extends midcom_baseclasses_components_h
         midcom_show_style('show-popup-footer');
     }
 }
-?>

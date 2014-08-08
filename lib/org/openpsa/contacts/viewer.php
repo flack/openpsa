@@ -111,4 +111,3 @@ class org_openpsa_contacts_viewer extends midcom_baseclasses_components_request
         }
     }
 }
-?>

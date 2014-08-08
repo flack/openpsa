@@ -87,4 +87,3 @@ abstract class midcom_helper_nav_itemlist
         return new $class($nap, $parent_topic);
     }
 }
-?>

@@ -150,4 +150,3 @@ class midcom_helper_datamanager2_widget_privilege extends midcom_helper_datamana
         }
     }
 }
-?>

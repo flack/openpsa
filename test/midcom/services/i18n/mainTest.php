@@ -47,4 +47,3 @@ class midcom_services_i18nTest extends openpsa_testcase
         );
     }
 }
-?>

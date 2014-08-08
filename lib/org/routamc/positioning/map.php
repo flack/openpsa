@@ -358,4 +358,3 @@ class org_routamc_positioning_map extends midcom_baseclasses_components_purecode
         return "marker_{$i}";
     }
 }
-?>

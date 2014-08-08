@@ -663,4 +663,3 @@ abstract class midcom_core_dbaobject
         return $this->_rcs_message;
     }
 }
-?>

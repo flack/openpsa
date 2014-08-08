@@ -456,4 +456,3 @@ class midcom_helper_misc
         return false;
     }
 }
-?>

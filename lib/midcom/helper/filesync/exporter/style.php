@@ -72,4 +72,3 @@ class midcom_helper_filesync_exporter_style extends midcom_helper_filesync_expor
         $this->read_root(midcom_connection::get('style'));
     }
 }
-?>

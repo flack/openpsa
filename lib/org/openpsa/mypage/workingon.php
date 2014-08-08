@@ -161,4 +161,3 @@ class org_openpsa_mypage_workingon
         return true;
     }
 }
-?>

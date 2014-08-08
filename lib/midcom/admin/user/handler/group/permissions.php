@@ -86,4 +86,3 @@ class midcom_admin_user_handler_group_permissions extends midcom_baseclasses_com
         midcom_show_style('midcom-admin-user-group-folders');
     }
 }
-?>

@@ -75,4 +75,3 @@ class midcom_helper_filesync_exporter_structureTest extends openpsa_testcase
         $this->assertEquals($expected, $structure_array);
     }
 }
-?>

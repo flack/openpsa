@@ -82,4 +82,3 @@ class org_routamc_positioning_city_dba extends midcom_core_dbaobject
         return false;
     }
 }
-?>

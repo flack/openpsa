@@ -87,4 +87,3 @@ class net_nemein_wiki_handler_notfound extends midcom_baseclasses_components_han
         midcom_show_style('view-notfound');
     }
 }
-?>

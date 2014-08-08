@@ -36,4 +36,3 @@ class org_openpsa_contacts_cron_duplicates_mark extends midcom_baseclasses_compo
         debug_add('Done');
     }
 }
-?>

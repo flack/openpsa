@@ -89,4 +89,3 @@ class net_nemein_wiki_handler_viewTest extends openpsa_testcase
         $this->assertEquals(self::$_page->name . '/', $url);
     }
 }
-?>

@@ -38,4 +38,3 @@ class org_openpsa_directmarketing_cron_cleanup extends midcom_baseclasses_compon
         debug_add('Done');
     }
 }
-?>

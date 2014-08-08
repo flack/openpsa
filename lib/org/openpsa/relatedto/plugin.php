@@ -413,4 +413,3 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
         );
     }
 }
-?>

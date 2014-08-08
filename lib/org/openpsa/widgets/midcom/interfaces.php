@@ -14,4 +14,3 @@
 class org_openpsa_widgets_interface extends midcom_baseclasses_components_interface
 {
 }
-?>

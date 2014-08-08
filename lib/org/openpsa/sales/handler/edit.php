@@ -244,4 +244,3 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
         return new midcom_response_relocate("salesproject/" . $this->_salesproject->guid);
     }
 }
-?>

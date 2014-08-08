@@ -174,4 +174,3 @@ class midcom_helper_datamanager2_type_photo extends midcom_helper_datamanager2_t
         return true;
     }
 }
-?>

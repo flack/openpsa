@@ -49,4 +49,3 @@ class org_openpsa_directmarketing_campaign_messagereceipt_dba extends midcom_cor
         return ($qb->count() == 0);
     }
 }
-?>

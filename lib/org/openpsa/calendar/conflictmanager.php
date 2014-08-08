@@ -305,4 +305,3 @@ class org_openpsa_calendar_conflictmanager
         }
     }
 }
-?>

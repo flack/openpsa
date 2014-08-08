@@ -113,4 +113,3 @@ class midcom_services_tmp
         return $tmp;
     }
 }
-?>

@@ -51,4 +51,3 @@ function openpsa_prepare_topics()
 
     return $root_topic->guid;
 }
-?>

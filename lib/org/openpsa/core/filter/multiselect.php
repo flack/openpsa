@@ -78,4 +78,3 @@ class org_openpsa_core_filter_multiselect extends org_openpsa_core_filter_select
         }
     }
 }
-?>

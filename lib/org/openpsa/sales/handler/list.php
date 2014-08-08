@@ -124,4 +124,3 @@ class org_openpsa_sales_handler_list extends midcom_baseclasses_components_handl
         midcom_show_style('show-salesproject-grid');
     }
 }
-?>

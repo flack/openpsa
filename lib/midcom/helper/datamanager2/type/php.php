@@ -143,4 +143,3 @@ class midcom_helper_datamanager2_type_php extends midcom_helper_datamanager2_typ
         return $html;
     }
 }
-?>

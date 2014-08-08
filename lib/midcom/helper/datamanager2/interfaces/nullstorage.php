@@ -21,4 +21,3 @@ interface midcom_helper_datamanager2_interfaces_nullstorage extends midcom_helpe
     public function get_schema_defaults();
 
 }
-?>

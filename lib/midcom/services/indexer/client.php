@@ -134,4 +134,3 @@ abstract class midcom_services_indexer_client
 
     abstract public function prepare_document(midcom_services_indexer_document &$document, midcom_helper_datamanager2_datamanager $dm);
 }
-?>

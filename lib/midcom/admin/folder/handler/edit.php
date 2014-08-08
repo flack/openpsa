@@ -426,4 +426,3 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
         midcom_show_style('midcom-admin-show-folder-actions');
     }
 }
-?>

@@ -123,4 +123,3 @@ class midcom_core_temporary_object extends midcom_core_dbaobject
         $this->purge();
     }
 }
-?>

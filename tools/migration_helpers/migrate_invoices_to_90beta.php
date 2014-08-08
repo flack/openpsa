@@ -222,4 +222,3 @@ foreach ($items as $item)
 }
 
 echo "</pre>\n";
-?>

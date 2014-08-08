@@ -48,4 +48,3 @@ class midcom_services_i18n_l10nTest extends openpsa_testcase
         $this->assertEquals($l10n->get('teststring', 'ru'), 'translate-en');
     }
 }
-?>

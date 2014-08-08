@@ -47,5 +47,3 @@ interface org_openpsa_invoices_interfaces_calculator
      */
     public function generate_invoice_number();
 }
-
-?>

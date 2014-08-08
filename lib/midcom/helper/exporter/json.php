@@ -59,4 +59,3 @@ class midcom_helper_exporter_json extends midcom_helper_exporter
         return json_encode($arr);
     }
 }
-?>

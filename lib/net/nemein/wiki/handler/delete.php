@@ -104,4 +104,3 @@ class net_nemein_wiki_handler_delete extends midcom_baseclasses_components_handl
         midcom_show_style('view-wikipage-delete');
     }
 }
-?>

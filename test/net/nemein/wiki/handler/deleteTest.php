@@ -43,4 +43,3 @@ class net_nemein_wiki_handler_deleteTest extends openpsa_testcase
         midcom::get()->auth->drop_sudo();
     }
 }
-?>

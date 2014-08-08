@@ -700,4 +700,3 @@ class midcom_helper_nav
         return $this->_backend->get_current_upper_node();
     }
 }
-?>

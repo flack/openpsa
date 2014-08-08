@@ -388,4 +388,3 @@ class org_openpsa_products_handler_group_groupsblock  extends midcom_baseclasses
         midcom_core_context::get()->set_custom_key('midcom.helper.nav.breadcrumb', $reversed);
     }
 }
-?>

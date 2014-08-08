@@ -211,4 +211,3 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
         return new midcom_response_relocate("document/" . $this->_document->guid . "/");
     }
 }
-?>

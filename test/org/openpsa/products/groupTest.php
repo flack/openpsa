@@ -47,4 +47,3 @@ class org_openpsa_products_groupTest extends openpsa_testcase
         $this->assertEquals($parentgroup->guid, $parent->guid);
     }
 }
-?>

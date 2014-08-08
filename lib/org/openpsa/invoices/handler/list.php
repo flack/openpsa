@@ -446,4 +446,3 @@ implements org_openpsa_widgets_grid_provider_client
         $this->_show_invoice_list();
     }
 }
-?>

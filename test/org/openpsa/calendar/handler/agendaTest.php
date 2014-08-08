@@ -33,4 +33,3 @@ class org_openpsa_calendar_handler_agendaTest extends openpsa_testcase
         midcom::get()->auth->drop_sudo();
     }
 }
-?>

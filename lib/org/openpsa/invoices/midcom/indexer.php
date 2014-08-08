@@ -18,4 +18,3 @@ class org_openpsa_invoices_midcom_indexer extends midcom_services_indexer_client
         $document->title = $this->_l10n->get('invoice') . ' ' . $dm->storage->object->get_label();
     }
 }
-?>

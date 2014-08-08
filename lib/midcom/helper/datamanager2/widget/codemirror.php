@@ -117,4 +117,3 @@ class midcom_helper_datamanager2_widget_codemirror extends midcom_helper_dataman
         $this->_type->value = $results[$this->name];
     }
 }
-?>

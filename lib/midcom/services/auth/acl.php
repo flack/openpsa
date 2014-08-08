@@ -1080,4 +1080,3 @@ class midcom_services_auth_acl
         }
     }
 }
-?>

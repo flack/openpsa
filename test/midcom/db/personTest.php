@@ -105,4 +105,3 @@ class midcom_db_personTest extends openpsa_testcase
         );
     }
 }
-?>

@@ -137,4 +137,3 @@ class org_openpsa_directmarketing_handler_message_compose extends midcom_basecla
         midcom_show_style("compose-{$prefix}message");
     }
 }
-?>

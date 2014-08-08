@@ -89,4 +89,3 @@ class net_nemein_rss_handler_list extends midcom_baseclasses_components_handler
         midcom_show_style('net-nemein-rss-feeds-list-footer');
     }
 }
-?>

@@ -222,4 +222,3 @@ implements midcom_services_permalinks_resolver, org_openpsa_contacts_duplicates_
         return $config;
     }
 }
-?>

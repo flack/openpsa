@@ -191,4 +191,3 @@ class midcom_compat_ragnaland extends midcom_compat_default
         return midgardmvc_core::get_instance()->dispatcher->setcookie($name, $value, $expire, $path, $domain, $secure, $httponly);
     }
 }
-?>

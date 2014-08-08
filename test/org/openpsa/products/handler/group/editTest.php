@@ -30,4 +30,3 @@ class org_openpsa_products_handler_group_editTest extends openpsa_testcase
         midcom::get()->auth->drop_sudo();
     }
 }
-?>

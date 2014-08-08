@@ -42,4 +42,3 @@ class org_openpsa_qbpager_direct extends org_openpsa_qbpager
         return $this->count();
     }
 }
-?>

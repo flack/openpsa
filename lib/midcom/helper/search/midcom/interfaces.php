@@ -16,4 +16,3 @@
 class midcom_helper_search_interface extends midcom_baseclasses_components_interface
 {
 }
-?>

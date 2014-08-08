@@ -150,4 +150,3 @@ class midcom_services_cache_backend_flatfile extends midcom_services_cache_backe
         return file_exists("{$this->_dirname}{$key}");
     }
 }
-?>

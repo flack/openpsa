@@ -748,4 +748,3 @@ class midgard_admin_asgard_schemadb
         }
     }
 }
-?>

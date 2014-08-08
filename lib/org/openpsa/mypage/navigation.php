@@ -16,4 +16,3 @@
 class org_openpsa_mypage_navigation extends midcom_baseclasses_components_navigation
 {
 }
-?>

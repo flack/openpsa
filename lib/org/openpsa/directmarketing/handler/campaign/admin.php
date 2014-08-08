@@ -378,4 +378,3 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
         return new midcom_response_relocate("campaign/{$this->_campaign->guid}/");
     }
 }
-?>

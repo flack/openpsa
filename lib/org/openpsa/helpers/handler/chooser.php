@@ -243,4 +243,3 @@ implements midcom_helper_datamanager2_interfaces_create
         return json_encode($jsdata);
     }
 }
-?>

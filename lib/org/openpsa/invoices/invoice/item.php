@@ -176,6 +176,4 @@ class org_openpsa_invoices_invoice_item_dba extends midcom_core_dbaobject
             $invoice->update();
         }
     }
-
 }
-?>

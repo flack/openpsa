@@ -594,4 +594,3 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
         }
     }
 }
-?>

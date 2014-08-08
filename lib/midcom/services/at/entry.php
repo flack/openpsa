@@ -120,4 +120,3 @@ class midcom_services_at_entry_dba extends midcom_core_dbaobject
         return $privileges;
     }
 }
-?>

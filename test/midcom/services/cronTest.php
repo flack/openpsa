@@ -119,4 +119,3 @@ class midcom_services_cronTest extends openpsa_testcase
         );
     }
 }
-?>

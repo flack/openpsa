@@ -464,4 +464,3 @@ class midcom_core_context
     }
 
 }
-?>

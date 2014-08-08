@@ -148,4 +148,3 @@ class org_openpsa_contacts_group_dba extends midcom_core_dbaobject
         return $this->_get_members_array();
     }
 }
-?>

@@ -86,4 +86,3 @@ class net_nemein_rss_handler_fetch extends midcom_baseclasses_components_handler
         net_nemein_rss_manage::add_toolbar_buttons($this->_node_toolbar);
     }
 }
-?>

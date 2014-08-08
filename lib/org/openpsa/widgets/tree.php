@@ -211,6 +211,4 @@ JSINIT;
         $head->add_jquery_ui_theme();
         self::$_head_elements_added = true;
     }
-
 }
-?>

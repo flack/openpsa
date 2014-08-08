@@ -314,4 +314,3 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
         return $data;
     }
 }
-?>

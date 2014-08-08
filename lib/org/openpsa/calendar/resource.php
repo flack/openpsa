@@ -70,4 +70,3 @@ class org_openpsa_calendar_resource_dba extends  midcom_core_dbaobject
         return $qb->execute();
     }
 }
-?>

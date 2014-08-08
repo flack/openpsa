@@ -157,4 +157,3 @@ class org_openpsa_invoices_calculator extends midcom_baseclasses_components_pure
         return $invoice;
     }
 }
-?>

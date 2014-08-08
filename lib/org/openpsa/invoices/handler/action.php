@@ -502,4 +502,3 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
         midcom::get()->head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.sortable.min.js');
     }
 }
-?>

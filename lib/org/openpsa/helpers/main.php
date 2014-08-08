@@ -137,4 +137,3 @@ class org_openpsa_helpers
         return number_format((float) $number, 2, $localeconv['decimal_point'], $localeconv['thousands_sep']);
     }
 }
-?>

@@ -84,4 +84,3 @@ class midcom_services_indexer_filter_date extends midcom_services_indexer_filter
             gmdate($format, ($this->_end == 0) ? time() : $this->_end . "Z"));
     }
 }
-?>

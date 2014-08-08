@@ -337,6 +337,4 @@ class org_openpsa_user_accounthelperTest extends openpsa_testcase
         $this->assertFalse(is_null(self::$_user->get_parameter('org_openpsa_user_password', 'last_change')));
         $this->assertEquals(serialize(array($password)), self::$_user->get_parameter('org_openpsa_user_password', 'old_passwords'));
     }
-
 }
-?>

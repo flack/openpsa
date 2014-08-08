@@ -480,4 +480,3 @@ class midcom_services_dbclassloader
         return $this->_midgard_classes;
     }
 }
-?>

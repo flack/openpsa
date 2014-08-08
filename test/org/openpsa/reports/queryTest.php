@@ -39,4 +39,3 @@ class org_openpsa_reports_queryTest extends openpsa_testcase
         midcom::get()->auth->drop_sudo();
     }
 }
-?>

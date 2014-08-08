@@ -230,4 +230,3 @@ class org_openpsa_documents_handler_directory_view extends midcom_baseclasses_co
         $this->_directories = $qb->execute();
     }
 }
-?>

@@ -38,4 +38,3 @@ class midcom_services_indexer_documentTest extends openpsa_testcase
         );
     }
 }
-?>

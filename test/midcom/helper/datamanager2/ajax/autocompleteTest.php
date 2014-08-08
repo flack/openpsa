@@ -84,4 +84,3 @@ class midcom_helper_datamanager2_ajax_autocompleteTest extends openpsa_testcase
         $this->assertEquals($res[0]['label'], $task->title);
     }
 }
-?>

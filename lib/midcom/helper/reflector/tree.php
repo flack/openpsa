@@ -800,4 +800,3 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         }
     }
 }
-?>

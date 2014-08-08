@@ -39,4 +39,3 @@ class org_openpsa_contacts_handler_rest_person extends midcom_baseclasses_compon
         }
     }
 }
-?>

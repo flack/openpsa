@@ -435,4 +435,3 @@ class midcom_services_indexer_solrRequest
         return true;
     }
 }
-?>

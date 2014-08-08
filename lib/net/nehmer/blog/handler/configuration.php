@@ -31,4 +31,3 @@ class net_nehmer_blog_handler_configuration extends midcom_baseclasses_component
         return $qb->execute();
     }
 }
-?>

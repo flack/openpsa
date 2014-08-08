@@ -35,4 +35,3 @@ class midcom_cron_loginservice extends midcom_baseclasses_components_cron_handle
         }
     }
 }
-?>

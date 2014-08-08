@@ -521,4 +521,3 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
         return $this->count;
     }
 }
-?>

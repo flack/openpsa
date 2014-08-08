@@ -169,4 +169,3 @@ class midcom_helper_exporter_xml extends midcom_helper_exporter
         return $data;
     }
 }
-?>

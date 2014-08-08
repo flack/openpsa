@@ -116,4 +116,3 @@ class net_nemein_rss_parser_item extends SimplePie_Item
         return html_entity_decode($string, ENT_QUOTES, midcom::get()->i18n->get_current_charset());
     }
 }
-?>

@@ -165,4 +165,3 @@ class org_openpsa_projects_projectbroker
         return org_openpsa_calendar_event_member_dba::find_free_times(($minimum_time_slot * 60), $person, $task->start, $task->end);
     }
 }
-?>

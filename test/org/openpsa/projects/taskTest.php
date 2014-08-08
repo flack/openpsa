@@ -63,4 +63,3 @@ class org_openpsa_projects_taskTest extends openpsa_testcase
         $this->assertEquals($parent->guid, $project->guid);
     }
 }
-?>

@@ -97,4 +97,3 @@ class midcom_helper_datamanager2_widget_checkbox extends midcom_helper_datamanag
         $this->_type->value = $element->getChecked();
     }
 }
-?>

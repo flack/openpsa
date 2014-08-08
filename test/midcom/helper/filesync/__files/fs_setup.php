@@ -30,4 +30,3 @@ class openpsa_test_fs_setup
         }
     }
 }
-?>

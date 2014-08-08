@@ -88,4 +88,3 @@ $_MIDCOM = new midcom_compat_superglobal;
 $GLOBALS['midcom_component_data'] = new midcom_compat_componentdata;
 
 $autoloader = new midcom_compat_autoloader;
-?>

@@ -89,4 +89,3 @@ class org_openpsa_contacts_person_dba extends midcom_db_person
         return 'username';
     }
 }
-?>

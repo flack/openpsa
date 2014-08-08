@@ -16,4 +16,3 @@
 class org_openpsa_notifications_interface extends midcom_baseclasses_components_interface
 {
 }
-?>

@@ -222,4 +222,3 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
         );
     }
 }
-?>

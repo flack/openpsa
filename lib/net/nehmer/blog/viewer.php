@@ -432,4 +432,3 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
         $qb->add_constraint('up', '=', 0);
     }
 }
-?>

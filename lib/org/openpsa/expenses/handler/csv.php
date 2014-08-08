@@ -49,4 +49,3 @@ class org_openpsa_expenses_handler_csv extends midcom_baseclasses_components_han
         return $qb->execute();
     }
 }
-?>

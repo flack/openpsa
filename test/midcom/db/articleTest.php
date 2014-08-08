@@ -61,4 +61,3 @@ class midcom_db_articleTest extends openpsa_testcase
         $this->assertEquals($parent1->guid, self::$_topic->guid);
     }
 }
-?>

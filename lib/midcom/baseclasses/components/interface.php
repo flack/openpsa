@@ -621,4 +621,3 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
     // END OF THE EVENT HANDLERS
     /**#@-*/
 }
-?>

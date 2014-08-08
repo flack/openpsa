@@ -14,4 +14,3 @@
 class midcom_core_nullcomponent_interface extends midcom_baseclasses_components_interface
 {
 }
-?>

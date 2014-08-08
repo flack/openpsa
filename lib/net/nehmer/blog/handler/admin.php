@@ -309,4 +309,3 @@ class net_nehmer_blog_handler_admin extends midcom_baseclasses_components_handle
         midcom_show_style('admin-delete');
     }
 }
-?>

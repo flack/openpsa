@@ -296,4 +296,3 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
         midcom_show_style('admin-end');
     }
 }
-?>

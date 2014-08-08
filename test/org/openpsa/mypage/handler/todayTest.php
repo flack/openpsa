@@ -30,4 +30,3 @@ class org_openpsa_mypage_handler_todayTest extends openpsa_testcase
         $this->assertEquals('day', $data['handler_id']);
     }
 }
-?>

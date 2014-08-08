@@ -97,4 +97,3 @@ class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_comp
         return $row;
     }
 }
-?>

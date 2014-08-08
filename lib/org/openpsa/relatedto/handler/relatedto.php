@@ -591,4 +591,3 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
         return $response;
     }
 }
-?>

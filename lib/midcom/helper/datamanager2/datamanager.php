@@ -607,4 +607,3 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
         echo "</div>\n";
     }
 }
-?>

@@ -56,4 +56,3 @@ class org_openpsa_sales_handler_frontpage extends midcom_baseclasses_components_
         midcom_show_style('show-frontpage');
     }
 }
-?>

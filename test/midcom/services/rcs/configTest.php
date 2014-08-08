@@ -62,4 +62,3 @@ class midcom_services_rcs_configTest extends openpsa_testcase
         $this->assertEquals('midcom_services_rcs_backend_null', get_class($handler));
     }
 }
-?>

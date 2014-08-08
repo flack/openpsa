@@ -46,4 +46,3 @@ class org_openpsa_user_interface extends midcom_baseclasses_components_interface
         return true;
     }
 }
-?>

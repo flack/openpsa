@@ -41,4 +41,3 @@ class org_openpsa_widgets_grid_mainTest extends openpsa_testcase
         $this->assertNotEmpty($string);
     }
 }
-?>

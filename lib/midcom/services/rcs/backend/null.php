@@ -63,4 +63,3 @@ class midcom_services_rcs_backend_null implements midcom_services_rcs_backend
         return false;
     }
 }
-?>

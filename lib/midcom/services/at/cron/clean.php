@@ -40,4 +40,3 @@ class midcom_services_at_cron_clean extends midcom_baseclasses_components_cron_h
         midcom::get()->auth->drop_sudo();
     }
 }
-?>

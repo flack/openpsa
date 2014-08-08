@@ -60,4 +60,3 @@ class org_openpsa_invoices_invoice_billing_dataTest extends openpsa_testcase
         midcom::get()->auth->drop_sudo();
     }
 }
-?>

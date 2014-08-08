@@ -42,4 +42,3 @@ class midcom_helper_filesync_exporter_pageTest extends openpsa_testcase
         $this->assertFileExists(self::$_rootdir . $page_name . '/' . $page_name . '/' . $element_name . '.php');
     }
 }
-?>

@@ -66,4 +66,3 @@ class org_openpsa_calendar_handler_agenda extends midcom_baseclasses_components_
         midcom_show_style('show-day-footer');
     }
 }
-?>

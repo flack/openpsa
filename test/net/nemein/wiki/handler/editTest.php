@@ -55,4 +55,3 @@ class net_nemein_wiki_handler_editTest extends openpsa_testcase
         midcom::get()->auth->drop_sudo();
     }
 }
-?>

@@ -54,4 +54,3 @@ class midcom_services_rcs_mainTest extends openpsa_testcase
         $this->assertTrue($rcs->update($topic));
     }
 }
-?>

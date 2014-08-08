@@ -94,4 +94,3 @@ class midcom_db_member extends midcom_core_dbaobject
         $this->_invalidate_person_cache();
     }
 }
-?>

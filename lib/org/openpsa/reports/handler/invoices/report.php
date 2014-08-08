@@ -238,4 +238,3 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
         midcom_show_style('invoices_report-grid');
     }
 }
-?>

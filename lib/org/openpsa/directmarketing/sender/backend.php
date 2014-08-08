@@ -55,4 +55,3 @@ interface org_openpsa_directmarketing_sender_backend
      */
     public function send(org_openpsa_contacts_person_dba $person, org_openpsa_directmarketing_campaign_member_dba $member, $token, $subject, $content, $from);
 }
-?>

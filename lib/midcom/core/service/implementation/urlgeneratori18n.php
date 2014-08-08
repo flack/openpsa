@@ -23,4 +23,3 @@ class midcom_core_service_implementation_urlgeneratori18n implements midcom_core
         return midgardmvc_helper_urlize::string($string, $replacer);
     }
 }
-?>

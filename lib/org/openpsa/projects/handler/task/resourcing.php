@@ -209,4 +209,3 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
         midcom_show_style('show-prospect');
     }
 }
-?>

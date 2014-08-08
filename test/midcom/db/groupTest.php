@@ -79,4 +79,3 @@ class midcom_db_groupTest extends openpsa_testcase
         return $qb->count();
     }
 }
-?>

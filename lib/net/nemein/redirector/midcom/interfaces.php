@@ -14,4 +14,3 @@
 class net_nemein_redirector_interface extends midcom_baseclasses_components_interface
 {
 }
-?>

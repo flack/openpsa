@@ -157,4 +157,3 @@ class gallery_converter
         return $qb->execute();
     }
 }
-?>

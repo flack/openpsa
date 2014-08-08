@@ -252,4 +252,3 @@ class midcom_services_cron
         $handler->execute();
     }
 }
-?>

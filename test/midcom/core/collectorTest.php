@@ -74,4 +74,3 @@ class midcom_core_collectorTest extends openpsa_testcase
         $this->assertEquals(self::$_topic->guid, $objects[0]->guid);
     }
 }
-?>

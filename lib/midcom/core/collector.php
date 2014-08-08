@@ -395,4 +395,3 @@ class midcom_core_collector extends midcom_core_query
         return $qb->execute();
     }
 }
-?>

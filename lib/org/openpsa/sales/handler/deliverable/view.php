@@ -117,4 +117,3 @@ class org_openpsa_sales_handler_deliverable_view extends midcom_baseclasses_comp
         }
     }
 }
-?>

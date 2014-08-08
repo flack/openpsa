@@ -38,4 +38,3 @@ class net_nehmer_commments_commentTest extends openpsa_testcase
         midcom::get()->auth->drop_sudo();
     }
 }
-?>

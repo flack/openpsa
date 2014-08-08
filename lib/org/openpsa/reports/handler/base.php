@@ -281,4 +281,3 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
         return $ret;
     }
 }
-?>

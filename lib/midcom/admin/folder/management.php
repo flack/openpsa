@@ -261,4 +261,3 @@ class midcom_admin_folder_management extends midcom_baseclasses_components_plugi
         return true;
     }
 }
-?>

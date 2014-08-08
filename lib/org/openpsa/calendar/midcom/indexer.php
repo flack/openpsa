@@ -18,4 +18,3 @@ class org_openpsa_calendar_midcom_indexer extends midcom_services_indexer_client
         $document->title = $dm->storage->object->get_label();
     }
 }
-?>

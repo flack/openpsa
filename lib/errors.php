@@ -507,4 +507,3 @@ class midcom_error_midgard extends midcom_error
         parent::log($loglevel);
     }
 }
-?>

@@ -137,6 +137,4 @@ class midcom_helper_datamanager2_widget_radiocheckselectTest extends openpsa_tes
 
         midcom::get()->auth->drop_sudo();
     }
-
 }
-?>

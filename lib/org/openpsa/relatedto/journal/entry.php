@@ -22,4 +22,3 @@ class org_openpsa_relatedto_journal_entry_dba extends midcom_core_dbaobject
         return $this->linkGuid;
     }
 }
-?>

@@ -123,4 +123,3 @@ class midcom_helper_filesync_importer_snippet extends midcom_helper_filesync_imp
         }
     }
 }
-?>

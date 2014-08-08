@@ -179,4 +179,3 @@ class midcom_services_auth_backend_simple extends midcom_services_auth_backend
         $this->_delete_cookie();
     }
 }
-?>

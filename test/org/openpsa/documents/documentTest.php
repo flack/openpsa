@@ -40,6 +40,4 @@ class org_openpsa_documents_documentTest extends openpsa_testcase
 
         midcom::get()->auth->drop_sudo();
     }
-
 }
-?>

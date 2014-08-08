@@ -42,4 +42,3 @@ class midcom_services_cache_backend_null extends midcom_services_cache_backend
         return false;
     }
 }
-?>

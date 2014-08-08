@@ -656,4 +656,3 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
         return $this->_main_group->isFrozen();
     }
 }
-?>

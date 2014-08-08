@@ -52,6 +52,4 @@ class midcom_helper_datamanager2_storage_midgardTest extends openpsa_testcase
         $this->assertEquals('TEST', $storage->object->description);
         $this->assertEquals('TEST', $invoice->description);
     }
-
 }
-?>

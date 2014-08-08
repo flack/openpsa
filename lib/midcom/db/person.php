@@ -195,4 +195,3 @@ class midcom_db_person extends midcom_core_dbaobject
         return true;
     }
 }
-?>

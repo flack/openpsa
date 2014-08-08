@@ -765,4 +765,3 @@ class midcom_core_privilege
         return true;
     }
 }
-?>

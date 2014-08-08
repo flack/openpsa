@@ -87,4 +87,3 @@ implements midcom_services_permalinks_resolver
         return true;
     }
 }
-?>

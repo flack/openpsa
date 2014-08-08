@@ -691,4 +691,3 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
         return true;
     }
 }
-?>

@@ -77,4 +77,3 @@ class org_openpsa_invoices_handler_rest_billingdata extends midcom_baseclasses_c
         $this->_response["message"] = "get ok";
     }
 }
-?>

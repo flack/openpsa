@@ -68,4 +68,3 @@ class net_nemein_rss_manage extends midcom_baseclasses_components_plugin
         );
     }
 }
-?>

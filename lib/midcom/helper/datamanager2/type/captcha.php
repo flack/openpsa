@@ -41,4 +41,3 @@ class midcom_helper_datamanager2_type_captcha extends midcom_helper_datamanager2
         return null;
     }
 }
-?>

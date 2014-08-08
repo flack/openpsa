@@ -23,6 +23,4 @@ class midcom_admin_folder_handler_metadataTest extends openpsa_testcase
 
         midcom::get()->auth->drop_sudo();
     }
-
 }
-?>

@@ -25,4 +25,3 @@ class net_nemein_rss_feed_dba extends midcom_core_dbaobject
         }
     }
 }
-?>

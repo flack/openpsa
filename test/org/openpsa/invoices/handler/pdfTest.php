@@ -39,4 +39,3 @@ class org_openpsa_invoices_handler_pdfTest extends openpsa_testcase
         midcom::get()->auth->drop_sudo();
     }
 }
-?>

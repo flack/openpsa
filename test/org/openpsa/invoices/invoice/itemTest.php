@@ -75,4 +75,3 @@ class org_openpsa_invoices_invoice_itemTest extends openpsa_testcase
         parent::tearDown();
     }
 }
-?>

@@ -55,4 +55,3 @@ class midcom_services_at_interface extends midcom_baseclasses_components_interfa
         return $entry->create();
     }
 }
-?>

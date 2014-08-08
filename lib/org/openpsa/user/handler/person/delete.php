@@ -41,4 +41,3 @@ class org_openpsa_user_handler_person_delete extends midcom_baseclasses_componen
         return new midcom_response_relocate('view/' . $person->guid . '/');
     }
 }
-?>

@@ -47,4 +47,3 @@ class midcom_helper_xsspreventer
         );
     }
 }
-?>

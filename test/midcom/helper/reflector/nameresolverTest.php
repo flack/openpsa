@@ -62,4 +62,3 @@ class midcom_helper_reflector_nameresolverTest extends openpsa_testcase
         $this->assertTrue($resolver->name_is_clean());
     }
 }
-?>

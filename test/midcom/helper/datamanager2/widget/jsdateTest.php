@@ -119,4 +119,3 @@ class midcom_helper_datamanager2_widget_jsdateTest extends openpsa_testcase
         $this->assertEquals('2011-10-15 00:00', $widget->render_content(), 'simple/storage test failed');
     }
 }
-?>

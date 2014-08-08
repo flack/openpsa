@@ -25,4 +25,3 @@ class org_openpsa_slideshow_handler_indexTest extends openpsa_testcase
         $this->assertEquals('index_subfolders', $data['handler_id']);
     }
 }
-?>

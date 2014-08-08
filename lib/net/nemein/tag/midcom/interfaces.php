@@ -33,4 +33,3 @@ class net_nemein_tag_interface extends midcom_baseclasses_components_interface
         midcom::get()->auth->drop_sudo();
     }
 }
-?>

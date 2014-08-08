@@ -90,4 +90,3 @@ class org_openpsa_expenses_handler_hours_adminTest extends openpsa_testcase
         midcom::get()->auth->drop_sudo();
     }
 }
-?>

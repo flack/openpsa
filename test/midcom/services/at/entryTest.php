@@ -44,4 +44,3 @@ class midcom_services_at_entryTest extends openpsa_testcase
         midcom::get()->auth->drop_sudo();
     }
 }
-?>

@@ -502,4 +502,3 @@ class midcom_db_attachment extends midcom_core_dbaobject
         return $result;
     }
 }
-?>

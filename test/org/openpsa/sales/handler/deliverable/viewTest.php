@@ -39,4 +39,3 @@ class org_openpsa_sales_salesproject_deliverable_viewTest extends openpsa_testca
         midcom::get()->auth->drop_sudo();
     }
 }
-?>

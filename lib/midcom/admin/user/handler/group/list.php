@@ -211,4 +211,3 @@ class midcom_admin_user_handler_group_list extends midcom_baseclasses_components
         return ($qb->count() > 0);
     }
 }
-?>

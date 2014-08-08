@@ -45,4 +45,3 @@ class org_openpsa_sales_handler_rest_deliverable extends midcom_baseclasses_comp
         parent::handle_update();
     }
 }
-?>

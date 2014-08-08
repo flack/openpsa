@@ -666,4 +666,3 @@ class midcom_services_i18n
         return html_entity_decode($text, ENT_COMPAT, $this->_current_charset);
     }
 }
-?>

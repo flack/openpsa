@@ -28,4 +28,3 @@ class org_openpsa_projects_handler_csvTest extends openpsa_testcase
         midcom::get()->auth->drop_sudo();
     }
 }
-?>

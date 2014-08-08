@@ -433,4 +433,3 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
         return false;
     }
 }
-?>

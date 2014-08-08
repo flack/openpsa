@@ -137,4 +137,3 @@ class midcom_core_dbaproxy
         return array('__identifier', '__midcom_class_name__');
     }
 }
-?>

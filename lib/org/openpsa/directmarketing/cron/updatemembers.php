@@ -40,4 +40,3 @@ class org_openpsa_directmarketing_cron_updatemembers extends midcom_baseclasses_
         debug_add('Done');
     }
 }
-?>

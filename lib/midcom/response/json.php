@@ -33,4 +33,3 @@ class midcom_response_json extends midcom_response
         midcom::get()->finish();
     }
 }
-?>

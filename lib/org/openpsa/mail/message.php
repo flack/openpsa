@@ -248,4 +248,3 @@ class org_openpsa_mail_message
         return $value;
     }
 }
-?>

@@ -48,4 +48,3 @@ class midgard_admin_asgard_handler_component_configurationTest extends openpsa_t
         midcom::get()->auth->drop_sudo();
     }
 }
-?>

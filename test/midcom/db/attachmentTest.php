@@ -133,4 +133,3 @@ class midcom_db_attachmentTest extends openpsa_testcase
         );
     }
 }
-?>

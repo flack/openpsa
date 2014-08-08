@@ -669,4 +669,3 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
         midcom_show_style($prefix . 'admin-delete');
     }
 }
-?>

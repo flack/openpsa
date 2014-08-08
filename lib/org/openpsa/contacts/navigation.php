@@ -14,4 +14,3 @@
 class org_openpsa_contacts_navigation extends midcom_baseclasses_components_navigation
 {
 }
-?>

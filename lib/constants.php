@@ -350,4 +350,3 @@ define ('MIDCOM_CRON_HOUR', 20);
 define ('MIDCOM_CRON_DAY', 30);
 
 /**#@-*/
-?>

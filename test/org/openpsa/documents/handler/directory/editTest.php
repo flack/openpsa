@@ -33,4 +33,3 @@ class org_openpsa_documents_handler_directory_editTest extends openpsa_testcase
         midcom::get()->auth->drop_sudo();
     }
 }
-?>

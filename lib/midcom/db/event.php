@@ -60,4 +60,3 @@ class midcom_db_event extends midcom_core_dbaobject
         return $qb->execute();
     }
 }
-?>

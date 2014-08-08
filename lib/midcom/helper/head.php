@@ -580,4 +580,3 @@ class midcom_helper_head
         }
     }
 }
-?>

@@ -188,5 +188,3 @@ class org_openpsa_sales_calculator_default implements org_openpsa_invoices_inter
         return $previous + 1;
     }
 }
-
-?>

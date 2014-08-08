@@ -199,4 +199,3 @@ class org_openpsa_projects_handler_project_crud extends midcom_baseclasses_compo
         return $indexer->index($dm);
     }
 }
-?>

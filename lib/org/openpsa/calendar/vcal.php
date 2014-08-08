@@ -141,4 +141,3 @@ class org_openpsa_calendar_vcal
         return $this->_calendar->serialize();
     }
 }
-?>

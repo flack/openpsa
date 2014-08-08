@@ -14,4 +14,3 @@
 class midcom_helper_imagepopup_viewer extends midcom_baseclasses_components_plugin
 {
 }
-?>

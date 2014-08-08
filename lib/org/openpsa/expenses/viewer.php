@@ -105,4 +105,3 @@ class org_openpsa_expenses_viewer extends midcom_baseclasses_components_request
         return $person_array;
     }
 }
-?>

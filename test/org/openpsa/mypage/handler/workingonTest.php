@@ -41,4 +41,3 @@ class org_openpsa_mypage_handler_workingonTest extends openpsa_testcase
         $this->assertEquals('workingon/', $url);
     }
 }
-?>

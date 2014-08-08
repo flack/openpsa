@@ -377,4 +377,3 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
         }
     }
 }
-?>

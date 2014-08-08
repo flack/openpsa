@@ -116,4 +116,3 @@ class midcom_helper_filesync_exporter_structure extends midcom_helper_filesync_e
         $this->read_structure($root_topic, $structure_name);
     }
 }
-?>

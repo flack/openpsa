@@ -177,4 +177,3 @@ abstract class midcom_helper_filesync_importer extends midcom_baseclasses_compon
      */
     abstract public function get_leaf_qb($parent_id);
 }
-?>

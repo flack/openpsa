@@ -23,4 +23,3 @@ class org_openpsa_products_handler_product_csvimportTest extends openpsa_testcas
         midcom::get()->auth->drop_sudo();
     }
 }
-?>

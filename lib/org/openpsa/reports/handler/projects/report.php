@@ -334,4 +334,3 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
         }
     }
 }
-?>

@@ -56,4 +56,3 @@ class org_openpsa_user_handler_person_accountTest extends openpsa_testcase
         midcom::get()->auth->drop_sudo();
     }
 }
-?>

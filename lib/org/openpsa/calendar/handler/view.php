@@ -405,4 +405,3 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
         }
     }
 }
-?>

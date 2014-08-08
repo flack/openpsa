@@ -98,4 +98,3 @@ class org_openpsa_products_handler_productlink_view extends midcom_baseclasses_c
         midcom_show_style('productlink_view');
     }
 }
-?>

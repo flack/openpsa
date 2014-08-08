@@ -94,4 +94,3 @@ class org_openpsa_contacts_list_dba extends midcom_core_dbaobject
         return $mc->get_values('uid');
     }
 }
-?>

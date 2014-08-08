@@ -44,4 +44,3 @@ class net_nemein_wiki_wikipageTest extends openpsa_testcase
         midcom::get()->auth->drop_sudo();
     }
 }
-?>

@@ -80,4 +80,3 @@ class midcom_services_at_cron_check extends midcom_baseclasses_components_cron_h
         }
     }
 }
-?>

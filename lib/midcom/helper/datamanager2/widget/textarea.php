@@ -130,4 +130,3 @@ class midcom_helper_datamanager2_widget_textarea extends midcom_helper_datamanag
         $this->_type->value = $results[$this->name];
     }
 }
-?>

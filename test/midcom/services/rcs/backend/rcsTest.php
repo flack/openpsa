@@ -40,4 +40,3 @@ class midcom_services_rcs_backend_rcsTest extends openpsa_testcase
         $this->assertEquals(1, sizeof($handler->list_history()));
     }
 }
-?>

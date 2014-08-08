@@ -29,4 +29,3 @@ interface org_openpsa_widgets_grid_provider_client
      */
     public function get_row(midcom_core_dbaobject $object);
 }
-?>

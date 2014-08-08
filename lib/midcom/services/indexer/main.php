@@ -355,4 +355,3 @@ class midcom_services_indexer
         return false;
     }
 }
-?>

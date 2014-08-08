@@ -28,4 +28,3 @@ class org_openpsa_mypage_viewerTest extends openpsa_testcase
         $this->assertEquals(mktime(23, 59, 59, 10, 30, 2011), $viewer->_request_data['week_end']);
     }
 }
-?>

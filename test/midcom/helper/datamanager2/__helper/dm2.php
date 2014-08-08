@@ -99,4 +99,3 @@ class openpsa_test_dm2_helper
         return $this->_object;
     }
 }
-?>

@@ -76,4 +76,3 @@ class org_openpsa_projects_hour_reportTest extends openpsa_testcase
         self::delete_linked_objects('org_openpsa_projects_hour_report_dba', 'task', self::$_task->id);
     }
 }
-?>

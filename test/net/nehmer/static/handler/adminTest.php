@@ -52,4 +52,3 @@ class net_nehmer_static_handler_adminTest extends openpsa_testcase
         midcom::get()->auth->drop_sudo();
     }
 }
-?>

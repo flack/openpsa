@@ -218,4 +218,3 @@ class midcom_helper_datamanager2_widget_radiocheckselect extends midcom_helper_d
         return $output;
     }
 }
-?>

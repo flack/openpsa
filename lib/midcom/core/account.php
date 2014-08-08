@@ -421,4 +421,3 @@ class midcom_core_account
     }
 
 }
-?>

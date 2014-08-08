@@ -69,4 +69,3 @@ abstract class midcom_helper_datamanager2_baseclasses_filter
      */
     abstract function execute ($input);
 }
-?>

@@ -42,4 +42,3 @@ $midcom = midcom::get();
 $midcom->codeinit();
 $midcom->content();
 $midcom->finish();
-?>

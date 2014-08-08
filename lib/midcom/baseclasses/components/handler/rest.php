@@ -333,4 +333,3 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
         $this->_response["message"] = $this->_mode . "ok";
     }
 }
-?>

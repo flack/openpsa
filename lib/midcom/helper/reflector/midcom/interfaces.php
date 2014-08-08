@@ -14,4 +14,3 @@
 class midcom_helper_reflector_interface extends midcom_baseclasses_components_interface
 {
 }
-?>

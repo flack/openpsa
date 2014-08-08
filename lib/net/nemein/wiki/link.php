@@ -26,4 +26,3 @@ class net_nemein_wiki_link_dba extends midcom_core_dbaobject
      */
     public $_use_rcs = false;
 }
-?>

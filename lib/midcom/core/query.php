@@ -335,4 +335,3 @@ abstract class midcom_core_query
 
     abstract public function count_unchecked();
 }
-?>

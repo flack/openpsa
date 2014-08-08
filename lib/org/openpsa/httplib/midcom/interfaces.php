@@ -12,4 +12,3 @@
 class org_openpsa_httplib_interface extends midcom_baseclasses_components_interface
 {
 }
-?>

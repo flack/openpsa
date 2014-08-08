@@ -38,4 +38,3 @@ class org_openpsa_mail_backend_unittest extends org_openpsa_mail_backend
         return $mails;
     }
 }
-?>

@@ -100,4 +100,3 @@ class midcom_cron_purgedeleted extends midcom_baseclasses_components_cron_handle
         return $stats;
     }
 }
-?>

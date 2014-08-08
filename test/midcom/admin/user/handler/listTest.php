@@ -33,4 +33,3 @@ class midcom_admin_user_handler_listTest extends openpsa_testcase
         midcom::get()->auth->drop_sudo();
     }
 }
-?>

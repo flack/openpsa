@@ -101,4 +101,3 @@ class org_openpsa_directmarketing_importer_vcards extends org_openpsa_directmark
         return $contact;
     }
 }
-?>

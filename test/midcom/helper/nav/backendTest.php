@@ -94,4 +94,3 @@ class midcom_helper_backendTest extends openpsa_testcase
         $this->assertEquals($backend->get_current_leaf(), $leaf_id);
     }
 }
-?>

@@ -590,4 +590,3 @@ class midcom_application
         }
     }
 }
-?>

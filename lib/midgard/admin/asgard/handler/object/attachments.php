@@ -375,4 +375,3 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
         midcom_show_style('midgard_admin_asgard_object_attachments_delete');
     }
 }
-?>

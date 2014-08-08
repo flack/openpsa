@@ -570,4 +570,3 @@ class org_openpsa_contacts_duplicates
         }
     }
 }
-?>

@@ -313,4 +313,3 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
         midcom_show_style('midgard_admin_asgard_type_children_footer');
     }
 }
-?>

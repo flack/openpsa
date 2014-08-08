@@ -100,6 +100,4 @@ implements midcom_helper_datamanager2_interfaces_view
         $data['account'] = new midcom_core_account($this->_person);
         midcom_show_style("show-person");
     }
-
 }
-?>

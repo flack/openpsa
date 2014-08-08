@@ -40,4 +40,3 @@ foreach ($salesprojects as $salesproject)
 }
 
 echo "</pre>\n";
-?>

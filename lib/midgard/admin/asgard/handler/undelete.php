@@ -211,4 +211,3 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
         midcom_show_style('midgard_admin_asgard_trash_type');
     }
 }
-?>

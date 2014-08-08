@@ -98,4 +98,3 @@ abstract class org_openpsa_mail_backend
         return 'Unknown error';
     }
 }
-?>

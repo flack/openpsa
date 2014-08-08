@@ -146,4 +146,3 @@ class org_openpsa_relatedto_suspect extends midcom_baseclasses_components_pureco
         }
     }
 }
-?>

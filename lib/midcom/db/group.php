@@ -88,4 +88,3 @@ class midcom_db_group extends midcom_core_dbaobject
         return ($qb->count() > 0);
     }
 }
-?>

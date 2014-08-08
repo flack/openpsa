@@ -58,4 +58,3 @@ class net_nemein_wiki_handler_orphan extends midcom_baseclasses_components_handl
         midcom_show_style('view-orphans');
     }
 }
-?>

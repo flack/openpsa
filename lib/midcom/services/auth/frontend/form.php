@@ -74,4 +74,3 @@ class midcom_services_auth_frontend_form implements midcom_services_auth_fronten
         midcom::get()->style->show_midcom('midcom_services_auth_frontend_form');
     }
 }
-?>

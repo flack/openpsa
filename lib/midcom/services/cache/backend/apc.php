@@ -110,4 +110,3 @@ class midcom_services_cache_backend_apc extends midcom_services_cache_backend
         return $success;
     }
 }
-?>

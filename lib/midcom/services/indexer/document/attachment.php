@@ -388,4 +388,3 @@ class midcom_services_indexer_document_attachment extends midcom_services_indexe
         return $tmpname;
     }
 }
-?>

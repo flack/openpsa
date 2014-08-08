@@ -122,4 +122,3 @@ class org_openpsa_documents_handler_search extends midcom_baseclasses_components
         midcom_show_style('show-search-footer');
     }
 }
-?>

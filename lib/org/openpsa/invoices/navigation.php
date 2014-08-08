@@ -14,4 +14,3 @@
 class org_openpsa_invoices_navigation extends midcom_baseclasses_components_navigation
 {
 }
-?>

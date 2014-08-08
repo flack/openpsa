@@ -63,4 +63,3 @@ class net_nemein_wiki_parserTest extends openpsa_testcase
         );
     }
 }
-?>

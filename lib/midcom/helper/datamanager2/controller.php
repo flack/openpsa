@@ -246,4 +246,3 @@ abstract class midcom_helper_datamanager2_controller extends midcom_baseclasses_
         midcom::get()->style->show_midcom('midcom_helper_datamanager2_unlock');
     }
 }
-?>

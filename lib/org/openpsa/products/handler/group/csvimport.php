@@ -347,4 +347,3 @@ class org_openpsa_products_handler_group_csvimport extends midcom_baseclasses_co
         midcom_show_style('show-import-status');
     }
 }
-?>

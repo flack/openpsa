@@ -16,4 +16,3 @@
 class org_openpsa_expenses_navigation extends midcom_baseclasses_components_navigation
 {
 }
-?>

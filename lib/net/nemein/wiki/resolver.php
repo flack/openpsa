@@ -229,4 +229,3 @@ class net_nemein_wiki_resolver
         return $this->_list_wiki_nodes($root_folder);
     }
 }
-?>

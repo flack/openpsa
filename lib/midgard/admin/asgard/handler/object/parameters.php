@@ -66,4 +66,3 @@ class midgard_admin_asgard_handler_object_parameters extends midcom_baseclasses_
         midcom_show_style('midgard_admin_asgard_object_parameters');
     }
 }
-?>

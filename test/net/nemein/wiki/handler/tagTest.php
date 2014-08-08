@@ -52,4 +52,3 @@ class net_nemein_wiki_handler_tagTest extends openpsa_testcase
         $this->show_handler($data);
     }
 }
-?>

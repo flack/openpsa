@@ -367,4 +367,3 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_plugin
         throw new midcom_error(sprintf($this->_l10n->get('restore to version %s failed, reason %s'), $args[1], $this->_backend->get_error()));
     }
 }
-?>

@@ -350,4 +350,3 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
         $this->_cache->put("{$this->_prefix}-{$key}", $result, $timeout);
     }
 }
-?>

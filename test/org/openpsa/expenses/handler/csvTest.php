@@ -29,4 +29,3 @@ class org_openpsa_expenses_handler_csvTest extends openpsa_testcase
         midcom::get()->auth->drop_sudo();
     }
 }
-?>

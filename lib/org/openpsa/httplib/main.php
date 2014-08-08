@@ -187,4 +187,3 @@ class org_openpsa_httplib extends midcom_baseclasses_components_purecode
         return 'Midgard/' . substr(mgd_version(), 0, 4);
     }
 }
-?>

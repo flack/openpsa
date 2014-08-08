@@ -85,4 +85,3 @@ implements midcom_helper_datamanager2_interfaces_create
         midcom_show_style('midcom-admin-user-person-create');
     }
 }
-?>

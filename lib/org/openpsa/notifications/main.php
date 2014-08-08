@@ -223,4 +223,3 @@ class org_openpsa_notifications extends midcom_baseclasses_components_purecode
         );
     }
 }
-?>

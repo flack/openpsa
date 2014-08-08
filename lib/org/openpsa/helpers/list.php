@@ -178,4 +178,3 @@ class org_openpsa_helpers_list
         return $cache[$array_name];
     }
 }
-?>

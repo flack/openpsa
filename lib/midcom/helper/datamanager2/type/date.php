@@ -267,4 +267,3 @@ class midcom_helper_datamanager2_type_date extends midcom_helper_datamanager2_ty
         return true;
     }
 }
-?>

@@ -24,7 +24,7 @@ class midcom_helper_datamanager2_controller_ajax extends midcom_helper_datamanag
     var $window_mode = false;
     var $wide_mode = false;
     var $allow_removal = false;
-    var $_editable = null;
+    private $_editable = null;
 
     /**
      * AJAX controller initialization. Loads required Javascript libraries and connects to the parent class initialization.
@@ -343,4 +343,3 @@ class midcom_helper_datamanager2_controller_ajax extends midcom_helper_datamanag
         return $result;
     }
 }
-?>

@@ -220,4 +220,3 @@ class org_openpsa_projects_workflowTest extends openpsa_testcase
         parent::tearDown();
     }
 }
-?>

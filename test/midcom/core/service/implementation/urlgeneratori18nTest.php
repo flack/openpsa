@@ -21,4 +21,3 @@ class midcom_core_service_implementation_urlgeneratori18nTest extends openpsa_te
         $this->assertEquals($clean1, $clean2);
     }
 }
-?>

@@ -128,4 +128,3 @@ class org_openpsa_mypage_handler_today extends midcom_baseclasses_components_han
         midcom_show_style('show-today');
     }
 }
-?>

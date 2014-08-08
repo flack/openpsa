@@ -197,4 +197,3 @@ class net_nehmer_static_viewer extends midcom_baseclasses_components_request
         return $qb;
     }
 }
-?>

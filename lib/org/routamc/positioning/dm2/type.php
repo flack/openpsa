@@ -24,13 +24,13 @@ class org_routamc_positioning_dm2_type extends midcom_helper_datamanager2_type
      * will leave the field empty in case the storage object is null.
      */
     function convert_from_storage($source)
-    {        
+    {
         if ($source instanceof org_routamc_positioning_location_dba)
         {
             $this->location = $source;
             return;
         }
-        
+
         if ($this->storage->object === null)
         {
             // We don't have a storage object, skip the rest of the operations.
@@ -152,4 +152,3 @@ class org_routamc_positioning_dm2_type extends midcom_helper_datamanager2_type
         return $result;
     }
 }
-?>

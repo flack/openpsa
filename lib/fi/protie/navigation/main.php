@@ -599,4 +599,3 @@ class fi_protie_navigation
         $this->root_object_id = $id;
     }
 }
-?>

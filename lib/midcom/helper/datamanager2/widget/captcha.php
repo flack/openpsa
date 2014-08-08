@@ -175,4 +175,3 @@ class midcom_helper_datamanager2_widget_captcha extends midcom_helper_datamanage
         return $this->_element->isFrozen();
     }
 }
-?>

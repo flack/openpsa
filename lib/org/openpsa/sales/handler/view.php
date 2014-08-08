@@ -291,4 +291,3 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
         return $toolbar;
     }
 }
-?>

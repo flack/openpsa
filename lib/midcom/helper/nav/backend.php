@@ -1275,4 +1275,3 @@ class midcom_helper_nav_backend
         return $interface;
     }
 }
-?>

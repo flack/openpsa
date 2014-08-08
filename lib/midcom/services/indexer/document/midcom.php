@@ -150,4 +150,3 @@ class midcom_services_indexer_document_midcom extends midcom_services_indexer_do
         $this->component = $object[MIDCOM_NAV_COMPONENT];
     }
 }
-?>

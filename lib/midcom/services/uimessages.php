@@ -223,4 +223,3 @@ class midcom_services_uimessages
         echo "</div>\n";
     }
 }
-?>

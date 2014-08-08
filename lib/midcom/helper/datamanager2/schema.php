@@ -681,4 +681,3 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
         return $string;
     }
 }
-?>

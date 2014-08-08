@@ -171,4 +171,3 @@ class midcom_services_session
         return $this->_sessioning->get_session_data($this->_domain);
     }
 }
-?>

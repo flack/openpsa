@@ -53,4 +53,3 @@ class midcom_db_topicTest extends openpsa_testcase
         $this->assertEquals(get_class($parent1), get_class(self::$_parent));
     }
 }
-?>

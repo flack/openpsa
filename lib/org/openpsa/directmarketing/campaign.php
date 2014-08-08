@@ -232,4 +232,3 @@ class org_openpsa_directmarketing_campaign_dba extends midcom_core_dbaobject
         return $stat;
     }
 }
-?>

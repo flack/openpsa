@@ -580,4 +580,3 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
         return implode(', ', $output);
     }
 }
-?>

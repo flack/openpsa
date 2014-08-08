@@ -65,4 +65,3 @@ function mgd_preparse($code)
 {
     return midcom_helper_misc::preparse($code);
 }
-?>

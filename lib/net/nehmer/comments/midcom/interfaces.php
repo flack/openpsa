@@ -63,4 +63,3 @@ class net_nehmer_comments_interface extends midcom_baseclasses_components_interf
         }
     }
 }
-?>

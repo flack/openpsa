@@ -151,4 +151,3 @@ class org_openpsa_directmarketing_cleanup extends midcom_baseclasses_components_
         }
     }
 }
-?>

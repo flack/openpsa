@@ -76,4 +76,3 @@ class midcom_services_dbclassloaderTest extends openpsa_testcase
         return $ret;
     }
 }
-?>

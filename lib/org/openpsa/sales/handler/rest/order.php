@@ -122,4 +122,3 @@ class org_openpsa_sales_handler_rest_order extends midcom_baseclasses_components
         $this->_response["message"] = "order created";
     }
 }
-?>

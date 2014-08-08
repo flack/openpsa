@@ -25,4 +25,3 @@ class org_routamc_positioning_cron_fetchicbm extends midcom_baseclasses_componen
         debug_add('Done');
     }
 }
-?>

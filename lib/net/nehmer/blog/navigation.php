@@ -229,4 +229,3 @@ class net_nehmer_blog_navigation extends midcom_baseclasses_components_navigatio
         $this->_content_topic = midcom_db_topic::get_cached($guid);
     }
 }
-?>

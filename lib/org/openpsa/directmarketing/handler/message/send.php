@@ -226,4 +226,3 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
         }
     }
 }
-?>

@@ -640,4 +640,3 @@ class midcom_core_user
         return $person->delete();
     }
 }
-?>

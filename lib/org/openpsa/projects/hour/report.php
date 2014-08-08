@@ -126,4 +126,3 @@ class org_openpsa_projects_hour_report_dba extends midcom_core_dbaobject
         return "<em>" . $l10n->get('no description given') . "</em>";
     }
 }
-?>

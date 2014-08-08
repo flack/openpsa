@@ -81,4 +81,3 @@ class midcom_helper_datamanager2_widget_hidden extends midcom_helper_datamanager
         $this->_type->value = $results[$this->name];
     }
 }
-?>

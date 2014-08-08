@@ -47,4 +47,3 @@ class net_nemein_tag_cron_clean extends midcom_baseclasses_components_cron_handl
         midcom::get()->auth->drop_sudo();
     }
 }
-?>

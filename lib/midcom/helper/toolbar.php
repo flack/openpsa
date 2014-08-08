@@ -889,4 +889,3 @@ class midcom_helper_toolbar
         midcom::get()->toolbars->bind_toolbar_to_object($this, $object);
     }
 }
-?>

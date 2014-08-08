@@ -48,4 +48,3 @@ class org_openpsa_slideshow_handler_editTest extends openpsa_testcase
         midcom::get()->auth->drop_sudo();
     }
 }
-?>

@@ -383,4 +383,3 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
         midcom_show_style('show-import-status');
     }
 }
-?>

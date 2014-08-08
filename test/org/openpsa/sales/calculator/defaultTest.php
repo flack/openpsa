@@ -69,5 +69,3 @@ class org_openpsa_sales_calculatorTest extends openpsa_testcase
         $this->assertEquals($exp, $stat);
     }
 }
-
-?>

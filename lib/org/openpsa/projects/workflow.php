@@ -412,4 +412,3 @@ class org_openpsa_projects_workflow
         return $hours_marked;
     }
 }
-?>

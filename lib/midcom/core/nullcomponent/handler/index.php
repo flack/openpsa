@@ -43,4 +43,3 @@ class midcom_core_nullcomponent_handler_index  extends midcom_baseclasses_compon
         midcom_show_style('index');
     }
 }
-?>

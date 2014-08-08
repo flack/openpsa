@@ -449,4 +449,3 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
         return $response;
     }
 }
-?>

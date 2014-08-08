@@ -347,4 +347,3 @@ class org_openpsa_contacts_duplicates_merge
         return (!empty($results));
     }
 }
-?>

@@ -181,4 +181,3 @@ class org_openpsa_contacts_handler_duplicates_person extends midcom_baseclasses_
         }
     }
 }
-?>

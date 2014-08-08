@@ -68,4 +68,3 @@ class midcom_services_auth_aclTest extends openpsa_testcase
         $this->assertFalse($auth->can_do('midgard:read', $topic));
     }
 }
-?>

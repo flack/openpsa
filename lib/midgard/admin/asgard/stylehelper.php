@@ -230,4 +230,3 @@ class midgard_admin_asgard_stylehelper
         return $elements;
     }
 }
-?>

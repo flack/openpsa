@@ -75,4 +75,3 @@ class midcom_helper_datamanager2_type_tags extends midcom_helper_datamanager2_ty
         return net_nemein_tag_handler::string2tag_array($this->value);
     }
 }
-?>

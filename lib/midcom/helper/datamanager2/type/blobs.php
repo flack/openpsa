@@ -831,4 +831,3 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
         }
     }
 }
-?>

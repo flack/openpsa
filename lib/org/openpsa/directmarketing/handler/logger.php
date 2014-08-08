@@ -243,4 +243,3 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
         //TODO: make an element to display in case our relocate fails (with link to the intended target...)
     }
 }
-?>

@@ -48,4 +48,3 @@ class org_openpsa_directmarketing_handler_message_composeTest extends openpsa_te
         midcom::get()->auth->drop_sudo();
     }
 }
-?>

@@ -50,4 +50,3 @@ interface midcom_core_service_urlparser
      */
     public function get_objects();
 }
-?>

@@ -625,4 +625,3 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
         return strnatcmp($a->title, $b->title);
     }
 }
-?>

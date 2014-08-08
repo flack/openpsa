@@ -360,4 +360,3 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
         return '';
     }
 }
-?>

@@ -82,4 +82,3 @@ class org_routamc_positioning_dm2_callbacks_countries extends midcom_baseclasses
     /** Ignored. */
     function set_type(&$type) {}
 }
-?>

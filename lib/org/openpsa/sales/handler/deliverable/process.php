@@ -65,4 +65,3 @@ class org_openpsa_sales_handler_deliverable_process extends midcom_baseclasses_c
         throw new midcom_error('No valid operation specified.');
     }
 }
-?>

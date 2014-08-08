@@ -83,4 +83,3 @@ class midcom_helper_datamanager2_widget_csrf extends midcom_helper_datamanager2_
         return true;
     }
 }
-?>

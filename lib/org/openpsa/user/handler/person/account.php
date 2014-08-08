@@ -295,4 +295,3 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         midcom_show_style("show-person-account-edit");
     }
 }
-?>

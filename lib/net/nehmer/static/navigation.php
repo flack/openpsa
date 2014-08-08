@@ -124,4 +124,3 @@ class net_nehmer_static_navigation extends midcom_baseclasses_components_navigat
         $this->_content_topic = midcom_db_topic::get_cached($guid);
     }
 }
-?>

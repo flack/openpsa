@@ -181,4 +181,3 @@ class org_openpsa_mypage_handler_workingon extends midcom_baseclasses_components
         return new midcom_response_relocate($relocate . "workingon/");
     }
 }
-?>

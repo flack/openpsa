@@ -126,4 +126,3 @@ class org_openpsa_slideshow_handler_index extends midcom_baseclasses_components_
         }
     }
 }
-?>

@@ -714,4 +714,3 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
         return true;
     }
 }
-?>

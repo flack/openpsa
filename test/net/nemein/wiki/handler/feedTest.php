@@ -32,4 +32,3 @@ class net_nemein_wiki_handler_feedTest extends openpsa_testcase
         $this->show_handler($data);
     }
 }
-?>

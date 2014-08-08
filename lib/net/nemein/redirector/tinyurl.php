@@ -72,4 +72,3 @@ class net_nemein_redirector_tinyurl_dba extends midcom_core_dbaobject
         return $url;
     }
 }
-?>

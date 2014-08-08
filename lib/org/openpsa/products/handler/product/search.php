@@ -392,4 +392,3 @@ class org_openpsa_products_handler_product_search extends midcom_baseclasses_com
         midcom_show_style('product_search_footer');
     }
 }
-?>

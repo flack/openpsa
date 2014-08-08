@@ -89,4 +89,3 @@ class midcom_db_parameter extends midcom_core_dbaobject
         return "{$this->domain} {$this->name}";
     }
 }
-?>

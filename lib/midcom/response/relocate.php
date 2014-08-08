@@ -49,4 +49,3 @@ class midcom_response_relocate extends midcom_response
         midcom::get()->finish();
     }
 }
-?>

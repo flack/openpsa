@@ -32,4 +32,3 @@ class org_openpsa_user_handler_group_notificationsTest extends openpsa_testcase
         midcom::get()->auth->drop_sudo();
     }
 }
-?>

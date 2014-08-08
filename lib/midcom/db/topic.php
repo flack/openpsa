@@ -29,4 +29,3 @@ class midcom_db_topic extends midcom_core_dbaobject
         return '#' . $this->id;
     }
 }
-?>

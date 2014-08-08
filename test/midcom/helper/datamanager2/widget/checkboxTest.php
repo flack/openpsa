@@ -51,4 +51,3 @@ class midcom_helper_datamanager2_widget_checkboxTest extends openpsa_testcase
         $this->assertTrue($widget->get_default(), 'simple/storage test failed');
     }
 }
-?>

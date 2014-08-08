@@ -54,6 +54,4 @@ class midcom_admin_user_handler_group_listTest extends openpsa_testcase
         $this->assertFalse(midcom_admin_user_handler_group_list::belongs_to($root->id, $other->id));
         $this->assertFalse(midcom_admin_user_handler_group_list::belongs_to($grandchild->id, $other->id));
     }
-
 }
-?>

@@ -817,4 +817,3 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
         }
     }
 }
-?>

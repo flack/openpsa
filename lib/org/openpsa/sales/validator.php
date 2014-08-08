@@ -27,4 +27,3 @@ class org_openpsa_sales_validator
         return true;
     }
 }
-?>

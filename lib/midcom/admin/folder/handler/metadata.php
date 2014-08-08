@@ -150,4 +150,3 @@ class midcom_admin_folder_handler_metadata extends midcom_baseclasses_components
         midcom_show_style('midcom-admin-show-folder-metadata');
     }
 }
-?>

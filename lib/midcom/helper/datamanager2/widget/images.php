@@ -747,4 +747,3 @@ END;
         return array($this->name => $defaults);
     }
 }
-?>

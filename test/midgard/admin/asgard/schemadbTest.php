@@ -245,4 +245,3 @@ class midgard_admin_asgard_schemadbTest extends openpsa_testcase
         );
     }
 }
-?>

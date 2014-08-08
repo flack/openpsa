@@ -228,4 +228,3 @@ implements midcom_services_permalinks_resolver
         return org_openpsa_notifications::notify('org.openpsa.sales:new_notification_message', $project->owner, $message);
     }
 }
-?>

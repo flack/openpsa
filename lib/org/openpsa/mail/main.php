@@ -261,6 +261,4 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
         }
         return 'Unknown error';
     }
-
 }
-?>

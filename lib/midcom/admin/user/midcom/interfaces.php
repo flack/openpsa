@@ -12,4 +12,3 @@
 class midcom_admin_user_interface extends midcom_baseclasses_components_interface
 {
 }
-?>

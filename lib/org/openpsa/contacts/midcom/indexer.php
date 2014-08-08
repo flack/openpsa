@@ -21,4 +21,3 @@ class org_openpsa_contacts_midcom_indexer extends midcom_services_indexer_client
         }
     }
 }
-?>

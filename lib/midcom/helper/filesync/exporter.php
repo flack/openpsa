@@ -115,4 +115,3 @@ abstract class midcom_helper_filesync_exporter extends midcom_baseclasses_compon
         return new $classname(midcom_helper_filesync_interface::prepare_dir($type));
     }
 }
-?>

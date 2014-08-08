@@ -153,4 +153,3 @@ class org_openpsa_httplib_helpers extends midcom_baseclasses_components_purecode
         return $values;
     }
 }
-?>

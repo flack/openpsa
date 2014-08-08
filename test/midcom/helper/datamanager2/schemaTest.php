@@ -34,4 +34,3 @@ class midcom_helper_datamanager2_schemaTest extends openpsa_testcase
         $this->assertEquals(array(), $db['default']->validation);
     }
 }
-?>

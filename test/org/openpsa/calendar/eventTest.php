@@ -62,4 +62,3 @@ class org_openpsa_calendar_eventTest extends openpsa_testcase
                                 date('Y', $timestamp));
     }
 }
-?>

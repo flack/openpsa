@@ -14,4 +14,3 @@
 class openpsa_test_relocate extends Exception
 {
 }
-?>

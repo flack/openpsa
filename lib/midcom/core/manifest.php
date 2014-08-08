@@ -387,4 +387,3 @@ class midcom_core_manifest
         }
     }
 }
-?>

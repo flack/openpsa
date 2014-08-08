@@ -15,4 +15,3 @@
 class fi_protie_navigation_interface extends midcom_baseclasses_components_interface
 {
 }
-?>

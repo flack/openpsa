@@ -121,4 +121,3 @@ class org_openpsa_documents_handler_directory_navigation extends midcom_baseclas
         midcom_show_style("show-navigation-end");
     }
 }
-?>

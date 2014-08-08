@@ -14,4 +14,3 @@
 class org_openpsa_documents_navigation extends midcom_baseclasses_components_navigation
 {
 }
-?>

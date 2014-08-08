@@ -14,4 +14,3 @@
 class org_openpsa_slideshow_viewer extends midcom_baseclasses_components_request
 {
 }
-?>

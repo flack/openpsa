@@ -377,4 +377,3 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
         return $b['time'] - $a['time'];
     }
 }
-?>

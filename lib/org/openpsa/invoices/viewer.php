@@ -171,4 +171,3 @@ class org_openpsa_invoices_viewer extends midcom_baseclasses_components_request
         }
     }
 }
-?>

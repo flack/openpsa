@@ -377,4 +377,3 @@ abstract class midcom_helper_datamanager2_widget extends midcom_baseclasses_comp
         return $element->isFrozen();
     }
 }
-?>

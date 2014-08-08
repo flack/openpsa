@@ -119,4 +119,3 @@ class midcom_helper_formatter
         return "<?php $command; ?>";
     }
 }
-?>

@@ -312,4 +312,3 @@ class org_openpsa_projects_project extends midcom_core_dbaobject
         return null;
     }
 }
-?>

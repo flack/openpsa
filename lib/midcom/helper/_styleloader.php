@@ -859,4 +859,3 @@ function midcom_show_style($param)
 {
     return midcom::get()->style->show($param);
 }
-?>

@@ -37,4 +37,3 @@ class org_openpsa_core_acl
         );
     }
 }
-?>

@@ -55,4 +55,3 @@ class midcom_db_snippet extends midcom_db_cachemember
         return 'script.png';
     }
 }
-?>

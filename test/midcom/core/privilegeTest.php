@@ -68,4 +68,3 @@ class midcom_core_privilegeTest extends openpsa_testcase
         );
     }
 }
-?>

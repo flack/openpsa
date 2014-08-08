@@ -290,4 +290,3 @@ class midcom_helper_datamanager2_ajax_autocomplete
         return $value;
     }
 }
-?>

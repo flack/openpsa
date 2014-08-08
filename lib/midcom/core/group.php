@@ -303,4 +303,3 @@ class midcom_core_group
         return new midcom_db_group($this->_storage);
     }
 }
-?>

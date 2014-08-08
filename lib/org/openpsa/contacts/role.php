@@ -36,4 +36,3 @@ class org_openpsa_contacts_role_dba extends midcom_core_dbaobject
         return $new_role->create();
     }
 }
-?>

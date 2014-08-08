@@ -33,4 +33,3 @@ class org_openpsa_products_handler_configurationTest extends openpsa_testcase
         midcom::get()->auth->drop_sudo();
     }
 }
-?>

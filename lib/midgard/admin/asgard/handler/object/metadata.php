@@ -128,4 +128,3 @@ implements midcom_helper_datamanager2_interfaces_edit
         midcom_show_style('midgard_admin_asgard_object_metadata');
     }
 }
-?>

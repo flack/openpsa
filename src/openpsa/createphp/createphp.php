@@ -150,4 +150,3 @@ class createphp
         return new \midcom_response_json($this->_manager->getRestHandler()->getWorkflows($_GET["subject"]));
     }
 }
-?>

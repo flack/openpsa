@@ -49,4 +49,3 @@ class org_openpsa_products_validation
         return true;
     }
 }
-?>

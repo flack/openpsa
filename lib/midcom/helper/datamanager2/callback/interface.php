@@ -48,4 +48,3 @@ interface midcom_helper_datamanager2_callback_interface
     public function list_all();
 
 }
-?>

@@ -119,4 +119,3 @@ class org_openpsa_invoices_billing_data_dba extends midcom_core_dbaobject
         }
     }
 }
-?>

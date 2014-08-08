@@ -62,4 +62,3 @@ class org_openpsa_products_handler_product_viewTest extends openpsa_testcase
         midcom::get()->auth->drop_sudo();
     }
 }
-?>

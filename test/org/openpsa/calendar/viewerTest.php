@@ -39,4 +39,3 @@ class org_openpsa_calendar_viewerTest extends openpsa_testcase
         $this->assertInstanceOf('midcom_response_relocate', $data['__openpsa_testcase_response']);
     }
 }
-?>

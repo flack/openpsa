@@ -36,4 +36,3 @@ class org_openpsa_user_handler_lostpasswordTest extends openpsa_testcase
         $this->assertNotEquals($old_password, $account->get_password());
     }
 }
-?>

@@ -51,4 +51,3 @@ class midcom_admin_user_plugin extends midcom_baseclasses_components_plugin
         return $string;
     }
 }
-?>

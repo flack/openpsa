@@ -173,4 +173,3 @@ implements midcom_helper_datamanager2_interfaces_edit
         return new midcom_response_json;
     }
 }
-?>

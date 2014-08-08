@@ -212,4 +212,3 @@ class midcom_services_cache implements EventSubscriberInterface
         }
     }
 }
-?>

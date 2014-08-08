@@ -25,4 +25,3 @@ class org_routamc_positioning_cron_fetchgeorss extends midcom_baseclasses_compon
         debug_add('Done');
     }
 }
-?>

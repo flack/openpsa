@@ -32,4 +32,3 @@ class org_openpsa_user_handler_group_deleteTest extends openpsa_testcase
         midcom::get()->auth->drop_sudo();
     }
 }
-?>

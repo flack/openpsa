@@ -437,4 +437,3 @@ class midcom_core_resolver
         midcom::get()->finish();
     }
 }
-?>

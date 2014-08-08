@@ -41,4 +41,3 @@ class midcom_helper_filesync_exporter_snippetTest extends openpsa_testcase
         $this->assertFileExists(self::$_rootdir . $snippetdir_name . '/' . $snippetdir_name . '/' . $element_name . '.php');
     }
 }
-?>

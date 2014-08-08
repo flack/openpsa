@@ -163,4 +163,3 @@ class org_openpsa_directmarketing_handler_campaign_campaign extends midcom_basec
         midcom_show_style('show-campaign');
     }
 }
-?>

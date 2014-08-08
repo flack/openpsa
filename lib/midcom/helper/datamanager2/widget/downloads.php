@@ -620,4 +620,3 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
         return Array ($this->name => $defaults);
     }
 }
-?>

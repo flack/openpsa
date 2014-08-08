@@ -129,6 +129,4 @@ class midcom_admin_help_helpTest extends openpsa_testcase
             )
         );
     }
-
 }
-?>

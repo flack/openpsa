@@ -22,4 +22,3 @@ interface org_openpsa_contacts_duplicates_support
      */
     public function get_merge_configuration($object_mode, $merge_mode);
 }
-?>

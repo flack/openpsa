@@ -137,4 +137,3 @@ class org_openpsa_calendar_cron_reporthours extends midcom_baseclasses_component
         debug_add('done');
     }
 }
-?>

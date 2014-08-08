@@ -48,4 +48,3 @@ class midcom_services_auth_loginTest extends openpsa_testcase
         $this->assertFalse($auth->is_valid_user());
     }
 }
-?>

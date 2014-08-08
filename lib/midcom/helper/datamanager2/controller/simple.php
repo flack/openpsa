@@ -189,4 +189,3 @@ class midcom_helper_datamanager2_controller_simple extends midcom_helper_dataman
         return $result;
     }
 }
-?>

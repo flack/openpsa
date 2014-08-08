@@ -52,4 +52,3 @@ class org_openpsa_directmarketing_cron_cleartokens extends midcom_baseclasses_co
         debug_add('Done');
     }
 }
-?>

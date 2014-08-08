@@ -467,4 +467,3 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
         midcom::get()->auth->drop_sudo();
     }
 }
-?>

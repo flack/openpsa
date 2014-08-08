@@ -49,4 +49,3 @@ interface midcom_services_indexer_backend
      */
     public function query($query, midcom_services_indexer_filter $filter = null);
 }
-?>

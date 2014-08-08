@@ -582,4 +582,3 @@ class midcom_services_auth_sessionmgr
         return $result;
     }
 }
-?>

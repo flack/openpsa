@@ -17,4 +17,3 @@ class org_routamc_positioning_interface extends midcom_baseclasses_components_in
 {
     // TODO: Watchers and cron entries
 }
-?>

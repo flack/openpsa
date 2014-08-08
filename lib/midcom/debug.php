@@ -466,4 +466,3 @@ function debug_dump_mem($message, $loglevel = MIDCOM_LOG_DEBUG)
 {
     midcom::get()->debug->print_dump_mem($message, $loglevel);
 }
-?>

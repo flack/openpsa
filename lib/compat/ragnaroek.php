@@ -38,4 +38,3 @@ function _midcom_setcookie($name, $value = '', $expire = 0, $path = '/', $domain
 {
     return midcom_compat_environment::get()->setcookie($name, $value, $expire, $path, $domain, $secure, $httponly);
 }
-?>

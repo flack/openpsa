@@ -33,4 +33,3 @@ class midcom_db_host extends midcom_core_dbaobject
         return 'stock_internet.png';
     }
 }
-?>

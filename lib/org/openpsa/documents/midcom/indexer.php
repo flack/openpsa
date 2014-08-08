@@ -21,4 +21,3 @@ class org_openpsa_documents_midcom_indexer extends midcom_services_indexer_clien
         }
     }
 }
-?>

@@ -28,4 +28,3 @@ foreach ($comments as $comment)
     $comment->update();
     echo midcom_connection::get_error_string() . "<br />\n";
 }
-?>

@@ -130,4 +130,3 @@ class org_openpsa_products_navigation extends midcom_baseclasses_components_navi
         return array_reverse($levels);
     }
 }
-?>

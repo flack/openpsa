@@ -187,4 +187,3 @@ class midcom_baseclasses_components_configuration
         return midcom_helper_misc::parse_config($code);
     }
 }
-?>

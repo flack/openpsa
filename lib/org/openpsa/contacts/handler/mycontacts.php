@@ -80,4 +80,3 @@ class org_openpsa_contacts_handler_mycontacts extends midcom_baseclasses_compone
         midcom_show_style("show-mycontacts-footer");
     }
 }
-?>

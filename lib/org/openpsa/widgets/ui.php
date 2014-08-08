@@ -153,4 +153,3 @@ $(document).ready(
 JSINIT;
     }
 }
-?>

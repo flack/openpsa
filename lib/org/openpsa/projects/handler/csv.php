@@ -58,4 +58,3 @@ class org_openpsa_projects_handler_csv extends midcom_baseclasses_components_han
         return $qb->execute();
     }
 }
-?>

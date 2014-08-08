@@ -46,4 +46,3 @@ class org_openpsa_directmarketing_campaign_messagereceiptTest extends openpsa_te
         midcom::get()->auth->drop_sudo();
     }
 }
-?>

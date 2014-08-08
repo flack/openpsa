@@ -174,4 +174,3 @@ class org_openpsa_projects_task_resource_dba extends midcom_core_dbaobject
         return midcom::get()->auth->get_user($pid);
     }
 }
-?>

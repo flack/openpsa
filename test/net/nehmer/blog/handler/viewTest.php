@@ -50,4 +50,3 @@ class net_nehmer_blog_handler_viewTest extends openpsa_testcase
         midcom::get()->auth->drop_sudo();
     }
 }
-?>

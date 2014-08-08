@@ -79,6 +79,4 @@ class org_openpsa_reports_handler_projects_reportTest extends openpsa_testcase
 
         midcom::get()->auth->drop_sudo();
     }
-
 }
-?>

@@ -274,4 +274,3 @@ class net_nehmer_static_handler_view extends midcom_baseclasses_components_handl
         midcom_show_style('show-article');
     }
 }
-?>

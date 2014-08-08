@@ -112,4 +112,3 @@ class org_openpsa_directmarketing_handler_campaign_adminTest extends openpsa_tes
         midcom::get()->auth->drop_sudo();
     }
 }
-?>

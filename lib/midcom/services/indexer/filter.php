@@ -60,4 +60,3 @@ abstract class midcom_services_indexer_filter
      */
     abstract public function get_query_string();
 }
-?>

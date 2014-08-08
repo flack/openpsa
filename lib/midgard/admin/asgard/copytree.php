@@ -174,4 +174,3 @@ class midgard_admin_asgard_copytree extends midgard_admin_asgard_navigation
         $this->_list_child_elements($root_object);
     }
 }
-?>

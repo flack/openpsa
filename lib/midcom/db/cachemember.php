@@ -36,4 +36,3 @@ abstract class midcom_db_cachemember extends midcom_core_dbaobject
         }
     }
 }
-?>

@@ -25,4 +25,3 @@ class org_openpsa_projects_handler_frontpageTest extends openpsa_testcase
         midcom::get()->auth->drop_sudo();
     }
 }
-?>

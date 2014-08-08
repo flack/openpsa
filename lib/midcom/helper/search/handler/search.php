@@ -352,4 +352,3 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
         midcom_show_style('opensearch_description');
     }
 }
-?>

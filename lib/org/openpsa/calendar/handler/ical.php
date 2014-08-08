@@ -174,4 +174,3 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
         echo $encoder;
     }
 }
-?>

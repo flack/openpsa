@@ -29,4 +29,3 @@ interface midcom_helper_datamanager2_interfaces_create extends midcom_helper_dat
      */
     public function & dm2_create_callback (&$controller);
 }
-?>

@@ -52,4 +52,3 @@ class net_nehmer_comments_spamchecker
         return self::HAM;
     }
 }
-?>

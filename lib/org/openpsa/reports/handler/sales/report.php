@@ -248,4 +248,3 @@ class org_openpsa_reports_handler_sales_report extends org_openpsa_reports_handl
         midcom_show_style('sales_report-deliverable-end');
     }
 }
-?>

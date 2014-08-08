@@ -50,4 +50,3 @@ class org_openpsa_reports_cron_clearold extends midcom_baseclasses_components_cr
         debug_add('Done');
     }
 }
-?>

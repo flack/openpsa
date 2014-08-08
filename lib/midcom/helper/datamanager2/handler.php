@@ -123,4 +123,3 @@ class midcom_helper_datamanager2_handler
         return $controller;
     }
 }
-?>

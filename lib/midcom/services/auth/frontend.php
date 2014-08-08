@@ -50,4 +50,3 @@ interface midcom_services_auth_frontend
      */
     public function show_authentication_form();
 }
-?>

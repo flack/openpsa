@@ -117,4 +117,3 @@ class midcom_helper_filesync_importer_style extends midcom_helper_filesync_impor
         }
     }
 }
-?>

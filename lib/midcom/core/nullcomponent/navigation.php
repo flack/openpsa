@@ -16,4 +16,3 @@
 class midcom_core_nullcomponent_navigation extends midcom_baseclasses_components_navigation
 {
 }
-?>

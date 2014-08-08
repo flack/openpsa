@@ -30,4 +30,3 @@ class org_openpsa_mypage_handler_weekreviewTest extends openpsa_testcase
         $this->assertEquals('weekreview/' . strftime('%Y-%m-%d') . '/', $url);
     }
 }
-?>

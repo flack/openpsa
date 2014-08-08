@@ -712,4 +712,3 @@ class midcom_compat_superglobal
         midcom::get()->head->print_jquery_statuses();
     }
 }
-?>

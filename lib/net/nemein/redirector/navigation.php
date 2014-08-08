@@ -38,4 +38,3 @@ class net_nemein_redirector_navigation extends midcom_baseclasses_components_nav
         return $leaves;
     }
 }
-?>

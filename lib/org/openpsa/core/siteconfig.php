@@ -231,4 +231,3 @@ class org_openpsa_core_siteconfig extends midcom_baseclasses_components_purecode
         return $this->data[$key];
     }
 }
-?>

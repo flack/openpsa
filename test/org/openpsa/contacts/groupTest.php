@@ -43,4 +43,3 @@ class org_openpsa_contacts_groupTest extends openpsa_testcase
         midcom::get()->auth->drop_sudo();
     }
 }
-?>

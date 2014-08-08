@@ -598,4 +598,3 @@ class midcom_connection
         return self::$_data['config']['unique_host_name'];
     }
 }
-?>

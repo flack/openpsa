@@ -87,4 +87,3 @@ class org_openpsa_calendar_event_resource_dba extends midcom_core_dbaobject
         return true;
     }
 }
-?>

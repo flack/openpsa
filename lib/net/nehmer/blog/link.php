@@ -34,4 +34,3 @@ class net_nehmer_blog_link_dba extends midcom_core_dbaobject
         return true;
     }
 }
-?>

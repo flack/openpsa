@@ -91,4 +91,3 @@ class org_openpsa_reports_handler_invoices_reportTest extends openpsa_testcase
         midcom::get()->auth->drop_sudo();
     }
 }
-?>

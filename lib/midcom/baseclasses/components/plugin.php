@@ -29,4 +29,3 @@ abstract class midcom_baseclasses_components_plugin extends midcom_baseclasses_c
 
     public function _on_initialize(){}
 }
-?>

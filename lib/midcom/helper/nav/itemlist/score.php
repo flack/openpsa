@@ -55,4 +55,3 @@ class midcom_helper_nav_itemlist_score extends midcom_helper_nav_itemlist
         return (integer) (($a[MIDCOM_NAV_SCORE] < $b[MIDCOM_NAV_SCORE]) ? 1 : -1);
     }
 }
-?>

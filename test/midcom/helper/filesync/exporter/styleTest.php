@@ -42,4 +42,3 @@ class midcom_helper_filesync_exporter_styleTest extends openpsa_testcase
         $this->assertFileExists(self::$_rootdir . $style_name . '/' . $style_name . '/' . $element_name . '.php');
     }
 }
-?>

@@ -7,4 +7,3 @@ if (!$midgard->open($config_name))
 }
 $midgard->set_sitegroup('sg0');
 $_MIDGARD['host'] = 0;
-?>

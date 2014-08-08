@@ -67,4 +67,3 @@ class org_openpsa_widgets_toolbar
         );
     }
 }
-?>

@@ -177,4 +177,3 @@ class org_openpsa_invoices_handler_pdf extends midcom_baseclasses_components_han
         return true;
     }
 }
-?>

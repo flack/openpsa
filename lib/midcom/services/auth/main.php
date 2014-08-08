@@ -1048,4 +1048,3 @@ class midcom_services_auth
         midcom::get()->finish();
     }
 }
-?>

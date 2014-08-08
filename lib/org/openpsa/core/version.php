@@ -48,4 +48,3 @@ class org_openpsa_core_version
         return self::get_version_number() . ' (' . self::get_version_name() . ')';
     }
 }
-?>

@@ -42,4 +42,3 @@ interface midcom_services_rcs_backend
 
     public function restore_to_revision($revision);
 }
-?>

@@ -208,4 +208,3 @@ class org_openpsa_widgets_calendar_event
         return $rendered_event;
     }
 }
-?>

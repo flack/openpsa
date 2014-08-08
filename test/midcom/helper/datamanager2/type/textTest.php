@@ -46,4 +46,3 @@ class midcom_helper_datamanager2_type_textTest extends openpsa_testcase
         $this->assertStringEndsWith('HTML is not allowed', $type->validation_error);
     }
 }
-?>

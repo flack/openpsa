@@ -141,4 +141,3 @@ class net_nehmer_comments_handler_moderate extends midcom_baseclasses_components
         }
     }
 }
-?>

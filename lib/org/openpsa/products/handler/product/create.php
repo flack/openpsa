@@ -222,4 +222,3 @@ implements midcom_helper_datamanager2_interfaces_create
         midcom_core_context::get()->set_custom_key('midcom.helper.nav.breadcrumb', $reversed);
     }
 }
-?>

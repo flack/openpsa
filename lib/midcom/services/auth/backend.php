@@ -187,4 +187,3 @@ abstract class midcom_services_auth_backend
      */
     abstract function _on_login_session_deleted();
 }
-?>

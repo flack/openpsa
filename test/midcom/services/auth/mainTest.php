@@ -111,4 +111,3 @@ class midcom_services_auth_mainTest extends openpsa_testcase
         $this->assertFalse($stat);
     }
 }
-?>

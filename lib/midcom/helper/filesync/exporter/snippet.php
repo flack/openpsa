@@ -85,4 +85,3 @@ class midcom_helper_filesync_exporter_snippet extends midcom_helper_filesync_exp
         }
     }
 }
-?>

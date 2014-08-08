@@ -222,4 +222,3 @@ class midcom_services__sessioning
         return $this->session;
     }
 }
-?>

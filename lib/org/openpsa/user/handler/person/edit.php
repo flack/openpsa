@@ -70,6 +70,4 @@ implements midcom_helper_datamanager2_interfaces_edit
     {
         midcom_show_style("show-person-edit");
     }
-
 }
-?>

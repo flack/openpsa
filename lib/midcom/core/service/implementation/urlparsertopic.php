@@ -254,4 +254,3 @@ class midcom_core_service_implementation_urlparsertopic implements midcom_core_s
         return $this->objects;
     }
 }
-?>

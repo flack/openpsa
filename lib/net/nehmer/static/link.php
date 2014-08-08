@@ -34,4 +34,3 @@ class net_nehmer_static_link_dba extends midcom_core_dbaobject
         return true;
     }
 }
-?>

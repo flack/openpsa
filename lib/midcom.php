@@ -154,4 +154,3 @@ class midcom
         return self::$_version;
     }
 }
-?>

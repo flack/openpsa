@@ -99,4 +99,3 @@ class midcom_helper__componentloaderTest extends openpsa_testcase
         $this->assertTrue($componentloader->load_graceful('openpsa.unittest.testcomponent'));
     }
 }
-?>

@@ -531,4 +531,3 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
         return $resource_array;
     }
 }
-?>

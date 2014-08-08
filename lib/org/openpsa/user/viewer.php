@@ -69,4 +69,3 @@ class org_openpsa_user_viewer extends midcom_baseclasses_components_request
         }
     }
 }
-?>

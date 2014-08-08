@@ -60,4 +60,3 @@ class midgard_admin_asgard_handler_object_deleted extends midcom_baseclasses_com
         midcom_show_style('midgard_admin_asgard_object_deleted');
     }
 }
-?>

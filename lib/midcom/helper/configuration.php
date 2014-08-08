@@ -337,4 +337,3 @@ class midcom_helper_configuration
         return array_key_exists($key, $this->_merged);
     }
 }
-?>

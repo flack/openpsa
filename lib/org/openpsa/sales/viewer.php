@@ -143,4 +143,3 @@ class org_openpsa_sales_viewer extends midcom_baseclasses_components_request
         }
     }
 }
-?>

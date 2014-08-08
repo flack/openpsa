@@ -532,4 +532,3 @@ class midcom_helper_reflector_nameresolver
         return array($i, $base_name);
     }
 }
-?>

@@ -48,4 +48,3 @@ class midcom_compat_componentdata implements arrayaccess
         }
     }
 }
-?>

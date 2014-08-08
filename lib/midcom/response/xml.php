@@ -70,4 +70,3 @@ class midcom_response_xml extends midcom_response
         return $output;
     }
 }
-?>

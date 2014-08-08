@@ -230,4 +230,3 @@ class org_openpsa_mail_template
         return $result;
     }
 }
-?>

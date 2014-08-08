@@ -89,4 +89,3 @@ class net_nemein_wiki_handler_feed extends midcom_baseclasses_components_handler
         echo $data['rss'];
     }
 }
-?>

@@ -144,4 +144,3 @@ class midcom_core_accountTest extends openpsa_testcase
         }
     }
 }
-?>

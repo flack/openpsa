@@ -49,4 +49,3 @@ class org_openpsa_products_productTest extends openpsa_testcase
         midcom::get()->auth->drop_sudo();
     }
 }
-?>

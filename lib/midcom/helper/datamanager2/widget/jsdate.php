@@ -495,4 +495,3 @@ EOT;
         return $this->_type->value->format($format);
     }
 }
-?>

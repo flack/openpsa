@@ -60,4 +60,3 @@ class org_openpsa_user_handler_group_list extends midcom_baseclasses_components_
         midcom_show_style('group-list');
     }
 }
-?>

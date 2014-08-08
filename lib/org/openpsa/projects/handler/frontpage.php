@@ -92,4 +92,3 @@ class org_openpsa_projects_handler_frontpage extends midcom_baseclasses_componen
         midcom_show_style("show-frontpage");
     }
 }
-?>

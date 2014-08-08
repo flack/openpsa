@@ -349,4 +349,3 @@ class midgard_admin_asgard_toolbar extends midcom_helper_toolbar
         }
     }
 }
-?>

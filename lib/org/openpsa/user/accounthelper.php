@@ -621,4 +621,3 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
         return $stat;
     }
 }
-?>

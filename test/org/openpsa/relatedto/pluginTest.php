@@ -63,4 +63,3 @@ class org_openpsa_relatedto_pluginTest extends openpsa_testcase
         $this->assertEquals($expected, org_openpsa_relatedto_plugin::relatedto2get(array($relatedto)));
     }
 }
-?>

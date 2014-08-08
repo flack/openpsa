@@ -920,4 +920,3 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         return self::$_cache['title'][$key];
     }
 }
-?>

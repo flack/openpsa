@@ -132,4 +132,3 @@ class org_openpsa_core_queryfilter
         echo "\n</form>\n";
     }
 }
-?>

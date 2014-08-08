@@ -301,4 +301,3 @@ class project_converter
         $this->_commit('create', $this->_new_object);
     }
 }
-?>

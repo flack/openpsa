@@ -253,4 +253,3 @@ class net_nehmer_blog_handler_view extends midcom_baseclasses_components_handler
         midcom_show_style('view');
     }
 }
-?>

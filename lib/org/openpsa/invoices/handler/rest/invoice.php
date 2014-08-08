@@ -67,4 +67,3 @@ class org_openpsa_invoices_handler_rest_invoice extends midcom_baseclasses_compo
         $this->_response["data"] = $data;
     }
 }
-?>

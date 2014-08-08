@@ -628,4 +628,3 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
         return $object->update();
     }
 }
-?>

@@ -143,4 +143,3 @@ abstract class midcom_helper_exporter
         return get_class($object);
     }
 }
-?>

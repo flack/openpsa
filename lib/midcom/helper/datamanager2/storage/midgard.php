@@ -143,4 +143,3 @@ class midcom_helper_datamanager2_storage_midgard extends midcom_helper_datamanag
         return $this->object->update();
     }
 }
-?>

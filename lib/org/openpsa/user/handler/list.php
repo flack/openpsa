@@ -209,4 +209,3 @@ implements org_openpsa_widgets_grid_provider_client
         return $entry;
     }
 }
-?>

@@ -490,4 +490,3 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
         throw new midcom_error(sprintf($this->_l10n->get('restore to version %s failed, reason %s'), $args[1], $this->_backend->get_error()));
     }
 }
-?>

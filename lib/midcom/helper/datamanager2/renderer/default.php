@@ -569,4 +569,3 @@ class midcom_helper_datamanager2_renderer_default extends HTML_QuickForm_Rendere
         $this->_templates = array();
     }
 }
-?>

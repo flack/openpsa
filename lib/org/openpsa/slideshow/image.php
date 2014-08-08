@@ -186,4 +186,3 @@ class org_openpsa_slideshow_image_dba extends midcom_core_dbaobject
         return $data;
     }
 }
-?>

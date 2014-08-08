@@ -115,4 +115,3 @@ class midcom_helper_datamanager2_widget_photo extends midcom_helper_datamanager2
         $elements[] = $this->_form->createElement('static', "{$this->name}_end", '', $static_html);
     }
 }
-?>

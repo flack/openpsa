@@ -428,4 +428,3 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
         midcom_show_style('comments-footer');
     }
 }
-?>

@@ -112,4 +112,3 @@ class net_nemein_tag_tag_dba extends midcom_core_dbaobject
         return $privileges;
     }
 }
-?>

@@ -96,4 +96,3 @@ class openpsa_test_campaign_helper
         return $this->_message;
     }
 }
-?>

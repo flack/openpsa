@@ -27,4 +27,3 @@ interface midcom_helper_datamanager2_interfaces_view
      */
     public function get_schema_name();
 }
-?>

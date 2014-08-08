@@ -984,4 +984,3 @@ class midcom_services_toolbars
         echo "</div>\n";
     }
 }
-?>

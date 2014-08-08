@@ -209,4 +209,3 @@ class midcom_services_cache_module_memcache extends midcom_services_cache_module
         $this->put('PARENT', $object_guid, $parent_data);
     }
 }
-?>

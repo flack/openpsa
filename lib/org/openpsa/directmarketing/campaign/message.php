@@ -71,4 +71,3 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
         return $class;
     }
 }
-?>

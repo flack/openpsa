@@ -100,4 +100,3 @@ implements org_openpsa_contacts_duplicates_support
         return $config;
     }
 }
-?>

@@ -28,4 +28,3 @@ class org_openpsa_documents_viewer extends midcom_baseclasses_components_request
         org_openpsa_widgets_tree::add_head_elements();
     }
 }
-?>

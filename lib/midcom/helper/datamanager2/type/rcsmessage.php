@@ -54,4 +54,3 @@ class midcom_helper_datamanager2_type_rcsmessage extends midcom_helper_datamanag
         return $this->value;
     }
 }
-?>

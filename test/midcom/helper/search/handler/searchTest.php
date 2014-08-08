@@ -81,7 +81,4 @@ class midcom_helper_search_handler_searchTest extends openpsa_testcase
 
         $this->show_handler($data);
     }
-
-
 }
-?>

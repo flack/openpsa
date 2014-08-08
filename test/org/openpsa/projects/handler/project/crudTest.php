@@ -55,4 +55,3 @@ class org_openpsa_projects_handler_project_crudTest extends openpsa_testcase
         midcom::get()->auth->drop_sudo();
     }
 }
-?>

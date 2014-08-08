@@ -117,4 +117,3 @@ class midcom_admin_folder_selectcomponent extends  midcom_helper_datamanager2_wi
         return $output;
     }
 }
-?>

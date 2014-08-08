@@ -311,4 +311,3 @@ class org_openpsa_relatedto_collector extends midcom_core_collector
         return $guids;
     }
 }
-?>

@@ -438,4 +438,3 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
         return $root_classes;
     }
 }
-?>

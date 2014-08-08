@@ -152,4 +152,3 @@ abstract class midcom_services_cache_module
      */
     abstract function invalidate($guid, $object = null);
 }
-?>

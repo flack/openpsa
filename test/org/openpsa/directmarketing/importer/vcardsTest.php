@@ -62,4 +62,3 @@ class org_openpsa_directmarketing_importer_vcardsTest extends openpsa_testcase
         $this->assertEquals($expected, $result);
     }
 }
-?>

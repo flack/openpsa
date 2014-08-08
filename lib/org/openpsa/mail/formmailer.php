@@ -154,4 +154,3 @@ class org_openpsa_mail_formmailer extends midcom_baseclasses_components_purecode
         }
     }
 }
-?>

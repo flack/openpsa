@@ -326,4 +326,3 @@ class org_openpsa_slideshow_handler_edit extends midcom_baseclasses_components_h
         $image->update();
     }
 }
-?>

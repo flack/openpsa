@@ -36,4 +36,3 @@ class midcom_helper_filesync_interface extends midcom_baseclasses_components_int
         return "{$module_dir}/";
     }
 }
-?>

@@ -268,4 +268,3 @@ class midcom_config_test
         }
     }
 }
-?>

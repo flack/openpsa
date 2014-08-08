@@ -50,4 +50,3 @@ class org_openpsa_directmarketing_handler_message_reportTest extends openpsa_tes
         midcom::get()->auth->drop_sudo();
     }
 }
-?>

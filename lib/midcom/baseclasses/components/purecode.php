@@ -20,4 +20,3 @@
 abstract class midcom_baseclasses_components_purecode extends midcom_baseclasses_components_base
 {
 }
-?>

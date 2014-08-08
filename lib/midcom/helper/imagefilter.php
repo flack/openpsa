@@ -695,4 +695,3 @@ class midcom_helper_imagefilter
         $this->_run_command($cmd);
     }
 }
-?>

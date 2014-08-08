@@ -220,4 +220,3 @@ class midcom_services_permalinks
         return midcom::get()->config->get('midcom_site_url') . 'midcom-serveattachmentguid-' . $guid . '/' . urlencode($filename);
     }
 }
-?>

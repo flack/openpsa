@@ -120,4 +120,3 @@ class org_openpsa_projects_handler_workflow extends midcom_baseclasses_component
         //We actually should not ever get this far
     }
 }
-?>

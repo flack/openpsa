@@ -293,4 +293,3 @@ implements midcom_helper_datamanager2_interfaces_view, org_openpsa_widgets_grid_
         return $entry;
     }
 }
-?>

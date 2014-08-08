@@ -76,4 +76,3 @@ class org_routamc_positioning_aerodrome_dba extends midcom_core_dbaobject
         return true;
     }
 }
-?>

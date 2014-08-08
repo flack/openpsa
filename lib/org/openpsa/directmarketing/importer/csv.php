@@ -93,4 +93,3 @@ class org_openpsa_directmarketing_importer_csv extends org_openpsa_directmarketi
         return $contact;
     }
 }
-?>

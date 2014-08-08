@@ -1198,4 +1198,3 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         midcom::get()->header("Expires: " . gmdate("D, d M Y H:i:s", $expires) . " GMT");
     }
 }
-?>

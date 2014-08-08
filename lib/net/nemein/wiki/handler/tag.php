@@ -59,4 +59,3 @@ class net_nemein_wiki_handler_tag extends midcom_baseclasses_components_handler
         midcom_show_style('view-tagged');
     }
 }
-?>

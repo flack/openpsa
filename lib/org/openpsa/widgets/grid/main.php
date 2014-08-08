@@ -374,4 +374,3 @@ class org_openpsa_widgets_grid extends midcom_baseclasses_components_purecode
         return $string;
     }
 }
-?>

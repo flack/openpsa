@@ -49,4 +49,3 @@ class org_openpsa_mail_backend_bouncer extends org_openpsa_mail_backend
         return parent::get_error_message();
     }
 }
-?>

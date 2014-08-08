@@ -19,4 +19,3 @@ class midcom_db_privilege extends midcom_core_dbaobject
     public $_use_activitystream = false;
     public $_use_rcs = false;
 }
-?>

@@ -38,4 +38,3 @@ class org_openpsa_directmarketing_importer_simpleemails extends org_openpsa_dire
         return $parsed;
     }
 }
-?>

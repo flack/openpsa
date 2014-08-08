@@ -725,4 +725,3 @@ class midcom_services_indexer_document
         return $author->name;
     }
 }
-?>
