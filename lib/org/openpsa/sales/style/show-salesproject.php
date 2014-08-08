@@ -20,11 +20,11 @@ $salesproject = $data['salesproject'];
     <table class="info">
     <tr>
      <th><?php echo $data['l10n']->get('code'); ?></th>
-     <td>&(view['code']);</td>
+     <td>&(view['code']:h);</td>
     </tr>
     <tr>
      <th><?php echo $data['l10n']->get('state'); ?></th>
-     <td>&(view['state']);</td>
+     <td>&(view['state']:h);</td>
     </tr>
     <tr>
      <th><?php echo $data['l10n_midcom']->get('description'); ?></th>
@@ -34,11 +34,11 @@ $salesproject = $data['salesproject'];
     { ?>
         <tr>
          <th><?php echo $data['l10n']->get('estimated closing date'); ?></th>
-         <td>&(view['close_est']);</td>
+         <td>&(view['close_est']:h);</td>
         </tr>
         <tr>
          <th><?php echo $data['l10n']->get('probability'); ?></th>
-         <td>&(view['probability']);</td>
+         <td>&(view['probability']:h);</td>
         </tr>
     <?php } ?>
     <tr>
