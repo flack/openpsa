@@ -37,24 +37,17 @@ class org_openpsa_reports_handler_sales_report extends org_openpsa_reports_handl
         $data['start'] = $this->_request_data['query_data']['start'];
         $data['end'] = $this->_request_data['query_data']['end'];
 
-        // List sales projects
-        $salesproject_mc = org_openpsa_sales_salesproject_dba::new_collector('metadata.deleted', false);
-        $salesproject_mc->add_constraint('state', '<>', org_openpsa_sales_salesproject_dba::STATE_LOST);
-
-        if ($this->_request_data['query_data']['resource'] != 'all')
-        {
-            $this->_request_data['query_data']['resource_expanded'] = $this->_expand_resource($this->_request_data['query_data']['resource']);
-            if (!empty($this->_request_data['query_data']['resource_expanded']))
-            {
-                $salesproject_mc->add_constraint('owner', 'IN', $this->_request_data['query_data']['resource_expanded']);
-            }
-        }
-        $salesprojects = $salesproject_mc->get_values('id');
-
-        // List deliverables related to the sales projects
         $deliverable_mc = org_openpsa_sales_salesproject_deliverable_dba::new_collector('metadata.deleted', false);
         $deliverable_mc->add_constraint('state', '<>', org_openpsa_sales_salesproject_deliverable_dba::STATE_DECLINED);
-        $deliverable_mc->add_constraint('salesproject', 'IN', $salesprojects);
+        $deliverable_mc->add_constraint('salesproject.state', '<>', org_openpsa_sales_salesproject_dba::STATE_LOST);
+        if ($this->_request_data['query_data']['resource'] != 'all')
+        {
+            $resource_expanded = $this->_expand_resource($this->_request_data['query_data']['resource']);
+            if (!empty($resource_expanded))
+            {
+                $deliverable_mc->add_constraint('salesproject.owner', 'IN', $resource_expanded);
+            }
+        }
         $deliverables = $deliverable_mc->get_values('id');
 
         foreach ($deliverables as $guid => $id)
@@ -68,15 +61,16 @@ class org_openpsa_reports_handler_sales_report extends org_openpsa_reports_handl
     private function _get_deliverable_invoices($id)
     {
         $mc = org_openpsa_invoices_invoice_item_dba::new_collector('deliverable', $id);
+        $mc->add_constraint('invoice.sent', '>=', $this->_request_data['start']);
+        $mc->add_constraint('invoice.sent', '<=', $this->_request_data['end']);
         $ids = $mc->get_values('invoice');
         if (sizeof($ids) < 1)
         {
             return array();
         }
+
         $qb = org_openpsa_invoices_invoice_dba::new_query_builder();
         $qb->add_constraint('id', 'IN', $ids);
-        $qb->add_constraint('sent', '>=', $this->_request_data['start']);
-        $qb->add_constraint('sent', '<=', $this->_request_data['end']);
         return $qb->execute();
     }
 
@@ -112,20 +106,14 @@ class org_openpsa_reports_handler_sales_report extends org_openpsa_reports_handl
             'profit' => 0,
         );
         $odd = true;
-        foreach ($data['invoices'] as $deliverable_guid => $invoices)
+        foreach (array_filter($data['invoices'], 'count') as $deliverable_guid => $invoices)
         {
-            if (count($invoices) == 0)
-            {
-                // No invoices sent in this project, skip
-                continue;
-            }
-
             try
             {
                 $deliverable = org_openpsa_sales_salesproject_deliverable_dba::get_cached($deliverable_guid);
                 $product = org_openpsa_products_product_dba::get_cached($deliverable->product);
                 $salesproject = org_openpsa_sales_salesproject_dba::get_cached($deliverable->salesproject);
-                $customer = midcom_db_group::get_cached($salesproject->customer);
+                $customer = $salesproject->get_customer();
             }
             catch (midcom_error $e)
             {
@@ -182,12 +170,12 @@ class org_openpsa_reports_handler_sales_report extends org_openpsa_reports_handl
                 {
                     // Subscription doesn't have an end date, use specified amount of months for calculation
                     $cycles = $scheduler->calculate_cycles($this->_config->get('subscription_profit_months'));
-                    $data['calculation_basis'] = sprintf($data['l10n']->get('%s cycles in %s months'), $cycles, $this->_config->get('subscription_profit_months'));
+                    $data['calculation_basis'] = sprintf($this->_l10n->get('%s cycles in %s months'), $cycles, $this->_config->get('subscription_profit_months'));
                 }
                 else
                 {
                     $cycles = $scheduler->calculate_cycles();
-                    $data['calculation_basis'] = sprintf($data['l10n']->get('%s cycles, %s - %s'), $cycles, strftime('%x', $deliverable->start), strftime('%x', $deliverable->end));
+                    $data['calculation_basis'] = sprintf($this->_l10n->get('%s cycles, %s - %s'), $cycles, strftime('%x', $deliverable->start), strftime('%x', $deliverable->end));
                 }
 
                 $price = $deliverable->price * $cycles;
@@ -207,7 +195,7 @@ class org_openpsa_reports_handler_sales_report extends org_openpsa_reports_handl
                     $cost = $deliverable->cost;
                 }
                 $price = $invoice_price;
-                $data['calculation_basis'] = sprintf($data['l10n']->get('%s%% of %s'), round($cost_percentage), $deliverable->price);
+                $data['calculation_basis'] = sprintf($this->_l10n->get('%s%% of %s'), round($cost_percentage), $deliverable->price);
             }
 
             // And now just count the profit

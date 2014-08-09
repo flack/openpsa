@@ -19,7 +19,7 @@ $deliverable = $data['deliverable'];
             <?php
         }
         ?>
-        <td>&(customer.official);</td>
+        <td><?php echo $customer->get_label(); ?></td>
         <td>&(salesproject.title);</td>
         <td>&(deliverable.title);</td>
         <td class="numeric"><?php echo sprintf("%01.2f", $data['price']); ?></td>
