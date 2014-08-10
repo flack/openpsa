@@ -2,20 +2,8 @@
 ---VERSION 2.1.0
 ---LANGUAGE en
 
----STRING %s cycles in %s months
-%s cycles in %s months
----STRINGEND
-
----STRING %s cycles, %s - %s
-%s cycles, %s - %s
----STRINGEND
-
 ---STRING %s planned
 %s planned
----STRINGEND
-
----STRING %s%% of %s
-%s%% of %s
 ---STRINGEND
 
 ---STRING action new_subscription_cycle
@@ -39,10 +27,6 @@ Agreement %s is scheduled to end on %s.
 Click here for details:
 
 %s
----STRINGEND
-
----STRING calculation basis
-calculation basis
 ---STRINGEND
 
 ---STRING canceled

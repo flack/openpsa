@@ -2,20 +2,8 @@
 ---VERSION 2.1.0
 ---LANGUAGE hu
 
----STRING %s cycles in %s months
-%s ciklus %s hónapban
----STRINGEND
-
----STRING %s cycles, %s - %s
-%s ciklus, %s - %s
----STRINGEND
-
 ---STRING %s planned
 %s tervezett
----STRINGEND
-
----STRING %s%% of %s
-%s%% %s elemében
 ---STRINGEND
 
 ---STRING action new_subscription_cycle
@@ -28,10 +16,6 @@ Aktív
 
 ---STRING add offer
 Szállítás hozzáadása
----STRINGEND
-
----STRING calculation basis
-számítási alap
 ---STRINGEND
 
 ---STRING canceled

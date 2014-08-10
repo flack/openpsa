@@ -2,20 +2,8 @@
 ---VERSION 2.1.0
 ---LANGUAGE fi
 
----STRING %s cycles in %s months
-%s kautta %s kuukaudessa
----STRINGEND
-
----STRING %s cycles, %s - %s
-%s kautta, %s - %s
----STRINGEND
-
 ---STRING %s planned
 %s arvioitua
----STRINGEND
-
----STRING %s%% of %s
-%s%% %s:sta
 ---STRINGEND
 
 ---STRING action new_subscription_cycle
@@ -28,10 +16,6 @@ Käynnissä
 
 ---STRING add offer
 Lisää tuote
----STRINGEND
-
----STRING calculation basis
-Laskutapa
 ---STRINGEND
 
 ---STRING canceled

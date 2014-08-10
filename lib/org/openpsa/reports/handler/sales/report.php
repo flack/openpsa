@@ -12,7 +12,92 @@
  * @package org.openpsa.reports
  */
 class org_openpsa_reports_handler_sales_report extends org_openpsa_reports_handler_base
+implements org_openpsa_widgets_grid_provider_client
 {
+    /**
+     * {@inheritdoc}
+     */
+    public function get_qb($field = null, $direction = 'ASC')
+    {
+        $qb = org_openpsa_invoices_invoice_item_dba::new_query_builder();
+        $deliverables = array();
+
+        $deliverable_mc = org_openpsa_sales_salesproject_deliverable_dba::new_collector('metadata.deleted', false);
+        $deliverable_mc->add_constraint('state', '<>', org_openpsa_sales_salesproject_deliverable_dba::STATE_DECLINED);
+        $deliverable_mc->add_constraint('salesproject.state', '<>', org_openpsa_sales_salesproject_dba::STATE_LOST);
+        if ($this->_request_data['query_data']['resource'] != 'all')
+        {
+            $resource_expanded = $this->_expand_resource($this->_request_data['query_data']['resource']);
+            if (!empty($resource_expanded))
+            {
+                $deliverable_mc->add_constraint('salesproject.owner', 'IN', $resource_expanded);
+            }
+        }
+        $deliverables = $deliverable_mc->get_values('id');
+        if (!empty($deliverables))
+        {
+            $qb->add_constraint('deliverable', 'IN', $deliverables);
+            $qb->add_constraint('invoice.sent', '>=', $this->_request_data['start']);
+            $qb->add_constraint('invoice.sent', '<=', $this->_request_data['end']);
+        }
+        else
+        {
+            $qb->add_constraint('id', 'IN', $ids);
+        }
+
+        return $qb;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function get_row(midcom_core_dbaobject $object)
+    {
+        $invoices_url = org_openpsa_core_siteconfig::get_instance()->get_node_full_url('org.openpsa.invoices');
+        $row = array
+        (
+            'invoice' => '',
+            'index_invoice' => '',
+            'owner' => '',
+            'index_owner' => '',
+            'customer' => '',
+            'salesproject' => '',
+            'product' => '',
+            'item' => '',
+            'amount' => 0
+        );
+
+        try
+        {
+            $invoice = org_openpsa_invoices_invoice_dba::get_cached($object->invoice);
+            $row['index_invoice'] = $invoice->number;
+            $row['invoice'] = $invoice->get_label();
+            if ($invoices_url)
+            {
+                $row['invoice'] = "<a href=\"{$invoices_url}invoice/{$invoice->guid}/\">" . $row['invoice'] . "</a>";
+            }
+            $deliverable = org_openpsa_sales_salesproject_deliverable_dba::get_cached($object->deliverable);
+            $row['deliverable'] = $deliverable->title;
+            $product = org_openpsa_products_product_dba::get_cached($deliverable->product);
+            $row['product'] = $product->title;
+            $salesproject = org_openpsa_sales_salesproject_dba::get_cached($deliverable->salesproject);
+            $row['salesproject'] = $salesproject->title;
+            $customer = $salesproject->get_customer();
+            $row['customer'] = $customer->get_label();
+            $owner = org_openpsa_contacts_person_dba::get_cached($salesproject->owner);
+            $row['index_owner'] = $owner->name;
+            $row['owner'] = org_openpsa_widgets_contact::get($owner->guid)->show_inline();
+        }
+        catch (midcom_error $e)
+        {
+            $e->log();
+        }
+        $row['amount'] = $object->pricePerUnit * $object->units;
+        $row['item'] = $object->description;
+
+        return $row;
+    }
+
     public function _on_initialize()
     {
         $this->module = 'sales';
@@ -37,25 +122,8 @@ class org_openpsa_reports_handler_sales_report extends org_openpsa_reports_handl
         $data['start'] = $this->_request_data['query_data']['start'];
         $data['end'] = $this->_request_data['query_data']['end'];
 
-        $deliverable_mc = org_openpsa_sales_salesproject_deliverable_dba::new_collector('metadata.deleted', false);
-        $deliverable_mc->add_constraint('state', '<>', org_openpsa_sales_salesproject_deliverable_dba::STATE_DECLINED);
-        $deliverable_mc->add_constraint('salesproject.state', '<>', org_openpsa_sales_salesproject_dba::STATE_LOST);
-        if ($this->_request_data['query_data']['resource'] != 'all')
-        {
-            $resource_expanded = $this->_expand_resource($this->_request_data['query_data']['resource']);
-            if (!empty($resource_expanded))
-            {
-                $deliverable_mc->add_constraint('salesproject.owner', 'IN', $resource_expanded);
-            }
-        }
-        $deliverables = $deliverable_mc->get_values('id');
-
-        foreach ($deliverables as $guid => $id)
-        {
-            $data['invoices'][$guid] = $this->_get_deliverable_invoices($id);
-        }
-
-        $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/list.css");
+        $provider = new org_openpsa_widgets_grid_provider($this, 'local');
+        $data['grid'] = $provider->get_grid('deliverable_report_grid');
     }
 
     private function _get_deliverable_invoices($id)
@@ -94,145 +162,8 @@ class org_openpsa_reports_handler_sales_report extends org_openpsa_reports_handl
             // Generic report
             $data['handler_id'] = 'sales_report';
         }
-        midcom_show_style('sales_report-deliverable-header');
 
-        $invoices_node = midcom_helper_misc::find_node_by_component('org.openpsa.invoices');
-
-        $sums_per_person = Array();
-        $sums_all = Array
-        (
-            'price'  => 0,
-            'cost'   => 0,
-            'profit' => 0,
-        );
-        $odd = true;
-        foreach (array_filter($data['invoices'], 'count') as $deliverable_guid => $invoices)
-        {
-            try
-            {
-                $deliverable = org_openpsa_sales_salesproject_deliverable_dba::get_cached($deliverable_guid);
-                $product = org_openpsa_products_product_dba::get_cached($deliverable->product);
-                $salesproject = org_openpsa_sales_salesproject_dba::get_cached($deliverable->salesproject);
-                $customer = $salesproject->get_customer();
-            }
-            catch (midcom_error $e)
-            {
-                continue;
-            }
-            if (!array_key_exists($salesproject->owner, $sums_per_person))
-            {
-                $sums_per_person[$salesproject->owner] = Array
-                (
-                    'price'  => 0,
-                    'cost'   => 0,
-                    'profit' => 0,
-                );
-            }
-
-            // Calculate the price and cost from invoices
-            $invoice_price = 0;
-            $data['invoice_string'] = '';
-            $invoice_cycle_numbers = Array();
-            foreach ($invoices as $invoice)
-            {
-                $invoice_price += $invoice->sum;
-                $invoice_class = $invoice->get_status();
-
-                if ($invoices_node)
-                {
-                    $invoice_label = "<a class=\"{$invoice_class}\" href=\"{$invoices_node[MIDCOM_NAV_ABSOLUTEURL]}invoice/{$invoice->guid}/\">" . $invoice->get_label() . "</a>";
-                }
-                else
-                {
-                    $invoice_label = $invoice->get_label();
-                }
-
-                if ($product->delivery == org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION)
-                {
-                    $invoice_cycle_numbers[] = (int) $invoice->parameter('org.openpsa.sales', 'cycle_number');
-                }
-
-                $data['invoice_string'] .= "<li class=\"{$invoice_class}\">{$invoice_label}</li>\n";
-            }
-
-            if ($product->delivery == org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION)
-            {
-                // This is a subscription, it should be shown only if it is the first invoice
-                if (!in_array(1, $invoice_cycle_numbers))
-                {
-                    continue;
-                    // This will skip to next deliverable
-                }
-
-                $scheduler = new org_openpsa_invoices_scheduler($deliverable);
-
-                if ($deliverable->end == 0)
-                {
-                    // Subscription doesn't have an end date, use specified amount of months for calculation
-                    $cycles = $scheduler->calculate_cycles($this->_config->get('subscription_profit_months'));
-                    $data['calculation_basis'] = sprintf($this->_l10n->get('%s cycles in %s months'), $cycles, $this->_config->get('subscription_profit_months'));
-                }
-                else
-                {
-                    $cycles = $scheduler->calculate_cycles();
-                    $data['calculation_basis'] = sprintf($this->_l10n->get('%s cycles, %s - %s'), $cycles, strftime('%x', $deliverable->start), strftime('%x', $deliverable->end));
-                }
-
-                $price = $deliverable->price * $cycles;
-                $cost = $deliverable->cost * $cycles;
-            }
-            else
-            {
-                // This is a single delivery, calculate cost as percentage as it may be invoiced in pieces
-                if ($deliverable->price)
-                {
-                    $cost_percentage = 100 / $deliverable->price * $invoice_price;
-                    $cost = $deliverable->cost / 100 * $cost_percentage;
-                }
-                else
-                {
-                    $cost_percentage = 100;
-                    $cost = $deliverable->cost;
-                }
-                $price = $invoice_price;
-                $data['calculation_basis'] = sprintf($this->_l10n->get('%s%% of %s'), round($cost_percentage), $deliverable->price);
-            }
-
-            // And now just count the profit
-            $profit = $price - $cost;
-            $data['customer'] = $customer;
-            $data['salesproject'] = $salesproject;
-            $data['deliverable'] = $deliverable;
-
-            $data['price'] = $price;
-            $sums_per_person[$salesproject->owner]['price'] += $price;
-            $sums_all['price'] += $price;
-
-            $data['cost'] = $cost;
-            $sums_per_person[$salesproject->owner]['cost'] += $cost;
-            $sums_all['cost'] += $cost;
-
-            $data['profit'] = $profit;
-            $sums_per_person[$salesproject->owner]['profit'] += $profit;
-            $sums_all['profit'] += $profit;
-
-            if ($odd)
-            {
-                $data['row_class'] = '';
-                $odd = false;
-            }
-            else
-            {
-                $data['row_class'] = ' class="even"';
-                $odd = true;
-            }
-
-            midcom_show_style('sales_report-deliverable-item');
-        }
-
-        $data['sums_per_person'] = $sums_per_person;
-        $data['sums_all'] = $sums_all;
-        midcom_show_style('sales_report-deliverable-footer');
+        midcom_show_style('sales_report-deliverable-grid');
         midcom_show_style('sales_report-deliverable-end');
     }
 }
