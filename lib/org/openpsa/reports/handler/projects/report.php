@@ -77,7 +77,6 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
     private function _apply_filter(midcom_core_query $qb, $name, $field, $value)
     {
         $filter = $name . '_filter';
-        debug_add('checking for ' . $filter);
         if (array_key_exists($filter, $this->_request_data['query_data']))
         {
             debug_add($filter . ' detected, raw value: ' . $this->_request_data['query_data'][$filter]);
@@ -248,19 +247,8 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
      */
     public function _show_generator($handler_id, array &$data)
     {
-        // Builtin style prefix
-        if (preg_match('/^builtin:(.+)/', $this->_request_data['query_data']['style'], $matches))
-        {
-            $bpr = '-' . $matches[1];
-        }
-        else
-        {
-            debug_add("'{$this->_request_data['query_data']['style']}' not recognized as builtin style");
-            $bpr = '';
-        }
-
         //Mangling if report wants to do it (done here to have style context, otherwise MidCOM will not like us.
-        midcom_show_style("projects_report{$bpr}-mangle-query");
+        midcom_show_style("projects_report-basic-mangle-query");
         //Handle grouping
         if (!empty($this->_request_data['query_data']['grouping']))
         {
@@ -294,22 +282,22 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
         //TODO: add other report types when supported
         if (empty($this->_request_data['raw_results']['hr']))
         {
-            midcom_show_style("projects_report{$bpr}-noresults");
+            midcom_show_style("projects_report-basic-noresults");
             return;
         }
 
         //Start actual display
 
         //Indented to make style flow clearer
-        midcom_show_style("projects_report{$bpr}-start");
-            midcom_show_style("projects_report{$bpr}-header");
-                $this->_show_generator_group($this->_request_data['report']['rows'], $bpr);
-            midcom_show_style("projects_report{$bpr}-totals");
-            midcom_show_style("projects_report{$bpr}-footer");
-        midcom_show_style("projects_report{$bpr}-end");
+        midcom_show_style("projects_report-basic-start");
+            midcom_show_style("projects_report-basic-header");
+                $this->_show_generator_group($this->_request_data['report']['rows']);
+            midcom_show_style("projects_report-basic-totals");
+            midcom_show_style("projects_report-basic-footer");
+        midcom_show_style("projects_report-basic-end");
     }
 
-    public function _show_generator_group(array $data, $bpr, $level = 0)
+    public function _show_generator_group(array $data, $level = 0)
     {
         foreach ($data as $row)
         {
@@ -320,16 +308,16 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
             {
                 $this->_request_data['current_group'] = $row;
                 //Indented to make style flow clearer
-                midcom_show_style("projects_report{$bpr}-group-start");
-                    midcom_show_style("projects_report{$bpr}-group-header");
-                        $this->_show_generator_group($row['rows'], $bpr, $level + 1);
-                    midcom_show_style("projects_report{$bpr}-group-totals");
-                    midcom_show_style("projects_report{$bpr}-group-footer");
-                midcom_show_style("projects_report{$bpr}-group-end");
+                midcom_show_style("projects_report-basic-group-start");
+                    midcom_show_style("projects_report-basic-group-header");
+                        $this->_show_generator_group($row['rows'], $level + 1);
+                    midcom_show_style("projects_report-basic-group-totals");
+                    midcom_show_style("projects_report-basic-group-footer");
+                midcom_show_style("projects_report-basic-group-end");
             }
             else
             {
-                midcom_show_style("projects_report{$bpr}-item");
+                midcom_show_style("projects_report-basic-item");
             }
         }
     }

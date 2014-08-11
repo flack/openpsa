@@ -32,27 +32,6 @@
                 'default'       => '.html',
                 'end_fieldset'  => '',
             ),
-            'style' => array
-            (
-                'title'   => 'Report style',
-                'storage'      => 'style',
-                'type'      => 'select',
-                'type_config' => array
-                (
-                    'options' => array
-                    (
-                        'builtin:basic'     => 'Basic report',
-                        'builtin:weekly'    => 'Weekly report',
-                    ),
-                ),
-                'widget'        => 'radiocheckselect',
-                'default'       => 'builtin:basic',
-                'start_fieldset'  => array
-                (
-                    'title'     => 'report style',
-                    'css_group' => 'area',
-                ),
-            ),
             'grouping' => array
             (
                 'title'   => 'Report grouping',
@@ -68,6 +47,11 @@
                     ),
                 ),
                 'default'       => 'date',
+                'start_fieldset'  => array
+                (
+                    'title'     => 'report style',
+                    'css_group' => 'area',
+                ),
                 'end_fieldset'  => '',
             ),
             'start' => array
