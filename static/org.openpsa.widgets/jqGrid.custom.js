@@ -534,31 +534,35 @@ var org_openpsa_grid_helper =
     previous_groupings: [],
     bind_grouping_switch: function(grid_id)
     {
-        var group_conf = $('#' + grid_id).jqGrid('getGridParam', 'groupingView');
+        var group_conf = $('#' + grid_id).jqGrid('getGridParam', 'groupingView'),
+            active = $('#' + grid_id).jqGrid('getGridParam', 'grouping');
         org_openpsa_grid_helper.previous_groupings[grid_id] = group_conf.groupField[0];
-        $("#chgrouping_" + grid_id).bind('change', function()
-        {
-            var selection = $(this).val();
-            if (selection)
+
+        $("#chgrouping_" + grid_id)
+            .val((active) ? group_conf.groupField[0] : 'clear')
+            .bind('change', function()
             {
-                if (selection == "clear")
+                var selection = $(this).val();
+                if (selection)
                 {
-                    $("#" + grid_id).jqGrid('groupingRemove', true);
-                    // Workaround for https://github.com/tonytomov/jqGrid/issues/431
-                    $("#" + grid_id).jqGrid('showCol', org_openpsa_grid_helper.previous_groupings[grid_id]);
-                }
-                else
-                {
-                    $("#" + grid_id).jqGrid('groupingGroupBy', selection);
-                    if (selection !== org_openpsa_grid_helper.previous_groupings[grid_id])
+                    if (selection == "clear")
                     {
+                        $("#" + grid_id).jqGrid('groupingRemove', true);
                         // Workaround for https://github.com/tonytomov/jqGrid/issues/431
                         $("#" + grid_id).jqGrid('showCol', org_openpsa_grid_helper.previous_groupings[grid_id]);
                     }
+                    else
+                    {
+                        $("#" + grid_id).jqGrid('groupingGroupBy', selection);
+                        if (selection !== org_openpsa_grid_helper.previous_groupings[grid_id])
+                        {
+                            // Workaround for https://github.com/tonytomov/jqGrid/issues/431
+                            $("#" + grid_id).jqGrid('showCol', org_openpsa_grid_helper.previous_groupings[grid_id]);
+                        }
+                    }
+                    jQuery(window).trigger('resize');
                 }
-                jQuery(window).trigger('resize');
-            }
-        });
+            });
     },
     set_tooltip: function (grid_id, column, tooltip)
     {
