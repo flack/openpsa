@@ -25,15 +25,19 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
 
     function get_status()
     {
+        if ($this->id == 0)
+        {
+            return 'scheduled';
+        }
         if ($this->sent == 0)
         {
             return 'unsent';
         }
-        else if ($this->paid > 0)
+        if ($this->paid > 0)
         {
             return 'paid';
         }
-        else if ($this->due < time())
+        if ($this->due < time())
         {
             return 'overdue';
         }

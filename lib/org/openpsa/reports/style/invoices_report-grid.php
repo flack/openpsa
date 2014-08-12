@@ -1,8 +1,10 @@
 <?php
 $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
+$l10n = midcom::get()->i18n->get_l10n('org.openpsa.invoices');
+
 $entries = array();
 
-$grid_id = $data['table_class'] . '_invoices_grid';
+$grid_id = 'invoices_report_grid';
 
 $footer_data = array
 (
@@ -10,21 +12,8 @@ $footer_data = array
     'sum' => 0,
     'vat_sum' => 0
 );
-$sortname = 'index_number';
+$sortname = 'date';
 $sortorder = 'asc';
-
-if ($data['table_class'] == 'paid')
-{
-    $sortorder = 'desc';
-}
-if ($data['table_class'] != 'unsent')
-{
-    $sortname = 'date';
-}
-else
-{
-    $sortname = 'index_number';
-}
 
 foreach ($data['invoices'] as $invoice)
 {
@@ -61,20 +50,6 @@ foreach ($data['invoices'] as $invoice)
         $entry['number'] = $invoice->description;
     }
 
-    $entry['owner'] = '';
-    if (!empty($invoice->owner))
-    {
-        try
-        {
-            $owner = org_openpsa_contacts_person_dba::get_cached($invoice->owner);
-            $entry['owner'] = $owner->name;
-        }
-        catch (midcom_error $e)
-        {
-            $e->log();
-        }
-    }
-
     if ($invoice->{$data['date_field']} > 0)
     {
         $entry['date'] = strftime('%Y-%m-%d', $invoice->{$data['date_field']});
@@ -105,6 +80,9 @@ foreach ($data['invoices'] as $invoice)
     $entry['index_contact'] = '';
     $entry['contact'] = '';
 
+    $entry['index_status'] = $invoice->get_status();
+    $entry['status'] = $l10n->get($entry['index_status']);
+
     try
     {
         $contact = org_openpsa_contacts_person_dba::get_cached($invoice->customerContact);
@@ -128,24 +106,22 @@ if ($data['date_field'] == 'date')
     $data['date_field'] = 'invoice date';
 }
 
-$l10n = midcom::get()->i18n->get_l10n('org.openpsa.invoices');
 $grid = new org_openpsa_widgets_grid($grid_id, 'local');
 
-$grid->set_column('number', $l10n->get('invoice number'), 'width: 80', 'string')
-    ->set_column('owner', '')
+$grid->set_column('number', $l10n->get('invoice number'), 'width: 120', 'string')
+    ->set_column('status', $l10n->get('invoice status'), '', 'string')
     ->set_column('date', $l10n->get($data['date_field']), 'width: 80, fixed: true, formatter: "date", align: "center"')
     ->set_column('customer', $l10n->get('customer'), 'width: 100', 'string')
     ->set_column('contact', $l10n->get('customer contact'), 'width: 100', 'string')
-    ->set_column('sum', $l10n->get('customer contact'), 'width: 90, fixed: true, sorttype: "number", formatter: "number", align: "right", summaryType:"sum"')
+    ->set_column('sum', $l10n->get('sum excluding vat'), 'width: 90, fixed: true, sorttype: "number", formatter: "number", align: "right", summaryType:"sum"')
     ->set_column('vat', $l10n->get('vat'), 'width: 40, fixed: true, align: "right"', 'number')
     ->set_column('vat_sum', $l10n->get('vat sum'), 'width: 70, fixed: true, sorttype: "number", formatter: "number", align: "right", summaryType:"sum"');
 
 $grid->set_option('loadonce', true)
-    ->set_option('caption', $data['table_title'])
     ->set_option('grouping', true)
     ->set_option('groupingView', array
          (
-             'groupField' => array('owner'),
+             'groupField' => array('status'),
              'groupColumnShow' => array(false),
              'groupText' => array('<strong>{0}</strong> ({1})'),
              'groupOrder' => array('asc'),
@@ -157,8 +133,19 @@ $grid->set_option('loadonce', true)
 
 $grid->set_footer_data($footer_data);
 ?>
+<div class="grid-filters">
+<?php
+echo ' ' . midcom::get()->i18n->get_string('group by', 'org.openpsa.core') . ': ';
+echo '<select id="chgrouping_' . $grid_id . '">';
+echo '<option value="status">' . $l10n->get('invoice status') . "</option>\n";
+echo '<option value="customer">' . $l10n->get('customer') . "</option>\n";
+echo '<option value="contact">' . $l10n->get('customer contact') . "</option>\n";
+echo '<option value="clear">' . midcom::get()->i18n->get_string('no grouping', 'org.openpsa.core') . "</option>\n";
+echo '</select>';
+?>
+</div>
 
-<div class="report &(data['table_class']); org_openpsa_invoices full-width">
+<div class="report org_openpsa_invoices full-width fill-height">
 <?php
     echo $grid->render($entries);
 ?>
@@ -167,7 +154,7 @@ $grid->set_footer_data($footer_data);
 <?php
 $host_prefix = midcom::get()->get_host_prefix();
 
-$filename = $data['l10n']->get($data['table_title']);
+$filename = sprintf($data['l10n']->get('invoice report %s - %s'), strftime('%x', $data['start']), strftime('%x', $data['end']));
 $filename .= '_' . date('Y_m_d');
 $filename = preg_replace('/[^a-z0-9-]/i', '_', $filename);
 ?>
@@ -183,15 +170,16 @@ $filename = preg_replace('/[^a-z0-9-]/i', '_', $filename);
 org_openpsa_export_csv.add({
       id: '&(grid_id);',
       fields: {
-          index_number: '<?php echo midcom::get()->i18n->get_string('invoice number', 'org.openpsa.invoices'); ?>',
+          index_number: '<?php echo $l10n->get('invoice number'); ?>',
+          status: '<?php echo $l10n->get('status'); ?>',
           date: '<?php echo $data['l10n_midcom']->get('date'); ?>',
-          owner: '<?php echo $data['l10n_midcom']->get('owner'); ?>',
-          index_customer: '<?php echo midcom::get()->i18n->get_string('customer', 'org.openpsa.invoices'); ?>',
-          index_contact: '<?php echo midcom::get()->i18n->get_string('customer contact', 'org.openpsa.invoices'); ?>',
-          sum: '<?php echo midcom::get()->i18n->get_string('sum excluding vat', 'org.openpsa.invoices'); ?>',
-          vat: '<?php echo midcom::get()->i18n->get_string('vat', 'org.openpsa.invoices'); ?>',
-          vat_sum: '<?php echo midcom::get()->i18n->get_string('vat sum', 'org.openpsa.invoices'); ?>'
+          index_customer: '<?php echo $l10n->get('customer'); ?>',
+          index_contact: '<?php echo $l10n->get('customer contact'); ?>',
+          sum: '<?php echo $l10n->get('sum excluding vat'); ?>',
+          vat: '<?php echo $l10n->get('vat'); ?>',
+          vat_sum: '<?php echo $l10n->get('vat sum'); ?>'
         }
 });
+org_openpsa_grid_helper.bind_grouping_switch('&(grid_id);');
 
 </script>

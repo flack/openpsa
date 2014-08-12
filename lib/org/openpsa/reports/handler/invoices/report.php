@@ -47,7 +47,7 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
         $data['invoices'] = array();
         foreach ($data['query_data']['invoice_status'] as $status)
         {
-            $data['invoices'][$status] = $this->_load_invoices($status);
+            $data['invoices'] = array_merge($data['invoices'], $this->_load_invoices($status));
         }
 
         org_openpsa_widgets_grid::add_head_elements();
@@ -189,17 +189,15 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
                 break;
             case 'overdue':
                 $qb->add_constraint('sent', '>', 0);
-                $qb->add_constraint('due', '<', mktime(0, 0, 0, date('n'), date('j') - 1, date('Y')));
+                $qb->add_constraint('due', '<', time());
                 $qb->add_constraint('paid', '=', 0);
                 break;
             case 'open':
                 $qb->add_constraint('sent', '>', 0);
                 $qb->add_constraint('paid', '=', 0);
-                $qb->add_constraint('due', '>', mktime(0, 0, 0, date('n'), date('j') - 1, date('Y')));
+                $qb->add_constraint('due', '>=', time());
                 break;
         }
-
-        $qb->add_order($this->_request_data['date_field'], 'DESC');
 
         return $qb->execute();
     }
@@ -213,28 +211,12 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
     {
         midcom_show_style('invoices_report-start');
 
-        foreach ($data['invoices'] as $type => $invoices)
-        {
-            if (   is_array($invoices)
-                && !empty($invoices))
-            {
-                $this->_show_table($type, $invoices, $data);
-            }
-        }
-        midcom_show_style('invoices_report-end');
-    }
-
-    private function _show_table($type, $invoices, array &$data)
-    {
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
         $data['invoices_url'] = $siteconfig->get_node_full_url('org.openpsa.invoices');
         $data['contacts_url'] = $siteconfig->get_node_full_url('org.openpsa.contacts');
 
-        $data['table_class'] = $type;
-        $data['table_title'] = $this->_i18n->get_string($type . ' invoices', 'org.openpsa.invoices');
-
-        $data['invoices'] = $invoices;
-
         midcom_show_style('invoices_report-grid');
+
+        midcom_show_style('invoices_report-end');
     }
 }

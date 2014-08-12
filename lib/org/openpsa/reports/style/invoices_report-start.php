@@ -8,27 +8,9 @@ $title = sprintf($data['l10n']->get('invoice report %s - %s'), strftime('%x', $d
         <link rel="stylesheet" type="text/css" href="<?php echo MIDCOM_STATIC_URL; ?>/org.openpsa.reports/common.css" />
         <link rel="stylesheet" type="text/css" href="<?php echo MIDCOM_STATIC_URL; ?>/org.openpsa.invoices/invoices.css" />
         <?php midcom::get()->head->print_head_elements(); ?>
-        <script type="text/javascript">
-//copied from templates/OpenPsa2/ui.js, should be moved to a better place at some point...
-var org_openpsa_jsqueue = {
-    actions: [],
-    add: function (action)
-    {
-        this.actions.push(action);
-    },
-    execute: function()
-    {
-        for (var i = 0; i < this.actions.length; i++)
-        {
-            this.actions[i]();
-        }
-        this.actions = [];
-    }
-};
-        </script>
     </head>
     <body>
-        <div class="org_openpsa_reports_report org_openpsa_invoices">
+        <div id="content-text" class="org_openpsa_reports_report org_openpsa_invoices">
             <div class="header">
                 <?php midcom_show_style('projects_report-basic-header-logo'); ?>
                 <h1>&(title);</h1>

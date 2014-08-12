@@ -1,6 +1,11 @@
         </div>
-        <script type="text/javascript">
-              jQuery(document).ready(org_openpsa_jsqueue.execute());
-        </script>
+    <script type="text/javascript">
+    org_openpsa_layout.resize_content('#content-text');
+
+    jQuery(document).ready(function()
+    {
+        org_openpsa_jsqueue.execute()
+    });
+    </script>
     </body>
 </html>
