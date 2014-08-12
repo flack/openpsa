@@ -55,7 +55,7 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
 
     private function _get_invoices_for_subscription($deliverable, $at_entry)
     {
-        if (   $deliverable->invoiceByActualUnits
+        if ( $deliverable->invoiceByActualUnits
             && $at_entry->arguments['cycle'] > 1)
         {
             $invoice_sum = $deliverable->invoiced / ($at_entry->arguments['cycle'] - 1);
@@ -71,35 +71,15 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
             $calculation_base = $this->_l10n->get('fixed price');
         }
 
-        $salesproject = org_openpsa_sales_salesproject_dba::get_cached($deliverable->salesproject);
-        $scheduler = new org_openpsa_invoices_scheduler($deliverable);
-
         $invoices = array();
         $time = $at_entry->start;
+        $scheduler = new org_openpsa_invoices_scheduler($deliverable);
 
         while (   $time < $this->_request_data['end']
                && (   $time < $deliverable->end
                    || $deliverable->continuous))
         {
-            $invoice = new org_openpsa_invoices_invoice_dba();
-            $invoice->customer = $salesproject->customer;
-            $invoice->customerContact = $salesproject->customerContact;
-            $invoice->owner = $salesproject->owner;
-            $invoice->sum = $invoice_sum;
-
-            $invoice->sent = $time;
-            $invoice->due = ($invoice->get_default('due') * 3600 * 24) + $time;
-            $invoice->vat = $invoice->get_default('vat');
-
-            $invoice->description = $deliverable->title . ' (' . $calculation_base . ')';
-            if ($this->_sales_url)
-            {
-                $invoice->description = '<a href="' . $this->_sales_url . 'deliverable/' . $deliverable->guid . '/">' . $invoice->description . '</a>';
-            }
-
-            $invoice->paid = $invoice->due;
-
-            $invoices[] = $invoice;
+            $invoices[] = $this->get_invoice_for_deliverable($deliverable, $invoice_sum, $time, $calculation_base);
 
             if (!$time = $scheduler->calculate_cycle_next($time))
             {
@@ -109,6 +89,28 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
         }
 
         return $invoices;
+    }
+
+
+    private function get_invoice_for_deliverable(org_openpsa_sales_salesproject_deliverable_dba $deliverable, $sum, $time, $calculation_base)
+    {
+        $salesproject = org_openpsa_sales_salesproject_dba::get_cached($deliverable->salesproject);
+        $invoice = new org_openpsa_invoices_invoice_dba;
+        $invoice->customer = $salesproject->customer;
+        $invoice->customerContact = $salesproject->customerContact;
+        $invoice->owner = $salesproject->owner;
+        $invoice->sum = $sum;
+        $invoice->sent = $time;
+        $invoice->due = ($invoice->get_default('due') * 3600 * 24) + $time;
+        $invoice->vat = $invoice->get_default('vat');
+        $invoice->description = $deliverable->title . ' (' . $calculation_base . ')';
+        if ($this->_sales_url)
+        {
+            $invoice->description = '<a href="' . $this->_sales_url . 'deliverable/' . $deliverable->guid . '/">' . $invoice->description . '</a>';
+        }
+        $invoice->paid = $invoice->due;
+
+        return $invoice;
     }
 
     private function _get_scheduled_invoices()
@@ -132,11 +134,41 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
             }
             catch (midcom_error $e){}
         }
-
+        $invoices = array_merge($invoices, $this->_get_deliverable_invoices());
         $invoices = array_filter($invoices, array($this, '_filter_by_date'));
 
         usort($invoices, array($this, '_sort_by_date'));
 
+        return $invoices;
+    }
+
+    private function _get_deliverable_invoices()
+    {
+        $invoices = array();
+        $qb = org_openpsa_sales_salesproject_deliverable_dba::new_query_builder();
+        $states = array
+        (
+            org_openpsa_sales_salesproject_deliverable_dba::STATE_DELIVERED,
+            org_openpsa_sales_salesproject_deliverable_dba::STATE_STARTED,
+            org_openpsa_sales_salesproject_deliverable_dba::STATE_ORDERED
+        );
+        $qb->add_constraint('state', 'IN', $states);
+        $qb->add_constraint('orgOpenpsaObtype', '=', org_openpsa_products_product_dba::DELIVERY_SINGLE);
+        $qb->add_constraint('start', '<', $this->_request_data['end']);
+        $qb->add_constraint('end', '>', $this->_request_data['start']);
+
+        $deliverables = $qb->execute();
+        $client_class = midcom_baseclasses_components_configuration::get('org.openpsa.sales', 'config')->get('calculator');
+        $client = new $client_class();
+        $calculation_base = midcom::get()->i18n->get_string('estimated delivery', 'org.openpsa.sales') . ': ';
+        foreach ($deliverables as $deliverable)
+        {
+            $client->run($deliverable);
+            if ($client->get_price())
+            {
+                $invoices[] = $this->get_invoice_for_deliverable($deliverable, $client->get_price(), $deliverable->end, $calculation_base . strftime('%x', $deliverable->end));
+            }
+        }
         return $invoices;
     }
 
