@@ -132,8 +132,14 @@ $grid->set_option('loadonce', true)
     ->set_option('sortorder', $sortorder);
 
 $grid->set_footer_data($footer_data);
+
+$host_prefix = midcom::get()->get_host_prefix();
+
+$filename = sprintf($data['l10n']->get('invoice report %s - %s'), strftime('%x', $data['start']), strftime('%x', $data['end']));
+$filename .= '_' . date('Y_m_d');
+$filename = preg_replace('/[^a-z0-9-]/i', '_', $filename);
 ?>
-<div class="grid-filters">
+<div class="grid-controls">
 <?php
 echo ' ' . midcom::get()->i18n->get_string('group by', 'org.openpsa.core') . ': ';
 echo '<select id="chgrouping_' . $grid_id . '">';
@@ -143,6 +149,11 @@ echo '<option value="contact">' . $l10n->get('customer contact') . "</option>\n"
 echo '<option value="clear">' . midcom::get()->i18n->get_string('no grouping', 'org.openpsa.core') . "</option>\n";
 echo '</select>';
 ?>
+<form id="&(grid_id);_export" class="tab_escape" method="post" action="&(host_prefix);midcom-exec-org.openpsa.core/csv_export.php">
+<input id="&(grid_id);_csvdata" type="hidden" value="" name="org_openpsa_export_csv_data" />
+<input type="hidden" value="&(filename);.csv" name="org_openpsa_export_csv_filename" />
+<input class="button" type="submit" value="<?php echo midcom::get()->i18n->get_string('download as CSV', 'org.openpsa.core'); ?>" />
+</form>
 </div>
 
 <div class="report org_openpsa_invoices full-width fill-height">
@@ -150,20 +161,6 @@ echo '</select>';
     echo $grid->render($entries);
 ?>
 </div>
-
-<?php
-$host_prefix = midcom::get()->get_host_prefix();
-
-$filename = sprintf($data['l10n']->get('invoice report %s - %s'), strftime('%x', $data['start']), strftime('%x', $data['end']));
-$filename .= '_' . date('Y_m_d');
-$filename = preg_replace('/[^a-z0-9-]/i', '_', $filename);
-?>
-
-<form id="&(grid_id);_export" class="tab_escape" method="post" action="&(host_prefix);midcom-exec-org.openpsa.core/csv_export.php">
-<input id="&(grid_id);_csvdata" type="hidden" value="" name="org_openpsa_export_csv_data" />
-<input type="hidden" value="&(filename);.csv" name="org_openpsa_export_csv_filename" />
-<input class="button" type="submit" value="<?php echo midcom::get()->i18n->get_string('download as CSV', 'org.openpsa.core'); ?>" />
-</form>
 
 <script type="text/javascript">
 

@@ -29,7 +29,7 @@ $grid->set_column('amount', $invoices_l10n->get('sum'), 'width: 70, align: "righ
 
 $grid->set_footer_data($footer_data);
 ?>
-<div class="grid-filters">
+<div class="grid-controls">
 <?php
 echo ' ' . midcom::get()->i18n->get_string('group by', 'org.openpsa.core') . ': ';
 echo '<select id="chgrouping_' . $grid_id . '">';

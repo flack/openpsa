@@ -590,11 +590,6 @@ table.link_statistics td.bargraph div.link_count_visualization
     background-color: #3364a3;
 }
 
-.grid-filters
-{
-    margin-bottom: .6em
-}
-
 .ui-datepicker-trigger
 {
     background-image: url(../stock-icons/16x16/stock_event.png);

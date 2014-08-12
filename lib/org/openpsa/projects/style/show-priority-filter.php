@@ -1,4 +1,4 @@
-<div class="grid-filters">
+<div class="grid-controls">
 <?php
 if (array_key_exists('qf', $data))
 {

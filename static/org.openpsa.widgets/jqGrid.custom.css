@@ -59,3 +59,14 @@
 {
     text-align: right;
 }
+
+
+.grid-controls
+{
+    margin-bottom: .6em
+}
+
+.grid-controls form
+{
+	display: inline
+}
