@@ -122,16 +122,15 @@ class midcom_connection
             if (file_exists($basedir . 'config/midgard-portable.inc.php'))
             {
                 include $basedir . 'config/midgard-portable.inc.php';
+                return midgard_connection::get_instance()->is_connected();
             }
-            else if (file_exists($basedir . 'config/midgard-portable-default.inc.php'))
+            if (!file_exists($basedir . 'config/midgard-portable-default.inc.php'))
             {
                 include $basedir . 'config/midgard-portable-default.inc.php';
+                //default config has in-memory db, so all the tables may be missing
+                return midgard_storage::class_storage_exists('midgard_user');
             }
-            else
-            {
-                throw new Exception("Could not connect to database, configuration file not found");
-            }
-            return midgard_connection::get_instance()->is_connected();
+            throw new Exception("Could not connect to database, configuration file not found");
         }
         if (!class_exists('midgard_topic'))
         {

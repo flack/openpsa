@@ -8,7 +8,7 @@ define('OPENPSA_TEST_ROOT', __DIR__ . DIRECTORY_SEPARATOR);
 $GLOBALS['midcom_config_local'] = array();
 
 // Check that the environment is a working one
-if (!midcom_connection::setup(dirname(__DIR__). DIRECTORY_SEPARATOR))
+if (!midcom_connection::setup(dirname(__DIR__) . DIRECTORY_SEPARATOR))
 {
     // if we can't connect to a DB, we'll create a new one
     openpsa\installer\midgard2\setup::install(OPENPSA_TEST_ROOT . '__output', 'SQLite');
