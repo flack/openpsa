@@ -320,7 +320,8 @@ implements org_openpsa_widgets_grid_provider_client
             $entry['priority'] = '<span title="' . $this->_l10n->get($this->_request_data['priority_array'][$task->priority]) . '">' . $task->priority . '</span>';
         }
 
-        if ($this->_request_data['view_identifier'] != 'agreement')
+        if (   $this->_request_data['view_identifier'] != 'agreement'
+            && $this->_request_data['view_identifier'] != 'project_tasks')
         {
             $entry['index_customer'] = $celldata['index_customer'];
             $entry['customer'] = $celldata['customer'];
