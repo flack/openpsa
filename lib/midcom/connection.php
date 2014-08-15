@@ -124,7 +124,7 @@ class midcom_connection
                 include $basedir . 'config/midgard-portable.inc.php';
                 return midgard_connection::get_instance()->is_connected();
             }
-            if (!file_exists($basedir . 'config/midgard-portable-default.inc.php'))
+            if (file_exists($basedir . 'config/midgard-portable-default.inc.php'))
             {
                 include $basedir . 'config/midgard-portable-default.inc.php';
                 //default config has in-memory db, so all the tables may be missing
