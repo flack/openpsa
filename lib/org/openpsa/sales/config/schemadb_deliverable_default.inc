@@ -1,6 +1,13 @@
 'default' => array
 (
     'description' => 'single delivery',
+    'validation' => array
+    (
+        array
+        (
+            'callback' => array(new org_openpsa_sales_validator, 'validate_single_delivery'),
+        ),
+    ),
     'fields'      => array
     (
         'title' => Array

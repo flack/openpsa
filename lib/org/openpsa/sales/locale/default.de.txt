@@ -330,6 +330,10 @@ Verkaufsprojekte mit %s
 Bitte geben sie ein Enddatum an oder wählen sie "Fortlaufend"
 ---STRINGEND
 
+---STRING select either planned units or invoice by actual units
+Bitte geben sie eine geplante Stückzahl an oder wählen sie "Tatsächliche Stückzahl abrechnen"
+---STRINGEND
+
 ---STRING select product
 Produkt wählen
 ---STRINGEND

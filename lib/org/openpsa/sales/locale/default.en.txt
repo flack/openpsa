@@ -333,6 +333,10 @@ Sales projects with %s
 Please select either an end date or check "continuous"
 ---STRINGEND
 
+---STRING select either planned units or invoice by actual units
+Please enter either the planned units or check "Invoice by actual units"
+---STRINGEND
+
 ---STRING select product
 Select product
 ---STRINGEND
