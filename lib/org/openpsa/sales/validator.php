@@ -15,6 +15,11 @@ class org_openpsa_sales_validator
 {
     public function validate_subscription(array $fields)
     {
+        $result = $this->validate_single_delivery($fields);
+        if ($result === true)
+        {
+            $result = array();
+        }
         if (   (   empty($fields['end_date'])
                 || $fields['end_date'] == '0000-00-00')
             && empty($fields['continuous']))
@@ -28,7 +33,7 @@ class org_openpsa_sales_validator
 
     public function validate_single_delivery(array $fields)
     {
-        // check channels
+        $result = array();
         if (   empty($fields['invoiceByActualUnits'])
             && empty($fields['plannedUnits']))
         {

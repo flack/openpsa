@@ -61,6 +61,7 @@ class org_openpsa_sales_handler_deliverable_addTest extends openpsa_testcase
         $formdata = array
         (
             'title' => 'TEST ' . __CLASS__ . '_' . time(),
+            'plannedUnits' => '1'
         );
 
         $this->set_dm2_formdata($data['controller'], $formdata);
