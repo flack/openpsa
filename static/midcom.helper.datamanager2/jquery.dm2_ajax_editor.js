@@ -649,7 +649,7 @@
                         id: this.identifier + '_ajax_toolbar'
                     }).hide();
 
-                    this.toolbar.insertBefore($('.ajax_editable:visible:first'));
+                    this.toolbar.insertBefore(this.fields[this.first_field_id].elem);
                 }
 
                 this.toolbar.html('');
