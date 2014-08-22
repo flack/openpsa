@@ -275,7 +275,7 @@
         <property name="eid"      type="unsigned integer" link="midgard_event:id" parentfield="eid">
             <description>Identifier of the event that a person belongs to</description>
         </property>
-        <property name="extra"    type="string">
+        <property name="extra"    type="text">
             <description>Additional information about the membership</description>
         </property>
         <!-- Legacy -->
