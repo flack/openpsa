@@ -104,7 +104,7 @@ Ich
 ---STRINGEND
 
 ---STRING meeting note for %s on %s by %s
-Meeting-Benachrichtigung für %s am %s von %s
+Gesprächsnotiz für %s am %s von %s
 ---STRINGEND
 
 ---STRING month view
