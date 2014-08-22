@@ -4,7 +4,6 @@
     {
         org_openpsa_tree.setup("openpsa-documents-directory-navigation", "/",
         {
-            minExpandLevel: 2,
             clickFolderMode: 3
         });
     });
