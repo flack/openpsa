@@ -353,28 +353,16 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
         $schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb'));
         $this->_datamanager = new midcom_helper_datamanager2_datamanager($schemadb);
 
-        // Muck schema on private events
         if (!$this->_request_data['event']->can_do('org.openpsa.calendar:read'))
         {
-            foreach ($schemadb as $schema)
-            {
-                foreach ($schema->fields as &$field)
-                {
-                    switch ($fieldname)
-                    {
-                        case 'title':
-                        case 'start':
-                        case 'end':
-                            break;
-                        default:
-                            $fields['hidden'] = true;
-                    }
-                }
-            }
+            $stat =    $this->_datamanager->set_schema('private')
+                    && $this->_datamanager->set_storage($this->_request_data['event']);
         }
-
-        // Load the event to datamanager
-        if (!$this->_datamanager->autoset_storage($this->_request_data['event']))
+        else
+        {
+            $stat = $this->_datamanager->autoset_storage($this->_request_data['event']);
+        }
+        if (!$stat)
         {
             throw new midcom_error('Failed to load the event in datamanager');
         }
