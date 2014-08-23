@@ -18,7 +18,15 @@ flush();
 midgard_storage::create_base_storage();
 echo "  Created base storage\n";
 
-$types = midcom_connection::get_schema_types();
+if (!empty($_GET['type']))
+{
+    $types = (array) $_GET['type'];
+}
+else
+{
+    $types = midcom_connection::get_schema_types();
+}
+
 $start = microtime(true);
 foreach ($types as $type)
 {
