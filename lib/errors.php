@@ -184,6 +184,12 @@ class midcom_exception_handler
             debug_print_function_stack('Stacktrace:');
         }
 
+        if (!in_array($httpcode, array(MIDCOM_ERROK, MIDCOM_ERRNOTFOUND, MIDCOM_ERRFORBIDDEN, MIDCOM_ERRAUTH, MIDCOM_ERRCRIT)))
+        {
+            debug_add("Unknown Errorcode {$httpcode} encountered, assuming 500");
+            $httpcode = MIDCOM_ERRCRIT;
+        }
+
         // Send error to special log or recipient as per in configuration.
         $this->send($httpcode, $message);
 
@@ -199,13 +205,11 @@ class midcom_exception_handler
             case MIDCOM_ERROK:
                 $header = "HTTP/1.0 200 OK";
                 $title = "OK";
-                $code = 200;
                 break;
 
             case MIDCOM_ERRNOTFOUND:
                 $header = "HTTP/1.0 404 Not Found";
                 $title = "Not Found";
-                $code = 404;
                 break;
 
             case MIDCOM_ERRFORBIDDEN:
@@ -214,23 +218,16 @@ class midcom_exception_handler
 
                 $header = "HTTP/1.0 403 Forbidden";
                 $title = "Forbidden";
-                $code = 403;
                 break;
 
             case MIDCOM_ERRAUTH:
                 $header = "HTTP/1.0 401 Unauthorized";
                 $title = "Unauthorized";
-                $code = 401;
                 break;
-
-            default:
-                debug_add("Unknown Errorcode {$httpcode} encountered, assuming 500");
-                // Fall-through
 
             case MIDCOM_ERRCRIT:
                 $header = "HTTP/1.0 500 Server Error";
                 $title = "Server Error";
-                $code = 500;
                 break;
         }
         _midcom_header ($header);
@@ -240,11 +237,11 @@ class midcom_exception_handler
 
         $style->data['error_title'] = $title;
         $style->data['error_message'] = $message;
-        $style->data['error_code'] = $code;
+        $style->data['error_code'] = $httpcode;
         $style->data['error_exception'] = $this->_exception;
         $style->data['error_handler'] = $this;
 
-        if (!$style->show_midcom('midcom_error_' . $code))
+        if (!$style->show_midcom('midcom_error_' . $httpcode))
         {
             $style->show_midcom('midcom_error');
         }
