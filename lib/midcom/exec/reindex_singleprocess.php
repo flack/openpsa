@@ -13,23 +13,7 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
-// IP Address Checks
-$ips = midcom::get()->config->get('indexer_reindex_allowed_ips');
-$ip_sudo = false;
-if (   $ips
-    && in_array($_SERVER['REMOTE_ADDR'], $ips))
-{
-    if (! midcom::get()->auth->request_sudo('midcom.services.indexer'))
-    {
-        throw new midcom_error('Failed to acquire SUDO rights. Aborting.');
-    }
-    $ip_sudo = true;
-}
-else
-{
-    midcom::get()->auth->require_valid_user('basic');
-    midcom::get()->auth->require_admin_user();
-}
+$ip_sudo = midcom::get()->auth->require_admin_or_ip('midcom.services.indexer');
 
 if (midcom::get()->config->get('indexer_backend') === false)
 {
