@@ -222,7 +222,11 @@ class midcom_config_test
             $this->println('Setting: magic_quotes_runtime', self::ERROR, 'Magic Quotes must be turned off, Midgard/MidCOM does this explicitly where required.');
         }
 
-        if (ini_get("apc.enabled") == "1")
+        if (ini_get("opcache.enable") == "1")
+        {
+            $this->println("Bytecode cache", self::OK, "OPCache is enabled");
+        }
+        else if (ini_get("apc.enabled") == "1")
         {
             $this->println("Bytecode cache", self::OK, "APC is enabled");
         }
