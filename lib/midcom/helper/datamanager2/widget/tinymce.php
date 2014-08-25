@@ -16,7 +16,7 @@
  * though their <i>value</i> member. The class will put HTML into those base types.
  *
  * This type extends the regular textarea type, as this is the fallback for all cases where
- * TinyMCE doesn't run (on Opera f.x.).
+ * TinyMCE doesn't run.
  *
  * <b>Available configuration options:</b>
  *
@@ -36,17 +36,14 @@
  * - <i>boolean use_imagepopup</i> Defaults to yes. Use the imagepopup it the element is attached
  *   to an object.
  *
- * - <i>string imagepopup_object</i> If you want to override the normal object (f.x. to have a
- *   central attachments object). Set that object's guid here. NOTE: NOT IMPLEMENTED YET. MAY CHANGE!
- *
  * <b>Notes about TinyMCE configuration:</b>
  *
- * TinyMCE uses a JScript array, outlined in http://tinymce.moxiecode.com/tinymce/docs/reference_configuration.html
+ * TinyMCE uses a JavaScript array, outlined in http://tinymce.moxiecode.com/tinymce/docs/reference_configuration.html
  * to configure itself. A different configuration can be used for each textarea, as all of them
  * are initialized individually. If the specified snippet is not used, some default configuration
  * is used (see the private function _get_advanced_configuration).
  *
- * Configuration is specified in an already JScript compatible way: The main config snippet is included
+ * Configuration is specified in an already JavaScript compatible way: The main config snippet is included
  * verbatim, as is the information in the local_config option.
  *
  * The following options must not be specified in any configuration: mode, elements, language
@@ -109,7 +106,7 @@ class midcom_helper_datamanager2_widget_tinymce extends midcom_helper_datamanage
     /**
      * Should the imagepopup button be shown?
      *
-     * @var boolean defaults to true.
+     * @var boolean
      */
     public $use_imagepopup = true;
 

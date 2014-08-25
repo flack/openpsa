@@ -38,7 +38,7 @@ class midcom_helper_datamanager2_widget_textarea extends midcom_helper_datamanag
 {
     /**
      * Maximum length of the string encapsulated by this type. 0 means no limit.
-     * -1 tries to bind to the types maxlength member, if available.
+     * -1 tries to bind to the type's maxlength member, if available.
      *
      * @var int
      */
@@ -74,7 +74,7 @@ class midcom_helper_datamanager2_widget_textarea extends midcom_helper_datamanag
 
         if ($this->maxlength == -1)
         {
-            if (array_key_exists('maxlength', $this->_type))
+            if (property_exists($this->_type, 'maxlength'))
             {
                 $this->maxlength = $this->_type->maxlength;
             }
