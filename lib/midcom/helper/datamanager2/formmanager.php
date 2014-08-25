@@ -582,7 +582,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
     /**
      * Special form freeze handling.
      */
-    function freeze()
+    public function freeze()
     {
         $this->form->freeze();
         foreach ($this->widgets as $widget)
@@ -594,7 +594,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
     /**
      * Special form freeze handling.
      */
-    function unfreeze()
+    public function unfreeze()
     {
         $this->form->unfreeze();
         foreach ($this->widgets as $widget)

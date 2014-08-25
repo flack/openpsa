@@ -483,7 +483,7 @@ END;
     /**
      * Constructs the upload list.
      */
-    function add_elements_to_form($attributes)
+    public function add_elements_to_form($attributes)
     {
         $frozen = false;
         if (   $this->_type->storage->object
@@ -663,7 +663,7 @@ END;
      * Freeze the entire group, special handling applies to skipp all elements which cannot be
      * frozen.
      */
-    function freeze()
+    public function freeze()
     {
         // Rebuild Widget
         $this->_compute_elements(true);
@@ -674,7 +674,7 @@ END;
      * Unfreeze the entire group, special handling applies, the formgroup is replaced by a the
      * full input widget set.
      */
-    function unfreeze()
+    public function unfreeze()
     {
         // Rebuild Widget
         $this->_compute_elements(false);
@@ -684,7 +684,7 @@ END;
     /**
      * Prepare for sorting the results
      */
-    function sync_type_with_widget($results)
+    public function sync_type_with_widget($results)
     {
         $values = $results[$this->name];
         if (   $this->_type->sortable
@@ -726,7 +726,7 @@ END;
     /**
      * Populates the title fields with their defaults.
      */
-    function get_default()
+    public function get_default()
     {
         if (sizeof($this->_type->images) == 0)
         {

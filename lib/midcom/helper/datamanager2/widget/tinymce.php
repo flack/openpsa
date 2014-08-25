@@ -324,7 +324,7 @@ EOT;
      * Note, that this is a copy of the base class function, as we need another CSS rule here
      * besides the additional initialization code.
      */
-    function add_elements_to_form($attributes)
+    public function add_elements_to_form($attributes)
     {
         if (!$this->_initialize_dependencies)
         {
@@ -357,7 +357,7 @@ EOT;
     /**
      * Freeze the tinymce content by replacing textarea form element
      */
-    function freeze()
+    public function freeze()
     {
         $original_element = $this->_form->getElement($this->name);
 

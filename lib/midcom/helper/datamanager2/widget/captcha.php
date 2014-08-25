@@ -91,7 +91,7 @@ class midcom_helper_datamanager2_widget_captcha extends midcom_helper_datamanage
     /**
      * Adds a simple single-line text form element at this time.
      */
-    function add_elements_to_form($attributes)
+    public function add_elements_to_form($attributes)
     {
         $elements = Array();
 
@@ -145,7 +145,7 @@ class midcom_helper_datamanager2_widget_captcha extends midcom_helper_datamanage
     /**
      * When syncing data we clear the captcha data in the session.
      */
-    function sync_type_with_widget($results)
+    public function sync_type_with_widget($results)
     {
         $session = new midcom_services_session($this->_session_domain);
         $session->remove($this->_session_key);
@@ -154,7 +154,7 @@ class midcom_helper_datamanager2_widget_captcha extends midcom_helper_datamanage
     /**
      * Freezes the Input Element
      */
-    function freeze()
+    public function freeze()
     {
         $this->_element->freeze();
     }
@@ -162,7 +162,7 @@ class midcom_helper_datamanager2_widget_captcha extends midcom_helper_datamanage
     /**
      * Unfreezes the Input Element
      */
-    function unfreeze()
+    public function unfreeze()
     {
         $this->_element->unfreeze();
     }
@@ -170,7 +170,7 @@ class midcom_helper_datamanager2_widget_captcha extends midcom_helper_datamanage
     /**
      * Checks if the input element is frozen.
      */
-    function is_frozen()
+    public function is_frozen()
     {
         return $this->_element->isFrozen();
     }

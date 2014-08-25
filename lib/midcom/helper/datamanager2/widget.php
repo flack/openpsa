@@ -256,7 +256,7 @@ abstract class midcom_helper_datamanager2_widget extends midcom_baseclasses_comp
     /**
      * This call adds the necessary form elements to the form passed by reference.
      */
-    abstract function add_elements_to_form($attributes);
+    abstract public function add_elements_to_form($attributes);
 
     /**
      * Returns the default value for this field as required by HTML_Quickform.
@@ -282,7 +282,7 @@ abstract class midcom_helper_datamanager2_widget extends midcom_baseclasses_comp
      * @return string The translated string.
      * @see midcom_helper_datamanager2_schema::translate_schema_string()
      */
-    function _translate($string)
+    protected function _translate($string)
     {
         return $this->_schema->translate_schema_string($string);
     }
@@ -297,7 +297,7 @@ abstract class midcom_helper_datamanager2_widget extends midcom_baseclasses_comp
      * @param array $results The complete form results, you need to extract all values
      *     relevant for your type yourself.
      */
-    abstract function sync_type_with_widget($results);
+    abstract public function sync_type_with_widget($results);
 
     /**
      * This event handler is called if and only if the Formmanager detects an actual

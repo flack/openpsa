@@ -266,7 +266,7 @@ class midcom_helper_datamanager2_widget_autocomplete extends midcom_helper_datam
      * Adds a simple search form and place holder for results.
      * Also adds static options to results.
      */
-    function add_elements_to_form($attributes)
+    public function add_elements_to_form($attributes)
     {
         // Get url to search handler
         $handler_url = midcom_connection::get_url('self') . 'midcom-exec-midcom.helper.datamanager2/autocomplete_handler.php';
@@ -477,7 +477,7 @@ EOT;
     /**
      * Reads the given get/post data and puts to type->selection
      */
-    function sync_type_with_widget($results)
+    public function sync_type_with_widget($results)
     {
         $this->_type->selection = $this->_get_form_selection($results);
     }

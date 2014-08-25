@@ -137,7 +137,7 @@ class midcom_helper_datamanager2_widget_text extends midcom_helper_datamanager2_
         return $this->_type->value;
     }
 
-    function sync_type_with_widget($results)
+    public function sync_type_with_widget($results)
     {
         $this->_type->value = $results[$this->name];
     }

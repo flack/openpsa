@@ -40,7 +40,7 @@ class midcom_helper_datamanager2_widget_privilege extends midcom_helper_datamana
     /**
      * Adds the radiobox triplet to the form if and only if we have the permissions.
      */
-    function add_elements_to_form($attributes)
+    public function add_elements_to_form($attributes)
     {
         if (   $this->_type->storage->object
             && ! $this->_type->storage->object->can_do('midgard:privileges'))
@@ -90,7 +90,7 @@ class midcom_helper_datamanager2_widget_privilege extends midcom_helper_datamana
         $group->setAttributes(Array('class' => 'radiobox'));
     }
 
-    function get_default()
+    public function get_default()
     {
         return $this->_type->get_value();
     }
@@ -98,7 +98,7 @@ class midcom_helper_datamanager2_widget_privilege extends midcom_helper_datamana
     /**
      * Synchronizes if and only if we have the permissions.
      */
-    function sync_type_with_widget($results)
+    public function sync_type_with_widget($results)
     {
         if (   $this->_type->storage->object
             && ! $this->_type->storage->object->can_do('midgard:privileges'))
@@ -109,7 +109,7 @@ class midcom_helper_datamanager2_widget_privilege extends midcom_helper_datamana
         $this->_type->set_value($results[$this->name]);
     }
 
-    function is_frozen()
+    public function is_frozen()
     {
         if (    (   $this->_type->storage->object
                  && ! $this->_type->storage->object->can_do('midgard:privileges'))
@@ -120,7 +120,7 @@ class midcom_helper_datamanager2_widget_privilege extends midcom_helper_datamana
         return $this->_elements[0]->isFrozen();
     }
 
-    function freeze()
+    public function freeze()
     {
         if (    (   $this->_type->storage->object
                  && ! $this->_type->storage->object->can_do('midgard:privileges'))
@@ -135,7 +135,7 @@ class midcom_helper_datamanager2_widget_privilege extends midcom_helper_datamana
         }
     }
 
-    function unfreeze()
+    public function unfreeze()
     {
         if (    (   $this->_type->storage->object
                  && ! $this->_type->storage->object->can_do('midgard:privileges'))
