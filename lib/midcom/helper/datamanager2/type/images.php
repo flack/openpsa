@@ -302,7 +302,7 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
      * First, we load the attachment_map information so that we can collect all images
      * together. Then we call the base class.
      */
-    function convert_from_storage($source)
+    public function convert_from_storage($source)
     {
         if ($this->storage->object === null)
         {
@@ -332,7 +332,7 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
     /**
      * Calls base class
      */
-    function convert_to_storage()
+    public function convert_to_storage()
     {
         $titles = array_intersect_key(array_filter($this->titles), $this->images);
         foreach ($titles as $images_identifier => $title)
@@ -361,7 +361,7 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
      *
      * In case that there is no image uploaded, an empty string is returned.
      */
-    function convert_to_html()
+    public function convert_to_html()
     {
         $result = '';
         if (empty($this->images))

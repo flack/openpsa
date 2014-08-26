@@ -101,7 +101,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
      *
      * It will leave the field empty in case the storage object is null.
      */
-    function convert_from_storage ($source)
+    public function convert_from_storage ($source)
     {
         if ($this->storage->object === null)
         {
@@ -238,7 +238,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
         );
     }
 
-    function convert_to_storage()
+    public function convert_to_storage()
     {
         // Synchronize the parameters again with the current attachment listing, just to
         // be on the safe side.
@@ -671,18 +671,18 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
         return true;
     }
 
-    function convert_from_csv ($source)
+    public function convert_from_csv ($source)
     {
         // TODO: Not yet supported
         return '';
     }
 
-    function convert_to_raw()
+    public function convert_to_raw()
     {
         return $this->convert_to_csv();
     }
 
-    function convert_to_csv()
+    public function convert_to_csv()
     {
         $results = array();
         foreach ($this->attachments_info as $info)
@@ -697,7 +697,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
         return implode(',', $results);
     }
 
-    function convert_to_html()
+    public function convert_to_html()
     {
         $result = '';
         if ($this->attachments_info)

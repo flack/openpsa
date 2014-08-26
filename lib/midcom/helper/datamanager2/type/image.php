@@ -684,7 +684,7 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
      * Calls the base type to read all attachments, then extracts the title of the
      * main attachment, if applicable.
      */
-    function convert_from_storage($source)
+    public function convert_from_storage($source)
     {
         parent::convert_from_storage($source);
 
@@ -697,7 +697,7 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
     /**
      * Updates the attachment titles.
      */
-    function convert_to_storage()
+    public function convert_to_storage()
     {
         if ($this->_instance_mode === 'single' && !empty($this->title))
         {
@@ -725,7 +725,7 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
      *
      * In case that there is no image uploaded, an empty string is returned.
      */
-    function convert_to_html()
+    public function convert_to_html()
     {
         $result = '';
 

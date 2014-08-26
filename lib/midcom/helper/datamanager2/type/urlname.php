@@ -74,7 +74,7 @@ class midcom_helper_datamanager2_type_urlname extends midcom_helper_datamanager2
         }
     }
 
-    function convert_from_storage($source)
+    public function convert_from_storage($source)
     {
         $this->_orig_value = $source;
         parent::convert_from_storage($source);

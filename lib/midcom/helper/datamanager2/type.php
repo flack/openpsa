@@ -176,7 +176,7 @@ abstract class midcom_helper_datamanager2_type extends midcom_baseclasses_compon
      *
      * @param mixed $source The storage data structure.
      */
-    abstract function convert_from_storage ($source);
+    abstract public function convert_from_storage ($source);
 
     /**
      * Converts from "operational" format to from storage format.
@@ -186,7 +186,7 @@ abstract class midcom_helper_datamanager2_type extends midcom_baseclasses_compon
      *
      * @return mixed The data to store into the object, or null on failure.
      */
-    abstract function convert_to_storage();
+    abstract public function convert_to_storage();
 
     /**
      * Constructs the object based on its CSV representation (which is already decoded in terms
@@ -194,7 +194,7 @@ abstract class midcom_helper_datamanager2_type extends midcom_baseclasses_compon
      *
      * @param string $source The CSV representation that has to be parsed.
      */
-    abstract function convert_from_csv ($source);
+    abstract public function convert_from_csv ($source);
 
     /**
      * Transforms the current object's state into a CSV string representation.
@@ -203,7 +203,7 @@ abstract class midcom_helper_datamanager2_type extends midcom_baseclasses_compon
      *
      * @return mixed The data to store into the object, or null on failure.
      */
-    abstract function convert_to_csv();
+    abstract public function convert_to_csv();
 
     /**
      * Transforms the current object's state into a email-friendly string representation.
@@ -214,7 +214,7 @@ abstract class midcom_helper_datamanager2_type extends midcom_baseclasses_compon
      *
      * @return mixed The data to store into the object, or null on failure.
      */
-    function convert_to_email()
+    public function convert_to_email()
     {
         return $this->convert_to_csv();
     }
@@ -226,7 +226,7 @@ abstract class midcom_helper_datamanager2_type extends midcom_baseclasses_compon
      *
      * @return mixed The rendered content.
      */
-    abstract function convert_to_html();
+    abstract public function convert_to_html();
 
     /**
      * Transforms the current objects' state into 'raw' representation.
@@ -237,7 +237,7 @@ abstract class midcom_helper_datamanager2_type extends midcom_baseclasses_compon
      * @see convert_to_storage
      * @return mixed The rendered content.
      */
-    function convert_to_raw()
+    public function convert_to_raw()
     {
         return $this->convert_to_storage();
     }

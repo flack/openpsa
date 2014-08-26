@@ -67,7 +67,7 @@ class midcom_helper_datamanager2_type_number extends midcom_helper_datamanager2_
      *
      * @param mixed $source The storage data structure.
      */
-    function convert_from_storage ($source)
+    public function convert_from_storage ($source)
     {
         if ($source === false || $source === null || trim($source) === '')
         {
@@ -90,7 +90,7 @@ class midcom_helper_datamanager2_type_number extends midcom_helper_datamanager2_
      *
      * @return string The string representation of the floating point number.
      */
-    function convert_to_storage()
+    public function convert_to_storage()
     {
         return str_replace(',', '.', (string) $this->value);
     }
@@ -98,7 +98,7 @@ class midcom_helper_datamanager2_type_number extends midcom_helper_datamanager2_
     /**
      * Renders localized and rounded to specified precision.
      */
-    function convert_to_html()
+    public function convert_to_html()
     {
         if ($this->precision !== null)
         {
@@ -154,7 +154,7 @@ class midcom_helper_datamanager2_type_number extends midcom_helper_datamanager2_
     /**
      * CSV conversion is mapped to regular type conversion.
      */
-    function convert_from_csv ($source)
+    public function convert_from_csv ($source)
     {
         $this->convert_from_storage($source);
     }
@@ -162,7 +162,7 @@ class midcom_helper_datamanager2_type_number extends midcom_helper_datamanager2_
     /**
      * CSV conversion is mapped to regular type conversion.
      */
-    function convert_to_csv()
+    public function convert_to_csv()
     {
         return $this->convert_to_storage();
     }
