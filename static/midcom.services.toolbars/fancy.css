@@ -14,21 +14,21 @@
     height: 20px;
     position: fixed !important;
     background-color: #eee;
-    color: #222 !important;
+    color: #222;
     margin: 0;
     padding: 0;
     border-style: solid;
-    border-width: 1px 2px 2px 1px;
-    border-color: #444444;
+    border-width: 1px;
+    border-color: #888 #444 #333 #888;
+    font-size: 11px;
+    cursor: default;
+    line-height: 18px;
+    vertical-align: middle;
+    box-shadow: 3px 4px 7px rgba(0, 0, 0, .25)
 }
 .midcom_services_toolbars_fancy.type_palette
 {
     border-radius: 0.6em;
-}
-.midcom_services_toolbars_fancy,
-.midcom_services_toolbars_fancy a
-{
-    color: #000000;
 }
 
 .midcom_services_toolbars_fancy li,
@@ -37,6 +37,8 @@
   font-size: 11px !important;
 }
 
+.midcom_services_toolbars_fancy .midcom_services_toolbars_topic_title:hover,
+.midcom_services_toolbars_fancy .midcom_services_toolbars_topic_title.hover,
 .midcom_services_toolbars_fancy a:hover,
 .midcom_services_toolbars_fancy ul li a.selected,
 .midcom_services_toolbars_fancy ul li button:focus,
@@ -44,17 +46,6 @@
 {
     color: HighlightText !important;
     background-color: Highlight !important;
-}
-
-.midcom_services_toolbars_fancy
-{
-    border-width: 1px;
-    border-color: #888 #444 #333 #888;
-    font-size: 11px;
-    cursor: default;
-    line-height: 18px;
-    vertical-align: middle;
-    box-shadow: 3px 4px 7px rgba(0, 0, 0, .25)
 }
 
 .midcom_services_toolbars_fancy,
@@ -70,8 +61,8 @@
 .midcom_services_toolbars_fancy .midcom_services_toolbars_topic_title
 {
     margin-bottom: 0px;
-    padding: 0 8px 0 3px;
-    font-weight: bold;
+    padding: 0 8px;
+    font-size: 1.1em;
     text-shadow: 1px 1px 1px rgba(255, 255, 255, .6);
 }
 
@@ -83,7 +74,7 @@
   list-style-type: none;
   white-space: nowrap !important;
   z-index: 7010 !important;
-  padding: 0;
+  padding: 1px 0;
   margin: 0px;
   width: 100%;
   min-width: 7em;
@@ -124,10 +115,7 @@
 {
     display: block;
 }
-.midcom_services_toolbars_fancy .items div.item .midcom_services_toolbars_topic_title.hover
-{
-    color: #C0111D;
-}
+
 .midcom_services_toolbars_fancy div.dragbar
 {
     background: url('images/drag-grid.gif') repeat top left;
@@ -144,7 +132,7 @@
     margin-top: 0px;
     margin-left: -1px;
     text-align: left;
-    padding: 0;
+    padding: 3px 0 6px 0;
     background-color: ThreeDHighlight;
     border: #444444 solid 1px;
     border-top-color: #999;
@@ -156,18 +144,16 @@
     box-shadow: 1px 2px 7px rgba(0, 0, 0, .25)
 }
 
-.midcom_services_toolbars_fancy.type_palette .items div.item ul li.enabled {}
-.midcom_services_toolbars_fancy.type_palette .items div.item ul li.disabled img
+.midcom_services_toolbars_fancy .items div.item ul li.disabled img
 {
     opacity: 0.3;
 }
 
-.midcom_services_toolbars_fancy.type_palette .items div.item ul li.disabled abbr,
-.midcom_services_toolbars_fancy.type_palette .items div.item ul li.disabled span
+.midcom_services_toolbars_fancy .items div.item ul li.disabled abbr,
+.midcom_services_toolbars_fancy .items div.item ul li.disabled span
 {
     color: #b0b0b0;
     cursor: default;
-    font-weight: bold;
 }
 
 .midcom_services_toolbars_fancy .items div.item ul li.separator
@@ -182,11 +168,6 @@
 {
     margin: 0;
     padding: 0;
-}
-
-.midcom_services_toolbars_fancy .items div.item ul li.last_item
-{
-    padding-bottom: 6px;
 }
 
 .midcom_services_toolbars_fancy .items div.item ul li a,
@@ -207,8 +188,7 @@
     margin-left: 6px;
 }
 
-.midcom_services_toolbars_fancy .items div.item ul li a img,
-.midcom_services_toolbars_fancy .items div.item ul li button img
+.midcom_services_toolbars_fancy .items div.item ul li img
 {
     padding: 0;
     border: 0;
@@ -255,7 +235,7 @@
 
 .midcom_services_toolbars_fancy.type_menu
 {
-    border-width: 0px 0px 2px 0px;
+    border-width: 0 0 1px 0;
     position: fixed;
     left: 0px !important;
     top: 0px !important;
