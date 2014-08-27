@@ -13,7 +13,6 @@
     z-index: 9999 !important;
     height: 20px;
     position: fixed !important;
-    _position: absolute;
     background-color: #eee;
     color: #222 !important;
     margin: 0;
@@ -32,28 +31,22 @@
     color: #000000;
 }
 
-.midcom_services_toolbars_fancy.type_palette li,
-.midcom_services_toolbars_fancy.type_palette li button,
-.midcom_services_toolbars_fancy.type_menu li,
-.midcom_services_toolbars_fancy.type_menu li button
+.midcom_services_toolbars_fancy li,
+.midcom_services_toolbars_fancy li button
 {
   font-size: 11px !important;
 }
 
-
 .midcom_services_toolbars_fancy a:hover,
-.midcom_services_toolbars_fancy.type_palette ul li a.selected,
-.midcom_services_toolbars_fancy.type_palette ul li button:focus,
-.midcom_services_toolbars_fancy.type_menu ul li a.selected,
-.midcom_services_toolbars_fancy.type_menu ul li button:focus,
+.midcom_services_toolbars_fancy ul li a.selected,
+.midcom_services_toolbars_fancy ul li button:focus,
 .midcom_services_toolbars_fancy button:hover
 {
     color: HighlightText !important;
     background-color: Highlight !important;
 }
 
-.midcom_services_toolbars_fancy.type_palette,
-.midcom_services_toolbars_fancy.type_menu
+.midcom_services_toolbars_fancy
 {
     border-width: 1px;
     border-color: #888 #444 #333 #888;
@@ -64,23 +57,17 @@
     box-shadow: 3px 4px 7px rgba(0, 0, 0, .25)
 }
 
-.midcom_services_toolbars_fancy.type_palette,
-.midcom_services_toolbars_fancy.type_palette .midcom_services_toolbars_topic_title,
-.midcom_services_toolbars_fancy.type_palette li,
-.midcom_services_toolbars_fancy.type_palette a,
-.midcom_services_toolbars_fancy.type_palette ul li button,
-.midcom_services_toolbars_fancy.type_menu,
-.midcom_services_toolbars_fancy.type_menu .midcom_services_toolbars_topic_title,
-.midcom_services_toolbars_fancy.type_menu li,
-.midcom_services_toolbars_fancy.type_menu a,
-.midcom_services_toolbars_fancy.type_menu ul li button
+.midcom_services_toolbars_fancy,
+.midcom_services_toolbars_fancy .midcom_services_toolbars_topic_title,
+.midcom_services_toolbars_fancy li,
+.midcom_services_toolbars_fancy a,
+.midcom_services_toolbars_fancy ul li button
 {
     font-family: 'Verdana', 'Arial', 'Helvetica', sans-serif !important;
     background-image: none;
 }
 
-.midcom_services_toolbars_fancy.type_palette .midcom_services_toolbars_topic_title,
-.midcom_services_toolbars_fancy.type_menu .midcom_services_toolbars_topic_title
+.midcom_services_toolbars_fancy .midcom_services_toolbars_topic_title
 {
     margin-bottom: 0px;
     padding: 0 8px 0 3px;
@@ -88,8 +75,7 @@
     text-shadow: 1px 1px 1px rgba(255, 255, 255, .6);
 }
 
-.midcom_services_toolbars_fancy.type_palette ul li,
-.midcom_services_toolbars_fancy.type_menu ul li
+.midcom_services_toolbars_fancy ul li
 {
   display: block !important;
   line-height: 16px;
@@ -103,9 +89,7 @@
   min-width: 7em;
 }
 
-
-.midcom_services_toolbars_fancy.type_palette .logos,
-.midcom_services_toolbars_fancy.type_menu .logos
+.midcom_services_toolbars_fancy .logos
 {
     margin-left: 2px;
     margin-right: 2px;
@@ -113,13 +97,11 @@
     float: left;
     clear: right;
 }
-.midcom_services_toolbars_fancy.type_palette .logos img,
-.midcom_services_toolbars_fancy.type_menu .logos img
+.midcom_services_toolbars_fancy .logos img
 {
     border: none;
 }
-.midcom_services_toolbars_fancy.type_palette .items,
-.midcom_services_toolbars_fancy.type_menu .items
+.midcom_services_toolbars_fancy .items
 {
     margin: 0;
     margin-left: 5px;
@@ -127,8 +109,7 @@
     clear: right;
     line-height: 20px;
 }
-.midcom_services_toolbars_fancy.type_palette .items div.item,
-.midcom_services_toolbars_fancy.type_menu .items div.item
+.midcom_services_toolbars_fancy .items div.item
 {
     width: auto;
     margin: auto 0;
@@ -139,17 +120,15 @@
     background-color: transparent;
 }
 
-.midcom_services_toolbars_fancy.type_palette .items div.item .midcom_services_toolbars_topic_title,
-.midcom_services_toolbars_fancy.type_menu .items div.item .midcom_services_toolbars_topic_title
+.midcom_services_toolbars_fancy .items div.item .midcom_services_toolbars_topic_title
 {
     display: block;
 }
-.midcom_services_toolbars_fancy.type_palette .items div.item .midcom_services_toolbars_topic_title.hover,
-.midcom_services_toolbars_fancy.type_menu .items div.item .midcom_services_toolbars_topic_title.hover
+.midcom_services_toolbars_fancy .items div.item .midcom_services_toolbars_topic_title.hover
 {
     color: #C0111D;
 }
-.midcom_services_toolbars_fancy.type_palette div.dragbar
+.midcom_services_toolbars_fancy div.dragbar
 {
     background: url('images/drag-grid.gif') repeat top left;
     margin-left: 20px;
@@ -159,12 +138,8 @@
     position: absolute;
     right: 3px;
 }
-.midcom_services_toolbars_fancy.type_menu div.dragbar
-{
-    display: none;
-}
-.midcom_services_toolbars_fancy.type_palette .items div.item ul,
-.midcom_services_toolbars_fancy.type_menu .items div.item ul
+
+.midcom_services_toolbars_fancy .items div.item ul
 {
     margin-top: 0px;
     margin-left: -1px;
@@ -195,8 +170,7 @@
     font-weight: bold;
 }
 
-.midcom_services_toolbars_fancy.type_palette .items div.item ul li.separator,
-.midcom_services_toolbars_fancy.type_menu .items div.item ul li.separator
+.midcom_services_toolbars_fancy .items div.item ul li.separator
 {
     height: 6px;
     line-height: 6px;
@@ -204,25 +178,20 @@
     padding-bottom: 2px;
 }
 
-.midcom_services_toolbars_fancy.type_palette .items div.item ul li.separator hr,
-.midcom_services_toolbars_fancy.type_menu .items div.item ul li.separator hr
+.midcom_services_toolbars_fancy .items div.item ul li.separator hr
 {
     margin: 0;
     padding: 0;
 }
 
-.midcom_services_toolbars_fancy.type_palette .items div.item ul li.last_item,
-.midcom_services_toolbars_fancy.type_menu .items div.item ul li.last_item
+.midcom_services_toolbars_fancy .items div.item ul li.last_item
 {
     padding-bottom: 6px;
 }
 
-.midcom_services_toolbars_fancy.type_palette .items div.item ul li a,
-.midcom_services_toolbars_fancy.type_palette .items div.item ul li abbr,
-.midcom_services_toolbars_fancy.type_palette .items div.item ul li button,
-.midcom_services_toolbars_fancy.type_menu .items div.item ul li a,
-.midcom_services_toolbars_fancy.type_menu .items div.item ul li abbr,
-.midcom_services_toolbars_fancy.type_menu .items div.item ul li button
+.midcom_services_toolbars_fancy .items div.item ul li a,
+.midcom_services_toolbars_fancy .items div.item ul li abbr,
+.midcom_services_toolbars_fancy .items div.item ul li button
 {
     display: block;
     font-weight: 300;
@@ -232,17 +201,14 @@
     margin: 0 2px;
 }
 
-.midcom_services_toolbars_fancy.type_palette .items div.item ul li button,
-.midcom_services_toolbars_fancy.type_menu .items div.item ul li button
+.midcom_services_toolbars_fancy .items div.item ul li button
 {
     height: 20px;
     margin-left: 6px;
 }
 
-.midcom_services_toolbars_fancy.type_palette .items div.item ul li a img,
-.midcom_services_toolbars_fancy.type_palette .items div.item ul li button img,
-.midcom_services_toolbars_fancy.type_menu .items div.item ul li a img,
-.midcom_services_toolbars_fancy.type_menu .items div.item ul li button img
+.midcom_services_toolbars_fancy .items div.item ul li a img,
+.midcom_services_toolbars_fancy .items div.item ul li button img
 {
     padding: 0;
     border: 0;
@@ -251,14 +217,12 @@
     margin-bottom: 2px;
 }
 
-.midcom_services_toolbars_fancy.type_palette .items div.item ul li abbr,
-.midcom_services_toolbars_fancy.type_menu .items div.item ul li abbr
+.midcom_services_toolbars_fancy .items div.item ul li abbr
 {
     border-bottom: none;
 }
 
-.midcom_services_toolbars_fancy.type_palette .items div.item ul li form,
-.midcom_services_toolbars_fancy.type_menu .items div.item ul li form
+.midcom_services_toolbars_fancy .items div.item ul li form
 {
     padding: 0;
     border: 0px;
@@ -266,8 +230,7 @@
     display: inline;
 }
 
-.midcom_services_toolbars_fancy.type_palette .items div.item ul li button,
-.midcom_services_toolbars_fancy.type_menu .items div.item ul li button
+.midcom_services_toolbars_fancy .items div.item ul li button
 {
     border: 0;
     border-spacing: 0;
@@ -281,8 +244,7 @@
     cursor: pointer;
 }
 
-.midcom_services_toolbars_fancy.type_palette .items div.item ul li button img,
-.midcom_services_toolbars_fancy.type_menu .items div.item ul li button img
+.midcom_services_toolbars_fancy .items div.item ul li button img
 {
     padding: 0;
     margin: 0;
@@ -291,12 +253,11 @@
     vertical-align: middle;
 }
 
-
 .midcom_services_toolbars_fancy.type_menu
 {
     border-width: 0px 0px 2px 0px;
-    position: absolute;
+    position: fixed;
     left: 0px !important;
     top: 0px !important;
-    width: 100%;
+    width: 100% !important;
 }
