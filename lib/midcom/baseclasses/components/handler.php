@@ -181,7 +181,7 @@ abstract class midcom_baseclasses_components_handler extends midcom_baseclasses_
     /**
      * Default helper function for DM2 schema-related operations
      *
-     * return string The default DM2 schema name
+     * @return string The default DM2 schema name
      */
     public function get_schema_name()
     {
@@ -191,7 +191,7 @@ abstract class midcom_baseclasses_components_handler extends midcom_baseclasses_
     /**
      * Default helper function for DM2 schema-related operations
      *
-     * return string The default DM2 schema name
+     * @return string The default DM2 schema name
      */
     public function get_schema_defaults()
     {
