@@ -1,5 +1,3 @@
-var memorized_position = null;
-
 $.fn.extend({
     midcom_services_toolbar: function(options, items) {
         return new $.midcom_services_toolbars(this, options, items);
@@ -26,29 +24,12 @@ $.midcom_services_toolbars = function(root, settings) {
         visible: true,
         create_root: false,
         class_name: 'midcom_services_toolbars_fancy',
-        show_logos: true,
         allow_auto_create: false
     }, settings);
 
-    var default_logo = {
-        title: 'Midgard',
-        href: '/midcom-exec-midcom/about.php',
-        target: '_blank',
-        src: 'images/midgard-logo.png',
-        width: '16',
-        height: '16'
-    },
-    all_logos = [default_logo],
-    logo_tpl = function() {
-        return [
-            'a', { href: this.href, title: this.title, target: this.target }, [
-                'img', { src: this.src, width: this.width, height: this.height }, ''
-            ]
-        ];
-    },
-
-    root_element = null,
-    item_holder = null;
+    var root_element = null,
+    item_holder = null,
+    memorized_position = null;
 
     if (settings.create_root)
     {
@@ -142,23 +123,12 @@ $.midcom_services_toolbars = function(root, settings) {
 
     function create_root(target)
     {
-        var target = target || $('body'),
-        root = $(target).createAppend(
-            'div', { className: settings.class_name }, []
-        ).hide().css({ zIndex: 6001 });
-
-        if (settings.show_logos)
-        {
-            var logo_holder = $(root).createAppend(
-                'div', { className: 'logos' }, ''
-            );
-            for (var i = 0; i < all_logos.length; i++)
-            {
-                var logo = all_logos[i];
-                $(logo_holder).tplAppend(logo, logo_tpl);
-            }
-        }
-
+        target = target || $('body');
+        var root = $('<div>')
+            .addClass(settings.class_name)
+            .appendTo(target)
+            .hide()
+            .css({ zIndex: 6001 }),
         item_holder = $('<div>').addClass('items');
 
         $(root).append(item_holder);
