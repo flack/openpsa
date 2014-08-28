@@ -16,7 +16,7 @@ if ($auth->user)
     echo "<ul>\n";
     echo "    <li class=\"user\">" . $person_string . "</li>\n";
     echo "    <li class=\"logout\"><a href=\"" . midcom_connection::get_url('self') . "midcom-logout-\"><img src=\"" . MIDCOM_STATIC_URL . "/stock-icons/16x16/exit.png\" title=\"" . $i18n->get_string('logout', 'midcom') . "\" alt=\"" . $i18n->get_string('logout', 'midcom') . "\" /></a></li>\n";
-    echo "    <li class=\"midgard\"><img src=\"" . MIDCOM_STATIC_URL . "/stock-icons/logos/midgard-16x16.png\" alt=\"X\" id=\"org_openpsa_toolbar_trigger\" /></li>\n";
+    echo "    <li class=\"midgard\"><div id=\"midcom_services_toolbars_minimizer\"></div></li>\n";
     echo "</ul>\n";
 }
 ?>

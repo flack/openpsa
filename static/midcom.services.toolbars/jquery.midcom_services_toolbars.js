@@ -28,8 +28,8 @@ $.midcom_services_toolbars = function(root, settings) {
     }, settings);
 
     var root_element = null,
-    item_holder = null,
-    memorized_position = null;
+    minimizer = $('#midcom_services_toolbars_minimizer'),
+    item_holder = null;
 
     if (settings.create_root)
     {
@@ -53,53 +53,17 @@ $.midcom_services_toolbars = function(root, settings) {
         }
     }
 
-    if (document.cookie)
+    if (minimizer.length === 0)
     {
-        var cookie_array = document.cookie.split(';');
-        for (var i = 0; i < cookie_array.length; i++)
-        {
-            if (cookie_array[i].match(/^\s?midcom_services_toolbars_position=/))
-            {
-                var pos = cookie_array[i].replace(/^\s?midcom_services_toolbars_position=/, '');
-                memorized_position = {};
-                memorized_position.x = pos.split('_')[0];
-                memorized_position.y = pos.split('_')[1];
-                break;
-            }
-        }
-    }
-
-    // Fallback uses PHP API for storing the toolbar information
-    if (!memorized_position)
-    {
-        $.get(MIDCOM_PAGE_PREFIX + 'midcom-exec-midcom/toolbar.php', function(raw_memory_data)
-        {
-            var regs = raw_memory_data.match(/^([0-9]+),([0-9]+)$/);
-            if (   !regs
-                || !regs[1]
-                || !regs[2])
-            {
-                return null;
-            }
-
-            // Prevent the toolbar from going off the viewing window, otherwise it will
-            // always remain out of reach
-            if (Number(regs[1]) > $(window).width())
-            {
-                regs[1] = Number(regs[1]) - $(window).width();
-            }
-
-            if (Number(regs[2]) > $(window).height())
-            {
-                regs[2] = Number(regs[2]) - $(window).height();
-            }
-
-            root_element.css({ left: regs[1] + 'px', top: regs[2] + 'px' });
-        });
+        minimizer = $('<div>')
+            .attr('id', 'midcom_services_toolbars_minimizer')
+            .prependTo($('body'));
     }
 
 
-    var default_position = get_default_position(root_element),
+    var default_position = get_default_position(root_element)
+    memorized_position = get_memorized_position(),
+    visible = true,
     posX = default_position.x,
     posY = default_position.y;
 
@@ -107,19 +71,10 @@ $.midcom_services_toolbars = function(root, settings) {
     {
         posX = (memorized_position.x != '' && memorized_position.x != undefined ? memorized_position.x : default_position.x);
         posY = (memorized_position.y != '' && memorized_position.y != undefined ? memorized_position.y : default_position.y);
-    }
-    else
-    {
-        $.get(
-            MIDCOM_PAGE_PREFIX + 'midcom-exec-midcom/toolbar.php',
-            {
-                'position_x': default_position.x,
-                'position_y': default_position.y
-            }
-        );
+        visible = memorized_position.visible;
     }
 
-    enable_toolbar();
+    enable_toolbar(posX, posY, visible);
 
     function create_root(target)
     {
@@ -128,9 +83,11 @@ $.midcom_services_toolbars = function(root, settings) {
             .addClass(settings.class_name)
             .appendTo(target)
             .hide()
-            .css({ zIndex: 6001 }),
-        item_holder = $('<div>').addClass('items');
+            .css({ zIndex: 6001 });
 
+        $(root).append($('<div>').addClass('minimizer'));
+
+        item_holder = $('<div>').addClass('items');
         $(root).append(item_holder);
 
         $(root).append(
@@ -140,7 +97,7 @@ $.midcom_services_toolbars = function(root, settings) {
         return root;
     }
 
-    function enable_toolbar()
+    function enable_toolbar(posX, posY, visible)
     {
         if (parseInt(posY) === 0)
         {
@@ -203,27 +160,76 @@ $.midcom_services_toolbars = function(root, settings) {
                         .addClass('type_menu');
                 }
             },
-            stop: function(e)
+            stop: function()
             {
-                save_position(e);
+                save_settings(true);
             },
             containment: 'window'
         });
         root_element.css({ cursor: 'default' });
-        root_element.show();
+
+        minimizer.on('click', toggle_visibility);
+        root_element.find('.minimizer').on('click', toggle_visibility);
+
+        if (visible === true)
+        {
+            root_element.show();
+            minimizer.addClass('toolbar-visible');
+        }
+        else
+        {
+            minimizer.addClass('toolbar-hidden');
+        }
     }
 
-    function save_position(event)
+    function toggle_visibility()
     {
-        var new_pos = root_element.position();
+        if (minimizer.hasClass('toolbar-visible'))
+        {
+            minimizer
+                .removeClass('toolbar-visible')
+                .addClass('toolbar-hidden');
+            root_element.hide();
+        }
+        else
+        {
+            minimizer
+                .removeClass('toolbar-hidden')
+                .addClass('toolbar-visible');
+            root_element.show();
+        }
+        save_settings(false);
+    }
 
-        $.get(
-            MIDCOM_PAGE_PREFIX + 'midcom-exec-midcom/toolbar.php',
-            {
-                'position_x': new_pos.left,
-                'position_y': new_pos.top
-            }
-        );
+    function save_settings(save_position)
+    {
+        if (   window.localStorage === undefined
+            || !window.localStorage)
+        {
+            return false;
+        }
+        window.localStorage.setItem('midcom_services_toolbars_visible', (root_element.is(':visible')) ? 'true' : 'false');
+
+        if (save_position)
+        {
+            var new_pos = root_element.position();
+            window.localStorage.setItem('midcom_services_toolbars_x', new_pos.left);
+            window.localStorage.setItem('midcom_services_toolbars_y', new_pos.top);
+        }
+    }
+
+    function get_memorized_position()
+    {
+        if (   window.localStorage === undefined
+            || !window.localStorage)
+        {
+            return false;
+        }
+        return {
+            visible: window.localStorage.getItem('midcom_services_toolbars_visible') === 'true',
+            x: window.localStorage.getItem('midcom_services_toolbars_x'),
+            y: window.localStorage.getItem('midcom_services_toolbars_y')
+        };
     }
 
     function get_default_position(re)

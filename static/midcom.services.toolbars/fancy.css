@@ -94,10 +94,9 @@
 }
 .midcom_services_toolbars_fancy .items
 {
+    display: inline-block;
     margin: 0;
     margin-left: 5px;
-    float: left;
-    clear: right;
     line-height: 20px;
 }
 .midcom_services_toolbars_fancy .items div.item
@@ -119,12 +118,21 @@
 .midcom_services_toolbars_fancy div.dragbar
 {
     background: url('images/drag-grid.gif') repeat top left;
-    margin-left: 20px;
     height: 20px;
     width: 20px;
     cursor: move;
     position: absolute;
     right: 3px;
+    top: 0
+}
+
+.midcom_services_toolbars_fancy div.minimizer
+{
+    background: url('../stock-icons/logos/midgard-16x16.png') no-repeat top right;
+    display: inline-block;
+    height: 20px;
+    width: 20px;
+    cursor: pointer;
 }
 
 .midcom_services_toolbars_fancy .items div.item ul
@@ -240,4 +248,21 @@
     left: 0px !important;
     top: 0px !important;
     width: 100% !important;
+}
+
+#midcom_services_toolbars_minimizer
+{
+    position: fixed;
+    top: 3px;
+    left: 3px;
+    width: 38px;
+    height: 43px;
+    background-image: url('../stock-icons/logos/midgard-monochrome.png');
+    z-index: 1000;
+    cursor: pointer
+}
+
+#midcom_services_toolbars_minimizer.toolbar-visible
+{
+    display: none;
 }

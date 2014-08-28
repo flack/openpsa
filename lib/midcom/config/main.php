@@ -410,7 +410,6 @@ class midcom_config implements arrayaccess
         'toolbars_help_style_id' => null,
         'toolbars_simple_css_path' => '',
         'toolbars_enable_centralized' => true,
-        'toolbars_position_storagemode' => 'cookie', // Either 'session', 'cookie' or 'parameter'
 
         // Service implementation defaults
         'service_midcom_core_service_urlparser' => 'midcom_core_service_implementation_urlparsertopic',

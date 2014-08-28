@@ -1,3 +1,3 @@
 <?php
-midcom::get()->toolbars->show_view_toolbar();
+echo midcom::get()->toolbars->render_view_toolbar();
 ?>

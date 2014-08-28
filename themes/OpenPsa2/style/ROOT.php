@@ -40,6 +40,7 @@ echo "<?xml version=\"1.0\"?>\n";
         $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.widget.min.js');
         $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.mouse.min.js');
         $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.draggable.min.js');
+
         org_openpsa_widgets_ui::add_head_elements();
         org_openpsa_widgets_ui::initialize_search();
 
@@ -64,7 +65,7 @@ echo "<?xml version=\"1.0\"?>\n";
 
     </head>
     <body<?php $head->print_jsonload(); ?>>
-        <(toolbar)>
+      <?php midcom::get()->toolbars->show(); ?>
         <div id="container">
           <div id="leftframe">
             <div id="branding">
@@ -105,9 +106,8 @@ echo "<?xml version=\"1.0\"?>\n";
     {
         org_openpsa_layout.add_splitter();
         org_openpsa_layout.clip_toolbar();
-        org_openpsa_layout.bind_admin_toolbar_loader();
 
-        org_openpsa_jsqueue.execute()
+        org_openpsa_jsqueue.execute();
     });
     </script>
     </body>

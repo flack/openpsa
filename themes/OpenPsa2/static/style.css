@@ -335,7 +335,20 @@ a:hover
   border: none;
   vertical-align: bottom;
 }
-
+#content-menu #midcom_services_toolbars_minimizer
+{
+    background: url('../stock-icons/logos/midgard-16x16.png') no-repeat top right;
+    display: inline-block;
+    height: 16px;
+    width: 16px;
+    cursor: pointer;
+    vertical-align: bottom;
+    position: static
+}
+#content-menu #midcom_services_toolbars_minimizer.toolbar-visible
+{
+    display: inline-block;
+}
 #org_openpsa_search_form
 {
     position: relative;
