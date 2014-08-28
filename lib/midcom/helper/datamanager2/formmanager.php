@@ -641,7 +641,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
      */
     function set_value($key, $value)
     {
-        $element = $this->_controller->formmanager->form->getElement($key);
+        $element = $this->form->getElement($key);
         $element->setValue($value);
 
         return true;
