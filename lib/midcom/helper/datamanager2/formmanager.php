@@ -643,8 +643,6 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
     {
         $element = $this->form->getElement($key);
         $element->setValue($value);
-
-        return true;
     }
 
     /**
