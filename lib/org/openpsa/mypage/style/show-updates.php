@@ -10,11 +10,11 @@ foreach ($view_types as $type)
     if ($data[$type])
     {
         echo "<div class=\"area\">\n";
-        echo "<h2>" . sprintf($data['l10n']->get("updated %s"), $type) . "</h2>\n";
+        echo "<h2>" . sprintf($data['l10n']->get("updated %s"), $data['l10n']->get($type)) . "</h2>\n";
         echo "<ul class=\"updated\">\n";
         foreach ($data[$type] as $document)
         {
-            $class = explode('.', $document->_fields['__COMPONENT']['content']);
+            $class = explode('.', $document->component);
             $class = $class[count($class)-1];
 
             $onclick = '';
@@ -31,16 +31,16 @@ foreach ($view_types as $type)
 
             try
             {
-                if ($document->_fields['__EDITOR']['content'])
+                if ($document->editor)
                 {
-                    $editor = new midcom_db_person($document->_fields['__EDITOR']['content']);
+                    $editor = new midcom_db_person($document->editor);
                 }
                 else
                 {
-                    $editor = new midcom_db_person($document->_fields['__CREATOR']['content']);
+                    $editor = new midcom_db_person($document->creator);
                 }
                 $contact = new org_openpsa_widgets_contact($editor);
-                echo "<li class=\"updated-{$class}\"><a href=\"{$url}\"{$onclick}>{$document->title}</a> <div class=\"metadata\">" . strftime("%x %X", $document->_fields['__EDITED_TS']['content']) . " (" . $contact->show_inline() . ")</div></li>\n";
+                echo "<li class=\"updated-{$class}\"><a href=\"{$url}\"{$onclick}>{$document->title}</a> <div class=\"metadata\">" . strftime("%x %X", $document->edited) . " (" . $contact->show_inline() . ")</div></li>\n";
             }
             catch (midcom_error $e){}
         }

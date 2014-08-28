@@ -121,3 +121,45 @@
         ),
     ),
 ),
+
+'private' => array
+(
+    'name' => 'private',
+    'description' => 'event',
+    'fields' => array
+    (
+        'title' => array
+        (
+            'title' => 'title',
+            'storage' => 'title',
+            'type' => 'text',
+            'widget' =>  'text',
+            'required' => true,
+        ),
+        'start' => array
+        (
+            'title' => 'start time',
+            'storage' => 'start',
+            'type' => 'date',
+            'type_config' => array
+            (
+                'storage_type' => 'UNIXTIME',
+            ),
+            'widget' => 'jsdate',
+            'required' => true,
+        ),
+        'end' => array
+        (
+            'title' => 'end time',
+            'storage' => 'end',
+            'type' => 'date',
+            'type_config' => array
+            (
+                'storage_type' => 'UNIXTIME',
+                'later_than' => 'start',
+            ),
+            'widget' => 'jsdate',
+            'required' => true,
+        ),
+    ),
+),

@@ -139,24 +139,13 @@ class midcom_services_toolbars
 
             midcom::get()->head->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.services.toolbars/fancy.css', 'screen');
 
-            $this->type = midcom::get()->config->get('toolbars_type');
-
-            if ($this->type == 'menu')
-            {
-                $script = "jQuery('body div.midcom_services_toolbars_fancy').midcom_services_toolbar({type: 'menu'});";
-            }
-            else
-            {
-                $script = "jQuery('body div.midcom_services_toolbars_fancy').midcom_services_toolbar({});";
-            }
+            $script = "jQuery('body div.midcom_services_toolbars_fancy').midcom_services_toolbar();";
 
             midcom::get()->head->add_jquery_state_script($script);
         }
         else
         {
             midcom::get()->head->add_stylesheet(midcom::get()->config->get('toolbars_simple_css_path'), 'screen');
-
-            $this->type = 'normal';
         }
 
         $still_initializing = false;
@@ -692,10 +681,7 @@ class midcom_services_toolbars
             // We already processed this toolbar, skipping further adds.
             return;
         }
-        else
-        {
-            $toolbar->customdata['midcom_services_toolbars_bound_to_object'] = true;
-        }
+        $toolbar->customdata['midcom_services_toolbars_bound_to_object'] = true;
 
         $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
         if (!$prefix)
@@ -948,7 +934,7 @@ class midcom_services_toolbars
             $toolbar_style = "display: none;";
         }
 
-        echo "<div class=\"{$toolbar_class} type_{$this->type}\" style=\"{$toolbar_style}\">\n";
+        echo "<div class=\"{$toolbar_class}\" style=\"{$toolbar_style}\">\n";
         echo "    <div class=\"logos\">\n";
         echo "        <a href=\"" . midcom_connection::get_url('self') . "midcom-exec-midcom/about.php\">\n";
         echo "            <img src=\"" . MIDCOM_STATIC_URL . "/stock-icons/logos/midgard-16x16.png\" width=\"16\" height=\"16\" alt=\"Midgard\" />\n";

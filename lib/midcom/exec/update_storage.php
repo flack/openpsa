@@ -4,8 +4,7 @@ if (extension_loaded('midgard'))
     throw new midcom_error("This script requires Midgard2 API support");
 }
 
-midcom::get()->auth->require_valid_user('basic');
-midcom::get()->auth->require_admin_user();
+$ip_sudo = midcom::get()->auth->require_admin_or_ip('midcom.services.indexer');
 
 midcom::get()->disable_limits();
 
@@ -18,7 +17,15 @@ flush();
 midgard_storage::create_base_storage();
 echo "  Created base storage\n";
 
-$types = midcom_connection::get_schema_types();
+if (!empty($_GET['type']))
+{
+    $types = (array) $_GET['type'];
+}
+else
+{
+    $types = midcom_connection::get_schema_types();
+}
+
 $start = microtime(true);
 foreach ($types as $type)
 {
@@ -37,5 +44,9 @@ foreach ($types as $type)
 echo "Processed " . count($types) . " schema types in " . round(microtime(true) - $start, 2) . "s";
 echo "\n\nDone.";
 echo "</pre>";
+if ($ip_sudo)
+{
+    midcom::get()->auth->drop_sudo();
+}
 ob_start();
 ?>

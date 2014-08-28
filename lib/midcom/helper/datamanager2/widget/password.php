@@ -52,7 +52,7 @@ class midcom_helper_datamanager2_widget_password extends midcom_helper_datamanag
     /**
      * Adds a pair of password input fields as a group to the form.
      */
-    function add_elements_to_form($attributes)
+    public function add_elements_to_form($attributes)
     {
         $attributes = array_merge($attributes, array('class' => 'shorttext'));
         $title = $this->_translate($this->_field['title']);
@@ -72,14 +72,14 @@ class midcom_helper_datamanager2_widget_password extends midcom_helper_datamanag
     /**
      * Unfreeze the confirmation widget as well as the main widget.
      */
-    function freeze()
+    public function freeze()
     {
         parent::freeze();
         $confirm = $this->_form->getElement("{$this->name}_confirm");
         $confirm->unfreeze();
     }
 
-    function sync_type_with_widget($results)
+    public function sync_type_with_widget($results)
     {
         if ($results[$this->name] != '')
         {

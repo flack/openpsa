@@ -30,7 +30,7 @@ abstract class midcom_helper_datamanager2_widget extends midcom_baseclasses_comp
      * @var midcom_helper_datamanager2_type
      * @access protected
      */
-    var $_type = null;
+    var $_type;
 
     /**
      * This variable contains configuration data which is not directly related to the
@@ -42,7 +42,7 @@ abstract class midcom_helper_datamanager2_widget extends midcom_baseclasses_comp
      * @see set_external_config()
      * @see get_external_config()
      */
-    private $_external_config = Array();
+    private $_external_config = array();
 
     /**
      * The name field holds the name of the field the widget is encapsulating.
@@ -61,7 +61,7 @@ abstract class midcom_helper_datamanager2_widget extends midcom_baseclasses_comp
      * @var Array
      * @access protected
      */
-    var $_field = null;
+    var $_field;
 
     /**
      * The schema (not the schema <i>database!</i>) to use for operation.
@@ -72,7 +72,7 @@ abstract class midcom_helper_datamanager2_widget extends midcom_baseclasses_comp
      * @var midcom_helper_datamanager2_schema
      * @access protected
      */
-    var $_schema = null;
+    var $_schema;
 
     /**
      * The QuickForm we are using.
@@ -80,7 +80,7 @@ abstract class midcom_helper_datamanager2_widget extends midcom_baseclasses_comp
      * @var HTML_QuickForm
      * @access protected
      */
-    var $_form = null;
+    var $_form;
 
     /**
      * The QuickForm renderer we are using.
@@ -88,7 +88,7 @@ abstract class midcom_helper_datamanager2_widget extends midcom_baseclasses_comp
      * @var HTML_QuickForm_Renderer
      * @access protected
      */
-    var $_renderer = null;
+    var $_renderer;
 
     /**
      * This is the Namespace to use for all HTML/CSS/JS elements.
@@ -101,7 +101,7 @@ abstract class midcom_helper_datamanager2_widget extends midcom_baseclasses_comp
      *
      * @var string
      */
-    protected $_namespace = null;
+    protected $_namespace;
 
     /**
      * Whether widget should always load its dependencies on initialization, or only during
@@ -256,7 +256,7 @@ abstract class midcom_helper_datamanager2_widget extends midcom_baseclasses_comp
     /**
      * This call adds the necessary form elements to the form passed by reference.
      */
-    abstract function add_elements_to_form($attributes);
+    abstract public function add_elements_to_form($attributes);
 
     /**
      * Returns the default value for this field as required by HTML_Quickform.
@@ -282,7 +282,7 @@ abstract class midcom_helper_datamanager2_widget extends midcom_baseclasses_comp
      * @return string The translated string.
      * @see midcom_helper_datamanager2_schema::translate_schema_string()
      */
-    function _translate($string)
+    protected function _translate($string)
     {
         return $this->_schema->translate_schema_string($string);
     }
@@ -297,7 +297,7 @@ abstract class midcom_helper_datamanager2_widget extends midcom_baseclasses_comp
      * @param array $results The complete form results, you need to extract all values
      *     relevant for your type yourself.
      */
-    abstract function sync_type_with_widget($results);
+    abstract public function sync_type_with_widget($results);
 
     /**
      * This event handler is called if and only if the Formmanager detects an actual

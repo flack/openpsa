@@ -81,7 +81,7 @@ class midcom_helper_datamanager2_widget_codemirror extends midcom_helper_dataman
     /**
      * Adds a simple single-line text form element at this time.
      */
-    function add_elements_to_form($attributes)
+    public function add_elements_to_form($attributes)
     {
         $attributes = array_merge($attributes, array
         (
@@ -107,12 +107,12 @@ class midcom_helper_datamanager2_widget_codemirror extends midcom_helper_dataman
         midcom::get()->head->add_jquery_state_script($config);
     }
 
-    function get_default()
+    public function get_default()
     {
         return $this->_type->value;
     }
 
-    function sync_type_with_widget($results)
+    public function sync_type_with_widget($results)
     {
         $this->_type->value = $results[$this->name];
     }

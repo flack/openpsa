@@ -98,7 +98,7 @@ class midcom_helper_datamanager2_type_photo extends midcom_helper_datamanager2_t
         return $this->_save_image('archival', '', true);
     }
 
-    function convert_to_html()
+    public function convert_to_html()
     {
         if (!array_key_exists('main', $this->attachments_info))
         {

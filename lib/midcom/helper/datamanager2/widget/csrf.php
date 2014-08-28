@@ -51,7 +51,7 @@ class midcom_helper_datamanager2_widget_csrf extends midcom_helper_datamanager2_
     /**
      * Adds hidden field with token and validation rules
      */
-    function add_elements_to_form($attributes)
+    public function add_elements_to_form($attributes)
     {
         $attributes = array_merge($attributes, array
         (

@@ -118,7 +118,7 @@ class midcom_helper_datamanager2_type_privilege extends midcom_helper_datamanage
      * Loads the privilege from the DB if and only if a storage object is already present
      * and we have sufficient privileges.
      */
-    function convert_from_storage($source)
+    public function convert_from_storage($source)
     {
         if (   $this->storage->object
             && $this->storage->object->can_do('midgard:privileges'))
@@ -132,7 +132,7 @@ class midcom_helper_datamanager2_type_privilege extends midcom_helper_datamanage
      * case the inherited default will kick in). In all other cases the type will have
      * already populated storage->object with a temporary object in set_value().
      */
-    function convert_to_storage()
+    public function convert_to_storage()
     {
         if ($this->privilege)
         {
@@ -152,22 +152,22 @@ class midcom_helper_datamanager2_type_privilege extends midcom_helper_datamanage
         }
     }
 
-    function convert_from_csv ($source)
+    public function convert_from_csv ($source)
     {
         $this->set_value((int) $source);
     }
 
-    function convert_to_csv()
+    public function convert_to_csv()
     {
         return ($this->get_value());
     }
 
-    function convert_to_raw()
+    public function convert_to_raw()
     {
         return $this->get_value();
     }
 
-    function convert_to_html()
+    public function convert_to_html()
     {
         switch ($this->get_value())
         {

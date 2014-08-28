@@ -287,7 +287,7 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
      *
      * @var mixed $source
      */
-    function convert_from_storage ($source)
+    public function convert_from_storage ($source)
     {
         $this->selection = array();
         // Check for the defaults section first
@@ -341,7 +341,7 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
      *
      * @return Returns null.
      */
-    function convert_to_storage()
+    public function convert_to_storage()
     {
         if (!$this->storage->object)
         {
@@ -505,13 +505,13 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
         return $new_membership_objects;
     }
 
-    function convert_to_csv()
+    public function convert_to_csv()
     {
         $values = $this->combine_values();
         return implode($values, ', ');
     }
 
-    function convert_to_raw()
+    public function convert_to_raw()
     {
         return null;
     }

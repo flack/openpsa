@@ -286,7 +286,7 @@ EOT;
      * Unfreeze the entire group, special handling applies, the formgroup is replaced by a the
      * full input widget set.
      */
-    function unfreeze()
+    public function unfreeze()
     {
         $new_elements = $this->_create_elements();
 
@@ -299,7 +299,7 @@ EOT;
      *
      * @todo do we really need to set this->format here?
      */
-    function get_default()
+    public function get_default()
     {
         if (null === $this->_type->value)
         {
@@ -461,7 +461,7 @@ EOT;
     /**
      * Tells the base date class instance to parse the value from the input field.
      */
-    function sync_type_with_widget($results)
+    public function sync_type_with_widget($results)
     {
         // Try to fix the incorrect input
         $date = $this->check_user_input($results);

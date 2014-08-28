@@ -649,7 +649,14 @@
                         id: this.identifier + '_ajax_toolbar'
                     }).hide();
 
-                    this.toolbar.insertBefore($('.ajax_editable:visible:first'));
+                    if($('.'+this.identifier+'.ajax_editable:visible:first').length > 0)
+                    {
+                        this.toolbar.insertBefore($('.'+this.identifier+'.ajax_editable:visible:first'));
+                    }
+                    else
+                    {
+                        this.toolbar.insertBefore($('.ajax_editable:visible:first'));
+                    }
                 }
 
                 this.toolbar.html('');

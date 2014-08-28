@@ -410,7 +410,6 @@ class midcom_config implements arrayaccess
         'toolbars_help_style_id' => null,
         'toolbars_simple_css_path' => '',
         'toolbars_enable_centralized' => true,
-        'toolbars_type' => 'palette', // Either 'menu' or 'palette'
         'toolbars_position_storagemode' => 'cookie', // Either 'session', 'cookie' or 'parameter'
 
         // Service implementation defaults

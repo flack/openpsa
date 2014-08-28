@@ -65,7 +65,7 @@ class midcom_helper_datamanager2_widget_radiocheckselect extends midcom_helper_d
     /**
      * Adds checkboxes / radioboxes to the form.
      */
-    function add_elements_to_form($attributes)
+    public function add_elements_to_form($attributes)
     {
         $elements = Array();
         $all_elements = $this->_type->list_all();
@@ -126,7 +126,7 @@ class midcom_helper_datamanager2_widget_radiocheckselect extends midcom_helper_d
     /**
      * The defaults of the widget are mapped to the current selection.
      */
-    function get_default()
+    public function get_default()
     {
         if ($this->_type->allow_multiple)
         {
@@ -154,7 +154,7 @@ class midcom_helper_datamanager2_widget_radiocheckselect extends midcom_helper_d
      * The current selection is compatible to the widget value only for multiselects.
      * We need minor typecasting otherwise.
      */
-    function sync_type_with_widget($results)
+    public function sync_type_with_widget($results)
     {
         $this->_type->selection = Array();
 

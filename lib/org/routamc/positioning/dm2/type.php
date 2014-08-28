@@ -23,7 +23,7 @@ class org_routamc_positioning_dm2_type extends midcom_helper_datamanager2_type
      * This function loads all known attachments from the storage object. It
      * will leave the field empty in case the storage object is null.
      */
-    function convert_from_storage($source)
+    public function convert_from_storage($source)
     {
         if ($source instanceof org_routamc_positioning_location_dba)
         {
@@ -47,12 +47,12 @@ class org_routamc_positioning_dm2_type extends midcom_helper_datamanager2_type
         }
     }
 
-    function convert_to_raw()
+    public function convert_to_raw()
     {
         return $this->convert_to_csv();
     }
 
-    function convert_to_storage()
+    public function convert_to_storage()
     {
         if (   !$this->storage
             || !$this->storage->object)
@@ -76,18 +76,18 @@ class org_routamc_positioning_dm2_type extends midcom_helper_datamanager2_type
         return '';
     }
 
-    function convert_from_csv ($source)
+    public function convert_from_csv ($source)
     {
         // TODO: Not yet supported
         return '';
     }
 
-    function convert_to_csv()
+    public function convert_to_csv()
     {
         return "{$this->location->latitude},{$this->location->longitude},{$this->location->altitude}";
     }
 
-    function convert_to_html()
+    public function convert_to_html()
     {
         $result = '';
 

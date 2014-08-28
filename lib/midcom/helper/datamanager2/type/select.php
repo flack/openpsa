@@ -328,7 +328,7 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
      * Converts storage format to live format, all invalid keys are dropped, and basic validation
      * is done to ensure constraints like allow_multiple are met.
      */
-    function convert_from_storage($source)
+    public function convert_from_storage($source)
     {
         $this->selection = array();
         $this->others = array();
@@ -398,7 +398,7 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
      *
      * @return array The storage information.
      */
-    function convert_to_storage()
+    public function convert_to_storage()
     {
         if ($this->allow_multiple)
         {
@@ -534,7 +534,7 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
      * CSV conversion works from the storage representation, converting the arrays
      * into simple text lists.
      */
-    function convert_from_csv ($source)
+    public function convert_from_csv ($source)
     {
         $source = explode(',', $source);
         $this->convert_from_storage($source);
@@ -544,7 +544,7 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
      * CSV conversion works from the storage representation, converting the arrays
      * into simple text lists.
      */
-    function convert_to_csv()
+    public function convert_to_csv()
     {
         if ($this->csv_export_key)
         {

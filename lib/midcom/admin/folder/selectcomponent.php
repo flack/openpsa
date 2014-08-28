@@ -24,7 +24,7 @@ class midcom_admin_folder_selectcomponent extends  midcom_helper_datamanager2_wi
     /**
      * Adds a (multi)select widget to the form, depending on the base type config.
      */
-    function add_elements_to_form($attributes)
+    public function add_elements_to_form($attributes)
     {
         // Let us try to be a bit smarter here, avoiding an all-out load for read-only
         // fields.

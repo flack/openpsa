@@ -6,9 +6,9 @@ var org_openpsa_tree =
         {
             minExpandLevel: 1,
             extensions: ['persist'],
-            persist: 
+            persist:
         	{
-                cookie: {path: prefix},            	
+                cookie: {path: prefix}
         	},
             clickFolderMode: 2,
             autoCollapse: false,

@@ -4,7 +4,7 @@
             <description>Local non-replication-safe database identifier</description>
         </property>
         <property name="start" type="integer"/>
-        <property name="end" type="integer"/>
+        <property name="end" type="integer" field="event_end" />
         <property name="title" type="string"/>
         <property name="description" type="text"/>
         <property name="type" type="integer"/>

@@ -157,7 +157,7 @@ class midcom_helper_datamanager2_type_text extends midcom_helper_datamanager2_ty
         }
     }
 
-    function convert_from_storage ($source)
+    public function convert_from_storage ($source)
     {
         $this->value = $source;
     }
@@ -232,7 +232,7 @@ class midcom_helper_datamanager2_type_text extends midcom_helper_datamanager2_ty
         $this->value = $this->purify_string((string) $this->value);
     }
 
-    function convert_to_storage()
+    public function convert_to_storage()
     {
         // Normalize line breaks to the UNIX format
         $this->value = preg_replace("/\n\r|\r\n|\r/", "\n", (string) $this->value);
@@ -245,12 +245,12 @@ class midcom_helper_datamanager2_type_text extends midcom_helper_datamanager2_ty
         return $this->value;
     }
 
-    function convert_from_csv ($source)
+    public function convert_from_csv ($source)
     {
         $this->value = $source;
     }
 
-    function convert_to_csv()
+    public function convert_to_csv()
     {
         return (string) $this->value;
     }
@@ -373,7 +373,7 @@ class midcom_helper_datamanager2_type_text extends midcom_helper_datamanager2_ty
         return true;
     }
 
-    function convert_to_html()
+    public function convert_to_html()
     {
         $this->value = (string) $this->value;
 

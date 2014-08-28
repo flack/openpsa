@@ -628,7 +628,7 @@ class midcom_services_auth
      *
      * @param string $message The message to show if the admin level privileges are missing.
      */
-    function require_admin_user($message = null)
+    public function require_admin_user($message = null)
     {
         if ($message === null)
         {
@@ -643,6 +643,32 @@ class midcom_services_auth
     }
 
     /**
+     * Require either a configured IP address or admin credentials
+     *
+     * @param string $domain Domain for IP sudo
+     * @throws midcom_error In case request_sudo fails
+     * @return boolean True if IP sudo is active, false otherwise
+     */
+    public function require_admin_or_ip($domain)
+    {
+        $ips = midcom::get()->config->get('indexer_reindex_allowed_ips');
+        if (   $ips
+            && in_array($_SERVER['REMOTE_ADDR'], $ips))
+        {
+            if (! $this->request_sudo($domain))
+            {
+                throw new midcom_error('Failed to acquire SUDO rights. Aborting.');
+            }
+            return true;
+        }
+
+        // Require user to Basic-authenticate for security reasons
+        $this->require_valid_user('basic');
+        $this->require_admin_user();
+        return false;
+    }
+
+    /**
      * Validates that there is an authenticated user.
      *
      * If this is not the case, the regular login page is shown automatically, see
@@ -652,7 +678,7 @@ class midcom_services_auth
      *
      * @param string $method Preferred authentication method: form or basic
      */
-    function require_valid_user($method = 'form')
+    public function require_valid_user($method = 'form')
     {
         debug_print_function_stack("require_valid_user called at this level");
         if (!$this->is_valid_user())

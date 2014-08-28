@@ -58,12 +58,12 @@ class midcom_helper_datamanager2_type_php extends midcom_helper_datamanager2_typ
         }
     }
 
-    function convert_from_storage ($source)
+    public function convert_from_storage ($source)
     {
         $this->value = $source;
     }
 
-    function convert_to_storage()
+    public function convert_to_storage()
     {
         // Normalize line breaks to the UNIX format
         $this->value = preg_replace("/\n\r|\r\n|\r/", "\n", (string) $this->value);
@@ -71,12 +71,12 @@ class midcom_helper_datamanager2_type_php extends midcom_helper_datamanager2_typ
         return $this->value;
     }
 
-    function convert_from_csv ($source)
+    public function convert_from_csv ($source)
     {
         $this->value = $source;
     }
 
-    function convert_to_csv()
+    public function convert_to_csv()
     {
         return (string) $this->value;
     }
@@ -124,7 +124,7 @@ class midcom_helper_datamanager2_type_php extends midcom_helper_datamanager2_typ
         return true;
     }
 
-    function convert_to_html()
+    public function convert_to_html()
     {
         if (!$this->enabled)
         {

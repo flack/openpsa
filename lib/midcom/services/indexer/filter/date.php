@@ -77,10 +77,10 @@ class midcom_services_indexer_filter_date extends midcom_services_indexer_filter
 
     public function get_query_string()
     {
-        $format = "Y-m-dTH:i:s"  ; //1995-12-31T23:59:59Z
+        $format = "Y-m-d\TH:i:s\Z";
         return sprintf("%s:[%s TO %s]",
             $this->get_field(),
-            gmdate($format, $this->_start . "Z"),
-            gmdate($format, ($this->_end == 0) ? time() : $this->_end . "Z"));
+            gmdate($format, $this->_start - 100000),
+            gmdate($format, ($this->_end == 0) ? time() : $this->_end));
     }
 }

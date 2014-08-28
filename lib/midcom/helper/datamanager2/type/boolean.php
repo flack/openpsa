@@ -47,7 +47,7 @@ class midcom_helper_datamanager2_type_boolean extends midcom_helper_datamanager2
      */
     public $false_text = null;
 
-    function convert_from_storage ($source)
+    public function convert_from_storage ($source)
     {
         if ($source === null)
         {
@@ -59,7 +59,7 @@ class midcom_helper_datamanager2_type_boolean extends midcom_helper_datamanager2
         }
     }
 
-    function convert_to_storage()
+    public function convert_to_storage()
     {
         if ($this->value)
         {
@@ -68,7 +68,7 @@ class midcom_helper_datamanager2_type_boolean extends midcom_helper_datamanager2
         return 0;
     }
 
-    function convert_from_csv ($source)
+    public function convert_from_csv ($source)
     {
         if ($source)
         {
@@ -80,7 +80,7 @@ class midcom_helper_datamanager2_type_boolean extends midcom_helper_datamanager2
         }
     }
 
-    function convert_to_csv()
+    public function convert_to_csv()
     {
         if ($this->value)
         {
@@ -89,7 +89,7 @@ class midcom_helper_datamanager2_type_boolean extends midcom_helper_datamanager2
         return '0';
     }
 
-    function convert_to_email()
+    public function convert_to_email()
     {
         if ($this->value)
         {
@@ -102,7 +102,7 @@ class midcom_helper_datamanager2_type_boolean extends midcom_helper_datamanager2
      * The HTML representation returns either the configured texts or a
      * checked / unchecked icon if left on defaults.
      */
-    function convert_to_html()
+    public function convert_to_html()
     {
         if ($this->value)
         {

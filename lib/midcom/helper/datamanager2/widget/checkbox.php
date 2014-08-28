@@ -63,7 +63,7 @@ class midcom_helper_datamanager2_widget_checkbox extends midcom_helper_datamanag
     /**
      * Adds a simple checkbox form element.
      */
-    function add_elements_to_form($attributes)
+    public function add_elements_to_form($attributes)
     {
         $attributes = array_merge($attributes, array
         (
@@ -86,12 +86,12 @@ class midcom_helper_datamanager2_widget_checkbox extends midcom_helper_datamanag
         $this->_form->addElement('checkbox', $this->name, $title, $this->description, $attributes);
     }
 
-    function get_default()
+    public function get_default()
     {
         return $this->_type->value;
     }
 
-    function sync_type_with_widget($results)
+    public function sync_type_with_widget($results)
     {
         $element = $this->_form->getElement($this->name);
         $this->_type->value = $element->getChecked();

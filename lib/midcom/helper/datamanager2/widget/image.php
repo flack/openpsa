@@ -55,7 +55,7 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
     /**
      * Adds a simple single-line text form element at this time.
      */
-    function add_elements_to_form($attributes)
+    public function add_elements_to_form($attributes)
     {
         $attributes = array_merge($attributes, array
         (
@@ -452,7 +452,7 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
      * Freeze the entire group, special handling applies, the formgroup is replaced by a single
      * static element.
      */
-    function freeze()
+    public function freeze()
     {
         $new_elements = Array();
         $this->_create_frozen_elements($new_elements);
@@ -465,7 +465,7 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
      * Unfreeze the entire group, special handling applies, the formgroup is replaced by a the
      * full input widget set.
      */
-    function unfreeze()
+    public function unfreeze()
     {
         $new_elements = Array();
 
@@ -485,7 +485,7 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
     /**
      * Synchronize the title field
      */
-    function sync_type_with_widget($results)
+    public function sync_type_with_widget($results)
     {
         // this has been done in on_submit function
     }
@@ -493,7 +493,7 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
     /**
      * Populate the title field.
      */
-    function get_default()
+    public function get_default()
     {
         if ($this->show_title && $this->_type->title !== '')
         {

@@ -105,7 +105,7 @@ class midcom_helper_datamanager2_type_date extends midcom_helper_datamanager2_ty
      *
      * @param mixed $source The storage data structure.
      */
-    function convert_from_storage ($source)
+    public function convert_from_storage ($source)
     {
         if (null === $source)
         {
@@ -131,7 +131,7 @@ class midcom_helper_datamanager2_type_date extends midcom_helper_datamanager2_ty
      * @return string The string representation of the date according to the
      *     storage_type.
      */
-    function convert_to_storage()
+    public function convert_to_storage()
     {
         switch ($this->storage_type)
         {
@@ -172,7 +172,7 @@ class midcom_helper_datamanager2_type_date extends midcom_helper_datamanager2_ty
     /**
      * CSV conversion is mapped to regular type conversion.
      */
-    function convert_from_csv ($source)
+    public function convert_from_csv ($source)
     {
         $this->convert_from_storage($source);
     }
@@ -180,7 +180,7 @@ class midcom_helper_datamanager2_type_date extends midcom_helper_datamanager2_ty
     /**
      * CSV conversion is mapped to regular type conversion.
      */
-    function convert_to_csv()
+    public function convert_to_csv()
     {
         if ($this->is_empty())
         {
@@ -190,7 +190,7 @@ class midcom_helper_datamanager2_type_date extends midcom_helper_datamanager2_ty
         return $this->value->format($format);
     }
 
-    function convert_to_html()
+    public function convert_to_html()
     {
         if ($this->is_empty())
         {

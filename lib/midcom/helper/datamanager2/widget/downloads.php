@@ -393,7 +393,7 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
     /**
      * Constructs the upload list.
      */
-    function add_elements_to_form($attributes)
+    public function add_elements_to_form($attributes)
     {
         $frozen = false;
         if (   $this->_type->storage->object
@@ -571,7 +571,7 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
      * Freeze the entire group, special handling applies to skip all elements which cannot be
      * frozen.
      */
-    function freeze()
+    public function freeze()
     {
         // Rebuild Widget
         $this->_compute_elements(true);
@@ -582,7 +582,7 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
      * Unfreeze the entire group, special handling applies, the formgroup is replaced by a the
      * full input widget set.
      */
-    function unfreeze()
+    public function unfreeze()
     {
         // Rebuild Widget
         $this->_compute_elements(false);
@@ -592,7 +592,7 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
     /**
      * Check if the sorted order should be returned to type
      */
-    function sync_type_with_widget($results)
+    public function sync_type_with_widget($results)
     {
         // NOTE: Updating titles etc is done already on _on_submit
         if (   $this->_type->sortable
@@ -606,7 +606,7 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
     /**
      * Populates the title fields with their defaults.
      */
-    function get_default()
+    public function get_default()
     {
         if (sizeof($this->_type->attachments_info) == 0)
         {
