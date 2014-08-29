@@ -7,10 +7,7 @@ if (midcom::get()->auth->can_user_do('midcom:ajax', null, 'midcom_services_toolb
     $toolbar_class = "midcom_services_toolbars_fancy";
 }
 echo "<div class=\"{$toolbar_class}\" style=\"display:none\">\n";
-echo " <div class=\"logos\">\n";
-echo " <a href=\"" . midcom::get()->get_page_prefix() . "midcom-exec-midcom/about.php\">\n";
-echo " <img src=\"" . MIDCOM_STATIC_URL . "/stock-icons/logos/midgard-16x16.png\" width=\"16\" height=\"16\" alt=\"Midgard\" />\n";
-echo " </a>\n";
+echo " <div class=\"minimizer\">\n";
 echo " </div>\n";
 echo " <div class=\"items\">\n";
 echo " <div id=\"midcom_services_toolbars_topic-folder\" class=\"item\">\n";
