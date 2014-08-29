@@ -91,11 +91,11 @@ class org_openpsa_widgets_ui extends midcom_baseclasses_components_purecode
         //first enable jquery - just in case it isn't loaded
         $head->enable_jquery();
 
-        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.core.min.js');
+        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/core.min.js');
 
         //load ui-tab
-        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.widget.min.js');
-        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.tabs.min.js');
+        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/widget.min.js');
+        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/tabs.min.js');
 
         //functions needed for ui-tab to work here
         $head->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/history.js-1.8.0/jquery.history.js');

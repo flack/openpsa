@@ -121,11 +121,11 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
         $head = midcom::get()->head;
         $head->enable_jquery();
 
-        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.core.min.js');
+        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/core.min.js');
 
         //load ui-tab
-        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.widget.min.js');
-        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.tabs.min.js');
+        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/widget.min.js');
+        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/tabs.min.js');
         $head->add_jquery_ui_theme(array('tabs'));
         midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/org.routamc.positioning/widget/widget.js');
 

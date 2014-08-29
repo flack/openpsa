@@ -36,10 +36,10 @@ echo "<?xml version=\"1.0\"?>\n";
           $head->add_stylesheet(MIDCOM_STATIC_URL . '/OpenPsa2/ui-elements.css', 'all');
 
         $head->enable_jquery();
-        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.core.min.js');
-        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.widget.min.js');
-        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.mouse.min.js');
-        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.draggable.min.js');
+        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/core.min.js');
+        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/widget.min.js');
+        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/mouse.min.js');
+        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/draggable.min.js');
 
         org_openpsa_widgets_ui::add_head_elements();
         org_openpsa_widgets_ui::initialize_search();

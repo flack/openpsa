@@ -20,7 +20,6 @@
  * @author Eero af Heurlin, Nemein Oy <eero.afheurlin@nemein.com>
  * @author Nico Kaiser <nico@siriux.net>
  * @author Torben Nehmer <torben@nehmer.net>
- * @version 1.1 (2005-11-03)
  * @package midcom.helper
  */
 class midcom_helper_imagefilter

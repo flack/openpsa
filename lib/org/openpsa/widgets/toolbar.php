@@ -29,13 +29,13 @@ class org_openpsa_widgets_toolbar
     {
         $head = midcom::get()->head;
         $head->enable_jquery();
-        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.core.min.js');
-        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.widget.min.js');
-        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.mouse.min.js');
-        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.draggable.min.js');
-        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.position.min.js');
-        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.button.min.js');
-        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.dialog.min.js');
+        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/core.min.js');
+        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/widget.min.js');
+        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/mouse.min.js');
+        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/draggable.min.js');
+        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/position.min.js');
+        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/button.min.js');
+        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/dialog.min.js');
         $head->add_jquery_ui_theme(array('dialog'));
     }
 

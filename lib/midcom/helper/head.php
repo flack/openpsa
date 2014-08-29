@@ -570,12 +570,12 @@ class midcom_helper_head
         }
         else
         {
-            $url_prefix = MIDCOM_JQUERY_UI_URL . '/themes/base/minified/jquery.ui.';
-            $this->add_stylesheet($url_prefix . 'theme.min.css');
-            $this->add_stylesheet($url_prefix . 'core.min.css');
+            $url_prefix = MIDCOM_JQUERY_UI_URL . '/themes/base/';
+            $this->add_stylesheet($url_prefix . 'theme.css');
+            $this->add_stylesheet($url_prefix . 'core.css');
             foreach ($components as $component)
             {
-                $this->add_stylesheet($url_prefix . $component . '.min.css');
+                $this->add_stylesheet($url_prefix . $component . '.css');
             }
         }
     }

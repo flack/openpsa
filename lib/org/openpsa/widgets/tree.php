@@ -201,8 +201,8 @@ JSINIT;
         $head = midcom::get()->head;
         $head->enable_jquery();
 
-        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.core.min.js');
-        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.widget.min.js');
+        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/core.min.js');
+        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/widget.min.js');
 
         $head->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.cookie.js');
         $head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.widgets/fancytree-2.2.0/jquery.fancytree-custom.min.js');
