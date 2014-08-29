@@ -65,7 +65,7 @@ echo "<?xml version=\"1.0\"?>\n";
 
     </head>
     <body<?php $head->print_jsonload(); ?>>
-      <?php midcom::get()->toolbars->show(); ?>
+      <(toolbar)>
         <div id="container">
           <div id="leftframe">
             <div id="branding">
