@@ -60,19 +60,8 @@
             }
         });
 
-        switch (image_info['type'])  {
-            case "attachment":
-                html_code = '<a href="' + image_info['url'] + '" >' + image_info['title'] + '</a>';
-                break;
-            case "image":
-            default:
-                html_code = '<img src="' + image_info['url'] + '" alt="' +
-                                image_info['title'] + '" title="' +
-                                image_info['title'] + '"/>';
-                break;
-        }
-
-        parent.tinyMCE.execCommand("mceInsertContent", true, html_code);
+        top.tinymce.activeEditor.windowManager.getParams().oninsert(image_info['url'], {alt: image_info['title']});
+        top.tinymce.activeEditor.windowManager.close();
     };
 
     $.fn.extend({

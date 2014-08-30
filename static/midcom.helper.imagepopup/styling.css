@@ -1,21 +1,10 @@
 body
 {
-    background-color: #babdb6;
+    background-color: #white;
     color: #333333;
     font-family: "Arial", "Helvetica", "Geneva", sans-serif;
     margin: 0px;
     padding: 0px;
-}
-body div.midcom_helper_imagepopup h1
-{
-    background-color: #204a87;
-    color: #ffffff;
-    margin: 0px;
-    padding-left: 2%;
-    padding-right: 2%;
-    padding-top: 4px;
-    padding-bottom: 4px;
-    height: 10%;
 }
 
 ul
@@ -24,51 +13,49 @@ ul
     padding: 0;
     list-style-type: none;
 }
-ul li
-{
-    height: 59px;
-    margin: 0 0 5px 0;
-    padding-top: 3px;
-}
 
 #top_navigation
 {
     margin:0;
     padding:0;
+    border-bottom: 1px solid #c5c5c5;
 }
 
 #top_navigation ul
 {
-    margin:3px;
-    margin-bottom:0;
-    padding:0;
-    margin-left: 20px;
-}
-
-#top_navigation a
-{
-    text-decoration: none;
-    color: #204a87;
-    margin-bottom: 2px;
+    margin: 0;
+    padding: 0;
 }
 
 #top_navigation ul li
 {
-    background-color: #D7DBD1;
-    padding-left: 10px;
-    padding-right: 10px;
     display: inline;
-    margin-right: 10px;
+}
+
+#top_navigation a
+{
+    display: inline-block;
+    text-decoration: none;
+    color: #204a87;
+    padding: 8px;
+    background-color: #e3e3e3;
+    border-right: 1px solid #c5c5c5
+}
+#top_navigation a:hover
+{
+    background-color: white;
 }
 
 #top_navigation ul li.selected
 {
-    background-color: #FFFFFF;
+    position: relative;
+    top: 1px;
 }
-
 #top_navigation ul li.selected a
 {
+    background-color: white;
     color: #000000;
+    margin-bottom: -1px
 }
 
 #files, #search
@@ -77,7 +64,6 @@ ul li
     padding-right: 2%;
     height: 88%;
     overflow: auto;
-    background-color: #ffffff;
 }
 #files form label span.field_text
 {

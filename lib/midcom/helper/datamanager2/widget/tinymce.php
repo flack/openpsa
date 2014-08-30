@@ -147,11 +147,6 @@ class midcom_helper_datamanager2_widget_tinymce extends midcom_helper_datamanage
         {
             $config = $this->_get_configuration();
         }
-        else
-        {
-            $popup = $this->_get_imagepopup_jsstring();
-            $config = str_replace('{$popup}', $popup, $config);
-        }
 
         $language = $this->_i18n->get_current_language();
         // fix to use the correct langcode for norwegian.
@@ -160,22 +155,36 @@ class midcom_helper_datamanager2_widget_tinymce extends midcom_helper_datamanage
              $language = 'nb';
         }
 
-        $imagepopup_url = '';
+        $img = '';
         if ($this->use_imagepopup)
         {
             $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
-            $imagepopup_url = "plugin_imagepopup_popupurl: \"{$prefix}__ais/imagepopup/";
+            $imagepopup_url = $prefix . '__ais/imagepopup/';
 
             if ($this->_type->storage->object)
             {
                 // We have an existing object, link to "page attachments"
-                $imagepopup_url .= "{$this->_schema->name}/{$this->_type->storage->object->guid}\"";
+                $imagepopup_url .= "{$this->_schema->name}/{$this->_type->storage->object->guid}/";
             }
             else
             {
                 // No object has been created yet, link to "folder attachments" without page specified
-                $imagepopup_url .= "folder/{$this->_schema->name}\"";
+                $imagepopup_url .= "folder/{$this->_schema->name}/";
             }
+            $img = <<<IMG
+file_picker_callback: function(callback, value, meta) {
+        tinymce.activeEditor.windowManager.open({
+            title: "file browser",
+            url: "{$imagepopup_url}",
+            width: 800,
+            height: 600
+        }, {
+            oninsert: function(url, meta) {
+                callback(url, meta);
+            }
+        });
+},
+IMG;
         }
 
         // Compute the final script:
@@ -189,26 +198,11 @@ relative_urls : false,
 remove_script_host : true,
 elements : "{$this->_namespace}{$this->name}",
 language : "{$language}",
-{$imagepopup_url}
+{$img}
 });
 EOT;
 
         midcom::get()->head->add_jscript($script);
-    }
-
-    /**
-     * Returns the string ,imagepopup that is added if we are editing a
-     * saved object (and thus can add attachments)
-     *
-     * @return string empty or containing ",imagepopup"
-     */
-    private function _get_imagepopup_jsstring()
-    {
-        if ($this->_type->storage !== null)
-        {
-            return " imagepopup";
-        }
-        return "";
     }
 
     /**
@@ -244,13 +238,12 @@ EOT;
      */
     private function _get_simple_configuration()
     {
-        $popup = $this->_get_imagepopup_jsstring();
         return <<<EOT
 theme: "modern",
 menubar: false,
-plugins: ["table contextmenu paste link fullscreen$popup"],
+plugins: ["table contextmenu paste link fullscreen image"],
 toolbar1: "cut copy paste | undo redo | alignleft alignjustify alignright | outdent indent | code fullscreen",
-toolbar2: "formatselect | bold italic | bullist numlist | link unlink | imagepopup table",
+toolbar2: "formatselect | bold italic | bullist numlist | link unlink | image table",
 EOT;
     }
 
@@ -259,13 +252,13 @@ EOT;
      */
     private function _get_advanced_configuration ()
     {
-        $popup = $this->_get_imagepopup_jsstring();
         return <<<EOT
 theme: "modern",
-plugins: ["table save hr link insertdatetime preview searchreplace print contextmenu fullscreen{$popup}"],
+plugins: ["table save hr link insertdatetime preview searchreplace print contextmenu fullscreen image"],
 toolbar1: "cut copy paste | undo redo | searchreplace | alignleft alignjustify alignright | outdent indent | code removeformat | fullscreen",
-toolbar2: "formatselect | bold italic strikethrough subscript superscript | link unlink | bullist numlist | imagepopup",
+toolbar2: "formatselect | bold italic strikethrough subscript superscript | link unlink | bullist numlist | image",
 extended_valid_elements : "a[name|href|target|title|onclick],img[class|src|border=0|alt|title|hspace|vspace|width|height|align|onmouseover|onmouseout|name|style],hr[class|width|size|noshade],font[face|size|color|style],span[class|align|style]",
+image_advtab: true,
 EOT;
     }
 
@@ -274,13 +267,12 @@ EOT;
      */
     private function _get_tiny_configuration ()
     {
-        $popup = $this->_get_imagepopup_jsstring();
         return <<<EOT
 theme : "modern",
 menubar: false,
 statusbar: false,
-plugins : ["table save contextmenu link fullscreen{$popup}"],
-toolbar: "bold italic | bullist | link imagepopup | code fullscreen",
+plugins : ["table save contextmenu link fullscreen image"],
+toolbar: "bold italic | bullist | link image | code fullscreen",
 extended_valid_elements : "a[name|href|target|title|onclick],img[class|src|border=0|alt|title|hspace|vspace|width|height|align|onmouseover|onmouseout|name|style],hr[class|width|size|noshade],font[face|size|color|style],span[class|align|style]",
 EOT;
     }
