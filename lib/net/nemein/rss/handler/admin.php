@@ -176,12 +176,7 @@ class net_nemein_rss_handler_admin extends midcom_baseclasses_components_handler
     }
 
     /**
-     * Displays a downloadpage delete confirmation view.
-     *
-     * Note, that the downloadpage for non-index mode operation is automatically determined in the can_handle
-     * phase.
-     *
-     * If create privileges apply, we relocate to the index creation downloadpage
+     * Displays a delete confirmation view.
      *
      * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.

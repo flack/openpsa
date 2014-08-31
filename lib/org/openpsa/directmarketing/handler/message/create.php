@@ -73,12 +73,11 @@ implements midcom_helper_datamanager2_interfaces_create
     }
 
     /**
-     * Displays an message edit view.
+     * Displays an message create view.
      *
-     * Note, that the message for non-index mode operation is automatically determined in the can_handle
-     * phase.
-     *
-     * If create privileges apply, we relocate to the index creation message,
+     * @param mixed $handler_id The ID of the handler.
+     * @param array $args The argument list.
+     * @param array &$data The local request data.
      */
     public function _handler_create($handler_id, array $args, array &$data)
     {

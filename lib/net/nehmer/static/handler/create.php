@@ -148,12 +148,7 @@ implements midcom_helper_datamanager2_interfaces_create
     }
 
     /**
-     * Displays an article edit view.
-     *
-     * Note, that the article for non-index mode operation is automatically determined in the can_handle
-     * phase.
-     *
-     * If create privileges apply, we relocate to the index creation article
+     * Displays an article create view.
      *
      * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.

@@ -73,10 +73,6 @@ implements midcom_helper_datamanager2_interfaces_create
     /**
      * Displays an campaign edit view.
      *
-     * Note, that the campaign for non-index mode operation is automatically determined in the can_handle
-     * phase.
-     *
-     * If create privileges apply, we relocate to the index creation campaign,
      */
     public function _handler_create($handler_id, array $args, array &$data)
     {

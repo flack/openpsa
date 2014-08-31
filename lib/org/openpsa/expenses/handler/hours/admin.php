@@ -116,8 +116,6 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
     /**
      * Displays the report creation view.
      *
-     * If create privileges apply, we relocate to the edit view
-     *
      * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
      * @param array &$data The local request data.

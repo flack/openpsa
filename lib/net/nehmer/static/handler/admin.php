@@ -174,11 +174,6 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
     /**
      * Displays an article edit view.
      *
-     * Note, that the article for non-index mode operation is automatically determined in the can_handle
-     * phase.
-     *
-     * If create privileges apply, we relocate to the index creation article
-     *
      * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
      * @param array &$data The local request data.
@@ -324,11 +319,6 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
 
     /**
      * Displays an article delete confirmation view.
-     *
-     * Note, that the article for non-index mode operation is automatically determined in the can_handle
-     * phase.
-     *
-     * If create privileges apply, we relocate to the index creation article
      *
      * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.

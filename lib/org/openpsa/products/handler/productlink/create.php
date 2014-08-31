@@ -93,12 +93,7 @@ class org_openpsa_products_handler_productlink_create extends midcom_baseclasses
     }
 
     /**
-     * Displays an article edit view.
-     *
-     * Note, that the article for non-index mode operation is automatically determined in the can_handle
-     * phase.
-     *
-     * If create privileges apply, we relocate to the index creation article
+     * Displays an link creation view.
      *
      * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.

@@ -590,11 +590,6 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
     /**
      * Displays an object delete confirmation view.
      *
-     * Note, that the object for non-index mode operation is automatically determined in the can_handle
-     * phase.
-     *
-     * If create privileges apply, we relocate to the index creation object
-     *
      * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
      * @param array &$data The local request data.
