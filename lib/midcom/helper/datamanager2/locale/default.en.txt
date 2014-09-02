@@ -75,6 +75,10 @@ Unlocking the object failed, reason %s.
 The field %s is required, please fill it out.
 ---STRINGEND
 
+---STRING file picker
+File Picker
+---STRINGEND
+
 ---STRING form submit: cancel
 Cancel
 ---STRINGEND

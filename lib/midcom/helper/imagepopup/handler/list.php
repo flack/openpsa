@@ -21,11 +21,6 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
     private $_controller = null;
 
     /**
-     * Listing type
-     */
-    private $_list_type = null;
-
-    /**
      * Search results
      */
     private $_search_results = array();
@@ -54,13 +49,14 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
         $this->add_stylesheet(MIDCOM_STATIC_URL ."/midcom.helper.imagepopup/styling.css", 'screen');
 
         $data['schema_name'] = $args[0];
+        $data['filetype'] = $args[1];
         $data['object'] = null;
         $data['folder'] = $this->_topic;
 
         if (   $handler_id != '____ais-imagepopup-list_folder_noobject'
-            && isset($args[1]))
+            && isset($args[2]))
         {
-            $data['object'] = midcom::get()->dbfactory->get_object_by_guid($args[1]);
+            $data['object'] = midcom::get()->dbfactory->get_object_by_guid($args[2]);
         }
 
         switch ($handler_id)
@@ -83,7 +79,6 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
                 $data['query'] = (array_key_exists('query', $_REQUEST) ? $_REQUEST['query'] : '');
                 break;
         }
-        $this->_list_type = $data['list_type'];
 
         midcom::get()->head->set_pagetitle($data['list_title']);
 
@@ -127,9 +122,6 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
                 midcom::get()->head->add_jsonload("top.tinymce.activeEditor.windowManager.close();");
                 break;
         }
-
-        midcom::get()->head->add_jsonload("jQuery('.midcom_helper_datamanager2_widget_images_image').dm2ImagePopupConvert()");
-        midcom::get()->head->add_jsonload("jQuery('.midcom_helper_datamanager2_widget_downloads_download').dm2ImagePopupConvert();");
     }
 
     private function _run_search(array $data)
@@ -143,14 +135,18 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
         $qb->end_group();
 
         $this->_search_results = $qb->execute();
-
-        midcom::get()->head->add_jsonload("jQuery('.midcom_helper_imagepopup_search_result_item').dm2ImagePopupConvert();");
     }
 
-    public function _show_list()
+    /**
+     *
+     * @param mixed $handler_id The ID of the handler.
+     * @param array &$data The local request data.
+     */
+    public function _show_list($handler_id, array &$data)
     {
+        $data['navlinks'] = midcom_helper_imagepopup_viewer::get_navigation($data);
         midcom_show_style('midcom_helper_imagepopup_init');
-        if ($this->_list_type == 'unified')
+        if ($data['list_type'] == 'unified')
         {
             midcom_show_style('midcom_helper_imagepopup_search');
             $this->_show_search_results();

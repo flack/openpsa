@@ -14,6 +14,10 @@ Folder attachments
 Images
 ---STRINGEND
 
+---STRING links
+Verknüpfungen
+---STRINGEND
+
 ---STRING midcom.helper.imagepopup
 Image addition pop-up
 ---STRINGEND
@@ -33,4 +37,3 @@ Search
 ---STRING unified search
 Unified search
 ---STRINGEND
-

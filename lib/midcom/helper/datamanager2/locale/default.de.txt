@@ -71,6 +71,10 @@ Das Objekt konnte nicht entsperrt werden. Ursache: %s
 Das Feld %s muss ausgefüllt werden.
 ---STRINGEND
 
+---STRING file picker
+Dateiauswahl
+---STRINGEND
+
 ---STRING form submit: cancel
 Abbrechen
 ---STRINGEND

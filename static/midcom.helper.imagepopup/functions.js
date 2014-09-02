@@ -1,75 +1,37 @@
-(function($){
-
-    $.datamanager2 = $.datamanager2 || {};
-    $.datamanager2.imagepopup = {
-        items: []
-    };
-
-    function dm2ImagePopupConverter(item, options)
-    {
-        var jq_item = $(item);
-
-        var item_type = 'image';
-        if (jq_item.hasClass('midcom_helper_datamanager2_widget_downloads_download'))
+$(document).ready(function()
+{
+    $('.content-area')
+        .on('click', 'a', function(event)
         {
-            item_type = 'attachment';
-        }
+            event.preventDefault();
+            var url = $(this).attr('href')
+            title = '';
 
-        var converted_object = {
-            guid: jq_item.attr('title'),
-            title: '',
-            name: '',
-            url: '',
-            type: item_type
-        };
-
-        if (converted_object.guid == '') {
-            return;
-        }
-
-        converted_object.url = $('a:eq(0)', jq_item).attr('href');
-        converted_object.name = $('td.filename', jq_item).attr('title');
-        converted_object.title = $('td.title', jq_item).attr('title');
-
-        if (   typeof converted_object.title == 'undefined'
-            || converted_object.title == '')
-        {
-            converted_object.title = converted_object.name;
-        }
-
-        $('a', jq_item)
-            .prop('title', 'Click to insert')
-            .on('click', function(e)
+            if ($(this).parent('td').length > 0)
             {
-                e.preventDefault();
-                $.datamanager2.imagepopup.InsertItem(converted_object.guid.toString());
-            });
-
-        $.datamanager2.imagepopup.items.push(converted_object);
-    }
-
-    $.datamanager2.imagepopup.InsertItem = function(guid)
-    {
-        var image_info = {};
-        var html_code = '';
-
-        $.each($.datamanager2.imagepopup.items, function(i,n){
-            if (n.guid == guid) {
-                image_info = n;
-                return;
+                title = $(this).parent('td').next().find('input').val();
             }
+
+            top.tinymce.activeEditor.windowManager.getParams().oninsert(url, {alt: title});
+            top.tinymce.activeEditor.windowManager.close();
+        })
+        .on('hover', 'a', function()
+        {
+            $(this).prop('title', 'Click to insert')
         });
 
-        top.tinymce.activeEditor.windowManager.getParams().oninsert(image_info['url'], {alt: image_info['title']});
-        top.tinymce.activeEditor.windowManager.close();
-    };
-
-    $.fn.extend({
-        dm2ImagePopupConvert: function(options) {
-            options = $.extend({}, options);
-            return this.each(function(){
-                new dm2ImagePopupConverter(this, options);
-            });
-        }
-    });
-})(jQuery);
+    if ($('#links').length > 0)
+    {
+        $('#links').fancytree(
+        {
+            click: function(event, data)
+            {
+                if (data.targetType === 'title')
+                {
+                    top.tinymce.activeEditor.windowManager.getParams().oninsert(data.node.data.href, {title: data.node.title});
+                    top.tinymce.activeEditor.windowManager.close();
+                }
+            }
+        });
+    }
+});

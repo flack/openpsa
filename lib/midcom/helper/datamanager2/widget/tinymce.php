@@ -159,23 +159,20 @@ class midcom_helper_datamanager2_widget_tinymce extends midcom_helper_datamanage
         if ($this->use_imagepopup)
         {
             $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
-            $imagepopup_url = $prefix . '__ais/imagepopup/';
+            $suffix = '';
+            $imagepopup_url = $prefix . '__ais/imagepopup/open/' . $this->_schema->name . '/';
 
             if ($this->_type->storage->object)
             {
-                // We have an existing object, link to "page attachments"
-                $imagepopup_url .= "{$this->_schema->name}/{$this->_type->storage->object->guid}/";
+                $suffix = $this->_type->storage->object->guid . '/';
             }
-            else
-            {
-                // No object has been created yet, link to "folder attachments" without page specified
-                $imagepopup_url .= "folder/{$this->_schema->name}/";
-            }
+
+            $title = $this->_l10n->get('file picker');
             $img = <<<IMG
 file_picker_callback: function(callback, value, meta) {
         tinymce.activeEditor.windowManager.open({
-            title: "file browser",
-            url: "{$imagepopup_url}",
+            title: "{$title}",
+            url: "{$imagepopup_url}" + meta.filetype + '/' + "{$suffix}",
             width: 800,
             height: 600
         }, {
