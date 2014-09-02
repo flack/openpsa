@@ -130,7 +130,7 @@ class net_nehmer_comments_handler_moderate extends midcom_baseclasses_components
             $message['content'] = "\n\n" . midcom::get()->permalinks->create_permalink($this->_comment->objectguid);
 
             $message['abstract'] = sprintf($this->_l10n->get('comment %s reported as abuse'), $this->_comment->title);
-            $message['abstract'] = " " . midcom::get()->permalinks->create_permalink($this->_comment->objectguid);
+            $message['abstract'] .= " " . midcom::get()->permalinks->create_permalink($this->_comment->objectguid);
 
             // Notify moderators
             $moderator_guids = explode('|', $moderators);

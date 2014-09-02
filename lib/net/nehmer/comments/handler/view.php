@@ -68,7 +68,7 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
     /**
      * Prepares the request data
      */
-    function _prepare_request_data()
+    private function _prepare_request_data()
     {
         $this->_request_data['comments'] = $this->_comments;
         $this->_request_data['objectguid'] = $this->_objectguid;
@@ -79,10 +79,8 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
 
     /**
      * Prepares the _display_datamanager member.
-     *
-     * @access private
      */
-    function _init_display_datamanager()
+    private function _init_display_datamanager()
     {
         $this->_load_schemadb();
         $this->_display_datamanager = new midcom_helper_datamanager2_datamanager($this->_schemadb);
@@ -91,15 +89,14 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
     /**
      * Loads the schemadb (unless it has already been loaded).
      */
-    function _load_schemadb()
+    private function _load_schemadb()
     {
-        if (! $this->_schemadb)
+        if (!$this->_schemadb)
         {
-            $this->_schemadb = midcom_helper_datamanager2_schema::load_database(
-                $this->_config->get('schemadb'));
+            $this->_schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb'));
 
             if (   $this->_config->get('use_captcha')
-                || (   ! midcom::get()->auth->user
+                || (   !midcom::get()->auth->user
                     && $this->_config->get('use_captcha_if_anonymous')))
             {
                 $this->_schemadb['comment']->append_field
@@ -127,7 +124,7 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
     /**
      * Initializes a DM2 for posting.
      */
-    function _init_post_controller()
+    private function _init_post_controller()
     {
         $this->_load_schemadb();
 
@@ -217,7 +214,7 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
      * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    function _handler_comments($handler_id, array $args, array &$data)
+    public function _handler_comments($handler_id, array $args, array &$data)
     {
         if (! mgd_is_guid($args[0]))
         {
@@ -290,9 +287,9 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
      *
      * As of this point, this tool assumes at least owner level privileges for all
      */
-    function _process_admintoolbar()
+    private function _process_admintoolbar()
     {
-        if (! array_key_exists('net_nehmer_comment_adminsubmit', $_REQUEST))
+        if (!array_key_exists('net_nehmer_comment_adminsubmit', $_REQUEST))
         {
             // Nothing to do.
             return;
@@ -301,10 +298,9 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
         if (array_key_exists('action_delete', $_REQUEST))
         {
             $comment = new net_nehmer_comments_comment($_REQUEST['guid']);
-            if (! $comment->delete())
+            if (!$comment->delete())
             {
-                throw new midcom_error(MIDCOM_ERRCRIT,
-                                       "Failed to delete comment GUID '{$_REQUEST['guid']}': " . midcom_connection::get_error_string());
+                throw new midcom_error("Failed to delete comment GUID '{$_REQUEST['guid']}': " . midcom_connection::get_error_string());
             }
 
             midcom::get()->cache->invalidate($comment->objectguid);
@@ -315,10 +311,10 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
     /**
      * Checks if a new post has been submitted.
      */
-    function _process_post()
+    private function _process_post()
     {
-        if (   ! midcom::get()->auth->user
-            && ! midcom::get()->auth->request_sudo('net.nehmer.comments'))
+        if (   !midcom::get()->auth->user
+            && !midcom::get()->auth->request_sudo('net.nehmer.comments'))
         {
             throw new midcom_error('We were anonymous but could not acquire SUDO privileges, aborting');
         }
@@ -378,7 +374,7 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
      * are viewing right now, including all GET parameters we had in the original request.
      * We do this by taking the $_SERVER['REQUEST_URI'] variable.
      */
-    function _relocate_to_self()
+    private function _relocate_to_self()
     {
         midcom::get()->relocate($_SERVER['REQUEST_URI']);
     }
@@ -389,7 +385,7 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    function _show_comments($handler_id, array &$data)
+    public function _show_comments($handler_id, array &$data)
     {
         midcom_show_style('comments-header');
         if ($this->_comments)
