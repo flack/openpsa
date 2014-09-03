@@ -648,15 +648,6 @@
                         className: toolbar_class,
                         id: this.identifier + '_ajax_toolbar'
                     }).hide();
-
-                    if($('.' + this.identifier + ':visible:first').length > 0)
-                    {
-                        this.toolbar.insertBefore($('.' + this.identifier + ':visible:first'));
-                    }
-                    else
-                    {
-                        this.toolbar.insertBefore($('.ajax_editable:visible:first'));
-                    }
                 }
 
                 this.toolbar.html('');
@@ -674,6 +665,14 @@
                 if (   this.state.current !== 'view'
                     && this.state.current !== 'cancel')
                 {
+                    if ($('.' + this.identifier + ':visible:first').length > 0)
+                    {
+                        this.toolbar.insertBefore($('.' + this.identifier + ':visible:first'));
+                    }
+                    else
+                    {
+                        this.toolbar.insertBefore($('.ajax_editable:visible:first'));
+                    }
                     this.toolbar.show();
                 }
             }
