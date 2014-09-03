@@ -143,7 +143,7 @@ var openpsa_calendar_widget =
                 openpsa_calendar_widget.update_url(selector, prefix);
             },
             eventRender: function (event, element) {
-                element.find('.fc-event-inner').append('<span class="participants">(' + event.participants.join(', ') + ')</span>');
+                element.find('.fc-content').append('<span class="participants">(' + event.participants.join(', ') + ')</span>');
             },
             eventClick: function (calEvent, jsEvent, view) {
                 var guid = calEvent.id,

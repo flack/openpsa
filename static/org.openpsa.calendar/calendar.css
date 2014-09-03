@@ -1,17 +1,28 @@
-#content-text .fc-header-title h2
+#content-text .fc-center h2
 {
     margin: 0;
     font-size: 20px;
 }
 
-.fc-agenda-slots .ui-widget-header,
-.fc-week-number div
+.ui-widget-header th
+{
+    border-color: transparent;
+}
+
+.fc-slats .fc-axis,
+.fc-week-number.ui-widget-content,
+.fc-day-grid .fc-axis.ui-widget-content
 {
     background: #F4F4EF;
-    border-color: #BABDB6;
     color: #666;
     text-shadow: 0 1px 1px rgba(255, 255, 255, 0.3)
 }
+.fc-content-skeleton .fc-week-number
+{
+    color: #666;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.3)
+}
+
 .fc-agenda-slots .ui-widget-header
 {
     border-style: solid;
@@ -40,7 +51,7 @@
     background: #f0f0ed;
 }
 
-.fc-event {
+.ui-widget .fc-event {
     border: 1px solid #826647;
     background: #E0C39E;
     background: -moz-linear-gradient(top, #E0C39E 0%, #E0C39E 50%, #DDB585 51%, #DDC5A8 100%);
@@ -50,15 +61,11 @@
     text-shadow: 1px 0px 3px rgba(255, 255, 255, 0.7);
     color: #000000;
     border-radius: 3px;
-    overflow: hidden;
     padding: 1px;
     margin: 0px;
     margin-top: 2px;
-    height: 16px;
     line-height: 16px;
     font-weight: normal;
-    white-space: nowrap;
-    text-overflow: ellipsis;
     font-size: 1em
 }
 .fc-event:hover {
@@ -80,7 +87,12 @@
     background-color: #884631;
 }
 
-.fc-event-inner .fc-event-title
+.fc-content
+{
+    text-overflow: ellipsis;
+}
+
+.fc-content .fc-title
 {
     padding-right: .4em
 }
