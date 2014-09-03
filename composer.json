@@ -36,7 +36,7 @@
         "symfony/event-dispatcher": "~2.4",
         "symfony/http-foundation": "~2.4",
         "symfony/security-csrf": "~2.4",
-        "swiftmailer/swiftmailer": "~5.0.0@stable"
+        "swiftmailer/swiftmailer": "~5.2.0@stable"
     },
     "scripts": {
         "post-install-cmd": [
