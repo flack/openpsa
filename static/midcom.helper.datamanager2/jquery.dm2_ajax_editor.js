@@ -644,10 +644,10 @@
                         $('#' + this.identifier + '_ajax_toolbar').remove();
                     }
 
-                    this.toolbar = $('<div />').attr({
-                        className: toolbar_class,
-                        id: this.identifier + '_ajax_toolbar'
-                    }).hide();
+                    this.toolbar = $('<div />')
+                        .attr('id', this.identifier + '_ajax_toolbar')
+                        .addClass(toolbar_class)
+                        .hide();
                 }
 
                 this.toolbar.html('');
