@@ -587,7 +587,7 @@
             results_parsed: function()
             {
                 var that = this,
-                form_fields = this.form_fields,
+                form_fields = $.extend(true, {}, this.form_fields),
                 identifier = this.identifier,
                 unreplaced_fields = [],
                 notfound_wrapper = $('<div id="' + identifier + '_invisible_fields">'),
