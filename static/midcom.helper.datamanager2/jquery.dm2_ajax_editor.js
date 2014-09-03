@@ -649,9 +649,9 @@
                         id: this.identifier + '_ajax_toolbar'
                     }).hide();
 
-                    if($('.'+this.identifier+'.ajax_editable:visible:first').length > 0)
+                    if($('.' + this.identifier + ':visible:first').length > 0)
                     {
-                        this.toolbar.insertBefore($('.'+this.identifier+'.ajax_editable:visible:first'));
+                        this.toolbar.insertBefore($('.' + this.identifier + ':visible:first'));
                     }
                     else
                     {
