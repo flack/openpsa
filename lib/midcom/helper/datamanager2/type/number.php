@@ -17,9 +17,9 @@
  *   member function instead of setting the value directly. The PHP function round()
  *   is used for rounding, see its documentation of the precision parameter for further
  *   details. If you set this value to null, rounding is skipped (the default).
- * - <i>int minimum:</i> The minimum value the type may take, inclusive. Set this to
+ * - <i>float minimum:</i> The minimum value the type may take, inclusive. Set this to
  *   null to disable the lower bound, which is the default.
- * - <i>int maximum:</i> The maximum value the type may take, inclusive. Set this to
+ * - <i>float maximum:</i> The maximum value the type may take, inclusive. Set this to
  *   null to disable the upper bound, which is the default.
  *
  * @package midcom.helper.datamanager2
@@ -32,7 +32,7 @@ class midcom_helper_datamanager2_type_number extends midcom_helper_datamanager2_
      *
      * @var float
      */
-    var $value = 0.0;
+    public $value = 0.0;
 
     /**
      * The precision of the type, null means full available precision, while 0 emulates
@@ -40,25 +40,22 @@ class midcom_helper_datamanager2_type_number extends midcom_helper_datamanager2_
      * specifiers.
      *
      * @var int
-     * @see round()
      */
-    var $precision = null;
+    public $precision;
 
     /**
      * The lower bound of valid values, set to null to disable checking (default).
      *
      * @var float
-     * @see round()
      */
-    var $minimum = null;
+    public $minimum;
 
     /**
      * The upper bound of valid values, set to null to disable checking (default).
      *
      * @var float
-     * @see round()
      */
-    var $maximum = null;
+    public $maximum;
 
     /**
      * Explicitly converts the passed value into a float, there is a str_replace()
@@ -75,15 +72,14 @@ class midcom_helper_datamanager2_type_number extends midcom_helper_datamanager2_
         }
         else
         {
-            $this->value = (float) str_replace(',', '.', $source);
+            $this->value = $this->sanitize_number($source);
         }
-        $this->_round_value();
+        $this->round_value();
     }
 
     /**
      * The current value is converted into a string before being passed to the
-     * caller. Any decimal characters that are not in a form PHP can recognize
-     * on parsing will be unified before returning them.
+     * caller.
      *
      * This conversion assumes that the current value is already rounded (usually
      * done by either set_value() or validate().
@@ -92,7 +88,23 @@ class midcom_helper_datamanager2_type_number extends midcom_helper_datamanager2_
      */
     public function convert_to_storage()
     {
-        return str_replace(',', '.', (string) $this->value);
+        return (string) $this->sanitize_number($this->value);
+    }
+
+    /**
+     * Any decimal characters that are not in a form PHP can recognize
+     * on parsing will be unified before returning them.
+     *
+     * @param string $input
+     * @return float
+     */
+    private function sanitize_number($input)
+    {
+        if (is_float($input))
+        {
+            return $input;
+        }
+        return (float) str_replace(',', '.', (string) $input);
     }
 
     /**
@@ -100,12 +112,13 @@ class midcom_helper_datamanager2_type_number extends midcom_helper_datamanager2_
      */
     public function convert_to_html()
     {
+        $value = $this->sanitize_number($this->value);
         if ($this->precision !== null)
         {
             $locale_info = localeconv();
-            return number_format($this->value, $this->precision, $locale_info['decimal_point'], $locale_info['thousands_sep']);
+            return number_format($value, $this->precision, $locale_info['decimal_point'], $locale_info['thousands_sep']);
         }
-        return htmlspecialchars($this->value);
+        return htmlspecialchars($value);
     }
 
     /**
@@ -121,30 +134,22 @@ class midcom_helper_datamanager2_type_number extends midcom_helper_datamanager2_
      */
     function set_value($value)
     {
-        if (is_string($value))
-        {
-            $value = (float) str_replace(',', '.', $value);
-        }
-
-        $this->value = (float) $value;
-        $this->_round_value();
+        $this->value = $this->sanitize_number($value);
+        $this->round_value();
     }
 
     /**
      * Rounds the value according to the precision rules. If arbitrary precision is set,
      * no rounding is done, and the function exits without changing the value.
      */
-    function _round_value()
+    private function round_value()
     {
-        if (! $this->value)
+        if (!$this->value)
         {
             // Skip process, we are undefined.
             return;
         }
-        if (! is_float($this->value))
-        {
-            $this->value = (float) str_replace(',', '.', $this->value);
-        }
+        $this->value = $this->sanitize_number($this->value);
         if ($this->precision !== null)
         {
             $this->value = round($this->value, $this->precision);
@@ -175,7 +180,7 @@ class midcom_helper_datamanager2_type_number extends midcom_helper_datamanager2_
      */
     public function _on_validate()
     {
-        $this->_round_value();
+        $this->round_value();
 
         if (   $this->maximum !== null
             && $this->value > $this->maximum)
