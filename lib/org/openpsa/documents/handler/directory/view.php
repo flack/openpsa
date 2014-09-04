@@ -161,6 +161,15 @@ class org_openpsa_documents_handler_directory_view extends midcom_baseclasses_co
                     MIDCOM_TOOLBAR_ACCESSKEY => 'e',
                 )
             );
+            $this->_view_toolbar->add_item
+            (
+                array
+                (
+                    MIDCOM_TOOLBAR_URL => "__ais/folder/move/{$this->_request_data['directory']->guid}/",
+                    MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('move', 'midcom.admin.folder'),
+                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/save-as.png',
+                )
+            );
         }
         if ($this->_request_data['directory']->can_do('midgard:delete'))
         {
