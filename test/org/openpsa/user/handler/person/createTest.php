@@ -37,7 +37,7 @@ class org_openpsa_user_handler_person_createTest extends openpsa_testcase
             'username' => $username,
             'password' => array
             (
-                'password_input' => uniqid()
+                'password_input' => 'p@ssword123'
             ),
             'send_welcome_mail' => '1'
         );
