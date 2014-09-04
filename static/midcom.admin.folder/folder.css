@@ -49,9 +49,20 @@ div.midcom_admin_content_folderlist ul ul
     padding-left: 30px;
 }
 
-div.midcom_admin_content_folderlist ul li.current
+div.midcom_admin_content_folderlist ul li.current > label
 {
     font-weight: bold;
+}
+
+div.midcom_admin_content_folderlist ul li.self
+{
+    font-weight: bold;
+    color: #a0a0a0;
+}
+
+div.midcom_admin_content_folderlist ul li.self li
+{
+    font-weight: normal;
 }
 
 div.midcom_admin_content_folderlist ul li.wrong_component
