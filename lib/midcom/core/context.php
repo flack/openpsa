@@ -194,7 +194,7 @@ class midcom_core_context
             {
                 throw new midcom_error
                 (
-                    "Fatal error: Unable to load website root folder with GUID '" . midcom::get()->config->get('midcom_root_topic_guid') . "<br />" .
+                    "Fatal error: Unable to load website root folder with GUID '" . midcom::get()->config->get('midcom_root_topic_guid') .
                     'Last Midgard Error was: ' . midcom_connection::get_error_string()
                 );
             }
