@@ -32,7 +32,7 @@ class midcom_core_setup
             throw new midcom_error('Fatal error: Failed to create root folder: ' . midcom_connection::get_error_string());
         }
         $conf = '<?php' . "\n";
-        $conf = "//AUTO-GENERATED on " . strftime('%x %X') . "\n";
+        $conf .= "//AUTO-GENERATED on " . strftime('%x %X') . "\n";
         $conf .= '$GLOBALS[\'midcom_config_local\'][\'midcom_root_topic_guid\'] = "' . $topic->guid . '";' . "\n";
 
         $project_dir = dirname(dirname(dirname(__DIR__)));
