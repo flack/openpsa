@@ -80,7 +80,6 @@ class midcom_core_service_implementation_urlparsertopic implements midcom_core_s
      */
     public function parse($argv)
     {
-        // Use straight Midgard data instead of tokenizing the URL
         $this->argc = count($argv);
         $this->argv = $argv;
         $this->argv_original = $argv;

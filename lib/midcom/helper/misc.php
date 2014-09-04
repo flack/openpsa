@@ -201,9 +201,8 @@ class midcom_helper_misc
                     if ($element == 'ROOT')
                     {
                         /* If we don't have a ROOT element, go to content directly. style-init or style-finish
-                         * can load the page style (under mgd1, this might also be done with the
-                                 * midgard style engine as well)
-                        */
+                         * can load the page style
+                         */
                         return '<?php midcom_core_context::get()->show(); ?>';
                     }
                     return '';

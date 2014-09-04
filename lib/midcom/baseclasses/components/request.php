@@ -72,8 +72,8 @@
  * );
  * </code>
  *
- * This definition is usually located in either in the _on_initialize event handler (preferred)
- * or the subclass' constructor (discouraged, as you can't use references to $this safely there).
+ * This definition is usually located in either in the routes.inc file (preferred)
+ * or the _on_initialize event handler.
  *
  * The handlers are processed in the order which they have been added to the array. This has
  * several implications:
@@ -86,11 +86,6 @@
  * Second, for performance reasons, you should try to add the handler which will be accessed
  * most of the time first (unless it conflicts with the first rule above), as this will speed
  * up average request processing.
- *
- * Subclasses <i>may</i> add additional configuration data to the handler declarations, this
- * is done, for example by the config_dm handler defined in the request_admin subclass. They
- * must only be used to configure predefined requests, you should refer to the documentation
- * of these handlers for details.
  *
  * It is recommended that you add string-based identifiers to your handlers. This makes
  * debugging of URL parsing much easier, as MidCOM logs which request handlers are checked
@@ -131,11 +126,12 @@
  * <i>_can_handle_xxx notes:</i> For ease of use,
  * the _can_handle_xxx callback is optional, it will only be called if the method actually
  * exists. Normally you want to override this only if you request handler can hide stuff
- * which is not under the control of your topic. A prominent example is a hander definition
+ * which is not under the control of your topic. A prominent example is a handler definition
  * which has only a single variable argument. It would hide all subtopics if you don't check
  * what objects actually belong to you, and what not.
  *
- * The main callbacks _handle_xxx and _show_xxx are mandatory.
+ * The main callback _handle_xxx is mandatory, _show_xxx is optional since the handle method can
+ * return a response directly.
  *
  * As you can see, the system provides you with an easy way to keep track of the data
  * of your request, without having dozens of members for trivial flags. This data array
@@ -145,7 +141,7 @@
  * The data array can also be accessed by using the $_request_data member of this class,
  * which is the original data storage location for the request data.
  *
- * Note, that the request data, for ease of use, already contains references to the L10n
+ * Note that the request data, for ease of use, already contains references to the L10n
  * Databases of the Component and MidCOM itself located in this class. They are stored
  * as 'l10n' and 'l10n_midcom'. Also available as 'config' is the current component
  * configuration and 'topic' will hold the current content topic.
@@ -514,13 +510,11 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
             $handler =& $this->_handler['handler'][0];
             $method = "_can_handle_{$this->_handler['handler'][1]}";
 
-            if (method_exists($handler, $method))
+            if (   method_exists($handler, $method)
+                && !$handler->$method($this->_handler['id'], $this->_handler['args'], $this->_request_data))
             {
-                if (!$handler->$method($this->_handler['id'], $this->_handler['args'], $this->_request_data))
-                {
-                    // This can_handle failed, allow next one to take over if there is one
-                    continue;
-                }
+                // This can_handle failed, allow next one to take over if there is one
+                continue;
             }
             return true;
         }
@@ -597,14 +591,11 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
         // Update the request data
         $this->_request_data['topic'] = $this->_topic;
 
-        // Get the toolbars for both the main request object and the handler
-        // object. Note, if both are equal, we will have two assignments at this
-        // point; it shouldn't bother us, it isn't a regular use-case anymore (besides
-        // the fact that this is only a very very very minor performance issue).
+        // Get the toolbars for both the main request object and the handler object.
         $this->_node_toolbar = midcom::get()->toolbars->get_node_toolbar();
         $this->_view_toolbar = midcom::get()->toolbars->get_view_toolbar();
-        $handler->_node_toolbar = midcom::get()->toolbars->get_node_toolbar();
-        $handler->_view_toolbar = midcom::get()->toolbars->get_view_toolbar();
+        $handler->_node_toolbar = $this->_node_toolbar;
+        $handler->_view_toolbar = $this->_view_toolbar;
 
         // Add the handler ID to request data
         $this->_request_data['handler_id'] = $this->_handler['id'];
@@ -691,7 +682,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
     /**
      * Display the content, it uses the handler as determined by can_handle.
      *
-     * Before doing anything, it will call the _on_showent handler to allow for
+     * Before doing anything, it will call the _on_show event handler to allow for
      * generic preparation. If this function returns false, the regular output
      * handler will not be called.
      *
@@ -728,8 +719,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
      * Initialization event handler, called at the end of the initialization process
      * immediately before the request handler configuration is read.
      *
-     * Use this function instead of the constructor for all initialization work, as
-     * it makes your life much easier with references to $this being available. You
+     * Use this function instead of the constructor for all initialization work. You
      * can safely populate the request switch from here.
      *
      * You should not do anything else then general startup work, as this callback

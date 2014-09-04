@@ -223,7 +223,7 @@ class midcom_application
             throw new midcom_error("dynamic_load content request called before content output phase.");
         }
 
-        // Determine new Context ID and set currentcontext,
+        // Determine new Context ID and set current context,
         // enter that context and prepare its data structure.
         $oldcontext = midcom_core_context::get();
         $context = new midcom_core_context(null, $oldcontext->get_key(MIDCOM_CONTEXT_ROOTTOPIC));

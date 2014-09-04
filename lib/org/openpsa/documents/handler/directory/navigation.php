@@ -85,7 +85,7 @@ class org_openpsa_documents_handler_directory_navigation extends midcom_baseclas
     public function _handler_navigation($handler_id, array $args, array &$data)
     {
         $current_topic = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_CONTENTTOPIC);
-        $current_component = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_CONTENTTOPIC)->component;
+        $current_component = $current_topic->component;
         $root_topic = $current_topic;
         while ($root_topic->get_parent()->component == $current_component)
         {
