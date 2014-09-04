@@ -1,5 +1,9 @@
 $.widget( "custom.category_complete", $.ui.autocomplete,
 {
+    _create: function() {
+        this._super();
+        this.widget().menu( "option", "items", "> :not(.ui-autocomplete-category)" );
+    },
     _renderMenu: function(ul, items)
     {
         var self = this,
