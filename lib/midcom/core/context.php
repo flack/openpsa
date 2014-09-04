@@ -173,34 +173,29 @@ class midcom_core_context
 
     private function _initialize_root_topic()
     {
-        // Initialize Root Topic
-        try
+        $guid = midcom::get()->config->get('midcom_root_topic_guid');
+        if (empty($guid))
         {
-            $root_node = midcom_db_topic::get_cached(midcom::get()->config->get('midcom_root_topic_guid'));
+            $setup = new midcom_core_setup("Root folder is not configured. Please log in as administrator and fix this in settings.");
+            $root_node = $setup->find_topic(true);
         }
-        catch (midcom_error $e)
+        else
         {
-            if ($e instanceof midcom_error_forbidden)
+            try
             {
-                throw new midcom_error_forbidden(midcom::get()->i18n->get_string('access denied', 'midcom'));
+                $root_node = midcom_db_topic::get_cached($guid);
             }
-            // Fall back to another topic so that admin has a chance to fix this
-            midcom::get()->auth->require_admin_user("Root folder is misconfigured. Please log in as administrator and fix this in settings.");
-            $qb = midcom_db_topic::new_query_builder();
-            $qb->add_constraint('up', '=', 0);
-            $qb->add_constraint('component', '<>', '');
-            $topics = $qb->execute();
-            if (count($topics) == 0)
+            catch (midcom_error $e)
             {
-                throw new midcom_error
-                (
-                    "Fatal error: Unable to load website root folder with GUID '" . midcom::get()->config->get('midcom_root_topic_guid') .
-                    'Last Midgard Error was: ' . midcom_connection::get_error_string()
-                );
+                if ($e instanceof midcom_error_forbidden)
+                {
+                    throw new midcom_error_forbidden(midcom::get()->i18n->get_string('access denied', 'midcom'));
+                }
+                // Fall back to another topic so that admin has a chance to fix this
+                $setup = new midcom_core_setup("Root folder is misconfigured. Please log in as administrator and fix this in settings.");
+                $root_node = $setup->find_topic();
             }
-            $root_node = $topics[0];
         }
-
         $this->set_key(MIDCOM_CONTEXT_ROOTTOPIC, $root_node);
         $this->set_key(MIDCOM_CONTEXT_ROOTTOPICID, $root_node->id);
     }
