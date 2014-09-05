@@ -225,14 +225,14 @@
 
                 button.bind('click', function() {
                     if (self.creation_tpl === null) {
-                        self.creation_tpl = $(this).parent().find('.temporary_item');
+                        self.creation_tpl = $('#' + self.identifier + '_area');
                         self.creation_tpl.removeClass('temporary_item').addClass('ajax_editable midcom_helper_datamanager2_composite_item_editing');
                     }
 
                     self.config.in_creation_mode = true;
 
                     self.active_creation_holder = self.creation_tpl.clone().insertBefore(self.creation_tpl);
-                    $(this).parent().find('.temporary_item').remove();
+                    self.creation_tpl.remove();
 
                     self.active_creation_holder.show();
 
