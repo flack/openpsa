@@ -231,7 +231,7 @@ class midcom_helper_datamanager2_controller_create extends midcom_helper_dataman
                     if ($exitcode == 'save')
                     {
                         $this->datamanager->save();
-                        $this->formmanager->display_view($this->form_identifier, "midcom_helper_datamanager2_controller_ajax_{$this->datamanager->storage->object->guid}");
+                        $this->formmanager->display_view($this->form_identifier, "dm2_ajax_{$this->datamanager->storage->object->guid}");
                     }
                     else
                     {
