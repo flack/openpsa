@@ -55,7 +55,7 @@
         {
             if ($.dm2.ajax_editor.instances[identifier] !== undefined)
             {
-                $('#' + this.identifier + '_area').remove();
+                $('#' + identifier + '_area').remove();
                 delete $.dm2.ajax_editor.instances[identifier];
             }
         },
