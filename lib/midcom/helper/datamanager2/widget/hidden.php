@@ -47,28 +47,8 @@ class midcom_helper_datamanager2_widget_hidden extends midcom_helper_datamanager
         if (is_a($this->_type, 'midcom_helper_datamanager2_type_number'))
         {
             $this->_form->addRule($this->name, $this->_translate('validation failed: numeric'), 'regex', '/^-?[0-9]*([.,][0-9]*)?$/');
-            $this->_form->addFormRule(Array(&$this, 'validate_number'));
+            $this->_form->addFormRule(Array(&$this->_type, 'validate_number'));
         }
-    }
-
-    /**
-     * QF Validation callback used for number types. It checks the number boundaries
-     * accordingly.
-     */
-    function validate_number($fields)
-    {
-        if (   $this->_type->minimum !== null
-            && $fields[$this->name] < $this->_type->minimum)
-        {
-            return Array ($this->name => sprintf($this->_l10n->get('type number: value must not be smaller than %s'), $this->_type->minimum));
-        }
-        if (   $this->_type->maximum !== null
-            && $fields[$this->name] > $this->_type->maximum)
-        {
-            return Array ($this->name => sprintf($this->_l10n->get('type number: value must not be larger than %s'), $this->_type->maximum));
-        }
-
-        return true;
     }
 
     public function get_default()
