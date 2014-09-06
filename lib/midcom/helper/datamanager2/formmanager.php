@@ -80,12 +80,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
      * If you don't want any renderer to kick in, set the (default) renderer to 'none'
      * will stick to the QF Default renderer.
      *
-     * <i>Authors note:</i> Be aware that on the long run this rendering system will get some
-     * base classes which make building renderers with MidCOM support easier. Right now
-     * we simply use the standard run-of-the-mill renderers of QF, but be prepared that the
-     * API of this might change a bit (reflected in that new base class) on the long run.
-     *
-     * @var HTML_Quickform_Renderer subclass
+     * @var HTML_Quickform_Renderer
      */
     var $renderer = null;
 
@@ -121,8 +116,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
     /**
      * Initializes the Form manager with a list of types for a given schema.
      *
-     * @param midcom_helper_datamanager2_schema $schema The schema to use for processing. This
-     *     variable is taken by reference.
+     * @param midcom_helper_datamanager2_schema $schema The schema to use for processing.
      * @param array &$types A list of types matching the passed schema, used as a basis for the
      *     form types. This variable is taken by reference.
      */
@@ -136,9 +130,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
     }
 
     /**
-     * This function will create all widget objects for the current schema. It will load class
-     * files where necessary (using require_once), and then create a set of instances
-     * based on the schema.
+     * This function will create all widget objects for the current schema.
      *
      * @param string $name The name of the field for which we should load the widget.
      */
@@ -165,8 +157,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
     }
 
     /**
-     * This function fully initializes the class for operation. This is not done during the
-     * constructor call, to allow for full reference safety.
+     * This function fully initializes the class for operation.
      *
      * @param mixed $name The name of the form. This defaults to the name of the currently active component, which should
      *     suffice in most cases.
@@ -299,7 +290,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
                 debug_print_r('Passed object was:', $field_default);
                 return;
             }
-            else if (is_array($field_default))
+            if (is_array($field_default))
             {
                 $this->_defaults = array_merge($this->_defaults, $field_default);
             }
@@ -324,7 +315,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
                 $buttonname = "midcom_helper_datamanager2_{$operation}[{$key}]";
                 $buttonlabel = $this->_translate($label);
 
-                $class = 'submit '.$operation;
+                $class = 'submit ' . $operation;
                 $accesskey = '';
                 if ($operation == 'save')
                 {
@@ -673,14 +664,10 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
                 {
                     throw new midcom_error('Invalid renderer configuration');
                 }
-                // Ensure that the snippet is only loaded once.
+                midcom_helper_misc::include_snippet_php($src);
                 if (! class_exists($default))
                 {
-                    midcom_helper_misc::include_snippet_php($src);
-                    if (! class_exists($default))
-                    {
-                        throw new midcom_error("The renderer class '{$default}' set in the DM2 configuration does not exist.");
-                    }
+                    throw new midcom_error("The renderer class '{$default}' set in the DM2 configuration does not exist.");
                 }
             }
             $this->renderer = new $default($this->namespace);
