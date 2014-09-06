@@ -13,7 +13,11 @@
  */
 class org_openpsa_documents_handler_directory_view extends midcom_baseclasses_components_handler
 {
-    private $_datamanager = null;
+    /**
+     *
+     * @var midcom_helper_datamanager2_datamanager
+     */
+    private $_datamanager;
 
     /**
      * The documents of the directory we're working with.
@@ -50,8 +54,6 @@ class org_openpsa_documents_handler_directory_view extends midcom_baseclasses_co
      */
     public function _handler_view($handler_id, array $args, array &$data)
     {
-        $qb = org_openpsa_documents_document_dba::new_query_builder();
-
         //check if there is another output-mode wanted
         if (isset($args[0]))
         {
@@ -67,6 +69,7 @@ class org_openpsa_documents_handler_directory_view extends midcom_baseclasses_co
             $current_topic = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_CONTENTTOPIC);
         }
 
+        $qb = org_openpsa_documents_document_dba::new_query_builder();
         switch ($this->_output_mode)
         {
             case 'xml':
@@ -236,6 +239,7 @@ class org_openpsa_documents_handler_directory_view extends midcom_baseclasses_co
         $qb = midcom_db_topic::new_query_builder();
         $qb->add_constraint("component", "=", $current_component);
         $qb->add_constraint("up", "=", $root_topic->id);
+        $qb->add_order('extra');
         $this->_directories = $qb->execute();
     }
 }
