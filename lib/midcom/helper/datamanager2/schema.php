@@ -11,50 +11,7 @@
  *
  * This class encapsulates Datamanager Schemas. It contains all information required to construct
  * the types and widgets of a given data schema. The base class constructs out of a Datamanager 2
- * Schema definition, you need to
- * use the appropriate subclass to handle them dynamically.
- *
- * <b>Schema Definition</b>
- *
- * <b>Storage</b>
- * When using the Midgard storage backend, it is possible to define a callback class to be called
- * that will then save the object. The class is defined as follows. Please note that if the classname
- * follows the midcom hierarchy, it may be loaded automatically.
- *
- * The class must satisfy the following interfaces:
- * <code>
- * class midcom_admin_parameters_callback {
- *      // params:
- *      // name: the name of the field
- *      // data: the data that comes from the type defined.
- *      // storage: a reference to the datamanager's storageclass.
- *      function on_load_data($name, &$storage);
- *      function on_store_data($name, $data,&$storage);
- * }
- * </code>
- *
- * What the functions should return depends on the datatype they return to.
- *
- * The callback may be defined in the schema like this:
- * <code>
- * 'fields' => Array
- * (
- *      'parameters' => Array
- *       (
- *           'title' => 'url name',
- *           'storage' => Array
- *            (
- *                   'location' => 'object',
- *                   'callback' => 'midcom_admin_parameters_callbacks_storage',
- *            ),
- *            'type' => ..,
- *            'widget' => ..
- *       ),
- * </code>
- *
- * <b>Important</b>
- * It is only possible to define one storage callback per schema! If you want more than one,
- * encapsulate this in your class.
+ * Schema definition, you need to use the appropriate subclass to handle them dynamically.
  *
  * @todo Complete documentation
  * @package midcom.helper.datamanager2
