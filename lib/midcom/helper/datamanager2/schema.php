@@ -376,8 +376,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
             $this->append_field($name, $data);
         }
 
-        if (   $this->_config
-            && $this->_config->get('include_metadata_required')
+        if (   $this->_config->get('include_metadata_required')
             && $this->_schemadb_path
             && $this->_schemadb_path != midcom::get()->config->get('metadata_schema'))
         {
