@@ -46,7 +46,6 @@ class midcom_admin_folder_selectcomponent extends  midcom_helper_datamanager2_wi
         $select_attributes = array_merge($attributes, array
         (
             'class' => ($this->_type->allow_multiple) ? 'list' : 'dropdown',
-            'id'    => "{$this->_namespace}{$this->name}",
         ));
         $select_attributes['class'] .= ' selectcomponent';
 

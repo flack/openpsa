@@ -77,13 +77,9 @@ class midcom_helper_datamanager2_widget_privilegeselection extends midcom_helper
 
         $elements = array();
 
-        $select_attributes = Array
-        (
-            'class' => 'dropdown privilegeselection',
-            'id'    => "{$this->_namespace}{$this->name}",
-        );
+        $attributes['class'] = 'dropdown privilegeselection';
         $this->_element = $this->_form->createElement('select', $this->name, '',
-            $this->_privilege_options, $select_attributes);
+            $this->_privilege_options, $attributes);
 
         $this->_jscript = '<script type="text/javascript">';
         $this->_jscript .= 'jQuery("#' . $this->_namespace . $this->name . '_holder").render_privilege();';

@@ -65,11 +65,7 @@ class midcom_helper_datamanager2_widget_checkbox extends midcom_helper_datamanag
      */
     public function add_elements_to_form($attributes)
     {
-        $attributes = array_merge($attributes, array
-        (
-            'class' => 'checkbox',
-            'id'    => "{$this->_namespace}{$this->name}",  //need this for JS events
-        ));
+        $attributes['class'] = 'checkbox';
 
         $title = $this->_translate($this->_field['title']);
 

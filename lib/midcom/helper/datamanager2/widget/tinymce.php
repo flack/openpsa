@@ -321,13 +321,9 @@ EOT;
             $this->_add_initscript();
         }
 
-        $attributes = array_merge($attributes, array
-        (
-            'rows' => $this->height,
-            'cols' => $this->width,
-            'class' => 'tinymce',
-            'id'    => "{$this->_namespace}{$this->name}",
-        ));
+        $attribute['rows'] = $this->height;
+        $attributes['cols'] = $this->width;
+        $attributes['class'] = 'tinymce';
         if ($this->wrap != '')
         {
             $attributes['wrap'] = $this->wrap;

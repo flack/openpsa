@@ -57,11 +57,7 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
      */
     public function add_elements_to_form($attributes)
     {
-        $attributes = array_merge($attributes, array
-        (
-            'class' => 'fileselector',
-            'id'    => "{$this->_namespace}{$this->name}",
-        ));
+        $attributes['class'] = 'fileselector';
         $this->_upload_element = $this->_form->createElement('file', "{$this->name}_file", '', $attributes);
         $elements = Array();
 

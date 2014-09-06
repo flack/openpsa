@@ -237,6 +237,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
             $attributes = array
             (
                 'helptext' => $this->_translate($config['helptext']),
+                'id' => $this->namespace . $name
             );
             $this->widgets[$name]->add_elements_to_form($attributes);
             if (!$this->_check_freeze_status($name, $config))

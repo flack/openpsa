@@ -90,13 +90,9 @@ class midcom_helper_datamanager2_widget_textarea extends midcom_helper_datamanag
      */
     public function add_elements_to_form($attributes)
     {
-        $attributes = array_merge($attributes, array
-        (
-            'rows' => $this->height,
-            'cols' => $this->width,
-            'class' => 'longtext',
-            'id'    => "{$this->_namespace}{$this->name}",
-        ));
+        $attribute['rows'] = $this->height;
+        $attributes['cols'] = $this->width;
+        $attributes['class'] = 'longtext';
         if ($this->wrap != '')
         {
             $attributes['wrap'] = $this->wrap;

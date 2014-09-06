@@ -71,11 +71,7 @@ class midcom_helper_datamanager2_widget_text extends midcom_helper_datamanager2_
      */
     public function add_elements_to_form($attributes)
     {
-        $attributes = array_merge($attributes, array
-        (
-            'class' => 'shorttext',
-            'id'    => "{$this->_namespace}{$this->name}",
-        ));
+        $attributes['class'] = 'shorttext';
         if ($this->maxlength > 0)
         {
             $attributes['maxlength'] = $this->maxlength;

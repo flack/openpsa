@@ -105,11 +105,7 @@ class midcom_helper_datamanager2_widget_captcha extends midcom_helper_datamanage
         $static_html = $this->_l10n->get('captcha message');
         $elements[] = $this->_form->createElement('static', "{$this->name}_message", '', $static_html);
 
-        $attributes = array_merge($attributes, array
-        (
-            'class' => 'captcha',
-            'id'    => "{$this->_namespace}{$this->name}",
-        ));
+        $attributes['class'] = 'captcha';
         $this->_element = $this->_form->createElement('text', $this->name, '', $attributes);
         $elements[] = $this->_element;
         $this->_form->applyFilter($this->name, 'trim');

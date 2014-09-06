@@ -35,12 +35,7 @@ class midcom_helper_datamanager2_widget_hidden extends midcom_helper_datamanager
      */
     public function add_elements_to_form($attributes)
     {
-        $attributes = array_merge($attributes, array
-        (
-            //'size' => $this->size,
-            'class' => 'hiddentext',
-            'id'    => "{$this->_namespace}{$this->name}",
-        ));
+        $attributes['class'] = 'hiddentext';
         $this->_form->addElement('hidden', $this->name, null, $attributes);
         $this->_form->applyFilter($this->name, 'trim');
 

@@ -97,19 +97,15 @@ class midcom_helper_datamanager2_widget_select extends midcom_helper_datamanager
             $this->_all_elements[$key] = $this->_translate($value);
         }
 
-        $select_attributes = array_merge($attributes, array
-        (
-            'class' => ($this->_type->allow_multiple) ? 'list' : 'dropdown',
-            'id'    => "{$this->_namespace}{$this->name}",
-        ));
+        $attributes['class'] = ($this->_type->allow_multiple) ? 'list' : 'dropdown';
 
         if (is_array($this->jsevents))
         {
-            $select_attributes = array_merge($select_attributes, $this->jsevents);
+            $attributes = array_merge($attributes, $this->jsevents);
         }
 
         $select_element = $this->_form->createElement('select', $this->name, $this->_translate($this->_field['title']),
-            $this->_all_elements, $select_attributes);
+            $this->_all_elements, $attributes);
         $select_element->setMultiple($this->_type->allow_multiple);
         if ($this->_type->allow_multiple)
         {

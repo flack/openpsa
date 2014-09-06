@@ -83,13 +83,9 @@ class midcom_helper_datamanager2_widget_codemirror extends midcom_helper_dataman
      */
     public function add_elements_to_form($attributes)
     {
-        $attributes = array_merge($attributes, array
-        (
-            'rows' => $this->height,
-            'cols' => $this->width,
-            'class' => "codemirror {$this->language}",
-            'id'    => "{$this->_namespace}{$this->name}",
-        ));
+        $attributes['rows'] = $this->height;
+        $attributes['cols'] = $this->width;
+        $attributes['class'] = "codemirror {$this->language}";
 
         if (!$this->enabled)
         {
