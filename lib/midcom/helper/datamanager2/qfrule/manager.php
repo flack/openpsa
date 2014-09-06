@@ -115,29 +115,14 @@ class midcom_helper_datamanager2_qfrule_manager
     {
         if ($config['required'])
         {
-            $message = sprintf
-            (
-                $this->_l10n->get('field %s is required'),
-                $type->translate($config['title'])
-            );
-            switch (true)
+            if ($type instanceof midcom_helper_datamanager2_type_blobs)
             {
-                // Match single image types (image & photo ATM)
-                case (   is_a($type, 'midcom_helper_datamanager2_type_image')
-                      && !is_a($type, 'midcom_helper_datamanager2_type_images')):
-                    // 'required' does not work for uploads -> use 'uploadedfile'
-                    // OTOH: Does this mean it requires new upload each time ?? TODO: Test
-                    $this->_form->addRule("{$type->name}_file", $message, 'uploadedfile', '');
-                    break;
-                // Match all other blobs types (those allow multiple uploads which are kind of hard to validate)
-                case (is_a($type, 'midcom_helper_datamanager2_type_blobs')):
-                    // PONDER: How will you require-validate N uploads ?? (also see the point about existing files above)
-                    debug_add("types with multiple files cannot have required validation (field name: {$type->name})", MIDCOM_LOG_ERROR);
-                    break;
-                // Other types should be fine with the default string validation offered by 'required'
-                default:
-                    $this->_form->addRule($type->name, $message, 'required', '');
-                    break;
+                debug_add("required validation is currently unsupported for file fields (field name: {$type->name})", MIDCOM_LOG_ERROR);
+            }
+            else
+            {
+                $message = sprintf($this->_l10n->get('field %s is required'), $type->translate($config['title']));
+                $this->_form->addRule($type->name, $message, 'required', '');
             }
         }
 
