@@ -329,44 +329,94 @@ class midcom_helper__styleloader
             return false;
         }
 
-        $_element = $path;
+        $style = $this->load($path);
 
-        // we have full qualified path to element
-        if (preg_match("|(.*)/(.*)|", $path, $matches))
-        {
-            $_stylepath = $matches[1];
-            $_element = $matches[2];
-        }
-
-        if (   isset ($_stylepath)
-            && $_styleid = $this->get_style_id_from_path($_stylepath))
-        {
-            array_unshift($this->_scope, $_styleid);
-        }
-
-        $_style = $this->_find_element_in_scope($_element);
-
-        if (!$_style)
-        {
-            $_style = $this->_get_element_from_snippet($_element);
-        }
-
-        if ($_style !== false)
-        {
-            $this->_parse_element($_style, $path);
-        }
-        else
+        if ($style === false)
         {
             debug_add("The element '{$path}' could not be found.", MIDCOM_LOG_INFO);
             return false;
         }
+        $this->render($this->parse($style, $path), $path);
 
-        if (isset($_stylepath))
+        return true;
+    }
+
+    /**
+     * Load style element content
+     *
+     * @param string $path The element name
+     * @return false|string
+     */
+    public function load($path)
+    {
+        $element = $path;
+        // we have full qualified path to element
+        if (preg_match("|(.*)/(.*)|", $path, $matches))
+        {
+            $stylepath = $matches[1];
+            $element = $matches[2];
+        }
+
+        if (   isset($stylepath)
+            && $styleid = $this->get_style_id_from_path($stylepath))
+        {
+            array_unshift($this->_scope, $styleid);
+        }
+
+        $style = $this->_find_element_in_scope($element);
+
+        if (!empty($styleid))
         {
             array_shift($this->_scope);
         }
 
-        return true;
+        if (!$style)
+        {
+            $style = $this->_get_element_from_snippet($element);
+        }
+        return $style;
+    }
+
+    /**
+     * This is a bit of a hack to allow &(); tags
+     *
+     * @param string $style The style element content
+     * @param string $path The element name
+     * @return string The parsed element
+     */
+    public function parse($style, $path)
+    {
+        if (midcom::get()->config->get('wrap_style_show_with_name'))
+        {
+            $style = "\n<!-- Start of style '{$path}' -->\n" . $style;
+            $style .= "\n<!-- End of style '{$path}' -->\n";
+        }
+
+        return midcom_helper_misc::preparse($style);
+    }
+
+    /**
+     * Renders the style element with current request data
+     *
+     * @param string $preparsed The element's content as executable code
+     * @param string $path the element's name
+     * @param array $data Request date, if you don't want to use the global data
+     * @throws midcom_error
+     */
+    public function render($preparsed, $path, array $data = array())
+    {
+        if (   empty($data)
+            && midcom_core_context::get()->has_custom_key('request_data'))
+        {
+            $data =& midcom_core_context::get()->get_custom_key('request_data');
+        }
+
+        if (eval('?>' . $preparsed) === false)
+        {
+            // Note that src detection will be semi-reliable, as it depends on all errors being
+            // found before caching kicks in.
+            throw new midcom_error("Failed to parse style element '{$path}', see above for PHP errors.");
+        }
     }
 
     /**
@@ -421,7 +471,7 @@ class midcom_helper__styleloader
 
         if ($_style !== false)
         {
-            $this->_parse_element($_style, $path);
+            $this->render($this->parse($_style, $path), $path);
             return true;
         }
         debug_add("The element '{$path}' could not be found.", MIDCOM_LOG_INFO);
@@ -487,37 +537,6 @@ class midcom_helper__styleloader
             }
         }
         return false;
-    }
-
-    /**
-     * This is a bit of a hack to allow &(); tags
-     */
-    private function _parse_element($_style, $path)
-    {
-        if (midcom_core_context::get()->has_custom_key('request_data'))
-        {
-            $data =& midcom_core_context::get()->get_custom_key('request_data');
-        }
-        else
-        {
-            $data = array();
-        }
-
-        if (midcom::get()->config->get('wrap_style_show_with_name'))
-        {
-            $_style = "\n<!-- Start of style '{$path}' -->\n" . $_style;
-            $_style .= "\n<!-- End of style '{$path}' -->\n";
-        }
-
-        $preparsed = midcom_helper_misc::preparse($_style);
-        $result = eval('?>' . $preparsed);
-
-        if ($result === false)
-        {
-            // Note that src detection will be semi-reliable, as it depends on all errors being
-            // found before caching kicks in.
-            throw new midcom_error("Failed to parse style element '{$path}', content was loaded from '{$_style}', see above for PHP errors.");
-        }
     }
 
     /**
