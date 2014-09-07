@@ -1,6 +1,5 @@
 <?php
 $grid = $data['grid'];
-$prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 ?>
 <div class="org_openpsa_sales full-width crop-height">
 
