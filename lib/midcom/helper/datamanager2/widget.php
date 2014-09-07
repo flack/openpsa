@@ -184,7 +184,7 @@ abstract class midcom_helper_datamanager2_widget extends midcom_baseclasses_comp
             }
         }
 
-        throw new midcom_error("The field {$this->name} uses an invalid type: " . get_class($this) . ' requires one of ' . implode(' ', $classes));
+        throw new midcom_error("The field {$this->name} uses an invalid type: " . get_class($this) . ' requires one of ' . implode(' ', (array) $classes));
     }
 
     /**
