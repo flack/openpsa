@@ -134,7 +134,7 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
         {
             $array[$date] = array();
         }
-        if (!array_key_exists($time, $array[$dimension1]))
+        if (!array_key_exists($time, $array[$date]))
         {
             $array[$date][$time] = array();
         }
