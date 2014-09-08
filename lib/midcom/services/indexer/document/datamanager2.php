@@ -95,7 +95,6 @@ class midcom_services_indexer_document_datamanager2 extends midcom_services_inde
 {
     /**
      * The datamanager instance of the document we need to index.
-     * This is passed by reference through the constructor.
      *
      * @var midcom_helper_datamanager2_datamanager
      */

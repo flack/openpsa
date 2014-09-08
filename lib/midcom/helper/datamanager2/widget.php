@@ -9,8 +9,7 @@
 /**
  * Datamanager 2 Widget base class.
  *
- * As with all subclasses, the actual initialization is done in the initialize() function,
- * not in the constructor, to allow for error handling.
+ * As with all subclasses, the actual initialization is done in the initialize() function.
  *
  * Quick glance at the changes
  *

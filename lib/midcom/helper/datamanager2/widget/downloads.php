@@ -9,8 +9,7 @@
 /**
  * Datamanager 2 download widget
  *
- * As with all subclasses, the actual initialization is done in the initialize() function,
- * not in the constructor, to allow for error handling.
+ * As with all subclasses, the actual initialization is done in the initialize() function.
  *
  * This widget supports the blobs type or any subtype thereof.
  *

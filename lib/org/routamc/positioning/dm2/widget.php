@@ -9,8 +9,7 @@
 /**
  * Datamanager 2 Positioning widget
  *
- * As with all subclasses, the actual initialization is done in the initialize() function,
- * not in the constructor, to allow for error handling.
+ * As with all subclasses, the actual initialization is done in the initialize() function.
  *
  * It can only be bound to a position type (or subclass thereof), and inherits the configuration
  * from there as far as possible.

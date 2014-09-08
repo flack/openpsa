@@ -9,8 +9,7 @@
 /**
  * Datamanager 2 privilege selection
  *
- * As with all subclasses, the actual initialization is done in the initialize() function,
- * not in the constructor, to allow for error handling.
+ * As with all subclasses, the actual initialization is done in the initialize() function.
  *
  * This widget supports the privilege type only. It shows a menu rendered as multi state checkbox having
  * allowed, denied and inherited as options and default selected according to the type's value.

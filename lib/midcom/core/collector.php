@@ -56,7 +56,6 @@ class midcom_core_collector extends midcom_core_query
 
     /**
      * The initialization routine executes the _on_prepare_new_collector callback on the class.
-     * This cannot be done in the constructor due to the reference to $this that is used.
      */
     function initialize()
     {

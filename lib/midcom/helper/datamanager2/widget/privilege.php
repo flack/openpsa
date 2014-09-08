@@ -9,8 +9,7 @@
 /**
  * Datamanager 2 simple privilege
  *
- * As with all subclasses, the actual initialization is done in the initialize() function,
- * not in the constructor, to allow for error handling.
+ * As with all subclasses, the actual initialization is done in the initialize() function.
  *
  * This widget supports the privilege type only. It shows a triplet of radioboxes having
  * allowed, denied and inherited as option according to the type's value.
