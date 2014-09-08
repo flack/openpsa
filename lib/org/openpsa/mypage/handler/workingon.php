@@ -77,8 +77,6 @@ class org_openpsa_mypage_handler_workingon extends midcom_baseclasses_components
         {
             $this->_add_hour_data($hours_mc->get($guid));
         }
-
-        return true;
     }
 
     /**
