@@ -78,17 +78,17 @@ class midcom_helper_datamanager2_type_number extends midcom_helper_datamanager2_
     }
 
     /**
-     * The current value is converted into a string before being passed to the
+     * The current value is converted into a float before being passed to the
      * caller.
      *
      * This conversion assumes that the current value is already rounded (usually
      * done by either set_value() or validate().
      *
-     * @return string The string representation of the floating point number.
+     * @return float
      */
     public function convert_to_storage()
     {
-        return (string) $this->sanitize_number($this->value);
+        return $this->sanitize_number($this->value);
     }
 
     /**
@@ -149,6 +149,7 @@ class midcom_helper_datamanager2_type_number extends midcom_helper_datamanager2_
             // Skip process, we are undefined.
             return;
         }
+
         $this->value = $this->sanitize_number($this->value);
         if ($this->precision !== null)
         {
