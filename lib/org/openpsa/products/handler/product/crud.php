@@ -13,10 +13,7 @@
  */
 class org_openpsa_products_handler_product_crud extends midcom_baseclasses_components_handler_crud
 {
-    public function __construct()
-    {
-        $this->_dba_class = 'org_openpsa_products_product_dba';
-    }
+    protected $_dba_class = 'org_openpsa_products_product_dba';
 
     /**
      * Return the URL to the product view handler
@@ -50,68 +47,18 @@ class org_openpsa_products_handler_product_crud extends midcom_baseclasses_compo
         // Get common breadcrumb for the product
         $breadcrumb = org_openpsa_products_viewer::update_breadcrumb_line($this->_object);
 
-        // Handler-based additions
-        switch ($handler_id)
-        {
-            case 'edit_product':
-                $breadcrumb[] = array
-                (
-                    MIDCOM_NAV_URL => '',
-                    MIDCOM_NAV_NAME => sprintf($this->_l10n_midcom->get('edit %s'), $this->_l10n->get('product')),
-                );
-                break;
-            case 'delete_product':
-                $breadcrumb[] = array
-                (
-                    MIDCOM_NAV_URL => '',
-                    MIDCOM_NAV_NAME => sprintf($this->_l10n_midcom->get('delete %s'), $this->_l10n->get('product')),
-                );
-                break;
-        }
+        $breadcrumb[] = array
+        (
+            MIDCOM_NAV_URL => '',
+            MIDCOM_NAV_NAME => sprintf($this->_l10n_midcom->get('edit %s'), $this->_l10n->get('product')),
+        );
 
         midcom_core_context::get()->set_custom_key('midcom.helper.nav.breadcrumb', $breadcrumb);
     }
 
     public function _populate_toolbar($handler_id)
     {
-        if (   $this->_mode === 'update'
-            || $this->_mode === 'create')
-        {
-            org_openpsa_helpers::dm2_savecancel($this);
-        }
-        else if ($this->_mode == 'delete')
-        {
-            org_openpsa_helpers::dm2_savecancel($this, 'delete');
-        }
-        if ($this->_object->can_do('midgard:update'))
-        {
-            $this->_view_toolbar->add_item
-            (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => "product/edit/{$this->_object->guid}/",
-                    MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('edit'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
-                    MIDCOM_TOOLBAR_ACCESSKEY => 'e',
-                    MIDCOM_TOOLBAR_ENABLED => ($this->_mode != 'update')
-                )
-            );
-        }
-
-        if ($this->_object->can_do('midgard:delete'))
-        {
-            $this->_view_toolbar->add_item
-            (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => "product/delete/{$this->_object->guid}/",
-                    MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('delete'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
-                    MIDCOM_TOOLBAR_ACCESSKEY => 'd',
-                    MIDCOM_TOOLBAR_ENABLED => ($this->_mode != 'delete')
-                )
-            );
-        }
+        org_openpsa_helpers::dm2_savecancel($this);
     }
 
     /**
@@ -131,11 +78,32 @@ class org_openpsa_products_handler_product_crud extends midcom_baseclasses_compo
         midcom_show_style('product_edit');
     }
 
+
     /**
-     * Show method is overridden so that we can keep the style element naming consistent
+     * @param mixed $handler_id The ID of the handler.
+     * @param array $args The argument list.
+     * @param array &$data The local request data.
      */
-    public function _show_delete($handler_id, array &$data)
+    public function _handler_delete($handler_id, array $args, array &$data)
     {
-        midcom_show_style('product_delete');
+        $this->_load_object($handler_id, $args, $data);
+
+        $this->_object->require_do('midgard:delete');
+
+        $controller = midcom_helper_datamanager2_handler::get_delete_controller();
+
+        if ($controller->process_form() == 'delete')
+        {
+            if ($this->_object->delete())
+            {
+                $indexer = midcom::get()->indexer;
+                $indexer->delete($this->_object->guid);
+                midcom::get()->uimessages->add($this->_l10n->get($this->_component), sprintf($this->_l10n_midcom->get("%s deleted"), $this->_l10n->get('product')));
+                return new midcom_response_relocate($this->_object->get_parent()->code . '/');
+            }
+            // Failure, give a message
+            midcom::get()->uimessages->add($this->_l10n->get($this->_component), $this->_l10n->get("failed to delete product, reason ") . midcom_connection::get_error_string(), 'error');
+        }
+        return new midcom_response_relocate($this->_get_object_url($this->_object));
     }
 }

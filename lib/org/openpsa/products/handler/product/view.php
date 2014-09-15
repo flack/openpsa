@@ -39,17 +39,11 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
             )
         );
-
-        $this->_view_toolbar->add_item
-        (
-            array
-            (
-                MIDCOM_TOOLBAR_URL => "product/delete/{$this->_product->guid}/",
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('delete'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
-                MIDCOM_TOOLBAR_ENABLED => $this->_product->can_do('midgard:delete'),
-            )
-        );
+        if ($this->_product->can_do('midgard:delete'))
+        {
+            $toolbar = new org_openpsa_widgets_toolbar($this->_view_toolbar);
+            $toolbar->add_delete_button("product/delete/{$this->_product->guid}/", $this->_l10n->get('product'));
+        }
         if (   $this->_config->get('enable_productlinks')
             && $this->_request_data['is_linked_from'] != '')
         {
