@@ -13,7 +13,7 @@
  */
 class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_components_handler_crud
 {
-    public $_dba_class = 'org_openpsa_projects_task_dba';
+    protected $_dba_class = 'org_openpsa_projects_task_dba';
     public $_prefix = 'task';
 
     public function _load_object($handler_id, array $args, array &$data)
@@ -40,59 +40,14 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
      */
     public function _populate_toolbar($handler_id)
     {
-        if (   $this->_mode == 'create'
-            || $this->_mode == 'update')
+        if ($this->_mode == 'update')
         {
             org_openpsa_helpers::dm2_savecancel($this);
-        }
-        else if ($this->_mode == 'delete')
-        {
-            org_openpsa_helpers::dm2_savecancel($this, 'delete');
-        }
-        if ($this->_mode == 'create')
-        {
-            return;
-        }
-
-        $this->_view_toolbar->add_item
-        (
-            array
-            (
-                MIDCOM_TOOLBAR_URL => "task/edit/{$this->_object->guid}/",
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('edit'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
-                MIDCOM_TOOLBAR_ENABLED => $this->_object->can_do('midgard:update'),
-                MIDCOM_TOOLBAR_ACCESSKEY => 'e',
-            )
-        );
-        if ($this->_object->reportedHours == 0)
-        {
-            $this->_view_toolbar->add_item
-            (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => "task/delete/{$this->_object->guid}/",
-                    MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('delete'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
-                    MIDCOM_TOOLBAR_ENABLED => $this->_object->can_do('midgard:delete'),
-                    MIDCOM_TOOLBAR_ACCESSKEY => 'd',
-                )
-            );
         }
 
         if ($this->_mode == 'read')
         {
             $this->_populate_read_toolbar($handler_id);
-        }
-
-        switch ($handler_id)
-        {
-            case 'task_edit':
-                $this->_view_toolbar->disable_item("task/edit/{$this->_object->guid}/");
-                break;
-            case 'task_delete':
-                $this->_view_toolbar->disable_item("task/delete/{$this->_object->guid}/");
-                break;
         }
     }
 
@@ -114,9 +69,6 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
             case 'update':
                 $view_title = sprintf($this->_l10n_midcom->get('edit %s'), $this->_object->get_label());
                 break;
-            case 'delete':
-                $view_title = sprintf($this->_l10n_midcom->get('delete %s'), $this->_object->get_label());
-                break;
         }
 
         midcom::get()->head->set_pagetitle($view_title);
@@ -132,6 +84,22 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
         if (!$this->_object->can_do('midgard:update'))
         {
              return;
+        }
+        $this->_view_toolbar->add_item
+        (
+            array
+            (
+                MIDCOM_TOOLBAR_URL => "task/edit/{$this->_object->guid}/",
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('edit'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
+                MIDCOM_TOOLBAR_ACCESSKEY => 'e',
+            )
+        );
+        if (   $this->_object->reportedHours == 0
+            && $this->_object->can_do('midgard:delete'))
+        {
+            $toolbar = new org_openpsa_widgets_toolbar($this->_view_toolbar);
+            $toolbar->add_delete_button("task/delete/{$this->_object->guid}/", $this->_l10n->get('task'));
         }
 
         if ($this->_object->status == org_openpsa_projects_task_status_dba::CLOSED)
@@ -272,9 +240,6 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
             case 'update':
                 $this->add_breadcrumb("task/edit/{$this->_object->guid}/", $this->_l10n_midcom->get('edit'));
                 break;
-            case 'delete':
-                $this->add_breadcrumb("task/delete/{$this->_object->guid}/", $this->_l10n_midcom->get('delete'));
-                break;
             case 'create':
                 $this->add_breadcrumb("", $this->_l10n->get('new task'));
                 break;
@@ -295,6 +260,40 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
             org_openpsa_widgets_contact::add_head_elements();
             $data['calendar_node'] = midcom_helper_misc::find_node_by_component('org.openpsa.calendar');
         }
+    }
+
+    /**
+     * @param mixed $handler_id The ID of the handler.
+     * @param array $args The argument list.
+     * @param array &$data The local request data.
+     */
+    public function _handler_delete($handler_id, array $args, array &$data)
+    {
+        $this->_mode = 'delete';
+        $this->_load_object($handler_id, $args, $data);
+        $this->_object->require_do('midgard:delete');
+
+        $controller = midcom_helper_datamanager2_handler::get_delete_controller();
+        if ($controller->process_form() == 'delete')
+        {
+            if (! $this->_object->delete())
+            {
+                throw new midcom_error("Failed to delete task {$args[0]}, last Midgard error was: " . midcom_connection::get_error_string());
+            }
+
+            $indexer = midcom::get()->indexer;
+            $indexer->delete($this->_object->guid);
+            midcom::get()->uimessages->add($this->_l10n->get($this->_component), sprintf($this->_l10n_midcom->get("%s deleted"), $this->_object->get_label()));
+            $url = '';
+            $this->_load_parent($handler_id, $args, $data);
+            if ($this->_parent)
+            {
+                $url = 'project/' . $this->_parent->guid . '/';
+            }
+            return new midcom_response_relocate($url);
+        }
+
+        return new midcom_response_relocate("task/{$this->_object->guid}/");
     }
 
     /**
