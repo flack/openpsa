@@ -265,26 +265,6 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
     {
         $tmp = Array();
 
-        if (get_class($object) == 'org_openpsa_products_product_link_dba')
-        {
-            if ($object->product != 0)
-            {
-                try
-                {
-                    $product = new org_openpsa_products_product_dba($object->product);
-                    $tmp[] = array
-                    (
-                        MIDCOM_NAV_URL => "{$object->guid}/",
-                        MIDCOM_NAV_NAME => $product->title,
-                    );
-                }
-                catch (midcom_error $e)
-                {
-                    $e->log();
-                }
-            }
-        }
-
         while ($object)
         {
             if (   get_class($object) == 'org_openpsa_products_product_dba'
@@ -305,7 +285,7 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
                     MIDCOM_NAV_NAME => $object->title,
                 );
             }
-            else if (get_class($object) != 'org_openpsa_products_product_link_dba')
+            else
             {
                 $url = "{$object->code}/";
                 if (isset($object->up))

@@ -8,7 +8,6 @@
 (
     'org_openpsa_products_product' => 'org_openpsa_products_product_dba',
     'org_openpsa_products_product_group' => 'org_openpsa_products_product_group_dba',
-    'org_openpsa_products_product_link' => 'org_openpsa_products_product_link_dba',
 ),
 'watches' => array
 (
