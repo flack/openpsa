@@ -17,10 +17,6 @@ implements midcom_services_permalinks_resolver
      */
     public function resolve_object_link(midcom_db_topic $topic, midcom_core_dbaobject $object)
     {
-        if ($object instanceof org_openpsa_products_product_link_dba)
-        {
-            return $this->_resolve_productlink($object, $topic);
-        }
         if ($object instanceof org_openpsa_products_product_dba)
         {
             return $this->_resolve_product($object, $topic);
@@ -118,48 +114,6 @@ implements midcom_services_permalinks_resolver
         }
 
         return "product/{$product->guid}/";
-    }
-
-    private function _resolve_productlink($productlink, $topic)
-    {
-        if (!$productlink->productGroup)
-        {
-            return null;
-        }
-        $real_config = new midcom_helper_configuration($topic, 'org.openpsa.products');
-
-        if (   $real_config->get('root_group') != null
-            && $real_config->get('root_group') != 0)
-        {
-            $root_group = new org_openpsa_products_product_group_dba($real_config->get('root_group'));
-            if ($root_group->id != $productlink->productGroup)
-            {
-                $qb_intree = org_openpsa_products_product_group_dba::new_query_builder();
-                $qb_intree->add_constraint('up', 'INTREE', $root_group->id);
-                $qb_intree->add_constraint('id', '=', $productlink->productGroup);
-
-                if ($qb_intree->count() == 0)
-                {
-                    return null;
-                }
-            }
-
-            $category_qb = org_openpsa_products_product_group_dba::new_query_builder();
-            $category_qb->add_constraint('id', '=', $productlink->productGroup);
-            $category = $category_qb->execute_unchecked();
-            //Check if the product is in a nested category.
-            if (!empty($category[0]->up))
-            {
-                $parent_category_qb = org_openpsa_products_product_group_dba::new_query_builder();
-                $parent_category_qb->add_constraint('id', '=', $category[0]->up);
-                $parent_category = $parent_category_qb->execute_unchecked();
-                if (!empty($parent_category[0]->code))
-                {
-                    return "productlink/{$productlink->guid}/";
-                }
-            }
-        }
-        return "productlink/{$productlink->guid}/";
     }
 
     /**

@@ -97,27 +97,6 @@
             'type' => 'text',
             'widget' => 'text',
         ),
-        'enable_productlinks' => array
-        (
-            'title' => 'whether to enable adding productlinks',
-            'storage' => array
-            (
-                'location' => 'configuration',
-                'domain' => 'org.openpsa.products',
-                'name' => 'enable_productlinks',
-            ),
-            'type' => 'select',
-            'type_config' => array
-            (
-                'options' => array
-                (
-                    '' => 'default setting',
-                    '1' => 'yes',
-                    '0' => 'no',
-                ),
-            ),
-            'widget' => 'select',
-        ),
         'group_list_products' => array
         (
             'title' => 'list group products',
@@ -275,19 +254,6 @@
             ),
             'type' => 'text',
             'widget' => 'text',
-        ),
-        'schemadb_productlink' => array
-        (
-            'title' => 'productlink schema database',
-            'storage' => array
-            (
-                'location' => 'configuration',
-                'domain' => 'org.openpsa.products',
-                'name' => 'schemadb_productlink',
-            ),
-            'type' => 'text',
-            'widget' => 'text',
-            'end_fieldset' => '',
         ),
     )
 ),

@@ -151,13 +151,6 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
             $this->_add_ordering($group_qb, $ordering);
         }
 
-        $this->_request_data['linked_products'] = array();
-        if ($this->_config->get('enable_productlinks'))
-        {
-            $mc_productlinks = org_openpsa_products_product_link_dba::new_collector('productGroup', $data['parent_group']);
-            $this->_request_data['linked_products'] = $mc_productlinks->get_values('product');
-        }
-
         $data['groups'] = $group_qb->execute();
         $data['products'] = array();
         if ($this->_config->get('group_list_products'))
@@ -322,13 +315,6 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
 
         $this->_add_schema_buttons('schemadb_group', 'new-dir', '', $allow_create_group);
         $this->_add_schema_buttons('schemadb_product', 'new-text', 'product/', $allow_create_product);
-
-        if (   $this->_config->get('enable_productlinks')
-            && isset($this->_request_data['schemadb_productlink']))
-        {
-            $this->_request_data['datamanager_productlink'] = new midcom_helper_datamanager2_datamanager($this->_request_data['schemadb_productlink']);
-            $this->_add_schema_buttons('schemadb_productlink', 'new-text', 'productlink/', $allow_create_product);
-        }
     }
 
     private function _add_schema_buttons($schemadb_name, $default_icon, $prefix, $allowed)
@@ -375,11 +361,6 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
     {
         $product_qb = new org_openpsa_qbpager('org_openpsa_products_product_dba', 'org_openpsa_products_product_dba');
         $product_qb->results_per_page = $this->_config->get('products_per_page');
-
-        if (count($this->_request_data['linked_products']) > 0)
-        {
-            $product_qb->begin_group('OR');
-        }
 
         if (   $this->_request_data['group']
             && $this->_request_data['group']->orgOpenpsaObtype == org_openpsa_products_product_group_dba::TYPE_SMART)
@@ -434,11 +415,6 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
         else
         {
             $product_qb->add_constraint('productGroup', '=', $this->_request_data['parent_group']);
-        }
-        if (count($this->_request_data['linked_products']) > 0)
-        {
-            $product_qb->add_constraint('id', 'IN', $this->_request_data['linked_products']);
-            $product_qb->end_group();
         }
 
         // This should be a helper function, same functionality, but with different config-parameter is used in /handler/product/search.php

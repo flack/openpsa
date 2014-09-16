@@ -113,46 +113,6 @@
     'variable_args' => 1,
 ),
 
-// Handle /productlink/create/<schema name>
-'create_productlink' => Array
-(
-    'handler' => Array('org_openpsa_products_handler_productlink_create', 'create'),
-    'fixed_args' => Array('productlink', 'create'),
-    'variable_args' => 1,
-),
-
-// Handle /productlink/create/<group id>/<schema name>
-'create_productlink' => Array
-(
-    'handler' => Array('org_openpsa_products_handler_productlink_create', 'create'),
-    'fixed_args' => Array('productlink', 'create'),
-    'variable_args' => 2,
-),
-
-// Handle /productlink/edit/<productlink guid>
-'edit_productlink' => Array
-(
-    'handler' => Array('org_openpsa_products_handler_productlink_crud', 'update'),
-    'fixed_args' => Array('productlink', 'edit'),
-    'variable_args' => 1,
-),
-
-// Handle /productlink/delete/<productlink guid>
-'delete_productlink' => Array
-(
-    'handler' => Array('org_openpsa_products_handler_productlink_crud', 'delete'),
-    'fixed_args' => Array('productlink', 'delete'),
-    'variable_args' => 1,
-),
-
-// Handle /productlink/<productlink guid>
-'view_productlink' => Array
-(
-    'handler' => Array('org_openpsa_products_handler_productlink_view', 'view'),
-    'fixed_args' => Array('productlink'),
-    'variable_args' => 1,
-),
-
 // Handle /product/<product guid>
 'view_product' => Array
 (

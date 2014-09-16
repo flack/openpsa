@@ -54,19 +54,4 @@
 
         <!-- /Common OpenPSA properties -->
     </type>
-
-    <type name="org_openpsa_products_product_link" table="org_openpsa_products_product_link" parent="org_openpsa_products_product_group" parentfield="productGroup">
-        <property name="id" type="unsigned integer" primaryfield="id">
-            <description>Local non-replication-safe database identifier</description>
-        </property>
-
-        <property name="productGroup" link="org_openpsa_products_product_group:id" type="unsigned integer" parentfield="productGroup">
-            <description>Id of the product group of link</description>
-        </property>
-
-        <property name="product" link="org_openpsa_products_product:id" type="unsigned integer">
-            <description>Link to the product we wan't to show</description>
-        </property>
-
-    </type>
 </Schema>

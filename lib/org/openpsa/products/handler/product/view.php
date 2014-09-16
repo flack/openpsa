@@ -44,41 +44,6 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
             $toolbar = new org_openpsa_widgets_toolbar($this->_view_toolbar);
             $toolbar->add_delete_button("product/delete/{$this->_product->guid}/", $this->_l10n->get('product'));
         }
-        if (   $this->_config->get('enable_productlinks')
-            && $this->_request_data['is_linked_from'] != '')
-        {
-            $product_link_guid = $this->_request_data['is_linked_from'];
-            $this->_view_toolbar->add_item
-            (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => "productlink/{$product_link_guid}/",
-                    MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('view productlink'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/view.png',
-                    MIDCOM_TOOLBAR_ENABLED => $this->_product->can_do('midgard:update'),
-                )
-            );
-            $this->_view_toolbar->add_item
-            (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => "productlink/edit/{$product_link_guid}/",
-                    MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('edit productlink'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
-                    MIDCOM_TOOLBAR_ENABLED => $this->_product->can_do('midgard:update'),
-                )
-            );
-            $this->_view_toolbar->add_item
-            (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => "productlink/delete/{$product_link_guid}/",
-                    MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('delete productlink'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
-                    MIDCOM_TOOLBAR_ENABLED => $this->_product->can_do('midgard:delete'),
-                )
-            );
-        }
     }
 
     /**
@@ -118,19 +83,7 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
         $this->_prepare_request_data();
         $this->bind_view_to_object($this->_product, $data['datamanager']->schema->name);
 
-        $product_group = null;
-
-        if ($this->_request_data['is_linked_from'] != '')
-        {
-            $linked_product = new org_openpsa_products_product_link_dba($data['is_linked_from']);
-
-            if ($linked_product->productGroup != 0)
-            {
-                $product_group = new org_openpsa_products_product_group_dba($linked_product->productGroup);
-            }
-        }
-
-        $breadcrumb = org_openpsa_products_viewer::update_breadcrumb_line($this->_product, $product_group);
+        $breadcrumb = org_openpsa_products_viewer::update_breadcrumb_line($this->_product);
 
         midcom_core_context::get()->set_custom_key('midcom.helper.nav.breadcrumb', $breadcrumb);
 
@@ -209,41 +162,9 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
 
         $results = $qb->execute();
 
-        $this->_request_data['is_linked_from'] = '';
-
         if (!empty($results))
         {
             $this->_product = $results[0];
-
-            if (   $this->_config->get('enable_productlinks')
-                && $this->_product->productGroup != 0)
-            {
-                $root_group_guid = $this->_config->get('root_group');
-                if ($root_group_guid != '')
-                {
-                    $root_group = org_openpsa_products_product_group_dba::get_cached($root_group_guid);
-                }
-
-                if ($root_group->id != $this->_product->productGroup)
-                {
-                    $product_group = new org_openpsa_products_product_group_dba($this->_product->productGroup);
-
-                    $mc_intree = org_openpsa_products_product_group_dba::new_collector('id', $product_group->id);
-                    $mc_intree->add_constraint('up', 'INTREE', $root_group->id);
-                    $count = $mc_intree->count();
-                    if ($count == 0)
-                    {
-                        $mc_intree = org_openpsa_products_product_link_dba::new_collector('product', $this->_product->id);
-                        $mc_intree->add_constraint('productGroup', 'INTREE', $root_group->id);
-                        $mc_intree->execute();
-                        $results = $mc_intree->list_keys();
-                        if (count($results) > 0)
-                        {
-                            $this->_request_data['is_linked_from'] = key($results);
-                        }
-                    }
-                }
-            }
         }
         else
         {

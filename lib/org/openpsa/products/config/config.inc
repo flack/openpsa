@@ -5,7 +5,6 @@
 /* The schema databases to use */
 'schemadb_product' => 'file:/org/openpsa/products/config/schemadb_product_default.inc',
 'schemadb_group' => 'file:/org/openpsa/products/config/schemadb_group_default.inc',
-'schemadb_productlink' => 'file:/org/openpsa/products/config/schemadb_productlink_default.inc',
 'schemadb_config' => 'file:/org/openpsa/products/config/config_schemadb.inc',
 
 'unit_options' => Array
@@ -18,9 +17,6 @@
     'hy' => 'half-year', // per half
     'y'  => 'year',      // per annum
 ),
-
-// Whether to enable adding productlinks to products
-'enable_productlinks' => false,
 
 'root_group' => 0,
 

@@ -163,11 +163,6 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
         $this->_request_data['schemadb_group'] = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_group'));
         $this->_request_data['schemadb_product'] = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_product'));
 
-        if ($this->_config->get('enable_productlinks'))
-        {
-            $this->_request_data['schemadb_productlink'] = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_productlink'));
-        }
-
         $this->_populate_node_toolbar();
 
         if ($this->_config->get('custom_rss_feeds'))
