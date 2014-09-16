@@ -41,13 +41,10 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
      */
     private $_schema = 'default';
 
-    private $_datamanager = null;
-
     public function _on_initialize()
     {
         midcom::get()->auth->require_valid_user();
         $this->_schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_document'));
-        $this->_datamanager = new midcom_helper_datamanager2_datamanager($this->_schemadb);
     }
 
     /**
@@ -73,14 +70,6 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
         if ($document->topic != $this->_topic->id)
         {
             throw new midcom_error_notfound("The document '{$guid}' could not be found in this folder.");
-        }
-
-        // Load the document to datamanager
-        if (!$this->_datamanager->autoset_storage($document))
-        {
-            debug_print_r('DM instance was:', $this->_datamanager);
-            debug_print_r('Object to be used was:', $document);
-            throw new midcom_error('Failed to initialize the datamanager, see debug level log for more information.');
         }
 
         return $document;

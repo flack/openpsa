@@ -32,7 +32,7 @@ class org_openpsa_user_handler_person_delete extends midcom_baseclasses_componen
             if ($person->delete())
             {
                 $indexer = midcom::get()->indexer;
-                $indexer->delete($group->guid);
+                $indexer->delete($person->guid);
                 midcom::get()->uimessages->add($this->_l10n->get($this->_component), sprintf($this->_l10n_midcom->get("%s deleted"), $person->name));
                 return new midcom_response_relocate('');
             }

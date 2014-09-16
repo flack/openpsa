@@ -20,7 +20,6 @@ implements org_openpsa_widgets_grid_provider_client
     public function get_qb($field = null, $direction = 'ASC')
     {
         $qb = org_openpsa_invoices_invoice_item_dba::new_query_builder();
-        $deliverables = array();
 
         $deliverable_mc = org_openpsa_sales_salesproject_deliverable_dba::new_collector('metadata.deleted', false);
         $deliverable_mc->add_constraint('state', '<>', org_openpsa_sales_salesproject_deliverable_dba::STATE_DECLINED);
@@ -42,7 +41,7 @@ implements org_openpsa_widgets_grid_provider_client
         }
         else
         {
-            $qb->add_constraint('id', 'IN', $ids);
+            $qb->add_constraint('id', '=', 0);
         }
 
         return $qb;
@@ -124,22 +123,6 @@ implements org_openpsa_widgets_grid_provider_client
 
         $provider = new org_openpsa_widgets_grid_provider($this, 'local');
         $data['grid'] = $provider->get_grid('deliverable_report_grid');
-    }
-
-    private function _get_deliverable_invoices($id)
-    {
-        $mc = org_openpsa_invoices_invoice_item_dba::new_collector('deliverable', $id);
-        $mc->add_constraint('invoice.sent', '>=', $this->_request_data['start']);
-        $mc->add_constraint('invoice.sent', '<=', $this->_request_data['end']);
-        $ids = $mc->get_values('invoice');
-        if (sizeof($ids) < 1)
-        {
-            return array();
-        }
-
-        $qb = org_openpsa_invoices_invoice_dba::new_query_builder();
-        $qb->add_constraint('id', 'IN', $ids);
-        return $qb->execute();
     }
 
     /**

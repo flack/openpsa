@@ -21,13 +21,6 @@ class org_openpsa_contacts_handler_person_admin extends midcom_baseclasses_compo
     private $_contact = null;
 
     /**
-     * The Datamanager of the contact to display (for delete mode)
-     *
-     * @var midcom_helper_datamanager2_datamanager
-     */
-    private $_datamanager = null;
-
-    /**
      * The Controller of the contact used for editing
      *
      * @var midcom_helper_datamanager2_controller_simple
@@ -55,7 +48,6 @@ class org_openpsa_contacts_handler_person_admin extends midcom_baseclasses_compo
     private function _prepare_request_data($handler_id)
     {
         $this->_request_data['person'] = $this->_contact;
-        $this->_request_data['datamanager'] = $this->_datamanager;
         $this->_request_data['controller'] = $this->_controller;
 
         if ($handler_id !== 'person_edit')
@@ -100,20 +92,6 @@ class org_openpsa_contacts_handler_person_admin extends midcom_baseclasses_compo
     }
 
     /**
-     * Internal helper, loads the datamanager for the current contact. Any error triggers a 500.
-     */
-    private function _load_datamanager()
-    {
-        $this->_load_schemadb();
-        $this->_datamanager = new midcom_helper_datamanager2_datamanager($this->_schemadb);
-
-        if (! $this->_datamanager->autoset_storage($this->_contact))
-        {
-            throw new midcom_error("Failed to create a DM2 instance for contact {$this->_contact->id}.");
-        }
-    }
-
-    /**
      * Internal helper, loads the controller for the current contact. Any error triggers a 500.
      */
     private function _load_controller()
@@ -125,27 +103,6 @@ class org_openpsa_contacts_handler_person_admin extends midcom_baseclasses_compo
         if (! $this->_controller->initialize())
         {
             throw new midcom_error("Failed to initialize a DM2 controller instance for contact {$this->_contact->id}.");
-        }
-    }
-
-    /**
-     * Helper, updates the context so that we get a complete breadcrumb line towards the current
-     * location.
-     *
-     * @param string $handler_id
-     */
-    private function _update_breadcrumb_line($handler_id)
-    {
-        $this->add_breadcrumb("person/{$this->_contact->guid}/", $this->_contact->name);
-
-        switch ($handler_id)
-        {
-            case 'person_edit':
-                $this->add_breadcrumb("person/edit/{$this->_contact->guid}/", $this->_l10n_midcom->get('edit'));
-                break;
-            case 'person_delete':
-                $this->add_breadcrumb("person/delete/{$this->_contact->guid}/", $this->_l10n_midcom->get('delete'));
-                break;
         }
     }
 
@@ -181,7 +138,8 @@ class org_openpsa_contacts_handler_person_admin extends midcom_baseclasses_compo
         $this->_prepare_request_data($handler_id);
         midcom::get()->head->set_pagetitle($this->_contact->name);
         $this->bind_view_to_object($this->_contact, $this->_controller->datamanager->schema->name);
-        $this->_update_breadcrumb_line($handler_id);
+        $this->add_breadcrumb("person/{$this->_contact->guid}/", $this->_contact->name);
+        $this->add_breadcrumb("person/edit/{$this->_contact->guid}/", $this->_l10n_midcom->get('edit'));
     }
 
     /**

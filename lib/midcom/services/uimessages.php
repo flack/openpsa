@@ -65,13 +65,6 @@ class midcom_services_uimessages
     private $_allowed_types = array('info', 'ok', 'warning', 'error', 'debug');
 
     /**
-     * List of messages retrieved from session to avoid storing them again
-     *
-     * @var Array
-     */
-    private $_messages_from_session = array();
-
-    /**
      * DOM path of the UI message holder object
      *
      * @var String
