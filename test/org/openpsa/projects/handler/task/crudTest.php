@@ -98,7 +98,6 @@ class org_openpsa_projects_handler_task_crudTest extends openpsa_testcase
 
         $data = $this->run_handler('org.openpsa.projects', array('task', 'delete', self::$_task->guid));
         $this->assertEquals('task_delete', $data['handler_id']);
-        $this->show_handler($data);
 
         midcom::get()->auth->drop_sudo();
     }
