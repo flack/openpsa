@@ -42,8 +42,8 @@ class org_openpsa_widgets_toolbar
     public function add_delete_button($url, $title)
     {
         self::add_head_elements();
-        $l10n_midcom = midcom::get('i18n')->get_l10n('midcom');
-        $l10n_oocore = midcom::get('i18n')->get_l10n('org.openpsa.core');
+        $l10n_midcom = midcom::get()->i18n->get_l10n('midcom');
+        $l10n_oocore = midcom::get()->i18n->get_l10n('org.openpsa.core');
         $controller = midcom_helper_datamanager2_handler::get_delete_controller();
         $form_id = '_qf__' . $controller->formmanager->form->getAttribute('id');
 

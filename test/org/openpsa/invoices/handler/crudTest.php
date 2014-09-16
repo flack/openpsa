@@ -54,7 +54,6 @@ class org_openpsa_invoices_handler_crudTest extends openpsa_testcase
         $data = $this->run_handler('org.openpsa.invoices', array('invoice', 'delete', self::$_invoice->guid));
         $this->assertEquals('invoice_delete', $data['handler_id']);
 
-        $this->show_handler($data);
         midcom::get()->auth->drop_sudo();
     }
 

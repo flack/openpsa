@@ -218,22 +218,44 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
         }
     }
 
-    function _populate_toolbar($handler_id)
+    /**
+     * @param mixed $handler_id The ID of the handler.
+     * @param array $args The argument list.
+     * @param array &$data The local request data.
+     */
+    public function _handler_delete($handler_id, array $args, array &$data)
     {
-        if (   $this->_mode == 'update'
-            || $this->_mode == 'create')
+        $this->_load_object($handler_id, $args, $data);
+        $this->_object->require_do('midgard:delete');
+
+        $controller = midcom_helper_datamanager2_handler::get_delete_controller();
+        if ($controller->process_form() == 'delete')
         {
-            // Add toolbar items
-            org_openpsa_helpers::dm2_savecancel($this);
-        }
-        else if ($this->_mode == 'delete')
-        {
-            org_openpsa_helpers::dm2_savecancel($this, 'delete');
+            if (! $this->_object->delete())
+            {
+                throw new midcom_error("Failed to delete task {$args[0]}, last Midgard error was: " . midcom_connection::get_error_string());
+            }
+
+            $indexer = midcom::get()->indexer;
+            $indexer->delete($this->_object->guid);
+            midcom::get()->uimessages->add($this->_l10n->get($this->_component), sprintf($this->_l10n_midcom->get("%s deleted"), $this->_l10n->get('invoice') . ' ' . $this->_object->get_label()));
+            $url = '';
+            return new midcom_response_relocate($url);
         }
 
+        return new midcom_response_relocate("invoice/{$this->_object->guid}/");
+    }
+
+    function _populate_toolbar($handler_id)
+    {
         if ($this->_mode == 'read')
         {
             $this->_populate_read_toolbar($handler_id);
+        }
+        else
+        {
+            // Add toolbar items
+            org_openpsa_helpers::dm2_savecancel($this);
         }
     }
 
@@ -251,16 +273,11 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
             )
         );
 
-        $this->_view_toolbar->add_item
-        (
-            array
-            (
-                MIDCOM_TOOLBAR_URL => "invoice/delete/{$this->_object->guid}/",
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('delete'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
-                MIDCOM_TOOLBAR_ENABLED => $this->_object->can_do('midgard:delete'),
-            )
-        );
+        if ($this->_object->can_do('midgard:delete'))
+        {
+            $toolbar = new org_openpsa_widgets_toolbar($this->_view_toolbar);
+            $toolbar->add_delete_button("invoice/delete/{$this->_object->guid}/", $this->_l10n->get('invoice'));
+        }
 
         $this->_view_toolbar->add_item
         (
@@ -432,9 +449,6 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
                 break;
             case 'update':
                 $view_title = sprintf($this->_l10n_midcom->get('edit %s'), $this->_l10n->get('invoice') . ' ' . $this->_object->get_label());
-                break;
-            case 'delete':
-                $view_title = sprintf($this->_l10n_midcom->get('delete %s'), $this->_l10n->get('invoice') . ' ' . $this->_object->get_label());
                 break;
         }
 
