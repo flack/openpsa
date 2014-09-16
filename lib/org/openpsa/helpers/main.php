@@ -54,7 +54,7 @@ class org_openpsa_helpers
              $guid = $parts[1];
              try
              {
-                 $attachments[] = midcom_db_attachment::get_cached($guid);
+                 $attachments[$parts[0]] = midcom_db_attachment::get_cached($guid);
              }
              catch (midcom_error $e)
              {
