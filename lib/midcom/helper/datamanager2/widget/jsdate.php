@@ -21,7 +21,7 @@
  * <b>Default values for min/maxyear</b>
  *
  * If unspecified, it defaults to the 0-9999 range *unless* the base date type uses
- * the UNIXDATE storage mode, in which case 1970-2030 will be used instead.
+ * the UNIXTIME storage mode, in which case 1970-2030 will be used instead.
  *
  * @package midcom.helper.datamanager2
  */
@@ -70,12 +70,12 @@ class midcom_helper_datamanager2_widget_jsdate extends midcom_helper_datamanager
     public $showOn = 'both';
 
     /**
-     * Adapts the min/maxyear defaults if the base date is set to UNIXDATE storage.
+     * Adapts the min/maxyear defaults if the base date is set to UNIXTIME storage.
      */
     public function _on_configuring()
     {
         if (   is_a($this->_type, 'midcom_helper_datamanager2_type_date')
-            && $this->_type->storage_type == 'UNIXDATE')
+            && $this->_type->storage_type == 'UNIXTIME')
         {
             $this->minyear = 1970;
             $this->maxyear = 2030;
