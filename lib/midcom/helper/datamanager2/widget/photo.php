@@ -7,7 +7,7 @@
  */
 
 /**
- * Image widget specialized for org.routamc.photostream
+ * Image widget specialized for photos
  *
  * @package midcom.helper.datamanager2
  */
@@ -36,7 +36,6 @@ class midcom_helper_datamanager2_widget_photo extends midcom_helper_datamanager2
      * Creates the elements to manage an existing upload, offering "delete" and "upload new file"
      * operations.
      *
-     * @todo adjust to be more suited for the photostream use case
      * @param array &$elements The array where the references to the created elements should
      *     be added.
      */

@@ -155,10 +155,6 @@
     (
         'org_openpsa_products_product',
     ),
-    'camera.png' => array
-    (
-        'org_routamc_photostream_photo',
-    ),
 ),
 // This works just like object_icon_magic
 'create_type_magic' => array

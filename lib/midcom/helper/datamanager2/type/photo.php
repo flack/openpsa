@@ -7,7 +7,7 @@
  */
 
 /**
- * Image type specialized for org.routamc.photostream
+ * Image type specialized for photos
  *
  * @package midcom.helper.datamanager2
  */
