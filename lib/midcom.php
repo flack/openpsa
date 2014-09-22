@@ -89,7 +89,7 @@ class midcom
 
         if (!defined('OPENPSA2_THEME_ROOT'))
         {
-            define ('OPENPSA2_THEME_ROOT', MIDCOM_ROOT . '/../themes/');
+            define ('OPENPSA2_THEME_ROOT', MIDCOM_ROOT . '/../var/themes/');
         }
 
         // Instantiate the MidCOM main class
