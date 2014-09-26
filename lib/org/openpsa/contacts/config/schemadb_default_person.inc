@@ -19,7 +19,7 @@
                     1 => 'ms'
                  ),
             ),
-            'widget' => 'select',
+            'widget' => 'radiocheckselect',
         ),
         'title' => array
         (
