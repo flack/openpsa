@@ -556,14 +556,19 @@ class midcom_connection
      */
     private static function _parse_url($uri, $self, $prefix)
     {
+        $uri = preg_replace('/\/[\/]+/i', '/', $uri);
         $path_parts = explode('/', $uri);
         $page_style = '';
         $path = $self;
-
+    
         self::$_data['argv'] = array();
         $args_started = false;
-        foreach (array_filter($path_parts) as $part)
+        foreach ($path_parts as $part)
         {
+            if ($part === '')
+            {
+                continue;
+            }
             if (    midcom::get()->config->get('theme')
                  && !$args_started
                  && midcom_helper_misc::check_page_exists($part))
