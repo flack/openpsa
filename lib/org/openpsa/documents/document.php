@@ -134,7 +134,8 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
         {
             debug_add("Multiple attachments have been found for document #" . $this->id . ", returning only the first.", MIDCOM_LOG_INFO);
         }
-        return $attachments[0];
+
+        return reset($attachments);
     }
 
     /**
