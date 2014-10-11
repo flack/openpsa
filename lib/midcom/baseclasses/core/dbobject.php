@@ -163,14 +163,11 @@ class midcom_baseclasses_core_dbobject
                 return false;
             }
         }
-        else
+        else if (! midcom::get()->auth->can_user_do('midgard:create', null, get_class($object)))
         {
-            if (! midcom::get()->auth->can_user_do('midgard:create', null, get_class($object)))
-            {
-                debug_add("Failed to create object, general create privilege not granted for the current user.", MIDCOM_LOG_ERROR);
-                midcom_connection::set_error(MGD_ERR_ACCESS_DENIED);
-                return false;
-            }
+            debug_add("Failed to create object, general create privilege not granted for the current user.", MIDCOM_LOG_ERROR);
+            midcom_connection::set_error(MGD_ERR_ACCESS_DENIED);
+            return false;
         }
 
         if (! $object->_on_creating())
@@ -317,8 +314,7 @@ class midcom_baseclasses_core_dbobject
             $object->metadata->set('published', time());
         }
 
-        if (   !$object->__exec_create()
-            && $object->id == 0)
+        if (!$object->__exec_create())
         {
             debug_add("Failed to create " . get_class($object) . ", last Midgard error: " . midcom_connection::get_error_string());
             return false;
