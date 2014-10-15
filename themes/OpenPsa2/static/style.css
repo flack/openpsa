@@ -45,12 +45,13 @@ a:hover
 
 #leftframe
 {
-  min-height: 100%;
+  height: 100%;
   background-color: #24436e;
   width: 240px;
   position: fixed;
   left: 0px;
   overflow-x: hidden;
+  overflow-y: visible;
 
   background: #2d3438; /* Old browsers */
   background: -moz-linear-gradient(top, #2d3438 65px, #24436e 118px, #24436e 100%); /* FF3.6+ */
@@ -84,76 +85,138 @@ a:hover
 
 #nav
 {
-  padding: 0.5em 0;
+    overflow: auto;
+    height: calc(100% - (43px + 2em));
 }
 
-#nav ul
+#nav ul.fancytree-container
 {
-  padding: 0 0.5em;
-  margin: 0;
-  list-style: none;
+    background-color: transparent;
+    padding: .5em 0;
+    font-family: inherit;
 }
 
-#nav ul li
+#nav .fancytree-node
 {
+    transition: background 0.3s ease-out 0s
+}
+
+#nav .fancytree-active,
+#nav .fancytree-selected.fancytree-exp-c,
+#nav .fancytree-node:hover
+{
+    background-color: rgba(70, 120, 180, 0.6);
+}
+
+#nav .fancytree-node:hover
+{
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, .15), inset 0 0 4px rgba(220, 220, 255, .1);
+    cursor: pointer;
+}
+
+#nav .fancytree-title,
+#nav .fancytree-expander
+{
+    padding-bottom: 0.5em;
+    padding-top: 0.5em;
+}
+
+#nav .fancytree-title
+{
+    margin-left: 0;
+    padding-left: 0;
+}
+
+#nav .fancytree-expander
+{
+    padding-right: .4em;
+    padding-left: .25em;
+}
+
+#nav .fancytree-active .fancytree-title,
+#nav .fancytree-selected .fancytree-title
+{
+    color: white;
+}
+
+#nav .fancytree-active .fancytree-title
+{
+    font-style: normal;
+    font-weight: bold;
+}
+
+#nav > ul > li > ul
+{
+    box-shadow: 2px 0 50px rgba(0, 0, 0, 0.18) inset;
+}
+
+#nav ul ul .fancytree-node
+{
+    border-radius: .6em 0 0 .6em;
+}
+
+#nav ul ul .fancytree-title,
+#nav ul ul .fancytree-expander
+{
+    padding-top: 0.3em;
+    padding-bottom: 0.3em;
+}
+
+#nav .fancytree-expander
+{
+    cursor: pointer;
+    background: none;
+}
+
+#nav .fancytree-has-children .fancytree-expander:after
+{
+    content: '';
+    border-color: transparent transparent transparent white;
+    border-width: 4px 4px 4px 6px;
+    border-style: solid;
+    height: 0;
+    display: block;
+    opacity: .4;
     position: relative;
+    top: .3em;
+    left: .5em
 }
 
-#nav li ul
+#nav .fancytree-expanded .fancytree-expander:after
 {
-    display: none;
-    position: absolute;
-    top: 0px;
-    left: 100px;
-    min-width: 100px;
-    padding: 0;
+    border-width: 5px;
+    transform: rotate(45deg);
+    top: .6em;
 }
 
-#nav ul > li:hover
+#nav .fancytree-selected.fancytree-expanded .fancytree-expander:after
 {
-    background-color: #34537e;
-    border-radius: 0.8em;
-    z-index: 6;
+    opacity: .6
 }
 
-#nav li:hover > ul
+#nav .fancytree-has-children .fancytree-expander:hover:after
 {
-    background-color: #34537e;
-    border-radius: 0 0.8em 0.8em 0.8em;
-    z-index: 6;
-    display: block;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, .2), inset 0 -1px 3px rgba(220, 220, 255, .2);
+    opacity: 1
 }
 
-#nav > ul >li.selected > ul
+#nav .fancytree-icon
 {
-    display: block
+    display: none
 }
 
-#nav li.selected ul li
+#nav .fancytree-title
 {
-    display: none;
+    color: rgba(255, 255, 255, 0.85);
+    text-decoration: none;
+    text-shadow: 1px 1px rgba(0, 0, 0, 0.7);
+    background: transparent;
+    border: none;
+    outline: none;
 }
 
-#nav li.selected ul li.active
+#nav .fancytree-node:hover .fancytree-title
 {
-    display: block;
-    z-index: 0;
-}
-
-#nav li.selected:hover ul li
-{
-    display: block;
-}
-
-
-#nav ul li a
-{
-  display: block;
-  color: #ffffff;
-  padding: 0.5em 0.8em;
-  text-decoration: none;
-  text-shadow: 1px 1px rgba(0, 0, 0, 0.7);
+    color: white;
 }
 
 #nav ul li a

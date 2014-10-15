@@ -42,6 +42,7 @@ echo "<?xml version=\"1.0\"?>\n";
         $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/draggable.min.js');
 
         org_openpsa_widgets_ui::add_head_elements();
+        org_openpsa_widgets_tree::add_head_elements();
         org_openpsa_widgets_ui::initialize_search();
 
         $head->add_jscript("var MIDGARD_ROOT = '" . midcom_connection::get_url('self') . "';");
