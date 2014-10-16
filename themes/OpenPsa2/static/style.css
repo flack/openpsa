@@ -114,14 +114,14 @@ a:hover
     cursor: pointer;
 }
 
-#nav .fancytree-title,
+#nav .fancytree-label,
 #nav .fancytree-expander
 {
     padding-bottom: 0.5em;
     padding-top: 0.5em;
 }
 
-#nav .fancytree-title
+#nav .fancytree-label
 {
     margin-left: 0;
     padding-left: 0;
@@ -133,13 +133,13 @@ a:hover
     padding-left: .25em;
 }
 
-#nav .fancytree-active .fancytree-title,
-#nav .fancytree-selected .fancytree-title
+#nav .fancytree-active .fancytree-label,
+#nav .fancytree-selected .fancytree-label
 {
     color: white;
 }
 
-#nav .fancytree-active .fancytree-title
+#nav .fancytree-active .fancytree-label
 {
     font-style: normal;
     font-weight: bold;
@@ -155,7 +155,7 @@ a:hover
     border-radius: .6em 0 0 .6em;
 }
 
-#nav ul ul .fancytree-title,
+#nav ul ul .fancytree-label,
 #nav ul ul .fancytree-expander
 {
     padding-top: 0.3em;
@@ -166,6 +166,7 @@ a:hover
 {
     cursor: pointer;
     background: none;
+    float: left;
 }
 
 #nav .fancytree-has-children .fancytree-expander:after
@@ -204,8 +205,9 @@ a:hover
     display: none
 }
 
-#nav .fancytree-title
+#nav .fancytree-label
 {
+    display: block;
     color: rgba(255, 255, 255, 0.85);
     text-decoration: none;
     text-shadow: 1px 1px rgba(0, 0, 0, 0.7);
@@ -214,54 +216,11 @@ a:hover
     outline: none;
 }
 
-#nav .fancytree-node:hover .fancytree-title
+#nav .fancytree-node:hover .fancytree-label
 {
     color: white;
 }
 
-#nav ul li a
-{
-  border-radius: 0.8em;
-  background: transparent;
-  -moz-transition: background .3s ease-out 0s;
-  -webkit-transition: background .3s ease-out 0s;
-  transition: background .3s ease-out 0s;
-}
-
-#nav ul li.active a
-{
-  font-weight: bold;
-  background-color: #3364a3;
-}
-
-#nav ul li.active li a
-{
-  background: none;
-}
-
-#nav ul li.selected > a
-{
-  background-color: #3364a3;
-}
-
-#nav ul li.selected ul a:hover
-{
-  background-color: #386db2;
-}
-
-#nav ul li.active li a
-{
-  font-weight: normal;
-}
-
-#nav ul li a:hover
-{
-  background-color: #3364a3;
-  -moz-transition-duration: .1s;
-  -webkit-transition-duration: .1s;
-  transition-duration: .1s;
-
-}
 
 #container #template_openpsa2_resizer
 {

@@ -20,7 +20,8 @@ $navi->draw();
 
         click: function(event, data)
         {
-            if (   data.targetType !== undefined
+            if (   event.ctrlKey === false
+                && data.targetType !== undefined
                 && data.targetType !== 'expander'
                 && data.node.data.href !== undefined
                 && event.originalEvent !== undefined
@@ -28,6 +29,10 @@ $navi->draw();
             {
                 window.location.href = data.node.data.href;
             }
+        },
+        renderTitle: function(event, data)
+        {
+            return '<a href="' + data.node.data.href + '" class="fancytree-label">' + data.node.title + '</a>';
         }
     });
 </script>
