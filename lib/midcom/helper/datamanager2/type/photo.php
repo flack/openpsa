@@ -55,7 +55,7 @@ class midcom_helper_datamanager2_type_photo extends midcom_helper_datamanager2_t
             return false;
         }
         $this->_filter = new midcom_helper_imagefilter($att);
-
+        $this->_original_tmpname = $this->_filter->get_file();
         $this->title = $this->attachments['main']->title;
         $this->_filename = $this->attachments['main']->name;
         return true;
