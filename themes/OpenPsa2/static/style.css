@@ -94,6 +94,7 @@ a:hover
     background-color: transparent;
     padding: .5em 0;
     font-family: inherit;
+    outline: none;
 }
 
 #nav .fancytree-node
