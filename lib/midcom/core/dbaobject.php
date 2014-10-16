@@ -245,7 +245,7 @@ abstract class midcom_core_dbaobject
      * @param string $name      Machine-readable name of the attachment
      * @param string $title     Human-readable title of the attachment
      * @param string $mimetype  MIME-type of the attachment
-     * @return boolean Indicating success
+     * @return midcom_db_attachment The created attachment or false on failure.
      */
     public function create_attachment($name, $title, $mimetype)
     {
@@ -259,7 +259,7 @@ abstract class midcom_core_dbaobject
      * @param mixed $assignee    ID or GUID of the assignee
      * @param int $value         Privilege level
      * @param string $classname  An optional class name to which a SELF privilege gets restricted to. Only valid for SELF privileges.
-     * @return boolean Indicating success
+     * @return midcom_core_privilege The newly created privilege record or false on failure.
      */
     public function create_new_privilege_object($privilege, $assignee = null, $value = MIDCOM_PRIVILEGE_ALLOW, $classname = '')
     {
@@ -337,12 +337,16 @@ abstract class midcom_core_dbaobject
      * Get the requested attachment object
      *
      * @param string $name    Attachment URL name
-     * @return boolean Indicating success
+     * @return midcom_db_attachment The attachment found, or false on failure.
      */
     public function get_attachment($name)
     {
         return midcom_baseclasses_core_dbobject::get_attachment($this, $name);
     }
+
+    /**
+     * @return midcom_core_querybuilder The initialized instance of the query builder or false on failure.
+     */
     public function get_attachment_qb()
     {
         return midcom_baseclasses_core_dbobject::get_attachment_qb($this);

@@ -1538,7 +1538,7 @@ class midcom_baseclasses_core_dbobject
      * object.
      *
      * @param midcom_core_dbaobject $object The DBA object we're working on
-     * @return midgard_query_builder Prepared Query Builder or false on failure.
+     * @return midcom_core_querybuilder The initialized instance of the query builder or false on failure.
      */
     public static function get_attachment_qb(midcom_core_dbaobject $object)
     {
@@ -1559,7 +1559,7 @@ class midcom_baseclasses_core_dbobject
      * attachments, an empty array is returned.
      *
      * @param midcom_core_dbaobject $object The DBA object we're working on
-     * @return Array A list of midcom_db_attachment objects or false on failure.
+     * @return midcom_db_attachment[] A list of attachments
      */
     public static function list_attachments(midcom_core_dbaobject $object)
     {
