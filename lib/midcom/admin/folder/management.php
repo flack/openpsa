@@ -220,7 +220,7 @@ class midcom_admin_folder_management extends midcom_baseclasses_components_plugi
      * @param object $topic The folder to be checked.
      * @return boolean Indicating success
      */
-    public function is_child_listing_finite($topic, $stop = array())
+    public static function is_child_listing_finite($topic, $stop = array())
     {
         if (!empty($topic->symlink))
         {
