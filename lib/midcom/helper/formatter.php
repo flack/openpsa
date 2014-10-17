@@ -30,8 +30,6 @@ class midcom_helper_formatter
 
     /**
      * Register PHP function as string formatter to the Midgard formatting engine.
-     *
-     * @see http://www.midgard-project.org/documentation/reference-other-mgd_register_filter/
      */
     public static function register($name, $function)
     {

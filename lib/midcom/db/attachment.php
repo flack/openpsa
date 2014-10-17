@@ -61,11 +61,11 @@ class midcom_db_attachment extends midcom_core_dbaobject
     }
 
     /**
-     * Opens the attachment for file IO, the semantics match the original
-     * mgd_open_attachment call. Returns a filehandle that can be used with the
-     * usual PHP file functions if successful, the handle has to be closed with
-     * the close() method when you no longer need it, don't let it fall over
-     * the end of the script.
+     * Opens the attachment for file IO.
+     *
+     * Returns a filehandle that can be used with the usual PHP file functions if successful,
+     * the handle has to be closed with the close() method when you no longer need it, don't
+     * let it fall over the end of the script.
      *
      * <b>Important Note:</b> It is important to use the close() member function of
      * this class to close the file handle, not just fclose(). Otherwise, the upgrade

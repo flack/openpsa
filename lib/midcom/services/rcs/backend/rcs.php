@@ -453,10 +453,8 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
     }
 
     /**
-     * This function takes an object and adds it to RCS, it should be
-     * called just after $object->create(). Remember that you first need
-     * to mgd_get the object since $object->create() returns only the id,
-     * one way of doing this is:
+     * This function takes an object and adds it to RCS
+     *
      * @param object $object object to be saved
      * @param string $description changelog comment.-
      * @return int :

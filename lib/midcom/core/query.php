@@ -97,9 +97,6 @@ abstract class midcom_core_query
     /**
      * The number of objects for which access was denied.
      *
-     * This is especially useful for reimplementations of functions like mgd_get_article_by_name
-     * which must use the QB in the first place.
-     *
      * @var int
      */
     protected $_denied = 0;

@@ -136,12 +136,7 @@ class midcom_helper_misc
     }
 
     /**
-     * PHP-level implementation of the Midgard Preparser language
-     * construct mgd_include_snippet. Same semantics, but probably a little bit
-     * slower.
-     *
-     * This function is there as a backup in case you are not running within the
-     * Midgard Parser; it will run the snippet code through preparse manually.
+     * Preparse and include snippet
      *
      * @param string $path    The path of the snippet that should be included.
      * @return boolean Returns false if the snippet could not be loaded or true, if it was evaluated successfully.
