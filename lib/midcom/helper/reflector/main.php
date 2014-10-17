@@ -270,7 +270,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      * Get the object label property value
      *
      * @param mixed $object    MgdSchema object
-     * @return String       Label of the object
+     * @return string       Label of the object
      */
     public function get_object_label($object)
     {
@@ -290,33 +290,29 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         {
             $obj = $object;
         }
-        $label = '';
         if (method_exists($obj, 'get_label'))
         {
-            $label = $obj->get_label();
+            return $obj->get_label();
         }
-        else
+        $properties = array_flip($obj->get_properties());
+        if (empty($properties))
         {
-            $properties = array_flip($obj->get_properties());
-            if (empty($properties))
-            {
-                debug_add("Could not list object properties, aborting", MIDCOM_LOG_ERROR);
-                return false;
-            }
-            else if (isset($properties['title']))
-            {
-                $label = $obj->title;
-            }
-            else if (isset($properties['name']))
-            {
-                $label = $obj->name;
-            }
-            else if ($obj->id > 0)
-            {
-                $label = $this->get_class_label() . ' #' . $obj->id;
-            }
+            debug_add("Could not list object properties, aborting", MIDCOM_LOG_ERROR);
+            return false;
         }
-        return $label;
+        if (isset($properties['title']))
+        {
+            return $obj->title;
+        }
+        if (isset($properties['name']))
+        {
+            return $obj->name;
+        }
+        if ($obj->id > 0)
+        {
+            return $this->get_class_label() . ' #' . $obj->id;
+        }
+        return '';
     }
 
     /**
