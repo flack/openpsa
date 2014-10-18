@@ -253,19 +253,6 @@ class midcom_helper_misc
     }
 
     /**
-     * Helper function, determines the mime-type of the specified file.
-     *
-     * The call uses the "file" utility which must be present for this type to work.
-     *
-     * @param string $filename The file to scan
-     * @return string The autodetected mime-type
-     */
-    public static function get_mimetype($filename)
-    {
-        return exec(midcom::get()->config->get('utility_file') . " -ib {$filename} 2>/dev/null");
-    }
-
-    /**
      * Helper function for pretty printing file sizes
      *
      * @param int $size  File size in bytes

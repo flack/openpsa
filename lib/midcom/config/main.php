@@ -274,7 +274,6 @@
  * - <b>string utility_tar:</b> The tar utility, used for bulk uploads.
  * - <b>string utility_find:</b> The Find utility is used for bulk upload preprocessing
  *   and the like.
- * - <b>string utility_file:</b> Utility to identify all kinds of uploaded files.
  * - <b>string utility_catdoc:</b> Transforms Word Documents into text for indexing.
  * - <b>string utility_pdftotext:</b> Transforms PDF Documents into text for indexing.
  * - <b>string utility_unrtf:</b> Transforms RTF Documents into text files for indexing.
@@ -430,7 +429,6 @@ class midcom_config implements arrayaccess
         'utility_gzip' => 'gzip',
         'utility_tar' => 'tar',
         'utility_find' => 'find',
-        'utility_file' => 'file',
         'utility_catdoc' => 'catdoc',
         'utility_pdftotext' => 'pdftotext',
         'utility_unrtf' => 'unrtf',

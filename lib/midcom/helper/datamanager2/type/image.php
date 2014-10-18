@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use Symfony\Component\HttpFoundation\File\MimeType\FileBinaryMimeTypeGuesser;
+
 /**
  * Datamanager 2 Image type.
  *
@@ -594,7 +596,8 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
             $title = $this->_title;
         }
 
-        $mimetype = midcom_helper_misc::get_mimetype($tmpname);
+        $guesser = new FileBinaryMimeTypeGuesser;
+        $mimetype = $guesser->guess($tmpname);
         if (array_key_exists($identifier, $this->_pending_attachments))
         {
             unset($this->_pending_attachments[$identifier]);
@@ -623,9 +626,8 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
 
     /**
      * Automatically convert the uploaded file to a web-compatible type. Uses
-     * only the first image of multi-page uploads (like PDFs) and populates the
-     * _target_mimetype member accordingly. The original_tmpname file is manipulated
-     * directly.
+     * only the first image of multi-page uploads (like PDFs). The original_tmpname
+     * file is manipulated directly.
      *
      * Uploaded GIF, PNG and JPEG files are left untouched.
      *
@@ -636,8 +638,9 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
      */
     protected function _auto_convert_to_web_type()
     {
-        $original_mimetype = midcom_helper_misc::get_mimetype($this->_filter->get_file());
-        switch (preg_replace('/;.+$/', '', $original_mimetype))
+        $guesser = new FileBinaryMimeTypeGuesser;
+        $original_mimetype = $guesser->guess($this->_filter->get_file());
+        switch ($original_mimetype)
         {
             case 'image/png':
             case 'image/gif':

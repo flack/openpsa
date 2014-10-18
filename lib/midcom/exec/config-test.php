@@ -48,7 +48,6 @@ else
 
 // Other utilities
 $runner->check_for_utility('find', midcom_config_test::WARNING, 'The find utility is required for bulk upload processing in the image galleries, you should install it if you plan to deploy Image Galleries.');
-$runner->check_for_utility('file', midcom_config_test::ERROR, 'The file utility is required for all kindes of Mime-Type identifications. You have to install it for proper MidCOM operations.');
 $runner->check_for_utility('unzip', midcom_config_test::WARNING, 'The unzip utility is required for bulk upload processing in the image galleries, you should install it if you plan to deploy Image Galleries.');
 $runner->check_for_utility('tar', midcom_config_test::WARNING, 'The tar utility is required for bulk upload processing in the image galleries, you should install it if you plan to deploy Image Galleries.');
 $runner->check_for_utility('gzip', midcom_config_test::WARNING, 'The gzip utility is required for bulk upload processing in the image galleries, you should install it if you plan to deploy Image Galleries.');
