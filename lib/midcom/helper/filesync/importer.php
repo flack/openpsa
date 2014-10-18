@@ -111,9 +111,9 @@ abstract class midcom_helper_filesync_importer extends midcom_baseclasses_compon
      * but not initialized.
      *
      * @param string $type type
-     * @return midcom_helper_filesync_importer A reference to the newly created importer instance.
+     * @return midcom_helper_filesync_importer The newly created importer instance.
      */
-    public static function & create($type)
+    public static function create($type)
     {
         $classname = "midcom_helper_filesync_importer_{$type}";
         if (!class_exists($classname))
@@ -121,8 +121,7 @@ abstract class midcom_helper_filesync_importer extends midcom_baseclasses_compon
             throw new midcom_error("Requested importer class {$type} is not installed.");
         }
 
-        $class = new $classname(midcom_helper_filesync_interface::prepare_dir($type));
-        return $class;
+        return new $classname(midcom_helper_filesync_interface::prepare_dir($type));
     }
 
     public function delete_missing_folders($foldernames, $parent_id)
