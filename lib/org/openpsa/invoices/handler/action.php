@@ -245,15 +245,12 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
         if (!$invoice->paid)
         {
             $invoice->paid = time();
-            if ($invoice->update())
-            {
-                $this->_request_data['message']['message'] = sprintf($this->_l10n->get('marked invoice %s paid'), $invoice->get_label());
-            }
-            else
+            if (!$invoice->update())
             {
                 $this->_request_data['message']['message'] = sprintf($this->_l10n->get('could not mark invoice %s paid'), $invoice->get_label());
                 return false;
             }
+            $this->_request_data['message']['message'] = sprintf($this->_l10n->get('marked invoice %s paid'), $invoice->get_label());
         }
         return true;
     }
@@ -270,15 +267,13 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
         {
             $invoice->sent = time();
 
-            if ($invoice->update())
-            {
-                $this->_request_data['message']['message'] = sprintf($this->_l10n->get('marked invoice %s sent'), $invoice->get_label());
-            }
-            else
+            if (!$invoice->update())
             {
                 $this->_request_data['message']['message'] = sprintf($this->_l10n->get('could not mark invoice %s paid'), $invoice->get_label());
                 return false;
             }
+            $this->_request_data['message']['message'] = sprintf($this->_l10n->get('marked invoice %s sent'), $invoice->get_label());
+
             $mc = new org_openpsa_relatedto_collector($invoice->guid, 'org_openpsa_projects_task_dba');
             $tasks = $mc->get_related_objects();
 
