@@ -86,7 +86,12 @@ if (count($data['mgdschemas']) > 0)
 
                     if ($reflectionparameter->isDefaultValueAvailable())
                     {
-                        $parametersignature .= ' = ' . $reflectionparameter->getDefaultValue();
+                        $default = $reflectionparameter->getDefaultValue();
+                        if (is_array($default))
+                        {
+                            $default = 'array(' . implode(', ', $default) . ')';
+                        }
+                        $parametersignature .= ' = ' . $default;
                     }
 
                     if ($reflectionparameter->isOptional())
