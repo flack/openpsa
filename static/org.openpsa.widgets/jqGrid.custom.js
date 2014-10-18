@@ -571,7 +571,7 @@ var org_openpsa_grid_helper =
     },
     setup_grid: function (grid_id, config)
     {
-        var identifier = location.hostname + location.href + '#' + grid_id,
+        var identifier = 'openpsa-jqgrid#' + grid_id,
         saved_values = {};
         if (   typeof window.localStorage !== 'undefined'
             && window.localStorage
@@ -630,7 +630,7 @@ var org_openpsa_grid_helper =
             {
                 return;
             }
-            var identifier = location.hostname + location.href + '#' + grid_id,
+            var identifier = 'openpsa-jqgrid#' + grid_id,
             grid = $('#' + grid_id),
             data =
             {
