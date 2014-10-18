@@ -519,25 +519,10 @@ class fi_protie_navigation
     private function _display_element($item, $indent, $css_classes)
     {
         // Finalize the class naming
-        if ($css_classes !== '')
-        {
-            $class = " class=\"{$css_classes}\"";
-        }
-        else
-        {
-            $class = '';
-        }
+        $class = ($css_classes !== '') ? ' class="' . $css_classes . '"' : '';
+        $link_class = ($this->class_to_link) ? $class : '';
 
         $get_params = $this->_get_parameter_string();
-
-        if ($this->class_to_link)
-        {
-            $link_class = $class;
-        }
-        else
-        {
-            $link_class = '';
-        }
 
         echo "{$indent}    <li{$class}>\n";
         echo "{$indent}        <a href=\"{$item[MIDCOM_NAV_ABSOLUTEURL]}{$get_params}\"{$link_class}>{$item[MIDCOM_NAV_NAME]}</a>\n";

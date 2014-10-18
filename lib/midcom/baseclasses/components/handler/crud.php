@@ -437,10 +437,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
                     return new midcom_response_relocate(midcom::get()->permalinks->resolve_permalink($this->_parent->guid));
                 }
                 // If nothing helps, try the topic's front page
-                else
-                {
-                    return new midcom_response_relocate('');
-                }
+                return new midcom_response_relocate('');
         }
 
         $this->_prepare_request_data();

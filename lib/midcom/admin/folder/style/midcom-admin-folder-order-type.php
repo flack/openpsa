@@ -11,14 +11,7 @@ foreach ($data['navigation_items'] as $i => $item)
         continue;
     }
 
-    if ($item[MIDCOM_NAV_GUID])
-    {
-        $identificator = $item[MIDCOM_NAV_GUID];
-    }
-    else
-    {
-        $identificator = $item[MIDCOM_NAV_ID];
-    }
+    $identificator = $item[MIDCOM_NAV_GUID] ?: $item[MIDCOM_NAV_ID];
 
     $index = $count - $i;
     $style = '';
@@ -40,18 +33,14 @@ foreach ($data['navigation_items'] as $i => $item)
         $icon = MIDCOM_STATIC_URL . "/{$tmp}";
     }
 
+    if (!$item[MIDCOM_NAV_GUID])
+    {
+        $icon = MIDCOM_STATIC_URL . "/stock-icons/16x16/script.png";
+    }
+
     if ($icon)
     {
         $icon = " style=\"background-image: url('{$icon}');\"";
-    }
-    else
-    {
-        $icon = '';
-    }
-
-    if (!$item[MIDCOM_NAV_GUID])
-    {
-        $icon = " style=\"background-image: url('" . MIDCOM_STATIC_URL . "/stock-icons/16x16/script.png');\"";
     }
 
     echo "        <li class=\"sortable {$item[MIDCOM_NAV_TYPE]}\"{$icon}>\n";

@@ -555,7 +555,7 @@ class midcom_core_privilege
                 {
                     return true;
                 }
-                else if (strstr($this->__privilege['assignee'], 'group:') !== false)
+                if (strstr($this->__privilege['assignee'], 'group:') !== false)
                 {
                     $user = midcom::get()->auth->get_user($user_id);
                     if (is_object($user))

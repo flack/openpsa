@@ -92,14 +92,7 @@ class midcom_compat_default extends midcom_compat_environment
 
     public function header($string, $replace = true, $http_response_code = null)
     {
-        if ($http_response_code === null)
-        {
-            header($string, $replace);
-        }
-        else
-        {
-            header($string, $replace, $http_response_code);
-        }
+        header($string, $replace, $http_response_code);
     }
 
     public function stop_request($message = '')
@@ -166,14 +159,7 @@ class midcom_compat_ragnaland extends midcom_compat_default
 {
     public function header($string, $replace = true, $http_response_code = null)
     {
-        if ($http_response_code === null)
-        {
-            midgardmvc_core::get_instance()->dispatcher->header($string, $replace);
-        }
-        else
-        {
-            midgardmvc_core::get_instance()->dispatcher->header($string, $replace, $http_response_code);
-        }
+        midgardmvc_core::get_instance()->dispatcher->header($string, $replace, $http_response_code);
     }
 
     public function stop_request($message = '')

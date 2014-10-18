@@ -206,11 +206,8 @@ class midcom_core_account
             // Ratatoskr
             return $this->_user->login;
         }
-        else
-        {
-            // Ragnaroek
-            return $this->_person->username;
-        }
+        // Ragnaroek
+        return $this->_person->username;
     }
 
     /**

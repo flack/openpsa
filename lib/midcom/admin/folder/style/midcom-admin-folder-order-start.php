@@ -7,14 +7,7 @@
 <?php
 foreach ($data['navorder_list'] as $key => $value)
 {
-    if ($key == $data['navorder'])
-    {
-        $selected = ' selected="selected"';
-    }
-    else
-    {
-        $selected = '';
-    }
+    $selected = ($key == $data['navorder']) ? ' selected="selected"' : '';
 ?>
                 <option value="&(key);"&(selected:h);>&(value:h);</option>
 <?php

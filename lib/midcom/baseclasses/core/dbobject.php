@@ -249,8 +249,7 @@ class midcom_baseclasses_core_dbobject
             if ($object->allow_name_catenate)
             {
                 // Transparent catenation allowed, let's try again.
-                $new_name = $resolver->generate_unique_name();
-                if (!empty($new_name))
+                if ($new_name = $resolver->generate_unique_name())
                 {
                     $object->{$name_property} = $new_name;
                     return true;
@@ -296,13 +295,10 @@ class midcom_baseclasses_core_dbobject
             }
 
             // Default the owner to first group of current user
-            if (empty($object->metadata->owner))
+            if (   empty($object->metadata->owner)
+                && $first_group = midcom::get()->auth->user->get_first_group_guid())
             {
-                $first_group = midcom::get()->auth->user->get_first_group_guid();
-                if ($first_group)
-                {
-                    $object->metadata->set('owner', $first_group);
-                }
+                $object->metadata->set('owner', $first_group);
             }
         }
 
@@ -1348,14 +1344,7 @@ class midcom_baseclasses_core_dbobject
 
         if ($assignee === null)
         {
-            if (midcom::get()->auth->user === null)
-            {
-                $assignee = 'EVERYONE';
-            }
-            else
-            {
-                $assignee = midcom::get()->auth->user;
-            }
+            $assignee = midcom::get()->auth->user ?: 'EVERYONE';
         }
 
         if (is_a($privilege, 'midcom_core_privilege'))
@@ -1598,14 +1587,7 @@ class midcom_baseclasses_core_dbobject
 
         if ($assignee === null)
         {
-            if (midcom::get()->auth->user === null)
-            {
-                $assignee = 'EVERYONE';
-            }
-            else
-            {
-                $assignee = midcom::get()->auth->user;
-            }
+            $assignee = midcom::get()->auth->user ?: 'EVERYONE';
         }
 
         $privilege = new midcom_core_privilege();

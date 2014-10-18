@@ -186,17 +186,14 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
             $stat = $this->_object->update();
         }
 
-        if ($stat)
-        {
-            $this->_responseStatus = MIDCOM_ERROK;
-            $this->_response["id"] = $this->_object->id;
-            $this->_response["guid"] = $this->_object->guid;
-            $this->_response["message"] = $this->_mode . " ok";
-        }
-        else
+        if (!$stat)
         {
             $this->_stop("Failed to " . $this->_mode . " object, last error was: " . midcom_connection::get_error_string(), MIDCOM_ERRCRIT);
         }
+        $this->_responseStatus = MIDCOM_ERROK;
+        $this->_response["id"] = $this->_object->id;
+        $this->_response["guid"] = $this->_object->guid;
+        $this->_response["message"] = $this->_mode . " ok";
     }
 
     /**

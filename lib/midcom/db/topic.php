@@ -22,7 +22,7 @@ class midcom_db_topic extends midcom_core_dbaobject
         {
             return $this->extra;
         }
-        else if ($this->name)
+        if ($this->name)
         {
             return $this->name;
         }

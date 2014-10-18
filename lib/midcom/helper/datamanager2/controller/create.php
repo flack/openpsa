@@ -221,14 +221,12 @@ class midcom_helper_datamanager2_controller_create extends midcom_helper_dataman
                     // Pre process check for validation etc, we create a new object at this point if everything
                     // looks fine. The change of the storage backend will only be done if we have a clear
                     // save/next result from the QF layer.
-                    $result = $this->formmanager->compute_form_result();
-                    if ($result == 'save')
+                    if ($this->formmanager->compute_form_result() == 'save')
                     {
                         $this->_cast_to_storage_object();
                     }
 
-                    $exitcode = $this->formmanager->process_form();
-                    if ($exitcode == 'save')
+                    if ($this->formmanager->process_form() == 'save')
                     {
                         $this->datamanager->save();
                         $this->formmanager->display_view($this->form_identifier, "dm2_ajax_{$this->datamanager->storage->object->guid}");
@@ -282,9 +280,7 @@ class midcom_helper_datamanager2_controller_create extends midcom_helper_dataman
         // Pre process check for validation etc, we create a new object at this point if everything
         // looks fine. The change of the storage backend will only be done if we have a clear
         // save/next result from the QF layer.
-        $result = $this->formmanager->compute_form_result();
-
-        if ($result == 'save')
+        if ($this->formmanager->compute_form_result() == 'save')
         {
             $this->_cast_to_storage_object();
         }

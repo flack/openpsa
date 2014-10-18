@@ -118,8 +118,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
 
     static function get_help_title($help_id, $component)
     {
-        $path = self::generate_file_path($help_id, $component);
-        if ($path)
+        if ($path = self::generate_file_path($help_id, $component))
         {
             $file_contents = file($path);
             if (trim($file_contents[0]))
@@ -500,11 +499,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
                 continue;
             }
 
-            $type = 'components';
-            if ($manifest->purecode)
-            {
-                $type = 'libraries';
-            }
+            $type = ($manifest->purecode) ? 'libraries' : 'components';
 
             if (midcom::get()->componentloader->is_core_component($name))
             {

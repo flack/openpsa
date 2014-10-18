@@ -553,13 +553,10 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
                 foreach ($request['validation'][$i] as $rule)
                 {
                     // rule is a callable function, like mgd_is_guid or is_int
-                    if (is_callable($rule))
+                    if (   is_callable($rule)
+                        && $success = call_user_func($rule, $param))
                     {
-                        $success = call_user_func($rule, $param);
-                        if ($success)
-                        {
-                            break;
-                        }
+                        break;
                     }
                 }
                 // validation failed, we can stop here
@@ -878,16 +875,15 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
             return;
         }
 
-        $i = strpos($plugin_config['src'], ':');
-        if ($i == false)
-        {
-            $method = 'snippet';
-            $src = $plugin_config['src'];
-        }
-        else
+        if ($i = strpos($plugin_config['src'], ':'))
         {
             $method = substr($plugin_config['src'], 0, $i);
             $src = substr($plugin_config['src'], $i + 1);
+        }
+        else
+        {
+            $method = 'snippet';
+            $src = $plugin_config['src'];
         }
 
         switch ($method)

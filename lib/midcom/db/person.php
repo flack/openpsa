@@ -157,7 +157,7 @@ class midcom_db_person extends midcom_core_dbaobject
         {
             return $this->rname;
         }
-        else if ($this->username)
+        if ($this->username)
         {
             return $this->username;
         }

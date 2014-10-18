@@ -297,14 +297,7 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
             {
                 if (is_object($id))
                 {
-                    if ($this->master_is_id)
-                    {
-                        $this->selection[] = $id->id;
-                    }
-                    else
-                    {
-                        $this->selection[] = $id->guid;
-                    }
+                    $this->selection[] = ($this->master_is_id) ? $id->id : $id->guid;
                 }
                 else
                 {

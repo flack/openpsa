@@ -97,30 +97,26 @@ class midcom_baseclasses_components_configuration
         {
             $component_path = $loader->path_to_snippetpath($loader->manifests[$component]->extends);
             // Load and parse the global config
-            $parent_data = self::read_array_from_file($component_path . '/config/config.inc');
-            if ($parent_data)
+            if ($parent_data = self::read_array_from_file($component_path . '/config/config.inc'))
             {
                 $data = $parent_data;
             }
         }
         $component_path = $loader->path_to_snippetpath($component);
         // Load and parse the global config
-        $component_data = self::read_array_from_file($component_path . '/config/config.inc');
-        if ($component_data)
+        if ($component_data = self::read_array_from_file($component_path . '/config/config.inc'))
         {
             $data = array_merge($data, $component_data);
         }
 
         // Go for the sitewide default
-        $fs_data = self::read_array_from_snippet("conf:/{$component}/config.inc");
-        if ($fs_data !== false)
+        if ($fs_data = self::read_array_from_snippet("conf:/{$component}/config.inc"))
         {
             $data = array_merge($data, $fs_data);
         }
 
         // Finally, check the sitegroup config
-        $sn_data = self::read_array_from_snippet(midcom::get()->config->get('midcom_sgconfig_basedir') . "/{$component}/config");
-        if ($sn_data !== false)
+        if ($sn_data = self::read_array_from_snippet(midcom::get()->config->get('midcom_sgconfig_basedir') . "/{$component}/config"))
         {
             $data = array_merge($data, $sn_data);
         }

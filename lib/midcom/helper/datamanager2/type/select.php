@@ -203,15 +203,7 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
         }
 
         // Activate serialized storage format if we are in multiselect-mode.
-        if (   $this->allow_multiple
-            && $this->multiple_storagemode == 'serialized')
-        {
-            $this->serialized_storage = true;
-        }
-        else
-        {
-            $this->serialized_storage = false;
-        }
+        $this->serialized_storage = ($this->allow_multiple && $this->multiple_storagemode == 'serialized');
     }
 
     /**

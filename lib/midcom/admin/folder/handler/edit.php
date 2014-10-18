@@ -268,19 +268,12 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
         $qb_topic->add_constraint('symlink', '=', $this->_topic->id);
         foreach ($qb_topic->execute() as $symlink_topic)
         {
-            if (empty($symlink_topic->symlink))
+            if ($symlink_topic->name !== $this->_topic->name)
             {
-                debug_add("Symlink topic is not a symlink. Query must have failed. Constraint was: #{$this->_topic->id}", MIDCOM_LOG_ERROR);
-            }
-            else
-            {
-                if ($symlink_topic->name !== $this->_topic->name)
-                {
-                    $symlink_topic->name = $this->_topic->name;
-                    // This might fail if the URL name is already taken,
-                    // but in such case we can just ignore it silently which keeps the original value
-                    $symlink_topic->update();
-                }
+                $symlink_topic->name = $this->_topic->name;
+                // This might fail if the URL name is already taken,
+                // but in such case we can just ignore it silently which keeps the original value
+                $symlink_topic->update();
             }
         }
         midcom::get()->auth->drop_sudo();

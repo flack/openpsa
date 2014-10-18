@@ -67,14 +67,7 @@ class midcom_compat_superglobal
 
     function generate_host_url($host)
     {
-        if ($host->port == 443)
-        {
-            $protocol = 'https';
-        }
-        else
-        {
-            $protocol = 'http';
-        }
+        $protocol = ($host->port == 443) ? 'https' : 'http';
 
         $port = '';
         if (   $host->port != 80

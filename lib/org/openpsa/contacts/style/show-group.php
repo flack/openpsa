@@ -1,8 +1,6 @@
 <?php
 $nap = new midcom_helper_nav();
 $node = $nap->get_node($nap->get_current_node());
-
-$addresses = array();
 ?>
 <div class="sidebar">
     <?php
@@ -17,9 +15,9 @@ $addresses = array();
         </div>
         <?php
     }
-    ?>
-    <?php midcom::get()->dynamic_load($node[MIDCOM_NAV_RELATIVEURL] . "group/" . $data['group']->guid . "/members/"); ?>
-    <?php midcom::get()->dynamic_load($node[MIDCOM_NAV_RELATIVEURL] . "group/" . $data['group']->guid . "/subgroups/"); ?>
+
+    midcom::get()->dynamic_load($node[MIDCOM_NAV_RELATIVEURL] . "group/" . $data['group']->guid . "/members/");
+    midcom::get()->dynamic_load($node[MIDCOM_NAV_RELATIVEURL] . "group/" . $data['group']->guid . "/subgroups/"); ?>
 
     <!-- TODO: Projects list, Add project button -->
 </div>
@@ -80,8 +78,7 @@ $addresses = array();
     if (strpos($data['view']['categories'], $data['l10n']->get('client')) !== false)
     {
         //TODO: Check for privileges somehow
-        $invoices_url = $siteconfig->get_node_relative_url('org.openpsa.invoices');
-        if ($invoices_url)
+        if ($invoices_url = $siteconfig->get_node_relative_url('org.openpsa.invoices'))
         {
             $tabs[] = array
             (
@@ -89,8 +86,7 @@ $addresses = array();
                 'title' => midcom::get()->i18n->get_string('invoices', 'org.openpsa.invoices'),
             );
         }
-        $sales_url = $siteconfig->get_node_relative_url('org.openpsa.sales');
-        if ($sales_url)
+        if ($sales_url = $siteconfig->get_node_relative_url('org.openpsa.sales'))
         {
             $tabs[] = array
             (

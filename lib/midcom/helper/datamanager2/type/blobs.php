@@ -336,13 +336,11 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
             return false;
         }
 
-        if ($autodelete)
+        if (   $autodelete
+            && !@unlink($tmpname))
         {
-            if (! @unlink($tmpname))
-            {
-                debug_add('Failed to automatically delete the source file, ignoring silently.', MIDCOM_LOG_WARN);
-                midcom::get()->debug->log_php_error(MIDCOM_LOG_WARN);
-            }
+            debug_add('Failed to automatically delete the source file, ignoring silently.', MIDCOM_LOG_WARN);
+            midcom::get()->debug->log_php_error(MIDCOM_LOG_WARN);
         }
 
         return true;
@@ -531,13 +529,11 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
             return false;
         }
 
-        if ($autodelete)
+        if (   $autodelete
+            && !@unlink($tmpname))
         {
-            if (! @unlink($tmpname))
-            {
-                debug_add('Failed to automatically delete the source file, ignoring silently.', MIDCOM_LOG_WARN);
-                midcom::get()->debug->log_php_error(MIDCOM_LOG_WARN);
-            }
+            debug_add('Failed to automatically delete the source file, ignoring silently.', MIDCOM_LOG_WARN);
+            midcom::get()->debug->log_php_error(MIDCOM_LOG_WARN);
         }
 
         return true;

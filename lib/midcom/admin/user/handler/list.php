@@ -344,15 +344,13 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
                 midcom::get()->uimessages->add($this->_l10n->get('midcom.admin.user'), sprintf($this->_l10n->get('failed to update the password for %s'), $person_edit_url), 'error');
                 return;
             }
+            // Show UI message on success
+            midcom::get()->uimessages->add($this->_l10n->get('midcom.admin.user'), $this->_l10n->get('passwords updated and mail sent'));
         }
         else
         {
             midcom::get()->uimessages->add($this->_l10n->get('midcom.admin.user'), "Failed to send the mail, SMTP returned error " . $mail->get_error_message(), 'error');
-            return;
         }
-
-        // Show UI message on success
-        midcom::get()->uimessages->add($this->_l10n->get('midcom.admin.user'), $this->_l10n->get('passwords updated and mail sent'));
     }
 
     /**

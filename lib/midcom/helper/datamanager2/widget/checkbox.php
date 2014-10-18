@@ -66,12 +66,7 @@ class midcom_helper_datamanager2_widget_checkbox extends midcom_helper_datamanag
     {
         $attributes['class'] = 'checkbox';
 
-        $title = $this->_translate($this->_field['title']);
-
-        if ($this->show_title === false)
-        {
-            $title = '';
-        }
+        $title = ($this->show_title) ? $this->_translate($this->_field['title']) : '';
 
         if (is_array($this->jsevents))
         {

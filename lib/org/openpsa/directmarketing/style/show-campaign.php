@@ -39,11 +39,8 @@ $node = $nap->get_node($nap->get_current_node());
     {
         echo "<strong>" . $data['l10n']->get('no testers') . "</strong>";
     }
-    ?>
 
-    <?php
-    if (   array_key_exists('campaign_members_count', $data)
-        && $data['campaign_members_count'] > 0)
+    if (!empty($data['campaign_members_count']))
     {
         echo "<div>\n";
         echo "<h2>" . sprintf($data['l10n']->get('%d members'), $data['campaign_members_count']) . "</h2>\n";

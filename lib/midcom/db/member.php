@@ -66,14 +66,12 @@ class midcom_db_member extends midcom_core_dbaobject
     private function _check_gid()
     {
         // Allow root group membership creation only for admins
-        if ($this->gid == 0)
+        if (   $this->gid == 0
+            && !midcom::get()->auth->admin)
         {
-            if (!midcom::get()->auth->admin)
-            {
-                debug_add("Group #0 membership creation only allowed for admins");
-                debug_print_function_stack('Forbidden ROOT member creation called from');
-                return false;
-            }
+            debug_add("Group #0 membership creation only allowed for admins");
+            debug_print_function_stack('Forbidden ROOT member creation called from');
+            return false;
         }
 
         return true;

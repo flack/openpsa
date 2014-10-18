@@ -625,11 +625,11 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
         {
             return $this->l10n_schema->get($translate_string);
         }
-        else if ($this->_l10n->string_available($translate_string))
+        if ($this->_l10n->string_available($translate_string))
         {
             return $this->_l10n->get($translate_string);
         }
-        else if ($this->_l10n_midcom->string_available($translate_string))
+        if ($this->_l10n_midcom->string_available($translate_string))
         {
             return $this->_l10n_midcom->get($translate_string);
         }

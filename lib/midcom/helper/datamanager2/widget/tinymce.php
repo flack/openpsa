@@ -297,14 +297,14 @@ EOT;
      * This is called during intialization the function is used to
      * register the schema to a session key
      */
-     public function _on_initialize()
-     {
+    public function _on_initialize()
+    {
         if ($this->_initialize_dependencies)
         {
             $this->_add_external_html_elements();
             $this->_add_initscript('none');
         }
-     }
+    }
 
     /**
      * Adds a simple single-line text form element at this time.

@@ -61,41 +61,22 @@ class midcom_helper_datamanager2_type_boolean extends midcom_helper_datamanager2
 
     public function convert_to_storage()
     {
-        if ($this->value)
-        {
-            return 1;
-        }
-        return 0;
+        return ($this->value) ? 1 : 0;
     }
 
     public function convert_from_csv ($source)
     {
-        if ($source)
-        {
-            $this->value = true;
-        }
-        else
-        {
-            $this->value = false;
-        }
+        $this->value = (boolean) $source;;
     }
 
     public function convert_to_csv()
     {
-        if ($this->value)
-        {
-            return '1';
-        }
-        return '0';
+        return ($this->value) ? '1' : '0';
     }
 
     public function convert_to_email()
     {
-        if ($this->value)
-        {
-            return $this->_l10n->get('yes');
-        }
-        return $this->_l10n->get('no');
+        return $this->_l10n->get(($this->value) ? 'yes' : 'no');
     }
 
     /**
@@ -108,26 +89,16 @@ class midcom_helper_datamanager2_type_boolean extends midcom_helper_datamanager2
         {
             if ($this->true_text)
             {
-                $result = $this->true_text;
+                return $this->true_text;
             }
-            else
-            {
-                $src = MIDCOM_STATIC_URL . '/stock-icons/16x16/ok.png';
-                $result = "<img src='{$src}' alt='selected' />";
-            }
+            $src = MIDCOM_STATIC_URL . '/stock-icons/16x16/ok.png';
+            return "<img src='{$src}' alt='selected' />";
         }
-        else
+        if ($this->false_text)
         {
-            if ($this->false_text)
-            {
-                $result = $this->false_text;
-            }
-            else
-            {
-                $src = MIDCOM_STATIC_URL . '/stock-icons/16x16/cancel.png';
-                $result = "<img src='{$src}' alt='not selected' />";
-            }
+            return $this->false_text;
         }
-        return $result;
+        $src = MIDCOM_STATIC_URL . '/stock-icons/16x16/cancel.png';
+        return "<img src='{$src}' alt='not selected' />";
     }
 }

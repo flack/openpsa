@@ -23,14 +23,12 @@ if (count($data['mgdschemas']) > 0)
         {
             $proplink = "";
             $proplink_description = '';
-            if ($val['link'])
+            if (   $val['link']
+                && $linked_component = midcom::get()->dbclassloader->get_component_for_class($val['link_name']))
             {
-                if ($linked_component = midcom::get()->dbclassloader->get_component_for_class($val['link_name']))
-                {
-                    $proplink = "<a href='{$prefix}__ais/help/{$linked_component}/mgdschemas/#{$val['link_name']}' title='{$linked_component}/{$val['link_name']}::{$val['link_target']}'>{$val['link_name']}:{$val['link_target']}</a>";
-                    $classname = str_replace('_', '\\_', $val['link_name']);
-                    $proplink_description = "\n\n**This property links to {$classname}:{$val['link_target']}**";
-                }
+                $proplink = "<a href='{$prefix}__ais/help/{$linked_component}/mgdschemas/#{$val['link_name']}' title='{$linked_component}/{$val['link_name']}::{$val['link_target']}'>{$val['link_name']}:{$val['link_target']}</a>";
+                $classname = str_replace('_', '\\_', $val['link_name']);
+                $proplink_description = "\n\n**This property links to {$classname}:{$val['link_target']}**";
             }
 
             $mod = ($i % 2 == 0) ? " even":" odd";
@@ -47,8 +45,7 @@ if (count($data['mgdschemas']) > 0)
 
         // Reflect the methods too
         $reflectionclass = new ReflectionClass($schema);
-        $reflectionmethods = $reflectionclass->getMethods();
-        if ($reflectionmethods)
+        if ($reflectionmethods = $reflectionclass->getMethods())
         {
             echo "<dd>\n";
             echo "    <table>\n";
