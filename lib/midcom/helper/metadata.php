@@ -269,18 +269,13 @@ class midcom_helper_metadata
      */
     function set($key, $value)
     {
-        $return = false;
-        if ($this->_set_property($key, $value))
+        if ($return = $this->_set_property($key, $value))
         {
             if ($this->__object->guid)
             {
                 $return = $this->__object->update();
+            }
 
-            }
-            else
-            {
-                $return = true;
-            }
             // Update the corresponding cache variable
             $this->on_update($key);
         }
@@ -320,9 +315,8 @@ class midcom_helper_metadata
             return false;
         }
 
-        if ($this->__object->update())
+        if ($return = $this->__object->update())
         {
-            $return = true;
             // Update the corresponding cache variables
             array_map(array($this, 'on_update'), array_keys($properties));
         }

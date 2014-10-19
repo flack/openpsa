@@ -301,8 +301,7 @@ class midcom_helper__styleloader
             // FIXME: Should we register this also in the other case
             midcom::get()->cache->content->register($style_guid);
 
-            $up = $style_mc->get_subkey($style_guid, 'up');
-            if ($up)
+            if ($up = $style_mc->get_subkey($style_guid, 'up'))
             {
                 $value = $this->_get_element_in_styletree($up, $name);
                 $cached[$id][$name] = $value;
@@ -445,13 +444,10 @@ class midcom_helper__styleloader
         try
         {
             $root_topic = $context->get_key(MIDCOM_CONTEXT_ROOTTOPIC);
-            if ($root_topic->style)
+            if (   $root_topic->style
+                && $db_style = $this->get_style_id_from_path($root_topic->style))
             {
-                $db_style = $this->get_style_id_from_path($root_topic->style);
-                if ($db_style)
-                {
-                    $_style = $this->_get_element_in_styletree($db_style, $_element);
-                }
+                $_style = $this->_get_element_in_styletree($db_style, $_element);
             }
         }
         catch (midcom_error_forbidden $e)
@@ -491,13 +487,11 @@ class midcom_helper__styleloader
             {
                 return $this->_styles[$src];
             }
-            else if ($this->_scope[0] != '')
+            if (   $this->_scope[0] != ''
+                && $result = $this->_get_element_in_styletree($this->_scope[0], $_element))
             {
-                if ($_result = $this->_get_element_in_styletree($this->_scope[0], $_element))
-                {
-                    $this->_styles[$src] = $_result;
-                    return $this->_styles[$src];
-                }
+                $this->_styles[$src] = $result;
+                return $this->_styles[$src];
             }
         }
         return false;
@@ -513,27 +507,21 @@ class midcom_helper__styleloader
         {
             return $this->_snippets[$src];
         }
-        else
+        if (   midcom::get()->config->get('theme')
+            && $content = midcom_helper_misc::get_element_content($_element))
         {
-            if (midcom::get()->config->get('theme'))
-            {
-                $content = midcom_helper_misc::get_element_content($_element);
-                if ($content)
-                {
-                    $this->_snippets[$src] = $content;
-                    return $content;
-                }
-            }
+            $this->_snippets[$src] = $content;
+            return $content;
+        }
 
-            $current_context = midcom_core_context::get()->id;
-            foreach ($this->_styledirs[$current_context] as $path)
+        $current_context = midcom_core_context::get()->id;
+        foreach ($this->_styledirs[$current_context] as $path)
+        {
+            $filename = $path .  "/{$_element}.php";
+            if (file_exists($filename))
             {
-                $filename = $path .  "/{$_element}.php";
-                if (file_exists($filename))
-                {
-                    $this->_snippets[$filename] = file_get_contents($filename);
-                    return $this->_snippets[$filename];
-                }
+                $this->_snippets[$filename] = file_get_contents($filename);
+                return $this->_snippets[$filename];
             }
         }
         return false;

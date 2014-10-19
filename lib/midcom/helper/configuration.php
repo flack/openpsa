@@ -136,27 +136,13 @@ class midcom_helper_configuration
 
         if ($global)
         {
-            if ($merge)
-            {
-                $this->_global = array_merge($this->_global, $array);
-            }
-            else
-            {
-                $this->_global = $array;
-            }
+            $this->_global = ($merge) ? array_merge($this->_global, $array) : $array;
             $this->_local = array();
             $this->_merged = $array;
         }
 
         $this->_check_local_array($array);
-        if ($merge)
-        {
-            $this->_local = array_merge($this->_local, $array);
-        }
-        else
-        {
-            $this->_local = $array;
-        }
+        $this->_local = ($merge) ? array_merge($this->_local, $array) : $array;
         $this->_update_cache();
         $this->_object_stored = true;
     }

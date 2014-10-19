@@ -227,16 +227,13 @@ class midcom_application
         // enter that context and prepare its data structure.
         $oldcontext = midcom_core_context::get();
         $context = new midcom_core_context(null, $oldcontext->get_key(MIDCOM_CONTEXT_ROOTTOPIC));
-
+        $uri = midcom_connection::get_url('self') . $url;
         if ($pass_get)
         {
             // Include GET parameters into cache URL
-            $context->set_key(MIDCOM_CONTEXT_URI, midcom_connection::get_url('self') . $url . '?GET=' . serialize($_GET));
+            $uri .= '?GET=' . serialize($_GET);
         }
-        else
-        {
-            $context->set_key(MIDCOM_CONTEXT_URI, midcom_connection::get_url('self') . $url);
-        }
+        $context->set_key(MIDCOM_CONTEXT_URI, $uri);
 
         $context->set_current();
         /* "content-cache" for DLs, check_hit */

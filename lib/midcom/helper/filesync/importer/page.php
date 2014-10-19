@@ -55,14 +55,7 @@ class midcom_helper_filesync_importer_page extends midcom_helper_filesync_import
             }
 
             $filenames[] = $pageelement_name;
-
-            // Deal with element
-            $file_contents = file_get_contents("{$path}/{$entry}");
-            $encoding = mb_detect_encoding($file_contents);
-            if ($encoding != 'UTF-8')
-            {
-                $file_contents = @iconv($encoding, 'UTF-8', $file_contents);
-            }
+            $file_contents = $this->read_file("{$path}/{$entry}");
 
             $qb = $this->get_leaf_qb($page->id);
             $qb->add_constraint('name', '=', $pageelement_name);

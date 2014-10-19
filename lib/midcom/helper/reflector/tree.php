@@ -223,8 +223,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         foreach ($parts as $part)
         {
             $ret .= $part['label'];
-            --$d;
-            if ($d)
+            if (--$d)
             {
                 $ret .= $separator;
             }

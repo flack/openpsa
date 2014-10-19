@@ -331,6 +331,7 @@ class midcom_helper_toolbar
             MIDCOM_TOOLBAR_ENABLED => true,
             MIDCOM_TOOLBAR_POST => false,
             MIDCOM_TOOLBAR_POST_HIDDENARGS => array(),
+            MIDCOM_TOOLBAR_ACCESSKEY => null
         );
         // we can't use array_merge unfortunately, because the constants are numeric..
         foreach ($defaults as $key => $value)
@@ -342,13 +343,8 @@ class midcom_helper_toolbar
         }
         $item[MIDCOM_TOOLBAR__ORIGINAL_URL] = $item[MIDCOM_TOOLBAR_URL];
 
-        // Check that access keys get registered only once
-        if (   empty($item[MIDCOM_TOOLBAR_ACCESSKEY])
-            || array_key_exists($item[MIDCOM_TOOLBAR_ACCESSKEY], $used_access_keys))
-        {
-            $item[MIDCOM_TOOLBAR_ACCESSKEY] = null;
-        }
-        else
+        if (   !empty($item[MIDCOM_TOOLBAR_ACCESSKEY])
+            && !array_key_exists($item[MIDCOM_TOOLBAR_ACCESSKEY], $used_access_keys))
         {
             // We have valid access key, add it to help text
             if (   isset($_SERVER['HTTP_USER_AGENT'])

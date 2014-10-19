@@ -486,7 +486,7 @@ abstract class midcom_services_cache_backend
      */
     function put($key, $data)
     {
-        if ($data === false or $data === null)
+        if ($data === false || $data === null)
         {
             // do not cache false-results. those are considered to be "errors"
             return;

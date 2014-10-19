@@ -53,13 +53,7 @@ class midcom_helper_filesync_importer_style extends midcom_helper_filesync_impor
             }
 
             $filenames[] = $element_name;
-
-            $file_contents = file_get_contents("{$path}/{$entry}");
-            $encoding = mb_detect_encoding($file_contents);
-            if ($encoding != 'UTF-8')
-            {
-                $file_contents = @iconv($encoding, 'UTF-8', $file_contents);
-            }
+            $file_contents = $this->read_file("{$path}/{$entry}");
 
             $qb = $this->get_leaf_qb($style->id);
             $qb->add_constraint('name', '=', $element_name);

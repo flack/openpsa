@@ -501,8 +501,7 @@ class midcom_helper_nav
             }
             else
             {
-                if (   isset($data['napobject'])
-                    && isset($data['napobject'][MIDCOM_NAV_GUID])
+                if (   !empty($data['napobject'][MIDCOM_NAV_GUID])
                     && in_array($data['napobject'][MIDCOM_NAV_GUID], $skip_guids))
                 {
                     continue;
@@ -590,10 +589,9 @@ class midcom_helper_nav
             $curr_leaf = $this->get_leaf($id);
             $curr_node = -1;
 
-            if (! $curr_leaf)
+            if (!$curr_leaf)
             {
-                $node = $this->get_node($id);
-                if ($node)
+                if ($node = $this->get_node($id))
                 {
                     $curr_node = $node[MIDCOM_NAV_ID];
                 }

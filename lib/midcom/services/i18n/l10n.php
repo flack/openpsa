@@ -259,14 +259,7 @@ class midcom_services_i18n_l10n
                         throw new midcom_error("L10n DB SYNTAX ERROR: An incorrect command was detected at {$filename}:{$line}");
                     }
 
-                    $pos = strpos($string, ' ');
-                    if ($pos === false)
-                    {
-                        $command = substr($string, 3);
-                    }
-                    {
-                        $command = substr($string, 3, $pos - 3);
-                    }
+                    $command = preg_replace('/^---(.+?) .+/', '$1', $string);
 
                     switch ($command)
                     {
@@ -566,10 +559,7 @@ class midcom_services_i18n_l10n
     {
         // This is error-resilient, deleting a non-existent string will
         // just do nothing.
-        if ($this->string_exists($string, $language))
-        {
-            unset ($this->_stringdb[$language][$string]);
-        }
+        unset ($this->_stringdb[$language][$string]);
     }
 
     /**

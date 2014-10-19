@@ -474,26 +474,22 @@ class midcom_services_auth_acl
         // TODO: Clean if/else shorthands, make sure this works correctly for magic assignees as well
         if (is_null($user))
         {
-            $user = $this->auth->user;
-
-            if (!empty($user))
+            if ($this->auth->user)
             {
-                $user_id = $user->id;
+                $user_id = $this->auth->user->id;
             }
         }
         else if (is_string($user))
         {
-            if ($user != 'EVERYONE'
+            if (   $user != 'EVERYONE'
                 && (    mgd_is_guid($user)
                     || is_numeric($user)))
             {
-                $user = $this->auth->get_user($user);
-                $user_id = $user->id;
+                $user_id = $this->auth->get_user($user)->id;
             }
             else
             {
                 $user_id = $user;
-                $user = null;
             }
         }
         else if (is_object($user))
@@ -1036,23 +1032,21 @@ class midcom_services_auth_acl
         {
             return false;
         }
-        else
+
+        $parent_cache_id = $user_id . '::' . $parent_guid;
+        if (!array_key_exists($parent_cache_id, self::$_privileges_cache))
         {
-            $parent_cache_id = $user_id . '::' . $parent_guid;
-            if (!array_key_exists($parent_cache_id, self::$_privileges_cache))
-            {
-                self::$_content_privileges_cache[$parent_cache_id] = array();
-            }
-
-            if ($this->_load_content_privilege($privilegename, $parent_guid, key($parent_data), $user_id))
-            {
-                self::$_content_privileges_cache[$cache_id][$privilegename] = self::$_content_privileges_cache[$parent_cache_id][$privilegename];
-
-                return true;
-            }
-
-            return false;
+            self::$_content_privileges_cache[$parent_cache_id] = array();
         }
+
+        if ($this->_load_content_privilege($privilegename, $parent_guid, key($parent_data), $user_id))
+        {
+            self::$_content_privileges_cache[$cache_id][$privilegename] = self::$_content_privileges_cache[$parent_cache_id][$privilegename];
+
+            return true;
+        }
+
+        return false;
     }
 
     /**

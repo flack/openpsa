@@ -228,14 +228,10 @@ class midcom_services_indexer_document_datamanager2 extends midcom_services_inde
 
         if ($this->abstract == '')
         {
-            $abstract = $this->html2text($this->content);
-            if (strlen($abstract) > 200)
+            $this->abstract = $this->html2text($this->content);
+            if (strlen($this->abstract) > 200)
             {
-                $this->abstract = substr($abstract, 0, 200) . ' ...';
-            }
-            else
-            {
-                $this->abstract = $abstract;
+                $this->abstract = substr($this->abstract, 0, 200) . ' ...';
             }
         }
     }

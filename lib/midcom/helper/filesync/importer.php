@@ -105,6 +105,18 @@ abstract class midcom_helper_filesync_importer extends midcom_baseclasses_compon
         return $node;
     }
 
+    protected function read_file($path)
+    {
+        // Deal with element
+        $file_contents = file_get_contents($path);
+        $encoding = mb_detect_encoding($file_contents);
+        if ($encoding != 'UTF-8')
+        {
+            $file_contents = @iconv($encoding, 'UTF-8', $file_contents);
+        }
+        return $file_contents;
+    }
+
     /**
      * This is a static factory method which lets you dynamically create importer instances.
      * It takes care of loading the required class files. The returned instances will be created

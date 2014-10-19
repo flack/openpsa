@@ -376,8 +376,7 @@ class midcom_services_toolbars
             $styleeditor_url = '';
             if ($topic->style != '')
             {
-                $style_id = midcom::get()->style->get_style_id_from_path($topic->style);
-                if ($style_id)
+                if ($style_id = midcom::get()->style->get_style_id_from_path($topic->style))
                 {
                     try
                     {
@@ -844,11 +843,10 @@ class midcom_services_toolbars
      */
     function show_node_toolbar($context_id = null)
     {
-        if ($this->_centralized_mode)
+        if (!$this->_centralized_mode)
         {
-            return;
+            echo $this->render_node_toolbar();
         }
-        echo $this->render_node_toolbar();
     }
 
     /**
@@ -861,11 +859,10 @@ class midcom_services_toolbars
      */
     function show_host_toolbar($context_id = null)
     {
-        if ($this->_centralized_mode)
+        if (!$this->_centralized_mode)
         {
-            return;
+            echo $this->render_host_toolbar();
         }
-        echo $this->render_host_toolbar();
     }
 
     /**
@@ -878,11 +875,10 @@ class midcom_services_toolbars
      */
     function show_view_toolbar($context_id = null)
     {
-        if ($this->_centralized_mode)
+        if (!$this->_centralized_mode)
         {
-            return;
+            echo $this->render_view_toolbar();
         }
-        echo $this->render_view_toolbar();
     }
 
     /**
@@ -895,11 +891,10 @@ class midcom_services_toolbars
      */
     function show_help_toolbar($context_id = null)
     {
-        if ($this->_centralized_mode)
+        if (!$this->_centralized_mode)
         {
-            return;
+            echo $this->render_help_toolbar();
         }
-        echo $this->render_help_toolbar();
     }
 
     /**

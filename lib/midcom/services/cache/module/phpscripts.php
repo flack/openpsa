@@ -104,9 +104,7 @@ class midcom_services_cache_module_phpscripts extends midcom_services_cache_modu
             $compare_stamp = $lastmodified;
         }
 
-        $file_stamp = filemtime($filename);
-
-        if ($compare_stamp > $file_stamp)
+        if ($compare_stamp > filemtime($filename))
         {
             @unlink($filename);
             return false;

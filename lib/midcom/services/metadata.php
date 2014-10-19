@@ -264,13 +264,11 @@ class midcom_services_metadata
         }
 
         // If an object has been bound we have more information available
-        $view_metadata = $this->get_view_metadata();
-        if ($view_metadata)
+        if ($view_metadata = $this->get_view_metadata())
         {
             foreach (midcom::get()->config->get('metadata_head_elements') as $property => $metatag)
             {
-                $content = $view_metadata->get($property);
-                if ($content)
+                if ($content = $view_metadata->get($property))
                 {
                     // Handle date fields
                     switch ($property)

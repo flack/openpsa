@@ -328,7 +328,7 @@ class midcom_helper__componentloader
         {
             return dirname(dirname($this->manifests[$component_name]->filename));
         }
-        else if ($component_name == 'midcom')
+        if ($component_name == 'midcom')
         {
             return MIDCOM_ROOT . '/midcom';
         }

@@ -443,8 +443,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
     private function rcs_object2data(midcom_core_dbaobject $object)
     {
         $mapper = new midcom_helper_exporter_xml();
-        $result = $mapper->object2data($object);
-        if ($result)
+        if ($result = $mapper->object2data($object))
         {
             return $result;
         }
