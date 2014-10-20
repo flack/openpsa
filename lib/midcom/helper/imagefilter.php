@@ -263,10 +263,11 @@ class midcom_helper_imagefilter
      */
     function process_command($cmd)
     {
-        if (!preg_match('/([a-z_]*)\(([^)]*)\)/', $cmd, $matches))
+        if (!preg_match('/([a-z_:]*)\(([^)]*)\)/', $cmd, $matches))
         {
             throw new midcom_error("Failed to parse command {$cmd}");
         }
+
         $command = $matches[1];
         $args = explode(',', $matches[2]);
 
@@ -343,15 +344,16 @@ class midcom_helper_imagefilter
      * @param string $command  The name of the callback to execute
      * @param array $args      The arguments passed to the callback
      */
-    function execute_user_callback($command, $args)
+    private function execute_user_callback($command, $args)
     {
-        if (!function_exists($command))
+        if (!is_callable($command))
         {
             throw new midcom_error("The function {$command} could not be found");
         }
+
         $tmpfile = $this->_get_tempfile();
 
-        if (!$command($this->_filename, $tmpfile, $args))
+        if (!call_user_func($command, $this->_filename, $tmpfile, $args))
         {
             unlink($tmpfile);
             throw new midcom_error("The function {$command} returned false");
