@@ -15,24 +15,7 @@
  *
  * <b>Metadata Key Reference</b>
  *
- * See also the schema in /midcom/config/metadata_default.inc
- *
- * - <b>timestamp schedulestart:</b> The time upon which the object should be made visible. 0 for no restriction.
- * - <b>timestamp scheduleend:</b> The time upon which the object should be made invisible. 0 for no restriction.
- * - <b>boolean navnoentry:</b> Set this to true if you do not want this object to appear in the navigation without it being completely hidden.
- * - <b>boolean hide:</b> Set this to true to hide the object on-site, overriding scheduling.
- * - <b>string keywords:</b> The keywords for this object, should be used for META HTML headers.
- * - <b>string description:</b> A short description for this object, should be used for META HTML headers.
- * - <b>string robots:</b> Search engine crawler instructions, one of '' (unset), 'noindex', 'index', 'follow' and 'nofollow'.
- *      See the corresponding META HTML header.
- * - <b>timestamp published:</b> The publication time of the object, read-only.
- * - <b>MidgardPerson publisher:</b> The person that published the object (i.e. author), read-only except on articles and pages.
- * - <b>timestamp created:</b> The creation time of the object, read-only unless an article is edited.
- * - <b>MidgardPerson creator:</b> The person that created the object, read-only.
- * - <b>timestamp revised:</b> The last-modified time of the object, read-only.
- * - <b>MidgardPerson revisor:</b> The person that modified the object, read-only.
- * - <b>timestamp approved:</b> The time of approval of the object, or 0 if not approved. Set automatically through approve/unapprove.
- * - <b>MidgardPerson approver:</b> The person that approved/unapproved the object. Set automatically through approve/unapprove.
+ * See the schema in /midcom/config/metadata_default.inc
  *
  * <b>Example Usage, Metadata Retrieval</b>
  *
@@ -59,6 +42,23 @@
  * ?>
  * </code>
  *
+ * @property integer $schedulestart The time upon which the object should be made visible. 0 for no restriction.
+ * @property integer $scheduleend The time upon which the object should be made invisible. 0 for no restriction.
+ * @property boolean $navnoentry Set this to true if you do not want this object to appear in the navigation without it being completely hidden.
+ * @property boolean $hide Set this to true to hide the object on-site, overriding scheduling.
+ * @property string $keywords The keywords for this object, should be used for META HTML headers.
+ * @property string $description A short description for this object, should be used for META HTML headers.
+ * @property string $robots Search engine crawler instructions, one of '' (unset), 'noindex', 'index', 'follow' and 'nofollow'.
+ *      See the corresponding META HTML header.
+ * @property integer $published The publication time of the object, read-only.
+ * @property string $publisher The person that published the object (i.e. author), read-only except on articles and pages.
+ * @property integer $created:</b> The creation time of the object, read-only unless an article is edited.
+ * @property string $creator:</b> The person that created the object, read-only.
+ * @property integer $revised:</b> The last-modified time of the object, read-only.
+ * @property string $revisor:</b> The person that modified the object, read-only.
+ * @property integer $approved:</b> The time of approval of the object, or 0 if not approved. Set automatically through approve/unapprove.
+ * @property string $approver:</b> The person that approved/unapproved the object. Set automatically through approve/unapprove.
+
  * @package midcom.helper
  */
 class midcom_helper_metadata

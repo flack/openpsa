@@ -11,6 +11,7 @@ use midcom\events\dbaevent;
 /**
  * MidCOM DBA baseclass for MgdSchema object decorators.
  *
+ * @property midcom_helper_metadata $metadata the object's metadata
  * @package midcom
  */
 abstract class midcom_core_dbaobject
