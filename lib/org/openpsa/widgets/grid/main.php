@@ -110,7 +110,7 @@ class org_openpsa_widgets_grid extends midcom_baseclasses_components_purecode
         $head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.widgets/jqGrid.custom.js');
 
         $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/widget.min.js');
-	$head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/button.min.js');
+        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/button.min.js');
         $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/mouse.min.js');
         $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/resizable.min.js');
 
