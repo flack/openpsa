@@ -208,7 +208,7 @@ abstract class midcom_core_dbaobject
      * Shortcut for accessing MidCOM object cache.
      *
      * @param mixed $src GUID of object (ids work but are discouraged)
-     * @return mixed Reference to the object or false
+     * @return midcom_core_dbaobject Reference to the object or false
      */
     public static function &get_cached($src)
     {
@@ -352,18 +352,41 @@ abstract class midcom_core_dbaobject
     {
         return midcom_baseclasses_core_dbobject::get_attachment_qb($this);
     }
+
+    /**
+     *
+     * @param string $guid
+     * @return boolean Indicating success
+     */
     public function get_by_guid($guid)
     {
         return midcom_baseclasses_core_dbobject::get_by_guid($this, $guid);
     }
+
+    /**
+     *
+     * @param integer $guid
+     * @return boolean Indicating success
+     */
     public function get_by_id($id)
     {
         return midcom_baseclasses_core_dbobject::get_by_id($this, $id);
     }
+
+    /**
+     *
+     * @param string $path
+     * @return boolean Indicating success
+     */
     public function get_by_path($path)
     {
         return midcom_baseclasses_core_dbobject::get_by_path($this, $path);
     }
+
+    /**
+     *
+     * @return midcom_helper_metadata
+     */
     public function get_metadata()
     {
         return midcom_helper_metadata::retrieve($this);

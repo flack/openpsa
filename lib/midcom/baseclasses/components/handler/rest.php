@@ -40,7 +40,7 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
     /**
      * the object we're working on
      *
-     * @var midcom_baseclasses_core_dbobject
+     * @var midcom_core_dbaobject
      */
     protected $_object = false;
 
@@ -120,7 +120,7 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
      * retrieve the object based on classname and request parameters
      * if we got an id, it will try to find an existing one, otherwhise it will create a new one
      *
-     * @return midcom_baseclasses_core_dbobject
+     * @return midcom_core_dbaobject
      */
     public function retrieve_object()
     {

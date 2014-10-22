@@ -52,7 +52,7 @@ class midcom_db_event extends midcom_core_dbaobject
     /**
      * Returns an unsorted list of event members for this event.
      *
-     * @return Array A list of midcom_db_eventmembers.
+     * @return array A list of midcom_db_eventmembers.
      */
     function list_event_members()
     {

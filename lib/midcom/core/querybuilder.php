@@ -135,7 +135,7 @@ class midcom_core_querybuilder extends midcom_core_query
      * 3. void _on_process_query_result(&$result) is called after the successful execution of the query. You
      *    may remove any unwanted entries from the resultset at this point.
      *
-     * @return Array The result of the query builder.
+     * @return array The result of the query builder.
      */
     function execute_windowed()
     {
@@ -376,7 +376,7 @@ class midcom_core_querybuilder extends midcom_core_query
      *
      * Due to ACL checking we must first execute the full query
      *
-     * @return int The number of records found by the last query.
+     * @return integer The number of records found by the last query.
      */
     public function count()
     {
@@ -400,7 +400,7 @@ class midcom_core_querybuilder extends midcom_core_query
      * Use this function with care. The information you obtain in general is negligible, but a creative
      * mind might nevertheless be able to take advantage of it.
      *
-     * @return int The number of records matching the constraints without taking access control or visibility into account.
+     * @return integer The number of records matching the constraints without taking access control or visibility into account.
      */
     function count_unchecked()
     {

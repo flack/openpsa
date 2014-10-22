@@ -387,12 +387,10 @@ class midcom_compat_superglobal
 
     /**
      * Sets a new context, doing some minor sanity checking.
-     *
-     * @return boolean    Indicating if the switch was successful.
      */
     public function _set_current_context($id)
     {
-        return midcom_core_context::get($id)->set_current();
+        midcom_core_context::get($id)->set_current();
     }
 
     /**

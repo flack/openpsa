@@ -324,7 +324,7 @@ class midcom_core_context
      * component will be asked if it can handle the request. If so, the interface class will be returned to the caller
      *
      * @param midcom_db_topic $object The node that is currently being tested.
-     * @return mixed The component's interface class or false
+     * @return midcom_baseclasses_components_interface The component's interface class or false
      */
     public function get_handler(midcom_db_topic $object)
     {

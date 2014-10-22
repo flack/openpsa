@@ -484,7 +484,7 @@ class midcom_baseclasses_core_dbobject
      *
      * @param array $guids
      * @param string $type
-     * @return boolean Indicating success
+     * @return integer Size of undeleted objects
      * @todo We should only undelete parameters & attachments deleted inside some small window of the main objects delete
      */
     public static function undelete($guids, $type)
@@ -560,7 +560,7 @@ class midcom_baseclasses_core_dbobject
      * Recover the parameters related to a deleted object
      *
      * @param string $guid
-     * @return boolean Indicating success
+     * @return integer Size of undeleted objects
      * @todo We should only undelete parameters & attachments deleted inside some small window of the main objects delete
      */
     public static function undelete_parameters($guid)
@@ -587,7 +587,7 @@ class midcom_baseclasses_core_dbobject
      * Recover the attachments related to a deleted object
      *
      * @param string $guid
-     * @return boolean Indicating success
+     * @return integer Size of undeleted objects
      * @todo We should only undelete parameters & attachments deleted inside some small window of the main objects delete
      */
     public static function undelete_attachments($guid)
@@ -621,7 +621,7 @@ class midcom_baseclasses_core_dbobject
      *
      * @param array $guids
      * @param string $type
-     * @return boolean Indicating success
+     * @return integer Size of purged objects
      */
     public static function purge($guids, $type)
     {
@@ -679,7 +679,7 @@ class midcom_baseclasses_core_dbobject
      * Purge the parameters related to a deleted object
      *
      * @param string $guid
-     * @return boolean Indicating success
+     * @return integer Size of purged objects
      */
     public static function purge_parameters($guid)
     {
@@ -718,7 +718,7 @@ class midcom_baseclasses_core_dbobject
      * Purge the attachments related to a deleted object
      *
      * @param string $guid
-     * @return boolean Indicating success
+     * @return integer Size of purged objects
      */
     public static function purge_attachments($guid)
     {
@@ -1022,7 +1022,7 @@ class midcom_baseclasses_core_dbobject
      *
      * @param midcom_core_dbaobject $object The DBA object we're working on
      * @param string $domain The parameter domain to query, this may be null to indicate a full listing.
-     * @return Array Parameter list (see above for details) or false on failure.
+     * @return array Parameter list (see above for details) or false on failure.
      */
     public static function list_parameters(midcom_core_dbaobject $object, $domain)
     {
@@ -1047,7 +1047,7 @@ class midcom_baseclasses_core_dbobject
      *
      * @param midcom_core_dbaobject $object The DBA object we're working on
      * @param string $domain The parameter domain to query.
-     * @return Array Parameter listing or false on failure.
+     * @return array Parameter listing.
      * @see list_parameters()
      */
     private static function _list_parameters_domain(midcom_core_dbaobject $object, $domain)
@@ -1090,7 +1090,7 @@ class midcom_baseclasses_core_dbobject
      * No event handlers are called here yet.
      *
      * @param midcom_core_dbaobject $object The DBA object we're working on
-     * @return Array Parameter listing or false on failure.
+     * @return array Parameter listing
      * @see list_parameters()
      */
     private static function _list_parameters_all(midcom_core_dbaobject $object)
@@ -1257,7 +1257,7 @@ class midcom_baseclasses_core_dbobject
      * construction) and midgard:privileges) otherwise, the call will fail.
      *
      * @param midcom_core_dbaobject $object The DBA object we're working on
-     * @return Array A list of midcom_core_privilege objects or false on failure.
+     * @return array A list of midcom_core_privilege objects or false on failure.
      */
     public static function get_privileges(midcom_core_dbaobject $object)
     {
@@ -1286,7 +1286,7 @@ class midcom_baseclasses_core_dbobject
      * @param int $value The privilege value, this defaults to MIDCOM_PRIVILEGE_ALLOW (invalid if $privilege is a midcom_core_privilege).
      * @param string $classname An optional class name to which a SELF privilege gets restricted to. Only valid for SELF privileges
      *     (invalid if $privilege is a midcom_core_privilege).
-     * @return bool Indicating success.
+     * @return boolean Indicating success.
      * @see midcom_services_auth
      */
     public static function set_privilege(midcom_core_dbaobject $object, $privilege, $assignee = null, $value = MIDCOM_PRIVILEGE_ALLOW, $classname = '')
@@ -1330,7 +1330,7 @@ class midcom_baseclasses_core_dbobject
      *     active user if authenticated or to 'EVERYONE' otherwise (invalid if $privilege is a midcom_core_privilege).
      * @param string $classname An optional class name to which a SELF privilege gets restricted to. Only valid for SELF privileges
      *     (invalid if $privilege is a midcom_core_privilege).
-     * @return bool Indicating Success.
+     * @return boolean Indicating Success.
      */
     public static function unset_privilege(midcom_core_dbaobject $object, $privilege, $assignee = null, $classname = '')
     {
@@ -1397,7 +1397,7 @@ class midcom_baseclasses_core_dbobject
      * Unsets all privilege on an object .
      *
      * @param midcom_core_dbaobject $object The DBA object we're working on
-     * @return bool Indicating success.
+     * @return boolean Indicating success.
      */
     public static function unset_all_privileges(midcom_core_dbaobject $object)
     {
@@ -1613,7 +1613,7 @@ class midcom_baseclasses_core_dbobject
      * check function, making checks against visibility far easier.
      *
      * @param midcom_core_dbaobject $object The DBA object we're working on
-     * @return bool Indicating visibility state.
+     * @return boolean Indicating visibility state.
      */
     public static function is_object_visible_onsite(midcom_core_dbaobject $object)
     {

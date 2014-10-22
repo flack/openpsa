@@ -29,7 +29,7 @@ class midcom_db_parameter extends midcom_core_dbaobject
     /**
      * Returns the Parent of the Parameter.
      *
-     * @return MidgardObject Parent object or null if there is none.
+     * @return string Parent GUID or null if there is none.
      */
     public static function get_parent_guid_uncached_static($guid, $classname = __CLASS__)
     {

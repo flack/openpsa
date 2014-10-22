@@ -226,7 +226,7 @@ class midcom_helper_datamanager2_controller_ajax extends midcom_helper_datamanag
     /**
      * Get contents of the form in AJAX-editable format
      *
-     * @return Array All field values in their HTML representation indexed by their name.
+     * @return array All field values in their HTML representation indexed by their name.
      */
     function get_content_html()
     {

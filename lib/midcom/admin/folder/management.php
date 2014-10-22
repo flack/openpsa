@@ -76,11 +76,11 @@ class midcom_admin_folder_management extends midcom_baseclasses_components_plugi
      * Static method to list names of the non-purecore components
      *
      * @param string $parent_component  Name of the parent component, which will pop the item first on the list
-     * @return mixed Array containing names of the components
+     * @return array containing names of the components
      */
     public static function get_component_list($parent_component = '')
     {
-        $components = array ();
+        $components = array();
 
         // Loop through the list of components of component loader
         foreach (midcom::get()->componentloader->manifests as $manifest)
@@ -136,7 +136,7 @@ class midcom_admin_folder_management extends midcom_baseclasses_components_plugi
     /**
      * Static method for populating user interface for editing and creating topics
      *
-     * @return Array Containing a list of components
+     * @return array Containing a list of components
      */
     public static function list_components($parent_component = '', $all = false)
     {

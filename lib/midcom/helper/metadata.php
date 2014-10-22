@@ -703,7 +703,7 @@ class midcom_helper_metadata
      *   this case.
      *
      * @param mixed $source The object to attach to, this may be either a MidgardObject, a GUID or a NAP data structure (node or leaf).
-     * @return midcom_helper_metadata A reference to the created metadata object.
+     * @return midcom_helper_metadata The created metadata object.
      */
     public static function retrieve($source)
     {

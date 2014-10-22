@@ -45,7 +45,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
      * use. If multiple objects are registered for a given table, the first matching class
      * returned by the dbfactory is used (which is usually rather arbitrary).
      *
-     * @return MidgardObject Parent object.
+     * @return string Parent GUID.
      */
     public static function get_parent_guid_uncached_static($guid, $classname = __CLASS__)
     {

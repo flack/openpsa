@@ -261,7 +261,7 @@ class midcom_core_user
     /**
      * Retrieves a list of groups for which this user is an immediate member.
      *
-     * @return Array A list of midcom_core_group objects in which the current user is a member, or false on failure.
+     * @return array A list of midcom_core_group objects in which the current user is a member, or false on failure.
      */
     function list_memberships()
     {
@@ -277,7 +277,7 @@ class midcom_core_user
      *
      * There is no hierarchy in the resultset, it is just a plain listing.
      *
-     * @return Array A list of midcom_core_group objects in which the current user is a member, or false on failure.
+     * @return array A list of midcom_core_group objects in which the current user is a member, or false on failure.
      */
     function list_all_memberships()
     {
@@ -292,7 +292,7 @@ class midcom_core_user
      * Returns the complete privilege set assigned to this user, taking all
      * parent groups into account.
      *
-     * @return Array Array keys are the privilege names, the values are the Privilege states (ALLOW/DENY).
+     * @return array Array keys are the privilege names, the values are the Privilege states (ALLOW/DENY).
      */
     function get_privileges()
     {
@@ -310,7 +310,7 @@ class midcom_core_user
      * If the class specified is unknown, an empty array is returned.
      *
      * @param object $object The object for which we should look up privileges for. This is passed by-reference.
-     * @return Array Array keys are the privilege names, the values are the Privilege states (ALLOW/DENY).
+     * @return array Array keys are the privilege names, the values are the Privilege states (ALLOW/DENY).
      */
     function get_per_class_privileges($object)
     {

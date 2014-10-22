@@ -141,7 +141,7 @@ class midcom_core_group
     /**
      * Retrieves a list of groups owned by this group.
      *
-     * @return Array A list of midcom_core_group objects in which are owned by the current group, false on failure.
+     * @return array A list of midcom_core_group objects in which are owned by the current group, false on failure.
      */
     function list_subordinate_groups()
     {
@@ -153,7 +153,7 @@ class midcom_core_group
     /**
      * Retrieves a list of users for which are a member in this group.
      *
-     * @return Array A list of midcom_core_user objects in which are members of the current group, false on failure, indexed by their ID.
+     * @return array A list of midcom_core_user objects in which are members of the current group, false on failure, indexed by their ID.
      */
     function list_members()
     {
@@ -192,7 +192,7 @@ class midcom_core_group
      * MidCOM user passed is a member.
      *
      * @param midcom_core_user $user The user that should be looked-up.
-     * @return Array An array of member groups or false on failure, indexed by their ID.
+     * @return array An array of member groups or false on failure, indexed by their ID.
      */
     public static function list_memberships($user)
     {
@@ -291,7 +291,7 @@ class midcom_core_group
      * The default implementation will return an instance of midcom_db_group based
      * on the member $this->_storage->id if that object is defined, or null otherwise.
      *
-     * @return midcom_core_dbaobject Any MidCOM DBA level object that holds the information associated with
+     * @return midcom_db_group A MidCOM DBA object that holds the information associated with
      *     this group, or null if there is no storage object.
      */
     function get_storage()

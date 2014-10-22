@@ -292,7 +292,7 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
     /**
      * The NAP interface instance from the component, initialized on demand.
      *
-     * @var object
+     * @var midcom_baseclasses_components_navigation
      */
     private $_nap_instance = null;
 

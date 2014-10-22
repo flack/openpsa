@@ -67,7 +67,7 @@ abstract class midcom_baseclasses_components_navigation extends midcom_baseclass
      * ?>
      * </code>
      *
-     * @return Array NAP compliant list of leaves.
+     * @return array NAP compliant list of leaves.
      */
     public function get_leaves()
     {
@@ -81,7 +81,7 @@ abstract class midcom_baseclasses_components_navigation extends midcom_baseclass
      *
      * The default uses the extra field of the topic as NAV_NAME
      *
-     * @return Array NAP compliant node declaration
+     * @return array NAP compliant node declaration
      */
     public function get_node()
     {
