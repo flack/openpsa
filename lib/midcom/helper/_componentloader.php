@@ -35,28 +35,20 @@
  * When the component loader receives a request it roughly works in
  * three stages:
  *
- * 1. Verify that the given component is valid in terms of the
- *    MidCOM Specification. This will check the existence of all
- *    required SnippetDirs.
- * 2. Load all Snippets related with the MidCOM Interface Concept
- *    Classes and instantiate the MidCOM and Component concept
- *    classes, initialize the Component. Check whether all
- *    required concept classes exist.
+ * 1. Verify that the given component is valid in terms of the MidCOM Specification.
+ * 2. Initialize the Component. Check whether all required concept classes exist.
  * 3. Return the various interface concepts upon each request
  *    from the framework.
  *
- * Stage 1 will do all basic sanity checking possible before
- * loading any snippets. It will check for the existence of all
- * defined sub-SnippetDirs that are required for the system to
- * work. If anything is missing, step 1 fails and the
- * componentloader refuses to load the component.
+ * Stage 1 will do all basic sanity checking. If anything is missing, step 1
+ * fails and the componentloader refuses to load the component.
  *
  * Stage 2 will then load the interfaces.php file from the midcom
  * directory. The existence of all required Interface classes is
  * then checked. If this check is successful, the concrete classes
  * of the various interface concepts are instantiated and stored
  * internally. The component is initialized by the call to
- * MIDCOM::initialize() which should load everything necessary.
+ * initialize() which should load everything necessary.
  *
  * Stage 3 is the final stage where the loader stays in memory in
  * order to return references (!) to the loaded component's
@@ -68,7 +60,6 @@
  * <i>reference</i> to the loader.
  *
  * @package midcom.helper
- * @see midcom_application::get_component_loader()
  */
 class midcom_helper__componentloader
 {
@@ -179,8 +170,7 @@ class midcom_helper__componentloader
     /**
      * This function will load the component specified by the MidCOM
      * path $path. If the component could not be loaded successfully due
-     * to integrity errors (missing SnippetDirs, Classes, etc.), it will
-     * return false.
+     * to integrity errors, it will return false.
      *
      * @param string $path    The component to load.
      * @return boolean Indicating success.
@@ -301,8 +291,7 @@ class midcom_helper__componentloader
      * components will be dynamically loaded into memory.
      *
      * @param string $path    The component name.
-     * @return midcom_baseclasses_components_interface A reference to the concept class in question or null if
-     *     the class in question does not yet support the new Interface system.
+     * @return midcom_baseclasses_components_interface The concept class in question
      */
     public function get_interface_class($path)
     {
@@ -443,7 +432,7 @@ class midcom_helper__componentloader
      *
      * All default privileges are made known to ACL, the watches are registered
      *
-     *  @param midcom_core_manifest $manifest the manifest object to load.
+     * @param midcom_core_manifest $manifest the manifest object to load.
      */
     private function _register_manifest(midcom_core_manifest $manifest)
     {

@@ -11,7 +11,7 @@ use midgard\introspection\helper;
 /**
  * This class contains various factory methods to retrieve objects from the database.
  * The only instance of this class you should ever use is available through
- * $midcom->dbfactory.
+ * midcom::get()->dbfactory.
  *
  * @package midcom.helper
  */
