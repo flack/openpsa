@@ -174,16 +174,15 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
             return false;
         }
 
-        $body = $response->getContent();
-
-        $response = DomDocument::loadXML($body);
-        $xquery = new DomXPath($response);
+        $document = new DomDocument;
+        $document->loadXML($response->getContent());
+        $xquery = new DomXPath($document);
         $result = array();
 
         $num = $xquery->query('/response/result')->item(0);
         if ($num->getAttribute('numFound') == 0)
         {
-            return array();
+            return $result;
         }
 
         foreach ($xquery->query('/response/result/doc') as $res)
