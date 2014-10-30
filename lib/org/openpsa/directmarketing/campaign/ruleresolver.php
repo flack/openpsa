@@ -155,18 +155,10 @@ class org_openpsa_directmarketing_campaign_ruleresolver
      * Resolves the rules in a single rule group
      *
      * @param array $group single group from rules array
-     * @param string $match_class wanted class in group
      * @return boolean indicating success/failure
      */
-    private function _resolve_rule_group(array $group, $match_class = false)
+    private function _resolve_rule_group(array $group)
     {
-        if (   $match_class
-            && $group['class'] != $match_class)
-        {
-            debug_add("{$group['class']} != {$match_class}, unmatched classes where match required", MIDCOM_LOG_ERROR);
-            return false;
-        }
-
         //check if rule is a group
         if (array_key_exists('groups', $group))
         {
