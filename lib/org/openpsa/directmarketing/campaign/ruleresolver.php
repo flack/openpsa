@@ -252,44 +252,6 @@ class org_openpsa_directmarketing_campaign_ruleresolver
     }
 
     /**
-     * Adds a group-rule to the querybuilder
-     *
-     * @param array $rule contains the group-rule
-     */
-    function add_group_rule(array $rule)
-    {
-        $match = $rule['match'];
-        $constraint_match = "IN";
-
-        //check for match type- Needed to get persons who aren't a member of a group
-        if ($rule['match'] == '<>')
-        {
-            $constraint_match = "NOT IN";
-            $match = '=';
-        }
-        else if ($rule['match'] == 'NOT LIKE')
-        {
-            $constraint_match = "NOT IN";
-            $match = 'LIKE';
-        }
-        $mc_group = new midgard_collector('midgard_member', 'metadata.deleted', false);
-        $mc_group->set_key_property('uid');
-        $mc_group->add_constraint("gid.{$rule['property']}", $match, $rule['value']);
-        $mc_group->execute();
-
-        $group_members = $mc_group->list_keys();
-        if (empty($group_members))
-        {
-            $group_members = array(-1);
-        }
-        else
-        {
-            $group_members = array_keys($group_members);
-        }
-        $this->_result_mc->add_constraint('id', $constraint_match, $group_members);
-    }
-
-    /**
      * Adds parameter rule to the querybuilder
      *
      * @param array $rules array containing rules for the parameter
@@ -352,6 +314,17 @@ class org_openpsa_directmarketing_campaign_ruleresolver
                     break;
             }
         }
+    }
+
+    /**
+     * Adds a group-rule to the querybuilder
+     *
+     * @param array $rule contains the group-rule
+     */
+    function add_group_rule(array $rule)
+    {
+        $rule['property'] = 'gid.' . $rule['property'];
+        $this->add_misc_rule($rule, 'midgard_member', 'uid');
     }
 
     /**
