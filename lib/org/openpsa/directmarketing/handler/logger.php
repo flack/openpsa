@@ -229,17 +229,6 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
         }
 
         midcom::get()->auth->drop_sudo();
-        midcom::get()->skip_page_style = true;
         return new midcom_response_relocate($this->_request_data['target']);
-    }
-
-    /**
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_redirect($handler_id, array &$data)
-    {
-        //TODO: make an element to display in case our relocate fails (with link to the intended target...)
     }
 }

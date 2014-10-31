@@ -247,8 +247,7 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
         foreach ($memberships as $member)
         {
             $member->orgOpenpsaObtype = org_openpsa_directmarketing_campaign_member_dba::UNSUBSCRIBED;
-            $mret = $member->update();
-            if (!$mret)
+            if (!$member->update())
             {
                 //TODO: How to report failures of single rows when other succeed sensibly ??
                 $this->_request_data['unsubscribe_status'] = false;
