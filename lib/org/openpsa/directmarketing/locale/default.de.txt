@@ -801,8 +801,3 @@ Vorname
 ---STRING email
 E-Mail
 ---STRINGEND
-
----STRING unknown class please use advanced editor
-In den Regeln wurden unbekannte Klassen gefunden,
-bitte benutzen Sie den erweiterten Editor.
----STRINGEND

@@ -209,16 +209,8 @@
 // Match /campaign/edit_query/<campaign GUID>
 'edit_campaign_query' => array
 (
-    'handler' => array('org_openpsa_directmarketing_handler_campaign_admin', 'edit_query'),
+    'handler' => array('org_openpsa_directmarketing_handler_campaign_rules', 'edit_query'),
     'fixed_args' => array('campaign', 'edit_query'),
-    'variable_args' => 1,
-),
-
-// Match /campaign/edit_query/<campaign GUID>
-'edit_campaign_query_advanced' => array
-(
-    'handler' => array('org_openpsa_directmarketing_handler_campaign_admin', 'edit_query_advanced'),
-    'fixed_args' => array('campaign', 'edit_query_advanced'),
     'variable_args' => 1,
 ),
 

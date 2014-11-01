@@ -758,11 +758,6 @@ Type
 Unique clickers
 ---STRINGEND
 
----STRING unknown class please use advanced editor
-There is an unknown class used in the rules, please
-use the advanced editor.
----STRINGEND
-
 ---STRING unsubscribed between %s - %s
 Unsubscribed between %s - %s
 ---STRINGEND

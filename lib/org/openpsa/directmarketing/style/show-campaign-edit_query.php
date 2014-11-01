@@ -1,22 +1,5 @@
 <?php
 $current_rules = $data['campaign']->rules;
-if (   isset($data['new_rule_from'])
-    && is_array($data['new_rule_from']))
-{
-    $generated_from = $data['new_rule_from'];
-}
-else if (array_key_exists('generated_from', $current_rules))
-{
-    $generated_from = $current_rules['generated_from'];
-}
-else
-{
-    $generated_from = array
-    (
-        'type' => 'AND',
-        'rows' => array(),
-    );
-}
 
 $tmp_person = new org_openpsa_person();
 $tmp_group = new org_openpsa_organization();
@@ -87,8 +70,6 @@ foreach ($properties_map as $class => $properties)
     'generic_parameters': 'midgard_parameter',
     'midgard_parameter': 'generic_parameters'
     }
-    //current_rules
-    var rules_array = <?php echo json_encode($current_rules);?>;
 
     //error-message for unknown class
     var error_message_class = <?php echo json_encode($data['l10n']->get('unknown class please use advanced editor'));?>;
@@ -99,8 +80,9 @@ foreach ($properties_map as $class => $properties)
 <div class="wide">
     <form name="org_openpsa_directmarketing_rules_editor" id="org_openpsa_directmarketing_rules_editor" enctype="multipart/form-data" method="post" action="" onsubmit="return get_rules_array(zero_group_id);" class="datamanager2 org_openpsa_directmarketing_edit_query">
 
-<textarea class="longtext" cols="50" rows="25" name="midcom_helper_datamanager2_dummy_field_rules" id="midcom_helper_datamanager2_dummy_field_rules" style="display: none;">
-</textarea>
+<textarea class="longtext" cols="50" rows="25" name="midcom_helper_datamanager2_dummy_field_rules" id="midcom_helper_datamanager2_dummy_field_rules"><?php
+        var_export($data['campaign']->rules);
+?></textarea>
 
     <div id="dirmar_rules_editor_container">
     </div>
@@ -110,40 +92,9 @@ foreach ($properties_map as $class => $properties)
             <input name="show_rule_preview" onclick="send_preview();" class="preview" value="<?php echo $data['l10n']->get('preview'); ?>" type="button" />
         </div>
         <script type="text/javascript">
-
-        //function to display rules given of php
-        function get_old_rules()
-        {
-            var group_id = first_group("dirmar_rules_editor_container", <?php
-            // pass type of first rule_group to javascript, if there is one
-            if (count($current_rules) > 0)
-            {
-                if (isset($current_rules['type']))
-                {
-                    echo '"' . $current_rules['type'] . '"';
-                }
-                else
-                {
-                    echo '"' . $current_rules['groups'] . '"';
-                }
-            }
-            else
-            {
-                echo "false";
-            }
-            ?>);
-            <?php
-                // add an empty rule if no rules are currently given
-                if (count($current_rules) > 0 && empty($current_rules['classes']))
-                {
-                    echo "groups[group_id].add_rule(false);";
-                }
-            ?>
-            get_child_rules(group_id, rules_array['classes']);
-        }
         jQuery(document).ready(function()
         {
-            get_old_rules();
+            init("dirmar_rules_editor_container", <?php echo json_encode($current_rules);?>);
         });
         </script>
     </form>

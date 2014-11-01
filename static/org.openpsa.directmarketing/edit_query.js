@@ -25,7 +25,11 @@ function send_preview()
     var loading = "<img style='text-align:center;' src='" + MIDCOM_STATIC_URL + "/stock-icons/32x32/ajax-loading.gif'/>";
     $("#preview_persons").css("text-align", "center");
     $("#preview_persons").html(loading);
-    get_rules_array(zero_group_id);
+
+    if ($('#dirmar_rules_editor_container').is(':visible'))
+    {
+        get_rules_array(zero_group_id);
+    }
     var rules_array = $("#midcom_helper_datamanager2_dummy_field_rules").val(),
     post_data = {show_rule_preview: true, midcom_helper_datamanager2_dummy_field_rules: rules_array};
     $.post(document.URL, post_data, function(data)
@@ -414,19 +418,50 @@ function group(parent, number)
     this.child_groups = [];
     this.child_rules = [];
 }
-/**
- * function to setup first group
- *@param id - contains string to build name of the first group
- *@param selected - array with type of group -> AND or OR
- */
-function first_group(id, selected)
-{
-    var index = String(id + "_group_0");
-    zero_group_id = index;
-    groups[index] = new group(id, 0);
-    groups[index].render(selected);
 
-    return index;
+function init(selector, rules)
+{
+    var type = rules.type || false;
+
+    zero_group_id = selector + "_group_0";
+    groups[zero_group_id] = new group(selector, 0);
+    groups[zero_group_id].render(type);
+
+    // add an empty rule if no rules are currently given
+    if (   rules.classes === undefined
+        || rules.classes.length === 0)
+    {
+        groups[zero_group_id].add_rule(false);
+    }
+
+    $('#openpsa_dirmar_edit_query').parent().addClass('disabled');
+    try
+    {
+        get_child_rules(zero_group_id, rules.classes);
+        $('#midcom_helper_datamanager2_dummy_field_rules').hide();
+    }
+    catch (e)
+    {
+        $('#dirmar_rules_editor_container').hide();
+        $('#openpsa_dirmar_edit_query_advanced').parent().addClass('disabled');
+    }
+
+    $('#openpsa_dirmar_edit_query_advanced').on('click', function(event)
+    {
+        event.preventDefault();
+        $('#midcom_helper_datamanager2_dummy_field_rules').show();
+        $('#dirmar_rules_editor_container').hide();
+        $('#openpsa_dirmar_edit_query').parent().removeClass('disabled');
+        $('#openpsa_dirmar_edit_query_advanced').parent().addClass('disabled');
+    });
+    $('#openpsa_dirmar_edit_query').on('click', function(event)
+    {
+        event.preventDefault();
+        $('#midcom_helper_datamanager2_dummy_field_rules').hide();
+        $('#dirmar_rules_editor_container').show();
+        $('#openpsa_dirmar_edit_query').parent().addClass('disabled');
+        $('#openpsa_dirmar_edit_query_advanced').parent().removeClass('disabled');
+    });
 }
 
 // function to gather the rules from the form & write them into midcom_helper_datamanager2_dummy_field_rules
@@ -434,9 +469,9 @@ function get_rules_array(parent_id)
 {
     $("#midcom_helper_datamanager2_dummy_field_rules").empty();
 
-    var type = $("#" + parent_id + "_select").val(),
+    var type = $("#" + parent_id + "_group").val(),
     array_append = "Array \n ( \n";
-    array_append += "'type' => '" + type + "', 'groups' => '" + type + "',\n 'classes' => Array \n ( \n";
+    array_append += "'type' => '" + type + "',\n 'classes' => Array \n ( \n";
 
     $("#midcom_helper_datamanager2_dummy_field_rules").append(array_append);
     get_rules_groups(parent_id, 0);
@@ -556,20 +591,15 @@ function get_child_rules(parent, rules_array)
     property_class_found, properties, error_message,
     parameters, group_id;
 
-    for (key in rules_array)
+    $.each(rules_array, function (key, value)
     {
-        value = rules_array[key];
         if (value['class'] !== 'undefined')
         {
             //if class is not supported -> error-msg
             if (   value['class'] !==  undefined
                 && org_openpsa_directmarketing_class_map[value['class']] === undefined)
             {
-                $('<div></div>').attr({
-                    id: 'midcom_services_uimessages_wrapper'
-                    }).appendTo('body');
-                error_message = error_message_class  + "\n Class : " + value['class'] + "\n <a href='" + window.location.href.replace(/edit_query/g, 'edit_query_advanced') + "'>\n Advanced Editor </a>";
-                $('#midcom_services_uimessages_wrapper').midcom_services_uimessage({title: 'org.openpsa.directmarketing', message: error_message, type: 'error'});
+                throw 'unsupported class';
             }
             //old-parameter-case
             if (value.groups && value.rules)
@@ -646,7 +676,7 @@ function get_child_rules(parent, rules_array)
                 }
             }
         }
-    }
+    });
 }
 
 $(document).ready(function()

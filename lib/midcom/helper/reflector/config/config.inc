@@ -27,7 +27,7 @@
     'midgard_event' => 'extra',
     'org_openpsa_calendar_event' => 'extra',
     'midgard_person' => false,
-    'org_openpsa_contacts_person' => false,
+    'org_openpsa_person' => false,
     'midgard_parameter' => false,
     'midgard_host' => false,
     'midcom_core_privilege_db' => false,
