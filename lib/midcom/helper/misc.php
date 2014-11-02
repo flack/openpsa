@@ -155,7 +155,7 @@ class midcom_helper_misc
     }
 
     /**
-     * Preparse a string to handle element inclusion and variable
+     * This is a bit of a hack to allow &(); tags
      *
      * @param string $code The unprocessed code
      * @return string The processed code

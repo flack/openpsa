@@ -647,7 +647,7 @@ class midcom_helper__styleloader
     }
 
     /**
-     * append the styledir of a component to the queue of styledirs.
+     * Append the styledir of a component to the queue of styledirs.
      *
      * @param string componentname
      * @throws midcom exception if directory does not exist.
@@ -660,7 +660,7 @@ class midcom_helper__styleloader
     }
 
     /**
-     * prepend the styledir of a component
+     * Prepend the styledir of a component
      *
      * @param string $component component name
      */
@@ -674,14 +674,8 @@ class midcom_helper__styleloader
     /**
      * Appends a substyle after the currently selected component style.
      *
-     * Appends a substyle after the currently selected component style, effectively
-     * enabling a depth of more than one style during substyle selection. This is only
-     * effective if done during the handle phase of the component and allows the
-     * component. The currently selected substyle therefore is now searched one level
-     * deeper below "subStyle".
-     *
-     * The system must have completed the CAN_HANDLE Phase before this function will
-     * be available.
+     * Enables a depth of more than one style during substyle selection. The system
+     * must have completed the CAN_HANDLE Phase before this function will be available.
      *
      * @param string $newsub The substyle to append.
      */
@@ -712,14 +706,8 @@ class midcom_helper__styleloader
     /**
      * Prepends a substyle before the currently selected component style.
      *
-     * Prepends a substyle before the currently selected component style, effectively
-     * enabling a depth of more than one style during substyle selection. This is only
-     * effective if done during the handle phase of the component and allows the
-     * component. The currently selected substyle therefore is now searched one level
-     * deeper below "subStyle".
-     *
-     * The system must have completed the CAN_HANDLE Phase before this function will
-     * be available.
+     * Enables a depth of more than one style during substyle selection. The system
+     * must have completed the CAN_HANDLE Phase before this function will be available.
      *
      * @param string $newsub The substyle to prepend.
      */
