@@ -34,6 +34,7 @@ class org_openpsa_directmarketing_handler_message_compose extends midcom_basecla
     {
         $schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_message'));
         $this->_datamanager = new midcom_helper_datamanager2_datamanager($schemadb);
+        $this->_datamanager->autoset_storage($this->_message);
     }
 
     /**
@@ -53,7 +54,6 @@ class org_openpsa_directmarketing_handler_message_compose extends midcom_basecla
         $this->set_active_leaf('campaign_' . $data['campaign']->id);
 
         $this->_load_datamanager();
-        $this->_datamanager->autoset_storage($this->_message);
         $data['message'] = $this->_message;
         $data['message_dm'] = $this->_datamanager;
 
@@ -127,11 +127,11 @@ class org_openpsa_directmarketing_handler_message_compose extends midcom_basecla
 
     private function _real_show_compose($handler_id, array &$data)
     {
-        $prefix='';
+        $prefix = '';
         if (   !empty($data['message_array']['substyle'])
             && preg_match('/^builtin:(.*)/', $data['message_array']['substyle'], $matches_style))
         {
-            $prefix = $matches_style[1].'-';
+            $prefix = $matches_style[1] . '-';
         }
         debug_add("Calling midcom_show_style(\"compose-{$prefix}message\")");
         midcom_show_style("compose-{$prefix}message");

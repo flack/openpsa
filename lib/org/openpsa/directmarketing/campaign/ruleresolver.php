@@ -128,8 +128,9 @@ class org_openpsa_directmarketing_campaign_ruleresolver
     }
 
     /**
-     * Executes the collector instantiated via resolve, merges results and returns
-     * single array of persons (or false in case of failure)
+     * Executes the collector instantiated via resolve, merges results
+     *
+     * @return array Person data
      */
     function execute()
     {

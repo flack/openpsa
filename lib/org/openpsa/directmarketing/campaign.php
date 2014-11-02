@@ -114,7 +114,6 @@ class org_openpsa_directmarketing_campaign_dba extends midcom_core_dbaobject
      */
     function update_smart_campaign_members()
     {
-        midcom::get()->disable_limits();
         if (!$this->id)
         {
             debug_add('This campaign has no id (maybe not created yet?), aborting', MIDCOM_LOG_ERROR);
@@ -125,6 +124,7 @@ class org_openpsa_directmarketing_campaign_dba extends midcom_core_dbaobject
             debug_add("This (id #{$this->id}) is not a smart campaign, aborting", MIDCOM_LOG_ERROR);
             return false;
         }
+        midcom::get()->disable_limits();
         midcom::get()->auth->request_sudo('org.openpsa.directmarketing');
         $this->delete_parameter('org.openpsa.directmarketing_smart_campaign', 'members_update_failed');
         $this->set_parameter('org.openpsa.directmarketing_smart_campaign', 'members_update_started', time());
@@ -139,14 +139,7 @@ class org_openpsa_directmarketing_campaign_dba extends midcom_core_dbaobject
             return false;
         }
         //returns now the result array of collector instead array of objects of query builder
-        $rule_persons =  $solver->execute();
-        if (!is_array($rule_persons))
-        {
-            $this->set_parameter('org.openpsa.directmarketing_smart_campaign', 'members_update_failed', time());
-            debug_add('Failure when executing rules based search', MIDCOM_LOG_ERROR);
-            midcom::get()->auth->drop_sudo();
-            return false;
-        }
+        $rule_persons = $solver->execute();
 
         //Delete (normal) members that should not be here anymore
         $qb_unwanted = org_openpsa_directmarketing_campaign_member_dba::new_query_builder();
@@ -204,10 +197,6 @@ class org_openpsa_directmarketing_campaign_dba extends midcom_core_dbaobject
      */
     function schedule_update_smart_campaign_members($time = false)
     {
-        if (!$time)
-        {
-            $time = time();
-        }
         if (!$this->id)
         {
             debug_add('This campaign has no id (maybe not created yet?), aborting', MIDCOM_LOG_ERROR);
@@ -218,6 +207,7 @@ class org_openpsa_directmarketing_campaign_dba extends midcom_core_dbaobject
             debug_add("This (id #{$this->id}) is not a smart campaign, aborting", MIDCOM_LOG_ERROR);
             return false;
         }
+        $time = $time ?: time();
         midcom::get()->auth->request_sudo('org.openpsa.directmarketing');
         $stat = midcom_services_at_interface::register($time, 'org.openpsa.directmarketing', 'background_update_campaign_members', array('campaign_guid' => $this->guid));
         if (!$stat)
