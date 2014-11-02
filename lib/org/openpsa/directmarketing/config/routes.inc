@@ -86,14 +86,6 @@
     'handler' => array('org_openpsa_directmarketing_handler_message_send', 'send_bg'),
 ),
 
-// Match /message/send_delayed/<message GUID>/<time>/
-'delayed_send_message' => array
-(
-    'fixed_args' => array('message', 'send_test'),
-    'variable_args' => 2,
-    'handler' => array('org_openpsa_directmarketing_handler_message_send', 'send'),
-),
-
 // Match /message/send/<message GUID>
 'send_message' => array
 (

@@ -196,20 +196,7 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
         if ($reg_next)
         {
             //register next batch
-            $args = array
-            (
-                'batch' => $batch + 1,
-                'url_base' => $url_base,
-            );
-            debug_add("Registering batch #{$args['batch']} for {$args['url_base']}");
-            midcom::get()->auth->request_sudo('org.openpsa.directmarketing');
-            $atstat = midcom_services_at_interface::register(time() + 60, 'org.openpsa.directmarketing', 'background_send_message', $args);
-            midcom::get()->auth->drop_sudo();
-            if (!$atstat)
-            {
-                debug_add("FAILED to register batch #{$args['batch']} for {$args['url_base']}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-                return false;
-            }
+            return $this->register_send_job($batch + 1, $url_base);
         }
         // Last batch done, register sendCompleted if we're not in test mode
         else if (!$this->test_mode)
@@ -219,6 +206,25 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
         }
 
         return $status;
+    }
+
+    public function register_send_job($batch, $url_base, $time = null)
+    {
+        $time = $time ?: time() + 60;
+        $args = array
+        (
+            'batch' => $batch,
+            'url_base' => $url_base,
+        );
+        debug_add("Registering batch #{$args['batch']} for {$args['url_base']} to start on: " . date('Y-m-d H:i:s', $time));
+        midcom::get()->auth->request_sudo('org.openpsa.directmarketing');
+        $atstat = midcom_services_at_interface::register($time, 'org.openpsa.directmarketing', 'background_send_message', $args);
+        midcom::get()->auth->drop_sudo();
+        if (!$atstat)
+        {
+            debug_add("FAILED to register batch #{$args['batch']} for {$args['url_base']}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
+        }
+        return $atstat;
     }
 
     private function _send_member(org_openpsa_directmarketing_campaign_member_dba $member, $subject, $content, $from)

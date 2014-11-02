@@ -118,6 +118,11 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
         return $composed;
     }
 
+    /**
+     * @param array $data Request data
+     * @throws midcom_error
+     * @return org_openpsa_directmarketing_sender
+     */
     private function _get_sender(array &$data)
     {
         $data['message_array'] = $this->_datamanager->get_content_raw();
@@ -170,21 +175,7 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
         $this->_load_datamanager();
         $this->_datamanager->autoset_storage($data['message']);
 
-        if ($handler_id === 'delayed_send_message')
-        {
-            $data['delayed_send'] = true;
-            $data['send_start'] = strtotime($args[1]);
-            if (   $data['send_start'] == -1
-                || $data['send_start'] === false)
-            {
-                throw new midcom_error("Failed to parse \"{$args[1]}\" into timestamp");
-            }
-        }
-        else
-        {
-            $this->_request_data['send_start'] = time();
-            $this->_request_data['delayed_send'] = false;
-        }
+        $this->_request_data['send_start'] = time();
 
         ignore_user_abort();
     }
@@ -209,14 +200,7 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
                 break;
             default:
                 // Schedule background send
-                debug_add('Registering background send job with url ' . $data['batch_url_base_full'] . ' to start on: ' . date('Y-m-d H:i:s', $data['send_start']));
-                $at_arguments = array
-                (
-                    'batch' => 1,
-                    'url_base' => $data['batch_url_base_full'],
-                );
-
-                if (!midcom_services_at_interface::register($data['send_start'], $this->_component, 'background_send_message', $at_arguments))
+                if (!$data['sender']->register_send_job(1, $data['batch_url_base_full'], date('Y-m-d H:i:s', $data['send_start'])))
                 {
                     throw new midcom_error("Job registration failed: " . midcom_connection::get_error_string());
                 }
