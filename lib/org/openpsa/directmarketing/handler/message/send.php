@@ -14,6 +14,11 @@
 class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasses_components_handler
 {
     /**
+     * @var midcom_helper_datamanager2_datamanager
+     */
+    private $_datamanager;
+
+    /**
      * Internal helper, loads the datamanager for the current message. Any error triggers a 500.
      */
     private function _load_datamanager()
@@ -29,6 +34,10 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
      */
     public function _handler_send_bg($handler_id, array $args, array &$data)
     {
+        if (!is_numeric($args[1]))
+        {
+            throw new midcom_error('Batch number missing');
+        }
         midcom::get()->auth->request_sudo($this->_component);
 
         //Load message
@@ -38,17 +47,7 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
         $this->_load_datamanager();
         $this->_datamanager->autoset_storage($data['message']);
 
-        //Check other paramerers
-        if (   !isset($args[1])
-            || !is_numeric($args[1]))
-        {
-            throw new midcom_error('Batch number missing');
-        }
         $data['batch_number'] = $args[1];
-        if (!isset($args[2]))
-        {
-            throw new midcom_error('Job GUID missing');
-        }
         midcom_services_at_entry_dba::get_cached($args[2]);
 
         ignore_user_abort();

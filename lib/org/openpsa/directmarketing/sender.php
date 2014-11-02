@@ -107,24 +107,11 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
      */
     public function send($subject, $content, $from)
     {
-        if (!$from)
-        {
-            $from = 'noreplyaddress@openpsa2.org';
-        }
-        if (!$subject)
-        {
-            $subject = '[no subject]';
-        }
-
         midcom::get()->disable_limits();
         if (!$this->test_mode)
         {
             //Make sure we have smart campaign members up-to-date (this might take a while)
             $this->_check_campaign_up_to_date();
-        }
-        else
-        {
-            $subject = "[TEST] {$subject}";
         }
 
         //TODO: Rethink the styles, now we filter those who already had message sent to themm thus the total member count becomes meaningless
@@ -160,31 +147,22 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
     /**
      * Sends $content to all members of the campaign
      */
-    function send_bg($url_base, $batch, $content, &$from, &$subject)
+    function send_bg($url_base, $batch, $content, $from, $subject)
     {
-        if (!$from)
-        {
-            $from = 'noreplyaddress@openpsa2.org';
-        }
-        if (!$subject)
-        {
-            $subject = '[no subject]';
-        }
         //TODO: Figure out how to recognize errors and pass the info on
         $this->send_output = false;
 
         $this->_chunk_num = $batch - 1;
 
         midcom::get()->disable_limits();
-        //For first batch (they start from 1 instead of 0) make sure we have smart campaign members up to date
-        if (   $batch == 1
-            && !$this->test_mode)
-        {
-            $this->_check_campaign_up_to_date();
-        }
-        // Register sendStarted if not already set (and we're not in test mode)
         if (!$this->test_mode)
         {
+            //For first batch (they start from 1 instead of 0) make sure we have smart campaign members up to date
+            if ($batch == 1)
+            {
+                $this->_check_campaign_up_to_date();
+            }
+            // Register sendStarted if not already set (and we're not in test mode)
             if (!$this->_message->sendStarted)
             {
                 $this->_message->sendStarted = time();
@@ -233,14 +211,11 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
                 return false;
             }
         }
-        else
+        // Last batch done, register sendCompleted if we're not in test mode
+        else if (!$this->test_mode)
         {
-            // Last batch done, register sendCompleted if we're not in test mode
-            if (!$this->test_mode)
-            {
-                $this->_message->sendCompleted = time();
-                $this->_message->update();
-            }
+            $this->_message->sendCompleted = time();
+            $this->_message->update();
         }
 
         return $status;
@@ -251,6 +226,13 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
         if (!$person = $this->_get_person($member))
         {
             return;
+        }
+
+        $from = $from ?: 'noreplyaddress@openpsa2.org';
+        $subject = $subject ?: '[no subject]';
+        if ($this->test_mode)
+        {
+            $subject = "[TEST] {$subject}";
         }
         $content = $member->personalize_message($content, $this->_message->orgOpenpsaObtype, $person);
         $token = $this->_create_token();
@@ -282,7 +264,7 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
         }
         if (!$this->test_mode)
         {
-            $member->create_receipt($this->_message->id, $status, $token);
+            $member->create_receipt($this->_message->id, $status, $token, $params);
         }
     }
 
@@ -310,8 +292,8 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
             $token .= $tokenchars[mt_rand(0, strlen($tokenchars) - 1)];
         }
         //If token is not free or (very, very unlikely) matches our dummy token, recurse.
-        if (   !org_openpsa_directmarketing_campaign_messagereceipt_dba::token_is_free($token)
-            || $token === 'dummy')
+        if (   $token === 'dummy'
+            || !org_openpsa_directmarketing_campaign_messagereceipt_dba::token_is_free($token))
         {
             return $this->_create_token();
         }
@@ -321,10 +303,10 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
     /**
      * Check is given member has denied contacts of given type
      *
-     * @param object $member campaign_member object related to the person
+     * @param org_openpsa_directmarketing_campaign_member_dba $member campaign_member object related to the person
      * @return mixed org_openpsa_contacts_person_dba person on success, false if denied
      */
-    private function _get_person($member)
+    private function _get_person(org_openpsa_directmarketing_campaign_member_dba $member)
     {
         try
         {
