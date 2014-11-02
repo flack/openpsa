@@ -117,6 +117,31 @@ class org_openpsa_directmarketing_campaign_ruleresolverTest extends openpsa_test
                     'type' => 'AND'),
                 true
             ),
+            5 => array
+            (
+                array
+                (
+                    'classes' => array
+                    (
+                        array
+                        (
+                            'type' => 'AND',
+                            'class' => 'org_openpsa_contacts_group_dba',
+                            'rules' =>
+                            array
+                            (
+                                array
+                                (
+                                    'property' => 'official',
+                                    'match' => 'LIKE',
+                                    'value' => '%test%',
+                                ),
+                            ),
+                        )
+                    ),
+                    'type' => 'AND'),
+                true
+            ),
         );
     }
 }
