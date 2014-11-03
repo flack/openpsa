@@ -718,10 +718,6 @@ Tallenna kenttään
 Aihe
 ---STRINGEND
 
----STRING subscribed_existing
-Ennestään tilauksia, liitetty kampanjaan
----STRINGEND
-
 ---STRING subscribed_new
 Uusia tilauksia
 ---STRINGEND

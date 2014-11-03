@@ -722,10 +722,6 @@ Store to field
 Subject
 ---STRINGEND
 
----STRING subscribed_existing
-Subscribed existing
----STRINGEND
-
 ---STRING subscribed_new
 Subscribed new
 ---STRINGEND

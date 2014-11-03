@@ -167,7 +167,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
         {
             $this->_request_data['import_status'] = $importer->import_subscribers($this->_request_data['contacts'], $this->_request_data['campaign']);
             if (   $this->_request_data['import_status']['subscribed_new'] > 0
-                || $this->_request_data['import_status']['subscribed_existing'] > 0)
+                || $this->_request_data['import_status']['already_subscribed'] > 0)
             {
                 $this->_import_success = true;
             }

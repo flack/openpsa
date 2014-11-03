@@ -682,10 +682,6 @@ Speichern im Feld
 Betreff
 ---STRINGEND
 
----STRING subscribed_existing
-Existierende Abonnenten
----STRINGEND
-
 ---STRING subscribed_new
 Neue Abonnenten
 ---STRINGEND

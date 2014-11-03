@@ -191,46 +191,28 @@ abstract class org_openpsa_directmarketing_importer extends midcom_baseclasses_c
             // User is or has been subscriber earlier, update status
             $member = $members[0];
 
-            // Fix http://trac.midgard-project.org/ticket/1112
-            if ($member->orgOpenpsaObtype == org_openpsa_directmarketing_campaign_member_dba::UNSUBSCRIBED)
+            if (   $member->orgOpenpsaObtype == org_openpsa_directmarketing_campaign_member_dba::UNSUBSCRIBED
+                || $member->orgOpenpsaObtype == org_openpsa_directmarketing_campaign_member_dba::NORMAL)
             {
-                // PONDER: Which code to use ??
-                //$this->_import_status['failed_add']++;
-                // PONDER: What is the difference between these two?
                 $this->_import_status['already_subscribed']++;
-                $this->_import_status['subscribed_existing']++;
-                // PONDER: Should we skip any updates, they're usually redundant but ne never knows..
                 return;
             }
-            else if ($member->orgOpenpsaObtype == org_openpsa_directmarketing_campaign_member_dba::NORMAL)
+            $member->orgOpenpsaObtype = org_openpsa_directmarketing_campaign_member_dba::NORMAL;
+            if (!$member->update())
             {
-                // PONDER: What is the difference between these two?
-                $this->_import_status['already_subscribed']++;
-                $this->_import_status['subscribed_existing']++;
+                $this->_import_status['failed_add']++;
+                throw new midcom_error('Failed to save membership: ' . midcom_connection::get_error_string());
+            }
+            if (array_key_exists('person', $this->_new_objects))
+            {
+                $this->_import_status['subscribed_new']++;
             }
             else
             {
-                $member->orgOpenpsaObtype = org_openpsa_directmarketing_campaign_member_dba::NORMAL;
-                if ($member->update())
-                {
-                    if (array_key_exists('person', $this->_new_objects))
-                    {
-                        $this->_import_status['subscribed_new']++;
-                    }
-                    else
-                    {
-                        $this->_import_status['subscribed_existing']++;
-                    }
-                }
-                else
-                {
-                    $this->_import_status['failed_add']++;
-                    throw new midcom_error('Failed to save membership: ' . midcom_connection::get_error_string());
-                }
+                $this->_import_status['already_subscribed']++;
             }
         }
-
-        if (!$member)
+        else
         {
             // Not a subscribed member yet, add
             $member = new org_openpsa_directmarketing_campaign_member_dba();
@@ -340,7 +322,6 @@ abstract class org_openpsa_directmarketing_importer extends midcom_baseclasses_c
         (
             'already_subscribed' => 0,
             'subscribed_new' => 0,
-            'subscribed_existing' => 0,
             'failed_create' => 0,
             'failed_add' => 0,
         );
