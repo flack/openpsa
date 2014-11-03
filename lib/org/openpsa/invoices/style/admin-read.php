@@ -104,13 +104,15 @@ if ($invoice->cancelationInvoice)
 
             if ($invoice->sent)
             {
-                echo '<li><span class="date">' . date($data['l10n_midcom']->get('short date') . ' H:i', $invoice->sent) . '</span>: <br />';
+                echo '<li><span class="date">';
                 if ($mail_time = $invoice->get_parameter('org.openpsa.invoices', 'sent_by_mail'))
                 {
+                    echo date($data['l10n_midcom']->get('short date') . ' H:i', $mail_time) . '</span>: <br />';
                     echo sprintf($data['l10n']->get('marked invoice %s sent per mail'), '');
                 }
                 else
                 {
+                    echo date($data['l10n_midcom']->get('short date') . ' H:i', $invoice->sent) . '</span>: <br />';
                     echo sprintf($data['l10n']->get('marked invoice %s sent'), '');
                 }
                 echo '</li>';
