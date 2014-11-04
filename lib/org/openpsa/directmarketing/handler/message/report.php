@@ -338,7 +338,7 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
     {
         $campaign = new org_openpsa_directmarketing_campaign_dba();
         $campaign->orgOpenpsaObtype = org_openpsa_directmarketing_campaign_dba::TYPE_SMART;
-        $eval = '$tmp_array = ' . $_POST['org_openpsa_directmarketing_campaign_rule_' . $_POST['org_openpsa_directmarketing_campaign_userule']] . ';';
+        $eval = '$tmp_array = ' . $_POST['oo_dirmar_rule_' . $_POST['oo_dirmar_userule']] . ';';
         $eval_ret = @eval($eval);
         if ($eval_ret === false)
         {
@@ -346,7 +346,7 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
         }
         $campaign->rules = $tmp_array;
         $campaign->description = $tmp_array['comment'];
-        $campaign->title = sprintf($this->_l10n->get('from link "%s"'), $_POST['org_openpsa_directmarketing_campaign_label_' . $_POST['org_openpsa_directmarketing_campaign_userule']]);
+        $campaign->title = sprintf($this->_l10n->get('from link "%s"'), $_POST['oo_dirmar_label_' . $_POST['oo_dirmar_userule']]);
         $campaign->testers[midcom_connection::get_user()] = true;
         $campaign->node = $this->_topic->id;
         if (!$campaign->create())
@@ -378,8 +378,8 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
         $data['campaign'] = $this->_campaign;
         $this->set_active_leaf('campaign_' . $this->_campaign->id);
 
-        if (   isset($_POST['org_openpsa_directmarketing_campaign_userule'])
-            && !empty($_POST['org_openpsa_directmarketing_campaign_rule_' . $_POST['org_openpsa_directmarketing_campaign_userule']]))
+        if (   isset($_POST['oo_dirmar_userule'])
+            && !empty($_POST['oo_dirmar_rule_' . $_POST['oo_dirmar_userule']]))
         {
             $this->_create_campaign_from_link();
         }
