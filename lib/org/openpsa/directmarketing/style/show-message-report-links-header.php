@@ -1,6 +1,5 @@
 <?php
 $l10n = $data['l10n'];
-$report = $data['report'];
 if (!isset($data['form_suffix']))
 {
     $data['form_suffix'] = '';
