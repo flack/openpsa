@@ -1,10 +1,5 @@
 <?php
 $l10n = $data['l10n'];
-if (!isset($data['form_suffix']))
-{
-    $data['form_suffix'] = '';
-}
-$form_suffix = $data['form_suffix'];
 ?>
 <style type="text/css">
 table.link_statistics th.title
@@ -13,7 +8,7 @@ table.link_statistics th.title
 }
 </style>
 <form method="post">
-    <table class="link_statistics" id="org_openpsa_directmarketing_messagelinks&(form_suffix);">
+    <table class="link_statistics" id="org_openpsa_directmarketing_messagelinks">
         <thead>
             <tr>
                 <th>&nbsp;</th>

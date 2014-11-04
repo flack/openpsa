@@ -2,11 +2,6 @@
 $l10n = $data['l10n'];
 $report = $data['report'];
 $link_data = $data['use_link_data'];
-if (!isset($data['form_suffix']))
-{
-    $data['form_suffix'] = '';
-}
-$form_suffix = $data['form_suffix'];
 if (!isset($data['body_title']))
 {
     $data['body_title'] = '';
@@ -92,9 +87,9 @@ $body_class = " class='{$data['body_class']}'";
                 $target_label = trim($target_label_new);
                 ?>
                 <tr>
-                    <textarea name="oo_dirmar_rule_<?php echo md5($target . $form_suffix); ?>" style="display: none;"><?php echo $rule_ser; ?></textarea>
-                    <input type="hidden" name="oo_dirmar_label_<?php echo md5($target . $form_suffix); ?>" value="<?php echo $target_label; ?>" />
-                    <td><input type="radio" name="oo_dirmar_userule" value="<?php echo md5($target . $form_suffix); ?>" /></td>
+                    <td><textarea name="oo_dirmar_rule_<?php echo md5($target); ?>" style="display: none;"><?php echo $rule_ser; ?></textarea>
+                    <input type="hidden" name="oo_dirmar_label_<?php echo md5($target); ?>" value="<?php echo $target_label; ?>" />
+                    <input type="radio" name="oo_dirmar_userule" value="<?php echo md5($target); ?>" /></td>
                     <td><a href="<?php echo trim(urldecode($target)); ?>" target="_blank" title="<?php echo $target; ?>"><?php echo $target_label; ?></a></td>
                     <td class="bargraph"><div style="width: <?php echo $visual_width; ?>px;" class="link_count_visualization">&nbsp;</div></td>
                     <td class="numeric"><?php echo $count['total']; ?></td>
