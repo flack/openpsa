@@ -119,7 +119,7 @@ $expenses_url = $siteconfig->get_node_relative_url('org.openpsa.expenses');
             }
 
             $message = sprintf($data['l10n']->get($status_change->get_status_message()), $status_changer_label, $target_person_label);
-                $status_changed = strftime('%x %H:%M', $status_change->metadata->created);
+            $status_changed = strftime('%x %H:%M', $status_change->metadata->created);
             echo "<span class=\"date\">{$status_changed}</span>: <br />{$message}";
 
             echo "</li>\n";

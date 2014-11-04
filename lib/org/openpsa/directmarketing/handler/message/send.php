@@ -200,7 +200,7 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
                 break;
             default:
                 // Schedule background send
-                if (!$data['sender']->register_send_job(1, $data['batch_url_base_full'], date('Y-m-d H:i:s', $data['send_start'])))
+                if (!$data['sender']->register_send_job(1, $data['batch_url_base_full'], $data['send_start']))
                 {
                     throw new midcom_error("Job registration failed: " . midcom_connection::get_error_string());
                 }
