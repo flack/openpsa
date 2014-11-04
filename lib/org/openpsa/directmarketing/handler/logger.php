@@ -29,14 +29,7 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
         $this->_request_data['update_status'] = array('receipts' => array(), 'members' => array());
 
         midcom::get()->auth->request_sudo('org.openpsa.directmarketing');
-        debug_add("Looking for token '{$_POST['token']}' in sent receipts");
         $ret = $this->_qb_token_receipts($_POST['token']);
-        debug_print_r("_qb_token_receipts({$_POST['token']}) returned", $ret);
-        if (empty($ret))
-        {
-            midcom::get()->auth->drop_sudo();
-            throw new midcom_error_notfound("No receipts with token '{$_POST['token']}' found");
-        }
         //While in theory we should have only one token lets use foreach just to be sure
         foreach ($ret as $receipt)
         {
@@ -94,10 +87,18 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
      */
     private function _qb_token_receipts($token, $type = org_openpsa_directmarketing_campaign_messagereceipt_dba::SENT)
     {
+        debug_add("Looking for token '{$token}' in sent receipts");
         $qb = org_openpsa_directmarketing_campaign_messagereceipt_dba::new_query_builder();
         $qb->add_constraint('token', '=', $token);
         $qb->add_constraint('orgOpenpsaObtype', '=', $type);
-        return $qb->execute();
+        $ret =  $qb->execute();
+        debug_print_r("_qb_token_receipts({$token}) returned", $ret);
+        if (empty($ret))
+        {
+            midcom::get()->auth->drop_sudo();
+            throw new midcom_error_notfound("No receipts with token '{$token}' found");
+        }
+        return $ret;
     }
 
     /**
@@ -120,14 +121,8 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
         }
 
         midcom::get()->auth->request_sudo('org.openpsa.directmarketing');
-        debug_add("Looking for token '{$_POST['token']}' in sent receipts");
         $ret = $this->_qb_token_receipts($_POST['token']);
-        debug_print_r("_qb_token_receipts({$_POST['token']}) returned", $ret);
-        if (empty($ret))
-        {
-            midcom::get()->auth->drop_sudo();
-            throw new midcom_error_notfound("No receipts with token '{$_POST['token']}' found");
-        }
+
         //While in theory we should have only one token lets use foreach just to be sure
         foreach ($ret as $receipt)
         {
@@ -214,13 +209,7 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
         }
 
         midcom::get()->auth->request_sudo('org.openpsa.directmarketing');
-        debug_add("Looking for token '{$this->_request_data['token']}' in sent receipts");
         $ret = $this->_qb_token_receipts($this->_request_data['token']);
-        if (empty($ret))
-        {
-            midcom::get()->auth->drop_sudo();
-            throw new midcom_error_notfound("No receipts with token '{$this->_request_data['token']}' found");
-        }
 
         //While in theory we should have only one token lets use foreach just to be sure
         foreach ($ret as $receipt)

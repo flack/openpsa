@@ -76,8 +76,7 @@ else
         $data['use_link_data'] = $report['link_data'];
         $data['body_class'] = 'all';
         midcom_show_style('show-message-report-links-body');
-        if (   isset($report['link_data']['segments'])
-            && is_array($report['link_data']['segments']))
+        if (!empty($report['link_data']['segments']))
         {
             foreach ($report['link_data']['segments'] as $segment => $segment_data)
             {
