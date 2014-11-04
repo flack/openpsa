@@ -145,20 +145,7 @@ class org_openpsa_directmarketing_handler_campaign_rules extends midcom_baseclas
         {
             throw new midcom_error('no rule given');
         }
-
-        $eval = '$tmp_array = ' . $_POST['midcom_helper_datamanager2_dummy_field_rules'] . ';';
-        $eval_ret = eval($eval);
-
-        if (   $eval_ret === false
-            || !is_array($tmp_array))
-        {
-            throw new midcom_error('given rule could not be parsed');
-        }
-        if (count($tmp_array) == 0)
-        {
-            throw new midcom_error('given rule is empty');
-        }
-        return $tmp_array;
+        return org_openpsa_directmarketing_campaign_ruleresolver::parse($_POST['midcom_helper_datamanager2_dummy_field_rules'])
     }
 
     /**

@@ -86,6 +86,28 @@ class org_openpsa_directmarketing_campaign_ruleresolver
     }
 
     /**
+     *
+     * @param string $ruleset
+     * @throws midcom_error
+     * @return array
+     */
+    public static function parse($ruleset)
+    {
+        $eval_ret = @eval('$rules = ' . $ruleset . ';');
+
+        if (   $eval_ret === false
+            || !is_array($rules))
+        {
+            throw new midcom_error('given ruleset could not be parsed');
+        }
+        if (count($rules) == 0)
+        {
+            throw new midcom_error('given ruleset is empty');
+        }
+        return $rules;
+    }
+
+    /**
      * Recurses trough the rules array and creates QB instances & constraints as needed
      *
      * @param array $rules rules array

@@ -334,19 +334,22 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
         $array['tokens'][$link->token]++;
     }
 
-    private function _create_campaign_from_link()
+    private function _create_campaign_from_link($identifier)
     {
+        try
+        {
+            $rules = org_openpsa_directmarketing_campaign_ruleresolver::parse($_POST['oo_dirmar_rule_' . $identifier]);
+        }
+        catch (midcom_error $e)
+        {
+            $e->log();
+            return;
+        }
         $campaign = new org_openpsa_directmarketing_campaign_dba();
         $campaign->orgOpenpsaObtype = org_openpsa_directmarketing_campaign_dba::TYPE_SMART;
-        $eval = '$tmp_array = ' . $_POST['oo_dirmar_rule_' . $_POST['oo_dirmar_userule']] . ';';
-        $eval_ret = @eval($eval);
-        if ($eval_ret === false)
-        {
-            return false;
-        }
-        $campaign->rules = $tmp_array;
-        $campaign->description = $tmp_array['comment'];
-        $campaign->title = sprintf($this->_l10n->get('from link "%s"'), $_POST['oo_dirmar_label_' . $_POST['oo_dirmar_userule']]);
+        $campaign->rules = $rules;
+        $campaign->description = $rules['comment'];
+        $campaign->title = sprintf($this->_l10n->get('from link "%s"'), $_POST['oo_dirmar_label_' . $identifier]);
         $campaign->testers[midcom_connection::get_user()] = true;
         $campaign->node = $this->_topic->id;
         if (!$campaign->create())
@@ -381,12 +384,11 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
         if (   isset($_POST['oo_dirmar_userule'])
             && !empty($_POST['oo_dirmar_rule_' . $_POST['oo_dirmar_userule']]))
         {
-            $this->_create_campaign_from_link();
+            $this->_create_campaign_from_link($_POST['oo_dirmar_userule']);
         }
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/list.css");
 
-        $this->add_breadcrumb("campaign/{$this->_campaign->guid}/", $this->_campaign->title);
         $this->add_breadcrumb("message/{$this->_message->guid}/", $this->_message->title);
         $this->add_breadcrumb("message/report/{$this->_message->guid}/", sprintf($this->_l10n->get('report for message %s'), $this->_message->title));
 
@@ -399,14 +401,12 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_left.png',
             )
         );
+        $preview_url = "message/compose/{$this->_message->guid}/";
         if (!empty(midcom::get()->auth->user->guid))
         {
-            $preview_url = "message/compose/{$this->_message->guid}/" . midcom::get()->auth->user->guid .'/';
+            $preview_url .= midcom::get()->auth->user->guid .'/';
         }
-        else
-        {
-            $preview_url = "message/compose/{$this->_message->guid}/";
-        }
+
         $this->_view_toolbar->add_item
         (
             array
