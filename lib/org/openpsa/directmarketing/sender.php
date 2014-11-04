@@ -124,14 +124,9 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
 
         while ($results = $this->_qb_send_loop())
         {
-            if (!$this->_backend->check_results($results))
+            if (!$this->process_results($results, $subject, $content, $from))
             {
                 return false;
-            }
-
-            foreach ($results as $member)
-            {
-                $this->_send_member($member, $subject, $content, $from);
             }
         }
         if ($this->send_output)
@@ -162,7 +157,7 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
             {
                 $this->_check_campaign_up_to_date();
             }
-            // Register sendStarted if not already set (and we're not in test mode)
+            // Register sendStarted if not already set
             if (!$this->_message->sendStarted)
             {
                 $this->_message->sendStarted = time();
@@ -175,37 +170,34 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
         if ($results === false)
         {
             $status = true; //All should be ok
-            $reg_next = false; //Do not register another batch
         }
-        else if (!$this->_backend->check_results($results))
-        {
-            $status = false; //Backend refuses delivery
-            $reg_next = false; //Do not register another batch
-        }
-        else
-        {
-            foreach ($results as $member)
-            {
-                $this->_send_member($member, $subject, $content, $from);
-            }
-
-            $status = true; //All should be ok
-            $reg_next = true; //Register next batch to AT
-        }
-        debug_add("status: {$status}, reg_next: {$reg_next}");
-        if ($reg_next)
+        else if ($status = $this->process_results($results, $subject, $content, $from))
         {
             //register next batch
             return $this->register_send_job($batch + 1, $url_base);
         }
+
         // Last batch done, register sendCompleted if we're not in test mode
-        else if (!$this->test_mode)
+        if (!$this->test_mode)
         {
             $this->_message->sendCompleted = time();
             $this->_message->update();
         }
 
         return $status;
+    }
+
+    private function process_results(array $results, $subject, $content, $from)
+    {
+        if (!$this->_backend->check_results($results))
+        {
+            return false; //Backend refuses delivery
+        }
+        foreach ($results as $member)
+        {
+            $this->_send_member($member, $subject, $content, $from);
+        }
+        return true;
     }
 
     public function register_send_job($batch, $url_base, $time = null)

@@ -66,8 +66,6 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
         debug_add('Forcing content type: text/plain');
         midcom::get()->header('Content-type: text/plain');
         $data['sender'] = $this->_get_sender($data);
-        $data['sender']->test_mode = false;
-        $data['sender']->send_output = false;
         $composed = $this->_prepare_send($data);
         $bgstat = $data['sender']->send_bg($data['batch_url_base_full'], $data['batch_number'], $composed, $data['compose_from'], $data['compose_subject']);
         if (!$bgstat)
@@ -89,10 +87,8 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
         $data['batch_url_base_full'] = $node[MIDCOM_NAV_RELATIVEURL] . 'message/send_bg/' . $data['message']->guid;
         debug_add("compose_url: {$data['compose_url']}");
         debug_add("batch_url base: {$data['batch_url_base_full']}");
-        $de_backup = ini_get('display_errors');
-        $le_backup = ini_get('log_errors');
-        ini_set('log_errors', true);
-        ini_set('display_errors', false);
+        $le_backup = ini_set('log_errors', true);
+        $de_backup = ini_set('display_errors', false);
         ob_start();
         midcom::get()->dynamic_load($data['compose_url']);
         $composed = ob_get_contents();
