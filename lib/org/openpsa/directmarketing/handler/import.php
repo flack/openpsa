@@ -121,9 +121,6 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
 
         if (array_key_exists('org_openpsa_directmarketing_import_separator', $_POST))
         {
-            $this->_request_data['time_start'] = time();
-            $this->_request_data['contacts'] = array();
-
             switch ($_POST['org_openpsa_directmarketing_import_separator'])
             {
                 case 'N':
@@ -156,12 +153,13 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
                 $importer = new org_openpsa_directmarketing_importer_simpleemails($this->_schemadbs, array('separator' => $separator));
                 $this->_run_import($importer, $contacts_raw);
             }
-            $this->_request_data['separator'] = $separator;
         }
     }
 
     private function _run_import(org_openpsa_directmarketing_importer $importer, $input)
     {
+        $this->_request_data['time_start'] = time();
+
         $this->_request_data['contacts'] = $importer->parse($input);
         if (count($this->_request_data['contacts']) > 0)
         {
@@ -208,16 +206,11 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
         // Update the breadcrumb line
         $this->_update_breadcrumb($handler_id, $args);
 
-        if (array_key_exists('org_openpsa_directmarketing_import', $_POST))
+        if (   array_key_exists('org_openpsa_directmarketing_import', $_POST)
+            && is_uploaded_file($_FILES['org_openpsa_directmarketing_import_upload']['tmp_name']))
         {
-            $this->_request_data['contacts'] = array();
-            $this->_request_data['time_start'] = time();
-
-            if (is_uploaded_file($_FILES['org_openpsa_directmarketing_import_upload']['tmp_name']))
-            {
-                $importer = new org_openpsa_directmarketing_importer_vcards($this->_schemadbs);
-                $this->_run_import($importer, $_FILES['org_openpsa_directmarketing_import_upload']['tmp_name']);
-            }
+            $importer = new org_openpsa_directmarketing_importer_vcards($this->_schemadbs);
+            $this->_run_import($importer, $_FILES['org_openpsa_directmarketing_import_upload']['tmp_name']);
         }
     }
 
@@ -258,17 +251,10 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
             $data['time_start'] = time();
 
             $data['rows'] = array();
-
-            switch ($_POST['org_openpsa_directmarketing_import_separator'])
+            $data['separator'] = $_POST['org_openpsa_directmarketing_import_separator'];
+            if ($data['separator'] != ';')
             {
-                case ';':
-                    $data['separator'] = ';';
-                    break;
-
-                case ',':
-                default:
-                    $data['separator'] = ',';
-                    break;
+                $data['separator'] = ',';
             }
 
             if (is_uploaded_file($_FILES['org_openpsa_directmarketing_import_upload']['tmp_name']))
@@ -280,10 +266,9 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
                 // Read cell headers from the file
                 $read_rows = 0;
                 $handle = fopen($_FILES['org_openpsa_directmarketing_import_upload']['tmp_name'], 'r');
-                $separator = $data['separator'];
                 $total_columns = 0;
                 while (   $read_rows < 2
-                       && $csv_line = fgetcsv($handle, 1000, $separator))
+                       && $csv_line = fgetcsv($handle, 1000, $data['separator']))
                 {
                     if ($total_columns == 0)
                     {
@@ -341,13 +326,6 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
      */
     public function _handler_csv($handler_id, array $args, array &$data)
     {
-        $this->_prepare_handler($args);
-
-        // Update the breadcrumb
-        $this->_update_breadcrumb($handler_id, $args);
-
-        $data['contacts'] = array();
-
         if (!array_key_exists('org_openpsa_directmarketing_import_separator', $_POST))
         {
             throw new midcom_error('No CSV separator specified.');
@@ -358,17 +336,18 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
             throw new midcom_error('No CSV file available.');
         }
 
-        $data['time_start'] = time();
+        $this->_prepare_handler($args);
+
+        // Update the breadcrumb
+        $this->_update_breadcrumb($handler_id, $args);
 
         $data['rows'] = array();
-        $data['separator'] = $_POST['org_openpsa_directmarketing_import_separator'];
         $config = array
         (
             'fields' => $_POST['org_openpsa_directmarketing_import_csv_field'],
-            'separator' => $data['separator'],
+            'separator' => $_POST['org_openpsa_directmarketing_import_separator'],
         );
         $importer = new org_openpsa_directmarketing_importer_csv($this->_schemadbs, $config);
-
         $this->_run_import($importer, $_POST['org_openpsa_directmarketing_import_tmp_file']);
     }
 
