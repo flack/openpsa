@@ -61,11 +61,19 @@ implements midcom_services_permalinks_resolver, org_openpsa_contacts_duplicates_
         debug_add("batch_url: {$batch_url}");
 
         ob_start();
-        midcom::get()->dynamic_load($batch_url);
+        try
+        {
+            midcom::get()->dynamic_load($batch_url);
+            $ret = true;
+        }
+        catch (midcom_error $e)
+        {
+            $ret = $e->getMessage();
+        }
         ob_end_clean();
 
         midcom::get()->auth->drop_sudo();
-        return true;
+        return $ret;
     }
 
     /**
