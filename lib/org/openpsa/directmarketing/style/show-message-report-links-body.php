@@ -38,13 +38,15 @@ $body_class = " class='{$data['body_class']}'";
                 // Fetch target url and look for a heading to use
                 $is_html = false;
                 $url = trim(urldecode($target));
-                $headers = get_headers($url);
-                foreach ($headers as $header)
+                if (filter_var($url, FILTER_VALIDATE_URL))
                 {
-                    if (preg_match('/^Content-Type: .*\/.*html/', $header))
+                    foreach (get_headers($url) as $header)
                     {
-                        $is_html = true;
-                        break;
+                        if (preg_match('/^Content-Type: .*\/.*html/', $header))
+                        {
+                            $is_html = true;
+                            break;
+                        }
                     }
                 }
                 if ($is_html)
