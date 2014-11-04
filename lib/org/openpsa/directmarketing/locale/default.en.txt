@@ -174,10 +174,6 @@ CSV
 CSV column
 ---STRINGEND
 
----STRING delete campaign
-Delete campaign
----STRINGEND
-
 ---STRING delete message
 Delete message
 ---STRINGEND

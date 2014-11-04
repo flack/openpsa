@@ -162,10 +162,6 @@ CSV
 CSV-Spalte
 ---STRINGEND
 
----STRING delete campaign
-Kampagne löschen
----STRINGEND
-
 ---STRING delete message
 Nachricht löschen
 ---STRINGEND

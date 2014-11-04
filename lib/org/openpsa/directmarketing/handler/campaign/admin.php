@@ -111,18 +111,6 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
 
         org_openpsa_helpers::dm2_savecancel($this);
 
-        $this->_view_toolbar->add_item
-        (
-            array
-            (
-                MIDCOM_TOOLBAR_URL => "campaign/delete/{$this->_campaign->guid}/",
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('delete campaign'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
-                MIDCOM_TOOLBAR_ENABLED => $this->_campaign->can_do('midgard:delete'),
-                MIDCOM_TOOLBAR_ACCESSKEY => 'd',
-            )
-        );
-
         $this->_prepare_request_data();
         midcom::get()->head->set_pagetitle($this->_campaign->title);
         $this->bind_view_to_object($this->_campaign, $this->_controller->datamanager->schema->name);

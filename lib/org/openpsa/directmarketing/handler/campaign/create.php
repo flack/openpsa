@@ -95,10 +95,6 @@ implements midcom_helper_datamanager2_interfaces_create
                 return new midcom_response_relocate('');
         }
 
-        if ($this->_campaign != null)
-        {
-            midcom::get()->metadata->set_request_metadata($this->_campaign->metadata->revised, $this->_campaign->guid);
-        }
         $data['view_title'] = sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get($this->_schemadb[$this->_schema]->description));
         midcom::get()->head->set_pagetitle($data['view_title']);
         $this->add_breadcrumb("create/{$this->_schema}/", sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get($this->_schemadb[$this->_schema]->description)));

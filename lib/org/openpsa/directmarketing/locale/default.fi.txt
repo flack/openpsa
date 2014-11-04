@@ -174,10 +174,6 @@ CSV
 CSV-kenttä
 ---STRINGEND
 
----STRING delete campaign
-Poista kampanja
----STRINGEND
-
 ---STRING delete message
 Poista viesti
 ---STRINGEND
