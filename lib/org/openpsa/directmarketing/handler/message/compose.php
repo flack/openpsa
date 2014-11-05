@@ -49,9 +49,7 @@ class org_openpsa_directmarketing_handler_message_compose extends midcom_basecla
         midcom::get()->auth->request_sudo($this->_component);
         //Load message
         $this->_message = new org_openpsa_directmarketing_campaign_message_dba($args[0]);
-        $data['campaign'] = new org_openpsa_directmarketing_campaign_dba($this->_message->campaign);
-
-        $this->set_active_leaf('campaign_' . $data['campaign']->id);
+        $data['campaign'] = $this->_master->load_campaign($this->_message->campaign);
 
         $this->_load_datamanager();
         $data['message'] = $this->_message;

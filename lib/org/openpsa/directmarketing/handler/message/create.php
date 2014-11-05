@@ -84,8 +84,6 @@ implements midcom_helper_datamanager2_interfaces_create
         $data['campaign'] = $this->_master->load_campaign($args[0]);
         $data['campaign']->require_do('midgard:create');
 
-        $this->set_active_leaf('campaign_' . $data['campaign']->id);
-
         $this->_schema = $args[1];
 
         $data['controller'] = $this->get_controller('create');

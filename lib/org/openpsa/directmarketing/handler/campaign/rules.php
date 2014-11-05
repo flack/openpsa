@@ -132,8 +132,6 @@ class org_openpsa_directmarketing_handler_campaign_rules extends midcom_baseclas
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/org.openpsa.directmarketing/edit_query.css');
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/org.openpsa.core/list.css');
 
-        $this->set_active_leaf('campaign_' . $this->_campaign->id);
-
         midcom::get()->head->set_pagetitle($this->_campaign->title);
         $this->bind_view_to_object($this->_campaign);
         $this->_update_breadcrumb_line();

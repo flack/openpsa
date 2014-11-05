@@ -96,6 +96,7 @@ class org_openpsa_directmarketing_viewer extends midcom_baseclasses_components_r
         {
             throw new midcom_error_notfound("The campaign {$identifier} was not found.");
         }
+        $this->set_active_leaf('campaign_' . $campaign->id);
         return $campaign;
     }
 }

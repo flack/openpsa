@@ -31,7 +31,6 @@ class org_openpsa_directmarketing_handler_message_list extends midcom_baseclasse
     {
         midcom::get()->auth->require_valid_user();
         $this->_campaign = $this->_master->load_campaign($args[1]);
-        $this->set_active_leaf('campaign_' . $this->_campaign->id);
 
         $data['campaign'] = $this->_campaign;
         $this->_load_datamanager();

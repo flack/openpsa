@@ -163,8 +163,6 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
         $data['message'] = new org_openpsa_directmarketing_campaign_message_dba($args[0]);
         $data['campaign'] = $this->_master->load_campaign($data['message']->campaign);
 
-        $this->set_active_leaf('campaign_' . $data['campaign']->id);
-
         $this->add_breadcrumb("message/{$data['message']->guid}/", $data['message']->title);
         $this->add_breadcrumb("send_test/{$data['message']->guid}/", $this->_l10n->get('send'));
 

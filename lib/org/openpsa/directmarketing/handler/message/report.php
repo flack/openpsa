@@ -379,7 +379,6 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
 
         $this->_campaign = $this->_master->load_campaign($this->_message->campaign);
         $data['campaign'] = $this->_campaign;
-        $this->set_active_leaf('campaign_' . $this->_campaign->id);
 
         if (   isset($_POST['oo_dirmar_userule'])
             && !empty($_POST['oo_dirmar_rule_' . $_POST['oo_dirmar_userule']]))

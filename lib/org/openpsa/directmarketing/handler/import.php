@@ -61,7 +61,6 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
      */
     private function _update_breadcrumb($handler_id, $args)
     {
-        $this->add_breadcrumb("campaign/{$args[0]}/", $this->_request_data['campaign']->title);
         $this->add_breadcrumb("campaign/import/{$args[0]}/", $this->_l10n->get('import subscribers'));
 
         switch ($handler_id)
