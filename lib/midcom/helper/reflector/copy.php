@@ -274,14 +274,12 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
 
         $object_class = midcom_helper_reflector::resolve_baseclass(get_class($object));
 
-        // This is an original MgdSchema class
-        if ($object_class === get_class($object))
+        // Get the initial MgdSchema class
+        if ($object_class !== get_class($object))
         {
-            return $object;
+            $object = new $object_class($object->guid);
         }
 
-        // Get the initial MgdSchema class
-        $object = new $object_class($object->guid);
         return $object;
     }
 
@@ -408,27 +406,12 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
 
             // @TODO: Is there a sure way to determine if the parent is
             // GUID or is it ID? If so, please change it here.
-            if (is_string($source->$parent_property))
-            {
-                $parent_key = 'guid';
-            }
-            else
-            {
-                $parent_key = 'id';
-            }
-
+            $parent_key = (is_string($source->$parent_property)) ? 'guid' : 'id';
             $target->$parent_property = $parent->$parent_key;
         }
         else
         {
-            if (is_string($source->$parent_property))
-            {
-               $target->$parent_property = '';
-            }
-            else
-            {
-               $target->$parent_property = 0;
-            }
+            $target->$parent_property = (is_string($source->$parent_property)) ? '' : 0;
         }
 
         $name_property = midcom_helper_reflector::get_name_property($target);

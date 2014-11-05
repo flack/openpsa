@@ -418,16 +418,10 @@ class midcom_helper_reflector_nameresolver
         if (preg_match('/(.*?)-([0-9]{3,})' . $extension . '$/', $name, $name_matches))
         {
             // Name already has i and base parts, split them.
-            $i = (int)$name_matches[2];
-            $base_name = (string)$name_matches[1];
+            return array((int) $name_matches[2], (string) $name_matches[1]);
         }
-        else
-        {
-            // Defaults
-            $i = $default;
-            $base_name = $name;
-        }
-        return array($i, $base_name);
+        // Defaults
+        return array($default, $name);
     }
 
     /**
@@ -456,29 +450,7 @@ class midcom_helper_reflector_nameresolver
             }
             foreach ($sibling_classes as $schema_type)
             {
-                $qb = $this->_get_sibling_qb($schema_type, $parent);
-                if (!$qb)
-                {
-                    continue;
-                }
-                $child_name_property = midcom_helper_reflector::get_name_property(new $schema_type);
-
-                $qb->add_constraint($child_name_property, 'LIKE', "{$base_name}-%" . $extension);
-                $siblings = $qb->execute();
-                if (empty($siblings))
-                {
-                    // we don't care about fatal qb errors here
-                    continue;
-                }
-
-                $sibling = $siblings[0];
-                $sibling_name = $sibling->{$child_name_property};
-
-                list ($sibling_i, $sibling_name) = $this->_parse_filename($sibling_name, $extension);
-                if ($sibling_i >= $i)
-                {
-                    $i = $sibling_i + 1;
-                }
+                $i = $this->process_schema_type($this->_get_sibling_qb($schema_type, $parent), $i, $schema_type, $base_name, $extension);
             }
         }
         else
@@ -503,32 +475,35 @@ class midcom_helper_reflector_nameresolver
             }
             foreach ($root_classes as $schema_type)
             {
-                $qb = $this->_get_root_qb($schema_type);
-                if (!$qb)
-                {
-                    continue;
-                }
-                $child_name_property = midcom_helper_reflector::get_name_property(new $schema_type);
-
-                $qb->add_constraint($child_name_property, 'LIKE', "{$base_name}-%" . $extension);
-                $siblings = $qb->execute();
-                if (empty($siblings))
-                {
-                    // we dont' care about fatal qb errors here
-                    continue;
-                }
-                $sibling = $siblings[0];
-                $sibling_name = $sibling->{$child_name_property};
-
-                list ($sibling_i, $sibling_name) = $this->_parse_filename($sibling_name, $extension);
-                if ($sibling_i >= $i)
-                {
-                    $i = $sibling_i + 1;
-                }
+                $i = $this->process_schema_type($this->_get_root_qb($schema_type), $i, $schema_type, $base_name, $extension);
             }
         }
         midcom::get()->auth->drop_sudo();
 
         return array($i, $base_name);
+    }
+
+    private function process_schema_type($qb, $i, $schema_type, $base_name, $extension)
+    {
+        if (!$qb)
+        {
+            return $i;
+        }
+        $child_name_property = midcom_helper_reflector::get_name_property(new $schema_type);
+
+        $qb->add_constraint($child_name_property, 'LIKE', "{$base_name}-%" . $extension);
+        $siblings = $qb->execute();
+        if (!empty($siblings))
+        {
+            $sibling = $siblings[0];
+            $sibling_name = $sibling->{$child_name_property};
+
+            list ($sibling_i, $sibling_name) = $this->_parse_filename($sibling_name, $extension);
+            if ($sibling_i >= $i)
+            {
+                $i = $sibling_i + 1;
+            }
+        }
+        return $i;
     }
 }

@@ -44,14 +44,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         if (empty($this->mgdschema_class))
         {
             // Handle object vs string
-            if (is_object($src))
-            {
-                $original_class = get_class($src);
-            }
-            else
-            {
-                $original_class = $src;
-            }
+            $original_class = (is_object($src)) ? get_class($src) : $src;
 
             debug_add("Could not determine MgdSchema baseclass for '{$original_class}'", MIDCOM_LOG_ERROR);
             return;
@@ -76,14 +69,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      */
     public static function &get($src)
     {
-        if (is_object($src))
-        {
-            $classname = get_class($src);
-        }
-        else
-        {
-            $classname = $src;
-        }
+        $classname = (is_object($src)) ? get_class($src) : $src;
 
         if (!isset(self::$_cache['instance'][$classname]))
         {
@@ -223,14 +209,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
     public function get_label_property()
     {
         $midcom_class = midcom::get()->dbclassloader->get_midcom_class_name_for_mgdschema_object($this->mgdschema_class);
-        if ($midcom_class)
-        {
-            $obj = new $midcom_class;
-        }
-        else
-        {
-            $obj = new $this->mgdschema_class;
-        }
+        $obj = ($midcom_class) ? new $midcom_class : new $this->mgdschema_class;
         $properties = array_flip(self::get_object_fieldnames($obj));
 
         // TODO: less trivial implementation
@@ -690,14 +669,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
             $qb->set_limit(1);
             $qb->include_deleted();
             $results = $qb->execute();
-            if (count($results) == 0)
-            {
-                $objects[$guid] = null;
-            }
-            else
-            {
-                $objects[$guid] = $results[0];
-            }
+            $objects[$guid] = (empty($results)) ? null : $results[0];
         }
 
         return $objects[$guid];
