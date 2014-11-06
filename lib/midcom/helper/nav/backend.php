@@ -693,8 +693,7 @@ class midcom_helper_nav_backend
             // Score
             if (!isset($leaf[MIDCOM_NAV_SCORE]))
             {
-                if (   $leaf[MIDCOM_NAV_OBJECT]
-                    && isset($leaf[MIDCOM_NAV_OBJECT]->metadata->score))
+                if (!empty($leaf[MIDCOM_NAV_OBJECT]->metadata->score))
                 {
                     $leaf[MIDCOM_NAV_SCORE] = $leaf[MIDCOM_NAV_OBJECT]->metadata->score;
                 }

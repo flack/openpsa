@@ -261,14 +261,6 @@ class midcom_helper_nav
 
         switch ($navorder)
         {
-            case MIDCOM_NAVORDER_DEFAULT:
-                $navorder = 'topicsfirst';
-                break;
-
-            case MIDCOM_NAVORDER_TOPICSFIRST:
-                $navorder = 'topicsfirst';
-                break;
-
             case MIDCOM_NAVORDER_ARTICLESFIRST:
                 $navorder = 'articlesfirst';
                 break;
@@ -277,6 +269,8 @@ class midcom_helper_nav
                 $navorder = 'score';
                 break;
 
+            case MIDCOM_NAVORDER_TOPICSFIRST:
+            case MIDCOM_NAVORDER_DEFAULT:
             default:
                 $navorder = 'topicsfirst';
                 break;
@@ -416,10 +410,7 @@ class midcom_helper_nav
             return null;
         }
         debug_add('Looking for a topic to use via get_parent()');
-        $topic = null;
-        $parent = $object->get_parent();
-
-        while ($parent)
+        while ($parent = $object->get_parent())
         {
             if (is_a($parent, 'midcom_db_topic'))
             {
@@ -428,13 +419,12 @@ class midcom_helper_nav
                 // which point to the outside f.x.
                 if ($this->is_node_in_tree($parent->id, $this->get_root_node()))
                 {
-                    $topic = $parent;
-                    break;
+                    return $parent;
                 }
             }
-            $parent = $parent->get_parent();
+            $object = $parent;
         }
-        return $topic;
+        return null;
     }
 
     /* The more complex interface methods starts here */
@@ -476,10 +466,7 @@ class midcom_helper_nav
                 debug_add('We were asked to skip all breadcrumb elements that were present (or even more). Returning an empty breadcrumb line therefore.', MIDCOM_LOG_INFO);
                 return '';
             }
-            for ($i = 0; $i < $skip_levels; $i++)
-            {
-                next($breadcrumb_data);
-            }
+            $breadcrumb_data = array_slice($breadcrumb_data, $skip_levels);
         }
 
         while (current($breadcrumb_data) !== false)
