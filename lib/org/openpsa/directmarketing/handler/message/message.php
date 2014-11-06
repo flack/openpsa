@@ -85,13 +85,10 @@ class org_openpsa_directmarketing_handler_message_message extends midcom_basecla
             )
         );
 
+        $preview_url = "message/compose/{$this->_message->guid}/";
         if (!empty(midcom::get()->auth->user->guid))
         {
-            $preview_url = "message/compose/{$this->_message->guid}/" . midcom::get()->auth->user->guid . '/';
-        }
-        else
-        {
-            $preview_url = "message/compose/{$this->_message->guid}/";
+            $preview_url .= midcom::get()->auth->user->guid . '/';
         }
         $this->_view_toolbar->add_item
         (
