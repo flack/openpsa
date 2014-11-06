@@ -686,35 +686,34 @@ class midcom_helper_toolbar
     private function _render_link_item($item)
     {
         $output = '';
+        $attributes = ($item[MIDCOM_TOOLBAR_ENABLED]) ? $item[MIDCOM_TOOLBAR_OPTIONS] : array();
+        $tagname = ($item[MIDCOM_TOOLBAR_ENABLED]) ? 'a' : 'span';
 
+        if (!is_null($item[MIDCOM_TOOLBAR_HELPTEXT]))
+        {
+            $attributes['title'] = $item[MIDCOM_TOOLBAR_HELPTEXT];
+            if (!$item[MIDCOM_TOOLBAR_ENABLED])
+            {
+                $tagname = 'abbr';
+            }
+        }
         if ($item[MIDCOM_TOOLBAR_ENABLED])
         {
-            $output .= "    <a href='{$item[MIDCOM_TOOLBAR_URL]}'";
-            if (! is_null($item[MIDCOM_TOOLBAR_HELPTEXT]))
-            {
-                $output .= " title='{$item[MIDCOM_TOOLBAR_HELPTEXT]}'";
-            }
-            foreach ($item[MIDCOM_TOOLBAR_OPTIONS] as $key => $val)
-            {
-                $output .= " $key=\"$val\" ";
-            }
+            $attributes['href'] = $item[MIDCOM_TOOLBAR_URL];
+
             if (! is_null($item[MIDCOM_TOOLBAR_ACCESSKEY]))
             {
-                $output .= " class=\"accesskey\" accesskey='{$item[MIDCOM_TOOLBAR_ACCESSKEY]}' ";
+                $attributes['class'] = 'accesskey';
+                $attributes['accesskey'] = $item[MIDCOM_TOOLBAR_ACCESSKEY];
             }
-            $output .= ">\n";
         }
-        else
+
+        $output .= '    <' . $tagname;
+        foreach ($attributes as $key => $val)
         {
-            if (! is_null($item[MIDCOM_TOOLBAR_HELPTEXT]))
-            {
-                $output .= "    <abbr title='${item[MIDCOM_TOOLBAR_HELPTEXT]}'>\n";
-            }
-            else
-            {
-                $output .= "    <span>";
-            }
+            $output .= ' ' . $key . '="' . htmlspecialchars($val) . '"';
         }
+        $output .= ">\n";
 
         if (! is_null($item[MIDCOM_TOOLBAR_ICON]))
         {
@@ -722,24 +721,8 @@ class midcom_helper_toolbar
             $output .= "      <img src='{$url}' alt='' />";
         }
 
-        $label = $this->_generate_item_label($item);
-        $output .= "&nbsp;<span class=\"toolbar_label\">{$label}</span>\n";
-
-        if ($item[MIDCOM_TOOLBAR_ENABLED])
-        {
-            $output .= "    </a>\n";
-        }
-        else
-        {
-            if (! is_null($item[MIDCOM_TOOLBAR_HELPTEXT]))
-            {
-                $output .= "    </abbr>\n";
-            }
-            else
-            {
-                $output .= "</span>";
-            }
-        }
+        $output .= '&nbsp;<span class="toolbar_label">' . $this->_generate_item_label($item) . "</span>\n";
+        $output .= '    </' . $tagname . ">\n";
 
         if (!empty($item[MIDCOM_TOOLBAR_SUBMENU]))
         {
