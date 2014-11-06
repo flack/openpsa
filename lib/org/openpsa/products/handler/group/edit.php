@@ -16,7 +16,7 @@ class org_openpsa_products_handler_group_edit extends midcom_baseclasses_compone
     /**
      * The product to display
      *
-     * @var midcom_db_group
+     * @var org_openpsa_products_product_group_dba
      */
     private $_group = null;
 
@@ -37,40 +37,7 @@ class org_openpsa_products_handler_group_edit extends midcom_baseclasses_compone
      */
     private function _update_breadcrumb_line()
     {
-        $tmp = Array();
-        if ($this->_group->up != 0)
-        {
-            $group = new org_openpsa_products_product_group_dba($this->_group->up);
-            while ($group)
-            {
-                $parent = $group->get_parent();
-                if ($group->get_parent() != null)
-                {
-                    $tmp[] = array
-                    (
-                        MIDCOM_NAV_URL => "{$parent->code}/{$group->code}",
-                        MIDCOM_NAV_NAME => $group->title,
-                    );
-                }
-                else
-                {
-                    $tmp[] = array
-                    (
-                        MIDCOM_NAV_URL => "{$group->code}/",
-                        MIDCOM_NAV_NAME => $group->title,
-                    );
-                }
-                $group = $parent;
-            }
-        }
-
-        $tmp = array_reverse($tmp);
-
-        $tmp[] = array
-        (
-            MIDCOM_NAV_URL => "{$this->_group->guid}/",
-            MIDCOM_NAV_NAME => $this->_group->title,
-        );
+        $tmp = $this->_master->update_breadcrumb_line($this->_group);
 
         $tmp[] = array
         (

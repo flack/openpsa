@@ -166,54 +166,16 @@ implements midcom_helper_datamanager2_interfaces_create
     private function _update_breadcrumb_line()
     {
         $tmp = array();
-
+        if (!empty($this->_request_data['parent']))
+        {
+            $tmp = $this->_master->update_breadcrumb_line($this->_request_data['parent']);
+        }
         $tmp[] = Array
         (
             MIDCOM_NAV_URL => "product/create/",
             MIDCOM_NAV_NAME => $this->_request_data['view_title'],
         );
 
-        if (isset($this->_request_data['parent']))
-        {
-            $group = $this->_request_data['parent'];
-            $root_group = $this->_config->get('root_group');
-
-            if (!$group)
-            {
-                return false;
-            }
-
-            $parent = $group;
-
-            while ($parent)
-            {
-                $group = $parent;
-
-                if (   $group->guid === $root_group
-                    || !$group->guid)
-                {
-                    break;
-                }
-
-                if ($group->code)
-                {
-                    $url = "{$group->code}/";
-                }
-                else
-                {
-                    $url = "{$group->guid}/";
-                }
-
-                $tmp[] = Array
-                (
-                    MIDCOM_NAV_URL => $url,
-                    MIDCOM_NAV_NAME => $group->title,
-                );
-                $parent = $group->get_parent();
-            }
-        }
-
-        $reversed = array_reverse($tmp);
-        midcom_core_context::get()->set_custom_key('midcom.helper.nav.breadcrumb', $reversed);
+        midcom_core_context::get()->set_custom_key('midcom.helper.nav.breadcrumb', $tmp);
     }
 }

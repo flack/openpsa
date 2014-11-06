@@ -45,7 +45,7 @@ class org_openpsa_products_handler_product_crud extends midcom_baseclasses_compo
     public function _update_breadcrumb($handler_id)
     {
         // Get common breadcrumb for the product
-        $breadcrumb = org_openpsa_products_viewer::update_breadcrumb_line($this->_object);
+        $breadcrumb = $this->_master->update_breadcrumb_line($this->_object);
 
         $breadcrumb[] = array
         (

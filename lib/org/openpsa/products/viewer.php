@@ -259,25 +259,18 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
      * Helper, updates the context so that we get a complete breadcrumb line towards the current
      * location.
      *
-     * @param org_openpsa_products_product $object
+     * @param midcom_core_dbaobject $object
      */
-    public static function update_breadcrumb_line($object, $product_group = null)
+    public function update_breadcrumb_line($object)
     {
         $tmp = Array();
+        $root_group = $this->_config->get('root_group');
 
         while ($object)
         {
-            if (   get_class($object) == 'org_openpsa_products_product_dba'
-                && $product_group != null)
-            {
-                $parent = $product_group;
-            }
-            else
-            {
-                $parent = $object->get_parent();
-            }
+            $parent = $object->get_parent();
 
-            if (get_class($object) == 'org_openpsa_products_product_dba')
+            if ($object instanceof org_openpsa_products_product_dba)
             {
                 $tmp[] = array
                 (
@@ -287,24 +280,20 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
             }
             else
             {
-                $url = "{$object->code}/";
-                if (isset($object->up))
+                if ($object->guid === $root_group)
                 {
-                    $parentgroup_qb = org_openpsa_products_product_group_dba::new_query_builder();
-                    $parentgroup_qb->add_constraint('id', '=', $object->up);
-                    $group = $parentgroup_qb->execute();
-                    if (count($group) > 0)
-                    {
-                        $url = "{$group[0]->code}/" . $url;
-                    }
+                    break;
                 }
-                else if ($parent != null)
+
+                $url = $object->code ?: $object->guid;
+                if ($parent != null)
                 {
-                    $url = "{$parent->code}/" . $url;
+                    $prefix = $parent->code ?: $parent->guid;
+                    $url = "{$prefix}/" . $url;
                 }
                 $tmp[] = array
                 (
-                    MIDCOM_NAV_URL => $url,
+                    MIDCOM_NAV_URL => $url . '/',
                     MIDCOM_NAV_NAME => $object->title,
                 );
             }

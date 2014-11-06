@@ -99,34 +99,30 @@ class org_openpsa_products_handler_group_groupsblock  extends midcom_baseclasses
         $data['datamanager_group'] = new midcom_helper_datamanager2_datamanager($data['schemadb_group']);
         $data['datamanager_product'] = new midcom_helper_datamanager2_datamanager($data['schemadb_product']);
 
-        if ($data['group'])
+        if (midcom::get()->config->get('enable_ajax_editing'))
         {
-            if (midcom::get()->config->get('enable_ajax_editing'))
-            {
-                $data['controller'] = midcom_helper_datamanager2_controller::create('ajax');
-                $data['controller']->schemadb =& $data['schemadb_group'];
-                $data['controller']->set_storage($data['group']);
-                $data['controller']->process_ajax();
-                $data['datamanager_group'] = $data['controller']->datamanager;
-            }
-            else
-            {
-                $data['controller'] = null;
-                if (!$data['datamanager_group']->autoset_storage($data['group']))
-                {
-                    throw new midcom_error("Failed to create a DM2 instance for product group {$data['group']->guid}.");
-                }
-            }
-            $this->bind_view_to_object($data['group'], $data['datamanager_group']->schema->name);
+            $data['controller'] = midcom_helper_datamanager2_controller::create('ajax');
+            $data['controller']->schemadb =& $data['schemadb_group'];
+            $data['controller']->set_storage($data['group']);
+            $data['controller']->process_ajax();
+            $data['datamanager_group'] = $data['controller']->datamanager;
         }
+        else
+        {
+            $data['controller'] = null;
+            if (!$data['datamanager_group']->autoset_storage($data['group']))
+            {
+                throw new midcom_error("Failed to create a DM2 instance for product group {$data['group']->guid}.");
+            }
+        }
+        $this->bind_view_to_object($data['group'], $data['datamanager_group']->schema->name);
 
         $this->_populate_toolbar();
 
         $this->_update_breadcrumb_line();
 
         // Set the active leaf
-        if (   $this->_config->get('display_navigation')
-            && $data['group'])
+        if ($this->_config->get('display_navigation'))
         {
             $group =& $data['group'];
 
@@ -190,31 +186,20 @@ class org_openpsa_products_handler_group_groupsblock  extends midcom_baseclasses
     private function _populate_toolbar()
     {
         // Populate toolbar
-        if ($this->_request_data['group'])
-        {
-            $this->_view_toolbar->add_item
+        $this->_view_toolbar->add_item
+        (
+            array
             (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => "edit/{$this->_request_data['group']->guid}/",
-                    MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('edit'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
-                    MIDCOM_TOOLBAR_ENABLED => $this->_request_data['group']->can_do('midgard:update'),
-                    MIDCOM_TOOLBAR_ACCESSKEY => 'e',
-                )
-            );
-        }
+                MIDCOM_TOOLBAR_URL => "edit/{$this->_request_data['group']->guid}/",
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('edit'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
+                MIDCOM_TOOLBAR_ENABLED => $this->_request_data['group']->can_do('midgard:update'),
+                MIDCOM_TOOLBAR_ACCESSKEY => 'e',
+            )
+        );
 
-        if ($this->_request_data['group'])
-        {
-            $allow_create_group = $this->_request_data['group']->can_do('midgard:create');
-            $allow_create_product = $this->_request_data['group']->can_do('midgard:create');
-        }
-        else
-        {
-            $allow_create_group = midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_products_product_group_dba');
-            $allow_create_product = midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_products_product_dba');
-        }
+        $allow_create_group = $this->_request_data['group']->can_do('midgard:create');
+        $allow_create_product = $this->_request_data['group']->can_do('midgard:create');
 
         foreach (array_keys($this->_request_data['schemadb_group']) as $name)
         {
@@ -275,16 +260,13 @@ class org_openpsa_products_handler_group_groupsblock  extends midcom_baseclasses
      */
     public function _show_groupsblock($handler_id, array &$data)
     {
-        if ($data['group'])
+        if ($data['controller'])
         {
-            if ($data['controller'])
-            {
-                $data['view_group'] = $data['controller']->get_content_html();
-            }
-            else
-            {
-                $data['view_group'] = $data['datamanager_group']->get_content_html();
-            }
+            $data['view_group'] = $data['controller']->get_content_html();
+        }
+        else
+        {
+            $data['view_group'] = $data['datamanager_group']->get_content_html();
         }
 
         $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
@@ -339,52 +321,15 @@ class org_openpsa_products_handler_group_groupsblock  extends midcom_baseclasses
      */
     private function _update_breadcrumb_line()
     {
-        $tmp = Array();
-
-        $group = $this->_request_data['group'];
-        $root_group = $this->_config->get('root_group');
-
-        if (!$group)
-        {
-            return false;
-        }
-
-        $parent = $group;
-
-        while ($parent)
-        {
-            $group = $parent;
-
-            if ($group->guid === $root_group)
-            {
-                break;
-            }
-
-            if ($group->code)
-            {
-                $url = "{$group->code}";
-            }
-            else
-            {
-                $url = "{$group->guid}/";
-            }
-
-            $tmp[] = Array
-            (
-                MIDCOM_NAV_URL => $url,
-                MIDCOM_NAV_NAME => $group->title,
-            );
-            $parent = $group->get_parent();
-        }
+        $tmp = $this->_master->update_breadcrumb_line($this->_request_data['group']);
 
         // If navigation is configured to display product groups, remove the lowest level
         // parent to prevent duplicate entries in breadcrumb display
         if ($this->_config->get('display_navigation'))
         {
-            unset($tmp[count($tmp) - 1]);
+            array_shift($tmp);
         }
 
-        $reversed = array_reverse($tmp);
-        midcom_core_context::get()->set_custom_key('midcom.helper.nav.breadcrumb', $reversed);
+        midcom_core_context::get()->set_custom_key('midcom.helper.nav.breadcrumb', $tmp);
     }
 }
