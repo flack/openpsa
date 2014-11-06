@@ -178,9 +178,9 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
     public function _handler_copy($handler_id, array $args, array &$data)
     {
         $this->_topic->require_do('midgard:create');
-
-        $this->_message = new org_openpsa_directmarketing_campaign_message_dba($args[0]);
         $guid = $args[0];
+        $this->_message = new org_openpsa_directmarketing_campaign_message_dba($guid);
+        $this->_master->load_campaign($this->_message->campaign);
 
         $this->_schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_message_copy'));
         $this->_controller = midcom_helper_datamanager2_controller::create('nullstorage');
