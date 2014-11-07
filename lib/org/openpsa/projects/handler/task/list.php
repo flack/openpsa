@@ -478,9 +478,9 @@ implements org_openpsa_widgets_grid_provider_client
             if (   $data['view_identifier'] != 'my_tasks'
                 && $data['view_identifier'] != 'agreement')
             {
-                midcom_show_style("show-priority-filter");
+                midcom_show_style('show-priority-filter');
             }
-            midcom_show_style("show-task-grid");
+            midcom_show_style('show-task-grid');
         }
     }
 

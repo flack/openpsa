@@ -248,7 +248,7 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
     public function _show_generator($handler_id, array &$data)
     {
         //Mangling if report wants to do it (done here to have style context, otherwise MidCOM will not like us.
-        midcom_show_style("projects_report-basic-mangle-query");
+        midcom_show_style('projects_report-basic-mangle-query');
         //Handle grouping
         if (!empty($this->_request_data['query_data']['grouping']))
         {
@@ -282,19 +282,19 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
         //TODO: add other report types when supported
         if (empty($this->_request_data['raw_results']['hr']))
         {
-            midcom_show_style("projects_report-basic-noresults");
+            midcom_show_style('projects_report-basic-noresults');
             return;
         }
 
         //Start actual display
 
         //Indented to make style flow clearer
-        midcom_show_style("projects_report-basic-start");
-            midcom_show_style("projects_report-basic-header");
+        midcom_show_style('projects_report-basic-start');
+            midcom_show_style('projects_report-basic-header');
                 $this->_show_generator_group($this->_request_data['report']['rows']);
-            midcom_show_style("projects_report-basic-totals");
-            midcom_show_style("projects_report-basic-footer");
-        midcom_show_style("projects_report-basic-end");
+            midcom_show_style('projects_report-basic-totals');
+            midcom_show_style('projects_report-basic-footer');
+        midcom_show_style('projects_report-basic-end');
     }
 
     public function _show_generator_group(array $data, $level = 0)
@@ -308,16 +308,16 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
             {
                 $this->_request_data['current_group'] = $row;
                 //Indented to make style flow clearer
-                midcom_show_style("projects_report-basic-group-start");
-                    midcom_show_style("projects_report-basic-group-header");
+                midcom_show_style('projects_report-basic-group-start');
+                    midcom_show_style('projects_report-basic-group-header');
                         $this->_show_generator_group($row['rows'], $level + 1);
-                    midcom_show_style("projects_report-basic-group-totals");
-                    midcom_show_style("projects_report-basic-group-footer");
-                midcom_show_style("projects_report-basic-group-end");
+                    midcom_show_style('projects_report-basic-group-totals');
+                    midcom_show_style('projects_report-basic-group-footer');
+                midcom_show_style('projects_report-basic-group-end');
             }
             else
             {
-                midcom_show_style("projects_report-basic-item");
+                midcom_show_style('projects_report-basic-item');
             }
         }
     }

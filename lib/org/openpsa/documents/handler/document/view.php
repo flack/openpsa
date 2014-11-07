@@ -325,6 +325,6 @@ implements org_openpsa_widgets_grid_provider_client
      */
     public function _show_view($handler_id, array &$data)
     {
-        midcom_show_style("show-document");
+        midcom_show_style('show-document');
     }
 }

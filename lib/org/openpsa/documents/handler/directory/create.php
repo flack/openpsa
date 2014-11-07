@@ -113,6 +113,6 @@ class org_openpsa_documents_handler_directory_create extends midcom_baseclasses_
      */
     public function _show_create($handler_id, array &$data)
     {
-        midcom_show_style("show-directory-create");
+        midcom_show_style('show-directory-create');
     }
 }

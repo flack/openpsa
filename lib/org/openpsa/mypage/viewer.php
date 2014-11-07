@@ -83,6 +83,6 @@ class org_openpsa_mypage_viewer extends midcom_baseclasses_components_request
      */
     public function _show_updates($handler_id, array &$data)
     {
-        midcom_show_style("show-updates");
+        midcom_show_style('show-updates');
     }
 }

@@ -100,6 +100,6 @@ implements midcom_helper_datamanager2_interfaces_edit
      */
     public function _show_edit($handler_id, array &$data)
     {
-        midcom_show_style("show-group-edit");
+        midcom_show_style('show-group-edit');
     }
 }

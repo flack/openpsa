@@ -170,7 +170,7 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
      */
     public function _show_edit($handler_id, array &$data)
     {
-        midcom_show_style("show-document-edit");
+        midcom_show_style('show-document-edit');
     }
 
     /**

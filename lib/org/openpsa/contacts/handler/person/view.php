@@ -238,7 +238,7 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
         if (   count($data['organizations']) == 0
             && count($data['groups']) == 0)
         {
-            midcom_show_style("show-person-groups-empty");
+            midcom_show_style('show-person-groups-empty');
 
         }
         else
@@ -255,7 +255,7 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
             return;
         }
         $this->_request_data['title'] = $this->_l10n->get($identifier);
-        midcom_show_style("show-person-groups-header");
+        midcom_show_style('show-person-groups-header');
         foreach ($this->_request_data[$identifier] as $member)
         {
             try
@@ -274,8 +274,8 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
             }
             $this->_request_data['member_title'] = $member->extra;
 
-            midcom_show_style("show-person-groups-item");
+            midcom_show_style('show-person-groups-item');
         }
-        midcom_show_style("show-person-groups-footer");
+        midcom_show_style('show-person-groups-footer');
     }
 }

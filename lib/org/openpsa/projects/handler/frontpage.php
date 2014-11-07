@@ -89,6 +89,6 @@ class org_openpsa_projects_handler_frontpage extends midcom_baseclasses_componen
      */
     public function _show_frontpage($handler_id, array &$data)
     {
-        midcom_show_style("show-frontpage");
+        midcom_show_style('show-frontpage');
     }
 }

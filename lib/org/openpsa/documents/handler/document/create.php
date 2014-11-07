@@ -142,6 +142,6 @@ class org_openpsa_documents_handler_document_create extends midcom_baseclasses_c
      */
     public function _show_create($handler_id, array &$data)
     {
-        midcom_show_style("show-document-create");
+        midcom_show_style('show-document-create');
     }
 }

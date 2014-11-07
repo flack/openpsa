@@ -81,7 +81,7 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
         $qb_all = org_openpsa_directmarketing_campaign_dba::new_query_builder();
         $campaigns = array();
 
-        midcom_show_style("show-campaign-list-header");
+        midcom_show_style('show-campaign-list-header');
         $this->_request_data['campaigns_all'] = array();
 
         $qb = org_openpsa_directmarketing_campaign_member_dba::new_query_builder();
@@ -133,7 +133,7 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
             midcom_show_style('show-campaign-list-item');
         }
 
-        midcom_show_style("show-campaign-list-footer");
+        midcom_show_style('show-campaign-list-footer');
     }
 
     /**

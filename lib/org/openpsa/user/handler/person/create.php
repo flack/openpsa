@@ -129,6 +129,6 @@ implements midcom_helper_datamanager2_interfaces_create
      */
     public function _show_create($handler_id, array &$data)
     {
-        midcom_show_style("show-person-create");
+        midcom_show_style('show-person-create');
     }
 }

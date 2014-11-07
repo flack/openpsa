@@ -26,15 +26,15 @@ class org_openpsa_documents_handler_directory_navigation extends midcom_baseclas
             $this->_request_data["name"] = $tree["topic"]->extra;
             $this->_request_data["id"] = $tree["topic"]->id;
             $this->_request_data["link_url"] = $link_url . "/" . $tree["topic"]->name . '/';
-            midcom_show_style("show-navigation-item-begin");
+            midcom_show_style('show-navigation-item-begin');
 
             if (count($tree) > 1)
             {
-                midcom_show_style("show-navigation-submenu-begin");
+                midcom_show_style('show-navigation-submenu-begin');
                 $this->_show_navigation_tree($tree, $link_url . "/" . $tree["topic"]->name);
-                midcom_show_style("show-navigation-submenu-end");
+                midcom_show_style('show-navigation-submenu-end');
             }
-            midcom_show_style("show-navigation-item-end");
+            midcom_show_style('show-navigation-item-end');
         }
     }
 
@@ -104,8 +104,8 @@ class org_openpsa_documents_handler_directory_navigation extends midcom_baseclas
         );
         $this->_tree_array_build($this->_request_data['topic_array'], $this->_request_data['root_topic'], $tree_array);
 
-        midcom_show_style("show-navigation-start");
+        midcom_show_style('show-navigation-start');
         $this->_show_navigation_tree($tree_array, midcom_connection::get_url('prefix'));
-        midcom_show_style("show-navigation-end");
+        midcom_show_style('show-navigation-end');
     }
 }

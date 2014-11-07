@@ -1,6 +1,6 @@
 <div class="sidebar">
     <?php
-    midcom_show_style("show-person-account");
+    midcom_show_style('show-person-account');
     ?>
 </div>
 

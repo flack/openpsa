@@ -139,11 +139,11 @@ implements midcom_helper_datamanager2_interfaces_view, org_openpsa_widgets_grid_
     {
         if ($this->_group->orgOpenpsaObtype < org_openpsa_contacts_group_dba::MYCONTACTS)
         {
-            midcom_show_style("show-group-other");
+            midcom_show_style('show-group-other');
         }
         else
         {
-            midcom_show_style("show-group");
+            midcom_show_style('show-group');
         }
     }
 

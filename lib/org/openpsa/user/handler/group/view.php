@@ -105,6 +105,6 @@ implements midcom_helper_datamanager2_interfaces_view
      */
     public function _show_view($handler_id, array &$data)
     {
-        midcom_show_style("show-group");
+        midcom_show_style('show-group');
     }
 }

@@ -59,6 +59,6 @@ implements midcom_helper_datamanager2_interfaces_edit
      */
     public function _show_notifications($handler_id, array &$data)
     {
-        midcom_show_style("show-notifications");
+        midcom_show_style('show-notifications');
     }
 }

@@ -101,6 +101,6 @@ class org_openpsa_documents_handler_directory_edit extends midcom_baseclasses_co
      */
     public function _show_edit($handler_id, array &$data)
     {
-        midcom_show_style("show-directory-edit");
+        midcom_show_style('show-directory-edit');
     }
 }

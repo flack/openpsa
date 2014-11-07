@@ -282,7 +282,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      */
     public function _show_create($handler_id, array &$data)
     {
-        midcom_show_style("show-person-account-create");
+        midcom_show_style('show-person-account-create');
     }
 
     /**
@@ -292,6 +292,6 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      */
     public function _show_edit($handler_id, array &$data)
     {
-        midcom_show_style("show-person-account-edit");
+        midcom_show_style('show-person-account-edit');
     }
 }
