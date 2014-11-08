@@ -34,23 +34,42 @@ class org_openpsa_products_product_dba extends midcom_core_dbaobject
      */
     const TYPE_SOLUTION = 2001;
 
-    public function get_path()
+    public function get_path(midcom_db_topic $topic)
     {
-        $path = $this->guid;
-        if ($this->code)
+        $path = $this->code ?: $this->guid;
+        try
         {
-            $path = $this->code;
-            try
+            $parent = org_openpsa_products_product_group_dba::get_cached($this->productGroup);
+            $config = new midcom_helper_configuration($topic, 'org.openpsa.products');
+
+            if ($config->get('root_group'))
             {
-                $parent = org_openpsa_products_product_group_dba::get_cached($this->productGroup);
-                $path = $parent->code . '/' . $path;
+                $root_group = org_openpsa_products_product_group_dba::get_cached($config->get('root_group'));
+                if ($root_group->id != $parent->id)
+                {
+                    $qb_intree = org_openpsa_products_product_group_dba::new_query_builder();
+                    $qb_intree->add_constraint('up', 'INTREE', $root_group->id);
+                    $qb_intree->add_constraint('id', '=', $parent->id);
+
+                    if ($qb_intree->count() == 0)
+                    {
+                        return null;
+                    }
+                    //Check if the product is in a nested category.
+                    if (!empty($parent->up))
+                    {
+                        $parent = org_openpsa_products_product_group_dba::get_cached($parent->up);
+                    }
+                }
             }
-            catch (midcom_error $e)
-            {
-                $e->log();
-            }
+
+            $path = $parent->code . '/' . $path;
         }
-        return $path;
+        catch (midcom_error $e)
+        {
+            $e->log();
+        }
+        return $path . '/';
     }
 
     public function render_link()

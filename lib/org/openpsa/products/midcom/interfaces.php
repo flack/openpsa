@@ -33,40 +33,26 @@ implements midcom_services_permalinks_resolver
         $intree = false;
         $real_config = new midcom_helper_configuration($topic, 'org.openpsa.products');
 
-        if (   $real_config->get('root_group') != null
-            && $real_config->get('root_group') != 0)
+        if ($real_config->get('root_group'))
         {
             $root_group = new org_openpsa_products_product_group_dba($real_config->get('root_group'));
-            if ($root_group->id == $product_group->id)
-            {
-                $intree = true;
-            }
-            else
+            if ($root_group->id != $product_group->id)
             {
                 $qb_intree = org_openpsa_products_product_group_dba::new_query_builder();
                 $qb_intree->add_constraint('up', 'INTREE', $root_group->id);
                 $qb_intree->add_constraint('id', '=', $product_group->id);
 
-                $intree = ($qb_intree->count() > 0);
-            }
-
-            if ($intree)
-            {
-                if ($product_group->code)
+                if ($qb_intree->count() == 0)
                 {
-                    return "{$product_group->code}/";
+                    return null;
                 }
-                return "{$product_group->guid}/";
             }
         }
-        else
+        if ($product_group->code)
         {
-            if ($product_group->code)
-            {
-                return "{$product_group->code}/";
-            }
-            return "{$product_group->guid}/";
+            return "{$product_group->code}/";
         }
+        return "{$product_group->guid}/";
     }
 
     private function _resolve_product($product, $topic)
@@ -75,45 +61,8 @@ implements midcom_services_permalinks_resolver
         {
             return null;
         }
-        $real_config = new midcom_helper_configuration($topic, 'org.openpsa.products');
 
-        if (   $real_config->get('root_group') != null
-            && $real_config->get('root_group') != 0)
-        {
-            $root_group = new org_openpsa_products_product_group_dba($real_config->get('root_group'));
-            if ($root_group->id != $product->productGroup)
-            {
-                $qb_intree = org_openpsa_products_product_group_dba::new_query_builder();
-                $qb_intree->add_constraint('up', 'INTREE', $root_group->id);
-                $qb_intree->add_constraint('id', '=', $product->productGroup);
-
-                if ($qb_intree->count() == 0)
-                {
-                    return null;
-                }
-            }
-
-            $category_qb = org_openpsa_products_product_group_dba::new_query_builder();
-            $category_qb->add_constraint('id', '=', $product->productGroup);
-            $category = $category_qb->execute_unchecked();
-            //Check if the product is in a nested category.
-            if (!empty($category[0]->up))
-            {
-                $parent_category_qb = org_openpsa_products_product_group_dba::new_query_builder();
-                $parent_category_qb->add_constraint('id', '=', $category[0]->up);
-                $parent_category = $parent_category_qb->execute_unchecked();
-                if (!empty($parent_category[0]->code))
-                {
-                    return "product/{$parent_category[0]->code}/{$product->code}/";
-                }
-            }
-        }
-        if ($product->code)
-        {
-            return "product/{$product->code}/";
-        }
-
-        return "product/{$product->guid}/";
+        return $product->get_path($topic);
     }
 
     /**

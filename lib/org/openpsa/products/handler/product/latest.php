@@ -116,23 +116,12 @@ class org_openpsa_products_handler_product_latest extends midcom_baseclasses_com
                     continue;
                 }
                 $data['view_product'] = $data['datamanager_product']->get_content_html();
-
-                if ($product->code)
+                $path = $product->code ?: $product->guid;
+                if ($handler_id == 'updated_products_intree')
                 {
-                    if ($handler_id == 'updated_products_intree')
-                    {
-                        $data['view_product_url'] = "{$prefix}product/". $data['product_group'] ."/{$product->code}/";
-                    }
-                    else
-                    {
-                        $data['view_product_url'] = "{$prefix}product/{$product->code}/";
-                    }
+                    $path = $data['product_group'] . '/' . $path;
                 }
-                else
-                {
-                    $data['view_product_url'] = "{$prefix}product/{$product->guid}/";
-                }
-
+                $data['view_product_url'] = "{$prefix}product/" . $path . '/';
                 midcom_show_style('updated_products_item');
             }
 
@@ -196,15 +185,7 @@ class org_openpsa_products_handler_product_latest extends midcom_baseclasses_com
                     continue;
                 }
                 $data['view_product'] = $data['datamanager_product']->get_content_html();
-
-                if ($product->code)
-                {
-                    $data['view_product_url'] = "{$prefix}product/{$product->code}/";
-                }
-                else
-                {
-                    $data['view_product_url'] = "{$prefix}product/{$product->guid}/";
-                }
+                $data['view_product_url'] = "{$prefix}product/" . $product->get_path($this->_topic);
 
                 midcom_show_style('feed_products_item');
             }

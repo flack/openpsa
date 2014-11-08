@@ -474,7 +474,7 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
                 $data['groups_count'] = count($data['groups']);
 
                 midcom_show_style('group_subgroups_header');
-
+                $parent_category = (isset($data["parent_category"])) ? $data["parent_category"] : null;
                 foreach ($data['groups'] as $group)
                 {
                     $groups_counter++;
@@ -488,22 +488,7 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
                         continue;
                     }
                     $data['view_group'] = $data['datamanager_group']->get_content_html();
-
-                    if ($group->code)
-                    {
-                        if (isset($data["parent_category"]))
-                        {
-                            $data['view_group_url'] = "{$prefix}" . $data["parent_category"] . "/{$group->code}/";
-                        }
-                        else
-                        {
-                            $data['view_group_url'] = "{$prefix}{$group->code}/";
-                        }
-                    }
-                    else
-                    {
-                        $data['view_group_url'] = "{$prefix}{$group->guid}/";
-                    }
+                    $data['view_group_url'] = $prefix . $group->get_path($parent_category);
 
                     midcom_show_style('group_subgroups_item');
                 }

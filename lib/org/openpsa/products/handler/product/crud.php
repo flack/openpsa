@@ -22,24 +22,7 @@ class org_openpsa_products_handler_product_crud extends midcom_baseclasses_compo
      */
     public function _get_object_url(midcom_core_dbaobject $object)
     {
-        if ($object->code)
-        {
-            if ($object->productGroup)
-            {
-                $this->_group = new org_openpsa_products_product_group_dba($object->productGroup);
-                if ($this->_group->up)
-                {
-                    $this->_group_up = new org_openpsa_products_product_group_dba($this->_group->up);
-                }
-            }
-            if (   isset($this->_group_up)
-                && isset($this->_group))
-            {
-                return "product/{$this->_group_up->code}/{$object->code}/";
-            }
-            return "product/{$object->code}/";
-        }
-        return "product/{$object->guid}/";
+        return 'product/' . $object->get_path($this->_topic);
     }
 
     public function _update_breadcrumb($handler_id)
