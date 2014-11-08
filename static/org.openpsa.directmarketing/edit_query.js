@@ -449,6 +449,7 @@ function init(selector, rules)
     $('#openpsa_dirmar_edit_query_advanced').on('click', function(event)
     {
         event.preventDefault();
+        get_rules_array(zero_group_id);
         $('#midcom_helper_datamanager2_dummy_field_rules').show();
         $('#dirmar_rules_editor_container').hide();
         $('#openpsa_dirmar_edit_query').parent().removeClass('disabled');
@@ -585,19 +586,17 @@ function get_rules_groups(parent_id, group_start)
  */
 function get_child_rules(parent, rules_array)
 {
-    var key, value,
-    map_class,
-    rule_match, rule_value, rule_property, rule_id,
-    property_class_found, properties, error_message,
+    var map_class,
+    rule_match, rule_value, rule_domain, rule_parameter_value, rule_property, rule_id,
+    properties,
     parameters, group_id;
 
     $.each(rules_array, function (key, value)
     {
-        if (value['class'] !== 'undefined')
+        if (value['class'] !== undefined)
         {
             //if class is not supported -> error-msg
-            if (   value['class'] !==  undefined
-                && org_openpsa_directmarketing_class_map[value['class']] === undefined)
+            if (org_openpsa_directmarketing_class_map[value['class']] === undefined)
             {
                 throw 'unsupported class';
             }
