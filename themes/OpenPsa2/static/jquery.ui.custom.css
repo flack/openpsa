@@ -1,7 +1,7 @@
-/*! jQuery UI - v1.11.1 - 2014-08-29
+/*! jQuery UI - v1.11.2 - 2014-11-08
 * http://jqueryui.com
 * Includes: core.css, draggable.css, resizable.css, selectable.css, sortable.css, accordion.css, autocomplete.css, button.css, datepicker.css, dialog.css, menu.css, progressbar.css, selectmenu.css, slider.css, spinner.css, tabs.css, tooltip.css, theme.css
-* To view and modify this theme, visit http://jqueryui.com/themeroller/?ffDefault=Lucida%20Grande%2C%20Segoe%20UI%2C%20Lucida%20Sans%2C%20Arial%2C%20sans-serif&fwDefault=bold&fsDefault=inherit&cornerRadius=4px&bgColorHeader=%2314509f&bgTextureHeader=gloss_wave&bgImgOpacityHeader=55&borderColorHeader=%23babdb6&fcHeader=%23ffffff&iconColorHeader=%23d8e7f3&bgColorContent=%23fcfdfd&bgTextureContent=flat&bgImgOpacityContent=100&borderColorContent=%23babdb6&fcContent=%23222222&iconColorContent=%23497bbf&bgColorDefault=%23dadfd2&bgTextureDefault=glass&bgImgOpacityDefault=85&borderColorDefault=%23babdb6&fcDefault=%2324436e&iconColorDefault=%23497bbf&bgColorHover=%23d0e5f5&bgTextureHover=glass&bgImgOpacityHover=75&borderColorHover=%2379b7e7&fcHover=%2324436e&iconColorHover=%233769ae&bgColorActive=%23f5f8f9&bgTextureActive=inset_hard&bgImgOpacityActive=100&borderColorActive=%23babdb6&fcActive=%2324436e&iconColorActive=%236da8d5&bgColorHighlight=%23fbec88&bgTextureHighlight=flat&bgImgOpacityHighlight=55&borderColorHighlight=%23fad42e&fcHighlight=%23363636&iconColorHighlight=%232e83ff&bgColorError=%23fef1ec&bgTextureError=flat&bgImgOpacityError=95&borderColorError=%23cd0a0a&fcError=%23cd0a0a&iconColorError=%23cd0a0a&bgColorOverlay=%23aaaaaa&bgTextureOverlay=flat&bgImgOpacityOverlay=0&opacityOverlay=30&bgColorShadow=%23aaaaaa&bgTextureShadow=flat&bgImgOpacityShadow=0&opacityShadow=30&thicknessShadow=8px&offsetTopShadow=-8px&offsetLeftShadow=-8px&cornerRadiusShadow=8px
+* To view and modify this theme, visit http://jqueryui.com/themeroller/?ffDefault=Lucida%20Grande%2C%20Segoe%20UI%2C%20Lucida%20Sans%2C%20Arial%2C%20sans-serif&fwDefault=bold&fsDefault=inherit&cornerRadius=4px&bgColorHeader=%2314509f&bgTextureHeader=gloss_wave&bgImgOpacityHeader=55&borderColorHeader=%23babdb6&fcHeader=%23ffffff&iconColorHeader=%23d8e7f3&bgColorContent=%23fcfdfd&bgTextureContent=flat&bgImgOpacityContent=100&borderColorContent=%23daddd6&fcContent=%23222222&iconColorContent=%23497bbf&bgColorDefault=%23dadfd2&bgTextureDefault=glass&bgImgOpacityDefault=85&borderColorDefault=%23daddd6&fcDefault=%2324436e&iconColorDefault=%23497bbf&bgColorHover=%23d0e5f5&bgTextureHover=glass&bgImgOpacityHover=75&borderColorHover=%23a0cdf0&fcHover=%2324436e&iconColorHover=%233769ae&bgColorActive=%23f5f8f9&bgTextureActive=inset_hard&bgImgOpacityActive=100&borderColorActive=%23daddd6&fcActive=%2324436e&iconColorActive=%236da8d5&bgColorHighlight=%23fbec88&bgTextureHighlight=flat&bgImgOpacityHighlight=55&borderColorHighlight=%23fad42e&fcHighlight=%23363636&iconColorHighlight=%232e83ff&bgColorError=%23fef1ec&bgTextureError=flat&bgImgOpacityError=95&borderColorError=%23cd0a0a&fcError=%23cd0a0a&iconColorError=%23cd0a0a&bgColorOverlay=%23aaaaaa&bgTextureOverlay=flat&bgImgOpacityOverlay=0&opacityOverlay=30&bgColorShadow=%23aaaaaa&bgTextureShadow=flat&bgImgOpacityShadow=0&opacityShadow=30&thicknessShadow=8px&offsetTopShadow=-8px&offsetLeftShadow=-8px&cornerRadiusShadow=8px
 * Copyright 2014 jQuery Foundation and other contributors; Licensed MIT */
 
 /* Layout helpers
@@ -844,7 +844,7 @@ body .ui-tooltip {
 	font-size: 1em;
 }
 .ui-widget-content {
-	border: 1px solid #babdb6;
+	border: 1px solid #daddd6;
 	background: #fcfdfd url("images/ui-bg_flat_100_fcfdfd_40x100.png") 50% 50% repeat-x;
 	color: #222222;
 }
@@ -866,7 +866,7 @@ body .ui-tooltip {
 .ui-state-default,
 .ui-widget-content .ui-state-default,
 .ui-widget-header .ui-state-default {
-	border: 1px solid #babdb6;
+	border: 1px solid #daddd6;
 	background: #dadfd2 url("images/ui-bg_glass_85_dadfd2_1x400.png") 50% 50% repeat-x;
 	font-weight: bold;
 	color: #24436e;
@@ -883,7 +883,7 @@ body .ui-tooltip {
 .ui-state-focus,
 .ui-widget-content .ui-state-focus,
 .ui-widget-header .ui-state-focus {
-	border: 1px solid #79b7e7;
+	border: 1px solid #a0cdf0;
 	background: #d0e5f5 url("images/ui-bg_glass_75_d0e5f5_1x400.png") 50% 50% repeat-x;
 	font-weight: bold;
 	color: #24436e;
@@ -902,7 +902,7 @@ body .ui-tooltip {
 .ui-state-active,
 .ui-widget-content .ui-state-active,
 .ui-widget-header .ui-state-active {
-	border: 1px solid #babdb6;
+	border: 1px solid #daddd6;
 	background: #f5f8f9 url("images/ui-bg_inset-hard_100_f5f8f9_1x100.png") 50% 50% repeat-x;
 	font-weight: bold;
 	color: #24436e;
@@ -1225,7 +1225,6 @@ body .ui-tooltip {
 }
 
 /* Manually added styles */
-
 .ui-widget-content {
     border-color: #daddd6;
 }
@@ -1240,7 +1239,6 @@ body .ui-tooltip {
     background: linear-gradient(to bottom, #5282bc 0%,#4e7ab8 56%,#2a5e96 100%); /* W3C */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#5282bc', endColorstr='#2a5e96',GradientType=0 ); /* IE6-9 */
 }
-
 
 .ui-state-default,
 .ui-widget-content .ui-state-default,
@@ -1573,14 +1571,15 @@ body .ui-tooltip {
 
 .ui-autocomplete,
 .ui-datepicker,
-.ui-dropdownchecklist .ui-dropdownchecklist-dropcontainer
+.ui-multiselect-menu
 {
-    box-shadow: 2px 3px 6px rgba(0, 0, 0, .25);
+    box-shadow: 2px 3px 19px rgba(0, 0, 0, 0.2);
 }
 
 .ui-autocomplete .ui-menu-item
 {
     border: 1px solid transparent;
+    font-weight: normal
 }
 
 .ui-autocomplete .ui-menu-item a
@@ -1591,7 +1590,6 @@ body .ui-tooltip {
 .ui-autocomplete .ui-menu-item.ui-state-focus
 {
     margin: 0;
-    border-width: 1px 0;
 }
 
 ul.fancytree-container
@@ -1604,30 +1602,4 @@ ul.fancytree-container
 ul.fancytree-container span.fancytree-folder a
 {
     font-weight: normal
-}
-
-
-span.ui-dropdownchecklist.ui-dropdownchecklist-selector-wrapper
-{
-    font-size: 20px
-}
-
-.ui-dropdownchecklist .ui-dropdownchecklist-text
-{
-    font-weight: normal;
-    font-size: small
-}
-
-.ui-dropdownchecklist .ui-state-default
-{
-    background-image: none;
-    background-color: white
-}
-.ui-dropdownchecklist .ui-dropdownchecklist-dropcontainer
-{
-    border: 1px solid #BABDB6;
-}
-.ui-dropdownchecklist .ui-dropdownchecklist-dropcontainer .ui-state-default
-{
-    border: none;
 }
