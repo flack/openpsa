@@ -206,6 +206,14 @@
     'variable_args' => 1,
 ),
 
+// Match /campaign/query/<campaign GUID>
+'campaign_query' => array
+(
+    'handler' => array('org_openpsa_directmarketing_handler_campaign_rules', 'query'),
+    'fixed_args' => array('campaign', 'query'),
+    'variable_args' => 1,
+),
+
 // Match /campaign/edit/<campaign GUID>
 'edit_campaign' => array
 (
@@ -219,6 +227,14 @@
 (
     'handler' => array('org_openpsa_directmarketing_handler_campaign_admin', 'delete'),
     'fixed_args' => array('campaign', 'delete'),
+    'variable_args' => 1,
+),
+
+// Match /campaign/members/<campaign GUID>
+'campaign_list_members' => array
+(
+    'handler' => array('org_openpsa_directmarketing_handler_campaign_campaign', 'members'),
+    'fixed_args' => array('campaign', 'members'),
     'variable_args' => 1,
 ),
 

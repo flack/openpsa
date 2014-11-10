@@ -1,43 +1,26 @@
 <?php
 $current_rules = $data['campaign']->rules;
+$property_map = org_openpsa_directmarketing_campaign_ruleresolver::build_property_map($data['l10n']);
+$prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
+$preview_url = $prefix . 'campaign/query/' . $data['campaign']->guid . '/';
 
-$tmp_person = new org_openpsa_person();
-$tmp_group = new org_openpsa_organization();
-$tmp_member = new midgard_member();
-$properties_map = array
-(
-    'person' => org_openpsa_directmarketing_campaign_ruleresolver::list_object_properties($tmp_person, $data['l10n']),
-    'group' => org_openpsa_directmarketing_campaign_ruleresolver::list_object_properties($tmp_group, $data['l10n']),
-    'membership' => org_openpsa_directmarketing_campaign_ruleresolver::list_object_properties($tmp_member, $data['l10n']),
-);
+$grid = $data['grid'];
+$grid->add_pager(30)
+    ->set_option('height', 600)
+    ->set_option('viewrecords', true)
+    ->set_option('beforeRequest', 'set_postdata', false)
+    ->set_option('url', $preview_url)
+    ->set_option('sortname', 'index_lastname');
+
+$grid->set_option('caption', $data['l10n']->get('contacts found'));
+
+$grid->set_column('lastname', $data['l10n']->get('lastname'), 'classes: "title ui-ellipsis"', 'string')
+    ->set_column('firstname', $data['l10n']->get('firstname'), 'width: 100, classes: "ui-ellipsis"', 'string')
+    ->set_column('email', $data['l10n']->get('email'), 'width: 100, classes: "ui-ellipsis"', 'string');
 ?>
 <!-- Automatically built on PHP level -->
 <script type="text/javascript">
-    var org_openpsa_directmarketing_edit_query_property_map = {
-<?php
-$cnt = count($properties_map);
-$i = 0;
-
-foreach ($properties_map as $class => $properties)
-{
-    $i++;
-    echo "        '{$class}': {\n";
-    echo "             localized: '" . $data['l10n']->get("class:{$class}") . "',\n";
-    echo "             parameters: false,\n";
-    echo "             properties: " . json_encode($properties);
-    echo "        },\n";
-
-    if ($i == $cnt)
-    {
-        echo "        'generic_parameters': {\n";
-        echo "            localized: '" . $data['l10n']->get("class:generic parameters") . "',\n";
-        echo "            parameters: true,\n";
-        echo "            properties: false\n";
-        echo "        }\n";
-    }
-}
-?>
-    };
+    var org_openpsa_directmarketing_edit_query_property_map = <?php echo json_encode($property_map); ?>;
     var org_openpsa_directmarketing_edit_query_match_map = {
         'LIKE': '<?php echo $data['l10n']->get('contains'); ?>',
         'NOT LIKE': '<?php echo $data['l10n']->get('does not contain'); ?>',
@@ -70,9 +53,6 @@ foreach ($properties_map as $class => $properties)
     'generic_parameters': 'midgard_parameter',
     'midgard_parameter': 'generic_parameters'
     }
-
-    //error-message for unknown class
-    var error_message_class = <?php echo json_encode($data['l10n']->get('unknown class please use advanced editor'));?>;
 </script>
 
 <h2><?php echo $data['l10n']->get('rules wizard'); ?></h2>
@@ -89,7 +69,7 @@ foreach ($properties_map as $class => $properties)
         <div class="form_toolbar" id="org_openpsa_directmarketing_rules_editor_form_toolbar">
             <input name="midcom_helper_datamanager2_save[0]" accesskey="s" class="save" value="<?php echo $data['l10n_midcom']->get('save'); ?>" type="submit" />
             <input name="midcom_helper_datamanager2_cancel[0]" class="cancel" value="<?php echo $data['l10n_midcom']->get('cancel'); ?>" type="submit" />
-            <input name="show_rule_preview" onclick="send_preview();" class="preview" value="<?php echo $data['l10n']->get('preview'); ?>" type="button" />
+            <input id="show_rule_preview" name="show_rule_preview" class="preview" value="<?php echo $data['l10n']->get('preview'); ?>" type="button" />
         </div>
         <script type="text/javascript">
         jQuery(document).ready(function()
@@ -99,6 +79,9 @@ foreach ($properties_map as $class => $properties)
         </script>
     </form>
 
-    <div id="preview_persons" style="padding-top:20px;">
+    <div id="preview">
+        <div class="org_openpsa_directmarketing full-width fill-height">
+            <?php $grid->render(); ?>
+        </div>
     </div>
 </div>

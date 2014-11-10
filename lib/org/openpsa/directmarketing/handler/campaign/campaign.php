@@ -12,6 +12,7 @@
  * @package org.openpsa.directmarketing
  */
 class org_openpsa_directmarketing_handler_campaign_campaign extends midcom_baseclasses_components_handler
+implements org_openpsa_widgets_grid_provider_client
 {
     /**
      * The campaign which has been created
@@ -19,6 +20,68 @@ class org_openpsa_directmarketing_handler_campaign_campaign extends midcom_basec
      * @var org_openpsa_directmarketing_campaign
      */
     private $_campaign = null;
+
+    /**
+     *
+     * @var array
+     */
+    private $memberships;
+
+    public function get_qb($field = null, $direction = 'ASC')
+    {
+        $mc = org_openpsa_directmarketing_campaign_member_dba::new_collector('campaign', $this->_campaign->id);
+        $mc->add_constraint('orgOpenpsaObtype', '<>', org_openpsa_directmarketing_campaign_member_dba::TESTER);
+        $mc->add_constraint('orgOpenpsaObtype', '<>', org_openpsa_directmarketing_campaign_member_dba::UNSUBSCRIBED);
+        $mc->add_constraint('person.metadata.deleted', '=', false);
+        $this->memberships = $mc->get_rows(array('orgOpenpsaObtype', 'guid'), 'person');
+        $query = org_openpsa_contacts_person_dba::new_query_builder();
+        if (empty($this->memberships))
+        {
+            $query->add_constraint('id', '=', 0);
+        }
+        else
+        {
+            $query->add_constraint('id', 'IN', array_keys($this->memberships));
+        }
+        if (!is_null($field))
+        {
+            $query->add_order($field, $direction);
+        }
+        // Set the order
+        $query->add_order('lastname', 'ASC');
+        $query->add_order('firstname', 'ASC');
+        $query->add_order('email', 'ASC');
+
+        return $query;
+    }
+
+    public function get_row(midcom_core_dbaobject $person)
+    {
+        $siteconfig = org_openpsa_core_siteconfig::get_instance();
+        $url = $siteconfig->get_node_full_url('org.openpsa.contacts') . 'person/';
+
+        $row = array
+        (
+            'id' => $person->id,
+            'index_firstname' => $person->firstname,
+            'firstname' => '<a target="_blank" href="' . $url . $person->guid . '/">' . $person->firstname . '</a>',
+            'index_lastname' => $person->lastname,
+            'lastname' => '<a target="_blank" href="' . $url . $person->guid . '/">' . $person->lastname . '</a>',
+            'index_email' => $person->email,
+            'email' => '<a target="_blank" href="' . $url . $person->guid . '/">' . $person->email . '</a>'
+        );
+
+        $delete_string = sprintf($this->_l10n->get('remove %s from campaign'), $person->name);
+        $row['delete'] = '<input type="image" src="' . MIDCOM_STATIC_URL . '/stock-icons/16x16/trash.png" data-person-guid="' . $person->guid . '" data-member-guid="' . $this->memberships[$person->id]['guid'] . '" title="' . $delete_string . '"/>';
+
+        $row['bounced'] = '';
+        if ($this->memberships[$person->id]['orgOpenpsaObtype'] == org_openpsa_directmarketing_campaign_member_dba::BOUNCED)
+        {
+            $row['bounced'] = '<span class="icon icon-bounced" title="' . sprintf($this->_l10n->get('%s has bounced'), $person->email) . '"></span>';
+        }
+
+        return $row;
+    }
 
     /**
      * Internal helper, loads the datamanager for the current campaign. Any error triggers a 500.
@@ -59,6 +122,8 @@ class org_openpsa_directmarketing_handler_campaign_campaign extends midcom_basec
                 )
             );
         }
+        $provider = new org_openpsa_widgets_grid_provider($this);
+        $data['grid'] = $provider->get_grid('list_members_' . $this->_campaign->guid);
 
         // Populate calendar events for the campaign
         $this->bind_view_to_object($this->_campaign, $this->_datamanager->schema->name);
@@ -131,33 +196,29 @@ class org_openpsa_directmarketing_handler_campaign_campaign extends midcom_basec
     public function _show_view ($handler_id, array &$data)
     {
         $data['view_campaign'] = $this->_datamanager->get_content_html();
-
-        // List members of this campaign
-        $qb = new org_openpsa_qbpager_direct('org_openpsa_campaign_member', 'campaign_members');
-        $qb->add_constraint('campaign', '=', $data['campaign']->id);
-        $qb->add_constraint('orgOpenpsaObtype', '<>', org_openpsa_directmarketing_campaign_member_dba::TESTER);
-        $qb->add_constraint('orgOpenpsaObtype', '<>', org_openpsa_directmarketing_campaign_member_dba::UNSUBSCRIBED);
-        $qb->add_constraint('person.metadata.deleted', '=', false);
-
-        // Set the order
-        $qb->add_order('person.lastname', 'ASC');
-        $qb->add_order('person.firstname', 'ASC');
-        $qb->add_order('person.email', 'ASC');
-        $qb->add_order('person.id', 'ASC');
-
-        $data['campaign_members_qb'] = $qb;
-        $data['memberships'] = $qb->execute_unchecked();
-        $data['campaign_members_count'] =  $qb->count_unchecked();
-
-        $data['campaign_members'] = array();
-        if (!empty($data['memberships']))
-        {
-            foreach ($data['memberships'] as $k => $membership)
-            {
-                $data['campaign_members'][$k] = new org_openpsa_contacts_person_dba($membership->person);
-            }
-        }
-
         midcom_show_style('show-campaign');
+    }
+
+    /**
+     * Displays campaign members.
+     *
+     * @param mixed $handler_id The ID of the handler.
+     * @param array $args The argument list.
+     * @param array &$data The local request data.
+     */
+    public function _handler_members($handler_id, array $args, array &$data)
+    {
+        $this->_campaign = $this->_master->load_campaign($args[0]);
+
+        midcom::get()->skip_page_style = true;
+    }
+
+    /**
+     * Shows campaign members.
+     */
+    public function _show_members($handler_id, array &$data)
+    {
+        $data['provider'] = new org_openpsa_widgets_grid_provider($this);
+        midcom_show_style('show-campaign-members');
     }
 }

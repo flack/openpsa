@@ -1,8 +1,23 @@
 <?php
 $view = $data['view_campaign'];
-
 $nap = new midcom_helper_nav();
 $node = $nap->get_node($nap->get_current_node());
+$member_url = $node[MIDCOM_NAV_ABSOLUTEURL] . 'campaign/members/' . $data['campaign']->guid . '/';
+
+$grid = $data['grid'];
+$grid->add_pager(30)
+    ->set_option('height', 600)
+    ->set_option('viewrecords', true)
+    ->set_option('url', $member_url)
+    ->set_option('sortname', 'index_lastname');
+
+$grid->set_option('caption', $data['l10n']->get('members'));
+
+$grid->set_column('lastname', $data['l10n']->get('lastname'), 'classes: "title ui-ellipsis"', 'string')
+    ->set_column('firstname', $data['l10n']->get('firstname'), 'width: 100, classes: "ui-ellipsis"', 'string')
+    ->set_column('email', $data['l10n']->get('email'), 'width: 100, classes: "ui-ellipsis"', 'string')
+    ->set_column('delete', $data['l10n_midcom']->get('delete'), 'width: 20, align: "center", classes: "delete"')
+    ->set_column('bounced', $data['l10n']->get('bounced recipients'), 'width: 20, align: "center", classes: "bounce-status"');
 ?>
 <div class="sidebar">
     <?php
@@ -38,48 +53,22 @@ $node = $nap->get_node($nap->get_current_node());
     else
     {
         echo "<strong>" . $data['l10n']->get('no testers') . "</strong>";
-    }
-
-    if (!empty($data['campaign_members_count']))
-    {
-        echo "<div>\n";
-        echo "<h2>" . sprintf($data['l10n']->get('%d members'), $data['campaign_members_count']) . "</h2>\n";
-        $data['campaign_members_qb']->show_pages();
-
-        foreach ($data['campaign_members'] as $k => $member)
-        {
-            $contact = new org_openpsa_widgets_contact($member);
-
-            //TODO: Localize, use proper constants, better icon for bounce etc
-            $delete_string = sprintf($data['l10n']->get('remove %s from campaign'), $member->name);
-            $contact->prefix_html .= '<input type="image" style="float: right;" src="' . MIDCOM_STATIC_URL . '/stock-icons/16x16/trash.png" class="delete" id="org_openpsa_directmarketing_unsubscribe-' . $member->guid . '" data-member-guid="' . $data['memberships'][$k]->guid . '" value="' . $delete_string . '" title="' . $delete_string . '" alt="' . $delete_string . '" />';
-            if ($data['memberships'][$k]->orgOpenpsaObtype == org_openpsa_directmarketing_campaign_member_dba::BOUNCED)
-            {
-                $bounce_string = sprintf($data['l10n']->get('%s has bounced'), $member->email);
-                $contact->prefix_html .= '<img style="float: right;" src="' . MIDCOM_STATIC_URL . '/stock-icons/16x16/repair.png" class="delete" id="org_openpsa_directmarketing_bounced-' . $member->guid . '" title="' . $bounce_string . '" alt="' . $bounce_string . '" />';
-            }
-            if (!empty($contact->contact_details['id']))
-            {
-                $contact->show();
-            }
-        }
-
-        echo "</div>\n";
-    }
-    ?>
+    } ?>
+    <div class="org_openpsa_directmarketing full-width fill-height">
+      <?php $grid->render(); ?>
+    </div>
 </div>
 
 <script type="text/javascript">
-$('input.delete').bind('click', function(){
-    var guid = this.id.substr(40),
+$('#<?php echo $grid->get_identifier();?>').bind('click', 'td.delete input', function(event){
+    var guid = $(event.target).data('person-guid'),
     loading = "<img src='" + MIDCOM_STATIC_URL + "/stock-icons/32x32/ajax-loading.gif' alt='loading' />";
-    member_guid = $(this).data('member-guid'),
+    member_guid = $(event.target).data('member-guid'),
     post_data = {org_openpsa_ajax_mode: 'unsubscribe', org_openpsa_ajax_person_guid: guid};
 
-    $('#org_openpsa_widgets_contact-' + guid).css('text-align', 'center');
-    $('#org_openpsa_widgets_contact-' + guid).html(loading);
     $.post('&(node[MIDCOM_NAV_ABSOLUTEURL]);campaign/unsubscribe/ajax/' + member_guid + '/', post_data, function()
     {
+        $('#<?php echo $grid->get_identifier();?>').trigger('reloadGrid');
         $('#org_openpsa_widgets_contact-' + guid).fadeOut('fast', function()
         {
             $('#org_openpsa_widgets_contact-' + guid).remove();

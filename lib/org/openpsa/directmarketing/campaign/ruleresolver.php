@@ -86,6 +86,14 @@ class org_openpsa_directmarketing_campaign_ruleresolver
     }
 
     /**
+     * @return midcom_core_collector
+     */
+    public function get_mc()
+    {
+        return $this->_result_mc;
+    }
+
+    /**
      *
      * @param string $ruleset
      * @throws midcom_error
@@ -384,6 +392,34 @@ class org_openpsa_directmarketing_campaign_ruleresolver
         return $this->_result_mc->add_constraint('id', $constraint_match, $persons);
     }
 
+    public static function build_property_map(midcom_services_i18n_l10n $l10n)
+    {
+        $types = array
+        (
+            'person' => new org_openpsa_contacts_person_dba,
+            'group' => new org_openpsa_contacts_group_dba,
+            'membership' => new org_openpsa_contacts_member_dba
+        );
+        $return = array();
+        foreach ($types as $name => $object)
+        {
+            $return[$name] = array
+            (
+                'properties' => self::list_object_properties($object, $l10n),
+                'localized' => $l10n->get('class:' . $name),
+                'parameters' => false
+            );
+        }
+        $return['generic_parameters'] = array
+        (
+            'properties' => false,
+            'localized' => $l10n->get('class:generic parameters'),
+            'parameters' => true
+        );
+
+        return $return;
+    }
+
     /**
      * List object's properties for JS rule builder
      *
@@ -392,7 +428,7 @@ class org_openpsa_directmarketing_campaign_ruleresolver
      * @param midcom_core_dbaobject $object
      * @param midcom_services_i18n_l10n $l10n
      */
-    public static function list_object_properties($object, midcom_services_i18n_l10n $l10n)
+    public static function list_object_properties(midcom_core_dbaobject $object, midcom_services_i18n_l10n $l10n)
     {
         // These are internal to midgard and/or not valid QB constraints
         $skip_properties = array
@@ -428,7 +464,8 @@ class org_openpsa_directmarketing_campaign_ruleresolver
         foreach ($helper->get_object_vars($object) as $property => $value)
         {
             if (   preg_match('/^_/', $property)
-                || in_array($property, $skip_properties))
+                || in_array($property, $skip_properties)
+                || property_exists($object, $property))
             {
                 // Skip private or otherwise invalid properties
                 continue;

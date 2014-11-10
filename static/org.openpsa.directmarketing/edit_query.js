@@ -20,23 +20,26 @@ function count(array)
     return c;
 }
 
-function send_preview()
+function set_postdata()
 {
-    var loading = "<img style='text-align:center;' src='" + MIDCOM_STATIC_URL + "/stock-icons/32x32/ajax-loading.gif'/>";
-    $("#preview_persons").css("text-align", "center");
-    $("#preview_persons").html(loading);
-
+    if (!$('#preview_persons').data('initialized'))
+    {
+        $('#preview_persons').data('initialized', true);
+        return;
+    }
     if ($('#dirmar_rules_editor_container').is(':visible'))
     {
         get_rules_array(zero_group_id);
     }
     var rules_array = $("#midcom_helper_datamanager2_dummy_field_rules").val(),
-    post_data = {show_rule_preview: true, midcom_helper_datamanager2_dummy_field_rules: rules_array};
-    $.post(document.URL, post_data, function(data)
+        grid = $('#preview_persons').jqGrid();
+
+    if ($('#dirmar_rules_editor_container').is(':visible'))
     {
-        $("#preview_persons").html(data);
-        $("#preview_persons").css("text-align", "left");
-    });
+        get_rules_array(zero_group_id);
+    }
+
+    grid.setGridParam({'postData': {midcom_helper_datamanager2_dummy_field_rules: rules_array}});
 }
 
 function render_parameters_div(domain, parameter_name, match, value)
@@ -376,6 +379,15 @@ function add_rule(selected)
     var index = String(this.id + "_rule_" + this.count_rules);
     rules[index] = new rule(this.id, this.count_rules);
     rules[index].render(selected);
+    if (selected === undefined)
+    {
+        $("#" + index + "_object")
+            .val($("#" + index + "_object option:nth-child(2)").attr('value'))
+            .trigger('change');
+        $("#" + index + "_property")
+            .val($("#" + index + "_property option:nth-child(2)").attr('value'))
+            .trigger('change');
+    }
     this.child_rules[index] = rules[index].id;
 
     if ($("#" + index).prev().children(".add_row").length > 0)
@@ -462,6 +474,11 @@ function init(selector, rules)
         $('#dirmar_rules_editor_container').show();
         $('#openpsa_dirmar_edit_query').parent().addClass('disabled');
         $('#openpsa_dirmar_edit_query_advanced').parent().removeClass('disabled');
+    });
+    $('#show_rule_preview').on('click', function(event)
+    {
+        event.preventDefault();
+        $('#preview_persons').jqGrid().trigger('reloadGrid');
     });
 }
 
