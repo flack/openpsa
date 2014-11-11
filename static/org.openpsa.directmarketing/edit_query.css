@@ -37,21 +37,31 @@ div.org_openpsa_directmarketing_edit_query_handler_buttons
 .rule
 {
     border-left: 1px solid #ccc;
-    border-top: 1px solid #ccc;
-    border-bottom: 1px solid #ccc;
     background: #f9f9f9;
     border-collapse: collapse;
+    padding: .2em
 }
+
 .group
 {
-    border-top: 1px solid #ccc;
     border-left: 2px solid #eee;
-    border-bottom: 1px solid #ccc;
     padding-left: 20px;
     padding-bottom: 5px;
     padding-top: 5px;
     background: #eee;
     border-collapse: collapse;
+    border-top: 1px solid #ccc;
+}
+
+.rule:first-of-type
+{
+    border-top: 1px solid #ccc;
+}
+
+.rule:last-of-type,
+.group:last-of-type
+{
+    border-bottom: 1px solid #ccc;
 }
 
 .remove_row, .add_row

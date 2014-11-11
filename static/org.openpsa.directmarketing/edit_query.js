@@ -1,7 +1,7 @@
 //setting needed variables
 //Arrays containing groups & rules, indexed by their id
-var groups = [],
-rules = [],
+var groups = {},
+rules = {},
 //contains id of the group root group
 zero_group_id = "";
 
@@ -81,20 +81,12 @@ function rule(parent, id)
             rule = $('<div id="' + this.id + '" class="rule" />'),
             parent_field = $('<input type="hidden" name="' + this.id + '[parent]" value="' + this.parent + '"/>'),
             object_select = build_select(this.id + '_object', this.id + '[object]', 'select', org_openpsa_directmarketing_edit_query_property_map, selected, true),
-            remove_button = $('<img src="' + MIDCOM_STATIC_URL + '/stock-icons/16x16/list-remove.png"  class="button remove_row" />'),
-            add_button = $('<img src="' + MIDCOM_STATIC_URL + '/stock-icons/16x16/list-add.png"  class="button add_row" />');
+            remove_button = $('<img src="' + MIDCOM_STATIC_URL + '/stock-icons/16x16/list-remove.png"  class="button remove_row" />');
 
         remove_button.on('click', function(e)
         {
             e.preventDefault();
             rule_object.remove();
-        });
-
-        add_button.on('click', function(e)
-        {
-            e.preventDefault();
-            $(this).remove();
-            groups[rule_object.parent].add_rule();
         });
 
         object_select
@@ -106,7 +98,7 @@ function rule(parent, id)
 
         rule.append(object_select);
         rule.append(remove_button);
-        rule.append(add_button);
+        this.append_add_button(rule);
         rule.append(parent_field);
 
         $("#" + this.parent + "_add_group").before(rule);
@@ -220,8 +212,7 @@ function rule(parent, id)
 
         if ($("#" + this.id).children(".add_row").length > 0)
         {
-            add_button = "<img id =\"" + this.id + "_add\" src=\"" + MIDCOM_STATIC_URL + "/stock-icons/16x16/list-add.png\" class=\"button add_row\" onclick=\"$(this).remove();groups['" + this.parent + "'].add_rule(); return false;\" />";
-            $("#" + this.id).prev(".rule").append(add_button);
+            this.append_add_button($("#" + this.id).prevAll(".rule:first"));
         }
         groups[this.parent].child_rules[this.id] = null ;
 
@@ -245,6 +236,18 @@ function rule(parent, id)
 
         return false;
     };
+
+    this.append_add_button = function (rule)
+    {
+        $('<img src="' + MIDCOM_STATIC_URL + '/stock-icons/16x16/list-add.png"  class="button add_row" />')
+            .on('click', function(e)
+            {
+                e.preventDefault();
+                $(this).remove();
+                groups[rules[rule.attr('id')].parent].add_rule();
+            })
+            .appendTo(rule);
+    }
 }
 
 // group-"class"
@@ -601,14 +604,12 @@ function get_child_rules(parent, rules_array)
                 rule_value = value.rules[0].value;
                 rule_property = value.rules[0].property;
                 rule_id = groups[parent].add_rule(map_class);
-                property_class_found = false;
                 properties = false;
                 parameters = false;
                 $.each(org_openpsa_directmarketing_edit_query_property_map, function(key, value)
                 {
                     if (key == map_class)
                     {
-                        property_class_found = true;
                         properties = value.properties;
                         parameters = value.parameters;
                     }
