@@ -102,14 +102,6 @@ div.org_openpsa_directmarketing_edit_query_handler_buttons
     display: block;
 }
 
-.nobottom
-{
-    border-bottom : 0px;
-}
-.notop
-{
-    border-top : 0px;
-}
 #dirmar_rules_editor_container_group_0
 {
     border: 1px solid #ccc;

@@ -110,18 +110,6 @@ function rule(parent, id)
         rule.append(parent_field);
 
         $("#" + this.parent + "_add_group").before(rule);
-
-        // to display rules as one block
-        if ($("#" + this.id).prev(".rule").length > 0 )
-        {
-            $("#" + this.id).prev(".rule").addClass("nobottom");
-            $("#" + this.id).addClass("notop");
-        }
-        //to get distant between rules & groups
-        else if ($("#" + this.id).prev(".group").length > 0 )
-        {
-            $("#" + this.id).css("margin-top", "5px");
-        }
     };
 
     this.object_select_onchange = function ()
@@ -237,17 +225,6 @@ function rule(parent, id)
         }
         groups[this.parent].child_rules[this.id] = null ;
 
-        //set the borders of prev & next
-
-        if (($("#" + this.id).prev(".rule").length > 0) && ($("#" + this.id).next(".rule").length < 1))
-        {
-            $("#" + this.id).prev(".rule").removeClass("nobottom");
-        }
-        else if (($("#" + this.id).prev(".rule").length < 1) && ($("#" + this.id).next(".rule").length > 0))
-        {
-            $("#" + this.id).next(".rule").removeClass("notop");
-        }
-
         $("#" + this.id).remove();
         delete rules[String(this.id)];
         //check if this was last rule
@@ -313,17 +290,6 @@ function group(parent, number)
         else
         {
             $("#" + this.parent).append(content_group);
-        }
-
-        // distance between groups & rules
-        if ($("#" + this.id).prev(".rule").length > 0 )
-        {
-            $("#" + this.id).css("margin-top", "5px");
-        }
-
-        if ($("#" + this.id).prev(".group").length > 0)
-        {
-            $("#" + this.id).prev(".group").addClass("nobottom");
         }
     };
 
