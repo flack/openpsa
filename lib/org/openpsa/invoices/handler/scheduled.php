@@ -35,8 +35,8 @@ implements org_openpsa_widgets_grid_provider_client
 
         $data['grid'] = $provider->get_grid('scheduled');
         midcom::get()->head->set_pagetitle($this->_l10n->get('scheduled invoices'));
-        $this->add_breadcrumb('', $this->_l10n->get('scheduled invoices'));
         $this->_master->prepare_toolbar('scheduled');
+        $this->set_active_leaf($this->_topic->id . ':scheduled');
     }
 
     public function get_qb($field = null, $direction = 'ASC')

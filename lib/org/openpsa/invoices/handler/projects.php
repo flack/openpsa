@@ -129,9 +129,8 @@ class org_openpsa_invoices_handler_projects extends midcom_baseclasses_component
         midcom::get()->head->enable_jquery();
         midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.invoices/invoices.js');
 
-        $title = $this->_l10n->get('project invoicing');
-        midcom::get()->head->set_pagetitle($title);
-        $this->add_breadcrumb("", $title);
+        $this->set_active_leaf($this->_topic->id . ':projects');
+        midcom::get()->head->set_pagetitle($this->_l10n->get('project invoicing'));
 
         $this->_master->prepare_toolbar('projects');
     }
