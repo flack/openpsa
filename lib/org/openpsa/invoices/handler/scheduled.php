@@ -33,7 +33,7 @@ implements org_openpsa_widgets_grid_provider_client
         $provider = new org_openpsa_widgets_grid_provider($this, 'local');
         $provider->add_order('start');
 
-        $data['grid'] = $provider->get_grid('scheduled');
+        $data['grid'] = $provider->get_grid('scheduled_invoices');
         midcom::get()->head->set_pagetitle($this->_l10n->get('scheduled invoices'));
         $this->_master->prepare_toolbar('scheduled');
         $this->set_active_leaf($this->_topic->id . ':scheduled');
@@ -58,6 +58,8 @@ implements org_openpsa_widgets_grid_provider_client
         $invoice = array
         (
             'time' => strftime('%Y-%m-%d %H:%M:%S', $at_entry->start),
+            'month' => strftime('%B %Y', $at_entry->start),
+            'index_month' => strftime('%Y-%m', $at_entry->start),
         );
         try
         {
