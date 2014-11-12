@@ -131,5 +131,12 @@ $(document).ready(function()
         .each(function()
         {
             calculate_total($(this));
+        })
+        .parent().on('submit', function()
+        {
+            $(this).find('.numeric input').each(function()
+            {
+                $(this).val(parse_input($(this).val()));
+            });
         });
 });

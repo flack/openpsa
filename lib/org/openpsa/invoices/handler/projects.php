@@ -80,7 +80,7 @@ class org_openpsa_invoices_handler_projects extends midcom_baseclasses_component
         midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.invoices'), sprintf($this->_l10n->get('invoice %s created'), $invoice->get_label()), 'ok');
 
         midcom::get()->relocate("invoice/edit/{$invoice->guid}/");
-            // This will exit
+        // This will exit
     }
 
     /**
@@ -169,14 +169,7 @@ class org_openpsa_invoices_handler_projects extends midcom_baseclasses_component
             {
                 $data['task'] = $task;
 
-                if ($class == "even")
-                {
-                    $class = "";
-                }
-                else
-                {
-                    $class = "even";
-                }
+                $class = ($class == "even") ? '' : 'even';
                 $data['class'] = $class;
                 $data['reported_hours'] = $task->reportedHours;
                 try
