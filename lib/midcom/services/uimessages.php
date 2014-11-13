@@ -185,7 +185,7 @@ class midcom_services_uimessages
             return $this->show();
         }
 
-        if (count($this->_message_stack->all()) > 0)
+        if (count($this->_message_stack->peekAll()) > 0)
         {
             echo "<div id=\"midcom_services_uimessages_wrapper\">\n";
 
@@ -206,7 +206,7 @@ class midcom_services_uimessages
      */
     private function _render_message($message)
     {
-        $message = json_decode($message);
+        $message = json_decode($message, true);
         echo "<div class=\"midcom_services_uimessages_message msu_{$message['type']}\">";
 
         echo "    <div class=\"midcom_services_uimessages_message_type\">{$message['type']}</div>";
