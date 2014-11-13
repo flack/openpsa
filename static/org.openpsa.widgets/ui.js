@@ -367,7 +367,7 @@ $(document).ready(function()
                 modal: true,
                 buttons: {}
             };
-        options.buttons[button.find('.toolbar_label').text()] = function() {
+        options.buttons[button.text()] = function() {
             $('<form action="' + button.attr('href') + '" method="post">')
                 .append($('<input type="hidden" name="' + button.data('form-id') + '">'))
                 .append($('<input type="submit" name="midcom_helper_datamanager2_delete[0]">'))

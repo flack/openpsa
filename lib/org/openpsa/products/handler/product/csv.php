@@ -23,7 +23,7 @@ class org_openpsa_products_handler_product_csv extends midcom_baseclasses_compon
         if ($root_group_guid)
         {
             $root_group = org_openpsa_products_product_group_dba::get_cached($root_group_guid);
-            $group_name_to_filename = strtolower(str_replace(' ', '_', $root_group->code)).'_';
+            $group_name_to_filename = strtolower(str_replace(' ', '_', $root_group->code)) . '_';
         }
 
         if (isset($args[0]))
@@ -35,14 +35,11 @@ class org_openpsa_products_handler_product_csv extends midcom_baseclasses_compon
         {
             //We do not have filename in URL, generate one and redirect
             $schemaname = $_POST['org_openpsa_products_export_schema'];
-            if (strpos(midcom_connection::get_url('uri'), '/', strlen(midcom_connection::get_url('uri')) - 2))
+            if (!strpos(midcom_connection::get_url('uri'), '/', strlen(midcom_connection::get_url('uri')) - 2))
             {
-                midcom::get()->relocate(midcom_connection::get_url('uri') . "{$schemaname}");
+                $schemaname = "/{$schemaname}";
             }
-            else
-            {
-                midcom::get()->relocate(midcom_connection::get_url('uri') . "/{$schemaname}");
-            }
+            midcom::get()->relocate(midcom_connection::get_url('uri') . "{$schemaname}");
             // This will exit
         }
         else
@@ -72,13 +69,10 @@ class org_openpsa_products_handler_product_csv extends midcom_baseclasses_compon
         }
 
         $qb = org_openpsa_products_product_dba::new_query_builder();
-
         $qb->add_order('code');
         $qb->add_order('title');
-        $products = array();
 
-        $root_group_guid = $this->_config->get('root_group');
-        if ($root_group_guid)
+        if ($root_group_guid = $this->_config->get('root_group'))
         {
             $root_group = new org_openpsa_products_product_group_dba($root_group_guid);
             if (empty($_POST['org_openpsa_products_export_all']))
@@ -101,7 +95,7 @@ class org_openpsa_products_handler_product_csv extends midcom_baseclasses_compon
                 $qb->end_group('OR');
             }
         }
-
+        $products = array();
         $all_products = $qb->execute();
         foreach ($all_products as $product)
         {

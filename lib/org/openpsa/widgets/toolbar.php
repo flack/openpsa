@@ -36,6 +36,7 @@ class org_openpsa_widgets_toolbar
         $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/position.min.js');
         $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/button.min.js');
         $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/dialog.min.js');
+        $head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.widgets/ui.js');
         $head->add_jquery_ui_theme(array('dialog'));
     }
 
