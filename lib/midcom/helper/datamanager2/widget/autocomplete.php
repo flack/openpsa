@@ -343,6 +343,7 @@ class midcom_helper_datamanager2_widget_autocomplete extends midcom_helper_datam
             'categorize_by_parent_label' => $this->categorize_by_parent_label,
             'preset' => $preset,
             'preset_order' => array_reverse(array_keys($preset)),
+            'sortable' => $this->sortable,
             'allow_multiple' => $this->_type->allow_multiple,
             'creation_mode_enabled' => $this->creation_mode_enabled,
             'creation_handler' => $this->creation_handler,
