@@ -172,6 +172,13 @@ class midcom_helper_datamanager2_widget_autocomplete extends midcom_helper_datam
     public $creation_default_key = null;
 
     /**
+     * Sortable
+     *
+     * @var boolean
+     */
+    public $sortable = false;
+
+    /**
      * the element's ID
      *
      * @var string
@@ -202,7 +209,7 @@ class midcom_helper_datamanager2_widget_autocomplete extends midcom_helper_datam
             $this->constraints = $this->_type->constraints;
         }
 
-        self::add_head_elements($this->creation_mode_enabled);
+        self::add_head_elements($this->creation_mode_enabled, $this->sortable);
 
         $this->_element_id = "{$this->_namespace}{$this->name}_autocomplete_widget";
     }
@@ -224,7 +231,7 @@ class midcom_helper_datamanager2_widget_autocomplete extends midcom_helper_datam
         }
     }
 
-    public static function add_head_elements($creation_mode_enabled = false)
+    public static function add_head_elements($creation_mode_enabled = false, $sortable = false)
     {
         $head = midcom::get()->head;
         $head->enable_jquery();
@@ -237,6 +244,10 @@ class midcom_helper_datamanager2_widget_autocomplete extends midcom_helper_datam
         $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/position.min.js');
         $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/menu.min.js');
         $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/autocomplete.min.js');
+        if ($sortable)
+        {
+            $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/sortable.min.js');
+        }
         $head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/autocomplete.js');
 
         if ($creation_mode_enabled)
@@ -331,6 +342,7 @@ class midcom_helper_datamanager2_widget_autocomplete extends midcom_helper_datam
             'get_label_for' => $this->get_label_for,
             'categorize_by_parent_label' => $this->categorize_by_parent_label,
             'preset' => $preset,
+            'preset_order' => array_reverse(array_keys($preset)),
             'allow_multiple' => $this->_type->allow_multiple,
             'creation_mode_enabled' => $this->creation_mode_enabled,
             'creation_handler' => $this->creation_handler,

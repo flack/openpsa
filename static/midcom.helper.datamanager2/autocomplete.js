@@ -283,8 +283,9 @@ var midcom_helper_datamanager2_autocomplete =
         }
         if (!$.isEmptyObject(handler_options.preset))
         {
-            $.each(handler_options.preset, function(id, text)
+            $.each(handler_options.preset_order, function(key, id)
             {
+                var text = handler_options.preset[id];
                 if (handler_options.id_field === 'id')
                 {
                     id = parseInt(id);
@@ -325,6 +326,27 @@ var midcom_helper_datamanager2_autocomplete =
                 midcom_helper_datamanager2_autocomplete.hide_input(identifier, true);
             }
         });
+
+        if (handler_options.sortable === true)
+        {
+            $("#" + identifier + "_selection_holder").sortable(
+            {
+                items: "> span.autocomplete-item",
+                update: function() {
+                    var result = [];
+                    $("#" + identifier + "_selection_holder .autocomplete-item:not(.autocomplete-todelete)")
+                        .each(function(e) {
+                            result.push($(this).data("id"));
+                        });
+                    $("#" + identifier + "_selection").val(JSON.stringify(result));
+                }
+            });
+
+            $("#" + identifier + "_search_input").on("autocompleteselect", function(event, ui)
+            {
+                $("#" + identifier + "_selection_holder").sortable("refresh");
+            });
+        }
     },
 
     restore_item: function(identifier, item)
