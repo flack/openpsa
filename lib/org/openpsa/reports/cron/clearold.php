@@ -33,11 +33,6 @@ class org_openpsa_reports_cron_clearold extends midcom_baseclasses_components_cr
         $qb->add_constraint('orgOpenpsaObtype', '=', org_openpsa_reports_query_dba::OBTYPE_REPORT_TEMPORARY);
         $ret = $qb->execute_unchecked();
 
-        if (empty($ret))
-        {
-            debug_add('No results, returning early.');
-            return;
-        }
         foreach ($ret as $query)
         {
             debug_add("removing temporary query #{$query->id}");

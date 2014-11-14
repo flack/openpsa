@@ -161,10 +161,6 @@ class org_openpsa_relatedto_collector extends midcom_core_collector
      */
     private function _apply_object_constraints($qb)
     {
-        if (empty($this->_object_constraints))
-        {
-            return;
-        }
         foreach ($this->_object_constraints as $constraint)
         {
             $qb->add_constraint($constraint['field'], $constraint['operator'], $constraint['value']);
@@ -178,10 +174,6 @@ class org_openpsa_relatedto_collector extends midcom_core_collector
      */
     private function _apply_object_orders($qb)
     {
-        if (empty($this->_object_orders))
-        {
-            return;
-        }
         foreach ($this->_object_orders as $order)
         {
             $qb->add_order($order['field'], $order['direction']);

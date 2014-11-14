@@ -184,7 +184,7 @@ class org_openpsa_contacts_duplicates
      */
     private function _load_memberships($id)
     {
-        if (empty($this->_membership_cache[$id]))
+        if (!isset($this->_membership_cache[$id]))
         {
             $this->_membership_cache[$id] = array();
             $mc = midcom_db_member::new_collector('uid', $id);

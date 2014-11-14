@@ -521,7 +521,7 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
     {
         if (empty($this->_request_data['group']))
         {
-            return false;
+            return;
         }
         $tmp = $this->_master->update_breadcrumb_line($this->_request_data['group']);
 

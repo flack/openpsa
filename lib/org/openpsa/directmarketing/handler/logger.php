@@ -50,10 +50,7 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
             $qb2->add_constraint('campaign', '=', $campaign->id);
             $qb2->add_constraint('person', '=', $receipt->person);
             $ret2 = $qb2->execute();
-            if (empty($ret2))
-            {
-                continue;
-            }
+
             foreach ($ret2 as $member)
             {
                 debug_add("Found member #{$member->id}, marking bounced");

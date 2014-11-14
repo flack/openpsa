@@ -121,12 +121,8 @@ class org_openpsa_contacts_duplicates_merge
 
     private function _process_dba_classes($obj1, $obj2, $config)
     {
-        foreach ($config as $classname => $fieldconfig)
+        foreach (array_filter($config) as $classname => $fieldconfig)
         {
-            if (empty($fieldconfig))
-            {
-                continue;
-            }
             $qb = midcom::get()->dbfactory->new_query_builder($classname);
             $qb->begin_group('OR');
             foreach ($fieldconfig as $field => $conf)

@@ -80,7 +80,7 @@ class org_openpsa_invoices_handler_pdf extends midcom_baseclasses_components_han
             $this->_request_data['confirmation_message'] = 'invoice has already been sent. should it be replaced?';
             return false;
         }
-        else if (empty($this->_datamanager->types['pdf_file']->attachments))
+        if (empty($this->_datamanager->types['pdf_file']->attachments))
         {
             return true;
         }

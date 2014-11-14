@@ -154,8 +154,7 @@ class org_openpsa_directmarketing_sender_backend_email implements org_openpsa_di
 
             // If you don't want to add the image as an attachment to the field, add show_attachment customdata-definition to
             // schema and set it to false
-            if (   !empty($typedata->storage->_schema->fields[$field]['customdata'])
-                && isset($typedata->storage->_schema->fields[$field]['customdata']['show_attachment'])
+            if (   isset($typedata->storage->_schema->fields[$field]['customdata']['show_attachment'])
                 && $typedata->storage->_schema->fields[$field]['customdata']['show_attachment'] === false)
             {
                 continue;

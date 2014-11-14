@@ -49,11 +49,6 @@ class org_openpsa_helpers_list
         $mc->add_constraint('gid.name', 'NOT LIKE', '\_\_%');
         $memberships = $mc->get_values('gid');
 
-        if (empty($memberships))
-        {
-            return $ret;
-        }
-
         foreach ($memberships as $gid)
         {
             self::task_groups_put($ret, $mode, $gid);
