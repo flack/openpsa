@@ -93,8 +93,7 @@ class org_openpsa_notifications_notifier extends midcom_baseclasses_components_p
         }
 
         $default_sender = $this->_config->get('default_sender');
-        if (   !is_null($sender)
-            && $sender->email)
+        if (!empty($sender->email))
         {
             $mail->from = '"' . $sender->name . '" <' . $sender->email . '>';
         }

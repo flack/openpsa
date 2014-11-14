@@ -73,8 +73,7 @@ class org_openpsa_notifications extends midcom_baseclasses_components_purecode
         {
             return false;
         }
-        $notifier->$method($message);
-        return true;
+        return $notifier->$method($message);
     }
 
     /**

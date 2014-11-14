@@ -45,39 +45,10 @@ class org_openpsa_contacts_handler_person_admin extends midcom_baseclasses_compo
      * Simple helper which references all important members to the request data listing
      * for usage within the style listing.
      */
-    private function _prepare_request_data($handler_id)
+    private function _prepare_request_data()
     {
         $this->_request_data['person'] = $this->_contact;
         $this->_request_data['controller'] = $this->_controller;
-
-        if ($handler_id !== 'person_edit')
-        {
-            $this->_view_toolbar->add_item
-            (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => "person/edit/{$this->_contact->guid}/",
-                    MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('edit'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
-                    MIDCOM_TOOLBAR_ENABLED => $this->_contact->can_do('midgard:update'),
-                    MIDCOM_TOOLBAR_ACCESSKEY => 'e',
-                )
-            );
-        }
-        if ($handler_id !== 'person_delete')
-        {
-            $this->_view_toolbar->add_item
-            (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => "person/delete/{$this->_contact->guid}/",
-                    MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('delete'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
-                    MIDCOM_TOOLBAR_ENABLED => $this->_contact->can_do('midgard:delete'),
-                    MIDCOM_TOOLBAR_ACCESSKEY => 'd',
-                )
-            );
-        }
     }
 
     /**
@@ -116,7 +87,6 @@ class org_openpsa_contacts_handler_person_admin extends midcom_baseclasses_compo
     public function _handler_edit($handler_id, array $args, array &$data)
     {
         $this->_contact = new org_openpsa_contacts_person_dba($args[0]);
-
         $this->_contact->require_do('midgard:update');
 
         $this->_load_controller();
@@ -135,7 +105,7 @@ class org_openpsa_contacts_handler_person_admin extends midcom_baseclasses_compo
 
         org_openpsa_helpers::dm2_savecancel($this);
 
-        $this->_prepare_request_data($handler_id);
+        $this->_prepare_request_data();
         midcom::get()->head->set_pagetitle($this->_contact->name);
         $this->bind_view_to_object($this->_contact, $this->_controller->datamanager->schema->name);
         $this->add_breadcrumb("person/{$this->_contact->guid}/", $this->_contact->name);

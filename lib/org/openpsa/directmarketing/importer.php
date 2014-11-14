@@ -158,8 +158,7 @@ abstract class org_openpsa_directmarketing_importer extends midcom_baseclasses_c
             $person = new org_openpsa_contacts_person_dba();
 
             // Populate at least one field for the new person
-            if (   isset($subscriber['person'])
-                && isset($subscriber['person']['email']))
+            if (!empty($subscriber['person']['email']))
             {
                 $person->email = $subscriber['person']['email'];
             }

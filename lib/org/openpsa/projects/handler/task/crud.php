@@ -130,9 +130,7 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
         }
 
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
-        $expenses_url = $siteconfig->get_node_full_url('org.openpsa.expenses');
-
-        if ($expenses_url)
+        if ($expenses_url = $siteconfig->get_node_full_url('org.openpsa.expenses'))
         {
             midcom_helper_datamanager2_widget_autocomplete::add_head_elements();
             org_openpsa_widgets_grid::add_head_elements();
