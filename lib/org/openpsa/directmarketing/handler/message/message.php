@@ -21,6 +21,16 @@ class org_openpsa_directmarketing_handler_message_message extends midcom_basecla
     private $_message = null;
 
     /**
+     * @var org_openpsa_directmarketing_campaign_dba
+     */
+    private $_campaign;
+
+    /**
+     * @var midcom_helper_datamanager2_datamanager
+     */
+    private $_datamanager;
+
+    /**
      * Internal helper, loads the datamanager for the current message. Any error triggers a 500.
      */
     private function _load_datamanager()
@@ -105,7 +115,7 @@ class org_openpsa_directmarketing_handler_message_message extends midcom_basecla
         (
             array
             (
-                MIDCOM_TOOLBAR_URL => "message/report/{$this->_request_data['message']->guid}/",
+                MIDCOM_TOOLBAR_URL => "message/report/{$this->_message->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("message report"),
                 MIDCOM_TOOLBAR_ACCESSKEY => 'r',
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/printer.png',
@@ -117,7 +127,7 @@ class org_openpsa_directmarketing_handler_message_message extends midcom_basecla
         (
             array
             (
-                MIDCOM_TOOLBAR_URL => "message/send_test/{$this->_request_data['message']->guid}/",
+                MIDCOM_TOOLBAR_URL => "message/send_test/{$this->_message->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("send message to testers"),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_mail-send.png',
                 MIDCOM_TOOLBAR_ENABLED => (count($this->_campaign->testers) > 0),
@@ -134,7 +144,7 @@ class org_openpsa_directmarketing_handler_message_message extends midcom_basecla
         (
             array
             (
-                MIDCOM_TOOLBAR_URL => "message/send/{$this->_request_data['message']->guid}/",
+                MIDCOM_TOOLBAR_URL => "message/send/{$this->_message->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("send message to whole campaign"),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_mail-send.png',
                 MIDCOM_TOOLBAR_ENABLED => (count($keys) > 0 && $this->_message->can_do('midgard:update')),

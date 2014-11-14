@@ -129,7 +129,7 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
 
         $this->_prepare_request_data();
         midcom::get()->head->set_pagetitle($this->_message->title);
-        $this->bind_view_to_object($this->_message, $this->_request_data['controller']->datamanager->schema->name);
+        $this->bind_view_to_object($this->_message, $this->_controller->datamanager->schema->name);
         $this->_update_breadcrumb_line($handler_id);
     }
 

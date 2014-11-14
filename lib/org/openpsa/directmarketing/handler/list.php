@@ -90,7 +90,7 @@ implements org_openpsa_widgets_grid_provider_client
         }
 
         $provider = new org_openpsa_widgets_grid_provider($this, 'local');
-        $this->_request_data['grid'] = $provider->get_grid('campaign_grid');
+        $data['grid'] = $provider->get_grid('campaign_grid');
     }
 
     /**

@@ -27,6 +27,11 @@ implements org_openpsa_widgets_grid_provider_client
      */
     private $memberships;
 
+    /**
+     * @var midcom_helper_datamanager2_datamanager
+     */
+    private $_datamanager;
+
     public function get_qb($field = null, $direction = 'ASC')
     {
         $mc = org_openpsa_directmarketing_campaign_member_dba::new_collector('campaign', $this->_campaign->id);

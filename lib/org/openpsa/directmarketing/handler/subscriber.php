@@ -90,19 +90,16 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
         $memberships = $qb->execute();
 
         $campaign_membership_map = array();
-        if ($memberships)
+        foreach ($memberships as $membership)
         {
-            foreach ($memberships as $membership)
+            try
             {
-                try
-                {
-                    $campaigns[$membership->campaign] = new org_openpsa_directmarketing_campaign_dba($membership->campaign);
-                    $campaign_membership_map[$membership->campaign] = $membership;
-                }
-                catch (midcom_error $e)
-                {
-                    debug_add('Failed to load campaign ' . $membership->campaign . ', reason: ' . $e->getMessage());
-                }
+                $campaigns[$membership->campaign] = new org_openpsa_directmarketing_campaign_dba($membership->campaign);
+                $campaign_membership_map[$membership->campaign] = $membership;
+            }
+            catch (midcom_error $e)
+            {
+                debug_add('Failed to load campaign ' . $membership->campaign . ', reason: ' . $e->getMessage());
             }
         }
 
