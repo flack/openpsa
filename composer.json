@@ -28,7 +28,6 @@
         "openpsa/quickform": "dev-master",
         "openpsa/universalfeedcreator": "dev-master",
         "openpsa/midgard-introspection": "dev-master",
-        "openpsa/midgard-portable": "dev-master",
         "sabre/vobject" : "2.0.*",
         "simplepie/simplepie": "1.3.*",
         "michelf/php-markdown": ">=1.3",
