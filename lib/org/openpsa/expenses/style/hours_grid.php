@@ -3,8 +3,17 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 $reporters = $data['reporters'];
 $reports = $data['reports'];
 
-$entries = array();
+$class = $data['status'];
+if ($data['status'] === 'invoiced')
+{
+    $class .= ' good';
+}
+if ($data['status'] === 'invoiceable')
+{
+    $class .= ' normal';
+}
 
+$entries = array();
 $grid_id = $data['status'] . '_hours_grid';
 
 foreach ($reports['reports'] as $report)
@@ -59,7 +68,7 @@ $footer_data = array
 
 $grid->set_footer_data($footer_data);
 ?>
-<div class="org_openpsa_expenses <?php echo $data['status']; ?> batch-processing full-width fill-height" style="margin-bottom: 1em">
+<div class="org_openpsa_expenses <?php echo $class ?> batch-processing full-width crop-height" style="margin-bottom: 1em">
 
 <?php $grid->render($entries); ?>
 
@@ -77,4 +86,3 @@ org_openpsa_batch_processing.initialize(
     options: <?php echo json_encode($data['action_options']); ?>
 });
 </script>
-
