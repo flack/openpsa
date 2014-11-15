@@ -27,7 +27,7 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
     if ($data['journal_url'])
     {
         ?>
-        <div class="journal full-width" style="padding-bottom:20px;">
+        <div class="journal full-width normal" style="padding-bottom:20px;">
         <div >
         <table id="treegrid"></table> <div id="ptreegrid"></div>
         </div>
@@ -76,7 +76,7 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
     if ($data['projects_relative_url'])
     {
         ?>
-        <div class="tasks">
+        <div class="tasks normal">
             <?php
             midcom::get()->dynamic_load($data['projects_relative_url'] . 'task/list/');
             ?>

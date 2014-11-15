@@ -110,7 +110,7 @@ foreach ($data['salesprojects'] as $salesproject)
     $rows[] = $row;
 }
 ?>
-<div class="org_openpsa_sales full-width fill-height <?php echo $data['mode']; ?>">
+<div class="org_openpsa_sales full-width crop-height <?php echo $data['mode']; ?>">
 
 <?php
 $grid->set_column('title', $data['l10n']->get('title'), 'width: 100, classes: "ui-ellipsis"', 'string');

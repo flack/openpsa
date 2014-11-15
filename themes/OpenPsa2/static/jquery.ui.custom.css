@@ -1,7 +1,7 @@
-/*! jQuery UI - v1.11.2 - 2014-11-08
+/*! jQuery UI - v1.11.2 - 2014-11-14
 * http://jqueryui.com
 * Includes: core.css, draggable.css, resizable.css, selectable.css, sortable.css, accordion.css, autocomplete.css, button.css, datepicker.css, dialog.css, menu.css, progressbar.css, selectmenu.css, slider.css, spinner.css, tabs.css, tooltip.css, theme.css
-* To view and modify this theme, visit http://jqueryui.com/themeroller/?ffDefault=Lucida%20Grande%2C%20Segoe%20UI%2C%20Lucida%20Sans%2C%20Arial%2C%20sans-serif&fwDefault=bold&fsDefault=inherit&cornerRadius=4px&bgColorHeader=%2314509f&bgTextureHeader=gloss_wave&bgImgOpacityHeader=55&borderColorHeader=%23babdb6&fcHeader=%23ffffff&iconColorHeader=%23d8e7f3&bgColorContent=%23fcfdfd&bgTextureContent=flat&bgImgOpacityContent=100&borderColorContent=%23daddd6&fcContent=%23222222&iconColorContent=%23497bbf&bgColorDefault=%23dadfd2&bgTextureDefault=glass&bgImgOpacityDefault=85&borderColorDefault=%23daddd6&fcDefault=%2324436e&iconColorDefault=%23497bbf&bgColorHover=%23d0e5f5&bgTextureHover=glass&bgImgOpacityHover=75&borderColorHover=%23a0cdf0&fcHover=%2324436e&iconColorHover=%233769ae&bgColorActive=%23f5f8f9&bgTextureActive=inset_hard&bgImgOpacityActive=100&borderColorActive=%23daddd6&fcActive=%2324436e&iconColorActive=%236da8d5&bgColorHighlight=%23fbec88&bgTextureHighlight=flat&bgImgOpacityHighlight=55&borderColorHighlight=%23fad42e&fcHighlight=%23363636&iconColorHighlight=%232e83ff&bgColorError=%23fef1ec&bgTextureError=flat&bgImgOpacityError=95&borderColorError=%23cd0a0a&fcError=%23cd0a0a&iconColorError=%23cd0a0a&bgColorOverlay=%23aaaaaa&bgTextureOverlay=flat&bgImgOpacityOverlay=0&opacityOverlay=30&bgColorShadow=%23aaaaaa&bgTextureShadow=flat&bgImgOpacityShadow=0&opacityShadow=30&thicknessShadow=8px&offsetTopShadow=-8px&offsetLeftShadow=-8px&cornerRadiusShadow=8px
+* To view and modify this theme, visit http://jqueryui.com/themeroller/?ffDefault=Lucida%20Grande%2C%20Segoe%20UI%2C%20Lucida%20Sans%2C%20Arial%2C%20sans-serif&fwDefault=normal&fsDefault=inherit&cornerRadius=3px&bgColorHeader=%23ffffff&bgTextureHeader=flat&bgImgOpacityHeader=55&borderColorHeader=%23ffffff&fcHeader=%23222222&iconColorHeader=%23d1d1c9&bgColorContent=%23fcfdfd&bgTextureContent=flat&bgImgOpacityContent=100&borderColorContent=%23daddd6&fcContent=%23222222&iconColorContent=%233969a9&bgColorDefault=%23e7e6e0&bgTextureDefault=highlight_hard&bgImgOpacityDefault=85&borderColorDefault=%23d2d6cd&fcDefault=%23233e66&iconColorDefault=%233969a9&bgColorHover=%23d0e5f5&bgTextureHover=glass&bgImgOpacityHover=75&borderColorHover=%23aaceeb&fcHover=%2324436e&iconColorHover=%233769ae&bgColorActive=%23f5f8f9&bgTextureActive=inset_hard&bgImgOpacityActive=100&borderColorActive=%23c8cdc1&fcActive=%23263b57&iconColorActive=%233969a9&bgColorHighlight=%23fbec88&bgTextureHighlight=flat&bgImgOpacityHighlight=55&borderColorHighlight=%23fad42e&fcHighlight=%23363636&iconColorHighlight=%232e83ff&bgColorError=%23fbd7d2&bgTextureError=flat&bgImgOpacityError=95&borderColorError=%23dc8b8b&fcError=%23a31616&iconColorError=%23cd0a0a&bgColorOverlay=%23aaaaaa&bgTextureOverlay=flat&bgImgOpacityOverlay=0&opacityOverlay=30&bgColorShadow=%23aaaaaa&bgTextureShadow=flat&bgImgOpacityShadow=0&opacityShadow=30&thicknessShadow=8px&offsetTopShadow=-8px&offsetLeftShadow=-8px&cornerRadiusShadow=8px
 * Copyright 2014 jQuery Foundation and other contributors; Licensed MIT */
 
 /* Layout helpers
@@ -852,13 +852,13 @@ body .ui-tooltip {
 	color: #222222;
 }
 .ui-widget-header {
-	border: 1px solid #babdb6;
-	background: #14509f url("images/ui-bg_gloss-wave_55_14509f_500x100.png") 50% 50% repeat-x;
-	color: #ffffff;
+	border: 1px solid #ffffff;
+	background: #ffffff url("images/ui-bg_flat_55_ffffff_40x100.png") 50% 50% repeat-x;
+	color: #222222;
 	font-weight: bold;
 }
 .ui-widget-header a {
-	color: #ffffff;
+	color: #222222;
 }
 
 /* Interaction states
@@ -866,15 +866,15 @@ body .ui-tooltip {
 .ui-state-default,
 .ui-widget-content .ui-state-default,
 .ui-widget-header .ui-state-default {
-	border: 1px solid #daddd6;
-	background: #dadfd2 url("images/ui-bg_glass_85_dadfd2_1x400.png") 50% 50% repeat-x;
-	font-weight: bold;
-	color: #24436e;
+	border: 1px solid #d2d6cd;
+	background: #e7e6e0 url("images/ui-bg_highlight-hard_85_e7e6e0_1x100.png") 50% 50% repeat-x;
+	font-weight: normal;
+	color: #233e66;
 }
 .ui-state-default a,
 .ui-state-default a:link,
 .ui-state-default a:visited {
-	color: #24436e;
+	color: #233e66;
 	text-decoration: none;
 }
 .ui-state-hover,
@@ -883,9 +883,9 @@ body .ui-tooltip {
 .ui-state-focus,
 .ui-widget-content .ui-state-focus,
 .ui-widget-header .ui-state-focus {
-	border: 1px solid #a0cdf0;
+	border: 1px solid #aaceeb;
 	background: #d0e5f5 url("images/ui-bg_glass_75_d0e5f5_1x400.png") 50% 50% repeat-x;
-	font-weight: bold;
+	font-weight: normal;
 	color: #24436e;
 }
 .ui-state-hover a,
@@ -902,15 +902,15 @@ body .ui-tooltip {
 .ui-state-active,
 .ui-widget-content .ui-state-active,
 .ui-widget-header .ui-state-active {
-	border: 1px solid #daddd6;
+	border: 1px solid #c8cdc1;
 	background: #f5f8f9 url("images/ui-bg_inset-hard_100_f5f8f9_1x100.png") 50% 50% repeat-x;
-	font-weight: bold;
-	color: #24436e;
+	font-weight: normal;
+	color: #263b57;
 }
 .ui-state-active a,
 .ui-state-active a:link,
 .ui-state-active a:visited {
-	color: #24436e;
+	color: #263b57;
 	text-decoration: none;
 }
 
@@ -931,19 +931,19 @@ body .ui-tooltip {
 .ui-state-error,
 .ui-widget-content .ui-state-error,
 .ui-widget-header .ui-state-error {
-	border: 1px solid #cd0a0a;
-	background: #fef1ec url("images/ui-bg_flat_95_fef1ec_40x100.png") 50% 50% repeat-x;
-	color: #cd0a0a;
+	border: 1px solid #dc8b8b;
+	background: #fbd7d2 url("images/ui-bg_flat_95_fbd7d2_40x100.png") 50% 50% repeat-x;
+	color: #a31616;
 }
 .ui-state-error a,
 .ui-widget-content .ui-state-error a,
 .ui-widget-header .ui-state-error a {
-	color: #cd0a0a;
+	color: #a31616;
 }
 .ui-state-error-text,
 .ui-widget-content .ui-state-error-text,
 .ui-widget-header .ui-state-error-text {
-	color: #cd0a0a;
+	color: #a31616;
 }
 .ui-priority-primary,
 .ui-widget-content .ui-priority-primary,
@@ -978,20 +978,20 @@ body .ui-tooltip {
 }
 .ui-icon,
 .ui-widget-content .ui-icon {
-	background-image: url("images/ui-icons_497bbf_256x240.png");
+	background-image: url("images/ui-icons_3969a9_256x240.png");
 }
 .ui-widget-header .ui-icon {
-	background-image: url("images/ui-icons_d8e7f3_256x240.png");
+	background-image: url("images/ui-icons_d1d1c9_256x240.png");
 }
 .ui-state-default .ui-icon {
-	background-image: url("images/ui-icons_497bbf_256x240.png");
+	background-image: url("images/ui-icons_3969a9_256x240.png");
 }
 .ui-state-hover .ui-icon,
 .ui-state-focus .ui-icon {
 	background-image: url("images/ui-icons_3769ae_256x240.png");
 }
 .ui-state-active .ui-icon {
-	background-image: url("images/ui-icons_6da8d5_256x240.png");
+	background-image: url("images/ui-icons_3969a9_256x240.png");
 }
 .ui-state-highlight .ui-icon {
 	background-image: url("images/ui-icons_2e83ff_256x240.png");
@@ -1188,25 +1188,25 @@ body .ui-tooltip {
 .ui-corner-top,
 .ui-corner-left,
 .ui-corner-tl {
-	border-top-left-radius: 4px;
+	border-top-left-radius: 3px;
 }
 .ui-corner-all,
 .ui-corner-top,
 .ui-corner-right,
 .ui-corner-tr {
-	border-top-right-radius: 4px;
+	border-top-right-radius: 3px;
 }
 .ui-corner-all,
 .ui-corner-bottom,
 .ui-corner-left,
 .ui-corner-bl {
-	border-bottom-left-radius: 4px;
+	border-bottom-left-radius: 3px;
 }
 .ui-corner-all,
 .ui-corner-bottom,
 .ui-corner-right,
 .ui-corner-br {
-	border-bottom-right-radius: 4px;
+	border-bottom-right-radius: 3px;
 }
 
 /* Overlays */
@@ -1227,25 +1227,17 @@ body .ui-tooltip {
 /* Manually added styles */
 .ui-widget-content {
     border-color: #daddd6;
+    background-color: white
 }
 
 .ui-widget-header {
-    background: #5282bc; /* Old browsers */
-    background: -moz-linear-gradient(top, #5282bc 0%, #4e7ab8 56%, #2a5e96 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#5282bc), color-stop(56%,#4e7ab8), color-stop(100%,#2a5e96)); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(top, #5282bc 0%,#4e7ab8 56%,#2a5e96 100%); /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(top, #5282bc 0%,#4e7ab8 56%,#2a5e96 100%); /* Opera 11.10+ */
-    background: -ms-linear-gradient(top, #5282bc 0%,#4e7ab8 56%,#2a5e96 100%); /* IE10+ */
-    background: linear-gradient(to bottom, #5282bc 0%,#4e7ab8 56%,#2a5e96 100%); /* W3C */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#5282bc', endColorstr='#2a5e96',GradientType=0 ); /* IE6-9 */
+    background: #fff
 }
 
 .ui-state-default,
 .ui-widget-content .ui-state-default,
 .ui-widget-header .ui-state-default
 {
-    background: -moz-linear-gradient(top, #f4f4ef 0%, #e7e6e0 76%, #e7e6e0 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f4f4ef), color-stop(76%,#e7e6e0), color-stop(100%,#e7e6e0)); /* Chrome,Safari4+ */
     background: -webkit-linear-gradient(top, #f4f4ef 0%,#e7e6e0 76%,#e7e6e0 100%); /* Chrome10+,Safari5.1+ */
     background: -o-linear-gradient(top, #f4f4ef 0%,#e7e6e0 76%,#e7e6e0 100%); /* Opera 11.10+ */
     background: -ms-linear-gradient(top, #f4f4ef 0%,#e7e6e0 76%,#e7e6e0 100%); /* IE10+ */
@@ -1262,8 +1254,6 @@ body .ui-tooltip {
 .ui-jqgrid-btable tr:nth-child(odd).jqgrow.ui-state-focus,
 .ui-jqgrid-btable tr:nth-child(odd).jqgrow.ui-state-hover
 {
-    background: -moz-linear-gradient(top, #ffffff 0%, #e0f2ff 3%, #d0e5f5 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(3%,#e0f2ff), color-stop(100%,#d0e5f5)); /* Chrome,Safari4+ */
     background: -webkit-linear-gradient(top, #ffffff 0%,#e0f2ff 3%,#d0e5f5 100%); /* Chrome10+,Safari5.1+ */
     background: -o-linear-gradient(top, #ffffff 0%,#e0f2ff 3%,#d0e5f5 100%); /* Opera 11.10+ */
     background: -ms-linear-gradient(top, #ffffff 0%,#e0f2ff 3%,#d0e5f5 100%); /* IE10+ */
@@ -1276,8 +1266,6 @@ body .ui-tooltip {
 .ui-widget-header .ui-state-active,
 .ui-jqgrid-btable tr:nth-child(odd).jqgrow.ui-state-active
 {
-    background: -moz-linear-gradient(top, #ffffff 0%, #f5f8f9 6%, #ffffff 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(6%,#f5f8f9), color-stop(100%,#ffffff)); /* Chrome,Safari4+ */
     background: -webkit-linear-gradient(top, #ffffff 0%,#f5f8f9 6%,#ffffff 100%); /* Chrome10+,Safari5.1+ */
     background: -o-linear-gradient(top, #ffffff 0%,#f5f8f9 6%,#ffffff 100%); /* Opera 11.10+ */
     background: -ms-linear-gradient(top, #ffffff 0%,#f5f8f9 6%,#ffffff 100%); /* IE10+ */
@@ -1290,8 +1278,6 @@ body .ui-tooltip {
 .ui-widget-header .ui-state-highlight,
 .ui-jqgrid-btable tr:nth-child(odd).jqgrow.ui-state-highlight
 {
-    background: -moz-linear-gradient(top, #faf3a6 0%, #fbec88 6%, #faf3a6 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#faf3a6), color-stop(6%,#fbec88), color-stop(100%,#faf3a6)); /* Chrome,Safari4+ */
     background: -webkit-linear-gradient(top, #faf3a6 0%,#fbec88 6%,#faf3a6 100%); /* Chrome10+,Safari5.1+ */
     background: -o-linear-gradient(top, #faf3a6 0%,#fbec88 6%,#faf3a6 100%); /* Opera 11.10+ */
     background: -ms-linear-gradient(top, #faf3a6 0%,#fbec88 6%,#faf3a6 100%); /* IE10+ */
@@ -1310,17 +1296,24 @@ body .ui-tooltip {
 .ui-dialog
 {
     box-shadow: 3px 6px 12px rgba(0,0,0,.3);
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 6px;
+}
+
+.ui-dialog .ui-dialog-title
+{
+    font-size: 140%;
+}
+
+.ui-dialog .ui-dialog-content
+{
+    padding: 0;
 }
 
 .ui-tabs
 {
-    padding: 0
-}
-
-.ui-widget-header
-{
+    padding: 0;
     border: none;
-    text-shadow: 0 1px 1px rgba(0, 0, 0, .3);
 }
 
 .ui-tabs .ui-widget-header
@@ -1334,11 +1327,6 @@ body .ui-tooltip {
     text-shadow: 1px 1px #eee
 }
 
-.ui-widget-content
-{
-    background-color: white
-}
-
 .tree-leaf
 {
     visibility: hidden
@@ -1346,21 +1334,19 @@ body .ui-tooltip {
 
 .ui-jqgrid
 {
-    font-size: inherit
+    font-size: inherit;
+    border: none;
 }
 
 .ui-jqgrid .ui-widget-header
 {
     height: 1.3em;
     padding-left: .5em;
-    border-bottom: 1px solid #BABDB6;
 }
 
 .ui-jqgrid-btable tr:nth-child(odd).jqgrow
 {
     background: #f1f0ee; /* Old browsers */
-    background: -moz-linear-gradient(top, #ffffff 0%, #f5f4f2 4%, #f1f0ee 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(4%,#f5f4f2), color-stop(100%,#f1f0ee)); /* Chrome,Safari4+ */
     background: -webkit-linear-gradient(top, #ffffff 0%,#f5f4f2 4%,#f1f0ee 100%); /* Chrome10+,Safari5.1+ */
     background: -o-linear-gradient(top, #ffffff 0%,#f5f4f2 4%,#f1f0ee 100%); /* Opera 11.10+ */
     background: -ms-linear-gradient(top, #ffffff 0%,#f5f4f2 4%,#f1f0ee 100%); /* IE10+ */
@@ -1383,11 +1369,12 @@ body .ui-tooltip {
 .ui-jqgrid .ui-jqgrid-hdiv
 {
     overflow: hidden
+    border-color: transparent;
 }
 
-.ui-jqgrid .ui-jqgrid-hdiv
+.ui-jqgrid .ui-jqgrid-hbox
 {
-    border-bottom-color: #999791;
+    border-top: 1px solid #ccc;
 }
 
 .ui-jqgrid-hbox .ui-jqgrid-htable
@@ -1411,21 +1398,35 @@ body .ui-tooltip {
     border-bottom: none;
 }
 
-.ui-jqgrid-ftable tr
+.ui-jqgrid-ftable tr,
+.ui-jqgrid-ftable tr.footrow td
 {
     background-color: transparent;
-    border-top-color: #999791;
+    border-top: none;
+}
+
+.ui-jqgrid-ftable tr.footrow td
+{
+    border-right-color: white;
 }
 
 .ui-jqgrid .ui-jqgrid-htable th
 {
     height: 15px;
+    border-right-color: rgba(0, 0, 0, .1);
 }
 
 .ui-jqgrid .ui-jqgrid-htable th div
 {
     height: 15px;
     font-weight: normal
+}
+
+.ui-jqgrid .ui-jqgrid-htable th .s-ico
+{
+    position: absolute;
+    right: 14px;
+    top: 0
 }
 
 .ui-jqgrid .ui-widget-content td.title,
@@ -1500,6 +1501,14 @@ body .ui-tooltip {
 .ui-tabs .ui-tabs-nav
 {
     height: 1.9em;
+    border-bottom: 1px solid #daddd6;
+}
+
+.ui-tabs .ui-tabs-nav li.ui-tabs-active
+{
+    border-bottom: none;
+    text-shadow: 1px 1px #eee;
+    padding-bottom: 0;
 }
 
 .ui-tabs .ui-tabs-nav li a.ui-tabs-anchor
@@ -1514,15 +1523,42 @@ body .ui-tooltip {
 .ui-tabs .ui-tabs-panel
 {
     padding: 0;
-    padding-bottom: 15px
+    padding-bottom: 15px;
+    border: 1px solid #daddd6;
+    border-top: none;
+}
+
+.normal .ui-jqgrid-hbox .ui-state-default,
+.good .ui-jqgrid-hbox .ui-state-default,
+.bad .ui-jqgrid-hbox .ui-state-default,
+.fc-view .ui-widget-header
+{
+    color: white;
+    text-shadow: 1px 1px rgba(0, 0, 0, .2);
+}
+
+.normal .ui-jqgrid-htable .ui-icon,
+.good .ui-jqgrid-htable .ui-icon,
+.bad .ui-jqgrid-htable .ui-icon
+{
+    background-image: url("images/ui-icons_ffffff_256x240.png");
+}
+
+.normal .ui-jqgrid-view .ui-state-default,
+.fc-view .ui-widget-header
+{
+    background: #5282bc; /* Old browsers */
+    background: -webkit-linear-gradient(top, #5282bc 0%,#4e7ab8 56%,#2a5e96 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, #5282bc 0%,#4e7ab8 56%,#2a5e96 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, #5282bc 0%,#4e7ab8 56%,#2a5e96 100%); /* IE10+ */
+    background: linear-gradient(to bottom, #5282bc 0%,#4e7ab8 56%,#2a5e96 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#5282bc', endColorstr='#2a5e96',GradientType=0 ); /* IE6-9 */
 }
 
 /* Red headers */
-.bad .ui-widget-header
+.bad .ui-jqgrid-view .ui-state-default
 {
     background: #e2585d; /* Old browsers */
-    background: -moz-linear-gradient(top, #e2585d 0%, #dd5252 56%, #d40c18 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#e2585d), color-stop(56%,#dd5252), color-stop(100%,#d40c18)); /* Chrome,Safari4+ */
     background: -webkit-linear-gradient(top, #e2585d 0%,#dd5252 56%,#d40c18 100%); /* Chrome10+,Safari5.1+ */
     background: -o-linear-gradient(top, #e2585d 0%,#dd5252 56%,#d40c18 100%); /* Opera 11.10+ */
     background: -ms-linear-gradient(top, #e2585d 0%,#dd5252 56%,#d40c18 100%); /* IE10+ */
@@ -1531,11 +1567,9 @@ body .ui-tooltip {
 }
 
 /* Green headers */
-.good .ui-widget-header
+.good .ui-jqgrid-view .ui-state-default
 {
     background: #78a939; /* Old browsers */
-    background: -moz-linear-gradient(top, #78a939 0%, #70a03a 56%, #5b841e 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#78a939), color-stop(56%,#70a03a), color-stop(100%,#5b841e)); /* Chrome,Safari4+ */
     background: -webkit-linear-gradient(top, #78a939 0%,#70a03a 56%,#5b841e 100%); /* Chrome10+,Safari5.1+ */
     background: -o-linear-gradient(top, #78a939 0%,#70a03a 56%,#5b841e 100%); /* Opera 11.10+ */
     background: -ms-linear-gradient(top, #78a939 0%,#70a03a 56%,#5b841e 100%); /* IE10+ */
@@ -1553,11 +1587,13 @@ body .ui-tooltip {
     border: none;
     background: transparent;
 }
-.ui-jqgrid .ui-widget-header .ui-icon {background-image: url(images/ui-icons_ffffff_256x240.png); filter: alpha(opacity=75); opacity: .75;}
+.ui-jqgrid .ui-widget-header .ui-icon
+{
+    filter: alpha(opacity=75);
+    opacity: .75;
+}
 
-.ui-jqgrid .ui-widget-header .ui-state-hover .ui-icon,
-.ui-jqgrid .ui-widget-header .ui-state-active .ui-icon,
-.ui-jqgrid .ui-widget-header .ui-state-focus .ui-icon
+.ui-jqgrid .ui-jqgrid-titlebar:hover .ui-icon
 {
     filter: alpha(opacity=100);
     opacity: 1;

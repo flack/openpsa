@@ -11,6 +11,10 @@ else if ($data['list_type'] == 'paid')
 {
     $classes .= ' good';
 }
+else if ($data['list_type'] == 'open')
+{
+    $classes .= ' normal';
+}
 
 $footer_data = array
 (
