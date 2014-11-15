@@ -181,7 +181,7 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
             }
             $ret['org_openpsa_relatedto'][] = $entry;
         }
-        return http_build_query($ret, '', '&amp;');
+        return http_build_query($ret, '', '&');
     }
 
     /**
@@ -360,7 +360,7 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
                     (
                         array
                         (
-                            MIDCOM_TOOLBAR_URL => "{$data['node'][MIDCOM_NAV_ABSOLUTEURL]}create/?wikiword={$data['wikiword_encoded']}&amp;" . self::relatedto2get(array($related_to)),
+                            MIDCOM_TOOLBAR_URL => "{$data['node'][MIDCOM_NAV_ABSOLUTEURL]}create/?wikiword={$data['wikiword_encoded']}&" . self::relatedto2get(array($related_to)),
                             MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('create note', $data['component']),
                             //TODO: Different icon from new document ?
                             MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-text.png',

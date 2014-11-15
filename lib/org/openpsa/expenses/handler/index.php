@@ -81,7 +81,7 @@ class org_openpsa_expenses_handler_index  extends midcom_baseclasses_components_
         (
             array
             (
-                MIDCOM_TOOLBAR_URL => 'hours/?date[from]=' . $week_start . '&amp;date[to]=' . $week_end,
+                MIDCOM_TOOLBAR_URL => 'hours/?date[from]=' . $week_start . '&date[to]=' . $week_end,
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('list view'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/view.png',
             )
