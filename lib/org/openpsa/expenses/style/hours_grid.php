@@ -68,7 +68,7 @@ $footer_data = array
 
 $grid->set_footer_data($footer_data);
 ?>
-<div class="org_openpsa_expenses <?php echo $class ?> batch-processing full-width crop-height" style="margin-bottom: 1em">
+<div class="org_openpsa_expenses <?php echo $class ?> batch-processing full-width crop-height" style="margin-top: 1em">
 
 <?php $grid->render($entries); ?>
 
