@@ -44,7 +44,6 @@ div.salesproject div.contacts
 div.salesproject div.deliverables ol.deliverable_list
 {
     list-style: none;
-    margin: 0px;
     padding: 4px;
 }
 div.salesproject div.deliverables ol.deliverable_list li.deliverable
@@ -183,15 +182,15 @@ div.org_openpsa_sales_salesproject_deliverable .tab_div .org_openpsa_invoices .u
     position: relative;
     display: inline-block;
 }
-.custom-productselect-toggle {
+.custom-productselect .custom-productselect-toggle {
     position: absolute;
     top: 0;
     bottom: 0;
     margin-left: -1px;
-    padding: 0;
+    padding-bottom: 1px;
     height: 1.75em
 }
-.custom-productselect-input {
+.custom-productselect .custom-productselect-input {
     margin: 0;
     padding: 0.3em;
 }

@@ -1632,6 +1632,17 @@ body .ui-tooltip {
     margin: 0;
 }
 
+.ui-multiselect-header ul li
+{
+    font-weight: normal;
+}
+
+.ui-multiselect-header li.ui-multiselect-close
+{
+    position: absolute;
+    right: 3px
+}
+
 ul.fancytree-container
 {
     border: none;
