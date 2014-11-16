@@ -36,6 +36,11 @@ class org_openpsa_helpers
         return $output;
      }
 
+     /**
+      * @param midcom_core_dbaobject $object The object we're working on
+      * @param string $field The schema field name
+      * @return array List of midcom_db_attachment objects, indexed by identifier
+      */
      public static function get_dm2_attachments($object, $field)
      {
          $attachments = array();

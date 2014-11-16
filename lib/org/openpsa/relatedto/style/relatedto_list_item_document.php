@@ -17,10 +17,11 @@ $atts = org_openpsa_helpers::get_dm2_attachments($document, 'document');
     }
     else
     {
-        $prefix = midcom_connection::get_url('self');
         foreach ($atts as $file)
         {
-            echo "<a target=\"document_{$document->guid}\" href=\"{$prefix}midcom-serveattachmentguid-{$file->guid}/{$file->name}\">{$file->name}</a> (" . sprintf(midcom::get()->i18n->get_string('%s document', 'org.openpsa.documents'), midcom::get()->i18n->get_string($file->mimetype, 'org.openpsa.documents')).")";
+            $type = org_openpsa_documents_document_dba::get_file_type($file->mimetype);
+            $url = midcom_db_attachment::get_url($file);
+            echo "<a target=\"document_{$document->guid}\" href=\"{$url}\">{$file->name}</a> (" . $type . ")";
         }
     }
     ?>
