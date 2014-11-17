@@ -77,7 +77,7 @@ implements org_openpsa_widgets_grid_provider_client
         (
             array
             (
-                MIDCOM_TOOLBAR_URL => $products_url . 'product/' . $this->_product->get_path(new midcom_db_topic($product_guid)) . '/',
+                MIDCOM_TOOLBAR_URL => $products_url . 'product/' . $this->_product->get_path(new midcom_db_topic($product_guid)),
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('go to product'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/jump-to.png',
             )
