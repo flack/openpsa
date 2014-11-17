@@ -115,5 +115,5 @@
 // Match /
 'frontpage' => array
 (
-    'handler' => array('org_openpsa_sales_handler_frontpage', 'frontpage'),
+    'handler' => array('org_openpsa_sales_handler_list', 'list'),
 ),

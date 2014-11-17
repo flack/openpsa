@@ -34,40 +34,19 @@ class org_openpsa_sales_handler_list extends midcom_baseclasses_components_handl
 
         $qb = org_openpsa_sales_salesproject_dba::new_query_builder();
 
-        if ($handler_id == 'list_state')
-        {
-            $qb = $this->_add_state_constraint($args[0], $qb);
-            $data['mode'] = $args[0];
-            $data['list_title'] = $this->_l10n->get('salesprojects ' . $args[0]);
-        }
-        else
+        if ($handler_id == 'list_customer')
         {
             $qb = $this->_add_customer_constraint($args[0], $qb);
             $data['mode'] = 'customer';
             $data['list_title'] = sprintf($this->_l10n->get('salesprojects with %s'), $data['customer']->get_label());
-
-            if ($data['contacts_url'])
-            {
-                $this->_view_toolbar->add_item
-                (
-                    array
-                    (
-                        MIDCOM_TOOLBAR_URL => $data['contacts_url'] . (is_a($data['customer'], 'org_openpsa_contacts_group_dba') ? 'group' : 'person') . "/{$data['customer']->guid}/",
-                        MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('go to customer'),
-                        MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/jump-to.png',
-                    )
-                );
-            }
-            $this->_view_toolbar->add_item
-            (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => 'salesproject/new/' . $data['customer']->guid . '/',
-                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create salesproject'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_people.png',
-                    MIDCOM_TOOLBAR_ENABLED => midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_sales_salesproject_dba'),
-                )
-            );
+            $this->add_breadcrumb("", $data['list_title']);
+        }
+        else
+        {
+            $data['mode'] = $this->get_list_mode($args);
+            $qb = $this->_add_state_constraint($data['mode'], $qb);
+            $data['list_title'] = $this->_l10n->get('salesprojects ' . $data['mode']);
+            $this->set_active_leaf($this->_topic->id . ':' . $data['mode']);
         }
 
         $this->_salesprojects = $qb->execute();
@@ -82,7 +61,60 @@ class org_openpsa_sales_handler_list extends midcom_baseclasses_components_handl
         $data['grid'] = new org_openpsa_widgets_grid($data['mode'] . '_salesprojects_grid', 'local');
         midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.core/table2csv.js');
 
-        $this->add_breadcrumb("", $data['list_title']);
+        $this->add_toolbar_buttons();
+    }
+
+    private function get_list_mode(array $args)
+    {
+        $person = midcom::get()->auth->user->get_storage();
+        $mode = $person->get_parameter($this->_component, 'list_mode');
+        if (!empty($args[0]))
+        {
+            if ($mode !== $args[0])
+            {
+                $person->set_parameter($this->_component, 'list_mode', $args[0]);
+            }
+            return $args[0];
+        }
+        if (!empty($mode))
+        {
+            return $mode;
+        }
+        return 'active';
+    }
+
+    private function add_toolbar_buttons()
+    {
+        $create_url = 'salesproject/new/';
+
+        if (!empty($this->_request_data['customer']))
+        {
+            $create_url .= $this->_request_data['customer']->guid . '/';
+
+            if ($this->_request_data['contacts_url'])
+            {
+                $url_prefix = $this->_request_data['contacts_url'] . (is_a($this->_request_data['customer'], 'org_openpsa_contacts_group_dba') ? 'group' : 'person') . "/";
+                $this->_view_toolbar->add_item
+                (
+                    array
+                    (
+                        MIDCOM_TOOLBAR_URL => $url_prefix . $this->_request_data['customer']->guid . '/',
+                        MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('go to customer'),
+                        MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/jump-to.png',
+                    )
+                );
+            }
+        }
+        $this->_view_toolbar->add_item
+        (
+            array
+            (
+                MIDCOM_TOOLBAR_URL => $create_url,
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create salesproject'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_people.png',
+                MIDCOM_TOOLBAR_ENABLED => midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_sales_salesproject_dba'),
+            )
+        );
     }
 
     private function _add_state_constraint($state, midcom_core_query $qb)
