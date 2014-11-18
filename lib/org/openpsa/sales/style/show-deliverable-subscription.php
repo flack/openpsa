@@ -207,20 +207,19 @@ catch (midcom_error $e)
                         <tr>
                           <td class="title"><?php echo $data['l10n']->get('cost'); ?></td>
                           <?php
-                          if ($data['deliverable']->costType == 'm')
-                          { ?>
-                              <td class="numeric"><?php echo org_openpsa_helpers::format_number($data['deliverable']->costPerUnit); ?></td>
-                              <td class="numeric"><?php echo $view['plannedUnits']; ?></td>
-                              <td class="numeric"><?php echo $view['units']; ?></td>
-                              <td class="numeric"><?php echo org_openpsa_helpers::format_number($data['deliverable']->cost); ?></td>
-                          <?php }
-                          else
+                          if ($data['deliverable']->costType == '%')
                           { ?>
                               <td class="numeric"><?php echo $view['costPerUnit']; ?> %</td>
                               <td class="numeric">&nbsp;</td>
                               <td class="numeric">&nbsp;</td>
-                              <td class="numeric"><?php echo org_openpsa_helpers::format_number($data['deliverable']->cost); ?></td>
+                          <?php }
+                          else
+                          { ?>
+                              <td class="numeric"><?php echo org_openpsa_helpers::format_number($data['deliverable']->costPerUnit); ?></td>
+                              <td class="numeric"><?php echo $view['plannedUnits']; ?></td>
+                              <td class="numeric"><?php echo $view['units']; ?></td>
                           <?php } ?>
+                              <td class="numeric"><?php echo org_openpsa_helpers::format_number($data['deliverable']->cost); ?></td>
                         </tr>
                       </tbody>
                     </table>

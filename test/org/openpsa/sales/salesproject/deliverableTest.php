@@ -274,7 +274,7 @@ class org_openpsa_sales_salesproject_deliverableTest extends openpsa_testcase
                 array
                 (
                     'price' => 200,
-                    'cost' => 10,
+                    'cost' => 20,
                 ),
             ),
             array

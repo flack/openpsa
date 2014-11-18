@@ -45,13 +45,14 @@ class org_openpsa_sales_calculator_default implements org_openpsa_invoices_inter
             || $this->_deliverable->plannedUnits == 0)
         {
             // In most cases we calculate the price based on the actual units entered
-            $this->_price = $this->_deliverable->units * $this->_deliverable->pricePerUnit;
+            $units = $this->_deliverable->units;
         }
         else
         {
             // But in some deals we use the planned units instead
-            $this->_price = $this->_deliverable->plannedUnits * $this->_deliverable->pricePerUnit;
+            $units = $this->_deliverable->plannedUnits;
         }
+        $this->_price = $units * $this->_deliverable->pricePerUnit;
 
         // Count cost based on the cost type
         switch ($this->_deliverable->costType)
@@ -63,7 +64,7 @@ class org_openpsa_sales_calculator_default implements org_openpsa_invoices_inter
             default:
             case 'm':
                 // The cost is a fixed sum per unit
-                $this->_cost = $this->_deliverable->units * $this->_deliverable->costPerUnit;
+                $this->_cost = $units * $this->_deliverable->costPerUnit;
                 break;
         }
     }
