@@ -637,8 +637,6 @@ var org_openpsa_grid_helper =
                 'page': grid.jqGrid('getGridParam', 'page'),
                 'sortname': grid.jqGrid('getGridParam', 'sortname'),
                 'sortorder': grid.jqGrid('getGridParam', 'sortorder'),
-                'grouping': grid.jqGrid('getGridParam', 'grouping'),
-                'groupingView': grid.jqGrid('getGridParam', 'groupingView'),
                 'hiddengrid': grid.closest('.ui-jqgrid-view').find('.ui-jqgrid-titlebar-close .ui-icon').hasClass('ui-icon-circle-triangle-s'),
                 'custom_keys':
                 {
@@ -647,6 +645,13 @@ var org_openpsa_grid_helper =
                     'maximized': (grid.closest('.ui-jqgrid-maximized').length > 0) && (grid_maximized == grid_id || grid_maximized == false)
                 }
             };
+
+            if ($("#chgrouping_" + grid_id).length > 0)
+            {
+                data.grouping = grid.jqGrid('getGridParam', 'grouping');
+                data.groupingView = grid.jqGrid('getGridParam', 'groupingView');
+            }
+
             if (data.custom_keys.maximized)
             {
                 grid_maximized = grid_id;
