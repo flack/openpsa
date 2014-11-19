@@ -104,11 +104,6 @@ class org_openpsa_invoices_invoice_item_dba extends midcom_core_dbaobject
                     && !empty($this->deliverable))
                 {
                     $deliverable = new org_openpsa_sales_salesproject_deliverable_dba($this->deliverable);
-                    if (   $deliverable->orgOpenpsaObtype !== org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION
-                        && $deliverable->state < org_openpsa_sales_salesproject_deliverable_dba::STATE_INVOICED)
-                    {
-                        $deliverable->state = org_openpsa_sales_salesproject_deliverable_dba::STATE_INVOICED;
-                    }
                     self::update_deliverable($deliverable);
                 }
             }
@@ -157,7 +152,7 @@ class org_openpsa_invoices_invoice_item_dba extends midcom_core_dbaobject
         if ($invoiced != $deliverable->invoiced)
         {
             $deliverable->invoiced = $invoiced;
-            if (   $deliverable->orgOpenpsaObtype == org_openpsa_products_product_dba::DELIVERY_SINGLE
+            if (   $deliverable->orgOpenpsaObtype !== org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION
                 && $deliverable->state < org_openpsa_sales_salesproject_deliverable_dba::STATE_INVOICED)
             {
                 $deliverable->state = org_openpsa_sales_salesproject_deliverable_dba::STATE_INVOICED;
