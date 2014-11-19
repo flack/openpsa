@@ -226,9 +226,8 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
         $units = $agreement_hours['invoiceable'];
         $uninvoiceableUnits = $agreement_hours['reported'] - ($agreement_hours['invoiceable'] + $agreement_hours['invoiced']);
 
-        // Cast to string as workaround for #717
         if (   $units != $this->units
-            || (string) $uninvoiceableUnits != (string) $this->uninvoiceableUnits)
+            || $uninvoiceableUnits != $this->uninvoiceableUnits)
         {
             debug_add("agreement values have changed, setting units to " . $units . ", uninvoiceable: " . $uninvoiceableUnits);
             $this->units = $units;
@@ -278,7 +277,7 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
 
     function invoice()
     {
-        if (   $this->state > self::STATE_INVOICED
+        if (   $this->state >= self::STATE_INVOICED
             || $this->orgOpenpsaObtype == org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION)
         {
             return false;
