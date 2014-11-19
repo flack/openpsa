@@ -57,10 +57,11 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
 
         $deliverable_attributes = array
         (
-           'salesproject' => $this->_salesproject->id,
-           'product' => $this->_product->id,
-           'description' => 'TEST DESCRIPTION',
-           'plannedUnits' => 15,
+            'salesproject' => $this->_salesproject->id,
+            'product' => $this->_product->id,
+            'description' => 'TEST DESCRIPTION',
+            'plannedUnits' => 15,
+            'orgOpenpsaObtype' => org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION
         );
         $this->_deliverable = $this->create_object('org_openpsa_sales_salesproject_deliverable_dba', $deliverable_attributes);
 
