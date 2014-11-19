@@ -60,8 +60,7 @@ foreach ($data['salesprojects'] as $salesproject)
         $row['closeest'] = strftime("%x", $salesproject->closeEst);
     }
 
-    $row['index_value'] = $salesproject->value;
-    $row['value'] = org_openpsa_helpers::format_number($salesproject->value);
+    $row['value'] = $salesproject->value;
 
     if ($data['mode'] == 'active')
     {
@@ -70,9 +69,7 @@ foreach ($data['salesprojects'] as $salesproject)
         $row['index_weightedvalue'] = $salesproject->value / 100 * $salesproject->probability;
         $row['weightedvalue'] = org_openpsa_helpers::format_number($salesproject->value / 100 * $salesproject->probability);
     }
-
-    $row['index_profit'] = $salesproject->profit;
-    $row['profit'] = org_openpsa_helpers::format_number($salesproject->profit);
+    $row['profit'] = $salesproject->profit;
 
     $row['prev_action'] = '';
 
@@ -120,13 +117,13 @@ if ($data['mode'] != 'customer')
 }
 $grid->set_column('owner', $data['l10n']->get('owner'), 'width: 70, classes: "ui-ellipsis"', 'string')
 ->set_column('closeest', $data['l10n']->get('estimated closing date'), 'width: 65, align: "center", fixed: true', 'integer')
-->set_column('value', $data['l10n']->get('value'), 'width: 60, align: "right", fixed: true', 'float');
+->set_column('value', $data['l10n']->get('value'), 'width: 60, align: "right", fixed: true, summaryType: "sum", formatter: "number"');
 if ($data['mode'] == 'active')
 {
     $grid->set_column('probability', $data['l10n']->get('probability'), 'width: 55, align: "right"')
     ->set_column('weightedvalue', $data['l10n']->get('weighted value'), 'width: 55, align: "right"', 'float');
 }
-$grid->set_column('profit', $data['l10n']->get('profit'), 'width: 60, align: "right"', 'float')
+$grid->set_column('profit', $data['l10n']->get('profit'), 'width: 60, align: "right", summaryType: "sum", formatter: "number"')
 ->set_column('prev_action', $data['l10n']->get('previous action'), 'width: 75, align: "center", classes: "ui-ellipsis"')
 ->set_column('next_action', $data['l10n']->get('next action'), 'width: 75, align: "center", classes: "ui-ellipsis"');
 
@@ -142,6 +139,8 @@ if ($data['mode'] != 'customer')
         'groupColumnShow' => array(false),
         'groupText' => array('<strong>{0}</strong> ({1})'),
         'groupOrder' => array('asc'),
+        'groupSummary' => array(true),
+        'showSummaryOnHide' => true
     ));
 }
 $grid->render($rows);
