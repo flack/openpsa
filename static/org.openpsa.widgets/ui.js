@@ -195,6 +195,8 @@ var org_openpsa_layout =
 
                 $('#leftframe').css('width', navigation_width + 'px');
                 $('#content').css('margin-left', content_margin_left + 'px');
+                //workaround for problem in jquery.ui 1.11.2
+                $('#template_openpsa2_resizer').css('width', '');
 
                 $.post(MIDGARD_ROOT + '__mfa/asgard/preferences/ajax/', {openpsa2_offset: offset});
                 $(window).trigger('resize');
