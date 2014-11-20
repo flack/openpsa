@@ -275,6 +275,19 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
         return true;
     }
 
+    public function end_subscription()
+    {
+        $this->state = org_openpsa_sales_salesproject_deliverable_dba::STATE_INVOICED;
+        if (!$this->update())
+        {
+            return false;
+        }
+        $salesproject = new org_openpsa_sales_salesproject_dba($this->salesproject);
+        $salesproject->mark_invoiced();
+
+        return true;
+    }
+
     function invoice()
     {
         if (   $this->state >= self::STATE_INVOICED
@@ -288,7 +301,6 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
 
         if ($amount > 0)
         {
-            // Update sales project and mark as delivered (if no other deliverables are active)
             $salesproject = new org_openpsa_sales_salesproject_dba($this->salesproject);
             $salesproject->mark_invoiced();
         }

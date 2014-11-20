@@ -96,7 +96,7 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
             && $this->_deliverable->end != 0)
         {
             debug_add('Do not register next cycle, the contract ends before');
-            return true;
+            return $this->_deliverable->end_subscription();
         }
 
         if ($this->_create_at_entry($cycle_number + 1, $next_cycle_start))

@@ -190,6 +190,7 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
             if ($next_cycle == 0)
             {
                 $entry->delete();
+                $this->_deliverable->end_subscription();
             }
             else if ($next_cycle != $entry->start)
             {
