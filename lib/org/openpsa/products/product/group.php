@@ -63,7 +63,7 @@ class org_openpsa_products_product_group_dba extends midcom_core_dbaobject
 
     public function get_path($parent_category = null)
     {
-        if ($group->code)
+        if ($this->code)
         {
             if ($parent_category)
             {
