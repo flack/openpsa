@@ -164,7 +164,8 @@ $.midcom_services_toolbars = function(root, settings) {
             {
                 save_settings(true);
             },
-            containment: 'window'
+            containment: 'window',
+            cancel: '.items ul'
         });
         root_element.css({ cursor: 'default' });
 
