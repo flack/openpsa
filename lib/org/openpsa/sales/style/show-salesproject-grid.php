@@ -3,6 +3,16 @@ $grid = $data['grid'];
 $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 $rows = array();
 
+$state_labels = array
+(
+    org_openpsa_sales_salesproject_dba::STATE_LOST => 'lost',
+    org_openpsa_sales_salesproject_dba::STATE_CANCELED => 'canceled',
+    org_openpsa_sales_salesproject_dba::STATE_ACTIVE => 'active',
+    org_openpsa_sales_salesproject_dba::STATE_WON => 'won',
+    org_openpsa_sales_salesproject_dba::STATE_DELIVERED => 'delivered',
+    org_openpsa_sales_salesproject_dba::STATE_INVOICED => 'invoiced'
+);
+
 foreach ($data['salesprojects'] as $salesproject)
 {
     $salesproject_url = "{$prefix}salesproject/{$salesproject->guid}/";
@@ -36,6 +46,11 @@ foreach ($data['salesprojects'] as $salesproject)
                 $row['customer'] = $label;
             }
         }
+    }
+    else
+    {
+        $row['index_state'] = $salesproject->state;
+        $row['state'] = $data['l10n']->get($state_labels[$salesproject->state]);
     }
 
     try
@@ -115,6 +130,10 @@ if ($data['mode'] != 'customer')
 {
     $grid->set_column('customer', $data['l10n']->get('customer'), 'width: 80, classes: "ui-ellipsis"', 'string');
 }
+else
+{
+    $grid->set_column('state', $data['l10n']->get('state'), 'hidden: true', 'number');
+}
 $grid->set_column('owner', $data['l10n']->get('owner'), 'width: 70, classes: "ui-ellipsis"', 'string')
 ->set_column('closeest', $data['l10n']->get('estimated closing date'), 'width: 65, align: "center", fixed: true', 'integer')
 ->set_column('value', $data['l10n']->get('value'), 'width: 60, align: "right", fixed: true, summaryType: "sum", formatter: "number"');
@@ -130,19 +149,18 @@ $grid->set_column('profit', $data['l10n']->get('profit'), 'width: 60, align: "ri
 $grid->set_option('scroll', 1)
 ->set_option('loadonce', true)
 ->set_option('sortname', 'index_title');
-if ($data['mode'] != 'customer')
-{
-    $grid->set_option('grouping', true)
+
+$grid->set_option('grouping', true)
     ->set_option('groupingView', array
     (
-        'groupField' => array('customer'),
+        'groupField' => ($data['mode'] != 'customer') ? array('customer') : array('state'),
         'groupColumnShow' => array(false),
         'groupText' => array('<strong>{0}</strong> ({1})'),
         'groupOrder' => array('asc'),
         'groupSummary' => array(true),
         'showSummaryOnHide' => true
     ));
-}
+
 $grid->render($rows);
 ?>
 
