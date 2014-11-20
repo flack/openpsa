@@ -1257,7 +1257,7 @@ class midcom_baseclasses_core_dbobject
      * construction) and midgard:privileges) otherwise, the call will fail.
      *
      * @param midcom_core_dbaobject $object The DBA object we're working on
-     * @return array A list of midcom_core_privilege objects or false on failure.
+     * @return midcom_core_privilege[] A list of privilege objects or false on failure.
      */
     public static function get_privileges(midcom_core_dbaobject $object)
     {

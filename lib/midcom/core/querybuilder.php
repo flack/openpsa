@@ -63,7 +63,7 @@ class midcom_core_querybuilder extends midcom_core_query
      * Executes the internal QB and filters objects based on ACLs and metadata
      *
      * @param boolean $false_on_empty_mgd_resultset used in the moving window loop to get false instead of empty array back from this method in case the **core** QB returns empty resultset
-     * @return array of objects filtered by ACL and metadata visibility (or false in case of failure)
+     * @return midcom_core_dbaobject[] Array filtered by ACL and metadata visibility (or false in case of failure)
      */
     private function _execute_and_check_privileges($false_on_empty_mgd_resultset = false)
     {
@@ -135,7 +135,7 @@ class midcom_core_querybuilder extends midcom_core_query
      * 3. void _on_process_query_result(&$result) is called after the successful execution of the query. You
      *    may remove any unwanted entries from the resultset at this point.
      *
-     * @return array The result of the query builder.
+     * @return midcom_core_dbaobject[] The result of the query builder.
      */
     function execute_windowed()
     {
@@ -269,6 +269,9 @@ class midcom_core_querybuilder extends midcom_core_query
         }
     }
 
+    /**
+     * @return midcom_core_dbaobject[]
+     */
     public function execute()
     {
         $this->_check_groups();

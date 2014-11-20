@@ -160,7 +160,7 @@ class midgard_admin_asgard_stylehelper
      * Get list of topics using a particular style
      *
      * @param string $style Style path
-     * @return array List of folders
+     * @return midcom_db_topic[] List of folders
      */
     private function _get_nodes_using_style($style)
     {

@@ -60,7 +60,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
      * date.
      *
      * @param guid $guid The GUID of the object to bind to.
-     * @return Array List of applicable comments.
+     * @return net_nehmer_comments_comment[] List of applicable comments.
      */
     public static function list_by_objectguid($guid, $limit=false, $order='ASC', $paging = false, $status = false)
     {
@@ -105,7 +105,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
      * ordered by creation date.
      *
      * @param guid $guid The GUID of the object to bind to.
-     * @return Array List of applicable comments.
+     * @return net_nehmer_comments_comment[] List of applicable comments.
      */
     public static function list_by_objectguid_filter_anonymous($guid, $limit=false, $order='ASC', $paging=false, $status = false)
     {

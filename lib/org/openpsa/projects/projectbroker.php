@@ -19,7 +19,7 @@ class org_openpsa_projects_projectbroker
      * Does a local search for persons that match the task constraints
      *
      * @param org_openpsa_projects_task_dba $task Task object to search prospect resources for
-     * @return array of prospect persons (or false on critical failure)
+     * @return org_openpsa_contacts_person_dba[] Array of prospect persons (or false on critical failure)
      */
     function find_task_prospects($task)
     {

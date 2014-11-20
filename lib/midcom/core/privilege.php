@@ -350,7 +350,7 @@ class midcom_core_privilege
      * This function is for use in the authentication framework only.
      *
      * @param string $guid A GUID to query.
-     * @return array A list of midcom_core_privilege instances.
+     * @return midcom_core_privilege[]
      */
     public static function get_content_privileges($guid)
     {
@@ -364,7 +364,7 @@ class midcom_core_privilege
      * This function is for use in the authentication framework only.
      *
      * @param string $guid A GUID to query.
-     * @return array A list of midcom_core_privilege instances.
+     * @return midcom_core_privilege[]
      */
     public static function get_self_privileges($guid)
     {
@@ -378,7 +378,7 @@ class midcom_core_privilege
      * This function is for use in the authentication framework only
      *
      * @param string $guid The GUID of the object for which we should look up privileges.
-     * @return array A list of midcom_core_privilege instances.
+     * @return midcom_core_privilege[]
      */
     public static function get_all_privileges($guid)
     {
@@ -390,7 +390,7 @@ class midcom_core_privilege
      * an object unfiltered.
      *
      * @param string $guid The GUID of the object for which we should look up privileges.
-     * @return array A list of midcom_core_privilege instances.
+     * @return midcom_core_privilege[]
      */
     private static function _get_privileges($guid, $type)
     {
@@ -422,7 +422,7 @@ class midcom_core_privilege
      *
      * @param string $guid The GUID of the object for which to query ACL data.
      * @param string $type SELF or CONTENT
-     * @return array A list of midcom_core_privilege instances.
+     * @return midcom_core_privilege[]
      */
     protected static function _query_privileges($guid, $type)
     {

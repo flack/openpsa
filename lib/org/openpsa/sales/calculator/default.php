@@ -92,7 +92,7 @@ class org_openpsa_sales_calculator_default implements org_openpsa_invoices_inter
     /**
      * Returns the invoice items that should be written
      *
-     * @return array
+     * @return org_openpsa_invoices_invoice_item_dba[]
      */
     public function get_invoice_items(org_openpsa_invoices_invoice_dba $invoice)
     {

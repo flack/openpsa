@@ -261,7 +261,7 @@ class midcom_core_user
     /**
      * Retrieves a list of groups for which this user is an immediate member.
      *
-     * @return array A list of midcom_core_group objects in which the current user is a member, or false on failure.
+     * @return midcom_core_group[] A list of groups in which the current user is a member
      */
     function list_memberships()
     {
@@ -277,7 +277,7 @@ class midcom_core_user
      *
      * There is no hierarchy in the resultset, it is just a plain listing.
      *
-     * @return array A list of midcom_core_group objects in which the current user is a member, or false on failure.
+     * @return midcom_core_group[] A list of groups in which the current user is a member
      */
     function list_all_memberships()
     {

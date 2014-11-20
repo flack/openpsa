@@ -36,7 +36,7 @@ interface org_openpsa_invoices_interfaces_calculator
      * Returns the invoice items that should be written
      *
      * @param org_openpsa_invoices_invoice_dba $invoice The invoice we're working on
-     * @return array
+     * @return org_openpsa_invoices_invoice_item_dba[]
      */
     public function get_invoice_items(org_openpsa_invoices_invoice_dba $invoice);
 

@@ -80,7 +80,7 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
      *
      * @param string $token token string
      * @param int $type receipt type, defaults to org_openpsa_directmarketing_campaign_messagereceipt_dba::SENT
-     * @return array QB->execute results
+     * @return org_openpsa_directmarketing_campaign_messagereceipt_dba[]
      */
     private function _qb_token_receipts($token, $type = org_openpsa_directmarketing_campaign_messagereceipt_dba::SENT)
     {

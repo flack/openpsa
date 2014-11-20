@@ -123,7 +123,7 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
      *
      * @param string $query The query, which must suite the backends query syntax.
      * @param midcom_services_indexer_filter $filter An optional filter used to restrict the query. This may be null indicating no filter.
-     * @return Array An array of documents matching the query, or false on a failure.
+     * @return midcom_services_indexer_document[] An array of documents matching the query, or false on a failure.
      */
     public function query($query, midcom_services_indexer_filter $filter = null)
     {

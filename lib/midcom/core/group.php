@@ -141,7 +141,7 @@ class midcom_core_group
     /**
      * Retrieves a list of groups owned by this group.
      *
-     * @return array A list of midcom_core_group objects in which are owned by the current group, false on failure.
+     * @return midgard_group[] A list of group objects in which are owned by the current group
      */
     function list_subordinate_groups()
     {
@@ -153,7 +153,7 @@ class midcom_core_group
     /**
      * Retrieves a list of users for which are a member in this group.
      *
-     * @return array A list of midcom_core_user objects in which are members of the current group, false on failure, indexed by their ID.
+     * @return midcom_core_user[] A list of user objects in which are members of the current group, indexed by their ID.
      */
     function list_members()
     {
@@ -192,7 +192,7 @@ class midcom_core_group
      * MidCOM user passed is a member.
      *
      * @param midcom_core_user $user The user that should be looked-up.
-     * @return array An array of member groups or false on failure, indexed by their ID.
+     * @return midcom_core_group[] Member groups, indexed by their ID.
      */
     public static function list_memberships($user)
     {
@@ -270,7 +270,7 @@ class midcom_core_group
      * midcom_core_privilege class, which should work fine on all MgdSchema
      * objects. If the storage object is null, an empty array is returned.
      *
-     * @return array A list of midcom_core_privilege objects.
+     * @return midcom_core_privilege[]
      */
     function get_privileges()
     {
