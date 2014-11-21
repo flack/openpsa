@@ -158,18 +158,14 @@ class org_openpsa_projects_project extends midcom_core_dbaobject
 
         foreach ($ret as $guid => $empty)
         {
-            switch ($mc->get_subkey($guid, 'role'))
+            if ($mc->get_subkey($guid, 'role') == org_openpsa_projects_task_resource_dba::CONTACT)
             {
-                case org_openpsa_projects_task_resource_dba::CONTACT:
-                    $varName = 'contacts';
-                    break;
-                default:
-                    //fall-trough intentional
-                case org_openpsa_projects_task_resource_dba::RESOURCE:
-                    $varName = 'resources';
-                    break;
+                $this->contacts[$mc->get_subkey($guid, 'person')] = true;
             }
-            $this->{$varName}[$mc->get_subkey($guid, 'person')] = true;
+            else
+            {
+                $this->resources[$mc->get_subkey($guid, 'person')] = true;
+            }
         }
         return true;
     }
