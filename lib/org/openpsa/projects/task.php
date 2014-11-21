@@ -189,20 +189,16 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
         $mc->execute();
         $ret = $mc->list_keys();
 
-        foreach ($ret as $guid => $empty)
+        foreach (array_keys($ret) as $guid)
         {
-            switch ($mc->get_subkey($guid, 'orgOpenpsaObtype'))
+            if ($mc->get_subkey($guid, 'orgOpenpsaObtype') == org_openpsa_projects_task_resource_dba::CONTACT)
             {
-                case org_openpsa_projects_task_resource_dba::CONTACT:
-                    $varName = 'contacts';
-                    break;
-                default:
-                    //fall-trough intentional
-                case org_openpsa_projects_task_resource_dba::RESOURCE:
-                    $varName = 'resources';
-                    break;
+                $this->contacts[$mc->get_subkey($guid, 'person')] = true;
             }
-            $this->{$varName}[$mc->get_subkey($guid, 'person')] = true;
+            else
+            {
+                $this->resources[$mc->get_subkey($guid, 'person')] = true;
+            }
         }
         return true;
     }
@@ -501,33 +497,5 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
     public function refresh_status()
     {
         $this->_get_status();
-    }
-
-    /**
-     * This function is called from the DM2 schema
-     */
-    static function get_task_resources()
-    {
-        $resource_array = array();
-        $view_data = midcom_core_context::get()->get_custom_key('request_data');
-        if (!array_key_exists('task', $view_data))
-        {
-            return $resource_array;
-        }
-
-        $mc = org_openpsa_projects_task_resource_dba::new_collector('task', $view_data['task']->id);
-        $mc->add_constraint('orgOpenpsaObtype', '=', org_openpsa_projects_task_resource_dba::RESOURCE);
-        $resources = $mc->get_values('person');
-
-        foreach ($resources as $resource)
-        {
-            try
-            {
-                $person = org_openpsa_contacts_person_dba::get_cached($resource);
-                $resource_array[$person->id] = $person->rname;
-            }
-            catch (midcom_error $e){}
-        }
-        return $resource_array;
     }
 }
