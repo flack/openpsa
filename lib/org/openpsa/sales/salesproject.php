@@ -54,9 +54,12 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
     }
 
     /**
-     * Calculates the prices of deliverables
+     * Calculates the prices of deliverables and adds them up to the salesproject value
      *
-     * and adds them up to the salesproject value
+     * For subscriptions, we use already invoiced sums plus expected values (i.e. deliverable price)
+     * until the deliverable's end time (or 12 months if the subscription is continuous)
+     * Single deliveries are calculated based on their price and the already invoiced sum, when invoice by
+     * actual units is true
      */
     function calculate_price()
     {
@@ -82,13 +85,17 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
                 {
                     $cycles = $scheduler->calculate_cycles();
                 }
-                $value = $value + ($deliverable->price * $cycles);
+                $value = $value + ($deliverable->price * $cycles) + $deliverable->invoiced;
                 $cost = $cost + ($deliverable->cost * $cycles);
             }
             else
             {
                 $value = $value + $deliverable->price;
                 $cost = $cost + $deliverable->cost;
+                if ($deliverable->invoiceByActualUnits)
+                {
+                    $value = $value + $deliverable->invoiced;
+                }
             }
         }
         $profit = $value - $cost;

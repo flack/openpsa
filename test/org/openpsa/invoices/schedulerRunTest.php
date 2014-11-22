@@ -61,7 +61,8 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
             'product' => $this->_product->id,
             'description' => 'TEST DESCRIPTION',
             'plannedUnits' => 15,
-            'orgOpenpsaObtype' => org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION
+            'orgOpenpsaObtype' => org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION,
+            'unit' => 'm'
         );
         $this->_deliverable = $this->create_object('org_openpsa_sales_salesproject_deliverable_dba', $deliverable_attributes);
 
@@ -357,6 +358,7 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
                     (
                         'start' => $future_one_month,
                         'end' => $future_two_month,
+                        'unit' => 'm',
                     )
                 ),
                 array
@@ -629,6 +631,7 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
            'pricePerUnit' => 10,
            'plannedUnits' => 15,
            'units' => 10,
+           'unit' => 'm',
            'invoiceByActualUnits' => true,
            'state' => org_openpsa_sales_salesproject_deliverable_dba::STATE_STARTED,
            'start' => strtotime('2010-02-02 00:00:00')

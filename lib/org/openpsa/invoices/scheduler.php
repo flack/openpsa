@@ -267,24 +267,43 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
         return $task;
     }
 
-    function calculate_cycles($months = null)
+    /**
+     * Calculcate remaining cycles until salesproject's end or the specified number of months passes
+     *
+     * @param integer $months The maximum number of months to look forward
+     * @param integer $start The timestamp from which to begin
+     * @return integer
+     */
+    function calculate_cycles($months = null, $start = null)
     {
+        if ($start === null)
+        {
+            $start = time();
+        }
+        $cycles = 0;
         $cycle_time = $this->_deliverable->start;
         $end_time = $this->_deliverable->end;
 
+        // This takes care of invalid/unsupported unit configs
+        if ($this->calculate_cycle_next($cycle_time) === false)
+        {
+            return $cycles;
+        }
+
+        while ($cycle_time < $start)
+        {
+            $cycle_time = $this->calculate_cycle_next($cycle_time);
+        }
+
         if (!is_null($months))
         {
-            // We calculate how many cycles fit into the number of months, figure out the end of time
             $end_time = mktime(date('H', $cycle_time), date('m', $cycle_time), date('i', $cycle_time), date('m', $cycle_time) + $months, date('d', $cycle_time), date('Y', $cycle_time));
         }
 
-        // Calculate from beginning to the end
         $cycles = 0;
-        while (   $cycle_time < $end_time
-               && $cycle_time != false)
+        while ($cycle_time < $end_time)
         {
             $cycle_time = $this->calculate_cycle_next($cycle_time);
-
             if ($cycle_time <= $end_time)
             {
                 $cycles++;

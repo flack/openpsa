@@ -24,6 +24,9 @@ class org_openpsa_sales_handler_listTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('org.openpsa.sales');
 
+        $data = $this->run_handler('org.openpsa.sales');
+        $this->assertEquals('frontpage', $data['handler_id']);
+
         $data = $this->run_handler('org.openpsa.sales', array('list', 'lost'));
         $this->assertEquals('list_state', $data['handler_id']);
 

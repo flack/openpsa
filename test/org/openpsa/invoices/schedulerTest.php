@@ -177,7 +177,7 @@ class org_openpsa_invoices_schedulerTest extends openpsa_testcase
         $deliverable = self::prepare_object('org_openpsa_sales_salesproject_deliverable_dba', $attributes);
 
         $scheduler = new org_openpsa_invoices_scheduler($deliverable);
-        $cycles = $scheduler->calculate_cycles($months);
+        $cycles = $scheduler->calculate_cycles($months, $attributes['start']);
 
         $this->assertEquals($result, $cycles, 'Wrong value for unit ' . $deliverable->unit);
     }
@@ -251,7 +251,7 @@ class org_openpsa_invoices_schedulerTest extends openpsa_testcase
                 ),
                 1,
                 31,
-            ),
+             ),
         );
     }
 
