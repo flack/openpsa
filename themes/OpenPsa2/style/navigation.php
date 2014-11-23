@@ -12,7 +12,8 @@ $navi->draw();
         extensions: ['persist'],
         persist:
         {
-            cookie: {path: MIDCOM_PAGE_PREFIX}
+            cookie: {path: MIDCOM_PAGE_PREFIX},
+            types: 'expanded'
         },
         clickFolderMode: 3,
         autoCollapse: false,
