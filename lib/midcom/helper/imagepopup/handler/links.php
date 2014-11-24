@@ -51,8 +51,8 @@ class midcom_helper_imagepopup_handler_links extends midcom_baseclasses_componen
         $data['schema_name'] = $args[0];
         $data['filetype'] = $args[1];
 
-        midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/fancytree-2.2.0/jquery.fancytree-custom.min.js');
-        $this->add_stylesheet(MIDCOM_STATIC_URL . "/jQuery/fancytree-2.2.0/skin-win7/ui.fancytree.min.css");
+        midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/fancytree-2.5.0/jquery.fancytree-all.min.js');
+        $this->add_stylesheet(MIDCOM_STATIC_URL . "/jQuery/fancytree-2.5.0/skin-win7/ui.fancytree.min.css");
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/midcom.helper.imagepopup/styling.css");
         midcom::get()->head->enable_jquery();
