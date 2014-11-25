@@ -629,7 +629,7 @@ class midcom_services_toolbars
         (
             array
             (
-                MIDCOM_TOOLBAR_URL => "http://lists.midgard-project.org/mailman/listinfo/user",
+                MIDCOM_TOOLBAR_URL => "http://lists.midgard-project.org/listinfo/user",
                 MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('user forum', 'midcom.admin.help'),
                 MIDCOM_TOOLBAR_OPTIONS => array('target' => '_blank'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock-discussion.png',
