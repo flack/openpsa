@@ -338,7 +338,7 @@ class fi_protie_navigation
     /**
      * Traverse the child nodes starting from the requested node id
      */
-    private function _list_child_nodes($id, $indent = '')
+    private function _list_child_nodes($id)
     {
         $children = $this->_nap->list_nodes($id);
 
@@ -356,7 +356,7 @@ class fi_protie_navigation
             $this->root_object_id = null;
         }
 
-        echo "{$indent}<ul class=\"{$this->css_list_style} node-{$id}\"{$element_id}>\n";
+        echo "<ul class=\"{$this->css_list_style} node-{$id}\"{$element_id}>";
 
         $item_count = count($children);
         $item_counter = 0;
@@ -370,20 +370,20 @@ class fi_protie_navigation
 
             $classes = $this->_get_css_classes($child, $item, $item_counter, $item_count);
 
-            $this->_display_element($item, $indent, $classes);
+            $this->_display_element($item, $classes);
         }
-        echo "{$indent}</ul>\n";
+        echo "</ul>";
     }
 
     /**
      * Traverse the child elements starting from the requested node id
      */
-    private function _list_child_elements($id, $indent = '')
+    private function _list_child_elements($id)
     {
         // If only nodes are to be listed use the appropriate NAP call
         if (!$this->list_leaves)
         {
-            $this->_list_child_nodes($id, $indent);
+            $this->_list_child_nodes($id);
             return;
         }
 
@@ -403,7 +403,7 @@ class fi_protie_navigation
             $this->root_object_id = null;
         }
 
-        echo "{$indent}<ul class=\"{$this->css_list_style} node-{$id}\"{$element_id}>\n";
+        echo "<ul class=\"{$this->css_list_style} node-{$id}\"{$element_id}>";
 
         $item_count = count($children);
         $item_counter = 0;
@@ -428,10 +428,10 @@ class fi_protie_navigation
             }
             $classes = $this->_get_css_classes($child, $item, $item_counter, $item_count);
 
-            $this->_display_element($item, $indent, $classes);
+            $this->_display_element($item, $classes);
         }
 
-        echo "{$indent}</ul>\n";
+        echo "</ul>";
     }
 
     private function _get_css_classes($child, $item, $item_counter, $item_count)
@@ -516,7 +516,7 @@ class fi_protie_navigation
         return implode(' ', $classes);
     }
 
-    private function _display_element($item, $indent, $css_classes)
+    private function _display_element($item, $css_classes)
     {
         // Finalize the class naming
         $class = ($css_classes !== '') ? ' class="' . $css_classes . '"' : '';
@@ -524,8 +524,8 @@ class fi_protie_navigation
 
         $get_params = $this->_get_parameter_string();
 
-        echo "{$indent}    <li{$class}>\n";
-        echo "{$indent}        <a href=\"{$item[MIDCOM_NAV_ABSOLUTEURL]}{$get_params}\"{$link_class}>{$item[MIDCOM_NAV_NAME]}</a>\n";
+        echo "<li{$class}>";
+        echo "<a href=\"{$item[MIDCOM_NAV_ABSOLUTEURL]}{$get_params}\"{$link_class}>{$item[MIDCOM_NAV_NAME]}</a>";
         // If either of the follow nodes switches is on, follow all the nodes
 
         if (   $item[MIDCOM_NAV_TYPE] === 'node'
@@ -538,12 +538,12 @@ class fi_protie_navigation
                     && in_array($item[MIDCOM_NAV_ID], $this->node_path, true)))
             {
                 $this->_level++;
-                $this->_list_child_elements($item[MIDCOM_NAV_ID], "{$indent}        ");
+                $this->_list_child_elements($item[MIDCOM_NAV_ID]);
                 $this->_level--;
             }
         }
 
-        echo "{$indent}    </li>\n";
+        echo "</li>";
     }
 
     /**
@@ -571,7 +571,7 @@ class fi_protie_navigation
             $this->root_id = $this->_nap->get_current_node();
         }
 
-        $this->_list_child_elements ($this->root_id);
+        $this->_list_child_elements($this->root_id);
     }
 
     /**

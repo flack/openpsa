@@ -560,10 +560,8 @@ class midcom_helper_toolbar
             return '';
         }
 
-        $output = "";
-
         // List header
-        $output .= '<ul';
+        $output = '<ul';
         if (! is_null($this->class_style))
         {
             $output .= " class='{$this->class_style}'";
@@ -572,7 +570,7 @@ class midcom_helper_toolbar
         {
             $output .= " id='{$this->id_style}'";
         }
-        $output .= ">\n";
+        $output .= '>';
 
         // List items
         $i = 0;
@@ -597,7 +595,7 @@ class midcom_helper_toolbar
 
             $i++;
 
-            $output .= '  <li class=\'';
+            $output .= '<li class="';
             if ($last == 0)
             {
                 $output .= 'only_item ';
@@ -614,11 +612,11 @@ class midcom_helper_toolbar
 
             if ($item[MIDCOM_TOOLBAR_ENABLED])
             {
-                $output .= "enabled'>\n";
+                $output .= 'enabled">';
             }
             else
             {
-                $output .= "disabled'>\n";
+                $output .= 'disabled">';
             }
 
             if ($item[MIDCOM_TOOLBAR_POST])
@@ -630,7 +628,7 @@ class midcom_helper_toolbar
                 $output .= $this->_render_link_item($item);
             }
 
-            $output .= "  </li>\n";
+            $output .= '</li>';
         }
 
         // List footer
@@ -708,21 +706,21 @@ class midcom_helper_toolbar
             }
         }
 
-        $output .= '    <' . $tagname;
+        $output .= '<' . $tagname;
         foreach ($attributes as $key => $val)
         {
             $output .= ' ' . $key . '="' . htmlspecialchars($val) . '"';
         }
-        $output .= ">\n";
+        $output .= '>';
 
         if (! is_null($item[MIDCOM_TOOLBAR_ICON]))
         {
             $url = MIDCOM_STATIC_URL . "/{$item[MIDCOM_TOOLBAR_ICON]}";
-            $output .= "      <img src='{$url}' alt='' />";
+            $output .= "<img src='{$url}' alt='' />";
         }
 
-        $output .= '&nbsp;<span class="toolbar_label">' . $this->_generate_item_label($item) . "</span>\n";
-        $output .= '    </' . $tagname . ">\n";
+        $output .= '&nbsp;<span class="toolbar_label">' . $this->_generate_item_label($item) . "</span>";
+        $output .= '</' . $tagname . '>';
 
         if (!empty($item[MIDCOM_TOOLBAR_SUBMENU]))
         {
@@ -744,8 +742,8 @@ class midcom_helper_toolbar
 
         if ($item[MIDCOM_TOOLBAR_ENABLED])
         {
-            $output .= "  <form method=\"post\" action=\"{$item[MIDCOM_TOOLBAR_URL]}\">\n";
-            $output .= "    <div><button type=\"submit\" name=\"midcom_helper_toolbar_submit\"";
+            $output .= "<form method=\"post\" action=\"{$item[MIDCOM_TOOLBAR_URL]}\">";
+            $output .= "<div><button type=\"submit\" name=\"midcom_helper_toolbar_submit\"";
 
             foreach ($item[MIDCOM_TOOLBAR_OPTIONS] as $key => $val)
             {
@@ -760,7 +758,7 @@ class midcom_helper_toolbar
             {
                 $output .= " title=\"${item[MIDCOM_TOOLBAR_HELPTEXT]}\" ";
             }
-            $output .= ">";
+            $output .= '>';
         }
 
         if ($item[MIDCOM_TOOLBAR_ICON])
@@ -774,14 +772,14 @@ class midcom_helper_toolbar
 
         if ($item[MIDCOM_TOOLBAR_ENABLED])
         {
-            $output .= "</button>\n";
+            $output .= '</button>';
             foreach ($item[MIDCOM_TOOLBAR_POST_HIDDENARGS] as $key => $value)
             {
                 $key = htmlspecialchars($key);
                 $value = htmlspecialchars($value);
-                $output .= "    <input type=\"hidden\" name=\"{$key}\" value=\"{$value}\"/>\n";
+                $output .= "<input type=\"hidden\" name=\"{$key}\" value=\"{$value}\"/>";
             }
-            $output .= "  </div></form>\n";
+            $output .= '</div></form>';
         }
 
         if (!empty($item[MIDCOM_TOOLBAR_SUBMENU]))
