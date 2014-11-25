@@ -15,9 +15,10 @@ else
     $login_warning = $this->data['midcom_services_auth_show_login_page_login_warning'];
 }
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN""http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html>
+<html lang="<?php echo midcom::get()->i18n->get_current_language(); ?>">
 <head>
+  <meta charset="UTF-8">
   <title><(title)> OpenPSA</title>
   <?php
     $head = midcom::get()->head;

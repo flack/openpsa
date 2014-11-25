@@ -1,6 +1,7 @@
-<DOCTYPE html>
-<html>
+<!DOCTYPE html>
+<html lang="<?php echo midcom::get()->i18n->get_current_language(); ?>">
 <head>
+<meta charset="UTF-8">
 <style type="text/css">
 body
 {

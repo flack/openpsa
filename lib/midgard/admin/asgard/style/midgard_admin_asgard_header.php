@@ -26,10 +26,10 @@ midcom::get()->head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/draggable.min.js');
 midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midgard.admin.asgard/ui.js');
 midcom::get()->head->add_jscript("var MIDGARD_ROOT = '" . midcom_connection::get_url('self') . "';");
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo midcom::get()->i18n->get_current_language(); ?>" lang="<?php echo midcom::get()->i18n->get_current_language(); ?>">
+<!DOCTYPE html>
+<html lang="<?php echo midcom::get()->i18n->get_current_language(); ?>">
     <head>
+    <meta charset="UTF-8">
     <title><?php echo midcom_core_context::get()->get_key(MIDCOM_CONTEXT_PAGETITLE); ?> (<?php echo $data['l10n']->get('asgard for'); ?> <(title)>)</title>
         <link rel="stylesheet" type="text/css" href="<?php echo MIDCOM_STATIC_URL; ?>/midgard.admin.asgard/screen.css" media="screen,projector" />
         <link rel="shortcut icon" href="<?php echo MIDCOM_STATIC_URL; ?>/stock-icons/logos/favicon.ico" />

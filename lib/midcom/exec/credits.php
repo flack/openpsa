@@ -57,13 +57,11 @@ foreach (midcom::get()->componentloader->manifests as $name => $manifest)
 }
 
 ksort($developers);
-
-echo '<?xml version="1.0" encoding="UTF-8"?>';
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!DOCTYPE html>
+<html lang="<?php echo midcom::get()->i18n->get_current_language(); ?>">
     <head>
+        <meta charset="UTF-8">
         <title>Midgard CMS - <?php echo $title; ?></title>
         <?php echo midcom::get()->head->print_head_elements(); ?>
         <style type="text/css">

@@ -5,6 +5,7 @@ $navi->list_levels = 3;
 $navi->follow_all = true;
 $navi->draw();
 ?>
+
 <script type="text/javascript">
     $('#nav').fancytree(
     {

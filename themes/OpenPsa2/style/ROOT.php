@@ -19,14 +19,11 @@ if ($width !== false)
 
 $topic = $context->get_key(MIDCOM_CONTEXT_CONTENTTOPIC);
 $title_prefix = $topic->extra . ': ' . $context->get_key(MIDCOM_CONTEXT_PAGETITLE);
-echo "<?xml version=\"1.0\"?>\n";
 ?>
-<!DOCTYPE html
-    PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $i18n->get_current_language(); ?>">
+<!DOCTYPE html>
+<html lang="<?php echo $i18n->get_current_language(); ?>">
     <head>
-        <meta http-equiv="Content-Type" content="text/xhtml; charset=utf-8" />
+        <meta charset="UTF-8">
         <title>&(title_prefix); - <(title)> OpenPSA</title>
         <link type="image/x-icon" href="<?php echo MIDCOM_STATIC_URL; ?>/org.openpsa.core/openpsa-16x16.png" rel="shortcut icon"/>
         <?php
