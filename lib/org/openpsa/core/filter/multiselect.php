@@ -56,7 +56,7 @@ class org_openpsa_core_filter_multiselect extends org_openpsa_core_filter_select
                 echo '<option value="' . $option['id'] . '"';
                 if ($option['selected'] == true)
                 {
-                    echo "selected=\"selected\"";
+                    echo " selected=\"selected\"";
                 }
                 echo '>' . $option['title'] . "</option>\n";
             }
