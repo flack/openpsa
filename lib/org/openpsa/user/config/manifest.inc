@@ -8,7 +8,7 @@
     'su' => MIDCOM_PRIVILEGE_DENY,
 ),
 'class_mapping' => array(),
-'version' => '9.0.0-rc.2+git',
+'version' => '9.0.0-rc.3',
 'state' => 'stable',
 'package.xml' => array
 (

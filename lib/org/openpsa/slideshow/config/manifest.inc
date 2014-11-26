@@ -4,7 +4,7 @@
 (
     'org_openpsa_slideshow_image' => 'org_openpsa_slideshow_image_dba',
 ),
-'version' => '9.0.0-rc.2+git',
+'version' => '9.0.0-rc.3',
 'state' => 'stable',
 'package.xml' => array
 (

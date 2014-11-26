@@ -1,7 +1,7 @@
 'name' => 'org.openpsa.httplib',
 'icon' => 'org.openpsa.httplib/httplib.png',
 'purecode' => true,
-'version' => '9.0.0-rc.2+git',
+'version' => '9.0.0-rc.3',
 'state' => 'stable',
 'privileges' => array(),
 'class_mapping' => array(),
