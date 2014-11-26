@@ -37,6 +37,7 @@ if (   file_exists(OPENPSA2_UNITTEST_OUTPUT_DIR)
 
 openpsa_test_create_dir(OPENPSA2_UNITTEST_OUTPUT_DIR);
 openpsa_test_create_dir(OPENPSA2_UNITTEST_OUTPUT_DIR . '/rcs');
+openpsa_test_create_dir(OPENPSA2_UNITTEST_OUTPUT_DIR . '/themes');
 openpsa_test_create_dir(OPENPSA2_UNITTEST_OUTPUT_DIR . '/cache');
 openpsa_test_create_dir(OPENPSA2_UNITTEST_OUTPUT_DIR . '/cache/blobs');
 openpsa_test_create_dir(OPENPSA2_UNITTEST_OUTPUT_DIR . '/blobs');
