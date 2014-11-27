@@ -127,15 +127,11 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
         $this->_salesproject = new org_openpsa_sales_salesproject_dba($args[0]);
 
         $this->_load_controller();
-
         $this->_list_deliverables();
-
         $this->_prepare_request_data();
-
         $this->_populate_toolbar();
 
-        $customer = $this->_salesproject->get_customer();
-        if ($customer)
+        if ($customer = $this->_salesproject->get_customer())
         {
             $this->add_breadcrumb("list/customer/{$customer->guid}/", $customer->get_label());
         }
@@ -170,6 +166,7 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
         $qb->add_order('state');
         $qb->add_order('metadata.created', 'DESC');
         $deliverables = $qb->execute();
+        $this->_request_data['deliverables_objects'] = array();
         foreach ($deliverables as $deliverable)
         {
             $this->_controllers[$deliverable->id] = midcom_helper_datamanager2_controller::create('ajax');
@@ -191,41 +188,31 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
         // For AJAX handling it is the controller that renders everything
         $data['view_salesproject'] = $data['controller']->get_content_html();
         midcom_show_style('show-salesproject');
+        midcom_show_style('show-salesproject-deliverables-header');
 
-        if (count($data['products']) > 0)
+        foreach ($data['deliverables_objects'] as $deliverable)
         {
-            asort($data['products']);
-            // We have products defined in the system, add deliverable support
-            midcom_show_style('show-salesproject-deliverables-header');
-
-            if (array_key_exists('deliverables_objects', $data))
+            $data['deliverable'] = $this->_controllers[$deliverable->id]->get_content_html();
+            $data['deliverable_object'] = $deliverable;
+            $data['deliverable_toolbar'] = $this->_build_deliverable_toolbar($deliverable);
+            try
             {
-                foreach ($data['deliverables_objects'] as $deliverable)
-                {
-                    $data['deliverable'] = $this->_controllers[$deliverable->id]->get_content_html();
-                    $data['deliverable_object'] = $deliverable;
-                    $data['deliverable_toolbar'] = $this->_build_deliverable_toolbar($deliverable);
-                    try
-                    {
-                        $data['product'] = org_openpsa_products_product_dba::get_cached($deliverable->product);
-                    }
-                    catch (midcom_error $e)
-                    {
-                        $data['product'] = false;
-                    }
-                    if ($deliverable->orgOpenpsaObtype == org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION)
-                    {
-                        midcom_show_style('show-salesproject-deliverables-subscription');
-                    }
-                    else
-                    {
-                        midcom_show_style('show-salesproject-deliverables-item');
-                    }
-                }
+                $data['product'] = org_openpsa_products_product_dba::get_cached($deliverable->product);
             }
-            midcom_show_style('show-salesproject-deliverables-footer');
+            catch (midcom_error $e)
+            {
+                $data['product'] = false;
+            }
+            if ($deliverable->orgOpenpsaObtype == org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION)
+            {
+                midcom_show_style('show-salesproject-deliverables-subscription');
+            }
+            else
+            {
+                midcom_show_style('show-salesproject-deliverables-item');
+            }
         }
-
+        midcom_show_style('show-salesproject-deliverables-footer');
         midcom_show_style('show-salesproject-related');
     }
 

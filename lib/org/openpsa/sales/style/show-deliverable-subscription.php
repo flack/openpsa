@@ -3,22 +3,11 @@ $view = $data['view_deliverable'];
 $state = $data['deliverable']->get_state();
 
 $per_unit = $data['l10n']->get('per unit');
-try
+if (   $data['product']
+    && $unit_option = org_openpsa_products_viewer::get_unit_option($data['product']->unit))
 {
-    $product = org_openpsa_products_product_dba::get_cached($data['deliverable']->product);
-    $unit_options = midcom_baseclasses_components_configuration::get('org.openpsa.products', 'config')->get('unit_options');
-    if (array_key_exists($product->unit, $unit_options))
-    {
-        $unit = midcom::get()->i18n->get_string($unit_options[$data['deliverable']->unit], 'org.openpsa.products');
-        $per_unit = sprintf($data['l10n']->get('per %s'), $unit);
-    }
+    $per_unit = sprintf($data['l10n']->get('per %s'), $unit_option);
 }
-catch (midcom_error $e)
-{
-    $product = false;
-    $unit = $data['l10n']->get('unit');
-}
-
 ?>
 <div class="org_openpsa_sales_salesproject_deliverable &(state);">
     <div class="sidebar">
@@ -37,12 +26,12 @@ catch (midcom_error $e)
             ?>
         </div>
 
-        <?php if ($product)
+        <?php if ($data['product'])
         { ?>
         <div class="products area">
             <?php
             echo "<h2>" . $data['l10n']->get('product') . "</h2>\n";
-            echo $product->render_link() . "\n";
+            echo $data['product']->render_link() . "\n";
             ?>
         </div>
         <?php } ?>
@@ -245,8 +234,8 @@ catch (midcom_error $e)
     if (   $data['projects_url']
         && $data['deliverable']->state >= org_openpsa_sales_salesproject_deliverable_dba::STATE_ORDERED)
     {
-        if (   $product
-            && $product->orgOpenpsaObtype == org_openpsa_products_product_dba::TYPE_SERVICE)
+        if (   $data['product']
+            && $data['product']->orgOpenpsaObtype == org_openpsa_products_product_dba::TYPE_SERVICE)
         {
             $tabs[] = array
             (

@@ -57,6 +57,14 @@ class org_openpsa_sales_handler_deliverable_view extends midcom_baseclasses_comp
             $helper = new org_openpsa_widgets_toolbar($this->_view_toolbar);
             $helper->add_delete_button("deliverable/delete/{$this->_deliverable->guid}/", $this->_deliverable->title);
         }
+        try
+        {
+            $this->_request_data['product'] = org_openpsa_products_product_dba::get_cached($this->_deliverable->product);
+        }
+        catch (midcom_error $e)
+        {
+            $this->_request_data['product'] = false;
+        }
     }
 
     private function _load_schema()
@@ -92,7 +100,6 @@ class org_openpsa_sales_handler_deliverable_view extends midcom_baseclasses_comp
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/list.css");
         org_openpsa_widgets_ui::enable_ui_tab();
 
-        midcom::get()->metadata->set_request_metadata($this->_deliverable->metadata->revised, $this->_deliverable->guid);
         midcom::get()->head->set_pagetitle("{$this->_salesproject->title}: {$this->_deliverable->title}");
     }
 
