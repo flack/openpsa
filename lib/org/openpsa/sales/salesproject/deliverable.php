@@ -141,27 +141,6 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
         return $mc->get_related_objects();
     }
 
-    /**
-     *
-     * helper function to copy some defaults from the given product to the deliverable
-     *
-     * @param org_openpsa_products_product_dba $product
-     */
-    function copyFromProduct(org_openpsa_products_product_dba $product)
-    {
-        $this->product = $product->id;
-        $this->title = $product->title;
-
-        $this->unit = $product->unit;
-        $this->costPerUnit = $product->cost;
-        $this->costType = $product->costType;
-        $this->pricePerUnit = $product->price;
-
-        $this->orgOpenpsaObtype = $product->delivery;
-        $this->description = $product->description;
-        $this->supplier = $product->supplier;
-    }
-
     function calculate_price($update = true)
     {
         $calculator_class = midcom_baseclasses_components_configuration::get('org.openpsa.sales', 'config')->get('calculator');

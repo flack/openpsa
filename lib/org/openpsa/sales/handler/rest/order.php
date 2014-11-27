@@ -52,7 +52,7 @@ class org_openpsa_sales_handler_rest_order extends midcom_baseclasses_components
             $salesproject->title = $this->_request['params']['salesproject_title'];
         }
         // add username to salesproject title
-        $salesproject->title .= $person->lastname . ", " . $person->firstname;
+        $salesproject->title .= ' ' . $person->rname;
         if (!$salesproject->create())
         {
             $this->_stop("Failed creating salesproject: " . midcom_connection::get_error_string());
@@ -82,14 +82,8 @@ class org_openpsa_sales_handler_rest_order extends midcom_baseclasses_components
         // get the product we want to add
         $product = new org_openpsa_products_product_dba($product_id);
 
-        $deliverable = new org_openpsa_sales_salesproject_deliverable_dba();
+        $deliverable = $this->prepare_deliverable($product);
         $deliverable->salesproject = $salesproject->id;
-
-        $deliverable->units = 1;
-        $deliverable->copyFromProduct($product);
-
-        $deliverable->state = org_openpsa_sales_salesproject_deliverable_dba::STATE_NEW;
-        $deliverable->start = gmmktime(0, 0, 0, gmdate('n'), gmdate('j'), gmdate('Y'));
 
         if (!$deliverable->create())
         {
@@ -120,5 +114,30 @@ class org_openpsa_sales_handler_rest_order extends midcom_baseclasses_components
         $this->_response["guid"] = $this->_object->guid;
         $this->_response["id"] = $this->_object->id;
         $this->_response["message"] = "order created";
+    }
+
+
+    /**
+     * Helper function to copy some defaults from the given product to the deliverable
+     *
+     * @param org_openpsa_products_product_dba $product
+     */
+    function prepare_deliverable(org_openpsa_products_product_dba $product)
+    {
+        $deliverable = new org_openpsa_sales_salesproject_deliverable_dba();
+        $deliverable->units = 1;
+        $deliverable->state = org_openpsa_sales_salesproject_deliverable_dba::STATE_NEW;
+        $deliverable->start = gmmktime(0, 0, 0, gmdate('n'), gmdate('j'), gmdate('Y'));
+
+        $deliverable->product = $product->id;
+        $deliverable->title = $product->title;
+        $deliverable->unit = $product->unit;
+        $deliverable->costPerUnit = $product->cost;
+        $deliverable->costType = $product->costType;
+        $deliverable->pricePerUnit = $product->price;
+        $deliverable->orgOpenpsaObtype = $product->delivery;
+        $deliverable->description = $product->description;
+        $deliverable->supplier = $product->supplier;
+        return $deliverable;
     }
 }
