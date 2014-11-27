@@ -238,8 +238,7 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
         }
 
         $entry = $at_entries[0];
-        $deliverable = new org_openpsa_sales_salesproject_deliverable_dba($entry->arguments['deliverable']);
-        $scheduler = new org_openpsa_invoices_scheduler($deliverable);
+        $scheduler = new org_openpsa_invoices_scheduler($this);
 
         if (!$scheduler->run_cycle($entry->arguments['cycle']))
         {
