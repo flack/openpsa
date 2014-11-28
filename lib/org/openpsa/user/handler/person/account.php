@@ -189,7 +189,6 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
                 return new midcom_response_relocate("view/" . $this->_person->guid . "/");
         }
 
-        $this->add_stylesheet(MIDCOM_STATIC_URL . "/midcom.helper.datamanager2/legacy.css");
         midcom::get()->head->enable_jquery();
         midcom::get()->head->set_pagetitle("{$this->_person->firstname} {$this->_person->lastname}");
         $this->_prepare_request_data();

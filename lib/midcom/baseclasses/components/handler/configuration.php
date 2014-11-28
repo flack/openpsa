@@ -91,9 +91,6 @@ implements midcom_helper_datamanager2_interfaces_edit
         $this->_topic->require_do('midgard:update');
         $this->_topic->require_do('midcom:component_config');
 
-        // Add DM2 link head
-        $this->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/legacy.css');
-
         if (   method_exists($this, '_load_datamanagers')
             && method_exists($this, '_load_objects'))
         {

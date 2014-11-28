@@ -14,7 +14,6 @@ if (array_key_exists('popup_title', $data))
     midcom::get()->head->add_link_head(array('rel' => 'stylesheet', 'type' => 'text/css', 'href' => MIDCOM_STATIC_URL . '/OpenPsa2/ui-elements.css', 'media' => 'all'));
     midcom::get()->head->print_head_elements();
     ?>
-    <link rel="stylesheet" type="text/css" href="<?php echo MIDCOM_STATIC_URL; ?>/midcom.helper.datamanager2/legacy.css" />
     <link rel="stylesheet" type="text/css" href="<?php echo MIDCOM_STATIC_URL; ?>/org.openpsa.core/popup.css" />
     </head>
     <body id="org_openpsa_popup"<?php midcom::get()->head->print_jsonload(); ?>>

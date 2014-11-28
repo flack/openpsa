@@ -157,7 +157,6 @@ class org_openpsa_projects_handler_project_crud extends midcom_baseclasses_compo
      */
     public function _handler_callback($handler_id, array $args, array &$data)
     {
-        $this->add_stylesheet(MIDCOM_STATIC_URL . "/midcom.helper.datamanager2/legacy.css");
         if ($handler_id == 'project')
         {
             org_openpsa_widgets_grid::add_head_elements();

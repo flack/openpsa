@@ -27,8 +27,6 @@ class org_openpsa_products_handler_group_edit extends midcom_baseclasses_compone
     private function _prepare_request_data()
     {
         $this->_request_data['group'] = $this->_group;
-
-        $this->add_stylesheet(MIDCOM_STATIC_URL."/midcom.helper.datamanager2/legacy.css");
     }
 
     /**
