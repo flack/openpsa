@@ -150,7 +150,7 @@ form.datamanager2 div.form_toolbar
     margin-top: 1.5em
 }
 
-form.datamanager2 div.form_toolbar input
+form.datamanager2 div.form_toolbar .submit
 {
     background-image: url('');
     background-repeat: no-repeat;
@@ -159,37 +159,37 @@ form.datamanager2 div.form_toolbar input
     padding: 0 .3em;
 }
 
-form.datamanager2 div.form_toolbar input.save
+form.datamanager2 div.form_toolbar .save
 {
     padding-left: 19px;
     background-image: url('../stock-icons/16x16/save.png');
 }
 
-form.datamanager2 div.form_toolbar input.cancel
+form.datamanager2 div.form_toolbar .cancel
 {
     padding-left: 19px;
     background-image: url('../stock-icons/16x16/cancel.png');
 }
 
-form.datamanager2 div.form_toolbar input.previous
+form.datamanager2 div.form_toolbar .previous
 {
     padding-left: 19px;
     background-image: url('../stock-icons/16x16/previous.png');
 }
 
-form.datamanager2 div.form_toolbar input.next
+form.datamanager2 div.form_toolbar .next
 {
     padding-left: 19px;
     background-image: url('../stock-icons/16x16/next.png');
 }
 
-form.datamanager2 div.form_toolbar input.delete
+form.datamanager2 div.form_toolbar .delete
 {
     padding-left: 19px;
     background-image: url('../stock-icons/16x16/trash.png');
 }
 
-form.datamanager2 div.form_toolbar input.preview
+form.datamanager2 div.form_toolbar .preview
 {
     padding-left: 19px;
     background-image: url('../stock-icons/16x16/view.png');
