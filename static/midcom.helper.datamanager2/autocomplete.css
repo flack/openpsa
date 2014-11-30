@@ -142,7 +142,7 @@ span.ui-sortable .autocomplete-item
     overflow: hidden;
 }
 
-.autocomplete_input
+.ui-autocomplete-input
 {
     background: url("../stock-icons/16x16/search.png") no-repeat 99% center;
     margin-bottom: .3em
@@ -155,7 +155,7 @@ span.ui-sortable .autocomplete-item
 
 .ui-autocomplete-error
 {
-    background: url('failed.png') right center no-repeat;
+    background: url('../stock-icons/16x16/cancel.png') right center no-repeat;
 }
 
 ul.ui-autocomplete
