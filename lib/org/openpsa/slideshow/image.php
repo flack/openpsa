@@ -155,14 +155,18 @@ class org_openpsa_slideshow_image_dba extends midcom_core_dbaobject
         {
             return $data;
         }
-        $image_guids = array();
+        $ids = array();
         foreach ($images as $image)
         {
-            $image_guids[] = $image->guid;
+            $ids[] = $image->attachment;
+            $ids[] = $image->image;
+            $ids[] = $image->thumbnail;
         }
+
         $mc = midcom_db_attachment::new_collector('metadata.deleted', false);
-        $mc->add_constraint('parentguid', 'IN', $image_guids);
+        $mc->add_constraint('id', 'IN', $ids);
         $rows = $mc->get_rows(array('id', 'name', 'guid'), 'id');
+
         foreach ($images as $image)
         {
             if (   !isset($rows[$image->attachment])
@@ -171,6 +175,7 @@ class org_openpsa_slideshow_image_dba extends midcom_core_dbaobject
             {
                 continue;
             }
+
             $orig_data = $rows[$image->attachment];
             $image_data = $rows[$image->image];
             $thumb_data = $rows[$image->thumbnail];
@@ -183,6 +188,7 @@ class org_openpsa_slideshow_image_dba extends midcom_core_dbaobject
                 'description' => (string) $image->description
             );
         }
+
         return $data;
     }
 }
