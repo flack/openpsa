@@ -220,11 +220,17 @@ class midcom_helper_nav
      */
     function is_node_in_tree($node_id, $root_id)
     {
-        $qb = midcom_db_topic::new_query_builder();
-        $qb->add_constraint('id', '=', $node_id);
-        $qb->add_constraint('up', 'INTREE', $root_id);
-
-        return ($qb->count() > 0);
+        $uplink = $this->get_node_uplink($node_id);
+        if ($uplink == $root_id)
+        {
+            return true;
+        }
+        if (   $uplink == false
+            || $uplink == -1)
+        {
+            return false;
+        }
+        return $this->is_node_in_tree($uplink, $root_id);
     }
 
     /**
