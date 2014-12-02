@@ -31,6 +31,6 @@
         </label>
     </fieldset>
     <div class="form_toolbar">
-        <input type="submit" class="save" accesskey="s" name="midgard_admin_asgard_save" value="<?php echo $data['l10n_midcom']->get('save'); ?>" />
+        <input type="submit" class="submit save" accesskey="s" name="midgard_admin_asgard_save" value="<?php echo $data['l10n_midcom']->get('save'); ?>" />
     </div>
 </form>
