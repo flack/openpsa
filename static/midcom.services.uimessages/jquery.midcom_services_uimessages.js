@@ -42,7 +42,7 @@ $.fn.midcom_services_uimessage = function(options)
         .addClass('close')
         .click(function()
         {
-            $(this).parent().slideUp(MIDCOM_SERVICES_UIMESSAGES_SLIDE_SPEED);
+            $(this).parent().slideUp('fast');
             $(this).parent().unbind($(this).attr('id') + '_timer');
 
             // Return without removing the object
@@ -101,4 +101,3 @@ $.fn.midcom_services_uimessage = function(options)
 
     MIDCOM_SERVICES_UIMESSAGES_INDEX++;
 }
-
