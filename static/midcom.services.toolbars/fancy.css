@@ -11,7 +11,7 @@
 {
     display: block;
     z-index: 9999 !important;
-    height: 20px;
+    height: 22px;
     position: fixed !important;
     background-color: #eee;
     color: #222;
@@ -26,6 +26,7 @@
     vertical-align: middle;
     box-shadow: 3px 4px 7px rgba(0, 0, 0, .25)
 }
+
 .midcom_services_toolbars_fancy.type_palette
 {
     border-radius: 0.6em;
@@ -61,7 +62,7 @@
 .midcom_services_toolbars_fancy .midcom_services_toolbars_topic_title
 {
     margin-bottom: 0px;
-    padding: 0 8px;
+    padding: 1px 8px;
     font-size: 1.1em;
     text-shadow: 1px 1px 1px rgba(255, 255, 255, .6);
 }
@@ -141,7 +142,7 @@
     margin-left: -1px;
     text-align: left;
     padding: 3px 0 6px 0;
-    background-color: ThreeDHighlight;
+    background-color: rgba(255, 255, 255, 0.95);
     border: #444444 solid 1px;
     border-top-color: #999;
     border-bottom-left-radius: 0.4em;
@@ -248,6 +249,9 @@
     left: 0px !important;
     top: 0px !important;
     width: 100% !important;
+    border-color: rgba(240, 240, 240, 0.85);
+    background-color: rgba(240, 240, 240, 0.9);
+    padding-left: 1em;
 }
 
 #midcom_services_toolbars_minimizer
