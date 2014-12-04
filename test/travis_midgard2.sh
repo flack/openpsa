@@ -1,6 +1,7 @@
 COMPOSER=`which composer`;
 
-${COMPOSER} self-update
+# until https://github.com/composer/composer/issues/3155 is fixed, we have to stick with alpha8
+${COMPOSER} self-update 1.0.0-alpha8
 
 sudo apt-get update
 
