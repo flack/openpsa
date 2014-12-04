@@ -2,6 +2,7 @@
 $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 $reporters = $data['reporters'];
 $reports = $data['reports'];
+$invoice_url = org_openpsa_core_siteconfig::get_instance()->get_node_full_url('org.openpsa.invoices');
 
 $class = $data['status'];
 if ($data['status'] === 'invoiced')
@@ -38,6 +39,17 @@ foreach ($reports['reports'] as $report)
     $entry['index_hours'] = $report->hours;
     $entry['hours'] = $report->hours . ' ' . $data['l10n']->get('hours unit');
 
+    if ($data['status'] === 'invoiced')
+    {
+        $invoice = org_openpsa_invoices_invoice_dba::get_cached($report->invoice);
+        $entry['index_invoice'] = $invoice->number;
+        $entry['invoice'] = $invoice->get_label();
+        if ($invoice_url)
+        {
+            $entry['invoice'] = '<a href="' . $invoice_url . 'invoice/' . $invoice->guid . '">' . $entry['invoice'] . '</a>';
+        }
+    }
+
     $entries[] = $entry;
 }
 $grid = new org_openpsa_widgets_grid($grid_id, 'local');
@@ -51,6 +63,11 @@ if ($data['mode'] != 'simple')
 }
 $grid->set_column('hours', $data['l10n']->get('hours'), "width: 50, align: 'right'", 'integer')
     ->set_column('description', $data['l10n']->get('description'), "width: 250, classes: 'ui-ellipsis'", 'string');
+
+if ($data['status'] === 'invoiced')
+{
+    $grid->set_column('invoice', $data['l10n']->get('invoice'), "width: 60, align: 'center'", 'integer');
+}
 
 $grid->set_option('loadonce', true)
     ->set_option('caption', $data['subheading'])

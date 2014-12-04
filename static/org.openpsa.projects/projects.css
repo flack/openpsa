@@ -17,36 +17,6 @@ div.org_openpsa_projects_task div.bookings p.bad
     color: #a40000;
 }
 
-/* Composite hour reporting element */
-div.hours table.composite thead th
-{
-    font-size: 9px;
-}
-div.hours table tr td
-{
-    vertical-align: top;
-}
-div.hours table td p
-{
-    margin-top: 0;
-    margin-bottom: 0;
-}
-
-div.hours td.date
-{
-    width: 90px;
-}
-
-div.hours td.description
-{
-    width: 200px;
-}
-
-div.org_openpsa_projects_project table.tasks
-{
-    margin-top: 1.5em
-}
-
 /* Project broker styling */
 div.org_openpsa_projects_projectbroker ul.prospects
 {
