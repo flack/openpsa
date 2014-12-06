@@ -82,14 +82,13 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
         }
 
         $message = array();
-        $action = 'org.openpsa.calendar:noevent';
+        $action = 'org.openpsa.calendar:event_' . $type;
 
         switch ($type)
         {
             //Event information was updated
             case 'update':
                 //PONDER: This in theory should have the old event title
-                $action = 'org.openpsa.calendar:event_update';
                 $message['title'] = sprintf($l10n->get('event "%s" was updated'), $event->title);
                 $message['abstract'] = sprintf($l10n->get('event "%s" (%s) was updated'), $event->title, $event->format_timeframe());
                 $message['content'] = sprintf($l10n->get('event "%s" was modified, updated information below.') . "{$nl}{$nl}", $event->title);
@@ -97,7 +96,6 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
                 break;
                 //Participant was added to the event
             case 'add':
-                $action = 'org.openpsa.calendar:event_add';
                 $message['title'] = sprintf($l10n->get('you have been added to event "%s"'), $event->title);
                 $message['abstract'] = sprintf($l10n->get('you have been added to event "%s" (%s)'), $event->title, $event->format_timeframe());
                 $message['content'] = sprintf($l10n->get('you have been added to event "%s" participants list, event information below.') . "{$nl}{$nl}", $event->title);
@@ -105,14 +103,12 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
                 break;
                 //Participant was removed from event
             case 'remove':
-                $action = 'org.openpsa.calendar:event_remove';
                 $message['title'] = sprintf($l10n->get('you have been removed from event "%s"'), $event->title);
                 $message['abstract'] = sprintf($l10n->get('you have been removed from event "%s" (%s)'), $event->title, $event->format_timeframe());
                 $message['content'] = sprintf($l10n->get('you have been removed from event "%s" (%s) participants list.'), $event->title, $event->format_timeframe());
                 break;
                 //Event was cancelled (=deleted)
             case 'cancel':
-                $action = 'org.openpsa.calendar:event_cancel';
                 $message['title'] = sprintf($l10n->get('event "%s" was cancelled'), $event->title);
                 $message['abstract'] = sprintf($l10n->get('event "%s" (%s) was cancelled'), $event->title, $event->format_timeframe());
                 $message['content'] = sprintf($l10n->get('event "%s" (%s) was cancelled.'), $event->title, $event->format_timeframe());

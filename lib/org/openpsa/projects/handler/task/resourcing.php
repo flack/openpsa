@@ -104,11 +104,11 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
                     // create relatedto
                     org_openpsa_relatedto_plugin::create($event, 'org.openpsa.calendar', $this->_task, 'org.openpsa.projects');
                 }
-            }
-            if (   $update_prospect
-                && !$prospect->update())
-            {
-                debug_add('Failed to update prospect: ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
+                if (   $update_prospect
+                    && !$prospect->update())
+                {
+                    debug_add('Failed to update prospect: ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
+                }
             }
             return new midcom_response_relocate("task/{$this->_task->guid}/");
         }

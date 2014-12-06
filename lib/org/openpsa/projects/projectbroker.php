@@ -13,8 +13,6 @@
  */
 class org_openpsa_projects_projectbroker
 {
-    var $membership_filter = array();
-
     /**
      * Does a local search for persons that match the task constraints
      *
@@ -51,22 +49,19 @@ class org_openpsa_projects_projectbroker
         // Normalize to contacts person class if necessary
         foreach ($persons as $obj)
         {
-            switch (true)
+            if (!$obj instanceof org_openpsa_contacts_person_dba)
             {
-                case (is_a($obj, 'org_openpsa_contacts_person_dba')):
-                    $return[] = $obj;
-                    break;
-                default:
-                    try
-                    {
-                        $return[] = new org_openpsa_contacts_person_dba($obj->id);
-                    }
-                    catch (midcom_error $e)
-                    {
-                        $e->log();
-                    }
-                    break;
+                try
+                {
+                    $obj = new org_openpsa_contacts_person_dba($obj->id);
+                }
+                catch (midcom_error $e)
+                {
+                    $e->log();
+                    continue;
+                }
             }
+            $return[] = $obj;
         }
 
         // TODO: Check other constraints (available time, country, time zone)

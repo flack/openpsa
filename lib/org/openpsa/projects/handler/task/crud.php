@@ -26,10 +26,6 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
      */
     public function _get_object_url(midcom_core_dbaobject $object)
     {
-        if ($object instanceof org_openpsa_projects_project)
-        {
-            return 'project/' . $object->guid . '/';
-        }
         return 'task/' . $object->guid . '/';
     }
 
@@ -267,7 +263,6 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
      */
     public function _handler_delete($handler_id, array $args, array &$data)
     {
-        $this->_mode = 'delete';
         $this->_load_object($handler_id, $args, $data);
         $this->_object->require_do('midgard:delete');
 

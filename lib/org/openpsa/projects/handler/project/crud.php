@@ -17,6 +17,14 @@ class org_openpsa_projects_handler_project_crud extends midcom_baseclasses_compo
     public $_prefix = 'project';
 
     /**
+     * @inheritdoc
+     */
+    public function _get_object_url(midcom_core_dbaobject $object)
+    {
+        return 'project/' . $object->guid . '/';
+    }
+
+    /**
      * Method for adding the supported operations into the toolbar.
      *
      * @param mixed $handler_id The ID of the handler.
@@ -100,14 +108,9 @@ class org_openpsa_projects_handler_project_crud extends midcom_baseclasses_compo
     {
         org_openpsa_projects_viewer::add_breadcrumb_path($this->_object, $this);
 
-        switch ($handler_id)
+        if ($handler_id == 'project_edit')
         {
-            case 'project_edit':
-                $this->add_breadcrumb("project/edit/{$this->_object->guid}/", $this->_l10n_midcom->get('edit'));
-                break;
-            case 'project_delete':
-                $this->add_breadcrumb("project/delete/{$this->_object->guid}/", $this->_l10n_midcom->get('delete'));
-                break;
+            $this->add_breadcrumb("project/edit/{$this->_object->guid}/", $this->_l10n_midcom->get('edit'));
         }
     }
 
@@ -124,14 +127,10 @@ class org_openpsa_projects_handler_project_crud extends midcom_baseclasses_compo
                 $view_title = $this->_l10n->get('create project');
                 break;
             case 'read':
-                $object_title = $this->_object->get_label();
-                $view_title = $object_title;
+                $view_title = $this->_object->get_label();
                 break;
             case 'update':
                 $view_title = sprintf($this->_l10n_midcom->get('edit %s'), $this->_object->get_label());
-                break;
-            case 'delete':
-                $view_title = sprintf($this->_l10n_midcom->get('delete %s'), $this->_object->get_label());
                 break;
         }
 

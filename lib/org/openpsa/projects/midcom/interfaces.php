@@ -222,7 +222,6 @@ implements midcom_services_permalinks_resolver, org_openpsa_contacts_duplicates_
             return false;
         }
         $broker = new org_openpsa_projects_projectbroker();
-        $broker->membership_filter = $args['membership_filter'];
         return $broker->save_task_prospects($task);
     }
 

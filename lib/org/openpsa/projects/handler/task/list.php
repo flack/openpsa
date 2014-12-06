@@ -66,7 +66,6 @@ implements org_openpsa_widgets_grid_provider_client
 
         switch ($args[0])
         {
-            //for json no style is needed
             case 'all':
                 $this->_prepare_output();
                 org_openpsa_widgets_grid::add_head_elements();
@@ -161,7 +160,6 @@ implements org_openpsa_widgets_grid_provider_client
                 break;
 
             case 'pending_accept':
-                // FIXME: List resources instead
                 $task->get_members();
                 if ( count($task->resources) > 0)
                 {
