@@ -35,11 +35,6 @@ class org_openpsa_projects_task_status_dba extends midcom_core_dbaobject
     const APPROVED = 6570;
     const CLOSED = 6580;
 
-    //org.openpsa.projects acceptance negotiation types
-    const ACCEPTANCE_ALLACCEPT = 6700;
-    const ACCEPTANCE_ONEACCEPT = 6701;
-    const ACCEPTANCE_ONEACCEPTDROP = 6702;
-
     public function __construct($id = null)
     {
         parent::__construct($id);
@@ -127,48 +122,11 @@ class org_openpsa_projects_task_status_dba extends midcom_core_dbaobject
             return;
         }
 
-        $needs_update = false;
+        debug_add("Setting task status to {$this->type}");
+        $task->status = $this->type;
 
-        if ($task->status < $this->type)
-        {
-            // This doesn't really do anything yet, it's moved here from workflow.php
-            if ($this->type == self::ACCEPTED)
-            {
-                switch ($task->acceptanceType)
-                {
-                    case self::ACCEPTANCE_ALLACCEPT:
-                    case self::ACCEPTANCE_ONEACCEPTDROP:
-                        debug_add('Acceptance mode not implemented', MIDCOM_LOG_ERROR);
-                        return false;
-                        break;
-                    default:
-                    case self::ACCEPTANCE_ONEACCEPT:
-                        //PONDER: Should this be superseded by generic method for querying the status objects to set the latest status ??
-                        debug_add("Required accept received, setting task status to accepted");
-                        //
-                        $needs_update = true;
-                        break;
-                }
-            }
-            //TODO Some more sophisticated checks, for now we just write everything
-            else
-            {
-                $needs_update = true;
-            }
-        }
-        else
-        {
-            $needs_update = true;
-        }
-
-        if ($needs_update)
-        {
-            debug_add("Setting task status to {$this->type}");
-            $task->status = $this->type;
-
-            $task->_skip_acl_refresh = true;
-            $task->update();
-        }
+        $task->_skip_acl_refresh = true;
+        $task->update();
     }
 
     function get_status_message()

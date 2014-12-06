@@ -41,11 +41,11 @@
         </property>
         <property name="orgOpenpsaWgtype" type="integer">
           <description>
-	    will contain bitmask as integer
+        will contain bitmask as integer
 
-	    - 00(int=0) not a workgroup
-	    - 01(int=1) is workgroup but not active
-	    - 11(int=3) active workgroup
+        - 00(int=0) not a workgroup
+        - 01(int=1) is workgroup but not active
+        - 11(int=3) active workgroup
           </description>
         </property>
         <property name="orgOpenpsaOwnerWg" type="string">
@@ -74,11 +74,15 @@
         <property name="projectCode" type="string" />
 
         <property name="status" type="integer">
-        	<description>
-        		cache of last status
-        	</description>
+            <description>
+                cache of last status
+            </description>
         </property>
-        <property name="acceptanceType" type="integer" />
+        <property name="acceptanceType" type="integer">
+            <description>
+                Deprecated. This belonged to a feature that was never implemented
+            </description>
+        </property>
 
         <property name="agreement" link="org_openpsa_salesproject_deliverable:id" type="unsigned integer"/>
         <property name="customer" link="midgard_group:id" type="unsigned integer"/>
@@ -115,42 +119,42 @@
         <property name="calendarAllowOverlap" type="integer"/>
          -->
         <property name="expensesInvoiceableDefault" type="boolean">
-        	<description>
-        		Are expenses and mileages invoiceable by default ?
-        	</description>
+            <description>
+                Are expenses and mileages invoiceable by default ?
+            </description>
         </property>
         <property name="hoursInvoiceableDefault" type="boolean">
-        	<description>
-        		Are hours invoiceable by default ?
-        	</description>
+            <description>
+                Are hours invoiceable by default ?
+            </description>
         </property>
         <property name="priority" type="integer" />
         <!-- TODO: how to handle "percentages" [as in the 1.x Projects] ? I think they will be a member-like system or something -->
 
         <!-- Common OpenPSA properties -->
         <property name="orgOpenpsaAccesstype" type="integer">
-        	<description>
-        		Shortcut for various ACL scenarios
-        	</description>
+            <description>
+                Shortcut for various ACL scenarios
+            </description>
         </property>
         <property name="orgOpenpsaObtype" type="integer">
-        	<description>
-	        	Used to a) distinguish OpenPSA objects in QB b) store object "subtype" (project vs task etc)
-        	</description>
+            <description>
+                Used to a) distinguish OpenPSA objects in QB b) store object "subtype" (project vs task etc)
+            </description>
         </property>
         <property name="orgOpenpsaWgtype" type="integer">
-        	<description>
-	            will contain bitmask as integer
+            <description>
+                will contain bitmask as integer
 
-	            - 00(int=0) not a workgroup
-	            - 01(int=1) is workgroup but not active
-	            - 11(int=3) active workgroup
-        	</description>
+                - 00(int=0) not a workgroup
+                - 01(int=1) is workgroup but not active
+                - 11(int=3) active workgroup
+            </description>
         </property>
         <property name="orgOpenpsaOwnerWg" type="string">
-        	<description>
-        		The "owner" workgroup of this object
-        	</description>
+            <description>
+                The "owner" workgroup of this object
+            </description>
         </property>
         <!-- /Common OpenPSA properties -->
 
@@ -190,9 +194,9 @@
 
         <!-- Common OpenPSA properties -->
         <property name="orgOpenpsaObtype" type="integer">
-        	<description>
-	        	Used to a) distinguish OpenPSA objects in QB b) store object "subtype" (project vs task etc)
-        	</description>
+            <description>
+                Used to a) distinguish OpenPSA objects in QB b) store object "subtype" (project vs task etc)
+            </description>
         </property>
         <!-- /Common OpenPSA properties -->
 
@@ -207,9 +211,9 @@
 
         <!-- Common OpenPSA properties -->
         <property name="orgOpenpsaObtype" type="integer">
-        	<description>
-	        	Used to a) distinguish OpenPSA objects in QB b) store object "subtype" (project vs task etc)
-        	</description>
+            <description>
+                Used to a) distinguish OpenPSA objects in QB b) store object "subtype" (project vs task etc)
+            </description>
         </property>
         <!-- /Common OpenPSA properties -->
     </type>

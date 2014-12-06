@@ -252,15 +252,8 @@ class org_openpsa_projects_project extends midcom_core_dbaobject
                 $update_required = true;
             }
 
-            if (!array_key_exists($task->status_type, $status_types))
-            {
-                $status_types[$task->status_type] = true;
-            }
-            //Simple way to handle accepted and various "under work" statuses
-            if (!array_key_exists($task->status, $task_statuses))
-            {
-                $task_statuses[$task->status] = true;
-            }
+            $status_types[$task->status_type] = true;
+            $task_statuses[$task->status] = true;
         }
 
         if (sizeof($task_statuses) == 1)
@@ -282,8 +275,7 @@ class org_openpsa_projects_project extends midcom_core_dbaobject
 
         if ($update_required)
         {
-            debug_add("Some project information needs to be updated, skipping ACL refresh");
-            $this->_skip_acl_refresh = true;
+            debug_add("Some project information needs to be updated, skipping RCS");
             $this->_use_rcs = false;
             $this->_use_activitystream = false;
             return $this->update();
