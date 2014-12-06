@@ -1,13 +1,7 @@
 <?php
 $task_array = array();
 
-function sort_by_task_status($a, $b)
-{
-    return ($a['index_status'] - $b['index_status']);
-}
-
 $tasks = $data['provider']->get_rows();
-uasort($tasks, 'sort_by_task_status');
 
 foreach ($tasks as $task)
 {

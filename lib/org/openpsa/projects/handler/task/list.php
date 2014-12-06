@@ -368,6 +368,12 @@ implements org_openpsa_widgets_grid_provider_client
         {
             $this->_add_filters('project');
         }
+        else
+        {
+            $this->_qb->add_order('status');
+            $this->_qb->add_order('end', 'DESC');
+            $this->_qb->add_order('start');
+        }
     }
 
     /**
