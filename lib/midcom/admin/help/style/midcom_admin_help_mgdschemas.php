@@ -22,13 +22,13 @@ if (count($data['mgdschemas']) > 0)
         foreach ($properties as $propname => $val)
         {
             $proplink = "";
-            $proplink_description = '';
+            $description = preg_replace('/ *\n */', "\n", $val['value']);
             if (   $val['link']
                 && $linked_component = midcom::get()->dbclassloader->get_component_for_class($val['link_name']))
             {
                 $proplink = "<a href='{$prefix}__ais/help/{$linked_component}/mgdschemas/#{$val['link_name']}' title='{$linked_component}/{$val['link_name']}::{$val['link_target']}'>{$val['link_name']}:{$val['link_target']}</a>";
                 $classname = str_replace('_', '\\_', $val['link_name']);
-                $proplink_description = "\n\n**This property links to {$classname}:{$val['link_target']}**";
+                $description .= "\n\n**This property links to {$classname}:{$val['link_target']}**";
             }
 
             $mod = ($i % 2 == 0) ? " even":" odd";
@@ -36,7 +36,7 @@ if (count($data['mgdschemas']) > 0)
 
             echo "            <tr>\n";
             echo "                <td class='property{$mod}'><span class='mgdtype'>{$val['midgard_type']}</span> {$propname}<br/>{$proplink}</td>\n";
-            echo "                <td class='{$mod}'>" . MarkdownExtra::defaultTransform($val['value'] . $proplink_description) . "</td>\n";
+            echo "                <td class='{$mod}'>" . MarkdownExtra::defaultTransform($description) . "</td>\n";
             echo "            </tr>\n";
         }
         echo "        </tbody>\n";
