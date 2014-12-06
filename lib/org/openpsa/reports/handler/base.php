@@ -27,7 +27,6 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
      */
     public function _handler_generator_get($handler_id, array $args, array &$data)
     {
-        $this->_set_active_leaf();
         midcom::get()->auth->require_valid_user();
         if (   !array_key_exists('org_openpsa_reports_query_data', $_REQUEST)
             || !is_array($_REQUEST['org_openpsa_reports_query_data']))
@@ -139,7 +138,6 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
      */
     public function _handler_query_form($handler_id, array $args, array &$data)
     {
-        $this->_set_active_leaf();
         midcom::get()->auth->require_valid_user();
 
         if (isset($args[0]))
@@ -189,12 +187,6 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
     public function _show_query_form($handler_id, array &$data)
     {
         midcom_show_style("{$this->module}_query_form");
-    }
-
-    private function _set_active_leaf()
-    {
-        // This should be overridden, but we default for 'generator_<module>'
-        $this->set_active_leaf($this->_topic->id . ':generator_' . $this->module);
     }
 
     protected function _generator_load_redirect(&$args)

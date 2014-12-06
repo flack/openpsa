@@ -32,7 +32,6 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
         midcom::get()->auth->require_valid_user();
 
         $this->_generator_load_redirect($args);
-        $this->set_active_leaf($this->_topic->id . ':generator_invoices');
         $this->_handler_generator_style();
 
         $data['start'] = $data['query_data']['start'];
@@ -55,7 +54,7 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
 
     private function _get_invoices_for_subscription($deliverable, $at_entry)
     {
-        if ( $deliverable->invoiceByActualUnits
+        if (   $deliverable->invoiceByActualUnits
             && $at_entry->arguments['cycle'] > 1)
         {
             $invoice_sum = $deliverable->invoiced / ($at_entry->arguments['cycle'] - 1);

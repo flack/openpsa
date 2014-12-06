@@ -236,7 +236,6 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
         midcom::get()->auth->require_valid_user();
 
         $this->_generator_load_redirect($args);
-        $this->set_active_leaf($this->_topic->id . ':generator_projects');
         $this->_handler_generator_style();
     }
 
