@@ -16,7 +16,23 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
     private $_datamanagers = array();
     var $module = false;
 
-    abstract function _handler_generator($handler_id, array $args, array &$data);
+
+    /**
+     * @param mixed $handler_id The ID of the handler.
+     * @param array $args The argument list.
+     * @param array &$data The local request data.
+     */
+    public function _handler_generator($handler_id, array $args, array &$data)
+    {
+        midcom::get()->auth->require_valid_user();
+
+        $this->_generator_load_redirect($args);
+        $this->_handler_generator_style();
+        if ($data['query']->title)
+        {
+            $data['title'] = $data['query']->title;
+        }
+    }
 
     abstract function _show_generator($handler_id, array &$data);
 

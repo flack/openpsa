@@ -29,10 +29,7 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
      */
     public function _handler_generator($handler_id, array $args, array &$data)
     {
-        midcom::get()->auth->require_valid_user();
-
-        $this->_generator_load_redirect($args);
-        $this->_handler_generator_style();
+        parent::_handler_generator($handler_id, $args, $data);
 
         $data['start'] = $data['query_data']['start'];
         $data['end'] = $data['query_data']['end'];
@@ -89,7 +86,6 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
 
         return $invoices;
     }
-
 
     private function get_invoice_for_deliverable(org_openpsa_sales_salesproject_deliverable_dba $deliverable, $sum, $time, $calculation_base)
     {

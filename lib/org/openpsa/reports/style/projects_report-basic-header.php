@@ -1,12 +1,11 @@
 <?php
 $report = $data['report'];
 $query_data = $data['query_data'];
-$title = sprintf($data['l10n']->get('basic report for %s - %s'), strftime('%x', $query_data['start']), strftime('%x', $query_data['end']));
 ?>
         <div class="org_openpsa_reports_report org_openpsa_reports_basic">
             <div class="header">
 <?php midcom_show_style('projects_report-basic-header-logo'); ?>
-                <h1>&(title);</h1>
+                <h1>&(data['title']);</h1>
             </div>
             <table class="report" id="org_openpsa_reports_basic_reporttable">
                 <thead>

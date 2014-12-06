@@ -33,10 +33,6 @@ class org_openpsa_reports_query_dba extends midcom_core_dbaobject
         {
             $this->mimetype = 'text/html';
         }
-        if (!$this->title)
-        {
-            $this->title = 'unnamed';
-        }
     }
 
     /**
@@ -47,10 +43,10 @@ class org_openpsa_reports_query_dba extends midcom_core_dbaobject
     function get_class_magic_default_privileges()
     {
         $privileges = parent::get_class_magic_default_privileges();
-        $privileges['USERS']['midgard:owner']       = MIDCOM_PRIVILEGE_ALLOW;
+        $privileges['USERS']['midgard:owner']  = MIDCOM_PRIVILEGE_ALLOW;
         // Just to be sure
-        $privileges['USERS']['midgard:read']        = MIDCOM_PRIVILEGE_ALLOW;
-        $privileges['USERS']['midgard:create']      = MIDCOM_PRIVILEGE_ALLOW;
+        $privileges['USERS']['midgard:read']   = MIDCOM_PRIVILEGE_ALLOW;
+        $privileges['USERS']['midgard:create'] = MIDCOM_PRIVILEGE_ALLOW;
         return $privileges;
     }
 
@@ -66,7 +62,7 @@ class org_openpsa_reports_query_dba extends midcom_core_dbaobject
     {
         $qb = self::new_query_builder();
         $qb->add_constraint('component', '=', 'org.openpsa.reports');
-        $qb->add_constraint('orgOpenpsaObtype', '=', org_openpsa_reports_query_dba::OBTYPE_REPORT);
+        $qb->add_constraint('orgOpenpsaObtype', '=', self::OBTYPE_REPORT);
         $qb->add_constraint('relatedcomponent', '=', $component);
         $qb->add_order('title');
         return $qb->execute();

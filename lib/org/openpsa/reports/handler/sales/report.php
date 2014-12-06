@@ -110,10 +110,7 @@ implements org_openpsa_widgets_grid_provider_client
      */
     public function _handler_generator($handler_id, array $args, array &$data)
     {
-        midcom::get()->auth->require_valid_user();
-
-        $this->_generator_load_redirect($args);
-        $this->_handler_generator_style();
+        parent::_handler_generator($handler_id, $args, $data);
 
         $data['invoices'] = Array();
 
