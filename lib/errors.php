@@ -129,7 +129,7 @@ class midcom_exception_handler
      */
     public function handle_exception(Exception $e)
     {
-        //For unit tests or MidgardMVC we just pass exceptions on and let the frameworks do the work
+        //For MidgardMVC we just pass exceptions on and let the framework do the work
         if ($e instanceof midgardmvc_exception_unauthorized)
         {
             throw $e;
@@ -137,11 +137,25 @@ class midcom_exception_handler
 
         $this->_exception = $e;
         $trace = $e->getTraceAsString();
+        $httpcode = $e->getCode();
+        $message = $e->getMessage();
+        debug_print_r('Exception occured: ' . $httpcode . ', Message: ' . $message . ', exception trace:', $trace);
 
-        debug_print_r('Exception occured: ' . $e->getCode() . ', Message: ' . $e->getMessage() . ', exception trace:', $trace);
+        if (!in_array($httpcode, array(MIDCOM_ERROK, MIDCOM_ERRNOTFOUND, MIDCOM_ERRFORBIDDEN, MIDCOM_ERRAUTH, MIDCOM_ERRCRIT)))
+        {
+            debug_add("Unknown Errorcode {$httpcode} encountered, assuming 500");
+            $httpcode = MIDCOM_ERRCRIT;
+        }
 
-        $this->show($e->getCode(), $e->getMessage());
-        // This will exit
+        // Send error to special log or recipient as per in configuration.
+        $this->send($httpcode, $message);
+
+        if (PHP_SAPI !== 'cli')
+        {
+            $this->show($httpcode, $message);
+            // This will exit
+        }
+        throw $e;
     }
 
     /**
@@ -183,15 +197,6 @@ class midcom_exception_handler
             debug_add("An error has been generated: Code: {$httpcode}, Message: {$message}");
             debug_print_function_stack('Stacktrace:');
         }
-
-        if (!in_array($httpcode, array(MIDCOM_ERROK, MIDCOM_ERRNOTFOUND, MIDCOM_ERRFORBIDDEN, MIDCOM_ERRAUTH, MIDCOM_ERRCRIT)))
-        {
-            debug_add("Unknown Errorcode {$httpcode} encountered, assuming 500");
-            $httpcode = MIDCOM_ERRCRIT;
-        }
-
-        // Send error to special log or recipient as per in configuration.
-        $this->send($httpcode, $message);
 
         if (_midcom_headers_sent())
         {
