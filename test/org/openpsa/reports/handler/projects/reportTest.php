@@ -63,7 +63,7 @@ class org_openpsa_reports_handler_projects_reportTest extends openpsa_testcase
 
         $url = $this->run_relocate_handler('org.openpsa.reports', array('projects', $query->guid));
 
-        $this->assertEquals('projects/' . $query->guid . '/' . $timestamp . '_unnamed.html', $url);
+        $this->assertEquals('projects/' . $query->guid . '/' . $timestamp . '_projects.html', $url);
 
         midcom::get()->auth->drop_sudo();
     }

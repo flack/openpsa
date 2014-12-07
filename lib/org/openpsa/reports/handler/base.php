@@ -220,10 +220,8 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
                 $timestamp = time();
             }
             $filename = date('Y_m_d', $timestamp);
-            if ($this->_request_data['query']->title)
-            {
-                $filename .= '_' . preg_replace('/[^a-z0-9-]/i', '_', strtolower($this->_request_data['query']->title));
-            }
+            $title = $this->_request_data['query']->title ?: $this->module;
+            $filename .= '_' . preg_replace('/[^a-z0-9-]/i', '_', strtolower($title));
             $filename .= $this->_request_data['query']->extension;
 
             midcom::get()->relocate($this->module . '/' . $this->_request_data['query']->guid . '/' . $filename);

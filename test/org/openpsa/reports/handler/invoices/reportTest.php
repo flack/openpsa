@@ -75,7 +75,7 @@ class org_openpsa_reports_handler_invoices_reportTest extends openpsa_testcase
 
         $url = $this->run_relocate_handler('org.openpsa.reports', array('invoices', $query->guid));
 
-        $this->assertEquals('invoices/' . $query->guid . '/' . $timestamp . '_unnamed.html', $url);
+        $this->assertEquals('invoices/' . $query->guid . '/' . $timestamp . '_invoices.html', $url);
 
         midcom::get()->auth->drop_sudo();
     }

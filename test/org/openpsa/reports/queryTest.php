@@ -25,7 +25,7 @@ class org_openpsa_reports_queryTest extends openpsa_testcase
         $this->assertEquals('.html', $query->extension);
         $this->assertEquals(org_openpsa_reports_query_dba::OBTYPE_REPORT_TEMPORARY, $query->orgOpenpsaObtype);
         $this->assertEquals('text/html', $query->mimetype);
-        $this->assertEquals('unnamed', $query->title);
+        $this->assertEquals('', $query->title);
 
         $query->title = 'TEST';
         $stat = $query->update();
