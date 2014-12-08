@@ -60,19 +60,17 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
         }
         else if (isset($this->_object))
         {
-            $object = $this->_object;
-            if (!empty($this->_object_path))
+            // we go through the path bottom up and show the first root type we find
+            foreach (array_reverse($this->_object_path) as $object)
             {
-                $object = midcom::get()->dbfactory->get_object_by_guid($this->_object_path[0]);
-            }
-
-            foreach ($this->root_types as $root_type)
-            {
-                if (    is_a($object, $root_type)
-                     || midcom_helper_reflector::is_same_class($root_type, $object->__midcom_class_name__))
+                foreach ($this->root_types as $root_type)
                 {
-                    $this->expanded_root_types[] = $root_type;
-                    break;
+                    if (    is_a($object, $root_type)
+                        || midcom_helper_reflector::is_same_class($root_type, $object->__midcom_class_name__))
+                    {
+                        $this->expanded_root_types[] = $root_type;
+                        break;
+                    }
                 }
             }
         }
@@ -105,13 +103,13 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
             return $object_path;
         }
 
-        $object_path[] = $this->_object->guid;
+        $object_path[] = $this->_object;
 
         $parent = $this->_object->get_parent();
         while (   is_object($parent)
                && $parent->guid)
         {
-            $object_path[] = $parent->guid;
+            $object_path[] = $parent;
             $parent = $parent->get_parent();
         }
 
@@ -236,12 +234,11 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
         $ref = midcom_helper_reflector::get($type);
         if (!empty($this->_object_path[$level]))
         {
-            $child = midcom::get()->dbfactory->get_object_by_guid($this->_object_path[$level]);
-            if (   $child->__mgdschema_class_name__ == $type
-                && !array_key_exists($child->guid, $this->shown_objects))
+            if (   $this->_object_path[$level]->__mgdschema_class_name__ == $type
+                && !array_key_exists($this->_object_path[$level]->guid, $this->shown_objects))
             {
-                $label = htmlspecialchars($ref->get_object_label($child));
-                $this->_draw_element($child, $label, $level);
+                $label = htmlspecialchars($ref->get_object_label($this->_object_path[$level]));
+                $this->_draw_element($this->_object_path[$level], $label, $level);
             }
         }
         $icon = midcom_helper_reflector::get_object_icon(new $type);
@@ -317,7 +314,14 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
 
     private function _is_selected($object)
     {
-        return (in_array($object->guid, $this->_object_path));
+        foreach ($this->_object_path as $path_object)
+        {
+            if ($object->guid == $path_object->guid)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     protected function _common_css_classes($object, $ref, &$css_class)
@@ -508,9 +512,8 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
     {
         if (!empty($this->_object_path))
         {
-            $root_object = midcom::get()->dbfactory->get_object_by_guid($this->_object_path[0]);
-            $this->_request_data['root_object'] = $root_object;
-            $this->_request_data['navigation_type'] = $root_object->__mgdschema_class_name__;
+            $this->_request_data['root_object'] = $this->_object_path[0];
+            $this->_request_data['navigation_type'] = $this->_object_path[0]->__mgdschema_class_name__;
         }
         else if (isset($this->expanded_root_types[0]))
         {
