@@ -166,21 +166,17 @@ class midcom_helper_datamanager2_widget_radiocheckselect extends midcom_helper_d
                 $this->_type->selection = array_keys(array_intersect_key($all_elements, $results[$this->name]));
             }
         }
-        else
+        else if ($results[$this->name] !== null)
         {
-            if ($results[$this->name] !== null)
-            {
-                $this->_type->selection = Array($results[$this->name]);
-            }
+            $this->_type->selection = Array($results[$this->name]);
         }
     }
 
     public function render_content()
     {
-        $output = '';
         if ($this->_type->allow_multiple)
         {
-            $output .= '<ul>';
+            $output = '<ul>';
             if (count($this->_type->selection) == 0)
             {
                 $output .= '<li>' . $this->_translate('type select: no selection') . '</li>';
@@ -192,29 +188,12 @@ class midcom_helper_datamanager2_widget_radiocheckselect extends midcom_helper_d
                     $output .= '<li>' . $this->_translate($this->_type->get_name_for_key($key)) . '</li>';
                 }
             }
-            $output .= '</ul>';
+            return $output . '</ul>';
         }
-        else
+        if (count($this->_type->selection) == 0)
         {
-            if (count($this->_type->selection) == 0)
-            {
-                $output .= $this->_translate('type select: no selection');
-            }
-            else
-            {
-                $output .= $this->_translate($this->_type->get_name_for_key($this->_type->selection[0]));
-            }
+            return $this->_translate('type select: no selection');
         }
-
-        if ($this->_type->allow_other)
-        {
-            if (! $this->_type->allow_multiple)
-            {
-                $output .= '; ';
-            }
-            $output .= $this->_translate($this->othertext) . ': ';
-            $output .= implode(',', $this->_type->others);
-        }
-        return $output;
+        return $this->_translate($this->_type->get_name_for_key($this->_type->selection[0]));
     }
 }
