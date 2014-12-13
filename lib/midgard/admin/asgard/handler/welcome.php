@@ -263,6 +263,15 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
             (
                 array
                 (
+                    MIDCOM_TOOLBAR_URL => '__mfa/asgard/shell/',
+                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('shell'),
+                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/properties.png',
+                )
+            );
+            $this->_request_data['asgard_toolbar']->add_item
+            (
+                array
+                (
                     MIDCOM_TOOLBAR_URL => '__mfa/asgard/trash/',
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('trash'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash-full.png',
