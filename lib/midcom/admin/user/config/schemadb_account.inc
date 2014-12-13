@@ -1,6 +1,7 @@
 'default' => array
 (
     'description' => 'account schema',
+    'l10n_db' => 'midcom.admin.user',
     'validation' => array
     (
         array

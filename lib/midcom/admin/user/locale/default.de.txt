@@ -262,6 +262,10 @@ Benutzer %s wurde zur Gruppe hinzugefügt
 Benutzerkonto von %s wurde entzogen
 ---STRINGEND
 
+---STRING user type
+Benutzertyp
+---STRINGEND
+
 ---STRING username
 Benutzername
 ---STRINGEND
@@ -289,4 +293,3 @@ Ihr Passwort wurde geändert
 ---STRING enable unlocking locked objects
 Entsperren gesperrter Objekte aktivieren
 ---STRINGEND
-

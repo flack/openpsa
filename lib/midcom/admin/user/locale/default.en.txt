@@ -274,6 +274,10 @@ User %s added to group
 User account revoked for %s
 ---STRINGEND
 
+---STRING user type
+User type
+---STRINGEND
+
 ---STRING username
 Username
 ---STRINGEND
@@ -297,4 +301,3 @@ Write the message that will be sent to the recipients
 ---STRING your password has been changed
 Your password has been changed
 ---STRINGEND
-
