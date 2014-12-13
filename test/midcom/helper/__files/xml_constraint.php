@@ -13,7 +13,7 @@
  *
  * @package openpsa.test
  */
-class xml_comparison extends PHPUnit_Framework_Constraint_isEqual
+class xml_comparison extends PHPUnit_Framework_Constraint_IsEqual
 {
     public function __construct($value, $delta = 0, $maxDepth = 10, $canonicalize = false, $ignoreCase = false)
     {
