@@ -50,6 +50,10 @@ Create user
 Current time (%s)
 ---STRINGEND
 
+---STRING delete account
+Delete account
+---STRINGEND
+
 ---STRING edit %s
 Edit %s
 ---STRINGEND

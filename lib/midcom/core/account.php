@@ -28,7 +28,7 @@ class midcom_core_account
     private $_user;
 
     /**
-     * Flag to tell us whether we run under midgard2 or not
+     * Flag to tell us whether we use midgard2 API or not
      *
      * @param boolean
      */
@@ -194,6 +194,15 @@ class midcom_core_account
         }
     }
 
+    public function set_usertype($type)
+    {
+        if (!$this->_midgard2)
+        {
+            throw new midcom_error('Currently unsupported under midgard 1');
+        }
+        $this->_user->usertype = $type;
+    }
+
     public function get_password()
     {
         return $this->_user->password;
@@ -208,6 +217,15 @@ class midcom_core_account
         }
         // Ragnaroek
         return $this->_person->username;
+    }
+
+    public function get_usertype()
+    {
+        if (!$this->_midgard2)
+        {
+            throw new midcom_error('Currently unsupported under midgard 1');
+        }
+        return $this->_user->usertype;
     }
 
     /**

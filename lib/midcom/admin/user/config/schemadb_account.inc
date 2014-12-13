@@ -10,6 +10,23 @@
     ),
     'fields' => array
     (
+        'usertype' => array
+        (
+            'title' => 'user type',
+            'storage' => 'usertype',
+            'type' => 'select',
+            'widget' => 'select',
+            'type_config' => array
+            (
+                'options' => array
+                (
+                    0 => 'none',
+                    1 => 'user',
+                    2 => 'admin'
+                )
+            ),
+            'hidden' => (extension_loaded('midgard'))
+        ),
         'username' => array
         (
             // COMPONENT-REQUIRED

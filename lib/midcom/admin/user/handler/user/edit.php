@@ -30,6 +30,8 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         if (   $this->_config->get('allow_manage_accounts')
             && $this->_person)
         {
+            $this->_account = new midcom_core_account($this->_person);
+
             $data['asgard_toolbar']->add_item
             (
                 array
@@ -48,6 +50,18 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/repair.png',
                 )
             );
+            if (($this->_account->get_username() !== ''))
+            {
+                $data['asgard_toolbar']->add_item
+                (
+                    array
+                    (
+                        MIDCOM_TOOLBAR_URL => "__mfa/asgard_midcom.admin.user/delete_account/{$this->_person->guid}/",
+                        MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('delete account'),
+                        MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
+                    )
+                );
+            }
             midgard_admin_asgard_plugin::bind_to_object($this->_person, $handler_id, $data);
         }
     }
@@ -78,11 +92,18 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
 
     public function get_schema_defaults()
     {
-        return array
+        $defaults = array
         (
             'username' => $this->_account->get_username(),
             'person' => $this->_person->guid
         );
+
+        if (!extension_loaded('midgard'))
+        {
+            $defaults['usertype'] = $this->_account->get_usertype();
+        }
+
+        return $defaults;
     }
 
     /**
@@ -168,24 +189,6 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         return new midgard_admin_asgard_response($this, '_show_edit_account');
     }
 
-    private function _save_account(midcom_helper_datamanager2_controller $controller)
-    {
-        $password = $controller->formmanager->_types['password']->value;
-        $username = $controller->formmanager->_types['username']->value;
-
-        if (   trim($username) == ''
-            || trim($password) == '')
-        {
-            $this->_account->delete();
-        }
-        else
-        {
-            $this->_account->set_username($username);
-            $this->_account->set_password($password);
-            $this->_account->save();
-        }
-    }
-
     /**
      * @param string $handler_id Name of the used handler
      * @param array &$data Data passed to the show method
@@ -199,6 +202,75 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         {
             midcom_show_style('midcom-admin-user-generate-passwords');
         }
+    }
+
+    private function _save_account(midcom_helper_datamanager2_controller $controller)
+    {
+        $password = $controller->formmanager->_types['password']->value;
+        $username = $controller->formmanager->_types['username']->value;
+
+        if (trim($username) !== '')
+        {
+            $this->_account->set_username($username);
+        }
+        if (trim($password) !== '')
+        {
+            $this->_account->set_password($password);
+        }
+        if (!extension_loaded('midgard'))
+        {
+            $this->_account->set_usertype($controller->formmanager->_types['usertype']->convert_to_storage());
+        }
+        $this->_account->save();
+    }
+
+    /**
+     * @param string $handler_id Name of the used handler
+     * @param array $args Array containing the variable arguments passed to the handler
+     * @param array &$data Data passed to the show method
+     */
+    public function _handler_delete_account($handler_id, array $args, array &$data)
+    {
+        if (!$this->_config->get('allow_manage_accounts'))
+        {
+            throw new midcom_error('Account management is disabled');
+        }
+
+        $this->_person = new midcom_db_person($args[0]);
+        $this->_person->require_do('midgard:update');
+        $this->_account = new midcom_core_account($this->_person);
+
+        $data['controller'] = midcom_helper_datamanager2_handler::get_delete_controller();
+
+        switch ($data['controller']->process_form())
+        {
+            case 'delete':
+                $this->_account->delete();
+                // Show confirmation for the user
+                midcom::get()->uimessages->add($this->_l10n->get('midcom.admin.user'), sprintf($this->_l10n->get('account for %s deleted'), $this->_person->name));
+                //fall-through
+            case 'cancel':
+            return new midcom_response_relocate("__mfa/asgard_midcom.admin.user/edit/{$this->_person->guid}/");
+        }
+
+        midgard_admin_asgard_plugin::bind_to_object($this->_person, $handler_id, $data);
+        $data['view_title'] = $this->_l10n->get('delete account');
+
+        $this->add_breadcrumb("__mfa/asgard_midcom.admin.user/", $this->_l10n->get($this->_component));
+        $this->add_breadcrumb("__mfa/asgard_midcom.admin.user/edit/" . $this->_person->guid . '/', $this->_person->name);
+        $this->add_breadcrumb("", $data['view_title']);
+
+        return new midgard_admin_asgard_response($this, '_show_delete_account');
+    }
+
+    /**
+     * @param string $handler_id Name of the used handler
+     * @param array &$data Data passed to the show method
+     */
+    public function _show_delete_account($handler_id, array &$data)
+    {
+        $data['person'] = $this->_person;
+        midcom_show_style('midcom-admin-user-person-delete-account');
     }
 
     /**

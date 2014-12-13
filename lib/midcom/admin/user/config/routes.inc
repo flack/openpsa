@@ -61,6 +61,17 @@
     'variable_args' => 1,
 ),
 /**
+ * Delete a user's account
+ *
+ * Match /user-editor/account/<guid>/
+ */
+'user_delete_account' => array
+(
+    'handler' => array('midcom_admin_user_handler_user_edit', 'delete_account'),
+    'fixed_args' => 'delete_account',
+    'variable_args' => 1,
+),
+/**
  * Create new user
  *
  * Match /create/

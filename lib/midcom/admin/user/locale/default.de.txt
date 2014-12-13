@@ -50,6 +50,10 @@ Benutzer erstellen
 Aktuelle Zeit (%s)
 ---STRINGEND
 
+---STRING delete account
+Benutzerkonto löschen
+---STRINGEND
+
 ---STRING edit %s
 %s bearbeiten
 ---STRINGEND
