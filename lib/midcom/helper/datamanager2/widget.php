@@ -161,13 +161,14 @@ abstract class midcom_helper_datamanager2_widget extends midcom_baseclasses_comp
     }
 
     /**
-     * Tests if selected type has a scalar "value" property
+     * Tests if selected type has a scalar or DateTime "value" property
      */
     protected function _require_type_value()
     {
         if (   ! array_key_exists('value', $this->_type)
             || is_array($this->_type->value)
-            || is_object($this->_type->value))
+            || (   is_object($this->_type->value)
+                && !$this->_type->value instanceof DateTime))
         {
             throw new midcom_error("The type {$this->name} does not have a value member or it is an array or object, you cannot use it with " . get_class($this));
         }
