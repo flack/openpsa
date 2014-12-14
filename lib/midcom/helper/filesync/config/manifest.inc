@@ -4,7 +4,6 @@
 'version' => '9.0.0-rc.3+git',
 'state' => 'stable',
 'privileges' => array(),
-'class_definitions' => array(),
 'package.xml' => array
 (
     'summary' => 'Site template filesystem synchronization',
