@@ -21,6 +21,11 @@ matrix:
       env: "MIDGARD_EXT_VERSION=ratatoskr"
     - php: 5.6
       env: "MIDGARD_EXT_VERSION=master"
+  allowed_failures:
+    - php: 5.3
+      env: "MIDGARD_EXT_VERSION=ratatoskr"
+    - php: 5.3
+      env: "MIDGARD_EXT_VERSION=master"
 
 before_script:
   - ./test/travis_midgard2.sh
