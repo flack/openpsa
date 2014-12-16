@@ -12,8 +12,8 @@ $(document).ready(function()
                 title = $(this).parent('td').next().find('input').val();
             }
 
-            top.tinymce.activeEditor.windowManager.getParams().oninsert(url, {alt: title});
-            top.tinymce.activeEditor.windowManager.close();
+            parent.tinymce.activeEditor.windowManager.getParams().oninsert(url, {alt: title});
+            parent.tinymce.activeEditor.windowManager.close();
         })
         .on('hover', 'a', function()
         {
@@ -28,8 +28,8 @@ $(document).ready(function()
             {
                 if (data.targetType === 'title')
                 {
-                    top.tinymce.activeEditor.windowManager.getParams().oninsert(data.node.data.href, {title: data.node.title});
-                    top.tinymce.activeEditor.windowManager.close();
+                    parent.tinymce.activeEditor.windowManager.getParams().oninsert(data.node.data.href, {title: data.node.title});
+                    parent.tinymce.activeEditor.windowManager.close();
                 }
             }
         });
