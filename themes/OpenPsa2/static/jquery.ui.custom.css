@@ -1305,9 +1305,10 @@ body .ui-tooltip {
     font-size: 140%;
 }
 
-.ui-dialog .ui-dialog-content
+.autocomplete_widget_creation_dialog.ui-dialog-content
 {
     padding: 0;
+    overflow: hidden;
 }
 
 .ui-tabs
