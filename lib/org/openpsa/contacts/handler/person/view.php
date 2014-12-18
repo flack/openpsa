@@ -156,8 +156,8 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
 
         if ($this->_contact->can_do('midgard:delete'))
         {
-            $helper = new org_openpsa_widgets_toolbar($this->_view_toolbar);
-            $helper->add_delete_button("person/delete/{$this->_contact->guid}/", $this->_contact->name);
+            $workflow = new org_openpsa_core_workflow_delete($this->_contact);
+            $workflow->add_button($this->_view_toolbar, "person/delete/{$this->_contact->guid}/");
         }
 
         $mycontacts = new org_openpsa_contacts_mycontacts;

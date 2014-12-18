@@ -131,19 +131,11 @@ class org_openpsa_contacts_handler_person_admin extends midcom_baseclasses_compo
     public function _handler_delete($handler_id, array $args, array &$data)
     {
         $this->_contact = new org_openpsa_contacts_person_dba($args[0]);
-        $this->_contact->require_do('midgard:delete');
-
-        $controller = midcom_helper_datamanager2_handler::get_delete_controller();
-        if ($controller->process_form() == 'delete')
+        $workflow = new org_openpsa_core_workflow_delete($this->_contact);
+        if ($workflow->run())
         {
-            if (! $this->_contact->delete())
-            {
-                throw new midcom_error("Failed to delete contact {$args[0]}, last Midgard error was: " . midcom_connection::get_error_string());
-            }
-
             $indexer = midcom::get()->indexer;
             $indexer->delete($this->_contact->guid . '_' . $this->_i18n->get_content_language());
-            midcom::get()->uimessages->add($this->_l10n->get($this->_component), sprintf($this->_l10n_midcom->get("%s deleted"), $this->_contact->get_label()));
             return new midcom_response_relocate('');
         }
 

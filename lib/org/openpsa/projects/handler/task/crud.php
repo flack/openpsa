@@ -94,8 +94,8 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
         if (   $this->_object->reportedHours == 0
             && $this->_object->can_do('midgard:delete'))
         {
-            $toolbar = new org_openpsa_widgets_toolbar($this->_view_toolbar);
-            $toolbar->add_delete_button("task/delete/{$this->_object->guid}/", $this->_l10n->get('task'));
+            $workflow = new org_openpsa_core_workflow_delete($this->_object);
+            $workflow->add_button($this->_view_toolbar, "task/delete/{$this->_object->guid}/");
         }
 
         if ($this->_object->status == org_openpsa_projects_task_status_dba::CLOSED)
@@ -264,20 +264,13 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
     public function _handler_delete($handler_id, array $args, array &$data)
     {
         $this->_load_object($handler_id, $args, $data);
-        $this->_object->require_do('midgard:delete');
-
-        $controller = midcom_helper_datamanager2_handler::get_delete_controller();
-        if ($controller->process_form() == 'delete')
+        $workflow = new org_openpsa_core_workflow_delete($this->_object);
+        if ($workflow->run())
         {
-            if (! $this->_object->delete())
-            {
-                throw new midcom_error("Failed to delete task {$args[0]}, last Midgard error was: " . midcom_connection::get_error_string());
-            }
-
             $indexer = midcom::get()->indexer;
             $indexer->delete($this->_object->guid);
-            midcom::get()->uimessages->add($this->_l10n->get($this->_component), sprintf($this->_l10n_midcom->get("%s deleted"), $this->_object->get_label()));
             $url = '';
+            $this->_mode = 'delete';
             $this->_load_parent($handler_id, $args, $data);
             if ($this->_parent)
             {

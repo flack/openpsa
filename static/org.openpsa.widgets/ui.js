@@ -355,34 +355,3 @@ var org_openpsa_layout =
         });
     }
 };
-
-$(document).ready(function()
-{
-    $('a[data-dialog="delete"]').on('click', function(event)
-    {
-        event.preventDefault();
-        var button = $(this),
-            options = {
-                title:  button.data('dialog-heading'),
-                resizable: false,
-                height: 140,
-                modal: true,
-                buttons: {}
-            };
-        options.buttons[button.text()] = function() {
-            $('<form action="' + button.attr('href') + '" method="post">')
-                .append($('<input type="hidden" name="' + button.data('form-id') + '">'))
-                .append($('<input type="submit" name="midcom_helper_datamanager2_delete[0]">'))
-                .hide()
-                .prependTo('body');
-            $('input[name="midcom_helper_datamanager2_delete[0]"]').click();
-        };
-        options.buttons[button.data('dialog-cancel-label')] = function() {
-            $( this ).dialog( "close" );
-        };
-        $('<div>')
-            .append($('<p>' + button.data('dialog-text') + '</p>'))
-            .appendTo($('body'))
-            .dialog(options);
-    });
-});

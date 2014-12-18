@@ -70,22 +70,12 @@ class org_openpsa_products_handler_product_crud extends midcom_baseclasses_compo
     public function _handler_delete($handler_id, array $args, array &$data)
     {
         $this->_load_object($handler_id, $args, $data);
-
-        $this->_object->require_do('midgard:delete');
-
-        $controller = midcom_helper_datamanager2_handler::get_delete_controller();
-
-        if ($controller->process_form() == 'delete')
+        $workflow = new org_openpsa_core_workflow_delete($this->_object);
+        if ($workflow->run())
         {
-            if ($this->_object->delete())
-            {
-                $indexer = midcom::get()->indexer;
-                $indexer->delete($this->_object->guid);
-                midcom::get()->uimessages->add($this->_l10n->get($this->_component), sprintf($this->_l10n_midcom->get("%s deleted"), $this->_l10n->get('product')));
-                return new midcom_response_relocate($this->_object->get_parent()->code . '/');
-            }
-            // Failure, give a message
-            midcom::get()->uimessages->add($this->_l10n->get($this->_component), $this->_l10n->get("failed to delete product, reason ") . midcom_connection::get_error_string(), 'error');
+            $indexer = midcom::get()->indexer;
+            $indexer->delete($this->_object->guid);
+            return new midcom_response_relocate($this->_object->get_parent()->code . '/');
         }
         return new midcom_response_relocate($this->_get_object_url($this->_object));
     }

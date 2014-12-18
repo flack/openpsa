@@ -26,17 +26,12 @@ class org_openpsa_user_handler_person_delete extends midcom_baseclasses_componen
             midcom::get()->auth->require_user_do('org.openpsa.user:manage', null, 'org_openpsa_user_interface');
         }
 
-        $controller = midcom_helper_datamanager2_handler::get_delete_controller();
-        if ($controller->process_form() == 'delete')
+        $workflow = new org_openpsa_core_workflow_delete($person);
+        if ($workflow->run())
         {
-            if ($person->delete())
-            {
-                $indexer = midcom::get()->indexer;
-                $indexer->delete($person->guid);
-                midcom::get()->uimessages->add($this->_l10n->get($this->_component), sprintf($this->_l10n_midcom->get("%s deleted"), $person->name));
-                return new midcom_response_relocate('');
-            }
-            midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.user'), $this->_l10n->get("failed to delete person, reason") . ' ' . midcom_connection::get_error_string(), 'error');
+            $indexer = midcom::get()->indexer;
+            $indexer->delete($person->guid);
+            return new midcom_response_relocate('');
         }
         return new midcom_response_relocate('view/' . $person->guid . '/');
     }

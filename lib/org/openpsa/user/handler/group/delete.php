@@ -22,18 +22,12 @@ class org_openpsa_user_handler_group_delete extends midcom_baseclasses_component
     {
         midcom::get()->auth->require_user_do('org.openpsa.user:manage', null, 'org_openpsa_user_interface');
         $group = new midcom_db_group($args[0]);
-
-        $controller = midcom_helper_datamanager2_handler::get_delete_controller();
-        if ($controller->process_form() == 'delete')
+        $workflow = new org_openpsa_core_workflow_delete($group);
+        if ($workflow->run())
         {
-            if ($group->delete())
-            {
-                $indexer = midcom::get()->indexer;
-                $indexer->delete($group->guid);
-                midcom::get()->uimessages->add($this->_l10n->get($this->_component), sprintf($this->_l10n_midcom->get("%s deleted"), $group->get_label()));
-                return new midcom_response_relocate('');
-            }
-            midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.user'), $this->_l10n->get("failed to delete group, reason") . ' ' . midcom_connection::get_error_string(), 'error');
+            $indexer = midcom::get()->indexer;
+            $indexer->delete($group->guid);
+            return new midcom_response_relocate('');
         }
         return new midcom_response_relocate('group' . $group->guid . '/');
     }

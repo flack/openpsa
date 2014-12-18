@@ -244,19 +244,12 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
     public function _handler_delete($handler_id, array $args, array &$data)
     {
         $this->_deliverable = new org_openpsa_sales_salesproject_deliverable_dba($args[0]);
-        $this->_deliverable->require_do('midgard:delete');
+        $workflow = new org_openpsa_core_workflow_delete($this->_deliverable);
 
-        $controller = midcom_helper_datamanager2_handler::get_delete_controller();
-        if ($controller->process_form() == 'delete')
+        if ($workflow->run())
         {
-            if (!$this->_deliverable->delete())
-            {
-                throw new midcom_error("Failed to delete deliverable {$args[0]}, last Midgard error was: " . midcom_connection::get_error_string());
-            }
-
             $indexer = midcom::get()->indexer;
             $indexer->delete($this->_deliverable->guid);
-            midcom::get()->uimessages->add($this->_l10n->get($this->_component), sprintf($this->_l10n_midcom->get("%s deleted"), $this->_deliverable->title));
 
             $salesproject = $this->_deliverable->get_parent();
             return new midcom_response_relocate("salesproject/{$salesproject->guid}/");

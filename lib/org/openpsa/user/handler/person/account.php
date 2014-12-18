@@ -200,8 +200,8 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
 
         if ($this->_person->can_do('midgard:update'))
         {
-            $toolbar = new org_openpsa_widgets_toolbar($this->_view_toolbar);
-            $toolbar->add_delete_button("account/delete/{$this->_person->guid}/", $this->_l10n->get('account'));
+            $workflow = new org_openpsa_core_workflow_delete($this->_person);
+            $workflow->add_button($this->_view_toolbar, "account/delete/{$this->_person->guid}/");
         }
     }
 
@@ -251,9 +251,8 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
             return new midcom_response_relocate("view/" . $this->_person->guid . "/");
         }
 
-        $data['controller'] = midcom_helper_datamanager2_handler::get_delete_controller();
-
-        if ($data['controller']->process_form() == 'delete')
+        $workflow = new org_openpsa_core_workflow_delete($this->_person);
+        if ($workflow->is_active())
         {
             if (!$this->_account->delete())
             {

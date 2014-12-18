@@ -181,21 +181,13 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
     public function _handler_delete($handler_id, array $args, array &$data)
     {
         $this->_document = $this->_load_document($args[0]);
-        $this->_document->require_do('midgard:delete');
+        $workflow = new org_openpsa_core_workflow_delete($this->_document);
 
-        $controller = midcom_helper_datamanager2_handler::get_delete_controller();
-
-        if ($controller->process_form() == 'delete')
+        if ($workflow->run())
         {
-            if ($this->_document->delete())
-            {
-                $indexer = midcom::get()->indexer;
-                $indexer->delete($this->_document->guid);
-                midcom::get()->uimessages->add($this->_l10n->get($this->_component), sprintf($this->_l10n_midcom->get("%s deleted"), $this->_l10n->get('document')));
-                return new midcom_response_relocate('');
-            }
-            // Failure, give a message
-            midcom::get()->uimessages->add($this->_l10n->get($this->_component), $this->_l10n->get("failed to delete document, reason ") . midcom_connection::get_error_string(), 'error');
+            $indexer = midcom::get()->indexer;
+            $indexer->delete($this->_document->guid);
+            return new midcom_response_relocate('');
         }
         return new midcom_response_relocate("document/" . $this->_document->guid . "/");
     }

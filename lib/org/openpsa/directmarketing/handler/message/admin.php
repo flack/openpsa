@@ -45,8 +45,8 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
 
         if ($this->_message->can_do('midgard:delete'))
         {
-            $helper = new org_openpsa_widgets_toolbar($this->_view_toolbar);
-            $helper->add_delete_button("message/delete/{$this->_message->guid}/", $this->_message->title);
+            $workflow = new org_openpsa_core_workflow_delete($this->_message);
+            $workflow->add_button($this->_view_toolbar, "message/delete/{$this->_message->guid}/");
         }
     }
 
@@ -149,19 +149,11 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
     public function _handler_delete($handler_id, array $args, array &$data)
     {
         $this->_message = new org_openpsa_directmarketing_campaign_message_dba($args[0]);
-        $this->_message->require_do('midgard:delete');
-
-        $controller = midcom_helper_datamanager2_handler::get_delete_controller();
-        if ($controller->process_form() == 'delete')
+        $workflow = new org_openpsa_core_workflow_delete($this->_message);
+        if ($workflow->run())
         {
-            if (!$this->_message->delete())
-            {
-                throw new midcom_error("Failed to delete message {$args[0]}, last Midgard error was: " . midcom_connection::get_error_string());
-            }
-
             $indexer = midcom::get()->indexer;
             $indexer->delete($this->_message->guid);
-            midcom::get()->uimessages->add($this->_l10n->get($this->_component), sprintf($this->_l10n_midcom->get("%s deleted"), $this->_message->title));
             $campaign = new org_openpsa_directmarketing_campaign_dba($this->_message->campaign);
             return new midcom_response_relocate("campaign/{$campaign->guid}/");
         }

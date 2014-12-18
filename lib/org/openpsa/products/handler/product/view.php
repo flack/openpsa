@@ -41,8 +41,8 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
         );
         if ($this->_product->can_do('midgard:delete'))
         {
-            $toolbar = new org_openpsa_widgets_toolbar($this->_view_toolbar);
-            $toolbar->add_delete_button("product/delete/{$this->_product->guid}/", $this->_l10n->get('product'));
+            $workflow = new org_openpsa_core_workflow_delete($this->_product);
+            $workflow->add_button($this->_view_toolbar, "product/delete/{$this->_product->guid}/");
         }
     }
 

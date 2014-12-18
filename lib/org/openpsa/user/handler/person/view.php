@@ -57,11 +57,10 @@ implements midcom_helper_datamanager2_interfaces_view
                     MIDCOM_TOOLBAR_ACCESSKEY => 'e',
                 )
             );
-            org_openpsa_widgets_toolbar::add_head_elements();
             if ($this->_person->can_do('midgard:delete'))
             {
-                $helper = new org_openpsa_widgets_toolbar($this->_view_toolbar);
-                $helper->add_delete_button("delete/{$this->_person->guid}/", $this->_person->name);
+                $workflow = new org_openpsa_core_workflow_delete($this->_person);
+                $workflow->add_button($this->_view_toolbar, "delete/{$this->_person->guid}/");
             }
             if (midcom_connection::is_user($this->_person))
             {

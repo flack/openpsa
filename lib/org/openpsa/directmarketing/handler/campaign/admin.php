@@ -131,19 +131,11 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
     public function _handler_delete($handler_id, array $args, array &$data)
     {
         $this->_campaign = $this->_master->load_campaign($args[0]);
-        $this->_campaign->require_do('midgard:delete');
-
-        $controller = midcom_helper_datamanager2_handler::get_delete_controller();
-        if ($controller->process_form() == 'delete')
+        $workflow = new org_openpsa_core_workflow_delete($this->_campaign);
+        if ($workflow->run())
         {
-            if (! $this->_campaign->delete())
-            {
-                throw new midcom_error("Failed to delete campaign {$args[0]}, last Midgard error was: " . midcom_connection::get_error_string());
-            }
-
             $indexer = midcom::get()->indexer;
             $indexer->delete($this->_campaign->guid);
-            midcom::get()->uimessages->add($this->_l10n->get($this->_component), sprintf($this->_l10n_midcom->get("%s deleted"), $this->_campaign->title));
             return new midcom_response_relocate('');
         }
 

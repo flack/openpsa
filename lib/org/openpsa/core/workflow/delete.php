@@ -1,6 +1,6 @@
 <?php
 /**
- * @package org.openpsa.widgets
+ * @package org.openpsa.core
  * @author CONTENT CONTROL http://www.contentcontrol-berlin.de/
  * @copyright CONTENT CONTROL http://www.contentcontrol-berlin.de/
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
@@ -9,21 +9,13 @@
 /**
  * Helper class for manipulating toolbars
  *
- * @package org.openpsa.widgets
+ * @package org.openpsa.core
  */
-class org_openpsa_widgets_toolbar
+class org_openpsa_core_workflow_delete extends org_openpsa_core_workflow
 {
-    /**
-     * The toolbar to work on
-     *
-     * @var midcom_helper_toolbar
-     */
-    private $toolbar;
+    private $form_identifier = 'confirm-delete';
 
-    public function __construct(midcom_helper_toolbar $toolbar)
-    {
-        $this->toolbar = $toolbar;
-    }
+    public $method = 'delete';
 
     public static function add_head_elements()
     {
@@ -36,35 +28,57 @@ class org_openpsa_widgets_toolbar
         $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/position.min.js');
         $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/button.min.js');
         $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/dialog.min.js');
-        $head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.widgets/ui.js');
+        $head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.core/workflow.js');
         $head->add_jquery_ui_theme(array('dialog'));
     }
 
-    public function add_delete_button($url, $title)
+    public function add_button(midcom_helper_toolbar $toolbar, $url)
     {
         self::add_head_elements();
-        $l10n_midcom = midcom::get()->i18n->get_l10n('midcom');
-        $l10n_oocore = midcom::get()->i18n->get_l10n('org.openpsa.core');
-        $controller = midcom_helper_datamanager2_handler::get_delete_controller();
-        $form_id = '_qf__' . $controller->formmanager->form->getAttribute('id');
 
-        $this->toolbar->add_item
+        $toolbar->add_item
         (
             array
             (
                 MIDCOM_TOOLBAR_URL => $url,
-                MIDCOM_TOOLBAR_LABEL => $l10n_midcom->get('delete'),
+                MIDCOM_TOOLBAR_LABEL => $this->l10n_midcom->get('delete'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
                 MIDCOM_TOOLBAR_ACCESSKEY => 'd',
                 MIDCOM_TOOLBAR_OPTIONS => array
                 (
                     'data-dialog' => 'delete',
-                    'data-form-id' => $form_id,
-                    'data-dialog-heading' => $l10n_oocore->get('confirm delete'),
-                    'data-dialog-text' => sprintf($l10n_midcom->get('delete %s'), $title),
-                    'data-dialog-cancel-label' => $l10n_midcom->get('cancel')
+                    'data-form-id' => $this->form_identifier,
+                    'data-dialog-heading' => $this->l10n->get('confirm delete'),
+                    'data-dialog-text' => sprintf($this->l10n_midcom->get('delete %s'), $this->get_object_title()),
+                    'data-dialog-cancel-label' => $this->l10n_midcom->get('cancel')
                 )
             )
         );
+    }
+
+    public function is_active()
+    {
+        return !empty($_POST[$this->form_identifier]);
+    }
+
+    public function run()
+    {
+        if (!$this->is_active())
+        {
+            return false;
+        }
+        $this->object->require_do('midgard:delete');
+        $stat = $this->object->{$this->method}();
+        $uim = midcom::get()->uimessages;
+        $title = $this->get_object_title();
+        if ($stat)
+        {
+            $uim->add($this->l10n->get('org.openpsa.core'), sprintf($this->l10n_midcom->get("%s deleted"), $title));
+        }
+        else
+        {
+            $uim->add($this->l10n->get('org.openpsa.core'), sprintf($this->l10n_midcom->get("failed to delete %s: %s"), $title, midcom_connection::get_error_string()), 'error');
+        }
+        return $stat;
     }
 }

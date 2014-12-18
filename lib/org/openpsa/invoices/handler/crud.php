@@ -226,21 +226,12 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
     public function _handler_delete($handler_id, array $args, array &$data)
     {
         $this->_load_object($handler_id, $args, $data);
-        $this->_object->require_do('midgard:delete');
-
-        $controller = midcom_helper_datamanager2_handler::get_delete_controller();
-        if ($controller->process_form() == 'delete')
+        $workflow = new org_openpsa_core_workflow_delete($this->_object);
+        if ($workflow->run())
         {
-            if (! $this->_object->delete())
-            {
-                throw new midcom_error("Failed to delete task {$args[0]}, last Midgard error was: " . midcom_connection::get_error_string());
-            }
-
             $indexer = midcom::get()->indexer;
             $indexer->delete($this->_object->guid);
-            midcom::get()->uimessages->add($this->_l10n->get($this->_component), sprintf($this->_l10n_midcom->get("%s deleted"), $this->_l10n->get('invoice') . ' ' . $this->_object->get_label()));
-            $url = '';
-            return new midcom_response_relocate($url);
+            return new midcom_response_relocate('');
         }
 
         return new midcom_response_relocate("invoice/{$this->_object->guid}/");
@@ -275,8 +266,8 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
 
         if ($this->_object->can_do('midgard:delete'))
         {
-            $toolbar = new org_openpsa_widgets_toolbar($this->_view_toolbar);
-            $toolbar->add_delete_button("invoice/delete/{$this->_object->guid}/", $this->_l10n->get('invoice'));
+            $workflow = new org_openpsa_core_workflow_delete($this->_object);
+            $workflow->add_button($this->_view_toolbar, "invoice/delete/{$this->_object->guid}/");
         }
 
         $this->_view_toolbar->add_item

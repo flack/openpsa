@@ -152,8 +152,8 @@ implements org_openpsa_widgets_grid_provider_client
 
         if ($this->_campaign->can_do('midgard:delete'))
         {
-            $helper = new org_openpsa_widgets_toolbar($this->_view_toolbar);
-            $helper->add_delete_button("campaign/delete/{$this->_campaign->guid}/", $this->_campaign->title);
+            $workflow = new org_openpsa_core_workflow_delete($this->_campaign);
+            $workflow->add_button($this->_view_toolbar, "campaign/delete/{$this->_campaign->guid}/");
         }
 
         if ($this->_campaign->orgOpenpsaObtype == org_openpsa_directmarketing_campaign_dba::TYPE_SMART)

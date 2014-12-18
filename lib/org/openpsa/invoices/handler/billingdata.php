@@ -87,8 +87,8 @@ implements midcom_helper_datamanager2_interfaces_create
 
         if ($this->_billing_data->can_do('midgard:delete'))
         {
-            $toolbar = new org_openpsa_widgets_toolbar($this->_view_toolbar);
-            $toolbar->add_delete_button("billingdata/delete/{$this->_billing_data->guid}/", $this->_l10n->get('billing data'));
+            $workflow = new org_openpsa_core_workflow_delete($this->_billing_data);
+            $workflow->add_button($this->_view_toolbar, "billingdata/delete/{$this->_billing_data->guid}/");
         }
 
         $this->bind_view_to_object($this->_billing_data);

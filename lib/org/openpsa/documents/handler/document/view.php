@@ -238,8 +238,8 @@ implements org_openpsa_widgets_grid_provider_client
         }
         if ($this->_document->can_do('midgard:delete'))
         {
-            $helper = new org_openpsa_widgets_toolbar($this->_view_toolbar);
-            $helper->add_delete_button("document/delete/{$this->_document->guid}/", $this->_document->title);
+            $workflow = new org_openpsa_core_workflow_delete($this->_document);
+            $workflow->add_button($this->_view_toolbar, "document/delete/{$this->_document->guid}/");
         }
     }
 

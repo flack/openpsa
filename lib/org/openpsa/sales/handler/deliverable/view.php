@@ -54,8 +54,8 @@ class org_openpsa_sales_handler_deliverable_view extends midcom_baseclasses_comp
         $this->_request_data['invoices_url'] = $siteconfig->get_node_relative_url('org.openpsa.invoices');
         if ($this->_deliverable->can_do('midgard:delete'))
         {
-            $helper = new org_openpsa_widgets_toolbar($this->_view_toolbar);
-            $helper->add_delete_button("deliverable/delete/{$this->_deliverable->guid}/", $this->_deliverable->title);
+            $workflow = new org_openpsa_core_workflow_delete($this->_deliverable);
+            $workflow->add_button($this->_view_toolbar, "deliverable/delete/{$this->_deliverable->guid}/");
         }
         try
         {
