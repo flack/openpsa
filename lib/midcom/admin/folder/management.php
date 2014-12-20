@@ -1,4 +1,5 @@
 <?php
+use Symfony\Component\Finder\Finder;
 /**
  * @package midcom.admin.folder
  * @author The Midgard Project, http://www.midgard-project.org
@@ -211,7 +212,19 @@ class midcom_admin_folder_management extends midcom_baseclasses_components_plugi
             self::list_styles($style->id, $style_string . '/', $spacer . '&nbsp;&nbsp;');
         }
 
-        return $style_array;
+        return self::list_theme_styles($style_array);
+    }
+
+    public static function list_theme_styles(array $styles)
+    {
+        $theme_styledir = OPENPSA2_THEME_ROOT . '/' . midcom::get()->config->get('theme') . '/style';
+        $finder = new Finder();
+        foreach ($finder->directories()->in($theme_styledir) as $dir)
+        {
+            $label = preg_replace('/.+?\//', '&nbsp;&nbsp;', $dir->getRelativePathname());
+            $styles['theme:/' . $dir->getRelativePathname()] = $label;
+        }
+        return $styles;
     }
 
     /**

@@ -581,7 +581,31 @@ class midcom_helper__styleloader
                 }
             }
         }
+        else
+        {
+            $style = $topic->style;
+            if (   !$topic->style
+                && !empty($GLOBALS['midcom_style_inherited']))
+            {
+                $style = $GLOBALS['midcom_style_inherited'];
+            }
+            if (   is_string($style)
+                && strpos($style, 'theme:') === 0)
+            {
+                $theme_dir = OPENPSA2_THEME_ROOT . midcom::get()->config->get('theme') . '/style';
+                $parts = explode('/', str_replace('theme:/', '', $style));
 
+                foreach ($parts as &$part)
+                {
+                    $theme_dir = $theme_dir . '/' . $part;
+                    $part = $theme_dir;
+                }
+                foreach (array_reverse(array_filter($parts, 'is_dir')) as $dirname)
+                {
+                    $this->prepend_styledir($dirname);
+                }
+            }
+        }
         return $_st;
     }
 
@@ -616,7 +640,6 @@ class midcom_helper__styleloader
      * the end of the styledir queue.
      *
      * @param dirname path of style directory within midcom.
-     * @return boolean true if directory appended
      * @throws midcom exception if directory does not exist.
      */
     function append_styledir ($dirname)
@@ -626,7 +649,6 @@ class midcom_helper__styleloader
             throw new midcom_error("Style directory $dirname does not exist!");
         }
         $this->_styledirs_append[midcom_core_context::get()->id][] = $dirname;
-        return true;
     }
 
     /**
