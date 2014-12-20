@@ -36,22 +36,7 @@ abstract class midcom_helper_filesync_importer extends midcom_baseclasses_compon
 
     public function run()
     {
-        $ip_sudo = false;
-        $trusted_ips = $this->_config->get('trusted_ips');
-
-        if (   $trusted_ips
-            && in_array($_SERVER['REMOTE_ADDR'], $trusted_ips))
-        {
-            if (!midcom::get()->auth->request_sudo('midcom.helper.filesync'))
-            {
-                throw new midcom_error('Failed to acquire SUDO rights. Aborting.');
-            }
-            $ip_sudo = true;
-        }
-        else
-        {
-            midcom::get()->auth->require_admin_user();
-        }
+        $ip_sudo = midcom::get()->auth->require_admin_or_ip($this->_component);
         midcom::get()->header('Content-Type: text/plain');
 
         $this->import();

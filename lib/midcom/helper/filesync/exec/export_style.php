@@ -1,6 +1,5 @@
 <?php
-midcom::get()->auth->require_valid_user('basic');
-midcom::get()->auth->require_admin_user();
+$ip_sudo = midcom::get()->auth->require_admin_or_ip('midcom.helper.filesync');
 midcom::get()->header('Content-Type: text/plain');
 $exporter = midcom_helper_filesync_exporter::create('style');
 // TODO: be smarter
