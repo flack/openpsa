@@ -542,7 +542,7 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
      *
      * @param midcom_db_topic $topic The topic to reindex.
      * @param midcom_helper_configuration $config The configuration associated with this topic.
-     * @param midcom_services_indexer The indexer object to use for indexing. (Passed by reference!)
+     * @param midcom_services_indexer &$indexer The indexer object to use for indexing. (Passed by reference!)
      * @return boolean Indicating success.
      */
     public function _on_reindex($topic, $config, &$indexer)

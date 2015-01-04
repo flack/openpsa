@@ -352,7 +352,7 @@ class midcom_debug
     }
 
     /**
-     * Dump a variables type (by reference)
+     * Dump a variable's type
      *
      * @param string $message    The message to be logged
      * @param mixed $variable    The variable of which the type should be logged

@@ -322,7 +322,7 @@ class midcom_services_indexer
      * @todo Move to a full factory pattern here to save document php file parsings where possible.
      *     This means that all document creations will in the future be handled by this method.
      *
-     * @param object $object The object for which a document instance is required, passed by reference.
+     * @param object $object The object for which a document instance is required
      * @return midcom_services_indexer_document A valid document class as specific as possible. Returns
      *     false on error or if no specific class match could be found.
      */

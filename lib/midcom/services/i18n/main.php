@@ -66,8 +66,6 @@ class midcom_services_i18n
     /**
      * Cache of all instantiated localization classes.
      *
-     * They are delivered by reference to all clients.
-     *
      * @var Array
      */
     private $_obj_l10n = array();

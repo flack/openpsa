@@ -71,8 +71,7 @@ abstract class midcom_services_cache_module
 
     /**
      * Creates an instance of the handler described by the configuration passed to
-     * the function. The backend instance returned should be assigned by reference,
-     * to avoid handle duplication or the like.
+     * the function.
      *
      * The configuration array must include the configuration parameters driver and
      * directory, as outlined in the midcom_services_cache_backend class documentation.
