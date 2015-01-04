@@ -15,7 +15,7 @@
  * and populate all metadata fields of the document from there.
  *
  * If you want to index datamanager driven objects, you should instead look at
- * the class midcom_services_indexer_document_datamanager2.
+ * the class midcom_helper_datamanager2_indexer_document.
  *
  * The GUID of the object being referred is used as a RI.
  *

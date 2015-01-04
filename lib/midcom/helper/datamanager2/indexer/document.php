@@ -1,6 +1,6 @@
 <?php
 /**
- * @package midcom.services
+ * @package midcom.helper.datamanager2
  * @author The Midgard Project, http://www.midgard-project.org
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
@@ -87,11 +87,10 @@
  * formmanagers, controllers or storage backends. It is also only targeted for the
  * actual database storage backend, so the nullstorage backend will not work.
  *
- * @package midcom.services
+ * @package midcom.helper.datamanager2
  * @see midcom_services_indexer
- * @see midcom_helper_datamanager2_datamanager
  */
-class midcom_services_indexer_document_datamanager2 extends midcom_services_indexer_document_midcom
+class midcom_helper_datamanager2_indexer_document extends midcom_services_indexer_document_midcom
 {
     /**
      * The datamanager instance of the document we need to index.

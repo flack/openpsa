@@ -11,7 +11,7 @@
  *
  * @package org.openpsa.projects
  */
-class org_openpsa_projects_midcom_indexer extends midcom_services_indexer_client
+class org_openpsa_projects_midcom_indexer extends midcom_helper_datamanager2_indexer_client
 {
     public function prepare_document(midcom_services_indexer_document &$document, midcom_helper_datamanager2_datamanager $dm)
     {

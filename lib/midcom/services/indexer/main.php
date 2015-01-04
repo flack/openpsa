@@ -311,7 +311,7 @@ class midcom_services_indexer
      *
      * The checking sequence is like this right now:
      *
-     * 1. If a datamanager instance is passed, it is transformed into a midcom_services_indexer_document_datamanager2.
+     * 1. If a datamanager instance is passed, it is transformed into a midcom_helper_datamanager2_indexer_document.
      * 2. If a Metadata object is passed, it is transformed into a midcom_services_indexer_document_midcom.
      * 3. Next, the method tries to retrieve a MidCOM Metadata object using the parameter directly. If successful,
      *    again, a midcom_services_indexer_document_midcom is returned.
@@ -331,8 +331,8 @@ class midcom_services_indexer
         // Scan for datamanager instances.
         if (is_a($object, 'midcom_helper_datamanager2_datamanager'))
         {
-            debug_add('This is a document_datamanager2');
-            return new midcom_services_indexer_document_datamanager2($object);
+            debug_add('This is a datamanager2 document');
+            return new midcom_helper_datamanager2_indexer_document($object);
         }
 
         // Maybe we have a metadata object...

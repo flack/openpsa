@@ -72,11 +72,11 @@ abstract class midcom_services_indexer_client
     /**
      * Index a single object from DM2
      *
-     * @param midcom_helper_datamanager2_datamanager $dm The datamanager2 instance to use
+     * @param mixed $object The object instance to use
      */
-    public function index(midcom_helper_datamanager2_datamanager $dm)
+    public function index($object)
     {
-        return $this->_indexer->index($this->_create_document($dm));
+        return $this->_indexer->index($this->new_document($object));
     }
 
     public function add_query($name, midcom_core_querybuilder $qb, array $schemadb)
@@ -88,49 +88,41 @@ abstract class midcom_services_indexer_client
     {
         foreach ($this->_queries as $name => $data)
         {
-            $documents = $this->_process_query($name, $data[0], $data[1]);
-            if (!empty($documents))
+            $qb = $data[0];
+            $results = $qb->execute();
+            if (!empty($results))
             {
-                $this->_indexer->index($documents);
+                $documents = $this->process_results($name, $data[0], $data[1]);
+                if (!empty($documents))
+                {
+                    $this->_indexer->index($documents);
+                }
             }
         }
     }
 
-    private function _process_query($name, $qb, $schemadb)
+    public function new_document($object)
     {
-        $results = $qb->execute();
-        if (empty($results))
-        {
-            return array();
-        }
-        $documents = array();
-        $datamanager = new midcom_helper_datamanager2_datamanager($schemadb);
-
-        foreach ($results as $object)
-        {
-            if (!$datamanager->autoset_storage($object))
-            {
-                debug_add("Warning, failed to initialize datamanager for object {$object->id}. See debug log for details.", MIDCOM_LOG_WARN);
-                debug_print_r('Object dump:', $object);
-                continue;
-            }
-
-            $documents[] = $this->_create_document($datamanager);
-        }
-
-        return $documents;
-    }
-
-    private function _create_document(midcom_helper_datamanager2_datamanager $dm)
-    {
-        $document = $this->_indexer->new_document($dm);
+        $document = $this->create_document($object);
         $document->topic_guid = $this->_topic->guid;
         $document->component = $this->_topic->component;
         $document->topic_url = $this->_node[MIDCOM_NAV_FULLURL];
-        $document->read_metadata_from_object($dm->storage->object);
-        $this->prepare_document($document, $dm);
         return $document;
     }
 
-    abstract public function prepare_document(midcom_services_indexer_document &$document, midcom_helper_datamanager2_datamanager $dm);
+    /**
+     *
+     * @param string $name
+     * @param array $results
+     * @param array $schemadb
+     * @return midcom_services_indexer_document[]
+     */
+    abstract public function process_results($name, array $results, array $schemadb);
+
+    /**
+     *
+     * @param mixed $object
+     * @return midcom_services_indexer_document
+     */
+    abstract public function create_document($object);
 }
