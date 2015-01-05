@@ -10,10 +10,6 @@ Aggregiert
 anwenden
 ---STRINGEND
 
----STRING confirm delete
-Löschen bestätigen
----STRINGEND
-
 ---STRING download as CSV
 Als CSV herunterladen
 ---STRINGEND

@@ -152,7 +152,7 @@ implements org_openpsa_widgets_grid_provider_client
 
         if ($this->_campaign->can_do('midgard:delete'))
         {
-            $workflow = new org_openpsa_core_workflow_delete($this->_campaign);
+            $workflow = new midcom\workflow\delete($this->_campaign);
             $workflow->add_button($this->_view_toolbar, "campaign/delete/{$this->_campaign->guid}/");
         }
 

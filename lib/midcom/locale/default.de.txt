@@ -150,6 +150,10 @@ Mit Hilfe dieses Menüs können Sie die komponenten-spezifischen Einstellungen f
 Die Komponente hängt ab von
 ---STRINGEND
 
+---STRING confirm delete
+Löschen bestätigen
+---STRINGEND
+
 ---STRING cookies must be enabled to log in
 Cookies müssen aktiviert sein, um den Login zu benutzen
 ---STRINGEND

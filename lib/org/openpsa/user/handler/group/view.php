@@ -62,7 +62,7 @@ implements midcom_helper_datamanager2_interfaces_view
         );
         if ($this->_group->can_do('midgard:delete'))
         {
-            $workflow = new org_openpsa_core_workflow_delete($this->_group);
+            $workflow = new midcom\workflow\delete($this->_group);
             $workflow->add_button($this->_view_toolbar, "group/delete/{$this->_group->guid}/");
         }
         $this->_view_toolbar->add_item

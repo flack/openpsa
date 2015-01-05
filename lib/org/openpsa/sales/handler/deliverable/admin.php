@@ -244,7 +244,7 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
     public function _handler_delete($handler_id, array $args, array &$data)
     {
         $this->_deliverable = new org_openpsa_sales_salesproject_deliverable_dba($args[0]);
-        $workflow = new org_openpsa_core_workflow_delete($this->_deliverable);
+        $workflow = new midcom\workflow\delete($this->_deliverable);
 
         if ($workflow->run())
         {

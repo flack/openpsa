@@ -131,7 +131,7 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
     public function _handler_delete($handler_id, array $args, array &$data)
     {
         $this->_campaign = $this->_master->load_campaign($args[0]);
-        $workflow = new org_openpsa_core_workflow_delete($this->_campaign);
+        $workflow = new midcom\workflow\delete($this->_campaign);
         if ($workflow->run())
         {
             $indexer = midcom::get()->indexer;

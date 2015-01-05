@@ -1,17 +1,22 @@
 <?php
 /**
- * @package org.openpsa.core
+ * @package midcom.workflow
  * @author CONTENT CONTROL http://www.contentcontrol-berlin.de/
  * @copyright CONTENT CONTROL http://www.contentcontrol-berlin.de/
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+namespace midcom\workflow;
+
+use midcom_helper_toolbar;
+use midcom;
+
 /**
  * Helper class for manipulating toolbars
  *
- * @package org.openpsa.core
+ * @package midcom.workflow
  */
-class org_openpsa_core_workflow_delete extends org_openpsa_core_workflow
+class delete extends base
 {
     private $form_identifier = 'confirm-delete';
 
@@ -28,7 +33,7 @@ class org_openpsa_core_workflow_delete extends org_openpsa_core_workflow
         $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/position.min.js');
         $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/button.min.js');
         $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/dialog.min.js');
-        $head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.core/workflow.js');
+        $head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.workflow/workflow.js');
         $head->add_jquery_ui_theme(array('dialog'));
     }
 
@@ -48,7 +53,7 @@ class org_openpsa_core_workflow_delete extends org_openpsa_core_workflow
                 (
                     'data-dialog' => 'delete',
                     'data-form-id' => $this->form_identifier,
-                    'data-dialog-heading' => $this->l10n->get('confirm delete'),
+                    'data-dialog-heading' => $this->l10n_midcom->get('confirm delete'),
                     'data-dialog-text' => sprintf($this->l10n_midcom->get('delete %s'), $this->get_object_title()),
                     'data-dialog-cancel-label' => $this->l10n_midcom->get('cancel')
                 )
@@ -73,11 +78,11 @@ class org_openpsa_core_workflow_delete extends org_openpsa_core_workflow
         $title = $this->get_object_title();
         if ($stat)
         {
-            $uim->add($this->l10n->get('org.openpsa.core'), sprintf($this->l10n_midcom->get("%s deleted"), $title));
+            $uim->add($this->l10n_midcom->get('midcom'), sprintf($this->l10n_midcom->get("%s deleted"), $title));
         }
         else
         {
-            $uim->add($this->l10n->get('org.openpsa.core'), sprintf($this->l10n_midcom->get("failed to delete %s: %s"), $title, midcom_connection::get_error_string()), 'error');
+            $uim->add($this->l10n_midcom->get('midcom'), sprintf($this->l10n_midcom->get("failed to delete %s: %s"), $title, midcom_connection::get_error_string()), 'error');
         }
         return $stat;
     }

@@ -181,7 +181,7 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
     public function _handler_delete($handler_id, array $args, array &$data)
     {
         $this->_document = $this->_load_document($args[0]);
-        $workflow = new org_openpsa_core_workflow_delete($this->_document);
+        $workflow = new midcom\workflow\delete($this->_document);
 
         if ($workflow->run())
         {

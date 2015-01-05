@@ -59,7 +59,7 @@ implements midcom_helper_datamanager2_interfaces_view
             );
             if ($this->_person->can_do('midgard:delete'))
             {
-                $workflow = new org_openpsa_core_workflow_delete($this->_person);
+                $workflow = new midcom\workflow\delete($this->_person);
                 $workflow->add_button($this->_view_toolbar, "delete/{$this->_person->guid}/");
             }
             if (midcom_connection::is_user($this->_person))

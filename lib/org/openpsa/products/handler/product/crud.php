@@ -70,7 +70,7 @@ class org_openpsa_products_handler_product_crud extends midcom_baseclasses_compo
     public function _handler_delete($handler_id, array $args, array &$data)
     {
         $this->_load_object($handler_id, $args, $data);
-        $workflow = new org_openpsa_core_workflow_delete($this->_object);
+        $workflow = new midcom\workflow\delete($this->_object);
         if ($workflow->run())
         {
             $indexer = midcom::get()->indexer;

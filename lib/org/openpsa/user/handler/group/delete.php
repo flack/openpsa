@@ -22,7 +22,7 @@ class org_openpsa_user_handler_group_delete extends midcom_baseclasses_component
     {
         midcom::get()->auth->require_user_do('org.openpsa.user:manage', null, 'org_openpsa_user_interface');
         $group = new midcom_db_group($args[0]);
-        $workflow = new org_openpsa_core_workflow_delete($group);
+        $workflow = new midcom\workflow\delete($group);
         if ($workflow->run())
         {
             $indexer = midcom::get()->indexer;

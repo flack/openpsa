@@ -10,10 +10,6 @@ kerätyt
 käytä
 ---STRINGEND
 
----STRING confirm delete
-Vahvista poisto
----STRINGEND
-
 ---STRING download as CSV
 Tallenna CSV:ksi
 ---STRINGEND

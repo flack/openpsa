@@ -10,10 +10,6 @@ aggregated
 apply
 ---STRINGEND
 
----STRING confirm delete
-Confirm deletion
----STRINGEND
-
 ---STRING download as CSV
 Download as CSV
 ---STRINGEND

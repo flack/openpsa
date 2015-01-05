@@ -80,7 +80,7 @@ class org_openpsa_directmarketing_handler_message_message extends midcom_basecla
         );
         if ($this->_message->can_do('midgard:delete'))
         {
-            $workflow = new org_openpsa_core_workflow_delete($this->_message);
+            $workflow = new midcom\workflow\delete($this->_message);
             $workflow->add_button($this->_view_toolbar, "message/delete/{$this->_message->guid}/");
         }
         $this->_view_toolbar->add_item

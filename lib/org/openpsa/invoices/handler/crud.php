@@ -226,7 +226,7 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
     public function _handler_delete($handler_id, array $args, array &$data)
     {
         $this->_load_object($handler_id, $args, $data);
-        $workflow = new org_openpsa_core_workflow_delete($this->_object);
+        $workflow = new midcom\workflow\delete($this->_object);
         if ($workflow->run())
         {
             $indexer = midcom::get()->indexer;
@@ -266,7 +266,7 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
 
         if ($this->_object->can_do('midgard:delete'))
         {
-            $workflow = new org_openpsa_core_workflow_delete($this->_object);
+            $workflow = new midcom\workflow\delete($this->_object);
             $workflow->add_button($this->_view_toolbar, "invoice/delete/{$this->_object->guid}/");
         }
 

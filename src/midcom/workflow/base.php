@@ -1,17 +1,24 @@
 <?php
 /**
- * @package org.openpsa.core
-* @author CONTENT CONTROL http://www.contentcontrol-berlin.de/
-* @copyright CONTENT CONTROL http://www.contentcontrol-berlin.de/
-* @license http://www.gnu.org/licenses/gpl.html GNU General Public License
-*/
+ * @package midcom.workflow
+ * @author CONTENT CONTROL http://www.contentcontrol-berlin.de/
+ * @copyright CONTENT CONTROL http://www.contentcontrol-berlin.de/
+ * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
+ */
+
+namespace midcom\workflow;
+
+use midcom_core_dbaobject;
+use midcom_helper_reflector;
+use midcom_helper_toolbar;
+use midcom;
 
 /**
  * Workflow base class
  *
- * @package org.openpsa.core
+ * @package midcom.workflow
  */
-abstract class org_openpsa_core_workflow
+abstract class base
 {
     /**
      *
@@ -43,7 +50,6 @@ abstract class org_openpsa_core_workflow
     public function __construct(midcom_core_dbaobject $object)
     {
         $this->object = $object;
-        $this->l10n = midcom::get()->i18n->get_l10n('org.openpsa.core');
         $this->l10n_midcom = midcom::get()->i18n->get_l10n('midcom');
     }
 

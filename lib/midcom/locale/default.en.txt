@@ -158,6 +158,10 @@ Component depends on
 Confirm
 ---STRINGEND
 
+---STRING confirm delete
+Confirm deletion
+---STRINGEND
+
 ---STRING cookies must be enabled to log in
 Cookies must be enabled to log in
 ---STRINGEND

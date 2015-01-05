@@ -94,7 +94,7 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
         if (   $this->_object->reportedHours == 0
             && $this->_object->can_do('midgard:delete'))
         {
-            $workflow = new org_openpsa_core_workflow_delete($this->_object);
+            $workflow = new midcom\workflow\delete($this->_object);
             $workflow->add_button($this->_view_toolbar, "task/delete/{$this->_object->guid}/");
         }
 
@@ -264,7 +264,7 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
     public function _handler_delete($handler_id, array $args, array &$data)
     {
         $this->_load_object($handler_id, $args, $data);
-        $workflow = new org_openpsa_core_workflow_delete($this->_object);
+        $workflow = new midcom\workflow\delete($this->_object);
         if ($workflow->run())
         {
             $indexer = midcom::get()->indexer;

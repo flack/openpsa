@@ -146,6 +146,10 @@ Komponentin vaatimat kirjastot
 Vahvista
 ---STRINGEND
 
+---STRING confirm delete
+Vahvista poisto
+---STRINGEND
+
 ---STRING copy
 Kopioi
 ---STRINGEND

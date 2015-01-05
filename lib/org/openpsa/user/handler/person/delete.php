@@ -26,7 +26,7 @@ class org_openpsa_user_handler_person_delete extends midcom_baseclasses_componen
             midcom::get()->auth->require_user_do('org.openpsa.user:manage', null, 'org_openpsa_user_interface');
         }
 
-        $workflow = new org_openpsa_core_workflow_delete($person);
+        $workflow = new midcom\workflow\delete($person);
         if ($workflow->run())
         {
             $indexer = midcom::get()->indexer;
