@@ -18,8 +18,5 @@
             'role' => 'lead',
         ),
     ),
-    'dependencies' => Array
-    (
-        'midcom.helper.datamanager2' => array(),
-    ),
+    'dependencies' => array(),
 ),
