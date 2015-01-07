@@ -399,6 +399,7 @@ function init(selector, rules)
     if (   rules.classes === undefined
         || rules.classes.length === 0)
     {
+        rules.classes = [];
         groups[zero_group_id].add_rule(false);
     }
 
