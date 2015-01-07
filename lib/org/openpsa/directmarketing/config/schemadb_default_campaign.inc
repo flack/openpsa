@@ -26,7 +26,8 @@
                     org_openpsa_directmarketing_campaign_dba::TYPE_SMART => 'smart campaign',
                 ),
             ),
-            'widget'      => 'select',
+            'default'     => org_openpsa_directmarketing_campaign_dba::TYPE_NORMAL,
+            'widget'      => 'radiocheckselect',
         ),
         'description' => array
         (
