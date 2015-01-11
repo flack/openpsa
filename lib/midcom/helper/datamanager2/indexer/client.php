@@ -13,7 +13,7 @@
  */
 abstract class midcom_helper_datamanager2_indexer_client extends midcom_services_indexer_client
 {
-    public function process_results($name, array $results, array $schemadb)
+    public function process_results($name, array $results, $schemadb)
     {
         $documents = array();
         $datamanager = new midcom_helper_datamanager2_datamanager($schemadb);

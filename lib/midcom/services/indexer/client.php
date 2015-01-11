@@ -114,10 +114,10 @@ abstract class midcom_services_indexer_client
      *
      * @param string $name
      * @param array $results
-     * @param array $schemadb
+     * @param mixed $schemadb
      * @return midcom_services_indexer_document[]
      */
-    abstract public function process_results($name, array $results, array $schemadb);
+    abstract public function process_results($name, array $results, $schemadb);
 
     /**
      *
