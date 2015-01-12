@@ -390,23 +390,31 @@ class midcom_helper_misc
 
         //get the page if there is one
         $page = midcom_connection::get('page_style');
-
+        $substyle = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_SUBSTYLE);
         //check if we have elements for the sub-styles
         while (!empty($path_array))
         {
             $theme_path = implode('/', $path_array);
-            //check possible theme and page element
-            $filename = $theme_root . $theme_path .  "/style/{$element_name}.php";
-            $filename_page = $theme_root . $theme_path .  "/style{$page}/{$element_name}.php";
+            $candidates = array();
+            if ($substyle)
+            {
+                $candidates[] =  $theme_root . $theme_path .  "/style/{$substyle}/{$element_name}.php";
+            }
+            if ($page)
+            {
+                $candidates[] =  $theme_root . $theme_path .  "/style{$page}/{$element_name}.php";
+            }
 
-            if (file_exists($filename_page))
+            $candidates[] = $theme_root . $theme_path .  "/style/{$element_name}.php";
+
+            foreach ($candidates as $candidate)
             {
-                return file_get_contents($filename_page);
+                if (file_exists($candidate))
+                {
+                    return file_get_contents($candidate);
+                }
             }
-            else if (file_exists($filename))
-            {
-                return file_get_contents($filename);
-            }
+
             //remove last theme part
             array_pop($path_array);
         }
