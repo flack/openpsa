@@ -79,7 +79,7 @@ abstract class midcom_services_indexer_client
         return $this->_indexer->index($this->new_document($object));
     }
 
-    public function add_query($name, midcom_core_querybuilder $qb, array $schemadb)
+    public function add_query($name, midcom_core_querybuilder $qb, $schemadb)
     {
         $this->_queries[$name] = array($qb, $schemadb);
     }
