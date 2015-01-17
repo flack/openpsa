@@ -92,7 +92,7 @@ abstract class midcom_services_indexer_client
             $results = $qb->execute();
             if (!empty($results))
             {
-                $documents = $this->process_results($name, $data[0], $data[1]);
+                $documents = $this->process_results($name, $results, $data[1]);
                 if (!empty($documents))
                 {
                     $this->_indexer->index($documents);
