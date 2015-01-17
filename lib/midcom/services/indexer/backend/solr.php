@@ -260,8 +260,11 @@ class midcom_services_indexer_solrDocumentFactory
      */
     public function add($document)
     {
-        $root = $this->xml->createElement('add');
-        $this->xml->appendChild($root);
+        if (empty($this->xml->documentElement))
+        {
+            $root = $this->xml->createElement('add');
+            $this->xml->appendChild($root);
+        }
         $element = $this->xml->createElement('doc');
         $this->xml->documentElement->appendChild($element);
         $field = $this->xml->createElement('field');
