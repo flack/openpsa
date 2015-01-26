@@ -52,12 +52,12 @@
  *      See the corresponding META HTML header.
  * @property integer $published The publication time of the object, read-only.
  * @property string $publisher The person that published the object (i.e. author), read-only except on articles and pages.
- * @property integer $created:</b> The creation time of the object, read-only unless an article is edited.
- * @property string $creator:</b> The person that created the object, read-only.
- * @property integer $revised:</b> The last-modified time of the object, read-only.
- * @property string $revisor:</b> The person that modified the object, read-only.
- * @property integer $approved:</b> The time of approval of the object, or 0 if not approved. Set automatically through approve/unapprove.
- * @property string $approver:</b> The person that approved/unapproved the object. Set automatically through approve/unapprove.
+ * @property integer $created The creation time of the object, read-only unless an article is edited.
+ * @property string $creator The person that created the object, read-only.
+ * @property integer $revised The last-modified time of the object, read-only.
+ * @property string $revisor The person that modified the object, read-only.
+ * @property integer $approved The time of approval of the object, or 0 if not approved. Set automatically through approve/unapprove.
+ * @property string $approver The person that approved/unapproved the object. Set automatically through approve/unapprove.
 
  * @package midcom.helper
  */
