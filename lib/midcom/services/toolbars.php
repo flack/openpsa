@@ -639,7 +639,7 @@ class midcom_services_toolbars
         (
             array
             (
-                MIDCOM_TOOLBAR_URL => "http://trac.openpsa2.org/roadmap",
+                MIDCOM_TOOLBAR_URL => "https://github.com/flack/openpsa/issues",
                 MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('issue tracker', 'midcom.admin.help'),
                 MIDCOM_TOOLBAR_OPTIONS => array('target' => '_blank'),
                 MIDCOM_TOOLBAR_ICON => 'midcom.admin.help/applications-development.png',
