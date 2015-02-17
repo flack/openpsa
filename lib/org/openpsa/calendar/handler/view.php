@@ -124,6 +124,12 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
         (
             'height' => $this->_config->get('calendar_popup_height'),
             'width' => $this->_config->get('calendar_popup_width'),
+            'businessHours' => array
+            (
+                'start' => $this->_config->get('day_start_time') . ':00',
+                'end' => $this->_config->get('day_end_time') . ':00',
+                'dow' => array(1, 2, 3, 4, 5)
+            )
         );
     }
 
