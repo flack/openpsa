@@ -91,14 +91,14 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
 
         midcom_helper_datamanager2_widget_jsdate::add_head_elements();
         $head = midcom::get()->head;
-        $head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.widgets/fullcalendar-2.1.1/lib/moment.min.js');
-        $head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.widgets/fullcalendar-2.1.1/fullcalendar.min.js');
+        $head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.widgets/fullcalendar-2.2.7/lib/moment.min.js');
+        $head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.widgets/fullcalendar-2.2.7/fullcalendar.min.js');
 
         $lang = midcom::get()->i18n->get_current_language();
-        if (!file_exists(MIDCOM_STATIC_ROOT . "/org.openpsa.widgets/fullcalendar-2.1.1/lang/{$lang}.js"))
+        if (!file_exists(MIDCOM_STATIC_ROOT . "/org.openpsa.widgets/fullcalendar-2.2.7/lang/{$lang}.js"))
         {
             $lang = midcom::get()->i18n->get_fallback_language();
-            if (!file_exists(MIDCOM_STATIC_ROOT . "/org.openpsa.widgets/fullcalendar-2.1.1/lang/{$lang}.js"))
+            if (!file_exists(MIDCOM_STATIC_ROOT . "/org.openpsa.widgets/fullcalendar-2.2.7/lang/{$lang}.js"))
             {
                 $lang = false;
             }
@@ -106,12 +106,12 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
 
         if ($lang)
         {
-            $head->add_jsfile(MIDCOM_STATIC_URL . "/org.openpsa.widgets/fullcalendar-2.1.1/lang/{$lang}.js");
+            $head->add_jsfile(MIDCOM_STATIC_URL . "/org.openpsa.widgets/fullcalendar-2.2.7/lang/{$lang}.js");
             $data['calendar_options']['lang'] = $lang;
         }
 
-        $head->add_stylesheet(MIDCOM_STATIC_URL . '/org.openpsa.widgets/fullcalendar-2.1.1/fullcalendar.css');
-        $head->add_stylesheet(MIDCOM_STATIC_URL . '/org.openpsa.widgets/fullcalendar-2.1.1/fullcalendar.print.css', 'print');
+        $head->add_stylesheet(MIDCOM_STATIC_URL . '/org.openpsa.widgets/fullcalendar-2.2.7/fullcalendar.css');
+        $head->add_stylesheet(MIDCOM_STATIC_URL . '/org.openpsa.widgets/fullcalendar-2.2.7/fullcalendar.print.css', 'print');
         $head->add_stylesheet(MIDCOM_STATIC_URL . '/org.openpsa.calendar/calendar.css');
 
         $head->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/history.js-1.8.0/jquery.history.js');
