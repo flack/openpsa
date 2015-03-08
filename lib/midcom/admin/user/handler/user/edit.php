@@ -184,8 +184,6 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         $this->add_breadcrumb("__mfa/asgard_midcom.admin.user/edit/" . $this->_person->guid . '/', $this->_person->name);
         $this->add_breadcrumb("", $data['view_title']);
 
-        // Add jQuery Form handling for generating passwords with AJAX
-        midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.form.js');
         return new midgard_admin_asgard_response($this, '_show_edit_account');
     }
 

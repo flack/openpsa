@@ -121,7 +121,6 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
         // jQuery sorting
         midcom::get()->head->enable_jquery();
 
-        midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL.'/jQuery/jquery.form.js');
         midcom::get()->head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/core.min.js');
         midcom::get()->head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/widget.min.js');
         midcom::get()->head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/mouse.min.js');

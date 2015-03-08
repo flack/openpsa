@@ -81,16 +81,15 @@ if (!isset($_GET['ajax-form']))
 ?>
 <script type="text/javascript">
     // <![CDATA[
-        jQuery('#midcom_admin_user_generated_passwords_form').submit(function()
+    var form = $('#midcom_admin_user_generated_passwords_form');
+    form.on('submit', function(e)
+    {
+        e.preventDefault();
+        $.get(form.attr('action'), form.serialize(), function(data)
         {
-            jQuery('#midcom_admin_user_generated_passwords_form').ajaxSubmit
-            (
-                {
-                    target : jQuery('#midcom_admin_user_generated_passwords_random')
-                }
-            );
-            return false;
+            $('#midcom_admin_user_generated_passwords_random').html(data);
         });
+    });
     // ]]>
 </script>
 <?php
