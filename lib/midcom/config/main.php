@@ -455,6 +455,7 @@ class midcom_config implements arrayaccess
         'metadata_head_elements' => array
         (
             'published'   => 'DC.date',
+            'description'   => 'description',
         ),
 
         // Whether to gather and display Open Graph Protocol metadata for Midgard pages
