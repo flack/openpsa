@@ -11,6 +11,8 @@ var org_openpsa_jqgrid_presets =
     hoverrows: true,
     shrinkToFit: true,
     sortable: true,
+    autoencode: false,
+    datatype: 'xml',
     jsonReader:
     {
         repeatitems: false,
