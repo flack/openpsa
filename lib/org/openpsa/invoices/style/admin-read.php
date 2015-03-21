@@ -1,7 +1,7 @@
 <?php
 $view = $data['object_view'];
 $invoice = $data['object'];
-
+$status_helper = new org_openpsa_invoices_status($invoice);
 try
 {
     $customer = org_openpsa_contacts_group_dba::get_cached($invoice->customer);
@@ -48,32 +48,7 @@ if ($invoice->cancelationInvoice)
         <?php
             echo "<h3>" . $data['l10n']->get('invoice status') . "</h3>\n";
             echo "<div class=\"current-status {$invoice->get_status()}\">";
-            if (!$invoice->sent)
-            {
-                echo $data['l10n']->get('unsent');
-            }
-            else
-            {
-                if (!$invoice->paid)
-                {
-                    if ($invoice->due > time())
-                    {
-                        echo sprintf($data['l10n']->get('due on %s'), date($data['l10n_midcom']->get('short date'), $invoice->due));
-                    }
-                    else
-                    {
-                        echo '<span class="bad">' . sprintf($data['l10n']->get('overdue since %s'), date($data['l10n_midcom']->get('short date'), $invoice->due)) . '</span>';
-                    }
-                }
-                else if ($cancelation_invoice_link)
-                {
-                    echo sprintf($data['l10n']->get('invoice canceled on %s'), date($data['l10n_midcom']->get('short date'), $invoice->paid));
-                }
-                else
-                {
-                    echo sprintf($data['l10n']->get('paid on %s'), date($data['l10n_midcom']->get('short date'), $invoice->paid));
-                }
-            }
+            echo $status_helper->get_current_status();
             echo "</div>\n";
 
             if ($invoice->owner)
@@ -84,42 +59,12 @@ if ($invoice->cancelationInvoice)
             }
 
             echo "<ul>\n";
-            if ($cancelation_invoice_link)
-            {
-                echo '<li><span class="date">' . date($data['l10n_midcom']->get('short date') . ' H:i', $cancelation_invoice->metadata->created) . '</span>: <br />';
-                echo sprintf($data['l10n']->get('invoice got canceled by %s'), $cancelation_invoice_link);
-            }
-            else if ($invoice->paid)
-            {
-                echo '<li><span class="date">' . date($data['l10n_midcom']->get('short date') . ' H:i', $invoice->paid) . '</span>: <br />';
-                echo sprintf($data['l10n']->get('marked invoice %s paid'), '') . '</li>';
-            }
-            else if (   $invoice->due
-                     && (   $invoice->due < time()
-                         || $invoice->due < $invoice->paid))
-            {
-                echo '<li><span class="date">' . date($data['l10n_midcom']->get('short date') . ' H:i', $invoice->due) . '</span>: <br />';
-                echo $data['l10n']->get('overdue') . '</li>';
-            }
 
-            if ($invoice->sent)
+            foreach ($status_helper->get_history() as $entry)
             {
-                echo '<li><span class="date">';
-                if ($mail_time = $invoice->get_parameter('org.openpsa.invoices', 'sent_by_mail'))
-                {
-                    echo date($data['l10n_midcom']->get('short date') . ' H:i', $mail_time) . '</span>: <br />';
-                    echo sprintf($data['l10n']->get('marked invoice %s sent per mail'), '');
-                }
-                else
-                {
-                    echo date($data['l10n_midcom']->get('short date') . ' H:i', $invoice->sent) . '</span>: <br />';
-                    echo sprintf($data['l10n']->get('marked invoice %s sent'), '');
-                }
-                echo '</li>';
+                echo '<li><span class="date">' . date($data['l10n_midcom']->get('short date') . ' H:i', $entry['timestamp']) . '</span>: <br />';
+                echo $entry['message'];
             }
-
-            echo '<li><span class="date">' . date($data['l10n_midcom']->get('short date') . ' H:i', $invoice->metadata->created) . '</span>: <br />';
-            echo sprintf($data['l10n']->get('invoice %s created'), '') . '</li>';
 
             echo "</ul>\n";
         ?>
