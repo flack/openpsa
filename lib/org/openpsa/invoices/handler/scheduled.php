@@ -1,18 +1,13 @@
 <?php
 /**
- * @package org.openpsa.core
+ * @package org.openpsa.invoices
  * @author CONTENT CONTROL http://www.contentcontrol-berlin.de/
  * @copyright CONTENT CONTROL http://www.contentcontrol-berlin.de/
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
 /**
- * Helper class that serves as a cache for OpenPSA site information
- *
- * It locates topics for specific components used in OpenPSA and automatically
- * generates a cached version of the site structure in the config snippet
- *
- * @package org.openpsa.core
+ * @package org.openpsa.invoices
  */
 class org_openpsa_invoices_handler_scheduled extends midcom_baseclasses_components_handler
 implements org_openpsa_widgets_grid_provider_client
