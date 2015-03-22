@@ -72,3 +72,9 @@
     'fixed_args' => array('journalentry'),
     'variable_args' => 2,
 ),
+
+// Match rest/journalentry/
+'journal_entry_rest' => array(
+    'handler' => array('org_openpsa_relatedto_handler_rest_journalentry', 'process'),
+    'fixed_args' => array('rest', 'journalentry'),
+),

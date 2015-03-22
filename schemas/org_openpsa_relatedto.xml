@@ -23,7 +23,7 @@
         <property name="title" type="string" />
         <property name="text" type="text" />
         <property name="followUp" type="integer">
-            <description>Ldate to show up the entry</description>
+            <description>date to show up the entry</description>
         </property>
         <property name="status" type="integer"/>
         <property name="closed" type="boolean" />
