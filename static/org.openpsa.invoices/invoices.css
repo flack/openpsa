@@ -112,3 +112,14 @@ div.org_openpsa_invoices table button.yes
 {
     font-weight: bold;
 }
+
+#add-journal-entry
+{
+    float: right;
+}
+
+.add-journal-text
+{
+    box-sizing: border-box;
+    width: 100%;
+}

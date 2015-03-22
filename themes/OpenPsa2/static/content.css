@@ -106,12 +106,12 @@ body
 
 .org_openpsa_helper_box li
 {
-  margin-top: 4px;
+    margin-top: .7em;
 }
 
 .org_openpsa_helper_box span.date
 {
-  font-weight: bold;
+    color: #777;
 }
 
 .org_openpsa_helper_box span.tip

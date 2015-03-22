@@ -215,6 +215,7 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
             org_openpsa_widgets_grid::add_head_elements();
 
             $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/list.css");
+            midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . "/" . $this->_component . "/invoices.js");
         }
     }
 

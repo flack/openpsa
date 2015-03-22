@@ -46,7 +46,15 @@ if ($invoice->cancelationInvoice)
 
         <div class="area org_openpsa_helper_box history status">
         <?php
-            echo "<h3>" . $data['l10n']->get('invoice status') . "</h3>\n";
+            echo "<h3>" . $data['l10n']->get('invoice status');
+
+            $tooltip = midcom::get()->i18n->get_l10n('org.openpsa.relatedto')->get('add journal entry');
+            $save_label = $data['l10n_midcom']->get('save');
+            $cancel_label = $data['l10n_midcom']->get('cancel');
+            echo '<a id="add-journal-entry" data-guid="' . $invoice->guid . '" data-dialog-submit-label="' . $save_label . '" data-dialog-cancel-label="' . $cancel_label . '" title="' . $tooltip . "\">\n";
+            echo '<img src="' . MIDCOM_STATIC_URL . '/stock-icons/16x16/list-add.png" alt="' . $tooltip . "\"></a>\n";
+            echo "</h3>\n";
+
             echo "<div class=\"current-status {$invoice->get_status()}\">";
             echo $status_helper->get_current_status();
             echo "</div>\n";
@@ -107,7 +115,7 @@ if ($invoice->cancelationInvoice)
     <div class="description value">&(view['description']:h);</div></div>
 
     <?php
-    // does the invoice has a cancelation invoice?
+    // does the invoice have a cancelation invoice?
     if ($cancelation_invoice_link)
     {
         echo "<div class=\"field\">";

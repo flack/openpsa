@@ -139,4 +139,47 @@ $(document).ready(function()
                 $(this).val(parse_input($(this).val()));
             });
         });
+
+    $('#add-journal-entry').on('click', function()
+    {
+        var button = $(this),
+            dialog,
+            options = {
+                title:  button.attr('title'),
+                resizable: false,
+                modal: true,
+                buttons: {}
+            },
+            form = $('<form action="' + MIDCOM_PAGE_PREFIX + '__mfa/org.openpsa.relatedto/rest/journalentry/" method="post">')
+            text = $('<input type="text" required name="title" class="add-journal-text">').appendTo(form),
+            submit = $('<input type="submit">')
+                    .hide()
+                    .appendTo(form);
+
+        options.buttons[button.data('dialog-submit-label')] = function() {
+            submit.click();
+        };
+        options.buttons[button.data('dialog-cancel-label')] = function() {
+            $( this ).dialog( "close" );
+        };
+        dialog = $('<div>')
+            .append(form)
+            .appendTo($('body'))
+            .dialog(options);
+
+        form.on('submit', function(e)
+        {
+            e.preventDefault();
+            $.post(form.attr('action'),
+                   {
+                       linkGuid: button.data('guid'),
+                       title: text.val()
+                   },
+                   function (data)
+                   {
+                       dialog.dialog("close");
+                       window.location.reload();
+                   });
+        });
+    });
 });
