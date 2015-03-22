@@ -622,18 +622,15 @@ class midcom_services_indexer_document
      */
     function read_metadata_from_object($object)
     {
-        debug_add("Called for {$object->guid} (" . get_class($object) . ')');
-        switch (true)
+        // Published is set to non-empty value, use it as creation data
+        if (   !empty($object->metadata->published)
+            && !preg_match('/0{1,4}-0{1,2}0{1,2}\s+0{1,2}:0{1,2}:0{1,2}/', $object->metadata->published))
         {
-            // Published is set to non-empty value, use it as creation data
-            case (   !empty($object->metadata->published)
-                  && !preg_match('/0{1,4}-0{1,2}0{1,2}\s+0{1,2}:0{1,2}:0{1,2}/', $object->metadata->published)):
-                $this->created = $this->_read_metadata_from_object_to_unixtime($object->metadata->published);
-                break;
-
-            case (isset($object->metadata->created)):
-                $this->created = $this->_read_metadata_from_object_to_unixtime($object->metadata->created);
-                break;
+            $this->created = $this->_read_metadata_from_object_to_unixtime($object->metadata->published);
+        }
+        else if (isset($object->metadata->created))
+        {
+            $this->created = $this->_read_metadata_from_object_to_unixtime($object->metadata->created);
         }
         // Revised
         if (isset($object->metadata->revised))
@@ -641,15 +638,13 @@ class midcom_services_indexer_document
             $this->edited = $this->_read_metadata_from_object_to_unixtime($object->metadata->revised);
         }
         // Heuristics to determine author
-        switch (true)
+        if (!empty($object->metadata->authors))
         {
-            case (!empty($object->metadata->authors)):
-                $this->author = $this->_read_metadata_from_object_to_authorname($object->metadata->authors);
-                break;
-
-            case (!empty($object->metadata->creator)):
-                $this->author = $this->_read_metadata_from_object_to_authorname($object->metadata->creator);
-                break;
+            $this->author = $this->_read_metadata_from_object_to_authorname($object->metadata->authors);
+        }
+        else if (!empty($object->metadata->creator))
+        {
+            $this->author = $this->_read_metadata_from_object_to_authorname($object->metadata->creator);
         }
         // Creator
         if (isset($object->metadata->creator))
