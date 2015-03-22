@@ -260,40 +260,26 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
         $data['request_topic'] = trim($_REQUEST['topic']);
         $data['component'] = trim($_REQUEST['component']);
         $data['lastmodified'] = (integer) trim($_REQUEST['lastmodified']);
+        $filter = new midcom_services_indexer_filter_chained;
         if ($data['lastmodified'] > 0)
         {
-            $filter = new midcom_services_indexer_filter_date('__EDITED', $data['lastmodified'], 0);
-        }
-        else
-        {
-            $filter = null;
+            $filter->add_filter(new midcom_services_indexer_filter_date('__EDITED', $data['lastmodified'], 0));
         }
 
+        $final_query = '';
         if ($data['query'] != '')
         {
             $final_query = (midcom::get()->config->get('indexer_backend') == 'solr') ? $data['query'] : "({$data['query']})";
         }
-        else
-        {
-            $final_query = '';
-        }
 
         if ($data['request_topic'] != '')
         {
-            if ($final_query != '')
-            {
-                $final_query .= ' AND ';
-            }
-            $final_query .= "__TOPIC_URL:\"{$data['request_topic']}*\"";
+            $filter->add_filter(new midcom_services_indexer_filter_string('__TOPIC_URL', '"' . $data['request_topic'] . '*"'));
         }
 
         if ($data['component'] != '')
         {
-            if ($final_query != '')
-            {
-                $final_query .= ' AND ';
-            }
-            $final_query .= "__COMPONENT:{$data['component']}";
+            $filter->add_filter(new midcom_services_indexer_filter_string('__COMPONENT', $data['component']));
         }
 
         // Way to add very custom terms
@@ -305,6 +291,10 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
         debug_add("Final query: {$final_query}");
         $indexer = midcom::get()->indexer;
 
+        if ($filter->count() == 0)
+        {
+            $filter = null;
+        }
         return $indexer->query($final_query, $filter);
     }
 
