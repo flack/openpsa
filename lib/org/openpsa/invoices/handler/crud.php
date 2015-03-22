@@ -332,7 +332,7 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
                 (
                     MIDCOM_TOOLBAR_URL => "invoice/pdf/{$this->_object->guid}/",
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create pdf'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/attach.png',
+                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/printer.png',
                 )
             );
             // sending per email enabled in billing data?
