@@ -48,16 +48,12 @@ class midcom_services_indexer_document_attachment extends midcom_services_indexe
     public function __construct($attachment, $source)
     {
         //before doing anything else, verify that the attachment is readable, otherwise we might get stuck in endless loops later on
-        $test = $attachment->open('r');
-        if (!$test)
+        if (!$attachment->open('r'))
         {
             debug_add('Attachment ' . $attachment->guid . ' cannot be read, aborting. Last midgard error: ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
             return false;
         }
-        else
-        {
-            fclose($test);
-        }
+        $attachment->close();
 
         parent::__construct();
 
