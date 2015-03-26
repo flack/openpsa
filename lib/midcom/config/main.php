@@ -368,6 +368,8 @@ class midcom_config implements arrayaccess
         'indexer_index_name' => 'auto',
         'indexer_reindex_allowed_ips' => Array('127.0.0.1'),
 
+        'indexer_config_options' => array('fl' => '*,score', 'rows' => 1000, 'defType' => 'dismax', 'qf' => 'content'),
+
         // XMLTCP indexer backend (THE RECOMMENDED ONE)
         'indexer_xmltcp_host' => "127.0.0.1",
         'indexer_xmltcp_port' => 8983,

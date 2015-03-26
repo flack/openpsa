@@ -121,24 +121,17 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
     /**
      * Query the index and, if set, restrict the query by a given filter.
      *
-     * @param string $query The query, which must suite the backends query syntax.
+     * @param string $querystring The query, which must suit the backends query syntax.
      * @param midcom_services_indexer_filter $filter An optional filter used to restrict the query. This may be null indicating no filter.
      * @return midcom_services_indexer_document[] An array of documents matching the query, or false on a failure.
      */
-    public function query($query, midcom_services_indexer_filter $filter = null)
+    public function query($querystring, midcom_services_indexer_filter $filter = null)
     {
         $url = 'http://' . midcom::get()->config->get('indexer_xmltcp_host') . ':' . midcom::get()->config->get('indexer_xmltcp_port') . '/solr/select';
 
-        // FIXME: Make this configurable, even better: adapt the whole indexer system to fetching enable querying for counts and slices
-        $maxrows = 1000;
-        $query = array
-        (
-            'q' => $query,
-            'fl' => '*,score',
-            'rows' => $maxrows,
-            'defType' => 'dismax',
-            'qf' => 'content'
-        );
+        // FIXME: adapt the whole indexer system to fetching enable querying for counts and slices
+        $query = midcom::get()->config->get('indexer_config_options');
+        $query['q'] = $querystring;
 
         if (!empty($this->_index_name))
         {
