@@ -223,9 +223,10 @@ class midcom_services_indexer
      * @param string $query The query, which must suit the backends query syntax. It is assumed to be in the site charset.
      * @param midcom_services_indexer_filter $filter An optional filter used to restrict the query.
      * @return midcom_services_indexer_document[] An array of documents matching the query, or false on a failure.
+     * @param array $options Options that are passed straight to the backend
      * @todo Refactor into multiple methods
      */
-    function query($query, midcom_services_indexer_filter $filter = null)
+    function query($query, midcom_services_indexer_filter $filter = null, array $options = array())
     {
         if ($this->_disabled)
         {
@@ -238,7 +239,7 @@ class midcom_services_indexer
 
         try
         {
-            $result_raw = $this->_backend->query($query, $filter);
+            $result_raw = $this->_backend->query($query, $filter, $options);
         }
         catch (Exception $e)
         {
