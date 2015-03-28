@@ -176,7 +176,7 @@ class midcom_core_context
         $guid = midcom::get()->config->get('midcom_root_topic_guid');
         if (empty($guid))
         {
-            $setup = new midcom_core_setup("Root folder is not configured. Please log in as administrator and fix this in settings.");
+            $setup = new midcom_core_setup("Root folder is not configured. Please log in as administrator");
             $root_node = $setup->find_topic(true);
         }
         else
@@ -189,10 +189,10 @@ class midcom_core_context
             {
                 if ($e instanceof midcom_error_forbidden)
                 {
-                    throw new midcom_error_forbidden(midcom::get()->i18n->get_string('access denied', 'midcom'));
+                    throw $e;
                 }
                 // Fall back to another topic so that admin has a chance to fix this
-                $setup = new midcom_core_setup("Root folder is misconfigured. Please log in as administrator and fix this in settings.");
+                $setup = new midcom_core_setup("Root folder is misconfigured. Please log in as administrator");
                 $root_node = $setup->find_topic();
             }
         }

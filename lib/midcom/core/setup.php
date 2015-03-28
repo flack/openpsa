@@ -19,18 +19,12 @@ class midcom_core_setup
     }
 
     /**
-     * Create topic and write config file
+     * Write config file
      *
-     * @return midcom_db_topic
+     * @param midcom_db_topic $topic
      */
-    private function create_topic()
+    public function write_config(midcom_db_topic $topic)
     {
-        $topic = new midcom_db_topic;
-        $topic->component = 'midcom.core.nullcomponent';
-        if (!$topic->create())
-        {
-            throw new midcom_error('Fatal error: Failed to create root folder: ' . midcom_connection::get_error_string());
-        }
         $conf = '<?php' . "\n";
         $conf .= "//AUTO-GENERATED on " . strftime('%x %X') . "\n";
         $conf .= '$GLOBALS[\'midcom_config_local\'][\'midcom_root_topic_guid\'] = "' . $topic->guid . '";' . "\n";
@@ -47,7 +41,6 @@ class midcom_core_setup
             echo '<textarea rows="5" cols="100">' . $conf . "</textarea>";
             midcom::get()->finish();
         }
-        return $topic;
     }
 
     /**
@@ -60,14 +53,22 @@ class midcom_core_setup
         $qb->add_constraint('component', '<>', '');
         $topics = $qb->execute();
 
-        if (count($topics) == 0)
+        if (count($topics) > 0)
         {
-            if ($autocreate)
-            {
-                return $this->create_topic();
-            }
+            return $topics[0];
+        }
+        if (!$autocreate)
+        {
             throw new midcom_error('Fatal error: Unable to find website root folder');
         }
-        return $topics[0];
+
+        $topic = new midcom_db_topic;
+        $topic->component = 'midcom.core.nullcomponent';
+        if (!$topic->create())
+        {
+            throw new midcom_error('Fatal error: Failed to create root folder: ' . midcom_connection::get_error_string());
+        }
+        $this->write_config($topic);
+        return $topic;
     }
 }
