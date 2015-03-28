@@ -29,9 +29,7 @@
  * In addition, components may retrieve a third kind of toolbars, which are not under
  * the general control of MidCOM, the <i>Object</i> toolbars. They apply to a single
  * database object (like a bound <i>View</i> toolbar). The usage of this kind of
- * toolbars is completely component-specific: It is recommended to use them only for
- * cases where multiple objects are displayed simultaneously. For example, the
- * index page of a Newsticker or Image Gallery might provide them.
+ * toolbars is completely component-specific.
  *
  * <b>Implementation notes</b>
  *
@@ -44,7 +42,7 @@
  * welcome page, each with its own management options.
  *
  * <b>Configuration</b>
- * See midcom_config.php for configuration options.
+ * See midcom_config for configuration options.
  *
  * @package midcom.services
  */
@@ -279,10 +277,7 @@ class midcom_services_toolbars
             // We already processed this toolbar, skipping further adds.
             return;
         }
-        else
-        {
-            $toolbar->customdata['midcom_services_toolbars_bound_to_topic'] = true;
-        }
+        $toolbar->customdata['midcom_services_toolbars_bound_to_topic'] = true;
 
         $topic = midcom_core_context::get($context_id)->get_key(MIDCOM_CONTEXT_CONTENTTOPIC);
 
@@ -527,10 +522,7 @@ class midcom_services_toolbars
             // We already processed this toolbar, skipping further adds.
             return;
         }
-        else
-        {
-            $toolbar->customdata['midcom_services_toolbars_bound_to_host'] = true;
-        }
+        $toolbar->customdata['midcom_services_toolbars_bound_to_host'] = true;
 
         if (midcom::get()->auth->user)
         {
@@ -598,10 +590,7 @@ class midcom_services_toolbars
             // We already processed this toolbar, skipping further adds.
             return;
         }
-        else
-        {
-            $toolbar->customdata['midcom_services_toolbars_bound_to_help'] = true;
-        }
+        $toolbar->customdata['midcom_services_toolbars_bound_to_help'] = true;
         $calling_componentname = midcom_core_context::get($context_id)->get_key(MIDCOM_CONTEXT_COMPONENT);
 
         $toolbar->add_item
