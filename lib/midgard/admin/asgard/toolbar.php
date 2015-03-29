@@ -11,7 +11,7 @@
  *
  * @package midgard.admin.asgard
  */
-class midgard_admin_asgard_toolbar extends midcom_helper_toolbar
+class midgard_admin_asgard_toolbar extends midcom_helper_toolbar_view
 {
     private function _generate_url($action, $object)
     {
@@ -299,7 +299,7 @@ class midgard_admin_asgard_toolbar extends midcom_helper_toolbar
                 MIDCOM_TOOLBAR_ACCESSKEY => 'm',
             )
         );
-        midcom::get()->toolbars->add_approval_controls($this, $object);
+        $this->add_approval_controls($object);
 
         $this->add_item
         (
