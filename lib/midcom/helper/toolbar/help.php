@@ -24,6 +24,7 @@ class midcom_helper_toolbar_help extends midcom_helper_toolbar
         $this->component = $component;
         $config = midcom::get()->config;
         parent::__construct($config->get('toolbars_help_style_class'), $config->get('toolbars_help_style_id'));
+        $this->label = midcom::get()->i18n->get_string('help', 'midcom.admin.help');
         $this->add_commands();
     }
 

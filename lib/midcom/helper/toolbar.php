@@ -135,7 +135,7 @@ class midcom_helper_toolbar
 {
     /**
      * The CSS ID-Style rule that should be used for the toolbar.
-     * Set to null if non should be used.
+     * Set to null if none should be used.
      *
      * @var string
      */
@@ -143,11 +143,18 @@ class midcom_helper_toolbar
 
     /**
      * The CSS class-Style rule that should be used for the toolbar.
-     * Set to null if non should be used.
+     * Set to null if none should be used.
      *
      * @var string
      */
     var $class_style;
+
+    /**
+     * The toolbar's label
+     *
+     * @var string
+     */
+    protected $label;
 
     /**
      * The items in the toolbar.
@@ -190,6 +197,24 @@ class midcom_helper_toolbar
     {
         $this->id_style = $id_style;
         $this->class_style = $class_style;
+    }
+
+    /**
+     *
+     * @return string
+     */
+    public function get_label()
+    {
+        return $this->label;
+    }
+
+    /**
+     *
+     * @param string $label
+     */
+    public function set_label($label)
+    {
+        $this->label = $label;
     }
 
     /**

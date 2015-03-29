@@ -23,6 +23,7 @@ class midcom_helper_toolbar_view extends midcom_helper_toolbar
         $class_style = $class_style ?: $config->get('toolbars_view_style_class');
         $id_style = $id_style ?: $config->get('toolbars_view_style_id');
         parent::__construct($class_style, $id_style);
+        $this->label = midcom::get()->i18n->get_string('page', 'midcom');
     }
 
     public function bind_object(midcom_core_dbaobject $object)

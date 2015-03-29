@@ -76,51 +76,21 @@ class midcom_services_toolbars
     private $_centralized_mode = false;
 
     /**
-     * Label for the "Page" toolbar
-     *
-     * @var string
-     */
-    private $_view_toolbar_label = '';
-
-    /**
-     * Simple constructor, calls base class.
+     * Simple constructor
      */
     public function __construct()
     {
-        // Default label for the "Page" toolbar
-        $this->_view_toolbar_label = midcom::get()->i18n->get_string('page', 'midcom');
-
-        // FIXME: initialize() should be called by the callee, not here in constructor
-        $this->initialize();
-    }
-
-    /**
-     * Initialize centralized toolbar if required
-     */
-    function initialize()
-    {
-        static $still_initializing = null;
-        if (is_null($still_initializing))
-        {
-            $still_initializing = true;
-        }
-        else if ($still_initializing)
+        static $initialized = false;
+        if ($initialized)
         {
             // This is auth service looping because it instantiates classes for magic privileges!
             return;
         }
-
-        if (!midcom::get()->auth->user)
-        {
-            // Centralized toolbar is only for registered users
-            $still_initializing = false;
-            return;
-        }
-
-        if (   !midcom::get()->config->get('toolbars_enable_centralized')
+        $initialized = true;
+        if (   !midcom::get()->auth->user
+            || !midcom::get()->config->get('toolbars_enable_centralized')
             || !midcom::get()->auth->can_user_do('midcom:centralized_toolbar', null, $this))
         {
-            $still_initializing = false;
             return;
         }
 
@@ -146,7 +116,6 @@ class midcom_services_toolbars
             midcom::get()->head->add_stylesheet(midcom::get()->config->get('toolbars_simple_css_path'), 'screen');
         }
 
-        $still_initializing = false;
         // We've included CSS and JS, path is clear for centralized mode
         $this->_enable_centralized = true;
     }
@@ -162,11 +131,12 @@ class midcom_services_toolbars
     }
 
     /**
-     * Returns a reference to the host toolbar of the specified context. The toolbars
+     * Returns the host toolbar of the specified context. The toolbars
      * will be created if this is the first request.
      *
      * @param int $context_id The context to retrieve the node toolbar for, this
      *     defaults to the current context.
+     * @return midcom_helper_toolbar_host
      */
     function get_host_toolbar($context_id = null)
     {
@@ -174,11 +144,12 @@ class midcom_services_toolbars
     }
 
     /**
-     * Returns a reference to the node toolbar of the specified context. The toolbars
+     * Returns the node toolbar of the specified context. The toolbars
      * will be created if this is the first request.
      *
      * @param int $context_id The context to retrieve the node toolbar for, this
      *     defaults to the current context.
+     * @return midcom_helper_toolbar_node
      */
     function get_node_toolbar($context_id = null)
     {
@@ -186,11 +157,12 @@ class midcom_services_toolbars
     }
 
     /**
-     * Returns a reference to the view toolbar of the specified context. The toolbars
+     * Returns the view toolbar of the specified context. The toolbars
      * will be created if this is the first request.
      *
      * @param int $context_id The context to retrieve the view toolbar for, this
      *     defaults to the current context.
+     * @return midcom_helper_toolbar_view
      */
     function get_view_toolbar($context_id = null)
     {
@@ -198,17 +170,24 @@ class midcom_services_toolbars
     }
 
     /**
-     * Returns a reference to the help toolbar of the specified context. The toolbars
+     * Returns the help toolbar of the specified context. The toolbars
      * will be created if this is the first request.
      *
      * @param int $context_id The context to retrieve the help toolbar for, this
      *     defaults to the current context.
+     * @return midcom_helper_toolbar_help
      */
     function get_help_toolbar($context_id = null)
     {
         return $this->_get_toolbar($context_id, MIDCOM_TOOLBAR_HELP);
     }
 
+    /**
+     *
+     * @param integer $context_id
+     * @param string $identifier
+     * @return midcom_helper_toolbar
+     */
     private function _get_toolbar($context_id, $identifier)
     {
         if ($context_id === null)
@@ -231,14 +210,33 @@ class midcom_services_toolbars
      */
     private function _create_toolbars ($context_id)
     {
-        $calling_componentname = midcom_core_context::get($context_id)->get_key(MIDCOM_CONTEXT_COMPONENT);
+        $component = midcom_core_context::get($context_id)->get_key(MIDCOM_CONTEXT_COMPONENT);
         $topic = midcom_core_context::get($context_id)->get_key(MIDCOM_CONTEXT_CONTENTTOPIC);
 
+        $this->_toolbars[$context_id][MIDCOM_TOOLBAR_HELP] = new midcom_helper_toolbar_help($component);
+        $this->_toolbars[$context_id][MIDCOM_TOOLBAR_HOST] = new midcom_helper_toolbar_host;
         $this->_toolbars[$context_id][MIDCOM_TOOLBAR_NODE] = new midcom_helper_toolbar_node($topic);
         $this->_toolbars[$context_id][MIDCOM_TOOLBAR_VIEW] = new midcom_helper_toolbar_view;
-        $this->_toolbars[$context_id][MIDCOM_TOOLBAR_HOST] = new midcom_helper_toolbar_host;
-        $this->_toolbars[$context_id][MIDCOM_TOOLBAR_HELP] = new midcom_helper_toolbar_help($calling_componentname);
     }
+
+    /**
+     * Add a toolbar
+     *
+     * @param string $identifier
+     * @param midcom_helper_toolbar $toolbar
+     * @param int $context_id The context to retrieve the help toolbar for, this
+     *     defaults to the current context.
+     */
+    function add_toolbar($identifier, midcom_helper_toolbar $toolbar, $context_id = null)
+    {
+        if ($context_id === null)
+        {
+            $context_id = midcom_core_context::get()->id;
+        }
+
+        $this->_toolbars[$context_id][$identifier] = $toolbar;
+    }
+
 
     /**
      * Binds the a toolbar to a DBA object. This will append a number of globally available
@@ -271,7 +269,7 @@ class midcom_services_toolbars
         $toolbar->customdata['midcom_services_toolbars_bound_to_object'] = true;
 
         $reflector = new midcom_helper_reflector($object);
-        $this->_view_toolbar_label = $reflector->get_class_label();
+        $toolbar->set_label($reflector->get_class_label());
 
         $toolbar->bind_object($object);
     }
@@ -465,27 +463,38 @@ class midcom_services_toolbars
         echo "    </div>\n";
         echo "    <div class=\"items\">\n";
 
-        if (count($this->_toolbars[$context_id][MIDCOM_TOOLBAR_VIEW]->items) > 0)
+        foreach (array_reverse($this->_toolbars[$context_id], true) as $identifier => $toolbar)
         {
-            echo "        <div id=\"midcom_services_toolbars_topic-page\" class=\"item\">\n";
-            echo "            <span class=\"midcom_services_toolbars_topic_title page\">{$this->_view_toolbar_label}</span>\n";
-            echo $this->render_view_toolbar();
+            if (count($toolbar->items) == 0)
+            {
+                continue;
+            }
+            switch ($identifier)
+            {
+                case MIDCOM_TOOLBAR_VIEW:
+                    $id = $class = 'page';
+                    break;
+                case MIDCOM_TOOLBAR_NODE:
+                    $id = $class = 'folder';
+                    break;
+                case MIDCOM_TOOLBAR_HOST:
+                    $id = $class = 'host';
+                    break;
+                case MIDCOM_TOOLBAR_HELP:
+                    $id = $class = 'help';
+                    break;
+                default:
+                    $id = 'custom-' . $identifier;
+                    $class = 'custom';
+                    break;
+            }
+            echo "        <div id=\"midcom_services_toolbars_topic-{$id}\" class=\"item\">\n";
+            echo "            <span class=\"midcom_services_toolbars_topic_title {$class}\">" . $toolbar->get_label() . "</span>\n";
+            echo $toolbar->render();
             echo "        </div>\n";
         }
+        echo "</div>\n";
 
-        echo "        <div id=\"midcom_services_toolbars_topic-folder\" class=\"item\">\n";
-        echo "            <span class=\"midcom_services_toolbars_topic_title folder\">". midcom::get()->i18n->get_string('folder', 'midcom') . "</span>\n";
-        echo $this->render_node_toolbar();
-        echo "        </div>\n";
-        echo "        <div id=\"midcom_services_toolbars_topic-host\" class=\"item\">\n";
-        echo "            <span class=\"midcom_services_toolbars_topic_title host\">". midcom::get()->i18n->get_string('host', 'midcom') . "</span>\n";
-        echo $this->render_host_toolbar();
-        echo "        </div>\n";
-        echo "        <div id=\"midcom_services_toolbars_topic-help\" class=\"item\">\n";
-        echo "            <span class=\"midcom_services_toolbars_topic_title help\">". midcom::get()->i18n->get_string('help', 'midcom.admin.help') . "</span>\n";
-        echo $this->render_help_toolbar();
-        echo "        </div>\n";
-        echo "    </div>\n";
         if ($enable_drag)
         {
             echo "     <div class=\"dragbar\"></div>\n";
