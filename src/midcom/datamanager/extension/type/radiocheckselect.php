@@ -48,12 +48,4 @@ class radiocheckselect extends ChoiceType
     {
         return 'radiocheckselect';
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getParent()
-    {
-        return 'choice';
-    }
 }
