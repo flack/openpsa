@@ -252,6 +252,11 @@ class form extends base
         return $string . '</select>';
     }
 
+    public function radiocheckselect_widget(FormView $view, array $data)
+    {
+        return $this->choice_widget_expanded($view, $data);
+    }
+
     public function choice_widget_expanded(FormView $view, array $data)
     {
     	$string = '<fieldset ' . $this->renderer->block($view, 'widget_container_attributes') . '>';
