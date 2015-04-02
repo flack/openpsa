@@ -20,9 +20,9 @@ use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Validator\Constraints\Count;
 
 /**
- * Experimental downloads type
+ * Experimental images type
  */
-class downloads extends CollectionType
+class images extends CollectionType
 {
     /**
      * {@inheritdoc}
@@ -36,7 +36,7 @@ class downloads extends CollectionType
         	'allow_delete' => true,
         	'prototype' => true,
         	'prototype_name' => '__name__',
-        	'type' => 'attachment',
+        	'type' => 'image',
         	'options' => array('required' => false), //@todo no idea why this is necessary
         	'delete_empty' => true,
         	'error_bubbling' => false
@@ -80,7 +80,7 @@ class downloads extends CollectionType
     	parent::buildForm($builder, $options);
 
         $builder->addViewTransformer(new transformer($options));
-        $builder->addEventSubscriber(new ResizeFormListener('attachment'));
+        $builder->addEventSubscriber(new ResizeFormListener('image'));
 
         $head = midcom::get()->head;
         $head->enable_jquery();
@@ -101,7 +101,7 @@ class downloads extends CollectionType
      */
     public function getName()
     {
-        return 'downloads';
+        return 'images';
     }
 
     /**

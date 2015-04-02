@@ -11,14 +11,15 @@ use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\Form\AbstractType;
 use midcom\datamanager\extension\helper;
 use midcom;
+use DateTime;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use midcom\datamanager\extension\transformer\blobs as transformer;
 
 /**
- * Experimental photo type
+ * Experimental image type
  */
-class photo extends AbstractType
+class image extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -32,7 +33,7 @@ class photo extends AbstractType
                 $widget_defaults = array
                 (
                     'map_action_elements' => false,
-                    'show_title' => false
+                    'show_title' => true
                 );
                 return helper::resolve_options($widget_defaults, $value);
             },
@@ -44,7 +45,6 @@ class photo extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->addViewTransformer(new transformer($options));
         $builder->add('file', 'file');
         if ($options['widget_config']['show_title'])
         {
@@ -58,6 +58,6 @@ class photo extends AbstractType
      */
     public function getName()
     {
-        return 'photo';
+        return 'image';
     }
 }

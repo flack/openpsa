@@ -117,6 +117,16 @@ class form extends base
         return $string . '</div>';
     }
 
+    public function image_row(FormView $view, array $data)
+    {
+        $string = '<fieldset' . $this->renderer->block($view, 'widget_container_attributes') . '>';
+        $string .= '<legend>';
+        $string .= (!empty($data['value']['identifier'])) ? $data['value']['filename'] : 'New file';
+        $string .= '</legend>';
+        $string .= $this->renderer->widget($view);
+        return $string . '</fieldset>';
+    }
+
     public function attachment_row(FormView $view, array $data)
     {
         $string = '<fieldset' . $this->renderer->block($view, 'widget_container_attributes') . '>';
@@ -320,6 +330,39 @@ class form extends base
         return $string . '</fieldset>';
     }
 
+    public function image_widget(FormView $view, array $data)
+    {
+        $string = '<div' . $this->renderer->block($view, 'widget_container_attributes') . '>';
+        $string .= '<table><tr><td>';
+        if (!empty($data['value']['thumbnail']))
+        {
+            $string .= '<img src="' . $data['value']['thumbnail']['url'] . '">';
+        }
+        $string .= '</td><td>';
+        if (!empty($data['value']))
+        {
+            if (   $data['value']['size_x']
+                && $data['value']['size_y'])
+            {
+                $size = "{$data['value']['size_x']}x{$data['value']['size_y']}";
+            }
+            else
+            {
+                $size = 'unknown';
+            }
+            $string .= "<div title=\"{$data['value']['guid']}\"><a href='{$data['value']['url']}' target='_new'>{$data['value']['filename']}:</a>
+            {$size}, {$data['value']['formattedsize']}</div>";
+        }
+
+        $string .= $this->renderer->widget($data['form']['file']);
+        if (array_key_exists('title', $view->children))
+        {
+            $string .= $this->renderer->widget($view->children['title']);
+        }
+
+        return $string . '</td></tr></table></div>';
+    }
+
     public function photo_widget(FormView $view, array $data)
     {
         $string = '<div' . $this->renderer->block($view, 'widget_container_attributes') . '>';
@@ -348,9 +391,18 @@ class form extends base
             }
             $string .= '</ul>';
         }
-        $string .= $this->renderer->widget($data['form']['photo']);
+        $string .= $this->renderer->widget($data['form']['file']);
+        if (array_key_exists('title', $view->children))
+        {
+            $string .= $this->renderer->widget($view->children['title']);
+        }
 
         return $string . '</td></tr></table></div>';
+    }
+
+    public function images_widget(FormView $view, array $data)
+    {
+        return $this->downloads_widget($view, $data);
     }
 
     public function downloads_widget(FormView $view, array $data)
@@ -358,7 +410,7 @@ class form extends base
     	$view->vars['attr']['data-prototype'] = $this->escape($this->renderer->row($view->vars['prototype']));
     	$view->vars['attr']['data-max-count'] = $view->vars['max_count'];
     	$string = $this->renderer->widget($data['form'], $view->vars);
-    	return $string . $this->jsinit('init_downloads("' . $view->vars['id'] . '");');
+    	return $string . $this->jsinit('init_subform("' . $view->vars['id'] . '");');
     }
 
     public function submit_widget(FormView $view, array $data)

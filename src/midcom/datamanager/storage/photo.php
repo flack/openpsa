@@ -27,14 +27,14 @@ class photo extends blobs
         }
 
         $existing = $this->load();
-        if (!empty($this->value['photo']))
+        if (!empty($this->value['file']))
         {
-            $this->convert_to_web_type($this->value['photo']);
-            $attachment = $this->get_attachment($this->value['photo'], $existing, 'archival');
-            $filename = midcom_db_attachment::safe_filename($this->value['photo']['name'], true);
+            $this->convert_to_web_type($this->value['file']);
+            $attachment = $this->get_attachment($this->value['file'], $existing, 'archival');
+            $filename = midcom_db_attachment::safe_filename($this->value['file']['name'], true);
             $attachment->name = 'archival_' . $filename;
-            $attachment->mimetype = $this->value['photo']['type'];
-            if (!$attachment->copy_from_file($this->value['photo']['tmp_name']))
+            $attachment->mimetype = $this->value['file']['type'];
+            if (!$attachment->copy_from_file($this->value['file']['tmp_name']))
             {
                 throw new midcom_error('Failed to copy attachment');
             }
@@ -50,7 +50,7 @@ class photo extends blobs
             {
                 foreach ($this->config['type_config']['derived_images'] as $identifier => $filter_chain)
                 {
-                    $derived = $this->get_attachment($this->value['photo'], $existing, $identifier);
+                    $derived = $this->get_attachment($this->value['file'], $existing, $identifier);
                     $derived->name = $identifier . '_' . $filename;
                     $this->apply_filter($attachment, $filter_chain, $derived);
                     $this->set_imagedata($derived);

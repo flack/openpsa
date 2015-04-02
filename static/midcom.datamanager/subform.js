@@ -1,4 +1,4 @@
-function init_downloads(id)
+function init_subform(id)
 {
     var container = $('#' + id),
         delete_button = $('<button class="remove-item">-</button>'),

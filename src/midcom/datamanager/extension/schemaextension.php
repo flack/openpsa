@@ -23,6 +23,8 @@ class schemaextension extends AbstractExtension
             new type\autocomplete,
             new type\codemirror,
             new type\downloads,
+            new type\image,
+            new type\images,
             new type\jsdate,
             new type\photo,
             new type\radiocheckselect,
