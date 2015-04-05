@@ -14,7 +14,7 @@ use midgard_blob;
 /**
  * Experimental storage class
  */
-class photo extends blobs
+class photo extends images
 {
     /**
      * {@inheritdoc}
@@ -45,7 +45,7 @@ class photo extends blobs
             }
 
             $this->set_imagedata($attachment);
-            $map = array('archival' => $attachment->guid);
+            $this->map = array('archival' => $attachment);
             if (!empty($this->config['type_config']['derived_images']))
             {
                 foreach ($this->config['type_config']['derived_images'] as $identifier => $filter_chain)
@@ -54,10 +54,10 @@ class photo extends blobs
                     $derived->name = $identifier . '_' . $filename;
                     $this->apply_filter($attachment, $filter_chain, $derived);
                     $this->set_imagedata($derived);
-                    $map[$identifier] = $derived->guid;
+                    $this->map[$identifier] = $derived;
                 }
             }
-            return $this->save_attachment_list($map);
+            return $this->save_attachment_list();
         }
         return true;
     }
@@ -69,19 +69,6 @@ class photo extends blobs
             return $existing[$identifier]['object'];
         }
         return $this->create_attachment($data);
-    }
-
-    protected function set_imagedata(midcom_db_attachment $attachment)
-    {
-        $blob = new midgard_blob($attachment->__object);
-        $path = $blob->get_path();
-
-        if ($data = @getimagesize($path))
-        {
-            $attachment->set_parameter('midcom.helper.datamanager2.type.blobs', 'size_x', $data[0]);
-            $attachment->set_parameter('midcom.helper.datamanager2.type.blobs', 'size_y', $data[1]);
-            $attachment->set_parameter('midcom.helper.datamanager2.type.blobs', 'size_line', $data[3]);
-        }
     }
 
     /**

@@ -334,30 +334,33 @@ class form extends base
     {
         $string = '<div' . $this->renderer->block($view, 'widget_container_attributes') . '>';
         $string .= '<table><tr><td>';
-        if (!empty($data['value']['thumbnail']))
-        {
-            $string .= '<img src="' . $data['value']['thumbnail']['url'] . '">';
-        }
-        $string .= '</td><td>';
+
         if (!empty($data['value']))
         {
+            $preview_image = $view->vars['value']['url'];
+            if (!empty($view->vars['value']['thumbnail']))
+            {
+                $preview_image = $view->vars['value']['thumbnail']['url'];
+            }
+            $string .= '<a href="' . $view->vars['value']['url'] . '" target="_new"><img src="' . $preview_image . '" width="75">';
+
             if (   $data['value']['size_x']
                 && $data['value']['size_y'])
             {
-                $size = "{$data['value']['size_x']}x{$data['value']['size_y']}";
+                $size = "{$data['value']['size_x']}&times;{$data['value']['size_y']}";
             }
             else
             {
                 $size = 'unknown';
             }
-            $string .= "<div title=\"{$data['value']['guid']}\"><a href='{$data['value']['url']}' target='_new'>{$data['value']['filename']}:</a>
-            {$size}, {$data['value']['formattedsize']}</div>";
+            $string .= "<br><span title=\"{$data['value']['guid']}\">{$size}, {$data['value']['formattedsize']}</span></a>";
         }
 
-        $string .= $this->renderer->widget($data['form']['file']);
-        if (array_key_exists('title', $view->children))
+        $string .= '</td><td>';
+
+        foreach ($view->children as $child)
         {
-            $string .= $this->renderer->widget($view->children['title']);
+            $string .= $this->renderer->row($child);
         }
 
         return $string . '</td></tr></table></div>';

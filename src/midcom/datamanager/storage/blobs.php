@@ -18,6 +18,12 @@ use midcom;
 class blobs extends delayed
 {
     /**
+     *
+     * @var midcom_db_attachment[]
+     */
+    protected $map = array();
+
+    /**
      * {@inheritdoc}
      */
     public function load()
@@ -72,8 +78,8 @@ class blobs extends delayed
      */
     public function save()
     {
-    	$map = array();
-    	$existing = $this->load();
+        $this->map = array();
+        $existing = $this->load();
 
         if (!empty($this->value))
         {
@@ -96,51 +102,50 @@ class blobs extends delayed
                     }
                     $attachment = $this->create_attachment($data['file']);
                 }
-            	$title = null;
-            	if (array_key_exists('title', $data))
-            	{
-            		$title = $data['title'];
-            	}
-            	if (!empty($data['file']))
-            	{
-                	$filename = midcom_db_attachment::safe_filename($data['file']['name'], true);
-                	$attachment->name = $filename;
-                	$attachment->title = ($title !== null) ? $title : $data['file']['name'];
-                	$attachment->mimetype = $guesser->guess($data['file']['tmp_name']);
+                $title = null;
+                if (array_key_exists('title', $data))
+                {
+                    $title = $data['title'];
+                }
+                if (!empty($data['file']))
+                {
+                    $filename = midcom_db_attachment::safe_filename($data['file']['name'], true);
+                    $attachment->name = $filename;
+                    $attachment->title = ($title !== null) ? $title : $data['file']['name'];
+                    $attachment->mimetype = $guesser->guess($data['file']['tmp_name']);
                     if (!$attachment->copy_from_file($data['file']['tmp_name']))
                     {
                         throw new midcom_error('Failed to copy attachment: ' . midcom_connection::get_error_string());
                     }
-            	}
-            	// No file upload, only title change
-            	else if ($attachment->title != $title)
-            	{
-            	    $attachment->title = $title;
-            	    $attachment->update();
-            	}
-                $map[$identifier] = $attachment->guid;
+                }
+                // No file upload, only title change
+                else if ($attachment->title != $title)
+                {
+                    $attachment->title = $title;
+                    $attachment->update();
+                }
+                $this->map[$identifier] = $attachment;
             }
         }
         //delete attachments which are no longer in map
-        foreach (array_diff_key($existing, $map) as $attachment)
+        foreach (array_diff_key($existing, $this->map) as $attachment)
         {
-        	$attachment['object']->delete();
+            $attachment['object']->delete();
         }
 
-        return $this->save_attachment_list($map);
+        return $this->save_attachment_list();
     }
 
     /**
      *
-     * @param array $map
      * @return boolean
      */
-    protected function save_attachment_list(array $map)
+    protected function save_attachment_list()
     {
         $list = array();
-        foreach ($map as $identifier => $guid)
+        foreach ($this->map as $identifier => $attachment)
         {
-            $list[] = $identifier . ':' . $guid;
+            $list[] = $identifier . ':' . $attachment->guid;
         }
         return $this->object->set_parameter('midcom.helper.datamanager2.type.blobs', "guids_{$this->config['name']}", implode(',', $list));
     }
