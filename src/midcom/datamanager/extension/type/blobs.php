@@ -7,12 +7,11 @@ namespace midcom\datamanager\extension\type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use midcom\datamanager\extension\listener\attachment as listener;
 
 /**
  * Experimental attachment type
  */
-class attachment extends AbstractType
+class blobs extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -26,6 +25,6 @@ class attachment extends AbstractType
 
     public function getName()
     {
-        return 'attachment';
+        return 'blobs';
     }
 }

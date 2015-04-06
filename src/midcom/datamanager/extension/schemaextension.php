@@ -19,15 +19,14 @@ class schemaextension extends AbstractExtension
     {
         return array
         (
-            new type\attachment,
             new type\autocomplete,
+            new type\blobs,
             new type\codemirror,
-            new type\downloads,
-            new type\image,
             new type\images,
             new type\jsdate,
             new type\photo,
             new type\radiocheckselect,
+            new type\subform,
             new type\select,
         	new type\tinymce,
             new type\toolbar,

@@ -115,6 +115,16 @@ class schema
             'end_fieldset' => null
         ));
 
+        $normalize_widget = function (Options $options, $value) use ($name)
+        {
+            if (   $value == 'images'
+                || $value == 'downloads')
+            {
+                return 'subform';
+            }
+            return $value;
+        };
+
         $normalize_storage = function (Options $options, $value) use ($name)
         {
             $default = array
@@ -160,7 +170,8 @@ class schema
 
         $resolver->setNormalizers(array
         (
-            'storage' => $normalize_storage
+            'storage' => $normalize_storage,
+            'widget' => $normalize_widget
         ));
 
         return $resolver->resolve($config);

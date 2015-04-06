@@ -117,7 +117,7 @@ class form extends base
         return $string . '</div>';
     }
 
-    public function image_row(FormView $view, array $data)
+    public function images_row(FormView $view, array $data)
     {
         $string = '<fieldset' . $this->renderer->block($view, 'widget_container_attributes') . '>';
         $string .= '<legend>';
@@ -127,7 +127,7 @@ class form extends base
         return $string . '</fieldset>';
     }
 
-    public function attachment_row(FormView $view, array $data)
+    public function blobs_row(FormView $view, array $data)
     {
         $string = '<fieldset' . $this->renderer->block($view, 'widget_container_attributes') . '>';
         $string .= '<legend>';
@@ -330,7 +330,7 @@ class form extends base
         return $string . '</fieldset>';
     }
 
-    public function image_widget(FormView $view, array $data)
+    public function images_widget(FormView $view, array $data)
     {
         $string = '<div' . $this->renderer->block($view, 'widget_container_attributes') . '>';
         $string .= '<table><tr><td>';
@@ -403,12 +403,7 @@ class form extends base
         return $string . '</td></tr></table></div>';
     }
 
-    public function images_widget(FormView $view, array $data)
-    {
-        return $this->downloads_widget($view, $data);
-    }
-
-    public function downloads_widget(FormView $view, array $data)
+    public function subform_widget(FormView $view, array $data)
     {
     	$view->vars['attr']['data-prototype'] = $this->escape($this->renderer->row($view->vars['prototype']));
     	$view->vars['attr']['data-max-count'] = $view->vars['max_count'];
