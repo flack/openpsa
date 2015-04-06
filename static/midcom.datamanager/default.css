@@ -118,15 +118,10 @@ form.datamanager2 fieldset.checkbox input
     vertical-align: top;
 }
 
-form.datamanager2 div.blob_preview,
-form.datamanager2 div.image_preview
+form.datamanager2 .preview-image
 {
-    float: right;
-    width: 180px;
-    padding: 5px;
-    border: 1px solid black;
-    margin: 5px;
-    text-align: center;
+	max-width: 75px;
+	max-height: 75px;
 }
 
 form.datamanager2 div.image_frame

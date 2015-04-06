@@ -337,12 +337,7 @@ class form extends base
 
         if (!empty($data['value']))
         {
-            $preview_image = $view->vars['value']['url'];
-            if (!empty($view->vars['value']['thumbnail']))
-            {
-                $preview_image = $view->vars['value']['thumbnail']['url'];
-            }
-            $string .= '<a href="' . $view->vars['value']['url'] . '" target="_new"><img src="' . $preview_image . '" width="75">';
+            $string .= '<a href="' . $view->vars['value']['url'] . '" target="_new"><img src="' . $view->vars['value']['url'] . '" class="preview-image">';
 
             if (   $data['value']['size_x']
                 && $data['value']['size_y'])
@@ -370,9 +365,18 @@ class form extends base
     {
         $string = '<div' . $this->renderer->block($view, 'widget_container_attributes') . '>';
         $string .= '<table><tr><td>';
-        if (!empty($data['value']['thumbnail']))
+        $preview_url = null;
+        foreach ($data['value'] as $identifier => $info)
         {
-            $string .= '<img src="' . $data['value']['thumbnail']['url'] . '">';
+            $preview_url = $info['url'];
+            if ($identifier == 'thumbnail')
+            {
+                break;
+            }
+        }
+        if (!empty($preview_url))
+        {
+            $string .= '<img src="' . $preview_url . '" class="preview-image">';
         }
         $string .= '</td><td>';
         if (!empty($data['value']))
