@@ -31,9 +31,6 @@ class photo extends images
         {
             $this->convert_to_web_type($this->value['file']);
             $attachment = $this->get_attachment($this->value['file'], $existing, 'archival');
-            $filename = midcom_db_attachment::safe_filename($this->value['file']['name'], true);
-            $attachment->name = 'archival_' . $filename;
-            $attachment->mimetype = $this->value['file']['type'];
             if (!$attachment->copy_from_file($this->value['file']['tmp_name']))
             {
                 throw new midcom_error('Failed to copy attachment');
@@ -51,7 +48,6 @@ class photo extends images
                 foreach ($this->config['type_config']['derived_images'] as $identifier => $filter_chain)
                 {
                     $derived = $this->get_attachment($this->value['file'], $existing, $identifier);
-                    $derived->name = $identifier . '_' . $filename;
                     $this->apply_filter($attachment, $filter_chain, $derived);
                     $this->set_imagedata($derived);
                     $this->map[$identifier] = $derived;
@@ -62,13 +58,28 @@ class photo extends images
         return true;
     }
 
+    /**
+     *
+     * @param array $data
+     * @param array $existing
+     * @param string $identifier
+     * @param \midcom_core_dbaobject
+     */
     protected function get_attachment(array $data, $existing, $identifier)
     {
+        $filename = midcom_db_attachment::safe_filename($identifier . '_' . $data['file']['name'], true);
         if (!empty($existing[$identifier]))
         {
-            return $existing[$identifier]['object'];
+            $attachment = $existing[$identifier]['object'];
+            if ($attachment->name != $filename)
+            {
+                $attachment->name = $this->generate_unique_name($filename);
+            }
+            $attachment->title = $data['file']['name'];
+            $attachment->mimetype = $data['file']['type'];
+            return $attachment;
         }
-        return $this->create_attachment($data);
+        return $this->create_attachment($filename, $data['file']['name'], $data['file']['type']);
     }
 
     /**

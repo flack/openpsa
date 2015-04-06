@@ -8,6 +8,7 @@ namespace midcom\datamanager\storage;
 use Symfony\Component\HttpFoundation\File\MimeType\FileBinaryMimeTypeGuesser;
 use midcom_db_attachment;
 use midcom_helper_misc;
+use midcom_helper_reflector_nameresolver;
 use midcom_error;
 use midcom_connection;
 use midcom;
@@ -86,33 +87,31 @@ class blobs extends delayed
             $guesser = new FileBinaryMimeTypeGuesser;
             foreach ($this->value as $identifier => $data)
             {
-                if (array_key_exists($identifier, $existing))
-                {
-                    $attachment = $existing[$identifier]['object'];
-                }
-                else
-                {
-                    if (empty($data['file']))
-                    {
-                        continue;
-                    }
-                    if (is_integer($identifier))
-                    {
-                        $identifier = md5(time() . $data['file']['name'] . $data['file']['tmp_name']);
-                    }
-                    $attachment = $this->create_attachment($data['file']);
-                }
-                $title = null;
-                if (array_key_exists('title', $data))
-                {
-                    $title = $data['title'];
-                }
+                $attachment = (array_key_exists($identifier, $existing)) ? $existing[$identifier]['object'] : null;
+                $title = (array_key_exists('title', $data)) ? $data['title'] : null;
                 if (!empty($data['file']))
                 {
                     $filename = midcom_db_attachment::safe_filename($data['file']['name'], true);
-                    $attachment->name = $filename;
-                    $attachment->title = ($title !== null) ? $title : $data['file']['name'];
-                    $attachment->mimetype = $guesser->guess($data['file']['tmp_name']);
+                    $title = $title ?: $data['file']['name'];
+                    $mimetype = $guesser->guess($data['file']['tmp_name']);
+                    if (!$attachment)
+                    {
+                        $attachment = $this->create_attachment($filename, $title, $mimetype);
+                        if (is_integer($identifier))
+                        {
+                            $identifier = md5(time() . $data['file']['name'] . $data['file']['tmp_name']);
+                        }
+                    }
+                    else
+                    {
+                        if ($attachment->name != $filename)
+                        {
+                            $filename = $this->generate_unique_name($filename);
+                        }
+                        $attachment->name = $filename;
+                        $attachment->title = $title;
+                        $attachment->mimetype = $mimetype;
+                    }
                     if (!$attachment->copy_from_file($data['file']['tmp_name']))
                     {
                         throw new midcom_error('Failed to copy attachment: ' . midcom_connection::get_error_string());
@@ -134,6 +133,30 @@ class blobs extends delayed
         }
 
         return $this->save_attachment_list();
+    }
+
+    /**
+     * Make sure we have unique filename
+     */
+    protected function generate_unique_name($filename)
+    {
+        $filename = midcom_db_attachment::safe_filename($filename, true);
+        $attachment = new midcom_db_attachment;
+        $attachment->name = $filename;
+        $attachment->parentguid = $this->object->guid;
+
+        $resolver = new midcom_helper_reflector_nameresolver($attachment);
+        if (!$resolver->name_is_unique())
+        {
+            debug_add("Name '{$attachment->name}' is not unique, trying to generate", MIDCOM_LOG_INFO);
+            $ext = '';
+            if (preg_match('/^(.*)(\..*?)$/', $filename, $ext_matches))
+            {
+                $ext = $ext_matches[2];
+            }
+            $filename = $resolver->generate_unique_name('name', $ext);
+        }
+        return $filename;
     }
 
     /**
@@ -181,10 +204,10 @@ class blobs extends delayed
         return $map;
     }
 
-    protected function create_attachment(array $data)
+    protected function create_attachment($filename, $title, $mimetype)
     {
-        $filename = midcom_db_attachment::safe_filename($data['name'], true);
-        $attachment = $this->object->create_attachment($filename, $data['name'], $data['type']);
+        $filename = $this->generate_unique_name($filename);
+        $attachment = $this->object->create_attachment($filename, $title, $mimetype);
         if ($attachment === false)
         {
             throw new midcom_error('Failed to create attachment: ' . \midcom_connection::get_error_string());
