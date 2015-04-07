@@ -168,6 +168,7 @@ class datamanager
         if ($this->renderer === null)
         {
             $this->renderer = new renderer(new engine);
+            $this->renderer->set_l10n($this->schema->get_l10n());
         }
         return $this->renderer;
     }

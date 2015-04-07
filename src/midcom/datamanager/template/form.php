@@ -121,7 +121,7 @@ class form extends base
     {
         $string = '<fieldset' . $this->renderer->block($view, 'widget_container_attributes') . '>';
         $string .= '<legend>';
-        $string .= (!empty($data['value']['identifier'])) ? $data['value']['filename'] : 'New file';
+        $string .= (!empty($data['value']['identifier'])) ? $data['value']['filename'] : $this->renderer->humanize('add new file');
         $string .= '</legend>';
         $string .= $this->renderer->widget($view);
         return $string . '</fieldset>';
@@ -131,7 +131,7 @@ class form extends base
     {
         $string = '<fieldset' . $this->renderer->block($view, 'widget_container_attributes') . '>';
         $string .= '<legend>';
-        $string .= (!empty($data['value']['identifier'])) ? $data['value']['filename'] : 'New file';
+        $string .= (!empty($data['value']['identifier'])) ? $data['value']['filename'] : $this->renderer->humanize('add new file');
         $string .= '</legend>';
 
         $string .= '<div class="attachment-container">';
@@ -346,7 +346,7 @@ class form extends base
             }
             else
             {
-                $size = 'unknown';
+                $size = $this->renderer->humanize('unknown');
             }
             $string .= "<br><span title=\"{$data['value']['guid']}\">{$size}, {$data['value']['formattedsize']}</span></a>";
         }

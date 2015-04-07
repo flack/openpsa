@@ -1,0 +1,7 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---LANGUAGE sv
+
+---STRING add new file
+Lägg till ny fil
+---STRINGEND

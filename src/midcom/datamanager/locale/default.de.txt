@@ -1,0 +1,11 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---LANGUAGE de
+
+---STRING add new file
+Neue Datei hinzufügen
+---STRINGEND
+
+---STRING file
+Datei
+---STRINGEND
