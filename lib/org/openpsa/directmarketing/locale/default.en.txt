@@ -10,8 +10,8 @@
 % of recipients
 ---STRINGEND
 
----STRING %d members
-%d members
+---STRING members
+members
 ---STRINGEND
 
 ---STRING %s has bounced

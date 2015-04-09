@@ -10,8 +10,8 @@
 % vastaanottajista
 ---STRINGEND
 
----STRING %d members
-%d jäsentä
+---STRING members
+jäsentä
 ---STRINGEND
 
 ---STRING %s has bounced

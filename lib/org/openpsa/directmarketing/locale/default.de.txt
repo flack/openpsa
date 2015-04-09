@@ -14,8 +14,8 @@ Anteil Empfänger
 %s war nicht erreichbar 
 ---STRINGEND
 
----STRING %d members
-%d Mitglieder
+---STRING members
+Mitglieder
 ---STRINGEND
 
 ---STRING add
