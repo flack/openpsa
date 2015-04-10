@@ -7,6 +7,7 @@ namespace midcom\datamanager\extension\type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use midcom\datamanager\extension\transformer\blobs as transformer;
 
 /**
  * Experimental attachment type
@@ -18,9 +19,10 @@ class blobs extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-    	$builder->add('title', 'text');
-    	$builder->add('file', 'file');
-    	$builder->add('identifier', 'hidden');
+        $builder->add('title', 'text');
+        $builder->add('file', 'file');
+        $builder->add('identifier', 'hidden');
+        $builder->addViewTransformer(new transformer($options));
     }
 
     public function getName()

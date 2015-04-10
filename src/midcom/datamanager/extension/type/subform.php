@@ -14,7 +14,6 @@ use midcom;
 use DateTime;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
-use midcom\datamanager\extension\transformer\blobs as transformer;
 use Symfony\Component\Form\Extension\Core\EventListener\ResizeFormListener;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Validator\Constraints\Count;
@@ -82,7 +81,6 @@ class subform extends CollectionType
     {
     	parent::buildForm($builder, $options);
 
-        $builder->addViewTransformer(new transformer($options));
         $builder->addEventSubscriber(new ResizeFormListener($options['type']));
 
         $head = midcom::get()->head;

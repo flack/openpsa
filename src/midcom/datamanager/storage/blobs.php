@@ -40,38 +40,15 @@ class blobs extends delayed
         {
             try
             {
-                $results[$identifier] = $this->convert_from_storage(new midcom_db_attachment($guid), $identifier);
+                $results[$identifier] = new midcom_db_attachment($guid);
             }
             catch (midcom_error $e)
             {
                 $e->log();
             }
         }
-        return $results;
-    }
 
-    protected function convert_from_storage(midcom_db_attachment $attachment, $identifier)
-    {
-        $stats = $attachment->stat();
-        return array
-        (
-            'filename' => $attachment->name,
-            'description' => $attachment->title, // for backward-compat (not sure if that's even needed at this juncture..)
-            'title' => $attachment->title,
-            'mimetype' => $attachment->mimetype,
-            'url' => midcom_db_attachment::get_url($attachment),
-            'id' => $attachment->id,
-            'guid' => $attachment->guid,
-            'filesize' => $stats[7],
-            'formattedsize' => midcom_helper_misc::filesize_to_string($stats[7]),
-            'lastmod' => $stats[9],
-            'isoformattedlastmod' => strftime('%Y-%m-%d %T', $stats[9]),
-            'size_x' => $attachment->get_parameter('midcom.helper.datamanager2.type.blobs', 'size_x'),
-            'size_y' => $attachment->get_parameter('midcom.helper.datamanager2.type.blobs', 'size_y'),
-            'size_line' => $attachment->get_parameter('midcom.helper.datamanager2.type.blobs', 'size_line'),
-            'object' => $attachment,
-            'identifier' => $identifier
-        );
+        return $results;
     }
 
     /**
@@ -87,7 +64,7 @@ class blobs extends delayed
             $guesser = new FileBinaryMimeTypeGuesser;
             foreach ($this->value as $identifier => $data)
             {
-                $attachment = (array_key_exists($identifier, $existing)) ? $existing[$identifier]['object'] : null;
+                $attachment = (array_key_exists($identifier, $existing)) ? $existing[$identifier] : null;
                 $title = (array_key_exists('title', $data)) ? $data['title'] : null;
                 if (!empty($data['file']))
                 {
@@ -129,7 +106,7 @@ class blobs extends delayed
         //delete attachments which are no longer in map
         foreach (array_diff_key($existing, $this->map) as $attachment)
         {
-            $attachment['object']->delete();
+            $attachment->delete();
         }
 
         return $this->save_attachment_list();

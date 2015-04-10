@@ -53,6 +53,7 @@ class photo extends images
                     $this->map[$identifier] = $derived;
                 }
             }
+
             return $this->save_attachment_list();
         }
         return true;
@@ -67,19 +68,19 @@ class photo extends images
      */
     protected function get_attachment(array $data, $existing, $identifier)
     {
-        $filename = midcom_db_attachment::safe_filename($identifier . '_' . $data['file']['name'], true);
+        $filename = midcom_db_attachment::safe_filename($identifier . '_' . $data['name'], true);
         if (!empty($existing[$identifier]))
         {
-            $attachment = $existing[$identifier]['object'];
+            $attachment = $existing[$identifier];
             if ($attachment->name != $filename)
             {
                 $attachment->name = $this->generate_unique_name($filename);
             }
-            $attachment->title = $data['file']['name'];
-            $attachment->mimetype = $data['file']['type'];
+            $attachment->title = $data['name'];
+            $attachment->mimetype = $data['type'];
             return $attachment;
         }
-        return $this->create_attachment($filename, $data['file']['name'], $data['file']['type']);
+        return $this->create_attachment($filename, $data['name'], $data['type']);
     }
 
     /**

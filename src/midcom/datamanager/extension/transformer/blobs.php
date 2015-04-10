@@ -14,7 +14,7 @@ use midcom_helper_misc;
  */
 class blobs implements DataTransformerInterface
 {
-    private $config;
+    protected $config;
 
     public function __construct(array $config)
     {
@@ -28,44 +28,54 @@ class blobs implements DataTransformerInterface
             return;
         }
 
-        $result = array();
-        foreach ($input as $identifier => $attachment)
+        if (is_array($input))
         {
-            if ($attachment === null)
+            //This happens when there is a form validation failure
+            if (!empty($input['filename']))
             {
-                //@todo Delete?
-                continue;
+                //This is already transformed viewData from the parent object
+                return $input;
             }
-            if (!empty($attachment['object']))
-            {
-                $result[$identifier] = $attachment;
-                continue;
-            }
-        	$title = null;
-        	if (array_key_exists('title', $attachment))
-        	{
-        		//@todo Is this really the best we can do?
-        		$title = $attachment['title'];
-        		$attachment = $attachment['file'];
-        	}
-        	if ($attachment)
-        	{
-        	    $result[$identifier] = $this->transform_nonpersistent($attachment, $identifier, $title);
-        	}
+            return $this->transform_nonpersistent($input);
         }
-        return $result;
+
+        return $this->transform_persistent($input);
     }
 
-    protected function transform_nonpersistent(array $data, $identifier, $title = null)
+    protected function transform_persistent(midcom_db_attachment $attachment)
     {
-    	$title = ($title !== null) ? $title : $data['name'];
-        $stat = stat($data['tmp_name']);
+        $stats = $attachment->stat();
         return array
         (
-            'filename' => $data['name'],
+            'filename' => $attachment->name,
+            'description' => $attachment->title, // for backward-compat (not sure if that's even needed at this juncture..)
+            'title' => $attachment->title,
+            'mimetype' => $attachment->mimetype,
+            'url' => midcom_db_attachment::get_url($attachment),
+            'id' => $attachment->id,
+            'guid' => $attachment->guid,
+            'filesize' => $stats[7],
+            'formattedsize' => midcom_helper_misc::filesize_to_string($stats[7]),
+            'lastmod' => $stats[9],
+            'isoformattedlastmod' => strftime('%Y-%m-%d %T', $stats[9]),
+            'size_x' => $attachment->get_parameter('midcom.helper.datamanager2.type.blobs', 'size_x'),
+            'size_y' => $attachment->get_parameter('midcom.helper.datamanager2.type.blobs', 'size_y'),
+            'size_line' => $attachment->get_parameter('midcom.helper.datamanager2.type.blobs', 'size_line'),
+            'object' => $attachment,
+            //'identifier' => $identifier
+        );
+    }
+
+    protected function transform_nonpersistent(array $data)
+    {
+        $title = (!empty($data['title'])) ? $data['title'] : $data['file']['name'];
+        $stat = stat($data['file']['tmp_name']);
+        return array
+        (
+            'filename' => $data['file']['name'],
             'description' => $title,
             'title' => $title,
-            'mimetype' => $data['type'],
+            'mimetype' => $data['file']['type'],
             'url' => '',
             'id' => 0,
             'guid' => '',
@@ -77,7 +87,7 @@ class blobs implements DataTransformerInterface
             'size_y' => '',
             'size_line' => '',
             'object' => null,
-            'identifier' => $identifier
+            'identifier' => $data['identifier']
         );
     }
 

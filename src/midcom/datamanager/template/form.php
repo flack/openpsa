@@ -131,12 +131,12 @@ class form extends base
     {
         $string = '<fieldset' . $this->renderer->block($view, 'widget_container_attributes') . '>';
         $string .= '<legend>';
-        $string .= (!empty($data['value']['identifier'])) ? $data['value']['filename'] : $this->renderer->humanize('add new file');
+        $string .= (!empty($data['value']['filename'])) ? $data['value']['filename'] : $this->renderer->humanize('add new file');
         $string .= '</legend>';
 
         $string .= '<div class="attachment-container">';
         $string .= '<div class="attachment-preview">';
-        if (!empty($data['value']['identifier']))
+        if (!empty($data['value']['filename']))
         {
             $icon = \midcom_helper_misc::get_mime_icon($data['value']['mimetype']);
 

@@ -10,6 +10,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\Form\AbstractType;
 use midcom\datamanager\extension\helper;
+use midcom\datamanager\extension\transformer\blobs as transformer;
 use midcom;
 use DateTime;
 use Symfony\Component\Form\FormInterface;
@@ -50,6 +51,7 @@ class images extends AbstractType
             $builder->add('title', 'text');
         }
         $builder->add('identifier', 'hidden', array('data' => 'file'));
+        $builder->addViewTransformer(new transformer($options));
     }
 
     /**

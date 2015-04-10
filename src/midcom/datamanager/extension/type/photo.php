@@ -13,7 +13,7 @@ use midcom\datamanager\extension\helper;
 use midcom;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
-use midcom\datamanager\extension\transformer\blobs as transformer;
+use midcom\datamanager\extension\transformer\photo as transformer;
 
 /**
  * Experimental photo type
