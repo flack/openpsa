@@ -17,7 +17,6 @@ use midcom_error;
 use midcom_connection;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
-use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
  * Experimental autocomplete type

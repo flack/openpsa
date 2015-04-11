@@ -41,7 +41,6 @@ class tinymce extends TextareaType
             $value['rows'] = !empty($options['widget_config']['height']) ? $options['widget_config']['height'] : 6;
             $value['cols'] = !empty($options['widget_config']['width']) ? $options['widget_config']['width'] : 50;
 
-
             return $value;
         };
 

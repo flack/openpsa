@@ -14,6 +14,7 @@ use midcom;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use midcom\datamanager\extension\transformer\photo as transformer;
+use midcom\datamanager\validation\photo as constraint;
 
 /**
  * Experimental photo type
@@ -25,6 +26,10 @@ class photo extends AbstractType
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
+        $resolver->setDefaults(array
+        (
+            'error_bubbling' => false
+        ));
         $resolver->setNormalizers(array
         (
             'widget_config' => function (Options $options, $value)
@@ -36,6 +41,14 @@ class photo extends AbstractType
                 );
                 return helper::resolve_options($widget_defaults, $value);
             },
+            'constraints' => function (Options $options, $value)
+            {
+                if ($options['required'])
+                {
+                    return array(new constraint());
+                }
+                return array();
+            }
         ));
     }
 
@@ -45,7 +58,7 @@ class photo extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->addViewTransformer(new transformer($options));
-        $builder->add('file', 'file');
+        $builder->add('file', 'file', array('required' => false));
         if ($options['widget_config']['show_title'])
         {
             $builder->add('title', 'text');
