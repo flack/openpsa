@@ -156,7 +156,8 @@ class form extends base
     {
         $type = isset($data['type']) ? $data['type'] : 'text';
         if (   $type == 'text'
-            || $type == 'password')
+            || $type == 'password'
+            || $type == 'email')
         {
             $view->vars['attr']['class'] = 'shorttext';
         }
@@ -184,6 +185,11 @@ class form extends base
     public function hidden_widget(FormView $view, array $data)
     {
          return $this->renderer->block($view, 'form_widget_simple', array('type' => isset($data['type']) ? $data['type'] : "hidden"));
+    }
+
+    public function email_widget(FormView $view, array $data)
+    {
+         return $this->renderer->block($view, 'form_widget_simple', array('type' => isset($data['type']) ? $data['type'] : "email"));
     }
 
     public function autocomplete_widget(FormView $view, array $data)
