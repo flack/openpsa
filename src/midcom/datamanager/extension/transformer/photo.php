@@ -32,7 +32,7 @@ class photo extends blobs
                 //This is during validation errors
                 $result[$key] = $this->transform_persistent($value['object']);
             }
-            else
+            else if ($value !== null)
             {
                 $result[$key] = $this->transform_nonpersistent(array('file' => $value, 'identifier' => 'archival'));
             }

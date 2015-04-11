@@ -68,6 +68,10 @@ class blobs implements DataTransformerInterface
 
     protected function transform_nonpersistent(array $data)
     {
+        if (empty($data['file']))
+        {
+            return null;
+        }
         $title = (!empty($data['title'])) ? $data['title'] : $data['file']['name'];
         $stat = stat($data['file']['tmp_name']);
         return array
