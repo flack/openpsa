@@ -31,12 +31,12 @@ class subform extends CollectionType
         parent::setDefaultOptions($resolver);
         $resolver->setDefaults(array
         (
-        	'allow_add' => true,
-        	'allow_delete' => true,
-        	'prototype' => true,
-        	'prototype_name' => '__name__',
-        	'delete_empty' => true,
-        	'error_bubbling' => false
+            'allow_add' => true,
+            'allow_delete' => true,
+            'prototype' => true,
+            'prototype_name' => '__name__',
+            'delete_empty' => true,
+            'error_bubbling' => false
         ));
         $resolver->setNormalizers(array
         (
@@ -55,20 +55,20 @@ class subform extends CollectionType
             },
             'constraints' => function (Options $options, $value)
             {
-            	$validation = array();
-            	if ($options['type_config']['max_count'] > 0)
-            	{
-            		$validation['max'] = $options['type_config']['max_count'];
-            	}
-            	if ($options['required'])
-            	{
-            		$validation['min'] = 1;
-            	}
-            	if (!empty($validation))
-            	{
-            		return array(new Count($validation));
-            	}
-            	return $validation;
+                $validation = array();
+                if ($options['type_config']['max_count'] > 0)
+                {
+                    $validation['max'] = $options['type_config']['max_count'];
+                }
+                if ($options['required'])
+                {
+                    $validation['min'] = 1;
+                }
+                if (!empty($validation))
+                {
+                    return array(new Count($validation));
+                }
+                return $validation;
             },
             'options' => function (Options $options, $value)
             {
@@ -77,6 +77,14 @@ class subform extends CollectionType
                     'required' => false, //@todo no idea why this is necessary
                     'widget_config' => $options['widget_config']
                 );
+            },
+            'widget_config' => function (Options $options, $value)
+            {
+                if (!array_key_exists('sortable', $value))
+                {
+                    $value['sortable'] = false;
+                }
+                return $value;
             }
         ));
     }
@@ -86,12 +94,20 @@ class subform extends CollectionType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-    	parent::buildForm($builder, $options);
+        parent::buildForm($builder, $options);
 
         $builder->addEventSubscriber(new ResizeFormListener($options['type'], array('widget_config' => $options['widget_config'])));
 
         $head = midcom::get()->head;
         $head->enable_jquery();
+        if ($options['widget_config']['sortable'])
+        {
+            $head->add_jquery_ui_theme(array('sortable'));
+            $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/core.min.js');
+            $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/widget.min.js');
+            $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/mouse.min.js');
+            $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/sortable.min.js');
+        }
         $head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.datamanager/subform.js');
     }
 
@@ -100,8 +116,9 @@ class subform extends CollectionType
      */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
-    	parent::buildView($view, $form, $options);
-    	$view->vars['max_count'] = $options['type_config']['max_count'];
+        parent::buildView($view, $form, $options);
+        $view->vars['max_count'] = $options['type_config']['max_count'];
+        $view->vars['sortable'] = ($options['widget_config']['sortable']) ? 'true' : 'false';
     }
 
     /**

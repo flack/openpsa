@@ -61,6 +61,7 @@ class blobs extends delayed
 
         if (!empty($this->value))
         {
+            $counter = 0;
             $guesser = new FileBinaryMimeTypeGuesser;
             foreach ($this->value as $identifier => &$data)
             {
@@ -106,12 +107,29 @@ class blobs extends delayed
                 }
                 $this->map[$identifier] = $attachment;
                 $data['identifier'] = $identifier;
+                if ($this->config['widget_config']['sortable'])
+                {
+                    $attachment->metadata->score = $counter++;
+                    $attachment->update();
+                }
             }
         }
         //delete attachments which are no longer in map
         foreach (array_diff_key($existing, $this->map) as $attachment)
         {
             $attachment->delete();
+        }
+
+        if ($this->config['widget_config']['sortable'])
+        {
+            uasort($this->map, function ($a, $b)
+            {
+                if ($a->metadata->score == $b->metadata->score)
+                {
+                    return strnatcasecmp($a->name, $b->name);
+                }
+                return $b->metadata->score - $a->metadata->score;
+            });
         }
 
         return $this->save_attachment_list();
@@ -148,6 +166,7 @@ class blobs extends delayed
     protected function save_attachment_list()
     {
         $list = array();
+
         foreach ($this->map as $identifier => $attachment)
         {
             $list[] = $identifier . ':' . $attachment->guid;

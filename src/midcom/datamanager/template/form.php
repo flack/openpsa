@@ -275,14 +275,14 @@ class form extends base
 
     public function choice_widget_expanded(FormView $view, array $data)
     {
-    	$string = '<fieldset ' . $this->renderer->block($view, 'widget_container_attributes') . '>';
-    	foreach ($view as $child)
-    	{
-    		$string .= $this->renderer->widget($child);
-    		$string .= $this->renderer->label($child);
-    	}
+        $string = '<fieldset ' . $this->renderer->block($view, 'widget_container_attributes') . '>';
+        foreach ($view as $child)
+        {
+            $string .= $this->renderer->widget($child);
+            $string .= $this->renderer->label($child);
+        }
 
-    	return $string . '</fieldset>';
+        return $string . '</fieldset>';
     }
 
     public function choice_widget_options(FormView $view, array $data)
@@ -415,10 +415,10 @@ class form extends base
 
     public function subform_widget(FormView $view, array $data)
     {
-    	$view->vars['attr']['data-prototype'] = $this->escape($this->renderer->row($view->vars['prototype']));
-    	$view->vars['attr']['data-max-count'] = $view->vars['max_count'];
-    	$string = $this->renderer->widget($data['form'], $view->vars);
-    	return $string . $this->jsinit('init_subform("' . $view->vars['id'] . '");');
+        $view->vars['attr']['data-prototype'] = $this->escape($this->renderer->row($view->vars['prototype']));
+        $view->vars['attr']['data-max-count'] = $view->vars['max_count'];
+        $string = $this->renderer->widget($data['form'], $view->vars);
+        return $string . $this->jsinit('init_subform("' . $view->vars['id'] . '", ' . $view->vars['sortable'] . ');');
     }
 
     public function submit_widget(FormView $view, array $data)
