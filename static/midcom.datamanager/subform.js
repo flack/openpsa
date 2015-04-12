@@ -1,4 +1,4 @@
-function init_subform(id)
+function init_subform(id, sortable)
 {
     var container = $('#' + id),
         delete_button = $('<button class="remove-item">-</button>'),
@@ -6,7 +6,7 @@ function init_subform(id)
             .on('click', function(e)
             {
                 e.preventDefault();
-                add_form(container, add_button, delete_button);
+                add_form(container, add_button, delete_button, sortable);
             }),
         index = 0;
 
@@ -35,13 +35,26 @@ function init_subform(id)
         container.append(add_button);
     }
 
+    if (sortable === true)
+    {
+        container
+            .sortable({items: '> fieldset'})
+            .bind('sortupdate', function()
+            {
+                $($(this).find('> .ui-sortable-handle').get().reverse()).each(function(index, element)
+                {
+                    $('#' + $(element).attr('id') + '_score').val(index);
+                })
+            });
+    }
+
     if (container.data('index') === 0)
     {
         add_button.click();
     }
 }
 
-function add_form(container, add_button, delete_button)
+function add_form(container, add_button, delete_button, sortable)
 {
     var prototype = container.data('prototype'),
     index = container.data('index'),
@@ -55,5 +68,10 @@ function add_form(container, add_button, delete_button)
         && container.data('max-count') >= container.find('fieldset').length)
     {
         add_button.detach();
+    }
+    if (sortable === true)
+    {
+        container.sortable('refresh');
+        container.trigger('sortupdate');
     }
 }

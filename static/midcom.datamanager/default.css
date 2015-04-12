@@ -382,6 +382,11 @@ form.datamanager2 table.jquery-enabled thead .deleted img.delete
     background-color: #eff5ff;
 }
 
+form.datamanager2 .ui-sortable > *
+{
+	cursor: move
+}
+
 form.datamanager2 .input .remove-item
 {
     float: right

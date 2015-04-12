@@ -34,7 +34,8 @@ class images extends AbstractType
                 (
                     'map_action_elements' => false,
                     'show_title' => true,
-                    'show_description' => false
+                    'show_description' => false,
+                    'sortable' => false
                 );
                 return helper::resolve_options($widget_defaults, $value);
             },
@@ -56,6 +57,10 @@ class images extends AbstractType
             $builder->add('description', 'text');
         }
         $builder->add('identifier', 'hidden', array('data' => 'file'));
+        if ($options['widget_config']['sortable'])
+        {
+            $builder->add('score', 'hidden');
+        }
         $builder->addViewTransformer(new transformer($options));
     }
 

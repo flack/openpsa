@@ -67,6 +67,7 @@ class blobs implements DataTransformerInterface
             'size_y' => $attachment->get_parameter('midcom.helper.datamanager2.type.blobs', 'size_y'),
             'size_line' => $attachment->get_parameter('midcom.helper.datamanager2.type.blobs', 'size_line'),
             'object' => $attachment,
+            'score' => $attachment->metadata->score
             //'identifier' => $identifier
         );
     }

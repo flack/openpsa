@@ -61,7 +61,6 @@ class blobs extends delayed
 
         if (!empty($this->value))
         {
-            $counter = 0;
             $guesser = new FileBinaryMimeTypeGuesser;
             foreach ($this->value as $identifier => &$data)
             {
@@ -109,7 +108,8 @@ class blobs extends delayed
                 $data['identifier'] = $identifier;
                 if ($this->config['widget_config']['sortable'])
                 {
-                    $attachment->metadata->score = $counter++;
+                    var_dump($data['score'], $data['description']);
+                    $attachment->metadata->score = (int) $data['score'];
                     $attachment->update();
                 }
             }
