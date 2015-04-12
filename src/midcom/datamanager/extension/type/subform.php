@@ -81,7 +81,7 @@ class subform extends CollectionType
     {
     	parent::buildForm($builder, $options);
 
-        $builder->addEventSubscriber(new ResizeFormListener($options['type']));
+        $builder->addEventSubscriber(new ResizeFormListener($options['type'], array('widget_config' => $options['widget_config'])));
 
         $head = midcom::get()->head;
         $head->enable_jquery();

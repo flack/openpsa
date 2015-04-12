@@ -19,9 +19,14 @@ class images extends blobs
         {
             return false;
         }
-        foreach ($this->map as $attachment)
+        foreach ($this->map as $identifier => $attachment)
         {
             $this->set_imagedata($attachment);
+            if (!empty($this->config['widget_config']['show_description']))
+            {
+                $attachment->set_parameter('midcom.helper.datamanager2.type.blobs', 'description', $this->value[$identifier]['description']);
+            }
+
         }
         return true;
     }

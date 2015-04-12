@@ -33,7 +33,8 @@ class images extends AbstractType
                 $widget_defaults = array
                 (
                     'map_action_elements' => false,
-                    'show_title' => true
+                    'show_title' => true,
+                    'show_description' => false
                 );
                 return helper::resolve_options($widget_defaults, $value);
             },
@@ -49,6 +50,10 @@ class images extends AbstractType
         if ($options['widget_config']['show_title'])
         {
             $builder->add('title', 'text');
+        }
+        if ($options['widget_config']['show_description'])
+        {
+            $builder->add('description', 'text');
         }
         $builder->add('identifier', 'hidden', array('data' => 'file'));
         $builder->addViewTransformer(new transformer($options));

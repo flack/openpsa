@@ -45,10 +45,15 @@ class blobs implements DataTransformerInterface
     protected function transform_persistent(midcom_db_attachment $attachment)
     {
         $stats = $attachment->stat();
+        $description = $attachment->title;
+        if (!empty($this->config['widget_config']['show_description']))
+        {
+            $description = $attachment->get_parameter('midcom.helper.datamanager2.type.blobs', 'description');
+        }
         return array
         (
             'filename' => $attachment->name,
-            'description' => $attachment->title, // for backward-compat (not sure if that's even needed at this juncture..)
+            'description' => $description,
             'title' => $attachment->title,
             'mimetype' => $attachment->mimetype,
             'url' => midcom_db_attachment::get_url($attachment),
@@ -73,11 +78,12 @@ class blobs implements DataTransformerInterface
             return null;
         }
         $title = (!empty($data['title'])) ? $data['title'] : $data['file']['name'];
+        $description = (array_key_exists('description', $data)) ? $data['description'] : $title;
         $stat = stat($data['file']['tmp_name']);
         return array
         (
             'filename' => $data['file']['name'],
-            'description' => $title,
+            'description' => $description,
             'title' => $title,
             'mimetype' => $data['file']['type'],
             'url' => '',
