@@ -108,7 +108,6 @@ class blobs extends delayed
                 $data['identifier'] = $identifier;
                 if ($this->config['widget_config']['sortable'])
                 {
-                    var_dump($data['score'], $data['description']);
                     $attachment->metadata->score = (int) $data['score'];
                     $attachment->update();
                 }
