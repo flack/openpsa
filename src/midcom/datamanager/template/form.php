@@ -121,7 +121,7 @@ class form extends base
     {
         $string = '<fieldset' . $this->renderer->block($view, 'widget_container_attributes') . '>';
         $string .= '<legend>';
-        $string .= (!empty($data['value']['identifier'])) ? $data['value']['filename'] : $this->renderer->humanize('add new file');
+        $string .= (!empty($data['value']['filename'])) ? $data['value']['filename'] : $this->renderer->humanize('add new file');
         $string .= '</legend>';
         $string .= $this->renderer->widget($view);
         return $string . '</fieldset>';
