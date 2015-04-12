@@ -205,6 +205,21 @@ class form extends base
         return $string . $this->jsinit($jsinit);
     }
 
+    public function radio_widget(FormView $view, array $data)
+    {
+        $string = '<input type="radio"';
+        $string .= $this->renderer->block($view, 'widget_attributes');
+        if (strlen($data['value']) > 0)
+        {
+            $string .= ' value="' . $data['value'] . '"';
+        }
+        if ($data['checked'])
+        {
+            $string .= 'checked="checked"';
+        }
+        return $string . ' />';
+    }
+
     public function checkbox_widget(FormView $view, array $data)
     {
         $string = '<input type="checkbox"';
