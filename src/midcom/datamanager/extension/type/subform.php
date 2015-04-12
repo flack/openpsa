@@ -35,7 +35,6 @@ class subform extends CollectionType
         	'allow_delete' => true,
         	'prototype' => true,
         	'prototype_name' => '__name__',
-        	'options' => array('required' => false), //@todo no idea why this is necessary
         	'delete_empty' => true,
         	'error_bubbling' => false
         ));
@@ -70,6 +69,14 @@ class subform extends CollectionType
             		return array(new Count($validation));
             	}
             	return $validation;
+            },
+            'options' => function (Options $options, $value)
+            {
+                return array
+                (
+                    'required' => false, //@todo no idea why this is necessary
+                    'widget_config' => $options['widget_config']
+                );
             }
         ));
     }

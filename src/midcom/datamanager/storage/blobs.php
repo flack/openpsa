@@ -62,7 +62,7 @@ class blobs extends delayed
         if (!empty($this->value))
         {
             $guesser = new FileBinaryMimeTypeGuesser;
-            foreach ($this->value as $identifier => $data)
+            foreach ($this->value as $identifier => &$data)
             {
                 $attachment = (array_key_exists($identifier, $existing)) ? $existing[$identifier] : null;
                 $title = (array_key_exists('title', $data)) ? $data['title'] : null;
@@ -105,6 +105,7 @@ class blobs extends delayed
                     $attachment->update();
                 }
                 $this->map[$identifier] = $attachment;
+                $data['identifier'] = $identifier;
             }
         }
         //delete attachments which are no longer in map
