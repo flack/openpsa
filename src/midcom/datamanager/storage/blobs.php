@@ -106,7 +106,7 @@ class blobs extends delayed
                 }
                 $this->map[$identifier] = $attachment;
                 $data['identifier'] = $identifier;
-                if ($this->config['widget_config']['sortable'])
+                if (!empty($this->config['widget_config']['sortable']))
                 {
                     $attachment->metadata->score = (int) $data['score'];
                     $attachment->update();
@@ -119,7 +119,7 @@ class blobs extends delayed
             $attachment->delete();
         }
 
-        if ($this->config['widget_config']['sortable'])
+        if (!empty($this->config['widget_config']['sortable']))
         {
             uasort($this->map, function ($a, $b)
             {
