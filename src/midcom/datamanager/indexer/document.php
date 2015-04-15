@@ -184,7 +184,7 @@ class document extends midcom_services_indexer_document_midcom
                     {
                         //only index the first attachment for now
                         $attachment = array_shift($field->vars['value']);
-                        $att_doc = new \midcom_services_indexer_document_attachment($attachment['object'], $view->vars['value']->get_value());
+                        $att_doc = new \midcom_services_indexer_document_attachment($attachment, $view->vars['value']->get_value());
                         $this->content .= $att_doc->content;
                         $this->abstract .= $att_doc->abstract;
                     }
