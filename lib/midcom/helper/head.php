@@ -252,7 +252,7 @@ class midcom_helper_head
         }
         foreach ($attributes as $key => $val)
         {
-            $string .= ' ' . $key . '="' . $val . '"';
+            $string .= ' ' . $key . '="' . htmlspecialchars($val, ENT_COMPAT) . '"';
         }
         return $string;
     }
