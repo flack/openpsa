@@ -10,6 +10,7 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\Options;
 use midcom;
+use midcom_helper_misc;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use midcom\datamanager\extension\helper;
@@ -65,6 +66,7 @@ class tinymce extends TextareaType
                     'theme' => $options['config']->get('tinymce_default_theme'),
                     'local_config' => '',
                     'use_imagepopup' => true,
+                    'mce_config_snippet' => null
                 );
                 return helper::resolve_options($widget_defaults, $value);
             },
@@ -105,7 +107,7 @@ class tinymce extends TextareaType
         parent::buildView($view, $form, $options);
 
         $schema_name = 'default';
-        $config = \midcom_helper_misc::get_snippet_content_graceful($options['config']->get('tinymce_default_config_snippet'));
+        $config = $this->get_configuration($options);
         $tiny_options = array
         (
             'config' => $config,
@@ -139,9 +141,17 @@ class tinymce extends TextareaType
      *
      * @param string $name
      */
-    private function _get_configuration($name = 'simple')
+    private function get_configuration(array $options)
     {
-        $this->_config->get('tinymce_default_config_snippet');
+        if (!empty($options['widget_config']['mce_config_snippet']))
+        {
+            $config = midcom_helper_misc::get_snippet_content_graceful($options['widget_config']['mce_config_snippet']);
+        }
+        if (empty($config))
+        {
+            $config = midcom_helper_misc::get_snippet_content_graceful($options['config']->get('tinymce_default_config_snippet'));
+        }
+        return $config;
     }
 
     private function _get_snippet($tiny_configuration)
