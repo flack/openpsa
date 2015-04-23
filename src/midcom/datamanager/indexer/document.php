@@ -184,9 +184,19 @@ class document extends midcom_services_indexer_document_midcom
                     {
                         //only index the first attachment for now
                         $attachment = array_shift($field->vars['value']);
-                        $att_doc = new \midcom_services_indexer_document_attachment($attachment, $view->vars['value']->get_value());
-                        $this->content .= $att_doc->content;
-                        $this->abstract .= $att_doc->abstract;
+                        if (   !$attachment instanceof \midcom_db_attachment
+                            && !empty($attachment['object']))
+                        {
+                            //This is the form edit case
+                            //@todo: In create case, nothing is found currently
+                            $attachment = $attachment['object'];
+                        }
+                        if ($attachment instanceof \midcom_db_attachment)
+                        {
+                            $att_doc = new \midcom_services_indexer_document_attachment($attachment, $view->vars['value']->get_value());
+                            $this->content .= $att_doc->content;
+                            $this->abstract .= $att_doc->abstract;
+                        }
                     }
 
                     break;
