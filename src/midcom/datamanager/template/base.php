@@ -102,6 +102,15 @@ abstract class base
         return $this->attributes($attr);
     }
 
+    public function choice_widget(FormView $view, array $data)
+    {
+        if ($data['expanded'])
+        {
+            return $this->renderer->block($view, 'choice_widget_expanded');
+        }
+        return $this->renderer->block($view, 'choice_widget_collapsed');
+    }
+
     public function button_attributes(FormView $view, array $data)
     {
         $attributes = $data['attr'];

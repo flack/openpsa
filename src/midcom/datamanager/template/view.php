@@ -105,6 +105,21 @@ class view extends base
         return implode(', ', $options['preset']);
     }
 
+    public function choice_widget_collapsed(FormView $view, array $data)
+    {
+        if (!empty($data['value']))
+        {
+            foreach ($data['choices'] as $choice)
+            {
+                if ($choice->value === $data['value'])
+                {
+                    return $choice->label;
+                }
+            }
+        }
+        return '';
+    }
+
     public function codemirror_widget(FormView $view, array $data)
     {
         $string = '<textarea ' . $this->renderer->block($view, 'widget_attributes') . '>';
