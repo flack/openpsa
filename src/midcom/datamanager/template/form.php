@@ -462,8 +462,9 @@ class form extends base
         }
         if (!$data['label'])
         {
-            $data['label'] = $this->renderer->humanize($data['name']);
+            $data['label'] = $data['name'];
         }
+        $data['label'] = $this->renderer->humanize($data['label']);
 
         $label_attr = $data['label_attr'];
         if ($data['required'])

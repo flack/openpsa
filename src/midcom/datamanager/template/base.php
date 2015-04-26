@@ -16,7 +16,7 @@ abstract class base
 {
     /**
      *
-     * @var renderer
+     * @var \midcom\datamanager\renderer
      */
     protected $renderer;
 
