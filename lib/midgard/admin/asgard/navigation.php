@@ -76,6 +76,11 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
         }
     }
 
+    /**
+     *
+     * @param midgard_object $object
+     * @return midcom_helper_reflector_tree
+     */
     function &_get_reflector($object)
     {
         if (is_string($object))
