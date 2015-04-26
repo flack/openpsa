@@ -88,7 +88,7 @@ class renderer extends FormRenderer
             return midcom::get()->i18n->get_l10n('midcom')->get($translate_string);
         }
 
-        return parent::humanize($string);
+        return $string;
     }
 
 }
