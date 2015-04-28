@@ -310,7 +310,7 @@ class midcom_services_indexer_solrDocumentFactory
         $this->xml->appendChild($root);
         $query = $this->xml->createElement('query');
         $this->xml->documentElement->appendChild($query);
-        $query->nodeValue = "id:[ * TO * ]";
+        $query->nodeValue = "RI:[ * TO * ]";
         if (!empty($constraint))
         {
             $query->nodeValue .= ' AND ' . $constraint;
