@@ -307,7 +307,7 @@ Passwort
 ---STRINGEND
 
 ---STRING password reset, mail sent.
-Das Passwort wurde zurckgesetzt und an die hinterlegte E-Mail-Adresse verschickt
+Das Passwort wurde zurückgesetzt und an die hinterlegte E-Mail-Adresse verschickt
 ---STRINGEND
 
 ---STRING person %s created
