@@ -175,11 +175,11 @@ implements org_openpsa_widgets_grid_provider_client
 
     private function _load_rules()
     {
-        if (empty($_GET['midcom_helper_datamanager2_dummy_field_rules']))
+        if (empty($_REQUEST['midcom_helper_datamanager2_dummy_field_rules']))
         {
             return $this->_campaign->rules;
         }
-        return org_openpsa_directmarketing_campaign_ruleresolver::parse($_GET['midcom_helper_datamanager2_dummy_field_rules']);
+        return org_openpsa_directmarketing_campaign_ruleresolver::parse($_REQUEST['midcom_helper_datamanager2_dummy_field_rules']);
     }
 
     /**
