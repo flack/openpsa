@@ -9,6 +9,7 @@
 namespace midcom\workflow;
 
 use midcom_helper_toolbar;
+use midcom_connection;
 use midcom;
 
 /**
