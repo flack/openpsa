@@ -621,7 +621,7 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
         {
             return true;
         }
-        $this->_save_image('original', '', true);
+        return $this->_save_image('original', '', true);
     }
 
     /**
