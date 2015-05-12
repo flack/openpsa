@@ -340,14 +340,18 @@ class midcom_services_metadata
                     'content' => $request_metadata['permalink'],
                 )
             );
-            midcom::get()->head->add_meta_head
-            (
-                array
+            $opengraph_image = $view_metadata->object->get_parameter('midcom.helper.metadata', 'opengraph_image');
+            if (mgd_is_guid($opengraph_image))
+            {
+                midcom::get()->head->add_meta_head
                 (
-                    'property' => 'og:image',
-                    'content' => '',
-                )
-            );
+                    array
+                    (
+                        'property' => 'og:image',
+                        'content' => midcom_db_attachment::get_url($opengraph_image),
+                    )
+                );
+            }
             midcom::get()->head->add_meta_head
             (
                 array
