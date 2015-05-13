@@ -84,28 +84,6 @@ class photo extends images
     }
 
     /**
-     * Applies a filter chain
-     *
-     * @param midcom_db_attachment $source The image to apply to
-     * @param string $filterchain The midcom_helper_imagefilter filter chain to apply
-     * @param midcom_db_attachment $target The attachment where the changes should be saved
-     */
-    protected function apply_filter(midcom_db_attachment $source, $filterchain, $target = null)
-    {
-        if ($target === null)
-        {
-            $target = $source;
-        }
-        $filter = new midcom_helper_imagefilter($source);
-        $filter->process_chain($filterchain);
-
-        if (!$filter->write($target))
-        {
-            throw new midcom_error("Failed to update image '{$target->guid}'");
-        }
-    }
-
-    /**
      * Automatically convert the uploaded file to a web-compatible type. Uses
      * only the first image of multi-page uploads (like PDFs). The original_tmpname
      * file is manipulated directly.
