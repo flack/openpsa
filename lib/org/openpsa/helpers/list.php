@@ -16,12 +16,13 @@ class org_openpsa_helpers_list
     private static $_seen = array();
 
     /**
-     * Function for listing groups task/saelsproject contacts are members of
+     * Function for listing groups task/salesproject contacts are members of
      *
      * @param midcom_core_dbaobject $task The task/salesproject we're working with
      * @param string $mode By which property should groups be listed
+     * @param array $contacts Default contacts for nonpersistent objects
      */
-    static function task_groups(midcom_core_dbaobject $task, $mode = 'id')
+    static function task_groups(midcom_core_dbaobject $task, $mode = 'id', array $contacts = array())
     {
         //TODO: Localize something for the empty choice ?
         $ret = array(0 => '');
@@ -35,16 +36,19 @@ class org_openpsa_helpers_list
             self::task_groups_put($ret, $mode, $task->customer);
             midcom::get()->auth->drop_sudo();
         }
-        $task->get_members();
+        if (empty($contacts))
+        {
+            $task->get_members();
+            $contacts = $task->contacts;
+        }
 
-        if (   !is_array($task->contacts)
-            || count($task->contacts) == 0)
+        if (empty($contacts))
         {
             return $ret;
         }
 
         $mc = midcom_db_member::new_collector('metadata.deleted', false);
-        $mc->add_constraint('uid', 'IN', array_keys($task->contacts));
+        $mc->add_constraint('uid', 'IN', array_keys($contacts));
         /* Skip magic groups */
         $mc->add_constraint('gid.name', 'NOT LIKE', '\_\_%');
         $memberships = $mc->get_values('gid');
@@ -53,6 +57,7 @@ class org_openpsa_helpers_list
         {
             self::task_groups_put($ret, $mode, $gid);
         }
+
         reset($ret);
         asort($ret);
         return $ret;
@@ -84,7 +89,6 @@ class org_openpsa_helpers_list
                 break;
             default:
                 debug_add('Mode ' . $mode . ' not supported', MIDCOM_LOG_ERROR);
-                return;
         }
     }
 

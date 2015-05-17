@@ -100,10 +100,10 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
 
         if (!empty($args[0]))
         {
+            $fields =& $this->_schemadb['default']->fields;
             try
             {
                 $customer = new org_openpsa_contacts_group_dba($args[0]);
-                $fields =& $this->_schemadb['default']->fields;
                 $fields['customer']['type_config']['options'] = array(0 => '', $customer->id => $customer->official);
 
                 $this->_defaults['customer'] = $customer->id;
@@ -112,6 +112,7 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
             {
                 $customer = new org_openpsa_contacts_person_dba($args[0]);
                 $this->_defaults['customerContact'] = $customer->id;
+                $fields['customer']['type_config']['options'] = org_openpsa_helpers_list::task_groups(new org_openpsa_sales_salesproject_dba, 'id', array($customer->id => true));
             }
             $this->add_breadcrumb("list/customer/{$customer->guid}/", sprintf($this->_l10n->get('salesprojects with %s'), $customer->get_label()));
         }
