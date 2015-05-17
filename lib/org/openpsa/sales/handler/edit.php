@@ -196,7 +196,7 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
         {
             case 'save':
                 // Relocate to main view
-                return new midcom_response_relocate("salesproject/edit/" . $this->_salesproject->guid . "/");
+                return new midcom_response_relocate("salesproject/" . $this->_salesproject->guid . "/");
 
             case 'cancel':
                 return new midcom_response_relocate('');
