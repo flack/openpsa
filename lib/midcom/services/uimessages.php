@@ -160,7 +160,7 @@ class midcom_services_uimessages
         echo "                    .appendTo('{$this->uimessage_holder}');\n";
         echo "            }\n";
 
-        foreach ($this->_message_stack as $messages)
+        foreach ($this->_message_stack->all() as $messages)
         {
             foreach ($messages as $message)
             {

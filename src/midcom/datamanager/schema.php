@@ -197,11 +197,8 @@ class schema
             return $value;
         };
 
-        $resolver->setNormalizers(array
-        (
-            'storage' => $normalize_storage,
-            'widget' => $normalize_widget
-        ));
+        $resolver->setNormalizer('storage', $normalize_storage);
+        $resolver->setNormalizer('widget', $normalize_widget);
 
         return $resolver->resolve($config);
     }

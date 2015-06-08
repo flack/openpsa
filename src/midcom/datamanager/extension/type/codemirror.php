@@ -6,7 +6,7 @@
 namespace midcom\datamanager\extension\type;
 
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\Options;
 use midcom;
@@ -27,9 +27,9 @@ class codemirror extends TextareaType
     /**
      * {@inheritdoc}
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
-        parent::setDefaultOptions($resolver);
+        parent::configureOptions($resolver);
 
         $map_attr = function (Options $options, $value)
         {
@@ -54,26 +54,23 @@ class codemirror extends TextareaType
             'config' => $get_config
         ));
 
-        $resolver->setNormalizers(array
-        (
-            'widget_config' => function (Options $options, $value)
-            {
-                $widget_defaults = array
-                (
-                    'enabled' => true,
-                    'language' => 'php',
-                );
-                return helper::resolve_options($widget_defaults, $value);
-            },
-            'type_config' => function (Options $options, $value)
-            {
-                $type_defaults = array
-                (
-                    'modes' => array('xml', 'javascript', 'css', 'clike', 'php'),
-                );
-                return helper::resolve_options($type_defaults, $value);
-            },
-        ));
+        $resolver->setNormalizer('widget_config', function (Options $options, $value)
+        {
+            $widget_defaults = array
+            (
+                'enabled' => true,
+                'language' => 'php',
+            );
+            return helper::resolve_options($widget_defaults, $value);
+        });
+        $resolver->setNormalizer('type_config', function (Options $options, $value)
+        {
+            $type_defaults = array
+            (
+                'modes' => array('xml', 'javascript', 'css', 'clike', 'php'),
+            );
+            return helper::resolve_options($type_defaults, $value);
+        });
     }
 
     /**

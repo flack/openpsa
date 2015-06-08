@@ -5,7 +5,7 @@
 
 namespace midcom\datamanager\extension\type;
 
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\Form\AbstractType;
@@ -24,32 +24,29 @@ class photo extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array
         (
             'error_bubbling' => false
         ));
-        $resolver->setNormalizers(array
-        (
-            'widget_config' => function (Options $options, $value)
+        $resolver->setNormalizer('widget_config', function (Options $options, $value)
+        {
+            $widget_defaults = array
+            (
+                'map_action_elements' => false,
+                'show_title' => false
+            );
+            return helper::resolve_options($widget_defaults, $value);
+        });
+        $resolver->setNormalizer('constraints', function (Options $options, $value)
+        {
+            if ($options['required'])
             {
-                $widget_defaults = array
-                (
-                    'map_action_elements' => false,
-                    'show_title' => false
-                );
-                return helper::resolve_options($widget_defaults, $value);
-            },
-            'constraints' => function (Options $options, $value)
-            {
-                if ($options['required'])
-                {
-                    return array(new constraint());
-                }
-                return array();
+                return array(new constraint());
             }
-        ));
+            return array();
+        });
     }
 
     /**

@@ -33,7 +33,7 @@ class dbalistener
         $this->_classes = $classes;
     }
 
-    public function handle_event(dbaevent $event)
+    public function handle_event(dbaevent $event, $name)
     {
         $object = $event->get_object();
         $found = empty($this->_classes);
@@ -59,7 +59,7 @@ class dbalistener
             debug_add("Failed to load the component {$this->_component}: " . $e->getMessage(), MIDCOM_LOG_INFO);
             return;
         }
-        $operation = $this->_operations[$event->getName()];
+        $operation = $this->_operations[$name];
         debug_add("Calling [{$this->_component}]_interface->trigger_watch({$operation}, \$object)");
 
         $interface->trigger_watch($operation, $object);

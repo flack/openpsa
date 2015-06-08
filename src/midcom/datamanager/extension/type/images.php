@@ -5,7 +5,7 @@
 
 namespace midcom\datamanager\extension\type;
 
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\Form\AbstractType;
@@ -24,22 +24,19 @@ class images extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setNormalizers(array
-        (
-            'widget_config' => function (Options $options, $value)
-            {
-                $widget_defaults = array
-                (
-                    'map_action_elements' => false,
-                    'show_title' => true,
-                    'show_description' => false,
-                    'sortable' => false
-                );
-                return helper::resolve_options($widget_defaults, $value);
-            },
-        ));
+        $resolver->setNormalizer('widget_config', function (Options $options, $value)
+        {
+            $widget_defaults = array
+            (
+                'map_action_elements' => false,
+                'show_title' => true,
+                'show_description' => false,
+                'sortable' => false
+            );
+            return helper::resolve_options($widget_defaults, $value);
+        });
     }
 
     /**

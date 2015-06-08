@@ -5,7 +5,7 @@
 
 namespace midcom\datamanager\extension\type;
 
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\Form\AbstractType;
@@ -26,9 +26,9 @@ class subform extends CollectionType
     /**
      * {@inheritdoc}
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
-        parent::setDefaultOptions($resolver);
+        parent::configureOptions($resolver);
         $resolver->setDefaults(array
         (
             'allow_add' => true,
@@ -38,55 +38,52 @@ class subform extends CollectionType
             'delete_empty' => true,
             'error_bubbling' => false
         ));
-        $resolver->setNormalizers(array
-        (
-            'type' => function (Options $options, $value)
+        $resolver->setNormalizer('type', function (Options $options, $value)
+        {
+            return $options['dm2_type'];
+        });
+        $resolver->setNormalizer('type_config', function (Options $options, $value)
+        {
+            $widget_defaults = array
+            (
+                'sortable' => false,
+                'max_count' => 0
+            );
+            return helper::resolve_options($widget_defaults, $value);
+        });
+        $resolver->setNormalizer('constraints', function (Options $options, $value)
+        {
+            $validation = array();
+            if ($options['type_config']['max_count'] > 0)
             {
-                return $options['dm2_type'];
-            },
-            'type_config' => function (Options $options, $value)
-            {
-                $widget_defaults = array
-                (
-                    'sortable' => false,
-                    'max_count' => 0
-                );
-                return helper::resolve_options($widget_defaults, $value);
-            },
-            'constraints' => function (Options $options, $value)
-            {
-                $validation = array();
-                if ($options['type_config']['max_count'] > 0)
-                {
-                    $validation['max'] = $options['type_config']['max_count'];
-                }
-                if ($options['required'])
-                {
-                    $validation['min'] = 1;
-                }
-                if (!empty($validation))
-                {
-                    return array(new Count($validation));
-                }
-                return $validation;
-            },
-            'options' => function (Options $options, $value)
-            {
-                return array
-                (
-                    'required' => false, //@todo no idea why this is necessary
-                    'widget_config' => $options['widget_config']
-                );
-            },
-            'widget_config' => function (Options $options, $value)
-            {
-                if (!array_key_exists('sortable', $value))
-                {
-                    $value['sortable'] = false;
-                }
-                return $value;
+                $validation['max'] = $options['type_config']['max_count'];
             }
-        ));
+            if ($options['required'])
+            {
+                $validation['min'] = 1;
+            }
+            if (!empty($validation))
+            {
+                return array(new Count($validation));
+            }
+            return $validation;
+        });
+        $resolver->setNormalizer('options', function (Options $options, $value)
+        {
+            return array
+            (
+                'required' => false, //@todo no idea why this is necessary
+                'widget_config' => $options['widget_config']
+            );
+        });
+        $resolver->setNormalizer('widget_config', function (Options $options, $value)
+        {
+            if (!array_key_exists('sortable', $value))
+            {
+                $value['sortable'] = false;
+            }
+            return $value;
+        });
     }
 
     /**

@@ -5,7 +5,7 @@
 
 namespace midcom\datamanager\extension\type;
 
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\Form\AbstractType;
@@ -29,38 +29,35 @@ class jsdate extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
-        parent::setDefaultOptions($resolver);
+        parent::configureOptions($resolver);
 
         $resolver->setDefaults(array
         (
             'error_bubbling' => false
         ));
-        $resolver->setNormalizers(array
-        (
-            'widget_config' => function (Options $options, $value)
-            {
-                $widget_defaults = array
-                (
-                    'showOn' => 'both',
-                    'format' => '%Y-%m-%d %H:%M',
-                    'hide_seconds' => true,
-                    'show_time' => true,
-                    'maxyear' => ($options['type_config']['storage_type'] == jsdate::UNIXTIME) ? 2030 : 9999,
-                    'minyear' => ($options['type_config']['storage_type'] == jsdate::UNIXTIME) ? 1970 : 0,
-                );
-                return helper::resolve_options($widget_defaults, $value);
-            },
-            'type_config' => function (Options $options, $value)
-            {
-                $type_defaults = array
-                (
-                    'storage_type' => jsdate::ISO,
-                );
-                return helper::resolve_options($type_defaults, $value);
-            },
-        ));
+        $resolver->setNormalizer('widget_config', function (Options $options, $value)
+        {
+            $widget_defaults = array
+            (
+                'showOn' => 'both',
+                'format' => '%Y-%m-%d %H:%M',
+                'hide_seconds' => true,
+                'show_time' => true,
+                'maxyear' => ($options['type_config']['storage_type'] == jsdate::UNIXTIME) ? 2030 : 9999,
+                'minyear' => ($options['type_config']['storage_type'] == jsdate::UNIXTIME) ? 1970 : 0,
+            );
+            return helper::resolve_options($widget_defaults, $value);
+        });
+        $resolver->setNormalizer('type_config', function (Options $options, $value)
+        {
+            $type_defaults = array
+            (
+                'storage_type' => jsdate::ISO,
+            );
+            return helper::resolve_options($type_defaults, $value);
+        });
     }
 
     /**

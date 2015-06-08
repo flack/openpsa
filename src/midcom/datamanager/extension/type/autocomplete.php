@@ -5,7 +5,7 @@
 
 namespace midcom\datamanager\extension\type;
 
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\Form\AbstractType;
@@ -26,46 +26,43 @@ class autocomplete extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setNormalizers(array
-        (
-            'widget_config' => function (Options $options, $value)
-            {
-                $widget_defaults = array
-                (
-                    'creation_mode_enabled' => false,
-                    'class' => null,
-                    'component' => null,
-                    'id_field' => 'guid',
-                    'constraints' => array(),
-                    'result_headers' => array(),
-                    'orders' => array(),
-                    'auto_wildcards' => 'both',
-                    'creation_handler' => null,
-                    'creation_default_key' => null,
-                    'get_label_for' => null,
-                    'categorize_by_parent_label' => false,
-                    'searchfields' => array(),
-                    'min_chars' => 2,
-                    'sortable' => false
-                );
-                return helper::resolve_options($widget_defaults, $value);
-            },
-            'type_config' => function (Options $options, $value)
-            {
-                $type_defaults = array
-                (
-                    'options' => array(),
-                    'allow_other' => false,
-                    'allow_multiple' => ($options['dm2_type'] == 'mnrelation'),
-                    'require_corresponding_option' => true,
-                    'multiple_storagemode' => 'serialized',
-                    'multiple_separator' => '|'
-                );
-                return helper::resolve_options($type_defaults, $value);
-            },
-        ));
+        $resolver->setNormalizer('widget_config', function (Options $options, $value)
+        {
+            $widget_defaults = array
+            (
+                'creation_mode_enabled' => false,
+                'class' => null,
+                'component' => null,
+                'id_field' => 'guid',
+                'constraints' => array(),
+                'result_headers' => array(),
+                'orders' => array(),
+                'auto_wildcards' => 'both',
+                'creation_handler' => null,
+                'creation_default_key' => null,
+                'get_label_for' => null,
+                'categorize_by_parent_label' => false,
+                'searchfields' => array(),
+                'min_chars' => 2,
+                'sortable' => false
+            );
+            return helper::resolve_options($widget_defaults, $value);
+        });
+        $resolver->setNormalizer('type_config', function (Options $options, $value)
+        {
+            $type_defaults = array
+            (
+                'options' => array(),
+                'allow_other' => false,
+                'allow_multiple' => ($options['dm2_type'] == 'mnrelation'),
+                'require_corresponding_option' => true,
+                'multiple_storagemode' => 'serialized',
+                'multiple_separator' => '|'
+            );
+            return helper::resolve_options($type_defaults, $value);
+        });
     }
 
     /**
