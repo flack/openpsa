@@ -7,13 +7,13 @@
  */
 
 /**
- * Baseclass to use for the component interface in MIDCOM.
+ * Baseclass to use for the component interface in MidCOM.
  *
  * The class uses an event based approach for subclasses to influence the default behavior.
  *
  * The actual implementation should be enough for most smaller components, as
- * the classes behavior is widely configurable. You should not override any of
- * the base classes interface methods if you can avoid it. If you find that an
+ * the class's behavior is widely configurable. You should not override any of
+ * the base class's interface methods if you can avoid it. If you find that an
  * event handler is missing, please contact the MidCOM development team for
  * some advice.
  *
@@ -27,16 +27,16 @@
  * - Inherit the class as {$component}_interface (e.g. net_nehmer_static_interface).
  * - Prepare a component manifest for your component, see the class
  *   midcom_core_manifest for details.
- * - You can change the values of all public members, the defaults should be suitable for cases.
+ * - You can change the values of all public members, the defaults should be suitable for most cases.
  * - The component's data storage area will contain two keys when the initialized
  *   event handler is called: The NAP active id, defaulting to false and stored
  *   as <i>active_leaf</i> and the component's default configuration, stored as
  *   a midcom_helper_configuration object in the key <i>config</i>.
- * - Put your component wide default configuration into $component_dir/config/config.inc.
+ * - Put your component-wide default configuration into $component_dir/config/config.inc.
  *
  * <b>Class parameters</b>
  *
- * The following options can be used to parametrize the components startup and operation.
+ * The following options can be used to parametrize the component's startup and operation.
  * See the individual member documentation for now.
  *
  * - $_autoload_files
@@ -50,7 +50,7 @@
  * This class now does an awful lot of work for you, you just need to configure it
  * to have the right names and places to look for. It is designed to fit in the
  * current component wildlife with as little collateral damage as possible, but as
- * always, a 100% transparent implementation is both not wanted and not sensible.
+ * always, a 100% transparent implementation is neither wanted nor sensible.
  *
  * Actually, you should not need to overwrite any event handler for almost all components
  * I currently know of. Ultimately, this is a proxy class to the actual component code.
@@ -126,7 +126,7 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
      *
      * @var array
      * @deprecated This field is provided mainly for backwards compatibility. Dependencies should be
-     * loaded on-demand by the auoloader instead
+     * loaded on-demand by the autoloader instead
      */
     protected $_autoload_files = Array();
 
@@ -137,7 +137,7 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
      *
      * @var array
      * @deprecated This field is provided mainly for backwards compatibility. Dependencies should be
-     * loaded on-demand by the auoloader instead
+     * loaded on-demand by the autoloader instead
      */
     protected $_autoload_libraries = Array();
 
