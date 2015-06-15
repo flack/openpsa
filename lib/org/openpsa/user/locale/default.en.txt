@@ -231,7 +231,7 @@ Failed to delete group, reason:
 ---STRINGEND
 
 ---STRING failed to update the user account, reason
-failed to update the user account, reason
+Failed to update the user account, reason
 ---STRINGEND
 
 ---STRING firstname
