@@ -32,7 +32,7 @@ foreach ($reports['reports'] as $report)
     }
 
     $entry['index_description'] = $report->description;
-    $entry['description'] = '<a href="' . $prefix . 'hours/edit/' . $report->guid . '">' . $report->get_description() . '</a>';
+    $entry['description'] = '<a href="' . $prefix . 'hours/edit/' . $report->guid . '/">' . $report->get_description() . '</a>';
 
     $entry['reporter'] = $reporters[$report->person];
 
