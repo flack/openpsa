@@ -376,7 +376,7 @@ class form extends base
     public function photo_widget(FormView $view, array $data)
     {
         $string = '<div' . $this->renderer->block($view, 'widget_container_attributes') . '>';
-        $string .= '<table><tr><td>';
+        $string .= '<table class="org_openpsa_table_photo"><tr><td>';
         $preview_url = null;
         foreach ($data['value'] as $identifier => $info)
         {
@@ -415,6 +415,7 @@ class form extends base
         {
             $string .= $this->renderer->widget($view->children['title']);
         }
+        $string .= '<label class="org_openpsa_photo_lable">löschen: ' . $this->renderer->widget($data['form']['delete']) . '</label>';
 
         return $string . '</td></tr></table></div>';
     }

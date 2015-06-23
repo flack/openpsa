@@ -55,6 +55,9 @@ class photo extends images
             }
 
             return $this->save_attachment_list();
+        } else if (!empty($this->value['delete'])){
+            $this->map = array();
+            return $this->save_attachment_list();
         }
         return true;
     }
