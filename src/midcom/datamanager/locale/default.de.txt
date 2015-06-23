@@ -9,3 +9,7 @@ Neue Datei hinzufügen
 ---STRING file
 Datei
 ---STRINGEND
+
+---STRING delete photo
+Löschen
+---STRINGEND

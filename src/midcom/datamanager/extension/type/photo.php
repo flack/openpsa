@@ -61,7 +61,7 @@ class photo extends AbstractType
             $builder->add('title', 'text');
         }
         $builder->add('delete', 'checkbox', array('attr' => array(
-            "class" => "org_openpsa_photo_checkbox"
+            "class" => "midcom_datamanager_photo_checkbox"
         )));
         $builder->add('identifier', 'hidden', array('data' => 'file'));
 
