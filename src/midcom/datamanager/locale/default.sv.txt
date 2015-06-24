@@ -5,3 +5,7 @@
 ---STRING add new file
 Lägg till ny fil
 ---STRINGEND
+
+---STRING delete photo
+Radera
+---STRINGEND

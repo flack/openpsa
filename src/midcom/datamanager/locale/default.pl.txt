@@ -5,3 +5,7 @@
 ---STRING add new file
 Dodaj plik
 ---STRINGEND
+
+---STRING delete photo
+Usunąć
+---STRINGEND
