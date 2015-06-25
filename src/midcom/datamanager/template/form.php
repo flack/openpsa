@@ -416,8 +416,9 @@ class form extends base
             $string .= $this->renderer->widget($view->children['title']);
         }
         $string .= '<label class="midcom_datamanager_photo_lable">' . $this->renderer->humanize('delete photo') . ' ' . $this->renderer->widget($data['form']['delete']) . '</label>';
+        $string .= '</td></tr></table></div>';
 
-        return $string . '</td></tr></table></div>';
+        return $string . $this->jsinit('init_photo_widget("' . $view->vars['id'] .'");');
     }
 
     public function subform_widget(FormView $view, array $data)
