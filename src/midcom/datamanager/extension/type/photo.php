@@ -67,6 +67,8 @@ class photo extends AbstractType
 
         $head = midcom::get()->head;
         $head->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.datamanager/photo.css');
+        $head->enable_jquery();
+        $head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.datamanager/photo.js');
     }
 
     /**

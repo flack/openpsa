@@ -2,6 +2,10 @@
     width: 100%;
 }
 
+.midcom_datamanager_table_photo .preview-image.delete{
+    opacity: 0.5;
+}
+
 .midcom_datamanager_photo_checkbox{
     float:right;
 }
