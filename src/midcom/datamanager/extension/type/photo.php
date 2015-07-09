@@ -62,7 +62,7 @@ class photo extends AbstractType
         }
         $builder->add('delete', 'checkbox', array('attr' => array(
             "class" => "midcom_datamanager_photo_checkbox"
-        )));
+        ), "required" => false ));
         $builder->add('identifier', 'hidden', array('data' => 'file'));
 
         $head = midcom::get()->head;
