@@ -139,7 +139,7 @@ class midcom_exception_handler
         $trace = $e->getTraceAsString();
         $httpcode = $e->getCode();
         $message = $e->getMessage();
-        debug_print_r('Exception occured: ' . $httpcode . ', Message: ' . $message . ', exception trace:', $trace);
+        debug_print_r('Exception occurred: ' . $httpcode . ', Message: ' . $message . ', exception trace:', $trace);
 
         if (!in_array($httpcode, array(MIDCOM_ERROK, MIDCOM_ERRNOTFOUND, MIDCOM_ERRFORBIDDEN, MIDCOM_ERRAUTH, MIDCOM_ERRCRIT)))
         {

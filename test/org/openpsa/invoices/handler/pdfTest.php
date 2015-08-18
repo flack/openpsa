@@ -31,7 +31,7 @@ class org_openpsa_invoices_handler_pdfTest extends openpsa_testcase
         midcom::get()->auth->request_sudo('org.openpsa.invoices');
 
         $topic = $this->create_object('midcom_db_topic', array('component' => 'org.openpsa.invoices'));
-        $topic->set_parameter('org.openpsa.invoices', 'invoice_pdfbuilder_class', 'nonexistant');
+        $topic->set_parameter('org.openpsa.invoices', 'invoice_pdfbuilder_class', 'nonexistent');
 
         $url = $this->run_relocate_handler($topic, array('invoice', 'pdf', self::$_invoice->guid));
         $this->assertEquals('invoice/' . self::$_invoice->guid . '/', $url);

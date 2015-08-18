@@ -909,7 +909,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
 
     private function store_context_guid_map($context, $content_id, $request_id)
     {
-        // non-existant context
+        // non-existent context
         if (!array_key_exists($context, $this->context_guids))
         {
             return;

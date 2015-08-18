@@ -74,7 +74,7 @@
  * - <b>auth_failure_callback:</b> value acceptable by call_user_func() (array or string), callback
  *   function/method to be called on failed login, it must take exactly one argument which is the username as string.
  * - <b>auth_success_callback:</b> value acceptable by call_user_func() (array or string), callback
- *   function/method to be called on succesful login, no values are passed.
+ *   function/method to be called on successful login, no values are passed.
  *
  * <b>Authentication Backend configuration: "simple"</b>
  *

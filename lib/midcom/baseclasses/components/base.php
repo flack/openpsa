@@ -68,7 +68,7 @@ abstract class midcom_baseclasses_components_base
                 $instance = midcom_baseclasses_components_configuration::get($this->_component, 'config');
                 break;
             default:
-                debug_add('Component ' . $this->_component . ' tried to access nonexistant service "' . $field . '"', MIDCOM_LOG_ERROR);
+                debug_add('Component ' . $this->_component . ' tried to access nonexistent service "' . $field . '"', MIDCOM_LOG_ERROR);
                 debug_print_function_stack('Called from here:');
                 return false;
         }

@@ -45,7 +45,7 @@ function ooRemoveChildNodes(node) {
 //Sets element class, prefixing/appending classes as requested.
 function ooAjaxSetClass(element, classstr, append)
 {
-    //Prefixing should always be safe, so we do not check other than existance
+    //Prefixing should always be safe, so we do not check other than existence
     if (document.getElementById(element.id+'_ajaxPrefixClass'))
     {
         element.className = document.getElementById(element.id+'_ajaxPrefixClass').value + ' ' + classstr;

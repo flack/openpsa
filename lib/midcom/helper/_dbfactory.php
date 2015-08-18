@@ -277,7 +277,7 @@ class midcom_helper__dbfactory
      * @param midcom_core_dbaobject $object The DBA object we're working on
      * @return midcom_core_dbaobject|null Parent if found, otherwise null
      * @see get_parent_data()
-     * @todo rethink this, IMO we should trust midgard core's get_parent and then just do the object conversion if neccessary since this can return stale objects and other nastiness
+     * @todo rethink this, IMO we should trust midgard core's get_parent and then just do the object conversion if necessary since this can return stale objects and other nastiness
      */
     public function get_parent(midcom_core_dbaobject $object)
     {

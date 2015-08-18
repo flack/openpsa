@@ -294,7 +294,7 @@ EOT;
     }
 
     /**
-     * This is called during intialization the function is used to
+     * This is called during initialization the function is used to
      * register the schema to a session key
      */
     public function _on_initialize()

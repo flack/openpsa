@@ -19,7 +19,7 @@ class midcom_helper_datamanager2_datamanagerTest extends openpsa_testcase
         $schemadb = midcom_helper_datamanager2_schema::load_database($filename);
         $dm = new midcom_helper_datamanager2_datamanager($schemadb);
 
-        $this->assertFalse($dm->set_schema('nonexistantkey'));
+        $this->assertFalse($dm->set_schema('nonexistentkey'));
         $this->assertTrue($dm->set_schema());
         $this->assertEquals('default', $dm->schema_name);
         $this->assertTrue($dm->set_schema('default'));

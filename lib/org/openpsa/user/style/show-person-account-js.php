@@ -171,7 +171,7 @@ $.fn.setButtonStatus = function(opts)
     }
     else
     {
-        //check for username seperatly, only if an userid is required
+        //check for username separately, only if an userid is required
         if (opts.userid_required && $(opts.userid).val() == "")
         {
             disabled = true;

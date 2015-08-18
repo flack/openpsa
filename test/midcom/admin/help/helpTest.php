@@ -20,12 +20,12 @@ class midcom_admin_help_helpTest extends openpsa_testcase
     {
         midcom_admin_help_help::check_component('midcom');
         midcom_admin_help_help::check_component(null);
-        midcom_admin_help_help::check_component('non.existant');
+        midcom_admin_help_help::check_component('non.existent');
     }
 
     public function test_help_exists()
     {
-        $stat = midcom_admin_help_help::help_exists('nonexistant', 'org.openpsa.expenses');
+        $stat = midcom_admin_help_help::help_exists('nonexistent', 'org.openpsa.expenses');
         $this->assertFalse($stat);
         $stat = midcom_admin_help_help::help_exists('handlers_view', 'net.nehmer.blog');
         $this->assertTrue($stat);
@@ -51,7 +51,7 @@ class midcom_admin_help_helpTest extends openpsa_testcase
         $path = midcom_admin_help_help::generate_file_path('handlers_view', 'net.nehmer.blog', 'xx');
         $this->assertEquals(MIDCOM_ROOT . '/net/nehmer/blog/documentation/handlers_view.en.txt', $path);
 
-        $path = midcom_admin_help_help::generate_file_path('handlers_nonexistant', 'net.nehmer.blog', 'xx');
+        $path = midcom_admin_help_help::generate_file_path('handlers_nonexistent', 'net.nehmer.blog', 'xx');
         $this->assertNull($path);
     }
 

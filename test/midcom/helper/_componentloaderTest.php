@@ -16,7 +16,7 @@ class midcom_helper__componentloaderTest extends openpsa_testcase
     /**
      * @expectedException midcom_error
      */
-    public function test_load_nonexistant()
+    public function test_load_nonexistent()
     {
         $componentloader = new midcom_helper__componentloader();
         $componentloader->load_all_manifests();
@@ -35,7 +35,7 @@ class midcom_helper__componentloaderTest extends openpsa_testcase
         $componentloader = new midcom_helper__componentloader();
         $componentloader->load_all_manifests();
         $this->assertTrue($componentloader->load_graceful('org.openpsa.user'));
-        $this->assertFalse($componentloader->load_graceful('nonexistant component'));
+        $this->assertFalse($componentloader->load_graceful('nonexistent component'));
     }
 
     public function test_is_loaded()
@@ -45,7 +45,7 @@ class midcom_helper__componentloaderTest extends openpsa_testcase
         $componentloader->load('org.openpsa.user');
         $this->assertTrue($componentloader->is_loaded('org.openpsa.user'));
         $this->assertTrue($componentloader->is_loaded('midcom'));
-        $this->assertFalse($componentloader->is_loaded('nonexistant component'));
+        $this->assertFalse($componentloader->is_loaded('nonexistent component'));
     }
 
     public function test_is_installed()
@@ -54,7 +54,7 @@ class midcom_helper__componentloaderTest extends openpsa_testcase
         $componentloader->load_all_manifests();
         $this->assertTrue($componentloader->is_installed('org.openpsa.user'));
         $this->assertTrue($componentloader->is_installed('midcom'));
-        $this->assertFalse($componentloader->is_installed('nonexistant component'));
+        $this->assertFalse($componentloader->is_installed('nonexistent component'));
     }
 
     public function test_get_interface_class()
@@ -70,7 +70,7 @@ class midcom_helper__componentloaderTest extends openpsa_testcase
         $componentloader = new midcom_helper__componentloader();
         $componentloader->load_all_manifests();
         $this->assertEquals(MIDCOM_ROOT . '/org/openpsa/user', $componentloader->path_to_snippetpath('org.openpsa.user'));
-        $this->assertFalse($componentloader->path_to_snippetpath('non.existant.component'));
+        $this->assertFalse($componentloader->path_to_snippetpath('non.existent.component'));
     }
 
     public function test_path_to_prefix()
