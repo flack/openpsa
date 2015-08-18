@@ -45,6 +45,10 @@
             'type' => 'text',
             'widget' => 'password',
             'index_method' => 'noindex',
+            'widget_config' => array
+            (
+                'require_password' => !midcom::get()->auth->admin
+            )
         ),
         'person' => array
         (
