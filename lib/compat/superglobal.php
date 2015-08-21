@@ -466,7 +466,7 @@ class midcom_compat_superglobal
      * add_jscript        - Add JavaScript code to the load queue
      * add_jsonload       - Add a JavaScript method call to the bodies onload tag
      * add_object_head    - Add object links to the page's head.
-     * add_style_head     - Add style  tags to the page's head.
+     * add_style_head     - Add style tags to the page's head.
      * add_meta_head      - Add metatags to the page's head.
      * print_head_elements     - Print the queued-up JavaScript code (for inclusion in the HEAD section)
      * print jsonload     - Prints the onload command if required (for inclusion as a BODY attribute)

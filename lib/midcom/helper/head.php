@@ -240,7 +240,7 @@ class midcom_helper_head
      */
     public function add_style_head($script, $attributes = null)
     {
-        $this->_style_head .= '<style type="text/css"' . $this->_get_attribute_string($attributes) . '><!--' . $script . "--></style>\n";
+        $this->_style_head .= '<style type="text/css"' . $this->_get_attribute_string($attributes) . '>' . $script . "</style>\n";
     }
 
     private function _get_attribute_string($attributes)
