@@ -99,4 +99,5 @@ Alternatively, you can also run under Apache (or any other web server, for that 
 And use something like this in your vhost config (or .htaccess file):
 
     RewriteEngine On
+    RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^(.*)$ /openpsa/rootfile.php [QSA,L]
