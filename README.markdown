@@ -99,6 +99,4 @@ Alternatively, you can also run under Apache (or any other web server, for that 
 And use something like this in your vhost config (or .htaccess file):
 
     RewriteEngine On
-    RewriteRule ^/midcom-static/OpenPsa2/(.*)$ /openpsa/themes/OpenPsa2/static/$1 [L]
-    RewriteRule ^/midcom-static/(.*)$ /openpsa/static/$1 [L]
-    RewriteRule ^/(.*)$ /openpsa/rootfile.php [QSA,L]
+    RewriteRule ^(.*)$ /openpsa/rootfile.php [QSA,L]
