@@ -248,9 +248,6 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
 
         if ($workflow->run())
         {
-            $indexer = midcom::get()->indexer;
-            $indexer->delete($this->_deliverable->guid);
-
             $salesproject = $this->_deliverable->get_parent();
             return new midcom_response_relocate("salesproject/{$salesproject->guid}/");
         }

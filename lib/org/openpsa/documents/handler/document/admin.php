@@ -185,8 +185,6 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
 
         if ($workflow->run())
         {
-            $indexer = midcom::get()->indexer;
-            $indexer->delete($this->_document->guid);
             return new midcom_response_relocate('');
         }
         return new midcom_response_relocate("document/" . $this->_document->guid . "/");

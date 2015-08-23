@@ -230,8 +230,6 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
         $workflow = new midcom\workflow\delete($this->_object);
         if ($workflow->run())
         {
-            $indexer = midcom::get()->indexer;
-            $indexer->delete($this->_object->guid);
             return new midcom_response_relocate('');
         }
 

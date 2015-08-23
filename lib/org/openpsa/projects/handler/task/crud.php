@@ -267,8 +267,6 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
         $workflow = new midcom\workflow\delete($this->_object);
         if ($workflow->run())
         {
-            $indexer = midcom::get()->indexer;
-            $indexer->delete($this->_object->guid);
             $url = '';
             $this->_mode = 'delete';
             $this->_load_parent($handler_id, $args, $data);

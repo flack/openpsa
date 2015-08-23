@@ -73,8 +73,6 @@ class org_openpsa_products_handler_product_crud extends midcom_baseclasses_compo
         $workflow = new midcom\workflow\delete($this->_object);
         if ($workflow->run())
         {
-            $indexer = midcom::get()->indexer;
-            $indexer->delete($this->_object->guid);
             return new midcom_response_relocate($this->_object->get_parent()->code . '/');
         }
         return new midcom_response_relocate($this->_get_object_url($this->_object));

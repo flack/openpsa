@@ -80,6 +80,7 @@ class delete extends base
         if ($stat)
         {
             $uim->add($this->l10n_midcom->get('midcom'), sprintf($this->l10n_midcom->get("%s deleted"), $title));
+            midcom::get()->indexer->delete($this->object->guid);
         }
         else
         {

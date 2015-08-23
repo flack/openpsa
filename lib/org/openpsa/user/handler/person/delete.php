@@ -29,8 +29,6 @@ class org_openpsa_user_handler_person_delete extends midcom_baseclasses_componen
         $workflow = new midcom\workflow\delete($person);
         if ($workflow->run())
         {
-            $indexer = midcom::get()->indexer;
-            $indexer->delete($person->guid);
             return new midcom_response_relocate('');
         }
         return new midcom_response_relocate('view/' . $person->guid . '/');

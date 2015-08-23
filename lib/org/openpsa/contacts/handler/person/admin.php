@@ -134,8 +134,6 @@ class org_openpsa_contacts_handler_person_admin extends midcom_baseclasses_compo
         $workflow = new midcom\workflow\delete($this->_contact);
         if ($workflow->run())
         {
-            $indexer = midcom::get()->indexer;
-            $indexer->delete($this->_contact->guid . '_' . $this->_i18n->get_content_language());
             return new midcom_response_relocate('');
         }
 
