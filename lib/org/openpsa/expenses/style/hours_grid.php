@@ -34,7 +34,8 @@ foreach ($reports['reports'] as $report)
     $entry['index_description'] = $report->description;
     $entry['description'] = '<a href="' . $prefix . 'hours/edit/' . $report->guid . '/">' . $report->get_description() . '</a>';
 
-    $entry['reporter'] = $reporters[$report->person];
+    $entry['index_reporter'] = $reporters[$report->person]['rname'];
+    $entry['reporter'] = $reporters[$report->person]['card'];
 
     $entry['index_hours'] = $report->hours;
     $entry['hours'] = $report->hours . ' ' . $data['l10n']->get('hours unit');
@@ -55,7 +56,7 @@ foreach ($reports['reports'] as $report)
 $grid = new org_openpsa_widgets_grid($grid_id, 'local');
 
 $grid->set_column('date', $data['l10n']->get('date'), "width: 80, align: 'center', formatter: 'date', fixed: true")
-    ->set_column('reporter', $data['l10n']->get('person'), "width: 80, classes: 'ui-ellipsis'");
+    ->set_column('reporter', $data['l10n']->get('person'), "width: 80, classes: 'ui-ellipsis'", 'string');
 
 if ($data['mode'] != 'simple')
 {

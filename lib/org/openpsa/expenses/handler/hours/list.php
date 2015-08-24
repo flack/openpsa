@@ -132,12 +132,16 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
                 {
                     $reporter = new midcom_db_person($report->person);
                     $reporter_card = new org_openpsa_widgets_contact($reporter);
-                    $this->reporters[$report->person] = $reporter_card->show_inline();
+                    $this->reporters[$report->person] = array
+                    (
+                        'card' => $reporter_card->show_inline(),
+                        'rname' => $reporter->rname
+                    );
                 }
                 catch (midcom_error $e)
                 {
                     $e->log();
-                    $this->reporters[$report->person] = '';
+                    $this->reporters[$report->person] = array('card' => '', 'rname' => '');
                 }
             }
 
