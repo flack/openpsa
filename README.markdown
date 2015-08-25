@@ -38,7 +38,6 @@ You need `php-cgi` (typically at `/etc/php5/cgi/conf.d/midgard2.ini`) with some 
     midgard.engine = On
     midgard.http = On
     midgard.configuration_file="/etc/midgard2/conf.d/openpsa"
-    midgard.superglobals_compat = On
 
 Next you should install OpenPSA under your document root:
 
