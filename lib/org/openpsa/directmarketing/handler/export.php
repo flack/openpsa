@@ -52,34 +52,42 @@ class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_comp
 
         foreach ($members as $member)
         {
-            if ($row = $this->_process_member($member))
-            {
-                $rows[] = $row;
-            }
+            $this->_process_member($member, $rows);
         }
         return $rows;
     }
 
-    private function _process_member($member)
+    private function _process_member(org_openpsa_directmarketing_campaign_member_dba $member, array &$rows)
     {
-        $row = array();
-        $row['campaign_member'] = $member;
         try
         {
-            $row['person'] = org_openpsa_contacts_person_dba::get_cached($member->person);
+            $person = org_openpsa_contacts_person_dba::get_cached($member->person);
         }
         catch (midcom_error $e)
         {
             $e->log();
-            return false;
+            return;
         }
         $qb_memberships = midcom_db_member::new_query_builder();
         $qb_memberships->add_constraint('uid', '=', $member->person);
         $memberships = $qb_memberships->execute_unchecked();
 
+        if ($this->membership_mode == 'first')
+        {
+            $memberships = array(reset($memberships));
+        }
+        else if ($this->membership_mode == 'last')
+        {
+            $memberships = array(end($memberships));
+        }
         foreach ($memberships as $membership)
         {
-            $row['organization_member'] = $membership;
+            $row = array
+            (
+                'person' => $person,
+                'campaign_member' => $member,
+                'organization_member' => $membership
+            );
             try
             {
                 $row['organization'] = org_openpsa_contacts_group_dba::get_cached($membership->gid);
@@ -87,13 +95,9 @@ class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_comp
             catch (midcom_error $e)
             {
                 debug_add("Error fetching org_openpsa_contacts_group_dba #{$membership->gid}, skipping", MIDCOM_LOG_WARN);
-                return false;
-            }
-            if ($this->membership_mode !== 'last')
-            {
-                break;
+                continue;
             }
         }
-        return $row;
+        $rows[] = $row;
     }
 }
