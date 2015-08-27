@@ -70,33 +70,43 @@ class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_comp
         }
         $qb_memberships = midcom_db_member::new_query_builder();
         $qb_memberships->add_constraint('uid', '=', $member->person);
-        $memberships = $qb_memberships->execute_unchecked();
 
-        if ($this->membership_mode == 'first')
+        if ($memberships = $qb_memberships->execute_unchecked())
         {
-            $memberships = array(reset($memberships));
+            if ($this->membership_mode == 'first')
+            {
+                $memberships = array(reset($memberships));
+            }
+            else if ($this->membership_mode == 'last')
+            {
+                $memberships = array(end($memberships));
+            }
+            foreach ($memberships as $membership)
+            {
+                $row = array
+                (
+                    'person' => $person,
+                    'campaign_member' => $member,
+                    'organization_member' => $membership
+                );
+                try
+                {
+                    $row['organization'] = org_openpsa_contacts_group_dba::get_cached($membership->gid);
+                }
+                catch (midcom_error $e)
+                {
+                    debug_add("Error fetching org_openpsa_contacts_group_dba #{$membership->gid}, skipping", MIDCOM_LOG_WARN);
+                    continue;
+                }
+            }
         }
-        else if ($this->membership_mode == 'last')
-        {
-            $memberships = array(end($memberships));
-        }
-        foreach ($memberships as $membership)
+        else
         {
             $row = array
             (
                 'person' => $person,
-                'campaign_member' => $member,
-                'organization_member' => $membership
+                'campaign_member' => $member
             );
-            try
-            {
-                $row['organization'] = org_openpsa_contacts_group_dba::get_cached($membership->gid);
-            }
-            catch (midcom_error $e)
-            {
-                debug_add("Error fetching org_openpsa_contacts_group_dba #{$membership->gid}, skipping", MIDCOM_LOG_WARN);
-                continue;
-            }
         }
         $rows[] = $row;
     }
