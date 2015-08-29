@@ -154,7 +154,7 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
 
         foreach ($groupdata as $group)
         {
-            $group['title'] = $group['title'] ?: $group['name'];
+            $group['title'] = $group['official'] ?: $group['name'];
             if (!$group['title'])
             {
                 $group['title'] = "#{$group['id']}";
