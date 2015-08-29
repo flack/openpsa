@@ -419,11 +419,8 @@ class midcom_application
             $port = "";
             if (strpos($_SERVER['SERVER_NAME'], ':') === false)
             {
-                if ($protocol == "http" && $_SERVER["SERVER_PORT"] != 80)
-                {
-                    $port = ":" . $_SERVER["SERVER_PORT"];
-                }
-                else if ($protocol == "https" && $_SERVER["SERVER_PORT"] != 443)
+                if (   ($protocol == "http" && $_SERVER["SERVER_PORT"] != 80)
+                    || ($protocol == "https" && $_SERVER["SERVER_PORT"] != 443))
                 {
                     $port = ":" . $_SERVER["SERVER_PORT"];
                 }

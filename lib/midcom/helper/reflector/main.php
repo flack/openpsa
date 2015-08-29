@@ -424,10 +424,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         {
             foreach ($icons2classes as $icon => $classes)
             {
-                foreach ($classes as $class)
-                {
-                    $icon_map[$class] = $icon;
-                }
+                $icon_map = array_merge($icon_map, array_fill_keys($classes, $icon));
             }
         }
         if (!isset($icon_map['__default__']))

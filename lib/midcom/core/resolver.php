@@ -202,7 +202,7 @@ class midcom_core_resolver
         if ($expires > 0)
         {
             // If custom expiry now+expires is set use that
-            $cache->content->expires(time()+$expires);
+            $cache->content->expires(time() + $expires);
         }
         else if ($expires == 0)
         {

@@ -140,38 +140,26 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
             $user = midcom::get()->auth->user->get_storage();
             if ($this->_page->get_parameter('net.nemein.wiki:watch', $user->guid))
             {
-                $this->_view_toolbar->add_item
-                (
-                    array
-                    (
-                        MIDCOM_TOOLBAR_URL => "subscribe/{$this->_page->name}/",
-                        MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('unsubscribe'),
-                        MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_mail.png',
-                        MIDCOM_TOOLBAR_POST => true,
-                        MIDCOM_TOOLBAR_POST_HIDDENARGS => Array
-                        (
-                            'unsubscribe' => 1,
-                        ),
-                    )
-                );
+                $action = 'unsubscribe';
             }
             else
             {
-                $this->_view_toolbar->add_item
-                (
-                    array
-                    (
-                        MIDCOM_TOOLBAR_URL => "subscribe/{$this->_page->name}/",
-                        MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('subscribe'),
-                        MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_mail.png',
-                        MIDCOM_TOOLBAR_POST => true,
-                        MIDCOM_TOOLBAR_POST_HIDDENARGS => Array
-                        (
-                            'subscribe' => 1,
-                        ),
-                    )
-                );
+                $action = 'subscribe';
             }
+            $this->_view_toolbar->add_item
+            (
+                array
+                (
+                    MIDCOM_TOOLBAR_URL => "subscribe/{$this->_page->name}/",
+                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get($action),
+                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_mail.png',
+                    MIDCOM_TOOLBAR_POST => true,
+                    MIDCOM_TOOLBAR_POST_HIDDENARGS => Array
+                    (
+                        $action => 1,
+                    ),
+                )
+            );
         }
 
         if ($this->_page->can_do('midgard:update'))

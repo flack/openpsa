@@ -87,60 +87,44 @@ class midcom_helper_toolbar_view extends midcom_helper_toolbar
         {
             if ($object->metadata->is_approved())
             {
-                $icon = 'stock-icons/16x16/page-approved.png';
-                if (   !midcom::get()->config->get('show_hidden_objects')
-                    && !$object->metadata->is_visible())
-                {
-                    // Take scheduling into account
-                    $icon = 'stock-icons/16x16/page-approved-notpublished.png';
-                }
-                $this->add_item
-                (
-                    array
-                    (
-                        MIDCOM_TOOLBAR_URL => "__ais/folder/unapprove/",
-                        MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('unapprove', 'midcom'),
-                        MIDCOM_TOOLBAR_HELPTEXT => midcom::get()->i18n->get_string('approved', 'midcom'),
-                        MIDCOM_TOOLBAR_ICON => $icon,
-                        MIDCOM_TOOLBAR_POST => true,
-                        MIDCOM_TOOLBAR_POST_HIDDENARGS => array
-                        (
-                            'guid' => $object->guid,
-                            'return_to' => $_SERVER['REQUEST_URI'],
-                        ),
-                        MIDCOM_TOOLBAR_ACCESSKEY => ($add_accesskey) ? 'u' : null,
-                        MIDCOM_TOOLBAR_ENABLED => $object->can_do('midcom:approve'),
-                    )
-                );
+                $action = 'unapprove';
+                $helptext = 'approved';
+                $icontype = 'approved';
+                $accesskey = 'u';
             }
             else
             {
-                $icon = 'stock-icons/16x16/page-notapproved.png';
-                if (   !midcom::get()->config->get('show_hidden_objects')
-                    && !$object->metadata->is_visible())
-                {
-                    // Take scheduling into account
-                    $icon = 'stock-icons/16x16/page-notapproved-notpublished.png';
-                }
-                $this->add_item
-                (
-                    array
-                    (
-                        MIDCOM_TOOLBAR_URL => "__ais/folder/approve/",
-                        MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('approve', 'midcom'),
-                        MIDCOM_TOOLBAR_HELPTEXT => midcom::get()->i18n->get_string('unapproved', 'midcom'),
-                        MIDCOM_TOOLBAR_ICON => $icon,
-                        MIDCOM_TOOLBAR_POST => true,
-                        MIDCOM_TOOLBAR_POST_HIDDENARGS => array
-                        (
-                            'guid' => $object->guid,
-                            'return_to' => $_SERVER['REQUEST_URI'],
-                        ),
-                        MIDCOM_TOOLBAR_ACCESSKEY => ($add_accesskey) ? 'a' : null,
-                        MIDCOM_TOOLBAR_ENABLED => $object->can_do('midcom:approve'),
-                    )
-                );
+                $action = 'approve';
+                $helptext = 'unapproved';
+                $icontype = 'notapproved';
+                $accesskey = 'a';
             }
+
+            $icon = 'stock-icons/16x16/page-' . $icontype . '.png';
+            if (   !midcom::get()->config->get('show_hidden_objects')
+                && !$object->metadata->is_visible())
+            {
+                // Take scheduling into account
+                $icon = 'stock-icons/16x16/page-' . $icontype . '-notpublished.png';
+            }
+            $this->add_item
+            (
+                array
+                (
+                    MIDCOM_TOOLBAR_URL => "__ais/folder/" . $action . "/",
+                    MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string($action, 'midcom'),
+                    MIDCOM_TOOLBAR_HELPTEXT => midcom::get()->i18n->get_string($helptext, 'midcom'),
+                    MIDCOM_TOOLBAR_ICON => $icon,
+                    MIDCOM_TOOLBAR_POST => true,
+                    MIDCOM_TOOLBAR_POST_HIDDENARGS => array
+                    (
+                        'guid' => $object->guid,
+                        'return_to' => $_SERVER['REQUEST_URI'],
+                    ),
+                    MIDCOM_TOOLBAR_ACCESSKEY => ($add_accesskey) ? $accesskey : null,
+                    MIDCOM_TOOLBAR_ENABLED => $object->can_do('midcom:approve'),
+                )
+            );
         }
     }
 }

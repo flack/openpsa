@@ -639,25 +639,19 @@ class midcom_core_privilege
             if ($this->__guid)
             {
                 // Already a persistent record, drop it.
-                if (!$this->drop())
+                return $this->drop();
+            }
+            // This is a temporary object only, try to load the real object first. If it is not found,
+            // exit silently, as this is the desired final state.
+            $object = $this->get_object();
+            $privilege = $this->get_privilege($object, $this->privilegename, $this->assignee, $this->classname);
+            if (!empty($privilege->__guid))
+            {
+                if (! $privilege->drop())
                 {
                     return false;
                 }
-            }
-            else
-            {
-                // This is a temporary object only, try to load the real object first. If it is not found,
-                // exit silently, as this is the desired final state.
-                $object = $this->get_object();
-                $privilege = $this->get_privilege($object, $this->privilegename, $this->assignee, $this->classname);
-                if (!empty($privilege->__guid))
-                {
-                    if (! $privilege->drop())
-                    {
-                        return false;
-                    }
-                    $this->_invalidate_cache();
-                }
+                $this->_invalidate_cache();
             }
             return true;
         }

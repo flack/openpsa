@@ -435,8 +435,7 @@ class midcom_helper_metadata
      */
     function on_update($key = false)
     {
-        if (   $key
-            && array_key_exists($key, $this->_cache))
+        if ($key)
         {
             unset ($this->_cache[$key]);
         }

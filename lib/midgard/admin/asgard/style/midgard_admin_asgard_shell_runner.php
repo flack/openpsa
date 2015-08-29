@@ -73,7 +73,6 @@ if (!empty($data['code']))
 }
 else
 {
-
     midcom::get()->uimessages->show_simple();
 }
 ?>

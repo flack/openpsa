@@ -72,14 +72,11 @@ class midcom_config_test
     public function ini_get_boolean($setting)
     {
         $result = ini_get($setting);
-        if ($result == false || $result == "Off" || $result == "off" || $result == "" || $result == "0")
+        if (empty($result) || strtolower($result) == "off" || $result == "0")
         {
             return false;
         }
-        else
-        {
-            return true;
-        }
+        return true;
     }
 
     public function check_for_utility ($testname, $fail_code, $fail_recommendations, $ok_notice = '&nbsp;')

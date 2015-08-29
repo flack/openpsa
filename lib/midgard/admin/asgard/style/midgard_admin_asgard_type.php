@@ -71,7 +71,6 @@ if (isset($data['search_results']))
     {
         echo "<p>" . $data['l10n']->get('no results') . "</p>\n";
     }
-
     else
     {
         echo "<table class=\"table_widget\" id=\"search_results\">\n";

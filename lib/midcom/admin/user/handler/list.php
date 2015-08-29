@@ -118,13 +118,10 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
 
             $this->_persons = $qb->execute();
         }
-        else
+        // List all persons if there are less than N of them
+        else if ($qb->count_unchecked() < $this->_config->get('list_without_search'))
         {
-            // List all persons if there are less than N of them
-            if ($qb->count_unchecked() < $this->_config->get('list_without_search'))
-            {
-                $this->_persons = $qb->execute();
-            }
+            $this->_persons = $qb->execute();
         }
     }
 
@@ -138,9 +135,6 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
     private function list_groups_for_select($id, &$data, $level)
     {
         $mc = midcom_db_group::new_collector('owner', (int) $id);
-        $mc->add_value_property('name');
-        $mc->add_value_property('official');
-        $mc->add_value_property('id');
 
         // Set the order
         $mc->add_order('metadata.score', 'DESC');
@@ -148,32 +142,19 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
         $mc->add_order('name');
 
         // Get the results
-        $mc->execute();
-        $keys = $mc->list_keys();
+        $groupdata = $mc->get_rows(array('name', 'official', 'id', 'guid'));
 
         // Hide empty groups
-        if ($mc->count() === 0)
+        if (count($groupdata) === 0)
         {
             return;
         }
 
         $data['parent_id'] = $id;
 
-        foreach ($keys as $guid => $array)
+        foreach ($groupdata as $group)
         {
-            $group['guid'] = $guid;
-            $group['id'] = $mc->get_subkey($guid, 'id');
-            $group['name'] = $mc->get_subkey($guid, 'name');
-
-            if (($title = $mc->get_subkey($guid, 'official')))
-            {
-                $group['title'] = $title;
-            }
-            else
-            {
-                $group['title'] = $group['name'];
-            }
-
+            $group['title'] = $group['title'] ?: $group['name'];
             if (!$group['title'])
             {
                 $group['title'] = "#{$group['id']}";

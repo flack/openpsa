@@ -717,34 +717,31 @@ class midgard_admin_asgard_schemadb
         {
             return -1;
         }
-        else if ($score1 > $score2)
+        if ($score1 > $score2)
         {
             return 1;
         }
-        else if (   $score1 < 3
-                 || $score1 > 6)
+        if (   $score1 < 3
+            || $score1 > 6)
         {
             return strnatcmp($first, $second);
         }
-        else
+        switch ($score1)
         {
-            switch ($score1)
-            {
-                case 3:
-                    $type = 'timerange';
-                    break;
-                case 4:
-                    $type = 'phone';
-                    break;
-                case 5:
-                    $type = 'address';
-                    break;
-                case 6:
-                    $type = 'location';
-                    break;
-            }
-            $fields = $this->_config->get('object_' . $type . '_fields');
-            return (array_search($first, $fields) < array_search($second, $fields)) ? -1 : 1;
+            case 3:
+                $type = 'timerange';
+                break;
+            case 4:
+                $type = 'phone';
+                break;
+            case 5:
+                $type = 'address';
+                break;
+            case 6:
+                $type = 'location';
+                break;
         }
+        $fields = $this->_config->get('object_' . $type . '_fields');
+        return (array_search($first, $fields) < array_search($second, $fields)) ? -1 : 1;
     }
 }

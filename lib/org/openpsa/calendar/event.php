@@ -325,12 +325,8 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
      */
     private function _suspects_classes_present()
     {
-        if (   !class_exists('org_openpsa_relatedto_dba')
-            || !class_exists('org_openpsa_relatedto_suspect'))
-        {
-            return false;
-        }
-        return true;
+        return (   class_exists('org_openpsa_relatedto_dba')
+                && class_exists('org_openpsa_relatedto_suspect'));
     }
 
     /**

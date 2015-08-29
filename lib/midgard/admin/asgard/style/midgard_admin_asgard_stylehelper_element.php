@@ -40,7 +40,6 @@ $(document).ready(function(){
             $('#' + field_id).val(inserttext);
         }
     });
-
 });
 // ]]>
 </script>

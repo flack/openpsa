@@ -72,15 +72,8 @@ implements midcom_helper_datamanager2_interfaces_view, org_openpsa_widgets_grid_
             )
         );
 
-        if (   midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_contacts_person_dba')
-            && $this->_group->can_do('midgard:create'))
-        {
-            $allow_person_create = true;
-        }
-        else
-        {
-            $allow_person_create = false;
-        }
+        $allow_person_create = (   midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_contacts_person_dba')
+                                && $this->_group->can_do('midgard:create'));
 
         $this->_view_toolbar->add_item
         (

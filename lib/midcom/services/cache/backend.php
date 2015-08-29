@@ -396,7 +396,7 @@ abstract class midcom_services_cache_backend
         {
             return true;
         }
-        else if (isset($this->_unsynced_keys[$key]))
+        if (isset($this->_unsynced_keys[$key]))
         {
             // this is the deleted key
             return false;
@@ -433,7 +433,7 @@ abstract class midcom_services_cache_backend
         {
             return $this->_local_cache[$key];
         }
-        else if (isset($this->_unsynced_keys[$key]))
+        if (isset($this->_unsynced_keys[$key]))
         {
             // this is the deleted key
             return false;

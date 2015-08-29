@@ -36,40 +36,27 @@ class net_nemein_wiki_viewer extends midcom_baseclasses_components_request
             $user = midcom::get()->auth->user->get_storage();
             if ($this->_topic->get_parameter('net.nemein.wiki:watch', $user->guid))
             {
-                $this->_node_toolbar->add_item
-                (
-                    array
-                    (
-                        MIDCOM_TOOLBAR_URL => "subscribe/index/",
-                        MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('unsubscribe'),
-                        MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_mail.png',
-                        MIDCOM_TOOLBAR_POST => true,
-                        MIDCOM_TOOLBAR_POST_HIDDENARGS => array
-                        (
-                            'unsubscribe' => 1,
-                            'target'      => 'folder',
-                        ),
-                    )
-                );
+                $action = 'unsubscribe';
             }
             else
             {
-                $this->_node_toolbar->add_item
-                (
-                    array
-                    (
-                        MIDCOM_TOOLBAR_URL => "subscribe/index/",
-                        MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('subscribe'),
-                        MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_mail.png',
-                        MIDCOM_TOOLBAR_POST => true,
-                        MIDCOM_TOOLBAR_POST_HIDDENARGS => array
-                        (
-                            'subscribe' => 1,
-                            'target'      => 'folder',
-                        ),
-                    )
-                );
+                $action = 'subscribe';
             }
+            $this->_node_toolbar->add_item
+            (
+                array
+                (
+                    MIDCOM_TOOLBAR_URL => "subscribe/index/",
+                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get($action),
+                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_mail.png',
+                    MIDCOM_TOOLBAR_POST => true,
+                    MIDCOM_TOOLBAR_POST_HIDDENARGS => array
+                    (
+                        $action => 1,
+                        'target'      => 'folder',
+                    ),
+                )
+            );
         }
 
         $this->_node_toolbar->add_item

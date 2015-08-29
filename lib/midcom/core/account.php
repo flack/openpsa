@@ -99,10 +99,7 @@ class midcom_core_account
         {
             return $this->_create_user();
         }
-        else
-        {
-            return $this->_update();
-        }
+        return $this->_update();
     }
 
     /**

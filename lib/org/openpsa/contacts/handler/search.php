@@ -174,8 +174,8 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
         {
             return new midcom_response_relocate('group/' . $this->_groups[0]->guid . '/');
         }
-        else if (   count($this->_groups) == 0
-                 && count($this->_persons) == 1)
+        if (   count($this->_groups) == 0
+            && count($this->_persons) == 1)
         {
             return new midcom_response_relocate('person/' . $this->_persons[0]->guid . '/');
         }

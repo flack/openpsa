@@ -43,10 +43,7 @@ class midcom_baseclasses_components_configuration
         {
             return self::$_data[$component];
         }
-        else
-        {
-            return self::$_data[$component][$key];
-        }
+        return self::$_data[$component][$key];
     }
 
     public static function set($component, $key, $value)

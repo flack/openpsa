@@ -83,30 +83,16 @@ class midgard_admin_asgard_toolbar extends midcom_helper_toolbar_view
 
         if ($object->can_do('midgard:create'))
         {
-            if (midcom_helper_reflector_tree::get_child_objects($object))
-            {
-                $this->add_item
+            $url = (midcom_helper_reflector_tree::get_child_objects($object)) ? 'copy/tree' : 'copy';
+            $this->add_item
+            (
+                array
                 (
-                    array
-                    (
-                        MIDCOM_TOOLBAR_URL => $this->_generate_url('copy/tree', $object),
-                        MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('copy', 'midcom'),
-                        MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/editcopy.png',
-                    )
-                );
-            }
-            else
-            {
-                $this->add_item
-                (
-                    array
-                    (
-                        MIDCOM_TOOLBAR_URL => $this->_generate_url('copy', $object),
-                        MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('copy', 'midcom'),
-                        MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/editcopy.png',
-                    )
-                );
-            }
+                    MIDCOM_TOOLBAR_URL => $this->_generate_url($url, $object),
+                    MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('copy', 'midcom'),
+                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/editcopy.png',
+                )
+            );
         }
 
         if ($object->can_do('midgard:update'))

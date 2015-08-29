@@ -533,20 +533,17 @@ class midcom_core_user
         {
             return array_key_exists($group->id, $this->_all_groups);
         }
-        else if (preg_match('/^group:/', $group))
+        if (preg_match('/^group:/', $group))
         {
             return array_key_exists($group, $this->_all_groups);
         }
-        else
+        // We scan through our groups looking for a midgard group with the right name
+        foreach ($this->_all_groups as $group_object)
         {
-            // We scan through our groups looking for a midgard group with the right name
-            foreach ($this->_all_groups as $group_object)
+            if (   midcom::get()->dbfactory->is_a($group_object, 'midcom_core_group')
+                && $group_object->get_storage()->name == $group)
             {
-                if (   midcom::get()->dbfactory->is_a($group_object, 'midcom_core_group')
-                    && $group_object->get_storage()->name == $group)
-                {
-                    return true;
-                }
+                return true;
             }
         }
 

@@ -16,7 +16,7 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
     /**
      * The Datamanager of the objects to export.
      *
-     * @var array Array of midcom_helper_datamanager2_datamanager instances
+     * @var midcom_helper_datamanager2_datamanager[] Array of datamanager instances
      */
     private $_datamanagers = array();
 

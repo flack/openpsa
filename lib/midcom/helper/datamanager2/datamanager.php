@@ -110,17 +110,15 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
      */
     function set_schema($name = null)
     {
-        if (   $name !== null
-            && !array_key_exists($name, $this->_schemadb))
-        {
-            debug_add("The schema {$name} was not found in the active schema database.", MIDCOM_LOG_INFO);
-            return false;
-        }
-
         if ($name === null)
         {
             reset($this->_schemadb);
             $name = key($this->_schemadb);
+        }
+        if (!array_key_exists($name, $this->_schemadb))
+        {
+            debug_add("The schema {$name} was not found in the active schema database.", MIDCOM_LOG_INFO);
+            return false;
         }
 
         $this->schema =& $this->_schemadb[$name];

@@ -25,21 +25,21 @@ class midcom_services_cache_backend_dba extends midcom_services_cache_backend
      *
      * @var string
      */
-    private $_handler = null;
+    private $_handler;
 
     /**
      * The full database filename.
      *
      * @var string
      */
-    private $_filename = null;
+    private $_filename;
 
     /**
      * The current handle, controlled by _open() and _close().
      *
      * @var resource
      */
-    private $_handle = null;
+    private $_handle;
 
     /**
      * This handler completes the configuration.
@@ -56,27 +56,15 @@ class midcom_services_cache_backend_dba extends midcom_services_cache_backend
         else
         {
             $handlers = dba_handlers();
-            if (in_array('db4', $handlers))
+            foreach (array('db4', 'db3', 'db2', 'gdbm', 'flatfile') as $handler)
             {
-                $this->_handler = 'db4';
+                if (in_array($handler, $handlers))
+                {
+                    $this->_handler = $handler;
+                    break;
+                }
             }
-            else if (in_array('db3', $handlers))
-            {
-                $this->_handler = 'db3';
-            }
-            else if (in_array('db2', $handlers))
-            {
-                $this->_handler = 'db2';
-            }
-            else if (in_array('gdbm', $handlers))
-            {
-                $this->_handler = 'gdbm';
-            }
-            else if (in_array('flatfile', $handlers))
-            {
-                $this->_handler = 'flatfile';
-            }
-            else
+            if (!$this->_handler)
             {
                 debug_print_r("Failed autodetection of a usable DBA handler. Found handlers were:", $handlers);
                 throw new midcom_error('Failed autodetection of a usable DBA handler');

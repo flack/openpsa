@@ -590,10 +590,7 @@ abstract class midcom_core_dbaobject
             {
                 return $this->delete_parameter($domain, $name);
             }
-            else
-            {
-                return $this->set_parameter($domain, $name, $value);
-            }
+            return $this->set_parameter($domain, $name, $value);
         }
     }
 
