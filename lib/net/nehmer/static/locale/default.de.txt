@@ -18,10 +18,6 @@ Freigeben
 Artikel
 ---STRINGEND
 
----STRING article %s deleted
-Artikel "%s" wurde gelöscht
----STRINGEND
-
 ---STRING article link deleted
 Artikel-Link gelöscht
 ---STRINGEND
@@ -60,10 +56,6 @@ Artikel anlegen
 
 ---STRING default_schema
 Default
----STRINGEND
-
----STRING delete article
-Artikel löschen
 ---STRINGEND
 
 ---STRING delete article link

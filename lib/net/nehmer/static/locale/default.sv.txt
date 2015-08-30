@@ -18,10 +18,6 @@ Godkänn
 Artikel
 ---STRINGEND
 
----STRING article %s deleted
-Artikeln %s raderad
----STRINGEND
-
 ---STRING article link deleted
 Artikellänk raderad
 ---STRINGEND
@@ -48,10 +44,6 @@ Skapa artikel
 
 ---STRING default_schema
 Standard schema för artiklar
----STRINGEND
-
----STRING delete article
-Radera artikel
 ---STRINGEND
 
 ---STRING delete article link

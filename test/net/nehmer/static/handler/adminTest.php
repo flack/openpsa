@@ -46,8 +46,8 @@ class net_nehmer_static_handler_adminTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('net.nehmer.static');
 
-        $data = $this->run_handler(self::$_topic, array('delete', self::$_article->guid));
-        $this->assertEquals('delete', $data['handler_id']);
+        $url = $this->run_relocate_handler(self::$_topic, array('delete', self::$_article->guid));
+        $this->assertEquals(self::$_article->name . '/', $url);
 
         midcom::get()->auth->drop_sudo();
     }

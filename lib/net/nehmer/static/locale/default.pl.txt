@@ -18,10 +18,6 @@ Zatwierdź
 Artykuł
 ---STRINGEND
 
----STRING article %s deleted
-Artykuł "%s" został usunięty
----STRINGEND
-
 ---STRING article link deleted
 Link do artykułu został usunięty
 ---STRINGEND
@@ -60,10 +56,6 @@ Utwórz artykuł
 
 ---STRING default_schema
 Domyślny schemat artykułu
----STRINGEND
-
----STRING delete article
-Usuń artykuł
 ---STRINGEND
 
 ---STRING delete article link

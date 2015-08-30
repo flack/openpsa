@@ -34,10 +34,6 @@ Statisk innhold
 Standardskjema for nye artikler
 ---STRINGEND
 
----STRING delete article
-Slett artikkel
----STRINGEND
-
 ---STRING directory index for %s
 Emneindex for %s
 ---STRINGEND

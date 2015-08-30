@@ -30,10 +30,6 @@ Archivzugriff aktivieren
 Artikel
 ---STRINGEND
 
----STRING article %s deleted
-Artikel %s gelöscht
----STRINGEND
-
 ---STRING ascending
 Aufsteigend
 ---STRINGEND
@@ -80,10 +76,6 @@ URL Namen automatisch aus dem Titel des Artikels generieren
 
 ---STRING create news article
 Neuen News-Artikel erstellen
----STRINGEND
-
----STRING delete article
-Artikel löschen
 ---STRINGEND
 
 ---STRING delete article link

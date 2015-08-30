@@ -30,10 +30,6 @@ Enable archive browsing
 Article
 ---STRINGEND
 
----STRING article %s deleted
-Article %s deleted
----STRINGEND
-
 ---STRING article link
 Article link
 ---STRINGEND
@@ -88,10 +84,6 @@ Generate URL names from article titles
 
 ---STRING create news article
 Create news article
----STRINGEND
-
----STRING delete article
-Delete Article
 ---STRINGEND
 
 ---STRING delete article link

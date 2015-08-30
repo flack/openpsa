@@ -6,10 +6,6 @@
 Opret artikel
 ---STRINGEND
 
----STRING delete article
-Slet artikel
----STRINGEND
-
 ---STRING edit article
 Rediger artikel
 ---STRINGEND

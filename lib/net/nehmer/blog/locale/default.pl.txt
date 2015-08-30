@@ -30,10 +30,6 @@ Włącz wyświetlanie archiwum
 Artykuł
 ---STRINGEND
 
----STRING article %s deleted
-Artykuł "%s" został usunięty
----STRINGEND
-
 ---STRING ascending
 Rosnąco
 ---STRINGEND
@@ -80,10 +76,6 @@ Generuj URL'e na podstawie tytułów
 
 ---STRING create news article
 Dodaj news
----STRINGEND
-
----STRING delete article
-Usuń
 ---STRINGEND
 
 ---STRING delete article link

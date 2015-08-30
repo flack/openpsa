@@ -30,10 +30,6 @@ Salli arkistojen käyttö
 Artikkeli
 ---STRINGEND
 
----STRING article %s deleted
-Artikkeli %s poistettu
----STRINGEND
-
 ---STRING article link
 Artikkelilinkki
 ---STRINGEND
@@ -84,10 +80,6 @@ Luo tiedostonimet artikkelien otsikoista
 
 ---STRING create news article
 Luo uutisartikkeli
----STRINGEND
-
----STRING delete article
-Poista artikkeli
 ---STRINGEND
 
 ---STRING delete article link

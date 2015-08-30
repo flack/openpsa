@@ -18,10 +18,6 @@ Hyväksy
 Artikkeli
 ---STRINGEND
 
----STRING article %s deleted
-Artikkeli %s poistettu
----STRINGEND
-
 ---STRING article link
 Artikkelilinkki
 ---STRINGEND
@@ -60,10 +56,6 @@ Luo artikkeli
 
 ---STRING default_schema
 Oletus-tietokantakuvaus uusille artikkeleille
----STRINGEND
-
----STRING delete article
-Poista artikkeli
 ---STRINGEND
 
 ---STRING delete article link

@@ -73,16 +73,8 @@ class net_nehmer_blog_handler_view extends midcom_baseclasses_components_handler
         }
         if ($article->can_do('midgard:delete'))
         {
-            $this->_view_toolbar->add_item
-            (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => "delete/{$this->_article->guid}/",
-                    MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('delete'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
-                    MIDCOM_TOOLBAR_ACCESSKEY => 'd',
-                )
-            );
+            $workflow = new midcom\workflow\delete($this->_article);
+            $workflow->add_button($this->_view_toolbar, "delete/{$this->_article->guid}/");
         }
     }
 

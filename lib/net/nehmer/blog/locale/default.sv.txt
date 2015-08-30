@@ -18,10 +18,6 @@ Arkiv
 Artikel
 ---STRINGEND
 
----STRING article %s deleted
-Artikeln %s raderad
----STRINGEND
-
 ---STRING ascending
 Ascending
 ---STRINGEND
@@ -64,10 +60,6 @@ Skapa URL-namn från artikel titlar
 
 ---STRING create news article
 Skapa nyhets artikel
----STRINGEND
-
----STRING delete article
-Radera Artikel
 ---STRINGEND
 
 ---STRING delete article link

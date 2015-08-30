@@ -29,13 +29,6 @@ class net_nehmer_blog_handler_admin extends midcom_baseclasses_components_handle
     private $_article = null;
 
     /**
-     * The Datamanager of the article to display (for delete mode)
-     *
-     * @var midcom_helper_datamanager2_datamanager
-     */
-    private $_datamanager = null;
-
-    /**
      * The Controller of the article used for editing
      *
      * @var midcom_helper_datamanager2_controller_simple
@@ -56,7 +49,6 @@ class net_nehmer_blog_handler_admin extends midcom_baseclasses_components_handle
     private function _prepare_request_data()
     {
         $this->_request_data['article'] = $this->_article;
-        $this->_request_data['datamanager'] = $this->_datamanager;
         $this->_request_data['controller'] = $this->_controller;
 
         // Populate the toolbar
@@ -76,16 +68,8 @@ class net_nehmer_blog_handler_admin extends midcom_baseclasses_components_handle
 
         if ($this->_article->can_do('midgard:delete'))
         {
-            $this->_view_toolbar->add_item
-            (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => "delete/{$this->_article->guid}/",
-                    MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('delete'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
-                    MIDCOM_TOOLBAR_ACCESSKEY => 'd',
-                )
-            );
+            $workflow = new midcom\workflow\delete($this->_article);
+            $workflow->add_button($this->_view_toolbar, "delete/{$this->_article->guid}/");
         }
     }
 
@@ -116,20 +100,6 @@ class net_nehmer_blog_handler_admin extends midcom_baseclasses_components_handle
             {
                 $this->_schemadb[$name]->fields['name']['readonly'] = true;
             }
-        }
-    }
-
-    /**
-     * Internal helper, loads the datamanager for the current article. Any error triggers a 500.
-     */
-    private function _load_datamanager()
-    {
-        $this->_load_schemadb();
-        $this->_datamanager = new midcom_helper_datamanager2_datamanager($this->_schemadb);
-
-        if (! $this->_datamanager->autoset_storage($this->_article))
-        {
-            throw new midcom_error("Failed to create a DM2 instance for article {$this->_article->id}.");
         }
     }
 
@@ -231,26 +201,14 @@ class net_nehmer_blog_handler_admin extends midcom_baseclasses_components_handle
     public function _handler_delete($handler_id, array $args, array &$data)
     {
         $this->_article = new midcom_db_article($args[0]);
-
         // Relocate to delete the link instead of the article itself
         if ($this->_article->topic !== $this->_content_topic->id)
         {
             return new midcom_response_relocate("delete/link/{$args[0]}/");
         }
-        $this->_article->require_do('midgard:delete');
-
-        $this->_load_datamanager();
-
-        if (array_key_exists('net_nehmer_blog_deleteok', $_REQUEST))
+        $workflow = new midcom\workflow\delete($this->_article);
+        if ($workflow->run())
         {
-            $title = $this->_article->title;
-
-            // Deletion confirmed.
-            if (! $this->_article->delete())
-            {
-                throw new midcom_error("Failed to delete article {$args[0]}, last Midgard error was: " . midcom_connection::get_error_string());
-            }
-
             // Delete all the links pointing to the article
             $qb = net_nehmer_blog_link_dba::new_query_builder();
             $qb->add_constraint('article', '=', $this->_article->id);
@@ -262,40 +220,8 @@ class net_nehmer_blog_handler_admin extends midcom_baseclasses_components_handle
                 $link->delete();
             }
             midcom::get()->auth->drop_sudo();
-
-            // Update the index
-            $indexer = midcom::get()->indexer;
-            $indexer->delete($this->_article->guid);
-
-            // Show user interface message
-            midcom::get()->uimessages->add($this->_l10n->get('net.nehmer.blog'), sprintf($this->_l10n->get('article %s deleted'), $title));
-
-            // Delete ok, relocating to welcome.
             return new midcom_response_relocate('');
         }
-
-        if (array_key_exists('net_nehmer_blog_deletecancel', $_REQUEST))
-        {
-            midcom::get()->uimessages->add($this->_l10n->get('net.nehmer.blog'), $this->_l10n->get('delete cancelled'));
-
-            return new midcom_response_relocate($this->_master->get_url($this->_article));
-        }
-
-        $this->_prepare_request_data();
-        midcom::get()->metadata->set_request_metadata($this->_article->metadata->revised, $this->_article->guid);
-        $this->_view_toolbar->bind_to($this->_article);
-        midcom::get()->head->set_pagetitle("{$this->_topic->extra}: {$this->_article->title}");
-        $this->_update_breadcrumb_line($handler_id);
-    }
-
-    /**
-     * Shows the loaded article.
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_delete ($handler_id, array &$data)
-    {
-        midcom_show_style('admin-delete');
+        return new midcom_response_relocate($this->_master->get_url($this->_article));
     }
 }
