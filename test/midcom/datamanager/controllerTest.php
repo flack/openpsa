@@ -19,6 +19,10 @@ class controllerTest extends openpsa_testcase
 {
     public function test_process_cancel()
     {
+        if (version_compare(PHP_VERSION, '5.3.9', '<'))
+        {
+            $this->markTestSkipped('This PHP version is not supported by Symfony 2.7');
+        }
         $schemadb = new schemadb;
         $schemadb->add('default', new schema(array('fields' => array())));
         $dm = new datamanager($schemadb);
