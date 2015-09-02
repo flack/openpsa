@@ -54,9 +54,9 @@
             'title' => 'nav order',
             'storage' => array
             (
-                'location' => 'parameter',
+                'location' => 'configuration',
                 'domain' => 'midcom.helper.nav',
-                'name' => 'nav_order',
+                'name' => 'navorder',
             ),
             'type' => 'select',
             'type_config' => array
