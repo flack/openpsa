@@ -60,21 +60,4 @@ class org_openpsa_products_handler_product_crud extends midcom_baseclasses_compo
         $this->_request_data['view_product'] = $this->_request_data['controller']->datamanager->get_content_html();
         midcom_show_style('product_edit');
     }
-
-
-    /**
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
-     * @param array &$data The local request data.
-     */
-    public function _handler_delete($handler_id, array $args, array &$data)
-    {
-        $this->_load_object($handler_id, $args, $data);
-        $workflow = new midcom\workflow\delete($this->_object);
-        if ($workflow->run())
-        {
-            return new midcom_response_relocate($this->_object->get_parent()->code . '/');
-        }
-        return new midcom_response_relocate($this->_get_object_url($this->_object));
-    }
 }

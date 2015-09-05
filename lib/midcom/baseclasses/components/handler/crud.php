@@ -211,10 +211,6 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
                 $object_title = $ref->get_object_label($this->_object);
                 $view_title .= sprintf($this->_l10n_midcom->get('edit %s'), $object_title);
                 break;
-            case 'delete':
-                $object_title = $ref->get_object_label($this->_object);
-                $view_title .= sprintf($this->_l10n_midcom->get('delete %s'), $object_title);
-                break;
         }
 
         midcom::get()->head->set_pagetitle($view_title);
@@ -251,16 +247,8 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
 
         if ($this->_object->can_do('midgard:delete'))
         {
-            $this->_view_toolbar->add_item
-            (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => $prefix . "delete/{$this->_object->guid}/",
-                    MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('delete'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
-                    MIDCOM_TOOLBAR_ACCESSKEY => 'd',
-                )
-            );
+            $workflow = new \midcom\workflow\delete($this->_object);
+            $workflow->add_button($this->_view_toolbar, $prefix . "delete/{$this->_object->guid}/");
         }
     }
 
@@ -596,68 +584,18 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
         $this->_mode = 'delete';
         $this->_load_object($handler_id, $args, $data);
 
-        $this->_object->require_do('midgard:delete');
-
-        $this->_load_schemadb();
-        $this->_load_datamanager();
-
-        $this->_controller = midcom_helper_datamanager2_handler::get_delete_controller();
-
-        switch ($this->_controller->process_form())
+        $workflow = new midcom\workflow\delete($this->_object);
+        if ($workflow->run())
         {
-            case 'delete':
-                // Deletion confirmed, try doing it.
-                if (!$this->_object->delete())
-                {
-                    throw new midcom_error("Failed to delete object {$this->_object->guid}, last Midgard error was: " . midcom_connection::get_error_string());
-                }
-
-                // Update the index
-                $indexer = midcom::get()->indexer;
-                $indexer->delete($this->_object->guid);
-
-                // Show user interface message
-                // midcom::get()->uimessages->add($this->_l10n->get('net.nehmer.blog'), sprintf($this->_l10n->get('object %s deleted'), $title));
-
-                // Delete ok, relocating
-                $url = '';
-                $this->_load_parent($handler_id, $args, $data);
-
-                if ($this->_parent)
-                {
-                    $url = $this->_get_object_url($this->_parent);
-                }
-
-                return new midcom_response_relocate($url);
-
-            case 'cancel':
-                return new midcom_response_relocate($this->_get_object_url($this->_object));
+            $url = '';
+            $this->_load_parent($handler_id, $args, $data);
+            if ($this->_parent)
+            {
+                $url = $this->_get_object_url($this->_parent);
+            }
+            return new midcom_response_relocate($url);
         }
 
-        $this->_prepare_request_data();
-
-        // Call the per-component metadata methods
-        $this->_populate_toolbar($handler_id);
-        $this->_update_title($handler_id);
-        $this->_update_breadcrumb($handler_id);
-
-        // Let MidCOM know about the object
-        midcom::get()->metadata->set_request_metadata($this->_object->metadata->revised, $this->_object->guid);
-        $this->bind_view_to_object($this->_object, $this->_datamanager->schema->name);
-
-        $this->_handler_callback($handler_id, $args, $data);
-    }
-
-    /**
-     * Shows a delete dialog with an object preview.
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_delete($handler_id, array &$data)
-    {
-        $prefix = $this->_get_style_prefix();
-        $data['object_view'] = $this->_datamanager->get_content_html();
-        midcom_show_style($prefix . 'admin-delete');
+        return new midcom_response_relocate($this->_get_object_url($this->_object));
     }
 }

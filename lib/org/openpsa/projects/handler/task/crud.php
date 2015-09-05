@@ -26,6 +26,10 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
      */
     public function _get_object_url(midcom_core_dbaobject $object)
     {
+        if ($object instanceof org_openpsa_projects_project)
+        {
+            return 'project/' . $object->guid . '/';
+        }
         return 'task/' . $object->guid . '/';
     }
 
@@ -254,30 +258,6 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
             org_openpsa_widgets_contact::add_head_elements();
             $data['calendar_node'] = midcom_helper_misc::find_node_by_component('org.openpsa.calendar');
         }
-    }
-
-    /**
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
-     * @param array &$data The local request data.
-     */
-    public function _handler_delete($handler_id, array $args, array &$data)
-    {
-        $this->_load_object($handler_id, $args, $data);
-        $workflow = new midcom\workflow\delete($this->_object);
-        if ($workflow->run())
-        {
-            $url = '';
-            $this->_mode = 'delete';
-            $this->_load_parent($handler_id, $args, $data);
-            if ($this->_parent)
-            {
-                $url = 'project/' . $this->_parent->guid . '/';
-            }
-            return new midcom_response_relocate($url);
-        }
-
-        return new midcom_response_relocate("task/{$this->_object->guid}/");
     }
 
     /**

@@ -219,23 +219,6 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
         }
     }
 
-    /**
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
-     * @param array &$data The local request data.
-     */
-    public function _handler_delete($handler_id, array $args, array &$data)
-    {
-        $this->_load_object($handler_id, $args, $data);
-        $workflow = new midcom\workflow\delete($this->_object);
-        if ($workflow->run())
-        {
-            return new midcom_response_relocate('');
-        }
-
-        return new midcom_response_relocate("invoice/{$this->_object->guid}/");
-    }
-
     function _populate_toolbar($handler_id)
     {
         if ($this->_mode == 'read')
