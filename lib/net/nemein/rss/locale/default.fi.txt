@@ -130,10 +130,6 @@ Päivitä syöte
 Uutinen syötteessä
 ---STRINGEND
 
----STRING remove feed
-Poista lähde
----STRINGEND
-
 ---STRING rss output settings
 RSS-tulosteen asetukset
 ---STRINGEND

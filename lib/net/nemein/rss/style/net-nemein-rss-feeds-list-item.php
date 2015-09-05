@@ -12,7 +12,6 @@ else
     echo "{$data['feed']->title}\n";
 }
 echo "    <ul class=\"details\">\n";
-echo "        <li></li>\n";
 
 switch ($data['topic']->component)
 {
@@ -34,46 +33,6 @@ if ($data['feed']->latestfetch)
     echo "        <li>" . sprintf($data['l10n']->get('latest fetch %s'), strftime('%x %X', $data['feed']->latestfetch)) . "</li>\n";
 }
 echo "    </ul>\n";
-
-$data['feed_toolbar'] = new midcom_helper_toolbar();
-if ($data['feed']->can_do('midgard:update'))
-{
-    $data['feed_toolbar']->add_item
-    (
-        array
-        (
-            MIDCOM_TOOLBAR_URL => "__feeds/rss/edit/{$data['feed']->guid}/",
-            MIDCOM_TOOLBAR_LABEL => $data['l10n_midcom']->get('edit'),
-            MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
-        )
-    );
-}
-
-if ($data['topic']->can_do('midgard:create'))
-{
-    $data['feed_toolbar']->add_item
-    (
-        array
-        (
-            MIDCOM_TOOLBAR_URL => "__feeds/rss/fetch/{$data['feed']->guid}/",
-            MIDCOM_TOOLBAR_LABEL => $data['l10n']->get('refresh feed'),
-            MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_refresh.png',
-        )
-    );
-}
-
-if ($data['feed']->can_do('midgard:delete'))
-{
-    $data['feed_toolbar']->add_item
-    (
-        array
-        (
-            MIDCOM_TOOLBAR_URL => "__feeds/rss/delete/{$data['feed']->guid}/",
-            MIDCOM_TOOLBAR_LABEL => $data['l10n']->get('remove feed'),
-            MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
-        )
-    );
-}
 echo $data['feed_toolbar']->render();
 echo "</li>\n";
 ?>

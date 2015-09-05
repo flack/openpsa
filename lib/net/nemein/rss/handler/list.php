@@ -64,6 +64,7 @@ class net_nemein_rss_handler_list extends midcom_baseclasses_components_handler
         $qb->add_constraint('node', '=', $this->_topic->id);
         $data['feeds'] = $qb->execute();
 
+        \midcom\workflow\delete::add_head_elements();
         $this->add_breadcrumb("__feeds/rss/list/", $this->_l10n->get('manage feeds'));
     }
 
@@ -81,11 +82,53 @@ class net_nemein_rss_handler_list extends midcom_baseclasses_components_handler
         {
             $data['feed'] = $feed;
             $data['feed_category'] = 'feed:' . md5($feed->url);
-
+            $data['feed_toolbar'] = $this->create_toolbar($feed);
             $data['topic'] = $this->_topic;
             midcom_show_style('net-nemein-rss-feeds-list-item');
         }
 
         midcom_show_style('net-nemein-rss-feeds-list-footer');
+    }
+
+    /**
+     *
+     * @param net_nemein_rss_feed_dba $feed
+     * @return midcom_helper_toolbar
+     */
+    private function create_toolbar(net_nemein_rss_feed_dba $feed)
+    {
+        $toolbar = new midcom_helper_toolbar();
+        if ($feed->can_do('midgard:update'))
+        {
+            $toolbar->add_item
+            (
+                array
+                (
+                    MIDCOM_TOOLBAR_URL => "__feeds/rss/edit/{$feed->guid}/",
+                    MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('edit'),
+                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
+                )
+            );
+        }
+
+        if ($this->_topic->can_do('midgard:create'))
+        {
+            $toolbar->add_item
+            (
+                array
+                (
+                    MIDCOM_TOOLBAR_URL => "__feeds/rss/fetch/{$feed->guid}/",
+                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('refresh feed'),
+                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_refresh.png',
+                )
+            );
+        }
+
+        if ($feed->can_do('midgard:delete'))
+        {
+            $workflow = new \midcom\workflow\delete($feed);
+            $workflow->add_button($toolbar, "__feeds/rss/delete/{$feed->guid}/");
+        }
+        return $toolbar;
     }
 }

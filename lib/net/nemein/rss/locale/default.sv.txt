@@ -110,10 +110,6 @@ OPML fil
 Artikel i feed
 ---STRINGEND
 
----STRING remove feed
-Radera feed
----STRINGEND
-
 ---STRING rss items to show
 Hur många RSS objekt ska visas?
 ---STRINGEND

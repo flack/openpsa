@@ -118,10 +118,6 @@ Feed aktualisieren
 Eintrag im Feed
 ---STRINGEND
 
----STRING remove feed
-Feed entfernen
----STRINGEND
-
 ---STRING rss_count
 Anzahl der Artikel, die in rss.xml gelistet werden sollen
 ---STRINGEND

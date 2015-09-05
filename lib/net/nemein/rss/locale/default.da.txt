@@ -18,10 +18,6 @@ Kildetitel
 URL for kilde
 ---STRINGEND
 
----STRING remove feed
-Fjern nyhedskilde
----STRINGEND
-
 ---STRING net.nemein.rss
 RSS news aggregator
 ---STRINGEND

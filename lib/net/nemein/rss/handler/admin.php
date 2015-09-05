@@ -184,45 +184,11 @@ class net_nemein_rss_handler_admin extends midcom_baseclasses_components_handler
      */
     public function _handler_delete($handler_id, array $args, array &$data)
     {
-        $data['feed'] = new net_nemein_rss_feed_dba($args[0]);
-        $data['feed']->require_do('midgard:delete');
+        $feed = new net_nemein_rss_feed_dba($args[0]);
+        $workflow = new \midcom\workflow\delete($feed);
+        $workflow->run();
 
-        $this->_load_controller($data);
-
-        if (array_key_exists('net_nemein_rss_deleteok', $_REQUEST))
-        {
-            // Deletion confirmed.
-            if (!$data['feed']->delete())
-            {
-                throw new midcom_error("Failed to delete feed {$args[0]}, last Midgard error was: " . midcom_connection::get_error_string());
-            }
-
-            // Delete ok, relocating to welcome.
-            return new midcom_response_relocate('__feeds/rss/list/');
-        }
-
-        if (array_key_exists('net_nemein_rss_deletecancel', $_REQUEST))
-        {
-            // Redirect to view page.
-            return new midcom_response_relocate('__feeds/rss/list/');
-        }
-
-        midcom::get()->metadata->set_request_metadata($data['feed']->metadata->revised, $data['feed']->guid);
-        $this->_view_toolbar->bind_to($data['feed']);
-        midcom::get()->head->set_pagetitle("{$this->_topic->extra}: {$data['feed']->title}");
-
-        $this->_update_breadcrumb_line($handler_id);
-    }
-
-    /**
-     * Shows the loaded downloadpage.
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_delete ($handler_id, array &$data)
-    {
-        midcom_show_style('net-nemein-rss-feed-delete');
+        return new midcom_response_relocate('__feeds/rss/list/');
     }
 
     /**
@@ -235,17 +201,13 @@ class net_nemein_rss_handler_admin extends midcom_baseclasses_components_handler
     {
         $this->add_breadcrumb("__feeds/rss/list/", $this->_l10n->get('manage feeds'));
 
-        switch ($handler_id)
+        if ($handler_id == '____feeds-rss-feeds_subscribe')
         {
-            case '____feeds-rss-feeds_subscribe':
                 $this->add_breadcrumb("__feeds/rss/subscribe/", $this->_l10n->get('subscribe feeds'));
-                break;
-            case '____feeds-rss-feeds_edit':
-                $this->add_breadcrumb("__feeds/rss/edit/{$this->_request_data['feed']->guid}/", $this->_l10n_midcom->get('edit'));
-                break;
-            case '____feeds-rss-feeds_delete':
-                $this->add_breadcrumb("__feeds/rss/delete/{$this->_request_data['feed']->guid}/", $this->_l10n_midcom->get('delete'));
-                break;
+        }
+        else if ($handler_id == '____feeds-rss-feeds_edit')
+        {
+            $this->add_breadcrumb("__feeds/rss/edit/{$this->_request_data['feed']->guid}/", $this->_l10n_midcom->get('edit'));
         }
         net_nemein_rss_manage::add_toolbar_buttons($this->_node_toolbar);
     }

@@ -134,10 +134,6 @@ Refresh feed
 Item in feed
 ---STRINGEND
 
----STRING remove feed
-Remove feed
----STRINGEND
-
 ---STRING rss output settings
 RSS output settings
 ---STRINGEND

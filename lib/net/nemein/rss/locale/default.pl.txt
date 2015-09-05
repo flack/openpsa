@@ -118,10 +118,6 @@ Odśwież wsad
 Element wsadu
 ---STRINGEND
 
----STRING remove feed
-Usuń feed
----STRINGEND
-
 ---STRING rss output settings
 Ustawienia wyświetlania RSS
 ---STRINGEND

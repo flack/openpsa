@@ -18,10 +18,6 @@
 URL ленты новостей
 ---STRINGEND
 
----STRING remove feed
-Удалить ленту новостей
----STRINGEND
-
 ---STRING net.nemein.rss
 Информационный центр RSS
 ---STRINGEND
