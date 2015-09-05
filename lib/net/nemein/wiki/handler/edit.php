@@ -114,17 +114,11 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
                 MIDCOM_TOOLBAR_ACCESSKEY => 'v',
             )
         );
-        $this->_view_toolbar->add_item
-        (
-            array
-            (
-                MIDCOM_TOOLBAR_URL => "delete/{$this->_page->name}/",
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('delete'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
-                MIDCOM_TOOLBAR_ACCESSKEY => 'd',
-                MIDCOM_TOOLBAR_ENABLED => $this->_page->can_do('midgard:delete'),
-            )
-        );
+        if ($this->_page->can_do('midgard:delete'))
+        {
+            $workflow = new midcom\workflow\delete($this->_page);
+            $workflow->add_button($this->_view_toolbar, "delete/{$this->_page->name}/");
+        }
 
         foreach (array_keys($this->_request_data['schemadb']) as $name)
         {

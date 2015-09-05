@@ -36,10 +36,9 @@ class net_nemein_wiki_handler_deleteTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('net.nemein.wiki');
 
-        $data = $this->run_handler(self::$_topic, array('delete', self::$_page->name));
-        $this->assertEquals('delete', $data['handler_id']);
+        $url = $this->run_relocate_handler(self::$_topic, array('delete', self::$_page->name));
+        $this->assertEquals('', $url);
 
-        $this->show_handler($data);
         midcom::get()->auth->drop_sudo();
     }
 }

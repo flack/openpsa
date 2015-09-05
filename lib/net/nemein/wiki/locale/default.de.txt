@@ -118,10 +118,6 @@ Seite "%s"
 Wiki-Seite "%s" wurde erstellt
 ---STRINGEND
 
----STRING page %s deleted
-Wiki-Seite "%s" wurde gelöscht
----STRINGEND
-
 ---STRING page %s has been updated by %s
 Seite "%s" wurde aktualisiert von %s
 ---STRINGEND
@@ -144,10 +140,6 @@ Wiki-Seiten, die auf "%s" verweisen
 
 ---STRING preview
 Vorschau
----STRINGEND
-
----STRING really delete page
-Seite wirklich löschen?
 ---STRINGEND
 
 ---STRING recipients

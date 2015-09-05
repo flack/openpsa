@@ -114,10 +114,6 @@ sivulla "%s"
 Wiki-sivu "%s" luotu.
 ---STRINGEND
 
----STRING page %s deleted
-Wiki-sivu "%s" poistettu.
----STRINGEND
-
 ---STRING page %s has been updated by %s
 Sivu "%s" päivitetty %s toimesta
 ---STRINGEND
@@ -140,10 +136,6 @@ Sivulle "%s" viittaavat sivut
 
 ---STRING preview
 Esikatselu
----STRINGEND
-
----STRING really delete page
-Haluatko varmasti poistaa sivun?
 ---STRINGEND
 
 ---STRING recipients

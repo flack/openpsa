@@ -118,10 +118,6 @@ page "%s"
 Wiki page "%s" has been created.
 ---STRINGEND
 
----STRING page %s deleted
-Wiki page "%s" has been deleted.
----STRINGEND
-
 ---STRING page %s has been updated by %s
 Page "%s" has been updated by %s
 ---STRINGEND
@@ -144,10 +140,6 @@ Wiki pages linking to %s
 
 ---STRING preview
 Preview
----STRINGEND
-
----STRING really delete page
-Really delete page?
 ---STRINGEND
 
 ---STRING recipients
