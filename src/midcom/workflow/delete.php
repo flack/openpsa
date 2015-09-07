@@ -50,16 +50,39 @@ class delete extends base
                 MIDCOM_TOOLBAR_LABEL => $this->l10n_midcom->get('delete'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
                 MIDCOM_TOOLBAR_ACCESSKEY => 'd',
-                MIDCOM_TOOLBAR_OPTIONS => array
-                (
-                    'data-dialog' => 'delete',
-                    'data-form-id' => $this->form_identifier,
-                    'data-dialog-heading' => $this->l10n_midcom->get('confirm delete'),
-                    'data-dialog-text' => sprintf($this->l10n_midcom->get('delete %s'), $this->get_object_title()),
-                    'data-dialog-cancel-label' => $this->l10n_midcom->get('cancel')
-                )
+                MIDCOM_TOOLBAR_OPTIONS => $this->get_attributes()
             )
         );
+    }
+
+    /**
+     *
+     * @return array
+     */
+    private function get_attributes()
+    {
+        return array
+        (
+            'data-dialog' => 'delete',
+            'data-form-id' => $this->form_identifier,
+            'data-dialog-heading' => $this->l10n_midcom->get('confirm delete'),
+            'data-dialog-text' => sprintf($this->l10n_midcom->get('delete %s'), $this->get_object_title()),
+            'data-dialog-cancel-label' => $this->l10n_midcom->get('cancel')
+        );
+    }
+
+    /**
+     *
+     * @return string
+     */
+    public function render_attributes()
+    {
+        $output = '';
+        foreach ($this->get_attributes() as $key => $val)
+        {
+            $output .= ' ' . $key . '="' . htmlspecialchars($val) . '"';
+        }
+        return $output;
     }
 
     public function is_active()

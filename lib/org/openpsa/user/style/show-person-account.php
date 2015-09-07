@@ -22,8 +22,9 @@ $username = $data['account']->get_username();
         {
             echo '<ul class="area_toolbar">';
             echo '<li><a class="button" href="' . $prefix . 'account/edit/' . $data['person']->guid . '/" />' . $data['l10n_midcom']->get('edit') . "</a></li>\n";
-
-            echo '<li><a href="' . $prefix . 'account/delete/' . $data['person']->guid . '" data-dialog="delete"  data-form-id="confirm-delete"  data-dialog-heading="' . midcom::get()->i18n->get_l10n('org.openpsa.core')->get('confirm delete') . '" data-dialog-text="' . sprintf($data['l10n_midcom']->get('delete %s'), $data['l10n']->get('account')) . '"  data-dialog-cancel-label="' . $data['l10n_midcom']->get('cancel') . '"  class="button">';
+            $workflow = new midcom\workflow\delete($data['person']);
+            $workflow->set_object_title($data['l10n']->get('account'));
+            echo '<li><a href="' . $prefix . 'account/delete/' . $data['person']->guid . '" ' . $workflow->render_attributes() . '"  class="button">';
             echo '<span class="toolbar_label">' . $data['l10n_midcom']->get('delete') . '</span></a></li>';
             if (    midcom::get()->config->get('auth_allow_trusted') === true
                  && $data['person']->can_do('org.openpsa.user:su'))
