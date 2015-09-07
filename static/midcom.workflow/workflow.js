@@ -9,8 +9,15 @@ $(document).ready(function()
                 resizable: false,
                 modal: true,
                 buttons: {}
-            };
-        options.buttons[button.text()] = function() {
+            },
+            label = button.text();
+
+        if (label.trim() === '')
+    	{
+        	label = button.data('dialog-heading');
+    	}
+        	
+        options.buttons[label] = function() {
             $('<form action="' + button.attr('href') + '" method="post">')
                 .append($('<input type="submit" name="' + button.data('form-id') + '">'))
                 .hide()
