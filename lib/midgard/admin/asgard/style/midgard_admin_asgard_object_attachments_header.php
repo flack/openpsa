@@ -22,7 +22,8 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
             foreach ($data['files'] as $file)
             {
                 $mime_icon = midcom_helper_misc::get_mime_icon($file->mimetype);
-
+                $workflow = new midcom\workflow\delete($file);
+                $workflow->set_object_title($file->name);
                 if (!isset($persons[$file->metadata->revisor]))
                 {
                     $persons[$file->metadata->revisor] = midcom::get()->auth->get_user($file->metadata->revisor);
@@ -35,7 +36,7 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
                     $class = ' class="selected"';
                 }
 
-                $delete_title = sprintf($data['l10n']->get('delete %s %s'), $data['l10n']->get('attachment'), $file->name);
+                $delete_title = htmlentities(sprintf($data['l10n']->get('delete %s %s'), $data['l10n']->get('attachment'), $file->name), ENT_QUOTES, 'utf-8');
                 echo "<tr>\n";
                 echo "  <td{$class}>\n";
                 echo "    <a href=\"{$prefix}__mfa/asgard/object/attachments/{$data['object']->guid}/{$file->name}/\">\n";
@@ -64,7 +65,7 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
                 echo "    <a {$class} title=\"{$file->name}\" target=\"_self\" href=\"{$prefix}midcom-serveattachmentguid-{$file->guid}/{$file->name}\">\n";
                 echo "      <img alt=\"{$file->name}\" src=\"" . MIDCOM_STATIC_URL . "/stock-icons/16x16/view.png\"/>\n";
                 echo "    </a> \n";
-                echo "    <a title=\"{$delete_title}\" href=\"{$prefix}__mfa/asgard/object/attachments/delete/{$data['object']->guid}/{$file->name}/\">\n";
+                echo "    <a title=\"{$delete_title}\" href=\"{$prefix}__mfa/asgard/object/attachments/delete/{$data['object']->guid}/{$file->name}/\" " . $workflow->render_attributes() . ">\n";
                 echo "      <img alt=\"{$delete_title}\" src=\"" . MIDCOM_STATIC_URL . "/stock-icons/16x16/trash.png\"/>\n";
                 echo "    </a>\n";
                 $manage_title = $data['l10n']->get('manage object');

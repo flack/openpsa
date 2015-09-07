@@ -40,7 +40,7 @@
     </div>
 </form>
 
-<form class="urlform" method="post" action="&(data['delete_url']:h);">
+<form class="urlform" method="post" action="">
     <?php
     $file_url = midcom::get()->permalinks->create_attachment_link($data['file']->guid, $data['file']->name);
     $mime_icon = midcom_helper_misc::get_mime_icon($data['file']->mimetype);
@@ -59,7 +59,6 @@
         <label><span><?php echo $data['l10n']->get('url'); ?></span>
             <input class="text" type="text" value="&(file_url);" readonly="readonly" />
         </label>
-        <br />
-        <input type="submit" class="delete" name="f_delete" value="<?php echo $data['l10n_midcom']->get('delete'); ?>" />
+        <br>
     </fieldset>
 </form>

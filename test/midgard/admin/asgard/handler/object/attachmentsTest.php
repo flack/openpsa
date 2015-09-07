@@ -63,7 +63,6 @@ class midgard_admin_asgard_handler_object_attachmentsTest extends openpsa_testca
 
         $data = $this->run_handler('net.nehmer.static', array('__mfa', 'asgard', 'object', 'attachments', 'delete', self::$_object->guid, self::$_filename));
         $this->assertEquals('____mfa-asgard-object_attachments_delete', $data['handler_id']);
-        $this->show_handler($data);
 
         midcom::get()->auth->drop_sudo();
     }

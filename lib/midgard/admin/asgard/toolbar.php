@@ -237,7 +237,6 @@ class midgard_admin_asgard_toolbar extends midcom_helper_toolbar_view
                 break;
             case '____mfa-asgard-object_attachments':
             case '____mfa-asgard-object_attachments_edit':
-            case '____mfa-asgard-object_attachments_delete':
                 $this->disable_item($this->_generate_url('attachments', $object));
                 break;
             case '____mfa-asgard-object_parameters':
