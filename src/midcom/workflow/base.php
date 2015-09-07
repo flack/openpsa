@@ -35,12 +35,6 @@ abstract class base
      *
      * @var midcom_services_i18n_l10n
      */
-    protected $l10n;
-
-    /**
-     *
-     * @var midcom_services_i18n_l10n
-     */
     protected $l10n_midcom;
 
     /**
