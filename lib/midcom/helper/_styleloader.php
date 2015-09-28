@@ -866,13 +866,3 @@ class midcom_helper__styleloader
         $called = true;
     }
 }
-
-/**
- * Global shortcut.
- *
- * @see midcom_helper__styleloader::show()
- */
-function midcom_show_style($param)
-{
-    return midcom::get()->style->show($param);
-}

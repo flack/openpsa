@@ -38,3 +38,13 @@ function _midcom_setcookie($name, $value = '', $expire = 0, $path = '/', $domain
 {
     return midcom_compat_environment::get()->setcookie($name, $value, $expire, $path, $domain, $secure, $httponly);
 }
+
+/**
+ * Global shortcut.
+ *
+ * @see midcom_helper__styleloader::show()
+ */
+function midcom_show_style($param)
+{
+    return midcom::get()->style->show($param);
+}
