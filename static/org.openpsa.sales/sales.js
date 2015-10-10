@@ -118,7 +118,16 @@
 })( jQuery );
 
 $(function() {
-    $( "#org_openpsa_sales_salesproject_deliverable_add" ).productselect();
+    $( "#org_openpsa_sales_salesproject_deliverable_add" )
+        .productselect()
+        .closest('form')
+            .on('submit', function(e)
+            {
+                if (!$("#org_openpsa_sales_salesproject_deliverable_add").val())
+                {
+                    e.preventDefault();
+                }
+            });
 });
 
 $(document).ready(function()
