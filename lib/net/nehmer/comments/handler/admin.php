@@ -14,13 +14,6 @@
 class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_handler
 {
     /**
-     * The schema database to use.
-     *
-     * @var Array
-     */
-    private $_schemadb = null;
-
-    /**
      * List of comments we are currently working with.
      *
      * @var Array
@@ -56,41 +49,9 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
      */
     private function _init_display_datamanager()
     {
-        $this->_load_schemadb();
-        $this->_display_datamanager = new midcom_helper_datamanager2_datamanager($this->_schemadb);
+        $schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb'));
+        $this->_display_datamanager = new midcom_helper_datamanager2_datamanager($schemadb);
         $this->_request_data['display_datamanager'] = $this->_display_datamanager;
-    }
-
-    /**
-     * Loads the schemadb
-     */
-    private function _load_schemadb()
-    {
-        $this->_schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb'));
-
-        if (   $this->_config->get('use_captcha')
-            || (   ! midcom::get()->auth->user
-                && $this->_config->get('use_captcha_if_anonymous')))
-        {
-            $this->_schemadb['comment']->append_field
-            (
-                'captcha',
-                array
-                (
-                    'title' => $this->_l10n_midcom->get('captcha field title'),
-                    'storage' => null,
-                    'type' => 'captcha',
-                    'widget' => 'captcha',
-                    'widget_config' => $this->_config->get('captcha_config'),
-                )
-            );
-        }
-
-        if (   $this->_config->get('ratings_enable')
-            && array_key_exists('rating', $this->_schemadb['comment']->fields))
-        {
-            $this->_schemadb['comment']->fields['rating']['hidden'] = false;
-        }
     }
 
     /**
