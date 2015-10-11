@@ -38,6 +38,11 @@ implements midcom_helper_datamanager2_interfaces_create
         return midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_tinyurl'));
     }
 
+    public function get_schema_name()
+    {
+        return 'tinyurl';
+    }
+
     /**
      * DM2 creation callback, binds to the current content topic.
      */
@@ -163,8 +168,6 @@ implements midcom_helper_datamanager2_interfaces_create
 
         // Edit controller
         $data['controller'] = $this->get_controller('simple', $this->_tinyurl);
-        $this->_controller->schemadb =& $this->_schemadb;
-        $this->_controller->set_storage($this->_tinyurl);
         $data['tinyurl'] = $this->_tinyurl;
 
         switch ($data['controller']->process_form())
@@ -210,7 +213,8 @@ implements midcom_helper_datamanager2_interfaces_create
         $this->_tinyurls = $qb->execute();
 
         // Initialize the datamanager instance
-        $this->_datamanager = new midcom_helper_datamanager2_datamanager($this->load_schemadb());
+        $schemadb = $this->load_schemadb();
+        $this->_datamanager = new midcom_helper_datamanager2_datamanager($schemadb);
 
         // Set the request data
         $this->_populate_request_data($handler_id);
