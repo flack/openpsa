@@ -16,8 +16,7 @@ implements org_openpsa_widgets_grid_provider_client
 {
     public function get_qb($field = null, $direction = 'ASC')
     {
-        $mc = org_openpsa_sales_salesproject_deliverable_dba::new_collector('metadata.deleted', false);
-        $mc->add_constraint('product', '=', $this->_product->id);
+        $mc = org_openpsa_sales_salesproject_deliverable_dba::new_collector('product', $this->_product->id);
         if (!is_null($field))
         {
             $mc->add_order($field, $direction);

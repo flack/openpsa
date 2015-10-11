@@ -101,7 +101,6 @@ implements midcom_services_permalinks_resolver, org_openpsa_contacts_duplicates_
     {
         //List all projects and tasks given person is involved with
         $mc = org_openpsa_projects_task_resource_dba::new_collector('person', $object->id);
-        $mc->add_constraint('person', '=', $object->id);
         $mc->add_constraint('task.status', '<', org_openpsa_projects_task_status_dba::COMPLETED);
         $mc->add_constraint('task.status', '<>', org_openpsa_projects_task_status_dba::DECLINED);
         $suspects = $mc->get_values('task');

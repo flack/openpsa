@@ -108,8 +108,7 @@ class org_openpsa_invoices_calculator extends midcom_baseclasses_components_pure
      */
     private function _probe_invoice($cycle_number)
     {
-        $item_mc = org_openpsa_invoices_invoice_item_dba::new_collector('metadata.deleted', false);
-        $item_mc->add_constraint('deliverable.salesproject', '=', $this->_deliverable->salesproject);
+        $item_mc = org_openpsa_invoices_invoice_item_dba::new_collector('deliverable.salesproject', $this->_deliverable->salesproject);
         $item_mc->add_constraint('invoice.sent', '=', 0);
         $suspects = $item_mc->get_values('invoice');
 

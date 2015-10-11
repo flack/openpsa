@@ -108,7 +108,7 @@ implements midcom_services_permalinks_resolver
     {
         $seen_sp = array();
         $mc = org_openpsa_contacts_role_dba::new_collector('role', org_openpsa_sales_salesproject_dba::ROLE_MEMBER);
-        $mc->add_constraint('person', '=', array_keys($object->id));
+        $mc->add_constraint('person', '=', $object->id);
         $guids = $mc->get_values('objectGuid');
 
         if (!empty($guids))

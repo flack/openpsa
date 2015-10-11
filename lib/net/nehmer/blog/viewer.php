@@ -320,34 +320,30 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
     public static function article_qb_constraints($qb, array $data, $handler_id)
     {
         $config = $data['config'];
-        $guids_array = array();
+        $topic_ids = array($data['content_topic']->id);
 
         // Resolve any other topics we may need
-        $list_from_folders = $config->get('list_from_folders');
-        if ($list_from_folders)
+        if ($list_from_folders = $config->get('list_from_folders'))
         {
             // We have specific folders to list from, therefore list from them and current node
-            $guids = explode('|', $config->get('list_from_folders'));
+            $guids = explode('|', $list_from_folders);
             $guids_array = array_filter($guids, 'mgd_is_guid');
-        }
-
-        /**
-         * Ref #1776, expands GUIDs before adding them as constraints, should save query time
-         */
-        $topic_ids = array($data['content_topic']->id);
-        if (!empty($guids_array))
-        {
-            $mc = midcom_db_topic::new_collector('metadata.deleted', false);
-            $mc->add_constraint('guid', 'IN', $guids_array);
-            $topic_ids = $mc->get_values('id');
-            unset($mc);
+            /**
+             * Ref #1776, expands GUIDs before adding them as constraints, should save query time
+             */
+            if (!empty($guids_array))
+            {
+                $mc = midcom_db_topic::new_collector('metadata.deleted', false);
+                $mc->add_constraint('guid', 'IN', $guids_array);
+                $topic_ids = $mc->get_values('id');
+                unset($mc);
+            }
         }
 
         // Include the article links to the indexes if enabled
         if ($config->get('enable_article_links'))
         {
             $mc = net_nehmer_blog_link_dba::new_collector('topic', $data['content_topic']->id);
-            $mc->add_constraint('topic', '=', $data['content_topic']->id);
             $mc->add_order('metadata.published', 'DESC');
             $mc->set_limit((int) $config->get('index_entries'));
 

@@ -23,8 +23,7 @@ class net_nemein_wiki_handler_tag extends midcom_baseclasses_components_handler
         $data['tag'] = $args[0];
 
         // Get wiki page GUIDs from tag links
-        $mc = net_nemein_tag_link_dba::new_collector('metadata.deleted', false);
-        $mc->add_constraint('fromClass', '=', 'net_nemein_wiki_wikipage');
+        $mc = net_nemein_tag_link_dba::new_collector('fromClass', 'net_nemein_wiki_wikipage');
         $mc->add_constraint('tag.tag', '=', $data['tag']);
         $wikipage_guids = $mc->get_values('fromGuid');
 

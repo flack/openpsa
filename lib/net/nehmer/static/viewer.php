@@ -179,7 +179,6 @@ class net_nehmer_static_viewer extends midcom_baseclasses_components_request
         if ($config->get('enable_article_links'))
         {
             $mc = net_nehmer_static_link_dba::new_collector('topic', $id);
-            $mc->add_constraint('topic', '=', $id);
             $links = $mc->get_values('article');
 
             $qb->begin_group('OR');
