@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Schema xmlns="http://www.midgard-project.org/repligard/1.4">
-  <type name="net_nemein_redirector_tinyurl" table="net_nemein_redirector_tinyurl" parent="midgard_topic" upfield="up" parentfield="node">
+  <type name="net_nemein_redirector_tinyurl" table="net_nemein_redirector_tinyurl" parent="midgard_topic" parentfield="node">
     <property name="id" type="unsigned integer" primaryfield="id"/>
     <property name="name" type="string" />
     <property name="code" type="integer" reverse="no" />
