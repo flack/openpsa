@@ -41,7 +41,7 @@ class net_nemein_redirector_handler_tinyurlTest extends openpsa_testcase
         midcom::get()->auth->request_sudo('net.nemein.redirector');
         $attributes = array
         (
-            'node' => self::$_topic->id,
+            'node' => self::$_topic->guid,
             'name' => net_nemein_redirector_tinyurl_dba::generate()
         );
         $tinyurl = $this->create_object('net_nemein_redirector_tinyurl_dba', $attributes);

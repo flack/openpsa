@@ -22,7 +22,7 @@ class net_nemein_redirector_tinyurlTest extends openpsa_testcase
         $name = net_nemein_redirector_tinyurl_dba::generate();
 
         $topic = $this->get_component_node('net.nemein.redirector');
-        $tinyurl->node = $topic->id;
+        $tinyurl->node = $topic->guid;
         $tinyurl->name = $name;
 
         $stat = $tinyurl->create();
@@ -33,10 +33,10 @@ class net_nemein_redirector_tinyurlTest extends openpsa_testcase
         $this->assertEquals($name, $tinyurl->name);
 
         $tinyurl2 = new net_nemein_redirector_tinyurl_dba();
-        $tinyurl2->node = $topic->id;
+        $tinyurl2->node = $topic->guid;
         $tinyurl2->name = $name;
         $this->assertFalse($tinyurl2->create());
-        
+
         $name2 = net_nemein_redirector_tinyurl_dba::generate();
         $tinyurl->name = $name2;
         $stat = $tinyurl->update();

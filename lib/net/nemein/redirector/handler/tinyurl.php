@@ -93,7 +93,7 @@ implements midcom_helper_datamanager2_interfaces_create
      */
     private function _get_item($rule)
     {
-        $mc = net_nemein_redirector_tinyurl_dba::new_collector('node', $this->_topic->id);
+        $mc = net_nemein_redirector_tinyurl_dba::new_collector('node', $this->_topic->guid);
 
         // Set the rules
         $mc->begin_group('OR');
