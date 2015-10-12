@@ -121,14 +121,11 @@ abstract class midcom_helper_filesync_importer extends midcom_baseclasses_compon
         return new $classname(midcom_helper_filesync_interface::prepare_dir($type));
     }
 
-    public function delete_missing_folders($foldernames, $parent_id)
+    public function delete_missing_folders(array $foldernames, $parent_id)
     {
         $qb = $this->get_node_qb($parent_id);
+        $qb->add_constraint('name', 'NOT IN', $foldernames);
 
-        if (!empty($foldernames))
-        {
-            $qb->add_constraint('name', 'NOT IN', $foldernames);
-        }
         $folders = $qb->execute();
         foreach ($folders as $folder)
         {
@@ -136,14 +133,10 @@ abstract class midcom_helper_filesync_importer extends midcom_baseclasses_compon
         }
     }
 
-    public function delete_missing_files($filenames, $parent_id)
+    public function delete_missing_files(array $filenames, $parent_id)
     {
         $qb = $this->get_leaf_qb($parent_id);
-
-        if (!empty($filenames))
-        {
-            $qb->add_constraint('name', 'NOT IN', $filenames);
-        }
+        $qb->add_constraint('name', 'NOT IN', $filenames);
 
         $files = $qb->execute();
         foreach ($files as $file)

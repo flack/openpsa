@@ -81,10 +81,7 @@ implements midcom_services_permalinks_resolver
         //Each event participant is either manager or member (resource/contact) in task
         $qb->begin_group('OR');
             $qb->add_constraint('owner', 'IN', array_keys($object->participants));
-            if (!empty($guids))
-            {
-                $qb->add_constraint('guid', 'IN', $guids);
-            }
+            $qb->add_constraint('guid', 'IN', $guids);
         $qb->end_group();
 
         $qbret = $qb->execute();
@@ -132,10 +129,7 @@ implements midcom_services_permalinks_resolver
         $qb2 = org_openpsa_sales_salesproject_dba::new_query_builder();
         $qb2->add_constraint('owner', '=', $object->id);
         $qb2->add_constraint('state', '=', org_openpsa_sales_salesproject_dba::STATE_ACTIVE);
-        if (!empty($seen_sp))
-        {
-            $qb2->add_constraint('id', 'NOT IN', array_keys($seen_sp));
-        }
+        $qb2->add_constraint('id', 'NOT IN', array_keys($seen_sp));
         $qb2ret = $qb2->execute();
         foreach ($qb2ret as $sp)
         {

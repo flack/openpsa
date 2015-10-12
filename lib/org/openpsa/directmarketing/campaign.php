@@ -145,11 +145,7 @@ class org_openpsa_directmarketing_campaign_dba extends midcom_core_dbaobject
         $qb_unwanted = org_openpsa_directmarketing_campaign_member_dba::new_query_builder();
         $qb_unwanted->add_constraint('campaign', '=', $this->id);
         $qb_unwanted->add_constraint('orgOpenpsaObtype', '=', org_openpsa_directmarketing_campaign_member_dba::NORMAL);
-
-        if (sizeof($rule_persons) > 0)
-        {
-            $qb_unwanted->add_constraint('person', 'NOT IN', array_keys($rule_persons));
-        }
+        $qb_unwanted->add_constraint('person', 'NOT IN', array_keys($rule_persons));
 
         $uwret = $qb_unwanted->execute();
         foreach ($uwret as $member)

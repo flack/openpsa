@@ -36,7 +36,7 @@ abstract class midcom_helper_filesync_exporter extends midcom_baseclasses_compon
 
     abstract public function export();
 
-    protected function delete_missing_folders($foldernames, $path)
+    protected function delete_missing_folders(array $foldernames, $path)
     {
         if (!$this->delete_missing)
         {
@@ -66,7 +66,7 @@ abstract class midcom_helper_filesync_exporter extends midcom_baseclasses_compon
         $directory->close();
     }
 
-    protected function delete_missing_files($filenames, $path)
+    protected function delete_missing_files(array $filenames, $path)
     {
         if (!$this->delete_missing)
         {

@@ -153,12 +153,7 @@ class org_openpsa_sales_calculator_default implements org_openpsa_invoices_inter
         else
         {
             $item_mc = org_openpsa_invoices_invoice_item_dba::new_collector('deliverable', $this->_deliverable->id);
-            $skip_ids = $item_mc->get_values('task');
-
-            if (sizeof($skip_ids) > 0)
-            {
-                $qb->add_constraint('id', 'NOT IN', $skip_ids);
-            }
+            $qb->add_constraint('id', 'NOT IN', $item_mc->get_values('task'));
         }
         return $qb->execute();
     }

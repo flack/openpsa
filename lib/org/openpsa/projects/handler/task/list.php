@@ -251,16 +251,11 @@ implements org_openpsa_widgets_grid_provider_client
         $mc->add_constraint('task.orgOpenpsaObtype', '=', org_openpsa_projects_task_dba::OBTYPE);
         $mc->add_constraint('task.status', 'IN', $resource_statuses);
 
-        $resource_tasks = $mc->get_values('task');
-
         $this->_qb = org_openpsa_projects_task_dba::new_query_builder();
 
         $this->_qb->begin_group('OR');
-            if (!empty($resource_tasks))
-            {
-                //Get active tasks where user is a resource
-                $this->_qb->add_constraint('id', 'IN', $resource_tasks);
-            }
+            //Get active tasks where user is a resource
+            $this->_qb->add_constraint('id', 'IN', $mc->get_values('task'));
             //Get relevant tasks where user is manager
             $this->_qb->begin_group('AND');
                 $this->_qb->add_constraint('manager', '=', midcom_connection::get_user());

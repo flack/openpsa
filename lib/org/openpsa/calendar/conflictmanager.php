@@ -161,7 +161,6 @@ class org_openpsa_calendar_conflictmanager
 
     private function _load_participants()
     {
-        $ret = array();
         if (!empty($this->_event->participants))
         {
             //We attack this "backwards" in the sense that in the end we need the events but this is faster way to filter them
@@ -169,22 +168,21 @@ class org_openpsa_calendar_conflictmanager
             $this->_add_event_constraints($qb, 'eid');
             //Shared eventmembers
             $qb->add_constraint('uid', 'IN', array_keys($this->_event->participants));
-            $ret = $qb->execute();
+            return $qb->execute();
         }
-        return $ret;
+        return array();
     }
 
     private function _load_resources()
     {
-        $ret = array();
         if (!empty($this->_event->resources))
         {
             $qb = org_openpsa_calendar_event_resource_dba::new_query_builder();
             $this->_add_event_constraints($qb, 'event');
             $qb->add_constraint('resource', 'IN', array_keys($this->_event->resources));
-            $ret = $qb->execute();
+            return $qb->execute();
         }
-        return $ret;
+        return array();
     }
 
     private function _process_resource($member, array &$modified_events, $rob_tentative)

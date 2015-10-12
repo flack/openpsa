@@ -408,9 +408,7 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
         else if ($this->_request_data['handler_id'] == 'listall')
         {
             $categories_mc = org_openpsa_products_product_group_dba::new_collector('up', $this->_request_data['group']->id);
-            $categories = $categories_mc->get_values('id');
-
-            $product_qb->add_constraint('productGroup', 'IN', $categories);
+            $product_qb->add_constraint('productGroup', 'IN', $categories_mc->get_values('id'));
         }
         else
         {

@@ -257,11 +257,6 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
         $mc->execute();
         $tag_guids = $mc->list_keys();
 
-        if (empty($tag_guids))
-        {
-            return $tags;
-        }
-
         foreach ($tag_guids as $tag_guid => $value)
         {
             $tag = $mc->get_subkey($tag_guid, 'tag');
@@ -376,11 +371,6 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
         $mc->add_constraint('id', 'IN', array_keys($links));
         $mc->execute();
         $tag_guids = $mc->list_keys();
-
-        if (empty($tag_guids))
-        {
-            return $tags;
-        }
 
         foreach ($tag_guids as $tag_guid => $value)
         {

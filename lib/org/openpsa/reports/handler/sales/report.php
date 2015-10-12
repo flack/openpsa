@@ -27,22 +27,11 @@ implements org_openpsa_widgets_grid_provider_client
         if ($this->_request_data['query_data']['resource'] != 'all')
         {
             $resource_expanded = $this->_expand_resource($this->_request_data['query_data']['resource']);
-            if (!empty($resource_expanded))
-            {
-                $deliverable_mc->add_constraint('salesproject.owner', 'IN', $resource_expanded);
-            }
+            $deliverable_mc->add_constraint('salesproject.owner', 'IN', $resource_expanded);
         }
-        $deliverables = $deliverable_mc->get_values('id');
-        if (!empty($deliverables))
-        {
-            $qb->add_constraint('deliverable', 'IN', $deliverables);
-            $qb->add_constraint('invoice.sent', '>=', $this->_request_data['start']);
-            $qb->add_constraint('invoice.sent', '<=', $this->_request_data['end']);
-        }
-        else
-        {
-            $qb->add_constraint('id', '=', 0);
-        }
+        $qb->add_constraint('deliverable', 'IN', $deliverable_mc->get_values('id'));
+        $qb->add_constraint('invoice.sent', '>=', $this->_request_data['start']);
+        $qb->add_constraint('invoice.sent', '<=', $this->_request_data['end']);
 
         return $qb;
     }

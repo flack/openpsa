@@ -136,15 +136,7 @@ implements org_openpsa_widgets_grid_provider_client
         if ($this->_group)
         {
             $mc = midcom_db_member::new_collector('gid', $this->_group->id);
-            $members = $mc->get_values('uid');
-            if (empty($members))
-            {
-                $qb->add_constraint('id', '=', 0);
-            }
-            else
-            {
-                $qb->add_constraint('id', 'IN', $members);
-            }
+            $qb->add_constraint('id', 'IN', $mc->get_values('uid'));
         }
 
         if (!is_null($field))

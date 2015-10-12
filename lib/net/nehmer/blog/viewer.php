@@ -348,10 +348,8 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
             $mc->set_limit((int) $config->get('index_entries'));
 
             // Get the results
-            $links = $mc->get_values('article');
-
             $qb->begin_group('OR');
-                $qb->add_constraint('id', 'IN', $links);
+                $qb->add_constraint('id', 'IN', $mc->get_values('article'));
                 $qb->add_constraint('topic', 'IN', $topic_ids);
             $qb->end_group();
         }

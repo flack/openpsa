@@ -40,14 +40,7 @@ implements org_openpsa_widgets_grid_provider_client
         $mc->add_constraint('person.metadata.deleted', '=', false);
         $this->memberships = $mc->get_rows(array('orgOpenpsaObtype', 'guid'), 'person');
         $query = org_openpsa_contacts_person_dba::new_query_builder();
-        if (empty($this->memberships))
-        {
-            $query->add_constraint('id', '=', 0);
-        }
-        else
-        {
-            $query->add_constraint('id', 'IN', array_keys($this->memberships));
-        }
+        $query->add_constraint('id', 'IN', array_keys($this->memberships));
         if (!is_null($field))
         {
             $query->add_order($field, $direction);

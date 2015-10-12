@@ -105,10 +105,7 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
 
         // List active campaigns for the "add to campaign" selector
         $qb_all->add_constraint('archived', '=', 0);
-        if (!empty($campaigns))
-        {
-            $qb_all->add_constraint('id', 'NOT IN', array_keys($campaigns));
-        }
+        $qb_all->add_constraint('id', 'NOT IN', array_keys($campaigns));
         $qb_all->add_order('metadata.created', $this->_config->get('campaign_list_order'));
         $campaigns_all = $qb_all->execute();
 

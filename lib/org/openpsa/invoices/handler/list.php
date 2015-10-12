@@ -249,16 +249,7 @@ implements org_openpsa_widgets_grid_provider_client
         if ($this->_deliverable)
         {
             $mc = org_openpsa_invoices_invoice_item_dba::new_collector('deliverable', $this->_deliverable->id);
-            $invoice_ids = $mc->get_values('invoice');
-
-            if (!empty($invoice_ids))
-            {
-                $qb->add_constraint('id', 'IN', $invoice_ids);
-            }
-            else
-            {
-                $qb->add_constraint('id', '=', 0);
-            }
+            $qb->add_constraint('id', 'IN', $mc->get_values('invoice'));
         }
         else if ($this->_customer)
         {

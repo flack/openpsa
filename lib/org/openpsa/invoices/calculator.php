@@ -112,10 +112,8 @@ class org_openpsa_invoices_calculator extends midcom_baseclasses_components_pure
         $item_mc->add_constraint('invoice.sent', '=', 0);
         $suspects = $item_mc->get_values('invoice');
 
-        $num_suspects = count($suspects);
-
         // validate suspects.. we want no cancelation invoices
-        if ($num_suspects > 0)
+        if (count($suspects) > 0)
         {
             $invoice_mc = org_openpsa_invoices_invoice_dba::new_collector('metadata.deleted', false);
             $invoice_mc->add_constraint('cancelationInvoice', 'IN', array_values($suspects));
