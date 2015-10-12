@@ -64,24 +64,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
      */
     public static function list_by_objectguid($guid, $limit=false, $order='ASC', $paging = false, $status = false)
     {
-        if ($paging !== false)
-        {
-            $qb = new org_openpsa_qbpager('net_nehmer_comments_comment', 'net_nehmer_comments_comment');
-            $qb->results_per_page = $paging;
-        }
-        else
-        {
-            $qb = net_nehmer_comments_comment::new_query_builder();
-        }
-
-        if (!is_array($status))
-        {
-            $status = net_nehmer_comments_comment::get_default_status();
-        }
-
-        $qb->add_constraint('status', 'IN', $status);
-
-        $qb->add_constraint('objectguid', '=', $guid);
+        $qb = self::_prepare_query($guid, $status, $paging);
 
         if (   $limit
             && !$paging)
@@ -109,24 +92,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
      */
     public static function list_by_objectguid_filter_anonymous($guid, $limit=false, $order='ASC', $paging=false, $status = false)
     {
-        if ($paging !== false)
-        {
-            $qb = new org_openpsa_qbpager('net_nehmer_comments_comment', 'net_nehmer_comments_comment');
-            $qb->results_per_page = $paging;
-        }
-        else
-        {
-            $qb = net_nehmer_comments_comment::new_query_builder();
-        }
-
-        if (!is_array($status))
-        {
-            $status = net_nehmer_comments_comment::get_default_status();
-        }
-
-        $qb->add_constraint('status', 'IN', $status);
-
-        $qb->add_constraint('objectguid', '=', $guid);
+        $qb = self::_prepare_query($status, $paging);
         $qb->add_constraint('author', '<>', '');
         $qb->add_constraint('content', '<>', '');
 
@@ -154,16 +120,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
      */
     public static function count_by_objectguid($guid, $status = false)
     {
-        $qb = net_nehmer_comments_comment::new_query_builder();
-
-        if (!is_array($status))
-        {
-            $status = net_nehmer_comments_comment::get_default_status();
-        }
-
-        $qb->add_constraint('status', 'IN', $status);
-
-        $qb->add_constraint('objectguid', '=', $guid);
+        $qb = self::_prepare_query($status);
         return $qb->count_unchecked();
     }
 
@@ -176,7 +133,23 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
      */
     public static function count_by_objectguid_filter_anonymous($guid, $status = false)
     {
-        $qb = net_nehmer_comments_comment::new_query_builder();
+        $qb = self::_prepare_query($status);
+        $qb->add_constraint('author', '<>', '');
+        $qb->add_constraint('content', '<>', '');
+        return $qb->count_unchecked();
+    }
+
+    private static function _prepare_query($guid, $status = false, $paging = false)
+    {
+        if ($paging !== false)
+        {
+            $qb = new org_openpsa_qbpager('net_nehmer_comments_comment', 'net_nehmer_comments_comment');
+            $qb->results_per_page = $paging;
+        }
+        else
+        {
+            $qb = net_nehmer_comments_comment::new_query_builder();
+        }
 
         if (!is_array($status))
         {
@@ -184,11 +157,9 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
         }
 
         $qb->add_constraint('status', 'IN', $status);
-
         $qb->add_constraint('objectguid', '=', $guid);
-        $qb->add_constraint('author', '<>', '');
-        $qb->add_constraint('content', '<>', '');
-        return $qb->count_unchecked();
+
+        return $qb;
     }
 
     /**
