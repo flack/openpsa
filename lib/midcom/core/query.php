@@ -186,6 +186,21 @@ abstract class midcom_core_query
             debug_add("Query: Cannot add constraint on field '{$field}' with null value.", MIDCOM_LOG_WARN);
             return false;
         }
+        // Deal with empty arrays, which would produce invalid queries
+        // This is done here to avoid repetitive code in callers, and because
+        // it's easy enough to generalize: IN empty set => always false, NOT IN empty set => always true
+        if (   is_array($value)
+            && empty($value))
+        {
+            if ($operator == 'NOT IN')
+            {
+                return true;
+            }
+            if ($operator == 'IN')
+            {
+                return $this->add_constraint('id', '=', 0);
+            }
+        }
         if (! $this->_query->add_constraint($field, $operator, $value))
         {
             debug_add("Failed to execute add_constraint.", MIDCOM_LOG_ERROR);
