@@ -37,8 +37,6 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
     {
         midcom::get()->auth->require_user_do('org.openpsa.user:manage', null, 'org_openpsa_user_interface');
 
-        $data['controller'] = $this->get_controller('nullstorage');
-
         // Check if we get the person
         $this->_person = new midcom_db_person($args[0]);
         $this->_person->require_do('midgard:update');
@@ -48,6 +46,8 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         {
             throw new midcom_error('Given user already has an account');
         }
+
+        $data['controller'] = $this->get_controller('nullstorage');
 
         switch ($data['controller']->process_form())
         {
@@ -63,18 +63,6 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
                 return new midcom_response_relocate('view/' . $this->_person->guid . '/');
         }
 
-        if ($this->_person->email)
-        {
-            // Email address (first part) is the default username
-            $this->_request_data['default_username'] = preg_replace('/@.*/', '', $this->_person->email);
-        }
-        else
-        {
-            // Otherwise use cleaned up firstname.lastname
-            $generator = midcom::get()->serviceloader->load('midcom_core_service_urlgenerator');
-            $this->_request_data['default_username'] = $generator->from_string($this->_person->firstname) . '.' . $generator->from_string($this->_person->lastname);
-        }
-
         midcom::get()->head->set_pagetitle("{$this->_person->firstname} {$this->_person->lastname}");
         $this->_prepare_request_data();
 
@@ -82,6 +70,18 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
 
         // Add toolbar items
         org_openpsa_helpers::dm2_savecancel($this);
+    }
+
+    public function get_schema_defaults()
+    {
+        if ($this->_person->email)
+        {
+            // Email address (first part) is the default username
+            return array('username' => preg_replace('/@.*/', '', $this->_person->email));
+        }
+        // Otherwise use cleaned up firstname.lastname
+        $generator = midcom::get()->serviceloader->load('midcom_core_service_urlgenerator');
+        return array('username' => $generator->from_string($this->_person->firstname) . '.' . $generator->from_string($this->_person->lastname));
     }
 
     public function load_schemadb()
