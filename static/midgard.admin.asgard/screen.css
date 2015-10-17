@@ -365,8 +365,7 @@ p
 #content .object_edit input.jsdate,
 #content .object_edit input.jsdate_hours,
 #content .object_edit input.jsdate_minutes,
-#content .object_edit div.CodeMirror-scroll,
-.CodeMirror-fullscreen
+#content .object_edit div.CodeMirror-scroll
 {
     border: 1px solid #aaa;
     background-color: white;

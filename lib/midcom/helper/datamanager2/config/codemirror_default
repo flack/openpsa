@@ -10,30 +10,13 @@ editor = CodeMirror.fromTextArea(document.getElementById("{$id}"), {
   tabMode: "shift",
   readOnly: {$read_only},
   extraKeys: {
-      "F11": function() {
-          var scroller = editor.getScrollerElement();
-          if (scroller.className.search(/\bCodeMirror-fullscreen\b/) === -1) {
-              scroller.className += " CodeMirror-fullscreen";
-              scroller.style.height = "100%";
-              scroller.style.width = "100%";
-              editor.refresh();
-          } else {
-              scroller.className = scroller.className.replace(" CodeMirror-fullscreen", "");
-              scroller.style.height = '';
-              scroller.style.width = '';
-              editor.refresh();
-          }
+      "F11": function(cm) {
+          cm.setOption("fullScreen", !cm.getOption("fullScreen"));
       },
-      "Esc": function() {
-          var scroller = editor.getScrollerElement();
-              if (scroller.className.search(/\bCodeMirror-fullscreen\b/) !== -1) {
-                  scroller.className = scroller.className.replace(" CodeMirror-fullscreen", "");
-                  scroller.style.height = '';
-                  scroller.style.width = '';
-                  editor.refresh();
-              }
-          }
+      "Esc": function(cm) {
+          if (cm.getOption("fullScreen")) cm.setOption("fullScreen", false);
       }
+  }
 });
 var hlLine = editor.addLineClass(0, 'background', "activeline");
 

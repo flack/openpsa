@@ -74,6 +74,8 @@ class midcom_helper_datamanager2_widget_codemirror extends midcom_helper_dataman
             midcom::get()->head->add_jsfile($prefix . '/addon/search/searchcursor.js');
             midcom::get()->head->add_jsfile($prefix . '/addon/search/match-highlighter.js');
             midcom::get()->head->add_jsfile($prefix . '/addon/search/search.js');
+            midcom::get()->head->add_stylesheet($prefix . '/addon/display/fullscreen.css');
+            midcom::get()->head->add_jsfile($prefix . '/addon/display/fullscreen.js');
         }
     }
 
