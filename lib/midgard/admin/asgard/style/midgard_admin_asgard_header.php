@@ -7,8 +7,6 @@ if (   midgard_admin_asgard_plugin::get_preference('escape_frameset')
     midcom::get()->head->add_jsonload('if(top.frames.length != 0 && top.location.href != this.location.href){top.location.href = this.location.href}');
 }
 
-echo "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";
-
 $pref_found = false;
 
 if (($width = midgard_admin_asgard_plugin::get_preference('offset')))
