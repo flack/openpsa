@@ -97,7 +97,7 @@ implements midcom_helper_datamanager2_interfaces_create
                 $indexer->index($data['controller']->datamanager);
                 //FALL-THROUGH
             case 'cancel':
-                midcom::get()->head->add_jsonload('window.opener.location.reload();');
+                midcom::get()->head->add_jsonload("window.opener.openpsa_calendar_instance.fullCalendar('refetchEvents');");
                 midcom::get()->head->add_jsonload('window.close();');
                 break;
         }

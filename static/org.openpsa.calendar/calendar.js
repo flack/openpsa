@@ -166,7 +166,7 @@ var openpsa_calendar_widget =
 
         settings = $.extend({}, defaults, openpsa_calendar_widget.parse_url(prefix), settings || {});
 
-        $(selector).fullCalendar(settings);
+        window.openpsa_calendar_instance = $(selector).fullCalendar(settings);
         openpsa_calendar_widget.prepare_toolbar_buttons(selector, prefix, settings);
 
         $('body').data('title', document.title);
