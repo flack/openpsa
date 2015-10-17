@@ -17,11 +17,11 @@
             (
                 'output_mode' => 'code',
             ),
-            'widget'      => 'textarea',
+            'widget'      => 'codemirror',
             'widget_config' => Array
             (
                 'height' => 30,
-                'width' => '100%',
+                'width' => '100%'
             ),
             'required' => true
         )
