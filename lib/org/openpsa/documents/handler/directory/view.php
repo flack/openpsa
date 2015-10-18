@@ -79,14 +79,14 @@ class org_openpsa_documents_handler_directory_view extends midcom_baseclasses_co
                 //check if id of a topic is passed
                 if (isset($_POST['nodeid']))
                 {
-                    $root_topic = new midcom_db_topic((int)$_POST['nodeid']);
+                    $root_topic = new midcom_db_topic($_POST['nodeid']);
                     while (   ($root_topic->get_parent()->component == $current_component)
                            && ($root_topic->id != $current_topic->id))
                     {
                         $parent_link = $root_topic->name . "/" . $parent_link;
                         $root_topic = $root_topic->get_parent();
                     }
-                    $root_topic = new midcom_db_topic((int)$_POST['nodeid']);
+                    $root_topic = new midcom_db_topic($_POST['nodeid']);
                     $this->_request_data['parent_link'] = $parent_link;
                 }
                 else

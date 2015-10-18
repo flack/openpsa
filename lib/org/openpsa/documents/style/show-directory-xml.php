@@ -25,7 +25,7 @@ if (isset($data['parent_directory']))
     $length = strlen($data['parent_directory']->name);
     $link = substr($prefix, 0, strlen($prefix) - (strlen($data['parent_directory']->name) + 1));
     echo "<row>";
-    echo "<cell>" . $data['parent_directory']->id . "</cell>";
+    echo "<cell>" . $data['parent_directory']->guid . "</cell>";
     echo "<cell></cell>";
 
     $link_html = "<![CDATA[";
@@ -62,7 +62,7 @@ $icon = MIDCOM_STATIC_URL . '/stock-icons/16x16/folder.png';
 foreach ($data['directories'] as $directory)
 {
     echo "<row>";
-    echo "<cell>" . $directory->id ."</cell>";
+    echo "<cell>" . $directory->guid ."</cell>";
     echo "<cell><![CDATA[" . $directory->extra . "]]></cell>";
 
     $link_html = "<![CDATA[";
@@ -109,7 +109,7 @@ foreach ($data['documents'] as $document)
         }
     }
     echo "<row>";
-    echo "<cell>" . $document->id . "</cell>";
+    echo "<cell>" . $document->guid . "</cell>";
     echo "<cell><![CDATA[" . $document->title . "]]></cell>";
 
     $class = 'document ' . $document->get_class();
