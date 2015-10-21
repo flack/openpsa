@@ -102,7 +102,7 @@ class dbacontainer extends container
         {
             $stat = $this->object->update();
         }
-        else if ($stat = $this->object->update())
+        else if ($stat = $this->object->create())
         {
             $this->object->set_parameter('midcom.helper.datamanager2', 'schema_name', $this->schema->get_name());
         }
