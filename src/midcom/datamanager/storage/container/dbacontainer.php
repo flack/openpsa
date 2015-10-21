@@ -100,19 +100,21 @@ class dbacontainer extends container
     {
         if ($this->object->id)
         {
-            if (!$this->object->update())
-            {
-                throw new \midcom_error('Failed to save: ' . \midcom_connection::get_error_string());
-            }
+            $stat = $this->object->update();
         }
-        else
+        else if ($stat = $this->object->update())
         {
-            if (!$this->object->create())
-            {
-                throw new \midcom_error('Failed to save: ' . \midcom_connection::get_error_string());
-            }
             $this->object->set_parameter('midcom.helper.datamanager2', 'schema_name', $this->schema->get_name());
         }
+        if (!$stat)
+        {
+            if (\midcom_connection::get_error() === MGD_ERR_ACCESS_DENIED)
+            {
+                throw new \midcom_error_forbidden('Failed to save: ' . \midcom_connection::get_error_string());
+            }
+            throw new \midcom_error('Failed to save: ' . \midcom_connection::get_error_string());
+        }
+
         foreach ($this->fields as $node)
         {
             $node->save();
