@@ -14,9 +14,6 @@
     'org.openpsa.invoices' => 'goto/',
 ),
 
-/* grid widget */
-'jqgrid_version' => '4.6.0',
-
 /* contact widget */
 'jabber_enable_presence' => true,
 'jabber_edgar_url'       => '',

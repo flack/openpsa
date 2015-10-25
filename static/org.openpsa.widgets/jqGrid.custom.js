@@ -100,15 +100,13 @@ var org_openpsa_grid_resize =
     {
         $(items).each(function()
         {
-            $('<a role="link" class="ui-jqgrid-titlebar-maximize HeaderButton" style="right: 20px;"><span class="ui-icon ui-icon-circle-zoomin"></span></a>')
+            $('<a role="link" class="ui-button ui-icon ui-icon-circle-zoomin ui-jqgrid-titlebar-maximize"></a>')
                 .bind('click', function()
                 {
                     var container = $(this).closest('.ui-jqgrid').parent();
 
                     if (container.hasClass('ui-jqgrid-maximized'))
                     {
-                        $(this).removeClass('ui-state-active ui-state-hover');
-
                         var jqgrid_id = container.find('table.ui-jqgrid-btable').attr('id'),
                         placeholder = $('#maximized_placeholder');
 
@@ -132,7 +130,6 @@ var org_openpsa_grid_resize =
                     }
                     else
                     {
-                        $(this).addClass('ui-state-active');
                         $(org_openpsa_grid_resize.containment).scrollTop(0);
                         $('<div id="maximized_placeholder"></div>')
                             .data('orig_height', container.find('.ui-jqgrid-bdiv').outerHeight())
@@ -148,15 +145,7 @@ var org_openpsa_grid_resize =
                     }
                     $(window).trigger('resize');
                 })
-                .bind('mouseenter', function()
-                {
-                    $(this).addClass('ui-state-hover');
-                })
-                .bind('mouseleave', function()
-                {
-                    $(this).removeClass('ui-state-hover');
-                })
-                .prependTo($(this));
+                .appendTo($(this));
             if ($(this).closest('.ui-jqgrid').find('.ui-jqgrid-btable').data('maximized'))
             {
                 $(this).find('.ui-jqgrid-titlebar-maximize').trigger('click');
@@ -356,11 +345,10 @@ var org_openpsa_grid_editable =
     },
     toggle: function(id, edit_mode)
     {
-        $('#save_button_' + id).toggleClass('hidden', !edit_mode);
-        $('#cancel_button_' + id).toggleClass('hidden', !edit_mode);
-        $('#edit_button_' + id).toggleClass('hidden', edit_mode);
-        $('#cancel_button_' + id).closest("tr")
-            .toggleClass('jqgrid-editing', edit_mode);
+        $("#" + id).find(".row_edit, .row_delete").toggleClass('hidden', edit_mode);
+	$("#" + id).find(".row_save, .row_cancel").toggleClass('hidden', !edit_mode);
+        $('#' + id).toggleClass('jqgrid-editing', edit_mode);
+
         this.toggle_mouselistener();
     },
 
@@ -379,7 +367,10 @@ var org_openpsa_grid_editable =
                     $('#' + id).restoreRow(lastsel);
                     lastsel = id;
                 }
-                self.editRow(id);
+                if (!$('#' + id).hasClass('jqgrid-editing'))
+                {
+                    self.editRow(id);
+                }
             }
         });
         self.add_inline_controls();
@@ -420,14 +411,16 @@ var org_openpsa_grid_editable =
         if (this.options.enable_sorting)
         {
             var isEdit = $('#' + this.grid_id + ' tr.jqgrid-editing').length > 0;
-            $( '#'+this.grid_id+' tbody').sortable( "option", "disabled", isEdit );
+
             if (isEdit)
             {
-                $( '#'+this.grid_id+' tbody').enableSelection();
+                $( '#' + this.grid_id + ' tbody').sortable( "disable");
+                $( '#' + this.grid_id + ' tbody > .jqgrow').enableSelection();
             }
             else
             {
-                $( '#'+this.grid_id+' tbody').disableSelection();
+                $( '#' + this.grid_id + ' tbody').sortable( "enable");
+                $( '#' + this.grid_id + ' tbody > .jqgrow').disableSelection();
             }
         }
     },
@@ -499,18 +492,21 @@ var org_openpsa_grid_editable =
             var id = $(this).attr('id').replace(/^edit_button_/, '');
             self.editRow(id);
         });
-        $("#" + this.grid_id).on('click', ".row_delete", function()
+        $("#" + this.grid_id).on('click', ".row_delete", function(e)
         {
+            e.stopPropagation();
             var id = $(this).attr('id').replace(/^delete_button_/, '');
             self.deleteRow(id);
         });
-        $("#" + this.grid_id).on('click', ".row_save", function()
+        $("#" + this.grid_id).on('click', ".row_save", function(e)
         {
+            e.stopPropagation();
             var id = $(this).attr('id').replace(/^save_button_/, '');
             self.saveRow(id);
         });
-        $("#" + this.grid_id).on('click', ".row_cancel", function()
+        $("#" + this.grid_id).on('click', ".row_cancel", function(e)
         {
+            e.stopPropagation();
             var id = $(this).attr('id').replace(/^cancel_button_/, '');
             self.restoreRow(id);
         });

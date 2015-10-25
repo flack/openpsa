@@ -86,8 +86,8 @@ class org_openpsa_widgets_grid extends midcom_baseclasses_components_purecode
         {
             return;
         }
-        $version = midcom_baseclasses_components_configuration::get('org.openpsa.widgets', 'config')->get('jqgrid_version');
-        $jqgrid_path = '/org.openpsa.widgets/jquery.jqGrid-' . $version . '/';
+        $version = '0.1.0';
+        $jqgrid_path = '/org.openpsa.widgets/jsgrid-' . $version . '/';
 
         $head = midcom::get()->head;
         //first enable jquery - just in case it isn't loaded
@@ -98,13 +98,13 @@ class org_openpsa_widgets_grid extends midcom_baseclasses_components_purecode
         //needed js/css-files for jqgrid
         $lang = "en";
         $language = midcom::get()->i18n->get_current_language();
-        if (file_exists(MIDCOM_STATIC_ROOT . $jqgrid_path . 'js/i18n/grid.locale-' . $language . '.js'))
+        if (file_exists(MIDCOM_STATIC_ROOT . $jqgrid_path . 'i18n/grid.locale-' . $language . '.min.js'))
         {
             $lang = $language;
         }
-        $head->add_jsfile(MIDCOM_STATIC_URL . $jqgrid_path . 'js/i18n/grid.locale-'. $lang . '.js');
+        $head->add_jsfile(MIDCOM_STATIC_URL . $jqgrid_path . 'i18n/grid.locale-'. $lang . '.min.js');
 
-        $head->add_jsfile(MIDCOM_STATIC_URL . $jqgrid_path . 'js/jquery.jqGrid.min.js');
+        $head->add_jsfile(MIDCOM_STATIC_URL . $jqgrid_path . 'jsgrid-custom.min.js');
 
         org_openpsa_widgets_ui::add_head_elements();
         $head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.widgets/jqGrid.custom.js');
@@ -114,7 +114,7 @@ class org_openpsa_widgets_grid extends midcom_baseclasses_components_purecode
         $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/mouse.min.js');
         $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/resizable.min.js');
 
-        $head->add_stylesheet(MIDCOM_STATIC_URL . $jqgrid_path . 'css/ui.jqgrid.css');
+        $head->add_stylesheet(MIDCOM_STATIC_URL . $jqgrid_path . 'jsgrid-' . $version . '.min.css');
         $head->add_stylesheet(MIDCOM_STATIC_URL . '/org.openpsa.widgets/jqGrid.custom.css');
         $head->add_jquery_ui_theme();
         self::$_head_elements_added = true;

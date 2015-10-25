@@ -115,9 +115,6 @@ $grid->set_column('actions', '',  'width: 65, fixed: true, sortable: false');
             grid.jqGrid("footerData", "set", {sum: total});
             org_openpsa_grid_editable.toggle(rowid, false);
 
-            // enabled the (Drab&Drop) sort of the rows after save (after edit)
-            $( 'tbody:first', grid).sortable( "option", "disabled", false );
-            $( 'tbody:first', grid).disableSelection();
             //Specially for the case that a row was deleted
             refreshItemPositions();
         },

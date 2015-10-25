@@ -8,26 +8,10 @@
     display: none;
 }
 
-.ui-jqgrid .HeaderButton
+.ui-jqgrid-titlebar-maximize
 {
-    height: 18px;
-    margin: -10px 0 0;
-    padding: 1px;
-    position: absolute;
-    top: 50%;
-    width: 19px;
+    float: right;
 }
-.ui-jqgrid .HeaderButton:hover
-{
-    padding: 1px;
-}
-.ui-jqgrid .HeaderButton span
-{
-    display: block;
-    margin: 1px;
-    cursor: pointer
-}
-
 .ui-jqgrid tr.jqgrow td a img
 {
     border: none;
