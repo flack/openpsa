@@ -30,30 +30,26 @@ class org_openpsa_contacts_handler_group_action extends midcom_baseclasses_compo
                 // Ajax save handler
                 $update_succeeded = false;
                 $errstr = null;
-                if (   array_key_exists('member_title', $_POST)
-                    && is_array($_POST['member_title']))
+                if (   !empty($_POST['guid'])
+                    && array_key_exists('title', $_POST))
                 {
-                    foreach ($_POST['member_title'] as $id => $title)
+                    try
                     {
-                        $update_succeeded = false;
-                        try
-                        {
-                            $member = new midcom_db_member($id);
-                            $member->require_do('midgard:update');
-                            $member->extra = $title;
-                            $update_succeeded = $member->update();
-                        }
-                        catch (midcom_error $e)
-                        {
-                            $e->log();
-                        }
-                        $errstr = midcom_connection::get_error_string();
+                        $member = new midcom_db_member($_POST['guid']);
+                        $member->require_do('midgard:update');
+                        $member->extra = $_POST['title'];
+                        $update_succeeded = $member->update();
                     }
+                    catch (midcom_error $e)
+                    {
+                        $e->log();
+                    }
+                    $errstr = midcom_connection::get_error_string();
                 }
 
-                $response = new midcom_response_xml;
-                $response->result = $update_succeeded;
-                $response->status = $errstr;
+                $response = new midcom_response_json;
+                $response->status = $update_succeeded;
+                $response->message = $errstr;
                 return $response;
 
             case "members":

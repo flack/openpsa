@@ -84,8 +84,6 @@ $title_prefix = $topic->extra . ': ' . $context->get_key(MIDCOM_CONTEXT_PAGETITL
               <div id="org_openpsa_toolbar" class="org_openpsa_toolbar">
                   <(toolbar-bottom)>
               </div>
-              <div id="org_openpsa_messagearea">
-              </div>
               <div id="content-text">
                   <?php
                   //Display any UI messages added to stack on PHP level

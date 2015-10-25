@@ -31,6 +31,4 @@ if (array_key_exists('title', $data))
                       midcom::get()->toolbars->show_view_toolbar();
                     ?>
             </div>
-            <div id="org_openpsa_messagearea">
-            </div>
             <div id="content">

@@ -6,9 +6,13 @@ $group_guid = $data['group']->guid;
 
 if ($data['member']->can_do('midgard:update'))
 {
-    $view_title_form = "<input id=\"editable_title_{$group_guid}_ajaxDefault\" value=\"" . $data['l10n']->get('<title>') . "\" type=\"hidden\" />\n";
-    $view_title_form .= "<input id=\"editable_title_{$group_guid}_ajaxUrl\" value=\"{$prefix}group/{$group_guid}/update_member_title/\" type=\"hidden\" />\n";
-    $view_title_form .= "<input id=\"editable_title_{$group_guid}\" name=\"member_title[{$data['member']->id}]\" class=\"ajax_editable\" style=\"width: 80%;\" onfocus=\"ooAjaxFocus(this)\" onblur=\"ooAjaxBlur(this)\" value=\"{$data['member_title']}\" />\n";
+    $view_title_form = "<input name=\"member_title[{$data['member']->id}]\"
+        class=\"ajax_editable\"
+        style=\"width: 80%;\"
+        value=\"{$data['member_title']}\"
+        data-guid=\"" . $data['member']->guid . "\"
+        data-ajax-default=\"" . $data['l10n']->get('<title>') . "\"
+        data-ajax-url=\"{$prefix}group/{$group_guid}/update_member_title/\" />\n";
 }
 else
 {

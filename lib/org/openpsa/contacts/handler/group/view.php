@@ -184,7 +184,7 @@ implements midcom_helper_datamanager2_interfaces_view, org_openpsa_widgets_grid_
                 }
             }
             // This handler uses Ajax, include the handler javascripts
-            midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . "/org.openpsa.helpers/ajaxutils.js");
+            midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . "/org.openpsa.helpers/editable.js");
             org_openpsa_widgets_ui::enable_ui_tab();
         }
         $data['view'] = midcom_helper_datamanager2_handler::get_view($this, $this->_group);
