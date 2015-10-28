@@ -22,7 +22,7 @@ $(document).ready(function()
                     filter_values[filter_name].push(value);
                 });
             }
-            else
+            else if ($(element).val())
             {
                 filter_values[$(element).attr('name')] = $(element).val();
             }
