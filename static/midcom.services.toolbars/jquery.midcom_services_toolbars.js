@@ -121,17 +121,17 @@ $.midcom_services_toolbars = function(root, settings) {
             children = $('ul',item);
 
             item.bind('mouseover',function(e){
-                $(item_holder).stopTime("hide");
+                clearTimeout($(item_holder).data("hide"));
                 $('.item ul', item_holder).hide();
                 $('.midcom_services_toolbars_topic_title.hover', item_holder).removeClass("hover");
                 handle.addClass("hover");
                 children.show();
             });
             item.bind('mouseout',function(e){
-                $(item_holder).oneTime(1000, "hide", function() {
-                handle.removeClass("hover");
-                children.hide();
-                });
+                $(item_holder).data('hide', setTimeout(function() {
+                    handle.removeClass("hover");
+                    children.hide();
+                }, 1000));
             });
         });
 

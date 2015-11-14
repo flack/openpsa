@@ -42,8 +42,10 @@ $.fn.midcom_services_uimessage = function(options)
         .addClass('close')
         .click(function()
         {
-            $(this).parent().slideUp('fast');
-            $(this).parent().unbind($(this).attr('id') + '_timer');
+            var message = $(this).parent();
+            message.slideUp('fast');
+            clearTimeout(message.data('timer'));
+            clearInterval(message.data('interval'));
 
             // Return without removing the object
             if (!MIDCOM_SERVICES_UIMESSAGES_REMOVE)
@@ -52,10 +54,10 @@ $.fn.midcom_services_uimessage = function(options)
             }
 
             // Remove the element after some safety margin
-            $(this).parent().oneTime(MIDCOM_SERVICES_UIMESSAGES_SLIDE_DELAY, $(this).attr('id') + '_timer', function()
+            message.data('timer', setTimeout(function()
             {
-                $(this).remove();
-            });
+                message.remove();
+            }, MIDCOM_SERVICES_UIMESSAGES_SLIDE_DELAY));
         })
         .prependTo('#' + id);
 
@@ -63,9 +65,9 @@ $.fn.midcom_services_uimessage = function(options)
     {
         case MIDCOM_SERVICES_UIMESSAGES_TYPE_INFO:
         case MIDCOM_SERVICES_UIMESSAGES_TYPE_OK:
-            $('#' + id).oneTime(MIDCOM_SERVICES_UIMESSAGES_SLIDE_DELAY, id + '_timer', function()
+            $('#' + id).data('timer', setTimeout(function()
             {
-                $(this).slideUp(MIDCOM_SERVICES_UIMESSAGES_SLIDE_SPEED);
+                $('#' + id).slideUp(MIDCOM_SERVICES_UIMESSAGES_SLIDE_SPEED);
 
                 // Return without removing the object
                 if (!MIDCOM_SERVICES_UIMESSAGES_REMOVE)
@@ -74,21 +76,21 @@ $.fn.midcom_services_uimessage = function(options)
                 }
 
                 // Remove the element after some safety margin
-                $(this).oneTime(MIDCOM_SERVICES_UIMESSAGES_SLIDE_DELAY, $(this).attr('id') + '_timer', function()
+                $('#' + id).data('timer', setTimeout(function()
                 {
-                    $(this).remove();
-                });
-            });
+                    $('#' + id).remove();
+                }, MIDCOM_SERVICES_UIMESSAGES_SLIDE_DELAY));
+            }, MIDCOM_SERVICES_UIMESSAGES_SLIDE_DELAY));
 
             break;
 
         case MIDCOM_SERVICES_UIMESSAGES_TYPE_ERROR:
             if (MIDCOM_SERVICES_UIMESSAGES_ERROR_HIGHLIGHT)
             {
-                $('#' + id).everyTime(7000, id + '_shake', function()
+                $('#' + id).data('interval', setInterval(function()
                 {
-                    $(this).effect('pulsate', { times: 1}, 500);
-                });
+                    $('#' + id).effect('pulsate', { times: 1}, 500);
+                }, 7000));
             }
 
 

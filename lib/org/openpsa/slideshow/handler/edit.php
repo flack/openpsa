@@ -114,7 +114,6 @@ class org_openpsa_slideshow_handler_edit extends midcom_baseclasses_components_h
         $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/position.min.js');
         $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/dialog.min.js');
         $head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.services.uimessages/jquery.midcom_services_uimessages.js');
-        $head->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.timers.src.js');
         $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/effect.min.js');
         $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/effect-pulsate.min.js');
         $head->add_jsfile(MIDCOM_STATIC_URL . '/' . $this->_component . '/edit.js');
