@@ -14,8 +14,7 @@
             (
                 'title' => 'Document',
                 'css_group' => 'area',
-            ),
-            'required'    => true,
+            )
         ),
         'abstract' => array
         (
@@ -37,6 +36,7 @@
             ),
             'end_fieldset' => '',
             'index_method' => 'attachment',
+            'required' => true
         ),
         'status_select' => array
         (
