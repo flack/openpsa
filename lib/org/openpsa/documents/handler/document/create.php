@@ -109,6 +109,17 @@ class org_openpsa_documents_handler_document_create extends midcom_baseclasses_c
         switch ($this->_controller->process_form())
         {
             case 'save':
+                if (empty($this->_document->title))
+                {
+                    $attachments = org_openpsa_helpers::get_dm2_attachments($this->_document, 'document');
+                    if (!empty($attachments))
+                    {
+                        $att = current($attachments);
+                        $this->_document->title = $att->title;
+                    }
+                    $this->_document->update();
+                }
+
                 /* Index the document */
                 $indexer = new org_openpsa_documents_midcom_indexer($this->_topic);
                 $indexer->index($this->_controller->datamanager);

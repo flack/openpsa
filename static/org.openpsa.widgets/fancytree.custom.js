@@ -56,6 +56,10 @@ var org_openpsa_tree =
     },
     crop_height: function(tree)
     {
+        if ($('#content-text').length === 0)
+        {
+            return;
+        }
         var container_height = $('#content-text').height(),
         tree_content_height = tree.find('.fancytree-container').height(),
         available_height = container_height - (tree.closest('.sidebar').height() - tree.outerHeight(true)),

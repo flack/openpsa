@@ -202,7 +202,8 @@ var org_openpsa_grid_resize =
     },
     set_height: function(items, mode)
     {
-        if (items.length === 0)
+        if (    items.length === 0
+             || $(org_openpsa_grid_resize.containment) === 0)
         {
             return;
         }

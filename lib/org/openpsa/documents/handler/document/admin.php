@@ -96,7 +96,16 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
         switch ($this->_controller->process_form())
         {
             case 'save':
-                // TODO: Update the URL name?
+                if (empty($this->_document->title))
+                {
+                    $attachments = org_openpsa_helpers::get_dm2_attachments($this->_document, 'document');
+                    if (!empty($attachments))
+                    {
+                        $att = current($attachments);
+                        $this->_document->title = $att->title;
+                    }
+                    $this->_document->update();
+                }
 
                 // Update the Index
                 $indexer = new org_openpsa_documents_midcom_indexer($this->_topic);
