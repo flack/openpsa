@@ -161,7 +161,7 @@ span.ui-sortable .autocomplete-item
 ul.ui-autocomplete
 {
     overflow: auto;
-    box-shadow: 2px 3px 6px rgba(0, 0, 0, 0.25)
+    box-shadow: 2px 3px 6px rgba(0, 0, 0, 0.25);
     max-height: 100%; /* for IE < 9 & Opera */
     max-height: calc(100% - 6px);
 }
