@@ -114,13 +114,14 @@
                  'message' => sprintf($this->l10n->get('marked invoice %s paid'), '')
              );
          }
-         else if (   $this->invoice->due
-             && (   $this->invoice->due < time()
+         if (   $this->invoice->due
+             && (   (   $this->invoice->due < time()
+                     && $this->invoice->paid == 0)
                  || $this->invoice->due < $this->invoice->paid))
          {
              $entries[] = array
              (
-                 'timestamp' => $this->invoice->paid,
+                 'timestamp' => $this->invoice->due,
                  'message' => $this->l10n->get('overdue')
              );
          }
