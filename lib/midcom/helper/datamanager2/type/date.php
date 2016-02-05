@@ -117,7 +117,7 @@ class midcom_helper_datamanager2_type_date extends midcom_helper_datamanager2_ty
         }
         else
         {
-            if (is_int($source))
+            if (is_numeric($source))
             {
                 $source = strftime('%Y-%m-%d %H:%M:%S', $source);
             }
