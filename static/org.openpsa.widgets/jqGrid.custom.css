@@ -8,9 +8,13 @@
     display: none;
 }
 
-.ui-jqgrid-titlebar-maximize
-{
-    float: right;
+.ui-button.ui-jqgrid-titlebar-maximize {
+    height: 18px;
+    margin: -8px 0 0;
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    vertical-align: middle;
 }
 .ui-jqgrid tr.jqgrow td a img
 {

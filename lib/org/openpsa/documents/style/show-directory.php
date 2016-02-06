@@ -10,15 +10,6 @@
 </div>
 
 <script type="text/javascript">
-
-//function to set the right title for creator-cell
-function setCellTitle(rowid, rowdata, rowelem)
-{
-    var cell = $("#" + rowid).children(':eq(3)');
-    var source_cell = $("#" + rowid).children(':eq(2)');
-    cell.attr('title', source_cell.text());
-}
-
 jQuery("#treegrid").jqGrid({
     treeGrid: true,
     treeGridModel: 'adjacency',
@@ -26,7 +17,7 @@ jQuery("#treegrid").jqGrid({
     treedatatype: "xml",
     mtype: "POST",
     rowNum: 100, //TODO: this should be set by JS in the loadComplete event (which isn't working ATM)
-    colNames:["id",
+    colNames:[
     <?php
         //index is needed for sorting
         echo "'name_index',";
@@ -40,20 +31,21 @@ jQuery("#treegrid").jqGrid({
     ?>
     ],
     colModel:[
-        {name:'id',index:'id', hidden: true, key: true },
         {name:'name_index', index:'name_index', hidden: true},
         {name:'name', index: 'name_index', width: 100, classes: "ui-ellipsis"},
         {name:'download_url', index: 'download_url', classes: 'download_url', hidden: true },
         {name:'creator_index', index: 'creator_index', hidden: true },
-        {name:'creator', index: 'creator_index', width: 70, classes: "ui-ellipsis"},
+        {name:'creator', index: 'creator_index', width: 70, classes: "ui-ellipsis", cellattr:
+            function(rowid, val, object)
+            {
+                return ' title="' + $(object[3]).text() + '"';
+            }},
         {name:'last_mod_index', index:'last_mod_index', hidden: true},
         {name:'last_mod', width: 105, index:'last_mod_index', align: 'center', fixed: true},
         {name:'file_size_index', index:'file_size_index', hidden: true, sortable: true, sorttype:'integer'},
         {name:'file_size', index:'file_size_index', width: 90, fixed: true  }
      ],
-    gridview: false,
-    ExpandColumn : 'name',
-    afterInsertRow: setCellTitle
+    ExpandColumn : 'name'
  });
 
 $('#treegrid').on('contextmenu', '.document', function(e)

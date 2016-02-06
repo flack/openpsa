@@ -18,13 +18,14 @@ function calculate_total()
 {
     var grid = $('#<?php echo $grid->get_identifier(); ?>'),
     total = grid.jqGrid('getCol', 'index_sum', false, 'sum'),
-    separator_expression = /([0-9]+)([0-9]{3})/;
+    separator_expression = /([0-9]+)([0-9]{3})/,
+    l10n = $.jgrid.locales[$.jgrid.defaults.locale].formatter.number;
 
-    total = total.toFixed(2).replace(/\./, $.jgrid.formatter.number.decimalSeparator);
+    total = total.toFixed(2).replace(/\./, l10n.decimalSeparator);
 
     while (separator_expression.test(total))
     {
-        total = total.replace(separator_expression, '$1' + $.jgrid.formatter.number.thousandsSeparator + '$2');
+        total = total.replace(separator_expression, '$1' + l10n.thousandsSeparator + '$2');
     }
 
     grid.jqGrid("footerData", "set", {"sum": total});
