@@ -27,9 +27,8 @@ class org_openpsa_directmarketing_cleanup extends midcom_baseclasses_components_
         return gmdate('Y-m-d H:i:s', time() - 3600 * 24 * $this->_config->get('delete_older_than_days'));
     }
 
-    private function get_message_receipt_qb($kept = false)
+    private function add_time_filter(midcom_core_querybuilder $qb, $kept)
     {
-        $qb = org_openpsa_directmarketing_campaign_messagereceipt_dba::new_query_builder();
         if ($kept)
         {
             $qb->add_constraint('metadata.revised', '>=', $this->get_deletion_timestamp());
@@ -38,20 +37,19 @@ class org_openpsa_directmarketing_cleanup extends midcom_baseclasses_components_
         {
             $qb->add_constraint('metadata.revised', '<', $this->get_deletion_timestamp());
         }
+    }
+
+    private function get_message_receipt_qb($kept = false)
+    {
+        $qb = org_openpsa_directmarketing_campaign_messagereceipt_dba::new_query_builder();
+        $qb->add_time_filter($qb, $kept);
         return $qb;
     }
 
     private function get_link_log_qb($kept = false)
     {
         $qb = org_openpsa_directmarketing_link_log_dba::new_query_builder();
-        if ($kept)
-        {
-            $qb->add_constraint('metadata.revised', '>=', $this->get_deletion_timestamp());
-        }
-        else
-        {
-            $qb->add_constraint('metadata.revised', '<', $this->get_deletion_timestamp());
-        }
+        $qb->add_time_filter($qb, $kept);
         return $qb;
     }
 
@@ -101,53 +99,35 @@ class org_openpsa_directmarketing_cleanup extends midcom_baseclasses_components_
 
     public function count($kept = false)
     {
-        $deletion = array();
-        $deletion['message_receipt'] = $this->get_message_receipt_qb($kept)->count_unchecked();
-        $deletion['link_log'] = $this->get_link_log_qb($kept)->count_unchecked();
-        $deletion['campaign_member'] = $this->get_campaign_member_qb($kept)->count_unchecked();
-        $deletion['person'] = $this->get_person_qb($kept)->count_unchecked();
-        return $deletion;
+        return array
+        (
+            'message_receipt' => $this->get_message_receipt_qb($kept)->count_unchecked(),
+            'link_log' => $this->get_link_log_qb($kept)->count_unchecked(),
+            'campaign_member' => $this->get_campaign_member_qb($kept)->count_unchecked(),
+            'person' => $this->get_person_qb($kept)->count_unchecked()
+        );
     }
 
     public function delete()
     {
-        if (!$this->_config->get('delete_older'))
+        if ($this->_config->get('delete_older'))
         {
-            return;
+            midcom::get()->disable_limits();
+
+            $this->delete_entries($this->get_message_receipt_qb());
+            $this->delete_entries($this->get_link_log_qb());
+            $this->delete_entries($this->get_campaign_member_qb());
+            $this->delete_entries($this->get_person_qb());
         }
+    }
 
-        midcom::get()->disable_limits();
-
-        $qb = $this->get_message_receipt_qb();
+    private function delete_entries(midcom_core_querybuilder $qb)
+    {
         $qb->set_limit($this->_config->get('delete_older_per_run'));
-        $receipts = $qb->execute();
-        foreach ($receipts as $receipt)
+        $objects = $qb->execute();
+        foreach ($objects as $object)
         {
-            $receipt->delete();
-        }
-
-        $qb = $this->get_link_log_qb();
-        $qb->set_limit($this->_config->get('delete_older_per_run'));
-        $logs = $qb->execute();
-        foreach ($logs as $log)
-        {
-            $log->delete();
-        }
-
-        $qb = $this->get_campaign_member_qb();
-        $qb->set_limit($this->_config->get('delete_older_per_run'));
-        $members = $qb->execute();
-        foreach ($members as $member)
-        {
-            $member->delete();
-        }
-
-        $qb = $this->get_person_qb();
-        $qb->set_limit($this->_config->get('delete_older_per_run'));
-        $persons = $qb->execute();
-        foreach ($persons as $person)
-        {
-            $person->delete();
+            $objects->delete();
         }
     }
 }
