@@ -104,7 +104,7 @@ class org_openpsa_widgets_grid extends midcom_baseclasses_components_purecode
         }
         $head->add_jsfile(MIDCOM_STATIC_URL . $jqgrid_path . 'i18n/grid.locale-'. $lang . '.min.js');
 
-        $head->add_jsfile(MIDCOM_STATIC_URL . $jqgrid_path . 'jquery.jqGrid.min.js');
+        $head->add_jsfile(MIDCOM_STATIC_URL . $jqgrid_path . 'jquery.jqgrid.min.js');
 
         org_openpsa_widgets_ui::add_head_elements();
         $head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.widgets/jqGrid.custom.js');
