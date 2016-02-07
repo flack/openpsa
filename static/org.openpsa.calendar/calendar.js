@@ -111,6 +111,13 @@ var openpsa_calendar_widget =
     },
     initialize: function(selector, prefix, settings)
     {
+        function save_event(event, delta, revertFunc, jsEvent, ui, view) {
+            $.post(prefix + 'event/move/' + event.id + '/', {start: event.start.format('YYYY-MM-DD HH:mm:ss'), end: event.end.format('YYYY-MM-DD HH:mm:ss')})
+                .fail(function(){
+                    revertFunc();
+                });
+        }
+
         var defaults =
         {
             theme: true,
@@ -119,6 +126,8 @@ var openpsa_calendar_widget =
             weekMode: 'liquid',
             firstHour: 8,
             ignoreTimezone: false,
+            nowIndicator: true,
+            editable: true,
             header:
             {
                 left: 'month,agendaWeek,agendaDay',
@@ -154,6 +163,8 @@ var openpsa_calendar_widget =
 
                 window.open(url, 'event' + guid, window_options);
             },
+            eventDrop: save_event,
+            eventResize: save_event,
             dayClick: function (date, jsEvent, view)
             {
                 var url = prefix + 'event/new/' + (parseInt(date.format('X')) + 1) + '/',
