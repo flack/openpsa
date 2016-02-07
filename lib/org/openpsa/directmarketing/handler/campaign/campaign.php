@@ -38,7 +38,9 @@ implements org_openpsa_widgets_grid_provider_client
         $mc->add_constraint('orgOpenpsaObtype', '<>', org_openpsa_directmarketing_campaign_member_dba::TESTER);
         $mc->add_constraint('orgOpenpsaObtype', '<>', org_openpsa_directmarketing_campaign_member_dba::UNSUBSCRIBED);
         $mc->add_constraint('person.metadata.deleted', '=', false);
+        midcom::get()->auth->request_sudo($this->_component);
         $this->memberships = $mc->get_rows(array('orgOpenpsaObtype', 'guid'), 'person');
+        midcom::get()->auth->drop_sudo();
         $query = org_openpsa_contacts_person_dba::new_query_builder();
         $query->add_constraint('id', 'IN', array_keys($this->memberships));
         if (!is_null($field))
