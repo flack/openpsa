@@ -438,12 +438,12 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
         $this->_backend->add_member_constraints($qb_mem);
 
         $this->_qb_common_constraints($qb_mem);
-        $valid_members = $qb_mem->count();
+        $valid_members = $qb_mem->count_unchecked();
 
         $qb_receipts = org_openpsa_directmarketing_campaign_messagereceipt_dba::new_query_builder();
         $qb_receipts->add_constraint('message', '=', $this->_message->id);
         $qb_receipts->add_constraint('orgOpenpsaObtype', '=', org_openpsa_directmarketing_campaign_messagereceipt_dba::SENT);
-        $send_receipts = $qb_receipts->count();
+        $send_receipts = $qb_receipts->count_unchecked();
 
         return array($valid_members, $send_receipts);
     }
