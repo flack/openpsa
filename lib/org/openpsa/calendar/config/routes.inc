@@ -70,7 +70,7 @@
     'variable_args' => 1,
 ),
 // Match /event/move/<guid>
-'event_edit' => array
+'event_move' => array
 (
     'handler' => array('org_openpsa_calendar_handler_admin', 'move'),
     'fixed_args' => array('event', 'move'),
