@@ -5,6 +5,9 @@
 
 'calendar_root_event' => false,
 
+'holidays_country' => '',
+'holidays_region' => null,
+
 'week_slot_length' => 120, // minutes
 'day_slot_length'  => 60,  // minutes
 'day_start_time'   => 8,   // hour 'working day' starts

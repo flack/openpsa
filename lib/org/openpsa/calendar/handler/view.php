@@ -156,6 +156,7 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
         midcom::get()->auth->require_valid_user();
         $uids = $this->_load_uids(midcom::get()->auth->user->get_storage());
         $events = $this->_load_events($uids, $_GET['start'], $_GET['end']);
+        $this->add_holidays($events, $_GET['start'], $_GET['end']);
         return new midcom_response_json($events);
     }
 
@@ -196,6 +197,34 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
             }
         }
         return $uids;
+    }
+
+    private function add_holidays(array &$events, $from, $to)
+    {
+        $from = new DateTime(strftime('%Y-%m-%d', $from));
+        $to = new DateTime(strftime('%Y-%m-%d', $to));
+        $country = $this->_config->get('holidays_country');
+        if (class_exists('\\Checkdomain\\Holiday\\Provider\\' . $country))
+        {
+            $util = new \Checkdomain\Holiday\Util;
+            $region = $this->_config->get('holidays_region');
+
+            do
+            {
+                if ($holiday = $util->getHoliday($country, $from, $region))
+                {
+                    $events[] = array
+                    (
+                        'title' => $holiday->getName(),
+                        'start' => $from->format('Y-m-d'),
+                        'className' => array(),
+                        'rendering' => 'background'
+                    );
+                }
+                $from->modify('+1 day');
+            }
+            while ($from < $to);
+        }
     }
 
     /**
