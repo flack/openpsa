@@ -35,13 +35,6 @@
     'fixed_args' => Array('ical', 'busy'),
     'variable_args' => 1,
 ),
-// Match /event/new/<timestamp>
-'new_event_with_time' => array
-(
-    'handler' => array('org_openpsa_calendar_handler_create', 'create'),
-    'fixed_args' => array('event', 'new'),
-    'variable_args' => 1,
-),
 // Match /event/new
 'new_event' => array
 (

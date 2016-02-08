@@ -87,6 +87,15 @@
     background-color: #884631;
 }
 
+.fc-helper-container {
+    opacity: .7
+}
+
+.fc-helper-container .fc-event{
+    border-style: dashed;
+    background: #E0C39E;
+}
+
 .fc-content
 {
     text-overflow: ellipsis;

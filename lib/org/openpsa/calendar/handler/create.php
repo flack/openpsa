@@ -18,7 +18,14 @@ implements midcom_helper_datamanager2_interfaces_create
      *
      * @var int
      */
-    private $_requested_time;
+    private $_requested_start;
+
+    /**
+     * The requested end time
+     *
+     * @var int
+     */
+    private $_requested_end;
 
     /**
      * @var midcom_db_person
@@ -38,10 +45,10 @@ implements midcom_helper_datamanager2_interfaces_create
             $defaults['participants'][$this->_person->id] = $this->_person;
         }
 
-        if (!is_null($this->_requested_time))
+        if (!is_null($this->_requested_start))
         {
-            $defaults['start'] = $this->_requested_time;
-            $defaults['end'] = $this->_requested_time + 3600;
+            $defaults['start'] = $this->_requested_start;
+            $defaults['end'] = $this->_requested_end;
         }
         return $defaults;
     }
@@ -79,9 +86,17 @@ implements midcom_helper_datamanager2_interfaces_create
 
         $this->_person = midcom::get()->auth->user->get_storage();
 
-        if (isset($args[0]))
+        if (!empty($_GET['start']))
         {
-            $this->_requested_time = (int) $args[0];
+            $this->_requested_start = strtotime($_GET['start']);
+            if (!empty($_GET['end']))
+            {
+                $this->_requested_end = strtotime($_GET['end']);
+            }
+            else
+            {
+                $this->_requested_end = $this->_requested_start + 3600;
+            }
         }
 
         // Load the controller instance
@@ -101,16 +116,14 @@ implements midcom_helper_datamanager2_interfaces_create
                 midcom::get()->head->add_jsonload('window.close();');
                 break;
         }
-        if (!empty($data['conflictmanager']->busy_members))
-        {
-            midcom_show_style('show-event-conflict');
-        }
 
         // Add toolbar items
         org_openpsa_helpers::dm2_savecancel($this);
 
         // Hide the ROOT style
         midcom::get()->skip_page_style = true;
+        midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.calendar/calendar.js');
+        midcom::get()->head->add_jsonload('openpsa_calendar_widget.setup();');
     }
 
     /**

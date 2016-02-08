@@ -24,8 +24,9 @@ class org_openpsa_calendar_handler_createTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('org.openpsa.calendar');
 
-        $data = $this->run_handler('org.openpsa.calendar', array('event', 'new', (string) time()));
-        $this->assertEquals('new_event_with_time', $data['handler_id']);
+        $_GET = array('start' => '2012-12-10 20:30:00');
+        $data = $this->run_handler('org.openpsa.calendar', array('event', 'new'));
+        $this->assertEquals('new_event', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();
     }
