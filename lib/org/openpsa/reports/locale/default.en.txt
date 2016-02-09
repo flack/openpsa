@@ -58,6 +58,10 @@ Billable hours last month
 Billable hours this month
 ---STRINGEND
 
+---STRING month
+Month
+---STRINGEND
+
 ---STRING no customer
 Kein Kunde
 ---STRINGEND
@@ -162,3 +166,6 @@ Weekly report
 Workgroup/Person
 ---STRINGEND
 
+---STRING year
+Year
+---STRINGEND

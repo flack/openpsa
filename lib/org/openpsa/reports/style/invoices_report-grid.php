@@ -53,10 +53,16 @@ foreach ($data['invoices'] as $invoice)
     if ($invoice->{$data['date_field']} > 0)
     {
         $entry['date'] = strftime('%Y-%m-%d', $invoice->{$data['date_field']});
+        $entry['year'] = strftime('%Y', $invoice->{$data['date_field']});
+        $entry['month'] = strftime('%B %Y', $invoice->{$data['date_field']});
+        $entry['index_month'] = strftime('%Y%m', $invoice->{$data['date_field']});
     }
     else
     {
         $entry['date'] = '';
+        $entry['year'] = '';
+        $entry['month'] = '';
+        $entry['index_month'] = '';
     }
     try
     {
@@ -111,6 +117,8 @@ $grid = new org_openpsa_widgets_grid($grid_id, 'local');
 $grid->set_column('number', $l10n->get('invoice number'), 'width: 120', 'string')
     ->set_column('status', $l10n->get('invoice status'), '', 'string')
     ->set_column('date', $l10n->get($data['date_field']), 'width: 80, fixed: true, formatter: "date", align: "center"')
+    ->set_column('month', '', 'hidden: true', 'number')
+    ->set_column('year', '', 'hidden: true')
     ->set_column('customer', $l10n->get('customer'), 'width: 100', 'string')
     ->set_column('contact', $l10n->get('customer contact'), 'width: 100', 'string')
     ->set_column('sum', $l10n->get('sum excluding vat'), 'width: 90, fixed: true, sorttype: "number", formatter: "number", align: "right", summaryType:"sum"')
@@ -146,6 +154,8 @@ echo '<select id="chgrouping_' . $grid_id . '">';
 echo '<option value="status">' . $l10n->get('invoice status') . "</option>\n";
 echo '<option value="customer">' . $l10n->get('customer') . "</option>\n";
 echo '<option value="contact">' . $l10n->get('customer contact') . "</option>\n";
+echo '<option value="year">' . $data['l10n']->get('year') . "</option>\n";
+echo '<option value="month">' . $data['l10n']->get('month') . "</option>\n";
 echo '<option value="clear">' . midcom::get()->i18n->get_string('no grouping', 'org.openpsa.core') . "</option>\n";
 echo '</select>';
 ?>

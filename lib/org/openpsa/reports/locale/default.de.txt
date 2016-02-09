@@ -54,6 +54,10 @@ Abrechenbare Stunden im letzten Monat
 Abrechenbare Stunden in diesem Monat
 ---STRINGEND
 
+---STRING month
+Monat
+---STRINGEND
+
 ---STRING no customer
 Kein Kunde
 ---STRINGEND
@@ -162,3 +166,6 @@ Arbeitsgruppe/Person
 Standard-Bericht %s - %s
 ---STRINGEND
 
+---STRING year
+Jahr
+---STRINGEND
