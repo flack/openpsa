@@ -134,6 +134,7 @@ var openpsa_calendar_widget =
                     revertFunc();
                 });
         }
+        $('body').data('title', document.title);
 
         var defaults =
         {
@@ -199,8 +200,6 @@ var openpsa_calendar_widget =
 
         window.openpsa_calendar_instance = $(selector).fullCalendar(settings);
         openpsa_calendar_widget.prepare_toolbar_buttons(selector, prefix, settings);
-
-        $('body').data('title', document.title);
 
         // Prepare History.js
         if ( History.enabled ) {
