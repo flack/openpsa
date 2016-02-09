@@ -144,24 +144,12 @@ class org_openpsa_calendar_handler_admin extends midcom_baseclasses_components_h
     {
         // Get the event
         $this->_event = new org_openpsa_calendar_event_dba($args[0]);
-        $this->_event->require_do('midgard:delete');
-        $this->_request_data['delete_succeeded'] = false;
-
-        // Cancel pressed
-        if (isset($_POST['org_openpsa_calendar_delete_cancel']))
+        $workflow = new midcom\workflow\delete($this->_event);
+        if ($workflow->run())
         {
-            return new midcom_response_relocate("event/{$this->_event->guid}/");
-        }
-
-        // Delete confirmed, remove the event
-        if (isset($_POST['org_openpsa_calendar_deleteok']))
-        {
-            $this->_request_data['delete_succeeded'] = true;
-            $this->_event->delete();
             midcom::get()->head->add_jsonload('window.opener.location.reload();');
             midcom::get()->head->add_jsonload('window.close();');
         }
-        $this->_request_data['event'] = $this->_event;
     }
 
     /**
@@ -172,20 +160,7 @@ class org_openpsa_calendar_handler_admin extends midcom_baseclasses_components_h
      */
     public function _show_delete($handler_id, array &$data)
     {
-        // Set title to popup
-        if ($this->_request_data['delete_succeeded'])
-        {
-            $this->_request_data['popup_title'] = sprintf($this->_l10n->get('event %s deleted'), $this->_event->title);
-        }
-        else
-        {
-            $this->_request_data['popup_title'] = $this->_l10n->get('delete event');
-        }
-
-        // Show popup
         midcom_show_style('show-popup-header');
-        $this->_request_data['event_dm'] = $this->_datamanager;
-        midcom_show_style('show-event-delete');
         midcom_show_style('show-popup-footer');
     }
 }

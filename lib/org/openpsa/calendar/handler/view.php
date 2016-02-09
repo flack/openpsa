@@ -339,16 +339,11 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
                     MIDCOM_TOOLBAR_ACCESSKEY => 'e',
                 )
             );
-            $this->_view_toolbar->add_item
-            (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => 'event/delete/' . $this->_request_data['event']->guid . '/',
-                    MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('delete'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
-                    MIDCOM_TOOLBAR_ENABLED => $data['event']->can_do('midgard:delete'),
-                )
-            );
+            if ($data['event']->can_do('midgard:delete'))
+            {
+                $workflow = new midcom\workflow\delete($data['event']);
+                $workflow->add_button($this->_view_toolbar, "event/delete/{$data['event']->guid}/");
+            }
             $this->_view_toolbar->add_item
             (
                 array

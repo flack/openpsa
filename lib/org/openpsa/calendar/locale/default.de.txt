@@ -22,10 +22,6 @@ Notiz erstellen
 Tagesansicht
 ---STRINGEND
 
----STRING delete event
-Termin löschen
----STRINGEND
-
 ---STRING dont allow overlapping
 Überlappungen nicht zulassen
 ---STRINGEND
@@ -62,10 +58,6 @@ Termin "%s" (%s) wurde abgesagt
 Termin %s
 ---STRINGEND
 
----STRING event %s deleted
-Termin %s gelöscht
----STRINGEND
-
 ---STRING event after
 Nachfolgender Termin
 ---STRINGEND
@@ -77,10 +69,6 @@ Vorheriger Termin
 ---STRING event conflict
 Es gibt Konflikte mit anderen Terminen. Versuchen sie, die Zeit oder
 die Teilnehmer zu verändern
----STRINGEND
-
----STRING event deleted
-Termin gelöscht
 ---STRINGEND
 
 ---STRING event information
@@ -141,10 +129,6 @@ Drucken
 
 ---STRING private event
 Privater Termin
----STRINGEND
-
----STRING really delete event
-Termin wirklich löschen?
 ---STRINGEND
 
 ---STRING start time

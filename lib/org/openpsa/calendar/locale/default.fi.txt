@@ -26,10 +26,6 @@ Luo muistiinpanot
 Päivänäkymä
 ---STRINGEND
 
----STRING delete event
-Poista tapahtuma
----STRINGEND
-
 ---STRING dont allow overlapping
 Älä salli päällekkäisiä
 ---STRINGEND
@@ -46,20 +42,12 @@ Päättyy
 Tapahtuma %s
 ---STRINGEND
 
----STRING event %s deleted
-Tapahtuma %s poistettu
----STRINGEND
-
 ---STRING event after
 Seuraava varaus
 ---STRINGEND
 
 ---STRING event before
 Edellinen varaus
----STRINGEND
-
----STRING event deleted
-Tapahtuma poistettu
 ---STRINGEND
 
 ---STRING event information
@@ -128,10 +116,6 @@ Tulosta
 
 ---STRING private event
 Yksityinen tapahtuma
----STRINGEND
-
----STRING really delete event
-Oletko varma että haluat poistaa tapahtuman?
 ---STRINGEND
 
 ---STRING resources

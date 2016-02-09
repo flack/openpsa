@@ -26,10 +26,6 @@ Create note
 Day view
 ---STRINGEND
 
----STRING delete event
-Delete event
----STRINGEND
-
 ---STRING dont allow overlapping
 Don't allow overlapping
 ---STRINGEND
@@ -66,10 +62,6 @@ Event "%s" (%s) was cancelled
 Event %s
 ---STRINGEND
 
----STRING event %s deleted
-Event %s deleted
----STRINGEND
-
 ---STRING event after
 Event after
 ---STRINGEND
@@ -80,10 +72,6 @@ Event before
 
 ---STRING event conflict
 There was a resource conflict with another event, try changing the time or participants
----STRINGEND
-
----STRING event deleted
-Event deleted
 ---STRINGEND
 
 ---STRING event information
@@ -152,10 +140,6 @@ Print
 
 ---STRING private event
 Private event
----STRINGEND
-
----STRING really delete event
-Really delete event?
 ---STRINGEND
 
 ---STRING resources
