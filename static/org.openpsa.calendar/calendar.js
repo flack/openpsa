@@ -72,8 +72,7 @@ var openpsa_calendar_widget =
     parse_url: function(prefix)
     {
         var args = location.pathname.substr(prefix.length).split('/'),
-        settings = {},
-        date;
+        settings = {};
         if (args[0] !== undefined)
         {
             switch (args[0])
@@ -87,7 +86,6 @@ var openpsa_calendar_widget =
                     break;
             }
         }
-        console.log(args);
         if (args[1] !== undefined)
         {
             settings.defaultDate = args[1];
