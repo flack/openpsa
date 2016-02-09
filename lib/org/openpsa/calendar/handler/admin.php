@@ -14,13 +14,6 @@
 class org_openpsa_calendar_handler_admin extends midcom_baseclasses_components_handler
 {
     /**
-     * Datamanager2 instance
-     *
-     * @var midcom_helper_datamanager2_datamanager
-     */
-    private $_datamanager;
-
-    /**
      * The event we're working on
      *
      * @var org_openpsa_calendar_event_dba
