@@ -533,8 +533,25 @@ var org_openpsa_grid_helper =
     previous_groupings: [],
     bind_grouping_switch: function(grid_id)
     {
-        var group_conf = $('#' + grid_id).jqGrid('getGridParam', 'groupingView'),
-            active = $('#' + grid_id).jqGrid('getGridParam', 'grouping');
+        var grid = $("#" + grid_id),
+            group_conf = grid.jqGrid('getGridParam', 'groupingView'),
+            active = grid.jqGrid('getGridParam', 'grouping'),
+            expand = false,
+            toggle = $('<input type="button" value="-">')
+                         .on('click', function(){
+                             var idPrefix = grid_id + "ghead_0_";
+
+                             grid.find('.jqgroup').each(function(index, element)
+                             {
+                                 if (   (!expand && $(element).find('.tree-wrap').hasClass(group_conf.minusicon))
+                                     || (expand && $(element).find('.tree-wrap').hasClass(group_conf.plusicon)))
+                                 {
+                                     grid.jqGrid('groupingToggle', idPrefix + index);
+                                 }
+                             });
+                             expand = !expand;
+                             toggle.val(expand ? '+' : '-');
+                         });
         org_openpsa_grid_helper.previous_groupings[grid_id] = group_conf.groupField[0];
 
         $("#chgrouping_" + grid_id)
@@ -546,22 +563,23 @@ var org_openpsa_grid_helper =
                 {
                     if (selection == "clear")
                     {
-                        $("#" + grid_id).jqGrid('groupingRemove', true);
+                        grid.jqGrid('groupingRemove', true);
                         // Workaround for https://github.com/tonytomov/jqGrid/issues/431
-                        $("#" + grid_id).jqGrid('showCol', org_openpsa_grid_helper.previous_groupings[grid_id]);
+                        grid.jqGrid('showCol', org_openpsa_grid_helper.previous_groupings[grid_id]);
                     }
                     else
                     {
-                        $("#" + grid_id).jqGrid('groupingGroupBy', selection);
+                        grid.jqGrid('groupingGroupBy', selection);
                         if (selection !== org_openpsa_grid_helper.previous_groupings[grid_id])
                         {
                             // Workaround for https://github.com/tonytomov/jqGrid/issues/431
-                            $("#" + grid_id).jqGrid('showCol', org_openpsa_grid_helper.previous_groupings[grid_id]);
+                            grid.jqGrid('showCol', org_openpsa_grid_helper.previous_groupings[grid_id]);
                         }
                     }
                     jQuery(window).trigger('resize');
                 }
-            });
+            })
+            .after(toggle);
     },
     set_tooltip: function (grid_id, column, tooltip)
     {
