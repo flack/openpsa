@@ -87,12 +87,10 @@ var openpsa_calendar_widget =
                     break;
             }
         }
+        console.log(args);
         if (args[1] !== undefined)
         {
-            date = new Date(Date.parse(args[1]));
-            settings.year = date.getFullYear();
-            settings.month = date.getMonth();
-            settings.date = date.getDate();
+            settings.defaultDate = args[1];
         }
         return settings;
     },
