@@ -5,6 +5,11 @@ function parse_input(string)
     return parseFloat(string.replace(',' , '.'));
 }
 
+function format_number(input)
+{
+    return $.fn.fmatter.number(input, $.jgrid.locales[$.jgrid.defaults.locale].formatter);
+}
+
 function calculate_row(id)
 {
     var price_unit = parse_input($("#price_per_unit_" + id).val()),
@@ -16,7 +21,7 @@ function calculate_row(id)
     {
         sum = price_unit * units;
     }
-    $('#row_sum_' + id).html(sum.toFixed(2));
+    $('#row_sum_' + id).html(format_number(sum));
 }
 
 function calculate_total(table)
@@ -30,15 +35,14 @@ function calculate_total(table)
         }
     });
 
-    table.find('tfoot .totals').text(total.toFixed(2));
+    table.find('tfoot .totals').text(format_number(total));
 }
 
 function calculate_invoices_total(table)
 {
     var total = 0,
     row_sum,
-    totals_field = table.closest('.ui-jqgrid-view').find('.ui-jqgrid-ftable .sum'),
-    decimal_separator = totals_field.text().slice(totals_field.text().length - 3, totals_field.text().length - 2);
+    totals_field = table.closest('.ui-jqgrid-view').find('.ui-jqgrid-ftable .sum');
 
     table.find('tbody tr').not('.jqgfirstrow').each(function()
     {
@@ -51,8 +55,7 @@ function calculate_invoices_total(table)
         total += row_sum;
     });
 
-    total = total.toFixed(2).replace('.', decimal_separator);
-    totals_field.text(total);
+    totals_field.text(format_number(total));
 }
 
 function process_invoice(button, action, invoice_url)
