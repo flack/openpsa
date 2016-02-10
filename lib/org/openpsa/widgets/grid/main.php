@@ -333,7 +333,7 @@ class org_openpsa_widgets_grid extends midcom_baseclasses_components_purecode
 
         if ($this->get_option('footerrow'))
         {
-            $string .= 'jQuery("#' . $this->_identifier . '").jqGrid("footerData", "set", ' . json_encode($this->_footer_data) . ");\n";
+            $string .= 'jQuery("#' . $this->_identifier . '").jqGrid("footerData", "set", ' . json_encode($this->_footer_data) . ", false);\n";
         }
 
         $string .= '//]]></script>';
