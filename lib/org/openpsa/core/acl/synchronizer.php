@@ -34,12 +34,50 @@ class org_openpsa_core_acl_synchronizer
             return false;
         }
 
-        // Clear old ACLs applying to others than current user or selected owner group
         $privileges = $object->get_privileges();
+        $needed_privileges = array
+        (
+            'midgard:read' => array('value' => MIDCOM_PRIVILEGE_DENY, 'assignee' => 'EVERYONE'),
+            'midgard:owner' => array('value' => MIDCOM_PRIVILEGE_ALLOW)
+        );
+        // Handle ACL storage
+        switch ($accesstype)
+        {
+            case org_openpsa_core_acl::ACCESS_PUBLIC:
+            case org_openpsa_core_acl::ACCESS_AGGREGATED:
+                debug_add("Public object, everybody can read");
+                $needed_privileges['midgard:read']['value'] = MIDCOM_PRIVILEGE_ALLOW;
+                $needed_privileges['midgard:owner']['assignee'] = $owner_id;
+                $this->_set_attachment_permission($object, 'midgard:read', 'EVERYONE', MIDCOM_PRIVILEGE_ALLOW);
+                break;
+            case org_openpsa_core_acl::ACCESS_PRIVATE:
+                debug_add("Private object, only user can read and write");
+                $needed_privileges['midgard:owner']['assignee'] = midcom::get()->auth->user->id;
+                $this->_set_attachment_permission($object, 'midgard:read', midcom::get()->auth->user->id, MIDCOM_PRIVILEGE_ALLOW);
+                break;
+            case org_openpsa_core_acl::ACCESS_WGRESTRICTED:
+                debug_add("Restricted object, only workgroup members can read and write. Subscribers can read");
+                //fall-through. Once subscriber groups get reimplemented, the appropriate code should be added here
+            case org_openpsa_core_acl::ACCESS_WGPRIVATE:
+                debug_add("Private object, only workgroup members can read and write");
+                $needed_privileges['midgard:owner']['assignee'] = $owner_id;
+                $this->_set_attachment_permission($object, 'midgard:read', $owner_id, MIDCOM_PRIVILEGE_ALLOW);
+                break;
+        }
+
         if ($privileges)
         {
             foreach ($privileges as $privilege)
             {
+                $found = false;
+                if (   !empty($needed_privileges[$privilege->privilegename])
+                    && $needed_privileges[$privilege->privilegename]['assignee'] == $privilege->assignee
+                    && $needed_privileges[$privilege->privilegename]['value'] == $privilege->value)
+                {
+                    unset($needed_privileges[$privilege->privilegename]);
+                    continue;
+                }
+                // Clear old ACLs applying to others than current user or selected owner group
                 if (   $privilege->assignee != midcom::get()->auth->user->id
                     && $privilege->assignee != $owner_id)
                 {
@@ -57,32 +95,11 @@ class org_openpsa_core_acl_synchronizer
             }
         }
 
-        // Handle ACL storage
-        switch ($accesstype)
+        foreach ($needed_privileges as $name => $priv)
         {
-            case org_openpsa_core_acl::ACCESS_PUBLIC:
-            case org_openpsa_core_acl::ACCESS_AGGREGATED:
-                debug_add("Public object, everybody can read");
-                $object->set_privilege('midgard:read', 'EVERYONE', MIDCOM_PRIVILEGE_ALLOW);
-                $this->_set_attachment_permission($object, 'midgard:read', 'EVERYONE', MIDCOM_PRIVILEGE_ALLOW);
-                $object->set_privilege('midgard:owner', $owner_id, MIDCOM_PRIVILEGE_ALLOW);
-                break;
-            case org_openpsa_core_acl::ACCESS_PRIVATE:
-                debug_add("Private object, only user can read and write");
-                $object->set_privilege('midgard:read', 'EVERYONE', MIDCOM_PRIVILEGE_DENY);
-                $object->set_privilege('midgard:owner', midcom::get()->auth->user->id, MIDCOM_PRIVILEGE_ALLOW);
-                $this->_set_attachment_permission($object, 'midgard:read', midcom::get()->auth->user->id, MIDCOM_PRIVILEGE_ALLOW);
-                break;
-            case org_openpsa_core_acl::ACCESS_WGRESTRICTED:
-                debug_add("Restricted object, only workgroup members can read and write. Subscribers can read");
-                //fall-through. Once subscriber groups get reimplemented, the appropriate code should be added here
-            case org_openpsa_core_acl::ACCESS_WGPRIVATE:
-                debug_add("Private object, only workgroup members can read and write");
-                $object->set_privilege('midgard:read', 'EVERYONE', MIDCOM_PRIVILEGE_DENY);
-                $object->set_privilege('midgard:owner', $owner_id, MIDCOM_PRIVILEGE_ALLOW);
-                $this->_set_attachment_permission($object, 'midgard:read', $owner_id, MIDCOM_PRIVILEGE_ALLOW);
-                break;
+            $object->set_privilege($name, $priv['assignee'], $priv['value']);
         }
+
         return true;
     }
 
