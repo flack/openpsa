@@ -807,7 +807,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
                 {
                     ob_end_flush();
                 }
-                else
+                else if (ob_get_level())
                 {
                     ob_end_clean();
                 }
