@@ -144,6 +144,7 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
         (
             'Accept-Charset' => 'UTF-8',
             'Content-type' => 'text/xml; charset=utf-8',
+            'Connection' => 'close'
         );
 
         $browser = new Browser;
