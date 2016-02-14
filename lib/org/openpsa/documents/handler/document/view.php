@@ -272,10 +272,12 @@ implements org_openpsa_widgets_grid_provider_client
         {
             $qb = org_openpsa_documents_document_dba::new_query_builder();
             $qb->begin_group('OR');
+            $qb->begin_group('AND');
             $qb->add_constraint('nextVersion', '=', $this->_document->nextVersion);
+            $qb->add_constraint('metadata.revised', '>', gmstrftime('%Y-%m-%d %T', $this->_document->metadata->created));
+            $qb->end_group();
             $qb->add_constraint('id', '=', $this->_document->nextVersion);
             $qb->end_group();
-            $qb->add_constraint('metadata.revised', '>', gmstrftime('%Y-%m-%d %T', $this->_document->metadata->created));
             $qb->add_order('nextVersion', 'DESC');
             $qb->add_order('metadata.created', 'ASC');
             $qb->set_limit(1);

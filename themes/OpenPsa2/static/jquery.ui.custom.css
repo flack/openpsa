@@ -1681,3 +1681,70 @@ ul.fancytree-container span.fancytree-folder a
 {
     font-weight: normal
 }
+
+.elfinder,
+.elfinder-quicklook
+{
+    font-size: 16px
+}
+
+.elfinder-quicklook
+{
+    padding: 20px 0 40px
+}
+
+.elfinder-dialog-error .ui-dialog-content,
+.elfinder .elfinder-dialog-confirm .ui-dialog-content
+{
+    padding-left: 56px;
+}
+.std42-dialog {
+    left: auto;
+    padding: 0;
+    position: absolute;
+    right: auto;
+}
+
+.elfinder-ltr .elfinder-cwd table td
+{
+    text-align: left;
+}
+.elfinder-ltr .elfinder-cwd table td:nth-child(4) {
+    text-align: right;
+}
+
+.elfinder-cwd table tbody td,
+.elfinder-cwd table tbody .ui-selected td {
+    opacity: .7
+}
+
+.elfinder-disabled .elfinder-cwd table tbody .ui-selected td {
+    color: #666
+}
+.elfinder-disabled .elfinder-cwd table tbody .ui-selected td:nth-child(1)
+{
+    color: #222;
+}
+
+.elfinder-cwd table tbody td:nth-child(1),
+.elfinder-cwd table tbody .ui-selected td {
+    opacity: 1
+}
+
+.elfinder-cwd table .ui-selected td a {
+    color: white;
+}
+
+.elfinder-info-tb span.vcard,
+.elfinder-info-tb span.vcard span {
+    float: none;
+}
+
+.elfinder-disabled .elfinder-cwd-view-icons .elfinder-cwd-file .elfinder-cwd-filename.ui-state-hover,
+.elfinder-disabled .elfinder-cwd table td.ui-state-hover,
+.elfinder-disabled .elfinder-button-menu .ui-state-hover,
+.elfinder-disabled .elfinder-cwd table .ui-selected td a,
+.elfinder-disabled .elfinder-navbar .ui-state-active
+{
+    color: inherit;
+}

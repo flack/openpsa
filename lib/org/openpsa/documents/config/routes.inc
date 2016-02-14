@@ -46,13 +46,6 @@
     'handler' => array('org_openpsa_documents_handler_directory_navigation', 'navigation'),
     'fixed_args' => array('directory', 'navigation'),
 ),
-// Match /directory/<mode>/<directory GUID>
-'directory-single-view' => array
-(
-    'handler' => array('org_openpsa_documents_handler_directory_view', 'view'),
-    'fixed_args' => 'directory',
-    'variable_args' => 2,
-),
 
 // Match /edit
 'directory-edit' => array
@@ -73,6 +66,21 @@
 (
     'handler' => array('org_openpsa_documents_handler_search', 'search'),
     'fixed_args' => 'search',
+),
+
+// Match /connector/goto
+'connector_goto' => array
+(
+ 'handler' => array('org_openpsa_documents_handler_connector', 'goto'),
+ 'variable_args' => 1,
+ 'fixed_args' => array('connector', 'goto'),
+),
+
+// Match /connector
+'connector' => array
+(
+ 'handler' => array('org_openpsa_documents_handler_connector', 'connector'),
+ 'fixed_args' => 'connector',
 ),
 
 // Match /

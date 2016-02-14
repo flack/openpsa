@@ -83,3 +83,7 @@ dl.search_results ul
 {
     text-align: right;
 }
+
+.elfinder-button-icon.elfinder-button-icon-details {
+    background-position: 0 -176px;
+}

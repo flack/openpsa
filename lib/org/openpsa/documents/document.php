@@ -205,7 +205,7 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
         return sprintf(midcom::get()->i18n->get_string('%s ' . $type, 'org.openpsa.documents'), $subtype);
     }
 
-    function backup_version()
+    public function backup_version()
     {
         // Instantiate the backup object
         $backup = new org_openpsa_documents_document_dba();

@@ -13,38 +13,9 @@
  */
 class org_openpsa_documents_handler_directory_view extends midcom_baseclasses_components_handler
 {
-    /**
-     *
-     * @var midcom_helper_datamanager2_datamanager
-     */
-    private $_datamanager;
-
-    /**
-     * The documents of the directory we're working with.
-     *
-     * @var Array
-     */
-    private $_documents = array();
-
-    /**
-     * The directories of the directory we're working with.
-     *
-     * @var Array
-     */
-    private $_directories = array();
-
-    /**
-     * The wanted output mode.
-     *
-     * @var String
-     */
-    private $_output_mode = 'html';
-
     public function _on_initialize()
     {
         midcom::get()->auth->require_valid_user();
-        $schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_document_listview'));
-        $this->_datamanager = new midcom_helper_datamanager2_datamanager($schemadb);
     }
 
     /**
@@ -54,76 +25,34 @@ class org_openpsa_documents_handler_directory_view extends midcom_baseclasses_co
      */
     public function _handler_view($handler_id, array $args, array &$data)
     {
-        //check if there is another output-mode wanted
-        if (isset($args[0]))
+        $prefix = MIDCOM_STATIC_URL . '/' . $this->_component . '/';
+        $this->add_stylesheet($prefix . 'layout.css');
+        org_openpsa_widgets_contact::add_head_elements();
+
+        $head = midcom::get()->head;
+        $head->add_jsfile(MIDCOM_JQUERY_UI_URL. '/ui/draggable.min.js');
+        $head->add_jsfile(MIDCOM_JQUERY_UI_URL. '/ui/droppable.min.js');
+        $head->add_jsfile(MIDCOM_JQUERY_UI_URL. '/ui/selectable.min.js');
+        $head->add_jsfile($prefix . 'elFinder-2.1.6/js/elfinder.min.js');
+
+        $lang = midcom::get()->i18n->get_current_language();
+        if (!file_exists(MIDCOM_STATIC_ROOT . '/' . $this->_component . "/elFinder-2.1.6/js/i18n/elfinder.{$lang}.js"))
         {
-            $this->_output_mode = $args[0];
+            $lang = midcom::get()->i18n->get_fallback_language();
+            if (!file_exists(MIDCOM_STATIC_ROOT . '/' . $this->_component . "/elFinder-2.1.6/js/i18n/elfinder.{$lang}.js"))
+            {
+                $lang = 'en';
+            }
         }
+        $data['lang'] = $lang;
+        $head->add_jsfile($prefix . "elFinder-2.1.6/js/i18n/elfinder.{$lang}.js");
 
-        if (isset($args[1]))
-        {
-            $current_topic = midcom_db_topic::get_cached($args[1]);
-        }
-        else
-        {
-            $current_topic = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_CONTENTTOPIC);
-        }
+        $head->add_jsfile($prefix . 'elfinder.custom.js');
 
-        $qb = org_openpsa_documents_document_dba::new_query_builder();
-        switch ($this->_output_mode)
-        {
-            case 'xml':
-                $current_component = $current_topic->component;
-                $parent_link = "";
-                $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
-                //check if id of a topic is passed
-                if (isset($_POST['nodeid']))
-                {
-                    $root_topic = new midcom_db_topic($_POST['nodeid']);
-                    while (   ($root_topic->get_parent()->component == $current_component)
-                           && ($root_topic->id != $current_topic->id))
-                    {
-                        $parent_link = $root_topic->name . "/" . $parent_link;
-                        $root_topic = $root_topic->get_parent();
-                    }
-                    $root_topic = new midcom_db_topic($_POST['nodeid']);
-                    $this->_request_data['parent_link'] = $parent_link;
-                }
-                else
-                {
-                    $root_topic = $current_topic;
-                    $current_topic = $current_topic->get_parent();
-                    if ($current_topic->get_parent())
-                    {
-                        $this->_request_data['parent_directory'] = $current_topic;
-                        $parent_link = substr($prefix, 0, strlen($prefix) - (strlen($root_topic->name) + 1));
-                    }
-                    $this->_request_data['parent_up_link'] = $parent_link;
-                }
+        $head->add_stylesheet($prefix . 'elFinder-2.1.6/css/elfinder.min.css');
+        $head->add_stylesheet($prefix . 'elFinder-2.1.6/css/theme.css');
 
-                //show only documents of the right topic
-                $qb->add_constraint('topic', '=', $root_topic->id);
-
-                //get needed directories
-                $this->_prepare_directories($root_topic, $current_component);
-                //set header & style for xml
-                midcom::get()->header("Content-type: text/xml; charset=UTF-8");
-                midcom::get()->skip_page_style = true;
-
-                break;
-            //html
-            default:
-                $qb->add_constraint('orgOpenpsaObtype', '=', org_openpsa_documents_document_dba::OBTYPE_DOCUMENT);
-                $qb->add_constraint('topic', '=', $this->_request_data['directory']->id);
-                $this->_prepare_output();
-                break;
-        }
-
-        $this->_request_data['current_guid'] = $current_topic->guid;
-
-        $qb->add_constraint('nextVersion', '=', 0);
-        $qb->add_order('title');
-        $this->_documents = $qb->execute();
+        $this->_populate_toolbar();
     }
 
     /**
@@ -198,48 +127,6 @@ class org_openpsa_documents_handler_directory_view extends midcom_baseclasses_co
      */
     public function _show_view($handler_id, array &$data)
     {
-        switch ($this->_output_mode)
-        {
-            case 'html':
-                midcom_show_style('show-directory');
-                break;
-            case 'xml':
-                $this->_request_data['documents'] = $this->_documents;
-                $this->_request_data['directories'] = $this->_directories;
-                $this->_request_data['datamanager'] = $this->_datamanager;
-                midcom_show_style('show-directory-xml');
-                break;
-        }
-    }
-
-    /**
-     * Helper function to add needed css & js files
-     */
-    private function _prepare_output()
-    {
-        $this->_request_data['prefix'] = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
-
-        //load js/css for jqgrid
-        org_openpsa_widgets_grid::add_head_elements();
-
-        $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.documents/layout.css");
-        org_openpsa_widgets_contact::add_head_elements();
-
-        $this->_populate_toolbar();
-    }
-
-    /**
-     * Helper function to get directories for passed topic of the passed component
-     *
-     * @param midgard_topic $root_topic - the topic to search the directories for
-     * @param string $current_component - component of the topic/directories
-     */
-    private function _prepare_directories($root_topic, $current_component)
-    {
-        $qb = midcom_db_topic::new_query_builder();
-        $qb->add_constraint("component", "=", $current_component);
-        $qb->add_constraint("up", "=", $root_topic->id);
-        $qb->add_order('extra');
-        $this->_directories = $qb->execute();
+        midcom_show_style('show-directory');
     }
 }
