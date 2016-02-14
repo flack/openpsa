@@ -361,6 +361,7 @@ class midcom_services_indexer_solrRequest
         $this->request->setContent($xml);
         $this->request->addHeader('Accept-Charset: UTF-8');
         $this->request->addHeader('Content-type: text/xml; charset=utf-8');
+        $this->request->addHeader('Connection: close');
 
         if (!$this->_send_request())
         {
