@@ -40,12 +40,14 @@ class org_openpsa_documents_handler_search extends midcom_baseclasses_components
 
             // Add the search parameters
             $query = $_GET['query'];
-            $query .= " AND __TOPIC_URL:\"{$node[MIDCOM_NAV_FULLURL]}*\"";
-            $query .= " AND __COMPONENT:org.openpsa.documents";
+
+            $filter = new midcom_services_indexer_filter_chained;
+            $filter->add_filter(new midcom_services_indexer_filter_string('__TOPIC_URL', '"' . $node[MIDCOM_NAV_FULLURL] . '*"'));
+            $filter->add_filter(new midcom_services_indexer_filter_string('__COMPONENT', '"' . $this->_component . '"'));
             // TODO: Metadata support
 
             // Run the search
-            $this->_request_data['results'] = $indexer->query($query, null);
+            $this->_request_data['results'] = $indexer->query($query, $filter);
         }
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.documents/layout.css");
