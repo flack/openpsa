@@ -498,6 +498,7 @@ class elFinderVolumeOpenpsa extends elFinderVolumeDriver
         $parent = org_openpsa_documents_directory::get_cached($path);
         $dir = new org_openpsa_documents_directory;
         $dir->extra = $name;
+        $dir->component = 'org.openpsa.documents';
         $dir->up = $parent->id;
         if (!$dir->create())
         {
