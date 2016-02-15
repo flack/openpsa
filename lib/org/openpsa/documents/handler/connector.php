@@ -27,8 +27,7 @@ class org_openpsa_documents_handler_connector extends midcom_baseclasses_compone
                 array
                 (
                     'driver' => 'Openpsa',
-                    'path' => $this->get_root()->guid,
-                    'startPath' => $this->_topic->guid
+                    'path' => $this->_topic->guid
                 )
             )
         );
@@ -52,18 +51,5 @@ class org_openpsa_documents_handler_connector extends midcom_baseclasses_compone
             throw new midcom_error_notfound('Could not resolve URL for ' . $guid);
         }
         return new midcom_response_relocate($url);
-    }
-
-    private function get_root()
-    {
-        $root = $this->_topic;
-        $parent = $this->_topic->get_parent();
-        while (   $parent
-               && $parent->component == $this->_component)
-        {
-            $root = $parent;
-            $parent = $parent->get_parent();
-        }
-        return $root;
     }
 }
