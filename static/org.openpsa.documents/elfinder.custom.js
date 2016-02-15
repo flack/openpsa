@@ -5,13 +5,12 @@ elFinder.prototype.commands.details = function() {
     this.init = function() {
         this.title = this.fm.i18n('cmdopen');
     };
-    this.exec = function() {
-        var hashes = this.fm.selected();
+    this.exec = function(hashes) {
         window.location.href = window.location.pathname + 'connector/goto/' + hashes[0] + '/';
     };
 
-    this.getstate = function() {
-	return this.fm.selected().length == 1 ? 0 : -1;
+    this.getstate = function(sel) {
+        var selected = this.files(sel);
+        return (selected.length !== 1) ? -1 : 0;
     };
 }
-

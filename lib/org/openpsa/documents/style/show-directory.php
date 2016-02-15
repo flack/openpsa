@@ -61,7 +61,7 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
             ],
             contextmenu : {
                 // navbarfolder menu
-                navbar : ['open', '|', 'copy', 'cut', 'paste', 'duplicate', '|', 'rm', '|', 'info'],
+                navbar : ['details', '|', 'copy', 'cut', 'paste', 'duplicate', '|', 'rm', '|', 'info'],
 
                 // current directory menu
                 cwd    : ['reload', 'back', '|', 'upload', 'mkdir', 'mkfile', 'paste', '|', 'info'],
