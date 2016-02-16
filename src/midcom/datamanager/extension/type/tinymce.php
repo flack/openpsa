@@ -15,6 +15,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use midcom\datamanager\extension\helper;
 use midcom\baseclasses\components\configuration;
+use midcom\datamanager\extension\compat;
 
 /**
  * Experimental textarea type
@@ -120,8 +121,18 @@ class tinymce extends TextareaType
 
     /**
      * {@inheritdoc}
+     *
+     * Symfony < 2.8 compat
      */
     public function getName()
+    {
+        return $this->getBlockPrefix();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getBlockPrefix()
     {
         return 'tinymce';
     }
@@ -131,7 +142,7 @@ class tinymce extends TextareaType
      */
     public function getParent()
     {
-        return 'textarea';
+        return compat::get_type_name('textarea');
     }
 
     /**

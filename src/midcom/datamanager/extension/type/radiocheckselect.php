@@ -38,6 +38,7 @@ class radiocheckselect extends ChoiceType
         $resolver->setDefaults(array
         (
             'choices' => $map_options,
+            'choices_as_values' => true,
             'expanded' => true,
             'multiple' => $map_multiple,
             'placeholder' => false
@@ -55,8 +56,18 @@ class radiocheckselect extends ChoiceType
 
     /**
      * {@inheritdoc}
+     *
+     * Symfony < 2.8 compat
      */
     public function getName()
+    {
+        return $this->getBlockPrefix();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getBlockPrefix()
     {
         return 'radiocheckselect';
     }

@@ -17,6 +17,7 @@ use midcom_error;
 use midcom_connection;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
+use midcom\datamanager\extension\compat;
 
 /**
  * Experimental autocomplete type
@@ -71,9 +72,9 @@ class autocomplete extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->addModelTransformer(new transformer($options));
-        $builder->add('selection', 'hidden');
+        $builder->add('selection', compat::get_type_name('hidden'));
         $builder->get('selection')->addViewTransformer(new jsontransformer);
-        $builder->add('search_input', 'search', array('mapped' => false));
+        $builder->add('search_input', compat::get_type_name('search'), array('mapped' => false));
 
         $head = midcom::get()->head;
         $head->enable_jquery();
@@ -148,8 +149,18 @@ class autocomplete extends AbstractType
 
     /**
      * {@inheritdoc}
+     *
+     * Symfony < 2.8 compat
      */
     public function getName()
+    {
+        return $this->getBlockPrefix();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getBlockPrefix()
     {
         return 'autocomplete';
     }
@@ -159,6 +170,6 @@ class autocomplete extends AbstractType
      */
     public function getParent()
     {
-        return 'form';
+        return compat::get_type_name('form');
     }
 }

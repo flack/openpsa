@@ -17,6 +17,7 @@ use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\Extension\Core\EventListener\ResizeFormListener;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Validator\Constraints\Count;
+use midcom\datamanager\extension\compat;
 
 /**
  * Experimental images type
@@ -91,9 +92,13 @@ class subform extends CollectionType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        if (!compat::is_legacy())
+        {
+            $options['entry_type'] = compat::get_type_name($options['type']);
+        }
         parent::buildForm($builder, $options);
 
-        $builder->addEventSubscriber(new ResizeFormListener($options['type'], array('widget_config' => $options['widget_config'])));
+        $builder->addEventSubscriber(new ResizeFormListener(compat::get_type_name($options['type']), array('widget_config' => $options['widget_config'])));
 
         $head = midcom::get()->head;
         $head->enable_jquery();
@@ -120,8 +125,18 @@ class subform extends CollectionType
 
     /**
      * {@inheritdoc}
+     *
+     * Symfony < 2.8 compat
      */
     public function getName()
+    {
+        return $this->getBlockPrefix();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getBlockPrefix()
     {
         return 'subform';
     }
@@ -131,6 +146,6 @@ class subform extends CollectionType
      */
     public function getParent()
     {
-        return 'form';
+        return compat::get_type_name('form');
     }
 }

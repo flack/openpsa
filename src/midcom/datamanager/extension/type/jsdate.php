@@ -16,6 +16,7 @@ use DateTime;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use midcom\datamanager\extension\compat;
 
 /**
  * Experimental jsdate type
@@ -77,7 +78,7 @@ class jsdate extends AbstractType
             $date_options['constraints'] = array(new NotBlank());
         }
 
-        $builder->add('date', 'date', $date_options);
+        $builder->add('date', compat::get_type_name('date'), $date_options);
         if ($options['widget_config']['show_time'])
         {
             $pattern = '[0-2][0-9]:[0-5][0-9]';
@@ -97,7 +98,7 @@ class jsdate extends AbstractType
                 $time_options['constraints'] = array(new NotBlank());
             }
 
-            $builder->add('time', 'time', $time_options);
+            $builder->add('time', compat::get_type_name('time'), $time_options);
         }
 
         $head = midcom::get()->head;
@@ -172,8 +173,18 @@ EOT;
 
     /**
      * {@inheritdoc}
+     *
+     * Symfony < 2.8 compat
      */
     public function getName()
+    {
+        return $this->getBlockPrefix();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getBlockPrefix()
     {
         return 'jsdate';
     }
@@ -183,6 +194,6 @@ EOT;
      */
     public function getParent()
     {
-        return 'form';
+        return compat::get_type_name('form');
     }
 }

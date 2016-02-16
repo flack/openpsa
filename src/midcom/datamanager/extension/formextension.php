@@ -46,6 +46,6 @@ class formextension extends AbstractTypeExtension
 
     public function getExtendedType()
     {
-        return 'form';
+        return compat::get_type_name('form');
     }
 }

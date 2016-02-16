@@ -11,6 +11,7 @@ use Symfony\Component\Form\AbstractType;
 use midcom;
 use Symfony\Component\Form\FormView;
 use midcom\datamanager\controller;
+use midcom\datamanager\extension\compat;
 
 /**
  * Experimental autocomplete type
@@ -62,15 +63,25 @@ class toolbar extends AbstractType
                     $attributes['attr']['formnovalidate'] = true;
                 }
 
-                $builder->add($operation . $key, 'submit', $attributes);
+                $builder->add($operation . $key, compat::get_type_name('submit'), $attributes);
             }
         }
     }
 
     /**
      * {@inheritdoc}
+     *
+     * Symfony < 2.8 compat
      */
     public function getName()
+    {
+        return $this->getBlockPrefix();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getBlockPrefix()
     {
         return 'toolbar';
     }

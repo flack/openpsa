@@ -15,6 +15,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use midcom\datamanager\extension\transformer\photo as transformer;
 use midcom\datamanager\validation\photo as constraint;
+use midcom\datamanager\extension\compat;
 
 /**
  * Experimental photo type
@@ -55,15 +56,15 @@ class photo extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->addViewTransformer(new transformer($options));
-        $builder->add('file', 'file', array('required' => false));
+        $builder->add('file', compat::get_type_name('file'), array('required' => false));
         if ($options['widget_config']['show_title'])
         {
-            $builder->add('title', 'text');
+            $builder->add('title', compat::get_type_name('text'));
         }
-        $builder->add('delete', 'checkbox', array('attr' => array(
+        $builder->add('delete', compat::get_type_name('checkbox'), array('attr' => array(
             "class" => "midcom_datamanager_photo_checkbox"
         ), "required" => false ));
-        $builder->add('identifier', 'hidden', array('data' => 'file'));
+        $builder->add('identifier', compat::get_type_name('hidden'), array('data' => 'file'));
 
         $head = midcom::get()->head;
         $head->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.datamanager/photo.css');
@@ -73,8 +74,18 @@ class photo extends AbstractType
 
     /**
      * {@inheritdoc}
+     *
+     * Symfony < 2.8 compat
      */
     public function getName()
+    {
+        return $this->getBlockPrefix();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getBlockPrefix()
     {
         return 'photo';
     }

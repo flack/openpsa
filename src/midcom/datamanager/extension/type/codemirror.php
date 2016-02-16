@@ -13,6 +13,7 @@ use midcom;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use midcom\datamanager\extension\helper;
+use midcom\datamanager\extension\compat;
 
 /**
  * Experimental select type
@@ -114,8 +115,18 @@ class codemirror extends TextareaType
 
     /**
      * {@inheritdoc}
+     *
+     * Symfony < 2.8 compat
      */
     public function getName()
+    {
+        return $this->getBlockPrefix();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getBlockPrefix()
     {
         return 'codemirror';
     }
@@ -125,6 +136,6 @@ class codemirror extends TextareaType
      */
     public function getParent()
     {
-        return 'textarea';
+        return compat::get_type_name('textarea');
     }
 }

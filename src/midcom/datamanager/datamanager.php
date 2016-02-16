@@ -18,6 +18,7 @@ use midcom_helper_misc;
 use midcom;
 use Symfony\Component\Translation\Translator;
 use Symfony\Component\Translation\Loader\XliffFileLoader;
+use midcom\datamanager\extension\compat;
 
 /**
  * Experimental datamanager class
@@ -205,7 +206,8 @@ class datamanager
         if (   $this->form === null
             || $this->form->getName() != $name)
         {
-            $builder = self::get_factory()->createNamedBuilder($name, 'form', $this->get_storage());
+            $this->get_storage();
+            $builder = self::get_factory()->createNamedBuilder($name, compat::get_type_name('form'), $this->storage);
             $this->form = $this->schema->build_form($builder);
         }
         return $this->form;

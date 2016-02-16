@@ -8,6 +8,7 @@ namespace midcom\datamanager\extension\type;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\Options;
+use midcom\datamanager\extension\compat;
 
 /**
  * Experimental select type
@@ -31,14 +32,25 @@ class select extends ChoiceType
 
         $resolver->setDefaults(array
         (
-            'choices' => $map_options
+            'choices' => $map_options,
+            'choices_as_values' => true
         ));
     }
 
     /**
      * {@inheritdoc}
+     *
+     * Symfony < 2.8 compat
      */
     public function getName()
+    {
+        return $this->getBlockPrefix();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getBlockPrefix()
     {
         return 'select';
     }
@@ -48,6 +60,6 @@ class select extends ChoiceType
      */
     public function getParent()
     {
-        return 'choice';
+        return compat::get_type_name('choice');
     }
 }

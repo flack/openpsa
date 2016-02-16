@@ -12,6 +12,7 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use midcom;
 use midcom_core_context;
+use midcom\datamanager\extension\compat;
 
 /**
  * Experimental schema class
@@ -74,13 +75,23 @@ class schema
                 'dm2_type' => $config['type'],
                 'start_fieldset' => $config['start_fieldset'],
                 'end_fieldset' => $config['end_fieldset'],
-                'read_only' => $config['readonly'],
                 'index_method' => $config['index_method']
             );
-            $builder->add($name, $config['widget'], $options);
+
+            // Symfony < 2.8 compat
+            if (compat::is_legacy())
+            {
+                $options['read_only'] = $config['readonly'];
+            }
+            else
+            {
+                $options['attr']['readonly'] = $config['readonly'];
+            }
+
+            $builder->add($name, compat::get_type_name($config['widget']), $options);
         }
 
-        $builder->add('form_toolbar', 'toolbar', array('operations' => $this->config['operations']));
+        $builder->add('form_toolbar', compat::get_type_name('toolbar'), array('operations' => $this->config['operations']));
         return $builder->getForm();
     }
 

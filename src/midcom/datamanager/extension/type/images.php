@@ -15,6 +15,7 @@ use midcom;
 use DateTime;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
+use midcom\datamanager\extension\compat;
 
 /**
  * Experimental image type
@@ -44,27 +45,37 @@ class images extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('file', 'file');
+        $builder->add('file', compat::get_type_name('file'));
         if ($options['widget_config']['show_title'])
         {
-            $builder->add('title', 'text');
+            $builder->add('title', compat::get_type_name('text'));
         }
         if ($options['widget_config']['show_description'])
         {
-            $builder->add('description', 'text');
+            $builder->add('description', compat::get_type_name('text'));
         }
-        $builder->add('identifier', 'hidden', array('data' => 'file'));
+        $builder->add('identifier', compat::get_type_name('hidden'), array('data' => 'file'));
         if ($options['widget_config']['sortable'])
         {
-            $builder->add('score', 'hidden');
+            $builder->add('score', compat::get_type_name('hidden'));
         }
         $builder->addViewTransformer(new transformer($options));
     }
 
     /**
      * {@inheritdoc}
+     *
+     * Symfony < 2.8 compat
      */
     public function getName()
+    {
+        return $this->getBlockPrefix();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getBlockPrefix()
     {
         return 'images';
     }

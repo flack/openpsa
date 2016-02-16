@@ -29,6 +29,6 @@ class buttonextension extends AbstractTypeExtension
 
     public function getExtendedType()
     {
-        return 'button';
+        return compat::get_type_name('button');
     }
 }
