@@ -1227,7 +1227,8 @@ body .ui-tooltip {
 /* Manually added styles */
 .ui-widget-content {
     border-color: #daddd6;
-    background-color: white
+    background-color: white;
+    background-image: none;
 }
 
 .ui-widget-header {
