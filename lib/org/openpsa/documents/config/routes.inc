@@ -69,22 +69,22 @@
 ),
 
 // Match /connector/goto
-'connector_goto' => array
+'finder-goto' => array
 (
- 'handler' => array('org_openpsa_documents_handler_connector', 'goto'),
+ 'handler' => array('org_openpsa_documents_handler_finder', 'goto'),
  'variable_args' => 1,
  'fixed_args' => array('connector', 'goto'),
 ),
 
 // Match /connector
-'connector' => array
+'finder-connector' => array
 (
- 'handler' => array('org_openpsa_documents_handler_connector', 'connector'),
+ 'handler' => array('org_openpsa_documents_handler_finder', 'connector'),
  'fixed_args' => 'connector',
 ),
 
 // Match /
-'directory-view' => array
+'finder-view' => array
 (
-    'handler' => array('org_openpsa_documents_handler_directory_view', 'view'),
+    'handler' => array('org_openpsa_documents_handler_finder', 'view'),
 ),
