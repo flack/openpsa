@@ -14,6 +14,12 @@
 class org_openpsa_projects_handler_workflow extends midcom_baseclasses_components_handler
 {
     /**
+     *
+     * @var string
+     */
+    private $action;
+
+    /**
      * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
      * @param array &$data The local request data.
@@ -21,59 +27,18 @@ class org_openpsa_projects_handler_workflow extends midcom_baseclasses_component
     public function _handler_action($handler_id, array $args, array &$data)
     {
         midcom::get()->auth->require_valid_user();
-        if (!isset($this->_request_data['action']))
+        if (empty($this->action))
         {
-            $this->_request_data['action'] = $args[1];
+            $this->action = $args[1];
         }
-        if (!isset($this->_request_data['reply_mode']))
-        {
-            $this->_request_data['reply_mode'] = 'ajax';
-        }
-        $this->_request_data['task'] = new org_openpsa_projects_task_dba($args[0]);
+        $task = new org_openpsa_projects_task_dba($args[0]);
 
-        if (method_exists('org_openpsa_projects_workflow', $data['action']))
+        if (!org_openpsa_projects_workflow::run($this->action, $task))
         {
-            $stat = org_openpsa_projects_workflow::{$data['action']}($data['task']);
-            switch ($this->_request_data['reply_mode'])
-            {
-                case 'ajax':
-                    //TODO: return ajax status
-                    break;
-                default:
-                case 'redirect':
-                    if (!$stat)
-                    {
-                        throw new midcom_error('Error when saving: ' . midcom_connection::get_error_string());
-                    }
-                    $this->_redirect();
-                    //This will exit
-            }
+            throw new midcom_error('Error when saving: ' . midcom_connection::get_error_string());
         }
-        else
-        {
-            switch ($this->_request_data['reply_mode'])
-            {
-                case 'ajax':
-                    //TODO: return ajax error
-                    break;
-                default:
-                case 'redirect':
-                    throw new midcom_error("Method not implemented");
-            }
-        }
-
-        //We should not fall this far trough
-        throw new midcom_error('Unknown error.');
-    }
-
-    private function _redirect()
-    {
-        if (empty($this->_request_data['redirect_to']))
-        {
-            throw new midcom_error('redirect url missing');
-        }
-        midcom::get()->relocate($this->_request_data['redirect_to']);
-        //This will exit
+        //TODO: return ajax status
+        return new midcom_response_json;
     }
 
     /**
@@ -94,29 +59,16 @@ class org_openpsa_projects_handler_workflow extends midcom_baseclasses_component
         //Go trough the array, in theory it should have only one element and in any case only the last of them will be processed
         foreach (array_keys($_POST['org_openpsa_projects_workflow_action']) as $action)
         {
-            $this->_request_data['action'] = $action;
+            $this->action = $action;
         }
 
-        $this->_request_data['reply_mode'] = 'redirect';
-        if (!isset($_POST['org_openpsa_projects_workflow_action_redirect']))
-        {
-            //NOTE: This header might not be trustworthy...
-            $this->_request_data['redirect_to'] = $_SERVER['HTTP_REFERER'];
-        }
-        else
-        {
-            $this->_request_data['redirect_to'] = $_POST['org_openpsa_projects_workflow_action_redirect'];
-        }
         $this->_handler_action($handler_id, $args, $data);
-    }
 
-    /**
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_post($handler_id, array &$data)
-    {
-        //We actually should not ever get this far
+        if (isset($_POST['org_openpsa_projects_workflow_action_redirect']))
+        {
+            return new midcom_response_relocate($_POST['org_openpsa_projects_workflow_action_redirect']);
+        }
+        //NOTE: This header might not be trustworthy...
+        return new midcom_response_relocate($_SERVER['HTTP_REFERER']);
     }
 }

@@ -14,6 +14,21 @@
 class org_openpsa_projects_workflow
 {
     /**
+     *
+     * @param string $command
+     * @param org_openpsa_projects_task_dba $task
+     * @throws midcom_error
+     */
+    public static function run($command, org_openpsa_projects_task_dba $task)
+    {
+        if (!method_exists(__CLASS__, $command))
+        {
+            throw new midcom_error("Method not implemented");
+        }
+        return static::$command($task);
+    }
+
+    /**
      * Returns the icon for a given status
      *
      * @param integer $status The status to convert
