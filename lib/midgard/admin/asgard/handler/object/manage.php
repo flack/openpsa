@@ -619,10 +619,10 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         switch ($handler_id)
         {
             case '____mfa-asgard-object_copy_tree':
-                $data['page_title'] = sprintf($this->_l10n->get('copy %s and its descendants'), $this->_object->$target['label']);
+                $data['page_title'] = sprintf($this->_l10n->get('copy %s and its descendants'), $this->_object->{$target['label']});
                 break;
             default:
-                $data['page_title'] = sprintf($this->_l10n->get('copy %s'), $this->_object->$target['label']);
+                $data['page_title'] = sprintf($this->_l10n->get('copy %s'), $this->_object->{$target['label']});
         }
 
         $data['target'] = $target;

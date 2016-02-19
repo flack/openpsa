@@ -127,8 +127,8 @@ class org_openpsa_contacts_duplicates_merge
             $qb->begin_group('OR');
             foreach ($fieldconfig as $field => $conf)
             {
-                $qb->add_constraint($field, '=', $obj1->$conf['target']);
-                $qb->add_constraint($field, '=', $obj2->$conf['target']);
+                $qb->add_constraint($field, '=', $obj1->{$conf['target']});
+                $qb->add_constraint($field, '=', $obj2->{$conf['target']});
             }
             $qb->end_group();
             $results = $qb->execute();
@@ -138,11 +138,11 @@ class org_openpsa_contacts_duplicates_merge
                 $needs_update = false;
                 foreach ($fieldconfig as $field => $conf)
                 {
-                    if ($result->$field == $obj2->$conf['target'])
+                    if ($result->$field == $obj2->{$conf['target']})
                     {
                         if (!empty($conf['duplicate_check']))
                         {
-                            $result->$field = $obj1->$conf['target'];
+                            $result->$field = $obj1->{$conf['target']};
                             $dup = $this->_check_duplicate($results, $result, $conf['duplicate_check']);
 
                             if (   is_object($dup)
