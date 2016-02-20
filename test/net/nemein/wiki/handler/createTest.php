@@ -67,8 +67,15 @@ class net_nemein_wiki_handler_createTest extends openpsa_testcase
         $this->assertCount(1, $results);
         $this->assertEquals('net.nemein.wiki', $results[0]->component);
 
-        $this->assertEquals($results[0]->name . '/create/default?wikiword=' . rawurlencode($wikiword), $url);
+        $qb = net_nemein_wiki_wikipage::new_query_builder();
+        $qb->add_constraint('topic', '=', $results[0]->id);
+        $articles = $qb->execute();
+        $this->register_objects($articles);
 
+        $this->assertCount(1, $articles);
+        $this->assertEquals('index', $articles[0]->name);
+
+        $this->assertEquals($results[0]->name . '/create/default?wikiword=' . rawurlencode($wikiword), $url);
         midcom::get()->auth->drop_sudo();
     }
 }
