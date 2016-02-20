@@ -48,4 +48,27 @@ class net_nemein_wiki_handler_createTest extends openpsa_testcase
         $this->show_handler($data);
         midcom::get()->auth->drop_sudo();
     }
+
+    public function testHandler_create_word_with_namespace_by_schema()
+    {
+        midcom::get()->auth->request_sudo('net.nemein.wiki');
+
+        $topic_name = __CLASS__ . time();
+        $wikiword = time();
+        $_GET['wikiword'] = $topic_name . ' / ' . $wikiword;
+        $url = $this->run_relocate_handler(self::$_topic, array('create', 'default'));
+
+        $qb = midcom_db_topic::new_query_builder();
+        $qb->add_constraint('up', '=', self::$_topic->id);
+        $qb->add_constraint('title', '=', $topic_name);
+        $results = $qb->execute();
+        $this->register_objects($results);
+
+        $this->assertCount(1, $results);
+        $this->assertEquals('net.nemein.wiki', $results[0]->component);
+
+        $this->assertEquals($results[0]->name . '/create/default?wikiword=' . rawurlencode($wikiword), $url);
+
+        midcom::get()->auth->drop_sudo();
+    }
 }

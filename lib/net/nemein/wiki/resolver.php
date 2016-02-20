@@ -60,11 +60,15 @@ class net_nemein_wiki_resolver
         }
         else
         {
-            $node_identifier = "{$prefix}{$node[MIDCOM_NAV_NAME]}";
+            $node_identifier = $prefix . trim($node[MIDCOM_NAV_URL], '/');
             $nodes[$node_identifier] = $node;
         }
 
-        $subnodes = $nap->list_nodes($node[MIDCOM_NAV_ID]);
+        // Load subnodes uncached, since one may have just been added (by the create handler)
+        $mc = midcom_db_topic::new_collector('up', $node[MIDCOM_NAV_ID]);
+        $mc->add_constraint('component', '=', 'net.nemein.wiki');
+        $subnodes = $mc->get_values('id');
+
         foreach ($subnodes as $node_id)
         {
             $subnode = $nap->get_node($node_id);
@@ -97,9 +101,13 @@ class net_nemein_wiki_resolver
             'latest_parent' => null,
             'remaining_path' => $path,
         );
+        $generator = midcom::get()->serviceloader->load('midcom_core_service_urlgenerator');
+
+        $levels = explode('/', $path);
+        $path = implode('/', array_map(array($generator, 'from_string'), $levels));
 
         // Namespaced handling
-        if (strstr($path, '/'))
+        if (count($levels) > 1)
         {
             /* We store the Wiki folder hierarchy in a static array
                that is populated only once, and even then only the
@@ -152,24 +160,20 @@ class net_nemein_wiki_resolver
                 // Walk path downwards to locate latest parent
                 $localpath = $path;
                 $matches['latest_parent'] = $folder_tree['/'];
+                $missing_levels = 0;
                 while (   $localpath
                        && $localpath != '/')
                 {
                     $localpath = dirname($localpath);
+                    $missing_levels++;
 
                     if (array_key_exists($localpath, $folder_tree))
                     {
                         $matches['latest_parent'] = $folder_tree[$localpath];
-                        $matches['remaining_path'] = substr($path, strlen($localpath));
-
-                        if (substr($matches['remaining_path'], 0, 1) == '/')
-                        {
-                            $matches['remaining_path'] = substr($matches['remaining_path'], 1);
-                        }
+                        $matches['remaining_path'] = implode('/', array_slice($levels, -$missing_levels));
                         break;
                     }
                 }
-
                 return $matches;
             }
 
@@ -190,7 +194,7 @@ class net_nemein_wiki_resolver
 
         // Check if the wikipage exists
         $qb = net_nemein_wiki_wikipage::new_query_builder();
-        $qb->add_constraint('title', '=', basename($path));
+        $qb->add_constraint('name', '=', basename($path));
         $qb->add_constraint('topic', '=', $folder[MIDCOM_NAV_ID]);
         $wikipages = $qb->execute();
         if (count($wikipages) == 0)
