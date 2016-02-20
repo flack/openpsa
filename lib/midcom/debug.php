@@ -335,6 +335,12 @@ class midcom_debug
             }
             if (array_key_exists('class', $frame))
             {
+                if (!array_key_exists('function', $frame))
+                {
+                    // workaround for what is most likely a bug in xdebug 2.4.rc3 and/or PHP 7.0.3
+                    continue;
+                }
+
                 $stacktrace .= "{$frame['class']}::{$frame['function']}";
             }
             else if (array_key_exists('function', $frame))
