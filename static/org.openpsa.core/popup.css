@@ -13,9 +13,9 @@ body
 }
 #content
 {
-    padding: .5em 1em;
+    padding: calc(60px + 1.5em) 1.5em 2em 1.5em;
     background-color: white;
-    padding-top: calc(60px + 1.5em);
+    padding-top: ;
 }
 #container a
 {
