@@ -94,8 +94,8 @@ implements midcom_helper_datamanager2_interfaces_create
                 $folder_title = array_shift($paths);
                 $topic = new midcom_db_topic();
                 $topic->up = $to_node[MIDCOM_NAV_ID];
-                $topic->extra = $folder_title;
-                $topic->title = $folder_title;
+                $topic->extra = trim($folder_title);
+                $topic->title = $topic->extra;
                 $generator = midcom::get()->serviceloader->load('midcom_core_service_urlgenerator');
                 $topic->name = $generator->from_string($folder_title);
                 $topic->component = 'net.nemein.wiki';
