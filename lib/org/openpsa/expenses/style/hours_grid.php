@@ -84,7 +84,7 @@ $footer_data = array
     'hours' => $reports['hours']
 );
 
-$grid->set_footer_data($footer_data);
+$grid->set_footer_data($footer_data, null, false);
 ?>
 <div class="org_openpsa_expenses <?php echo $class ?> batch-processing full-width crop-height" style="margin-top: 1em">
 
@@ -93,7 +93,6 @@ $grid->set_footer_data($footer_data);
 <form id="form_&(grid_id);" method="post" action="<?php echo $data['action_target_url']; ?>">
 <input type="hidden" name="relocate_url" value="<?php echo $_SERVER['REQUEST_URI']; ?>" />
 </form>
-
 </div>
 
 <script type="text/javascript">

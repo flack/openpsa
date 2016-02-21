@@ -64,6 +64,13 @@ class org_openpsa_widgets_grid extends midcom_baseclasses_components_purecode
     private $_footer_data = array();
 
     /**
+     * Should formatters be applied to footer row
+     *
+     * @var boolean
+     */
+    private $format_footer = true;
+
+    /**
      * The data provider, if any
      *
      * @var org_openpsa_widgets_grid_provider
@@ -248,8 +255,9 @@ class org_openpsa_widgets_grid extends midcom_baseclasses_components_purecode
      *
      * @param mixed $data The data to set as array or the column name
      * @param mixed $value The value, if setting individual columns
+     * @param boolean $formatted Should formatters be applied to footer data
      */
-    public function set_footer_data($data, $value = null)
+    public function set_footer_data($data, $value = null, $formatted = true)
     {
         if (null == $value)
         {
@@ -259,6 +267,7 @@ class org_openpsa_widgets_grid extends midcom_baseclasses_components_purecode
         {
             $this->_footer_data[$data] = $value;
         }
+        $this->format_footer = $formatted;
         $this->set_option('footerrow', true);
     }
 
@@ -333,7 +342,8 @@ class org_openpsa_widgets_grid extends midcom_baseclasses_components_purecode
 
         if ($this->get_option('footerrow'))
         {
-            $string .= 'jQuery("#' . $this->_identifier . '").jqGrid("footerData", "set", ' . json_encode($this->_footer_data) . ", false);\n";
+            $format = $this->format_footer ? 'true' : 'false';
+            $string .= 'jQuery("#' . $this->_identifier . '").jqGrid("footerData", "set", ' . json_encode($this->_footer_data) . ", " . $format . ");\n";
         }
 
         $string .= '//]]></script>';
