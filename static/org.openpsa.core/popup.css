@@ -15,7 +15,7 @@ body
 {
     padding: .5em 1em;
     background-color: white;
-    padding-top: 60px;
+    padding-top: calc(60px + 1.5em);
 }
 #container a
 {
