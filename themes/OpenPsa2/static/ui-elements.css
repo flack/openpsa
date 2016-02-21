@@ -340,7 +340,7 @@ form.datamanager2 div.input input.radiobutton
 form.datamanager2 input.shorttext,
 form.datamanager2 .longtext
 {
-    width: 100%;
+    width: calc(100% - .4em);
     max-width: 30em;
     background-color: white
 }
