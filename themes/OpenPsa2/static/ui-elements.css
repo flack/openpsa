@@ -243,7 +243,6 @@ form.datamanager2 .form fieldset.fieldset
     background: -moz-linear-gradient(top, #FFFFFF 0%, #F9F9F9 32%, #F9F9F8 96%, #FCFCFC 100%);
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#FFFFFF), color-stop(32%,#F9F9F9), color-stop(96%,#F9F9F8), color-stop(100%,#FCFCFC));
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#FFFFFF', endColorstr='#FCFCFC',GradientType=0 ); /* ie */
-    display: table-cell;
 }
 
 form.datamanager2 .form fieldset.fieldset:hover
@@ -341,7 +340,8 @@ form.datamanager2 div.input input.radiobutton
 form.datamanager2 input.shorttext,
 form.datamanager2 .longtext
 {
-    width: 30em;
+    width: 100%;
+    max-width: 30em;
     background-color: white
 }
 
