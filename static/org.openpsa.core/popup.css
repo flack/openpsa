@@ -4,6 +4,13 @@ body
   padding: 0px;
   font-size: 12px;
 }
+
+header
+{
+    position: fixed;
+    width: 100%;
+}
+
 #container,
 #container select,
 #container button,
@@ -37,9 +44,6 @@ body
     border-bottom: 1px solid #dee1db;
     line-height: 16px;
     margin-bottom: 4px;
-    position: fixed;
-    width: 100%;
-    top: 30px;
 }
 
 #org_openpsa_toolbar ul
@@ -81,11 +85,8 @@ body
 {
   margin-top: 0px;
   margin-bottom: 0px;
-  padding: 6px;
-  padding-left: 2%;
+  padding: 12px 6px 6px 2%;
   font-size: 1.4em;
   background-color: #3364a3;
   color: #ffffff;
-  position: fixed;
-  width: 100%
 }

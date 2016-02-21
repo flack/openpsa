@@ -1,8 +1,11 @@
 <?php
+$i18n = midcom::get()->i18n;
+$head = midcom::get()->head;
+
 $title = (array_key_exists('title', $data)) ? $data['title'] : $i18n->get_string('popup', 'org.openpsa.core');
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo midcom::get()->i18n->get_current_language(); ?>">
+<html lang="<?php echo $i18n->get_current_language(); ?>">
     <head>
     <meta charset="UTF-8">
     <title><?php echo htmlspecialchars($title); ?></title>
@@ -13,7 +16,9 @@ $title = (array_key_exists('title', $data)) ? $data['title'] : $i18n->get_string
     </head>
     <body id="org_openpsa_popup"<?php midcom::get()->head->print_jsonload(); ?>>
         <div id="container">
-            <h1>&(title);</h1>
+            <header>
+                <h1>&(title);</h1>
+            </header>
             <div id="org_openpsa_toolbar">
                     <?php
                     midcom::get()->toolbars->show_view_toolbar();

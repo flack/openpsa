@@ -19,12 +19,12 @@ $title = (array_key_exists('title', $data)) ? $data['title'] : $i18n->get_string
     </head>
     <body id="org_openpsa_popup"<?php $head->print_jsonload(); ?>>
         <div id="container">
-            <?php
-            echo "<h1>{$title}</h1>\n";
-            ?>
-            <div id="org_openpsa_toolbar" class="org_openpsa_toolbar">
+            <header>
+                <h1>&(title);</h1>
+                <div id="org_openpsa_toolbar" class="org_openpsa_toolbar">
                     <?php
                       midcom::get()->toolbars->show_view_toolbar();
                     ?>
-            </div>
+                </div>
+            </header>
             <div id="content">

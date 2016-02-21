@@ -1,3 +1,4 @@
+<?php $data['controller']->display_form (); ?>
 <script type="text/javascript">
 /*
  * we need to determine the correct widget_id prefix here, loading from the parent
@@ -6,14 +7,30 @@
 var widget_id = window.parent.jQuery('iframe[src^="' + window.location.pathname + '"]:visible').attr("id");
 widget_id = widget_id.replace(/_creation_dialog_content/, '');
 
-if ($('#container h1').length > 0)
+if ($('#container header').length > 0)
 {
-	var title = $('#container h1').detach();
+	var title = $('#container h1').detach(),
+        header_height = 12,
+        buttons = [];
 	if ($('#org_openpsa_toolbar').length > 0)
 	{
-	    $('#org_openpsa_toolbar').offset({top: 0});
+        header_height += $('#org_openpsa_toolbar').height();
 	}
-	window.parent.jQuery('#' + widget_id + '_creation_dialog').dialog('option', 'title', title.text());
+	if ($('.datamanager2 .form_toolbar input').length > 0)
+	{
+        $('.datamanager2 .form_toolbar input').each(function() {
+            var btn = $(this);
+            buttons.push({
+                text: btn.val(),
+                click: function() {
+                   btn.click();
+                }
+            });
+        });
+        $('.datamanager2 .form_toolbar').hide();
+    }
+    $('#content').css('padding-top', header_height + 'px');
+    window.parent.jQuery('#' + widget_id + '_creation_dialog').dialog('option', 'title', title.text())
+        .dialog('option', 'buttons', buttons);
 }
 </script>
-<?php $data['controller']->display_form (); ?>

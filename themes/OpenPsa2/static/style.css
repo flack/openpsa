@@ -660,6 +660,10 @@ table.DifferencesSideBySide .Right{
     width:45%;
 }
 
+#org_openpsa_popup #container {
+    overflow: visible;
+}
+
 #org_openpsa_popup #content {
     margin-left: 0;
 }
