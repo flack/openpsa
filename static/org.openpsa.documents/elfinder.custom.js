@@ -6,7 +6,8 @@ elFinder.prototype.commands.details = function() {
         this.title = this.fm.i18n('cmdopen');
     };
     this.exec = function(hashes) {
-        window.location.href = window.location.pathname + 'connector/goto/' + hashes[0] + '/';
+        hashes = this.files(hashes);
+        window.location.href = window.location.pathname + 'connector/goto/' + hashes[0].hash + '/';
     };
 
     this.getstate = function(sel) {
