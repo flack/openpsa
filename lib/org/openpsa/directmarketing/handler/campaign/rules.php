@@ -133,8 +133,6 @@ implements org_openpsa_widgets_grid_provider_client
             midcom::get()->uimessages->add($this->_component, sprintf($this->_l10n->get('error when saving rule, errstr: %s'), midcom_connection::get_error_string()), 'error');
         }
 
-        // Add toolbar items
-        org_openpsa_helpers::dm2_savecancel($this);
         $this->_view_toolbar->add_item
         (
             array

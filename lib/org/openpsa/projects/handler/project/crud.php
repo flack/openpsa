@@ -35,10 +35,6 @@ class org_openpsa_projects_handler_project_crud extends midcom_baseclasses_compo
         {
             $this->_add_read_toolbar($handler_id);
         }
-        else
-        {
-            org_openpsa_helpers::dm2_savecancel($this);
-        }
     }
 
     /**

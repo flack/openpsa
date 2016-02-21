@@ -150,7 +150,6 @@ implements midcom_helper_datamanager2_interfaces_create
                 return new midcom_response_relocate($add_url);
         }
 
-        org_openpsa_helpers::dm2_savecancel($this);
         $this->_prepare_breadcrumb();
     }
 
@@ -211,8 +210,6 @@ implements midcom_helper_datamanager2_interfaces_create
                 return new midcom_response_relocate($url_prefix);
         }
 
-        org_openpsa_helpers::dm2_savecancel($this);
-        //delete-button
         $this->_view_toolbar->add_item
         (
             array

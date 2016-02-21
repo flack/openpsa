@@ -92,7 +92,6 @@ implements midcom_helper_datamanager2_interfaces_edit
         }
 
         midcom::get()->head->set_pagetitle("{$this->_person->name}");
-        org_openpsa_helpers::dm2_savecancel($this);
 
         $this->add_breadcrumb("view/{$this->_person->guid}/", $this->_person->name);
         $this->add_breadcrumb('', $this->_l10n->get('permissions'));

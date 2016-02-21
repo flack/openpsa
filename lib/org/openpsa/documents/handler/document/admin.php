@@ -129,8 +129,6 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
 
         midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('edit %s'), $this->_document->title));
 
-        // Add toolbar items
-        org_openpsa_helpers::dm2_savecancel($this);
         $this->bind_view_to_object($this->_document, $this->_controller->datamanager->schema->name);
 
         $this->add_breadcrumb("document/{$this->_document->guid}/", $this->_document->title);

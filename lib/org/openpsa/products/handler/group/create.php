@@ -144,9 +144,6 @@ implements midcom_helper_datamanager2_interfaces_create
 
         $this->_prepare_request_data();
 
-        // Add toolbar items
-        org_openpsa_helpers::dm2_savecancel($this);
-
         $this->_request_data['view_title'] = sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get($this->_schemadb[$this->_schema]->description));
         midcom::get()->head->set_pagetitle($this->_request_data['view_title']);
 

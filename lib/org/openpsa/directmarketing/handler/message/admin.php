@@ -125,8 +125,6 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
                 return new midcom_response_relocate("message/{$this->_message->guid}/");
         }
 
-        org_openpsa_helpers::dm2_savecancel($this);
-
         $this->_prepare_request_data();
         midcom::get()->head->set_pagetitle($this->_message->title);
         $this->bind_view_to_object($this->_message, $this->_controller->datamanager->schema->name);

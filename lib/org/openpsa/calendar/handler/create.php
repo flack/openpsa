@@ -117,9 +117,6 @@ implements midcom_helper_datamanager2_interfaces_create
                 break;
         }
 
-        // Add toolbar items
-        org_openpsa_helpers::dm2_savecancel($this);
-
         // Hide the ROOT style
         midcom::get()->skip_page_style = true;
         midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.calendar/calendar.js');

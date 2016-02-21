@@ -103,8 +103,6 @@ implements midcom_helper_datamanager2_interfaces_create
         }
 
         $this->add_breadcrumb('', $this->_l10n->get('create person'));
-
-        org_openpsa_helpers::dm2_savecancel($this);
     }
 
     /**

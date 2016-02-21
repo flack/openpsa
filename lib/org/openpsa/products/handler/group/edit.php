@@ -83,8 +83,6 @@ class org_openpsa_products_handler_group_edit extends midcom_baseclasses_compone
         $this->_update_breadcrumb_line();
         $this->_prepare_request_data();
 
-        // Add toolbar items
-        org_openpsa_helpers::dm2_savecancel($this);
         $this->_view_toolbar->bind_to($this->_group);
 
         midcom::get()->metadata->set_request_metadata($this->_group->metadata->revised, $this->_group->guid);

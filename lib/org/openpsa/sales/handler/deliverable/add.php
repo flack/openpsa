@@ -173,7 +173,6 @@ implements midcom_helper_datamanager2_interfaces_create
         }
 
         midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/' . $this->_component . '/sales.js');
-        org_openpsa_helpers::dm2_savecancel($this);
         $this->add_breadcrumb("salesproject/{$this->_salesproject->guid}/", $this->_salesproject->title);
         $this->add_breadcrumb('', $this->_l10n->get('add offer'));
     }

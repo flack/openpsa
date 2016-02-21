@@ -225,11 +225,6 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
         {
             $this->_populate_read_toolbar($handler_id);
         }
-        else
-        {
-            // Add toolbar items
-            org_openpsa_helpers::dm2_savecancel($this);
-        }
     }
 
     private function _populate_read_toolbar($handler_id)

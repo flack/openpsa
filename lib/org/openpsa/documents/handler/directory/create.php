@@ -101,9 +101,6 @@ class org_openpsa_documents_handler_directory_create extends midcom_baseclasses_
         $this->_request_data['controller'] = $this->_controller;
 
         $this->add_breadcrumb("", $this->_l10n->get('new directory'));
-
-        // Add toolbar items
-        org_openpsa_helpers::dm2_savecancel($this);
     }
 
     /**

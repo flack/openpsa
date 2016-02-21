@@ -71,55 +71,6 @@ class org_openpsa_helpers
      }
 
     /**
-     * Function for adding JavaScript buttons for saving/cancelling Datamanager 2 form via the toolbar
-     *
-     * @param object $handler The current handler object reference
-     * @param string $action The DM's principal action (save or delete)
-     */
-    public static function dm2_savecancel($handler, $action = 'save')
-    {
-        $toolbar = $handler->_view_toolbar;
-        if (   !is_object($toolbar)
-            || !method_exists($toolbar, 'add_item'))
-        {
-            return;
-        }
-
-        $icon = $action;
-        if ($action == 'delete')
-        {
-            $icon = 'trash';
-        }
-
-        $toolbar->add_item
-        (
-            array
-            (
-                MIDCOM_TOOLBAR_URL => 'javascript:document.getElementsByName("midcom_helper_datamanager2_' . $action . '[0]")[0].click();',
-                MIDCOM_TOOLBAR_LABEL => $handler->_l10n_midcom->get($action),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/' . $icon . '.png',
-                MIDCOM_TOOLBAR_OPTIONS  => array
-                (
-                    'rel' => 'directlink',
-                ),
-            )
-        );
-        $toolbar->add_item
-        (
-            array
-            (
-                MIDCOM_TOOLBAR_URL => 'javascript:document.getElementsByName("midcom_helper_datamanager2_cancel[0]")[0].click();',
-                MIDCOM_TOOLBAR_LABEL => $handler->_l10n_midcom->get("cancel"),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/cancel.png',
-                MIDCOM_TOOLBAR_OPTIONS  => array
-                (
-                    'rel' => 'directlink',
-                ),
-            )
-        );
-    }
-
-    /**
      * Helper function that formats numbers in the current locale's format
      *
      * @todo Negative numbers

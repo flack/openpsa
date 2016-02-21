@@ -55,7 +55,6 @@ implements midcom_helper_datamanager2_interfaces_edit
         $this->add_breadcrumb('groups/', $this->_l10n->get('groups'));
         $this->add_breadcrumb('', sprintf($this->_l10n_midcom->get('edit %s'), $this->_group->get_label()));
 
-        org_openpsa_helpers::dm2_savecancel($this);
         $this->bind_view_to_object($this->_group);
     }
 

@@ -52,7 +52,6 @@ implements midcom_helper_datamanager2_interfaces_edit
                 }
                 return new midcom_response_relocate($url);
         }
-        org_openpsa_helpers::dm2_savecancel($this);
 
         // Add the breadcrumb pieces
         if (isset($_GET['org_openpsa_calendar_returnurl']))

@@ -161,8 +161,6 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
 
         $this->_prepare_request_data();
 
-        // Add toolbar items
-        org_openpsa_helpers::dm2_savecancel($this);
         if (!empty($task))
         {
             $this->_add_toolbar_items($task);
@@ -241,8 +239,6 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
 
         $this->_prepare_request_data();
 
-        // Add toolbar items
-        org_openpsa_helpers::dm2_savecancel($this);
         if ($this->_hour_report->can_do('midgard:delete'))
         {
             $workflow = new midcom\workflow\delete($this->_hour_report);

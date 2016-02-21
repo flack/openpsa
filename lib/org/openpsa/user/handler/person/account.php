@@ -67,9 +67,6 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         $this->_prepare_request_data();
 
         $this->_update_breadcrumb_line('create account');
-
-        // Add toolbar items
-        org_openpsa_helpers::dm2_savecancel($this);
     }
 
     public function get_schema_defaults()
@@ -194,9 +191,6 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         $this->_prepare_request_data();
 
         $this->_update_breadcrumb_line('edit account');
-
-        // Add toolbar items
-        org_openpsa_helpers::dm2_savecancel($this);
 
         if ($this->_person->can_do('midgard:update'))
         {

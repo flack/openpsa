@@ -161,8 +161,6 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
         }
 
         midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/' . $this->_component . '/sales.js');
-        // Add toolbar items
-        org_openpsa_helpers::dm2_savecancel($this);
 
         $this->_prepare_request_data($handler_id);
         $this->bind_view_to_object($this->_deliverable, $this->_request_data['controller']->datamanager->schema->name);

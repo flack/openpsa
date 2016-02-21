@@ -40,11 +40,6 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
      */
     public function _populate_toolbar($handler_id)
     {
-        if ($this->_mode == 'update')
-        {
-            org_openpsa_helpers::dm2_savecancel($this);
-        }
-
         if ($this->_mode == 'read')
         {
             $this->_populate_read_toolbar($handler_id);

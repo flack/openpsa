@@ -66,9 +66,6 @@ class org_openpsa_calendar_handler_admin extends midcom_baseclasses_components_h
                 midcom::get()->head->add_jsonload('window.close();');
                 // This will exit (well, in a way...)
         }
-
-        // Add toolbar items
-        org_openpsa_helpers::dm2_savecancel($this);
     }
 
     /**

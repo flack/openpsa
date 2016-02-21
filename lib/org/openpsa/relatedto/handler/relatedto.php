@@ -534,7 +534,6 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
                 {
                     $response->status = "method '{$this->_mode}' requires guid of a link object as an argument";
                 }
-
             }
             catch (midcom_error $e)
             {

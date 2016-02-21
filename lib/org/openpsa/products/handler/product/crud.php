@@ -39,11 +39,6 @@ class org_openpsa_products_handler_product_crud extends midcom_baseclasses_compo
         midcom_core_context::get()->set_custom_key('midcom.helper.nav.breadcrumb', $breadcrumb);
     }
 
-    public function _populate_toolbar($handler_id)
-    {
-        org_openpsa_helpers::dm2_savecancel($this);
-    }
-
     /**
      * Load the schema for products
      */

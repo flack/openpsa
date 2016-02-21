@@ -58,7 +58,6 @@ implements midcom_helper_datamanager2_interfaces_edit
 
         $this->add_breadcrumb('', sprintf($this->_l10n_midcom->get('edit %s'), $this->_person->get_label()));
 
-        org_openpsa_helpers::dm2_savecancel($this);
         $this->bind_view_to_object($this->_person);
     }
 

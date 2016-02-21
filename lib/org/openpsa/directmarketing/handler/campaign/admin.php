@@ -107,8 +107,6 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
                 return new midcom_response_relocate("campaign/{$this->_campaign->guid}/");
         }
 
-        org_openpsa_helpers::dm2_savecancel($this);
-
         $this->_prepare_request_data();
         midcom::get()->head->set_pagetitle($this->_campaign->title);
         $this->bind_view_to_object($this->_campaign, $this->_controller->datamanager->schema->name);

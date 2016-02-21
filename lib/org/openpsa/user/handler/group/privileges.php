@@ -88,7 +88,6 @@ implements midcom_helper_datamanager2_interfaces_edit
         }
 
         midcom::get()->head->set_pagetitle($this->_group->official);
-        org_openpsa_helpers::dm2_savecancel($this);
 
         $this->add_breadcrumb("group/{$this->_group->guid}/", $this->_group->name);
         $this->add_breadcrumb("", $this->_l10n->get('permissions'));

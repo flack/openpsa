@@ -103,8 +103,6 @@ class org_openpsa_contacts_handler_person_admin extends midcom_baseclasses_compo
                 return new midcom_response_relocate("person/{$this->_contact->guid}/");
         }
 
-        org_openpsa_helpers::dm2_savecancel($this);
-
         $this->_prepare_request_data();
         midcom::get()->head->set_pagetitle($this->_contact->name);
         $this->bind_view_to_object($this->_contact, $this->_controller->datamanager->schema->name);

@@ -49,8 +49,6 @@ implements midcom_helper_datamanager2_interfaces_edit
 
         $this->add_breadcrumb('view/' . $person->guid . '/', $person->get_label());
         $this->add_breadcrumb("", $this->_l10n->get("notification settings"));
-
-        org_openpsa_helpers::dm2_savecancel($this);
     }
 
     /**

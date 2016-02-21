@@ -84,9 +84,6 @@ implements midcom_helper_datamanager2_interfaces_create
         $data['action'] = $this->_action;
 
         midcom::get()->skip_page_style = true;
-
-        // Add toolbar items
-        org_openpsa_helpers::dm2_savecancel($this);
     }
 
     public function get_schema_defaults()
