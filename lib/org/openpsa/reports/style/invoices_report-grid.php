@@ -154,8 +154,8 @@ echo '<select id="chgrouping_' . $grid_id . '">';
 echo '<option value="status">' . $l10n->get('invoice status') . "</option>\n";
 echo '<option value="customer">' . $l10n->get('customer') . "</option>\n";
 echo '<option value="contact">' . $l10n->get('customer contact') . "</option>\n";
-echo '<option value="year">' . $data['l10n']->get('year') . "</option>\n";
-echo '<option value="month">' . $data['l10n']->get('month') . "</option>\n";
+echo '<option value="year" data-hidden="true">' . $data['l10n']->get('year') . "</option>\n";
+echo '<option value="month" data-hidden="true">' . $data['l10n']->get('month') . "</option>\n";
 echo '<option value="clear">' . midcom::get()->i18n->get_string('no grouping', 'org.openpsa.core') . "</option>\n";
 echo '</select>';
 ?>

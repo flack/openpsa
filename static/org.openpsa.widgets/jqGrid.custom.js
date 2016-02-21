@@ -530,7 +530,6 @@ var org_openpsa_grid_helper =
     event_handler_added: false,
     active_grids: [],
     maximized_grid: '',
-    previous_groupings: [],
     bind_grouping_switch: function(grid_id)
     {
         var grid = $("#" + grid_id),
@@ -552,31 +551,32 @@ var org_openpsa_grid_helper =
                              expand = !expand;
                              toggle.val(expand ? '+' : '-');
                          });
-        org_openpsa_grid_helper.previous_groupings[grid_id] = group_conf.groupField[0];
 
         $("#chgrouping_" + grid_id)
             .val((active) ? group_conf.groupField[0] : 'clear')
             .bind('change', function()
             {
-                var selection = $(this).val();
+                var selection = $(this).val(),
+                    previous = group_conf.groupField[0];
+
                 if (selection)
                 {
                     if (selection == "clear")
                     {
                         grid.jqGrid('groupingRemove', true);
-                        // Workaround for https://github.com/tonytomov/jqGrid/issues/431
-                        grid.jqGrid('showCol', org_openpsa_grid_helper.previous_groupings[grid_id]);
                     }
                     else
                     {
                         grid.jqGrid('groupingGroupBy', selection);
-                        if (selection !== org_openpsa_grid_helper.previous_groupings[grid_id])
-                        {
-                            // Workaround for https://github.com/tonytomov/jqGrid/issues/431
-                            grid.jqGrid('showCol', org_openpsa_grid_helper.previous_groupings[grid_id]);
-                        }
                     }
-                    jQuery(window).trigger('resize');
+
+                    if (   selection !== previous
+                        && !$(this).find('[value="' + previous + '"]').data('hidden'))
+                    {
+                        // Workaround for https://github.com/tonytomov/jqGrid/issues/431
+                        grid.jqGrid('showCol', previous);
+                    }
+                    $(window).trigger('resize');
                 }
             })
             .after(toggle);
@@ -636,6 +636,7 @@ var org_openpsa_grid_helper =
                 org_openpsa_grid_helper.event_handler_added = true;
             }
         }
+
         $('#' + grid_id).jqGrid(config);
     },
     save_grid_data: function()
@@ -667,6 +668,9 @@ var org_openpsa_grid_helper =
             {
                 data.grouping = grid.jqGrid('getGridParam', 'grouping');
                 data.groupingView = grid.jqGrid('getGridParam', 'groupingView');
+
+                delete data.groupingView.groups;
+                delete data.groupingView.lastvalues;
             }
 
             if (data.custom_keys.maximized)
@@ -679,7 +683,7 @@ var org_openpsa_grid_helper =
             {
                 data.page = 1;
             }
-            window.localStorage.setItem(identifier, JSON.stringify(data))
+            window.localStorage.setItem(identifier, JSON.stringify(data));
         });
     }
 };
