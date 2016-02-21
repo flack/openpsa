@@ -20,11 +20,6 @@
             'storage' => 'title',
             'type' => 'text',
             'widget' =>  'text',
-            'start_fieldset' => array
-            (
-                'title' => 'event information',
-                'css_group' => 'area',
-            ),
             'required' => true,
         ),
         'location' => array
@@ -69,7 +64,6 @@
                 'output_mode' => 'markdown',
             ),
             'widget' => 'textarea',
-            'end_fieldset' => '',
         ),
         'participants' => array
         (
@@ -88,11 +82,6 @@
             (
                 'clever_class' => 'contact',
                 'id_field' => 'id',
-            ),
-            'start_fieldset' => array
-            (
-                'title' => 'participants',
-                'css_group' => 'area',
             ),
         ),
         'orgOpenpsaAccesstype' => array
@@ -117,7 +106,6 @@
             'type' => 'boolean',
             'widget' => 'checkbox',
             'default' => 1,
-            'end_fieldset' => '',
         ),
     ),
 ),

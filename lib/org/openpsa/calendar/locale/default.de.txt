@@ -71,10 +71,6 @@ Es gibt Konflikte mit anderen Terminen. Versuchen sie, die Zeit oder
 die Teilnehmer zu verändern
 ---STRINGEND
 
----STRING event information
-Termin-Daten
----STRINGEND
-
 ---STRING events on %s
 Termine am %s
 ---STRINGEND

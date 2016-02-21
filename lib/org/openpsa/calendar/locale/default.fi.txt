@@ -50,10 +50,6 @@ Seuraava varaus
 Edellinen varaus
 ---STRINGEND
 
----STRING event information
-Tapahtuman tiedot
----STRINGEND
-
 ---STRING events on %s
 Kalenterissa %s
 ---STRINGEND

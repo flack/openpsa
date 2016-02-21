@@ -42,10 +42,6 @@ Esemény után
 Esemény elött
 ---STRINGEND
 
----STRING event information
-Esemény adatai
----STRINGEND
-
 ---STRING go to
 Ugorj
 ---STRINGEND
