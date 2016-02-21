@@ -33,6 +33,8 @@
     border: 1px solid #c1c1c1;
     border-radius: .2em;
     margin-right: .5em;
+    margin-bottom: .2em;
+    white-space: nowrap;
     padding: .2em .3em;
     background: -moz-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%); /* FF3.6+ */
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,1)), color-stop(100%,rgba(255,255,255,0))); /* Chrome,Safari4+ */
@@ -42,7 +44,6 @@
     background: linear-gradient(to bottom, rgba(255,255,255,1) 0%,rgba(255,255,255,0) 100%); /* W3C */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#00ffffff',GradientType=0 ); /* IE6-9 */
     background-color: rgba(0, 0, 0, .05);
-    margin-bottom: .2em
 }
 
 .autocomplete-selection-holder .autocomplete-item:hover
