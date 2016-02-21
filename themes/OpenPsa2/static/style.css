@@ -479,7 +479,11 @@ input#org_openpsa_search_query
     white-space: nowrap;
     position: relative;
     z-index: 10;
-    font-size: 11px
+    font-size: 11px;
+}
+
+#org_openpsa_toolbar
+{
     border-bottom: 1px solid #a2a2a3;
     border-top: 1px solid #eeeee7;
 }
