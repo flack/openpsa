@@ -29,17 +29,17 @@ body
 
 #org_openpsa_toolbar
 {
-  background-color: #ededeb;
-  background-image: url('org_openpsa_toolbar_gradient.gif');
-  background-repeat: repeat-x;
-  background-position: bottom left;
-  font-weight: bold;
-  font-size: 80%;
-  line-height: 16px;
-  margin-bottom: 4px;
-  position: fixed;
-  width: 100%;
-  top: 30px;
+    background-color: #e0e2dd;
+    background: -moz-linear-gradient(top,  #e1e3de 0%, #d8dbd4 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top,  #e1e3de 0%,#d8dbd4 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom,  #e1e3de 0%,#d8dbd4 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e1e3de', endColorstr='#d8dbd4',GradientType=0 ); /* IE6-9 */
+    border-bottom: 1px solid #dee1db;
+    line-height: 16px;
+    margin-bottom: 4px;
+    position: fixed;
+    width: 100%;
+    top: 30px;
 }
 
 #org_openpsa_toolbar ul
@@ -84,9 +84,6 @@ body
   padding: 6px;
   padding-left: 2%;
   font-size: 1.4em;
-  background-image: url('nav_toolbar_gradient.gif');
-  background-repeat: repeat-x;
-  background-position: top left;
   background-color: #3364a3;
   color: #ffffff;
   position: fixed;

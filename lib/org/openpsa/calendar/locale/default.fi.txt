@@ -102,10 +102,6 @@ Osallistujat
 Henkilöt
 ---STRINGEND
 
----STRING popup
-Pop-up -ikkuna
----STRINGEND
-
 ---STRING previous
 Edellinen
 ---STRINGEND

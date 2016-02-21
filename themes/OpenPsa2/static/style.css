@@ -476,21 +476,21 @@ input#org_openpsa_search_query
 
 .org_openpsa_toolbar
 {
+    white-space: nowrap;
+    position: relative;
+    z-index: 10;
+    font-size: 11px
+    border-bottom: 1px solid #a2a2a3;
+    border-top: 1px solid #eeeee7;
+}
+
+#content .org_openpsa_toolbar
+{
     background: #cccec9;
     background: -moz-linear-gradient(top, #cccec9 0%, #bcbfbb 76%, #b1b5b4 93%, #b3b7b6 100%);
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#cccec9), color-stop(76%,#bcbfbb), color-stop(93%,#b1b5b4), color-stop(100%,#b3b7b6));
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#CCCEC9', endColorstr='#B3B7B6',GradientType=0 ); /* ie */
-    white-space: nowrap;
-    position: relative;
     box-shadow: 0 -2px 7px rgba(0, 0, 0, 0.1) inset;
-    z-index: 10;
-    font-size: 11px
-}
-
-#org_openpsa_toolbar
-{
-    border-bottom: 1px solid #a2a2a3;
-    border-top: 1px solid #eeeee7;
 }
 
 #org_openpsa_toolbar:hover
@@ -654,4 +654,12 @@ table.DifferencesSideBySide{
 table.DifferencesSideBySide .Left,
 table.DifferencesSideBySide .Right{
     width:45%;
+}
+
+#org_openpsa_popup #content {
+    margin-left: 0;
+}
+
+#org_openpsa_popup .org_openpsa_toolbar ul{
+    padding: 0.2em 0.4em 0.2em 0
 }

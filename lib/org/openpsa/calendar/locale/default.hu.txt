@@ -114,11 +114,6 @@ Rendelkezésre álló idő rubrika
 %s számára jegyzet a %s napi találkozóról %s által
 ---STRINGEND
 
----STRING popup
-Pop-Up
----STRINGEND
-
 ---STRING private event
 Privát esemény
 ---STRINGEND
-

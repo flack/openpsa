@@ -126,10 +126,6 @@ Participants
 People
 ---STRINGEND
 
----STRING popup
-Pop-Up
----STRINGEND
-
 ---STRING previous
 Previous
 ---STRINGEND

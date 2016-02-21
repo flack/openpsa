@@ -34,6 +34,10 @@ No grouping
 OpenPSA
 ---STRINGEND
 
+---STRING popup
+Pop-Up
+---STRINGEND
+
 ---STRING private
 Private
 ---STRINGEND
@@ -61,4 +65,3 @@ Private to Workgroup
 ---STRING workgroup restricted
 Restricted to workgroup
 ---STRINGEND
-

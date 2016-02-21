@@ -199,7 +199,7 @@ implements midcom_helper_datamanager2_interfaces_create
         }
         $data['title'] = sprintf($this->_l10n_midcom->get('create %s'), $this->_i18n->get_string($title, $this->_node[MIDCOM_NAV_COMPONENT]));
 
-        midcom_show_style('popup_head');
+        midcom_show_style('popup-head');
         if ($this->_action != 'form')
         {
             if ($this->_object)
@@ -212,7 +212,7 @@ implements midcom_helper_datamanager2_interfaces_create
         {
             midcom_show_style('chooser-create');
         }
-        midcom_show_style('popup_foot');
+        midcom_show_style('popup-foot');
     }
 
     private function object_to_jsdata()

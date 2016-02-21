@@ -1,9 +1,5 @@
 <?php
-$title = $data['l10n']->get('popup');
-if (array_key_exists('popup_title', $data))
-{
-    $title = $data['popup_title'];
-}
+$title = (array_key_exists('title', $data)) ? $data['title'] : $i18n->get_string('popup', 'org.openpsa.core');
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo midcom::get()->i18n->get_current_language(); ?>">
@@ -11,10 +7,9 @@ if (array_key_exists('popup_title', $data))
     <meta charset="UTF-8">
     <title><?php echo htmlspecialchars($title); ?></title>
     <?php
-    midcom::get()->head->add_link_head(array('rel' => 'stylesheet', 'type' => 'text/css', 'href' => MIDCOM_STATIC_URL . '/OpenPsa2/ui-elements.css', 'media' => 'all'));
+    midcom::get()->head->add_stylesheet(MIDCOM_STATIC_URL . '/org.openpsa.core/popup.css');
     midcom::get()->head->print_head_elements();
     ?>
-    <link rel="stylesheet" type="text/css" href="<?php echo MIDCOM_STATIC_URL; ?>/org.openpsa.core/popup.css" />
     </head>
     <body id="org_openpsa_popup"<?php midcom::get()->head->print_jsonload(); ?>>
         <div id="container">

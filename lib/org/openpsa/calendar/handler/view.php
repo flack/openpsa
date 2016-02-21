@@ -409,13 +409,13 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
         if ($handler_id == 'event_view')
         {
             // Set title to popup
-            $this->_request_data['popup_title'] = sprintf($this->_l10n->get('event %s'), $this->_request_data['event']->title);
+            $this->_request_data['title'] = sprintf($this->_l10n->get('event %s'), $this->_request_data['event']->title);
 
             // Show popup
-            midcom_show_style('show-popup-header');
+            midcom_show_style('popup-head');
             $this->_request_data['event_dm'] = $this->_datamanager;
             midcom_show_style('show-event');
-            midcom_show_style('show-popup-footer');
+            midcom_show_style('popup-foot');
         }
         else
         {

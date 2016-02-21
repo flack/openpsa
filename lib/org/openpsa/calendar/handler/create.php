@@ -135,14 +135,14 @@ implements midcom_helper_datamanager2_interfaces_create
     public function _show_create($handler_id, array &$data)
     {
         // Set title to popup
-        $this->_request_data['popup_title'] = $this->_l10n->get('create event');
+        $this->_request_data['title'] = $this->_l10n->get('create event');
         // Show popup
-        midcom_show_style('show-popup-header');
+        midcom_show_style('popup-head');
         if (!empty($data['conflictmanager']->busy_members))
         {
             midcom_show_style('show-event-conflict');
         }
         midcom_show_style('show-event-new');
-        midcom_show_style('show-popup-footer');
+        midcom_show_style('popup-foot');
     }
 }

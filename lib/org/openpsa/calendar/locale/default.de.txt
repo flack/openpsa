@@ -115,10 +115,6 @@ Gruppen-Kalender
 Teilnehmer
 ---STRINGEND
 
----STRING popup
-Pop-Up
----STRINGEND
-
 ---STRING previous
 Rückwärts
 ---STRINGEND

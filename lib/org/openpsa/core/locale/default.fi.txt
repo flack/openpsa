@@ -18,6 +18,10 @@ Tallenna CSV:ksi
 Suodatusvirhe
 ---STRINGEND
 
+---STRING popup
+Pop-up -ikkuna
+---STRINGEND
+
 ---STRING private
 Yksityinen
 ---STRINGEND
@@ -49,4 +53,3 @@ Rajoitettu työryhmälle
 ---STRING org.openpsa.core
 OpenPSA
 ---STRINGEND
-

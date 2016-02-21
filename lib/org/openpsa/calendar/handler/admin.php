@@ -114,16 +114,16 @@ class org_openpsa_calendar_handler_admin extends midcom_baseclasses_components_h
     public function _show_edit($handler_id, array &$data)
     {
         // Set title to popup
-        $this->_request_data['popup_title'] = sprintf($this->_l10n->get('edit %s'), $this->_event->title);
+        $this->_request_data['title'] = sprintf($this->_l10n->get('edit %s'), $this->_event->title);
 
         // Show popup
-        midcom_show_style('show-popup-header');
+        midcom_show_style('popup-head');
         if (!empty($data['conflictmanager']->busy_members))
         {
             midcom_show_style('show-event-conflict');
         }
         midcom_show_style('show-event-edit');
-        midcom_show_style('show-popup-footer');
+        midcom_show_style('popup-foot');
     }
 
     /**
@@ -153,7 +153,7 @@ class org_openpsa_calendar_handler_admin extends midcom_baseclasses_components_h
      */
     public function _show_delete($handler_id, array &$data)
     {
-        midcom_show_style('show-popup-header');
-        midcom_show_style('show-popup-footer');
+        midcom_show_style('popup-head');
+        midcom_show_style('popup-foot');
     }
 }

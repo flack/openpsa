@@ -5,3 +5,7 @@
 ---STRING download as CSV
 Ment CSV-ként
 ---STRINGEND
+
+---STRING popup
+Pop-Up
+---STRINGEND

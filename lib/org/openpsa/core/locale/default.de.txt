@@ -30,6 +30,10 @@ keine Gruppierung
 OpenPSA
 ---STRINGEND
 
+---STRING popup
+Pop-Up
+---STRINGEND
+
 ---STRING private
 Privat
 ---STRINGEND
@@ -61,4 +65,3 @@ Auf Arbeitsgruppe beschränkt
 ---STRING org.openpsa.core
 OpenPSA
 ---STRINGEND
-
