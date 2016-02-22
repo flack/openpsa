@@ -482,12 +482,6 @@ input#org_openpsa_search_query
     font-size: 11px;
 }
 
-#org_openpsa_toolbar
-{
-    border-bottom: 1px solid #a2a2a3;
-    border-top: 1px solid #eeeee7;
-}
-
 #content .org_openpsa_toolbar
 {
     background: #cccec9;
@@ -499,7 +493,6 @@ input#org_openpsa_search_query
 
 #org_openpsa_toolbar:hover
 {
-    border-bottom: 1px solid #929293;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
 }
 
@@ -510,6 +503,17 @@ input#org_openpsa_search_query
   list-style-type: none;
   overflow: hidden;
   padding: 0.2em 0.4em 0.2em 0;
+}
+
+#org_openpsa_toolbar ul.midcom_toolbar
+{
+    border-bottom: 1px solid #a2a2a3;
+    border-top: 1px solid #eeeee7;
+}
+
+#org_openpsa_toolbar:hover ul.midcom_toolbar
+{
+    border-bottom: 1px solid #929293;
 }
 
 .org_openpsa_toolbar ul.midcom_toolbar li
