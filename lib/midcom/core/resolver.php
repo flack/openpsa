@@ -353,21 +353,14 @@ class midcom_core_resolver
 
     private function _get_remaining_url($value)
     {
-        $remaining_url = false;
+        $redirect_to = '';
         if (   !empty($value)
             || !empty($this->_context->parser->argv))
         {
-            $remaining_url = "{$value}/" . implode($this->_context->parser->argv, '/');
-            $remaining_url = preg_replace('%^(.*?):/([^/])%', '\\1://\\2', $remaining_url);
+            $redirect_to = "{$value}/" . implode($this->_context->parser->argv, '/');
+            $redirect_to = preg_replace('%^(.*?):/([^/])%', '\\1://\\2', $redirect_to);
         }
-        if (is_string($remaining_url))
-        {
-            $redirect_to = $remaining_url;
-        }
-        else
-        {
-            $redirect_to = '';
-        }
+
         if (!empty($_SERVER['QUERY_STRING']))
         {
             $redirect_to .= "?{$_SERVER['QUERY_STRING']}";

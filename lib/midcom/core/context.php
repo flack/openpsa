@@ -39,7 +39,21 @@ class midcom_core_context
      *
      * @var array
      */
-    private $_data = array();
+    private $_data = array
+    (
+        MIDCOM_CONTEXT_ANCHORPREFIX => '',
+        MIDCOM_CONTEXT_URI => '',
+        MIDCOM_CONTEXT_ROOTTOPIC => null,
+        MIDCOM_CONTEXT_ROOTTOPICID => null,
+        MIDCOM_CONTEXT_CONTENTTOPIC => null,
+        MIDCOM_CONTEXT_COMPONENT => null,
+        MIDCOM_CONTEXT_SUBSTYLE => null,
+        MIDCOM_CONTEXT_PAGETITLE => "",
+        MIDCOM_CONTEXT_LASTMODIFIED => null,
+        MIDCOM_CONTEXT_PERMALINKGUID => null,
+        MIDCOM_CONTEXT_CUSTOMDATA => array(),
+        MIDCOM_CONTEXT_URLTOPICS => array()
+    );
 
     /**
      * The context's ID
@@ -63,26 +77,15 @@ class midcom_core_context
      */
     public function __construct($id = null, $node = null)
     {
-        $this->_data[MIDCOM_CONTEXT_ANCHORPREFIX] = '';
-        $this->_data[MIDCOM_CONTEXT_URI] = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '';
+        if (isset($_SERVER['REQUEST_URI']))
+        {
+            $this->_data[MIDCOM_CONTEXT_URI] = $_SERVER['REQUEST_URI'];
+        }
         if (is_object($node))
         {
             $this->_data[MIDCOM_CONTEXT_ROOTTOPIC] = $node;
             $this->_data[MIDCOM_CONTEXT_ROOTTOPICID] = $node->id;
         }
-        else
-        {
-            $this->_data[MIDCOM_CONTEXT_ROOTTOPIC] = null;
-            $this->_data[MIDCOM_CONTEXT_ROOTTOPICID] = null;
-        }
-        $this->_data[MIDCOM_CONTEXT_CONTENTTOPIC] = null;
-        $this->_data[MIDCOM_CONTEXT_COMPONENT] = null;
-        $this->_data[MIDCOM_CONTEXT_SUBSTYLE] = null;
-        $this->_data[MIDCOM_CONTEXT_PAGETITLE] = "";
-        $this->_data[MIDCOM_CONTEXT_LASTMODIFIED] = null;
-        $this->_data[MIDCOM_CONTEXT_PERMALINKGUID] = null;
-        $this->_data[MIDCOM_CONTEXT_CUSTOMDATA] = Array();
-        $this->_data[MIDCOM_CONTEXT_URLTOPICS] = Array();
 
         if (is_null($id))
         {
