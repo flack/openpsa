@@ -27,6 +27,6 @@ class org_openpsa_user_handler_group_delete extends midcom_baseclasses_component
         {
             return new midcom_response_relocate('');
         }
-        return new midcom_response_relocate('group' . $group->guid . '/');
+        return new midcom_response_relocate('group/' . $group->guid . '/');
     }
 }
