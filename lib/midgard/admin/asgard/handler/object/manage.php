@@ -361,37 +361,27 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         $defaults = array();
         if ($this->_object)
         {
-            // FIXME: Make a general case for all objects that are linked by guid to any other class
-            if ($this->_new_type == 'midcom_db_parameter')
+            // Figure out the linking property
+            $parent_property = null;
+            $new_type_reflector = midcom_helper_reflector::get($this->_new_type);
+            $link_properties = $new_type_reflector->get_link_properties();
+            $type_to_link_to =  midcom_helper_reflector::class_rewrite(get_class($this->_object));
+            foreach ($link_properties as $child_property => $link)
             {
-                // Parameters are linked a bit differently
-                $parent_property = 'guid';
-                $defaults['parentguid'] = $this->_object->$parent_property;
+                $linked_type = midcom_helper_reflector::class_rewrite($link['class']);
+                if (midcom_helper_reflector::is_same_class($linked_type, $type_to_link_to)
+                    || (   $link['type'] == MGD_TYPE_GUID
+                        && is_null($link['class'])))
+                {
+                    $parent_property = $link['target'];
+                    break;
+                }
             }
-            else
+            if (empty($parent_property))
             {
-                // Figure out the linking property
-                $parent_property = null;
-                $new_type_reflector = midcom_helper_reflector::get($this->_new_type);
-                $link_properties = $new_type_reflector->get_link_properties();
-                $type_to_link_to =  midcom_helper_reflector::class_rewrite(get_class($this->_object));
-                foreach ($link_properties as $child_property => $link)
-                {
-                    $linked_type = midcom_helper_reflector::class_rewrite($link['class']);
-                    if (midcom_helper_reflector::is_same_class($linked_type, $type_to_link_to)
-                        || (   $link['type'] == MGD_TYPE_GUID
-                            && is_null($link['class'])))
-                    {
-                        $parent_property = $link['target'];
-                        break;
-                    }
-                }
-                if (empty($parent_property))
-                {
-                    throw new midcom_error("Could not establish link between {$this->_new_type} and " . get_class($this->_object));
-                }
-                $defaults[$child_property] = $this->_object->$parent_property;
+                throw new midcom_error("Could not establish link between {$this->_new_type} and " . get_class($this->_object));
             }
+            $defaults[$child_property] = $this->_object->$parent_property;
         }
 
         // Allow setting defaults from query string, useful for things like "create event for today" and chooser
