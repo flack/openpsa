@@ -46,7 +46,8 @@ implements midcom_services_permalinks_resolver
 
     public function resolve_object_link(midcom_db_topic $topic, midcom_core_dbaobject $object)
     {
-        if ($object instanceof midcom_db_article)
+        if (   $object instanceof midcom_db_article
+            && $topic->id == $object->topic)
         {
             if ($object->name == 'index')
             {
