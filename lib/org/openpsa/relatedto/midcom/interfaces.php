@@ -16,11 +16,6 @@
 class org_openpsa_relatedto_interface extends midcom_baseclasses_components_interface
 implements org_openpsa_contacts_duplicates_support
 {
-    public function __construct()
-    {
-        $this->_autoload_files = array('dba.php');
-    }
-
     public function _on_watched_dba_create($object)
     {
         //Check if we have data in session, if so use that.
