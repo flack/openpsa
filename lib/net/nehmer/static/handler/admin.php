@@ -300,17 +300,6 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
         $workflow = new midcom\workflow\delete($this->_article);
         if ($workflow->run())
         {
-            // Delete all the links pointing to the article
-            $qb = net_nehmer_static_link_dba::new_query_builder();
-            $qb->add_constraint('article', '=', $this->_article->id);
-            $links = $qb->execute_unchecked();
-
-            midcom::get()->auth->request_sudo('net.nehmer.static');
-            foreach ($links as $link)
-            {
-                $link->delete();
-            }
-            midcom::get()->auth->drop_sudo();
             return new midcom_response_relocate('');
         }
         // Redirect to view page.

@@ -47,3 +47,11 @@
         'midcom' => array(),
     ),
 ),
+'watches' => array
+(
+    array
+    (
+        'classes' => array('midcom_db_article'),
+        'operations' => MIDCOM_OPERATION_DBA_DELETE,
+    ),
+),
