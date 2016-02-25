@@ -23,7 +23,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
     /**
      * Some newly created object
      *
-     * @var midgard_object
+     * @var midcom_core_dbaobject
      */
     private $_new_object = null;
 
@@ -235,26 +235,6 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         midcom_show_style('midgard_admin_asgard_object_edit');
     }
 
-    private function _find_linking_property($new_type)
-    {
-        // Figure out the linking property
-        $new_type_reflector = midcom_helper_reflector::get($new_type);
-        $link_properties = $new_type_reflector->get_link_properties();
-        $type_to_link_to =  midcom_helper_reflector::class_rewrite(get_class($this->_object));
-        foreach ($link_properties as $new_type_property => $link)
-        {
-            $linked_type = midcom_helper_reflector::class_rewrite($link['class']);
-            if (midcom_helper_reflector::is_same_class($linked_type, $type_to_link_to)
-                || (   $link['type'] == MGD_TYPE_GUID
-                    && is_null($link['class'])))
-            {
-                $parent_property = $link['target'];
-                return array($new_type_property, $parent_property);
-            }
-        }
-        throw new midcom_error("Could not establish link between {$new_type} and " . get_class($this->_object));
-    }
-
     /**
      * DM2 creation callback, binds to the current content topic.
      */
@@ -262,20 +242,12 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
     {
         $create_type = $this->_new_type;
         $this->_new_object = new $create_type();
+        $mgd_type = midcom::get()->dbclassloader->get_mgdschema_class_name_for_midcom_class($create_type);
+        $parent_property = midgard_object_class::get_property_parent($mgd_type);
 
-        if ($this->_object)
+        if ($parent_property = midgard_object_class::get_property_parent($mgd_type));
         {
-            if ($this->_new_type == 'midcom_db_parameter')
-            {
-                // Parameters are linked a bit differently
-                $this->_new_object->parentguid = $this->_object->guid;
-            }
-            else
-            {
-                // Figure out the linking property
-                list($child_property, $parent_property) = $this->_find_linking_property($create_type);
-                $this->_new_object->$child_property = $this->_object->$parent_property;
-            }
+            $this->_new_object->$parent_property = $controller->formmanager->get_value($parent_property);
         }
 
         if (! $this->_new_object->create())
@@ -324,20 +296,6 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
             $this->_object = midcom::get()->dbfactory->get_object_by_guid($args[1]);
             $this->_object->require_do('midgard:create');
             midgard_admin_asgard_plugin::bind_to_object($this->_object, $handler_id, $data);
-
-            // FIXME: Make a general case for all objects that are linked by guid to any other class
-            if ($this->_new_type == 'midcom_db_parameter')
-            {
-                // Parameters are linked a bit differently
-                $parent_property = 'guid';
-                $data['defaults']['parentguid'] = $this->_object->$parent_property;
-            }
-            else
-            {
-                // Set "defaults"
-                list($child_property, $parent_property) = $this->_find_linking_property($this->_new_type);
-                $data['defaults'][$child_property] = $this->_object->$parent_property;
-            }
         }
 
         $this->_load_schemadb($this->_new_type);
@@ -347,19 +305,11 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
             $this->_schemadb['object']->fields['guid']['hidden'] = true;
         }
 
-        // Allow setting defaults from query string, useful for things like "create event for today" and chooser
-        if (   isset($_GET['defaults'])
-            && is_array($_GET['defaults']))
-        {
-            $defaults = array_intersect_key($_GET['defaults'], $this->_schemadb['object']->fields);
-            $data['defaults'] = array_merge($data['defaults'], array_map('trim', $defaults));
-        }
-
         $this->_controller = midcom_helper_datamanager2_controller::create('create');
         $this->_controller->schemadb =& $this->_schemadb;
         $this->_controller->schema = 'object';
         $this->_controller->callback_object =& $this;
-        $this->_controller->defaults = $data['defaults'];
+        $this->_controller->defaults = $this->_get_defaults();
         if (! $this->_controller->initialize())
         {
             throw new midcom_error("Failed to initialize a DM2 create controller.");
@@ -404,6 +354,54 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         {
             return new midgard_admin_asgard_response($this, '_show_create');
         }
+    }
+
+    private function _get_defaults()
+    {
+        $defaults = array();
+        if ($this->_object)
+        {
+            // FIXME: Make a general case for all objects that are linked by guid to any other class
+            if ($this->_new_type == 'midcom_db_parameter')
+            {
+                // Parameters are linked a bit differently
+                $parent_property = 'guid';
+                $defaults['parentguid'] = $this->_object->$parent_property;
+            }
+            else
+            {
+                // Figure out the linking property
+                $parent_property = null;
+                $new_type_reflector = midcom_helper_reflector::get($this->_new_type);
+                $link_properties = $new_type_reflector->get_link_properties();
+                $type_to_link_to =  midcom_helper_reflector::class_rewrite(get_class($this->_object));
+                foreach ($link_properties as $child_property => $link)
+                {
+                    $linked_type = midcom_helper_reflector::class_rewrite($link['class']);
+                    if (midcom_helper_reflector::is_same_class($linked_type, $type_to_link_to)
+                        || (   $link['type'] == MGD_TYPE_GUID
+                            && is_null($link['class'])))
+                    {
+                        $parent_property = $link['target'];
+                        break;
+                    }
+                }
+                if (empty($parent_property))
+                {
+                    throw new midcom_error("Could not establish link between {$this->_new_type} and " . get_class($this->_object));
+                }
+                $defaults[$child_property] = $this->_object->$parent_property;
+            }
+        }
+
+        // Allow setting defaults from query string, useful for things like "create event for today" and chooser
+        if (   isset($_GET['defaults'])
+            && is_array($_GET['defaults']))
+        {
+            $get_defaults = array_intersect_key($_GET['defaults'], $this->_schemadb['object']->fields);
+            $defaults = array_merge($defaults, array_map('trim', $get_defaults));
+        }
+        return $defaults;
     }
 
     /**
