@@ -8,11 +8,11 @@ if (!empty($workingon->invoiceable))
     $checked = "checked = 'checked'";
 }
 $current_task = '';
-$helptext = midcom::get()->i18n->get_string('task', 'org.openpsa.projects');
+$default_text = '';
 if (!is_null($workingon->task))
 {
     $current_task = '[' . $workingon->task->guid . ']';
-    $helptext = $workingon->task->get_label();
+    $default_text = $workingon->task->get_label();
 }
 midcom::get()->uimessages->show();
 ?>
@@ -30,8 +30,9 @@ midcom::get()->uimessages->show();
             id: 'working_task',
             appendTo: '#working_task',
             widget_config: <?php echo json_encode($data['widget_config']); ?>,
-            helptext: '<?php echo $helptext ?>',
-            default_value: '<?php echo $current_task; ?>'
+            placeholder: '<?php echo midcom::get()->i18n->get_string('task', 'org.openpsa.projects') ?>',
+            default_value: '<?php echo $current_task; ?>',
+            default_text: '<?php echo $default_text; ?>',
         },
         autocomplete_conf =
         {

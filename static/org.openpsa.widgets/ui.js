@@ -264,7 +264,7 @@ var org_openpsa_layout =
                 li_class += ' current';
             }
 
-            $('<li class="' + li_class + '">' + providers[i].helptext + '</li>')
+            $('<li class="' + li_class + '">' + providers[i].placeholder + '</li>')
                 .data('provider', providers[i])
                 .click(function(event)
                 {
@@ -283,13 +283,6 @@ var org_openpsa_layout =
 
                     $('#org_openpsa_search_form').attr('action', target.data('provider').url);
                     $('#org_openpsa_search_trigger').click();
-
-                    if (query.data('helptext') === query.val())
-                    {
-                        query.val(target.data('provider').helptext);
-                    }
-                    query.data('helptext', target.data('provider').helptext)
-                        .focus();
 
                     $.post(MIDGARD_ROOT + '__mfa/asgard/preferences/ajax/', {openpsa2_search_provider: target.data('provider').identifier});
                 })
@@ -319,12 +312,6 @@ var org_openpsa_layout =
         {
             field.val(decodeURIComponent(search));
         }
-        else
-        {
-            field.val(current_provider.helptext);
-        }
-
-        field.data('helptext', current_provider.helptext);
 
         selector.insertBefore(field);
         $('<div id="org_openpsa_search_trigger"></div>')
@@ -339,19 +326,10 @@ var org_openpsa_layout =
         .bind('focus', function()
         {
             field.addClass('focused');
-            if (field.data('helptext') === field.val())
-            {
-                field.val('');
-            }
         })
         .bind('blur', function()
         {
             field.removeClass('focused');
-            if (   !field.val()
-                && field.data('helptext'))
-            {
-                field.val(field.data('helptext'));
-            }
         });
     }
 };

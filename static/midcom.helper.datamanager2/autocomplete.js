@@ -449,12 +449,14 @@ var midcom_helper_datamanager2_autocomplete =
             id_field: 'guid',
             auto_wildcards: 'both',
             categorize_by_parent_label: false,
-            helptext: '',
-            default_value: ''
+            placeholder: '',
+            default_value: '',
+            default_text: ''
         },
         default_value = config.default_value || default_config.default_value,
-        helptext = config.helptext || default_config.helptext,
-        widget_html = '<input type="text" id="' + config.id + '_search_input" name="' + config.id + '_search_input" style="display: none" class="batch_widget" value="' + helptext + '" />';
+        default_text = config.default_text || default_config.default_text,
+        placeholder = config.placeholder || default_config.placeholder,
+        widget_html = '<input type="text" id="' + config.id + '_search_input" name="' + config.id + '_search_input" style="display: none" class="batch_widget" placeholder="' + placeholder + '" value="' + default_text + '" />';
 
         widget_html += '<input type="hidden" id="' + config.id + '_selection" name="' + config.id + '_selection" value="' + default_value + '" />';
         autocomplete_options = $.extend({autoFocus: true}, midcom_helper_datamanager2_autocomplete.get_default_options(), autocomplete_options || {});
@@ -467,45 +469,6 @@ var midcom_helper_datamanager2_autocomplete =
         else if (config.appendTo !== undefined)
         {
             $(widget_html).appendTo($(config.appendTo));
-        }
-
-        if (helptext !== '')
-        {
-            if ($('#' + config.id + '_search_input').val() === helptext)
-            {
-                $('#' + config.id + '_search_input').addClass('autocomplete_helptext_shown');
-            }
-
-            $('#' + config.id + '_search_input')
-                .bind('focus', function()
-                {
-                    if ($(this).val() === helptext)
-                    {
-                        $(this)
-                            .val('')
-                            .removeClass('autocomplete_helptext_shown');
-                    }
-                })
-                .bind('blur', function()
-                {
-                    if ($(this).val() === '')
-                    {
-                        $(this).data('selected', false);
-                    }
-                    if (!$(this).data('selected'))
-                    {
-                        var selection_holder_id = $(this).attr('id').replace(/_search_input$/, '') + '_selection';
-                        $('#' + selection_holder_id).val('');
-
-                        $(this)
-                            .val(helptext)
-                            .addClass('autocomplete_helptext_shown');
-                    }
-                    else
-                    {
-                        $(this).val($(this).data('selected'));
-                    }
-                });
         }
 
         if (window[config.id + '_handler_options'].categorize_by_parent_label === true)

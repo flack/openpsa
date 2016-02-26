@@ -22,7 +22,7 @@
             id: 'add_contact',
             appendTo: '#add_contact',
             widget_config: <?php echo json_encode($data['widget_config']); ?>,
-            helptext: '<?php echo $data['l10n']->get('add contact'); ?>'
+            placeholder: '<?php echo $data['l10n']->get('add contact'); ?>'
         },
         autocomplete_conf =
         {

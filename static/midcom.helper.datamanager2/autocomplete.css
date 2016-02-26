@@ -15,7 +15,7 @@
     display: none;
 }
 
-.autocomplete_helptext_shown
+.ui-autocomplete-input::placeholder
 {
     color: #aaa;
 }

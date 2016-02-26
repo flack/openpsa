@@ -46,7 +46,7 @@ class org_openpsa_widgets_ui extends midcom_baseclasses_components_purecode
             {
                 $providers[] = array
                 (
-                    'helptext' => midcom::get()->i18n->get_string('search title', $component),
+                    'placeholder' => midcom::get()->i18n->get_string('search title', $component),
                     'url' => $node_url . $config['route'],
                     'identifier' => $component,
                     'autocomplete' => $config['autocomplete'],
