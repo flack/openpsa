@@ -150,13 +150,6 @@ class midcom_application
         $context->parser->parse(midcom_connection::get_url('argv'));
 
         $this->_process($context);
-
-        if (   $context->id == 0
-            && !$this->skip_page_style)
-        {
-            // Let metadata service add its meta tags
-            $this->metadata->populate_meta_head();
-        }
     }
 
     /**
@@ -366,18 +359,8 @@ class midcom_application
             debug_add("Entering Context {$context->id} (old Context: {$oldcontext->id})");
             $context->set_current();
         }
-        $this->style->enter_context($context->id);
 
-        ob_start();
-        if ($include_template)
-        {
-            midcom_show_style('ROOT');
-        }
-        else
-        {
-            $context->show();
-        }
-        ob_end_flush();
+        $context->send($include_template);
 
         // Leave Context
         if ($oldcontext->id != $context->id)
@@ -385,8 +368,6 @@ class midcom_application
             debug_add("Leaving Context {$context->id} (new Context: {$oldcontext->id})");
             $oldcontext->set_current();
         }
-
-        $this->style->leave_context();
     }
 
     /* *************************************************************************

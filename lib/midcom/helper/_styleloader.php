@@ -783,7 +783,7 @@ class midcom_helper__styleloader
         // set new context and topic
         array_unshift($this->_context, $context); // push into context stack
 
-        $this->_topic = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_CONTENTTOPIC);
+        $this->_topic = midcom_core_context::get($context)->get_key(MIDCOM_CONTEXT_CONTENTTOPIC);
 
         // Prepare styledir stacks
         if (!isset($this->_styledirs[$context]))
@@ -827,7 +827,8 @@ class midcom_helper__styleloader
         }
         array_shift($this->_context);
 
-        $this->_topic = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_CONTENTTOPIC);
+        $previous_context = (empty($this->_context)) ? 0 : $this->_context[0];
+        $this->_topic = midcom_core_context::get($previous_context)->get_key(MIDCOM_CONTEXT_CONTENTTOPIC);
 
         $this->_snippetdir = $this->_get_component_snippetdir($this->_topic);
         return true;

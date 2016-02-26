@@ -56,6 +56,12 @@ class midcom_core_context
     );
 
     /**
+     *
+     * @var midcom_response
+     */
+    private $response;
+
+    /**
      * The context's ID
      *
      * @var int
@@ -383,38 +389,26 @@ class midcom_core_context
      */
     public function run(midcom_baseclasses_components_interface $handler)
     {
-        $result = $handler->handle();
+        $this->response = $handler->handle();
 
-        if (false === $result)
+        if (false === $this->response)
         {
             throw new midcom_error("Component " . $this->get_key(MIDCOM_CONTEXT_COMPONENT) . " failed to handle the request");
         }
-        if (   is_object($result)
-             && $result instanceof midcom_response)
+        if (!is_object($this->response))
         {
-            $result->send();
-            //this will exit
+            $this->response = new midcom_response_styled($this);
         }
-        // Retrieve Metadata
-        $nav = new midcom_helper_nav();
-        if ($nav->get_current_leaf() === false)
-        {
-            $meta = $nav->get_node($nav->get_current_node());
-        }
-        else
-        {
-            $meta = $nav->get_leaf($nav->get_current_leaf());
-        }
+    }
 
-        if ($this->get_key(MIDCOM_CONTEXT_PERMALINKGUID) === null)
-        {
-            $this->set_key(MIDCOM_CONTEXT_PERMALINKGUID, $meta[MIDCOM_NAV_GUID]);
-        }
+    public function send($include_template)
+    {
+        $backup = midcom::get()->skip_page_style;
+        midcom::get()->skip_page_style = !$include_template;
 
-        if ($this->get_key(MIDCOM_CONTEXT_PAGETITLE) == '')
-        {
-            $this->set_key(MIDCOM_CONTEXT_PAGETITLE, $meta[MIDCOM_NAV_NAME]);
-        }
+        $this->response->send();
+
+        midcom::get()->skip_page_style = $backup;
     }
 
     public function show()
