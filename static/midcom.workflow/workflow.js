@@ -13,13 +13,14 @@ $(document).ready(function()
             label = button.text();
 
         if (label.trim() === '')
-    	{
-        	label = button.data('dialog-heading');
-    	}
-        	
+        {
+            label = button.data('dialog-heading');
+        }
+
         options.buttons[label] = function() {
             $('<form action="' + button.attr('href') + '" method="post">')
                 .append($('<input type="submit" name="' + button.data('form-id') + '">'))
+                .append($('<input type="hidden" name="referrer" value=' + location.pathname + '">'))
                 .hide()
                 .prependTo('body');
             $('input[name="' + button.data('form-id') + '"]').click();

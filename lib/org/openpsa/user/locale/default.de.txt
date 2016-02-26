@@ -114,14 +114,6 @@ Darf Wiki-Seiten anlegen
 Darf Wiki-Seiten bearbeiten, die von anderen erstellt wurden
 ---STRINGEND
 
----STRING failed to delete person, reason
-Das Löschen der Person ist fehlgeschlagen, Ursache:
----STRINGEND
-
----STRING failed to delete group, reason
-Das Löschen der Gruppe ist fehlgeschlagen, Ursache:
----STRINGEND
-
 ---STRING generate_password
 Passwort automatisch erzeugen
 ---STRINGEND

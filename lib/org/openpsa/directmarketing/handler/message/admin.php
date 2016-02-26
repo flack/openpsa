@@ -146,14 +146,11 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
      */
     public function _handler_delete($handler_id, array $args, array &$data)
     {
-        $this->_message = new org_openpsa_directmarketing_campaign_message_dba($args[0]);
-        $workflow = new midcom\workflow\delete($this->_message);
-        if ($workflow->run())
-        {
-            $campaign = new org_openpsa_directmarketing_campaign_dba($this->_message->campaign);
-            return new midcom_response_relocate("campaign/{$campaign->guid}/");
-        }
-        return new midcom_response_relocate("message/{$this->_message->guid}/");
+        $message = new org_openpsa_directmarketing_campaign_message_dba($args[0]);
+        $campaign = new org_openpsa_directmarketing_campaign_dba($message->campaign);
+        $workflow = new midcom\workflow\delete($message);
+        $workflow->success_url = "campaign/{$campaign->guid}/";
+        return $workflow->run();
     }
 
     /**

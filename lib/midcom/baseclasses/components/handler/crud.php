@@ -587,17 +587,11 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
         $this->_load_object($handler_id, $args, $data);
 
         $workflow = new midcom\workflow\delete($this->_object);
-        if ($workflow->run())
+        $this->_load_parent($handler_id, $args, $data);
+        if ($this->_parent)
         {
-            $url = '';
-            $this->_load_parent($handler_id, $args, $data);
-            if ($this->_parent)
-            {
-                $url = $this->_get_object_url($this->_parent);
-            }
-            return new midcom_response_relocate($url);
+            $workflow->success_url = $this->_get_object_url($this->_parent);
         }
-
-        return new midcom_response_relocate($this->_get_object_url($this->_object));
+        return $workflow->run();
     }
 }

@@ -222,14 +222,6 @@ Enable centralized toolbar
 Enable unlocking locked objects
 ---STRINGEND
 
----STRING failed to delete person, reason
-Failed to delete person, reason:
----STRINGEND
-
----STRING failed to delete group, reason
-Failed to delete group, reason:
----STRINGEND
-
 ---STRING failed to update the user account, reason
 Failed to update the user account, reason
 ---STRINGEND

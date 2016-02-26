@@ -130,11 +130,6 @@ class org_openpsa_contacts_handler_person_admin extends midcom_baseclasses_compo
     {
         $this->_contact = new org_openpsa_contacts_person_dba($args[0]);
         $workflow = new midcom\workflow\delete($this->_contact);
-        if ($workflow->run())
-        {
-            return new midcom_response_relocate('');
-        }
-
-        return new midcom_response_relocate("person/{$this->_contact->guid}/");
+        return $workflow->run();
     }
 }

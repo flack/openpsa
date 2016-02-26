@@ -254,6 +254,10 @@ Edited by
 End date
 ---STRINGEND
 
+---STRING failed to delete %s: %s
+Failed to delete %s: %s
+---STRINGEND
+
 ---STRING folder
 Folder
 ---STRINGEND

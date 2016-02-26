@@ -207,10 +207,6 @@ class net_nehmer_blog_handler_admin extends midcom_baseclasses_components_handle
             return new midcom_response_relocate("delete/link/{$args[0]}/");
         }
         $workflow = new midcom\workflow\delete($this->_article);
-        if ($workflow->run())
-        {
-            return new midcom_response_relocate('');
-        }
-        return new midcom_response_relocate($this->_master->get_url($this->_article));
+        return $workflow->run();
     }
 }

@@ -242,6 +242,10 @@ Bearbeitet von
 Enddatum
 ---STRINGEND
 
+---STRING failed to delete %s: %s
+%s konnte nicht gelöscht werden: %s
+---STRINGEND
+
 ---STRING folder
 Ordner
 ---STRINGEND
@@ -729,4 +733,3 @@ Bilder im Ordner "%s" erneut erzeugen
 ---STRING restore submitted form data
 Abgeschickte Formulardaten wiederherstellen
 ---STRINGEND
-

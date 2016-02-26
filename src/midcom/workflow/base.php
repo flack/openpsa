@@ -22,7 +22,7 @@ abstract class base
 {
     /**
      *
-     * @var midcom_core_dbaobject
+     * @var \midcom_core_dbaobject
      */
     protected $object;
 
@@ -33,13 +33,13 @@ abstract class base
 
     /**
      *
-     * @var midcom_services_i18n_l10n
+     * @var \midcom_services_i18n_l10n
      */
     protected $l10n_midcom;
 
     /**
      *
-     * @param midcom_core_dbaobject $object
+     * @param \midcom_core_dbaobject $object
      */
     public function __construct(midcom_core_dbaobject $object)
     {
@@ -74,7 +74,7 @@ abstract class base
     abstract public function get_state();
 
     /**
-     * @return boolean
+     * @return \midcom_response
      */
     abstract public function run();
 }

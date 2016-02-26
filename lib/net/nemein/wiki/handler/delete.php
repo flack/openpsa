@@ -22,7 +22,6 @@ class net_nemein_wiki_handler_delete extends midcom_baseclasses_components_handl
     {
         $page = $this->_master->load_page($args[0]);
         $workflow = new midcom\workflow\delete($page);
-        $workflow->run();
-        return new midcom_response_relocate('');
+        return $workflow->run();
     }
 }

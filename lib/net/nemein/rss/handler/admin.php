@@ -186,9 +186,8 @@ class net_nemein_rss_handler_admin extends midcom_baseclasses_components_handler
     {
         $feed = new net_nemein_rss_feed_dba($args[0]);
         $workflow = new \midcom\workflow\delete($feed);
-        $workflow->run();
-
-        return new midcom_response_relocate('__feeds/rss/list/');
+        $workflow->success_url = '__feeds/rss/list/';
+        return $workflow->run();
     }
 
     /**

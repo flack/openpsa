@@ -9,6 +9,8 @@
 namespace midcom\workflow;
 
 use midcom_helper_toolbar;
+use midcom_core_dbaobject;
+use midcom_response_relocate;
 use midcom_connection;
 use midcom;
 
@@ -23,9 +25,38 @@ class delete extends base
 
     const INACTIVE = 'inactive';
 
+    const SUCCESS = 'success';
+
+    const FAILURE = 'failure';
+
     private $form_identifier = 'confirm-delete';
 
+    private $state = self::INACTIVE;
+
+    /**
+     * The method to call for deletion (delete or delete_tree)
+     *
+     * @var string
+     */
     public $method = 'delete';
+
+    /**
+     * The URL to redirect to after successful deletion
+     *
+     * Defaults to topic start page
+     *
+     * @var string
+     */
+    public $success_url = '';
+
+    public function __construct(midcom_core_dbaobject $object)
+    {
+        parent::__construct($object);
+        if (!empty($_POST[$this->form_identifier]))
+        {
+            $this->state = static::ACTIVE;
+        }
+    }
 
     public static function add_head_elements()
     {
@@ -91,28 +122,27 @@ class delete extends base
 
     public function get_state()
     {
-        return !empty($_POST[$this->form_identifier]) ? static::ACTIVE : static::INACTIVE;
+        return $this->state;
     }
 
     public function run()
     {
-        if ($this->get_state() !== static::ACTIVE)
+        $failure_url = (!empty($_POST['referrer'])) ? $_POST['referrer'] : $this->success_url;
+        if ($this->get_state() === static::ACTIVE)
         {
-            return false;
-        }
-        $this->object->require_do('midgard:delete');
-        $stat = $this->object->{$this->method}();
-        $uim = midcom::get()->uimessages;
-        $title = $this->get_object_title();
-        if ($stat)
-        {
-            $uim->add($this->l10n_midcom->get('midcom'), sprintf($this->l10n_midcom->get("%s deleted"), $title));
-            midcom::get()->indexer->delete($this->object->guid);
-        }
-        else
-        {
+            $this->object->require_do('midgard:delete');
+            $uim = midcom::get()->uimessages;
+            $title = $this->get_object_title();
+            if ($this->object->{$this->method}())
+            {
+                $this->state = static::SUCCESS;
+                $uim->add($this->l10n_midcom->get('midcom'), sprintf($this->l10n_midcom->get("%s deleted"), $title));
+                midcom::get()->indexer->delete($this->object->guid);
+                return new midcom_response_relocate($this->success_url);
+            }
+            $this->state = static::FAILURE;
             $uim->add($this->l10n_midcom->get('midcom'), sprintf($this->l10n_midcom->get("failed to delete %s: %s"), $title, midcom_connection::get_error_string()), 'error');
         }
-        return $stat;
+        return new midcom_response_relocate($failure_url);
     }
 }

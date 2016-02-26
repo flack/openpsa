@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+use midcom\workflow\delete;
+
 /**
  * org.openpsa.calendar site interface class.
  *
@@ -134,8 +136,9 @@ class org_openpsa_calendar_handler_admin extends midcom_baseclasses_components_h
     {
         // Get the event
         $this->_event = new org_openpsa_calendar_event_dba($args[0]);
-        $workflow = new midcom\workflow\delete($this->_event);
-        if ($workflow->run())
+        $workflow = new delete($this->_event);
+        $workflow->run();
+        if ($workflow->get_state() === delete::SUCCESS)
         {
             midcom::get()->head->add_jsonload('window.opener.location.reload();');
             midcom::get()->head->add_jsonload('window.close();');

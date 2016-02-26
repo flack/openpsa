@@ -43,6 +43,7 @@ class net_nehmer_blog_handler_adminTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('net.nehmer.blog');
 
+        $_POST = array('referrer' => self::$_article->name . '/');
         $url = $this->run_relocate_handler(self::$_topic, array('delete', self::$_article->guid));
         $this->assertEquals(self::$_article->name . '/', $url);
 

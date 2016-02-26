@@ -298,11 +298,6 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
             return new midcom_response_relocate("delete/link/{$args[0]}/");
         }
         $workflow = new midcom\workflow\delete($this->_article);
-        if ($workflow->run())
-        {
-            return new midcom_response_relocate('');
-        }
-        // Redirect to view page.
-        return new midcom_response_relocate("{$this->_article->name}/");
+        return $workflow->run();
     }
 }

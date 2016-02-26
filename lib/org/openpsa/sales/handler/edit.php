@@ -225,10 +225,6 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
         $this->_salesproject = new org_openpsa_sales_salesproject_dba($args[0]);
         $workflow = new midcom\workflow\delete($this->_salesproject);
         $workflow->method = 'delete_tree';
-        if ($workflow->run())
-        {
-            return new midcom_response_relocate("");
-        }
-        return new midcom_response_relocate("salesproject/" . $this->_salesproject->guid);
+        return $workflow->run();
     }
 }

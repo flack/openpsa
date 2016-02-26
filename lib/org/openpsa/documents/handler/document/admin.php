@@ -189,11 +189,6 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
     {
         $this->_document = $this->_load_document($args[0]);
         $workflow = new midcom\workflow\delete($this->_document);
-
-        if ($workflow->run())
-        {
-            return new midcom_response_relocate('');
-        }
-        return new midcom_response_relocate("document/" . $this->_document->guid . "/");
+        return $workflow->run();
     }
 }

@@ -303,22 +303,20 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
      */
     public function _handler_delete($handler_id, array $args, array &$data)
     {
-        $this->_hour_report = new org_openpsa_projects_hour_report_dba($args[0]);
+        $hour_report = new org_openpsa_projects_hour_report_dba($args[0]);
+        $workflow = new midcom\workflow\delete($hour_report);
 
-        $relocate_url = '';
         try
         {
-            $task = org_openpsa_projects_task_dba::get_cached($this->_hour_report->task);
-            $relocate_url = 'hours/task/' . $task->guid . '/';
+            $task = org_openpsa_projects_task_dba::get_cached($hour_report->task);
+            $workflow->success_url = 'hours/task/' . $task->guid . '/';
         }
         catch (midcom_error $e)
         {
             $e->log();
         }
 
-        $workflow = new midcom\workflow\delete($this->_hour_report);
-        $workflow->run();
-        return new midcom_response_relocate($relocate_url);
+        return $workflow->run();
     }
 
     /**
