@@ -19,6 +19,10 @@ use midcom;
  */
 class delete extends base
 {
+    const ACTIVE = 'active';
+
+    const INACTIVE = 'inactive';
+
     private $form_identifier = 'confirm-delete';
 
     public $method = 'delete';
@@ -85,14 +89,14 @@ class delete extends base
         return $output;
     }
 
-    public function is_active()
+    public function get_state()
     {
-        return !empty($_POST[$this->form_identifier]);
+        return !empty($_POST[$this->form_identifier]) ? static::ACTIVE : static::INACTIVE;
     }
 
     public function run()
     {
-        if (!$this->is_active())
+        if ($this->get_state() !== static::ACTIVE)
         {
             return false;
         }

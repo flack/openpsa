@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+use midcom\workflow\delete;
+
 /**
  * Account management class.
  *
@@ -245,8 +247,8 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
             return new midcom_response_relocate("view/" . $this->_person->guid . "/");
         }
 
-        $workflow = new midcom\workflow\delete($this->_person);
-        if ($workflow->is_active())
+        $workflow = new delete($this->_person);
+        if ($workflow->get_state() == delete::ACTIVE)
         {
             if (!$this->_account->delete())
             {

@@ -69,9 +69,9 @@ abstract class base
     abstract public function add_button(midcom_helper_toolbar $toolbar, $url);
 
     /**
-     * @return boolean
+     * @return mixed
      */
-    abstract public function is_active();
+    abstract public function get_state();
 
     /**
      * @return boolean
