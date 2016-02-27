@@ -52,7 +52,8 @@ class midcom_core_context
         MIDCOM_CONTEXT_LASTMODIFIED => null,
         MIDCOM_CONTEXT_PERMALINKGUID => null,
         MIDCOM_CONTEXT_CUSTOMDATA => array(),
-        MIDCOM_CONTEXT_URLTOPICS => array()
+        MIDCOM_CONTEXT_URLTOPICS => array(),
+        MIDCOM_CONTEXT_SHOWCALLBACK => null
     );
 
     /**
@@ -375,7 +376,7 @@ class midcom_core_context
 
         $this->set_key(MIDCOM_CONTEXT_CONTENTTOPIC, $this->parser->get_current_object());
         $this->set_key(MIDCOM_CONTEXT_URLTOPICS, $this->parser->get_objects());
-
+        $this->set_key(MIDCOM_CONTEXT_SHOWCALLBACK, array($component_interface, 'show_content'));
         return $component_interface;
     }
 
@@ -418,8 +419,8 @@ class midcom_core_context
             midcom_show_style('style-init');
         }
 
-        $component = midcom::get()->componentloader->get_interface_class($this->get_key(MIDCOM_CONTEXT_COMPONENT));
-        $component->show_content($this->id);
+        $callback = $this->get_key(MIDCOM_CONTEXT_SHOWCALLBACK);
+        call_user_func($callback, $this->id);
 
         if (!midcom::get()->skip_page_style)
         {

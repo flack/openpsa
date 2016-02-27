@@ -116,7 +116,7 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
 
         $result = $handler->handle();
         $this->assertTrue($result !== false, $component . ' handle returned false on ./' . implode('/', $args) . '/');
-        $data =& $handler->_context_data[$context->id]['handler']->_handler['handler'][0]->_request_data;
+        $data = $handler->_context_data[$context->id]['handler']->_handler['handler'][0]->_request_data;
 
         if (   is_object($result)
             && $result instanceof midcom_response)
@@ -124,27 +124,21 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
             $data['__openpsa_testcase_response'] = $result;
         }
 
-        $data['__openpsa_testcase_handler'] = $handler->_context_data[$context->id]['handler']->_handler['handler'][0];
-        $data['__openpsa_testcase_handler_method'] = $handler->_context_data[$context->id]['handler']->_handler['handler'][1];
-
         // added to simulate http uri composition
         $_SERVER['REQUEST_URI'] = $context->get_key(MIDCOM_CONTEXT_URI);
 
         return $data;
     }
 
-    public function show_handler(&$data)
+    public function show_handler($data)
     {
-        $handler = $data['__openpsa_testcase_handler'];
-        $method = '_show_' . $data['__openpsa_testcase_handler_method'];
+        $context = midcom_core_context::get();
+        $show_handler = $context->get_key(MIDCOM_CONTEXT_SHOWCALLBACK);
 
         midcom::get()->set_status(MIDCOM_STATUS_CONTENT);
-        $context = midcom_core_context::get();
         midcom::get()->style->enter_context($context->id);
         ob_start();
-        $context->set_custom_key('request_data', $data);
-        $handler->_request_data =& $data;
-        $handler->$method($data['handler_id'], $data);
+        call_user_func($show_handler, $context->id);
         $output = ob_get_contents();
         ob_end_clean();
         midcom::get()->style->leave_context();
