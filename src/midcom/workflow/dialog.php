@@ -56,7 +56,7 @@ abstract class dialog
      */
     public function add_button(midcom_helper_toolbar $toolbar, $url, array $options = array())
     {
-        self::add_head_elements();
+        static::add_head_elements();
 
         $button_config = $this->get_button_config();
         $button_config[MIDCOM_TOOLBAR_URL] = $url;
