@@ -9,11 +9,6 @@ $title = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_PAGETITLE);
     <meta charset="UTF-8">
     <title>&(title);</title>
     <?php
-    foreach (midcom::get()->uimessages->get_messages() as $message)
-    {
-        $head->add_jscript("window.parent.$('#midcom_services_uimessages_wrapper').midcom_services_uimessage(" . $message . ");\n");
-    }
-
     $head->add_stylesheet(MIDCOM_STATIC_URL . '/org.openpsa.core/popup.css');
     $head->add_stylesheet(MIDCOM_STATIC_URL . '/OpenPsa2/style.css');
     $head->add_stylesheet(MIDCOM_STATIC_URL . '/OpenPsa2/content.css');
@@ -27,5 +22,13 @@ $title = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_PAGETITLE);
                 <(content)>
             </div>
         </div>
+        <script type="text/javascript">
+        <?php
+        foreach (midcom::get()->uimessages->get_messages() as $message)
+        {
+            echo "window.parent.$('#midcom_services_uimessages_wrapper').midcom_services_uimessage(" . $message . ");\n";
+        }
+        ?>
+          </script>
   </body>
 </html>

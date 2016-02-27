@@ -9,15 +9,17 @@ $title = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_PAGETITLE);
     <head>
     <meta charset="UTF-8">
     <title>&(title);</title>
-        <?php
-        foreach (midcom::get()->uimessages->get_messages() as $message)
-        {
-            $head->add_jscript("window.parent.$('#midcom_services_uimessages_wrapper').midcom_services_uimessage(" . $message . ");\n");
-        }
-        $head->print_head_elements();
-        ?>
+        <?php $head->print_head_elements(); ?>
     </head>
     <body <?php $head->print_jsonload(); ?>>
     <(content)>
+    <script type="text/javascript">
+    <?php
+    foreach (midcom::get()->uimessages->get_messages() as $message)
+    {
+        echo "window.parent.$('#midcom_services_uimessages_wrapper').midcom_services_uimessage(" . $message . ");\n";
+    }
+    ?>
+        </script>
     </body>
 </html>
