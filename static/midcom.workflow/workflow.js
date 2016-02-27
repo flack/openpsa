@@ -34,10 +34,13 @@ $(document).ready(function()
             .dialog(options);
     });
 
-    $('body').on('click', 'a[data-dialog="datamanager"]:not(.active)', function(event)
+    $('body').on('click', 'a[data-dialog="datamanager"]', function(event)
     {
         event.preventDefault();
-        create_datamanager_dialog($(this));
+        if (!$(this).hasClass('active'))
+        {
+            create_datamanager_dialog($(this));
+        }
     });
 });
 
@@ -66,6 +69,7 @@ function create_datamanager_dialog(control)
                 height: 550,
                 width: 700,
                 dialogClass: 'midcom-workflow-dialog',
+                buttons: [],
                 close: function() {
                     control.removeClass('active');
                     dialog
