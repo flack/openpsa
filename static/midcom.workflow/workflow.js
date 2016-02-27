@@ -33,4 +33,25 @@ $(document).ready(function()
             .appendTo($('body'))
             .dialog(options);
     });
+
+    $('a[data-dialog="datamanager"]').on('click', function(event)
+    {
+        event.preventDefault();
+        var dialog = $('<div></div>').insertAfter($(this)),
+            iframe_html = '<iframe src="' + $(this).attr('href') + '"'
+                + ' frameborder="0"'
+                + ' marginwidth="0"'
+                + ' marginheight="0"'
+                + ' width="100%"'
+                + ' height="100%"'
+                + ' scrolling="auto" />';
+
+        dialog
+            .html(iframe_html)
+            .dialog(
+                {
+                    height: 450,
+                    width: 600
+                });
+    });
 });
