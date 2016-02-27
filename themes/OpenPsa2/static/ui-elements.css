@@ -270,6 +270,11 @@ form.datamanager2 .form label
     font-weight: normal;
 }
 
+form.datamanager2 .form .element > .input
+{
+    width: 100%;
+}
+
 form.datamanager2 .form fieldset th
 {
     font-weight: normal;
@@ -347,7 +352,7 @@ form.datamanager2 .longtext
 
 form.datamanager2 .autocomplete-widget-creation-enabled input.shorttext
 {
-    width: 27.2em;
+    max-width: 27.2em;
 }
 
 form.datamanager2 select
@@ -582,4 +587,9 @@ table.link_statistics td.bargraph div.link_count_visualization
 .ui-datepicker-trigger:active
 {
     opacity: 1;
+}
+
+#org_openpsa_popup form.datamanager2
+{
+    margin-bottom: 0;
 }

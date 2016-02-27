@@ -51,7 +51,8 @@ $(document).ready(function()
             .dialog(
                 {
                     height: 450,
-                    width: 600
+                    width: 600,
+                    dialogClass: 'midcom-workflow-dialog'
                 });
     });
 });

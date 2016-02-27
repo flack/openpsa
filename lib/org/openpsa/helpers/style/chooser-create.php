@@ -9,7 +9,7 @@ widget_id = widget_id.replace(/_creation_dialog_content/, '');
 
 if ($('#container header').length > 0)
 {
-	var title = $('#container h1').detach(),
+	var title = $('#container h1'),
         header_height = 12,
         buttons = [];
 	if ($('#org_openpsa_toolbar').length > 0)
@@ -29,7 +29,8 @@ if ($('#container header').length > 0)
         });
         $('.datamanager2 .form_toolbar').hide();
     }
-    $('#content').css('padding-top', header_height + 'px');
+    $('header').detach();
+    $('#content').addClass('no-header');
     window.parent.jQuery('#' + widget_id + '_creation_dialog').dialog('option', 'title', title.text())
         .dialog('option', 'buttons', buttons);
 }

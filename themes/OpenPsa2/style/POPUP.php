@@ -23,7 +23,9 @@ $title = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_PAGETITLE);
     </head>
     <body id="org_openpsa_popup"<?php $head->print_jsonload(); ?>>
         <div id="container">
-            <(content)>
+            <div id="content">
+                <(content)>
+            </div>
         </div>
   </body>
 </html>

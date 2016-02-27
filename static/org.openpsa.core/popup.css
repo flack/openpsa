@@ -22,7 +22,10 @@ header
 {
     padding: calc(60px + 1.5em) 1.5em 2em 1.5em;
     background-color: white;
-    padding-top: ;
+}
+#content.no-header
+{
+    padding-top: 1em;
 }
 #container a
 {

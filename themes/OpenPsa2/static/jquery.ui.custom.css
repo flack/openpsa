@@ -1749,3 +1749,8 @@ ul.fancytree-container span.fancytree-folder a
 {
     color: inherit;
 }
+
+.midcom-workflow-dialog .ui-dialog-content {
+    overflow: hidden;
+    padding: 0;
+}

@@ -671,6 +671,12 @@ table.DifferencesSideBySide .Right{
 
 #org_openpsa_popup #content {
     margin-left: 0;
+    min-height: calc(100% - 60px - 2.5em);
+}
+
+#org_openpsa_popup #content.no-header {
+    margin-left: 0;
+    min-height: calc(100% - 3em);
 }
 
 #org_openpsa_popup .org_openpsa_toolbar ul{

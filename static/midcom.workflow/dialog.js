@@ -40,6 +40,8 @@ $(document).ready(function()
             });
             $('.datamanager2 .form_toolbar').hide();
         }
+
+        $('#content').addClass('no-header');
         dialog.dialog('option', 'title', title)
             .dialog('option', 'buttons', buttons);
     }
