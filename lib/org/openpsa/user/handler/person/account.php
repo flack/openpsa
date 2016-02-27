@@ -248,7 +248,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         }
 
         $workflow = new delete($this->_person);
-        if ($workflow->get_state() == delete::ACTIVE)
+        if ($workflow->get_state() == delete::CONFIRMED)
         {
             if (!$this->_account->delete())
             {

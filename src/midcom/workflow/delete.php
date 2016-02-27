@@ -9,6 +9,7 @@
 namespace midcom\workflow;
 
 use midcom_helper_toolbar;
+use midcom_helper_reflector;
 use midcom_core_dbaobject;
 use midcom_response_relocate;
 use midcom_connection;
@@ -19,19 +20,15 @@ use midcom;
  *
  * @package midcom.workflow
  */
-class delete extends base
+class delete extends dialog
 {
-    const ACTIVE = 'active';
-
-    const INACTIVE = 'inactive';
+    const CONFIRMED = 'confirmed';
 
     const SUCCESS = 'success';
 
     const FAILURE = 'failure';
 
     private $form_identifier = 'confirm-delete';
-
-    private $state = self::INACTIVE;
 
     /**
      * The method to call for deletion (delete or delete_tree)
@@ -49,86 +46,78 @@ class delete extends base
      */
     public $success_url = '';
 
+    /**
+     *
+     * @var \midcom_core_dbaobject
+     */
+    private $object;
+
+    /**
+     * @var string
+     */
+    private $object_title;
+
+    /**
+     *
+     * @var \midcom_services_i18n_l10n
+     */
+    private $l10n_midcom;
+
+    /**
+     *
+     * @param \midcom_core_dbaobject $object
+     */
     public function __construct(midcom_core_dbaobject $object)
     {
-        parent::__construct($object);
+        $this->object = $object;
+        $this->l10n_midcom = midcom::get()->i18n->get_l10n('midcom');
+        $this->label = midcom_helper_reflector::get_object_title($this->object);
         if (!empty($_POST[$this->form_identifier]))
         {
-            $this->state = static::ACTIVE;
+            $this->state = static::CONFIRMED;
         }
     }
 
-    public static function add_head_elements()
+    public function get_object_title()
     {
-        $head = midcom::get()->head;
-        $head->enable_jquery();
-        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/core.min.js');
-        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/widget.min.js');
-        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/mouse.min.js');
-        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/draggable.min.js');
-        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/position.min.js');
-        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/button.min.js');
-        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/dialog.min.js');
-        $head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.workflow/workflow.js');
-        $head->add_jquery_ui_theme(array('dialog'));
+        if ($this->object_title === null)
+        {
+            $this->object_title = midcom_helper_reflector::get_object_title($this->object);
+        }
+        return $this->object_title;
     }
 
-    public function add_button(midcom_helper_toolbar $toolbar, $url)
+    public function set_object_title($title)
     {
-        self::add_head_elements();
-
-        $toolbar->add_item
-        (
-            array
-            (
-                MIDCOM_TOOLBAR_URL => $url,
-                MIDCOM_TOOLBAR_LABEL => $this->l10n_midcom->get('delete'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
-                MIDCOM_TOOLBAR_ACCESSKEY => 'd',
-                MIDCOM_TOOLBAR_OPTIONS => $this->get_attributes()
-            )
-        );
+        $this->object_title = $title;
     }
 
     /**
      *
      * @return array
      */
-    private function get_attributes()
+    public function get_button_config()
     {
         return array
         (
-            'data-dialog' => 'delete',
-            'data-form-id' => $this->form_identifier,
-            'data-dialog-heading' => $this->l10n_midcom->get('confirm delete'),
-            'data-dialog-text' => sprintf($this->l10n_midcom->get('delete %s'), $this->get_object_title()),
-            'data-dialog-cancel-label' => $this->l10n_midcom->get('cancel')
+            MIDCOM_TOOLBAR_LABEL => $this->l10n_midcom->get('delete'),
+            MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
+            MIDCOM_TOOLBAR_ACCESSKEY => 'd',
+            MIDCOM_TOOLBAR_OPTIONS => array
+            (
+                'data-dialog' => 'delete',
+                'data-form-id' => $this->form_identifier,
+                'data-dialog-heading' => $this->l10n_midcom->get('confirm delete'),
+                'data-dialog-text' => sprintf($this->l10n_midcom->get('delete %s'), $this->get_object_title()),
+                'data-dialog-cancel-label' => $this->l10n_midcom->get('cancel')
+            )
         );
-    }
-
-    /**
-     *
-     * @return string
-     */
-    public function render_attributes()
-    {
-        $output = '';
-        foreach ($this->get_attributes() as $key => $val)
-        {
-            $output .= ' ' . $key . '="' . htmlspecialchars($val) . '"';
-        }
-        return $output;
-    }
-
-    public function get_state()
-    {
-        return $this->state;
     }
 
     public function run()
     {
         $failure_url = (!empty($_POST['referrer'])) ? $_POST['referrer'] : $this->success_url;
-        if ($this->get_state() === static::ACTIVE)
+        if ($this->get_state() === static::CONFIRMED)
         {
             $this->object->require_do('midgard:delete');
             $uim = midcom::get()->uimessages;
