@@ -37,22 +37,38 @@ $(document).ready(function()
     $('a[data-dialog="datamanager"]').on('click', function(event)
     {
         event.preventDefault();
-        var dialog = $('<div></div>').insertAfter($(this)),
-            iframe_html = '<iframe src="' + $(this).attr('href') + '"'
-                + ' frameborder="0"'
-                + ' marginwidth="0"'
-                + ' marginheight="0"'
-                + ' width="100%"'
-                + ' height="100%"'
-                + ' scrolling="auto" />';
+        if (!$(this).hasClass('active'))
+        {
+            if ($('.midcom-workflow-dialog').length > 0)
+            {
+                $('.midcom-workflow-dialog .ui-dialog-content').dialog('close');
+            }
 
-        dialog
-            .html(iframe_html)
-            .dialog(
-                {
-                    height: 450,
-                    width: 600,
-                    dialogClass: 'midcom-workflow-dialog'
-                });
+            var button = $(this),
+                dialog = $('<div></div>').insertAfter($(this)),
+                iframe = $('<iframe src="' + $(this).attr('href') + '"'
+                    + ' frameborder="0"'
+                    + ' marginwidth="0"'
+                    + ' marginheight="0"'
+                    + ' width="100%"'
+                    + ' height="100%"'
+                    + ' scrolling="auto" />');
+
+            button.addClass('active');
+            dialog
+                .append(iframe)
+                .dialog(
+                    {
+                        height: 450,
+                        width: 600,
+                        dialogClass: 'midcom-workflow-dialog',
+                        close: function() {
+                            button.removeClass('active');
+                            dialog
+                                .dialog('destroy')
+                                .remove();
+                        }
+                    });
+        }
     });
 });
