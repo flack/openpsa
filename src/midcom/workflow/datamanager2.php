@@ -64,13 +64,10 @@ class datamanager2 extends dialog
         }
         else
         {
-            if ($this->state == 'save')
+            if (   $this->state == 'save'
+                && is_callable($this->save_callback))
             {
-                $url = '';
-                if (is_callable($this->save_callback))
-                {
-                    $url = (string) call_user_func($this->save_callback, $this->controller);
-                }
+                $url = (string) call_user_func($this->save_callback, $this->controller);
                 if (   substr($url, 0, 1) != '/'
                     && ! preg_match('|^https?://|', $url))
                 {
