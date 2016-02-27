@@ -42,16 +42,6 @@ class org_openpsa_contacts_handler_person_admin extends midcom_baseclasses_compo
     private $_schema = null;
 
     /**
-     * Simple helper which references all important members to the request data listing
-     * for usage within the style listing.
-     */
-    private function _prepare_request_data()
-    {
-        $this->_request_data['person'] = $this->_contact;
-        $this->_request_data['controller'] = $this->_controller;
-    }
-
-    /**
      * Loads and prepares the schema database.
      *
      * The operations are done on all available schemas within the DB.
@@ -90,35 +80,18 @@ class org_openpsa_contacts_handler_person_admin extends midcom_baseclasses_compo
         $this->_contact->require_do('midgard:update');
 
         $this->_load_controller();
+        midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('edit %s'), $this->_l10n->get('person')));
 
-        switch ($this->_controller->process_form())
-        {
-            case 'save':
-                // Reindex the contact
-                $indexer = new org_openpsa_contacts_midcom_indexer($this->_topic);
-                $indexer->index($this->_controller->datamanager);
-
-                // *** FALL-THROUGH ***
-            case 'cancel':
-                return new midcom_response_relocate("person/{$this->_contact->guid}/");
-        }
-
-        $this->_prepare_request_data();
-        midcom::get()->head->set_pagetitle($this->_contact->name);
-        $this->bind_view_to_object($this->_contact, $this->_controller->datamanager->schema->name);
-        $this->add_breadcrumb("person/{$this->_contact->guid}/", $this->_contact->name);
-        $this->add_breadcrumb("person/edit/{$this->_contact->guid}/", $this->_l10n_midcom->get('edit'));
+        $workflow = new midcom\workflow\datamanager2($this->_controller, array($this, 'save_callback'));
+        return $workflow->run();
     }
 
-    /**
-     * Shows the loaded contact.
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_edit ($handler_id, array &$data)
+    public function save_callback(midcom_helper_datamanager2_controller $controller)
     {
-        midcom_show_style('show-person-edit');
+        // Index the organization
+        $indexer = new org_openpsa_contacts_midcom_indexer($this->_topic);
+        $indexer->index($controller->datamanager);
+        return "person/" . $this->_contact->guid . "/";
     }
 
     /**

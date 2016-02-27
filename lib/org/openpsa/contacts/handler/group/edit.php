@@ -57,48 +57,17 @@ implements midcom_helper_datamanager2_interfaces_edit
             $this->_type = 'organization';
         }
 
-        $data['controller'] = $this->get_controller('simple', $this->_group);
+        midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('edit %s'), $this->_l10n->get($this->_type)));
 
-        switch ($data['controller']->process_form())
-        {
-            case 'save':
-                $indexer = new org_openpsa_contacts_midcom_indexer($this->_topic);
-                $indexer->index($data['controller']->datamanager);
-                // *** FALL-THROUGH ***
-
-            case 'cancel':
-                return new midcom_response_relocate("group/" . $this->_group->guid . "/");
-        }
-
-        $root_group = org_openpsa_contacts_interface::find_root_group();
-
-        if (   $this->_group->owner
-            && $this->_group->owner != $root_group->id)
-        {
-            $data['parent_group'] = new org_openpsa_contacts_group_dba($this->_group->owner);
-        }
-        else
-        {
-            $data['parent_group'] = false;
-        }
-
-        $data['group'] = $this->_group;
-
-        $this->bind_view_to_object($this->_group);
-
-        midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('edit %s'), $this->_group->official));
-
-        org_openpsa_contacts_viewer::add_breadcrumb_path_for_group($this->_group, $this);
-        $this->add_breadcrumb("", sprintf($this->_l10n_midcom->get('edit %s'), $this->_l10n->get($this->_type)));
+        $workflow = new midcom\workflow\datamanager2($this->get_controller('simple', $this->_group), array($this, 'save_callback'));
+        return $workflow->run();
     }
 
-    /**
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_edit($handler_id, array &$data)
+    public function save_callback(midcom_helper_datamanager2_controller $controller)
     {
-        midcom_show_style('show-group-edit');
+        // Index the organization
+        $indexer = new org_openpsa_contacts_midcom_indexer($this->_topic);
+        $indexer->index($controller->datamanager);
+        return "group/" . $this->_group->guid . "/";
     }
 }

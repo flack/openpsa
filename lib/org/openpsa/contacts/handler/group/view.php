@@ -38,53 +38,37 @@ implements midcom_helper_datamanager2_interfaces_view, org_openpsa_widgets_grid_
 
     private function _populate_toolbar()
     {
-        $this->_view_toolbar->add_item
-        (
-            array
-            (
-                MIDCOM_TOOLBAR_URL => "group/edit/{$this->_group->guid}/",
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get("edit"),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
-                MIDCOM_TOOLBAR_ENABLED => $this->_group->can_do('midgard:update'),
-                MIDCOM_TOOLBAR_ACCESSKEY => 'e',
-            )
-        );
+        $workflow = new midcom\workflow\datamanager2;
 
-        $this->_view_toolbar->add_item
-        (
-            array
+        if ($this->_group->can_do('midgard:update'))
+        {
+            $workflow->add_button($this->_view_toolbar, "group/edit/{$this->_group->guid}/", array
             (
-                MIDCOM_TOOLBAR_URL => "group/create/organization/{$this->_group->guid}/",
+                MIDCOM_TOOLBAR_ACCESSKEY => 'e',
+            ));
+
+            $workflow->add_button($this->_view_toolbar, "group/create/organization/{$this->_group->guid}/", array
+            (
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create suborganization'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_people-new.png',
-                MIDCOM_TOOLBAR_ENABLED => $this->_group->can_do('midgard:update'),
-            )
-        );
+            ));
 
-        $this->_view_toolbar->add_item
-        (
-            array
+            $workflow->add_button($this->_view_toolbar, "group/create/group/{$this->_group->guid}/", array
             (
-                MIDCOM_TOOLBAR_URL => "group/create/group/{$this->_group->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create subgroup'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_people-new.png',
-                MIDCOM_TOOLBAR_ENABLED => $this->_group->can_do('midgard:update'),
-            )
-        );
+            ));
+        }
 
-        $allow_person_create = (   midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_contacts_person_dba')
-                                && $this->_group->can_do('midgard:create'));
-
-        $this->_view_toolbar->add_item
-        (
-            array
+        if (   midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_contacts_person_dba')
+            && $this->_group->can_do('midgard:create'))
+        {
+            $workflow->add_button($this->_view_toolbar, "person/create/{$this->_group->guid}/", array
             (
-                MIDCOM_TOOLBAR_URL => "person/create/{$this->_group->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create person'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_person-new.png',
-                MIDCOM_TOOLBAR_ENABLED => $allow_person_create,
-            )
-        );
+            ));
+        }
 
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
         $user_url = $siteconfig->get_node_full_url('org.openpsa.user');

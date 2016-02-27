@@ -101,17 +101,14 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
      */
     private function _populate_toolbar($handler_id)
     {
-        $this->_view_toolbar->add_item
-        (
-            array
+        if ($this->_contact->can_do('midgard:update'))
+        {
+            $workflow = new midcom\workflow\datamanager2;
+            $workflow->add_button($this->_view_toolbar, "person/edit/{$this->_contact->guid}/", array
             (
-                MIDCOM_TOOLBAR_URL => "person/edit/{$this->_contact->guid}/",
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('edit'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
-                MIDCOM_TOOLBAR_ENABLED => $this->_contact->can_do('midgard:update'),
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
-            )
-        );
+            ));
+        }
 
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
         $invoices_url = $siteconfig->get_node_full_url('org.openpsa.invoices');

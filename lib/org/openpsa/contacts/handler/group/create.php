@@ -117,38 +117,17 @@ implements midcom_helper_datamanager2_interfaces_create
             midcom::get()->auth->require_user_do('midgard:create', null, 'org_openpsa_contacts_group_dba');
         }
 
-        $data['controller'] = $this->get_controller('create');
-        switch ($data['controller']->process_form())
-        {
-            case 'save':
-                // Index the organization
-                $indexer = new org_openpsa_contacts_midcom_indexer($this->_topic);
-                $indexer->index($data['controller']->datamanager);
+        midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get($this->_type)));
 
-                // Relocate to group view
-                return new midcom_response_relocate("group/" . $this->_group->guid . "/");
-
-            case 'cancel':
-                if ($this->_parent_group)
-                {
-                    return new midcom_response_relocate("group/" . $this->_parent_group->guid . "/");
-                }
-                return new midcom_response_relocate('');
-        }
-
-        midcom::get()->head->set_pagetitle($this->_l10n->get("create organization"));
-
-        org_openpsa_contacts_viewer::add_breadcrumb_path_for_group($this->_parent_group, $this);
-        $this->add_breadcrumb("", sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get($this->_type)));
+        $workflow = new midcom\workflow\datamanager2($this->get_controller('create'), array($this, 'save_callback'));
+        return $workflow->run();
     }
 
-    /**
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_create($handler_id, array &$data)
+    public function save_callback(midcom_helper_datamanager2_controller $controller)
     {
-        midcom_show_style('show-group-create');
+        // Index the organization
+        $indexer = new org_openpsa_contacts_midcom_indexer($this->_topic);
+        $indexer->index($controller->datamanager);
+        return "group/" . $this->_group->guid . "/";
     }
 }

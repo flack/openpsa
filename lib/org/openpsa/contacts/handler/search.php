@@ -218,38 +218,28 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
 
     private function _populate_toolbar()
     {
-        $this->_view_toolbar->add_item
-        (
-            array
+        $workflow = new midcom\workflow\datamanager2;
+        if (midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_contacts_person_dba'))
+        {
+            $workflow->add_button($this->_view_toolbar, 'person/create/', array
             (
-                MIDCOM_TOOLBAR_URL => 'person/create/',
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create person'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_person-new.png',
-                MIDCOM_TOOLBAR_ENABLED => midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_contacts_person_dba'),
-            )
-        );
-
-        $this->_view_toolbar->add_item
-        (
-            array
+            ));
+        }
+        if (midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_contacts_group_dba'))
+        {
+            $workflow->add_button($this->_view_toolbar, 'group/create/organization/', array
             (
-                MIDCOM_TOOLBAR_URL => 'group/create/organization/',
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create organization'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_people-new.png',
-                MIDCOM_TOOLBAR_ENABLED => org_openpsa_contacts_interface::find_root_group()->can_do('midgard:create'),
-            )
-        );
-
-        $this->_view_toolbar->add_item
-        (
-            array
+            ));
+            $workflow->add_button($this->_view_toolbar, 'group/create/group/', array
             (
-                MIDCOM_TOOLBAR_URL => 'group/create/group/',
                 MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('group')),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_people-new.png',
-                MIDCOM_TOOLBAR_ENABLED => midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_contacts_group_dba'),
-            )
-        );
+            ));
+        }
     }
 
     /**

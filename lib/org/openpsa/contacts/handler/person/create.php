@@ -80,36 +80,19 @@ implements midcom_helper_datamanager2_interfaces_create
             // Get the organization
             $this->_group = new org_openpsa_contacts_group_dba($args[0]);
             $this->_group->require_do('midgard:create');
-            midcom::get()->head->set_pagetitle($this->_group->official);
         }
 
-        $data['controller'] = $this->get_controller('create');
+        midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('person')));
 
-        switch ($data['controller']->process_form())
-        {
-            case 'save':
-
-                // Index the person
-                $indexer = new org_openpsa_contacts_midcom_indexer($this->_topic);
-                $indexer->index($data['controller']->datamanager);
-
-                return new midcom_response_relocate("person/{$this->_person->guid}/");
-
-            case 'cancel':
-                return new midcom_response_relocate('');
-        }
-
-        org_openpsa_contacts_viewer::add_breadcrumb_path_for_group($this->_group, $this);
-        $this->add_breadcrumb("", sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('person')));
+        $workflow = new midcom\workflow\datamanager2($this->get_controller('create'), array($this, 'save_callback'));
+        return $workflow->run();
     }
 
-    /**
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_create($handler_id, array &$data)
+    public function save_callback(midcom_helper_datamanager2_controller $controller)
     {
-        midcom_show_style('show-person-create');
+        // Index the person
+        $indexer = new org_openpsa_contacts_midcom_indexer($this->_topic);
+        $indexer->index($controller->datamanager);
+        return "person/{$this->_person->guid}/";
     }
 }
