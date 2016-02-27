@@ -21,13 +21,6 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
     private $_deliverable = null;
 
     /**
-     * The Controller of the deliverable used for editing
-     *
-     * @var midcom_helper_datamanager2_controller_simple
-     */
-    private $_controller = null;
-
-    /**
      * The schema database in use, available only while a datamanager is loaded.
      *
      * @var Array
@@ -42,28 +35,6 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
     private $_schema = null;
 
     /**
-     * Simple helper which references all important members to the request data listing
-     * for usage within the style listing.
-     */
-    private function _prepare_request_data()
-    {
-        $this->_request_data['deliverable'] = $this->_deliverable;
-        $this->_request_data['controller'] = $this->_controller;
-
-        $this->_view_toolbar->add_item
-        (
-            array
-            (
-                MIDCOM_TOOLBAR_URL => "deliverable/edit/{$this->_deliverable->guid}/",
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('edit'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
-                MIDCOM_TOOLBAR_ENABLED => $this->_deliverable->can_do('midgard:update'),
-                MIDCOM_TOOLBAR_ACCESSKEY => 'e',
-            )
-        );
-    }
-
-    /**
      * Loads and prepares the schema database.
      *
      * The operations are done on all available schemas within the DB.
@@ -75,18 +46,21 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
 
     /**
      * Internal helper, loads the controller for the current deliverable. Any error triggers a 500.
+     *
+     * @return midcom_helper_datamanager2_controller
      */
     private function _load_controller()
     {
         $this->_load_schemadb();
         $this->_modify_schema();
-        $this->_controller = midcom_helper_datamanager2_controller::create('simple');
-        $this->_controller->schemadb =& $this->_schemadb;
-        $this->_controller->set_storage($this->_deliverable, $this->_schema);
-        if (! $this->_controller->initialize())
+        $controller = midcom_helper_datamanager2_controller::create('simple');
+        $controller->schemadb =& $this->_schemadb;
+        $controller->set_storage($this->_deliverable, $this->_schema);
+        if (! $controller->initialize())
         {
             throw new midcom_error("Failed to initialize a DM2 controller instance for deliverable {$this->_deliverable->id}.");
         }
+        return $controller;
     }
 
     /**
@@ -120,16 +94,6 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
     }
 
     /**
-     * Helper, updates the context so that we get a complete breadcrumb line towards the current
-     * location.
-     */
-    private function _update_breadcrumb_line()
-    {
-        org_openpsa_sales_viewer::add_breadcrumb_path($this->_request_data['deliverable'], $this);
-        $this->add_breadcrumb("deliverable/edit/{$this->_deliverable->guid}/", $this->_l10n_midcom->get('edit'));
-    }
-
-    /**
      * Displays a deliverable edit view.
      *
      * @param mixed $handler_id The ID of the handler.
@@ -141,32 +105,22 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
         $this->_deliverable = new org_openpsa_sales_salesproject_deliverable_dba($args[0]);
         $this->_deliverable->require_do('midgard:update');
 
-        $this->_load_controller();
-
-        switch ($this->_controller->process_form())
-        {
-            case 'save':
-                $formdata = $this->_controller->datamanager->types;
-                $this->_process_at_entry($formdata);
-                $this->_master->process_notify_date($formdata, $this->_deliverable);
-
-                // Reindex the deliverable
-                //$indexer = midcom::get()->indexer;
-                //org_openpsa_sales_viewer::index($this->_controller->datamanager, $indexer, $this->_content_topic);
-
-                // *** FALL-THROUGH ***
-
-            case 'cancel':
-                return new midcom_response_relocate("deliverable/{$this->_deliverable->guid}/");
-        }
+        $data['controller'] = $this->_load_controller();
 
         midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/' . $this->_component . '/sales.js');
+        midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('edit %s'), $this->_l10n->get('deliverable')));
 
-        $this->_prepare_request_data($handler_id);
-        $this->bind_view_to_object($this->_deliverable, $this->_request_data['controller']->datamanager->schema->name);
-        $this->_update_breadcrumb_line();
+        $workflow = new midcom\workflow\datamanager2($data['controller'], array($this, 'save_callback'));
+        return $workflow->run();
+    }
 
-        midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('edit %s'), $this->_deliverable->title));
+    public function save_callback(midcom_helper_datamanager2_controller $controller)
+    {
+        $formdata = $controller->datamanager->types;
+        $this->_process_at_entry($formdata);
+        $this->_master->process_notify_date($formdata, $this->_deliverable);
+
+        return "deliverable/{$this->_deliverable->guid}/";
     }
 
     private function _process_at_entry(array $formdata)
@@ -221,17 +175,6 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
             }
             org_openpsa_relatedto_plugin::create($at_entry, 'midcom.services.at', $this->_deliverable, $this->_component);
         }
-    }
-
-    /**
-     * Shows the loaded deliverable.
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_edit ($handler_id, array &$data)
-    {
-        midcom_show_style('show-deliverable-form');
     }
 
     /**

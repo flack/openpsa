@@ -146,36 +146,10 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
 
         $this->_load_edit_controller();
 
-        switch ($this->_controller->process_form())
-        {
-            case 'save':
-                // Fall-through intentional
-            case 'cancel':
-                return new midcom_response_relocate("salesproject/" . $this->_salesproject->guid);
-        }
-        $this->_request_data['controller'] = $this->_controller;
-        $this->_request_data['salesproject'] = $this->_salesproject;
+        midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('edit %s'), $this->_l10n->get('salesproject')));
 
-        $this->_view_toolbar->bind_to($this->_salesproject);
-        $customer = $this->_salesproject->get_customer();
-        if ($customer)
-        {
-            $this->add_breadcrumb("list/customer/{$customer->guid}/", $customer->get_label());
-        }
-        org_openpsa_sales_viewer::add_breadcrumb_path($this->_salesproject, $this);
-        $this->add_breadcrumb("", sprintf($this->_l10n_midcom->get('edit %s'), $this->_l10n->get('salesproject')));
-
-        midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('edit %s'), $this->_salesproject->title));
-    }
-
-    /**
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_edit($handler_id, array &$data)
-    {
-        midcom_show_style('show-salesproject-edit');
+        $workflow = new midcom\workflow\datamanager2($this->_controller, array($this, 'save_callback'));
+        return $workflow->run();
     }
 
     /**
@@ -189,30 +163,15 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
 
         $this->_load_create_controller($args);
 
-        switch ($this->_controller->process_form())
-        {
-            case 'save':
-                // Relocate to main view
-                return new midcom_response_relocate("salesproject/" . $this->_salesproject->guid . "/");
+        midcom::get()->head->set_pagetitle($this->_l10n->get('create salesproject'));
 
-            case 'cancel':
-                return new midcom_response_relocate('');
-        }
-        $this->_request_data['controller'] = $this->_controller;
-
-        midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('salesproject')));
-
-        $this->add_breadcrumb('', $this->_l10n->get('create salesproject'));
+        $workflow = new midcom\workflow\datamanager2($this->_controller, array($this, 'save_callback'));
+        return $workflow->run();
     }
 
-    /**
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_new($handler_id, array &$data)
+    public function save_callback(midcom_helper_datamanager2_controller $controller)
     {
-        midcom_show_style('show-salesproject-new');
+        return "salesproject/" . $this->_salesproject->guid . "/";
     }
 
     /**

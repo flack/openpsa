@@ -123,6 +123,7 @@ $(function() {
         .closest('form')
             .on('submit', function(e)
             {
+                create_datamanager_dialog($(this));
                 if (!$("#org_openpsa_sales_salesproject_deliverable_add").val())
                 {
                     e.preventDefault();

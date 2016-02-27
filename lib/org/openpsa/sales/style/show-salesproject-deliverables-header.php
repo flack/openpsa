@@ -8,7 +8,7 @@ $unit_options = midcom_baseclasses_components_configuration::get('org.openpsa.pr
     if ($data['salesproject']->can_do('midgard:create'))
     {
         ?>
-        <form method="post" action="&(prefix);deliverable/add/<?php echo $data['salesproject']->guid; ?>/">
+        <form method="post" action="&(prefix);deliverable/add/<?php echo $data['salesproject']->guid; ?>/" target="datamanager-dialog">
             <label>
                 <?php
                 echo $data['l10n']->get('add offer');

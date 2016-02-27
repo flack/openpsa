@@ -35,13 +35,6 @@ implements midcom_helper_datamanager2_interfaces_create
      */
     private $_product;
 
-    /**
-     * The DM2 controller to use
-     *
-     * @var midcom_helper_datamanager2_controller
-     */
-    private $_controller = null;
-
     public function load_schemadb()
     {
         $schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_deliverable'));
@@ -115,19 +108,22 @@ implements midcom_helper_datamanager2_interfaces_create
 
     /**
      * loads the controller instance
+     *
+     * @return midcom_helper_datamanager2_controller
      */
     private function _prepare_datamanager()
     {
-        $this->_controller = $this->get_controller('create');
+        $controller = $this->get_controller('create');
 
         // adjust cost per unit label
         if ($this->_product->costType == "%")
         {
             $cost_per_unit_title = "cost per unit (percentage)";
-            $this->_controller->schemadb["default"]->fields['costPerUnit']['title'] = $this->_l10n->get($cost_per_unit_title);
+            $controller->schemadb["default"]->fields['costPerUnit']['title'] = $this->_l10n->get($cost_per_unit_title);
         }
 
-        $this->_controller->initialize();
+        $controller->initialize();
+        return $controller;
     }
 
     /**
@@ -158,33 +154,19 @@ implements midcom_helper_datamanager2_interfaces_create
         }
         $this->_product = new org_openpsa_products_product_dba($product_id);
 
-        $this->_prepare_datamanager();
+        $data['controller'] = $this->_prepare_datamanager();
 
-        $data['controller'] = $this->_controller;
-
-        // Process form
-        switch ($data['controller']->process_form())
-        {
-            case 'save':
-                $formdata = $data['controller']->datamanager->types;
-                $this->_master->process_notify_date($formdata, $this->_deliverable);
-            case 'cancel':
-                return new midcom_response_relocate("salesproject/{$this->_salesproject->guid}/");
-        }
-
+        midcom::get()->head->set_pagetitle($this->_l10n->get('add offer'));
         midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/' . $this->_component . '/sales.js');
-        $this->add_breadcrumb("salesproject/{$this->_salesproject->guid}/", $this->_salesproject->title);
-        $this->add_breadcrumb('', $this->_l10n->get('add offer'));
+
+        $workflow = new midcom\workflow\datamanager2($data['controller'], array($this, 'save_callback'));
+        return $workflow->run();
     }
 
-    /**
-     * Show the create screen
-     *
-     * @param String $handler_id    Name of the request handler
-     * @param array &$data          Public request data, passed by reference
-     */
-    public function _show_add($handler_id, array &$data)
+    public function save_callback(midcom_helper_datamanager2_controller $controller)
     {
-        midcom_show_style('show-deliverable-form');
+        $formdata = $controller->datamanager->types;
+        $this->_master->process_notify_date($formdata, $this->_deliverable);
+        return "salesproject/{$this->_salesproject->guid}/";
     }
 }

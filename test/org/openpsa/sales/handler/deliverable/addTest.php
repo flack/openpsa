@@ -58,16 +58,15 @@ class org_openpsa_sales_handler_deliverable_addTest extends openpsa_testcase
         midcom::get()->auth->request_sudo('org.openpsa.sales');
 
         $data = $this->run_handler('org.openpsa.sales', array('deliverable', 'add', $this->_salesproject->guid));
-
         $formdata = array
         (
             'title' => 'TEST ' . __CLASS__ . '_' . time(),
-            'plannedUnits' => '1'
+            'plannedUnits' => '1',
         );
-
         $this->set_dm2_formdata($data['controller'], $formdata);
+        $this->run_handler('org.openpsa.sales', array('deliverable', 'add', $this->_salesproject->guid));
+        $url = $this->get_dialog_url();
 
-        $url = $this->run_relocate_handler('org.openpsa.sales', array('deliverable', 'add', $this->_salesproject->guid));
         $this->assertEquals('salesproject/' . $this->_salesproject->guid . '/', $url);
 
         $qb = org_openpsa_sales_salesproject_deliverable_dba::new_query_builder();
@@ -96,7 +95,8 @@ class org_openpsa_sales_handler_deliverable_addTest extends openpsa_testcase
         );
 
         $this->set_dm2_formdata($data['controller'], $formdata);
-        $url = $this->run_relocate_handler('org.openpsa.sales', array('deliverable', 'add', $this->_salesproject->guid));
+        $this->run_handler('org.openpsa.sales', array('deliverable', 'add', $this->_salesproject->guid));
+        $url = $this->get_dialog_url();
 
         $this->assertEquals('salesproject/' . $this->_salesproject->guid . '/', $url);
 

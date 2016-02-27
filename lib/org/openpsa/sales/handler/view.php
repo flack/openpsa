@@ -64,16 +64,11 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
     {
         if ($this->_salesproject->can_do('midgard:update'))
         {
-            $this->_view_toolbar->add_item
+            $workflow = new midcom\workflow\datamanager2;
+            $workflow->add_button($this->_view_toolbar, "salesproject/edit/{$this->_salesproject->guid}/", array
             (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => "salesproject/edit/{$this->_salesproject->guid}/",
-                    MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('edit'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
-                    MIDCOM_TOOLBAR_ACCESSKEY => 'e',
-                )
-            );
+                MIDCOM_TOOLBAR_ACCESSKEY => 'e',
+            ));
         }
 
         if ($this->_salesproject->can_do('midgard:delete'))

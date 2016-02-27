@@ -105,16 +105,15 @@ class org_openpsa_sales_handler_list extends midcom_baseclasses_components_handl
                 );
             }
         }
-        $this->_view_toolbar->add_item
-        (
-            array
+        if (midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_sales_salesproject_dba'))
+        {
+            $workflow = new midcom\workflow\datamanager2;
+            $workflow->add_button($this->_view_toolbar, $create_url, array
             (
-                MIDCOM_TOOLBAR_URL => $create_url,
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create salesproject'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_people.png',
-                MIDCOM_TOOLBAR_ENABLED => midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_sales_salesproject_dba'),
-            )
-        );
+            ));
+        }
     }
 
     private function _add_state_constraint($state, midcom_core_query $qb)
