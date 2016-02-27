@@ -160,7 +160,7 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
         $_REQUEST = $_GET;
     }
 
-    public function set_dm2_formdata($controller, array $formdata)
+    public function set_dm2_formdata(midcom_helper_datamanager2_controller $controller, array $formdata)
     {
         $formname = substr($controller->formmanager->namespace, 0, -1);
         $_SERVER['REQUEST_METHOD'] = 'POST';
@@ -177,7 +177,6 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
     {
         $this->reset_server_vars();
         $data = $this->run_handler($component, $args);
-
         $this->set_dm2_formdata($data[$controller_key], $formdata);
 
         try
@@ -213,9 +212,8 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
         return $data;
     }
 
-    public function submit_dm2_dialog($controller_key, array $formdata, $component, array $args = array())
+    public function get_dialog_url()
     {
-        $data = $this->submit_dm2_no_relocate_form($controller_key, $formdata, $component, $args);
         $head_elements = midcom::get()->head->get_jshead_elements();
         foreach (array_reverse($head_elements) as $element)
         {

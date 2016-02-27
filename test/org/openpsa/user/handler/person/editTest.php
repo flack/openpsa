@@ -34,7 +34,8 @@ class org_openpsa_user_handler_person_editTest extends openpsa_testcase
             'lastname' => 'TEST'
         );
 
-        $url = $this->submit_dm2_dialog('controller', $formdata, 'org.openpsa.user', array('edit', self::$_user->guid));
+        $this->submit_dm2_no_relocate_form('controller', $formdata, 'org.openpsa.user', array('edit', self::$_user->guid));
+        $url = $this->get_dialog_url();
 
         $this->assertEquals('view/' . self::$_user->guid . '/', $url);
 

@@ -42,7 +42,8 @@ class org_openpsa_user_handler_person_createTest extends openpsa_testcase
             'send_welcome_mail' => '1'
         );
 
-        $url = $this->submit_dm2_dialog('controller', $formdata, 'org.openpsa.user', array('create'));
+        $this->submit_dm2_no_relocate_form('controller', $formdata, 'org.openpsa.user', array('create'));
+        $url = $this->get_dialog_url();
 
         $tokens = explode('/', trim($url, '/'));
 
