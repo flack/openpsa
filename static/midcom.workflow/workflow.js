@@ -53,6 +53,7 @@ function create_datamanager_dialog(control)
 
     var dialog = $('<div id="midcom-datamanager-dialog"></div>').insertAfter(control),
         src = $(control).attr('href') ? ' src="' + $(control).attr('href') + '"': '',
+        title = control.find('.toolbar_label').text() || '',
         iframe = $('<iframe' + src + ' name="datamanager-dialog"'
                    + ' frameborder="0"'
                    + ' marginwidth="0"'
@@ -70,6 +71,7 @@ function create_datamanager_dialog(control)
                 width: 700,
                 dialogClass: 'midcom-workflow-dialog',
                 buttons: [],
+                title: title,
                 close: function() {
                     control.removeClass('active');
                     dialog

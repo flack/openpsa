@@ -20,6 +20,8 @@ $(document).ready(function()
 
     if (dialog.length > 0)
     {
+        dialog.dialog('option', 'title', title);
+
         if ($('.datamanager2 .form_toolbar input').length > 0)
         {
             $('.datamanager2 .form_toolbar input').each(function() {
@@ -41,8 +43,6 @@ $(document).ready(function()
             $('.datamanager2 .form_toolbar').hide();
         }
 
-        $('#content').addClass('no-header');
-        dialog.dialog('option', 'title', title)
-            .dialog('option', 'buttons', buttons);
+        dialog.dialog('option', 'buttons', buttons);
     }
 });

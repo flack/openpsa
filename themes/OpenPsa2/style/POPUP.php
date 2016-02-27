@@ -18,7 +18,7 @@ $title = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_PAGETITLE);
     </head>
     <body id="org_openpsa_popup"<?php $head->print_jsonload(); ?>>
         <div id="container">
-            <div id="content">
+            <div id="content" class="no-header">
                 <(content)>
             </div>
         </div>
@@ -29,6 +29,6 @@ $title = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_PAGETITLE);
             echo "window.parent.$('#midcom_services_uimessages_wrapper').midcom_services_uimessage(" . $message . ");\n";
         }
         ?>
-          </script>
+        </script>
   </body>
 </html>
