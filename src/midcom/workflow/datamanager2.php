@@ -81,6 +81,6 @@ class datamanager2 extends dialog
             }
             $context->set_key(MIDCOM_CONTEXT_SHOWCALLBACK, array(midcom::get(), 'finish'));
         }
-        return new \midcom_response_styled($context, 'popup');
+        return new \midcom_response_styled($context, 'POPUP');
     }
 }
