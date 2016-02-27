@@ -253,12 +253,11 @@ form.datamanager2 .form fieldset.fieldset:hover
 form.datamanager2 .form fieldset.fieldset legend
 {
     font-size: 1.1em;
-    display: table-caption
 }
 
 form.datamanager2 .element
 {
-    display: table-row;
+    display: flex;
 }
 
 form.datamanager2 .form label
@@ -266,27 +265,20 @@ form.datamanager2 .form label
     vertical-align: top;
     padding-right: .5em;
     text-align: right;
+    flex-basis: 30%;
     min-width: 9em;
     font-weight: normal;
 }
 
 form.datamanager2 .form .element > .input
 {
-    width: 100%;
+    flex-grow: 1;
+    flex-basis: 70%;
 }
 
 form.datamanager2 .form fieldset th
 {
     font-weight: normal;
-}
-
-form.datamanager2 .form label,
-form.datamanager2 .form .element_checkbox label,
-form.datamanager2 .input,
-form.datamanager2 .form .element_checkbox .input
-{
-    display: table-cell;
-    padding-bottom: .75em
 }
 
 form.datamanager2 .element .field_text
@@ -343,21 +335,16 @@ form.datamanager2 div.input input.radiobutton
 }
 
 form.datamanager2 input.shorttext,
-form.datamanager2 .longtext
+form.datamanager2 .longtext,
+form.datamanager2 select
 {
     width: calc(100% - .4em);
-    max-width: 30em;
     background-color: white
 }
 
 form.datamanager2 .autocomplete-widget-creation-enabled input.shorttext
 {
-    max-width: 27.2em;
-}
-
-form.datamanager2 select
-{
-    background-color: white
+    max-width: calc(100% - 3.6em);
 }
 
 input.ajax_focused,
