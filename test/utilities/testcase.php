@@ -213,6 +213,21 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
         return $data;
     }
 
+    public function submit_dm2_dialog($controller_key, array $formdata, $component, array $args = array())
+    {
+        $data = $this->submit_dm2_no_relocate_form($controller_key, $formdata, $component, $args);
+        $head_elements = midcom::get()->head->get_jshead_elements();
+        foreach (array_reverse($head_elements) as $element)
+        {
+            if (   !empty($element['content'])
+                && preg_match('/refresh_opener\("\/.+?"\);/', $element['content']))
+            {
+                return preg_replace('/refresh_opener\("\/(.+?)"\);/', '$1', $element['content']);
+            }
+        }
+        $this->fail('No refresh URL found');
+    }
+
     public function run_relocate_handler($component, array $args = array())
     {
         $url = null;
