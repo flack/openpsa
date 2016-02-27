@@ -135,6 +135,19 @@ class midcom_services_uimessages
         return true;
     }
 
+    public function get_messages()
+    {
+        $result = array();
+        foreach ($this->_message_stack->all() as $messages)
+        {
+            foreach ($messages as $message)
+            {
+                $result[] = $message;
+            }
+        }
+        return $result;
+    }
+
     /**
      * Show the message stack via javascript calls or simple html
      *
@@ -159,12 +172,9 @@ class midcom_services_uimessages
         echo "                    .appendTo('{$this->uimessage_holder}');\n";
         echo "            }\n";
 
-        foreach ($this->_message_stack->all() as $messages)
+        foreach ($this->get_messages() as $message)
         {
-            foreach ($messages as $message)
-            {
-                echo "            jQuery('#midcom_services_uimessages_wrapper').midcom_services_uimessage(" . $message . ")\n";
-            }
+            echo "            jQuery('#midcom_services_uimessages_wrapper').midcom_services_uimessage(" . $message . ")\n";
         }
 
         echo "        })\n";
@@ -188,12 +198,9 @@ class midcom_services_uimessages
         {
             echo "<div id=\"midcom_services_uimessages_wrapper\">\n";
 
-            foreach ($this->_message_stack->all() as $messages)
+            foreach ($this->get_messages() as $message)
             {
-                foreach ($messages as $message)
-                {
-                    $this->_render_message($message);
-                }
+                $this->_render_message($message);
             }
 
             echo "</div>\n";
