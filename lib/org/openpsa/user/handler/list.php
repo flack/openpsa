@@ -64,26 +64,24 @@ implements org_openpsa_widgets_grid_provider_client
 
         org_openpsa_widgets_tree::add_head_elements();
 
-        $this->_view_toolbar->add_item
-        (
-            array
+        $workflow = new midcom\workflow\datamanager2;
+        if (midcom::get()->auth->can_user_do('midgard:create', null, 'midcom_db_person'))
+        {
+            $workflow->add_button($this->_view_toolbar, "create/", array
             (
-                MIDCOM_TOOLBAR_URL => "create/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create person'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_person-new.png',
-                MIDCOM_TOOLBAR_ENABLED => midcom::get()->auth->can_user_do('midgard:create', null, 'midcom_db_person'),
-            )
-        );
-        $this->_view_toolbar->add_item
-        (
-            array
+            ));
+        }
+
+        if (midcom::get()->auth->can_user_do('midgard:create', null, 'midcom_db_group'))
+        {
+            $workflow->add_button($this->_view_toolbar, "group/create/", array
             (
-                MIDCOM_TOOLBAR_URL => "group/create/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create group'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_people-new.png',
-                MIDCOM_TOOLBAR_ENABLED => midcom::get()->auth->can_user_do('midgard:create', null, 'midcom_db_group'),
-            )
-        );
+            ));
+        }
     }
 
     /**

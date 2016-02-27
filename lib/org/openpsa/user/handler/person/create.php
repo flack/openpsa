@@ -82,27 +82,22 @@ implements midcom_helper_datamanager2_interfaces_create
             // Get the organization
             $this->_group = new midcom_db_group($args[0]);
             $this->_group->require_do('midgard:create');
-            midcom::get()->head->set_pagetitle($this->_group->official);
-            $this->add_breadcrumb('group/' . $this->_group->guid . '/', $this->_group->get_label());
         }
+
+        midcom::get()->head->set_pagetitle($this->_l10n->get('create person'));
 
         $data['controller'] = $this->get_controller('create');
+        $workflow = new midcom\workflow\datamanager2($data['controller'], array($this, 'save_callback'));
+        return $workflow->run();
+    }
 
-        switch ($data['controller']->process_form())
+    public function save_callback(midcom_helper_datamanager2_controller $controller)
+    {
+        if ($this->_master->create_account($this->_person, $controller->formmanager))
         {
-            case 'save':
-                if ($this->_master->create_account($this->_person, $data["controller"]->formmanager))
-                {
-                    midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.user'), sprintf($this->_l10n->get('person %s created'), $this->_person->name));
-                    return new midcom_response_relocate('view/' . $this->_person->guid . '/');
-                }
-                break;
-
-            case 'cancel':
-                return new midcom_response_relocate('');
+            midcom::get()->uimessages->add($this->_l10n->get($this->_component), sprintf($this->_l10n->get('person %s created'), $this->_person->name));
         }
-
-        $this->add_breadcrumb('', $this->_l10n->get('create person'));
+        return 'view/' . $this->_person->guid . '/';
     }
 
     /**
@@ -119,14 +114,5 @@ implements midcom_helper_datamanager2_interfaces_create
         }
 
         return $this->_person;
-    }
-
-    /**
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_create($handler_id, array &$data)
-    {
-        midcom_show_style('show-person-create');
     }
 }

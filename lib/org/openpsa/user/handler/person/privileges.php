@@ -79,31 +79,10 @@ implements midcom_helper_datamanager2_interfaces_edit
     {
         $this->_person = new midcom_db_person($args[0]);
         $this->_person->require_do('midgard:privileges');
-        $this->_request_data['person'] = $this->_person;
 
-        $data['acl_dm'] = $this->get_controller('simple', $this->_person);
+        midcom::get()->head->set_pagetitle($this->_l10n->get("permissions"));
 
-        switch ($data['acl_dm']->process_form())
-        {
-            case 'save':
-                // Fall-through
-            case 'cancel':
-                return new midcom_response_relocate("view/" . $this->_person->guid . "/");
-        }
-
-        midcom::get()->head->set_pagetitle("{$this->_person->name}");
-
-        $this->add_breadcrumb("view/{$this->_person->guid}/", $this->_person->name);
-        $this->add_breadcrumb('', $this->_l10n->get('permissions'));
-    }
-
-    /**
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_privileges($handler_id, array &$data)
-    {
-        midcom_show_style('show-privileges');
+        $workflow = new midcom\workflow\datamanager2($this->get_controller('simple', $this->_person));
+        return $workflow->run();
     }
 }

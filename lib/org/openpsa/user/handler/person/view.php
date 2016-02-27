@@ -46,45 +46,37 @@ implements midcom_helper_datamanager2_interfaces_view
         if (   $this->_person->id == midcom_connection::get_user()
             || $auth->can_user_do('org.openpsa.user:manage', null, 'org_openpsa_user_interface'))
         {
-            $this->_view_toolbar->add_item
-            (
-                array
+            $workflow = new midcom\workflow\datamanager2;
+            if ($this->_person->can_do('midgard:update'))
+            {
+                $workflow->add_button($this->_view_toolbar, "edit/{$this->_person->guid}/", array
                 (
-                    MIDCOM_TOOLBAR_URL => "edit/{$this->_person->guid}/",
-                    MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get("edit"),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
-                    MIDCOM_TOOLBAR_ENABLED => $this->_person->can_do('midgard:update'),
                     MIDCOM_TOOLBAR_ACCESSKEY => 'e',
-                )
-            );
+                ));
+            }
             if ($this->_person->can_do('midgard:delete'))
             {
-                $workflow = new midcom\workflow\delete($this->_person);
-                $workflow->add_button($this->_view_toolbar, "delete/{$this->_person->guid}/");
+                $delete_workflow = new midcom\workflow\delete($this->_person);
+                $delete_workflow->add_button($this->_view_toolbar, "delete/{$this->_person->guid}/");
             }
-            if (midcom_connection::is_user($this->_person))
+            if (   midcom_connection::is_user($this->_person)
+                && $this->_person->can_do('midgard:privileges'))
             {
-                $this->_view_toolbar->add_item
+                $workflow->add_button($this->_view_toolbar, "privileges/{$this->_person->guid}/", array
                 (
-                    array
-                    (
-                        MIDCOM_TOOLBAR_URL => "privileges/{$this->_person->guid}/",
-                        MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("permissions"),
-                        MIDCOM_TOOLBAR_ICON => 'midgard.admin.asgard/permissions-16.png',
-                        MIDCOM_TOOLBAR_ENABLED => $this->_person->can_do('midgard:privileges'),
-                    )
-                );
+                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("permissions"),
+                    MIDCOM_TOOLBAR_ICON => 'midgard.admin.asgard/permissions-16.png',
+                ));
             }
-            $this->_view_toolbar->add_item
-            (
-                array
+
+            if ($this->_person->can_do('midgard:update'))
+            {
+                $workflow->add_button($this->_view_toolbar, "person/notifications/{$this->_person->guid}/", array
                 (
-                    MIDCOM_TOOLBAR_URL => "person/notifications/{$this->_person->guid}/",
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("notification settings"),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock-discussion.png',
-                    MIDCOM_TOOLBAR_ENABLED => $this->_person->can_do('midgard:update'),
-                )
-            );
+                ));
+            }
         }
         $this->bind_view_to_object($this->_person);
     }

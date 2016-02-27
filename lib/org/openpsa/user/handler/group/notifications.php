@@ -32,31 +32,9 @@ implements midcom_helper_datamanager2_interfaces_edit
         $group = new org_openpsa_contacts_group_dba($args[0]);
         $group->require_do('midgard:update');
 
-        $controller = $this->get_controller('simple', $group);
+        midcom::get()->head->set_pagetitle($this->_l10n->get("notification settings"));
 
-        switch ($controller->process_form())
-        {
-            case 'save':
-                // Fall-through
-            case 'cancel':
-                return new midcom_response_relocate("group/" . $group->guid . "/");
-        }
-
-        $data['notifications_dm'] = $controller;
-        $data['object'] = $group;
-
-        midcom::get()->head->set_pagetitle($group->get_label() . ": ". $this->_l10n->get("notification settings"));
-
-        $this->add_breadcrumb('group/' . $group->guid . '/', $group->get_label());
-        $this->add_breadcrumb("", $this->_l10n->get("notification settings"));
-    }
-
-    /**
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_notifications($handler_id, array &$data)
-    {
-        midcom_show_style('show-notifications');
+        $workflow = new midcom\workflow\datamanager2($this->get_controller('simple', $group));
+        return $workflow->run();
     }
 }

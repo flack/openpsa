@@ -45,28 +45,16 @@ implements midcom_helper_datamanager2_interfaces_edit
             midcom::get()->auth->require_user_do('org.openpsa.user:manage', null, 'org_openpsa_user_interface');
         }
 
+        midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('edit %s'), $this->_person->get_label()));
+
         $data['controller'] = $this->get_controller('simple', $this->_person);
-        switch ($data['controller']->process_form())
-        {
-            case 'save':
-                midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.user'), sprintf($this->_l10n->get('person %s saved'), $this->_person->name));
-                // Fall-through
-
-            case 'cancel':
-                return new midcom_response_relocate('view/' . $this->_person->guid . '/');
-        }
-
-        $this->add_breadcrumb('', sprintf($this->_l10n_midcom->get('edit %s'), $this->_person->get_label()));
-
-        $this->bind_view_to_object($this->_person);
+        $workflow = new midcom\workflow\datamanager2($data['controller'], array($this, 'save_callback'));
+        return $workflow->run();
     }
 
-    /**
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_edit($handler_id, array &$data)
+    public function save_callback(midcom_helper_datamanager2_controller $controller)
     {
-        midcom_show_style('show-person-edit');
+        midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.user'), sprintf($this->_l10n->get('person %s saved'), $this->_person->name));
+        return 'view/' . $this->_person->guid . '/';
     }
 }

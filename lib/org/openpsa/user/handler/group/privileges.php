@@ -32,7 +32,7 @@ implements midcom_helper_datamanager2_interfaces_edit
 
         $fields =& $schemadb['default']->fields;
 
-        $group_object = midcom::get()->auth->get_group("group:{$this->_request_data['group']->guid}");
+        $group_object = midcom::get()->auth->get_group("group:{$this->_group->guid}");
 
         // Get the calendar root event
         $root_event = org_openpsa_calendar_interface::find_root_event();
@@ -75,31 +75,10 @@ implements midcom_helper_datamanager2_interfaces_edit
         $this->_group = new midcom_db_group($args[0]);
         $this->_group->require_do('midgard:privileges');
 
-        $data['group'] = $this->_group;
+        midcom::get()->head->set_pagetitle($this->_l10n->get("permissions"));
 
-        $data['acl_dm'] = $this->get_controller('simple', $this->_group);
-
-        switch ($data['acl_dm']->process_form())
-        {
-            case 'save':
-                // Fall-through
-            case 'cancel':
-                return new midcom_response_relocate("group/" . $this->_group->guid . "/");
-        }
-
-        midcom::get()->head->set_pagetitle($this->_group->official);
-
-        $this->add_breadcrumb("group/{$this->_group->guid}/", $this->_group->name);
-        $this->add_breadcrumb("", $this->_l10n->get('permissions'));
+        $workflow = new midcom\workflow\datamanager2($this->get_controller('simple', $this->_group));
+        return $workflow->run();
     }
 
-    /**
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_privileges($handler_id, array &$data)
-    {
-        midcom_show_style('show-privileges');
-    }
 }

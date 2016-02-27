@@ -39,20 +39,16 @@ implements midcom_helper_datamanager2_interfaces_create
     public function _handler_create($handler_id, array $args, array &$data)
     {
         midcom::get()->auth->require_user_do('org.openpsa.user:manage', null, 'org_openpsa_user_interface');
+        midcom::get()->head->set_pagetitle($this->_l10n->get('create group'));
 
-        $data['controller'] = $this->get_controller('create');
-        switch ($data['controller']->process_form())
-        {
-            case 'save':
-                midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.user'), sprintf($this->_l10n->get('group %s saved'), $this->_group->name));
-                return new midcom_response_relocate('group/' . $this->_group->guid);
+        $workflow = new midcom\workflow\datamanager2($this->get_controller('create'), array($this, 'save_callback'));
+        return $workflow->run();
+    }
 
-            case 'cancel':
-                return new midcom_response_relocate('groups/');
-        }
-
-        $this->add_breadcrumb('groups/', $this->_l10n->get('groups'));
-        $this->add_breadcrumb('', $this->_l10n->get('create group'));
+    public function save_callback(midcom_helper_datamanager2_controller $controller)
+    {
+        midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.user'), sprintf($this->_l10n->get('group %s saved'), $this->_group->name));
+        return 'group/' . $this->_group->guid . '/';
     }
 
     /**
@@ -69,14 +65,5 @@ implements midcom_helper_datamanager2_interfaces_create
         }
 
         return $this->_group;
-    }
-
-    /**
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_create($handler_id, array &$data)
-    {
-        midcom_show_style('show-group-create');
     }
 }

@@ -39,31 +39,17 @@ implements midcom_helper_datamanager2_interfaces_edit
     public function _handler_edit($handler_id, array $args, array &$data)
     {
         midcom::get()->auth->require_user_do('org.openpsa.user:manage', null, 'org_openpsa_user_interface');
-
         $this->_group = new midcom_db_group($args[0]);
-        $data['controller'] = $this->get_controller('simple', $this->_group);
-        switch ($data['controller']->process_form())
-        {
-            case 'save':
-                midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.user'), sprintf($this->_l10n->get('group %s saved'), $this->_group->get_label()));
-                // Fall-through
 
-            case 'cancel':
-                return new midcom_response_relocate('group/' . $this->_group->guid . '/');
-        }
+        midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('edit %s'), $this->_group->get_label()));
 
-        $this->add_breadcrumb('groups/', $this->_l10n->get('groups'));
-        $this->add_breadcrumb('', sprintf($this->_l10n_midcom->get('edit %s'), $this->_group->get_label()));
-
-        $this->bind_view_to_object($this->_group);
+        $workflow = new midcom\workflow\datamanager2($this->get_controller('simple', $this->_group), array($this, 'save_callback'));
+        return $workflow->run();
     }
 
-    /**
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_edit($handler_id, array &$data)
+    public function save_callback(midcom_helper_datamanager2_controller $controller)
     {
-        midcom_show_style('show-group-edit');
+        midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.user'), sprintf($this->_l10n->get('group %s saved'), $this->_group->get_label()));
+        return 'group/' . $this->_group->guid . '/';
     }
 }
