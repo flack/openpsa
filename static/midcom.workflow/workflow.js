@@ -1,6 +1,6 @@
 $(document).ready(function()
 {
-    $('a[data-dialog="delete"]').on('click', function(event)
+    $('body').on('click', 'a[data-dialog="delete"]', function(event)
     {
         event.preventDefault();
         var button = $(this),
@@ -34,41 +34,43 @@ $(document).ready(function()
             .dialog(options);
     });
 
-    $('a[data-dialog="datamanager"]').on('click', function(event)
+    $('body').on('click', 'a[data-dialog="datamanager"]:not(.active)', function(event)
     {
         event.preventDefault();
-        if (!$(this).hasClass('active'))
-        {
-            if ($('.midcom-workflow-dialog').length > 0)
-            {
-                $('.midcom-workflow-dialog .ui-dialog-content').dialog('close');
-            }
-
-            var button = $(this),
-                dialog = $('<div></div>').insertAfter($(this)),
-                iframe = $('<iframe src="' + $(this).attr('href') + '"'
-                    + ' frameborder="0"'
-                    + ' marginwidth="0"'
-                    + ' marginheight="0"'
-                    + ' width="100%"'
-                    + ' height="100%"'
-                    + ' scrolling="auto" />');
-
-            button.addClass('active');
-            dialog
-                .append(iframe)
-                .dialog(
-                    {
-                        height: 550,
-                        width: 700,
-                        dialogClass: 'midcom-workflow-dialog',
-                        close: function() {
-                            button.removeClass('active');
-                            dialog
-                                .dialog('destroy')
-                                .remove();
-                        }
-                    });
-        }
+        create_datamanager_dialog($(this));
     });
 });
+
+function create_datamanager_dialog(control)
+{
+    if ($('.midcom-workflow-dialog').length > 0)
+    {
+        $('.midcom-workflow-dialog .ui-dialog-content').dialog('close');
+    }
+
+    var dialog = $('<div id="midcom-datamanager-dialog"></div>').insertAfter(control),
+        src = $(control).attr('href') ? ' src="' + $(control).attr('href') + '"': '',
+        iframe = $('<iframe' + src + ' name="datamanager-dialog"'
+                   + ' frameborder="0"'
+                   + ' marginwidth="0"'
+                   + ' marginheight="0"'
+                   + ' width="100%"'
+                   + ' height="100%"'
+                   + ' scrolling="auto" />');
+
+    control.addClass('active');
+    dialog
+        .append(iframe)
+        .dialog(
+            {
+                height: 550,
+                width: 700,
+                dialogClass: 'midcom-workflow-dialog',
+                close: function() {
+                    control.removeClass('active');
+                    dialog
+                        .dialog('destroy')
+                        .remove();
+                }
+            });
+}

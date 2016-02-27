@@ -5,7 +5,7 @@ function refresh_opener(url)
 
 function close()
 {
-    var dialog = window.parent.$('iframe[src^="' + window.location.pathname + '"]:visible').parent();
+    var dialog = window.parent.$('#midcom-datamanager-dialog');
     if (dialog.length > 0)
     {
         dialog.dialog('close');
@@ -16,7 +16,7 @@ $(document).ready(function()
 {
     var title = document.title,
         buttons = [],
-        dialog = window.parent.$('iframe[src^="' + window.location.pathname + '"]:visible').parent();
+        dialog = window.parent.$('#midcom-datamanager-dialog');
 
     if (dialog.length > 0)
     {
