@@ -59,8 +59,8 @@ $(document).ready(function()
                 .append(iframe)
                 .dialog(
                     {
-                        height: 450,
-                        width: 600,
+                        height: 550,
+                        width: 700,
                         dialogClass: 'midcom-workflow-dialog',
                         close: function() {
                             button.removeClass('active');

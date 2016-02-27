@@ -186,8 +186,8 @@ var midcom_helper_datamanager2_autocomplete =
                     .html(iframe_html)
                     .dialog(
                     {
-                        height: 450,
-                        width: 600
+                        height: 350,
+                        width: 500
                     });
             });
     },
