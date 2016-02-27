@@ -17,8 +17,6 @@ use midcom;
  */
 class datamanager2 extends dialog
 {
-    private $mode;
-
     /**
      *
      * @var midcom_helper_datamanager2_controller
@@ -29,12 +27,12 @@ class datamanager2 extends dialog
      *
      * @var callable
      */
-    public $save_callback;
+    private $save_callback;
 
-    public function __construct($mode, midcom_helper_datamanager2_controller $controller = null)
+    public function __construct(midcom_helper_datamanager2_controller $controller = null, $save_callback = null)
     {
-        $this->mode = $mode;
         $this->controller = $controller;
+        $this->save_callback = $save_callback;
     }
 
     public static function add_head_elements()
@@ -47,8 +45,8 @@ class datamanager2 extends dialog
     {
         return array
         (
-            MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_l10n('midcom')->get($this->mode),
-            MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_new.png',
+            MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_l10n('midcom')->get('edit'),
+            MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
             MIDCOM_TOOLBAR_OPTIONS => array('data-dialog' => 'datamanager')
         );
     }
