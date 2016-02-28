@@ -99,11 +99,11 @@ class org_openpsa_invoices_viewer extends midcom_baseclasses_components_request
     {
         if ($object->number > 1)
         {
-            $qb = org_openpsa_invoices_invoice_dba::new_query_builder();
-            $qb->add_constraint('number', '<', $object->number);
-            $qb->set_limit(1);
-            $qb->add_order('number', 'DESC');
-            $results = $qb->execute();
+            $mc = org_openpsa_invoices_invoice_dba::new_collector('metadata.deleted', false);
+            $mc->add_constraint('number', '<', $object->number);
+            $mc->set_limit(1);
+            $mc->add_order('number', 'DESC');
+            $results = $mc->list_keys();
 
             if (sizeof($results) == 1)
             {
@@ -111,7 +111,7 @@ class org_openpsa_invoices_viewer extends midcom_baseclasses_components_request
                 (
                     array
                     (
-                        MIDCOM_TOOLBAR_URL => $urlprefix . $results[0]->guid . '/',
+                        MIDCOM_TOOLBAR_URL => $urlprefix . key($results) . '/',
                         MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('previous'),
                         MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/back.png',
                         MIDCOM_TOOLBAR_ACCESSKEY => 'p',
@@ -122,11 +122,11 @@ class org_openpsa_invoices_viewer extends midcom_baseclasses_components_request
 
         if (($object->number + 1) < $object->generate_invoice_number())
         {
-            $qb = org_openpsa_invoices_invoice_dba::new_query_builder();
-            $qb->add_constraint('number', '>', $object->number);
-            $qb->set_limit(1);
-            $qb->add_order('number', 'ASC');
-            $results = $qb->execute();
+            $mc = org_openpsa_invoices_invoice_dba::new_collector('metadata.deleted', false);
+            $mc->add_constraint('number', '>', $object->number);
+            $mc->set_limit(1);
+            $mc->add_order('number', 'ASC');
+            $results = $mc->list_keys();
 
             if (sizeof($results) == 1)
             {
@@ -134,7 +134,7 @@ class org_openpsa_invoices_viewer extends midcom_baseclasses_components_request
                 (
                     array
                     (
-                        MIDCOM_TOOLBAR_URL => $urlprefix . $results[0]->guid . '/',
+                        MIDCOM_TOOLBAR_URL => $urlprefix . key($results) . '/',
                         MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('next'),
                         MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/next.png',
                         MIDCOM_TOOLBAR_ACCESSKEY => 'n',
