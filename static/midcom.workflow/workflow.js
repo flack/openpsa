@@ -1,6 +1,6 @@
 $(document).ready(function()
 {
-    $('body').on('click', 'a[data-dialog="delete"]', function(event)
+    $('body').on('click', '[data-dialog="delete"]', function(event)
     {
         event.preventDefault();
         var button = $(this),
@@ -10,7 +10,8 @@ $(document).ready(function()
                 modal: true,
                 buttons: {}
             },
-            label = button.text();
+            label = button.text(),
+            action = button.attr('href') || button.data('action');
 
         if (label.trim() === '')
         {
@@ -18,7 +19,7 @@ $(document).ready(function()
         }
 
         options.buttons[label] = function() {
-            $('<form action="' + button.attr('href') + '" method="post">')
+            $('<form action="' + action + '" method="post">')
                 .append($('<input type="submit" name="' + button.data('form-id') + '">'))
                 .append($('<input type="hidden" name="referrer" value=' + location.pathname + '">'))
                 .hide()
@@ -34,7 +35,7 @@ $(document).ready(function()
             .dialog(options);
     });
 
-    $('body').on('click', 'a[data-dialog="datamanager"]', function(event)
+    $('body').on('click', '[data-dialog="datamanager"]', function(event)
     {
         event.preventDefault();
         if (!$(this).hasClass('active'))

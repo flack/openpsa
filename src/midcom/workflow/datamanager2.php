@@ -8,6 +8,7 @@
 
 namespace midcom\workflow;
 
+use midcom_core_context;
 use midcom_helper_toolbar;
 use midcom_helper_datamanager2_controller;
 use midcom;
@@ -57,7 +58,7 @@ class datamanager2 extends dialog
 
     public function run()
     {
-        $context = \midcom_core_context::get();
+        $context = midcom_core_context::get();
         midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.workflow/dialog.js');
         midcom::get()->style->append_styledir(__DIR__ . '/style');
         $this->state = $this->controller->process_form();
@@ -72,12 +73,7 @@ class datamanager2 extends dialog
                 && is_callable($this->save_callback))
             {
                 $url = (string) call_user_func($this->save_callback, $this->controller);
-                if (   substr($url, 0, 1) != '/'
-                    && ! preg_match('|^https?://|', $url))
-                {
-                    $url = $context->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . $url;
-                }
-                midcom::get()->head->add_jscript('refresh_opener("' . $url . '");');
+                midcom::get()->head->add_jscript('refresh_opener("' . $this->prepare_url($url) . '");');
             }
             else
             {
@@ -86,5 +82,22 @@ class datamanager2 extends dialog
             $context->set_key(MIDCOM_CONTEXT_SHOWCALLBACK, array(midcom::get(), 'finish'));
         }
         return new \midcom_response_styled($context, 'POPUP');
+    }
+
+    public function add_dialog_button(dialog $dialog, $url)
+    {
+        $config = $dialog->get_button_config();
+        midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.workflow/dialog.js');
+        midcom::get()->head->add_jscript('add_dialog_button("' . $this->prepare_url($url) . '", "' . $config[MIDCOM_TOOLBAR_LABEL] . '", ' . json_encode($config[MIDCOM_TOOLBAR_OPTIONS]) . ');');
+    }
+
+    private function prepare_url($url)
+    {
+        if (   substr($url, 0, 1) != '/'
+            && ! preg_match('|^https?://|', $url))
+        {
+            $url = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . $url;
+        }
+        return $url;
     }
 }

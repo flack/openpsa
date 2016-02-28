@@ -23,6 +23,20 @@ function close()
     }
 }
 
+var extra_buttons = [];
+function add_dialog_button(url, label, options)
+{
+    var button = {
+        text: label,
+        'data-action': url,
+        'class': 'dialog-extra-button'
+    };
+    $.each(options, function(key, value) {
+        button[key] = value;
+    });
+    extra_buttons.push(button);
+}
+
 $(document).ready(function()
 {
     var title = document.title,
@@ -52,6 +66,10 @@ $(document).ready(function()
                 });
             });
             $('.datamanager2 .form_toolbar').hide();
+        }
+        if (extra_buttons.length > 0)
+        {
+            buttons = extra_buttons.concat(buttons);
         }
 
         dialog.dialog('option', 'buttons', buttons);

@@ -1757,3 +1757,13 @@ ul.fancytree-container span.fancytree-folder a
     background-repeat: no-repeat;
     background-position: center;
 }
+
+.midcom-workflow-dialog .ui-widget-content .ui-dialog-buttonset {
+    float: none;
+    text-align: right;
+}
+
+.midcom-workflow-dialog .ui-dialog-buttonset .dialog-extra-button {
+    float: left;
+    margin: 0.5em 0 0.5em 0.4em
+}
