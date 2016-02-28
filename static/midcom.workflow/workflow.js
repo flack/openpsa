@@ -51,20 +51,39 @@ function create_datamanager_dialog(control)
         $('.midcom-workflow-dialog .ui-dialog-content').dialog('close');
     }
 
-    var dialog = $('<div id="midcom-datamanager-dialog"></div>').insertAfter(control),
-        src = $(control).attr('href') ? ' src="' + $(control).attr('href') + '"': '',
-        title = control.find('.toolbar_label').text() || '',
-        iframe = $('<iframe' + src + ' name="datamanager-dialog"'
+    var title = control.find('.toolbar_label').text() || '',
+        dialog, iframe;
+    if ($('#midcom-datamanager-dialog').length > 0)
+    {
+        dialog = $('#midcom-datamanager-dialog');
+        iframe = dialog.find('> iframe');
+    }
+    else
+    {
+        iframe = $('<iframe name="datamanager-dialog"'
                    + ' frameborder="0"'
                    + ' marginwidth="0"'
                    + ' marginheight="0"'
                    + ' width="100%"'
                    + ' height="100%"'
-                   + ' scrolling="auto" />');
+                   + ' scrolling="auto" />')
+            .on('load', function()
+            {
+                $(this).show();
+            });
+
+        dialog = $('<div id="midcom-datamanager-dialog"></div>')
+            .append(iframe)
+            .insertAfter(control);
+    }
+
+    if ($(control).attr('href'))
+    {
+        iframe.attr('src', $(control).attr('href'));
+    }
 
     control.addClass('active');
     dialog
-        .append(iframe)
         .dialog(
             {
                 height: 550,
@@ -74,9 +93,7 @@ function create_datamanager_dialog(control)
                 title: title,
                 close: function() {
                     control.removeClass('active');
-                    dialog
-                        .dialog('destroy')
-                        .remove();
+                    iframe.hide();
                 }
             });
 }
