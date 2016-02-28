@@ -101,9 +101,9 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
      */
     private function _populate_toolbar($handler_id)
     {
+        $workflow = new midcom\workflow\datamanager2;
         if ($this->_contact->can_do('midgard:update'))
         {
-            $workflow = new midcom\workflow\datamanager2;
             $workflow->add_button($this->_view_toolbar, "person/edit/{$this->_contact->guid}/", array
             (
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
@@ -117,24 +117,13 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
         if (   $invoices_url
             && midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_invoices_invoice_dba'))
         {
-            $billing_data_url = "create/" . $this->_contact->guid . "/";
-            $qb_billing_data = org_openpsa_invoices_billing_data_dba::new_query_builder();
-            $qb_billing_data->add_constraint('linkGuid', '=', $this->_contact->guid);
-            $billing_data = $qb_billing_data->execute();
-            if (count($billing_data) > 0)
+            if ($this->_contact->can_do('midgard:update'))
             {
-                $billing_data_url = $billing_data[0]->guid . "/";
-            }
-            $this->_view_toolbar->add_item
-            (
-                array
+                $workflow->add_button($this->_view_toolbar, $invoices_url . "billingdata/" . $this->_contact->guid . '/', array
                 (
-                    MIDCOM_TOOLBAR_URL => $invoices_url . "billingdata/" . $billing_data_url,
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('edit billingdata'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
-                    MIDCOM_TOOLBAR_ENABLED => $this->_contact->can_do('midgard:update'),
-                )
-            );
+                ));
+            }
         }
 
         if (   $user_url

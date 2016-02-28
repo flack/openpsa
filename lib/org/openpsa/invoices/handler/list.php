@@ -330,25 +330,14 @@ implements org_openpsa_widgets_grid_provider_client
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/printer.png',
             ));
 
-            $billing_data_url = "create/" . $this->_customer->guid ."/";
-            $qb_billing_data = org_openpsa_invoices_billing_data_dba::new_query_builder();
-            $qb_billing_data->add_constraint('linkGuid', '=', $this->_customer->guid);
-            $billing_data = $qb_billing_data->execute();
-            if (count($billing_data) > 0)
+            if ($this->_customer->can_do('midgard:create'))
             {
-                $billing_data_url = $billing_data[0]->guid . "/";
-            }
-
-            $this->_view_toolbar->add_item
-            (
-                array
+                $workflow->add_button($this->_view_toolbar, "billingdata/" . $this->_customer->guid . "/", array
                 (
-                    MIDCOM_TOOLBAR_URL => "billingdata/" . $billing_data_url,
                     MIDCOM_TOOLBAR_LABEL => $this->_i18n->get_string('edit billingdata', 'org.openpsa.contacts'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
-                    MIDCOM_TOOLBAR_ENABLED => $this->_customer->can_do('midgard:update'),
-                )
-            );
+                    MIDCOM_TOOLBAR_OPTIONS => array('data-refresh-opener' => 'false'),
+                ));
+            }
         }
 
         if ($this->_request_data['contacts_url'])

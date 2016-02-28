@@ -124,13 +124,6 @@
     'fixed_args' => array('invoice'),
     'variable_args' => 1,
 ),
-// Match /billingdata/create/<guid>
-'billing_data_create' => array
-(
-    'handler' => array('org_openpsa_invoices_handler_billingdata', 'create'),
-    'fixed_args' => array('billingdata', 'create'),
-    'variable_args' => 1,
-),
 // Match /billingdata/delete/<guid>
 'billing_data_delete' => array
 (
@@ -138,7 +131,7 @@
     'fixed_args' => array('billingdata', 'delete'),
     'variable_args' => 1,
 ),
-// Match /billingdata/<guid>
+// Match /billingdata/<customer guid>
 'billing_data' => array
 (
     'handler' => array('org_openpsa_invoices_handler_billingdata', 'edit'),
