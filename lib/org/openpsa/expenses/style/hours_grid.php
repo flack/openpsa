@@ -16,7 +16,7 @@ if ($data['status'] === 'invoiceable')
 
 $entries = array();
 $grid_id = $data['status'] . '_hours_grid';
-
+$workflow = new midcom\workflow\datamanager2;
 foreach ($reports['reports'] as $report)
 {
     $entry = array();
@@ -32,7 +32,7 @@ foreach ($reports['reports'] as $report)
     }
 
     $entry['index_description'] = $report->description;
-    $entry['description'] = '<a href="' . $prefix . 'hours/edit/' . $report->guid . '/">' . $report->get_description() . '</a>';
+    $entry['description'] = '<a' . $workflow->render_attributes() . ' data-refresh-opener="true" href="' . $prefix . 'hours/edit/' . $report->guid . '/">' . $report->get_description() . '</a>';
 
     $entry['index_reporter'] = $reporters[$report->person]['rname'];
     $entry['reporter'] = $reporters[$report->person]['card'];

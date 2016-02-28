@@ -21,13 +21,6 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
     private $_hour_report;
 
     /**
-     * The Controller of the report used for editing
-     *
-     * @var midcom_helper_datamanager2_controller_simple
-     */
-    private $_controller;
-
-    /**
      * The schema database in use, available only while a datamanager is loaded.
      *
      * @var array
@@ -40,24 +33,6 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
      * @var string
      */
     private $_schema = 'default';
-
-    /**
-     * The defaults to use for the new report.
-     *
-     * @var array
-     */
-    private $_defaults = array();
-
-    /**
-     * Simple helper which references all important members to the request data listing
-     * for usage within the style listing.
-     */
-    private function _prepare_request_data()
-    {
-        $this->_request_data['controller'] = $this->_controller;
-        $this->_request_data['schema'] = $this->_schema;
-        $this->_request_data['schemadb'] =& $this->_schemadb;
-    }
 
     /**
      * Loads and prepares the schema database.
@@ -74,19 +49,20 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
      */
     private function _load_create_controller()
     {
-        $this->_defaults['task'] = $this->_request_data['task'];
-        $this->_defaults['person'] = midcom_connection::get_user();
-        $this->_defaults['date'] = time();
+        $defaults['task'] = $this->_request_data['task'];
+        $defaults['person'] = midcom_connection::get_user();
+        $defaults['date'] = time();
 
-        $this->_controller = midcom_helper_datamanager2_controller::create('create');
-        $this->_controller->schemadb =& $this->_schemadb;
-        $this->_controller->schemaname = $this->_schema;
-        $this->_controller->defaults = $this->_defaults;
-        $this->_controller->callback_object =& $this;
-        if (! $this->_controller->initialize())
+        $controller = midcom_helper_datamanager2_controller::create('create');
+        $controller->schemadb =& $this->_schemadb;
+        $controller->schemaname = $this->_schema;
+        $controller->defaults = $defaults;
+        $controller->callback_object =& $this;
+        if (! $controller->initialize())
         {
             throw new midcom_error("Failed to initialize a DM2 create controller.");
         }
+        return $controller;
     }
 
     /**
@@ -142,69 +118,18 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
             $data['task'] = 0;
         }
 
-        $this->_load_create_controller();
+        $data['controller'] = $this->_load_create_controller();
+        midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get($this->_schemadb[$this->_schema]->description)));
 
-        switch ($this->_controller->process_form())
-        {
-            case 'save':
-                $this->_hour_report->modify_hours_by_time_slot();
-                $task = org_openpsa_projects_task_dba::get_cached($this->_hour_report->task);
-                return new midcom_response_relocate("hours/task/" . $task->guid . "/");
-
-            case 'cancel':
-                if (count($args) > 1)
-                {
-                    return new midcom_response_relocate("hours/task/" . $task->guid . "/");
-                }
-                return new midcom_response_relocate('');
-        }
-
-        $this->_prepare_request_data();
-
-        if (!empty($task))
-        {
-            $this->_add_toolbar_items($task);
-        }
-
-        $data['view_title'] = sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get($this->_schemadb[$this->_schema]->description));
-        midcom::get()->head->set_pagetitle($data['view_title']);
-        $this->_update_breadcrumb_line($data['view_title']);
+        $workflow = new midcom\workflow\datamanager2($data['controller'], array($this, 'save_callback'));
+        return $workflow->run();
     }
 
-    /**
-     * Helper to populate the toolbar
-     *
-     * @param org_openpsa_projects_task_dba $task The parent task
-     */
-    private function _add_toolbar_items(org_openpsa_projects_task_dba $task)
+    public function save_callback(midcom_helper_datamanager2_controller $controller)
     {
-        $siteconfig = org_openpsa_core_siteconfig::get_instance();
-        $projects_url = $siteconfig->get_node_full_url('org.openpsa.projects');
-
-        if ($projects_url)
-        {
-            $this->_view_toolbar->add_item
-            (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => $projects_url . "task/{$task->guid}/",
-                    MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n->get('show task %s'), $task->title),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/jump-to.png',
-                    MIDCOM_TOOLBAR_ACCESSKEY => 'g',
-                )
-            );
-        }
-    }
-
-    /**
-     * Shows the create form.
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_create($handler_id, array &$data)
-    {
-        midcom_show_style('hours_create');
+        $this->_hour_report->modify_hours_by_time_slot();
+        $task = org_openpsa_projects_task_dba::get_cached($this->_hour_report->task);
+        return "hours/task/" . $task->guid . "/";
     }
 
     /**
@@ -217,81 +142,26 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
     public function _handler_edit($handler_id, array $args, array &$data)
     {
         $this->_hour_report = new org_openpsa_projects_hour_report_dba($args[0]);
-        $task = org_openpsa_projects_task_dba::get_cached($this->_hour_report->task);
 
         $this->_load_schemadb();
-        $this->_controller = midcom_helper_datamanager2_controller::create('simple');
-        $this->_controller->schemadb =& $this->_schemadb;
-        $this->_controller->set_storage($this->_hour_report);
-        if (! $this->_controller->initialize())
+        $data['controller'] = midcom_helper_datamanager2_controller::create('simple');
+        $data['controller']->schemadb =& $this->_schemadb;
+        $data['controller']->set_storage($this->_hour_report);
+        if (! $data['controller']->initialize())
         {
             throw new midcom_error("Failed to initialize a DM2 controller instance for hour_report {$this->_hour_report->id}.");
         }
 
-        switch ($this->_controller->process_form())
-        {
-            case 'save':
-                $this->_hour_report->modify_hours_by_time_slot();
-                // *** FALL-THROUGH ***
-            case 'cancel':
-                return new midcom_response_relocate("hours/task/" . $task->guid . "/");
-        }
-
-        $this->_prepare_request_data();
-
-        if ($this->_hour_report->can_do('midgard:delete'))
-        {
-            $workflow = new midcom\workflow\delete($this->_hour_report);
-            $workflow->set_object_title($this->_l10n->get('hour report'));
-            $workflow->add_button($this->_view_toolbar, "hours/delete/{$this->_hour_report->guid}/");
-        }
-
-        $this->_add_toolbar_items($task);
-
-        $this->_view_toolbar->bind_to($this->_hour_report);
-
-        midcom::get()->metadata->set_request_metadata($this->_hour_report->metadata->revised, $this->_hour_report->guid);
-
         midcom::get()->head->set_pagetitle($this->_l10n->get($handler_id));
 
-        $this->_update_breadcrumb_line($handler_id);
-    }
-
-    /**
-     * Helper, updates the context so that we get a complete breadcrumb line towards the current
-     * location.
-     *
-     * @param string $handler_id The handler ID
-     */
-    private function _update_breadcrumb_line($handler_id)
-    {
-        $task = false;
-
-        if (isset($this->_hour_report->task))
+        $workflow = new midcom\workflow\datamanager2($data['controller'], array($this, 'save_callback'));
+        if ($this->_hour_report->can_do('midgard:delete'))
         {
-            $task = org_openpsa_projects_task_dba::get_cached($this->_hour_report->task);
+            $delete = new midcom\workflow\delete($this->_hour_report);
+            $delete->set_object_title($this->_l10n->get('hour report'));
+            $workflow->add_dialog_button($delete, "hours/delete/{$this->_hour_report->guid}/");
         }
-        else if (!empty($this->_request_data['task']))
-        {
-            $task = org_openpsa_projects_task_dba::get_cached($this->_request_data['task']);
-        }
-
-        if ($task)
-        {
-            $this->add_breadcrumb("hours/task/" . $task->guid, $task->get_label());
-            $this->add_breadcrumb("", $this->_l10n->get($handler_id));
-        }
-    }
-
-    /**
-     * Shows the hour_report edit form.
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_edit($handler_id, array &$data)
-    {
-        midcom_show_style('hours_edit');
+        return $workflow->run();
     }
 
     /**

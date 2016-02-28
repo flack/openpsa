@@ -89,8 +89,8 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
         if (   $this->_object->reportedHours == 0
             && $this->_object->can_do('midgard:delete'))
         {
-            $workflow = new midcom\workflow\delete($this->_object);
-            $workflow->add_button($this->_view_toolbar, "task/delete/{$this->_object->guid}/");
+            $delete_workflow = new midcom\workflow\delete($this->_object);
+            $delete_workflow->add_button($this->_view_toolbar, "task/delete/{$this->_object->guid}/");
         }
 
         if ($this->_object->status == org_openpsa_projects_task_status_dba::CLOSED)
@@ -127,19 +127,12 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
             org_openpsa_widgets_grid::add_head_elements();
             if ($this->_object->status < org_openpsa_projects_task_status_dba::CLOSED)
             {
-                $this->_view_toolbar->add_item
+                $workflow->add_button($this->_view_toolbar, $expenses_url . "hours/create/hour_report/{$this->_object->guid}/", array
                 (
-                    array
-                    (
-                        MIDCOM_TOOLBAR_URL => $expenses_url . "hours/create/hour_report/{$this->_object->guid}/",
-                        MIDCOM_TOOLBAR_LABEL => sprintf
-                        (
-                            $this->_l10n_midcom->get('create %s'),
-                            $this->_l10n->get('hour report')
-                        ),
-                        MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_new-event.png',
-                    )
-                );
+                    MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('hour report')),
+                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_new-event.png',
+                    MIDCOM_TOOLBAR_OPTIONS => array('data-refresh-opener' => 'true')
+                ));
             }
             $this->_view_toolbar->add_item
             (
