@@ -213,10 +213,10 @@ var org_openpsa_layout =
         }
 
         var field = $('#org_openpsa_search_query'),
-        current_provider,
-        selector = $('<ul id="org_openpsa_search_providers"></ul>'),
-        li_class = '',
-        i;
+            current_provider,
+            selector = $('<ul id="org_openpsa_search_providers"></ul>'),
+            li_class = '',
+            i;
 
         if (    typeof current !== 'string'
              || current === '')
@@ -276,6 +276,8 @@ var org_openpsa_layout =
                     {
                         query.category_complete('destroy');
                     }
+                    field.attr('placeholder', target.data('provider').placeholder || '');
+
                     old_item.removeClass('current');
                     target.addClass('current');
 
@@ -288,10 +290,13 @@ var org_openpsa_layout =
                 })
                 .appendTo(selector);
 
-            if (   current === providers[i].identifier
-                && providers[i].autocomplete === true)
+            if (current === providers[i].identifier)
             {
-                enable_autocomplete(providers[i]);
+                field.attr('placeholder', providers[i].placeholder || '');
+                if (providers[i].autocomplete === true)
+                {
+                    enable_autocomplete(providers[i]);
+                }
             }
         }
         selector
