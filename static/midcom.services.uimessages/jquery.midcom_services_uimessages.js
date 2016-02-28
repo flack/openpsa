@@ -64,7 +64,6 @@ $.fn.midcom_services_uimessage = function(options)
     switch (options.type)
     {
         case MIDCOM_SERVICES_UIMESSAGES_TYPE_INFO:
-        case MIDCOM_SERVICES_UIMESSAGES_TYPE_OK:
             $('#' + id).data('timer', setTimeout(function()
             {
                 $('#' + id).slideUp(MIDCOM_SERVICES_UIMESSAGES_SLIDE_SPEED);
@@ -93,7 +92,7 @@ $.fn.midcom_services_uimessage = function(options)
                 }, 7000));
             }
 
-
+        case MIDCOM_SERVICES_UIMESSAGES_TYPE_OK:
         case MIDCOM_SERVICES_UIMESSAGES_TYPE_WARNING:
         default:
             // Do nothing?
