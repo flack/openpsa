@@ -69,36 +69,17 @@ class org_openpsa_documents_handler_directory_edit extends midcom_baseclasses_co
         $data['directory']->require_do('midgard:update');
 
         $this->_load_edit_controller();
+        midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('edit %s'), $this->_l10n->get('directory')));
 
-        switch ($this->_controller->process_form())
-        {
-            case 'save':
-                // TODO: Update the URL name?
-
-                // Update the Index
-                $indexer = new org_openpsa_documents_midcom_indexer($this->_topic);
-                $indexer->index($this->_controller->datamanager);
-
-                //Fall-through
-            case 'cancel':
-                $this->_view = "default";
-                return new midcom_response_relocate('');
-        }
-
-        $this->_request_data['controller'] = $this->_controller;
-
-        $this->add_breadcrumb("", sprintf($this->_l10n_midcom->get('edit %s'), $this->_l10n->get('directory')));
-
-        $this->bind_view_to_object($this->_request_data['directory'], $this->_controller->datamanager->schema->name);
+        $workflow = new midcom\workflow\datamanager2($this->_controller, array($this, 'save_callback'));
+        return $workflow->run();
     }
 
-    /**
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_edit($handler_id, array &$data)
+    public function save_callback(midcom_helper_datamanager2_controller $controller)
     {
-        midcom_show_style('show-directory-edit');
+        $indexer = new org_openpsa_documents_midcom_indexer($this->_topic);
+        $indexer->index($controller->datamanager);
+
+        return '';
     }
 }

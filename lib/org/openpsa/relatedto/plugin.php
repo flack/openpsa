@@ -374,21 +374,15 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
                     );
                     break;
                 case 'document':
-                    $toolbar->add_item
-                    (
-                        array
+                    if ($data['node'][MIDCOM_NAV_OBJECT]->can_do('midgard:create'))
+                    {
+                        $workflow = new midcom\workflow\datamanager2;
+                        $workflow->add_button($toolbar, "{$data['node'][MIDCOM_NAV_ABSOLUTEURL]}document/create/choosefolder/?" . self::relatedto2get(array($related_to)), array
                         (
-                            MIDCOM_TOOLBAR_URL => "{$data['node'][MIDCOM_NAV_ABSOLUTEURL]}document/create/choosefolder/?" . self::relatedto2get(array($related_to)),
                             MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('create document', $data['component']),
                             MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-text.png',
-                            MIDCOM_TOOLBAR_ENABLED => $data['node'][MIDCOM_NAV_OBJECT]->can_do('midgard:create'),
-                            MIDCOM_TOOLBAR_OPTIONS  => array
-                            (
-                                //PONDER: Open in new window or not ??
-                                'target' => 'newdocument',
-                            ),
-                        )
-                    );
+                        ));
+                    }
                     break;
                 default:
                     debug_add("given button '{$mode}' not recognized", MIDCOM_LOG_ERROR);

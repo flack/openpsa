@@ -41,7 +41,7 @@ class org_openpsa_documents_handler_directory_create extends midcom_baseclasses_
     {
         $topic = new org_openpsa_documents_directory();
         $topic->up = $this->_request_data['directory']->id;
-        $topic->component = 'org.openpsa.documents';
+        $topic->component = $this->_component;
 
         // Set the name by default
         $generator = midcom::get()->serviceloader->load('midcom_core_service_urlgenerator');
@@ -85,31 +85,17 @@ class org_openpsa_documents_handler_directory_create extends midcom_baseclasses_
 
         $this->_load_create_controller();
 
-        switch ($this->_controller->process_form())
-        {
-            case 'save':
-                // Index the directory
-                $indexer = new org_openpsa_documents_midcom_indexer($this->_topic);
-                $indexer->index($this->_controller->datamanager);
+        midcom::get()->head->set_pagetitle($this->_l10n->get('new directory'));
 
-                // Relocate to the new directory view
-                return new midcom_response_relocate($this->_request_data["directory"]->name. "/");
-
-            case 'cancel':
-                return new midcom_response_relocate('');
-        }
-        $this->_request_data['controller'] = $this->_controller;
-
-        $this->add_breadcrumb("", $this->_l10n->get('new directory'));
+        $workflow = new midcom\workflow\datamanager2($this->_controller, array($this, 'save_callback'));
+        return $workflow->run();
     }
 
-    /**
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_create($handler_id, array &$data)
+    public function save_callback(midcom_helper_datamanager2_controller $controller)
     {
-        midcom_show_style('show-directory-create');
+        $indexer = new org_openpsa_documents_midcom_indexer($this->_topic);
+        $indexer->index($controller->datamanager);
+
+        return $this->_request_data["directory"]->name. "/";
     }
 }

@@ -225,16 +225,11 @@ implements org_openpsa_widgets_grid_provider_client
     {
         if ($this->_document->can_do('midgard:update'))
         {
-            $this->_view_toolbar->add_item
+            $workflow = new midcom\workflow\datamanager2;
+            $workflow->add_button($this->_view_toolbar, "document/edit/{$this->_document->guid}/", array
             (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => "document/edit/{$this->_document->guid}/",
-                    MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('edit'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
-                    MIDCOM_TOOLBAR_ACCESSKEY => 'e',
-                )
-            );
+                MIDCOM_TOOLBAR_ACCESSKEY => 'e',
+            ));
         }
         if ($this->_document->can_do('midgard:delete'))
         {

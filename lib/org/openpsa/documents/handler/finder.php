@@ -60,39 +60,27 @@ class org_openpsa_documents_handler_finder extends midcom_baseclasses_components
      */
     private function _populate_toolbar()
     {
+        $workflow = new midcom\workflow\datamanager2;
         if ($this->_request_data['directory']->can_do('midgard:create'))
         {
-            $this->_view_toolbar->add_item
+            $workflow->add_button($this->_view_toolbar, "document/create/", array
             (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => 'document/create/',
-                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('new document'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-text.png',
-                )
-            );
-            $this->_view_toolbar->add_item
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('new document'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-text.png',
+            ));
+            $workflow->add_button($this->_view_toolbar, "create/", array
             (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => 'create/',
-                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('new directory'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-dir.png',
-                )
-            );
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('new directory'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-dir.png',
+            ));
         }
         if ($this->_request_data['directory']->can_do('midgard:update'))
         {
-            $this->_view_toolbar->add_item
+            $workflow->add_button($this->_view_toolbar, "edit/", array
             (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => 'edit/',
-                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('edit directory'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
-                    MIDCOM_TOOLBAR_ACCESSKEY => 'e',
-                )
-            );
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('edit directory'),
+                MIDCOM_TOOLBAR_ACCESSKEY => 'e',
+            ));
             $this->_view_toolbar->add_item
             (
                 array

@@ -92,47 +92,38 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
         {
             $this->_backup_attachment();
         }
-
-        switch ($this->_controller->process_form())
-        {
-            case 'save':
-                if (empty($this->_document->title))
-                {
-                    $attachments = org_openpsa_helpers::get_dm2_attachments($this->_document, 'document');
-                    if (!empty($attachments))
-                    {
-                        $att = current($attachments);
-                        $this->_document->title = $att->title;
-                    }
-                    $this->_document->update();
-                }
-
-                // Update the Index
-                $indexer = new org_openpsa_documents_midcom_indexer($this->_topic);
-                $indexer->index($this->_controller->datamanager);
-
-                $prefix = '';
-                if ($this->_document->topic != $this->_topic->id)
-                {
-                    $nap = new midcom_helper_nav();
-                    $node = $nap->get_node($this->_document->topic);
-                    $prefix = $node[MIDCOM_NAV_ABSOLUTEURL];
-                }
-
-                return new midcom_response_relocate($prefix  . "document/" . $this->_document->guid . "/");
-
-            case 'cancel':
-                return new midcom_response_relocate("document/" . $this->_document->guid . "/");
-        }
-
-        $this->_request_data['controller'] = $this->_controller;
-
         midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('edit %s'), $this->_document->title));
 
-        $this->bind_view_to_object($this->_document, $this->_controller->datamanager->schema->name);
+        $workflow = new midcom\workflow\datamanager2($this->_controller, array($this, 'save_callback'));
+        return $workflow->run();
+    }
 
-        $this->add_breadcrumb("document/{$this->_document->guid}/", $this->_document->title);
-        $this->add_breadcrumb("", sprintf($this->_l10n_midcom->get('edit %s'), $this->_l10n->get('document')));
+    public function save_callback(midcom_helper_datamanager2_controller $controller)
+    {
+        if (empty($this->_document->title))
+        {
+            $attachments = org_openpsa_helpers::get_dm2_attachments($this->_document, 'document');
+            if (!empty($attachments))
+            {
+                $att = current($attachments);
+                $this->_document->title = $att->title;
+            }
+            $this->_document->update();
+        }
+
+        // Update the index
+        $indexer = new org_openpsa_documents_midcom_indexer($this->_topic);
+        $indexer->index($this->_controller->datamanager);
+
+        $prefix = '';
+        if ($this->_document->topic != $this->_topic->id)
+        {
+            $nap = new midcom_helper_nav();
+            $node = $nap->get_node($this->_document->topic);
+            $prefix = $node[MIDCOM_NAV_ABSOLUTEURL];
+        }
+
+        return $prefix  . "document/" . $this->_document->guid . "/";
     }
 
     /**
@@ -168,16 +159,6 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
                 return;
             }
         }
-    }
-
-    /**
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_edit($handler_id, array &$data)
-    {
-        midcom_show_style('show-document-edit');
     }
 
     /**
