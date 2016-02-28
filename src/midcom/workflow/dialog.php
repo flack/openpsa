@@ -60,8 +60,14 @@ abstract class dialog
 
         $button_config = $this->get_button_config();
         $button_config[MIDCOM_TOOLBAR_URL] = $url;
+        //The constants are numeric, so array_merge won't work...
         foreach ($options as $key => $value)
         {
+            if (   is_array($value)
+                && !empty($button_config[$key]))
+            {
+                $value = array_merge($button_config[$key], $value);
+            }
             $button_config[$key] = $value;
         }
 

@@ -381,6 +381,7 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
                         (
                             MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('create document', $data['component']),
                             MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-text.png',
+                            MIDCOM_TOOLBAR_OPTIONS  => array('data-refresh-opener' => 'true'),
                         ));
                     }
                     break;

@@ -1,5 +1,10 @@
 function refresh_opener(url)
 {
+    var button = window.parent.$('[data-dialog="datamanager"][data-refresh-opener="true"].active');
+    if (button.length > 0)
+    {
+        url = window.parent.location.href;
+    }
     window.parent.location.href = url;
 }
 
