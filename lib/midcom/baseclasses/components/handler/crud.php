@@ -499,9 +499,9 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
 
         $this->_load_schemadb();
         $this->_load_controller();
-
         $this->_update_title($handler_id);
         $this->args = $args;
+        $data['controller'] = $this->_controller;
         $workflow = new midcom\workflow\datamanager2($this->_controller, array($this, 'save_callback'));
         return $workflow->run();
     }

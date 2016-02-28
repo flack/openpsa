@@ -82,8 +82,8 @@ class org_openpsa_projects_handler_task_crudTest extends openpsa_testcase
             )
         );
 
-        $url = $this->submit_dm2_form('controller', $formdata, 'org.openpsa.projects', array('task', 'edit', self::$_task->guid));
-
+        $this->submit_dm2_no_relocate_form('controller', $formdata, 'org.openpsa.projects', array('task', 'edit', self::$_task->guid));
+        $url = $this->get_dialog_url();
         $this->assertEquals('task/' . self::$_task->guid . '/', $url);
 
         self::$_task->refresh();

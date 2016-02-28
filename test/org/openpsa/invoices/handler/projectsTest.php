@@ -75,7 +75,7 @@ class org_openpsa_invoices_handler_projectsTest extends openpsa_testcase
         $this->register_object($invoice);
         $task->refresh();
 
-        $this->assertEquals('invoice/edit/' . $invoice->guid . '/', $url);
+        $this->assertEquals('invoice/' . $invoice->guid . '/', $url);
         $this->assertEquals(100, $invoice->sum);
         $this->assertEquals($deliverable->id, $item->deliverable);
 
