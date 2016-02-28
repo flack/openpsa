@@ -5,7 +5,7 @@ function refresh_opener(url)
     if (button.length > 0)
     {
         if (   button.data('refresh-opener') === false
-               && button.closest('.ui-tabs').length === 0)
+            && button.closest('.ui-tabs').length === 0)
         {
             close();
             return;
@@ -30,7 +30,8 @@ function add_dialog_button(url, label, options)
     var button = {
         text: label,
         'data-action': url,
-        'class': 'dialog-extra-button'
+        'class': 'dialog-extra-button',
+        click: function(){}
     };
     $.each(options, function(key, value) {
         button[key] = value;
