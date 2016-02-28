@@ -2,21 +2,21 @@
 $view = $data['view_salesproject'];
 $salesproject = $data['salesproject'];
 ?>
-<div class="salesproject">
+<div class="sidebar contacts">
+    <?php
+    if ($customer = $data['salesproject']->get_customer())
+    {
+        echo "<h2>{$customer->get_label()}</h2>\n";
+    }
+    foreach (array_keys($data['salesproject']->contacts) as $contact_id)
+    {
+        $person_card = org_openpsa_widgets_contact::get($contact_id);
+        $person_card->show();
+    } ?>
+</div>
+
+<div class="main salesproject">
 <h1>&(view['title']:h);</h1>
-    <div class="contacts">
-        <?php
-        if ($customer = $data['salesproject']->get_customer())
-        {
-            echo "<h2>{$customer->get_label()}</h2>\n";
-        }
-        foreach (array_keys($data['salesproject']->contacts) as $contact_id)
-        {
-            $person_card = org_openpsa_widgets_contact::get($contact_id);
-            $person_card->show();
-        }
-        ?>
-    </div>
     <table class="info">
     <tr>
      <th><?php echo $data['l10n']->get('code'); ?></th>

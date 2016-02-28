@@ -94,7 +94,7 @@ div.salesproject div.deliverables ol.deliverable_list li.deliverable h3
 div.salesproject div.deliverables ol.deliverable_list li.deliverable div.information,
 div.salesproject div.deliverables ol.deliverable_list li.deliverable div.toolbar
 {
-    margin-left: 24px;
+    margin: 0 24px;
 }
 
 div.salesproject div.deliverables ol.deliverable_list li.deliverable div.tasks
@@ -115,12 +115,12 @@ div.salesproject div.deliverables ol.deliverable_list li.deliverable div.informa
 }
 div.salesproject div.deliverables ol.deliverable_list li.deliverable div.description
 {
-    width: 65%;
+    width: 60%;
 }
 div.salesproject div.deliverables ol.deliverable_list li.deliverable table.details
 {
     float: right;
-    width: 30%;
+    width: 35%;
     font-size: smaller;
 }
 div.salesproject div.deliverables ol.deliverable_list li.deliverable table.details th
