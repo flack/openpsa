@@ -7,7 +7,11 @@ function parse_input(string)
 
 function format_number(input)
 {
-    return $.fn.fmatter.number(input, $.jgrid.locales[$.jgrid.defaults.locale].formatter);
+    if ($.fn.fmatter)
+    {
+        return $.fn.fmatter.number(input, $.jgrid.locales[$.jgrid.defaults.locale].formatter);
+    }
+    return input.toFixed(2);
 }
 
 function calculate_row(id)
