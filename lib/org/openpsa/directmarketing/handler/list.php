@@ -69,23 +69,16 @@ implements org_openpsa_widgets_grid_provider_client
 
         if (midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_directmarketing_campaign_dba'))
         {
+            $workflow = new midcom\workflow\datamanager2;
+
             $schemadb_campaign = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_campaign'));
             foreach (array_keys($schemadb_campaign) as $name)
             {
-                $this->_view_toolbar->add_item
+                $workflow->add_button($this->_view_toolbar, "campaign/create/{$name}/", array
                 (
-                    array
-                    (
-                        MIDCOM_TOOLBAR_URL => "campaign/create/{$name}/",
-                        MIDCOM_TOOLBAR_LABEL => sprintf
-                        (
-                            $this->_l10n_midcom->get('create %s'),
-                            $this->_l10n->get($schemadb_campaign[$name]->description)
-                        ),
-                        MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_people.png',
-                        MIDCOM_TOOLBAR_ACCESSKEY => 'n',
-                    )
-                );
+                    MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get($schemadb_campaign[$name]->description)),
+                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_people.png',
+                ));
             }
         }
 

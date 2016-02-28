@@ -35,16 +35,6 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
     private $_schemadb = null;
 
     /**
-     * Simple helper which references all important members to the request data listing
-     * for usage within the style listing.
-     */
-    private function _prepare_request_data()
-    {
-        $this->_request_data['campaign'] = $this->_campaign;
-        $this->_request_data['controller'] = $this->_controller;
-    }
-
-    /**
      * Loads and prepares the schema database.
      *
      * The operations are done on all available schemas within the DB.
@@ -70,17 +60,6 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
     }
 
     /**
-     * Helper, updates the context so that we get a complete breadcrumb line towards the current
-     * location.
-     *
-     * @param string $handler_id
-     */
-    private function _update_breadcrumb_line($handler_id)
-    {
-        $this->add_breadcrumb("campaign/edit/{$this->_campaign->guid}/", $this->_l10n->get('edit campaign'));
-    }
-
-    /**
      * Displays an campaign edit view.
      *
      * @param mixed $handler_id The ID of the handler.
@@ -94,31 +73,15 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
 
         $this->_load_controller();
 
-        switch ($this->_controller->process_form())
-        {
-            case 'save':
-                // Reindex the campaign
-                //$indexer = midcom::get()->indexer;
-                //org_openpsa_directmarketing_viewer::index($this->_controller->datamanager, $indexer, $this->_content_topic);
+        midcom::get()->head->set_pagetitle($this->_l10n->get('edit campaign'));
 
-                // *** FALL-THROUGH ***
-
-            case 'cancel':
-                return new midcom_response_relocate("campaign/{$this->_campaign->guid}/");
-        }
-
-        $this->_prepare_request_data();
-        midcom::get()->head->set_pagetitle($this->_campaign->title);
-        $this->bind_view_to_object($this->_campaign, $this->_controller->datamanager->schema->name);
-        $this->_update_breadcrumb_line($handler_id);
+        $workflow = new midcom\workflow\datamanager2($this->_controller, array($this, 'save_callback'));
+        return $workflow->run();
     }
 
-    /**
-     * Shows the loaded campaign.
-     */
-    public function _show_edit ($handler_id, array &$data)
+    public function save_callback(midcom_helper_datamanager2_controller $controller)
     {
-        midcom_show_style('show-campaign-edit');
+        return "campaign/{$this->_campaign->guid}/";
     }
 
     /**

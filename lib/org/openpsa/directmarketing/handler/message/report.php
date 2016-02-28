@@ -336,15 +336,7 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
 
     private function _create_campaign_from_link($identifier)
     {
-        try
-        {
-            $rules = org_openpsa_directmarketing_campaign_ruleresolver::parse($_POST['oo_dirmar_rule_' . $identifier]);
-        }
-        catch (midcom_error $e)
-        {
-            $e->log();
-            return;
-        }
+        $rules = org_openpsa_directmarketing_campaign_ruleresolver::parse($_POST['oo_dirmar_rule_' . $identifier]);
         $campaign = new org_openpsa_directmarketing_campaign_dba();
         $campaign->orgOpenpsaObtype = org_openpsa_directmarketing_campaign_dba::TYPE_SMART;
         $campaign->rules = $rules;
@@ -354,11 +346,10 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
         $campaign->node = $this->_topic->id;
         if (!$campaign->create())
         {
-            return false;
+            throw new midcom_error('Could not create campaign: ' . midcom_connection::get_error_string());
         }
         $campaign->schedule_update_smart_campaign_members();
-        midcom::get()->relocate("campaign/edit/{$campaign->guid}/");
-        // This will exit()
+        return new midcom_response_relocate("campaign/{$campaign->guid}/");
     }
 
     /**
@@ -383,7 +374,7 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
         if (   isset($_POST['oo_dirmar_userule'])
             && !empty($_POST['oo_dirmar_rule_' . $_POST['oo_dirmar_userule']]))
         {
-            $this->_create_campaign_from_link($_POST['oo_dirmar_userule']);
+            return $this->_create_campaign_from_link($_POST['oo_dirmar_userule']);
         }
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/list.css");

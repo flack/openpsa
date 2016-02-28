@@ -82,29 +82,14 @@ implements midcom_helper_datamanager2_interfaces_create
 
         $data['controller'] = $this->get_controller('create');
 
-        switch ($data['controller']->process_form())
-        {
-            case 'save':
-                // Index the campaign
-                //$indexer = midcom::get()->indexer;
-                //org_openpsa_directmarketing_viewer::index($data['controller']->datamanager, $indexer, $this->_topic);
+        midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get($this->_schemadb[$this->_schema]->description)));
 
-                return new midcom_response_relocate("campaign/{$this->_campaign->guid}/");
-
-            case 'cancel':
-                return new midcom_response_relocate('');
-        }
-
-        $data['view_title'] = sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get($this->_schemadb[$this->_schema]->description));
-        midcom::get()->head->set_pagetitle($data['view_title']);
-        $this->add_breadcrumb("create/{$this->_schema}/", sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get($this->_schemadb[$this->_schema]->description)));
+        $workflow = new midcom\workflow\datamanager2($this->get_controller('create'), array($this, 'save_callback'));
+        return $workflow->run();
     }
 
-    /**
-     * Shows the loaded campaign.
-     */
-    public function _show_create ($handler_id, array &$data)
+    public function save_callback(midcom_helper_datamanager2_controller $controller)
     {
-        midcom_show_style('show-campaign-new');
+        return "campaign/{$this->_campaign->guid}/";
     }
 }

@@ -67,33 +67,27 @@ class org_openpsa_directmarketing_handler_message_message extends midcom_basecla
 
     private function _populate_toolbar()
     {
-        $this->_view_toolbar->add_item
-        (
-            array
+        $workflow = new midcom\workflow\datamanager2;
+        if ($this->_message->can_do('midgard:update'))
+        {
+            $workflow->add_button($this->_view_toolbar, "message/edit/{$this->_message->guid}/", array
             (
-                MIDCOM_TOOLBAR_URL => "message/edit/{$this->_message->guid}/",
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('edit message'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
-                MIDCOM_TOOLBAR_ENABLED => $this->_message->can_do('midgard:update')
-            )
-        );
+            ));
+        }
         if ($this->_message->can_do('midgard:delete'))
         {
-            $workflow = new midcom\workflow\delete($this->_message);
-            $workflow->add_button($this->_view_toolbar, "message/delete/{$this->_message->guid}/");
+            $delete_workflow = new midcom\workflow\delete($this->_message);
+            $delete_workflow->add_button($this->_view_toolbar, "message/delete/{$this->_message->guid}/");
         }
-        $this->_view_toolbar->add_item
-        (
-            array
+        if ($this->_message->can_do('midgard:update'))
+        {
+            $workflow->add_button($this->_view_toolbar, "message/copy/{$this->_message->guid}/", array
             (
-                MIDCOM_TOOLBAR_URL => "message/copy/{$this->_message->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('copy message'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/editcopy.png',
-                MIDCOM_TOOLBAR_ACCESSKEY => 'e',
-                MIDCOM_TOOLBAR_ENABLED => $this->_message->can_do('midgard:update')
-            )
-        );
+            ));
+        }
 
         $preview_url = "message/compose/{$this->_message->guid}/";
         if (!empty(midcom::get()->auth->user->guid))

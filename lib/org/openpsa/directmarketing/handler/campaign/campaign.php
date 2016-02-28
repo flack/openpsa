@@ -108,20 +108,6 @@ implements org_openpsa_widgets_grid_provider_client
         org_openpsa_widgets_contact::add_head_elements();
         $this->_populate_toolbar();
 
-        $schemadb_message = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_message'));
-        foreach ($schemadb_message as $name => $schema)
-        {
-            $this->_view_toolbar->add_item
-            (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => "message/create/{$this->_campaign->guid}/{$name}/",
-                    MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n->get('new %s'), $this->_l10n->get($schema->description)),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/' . org_openpsa_directmarketing_viewer::get_messagetype_icon($schema->customdata['org_openpsa_directmarketing_messagetype']),
-                    MIDCOM_TOOLBAR_ENABLED => $this->_campaign->can_do('midgard:create'),
-                )
-            );
-        }
         $provider = new org_openpsa_widgets_grid_provider($this);
         $data['grid'] = $provider->get_grid('list_members_' . $this->_campaign->guid);
 
@@ -133,22 +119,19 @@ implements org_openpsa_widgets_grid_provider_client
 
     private function _populate_toolbar()
     {
-        $this->_view_toolbar->add_item
-        (
-            array
+        $workflow = new midcom\workflow\datamanager2;
+        if ($this->_campaign->can_do('midgard:update'))
+        {
+            $workflow->add_button($this->_view_toolbar, "campaign/edit/{$this->_campaign->guid}/", array
             (
-                MIDCOM_TOOLBAR_URL => "campaign/edit/{$this->_campaign->guid}/",
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('edit campaign'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
-                MIDCOM_TOOLBAR_ENABLED => $this->_campaign->can_do('midgard:update')
-            )
-        );
+            ));
+        }
 
         if ($this->_campaign->can_do('midgard:delete'))
         {
-            $workflow = new midcom\workflow\delete($this->_campaign);
-            $workflow->add_button($this->_view_toolbar, "campaign/delete/{$this->_campaign->guid}/");
+            $delete_workflow = new midcom\workflow\delete($this->_campaign);
+            $delete_workflow->add_button($this->_view_toolbar, "campaign/delete/{$this->_campaign->guid}/");
         }
 
         if ($this->_campaign->orgOpenpsaObtype == org_openpsa_directmarketing_campaign_dba::TYPE_SMART)
@@ -188,6 +171,19 @@ implements org_openpsa_widgets_grid_provider_client
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_data-edit-table.png',
             )
         );
+
+        if ($this->_campaign->can_do('midgard:create'))
+        {
+            $schemadb_message = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_message'));
+            foreach ($schemadb_message as $name => $schema)
+            {
+                $workflow->add_button($this->_view_toolbar, "message/create/{$this->_campaign->guid}/{$name}/", array
+                (
+                    MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n->get('new %s'), $this->_l10n->get($schema->description)),
+                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/' . org_openpsa_directmarketing_viewer::get_messagetype_icon($schema->customdata['org_openpsa_directmarketing_messagetype']),
+                ));
+            }
+        }
     }
 
     /**

@@ -10,7 +10,7 @@
     (
         'campaign' => array
         (
-            'title' => 'campaign',
+            'title' => 'choose the target campaign',
             'storage' => null,
             'type' => 'select',
             'type_config' => array

@@ -35,22 +35,6 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
     private $_schemadb;
 
     /**
-     * Simple helper which references all important members to the request data listing
-     * for usage within the style listing.
-     */
-    private function _prepare_request_data()
-    {
-        $this->_request_data['message'] = $this->_message;
-        $this->_request_data['controller'] = $this->_controller;
-
-        if ($this->_message->can_do('midgard:delete'))
-        {
-            $workflow = new midcom\workflow\delete($this->_message);
-            $workflow->add_button($this->_view_toolbar, "message/delete/{$this->_message->guid}/");
-        }
-    }
-
-    /**
      * Loads and prepares the schema database.
      *
      * The operations are done on all available schemas within the DB.
@@ -76,26 +60,6 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
     }
 
     /**
-     * Helper, updates the context so that we get a complete breadcrum line towards the current
-     * location.
-     *
-     * @param string $handler_id
-     */
-    private function _update_breadcrumb_line($handler_id)
-    {
-        $this->add_breadcrumb("message/{$this->_message->guid}/", $this->_message->title);
-
-        if ($handler_id == 'message_edit')
-        {
-            $this->add_breadcrumb("message/edit/{$this->_message->guid}/", $this->_l10n->get('edit message'));
-        }
-        else if ($handler_id == 'message_copy')
-        {
-            $this->add_breadcrumb("message/copy/{$this->_message->guid}/", $this->_l10n->get('copy message'));
-        }
-    }
-
-    /**
      * Displays an message edit view.
      *
      * @param mixed $handler_id The ID of the handler.
@@ -110,33 +74,16 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
         $data['campaign'] = $this->_master->load_campaign($this->_message->campaign);
 
         $this->_load_controller();
-        $data['message_dm'] = $this->_controller;
 
-        switch ($this->_controller->process_form())
-        {
-            case 'save':
-                // Reindex the message
-                //$indexer = midcom::get()->indexer;
-                //org_openpsa_directmarketing_viewer::index($this->_controller->datamanager, $indexer, $this->_content_topic);
+        midcom::get()->head->set_pagetitle($this->_l10n->get('edit message'));
 
-                // *** FALL-THROUGH ***
-
-            case 'cancel':
-                return new midcom_response_relocate("message/{$this->_message->guid}/");
-        }
-
-        $this->_prepare_request_data();
-        midcom::get()->head->set_pagetitle($this->_message->title);
-        $this->bind_view_to_object($this->_message, $this->_controller->datamanager->schema->name);
-        $this->_update_breadcrumb_line($handler_id);
+        $workflow = new midcom\workflow\datamanager2($this->_controller, array($this, 'save_callback'));
+        return $workflow->run();
     }
 
-    /**
-     * Shows the loaded message.
-     */
-    public function _show_edit ($handler_id, array &$data)
+    public function save_callback(midcom_helper_datamanager2_controller $controller)
     {
-        midcom_show_style('show-message-edit');
+        return "message/{$this->_message->guid}/";
     }
 
     /**
@@ -172,57 +119,47 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
         $this->_controller->schemadb =& $this->_schemadb;
         $this->_controller->initialize();
 
-        $data['targets'] = array();
+        midcom::get()->head->set_pagetitle($this->_l10n->get('copy message'));
 
-        switch ($this->_controller->process_form())
-        {
-            case 'save':
-                $copy = new midcom_helper_reflector_copy();
-                $campaigns = $this->_controller->datamanager->types['campaign']->convert_to_storage();
-                $qb = org_openpsa_directmarketing_campaign_dba::new_query_builder();
-                $qb->add_constraint('guid', 'IN', $campaigns);
-                $campaigns = $qb->execute();
-                $original = $this->_message;
-                $copy_objects = array();
-
-                foreach ($campaigns as $campaign)
-                {
-                    $new_object = $copy->copy_object($original, $campaign, array('sendStarted' => 0, 'sendCompleted' => 0));
-                    $guid = $new_object->guid;
-
-                    // Store for later use
-                    $copy_objects[] = $new_object;
-                }
-
-                if (count($copy_objects) > 1)
-                {
-                    $data['targets'] = $copy_objects;
-                    break;
-                }
-                // Fall through
-
-            case 'cancel':
-                return new midcom_response_relocate("message/{$guid}/");
-        }
-
-        midcom::get()->head->set_pagetitle($this->_message->title);
-        $this->bind_view_to_object($this->_message);
-        $this->_update_breadcrumb_line($handler_id);
+        $workflow = new midcom\workflow\datamanager2($this->_controller, array($this, 'copy_callback'));
+        return $workflow->run();
     }
 
-    /**
-     * Show the copy interface
-     */
-    public function _show_copy($handler_id, array &$data)
+    public function copy_callback(midcom_helper_datamanager2_controller $controller)
     {
-        $data['controller'] = $this->_controller;
+        $copy = new midcom_helper_reflector_copy();
+        $campaigns = $this->_controller->datamanager->types['campaign']->convert_to_storage();
+        $qb = org_openpsa_directmarketing_campaign_dba::new_query_builder();
+        $qb->add_constraint('guid', 'IN', $campaigns);
+        $campaigns = $qb->execute();
+        $original = $this->_message;
+        $copy_data = array();
 
-        if (count($data['targets']) > 0)
+        foreach ($campaigns as $campaign)
         {
-            midcom_show_style('show-message-copy-ok');
-            return;
+            $new_object = $copy->copy_object($original, $campaign, array('sendStarted' => 0, 'sendCompleted' => 0));
+            $guid = $new_object->guid;
+
+            // Store for later use
+            $copy_data[] = array
+            (
+                'message' => $new_object,
+                'campaign' => $campaign
+            );
         }
 
-        midcom_show_style('show-message-copy');
+        $message = $this->_l10n->get('message was copied to the following campaigns') . '<br><dl>';
+        $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
+
+        foreach ($copy_data as $cdata)
+        {
+            $message .= "<dt><a href=\"{$prefix}campaign/{$cdata['campaign']->guid}/\">{$cdata['campaign']->title}</a></dt>\n";
+            $message .= "    <dd><a href=\"{$prefix}message/{$cdata['message']->guid}/\">{$cdata['message']->title}</a></dd>\n";
+        }
+        $message .= '</dl>';
+
+        midcom::get()->uimessages->add($this->_l10n->get('copy message'), $message, 'ok');
+
+        return "message/{$this->_message->guid}/";
     }
 }
