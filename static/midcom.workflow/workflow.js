@@ -86,8 +86,8 @@ function create_datamanager_dialog(control)
     dialog
         .dialog(
             {
-                height: 550,
-                width: 700,
+                height: Math.min(550, $(window).height()),
+                width: Math.min(700, $(window).width()),
                 dialogClass: 'midcom-workflow-dialog',
                 buttons: [],
                 title: title,
