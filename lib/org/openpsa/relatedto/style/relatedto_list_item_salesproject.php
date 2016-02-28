@@ -3,7 +3,6 @@ $link = $data['link'];
 $salesproject = $data['other_obj'];
 
 $owner_card = org_openpsa_widgets_contact::get($salesproject->owner);
-$customer = midcom_db_group::get_cached($salesproject->customer);
 ?>
 
 <li class="salesproject" id="org_openpsa_relatedto_line_&(link['guid']);">
@@ -15,8 +14,9 @@ $customer = midcom_db_group::get_cached($salesproject->customer);
     echo "<li>" . midcom::get()->i18n->get_string('owner', 'midcom') . ": ";
     echo $owner_card->show_inline() . "</li>";
     // Customer
-    if ($customer)
+    if ($salesproject->customer)
     {
+        $customer = midcom_db_group::get_cached($salesproject->customer);
         echo "<li>" . midcom::get()->i18n->get_string('customer', 'org.openpsa.sales') . ": ";
         echo $customer->official;
         echo "</li>";
