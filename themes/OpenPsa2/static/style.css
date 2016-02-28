@@ -435,6 +435,7 @@ ul#org_openpsa_search_providers li.current
 
 input#org_openpsa_search_query
 {
+    background-image: none;
     position: relative;
     right: .5em;
     display: none;
