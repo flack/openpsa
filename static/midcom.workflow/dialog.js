@@ -4,7 +4,8 @@ function refresh_opener(url)
 
     if (button.length > 0)
     {
-        if (button.data('refresh-opener') === false)
+        if (   button.data('refresh-opener') === false
+               && button.closest('.ui-tabs').length === 0)
         {
             close();
             return;
