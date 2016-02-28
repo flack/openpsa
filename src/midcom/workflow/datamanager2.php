@@ -47,7 +47,11 @@ class datamanager2 extends dialog
         (
             MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_l10n('midcom')->get('edit'),
             MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
-            MIDCOM_TOOLBAR_OPTIONS => array('data-dialog' => 'datamanager')
+            MIDCOM_TOOLBAR_OPTIONS => array
+            (
+                'data-dialog' => 'datamanager',
+                'data-dialog-cancel-label' => midcom::get()->i18n->get_l10n('midcom')->get('cancel')
+            )
         );
     }
 

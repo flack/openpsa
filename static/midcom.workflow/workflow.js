@@ -65,6 +65,17 @@ function create_datamanager_dialog(control)
                     iframe[0].contentWindow.stop();
                 }
             }};
+
+    if (control.data('dialog-cancel-label'))
+    {
+        config.buttons.push({
+            text: control.data('dialog-cancel-label'),
+            click: function() {
+                $(this).dialog( "close" );
+            }
+        });
+    }
+
     if ($('#midcom-datamanager-dialog').length > 0)
     {
         dialog = $('#midcom-datamanager-dialog');
