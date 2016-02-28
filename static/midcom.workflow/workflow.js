@@ -52,7 +52,19 @@ function create_datamanager_dialog(control)
     }
 
     var title = control.find('.toolbar_label').text() || '',
-        dialog, iframe;
+        dialog, iframe,
+        config = {
+            dialogClass: 'midcom-workflow-dialog',
+            buttons: [],
+            title: title,
+            close: function() {
+                control.removeClass('active');
+                iframe.css('visibility', 'hidden');
+                if (iframe[0].contentWindow)
+                {
+                    iframe[0].contentWindow.stop();
+                }
+            }};
     if ($('#midcom-datamanager-dialog').length > 0)
     {
         dialog = $('#midcom-datamanager-dialog');
@@ -69,12 +81,15 @@ function create_datamanager_dialog(control)
                    + ' scrolling="auto" />')
             .on('load', function()
             {
-                $(this).show();
+                $(this).css('visibility', 'visible');
             });
 
         dialog = $('<div id="midcom-datamanager-dialog"></div>')
             .append(iframe)
             .insertAfter(control);
+
+        config.height = Math.min(550, $(window).height());
+        config.width = Math.min(700, $(window).width());
     }
 
     if ($(control).attr('href'))
@@ -83,21 +98,5 @@ function create_datamanager_dialog(control)
     }
 
     control.addClass('active');
-    dialog
-        .dialog(
-            {
-                height: Math.min(550, $(window).height()),
-                width: Math.min(700, $(window).width()),
-                dialogClass: 'midcom-workflow-dialog',
-                buttons: [],
-                title: title,
-                close: function() {
-                    control.removeClass('active');
-                    iframe.hide();
-                    if (iframe[0].contentWindow)
-                    {
-                        iframe[0].contentWindow.stop();
-                    }
-                }
-            });
+    dialog.dialog(config);
 }
