@@ -1,8 +1,14 @@
 function refresh_opener(url)
 {
-    var button = window.parent.$('[data-dialog="datamanager"][data-refresh-opener="true"].active');
+    var button = window.parent.$('[data-dialog="datamanager"][data-refresh-opener].active');
+
     if (button.length > 0)
     {
+        if (button.data('refresh-opener') === false)
+        {
+            close();
+            return;
+        }
         url = window.parent.location.href;
     }
     window.parent.location.href = url;
