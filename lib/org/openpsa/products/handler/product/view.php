@@ -28,17 +28,15 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
     {
         $this->_request_data['product'] = $this->_product;
 
-        $this->_view_toolbar->add_item
-        (
-            array
+        if ($this->_product->can_do('midgard:update'))
+        {
+            $workflow = new midcom\workflow\datamanager2;
+            $workflow->add_button($this->_view_toolbar, "product/edit/{$this->_product->guid}/", array
             (
-                MIDCOM_TOOLBAR_URL => "product/edit/{$this->_product->guid}/",
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('edit'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
-                MIDCOM_TOOLBAR_ENABLED => $this->_product->can_do('midgard:update'),
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
-            )
-        );
+            ));
+        }
+
         if ($this->_product->can_do('midgard:delete'))
         {
             $workflow = new midcom\workflow\delete($this->_product);

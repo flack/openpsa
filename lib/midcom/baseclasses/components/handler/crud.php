@@ -87,6 +87,12 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
     protected $_defaults = array();
 
     /**
+     *
+     * @var array
+     */
+    private $args = array();
+
+    /**
      * Method for loading an object, must be implemented in the component handler.
      *
      * The method will generate an error if the object could not be found.
@@ -197,7 +203,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
     public function _update_title($handler_id)
     {
         $ref = midcom_helper_reflector::get($this->_dba_class);
-        $view_title = $this->_topic->extra . ': ';
+        $view_title = '';
         switch ($this->_mode)
         {
             case 'create':
@@ -205,11 +211,11 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
                 break;
             case 'read':
                 $object_title = $ref->get_object_label($this->_object);
-                $view_title .= $object_title;
+                $view_title = $object_title;
                 break;
             case 'update':
                 $object_title = $ref->get_object_label($this->_object);
-                $view_title .= sprintf($this->_l10n_midcom->get('edit %s'), $object_title);
+                $view_title = sprintf($this->_l10n_midcom->get('edit %s'), $object_title);
                 break;
         }
 
@@ -225,25 +231,14 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
     {
         $prefix = $this->_get_url_prefix();
 
-        if (   !$this->_object
-            || !$this->_object->guid)
-        {
-            return;
-        }
-
         if (   $this->_mode !== 'update'
             && $this->_object->can_do('midgard:update'))
         {
-            $this->_view_toolbar->add_item
+            $workflow = new midcom\workflow\datamanager2;
+            $workflow->add_button($this->_view_toolbar, "edit/{$this->_object->guid}/", array
             (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => $prefix . "edit/{$this->_object->guid}/",
-                    MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('edit'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
-                    MIDCOM_TOOLBAR_ACCESSKEY => 'e',
-                )
-            );
+                MIDCOM_TOOLBAR_ACCESSKEY => 'e',
+            ));
         }
 
         if (   $this->_mode !== 'delete'
@@ -414,49 +409,17 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
         // Prepare the creation controller
         $this->_load_controller('create');
 
-        switch ($this->_controller->process_form())
-        {
-            case 'save':
-                $this->_index_object($this->_controller->datamanager);
-                return new midcom_response_relocate($this->_get_object_url($this->_object));
-
-            case 'cancel':
-                // Redirect to parent page, if any.
-                if ($this->_parent)
-                {
-                    return new midcom_response_relocate(midcom::get()->permalinks->resolve_permalink($this->_parent->guid));
-                }
-                // If nothing helps, try the topic's front page
-                return new midcom_response_relocate('');
-        }
-
-        $this->_prepare_request_data();
-
-        // Call the per-component metadata methods
-        $this->_populate_toolbar($handler_id);
         $this->_update_title($handler_id);
-        $this->_update_breadcrumb($handler_id);
-
-        if ($this->_object)
-        {
-            // Let MidCOM know about the object
-            midcom::get()->metadata->set_request_metadata($this->_object->metadata->revised, $this->_object->guid);
-            $this->_view_toolbar->bind_to($this->_object);
-        }
-
-        $this->_handler_callback($handler_id, $args, $data);
+        $this->args = $args;
+        $workflow = new midcom\workflow\datamanager2($this->_controller, array($this, 'save_callback'));
+        return $workflow->run();
     }
 
-    /**
-     * Shows the object creation form.
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_create($handler_id, array &$data)
+    public function save_callback(midcom_helper_datamanager2_controller $controller)
     {
-        $prefix = $this->_get_style_prefix();
-        midcom_show_style($prefix . 'admin-create');
+        $this->_index_object($controller->datamanager);
+        $this->_handler_callback($this->_request_data['handler_id'], $this->args, $this->_request_data);
+        return $this->_get_object_url($this->_object);
     }
 
     /**
@@ -537,41 +500,10 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
         $this->_load_schemadb();
         $this->_load_controller();
 
-        switch ($this->_controller->process_form())
-        {
-            case 'save':
-                $this->_index_object($this->_controller->datamanager);
-                // *** FALL-THROUGH ***
-
-            case 'cancel':
-                // Redirect to view page.
-                return new midcom_response_relocate($this->_get_object_url($this->_object));
-        }
-
-        $this->_prepare_request_data();
-
-        // Call the per-component metadata methods
-        $this->_populate_toolbar($handler_id);
         $this->_update_title($handler_id);
-        $this->_update_breadcrumb($handler_id);
-
-        // Let MidCOM know about the object
-        midcom::get()->metadata->set_request_metadata($this->_object->metadata->revised, $this->_object->guid);
-        $this->bind_view_to_object($this->_object, $this->_controller->datamanager->schema->name);
-
-        $this->_handler_callback($handler_id, $args, $data);
-    }
-
-    /**
-     * Shows the loaded object in editor.
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_update($handler_id, array &$data)
-    {
-        $prefix = $this->_get_style_prefix();
-        midcom_show_style($prefix . 'admin-update');
+        $this->args = $args;
+        $workflow = new midcom\workflow\datamanager2($this->_controller, array($this, 'save_callback'));
+        return $workflow->run();
     }
 
     /**

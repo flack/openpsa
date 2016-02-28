@@ -80,16 +80,12 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
         {
              return;
         }
-        $this->_view_toolbar->add_item
+        $workflow = new midcom\workflow\datamanager2;
+        $workflow->add_button($this->_view_toolbar, "task/edit/{$this->_object->guid}/", array
         (
-            array
-            (
-                MIDCOM_TOOLBAR_URL => "task/edit/{$this->_object->guid}/",
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('edit'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
-                MIDCOM_TOOLBAR_ACCESSKEY => 'e',
-            )
-        );
+            MIDCOM_TOOLBAR_ACCESSKEY => 'e',
+        ));
+
         if (   $this->_object->reportedHours == 0
             && $this->_object->can_do('midgard:delete'))
         {
@@ -219,24 +215,7 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
      */
     public function _update_breadcrumb($handler_id)
     {
-        if ($this->_object)
-        {
-            org_openpsa_projects_viewer::add_breadcrumb_path($this->_object, $this);
-        }
-        else if ($this->_parent)
-        {
-            org_openpsa_projects_viewer::add_breadcrumb_path($this->_parent, $this);
-        }
-
-        switch ($this->_mode)
-        {
-            case 'update':
-                $this->add_breadcrumb("task/edit/{$this->_object->guid}/", $this->_l10n_midcom->get('edit'));
-                break;
-            case 'create':
-                $this->add_breadcrumb("", $this->_l10n->get('new task'));
-                break;
-        }
+        org_openpsa_projects_viewer::add_breadcrumb_path($this->_object, $this);
     }
 
     /**

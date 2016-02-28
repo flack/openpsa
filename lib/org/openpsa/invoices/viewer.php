@@ -83,16 +83,15 @@ class org_openpsa_invoices_viewer extends midcom_baseclasses_components_request
                 )
             );
         }
-        $this->_view_toolbar->add_item
-        (
-            array
+        if (midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_invoices_invoice_dba'))
+        {
+            $workflow = new midcom\workflow\datamanager2;
+            $workflow->add_button($this->_view_toolbar, 'invoice/new/', array
             (
-                MIDCOM_TOOLBAR_URL => 'invoice/new/',
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create invoice'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/printer.png',
-                MIDCOM_TOOLBAR_ENABLED => midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_invoices_invoice_dba'),
-            )
-        );
+            ));
+        }
     }
 
     public function add_next_previous($object, $toolbar, $urlprefix)

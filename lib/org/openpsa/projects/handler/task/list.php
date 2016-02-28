@@ -567,27 +567,23 @@ implements org_openpsa_widgets_grid_provider_client
         {
             return;
         }
+        $workflow = new midcom\workflow\datamanager2;
 
-        $this->_view_toolbar->add_item
-        (
-            array
+        if (midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_projects_project'))
+        {
+            $workflow->add_button($this->_view_toolbar, 'project/new/', array
             (
-                MIDCOM_TOOLBAR_URL => 'project/new/',
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("create project"),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-dir.png',
-                MIDCOM_TOOLBAR_ENABLED => midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_projects_project'),
-            )
-        );
-
-        $this->_view_toolbar->add_item
-        (
-            array
+            ));
+        }
+        if (midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_projects_project_task_dba'))
+        {
+            $workflow->add_button($this->_view_toolbar, 'task/new/', array
             (
-                MIDCOM_TOOLBAR_URL => 'task/new/',
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("create task"),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new_task.png',
-                MIDCOM_TOOLBAR_ENABLED => midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_projects_task_dba'),
-            )
-        );
+            ));
+        }
     }
 }

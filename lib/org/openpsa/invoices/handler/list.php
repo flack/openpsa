@@ -323,15 +323,12 @@ implements org_openpsa_widgets_grid_provider_client
 
         if (midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_invoices_invoice_dba'))
         {
-            $this->_view_toolbar->add_item
+            $workflow = new midcom\workflow\datamanager2;
+            $workflow->add_button($this->_view_toolbar, "invoice/new/{$this->_customer->guid}/", array
             (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => "invoice/new/{$this->_customer->guid}/",
-                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create invoice'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/printer.png',
-                )
-            );
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create invoice'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/printer.png',
+            ));
 
             $billing_data_url = "create/" . $this->_customer->guid ."/";
             $qb_billing_data = org_openpsa_invoices_billing_data_dba::new_query_builder();

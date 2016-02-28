@@ -229,17 +229,14 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
 
     private function _populate_read_toolbar($handler_id)
     {
-        $this->_view_toolbar->add_item
-        (
-            array
+        if ($this->_object->can_do('midgard:update'))
+        {
+            $workflow = new midcom\workflow\datamanager2;
+            $workflow->add_button($this->_view_toolbar, "invoice/edit/{$this->_object->guid}/", array
             (
-                MIDCOM_TOOLBAR_URL => "invoice/edit/{$this->_object->guid}/",
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('edit'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
-                MIDCOM_TOOLBAR_ENABLED => $this->_object->can_do('midgard:update'),
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
-            )
-        );
+            ));
+        }
 
         if ($this->_object->can_do('midgard:delete'))
         {
@@ -368,36 +365,12 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
      */
     function _update_breadcrumb($handler_id)
     {
-        $customer = false;
-        if ($this->_object)
-        {
-            $customer = $this->_object->get_customer();
-        }
-        if (   !$customer
-            && array_key_exists('customer', $this->_request_data))
-        {
-            $customer = $this->_request_data['customer'];
-        }
-
-        if ($customer)
+        if ($customer = $this->_object->get_customer())
         {
             $this->add_breadcrumb("list/customer/all/{$customer->guid}/", $customer->get_label());
         }
 
-        if ($this->_mode != 'create')
-        {
-            $this->add_breadcrumb("invoice/" . $this->_object->guid . "/", $this->_l10n->get('invoice') . ' ' . $this->_object->get_label());
-        }
-
-        if ($this->_mode != 'read')
-        {
-            $action = $this->_mode;
-            if ($action == 'update')
-            {
-                $action = 'edit';
-            }
-            $this->add_breadcrumb("", sprintf($this->_l10n_midcom->get($action . ' %s'), $this->_l10n->get('invoice')));
-        }
+        $this->add_breadcrumb("invoice/" . $this->_object->guid . "/", $this->_l10n->get('invoice') . ' ' . $this->_object->get_label());
     }
 
     /**
@@ -416,7 +389,7 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
                 $view_title = $this->_l10n->get('invoice') . ' ' . $this->_object->get_label();
                 break;
             case 'update':
-                $view_title = sprintf($this->_l10n_midcom->get('edit %s'), $this->_l10n->get('invoice') . ' ' . $this->_object->get_label());
+                $view_title = sprintf($this->_l10n_midcom->get('edit %s'), $this->_l10n->get('invoice'));
                 break;
         }
 
@@ -428,11 +401,7 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
         $this->_request_data['object'] = $this->_object;
         $this->_request_data['datamanager'] = $this->_datamanager;
         $this->_request_data['controller'] = $this->_controller;
-
-        if (!empty($this->_object))
-        {
-            $this->_request_data['invoice_items'] = $this->_object->get_invoice_items();
-        }
+        $this->_request_data['invoice_items'] = $this->_object->get_invoice_items();
     }
 
     /**

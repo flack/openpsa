@@ -44,27 +44,21 @@ class org_openpsa_projects_handler_project_crud extends midcom_baseclasses_compo
      */
     private function _add_read_toolbar($handler_id)
     {
-        // Add toolbar items
-        $this->_view_toolbar->add_item
-        (
-            array
+        $workflow = new midcom\workflow\datamanager2;
+
+        if ($this->_object->can_do('midgard:update'))
+        {
+            $workflow->add_button($this->_view_toolbar, "project/edit/{$this->_object->guid}/", array
             (
-                MIDCOM_TOOLBAR_URL => "project/edit/{$this->_object->guid}/",
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('edit'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
-            )
-        );
-        $this->_view_toolbar->add_item
-        (
-            array
+            ));
+            $workflow->add_button($this->_view_toolbar, "task/new/project/{$this->_object->guid}/", array
             (
-                MIDCOM_TOOLBAR_URL => "task/new/project/{$this->_object->guid}/",
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create task'),
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("create task"),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new_task.png',
-                MIDCOM_TOOLBAR_ENABLED => $this->_object->can_do('midgard:update'),
-            )
-        );
+            ));
+        }
+
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
         $sales_url = $siteconfig->get_node_full_url('org.openpsa.sales');
 
@@ -102,11 +96,6 @@ class org_openpsa_projects_handler_project_crud extends midcom_baseclasses_compo
     public function _update_breadcrumb($handler_id)
     {
         org_openpsa_projects_viewer::add_breadcrumb_path($this->_object, $this);
-
-        if ($handler_id == 'project_edit')
-        {
-            $this->add_breadcrumb("project/edit/{$this->_object->guid}/", $this->_l10n_midcom->get('edit'));
-        }
     }
 
     /**
@@ -125,7 +114,7 @@ class org_openpsa_projects_handler_project_crud extends midcom_baseclasses_compo
                 $view_title = $this->_object->get_label();
                 break;
             case 'update':
-                $view_title = sprintf($this->_l10n_midcom->get('edit %s'), $this->_object->get_label());
+                $view_title = sprintf($this->_l10n->get('edit project %s'), $this->_object->get_label());
                 break;
         }
 
