@@ -94,6 +94,10 @@ function create_datamanager_dialog(control)
                 close: function() {
                     control.removeClass('active');
                     iframe.hide();
+                    if (iframe[0].contentWindow)
+                    {
+                        iframe[0].contentWindow.stop();
+                    }
                 }
             });
 }
