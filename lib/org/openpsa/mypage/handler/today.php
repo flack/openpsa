@@ -71,8 +71,9 @@ class org_openpsa_mypage_handler_today extends midcom_baseclasses_components_han
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.mypage/mypage.css");
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/list.css");
 
-        //needed js/css-files for jqgrid
+        //needed js/css-files for journal entries
         org_openpsa_widgets_grid::add_head_elements();
+        midcom\workflow\datamanager2::add_head_elements();
 
         //set the start-constraints for journal-entries
         $time_span = 7 * 24 * 60 *60 ; //7 days

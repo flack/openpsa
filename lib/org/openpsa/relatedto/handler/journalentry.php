@@ -54,7 +54,7 @@ implements midcom_helper_datamanager2_interfaces_create
         }
 
         $this->_relocate_url = midcom::get()->permalinks->create_permalink($this->_current_object->guid);
-        $this->_request_data['url_prefix'] = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . "__mfa/org.openpsa.relatedto/journalentry/";
+        $data['url_prefix'] = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . "__mfa/org.openpsa.relatedto/journalentry/";
 
          //add needed constraints etc. to the query-builder
         $this->qb_journal_entries = org_openpsa_relatedto_journal_entry_dba::new_query_builder();
@@ -75,7 +75,7 @@ implements midcom_helper_datamanager2_interfaces_create
             $this->_prepare_output();
             org_openpsa_widgets_grid::add_head_elements();
             //pass url where to get the data for js-plugin
-            $this->_request_data['data_url'] = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . "__mfa/org.openpsa.relatedto/journalentry/" . $this->_current_object->guid ."/xml/";
+            $this->_request_data['data_url'] = $data['url_prefix'] . $this->_current_object->guid ."/xml/";
 
             //prepare breadcrumb
             $ref = midcom_helper_reflector::get($this->_current_object);
@@ -100,21 +100,19 @@ implements midcom_helper_datamanager2_interfaces_create
      */
     private function _prepare_output()
     {
-        $buttons = array
+        $buttons = array();
+        $buttons[] = array
         (
-            array
-            (
-                MIDCOM_TOOLBAR_URL => $this->_relocate_url,
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('back'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_left.png',
-            ),
-            array
-            (
-                MIDCOM_TOOLBAR_URL => $this->_request_data['url_prefix'] . "create/" . $this->_current_object->guid . "/",
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('add journal entry'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-text.png',
-            )
+            MIDCOM_TOOLBAR_URL => $this->_relocate_url,
+            MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('back'),
+            MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_left.png',
         );
+        $workflow = new midcom\workflow\datamanager2;
+        $buttons[] = $workflow->get_button($this->_request_data['url_prefix'] . "create/" . $this->_current_object->guid . "/", array
+        (
+            MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('add journal entry'),
+            MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-text.png'
+        ));
         $this->_view_toolbar->add_items($buttons);
 
         org_openpsa_widgets_contact::add_head_elements();
@@ -136,24 +134,10 @@ implements midcom_helper_datamanager2_interfaces_create
     {
         $this->_current_object = midcom::get()->dbfactory->get_object_by_guid($args[0]);
 
-        $data['controller'] = $this->get_controller('create');
+        midcom::get()->head->set_pagetitle($this->_l10n->get('add journal entry'));
 
-        switch ($data['controller']->process_form())
-        {
-            case 'save':
-            case 'cancel':
-                //relocate to relatedto-renders
-                $add_url = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . "__mfa/org.openpsa.relatedto/journalentry/";
-                $add_url .= $this->_current_object->guid . "/html/";
-                return new midcom_response_relocate($add_url);
-        }
-
-        $this->_prepare_breadcrumb();
-    }
-
-    public function _show_create($handler_id, array &$data)
-    {
-        midcom_show_style('journal_entry_edit');
+        $workflow = new midcom\workflow\datamanager2($this->get_controller('create'));
+        return $workflow->run();
     }
 
     /**
@@ -200,33 +184,15 @@ implements midcom_helper_datamanager2_interfaces_create
 
         $url_prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . "__mfa/org.openpsa.relatedto/journalentry/";
 
-        switch ($data['controller']->process_form())
+        midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('edit %s'), $this->_l10n->get('journal entry')));
+
+        $workflow = new midcom\workflow\datamanager2($data['controller']);
+        if ($this->_journal_entry->can_do('midgard:delete'))
         {
-            case 'save':
-            case 'cancel':
-                $url_prefix = $url_prefix . $this->_current_object->guid . "/html/";
-                return new midcom_response_relocate($url_prefix);
+            $delete = new midcom\workflow\delete($this->_journal_entry);
+            $workflow->add_dialog_button($delete, $url_prefix . "delete/" . $this->_journal_entry->guid . "/");
         }
-
-        $this->_view_toolbar->add_item
-        (
-            array
-            (
-                MIDCOM_TOOLBAR_URL => $url_prefix ."delete/" . $this->_journal_entry->guid . "/",
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('delete'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
-                MIDCOM_TOOLBAR_ENABLED => $this->_journal_entry->can_do('midgard:delete'),
-                MIDCOM_TOOLBAR_ACCESSKEY => 'd',
-            )
-        );
-
-        $this->_prepare_breadcrumb();
-        $this->bind_view_to_object($this->_journal_entry, $data['controller']->datamanager->schema->name);
-    }
-
-    public function _show_edit($handler_id, array &$data)
-    {
-        midcom_show_style('journal_entry_edit');
+        return $workflow->run();
     }
 
     public function _handler_delete($handler_id, array $args, array &$data)
@@ -346,19 +312,5 @@ implements midcom_helper_datamanager2_interfaces_create
             $offset = ((int)$_POST['page'] - 1) * (int)$_POST['rows'];
             $this->qb_journal_entries->set_offset($offset);
         }
-    }
-
-    /**
-     * Helper function to prepare the breadcrumb
-     */
-    private function _prepare_breadcrumb()
-    {
-        $ref = midcom_helper_reflector::get($this->_current_object);
-        $object_label = $ref->get_object_label($this->_current_object);
-
-        $this->add_breadcrumb(midcom::get()->permalinks->create_permalink($this->_current_object->guid), $object_label);
-        $this->add_breadcrumb(midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . '__mfa/org.openpsa.relatedto/render/' . $this->_current_object->guid . '/both/', $this->_l10n->get('view related information'));
-
-        $this->add_breadcrumb("", $this->_l10n->get('journal entry') . " : " . $object_label);
     }
 }

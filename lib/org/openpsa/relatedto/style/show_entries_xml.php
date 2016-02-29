@@ -18,6 +18,7 @@ echo "<records>" . count($data['entries']) . "</records>";
       <cell> $closed </cell>
   </row>
 */
+$workflow = new midcom\workflow\datamanager2;
 foreach ($data['entries'] as $entry)
 {
     echo "<row>";
@@ -26,8 +27,8 @@ foreach ($data['entries'] as $entry)
         <cell><![CDATA[&(entry.title:h)]]></cell>
         <?php
         $link_html = "<![CDATA[";
-        $link_html .= "<a href='" . $data['url_prefix'] . "edit/" . $entry->guid ."/'>";
-        $link_html .= "<span >" . $entry->title . "</span></a>";
+        $link_html .= '<a href="' . $data['url_prefix'] . 'edit/' . $entry->guid . '" ' . $workflow->render_attributes() . '>';
+        $link_html .= "<span>" . $entry->title . "</span></a>";
         $link_html .= "]]>";
         echo "<cell>" . $link_html . "</cell>";
         ?>

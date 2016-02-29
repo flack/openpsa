@@ -11,6 +11,7 @@
          && array_key_exists('entries', $data))
     {
         $rows = array();
+        $workflow = new midcom\workflow\datamanager2;
         foreach ($data['entries'] as $entry)
         {
             $row = array
@@ -21,8 +22,8 @@
                 'index_date' => $entry->followUp,
             );
 
-            $link_html = "<a href='" . $data['url_prefix'] . "edit/" . $entry->guid ."/'>";
-            $link_html .= "<span >" . $entry->title . "</span></a>";
+            $link_html = '<a href="' . $data['url_prefix'] . 'edit/' . $entry->guid . '" ' . $workflow->render_attributes() . '>';
+            $link_html .= "<span>" . $entry->title . "</span></a>";
             $row['name'] = $link_html;
 
             $row['date'] = date('Y-m-d', $entry->metadata->created);
