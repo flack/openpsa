@@ -77,27 +77,20 @@ class org_openpsa_expenses_handler_index  extends midcom_baseclasses_components_
     {
         $week_start = strftime('%Y-%m-%d', $this->_request_data['week_start']);
         $week_end = strftime('%Y-%m-%d', $this->_request_data['week_end']);
-        $this->_view_toolbar->add_item
+        $buttons = array
         (
             array
             (
                 MIDCOM_TOOLBAR_URL => 'hours/?date[from]=' . $week_start . '&date[to]=' . $week_end,
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('list view'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/view.png',
-            )
-        );
-
-        $this->_view_toolbar->add_item
-        (
+            ),
             array
             (
                 MIDCOM_TOOLBAR_URL => $previous_week . "/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('previous week'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/back.png',
-            )
-        );
-        $this->_view_toolbar->add_item
-        (
+            ),
             array
             (
                 MIDCOM_TOOLBAR_URL => $next_week . "/",
@@ -105,6 +98,7 @@ class org_openpsa_expenses_handler_index  extends midcom_baseclasses_components_
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/next.png',
             )
         );
+        $this->_view_toolbar->add_items($buttons);
     }
 
     /**

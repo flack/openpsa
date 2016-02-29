@@ -120,56 +120,48 @@ implements org_openpsa_widgets_grid_provider_client
     private function _populate_toolbar()
     {
         $workflow = new midcom\workflow\datamanager2;
+        $buttons = array();
         if ($this->_campaign->can_do('midgard:update'))
         {
-            $this->_view_toolbar->add_item($workflow->get_button("campaign/edit/{$this->_campaign->guid}/", array
+            $buttons[] = $workflow->get_button("campaign/edit/{$this->_campaign->guid}/", array
             (
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
-            )));
+            ));
         }
 
         if ($this->_campaign->can_do('midgard:delete'))
         {
             $delete_workflow = new midcom\workflow\delete($this->_campaign);
-            $this->_view_toolbar->add_item($delete_workflow->get_button("campaign/delete/{$this->_campaign->guid}/"));
+            $buttons[] = $delete_workflow->get_button("campaign/delete/{$this->_campaign->guid}/");
         }
 
         if ($this->_campaign->orgOpenpsaObtype == org_openpsa_directmarketing_campaign_dba::TYPE_SMART)
         {
             //Edit query parameters button in case 1) not in edit mode 2) is smart campaign 3) can edit
-            $this->_view_toolbar->add_item
+            $buttons[] = array
             (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => "campaign/edit_query/{$this->_campaign->guid}/",
-                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('edit rules'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/repair.png',
-                    MIDCOM_TOOLBAR_ENABLED => $this->_campaign->can_do('midgard:update'),
-                )
+                MIDCOM_TOOLBAR_URL => "campaign/edit_query/{$this->_campaign->guid}/",
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('edit rules'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/repair.png',
+                MIDCOM_TOOLBAR_ENABLED => $this->_campaign->can_do('midgard:update'),
             );
         }
         else
         {
             // Import button if we have permissions to create users
-            $this->_view_toolbar->add_item
+            $buttons[] = array
             (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => "campaign/import/{$this->_campaign->guid}/",
-                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('import subscribers'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_people.png',
-                    MIDCOM_TOOLBAR_ENABLED => midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_contacts_person_dba'),
-                )
+                MIDCOM_TOOLBAR_URL => "campaign/import/{$this->_campaign->guid}/",
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('import subscribers'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_people.png',
+                MIDCOM_TOOLBAR_ENABLED => midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_contacts_person_dba'),
             );
         }
-        $this->_view_toolbar->add_item
+        $buttons[] = array
         (
-            array
-            (
-                MIDCOM_TOOLBAR_URL => "campaign/export/csv/{$this->_campaign->guid}/",
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('export as csv'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_data-edit-table.png',
-            )
+            MIDCOM_TOOLBAR_URL => "campaign/export/csv/{$this->_campaign->guid}/",
+            MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('export as csv'),
+            MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_data-edit-table.png',
         );
 
         if ($this->_campaign->can_do('midgard:create'))
@@ -177,13 +169,14 @@ implements org_openpsa_widgets_grid_provider_client
             $schemadb_message = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_message'));
             foreach ($schemadb_message as $name => $schema)
             {
-                $this->_view_toolbar->add_item($workflow->get_button("message/create/{$this->_campaign->guid}/{$name}/", array
+                $buttons[] = $workflow->get_button("message/create/{$this->_campaign->guid}/{$name}/", array
                 (
                     MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n->get('new %s'), $this->_l10n->get($schema->description)),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/' . org_openpsa_directmarketing_viewer::get_messagetype_icon($schema->customdata['org_openpsa_directmarketing_messagetype']),
-                )));
+                ));
             }
         }
+        $this->_view_toolbar->add_items($buttons);
     }
 
     /**

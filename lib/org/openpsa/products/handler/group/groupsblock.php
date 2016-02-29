@@ -185,8 +185,7 @@ class org_openpsa_products_handler_group_groupsblock  extends midcom_baseclasses
 
     private function _populate_toolbar()
     {
-        // Populate toolbar
-        $this->_view_toolbar->add_item
+        $buttons = array
         (
             array
             (
@@ -203,40 +202,35 @@ class org_openpsa_products_handler_group_groupsblock  extends midcom_baseclasses
 
         foreach (array_keys($this->_request_data['schemadb_group']) as $name)
         {
-            $this->_view_toolbar->add_item
+            $buttons[] = array
             (
-                array
+                MIDCOM_TOOLBAR_URL => "create/{$this->_request_data['parent_group']}/{$name}/",
+                MIDCOM_TOOLBAR_LABEL => sprintf
                 (
-                    MIDCOM_TOOLBAR_URL => "create/{$this->_request_data['parent_group']}/{$name}/",
-                    MIDCOM_TOOLBAR_LABEL => sprintf
-                    (
-                        $this->_l10n_midcom->get('create %s'),
-                        $this->_l10n->get($this->_request_data['schemadb_group'][$name]->description)
-                    ),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-dir.png',
-                    MIDCOM_TOOLBAR_ENABLED => $allow_create_group,
-                )
+                    $this->_l10n_midcom->get('create %s'),
+                    $this->_l10n->get($this->_request_data['schemadb_group'][$name]->description)
+                ),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-dir.png',
+                MIDCOM_TOOLBAR_ENABLED => $allow_create_group,
             );
         }
 
         foreach (array_keys($this->_request_data['schemadb_product']) as $name)
         {
-            $this->_view_toolbar->add_item
+            $buttons[] = array
             (
-                array
+                MIDCOM_TOOLBAR_URL => "product/create/{$this->_request_data['parent_group']}/{$name}/",
+                MIDCOM_TOOLBAR_LABEL => sprintf
                 (
-                    MIDCOM_TOOLBAR_URL => "product/create/{$this->_request_data['parent_group']}/{$name}/",
-                    MIDCOM_TOOLBAR_LABEL => sprintf
-                    (
-                        $this->_l10n_midcom->get('create %s'),
-                        $this->_l10n->get($this->_request_data['schemadb_product'][$name]->description)
-                    ),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-text.png',
-                    MIDCOM_TOOLBAR_ACCESSKEY => 'n',
-                    MIDCOM_TOOLBAR_ENABLED => $allow_create_product,
-                )
+                    $this->_l10n_midcom->get('create %s'),
+                    $this->_l10n->get($this->_request_data['schemadb_product'][$name]->description)
+                ),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-text.png',
+                MIDCOM_TOOLBAR_ACCESSKEY => 'n',
+                MIDCOM_TOOLBAR_ENABLED => $allow_create_product,
             );
         }
+        $this->_view_toolbar->add_items($buttons);
     }
 
     private function _add_ordering($qb, $ordering)

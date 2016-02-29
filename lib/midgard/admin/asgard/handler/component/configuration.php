@@ -25,17 +25,14 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
 
     private function _prepare_toolbar($handler_id)
     {
-        $this->_request_data['asgard_toolbar']->add_item
+        $buttons = array
         (
             array
             (
                 MIDCOM_TOOLBAR_URL => "__mfa/asgard/components/configuration/{$this->_request_data['name']}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('view'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/view.png',
-            )
-        );
-        $this->_request_data['asgard_toolbar']->add_item
-        (
+            ),
             array
             (
                 MIDCOM_TOOLBAR_URL => "__mfa/asgard/components/configuration/edit/{$this->_request_data['name']}/",
@@ -43,6 +40,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
             )
         );
+        $this->_request_data['asgard_toolbar']->add_items($buttons);
 
         switch ($handler_id)
         {

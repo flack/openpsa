@@ -31,18 +31,14 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
             && $this->_person)
         {
             $this->_account = new midcom_core_account($this->_person);
-
-            $data['asgard_toolbar']->add_item
+            $buttons = array
             (
                 array
                 (
                     MIDCOM_TOOLBAR_URL => "__mfa/asgard/preferences/{$this->_person->guid}/",
                     MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('user preferences', 'midgard.admin.asgard'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/configuration.png',
-                )
-            );
-            $data['asgard_toolbar']->add_item
-            (
+                ),
                 array
                 (
                     MIDCOM_TOOLBAR_URL => "__mfa/asgard_midcom.admin.user/account/{$this->_person->guid}/",
@@ -52,16 +48,14 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
             );
             if (($this->_account->get_username() !== ''))
             {
-                $data['asgard_toolbar']->add_item
+                $buttons[] = array
                 (
-                    array
-                    (
-                        MIDCOM_TOOLBAR_URL => "__mfa/asgard_midcom.admin.user/delete_account/{$this->_person->guid}/",
-                        MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('delete account'),
-                        MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
-                    )
+                    MIDCOM_TOOLBAR_URL => "__mfa/asgard_midcom.admin.user/delete_account/{$this->_person->guid}/",
+                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('delete account'),
+                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
                 );
             }
+            $data['asgard_toolbar']->add_items($buttons);
             midgard_admin_asgard_plugin::bind_to_object($this->_person, $handler_id, $data);
         }
     }

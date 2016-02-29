@@ -80,43 +80,38 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
         {
              return;
         }
+        $buttons = array();
         $workflow = new midcom\workflow\datamanager2;
-        $this->_view_toolbar->add_item($workflow->get_button("task/edit/{$this->_object->guid}/", array
+        $buttons[] = $workflow->get_button("task/edit/{$this->_object->guid}/", array
         (
             MIDCOM_TOOLBAR_ACCESSKEY => 'e',
-        )));
+        ));
 
         if (   $this->_object->reportedHours == 0
             && $this->_object->can_do('midgard:delete'))
         {
             $delete_workflow = new midcom\workflow\delete($this->_object);
-            $this->_view_toolbar->add_item($delete_workflow->get_button("task/delete/{$this->_object->guid}/"));
+            $buttons[] = $delete_workflow->get_button("task/delete/{$this->_object->guid}/");
         }
 
         if ($this->_object->status == org_openpsa_projects_task_status_dba::CLOSED)
         {
             // TODO: Make POST request
-            $this->_view_toolbar->add_item
+            $buttons[] = array
             (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => "task/{$this->_object->guid}/reopen/",
-                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('reopen'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/folder-expanded.png',
-                )
+                MIDCOM_TOOLBAR_URL => "task/{$this->_object->guid}/reopen/",
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('reopen'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/folder-expanded.png',
             );
         }
         else if ($this->_object->status_type == 'ongoing')
         {
             // TODO: Make POST request
-            $this->_view_toolbar->add_item
+            $buttons[] = array
             (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => "task/{$this->_object->guid}/complete/",
-                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('mark completed'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new_task.png',
-                )
+                MIDCOM_TOOLBAR_URL => "task/{$this->_object->guid}/complete/",
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('mark completed'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new_task.png',
             );
         }
 
@@ -127,24 +122,22 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
             org_openpsa_widgets_grid::add_head_elements();
             if ($this->_object->status < org_openpsa_projects_task_status_dba::CLOSED)
             {
-                $this->_view_toolbar->add_item($workflow->get_button($expenses_url . "hours/create/hour_report/{$this->_object->guid}/", array
+                $buttons[] = $workflow->get_button($expenses_url . "hours/create/hour_report/{$this->_object->guid}/", array
                 (
                     MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('hour report')),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_new-event.png',
                     MIDCOM_TOOLBAR_OPTIONS => array('data-refresh-opener' => 'true')
-                )));
+                ));
             }
-            $this->_view_toolbar->add_item
+            $buttons[] = array
             (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => $expenses_url . "hours/task/all/{$this->_object->guid}",
-                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('hour reports'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/scheduled_and_shown.png',
-                    MIDCOM_TOOLBAR_ACCESSKEY => 'h',
-                )
+                MIDCOM_TOOLBAR_URL => $expenses_url . "hours/task/all/{$this->_object->guid}",
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('hour reports'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/scheduled_and_shown.png',
+                MIDCOM_TOOLBAR_ACCESSKEY => 'h',
             );
         }
+        $this->_view_toolbar->add_items($buttons);
         org_openpsa_relatedto_plugin::add_button($this->_view_toolbar, $this->_object->guid);
     }
 

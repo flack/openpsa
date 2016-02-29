@@ -62,34 +62,33 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
      */
     private function _populate_toolbar()
     {
+        $buttons = array();
         if ($this->_salesproject->can_do('midgard:update'))
         {
             $workflow = new midcom\workflow\datamanager2;
-            $this->_view_toolbar->add_item($workflow->get_button("salesproject/edit/{$this->_salesproject->guid}/", array
+            $buttons[] = $workflow->get_button("salesproject/edit/{$this->_salesproject->guid}/", array
             (
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
-            )));
+            ));
         }
 
         if ($this->_salesproject->can_do('midgard:delete'))
         {
             $workflow = new midcom\workflow\delete($this->_salesproject);
-            $this->_view_toolbar->add_item($workflow->get_button("salesproject/delete/{$this->_salesproject->guid}/"));
+            $buttons[] = $workflow->get_button("salesproject/delete/{$this->_salesproject->guid}/");
         }
 
         if (!empty($this->_request_data['projects_url']))
         {
             $prefix = midcom_connection::get_url('self') . $this->_request_data['projects_url'];
-            $this->_view_toolbar->add_item
+            $buttons[] = array
             (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => $prefix . "project/{$this->_salesproject->guid}/",
-                    MIDCOM_TOOLBAR_LABEL => $this->_i18n->get_string('org.openpsa.projects', 'org.openpsa.projects'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/jump-to.png',
-                )
+                MIDCOM_TOOLBAR_URL => $prefix . "project/{$this->_salesproject->guid}/",
+                MIDCOM_TOOLBAR_LABEL => $this->_i18n->get_string('org.openpsa.projects', 'org.openpsa.projects'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/jump-to.png',
             );
         }
+        $this->_view_toolbar->add_items($buttons);
 
         $relatedto_button_settings = org_openpsa_relatedto_plugin::common_toolbar_buttons_defaults();
         $relatedto_button_settings['wikinote']['wikiword'] = str_replace('/', '-', sprintf($this->_l10n->get($this->_config->get('new_wikinote_wikiword_format')), $this->_salesproject->title, date('Y-m-d H:i')));

@@ -43,18 +43,15 @@ class net_nehmer_static_handler_view extends midcom_baseclasses_components_handl
         $this->_request_data['article'] = $this->_article;
         $this->_request_data['datamanager'] = $this->_datamanager;
 
-        // Populate the toolbar
+        $buttons = array();
         if ($this->_article->can_do('midgard:update'))
         {
-            $this->_view_toolbar->add_item
+            $buttons[] = array
             (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => "edit/{$this->_article->guid}/",
-                    MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('edit'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
-                    MIDCOM_TOOLBAR_ACCESSKEY => 'e',
-                )
+                MIDCOM_TOOLBAR_URL => "edit/{$this->_article->guid}/",
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('edit'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
+                MIDCOM_TOOLBAR_ACCESSKEY => 'e',
             );
         }
 
@@ -74,8 +71,19 @@ class net_nehmer_static_handler_view extends midcom_baseclasses_components_handl
         if ($article->can_do('midgard:delete'))
         {
             $delete = new midcom\workflow\delete($article);
-            $this->_view_toolbar->add_item($delete->get_button("delete/{$article->guid}/"));
+            $buttons[] = $delete->get_button("delete/{$article->guid}/");
         }
+        if (   $this->_config->get('enable_article_links')
+            && $this->_content_topic->can_do('midgard:create'))
+        {
+            $buttons[] = array
+            (
+                MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('article link')),
+                MIDCOM_TOOLBAR_URL => "create/link/?article={$this->_article->id}",
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/attach.png',
+            );
+        }
+        $this->_view_toolbar->add_items($buttons);
     }
 
     /**
@@ -166,20 +174,6 @@ class net_nehmer_static_handler_view extends midcom_baseclasses_components_handl
         }
 
         $this->_prepare_request_data();
-
-        if (   $this->_config->get('enable_article_links')
-            && $this->_content_topic->can_do('midgard:create'))
-        {
-            $this->_view_toolbar->add_item
-            (
-                array
-                (
-                    MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('article link')),
-                    MIDCOM_TOOLBAR_URL => "create/link/?article={$this->_article->id}",
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/attach.png',
-                )
-            );
-        }
 
         midcom::get()->metadata->set_request_metadata($this->_article->metadata->revised, $this->_article->guid);
         $this->bind_view_to_object($this->_article, $this->_datamanager->schema->name);

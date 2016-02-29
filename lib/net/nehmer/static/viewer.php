@@ -105,23 +105,21 @@ class net_nehmer_static_viewer extends midcom_baseclasses_components_request
      */
     private function _populate_node_toolbar()
     {
+        $buttons = array();
         if ($this->_content_topic->can_do('midgard:create'))
         {
             foreach (array_keys($this->_request_data['schemadb']) as $name)
             {
-                $this->_node_toolbar->add_item
+                $buttons[] = array
                 (
-                    array
+                    MIDCOM_TOOLBAR_URL => "create/{$name}/",
+                    MIDCOM_TOOLBAR_LABEL => sprintf
                     (
-                        MIDCOM_TOOLBAR_URL => "create/{$name}/",
-                        MIDCOM_TOOLBAR_LABEL => sprintf
-                        (
-                            $this->_l10n_midcom->get('create %s'),
-                            $this->_l10n->get($this->_request_data['schemadb'][$name]->description)
-                        ),
-                        MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-text.png',
-                        MIDCOM_TOOLBAR_ACCESSKEY => 'n',
-                    )
+                        $this->_l10n_midcom->get('create %s'),
+                        $this->_l10n->get($this->_request_data['schemadb'][$name]->description)
+                    ),
+                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-text.png',
+                    MIDCOM_TOOLBAR_ACCESSKEY => 'n',
                 );
             }
         }
@@ -129,30 +127,26 @@ class net_nehmer_static_viewer extends midcom_baseclasses_components_request
         if (   $this->_config->get('enable_article_links')
             && $this->_content_topic->can_do('midgard:create'))
         {
-            $this->_node_toolbar->add_item(
-                array
-                (
-                    MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('article link')),
-                    MIDCOM_TOOLBAR_URL => "create/link/",
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/attach.png',
-                )
+            $buttons[] = array
+            (
+                MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('article link')),
+                MIDCOM_TOOLBAR_URL => "create/link/",
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/attach.png',
             );
         }
 
         if (   $this->_topic->can_do('midgard:update')
             && $this->_topic->can_do('midcom:component_config'))
         {
-            $this->_node_toolbar->add_item
+            $buttons[] = array
             (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => 'config/',
-                    MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('component configuration'),
-                    MIDCOM_TOOLBAR_HELPTEXT => $this->_l10n_midcom->get('component configuration helptext'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_folder-properties.png',
-                )
+                MIDCOM_TOOLBAR_URL => 'config/',
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('component configuration'),
+                MIDCOM_TOOLBAR_HELPTEXT => $this->_l10n_midcom->get('component configuration helptext'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_folder-properties.png',
             );
         }
+        $this->_node_toolbar->add_items($buttons);
     }
 
     /**

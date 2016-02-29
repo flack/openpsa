@@ -98,19 +98,15 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
         }
 
         $this->_request_data['rcs_toolbar'] = new midcom_helper_toolbar();
-        $this->_request_data['rcs_toolbar_2'] = new midcom_helper_toolbar();
-
+        $buttons = array();
         if (isset($first))
         {
-            $this->_request_data['rcs_toolbar']->add_item
+            $buttons[] = array
             (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => "{$prefix}__mfa/asgard/object/rcs/preview/{$this->_guid}/{$first}",
-                    MIDCOM_TOOLBAR_LABEL => $first,
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/start.png',
-                    MIDCOM_TOOLBAR_ENABLED => ($current !== $first || $this->_request_data['handler_id'] == '____mfa-asgard-object_rcs_diff'),
-                )
+                MIDCOM_TOOLBAR_URL => "{$prefix}__mfa/asgard/object/rcs/preview/{$this->_guid}/{$first}",
+                MIDCOM_TOOLBAR_LABEL => $first,
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/start.png',
+                MIDCOM_TOOLBAR_ENABLED => ($current !== $first || $this->_request_data['handler_id'] == '____mfa-asgard-object_rcs_diff'),
             );
         }
 
@@ -128,78 +124,62 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
                 $next = $last;
             }
 
-            $this->_request_data['rcs_toolbar']->add_item
+            $buttons[] = array
             (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => "{$prefix}__mfa/asgard/object/rcs/preview/{$this->_guid}/{$previous}",
-                    MIDCOM_TOOLBAR_LABEL => $previous,
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/previous.png',
-                    MIDCOM_TOOLBAR_ENABLED => ($current !== $first || $this->_request_data['handler_id'] == '____mfa-asgard-object_rcs_diff'),
-                )
+                MIDCOM_TOOLBAR_URL => "{$prefix}__mfa/asgard/object/rcs/preview/{$this->_guid}/{$previous}",
+                MIDCOM_TOOLBAR_LABEL => $previous,
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/previous.png',
+                MIDCOM_TOOLBAR_ENABLED => ($current !== $first || $this->_request_data['handler_id'] == '____mfa-asgard-object_rcs_diff'),
             );
 
-            $this->_request_data['rcs_toolbar']->add_item
+            $buttons[] = array
             (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => "{$prefix}__mfa/asgard/object/rcs/diff/{$this->_guid}/{$current}/{$previous}/",
-                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('show differences'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/diff-previous.png',
-                    MIDCOM_TOOLBAR_ENABLED => ($current !== $first),
-                )
+                MIDCOM_TOOLBAR_URL => "{$prefix}__mfa/asgard/object/rcs/diff/{$this->_guid}/{$current}/{$previous}/",
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('show differences'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/diff-previous.png',
+                MIDCOM_TOOLBAR_ENABLED => ($current !== $first),
             );
 
-            $this->_request_data['rcs_toolbar']->add_item
+            $buttons[] = array
             (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => "{$prefix}__mfa/asgard/object/rcs/preview/{$current}/{$current}/",
-                    MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n->get('version %s'), $current),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/document.png',
-                    MIDCOM_TOOLBAR_ENABLED => false,
-                )
+                MIDCOM_TOOLBAR_URL => "{$prefix}__mfa/asgard/object/rcs/preview/{$current}/{$current}/",
+                MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n->get('version %s'), $current),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/document.png',
+                MIDCOM_TOOLBAR_ENABLED => false,
             );
 
-            $this->_request_data['rcs_toolbar']->add_item
+            $buttons[] = array
             (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => "{$prefix}__mfa/asgard/object/rcs/diff/{$this->_guid}/{$current}/{$next}/",
-                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('show differences'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/diff-next.png',
-                    MIDCOM_TOOLBAR_ENABLED => ($current !== $last),
-                )
+                MIDCOM_TOOLBAR_URL => "{$prefix}__mfa/asgard/object/rcs/diff/{$this->_guid}/{$current}/{$next}/",
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('show differences'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/diff-next.png',
+                MIDCOM_TOOLBAR_ENABLED => ($current !== $last),
             );
 
-            $this->_request_data['rcs_toolbar']->add_item
+            $buttons[] = array
             (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => "{$prefix}__mfa/asgard/object/rcs/preview/{$this->_guid}/{$next}",
-                    MIDCOM_TOOLBAR_LABEL => $next,
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/forward.png',
-                    MIDCOM_TOOLBAR_ENABLED => ($current !== $last || $this->_request_data['handler_id'] == '____mfa-asgard-object_rcs_diff'),
-                )
+                MIDCOM_TOOLBAR_URL => "{$prefix}__mfa/asgard/object/rcs/preview/{$this->_guid}/{$next}",
+                MIDCOM_TOOLBAR_LABEL => $next,
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/forward.png',
+                MIDCOM_TOOLBAR_ENABLED => ($current !== $last || $this->_request_data['handler_id'] == '____mfa-asgard-object_rcs_diff'),
             );
         }
 
         if (isset($last))
         {
-            $this->_request_data['rcs_toolbar']->add_item
+            $buttons[] = array
             (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => "{$prefix}__mfa/asgard/object/rcs/preview/{$this->_guid}/{$last}",
-                    MIDCOM_TOOLBAR_LABEL => $last,
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/finish.png',
-                    MIDCOM_TOOLBAR_ENABLED => ($current !== $last || $this->_request_data['handler_id'] == '____mfa-asgard-object_rcs_diff'),
-                )
+                MIDCOM_TOOLBAR_URL => "{$prefix}__mfa/asgard/object/rcs/preview/{$this->_guid}/{$last}",
+                MIDCOM_TOOLBAR_LABEL => $last,
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/finish.png',
+                MIDCOM_TOOLBAR_ENABLED => ($current !== $last || $this->_request_data['handler_id'] == '____mfa-asgard-object_rcs_diff'),
             );
         }
+        $this->_request_data['rcs_toolbar']->add_items($buttons);
 
         // RCS functional toolbar
-        $this->_request_data['rcs_toolbar_2']->add_item
+        $this->_request_data['rcs_toolbar_2'] = new midcom_helper_toolbar();
+        $buttons = array
         (
             array
             (
@@ -211,17 +191,15 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
 
         if (!empty($current))
         {
-            $this->_request_data['rcs_toolbar_2']->add_item
+            $buttons[] = array
             (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => "{$prefix}__mfa/asgard/object/rcs/restore/{$this->_guid}/{$current}/",
-                    MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n->get('restore version %s'), $current),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/repair.png',
-                    MIDCOM_TOOLBAR_ENABLED => ($current !== $last),
-                )
+                MIDCOM_TOOLBAR_URL => "{$prefix}__mfa/asgard/object/rcs/restore/{$this->_guid}/{$current}/",
+                MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n->get('restore version %s'), $current),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/repair.png',
+                MIDCOM_TOOLBAR_ENABLED => ($current !== $last),
             );
         }
+        $this->_request_data['rcs_toolbar_2']->add_items($buttons);
     }
 
     /**
@@ -259,51 +237,43 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
                 $show_previous = true;
             }
         }
-
+        $buttons = array();
         if ($show_previous)
         {
-            $this->_view_toolbar->add_item(
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => "__mfa/asgard/object/rcs/diff/{$this->_guid}/{$first}/{$second}/",
-                    MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n->get('view %s differences with previous (%s)'), $second, $first),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_left.png',
-                )
+            $buttons[] = array
+            (
+                MIDCOM_TOOLBAR_URL => "__mfa/asgard/object/rcs/diff/{$this->_guid}/{$first}/{$second}/",
+                MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n->get('view %s differences with previous (%s)'), $second, $first),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_left.png',
             );
         }
 
-        $this->_view_toolbar->add_item(
-            array
-            (
-                MIDCOM_TOOLBAR_URL => "__mfa/asgard/object/rcs/preview/{$this->_guid}/{$revision}/",
-                MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n->get('view this revision (%s)'), $revision),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/search.png',
-            )
+        $buttons[] = array
+        (
+            MIDCOM_TOOLBAR_URL => "__mfa/asgard/object/rcs/preview/{$this->_guid}/{$revision}/",
+            MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n->get('view this revision (%s)'), $revision),
+            MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/search.png',
         );
 
         // Display restore and next buttons only if we're not in latest revision
         if ($after != '')
         {
-            $this->_view_toolbar->add_item(
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => "__mfa/asgard/object/rcs/restore/{$this->_guid}/{$revision}/",
-                    MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n->get('restore this revision (%s)'), $revision),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/editpaste.png',
-                    MIDCOM_TOOLBAR_ENABLED => $this->_object->can_do('midgard:update'),
-                )
+            $buttons[] = array
+            (
+                MIDCOM_TOOLBAR_URL => "__mfa/asgard/object/rcs/restore/{$this->_guid}/{$revision}/",
+                MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n->get('restore this revision (%s)'), $revision),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/editpaste.png',
+                MIDCOM_TOOLBAR_ENABLED => $this->_object->can_do('midgard:update'),
             );
 
-            $this->_view_toolbar->add_item(
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => "__mfa/asgard/object/rcs/diff/{$this->_guid}/{$revision}/{$after}/",
-                    MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n->get('view %s differences with next (%s)'), $revision, $after),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_right.png',
-                )
+            $buttons[] = array
+            (
+                MIDCOM_TOOLBAR_URL => "__mfa/asgard/object/rcs/diff/{$this->_guid}/{$revision}/{$after}/",
+                MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n->get('view %s differences with next (%s)'), $revision, $after),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_right.png',
             );
         }
-
+        $this->_view_toolbar->add_items($buttons);
         $this->bind_view_to_object($this->_object);
     }
 

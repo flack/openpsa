@@ -39,35 +39,36 @@ implements midcom_helper_datamanager2_interfaces_view, org_openpsa_widgets_grid_
     private function _populate_toolbar()
     {
         $workflow = new midcom\workflow\datamanager2;
-
+        $buttons = array();
         if ($this->_group->can_do('midgard:update'))
         {
-            $this->_view_toolbar->add_item($workflow->get_button("group/edit/{$this->_group->guid}/", array
+            $buttons = array
             (
-                MIDCOM_TOOLBAR_ACCESSKEY => 'e',
-            )));
-
-            $this->_view_toolbar->add_item($workflow->get_button("group/create/organization/{$this->_group->guid}/", array
-            (
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create suborganization'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_people-new.png',
-            )));
-
-            $this->_view_toolbar->add_item($workflow->get_button("group/create/group/{$this->_group->guid}/", array
-            (
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create subgroup'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_people-new.png',
-            )));
+                $workflow->get_button("group/edit/{$this->_group->guid}/", array
+                (
+                    MIDCOM_TOOLBAR_ACCESSKEY => 'e',
+                )),
+                $workflow->get_button("group/create/organization/{$this->_group->guid}/", array
+                (
+                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create suborganization'),
+                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_people-new.png',
+                )),
+                $workflow->get_button("group/create/group/{$this->_group->guid}/", array
+                (
+                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create subgroup'),
+                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_people-new.png',
+                ))
+            );
         }
 
         if (   midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_contacts_person_dba')
             && $this->_group->can_do('midgard:create'))
         {
-            $this->_view_toolbar->add_item($workflow->get_button("person/create/{$this->_group->guid}/", array
+            $buttons[] = $workflow->get_button("person/create/{$this->_group->guid}/", array
             (
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create person'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_person-new.png',
-            )));
+            ));
         }
 
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
@@ -75,14 +76,11 @@ implements midcom_helper_datamanager2_interfaces_view, org_openpsa_widgets_grid_
         if (   $user_url
             && midcom::get()->auth->can_user_do('org.openpsa.user:access', null, 'org_openpsa_user_interface'))
         {
-            $this->_view_toolbar->add_item
+            $buttons[] = array
             (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => $user_url . "group/{$this->_group->guid}/",
-                    MIDCOM_TOOLBAR_LABEL => $this->_i18n->get_string('user management', 'org.openpsa.user'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/properties.png',
-                )
+                MIDCOM_TOOLBAR_URL => $user_url . "group/{$this->_group->guid}/",
+                MIDCOM_TOOLBAR_LABEL => $this->_i18n->get_string('user management', 'org.openpsa.user'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/properties.png',
             );
         }
 
@@ -90,21 +88,19 @@ implements midcom_helper_datamanager2_interfaces_view, org_openpsa_widgets_grid_
         if (!empty($cal_node))
         {
             //TODO: Check for privileges somehow
-            $this->_node_toolbar->add_item
+            $buttons[] = array
             (
-                array
+                MIDCOM_TOOLBAR_URL => "#",
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create event'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_new-event.png',
+                MIDCOM_TOOLBAR_OPTIONS  => array
                 (
-                    MIDCOM_TOOLBAR_URL => "#",
-                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create event'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_new-event.png',
-                    MIDCOM_TOOLBAR_OPTIONS  => array
-                    (
-                        'rel' => 'directlink',
-                        'onclick' => org_openpsa_calendar_interface::calendar_newevent_js($cal_node, false, $this->_group->guid),
-                    ),
-                )
+                    'rel' => 'directlink',
+                    'onclick' => org_openpsa_calendar_interface::calendar_newevent_js($cal_node, false, $this->_group->guid),
+                ),
             );
         }
+        $this->_view_toolbar->add_items($buttons);
     }
 
     /**

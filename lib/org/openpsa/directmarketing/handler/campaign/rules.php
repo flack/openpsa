@@ -133,7 +133,7 @@ implements org_openpsa_widgets_grid_provider_client
             midcom::get()->uimessages->add($this->_component, sprintf($this->_l10n->get('error when saving rule, errstr: %s'), midcom_connection::get_error_string()), 'error');
         }
 
-        $this->_view_toolbar->add_item
+        $buttons = array
         (
             array
             (
@@ -144,10 +144,7 @@ implements org_openpsa_widgets_grid_provider_client
                 (
                     'id' => 'openpsa_dirmar_edit_query_advanced',
                 ),
-            )
-        );
-        $this->_view_toolbar->add_item
-        (
+            ),
             array
             (
                 MIDCOM_TOOLBAR_URL => "campaign/edit_query/{$this->_campaign->guid}/",
@@ -159,6 +156,8 @@ implements org_openpsa_widgets_grid_provider_client
                 ),
             )
         );
+        $this->_view_toolbar->add_items($buttons);
+
         $provider = new org_openpsa_widgets_grid_provider($this);
         $data['grid'] = $provider->get_grid('preview_persons');
 

@@ -45,47 +45,39 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
     public function _handler_calendar($handler_id, array $args, array &$data)
     {
         midcom::get()->auth->require_valid_user();
-
+        $buttons = array();
         if ($this->_root_event->can_do('midgard:create'))
         {
-            $this->_view_toolbar->add_item
+            $buttons[] = array
             (
-                array
+                MIDCOM_TOOLBAR_URL => '#',
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create event'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_new-event.png',
+                MIDCOM_TOOLBAR_OPTIONS  => array
                 (
-                    MIDCOM_TOOLBAR_URL => '#',
-                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create event'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_new-event.png',
-                    MIDCOM_TOOLBAR_OPTIONS  => array
-                    (
-                        'id' => 'openpsa_calendar_add_event',
-                    ),
+                    'id' => 'openpsa_calendar_add_event',
                 )
             );
         }
-        $this->_view_toolbar->add_item
+        $buttons[] = array
         (
-            array
-            (
-                MIDCOM_TOOLBAR_URL => "filters/?org_openpsa_calendar_returnurl=" . midcom_connection::get_url('uri'),
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('choose calendars'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/preferences-desktop.png',
-            )
+            MIDCOM_TOOLBAR_URL => "filters/?org_openpsa_calendar_returnurl=" . midcom_connection::get_url('uri'),
+            MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('choose calendars'),
+            MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/preferences-desktop.png',
         );
 
-        $this->_view_toolbar->add_item
+        $buttons[] = array
         (
-            array
+            MIDCOM_TOOLBAR_URL => '#',
+            MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('go to'),
+            MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_jump-to.png',
+            MIDCOM_TOOLBAR_OPTIONS  => array
             (
-                MIDCOM_TOOLBAR_URL => '#',
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('go to'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_jump-to.png',
-                MIDCOM_TOOLBAR_OPTIONS  => array
-                (
-                    'rel' => 'directlink',
-                    'id' => 'date-navigation',
-                ),
+                'rel' => 'directlink',
+                'id' => 'date-navigation',
             )
         );
+        $this->_view_toolbar->add_items($buttons);
 
         $data['calendar_options'] = $this->_get_calendar_options();
 
@@ -328,7 +320,7 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
         // Add toolbar items
         if ($this->_request_data['view'] == 'default')
         {
-            $this->_view_toolbar->add_item
+            $buttons = array
             (
                 array
                 (
@@ -342,19 +334,16 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
             if ($data['event']->can_do('midgard:delete'))
             {
                 $workflow = new midcom\workflow\delete($data['event']);
-                $this->_view_toolbar->add_item($workflow->get_button("event/delete/{$data['event']->guid}/"));
+                $buttons[] = $workflow->get_button("event/delete/{$data['event']->guid}/");
             }
-            $this->_view_toolbar->add_item
+            $buttons[] = array
             (
-                array
+                MIDCOM_TOOLBAR_URL => 'javascript:window.print()',
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('print'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/printer.png',
+                MIDCOM_TOOLBAR_OPTIONS  => array
                 (
-                    MIDCOM_TOOLBAR_URL => 'javascript:window.print()',
-                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('print'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/printer.png',
-                    MIDCOM_TOOLBAR_OPTIONS  => array
-                    (
-                        'rel' => 'directlink',
-                    ),
+                    'rel' => 'directlink',
                 )
             );
 
@@ -373,6 +362,7 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
                     ),
                 );
             }
+            $this->_view_toolbar->add_items($buttons);
             org_openpsa_relatedto_plugin::common_node_toolbar_buttons($this->_view_toolbar, $this->_request_data['event'], $this->_component, $relatedto_button_settings);
         }
     }

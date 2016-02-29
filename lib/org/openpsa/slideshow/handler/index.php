@@ -42,17 +42,14 @@ class org_openpsa_slideshow_handler_index extends midcom_baseclasses_components_
             $head->enable_jquery();
             $head->add_jsfile(MIDCOM_STATIC_URL . '/' . $this->_component . '/galleria/galleria-1.3.5.min.js');
         }
-        $this->_view_toolbar->add_item
+        $buttons = array
         (
             array
             (
                 MIDCOM_TOOLBAR_URL => "edit/",
                 MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n_midcom->get('edit %s'), $this->_l10n->get('slideshow')),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/configuration.png',
-            )
-        );
-        $this->_view_toolbar->add_item
-        (
+            ),
             array
             (
                 MIDCOM_TOOLBAR_URL => "recreate_folder_thumbnails/",
@@ -60,6 +57,7 @@ class org_openpsa_slideshow_handler_index extends midcom_baseclasses_components_
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_refresh.png',
             )
         );
+        $this->_view_toolbar->add_items($buttons);
     }
 
     /**

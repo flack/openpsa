@@ -61,50 +61,45 @@ class org_openpsa_documents_handler_finder extends midcom_baseclasses_components
     private function _populate_toolbar()
     {
         $workflow = new midcom\workflow\datamanager2;
+        $buttons = array();
         if ($this->_request_data['directory']->can_do('midgard:create'))
         {
-            $this->_view_toolbar->add_item($workflow->get_button("document/create/", array
+            $buttons[] = $workflow->get_button("document/create/", array
             (
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('new document'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-text.png',
-            )));
-            $this->_view_toolbar->add_item($workflow->get_button("create/", array
+            ));
+            $buttons[] = $workflow->get_button("create/", array
             (
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('new directory'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-dir.png',
-            )));
+            ));
         }
         if ($this->_request_data['directory']->can_do('midgard:update'))
         {
-            $this->_view_toolbar->add_item($workflow->get_button("edit/", array
+            $buttons[] = $workflow->get_button("edit/", array
             (
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('edit directory'),
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
-            )));
-            $this->_view_toolbar->add_item
+            ));
+            $buttons[] = array
             (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => "__ais/folder/move/{$this->_request_data['directory']->guid}/",
-                    MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('move', 'midcom.admin.folder'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/save-as.png',
-                )
+                MIDCOM_TOOLBAR_URL => "__ais/folder/move/{$this->_request_data['directory']->guid}/",
+                MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('move', 'midcom.admin.folder'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/save-as.png',
             );
         }
         if ($this->_request_data['directory']->can_do('midgard:delete'))
         {
-            $this->_view_toolbar->add_item
+            $buttons[] = array
             (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => '__ais/folder/delete',
-                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('delete directory'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
-                    MIDCOM_TOOLBAR_ACCESSKEY => 'd',
-                )
+                MIDCOM_TOOLBAR_URL => '__ais/folder/delete',
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('delete directory'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
+                MIDCOM_TOOLBAR_ACCESSKEY => 'd',
             );
         }
-
+        $this->_view_toolbar->add_items($buttons);
         $this->bind_view_to_object($this->_request_data['directory']);
     }
 

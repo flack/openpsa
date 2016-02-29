@@ -309,6 +309,23 @@ class midcom_helper_toolbar
     }
 
     /**
+     * Convenience shortcut to add multiple buttons at the same item
+     *
+     * @param array $items The items to add.
+     * @param mixed $before The index before which the item should be inserted.
+     *     Use -1 for appending at the end, use a string to insert
+     *     it before a URL, an integer will insert it before a
+     *     given index.
+     */
+    public function add_items(array $items, $before = -1)
+    {
+        foreach ($items as $item)
+        {
+            $this->add_item($item, $before);
+        }
+    }
+
+    /**
      * This function adds an item to another item by either adding the item
      * to the MIDCOM_TOOLBAR_SUBMENU or creating a new subtoolbar and adding the
      * item there.

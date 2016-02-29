@@ -36,28 +36,23 @@ class midcom_helper_toolbar_node extends midcom_helper_toolbar_view
         {
             $urltopic = $this->topic;
         }
-
+        $buttons = array();
         if (   $this->topic->can_do('midgard:update')
             && $this->topic->can_do('midcom.admin.folder:topic_management'))
         {
-            $this->add_item(
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => "__ais/folder/edit/",
-                    MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('edit folder', 'midcom.admin.folder'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
-                    MIDCOM_TOOLBAR_ACCESSKEY => 'g',
-                )
+            $buttons[] = array
+            (
+                MIDCOM_TOOLBAR_URL => "__ais/folder/edit/",
+                MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('edit folder', 'midcom.admin.folder'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
+                MIDCOM_TOOLBAR_ACCESSKEY => 'g',
             );
 
-            $this->add_item
+            $buttons[] = array
             (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => "__ais/folder/metadata/{$urltopic->guid}/",
-                    MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('edit folder metadata', 'midcom.admin.folder'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/metadata.png',
-                )
+                MIDCOM_TOOLBAR_URL => "__ais/folder/metadata/{$urltopic->guid}/",
+                MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('edit folder metadata', 'midcom.admin.folder'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/metadata.png',
             );
         }
 
@@ -67,14 +62,11 @@ class midcom_helper_toolbar_node extends midcom_helper_toolbar_view
             // Allow to move other than root folder
             if ($urltopic->guid !== midcom::get()->config->get('midcom_root_topic_guid'))
             {
-                $this->add_item
+                $buttons[] = array
                 (
-                    array
-                    (
-                        MIDCOM_TOOLBAR_URL => "__ais/folder/move/{$urltopic->guid}/",
-                        MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('move', 'midcom.admin.folder'),
-                        MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/save-as.png',
-                    )
+                    MIDCOM_TOOLBAR_URL => "__ais/folder/move/{$urltopic->guid}/",
+                    MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('move', 'midcom.admin.folder'),
+                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/save-as.png',
                 );
             }
         }
@@ -82,31 +74,23 @@ class midcom_helper_toolbar_node extends midcom_helper_toolbar_view
         if (   $this->topic->can_do('midgard:update')
             && $this->topic->can_do('midcom.admin.folder:topic_management'))
         {
-            $this->add_item
+            $buttons[] = array
             (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => "__ais/folder/order/",
-                    MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('order navigation', 'midcom.admin.folder'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/topic-score.png',
-                    MIDCOM_TOOLBAR_ACCESSKEY => 'o',
-                )
+                MIDCOM_TOOLBAR_URL => "__ais/folder/order/",
+                MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('order navigation', 'midcom.admin.folder'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/topic-score.png',
+                MIDCOM_TOOLBAR_ACCESSKEY => 'o',
             );
 
-            $this->add_item
+            $buttons[] = array
             (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => midcom_connection::get_url('self') . "__mfa/asgard/object/open/{$this->topic->guid}/",
-                    MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('manage object', 'midgard.admin.asgard'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/properties.png',
-                    MIDCOM_TOOLBAR_ENABLED => midcom::get()->auth->can_user_do('midgard.admin.asgard:access', null, 'midgard_admin_asgard_plugin', 'midgard.admin.asgard') && midcom::get()->auth->can_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin'),
-                )
+                MIDCOM_TOOLBAR_URL => midcom_connection::get_url('self') . "__mfa/asgard/object/open/{$this->topic->guid}/",
+                MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('manage object', 'midgard.admin.asgard'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/properties.png',
+                MIDCOM_TOOLBAR_ENABLED => midcom::get()->auth->can_user_do('midgard.admin.asgard:access', null, 'midgard_admin_asgard_plugin', 'midgard.admin.asgard') && midcom::get()->auth->can_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin'),
             );
         }
-
-        $this->add_approval_controls($this->topic, false);
-
+        $buttons = array_merge($buttons, $this->get_approval_controls($this->topic, false));
         if (   $this->topic->can_do('midcom.admin.folder:template_management')
             && midcom::get()->auth->can_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin'))
         {
@@ -129,44 +113,35 @@ class midcom_helper_toolbar_node extends midcom_helper_toolbar_view
                 }
             }
 
-            $this->add_item
+            $buttons[] = array
             (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => $styleeditor_url,
-                    MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('edit layout template', 'midcom.admin.folder'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/text-x-generic-template.png',
-                    MIDCOM_TOOLBAR_ACCESSKEY => 't',
-                    MIDCOM_TOOLBAR_ENABLED => $enabled,
-                )
+                MIDCOM_TOOLBAR_URL => $styleeditor_url,
+                MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('edit layout template', 'midcom.admin.folder'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/text-x-generic-template.png',
+                MIDCOM_TOOLBAR_ACCESSKEY => 't',
+                MIDCOM_TOOLBAR_ENABLED => $enabled,
             );
         }
 
         if (   $this->topic->can_do('midgard:create')
             && $this->topic->can_do('midcom.admin.folder:topic_management'))
         {
-            $this->add_item
+            $buttons[] = array
             (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => "__ais/folder/create/",
-                    MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('create subfolder', 'midcom.admin.folder'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-dir.png',
-                    MIDCOM_TOOLBAR_ACCESSKEY => 'f',
-                )
+                MIDCOM_TOOLBAR_URL => "__ais/folder/create/",
+                MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('create subfolder', 'midcom.admin.folder'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-dir.png',
+                MIDCOM_TOOLBAR_ACCESSKEY => 'f',
             );
             if (   midcom::get()->config->get('symlinks')
                 && $this->topic->can_do('midcom.admin.folder:symlinks'))
             {
-                $this->add_item
+                $buttons[] = array
                 (
-                    array
-                    (
-                        MIDCOM_TOOLBAR_URL => "__ais/folder/createlink/",
-                        MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('create folder link', 'midcom.admin.folder'),
-                        MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-dir.png',
-                        MIDCOM_TOOLBAR_ACCESSKEY => 'f',
-                    )
+                    MIDCOM_TOOLBAR_URL => "__ais/folder/createlink/",
+                    MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('create folder link', 'midcom.admin.folder'),
+                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-dir.png',
+                    MIDCOM_TOOLBAR_ACCESSKEY => 'f',
                 );
             }
         }
@@ -174,15 +149,14 @@ class midcom_helper_toolbar_node extends midcom_helper_toolbar_view
             && $urltopic->can_do('midgard:delete')
             && $urltopic->can_do('midcom.admin.folder:topic_management'))
         {
-            $this->add_item(
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => "__ais/folder/delete/",
-                    MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('delete folder', 'midcom.admin.folder'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
-                    // for terminate d is used by everyone to go to the location bar
-                )
+            $buttons[] = array
+            (
+                MIDCOM_TOOLBAR_URL => "__ais/folder/delete/",
+                MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('delete folder', 'midcom.admin.folder'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
+                // for terminate d is used by everyone to go to the location bar
             );
         }
+        $this->add_items($buttons);
     }
 }

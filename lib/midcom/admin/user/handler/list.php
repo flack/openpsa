@@ -25,7 +25,7 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
 
     private function _prepare_toolbar(&$data)
     {
-        $data['asgard_toolbar']->add_item
+        $buttons = array
         (
             array
             (
@@ -33,19 +33,13 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create user'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_people.png',
                 MIDCOM_TOOLBAR_ENABLED => $this->_config->get('allow_manage_accounts'),
-            )
-        );
-        $data['asgard_toolbar']->add_item
-        (
+            ),
             array
             (
                 MIDCOM_TOOLBAR_URL => "__mfa/asgard_midcom.admin.user/group/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('groups'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_person-new.png',
-            )
-        );
-        $data['asgard_toolbar']->add_item
-        (
+            ),
             array
             (
                 MIDCOM_TOOLBAR_URL => "__mfa/asgard_midcom.admin.user/group/create/",
@@ -53,6 +47,7 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_people-new.png',
             )
         );
+        $data['asgard_toolbar']->add_items($buttons);
     }
 
     /**

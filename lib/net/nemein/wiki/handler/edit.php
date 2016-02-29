@@ -104,7 +104,7 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
                 return new midcom_response_relocate("{$this->_page->name}/");
         }
 
-        $this->_view_toolbar->add_item
+        $buttons = array
         (
             array
             (
@@ -117,7 +117,7 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
         if ($this->_page->can_do('midgard:delete'))
         {
             $workflow = new midcom\workflow\delete($this->_page);
-            $this->_view_toolbar->add_item($workflow->get_button("delete/{$this->_page->name}/"));
+            $buttons[] = $workflow->get_button("delete/{$this->_page->name}/");
         }
 
         foreach (array_keys($this->_request_data['schemadb']) as $name)
@@ -128,27 +128,21 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
                 continue;
             }
 
-            $this->_view_toolbar->add_item
+            $buttons[] = array
             (
-                array
+                MIDCOM_TOOLBAR_URL => "change/{$this->_page->name}/",
+                MIDCOM_TOOLBAR_LABEL => sprintf
                 (
-                    MIDCOM_TOOLBAR_URL => "change/{$this->_page->name}/",
-                    MIDCOM_TOOLBAR_LABEL => sprintf
-                    (
-                        $this->_l10n->get('change to %s'),
-                        $this->_l10n->get($this->_request_data['schemadb'][$name]->description)
-                    ),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_refresh.png',
-                    MIDCOM_TOOLBAR_POST => true,
-                    MIDCOM_TOOLBAR_POST_HIDDENARGS => Array
-                    (
-                        'change_to' => $name,
-                    ),
-                    MIDCOM_TOOLBAR_ENABLED => $this->_page->can_do('midgard:update'),
-                )
+                    $this->_l10n->get('change to %s'),
+                    $this->_l10n->get($this->_request_data['schemadb'][$name]->description)
+                ),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_refresh.png',
+                MIDCOM_TOOLBAR_POST => true,
+                MIDCOM_TOOLBAR_POST_HIDDENARGS => array('change_to' => $name),
+                MIDCOM_TOOLBAR_ENABLED => $this->_page->can_do('midgard:update'),
             );
         }
-
+        $this->_view_toolbar->add_items($buttons);
         $this->bind_view_to_object($this->_page, $this->_controller->datamanager->schema->name);
 
         $data['view_title'] = sprintf($this->_l10n->get('edit %s'), $this->_page->title);

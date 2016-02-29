@@ -98,37 +98,33 @@ class net_nemein_rss_handler_list extends midcom_baseclasses_components_handler
     private function create_toolbar(net_nemein_rss_feed_dba $feed)
     {
         $toolbar = new midcom_helper_toolbar();
+        $buttons = array();
         if ($feed->can_do('midgard:update'))
         {
-            $toolbar->add_item
+            $buttons[] = array
             (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => "__feeds/rss/edit/{$feed->guid}/",
-                    MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('edit'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
-                )
+                MIDCOM_TOOLBAR_URL => "__feeds/rss/edit/{$feed->guid}/",
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('edit'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
             );
         }
 
         if ($this->_topic->can_do('midgard:create'))
         {
-            $toolbar->add_item
+            $buttons[] = array
             (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => "__feeds/rss/fetch/{$feed->guid}/",
-                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('refresh feed'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_refresh.png',
-                )
+                MIDCOM_TOOLBAR_URL => "__feeds/rss/fetch/{$feed->guid}/",
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('refresh feed'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_refresh.png',
             );
         }
 
         if ($feed->can_do('midgard:delete'))
         {
             $workflow = new \midcom\workflow\delete($feed);
-            $toolbar->add_item($workflow->get_button("__feeds/rss/delete/{$feed->guid}/"));
+            $buttons[] = $workflow->get_button("__feeds/rss/delete/{$feed->guid}/");
         }
+        $toolbar->add_items($buttons);
         return $toolbar;
     }
 }

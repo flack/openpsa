@@ -23,53 +23,43 @@ class midcom_helper_toolbar_host extends midcom_helper_toolbar
 
     private function add_commands()
     {
+        $buttons = array();
         if (midcom::get()->auth->user)
         {
-            $this->add_item
+            $buttons[] = array
             (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => midcom_connection::get_url('self') . "midcom-logout-",
-                    MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('logout', 'midcom'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/exit.png',
-                    MIDCOM_TOOLBAR_ACCESSKEY => 'l',
-                )
+                MIDCOM_TOOLBAR_URL => midcom_connection::get_url('self') . "midcom-logout-",
+                MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('logout', 'midcom'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/exit.png',
+                MIDCOM_TOOLBAR_ACCESSKEY => 'l',
             );
         }
 
-        $this->add_item
+        $buttons[] = array
         (
-            array
-            (
-                MIDCOM_TOOLBAR_URL => midcom_connection::get_url('self') . "__mfa/asgard/",
-                MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('midgard.admin.asgard', 'midgard.admin.asgard'),
-                MIDCOM_TOOLBAR_ICON => 'midgard.admin.asgard/asgard2-16.png',
-                MIDCOM_TOOLBAR_ACCESSKEY => 'a',
-                MIDCOM_TOOLBAR_ENABLED => midcom::get()->auth->can_user_do('midgard.admin.asgard:access', null, 'midgard_admin_asgard_plugin', 'midgard.admin.asgard'),
-            )
+            MIDCOM_TOOLBAR_URL => midcom_connection::get_url('self') . "__mfa/asgard/",
+            MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('midgard.admin.asgard', 'midgard.admin.asgard'),
+            MIDCOM_TOOLBAR_ICON => 'midgard.admin.asgard/asgard2-16.png',
+            MIDCOM_TOOLBAR_ACCESSKEY => 'a',
+            MIDCOM_TOOLBAR_ENABLED => midcom::get()->auth->can_user_do('midgard.admin.asgard:access', null, 'midgard_admin_asgard_plugin', 'midgard.admin.asgard'),
         );
 
         if (midcom_connection::is_admin())
         {
-            $this->add_item
+            $buttons[] = array
             (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => midcom_connection::get_url('self') . "midcom-cache-invalidate",
-                    MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('invalidate cache', 'midcom'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_refresh.png',
-                )
+                MIDCOM_TOOLBAR_URL => midcom_connection::get_url('self') . "midcom-cache-invalidate",
+                MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('invalidate cache', 'midcom'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_refresh.png',
             );
 
-            $this->add_item
+            $buttons[] = array
             (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => midcom_connection::get_url('self') . "midcom-exec-midcom/config-test.php",
-                    MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('test settings', 'midcom'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/start-here.png',
-                )
+                MIDCOM_TOOLBAR_URL => midcom_connection::get_url('self') . "midcom-exec-midcom/config-test.php",
+                MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('test settings', 'midcom'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/start-here.png',
             );
         }
+        $this->add_items($buttons);
     }
 }

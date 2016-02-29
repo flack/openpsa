@@ -172,16 +172,14 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
 
     private function _prepare_toolbar(&$data)
     {
+        $buttons = array();
         if (midcom::get()->auth->can_user_do('midgard:create', null, $this->type))
         {
-            $data['asgard_toolbar']->add_item
+            $buttons[] = array
             (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => "__mfa/asgard/object/create/{$this->type}/",
-                    MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n_midcom->get('create %s'), midgard_admin_asgard_plugin::get_type_label($this->type)),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/' . midcom_helper_reflector_tree::get_create_icon($this->type),
-                )
+                MIDCOM_TOOLBAR_URL => "__mfa/asgard/object/create/{$this->type}/",
+                MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n_midcom->get('create %s'), midgard_admin_asgard_plugin::get_type_label($this->type)),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/' . midcom_helper_reflector_tree::get_create_icon($this->type),
             );
         }
 
@@ -193,51 +191,42 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
             $deleted = $qb->count();
             if ($deleted > 0)
             {
-                $data['asgard_toolbar']->add_item
+                $buttons[] = array
                 (
-                    array
-                    (
-                        MIDCOM_TOOLBAR_URL => "__mfa/asgard/trash/{$this->type}/",
-                        MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n->get('%s deleted items'), $deleted),
-                        MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash-full.png',
-                    )
+                    MIDCOM_TOOLBAR_URL => "__mfa/asgard/trash/{$this->type}/",
+                    MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n->get('%s deleted items'), $deleted),
+                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash-full.png',
                 );
             }
             else
             {
-                $data['asgard_toolbar']->add_item
+                $buttons[] = array
                 (
-                    array
-                    (
-                        MIDCOM_TOOLBAR_URL => "__mfa/asgard/trash/{$this->type}/",
-                        MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('trash is empty'),
-                        MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
-                    )
+                    MIDCOM_TOOLBAR_URL => "__mfa/asgard/trash/{$this->type}/",
+                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('trash is empty'),
+                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
                 );
             }
         }
         if ($data['component'] != 'midgard')
         {
-            $data['asgard_toolbar']->add_item
+            $buttons[] = array
             (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => "__mfa/asgard/components/{$data['component']}/",
-                    MIDCOM_TOOLBAR_LABEL => $this->_i18n->get_string($data['component'], $data['component']),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/component.png',
-                )
+                MIDCOM_TOOLBAR_URL => "__mfa/asgard/components/{$data['component']}/",
+                MIDCOM_TOOLBAR_LABEL => $this->_i18n->get_string($data['component'], $data['component']),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/component.png',
             );
         }
-        $data['asgard_toolbar']->add_item
+        $buttons[] = array
         (
-            array
-            (
-                MIDCOM_TOOLBAR_URL => "__ais/help/{$data['documentation_component']}/mgdschemas/#{$this->type}",
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('type documentation'),
-                MIDCOM_TOOLBAR_OPTIONS => array('target' => '_blank'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_help-agent.png',
-            )
+            MIDCOM_TOOLBAR_URL => "__ais/help/{$data['documentation_component']}/mgdschemas/#{$this->type}",
+            MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('type documentation'),
+            MIDCOM_TOOLBAR_OPTIONS => array('target' => '_blank'),
+            MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_help-agent.png',
         );
+
+        $data['asgard_toolbar']->add_items($buttons);
+
     }
 
     /**

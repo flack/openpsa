@@ -64,7 +64,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
 
     private function _populate_toolbar()
     {
-        $this->_view_toolbar->add_item
+        $buttons = array
         (
             array
             (
@@ -72,10 +72,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('view'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_left.png',
                 MIDCOM_TOOLBAR_ACCESSKEY => 'v',
-            )
-        );
-        $this->_view_toolbar->add_item
-        (
+            ),
             array
             (
                 MIDCOM_TOOLBAR_URL => "edit/{$this->_page->name}/",
@@ -88,7 +85,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
         if ($this->_page->can_do('midgard:delete'))
         {
             $workflow = new midcom\workflow\delete($this->_page);
-            $this->_view_toolbar->add_item($workflow->get_button("delete/{$this->_page->name}/"));
+            $buttons[] = $workflow->get_button("delete/{$this->_page->name}/");
         }
 
         foreach (array_keys($this->_request_data['schemadb']) as $name)
@@ -99,34 +96,25 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
                 continue;
             }
 
-            $this->_view_toolbar->add_item
+            $buttons[] = array
             (
-                array
+                MIDCOM_TOOLBAR_URL => "change/{$this->_page->name}/",
+                MIDCOM_TOOLBAR_LABEL => sprintf
                 (
-                    MIDCOM_TOOLBAR_URL => "change/{$this->_page->name}/",
-                    MIDCOM_TOOLBAR_LABEL => sprintf
-                    (
-                        $this->_l10n->get('change to %s'),
-                        $this->_l10n->get($this->_request_data['schemadb'][$name]->description)
-                    ),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_refresh.png',
-                    MIDCOM_TOOLBAR_POST => true,
-                    MIDCOM_TOOLBAR_POST_HIDDENARGS => Array
-                    (
-                        'change_to' => $name,
-                    ),
-                    MIDCOM_TOOLBAR_ENABLED => $this->_page->can_do('midgard:update'),
-                )
+                    $this->_l10n->get('change to %s'),
+                    $this->_l10n->get($this->_request_data['schemadb'][$name]->description)
+                ),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_refresh.png',
+                MIDCOM_TOOLBAR_POST => true,
+                MIDCOM_TOOLBAR_POST_HIDDENARGS => array('change_to' => $name),
+                MIDCOM_TOOLBAR_ENABLED => $this->_page->can_do('midgard:update'),
             );
         }
-        $this->_view_toolbar->add_item
+        $buttons[] = array
         (
-            array
-            (
-                MIDCOM_TOOLBAR_URL => "whatlinks/{$this->_page->name}/",
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('what links'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/jump-to.png',
-            )
+            MIDCOM_TOOLBAR_URL => "whatlinks/{$this->_page->name}/",
+            MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('what links'),
+            MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/jump-to.png',
         );
 
         if (midcom::get()->auth->user)
@@ -140,19 +128,13 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
             {
                 $action = 'subscribe';
             }
-            $this->_view_toolbar->add_item
+            $buttons[] = array
             (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => "subscribe/{$this->_page->name}/",
-                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get($action),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_mail.png',
-                    MIDCOM_TOOLBAR_POST => true,
-                    MIDCOM_TOOLBAR_POST_HIDDENARGS => Array
-                    (
-                        $action => 1,
-                    ),
-                )
+                MIDCOM_TOOLBAR_URL => "subscribe/{$this->_page->name}/",
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get($action),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_mail.png',
+                MIDCOM_TOOLBAR_POST => true,
+                MIDCOM_TOOLBAR_POST_HIDDENARGS => array($action => 1),
             );
         }
 
@@ -169,6 +151,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
                 )
             );
         }
+        $this->_view_toolbar->add_items($buttons);
 
         if (midcom::get()->componentloader->is_installed('org.openpsa.relatedto'))
         {

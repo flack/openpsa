@@ -45,18 +45,18 @@ class org_openpsa_projects_handler_project_crud extends midcom_baseclasses_compo
     private function _add_read_toolbar($handler_id)
     {
         $workflow = new midcom\workflow\datamanager2;
-
+        $buttons = array();
         if ($this->_object->can_do('midgard:update'))
         {
-            $this->_view_toolbar->add_item($workflow->get_button("project/edit/{$this->_object->guid}/", array
+            $buttons[] = $workflow->get_button("project/edit/{$this->_object->guid}/", array
             (
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
-            )));
-            $this->_view_toolbar->add_item($workflow->get_button("task/new/project/{$this->_object->guid}/", array
+            ));
+            $buttons[] = $workflow->get_button("task/new/project/{$this->_object->guid}/", array
             (
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("create task"),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new_task.png',
-            )));
+            ));
         }
 
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
@@ -64,16 +64,14 @@ class org_openpsa_projects_handler_project_crud extends midcom_baseclasses_compo
 
         if (!empty($sales_url))
         {
-            $this->_view_toolbar->add_item
+            $buttons[] = array
             (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => $sales_url . "salesproject/{$this->_object->guid}/",
-                    MIDCOM_TOOLBAR_LABEL => $this->_i18n->get_string('salesproject', 'org.openpsa.sales'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/jump-to.png',
-                )
+                MIDCOM_TOOLBAR_URL => $sales_url . "salesproject/{$this->_object->guid}/",
+                MIDCOM_TOOLBAR_LABEL => $this->_i18n->get_string('salesproject', 'org.openpsa.sales'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/jump-to.png',
             );
         }
+        $this->_view_toolbar->add_items($buttons);
         org_openpsa_relatedto_plugin::add_button($this->_view_toolbar, $this->_object->guid);
     }
 

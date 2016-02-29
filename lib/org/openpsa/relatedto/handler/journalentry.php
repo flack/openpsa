@@ -100,17 +100,14 @@ implements midcom_helper_datamanager2_interfaces_create
      */
     private function _prepare_output()
     {
-        $this->_view_toolbar->add_item
+        $buttons = array
         (
             array
             (
                 MIDCOM_TOOLBAR_URL => $this->_relocate_url,
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('back'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_left.png',
-            )
-        );
-        $this->_view_toolbar->add_item
-        (
+            ),
             array
             (
                 MIDCOM_TOOLBAR_URL => $this->_request_data['url_prefix'] . "create/" . $this->_current_object->guid . "/",
@@ -118,6 +115,7 @@ implements midcom_helper_datamanager2_interfaces_create
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-text.png',
             )
         );
+        $this->_view_toolbar->add_items($buttons);
 
         org_openpsa_widgets_contact::add_head_elements();
     }

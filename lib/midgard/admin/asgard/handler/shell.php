@@ -70,7 +70,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
     private function _prepare_toolbar()
     {
         $toolbar = new midgard_admin_asgard_toolbar();
-        $toolbar->add_item
+        $buttons = array
         (
             array
             (
@@ -78,20 +78,14 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/save.png',
                 MIDCOM_TOOLBAR_ACCESSKEY => 's',
                 MIDCOM_TOOLBAR_OPTIONS => array('id' => 'save-script')
-            )
-        );
-        $toolbar->add_item
-        (
+            ),
             array
             (
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('restore from browser'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_refresh.png',
                 MIDCOM_TOOLBAR_ACCESSKEY => 'r',
                 MIDCOM_TOOLBAR_OPTIONS => array('id' => 'restore-script')
-            )
-        );
-        $toolbar->add_item
-        (
+            ),
             array
             (
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('clear all'),
@@ -100,6 +94,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
                 MIDCOM_TOOLBAR_OPTIONS => array('id' => 'clear-script')
             )
         );
+        $toolbar->add_items($buttons);
         return $toolbar;
     }
 

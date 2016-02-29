@@ -382,23 +382,20 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
         $this->add_breadcrumb("message/{$this->_message->guid}/", $this->_message->title);
         $this->add_breadcrumb("message/report/{$this->_message->guid}/", sprintf($this->_l10n->get('report for message %s'), $this->_message->title));
 
-        $this->_view_toolbar->add_item
-        (
-            array
-            (
-                MIDCOM_TOOLBAR_URL => "message/{$this->_message->guid}/",
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get("back"),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_left.png',
-            )
-        );
         $preview_url = "message/compose/{$this->_message->guid}/";
         if (!empty(midcom::get()->auth->user->guid))
         {
             $preview_url .= midcom::get()->auth->user->guid .'/';
         }
 
-        $this->_view_toolbar->add_item
+        $buttons = array
         (
+            array
+            (
+                MIDCOM_TOOLBAR_URL => "message/{$this->_message->guid}/",
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get("back"),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_left.png',
+            ),
             array
             (
                 MIDCOM_TOOLBAR_URL => $preview_url,
@@ -409,6 +406,7 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
                 MIDCOM_TOOLBAR_OPTIONS => array('target' => '_BLANK'),
             )
         );
+        $this->_view_toolbar->add_items($buttons);
         $this->_analyze_message_report($data);
     }
 

@@ -286,7 +286,7 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
             return;
         }
         $workflow = new midcom\workflow\datamanager2;
-
+        $toolbar_buttons = array();
         foreach ($buttons as $mode => $data)
         {
             debug_print_r("processing button '{$mode}' with data:", $data);
@@ -307,31 +307,28 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
             switch ($mode)
             {
                 case 'event':
-                    $toolbar->add_item
+                    $toolbar_buttons[] = array
                     (
-                        array
+                        MIDCOM_TOOLBAR_URL => "#",
+                        MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('create event', $data['component']),
+                        MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_new-event.png',
+                        //TODO: Check for privileges somehow
+                        MIDCOM_TOOLBAR_OPTIONS  => array
                         (
-                            MIDCOM_TOOLBAR_URL => "#",
-                            MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('create event', $data['component']),
-                            MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_new-event.png',
-                            //TODO: Check for privileges somehow
-                            MIDCOM_TOOLBAR_OPTIONS  => array
-                            (
-                                'rel' => 'directlink',
-                                'onclick' => org_openpsa_calendar_interface::calendar_newevent_js($data['node'], false, false, '?' . self::relatedto2get(array($related_to))),
-                            ),
+                            'rel' => 'directlink',
+                            'onclick' => org_openpsa_calendar_interface::calendar_newevent_js($data['node'], false, false, '?' . self::relatedto2get(array($related_to))),
                         )
                     );
                     break;
                 case 'task':
                     if (midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_projects_project_task_dba'))
                     {
-                        $toolbar->add_item($workflow->get_button("{$data['node'][MIDCOM_NAV_ABSOLUTEURL]}task/new/?" . self::relatedto2get(array($related_to)), array
+                        $toolbar_buttons[] = $workflow->get_button("{$data['node'][MIDCOM_NAV_ABSOLUTEURL]}task/new/?" . self::relatedto2get(array($related_to)), array
                         (
                             MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('create task', $data['component']),
                             MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new_task.png',
                             MIDCOM_TOOLBAR_OPTIONS  => array('data-refresh-opener' => 'true'),
-                        )));
+                        ));
                     }
                     break;
                 case 'wikinote':
@@ -351,32 +348,29 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
                     }
 
                     $data['wikiword_encoded'] = rawurlencode($data['wikiword']);
-                    $toolbar->add_item
+                    $toolbar_buttons[] = array
                     (
-                        array
+                        MIDCOM_TOOLBAR_URL => "{$data['node'][MIDCOM_NAV_ABSOLUTEURL]}create/?wikiword={$data['wikiword_encoded']}&" . self::relatedto2get(array($related_to)),
+                        MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('create note', $data['component']),
+                        //TODO: Different icon from new document ?
+                        MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-text.png',
+                        MIDCOM_TOOLBAR_ENABLED => $data['node'][MIDCOM_NAV_OBJECT]->can_do('midgard:create'),
+                        MIDCOM_TOOLBAR_OPTIONS  => array
                         (
-                            MIDCOM_TOOLBAR_URL => "{$data['node'][MIDCOM_NAV_ABSOLUTEURL]}create/?wikiword={$data['wikiword_encoded']}&" . self::relatedto2get(array($related_to)),
-                            MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('create note', $data['component']),
-                            //TODO: Different icon from new document ?
-                            MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-text.png',
-                            MIDCOM_TOOLBAR_ENABLED => $data['node'][MIDCOM_NAV_OBJECT]->can_do('midgard:create'),
-                            MIDCOM_TOOLBAR_OPTIONS  => array
-                            (
-                                //PONDER: Open in new window or not ??
-                                'target' => 'wiki',
-                            ),
+                            //PONDER: Open in new window or not ??
+                            'target' => 'wiki',
                         )
                     );
                     break;
                 case 'document':
                     if ($data['node'][MIDCOM_NAV_OBJECT]->can_do('midgard:create'))
                     {
-                        $toolbar->add_item($workflow->get_button("{$data['node'][MIDCOM_NAV_ABSOLUTEURL]}document/create/choosefolder/?" . self::relatedto2get(array($related_to)), array
+                        $toolbar_buttons[] = $workflow->get_button("{$data['node'][MIDCOM_NAV_ABSOLUTEURL]}document/create/choosefolder/?" . self::relatedto2get(array($related_to)), array
                         (
                             MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('create document', $data['component']),
                             MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-text.png',
                             MIDCOM_TOOLBAR_OPTIONS  => array('data-refresh-opener' => 'true'),
-                        )));
+                        ));
                     }
                     break;
                 default:
@@ -384,6 +378,7 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
                     break;
             }
         }
+        $toolbar->add_items($toolbar_buttons);
     }
 
     /**

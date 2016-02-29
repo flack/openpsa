@@ -134,54 +134,43 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_plugin
                 $show_previous = true;
             }
         }
-
+        $buttons = array();
         if ($show_previous)
         {
-            $this->_view_toolbar->add_item
+            $buttons[] = array
             (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => "__ais/rcs/diff/{$this->_guid}/{$first}/{$second}/",
-                    MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n->get('view %s differences with previous (%s)'), $second, $first),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_left.png',
-                )
+                MIDCOM_TOOLBAR_URL => "__ais/rcs/diff/{$this->_guid}/{$first}/{$second}/",
+                MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n->get('view %s differences with previous (%s)'), $second, $first),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_left.png',
             );
         }
 
-        $this->_view_toolbar->add_item
+        $buttons[] = array
         (
-            array
-            (
-                MIDCOM_TOOLBAR_URL => "__ais/rcs/preview/{$this->_guid}/{$revision}/",
-                MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n->get('view this revision (%s)'), $revision),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/search.png',
-            )
+            MIDCOM_TOOLBAR_URL => "__ais/rcs/preview/{$this->_guid}/{$revision}/",
+            MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n->get('view this revision (%s)'), $revision),
+            MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/search.png',
         );
 
         // Display restore and next buttons only if we're not in latest revision
         if ($after != '')
         {
-            $this->_view_toolbar->add_item
+            $buttons[] = array
             (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => "__ais/rcs/restore/{$this->_guid}/{$revision}/",
-                    MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n->get('restore this revision (%s)'), $revision),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/editpaste.png',
-                    MIDCOM_TOOLBAR_ENABLED => $this->_object->can_do('midgard:update'),
-                )
+                MIDCOM_TOOLBAR_URL => "__ais/rcs/restore/{$this->_guid}/{$revision}/",
+                MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n->get('restore this revision (%s)'), $revision),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/editpaste.png',
+                MIDCOM_TOOLBAR_ENABLED => $this->_object->can_do('midgard:update'),
             );
 
-            $this->_view_toolbar->add_item
+            $buttons[] = array
             (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => "__ais/rcs/diff/{$this->_guid}/{$revision}/{$after}/",
-                    MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n->get('view %s differences with next (%s)'), $revision, $after),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_right.png',
-                )
+                MIDCOM_TOOLBAR_URL => "__ais/rcs/diff/{$this->_guid}/{$revision}/{$after}/",
+                MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n->get('view %s differences with next (%s)'), $revision, $after),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_right.png',
             );
         }
+        $this->_view_toolbar->add_items($buttons);
 
         $this->bind_view_to_object($this->_object);
     }

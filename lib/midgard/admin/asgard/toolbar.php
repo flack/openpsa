@@ -27,18 +27,16 @@ class midgard_admin_asgard_toolbar extends midcom_helper_toolbar_view
      */
     public function bind_to_object($object, $handler_id, $data)
     {
+        $buttons = array();
         // Show view toolbar button, if the user hasn't configured to use straight the edit mode
         if ($data['default_mode'] === 'view')
         {
-            $this->add_item
+            $buttons[] = array
             (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => $this->_generate_url('view', $object),
-                    MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('view', 'midcom'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/view.png',
-                    MIDCOM_TOOLBAR_ACCESSKEY => 'v',
-                )
+                MIDCOM_TOOLBAR_URL => $this->_generate_url('view', $object),
+                MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('view', 'midcom'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/view.png',
+                MIDCOM_TOOLBAR_ACCESSKEY => 'v',
             );
         }
 
@@ -55,49 +53,40 @@ class midgard_admin_asgard_toolbar extends midcom_helper_toolbar_view
             $link = midcom::get()->permalinks->resolve_permalink($object->guid);
             if ($link)
             {
-                $this->add_item
+                $buttons[] = array
                 (
-                    array
-                    (
-                        MIDCOM_TOOLBAR_URL => $link,
-                        MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('view on site', 'midgard.admin.asgard'),
-                        MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_internet.png',
-                    )
+                    MIDCOM_TOOLBAR_URL => $link,
+                    MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('view on site', 'midgard.admin.asgard'),
+                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_internet.png',
                 );
             }
         }
 
         if ($object->can_do('midgard:update'))
         {
-            $this->add_item
+            $buttons[] = array
             (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => $this->_generate_url('edit', $object),
-                    MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('edit', 'midcom'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
-                    MIDCOM_TOOLBAR_ACCESSKEY => 'e',
-                )
+                MIDCOM_TOOLBAR_URL => $this->_generate_url('edit', $object),
+                MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('edit', 'midcom'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
+                MIDCOM_TOOLBAR_ACCESSKEY => 'e',
             );
         }
 
         if ($object->can_do('midgard:create'))
         {
             $url = (midcom_helper_reflector_tree::get_child_objects($object)) ? 'copy/tree' : 'copy';
-            $this->add_item
+            $buttons[] = array
             (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => $this->_generate_url($url, $object),
-                    MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('copy', 'midcom'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/editcopy.png',
-                )
+                MIDCOM_TOOLBAR_URL => $this->_generate_url($url, $object),
+                MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('copy', 'midcom'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/editcopy.png',
             );
         }
 
         if ($object->can_do('midgard:update'))
         {
-            $this->_add_toolbar_update_items($object);
+            $buttons = array_merge($buttons, $this->get_toolbar_update_items($object));
         }
 
         if ($object->can_do('midgard:create'))
@@ -168,29 +157,23 @@ class midgard_admin_asgard_toolbar extends midcom_helper_toolbar_view
                     continue;
                 }
 
-                $this->add_item
+                $buttons[] = array
                 (
-                    array
-                    (
-                        MIDCOM_TOOLBAR_URL => $this->_generate_url('create/' . $type, $object),
-                        MIDCOM_TOOLBAR_LABEL => sprintf(midcom::get()->i18n->get_string('create %s', 'midcom'), midgard_admin_asgard_plugin::get_type_label($type)),
-                        MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/' . $data['tree_reflector']->get_create_icon($type),
-                    )
+                    MIDCOM_TOOLBAR_URL => $this->_generate_url('create/' . $type, $object),
+                    MIDCOM_TOOLBAR_LABEL => sprintf(midcom::get()->i18n->get_string('create %s', 'midcom'), midgard_admin_asgard_plugin::get_type_label($type)),
+                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/' . $data['tree_reflector']->get_create_icon($type),
                 );
             }
         }
 
         if ($object->can_do('midgard:delete'))
         {
-            $this->add_item
+            $buttons[] = array
             (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => $this->_generate_url('delete', $object),
-                    MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('delete', 'midcom'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
-                    MIDCOM_TOOLBAR_ACCESSKEY => 'd',
-                )
+                MIDCOM_TOOLBAR_URL => $this->_generate_url('delete', $object),
+                MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('delete', 'midcom'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
+                MIDCOM_TOOLBAR_ACCESSKEY => 'd',
             );
         }
 
@@ -198,18 +181,16 @@ class midgard_admin_asgard_toolbar extends midcom_helper_toolbar_view
             && $object->can_do('midgard:update')
             && $object->_use_rcs)
         {
-            $this->add_item
+            $buttons[] = array
             (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => $this->_generate_url('rcs', $object),
-                    MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('show history', 'midgard.admin.asgard'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/history.png',
-                    MIDCOM_TOOLBAR_ENABLED => (substr($handler_id, 0, 25) !== '____mfa-asgard-object_rcs'),
-                    MIDCOM_TOOLBAR_ACCESSKEY => 'h',
-                )
+                MIDCOM_TOOLBAR_URL => $this->_generate_url('rcs', $object),
+                MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('show history', 'midgard.admin.asgard'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/history.png',
+                MIDCOM_TOOLBAR_ENABLED => (substr($handler_id, 0, 25) !== '____mfa-asgard-object_rcs'),
+                MIDCOM_TOOLBAR_ACCESSKEY => 'h',
             );
         }
+        $this->add_items($buttons);
         $this->_disable_active_item($handler_id, $object, $data);
     }
 
@@ -257,80 +238,64 @@ class midgard_admin_asgard_toolbar extends midcom_helper_toolbar_view
         }
     }
 
-    private function _add_toolbar_update_items($object)
+    private function get_toolbar_update_items($object)
     {
+        $buttons = array();
         if (   is_a($object, 'midcom_db_topic')
             && $object->component
             && $object->can_do('midcom:component_config'))
         {
-            $this->add_item
+            $buttons[] = array
             (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => "__mfa/asgard/components/configuration/edit/{$object->component}/{$object->guid}/",
-                    MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('component configuration', 'midcom'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_folder-properties.png',
-                )
+                MIDCOM_TOOLBAR_URL => "__mfa/asgard/components/configuration/edit/{$object->component}/{$object->guid}/",
+                MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('component configuration', 'midcom'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_folder-properties.png',
             );
         }
 
-        $this->add_item
+        $buttons[] = array
         (
-            array
-            (
-                MIDCOM_TOOLBAR_URL => $this->_generate_url('metadata', $object),
-                MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('metadata', 'midcom'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/metadata.png',
-                MIDCOM_TOOLBAR_ACCESSKEY => 'm',
-            )
+            MIDCOM_TOOLBAR_URL => $this->_generate_url('metadata', $object),
+            MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('metadata', 'midcom'),
+            MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/metadata.png',
+            MIDCOM_TOOLBAR_ACCESSKEY => 'm',
         );
-        $this->add_approval_controls($object);
+        $buttons = array_merge($buttons, $this->get_approval_controls($object));
 
-        $this->add_item
+        $buttons[] = array
         (
-            array
-            (
-                MIDCOM_TOOLBAR_URL => $this->_generate_url('attachments', $object),
-                MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('attachments', 'midgard.admin.asgard'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/attach.png',
-            )
+            MIDCOM_TOOLBAR_URL => $this->_generate_url('attachments', $object),
+            MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('attachments', 'midgard.admin.asgard'),
+            MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/attach.png',
         );
 
-        $this->add_item
+        $buttons[] = array
         (
-            array
-            (
-                MIDCOM_TOOLBAR_URL => $this->_generate_url('parameters', $object),
-                MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('parameters', 'midcom'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/properties.png',
-                MIDCOM_TOOLBAR_ENABLED => $object->can_do('midgard:parameters'),
-            )
+            MIDCOM_TOOLBAR_URL => $this->_generate_url('parameters', $object),
+            MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('parameters', 'midcom'),
+            MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/properties.png',
+            MIDCOM_TOOLBAR_ENABLED => $object->can_do('midgard:parameters'),
         );
 
-        $this->add_item
+        $buttons[] = array
         (
-            array
-            (
-                MIDCOM_TOOLBAR_URL => $this->_generate_url('permissions', $object),
-                MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('privileges', 'midcom'),
-                MIDCOM_TOOLBAR_ICON => 'midgard.admin.asgard/permissions-16.png',
-                MIDCOM_TOOLBAR_ENABLED => $object->can_do('midgard:privileges'),
-            )
+            MIDCOM_TOOLBAR_URL => $this->_generate_url('permissions', $object),
+            MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('privileges', 'midcom'),
+            MIDCOM_TOOLBAR_ICON => 'midgard.admin.asgard/permissions-16.png',
+            MIDCOM_TOOLBAR_ENABLED => $object->can_do('midgard:privileges'),
         );
 
         if (   midcom::get()->componentloader->is_installed('midcom.helper.replicator')
             && midcom::get()->auth->admin)
         {
-            $this->add_item
+            $buttons[] = array
             (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => "__mfa/asgard_midcom.helper.replicator/object/{$object->guid}/",
-                    MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('replication information', 'midcom.helper.replicator'),
-                    MIDCOM_TOOLBAR_ICON => 'midcom.helper.replicator/replicate-server-16.png',
-                    MIDCOM_TOOLBAR_ACCESSKEY => 'r',
-                )
+                MIDCOM_TOOLBAR_URL => "__mfa/asgard_midcom.helper.replicator/object/{$object->guid}/",
+                MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('replication information', 'midcom.helper.replicator'),
+                MIDCOM_TOOLBAR_ICON => 'midcom.helper.replicator/replicate-server-16.png',
+                MIDCOM_TOOLBAR_ACCESSKEY => 'r',
             );
         }
+        return $buttons;
     }
 }

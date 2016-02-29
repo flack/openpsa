@@ -102,12 +102,13 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
     private function _populate_toolbar($handler_id)
     {
         $workflow = new midcom\workflow\datamanager2;
+        $buttons = array();
         if ($this->_contact->can_do('midgard:update'))
         {
-            $this->_view_toolbar->add_item($workflow->get_button("person/edit/{$this->_contact->guid}/", array
+            $buttons[] = $workflow->get_button("person/edit/{$this->_contact->guid}/", array
             (
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
-            )));
+            ));
         }
 
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
@@ -119,10 +120,10 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
         {
             if ($this->_contact->can_do('midgard:update'))
             {
-                $this->_view_toolbar->add_item($workflow->get_button($invoices_url . "billingdata/" . $this->_contact->guid . '/', array
+                $buttons[] = $workflow->get_button($invoices_url . "billingdata/" . $this->_contact->guid . '/', array
                 (
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('edit billingdata'),
-                )));
+                ));
             }
         }
 
@@ -130,21 +131,18 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
             && (   midcom_connection::get_user() == $this->_contact->id
                 || midcom::get()->auth->can_user_do('org.openpsa.user:access', null, 'org_openpsa_user_interface')))
         {
-            $this->_view_toolbar->add_item
+            $buttons[] = array
             (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => $user_url . "view/{$this->_contact->guid}/",
-                    MIDCOM_TOOLBAR_LABEL => $this->_i18n->get_string('user management', 'org.openpsa.user'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/properties.png',
-                )
+                MIDCOM_TOOLBAR_URL => $user_url . "view/{$this->_contact->guid}/",
+                MIDCOM_TOOLBAR_LABEL => $this->_i18n->get_string('user management', 'org.openpsa.user'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/properties.png',
             );
         }
 
         if ($this->_contact->can_do('midgard:delete'))
         {
             $workflow = new midcom\workflow\delete($this->_contact);
-            $this->_view_toolbar->add_item($workflow->get_button("person/delete/{$this->_contact->guid}/"));
+            $buttons[] = $workflow->get_button("person/delete/{$this->_contact->guid}/");
         }
 
         $mycontacts = new org_openpsa_contacts_mycontacts;
@@ -152,29 +150,24 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
         if ($mycontacts->is_member($this->_contact->guid))
         {
             // We're buddies, show remove button
-            $this->_view_toolbar->add_item
+            $buttons[] = array
             (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => "mycontacts/remove/{$this->_contact->guid}/",
-                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('remove from my contacts'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
-                )
+                MIDCOM_TOOLBAR_URL => "mycontacts/remove/{$this->_contact->guid}/",
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('remove from my contacts'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
             );
         }
         else
         {
             // We're not buddies, show add button
-            $this->_view_toolbar->add_item
+            $buttons[] = array
             (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => "mycontacts/add/{$this->_contact->guid}/",
-                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('add to my contacts'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_person.png',
-                )
+                MIDCOM_TOOLBAR_URL => "mycontacts/add/{$this->_contact->guid}/",
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('add to my contacts'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_person.png',
             );
         }
+        $this->_view_toolbar->add_items($buttons);
     }
 
     /**

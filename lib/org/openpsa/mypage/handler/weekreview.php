@@ -26,26 +26,20 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
 
     private function _populate_toolbar()
     {
-        $this->_view_toolbar->add_item
+        $buttons = array
         (
             array
             (
                 MIDCOM_TOOLBAR_URL => 'day/' . strftime('%Y-%m-%d', $this->_request_data['week_start']) . '/',
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('day review'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/properties.png',
-            )
-        );
-        $this->_view_toolbar->add_item
-        (
+            ),
             array
             (
                 MIDCOM_TOOLBAR_URL => 'weekreview/' . $this->_request_data['prev_week'] . '/',
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('previous'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/back.png',
-            )
-        );
-        $this->_view_toolbar->add_item
-        (
+            ),
             array
             (
                 MIDCOM_TOOLBAR_URL => 'weekreview/' . $this->_request_data['next_week'] . '/',
@@ -53,6 +47,7 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/next.png',
             )
         );
+        $this->_view_toolbar->add_items($buttons);
     }
 
     private function _list_events_between(array &$data_array, $person, $from, $to)

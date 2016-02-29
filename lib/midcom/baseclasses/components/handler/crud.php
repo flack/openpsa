@@ -230,23 +230,24 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
     public function _populate_toolbar($handler_id)
     {
         $prefix = $this->_get_url_prefix();
-
+        $buttons = array();
         if (   $this->_mode !== 'update'
             && $this->_object->can_do('midgard:update'))
         {
             $workflow = new midcom\workflow\datamanager2;
-            $this->_view_toolbar->add_item($workflow->get_button("edit/{$this->_object->guid}/", array
+            $buttons[] = $workflow->get_button($prefix . "edit/{$this->_object->guid}/", array
             (
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
-            )));
+            ));
         }
 
         if (   $this->_mode !== 'delete'
             && $this->_object->can_do('midgard:delete'))
         {
             $workflow = new \midcom\workflow\delete($this->_object);
-            $this->_view_toolbar->add_item($workflow->get_button($prefix . "delete/{$this->_object->guid}/"));
+            $buttons[] = $workflow->get_button($prefix . "delete/{$this->_object->guid}/");
         }
+        $this->_view_toolbar->add_items($buttons);
     }
 
     /**

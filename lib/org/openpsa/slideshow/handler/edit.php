@@ -120,17 +120,14 @@ class org_openpsa_slideshow_handler_edit extends midcom_baseclasses_components_h
         $head->add_stylesheet(MIDCOM_STATIC_URL . '/' . $this->_component . '/edit.css');
         $head->add_jquery_ui_theme(array('progressbar', 'button', 'dialog'));
 
-        $this->_view_toolbar->add_item
+        $buttons = array
         (
             array
             (
                 MIDCOM_TOOLBAR_URL => "",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('view'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/view.png',
-            )
-        );
-        $this->_view_toolbar->add_item
-        (
+            ),
             array
             (
                 MIDCOM_TOOLBAR_URL => "recreate/",
@@ -138,6 +135,7 @@ class org_openpsa_slideshow_handler_edit extends midcom_baseclasses_components_h
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_refresh.png',
             )
         );
+        $this->_view_toolbar->add_items($buttons);
     }
 
     /**
