@@ -36,16 +36,6 @@ implements midcom_helper_datamanager2_interfaces_create
     private $_schema = 'default';
 
     /**
-     * Simple helper which references all important members to the request data listing
-     * for usage within the style listing.
-     */
-    private function _prepare_request_data()
-    {
-        $this->_request_data['schema'] = $this->_schema;
-        $this->_request_data['schemadb'] =& $this->_schemadb;
-    }
-
-    /**
      * Loads and prepares the schema database.
      *
      * The operations are done on all available schemas within the DB.
@@ -99,9 +89,9 @@ implements midcom_helper_datamanager2_interfaces_create
      */
     public function _handler_create($handler_id, array $args, array &$data)
     {
-        $this->_request_data['up'] = (int) $args[0];
+        $data['up'] = (int) $args[0];
 
-        if ($this->_request_data['up'] == 0)
+        if ($data['up'] == 0)
         {
             midcom::get()->auth->require_user_do('midgard:create', null, 'org_openpsa_products_product_group_dba');
         }
@@ -109,7 +99,6 @@ implements midcom_helper_datamanager2_interfaces_create
         {
             $parent = new org_openpsa_products_product_group_dba($data['up']);
             $parent->require_do('midgard:create');
-            $data['parent'] = $parent;
         }
 
         $data['selected_schema'] = $args[1];
@@ -118,68 +107,23 @@ implements midcom_helper_datamanager2_interfaces_create
             throw new midcom_error_notfound('Schema ' . $data['selected_schema'] . ' was not found it schemadb');
         }
         $this->_schema = $data['selected_schema'];
-
         $data['controller'] = $this->get_controller('create');
 
-        switch ($data['controller']->process_form())
-        {
-            case 'save':
+        midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get($this->_schemadb[$this->_schema]->description)));
 
-                if ($this->_config->get('index_groups'))
-                {
-                    // Index the group
-                    $indexer = midcom::get()->indexer;
-                    org_openpsa_products_viewer::index($data['controller']->datamanager, $indexer, $this->_topic);
-                }
-                midcom::get()->cache->invalidate($this->_topic->guid);
-                return new midcom_response_relocate("{$this->_group->guid}/");
-
-            case 'cancel':
-                if ($this->_request_data['up'] == 0)
-                {
-                    return new midcom_response_relocate('');
-                }
-                return new midcom_response_relocate("{$this->_request_data['up']}/");
-        }
-
-        $this->_prepare_request_data();
-
-        $this->_request_data['view_title'] = sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get($this->_schemadb[$this->_schema]->description));
-        midcom::get()->head->set_pagetitle($this->_request_data['view_title']);
-
-        $this->_update_breadcrumb_line();
+        $workflow = new midcom\workflow\datamanager2($data['controller'], array($this, 'save_callback'));
+        return $workflow->run();
     }
 
-    /**
-     * Shows the loaded article.
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_create($handler_id, array &$data)
+    public function save_callback(midcom_helper_datamanager2_controller $controller)
     {
-        midcom_show_style('group_create');
-    }
-
-    /**
-     * Helper, updates the context so that we get a complete breadcrumb line towards the current
-     * location.
-     */
-    private function _update_breadcrumb_line()
-    {
-        $tmp = array();
-
-        if (!empty($this->_request_data['parent']))
+        if ($this->_config->get('index_groups'))
         {
-            $tmp = $this->_master->update_breadcrumb_line($this->_request_data['parent']);
+            // Index the group
+            $indexer = midcom::get()->indexer;
+            org_openpsa_products_viewer::index($controller->datamanager, $indexer, $this->_topic);
         }
-
-        $tmp[] = Array
-        (
-            MIDCOM_NAV_URL => "create/",
-            MIDCOM_NAV_NAME => $this->_request_data['view_title'],
-        );
-
-        midcom_core_context::get()->set_custom_key('midcom.helper.nav.breadcrumb', $tmp);
+        midcom::get()->cache->invalidate($this->_topic->guid);
+        return "{$this->_group->guid}/";
     }
 }

@@ -185,26 +185,20 @@ class org_openpsa_products_handler_group_groupsblock  extends midcom_baseclasses
 
     private function _populate_toolbar()
     {
-        $buttons = array
+        $buttons = array();
+        $workflow = new midcom\workflow\datamanager2;
+        $buttons[] = $workflow->get_button("edit/{$this->_request_data['group']->guid}/", array
         (
-            array
-            (
-                MIDCOM_TOOLBAR_URL => "edit/{$this->_request_data['group']->guid}/",
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('edit'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
-                MIDCOM_TOOLBAR_ENABLED => $this->_request_data['group']->can_do('midgard:update'),
-                MIDCOM_TOOLBAR_ACCESSKEY => 'e',
-            )
-        );
+            MIDCOM_TOOLBAR_ENABLED => $this->_request_data['group']->can_do('midgard:update'),
+            MIDCOM_TOOLBAR_ACCESSKEY => 'e',
+        ));
 
         $allow_create_group = $this->_request_data['group']->can_do('midgard:create');
         $allow_create_product = $this->_request_data['group']->can_do('midgard:create');
-
         foreach (array_keys($this->_request_data['schemadb_group']) as $name)
         {
-            $buttons[] = array
+            $buttons[] = $workflow->get_button("create/{$this->_request_data['parent_group']}/{$name}/", array
             (
-                MIDCOM_TOOLBAR_URL => "create/{$this->_request_data['parent_group']}/{$name}/",
                 MIDCOM_TOOLBAR_LABEL => sprintf
                 (
                     $this->_l10n_midcom->get('create %s'),
@@ -212,14 +206,13 @@ class org_openpsa_products_handler_group_groupsblock  extends midcom_baseclasses
                 ),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-dir.png',
                 MIDCOM_TOOLBAR_ENABLED => $allow_create_group,
-            );
+            ));
         }
 
         foreach (array_keys($this->_request_data['schemadb_product']) as $name)
         {
-            $buttons[] = array
+            $buttons[] = $workflow->get_button("product/create/{$this->_request_data['parent_group']}/{$name}/", array
             (
-                MIDCOM_TOOLBAR_URL => "product/create/{$this->_request_data['parent_group']}/{$name}/",
                 MIDCOM_TOOLBAR_LABEL => sprintf
                 (
                     $this->_l10n_midcom->get('create %s'),
@@ -228,7 +221,7 @@ class org_openpsa_products_handler_group_groupsblock  extends midcom_baseclasses
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-text.png',
                 MIDCOM_TOOLBAR_ACCESSKEY => 'n',
                 MIDCOM_TOOLBAR_ENABLED => $allow_create_product,
-            );
+            ));
         }
         $this->_view_toolbar->add_items($buttons);
     }

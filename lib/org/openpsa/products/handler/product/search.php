@@ -313,35 +313,34 @@ class org_openpsa_products_handler_product_search extends midcom_baseclasses_com
 
     private function _populate_toolbar()
     {
-        $buttons = array();
         if ($this->_topic->can_do('midgard:create'))
         {
-            $buttons[] = array
+            $buttons = array();
+            $workflow = new midcom\workflow\datamanager2;
+            $buttons[] = $workflow->get_button("create/{$this->_request_data['root_group']}/", array
             (
-                MIDCOM_TOOLBAR_URL => "create/{$this->_request_data['root_group']}/",
                 MIDCOM_TOOLBAR_LABEL => sprintf
                 (
                     $this->_l10n_midcom->get('create %s'),
                     $this->_l10n->get('product group')
                 ),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-dir.png',
-            );
+            ));
 
             foreach (array_keys($this->_request_data['schemadb_product']) as $name)
             {
-                $buttons[] = array
+                $buttons[] = $workflow->get_button("product/create/{$this->_request_data['root_group']}/{$name}/", array
                 (
-                    MIDCOM_TOOLBAR_URL => "product/create/{$this->_request_data['root_group']}/{$name}/",
                     MIDCOM_TOOLBAR_LABEL => sprintf
                     (
                         $this->_l10n_midcom->get('create %s'),
                         $this->_l10n->get($this->_request_data['schemadb_product'][$name]->description)
                     ),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-text.png',
-                );
+                ));
             }
+            $this->_node_toolbar->add_items($buttons);
         }
-        $this->_node_toolbar->add_items($buttons);
 
         $this->bind_view_to_object($this->_topic, $this->_request_data['search_schema']);
     }

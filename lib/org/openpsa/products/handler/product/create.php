@@ -36,16 +36,6 @@ implements midcom_helper_datamanager2_interfaces_create
     private $_schema = 'default';
 
     /**
-     * Simple helper which references all important members to the request data listing
-     * for usage within the style listing.
-     */
-    private function _prepare_request_data()
-    {
-        $this->_request_data['schema'] = $this->_schema;
-        $this->_request_data['schemadb'] =& $this->_schemadb;
-    }
-
-    /**
      * Loads and prepares the schema database.
      *
      * The operations are done on all available schemas within the DB.
@@ -99,80 +89,36 @@ implements midcom_helper_datamanager2_interfaces_create
 
         if ($handler_id == 'create_product')
         {
-            $data['selected_schema'] = $args[0];
+            $this->_schema = $args[0];
         }
         else
         {
-            $data['selected_schema'] = $args[1];
+            $this->_schema = $args[1];
         }
 
-        if (!array_key_exists($data['selected_schema'], $data['schemadb_product']))
+        if (!array_key_exists($this->_schema, $data['schemadb_product']))
         {
-            throw new midcom_error_notfound('Schema ' . $data['selected_schema'] . ' was not found in schemadb');
+            throw new midcom_error_notfound('Schema ' . $this->_schema . ' was not found in schemadb');
         }
-        $this->_schema = $data['selected_schema'];
 
         $data['controller'] = $this->get_controller('create');
+        midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get($this->_schemadb[$this->_schema]->description)));
 
-        switch ($data['controller']->process_form())
-        {
-            case 'save':
-
-                if ($this->_config->get('index_products'))
-                {
-                    // Index the product
-                    $indexer = midcom::get()->indexer;
-                    org_openpsa_products_viewer::index($data['controller']->datamanager, $indexer, $this->_topic);
-                }
-
-                midcom::get()->cache->invalidate($this->_product->guid);
-
-                return new midcom_response_relocate("product/{$this->_product->guid}/");
-
-            case 'cancel':
-                if ($this->_request_data['up'] == 0)
-                {
-                    return new midcom_response_relocate('');
-                }
-                return new midcom_response_relocate("{$this->_request_data['up']}/");
-        }
-
-        $this->_prepare_request_data();
-
-        $this->_request_data['view_title'] = sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get($this->_schemadb[$this->_schema]->description));
-        midcom::get()->head->set_pagetitle($this->_request_data['view_title']);
-
-        $this->_update_breadcrumb_line();
+        $workflow = new midcom\workflow\datamanager2($data['controller'], array($this, 'save_callback'));
+        return $workflow->run();
     }
 
-    /**
-     * Shows the loaded article.
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_create($handler_id, array &$data)
+    public function save_callback(midcom_helper_datamanager2_controller $controller)
     {
-        midcom_show_style('product_create');
-    }
-
-    /**
-     * Helper, updates the context so that we get a complete breadcrumb line towards the current
-     * location.
-     */
-    private function _update_breadcrumb_line()
-    {
-        $tmp = array();
-        if (!empty($this->_request_data['parent']))
+        if ($this->_config->get('index_products'))
         {
-            $tmp = $this->_master->update_breadcrumb_line($this->_request_data['parent']);
+            // Index the product
+            $indexer = midcom::get()->indexer;
+            org_openpsa_products_viewer::index($controller->datamanager, $indexer, $this->_topic);
         }
-        $tmp[] = Array
-        (
-            MIDCOM_NAV_URL => "product/create/",
-            MIDCOM_NAV_NAME => $this->_request_data['view_title'],
-        );
 
-        midcom_core_context::get()->set_custom_key('midcom.helper.nav.breadcrumb', $tmp);
+        midcom::get()->cache->invalidate($this->_product->guid);
+
+        return "product/{$this->_product->guid}/";
     }
 }

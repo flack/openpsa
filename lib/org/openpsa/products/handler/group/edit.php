@@ -21,32 +21,6 @@ class org_openpsa_products_handler_group_edit extends midcom_baseclasses_compone
     private $_group = null;
 
     /**
-     * Simple helper which references all important members to the request data listing
-     * for usage within the style listing.
-     */
-    private function _prepare_request_data()
-    {
-        $this->_request_data['group'] = $this->_group;
-    }
-
-    /**
-     * Helper, updates the context so that we get a complete breadcrumb line towards the current
-     * location.
-     */
-    private function _update_breadcrumb_line()
-    {
-        $tmp = $this->_master->update_breadcrumb_line($this->_group);
-
-        $tmp[] = array
-        (
-            MIDCOM_NAV_URL => "edit/{$this->_group->guid}/",
-            MIDCOM_NAV_NAME => $this->_l10n_midcom->get('edit'),
-        );
-
-        midcom_core_context::get()->set_custom_key('midcom.helper.nav.breadcrumb', $tmp);
-    }
-
-    /**
      * Looks up a product to display.
      *
      * @param mixed $handler_id The ID of the handler.
@@ -57,47 +31,29 @@ class org_openpsa_products_handler_group_edit extends midcom_baseclasses_compone
     {
         $this->_group = new org_openpsa_products_product_group_dba($args[0]);
 
-        $this->_request_data['controller'] = midcom_helper_datamanager2_controller::create('simple');
-        $this->_request_data['controller']->schemadb =& $this->_request_data['schemadb_group'];
-        $this->_request_data['controller']->set_storage($this->_group);
-        if (! $this->_request_data['controller']->initialize())
+        $data['controller'] = midcom_helper_datamanager2_controller::create('simple');
+        $data['controller']->schemadb =& $this->_request_data['schemadb_group'];
+        $data['controller']->set_storage($this->_group);
+        if (!$data['controller']->initialize())
         {
             throw new midcom_error("Failed to initialize a DM2 controller instance for product {$this->_group->id}.");
         }
 
-        switch ($this->_request_data['controller']->process_form())
-        {
-            case 'save':
+        midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('edit %s'), $this->_group->title));
 
-                if ($this->_config->get('index_groups'))
-                {
-                    // Index the group
-                    $indexer = midcom::get()->indexer;
-                    org_openpsa_products_viewer::index($this->_request_data['controller']->datamanager, $indexer, $this->_topic);
-                }
-                midcom::get()->cache->invalidate($this->_topic->guid);
-            case 'cancel':
-                return new midcom_response_relocate("{$this->_group->guid}/");
-        }
-
-        $this->_update_breadcrumb_line();
-        $this->_prepare_request_data();
-
-        $this->_view_toolbar->bind_to($this->_group);
-
-        midcom::get()->metadata->set_request_metadata($this->_group->metadata->revised, $this->_group->guid);
-        midcom::get()->head->set_pagetitle($this->_group->title);
+        $workflow = new midcom\workflow\datamanager2($data['controller'], array($this, 'save_callback'));
+        return $workflow->run();
     }
 
-    /**
-     * Shows the loaded product.
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_edit($handler_id, array &$data)
+    public function save_callback(midcom_helper_datamanager2_controller $controller)
     {
-        $this->_request_data['view_group'] = $this->_request_data['controller']->datamanager->get_content_html();
-        midcom_show_style('product_group_edit');
+        if ($this->_config->get('index_groups'))
+        {
+            // Index the group
+            $indexer = midcom::get()->indexer;
+            org_openpsa_products_viewer::index($controller->datamanager, $indexer, $this->_topic);
+        }
+        midcom::get()->cache->invalidate($this->_topic->guid);
+        return "{$this->_group->guid}/";
     }
 }
