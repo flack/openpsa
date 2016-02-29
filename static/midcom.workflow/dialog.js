@@ -1,5 +1,9 @@
 function refresh_opener(url)
 {
+    if (url === undefined)
+    {
+        url = window.parent.location.href;
+    }
     var button = window.parent.$('[data-dialog="datamanager"][data-refresh-opener].active');
 
     if (button.length > 0)

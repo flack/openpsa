@@ -32,7 +32,7 @@ foreach ($reports['reports'] as $report)
     }
 
     $entry['index_description'] = $report->description;
-    $entry['description'] = '<a' . $workflow->render_attributes() . ' data-refresh-opener="true" href="' . $prefix . 'hours/edit/' . $report->guid . '/">' . $report->get_description() . '</a>';
+    $entry['description'] = '<a' . $workflow->render_attributes() . ' href="' . $prefix . 'hours/edit/' . $report->guid . '/">' . $report->get_description() . '</a>';
 
     $entry['index_reporter'] = $reporters[$report->person]['rname'];
     $entry['reporter'] = $reporters[$report->person]['card'];

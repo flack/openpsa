@@ -81,7 +81,7 @@ implements midcom_helper_datamanager2_interfaces_create
             $data['controller'] = $this->get_controller('create');
         }
 
-        $workflow = new midcom\workflow\datamanager2($data['controller'], array($this, 'save_callback'));
+        $workflow = new midcom\workflow\datamanager2($data['controller']);
         if (   $mode == 'edit'
             && $billing_data[0]->can_do('midgard:delete'))
         {
@@ -93,11 +93,6 @@ implements midcom_helper_datamanager2_interfaces_create
         midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get($mode . ' %s'), $this->_l10n->get('billing data')));
 
         return $workflow->run();
-    }
-
-    public function save_callback(midcom_helper_datamanager2_controller $controller)
-    {
-        return $this->get_relocate_url();
     }
 
     /**

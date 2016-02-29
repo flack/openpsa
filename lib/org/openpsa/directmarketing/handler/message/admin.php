@@ -77,13 +77,8 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
 
         midcom::get()->head->set_pagetitle($this->_l10n->get('edit message'));
 
-        $workflow = new midcom\workflow\datamanager2($this->_controller, array($this, 'save_callback'));
+        $workflow = new midcom\workflow\datamanager2($this->_controller);
         return $workflow->run();
-    }
-
-    public function save_callback(midcom_helper_datamanager2_controller $controller)
-    {
-        return "message/{$this->_message->guid}/";
     }
 
     /**

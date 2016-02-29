@@ -75,13 +75,8 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
 
         midcom::get()->head->set_pagetitle($this->_l10n->get('edit campaign'));
 
-        $workflow = new midcom\workflow\datamanager2($this->_controller, array($this, 'save_callback'));
+        $workflow = new midcom\workflow\datamanager2($this->_controller);
         return $workflow->run();
-    }
-
-    public function save_callback(midcom_helper_datamanager2_controller $controller)
-    {
-        return "campaign/{$this->_campaign->guid}/";
     }
 
     /**

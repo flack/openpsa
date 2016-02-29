@@ -420,7 +420,10 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
     {
         $this->_index_object($controller->datamanager);
         $this->_handler_callback($this->_request_data['handler_id'], $this->args, $this->_request_data);
-        return $this->_get_object_url($this->_object);
+        if ($this->_mode !== 'update')
+        {
+            return $this->_get_object_url($this->_object);
+        }
     }
 
     /**

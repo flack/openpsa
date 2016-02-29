@@ -148,7 +148,7 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
 
         midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('edit %s'), $this->_l10n->get('salesproject')));
 
-        $workflow = new midcom\workflow\datamanager2($this->_controller, array($this, 'save_callback'));
+        $workflow = new midcom\workflow\datamanager2($this->_controller);
         return $workflow->run();
     }
 

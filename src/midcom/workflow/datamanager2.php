@@ -69,11 +69,18 @@ class datamanager2 extends dialog
         }
         else
         {
-            if (   $this->state == 'save'
-                && is_callable($this->save_callback))
+            if ($this->state == 'save')
             {
-                $url = (string) call_user_func($this->save_callback, $this->controller);
-                midcom::get()->head->add_jscript('refresh_opener("' . $this->prepare_url($url) . '");');
+                $url = '';
+                if (is_callable($this->save_callback))
+                {
+                    $url = call_user_func($this->save_callback, $this->controller);
+                    if ($url !== null)
+                    {
+                        $url = $this->prepare_url($url);
+                    }
+                }
+                midcom::get()->head->add_jscript('refresh_opener(' . $url . ');');
             }
             else
             {
@@ -88,7 +95,7 @@ class datamanager2 extends dialog
     {
         $config = $dialog->get_button_config();
         midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.workflow/dialog.js');
-        midcom::get()->head->add_jscript('add_dialog_button("' . $this->prepare_url($url) . '", "' . $config[MIDCOM_TOOLBAR_LABEL] . '", ' . json_encode($config[MIDCOM_TOOLBAR_OPTIONS]) . ');');
+        midcom::get()->head->add_jscript('add_dialog_button(' . $this->prepare_url($url) . ', "' . $config[MIDCOM_TOOLBAR_LABEL] . '", ' . json_encode($config[MIDCOM_TOOLBAR_OPTIONS]) . ');');
     }
 
     private function prepare_url($url)
@@ -98,6 +105,6 @@ class datamanager2 extends dialog
         {
             $url = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . $url;
         }
-        return $url;
+        return '"' . $url . '"';
     }
 }

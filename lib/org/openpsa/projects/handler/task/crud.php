@@ -126,7 +126,6 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
                 (
                     MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('hour report')),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_new-event.png',
-                    MIDCOM_TOOLBAR_OPTIONS => array('data-refresh-opener' => 'true')
                 ));
             }
             $buttons[] = array

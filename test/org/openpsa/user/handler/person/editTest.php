@@ -35,9 +35,9 @@ class org_openpsa_user_handler_person_editTest extends openpsa_testcase
         );
 
         $this->submit_dm2_no_relocate_form('controller', $formdata, 'org.openpsa.user', array('edit', self::$_user->guid));
-        $url = $this->get_dialog_url();
+        self::$_user->refresh();
 
-        $this->assertEquals('view/' . self::$_user->guid . '/', $url);
+        $this->assertEquals('test@test.info', self::$_user->email);
 
         midcom::get()->auth->drop_sudo();
     }

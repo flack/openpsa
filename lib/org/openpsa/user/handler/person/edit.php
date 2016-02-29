@@ -55,6 +55,5 @@ implements midcom_helper_datamanager2_interfaces_edit
     public function save_callback(midcom_helper_datamanager2_controller $controller)
     {
         midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.user'), sprintf($this->_l10n->get('person %s saved'), $this->_person->name));
-        return 'view/' . $this->_person->guid . '/';
     }
 }

@@ -20,7 +20,6 @@ class org_openpsa_expenses_viewer extends midcom_baseclasses_components_request
     {
         $schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_hours'));
         $workflow = new midcom\workflow\datamanager2;
-
         foreach (array_keys($schemadb) as $name)
         {
             $create_url = "hours/create/{$name}/";
@@ -34,7 +33,6 @@ class org_openpsa_expenses_viewer extends midcom_baseclasses_components_request
             (
                 MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get($schemadb[$name]->description)),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_new-event.png',
-                MIDCOM_TOOLBAR_OPTIONS => array('data-refresh-opener' => 'true')
             )));
         }
     }

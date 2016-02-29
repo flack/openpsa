@@ -119,8 +119,6 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
         $formdata = $controller->datamanager->types;
         $this->_process_at_entry($formdata);
         $this->_master->process_notify_date($formdata, $this->_deliverable);
-
-        return "deliverable/{$this->_deliverable->guid}/";
     }
 
     private function _process_at_entry(array $formdata)
