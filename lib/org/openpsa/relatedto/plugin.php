@@ -326,12 +326,12 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
                 case 'task':
                     if (midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_projects_project_task_dba'))
                     {
-                        $workflow->add_button($toolbar, "{$data['node'][MIDCOM_NAV_ABSOLUTEURL]}task/new/?" . self::relatedto2get(array($related_to)), array
+                        $toolbar->add_item($workflow->get_button("{$data['node'][MIDCOM_NAV_ABSOLUTEURL]}task/new/?" . self::relatedto2get(array($related_to)), array
                         (
                             MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('create task', $data['component']),
                             MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new_task.png',
                             MIDCOM_TOOLBAR_OPTIONS  => array('data-refresh-opener' => 'true'),
-                        ));
+                        )));
                     }
                     break;
                 case 'wikinote':
@@ -371,12 +371,12 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
                 case 'document':
                     if ($data['node'][MIDCOM_NAV_OBJECT]->can_do('midgard:create'))
                     {
-                        $workflow->add_button($toolbar, "{$data['node'][MIDCOM_NAV_ABSOLUTEURL]}document/create/choosefolder/?" . self::relatedto2get(array($related_to)), array
+                        $toolbar->add_item($workflow->get_button("{$data['node'][MIDCOM_NAV_ABSOLUTEURL]}document/create/choosefolder/?" . self::relatedto2get(array($related_to)), array
                         (
                             MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('create document', $data['component']),
                             MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-text.png',
                             MIDCOM_TOOLBAR_OPTIONS  => array('data-refresh-opener' => 'true'),
-                        ));
+                        )));
                     }
                     break;
                 default:

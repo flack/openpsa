@@ -31,10 +31,10 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
         if ($this->_task->can_do('midgard:update'))
         {
             $workflow = new midcom\workflow\datamanager2;
-            $workflow->add_button($this->_view_toolbar, "task/edit/{$this->_task->guid}/", array
+            $this->_view_toolbar->add_item($workflow->get_button("task/edit/{$this->_task->guid}/", array
             (
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
-            ));
+            )));
         }
     }
 

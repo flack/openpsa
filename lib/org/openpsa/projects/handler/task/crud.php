@@ -81,16 +81,16 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
              return;
         }
         $workflow = new midcom\workflow\datamanager2;
-        $workflow->add_button($this->_view_toolbar, "task/edit/{$this->_object->guid}/", array
+        $this->_view_toolbar->add_item($workflow->get_button("task/edit/{$this->_object->guid}/", array
         (
             MIDCOM_TOOLBAR_ACCESSKEY => 'e',
-        ));
+        )));
 
         if (   $this->_object->reportedHours == 0
             && $this->_object->can_do('midgard:delete'))
         {
             $delete_workflow = new midcom\workflow\delete($this->_object);
-            $delete_workflow->add_button($this->_view_toolbar, "task/delete/{$this->_object->guid}/");
+            $this->_view_toolbar->add_item($delete_workflow->get_button("task/delete/{$this->_object->guid}/"));
         }
 
         if ($this->_object->status == org_openpsa_projects_task_status_dba::CLOSED)
@@ -127,12 +127,12 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
             org_openpsa_widgets_grid::add_head_elements();
             if ($this->_object->status < org_openpsa_projects_task_status_dba::CLOSED)
             {
-                $workflow->add_button($this->_view_toolbar, $expenses_url . "hours/create/hour_report/{$this->_object->guid}/", array
+                $this->_view_toolbar->add_item($workflow->get_button($expenses_url . "hours/create/hour_report/{$this->_object->guid}/", array
                 (
                     MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('hour report')),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_new-event.png',
                     MIDCOM_TOOLBAR_OPTIONS => array('data-refresh-opener' => 'true')
-                ));
+                )));
             }
             $this->_view_toolbar->add_item
             (

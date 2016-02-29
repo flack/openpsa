@@ -8,7 +8,6 @@
 
 namespace midcom\workflow;
 
-use midcom_helper_toolbar;
 use midcom;
 
 /**
@@ -50,11 +49,11 @@ abstract class dialog
 
     /**
      *
-     * @param midcom_helper_toolbar $toolbar
      * @param string $url
      * @param array $options
+     * @return arrabutton config in midcom_helper_toolbar format
      */
-    public function add_button(midcom_helper_toolbar $toolbar, $url, array $options = array())
+    public function get_button($url, array $options = array())
     {
         static::add_head_elements();
 
@@ -70,8 +69,7 @@ abstract class dialog
             }
             $button_config[$key] = $value;
         }
-
-        $toolbar->add_item($button_config);
+        return $button_config;
     }
 
     /**

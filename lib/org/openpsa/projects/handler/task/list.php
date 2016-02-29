@@ -571,19 +571,19 @@ implements org_openpsa_widgets_grid_provider_client
 
         if (midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_projects_project'))
         {
-            $workflow->add_button($this->_view_toolbar, 'project/new/', array
+            $this->_view_toolbar->add_item($workflow->get_button('project/new/', array
             (
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("create project"),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-dir.png',
-            ));
+            )));
         }
         if (midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_projects_project_task_dba'))
         {
-            $workflow->add_button($this->_view_toolbar, 'task/new/', array
+            $this->_view_toolbar->add_item($workflow->get_button('task/new/', array
             (
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("create task"),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new_task.png',
-            ));
+            )));
         }
     }
 }

@@ -127,7 +127,7 @@ class net_nemein_rss_handler_list extends midcom_baseclasses_components_handler
         if ($feed->can_do('midgard:delete'))
         {
             $workflow = new \midcom\workflow\delete($feed);
-            $workflow->add_button($toolbar, "__feeds/rss/delete/{$feed->guid}/");
+            $toolbar->add_item($workflow->get_button("__feeds/rss/delete/{$feed->guid}/"));
         }
         return $toolbar;
     }

@@ -48,15 +48,15 @@ class org_openpsa_projects_handler_project_crud extends midcom_baseclasses_compo
 
         if ($this->_object->can_do('midgard:update'))
         {
-            $workflow->add_button($this->_view_toolbar, "project/edit/{$this->_object->guid}/", array
+            $this->_view_toolbar->add_item($workflow->get_button("project/edit/{$this->_object->guid}/", array
             (
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
-            ));
-            $workflow->add_button($this->_view_toolbar, "task/new/project/{$this->_object->guid}/", array
+            )));
+            $this->_view_toolbar->add_item($workflow->get_button("task/new/project/{$this->_object->guid}/", array
             (
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("create task"),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new_task.png',
-            ));
+            )));
         }
 
         $siteconfig = org_openpsa_core_siteconfig::get_instance();

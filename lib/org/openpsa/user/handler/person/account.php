@@ -197,7 +197,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         if ($this->_person->can_do('midgard:update'))
         {
             $workflow = new midcom\workflow\delete($this->_person);
-            $workflow->add_button($this->_view_toolbar, "account/delete/{$this->_person->guid}/");
+            $this->_view_toolbar->add_item($workflow->get_button("account/delete/{$this->_person->guid}/"));
         }
     }
 

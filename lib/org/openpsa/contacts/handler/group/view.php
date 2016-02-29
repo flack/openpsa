@@ -42,32 +42,32 @@ implements midcom_helper_datamanager2_interfaces_view, org_openpsa_widgets_grid_
 
         if ($this->_group->can_do('midgard:update'))
         {
-            $workflow->add_button($this->_view_toolbar, "group/edit/{$this->_group->guid}/", array
+            $this->_view_toolbar->add_item($workflow->get_button("group/edit/{$this->_group->guid}/", array
             (
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
-            ));
+            )));
 
-            $workflow->add_button($this->_view_toolbar, "group/create/organization/{$this->_group->guid}/", array
+            $this->_view_toolbar->add_item($workflow->get_button("group/create/organization/{$this->_group->guid}/", array
             (
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create suborganization'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_people-new.png',
-            ));
+            )));
 
-            $workflow->add_button($this->_view_toolbar, "group/create/group/{$this->_group->guid}/", array
+            $this->_view_toolbar->add_item($workflow->get_button("group/create/group/{$this->_group->guid}/", array
             (
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create subgroup'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_people-new.png',
-            ));
+            )));
         }
 
         if (   midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_contacts_person_dba')
             && $this->_group->can_do('midgard:create'))
         {
-            $workflow->add_button($this->_view_toolbar, "person/create/{$this->_group->guid}/", array
+            $this->_view_toolbar->add_item($workflow->get_button("person/create/{$this->_group->guid}/", array
             (
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create person'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_person-new.png',
-            ));
+            )));
         }
 
         $siteconfig = org_openpsa_core_siteconfig::get_instance();

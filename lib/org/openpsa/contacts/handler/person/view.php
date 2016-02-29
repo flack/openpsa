@@ -104,10 +104,10 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
         $workflow = new midcom\workflow\datamanager2;
         if ($this->_contact->can_do('midgard:update'))
         {
-            $workflow->add_button($this->_view_toolbar, "person/edit/{$this->_contact->guid}/", array
+            $this->_view_toolbar->add_item($workflow->get_button("person/edit/{$this->_contact->guid}/", array
             (
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
-            ));
+            )));
         }
 
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
@@ -119,10 +119,10 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
         {
             if ($this->_contact->can_do('midgard:update'))
             {
-                $workflow->add_button($this->_view_toolbar, $invoices_url . "billingdata/" . $this->_contact->guid . '/', array
+                $this->_view_toolbar->add_item($workflow->get_button($invoices_url . "billingdata/" . $this->_contact->guid . '/', array
                 (
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('edit billingdata'),
-                ));
+                )));
             }
         }
 
@@ -144,7 +144,7 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
         if ($this->_contact->can_do('midgard:delete'))
         {
             $workflow = new midcom\workflow\delete($this->_contact);
-            $workflow->add_button($this->_view_toolbar, "person/delete/{$this->_contact->guid}/");
+            $this->_view_toolbar->add_item($workflow->get_button("person/delete/{$this->_contact->guid}/"));
         }
 
         $mycontacts = new org_openpsa_contacts_mycontacts;

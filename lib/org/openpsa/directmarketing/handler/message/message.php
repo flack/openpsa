@@ -70,23 +70,23 @@ class org_openpsa_directmarketing_handler_message_message extends midcom_basecla
         $workflow = new midcom\workflow\datamanager2;
         if ($this->_message->can_do('midgard:update'))
         {
-            $workflow->add_button($this->_view_toolbar, "message/edit/{$this->_message->guid}/", array
+            $this->_view_toolbar->add_item($workflow->get_button("message/edit/{$this->_message->guid}/", array
             (
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
-            ));
+            )));
         }
         if ($this->_message->can_do('midgard:delete'))
         {
             $delete_workflow = new midcom\workflow\delete($this->_message);
-            $delete_workflow->add_button($this->_view_toolbar, "message/delete/{$this->_message->guid}/");
+            $this->_view_toolbar->add_item($delete_workflow->get_button("message/delete/{$this->_message->guid}/"));
         }
         if ($this->_message->can_do('midgard:update'))
         {
-            $workflow->add_button($this->_view_toolbar, "message/copy/{$this->_message->guid}/", array
+            $this->_view_toolbar->add_item($workflow->get_button("message/copy/{$this->_message->guid}/", array
             (
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('copy message'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/editcopy.png',
-            ));
+            )));
         }
 
         $preview_url = "message/compose/{$this->_message->guid}/";

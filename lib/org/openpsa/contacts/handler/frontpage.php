@@ -27,25 +27,25 @@ class org_openpsa_contacts_handler_frontpage extends midcom_baseclasses_componen
 
         if (midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_contacts_person_dba'))
         {
-            $workflow->add_button($this->_view_toolbar, 'person/create/', array
+            $this->_view_toolbar->add_item($workflow->get_button('person/create/', array
             (
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create person'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_person-new.png',
-            ));
+            )));
         }
 
         if (midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_contacts_group_dba'))
         {
-            $workflow->add_button($this->_view_toolbar, "group/create/organization/", array
+            $this->_view_toolbar->add_item($workflow->get_button("group/create/organization/", array
             (
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create organization'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_people-new.png',
-            ));
-            $workflow->add_button($this->_view_toolbar, "group/create/group/", array
+            )));
+            $this->_view_toolbar->add_item($workflow->get_button("group/create/group/", array
             (
                 MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('group')),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_people-new.png',
-            ));
+            )));
         }
 
         $p_merger = new org_openpsa_contacts_duplicates_merge('person');

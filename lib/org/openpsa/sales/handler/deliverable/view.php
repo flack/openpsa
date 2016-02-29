@@ -39,10 +39,10 @@ class org_openpsa_sales_handler_deliverable_view extends midcom_baseclasses_comp
         if ($this->_deliverable->can_do('midgard:update'))
         {
             $workflow = new midcom\workflow\datamanager2;
-            $workflow->add_button($this->_view_toolbar, "deliverable/edit/{$this->_deliverable->guid}/", array
+            $this->_view_toolbar->add_item($workflow->get_button("deliverable/edit/{$this->_deliverable->guid}/", array
             (
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
-            ));
+            )));
         }
 
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
@@ -51,7 +51,7 @@ class org_openpsa_sales_handler_deliverable_view extends midcom_baseclasses_comp
         if ($this->_deliverable->can_do('midgard:delete'))
         {
             $workflow = new midcom\workflow\delete($this->_deliverable);
-            $workflow->add_button($this->_view_toolbar, "deliverable/delete/{$this->_deliverable->guid}/");
+            $this->_view_toolbar->add_item($workflow->get_button("deliverable/delete/{$this->_deliverable->guid}/"));
         }
         try
         {

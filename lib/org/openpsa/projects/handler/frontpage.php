@@ -24,19 +24,19 @@ class org_openpsa_projects_handler_frontpage extends midcom_baseclasses_componen
         $workflow = new midcom\workflow\datamanager2;
         if (midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_projects_project'))
         {
-            $workflow->add_button($this->_view_toolbar, 'project/new/', array
+            $this->_view_toolbar->add_item($workflow->get_button('project/new/', array
             (
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("create project"),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-dir.png',
-            ));
+            )));
         }
         if (midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_projects_project_task_dba'))
         {
-            $workflow->add_button($this->_view_toolbar, 'task/new/', array
+            $this->_view_toolbar->add_item($workflow->get_button('task/new/', array
             (
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("create task"),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new_task.png',
-            ));
+            )));
         }
 
         // List current projects, sort by customer

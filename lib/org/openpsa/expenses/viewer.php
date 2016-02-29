@@ -30,12 +30,12 @@ class org_openpsa_expenses_viewer extends midcom_baseclasses_components_request
                 $create_url .= $task . "/";
             }
 
-            $workflow->add_button($this->_view_toolbar, $create_url, array
+            $this->_view_toolbar->add_item($workflow->get_button($create_url, array
             (
                 MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get($schemadb[$name]->description)),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_new-event.png',
                 MIDCOM_TOOLBAR_OPTIONS => array('data-refresh-opener' => 'true')
-            ));
+            )));
         }
     }
 

@@ -69,7 +69,7 @@ class net_nehmer_blog_handler_admin extends midcom_baseclasses_components_handle
         if ($this->_article->can_do('midgard:delete'))
         {
             $workflow = new midcom\workflow\delete($this->_article);
-            $workflow->add_button($this->_view_toolbar, "delete/{$this->_article->guid}/");
+            $this->_view_toolbar->add_item($workflow->get_button("delete/{$this->_article->guid}/"));
         }
     }
 

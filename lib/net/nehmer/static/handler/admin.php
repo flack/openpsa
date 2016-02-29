@@ -67,7 +67,7 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
         if ($this->_article->can_do('midgard:delete'))
         {
             $delete = new midcom\workflow\delete($this->_article);
-            $delete->add_button($this->_view_toolbar, "delete/{$this->_article->guid}/");
+            $this->_view_toolbar->add_item($delete->get_button("delete/{$this->_article->guid}/"));
         }
     }
 

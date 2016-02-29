@@ -235,17 +235,17 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
             && $this->_object->can_do('midgard:update'))
         {
             $workflow = new midcom\workflow\datamanager2;
-            $workflow->add_button($this->_view_toolbar, "edit/{$this->_object->guid}/", array
+            $this->_view_toolbar->add_item($workflow->get_button("edit/{$this->_object->guid}/", array
             (
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
-            ));
+            )));
         }
 
         if (   $this->_mode !== 'delete'
             && $this->_object->can_do('midgard:delete'))
         {
             $workflow = new \midcom\workflow\delete($this->_object);
-            $workflow->add_button($this->_view_toolbar, $prefix . "delete/{$this->_object->guid}/");
+            $this->_view_toolbar->add_item($workflow->get_button($prefix . "delete/{$this->_object->guid}/"));
         }
     }
 
