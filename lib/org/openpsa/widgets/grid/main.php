@@ -97,10 +97,7 @@ class org_openpsa_widgets_grid extends midcom_baseclasses_components_purecode
         $jqgrid_path = '/org.openpsa.widgets/jqGrid-' . $version . '/';
 
         $head = midcom::get()->head;
-        //first enable jquery - just in case it isn't loaded
-        $head->enable_jquery();
-
-        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/core.min.js');
+        $head->enable_jquery_ui(array('button', 'mouse', 'resizable'));
 
         //needed js/css-files for jqgrid
         $lang = "en";
@@ -116,14 +113,8 @@ class org_openpsa_widgets_grid extends midcom_baseclasses_components_purecode
         org_openpsa_widgets_ui::add_head_elements();
         $head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.widgets/jqGrid.custom.js');
 
-        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/widget.min.js');
-        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/button.min.js');
-        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/mouse.min.js');
-        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/resizable.min.js');
-
         $head->add_stylesheet(MIDCOM_STATIC_URL . $jqgrid_path . 'ui.jqgrid.min.css');
         $head->add_stylesheet(MIDCOM_STATIC_URL . '/org.openpsa.widgets/jqGrid.custom.css');
-        $head->add_jquery_ui_theme();
         self::$_head_elements_added = true;
     }
 

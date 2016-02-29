@@ -102,23 +102,16 @@ class org_openpsa_slideshow_handler_edit extends midcom_baseclasses_components_h
         $data['images'] = $qb->execute();
 
         $head = midcom::get()->head;
-        $head->enable_jquery();
-        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/core.min.js');
-        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/widget.min.js');
-        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/mouse.min.js');
-        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/draggable.min.js');
-        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/droppable.min.js');
-        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/sortable.min.js');
-        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/progressbar.min.js');
-        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/button.min.js');
-        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/position.min.js');
-        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/dialog.min.js');
+        $head->enable_jquery_ui(array
+        (
+            'mouse', 'draggable', 'droppable', 'sortable',
+            'progressbar', 'button', 'position', 'dialog',
+            'effect', 'effect-pulsate'
+        ));
+
         $head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.services.uimessages/jquery.midcom_services_uimessages.js');
-        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/effect.min.js');
-        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/effect-pulsate.min.js');
         $head->add_jsfile(MIDCOM_STATIC_URL . '/' . $this->_component . '/edit.js');
         $head->add_stylesheet(MIDCOM_STATIC_URL . '/' . $this->_component . '/edit.css');
-        $head->add_jquery_ui_theme(array('progressbar', 'button', 'dialog'));
 
         $buttons = array
         (

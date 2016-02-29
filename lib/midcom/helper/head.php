@@ -557,26 +557,31 @@ class midcom_helper_head
     }
 
     /**
-     * Loads jquery.ui theme file(s). This will either add the configured theme file
-     * or load individual component files from the default theme
+     * Add jquery ui components
+     *
+     * core and widget are loaded automatically. Also loads jquery.ui theme,
+     * either the configured theme one or a hardcoded default (base theme)
      *
      * @param array $components The components that should be loaded
      */
-    public function add_jquery_ui_theme(array $components = array())
+    public function enable_jquery_ui(array $components = array())
     {
+        $this->enable_jquery();
+        $this->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/core.min.js');
+        $this->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/widget.min.js');
+
+        foreach ($components as $component)
+        {
+            $this->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/' . $component . '.min.js');
+        }
+
         if (midcom::get()->config->get('jquery_ui_theme'))
         {
             $this->add_stylesheet(midcom::get()->config->get('jquery_ui_theme'));
         }
         else
         {
-            $url_prefix = MIDCOM_JQUERY_UI_URL . '/themes/base/';
-            $this->add_stylesheet($url_prefix . 'theme.css');
-            $this->add_stylesheet($url_prefix . 'core.css');
-            foreach ($components as $component)
-            {
-                $this->add_stylesheet($url_prefix . $component . '.css');
-            }
+            $this->add_stylesheet(MIDCOM_JQUERY_UI_URL . '/themes/base/jquery-ui.min.css');
         }
     }
 }

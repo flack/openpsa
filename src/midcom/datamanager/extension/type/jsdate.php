@@ -102,9 +102,7 @@ class jsdate extends AbstractType
         }
 
         $head = midcom::get()->head;
-        $head->enable_jquery();
-        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . "/ui/core.min.js");
-        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . "/ui/datepicker.min.js");
+        $head->enable_jquery_ui(array('datepicker'));
 
         $lang = midcom::get()->i18n->get_current_language();
         /*
@@ -125,8 +123,6 @@ class jsdate extends AbstractType
         {
             $head->add_jsfile(MIDCOM_JQUERY_UI_URL . "/ui/i18n/datepicker-{$lang}.min.js");
         }
-
-        $head->add_jquery_ui_theme(array('datepicker'));
     }
 
     /**

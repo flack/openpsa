@@ -104,11 +104,7 @@ class subform extends CollectionType
         $head->enable_jquery();
         if ($options['widget_config']['sortable'])
         {
-            $head->add_jquery_ui_theme(array('sortable'));
-            $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/core.min.js');
-            $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/widget.min.js');
-            $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/mouse.min.js');
-            $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/sortable.min.js');
+            $head->enable_jquery_ui(array('mouse', 'sortable'));
         }
         $head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.datamanager/subform.js');
     }

@@ -118,16 +118,9 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
             $this->service = 'geonames';
         }
         $head = midcom::get()->head;
-        $head->enable_jquery();
+        $head->enable_jquery_ui(array('tabs'));
 
-        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/core.min.js');
-
-        //load ui-tab
-        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/widget.min.js');
-        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/tabs.min.js');
-        $head->add_jquery_ui_theme(array('tabs'));
-        midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/org.routamc.positioning/widget/widget.js');
-
+        $head->add_jsfile(MIDCOM_STATIC_URL . '/org.routamc.positioning/widget/widget.js');
         $head->add_stylesheet(MIDCOM_STATIC_URL . '/org.routamc.positioning/widget/position_widget.css');
 
         $this->_element_id = "{$this->name}_position_widget";

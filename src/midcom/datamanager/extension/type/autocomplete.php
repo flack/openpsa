@@ -77,36 +77,23 @@ class autocomplete extends AbstractType
         $builder->add('search_input', compat::get_type_name('search'), array('mapped' => false));
 
         $head = midcom::get()->head;
-        $head->enable_jquery();
 
-        $theme_files = array('autocomplete', 'menu');
-        $head->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/autocomplete.css');
-
-        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/core.min.js');
-        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/widget.min.js');
-        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/position.min.js');
-        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/menu.min.js');
-        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/autocomplete.min.js');
-        $head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/autocomplete.js');
+        $components = array('position', 'menu', 'autocomplete');
 
         if ($options['widget_config']['sortable'])
         {
-            $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/mouse.min.js');
-            $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/sortable.min.js');
+            $components[] = 'mouse';
+            $components[] = 'sortable';
         }
 
         if ($options['widget_config']['creation_mode_enabled'])
         {
-            $theme_files[] = 'dialog';
-            $theme_files[] = 'button';
-            $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/mouse.min.js');
-            $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/draggable.min.js');
-            $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/resizable.min.js');
-            $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/button.min.js');
-            $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/dialog.min.js');
+            $components = array_merge($components, array('mouse', 'draggable', 'resizable', 'button', 'dialog'));
         }
+        $head->enable_jquery_ui($components);
+        $head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/autocomplete.js');
 
-        $head->add_jquery_ui_theme($theme_files);
+        $head->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/autocomplete.css');
     }
 
     /**

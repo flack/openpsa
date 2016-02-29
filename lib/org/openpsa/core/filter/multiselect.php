@@ -16,12 +16,9 @@ class org_openpsa_core_filter_multiselect extends org_openpsa_core_filter_select
     public function add_head_elements()
     {
         $head = midcom::get()->head;
-        $head->enable_jquery();
         $head->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/jquery-ui-multiselect-widget/jquery.multiselect.css");
-        $head->add_jquery_ui_theme(array('widget'));
+        $head->enable_jquery_ui();
 
-        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/core.min.js');
-        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/widget.min.js');
         $head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.core/jquery-ui-multiselect-widget/src/jquery.multiselect.min.js');
 
         $lang = midcom::get()->i18n->get_current_language();

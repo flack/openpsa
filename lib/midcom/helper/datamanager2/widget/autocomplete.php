@@ -234,33 +234,20 @@ class midcom_helper_datamanager2_widget_autocomplete extends midcom_helper_datam
     public static function add_head_elements($creation_mode_enabled = false, $sortable = false)
     {
         $head = midcom::get()->head;
-        $head->enable_jquery();
 
-        $theme_files = array('autocomplete', 'menu');
         $head->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/autocomplete.css');
 
-        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/core.min.js');
-        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/widget.min.js');
-        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/position.min.js');
-        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/menu.min.js');
-        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/autocomplete.min.js');
+        $components = array('position', 'menu', 'autocomplete');
         if ($sortable)
         {
-            $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/sortable.min.js');
+            $components[] = 'sortable';
         }
-        $head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/autocomplete.js');
-
         if ($creation_mode_enabled)
         {
-            $theme_files[] = 'dialog';
-            $theme_files[] = 'button';
-            $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/mouse.min.js');
-            $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/draggable.min.js');
-            $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/resizable.min.js');
-            $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/button.min.js');
-            $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/dialog.min.js');
+            $components = array_merge($components, array('mouse', 'draggable', 'resizable', 'button', 'dialog'));
         }
-        $head->add_jquery_ui_theme($theme_files);
+        $head->enable_jquery_ui($components);
+        $head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/autocomplete.js');
     }
 
     public static function get_widget_config($type)
