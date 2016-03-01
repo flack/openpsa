@@ -92,9 +92,26 @@ class midcom_helper_datamanager2_widget_markdown extends midcom_helper_datamanag
         {
             $elements[] = $this->_form->createElement('static', "{$this->name}_help", '', "<div class=\"markdown_cheatsheet\" style=\"display: none;\">" . MarkdownExtra::defaultTransform(file_get_contents($file)) . "</div>");
         }
+        $elements[] = $this->_form->createElement('static', "{$this->name}_help_button", '', $this->get_help_button());
 
         $this->_form->addGroup($elements, $this->name, $this->_translate($this->_field['title']), ' ', false);
         $this->_form->updateElementAttr($this->name, array('class' => 'midcom_helper_datamanager2_widget_markdown'));
+    }
+
+    private function get_help_button()
+    {
+        $icon = MIDCOM_STATIC_URL . '/stock-icons/16x16/stock_help-agent.png';
+        $tooltip = midcom::get()->i18n->get_string('help', 'midcom.admin.help');
+        return <<<EOT
+<script>
+    jQuery('#{$this->name}_fieldset .markItUpHeader ul')
+        .append($('<li class=\"markItUpButton\"><a title="{$tooltip}" style="background-image: url(\'{$icon}\')"></a></li>')
+            .on('click', function(){
+                jQuery('#{$this->name}_fieldset .markdown_cheatsheet').toggle();
+    }));
+</script>
+
+EOT;
     }
 
     public function get_default()
