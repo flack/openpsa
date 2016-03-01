@@ -43,6 +43,22 @@ function add_dialog_button(url, label, options)
     extra_buttons.push(button);
 }
 
+function add_post_button(url, label, options)
+{
+    var button = {
+        text: label,
+        'class': 'dialog-extra-button',
+        click: function() {
+            var form = $('<form action="' + url + '" method="post"></form>');
+            $.each(options, function(key, value) {
+                form.append($('<input type="hidden" name="' + key + '">').val(value))
+            });
+            form.appendTo('body').submit();
+        }
+    };
+    extra_buttons.push(button);
+}
+
 $(document).ready(function()
 {
     var title = document.title,

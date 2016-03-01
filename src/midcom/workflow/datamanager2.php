@@ -63,32 +63,31 @@ class datamanager2 extends dialog
         midcom::get()->style->append_styledir(__DIR__ . '/style');
         $this->state = $this->controller->process_form();
 
-        if ($this->state == 'edit')
+        if ($this->state == 'save')
         {
-            $context->set_key(MIDCOM_CONTEXT_SHOWCALLBACK, array($this->controller, 'display_form'));
+            $url = '';
+            if (is_callable($this->save_callback))
+            {
+                $url = call_user_func($this->save_callback, $this->controller);
+                if ($url !== null)
+                {
+                    $url = $this->prepare_url($url);
+                }
+            }
+            midcom::get()->head->add_jscript('refresh_opener(' . $url . ');');
+            $context->set_key(MIDCOM_CONTEXT_SHOWCALLBACK, array(midcom::get(), 'finish'));
         }
         else
         {
-            if ($this->state == 'save')
-            {
-                $url = '';
-                if (is_callable($this->save_callback))
-                {
-                    $url = call_user_func($this->save_callback, $this->controller);
-                    if ($url !== null)
-                    {
-                        $url = $this->prepare_url($url);
-                    }
-                }
-                midcom::get()->head->add_jscript('refresh_opener(' . $url . ');');
-            }
-            else
-            {
-                midcom::get()->head->add_jscript('close();');
-            }
-            $context->set_key(MIDCOM_CONTEXT_SHOWCALLBACK, array(midcom::get(), 'finish'));
+            $context->set_key(MIDCOM_CONTEXT_SHOWCALLBACK, array($this->controller, 'display_form'));
         }
         return new \midcom_response_styled($context, 'POPUP');
+    }
+
+    public function add_post_button($url, $label, array $args)
+    {
+        midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.workflow/dialog.js');
+        midcom::get()->head->add_jscript('add_post_button(' . $this->prepare_url($url) . ', "' . $label . '", ' . json_encode($args) . ');');
     }
 
     public function add_dialog_button(dialog $dialog, $url)
