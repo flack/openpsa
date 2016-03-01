@@ -14,14 +14,6 @@
     'variable_args' => 1,
 ),
 
-// Match /source/<wikipage>
-'source' => array
-(
-    'handler' => Array('net_nemein_wiki_handler_view', 'source'),
-    'fixed_args' => 'source',
-    'variable_args' => 1,
-),
-
 // Match /whatlinks/<wikipage>
 'whatlinks' => array
 (

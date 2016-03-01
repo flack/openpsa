@@ -442,43 +442,6 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
      * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_source($handler_id, $args, &$data)
-    {
-        $this->_load_page($args[0]);
-        if (!$this->_page)
-        {
-            throw new midcom_error_notfound('The page ' . $args[0] . ' could not be found.');
-        }
-        midcom::get()->skip_page_style = true;
-        $this->_load_datamanager();
-    }
-
-    /**
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_source($handler_id, array &$data)
-    {
-        if ($this->_controller)
-        {
-            $data['wikipage_view'] = $this->_controller->get_content_html();
-        }
-        else
-        {
-            $data['wikipage_view'] = $this->_datamanager->get_content_html();
-        }
-        $data['autogenerate_toc'] = $this->_config->get('autogenerate_toc');
-        $data['display_related_to'] = $this->_config->get('display_related_to');
-        $data['wikipage_view']['content'] = $this->_page->content;
-        midcom_show_style('view-wikipage-source');
-    }
-
-    /**
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
-     * @param array &$data The local request data.
-     */
     public function _handler_subscribe($handler_id, array $args, array &$data)
     {
         if ($_SERVER['REQUEST_METHOD'] != 'POST')
