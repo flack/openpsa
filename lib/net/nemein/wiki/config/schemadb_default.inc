@@ -74,7 +74,7 @@
                 'class' => 'net_nemein_wiki_wikipage',
                 'component' => 'net.nemein.wiki',
                 'titlefield' => 'title',
-                'id_field' => 'title',
+                'id_field' => 'name',
                 'searchfields' => array
                 (
                     'title',
