@@ -68,14 +68,12 @@ class org_openpsa_expenses_handler_hours_adminTest extends openpsa_testcase
         );
 
         $this->submit_dm2_no_relocate_form('controller', $formdata, 'org.openpsa.expenses', array('hours', 'create', 'hour_report'));
-        $url = $this->get_dialog_url();
         $qb = org_openpsa_projects_hour_report_dba::new_query_builder();
         $qb->add_constraint('task', '=', self::$_task->id);
         $qb->add_constraint('description', '=', __CLASS__ . '::' . __FUNCTION__);
         $results = $qb->execute();
         $this->register_objects($results);
         $this->assertEquals(1, sizeof($results));
-        $this->assertEquals('hours/task/' . self::$_task->guid . '/', $url);
 
         midcom::get()->auth->drop_sudo();
     }

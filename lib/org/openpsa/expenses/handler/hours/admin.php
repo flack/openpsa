@@ -121,15 +121,8 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
         $data['controller'] = $this->_load_create_controller();
         midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get($this->_schemadb[$this->_schema]->description)));
 
-        $workflow = new midcom\workflow\datamanager2($data['controller'], array($this, 'save_callback'));
+        $workflow = new midcom\workflow\datamanager2($data['controller']);
         return $workflow->run();
-    }
-
-    public function save_callback(midcom_helper_datamanager2_controller $controller)
-    {
-        $this->_hour_report->modify_hours_by_time_slot();
-        $task = org_openpsa_projects_task_dba::get_cached($this->_hour_report->task);
-        return "hours/task/" . $task->guid . "/";
     }
 
     /**
@@ -154,7 +147,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
 
         midcom::get()->head->set_pagetitle($this->_l10n->get($handler_id));
 
-        $workflow = new midcom\workflow\datamanager2($data['controller'], array($this, 'save_callback'));
+        $workflow = new midcom\workflow\datamanager2($data['controller']);
         if ($this->_hour_report->can_do('midgard:delete'))
         {
             $delete = new midcom\workflow\delete($this->_hour_report);
