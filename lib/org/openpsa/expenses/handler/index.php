@@ -14,26 +14,33 @@
 class org_openpsa_expenses_handler_index  extends midcom_baseclasses_components_handler
 {
     /**
-     * The handler for the index view.
+     * Can-Handle check against the passed date. We have to do this explicitly
+     * in can_handle already, otherwise we would hide all subtopics as the request switch
+     * accepts all argument count matches unconditionally.
      *
-     * @param mixed $handler_id the array key from the request array
-     * @param array $args the arguments given to the handler
+     * @param mixed $handler_id The ID of the handler.
+     * @param array $args The argument list.
      * @param array &$data The local request data.
+     * @return boolean True if the request can be handled, false otherwise.
      */
-    public function _handler_index ($handler_id, array $args, array &$data)
+    public function _can_handle_index ($handler_id, array $args, array &$data)
     {
-        midcom::get()->auth->require_valid_user();
-
         if (isset($args[0]))
         {
-            $data['requested_time'] = $args[0];
+            $requested_time = $args[0];
         }
         else
         {
-            $data['requested_time'] = date('Y-m-d');
+            $requested_time = date('Y-m-d');
         }
-
-        $date = new DateTime($data['requested_time']);
+        try
+        {
+            $date = new DateTime($requested_time);
+        }
+        catch (Exception $e)
+        {
+            return false;
+        }
         $offset = $date->format('N') - 1;
 
         $date->modify('-' . $offset . ' days');
@@ -43,10 +50,24 @@ class org_openpsa_expenses_handler_index  extends midcom_baseclasses_components_
         $data['week_end'] = (int) $date->format('U');
 
         $date->modify('+1 day');
-        $next_week = $date->format('Y-m-d');
+        $data['next_week'] = $date->format('Y-m-d');
 
         $date->modify('-14 days');
-        $previous_week = $date->format('Y-m-d');
+        $data['previous_week'] = $date->format('Y-m-d');
+
+        return true;
+    }
+
+    /**
+     * The handler for the index view.
+     *
+     * @param mixed $handler_id the array key from the request array
+     * @param array $args the arguments given to the handler
+     * @param array &$data The local request data.
+     */
+    public function _handler_index ($handler_id, array $args, array &$data)
+    {
+        midcom::get()->auth->require_valid_user();
 
         $hours_mc = org_openpsa_projects_hour_report_dba::new_collector('metadata.deleted', false);
         $hours_mc->add_value_property('task');
@@ -63,7 +84,7 @@ class org_openpsa_expenses_handler_index  extends midcom_baseclasses_components_
 
         $data['rows'] = $this->_get_sorted_reports($hours_mc);
 
-        $this->_populate_toolbar($previous_week, $next_week);
+        $this->_populate_toolbar($data['previous_week'], $data['next_week']);
 
         org_openpsa_widgets_grid::add_head_elements();
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.expenses/expenses.css");
