@@ -32,15 +32,15 @@ class midcom_helper_toolbar_view extends midcom_helper_toolbar
 
         if ($object->can_do('midgard:update'))
         {
+            $workflow = new midcom\workflow\datamanager2;
+            $buttons[] = $workflow->get_button("__ais/folder/metadata/{$object->guid}/", array
+            (
+                MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('edit metadata', 'midcom.admin.folder'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/metadata.png',
+                MIDCOM_TOOLBAR_ACCESSKEY => 'm',
+            ));
             $buttons = array_merge($buttons, array
             (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => "__ais/folder/metadata/{$object->guid}/",
-                    MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('edit metadata', 'midcom.admin.folder'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/metadata.png',
-                    MIDCOM_TOOLBAR_ACCESSKEY => 'm',
-                ),
                 array
                 (
                     MIDCOM_TOOLBAR_URL => "__ais/folder/move/{$object->guid}/",

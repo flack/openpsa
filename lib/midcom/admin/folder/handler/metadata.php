@@ -30,23 +30,16 @@ class midcom_admin_folder_handler_metadata extends midcom_baseclasses_components
     private $_controller = null;
 
     /**
-     * Datamanager 2 schema instance
-     *
-     * @var midcom_helper_datamanager2_schema
-     */
-    private $_schemadb = null;
-
-    /**
      * Load the DM2 edit controller instance
      */
     private function _load_datamanager()
     {
-        $this->_schemadb = midcom_helper_datamanager2_schema::load_database(midcom::get()->config->get('metadata_schema'));
+        $schemadb = midcom_helper_datamanager2_schema::load_database(midcom::get()->config->get('metadata_schema'));
 
         $this->_controller = midcom_helper_datamanager2_controller::create('simple');
-        $this->_controller->schemadb =& $this->_schemadb;
+        $this->_controller->schemadb =& $schemadb;
 
-        $object_schema = midcom_helper_metadata::find_schemaname($this->_schemadb, $this->_object);
+        $object_schema = midcom_helper_metadata::find_schemaname($schemadb, $this->_object);
 
         $this->_controller->set_storage($this->_object, $object_schema);
 
@@ -73,80 +66,21 @@ class midcom_admin_folder_handler_metadata extends midcom_baseclasses_components
 
         if (is_a($this->_object, 'midcom_db_topic'))
         {
-            // This is a topic
             $this->_object->require_do('midcom.admin.folder:topic_management');
-        }
-        else
-        {
-            // This is a regular object, bind to view
-            $this->bind_view_to_object($this->_object);
         }
 
         // Load the DM2 controller instance
         $this->_load_datamanager();
 
-        switch ($this->_controller->process_form())
-        {
-            case 'save':
-                midcom::get()->cache->invalidate($this->_object->guid);
-            case 'cancel':
-                return new midcom_response_relocate(midcom::get()->permalinks->create_permalink($this->_object->guid));
-        }
-
         $object_label = midcom_helper_reflector::get($this->_object)->get_object_label($this->_object);
+        midcom::get()->head->set_pagetitle(sprintf($this->_l10n->get('edit metadata of %s'), $object_label));
 
-        if (is_a($this->_object, 'midcom_db_topic'))
-        {
-            $this->_node_toolbar->hide_item("__ais/folder/metadata/{$this->_object->guid}/");
-        }
-        else
-        {
-            $this->add_breadcrumb(midcom::get()->permalinks->create_permalink($this->_object->guid), $object_label);
-            $this->_view_toolbar->hide_item("__ais/folder/metadata/{$this->_object->guid}/");
-        }
-
-        $this->add_breadcrumb("__ais/folder/metadata/{$this->_object->guid}/", $this->_l10n->get('edit metadata'));
-
-        $data['title'] = sprintf($this->_l10n->get('edit metadata of %s'), $object_label);
-        midcom::get()->head->set_pagetitle($data['title']);
-
-        // Set the help object in the toolbar
-        $help_toolbar = midcom::get()->toolbars->get_help_toolbar();
-        $help_toolbar->add_help_item('edit_metadata', 'midcom.admin.folder', null, null, 1);
+        $workflow = new midcom\workflow\datamanager2($this->_controller, array($this, 'save_callback'));
+        return $workflow->run();
     }
 
-    /**
-     * Output the style element for metadata editing
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_metadata($handler_id, array &$data)
+    public function save_callback(midcom_helper_datamanager2_controller $controller)
     {
-        // Bind object details to the request data
-        $data['controller'] = $this->_controller;
-        $data['object'] = $this->_object;
-
-        if (   is_a($this->_object, 'midcom_db_topic')
-            && !empty($this->_object->symlink))
-        {
-            try
-            {
-                $topic = new midcom_db_topic($this->_object->symlink);
-                $data['symlink'] = '';
-                $nap = new midcom_helper_nav();
-                if ($node = $nap->get_node($topic))
-                {
-                    $data['symlink'] = $node[MIDCOM_NAV_FULLURL];
-                }
-            }
-            catch (midcom_error $e)
-            {
-                debug_add("Could not get target for symlinked topic #{$this->_object->id}: " .
-                    $e->getMessage(), MIDCOM_LOG_ERROR);
-            }
-        }
-
-        midcom_show_style('midcom-admin-show-folder-metadata');
+        midcom::get()->cache->invalidate($this->_object->guid);
     }
 }

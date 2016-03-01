@@ -32,6 +32,8 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
      */
     private $_handler_id;
 
+    private $old_name;
+
     /**
      * Load either a create controller or an edit (simple) controller or trigger an error message
      */
@@ -151,87 +153,51 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
 
         $this->_handler_id = str_replace('____ais-folder-', '', $handler_id);
 
-        if ($this->_handler_id == 'create' || $this->_handler_id == 'createlink')
+        if ($this->_handler_id == 'edit')
         {
-            $this->_topic->require_do('midgard:create');
-            if ($this->_handler_id == 'createlink')
-            {
-                $this->_topic->require_do('midcom.admin.folder:symlinks');
-            }
+            $this->_topic->require_do('midgard:update');
+            $title = sprintf($this->_l10n->get('edit folder %s'), $this->_topic->get_label());
         }
         else
         {
-            $this->_topic->require_do('midgard:update');
+            $this->_topic->require_do('midgard:create');
+            $title = $this->_l10n->get('create folder');
+            if ($this->_handler_id == 'createlink')
+            {
+                $this->_topic->require_do('midcom.admin.folder:symlinks');
+                $title = $this->_l10n->get('create folder link');
+            }
         }
+        midcom::get()->head->set_pagetitle($title);
 
         // Load the DM2 controller
         $this->_load_controller();
 
-        // Get the content topic prefix
-        $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
-
         // Store the old name before editing
-        $old_name = $this->_topic->name;
+        $this->old_name = $this->_topic->name;
         // Symlink support requires that we use actual URL topic object here
         $urltopics = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_URLTOPICS);
         if ($urltopic = end($urltopics))
         {
-            $old_name = $urltopic->name;
+            $this->old_name = $urltopic->name;
         }
-
-        switch ($this->_controller->process_form())
-        {
-            case 'cancel':
-                midcom::get()->uimessages->add($this->_l10n->get('midcom.admin.folder'), $this->_l10n->get('cancelled'));
-                return new midcom_response_relocate($prefix);
-
-            case 'save':
-                if ($this->_handler_id === 'edit')
-                {
-                    $url = $this->_update_topic($prefix, $old_name);
-                }
-                else
-                {
-                    $url = $this->_create_topic($prefix);
-                }
-                return new midcom_response_relocate($url);
-        }
-
-        $this->_prepare_request_data();
-
-        // Hide the button in toolbar
-        $this->_node_toolbar->hide_item('__ais/folder/' . $this->_handler_id . '/');
-
-        // Add the view to breadcrumb trail
-        $this->add_breadcrumb('__ais/folder/edit/', $data['title']);
-
-        // Set page title
-        midcom::get()->head->set_pagetitle($data['title']);
-
-        // Set the help object in the toolbar
-        $help_toolbar = midcom::get()->toolbars->get_help_toolbar();
-        $help_toolbar->add_help_item('edit_folder', 'midcom.admin.folder', null, null, 1);
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.admin.folder/folder.css');
+
+        midcom::get()->head->set_pagetitle($title);
+
+        $workflow = new midcom\workflow\datamanager2($this->_controller, array($this, 'save_callback'));
+        return $workflow->run();
     }
 
-    private function _prepare_request_data()
+    public function save_callback(midcom_helper_datamanager2_controller $controller)
     {
-        if ($this->_handler_id == 'create')
+        $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
+        if ($this->_handler_id === 'edit')
         {
-            $this->_request_data['title'] = $this->_l10n->get('create folder');
+            return $this->_update_topic($prefix, $this->old_name);
         }
-        else if ($this->_handler_id == 'createlink')
-        {
-            $this->_request_data['title'] = $this->_l10n->get('create folder link');
-        }
-        else
-        {
-            $this->_request_data['title'] = sprintf($this->_l10n->get('edit folder %s'), $this->_topic->get_label());
-        }
-
-        $this->_request_data['topic'] = $this->_topic;
-        $this->_request_data['controller'] = $this->_controller;
+        return $this->_create_topic($prefix);
     }
 
     private function _update_topic($prefix, $old_name)
@@ -396,26 +362,5 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
         debug_print_r('New style created', $style);
 
         return midcom::get()->style->get_style_path_from_id($style->id);
-    }
-
-    /**
-     * Shows the _Edit folder_ page.
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_edit($handler_id, array &$data)
-    {
-        // Show the style element
-        if ($this->_handler_id === 'create')
-        {
-            $data['page_title'] = $this->_l10n->get("create folder");
-        }
-        else
-        {
-            $data['page_title'] = sprintf($this->_l10n->get("{$this->_handler_id} folder %s"), $this->_topic->get_label());
-        }
-
-        midcom_show_style('midcom-admin-show-folder-actions');
     }
 }
