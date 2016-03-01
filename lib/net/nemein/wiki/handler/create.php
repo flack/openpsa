@@ -200,42 +200,19 @@ implements midcom_helper_datamanager2_interfaces_create
 
         $data['controller'] = $this->get_controller('create');
 
-        switch ($data['controller']->process_form())
-        {
-            case 'save':
-                // Reindex the article
-                $indexer = midcom::get()->indexer;
-                net_nemein_wiki_viewer::index($data['controller']->datamanager, $indexer, $this->_topic);
+        midcom::get()->head->set_pagetitle(sprintf($this->_l10n->get('create wikipage %s'), $this->_wikiword));
 
-                midcom::get()->uimessages->add($this->_l10n->get('net.nemein.wiki'), sprintf($this->_l10n->get('page %s added'), $this->_wikiword), 'ok');
-
-                return new midcom_response_relocate("{$this->_page->name}/");
-
-            case 'cancel':
-                return new midcom_response_relocate('');
-        }
-
-        $data['view_title'] = sprintf($this->_l10n->get('create wikipage %s'), $this->_wikiword);
-        midcom::get()->head->set_pagetitle($data['view_title']);
-        $data['preview_mode'] = false;
-
-        $this->add_breadcrumb
-        (
-            "create/?wikiword=" . rawurlencode($this->_wikiword),
-            sprintf($this->_l10n->get('create wikipage %s'), $this->_wikiword)
-        );
-
-        // Set the help object in the toolbar
-        $this->_view_toolbar->add_help_item('markdown', 'net.nemein.wiki');
+        $workflow = new midcom\workflow\datamanager2($data['controller'], array($this, 'save_callback'));
+        return $workflow->run();
     }
 
-    /**
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_create($handler_id, array &$data)
+    public function save_callback(midcom_helper_datamanager2_controller $controller)
     {
-        midcom_show_style('view-wikipage-edit');
+        $indexer = midcom::get()->indexer;
+        net_nemein_wiki_viewer::index($controller->datamanager, $indexer, $this->_topic);
+
+        midcom::get()->uimessages->add($this->_l10n->get('net.nemein.wiki'), sprintf($this->_l10n->get('page %s added'), $this->_wikiword), 'ok');
+
+        return "{$this->_page->name}/";
     }
 }

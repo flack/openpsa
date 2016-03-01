@@ -34,8 +34,6 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
      */
     private $_schemadb = null;
 
-    private $_preview = false;
-
     /**
      * Loads and prepares the schema database.
      *
@@ -45,7 +43,7 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
     {
         $this->_schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb'));
 
-        $operations = Array();
+        $operations = array();
         $operations['save'] = '';
         $operations['preview'] = $this->_l10n->get('preview');
         $operations['cancel'] = '';
@@ -84,41 +82,9 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
 
         $this->_load_controller();
 
-        switch ($this->_controller->process_form())
-        {
-            case 'preview':
-                $this->_preview = true;
-                $data['formmanager'] = $this->_controller->formmanager;
-                break;
-            case 'save':
-                // Reindex the article
-                $indexer = midcom::get()->indexer;
-                net_nemein_wiki_viewer::index($this->_controller->datamanager, $indexer, $this->_topic);
-                midcom::get()->uimessages->add($this->_l10n->get($this->_component), sprintf($this->_request_data['l10n']->get('page %s saved'), $this->_page->title), 'ok');
-                // *** FALL-THROUGH ***
-            case 'cancel':
-                if ($this->_page->name == 'index')
-                {
-                    return new midcom_response_relocate('');
-                }
-                return new midcom_response_relocate("{$this->_page->name}/");
-        }
+        midcom::get()->head->set_pagetitle(sprintf($this->_l10n->get('edit %s'), $this->_page->title));
 
-        $buttons = array
-        (
-            array
-            (
-                MIDCOM_TOOLBAR_URL => "{$this->_page->name}/",
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('view'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_left.png',
-                MIDCOM_TOOLBAR_ACCESSKEY => 'v',
-            )
-        );
-        if ($this->_page->can_do('midgard:delete'))
-        {
-            $workflow = new midcom\workflow\delete($this->_page);
-            $buttons[] = $workflow->get_button("delete/{$this->_page->name}/");
-        }
+        $workflow = new midcom\workflow\datamanager2($this->_controller, array($this, 'save_callback'));
 
         foreach (array_keys($this->_request_data['schemadb']) as $name)
         {
@@ -127,85 +93,62 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
                 // The page is already of this type, skip
                 continue;
             }
-
-            $buttons[] = array
-            (
-                MIDCOM_TOOLBAR_URL => "change/{$this->_page->name}/",
-                MIDCOM_TOOLBAR_LABEL => sprintf
-                (
-                    $this->_l10n->get('change to %s'),
-                    $this->_l10n->get($this->_request_data['schemadb'][$name]->description)
-                ),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_refresh.png',
-                MIDCOM_TOOLBAR_POST => true,
-                MIDCOM_TOOLBAR_POST_HIDDENARGS => array('change_to' => $name),
-                MIDCOM_TOOLBAR_ENABLED => $this->_page->can_do('midgard:update'),
-            );
+            $label = sprintf($this->_l10n->get('change to %s'), $this->_l10n->get($data['schemadb'][$name]->description));
+            $workflow->add_post_button("change/{$this->_page->name}/", $label, array('change_to' => $name));
         }
-        $this->_view_toolbar->add_items($buttons);
-        $this->bind_view_to_object($this->_page, $this->_controller->datamanager->schema->name);
 
-        $data['view_title'] = sprintf($this->_l10n->get('edit %s'), $this->_page->title);
-        midcom::get()->head->set_pagetitle($data['view_title']);
+        $response = $workflow->run();
 
-        // Set the breadcrumb pieces
-        $this->add_breadcrumb("{$this->_page->name}/", $this->_page->title);
-        $this->add_breadcrumb("edit/{$this->_page->name}/", $this->_l10n_midcom->get('edit'));
+        if ($workflow->get_state() == 'preview')
+        {
+            $this->add_preview();
+        }
+        else if ($workflow->get_state() == 'save')
+        {
+            $indexer = midcom::get()->indexer;
+            net_nemein_wiki_viewer::index($controller->datamanager, $indexer, $this->_topic);
+            midcom::get()->uimessages->add($this->_l10n->get($this->_component), sprintf($this->_l10n->get('page %s saved'), $this->_page->title));
+        }
 
-        // Set the help object in the toolbar
-        $this->_view_toolbar->add_help_item('markdown', 'net.nemein.wiki');
+        return $response;
     }
 
-    /**
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_edit($handler_id, array &$data)
+    private function add_preview()
     {
-        $data['controller'] = $this->_controller;
-        $data['preview_mode'] = $this->_preview;
-
-        if ($this->_preview)
+        $preview_page = $this->_page;
+        foreach ($this->_controller->datamanager->schema->fields as $name => $type_definition)
         {
-            // Populate preview page with values from form
-            $data['preview_page'] = $this->_page;
-            foreach ($this->_controller->datamanager->schema->fields as $name => $type_definition)
+            if (!is_a($this->_controller->datamanager->types[$name], 'midcom_helper_datamanager2_type_text'))
             {
-                if (!is_a($this->_controller->datamanager->types[$name], 'midcom_helper_datamanager2_type_text'))
-                {
-                    // Skip fields of other types
-                    continue;
-                }
-                switch ($type_definition['storage'])
-                {
-                    case 'parameter':
-                    case 'configuration':
-                    case 'metadata':
-                        // Skip
-                        continue;
-                    default:
-                        $location = $type_definition['storage']['location'];
-                }
-                $data['preview_page']->$location = $this->_controller->datamanager->types[$name]->convert_to_storage();
+                // Skip fields of other types
+                continue;
             }
-
-            // Load DM for rendering the page
-            $datamanager = new midcom_helper_datamanager2_datamanager($this->_schemadb);
-            $datamanager->autoset_storage($data['preview_page']);
-
-            $data['wikipage_view'] = $datamanager->get_content_html();
-            $data['wikipage'] = $data['preview_page'];
-            $data['autogenerate_toc'] = false;
-            $data['display_related_to'] = false;
-
-            // Replace wikiwords
-            // TODO: We should somehow make DM2 do this so it would also work in AJAX previews
-            $parser = new net_nemein_wiki_parser($data['preview_page']);
-            $data['wikipage_view']['content'] = $parser->get_markdown($data['wikipage_view']['content']);
+            switch ($type_definition['storage'])
+            {
+                case 'parameter':
+                case 'configuration':
+                case 'metadata':
+                    // Skip
+                    continue;
+                default:
+                    $location = $type_definition['storage']['location'];
+            }
+            $preview_page->$location = $this->_controller->datamanager->types[$name]->convert_to_storage();
         }
 
-        midcom_show_style('view-wikipage-edit');
+        // Load DM for rendering the page
+        $datamanager = new midcom_helper_datamanager2_datamanager($this->_schemadb);
+        $datamanager->autoset_storage($preview_page);
+        $wikipage_view = $datamanager->get_content_html();
+        // Replace wikiwords
+        // TODO: We should somehow make DM2 do this so it would also work in AJAX previews
+        $parser = new net_nemein_wiki_parser($preview_page);
+        $preview = $parser->get_markdown($wikipage_view['content']);
+
+        $form = $this->_controller->formmanager->form;
+        $form->addElement('static', 'preview', $this->_l10n->get('preview'), '<div class="wiki_preview">' . $preview . '</div>');
+        $element = array_pop($form->_elements);
+        array_unshift($form->_elements, $element);
     }
 
     /**

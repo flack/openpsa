@@ -13,6 +13,11 @@ div.net_nemein_wiki_wikipage a.edit img
     border: none;
 }
 
+#preview_container #preview_label
+{
+	display: none;
+} 
+
 div.wiki_preview
 {
     background-color: #e0e0e0;

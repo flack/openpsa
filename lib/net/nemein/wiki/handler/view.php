@@ -64,6 +64,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
 
     private function _populate_toolbar()
     {
+        $workflow = new midcom\workflow\datamanager2;
         $buttons = array
         (
             array
@@ -73,14 +74,11 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_left.png',
                 MIDCOM_TOOLBAR_ACCESSKEY => 'v',
             ),
-            array
+            $workflow->get_button("edit/{$this->_page->name}/", array
             (
-                MIDCOM_TOOLBAR_URL => "edit/{$this->_page->name}/",
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('edit'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
                 MIDCOM_TOOLBAR_ENABLED => $this->_page->can_do('midgard:update'),
-            )
+            ))
         );
         if ($this->_page->can_do('midgard:delete'))
         {
@@ -88,28 +86,6 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
             $buttons[] = $workflow->get_button("delete/{$this->_page->name}/");
         }
 
-        foreach (array_keys($this->_request_data['schemadb']) as $name)
-        {
-            if ($name == $this->_datamanager->schema->name)
-            {
-                // The page is already of this type, skip
-                continue;
-            }
-
-            $buttons[] = array
-            (
-                MIDCOM_TOOLBAR_URL => "change/{$this->_page->name}/",
-                MIDCOM_TOOLBAR_LABEL => sprintf
-                (
-                    $this->_l10n->get('change to %s'),
-                    $this->_l10n->get($this->_request_data['schemadb'][$name]->description)
-                ),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_refresh.png',
-                MIDCOM_TOOLBAR_POST => true,
-                MIDCOM_TOOLBAR_POST_HIDDENARGS => array('change_to' => $name),
-                MIDCOM_TOOLBAR_ENABLED => $this->_page->can_do('midgard:update'),
-            );
-        }
         $buttons[] = array
         (
             MIDCOM_TOOLBAR_URL => "whatlinks/{$this->_page->name}/",
@@ -250,7 +226,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
         {
             $qb = net_nemein_wiki_wikipage::new_query_builder();
             $qb->add_constraint('topic.component', '=', 'net.nemein.wiki');
-            $qb->add_constraint('title', '=', $this->_page->url);
+            $qb->add_constraint('name', '=', $this->_page->url);
             $result = $qb->execute();
             if (count($result) == 0)
             {
@@ -513,6 +489,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
 
         $this->_populate_toolbar();
         $this->_view_toolbar->hide_item("whatlinks/{$this->_page->name}/");
+        $this->add_breadcrumb("{$this->_page->name}/", $this->_page->title);
 
         $qb = net_nemein_wiki_link_dba::new_query_builder();
         $qb->add_constraint('topage', '=', $this->_page->title);

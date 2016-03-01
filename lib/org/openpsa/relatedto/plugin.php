@@ -348,19 +348,14 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
                     }
 
                     $data['wikiword_encoded'] = rawurlencode($data['wikiword']);
-                    $toolbar_buttons[] = array
+                    $toolbar_buttons[] = $workflow->get_button("{$data['node'][MIDCOM_NAV_ABSOLUTEURL]}create/?wikiword={$data['wikiword_encoded']}&" . self::relatedto2get(array($related_to)), array
                     (
-                        MIDCOM_TOOLBAR_URL => "{$data['node'][MIDCOM_NAV_ABSOLUTEURL]}create/?wikiword={$data['wikiword_encoded']}&" . self::relatedto2get(array($related_to)),
                         MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('create note', $data['component']),
                         //TODO: Different icon from new document ?
                         MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-text.png',
                         MIDCOM_TOOLBAR_ENABLED => $data['node'][MIDCOM_NAV_OBJECT]->can_do('midgard:create'),
-                        MIDCOM_TOOLBAR_OPTIONS  => array
-                        (
-                            //PONDER: Open in new window or not ??
-                            'target' => 'wiki',
-                        )
-                    );
+                        MIDCOM_TOOLBAR_OPTIONS  => array('data-refresh-opener' => 'true'),
+                    ));
                     break;
                 case 'document':
                     if ($data['node'][MIDCOM_NAV_OBJECT]->can_do('midgard:create'))
