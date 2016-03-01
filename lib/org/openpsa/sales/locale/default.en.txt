@@ -209,6 +209,10 @@ Next run
 No customer
 ---STRINGEND
 
+---STRING note to "%s" on %s
+Note to "%s" on %s
+---STRINGEND
+
 ---STRING notification for agreement %s
 Notification for agreement "%s"
 ---STRINGEND

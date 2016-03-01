@@ -210,6 +210,10 @@ Nächster Rechnungslauf
 Kein Kunde
 ---STRINGEND
 
+---STRING note to "%s" on %s
+Notiz zu "%s" am %s
+---STRINGEND
+
 ---STRING notification for agreement %s
 Benachrichtigung für Vereinbarung "%s"
 ---STRINGEND
