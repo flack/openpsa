@@ -284,21 +284,13 @@ class midcom_helper_datamanager2_widget_autocomplete extends midcom_helper_datam
         $preset = array();
         if (!empty($selection))
         {
-            foreach ($selection as $identifier)
+            $qb = new midcom_core_querybuilder($this->class);
+            $qb->add_constraint($this->id_field, 'IN', $selection);
+            $results = $qb->execute();
+            foreach ($results as $result)
             {
-                if ($this->id_field == 'id')
-                {
-                    $identifier = (int) $identifier;
-                }
-                try
-                {
-                    $object = new $this->class($identifier);
-                    $preset[$identifier] = self::create_item_label($object, $this->result_headers, $this->get_label_for);
-                }
-                catch (midcom_error $e)
-                {
-                    $e->log();
-                }
+                $identifier = $result->{$this->id_field};
+                $preset[$identifier] = self::create_item_label($result, $this->result_headers, $this->get_label_for);
             }
         }
 

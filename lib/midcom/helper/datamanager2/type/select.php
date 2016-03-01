@@ -251,19 +251,13 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
             midcom::get()->componentloader->load($widget_config['component']);
         }
 
-        if (   isset($widget_config['id_field'])
-            && $widget_config['id_field'] == 'id')
+        $widget_config['id_field'] = isset($widget_config['id_field']) ? $widget_config['id_field'] : 'guid';
+        $qb = new midcom_core_querybuilder($widget_config['class']);
+        $qb->add_constraint($widget_config['id_field'], '=', $key);
+        $results = $qb->execute();
+        if (count($results) != 1)
         {
-            $key = (int) $key;
-        }
-
-        try
-        {
-            $object = call_user_func(array($widget_config['class'], 'get_cached'), $key);
-        }
-        catch (midcom_error $e)
-        {
-            debug_add('Failed to load ' . $widget_config['class'] . ' ' . $key . ': ' . $e->getMessage());
+            debug_add('Failed to load ' . $widget_config['class'] . ' ' . $key . ': ' . count($results) . ' results found, 1 expected');
             return null;
         }
         $field_options = (array) $widget_config['titlefield'];
