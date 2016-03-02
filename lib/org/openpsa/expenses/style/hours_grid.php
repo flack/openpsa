@@ -37,8 +37,7 @@ foreach ($reports['reports'] as $report)
     $entry['index_reporter'] = $reporters[$report->person]['rname'];
     $entry['reporter'] = $reporters[$report->person]['card'];
 
-    $entry['index_hours'] = $report->hours;
-    $entry['hours'] = $report->hours . ' ' . $data['l10n']->get('hours unit');
+    $entry['hours'] = $report->hours;
 
     if ($data['status'] === 'invoiced')
     {
@@ -62,13 +61,12 @@ if ($data['mode'] != 'simple')
 {
     $grid->set_column('task', $data['l10n']->get('task'), "classes: 'ui-ellipsis'", 'string');
 }
-$grid->set_column('hours', $data['l10n']->get('hours'), "width: 50, align: 'right'", 'integer')
-    ->set_column('description', $data['l10n']->get('description'), "width: 250, classes: 'ui-ellipsis'", 'string');
-
+$grid->set_column('description', $data['l10n']->get('description'), "width: 250, classes: 'ui-ellipsis'", 'string');
 if ($data['status'] === 'invoiced')
 {
     $grid->set_column('invoice', $data['l10n']->get('invoice'), "width: 60, align: 'center'", 'integer');
 }
+$grid->set_column('hours', $data['l10n']->get('hours'), "width: 50, align: 'right', formatter: 'number'");
 
 $grid->set_option('loadonce', true)
     ->set_option('caption', $data['subheading'])
@@ -80,11 +78,10 @@ $grid->add_pager();
 
 $footer_data = array
 (
-    'date' => $data['l10n']->get('total'),
     'hours' => $reports['hours']
 );
 
-$grid->set_footer_data($footer_data, null, false);
+$grid->set_footer_data($footer_data);
 ?>
 <div class="org_openpsa_expenses <?php echo $class ?> batch-processing full-width crop-height" style="margin-top: 1em">
 
