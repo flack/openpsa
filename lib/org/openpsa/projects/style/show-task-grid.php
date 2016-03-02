@@ -39,7 +39,7 @@ if ($data['view_identifier'] != 'project_tasks')
 {
     $grid->set_column('project', $data['l10n']->get('project'), 'width: 80, classes: "ui-ellipsis"', 'string');
 }
-$grid->set_column('priority', $data['l10n']->get('priority'), 'width: 18, align: "center", fixed: true', 'integer');
+$grid->set_column('priority', $data['l10n']->get('priority'), 'width: 30, align: "center", fixed: true', 'integer');
 
 if ($data['view_identifier'] != 'my_tasks')
 {
@@ -48,29 +48,25 @@ if ($data['view_identifier'] != 'my_tasks')
     {
         $grid->set_column('customer', $data['l10n']->get('customer'), 'width: 55, classes: "ui-ellipsis"', 'string');
     }
-    $grid->set_column('manager', $data['l10n']->get('manager'), 'width: 70, classes: "ui-ellipsis"', 'string')
-        ->set_column('start', $data['l10n']->get('start'), 'width: 75, formatter: "date", align: "center", fixed: true')
-        ->set_column('end', $data['l10n']->get('end'), 'width: 75, formatter: "date", align: "center", fixed: true');
+    $grid->set_column('manager', $data['l10n']->get('manager'), 'width: 60, classes: "ui-ellipsis"', 'string')
+        ->set_column('start', $data['l10n']->get('start'), 'width: 80, formatter: "date", align: "center", fixed: true')
+        ->set_column('end', $data['l10n']->get('end'), 'width: 80, formatter: "date", align: "center", fixed: true');
 }
 else
 {
-    $grid->set_column('end', $data['l10n']->get('deadline'), 'width: 75, formatter: "date", align: "center", fixed: true')
+    $grid->set_column('end', $data['l10n']->get('deadline'), 'width: 80, formatter: "date", align: "center", fixed: true')
         ->set_column('status', $data['l10n']->get('status'), 'width: 100, classes: "ui-ellipsis"', 'float')
         ->set_option('caption', $data['l10n']->get($data['view_identifier']));
 }
-if ($data['view_identifier'] != 'project_tasks')
+$grid->set_column('planned_hours', $data['l10n']->get('planned hours'), 'width: 55, align: "right", sorttype: "number", formatter: "number", summaryType:"sum", fixed: true')
+    ->set_column('reported_hours', $data['l10n']->get('reported'), 'width: 55, align: "right", sorttype: "number", formatter: "number", summaryType:"sum", fixed: true');
+if ($data['view_identifier'] == 'project_tasks')
 {
-    $grid->set_column('reported', $data['l10n']->get('hours'), 'width: 50, align: "right", summaryType:"sum"', 'float');
-}
-else
-{
-    $grid->set_column('planned_hours', $data['l10n']->get('planned hours'), 'width: 40, align: "right", sorttype: "number", formatter: "number", summaryType:"sum", fixed: true')
-        ->set_column('reported_hours', $data['l10n']->get('reported'), 'width: 40, align: "right", sorttype: "number", formatter: "number", summaryType:"sum", fixed: true')
-        ->set_column('invoiced_hours', $data['l10n']->get('invoiced'), 'width: 40, align: "right", sorttype: "number", formatter: "number", summaryType:"sum", fixed: true')
+    $grid->set_column('invoiced_hours', $data['l10n']->get('invoiced'), 'width: 55, align: "right", sorttype: "number", formatter: "number", summaryType:"sum", fixed: true')
         ->set_column('status', $data['l10n']->get('status'), 'width: 100, classes: "ui-ellipsis"', 'float')
         ->set_option('caption', $data['l10n']->get($data['view_identifier']));
-}
 
+}
 $grid->set_footer_data($footer_data);
 ?>
 <div class="org_openpsa_projects <?php echo $data['view_identifier']; ?> full-width fill-height">

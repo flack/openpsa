@@ -327,22 +327,14 @@ implements org_openpsa_widgets_grid_provider_client
         $entry['start'] = strftime('%Y-%m-%d', $task->start);
         $entry['end'] = strftime('%Y-%m-%d', $task->end);
 
-        if ($this->_request_data['view_identifier'] != 'project_tasks')
+        $entry['planned_hours'] = $task->plannedHours;
+        if ($this->_request_data['view_identifier'] == 'project_tasks')
         {
-            $entry['index_reported'] = $task->reportedHours;
-            $entry['reported'] = round($task->reportedHours, 2);
-            if ($task->plannedHours > 0)
-            {
-                $entry['reported'] .=  ' / ' . round($task->plannedHours, 2);
-            }
-        }
-        else
-        {
-            $entry['planned_hours'] = $task->plannedHours;
             $entry['invoiced_hours'] = $task->invoicedHours;
-            $entry['approved_hours'] = $task->approvedHours;
-            $entry['reported_hours'] = $task->reportedHours;
         }
+        $entry['approved_hours'] = $task->approvedHours;
+        $entry['reported_hours'] = $task->reportedHours;
+
         return $entry;
     }
 
