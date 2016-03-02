@@ -66,7 +66,7 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
 
         if ($data['success'])
         {
-            $data['message']['type'] = 'ok';
+            $data['message']['type'] = 'info';
         }
 
         if (!empty($_POST['relocate']))
