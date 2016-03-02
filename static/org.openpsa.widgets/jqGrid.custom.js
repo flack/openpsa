@@ -190,9 +190,6 @@ var org_openpsa_grid_resize =
                     var old_width = $("#" + id).jqGrid().getGridParam('width');
                     if (new_width != old_width)
                     {
-                        // workaround for problem with grids inside uitabs: jqGrid's autodetection fails
-                        // for some reason, so we must set the correct value manually
-                        $.jgrid.cell_width = false;
                         $("#" + id).jqGrid().setGridWidth(new_width);
                     }
                 }

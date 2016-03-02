@@ -1324,7 +1324,7 @@ body .ui-tooltip {
     border-bottom-right-radius: 0;
 }
 
- .ui-state-default
+.ui-state-default
 {
     text-shadow: 1px 1px #eee
 }
@@ -1342,7 +1342,7 @@ body .ui-tooltip {
 
 .ui-jqgrid .ui-widget-header
 {
-    height: 1.4em;
+    height: 2em;
     font-size: 120%;
     padding-left: .5em;
 }
@@ -1361,7 +1361,7 @@ body .ui-tooltip {
 .ui-jqgrid table th:last-child,
 .ui-jqgrid table tr.ui-row-ltr > td:last-child
 {
-	border-right-width: 0;
+    border-right-width: 0;
 }
 
 .jqgrow
@@ -1412,7 +1412,7 @@ body .ui-tooltip {
 .ui-jqgrid-ftable tr.footrow td
 {
     background-color: transparent;
-    border-top: none;
+    border-top-width: 0;
 }
 
 .ui-jqgrid-ftable tr.footrow td
@@ -1518,36 +1518,6 @@ body .ui-tooltip {
     background-image: url(../stock-icons/16x16/cancel.png);
 }
 
-.ui-tabs .ui-tabs-nav
-{
-    height: 1.9em;
-    border-bottom: 1px solid #daddd6;
-}
-
-.ui-tabs .ui-tabs-nav li.ui-tabs-active
-{
-    border-bottom: none;
-    text-shadow: 1px 1px #eee;
-    padding-bottom: 0;
-}
-
-.ui-tabs .ui-tabs-nav li a.ui-tabs-anchor
-{
-    padding: 0.2em 1em 3px;
-}
-.ui-tabs .ui-tabs-nav .ui-state-active a:hover
-{
-    cursor: pointer
-}
-
-.ui-tabs .ui-tabs-panel
-{
-    padding: 0;
-    padding-bottom: 15px;
-    border: 1px solid #daddd6;
-    border-top: none;
-}
-
 .normal .ui-jqgrid-hbox .ui-state-default,
 .good .ui-jqgrid-hbox .ui-state-default,
 .bad .ui-jqgrid-hbox .ui-state-default,
@@ -1577,8 +1547,7 @@ body .ui-tooltip {
 
 .ui-jqgrid > .ui-jqgrid-view
 {
-	font-size: 12px;
-	box-sizing: initial
+    font-size: 12px;
 }
 
 /* Red headers */
@@ -1606,7 +1575,6 @@ body .ui-tooltip {
 }
 
 /* Header controls */
-
 .ui-jqgrid .ui-jqgrid-title
 {
     margin: 0.1em 0 0.2em;
@@ -1635,6 +1603,36 @@ body .ui-tooltip {
 .ui-jqgrid td.multiline .details a
 {
     color: #14335e;
+}
+
+.ui-tabs .ui-tabs-nav
+{
+    height: 1.9em;
+    border-bottom: 1px solid #daddd6;
+}
+
+.ui-tabs .ui-tabs-nav li.ui-tabs-active
+{
+    border-bottom: none;
+    text-shadow: 1px 1px #eee;
+    padding-bottom: 0;
+}
+
+.ui-tabs .ui-tabs-nav li a.ui-tabs-anchor
+{
+    padding: 0.2em 1em 3px;
+}
+.ui-tabs .ui-tabs-nav .ui-state-active a:hover
+{
+    cursor: pointer
+}
+
+.ui-tabs .ui-tabs-panel
+{
+    padding: 0;
+    padding-bottom: 15px;
+    border: 1px solid #daddd6;
+    border-top: none;
 }
 
 .ui-autocomplete,
