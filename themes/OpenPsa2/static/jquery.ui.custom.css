@@ -1684,7 +1684,17 @@ ul.fancytree-container span.fancytree-folder a
 .elfinder,
 .elfinder-quicklook
 {
-    font-size: 16px
+    font-size: 17.2px
+}
+
+.elfinder-contextmenu
+{
+    font-size: 15.8px
+}
+
+.elfinder-contextmenu .ui-state-hover
+{
+    text-shadow: none;
 }
 
 .elfinder-quicklook
@@ -1697,6 +1707,7 @@ ul.fancytree-container span.fancytree-folder a
 {
     padding-left: 56px;
 }
+
 .std42-dialog {
     left: auto;
     padding: 0;
@@ -1704,11 +1715,40 @@ ul.fancytree-container span.fancytree-folder a
     right: auto;
 }
 
+.elfinder-toolbar
+{
+    border-bottom: 1px solid #d2d6cd;
+}
+
+.elfinder-statusbar
+{
+    border-top: 1px solid #d2d6cd;
+}
+
+.elfinder-buttonset,
+.elfinder-toolbar-button-separator
+{
+    border: none;
+}
+.elfinder-ltr .elfinder-navbar
+{
+    border-top: none;
+    border-left: none;
+    border-bottom: none;
+}
+
+.elfinder-ltr .elfinder-cwd table
+{
+    padding: 0;
+}
+
 .elfinder-ltr .elfinder-cwd table td
 {
     text-align: left;
 }
-.elfinder-ltr .elfinder-cwd table td:nth-child(4) {
+
+.elfinder-ltr .elfinder-cwd table td:nth-child(4)
+{
     text-align: right;
 }
 
@@ -1746,6 +1786,11 @@ ul.fancytree-container span.fancytree-folder a
 .elfinder-disabled .elfinder-navbar .ui-state-active
 {
     color: inherit;
+}
+
+.elfinder-cwd-view-icons .elfinder-cwd-file
+{
+    border: 1px solid transparent;
 }
 
 .midcom-workflow-dialog .ui-dialog-content {
