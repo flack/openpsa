@@ -8,6 +8,7 @@ $(document).ready(function()
                 title:  button.data('dialog-heading'),
                 resizable: false,
                 modal: true,
+                width: 'auto',
                 buttons: {}
             },
             label = button.text(),
@@ -30,6 +31,8 @@ $(document).ready(function()
             $( this ).dialog( "close" );
         };
         $('<div>')
+            .css('min-width', '300px') // This should be handled by dialog's minWidth option, but that doesn't work with width: "auto"
+                                       // Should be fixed in https://github.com/jquery/jquery-ui/commit/643b80c6070e2eba700a09a5b7b9717ea7551005
             .append($('<p>' + button.data('dialog-text') + '</p>'))
             .appendTo($('body'))
             .dialog(options);
