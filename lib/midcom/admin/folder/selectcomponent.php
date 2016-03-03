@@ -72,47 +72,4 @@ class midcom_admin_folder_selectcomponent extends  midcom_helper_datamanager2_wi
 
         $this->_select_element = $this->_form->addElement($select_element);
     }
-
-    public function render_content()
-    {
-        $output = '';
-        if ($this->_type->allow_multiple)
-        {
-            $output .= '<ul>';
-            if (count($this->_type->selection) == 0)
-            {
-                $output .= '<li>' . $this->_translate('type select: no selection') . '</li>';
-            }
-            else
-            {
-                foreach ($this->_type->selection as $key)
-                {
-                    $output .= '<li>' . $this->_translate($this->_type->get_name_for_key($key)) . '</li>';
-                }
-            }
-            $output .= '</ul>';
-        }
-        else
-        {
-            if (count($this->_type->selection) == 0)
-            {
-                $output .= $this->_translate('type select: no selection');
-            }
-            else
-            {
-                $output .= $this->_translate($this->_type->get_name_for_key($this->_type->selection[0]));
-            }
-        }
-
-        if ($this->_type->allow_other)
-        {
-            if (! $this->_type->allow_multiple)
-            {
-                $output .= '; ';
-            }
-            $output .= $this->_translate($this->othertext) . ': ';
-            $output .= implode(',', $this->_type->others);
-        }
-        return $output;
-    }
 }
