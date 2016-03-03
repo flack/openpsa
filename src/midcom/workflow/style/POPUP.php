@@ -3,6 +3,7 @@
 $i18n = midcom::get()->i18n;
 $head = midcom::get()->head;
 $title = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_PAGETITLE);
+$head->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.workflow/dialog.css');
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $i18n->get_current_language(); ?>">

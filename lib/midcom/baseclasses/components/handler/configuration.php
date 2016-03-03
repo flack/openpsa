@@ -91,60 +91,27 @@ implements midcom_helper_datamanager2_interfaces_edit
         $this->_topic->require_do('midgard:update');
         $this->_topic->require_do('midcom:component_config');
 
-        if (   method_exists($this, '_load_datamanagers')
-            && method_exists($this, '_load_objects'))
-        {
-            $this->_view_toolbar->add_item
-            (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => 'config/recreate/',
-                    MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('recreate images', 'midcom'),
-                    // TODO: better icon
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/recurring.png',
-                    MIDCOM_TOOLBAR_POST => true,
-                    MIDCOM_TOOLBAR_POST_HIDDENARGS => array
-                    (
-                        'midcom_baseclasses_components_handler_configuration_recreateok' => true,
-                    )
-                )
-            );
-        }
-
         // Load the midcom_helper_datamanager2_controller for form processing
         $this->_controller = $this->get_controller('simple', $this->_topic);
 
-        // Process the form
-        switch ($this->_controller->process_form())
+        midcom::get()->head->set_pagetitle($this->_l10n_midcom->get('component configuration'));
+
+        $workflow = new midcom\workflow\datamanager2($this->_controller);
+        if (   method_exists($this, '_load_datamanagers')
+            && method_exists($this, '_load_objects'))
         {
-            case 'save':
-                midcom::get()->uimessages->add($this->_l10n_midcom->get('component configuration'), $this->_l10n_midcom->get('configuration saved'));
-                return new midcom_response_relocate('');
-
-            case 'cancel':
-                midcom::get()->uimessages->add($this->_l10n_midcom->get('component configuration'), $this->_l10n_midcom->get('cancelled'));
-                return new midcom_response_relocate('');
+            $workflow->add_post_button('config/recreate/', $this->_l10n_midcom->get('recreate images'), array
+            (
+                'midcom_baseclasses_components_handler_configuration_recreateok' => true,
+            ));
         }
+        $response = $workflow->run();
 
-        // Update the breadcrumb and page title
-        $this->add_breadcrumb('config/', $this->_l10n_midcom->get('component configuration'));
-
-        $data['component'] = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_COMPONENT);
-        $data['title'] = sprintf($this->_l10n_midcom->get('component %s configuration for folder %s'), $this->_i18n->get_string($data['component'], $data['component']), $data['topic']->extra);
-        midcom::get()->head->set_pagetitle($data['title']);
-    }
-
-    /**
-     * Show the configuration screen
-     *
-     * @param string $handler_id    Name of the handler
-     * @param array  &$data          Miscellaneous output data
-     */
-    public function _show_config($handler_id, array &$data)
-    {
-        midcom::get()->style->data['controller'] =& $this->_controller;
-        midcom::get()->style->data['title'] = $data['title'];
-        midcom::get()->style->show_midcom('dm2_config');
+        if ($workflow->get_state() == 'save')
+        {
+            midcom::get()->uimessages->add($this->_l10n_midcom->get('component configuration'), $this->_l10n_midcom->get('configuration saved'));
+        }
+        return $response;
     }
 
     /**
@@ -178,20 +145,16 @@ implements midcom_helper_datamanager2_interfaces_edit
         $this->_topic->require_do('midgard:update');
         $this->_topic->require_do('midcom:component_config');
 
-        if (   array_key_exists('midcom_baseclasses_components_handler_configuration_recreatecancel', $_POST)
-            || !array_key_exists('midcom_baseclasses_components_handler_configuration_recreateok', $_POST))
+        if (!array_key_exists('midcom_baseclasses_components_handler_configuration_recreateok', $_POST))
         {
             return new midcom_response_relocate('config/');
         }
 
         $data['datamanagers'] = $this->_load_datamanagers();
 
-        // Update the breadcrumb and page title
-        $this->add_breadcrumb('config/', $this->_l10n_midcom->get('component configuration'));
-        $this->add_breadcrumb('config/recreate/', $this->_l10n_midcom->get('recreate images'));
-        $data['component'] = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_COMPONENT);
-        $data['title'] = sprintf($this->_l10n_midcom->get('recreate images for folder %s'), $data['topic']->extra);
-        midcom::get()->head->set_pagetitle($data['title']);
+        midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('recreate images for folder %s'), $data['topic']->extra));
+        $workflow = new midcom\workflow\viewer;
+        return $workflow->run();
     }
 
     /**
@@ -204,7 +167,6 @@ implements midcom_helper_datamanager2_interfaces_edit
     {
         midcom::get()->disable_limits();
 
-        midcom::get()->style->data['title'] = $data['title'];
         midcom::get()->style->data['objects'] = $this->_load_objects();
         midcom::get()->style->data['datamanagers'] = $data['datamanagers'];
 

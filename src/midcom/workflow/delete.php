@@ -8,7 +8,6 @@
 
 namespace midcom\workflow;
 
-use midcom_helper_toolbar;
 use midcom_helper_reflector;
 use midcom_core_dbaobject;
 use midcom_response_relocate;

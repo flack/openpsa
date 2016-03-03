@@ -9,7 +9,6 @@
 namespace midcom\workflow;
 
 use midcom_core_context;
-use midcom_helper_toolbar;
 use midcom_helper_datamanager2_controller;
 use midcom;
 
