@@ -157,7 +157,7 @@ class org_openpsa_mypage_workingon
             midcom::get()->uimessages->add(midcom::get()->i18n->get_string('org.openpsa.mypage', 'org.openpsa.mypage'), sprintf(midcom::get()->i18n->get_string('reporting %f hours to task %s failed, reason %s', 'org.openpsa.mypage'), $hour_report->hours, $this->task->title, midcom_connection::get_error_string()), 'error');
             return false;
         }
-        midcom::get()->uimessages->add(midcom::get()->i18n->get_string('org.openpsa.mypage', 'org.openpsa.mypage'), sprintf(midcom::get()->i18n->get_string('successfully reported %f hours to task %s', 'org.openpsa.mypage'), $hour_report->hours, $this->task->title), 'ok');
+        midcom::get()->uimessages->add(midcom::get()->i18n->get_string('org.openpsa.mypage', 'org.openpsa.mypage'), sprintf(midcom::get()->i18n->get_string('successfully reported %f hours to task %s', 'org.openpsa.mypage'), $hour_report->hours, $this->task->title));
         return true;
     }
 }

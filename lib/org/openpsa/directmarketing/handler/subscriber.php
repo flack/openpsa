@@ -53,7 +53,7 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
             $member->campaign = $campaign->id;
             if ($member->create())
             {
-                $this->notify('added person %s to campaign %s', $campaign->title, 'ok');
+                $this->notify('added person %s to campaign %s', $campaign->title, 'info');
             }
             else
             {

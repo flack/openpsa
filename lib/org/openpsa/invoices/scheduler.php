@@ -263,7 +263,7 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
         $tagger = new net_nemein_tag_handler();
         $tagger->copy_tags($this->_deliverable, $task);
 
-        midcom::get()->uimessages->add($this->_i18n->get_string('org.openpsa.sales', 'org.openpsa.sales'), sprintf($this->_i18n->get_string('created task "%s"', 'org.openpsa.sales'), $task->title), 'ok');
+        midcom::get()->uimessages->add($this->_i18n->get_string('org.openpsa.sales', 'org.openpsa.sales'), sprintf($this->_i18n->get_string('created task "%s"', 'org.openpsa.sales'), $task->title));
         return $task;
     }
 

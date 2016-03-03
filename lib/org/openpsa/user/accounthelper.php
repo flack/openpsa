@@ -130,20 +130,15 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
                 return false;
             }
         }
-        else
+        else if ($generated_password)
         {
             /*
              * no welcome mail was sent:
              * if the password was auto generated show it in an ui message
              */
-            if ($generated_password)
-            {
-                midcom::get()->uimessages->add(
-                    $this->_l10n->get('org.openpsa.user'),
-                    sprintf($this->_l10n->get("account_creation_success"), $username, $password),
-                    'ok'
-                );
-            }
+            midcom::get()->uimessages->add(
+                $this->_l10n->get('org.openpsa.user'),
+                sprintf($this->_l10n->get("account_creation_success"), $username, $password));
         }
 
         if (!empty($this->errstr))
