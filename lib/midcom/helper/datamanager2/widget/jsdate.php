@@ -461,31 +461,4 @@ EOT;
         $date = $this->check_user_input($results);
         $this->_type->value = new DateTime($date);
     }
-
-    /**
-     * Renders the date in the ISO format.
-     */
-    public function render_content()
-    {
-        if ($this->_type->is_empty())
-        {
-            return '';
-        }
-        if ($this->show_time)
-        {
-            if ($this->hide_seconds)
-            {
-                $format = 'Y-m-d H:i';
-            }
-            else
-            {
-                $format = 'Y-m-d H:i:s';
-            }
-        }
-        else
-        {
-            $format = 'Y-m-d';
-        }
-        return $this->_type->value->format($format);
-    }
 }
