@@ -1,0 +1,37 @@
+*
+{
+    box-sizing: border-box;
+}
+body
+{
+    font-family: "Verdana", "Arial", "Helvetica", sans-serif;
+    color: #333;
+    font-size: 14px
+}
+
+form.datamanager2 fieldset.fieldset
+{
+    border-color: #ddd;
+    border-radius: .3em
+}
+
+form.datamanager2 input[type="text"],
+form.datamanager2 textarea
+{
+    padding: .5em
+}
+form.datamanager2 .shorttext,
+form.datamanager2 .longtext
+{
+    width: 100%;
+}
+
+form.datamanager2 .autocomplete-widget-creation-enabled .shorttext
+{
+    width: calc(100% - 3em)
+}
+
+form.datamanager2 .autocomplete_widget_create_button
+{
+    padding: 1.1em 0
+}
