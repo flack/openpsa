@@ -28,9 +28,9 @@ implements midcom_helper_datamanager2_interfaces_create
     private $_requested_end;
 
     /**
-     * @var midcom_db_person
+     * @var string
      */
-    private $_person;
+    private $resource;
 
     public function load_schemadb()
     {
@@ -39,10 +39,19 @@ implements midcom_helper_datamanager2_interfaces_create
 
     public function get_schema_defaults()
     {
-        $defaults = array();
-        if (!empty($this->_person->guid))
+        $defaults = array('participants' => array());
+        if ($person = midcom::get()->auth->get_user($this->resource))
         {
-            $defaults['participants'][$this->_person->id] = $this->_person;
+            $person = $person->get_storage();
+            $defaults['participants'][$person->id] = $person;
+        }
+        else if ($group = midcom::get()->auth->get_group($this->resource))
+        {
+            foreach ($group->list_members() as $member)
+            {
+                $person = $member->get_storage();
+                $defaults['participants'][$person->id] = $person;
+            }
         }
 
         if (!is_null($this->_requested_start))
@@ -84,8 +93,14 @@ implements midcom_helper_datamanager2_interfaces_create
         // ACL handling: require create privileges
         $this->_root_event->require_do('midgard:create');
 
-        $this->_person = midcom::get()->auth->user->get_storage();
-
+        if (isset($args[0]))
+        {
+            $this->resource = $args[0];
+        }
+        else
+        {
+            $this->resource = midcom::get()->auth->user->guid;
+        }
         if (!empty($_GET['start']))
         {
             $this->_requested_start = strtotime($_GET['start']);
