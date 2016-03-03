@@ -41,6 +41,13 @@
     'handler' => array('org_openpsa_calendar_handler_create', 'create'),
     'fixed_args' => array('event', 'new'),
 ),
+// Match /event/new/<resource>
+'new_event_with_resource' => array
+(
+    'handler' => array('org_openpsa_calendar_handler_create', 'create'),
+    'fixed_args' => array('event', 'new'),
+    'variable_args' => 1,
+),
 // Match /event/raw/<guid>
 'event_view_raw' => array
 (
