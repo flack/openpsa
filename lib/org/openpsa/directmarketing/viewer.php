@@ -23,16 +23,13 @@ class org_openpsa_directmarketing_viewer extends midcom_baseclasses_components_r
         if (   $this->_topic->can_do('midgard:update')
             && $this->_topic->can_do('midcom:component_config'))
         {
-            $this->_node_toolbar->add_item
+            $workflow = new midcom\workflow\datamanager2;
+            $this->_node_toolbar->add_item($workflow->get_button('config/', array
             (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => 'config/',
-                    MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('component configuration'),
-                    MIDCOM_TOOLBAR_HELPTEXT => $this->_l10n_midcom->get('component configuration helptext'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_folder-properties.png',
-                )
-            );
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('component configuration'),
+                MIDCOM_TOOLBAR_HELPTEXT => $this->_l10n_midcom->get('component configuration helptext'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_folder-properties.png',
+            )));
         }
     }
 

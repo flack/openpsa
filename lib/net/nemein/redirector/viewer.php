@@ -19,19 +19,20 @@ class net_nemein_redirector_viewer extends midcom_baseclasses_components_request
     public function _on_initialize()
     {
         // Match /
-        if (   $this->_config->get('admin_redirection')
-            || !$this->_topic->can_do('net.nemein.redirector:noredirect'))
+        if (   is_null($this->_config->get('redirection_type'))
+            || (   $this->_topic->can_do('net.nemein.redirector:noredirect')
+                && !$this->_config->get('admin_redirection')))
         {
             $this->_request_switch['redirect'] = array
             (
-                'handler' => 'redirect'
+                'handler' => array('net_nemein_redirector_handler_tinyurl', 'list'),
             );
         }
         else
         {
             $this->_request_switch['redirect'] = array
             (
-                'handler' => array('net_nemein_redirector_handler_tinyurl', 'list'),
+                'handler' => 'redirect'
             );
         }
     }
@@ -117,14 +118,6 @@ class net_nemein_redirector_viewer extends midcom_baseclasses_components_request
      */
     public function _handler_redirect($handler_id, array $args, array &$data)
     {
-        if (   is_null($this->_config->get('redirection_type'))
-            || (   $this->_topic->can_do('net.nemein.redirector:noredirect')
-                && !$this->_config->get('admin_redirection')))
-        {
-            // No type set, redirect to config
-            return new midcom_response_relocate("config/");
-        }
-
         // Get the topic link and relocate accordingly
         $data['url'] = net_nemein_redirector_viewer::topic_links_to($data);
 

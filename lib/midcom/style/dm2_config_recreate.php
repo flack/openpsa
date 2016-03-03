@@ -1,5 +1,4 @@
 <?php
-echo "<h1>{$data['title']}</h1>\n";
 echo "<p>" . midcom::get()->i18n->get_string('recreating', 'midcom') . "</p>\n";
 
 echo "<pre>\n";
