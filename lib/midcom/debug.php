@@ -276,26 +276,11 @@ class midcom_debug
             return;
         }
 
-        $varstring = false;
-        $type = gettype($variable);
-        if ($type == "object")
-        {
-            $type .= ": " . get_class($variable);
-            //This is mainly for midgard-portable, because print_r on Entities can choke the system pretty badly
-            if (   is_a($variable, 'midcom_core_dbaobject')
-                || is_a($variable, 'midgard_object'))
-            {
-                $helper = new helper;
-                $varstring = $helper->print_r($variable, true);
-            }
-        }
+        //This is mainly for midgard-portable, because print_r on Entities can choke the system pretty badly
+        $helper = new helper;
+        $varstring = $helper->print_r($variable, true);
 
-        if ($varstring === false)
-        {
-            $varstring = print_r($variable, true);
-        }
-
-        $this->log(trim($message) . "\nVariable Type: $type\n" . $varstring, $loglevel);
+        $this->log(trim($message) . $varstring, $loglevel);
     }
 
     /**
