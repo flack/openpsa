@@ -49,11 +49,13 @@ function add_post_button(url, label, options)
         text: label,
         'class': 'dialog-extra-button',
         click: function() {
-            var form = $('<form action="' + url + '" method="post"></form>');
+            var form = $('<form action="' + url + '" method="post"></form>'),
+                dialog = window.parent.$('#midcom-datamanager-dialog');
             $.each(options, function(key, value) {
-                form.append($('<input type="hidden" name="' + key + '">').val(value))
+                form.append($('<input type="hidden" name="' + key + '">').val(value));
             });
             form.appendTo('body').submit();
+            dialog.dialog('option', 'buttons', []);
         }
     };
     extra_buttons.push(button);
@@ -75,7 +77,7 @@ $(document).ready(function()
                 var btn = $(this);
                 buttons.push({
                     text: btn.val(),
-                    click: function() {
+                    click: function(e) {
                         if (btn.hasClass('cancel'))
                         {
                             dialog.dialog('close');
@@ -83,6 +85,9 @@ $(document).ready(function()
                         else
                         {
                             btn.click();
+                            $(e.target).parent().find('button')
+                                .prop('disabled', true)
+                                .addClass('ui-state-disabled');
                         }
                     }
                 });
