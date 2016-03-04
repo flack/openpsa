@@ -137,22 +137,36 @@ $expenses_url = $siteconfig->get_node_relative_url('org.openpsa.expenses');
             <div class="tags">(&(view_task['tags']:h);)</div>
         <?php } ?>
         <h1><?php echo $data['l10n']->get('task'); ?>: &(view_task['title']:h);</h1>
-        <p class="status &(task.status_type);"><strong><?php echo $data['l10n']->get('task status') . ':</strong> ' . $data['l10n']->get($task->status_type); ?></p>
-
-        <p class="time"><strong><?php echo $data['l10n']->get('timeframe'); ?>:</strong> &(view_task['start']:h); - &(view_task['end']:h);</p>
-
-        <?php
+  <div class="midcom_helper_datamanager2_view">
+    <div class="field status <?php echo $task->status_type; ?>">
+        <?php echo '<div class="title">' . $data['l10n']->get('task status') . ': </div>';
+        echo '<div class="value">' . $data['l10n']->get($task->status_type) . '</div>';
+        ?>
+    </div>
+    <div class="field">
+        <?php echo '<div class="title">' . $data['l10n']->get('timeframe') . ': </div>';
+        echo '<div class="value">' . $view_task['start'] . ' &ndash; ' . $view_task['end'] . '</div>';
+        ?>
+    </div>
+    <?php
         if (   array_key_exists('priority', $data['datamanager']->types)
             && array_key_exists($task->priority, $data['datamanager']->types['priority']->options))
         {
             ?>
-            <p class="priority"><strong><?php echo $data['l10n']->get('priority') . ':</strong> ' . $data['l10n']->get($data['datamanager']->types['priority']->options[$task->priority]); ?></p>
+        <div class="field priority">
+            <?php echo '<div class="title">' . $data['l10n']->get('priority') . ': </div>';
+            echo '<div class="value">' . $data['l10n']->get($data['datamanager']->types['priority']->options[$task->priority]) . '</div>';
+            ?>
+        </div>
             <?php
         }
         ?>
-        <div class="description">
-            &(view_task['description']:h);
-        </div>
+    <div class="field">
+        <?php echo '<div class="title">' . $data['l10n']->get('description') . ': </div>';
+        echo '<div class="value">' . $view_task['description'] . '</div>';
+        ?>
+    </div>
+  </div>
 
         <div class="bookings">
             <?php
