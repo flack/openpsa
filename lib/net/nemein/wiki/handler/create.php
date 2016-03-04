@@ -211,7 +211,7 @@ implements midcom_helper_datamanager2_interfaces_create
         $indexer = midcom::get()->indexer;
         net_nemein_wiki_viewer::index($controller->datamanager, $indexer, $this->_topic);
 
-        midcom::get()->uimessages->add($this->_l10n->get('net.nemein.wiki'), sprintf($this->_l10n->get('page %s added'), $this->_wikiword), 'ok');
+        midcom::get()->uimessages->add($this->_l10n->get('net.nemein.wiki'), sprintf($this->_l10n->get('page %s added'), $this->_wikiword));
 
         return "{$this->_page->name}/";
     }

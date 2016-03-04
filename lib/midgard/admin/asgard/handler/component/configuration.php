@@ -490,8 +490,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
             midcom::get()->uimessages->add
             (
                 $this->_l10n_midcom->get('component configuration'),
-                $this->_l10n->get('configuration saved successfully'),
-                'ok'
+                $this->_l10n->get('configuration saved successfully')
             );
             midcom::get()->relocate("__mfa/asgard/components/configuration/edit/{$data['name']}/{$data['folder']->guid}/");
             // This will exit
@@ -502,8 +501,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
             midcom::get()->uimessages->add
             (
                 $this->_l10n_midcom->get('component configuration'),
-                $this->_l10n->get('configuration saved successfully'),
-                'ok'
+                $this->_l10n->get('configuration saved successfully')
             );
         }
         else

@@ -87,7 +87,7 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
         if ($task->create())
         {
             org_openpsa_relatedto_plugin::create($task, 'org.openpsa.projects', $this, 'org.openpsa.invoices');
-            midcom::get()->uimessages->add(midcom::get()->i18n->get_string('org.openpsa.invoices', 'org.openpsa.invoices'), sprintf(midcom::get()->i18n->get_string('created "%s" task to %s', 'org.openpsa.invoices'), $task->title, $invoice_sender->name), 'ok');
+            midcom::get()->uimessages->add(midcom::get()->i18n->get_string('org.openpsa.invoices', 'org.openpsa.invoices'), sprintf(midcom::get()->i18n->get_string('created "%s" task to %s', 'org.openpsa.invoices'), $task->title, $invoice_sender->name));
         }
     }
 

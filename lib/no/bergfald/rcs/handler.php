@@ -350,7 +350,7 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_plugin
         if (   $this->_backend->version_exists($args[1])
             && $this->_backend->restore_to_revision($args[1]))
         {
-            midcom::get()->uimessages->add($this->_l10n->get($this->_component), sprintf($this->_l10n->get('restore to version %s successful'), $args[1]), 'ok');
+            midcom::get()->uimessages->add($this->_l10n->get($this->_component), sprintf($this->_l10n->get('restore to version %s successful'), $args[1]));
             return new midcom_response_relocate(midcom::get()->permalinks->create_permalink($this->_object->guid));
         }
         throw new midcom_error(sprintf($this->_l10n->get('restore to version %s failed, reason %s'), $args[1], $this->_backend->get_error()));

@@ -64,7 +64,7 @@ class org_openpsa_calendar_handler_admin extends midcom_baseclasses_components_h
                 $indexer->index($data['controller']->datamanager);
                 //FALL-THROUGH
             case 'cancel':
-                midcom::get()->head->add_jsonload("window.opener.openpsa_calendar_instance.fullCalendar('refetchEvents');");
+                midcom::get()->head->add_jsonload("if (window.opener.openpsa_calendar_instance) window.opener.openpsa_calendar_instance.fullCalendar('refetchEvents');");
                 midcom::get()->head->add_jsonload('window.close();');
                 // This will exit (well, in a way...)
         }

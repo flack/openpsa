@@ -416,7 +416,7 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
             $salesproject = new org_openpsa_sales_salesproject_dba($this->salesproject);
             $salesproject->mark_delivered();
 
-            midcom::get()->uimessages->add(midcom::get()->i18n->get_string('org.openpsa.sales', 'org.openpsa.sales'), sprintf(midcom::get()->i18n->get_string('marked deliverable "%s" delivered', 'org.openpsa.sales'), $this->title), 'ok');
+            midcom::get()->uimessages->add(midcom::get()->i18n->get_string('org.openpsa.sales', 'org.openpsa.sales'), sprintf(midcom::get()->i18n->get_string('marked deliverable "%s" delivered', 'org.openpsa.sales'), $this->title));
             return true;
         }
         return false;

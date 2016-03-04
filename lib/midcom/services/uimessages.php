@@ -44,8 +44,7 @@
  *
  * <b>Configuration:</b>
  *
- * See midcom_config.php for configuration options.
- *
+ * @see midcom_config for configuration options.
  * @package midcom.services
  */
 class midcom_services_uimessages
