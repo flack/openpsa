@@ -21,7 +21,7 @@ function refresh_opener(url)
 
 function close()
 {
-    var dialog = window.parent.$('#midcom-datamanager-dialog');
+    var dialog = window.parent.$('#midcom-dialog');
     if (dialog.length > 0)
     {
         dialog.dialog('close');
@@ -50,7 +50,7 @@ function add_post_button(url, label, options)
         'class': 'dialog-extra-button',
         click: function() {
             var form = $('<form action="' + url + '" method="post"></form>'),
-                dialog = window.parent.$('#midcom-datamanager-dialog');
+                dialog = window.parent.$('#midcom-dialog');
             $.each(options, function(key, value) {
                 form.append($('<input type="hidden" name="' + key + '">').val(value));
             });
@@ -65,7 +65,7 @@ $(document).ready(function()
 {
     var title = document.title,
         buttons = [],
-        dialog = window.parent.$('#midcom-datamanager-dialog');
+        dialog = window.parent.$('#midcom-dialog');
 
     if (dialog.length > 0)
     {

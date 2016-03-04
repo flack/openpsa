@@ -28,7 +28,7 @@ $(document).ready(function()
             $('input[name="' + button.data('form-id') + '"]').click();
         };
         options.buttons[button.data('dialog-cancel-label')] = function() {
-            $( this ).dialog( "close" );
+            $(this).dialog( "close" );
         };
         $('<div>')
             .css('min-width', '300px') // This should be handled by dialog's minWidth option, but that doesn't work with width: "auto"
@@ -43,20 +43,19 @@ $(document).ready(function()
         event.preventDefault();
         if (!$(this).hasClass('active'))
         {
-            create_datamanager_dialog($(this));
+            create_dialog($(this), $(this).find('.toolbar_label').text() || '');
         }
     });
 });
 
-function create_datamanager_dialog(control)
+function create_dialog(control, title)
 {
     if ($('.midcom-workflow-dialog').length > 0)
     {
         $('.midcom-workflow-dialog .ui-dialog-content').dialog('close');
     }
 
-    var title = control.find('.toolbar_label').text() || '',
-        dialog, iframe,
+    var dialog, iframe,
         config = {
             dialogClass: 'midcom-workflow-dialog',
             buttons: [],
@@ -80,9 +79,9 @@ function create_datamanager_dialog(control)
         });
     }
 
-    if ($('#midcom-datamanager-dialog').length > 0)
+    if ($('#midcom-dialog').length > 0)
     {
-        dialog = $('#midcom-datamanager-dialog');
+        dialog = $('#midcom-dialog');
         iframe = dialog.find('> iframe');
     }
     else
@@ -99,7 +98,7 @@ function create_datamanager_dialog(control)
                 $(this).css('visibility', 'visible');
             });
 
-        dialog = $('<div id="midcom-datamanager-dialog"></div>')
+        dialog = $('<div id="midcom-dialog"></div>')
             .append(iframe)
             .insertAfter(control);
 

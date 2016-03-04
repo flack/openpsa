@@ -9,13 +9,10 @@ $unit_options = midcom_baseclasses_components_configuration::get('org.openpsa.pr
     {
         ?>
         <form method="post" action="&(prefix);deliverable/add/<?php echo $data['salesproject']->guid; ?>/" target="datamanager-dialog">
-            <label>
+            <label><?php echo $data['l10n']->get('add offer'); ?></label>
+            <select name="product" id="org_openpsa_sales_salesproject_deliverable_add" data-placeholder="<?php echo $data['l10n']->get('select product'); ?>">
+                <option value=""></option>
                 <?php
-                echo $data['l10n']->get('add offer');
-                ?>
-                <select name="product" id="org_openpsa_sales_salesproject_deliverable_add" data-placeholder="<?php echo $data['l10n']->get('select product'); ?>">
-                    <option value=""></option>
-                    <?php
                     foreach ($data['products'] as $product_id => $product)
                     {
                         $desc = '';
@@ -45,9 +42,8 @@ $unit_options = midcom_baseclasses_components_configuration::get('org.openpsa.pr
 
                         echo "<option value=\"{$product_id}\" data-description=\"" . $desc . "\">{$product['code']}: {$product['title']}</option>\n";
                     }
-                    ?>
-                </select>
-            </label>
+                ?>
+            </select>
         </form>
         <?php
     }
