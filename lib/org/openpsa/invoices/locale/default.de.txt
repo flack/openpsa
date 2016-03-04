@@ -138,10 +138,6 @@ Rechnungspositionen
 Rechnungsnummer
 ---STRINGEND
 
----STRING status
-Status
----STRINGEND
-
 ---STRING invoiced hour reports
 Abgerechnete Stundenberichte
 ---STRINGEND

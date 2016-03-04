@@ -42,41 +42,9 @@ if ($invoice->cancelationInvoice)
             $billing_data = $invoice->get_billing_data();
             $billing_data->render_address();
             echo '</div>';
-        } ?>
-
-        <div class="area org_openpsa_helper_box history status">
-        <?php
-            echo "<h3>" . $data['l10n']->get('status');
-
-            $tooltip = midcom::get()->i18n->get_l10n('org.openpsa.relatedto')->get('add journal entry');
-            $save_label = $data['l10n_midcom']->get('save');
-            $cancel_label = $data['l10n_midcom']->get('cancel');
-            echo '<a id="add-journal-entry" data-guid="' . $invoice->guid . '" data-dialog-submit-label="' . $save_label . '" data-dialog-cancel-label="' . $cancel_label . '" title="' . $tooltip . "\">\n";
-            echo '<img src="' . MIDCOM_STATIC_URL . '/stock-icons/16x16/list-add.png" alt="' . $tooltip . "\"></a>\n";
-            echo "</h3>\n";
-
-            echo "<div class=\"current-status {$invoice->get_status()}\">";
-            echo $status_helper->get_current_status();
-            echo "</div>\n";
-
-            if ($invoice->owner)
-            {
-                echo "<p><strong>" . $data['l10n_midcom']->get('owner') . ": </strong>\n";
-                $owner_card = org_openpsa_widgets_contact::get($invoice->owner);
-                echo $owner_card->show_inline() . "</p>\n";
-            }
-
-            echo "<ul>\n";
-
-            foreach ($status_helper->get_history() as $entry)
-            {
-                echo '<li><span class="date">' . date($data['l10n_midcom']->get('short date') . ' H:i', $entry['timestamp']) . '</span>: <br />';
-                echo $entry['message'];
-            }
-
-            echo "</ul>\n";
+        }
+        echo $status_helper->render();
         ?>
-    </div>
     </div>
 <div class="main org_openpsa_invoices_invoice">
   <div class="midcom_helper_datamanager2_view">
@@ -103,16 +71,18 @@ if ($invoice->cancelationInvoice)
     }
     ?>
 
-    <?php
-    if (   $invoice->sent
-        && !$invoice->paid)
-    {
-        echo "<div class=\"field\"><div class=\"title\">" . $data['l10n']->get('sent date') . ": </div>\n";
-        echo '<div class="value">' . date($data['l10n_midcom']->get('short date'), $invoice->sent) . "</div>\n</div>\n";
-    } ?>
-
     <div class="field"><div class="title"><?php echo $data['l10n_midcom']->get('description');?>: </div>
     <div class="description value">&(view['description']:h);</div></div>
+
+    <?php
+    if ($invoice->owner)
+    {
+        $owner_card = org_openpsa_widgets_contact::get($invoice->owner);
+    ?>
+        <div class="field"><div class="title"><?php echo $data['l10n_midcom']->get('owner'); ?>: </div>
+        <div class="value"><?php echo $owner_card->show_inline(); ?></div></div>
+    <?php
+    } ?>
 
     <?php
     // does the invoice have a cancelation invoice?

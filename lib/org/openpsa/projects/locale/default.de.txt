@@ -374,10 +374,6 @@ Anfangszeit
 Status
 ---STRINGEND
 
----STRING status history
-Status-Verlauf
----STRINGEND
-
 ---STRING subscribe
 Abonnieren
 ---STRINGEND

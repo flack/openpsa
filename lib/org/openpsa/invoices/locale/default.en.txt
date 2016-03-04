@@ -146,10 +146,6 @@ Invoice items
 Invoice number
 ---STRINGEND
 
----STRING status
-Status
----STRINGEND
-
 ---STRING invoice was not found
 The invoice was not found
 ---STRINGEND

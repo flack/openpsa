@@ -2,6 +2,10 @@
 ---VERSION 2.1.0
 ---LANGUAGE de
 
+---STRING no person
+Keine Person
+---STRINGEND
+
 ---STRING loading
 Laden
 ---STRINGEND
@@ -10,8 +14,12 @@ Laden
 mehr
 ---STRINGEND
 
----STRING no person
-Keine Person
+---STRING status
+Status
+---STRINGEND
+
+---STRING status history
+Status-Verlauf
 ---STRINGEND
 
 ---STRING time

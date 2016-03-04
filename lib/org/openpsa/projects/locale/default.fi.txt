@@ -350,10 +350,6 @@ Alkupvm
 Tila
 ---STRINGEND
 
----STRING status history
-Historia
----STRINGEND
-
 ---STRING subscribe
 Liity
 ---STRINGEND
@@ -405,4 +401,3 @@ Työn aloittanut %s
 ---STRING task deletion now allowed because of hour reports
 Tehtävän poisto ei ole mahdollinen koska siinä on tuntiraportteja
 ---STRINGEND
-

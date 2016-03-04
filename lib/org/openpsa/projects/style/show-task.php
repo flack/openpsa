@@ -80,55 +80,10 @@ $expenses_url = $siteconfig->get_node_relative_url('org.openpsa.expenses');
             }
             echo "</div>\n";
         }
+
+        $status_helper = new org_openpsa_projects_status($task);
+        $status_helper->render();
         ?>
-<div class="org_openpsa_helper_box history status">
-    <?php
-    $qb = org_openpsa_projects_task_status_dba::new_query_builder();
-    $qb->add_constraint('task', '=', $task->id);
-    $qb->add_order('timestamp', 'DESC');
-    $qb->add_order('type', 'DESC');
-    $ret = $qb->execute();
-
-    if (!empty($ret))
-    {
-        echo "<h3>" . $data['l10n']->get('status history') . "</h3>\n";
-
-        echo "<div class=\"current-status {$task->status_type}\">" . $data['l10n']->get('task status') . ': ' . $data['l10n']->get($task->status_type) . "</div>\n";
-
-        echo "<ul>\n";
-
-        $fallback_creator = midcom_db_person::get_cached(1);
-        foreach ($ret as $status_change)
-        {
-            echo "<li>";
-
-            $status_changer_label = $data['l10n']->get('system');
-            $target_person_label = $data['l10n']->get('system');
-
-            if (    $status_change->metadata->creator
-                 && $status_change->metadata->creator != $fallback_creator->guid)
-            {
-                $status_changer = org_openpsa_widgets_contact::get($status_change->metadata->creator);
-                $status_changer_label = $status_changer->show_inline();
-            }
-
-            if ($status_change->targetPerson)
-            {
-                $target_person = org_openpsa_widgets_contact::get($status_change->targetPerson);
-                $target_person_label = $target_person->show_inline();
-            }
-
-            $message = sprintf($data['l10n']->get($status_change->get_status_message()), $status_changer_label, $target_person_label);
-            $status_changed = strftime('%x %H:%M', $status_change->metadata->created);
-            echo "<span class=\"date\">{$status_changed}</span>: <br />{$message}";
-
-            echo "</li>\n";
-        }
-        echo "</ul>\n";
-    }
-    ?>
-</div>
-
     </div>
 
     <div class="main">

@@ -86,10 +86,6 @@ Laskutiedot
 Laskunumero
 ---STRINGEND
 
----STRING status
-Status
----STRINGEND
-
 ---STRING invoice was not found
 Laskua ei löytynyt
 ---STRINGEND

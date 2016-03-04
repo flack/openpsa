@@ -378,10 +378,6 @@ Start time
 Status
 ---STRINGEND
 
----STRING status history
-Status history
----STRINGEND
-
 ---STRING subscribe
 Subscribe
 ---STRINGEND

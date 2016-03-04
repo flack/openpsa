@@ -274,10 +274,6 @@ Start ideje
 Állapot
 ---STRINGEND
 
----STRING status history
-Előzmények
----STRINGEND
-
 ---STRING subscribe
 Megrendelés
 ---STRINGEND
@@ -317,4 +313,3 @@ Megrendelés lemondása
 ---STRING %s of %s planned hours booked
 %s óra van a naptárba bejegyezve a tervezett %s órából
 ---STRINGEND
-

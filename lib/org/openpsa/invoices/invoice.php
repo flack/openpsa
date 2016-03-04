@@ -29,6 +29,10 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
         {
             return 'scheduled';
         }
+        if ($this->cancelationInvoice)
+        {
+            return 'canceled';
+        }
         if ($this->sent == 0)
         {
             return 'unsent';

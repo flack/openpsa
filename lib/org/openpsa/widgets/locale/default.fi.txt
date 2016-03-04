@@ -6,6 +6,14 @@
 Ei henkilöä
 ---STRINGEND
 
+---STRING status
+Status
+---STRINGEND
+
+---STRING status history
+Historia
+---STRINGEND
+
 ---STRING time
 Kellonaika
 ---STRINGEND

@@ -109,7 +109,7 @@ body
     margin-top: .7em;
 }
 
-.org_openpsa_helper_box span.date
+.org_openpsa_helper_box .date
 {
     color: #777;
 }
