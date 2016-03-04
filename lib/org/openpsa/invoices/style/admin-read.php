@@ -46,7 +46,7 @@ if ($invoice->cancelationInvoice)
 
         <div class="area org_openpsa_helper_box history status">
         <?php
-            echo "<h3>" . $data['l10n']->get('invoice status');
+            echo "<h3>" . $data['l10n']->get('status');
 
             $tooltip = midcom::get()->i18n->get_l10n('org.openpsa.relatedto')->get('add journal entry');
             $save_label = $data['l10n_midcom']->get('save');

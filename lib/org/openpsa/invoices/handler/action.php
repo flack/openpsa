@@ -136,7 +136,7 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
             $count++;
         }
 
-        // if storno invoice was created, mark the related invoice as sent and paid
+        // if cancelation invoice was created, mark the related invoice as sent and paid
         $time = time();
 
         if (!$invoice->sent)

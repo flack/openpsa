@@ -138,12 +138,12 @@ Rechnungspositionen
 Rechnungsnummer
 ---STRINGEND
 
----STRING invoice status
-Rechnungs-Status
+---STRING status
+Status
 ---STRINGEND
 
 ---STRING invoiced hour reports
-Abgerechnete Stunden-Berichte
+Abgerechnete Stundenberichte
 ---STRINGEND
 
 ---STRING invoicing information
@@ -151,7 +151,7 @@ Rechnungsdaten
 ---STRINGEND
 
 ---STRING canceled invoice
-Storno-Rechnung für
+Stornorechnung für
 ---STRINGEND
 
 ---STRING cancelation invoice
@@ -171,11 +171,11 @@ stornieren
 ---STRINGEND
 
 ---STRING cancelation for invoice %s already exists
-Für Rechnung %s liegt bereits eine Storno Rechnung vor
+Für Rechnung %s liegt bereits eine Stornorechnung vor
 ---STRINGEND
 
 ---STRING could not create cancelation for invoice %s
-Für Rechnung %s konnte keine Storno Rechnung erzeugt werden
+Für Rechnung %s konnte keine Stornorechnung erzeugt werden
 ---STRINGEND
 
 ---STRING cancelation for invoice %s, item %s
