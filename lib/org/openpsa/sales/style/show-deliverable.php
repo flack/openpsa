@@ -13,10 +13,11 @@ if (   $data['product']
     <div class="sidebar">
         <div class="contacts area">
             <?php
-            echo "<h2>" . $data['l10n']->get('customer') . "</h2>\n";
-            $customer = $data['salesproject']->get_customer();
-            echo "<dl>\n<dt>\n" . $customer->render_link() . "</dl>\n</dt>\n";
-
+            if ($customer = $data['salesproject']->get_customer())
+            {
+                echo "<h2>" . $data['l10n']->get('customer') . "</h2>\n";
+                echo $customer->render_link();
+            }
             foreach (array_keys($data['salesproject']->contacts) as $contact_id)
             {
                 $person_card = org_openpsa_widgets_contact::get($contact_id);
@@ -41,70 +42,41 @@ if (   $data['product']
         <?php
         echo "<h1>" . $data['l10n']->get('single delivery') . ": {$data['deliverable']->title}</h1>\n";
         ?>
-        &(view['description']:h);
 
-        <table class="agreement">
-            <tbody>
-                <tr>
-                    <th><?php echo $data['l10n']->get('state'); ?></th>
-                    <td><?php echo $data['l10n']->get($state); ?></td>
-                </tr>
-                <tr>
-                    <th><?php echo $data['l10n']->get('estimated delivery'); ?></th>
-                    <td>&(view['end']:h);</td>
-                </tr>
-                <?php
-                if ($data['deliverable']->supplier)
+        <div class="midcom_helper_datamanager2_view">
+            <div class="field">
+                <div class="title"><?php echo $data['l10n']->get('state'); ?></div>
+                <div class="value"><?php echo $data['l10n']->get($state); ?></div>
+            </div>
+                <?php if ($data['deliverable']->supplier)
                 {
                     ?>
-                    <tr>
-                        <th><?php echo $data['l10n']->get('supplier'); ?></th>
-                        <td>&(view['supplier']:h);</td>
-                    </tr>
+                    <div class="field">
+                        <div class="title"><?php echo $data['l10n']->get('supplier'); ?></div>
+                        <div class="value">&(view['supplier']:h);</div>
+                    </div>
                     <?php
-                }
-                if ($data['deliverable']->notify)
+                } ?>
+                <div class="field">
+                    <div class="title"><?php echo $data['l10n']->get('estimated delivery'); ?></div>
+                    <div class="value">&(view['end']:h);</div>
+                </div>
+                <?php if ($data['deliverable']->notify)
                 {
                     ?>
-                    <tr>
-                        <th><?php echo $data['l10n']->get('notify date'); ?></th>
-                        <td><?php echo date('d.m.Y', $data['deliverable']->notify); ?></td>
-                    </tr>
+                    <div class="field">
+                        <div class="title"><?php echo $data['l10n']->get('notify date'); ?></div>
+                        <div class="value"><?php echo $view['notify']; ?></div>
+                    </div>
                     <?php
-                }
-                if ($data['deliverable']->invoiceByActualUnits)
-                {
-                    ?>
-                    <tr>
-                        <td colspan="2">
-                            <ul>
-                                <li><?php echo $data['l10n']->get('invoice by actual units'); ?></li>
-                                <?php
-                                if ($data['deliverable']->invoiceApprovedOnly)
-                                {
-                                    echo "<li>" . $data['l10n']->get('invoice approved only') . "</li>\n";
-                                }
-                                ?>
-                            </ul>
-                        </td>
-                    </tr>
-                    <?php
-                }
-                if ($data['deliverable']->invoiced > 0)
-                {
-                    ?>
-                    <tr>
-                        <th><?php echo $data['l10n']->get('invoiced'); ?></th>
-                        <td><?php echo org_openpsa_helpers::format_number($data['deliverable']->invoiced); ?></td>
-                    </tr>
-                    <?php
-                }
-                ?>
-                <tr>
-                    <th colspan="2" class="area"><?php echo $data['l10n']->get('pricing'); ?></th>
-                </tr>
-                <tr>
-                    <td colspan="2" class="area">
+                } ?>
+                <div class="field">
+                    <div class="title"><?php echo $data['l10n_midcom']->get('description'); ?></div>
+                    <div class="value">&(view['description']:h);</div>
+                </div>
+                <div class="field">
+                    <div class="title"><?php echo $data['l10n']->get('pricing'); ?></div>
+                    <div class="value">
                     <table class="list">
                       <thead>
                         <tr>
@@ -142,10 +114,32 @@ if (   $data['product']
                         </tr>
                       </tbody>
                     </table>
-                    </td>
-                </tr>
-            <tbody>
-        </table>
+                <?php if ($data['deliverable']->invoiceByActualUnits)
+                {
+                    ?>
+                    <ul>
+                        <li><?php echo $data['l10n']->get('invoice by actual units'); ?></li>
+                        <?php
+                        if ($data['deliverable']->invoiceApprovedOnly)
+                        {
+                            echo "<li>" . $data['l10n']->get('invoice approved only') . "</li>\n";
+                        }
+                        ?>
+                    </ul>
+                    <?php } ?>
+                    </div>
+                </div>
+                <?php
+                if ($data['deliverable']->invoiced > 0)
+                {
+                    ?>
+                    <div class="field">
+                        <div class="title"><?php echo $data['l10n']->get('invoiced'); ?></div>
+                        <div class="value"><?php echo org_openpsa_helpers::format_number($data['deliverable']->invoiced); ?></div>
+                    </div>
+                    <?php
+                }
+                ?>
     </div>
 
     <div class="wide">

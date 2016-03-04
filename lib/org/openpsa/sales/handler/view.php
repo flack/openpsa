@@ -141,7 +141,6 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
         midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/' . $this->_component . '/sales.js');
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/list.css");
-        $this->add_stylesheet(MIDCOM_STATIC_URL . '/' . $this->_component . '/sales.css');
     }
 
     /**

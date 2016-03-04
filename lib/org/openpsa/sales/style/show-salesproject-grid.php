@@ -135,11 +135,11 @@ else
     $grid->set_column('state', $data['l10n']->get('state'), 'hidden: true', 'number');
 }
 $grid->set_column('owner', $data['l10n']->get('owner'), 'width: 70, classes: "ui-ellipsis"', 'string')
-->set_column('closeest', $data['l10n']->get('estimated closing date'), 'width: 65, align: "center", fixed: true', 'integer')
-->set_column('value', $data['l10n']->get('value'), 'width: 60, align: "right", fixed: true, summaryType: "sum", formatter: "number"');
+->set_column('closeest', $data['l10n']->get('estimated closing date'), 'width: 85, align: "center", fixed: true', 'integer')
+->set_column('value', $data['l10n']->get('value'), 'width: 60, align: "right", summaryType: "sum", formatter: "number"');
 if ($data['mode'] == 'active')
 {
-    $grid->set_column('probability', $data['l10n']->get('probability'), 'width: 55, align: "right"')
+    $grid->set_column('probability', $data['l10n']->get('probability'), 'width: 55, fixed: true, align: "right"')
     ->set_column('weightedvalue', $data['l10n']->get('weighted value'), 'width: 55, align: "right"', 'float');
 }
 $grid->set_column('profit', $data['l10n']->get('profit'), 'width: 60, align: "right", summaryType: "sum", formatter: "number"')

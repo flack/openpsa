@@ -16,7 +16,7 @@ if (   $data['product']
             if ($customer = $data['salesproject']->get_customer())
             {
                 echo "<h2>" . $data['l10n']->get('customer') . "</h2>\n";
-                echo "<dl>\n<dt>\n" . $customer->render_link() . "</dl>\n</dt>\n";
+                echo $customer->render_link();
             }
             foreach (array_keys($data['salesproject']->contacts) as $contact_id)
             {
@@ -85,101 +85,58 @@ if (   $data['product']
         <?php
         echo "<h1>" . $data['l10n']->get('subscription') . ": {$data['deliverable']->title}</h1>\n";
         ?>
-        &(view['description']:h);
-        <table class="agreement">
-            <tbody>
-                <tr>
-                    <th><?php echo $data['l10n']->get('state'); ?></th>
-                    <td><?php echo $data['l10n']->get($state); ?></td>
-                </tr>
-                <tr>
-                    <th><?php echo $data['l10n']->get('subscription begins'); ?></th>
-                    <td>&(view['start']:h);</td>
-                </tr>
+        <div class="midcom_helper_datamanager2_view">
+            <div class="field">
+                <div class="title"><?php echo $data['l10n']->get('state'); ?></div>
+                <div class="value"><?php echo $data['l10n']->get($state); ?></div>
+            </div>
+                <?php if ($data['deliverable']->supplier)
+                {
+                    ?>
+                    <div class="field">
+                        <div class="title"><?php echo $data['l10n']->get('supplier'); ?></div>
+                        <div class="value">&(view['supplier']:h);</div>
+                    </div>
+                    <?php
+                } ?>
+                <div class="field">
+                    <div class="title"><?php echo $data['l10n']->get('subscription begins'); ?></div>
+                    <div class="value">&(view['start']:h);</div>
+                </div>
+                <div class="field">
+                    <div class="title"><?php echo $data['l10n']->get('subscription ends'); ?></div>
+                    <div class="value">
                 <?php
                 if (!$data['deliverable']->continuous)
                 {
-                    ?>
-                    <tr>
-                        <th><?php echo $data['l10n']->get('subscription ends'); ?></th>
-                        <td>&(view['end']:h);</td>
-                    </tr>
-                    <?php
+                    echo $view['end'];
                 }
                 else
                 {
-                    ?>
-                    <tr>
-                        <td colspan="2">
-                            <ul>
-                                <li><?php echo $data['l10n']->get('continuous subscription'); ?></li>
-                            </ul>
-                        </td>
-                    </tr>
-                    <?php
-                }
-                if ($data['deliverable']->notify)
+                    echo $data['l10n']->get('continuous subscription');
+                } ?>
+                    </div>
+                </div>
+                <?php if ($data['deliverable']->notify)
                 {
                     ?>
-                    <tr>
-                        <th><?php echo $data['l10n']->get('notify date'); ?></th>
-                        <td><?php echo date('d.m.Y', $data['deliverable']->notify); ?></td>
-                    </tr>
+                    <div class="field">
+                        <div class="title"><?php echo $data['l10n']->get('notify date'); ?></div>
+                        <div class="value"><?php echo $view['notify']; ?></div>
+                    </div>
                     <?php
-                }
-                if ($data['deliverable']->supplier)
-                {
-                    ?>
-                    <tr>
-                        <th><?php echo $data['l10n']->get('supplier'); ?></th>
-                        <td>&(view['supplier']:h);</td>
-                    </tr>
-                    <?php
-                }
-                ?>
-                <tr>
-                    <th><?php echo $data['l10n']->get('invoicing period'); ?></th>
-                    <td>&(view['unit']:h);</td>
-                </tr>
-                <?php
-                if ($data['deliverable']->invoiceByActualUnits)
-                {
-                    ?>
-                    <tr>
-                        <td colspan="2">
-                            <ul>
-                                <li><?php echo $data['l10n']->get('invoice by actual units'); ?></li>
-                                <?php
-                                if ($data['deliverable']->invoiceApprovedOnly)
-                                {
-                                    echo "<li>" . $data['l10n']->get('invoice approved only') . "</li>\n";
-                                }
-                                ?>
-                            </ul>
-                        </td>
-                    </tr>
-                    <?php
-                }
-                if ($data['deliverable']->invoiced > 0)
-                {
-                    ?>
-                    <tr>
-                        <th><?php echo $data['l10n']->get('invoiced'); ?></th>
-                        <td><?php echo org_openpsa_helpers::format_number($data['deliverable']->invoiced); ?></td>
-                    </tr>
-                    <?php
-                }
-                ?>
-                <tr>
-                    <th colspan="2" class="area"><?php echo $data['l10n']->get('pricing'); ?></th>
-                </tr>
-                <tr>
-                    <td colspan="2" class="area">
+                } ?>
+                <div class="field">
+                    <div class="title"><?php echo $data['l10n_midcom']->get('description'); ?></div>
+                    <div class="value">&(view['description']:h);</div>
+                </div>
+                <div class="field">
+                    <div class="title"><?php echo $data['l10n']->get('pricing'); ?></div>
+                    <div class="value">
                     <table class="list">
                       <thead>
                         <tr>
-                          <th>&nbsp;</th>
-                          <th><?php echo $per_unit ?></th>
+                          <th colspan="2"><?php echo $per_unit ?></th>
                           <th><?php echo $data['l10n']->get('plan'); ?></th>
                           <th><?php echo $data['l10n']->get('is'); ?></th>
                           <th><?php echo midcom::get()->i18n->get_string('sum', 'org.openpsa.invoices'); ?></th>
@@ -212,10 +169,37 @@ if (   $data['product']
                         </tr>
                       </tbody>
                     </table>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+                <?php if ($data['deliverable']->invoiceByActualUnits)
+                {
+                    ?>
+                    <ul>
+                        <li><?php echo $data['l10n']->get('invoice by actual units'); ?></li>
+                        <?php
+                        if ($data['deliverable']->invoiceApprovedOnly)
+                        {
+                            echo "<li>" . $data['l10n']->get('invoice approved only') . "</li>\n";
+                        }
+                        ?>
+                    </ul>
+                    <?php } ?>
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="title"><?php echo $data['l10n']->get('invoicing period'); ?></div>
+                    <div class="value">&(view['unit']:h);</div>
+                </div>
+                <?php
+                if ($data['deliverable']->invoiced > 0)
+                {
+                    ?>
+                    <div class="field">
+                        <div class="title"><?php echo $data['l10n']->get('invoiced'); ?></div>
+                        <div class="value"><?php echo org_openpsa_helpers::format_number($data['deliverable']->invoiced); ?></div>
+                    </div>
+                    <?php
+                }
+                ?>
+        </div>
     </div>
 
     <div class="wide">
