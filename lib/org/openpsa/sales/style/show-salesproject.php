@@ -17,44 +17,43 @@ $salesproject = $data['salesproject'];
 
 <div class="main salesproject">
 <h1>&(view['title']:h);</h1>
-    <table class="info">
-    <tr>
-     <th><?php echo $data['l10n']->get('code'); ?></th>
-     <td>&(view['code']:h);</td>
-    </tr>
-    <tr>
-     <th><?php echo $data['l10n']->get('state'); ?></th>
-     <td>&(view['state']:h);</td>
-    </tr>
-    <tr>
-     <th><?php echo $data['l10n_midcom']->get('description'); ?></th>
-     <td>&(view['description']:h);</td>
-    </tr>
+<div class="midcom_helper_datamanager2_view">
+    <div class="field">
+     <div class="title"><?php echo $data['l10n']->get('code'); ?></div>
+     <div class="value">&(view['code']:h);</div>
+    </div>
+    <div class="field">
+     <div class="title"><?php echo $data['l10n']->get('state'); ?></div>
+     <div class="value">&(view['state']:h);</div>
+    </div>
+    <div class="field">
+     <div class="title"><?php echo $data['l10n_midcom']->get('description'); ?></div>
+     <div class="value">&(view['description']:h);</div>
+    </div>
     <?php if ($salesproject->state == org_openpsa_sales_salesproject_dba::STATE_ACTIVE)
     { ?>
-        <tr>
-         <th><?php echo $data['l10n']->get('estimated closing date'); ?></th>
-         <td>&(view['close_est']:h);</td>
-        </tr>
-        <tr>
-         <th><?php echo $data['l10n']->get('probability'); ?></th>
-         <td>&(view['probability']:h);</td>
-        </tr>
+        <div class="field">
+         <div class="title"><?php echo $data['l10n']->get('estimated closing date'); ?></div>
+         <div class="value">&(view['close_est']:h);</div>
+        </div>
+        <div class="field">
+         <div class="title"><?php echo $data['l10n']->get('probability'); ?></div>
+         <div class="value">&(view['probability']:h);</div>
+        </div>
     <?php } ?>
-    <tr>
-     <th><?php echo $data['l10n']->get('value'); ?></th>
-     <td><?php echo org_openpsa_helpers::format_number($salesproject->value); ?></td>
-    </tr>
-    <tr>
-     <th><?php echo $data['l10n']->get('profit'); ?></th>
-     <td><?php echo org_openpsa_helpers::format_number($salesproject->profit); ?></td>
-    </tr>
+    <div class="field">
+     <div class="title"><?php echo $data['l10n']->get('value'); ?></div>
+     <div class="value"><?php echo org_openpsa_helpers::format_number($salesproject->value); ?></div>
+    </div>
+    <div class="field">
+     <div class="title"><?php echo $data['l10n']->get('profit'); ?></div>
+     <div class="value"><?php echo org_openpsa_helpers::format_number($salesproject->profit); ?></div>
+    </div>
     <?php
      $owner_card = org_openpsa_widgets_contact::get($salesproject->owner);
     ?>
-    <tr>
-     <th><?php echo $data['l10n']->get('owner'); ?></th>
-     <td><?php echo $owner_card->show_inline(); ?></td>
-    </tr>
-
-    </table>
+    <div class="field">
+     <div class="title"><?php echo $data['l10n']->get('owner'); ?></div>
+     <div class="value"><?php echo $owner_card->show_inline(); ?></div>
+    </div>
+</div>
