@@ -387,19 +387,17 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
         {
             return;
         }
+        $link_contacts = $this->link_contacts && self::$_contacts_url;
 
         $mc = org_openpsa_contacts_member_dba::new_collector('uid', $this->contact_details['id']);
         $mc->add_constraint('gid.orgOpenpsaObtype', '>=', org_openpsa_contacts_group_dba::ORGANIZATION);
-        $mc->add_value_property('gid');
-        $mc->add_value_property('extra');
-        $mc->execute();
+        $memberships = $mc->get_rows(array('gid', 'extra'));
 
-        $memberships = $mc->list_keys();
-        foreach ($memberships as $guid => $empty)
+        foreach ($memberships as $guid => $data)
         {
             try
             {
-                $group = org_openpsa_contacts_group_dba::get_cached($mc->get_subkey($guid, 'gid'));
+                $group = org_openpsa_contacts_group_dba::get_cached($data['gid']);
             }
             catch (midcom_error $e)
             {
@@ -408,23 +406,16 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
             }
 
             echo "<li class=\"org\">";
-            if ($mc->get_subkey($guid, 'extra'))
+
+            if ($data['extra'])
             {
-                echo "<span class=\"title\">" . $mc->get_subkey($guid, 'extra') . "</span>, ";
+                echo "<span class=\"title\">" . htmlspecialchars($data['extra']) . "</span>, ";
             }
 
             $group_label = $group->get_label();
-
-            if ($this->link_contacts)
+            if ($link_contacts)
             {
-                if (!self::$_contacts_url)
-                {
-                    $this->link_contacts = false;
-                }
-                else
-                {
-                    $group_label = "<a href=\"" . self::$_contacts_url . "group/{$group->guid}/\">{$group_label}</a>";
-                }
+                 $group_label = "<a href=\"" . self::$_contacts_url . "group/{$group->guid}/\">" . $group_label . '</a>';
             }
 
             echo "<span class=\"organization-name\">{$group_label}</span>";
