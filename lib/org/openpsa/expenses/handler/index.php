@@ -70,17 +70,11 @@ class org_openpsa_expenses_handler_index  extends midcom_baseclasses_components_
         midcom::get()->auth->require_valid_user();
 
         $hours_mc = org_openpsa_projects_hour_report_dba::new_collector('metadata.deleted', false);
-        $hours_mc->add_value_property('task');
-        $hours_mc->add_value_property('hours');
-        $hours_mc->add_value_property('date');
-        $hours_mc->add_value_property('person');
-
         $this->_master->add_list_filter($hours_mc);
         $hours_mc->add_constraint('date', '>=', $data['week_start']);
         $hours_mc->add_constraint('date', '<=', $data['week_end']);
         $hours_mc->add_order('task');
         $hours_mc->add_order('date');
-        $hours_mc->execute();
 
         $data['rows'] = $this->_get_sorted_reports($hours_mc);
 
@@ -127,33 +121,32 @@ class org_openpsa_expenses_handler_index  extends midcom_baseclasses_components_
      */
     private function _get_sorted_reports(midcom_core_collector $hours_mc)
     {
+        $workflow = $this->get_workflow('datamanager2');
+        $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
         $reports = array();
-        $hours = $hours_mc->list_keys();
+        $hours = $hours_mc->get_rows(array('task', 'hours', 'date', 'person'));
 
-        foreach ($hours as $guid => $empty)
+        foreach ($hours as $guid => $row)
         {
-            $task_id = $hours_mc->get_subkey($guid, 'task');
             try
             {
-                $task = org_openpsa_projects_task_dba::get_cached($task_id);
+                $task = org_openpsa_projects_task_dba::get_cached($row['task']);
             }
             catch (midcom_error $e)
             {
                 // Task couldn't be loaded, probably because of ACL
                 continue;
             }
-            $person = $hours_mc->get_subkey($guid, 'person');
-            $date = $hours_mc->get_subkey($guid, 'date');
 
-            $date_identifier = date('Y-m-d', $date);
-            $row_identifier = $task->id . '-' .  $person;
+            $date_identifier = date('Y-m-d', $row['date']);
+            $row_identifier = $task->id . '-' .  $row['person'];
 
             if (!isset($reports[$row_identifier]))
             {
                 try
                 {
-                    $person_object = org_openpsa_contacts_person_dba::get_cached($person);
-                    $person_label = $this->_get_list_link($person_object->name, null, null, $person);
+                    $person_object = org_openpsa_contacts_person_dba::get_cached($row['person']);
+                    $person_label = $this->_get_list_link($person_object->name, null, null, $row['person']);
                     $person_name = $person_object->name;
                 }
                 catch (midcom_error $e)
@@ -172,12 +165,15 @@ class org_openpsa_expenses_handler_index  extends midcom_baseclasses_components_
             }
             if (!isset($reports[$row_identifier][$date_identifier]))
             {
-                $reports[$row_identifier][$date_identifier] = '';
-                $reports[$row_identifier]['index_' . $date_identifier] = 0;
+                $reports[$row_identifier]['index_' . $date_identifier] = $row['hours'];
+                $number = org_openpsa_helpers::format_number($reports[$row_identifier]['index_' . $date_identifier]);
+                $reports[$row_identifier][$date_identifier] = '<a href="' . $prefix . 'hours/edit/' . $guid . '/" ' . $workflow->render_attributes() . '>' . $number . '</a>';
             }
-            $reports[$row_identifier]['index_' . $date_identifier] += $hours_mc->get_subkey($guid, 'hours');
-
-            $reports[$row_identifier][$date_identifier] = $this->_get_list_link(org_openpsa_helpers::format_number($reports[$row_identifier]['index_' . $date_identifier]), $date_identifier, $task->guid, $person);
+            else
+            {
+                $reports[$row_identifier]['index_' . $date_identifier] += $row['hours'];
+                $reports[$row_identifier][$date_identifier] = $this->_get_list_link(org_openpsa_helpers::format_number($reports[$row_identifier]['index_' . $date_identifier]), $date_identifier, $task->guid, $row['person']);
+            }
         }
 
         return array_values($reports);
