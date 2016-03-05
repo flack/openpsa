@@ -91,11 +91,14 @@ abstract class dialog
     public function render_attributes()
     {
         $button_config = $this->get_button_config();
-        $output = '';
+
+        $output = ' title="' . htmlspecialchars($button_config[MIDCOM_TOOLBAR_LABEL]) . '"';
+
         foreach ($button_config[MIDCOM_TOOLBAR_OPTIONS] as $key => $val)
         {
             $output .= ' ' . $key . '="' . htmlspecialchars($val) . '"';
         }
+
         return $output;
     }
 

@@ -43,7 +43,7 @@ $(document).ready(function()
         event.preventDefault();
         if (!$(this).hasClass('active'))
         {
-            create_dialog($(this), $(this).find('.toolbar_label').text() || '');
+            create_dialog($(this), $(this).find('.toolbar_label').text() || $(this).attr('title') || '');
         }
     });
 });
