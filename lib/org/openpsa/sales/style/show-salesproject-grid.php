@@ -66,13 +66,11 @@ foreach ($data['salesprojects'] as $salesproject)
         $row['owner'] = '';
     }
 
-    $row['index_closeest'] = '';
     $row['closeest'] = '';
 
     if ($salesproject->closeEst)
     {
-        $row['index_closeest'] = $salesproject->closeEst;
-        $row['closeest'] = strftime("%x", $salesproject->closeEst);
+        $row['closeest'] = date("Y-m-d", $salesproject->closeEst);
     }
 
     $row['value'] = $salesproject->value;
@@ -89,35 +87,27 @@ foreach ($data['salesprojects'] as $salesproject)
     $row['prev_action'] = '';
 
     $action = $salesproject->prev_action;
-    switch ($action['type'])
+    if ($action['type'] != 'noaction')
     {
-        case 'noaction':
-            break;
-        case 'event':
-            $datelabel = strftime('%x %H:%M', $action['time']);
-            $row['prev_action'] = "<a href=\"{$salesproject_url}#{$action['obj']->guid}\" class=\"event\">{$datelabel}: {$action['obj']->title}</a>";
-            break;
-        case 'task':
-            $datelabel = strftime('%x', $action['time']);
-            $row['prev_action'] = "<a href=\"{$salesproject_url}#{$action['obj']->guid}\" class=\"task\">{$datelabel}: {$action['obj']->title}</a>";
-            break;
+        $format = $data['l10n_midcom']->get('short date');
+        if ($action['type'] == 'event')
+        {
+            $format .= ' H:i';
+        }
+        $row['prev_action'] = "<a href=\"{$salesproject_url}#{$action['obj']->guid}\" class=\"{$action['type']}\">" . date($format, $action['time']) . ": {$action['obj']->title}</a>";
     }
 
     $row['next_action'] = '';
 
     $action = $salesproject->next_action;
-    switch ($action['type'])
+    if ($action['type'] != 'noaction')
     {
-        case 'noaction':
-            break;
-        case 'event':
-            $datelabel = strftime('%x %X', $action['time']);
-            $row['next_action'] = "<a href=\"{$salesproject_url}#{$action['obj']->guid}\" class=\"event\">{$datelabel}: {$action['obj']->title}</a>";
-            break;
-        case 'task':
-            $datelabel = strftime('%x', $action['time']);
-            $row['next_action'] = "<a href=\"{$salesproject_url}#{$action['obj']->guid}\" class=\"task\">{$datelabel}: {$action['obj']->title}</a>";
-            break;
+        $format = $data['l10n_midcom']->get('short date');
+        if ($action['type'] == 'event')
+        {
+            $format .= ' H:i';
+        }
+        $row['next_action'] = "<a href=\"{$salesproject_url}#{$action['obj']->guid}\" class=\"{$action['type']}\">" . date($format, $action['time']) . ": {$action['obj']->title}</a>";
     }
     $rows[] = $row;
 }
@@ -135,7 +125,7 @@ else
     $grid->set_column('state', $data['l10n']->get('state'), 'hidden: true', 'number');
 }
 $grid->set_column('owner', $data['l10n']->get('owner'), 'width: 70, classes: "ui-ellipsis"', 'string')
-->set_column('closeest', $data['l10n']->get('estimated closing date'), 'width: 85, align: "center", fixed: true', 'integer')
+->set_column('closeest', $data['l10n']->get('estimated closing date'), 'width: 85, align: "center", formatter: "date", fixed: true')
 ->set_column('value', $data['l10n']->get('value'), 'width: 60, align: "right", summaryType: "sum", formatter: "number"');
 if ($data['mode'] == 'active')
 {
