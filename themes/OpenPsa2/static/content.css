@@ -29,7 +29,7 @@ body
 
 #content-text
 {
-    padding: 1em 0.5em 1em 1em;
+    padding: 1em;
     overflow: auto;
     position: relative
 }
@@ -62,7 +62,6 @@ body
 
 .sidebar .org_openpsa_helper_box
 {
-    background-color: #ffffff;
     font-size: 90%;
     padding: 0;
     border-style: solid;
@@ -72,7 +71,6 @@ body
     padding-left: 4px;
     padding-right: 4px;
     padding-bottom: .3em;
-    margin-right: 10px;
 }
 
 .sidebar .org_openpsa_helper_box h3

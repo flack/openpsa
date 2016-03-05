@@ -15,14 +15,15 @@ abstract class org_openpsa_widgets_status
     {
         $l10n = midcom::get()->i18n->get_l10n('org.openpsa.widgets');
         $l10n_midcom = midcom::get()->i18n->get_l10n('midcom');
+
+        echo "<h2 class=\"current-status {$this->get_status_class()}\">";
+        echo $l10n->get('status') . ': ' . $this->get_current_status();
+        echo $this->get_button();
+        echo '</h2>';
+
         echo '<div class="area org_openpsa_helper_box history status">';
         echo "<h3>" . $l10n->get('status history');
-        echo $this->get_button();
         echo "</h3>\n";
-
-        echo "<div class=\"current-status {$this->get_status_class()}\">";
-        echo $l10n->get('status') . ': ' . $this->get_current_status();
-        echo '</div>';
 
         echo "<ul>\n";
         foreach ($this->get_history() as $entry)

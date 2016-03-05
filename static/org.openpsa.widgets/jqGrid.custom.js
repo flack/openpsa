@@ -77,7 +77,7 @@ var org_openpsa_grid_resize =
             {
                 clearTimeout(org_openpsa_grid_resize.timer);
             }
-            org_openpsa_grid_resize.timer = setTimeout(org_openpsa_grid_resize.end_resize, 200);
+            org_openpsa_grid_resize.timer = setTimeout(org_openpsa_grid_resize.end_resize, 300);
         }
         if ($('.ui-jqgrid-maximized').length > 0)
         {
@@ -169,12 +169,12 @@ var org_openpsa_grid_resize =
         {
             if (items.hasClass('ui-jqgrid-maximized'))
             {
-                new_width = $(org_openpsa_grid_resize.containment).prop('clientWidth') - 12;
+                new_width = $(org_openpsa_grid_resize.containment).width();
             }
             else
             {
                 //calculate for each item separately to take care of floating neighbors
-                new_width = $(item).width() - 12;
+                new_width = $(item).width();
             }
             $(item).find('.ui-jqgrid table.ui-jqgrid-btable').each(function()
             {
@@ -187,10 +187,13 @@ var org_openpsa_grid_resize =
                 }
                 try
                 {
-                    var old_width = $("#" + id).jqGrid().getGridParam('width');
-                    if (new_width != old_width)
+                    var old_width = $("#" + id).jqGrid().getGridParam('width'),
+                        resized = $("#" + id).data('resized');
+                    if (   !resized
+                        || new_width != old_width)
                     {
                         $("#" + id).jqGrid().setGridWidth(new_width);
+                        $("#" + id).data('resized', true);
                     }
                 }
             catch(e){}
@@ -278,7 +281,7 @@ var org_openpsa_grid_resize =
 
         $.each(grid_heights, function(grid_id, content_height)
         {
-            var new_height = Math.round(available_space * (content_height / grids_content_height));
+            var new_height = Math.floor(available_space * (content_height / grids_content_height));
             set_param(grid_id, new_height);
         });
 
