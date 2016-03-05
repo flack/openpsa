@@ -6,8 +6,6 @@
 namespace midcom\datamanager;
 
 use midcom\datamanager\storage\container\container;
-use Symfony\Component\Form\Forms;
-use Symmfony\Component\Form\FormBuilderInterface;
 use midcom;
 use midcom_error;
 use Symfony\Component\Form\Form;

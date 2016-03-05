@@ -12,9 +12,6 @@ use Symfony\Component\Form\AbstractType;
 use midcom\datamanager\extension\helper;
 use midcom\datamanager\extension\transformer\blobs as transformer;
 use midcom;
-use DateTime;
-use Symfony\Component\Form\FormInterface;
-use Symfony\Component\Form\FormView;
 use midcom\datamanager\extension\compat;
 
 /**

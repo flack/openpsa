@@ -5,8 +5,6 @@
 
 namespace midcom\datamanager\storage;
 
-use midcom_core_dbaobject;
-
 /**
  * Experimental storage class
  */

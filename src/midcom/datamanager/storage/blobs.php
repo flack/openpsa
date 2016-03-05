@@ -7,7 +7,6 @@ namespace midcom\datamanager\storage;
 
 use Symfony\Component\HttpFoundation\File\MimeType\FileBinaryMimeTypeGuesser;
 use midcom_db_attachment;
-use midcom_helper_misc;
 use midcom_helper_reflector_nameresolver;
 use midcom_error;
 use midcom_connection;

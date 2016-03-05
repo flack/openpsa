@@ -6,7 +6,6 @@
 namespace midcom\datamanager\extension\transformer;
 
 use midcom_db_attachment;
-use midcom_helper_misc;
 
 /**
  * Experimental photo transformer

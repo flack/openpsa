@@ -6,7 +6,6 @@
 namespace midcom\datamanager\template;
 
 use Symfony\Component\Form\FormView;
-use Symfony\Component\Form\Form;
 use midcom\datamanager\renderer;
 
 /**

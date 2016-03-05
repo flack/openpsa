@@ -7,7 +7,6 @@ namespace midcom\datamanager;
 
 use Symfony\Component\Form\FormRenderer;
 use Symfony\Component\Form\FormView;
-use Symfony\Component\Form\Form;
 use midcom;
 use midcom_services_i18n_l10n;
 

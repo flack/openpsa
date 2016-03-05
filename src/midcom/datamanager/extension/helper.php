@@ -6,7 +6,6 @@
 namespace midcom\datamanager\extension;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\OptionsResolver\Options;
 
 /**
  * Experimental helper class

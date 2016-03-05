@@ -5,7 +5,6 @@
 
 namespace midcom\datamanager;
 
-use midcom_helper_misc;
 use midcom_error;
 
 /**

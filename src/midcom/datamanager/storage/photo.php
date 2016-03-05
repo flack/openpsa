@@ -9,7 +9,6 @@ use midcom_db_attachment;
 use midcom_helper_imagefilter;
 use midcom_error;
 use midcom;
-use midgard_blob;
 
 /**
  * Experimental storage class

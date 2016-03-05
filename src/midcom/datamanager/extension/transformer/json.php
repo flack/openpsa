@@ -6,7 +6,6 @@
 namespace midcom\datamanager\extension\transformer;
 
 use Symfony\Component\Form\DataTransformerInterface;
-use midcom\datamanager\extension\type\jsdate as datetype;
 
 /**
  * Experimental json transformer
