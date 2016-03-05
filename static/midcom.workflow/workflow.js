@@ -67,6 +67,9 @@ function create_dialog(control, title)
                 {
                     iframe[0].contentWindow.stop();
                 }
+            },
+            open: function() {
+                dialog.closest('.ui-dialog').focus();
             }};
 
     if (control.data('dialog-cancel-label'))
