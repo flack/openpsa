@@ -112,5 +112,11 @@ function create_dialog(control, title)
     }
 
     control.addClass('active');
+    if (   control.parent().attr('role') === 'gridcell'
+        && control.closest('.jqgrow').hasClass('ui-state-highlight') === false)
+    {
+        //todo: find out why the click doesn't bubble automatically
+        control.parent().trigger('click');
+    }
     dialog.dialog(config);
 }
