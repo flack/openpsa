@@ -216,7 +216,7 @@ implements midcom_helper_datamanager2_interfaces_create
         $schemadb = $this->load_schemadb();
         $this->_datamanager = new midcom_helper_datamanager2_datamanager($schemadb);
 
-        $data['workflow'] = new midcom\workflow\datamanager2;
+        $data['workflow'] = $this->get_workflow('datamanager2');
         // Set the request data
         $this->_populate_request_data($handler_id);
     }

@@ -185,8 +185,11 @@ class net_nemein_rss_handler_admin extends midcom_baseclasses_components_handler
     public function _handler_delete($handler_id, array $args, array &$data)
     {
         $feed = new net_nemein_rss_feed_dba($args[0]);
-        $workflow = new \midcom\workflow\delete($feed);
-        $workflow->success_url = '__feeds/rss/list/';
+        $workflow = $this->get_workflow('delete', array
+        (
+            'object' => $feed,
+            'success_url' => '__feeds/rss/list/'
+        ));
         return $workflow->run();
     }
 

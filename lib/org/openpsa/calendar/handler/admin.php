@@ -136,7 +136,7 @@ class org_openpsa_calendar_handler_admin extends midcom_baseclasses_components_h
     {
         // Get the event
         $this->_event = new org_openpsa_calendar_event_dba($args[0]);
-        $workflow = new delete($this->_event);
+        $workflow = $this->get_workflow('delete', array('object' => $this->_event));
         $workflow->run();
         if ($workflow->get_state() === delete::SUCCESS)
         {

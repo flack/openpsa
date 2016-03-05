@@ -148,7 +148,7 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
 
         midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('edit %s'), $this->_l10n->get('salesproject')));
 
-        $workflow = new midcom\workflow\datamanager2($this->_controller);
+        $workflow = $this->get_workflow('datamanager2', array('controller' => $this->_controller));
         return $workflow->run();
     }
 
@@ -165,7 +165,11 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
 
         midcom::get()->head->set_pagetitle($this->_l10n->get('create salesproject'));
 
-        $workflow = new midcom\workflow\datamanager2($this->_controller, array($this, 'save_callback'));
+        $workflow = $this->get_workflow('datamanager2', array
+        (
+            'controller' => $this->_controller,
+            'save_callback' => array($this, 'save_callback')
+        ));
         return $workflow->run();
     }
 
@@ -182,8 +186,11 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
     public function _handler_delete($handler_id, array $args, array &$data)
     {
         $this->_salesproject = new org_openpsa_sales_salesproject_dba($args[0]);
-        $workflow = new midcom\workflow\delete($this->_salesproject);
-        $workflow->method = 'delete_tree';
+        $workflow = $this->get_workflow('delete', array
+        (
+            'object' => $this->_salesproject,
+            'recursive' => true
+        ));
         return $workflow->run();
     }
 }

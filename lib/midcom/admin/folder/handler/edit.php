@@ -186,7 +186,11 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
 
         midcom::get()->head->set_pagetitle($title);
 
-        $workflow = new midcom\workflow\datamanager2($this->_controller, array($this, 'save_callback'));
+        $workflow = $this->get_workflow('datamanager2', array
+        (
+            'controller' => $this->_controller,
+            'save_callback' => array($this, 'save_callback')
+        ));
         return $workflow->run();
     }
 

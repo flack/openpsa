@@ -107,7 +107,7 @@ class org_openpsa_sales_handler_list extends midcom_baseclasses_components_handl
         }
         if (midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_sales_salesproject_dba'))
         {
-            $workflow = new midcom\workflow\datamanager2;
+            $workflow = $this->get_workflow('datamanager2');
             $this->_view_toolbar->add_item($workflow->get_button($create_url, array
             (
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create salesproject'),

@@ -38,7 +38,7 @@ class org_openpsa_sales_handler_deliverable_view extends midcom_baseclasses_comp
 
         if ($this->_deliverable->can_do('midgard:update'))
         {
-            $workflow = new midcom\workflow\datamanager2;
+            $workflow = $this->get_workflow('datamanager2');
             $this->_view_toolbar->add_item($workflow->get_button("deliverable/edit/{$this->_deliverable->guid}/", array
             (
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
@@ -50,7 +50,7 @@ class org_openpsa_sales_handler_deliverable_view extends midcom_baseclasses_comp
         $this->_request_data['invoices_url'] = $siteconfig->get_node_relative_url('org.openpsa.invoices');
         if ($this->_deliverable->can_do('midgard:delete'))
         {
-            $workflow = new midcom\workflow\delete($this->_deliverable);
+            $workflow = $this->get_workflow('delete', array('object' => $this->_deliverable));
             $this->_view_toolbar->add_item($workflow->get_button("deliverable/delete/{$this->_deliverable->guid}/"));
         }
         try

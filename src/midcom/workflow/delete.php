@@ -8,6 +8,7 @@
 
 namespace midcom\workflow;
 
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use midcom_helper_reflector;
 use midcom_core_dbaobject;
 use midcom_response_relocate;
@@ -27,14 +28,12 @@ class delete extends dialog
 
     const FAILURE = 'failure';
 
-    private $form_identifier = 'confirm-delete';
-
     /**
      * The method to call for deletion (delete or delete_tree)
      *
-     * @var string
+     * @var boolean
      */
-    public $method = 'delete';
+    protected $recursive;
 
     /**
      * The URL to redirect to after successful deletion
@@ -43,18 +42,20 @@ class delete extends dialog
      *
      * @var string
      */
-    public $success_url = '';
+    protected $success_url;
 
     /**
      *
      * @var \midcom_core_dbaobject
      */
-    private $object;
+    protected $object;
 
     /**
      * @var string
      */
-    private $object_title;
+    protected $label;
+
+    private $form_identifier = 'confirm-delete';
 
     /**
      *
@@ -63,32 +64,34 @@ class delete extends dialog
     private $l10n_midcom;
 
     /**
-     *
-     * @param \midcom_core_dbaobject $object
+     * {@inheritdoc}
      */
-    public function __construct(midcom_core_dbaobject $object)
+    public function configure(OptionsResolver $resolver)
     {
-        $this->object = $object;
         $this->l10n_midcom = midcom::get()->i18n->get_l10n('midcom');
-        $this->label = midcom_helper_reflector::get_object_title($this->object);
         if (!empty($_POST[$this->form_identifier]))
         {
             $this->state = static::CONFIRMED;
         }
-    }
 
-    public function get_object_title()
-    {
-        if ($this->object_title === null)
-        {
-            $this->object_title = midcom_helper_reflector::get_object_title($this->object);
-        }
-        return $this->object_title;
-    }
-
-    public function set_object_title($title)
-    {
-        $this->object_title = $title;
+        $resolver
+            ->setDefaults(array
+            (
+                'recursive' => false,
+                'success_url' => '',
+                'label' => null,
+                'object' => null
+            ))
+            ->setRequired('object')
+            ->setAllowedTypes('object', 'midcom_core_dbaobject')
+            ->setNormalizer('label', function($options, $value)
+            {
+                if ($value === null)
+                {
+                    return midcom_helper_reflector::get_object_title($options['object']);
+                }
+                return $value;
+            });
     }
 
     /**
@@ -107,7 +110,7 @@ class delete extends dialog
                 'data-dialog' => 'delete',
                 'data-form-id' => $this->form_identifier,
                 'data-dialog-heading' => $this->l10n_midcom->get('confirm delete'),
-                'data-dialog-text' => sprintf($this->l10n_midcom->get('delete %s'), $this->get_object_title()),
+                'data-dialog-text' => sprintf($this->l10n_midcom->get('delete %s'), $this->label),
                 'data-dialog-cancel-label' => $this->l10n_midcom->get('cancel')
             )
         );
@@ -115,22 +118,28 @@ class delete extends dialog
 
     public function run()
     {
-        $failure_url = (!empty($_POST['referrer'])) ? $_POST['referrer'] : $this->success_url;
+        $url = (!empty($_POST['referrer'])) ? $_POST['referrer'] : $this->success_url;
         if ($this->get_state() === static::CONFIRMED)
         {
-            $this->object->require_do('midgard:delete');
-            $uim = midcom::get()->uimessages;
-            $title = $this->get_object_title();
-            if ($this->object->{$this->method}())
+            $object = $this->object;
+            $object->require_do('midgard:delete');
+            $method = $this->recursive ? 'delete_tree' : 'delete';
+            $message = array('title' => $this->l10n_midcom->get('midcom'), 'type' => 'info');
+            if ($object->{$method}())
             {
                 $this->state = static::SUCCESS;
-                $uim->add($this->l10n_midcom->get('midcom'), sprintf($this->l10n_midcom->get("%s deleted"), $title));
-                midcom::get()->indexer->delete($this->object->guid);
-                return new midcom_response_relocate($this->success_url);
+                $url = $this->success_url;
+                midcom::get()->indexer->delete($object->guid);
+                $message['body'] = sprintf($this->l10n_midcom->get("%s deleted"), $this->label);
             }
-            $this->state = static::FAILURE;
-            $uim->add($this->l10n_midcom->get('midcom'), sprintf($this->l10n_midcom->get("failed to delete %s: %s"), $title, midcom_connection::get_error_string()), 'error');
+            else
+            {
+                $this->state = static::FAILURE;
+                $message['body'] = sprintf($this->l10n_midcom->get("failed to delete %s: %s"), $this->label, midcom_connection::get_error_string());
+                $message['type'] = 'error';
+            }
+            midcom::get()->uimessages->add($message['title'], $message['body'], $message['type']);
         }
-        return new midcom_response_relocate($failure_url);
+        return new midcom_response_relocate($url);
     }
 }

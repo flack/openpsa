@@ -67,7 +67,7 @@ class org_openpsa_directmarketing_handler_message_message extends midcom_basecla
 
     private function _populate_toolbar()
     {
-        $workflow = new midcom\workflow\datamanager2;
+        $workflow = $this->get_workflow('datamanager2');
         $buttons = array();
         if ($this->_message->can_do('midgard:update'))
         {
@@ -78,7 +78,7 @@ class org_openpsa_directmarketing_handler_message_message extends midcom_basecla
         }
         if ($this->_message->can_do('midgard:delete'))
         {
-            $delete_workflow = new midcom\workflow\delete($this->_message);
+            $delete_workflow = $this->get_workflow('delete', array('object' => $this->_message));
             $buttons[] = $delete_workflow->get_button("message/delete/{$this->_message->guid}/");
         }
         if ($this->_message->can_do('midgard:update'))

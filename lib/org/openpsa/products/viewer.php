@@ -106,7 +106,7 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
         if (   $this->_topic->can_do('midgard:update')
             && $this->_topic->can_do('midcom:component_config'))
         {
-            $workflow = new midcom\workflow\datamanager2;
+            $workflow = $this->get_workflow('datamanager2');
             $buttons[] = $workflow->get_button('config/', array
             (
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('component configuration'),

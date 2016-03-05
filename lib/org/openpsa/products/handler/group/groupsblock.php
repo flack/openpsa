@@ -186,7 +186,7 @@ class org_openpsa_products_handler_group_groupsblock  extends midcom_baseclasses
     private function _populate_toolbar()
     {
         $buttons = array();
-        $workflow = new midcom\workflow\datamanager2;
+        $workflow = $this->get_workflow('datamanager2');
         $buttons[] = $workflow->get_button("edit/{$this->_request_data['group']->guid}/", array
         (
             MIDCOM_TOOLBAR_ENABLED => $this->_request_data['group']->can_do('midgard:update'),

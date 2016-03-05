@@ -81,12 +81,15 @@ implements midcom_helper_datamanager2_interfaces_create
             $data['controller'] = $this->get_controller('create');
         }
 
-        $workflow = new midcom\workflow\datamanager2($data['controller']);
+        $workflow = $this->get_workflow('datamanager2', array('controller' => $data['controller']));
         if (   $mode == 'edit'
             && $billing_data[0]->can_do('midgard:delete'))
         {
-            $delete = new midcom\workflow\delete($billing_data[0]);
-            $delete->set_object_title($this->_l10n->get('billing data'));
+            $delete = $this->get_workflow('delete', array
+            (
+                'object' => $billing_data[0],
+                'label' => $this->_l10n->get('billing data')
+            ));
             $workflow->add_dialog_button($delete, "billingdata/delete/{$billing_data[0]->guid}/");
         }
 
@@ -104,10 +107,13 @@ implements midcom_helper_datamanager2_interfaces_create
     {
         $billing_data = new org_openpsa_invoices_billing_data_dba($args[0]);
         $billing_data->require_do('midgard:delete');
-        $linked_object = midcom::get()->dbfactory->get_object_by_guid($billing_data->linkGuid);
+        $this->_linked_object = midcom::get()->dbfactory->get_object_by_guid($billing_data->linkGuid);
 
-        $workflow = new midcom\workflow\delete($billing_data);
-        $workflow->success_url = $this->get_relocate_url();
+        $workflow = $this->get_workflow('delete', array
+        (
+            'object' => $billing_data,
+            'success_url' => $this->get_relocate_url()
+        ));
         return $workflow->run();
     }
 

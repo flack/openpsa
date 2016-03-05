@@ -8,6 +8,7 @@
 
 namespace midcom\workflow;
 
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use midcom;
 
 /**
@@ -23,6 +24,25 @@ abstract class dialog
      * @var string
      */
     protected $state = self::INACTIVE;
+
+    public function __construct(array $options = array())
+    {
+        $resolver = new OptionsResolver();
+        $this->configure($resolver);
+
+        foreach ($resolver->resolve($options) as $key => $value)
+        {
+            $this->$key = $value;
+        }
+    }
+
+    /**
+     *
+     * @param OptionsResolver $resolver
+     */
+    public function configure(OptionsResolver $resolver)
+    {
+    }
 
     public static function add_head_elements()
     {

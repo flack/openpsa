@@ -47,7 +47,7 @@ implements midcom_helper_datamanager2_interfaces_view
             || $auth->can_user_do('org.openpsa.user:manage', null, 'org_openpsa_user_interface'))
         {
             $buttons = array();
-            $workflow = new midcom\workflow\datamanager2;
+            $workflow = $this->get_workflow('datamanager2');
             if ($this->_person->can_do('midgard:update'))
             {
                 $buttons[] = $workflow->get_button("edit/{$this->_person->guid}/", array
@@ -57,7 +57,7 @@ implements midcom_helper_datamanager2_interfaces_view
             }
             if ($this->_person->can_do('midgard:delete'))
             {
-                $delete_workflow = new midcom\workflow\delete($this->_person);
+                $delete_workflow = $this->get_workflow('delete', array('object' => $this->_person));
                 $buttons[] = $delete_workflow->get_button("delete/{$this->_person->guid}/");
             }
             if (   midcom_connection::is_user($this->_person)

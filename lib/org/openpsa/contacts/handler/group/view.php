@@ -38,7 +38,7 @@ implements midcom_helper_datamanager2_interfaces_view, org_openpsa_widgets_grid_
 
     private function _populate_toolbar()
     {
-        $workflow = new midcom\workflow\datamanager2;
+        $workflow = $this->get_workflow('datamanager2');
         $buttons = array();
         if ($this->_group->can_do('midgard:update'))
         {

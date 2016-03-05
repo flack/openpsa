@@ -119,7 +119,7 @@ implements org_openpsa_widgets_grid_provider_client
 
     private function _populate_toolbar()
     {
-        $workflow = new midcom\workflow\datamanager2;
+        $workflow = $this->get_workflow('datamanager2');
         $buttons = array();
         if ($this->_campaign->can_do('midgard:update'))
         {
@@ -131,7 +131,7 @@ implements org_openpsa_widgets_grid_provider_client
 
         if ($this->_campaign->can_do('midgard:delete'))
         {
-            $delete_workflow = new midcom\workflow\delete($this->_campaign);
+            $delete_workflow = $this->get_workflow('delete', array('object' => $this->_campaign));
             $buttons[] = $delete_workflow->get_button("campaign/delete/{$this->_campaign->guid}/");
         }
 

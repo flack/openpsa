@@ -288,7 +288,7 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
     {
         if ($this->_request_data['group'])
         {
-            $workflow = new midcom\workflow\datamanager2;
+            $workflow = $this->get_workflow('datamanager2');
             $this->_view_toolbar->add_item($workflow->get_button("edit/{$this->_request_data['group']->guid}/", array
             (
                 MIDCOM_TOOLBAR_URL => "edit/{$this->_request_data['group']->guid}/",
@@ -315,7 +315,7 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
 
     private function _add_schema_buttons($schemadb_name, $default_icon, $prefix, $allowed)
     {
-        $workflow = new midcom\workflow\datamanager2;
+        $workflow = $this->get_workflow('datamanager2');
         foreach (array_keys($this->_request_data[$schemadb_name]) as $name)
         {
             $config = array

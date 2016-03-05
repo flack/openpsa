@@ -65,7 +65,7 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
         $buttons = array();
         if ($this->_salesproject->can_do('midgard:update'))
         {
-            $workflow = new midcom\workflow\datamanager2;
+            $workflow = $this->get_workflow('datamanager2');
             $buttons[] = $workflow->get_button("salesproject/edit/{$this->_salesproject->guid}/", array
             (
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
@@ -74,7 +74,7 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
 
         if ($this->_salesproject->can_do('midgard:delete'))
         {
-            $workflow = new midcom\workflow\delete($this->_salesproject);
+            $workflow = $this->get_workflow('delete', array('object' => $this->_salesproject));
             $buttons[] = $workflow->get_button("salesproject/delete/{$this->_salesproject->guid}/");
         }
 

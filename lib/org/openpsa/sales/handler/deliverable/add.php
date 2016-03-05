@@ -158,8 +158,11 @@ implements midcom_helper_datamanager2_interfaces_create
 
         midcom::get()->head->set_pagetitle($this->_l10n->get('add offer'));
         midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/' . $this->_component . '/sales.js');
-
-        $workflow = new midcom\workflow\datamanager2($data['controller'], array($this, 'save_callback'));
+        $workflow = $this->get_workflow('datamanager2', array
+        (
+            'controller' => $data['controller'],
+            'save_callback' => array($this, 'save_callback')
+        ));
         return $workflow->run();
     }
 

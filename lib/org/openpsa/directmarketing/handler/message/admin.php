@@ -77,7 +77,7 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
 
         midcom::get()->head->set_pagetitle($this->_l10n->get('edit message'));
 
-        $workflow = new midcom\workflow\datamanager2($this->_controller);
+        $workflow = $this->get_workflow('datamanager2', array('controller' => $this->_controller));
         return $workflow->run();
     }
 
@@ -90,8 +90,11 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
     {
         $message = new org_openpsa_directmarketing_campaign_message_dba($args[0]);
         $campaign = new org_openpsa_directmarketing_campaign_dba($message->campaign);
-        $workflow = new midcom\workflow\delete($message);
-        $workflow->success_url = "campaign/{$campaign->guid}/";
+        $workflow = $this->get_workflow('delete', array
+        (
+            'object' => $message,
+            'success_url' => "campaign/{$campaign->guid}/"
+        ));
         return $workflow->run();
     }
 
@@ -116,7 +119,11 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
 
         midcom::get()->head->set_pagetitle($this->_l10n->get('copy message'));
 
-        $workflow = new midcom\workflow\datamanager2($this->_controller, array($this, 'copy_callback'));
+        $workflow = $this->get_workflow('datamanager2', array
+        (
+            'controller' => $this->_controller,
+            'save_callback' => array($this, 'copy_callback')
+        ));
         return $workflow->run();
     }
 

@@ -49,7 +49,7 @@ implements midcom_helper_datamanager2_interfaces_view
         $this->add_breadcrumb('groups/', $this->_l10n->get('groups'));
         $this->add_breadcrumb('', $this->_group->get_label());
 
-        $workflow = new midcom\workflow\datamanager2;
+        $workflow = $this->get_workflow('datamanager2');
         $buttons = array();
         if ($this->_group->can_do('midgard:update'))
         {
@@ -60,7 +60,7 @@ implements midcom_helper_datamanager2_interfaces_view
         }
         if ($this->_group->can_do('midgard:delete'))
         {
-            $delete_workflow = new midcom\workflow\delete($this->_group);
+            $delete_workflow = $this->get_workflow('delete', array('object' => $this->_group));
             $buttons[] = $delete_workflow->get_button("group/delete/{$this->_group->guid}/");
         }
 

@@ -22,8 +22,7 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
             foreach ($data['files'] as $file)
             {
                 $mime_icon = midcom_helper_misc::get_mime_icon($file->mimetype);
-                $workflow = new midcom\workflow\delete($file);
-                $workflow->set_object_title($file->name);
+                $workflow = new midcom\workflow\delete(array('object' => $file, 'label' => $file->name));
                 if (!isset($persons[$file->metadata->revisor]))
                 {
                     $persons[$file->metadata->revisor] = midcom::get()->auth->get_user($file->metadata->revisor);

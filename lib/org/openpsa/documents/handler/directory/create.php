@@ -87,7 +87,11 @@ class org_openpsa_documents_handler_directory_create extends midcom_baseclasses_
 
         midcom::get()->head->set_pagetitle($this->_l10n->get('new directory'));
 
-        $workflow = new midcom\workflow\datamanager2($this->_controller, array($this, 'save_callback'));
+        $workflow = $this->get_workflow('datamanager2', array
+        (
+            'controller' => $this->_controller,
+            'save_callback' => array($this, 'save_callback')
+        ));
         return $workflow->run();
     }
 

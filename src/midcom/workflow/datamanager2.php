@@ -8,6 +8,7 @@
 
 namespace midcom\workflow;
 
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use midcom_core_context;
 use midcom_helper_datamanager2_controller;
 use midcom;
@@ -21,18 +22,26 @@ class datamanager2 extends dialog
      *
      * @var midcom_helper_datamanager2_controller
      */
-    private $controller;
+    protected $controller;
 
     /**
      *
      * @var callable
      */
-    private $save_callback;
+    protected $save_callback;
 
-    public function __construct(midcom_helper_datamanager2_controller $controller = null, $save_callback = null)
+    /**
+     * {@inheritdoc}
+     */
+    public function configure(OptionsResolver $resolver)
     {
-        $this->controller = $controller;
-        $this->save_callback = $save_callback;
+        $resolver
+            ->setDefaults(array
+            (
+                'controller' => null,
+                'save_callback' => null
+            ))
+            ->setAllowedTypes('controller', array('null', 'midcom_helper_datamanager2_controller'));
     }
 
     public static function add_head_elements()

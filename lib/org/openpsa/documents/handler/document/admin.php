@@ -94,7 +94,11 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
         }
         midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('edit %s'), $this->_document->title));
 
-        $workflow = new midcom\workflow\datamanager2($this->_controller, array($this, 'save_callback'));
+        $workflow = $this->get_workflow('datamanager2', array
+        (
+            'controller' => $this->_controller,
+            'save_callback' => array($this, 'save_callback')
+        ));
         return $workflow->run();
     }
 
@@ -169,7 +173,7 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
     public function _handler_delete($handler_id, array $args, array &$data)
     {
         $this->_document = $this->_load_document($args[0]);
-        $workflow = new midcom\workflow\delete($this->_document);
+        $workflow = $this->get_workflow('delete', array('object' => $this->_document));
         return $workflow->run();
     }
 }

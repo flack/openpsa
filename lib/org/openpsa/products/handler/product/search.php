@@ -316,7 +316,7 @@ class org_openpsa_products_handler_product_search extends midcom_baseclasses_com
         if ($this->_topic->can_do('midgard:create'))
         {
             $buttons = array();
-            $workflow = new midcom\workflow\datamanager2;
+            $workflow = $this->get_workflow('datamanager2');
             $buttons[] = $workflow->get_button("create/{$this->_request_data['root_group']}/", array
             (
                 MIDCOM_TOOLBAR_LABEL => sprintf

@@ -64,7 +64,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
 
     private function _populate_toolbar()
     {
-        $workflow = new midcom\workflow\datamanager2;
+        $workflow = $this->get_workflow('datamanager2');
         $buttons = array
         (
             array
@@ -82,7 +82,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
         );
         if ($this->_page->can_do('midgard:delete'))
         {
-            $workflow = new midcom\workflow\delete($this->_page);
+            $workflow = $this->get_workflow('delete', array('object' => $this->_page));
             $buttons[] = $workflow->get_button("delete/{$this->_page->name}/");
         }
 

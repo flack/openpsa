@@ -232,7 +232,7 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
         $buttons = array();
         if ($this->_object->can_do('midgard:update'))
         {
-            $workflow = new midcom\workflow\datamanager2;
+            $workflow = $this->get_workflow('datamanager2');
             $buttons[] = $workflow->get_button("invoice/edit/{$this->_object->guid}/", array
             (
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
@@ -241,7 +241,7 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
 
         if ($this->_object->can_do('midgard:delete'))
         {
-            $workflow = new midcom\workflow\delete($this->_object);
+            $workflow = $this->get_workflow('delete', array('object' => $this->_object));
             $buttons[] = $workflow->get_button("invoice/delete/{$this->_object->guid}/");
         }
 

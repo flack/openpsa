@@ -1,4 +1,6 @@
 <?php
+use midcom\workflow\dialog;
+
 /**
  * @package midcom.baseclasses
  * @author CONTENT CONTROL http://www.contentcontrol-berlin.de/
@@ -95,5 +97,17 @@ abstract class midcom_baseclasses_components_base
     public function add_stylesheet($url, $media = false)
     {
         midcom::get()->head->add_stylesheet($url, $media);
+    }
+
+    /**
+     *
+     * @param string $identifier
+     * @param array $options
+     * @return midcom\workflow\dialog
+     */
+    public function get_workflow($identifier, array $options = array())
+    {
+        $classname = '\\midcom\\workflow\\' . $identifier;
+        return new $classname($options);
     }
 }

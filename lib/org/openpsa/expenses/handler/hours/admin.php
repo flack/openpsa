@@ -121,7 +121,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
         $data['controller'] = $this->_load_create_controller();
         midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get($this->_schemadb[$this->_schema]->description)));
 
-        $workflow = new midcom\workflow\datamanager2($data['controller']);
+        $workflow = $this->get_workflow('datamanager2', array('controller' => $data['controller']));
         return $workflow->run();
     }
 
@@ -147,11 +147,14 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
 
         midcom::get()->head->set_pagetitle($this->_l10n->get($handler_id));
 
-        $workflow = new midcom\workflow\datamanager2($data['controller']);
+        $workflow = $this->get_workflow('datamanager2', array('controller' => $data['controller']));
         if ($this->_hour_report->can_do('midgard:delete'))
         {
-            $delete = new midcom\workflow\delete($this->_hour_report);
-            $delete->set_object_title($this->_l10n->get('hour report'));
+            $delete = $this->get_workflow('delete', array
+            (
+                'object' => $this->_hour_report,
+                'label' => $this->_l10n->get('hour report')
+            ));
             $workflow->add_dialog_button($delete, "hours/delete/{$this->_hour_report->guid}/");
         }
         return $workflow->run();
@@ -167,19 +170,18 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
     public function _handler_delete($handler_id, array $args, array &$data)
     {
         $hour_report = new org_openpsa_projects_hour_report_dba($args[0]);
-        $workflow = new midcom\workflow\delete($hour_report);
+        $options = array('object' => $hour_report);
 
         try
         {
             $task = org_openpsa_projects_task_dba::get_cached($hour_report->task);
-            $workflow->success_url = 'hours/task/' . $task->guid . '/';
+            $options['success_url'] = 'hours/task/' . $task->guid . '/';
         }
         catch (midcom_error $e)
         {
             $e->log();
         }
-
-        return $workflow->run();
+        return $this->get_workflow('delete', $options)->run();
     }
 
     /**

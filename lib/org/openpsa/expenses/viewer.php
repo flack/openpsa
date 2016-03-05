@@ -19,7 +19,7 @@ class org_openpsa_expenses_viewer extends midcom_baseclasses_components_request
     private function _populate_view_toolbar($task)
     {
         $schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_hours'));
-        $workflow = new midcom\workflow\datamanager2;
+        $workflow = $this->get_workflow('datamanager2');
         foreach (array_keys($schemadb) as $name)
         {
             $create_url = "hours/create/{$name}/";

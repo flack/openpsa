@@ -101,7 +101,7 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
      */
     private function _populate_toolbar($handler_id)
     {
-        $workflow = new midcom\workflow\datamanager2;
+        $workflow = $this->get_workflow('datamanager2');
         $buttons = array();
         if ($this->_contact->can_do('midgard:update'))
         {
@@ -141,7 +141,7 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
 
         if ($this->_contact->can_do('midgard:delete'))
         {
-            $workflow = new midcom\workflow\delete($this->_contact);
+            $workflow = $this->get_workflow('delete', array('object' => $this->_contact));
             $buttons[] = $workflow->get_button("person/delete/{$this->_contact->guid}/");
         }
 

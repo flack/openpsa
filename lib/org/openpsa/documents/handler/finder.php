@@ -60,7 +60,7 @@ class org_openpsa_documents_handler_finder extends midcom_baseclasses_components
      */
     private function _populate_toolbar()
     {
-        $workflow = new midcom\workflow\datamanager2;
+        $workflow = $this->get_workflow('datamanager2');
         $buttons = array();
         if ($this->_request_data['directory']->can_do('midgard:create'))
         {

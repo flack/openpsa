@@ -44,7 +44,7 @@ class org_openpsa_projects_handler_project_crud extends midcom_baseclasses_compo
      */
     private function _add_read_toolbar($handler_id)
     {
-        $workflow = new midcom\workflow\datamanager2;
+        $workflow = $this->get_workflow('datamanager2');
         $buttons = array();
         if ($this->_object->can_do('midgard:update'))
         {

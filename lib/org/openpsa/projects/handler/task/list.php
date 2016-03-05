@@ -559,7 +559,7 @@ implements org_openpsa_widgets_grid_provider_client
         {
             return;
         }
-        $workflow = new midcom\workflow\datamanager2;
+        $workflow = $this->get_workflow('datamanager2');
 
         if (midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_projects_project'))
         {

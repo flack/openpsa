@@ -81,7 +81,7 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
              return;
         }
         $buttons = array();
-        $workflow = new midcom\workflow\datamanager2;
+        $workflow = $this->get_workflow('datamanager2');
         $buttons[] = $workflow->get_button("task/edit/{$this->_object->guid}/", array
         (
             MIDCOM_TOOLBAR_ACCESSKEY => 'e',
@@ -90,7 +90,7 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
         if (   $this->_object->reportedHours == 0
             && $this->_object->can_do('midgard:delete'))
         {
-            $delete_workflow = new midcom\workflow\delete($this->_object);
+            $delete_workflow = $this->get_workflow('delete', array('object' => $this->_object));
             $buttons[] = $delete_workflow->get_button("task/delete/{$this->_object->guid}/");
         }
 

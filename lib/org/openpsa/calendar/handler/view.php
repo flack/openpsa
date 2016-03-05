@@ -333,7 +333,7 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
             );
             if ($data['event']->can_do('midgard:delete'))
             {
-                $workflow = new midcom\workflow\delete($data['event']);
+                $workflow = $this->get_workflow('delete', array('object' => $data['event']));
                 $buttons[] = $workflow->get_button("event/delete/{$data['event']->guid}/");
             }
             $buttons[] = array

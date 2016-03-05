@@ -75,7 +75,7 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
 
         midcom::get()->head->set_pagetitle($this->_l10n->get('edit campaign'));
 
-        $workflow = new midcom\workflow\datamanager2($this->_controller);
+        $workflow = $this->get_workflow('datamanager2', array('controller' => $this->_controller));
         return $workflow->run();
     }
 
@@ -87,7 +87,7 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
     public function _handler_delete($handler_id, array $args, array &$data)
     {
         $this->_campaign = $this->_master->load_campaign($args[0]);
-        $workflow = new midcom\workflow\delete($this->_campaign);
+        $workflow = $this->get_workflow('delete', array('object' => $this->_campaign));
         return $workflow->run();
     }
 }

@@ -119,7 +119,11 @@ implements midcom_helper_datamanager2_interfaces_create
 
         midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get($this->_type)));
 
-        $workflow = new midcom\workflow\datamanager2($this->get_controller('create'), array($this, 'save_callback'));
+        $workflow = $this->get_workflow('datamanager2', array
+        (
+            'controller' => $this->get_controller('create'),
+            'save_callback' => array($this, 'save_callback')
+        ));
         return $workflow->run();
     }
 

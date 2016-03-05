@@ -107,7 +107,7 @@ implements midcom_helper_datamanager2_interfaces_create
             MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('back'),
             MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_left.png',
         );
-        $workflow = new midcom\workflow\datamanager2;
+        $workflow = $this->get_workflow('datamanager2');
         $buttons[] = $workflow->get_button($this->_request_data['url_prefix'] . "create/" . $this->_current_object->guid . "/", array
         (
             MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('add journal entry'),
@@ -136,7 +136,7 @@ implements midcom_helper_datamanager2_interfaces_create
 
         midcom::get()->head->set_pagetitle($this->_l10n->get('add journal entry'));
 
-        $workflow = new midcom\workflow\datamanager2($this->get_controller('create'));
+        $workflow = $this->get_workflow('datamanager2', array('controller' => $this->get_controller('create')));
         return $workflow->run();
     }
 
@@ -186,10 +186,10 @@ implements midcom_helper_datamanager2_interfaces_create
 
         midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('edit %s'), $this->_l10n->get('journal entry')));
 
-        $workflow = new midcom\workflow\datamanager2($data['controller']);
+        $workflow = $this->get_workflow('datamanager2', array('controller' => $data['controller']));
         if ($this->_journal_entry->can_do('midgard:delete'))
         {
-            $delete = new midcom\workflow\delete($this->_journal_entry);
+            $delete = $this->get_workflow('delete', array('object' => $this->_journal_entry));
             $workflow->add_dialog_button($delete, $url_prefix . "delete/" . $this->_journal_entry->guid . "/");
         }
         return $workflow->run();

@@ -66,7 +66,7 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
         }
         if ($this->_article->can_do('midgard:delete'))
         {
-            $delete = new midcom\workflow\delete($this->_article);
+            $delete = $this->get_workflow('delete', array('object' => $this->_article));
             $this->_view_toolbar->add_item($delete->get_button("delete/{$this->_article->guid}/"));
         }
     }
@@ -297,7 +297,7 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
         {
             return new midcom_response_relocate("delete/link/{$args[0]}/");
         }
-        $workflow = new midcom\workflow\delete($this->_article);
+        $workflow = $this->get_workflow('delete', array('object' => $this->_article));
         return $workflow->run();
     }
 }

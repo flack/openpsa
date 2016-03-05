@@ -225,7 +225,7 @@ implements org_openpsa_widgets_grid_provider_client
     {
         if ($this->_document->can_do('midgard:update'))
         {
-            $workflow = new midcom\workflow\datamanager2;
+            $workflow = $this->get_workflow('datamanager2');
             $this->_view_toolbar->add_item($workflow->get_button("document/edit/{$this->_document->guid}/", array
             (
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
@@ -233,7 +233,7 @@ implements org_openpsa_widgets_grid_provider_client
         }
         if ($this->_document->can_do('midgard:delete'))
         {
-            $workflow = new midcom\workflow\delete($this->_document);
+            $workflow = $this->get_workflow('delete', array('object' => $this->_document));
             $this->_view_toolbar->add_item($workflow->get_button("document/delete/{$this->_document->guid}/"));
         }
     }

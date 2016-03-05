@@ -75,7 +75,11 @@ class midcom_admin_folder_handler_metadata extends midcom_baseclasses_components
         $object_label = midcom_helper_reflector::get($this->_object)->get_object_label($this->_object);
         midcom::get()->head->set_pagetitle(sprintf($this->_l10n->get('edit metadata of %s'), $object_label));
 
-        $workflow = new midcom\workflow\datamanager2($this->_controller, array($this, 'save_callback'));
+        $workflow = $this->get_workflow('datamanager2', array
+        (
+            'controller' => $this->_controller,
+            'save_callback' => array($this, 'save_callback')
+        ));
         return $workflow->run();
     }
 

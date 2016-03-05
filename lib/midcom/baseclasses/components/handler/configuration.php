@@ -96,7 +96,7 @@ implements midcom_helper_datamanager2_interfaces_edit
 
         midcom::get()->head->set_pagetitle($this->_l10n_midcom->get('component configuration'));
 
-        $workflow = new midcom\workflow\datamanager2($this->_controller);
+        $workflow = $this->get_workflow('datamanager2', array('controller' => $this->_controller));
         if (   method_exists($this, '_load_datamanagers')
             && method_exists($this, '_load_objects'))
         {
@@ -153,7 +153,7 @@ implements midcom_helper_datamanager2_interfaces_edit
         $data['datamanagers'] = $this->_load_datamanagers();
 
         midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('recreate images for folder %s'), $data['topic']->extra));
-        $workflow = new midcom\workflow\viewer;
+        $workflow = $this->get_workflow('viewer');
         return $workflow->run();
     }
 

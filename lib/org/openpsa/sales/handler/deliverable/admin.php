@@ -110,7 +110,11 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
         midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/' . $this->_component . '/sales.js');
         midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('edit %s'), $this->_l10n->get('deliverable')));
 
-        $workflow = new midcom\workflow\datamanager2($data['controller'], array($this, 'save_callback'));
+        $workflow = $this->get_workflow('datamanager2', array
+        (
+            'controller' => $data['controller'],
+            'save_callback' => array($this, 'save_callback')
+        ));
         return $workflow->run();
     }
 
@@ -183,9 +187,12 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
     public function _handler_delete($handler_id, array $args, array &$data)
     {
         $deliverable = new org_openpsa_sales_salesproject_deliverable_dba($args[0]);
-        $workflow = new midcom\workflow\delete($deliverable);
         $salesproject = $deliverable->get_parent();
-        $workflow->success_url = "salesproject/{$salesproject->guid}/";
+        $workflow = $this->get_workflow('delete', array
+        (
+            'object' => $deliverable,
+            'success_url' => "salesproject/{$salesproject->guid}/"
+        ));
         return $workflow->run();
     }
 }

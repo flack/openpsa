@@ -21,7 +21,7 @@ class org_openpsa_projects_handler_frontpage extends midcom_baseclasses_componen
     public function _handler_frontpage($handler_id, array $args, array &$data)
     {
         midcom::get()->auth->require_valid_user();
-        $workflow = new midcom\workflow\datamanager2;
+        $workflow = $this->get_workflow('datamanager2');
         if (midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_projects_project'))
         {
             $this->_view_toolbar->add_item($workflow->get_button('project/new/', array

@@ -196,7 +196,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
 
         if ($this->_person->can_do('midgard:update'))
         {
-            $workflow = new midcom\workflow\delete($this->_person);
+            $workflow = $this->get_workflow('delete', array('object' => $this->_person));
             $this->_view_toolbar->add_item($workflow->get_button("account/delete/{$this->_person->guid}/"));
         }
     }
@@ -247,7 +247,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
             return new midcom_response_relocate("view/" . $this->_person->guid . "/");
         }
 
-        $workflow = new delete($this->_person);
+        $workflow = new delete(array('object' => $this->_person));
         if ($workflow->get_state() == delete::CONFIRMED)
         {
             if (!$this->_account->delete())
