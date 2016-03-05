@@ -8,11 +8,7 @@
 namespace midcom\datamanager\test;
 
 use openpsa_testcase;
-use midcom_db_topic;
-use midcom\datamanager\controller;
-use midcom\datamanager\schemadb;
 use midcom\datamanager\schema;
-use midcom\datamanager\storage\container\nullcontainer;
 
 class schemaTest extends openpsa_testcase
 {

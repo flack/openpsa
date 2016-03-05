@@ -6,13 +6,12 @@
 namespace midcom\datamanager\extension\type;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\Form\AbstractType;
 use midcom\datamanager\extension\helper;
 use midcom;
-use Symfony\Component\Form\FormInterface;
-use Symfony\Component\Form\FormView;
 use midcom\datamanager\extension\transformer\photo as transformer;
 use midcom\datamanager\validation\photo as constraint;
 use midcom\datamanager\extension\compat;
@@ -22,6 +21,16 @@ use midcom\datamanager\extension\compat;
  */
 class photo extends AbstractType
 {
+    /**
+     *  Symfony 2.6 compat
+     *
+     * {@inheritDoc}
+     */
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    {
+        $this->configureOptions($resolver);
+    }
+
     /**
      * {@inheritdoc}
      */

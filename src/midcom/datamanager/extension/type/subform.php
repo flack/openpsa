@@ -6,12 +6,11 @@
 namespace midcom\datamanager\extension\type;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\Options;
-use Symfony\Component\Form\AbstractType;
 use midcom\datamanager\extension\helper;
 use midcom;
-use DateTime;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\Extension\Core\EventListener\ResizeFormListener;
@@ -24,6 +23,16 @@ use midcom\datamanager\extension\compat;
  */
 class subform extends CollectionType
 {
+    /**
+     *  Symfony 2.6 compat
+     *
+     * {@inheritDoc}
+     */
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    {
+        $this->configureOptions($resolver);
+    }
+
     /**
      * {@inheritdoc}
      */

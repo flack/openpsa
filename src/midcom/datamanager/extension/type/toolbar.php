@@ -6,10 +6,10 @@
 namespace midcom\datamanager\extension\type;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\AbstractType;
 use midcom;
-use Symfony\Component\Form\FormView;
 use midcom\datamanager\controller;
 use midcom\datamanager\extension\compat;
 
@@ -18,6 +18,16 @@ use midcom\datamanager\extension\compat;
  */
 class toolbar extends AbstractType
 {
+    /**
+     *  Symfony 2.6 compat
+     *
+     * {@inheritDoc}
+     */
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    {
+        $this->configureOptions($resolver);
+    }
+
     /**
      * {@inheritdoc}
      */
