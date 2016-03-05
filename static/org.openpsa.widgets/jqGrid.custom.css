@@ -8,7 +8,7 @@
     display: none;
 }
 
-.ui-button.ui-jqgrid-titlebar-maximize {
+a.ui-jqgrid-titlebar-maximize {
     height: 18px;
     margin: -8px 0 0;
     position: absolute;

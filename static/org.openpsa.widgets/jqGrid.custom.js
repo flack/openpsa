@@ -100,7 +100,7 @@ var org_openpsa_grid_resize =
     {
         $(items).each(function()
         {
-            $('<a role="link" class="ui-button ui-icon ui-icon-circle-zoomin ui-jqgrid-titlebar-maximize"></a>')
+            $('<a role="link" class="ui-jqgrid-titlebar-maximize"><span class="ui-icon ui-icon-circle-zoomin"></a></a>')
                 .bind('click', function()
                 {
                     var container = $(this).closest('.ui-jqgrid').parent();
@@ -144,6 +144,13 @@ var org_openpsa_grid_resize =
                         $(org_openpsa_grid_resize.containment).css('overflow', 'hidden');
                     }
                     $(window).trigger('resize');
+                })
+                .hover(function()
+                {
+                    $(this).addClass('ui-state-hover');
+                }, function()
+                {
+                    $(this).removeClass('ui-state-hover');
                 })
                 .appendTo($(this));
             if ($(this).closest('.ui-jqgrid').find('.ui-jqgrid-btable').data('maximized'))
