@@ -49,12 +49,12 @@ if ($data['view_identifier'] != 'my_tasks')
         $grid->set_column('customer', $data['l10n']->get('customer'), 'width: 55, classes: "ui-ellipsis"', 'string');
     }
     $grid->set_column('manager', $data['l10n']->get('manager'), 'width: 60, classes: "ui-ellipsis"', 'string')
-        ->set_column('start', $data['l10n']->get('start'), 'width: 80, formatter: "date", align: "center", fixed: true')
-        ->set_column('end', $data['l10n']->get('end'), 'width: 80, formatter: "date", align: "center", fixed: true');
+        ->set_column('start', $data['l10n']->get('start'), 'width: 80, formatter: "date", align: "right", fixed: true')
+        ->set_column('end', $data['l10n']->get('end'), 'width: 80, formatter: "date", align: "right", fixed: true');
 }
 else
 {
-    $grid->set_column('end', $data['l10n']->get('deadline'), 'width: 80, formatter: "date", align: "center", fixed: true')
+    $grid->set_column('end', $data['l10n']->get('deadline'), 'width: 80, formatter: "date", align: "right", fixed: true')
         ->set_column('status', $data['l10n']->get('status'), 'width: 100, classes: "ui-ellipsis"', 'float')
         ->set_option('caption', $data['l10n']->get($data['view_identifier']));
 }

@@ -118,7 +118,7 @@ else
     $grid->set_column('state', $data['l10n']->get('state'), 'hidden: true', 'number');
 }
 $grid->set_column('owner', $data['l10n']->get('owner'), 'width: 70, classes: "ui-ellipsis"', 'string')
-->set_column('closeest', $data['l10n']->get('estimated closing date'), 'width: 85, align: "center", formatter: "date", fixed: true')
+->set_column('closeest', $data['l10n']->get('estimated closing date'), 'width: 85, align: "right", formatter: "date", fixed: true')
 ->set_column('value', $data['l10n']->get('value'), 'width: 60, align: "right", summaryType: "sum", formatter: "number"');
 if ($data['mode'] == 'active')
 {

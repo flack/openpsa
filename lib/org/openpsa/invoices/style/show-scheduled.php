@@ -19,7 +19,7 @@ $grid->set_option('loadonce', true)
     'showSummaryOnHide' => true
 ));
 
-$grid->set_column('time', $data['l10n_midcom']->get('date'), 'width: 80, fixed: true, align: "center", formatter: "date"')
+$grid->set_column('time', $data['l10n_midcom']->get('date'), 'width: 80, fixed: true, align: "right", formatter: "date"')
 ->set_column('month', '', '', 'string')
 ->set_column('customer', $data['l10n']->get('customer'), 'width: 100, classes: "ui-ellipsis"', 'string')
 ->set_column('customerContact', $data['l10n']->get('customer contact'), 'width: 100, classes: "ui-ellipsis"', 'string')

@@ -116,7 +116,7 @@ $grid = new org_openpsa_widgets_grid($grid_id, 'local');
 
 $grid->set_column('number', $l10n->get('invoice number'), 'width: 120', 'string')
     ->set_column('status', $l10n->get('invoice status'), '', 'string')
-    ->set_column('date', $l10n->get($data['date_field']), 'width: 80, fixed: true, formatter: "date", align: "center"')
+    ->set_column('date', $l10n->get($data['date_field']), 'width: 80, fixed: true, formatter: "date", align: "right"')
     ->set_column('month', '', 'hidden: true', 'number')
     ->set_column('year', '', 'hidden: true')
     ->set_column('customer', $l10n->get('customer'), 'width: 100', 'string')

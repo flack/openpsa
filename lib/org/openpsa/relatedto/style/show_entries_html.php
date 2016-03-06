@@ -91,7 +91,7 @@
                   {name:'index_name',index:'index_name', hidden: true},
                   {name:'name', index: 'index_name', width: 100 },
                   {name:'description', index: 'description', classes: 'longtext' },
-                  {name:'date', index: 'date', align: 'center', width: 125, formatter: 'date', fixed: true},
+                  {name:'date', index: 'date', align: 'right', width: 125, formatter: 'date', fixed: true},
                   {name:'index_creator', index: 'index_creator', hidden: true},
                   {name:'creator', index: 'index_creator', width: 150, fixed: true},
                   {name:'closed',index:'closed', width: 60, fixed: true }

@@ -54,7 +54,7 @@ foreach ($reports['reports'] as $report)
 }
 $grid = new org_openpsa_widgets_grid($grid_id, 'local');
 
-$grid->set_column('date', $data['l10n']->get('date'), "width: 80, align: 'center', formatter: 'date', fixed: true")
+$grid->set_column('date', $data['l10n']->get('date'), "width: 80, align: 'right', formatter: 'date', fixed: true")
     ->set_column('reporter', $data['l10n']->get('person'), "width: 80, classes: 'ui-ellipsis'", 'string');
 
 if ($data['mode'] != 'simple')

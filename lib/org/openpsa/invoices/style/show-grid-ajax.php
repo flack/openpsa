@@ -53,7 +53,7 @@ if (!is_a($data['customer'], 'org_openpsa_contacts_person_dba'))
     $grid->set_column('contact', $data['l10n']->get('customer contact'), 'sortable: false, classes: "ui-ellipsis"');
 }
 
-$grid->set_column('due', $data['l10n']->get('due'), 'width: 80, fixed: true, align: "center", formatter: "date"')
+$grid->set_column('due', $data['l10n']->get('due'), 'width: 80, fixed: true, align: "right", formatter: "date"')
     ->set_column('sum', $data['l10n']->get('amount'), 'width: 80, fixed: true, align: "right"', 'number');
 if ($data['list_type'] != 'paid')
 {
@@ -61,7 +61,7 @@ if ($data['list_type'] != 'paid')
 }
 else
 {
-    $grid->set_column('paid', $data['l10n']->get('paid date'), 'width: 80, align: "center", formatter: "date"');
+    $grid->set_column('paid', $data['l10n']->get('paid date'), 'width: 80, align: "right", formatter: "date"');
 }
 
 $footer_data = array
