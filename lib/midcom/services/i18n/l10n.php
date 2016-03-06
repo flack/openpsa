@@ -432,6 +432,14 @@ class midcom_services_i18n_l10n
     }
 
     /**
+     * @return midcom_services_i18n_formatter
+     */
+    public function get_formatter()
+    {
+        return new midcom_services_i18n_formatter($this->_language);
+    }
+
+    /**
      * Checks if a localized string for $string exists. If $language is unset,
      * the current language is used.
      *
