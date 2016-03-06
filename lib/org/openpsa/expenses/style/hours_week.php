@@ -8,15 +8,14 @@ $grid = new org_openpsa_widgets_grid($grid_id, 'local');
 $grid->set_column('task', $data['l10n']->get('task'), '', 'string')
 ->set_column('person', $data['l10n']->get('person'), '', 'string');
 
-$date_tooltips = array();
+$formatter = $data['l10n']->get_formatter();
 $i = 6;
 while ($time < $data['week_end'])
 {
     $date_identifier = date('Y-m-d', $time);
-    $grid->set_column($date_identifier, strftime('%a', $time), 'fixed: true, width: 40, summaryType: calculate_subtotal, align: "right"', 'float');
+    $grid->set_column($date_identifier, strftime('%a', $time), 'fixed: true, headerTitle: "' . $formatter->date($time) . '" , width: 40, summaryType: calculate_subtotal, align: "right"', 'float');
     // Hop to next day
     $date_columns[] = $date_identifier;
-    $date_tooltips[$i] = date($data['l10n_midcom']->get('short date'), $time);
     $time = $time + 3600 * 24;
     $i += 2;
 }
@@ -62,7 +61,6 @@ org_openpsa_grid_helper.bind_grouping_switch('&(grid_id);');
 
 var grid = $("#&(grid_id);"),
 date_columns = <?php echo json_encode($date_columns); ?>,
-date_tooltips = <?php echo json_encode($date_tooltips); ?>,
 totals = {},
 day_total;
 $.each(date_columns, function(index, name)
@@ -76,11 +74,5 @@ $.each(date_columns, function(index, name)
     day_total = 0;
 });
 grid.jqGrid('footerData', 'set', totals);
-
-$.each(date_tooltips, function(index, value)
-{
-    org_openpsa_grid_helper.set_tooltip("&(grid_id);", parseInt(index), value);
-});
-
 </script>
 
