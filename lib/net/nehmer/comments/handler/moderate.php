@@ -123,7 +123,7 @@ class net_nehmer_comments_handler_moderate extends midcom_baseclasses_components
                 $message['content'] .= $this->_l10n->get('moderation history').":\n\n";
                 foreach ($logs as $time => $log)
                 {
-                    $reported = strftime('%x %X', strtotime("{$time}Z"));
+                    $reported = $this->_l10n->get_formatter()->datetime(strtotime("{$time}Z"));
                     $message['content'] .= $this->_l10n->get(sprintf('%s: %s by %s (from %s)', "$reported:\n", $this->_l10n->get($log['action']), $log['reporter'], $log['ip'])) . "\n\n";
                 }
             }

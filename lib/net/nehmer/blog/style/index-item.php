@@ -11,8 +11,8 @@ else if ($view_counter == ($article_count - 1))
 {
     $class_str = ' last';
 }
-
-$published = sprintf($data['l10n']->get('posted on %s.'), "<abbr title=\"" . strftime('%Y-%m-%dT%H:%M:%S%z', $data['article']->metadata->published) . "\">" . strftime('%x %X', $data['article']->metadata->published) . "</abbr>");
+$published = $data['l10n']->get_formatter()->datetime($data['article']->metadata->published);
+$published = sprintf($data['l10n']->get('posted on %s.'), "<abbr title=\"" . strftime('%Y-%m-%dT%H:%M:%S%z', $data['article']->metadata->published) . "\">" . $published . "</abbr>");
 
 if (array_key_exists('ajax_comments_enable', $data))
 {

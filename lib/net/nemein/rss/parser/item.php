@@ -25,7 +25,8 @@ class net_nemein_rss_parser_item extends SimplePie_Item
         $title = parent::get_title();
         if (empty($title))
         {
-            $title = midcom::get()->i18n->get_string('untitled', 'net.nemein.rss');
+            $l10n = midcom::get()->i18n->get_l10n('net.nemein.rss');
+            $title = $l10n->get('untitled');
             $description = $this->get_description();
             $date = $this->get_date('U');
             if (!empty($description))
@@ -33,10 +34,10 @@ class net_nemein_rss_parser_item extends SimplePie_Item
                 // Use 20 first characters from the description as title
                 $title = substr(strip_tags($this->_decode($description)), 0, 20) . '...';
             }
-            elseif (!empty($date))
+            else if (!empty($date))
             {
                 // Use publication date as title
-                $title = strftime('%x', $date);
+                $title = $l10n->get_formatter()->date($date);
             }
         }
         return $title;

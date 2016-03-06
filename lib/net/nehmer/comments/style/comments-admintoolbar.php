@@ -1,7 +1,7 @@
 <?php
 // Available request data: comments, objectguid, comment, display_datamanager
 $comment = $data['comment'];
-
+$formatter = $data['l10n']->get_formatter();
 $creator = $comment->metadata->creator;
 $created = $comment->metadata->created;
 
@@ -16,7 +16,7 @@ else
 }
 $ip = $comment->ip ?: '?.?.?.?';
 $metadata = sprintf($data['l10n']->get('creator: %s, created %s, source ip %s.'),
-    $username, strftime('%x %X', $created), $ip);
+    $username, $formatter->datetime($created), $ip);
 ?>
 <p class="audit">
     &(metadata);

@@ -186,7 +186,17 @@ class midcom_helper_datamanager2_type_date extends midcom_helper_datamanager2_ty
         {
             return '';
         }
-        $format = $this->_get_format('short date csv');
+        $format = $this->_l10n_midcom->get('short date csv');
+        $time_format = $this->get_time_format();
+        if ($time_format == 'short')
+        {
+            $format .= ' H:i';
+        }
+        else if ($time_format == 'medium')
+        {
+            $format .= ' H:i:s';
+        }
+
         return $this->value->format($format);
     }
 
@@ -196,32 +206,29 @@ class midcom_helper_datamanager2_type_date extends midcom_helper_datamanager2_ty
         {
             return '';
         }
-        $format = $this->_get_format();
-        return htmlspecialchars($this->value->format($format));
+        return $this->_l10n->get_formatter()->date($this->value, 'medium', $this->get_time_format());
     }
 
     /**
-     * Helper function that returns the localized date format with or without time
-     *
-     * @param string $base The format we want to use
+     * Helper function that returns the time format
      */
-    private function _get_format($base = 'short date')
+    private function get_time_format()
     {
-        $format = $this->_l10n_midcom->get($base);
+        $format = 'none';
         // FIXME: This is not exactly an elegant way to do this
         $widget_conf = $this->storage->_schema->fields[$this->name]['widget_config'];
         if (    $this->storage_type != 'ISO_DATE'
             && (   !array_key_exists('show_time', $widget_conf)
                 || $widget_conf['show_time']))
         {
-            $format .= ' H:i';
             if (   array_key_exists('hide_seconds', $widget_conf)
                 && !$widget_conf['hide_seconds'])
             {
-                $format .= ':s';
+                return 'medium';
             }
+            return 'short';
         }
-        return $format;
+        return 'none';
     }
 
     /**
@@ -253,14 +260,14 @@ class midcom_helper_datamanager2_type_date extends midcom_helper_datamanager2_ty
             && $this->value < new DateTime($this->min_date))
         {
             $min_date = new DateTime($this->min_date);
-            $this->validation_error = sprintf($this->_l10n->get('type date: this date must be %s or later'), htmlspecialchars($min_date->format($this->_l10n_midcom->get('short date'))));
+            $this->validation_error = sprintf($this->_l10n->get('type date: this date must be %s or later'), htmlspecialchars($this->l10n->get_formatter()->date($min_date)));
             return false;
         }
         if (   !empty($this->max_date)
             && $this->value > new DateTime($this->max_date))
         {
             $max_date = new DateTime($this->max_date);
-            $this->validation_error = sprintf($this->_l10n->get('type date: this date must be %s or earlier'), htmlspecialchars($max_date->format($this->_l10n_midcom->get('short date'))));
+            $this->validation_error = sprintf($this->_l10n->get('type date: this date must be %s or earlier'), htmlspecialchars($this->l10n->get_formatter()->date($max_date)));
             return false;
         }
 

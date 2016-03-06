@@ -30,11 +30,17 @@ class net_nehmer_static_handler_autoindex extends midcom_baseclasses_components_
     protected $_index_entries = array();
 
     /**
+     * @var midcom_services_i18n_formatter
+     */
+    private $formatter;
+
+    /**
      * Maps the content topic from the request data to local member variables.
      */
     public function _on_initialize()
     {
         $this->_content_topic = $this->_request_data['content_topic'];
+        $this->formatter = $this->_l10n->get_formatter();
     }
 
     /**
@@ -164,7 +170,7 @@ class net_nehmer_static_handler_autoindex extends midcom_baseclasses_components_
         $view[$filename]['size'] = $article->metadata->size;
         $view[$filename]['desc'] = $datamanager->types['title']->value;
         $view[$filename]['type'] = 'text/html';
-        $view[$filename]['lastmod'] = strftime('%x %X', $article->metadata->revised);
+        $view[$filename]['lastmod'] = $this->formatter->datetime($article->metadata->revised);
         $view[$filename]['view_article'] = $datamanager->get_content_html();
 
         // Stop the press, if blobs should not be visible
@@ -210,7 +216,7 @@ class net_nehmer_static_handler_autoindex extends midcom_baseclasses_components_
             'size' => $data['formattedsize'],
             'desc' => $data['filename'],
             'url' => $data['mimetype'],
-            'lastmod' => strftime('%x %X', $data['lastmod'])
+            'lastmod' => $this->formatter->datetime($data['lastmod'])
         );
     }
 }

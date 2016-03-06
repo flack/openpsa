@@ -148,22 +148,22 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
             return;
         }
         $customer = $salesproject->get_customer();
-
+        $l10n = $this->_i18n->get_l10n('org.openpsa.sales');
         if (is_null($next_run))
         {
-            $next_run_label = $this->_i18n->get_string('no more cycles', 'org.openpsa.sales');
+            $next_run_label = $l10n->get('no more cycles');
         }
         else
         {
-            $next_run_label = strftime('%x %X', $next_run);
+            $next_run_label = $l10n->get_formatter()->date($next_run);
         }
 
         // Title for long notifications
-        $message['title'] = sprintf($this->_i18n->get_string('subscription cycle %d closed for agreement %s (%s)', 'org.openpsa.sales'), $cycle_number, $this->_deliverable->title, $customer->get_label());
+        $message['title'] = sprintf($l10n->get('subscription cycle %d closed for agreement %s (%s)'), $cycle_number, $this->_deliverable->title, $customer->get_label());
 
         // Content for long notifications
         $message['content'] = "{$message['title']}\n\n";
-        $message['content'] .= $this->_i18n->get_string('invoiced', 'org.openpsa.sales') . ": {$invoiced_sum}\n\n";
+        $message['content'] .= $l10n->get('invoiced') . ": {$invoiced_sum}\n\n";
 
         if ($invoiced_sum > 0)
         {
@@ -175,7 +175,7 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
 
         if (count($tasks_completed) > 0)
         {
-            $message['content'] .= "\n" . $this->_i18n->get_string('tasks completed', 'org.openpsa.sales') . ":\n";
+            $message['content'] .= "\n" . $l10n->get('tasks completed') . ":\n";
 
             foreach ($tasks_completed as $task)
             {
@@ -185,7 +185,7 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
 
         if (count($tasks_not_completed) > 0)
         {
-            $message['content'] .= "\n" . $this->_i18n->get_string('tasks not completed', 'org.openpsa.sales') . ":\n";
+            $message['content'] .= "\n" . $l10n->get('tasks not completed') . ":\n";
 
             foreach ($tasks_not_completed as $task)
             {
@@ -195,18 +195,18 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
 
         if ($new_task)
         {
-            $message['content'] .= "\n" . $this->_i18n->get_string('created new task', 'org.openpsa.sales') . ":\n";
+            $message['content'] .= "\n" . $l10n->get('created new task') . ":\n";
             $message['content'] .= "{$task->title}\n";
         }
 
-        $message['content'] .= "\n" . $this->_i18n->get_string('next run', 'org.openpsa.sales') . ": {$next_run_label}\n\n";
+        $message['content'] .= "\n" . $l10n->get('next run') . ": {$next_run_label}\n\n";
         $message['content'] .= $this->_i18n->get_string('agreement', 'org.openpsa.projects') . ":\n";
 
         $url = $siteconfig->get_node_full_url('org.openpsa.sales');
         $message['content'] .= $url . 'deliverable/' . $this->_deliverable->guid . '/';
 
         // Content for short notifications
-        $message['abstract'] = sprintf($this->_i18n->get_string('%s: closed subscription cycle %d for agreement %s. invoiced %d. next cycle %s', 'org.openpsa.sales'), $customer->get_label(), $cycle_number, $this->_deliverable->title, $invoiced_sum, $next_run_label);
+        $message['abstract'] = sprintf($l10n->get('%s: closed subscription cycle %d for agreement %s. invoiced %d. next cycle %s'), $customer->get_label(), $cycle_number, $this->_deliverable->title, $invoiced_sum, $next_run_label);
 
         // Send the message out
         org_openpsa_notifications::notify('org.openpsa.sales:new_subscription_cycle', $owner->guid, $message);

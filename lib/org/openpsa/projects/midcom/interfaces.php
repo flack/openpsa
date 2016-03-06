@@ -144,7 +144,7 @@ implements midcom_services_permalinks_resolver, org_openpsa_contacts_duplicates_
                 $hr->date = $event->start;
                 $hr->hours = round((($event->end - $event->start) / 3600), 2);
                 // TODO: Localize ? better indicator that this is indeed from event ??
-                $hr->description = "event: {$event->title} " . $event->format_timeframe() . ", {$event->location}\n";
+                $hr->description = "event: {$event->title} " . $this->_l10n->get_formatter()->timeframe($event->start, $event->end) . ", {$event->location}\n";
                 $hr->description .= "\n{$event->description}\n";
                 break;
             default:

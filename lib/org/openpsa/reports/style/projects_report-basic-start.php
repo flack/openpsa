@@ -3,7 +3,8 @@
 $query = $data['query_data'];
 if (empty($data['title']))
 {
-    $data['title'] = sprintf($data['l10n']->get('basic report for %s - %s'), strftime('%x', $query['start']), strftime('%x', $query['end']));
+    $formatter = $data['l10n']->get_formatter();
+    $data['title'] = sprintf($data['l10n']->get('basic report for %s - %s'), $formatter->date($query['start']), $formatter->date($query['end']));
 }
 ?>
 <!DOCTYPE html>

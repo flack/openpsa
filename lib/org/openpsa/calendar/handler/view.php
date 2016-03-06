@@ -307,7 +307,7 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
         midcom::get()->skip_page_style = true;
 
         // Get the requested event object
-        $this->_request_data['event'] = new org_openpsa_calendar_event_dba($args[0]);
+        $data['event'] = new org_openpsa_calendar_event_dba($args[0]);
 
         $this->_load_datamanager();
 
@@ -352,18 +352,19 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
             if (midcom::get()->auth->user)
             {
                 $user = midcom::get()->auth->user->get_storage();
+                $date = $this->_l10n->get_formatter()->date();
                 $relatedto_button_settings = array
                 (
                     'wikinote'      => array
                     (
                         'component' => 'net.nemein.wiki',
                         'node'  => false,
-                        'wikiword'  => str_replace('/', '-', sprintf($this->_l10n->get($this->_config->get('wiki_title_skeleton')), $this->_request_data['event']->title, strftime('%x'), $user->name)),
+                        'wikiword'  => str_replace('/', '-', sprintf($this->_l10n->get($this->_config->get('wiki_title_skeleton')), $data['event']->title, $date, $user->name)),
                     ),
                 );
             }
             $this->_view_toolbar->add_items($buttons);
-            org_openpsa_relatedto_plugin::common_node_toolbar_buttons($this->_view_toolbar, $this->_request_data['event'], $this->_component, $relatedto_button_settings);
+            org_openpsa_relatedto_plugin::common_node_toolbar_buttons($this->_view_toolbar, $data['event'], $this->_component, $relatedto_button_settings);
         }
     }
 

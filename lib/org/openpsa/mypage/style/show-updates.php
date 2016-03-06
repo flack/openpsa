@@ -4,7 +4,7 @@ $view_types = array
     'today',
     'yesterday',
 );
-
+$formatter = $data['l10n']->get_formatter();
 foreach ($view_types as $type)
 {
     if ($data[$type])
@@ -40,7 +40,7 @@ foreach ($view_types as $type)
                     $editor = new midcom_db_person($document->creator);
                 }
                 $contact = new org_openpsa_widgets_contact($editor);
-                echo "<li class=\"updated-{$class}\"><a href=\"{$url}\"{$onclick}>{$document->title}</a> <div class=\"metadata\">" . strftime("%x %X", $document->edited) . " (" . $contact->show_inline() . ")</div></li>\n";
+                echo "<li class=\"updated-{$class}\"><a href=\"{$url}\"{$onclick}>{$document->title}</a> <div class=\"metadata\">" . $formatter->datetime($document->edited) . " (" . $contact->show_inline() . ")</div></li>\n";
             }
             catch (midcom_error $e){}
         }

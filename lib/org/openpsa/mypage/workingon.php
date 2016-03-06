@@ -107,7 +107,9 @@ class org_openpsa_mypage_workingon
             // Generate a message
             if ($description == "")
             {
-                $description = sprintf(midcom::get()->i18n->get_string('worked from %s to %s', 'org.openpsa.mypage'), strftime('%x %X', $this->start), strftime('%x %X', time()));
+                $l10n = midcom::get()->i18n->get_l10n('org.openpsa.mypage');
+                $formatter = $l10n->get_formatter();
+                $description = sprintf($l10n->get('worked from %s to %s'), $formatter->time($this->start), $formatter->time());
             }
 
             // Do the actual report

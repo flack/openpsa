@@ -2,6 +2,7 @@
 $grid = $data['grid'];
 $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 $rows = array();
+$formatter = $data['l10n']->get_formatter();
 
 $state_labels = array
 (
@@ -89,12 +90,8 @@ foreach ($data['salesprojects'] as $salesproject)
     $action = $salesproject->prev_action;
     if ($action['type'] != 'noaction')
     {
-        $format = $data['l10n_midcom']->get('short date');
-        if ($action['type'] == 'event')
-        {
-            $format .= ' H:i';
-        }
-        $row['prev_action'] = "<a href=\"{$salesproject_url}#{$action['obj']->guid}\" class=\"{$action['type']}\">" . date($format, $action['time']) . ": {$action['obj']->title}</a>";
+        $format = ($action['type'] == 'event') ? 'datetime' : 'date';
+        $row['prev_action'] = "<a href=\"{$salesproject_url}#{$action['obj']->guid}\" class=\"{$action['type']}\">" . $formatter->{$format}($action['time']) . ": {$action['obj']->title}</a>";
     }
 
     $row['next_action'] = '';
@@ -102,12 +99,8 @@ foreach ($data['salesprojects'] as $salesproject)
     $action = $salesproject->next_action;
     if ($action['type'] != 'noaction')
     {
-        $format = $data['l10n_midcom']->get('short date');
-        if ($action['type'] == 'event')
-        {
-            $format .= ' H:i';
-        }
-        $row['next_action'] = "<a href=\"{$salesproject_url}#{$action['obj']->guid}\" class=\"{$action['type']}\">" . date($format, $action['time']) . ": {$action['obj']->title}</a>";
+        $format = ($action['type'] == 'event') ? 'datetime' : 'date';
+        $row['next_action'] = "<a href=\"{$salesproject_url}#{$action['obj']->guid}\" class=\"{$action['type']}\">" . $formatter->{$format}($action['time']) . ": {$action['obj']->title}</a>";
     }
     $rows[] = $row;
 }

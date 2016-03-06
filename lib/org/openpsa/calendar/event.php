@@ -77,7 +77,8 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
         {
             return $this->title;
         }
-        return strftime('%x', $this->start) . " {$this->title}";
+        $l10n = midcom::get()->i18n->get_l10n('org.openpsa.calendar');
+        return $l10n->get_formatter()->date($this->start) . " {$this->title}";
     }
 
     function get_parent_guid_uncached()
@@ -515,33 +516,6 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
     }
 
     /**
-     * Returns a string describing $this->start - $this->end
-     */
-    function format_timeframe()
-    {
-        $startday = strftime('%a %x', $this->start);
-        $endday = strftime('%a %x', $this->end);
-        $starttime = strftime('%H:%M', $this->start);
-        $endtime = strftime('%H:%M %Z', $this->end);
-
-        $ret = $startday;
-        if ($startday == $endday)
-        {
-            $ret .= ',';
-        }
-
-        $ret .= ' ' . $starttime . ' - ';
-
-        if ($startday != $endday)
-        {
-            $ret .= $endday . ' ';
-        }
-        $ret .= $endtime;
-
-        return $ret;
-    }
-
-    /**
      * Returns a string describing the event and its participants
      */
     function details_text($display_title = true, $nl = "\n")
@@ -553,7 +527,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
             $str .= sprintf($l10n->get('title: %s') . $nl, $this->title);
         }
         $str .= sprintf($l10n->get('location: %s') . $nl, $this->location);
-        $str .= sprintf($l10n->get('time: %s') . $nl, $this->format_timeframe());
+        $str .= sprintf($l10n->get('time: %s') . $nl, $l10n->get_formatter()->timeframe($this->start, $this->end));
         $str .= sprintf($l10n->get('participants: %s') . $nl, $this->implode_members($this->participants));
         //Not supported yet
         //$str .= sprintf($l10n->get('resources: %s') . $nl, $this->implode_members($this->resources));

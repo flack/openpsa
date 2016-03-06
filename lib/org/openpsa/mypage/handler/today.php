@@ -60,7 +60,7 @@ class org_openpsa_mypage_handler_today extends midcom_baseclasses_components_han
 
         $this->_populate_toolbar();
 
-        $data['title'] = strftime($data['requested_time']);
+        $data['title'] = $this->_l10n->get_formatter()->date(strtotime($data['requested_time']));
         midcom::get()->head->set_pagetitle($data['title']);
 
         // Add the JS file for workingon widget

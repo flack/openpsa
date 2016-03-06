@@ -10,7 +10,7 @@ if ($data['projects_url'])
 <tr class="hour_report &(data['class']);">
     <td class="time">
         <?php
-        echo date('H:i', $data['time']);
+        echo $data['l10n']->get_formatter()->time($data['time']);
         ?>
     </td>
     <td>

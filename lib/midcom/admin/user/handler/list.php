@@ -295,14 +295,14 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
 
         $mail->body = $_POST['body'];
         $mail->subject = $_POST['subject'];
-
+        $now = time();
         $mail->parameters = array
         (
             'PASSWORD' => $password,
             'FROM' => $this->_config->get('message_sender'),
-            'LONGDATE' => strftime('%c'),
-            'SHORTDATE' => strftime('%x'),
-            'TIME' => strftime('%X'),
+            'LONGDATE' => $this->_l10n->get_formatter()->datetime($now, 'full'),
+            'SHORTDATE' => $this->_l10n->get_formatter()->date($now),
+            'TIME' => $this->_l10n->get_formatter()->time($now),
             'FIRSTNAME' => $person->firstname,
             'LASTNAME' => $person->lastname,
             'USERNAME' => $account->get_username(),
@@ -340,6 +340,8 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
     {
         // Set page title and default variables
         $data['view_title'] = $this->_l10n->get('batch generate passwords');
+        $formatter = $this->_l10n->get_formatter();
+        $now = time();
         $data['variables'] = array
         (
             '__FIRSTNAME__' => $this->_l10n->get('firstname'),
@@ -348,9 +350,9 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
             '__EMAIL__' => $this->_l10n->get('email'),
             '__PASSWORD__' => $this->_l10n->get('password'),
             '__FROM__' => $this->_l10n->get('sender'),
-            '__LONGDATE__' => sprintf($this->_l10n->get('long dateformat (%s)'), strftime('%c')),
-            '__SHORTDATE__' => sprintf($this->_l10n->get('short dateformat (%s)'), strftime('%x')),
-            '__TIME__' => sprintf($this->_l10n->get('current time (%s)'), strftime('%X')),
+            '__LONGDATE__' => sprintf($this->_l10n->get('long dateformat (%s)'), $formatter->datetime($now, 'full')),
+            '__SHORTDATE__' => sprintf($this->_l10n->get('short dateformat (%s)'), $formatter->date($now)),
+            '__TIME__' => sprintf($this->_l10n->get('current time (%s)'), $formatter->time($now)),
         );
     }
 

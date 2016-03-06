@@ -2,6 +2,7 @@
 $view = $data['object_view'];
 $invoice = $data['object'];
 $status_helper = new org_openpsa_invoices_status($invoice);
+$formatter = $data['l10n']->get_formatter();
 try
 {
     $customer = org_openpsa_contacts_group_dba::get_cached($invoice->customer);
@@ -58,7 +59,7 @@ if ($invoice->cancelationInvoice)
     {
     ?>
         <div class="field"><div class="title"><?php echo $data['l10n']->get('invoice date'); ?>: </div>
-        <div class="value"><?php echo date($data['l10n_midcom']->get('short date'), $invoice->date); ?></div></div>
+        <div class="value"><?php echo $formatter->date($invoice->date); ?></div></div>
     <?php
     }
 
@@ -66,7 +67,7 @@ if ($invoice->cancelationInvoice)
     {
     ?>
         <div class="field"><div class="title"><?php echo $data['l10n']->get('invoice delivery date'); ?>: </div>
-        <div class="value"><?php echo date($data['l10n_midcom']->get('short date'), $invoice->deliverydate); ?></div></div>
+        <div class="value"><?php echo $formatter->date($invoice->deliverydate); ?></div></div>
     <?php
     }
     ?>
@@ -215,7 +216,7 @@ if (!empty($data['reports']))
 
         $row['id'] = $report->id;
         $row['index_date'] = $report->date;
-        $row['date'] = date($data['l10n_midcom']->get('short date'), $report->date);
+        $row['date'] = $formatter->date($report->date);
         $row['index_reporter'] = $reporter->rname;
         $row['reporter'] = $reporter_card->show_inline();
         $row['hours'] = $report->hours;

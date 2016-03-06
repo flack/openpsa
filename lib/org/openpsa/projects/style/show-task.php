@@ -126,13 +126,14 @@ $expenses_url = $siteconfig->get_node_relative_url('org.openpsa.expenses');
         <div class="bookings">
             <?php
             echo "<h2>" . $data['l10n']->get('booked times') . "</h2>\n";
+            $formatter = $data['l10n']->get_formatter();
             if (count($data['task_bookings']['confirmed']) > 0)
             {
                 echo "<ul>\n";
                 foreach ($data['task_bookings']['confirmed'] as $booking)
                 {
                     echo "<li>";
-                    echo strftime('%x', $booking->start) . ' ' . date('H', $booking->start) . '-' . date('H', $booking->end);
+                    echo $formatter->timeframe($booking->start, $booking->end);
 
                     if ($data['calendar_node'])
                     {

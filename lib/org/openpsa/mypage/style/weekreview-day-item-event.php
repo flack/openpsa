@@ -12,7 +12,7 @@ if (!empty($data['calendar_node']))
 <tr class="event &(data['class']);">
     <td class="time">
         <?php
-        echo date('H:i', $event->start) . '-' . date('H:i', $event->end);
+        echo $data['l10n']->get_formatter()->timeframe($event->start, $event->end, 'time');
         ?>
     </td>
     <td>

@@ -1,8 +1,8 @@
 <?php
 $view = $data['view_article'];
 
-$publish_time = $data['article']->metadata->published;
-$published = sprintf($data['l10n']->get('posted on %s.'), strftime('%Y-%m-%d %T %Z', $publish_time));
+$publish_time = $data['l10n']->get_formatter()->datetime($data['article']->metadata->published, 'full');
+$published = sprintf($data['l10n']->get('posted on %s.'), $publish_time);
 $permalink = midcom::get()->permalinks->create_permalink($data['article']->guid);
 $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 ?>

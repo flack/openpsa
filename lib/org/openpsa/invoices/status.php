@@ -52,16 +52,16 @@ class org_openpsa_invoices_status extends org_openpsa_widgets_status
                 return $this->l10n->get('unsent');
 
             case 'open':
-                return sprintf($this->l10n->get('due on %s'), date($this->l10n_midcom->get('short date'), $this->invoice->due));
+                return sprintf($this->l10n->get('due on %s'), $this->l10n->get_formatter()->date($this->invoice->due));
 
             case 'overdue':
-                return '<span class="bad">' . sprintf($this->l10n->get('overdue since %s'), date($this->l10n_midcom->get('short date'), $this->invoice->due)) . '</span>';
+                return '<span class="bad">' . sprintf($this->l10n->get('overdue since %s'), $this->l10n->get_formatter()->date($this->invoice->due)) . '</span>';
 
             case 'paid':
-                return sprintf($this->l10n->get('paid on %s'), date($this->l10n_midcom->get('short date'), $this->invoice->paid));
+                return sprintf($this->l10n->get('paid on %s'), $this->l10n->get_formatter()->date($this->invoice->paid));
 
             case 'canceled':
-                return sprintf($this->l10n->get('invoice canceled on %s'), date($this->l10n_midcom->get('short date'), $this->invoice->paid));
+                return sprintf($this->l10n->get('invoice canceled on %s'), $this->l10n->get_formatter()->date($this->invoice->paid));
         }
     }
 

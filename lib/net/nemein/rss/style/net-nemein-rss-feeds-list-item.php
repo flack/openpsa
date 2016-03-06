@@ -23,14 +23,14 @@ switch ($data['topic']->component)
         echo "        <li><a href=\"{$topic_prefix}category/{$data['feed_category']}/\">" . sprintf($data['l10n']->get('%s items'), $data['feed_items']) . "</a></li>\n";
         break;
 }
-
+$formatter = $data['l10n']->get_formatter();
 if ($data['feed']->latestupdate)
 {
-    echo "        <li>" . sprintf($data['l10n']->get('latest item from %s'), strftime('%x %X', $data['feed']->latestupdate)) . "</li>\n";
+    echo "        <li>" . sprintf($data['l10n']->get('latest item from %s'), $formatter->datetime($data['feed']->latestupdate)) . "</li>\n";
 }
 if ($data['feed']->latestfetch)
 {
-    echo "        <li>" . sprintf($data['l10n']->get('latest fetch %s'), strftime('%x %X', $data['feed']->latestfetch)) . "</li>\n";
+    echo "        <li>" . sprintf($data['l10n']->get('latest fetch %s'), $formatter->datetime($data['feed']->latestfetch)) . "</li>\n";
 }
 echo "    </ul>\n";
 echo $data['feed_toolbar']->render();

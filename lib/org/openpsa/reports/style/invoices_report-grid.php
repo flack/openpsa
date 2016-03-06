@@ -143,9 +143,7 @@ $grid->set_footer_data($footer_data);
 
 $host_prefix = midcom::get()->get_host_prefix();
 
-$filename = sprintf($data['l10n']->get('invoice report %s - %s'), strftime('%x', $data['start']), strftime('%x', $data['end']));
-$filename .= '_' . date('Y_m_d');
-$filename = preg_replace('/[^a-z0-9-]/i', '_', $filename);
+$filename = preg_replace('/[^a-z0-9-]/i', '_', $data['title'] . '_' . date('Y_m_d'));
 ?>
 <div class="grid-controls">
 <?php

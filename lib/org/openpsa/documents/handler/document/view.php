@@ -280,9 +280,9 @@ implements org_openpsa_widgets_grid_provider_client
             $next_version = $results[0];
 
             $current_version = org_openpsa_documents_document_dba::get_cached($this->_document->nextVersion);
-
+            $version_date = $this->_l10n->get_formatter()->datetime($this->_document->metadata->revised);
             $this->add_breadcrumb('document/' . $current_version->guid . '/', $current_version->title);
-            $this->add_breadcrumb('', sprintf($this->_l10n->get('version %s (%s)'), $version, strftime('%x %X', $this->_document->metadata->revised)));
+            $this->add_breadcrumb('', sprintf($this->_l10n->get('version %s (%s)'), $version, $version_date));
         }
         else
         {

@@ -26,11 +26,12 @@ else
             </thead>
             <tbody>
             <?php
+            $formatter = $data['l10n']->get_formatter();
             foreach ($history as $rev => $history)
             {
                 echo "                <tr>\n";
                 echo "                    <td><a href='{$prefix}__ais/rcs/preview/$guid/$rev'>{$rev}</a></td>\n";
-                echo "                    <td>".strftime('%x %X Z', $history['date'])."</td>\n";
+                echo "                    <td>" . $formatter->datetime($history['date']) . "</td>\n";
 
                 if ($history['user'])
                 {

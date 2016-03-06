@@ -31,7 +31,8 @@ $grid->set_column('lastname', $data['l10n']->get('lastname'), 'classes: "title u
     <?php
     if ($data['campaign']->archived)
     {
-        echo "<p class=\"archived\">" . sprintf($data['l10n']->get('archived on %s'), strftime('%x', $data['campaign']->archived)) . "</p>\n";
+        $date = $data['l10n']->get_formatter()->date($data['campaign']->archived);
+        echo "<p class=\"archived\">" . sprintf($data['l10n']->get('archived on %s'), $date) . "</p>\n";
     }
     ?>
 

@@ -33,7 +33,8 @@ class midcom_db_event extends midcom_core_dbaobject
         {
             return $this->title;
         }
-        return strftime('%x', $this->start) . " {$this->title}";
+        $formatter = midcom::get()->i18n->get_l10n()->get_formatter();
+        return $formatter->date($this->start) . " {$this->title}";
     }
 
     /**

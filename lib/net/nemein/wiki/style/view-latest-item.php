@@ -6,6 +6,7 @@ $history = $data['history'];
 $version_string = "<a href=\"{$prefix}__ais/rcs/preview/{$page->guid}/{$data['version']}\">{$data['version']}</a>";
 
 $url = midcom_connection::get_url('self') . "midcom-permalink-{$page->guid}";
+$formatter = $data['l10n']->get_formatter();
 ?>
 <tr>
     <td>
@@ -39,7 +40,7 @@ $url = midcom_connection::get_url('self') . "midcom-permalink-{$page->guid}";
     </td>
     <td>
         <?php
-        echo "<abbr class=\"dtposted\" title=\"" . gmdate('Y-m-d\TH:i:s\Z', $history['date']) . "\">" . strftime('%x %X', $history['date']) . "</abbr>\n";
+        echo "<abbr class=\"dtposted\" title=\"" . gmdate('Y-m-d\TH:i:s\Z', $history['date']) . "\">" . $formatter->datetime($history['date']) . "</abbr>\n";
         ?>
     </td>
     <td class="message">

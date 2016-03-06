@@ -139,7 +139,7 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
             debug_add('Hour reports array not found', MIDCOM_LOG_WARN);
             return;
         }
-
+        $formatter = $this->_l10n->get_formatter();
         foreach ($this->_request_data['raw_results']['hr'] as $hour)
         {
             $row = array();
@@ -163,7 +163,7 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
             {
                 $matching = 'date:' . date('Ymd', $row['hour']->date);
                 $sort = date('Ymd', $row['hour']->date);
-                $title = strftime('%x', $row['hour']->date);
+                $title = $formatter->date($row['hour']->date);
                 $this->add_to_group($row, $matching, $sort, $title);
             }
             else if ($this->_grouping == 'person')

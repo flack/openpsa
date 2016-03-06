@@ -82,6 +82,7 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
         }
 
         $message = array();
+        $timeframe = $l10n->get_formatter()->timeframe($event->start, $event->end);
         $action = 'org.openpsa.calendar:event_' . $type;
 
         switch ($type)
@@ -90,28 +91,28 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
             case 'update':
                 //PONDER: This in theory should have the old event title
                 $message['title'] = sprintf($l10n->get('event "%s" was updated'), $event->title);
-                $message['abstract'] = sprintf($l10n->get('event "%s" (%s) was updated'), $event->title, $event->format_timeframe());
+                $message['abstract'] = sprintf($l10n->get('event "%s" (%s) was updated'), $event->title, $timeframe);
                 $message['content'] = sprintf($l10n->get('event "%s" was modified, updated information below.') . "{$nl}{$nl}", $event->title);
                 $message['content'] .= $event->details_text(false, $nl);
                 break;
                 //Participant was added to the event
             case 'add':
                 $message['title'] = sprintf($l10n->get('you have been added to event "%s"'), $event->title);
-                $message['abstract'] = sprintf($l10n->get('you have been added to event "%s" (%s)'), $event->title, $event->format_timeframe());
+                $message['abstract'] = sprintf($l10n->get('you have been added to event "%s" (%s)'), $event->title, $timeframe);
                 $message['content'] = sprintf($l10n->get('you have been added to event "%s" participants list, event information below.') . "{$nl}{$nl}", $event->title);
                 $message['content'] .= $event->details_text(false, $nl);
                 break;
                 //Participant was removed from event
             case 'remove':
                 $message['title'] = sprintf($l10n->get('you have been removed from event "%s"'), $event->title);
-                $message['abstract'] = sprintf($l10n->get('you have been removed from event "%s" (%s)'), $event->title, $event->format_timeframe());
-                $message['content'] = sprintf($l10n->get('you have been removed from event "%s" (%s) participants list.'), $event->title, $event->format_timeframe());
+                $message['abstract'] = sprintf($l10n->get('you have been removed from event "%s" (%s)'), $event->title, $timeframe);
+                $message['content'] = sprintf($l10n->get('you have been removed from event "%s" (%s) participants list.'), $event->title, $timeframe);
                 break;
                 //Event was cancelled (=deleted)
             case 'cancel':
                 $message['title'] = sprintf($l10n->get('event "%s" was cancelled'), $event->title);
-                $message['abstract'] = sprintf($l10n->get('event "%s" (%s) was cancelled'), $event->title, $event->format_timeframe());
-                $message['content'] = sprintf($l10n->get('event "%s" (%s) was cancelled.'), $event->title, $event->format_timeframe());
+                $message['abstract'] = sprintf($l10n->get('event "%s" (%s) was cancelled'), $event->title, $timeframe);
+                $message['content'] = sprintf($l10n->get('event "%s" (%s) was cancelled.'), $event->title, $timeframe);
                 break;
             default:
                 debug_add("action '{$type}' is invalid, aborting notification", MIDCOM_LOG_ERROR);

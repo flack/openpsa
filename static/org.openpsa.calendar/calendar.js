@@ -146,6 +146,7 @@ var openpsa_calendar_widget =
             ignoreTimezone: false,
             nowIndicator: true,
             editable: true,
+            titleRangeSeparator: ' \u2013 ',
             header:
             {
                 left: 'month,agendaWeek,agendaDay',

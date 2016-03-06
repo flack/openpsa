@@ -1,5 +1,6 @@
 <?php
 $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
+$formatter = $data['l10n']->get_formatter();
 ?>
 <div class="wide">
     <h1><?php echo $data['l10n']->get('projects'); ?></h1>
@@ -71,8 +72,8 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 
             echo "<img class='status-icon' src=\"" . MIDCOM_STATIC_URL . "/stock-icons/16x16/" . $project->get_icon() . "\" alt=\"" . $data['l10n']->get($project->status_type) . "\" title=\"" . $data['l10n']->get($project->status_type) . "\" />";
             echo "        <a href=\"{$prefix}project/{$project->guid}/\">{$project->title}</a></td>\n";
-            echo "        <td> " . strftime('%x', $project->start) . "</td>\n";
-            echo "        <td> " . strftime('%x', $project->end) . "</td>\n";
+            echo "        <td> " . $formatter->date($project->start) . "</td>\n";
+            echo "        <td> " . $formatter->date($project->end) . "</td>\n";
             echo "        <td class=\"numeric\"><span title=\"" . $data['l10n']->get('not_started') . "\">{$task_count['not_started']}</span></td>\n";
             echo "        <td class=\"numeric\"><span title=\"" . $data['l10n']->get('ongoing') . "\">{$task_count['ongoing']}</span></td>\n";
             echo "        <td class=\"numeric\"><span title=\"" . $data['l10n']->get('on_hold') . "\">{$task_count['on_hold']}</span></td>\n";

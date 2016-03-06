@@ -1,7 +1,8 @@
 <?php
 if (empty($data['title']))
 {
-    $data['title'] = sprintf($data['l10n']->get('invoice report %s - %s'), strftime('%x', $data['start']), strftime('%x', $data['end']));
+    $formatter = $data['l10n']->get_formatter();
+    $data['title'] = sprintf($data['l10n']->get('invoice report %s - %s'), $formatter->date($data['start']), $formatter->date($data['end']));
 }
 ?>
 <!DOCTYPE html>

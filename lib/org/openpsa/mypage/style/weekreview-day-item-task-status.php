@@ -22,7 +22,7 @@ $message = sprintf(midcom::get()->i18n->get_string($task_status->get_status_mess
 <tr class="hour_report &(data['class']);">
     <td class="time">
         <?php
-        echo date('H:i', $data['time']);
+        echo $data['l10n']->get_formatter()->time($data['time']);
         ?>
     </td>
     <td>

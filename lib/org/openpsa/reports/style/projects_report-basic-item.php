@@ -11,7 +11,7 @@ $query_data = $data['query_data'];
                         <td>&(person->rname);</td>
 <?php           break;
             case 'person': ?>
-                        <td><?php echo strftime('%x', $hour->date); ?></td>
+                        <td><?php echo $data['l10n']->get_formatter()->date($hour->date); ?></td>
 <?php           break;
         } ?>
                         <td>&(task->title);</td>

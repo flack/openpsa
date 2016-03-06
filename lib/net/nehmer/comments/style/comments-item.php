@@ -2,11 +2,11 @@
 // Available request data: comments, objectguid, comment, display_datamanager
 $view = $data['display_datamanager']->get_content_html();
 $created = $data['comment']->metadata->published;
-
+$formatter = $data['l10n']->get_formatter();
 $published = sprintf(
     $data['l10n']->get('published by %s on %s.'),
     $view['author'],
-    strftime('%x %X', $created)
+    $formatter->datetime($created)
 );
 
 $rating = '';

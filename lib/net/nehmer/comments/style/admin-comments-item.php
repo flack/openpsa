@@ -2,7 +2,7 @@
 // Available request data: comments, objectguid, comment, display_datamanager
 $view = $data['display_datamanager']->get_content_html();
 $comment = $data['comment'];
-
+$formatter = $data['l10n']->get_formatter();
 $rating = '';
 if ($comment->rating > 0)
 {
@@ -15,7 +15,7 @@ $created = $comment->metadata->published;
 $published = sprintf(
     $data['l10n']->get('published by %s on %s.'),
     $view['author'],
-    strftime('%x %X', $created));
+    $formatter->datetime($created));
 
 if (   midcom::get()->auth->admin
    || (   midcom::get()->auth->user
@@ -35,7 +35,7 @@ if (   midcom::get()->auth->admin
     }
     $ip = $comment->ip ?: '?.?.?.?';
     $metadata = sprintf($data['l10n']->get('creator: %s, created %s, source ip %s.'),
-                        $username, strftime('%x %X', $created), $ip);
+                        $username, $formatter->datetime($created), $ip);
 }
 ?>
 

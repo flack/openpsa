@@ -205,18 +205,16 @@ implements midcom_services_permalinks_resolver
             return false;
         }
 
-        $content = sprintf
-        (
-            $this->_l10n->get('agreement %s ends on %s. click here: %s'),
-            $deliverable->title,
-            strftime('%x', $deliverable->end),
-            midcom::get()->permalinks->create_permalink($deliverable->guid)
-        );
-
         $message = array
         (
             'title' => sprintf($this->_l10n->get('notification for agreement %s'), $deliverable->title),
-            'content' => $content,
+            'content' => sprintf
+            (
+                $this->_l10n->get('agreement %s ends on %s. click here: %s'),
+                $deliverable->title,
+                $this->_l10n->get_formatter()->date($deliverable->end),
+                midcom::get()->permalinks->create_permalink($deliverable->guid)
+            )
         );
 
         return org_openpsa_notifications::notify('org.openpsa.sales:new_notification_message', $project->owner, $message);

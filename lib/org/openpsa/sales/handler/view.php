@@ -91,7 +91,8 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
         $this->_view_toolbar->add_items($buttons);
 
         $relatedto_button_settings = org_openpsa_relatedto_plugin::common_toolbar_buttons_defaults();
-        $relatedto_button_settings['wikinote']['wikiword'] = str_replace('/', '-', sprintf($this->_l10n->get($this->_config->get('new_wikinote_wikiword_format')), $this->_salesproject->title, date('Y-m-d H:i')));
+        $formatter = $this->_l10n->get_formatter();
+        $relatedto_button_settings['wikinote']['wikiword'] = str_replace('/', '-', sprintf($this->_l10n->get($this->_config->get('new_wikinote_wikiword_format')), $this->_salesproject->title, $formatter->datetime()));
         unset($relatedto_button_settings['task']);
         org_openpsa_relatedto_plugin::common_node_toolbar_buttons($this->_view_toolbar, $this->_salesproject, $this->_component, $relatedto_button_settings);
 
@@ -232,7 +233,8 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
                 $entries = $deliverable->get_at_entries();
                 if (isset($entries[0]))
                 {
-                    $toolbar['label'] = sprintf($this->_l10n->get('next invoice will be generated on %s'), strftime('%x', $entries[0]->start));
+                    $formatter = $this->_l10n->get_formatter();
+                    $toolbar['label'] = sprintf($this->_l10n->get('next invoice will be generated on %s'), $formatter->date($entries[0]->start));
                     if (   $entries[0]->status == midcom_services_at_entry_dba::SCHEDULED
                         && midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_invoices_invoice_dba'))
                     {

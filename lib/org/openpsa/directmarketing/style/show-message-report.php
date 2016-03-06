@@ -1,6 +1,7 @@
 <?php
 $l10n = $data['l10n'];
 $report = $data['report'];
+$formatter = $data['l10n']->get_formatter();
 ?>
 <h1><?php printf($l10n->get('report for message %s'), $data['message']->title); ?></h1>
 <?php
@@ -14,8 +15,8 @@ else
     $last_send = $l10n->get('nothing sent yet');
     if ($report['receipt_data']['sent'] > 0)
     {
-        $first_send = strftime('%x %H:%M', $report['receipt_data']['first_send']);
-        $last_send = strftime('%x %H:%M', $report['receipt_data']['last_send']);
+        $first_send = $formatter->datetime($report['receipt_data']['first_send']);
+        $last_send = $formatter->datetime($report['receipt_data']['last_send']);
     }
 ?>
 <div class="midcom_helper_datamanager2_view">
@@ -54,13 +55,13 @@ else
         if ($report['campaign_data']['next_message'])
         {
     ?>
-        <td class="title"><?php echo sprintf($l10n->get('unsubscribed between %s - %s'), strftime('%x %H:%M', $report['receipt_data']['first_send']), strftime('%x %H:%M', $report['campaign_data']['next_message']->sendStarted)); ?></td>
+        <td class="title"><?php echo sprintf($l10n->get('unsubscribed between %s - %s'), $first_send, $formatter->datetime($report['campaign_data']['next_message']->sendStarted)); ?></td>
     <?php
         }
         else
         {
     ?>
-        <td class="title"><?php echo sprintf($l10n->get('unsubscribed since %s'), strftime('%x %H:%M', $report['receipt_data']['first_send'])); ?></td>
+        <td class="title"><?php echo sprintf($l10n->get('unsubscribed since %s'), $first_send); ?></td>
     <?php
         }
     ?>

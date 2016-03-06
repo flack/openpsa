@@ -360,9 +360,8 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
             $this->_end->modify('-1 day');
         }
 
-        $start = $this->_start->format($this->_l10n_midcom->get('short date'));
-        $end = $this->_end->format($this->_l10n_midcom->get('short date'));
-        $this->add_breadcrumb("archive/year/{$args[0]}/", "{$start} - {$end}");
+        $timeframe = $this->_l10n->get_formatter()->timeframe($this->_start, $this->_end, 'date');
+        $this->add_breadcrumb("archive/year/{$args[0]}/", $timeframe);
 
         $this->_prepare_request_data();
 
@@ -376,7 +375,7 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
         }
 
         midcom::get()->metadata->set_request_metadata(net_nehmer_blog_viewer::get_last_modified($this->_topic, $this->_content_topic), $this->_topic->guid);
-        midcom::get()->head->set_pagetitle("{$this->_topic->extra}: {$start} - {$end}");
+        midcom::get()->head->set_pagetitle("{$this->_topic->extra}: {$timeframe}");
     }
 
     /**

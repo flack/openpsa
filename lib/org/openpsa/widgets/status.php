@@ -28,7 +28,7 @@ abstract class org_openpsa_widgets_status
         echo "<ul>\n";
         foreach ($this->get_history() as $entry)
         {
-            echo '<li><div class="date">' . date($l10n_midcom->get('short date') . ' H:i', $entry['timestamp']) . '</div>';
+            echo '<li><div class="date">' . $l10n->get_formatter()->datetime($entry['timestamp']) . '</div>';
             echo $entry['message'];
         }
         echo "</ul>\n";

@@ -7,7 +7,7 @@ $event = $data['other_obj'];
   <span class="icon">&(data['icon']:h);</span>
   <span class="title">&(data['title']:h);</span>
   <ul class="metadata">
-    <li class="time location"><?php echo $event->format_timeframe() . ", {$event->location}"; ?></li>
+    <li class="time location"><?php echo $data['l10n']->get_formatter()->timeframe($event->start, $event->end) . ($event->location ? ', ' . $event->location : ''); ?></li>
     <?php
     // Participants
     echo "<li class=\"members\">" . midcom::get()->i18n->get_string('participants', 'org.openpsa.calendar') . ": ";

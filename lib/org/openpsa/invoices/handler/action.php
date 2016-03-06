@@ -172,7 +172,7 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
             $invoice->date = time();
             $invoice->update();
         }
-        $invoice_date = date($this->_l10n_midcom->get('short date'), $invoice->date);
+        $invoice_date = $this->_l10n->get_formatter()->date($invoice->date);
 
         // generate pdf, only if not existing yet
         $pdf_files = org_openpsa_helpers::get_dm2_attachments($invoice, "pdf_file");

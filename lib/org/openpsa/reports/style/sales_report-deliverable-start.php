@@ -2,7 +2,8 @@
 $query = $data['query_data'];
 if (empty($data['title']))
 {
-    $data['title'] = sprintf($data['l10n']->get('sales report %s - %s'), strftime('%x', $data['start']), strftime('%x', $data['end']));
+    $formatter = $data['l10n']->get_formatter();
+    $data['title'] = sprintf($data['l10n']->get('sales report %s - %s'), $formatter->date($query['start']), $formatter->date($query['end']));
 }
 ?>
 <!DOCTYPE html>

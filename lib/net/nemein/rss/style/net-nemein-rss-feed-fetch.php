@@ -31,6 +31,7 @@ else
     echo "        </tr>\n";
     echo "    </thead>\n";
     echo "    <tbody>\n";
+    $formatter = $data['l10n']->get_formatter();
     foreach ($data['items'] as $item)
     {
         echo "<tr>\n";
@@ -41,7 +42,7 @@ else
         }
         else
         {
-            echo "    <td>" . strftime('%x %X', $date) . "</td>\n";
+            echo "    <td>" . $formatter->datetime($date) . "</td>\n";
         }
         echo '    <td><a href="' . $item->get_link() . '">' . $item->get_title() . "</a></td>\n";
 

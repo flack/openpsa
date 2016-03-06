@@ -8,7 +8,7 @@ $atts = org_openpsa_helpers::get_dm2_attachments($document, 'document');
   <span class="icon">&(data['icon']:h);</span>
   <span class="title"><a href="&(data['document_url']);" target="document_&(document.guid);">&(document.title:h);</a></span>
   <ul class="metadata">
-    <li class="time"><?php echo strftime('%x', $document->metadata->created); ?></li>
+    <li class="time"><?php echo $data['l10n']->get_formatter()->date($document->metadata->created); ?></li>
     <li class="file">
     <?php
     if (empty($atts))

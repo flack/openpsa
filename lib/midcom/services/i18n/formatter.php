@@ -32,6 +32,11 @@ class midcom_services_i18n_formatter
         {
             $value = time();
         }
+        //PHP < 5.3.4 compat
+        if ($value instanceof DateTime)
+        {
+            $value = (int) $value->format('U');
+        }
         $formatter = new IntlDateFormatter($this->get_locale(), $this->constant($dateformat), $this->constant($timeformat));
         return $formatter->format($value);
     }
@@ -46,16 +51,21 @@ class midcom_services_i18n_formatter
         return $this->date($value, $dateformat, $timeformat);
     }
 
-    public function timeframe($start, $end, $include_date = true)
+    public function timeframe($start, $end, $mode = 'both')
     {
         $startday = $this->date($start);
         $endday = $this->date($end);
+        if ($mode == 'date')
+        {
+            return $startday . ' ' . json_decode('"\u2013"') . ' ' . $endday;
+        }
+
         $starttime = $this->date($start, IntlDateFormatter::NONE, IntlDateFormatter::SHORT);
         $endtime = $this->date($end, IntlDateFormatter::NONE, IntlDateFormatter::SHORT);
 
         $ret = $starttime . ' ' . json_decode('"\u2013"');
 
-        if ($include_date)
+        if ($mode == 'both')
         {
             if ($startday == $endday)
             {
@@ -80,6 +90,6 @@ class midcom_services_i18n_formatter
 
     private function get_locale()
     {
-        return Intl::isExtensionLoaded() ? $this->language : null;
+        return Intl::isExtensionLoaded() ? $this->language : 'en';
     }
 }
