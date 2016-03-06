@@ -92,9 +92,15 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
     </div>
     <div class="toolbar">
         <form method="post" action="&(prefix);deliverable/process/<?php echo $data['deliverable_object']->guid; ?>/">
-        <?php
-        echo $data['deliverable_toolbar'];
-        ?>
+            <p>
+            <?php
+            echo $data['deliverable_toolbar']['label'];
+            foreach ($data['deliverable_toolbar']['buttons'] as $name => $label)
+            {
+                echo " <input type=\"submit\" class=\"$name\" name=\"$name\" value=\"$label\" />\n";
+            }
+            ?>
+            </p>
         </form>
     </div>
 </li>

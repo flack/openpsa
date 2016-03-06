@@ -81,9 +81,15 @@ $price = org_openpsa_helpers::format_number($data['deliverable_object']->price);
 
     <div class="toolbar">
         <form method="post" action="&(prefix);deliverable/process/<?php echo $data['deliverable_object']->guid; ?>/">
-        <?php
-        echo $data['deliverable_toolbar'];
-        ?>
+            <p>
+            <?php
+            echo $data['deliverable_toolbar']['label'];
+            foreach ($data['deliverable_toolbar']['buttons'] as $name => $label)
+            {
+                echo "<input type=\"submit\" class=\"$name\" name=\"$name\" value=\"$label\" />\n";
+            }
+            ?>
+            </p>
         </form>
     </div>
 </li>

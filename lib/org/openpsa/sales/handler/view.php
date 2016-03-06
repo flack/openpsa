@@ -187,7 +187,7 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
         {
             $data['deliverable'] = $this->_controllers[$deliverable->id]->get_content_html();
             $data['deliverable_object'] = $deliverable;
-            $data['deliverable_toolbar'] = $this->_build_deliverable_toolbar($deliverable);
+            $data['deliverable_toolbar'] = $this->build_status_toolbar($deliverable);
             try
             {
                 $data['product'] = org_openpsa_products_product_dba::get_cached($deliverable->product);
@@ -209,15 +209,15 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
         midcom_show_style('show-salesproject-related');
     }
 
-    private function _build_deliverable_toolbar($deliverable)
+    private function build_status_toolbar(org_openpsa_sales_salesproject_deliverable_dba $deliverable)
     {
-        $toolbar = '';
+        $toolbar = array('label' => '', 'buttons' => array());
 
         if ($deliverable->state < org_openpsa_sales_salesproject_deliverable_dba::STATE_DECLINED)
         {
             //new, proposed
-            $toolbar .= "<input type=\"submit\" class=\"order\" name=\"order\" value=\"" . $this->_l10n->get('mark ordered') . "\" />\n";
-            $toolbar .= "<input type=\"submit\" class=\"decline\" name=\"decline\" value=\"" . $this->_l10n->get('mark declined') . "\" />\n";
+            $toolbar['buttons']['order'] = $this->_l10n->get('mark ordered');
+            $toolbar['buttons']['decline'] = $this->_l10n->get('mark declined');
         }
         else if ($deliverable->state == org_openpsa_sales_salesproject_deliverable_dba::STATE_DECLINED)
         {
@@ -232,18 +232,17 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
                 $entries = $deliverable->get_at_entries();
                 if (isset($entries[0]))
                 {
-                    $toolbar .= "<p>" . sprintf($this->_l10n->get('next invoice will be generated on %s'), strftime('%x', $entries[0]->start));
+                    $toolbar['label'] = sprintf($this->_l10n->get('next invoice will be generated on %s'), strftime('%x', $entries[0]->start));
                     if (   $entries[0]->status == midcom_services_at_entry_dba::SCHEDULED
                         && midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_invoices_invoice_dba'))
                     {
-                        $toolbar .= ' <input type="submit" class="run_cycle" name="run_cycle" value="' . $this->_l10n->get('generate now') . "\" />\n";
+                        $toolbar['buttons']['run_cycle'] = $this->_l10n->get('generate now');
                     }
-                    $toolbar .= "</p>\n";
                 }
             }
             else if ($deliverable->state == org_openpsa_sales_salesproject_deliverable_dba::STATE_ORDERED)
             {
-                $toolbar .= "<input type=\"submit\" class=\"deliver\" name=\"deliver\" value=\"" . $this->_l10n->get('mark delivered') . "\" />\n";
+                $toolbar['buttons']['deliver'] = $this->_l10n->get('mark delivered');
             }
         }
         else if ($deliverable->state == org_openpsa_sales_salesproject_deliverable_dba::STATE_INVOICED)
@@ -251,7 +250,7 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
             //delivered, invoiced
             if ($deliverable->invoiced > 0)
             {
-                $toolbar .= "<p>" . $this->_l10n->get('invoiced') . ': ' . org_openpsa_helpers::format_number($deliverable->invoiced) . "</p>\n";
+                $toolbar['label'] = $this->_l10n->get('invoiced') . ': ' . org_openpsa_helpers::format_number($deliverable->invoiced);
             }
         }
         else if (   $deliverable->orgOpenpsaObtype != org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION
@@ -264,10 +263,9 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
 
             if ($client->get_price() > 0)
             {
-                $toolbar .= "<input type=\"submit\" class=\"invoice\" name=\"invoice\" value=\"" . sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('invoice')) . "\" />\n";
+                $toolbar['buttons']['invoice'] = sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('invoice'));
             }
         }
-
         return $toolbar;
     }
 }
