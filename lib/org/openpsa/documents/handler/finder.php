@@ -33,24 +33,24 @@ class org_openpsa_documents_handler_finder extends midcom_baseclasses_components
         $head->add_jsfile(MIDCOM_JQUERY_UI_URL. '/ui/draggable.min.js');
         $head->add_jsfile(MIDCOM_JQUERY_UI_URL. '/ui/droppable.min.js');
         $head->add_jsfile(MIDCOM_JQUERY_UI_URL. '/ui/selectable.min.js');
-        $head->add_jsfile($prefix . 'elFinder-2.1.6/js/elfinder.min.js');
+        $head->add_jsfile($prefix . 'elFinder-2.1.8/js/elfinder.min.js');
 
         $lang = midcom::get()->i18n->get_current_language();
-        if (!file_exists(MIDCOM_STATIC_ROOT . '/' . $this->_component . "/elFinder-2.1.6/js/i18n/elfinder.{$lang}.js"))
+        if (!file_exists(MIDCOM_STATIC_ROOT . '/' . $this->_component . "/elFinder-2.1.8/js/i18n/elfinder.{$lang}.js"))
         {
             $lang = midcom::get()->i18n->get_fallback_language();
-            if (!file_exists(MIDCOM_STATIC_ROOT . '/' . $this->_component . "/elFinder-2.1.6/js/i18n/elfinder.{$lang}.js"))
+            if (!file_exists(MIDCOM_STATIC_ROOT . '/' . $this->_component . "/elFinder-2.1.8/js/i18n/elfinder.{$lang}.js"))
             {
                 $lang = 'en';
             }
         }
         $data['lang'] = $lang;
-        $head->add_jsfile($prefix . "elFinder-2.1.6/js/i18n/elfinder.{$lang}.js");
+        $head->add_jsfile($prefix . "elFinder-2.1.8/js/i18n/elfinder.{$lang}.js");
 
         $head->add_jsfile($prefix . 'elfinder.custom.js');
 
-        $head->add_stylesheet($prefix . 'elFinder-2.1.6/css/elfinder.min.css');
-        $head->add_stylesheet($prefix . 'elFinder-2.1.6/css/theme.css');
+        $head->add_stylesheet($prefix . 'elFinder-2.1.8/css/elfinder.min.css');
+        $head->add_stylesheet($prefix . 'elFinder-2.1.8/css/theme.css');
 
         $this->_populate_toolbar();
     }

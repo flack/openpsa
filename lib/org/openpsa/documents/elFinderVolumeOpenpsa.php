@@ -34,7 +34,7 @@ class elFinderVolumeOpenpsa extends elFinderVolumeDriver
 	 * @return array|false
 	 * @author Dmitry (dio) Levashov
 	 **/
-	public function upload($fp, $dst, $name, $tmpname) {
+	public function upload($fp, $dst, $name, $tmpname, $hashes = array()) {
 		if ($this->commandDisabled('upload')) {
 			return $this->setError(elFinder::ERROR_PERM_DENIED);
 		}
@@ -70,12 +70,16 @@ class elFinderVolumeOpenpsa extends elFinderVolumeDriver
 		}
 
 		$dstpath = $this->decode($dst);
-		$test    = $this->joinPathCE($dstpath, $name);
+		if (isset($hashes[$name])) {
+			$test = $this->decode($hashes[$name]);
+		} else {
+			$test = $this->joinPathCE($dstpath, $name);
+		}
 
 		$file = $this->stat($test);
 		$this->clearcache();
 
-		if ($file) { // file exists
+		if ($file && $file['name'] === $name) { // file exists and check filename for item ID based filesystem
 			// check POST data `overwrite` for 3rd party uploader
 			$overwrite = isset($_POST['overwrite'])? (bool)$_POST['overwrite'] : $this->options['uploadOverwrite'];
 			if ($overwrite) {

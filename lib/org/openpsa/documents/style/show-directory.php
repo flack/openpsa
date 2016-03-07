@@ -48,7 +48,7 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
                     }
                 }
             },
-            sortsRules : {
+            sortRules : {
                 owner : function(file1, file2) {
                     var name1 = $('.family-name', file1.owner).text() + '//' + $('.given-name', file1.owner).text(),
                         name2 = $('.family-name', file2.owner).text() + '//' + $('.given-name', file2.owner).text();

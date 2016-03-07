@@ -41,7 +41,7 @@
         "symfony/validator": "~2.5",
         "swiftmailer/swiftmailer": "~5.2.0@stable",
         "checkdomain/holiday": "~2.0.0",
-        "studio-42/elfinder": "2.1.6"
+        "studio-42/elfinder": "^2.1.8"
     },
     "scripts": {
         "post-install-cmd": [
