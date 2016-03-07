@@ -25,7 +25,7 @@ $grid->set_column('customer', $sales_l10n->get('customer'));
 $grid->set_column('salesproject', $sales_l10n->get('salesproject'));
 $grid->set_column('product', $sales_l10n->get('product'));
 $grid->set_column('item', $invoices_l10n->get('invoice items'));
-$grid->set_column('amount', $invoices_l10n->get('sum'), 'width: 70, align: "right", sorttype: "number", formatter: "number", summaryType: "sum", fixed: true');
+$grid->set_column('amount', $invoices_l10n->get('sum'), 'width: 70, template: "number", summaryType: "sum", fixed: true');
 
 $grid->set_footer_data($footer_data);
 ?>

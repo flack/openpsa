@@ -121,9 +121,9 @@ $grid->set_column('number', $l10n->get('invoice number'), 'width: 120', 'string'
     ->set_column('year', '', 'hidden: true')
     ->set_column('customer', $l10n->get('customer'), 'width: 100', 'string')
     ->set_column('contact', $l10n->get('customer contact'), 'width: 100', 'string')
-    ->set_column('sum', $l10n->get('sum excluding vat'), 'width: 90, fixed: true, sorttype: "number", formatter: "number", align: "right", summaryType:"sum"')
+    ->set_column('sum', $l10n->get('sum excluding vat'), 'width: 90, fixed: true, template: "number", summaryType:"sum"')
     ->set_column('vat', $l10n->get('vat'), 'width: 40, fixed: true, align: "right"', 'number')
-    ->set_column('vat_sum', $l10n->get('vat sum'), 'width: 70, fixed: true, sorttype: "number", formatter: "number", align: "right", summaryType:"sum"');
+    ->set_column('vat_sum', $l10n->get('vat sum'), 'width: 70, fixed: true, template: "number", summaryType:"sum"');
 
 $grid->set_option('loadonce', true)
     ->set_option('grouping', true)

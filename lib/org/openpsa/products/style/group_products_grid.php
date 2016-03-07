@@ -28,8 +28,7 @@ foreach ($data['products'] as $product)
     $entry['title'] = $link_html . $product->title . '</a>';
     $entry['orgOpenpsaObtype'] = $view_product['orgOpenpsaObtype'];
     $entry['delivery'] = $view_product['delivery'];
-    $entry['index_price'] = $product->price;
-    $entry['price'] = org_openpsa_helpers::format_number($product->price);
+    $entry['price'] = $product->price;
     $entry['unit'] = $view_product['unit'];
 
     $entries[] = $entry;
@@ -55,7 +54,7 @@ jQuery("#&(grid_id);").jqGrid({
                  echo '"index_title", "' . $data['l10n_midcom']->get('title') . '",';
                  echo '"' . $data['l10n']->get('type') . '",';
                  echo '"' . $data['l10n']->get('delivery type') . '",';
-                 echo '"index_price", "' . $data['l10n']->get('price') . '",';
+                 echo '"' . $data['l10n']->get('price') . '",';
                  echo '"' . $data['l10n']->get('unit') . '"';
       ?>],
       colModel:[
@@ -66,8 +65,7 @@ jQuery("#&(grid_id);").jqGrid({
           {name:'title', index: 'index_title', classes: 'title ui-ellipsis'},
           {name:'orgOpenpsaObtype', index:'orgOpenpsaObtype', width: 130, fixed: true},
           {name:'delivery', index:'delivery', width: 130, fixed: true},
-          {name:'index_price', index:'index_price', sorttype: 'number', hidden: true},
-          {name:'price', index: 'index_price', align: 'right', width: 70, fixed: true},
+          {name:'price', template: "number", width: 70, fixed: true},
           {name:'unit', index:'unit', width: 70, fixed: true}
       ],
       loadonce: true,
