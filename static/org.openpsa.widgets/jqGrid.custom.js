@@ -593,10 +593,12 @@ var org_openpsa_grid_helper =
         var thd = $("thead:first", $('#' + grid_id)[0].grid.hDiv)[0];
         $("tr.ui-jqgrid-labels th:eq(" + column + ")", thd).attr("title", tooltip);
     },
-    setup_grid: function (grid_id, config)
+    setup_grid: function (grid_id, config_orig)
     {
         var identifier = 'openpsa-jqgrid#' + grid_id,
-        saved_values = {};
+            saved_values = {},
+            config = $.extend(true, {}, config_orig);
+
         if (   typeof window.localStorage !== 'undefined'
             && window.localStorage
             && typeof JSON !== 'undefined')
@@ -644,7 +646,22 @@ var org_openpsa_grid_helper =
             }
         }
 
-        $('#' + grid_id).jqGrid(config);
+        try
+        {
+            $('#' + grid_id).jqGrid(config);
+        }
+        catch (exception)
+        {
+            if (!$.isEmptyObject(saved_values))
+            {
+                $('#' + grid_id).jqGrid('GridUnload');
+                $('#' + grid_id).jqGrid(config_orig);
+            }
+            else
+            {
+                throw exception;
+            }
+        }
     },
     save_grid_data: function()
     {
