@@ -28,6 +28,13 @@ class midcom_services_i18n_formatter
 
     public function number($value)
     {
+        if (   is_float($value)
+            && version_compare(Intl::getIcuVersion(), '49', '<'))
+        {
+            // workaround for http://bugs.icu-project.org/trac/ticket/8561
+            $value = number_format($value, 2, ',', '');
+        }
+
         // The fallback implementation in Intl only supports DECIMAL, so we hardcode the style here..
         $formatter = new NumberFormatter($this->get_locale(), NumberFormatter::DECIMAL);
         $formatter->setAttribute(NumberFormatter::FRACTION_DIGITS, 2);
