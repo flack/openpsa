@@ -1,7 +1,7 @@
 <?php
 $deliverable = $data['deliverable'];
 $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
-$price = org_openpsa_helpers::format_number($data['deliverable_object']->price);
+$price = $data['l10n']->get_formatter()->number($data['deliverable_object']->price);
 ?>
 <li class="deliverable collapsed" id="deliverable_<?php echo $data['deliverable_object']->guid; ?>">
     <span class="icon">

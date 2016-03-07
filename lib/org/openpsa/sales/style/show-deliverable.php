@@ -1,7 +1,7 @@
 <?php
 $view = $data['view_deliverable'];
 $state = $data['deliverable']->get_state();
-
+$formatter = $data['l10n']->get_formatter();
 $per_unit = $data['l10n']->get('per unit');
 if (   $data['product']
     && $unit_option = org_openpsa_products_viewer::get_unit_option($data['product']->unit))
@@ -90,10 +90,10 @@ if (   $data['product']
                       <tbody>
                         <tr>
                           <td class="title"><?php echo $data['l10n']->get('price'); ?></td>
-                          <td class="numeric"><?php echo org_openpsa_helpers::format_number($data['deliverable']->pricePerUnit); ?></td>
+                          <td class="numeric"><?php echo $formatter->number($data['deliverable']->pricePerUnit); ?></td>
                           <td class="numeric"><?php echo $view['plannedUnits']; ?></td>
                           <td class="numeric"><?php echo $view['units']; ?></td>
-                          <td class="numeric"><?php echo org_openpsa_helpers::format_number($data['deliverable']->price); ?></td>
+                          <td class="numeric"><?php echo $formatter->number($data['deliverable']->price); ?></td>
                         </tr>
                         <tr>
                           <td class="title"><?php echo $data['l10n']->get('cost'); ?></td>
@@ -106,11 +106,11 @@ if (   $data['product']
                           <?php }
                           else
                           { ?>
-                              <td class="numeric"><?php echo org_openpsa_helpers::format_number($data['deliverable']->costPerUnit); ?></td>
+                              <td class="numeric"><?php echo $formatter->number($data['deliverable']->costPerUnit); ?></td>
                               <td class="numeric"><?php echo $view['plannedUnits']; ?></td>
                               <td class="numeric"><?php echo $view['units']; ?></td>
                           <?php } ?>
-                              <td class="numeric"><?php echo org_openpsa_helpers::format_number($data['deliverable']->cost); ?></td>
+                              <td class="numeric"><?php echo $formatter->number($data['deliverable']->cost); ?></td>
                         </tr>
                       </tbody>
                     </table>
@@ -135,7 +135,7 @@ if (   $data['product']
                     ?>
                     <div class="field">
                         <div class="title"><?php echo $data['l10n']->get('invoiced'); ?></div>
-                        <div class="value"><?php echo org_openpsa_helpers::format_number($data['deliverable']->invoiced); ?></div>
+                        <div class="value"><?php echo $formatter->number($data['deliverable']->invoiced); ?></div>
                     </div>
                     <?php
                 }

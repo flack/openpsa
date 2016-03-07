@@ -1,6 +1,7 @@
 <?php
 $view = $data['view_salesproject'];
 $salesproject = $data['salesproject'];
+$formatter = $data['l10n']->get_formatter();
 ?>
 <div class="sidebar contacts">
     <?php
@@ -43,11 +44,11 @@ $salesproject = $data['salesproject'];
     <?php } ?>
     <div class="field">
      <div class="title"><?php echo $data['l10n']->get('value'); ?></div>
-     <div class="value"><?php echo org_openpsa_helpers::format_number($salesproject->value); ?></div>
+     <div class="value"><?php echo $formatter->number($salesproject->value); ?></div>
     </div>
     <div class="field">
      <div class="title"><?php echo $data['l10n']->get('profit'); ?></div>
-     <div class="value"><?php echo org_openpsa_helpers::format_number($salesproject->profit); ?></div>
+     <div class="value"><?php echo $formatter->number($salesproject->profit); ?></div>
     </div>
     <?php
      $owner_card = org_openpsa_widgets_contact::get($salesproject->owner);

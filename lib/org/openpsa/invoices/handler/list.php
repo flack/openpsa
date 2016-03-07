@@ -35,6 +35,12 @@ implements org_openpsa_widgets_grid_provider_client
      */
     private $_list_type = 'all';
 
+    /**
+     *
+     * @var midcom_services_i18n_formatter
+     */
+    private $formatter;
+
     public function _on_initialize()
     {
         midcom::get()->auth->require_valid_user();
@@ -43,6 +49,7 @@ implements org_openpsa_widgets_grid_provider_client
         $this->_request_data['contacts_url'] = $siteconfig->get_node_full_url('org.openpsa.contacts');
         $this->_request_data['invoices_url'] = $siteconfig->get_node_full_url('org.openpsa.invoices');
         org_openpsa_invoices_viewer::add_head_elements_for_invoice_grid();
+        $this->formatter = $this->_l10n->get_formatter();
     }
 
     public function get_qb($field = null, $direction = 'ASC')
@@ -135,10 +142,10 @@ implements org_openpsa_widgets_grid_provider_client
             $item_sum = org_openpsa_invoices_invoice_item_dba::get_sum($constraints);
             $this->_request_data['totals']['deliverable'] += $item_sum;
             $entry['index_item_sum'] = $item_sum;
-            $entry['item_sum'] = '<span title="' . $this->_l10n->get('sum including vat') . ': ' . org_openpsa_helpers::format_number((($item_sum / 100) * $invoice->vat) + $item_sum) . '">' . org_openpsa_helpers::format_number($item_sum) . '</span>';
+            $entry['item_sum'] = '<span title="' . $this->_l10n->get('sum including vat') . ': ' . $this->formatter->number((($item_sum / 100) * $invoice->vat) + $item_sum) . '">' . $this->formatter->number($item_sum) . '</span>';
         }
         $entry['index_sum'] = $invoice->sum;
-        $entry['sum'] = '<span title="' . $this->_l10n->get('sum including vat') . ': ' . org_openpsa_helpers::format_number((($invoice->sum / 100) * $invoice->vat) + $invoice->sum) . '">' . org_openpsa_helpers::format_number($invoice->sum) . '</span>';
+        $entry['sum'] = '<span title="' . $this->_l10n->get('sum including vat') . ': ' . $this->formatter->number((($invoice->sum / 100) * $invoice->vat) + $invoice->sum) . '">' . $this->formatter->number($invoice->sum) . '</span>';
 
         $entry['due'] = '';
         if ($invoice->due > 0)

@@ -27,7 +27,7 @@ else if ($invoice->due < time())
         echo "<li>" . midcom::get()->i18n->get_string('customer', 'org.openpsa.invoices') . ": {$customer->official}</li>";
     }
 
-    echo "<li>" . midcom::get()->i18n->get_string('sum', 'org.openpsa.invoices') . ": " . org_openpsa_helpers::format_number($invoice->sum) . " (" . midcom::get()->i18n->get_string('due', 'org.openpsa.invoices') . ": " . $formatter->date($invoice->due) . "{$paid})</li>";
+    echo "<li>" . midcom::get()->i18n->get_string('sum', 'org.openpsa.invoices') . ": " . $formatter->number($invoice->sum) . " (" . midcom::get()->i18n->get_string('due', 'org.openpsa.invoices') . ": " . $formatter->date($invoice->due) . "{$paid})</li>";
     ?>
     </ul>
 

@@ -26,6 +26,14 @@ class midcom_services_i18n_formatter
         $this->language = $language;
     }
 
+    public function number($value)
+    {
+        // The fallback implementation in Intl only supports DECIMAL, so we hardcode the style here..
+        $formatter = new NumberFormatter($this->get_locale(), NumberFormatter::DECIMAL);
+        $formatter->setAttribute(NumberFormatter::FRACTION_DIGITS, 2);
+        return $formatter->format($value);
+    }
+
     public function date($value = null, $dateformat = 'medium', $timeformat = 'none')
     {
         if ($value === null)

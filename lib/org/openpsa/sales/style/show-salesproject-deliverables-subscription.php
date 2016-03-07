@@ -1,6 +1,6 @@
 <?php
 $deliverable = $data['deliverable'];
-$price = org_openpsa_helpers::format_number($data['deliverable_object']->price);
+$price = $data['l10n']->get_formatter()->number($data['deliverable_object']->price);
 $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 ?>
 <li class="deliverable subscription collapsed" id="deliverable_<?php echo $data['deliverable_object']->guid; ?>">

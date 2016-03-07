@@ -213,7 +213,7 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
     private function build_status_toolbar(org_openpsa_sales_salesproject_deliverable_dba $deliverable)
     {
         $toolbar = array('label' => '', 'buttons' => array());
-
+        $formatter = $this->_l10n->get_formatter();
         if ($deliverable->state < org_openpsa_sales_salesproject_deliverable_dba::STATE_DECLINED)
         {
             //new, proposed
@@ -233,7 +233,6 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
                 $entries = $deliverable->get_at_entries();
                 if (isset($entries[0]))
                 {
-                    $formatter = $this->_l10n->get_formatter();
                     $toolbar['label'] = sprintf($this->_l10n->get('next invoice will be generated on %s'), $formatter->date($entries[0]->start));
                     if (   $entries[0]->status == midcom_services_at_entry_dba::SCHEDULED
                         && midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_invoices_invoice_dba'))
@@ -252,7 +251,7 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
             //delivered, invoiced
             if ($deliverable->invoiced > 0)
             {
-                $toolbar['label'] = $this->_l10n->get('invoiced') . ': ' . org_openpsa_helpers::format_number($deliverable->invoiced);
+                $toolbar['label'] = $this->_l10n->get('invoiced') . ': ' . $formatter->number($deliverable->invoiced);
             }
         }
         else if (   $deliverable->orgOpenpsaObtype != org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION

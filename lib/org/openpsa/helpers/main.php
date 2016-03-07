@@ -69,27 +69,4 @@ class org_openpsa_helpers
 
          return $attachments;
      }
-
-    /**
-     * Helper function that formats numbers in the current locale's format
-     *
-     * @todo Negative numbers
-     * @param mixed $number The input number
-     * @return string The formatted output
-     */
-    static function format_number($number)
-    {
-        static $localeconv = null;
-
-        if (is_null($localeconv))
-        {
-            $language = midcom::get()->i18n->get_current_language();
-            $language_db = midcom::get()->i18n->get_language_db();
-            setlocale(LC_ALL, $language_db[$language]['locale']);
-
-            $localeconv = localeconv();
-        }
-
-        return number_format((float) $number, 2, $localeconv['decimal_point'], $localeconv['thousands_sep']);
-    }
 }

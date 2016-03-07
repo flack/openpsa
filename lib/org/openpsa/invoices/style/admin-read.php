@@ -131,15 +131,15 @@ if ($invoice->cancelationInvoice)
         <tfoot>
            <tr>
               <td><?php echo $data['l10n']->get('sum excluding vat'); ?>:</td>
-              <td class="numeric" colspan="3"><?php echo org_openpsa_helpers::format_number($invoice->sum); ?></td>
+              <td class="numeric" colspan="3"><?php echo $formatter->number($invoice->sum); ?></td>
            </tr>
            <tr class="secondary">
               <td><?php echo $data['l10n']->get('vat'); ?> (&(view['vat']:h);):</td>
-              <td class="numeric" colspan="3"><?php echo org_openpsa_helpers::format_number(($invoice->sum / 100) * $invoice->vat); ?></td>
+              <td class="numeric" colspan="3"><?php echo $formatter->number(($invoice->sum / 100) * $invoice->vat); ?></td>
            </tr>
            <tr class="primary">
               <td><?php echo $data['l10n']->get('sum including vat'); ?>:</td>
-              <td class="numeric" colspan="3"><?php echo org_openpsa_helpers::format_number((($invoice->sum / 100) * $invoice->vat) + $invoice->sum); ?></td>
+              <td class="numeric" colspan="3"><?php echo $formatter->number((($invoice->sum / 100) * $invoice->vat) + $invoice->sum); ?></td>
            </tr>
         </tfoot>
         <tbody>
@@ -151,9 +151,9 @@ if ($invoice->cancelationInvoice)
             echo "<td>";
             echo $item->render_link();
             echo "</td>";
-            echo "<td class='numeric'>" . org_openpsa_helpers::format_number($item->pricePerUnit) . "</td>";
-            echo "<td class='numeric'>" . $item->units . "</td>";
-            echo "<td class='numeric'>" . org_openpsa_helpers::format_number($item->units * $item->pricePerUnit) . "</td>";
+            echo "<td class='numeric'>" . $formatter->number($item->pricePerUnit) . "</td>";
+            echo "<td class='numeric'>" . $formatter->number($item->units) . "</td>";
+            echo "<td class='numeric'>" . $formatter->number($item->units * $item->pricePerUnit) . "</td>";
             echo "</tr>\n";
             $invoice_sum += $item->units * $item->pricePerUnit;
         }

@@ -33,7 +33,7 @@ $unit_options = midcom_baseclasses_components_configuration::get('org.openpsa.pr
                         {
                             $desc .= $data['l10n']->get('subscription');
                         }
-                        $desc .= ', ' . org_openpsa_helpers::format_number($product['price']);
+                        $desc .= ', ' . $data['l10n']->get_formatter()->number($product['price']);
                         if (array_key_exists($product['unit'], $unit_options))
                         {
                             $unit = midcom::get()->i18n->get_string($unit_options[$product['unit']], 'org.openpsa.products');

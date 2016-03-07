@@ -125,7 +125,7 @@ class org_openpsa_expenses_handler_index  extends midcom_baseclasses_components_
         $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
         $reports = array();
         $hours = $hours_mc->get_rows(array('task', 'hours', 'date', 'person'));
-
+        $formatter = $this->_l10n->get_formatter();
         foreach ($hours as $guid => $row)
         {
             try
@@ -166,13 +166,13 @@ class org_openpsa_expenses_handler_index  extends midcom_baseclasses_components_
             if (!isset($reports[$row_identifier][$date_identifier]))
             {
                 $reports[$row_identifier]['index_' . $date_identifier] = $row['hours'];
-                $number = org_openpsa_helpers::format_number($reports[$row_identifier]['index_' . $date_identifier]);
+                $number = $formatter->number($reports[$row_identifier]['index_' . $date_identifier]);
                 $reports[$row_identifier][$date_identifier] = '<a href="' . $prefix . 'hours/edit/' . $guid . '/" ' . $workflow->render_attributes() . '>' . $number . '</a>';
             }
             else
             {
                 $reports[$row_identifier]['index_' . $date_identifier] += $row['hours'];
-                $reports[$row_identifier][$date_identifier] = $this->_get_list_link(org_openpsa_helpers::format_number($reports[$row_identifier]['index_' . $date_identifier]), $date_identifier, $task->guid, $row['person']);
+                $reports[$row_identifier][$date_identifier] = $this->_get_list_link($formatter->number($reports[$row_identifier]['index_' . $date_identifier]), $date_identifier, $task->guid, $row['person']);
             }
         }
 
