@@ -26,18 +26,18 @@ class midcom_services_i18n_formatter
         $this->language = $language;
     }
 
-    public function number($value)
+    public function number($value, $precision = 2)
     {
         if (   is_float($value)
             && version_compare(Intl::getIcuVersion(), '49', '<'))
         {
             // workaround for http://bugs.icu-project.org/trac/ticket/8561
-            $value = number_format($value, 2, ',', '');
+            $value = number_format($value, $precision, ',', '');
         }
 
         // The fallback implementation in Intl only supports DECIMAL, so we hardcode the style here..
         $formatter = new NumberFormatter($this->get_locale(), NumberFormatter::DECIMAL);
-        $formatter->setAttribute(NumberFormatter::FRACTION_DIGITS, 2);
+        $formatter->setAttribute(NumberFormatter::FRACTION_DIGITS, $precision);
         return $formatter->format($value);
     }
 

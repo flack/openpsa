@@ -115,8 +115,7 @@ class midcom_helper_datamanager2_type_number extends midcom_helper_datamanager2_
         $value = $this->sanitize_number($this->value);
         if ($this->precision !== null)
         {
-            $locale_info = localeconv();
-            return number_format($value, $this->precision, $locale_info['decimal_point'], $locale_info['thousands_sep']);
+            return $this->_l10n->get_formatter()->number($value, $this->precision);
         }
         return htmlspecialchars($value);
     }
