@@ -32,7 +32,20 @@ class midcom_services_i18n_formatter
             && version_compare(Intl::getIcuVersion(), '49', '<'))
         {
             // workaround for http://bugs.icu-project.org/trac/ticket/8561
-            $value = number_format($value, $precision, ',', '');
+            if ($precision == 0)
+            {
+                $value = (int) $precision;
+            }
+            else
+            {
+                $value = number_format($value, $precision, '|', '');
+                $parts = explode('|', $value);
+                $formatter = new NumberFormatter($this->get_locale(), NumberFormatter::DECIMAL);
+                $formatter->setAttribute(NumberFormatter::FRACTION_DIGITS, $precision);
+
+                $val = $formatter->format($parts[0]);
+                return substr($val, 0, strlen($val) - $precision) . $parts[1];
+            }
         }
 
         // The fallback implementation in Intl only supports DECIMAL, so we hardcode the style here..
