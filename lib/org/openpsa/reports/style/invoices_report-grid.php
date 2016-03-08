@@ -149,7 +149,7 @@ $filename = preg_replace('/[^a-z0-9-]/i', '_', $data['title'] . '_' . date('Y_m_
 <?php
 echo ' ' . midcom::get()->i18n->get_string('group by', 'org.openpsa.core') . ': ';
 echo '<select id="chgrouping_' . $grid_id . '">';
-echo '<option value="status">' . $l10n->get('invoice status') . "</option>\n";
+echo '<option value="status">' . $data['l10n']->get('invoice status') . "</option>\n";
 echo '<option value="customer">' . $l10n->get('customer') . "</option>\n";
 echo '<option value="contact">' . $l10n->get('customer contact') . "</option>\n";
 echo '<option value="year" data-hidden="true">' . $data['l10n']->get('year') . "</option>\n";
