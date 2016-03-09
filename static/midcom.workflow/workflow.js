@@ -43,12 +43,12 @@ $(document).ready(function()
         event.preventDefault();
         if (!$(this).hasClass('active'))
         {
-            create_dialog($(this), $(this).find('.toolbar_label').text() || $(this).attr('title') || '');
+            create_dialog($(this), $(this).find('.toolbar_label').text() || $(this).attr('title') || '', $(this).attr('href'));
         }
     });
 });
 
-function create_dialog(control, title)
+function create_dialog(control, title, url)
 {
     if ($('.midcom-workflow-dialog').length > 0)
     {
@@ -109,9 +109,9 @@ function create_dialog(control, title)
         config.width = Math.min(700, $(window).width());
     }
 
-    if ($(control).attr('href'))
+    if (url)
     {
-        iframe.attr('src', $(control).attr('href'));
+        iframe.attr('src', url);
     }
 
     control.addClass('active');
