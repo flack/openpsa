@@ -68,80 +68,6 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
     }
 
     /**
-     * Removes the folder from indexer if applicable.
-     */
-    private function _delete_topic_update_index()
-    {
-        if (midcom::get()->config->get('indexer_backend') === false)
-        {
-            // Indexer is not configured.
-            return;
-        }
-        midcom::get()->disable_limits();
-
-        debug_add("Dropping all NAP registered objects from the index.");
-
-        // First we collect everything we have to delete, this might take a while
-        // so we keep an eye on the script timeout.
-        $guids = array ();
-        $nap = new midcom_helper_nav();
-
-        $node_list = array($nap->get_current_node());
-
-        while (count($node_list) > 0)
-        {
-            // Add the node being processed.
-            $nodeid = array_shift($node_list);
-            debug_add("Processing node {$nodeid}");
-
-            $node = $nap->get_node($nodeid);
-            $guids[] = $node[MIDCOM_NAV_GUID];
-
-            debug_add("Processing leaves of node {$nodeid}");
-            $leaves = $nap->list_leaves($nodeid, true);
-            debug_add('Got ' . count($leaves) . ' leaves.');
-            foreach ($leaves as $leafid)
-            {
-                $leaf = $nap->get_leaf($leafid);
-                $guids[] = $leaf[MIDCOM_NAV_GUID];
-            }
-
-            debug_add('Loading subnodes');
-            $node_list = array_merge($node_list, $nap->list_nodes($nodeid, true));
-            debug_print_r('Remaining node queue', $node_list);
-        }
-
-        debug_add('We have to delete ' . count($guids) . ' objects from the index.');
-
-        // Now we go over the entire index and delete the corresponding objects.
-        // We load all attachments of the corresponding objects as well, to have
-        // them deleted too.
-        //
-        // Again we keep an eye on the script timeout.
-        $indexer = midcom::get()->indexer;
-        foreach ($guids as $guid)
-        {
-            try
-            {
-                $object = midcom::get()->dbfactory->get_object_by_guid($guid);
-                $atts = $object->list_attachments();
-                foreach ($atts as $attachment)
-                {
-                    debug_add("Deleting attachment {$attachment->id} from the index.");
-                    $indexer->delete($attachment->guid);
-                }
-            }
-            catch (midcom_error $e)
-            {
-                $e->log();
-            }
-
-            debug_add("Deleting guid {$guid} from the index.");
-            $indexer->delete($guid);
-        }
-    }
-
-    /**
      * Deletes the folder and _midcom_db_article_ objects stored in it.
      */
     private function _process_delete_form()
@@ -166,15 +92,8 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
             }
             midcom::get()->auth->drop_sudo();
         }
-        $this->_delete_topic_update_index();
 
-        if (!$this->_delete_children($this->_topic))
-        {
-            midcom::get()->uimessages->add($this->_l10n->get('midcom.admin.folder'), sprintf($this->_l10n->get('could not delete folder contents: %s'), midcom_connection::get_error_string()), 'error');
-            return false;
-        }
-
-        if (!$this->_topic->delete())
+        if (!$this->_topic->delete_tree())
         {
             debug_add("Could not delete Folder {$this->_topic->id}: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
             midcom::get()->uimessages->add($this->_l10n->get('midcom.admin.folder'), sprintf($this->_l10n->get('could not delete folder: %s'), midcom_connection::get_error_string()), 'error');
@@ -183,34 +102,6 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
 
         // Invalidate everything since we operate recursive here.
         midcom::get()->cache->invalidate_all();
-
-        return true;
-    }
-
-    private function _delete_children($object)
-    {
-        $children = midcom_helper_reflector_tree::get_child_objects($object);
-
-        if (empty($children))
-        {
-            return true;
-        }
-
-        foreach ($children as $objects)
-        {
-            foreach ($objects as $object)
-            {
-                if (!$this->_delete_children($object))
-                {
-                    return false;
-                }
-                if (!$object->delete())
-                {
-                    debug_add("Could not delete child object {$object->guid}:" . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-                    return false;
-                }
-            }
-        }
 
         return true;
     }
