@@ -129,7 +129,6 @@ class delete extends dialog
             {
                 $this->state = static::SUCCESS;
                 $url = $this->success_url;
-                midcom::get()->indexer->delete($object->guid);
                 $message['body'] = sprintf($this->l10n_midcom->get("%s deleted"), $this->label);
             }
             else

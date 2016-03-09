@@ -519,10 +519,6 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
                 throw new midcom_error("Failed to delete object {$args[0]}, last Midgard error was: " . midcom_connection::get_error_string());
             }
 
-            // Update the index
-            $indexer = midcom::get()->indexer;
-            $indexer->delete($this->_object->guid);
-
             return $this->_prepare_relocate($this->_object, 'delete');
         }
 

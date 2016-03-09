@@ -6,6 +6,9 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use midcom\events\dbaevent;
+
 /**
  * This class is the main access point into the MidCOM Indexer subsystem.
  *
@@ -24,7 +27,7 @@
  * @todo More elaborate class introduction.
  * @package midcom.services
  */
-class midcom_services_indexer
+class midcom_services_indexer implements EventSubscriberInterface
 {
     /**
      * The backend indexer implementation
@@ -74,6 +77,17 @@ class midcom_services_indexer
         {
             $this->_backend = $backend;
         }
+        midcom::get()->dispatcher->addSubscriber($this);
+    }
+
+    public static function getSubscribedEvents()
+    {
+        return array(dbaevent::DELETE => array('handle_delete'));
+    }
+
+    public function handle_delete(dbaevent $event)
+    {
+        $this->delete($event->get_object()->guid);
     }
 
     /**
