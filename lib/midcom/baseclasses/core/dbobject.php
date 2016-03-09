@@ -446,6 +446,7 @@ class midcom_baseclasses_core_dbobject
                     if (!$child->delete_tree())
                     {
                         debug_print_r('Failed to delete the children of this object:', $object, MIDCOM_LOG_INFO);
+                        return false;
                     }
                 }
             }
