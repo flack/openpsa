@@ -47,7 +47,7 @@ $grid->set_option('footerrow', true)
 
 function calculate_subtotal(val, name, record)
 {
-    var sum = parseFloat(val||0) + parseFloat((record[name]||0));
+    var sum = parseFloat(val||0) + parseFloat((record['index_' + name]||0));
     return sum || '';
 }
 </script>
@@ -75,4 +75,3 @@ $.each(date_columns, function(index, name)
 });
 grid.jqGrid('footerData', 'set', totals);
 </script>
-
