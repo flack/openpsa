@@ -2,7 +2,7 @@
 $view_task = $data['object_view'];
 $task = $data['object'];
 $task->get_members();
-
+$formatter = $data['l10n']->get_formatter();
 $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 
 $siteconfig = org_openpsa_core_siteconfig::get_instance();
@@ -100,7 +100,7 @@ $expenses_url = $siteconfig->get_node_relative_url('org.openpsa.expenses');
     </div>
     <div class="field">
         <?php echo '<div class="title">' . $data['l10n']->get('timeframe') . ': </div>';
-        echo '<div class="value">' . $view_task['start'] . ' &ndash; ' . $view_task['end'] . '</div>';
+        echo '<div class="value">' . $formatter->timeframe($task->start, $task->end, 'date') . '</div>';
         ?>
     </div>
     <?php
@@ -126,7 +126,6 @@ $expenses_url = $siteconfig->get_node_relative_url('org.openpsa.expenses');
         <div class="bookings">
             <?php
             echo "<h2>" . $data['l10n']->get('booked times') . "</h2>\n";
-            $formatter = $data['l10n']->get_formatter();
             if (count($data['task_bookings']['confirmed']) > 0)
             {
                 echo "<ul>\n";

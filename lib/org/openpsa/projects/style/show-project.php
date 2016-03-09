@@ -64,8 +64,9 @@ $node = $nap->get_node($nap->get_current_node());
         ?>
     </div>
     <div class="field">
-        <?php echo '<div class="title">' . $data['l10n']->get('timeframe') . ': </div>';
-        echo '<div class="value">' . $view['start'] . ' &ndash; ' . $view['end'] . '</div>';
+        <?php
+        echo '<div class="title">' . $data['l10n']->get('timeframe') . ': </div>';
+        echo '<div class="value">' . $data['l10n']->get_formatter()->timeframe($project->start, $project->end, 'date') . '</div>';
         ?>
     </div>
     <div class="field">

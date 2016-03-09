@@ -7,6 +7,7 @@
  */
 
 use Symfony\Component\Intl\Intl;
+use OpenPsa\Ranger\Ranger;
 
 /**
  * Symfony Intl integration
@@ -79,32 +80,22 @@ class midcom_services_i18n_formatter
         return $this->date($value, $dateformat, $timeformat);
     }
 
-    public function timeframe($start, $end, $mode = 'both')
+    public function timeframe($start, $end, $mode = 'both', $range_separator = null, $fulldate = false)
     {
-        $startday = $this->date($start);
-        $endday = $this->date($end);
-        if ($mode == 'date')
+        $ranger = new Ranger($this->get_locale());
+        if ($mode !== 'date')
         {
-            return $startday . ' ' . json_decode('"\u2013"') . ' ' . $endday;
+            $ranger->setTimeType(IntlDateFormatter::SHORT);
         }
-
-        $starttime = $this->date($start, IntlDateFormatter::NONE, IntlDateFormatter::SHORT);
-        $endtime = $this->date($end, IntlDateFormatter::NONE, IntlDateFormatter::SHORT);
-
-        $ret = $starttime . ' ' . json_decode('"\u2013"');
-
-        if ($mode == 'both')
+        if ($fulldate)
         {
-            if ($startday == $endday)
-            {
-                $ret = $startday . ', ' . $ret;
-            }
-            else
-            {
-                $ret = $startday . ' ' . $ret . ' ' . $endday;
-            }
+            $ranger->setDateType(IntlDateFormatter::FULL);
         }
-        return $ret . ' ' . $endtime;
+        if ($range_separator !== null)
+        {
+            $ranger->setRangeSeparator($range_separator);
+        }
+        return $ranger->format($start, $end);
     }
 
     private function constant($input)

@@ -127,51 +127,17 @@ class org_openpsa_widgets_calendar_event
 
     /**
      * Renders hEvent compatible and nice time label
-     *
-     * @todo clean up and define properly the operation in various combinations of reference time and event start/end
      */
-    function render_timelabel($reference_time = null, $show_day_name = false)
+    function render_timelabel($show_day_name = false)
     {
         $formatter = midcom::get()->i18n->get_l10n()->get_formatter();
-        $timelabel = '';
-
-        if (   !is_null($reference_time)
-            && date('Y-m-d', $this->start) === date('Y-m-d', $reference_time))
-        {
-            $start_time = $formatter->time($this->start);
-        }
-        else
-        {
-            if ($show_day_name)
-            {
-                $start_time = $formatter->datetime($this->start, 'full');
-            }
-            else
-            {
-                $start_time = $formatter->datetime($this->start);
-            }
-        }
-
-        if (date('Y-m-d', $this->start) === date('Y-m-d', $this->end))
-        {
-            $end_time = $formatter->time($this->end);
-        }
-        else if (   !is_null($reference_time)
-                && date('Y-m-d', $this->end) === date('Y-m-d', $reference_time))
-        {
-            $end_time = $formatter->time($this->end);
-        }
-        else
-        {
-            $end_time = $formatter->datetime('%x %H:%M', $this->end);
-        }
 
         $dtstart = strftime('%Y-%m-%dT%H:%M:%S%z', $this->start);
         $dtend = strftime('%Y-%m-%dT%H:%M:%S%z', $this->end);
-
-        $timelabel .= "        <abbr class=\"dtstart\" title=\"{$dtstart}\">{$start_time}</abbr> &ndash;\n";
-        $timelabel .= "        <abbr class=\"dtend\" title=\"{$dtend}\">{$end_time}</abbr>\n";
-
+        $timelabel = "        <abbr class=\"dtstart\" title=\"{$dtstart}\">";
+        $separator = "</abbr> &ndash; <abbr class=\"dtend\" title=\"{$dtend}\">";
+        $timelabel .= $formatter->timeframe($this->start, $this->end, 'both', $separator, $show_day_name);
+        $timelabel .= '</abbr>';
         return $timelabel;
     }
 

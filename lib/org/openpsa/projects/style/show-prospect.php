@@ -41,7 +41,7 @@ $contactwidget = new org_openpsa_widgets_contact($data['person']);
                 $event = new org_openpsa_widgets_calendar_event();
                 $event->start = $slot['start'];
                 $event->end = $slot['end'];
-                echo $event->render_timelabel(null, true);
+                echo $event->render_timelabel(true);
 
                 echo "        </label>\n";
                 echo "    </td>\n";
