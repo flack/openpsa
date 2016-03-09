@@ -38,7 +38,7 @@ $(document).ready(function()
             .dialog(options);
     });
 
-    $('body').on('click', '[data-dialog="datamanager"]', function(event)
+    $('body').on('click', '[data-dialog="dialog"]', function(event)
     {
         event.preventDefault();
         if (!$(this).hasClass('active'))

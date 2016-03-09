@@ -15,7 +15,7 @@ use midcom;
 /**
  * @package midcom.workflow
  */
-class viewer
+class viewer extends dialog
 {
     public function get_button_config()
     {
@@ -23,7 +23,7 @@ class viewer
         (
             MIDCOM_TOOLBAR_OPTIONS => array
             (
-                'data-dialog' => 'viewer',
+                'data-dialog' => 'dialog',
             )
         );
     }
