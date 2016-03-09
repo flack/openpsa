@@ -4,9 +4,11 @@ if (! exec ('which which'))
     throw new midcom_error("The 'which' utility cannot be found.");
 }
 midcom::get()->auth->require_admin_user();
+$title = midcom::get()->i18n->get_string('test settings', 'midcom')
 ?>
 <html>
-<head><title>Configuration Test</title></head>
+<head><title>&(title);</title>
+<link rel="stylesheet" type="text/css" href="<?php echo MIDCOM_STATIC_URL ?>/midcom.workflow/dialog.css" />
 <style type="text/css">
 tr.test th
 {
@@ -15,9 +17,8 @@ tr.test th
 	font-weight: normal
 }
 </style>
+</head>
 <body>
-
-<h1>Configuration Test</h1>
 
 <p>This page performs a few tests on the system configuration.</p>
 
