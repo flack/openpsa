@@ -42,10 +42,18 @@ $(document).ready(function()
                               return output;
                           }
 
-                          $('<ul class="folder_list">')
-                              .append($(render(data)))
-                              .appendTo($('#delete-child-list').removeClass('loading'));
-                          dialog.dialog('option', 'position', dialog.dialog('option', 'position'));
+                          if (data.length > 0)
+                          {
+                              $('<ul class="folder_list">')
+                                  .append($(render(data)))
+                                  .appendTo($('#delete-child-list'));
+                              dialog.dialog('option', 'position', dialog.dialog('option', 'position'));
+                          }
+                          else
+                          {
+                              dialog.find('p.warning').hide();
+                          }
+                          $('#delete-child-list').removeClass('loading');
                       });
 
         }

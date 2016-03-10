@@ -1,7 +1,7 @@
 .midcom-delete-dialog .warning
 {
     color: red;
-    font-size: bold;
+    font-weight: bold;
 }
 
 #delete-child-list.loading
