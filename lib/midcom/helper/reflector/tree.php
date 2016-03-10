@@ -13,29 +13,6 @@
  */
 class midcom_helper_reflector_tree extends midcom_helper_reflector
 {
-    private static $_instances = array();
-
-    /**
-     * @param mixed $src classname or object
-     * @return midcom_helper_reflector_tree Reflector instance
-     */
-    public static function &get($src)
-    {
-        if (is_object($src))
-        {
-            $classname = get_class($src);
-        }
-        else
-        {
-            $classname = $src;
-        }
-        if (!isset(self::$_instances[$classname]))
-        {
-            self::$_instances[$classname] =  new self($src);
-        }
-        return self::$_instances[$classname];
-    }
-
     /**
      * Creates a QB instance for get_root_objects and count_root_objects
      */
@@ -252,7 +229,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         $part = array
         (
             'object' => $object,
-            'label' => midcom_helper_reflector::get($object)->get_object_label($object),
+            'label' => parent::get($object)->get_object_label($object),
         );
         $ret[] = $part;
 
@@ -262,7 +239,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
             $part = array
             (
                 'object' => $parent,
-                'label' => midcom_helper_reflector::get($parent)->get_object_label($parent),
+                'label' => parent::get($parent)->get_object_label($parent),
             );
             $ret[] = $part;
             $parent = self::get_parent($parent);

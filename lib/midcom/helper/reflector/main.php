@@ -65,17 +65,17 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      * Get cached reflector instance
      *
      * @param mixed $src Object or classname
-     * @return midcom_helper_reflector
+     * @return self
      */
     public static function &get($src)
     {
-        $classname = (is_object($src)) ? get_class($src) : $src;
+        $identifier = get_called_class() . (is_object($src) ? get_class($src) : $src);
 
-        if (!isset(self::$_cache['instance'][$classname]))
+        if (!isset(self::$_cache['instance'][$identifier]))
         {
-            self::$_cache['instance'][$classname] = new midcom_helper_reflector($src);
+            self::$_cache['instance'][$identifier] = new static($src);
         }
-        return self::$_cache['instance'][$classname];
+        return self::$_cache['instance'][$identifier];
     }
 
     /**
