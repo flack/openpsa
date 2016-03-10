@@ -44,12 +44,6 @@ class datamanager2 extends dialog
             ->setAllowedTypes('controller', array('null', 'midcom_helper_datamanager2_controller'));
     }
 
-    public static function add_head_elements()
-    {
-        parent::add_head_elements();
-        midcom::get()->head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/resizable.min.js');
-    }
-
     public function get_button_config()
     {
         return array

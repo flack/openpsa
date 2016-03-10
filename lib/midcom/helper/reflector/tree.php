@@ -775,4 +775,55 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
             $qb->add_order($name_property);
         }
     }
+
+    /**
+     * List object children
+     *
+     * @param midcom_core_dbaobject $parent
+     * @return array
+     */
+    public static function get_tree(midcom_core_dbaobject $parent)
+    {
+        static $shown_guids = array();
+        $tree = array();
+        try
+        {
+            $children = self::get_child_objects($parent);
+        }
+        catch (midcom_error $e)
+        {
+            return $tree;
+        }
+
+        foreach ($children as $class => $objects)
+        {
+            $reflector = parent::get($class);
+
+            foreach ($objects as $object)
+            {
+                if (array_key_exists($object->guid, $shown_guids))
+                {
+                    //we might see objects twice if they have both up and parent
+                    continue;
+                }
+                $shown_guids[$object->guid] = true;
+
+                $title = $reflector->get_object_label($object);
+                $icon = $reflector->get_object_icon($object);
+                $leaf = array
+                (
+                    'title' => $title,
+                    'icon' => $icon,
+                    'class' => $class
+                );
+                $grandchildren = self::get_tree($object);
+                if (!empty($grandchildren))
+                {
+                    $leaf['children'] = $grandchildren;
+                }
+                $tree[] = $leaf;
+            }
+        }
+        return $tree;
+    }
 }

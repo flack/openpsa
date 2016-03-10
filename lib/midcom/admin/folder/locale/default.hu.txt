@@ -2,10 +2,6 @@
 ---VERSION 2.1.0
 ---LANGUAGE hu
 
----STRING are you sure you want to delete this folder
-Biztos, hogy törölni szeretné ezt a mappát?
----STRINGEND
-
 ---STRING default
 Alapértelmezett
 ---STRINGEND

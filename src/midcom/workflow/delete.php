@@ -100,6 +100,14 @@ class delete extends dialog
      */
     public function get_button_config()
     {
+        $dialog_text = '<p>' . sprintf($this->l10n_midcom->get('delete %s'), $this->label) . '</p>';
+
+        if ($this->recursive)
+        {
+            $dialog_text .= '<p class="warning">' . $this->l10n_midcom->get('all descendants will be deleted') . ':</p>';
+            $dialog_text .= '<div id="delete-child-list" class="loading"></div>';
+        }
+
         return array
         (
             MIDCOM_TOOLBAR_LABEL => $this->l10n_midcom->get('delete'),
@@ -110,8 +118,10 @@ class delete extends dialog
                 'data-dialog' => 'delete',
                 'data-form-id' => $this->form_identifier,
                 'data-dialog-heading' => $this->l10n_midcom->get('confirm delete'),
-                'data-dialog-text' => sprintf($this->l10n_midcom->get('delete %s'), $this->label),
-                'data-dialog-cancel-label' => $this->l10n_midcom->get('cancel')
+                'data-dialog-text' => $dialog_text,
+                'data-dialog-cancel-label' => $this->l10n_midcom->get('cancel'),
+                'data-recursive' => $this->recursive ? 'true' : 'false',
+                'data-guid' => $this->object->guid,
             )
         );
     }

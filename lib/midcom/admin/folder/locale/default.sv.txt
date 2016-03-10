@@ -6,14 +6,6 @@
 %s status
 ---STRINGEND
 
----STRING all descendants will be deleted
-Allting i den här katalogen kommer att ta bort:
----STRINGEND
-
----STRING are you sure you want to delete this folder
-Är du säker på att du vill ta bort denna katalog?
----STRINGEND
-
 ---STRING author
 Författare
 ---STRINGEND
@@ -68,10 +60,6 @@ Standard sorterings ordning
 
 ---STRING delete folder
 Ta bort katalog
----STRINGEND
-
----STRING delete folder %s
-Ta bort katalog "%s"
 ---STRINGEND
 
 ---STRING edit %s
@@ -264,10 +252,6 @@ Publisera på (lämna tom för omedelbar publicering)
 
 ---STRING createlink folder %s
 Skapa katalog länk under "%s"
----STRINGEND
-
----STRING this folder is a symlink to <a href="%s">%s</a> and confirming will delete only this symlink
-Den här katalogen är en symlink till <a href="%s">%s</a> och bekräftning kommer endast att radera den här symlinken.
 ---STRINGEND
 
 ---STRING create folder link

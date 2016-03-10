@@ -91,13 +91,12 @@ class org_openpsa_documents_handler_finder extends midcom_baseclasses_components
         }
         if ($this->_request_data['directory']->can_do('midgard:delete'))
         {
-            $buttons[] = array
+            $workflow = $this->get_workflow('delete', array('object' => $this->_request_data['directory'], 'recursive' => true));
+            $buttons[] = $workflow->get_button("__ais/folder/delete/", array
             (
-                MIDCOM_TOOLBAR_URL => '__ais/folder/delete',
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('delete directory'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
                 MIDCOM_TOOLBAR_ACCESSKEY => 'd',
-            );
+            ));
         }
         $this->_view_toolbar->add_items($buttons);
         $this->bind_view_to_object($this->_request_data['directory']);

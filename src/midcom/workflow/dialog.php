@@ -47,8 +47,9 @@ abstract class dialog
     public static function add_head_elements()
     {
         $head = midcom::get()->head;
-        $head->enable_jquery_ui(array('mouse', 'draggable', 'position', 'button', 'dialog'));
+        $head->enable_jquery_ui(array('mouse', 'draggable', 'position', 'resizable', 'button', 'dialog'));
         $head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.workflow/workflow.js');
+        $head->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.workflow/workflow.css');
     }
 
     /**

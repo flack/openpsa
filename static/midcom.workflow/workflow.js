@@ -4,15 +4,51 @@ $(document).ready(function()
     {
         event.preventDefault();
         var button = $(this),
+            dialog = $('<div class="midcom-delete-dialog">'),
             options = {
                 title:  button.data('dialog-heading'),
-                resizable: false,
                 modal: true,
                 width: 'auto',
+                maxHeight: $(window).height(),
                 buttons: {}
             },
             label = button.text(),
             action = button.attr('href') || button.data('action');
+
+        if ($('.midcom-delete-dialog').length > 0)
+        {
+            $('.midcom-delete-dialog').remove();
+        }
+
+        if (button.data('recursive'))
+        {
+            $.getJSON(MIDCOM_PAGE_PREFIX + 'midcom-exec-midcom.helper.reflector/list-children.php',
+                      {guid: button.data('guid')},
+                      function (data){
+                          function render(items)
+                          {
+                              var output = '';
+                              $.each(items, function(i, item){
+                                  output += '<li class="leaf ' + item['class'] + '">' + item.icon + ' ' + item.title;
+                                  if (item.children)
+                                  {
+                                      output += '<ul class="folder_list">';
+                                      output += render(item.children);
+                                      output += '</ul>';
+                                  }
+                                  output += '</li>';
+
+                              });
+                              return output;
+                          }
+
+                          $('<ul class="folder_list">')
+                              .append($(render(data)))
+                              .appendTo($('#delete-child-list').removeClass('loading'));
+                          dialog.dialog('option', 'position', dialog.dialog('option', 'position'));
+                      });
+
+        }
 
         if (label.trim() === '')
         {
@@ -30,7 +66,7 @@ $(document).ready(function()
         options.buttons[button.data('dialog-cancel-label')] = function() {
             $(this).dialog( "close" );
         };
-        $('<div>')
+        dialog
             .css('min-width', '300px') // This should be handled by dialog's minWidth option, but that doesn't work with width: "auto"
                                        // Should be fixed in https://github.com/jquery/jquery-ui/commit/643b80c6070e2eba700a09a5b7b9717ea7551005
             .append($('<p>' + button.data('dialog-text') + '</p>'))

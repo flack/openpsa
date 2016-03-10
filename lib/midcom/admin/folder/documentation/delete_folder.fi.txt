@@ -1,6 +1,0 @@
-﻿Kansion poistaminen
-=======
-
-Kansion poistaminen tulee poistamaan myös kaikki alikansiot ja kansiossa olevat sivut. Katso siis tarkkaan, mitkä elementit tullaan poistamaan!
-
-Kun olet varmistanut, että poistat vain ne elementit, jotka haluat poistaa, vahvista painamalla _Poista_-nappia.

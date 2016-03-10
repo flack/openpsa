@@ -58,6 +58,10 @@ Tehokäyttäjän tietokanta-asetukset
 kaikki
 ---STRINGEND
 
+---STRING all descendants will be deleted
+Kaikki tämän kansion alla oleva poistetaan:
+---STRINGEND
+
 ---STRING and
 ja
 ---STRINGEND

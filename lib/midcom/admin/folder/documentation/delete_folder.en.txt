@@ -1,6 +1,0 @@
-Deleting a folder
-=================
-
-Deleting a folder will remove also all the subfolders and pages depending on the datatypes used by the folder. Check carefully the list of the elements that will be removed!
-
-After you have checked the list, confirm by clicking on the button _Delete_.

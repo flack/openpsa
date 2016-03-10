@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use midcom\workflow\delete;
+
 /**
  * Handle the folder deleting requests
  *
@@ -13,8 +15,6 @@
  */
 class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_handler
 {
-    private static $_shown_guids = array();
-
     /**
      * Handler for folder deletion.
      *
@@ -34,43 +34,26 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
         $this->_topic->require_do('midgard:delete');
         $this->_topic->require_do('midcom.admin.folder:topic_management');
 
-        if (array_key_exists('f_cancel', $_REQUEST))
+        $nav = new midcom_helper_nav();
+        $upper_node = $nav->get_node($nav->get_current_upper_node());
+
+        $workflow = $this->get_workflow('delete', array
+        (
+            'object' => $this->_topic,
+            'recursive' => true,
+            'success_url' => $upper_node[MIDCOM_NAV_ABSOLUTEURL]
+        ));
+        if ($workflow->get_state() === delete::CONFIRMED)
         {
-            return new midcom_response_relocate('');
+            $this->check_symlinks();
         }
-
-        if (   array_key_exists('f_submit', $_REQUEST)
-            && $this->_process_delete_form())
-        {
-            $nav = new midcom_helper_nav();
-            $upper_node = $nav->get_node($nav->get_current_upper_node());
-            return new midcom_response_relocate($upper_node[MIDCOM_NAV_ABSOLUTEURL]);
-        }
-
-        $this->_request_data['topic'] = $this->_topic;
-
-        // Add the view to breadcrumb trail
-        $this->add_breadcrumb('__ais/folder/delete/', $this->_l10n->get('delete folder'));
-
-        // Hide the button in toolbar
-        $this->_node_toolbar->hide_item('__ais/folder/delete/');
-
-        // Set page title
-        $data['title'] = sprintf($this->_l10n->get('delete folder %s'), $this->_topic->get_label());
-        midcom::get()->head->set_pagetitle($data['title']);
-
-        // Set the help object in the toolbar
-        $help_toolbar = midcom::get()->toolbars->get_help_toolbar();
-        $help_toolbar->add_help_item('delete_folder', 'midcom.admin.folder', null, null, 1);
-
-        // Add style sheet
-        $this->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.admin.folder/folder.css');
+        return $workflow->run();
     }
 
     /**
      * Deletes the folder and _midcom_db_article_ objects stored in it.
      */
-    private function _process_delete_form()
+    private function check_symlinks()
     {
         if (midcom::get()->config->get('symlinks'))
         {
@@ -92,101 +75,5 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
             }
             midcom::get()->auth->drop_sudo();
         }
-
-        if (!$this->_topic->delete_tree())
-        {
-            debug_add("Could not delete Folder {$this->_topic->id}: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-            midcom::get()->uimessages->add($this->_l10n->get('midcom.admin.folder'), sprintf($this->_l10n->get('could not delete folder: %s'), midcom_connection::get_error_string()), 'error');
-            return false;
-        }
-
-        // Invalidate everything since we operate recursive here.
-        midcom::get()->cache->invalidate_all();
-
-        return true;
-    }
-
-    /**
-     * Shows the _Delete folder_ form.
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_delete($handler_id, array &$data)
-    {
-        if (!empty($this->_topic->symlink))
-        {
-            try
-            {
-                $topic = new midcom_db_topic($this->_topic->symlink);
-                $data['symlink'] = '';
-                $nap = new midcom_helper_nav();
-                if ($node = $nap->get_node($topic))
-                {
-                    $data['symlink'] = $node[MIDCOM_NAV_FULLURL];
-                }
-            }
-            catch (midcom_error $e)
-            {
-                debug_add("Could not get target for symlinked topic #{$this->_topic->id}: " .
-                    $e->getMessage(), MIDCOM_LOG_ERROR);
-            }
-        }
-
-        $data['title'] = $this->_topic->get_label();
-
-        midcom_show_style('midcom-admin-show-delete-folder');
-    }
-
-    /**
-     * List topic contents
-     *
-     * @param midcom_core_dbaobject $parent
-     */
-    public static function list_children(midcom_core_dbaobject $parent)
-    {
-        try
-        {
-            $children = midcom_helper_reflector_tree::get_child_objects($parent);
-        }
-        catch (midcom_error $e)
-        {
-            $children = array();
-        }
-
-        if (empty($children))
-        {
-            return;
-        }
-
-        echo "<ul class=\"folder_list\">\n";
-
-        foreach ($children as $class => $objects)
-        {
-            $reflector = midcom_helper_reflector::get($class);
-            $style = "";
-            if ($class == 'net_nemein_tag_link')
-            {
-                $style = "style=\"display: none;\"";
-            }
-            foreach ($objects as $object)
-            {
-                if (array_key_exists($object->guid, self::$_shown_guids))
-                {
-                    //we might see objects twice if they have both up and parent
-                    continue;
-                }
-                self::$_shown_guids[$object->guid] = true;
-
-                $title = $reflector->get_object_label($object);
-                $icon = $reflector->get_object_icon($object);
-                echo "    <li class=\"leaf $class\"$style>\n";
-                echo "        " . $icon . " {$title}\n";
-                self::list_children($object);
-                echo "    </li>\n";
-            }
-        }
-
-        echo "</ul>\n";
     }
 }

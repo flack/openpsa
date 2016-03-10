@@ -143,13 +143,11 @@ class midcom_helper_toolbar_node extends midcom_helper_toolbar_view
             && $urltopic->can_do('midgard:delete')
             && $urltopic->can_do('midcom.admin.folder:topic_management'))
         {
-            $buttons[] = array
+            $workflow = new midcom\workflow\delete(array('object' => $urltopic, 'recursive' => true));
+            $buttons[] = $workflow->get_button("__ais/folder/delete/", array
             (
-                MIDCOM_TOOLBAR_URL => "__ais/folder/delete/",
-                MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('delete folder', 'midcom.admin.folder'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
-                // for terminate d is used by everyone to go to the location bar
-            );
+                MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('delete folder', 'midcom.admin.folder')
+            ));
         }
         $this->add_items($buttons);
     }

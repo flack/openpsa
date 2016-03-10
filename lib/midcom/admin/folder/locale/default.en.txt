@@ -6,14 +6,6 @@
 %s state
 ---STRINGEND
 
----STRING all descendants will be deleted
-Everything under this folder will be deleted:
----STRINGEND
-
----STRING are you sure you want to delete this folder
-Are you sure you want to delete this folder?
----STRINGEND
-
 ---STRING author
 Author
 ---STRINGEND
@@ -68,10 +60,6 @@ Default sort order
 
 ---STRING delete folder
 Delete folder
----STRINGEND
-
----STRING delete folder %s
-Delete folder "%s"
 ---STRINGEND
 
 ---STRING edit %s
@@ -264,10 +252,6 @@ Objects that are hidden from navigation are still accessible on-site if the URL 
 
 ---STRING createlink folder %s
 Create folder link under folder "%s"
----STRINGEND
-
----STRING this folder is a symlink to <a href="%s">%s</a> and confirming will delete only this symlink
-This folder is a symlink to <a href="%s">%s</a> and confirming will delete only this symlink.
 ---STRINGEND
 
 ---STRING create folder link

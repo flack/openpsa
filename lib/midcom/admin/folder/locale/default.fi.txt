@@ -6,14 +6,6 @@
 %s-aste
 ---STRINGEND
 
----STRING all descendants will be deleted
-Kaikki tämän kansion alla oleva poistetaan:
----STRINGEND
-
----STRING are you sure you want to delete this folder
-Oletko varma että haluat poistaa tämän kansion?
----STRINGEND
-
 ---STRING author
 Tekijä
 ---STRINGEND
@@ -68,10 +60,6 @@ Oletus
 
 ---STRING delete folder
 Poista kansio
----STRINGEND
-
----STRING delete folder %s
-Poista kansio "%s"
 ---STRINGEND
 
 ---STRING edit %s
@@ -264,10 +252,6 @@ Ulkoasupohja
 
 ---STRING createlink folder %s
 Luo kansiolinkki kansion "%s" alle
----STRINGEND
-
----STRING this folder is a symlink to <a href="%s">%s</a> and confirming will delete only this symlink
-Tämä kansio on symlink kansioon <a href="%s">%s</a> ja vahvistaminen poistaa vain tämän symlinkin.
 ---STRINGEND
 
 ---STRING create folder link

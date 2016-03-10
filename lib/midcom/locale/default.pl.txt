@@ -58,6 +58,10 @@ Zaawansowane ustawienia danych
 wszystko
 ---STRINGEND
 
+---STRING all descendants will be deleted
+Cała zawartość folderu zostanie usunięta:
+---STRINGEND
+
 ---STRING and
 i
 ---STRINGEND

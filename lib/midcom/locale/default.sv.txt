@@ -10,6 +10,10 @@
 %s paket av typen %s
 ---STRINGEND
 
+---STRING all descendants will be deleted
+Allting i den här katalogen kommer att ta bort:
+---STRINGEND
+
 ---STRING More...
 Mera...
 ---STRINGEND

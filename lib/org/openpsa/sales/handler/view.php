@@ -74,7 +74,7 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
 
         if ($this->_salesproject->can_do('midgard:delete'))
         {
-            $workflow = $this->get_workflow('delete', array('object' => $this->_salesproject));
+            $workflow = $this->get_workflow('delete', array('object' => $this->_salesproject, 'recursive' => true));
             $buttons[] = $workflow->get_button("salesproject/delete/{$this->_salesproject->guid}/");
         }
 

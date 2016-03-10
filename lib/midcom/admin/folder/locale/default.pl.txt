@@ -6,14 +6,6 @@
 Stan: %s
 ---STRINGEND
 
----STRING all descendants will be deleted
-Cała zawartość folderu zostanie usunięta:
----STRINGEND
-
----STRING are you sure you want to delete this folder
-Na pewno usunąć ten folder?
----STRINGEND
-
 ---STRING author
 Autor
 ---STRINGEND
@@ -68,10 +60,6 @@ Domyślne sortowanie
 
 ---STRING delete folder
 Usuń folder
----STRINGEND
-
----STRING delete folder %s
-Usuń folder "%s"
 ---STRINGEND
 
 ---STRING edit %s
@@ -264,10 +252,6 @@ Szablon stylu
 
 ---STRING createlink folder %s
 Utwórz folder link w "%s"
----STRINGEND
-
----STRING this folder is a symlink to <a href="%s">%s</a> and confirming will delete only this symlink
-Ten folder jest linkiem do <a href="%s">%s</a> usunięty zostanie tylko link.
 ---STRINGEND
 
 ---STRING create folder link

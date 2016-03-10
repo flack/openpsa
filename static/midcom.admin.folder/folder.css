@@ -29,14 +29,6 @@ div.midcom_admin_content_componentlist dl dd
     margin-bottom: 6px;
 }
 
-.delete_folder ul.folder_list
-{
-  list-style: none;
-  padding-left: 32px;
-  padding-bottom: 6px;
-  margin-left: 0;
-}
-
 div.midcom_admin_content_folderlist ul
 {
     list-style: none;

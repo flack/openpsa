@@ -6,14 +6,6 @@
 %s-Status
 ---STRINGEND
 
----STRING all descendants will be deleted
-Alle Inhalte dieses Ordners werden gelöscht:
----STRINGEND
-
----STRING are you sure you want to delete this folder
-Sind Sie sicher, dass Sie diesen Ordner löschen wollen?
----STRINGEND
-
 ---STRING author
 Verfasser
 ---STRINGEND
@@ -68,10 +60,6 @@ Standard-Sortierreihenfolge
 
 ---STRING delete folder
 Ordner löschen
----STRINGEND
-
----STRING delete folder %s
-Ordner "%s" löschen
 ---STRINGEND
 
 ---STRING edit %s
@@ -264,10 +252,6 @@ Objekte ohne Navigationseintrag sind weiterhin verfügbar, insofern die URL beka
 
 ---STRING createlink folder %s
 Ordner-Link in "%s" anlegen
----STRINGEND
-
----STRING this folder is a symlink to <a href="%s">%s</a> and confirming will delete only this symlink
-Dieser Ordner wurde von <a href="%s">%s</a> verlinkt, Bestätigen löscht ausschließlich den Link.
 ---STRINGEND
 
 ---STRING create folder link
