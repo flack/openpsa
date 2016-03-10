@@ -166,7 +166,7 @@ class midcom_exception_handler
         $msg = "PHP Error: {$errstr} \n in {$errfile} line {$errline}";
         if (!empty($errcontext))
         {
-            $msg .= "\n" . print_r($errcontext, true);
+            debug_print_r('Error context', $errcontext);
         }
 
         // PONDER: use throw new ErrorException($errstr, 0, $errno, $errfile, $errline); instead?
