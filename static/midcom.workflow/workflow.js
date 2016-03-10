@@ -5,15 +5,31 @@ $(document).ready(function()
         event.preventDefault();
         var button = $(this),
             dialog = $('<div class="midcom-delete-dialog">'),
+            label = button.text(),
+            action = button.attr('href') || button.data('action'),
             options = {
                 title:  button.data('dialog-heading'),
                 modal: true,
                 width: 'auto',
                 maxHeight: $(window).height(),
-                buttons: {}
-            },
-            label = button.text(),
-            action = button.attr('href') || button.data('action');
+                buttons: [{
+                    text: button.text().trim() || button.data('dialog-heading'),
+                    click: function() {
+                        $('<form action="' + action + '" method="post">')
+                            .append($('<input type="submit" name="' + button.data('form-id') + '">'))
+                            .append($('<input type="hidden" name="referrer" value=' + location.pathname + '">'))
+                            .hide()
+                            .prependTo('body');
+                        $('input[name="' + button.data('form-id') + '"]').click();
+                    }
+                },
+                {
+                    text: button.data('dialog-cancel-label'),
+                    click: function() {
+                        $(this).dialog("close");
+                    }
+                }]
+            };
 
         if ($('.midcom-delete-dialog').length > 0)
         {
@@ -22,6 +38,8 @@ $(document).ready(function()
 
         if (button.data('recursive'))
         {
+            dialog.addClass('loading');
+            options.buttons[0].disabled = true;
             $.getJSON(MIDCOM_PAGE_PREFIX + 'midcom-exec-midcom.helper.reflector/list-children.php',
                       {guid: button.data('guid')},
                       function (data){
@@ -47,33 +65,18 @@ $(document).ready(function()
                               $('<ul class="folder_list">')
                                   .append($(render(data)))
                                   .appendTo($('#delete-child-list'));
-                              dialog.dialog('option', 'position', dialog.dialog('option', 'position'));
                           }
                           else
                           {
                               dialog.find('p.warning').hide();
                           }
-                          $('#delete-child-list').removeClass('loading');
+                          options.buttons[0].disabled = false;
+                          dialog.removeClass('loading')
+                              .dialog('option', 'position', dialog.dialog('option', 'position'))
+                              .dialog('option', 'buttons', options.buttons);
                       });
-
         }
 
-        if (label.trim() === '')
-        {
-            label = button.data('dialog-heading');
-        }
-
-        options.buttons[label] = function() {
-            $('<form action="' + action + '" method="post">')
-                .append($('<input type="submit" name="' + button.data('form-id') + '">'))
-                .append($('<input type="hidden" name="referrer" value=' + location.pathname + '">'))
-                .hide()
-                .prependTo('body');
-            $('input[name="' + button.data('form-id') + '"]').click();
-        };
-        options.buttons[button.data('dialog-cancel-label')] = function() {
-            $(this).dialog( "close" );
-        };
         dialog
             .css('min-width', '300px') // This should be handled by dialog's minWidth option, but that doesn't work with width: "auto"
                                        // Should be fixed in https://github.com/jquery/jquery-ui/commit/643b80c6070e2eba700a09a5b7b9717ea7551005

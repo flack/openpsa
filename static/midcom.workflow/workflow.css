@@ -1,15 +1,20 @@
-.midcom-delete-dialog .warning
+.midcom-delete-dialog.loading p
 {
-    color: red;
-    font-weight: bold;
+    display: none;
 }
 
-#delete-child-list.loading
+.midcom-delete-dialog.loading #delete-child-list
 {
     height: 40px;
     background-image: url('../stock-icons/32x32/ajax-loading.gif');
     background-repeat: no-repeat;
     background-position: center;
+}
+
+.midcom-delete-dialog .warning
+{
+    color: red;
+    font-weight: bold;
 }
 
 #delete-child-list ul
