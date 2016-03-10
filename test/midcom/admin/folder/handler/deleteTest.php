@@ -26,9 +26,9 @@ class midcom_admin_folder_handler_deleteTest extends openpsa_testcase
 
         $data = $this->run_handler($topic, array('__ais', 'folder', 'delete'));
         $this->assertEquals('____ais-folder-delete', $data['handler_id']);
-        $this->show_handler($data);
 
-        $_REQUEST = array('f_submit' => true);
+        $_POST = array('confirm-delete' => true);
+
         $url = $this->run_relocate_handler($topic, array('__ais', 'folder', 'delete'));
 
         $qb = midcom_db_topic::new_query_builder();
