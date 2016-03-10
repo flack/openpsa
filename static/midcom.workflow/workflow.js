@@ -73,7 +73,8 @@ $(document).ready(function()
                           options.buttons[0].disabled = false;
                           dialog.removeClass('loading')
                               .dialog('option', 'position', dialog.dialog('option', 'position'))
-                              .dialog('option', 'buttons', options.buttons);
+                              .dialog('option', 'buttons', options.buttons)
+                              .focus();
                       });
         }
 
