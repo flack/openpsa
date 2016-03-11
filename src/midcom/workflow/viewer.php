@@ -21,6 +21,7 @@ class viewer extends dialog
     {
         return array
         (
+            MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('view', 'midcom'),
             MIDCOM_TOOLBAR_OPTIONS => array
             (
                 'data-dialog' => 'dialog',
