@@ -13,6 +13,11 @@ $head->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.workflow/dialog.css');
         <?php $head->print_head_elements(); ?>
     </head>
     <body <?php $head->print_jsonload(); ?>>
+    <div class="midcom-view-toolbar">
+    <?php
+        midcom::get()->toolbars->show_view_toolbar();
+    ?>
+    </div>
     <(content)>
     <script type="text/javascript">
     <?php

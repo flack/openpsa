@@ -105,7 +105,7 @@ class delete extends dialog
         if ($this->recursive)
         {
             $dialog_text .= '<p class="warning">' . $this->l10n_midcom->get('all descendants will be deleted') . ':</p>';
-            $dialog_text .= '<div id="delete-child-list" class="loading"></div>';
+            $dialog_text .= '<div id="delete-child-list"></div>';
         }
 
         return array

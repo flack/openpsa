@@ -1,3 +1,8 @@
+.midcom-view-toolbar
+{
+    display: none;
+}
+
 .midcom-delete-dialog.loading p
 {
     display: none;

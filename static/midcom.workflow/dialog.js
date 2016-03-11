@@ -4,7 +4,7 @@ function refresh_opener(url)
     {
         url = window.parent.location.href;
     }
-    var button = window.parent.$('[data-dialog="datamanager"][data-refresh-opener].active');
+    var button = window.parent.$('[data-dialog="dialog"][data-refresh-opener].active');
 
     if (button.length > 0)
     {
@@ -71,6 +71,42 @@ $(document).ready(function()
     {
         dialog.dialog('option', 'title', title);
 
+        $('body').on('submit', '.midcom-dialog-delete-form', function(e)
+        {
+            e.preventDefault();
+            var form = $(this).detach().appendTo(dialog);
+
+            form.find('input[name="referrer"]')
+                .val(window.parent.location.href);
+
+            //somehow, the original submit button breaks when detaching
+            form.append($('<input type="hidden" name="' + form.find('input[type="submit"]').attr('name') + '" value="x">'))
+                .submit();
+        });
+
+        $(window).unload(function ()
+        {
+            dialog.nextAll('.ui-dialog-buttonpane').find('button')
+                .prop('disabled', true)
+                .addClass('ui-state-disdabled');
+        });
+
+        if ($('.midcom-view-toolbar li').length > 0)
+        {
+            $('.midcom-view-toolbar li').each(function()
+            {
+                var btn = $(this).find('a'),
+                    options = {
+                        click: function(){
+                            btn.get(0).click();
+                            btn.addClass('active');
+                        }
+                    };
+
+                add_dialog_button(btn.attr('href'), btn.text(), options);
+            });
+        }
+
         if ($('.datamanager2 .form_toolbar input').length > 0)
         {
             $('.datamanager2 .form_toolbar input').each(function() {
@@ -85,9 +121,6 @@ $(document).ready(function()
                         else
                         {
                             btn.click();
-                            $(e.target).parent().find('button')
-                                .prop('disabled', true)
-                                .addClass('ui-state-disabled');
                         }
                     }
                 });
@@ -100,5 +133,9 @@ $(document).ready(function()
         }
 
         dialog.dialog('option', 'buttons', buttons);
+    }
+    else
+    {
+        $('.midcom-view-toolbar').show();
     }
 });

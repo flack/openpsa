@@ -15,7 +15,7 @@ $(document).ready(function()
                 buttons: [{
                     text: button.text().trim() || button.data('dialog-heading'),
                     click: function() {
-                        $('<form action="' + action + '" method="post">')
+                        $('<form action="' + action + '" method="post" class="midcom-dialog-delete-form">')
                             .append($('<input type="submit" name="' + button.data('form-id') + '">'))
                             .append($('<input type="hidden" name="referrer" value=' + location.pathname + '">'))
                             .hide()
@@ -108,6 +108,8 @@ function create_dialog(control, title, url)
             dialogClass: 'midcom-workflow-dialog',
             buttons: [],
             title: title,
+            height:  590,
+            width: 700,
             close: function() {
                 control.removeClass('active');
                 iframe.css('visibility', 'hidden');
@@ -134,6 +136,13 @@ function create_dialog(control, title, url)
     {
         dialog = $('#midcom-dialog');
         iframe = dialog.find('> iframe');
+        config.height = dialog.dialog('option', 'height');
+        config.width = dialog.dialog('option', 'width');
+        if (   config.width > window.innerWidth
+            || config.height > window.innerHeight)
+        {
+            config.position = { my: "center", at: "center", of: window, collision: 'flipfit' };
+        }
     }
     else
     {
@@ -152,10 +161,10 @@ function create_dialog(control, title, url)
         dialog = $('<div id="midcom-dialog"></div>')
             .append(iframe)
             .insertAfter(control);
-
-        config.height = Math.min(590, $(window).height());
-        config.width = Math.min(700, $(window).width());
     }
+
+    config.height = Math.min(config.height, window.innerHeight);
+    config.width = Math.min(config.width, window.innerHeight);
 
     if (url)
     {

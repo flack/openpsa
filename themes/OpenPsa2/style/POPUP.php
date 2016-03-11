@@ -19,6 +19,11 @@ $title = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_PAGETITLE);
     <body id="org_openpsa_popup"<?php $head->print_jsonload(); ?>>
         <div id="container">
             <div id="content" class="no-header">
+                <div class="midcom-view-toolbar">
+                    <?php
+                      midcom::get()->toolbars->show_view_toolbar();
+                    ?>
+                </div>
                 <(content)>
             </div>
         </div>
