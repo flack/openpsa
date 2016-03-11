@@ -1,14 +1,13 @@
 (function($)
 {
-    $.fn.resultStyle = "";
-
     var classes =
     {
         shortPass: "org_openpsa_user_shortPass",
         badPass: "org_openpsa_user_badPass",
         goodPass: "org_openpsa_user_goodPass",
         strongPass: "org_openpsa_user_strongPass"
-    };
+    },
+    resultStyle = "";
 
     $.fn.password_widget = function(options)
     {
@@ -19,27 +18,30 @@
             password_switch_id: 	"",	//optional
             messageloc:     		1       //before == 0 or after == 1
         },
-        opts = $.extend({}, defaults, options || {});
-        password_field = $(this),
+            opts = $.extend({}, defaults, options || {}),
+            password_field = $(this);
         opts.passwordid = 'input[name="' + $(this).attr("name") + '"]';
-        opts.submit_button = 'input[name="midcom_helper_datamanager2_save"]';
+        opts.userid = 'input[name="username"]';
+        opts.submit_button = 'input[name^="midcom_helper_datamanager2_save]"]';
+        console.log(opts);
+        $('input[name="org_openpsa_user_person_account_password_switch"]')
+            .bind('change', function()
+            {
+                if ($('input[name="org_openpsa_user_person_account_password_switch"]:checked').val() == 0)
+                {
+                    password_field.hide();
+                }
+                else
+                {
+                    password_field.show();
+                }
+            })
+            .trigger('change');
 
-        if ($('input[name="org_openpsa_user_person_account_password_switch"]').val() == 0)
+        $(opts.userid).bind('keyup',function()
         {
-            password_field.hide();
-        }
-        $('input[name="org_openpsa_user_person_account_password_switch"]').bind('change', function()
-        {
-            if ($(this).val() == 0)
-            {
-                password_field.hide();
-            }
-            else
-            {
-                password_field.show();
-            }
+            $.fn.setButtonStatus(opts);
         });
-
         //run the check function once at start
         setButtonStatus(opts);
 
@@ -56,13 +58,13 @@
                 {
                     $(this).next("." + opts.baseStyle).remove();
                     $(this).after("<span class=\"" + opts.baseStyle + "\" style=\"padding-left:10px;\"><span></span></span>");
-                    $(this).next("." + opts.baseStyle).addClass($(this).resultStyle).find("span").text(results);
+                    $(this).next("." + opts.baseStyle).addClass(resultStyle).find("span").text(results);
                 }
                 else
                 {
                     $(this).prev("." + opts.baseStyle).remove();
                     $(this).before("<span class=\"" + opts.baseStyle + "\" style=\"padding-left:10px;\"><span></span></span>");
-                    $(this).prev("." + opts.baseStyle).addClass($(this).resultStyle).find("span").text(results);
+                    $(this).prev("." + opts.baseStyle).addClass(resultStyle).find("span").text(results);
                 }
             });
         });
@@ -74,18 +76,18 @@
         //password <
         if (password.length < option.min_length)
         {
-    	    this.resultStyle = classes.shortPass;
-    	    return org_openpsa_user_password_strings.shortPass;
+    	    resultStyle = classes.shortPass;
+    	    return option.strings.shortPass;
         }
 
-        if ($('input[name="username"]').length > 0)
+        if ($(option.userid).length > 0)
         {
-            var username = $('input[name="username"]').val();
+            var username = $(option.userid).val();
             //password == user name
             if (password.toLowerCase() == username.toLowerCase())
             {
-    	        this.resultStyle = classes.badPass;
-    	        return org_openpsa_user_password_strings.samePassword;
+    	        resultStyle = classes.badPass;
+    	        return option.strings.samePassword;
             }
         }
 
@@ -96,33 +98,32 @@
         score += (checkRepetition(3, password).length - password.length) * 1;
         score += (checkRepetition(4, password).length - password.length) * 1;
 
-        score += org_openpsa_user_password_rules(password);
+        $.each(option.password_rules, function(i, rule)
+        {
+            if (password.match(rule.match))
+            {
+                score += rule.score;
+            }
+        });
 
         //verifying 0 < score < 100
-        if (score < 0)
-        {
-    	    score = 0;
-        }
-        if (score > 100)
-        {
-    	    score = 100;
-        }
+        score = Math.min(100, Math.max(0, score));
 
         if (score < option.min_score)
         {
-    	    this.resultStyle = classes.badPass;
-    	    return org_openpsa_user_password_strings.badPass;
+    	    resultStyle = classes.badPass;
+    	    return option.strings.badPass;
         }
 
         if (score >= option.min_score)
         {
-    	    this.resultStyle = classes.goodPass;
-    	    return org_openpsa_user_password_strings.goodPass;
+    	    resultStyle = classes.goodPass;
+    	    return option.strings.goodPass;
         }
 
-        this.resultStyle = classes.strongPass;
+        resultStyle = classes.strongPass;
 
-        return org_openpsa_user_password_strings.strongPass;
+        return option.strings.strongPass;
     };
 
     var setButtonStatus = function(opts)
@@ -135,7 +136,7 @@
         {
             //check password strength
             //if its empty, this will fail
-            strength = teststrength($(opts.passwordid).val(), opts);
+            var strength = teststrength($(opts.passwordid).val(), opts);
 
             check_password = (check_password && !(strength == $.fn.goodPass || strength == $.fn.strongPass));
         }
@@ -148,33 +149,12 @@
 
         //check if username is given and password check is ok
         //determine wheter the submit button should be disabled
-        var disabled = true;
-        if ($(opts.userid).val() != "" && check_password)
-        {
-            disabled = true;
-        }
-        else
-        {
-            //check for username separately, only if an userid is required
-            if (opts.userid_required && $(opts.userid).val() == "")
-            {
-                disabled = true;
-            }
-            else
-            {
-                disabled = false;
-            }
-        }
+        var disabled = (   $(opts.userid).val() != "" && check_password
+                        //check for username separately, only if an userid is required
+                        || (opts.userid_required && $(opts.userid).val() == ""));
 
         //set or remove disabled attribute of the submit button accordingly
-        if (disabled)
-        {
-            $(opts.submit_button).prop("disabled", true);
-        }
-        else
-        {
-            $(opts.submit_button).prop("disabled", false);
-        }
+        $(opts.submit_button).prop("disabled", disabled);
     };
 
     var checkRepetition = function(pLen, str)
@@ -204,4 +184,5 @@
         }
         return res;
     };
+
 })(jQuery);

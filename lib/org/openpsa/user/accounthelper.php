@@ -138,7 +138,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
              */
             midcom::get()->uimessages->add(
                 $this->_l10n->get('org.openpsa.user'),
-                sprintf($this->_l10n->get("account_creation_success"), $username, $password));
+                sprintf($this->_l10n->get("account_creation_success"), $username, $password), 'ok');
         }
 
         if (!empty($this->errstr))

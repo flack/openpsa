@@ -33,52 +33,32 @@ class org_openpsa_user_widget_password extends midcom_helper_datamanager2_widget
                 <input type="radio" name="org_openpsa_user_person_account_password_switch" value="1"/> ' . $this->_l10n->get("own_password") . '
             </label>';
 
-        $jsinit = $this->_prepare_jsinit();
+        self::jsinit($this->name . '_input', $this->_l10n, $this->_config, false);
         $elements[] = $this->_form->createElement('static', $this->name . '_menu', '', $menu);
         $title = $this->_translate($this->_field['title']);
         $elements[] = $this->_form->createElement('password', $this->name . '_input', $title, $attributes);
-        $elements[] = $this->_form->createElement('static', $this->name . '_jsinit', '', $jsinit);
         $this->_form->addGroup($elements, $this->name, $title);
     }
 
-    private function _prepare_jsinit()
+    public static function jsinit($name, midcom_services_i18n_l10n $l10n, midcom_helper_configuration $config, $userid_required)
     {
-        $strings = array
+        $conf = array
         (
-            'shortPass' => $this->_l10n->get("password too short"),
-            'badPass' => $this->_l10n->get("password weak"),
-            'goodPass' => $this->_l10n->get("password good"),
-            'strongPass' => $this->_l10n->get("password strong"),
-            'samePassword' => $this->_l10n->get("username and password identical"),
+            'strings' => array
+            (
+                'shortPass' => $l10n->get("password too short"),
+                'badPass' => $l10n->get("password weak"),
+                'goodPass' => $l10n->get("password good"),
+                'strongPass' => $l10n->get("password strong"),
+                'samePassword' => $l10n->get("username and password identical"),
+            ),
+            'password_rules' => $config->get('password_score_rules'),
+            'min_length' => $config->get('min_password_length'),
+            'min_score' => $config->get('min_password_score'),
+            'userid_required' => $userid_required
         );
-        $strings = json_encode($strings);
-
-        $password_rules = '';
-        foreach ($this->_config->get('password_score_rules') as $rule)
-        {
-            $password_rules .= " if (password.match(" . $rule['match'] . ")){ score += " . $rule['score'] . ";}";
-        }
-
-        $jsinit = <<<EOT
-        <script type="text/javascript">
-        var org_openpsa_user_password_strings = {$strings};
-
-        org_openpsa_user_password_rules = function(password)
-        {
-            var score = 0;
-            {$password_rules}
-            return score;
-        }
-
-        $("#{$this->name}_input").password_widget({
-              min_length: {$this->_config->get('min_password_length')},
-              min_score: {$this->_config->get('min_password_score')},
-              password_id: "{$this->name}_input",
-              userid_required: false
-        });
-        </script>
-EOT;
-        return $jsinit;
+        $conf = json_encode($conf);
+        midcom::get()->head->add_jquery_state_script('$("#' . $name . '").password_widget(' . $conf . ');');
     }
 
     public function sync_type_with_widget($results)

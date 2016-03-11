@@ -49,26 +49,21 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
             throw new midcom_error('Given user already has an account');
         }
 
+        midcom::get()->head->set_pagetitle($this->_l10n->get('create account'));
+
         $data['controller'] = $this->get_controller('nullstorage');
 
-        switch ($data['controller']->process_form())
+        $workflow = $this->get_workflow('datamanager2', array('controller' => $data['controller']));
+        $response = $workflow->run();
+
+        if ($workflow->get_state() == 'save')
         {
-            case 'save':
-                if ($this->_master->create_account($this->_person, $data["controller"]->formmanager))
-                {
-                    midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.user'), sprintf($this->_l10n->get('person %s created'), $this->_person->name));
-                    return new midcom_response_relocate('view/' . $this->_person->guid . '/');
-                }
-                break;
-
-            case 'cancel':
-                return new midcom_response_relocate('view/' . $this->_person->guid . '/');
+            if ($this->_master->create_account($this->_person, $data["controller"]->formmanager))
+            {
+                midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.user'), sprintf($this->_l10n->get('person %s created'), $this->_person->name));
+            }
         }
-
-        midcom::get()->head->set_pagetitle("{$this->_person->firstname} {$this->_person->lastname}");
-        $this->_prepare_request_data();
-
-        $this->_update_breadcrumb_line('create account');
+        return $response;
     }
 
     public function get_schema_defaults()
@@ -172,57 +167,46 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         {
             midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.user'), $this->_l10n->get("Account was blocked, since there is no password set."), 'error');
         }
-        $data['controller'] = $this->get_controller('nullstorage');
-        $formmanager = $data["controller"]->formmanager;
 
-        switch ($data['controller']->process_form())
-        {
-            case 'save':
-                if (!$this->_update_account($formmanager->_types))
-                {
-                    break;
-                }
-                //Fall-through
+        midcom::get()->head->set_pagetitle($this->_l10n->get('edit account'));
+        midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.user/password.js');
+        org_openpsa_user_widget_password::jsinit('org_openpsa_user_new_password', $this->_l10n, $this->_config, true);
+        $controller = $this->get_controller('nullstorage');
 
-            case 'cancel':
-                return new midcom_response_relocate("view/" . $this->_person->guid . "/");
-        }
-
-        midcom::get()->head->enable_jquery();
-        midcom::get()->head->set_pagetitle("{$this->_person->firstname} {$this->_person->lastname}");
-        $this->_prepare_request_data();
-
-        $this->_update_breadcrumb_line('edit account');
+        $workflow = $this->get_workflow('datamanager2', array('controller' => $controller));
 
         if ($this->_person->can_do('midgard:update'))
         {
-            $workflow = $this->get_workflow('delete', array('object' => $this->_person));
-            $this->_view_toolbar->add_item($workflow->get_button("account/delete/{$this->_person->guid}/"));
+            $delete = $this->get_workflow('delete', array('object' => $this->_person));
+            $workflow->add_dialog_button($delete, "account/delete/{$this->_person->guid}/");
         }
+
+        $response = $workflow->run();
+
+        if ($workflow->get_state() == 'save')
+        {
+            $this->_update_account($controller->formmanager);
+        }
+        return $response;
     }
 
-    private function _update_account($fields)
+    private function _update_account(midcom_helper_datamanager2_formmanager $formmanager)
     {
-        $stat = false;
-
         $password = null;
         //new password?
-        if (!empty($fields["new_password"]->value))
+        if ($formmanager->get_value("new_password"))
         {
-            $password = $fields["new_password"]->value;
+            $password = $formmanager->get_value("new_password");
         }
         $accounthelper = new org_openpsa_user_accounthelper($this->_person);
 
         // Update account
-        $stat = $accounthelper->set_account($fields["username"]->value, $password);
-        if (   !$stat
+        if (   !$accounthelper->set_account($formmanager->get_value("username"), $password)
             && midcom_connection::get_error() != MGD_ERR_OK)
         {
             // Failure, give a message
             midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.user'), $this->_l10n->get("failed to update the user account, reason") . ': ' . midcom_connection::get_error_string(), 'error');
         }
-
-        return $stat;
     }
 
     /**
@@ -267,25 +251,5 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
     {
         $this->add_breadcrumb("view/{$this->_person->guid}/", $this->_person->name);
         $this->add_breadcrumb("", $this->_l10n->get($action));
-    }
-
-    /**
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_create($handler_id, array &$data)
-    {
-        midcom_show_style('show-person-account-create');
-    }
-
-    /**
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_edit($handler_id, array &$data)
-    {
-        midcom_show_style('show-person-account-edit');
     }
 }
