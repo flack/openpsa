@@ -266,12 +266,16 @@ form.datamanager2 .element
 
 form.datamanager2 .form label
 {
+    font-weight: normal;
+}
+
+form.datamanager2 .form .element > label
+{
     vertical-align: top;
     padding-right: .5em;
     text-align: right;
     flex-basis: 30%;
     min-width: 9em;
-    font-weight: normal;
 }
 
 form.datamanager2 .form .element > .input
