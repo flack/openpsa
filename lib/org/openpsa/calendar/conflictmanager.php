@@ -72,6 +72,23 @@ class org_openpsa_calendar_conflictmanager
         return true;
     }
 
+    public function get_message(midcom_services_i18n_formatter $formatter)
+    {
+        $message = '<ul>';
+        foreach ($this->busy_members as $uid => $events)
+        {
+            $message .= '<li>' . org_openpsa_widgets_contact::get($uid)->show_inline();
+            $message .= '<ul>';
+            foreach ($events as $event)
+            {
+                $message .= '<li>' . $formatter->timeframe($event->start, $event->end) . ': ' . $event->title . '</li>';
+            }
+            $message .= '</li>';
+            $message .= '</ul>';
+        }
+        return $message . '</ul>';
+    }
+
     private function _add_event_constraints($qb, $fieldname = 'eid')
     {
         $qb->add_constraint($fieldname . '.busy', '<>', false);

@@ -87,20 +87,11 @@ implements midcom_helper_datamanager2_interfaces_create
      */
     public function _handler_create($handler_id, array $args, array &$data)
     {
-        // Get the root event
         $this->_root_event = org_openpsa_calendar_interface::find_root_event();
-
-        // ACL handling: require create privileges
         $this->_root_event->require_do('midgard:create');
 
-        if (isset($args[0]))
-        {
-            $this->resource = $args[0];
-        }
-        else
-        {
-            $this->resource = midcom::get()->auth->user->guid;
-        }
+        $this->resource = (isset($args[0])) ? $args[0] : midcom::get()->auth->user->guid;
+
         if (!empty($_GET['start']))
         {
             $this->_requested_start = strtotime($_GET['start']);
@@ -114,47 +105,26 @@ implements midcom_helper_datamanager2_interfaces_create
             }
         }
 
+        midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.calendar/calendar.js');
+        midcom::get()->head->set_pagetitle($this->_l10n->get('create event'));
+
+        $conflictmanager = new org_openpsa_calendar_conflictmanager(new org_openpsa_calendar_event_dba);
         // Load the controller instance
         $data['controller'] = $this->get_controller('create');
-        $data['conflictmanager'] = new org_openpsa_calendar_conflictmanager(new org_openpsa_calendar_event_dba);
-        $data['controller']->formmanager->form->addFormRule(array($data['conflictmanager'], 'validate_form'));
+        $data['controller']->formmanager->form->addFormRule(array($conflictmanager, 'validate_form'));
 
-        // Process form
-        switch ($data['controller']->process_form())
+        $workflow = $this->get_workflow('datamanager2', array('controller' => $data['controller']));
+        $response = $workflow->run();
+        if ($workflow->get_state() == 'save')
         {
-            case 'save':
-                $indexer = new org_openpsa_calendar_midcom_indexer($this->_topic);
-                $indexer->index($data['controller']->datamanager);
-                //FALL-THROUGH
-            case 'cancel':
-                midcom::get()->head->add_jsonload("if (window.opener.openpsa_calendar_instance) window.opener.openpsa_calendar_instance.fullCalendar('refetchEvents');");
-                midcom::get()->head->add_jsonload('window.close();');
-                break;
+            $indexer = new org_openpsa_calendar_midcom_indexer($this->_topic);
+            $indexer->index($data['controller']->datamanager);
+            midcom::get()->head->add_jsonload('openpsa_calendar_widget.refresh_parent();');
         }
-
-        // Hide the ROOT style
-        midcom::get()->skip_page_style = true;
-        midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.calendar/calendar.js');
-        midcom::get()->head->add_jsonload('openpsa_calendar_widget.setup();');
-    }
-
-    /**
-     * Show the create screen
-     *
-     * @param String $handler_id    Name of the request handler
-     * @param array &$data          Public request data, passed by reference
-     */
-    public function _show_create($handler_id, array &$data)
-    {
-        // Set title to popup
-        $this->_request_data['title'] = $this->_l10n->get('create event');
-        // Show popup
-        midcom_show_style('popup-head');
-        if (!empty($data['conflictmanager']->busy_members))
+        else if (!empty($conflictmanager->busy_members))
         {
-            midcom_show_style('show-event-conflict');
+            midcom::get()->uimessages->add($this->_l10n->get('event conflict'), $conflictmanager->get_message($this->_l10n->get_formatter()), 'warning');
         }
-        midcom_show_style('show-event-new');
-        midcom_show_style('popup-foot');
+        return $response;
     }
 }

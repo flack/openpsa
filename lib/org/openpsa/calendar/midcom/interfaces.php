@@ -114,54 +114,34 @@ implements midcom_services_permalinks_resolver, org_openpsa_contacts_duplicates_
     }
 
     /**
-     * Returns string of JS code for opening the new event popup
+     * Returns button config for opening the new event popup
      */
-    public static function calendar_newevent_js($node, $start = false, $resource = false, $url_append = '')
+    public static function get_create_button($node, $url)
     {
-        if (!self::_popup_verify_node($node))
+        if (empty($node[MIDCOM_NAV_FULLURL]))
         {
-            return false;
+            throw new midcom_error('given node is not valid');
         }
 
-        $height = $node[MIDCOM_NAV_CONFIGURATION]->get('calendar_popup_height');
-        $width = $node[MIDCOM_NAV_CONFIGURATION]->get('calendar_popup_width');
-
-        if (   $resource
-            && $start)
-        {
-            $url = "{$node[MIDCOM_NAV_FULLURL]}event/new/{$resource}/{$start}/";
-        }
-        else if ($resource)
-        {
-            $url = "{$node[MIDCOM_NAV_FULLURL]}event/new/{$resource}/";
-        }
-        else
-        {
-            $url = "{$node[MIDCOM_NAV_FULLURL]}event/new/";
-        }
-        $url .= $url_append;
-        return "window.open('{$url}', 'newevent', '" . self::_js_window_options($height, $width) . "'); return false;";
+        $workflow = new midcom\workflow\datamanager2;
+        return $workflow->get_button("new/" . $url, array
+        (
+            MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('create event', 'org.openpsa.calendar'),
+            MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_new-event.png',
+        ));
     }
 
     /**
-     * Returns string of JS code for opening the edit event popup
-     *
-     * PONDER: In theory we should be able to get the node with just the event guid ?
+     * Returns attribute string for opening the event popup
      */
-    public static function calendar_editevent_js($event, $node)
+    public static function get_viewer_attributes($guid, $node)
     {
-        if (!self::_popup_verify_node($node))
+        if (empty($node[MIDCOM_NAV_FULLURL]))
         {
-            return false;
+            throw new midcom_error('given node is not valid');
         }
-
-        $height = $node[MIDCOM_NAV_CONFIGURATION]->get('calendar_popup_height');
-        $width = $node[MIDCOM_NAV_CONFIGURATION]->get('calendar_popup_width');
-
-        $js = "window.open('{$node[MIDCOM_NAV_FULLURL]}event/{$event}/', ";
-        $js .= "'event_{$event}', '" . self::_js_window_options($height, $width) . "'); return false;";
-
-        return $js;
+        $workflow = new midcom\workflow\viewer;
+        return $workflow->render_attributes() . ' href="' . $node[MIDCOM_NAV_FULLURL] . 'event/' . $guid . '/"';
     }
 
     /**
@@ -172,20 +152,6 @@ implements midcom_services_permalinks_resolver, org_openpsa_contacts_duplicates_
         $ret = "toolbar=0,location=0,status=0,height={$height},width={$width},";
         $ret .= "dependent=1,alwaysRaised=1,scrollbars=1,resizable=1";
         return $ret;
-    }
-
-    /**
-     * Verifies that given node has all we need to construct the popup
-     */
-    private static function _popup_verify_node($node)
-    {
-        if (   empty($node[MIDCOM_NAV_FULLURL])
-            || empty($node[MIDCOM_NAV_CONFIGURATION]))
-        {
-            debug_add('given node is not valid', MIDCOM_LOG_ERROR);
-            return false;
-        }
-        return true;
     }
 
     public function resolve_object_link(midcom_db_topic $topic, midcom_core_dbaobject $object)

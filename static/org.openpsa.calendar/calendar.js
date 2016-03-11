@@ -1,29 +1,18 @@
 var openpsa_calendar_widget =
 {
-    setup: function()
+    refresh: function()
     {
-        var unselect = true;
-        $('form.datamanager2')
-            .on('submit', function(){
-                unselect = false;
-            })
-            .find('input:visible').filter(':first').focus();
-        $(window).unload(function() {
-            if (unselect) {
-                window.opener.openpsa_calendar_instance.fullCalendar('unselect');
-            }
-        });
+        if (window.opener.openpsa_calendar_instance)
+        {
+            window.opener.openpsa_calendar_instance.fullCalendar('refetchEvents');
+        }
     },
     prepare_toolbar_buttons: function(selector, prefix, settings)
     {
-        $('#openpsa_calendar_add_event').on('click', function(event)
+        $('#openpsa_calendar_add_event').on('click', function()
         {
-            event.preventDefault();
-            var date = $(selector).fullCalendar('getDate'),
-                url = prefix + 'event/new/?start=' + date.add(1, 's').format('YYYY-MM-DD HH:mm:ss'),
-                window_options = "toolbar=0,location=0,status=0,height=" + settings.height + ",width=" + settings.width + ",dependent=1,alwaysRaised=1,scrollbars=1,resizable=1";
-
-            window.open(url, 'new_event', window_options);
+            var date = $(selector).fullCalendar('getDate');
+            $(this).attr('href', prefix + 'event/new/?start=' + date.add(1, 's').format('YYYY-MM-DD HH:mm:ss'));
         });
         $("#date-navigation").parent().bind("click", function(event)
         {
@@ -182,16 +171,13 @@ var openpsa_calendar_widget =
                 window_options = "toolbar=0,location=0,status=0,height=" + settings.height + ",width=" + settings.width + ",dependent=1,alwaysRaised=1,scrollbars=1,resizable=1";
 
                 jsEvent.preventDefault();
-
-                window.open(url, 'event' + guid, window_options);
+                create_dialog($(jsEvent.target), '', url);
             },
             selectable: true,
             selectHelper: true,
             select: function(start, end) {
-                var url = prefix + 'event/new/?start=' + start.add(1, 's').format('YYYY-MM-DD HH:mm:ss') + '&end=' + end.format('YYYY-MM-DD HH:mm:ss'),
-                window_options = "toolbar=0,location=0,status=0,height=" + settings.height + ",width=" + settings.width + ",dependent=1,alwaysRaised=1,scrollbars=1,resizable=1";
-
-                window.open(url, 'event_new', window_options);
+                var url = prefix + 'event/new/?start=' + start.add(1, 's').format('YYYY-MM-DD HH:mm:ss') + '&end=' + end.format('YYYY-MM-DD HH:mm:ss');
+                create_dialog($('#openpsa_calendar_add_event'), '', url);
             },
             eventDrop: save_event,
             eventResize: save_event

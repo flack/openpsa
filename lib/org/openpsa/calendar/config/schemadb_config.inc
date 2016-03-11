@@ -21,32 +21,6 @@
             (
                 'title' => 'view settings',
             ),
-        ),
-        'calendar_popup_height' => array
-        (
-            'title' => 'height of the event popup window (px)',
-            'type' => 'number',
-            'widget' => 'text',
-            'default' => 450,
-            'storage' => array
-            (
-                'location' => 'configuration',
-                'domain' => 'org.openpsa.calendar',
-                'name' => 'calendar_popup_height'
-            ),
-        ),
-        'calendar_popup_width' => array
-        (
-            'title' => 'width of the event popup window (px)',
-            'type' => 'number',
-            'widget' => 'text',
-            'default' => 300,
-            'storage' => array
-            (
-                'location' => 'configuration',
-                'domain' => 'org.openpsa.calendar',
-                'name' => 'calendar_popup_width'
-            ),
             'end_fieldset' => '',
         ),
 

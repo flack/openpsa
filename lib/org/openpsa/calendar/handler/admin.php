@@ -25,9 +25,6 @@ class org_openpsa_calendar_handler_admin extends midcom_baseclasses_components_h
     public function _on_initialize()
     {
         midcom::get()->auth->require_valid_user();
-
-        // This is a popup
-        midcom::get()->skip_page_style = true;
     }
 
     /**
@@ -54,20 +51,26 @@ class org_openpsa_calendar_handler_admin extends midcom_baseclasses_components_h
         {
             throw new midcom_error("Failed to initialize a DM2 controller instance for article {$this->_article->id}.");
         }
-        $data['conflictmanager'] = new org_openpsa_calendar_conflictmanager($this->_event);
-        $data['controller']->formmanager->form->addFormRule(array($data['conflictmanager'], 'validate_form'));
+        midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.calendar/calendar.js');
+        midcom::get()->head->set_pagetitle(sprintf($this->_l10n->get('edit %s'), $this->_event->title));
 
-        switch ($data['controller']->process_form())
+        $conflictmanager = new org_openpsa_calendar_conflictmanager($this->_event);
+        $data['controller']->formmanager->form->addFormRule(array($conflictmanager, 'validate_form'));
+
+        $workflow = $this->get_workflow('datamanager2', array('controller' => $data['controller']));
+
+        $response = $workflow->run();
+        if ($workflow->get_state() == 'save')
         {
-            case 'save':
-                $indexer = new org_openpsa_calendar_midcom_indexer($this->_topic);
-                $indexer->index($data['controller']->datamanager);
-                //FALL-THROUGH
-            case 'cancel':
-                midcom::get()->head->add_jsonload("if (window.opener.openpsa_calendar_instance) window.opener.openpsa_calendar_instance.fullCalendar('refetchEvents');");
-                midcom::get()->head->add_jsonload('window.close();');
-                // This will exit (well, in a way...)
+            $indexer = new org_openpsa_calendar_midcom_indexer($this->_topic);
+            $indexer->index($data['controller']->datamanager);
+            midcom::get()->head->add_jsonload('openpsa_calendar_widget.refresh_parent();');
         }
+        else if (!empty($conflictmanager->busy_members))
+        {
+            midcom::get()->uimessages->add($this->_l10n->get('event conflict'), $conflictmanager->get_message($this->_l10n->get_formatter()), 'warning');
+        }
+        return $response;
     }
 
     /**
@@ -105,27 +108,6 @@ class org_openpsa_calendar_handler_admin extends midcom_baseclasses_components_h
     }
 
     /**
-     * Show event editing interface
-     *
-     * @param String $handler_id    Name of the request handler
-     * @param array &$data          Public request data, passed by reference
-     */
-    public function _show_edit($handler_id, array &$data)
-    {
-        // Set title to popup
-        $this->_request_data['title'] = sprintf($this->_l10n->get('edit %s'), $this->_event->title);
-
-        // Show popup
-        midcom_show_style('popup-head');
-        if (!empty($data['conflictmanager']->busy_members))
-        {
-            midcom_show_style('show-event-conflict');
-        }
-        midcom_show_style('show-event-edit');
-        midcom_show_style('popup-foot');
-    }
-
-    /**
      * Handle the delete phase
      *
      * @param String $handler_id    Name of the request handler
@@ -137,23 +119,6 @@ class org_openpsa_calendar_handler_admin extends midcom_baseclasses_components_h
         // Get the event
         $this->_event = new org_openpsa_calendar_event_dba($args[0]);
         $workflow = $this->get_workflow('delete', array('object' => $this->_event));
-        $workflow->run();
-        if ($workflow->get_state() === delete::SUCCESS)
-        {
-            midcom::get()->head->add_jsonload('window.opener.location.reload();');
-            midcom::get()->head->add_jsonload('window.close();');
-        }
-    }
-
-    /**
-     * Show event delete interface
-     *
-     * @param String $handler_id    Name of the request handler
-     * @param array &$data          Public request data, passed by reference
-     */
-    public function _show_delete($handler_id, array &$data)
-    {
-        midcom_show_style('popup-head');
-        midcom_show_style('popup-foot');
+        return $workflow->run();
     }
 }

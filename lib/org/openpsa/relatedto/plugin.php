@@ -307,18 +307,7 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
             switch ($mode)
             {
                 case 'event':
-                    $toolbar_buttons[] = array
-                    (
-                        MIDCOM_TOOLBAR_URL => "#",
-                        MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('create event', $data['component']),
-                        MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_new-event.png',
-                        //TODO: Check for privileges somehow
-                        MIDCOM_TOOLBAR_OPTIONS  => array
-                        (
-                            'rel' => 'directlink',
-                            'onclick' => org_openpsa_calendar_interface::calendar_newevent_js($data['node'], false, false, '?' . self::relatedto2get(array($related_to))),
-                        )
-                    );
+                    $toolbar_buttons[] = org_openpsa_calendar_interface::get_create_button($data['node'], '?' . self::relatedto2get(array($related_to)));
                     break;
                 case 'task':
                     if (midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_projects_project_task_dba'))

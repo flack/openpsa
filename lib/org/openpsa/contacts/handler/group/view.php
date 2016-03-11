@@ -88,17 +88,7 @@ implements midcom_helper_datamanager2_interfaces_view, org_openpsa_widgets_grid_
         if (!empty($cal_node))
         {
             //TODO: Check for privileges somehow
-            $buttons[] = array
-            (
-                MIDCOM_TOOLBAR_URL => "#",
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create event'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_new-event.png',
-                MIDCOM_TOOLBAR_OPTIONS  => array
-                (
-                    'rel' => 'directlink',
-                    'onclick' => org_openpsa_calendar_interface::calendar_newevent_js($cal_node, false, $this->_group->guid),
-                ),
-            );
+            $buttons[] = org_openpsa_calendar_interface::get_create_button($cal_node, $this->_group->guid . '/');
         }
         $this->_view_toolbar->add_items($buttons);
     }

@@ -132,15 +132,15 @@ $expenses_url = $siteconfig->get_node_relative_url('org.openpsa.expenses');
                 foreach ($data['task_bookings']['confirmed'] as $booking)
                 {
                     echo "<li>";
-                    echo $formatter->timeframe($booking->start, $booking->end);
+                    echo $formatter->timeframe($booking->start, $booking->end) . ': ';
 
                     if ($data['calendar_node'])
                     {
-                        echo ": <a href=\"#\" onclick=\"" . org_openpsa_calendar_interface::calendar_editevent_js($booking->guid, $data['calendar_node']) . "\">{$booking->title}</a>";
+                        echo "<a " . org_openpsa_calendar_interface::get_viewer_attributes($booking->guid, $data['calendar_node']) . ">{$booking->title}</a>";
                     }
                     else
                     {
-                        echo ": {$booking->title}";
+                        echo $booking->title;
                     }
 
                     echo " (";

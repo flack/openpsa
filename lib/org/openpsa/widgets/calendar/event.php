@@ -42,11 +42,11 @@ class org_openpsa_widgets_calendar_event
     var $link = '';
 
     /**
-     * JS onclick for the event
+     * Attributes for the event
      *
      * @var string
      */
-    var $onclick = '';
+    var $attributes = '';
 
     /**
      * Event title
@@ -104,25 +104,18 @@ class org_openpsa_widgets_calendar_event
     /**
      * Draws links to the right location
      */
-    private function _render_link($text, $title = '', $link = false, $class = '')
+    private function _render_link()
     {
-        if (!$link)
+        if ($this->attributes != '')
         {
-            return $text;
+            return "<a class=\"url\" {$this->attributes}>{$this->title}</a>";
+        }
+        if (!$this->link)
+        {
+            return $this->title;
         }
 
-        if ($class)
-        {
-            $class = ' class="' . $class . '"';
-        }
-
-        $onclick = '';
-        if ($this->onclick != '')
-        {
-            $onclick = " onclick=\"{$this->onclick}\"";
-        }
-
-        return "<a{$class} href=\"{$link}\"{$onclick} title=\"{$title}\">{$text}</a>";
+        return "<a class=\"url\" href=\"{$this->link}\" title=\"{$this->title}\">{$this->title}</a>";
     }
 
     /**
@@ -151,14 +144,9 @@ class org_openpsa_widgets_calendar_event
 
         $rendered_event .= $this->render_timelabel();
 
-        if (   $this->link != ''
-            || $this->onclick != '')
+        if ($this->title)
         {
-            $rendered_event .= "    <h{$h_level} class=\"summary\">" . $this->_render_link($this->title, $this->title, $this->link, 'url') . "</h{$h_level}>\n";
-        }
-        else if ($this->title)
-        {
-            $rendered_event .= "    <h{$h_level} class=\"summary\">{$this->title}</h{$h_level}>\n";
+            $rendered_event .= "    <h{$h_level} class=\"summary\">" . $this->_render_link() . "</h{$h_level}>\n";
         }
 
         if ($this->location != '')

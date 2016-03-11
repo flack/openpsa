@@ -44,20 +44,20 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
      */
     public function _handler_calendar($handler_id, array $args, array &$data)
     {
+        $workflow = $this->get_workflow('datamanager2');
         midcom::get()->auth->require_valid_user();
         $buttons = array();
         if ($this->_root_event->can_do('midgard:create'))
         {
-            $buttons[] = array
+            $buttons[] = $workflow->get_button('#', array
             (
-                MIDCOM_TOOLBAR_URL => '#',
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create event'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_new-event.png',
                 MIDCOM_TOOLBAR_OPTIONS  => array
                 (
                     'id' => 'openpsa_calendar_add_event',
                 )
-            );
+            ));
         }
         $buttons[] = array
         (
@@ -114,8 +114,6 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
     {
         return array
         (
-            'height' => $this->_config->get('calendar_popup_height'),
-            'width' => $this->_config->get('calendar_popup_width'),
             'businessHours' => array
             (
                 'start' => $this->_config->get('day_start_time') . ':00',
@@ -303,19 +301,15 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
      */
     public function _handler_event($handler_id, array $args, array &$data)
     {
-        // We're using a popup here
-        midcom::get()->skip_page_style = true;
-
         // Get the requested event object
         $data['event'] = new org_openpsa_calendar_event_dba($args[0]);
 
-        $this->_load_datamanager();
-
-        // Reload parent if needed
-        if (array_key_exists('reload', $_GET))
+        if ($handler_id == 'event_view_raw')
         {
-            midcom::get()->head->add_jsonload('window.opener.location.reload();');
+            midcom::get()->skip_page_style = true;
         }
+
+        $this->_load_datamanager();
 
         // Add toolbar items
         if ($this->_request_data['view'] == 'default')
@@ -366,6 +360,8 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
             $this->_view_toolbar->add_items($buttons);
             org_openpsa_relatedto_plugin::common_node_toolbar_buttons($this->_view_toolbar, $data['event'], $this->_component, $relatedto_button_settings);
         }
+        midcom::get()->head->set_pagetitle(sprintf($this->_l10n->get('event %s'), $this->_request_data['event']->title));
+        return $this->get_workflow('viewer')->run();
     }
 
     private function _load_datamanager()
@@ -403,10 +399,8 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
             $this->_request_data['title'] = sprintf($this->_l10n->get('event %s'), $this->_request_data['event']->title);
 
             // Show popup
-            midcom_show_style('popup-head');
             $this->_request_data['event_dm'] = $this->_datamanager;
             midcom_show_style('show-event');
-            midcom_show_style('popup-foot');
         }
         else
         {
