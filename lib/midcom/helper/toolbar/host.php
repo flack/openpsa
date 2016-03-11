@@ -52,13 +52,12 @@ class midcom_helper_toolbar_host extends midcom_helper_toolbar
                 MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('invalidate cache', 'midcom'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_refresh.png',
             );
-
-            $buttons[] = array
+            $workflow = new midcom\workflow\viewer;
+            $buttons[] = $workflow->get_button(midcom_connection::get_url('self') . "midcom-exec-midcom/config-test.php", array
             (
-                MIDCOM_TOOLBAR_URL => midcom_connection::get_url('self') . "midcom-exec-midcom/config-test.php",
                 MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('test settings', 'midcom'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/start-here.png',
-            );
+            ));
         }
         $this->add_items($buttons);
     }
