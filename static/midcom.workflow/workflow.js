@@ -153,7 +153,7 @@ function create_dialog(control, title, url)
             .append(iframe)
             .insertAfter(control);
 
-        config.height = Math.min(550, $(window).height());
+        config.height = Math.min(590, $(window).height());
         config.width = Math.min(700, $(window).width());
     }
 

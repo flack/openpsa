@@ -30,6 +30,7 @@ class midcom_helper_toolbar_help extends midcom_helper_toolbar
 
     private function add_commands()
     {
+        $workflow = new midcom\workflow\viewer;
         $buttons = array
         (
             array
@@ -61,13 +62,11 @@ class midcom_helper_toolbar_help extends midcom_helper_toolbar
                 MIDCOM_TOOLBAR_OPTIONS => array('target' => '_blank'),
                 MIDCOM_TOOLBAR_ICON => 'midcom.admin.help/applications-development.png',
             ),
-            array
+            $workflow->get_button(midcom_connection::get_url('self') . "midcom-exec-midcom/about.php", array
             (
-                MIDCOM_TOOLBAR_URL => midcom_connection::get_url('self') . "midcom-exec-midcom/about.php",
                 MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('about midgard', 'midcom.admin.help'),
-                MIDCOM_TOOLBAR_OPTIONS => array('target' => '_blank'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/logos/midgard-16x16.png',
-            )
+            ))
         );
         $this->add_items($buttons);
     }
