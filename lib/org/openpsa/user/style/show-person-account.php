@@ -23,7 +23,7 @@ $username = $data['account']->get_username();
         {
             echo '<ul class="area_toolbar">';
             echo '<li><a class="button" href="' . $prefix . 'account/edit/' . $data['person']->guid . '/" />' . $data['l10n_midcom']->get('edit') . "</a></li>\n";
-            $workflow = $this->get_workflow('delete', array
+            $workflow = new midcom\workflow\delete(array
             (
                 'object' => $data['person'],
                 'label' => $data['l10n']->get('account')
