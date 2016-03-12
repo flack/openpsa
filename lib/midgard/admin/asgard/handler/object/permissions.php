@@ -63,6 +63,8 @@ implements midcom_helper_datamanager2_interfaces_edit
      */
     private $_rendered_row_actions = array();
 
+    private $additional_assignee;
+
     public function _on_initialize()
     {
         $this->_privileges[] = 'midgard:read';
@@ -168,6 +170,8 @@ implements midcom_helper_datamanager2_interfaces_edit
     {
         $schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_permissions'));
 
+        $assignees = $this->load_assignees();
+
         // Populate additional assignee selector
         $additional_assignees = array
         (
@@ -179,59 +183,20 @@ implements midcom_helper_datamanager2_interfaces_edit
 
         // List groups as potential assignees
         $qb = midcom_db_group::new_query_builder();
-
         $groups = $qb->execute();
         foreach ($groups as $group)
         {
-            $additional_assignees["group:{$group->guid}"] = $group->get_label();
+            if (!array_key_exists("group:{$group->guid}", $assignees))
+            {
+                $additional_assignees["group:{$group->guid}"] = $group->get_label();
+            }
         }
-
-        $assignees = array();
-
-        // Populate all resources having existing privileges
-        $existing_privileges = $this->_object->get_privileges();
-
-        foreach ($existing_privileges as $privilege)
-        {
-            if ($privilege->is_magic_assignee())
-            {
-                // This is a magic assignee
-                $label = $this->_l10n->get($privilege->assignee);
-            }
-            else
-            {
-                //Inconsistent privilige base will mess here. Let's give a chance to remove ghosts
-                $assignee = midcom::get()->auth->get_assignee($privilege->assignee);
-
-                if (is_object($assignee))
-                {
-                    $label = $assignee->name;
-                }
-                else
-                {
-                    $label = $this->_l10n->get('ghost assignee for '. $privilege->assignee);
-                }
-            }
-
-            $assignees[$privilege->assignee] = $label;
-
-            $key = str_replace(':', '_', $privilege->assignee);
-            if (!isset($this->_row_labels[$key]))
-            {
-                $this->_row_labels[$key] = $label;
-            }
-
-            // This one is already an assignee, remove from 'Add assignee' options
-            unset($additional_assignees[$privilege->assignee]);
-        }
-
         asort($additional_assignees);
 
         // Add the 'Add assignees' choices to schema
         $schemadb['privileges']->fields['add_assignee']['type_config']['options'] = $additional_assignees;
 
         $header = '';
-
         $header_items = array();
 
         foreach ($assignees as $assignee => $label)
@@ -282,6 +247,50 @@ implements midcom_helper_datamanager2_interfaces_edit
         return $schemadb;
     }
 
+    private function load_assignees()
+    {
+        $assignees = array();
+
+        // Populate all resources having existing privileges
+        $existing_privileges = $this->_object->get_privileges();
+        if ($this->additional_assignee)
+        {
+            $existing_privileges[] = new midcom_core_privilege(array('assignee' => $this->additional_assignee));
+        }
+
+        foreach ($existing_privileges as $privilege)
+        {
+            if ($privilege->is_magic_assignee())
+            {
+                // This is a magic assignee
+                $label = $this->_l10n->get($privilege->assignee);
+            }
+            else
+            {
+                //Inconsistent privilige base will mess here. Let's give a chance to remove ghosts
+                $assignee = midcom::get()->auth->get_assignee($privilege->assignee);
+
+                if (is_object($assignee))
+                {
+                    $label = $assignee->name;
+                }
+                else
+                {
+                    $label = $this->_l10n->get('ghost assignee for '. $privilege->assignee);
+                }
+            }
+
+            $assignees[$privilege->assignee] = $label;
+
+            $key = str_replace(':', '_', $privilege->assignee);
+            if (!isset($this->_row_labels[$key]))
+            {
+                $this->_row_labels[$key] = $label;
+            }
+        }
+        return $assignees;
+    }
+
     private function get_effective_value($privilege, $assignee)
     {
         if ($principal = midcom::get()->auth->get_assignee($assignee))
@@ -312,15 +321,14 @@ implements midcom_helper_datamanager2_interfaces_edit
         // Load possible additional component privileges
         $this->_load_component_privileges();
 
-        // Load the datamanager controller
-        $this->_controller = $this->get_controller('simple', $this->_object);
-
         if (   isset($_POST['midcom_helper_datamanager2_add'])
             && !empty($_POST['add_assignee']))
         {
-            $this->_object->set_privilege('midgard:read', $_POST['add_assignee']);
-            return new midcom_response_relocate("__mfa/asgard/object/permissions/{$this->_object->guid}/");
+            $this->additional_assignee = $_POST['add_assignee'];
         }
+
+        // Load the datamanager controller
+        $this->_controller = $this->get_controller('simple', $this->_object);
 
         switch ($this->_controller->process_form())
         {
