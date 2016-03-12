@@ -162,7 +162,7 @@
             'widget'      => 'privilege',
             'start_fieldset' => array
             (
-                'title' => 'org.openpsa.contacts',
+                'title' => midcom::get()->i18n->get_string('org.openpsa.contacts', 'org.openpsa.contacts'),
                 'css_group' => 'area',
             ),
         ),
