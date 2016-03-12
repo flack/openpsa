@@ -117,7 +117,16 @@
                 $(this).find("select option").each(function(){
                     var classes = [ null, 'allow', 'deny', 'inherited'],
                         block_style = this.selected ? "style='display: block;'" : "",
-                        value = (this.value === null || this.value == 3) ? 'inherited-' + settings.effective_value : classes[this.value];
+                        value;
+                    if (this.value === null || this.value == 3) {
+                        value = 'inherited-' + settings.effective_value;
+                    }
+                    else {
+                        value = classes[this.value];
+                        if (value !== settings.effective_value) {
+                            value += ' ineffectual';
+                        }
+                    }
 
                     div.append( "<div class='privilege_val' " + block_style + "><a class='" + value + "' href='#" + this.value + "' title='" + this.innerHTML + "'>" + this.innerHTML + "</a></div>" );
                 });

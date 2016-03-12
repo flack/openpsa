@@ -19,6 +19,10 @@
     background: url(privileges.gif) no-repeat top left;
 }
 
+.privilege_val a.ineffectual
+{
+    opacity: 0.5;
+}
 .privilege_val a.inherited,
 .privilege_val a.inherited:hover
 {
