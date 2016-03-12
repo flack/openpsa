@@ -243,6 +243,10 @@
  */
 class midcom_services_auth_acl
 {
+    /**
+     *
+     * @var midcom_services_auth
+     */
     var $auth = null;
 
     /**
@@ -322,9 +326,9 @@ class midcom_services_auth_acl
     private static $_content_privileges_cache = array();
 
     /**
-     * Simple, currently empty default constructor.
+     * Constructor.
      */
-    public function __construct($auth)
+    public function __construct(midcom_services_auth $auth)
     {
         $this->auth = $auth;
         $this->_register_core_privileges();
