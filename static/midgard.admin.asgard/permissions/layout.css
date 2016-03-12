@@ -5,10 +5,12 @@
     width: 900px;
 }
 
-.maa_permissions_items_row
+.maa_permissions_items
 {
+    width: 100%;
+    border: 0;
     margin: 10px 0 5px 0;
-    padding: 5px;    
+    padding: 5px;
     width: 100%;
     overflow-x: scroll;
 }
@@ -42,23 +44,11 @@
 }
 
 .maa_permissions_items td.row_value
-{   
+{
     height: 20px;
     line-height: 20px;
-    min-width: 8%;
     text-align: center;
-}
-
-th.topic_management,
-th.template_management,
-th.component_config,
-th.admin_folder,
-td.topic_management,
-td.template_management,
-td.component_config,
-td.admin_folder
-{
-    width: 102px;
+    width: 7%
 }
 
 .maa_permissions_rows_header th
@@ -72,15 +62,15 @@ td.admin_folder
     vertical-align: top;
 }
 
-.maa_permissions_rows_header th.assignee_name,
-.maa_permissions_rows_row td.assignee_name
+.maa_permissions_items th.assignee_name
 {
+    font-weight: normal;
     text-align: left;
     width: 180px;
     overflow: hidden;
+    line-height: 20px;
 }
-.maa_permissions_rows_header th.row_actions,
-.maa_permissions_rows_row td.row_actions
+.maa_permissions_items th.row_actions
 {
     text-align: center;
     width: 40px;
@@ -98,5 +88,5 @@ div.privilege_action
 }
 div.privilege_action img
 {
-    padding-top: 2px;   
+    padding-top: 2px;
 }

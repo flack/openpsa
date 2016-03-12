@@ -171,31 +171,45 @@ implements midcom_helper_datamanager2_interfaces_edit
         $schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_permissions'));
 
         $assignees = $this->load_assignees();
+        $this->process_assignees($assignees, $schemadb);
 
-        // Populate additional assignee selector
-        $additional_assignees = array
-        (
-            '' => '',
-            'EVERYONE' => $this->_l10n->get('EVERYONE'),
-            'USERS' => $this->_l10n->get('USERS'),
-            'ANONYMOUS' => $this->_l10n->get('ANONYMOUS')
-        );
-
-        // List groups as potential assignees
-        $qb = midcom_db_group::new_query_builder();
-        $groups = $qb->execute();
-        foreach ($groups as $group)
+        if (!$this->additional_assignee)
         {
-            if (!array_key_exists("group:{$group->guid}", $assignees))
+            // Populate additional assignee selector
+            $additional_assignees = array
+            (
+                '' => '',
+                'EVERYONE' => $this->_l10n->get('EVERYONE'),
+                'USERS' => $this->_l10n->get('USERS'),
+                'ANONYMOUS' => $this->_l10n->get('ANONYMOUS')
+            );
+
+            // List groups as potential assignees
+            $qb = midcom_db_group::new_query_builder();
+            $groups = $qb->execute();
+            foreach ($groups as $group)
             {
-                $additional_assignees["group:{$group->guid}"] = $group->get_label();
+                if (!array_key_exists("group:{$group->guid}", $assignees))
+                {
+                    $additional_assignees["group:{$group->guid}"] = $group->get_label();
+                }
             }
+            asort($additional_assignees);
+
+            // Add the 'Add assignees' choices to schema
+            $schemadb['privileges']->fields['add_assignee']['type_config']['options'] = $additional_assignees;
         }
-        asort($additional_assignees);
+        else
+        {
+            $schemadb['privileges']->fields['add_assignee']['type'] = 'text';
+            $schemadb['privileges']->fields['add_assignee']['widget'] = 'hidden';
+        }
 
-        // Add the 'Add assignees' choices to schema
-        $schemadb['privileges']->fields['add_assignee']['type_config']['options'] = $additional_assignees;
+        return $schemadb;
+    }
 
+    private function process_assignees(array $assignees, array &$schemadb)
+    {
         $header = '';
         $header_items = array();
 
@@ -218,10 +232,10 @@ implements midcom_helper_datamanager2_interfaces_edit
 
                 if (! isset($header_items[$privilege_label]))
                 {
-                    $header_items[$privilege_label] = "        <th scope=\"col\" class=\"{$privilege_components[1]}\"><span>" . str_replace(' ', "\n", $this->_l10n->get($privilege_label)) . "</span></th>\n";
+                    $header_items[$privilege_label] = "        <th scope=\"col\" class=\"{$privilege_components[1]}\"><span>" . $this->_l10n->get($privilege_label) . "</span></th>\n";
                 }
 
-                $schemadb['privileges']->append_field(str_replace(':', '_', $assignee) . '_' . str_replace(array(':', '.'), '_', $privilege), array
+                $schemadb['privileges']->append_field(str_replace(array(':', '.'), '_', $assignee . '_' . $privilege), array
                     (
                         'title' => $privilege_label,
                         'helptext'    => sprintf($this->_l10n->get('sets privilege %s'), $privilege),
@@ -231,7 +245,7 @@ implements midcom_helper_datamanager2_interfaces_edit
                         (
                             'privilege_name' => $privilege,
                             'assignee'       => $assignee,
-                        ),
+                            ),
                         'widget' => 'privilegeselection',
                         'widget_config' => array('effective_value' => $this->get_effective_value($privilege, $assignee))
                     )
@@ -244,7 +258,6 @@ implements midcom_helper_datamanager2_interfaces_edit
         $header .= "        <th scope=\"col\" class=\"row_actions\"><span>&nbsp;</span></th>\n";
 
         $this->_header = $header;
-        return $schemadb;
     }
 
     private function load_assignees()
@@ -306,6 +319,19 @@ implements midcom_helper_datamanager2_interfaces_edit
     }
 
     /**
+     * Default helper function for DM2 schema-related operations
+     *
+     * @return array The schema defaults
+     */
+    public function get_schema_defaults()
+    {
+        if ($this->additional_assignee)
+        {
+            return array('add_assignee' => $this->additional_assignee);
+        }
+    }
+
+    /**
      * Object editing view
      *
      * @param mixed $handler_id The ID of the handler.
@@ -321,8 +347,7 @@ implements midcom_helper_datamanager2_interfaces_edit
         // Load possible additional component privileges
         $this->_load_component_privileges();
 
-        if (   isset($_POST['midcom_helper_datamanager2_add'])
-            && !empty($_POST['add_assignee']))
+        if (!empty($_POST['add_assignee']))
         {
             $this->additional_assignee = $_POST['add_assignee'];
         }
@@ -538,8 +563,7 @@ implements midcom_helper_datamanager2_interfaces_edit
                 $this->_rendered_row_labels[$key] = true;
 
                 $html = "    <tr id=\"privilege_row_{$key}\" class=\"maa_permissions_rows_row\">\n";
-                $html .= "      <td class=\"row_value assignee_name\"><span>{$label}</span></td>\n"; //<div class=\"draghandle\"></div>
-
+                $html .= "      <th class=\"row_value assignee_name\"><span>{$label}</span></th>\n";
                 return $html;
             }
         }

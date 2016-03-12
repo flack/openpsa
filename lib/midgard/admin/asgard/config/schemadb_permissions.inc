@@ -8,12 +8,7 @@
         (
             // COMPONENT-REQUIRED
             'title' => 'add assignee',
-            'storage' => array
-            (
-                'location' => 'configuration',
-                'domain'   => 'midgard.admin.asgard.acl',
-                'name'     => 'add_assignee',
-            ),
+            'storage' => null,
             'type' => 'select',
             'type_config' => Array
             (
@@ -27,8 +22,7 @@
                     'onchange' => 'submit_privileges(this.form);',
                 ),
             ),
-        ),         
+        ),
         // This is dynamically filled later
-        
     )
 ),
