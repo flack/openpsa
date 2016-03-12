@@ -28,4 +28,16 @@ class midcom_db_topic extends midcom_core_dbaobject
         }
         return '#' . $this->id;
     }
+
+    public function _on_loaded()
+    {
+        // if we are missing the component, use the nullcomponent.
+        if (   !$this->component
+            || !array_key_exists($this->component, midcom::get()->componentloader->manifests))
+        {
+            debug_add("Topic {$this->id} has no component assigned to it, using 'midcom.core.nullcomponent'.",
+            MIDCOM_LOG_INFO);
+            $this->component = 'midcom.core.nullcomponent';
+        }
+    }
 }

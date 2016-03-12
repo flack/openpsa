@@ -339,11 +339,6 @@ class midcom_core_context
     public function get_handler(midcom_db_topic $object)
     {
         $path = $object->component;
-        if (!$path)
-        {
-            $path = 'midcom.core.nullcomponent';
-            debug_add("No component defined for this node, using 'midcom.core.nullcomponent' instead.", MIDCOM_LOG_INFO);
-        }
         $this->set_key(MIDCOM_CONTEXT_COMPONENT, $path);
 
         // Get component interface class

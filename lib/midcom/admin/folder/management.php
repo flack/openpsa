@@ -40,11 +40,6 @@ class midcom_admin_folder_management extends midcom_baseclasses_components_plugi
         midcom::get()->style->prepend_component_styledir('midcom.admin.folder');
 
         $this->_request_data['folder'] = $this->_topic;
-
-        if (!array_key_exists($this->_topic->component, midcom::get()->componentloader->manifests))
-        {
-            $this->_topic->component = 'midcom.core.nullcomponent';
-        }
     }
 
     /**

@@ -447,8 +447,6 @@ class midcom_helper_nav_backend
      * Reads a node data structure from the database, completes all defaults and
      * derived properties.
      *
-     * If the topic is missing a component, it will set the component to midcom.core.nullcomponent.
-     *
      * @param mixed $topic_id The ID of the node for which the NAP information is requested.
      * @param mixed $up    The node ID of the parent node.    Optional and not normally needed.
      * @return Array Node data structure or null in case no NAP information is available for this topic.
@@ -479,15 +477,6 @@ class midcom_helper_nav_backend
         }
 
         // Retrieve a NAP instance
-        // if we are missing the component, use the nullcomponent.
-        if (   !$topic->component
-            || !array_key_exists($topic->component, midcom::get()->componentloader->manifests))
-        {
-            debug_add("The topic {$topic->id} has no component assigned to it, using 'midcom.core.nullcomponent'.",
-                MIDCOM_LOG_INFO);
-            $topic->component = 'midcom.core.nullcomponent';
-        }
-
         $interface = $this->_get_component_interface($topic->component, $topic);
         if (!$interface)
         {
