@@ -6,8 +6,8 @@
     text-indent: -999em;
     cursor: pointer;
     display: none;
-	margin-left: auto;
-	margin-right: auto;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .privilege_val a
@@ -28,11 +28,13 @@ div.privilege_val a.inherited-allow,
 div.privilege_val a.inherited-allow:hover
 {
     background-position:  0 -16px;
+    opacity: .5
 }
 .privilege_val a.inherited-deny,
 .privilege_val a.inherited-deny:hover
 {
     background-position:  0 -32px;
+    opacity: .5
 }
 .privilege_val a.allow,
 .privilege_val a.allow:hover

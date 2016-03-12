@@ -35,12 +35,7 @@ class midcom_helper_datamanager2_widget_privilegeselection extends midcom_helper
      */
     protected $_privilege_options = null;
 
-    /**
-     * Holds the javascript to render the privilege selection widget
-     *
-     * @var String
-     */
-    protected $_jscript = '';
+    public $effective_value;
 
     /**
      * The initialization event handler validates the base type.
@@ -69,20 +64,21 @@ class midcom_helper_datamanager2_widget_privilegeselection extends midcom_helper
     public function add_elements_to_form($attributes)
     {
         if (   $this->_type->storage->object
-            && ! $this->_type->storage->object->can_do('midgard:privileges'))
+            && !$this->_type->storage->object->can_do('midgard:privileges'))
         {
             return;
         }
 
+        $effective_value = ($this->effective_value == MIDCOM_PRIVILEGE_ALLOW) ? 'allow' : 'deny';
+
         $elements = array();
 
         $attributes['class'] = 'dropdown privilegeselection';
-        $this->_element = $this->_form->createElement('select', $this->name, '',
-            $this->_privilege_options, $attributes);
+        $this->_element = $this->_form->createElement('select', $this->name, '', $this->_privilege_options, $attributes);
 
-        $this->_jscript = '<script type="text/javascript">';
-        $this->_jscript .= 'jQuery("#' . $this->_namespace . $this->name . '_holder").render_privilege();';
-        $this->_jscript .= '</script>';
+        $jscript = '<script type="text/javascript">';
+        $jscript .= '$("#' . $this->_namespace . $this->name . '_holder").render_privilege({effective_value: "' . $effective_value . '"});';
+        $jscript .= '</script>';
 
         $elements[] = $this->_form->createElement
         (
@@ -104,7 +100,7 @@ class midcom_helper_datamanager2_widget_privilegeselection extends midcom_helper
             'static',
             "{$this->_namespace}{$this->name}_initscripts",
             '',
-            $this->_jscript
+            $jscript
         );
 
         $this->_form->addGroup

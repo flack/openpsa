@@ -256,7 +256,7 @@ implements midcom_helper_datamanager2_interfaces_edit
                     $header_items[$privilege_label] = "        <th scope=\"col\" class=\"{$privilege_components[1]}\"><span>" . str_replace(' ', "\n", $this->_l10n->get($privilege_label)) . "</span></th>\n";
                 }
 
-                $schemadb['privileges']->append_field(str_replace(':', '_', $assignee) . '_' . str_replace(array(':', '.'), '_', $privilege), Array
+                $schemadb['privileges']->append_field(str_replace(':', '_', $assignee) . '_' . str_replace(array(':', '.'), '_', $privilege), array
                     (
                         'title' => $privilege_label,
                         'helptext'    => sprintf($this->_l10n->get('sets privilege %s'), $privilege),
@@ -268,6 +268,7 @@ implements midcom_helper_datamanager2_interfaces_edit
                             'assignee'       => $assignee,
                         ),
                         'widget' => 'privilegeselection',
+                        'widget_config' => array('effective_value' => $this->get_effective_value($privilege, $assignee))
                     )
                 );
             }
@@ -279,6 +280,15 @@ implements midcom_helper_datamanager2_interfaces_edit
 
         $this->_header = $header;
         return $schemadb;
+    }
+
+    private function get_effective_value($privilege, $assignee)
+    {
+        if ($principal = midcom::get()->auth->get_assignee($assignee))
+        {
+            return $this->_object->can_do($privilege, $principal);
+        }
+        return $this->_object->can_do($privilege, $assignee);
     }
 
     public function get_schema_name()
@@ -348,7 +358,7 @@ implements midcom_helper_datamanager2_interfaces_edit
         {
             $form_start .= "{$key}=\"{$value}\" ";
         }
-        $form_start .= "/>\n";
+        $form_start .= ">\n";
 
         $data['editor_header_form_start'] = $form_start;
         $data['editor_header_form_end'] = "</form>\n";
@@ -454,6 +464,10 @@ implements midcom_helper_datamanager2_interfaces_edit
         $html .= "<select ";
         foreach ($object->_attributes as $key => $value)
         {
+            if ($key == 'helptext')
+            {
+                $key = 'title';
+            }
             $html .= "{$key}=\"{$value}\" ";
             if ($key == 'name')
             {
