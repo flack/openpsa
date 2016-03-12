@@ -17,7 +17,7 @@ implements midcom_helper_datamanager2_interfaces_edit
     /**
      * The object whose permissions we handle
      *
-     * @var mixed
+     * @var midcom_core_dbaobject
      */
     private $_object = null;
 

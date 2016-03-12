@@ -131,14 +131,13 @@ class midcom_core_privilege
                 //scope is not applicable here
                 break;
             default:
-                $assignee = $this->get_assignee();
-                if (! $assignee)
+                if ($assignee = $this->get_assignee())
                 {
-                    debug_print_r('Could not resolve the assignee of this privilege:', $this);
+                    $scope = $assignee->scope;
                 }
                 else
                 {
-                    $scope = $assignee->scope;
+                    debug_print_r('Could not resolve the assignee of this privilege:', $this);
                 }
                 break;
         }
@@ -416,7 +415,7 @@ class midcom_core_privilege
     }
 
     /**
-     * This is an internal helper function used by get_all_privileges in case
+     * This is an internal helper function used by get_privileges in case
      * that there is no cache hit. It will query the database and construct all
      * necessary objects out of it.
      *

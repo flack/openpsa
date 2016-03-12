@@ -550,6 +550,12 @@ class midcom_core_user
         return false;
     }
 
+    public function is_admin()
+    {
+        $account = new midcom_core_account($this->_storage);
+        return $account->is_admin();
+    }
+
     /**
      * This function will return a MidCOM DBA level storage object for the current user.
      * Be aware that depending on ACL information, the retrieval of the user may fail.

@@ -317,9 +317,7 @@ class midcom_services_auth
             return false;
         }
 
-        if (   is_null($user)
-            && !is_null($this->user)
-            && $this->admin)
+        if ($this->is_admin($user))
         {
             // Administrators always have access.
             return true;
@@ -341,6 +339,19 @@ class midcom_services_auth
         return $this->acl->can_do_byguid($privilege, $content_object->guid, $content_object_class, $user_id);
     }
 
+    private function is_admin($user)
+    {
+        if ($user === null)
+        {
+            return $this->user && $this->admin;
+        }
+        if (is_a($user, 'midcom_core_user'))
+        {
+            return $user->is_admin();
+        }
+        return false;
+    }
+
     /**
      * Checks, whether the given user have the privilege assigned to him in general.
      * Be aware, that this does not take any permissions overridden by content objects
@@ -357,23 +368,21 @@ class midcom_services_auth
      */
     function can_user_do($privilege, $user = null, $class = null, $component = null)
     {
-        if (is_null($user))
+        if ($this->is_admin($user))
         {
-            if ($this->admin)
-            {
-                // Administrators always have access.
-                return true;
-            }
-            $user =& $this->user;
+            // Administrators always have access.
+            return true;
         }
-
         if ($this->_component_sudo)
         {
             return true;
         }
+        if (is_null($user))
+        {
+            $user =& $this->user;
+        }
 
-        if (   is_string($user)
-            && $user == 'EVERYONE')
+        if ($user == 'EVERYONE')
         {
             $user = null;
         }
@@ -489,6 +498,11 @@ class midcom_services_auth
      */
     function is_group_member($group, $user = null)
     {
+        if ($this->is_admin($user))
+        {
+            // Administrators always have access.
+            return true;
+        }
         // Default parameter
         if (is_null($user))
         {
@@ -498,12 +512,6 @@ class midcom_services_auth
                 return false;
             }
             $user = $this->user;
-        }
-
-        if ($this->admin)
-        {
-            // Administrators always have access.
-            return true;
         }
 
         return $user->is_in_group($group);
@@ -622,14 +630,14 @@ class midcom_services_auth
      */
     public function require_admin_user($message = null)
     {
-        if ($message === null)
-        {
-            $message = midcom::get()->i18n->get_string('access denied: admin level privileges required', 'midcom');
-        }
-
         if (   ! $this->admin
             && ! $this->_component_sudo)
         {
+            if ($message === null)
+            {
+                $message = midcom::get()->i18n->get_string('access denied: admin level privileges required', 'midcom');
+            }
+
             throw new midcom_error_forbidden($message);
         }
     }

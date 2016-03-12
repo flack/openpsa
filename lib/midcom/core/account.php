@@ -292,6 +292,17 @@ class midcom_core_account
         }
     }
 
+    public function is_admin()
+    {
+        if ($this->_user instanceof midgard_user)
+        {
+            return $this->_user->is_admin();
+        }
+        //mgd1
+        $user = new midgard_user(midcom::get()->dbfactory->convert_midcom_to_midgard($this->_person));
+        return $user->is_admin();
+    }
+
     private function _create_user()
     {
         if ($this->_user->login == '')
