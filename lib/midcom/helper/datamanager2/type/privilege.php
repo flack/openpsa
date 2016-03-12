@@ -114,6 +114,29 @@ class midcom_helper_datamanager2_type_privilege extends midcom_helper_datamanage
         // is the default.
     }
 
+    public function get_effective_value()
+    {
+        if (   !$this->privilege
+            || !$this->storage->object)
+        {
+            return false;
+        }
+        if ($this->privilege->assignee == 'SELF')
+        {
+            //@todo: find out is this actually works as planned...
+            $principal = $this->storage->object;
+        }
+        else
+        {
+            $principal = midcom::get()->auth->get_assignee($this->privilege->assignee);
+        }
+        if ($principal)
+        {
+            return $this->storage->object->can_do($this->privilege->privilegename, $principal);
+        }
+        return $this->storage->object->can_do($this->privilege->privilegename, $this->privilege->assignee);
+    }
+
     /**
      * Loads the privilege from the DB if and only if a storage object is already present
      * and we have sufficient privileges.
@@ -178,7 +201,8 @@ class midcom_helper_datamanager2_type_privilege extends midcom_helper_datamanage
                 return $this->_l10n->get('widget privilege: deny');
 
             case MIDCOM_PRIVILEGE_INHERIT:
-                return $this->_l10n->get('widget privilege: inherit');
+                $effective_value = ($this->get_effective_value() == MIDCOM_PRIVILEGE_ALLOW) ? 'allow' : 'deny';
+                return sprintf($this->_l10n->get('widget privilege: inherit %s'), $this->_l10n->get('widget privilege: ' . $get_effective_value));
 
             default:
                 return $this->get_value();

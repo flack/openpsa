@@ -46,6 +46,7 @@ class midcom_helper_datamanager2_widget_privilege extends midcom_helper_datamana
         {
             return;
         }
+        $effective_value = ($this->_type->get_effective_value() == MIDCOM_PRIVILEGE_ALLOW) ? 'allow' : 'deny';
 
         $elements = Array();
 
@@ -72,7 +73,7 @@ class midcom_helper_datamanager2_widget_privilege extends midcom_helper_datamana
             'radio',
             null,
             MIDCOM_PRIVILEGE_INHERIT,
-            $this->_l10n->get('widget privilege: inherit'),
+            sprintf($this->_l10n->get('widget privilege: inherit %s'), $this->_l10n->get('widget privilege: ' . $effective_value)),
             MIDCOM_PRIVILEGE_INHERIT,
             Array('class' => 'radiobutton')
         );

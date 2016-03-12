@@ -283,8 +283,8 @@ Allow
 Deny
 ---STRINGEND
 
----STRING widget privilege: inherit
-Not set (inherited)
+---STRING widget privilege: inherit %s
+Inherited (%s)
 ---STRINGEND
 
 ---STRING widget select: other value

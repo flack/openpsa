@@ -174,8 +174,8 @@ Tillat
 Avslå
 ---STRINGEND
 
----STRING widget privilege: inherit
-Ikke satt (arvet)
+---STRING widget privilege: inherit %s
+Arvet (%s)
 ---STRINGEND
 
 ---STRING widget select: other value

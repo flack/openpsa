@@ -37,10 +37,7 @@ implements midcom_helper_datamanager2_interfaces_edit
     (
         // Midgard core level privileges
         'midgard:owner', 'midgard:read', 'midgard:update', 'midgard:delete', 'midgard:create',
-        'midgard:parameters', 'midgard:attachments', 'midgard:privileges',
-
-        // MidCOM core level privileges
-        'midcom:unlock'
+        'midgard:parameters', 'midgard:attachments', 'midgard:privileges'
     );
 
     /**
@@ -246,8 +243,7 @@ implements midcom_helper_datamanager2_interfaces_edit
                             'privilege_name' => $privilege,
                             'assignee'       => $assignee,
                             ),
-                        'widget' => 'privilegeselection',
-                        'widget_config' => array('effective_value' => $this->get_effective_value($privilege, $assignee))
+                        'widget' => 'privilegeselection'
                     )
                 );
             }
@@ -270,7 +266,6 @@ implements midcom_helper_datamanager2_interfaces_edit
         {
             $existing_privileges[] = new midcom_core_privilege(array('assignee' => $this->additional_assignee));
         }
-
         foreach ($existing_privileges as $privilege)
         {
             if ($privilege->is_magic_assignee())
@@ -302,15 +297,6 @@ implements midcom_helper_datamanager2_interfaces_edit
             }
         }
         return $assignees;
-    }
-
-    private function get_effective_value($privilege, $assignee)
-    {
-        if ($principal = midcom::get()->auth->get_assignee($assignee))
-        {
-            return $this->_object->can_do($privilege, $principal);
-        }
-        return $this->_object->can_do($privilege, $assignee);
     }
 
     public function get_schema_name()

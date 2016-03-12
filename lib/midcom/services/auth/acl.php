@@ -485,9 +485,8 @@ class midcom_services_auth_acl
         }
         else if (is_string($user))
         {
-            if (   $user != 'EVERYONE'
-                && (    mgd_is_guid($user)
-                    || is_numeric($user)))
+            if (   mgd_is_guid($user)
+                || is_numeric($user))
             {
                 $user_id = $this->auth->get_user($user)->id;
             }
