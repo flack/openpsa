@@ -1004,7 +1004,7 @@ class midcom_services_auth_acl
                 if (    $found
                      && self::$_content_privileges_cache[$cache_id]['midgard:owner'])
                 {
-                    self::$_content_privileges_cache[$cache_id][$privilegename] = $owner_privileges[$privilegename];
+                    self::$_content_privileges_cache[$cache_id][$privilegename] = ($owner_privileges[$privilegename] == MIDCOM_PRIVILEGE_ALLOW);
                     return true;
                 }
             }
