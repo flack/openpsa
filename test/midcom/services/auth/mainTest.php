@@ -56,6 +56,7 @@ class midcom_services_auth_mainTest extends openpsa_testcase
         $this->assertTrue($auth->can_user_do('midgard:read'));
         $this->assertFalse($auth->can_user_do('midgard:create'));
 
+        $auth->user = $user;
         $auth->admin = true;
         $this->assertTrue($auth->can_user_do('midgard:create'));
 
