@@ -36,9 +36,8 @@ implements midcom_helper_datamanager2_interfaces_edit
     private $_privileges = array
     (
         // Midgard core level privileges
-        'midgard:update', 'midgard:delete', 'midgard:create', 'midgard:read',
-        'midgard:parameters', 'midgard:attachments',
-        'midgard:privileges', 'midgard:owner',
+        'midgard:owner', 'midgard:read', 'midgard:update', 'midgard:delete', 'midgard:create',
+        'midgard:parameters', 'midgard:attachments', 'midgard:privileges',
 
         // MidCOM core level privileges
         'midcom:unlock'
