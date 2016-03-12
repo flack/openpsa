@@ -542,6 +542,14 @@ Read
 Update
 ---STRINGEND
 
+---STRING midgard:privileges
+Privileges
+---STRINGEND
+
+---STRING midcom:unlock
+Unlock
+---STRINGEND
+
 ---STRING mimetype
 MIME type
 ---STRINGEND

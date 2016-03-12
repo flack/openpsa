@@ -518,6 +518,14 @@ Lesen
 Bearbeiten
 ---STRINGEND
 
+---STRING midgard:privileges
+Berechtigungen
+---STRINGEND
+
+---STRING midcom:unlock
+Entsperren
+---STRINGEND
+
 ---STRING mimetype
 MIME-Typ
 ---STRINGEND

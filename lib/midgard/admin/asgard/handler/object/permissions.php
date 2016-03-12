@@ -33,7 +33,16 @@ implements midcom_helper_datamanager2_interfaces_edit
      *
      * @var Array
      */
-    private $_privileges = array();
+    private $_privileges = array
+    (
+        // Midgard core level privileges
+        'midgard:update', 'midgard:delete', 'midgard:create', 'midgard:read',
+        'midgard:parameters', 'midgard:attachments',
+        'midgard:privileges', 'midgard:owner',
+
+        // MidCOM core level privileges
+        'midcom:unlock'
+    );
 
     /**
      * Table header
@@ -67,14 +76,6 @@ implements midcom_helper_datamanager2_interfaces_edit
 
     public function _on_initialize()
     {
-        $this->_privileges[] = 'midgard:read';
-        $this->_privileges[] = 'midgard:create';
-        $this->_privileges[] = 'midgard:update';
-        $this->_privileges[] = 'midgard:delete';
-        $this->_privileges[] = 'midgard:attachments';
-        $this->_privileges[] = 'midgard:parameters';
-        $this->_privileges[] = 'midgard:owner';
-
         if (midcom::get()->config->get('metadata_approval'))
         {
             $this->_privileges[] = 'midcom:approve';
