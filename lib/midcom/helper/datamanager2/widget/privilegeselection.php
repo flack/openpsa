@@ -70,7 +70,7 @@ class midcom_helper_datamanager2_widget_privilegeselection extends midcom_helper
         }
 
         $effective_value = ($this->_type->get_effective_value() == MIDCOM_PRIVILEGE_ALLOW) ? 'allow' : 'deny';
-        $this->_privilege_options[MIDCOM_PRIVILEGE_DENY] = sprintf($this->_l10n->get('widget privilege: inherit %s'), $this->_l10n->get('widget privilege: ' . $effective_value));
+        $this->_privilege_options[MIDCOM_PRIVILEGE_INHERIT] = sprintf($this->_l10n->get('widget privilege: inherit %s'), $this->_l10n->get('widget privilege: ' . $effective_value));
 
         $elements = array();
 
