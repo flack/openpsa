@@ -83,33 +83,33 @@ class midcom_core_group
             throw new midcom_error('The class midcom_core_group is not default constructible.');
         }
 
-        if (   is_string($id)
-            && substr($id, 0, 6) == 'group:')
-        {
-            $id = substr($id, 6);
-        }
-
-        if (   is_object($id)
-             && (   is_a($id, 'midcom_db_group')
-                 || is_a($id, 'midgard_group')))
+        if (   is_a($id, 'midcom_db_group')
+            || is_a($id, 'midgard_group'))
         {
             $this->_storage = $id;
         }
-        else if (   is_numeric($id)
-                 && $id == 0)
+        else
         {
-            throw new midcom_error('0 is not a valid DB identifier');
-        }
-
-        try
-        {
-            $this->_storage = new midgard_group($id);
-        }
-        catch (Exception $e)
-        {
-            debug_add('Tried to load a midcom_core_group, but got error ' . $e->getMessage(), MIDCOM_LOG_ERROR);
-            debug_print_r('Passed argument was:', $id);
-            throw new midcom_error($e->getMessage());
+            if (   is_string($id)
+                 && substr($id, 0, 6) == 'group:')
+            {
+                $id = substr($id, 6);
+            }
+            else if (   is_numeric($id)
+                     && $id == 0)
+            {
+                throw new midcom_error('0 is not a valid DB identifier');
+            }
+            try
+            {
+                $this->_storage = new midgard_group($id);
+            }
+            catch (Exception $e)
+            {
+                debug_add('Tried to load a midcom_core_group, but got error ' . $e->getMessage(), MIDCOM_LOG_ERROR);
+                debug_print_r('Passed argument was:', $id);
+                throw new midcom_error($e->getMessage());
+            }
         }
 
         if ($this->_storage->official != '')
@@ -276,7 +276,7 @@ class midcom_core_group
     {
         if (is_null($this->_storage))
         {
-            return Array();
+            return array();
         }
         return midcom_core_privilege::get_self_privileges($this->_storage->guid);
     }
