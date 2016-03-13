@@ -310,7 +310,7 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
                     $toolbar_buttons[] = org_openpsa_calendar_interface::get_create_button($data['node'], '?' . self::relatedto2get(array($related_to)));
                     break;
                 case 'task':
-                    if (midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_projects_project_task_dba'))
+                    if (midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_projects_task_dba'))
                     {
                         $toolbar_buttons[] = $workflow->get_button("{$data['node'][MIDCOM_NAV_ABSOLUTEURL]}task/new/?" . self::relatedto2get(array($related_to)), array
                         (

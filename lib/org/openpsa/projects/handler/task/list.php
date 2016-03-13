@@ -569,7 +569,7 @@ implements org_openpsa_widgets_grid_provider_client
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-dir.png',
             )));
         }
-        if (midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_projects_project_task_dba'))
+        if (midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_projects_task_dba'))
         {
             $this->_view_toolbar->add_item($workflow->get_button('task/new/', array
             (
