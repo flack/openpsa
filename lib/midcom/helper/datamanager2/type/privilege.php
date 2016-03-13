@@ -77,6 +77,10 @@ class midcom_helper_datamanager2_type_privilege extends midcom_helper_datamanage
     {
         if (!$this->privilege_object)
         {
+            if (!$this->storage->object)
+            {
+                return false;
+            }
             $this->privilege_object = $this->storage->object;
         }
         if (!$this->privilege_object->can_do('midgard:privileges'))
@@ -138,8 +142,11 @@ class midcom_helper_datamanager2_type_privilege extends midcom_helper_datamanage
     public function get_effective_value()
     {
         $privilege_object = $this->get_privilege_object();
-        if (   !$this->privilege
-            || !$privilege_object)
+        if (!$this->privilege)
+        {
+            return false;
+        }
+        if (!$privilege_object)
         {
             $defaults = midcom::get()->auth->acl->get_default_privileges();
             return ($defaults[$this->privilege->privilegename] === MIDCOM_PRIVILEGE_ALLOW);
