@@ -368,7 +368,8 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
         {
             //Calendar node found, render a better view
             $this->_request_data['raw_url'] = $calendar_url . 'event/raw/' . $other_obj->guid . '/';
-            $title = '<a href="' . $calendar_url . 'event/' . $other_obj->guid .  '/" target="event_' . $other_obj->guid . '">' . $title . "</a>\n";
+            $workflow = $this->get_workflow('viewer');
+            $title = '<a href="' . $calendar_url . 'event/' . $other_obj->guid .  '/" ' . $workflow->render_attributes() . '>' . $title . "</a>\n";
         }
 
         $this->_request_data['title'] = $title;
