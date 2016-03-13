@@ -320,6 +320,7 @@ class net_nemein_wiki_parser extends midcom_baseclasses_components_purecode
         $url_name = $resolver->generate_page_url($wikipage_match['wikipage']);
 
         $type = $wikipage_match['wikipage']->get_parameter('midcom.helper.datamanager2', 'schema_name');
+        $type .= ($wikipage_match['wikipage']->can_do('midgard:read')) ? '' : ' access-denied';
 
         return "<a href=\"{$url_name}{$page_anchor}\" class=\"wikipage {$type}\" title=\"{$wikilink}\">{$text}</a>";
     }

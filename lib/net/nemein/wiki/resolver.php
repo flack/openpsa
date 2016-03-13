@@ -106,106 +106,100 @@ class net_nemein_wiki_resolver
         $levels = explode('/', $path);
         $path = implode('/', array_map(array($generator, 'from_string'), $levels));
 
-        // Namespaced handling
-        if (count($levels) > 1)
-        {
-            /* We store the Wiki folder hierarchy in a static array
-               that is populated only once, and even then only the
-               first time we encounter a namespaced wikilink */
-            static $folder_tree = array();
-            if (   count($folder_tree) == 0
-                || $force_resolve_folder_tree)
-            {
-                $folder_tree = $this->_resolve_folder_tree($force_as_root);
-            }
-
-            if (substr($path, 0, 1) != '/')
-            {
-                // This is a relative path, expand to full path
-                foreach ($folder_tree as $prefix => $folder)
-                {
-                    if ($folder[MIDCOM_NAV_ID] == $this->_topic)
-                    {
-                        $path = "{$prefix}{$path}";
-                        break;
-                    }
-                }
-            }
-
-            if (array_key_exists($path, $folder_tree))
-            {
-                // This is a direct link to a folder, return the index article
-                $matches['folder'] = $folder_tree[$path];
-
-                $qb = net_nemein_wiki_wikipage::new_query_builder();
-                $qb->add_constraint('topic', '=', $folder_tree[$path][MIDCOM_NAV_ID]);
-                $qb->add_constraint('name', '=', 'index');
-                $wikipages = $qb->execute();
-                if (count($wikipages) == 0)
-                {
-                    $matches['remaining_path'] = $folder_tree[$path][MIDCOM_NAV_NAME];
-                    return $matches;
-                }
-
-                $matches['wikipage'] = $wikipages[0];
-                return $matches;
-            }
-
-            // Resolve topic from path
-            $directory = dirname($path);
-            if (!array_key_exists($directory, $folder_tree))
-            {
-                // Wiki folder is missing, go to create
-
-                // Walk path downwards to locate latest parent
-                $localpath = $path;
-                $matches['latest_parent'] = $folder_tree['/'];
-                $missing_levels = 0;
-                while (   $localpath
-                       && $localpath != '/')
-                {
-                    $localpath = dirname($localpath);
-                    $missing_levels++;
-
-                    if (array_key_exists($localpath, $folder_tree))
-                    {
-                        $matches['latest_parent'] = $folder_tree[$localpath];
-                        $matches['remaining_path'] = implode('/', array_slice($levels, -$missing_levels));
-                        break;
-                    }
-                }
-                return $matches;
-            }
-
-            $folder = $folder_tree[$directory];
-            $matches['remaining_path'] = substr($path, strlen($directory) + 1);
-        }
-        else
+        midcom::get()->auth->request_sudo('net.nemein.wiki');
+        if (count($levels) == 1)
         {
             // The linked page is in same namespace
             $nap = new midcom_helper_nav();
             $folder = $nap->get_node($this->_topic);
         }
-
-        if (empty($folder))
+        else
         {
+            $folder = $this->resolve_namespaces($path, $matches, $levels, $force_resolve_folder_tree, $force_as_root);
+        }
+
+        if (!empty($folder))
+        {
+            // Check if the wikipage exists
+            $qb = net_nemein_wiki_wikipage::new_query_builder();
+            $qb->add_constraint('name', '=', basename($path));
+            $qb->add_constraint('topic', '=', $folder[MIDCOM_NAV_ID]);
+            $wikipages = $qb->execute();
+            if (count($wikipages) == 1)
+            {
+                $matches['wikipage'] = $wikipages[0];
+            }
+            else
+            {
+                // No page found, go to create
+                $matches['folder'] = $folder;
+            }
+        }
+        midcom::get()->auth->drop_sudo();
+
+        return $matches;
+    }
+
+    private function resolve_namespaces($path, array &$matches, $levels, $force_resolve_folder_tree, $force_as_root)
+    {
+        /* We store the Wiki folder hierarchy in a static array
+         that is populated only once, and even then only the
+         first time we encounter a namespaced wikilink */
+        static $folder_tree = array();
+        if (   count($folder_tree) == 0
+            || $force_resolve_folder_tree)
+        {
+            $folder_tree = $this->_resolve_folder_tree($force_as_root);
+        }
+
+        if (substr($path, 0, 1) != '/')
+        {
+            // This is a relative path, expand to full path
+            foreach ($folder_tree as $prefix => $folder)
+            {
+                if ($folder[MIDCOM_NAV_ID] == $this->_topic)
+                {
+                    $path = "{$prefix}{$path}";
+                    break;
+                }
+            }
+        }
+
+        if (array_key_exists($path, $folder_tree))
+        {
+            // This is a direct link to a folder, return the index article
+            $matches['remaining_path'] = 'index';
+            return $folder_tree[$path];
+        }
+
+        // Resolve topic from path
+        $directory = dirname($path);
+        if (!array_key_exists($directory, $folder_tree))
+        {
+            // Wiki folder is missing, go to create
+
+            // Walk path downwards to locate latest parent
+            $localpath = $path;
+            $matches['latest_parent'] = $folder_tree['/'];
+            $missing_levels = 0;
+            while (   $localpath
+                   && $localpath != '/')
+            {
+                $localpath = dirname($localpath);
+                $missing_levels++;
+
+                if (array_key_exists($localpath, $folder_tree))
+                {
+                    $matches['latest_parent'] = $folder_tree[$localpath];
+                    $matches['remaining_path'] = implode('/', array_slice($levels, -$missing_levels));
+                    break;
+                }
+            }
             return null;
         }
 
-        // Check if the wikipage exists
-        $qb = net_nemein_wiki_wikipage::new_query_builder();
-        $qb->add_constraint('name', '=', basename($path));
-        $qb->add_constraint('topic', '=', $folder[MIDCOM_NAV_ID]);
-        $wikipages = $qb->execute();
-        if (count($wikipages) == 0)
-        {
-            // No page found, go to create
-            $matches['folder'] = $folder;
-            return $matches;
-        }
-
-        $matches['wikipage'] = $wikipages[0];
-        return $matches;
+        $matches['remaining_path'] = substr($path, strlen($directory) + 1);
+        return $folder_tree[$directory];
     }
 
     private function _resolve_folder_tree($force_as_root)

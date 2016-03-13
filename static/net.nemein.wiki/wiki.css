@@ -1,13 +1,3 @@
-div.net_nemein_wiki_wikipage a.wiki_missing
-{
-    color: #cc0000;
-    text-decoration: none !important;
-    border-bottom: dashed 1px #cc0000;
-}
-div.net_nemein_wiki_wikipage span.wiki_missing_nouser
-{
-    border-bottom: dashed 1px #c0c0c0;
-}
 div.net_nemein_wiki_wikipage a.edit img
 {
     border: none;
@@ -15,8 +5,8 @@ div.net_nemein_wiki_wikipage a.edit img
 
 #preview_container #preview_label
 {
-	display: none;
-} 
+    display: none;
+}
 
 div.wiki_preview
 {
@@ -26,34 +16,34 @@ div.wiki_preview
 }
 
 /* Tags view should resemble MediaWiki categories list */
-div.net_nemein_wiki_wikipage dl.tags
+div.net_nemein_wiki_wikipage .tags
 {
     border-top: 1px solid #999;
     padding: 6px;
     margin-top: 1.5em;
 }
-div.net_nemein_wiki_wikipage dl.tags dt
+div.net_nemein_wiki_wikipage .tags dt
 {
     display: inline;
     font-weight: bold;
 }
-div.net_nemein_wiki_wikipage dl.tags dt:after
+div.net_nemein_wiki_wikipage .tags dt:after
 {
     content: ':';
 }
-div.net_nemein_wiki_wikipage dl.tags dd
+div.net_nemein_wiki_wikipage .tags dd
 {
     display: inline;
     margin: 0px;
     padding: 0px;
 }
-div.net_nemein_wiki_wikipage dl.tags dd a
+div.net_nemein_wiki_wikipage .tags a
 {
     padding: .1em .3em;
     border-radius: 2px;
     border: 1px solid white;
 }
-div.net_nemein_wiki_wikipage dl.tags dd a:hover
+div.net_nemein_wiki_wikipage .tags a:hover
 {
     background-color: #e7e7e7;
     border: 1px solid #aaa;
@@ -107,7 +97,6 @@ div.net_nemein_wiki_wikipage div.org_routamc_photostream_photo
 }
 div.net_nemein_wiki_wikipage div.org_routamc_photostream_photo img
 {
-    /*border: 1px solid #000000;*/
     border: none;
 }
 div.net_nemein_wiki_wikipage div.org_routamc_photostream_photo h3
@@ -126,15 +115,8 @@ div.net_nemein_wiki_wikipage div.tip, div.net_nemein_wiki_wikipage div.note, div
     padding-bottom: 4px;
     margin: 4px;
     min-height: 64px;
-    /*
-    width: 128px;
-    overflow: auto;
-    */
     border: 1px solid #c0c0c0;
     color: #606060;
-    /*
-    float: right;
-    */
     border-radius: 10px;
     background-repeat: no-repeat;
     background-position: 8px 8px;
@@ -166,4 +148,28 @@ div.net_nemein_wiki_wikipage pre code
     max-width: 90%;
     overflow: auto;
     white-space: pre-wrap;
+}
+
+div.net_nemein_wiki_wikipage a.wiki_missing
+{
+    color: #cc0000;
+    text-decoration: none !important;
+    border-bottom: dashed 1px #cc0000;
+}
+div.net_nemein_wiki_wikipage a.access-denied
+{
+    background-image: url('../midgard.admin.asgard/permissions-16.png');
+    background-repeat: no-repeat;
+    background-position: left center;
+    padding-left: 20px;
+    opacity: .7
+}
+div.net_nemein_wiki_wikipage a.access-denied:hover
+{
+    text-decoration: none;
+    cursor: not-allowed;
+}
+div.net_nemein_wiki_wikipage span.wiki_missing_nouser
+{
+    border-bottom: dashed 1px #c0c0c0;
 }

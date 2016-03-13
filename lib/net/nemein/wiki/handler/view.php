@@ -139,55 +139,42 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
 
     private function _load_page($wikiword)
     {
-        $qb = net_nemein_wiki_wikipage::new_query_builder();
-        $qb->add_constraint('topic', '=', $this->_topic->id);
-        $qb->add_constraint('name', '=', $wikiword);
-        $result = $qb->execute();
+        $resolver = new net_nemein_wiki_resolver($this->_topic->id);
+        $resolved = $resolver->path_to_wikipage($wikiword, true, true);
 
-        if (count($result) > 0)
+        $nap = new midcom_helper_nav();
+        if ($resolved['wikipage'])
         {
-            $this->_page = $result[0];
-            return true;
+            $node = $nap->get_node($resolved['wikipage']->topic);
+            $this->_page = $resolved['wikipage'];
+        }
+        else
+        {
+            $node = $resolved['latest_parent'] ?: $resolved['folder'];
         }
 
-        if ($wikiword == 'index')
+        if ($node[MIDCOM_NAV_ID] !== $this->_topic->id)
+        {
+            if ($nap->is_node_in_tree($node[MIDCOM_NAV_ID], $this->_topic->id))
+            {
+                // Defer processing to child node
+                return false;
+            }
+            midcom::get()->relocate("{$node[MIDCOM_NAV_ABSOLUTEURL]}{$resolved['remaining_path']}/");
+            // This will exit
+        }
+
+        if (   !$this->_page
+            && $wikiword == 'index')
         {
             // Autoinitialize
             $this->_topic->require_do('midgard:create');
             $this->_page = net_nemein_wiki_viewer::initialize_index_article($this->_topic);
-            return true;
         }
 
-        $topic_qb = midcom_db_topic::new_query_builder();
-        $topic_qb->add_constraint('up', '=', $this->_topic->id);
-        $topic_qb->add_constraint('name', '=', $wikiword);
-        $topics = $topic_qb->execute();
-        if (count($topics) > 0)
-        {
-            // There is a topic by this URL name underneath, go there
-            return false;
-        }
+        $this->_page->require_do('midgard:read');
 
-        // We need to get the node from NAP for safe redirect
-        $nap = new midcom_helper_nav();
-        $node = $nap->get_node($this->_topic->id);
-        $generator = midcom::get()->serviceloader->load('midcom_core_service_urlgenerator');
-        $urlized_wikiword = $generator->from_string($wikiword);
-        if ($urlized_wikiword != $wikiword)
-        {
-            // Lets see if the page for the wikiword exists
-            $qb = net_nemein_wiki_wikipage::new_query_builder();
-            $qb->add_constraint('topic', '=', $this->_topic->id);
-            $qb->add_constraint('title', '=', $wikiword);
-            $result = $qb->execute();
-            if (count($result) > 0)
-            {
-                // This wiki page actually exists, so go there as "Permanent Redirect"
-                midcom::get()->relocate("{$node[MIDCOM_NAV_ABSOLUTEURL]}{$result[0]->name}/", 301);
-            }
-        }
-        midcom::get()->relocate("{$node[MIDCOM_NAV_ABSOLUTEURL]}notfound/" . rawurlencode($wikiword) . '/');
-        // This will exit
+        return true;
     }
 
     /**
