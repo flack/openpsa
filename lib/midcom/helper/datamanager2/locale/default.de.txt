@@ -279,6 +279,10 @@ Erlauben
 Verbieten
 ---STRINGEND
 
+---STRING widget privilege: inherit
+Nicht gesetzt (vererbt)
+---STRINGEND
+
 ---STRING widget privilege: inherit %s
 Vererbt (%s)
 ---STRINGEND

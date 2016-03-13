@@ -30,43 +30,13 @@ implements midcom_helper_datamanager2_interfaces_edit
     {
         $schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_acl'));
 
-        $fields =& $schemadb['default']->fields;
-        $user_object = midcom::get()->auth->get_user($this->_person->guid);
-
-        $person_object = $user_object->get_storage();
-
         // Get the calendar root event
-        $root_event = org_openpsa_calendar_interface::find_root_event();
-        if (is_object($root_event))
+        if ($root_event = org_openpsa_calendar_interface::find_root_event())
         {
-            $fields['calendar']['privilege_object'] = $root_event;
-            $fields['calendar']['privilege_assignee'] = $user_object->id;
-        }
-        else
-        {
-            unset($fields['calendar']);
+            $schemadb['default']->fields['calendar']['type_config']['privilege_object'] = $root_event;
+            $schemadb['default']->fields['calendar']['type_config']['assignee'] = 'user:' . $this->_person->guid;
         }
 
-        $fields['contact_creation']['privilege_object'] =  $person_object;
-        $fields['contact_editing']['privilege_object'] =  $person_object;
-
-        $fields['organization_creation']['privilege_object'] = $person_object;
-        $fields['organization_editing']['privilege_object'] = $person_object;
-
-        $fields['projects']['privilege_object'] = $person_object;
-        $fields['invoices_creation']['privilege_object'] = $person_object;
-        $fields['invoices_editing']['privilege_object'] = $person_object;
-
-        $fields['products_creation']['privilege_object'] = $person_object;
-        $fields['products_editing']['privilege_object'] = $person_object;
-
-        $fields['wiki_creation']['privilege_object'] = $person_object;
-        $fields['wiki_editing']['privilege_object'] = $person_object;
-
-        $fields['campaigns_creation']['privilege_object'] = $person_object;
-        $fields['campaigns_editing']['privilege_object'] = $person_object;
-
-        $fields['salesproject_creation']['privilege_object'] = $person_object;
         return $schemadb;
     }
 

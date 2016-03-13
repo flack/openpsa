@@ -250,6 +250,10 @@ Salli
 Estä
 ---STRINGEND
 
+---STRING widget privilege: inherit
+Ei asetettu (peritty)
+---STRINGEND
+
 ---STRING widget privilege: inherit %s
 Peritty (%s)
 ---STRINGEND

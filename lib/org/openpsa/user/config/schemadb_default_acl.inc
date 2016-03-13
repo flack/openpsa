@@ -83,8 +83,6 @@
             'type_config' => array
             (
                 'privilege_name' => 'midgard:create',
-                'assignee'       => 'SELF',
-                'classname'      => 'org_openpsa_calendar_event_dba',
                 /* Set the calendar root event and the assignee prior to initializing DM */
             ),
             'widget'      => 'privilege',

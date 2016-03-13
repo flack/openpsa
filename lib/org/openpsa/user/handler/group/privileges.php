@@ -30,35 +30,13 @@ implements midcom_helper_datamanager2_interfaces_edit
     {
         $schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_acl'));
 
-        $fields =& $schemadb['default']->fields;
-
-        $group_object = midcom::get()->auth->get_group("group:{$this->_group->guid}");
-
         // Get the calendar root event
-        $root_event = org_openpsa_calendar_interface::find_root_event();
-        if (is_object($root_event))
+        if ($root_event = org_openpsa_calendar_interface::find_root_event())
         {
-            $fields['calendar']['privilege_object'] = $root_event;
-            $fields['calendar']['privilege_assignee'] = $group_object->id;
-        }
-        else
-        {
-            unset($fields['calendar']);
+            $schemadb['default']->fields['calendar']['type_config']['privilege_object'] = $root_event;
+            $schemadb['default']->fields['calendar']['type_config']['assignee'] = 'group:' . $this->_group->guid;
         }
 
-        // Set the group into ACL
-        $fields['contact_creation']['privilege_object'] =  $group_object->get_storage();
-        $fields['contact_editing']['privilege_object'] =  $group_object->get_storage();
-
-        $fields['organization_creation']['privilege_object'] = $group_object->get_storage();
-        $fields['organization_editing']['privilege_object'] = $group_object->get_storage();
-
-        $fields['projects']['privilege_object'] = $group_object->get_storage();
-        $fields['invoices_creation']['privilege_object'] = $group_object->get_storage();
-        $fields['invoices_editing']['privilege_object'] = $group_object->get_storage();
-        $fields['campaigns_creation']['privilege_object'] = $group_object->get_storage();
-        $fields['campaigns_editing']['privilege_object'] = $group_object->get_storage();
-        $fields['salesproject_creation']['privilege_object'] = $group_object->get_storage();
         return $schemadb;
     }
 
@@ -80,5 +58,4 @@ implements midcom_helper_datamanager2_interfaces_edit
         $workflow = $this->get_workflow('datamanager2', array('controller' => $this->get_controller('simple', $this->_group)));
         return $workflow->run();
     }
-
 }

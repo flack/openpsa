@@ -226,6 +226,10 @@ Zezwalaj
 Zabroń
 ---STRINGEND
 
+---STRING widget privilege: inherit
+Nie ustawione (dziedziczone)
+---STRINGEND
+
 ---STRING widget privilege: inherit %s
 Dziedziczone (%s)
 ---STRINGEND

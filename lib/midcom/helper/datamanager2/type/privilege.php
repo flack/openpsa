@@ -59,6 +59,8 @@ class midcom_helper_datamanager2_type_privilege extends midcom_helper_datamanage
      */
     var $classname = '';
 
+    public $privilege_object;
+
     /**
      * This startup handler validates that the class is populated correctly.
      */
@@ -69,6 +71,19 @@ class midcom_helper_datamanager2_type_privilege extends midcom_helper_datamanage
         {
             throw new midcom_error("The field {$this->name} had no name or assignee specified with it, cannot start up.");
         }
+    }
+
+    private function get_privilege_object()
+    {
+        if (!$this->privilege_object)
+        {
+            $this->privilege_object = $this->storage->object;
+        }
+        if (!$this->privilege_object->can_do('midgard:privileges'))
+        {
+            return false;
+        }
+        return $this->privilege_object;
     }
 
     /**
@@ -101,40 +116,49 @@ class midcom_helper_datamanager2_type_privilege extends midcom_helper_datamanage
         }
         else if ($value != MIDCOM_PRIVILEGE_INHERIT)
         {
-            if (! $this->storage->object)
+            if (!$this->storage->object)
             {
                 $this->storage->create_temporary_object();
             }
-            $object = $this->storage->object;
 
-            $this->privilege = $object->get_privilege($this->privilege_name, $this->assignee, $this->classname);
-            $this->privilege->value = $value;
+            if ($privilege_object = $this->get_privilege_object())
+            {
+                $this->privilege = $privilege_object->get_privilege($this->privilege_name, $this->assignee, $this->classname);
+                $this->privilege->value = $value;
+            }
         }
         // If we have no object and should set INHERIT, we do nothing, this
         // is the default.
     }
 
+    /**
+     *
+     * @return boolean
+     */
     public function get_effective_value()
     {
+        $privilege_object = $this->get_privilege_object();
         if (   !$this->privilege
-            || !$this->storage->object)
+            || !$privilege_object)
         {
-            return false;
+            $defaults = midcom::get()->auth->acl->get_default_privileges();
+            return ($defaults[$this->privilege->privilegename] === MIDCOM_PRIVILEGE_ALLOW);
         }
         if ($this->privilege->assignee == 'SELF')
         {
-            //@todo: find out is this actually works as planned...
-            $principal = $this->storage->object;
+            if ($privilege_object instanceof midcom_db_group)
+            {
+                //There's no sane way to query group privileges in auth right now, so we only return defaults
+                $defaults = midcom::get()->auth->acl->get_default_privileges();
+                return ($defaults[$this->privilege->privilegename] === MIDCOM_PRIVILEGE_ALLOW);
+            }
+            return midcom::get()->auth->can_user_do($this->privilege->privilegename, new midcom_core_user($privilege_object), $this->privilege->classname);
         }
-        else
+        if ($principal = midcom::get()->auth->get_assignee($this->privilege->assignee))
         {
-            $principal = midcom::get()->auth->get_assignee($this->privilege->assignee);
+            return $privilege_object->can_do($this->privilege->privilegename, $principal);
         }
-        if ($principal)
-        {
-            return $this->storage->object->can_do($this->privilege->privilegename, $principal);
-        }
-        return $this->storage->object->can_do($this->privilege->privilegename, $this->privilege->assignee);
+        return $privilege_object->can_do($this->privilege->privilegename, $this->privilege->assignee);
     }
 
     /**
@@ -143,10 +167,9 @@ class midcom_helper_datamanager2_type_privilege extends midcom_helper_datamanage
      */
     public function convert_from_storage($source)
     {
-        if (   $this->storage->object
-            && $this->storage->object->can_do('midgard:privileges'))
+        if ($privilege_object = $this->get_privilege_object())
         {
-            $this->privilege = $this->storage->object->get_privilege($this->privilege_name, $this->assignee, $this->classname);
+            $this->privilege = $privilege_object->get_privilege($this->privilege_name, $this->assignee, $this->classname);
         }
     }
 
@@ -159,11 +182,9 @@ class midcom_helper_datamanager2_type_privilege extends midcom_helper_datamanage
     {
         if ($this->privilege)
         {
-            $object = $this->storage->object;
-
             // If we have sufficient privileges, we set all privilege accordingly.
             // otherwise we log this and exit silently.
-            if ($object->can_do('midgard:privileges'))
+            if ($this->get_privilege_object())
             {
                 $this->privilege->store();
             }
@@ -201,7 +222,7 @@ class midcom_helper_datamanager2_type_privilege extends midcom_helper_datamanage
                 return $this->_l10n->get('widget privilege: deny');
 
             case MIDCOM_PRIVILEGE_INHERIT:
-                $effective_value = ($this->get_effective_value() == MIDCOM_PRIVILEGE_ALLOW) ? 'allow' : 'deny';
+                $effective_value = $this->get_effective_value() ? 'allow' : 'deny';
                 return sprintf($this->_l10n->get('widget privilege: inherit %s'), $this->_l10n->get('widget privilege: ' . $get_effective_value));
 
             default:
