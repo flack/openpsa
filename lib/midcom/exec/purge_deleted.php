@@ -24,15 +24,17 @@ flush();
 
 foreach ($handler->get_classes() as $mgdschema)
 {
+    $errors = 0;
     echo "<p><strong>Processing class {$mgdschema}</strong>\n";
     flush();
     do
     {
-        $stats = $handler->process_class($mgdschema, $chunk_size);
+        $stats = $handler->process_class($mgdschema, $chunk_size, $errors);
 
         foreach ($stats['errors'] as $error)
         {
-            echo '  ERROR:' . $error . '\n';
+            $errors++;
+            echo '  ERROR:' . $error . "\n";
             flush();
         }
         if ($stats['found'] > 0)

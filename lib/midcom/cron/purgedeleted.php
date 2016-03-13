@@ -67,7 +67,7 @@ class midcom_cron_purgedeleted extends midcom_baseclasses_components_cron_handle
         }
     }
 
-    public function process_class($mgdschema, $limit = 500)
+    public function process_class($mgdschema, $limit = 500, $offset = 0)
     {
         $cut_off = $this->get_cutoff();
         $qb = new midgard_query_builder($mgdschema);
@@ -77,6 +77,10 @@ class midcom_cron_purgedeleted extends midcom_baseclasses_components_cron_handle
         if ($limit)
         {
             $qb->set_limit($limit);
+        }
+        if ($offset)
+        {
+            $qb->set_offset($offset);
         }
         $objects = $qb->execute();
 
