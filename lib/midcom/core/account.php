@@ -294,13 +294,26 @@ class midcom_core_account
 
     public function is_admin()
     {
+        // mgd2
         if ($this->_user instanceof midgard_user)
         {
             return $this->_user->is_admin();
         }
-        //mgd1
-        $user = new midgard_user(midcom::get()->dbfactory->convert_midcom_to_midgard($this->_person));
-        return $user->is_admin();
+        /*
+          In principle, this code works under midgard1, but it causes
+
+          invalid uninstantiatable type `(null)' in cast to `midgard_user'
+
+          in later code, so we can only return false for users other than the current one
+
+          $user = new midgard_user(midcom::get()->dbfactory->convert_midcom_to_midgard($this->_person));
+          return $user->is_admin();
+        */
+        if (midcom::get()->auth->user->guid === $this->_person->guid)
+        {
+            return midcom::get()->auth->admin;
+        }
+        return false;
     }
 
     private function _create_user()
