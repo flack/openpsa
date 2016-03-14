@@ -309,7 +309,8 @@ class midcom_core_account
           $user = new midgard_user(midcom::get()->dbfactory->convert_midcom_to_midgard($this->_person));
           return $user->is_admin();
         */
-        if (midcom::get()->auth->user->guid === $this->_person->guid)
+        if (   midcom::get()->auth->user
+            && midcom::get()->auth->user->guid === $this->_person->guid)
         {
             return midcom::get()->auth->admin;
         }
