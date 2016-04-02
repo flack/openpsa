@@ -7,35 +7,31 @@ $next_month = $date->format('U');
 
 $date->modify('-2 months');
 $prev_month = $date->format('U');
+
+$invoiceable_this_month = $invoiceable_prev_month = array
+(
+    'org_openpsa_reports_query_data' => array
+    (
+        'style' => 'builtin:basic',
+        'invoiceable_filter' => 1,
+        'mimetype' => 'text/html',
+        'resource' => 'all',
+        'task' => 'all'
+    )
+);
+$invoiceable_this_month['org_openpsa_reports_query_data']['start'] = $this_month;
+$invoiceable_this_month['org_openpsa_reports_query_data']['end'] = $next_month;
+$invoiceable_prev_month['org_openpsa_reports_query_data']['start'] = $prev_month;
+$invoiceable_prev_month['org_openpsa_reports_query_data']['end'] = $this_month;
 ?>
 <ul>
     <li>
-        <?php
-        // Invoiceable hours in last month
-        $report_params  = '?org_openpsa_reports_query_data[start]=' . $this_month;
-        $report_params .= '&org_openpsa_reports_query_data[end]=' . $next_month;
-        $report_params .= '&org_openpsa_reports_query_data[style]=builtin:basic';
-        $report_params .= '&org_openpsa_reports_query_data[invoiceable_filter]=1';
-        $report_params .= '&org_openpsa_reports_query_data[mimetype]=text/html';
-        $report_params .= '&org_openpsa_reports_query_data[resource]=all';
-        $report_params .= '&org_openpsa_reports_query_data[task]=all';
-        ?>
-        <a href="&(data['report_prefix']);get/&(report_params);" target="_blank">
+        <a href="&(data['report_prefix']);get/?<?php echo http_build_query($invoiceable_this_month); ?>" target="_blank">
             <?php echo $data['l10n']->get('invoiceable hours this month'); ?>
         </a>
     </li>
     <li>
-        <?php
-        // Invoiceable hours in last month
-        $report_params  = '?org_openpsa_reports_query_data[start]=' . $prev_month;
-        $report_params .= '&org_openpsa_reports_query_data[end]=' . $this_month;
-        $report_params .= '&org_openpsa_reports_query_data[style]=builtin:basic';
-        $report_params .= '&org_openpsa_reports_query_data[invoiceable_filter]=1';
-        $report_params .= '&org_openpsa_reports_query_data[mimetype]=text/html';
-        $report_params .= '&org_openpsa_reports_query_data[resource]=all';
-        $report_params .= '&org_openpsa_reports_query_data[task]=all';
-        ?>
-        <a href="&(data['report_prefix']);get/&(report_params);" target="_blank">
+        <a href="&(data['report_prefix']);get/?<?php echo http_build_query($invoiceable_prev_month); ?>" target="_blank">
             <?php echo $data['l10n']->get('invoiceable hours last month'); ?>
         </a>
     </li>
