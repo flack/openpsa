@@ -25,7 +25,7 @@ class org_openpsa_documents_handler_finder extends midcom_baseclasses_components
      */
     public function _handler_view($handler_id, array $args, array &$data)
     {
-        $prefix = MIDCOM_STATIC_URL . '/' . $this->_component . '/';
+        $prefix = '/' . $this->_component . '/elFinder-2.1.10/';
         $this->add_stylesheet($prefix . 'layout.css');
         org_openpsa_widgets_contact::add_head_elements();
 
@@ -33,24 +33,24 @@ class org_openpsa_documents_handler_finder extends midcom_baseclasses_components
         $head->add_jsfile(MIDCOM_JQUERY_UI_URL. '/ui/draggable.min.js');
         $head->add_jsfile(MIDCOM_JQUERY_UI_URL. '/ui/droppable.min.js');
         $head->add_jsfile(MIDCOM_JQUERY_UI_URL. '/ui/selectable.min.js');
-        $head->add_jsfile($prefix . 'elFinder-2.1.8/js/elfinder.min.js');
+        $head->add_jsfile(MIDCOM_STATIC_URL . $prefix . 'js/elfinder.min.js');
 
         $lang = midcom::get()->i18n->get_current_language();
-        if (!file_exists(MIDCOM_STATIC_ROOT . '/' . $this->_component . "/elFinder-2.1.8/js/i18n/elfinder.{$lang}.js"))
+        if (!file_exists(MIDCOM_STATIC_ROOT . $prefix . "js/i18n/elfinder.{$lang}.js"))
         {
             $lang = midcom::get()->i18n->get_fallback_language();
-            if (!file_exists(MIDCOM_STATIC_ROOT . '/' . $this->_component . "/elFinder-2.1.8/js/i18n/elfinder.{$lang}.js"))
+            if (!file_exists(MIDCOM_STATIC_ROOT . $prefix . "js/i18n/elfinder.{$lang}.js"))
             {
                 $lang = 'en';
             }
         }
         $data['lang'] = $lang;
-        $head->add_jsfile($prefix . "elFinder-2.1.8/js/i18n/elfinder.{$lang}.js");
+        $head->add_jsfile(MIDCOM_STATIC_URL . $prefix . "js/i18n/elfinder.{$lang}.js");
 
-        $head->add_jsfile($prefix . 'elfinder.custom.js');
+        $head->add_jsfile(MIDCOM_STATIC_URL . '/' . $this->_component . '/elfinder.custom.js');
 
-        $head->add_stylesheet($prefix . 'elFinder-2.1.8/css/elfinder.min.css');
-        $head->add_stylesheet($prefix . 'elFinder-2.1.8/css/theme.css');
+        $head->add_stylesheet(MIDCOM_STATIC_URL . $prefix . 'css/elfinder.min.css');
+        $head->add_stylesheet(MIDCOM_STATIC_URL . $prefix . 'css/theme.css');
 
         $this->_populate_toolbar();
     }
