@@ -515,7 +515,7 @@ implements org_openpsa_widgets_grid_provider_client
             {
                 $customer = org_openpsa_contacts_group_dba::get_cached($task->customer);
                 $customer_url = "{$this->_request_data['contacts_url']}group/{$customer->guid}/";
-                $ret['customer'] = "<a href='{$customer_url}' title='{$customer->official}'>{$customer->name}</a>";
+                $ret['customer'] = "<a href='{$customer_url}' title='{$customer->official}'>{$customer->get_label()}</a>";
                 $ret['index_customer'] = $customer->name;
             }
             catch (midcom_error $e)
