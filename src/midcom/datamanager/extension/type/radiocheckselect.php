@@ -33,12 +33,17 @@ class radiocheckselect extends ChoiceType
     public function configureOptions(OptionsResolver $resolver)
     {
         parent::configureOptions($resolver);
-
         $map_options = function (Options $options)
         {
+            $return_options = array();
             if (isset($options['type_config']['options']))
             {
-                return $options['type_config']['options'];
+                foreach($options['type_config']['options'] as $key => $value)
+                {
+                    //symfony expects only strings
+                    $return_options[$value] = (string)$key;
+                }
+                return $return_options;
             }
         };
         $map_multiple = function (Options $options)
