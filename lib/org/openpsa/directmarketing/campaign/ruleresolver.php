@@ -242,6 +242,7 @@ class org_openpsa_directmarketing_campaign_ruleresolver
         {
             switch ($class)
             {
+                case midcom::get()->config->get('person_class'):
                 case 'midgard_person':
                 case 'org_openpsa_person':
                     return $this->add_person_rule($rule);
