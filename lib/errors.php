@@ -127,7 +127,7 @@ class midcom_exception_handler
      *
      * @see midcom_exception_handler::show()
      */
-    public function handle_exception(Exception $e)
+    public function handle_exception($e)
     {
         //For MidgardMVC we just pass exceptions on and let the framework do the work
         if ($e instanceof midgardmvc_exception_unauthorized)
