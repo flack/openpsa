@@ -18,8 +18,8 @@ Freigeben
 Artikel
 ---STRINGEND
 
----STRING article link deleted
-Artikel-Link gelöscht
+---STRING article link
+Artikel-Link
 ---STRINGEND
 
 ---STRING auto_approve
@@ -60,10 +60,6 @@ Default
 
 ---STRING delete article link
 Artikel-Link löschen
----STRINGEND
-
----STRING delete cancelled
-Löschen abgebrochen
 ---STRINGEND
 
 ---STRING delete link

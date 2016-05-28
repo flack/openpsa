@@ -22,13 +22,6 @@ implements midcom_helper_datamanager2_interfaces_create
     private $_content_topic;
 
     /**
-     * The article which has been created
-     *
-     * @var midcom_db_article
-     */
-    private $_article;
-
-    /**
      * The article link which has been created
      *
      * @var net_nehmer_static_link_dba
@@ -80,6 +73,14 @@ implements midcom_helper_datamanager2_interfaces_create
     }
 
     /**
+     * {@inheritDoc}
+     */
+    public function get_schema_name()
+    {
+        return 'link';
+    }
+
+    /**
      * Displays an article edit view.
      *
      * @param mixed $handler_id The ID of the handler.
@@ -94,32 +95,19 @@ implements midcom_helper_datamanager2_interfaces_create
         {
             throw new midcom_error_notfound('Article linking disabled');
         }
+        midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('article link')));
 
-        $data['controller'] = $this->get_controller('create');
-
-        switch ($data['controller']->process_form())
-        {
-            case 'save':
-                $this->_article = new midcom_db_article($this->_link->article);
-                return new midcom_response_relocate("{$this->_article->name}/");
-
-            case 'cancel':
-                return new midcom_response_relocate('');
-        }
-
-        $title = sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('article link'));
-        midcom::get()->head->set_pagetitle("{$this->_topic->extra}: {$title}");
-        $this->add_breadcrumb("create/link/", sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('article link')));
+        $workflow = $this->get_workflow('datamanager2', array
+        (
+            'controller' => $this->get_controller('create'),
+            'save_callback' => array($this, 'save_callback')
+        ));
+        return $workflow->run();
     }
 
-    /**
-     * Shows the loaded article.
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_create ($handler_id, array &$data)
+    public function save_callback(midcom_helper_datamanager2_controller $controller)
     {
-        midcom_show_style('admin-create-link');
+        $article = new midcom_db_article($this->_link->article);
+        return $article->name . '/';
     }
 }

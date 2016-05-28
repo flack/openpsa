@@ -106,39 +106,38 @@ class net_nehmer_static_viewer extends midcom_baseclasses_components_request
     private function _populate_node_toolbar()
     {
         $buttons = array();
+        $workflow = $this->get_workflow('datamanager2');
         if ($this->_content_topic->can_do('midgard:create'))
         {
             foreach (array_keys($this->_request_data['schemadb']) as $name)
             {
-                $buttons[] = array
+                $buttons[] = $workflow->get_button("create/{$name}/", array
                 (
-                    MIDCOM_TOOLBAR_URL => "create/{$name}/",
                     MIDCOM_TOOLBAR_LABEL => sprintf
                     (
                         $this->_l10n_midcom->get('create %s'),
                         $this->_l10n->get($this->_request_data['schemadb'][$name]->description)
                     ),
+                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/attach.png',
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-text.png',
                     MIDCOM_TOOLBAR_ACCESSKEY => 'n',
-                );
+                ));
             }
         }
 
         if (   $this->_config->get('enable_article_links')
             && $this->_content_topic->can_do('midgard:create'))
         {
-            $buttons[] = array
+            $buttons[] = $workflow->get_button("create/link/", array
             (
                 MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('article link')),
-                MIDCOM_TOOLBAR_URL => "create/link/",
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/attach.png',
-            );
+            ));
         }
 
         if (   $this->_topic->can_do('midgard:update')
             && $this->_topic->can_do('midcom:component_config'))
         {
-            $workflow = $this->get_workflow('datamanager2');
             $buttons[] = $workflow->get_button('config/', array
             (
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('component configuration'),

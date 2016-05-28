@@ -22,10 +22,6 @@ Article
 Article link
 ---STRINGEND
 
----STRING article link deleted
-Article link deleted
----STRINGEND
-
 ---STRING auto_approve
 Approve new articles by default
 ---STRINGEND
@@ -64,10 +60,6 @@ Default schema for new articles
 
 ---STRING delete article link
 Delete article link
----STRINGEND
-
----STRING delete cancelled
-Delete cancelled
 ---STRINGEND
 
 ---STRING delete link

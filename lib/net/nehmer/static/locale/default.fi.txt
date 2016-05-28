@@ -22,10 +22,6 @@ Artikkeli
 Artikkelilinkki
 ---STRINGEND
 
----STRING article link deleted
-Artikkelilinkki poistettu
----STRINGEND
-
 ---STRING auto_approve
 Hyväksy uudet artikkelit oletuksena
 ---STRINGEND
@@ -60,10 +56,6 @@ Oletus-tietokantakuvaus uusille artikkeleille
 
 ---STRING delete article link
 Poista artikkelilinkki
----STRINGEND
-
----STRING delete cancelled
-Poistaminen peruutettu
 ---STRINGEND
 
 ---STRING delete link

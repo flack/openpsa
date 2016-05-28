@@ -18,8 +18,8 @@ Godkänn
 Artikel
 ---STRINGEND
 
----STRING article link deleted
-Artikellänk raderad
+---STRING article link
+Artikellänk
 ---STRINGEND
 
 ---STRING auto_approve
@@ -48,10 +48,6 @@ Standard schema för artiklar
 
 ---STRING delete article link
 Radera artikellänken
----STRINGEND
-
----STRING delete cancelled
-Radering avbruten
 ---STRINGEND
 
 ---STRING delete link

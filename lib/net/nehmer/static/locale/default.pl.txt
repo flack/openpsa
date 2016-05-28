@@ -18,10 +18,6 @@ Zatwierdź
 Artykuł
 ---STRINGEND
 
----STRING article link deleted
-Link do artykułu został usunięty
----STRINGEND
-
 ---STRING auto_approve
 Automatycznie zatwierdzaj nowe artykuły
 ---STRINGEND
@@ -60,10 +56,6 @@ Domyślny schemat artykułu
 
 ---STRING delete article link
 Usuń link
----STRINGEND
-
----STRING delete cancelled
-Usuwanie anulowano
 ---STRINGEND
 
 ---STRING delete link
