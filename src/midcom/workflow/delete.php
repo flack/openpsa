@@ -55,6 +55,11 @@ class delete extends dialog
      */
     protected $label;
 
+    /**
+     * @var string
+     */
+    protected $dialog_text;
+
     private $form_identifier = 'confirm-delete';
 
     /**
@@ -80,7 +85,8 @@ class delete extends dialog
                 'recursive' => false,
                 'success_url' => '',
                 'label' => null,
-                'object' => null
+                'object' => null,
+                'dialog_text' => null
             ))
             ->setRequired('object')
             ->setAllowedTypes('object', 'midcom_core_dbaobject')
@@ -100,8 +106,7 @@ class delete extends dialog
      */
     public function get_button_config()
     {
-        $dialog_text = '<p>' . sprintf($this->l10n_midcom->get('delete %s'), $this->label) . '</p>';
-
+        $dialog_text = $this->dialog_text ?: '<p>' . sprintf($this->l10n_midcom->get('delete %s'), $this->label) . '</p>';
         if ($this->recursive)
         {
             $dialog_text .= '<p class="warning">' . $this->l10n_midcom->get('all descendants will be deleted') . ':</p>';
