@@ -22,39 +22,11 @@ implements midcom_helper_datamanager2_interfaces_create
     private $_content_topic = null;
 
     /**
-     * The article which has been created
-     *
-     * @var midcom_db_article
-     */
-    private $_article = null;
-
-    /**
      * The article link which has been created
      *
      * @var net_nehmer_blog_link_dba
      */
     private $_link = null;
-
-    /**
-     * Helper, updates the context so that we get a complete breadcrumb line towards the current
-     * location.
-     *
-     * @param string $handler_id
-     */
-    private function _update_breadcrumb_line($handler_id)
-    {
-        $this->add_breadcrumb($this->_master->get_url($this->_article), $this->_article->title);
-
-        switch ($handler_id)
-        {
-            case 'delete_link':
-                $this->add_breadcrumb("delete/link/{$this->_article->guid}/", $this->_l10n->get('delete link'));
-                break;
-            case 'create_link':
-                $this->add_breadcrumb("create/link/", sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('article link')));
-                break;
-        }
-    }
 
     /**
      * Maps the content topic from the request data to local member variables.
@@ -67,6 +39,11 @@ implements midcom_helper_datamanager2_interfaces_create
     public function load_schemadb()
     {
         return midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_link'));
+    }
+
+    public function get_schema_name()
+    {
+        return 'link';
     }
 
     public function get_schema_defaults()
@@ -116,46 +93,24 @@ implements midcom_helper_datamanager2_interfaces_create
             throw new midcom_error_notfound('Article linking disabled');
         }
 
-        $data['controller'] = $this->get_controller('create');
+        $workflow = $this->get_workflow('datamanager2', array
+        (
+            'controller' => $this->get_controller('create'),
+            'save_callback' => array($this, 'save_callback')
+        ));
 
-        switch ($data['controller']->process_form())
-        {
-            case 'save':
-                $this->_article = new midcom_db_article($this->_link->article);
-                return new midcom_response_relocate("{$this->_article->name}/");
+        midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('article link')));
 
-            case 'cancel':
-                $url = '';
-                if (isset($_GET['article']))
-                {
-                    try
-                    {
-                        $article = new midcom_db_article($_GET['article']);
-                        $url = $this->_master->get_url($article);
-                    }
-                    catch (midcom_error $e)
-                    {
-                        $e->log();
-                    }
-                }
-
-                return new midcom_response_relocate($url);
-        }
-
-        $title = sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('article link'));
-        midcom::get()->head->set_pagetitle("{$this->_topic->extra}: {$title}");
-        $this->_update_breadcrumb_line($handler_id);
+        return $workflow->run();
     }
 
-    /**
-     * Shows the link creation form.
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_create ($handler_id, array &$data)
+    public function save_callback(midcom_helper_datamanager2_controller $controller)
     {
-        midcom_show_style('admin-create-link');
+        // Reindex the article
+        $indexer = midcom::get()->indexer;
+        net_nehmer_blog_viewer::index($controller->datamanager, $indexer, $this->_content_topic);
+        $article = new midcom_db_article($this->_link->article);
+        return $article->name . '/';
     }
 
     /**
@@ -167,11 +122,11 @@ implements midcom_helper_datamanager2_interfaces_create
      */
     public function _handler_delete($handler_id, array $args, array &$data)
     {
-        $this->_article = new midcom_db_article($args[0]);
+        $article = new midcom_db_article($args[0]);
 
         $qb = net_nehmer_blog_link_dba::new_query_builder();
         $qb->add_constraint('topic', '=', $this->_content_topic->id);
-        $qb->add_constraint('article', '=', $this->_article->id);
+        $qb->add_constraint('article', '=', $article->id);
 
         if ($qb->count() === 0)
         {
@@ -183,60 +138,11 @@ implements midcom_helper_datamanager2_interfaces_create
         $this->_link = $results[0];
         $this->_link->require_do('midgard:delete');
 
-        $this->_process_delete();
-
-        midcom::get()->metadata->set_request_metadata($this->_article->metadata->revised, $this->_article->guid);
-        $this->_view_toolbar->bind_to($this->_article);
-        midcom::get()->head->set_pagetitle("{$this->_topic->extra}: {$this->_article->title}");
-        $this->_update_breadcrumb_line($handler_id);
+        $workflow = $this->get_workflow('delete', array
+        (
+            'object' => $this->_link,
+            'label' => $this->_l10n->get('article link')
+        ));
+        return $workflow->run();
     }
-
-    /**
-     * Internal helper method, which will check if the delete request has been
-     * confirmed
-     */
-    private function _process_delete()
-    {
-        if (isset($_POST['f_cancel']))
-        {
-            midcom::get()->uimessages->add($this->_l10n->get('net.nehmer.blog'), $this->_l10n->get('delete cancelled'));
-
-            // Redirect to view page.
-            midcom::get()->relocate($this->_master->get_url($this->_article));
-            // This will exit
-        }
-
-        if (!isset($_POST['f_delete']))
-        {
-            return;
-        }
-
-        // Delete the link
-        if (!$this->_link->delete())
-        {
-            throw new midcom_error($this->_l10n->get('failed to delete the blog link, contact the site administrator'));
-        }
-        midcom::get()->uimessages->add($this->_l10n->get('net.nehmer.blog'), $this->_l10n->get('blog link deleted'));
-        midcom::get()->relocate('');
-        // This will exit
-    }
-
-    /**
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_delete($handler_id, array &$data)
-    {
-        $data['article'] = $this->_article;
-        $nap = new midcom_helper_nav();
-        $node = $nap->get_node($this->_article->topic);
-
-        $data['topic_url'] = $node[MIDCOM_NAV_ABSOLUTEURL];
-        $data['topic_name'] = $node[MIDCOM_NAV_NAME];
-        $data['delete_url'] = "{$node[MIDCOM_NAV_ABSOLUTEURL]}delete/{$this->_article->guid}/";
-
-        midcom_show_style('admin-delete-link');
-    }
-
 }

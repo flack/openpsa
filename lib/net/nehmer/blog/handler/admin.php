@@ -11,7 +11,6 @@
  *
  * @package net.nehmer.blog
  */
-
 class net_nehmer_blog_handler_admin extends midcom_baseclasses_components_handler
 {
     /**
@@ -41,37 +40,6 @@ class net_nehmer_blog_handler_admin extends midcom_baseclasses_components_handle
      * @var Array
      */
     private $_schemadb = null;
-
-    /**
-     * Simple helper which references all important members to the request data listing
-     * for usage within the style listing.
-     */
-    private function _prepare_request_data()
-    {
-        $this->_request_data['article'] = $this->_article;
-        $this->_request_data['controller'] = $this->_controller;
-
-        // Populate the toolbar
-        if ($this->_article->can_do('midgard:update'))
-        {
-            $this->_view_toolbar->add_item
-            (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => "edit/{$this->_article->guid}/",
-                    MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('edit'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
-                    MIDCOM_TOOLBAR_ACCESSKEY => 'e',
-                )
-            );
-        }
-
-        if ($this->_article->can_do('midgard:delete'))
-        {
-            $workflow = $this->get_workflow('delete', array('object' => $this->_article));
-            $this->_view_toolbar->add_item($workflow->get_button("delete/{$this->_article->guid}/"));
-        }
-    }
 
     /**
      * Maps the content topic from the request data to local member variables.
@@ -119,21 +87,6 @@ class net_nehmer_blog_handler_admin extends midcom_baseclasses_components_handle
     }
 
     /**
-     * Helper, updates the context so that we get a complete breadcrumb line towards the current
-     * location.
-     *
-     * @param string $handler_id
-     */
-    private function _update_breadcrumb_line($handler_id)
-    {
-        $view_url = $this->_master->get_url($this->_article);
-
-        $this->add_breadcrumb($view_url, $this->_article->title);
-
-        $this->add_breadcrumb("{$handler_id}/{$this->_article->guid}/", $this->_l10n_midcom->get($handler_id));
-    }
-
-    /**
      * Displays an article edit view.
      *
      * @param mixed $handler_id The ID of the handler.
@@ -158,41 +111,27 @@ class net_nehmer_blog_handler_admin extends midcom_baseclasses_components_handle
         }
 
         $this->_article->require_do('midgard:update');
+        midcom::get()->head->set_pagetitle($this->_l10n->get('edit article'));
 
         $this->_load_controller();
-
-        switch ($this->_controller->process_form())
-        {
-            case 'save':
-                // Reindex the article
-                $indexer = midcom::get()->indexer;
-                net_nehmer_blog_viewer::index($this->_controller->datamanager, $indexer, $this->_content_topic);
-                // *** FALL-THROUGH ***
-
-            case 'cancel':
-                return new midcom_response_relocate($this->_master->get_url($this->_article));
-        }
-
-        $this->_prepare_request_data();
-        $this->_view_toolbar->bind_to($this->_article);
-        midcom::get()->metadata->set_request_metadata($this->_article->metadata->revised, $this->_article->guid);
-        midcom::get()->head->set_pagetitle("{$this->_topic->extra}: {$this->_article->title}");
-        $this->_update_breadcrumb_line($handler_id);
+        $workflow = $this->get_workflow('datamanager2', array
+        (
+            'controller' => $this->_controller,
+            'save_callback' => array($this, 'save_callback')
+        ));
+        return $workflow->run();
     }
 
-    /**
-     * Shows the loaded article.
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_edit ($handler_id, array &$data)
+    public function save_callback(midcom_helper_datamanager2_controller $controller)
     {
-        midcom_show_style('admin-edit');
+        // Reindex the article
+        $indexer = midcom::get()->indexer;
+        net_nehmer_blog_viewer::index($controller->datamanager, $indexer, $this->_content_topic);
+        return $this->_master->get_url($this->_article);
     }
 
     /**
-     * Displays an article delete confirmation view.
+     * Handles article deletion
      *
      * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.

@@ -82,10 +82,6 @@ Neuen News-Artikel erstellen
 Artikel-Link löschen
 ---STRINGEND
 
----STRING delete cancelled
-Löschvorgang abgebrochen
----STRINGEND
-
 ---STRING delete link
 Link löschen
 ---STRINGEND
@@ -243,7 +239,7 @@ Es sind insgesamt %d Nachrichten vorhanden.
 ---STRINGEND
 
 ---STRING this blog entry has been linked from <a href="%s">%s</a> and confirming will delete only the link
-Dieser Blog-Eintrag wurde von<a href="%s">%s</a> verlinkt, Bestätigung löscht lediglich den Link.
+Dieser Blog-Eintrag wurde von <a href="%s">%s</a> verlinkt, Bestätigung löscht lediglich den Link.
 ---STRINGEND
 
 ---STRING use view prefix in url

@@ -86,10 +86,6 @@ Luo uutisartikkeli
 Poista artikkelilinkki
 ---STRINGEND
 
----STRING delete cancelled
-Poistaminen peruutettu
----STRINGEND
-
 ---STRING delete link
 Poista linkki
 ---STRINGEND

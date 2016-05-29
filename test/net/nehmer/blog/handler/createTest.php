@@ -35,7 +35,8 @@ class net_nehmer_blog_handler_createTest extends openpsa_testcase
             'content' => '<p>TEST</p>'
         );
 
-        $url = $this->submit_dm2_form('controller', $formdata, self::$_topic, array('create', 'default'));
+        $this->submit_dm2_no_relocate_form('controller', $formdata, self::$_topic, array('create', 'default'));
+        $url = $this->get_dialog_url();
         $this->assertEquals('', $url);
 
         $qb = midcom_db_article::new_query_builder();

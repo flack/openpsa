@@ -82,10 +82,6 @@ Dodaj news
 Usuń link
 ---STRINGEND
 
----STRING delete cancelled
-Usuwanie anulowane
----STRINGEND
-
 ---STRING delete link
 Usuń link
 ---STRINGEND

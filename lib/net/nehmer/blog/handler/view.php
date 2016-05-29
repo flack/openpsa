@@ -44,15 +44,13 @@ class net_nehmer_blog_handler_view extends midcom_baseclasses_components_handler
         $this->_request_data['datamanager'] = $this->_datamanager;
 
         $buttons = array();
+        $workflow = $this->get_workflow('datamanager2');
         if ($this->_article->can_do('midgard:update'))
         {
-            $buttons[] = array
+            $buttons[] = $workflow->get_button("edit/{$this->_article->guid}/", array
             (
-                MIDCOM_TOOLBAR_URL => "edit/{$this->_article->guid}/",
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('edit'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
-            );
+            ));
         }
 
         $article = $this->_article;
@@ -70,19 +68,53 @@ class net_nehmer_blog_handler_view extends midcom_baseclasses_components_handler
         }
         if ($article->can_do('midgard:delete'))
         {
-            $workflow = $this->get_workflow('delete', array('object' => $this->_article));
-            $buttons[] = $workflow->get_button("delete/{$this->_article->guid}/");
+            if ($this->_article->topic !== $this->_content_topic->id)
+            {
+                $qb = net_nehmer_blog_link_dba::new_query_builder();
+                $qb->add_constraint('topic', '=', $this->_content_topic->id);
+                $qb->add_constraint('article', '=', $this->_article->id);
+                if ($qb->count() === 1)
+                {
+                    // Get the link
+                    $results = $qb->execute_unchecked();
+                    if ($results[0]->can_do('midgard:delete'))
+                    {
+                        $nap = new midcom_helper_nav();
+                        $node = $nap->get_node($this->_article->topic);
+
+                        $topic_url = $node[MIDCOM_NAV_ABSOLUTEURL];
+                        $topic_name = $node[MIDCOM_NAV_NAME];
+                        $delete_url = $node[MIDCOM_NAV_ABSOLUTEURL] . 'delete/' . $this->_article->guid . '/"';
+
+                        $delete_original = $this->get_workflow('delete', array('object' => $this->_article));
+                        $delete_url .= ' ' . $delete_original->render_attributes();
+
+                        $delete = $this->get_workflow('delete', array
+                        (
+                            'object' => $results[0],
+                            'dialog_text' => '<p>' . sprintf($this->_l10n->get("this blog entry has been linked from <a href=\"%s\">%s</a> and confirming will delete only the link"), $topic_url, $topic_name) . '</p>' .
+                                             '<p>' . sprintf($this->_l10n->get("if you want to delete the original article, <a href=\"%s\">click here</a>"), $delete_url) . '</p>'
+                        ));
+
+                        $buttons[] = $delete->get_button("delete/link/{$this->_article->guid}/");
+                    }
+                }
+            }
+            else
+            {
+                $delete = $this->get_workflow('delete', array('object' => $this->_article));
+                $buttons[] = $delete->get_button("delete/{$this->_article->guid}/");
+            }
         }
 
         if (   $this->_config->get('enable_article_links')
             && $this->_content_topic->can_do('midgard:create'))
         {
-            $buttons[] = array
+            $buttons[] = $workflow->get_button("create/link/?article={$this->_article->id}", array
             (
                 MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('article link')),
-                MIDCOM_TOOLBAR_URL => "create/link/?article={$this->_article->id}",
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/attach.png',
-            );
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/attach.png'
+            ));
         }
         $this->_view_toolbar->add_items($buttons);
     }

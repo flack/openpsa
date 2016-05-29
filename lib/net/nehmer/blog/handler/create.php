@@ -43,15 +43,6 @@ implements midcom_helper_datamanager2_interfaces_create
     private $_schema = null;
 
     /**
-     * Simple helper which references all important members to the request data listing
-     * for usage within the style listing.
-     */
-    private function _prepare_request_data()
-    {
-        $this->_request_data['schema'] =& $this->_schema;
-    }
-
-    /**
      * Maps the content topic from the request data to local member variables.
      */
     public function _on_initialize()
@@ -128,38 +119,24 @@ implements midcom_helper_datamanager2_interfaces_create
     public function _handler_create($handler_id, array $args, array &$data)
     {
         $this->_content_topic->require_do('midgard:create');
-
         $this->_schema = $args[0];
 
         $data['controller'] = $this->get_controller('create');
+        $workflow = $this->get_workflow('datamanager2', array
+        (
+            'controller' => $data['controller'],
+            'save_callback' => array($this, 'save_callback')
+        ));
 
-        switch ($data['controller']->process_form())
-        {
-            case 'save':
-                // Index the article
-                $indexer = midcom::get()->indexer;
-                net_nehmer_blog_viewer::index($data['controller']->datamanager, $indexer, $this->_content_topic);
-                // *** FALL THROUGH ***
+        midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get($this->_schemadb[$this->_schema]->description)));
 
-            case 'cancel':
-                return new midcom_response_relocate('');
-        }
-
-        $this->_prepare_request_data();
-
-        $title = sprintf($this->_l10n_midcom->get('create %s'), $this->_schemadb[$this->_schema]->description);
-        midcom::get()->head->set_pagetitle("{$this->_topic->extra}: {$title}");
-        $this->add_breadcrumb("create/{$this->_schema}/", sprintf($this->_l10n_midcom->get('create %s'), $this->_schemadb[$this->_schema]->description));
+        return $workflow->run();
     }
 
-    /**
-     * Shows the loaded article.
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_create ($handler_id, array &$data)
+    public function save_callback(midcom_helper_datamanager2_controller $controller)
     {
-        midcom_show_style('admin-create');
+        // Reindex the article
+        $indexer = midcom::get()->indexer;
+        net_nehmer_blog_viewer::index($controller->datamanager, $indexer, $this->_content_topic);
     }
 }

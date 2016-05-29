@@ -66,10 +66,6 @@ Skapa nyhets artikel
 Radera artiklens länk
 ---STRINGEND
 
----STRING delete cancelled
-Radering avbruten
----STRINGEND
-
 ---STRING delete link
 Radera länk
 ---STRINGEND
