@@ -97,14 +97,7 @@ class tinymce extends TextareaType
         parent::buildForm($builder, $options);
 
         midcom::get()->head->enable_jquery();
-        if($options['config']->get('tinymce_use_compressor'))
-        {
-            midcom::get()->head->add_jsfile($options['config']->get('tinymce_url') . '/tinymce.gzip.js');
-        }
-        else
-        {
-            midcom::get()->head->add_jsfile($options['config']->get('tinymce_url') . '/tinymce.min.js');
-        }
+        midcom::get()->head->add_jsfile($options['config']->get('tinymce_url') . '/tinymce.min.js');
     }
 
     /**

@@ -27,8 +27,6 @@
  *   Any valid option for midcom_helper_misc::get_snippet_content() is allowed at this point.
  * - <i>string local_config:</i> Local configuration options which should overwrite the defaults
  *   from the config snippet. This defaults to an empty string.
- * - <i>boolean tinymce_use_compressor:</i> TinyMCE's PHP Compressor can help to reduce the page
- *   load time. Defaults to false.
  * - <i>theme</i> use this to change between a simple and an advanced (i.e. more buttons)
  *   configuration of tinymce. Valid values: simple, advanced and tiny. The systemwide default
  *   for this value can be set in the tinymce_default_theme DM2 configuration option.
@@ -125,14 +123,7 @@ class midcom_helper_datamanager2_widget_tinymce extends midcom_helper_datamanage
         $executed = true;
 
         $prefix = $this->_config->get('tinymce_url');
-        if ($this->_config->get('tinymce_use_compressor'))
-        {
-            midcom::get()->head->add_jsfile("{$prefix}/tinymce.gzip.js", true);
-        }
-        else
-        {
-            midcom::get()->head->add_jsfile("{$prefix}/tinymce.min.js", true);
-        }
+        midcom::get()->head->add_jsfile("{$prefix}/tinymce.min.js", true);
     }
 
     /**

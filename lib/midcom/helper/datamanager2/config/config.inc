@@ -16,7 +16,6 @@
 // will be silently ignored).
 'tinymce_default_theme' => 'simple',
 'tinymce_default_config_snippet' => "file://midcom/helper/datamanager2/config/tinymce_default",
-'tinymce_use_compressor' => false,
 'tinymce_url' => MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/tinymce',
 //'tinymce_default_config_snippet' => midcom::get()->config->get('midcom_sgconfig_basedir') . "/midcom.helper.datamanager2/tinymce",
 
