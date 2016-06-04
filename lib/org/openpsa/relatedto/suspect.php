@@ -98,7 +98,7 @@ class org_openpsa_relatedto_suspect extends midcom_baseclasses_components_pureco
      *
      * Tries to be smart about the direction (inbound vs outbound) properties
      */
-    function defaults_helper($link, $defaults, $component = false, $obj = false)
+    public static function defaults_helper($link, $defaults, $component = false, $obj = false)
     {
         $properties = array('fromClass', 'toClass', 'fromGuid', 'toGuid', 'fromComponent', 'toComponent', 'status', 'toExtra', 'toExtra');
         foreach ($properties as $property)
