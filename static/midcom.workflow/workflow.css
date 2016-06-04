@@ -1,3 +1,8 @@
+.midcom-workflow-dialog
+{
+    z-index: 100000;
+}
+
 .midcom-view-toolbar
 {
     display: none;
