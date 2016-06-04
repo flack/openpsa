@@ -92,7 +92,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
      */
     public static function list_by_objectguid_filter_anonymous($guid, $limit=false, $order='ASC', $paging=false, $status = false)
     {
-        $qb = self::_prepare_query($status, $paging);
+        $qb = self::_prepare_query($guid, $status, $paging);
         $qb->add_constraint('author', '<>', '');
         $qb->add_constraint('content', '<>', '');
 
@@ -120,7 +120,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
      */
     public static function count_by_objectguid($guid, $status = false)
     {
-        $qb = self::_prepare_query($status);
+        $qb = self::_prepare_query($guid, $status);
         return $qb->count_unchecked();
     }
 
@@ -133,7 +133,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
      */
     public static function count_by_objectguid_filter_anonymous($guid, $status = false)
     {
-        $qb = self::_prepare_query($status);
+        $qb = self::_prepare_query($guid, $status);
         $qb->add_constraint('author', '<>', '');
         $qb->add_constraint('content', '<>', '');
         return $qb->count_unchecked();
