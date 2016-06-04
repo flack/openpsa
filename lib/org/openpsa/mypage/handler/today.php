@@ -64,7 +64,7 @@ class org_openpsa_mypage_handler_today extends midcom_baseclasses_components_han
         midcom::get()->head->set_pagetitle($data['title']);
 
         // Add the JS file for workingon widget
-        midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . "/jQuery/jquery.epiclock.min.js");
+        midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . "/org.openpsa.mypage/jquery.epiclock.min.js");
         midcom_helper_datamanager2_widget_autocomplete::add_head_elements();
         midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . "/org.openpsa.mypage/mypage.js");
 
