@@ -1415,7 +1415,7 @@ body .ui-tooltip {
     border-top-width: 0;
 }
 
-.ui-jqgrid-ftable tr.footrow td
+.ui-jqgrid-jquery-ui.ui-jqgrid .ui-jqgrid-ftable tr.footrow td
 {
     border-right-color: white;
     border-bottom-width: 0
