@@ -164,6 +164,7 @@ implements org_openpsa_widgets_grid_provider_client
         midcom::get()->head->enable_jquery();
         midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.directmarketing/edit_query.js');
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/org.openpsa.directmarketing/edit_query.css');
+        $this->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/legacy.css');
 
         midcom::get()->head->set_pagetitle($this->_campaign->title);
         $this->bind_view_to_object($this->_campaign);
