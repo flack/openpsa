@@ -48,7 +48,10 @@ class controller
 
     public function process()
     {
-        $this->form->handleRequest();
+    	if (!$this->form->isSubmitted())
+    	{
+        	$this->form->handleRequest();
+    	}
         // we add the stylesheet regardless of processing result, since save does not automatically mean relocate...
         midcom::get()->head->add_stylesheet(MIDCOM_STATIC_URL . "/midcom.datamanager/default.css");
 
