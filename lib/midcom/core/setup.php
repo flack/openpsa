@@ -62,6 +62,13 @@ class midcom_core_setup
             throw new midcom_error('Fatal error: Unable to find website root folder');
         }
 
+        $runner = new midcom_config_test;
+        $runner->check();
+        if ($runner->get_status() === midcom_config_test::ERROR)
+        {
+            $runner->show();
+            midcom::get()->finish();
+        }
         $topic = new midcom_db_topic;
         $topic->component = 'midcom.core.nullcomponent';
         if (!$topic->create())
