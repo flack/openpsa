@@ -118,46 +118,48 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
      */
     public function _handler_order($handler_id, array $args, array &$data)
     {
-        // jQuery sorting
-        midcom::get()->head->enable_jquery();
-
-        midcom::get()->head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/core.min.js');
-        midcom::get()->head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/widget.min.js');
-        midcom::get()->head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/mouse.min.js');
-        midcom::get()->head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/sortable.min.js');
-
-        midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL.'/midcom.admin.folder/jquery-postfix.js');
+        $this->_topic->require_do('midgard:update');
 
         // These pages need no caching
         midcom::get()->cache->content->no_cache();
 
-        // Custom styles
-        $this->add_stylesheet(MIDCOM_STATIC_URL.'/midcom.admin.folder/midcom-admin-order.css');
-
-        $this->_topic->require_do('midgard:update');
-
         // Process the form
         $this->_process_order_form();
-
-        // Add the view to breadcrumb trail
-        $this->add_breadcrumb('__ais/folder/order/', $this->_l10n->get('order navigation'));
-
-        // Hide the button in toolbar
-        $this->_node_toolbar->hide_item('__ais/folder/order/');
-
-        // Set page title
-        $data['folder'] = $this->_topic;
-        $data['title'] = sprintf($this->_l10n->get('order navigation in folder %s'), $this->_topic->get_label());
-        midcom::get()->head->set_pagetitle($data['title']);
-
-        // Set the help object in the toolbar
-        $help_toolbar = midcom::get()->toolbars->get_help_toolbar();
-        $help_toolbar->add_help_item('navigation_order', 'midcom.admin.folder', null, null, 1);
 
         // Skip the page style on AJAX form handling
         if (isset($_GET['ajax']))
         {
             midcom::get()->skip_page_style = true;
+        }
+        else
+        {
+            // Add the view to breadcrumb trail
+            $this->add_breadcrumb('__ais/folder/order/', $this->_l10n->get('order navigation'));
+
+            // Hide the button in toolbar
+            $this->_node_toolbar->hide_item('__ais/folder/order/');
+
+            // Set page title
+            $data['folder'] = $this->_topic;
+            $data['title'] = sprintf($this->_l10n->get('order navigation in folder %s'), $this->_topic->get_label());
+            midcom::get()->head->set_pagetitle($data['title']);
+
+            // Set the help object in the toolbar
+            $help_toolbar = midcom::get()->toolbars->get_help_toolbar();
+            $help_toolbar->add_help_item('navigation_order', 'midcom.admin.folder', null, null, 1);
+
+            // jQuery sorting
+            midcom::get()->head->enable_jquery();
+
+            midcom::get()->head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/core.min.js');
+            midcom::get()->head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/widget.min.js');
+            midcom::get()->head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/mouse.min.js');
+            midcom::get()->head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/sortable.min.js');
+
+            midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL.'/midcom.admin.folder/jquery-postfix.js');
+
+            // Custom styles
+            $this->add_stylesheet(MIDCOM_STATIC_URL.'/midcom.admin.folder/midcom-admin-order.css');
         }
     }
 
