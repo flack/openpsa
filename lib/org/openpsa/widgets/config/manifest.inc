@@ -2,7 +2,7 @@
 'purecode' => true,
 'privileges' => array(),
 'class_mapping' => array(),
-'version' => '9.0.0-rc.3+git',
+'version' => '9.0.0',
 'state' => 'stable',
 'package.xml' => array
 (
