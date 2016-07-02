@@ -9,7 +9,7 @@
     'org_openpsa_task_status' => 'org_openpsa_projects_task_status_dba',
     'org_openpsa_hour_report' => 'org_openpsa_projects_hour_report_dba',
 ),
-'version' => '9.0.0-rc.3+git',
+'version' => '9.1.0-dev',
 'state' => 'stable',
 'package.xml' => array
 (
