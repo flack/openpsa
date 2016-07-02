@@ -1,5 +1,5 @@
 'name' => 'net.nehmer.static',
-'version' => '9.0.0',
+'version' => '9.0.0+git',
 'icon' => 'stock-icons/16x16/document.png',
 'state' => 'stable',
 'class_mapping' => array

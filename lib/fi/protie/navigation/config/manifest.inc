@@ -1,6 +1,6 @@
 'name' => 'fi.protie.navigation',
 'icon' => 'fi.protie.navigation/navigation.png',
-'version' => '9.0.0',
+'version' => '9.0.0+git',
 'state' => 'stable',
 'purecode' => true,
 'package.xml' => array

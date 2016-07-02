@@ -1,6 +1,6 @@
 'name' => 'org.openpsa.expenses',
 'purecode' => false,
-'version' => '9.0.0',
+'version' => '9.0.0+git',
 'state' => 'stable',
 'privileges' => array(),
 'class_mapping' => array(),
