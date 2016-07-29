@@ -214,7 +214,7 @@ EOT;
         {
             return $this->mcs_config_snippet;
         }
-
+        
         return $this->_get_advanced_configuration();
     }
 
@@ -228,9 +228,10 @@ EOT;
         return <<<EOT
 theme: "modern",
 menubar: false,
-plugins: ["table contextmenu paste link fullscreen image"],
+plugins: ["table contextmenu paste link fullscreen image imagetools"],
 toolbar1: "cut copy paste | undo redo | alignleft alignjustify alignright | outdent indent | code fullscreen",
 toolbar2: "formatselect | bold italic | bullist numlist | link unlink | image table",
+{$this->_get_imagetools_configuration()}
 EOT;
     }
 
@@ -241,11 +242,12 @@ EOT;
     {
         return <<<EOT
 theme: "modern",
-plugins: ["table save hr link insertdatetime preview searchreplace print contextmenu fullscreen image"],
+plugins: ["table save hr link insertdatetime preview searchreplace print contextmenu fullscreen image imagetools"],
 toolbar1: "cut copy paste | undo redo | searchreplace | alignleft alignjustify alignright | outdent indent | code removeformat | fullscreen",
 toolbar2: "formatselect | bold italic strikethrough subscript superscript | link unlink | bullist numlist | image",
 extended_valid_elements : "a[name|href|target|title|onclick],img[class|src|border=0|alt|title|hspace|vspace|width|height|align|onmouseover|onmouseout|name|style],hr[class|width|size|noshade],font[face|size|color|style],span[class|align|style]",
 image_advtab: true,
+{$this->_get_imagetools_configuration()}
 EOT;
     }
 
@@ -258,9 +260,34 @@ EOT;
 theme : "modern",
 menubar: false,
 statusbar: false,
-plugins : ["table save contextmenu link fullscreen image"],
+plugins : ["table save contextmenu link fullscreen image imagetools"],
 toolbar: "bold italic | bullist | link image | code fullscreen",
 extended_valid_elements : "a[name|href|target|title|onclick],img[class|src|border=0|alt|title|hspace|vspace|width|height|align|onmouseover|onmouseout|name|style],hr[class|width|size|noshade],font[face|size|color|style],span[class|align|style]",
+{$this->_get_imagetools_configuration()}
+        
+EOT;
+    }
+
+    /**
+     * Returns the imagetools configuration
+     */
+    private function _get_imagetools_configuration()
+    {
+        $hostname = midcom::get()->get_host_name();
+        $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
+        $url = $prefix . '__ais/imagepopup/upload/image/';
+        
+        if(!empty($this->_type->storage->object))
+        {
+            $url .= $this->_type->storage->object->guid . '/';
+        }
+    
+        return <<<EOT
+imagetools_toolbar: "editimage imageoptions",
+images_upload_url: "/__ais/imagepopup/upload/image/{$guid}/",
+images_upload_base_path: "/",
+images_upload_credentials: true,
+imagetools_cors_hosts: ['{$hostname}'],
 EOT;
     }
 
