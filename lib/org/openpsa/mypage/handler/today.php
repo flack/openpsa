@@ -48,19 +48,19 @@ class org_openpsa_mypage_handler_today extends midcom_baseclasses_components_han
     {
         if ($handler_id == 'today')
         {
-            $data['requested_time'] = date('Y-m-d');
+            $data['requested_time'] = new DateTime;
         }
         else
         {
             // TODO: Check format as YYYY-MM-DD via regexp
-            $data['requested_time'] = $args[0];
+            $data['requested_time'] = new DateTime($args[0]);
         }
 
         $this->_master->calculate_day($data['requested_time']);
 
         $this->_populate_toolbar();
 
-        $data['title'] = $this->_l10n->get_formatter()->date(strtotime($data['requested_time']));
+        $data['title'] = $this->_l10n->get_formatter()->date($data['requested_time']);
         midcom::get()->head->set_pagetitle($data['title']);
 
         // Add the JS file for workingon widget

@@ -33,9 +33,9 @@ class org_openpsa_mypage_viewer extends midcom_baseclasses_components_request
     /**
      * Get start and end times
      */
-    public function calculate_day($time)
+    public function calculate_day(DateTime $time)
     {
-        $date = new DateTime($time);
+        $date = clone $time;
 
         $this->_request_data['this_day'] = $date->format('Y-m-d');
         $this->_request_data['day_start'] = (int) $date->format('U');

@@ -18,7 +18,7 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
         ?>
         <div class="agenda">
             <?php
-            midcom::get()->dynamic_load($data['calendar_url'] . 'agenda/day/' . $data['requested_time']);
+            midcom::get()->dynamic_load($data['calendar_url'] . 'agenda/day/' . $data['requested_time']->format('Y-m-d'));
             ?>
         </div>
         <?php

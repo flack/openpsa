@@ -42,7 +42,7 @@ class org_openpsa_mypage_handler_workingon extends midcom_baseclasses_components
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
         $data['expenses_url'] = $siteconfig->get_node_full_url('org.openpsa.expenses');
 
-        $data['requested_time'] = date('Y-m-d');
+        $data['requested_time'] = new DateTime;
 
         $this->_master->calculate_day($data['requested_time']);
 
