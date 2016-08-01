@@ -23,7 +23,7 @@ class org_openpsa_calendar_handler_agenda extends midcom_baseclasses_components_
         // Generate start/end timestamps for the day
         $date = new DateTime($args[0]);
         $date->setTime(0, 0, 0);
-        $from = $date->getTimestamp();
+        $from = clone $date;
         $date->setTime(23, 59, 59);
         $to = $date->getTimestamp();
 
@@ -32,7 +32,7 @@ class org_openpsa_calendar_handler_agenda extends midcom_baseclasses_components_
 
         // Find all events that occur during [$from, $to]
         $mc->add_constraint('eid.start', '<=', $to);
-        $mc->add_constraint('eid.end', '>=', $from);
+        $mc->add_constraint('eid.end', '>=', $from->getTimestamp());
 
         $eventmembers = $mc->get_values('eid');
         if (!empty($eventmembers))
