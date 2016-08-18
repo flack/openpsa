@@ -1,3 +1,18 @@
+// Match /upload/image/<object guid>/
+'upload_image' => Array
+(
+    'handler' => Array('midcom_helper_imagepopup_handler_upload', 'upload'),
+    'fixed_args' => Array('upload', 'image'),
+    'variable_args' => 1,
+),
+
+// Match /upload/image/
+'upload_image_noobject' => Array
+(
+    'handler' => Array('midcom_helper_imagepopup_handler_upload', 'upload'),
+    'fixed_args' => Array('upload', 'image'),
+),
+
 // Match /open/<schema>/<filetype>/<object guid>
 'open' => Array
 (
