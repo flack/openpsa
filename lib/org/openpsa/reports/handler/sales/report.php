@@ -17,7 +17,7 @@ implements org_openpsa_widgets_grid_provider_client
     /**
      * {@inheritdoc}
      */
-    public function get_qb($field = null, $direction = 'ASC')
+    public function get_qb($field = null, $direction = 'ASC', array $search = array())
     {
         $qb = org_openpsa_invoices_invoice_item_dba::new_query_builder();
 

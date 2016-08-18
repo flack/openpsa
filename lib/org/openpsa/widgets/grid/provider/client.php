@@ -18,9 +18,10 @@ interface org_openpsa_widgets_grid_provider_client
      *
      * @param string $field Optional ordering field
      * @param string $direction Optional ordering direction
+     * @param array $search Optional search filters
      * @return midcom_core_query QB or MC instance
      */
-    public function get_qb($field = null, $direction = 'ASC');
+    public function get_qb($field = null, $direction = 'ASC', array $search = array());
 
     /**
      * Transfers a result object into a grid row

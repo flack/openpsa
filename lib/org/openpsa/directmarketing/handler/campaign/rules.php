@@ -27,7 +27,7 @@ implements org_openpsa_widgets_grid_provider_client
      */
     private $rules;
 
-    public function get_qb($field = null, $direction = 'ASC')
+    public function get_qb($field = null, $direction = 'ASC', array $search = array())
     {
         $resolver = new org_openpsa_directmarketing_campaign_ruleresolver();
         $resolver->resolve($this->rules);

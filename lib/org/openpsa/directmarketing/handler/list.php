@@ -20,7 +20,7 @@ implements org_openpsa_widgets_grid_provider_client
         org_openpsa_invoices_viewer::add_head_elements_for_invoice_grid();
     }
 
-    public function get_qb($field = null, $direction = 'ASC')
+    public function get_qb($field = null, $direction = 'ASC', array $search = array())
     {
         $qb = org_openpsa_directmarketing_campaign_dba::new_query_builder();
         if ($this->_topic->component = 'org.openpsa.directmarketing')

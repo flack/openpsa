@@ -20,11 +20,14 @@ if (isset($data['group']))
 $grid->set_column('lastname', $data['l10n']->get('lastname'), 'classes: "title ui-ellipsis"', 'string')
     ->set_column('firstname', $data['l10n']->get('firstname'), 'width: 100, classes: "ui-ellipsis"', 'string')
     ->set_column('username', $data['l10n']->get('username'), 'width: 100, classes: "ui-ellipsis"')
-    ->set_column('groups', $data['l10n']->get('groups'), 'sortable: false, classes: "ui-ellipsis"');
+    ->set_column('groups', $data['l10n']->get('groups'), 'sortable: false, classes: "ui-ellipsis", search: false');
 ?>
 
 <div class="main">
 <div class="org_openpsa_user full-width fill-height">
 <?php $grid->render(); ?>
+<script type="text/javascript">
+$('#<?php echo $grid->get_identifier(); ?>').jqGrid('filterToolbar');
+</script>
 </div>
 </div>

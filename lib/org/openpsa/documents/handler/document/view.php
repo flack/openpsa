@@ -44,7 +44,7 @@ implements org_openpsa_widgets_grid_provider_client
         $this->_datamanager = new midcom_helper_datamanager2_datamanager($this->_schemadb);
     }
 
-    public function get_qb($field = null, $direction = 'ASC')
+    public function get_qb($field = null, $direction = 'ASC', array $search = array())
     {
         $qb = org_openpsa_documents_document_dba::new_query_builder();
 

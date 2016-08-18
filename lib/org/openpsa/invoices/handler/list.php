@@ -52,7 +52,7 @@ implements org_openpsa_widgets_grid_provider_client
         $this->formatter = $this->_l10n->get_formatter();
     }
 
-    public function get_qb($field = null, $direction = 'ASC')
+    public function get_qb($field = null, $direction = 'ASC', array $search = array())
     {
         $qb = org_openpsa_invoices_invoice_dba::new_collector('metadata.deleted', false);
         if (!is_null($field))
