@@ -364,7 +364,7 @@ class midcom_connection
             while (   empty($crypted)
                    || preg_match('/[\x00-\x20\x7f-\xff]/', $crypted))
             {
-                $salt = chr(rand(33, 125)) . chr(rand(33, 125));
+                $salt = chr(rand(47, 122)) . chr(rand(47, 122));
                 $crypted = crypt($password, $salt);
             }
         }
@@ -560,7 +560,7 @@ class midcom_connection
         $path_parts = explode('/', $uri);
         $page_style = '';
         $path = $self;
-    
+
         self::$_data['argv'] = array();
         $args_started = false;
         foreach ($path_parts as $part)
