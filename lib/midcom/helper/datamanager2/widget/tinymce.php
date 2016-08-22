@@ -214,7 +214,7 @@ EOT;
         {
             return $this->mcs_config_snippet;
         }
-        
+
         return $this->_get_advanced_configuration();
     }
 
@@ -264,7 +264,7 @@ plugins : ["table save contextmenu link fullscreen image imagetools"],
 toolbar: "bold italic | bullist | link image | code fullscreen",
 extended_valid_elements : "a[name|href|target|title|onclick],img[class|src|border=0|alt|title|hspace|vspace|width|height|align|onmouseover|onmouseout|name|style],hr[class|width|size|noshade],font[face|size|color|style],span[class|align|style]",
 {$this->_get_imagetools_configuration()}
-        
+
 EOT;
     }
 
@@ -276,15 +276,15 @@ EOT;
         $hostname = midcom::get()->get_host_name();
         $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
         $url = $prefix . '__ais/imagepopup/upload/image/';
-        
+
         if(!empty($this->_type->storage->object))
         {
             $url .= $this->_type->storage->object->guid . '/';
         }
-    
+
         return <<<EOT
 imagetools_toolbar: "editimage imageoptions",
-images_upload_url: "/__ais/imagepopup/upload/image/{$guid}/",
+images_upload_url: "{$url}",
 images_upload_base_path: "/",
 images_upload_credentials: true,
 imagetools_cors_hosts: ['{$hostname}'],
