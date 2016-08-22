@@ -364,11 +364,23 @@ class midcom_connection
             while (   empty($crypted)
                    || preg_match('/[\x00-\x20\x7f-\xff]/', $crypted))
             {
-                $salt = chr(rand(47, 122)) . chr(rand(47, 122));
-                $crypted = crypt($password, $salt);
+                $crypted = crypt($password, self::generate_des_salt());
             }
         }
         return $crypted;
+    }
+
+    private static function generate_des_salt()
+    {
+        $options = './abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        $salt = '';
+
+        while (strlen($salt) < 2)
+        {
+            $salt .= $options[mt_rand(0, strlen($options) - 1)];
+        }
+
+        return $salt;
     }
 
     public static function is_user($person)
