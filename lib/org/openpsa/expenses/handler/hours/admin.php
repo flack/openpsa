@@ -221,10 +221,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
                         break;
                     case 'change_invoice':
                         $id = $this->_get_autocomplete_selection();
-                        if ($id != 0)
-                        {
-                            $hour_report->invoice = $id;
-                        }
+                        $hour_report->invoice = $id;
                         break;
                     case 'change_task':
                         $id = $this->_get_autocomplete_selection();
