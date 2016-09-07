@@ -96,12 +96,9 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
             $fname = preg_replace('/[^a-z0-9-]/i', '_', strtolower($this->_topic->extra)) . '_' . date('Y-m-d') . '.csv';
             if (strpos(midcom_connection::get_url('uri'), '/', strlen(midcom_connection::get_url('uri')) - 2))
             {
-                return new midcom_response_relocate(midcom_connection::get_url('uri') . $fname);
+                $fname = '/' . $fname;
             }
-            else
-            {
-                return new midcom_response_relocate(midcom_connection::get_url('uri') . "/{$fname}");
-            }
+            return new midcom_response_relocate(midcom_connection::get_url('uri') . $fname);
         }
 
         midcom::get()->disable_limits();
@@ -306,7 +303,7 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
             // Make sure we have only newlines in data
             $data = preg_replace("/\n\r|\r\n|\r/", "\n", $data);
             // Escape quotes (PONDER: make configurable between doubling the character and escaping)
-            $data = str_replace($this->csv['q'], '\\' . $this->csv['q'], $data);
+            $data = str_replace($this->csv['q'], $this->csv['q'] . $this->csv['q'], $data);
             // Quote
             $data = "{$this->csv['q']}{$data}{$this->csv['q']}";
         }
