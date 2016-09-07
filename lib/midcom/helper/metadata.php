@@ -799,12 +799,14 @@ class midcom_helper_metadata
             $timeout = midcom::get()->config->get('metadata_lock_timeout');
         }
 
-        if (!is_object($this->__object))
+        if (   is_object($this->__object)
+            && $this->__object->lock())
         {
-            return false;
+            $this->_cache = array();
+            return true;
         }
 
-        return $this->__object->lock();
+        return false;
     }
 
     /**
@@ -830,22 +832,13 @@ class midcom_helper_metadata
      */
     public function unlock()
     {
-        if (!$this->can_unlock())
+        if (   $this->can_unlock()
+            && is_object($this->__object)
+            && $this->__object->unlock())
         {
-            return false;
+            return true;
         }
 
-        if (!is_object($this->__object))
-        {
-            return false;
-        }
-
-        // Run the unlock call
-        $stat = $this->__object->unlock();
-
-        // Clear cache
-        $this->_cache = array();
-
-        return $stat;
+        return false;
     }
 }
