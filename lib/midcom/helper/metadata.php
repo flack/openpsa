@@ -817,12 +817,8 @@ class midcom_helper_metadata
      */
     function can_unlock()
     {
-        if (   !$this->__object->can_do('midcom:unlock')
-            && !midcom::get()->auth->can_user_do('midcom:unlock', null, 'midcom_services_auth', 'midcom'))
-        {
-            return false;
-        }
-        return true;
+        return (   $this->__object->can_do('midcom:unlock')
+                || midcom::get()->auth->can_user_do('midcom:unlock', null, 'midcom_services_auth', 'midcom'));
     }
 
     /**
@@ -836,6 +832,7 @@ class midcom_helper_metadata
             && is_object($this->__object)
             && $this->__object->unlock())
         {
+            $this->_cache = array();
             return true;
         }
 
