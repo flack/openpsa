@@ -124,6 +124,7 @@ class midcom_helper_datamanager2_widget_tinymce extends midcom_helper_datamanage
 
         $prefix = $this->_config->get('tinymce_url');
         midcom::get()->head->add_jsfile("{$prefix}/tinymce.min.js", true);
+        midcom::get()->head->add_jsfile("{$prefix}/imagetools_functions.js", true);
     }
 
     /**
@@ -286,49 +287,10 @@ EOT;
         return <<<EOT
 imagetools_toolbar: "editimage imageoptions",
 imagetools_cors_hosts: ['{$hostname}'],
-setup: function(editor) 
-{
-    editor.on('click', function(e) 
-    {
-        var node = tinymce.activeEditor.selection.getNode();
-        if(node.hasAttribute("src"))
-        {
-            original = node.src.split("/").pop();
-        }
-    });
-},
-images_upload_handler: function (blobInfo, success, failure)
-{
-    var xhr, formData;
-    xhr = new XMLHttpRequest();
-    xhr.withCredentials = true;
-    xhr.open('POST', '{$url}');
-
-    xhr.onload = function() 
-    {
-        var json;
-        if(xhr.status != 200) 
-        {
-            failure('HTTP Error: ' + xhr.status);
-            return;
-        }
-
-        json = JSON.parse(xhr.responseText);
-            
-        if(!json || typeof json.location != 'string') 
-        {
-            failure('Invalid JSON: ' + xhr.responseText);
-            return;
-        }
-               
-        success(json.location);
-    };
-             
-    var name = original.split(".").shift() + "." + blobInfo.filename().split(".").pop();
-    formData = new FormData();
-    formData.append('file', blobInfo.blob(), name);
-    xhr.send(formData);
-},
+url: '{$url}',
+original: "",
+setup: imagetools_functions.setup,
+images_upload_handler: imagetools_functions.images_upload_handler,
 EOT;
     }
 
