@@ -1527,6 +1527,11 @@ body .ui-tooltip {
     text-shadow: 1px 1px rgba(0, 0, 0, .2);
 }
 
+.fc-view .ui-widget-header a
+{
+    color: white;
+}
+
 .normal .ui-jqgrid-htable .ui-icon,
 .good .ui-jqgrid-htable .ui-icon,
 .bad .ui-jqgrid-htable .ui-icon
