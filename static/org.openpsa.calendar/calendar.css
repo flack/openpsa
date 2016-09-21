@@ -105,3 +105,12 @@
 {
     padding-right: .4em
 }
+
+.fc-list-heading
+{
+    display: none;
+}
+.fc-list-item-title a
+{
+    cursor: pointer;
+}

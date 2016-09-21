@@ -79,49 +79,9 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
         );
         $this->_view_toolbar->add_items($buttons);
 
-        $data['calendar_options'] = $this->_get_calendar_options();
-
+        $data['calendar_options'] = $this->_master->get_calendar_options();
+        org_openpsa_widgets_calendar::add_head_elements();
         midcom_helper_datamanager2_widget_jsdate::add_head_elements();
-        $head = midcom::get()->head;
-        $prefix = '/org.openpsa.widgets/fullcalendar-3.0.0/';
-        $head->add_jsfile(MIDCOM_STATIC_URL . $prefix . 'lib/moment.min.js');
-        $head->add_jsfile(MIDCOM_STATIC_URL . $prefix . 'fullcalendar.min.js');
-
-        $lang = midcom::get()->i18n->get_current_language();
-        if (!file_exists(MIDCOM_STATIC_ROOT . $prefix . "locale/{$lang}.js"))
-        {
-            $lang = midcom::get()->i18n->get_fallback_language();
-            if (!file_exists(MIDCOM_STATIC_ROOT . $prefix . "locale/{$lang}.js"))
-            {
-                $lang = false;
-            }
-        }
-
-        if ($lang)
-        {
-            $head->add_jsfile(MIDCOM_STATIC_URL . $prefix . "locale/{$lang}.js");
-            $data['calendar_options']['lang'] = $lang;
-        }
-
-        $head->add_stylesheet(MIDCOM_STATIC_URL . $prefix . 'fullcalendar.min.css');
-        $head->add_stylesheet(MIDCOM_STATIC_URL . $prefix . 'fullcalendar.print.css', 'print');
-        $head->add_stylesheet(MIDCOM_STATIC_URL . '/org.openpsa.calendar/calendar.css');
-
-        $head->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/history.js-1.8.0/jquery.history.js');
-        $head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.calendar/calendar.js');
-    }
-
-    private function _get_calendar_options()
-    {
-        return array
-        (
-            'businessHours' => array
-            (
-                'start' => $this->_config->get('day_start_time') . ':00',
-                'end' => $this->_config->get('day_end_time') . ':00',
-                'dow' => array(1, 2, 3, 4, 5)
-            )
-        );
     }
 
     /**

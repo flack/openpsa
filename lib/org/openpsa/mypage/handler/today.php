@@ -74,9 +74,10 @@ class org_openpsa_mypage_handler_today extends midcom_baseclasses_components_han
         //needed js/css-files for journal entries
         org_openpsa_widgets_grid::add_head_elements();
         midcom\workflow\datamanager2::add_head_elements();
+        org_openpsa_widgets_calendar::add_head_elements();
 
         //set the start-constraints for journal-entries
-        $time_span = 7 * 24 * 60 *60 ; //7 days
+        $time_span = 7 * 24 * 60 * 60 ; //7 days
 
         $this->_request_data['journal_constraints'] = array
         (
