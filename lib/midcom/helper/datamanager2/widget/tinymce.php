@@ -124,7 +124,7 @@ class midcom_helper_datamanager2_widget_tinymce extends midcom_helper_datamanage
 
         $prefix = $this->_config->get('tinymce_url');
         midcom::get()->head->add_jsfile("{$prefix}/tinymce.min.js", true);
-        midcom::get()->head->add_jsfile("{$prefix}/imagetools_functions.js", true);
+        midcom::get()->head->add_jsfile("/midcom-static/midcom.helper.datamanager2/imagetools_func.js", true);
     }
 
     /**
@@ -177,6 +177,7 @@ IMG;
 
         // Compute the final script:
         $script = <<<EOT
+var original = "";
 tinyMCE.init({
 {$config}
 {$this->local_config}
@@ -287,10 +288,8 @@ EOT;
         return <<<EOT
 imagetools_toolbar: "editimage imageoptions",
 imagetools_cors_hosts: ['{$hostname}'],
-url: '{$url}',
-original: "",
 setup: imagetools_functions.setup,
-images_upload_handler: imagetools_functions.images_upload_handler,
+images_upload_handler: imagetools_functions.images_upload_handler('{$url}'),
 EOT;
     }
 
