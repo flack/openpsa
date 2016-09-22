@@ -129,12 +129,6 @@ class midcom_exception_handler
      */
     public function handle_exception($e)
     {
-        //For MidgardMVC we just pass exceptions on and let the framework do the work
-        if ($e instanceof midgardmvc_exception_unauthorized)
-        {
-            throw $e;
-        }
-
         $this->_exception = $e;
         $trace = $e->getTraceAsString();
         $httpcode = $e->getCode();
