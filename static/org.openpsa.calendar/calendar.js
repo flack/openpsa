@@ -165,7 +165,7 @@ var openpsa_calendar_widget =
             eventRender: function (event, element) {
                 if (event.participants)
                 {
-                    element.find('.fc-content').append('<span class="participants">(' + event.participants.join(', ') + ')</span>');
+                    element.find('.fc-content, .fc-list-item-title a').append('<span class="participants">(' + event.participants.join(', ') + ')</span>');
                 }
             },
             eventClick: function (calEvent, jsEvent, view) {

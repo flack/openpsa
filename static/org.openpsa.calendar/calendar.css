@@ -114,3 +114,8 @@
 {
     cursor: pointer;
 }
+
+.fc-list-item-title a .participants
+{
+    padding-left: .5em
+}
