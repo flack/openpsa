@@ -18,7 +18,7 @@ var imagetools_functions =
             var xhr, formData;
             xhr = new XMLHttpRequest();
             xhr.withCredentials = true;
-            xhr.open('POST', tinyMCE.settings.url);
+            xhr.open('POST', url);
 
             xhr.onload = function() 
             {
