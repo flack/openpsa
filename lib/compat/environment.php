@@ -22,11 +22,7 @@ abstract class midcom_compat_environment
 
     public static function initialize()
     {
-        if (class_exists('midgardmvc_core'))
-        {
-            self::$_implementation = new midcom_compat_ragnaland();
-        }
-        else if (defined('OPENPSA2_UNITTEST_RUN'))
+        if (defined('OPENPSA2_UNITTEST_RUN'))
         {
             self::$_implementation = new midcom_compat_unittest();
         }
@@ -147,33 +143,5 @@ class midcom_compat_unittest extends midcom_compat_environment
         $headers = self::$_headers;
         self::$_headers = array();
         return $headers;
-    }
-}
-
-/**
- * MidgardMVC Ragnaland support
- *
- * @package midcom.compat
- */
-class midcom_compat_ragnaland extends midcom_compat_default
-{
-    public function header($string, $replace = true, $http_response_code = null)
-    {
-        midgardmvc_core::get_instance()->dispatcher->header($string, $replace, $http_response_code);
-    }
-
-    public function stop_request($message = '')
-    {
-        midgardmvc_core::get_instance()->dispatcher->end_request();
-    }
-
-    public function headers_sent()
-    {
-        return midgardmvc_core::get_instance()->dispatcher->headers_sent();
-    }
-
-    public function setcookie($name, $value = '', $expire = 0, $path = '/', $domain = null, $secure = false, $httponly = false)
-    {
-        return midgardmvc_core::get_instance()->dispatcher->setcookie($name, $value, $expire, $path, $domain, $secure, $httponly);
     }
 }

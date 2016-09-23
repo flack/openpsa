@@ -68,4 +68,38 @@ class org_openpsa_calendar_viewer extends midcom_baseclasses_components_request
                 return new midcom_response_relocate('agendaWeek/' . date('Y-m-d', $selected_time) . '/');
         }
     }
+
+    /**
+     * @return array
+     */
+    public function get_calendar_options()
+    {
+        $options = array
+        (
+            'businessHours' => array
+            (
+                'start' => $this->_config->get('day_start_time') . ':00',
+                'end' => $this->_config->get('day_end_time') . ':00',
+                'dow' => array(1, 2, 3, 4, 5)
+            )
+        );
+
+        $prefix = '/org.openpsa.widgets/fullcalendar-3.0.0/';
+        $lang = midcom::get()->i18n->get_current_language();
+        if (!file_exists(MIDCOM_STATIC_ROOT . $prefix . "locale/{$lang}.js"))
+        {
+            $lang = midcom::get()->i18n->get_fallback_language();
+            if (!file_exists(MIDCOM_STATIC_ROOT . $prefix . "locale/{$lang}.js"))
+            {
+                $lang = false;
+            }
+        }
+
+        if ($lang)
+        {
+            $options['lang'] = $lang;
+        }
+
+        return $options;
+    }
 }

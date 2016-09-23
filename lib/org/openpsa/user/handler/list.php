@@ -126,7 +126,7 @@ implements org_openpsa_widgets_grid_provider_client
     /**
      * Get querybuilder for JSON user list
      */
-    public function get_qb($field = null, $direction = 'ASC')
+    public function get_qb($field = null, $direction = 'ASC', array $search = array())
     {
         $qb = midcom_db_person::new_collector('metadata.deleted', false);
         //@todo constraint username <> '' ?
@@ -135,6 +135,21 @@ implements org_openpsa_widgets_grid_provider_client
         {
             $mc = midcom_db_member::new_collector('gid', $this->_group->id);
             $qb->add_constraint('id', 'IN', $mc->get_values('uid'));
+        }
+
+        if (!empty($search))
+        {
+            foreach ($search as $field => $value)
+            {
+                if ($field == 'username')
+                {
+                    midcom_core_account::add_username_constraint($qb, 'LIKE', $value . '%');
+                }
+                else
+                {
+                    $qb->add_constraint($field, 'LIKE', $value . '%');
+                }
+            }
         }
 
         if (!is_null($field))

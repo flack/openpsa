@@ -14,7 +14,7 @@
 class org_openpsa_sales_handler_deliverable_list extends midcom_baseclasses_components_handler
 implements org_openpsa_widgets_grid_provider_client
 {
-    public function get_qb($field = null, $direction = 'ASC')
+    public function get_qb($field = null, $direction = 'ASC', array $search = array())
     {
         $mc = org_openpsa_sales_salesproject_deliverable_dba::new_collector('product', $this->_product->id);
         if (!is_null($field))

@@ -108,7 +108,7 @@ var openpsa_calendar_widget =
             $(selector).fullCalendar('option', 'height', new_height);
         }
     },
-    initialize: function(selector, prefix, settings)
+    initialize: function(selector, prefix, settings, embedded)
     {
         function save_event(event, delta, revertFunc, jsEvent, ui, view) {
             var params = {
@@ -135,7 +135,7 @@ var openpsa_calendar_widget =
             ignoreTimezone: false,
             nowIndicator: true,
             editable: true,
-            titleRangeSeparator: ' \u2013 ',
+            navLinks: true,
             header:
             {
                 left: 'month,agendaWeek,agendaDay',
@@ -157,21 +157,20 @@ var openpsa_calendar_widget =
             },
             viewRender: function (view, element)
             {
-                openpsa_calendar_widget.update_url(selector, prefix);
+                if (!embedded)
+                {
+                    openpsa_calendar_widget.update_url(selector, prefix);
+                }
             },
             eventRender: function (event, element) {
                 if (event.participants)
                 {
-                    element.find('.fc-content').append('<span class="participants">(' + event.participants.join(', ') + ')</span>');
+                    element.find('.fc-content, .fc-list-item-title a').append('<span class="participants">(' + event.participants.join(', ') + ')</span>');
                 }
             },
             eventClick: function (calEvent, jsEvent, view) {
-                var guid = calEvent.id,
-                url = prefix + 'event/' + guid + '/',
-                window_options = "toolbar=0,location=0,status=0,height=" + settings.height + ",width=" + settings.width + ",dependent=1,alwaysRaised=1,scrollbars=1,resizable=1";
-
                 jsEvent.preventDefault();
-                create_dialog($(jsEvent.target), '', url);
+                create_dialog($(jsEvent.target), '', prefix + 'event/' + calEvent.id + '/');
             },
             selectable: true,
             selectHelper: true,
@@ -188,18 +187,21 @@ var openpsa_calendar_widget =
         window.openpsa_calendar_instance = $(selector).fullCalendar(settings);
         openpsa_calendar_widget.prepare_toolbar_buttons(selector, prefix, settings);
 
-        // Prepare History.js
-        if ( History.enabled ) {
-            History.Adapter.bind(window, 'statechange', function(){
-                var State = History.getState();
-                $(selector).fullCalendar('gotoDate', $.fullCalendar.moment(State.data.date));
-                $(selector).fullCalendar('changeView', State.data.view);
+        if (!embedded)
+        {
+            // Prepare History.js
+            if (History.enabled ) {
+                History.Adapter.bind(window, 'statechange', function(){
+                    var State = History.getState();
+                    $(selector).fullCalendar('gotoDate', $.fullCalendar.moment(State.data.date));
+                    $(selector).fullCalendar('changeView', State.data.view);
+                });
+            }
+
+            org_openpsa_resizers.append_handler('calendar', function()
+            {
+                openpsa_calendar_widget.set_height(selector);
             });
         }
-
-        org_openpsa_resizers.append_handler('calendar', function()
-        {
-            openpsa_calendar_widget.set_height(selector);
-        });
     }
 };

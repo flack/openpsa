@@ -48,19 +48,19 @@ class org_openpsa_mypage_handler_today extends midcom_baseclasses_components_han
     {
         if ($handler_id == 'today')
         {
-            $data['requested_time'] = date('Y-m-d');
+            $data['requested_time'] = new DateTime;
         }
         else
         {
             // TODO: Check format as YYYY-MM-DD via regexp
-            $data['requested_time'] = $args[0];
+            $data['requested_time'] = new DateTime($args[0]);
         }
 
         $this->_master->calculate_day($data['requested_time']);
 
         $this->_populate_toolbar();
 
-        $data['title'] = $this->_l10n->get_formatter()->date(strtotime($data['requested_time']));
+        $data['title'] = $this->_l10n->get_formatter()->date($data['requested_time']);
         midcom::get()->head->set_pagetitle($data['title']);
 
         // Add the JS file for workingon widget
@@ -74,9 +74,10 @@ class org_openpsa_mypage_handler_today extends midcom_baseclasses_components_han
         //needed js/css-files for journal entries
         org_openpsa_widgets_grid::add_head_elements();
         midcom\workflow\datamanager2::add_head_elements();
+        org_openpsa_widgets_calendar::add_head_elements();
 
         //set the start-constraints for journal-entries
-        $time_span = 7 * 24 * 60 *60 ; //7 days
+        $time_span = 7 * 24 * 60 * 60 ; //7 days
 
         $this->_request_data['journal_constraints'] = array
         (

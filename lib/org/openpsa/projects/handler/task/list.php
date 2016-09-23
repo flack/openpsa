@@ -266,7 +266,7 @@ implements org_openpsa_widgets_grid_provider_client
         org_openpsa_widgets_grid::add_head_elements();
     }
 
-    public function get_qb($field = null, $direction = 'ASC')
+    public function get_qb($field = null, $direction = 'ASC', array $search = array())
     {
         if (!is_null($field))
         {

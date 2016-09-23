@@ -20,32 +20,10 @@ class org_openpsa_calendar_handler_agenda extends midcom_baseclasses_components_
      */
     public function _handler_day($handler_id, array $args, array &$data)
     {
-        // Generate start/end timestamps for the day
         $date = new DateTime($args[0]);
-        $date->setTime(0, 0, 0);
-        $from = $date->getTimestamp();
-        $date->setTime(23, 59, 59);
-        $to = $date->getTimestamp();
-
-        // List user's event memberships
-        $mc = org_openpsa_calendar_event_member_dba::new_collector('uid', midcom_connection::get_user());
-
-        // Find all events that occur during [$from, $to]
-        $mc->add_constraint('eid.start', '<=', $to);
-        $mc->add_constraint('eid.end', '>=', $from);
-
-        $eventmembers = $mc->get_values('eid');
-        if (!empty($eventmembers))
-        {
-            $qb = org_openpsa_calendar_event_dba::new_query_builder();
-            $qb->add_constraint('id', 'IN', $eventmembers);
-            $data['events'] = $qb->execute();
-        }
-        else
-        {
-            $data['events'] = array();
-        }
-        $data['from'] = $from;
+        $data['calendar_options'] = $this->_master->get_calendar_options();
+        $data['calendar_options']['defaultDate'] = $date->format('Y-m-d');
+        $data['date'] = $date;
     }
 
     /**
@@ -55,14 +33,6 @@ class org_openpsa_calendar_handler_agenda extends midcom_baseclasses_components_
      */
     public function _show_day($handler_id, array &$data)
     {
-        midcom_show_style('show-day-header');
-
-        foreach ($this->_request_data['events'] as $event)
-        {
-            $this->_request_data['event'] = $event;
-            midcom_show_style('show-day-item');
-        }
-
-        midcom_show_style('show-day-footer');
+        midcom_show_style('show-agenda');
     }
 }

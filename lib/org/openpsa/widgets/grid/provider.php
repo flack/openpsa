@@ -83,6 +83,13 @@ class org_openpsa_widgets_grid_provider
      */
     private $_query;
 
+    /**
+     * Search parameters
+     *
+     * @var array
+     */
+    private $_search = array();
+
     public function __construct($source, $datatype = 'json')
     {
         $this->_datatype = $datatype;
@@ -176,7 +183,7 @@ class org_openpsa_widgets_grid_provider
             $field = str_replace('index_', '', $field);
         }
 
-        return $this->_client->get_qb($field, $this->_sort_direction);
+        return $this->_client->get_qb($field, $this->_sort_direction, $this->_search);
     }
 
     public function count_rows()
@@ -281,6 +288,18 @@ class org_openpsa_widgets_grid_provider
         {
             $this->_sort_field = $query['sidx'];
             $this->_sort_direction = strtoupper($query['sord']);
+        }
+        if (   !empty($query['_search'])
+            && $query['_search'] === 'true')
+        {
+            foreach ($query as $field => $value)
+            {
+                if (in_array($field, array('_search', 'nd', 'page', 'rows', 'sidx', 'sord')))
+                {
+                    continue;
+                }
+                $this->_search[str_replace('index_', '', $field)] = $value;
+            }
         }
     }
 

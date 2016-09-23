@@ -105,3 +105,17 @@
 {
     padding-right: .4em
 }
+
+.fc-list-heading
+{
+    display: none;
+}
+.fc-list-item-title a
+{
+    cursor: pointer;
+}
+
+.fc-list-item-title a .participants
+{
+    padding-left: .5em
+}

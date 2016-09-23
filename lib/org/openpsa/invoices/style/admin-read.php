@@ -260,7 +260,7 @@ jQuery("#&(grid_id);").jqGrid({
           {name:'hours', index: 'hours', width: 25, align: 'right', formatter: 'number', sorttype: 'float', summaryType:'sum'},
           {name:'description', index: 'description', width: 150},
           {name:'approved', index: 'approved', width: 20, align: 'center', fixed: true},
-          {name:'task', index: 'task',}
+          {name:'task', index: 'task'}
       ],
       loadonce: true,
       rowNum: <?php echo sizeof($rows); ?>,

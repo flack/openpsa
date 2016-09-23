@@ -34,7 +34,7 @@ implements org_openpsa_widgets_grid_provider_client
         $this->set_active_leaf($this->_topic->id . ':scheduled');
     }
 
-    public function get_qb($field = null, $direction = 'ASC')
+    public function get_qb($field = null, $direction = 'ASC', array $search = array())
     {
         $qb = midcom_services_at_entry_dba::new_query_builder();
         $qb->add_constraint('method', '=', 'new_subscription_cycle');

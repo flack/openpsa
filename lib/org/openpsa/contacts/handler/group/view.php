@@ -197,7 +197,7 @@ implements midcom_helper_datamanager2_interfaces_view, org_openpsa_widgets_grid_
     /**
      * Get querybuilder for JSON group member list
      */
-    public function get_qb($field = null, $direction = 'ASC')
+    public function get_qb($field = null, $direction = 'ASC', array $search = array())
     {
         $qb = midcom_db_person::new_collector('metadata.deleted', false);
         $member_ids = array_keys($this->_request_data['group']->get_members());

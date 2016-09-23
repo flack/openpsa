@@ -303,7 +303,6 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
         $this->_request_data['invoice'] = $this->_object;
         $this->_prepare_grid_data();
         $this->_prepare_output();
-
     }
 
     private function _prepare_grid_data()
@@ -473,13 +472,11 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
 
     private function _prepare_output()
     {
-        $this->add_breadcrumb("invoice/" . $this->_object->guid . "/", $this->_l10n->get('invoice') . ' ' . $this->_object->get_label());
-        $this->add_breadcrumb
-        (
-            "invoice/" . $this->_object->guid . "/",
-            $this->_l10n->get('edit invoice items') . ': ' . $this->_l10n->get('invoice') . ' ' . $this->_object->get_label()
-        );
+        $title = $this->_l10n->get('invoice') . ' ' . $this->_object->get_label();
+        $this->add_breadcrumb("invoice/" . $this->_object->guid . "/", $title);
+        $this->add_breadcrumb("invoice/" . $this->_object->guid . "/", $this->_l10n->get('edit invoice items') . ': ' . $title);
 
+        midcom::get()->head->set_pagetitle($this->_l10n->get('edit invoice items') . ': ' . $title);
         $this->_view_toolbar->add_item
         (
             array

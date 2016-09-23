@@ -8,22 +8,21 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
     {
         midcom::get()->dynamic_load('workingon/');
     }
+    if ($data['calendar_url'])
+    {
+        ?>
+            <div class="agenda">
+                <?php
+                midcom::get()->dynamic_load($data['calendar_url'] . 'agenda/day/' . $data['requested_time']->format('Y-m-d'));
+                ?>
+            </div>
+        <?php
+    }
     ?>
 </div>
 
 <div class="org_openpsa_mypage main">
     <?php
-    if ($data['calendar_url'])
-    {
-        ?>
-        <div class="agenda">
-            <?php
-            midcom::get()->dynamic_load($data['calendar_url'] . 'agenda/day/' . $data['requested_time']);
-            ?>
-        </div>
-        <?php
-    }
-
     if ($data['journal_url'])
     {
         ?>
