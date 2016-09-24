@@ -245,19 +245,6 @@ class midcom_db_attachment extends midcom_core_dbaobject
             }
         }
 
-        if (    midcom::get()->config->get('midcom_compat_ragnaroek')
-             && is_object($attachment))
-        {
-            $nap = new midcom_helper_nav();
-            $parent = $nap->resolve_guid($attachment->parentguid);
-            if (   is_array($parent)
-                && $parent[MIDCOM_NAV_TYPE] == 'node')
-            {
-                //Serve from topic
-                return $parent[MIDCOM_NAV_ABSOLUTEURL] . urlencode($name);
-            }
-        }
-
         // Use regular MidCOM attachment server
         return midcom_connection::get_url('self') . 'midcom-serveattachmentguid-' . $guid . '/' . urlencode($name);
     }

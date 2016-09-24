@@ -102,18 +102,7 @@ class midcom
          */
         self::$_services['cache'] = new midcom_services_cache;
 
-        if (self::$_services['config']->get('midcom_compat_ragnaroek'))
-        {
-            require_once __DIR__ . '/compat/bootstrap.php';
-        }
-
         self::$_application->initialize();
-
-        if (   self::$_services['config']->get('midcom_compat_ragnaroek')
-            && file_exists(MIDCOM_CONFIG_FILE_AFTER))
-        {
-            include MIDCOM_CONFIG_FILE_AFTER;
-        }
     }
 
     /**
