@@ -7,7 +7,7 @@ var imagetools_functions =
             var node = tinymce.activeEditor.selection.getNode();
             if(node.hasAttribute("src"))
             {
-                original = node.src.split("/").pop();
+            	tinyMCE.activeEditor.settings.original = node.src.split("/").pop();
             }
         });
     },
@@ -40,7 +40,7 @@ var imagetools_functions =
                 success(json.location);
             };
              
-            var name = original.split(".").shift() + "." + blobInfo.filename().split(".").pop();
+            var name = tinyMCE.activeEditor.settings.original.split(".").shift() + "." + blobInfo.filename().split(".").pop();
             formData = new FormData();
             formData.append('file', blobInfo.blob(), name);
             xhr.send(formData);
