@@ -9,7 +9,7 @@ var imagetools_functions =
             var node = tinymce.activeEditor.selection.getNode();
             if(node.hasAttribute("src"))
             {
-            	map.set(tinyMCE.activeEditor.contentAreaContainer.id, node.src.split("/").pop());
+            	map.set(tinyMCE.activeEditor.id, node.src.split("/").pop());
             }
         });
     },
@@ -42,7 +42,7 @@ var imagetools_functions =
                 success(json.location);
             };
              
-            var name =  map.get(tinyMCE.activeEditor.contentAreaContainer.id).split(".").shift() + "." + blobInfo.filename().split(".").pop();
+            var name =  map.get(tinyMCE.activeEditor.id).split(".").shift() + "." + blobInfo.filename().split(".").pop();
             formData = new FormData();
             formData.append('file', blobInfo.blob(), name);
             xhr.send(formData);
