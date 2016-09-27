@@ -285,7 +285,7 @@ EOT;
         }
 
         return <<<EOT
-imagetools_toolbar: "editimage imageoptions",S
+imagetools_toolbar: "editimage imageoptions",
 imagetools_cors_hosts: ['{$hostname}'],
 original: "",
 setup: imagetools_functions.setup,
