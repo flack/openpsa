@@ -357,7 +357,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
             }
         }
 
-        if ($score <= $this->_config->get('min_password_score'))
+        if ($score < $this->_config->get('min_password_score'))
         {
             midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.user'), $this->_l10n->get('password weak'), 'error');
             return false;
