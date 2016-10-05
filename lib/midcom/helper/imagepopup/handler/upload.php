@@ -82,9 +82,11 @@ class midcom_helper_imagepopup_handler_upload extends midcom_baseclasses_compone
 
         $filename = midcom_db_attachment::safe_filename($filename);
         $pieces = explode('.', $filename);
-        $core = "modified";
+        $core = array_shift($pieces);
+        $split = preg_split("/-(\d{4})-(\d{2})-(\d{2})-(\d{2})-(\d{2})-(\d{2})/", $core);
+        $core = array_shift($split);
         $extension = array_pop($pieces);
-        $modifyFilename = $core . date('Y-m-d-H-i-s', time()) . "." . $extension;
+        $modifyFilename = $core . "-" . date('Y-m-d-H-i-s', time()) . "." . $extension;
 
         return $modifyFilename;
     }
