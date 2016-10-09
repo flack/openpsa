@@ -49,6 +49,7 @@ class org_openpsa_user_handler_person_createTest extends openpsa_testcase
 
         $guid = end($tokens);
         $person = new midcom_db_person($guid);
+        $this->register_object($person);
 
         $this->assertEquals(__CLASS__ . '::' . __FUNCTION__, $person->firstname);
         $this->assertEquals(__CLASS__ . '::' . __FUNCTION__, $person->lastname);
