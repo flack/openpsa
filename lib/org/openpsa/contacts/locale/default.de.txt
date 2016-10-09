@@ -51,7 +51,7 @@ Kategorien
 ---STRINGEND
 
 ---STRING choose the person to keep
-Wählen Sie, welche Person beibehalten werden soll. Sie können später auch beide behalten.
+Wählen Sie, welche Person beibehalten werden soll. Sie können auch später entscheiden oder beide behalten.
 ---STRINGEND
 
 ---STRING city

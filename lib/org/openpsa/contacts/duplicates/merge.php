@@ -35,7 +35,7 @@ class org_openpsa_contacts_duplicates_merge
      * @param object Object that data will be merged from
      * @return boolean Indicating success/failure
      */
-    function merge(&$obj1, &$obj2, $merge_mode)
+    function merge($obj1, $obj2, $merge_mode)
     {
         if (   $merge_mode !== 'all'
             && $merge_mode !== 'future')
@@ -91,7 +91,7 @@ class org_openpsa_contacts_duplicates_merge
      * @param string merge mode
      * @return boolean Indicating success/failure
      */
-    private function _call_component_merge($component, &$obj1, &$obj2, $merge_mode)
+    private function _call_component_merge($component, $obj1, $obj2, $merge_mode)
     {
         try
         {
@@ -241,11 +241,11 @@ class org_openpsa_contacts_duplicates_merge
     /**
      * Merges first object with second and then deletes the second
      *
-     * @param object Object that will remain
-     * @param object Object that will be deleted
+     * @param midcom_core_dbaobject $obj1 Object that will remain
+     * @param midcom_core_dbaobject $obj2 Object that will be deleted
      * @return boolean Indicating success/Failure
      */
-    function merge_delete(&$obj1, &$obj2)
+    function merge_delete(midcom_core_dbaobject $obj1, midcom_core_dbaobject $obj2)
     {
         if (!$this->merge($obj1, $obj2, 'all'))
         {
@@ -257,9 +257,20 @@ class org_openpsa_contacts_duplicates_merge
         {
             $this->_errstr = midcom_connection::get_error_string();
         }
-
-        $obj1->delete_parameter('org.openpsa.contacts.duplicates:possible_duplicate', $obj2->guid);
-
+        else
+        {
+            $qb = new midgard_query_builder('midgard_parameter');
+            $qb->add_constraint('domain', 'LIKE', 'org.openpsa.contacts.duplicates:%');
+            $qb->add_constraint('name', '=', $obj2->guid);
+            $results = $qb->execute();
+            foreach ($results as $param)
+            {
+                if (!$param->delete())
+                {
+                    debug_add("Failed to delete parameter {$param->guid}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
+                }
+            }
+        }
         return $stat;
     }
 

@@ -25,23 +25,28 @@ class org_openpsa_contacts_cron_duplicates_clean extends midcom_baseclasses_comp
             return;
         }
 
-        // Until the FIXME below is handled we abort
-        debug_add('Duplicate cleanup disabled since it needs code cleanup for 1.8 Midgard, aborting', MIDCOM_LOG_ERROR);
-        return;
-
         ignore_user_abort();
+
+        $tried = array();
 
         $qb = new midgard_query_builder('midgard_parameter');
         $qb->add_constraint('domain', '=', 'org.openpsa.contacts.duplicates:possible_duplicate');
-        $qb->add_order('name', 'ASC');
-        $results = @$qb->execute();
+        $results = $qb->execute();
         foreach ($results as $param)
         {
-            try
+            if (!array_key_exists($param->name, $tried))
             {
-                midcom::get()->dbfactory->get_object_by_guid($param->name);
+                try
+                {
+                    midcom::get()->dbfactory->get_object_by_guid($param->name);
+                    $tried[$param->name] = true;
+                }
+                catch (midcom_error $e)
+                {
+                    $tried[$param->name] = false;
+                }
             }
-            catch (midcom_error $e)
+            if (!$tried[$param->name])
             {
                 debug_add("GUID {$param->name} points to nonexistent person, removing possible duplicate mark", MIDCOM_LOG_INFO);
                 if (!$param->delete())

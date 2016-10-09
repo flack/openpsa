@@ -59,7 +59,7 @@ class org_openpsa_contacts_handler_duplicates_person extends midcom_baseclasses_
             }
 
             $param =& $ret[0];
-            debug_add("Found duplicate mark on person #{$param->parentguid} for person {$param->name}");
+            debug_add("Found duplicate mark on person {$param->parentguid} for person {$param->name}");
             try
             {
                 $person1 = new org_openpsa_contacts_person_dba($param->parentguid);
@@ -99,8 +99,8 @@ class org_openpsa_contacts_handler_duplicates_person extends midcom_baseclasses_
     private function _process_selection()
     {
         if (   !empty($_POST['org_openpsa_contacts_handler_duplicates_person_keep'])
-                && !empty($_POST['org_openpsa_contacts_handler_duplicates_person_options'])
-                && count($_POST['org_openpsa_contacts_handler_duplicates_person_options']) == 2)
+            && !empty($_POST['org_openpsa_contacts_handler_duplicates_person_options'])
+            && count($_POST['org_openpsa_contacts_handler_duplicates_person_options']) == 2)
         {
             $option1 = new org_openpsa_contacts_person_dba($_POST['org_openpsa_contacts_handler_duplicates_person_options'][1]);
             $option2 = new org_openpsa_contacts_person_dba($_POST['org_openpsa_contacts_handler_duplicates_person_options'][2]);
