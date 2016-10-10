@@ -123,7 +123,7 @@ class midcom_helper_datamanager2_widget_tinymce extends midcom_helper_datamanage
         $executed = true;
 
         $prefix = $this->_config->get('tinymce_url');
-        midcom::get()->head->add_jsfile("{$prefix}/tinymce.min.js", true);
+        midcom::get()->head->add_jsfile("{$prefix}/tinymce.min.js");
         midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . "/midcom.helper.datamanager2/imagetools_functions.js");
     }
 
