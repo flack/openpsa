@@ -1,6 +1,6 @@
 // note:: this is javascript!
 theme: "modern",
-plugins: ["table save hr link preview media searchreplace print contextmenu fullscreen image paste code"],
+plugins: ["table save hr link preview media searchreplace print contextmenu fullscreen image paste code imagetools"],
 toolbar1: "cut copy paste | undo redo | searchreplace | alignleft alignjustify alignright | outdent indent | code fullscreen",
 toolbar2: "formatselect | bold italic strikethrough sub sup | bullist numlist | link unlink image media | removeformat",
 resize: 'both',
