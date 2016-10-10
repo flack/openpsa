@@ -124,6 +124,8 @@ class midcom_services_i18n_l10n
      */
     private $_version = '2.1.0';
 
+    private $database;
+
     /**
      * The constructor loads the translation library indicated by the snippetdir
      * path $library and initializes the system completely. The output character
@@ -135,7 +137,7 @@ class midcom_services_i18n_l10n
     public function __construct($library, $database)
     {
         $path = midcom::get()->componentloader->path_to_snippetpath($library) . "/locale/" . $database;
-
+        $this->database = $database;
         $this->_library_filename = $path;
         $this->_library = $library . $database;
         $this->_component_name = $library;
@@ -212,7 +214,7 @@ class midcom_services_i18n_l10n
 
         if (!empty(midcom::get()->componentloader->manifests[$this->_component_name]->extends))
         {
-            $parent_l10n = new self(midcom::get()->componentloader->manifests[$this->_component_name]->extends, $this->_library_filename);
+            $parent_l10n = new self(midcom::get()->componentloader->manifests[$this->_component_name]->extends, $this->database);
             $this->_stringdb[$lang] = $parent_l10n->get_stringdb($lang);
         }
 
@@ -224,7 +226,7 @@ class midcom_services_i18n_l10n
         $data = file($filename);
 
         // get site-specific l10n
-        $component_locale = midcom_helper_misc::get_snippet_content_graceful(midcom::get()->config->get('midcom_sgconfig_basedir') . "/" . $this->_component_name . "/l10n/" . $lang);
+        $component_locale = midcom_helper_misc::get_snippet_content_graceful(midcom::get()->config->get('midcom_sgconfig_basedir') . "/" . $this->_component_name . '/l10n/'. $this->database . '.' . $lang . '.txt');
         if (!empty($component_locale))
         {
             $data = array_merge($data, explode("\n", $component_locale));
