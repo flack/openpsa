@@ -140,9 +140,11 @@ class org_openpsa_contacts_duplicates_merge
                 {
                     if ($result->$field == $obj2->{$conf['target']})
                     {
+                        $result->$field = $obj1->{$conf['target']};
+                        $needs_update = true;
+
                         if (!empty($conf['duplicate_check']))
                         {
-                            $result->$field = $obj1->{$conf['target']};
                             $dup = $this->_check_duplicate($results, $result, $conf['duplicate_check']);
 
                             if (   is_object($dup)
@@ -157,7 +159,6 @@ class org_openpsa_contacts_duplicates_merge
                                 continue 2;
                             }
                         }
-                        $needs_update = true;
                     }
                 }
                 if (   $needs_update
@@ -294,7 +295,7 @@ class org_openpsa_contacts_duplicates_merge
     /**
      * Static method to handle components metadata dependencies
      */
-    private function _merge_metadata($class, &$person1, &$person2)
+    private function _merge_metadata($class, $person1, $person2)
     {
         $qb = call_user_func(array($class, 'new_query_builder'));
         $qb->begin_group('OR');
