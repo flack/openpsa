@@ -12,7 +12,7 @@
  * @package org.openpsa.directmarketing
  */
 class org_openpsa_directmarketing_interface extends midcom_baseclasses_components_interface
-implements midcom_services_permalinks_resolver, org_openpsa_contacts_duplicates_support
+implements midcom_services_permalinks_resolver
 {
     public function _on_watched_dba_delete($object)
     {
@@ -126,44 +126,5 @@ implements midcom_services_permalinks_resolver, org_openpsa_contacts_duplicates_
             return "message/{$object->guid}/";
         }
         return null;
-    }
-
-    public function get_merge_configuration($object_mode, $merge_mode)
-    {
-        $config = array();
-        if ($merge_mode == 'future')
-        {
-            // DirMar does not have future references so we have nothing to transfer...
-            return $config;
-        }
-        if ($object_mode == 'person')
-        {
-            $config['org_openpsa_directmarketing_campaign_member_dba'] = array
-            (
-                'person' => array
-                (
-                    'target' => 'id',
-                    'duplicate_check' => 'check_duplicate_membership'
-                )
-            );
-            $config['org_openpsa_directmarketing_campaign_messagereceipt_dba'] = array
-            (
-                'person' => array
-                (
-                    'target' => 'id',
-                )
-            );
-            $config['org_openpsa_directmarketing_link_log_dba'] = array
-            (
-                'person' => array
-                (
-                    'target' => 'id',
-                )
-            );
-            $config['org_openpsa_directmarketing_campaign_dba'] = array();
-            $config['org_openpsa_directmarketing_campaign_message_dba'] = array();
-
-        }
-        return $config;
     }
 }

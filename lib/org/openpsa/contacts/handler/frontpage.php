@@ -48,7 +48,7 @@ class org_openpsa_contacts_handler_frontpage extends midcom_baseclasses_componen
             ));
         }
 
-        $p_merger = new org_openpsa_contacts_duplicates_merge('person');
+        $p_merger = new org_openpsa_contacts_duplicates_merge('person', $this->_config);
         if ($p_merger->merge_needed())
         {
             $buttons[] = array

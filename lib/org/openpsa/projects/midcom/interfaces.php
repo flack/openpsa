@@ -12,7 +12,7 @@
  * @package org.openpsa.projects
  */
 class org_openpsa_projects_interface extends midcom_baseclasses_components_interface
-implements midcom_services_permalinks_resolver, org_openpsa_contacts_duplicates_support
+implements midcom_services_permalinks_resolver
 {
     public function resolve_object_link(midcom_db_topic $topic, midcom_core_dbaobject $object)
     {
@@ -164,49 +164,6 @@ implements midcom_services_permalinks_resolver, org_openpsa_contacts_duplicates_
         org_openpsa_relatedto_plugin::create($hr, 'org.openpsa.projects', $from_object, $from_component);
 
         return true;
-    }
-
-    public function get_merge_configuration($object_mode, $merge_mode)
-    {
-        $config = array();
-        if ($merge_mode == 'future')
-        {
-            /* In theory we could have future things (like resource/manager ships), but now we don't support that mode, we just exit */
-            return $config;
-        }
-        if ($object_mode == 'person')
-        {
-            $config['org_openpsa_projects_task_resource_dba'] = array
-            (
-                'person' => array
-                (
-                    'target' => 'id',
-                    'duplicate_check' => 'task'
-                )
-            );
-            $config['org_openpsa_projects_task_status_dba'] = array
-            (
-                'targetPerson' => array
-                (
-                    'target' => 'id',
-                )
-            );
-            $config['org_openpsa_projects_hour_report_dba'] = array
-            (
-                'person' => array
-                (
-                    'target' => 'id',
-                )
-            );
-            $config['org_openpsa_projects_task_dba'] = array
-            (
-                'manager' => array
-                (
-                    'target' => 'id',
-                )
-            );
-        }
-        return $config;
     }
 
     function background_search_resources($args, $handler)

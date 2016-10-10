@@ -13,7 +13,7 @@
  * @package org.openpsa.calendar
  */
 class org_openpsa_calendar_interface extends midcom_baseclasses_components_interface
-implements midcom_services_permalinks_resolver, org_openpsa_contacts_duplicates_support
+implements midcom_services_permalinks_resolver
 {
     public static function create_root_event()
     {
@@ -161,30 +161,5 @@ implements midcom_services_permalinks_resolver, org_openpsa_contacts_duplicates_
             return "event/{$object->guid}/";
         }
         return null;
-    }
-
-    public function get_merge_configuration($object_mode, $merge_mode)
-    {
-        $config = array();
-        if ($merge_mode == 'future')
-        {
-            // Contacts does not have future references so we have nothing to transfer...
-            return $config;
-        }
-        if ($object_mode == 'person')
-        {
-            $config['org_openpsa_calendar_event_member_dba'] = array
-            (
-                'uid' => array
-                (
-                    'target' => 'id',
-                    'duplicate_check' => 'eid'
-                )
-            );
-
-            $config['org_openpsa_calendar_event_dba'] = array();
-
-        }
-        return $config;
     }
 }

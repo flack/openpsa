@@ -13,7 +13,7 @@
  * @package org.openpsa.contacts
  */
 class org_openpsa_contacts_interface extends midcom_baseclasses_components_interface
-implements midcom_services_permalinks_resolver, org_openpsa_contacts_duplicates_support
+implements midcom_services_permalinks_resolver
 {
     /**
      * Prepares the component's indexer client
@@ -95,31 +95,6 @@ implements midcom_services_permalinks_resolver, org_openpsa_contacts_duplicates_
             return "person/{$object->guid}/";
         }
         return null;
-    }
-
-    public function get_merge_configuration($object_mode, $merge_mode)
-    {
-        $config = array();
-        if ($merge_mode == 'future')
-        {
-            // Contacts does not have future references so we have nothing to transfer...
-            return $config;
-        }
-        if ($object_mode == 'person')
-        {
-            $config['midcom_db_member'] = array
-            (
-                'uid' => array
-                (
-                    'target' => 'id',
-                    'duplicate_check' => 'gid'
-                )
-            );
-            $config['org_openpsa_contacts_person_dba'] = array();
-            $config['org_openpsa_contacts_group_dba'] = array();
-
-        }
-        return $config;
     }
 
     private function _get_data_from_url($url)

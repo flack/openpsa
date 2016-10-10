@@ -12,37 +12,8 @@
  * @package org.openpsa.invoices
  */
 class org_openpsa_invoices_interface extends midcom_baseclasses_components_interface
-implements midcom_services_permalinks_resolver, org_openpsa_contacts_duplicates_support
+implements midcom_services_permalinks_resolver
 {
-    public function get_merge_configuration($object_mode, $merge_mode)
-    {
-        $config = array();
-        if ($merge_mode == 'future')
-        {
-            // Contacts does not have future references so we have nothing to transfer...
-            return $config;
-        }
-        if ($object_mode == 'person')
-        {
-            $config['org_openpsa_invoices_invoice_dba'] = array
-            (
-                'customerContact' => array
-                (
-                    'target' => 'id'
-                )
-            );
-            $config['org_openpsa_invoices_billing_data_dba'] = array
-            (
-                'linkGuid' => array
-                (
-                    'target' => 'guid',
-                    'duplicate_check' => 'linkGuid'
-                )
-            );
-        }
-        return $config;
-    }
-
     public function resolve_object_link(midcom_db_topic $topic, midcom_core_dbaobject $object)
     {
         if ($object instanceof org_openpsa_invoices_invoice_dba)

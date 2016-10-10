@@ -17,11 +17,18 @@ class org_openpsa_contacts_duplicates_merge
     private $_errstr = false;
 
     /**
+     *
+     * @var midcom_helper_configuration
+     */
+    private $config;
+
+    /**
      * Constructor, the parameter governs which objects the instance works on
      * @param string mode, currently valid modes are 'person' and 'group'
      */
-    public function __construct($mode)
+    public function __construct($mode, midcom_helper_configuration $config)
     {
+        $this->config = $config;
         $this->_object_mode = $mode;
     }
 
@@ -58,65 +65,20 @@ class org_openpsa_contacts_duplicates_merge
                 return false;
         }
 
-        $components = array_keys(midcom::get()->componentloader->manifests);
-        //Check all installed components
-        foreach ($components as $component)
+        $config = $this->config->get($this->_object_mode . '_merge_configuration');
+
+        if (!$this->_process_dba_classes($obj1, $obj2, $config))
         {
-            if ($component == 'midcom')
-            {
-                //Skip midcom core
-                continue;
-            }
-            if (!$this->_call_component_merge($component, $obj1, $obj2, $merge_mode))
-            {
-                $this->_errstr = "component {$component} reported failure";
-                return false;
-            }
+            $this->_errstr = "DBA merge reported failure";
+            return false;
         }
+
         if ($this->_object_mode == 'person')
         {
             return $this->_merge_persons($obj1, $obj2);
         }
 
         return true;
-    }
-
-    /**
-     * Calls the given components interface method for merging duplicates
-     * (if said method exists)
-     *
-     * @param string component name
-     * @param object Object that data will be merged from
-     * @param object Object that data will be merged to
-     * @param string merge mode
-     * @return boolean Indicating success/failure
-     */
-    private function _call_component_merge($component, $obj1, $obj2, $merge_mode)
-    {
-        try
-        {
-            $interface = midcom::get()->componentloader->get_interface_class($component);
-        }
-        catch (midcom_error $e)
-        {
-            $e->log(MIDCOM_LOG_ERROR);
-            // PONDER: false or true (false means the merge will be aborted...)
-            return true;
-        }
-
-        if (!($interface instanceof org_openpsa_contacts_duplicates_support))
-        {
-            // Component does not wish to merge our stuff
-            debug_add("component {$component} does not support merging duplicate objects of type {$this->_object_mode}", MIDCOM_LOG_INFO);
-            return true;
-        }
-        $config = $interface->get_merge_configuration($this->_object_mode, $merge_mode);
-
-        if (empty($config))
-        {
-            return true;
-        }
-        return $this->_process_dba_classes($obj1, $obj2, $config);
     }
 
     private function _process_dba_classes($obj1, $obj2, $config)

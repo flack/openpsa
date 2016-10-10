@@ -14,7 +14,6 @@
  * @package org.openpsa.relatedto
  */
 class org_openpsa_relatedto_interface extends midcom_baseclasses_components_interface
-implements org_openpsa_contacts_duplicates_support
 {
     public function _on_watched_dba_create($object)
     {
@@ -66,32 +65,5 @@ implements org_openpsa_contacts_duplicates_support
             $link->delete();
         }
         midcom::get()->auth->drop_sudo();
-    }
-
-    public function get_merge_configuration($object_mode, $merge_mode)
-    {
-        $config = array();
-        if ($merge_mode == 'future')
-        {
-            // Relatedto does not have future references so we have nothing to transfer...
-            return $config;
-        }
-        if ($object_mode == 'person')
-        {
-            $config['org_openpsa_relatedto_dba'] = array
-            (
-                'fromGuid' => array
-                (
-                    'target' => 'guid',
-                    'duplicate_check' => 'toGuid'
-                ),
-                'toGuid' => array
-                (
-                    'target' => 'guid',
-                    'duplicate_check' => 'fromGuid'
-                )
-            );
-        }
-        return $config;
     }
 }

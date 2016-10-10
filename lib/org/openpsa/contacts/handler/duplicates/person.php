@@ -164,7 +164,7 @@ class org_openpsa_contacts_handler_duplicates_person extends midcom_baseclasses_
 
                 // TODO: Merge person2 data to person1 and then delete person2
 
-                $merger = new org_openpsa_contacts_duplicates_merge('person');
+                $merger = new org_openpsa_contacts_duplicates_merge('person', $this->_config);
                 if (!$merger->merge_delete($person1, $person2))
                 {
                     // TODO: Localize
