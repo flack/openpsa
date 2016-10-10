@@ -212,7 +212,7 @@ class midcom_services_i18n_l10n
 
         if (!empty(midcom::get()->componentloader->manifests[$this->_component_name]->extends))
         {
-            $parent_l10n = new self(midcom::get()->componentloader->manifests[$this->_component_name]->extends, 'default');
+            $parent_l10n = new self(midcom::get()->componentloader->manifests[$this->_component_name]->extends, $this->_library_filename);
             $this->_stringdb[$lang] = $parent_l10n->get_stringdb($lang);
         }
 
