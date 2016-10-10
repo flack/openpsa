@@ -23,6 +23,7 @@ class org_openpsa_contacts_handler_duplicates_person extends midcom_baseclasses_
     public function _handler_sidebyside($handler_id, array $args, array &$data)
     {
         $this->set_active_leaf('persons_merge');
+        $this->add_breadcrumb('', $this->_l10n->get('merge persons'));
 
         // Process the selection if present.
         $this->_process_selection();
@@ -33,11 +34,16 @@ class org_openpsa_contacts_handler_duplicates_person extends midcom_baseclasses_
         $this->_request_data['person2'] = false;
         $this->_request_data['loop_i'] = 0;
         $i =& $this->_request_data['loop_i'];
-        if (   isset($_REQUEST['org_openpsa_contacts_handler_duplicates_person_decide_later'])
-            && isset($_REQUEST['org_openpsa_contacts_handler_duplicates_person_loop_i']))
+
+        if (isset($_REQUEST['org_openpsa_contacts_handler_duplicates_person_loop_i']))
         {
-            $i = $_REQUEST['org_openpsa_contacts_handler_duplicates_person_loop_i']+1;
+            $i = $_REQUEST['org_openpsa_contacts_handler_duplicates_person_loop_i'];
+            if (isset($_REQUEST['org_openpsa_contacts_handler_duplicates_person_decide_later']))
+            {
+                $i++;
+            }
         }
+
         while ($i < 100)
         {
             debug_add("Loop iteration {$i}");
@@ -53,6 +59,12 @@ class org_openpsa_contacts_handler_duplicates_person extends midcom_baseclasses_
 
             if (empty($ret))
             {
+                if ($i > 0)
+                {
+                    // Process "decide later" cases
+                    $i = 0;
+                    continue;
+                }
                 debug_add("No more results to be had, setting notfound and breaking out of loop");
                 $this->_request_data['notfound'] = true;
                 break;
