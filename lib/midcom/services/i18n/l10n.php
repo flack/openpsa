@@ -223,17 +223,26 @@ class midcom_services_i18n_l10n
             return;
         }
 
-        $data = file($filename);
+        $data = $this->parse_data(file($filename), $lang, $filename);
 
         // get site-specific l10n
         $component_locale = midcom_helper_misc::get_snippet_content_graceful("conf:/" . $this->_component_name . '/l10n/'. $this->database . '.' . $lang . '.txt');
         if (!empty($component_locale))
         {
-            $data = array_merge($data, explode("\n", $component_locale));
+            $data = array_merge($data, $this->parse_data(explode("\n", $component_locale), $lang, $component_locale));
         }
 
-        // Parse the Array
-        $stringtable = Array();
+        $this->_stringdb[$lang] = array_merge($this->_stringdb[$lang], $data);
+
+        if (midcom::get()->config->get('cache_module_memcache_backend') != 'flatfile')
+        {
+            midcom::get()->cache->memcache->put('L10N', $filename, $this->_stringdb[$lang]);
+        }
+    }
+
+    private function parse_data(array $data, $lang, $filename)
+    {
+        $stringtable = array();
         $version = '';
         $language = '';
         $instring = false;
@@ -340,12 +349,7 @@ class midcom_services_i18n_l10n
         }
 
         ksort($stringtable, SORT_STRING);
-        $this->_stringdb[$lang] = array_merge($this->_stringdb[$lang], $stringtable);
-
-        if (midcom::get()->config->get('cache_module_memcache_backend') != 'flatfile')
-        {
-            midcom::get()->cache->memcache->put('L10N', $filename, $this->_stringdb[$lang]);
-        }
+        return $stringtable;
     }
 
     /**
