@@ -127,6 +127,11 @@ class org_openpsa_contacts_duplicates
 
         if ($this->_match('firstname', $person1, $person2))
         {
+            if ($this->_match('homephone', $person1, $person2))
+            {
+                $ret['fname_hphone_match'] = true;
+                $ret['p'] += 0.7;
+            }
             if ($this->_match('lastname', $person1, $person2))
             {
                 if ($this->_match('city', $person1, $person2))
@@ -139,29 +144,23 @@ class org_openpsa_contacts_duplicates
                     $ret['fname_lname_street_match'] = true;
                     $ret['p'] += 0.9;
                 }
-            }
-            if ($this->_match('homephone', $person1, $person2))
-            {
-                $ret['fname_hphone_match'] = true;
-                $ret['p'] += 0.7;
-            }
-        }
 
-        // We cannot do this check if person1 hasn't been created yet...
-        if (empty($person1['guid']))
-        {
-            return $ret;
-        }
-        $person1_memberships = $this->_load_memberships($person1['id']);
-        $person2_memberships = $this->_load_memberships($person2['id']);
+                // We cannot do this check if person1 hasn't been created yet...
+                if (!empty($person1['guid']))
+                {
+                    $person1_memberships = $this->_load_memberships($person1['id']);
+                    $person2_memberships = $this->_load_memberships($person2['id']);
 
-        foreach ($person1_memberships as $gid)
-        {
-            if (!empty($person2_memberships[$gid]))
-            {
-                $ret['fname_lname_company_match'] = true;
-                $ret['p'] += 0.5;
-                break;
+                    foreach ($person1_memberships as $gid)
+                    {
+                        if (!empty($person2_memberships[$gid]))
+                        {
+                            $ret['fname_lname_company_match'] = true;
+                            $ret['p'] += 0.5;
+                            break;
+                        }
+                    }
+                }
             }
         }
 
@@ -188,6 +187,7 @@ class org_openpsa_contacts_duplicates
         {
             $this->_membership_cache[$id] = array();
             $mc = midcom_db_member::new_collector('uid', $id);
+            $mc->add_constraint('gid.orgOpenpsaObtype', '<>', org_openpsa_contacts_group_dba::MYCONTACTS);
             $memberships = $mc->get_values('gid');
             foreach ($memberships as $member)
             {
@@ -381,11 +381,9 @@ class org_openpsa_contacts_duplicates
             //we've already examined this combination from the other end
             if ($key2 < $key1)
             {
-                if (   isset($this->p_map[$arr2['guid']][$arr1['guid']])
-                    && is_array($this->p_map[$arr2['guid']][$arr1['guid']]))
+                if (isset($this->p_map[$arr2['guid']][$arr1['guid']]))
                 {
-                    if (   !isset($this->p_map[$arr1['guid']])
-                        || !is_array($this->p_map[$arr1['guid']]))
+                    if (!isset($this->p_map[$arr1['guid']]))
                     {
                         $this->p_map[$arr1['guid']] = array();
                     }
@@ -420,14 +418,12 @@ class org_openpsa_contacts_duplicates
                 continue;
             }
 
-            if (   !isset($this->p_map[$arr1['guid']])
-                || !is_array($this->p_map[$arr1['guid']]))
+            if (!isset($this->p_map[$arr1['guid']]))
             {
                 $this->p_map[$arr1['guid']] = array();
             }
 
-            $map =& $this->p_map[$arr1['guid']];
-            $map[$arr2['guid']] = $p_arr;
+            $this->p_map[$arr1['guid']][$arr2['guid']] = $p_arr;
         }
     }
 

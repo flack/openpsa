@@ -23,7 +23,7 @@
         opts.passwordid = 'input[name="' + $(this).attr("name") + '"]';
         opts.userid = 'input[name="username"]';
         opts.submit_button = 'input[name^="midcom_helper_datamanager2_save]"]';
-        console.log(opts);
+
         $('input[name="org_openpsa_user_person_account_password_switch"]')
             .bind('change', function()
             {
@@ -100,7 +100,9 @@
 
         $.each(option.password_rules, function(i, rule)
         {
-            if (password.match(rule.match))
+            var regex = rule.match.replace(/^\//, '').replace(/\/$/, '');
+
+            if (password.match(regex))
             {
                 score += rule.score;
             }
