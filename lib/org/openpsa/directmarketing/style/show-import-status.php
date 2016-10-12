@@ -1,5 +1,5 @@
 <div class="main">
-    <h1><?php echo sprintf($data['l10n']->get('import subscribers to "%s"'), $data['campaign']->title); ?></h1>
+    <h1><?php printf($data['l10n']->get('import subscribers to "%s"'), $data['campaign']->title); ?></h1>
 
     <table>
         <thead>
@@ -24,7 +24,7 @@
 
     <p>
         <?php
-        echo sprintf($data['l10n']->get('import took %s seconds'), $data['time_end'] - $data['time_start']);
+        printf($data['l10n']->get('import took %s seconds'), $data['time_end'] - $data['time_start']);
         ?>
     </p>
 </div>

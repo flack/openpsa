@@ -9,7 +9,7 @@ else
     $component_label = midcom::get()->i18n->get_string($data['component'], $data['component']);
 }
 echo "<h2>";
-echo sprintf($data['l10n_midcom']->get('%s in %s'),
+printf($data['l10n_midcom']->get('%s in %s'),
         midgard_admin_asgard_plugin::get_type_label($data['type']),
         $component_label);
 echo "</h2>";
@@ -17,7 +17,7 @@ echo "</h2>";
 echo "<p>";
 if ($data['parent_type'])
 {
-    echo sprintf($data['l10n']->get('%s is under type %s'), midgard_admin_asgard_plugin::get_type_label($data['type']), "<a href=\"{$prefix}__mfa/asgard/{$data['parent_type']}/\">" . midgard_admin_asgard_plugin::get_type_label($data['parent_type']) . "</a>") . ' ';
+    printf($data['l10n']->get('%s is under type %s'), midgard_admin_asgard_plugin::get_type_label($data['type']), "<a href=\"{$prefix}__mfa/asgard/{$data['parent_type']}/\">" . midgard_admin_asgard_plugin::get_type_label($data['parent_type']) . "</a>") . ' ';
 }
 
 if ($data['component'] == 'midgard')
@@ -26,7 +26,7 @@ if ($data['component'] == 'midgard')
 }
 else
 {
-    echo sprintf($data['l10n']->get('this type belongs to %s component'), "<a href=\"{$prefix}__mfa/asgard/components/{$data['component']}/\">{$data['component']}</a>") . "</p>\n";
+    printf($data['l10n']->get('this type belongs to %s component'), "<a href=\"{$prefix}__mfa/asgard/components/{$data['component']}/\">{$data['component']}</a>") . "</p>\n";
 }
 ?>
 

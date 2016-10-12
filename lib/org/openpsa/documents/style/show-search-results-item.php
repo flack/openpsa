@@ -30,7 +30,7 @@ if ($att)
 } ?>
 
 <ul>
-    <li><?php echo sprintf($data['l10n']->get('score: %d%%'), $score); ?></li>
+    <li><?php printf($data['l10n']->get('score: %d%%'), $score); ?></li>
     <?php if ($att)
     {
         echo '<li>' . $document_type . "</li>\n";

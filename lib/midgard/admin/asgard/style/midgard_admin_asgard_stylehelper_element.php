@@ -2,7 +2,7 @@
 $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 ?>
 <div class="midgard_admin_asgard_stylehelper_help">
-    <h3><?php echo sprintf($data['l10n']->get('element %s from component %s'), $data['object']->name, midcom::get()->i18n->get_string($data['help_style_element']['component'], $data['help_style_element']['component'])); ?></h3>
+    <h3><?php printf($data['l10n']->get('element %s from component %s'), $data['object']->name, midcom::get()->i18n->get_string($data['help_style_element']['component'], $data['help_style_element']['component'])); ?></h3>
     <div>
         <label for="midgard_admin_asgard_stylehelper_help_default">
             <?php echo $data['l10n']->get('element defaults'); ?>

@@ -5,7 +5,7 @@ $data['calendar_options']['header'] = false;
 $data['calendar_options']['navLinks'] = false;
 ?>
 
-<h2><?php echo sprintf($data['l10n']->get('events on %s'), $data['l10n']->get_formatter()->date($data['date'], 'full')); ?></h2>
+<h2><?php printf($data['l10n']->get('events on %s'), $data['l10n']->get_formatter()->date($data['date'], 'full')); ?></h2>
 
 <div id="org_openpsa_calendar_widget">
 </div>

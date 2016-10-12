@@ -2,7 +2,7 @@
         <td colspan="2">&nbsp;</td>
         <td class="hours" colspan="2">
             <?php
-            echo sprintf($data['l10n']->get('%02.2f hours (%02.2f invoiceable) reported'), $data['day_hours_total'], $data['day_hours_invoiceable']);
+            printf($data['l10n']->get('%02.2f hours (%02.2f invoiceable) reported'), $data['day_hours_total'], $data['day_hours_invoiceable']);
             ?>
         </td>
     </tr>

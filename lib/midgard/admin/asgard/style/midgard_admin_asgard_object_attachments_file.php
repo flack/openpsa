@@ -1,4 +1,4 @@
-<h1><?php echo sprintf($data['l10n']->get('edit file %s'), $data['filename']); ?></h1>
+<h1><?php printf($data['l10n']->get('edit file %s'), $data['filename']); ?></h1>
 
 <form method="post" enctype="multipart/form-data" class="datamanager2" action="<?php echo midcom_connection::get_url('uri'); ?>" onsubmit="midgard_admin_asgard_file_edit.toggleEditor();">
     <fieldset class="fieldset">

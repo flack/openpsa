@@ -1,4 +1,4 @@
-<h1><?php echo sprintf($data['l10n']->get('directory index for %s'), $data['topic']->extra); ?></h1>
+<h1><?php printf($data['l10n']->get('directory index for %s'), $data['topic']->extra); ?></h1>
 
 <table cellpadding='3'>
   <thead>

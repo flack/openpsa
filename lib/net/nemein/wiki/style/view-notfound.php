@@ -7,7 +7,7 @@ $node = $nap->get_node($nap->get_current_node());
 
     <p>
     <?php
-    echo sprintf($data['l10n']->get('page %s not found in wiki %s'), $data['wikiword'], $data['wiki_name']);
+    printf($data['l10n']->get('page %s not found in wiki %s'), $data['wikiword'], $data['wiki_name']);
     ?>
     </p>
 

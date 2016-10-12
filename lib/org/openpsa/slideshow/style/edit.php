@@ -1,7 +1,7 @@
 <?php
 $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 ?>
-<h1><?php echo sprintf($data['l10n_midcom']->get('edit %s'), $data['l10n']->get('slideshow')); ?></h1>
+<h1><?php printf($data['l10n_midcom']->get('edit %s'), $data['l10n']->get('slideshow')); ?></h1>
 
 <form method="get" action="&(prefix);">
 <input type="file" multiple="multiple" id="upload_field" />

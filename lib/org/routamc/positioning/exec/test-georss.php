@@ -8,7 +8,7 @@ $coordinates = $html->get_georss_location($user);
 
 if ($coordinates)
 {
-    echo sprintf('According to your GeoRSS feed your position is %s', org_routamc_positioning_utils::microformat_location($coordinates['latitude'], $coordinates['longitude']));
+    printf('According to your GeoRSS feed your position is %s', org_routamc_positioning_utils::microformat_location($coordinates['latitude'], $coordinates['longitude']));
 }
 else
 {

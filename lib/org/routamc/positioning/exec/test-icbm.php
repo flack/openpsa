@@ -8,7 +8,7 @@ $coordinates = $html->get_icbm_location($user);
 
 if ($coordinates)
 {
-    echo sprintf('According to ICBM URL your position is %s', org_routamc_positioning_utils::microformat_location($coordinates['latitude'], $coordinates['longitude']));
+    printf('According to ICBM URL your position is %s', org_routamc_positioning_utils::microformat_location($coordinates['latitude'], $coordinates['longitude']));
 }
 else
 {

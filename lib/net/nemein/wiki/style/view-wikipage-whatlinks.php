@@ -2,7 +2,7 @@
 $view = $data['wikipage_view'];
 ?>
 
-<h1><?php echo sprintf($data['l10n']->get('pages linking to %s'), $view['title']); ?></h1>
+<h1><?php printf($data['l10n']->get('pages linking to %s'), $view['title']); ?></h1>
 
 <?php
 if (count($data['wikilinks']) > 0)

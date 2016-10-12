@@ -10,7 +10,7 @@
     <div class="helptext">
         <?php
         $data['search_fields_l10n'] = array_map(array($data['l10n'], 'get'), $data['search_fields']);
-        echo sprintf($data['l10n']->get('the following fields will be searched: %s'), implode(', ', $data['search_fields_l10n']));
+        printf($data['l10n']->get('the following fields will be searched: %s'), implode(', ', $data['search_fields_l10n']));
         ?>
     </div>
 </form>

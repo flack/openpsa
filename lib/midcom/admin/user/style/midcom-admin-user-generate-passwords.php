@@ -23,10 +23,10 @@ if (!isset($_GET['ajax-form']))
 ?>
         <form method="get" action="<?php echo midcom_connection::get_url('uri'); ?>" id="midcom_admin_user_generated_passwords_form">
             <label for="amount">
-                <span class="label"><?php echo $data['l10n']->get('amount'); ?></span> <input type="text" name="n" id="amount" value="<?php echo $n; ?>" size="2"  maxlength="4" /> (<?php echo sprintf($data['l10n']->get('maximum %s'), $max_amount); ?>)
+                <span class="label"><?php echo $data['l10n']->get('amount'); ?></span> <input type="text" name="n" id="amount" value="<?php echo $n; ?>" size="2"  maxlength="4" /> (<?php printf($data['l10n']->get('maximum %s'), $max_amount); ?>)
             </label>
             <label for="length">
-                <span class="label"><?php echo $data['l10n']->get('password length'); ?></span> <input type="text" name="length" id="length" value="<?php echo $length; ?>" size="2" maxlength="2" /> (<?php echo sprintf($data['l10n']->get('maximum %s'), $max_length); ?>)
+                <span class="label"><?php echo $data['l10n']->get('password length'); ?></span> <input type="text" name="length" id="length" value="<?php echo $length; ?>" size="2" maxlength="2" /> (<?php printf($data['l10n']->get('maximum %s'), $max_length); ?>)
             </label>
             <label for="repeated_characters">
                 <input type="checkbox" id="repeated_characters" name="strong" value="1" <?php if ($strong) { echo ' checked="checked"'; } ?> />
@@ -61,7 +61,7 @@ if (   !is_numeric($n)
 elseif ((int) $n > $max_amount
     || (int) $length > $max_length)
 {
-    echo sprintf($data['l10n']->get('only up to %s passwords with maximum length of %s characters'), $max_amount, $max_length);
+    printf($data['l10n']->get('only up to %s passwords with maximum length of %s characters'), $max_amount, $max_length);
 }
 else
 {

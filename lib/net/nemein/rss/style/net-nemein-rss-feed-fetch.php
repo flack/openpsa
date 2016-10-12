@@ -2,7 +2,7 @@
 if (isset($data['feed']))
 {
     ?>
-    <h1><?php echo sprintf($data['l10n']->get('fetch feed %s'), $data['feed']->title); ?></h1>
+    <h1><?php printf($data['l10n']->get('fetch feed %s'), $data['feed']->title); ?></h1>
     <?php
 }
 else

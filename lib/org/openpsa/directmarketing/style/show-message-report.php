@@ -55,13 +55,13 @@ else
         if ($report['campaign_data']['next_message'])
         {
     ?>
-        <td class="title"><?php echo sprintf($l10n->get('unsubscribed between %s - %s'), $first_send, $formatter->datetime($report['campaign_data']['next_message']->sendStarted)); ?></td>
+        <td class="title"><?php printf($l10n->get('unsubscribed between %s - %s'), $first_send, $formatter->datetime($report['campaign_data']['next_message']->sendStarted)); ?></td>
     <?php
         }
         else
         {
     ?>
-        <td class="title"><?php echo sprintf($l10n->get('unsubscribed since %s'), $first_send); ?></td>
+        <td class="title"><?php printf($l10n->get('unsubscribed since %s'), $first_send); ?></td>
     <?php
         }
     ?>

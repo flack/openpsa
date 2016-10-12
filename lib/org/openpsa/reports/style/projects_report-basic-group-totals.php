@@ -12,6 +12,6 @@ if (array_key_exists('invoiceable_filter', $query_data))
 }
 ?>
                     <tr class="totals">
-                        <td colspan="&(span);"><?php echo sprintf($data['l10n']->get('%s total'), $group['title']); ?></td>
+                        <td colspan="&(span);"><?php printf($data['l10n']->get('%s total'), $group['title']); ?></td>
                         <td class="numeric"><?php printf('%01.2f', $group['total_hours']); ?></td>
                     </tr>

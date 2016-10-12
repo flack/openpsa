@@ -15,8 +15,8 @@ catch (midcom_error $e)
     <div class="midcom_helper_datamanager2_unlock">
         <h2><?php echo $this->data['handler']->_l10n->get('object locked'); ?></h2>
         <p>
-            <?php echo sprintf($this->data['handler']->_l10n->get('this object was locked by %s'), $name); ?>.
-            <?php echo sprintf($this->data['handler']->_l10n->get('lock will expire on %s'), $formatter->datetime(($metadata->get('locked') + (midcom::get()->config->get('metadata_lock_timeout') * 60)))); ?>.
+            <?php printf($this->data['handler']->_l10n->get('this object was locked by %s'), $name); ?>.
+            <?php printf($this->data['handler']->_l10n->get('lock will expire on %s'), $formatter->datetime(($metadata->get('locked') + (midcom::get()->config->get('metadata_lock_timeout') * 60)))); ?>.
         </p>
 <?php
 if ($metadata->can_unlock())

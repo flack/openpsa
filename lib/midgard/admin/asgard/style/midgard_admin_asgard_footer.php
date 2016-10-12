@@ -18,7 +18,7 @@
                                 $creator_string = $data['l10n']->get('unknown person');
                             }
                             $created = (int) $view_metadata->get('created');
-                            echo sprintf($data['l10n']->get('created by %s on %s'), $creator_string, strftime('%c', $created)) . "\n";
+                            printf($data['l10n']->get('created by %s on %s'), $creator_string, strftime('%c', $created)) . "\n";
 
                             $edited = (int) $view_metadata->get('revised');
                             $revision = $view_metadata->get('revision');
@@ -35,7 +35,7 @@
                                     $editor_string = $data['l10n']->get('unknown person');
                                 }
 
-                                echo sprintf($data['l10n']->get('last edited by %s on %s (revision %s)'), $editor_string, strftime('%c', $edited), $revision) . "\n";
+                                printf($data['l10n']->get('last edited by %s on %s (revision %s)'), $editor_string, strftime('%c', $edited), $revision) . "\n";
                             }
                         }
                         ?>

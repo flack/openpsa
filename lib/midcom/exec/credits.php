@@ -161,7 +161,7 @@ ksort($developers);
                                         ?>
                                         <dt>
                                             <?php
-                                            echo sprintf(midcom::get()->i18n->get_string('%s of packages of type %s', 'midcom'), midcom::get()->i18n->get_string($role, 'midcom'), midcom::get()->i18n->get_string($package_type, 'midcom'));
+                                            printf(midcom::get()->i18n->get_string('%s of packages of type %s', 'midcom'), midcom::get()->i18n->get_string($role, 'midcom'), midcom::get()->i18n->get_string($package_type, 'midcom'));
                                             ?>
                                         </dt>
                                         <dd>

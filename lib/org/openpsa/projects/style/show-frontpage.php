@@ -21,7 +21,7 @@ $formatter = $data['l10n']->get_formatter();
        <tr>
         <td colspan="8">
         <?php
-        echo sprintf($data['l10n']->get('%d closed projects'), $data['closed_count']);
+        printf($data['l10n']->get('%d closed projects'), $data['closed_count']);
         ?>
         </td>
        </tr>

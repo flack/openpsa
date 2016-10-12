@@ -8,7 +8,7 @@ $node = $nap->get_node($nap->get_current_node());
     {
         ?>
         <div class="area parent">
-          <h2><?php echo sprintf($data['l10n']->get('%s of'), $data['l10n']->get($data['view']['organization_type'])); ?></h2>
+          <h2><?php printf($data['l10n']->get('%s of'), $data['l10n']->get($data['view']['organization_type'])); ?></h2>
             <dl>
                 <dt><?php echo "<a href=\"{$node[MIDCOM_NAV_ABSOLUTEURL]}group/{$data['parent_group']->guid}/\">{$data['parent_group']->official}</a>"; ?></dt>
             </dl>

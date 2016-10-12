@@ -1,7 +1,7 @@
 <?php
 $label = $data['label_property'];
 echo "<h2>";
-echo sprintf($data['l10n']->get('%s trash'), midgard_admin_asgard_plugin::get_type_label($data['type']));
+printf($data['l10n']->get('%s trash'), midgard_admin_asgard_plugin::get_type_label($data['type']));
 echo "</h2>";
 
 $shown = array();

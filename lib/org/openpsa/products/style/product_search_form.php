@@ -42,21 +42,21 @@ if (!function_exists('org_openpsa_products_search_value_helper'))
     <input type="hidden" name="org_openpsa_products_search[1][property]" value="title" />
     <input type="hidden" name="org_openpsa_products_search[1][constraint]" value="LIKE" />
     <label>
-        <span class="field_text"><?php echo sprintf($data['l10n']->get('%s includes'), $data['l10n_midcom']->get('title')); ?></span>
+        <span class="field_text"><?php printf($data['l10n']->get('%s includes'), $data['l10n_midcom']->get('title')); ?></span>
         <input class="shorttext" type="text" name="org_openpsa_products_search[1][value]"<?php org_openpsa_products_search_value_helper(1); ?> />
     </label>
 
     <input type="hidden" name="org_openpsa_products_search[2][property]" value="price" />
     <input type="hidden" name="org_openpsa_products_search[2][constraint]" value=">=" />
     <label>
-        <span class="field_text"><?php echo sprintf($data['l10n']->get('%s is at least'), $data['l10n']->get('price')); ?></span>
+        <span class="field_text"><?php printf($data['l10n']->get('%s is at least'), $data['l10n']->get('price')); ?></span>
         <input class="shorttext" type="text" name="org_openpsa_products_search[2][value]"<?php org_openpsa_products_search_value_helper(2); ?> />
     </label>
 
     <input type="hidden" name="org_openpsa_products_search[3][property]" value="orgOpenpsaObtype" />
     <input type="hidden" name="org_openpsa_products_search[3][constraint]" value=">=" />
     <label>
-        <span class="field_text"><?php echo sprintf($data['l10n']->get('%s is'), $data['l10n']->get('type')); ?></span>
+        <span class="field_text"><?php printf($data['l10n']->get('%s is'), $data['l10n']->get('type')); ?></span>
         <select name="org_openpsa_products_search[3][value]">
 <?php
     $options = array

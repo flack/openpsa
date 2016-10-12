@@ -7,18 +7,18 @@ foreach ($this->data['objects'] as $object)
     $type = get_class($object);
     if (!isset($this->data['datamanagers'][$type]))
     {
-        echo sprintf(midcom::get()->i18n->get_string('not recreating object %s %s, reason %s', 'midcom'), $type, $object->guid, 'No datamanager defined') . "\n";
+        printf(midcom::get()->i18n->get_string('not recreating object %s %s, reason %s', 'midcom'), $type, $object->guid, 'No datamanager defined') . "\n";
         continue;
     }
 
     if (   !$object->can_do('midgard:update')
         || !$object->can_do('midgard:attachments'))
     {
-        echo sprintf(midcom::get()->i18n->get_string('not recreating object %s %s, reason %s', 'midcom'), $type, $object->guid, 'Insufficient privileges') . "\n";
+        printf(midcom::get()->i18n->get_string('not recreating object %s %s, reason %s', 'midcom'), $type, $object->guid, 'Insufficient privileges') . "\n";
         continue;
     }
 
-    echo sprintf(midcom::get()->i18n->get_string('recreating object %s %s', 'midcom'), $type, $object->guid) . ': ';
+    printf(midcom::get()->i18n->get_string('recreating object %s %s', 'midcom'), $type, $object->guid) . ': ';
     $this->data['datamanagers'][$type]->autoset_storage($object);
     if (!$this->data['datamanagers'][$type]->recreate())
     {
