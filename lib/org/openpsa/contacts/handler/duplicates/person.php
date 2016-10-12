@@ -70,7 +70,7 @@ class org_openpsa_contacts_handler_duplicates_person extends midcom_baseclasses_
                 break;
             }
 
-            $param =& $ret[0];
+            $param = $ret[0];
             debug_add("Found duplicate mark on person {$param->parentguid} for person {$param->name}");
             try
             {

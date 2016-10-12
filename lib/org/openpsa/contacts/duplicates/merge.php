@@ -44,7 +44,7 @@ class org_openpsa_contacts_duplicates_merge
      * @param object Object that data will be merged to
      * @param object Object that data will be merged from
      */
-    function merge($obj1, $obj2, $merge_mode)
+    public function merge($obj1, $obj2, $merge_mode)
     {
         if (   $merge_mode !== 'all'
             && $merge_mode !== 'future')
@@ -182,9 +182,8 @@ class org_openpsa_contacts_duplicates_merge
      *
      * @param midcom_core_dbaobject $obj1 Object that will remain
      * @param midcom_core_dbaobject $obj2 Object that will be deleted
-     * @return boolean Indicating success/Failure
      */
-    function merge_delete(midcom_core_dbaobject $obj1, midcom_core_dbaobject $obj2)
+    public function merge_delete(midcom_core_dbaobject $obj1, midcom_core_dbaobject $obj2)
     {
         $this->merge($obj1, $obj2, 'all');
         if (!$obj2->delete())
@@ -240,9 +239,10 @@ class org_openpsa_contacts_duplicates_merge
      *
      * Note: does not check user's privileges or that the objects actually exist (the cleanup cronjob
      * handles dangling references)
+     *
      * @return boolean indicating need for processing (merge/not duplicate)
      */
-    function merge_needed()
+    public function merge_needed()
     {
         $qb = new midgard_query_builder('midgard_parameter');
         $qb->add_constraint('domain', '=', 'org.openpsa.contacts.duplicates:possible_duplicate');
