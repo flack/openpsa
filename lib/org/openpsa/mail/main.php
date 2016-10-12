@@ -249,7 +249,6 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
         $this->_do_image_embedding = true;
     }
 
-
     /**
      * Get error message from mail class
      */

@@ -34,7 +34,6 @@ class midcom_helper_exporter_xml extends midcom_helper_exporter
         return $this->_xml_to_array(new SimpleXMLIterator($data));
     }
 
-
     private function _xml_to_array(SimpleXMLIterator $sxi)
     {
         $data = array();

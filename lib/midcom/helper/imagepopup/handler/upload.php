@@ -91,7 +91,6 @@ class midcom_helper_imagepopup_handler_upload extends midcom_baseclasses_compone
         return $modifyFilename;
     }
 
-
     /**
      * @param string $filename The file name
      * @param string $parentguid The parent GUID

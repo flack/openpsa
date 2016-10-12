@@ -288,7 +288,6 @@ class midcom_helper__styleloader
             return $value;
         }
 
-
         // No such element on this level, check parents
         $style_mc = midgard_style::new_collector('id', $id);
         $style_mc->set_key_property('guid');

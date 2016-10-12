@@ -16,7 +16,6 @@ body .shell-error
     text-shadow: 1px 1px 2px rgba(0, 0, 0, .1);
 }
 
-
 #midcom_services_uimessages_wrapper div.midcom_services_uimessages_message
 {
     background-color: #3465a4;
@@ -52,7 +51,6 @@ body .shell-error
 {
     background-color: #cc0000;
 }
-
 
 </style>
 </head>

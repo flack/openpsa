@@ -86,7 +86,6 @@ class midcom_config_test
         $this->check_rcs();
     }
 
-
     private function check_rcs()
     {
         $config = midcom::get()->config;

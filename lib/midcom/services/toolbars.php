@@ -236,7 +236,6 @@ class midcom_services_toolbars
         $this->_toolbars[$context_id][$identifier] = $toolbar;
     }
 
-
     /**
      * Binds the a toolbar to a DBA object. This will append a number of globally available
      * toolbar options. For example, expect Metadata- and Version Control-related options
