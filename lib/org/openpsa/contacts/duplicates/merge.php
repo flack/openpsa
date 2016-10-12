@@ -14,7 +14,6 @@
 class org_openpsa_contacts_duplicates_merge
 {
     private $_object_mode = false;
-    private $_errstr = false;
 
     /**
      *
@@ -30,6 +29,10 @@ class org_openpsa_contacts_duplicates_merge
     {
         $this->config = $config;
         $this->_object_mode = $mode;
+        if ($this->_object_mode !== 'person' && $this->_object_mode !== 'group')
+        {
+            throw new midcom_error('invalid object mode');
+        }
     }
 
     /**
@@ -40,45 +43,25 @@ class org_openpsa_contacts_duplicates_merge
      *
      * @param object Object that data will be merged to
      * @param object Object that data will be merged from
-     * @return boolean Indicating success/failure
      */
     function merge($obj1, $obj2, $merge_mode)
     {
         if (   $merge_mode !== 'all'
             && $merge_mode !== 'future')
         {
-            $this->_errstr = 'invalid merge mode';
             debug_add("invalid mode {$merge_mode}", MIDCOM_LOG_ERROR);
-            return false;
+            throw new midcom_error('invalid merge mode');
         }
 
         // TODO: Check that both objects are of valid class for object mode
-        switch ($this->_object_mode)
-        {
-            case 'person':
-                break;
-            case 'group':
-                break;
-            default:
-                // object mode not set properly
-                $this->_errstr = 'invalid object mode';
-                return false;
-        }
-
         $config = $this->config->get($this->_object_mode . '_merge_configuration');
 
-        if (!$this->_process_dba_classes($obj1, $obj2, $config))
-        {
-            $this->_errstr = "DBA merge reported failure";
-            return false;
-        }
+        $this->_process_dba_classes($obj1, $obj2, $config);
 
         if ($this->_object_mode == 'person')
         {
-            return $this->_merge_persons($obj1, $obj2);
+            $this->_merge_persons($obj1, $obj2);
         }
-
-        return true;
     }
 
     private function _process_dba_classes($obj1, $obj2, $config)
@@ -126,25 +109,21 @@ class org_openpsa_contacts_duplicates_merge
                 if (   $needs_update
                     && !$result->update())
                 {
-                    debug_add("Failed to update {$classname} #{$result->id}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-                    return false;
+                    throw new midcom_error("Failed to update {$classname} #{$result->id}, errstr: " . midcom_connection::get_error_string());
                 }
-                if (   $this->_object_mode == 'person'
-                    && !$this->_merge_metadata($classname, $obj1, $obj2))
+                if ($this->_object_mode == 'person')
                 {
-                    return false;
+                    $this->_merge_metadata($classname, $obj1, $obj2);
                 }
             }
             foreach ($todelete as $object)
             {
                 if (!$object->delete())
                 {
-                    debug_add("Failed to delete {$classname} #{$object->id}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-                    return false;
+                    throw new midcom_error("Failed to delete {$classname} #{$object->id}, errstr: " . midcom_connection::get_error_string());
                 }
             }
         }
-        return true;
     }
 
     private function _check_duplicate(array $results, midcom_core_dbaobject $object, $field)
@@ -192,13 +171,10 @@ class org_openpsa_contacts_duplicates_merge
         {
             if (!$person1->update())
             {
-                // Error updating person
-                debug_add("Error updating person #{$person1->id}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-                return false;
+                throw new midcom_error("Error updating person #{$person1->id}, errstr: " . midcom_connection::get_error_string());
             }
         }
         // PONDER: sensible way to do the same for parameters ??
-        return true;
     }
 
     /**
@@ -210,48 +186,22 @@ class org_openpsa_contacts_duplicates_merge
      */
     function merge_delete(midcom_core_dbaobject $obj1, midcom_core_dbaobject $obj2)
     {
-        if (!$this->merge($obj1, $obj2, 'all'))
+        $this->merge($obj1, $obj2, 'all');
+        if (!$obj2->delete())
         {
-            // Some error occurred during merges, abort
-            return false;
+            throw new midcom_error('Deletion failed: ' . midcom_connection::get_error_string());
         }
-        $stat = $obj2->delete();
-        if (!$stat)
+        $qb = new midgard_query_builder('midgard_parameter');
+        $qb->add_constraint('domain', 'LIKE', 'org.openpsa.contacts.duplicates:%');
+        $qb->add_constraint('name', '=', $obj2->guid);
+        $results = $qb->execute();
+        foreach ($results as $param)
         {
-            $this->_errstr = midcom_connection::get_error_string();
-        }
-        else
-        {
-            $qb = new midgard_query_builder('midgard_parameter');
-            $qb->add_constraint('domain', 'LIKE', 'org.openpsa.contacts.duplicates:%');
-            $qb->add_constraint('name', '=', $obj2->guid);
-            $results = $qb->execute();
-            foreach ($results as $param)
+            if (!$param->delete())
             {
-                if (!$param->delete())
-                {
-                    debug_add("Failed to delete parameter {$param->guid}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-                }
+                debug_add("Failed to delete parameter {$param->guid}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
             }
         }
-        return $stat;
-    }
-
-    /**
-     * Returns somewhat descriptive error strings
-     * @return string latest error
-     */
-    function errstr()
-    {
-        if ($this->_errstr === false)
-        {
-            return 'no error';
-        }
-        if (empty($this->_errstr))
-        {
-            return 'unknown error';
-        }
-        return $this->_errstr;
     }
 
     /**
@@ -280,13 +230,9 @@ class org_openpsa_contacts_duplicates_merge
             }
             if (!$object->update())
             {
-                // Failure updating object
-                debug_add("Could not update object {$class} #{$object->id}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-                return false;
+                throw new midcom_error("Could not update object {$class} #{$object->id}, errstr: " . midcom_connection::get_error_string());
             }
         }
-
-        return true;
     }
 
     /**
@@ -298,17 +244,6 @@ class org_openpsa_contacts_duplicates_merge
      */
     function merge_needed()
     {
-        switch ($this->_object_mode)
-        {
-            case 'person':
-                break;
-            case 'group':
-                break;
-            default:
-                // object mode not set properly
-                $this->_errstr = 'invalid object mode';
-                return false;
-        }
         $qb = new midgard_query_builder('midgard_parameter');
         $qb->add_constraint('domain', '=', 'org.openpsa.contacts.duplicates:possible_duplicate');
         $qb->add_order('name', 'ASC');

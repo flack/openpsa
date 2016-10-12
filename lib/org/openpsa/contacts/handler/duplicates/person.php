@@ -162,13 +162,15 @@ class org_openpsa_contacts_handler_duplicates_person extends midcom_baseclasses_
                 $person1->require_do('midgard:update');
                 $person2->require_do('midgard:delete');
 
-                // TODO: Merge person2 data to person1 and then delete person2
-
-                $merger = new org_openpsa_contacts_duplicates_merge('person', $this->_config);
-                if (!$merger->merge_delete($person1, $person2))
+                try
+                {
+                    $merger = new org_openpsa_contacts_duplicates_merge('person', $this->_config);
+                    $merger->merge_delete($person1, $person2);
+                }
+                catch (midcom_error $e)
                 {
                     // TODO: Localize
-                    midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.contacts'), 'Merge failed, errstr: ' . $merger->errstr(), 'error');
+                    midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.contacts'), 'Merge failed, errstr: ' . $e->getMessage(), 'error');
                 }
             }
 
