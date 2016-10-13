@@ -192,8 +192,7 @@ class midcom_helper_datamanager2_indexer_document extends midcom_services_indexe
                     break;
 
                 case 'attachment':
-                    if (   isset($this->_datamanager->types[$name]->attachments_info)
-                        && sizeof($this->_datamanager->types[$name]->attachments_info) > 0)
+                    if (!empty($this->_datamanager->types[$name]->attachments_info))
                     {
                         //only index the first attachment for now
                         $attachment = array_shift($this->_datamanager->types[$name]->attachments_info);

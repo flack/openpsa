@@ -52,8 +52,7 @@ implements midcom_services_permalinks_resolver
         $data = midcom_baseclasses_components_configuration::get('org.openpsa.calendar');
 
         //Check if we have already initialized
-        if (   isset($data['calendar_root_event'])
-            && is_object($data['calendar_root_event']))
+        if (!empty($data['calendar_root_event']))
         {
             return $data['calendar_root_event'];
         }

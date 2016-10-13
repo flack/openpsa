@@ -292,7 +292,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         {
             $backend_config['directory'] = 'content/';
         }
-        if (! isset($backend_config['driver']))
+        if (!isset($backend_config['driver']))
         {
             $backend_config['driver'] = 'null';
         }
@@ -413,8 +413,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
 
         $data = $this->_meta_cache->get($content_id);
 
-        if (   isset($data['expires'])
-            && !is_null($data['expires']))
+        if (isset($data['expires']))
         {
             if ($data['expires'] < time())
             {

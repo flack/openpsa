@@ -435,8 +435,7 @@ class midcom_services_metadata
         {
             // No object given, use object bound to view
             $context_id = midcom_core_context::get()->id;
-            if (   !isset($this->_metadata[$context_id][MIDCOM_METADATA_VIEW])
-                || !$this->_metadata[$context_id][MIDCOM_METADATA_VIEW])
+            if (empty($this->_metadata[$context_id][MIDCOM_METADATA_VIEW]))
             {
                 return '';
             }
