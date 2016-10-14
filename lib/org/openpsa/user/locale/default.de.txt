@@ -123,7 +123,7 @@ Gruppen-Informationen
 ---STRINGEND
 
 ---STRING last login
-Letzer Login
+Letzter Login
 ---STRINGEND
 
 ---STRING notification settings
