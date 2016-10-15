@@ -22,28 +22,30 @@ class org_openpsa_contacts_handler_duplicates_person extends midcom_baseclasses_
      */
     public function _handler_sidebyside($handler_id, array $args, array &$data)
     {
-        $this->set_active_leaf('persons_merge');
-        $this->add_breadcrumb('', $this->_l10n->get('merge persons'));
-
-        // Process the selection if present.
-        $this->_process_selection();
-
-        // Then find us next pair we have sufficient rights for...
         $this->_request_data['notfound'] = false;
         $this->_request_data['person1'] = false;
         $this->_request_data['person2'] = false;
         $this->_request_data['loop_i'] = 0;
-        $i =& $this->_request_data['loop_i'];
 
         if (isset($_REQUEST['org_openpsa_contacts_handler_duplicates_person_loop_i']))
         {
-            $i = $_REQUEST['org_openpsa_contacts_handler_duplicates_person_loop_i'];
+            $this->_request_data['loop_i'] = $_REQUEST['org_openpsa_contacts_handler_duplicates_person_loop_i'];
             if (isset($_REQUEST['org_openpsa_contacts_handler_duplicates_person_decide_later']))
             {
-                $i++;
+                $this->_request_data['loop_i']++;
             }
         }
+        $this->process_submit();
 
+        $this->load_next();
+
+        $this->set_active_leaf('persons_merge');
+        $this->add_breadcrumb('', $this->_l10n->get('merge persons'));
+    }
+
+    private function load_next()
+    {
+        $i =& $this->_request_data['loop_i'];
         while ($i < 100)
         {
             debug_add("Loop iteration {$i}");
@@ -59,12 +61,6 @@ class org_openpsa_contacts_handler_duplicates_person extends midcom_baseclasses_
 
             if (empty($ret))
             {
-                if ($i > 0)
-                {
-                    // Process "decide later" cases
-                    $i = 0;
-                    continue;
-                }
                 debug_add("No more results to be had, setting notfound and breaking out of loop");
                 $this->_request_data['notfound'] = true;
                 break;
@@ -108,7 +104,7 @@ class org_openpsa_contacts_handler_duplicates_person extends midcom_baseclasses_
         }
     }
 
-    private function _process_selection()
+    private function process_submit()
     {
         if (   !empty($_POST['org_openpsa_contacts_handler_duplicates_person_keep'])
             && !empty($_POST['org_openpsa_contacts_handler_duplicates_person_options'])
@@ -116,48 +112,46 @@ class org_openpsa_contacts_handler_duplicates_person extends midcom_baseclasses_
         {
             $option1 = new org_openpsa_contacts_person_dba($_POST['org_openpsa_contacts_handler_duplicates_person_options'][1]);
             $option2 = new org_openpsa_contacts_person_dba($_POST['org_openpsa_contacts_handler_duplicates_person_options'][2]);
-            foreach ($_POST['org_openpsa_contacts_handler_duplicates_person_keep'] as $keep => $dummy)
+            $keep = key($_POST['org_openpsa_contacts_handler_duplicates_person_keep']);
+            if ($keep == 'both')
             {
-                switch(true)
+                $option1->require_do('midgard:update');
+                $option2->require_do('midgard:update');
+                if (   $option1->set_parameter('org.openpsa.contacts.duplicates:not_duplicate', $option2->guid, time())
+                    && $option2->set_parameter('org.openpsa.contacts.duplicates:not_duplicate', $option1->guid, time()))
                 {
-                    case ($keep == 'both'):
-                        $option1->require_do('midgard:update');
-                        $option2->require_do('midgard:update');
-                        if (   !$option1->set_parameter('org.openpsa.contacts.duplicates:not_duplicate', $option2->guid, time())
-                            || !$option2->set_parameter('org.openpsa.contacts.duplicates:not_duplicate', $option1->guid, time()))
-                        {
-                            $errstr = midcom_connection::get_error_string();
-                            // Failed to set as not duplicate, clear parameters that might have been set
-                            $option1->delete_parameter('org.openpsa.contacts.duplicates:not_duplicate', $option2->guid);
-                            $option2->delete_parameter('org.openpsa.contacts.duplicates:not_duplicate', $option1->guid);
+                    // Clear the possible duplicate parameters
+                    $option1->delete_parameter('org.openpsa.contacts.duplicates:possible_duplicate', $option2->guid);
+                    $option2->delete_parameter('org.openpsa.contacts.duplicates:possible_duplicate', $option1->guid);
 
-                            // TODO: Localize
-                            midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.contacts'), "Failed to mark #{$option1->id} and # {$option2->id} as not duplicates, errstr: {$errstr}", 'error');
+                    // TODO: Localize
+                    midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.contacts'), "Keeping both \"{$option1->name}\" and \"{$option2->name}\", they will not be marked as duplicates in the future", 'ok');
+                }
+                else
+                {
+                    $errstr = midcom_connection::get_error_string();
+                    // Failed to set as not duplicate, clear parameter that might have been set (could have only been the first)
+                    $option1->delete_parameter('org.openpsa.contacts.duplicates:not_duplicate', $option2->guid);
 
-                            // Switch is a "loop" so we continue 2 levels to get out of the foreach as well
-                            continue(2);
-                        }
-                        // Clear the possible duplicate parameters
-                        $option1->delete_parameter('org.openpsa.contacts.duplicates:possible_duplicate', $option2->guid);
-                        $option2->delete_parameter('org.openpsa.contacts.duplicates:possible_duplicate', $option1->guid);
-
-                        // TODO: Localize
-                        midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.contacts'), "Keeping both \"{$option1->name}\" and \"{$option2->name}\", they will not be marked as duplicates in the future", 'ok');
-
-                        // Switch is a "loop" so we continue 2 levels to get out of the foreach as well
-                        continue(2);
-                        // Safety break
-                        break;
-                    case ($keep == $option1->guid):
-                        $person1 =& $option1;
-                        $person2 =& $option2;
-                        break;
-                    case ($keep == $option2->guid):
-                        $person1 =& $option2;
-                        $person2 =& $option1;
-                        break;
-                    default:
-                        throw new midcom_error('Something weird happened (basically we got bogus data)');
+                    // TODO: Localize
+                    midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.contacts'), "Failed to mark #{$option1->id} and # {$option2->id} as not duplicates, errstr: {$errstr}", 'error');
+                }
+            }
+            else
+            {
+                if ($keep == $option1->guid)
+                {
+                    $person1 =& $option1;
+                    $person2 =& $option2;
+                }
+                else if ($keep == $option2->guid)
+                {
+                    $person1 =& $option2;
+                    $person2 =& $option1;
+                }
+                else
+                {
+                    throw new midcom_error('Something weird happened (basically we got bogus data)');
                 }
                 $person1->require_do('midgard:update');
                 $person2->require_do('midgard:delete');
