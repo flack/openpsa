@@ -90,7 +90,11 @@ class org_openpsa_invoices_status extends org_openpsa_widgets_status
         {
             if ($a['timestamp'] == $b['timestamp'])
             {
-                return 0;
+                if ($a['order'] == $b['order'])
+                {
+                    return 0;
+                }
+                return ($a['order'] > $b['order']) ? -1 : 1;
             }
             return ($a['timestamp'] > $b['timestamp']) ? -1 : 1;
         });
@@ -114,7 +118,8 @@ class org_openpsa_invoices_status extends org_openpsa_widgets_status
             $entries[] = array
             (
                 'timestamp' => $cancelation_invoice->metadata->created,
-                'message' => sprintf($this->l10n->get('invoice got canceled by %s'), $cancelation_invoice_link)
+                'message' => sprintf($this->l10n->get('invoice got canceled by %s'), $cancelation_invoice_link),
+                'order' => 4
             );
         }
         else if ($this->invoice->paid)
@@ -122,7 +127,8 @@ class org_openpsa_invoices_status extends org_openpsa_widgets_status
             $entries[] = array
             (
                 'timestamp' => $this->invoice->paid,
-                'message' => sprintf($this->l10n->get('marked invoice %s paid'), '')
+                'message' => sprintf($this->l10n->get('marked invoice %s paid'), ''),
+                'order' => 3
             );
         }
         if (   $this->invoice->due
@@ -133,7 +139,8 @@ class org_openpsa_invoices_status extends org_openpsa_widgets_status
             $entries[] = array
             (
                 'timestamp' => $this->invoice->due,
-                'message' => $this->l10n->get('overdue')
+                'message' => $this->l10n->get('overdue'),
+                'order' => 2
             );
         }
 
@@ -144,7 +151,8 @@ class org_openpsa_invoices_status extends org_openpsa_widgets_status
                 $entries[] = array
                 (
                     'timestamp' => $mail_time,
-                    'message' => sprintf($this->l10n->get('marked invoice %s sent per mail'), '')
+                    'message' => sprintf($this->l10n->get('marked invoice %s sent per mail'), ''),
+                    'order' => 1
                 );
             }
             else
@@ -152,14 +160,16 @@ class org_openpsa_invoices_status extends org_openpsa_widgets_status
                 $entries[] = array
                 (
                     'timestamp' => $this->invoice->sent,
-                    'message' => sprintf($this->l10n->get('marked invoice %s sent'), '')
+                    'message' => sprintf($this->l10n->get('marked invoice %s sent'), ''),
+                    'order' => 1
                 );
             }
         }
         $entries[] = array
         (
             'timestamp' => $this->invoice->metadata->created,
-            'message' => sprintf($this->l10n->get('invoice %s created'), '')
+            'message' => sprintf($this->l10n->get('invoice %s created'), ''),
+            'order' => 0
         );
         return $entries;
     }
