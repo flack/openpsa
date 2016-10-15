@@ -144,9 +144,6 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
         }
     }
 
-    /**
-     * Deletes all invoice_hours related to the invoice
-     */
     public function _on_deleting()
     {
         if (! midcom::get()->auth->request_sudo('org.openpsa.invoices'))
@@ -155,7 +152,6 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
             return false;
         }
 
-        // Delete invoice_hours
         $tasks_to_update = array();
 
         $qb = org_openpsa_projects_hour_report_dba::new_query_builder();
@@ -168,7 +164,7 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
             $tasks_to_update[] = $hour->task;
             if (!$hour->update())
             {
-                debug_add("Failed to remove invoice hour record {$hour->id}, last Midgard error was: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
+                debug_add("Failed to remove invoice from hour record #{$hour->id}, last Midgard error was: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
             }
         }
 
@@ -180,6 +176,19 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
                 $task->update_cache();
             }
             catch (midcom_error $e){}
+        }
+
+        $qb = self::new_query_builder();
+        $qb->add_constraint('cancelationInvoice', '=', $this->id);
+        $result = $qb->execute();
+        foreach ($result as $canceled)
+        {
+            $canceled->cancelationInvoice = 0;
+            if (!$canceled->update())
+            {
+                debug_add("Failed to remove cancelation reference from invoice #{$canceled->id}, last Midgard error was: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
+                return false;
+            }
         }
 
         midcom::get()->auth->drop_sudo();
