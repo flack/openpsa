@@ -8,9 +8,10 @@
 
 /**
  * Search for duplicate persons and groups in database
+ *
  * @package org.openpsa.contacts
  */
-class org_openpsa_contacts_duplicates
+class org_openpsa_contacts_duplicates_check
 {
     /**
      * Used to store map of probabilities when seeking duplicates for given person/group
@@ -53,19 +54,12 @@ class org_openpsa_contacts_duplicates
         // TODO: Avoid persons marked as not_duplicate already in this phase.
 
         $qb->begin_group('OR');
-            //Shared firstname
             $this->_add_constraint($qb, $person, 'firstname');
-            //Shared lastname
             $this->_add_constraint($qb, $person, 'lastname');
-            //Shared email
             $this->_add_constraint($qb, $person, 'email');
-            //Shared handphone
             $this->_add_constraint($qb, $person, 'handphone');
-            //Shared city
             $this->_add_constraint($qb, $person, 'city');
-            //Shared street
             $this->_add_constraint($qb, $person, 'street');
-            //Shared homephone
             $this->_add_constraint($qb, $person, 'homephone');
         $qb->end_group();
 
@@ -117,6 +111,18 @@ class org_openpsa_contacts_duplicates
         {
             $ret['email_match'] = true;
             $ret['p'] += 1;
+        }
+        else if (!empty($person1['lastname']))
+        {
+            // if user's lastname is part of the email address, check to see if the difference is only in the domain part
+            $email1 = preg_replace('/@.+/', '', $person1['email']);
+            $email2 = preg_replace('/@.+/', '', $person2['email']);
+            if (   strpos($email1, $person1['lastname']) !== false
+                && $email1 == $email2)
+            {
+                $ret['email_match'] = true;
+                $ret['p'] += 0.5;
+            }
         }
 
         if ($this->_match('handphone', $person1, $person2))
@@ -199,8 +205,9 @@ class org_openpsa_contacts_duplicates
 
     /**
      * Find duplicates for given org_openpsa_contacts_group_dba object
-     * @param org_openpsa_contacts_group_dba $group org_openpsa_contacts_group_dba object (does not need id)
-     * @return org_openpsa_contacts_group_dba[] array of possible duplicates
+     *
+     * @param org_openpsa_contacts_group_dba $group Group object (does not need id)
+     * @return org_openpsa_contacts_group_dba[] List of possible duplicates
      */
     function find_duplicates_group(org_openpsa_contacts_group_dba $group, $threshold = 1)
     {
@@ -212,15 +219,10 @@ class org_openpsa_contacts_duplicates
             $qb->add_constraint('id', '<>', $group->id);
         }
         $qb->begin_group('OR');
-            //Shared official
             $this->_add_constraint($qb, $group, 'official');
-            //Shared street
             $this->_add_constraint($qb, $group, 'street');
-            //Shared phone
             $this->_add_constraint($qb, $group, 'phone');
-            //Shared homepage
             $this->_add_constraint($qb, $group, 'homepage');
-            //Shared city
             $this->_add_constraint($qb, $group, 'city');
         $qb->end_group();
 

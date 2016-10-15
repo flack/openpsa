@@ -16,7 +16,7 @@ echo "<p>\n";
 
 midcom::get()->auth->request_sudo('org.openpsa.contacts');
 
-$dfinder = new org_openpsa_contacts_duplicates();
+$dfinder = new org_openpsa_contacts_duplicates_check();
 /* TODO: Get component configuration if possible
 $dfinder->config = ;
 */
