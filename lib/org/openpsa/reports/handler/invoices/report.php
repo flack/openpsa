@@ -132,8 +132,6 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
         $invoices = array_merge($invoices, $this->_get_deliverable_invoices());
         $invoices = array_filter($invoices, array($this, '_filter_by_date'));
 
-        usort($invoices, array($this, '_sort_by_date'));
-
         return $invoices;
     }
 
@@ -165,15 +163,6 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
             }
         }
         return $invoices;
-    }
-
-    private function _sort_by_date($a, $b)
-    {
-        if ($a->{$this->_request_data['date_field']} == $b->{$this->_request_data['date_field']})
-        {
-            return 0;
-        }
-        return ($a->{$this->_request_data['date_field']} < $b->{$this->_request_data['date_field']}) ? -1 : 1;
     }
 
     private function _filter_by_date($inv)
