@@ -42,6 +42,10 @@ Basisdaten
 Rechnungsdaten
 ---STRINGEND
 
+---STRING canceled
+Storniert
+---STRINGEND
+
 ---STRING create invoice
 Rechnung erstellen
 ---STRINGEND

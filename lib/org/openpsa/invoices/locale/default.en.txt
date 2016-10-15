@@ -158,6 +158,10 @@ Invoiced hour reports
 Invoicing information
 ---STRINGEND
 
+---STRING canceled
+Canceled
+---STRINGEND
+
 ---STRING canceled invoice
 This is the cancelation for
 ---STRINGEND
