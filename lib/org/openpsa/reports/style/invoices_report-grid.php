@@ -18,6 +18,7 @@ $footer_data = array
 );
 $sortname = 'date';
 $sortorder = 'asc';
+$cancelations = array();
 
 foreach ($data['invoices'] as $invoice)
 {
@@ -93,6 +94,11 @@ foreach ($data['invoices'] as $invoice)
     $entry['index_status'] = $invoice->get_status();
     $entry['status'] = $l10n->get($entry['index_status']);
 
+    if ($entry['index_status'] === 'canceled')
+    {
+        $cancelations[] = $invoice->cancelationInvoice;
+    }
+
     try
     {
         $contact = org_openpsa_contacts_person_dba::get_cached($invoice->customerContact);
@@ -109,6 +115,19 @@ foreach ($data['invoices'] as $invoice)
     $entry['vat_sum'] = $vat_sum;
 
     $entries[] = $entry;
+}
+
+if (count($cancelations) > 0)
+{
+    foreach ($entries as &$entry)
+    {
+        if (in_array($entry['id'], $cancelations))
+        {
+            $entry['index_status'] = 'canceled';
+            $entry['status'] = $l10n->get('canceled');
+            $entry['number'] .= ' (' . $l10n->get('cancelation invoice') . ')';
+        }
+    }
 }
 
 if ($data['date_field'] == 'date')
