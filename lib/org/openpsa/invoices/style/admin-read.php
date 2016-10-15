@@ -90,7 +90,7 @@ if ($invoice->cancelationInvoice)
     if ($cancelation_invoice_link)
     {
         echo "<div class=\"field\">";
-        echo "<div class=\"title\">" . $data['l10n']->get('cancelation invoice') .":</div>";
+        echo "<div class=\"title\">" . $data['l10n']->get('canceled by') .":</div>";
         echo "<div class=\"value\">" . $cancelation_invoice_link . "</a></div>";
         echo "</div>";
     }
@@ -101,7 +101,7 @@ if ($invoice->cancelationInvoice)
         $canceled_invoice_link = $prefix . 'invoice/' . $canceled_invoice->guid . '/';
 
         echo "<div class=\"field\">";
-        echo "<div class=\"title\">" . $data['l10n']->get('canceled invoice') .":</div>";
+        echo "<div class=\"title\">" . $data['l10n']->get('cancelation invoice for') .":</div>";
         echo "<div class=\"value\"><a href=\"" . $canceled_invoice_link . "\">" . $data['l10n']->get('invoice') . " " . $canceled_invoice->get_label() . "</a></div>";
         echo "</div>";
     }

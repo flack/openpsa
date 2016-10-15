@@ -162,15 +162,15 @@ Invoicing information
 Canceled
 ---STRINGEND
 
----STRING canceled invoice
-This is the cancelation for
----STRINGEND
-
 ---STRING cancelation invoice
 Cancelation invoice
 ---STRINGEND
 
----STRING create cancelation for invoice
+---STRING cancelation invoice for
+This is the cancelation for
+---STRINGEND
+
+---STRING create cancelation
 Create cancelation
 ---STRINGEND
 
@@ -184,6 +184,10 @@ Failed to create cancelation for invoice %s
 
 ---STRING cancelation for invoice %s, item %s
 Cancelation for invoice %s, item %s
+---STRINGEND
+
+---STRING canceled by
+Canceled by
 ---STRINGEND
 
 ---STRING mark paid

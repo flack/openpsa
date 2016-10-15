@@ -150,11 +150,15 @@ Abgerechnete Stundenberichte
 Rechnungsdaten
 ---STRINGEND
 
----STRING canceled invoice
-Stornorechnung für
+---STRING cancelation invoice
+Stornorechnung
 ---STRINGEND
 
----STRING cancelation invoice
+---STRING cancelation invoice for
+Stornorechnung zu
+---STRINGEND
+
+---STRING canceled by
 Storniert durch
 ---STRINGEND
 
@@ -166,7 +170,7 @@ Rechnung wurde storniert durch %s
 Storniert am %s
 ---STRINGEND
 
----STRING create cancelation for invoice
+---STRING create cancelation
 stornieren
 ---STRINGEND
 
