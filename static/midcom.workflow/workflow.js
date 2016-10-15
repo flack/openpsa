@@ -17,7 +17,7 @@ $(document).ready(function()
                     click: function() {
                         $('<form action="' + action + '" method="post" class="midcom-dialog-delete-form">')
                             .append($('<input type="submit" name="' + button.data('form-id') + '">'))
-                            .append($('<input type="hidden" name="referrer" value=' + location.pathname + '">'))
+                            .append($('<input type="hidden" name="referrer" value="' + location.pathname + '">'))
                             .hide()
                             .prependTo('body');
                         $('input[name="' + button.data('form-id') + '"]').click();
