@@ -113,5 +113,15 @@
             'duplicate_check' => 'fromGuid'
         )
     ),
-
+    'org_openpsa_sales_salesproject_dba' => array
+    (
+        'customerContact' => array
+        (
+            'target' => 'id'
+        ),
+        'owner' => array
+        (
+            'target' => 'id'
+        )
+    ),
 ),
