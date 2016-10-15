@@ -35,4 +35,32 @@ class org_openpsa_contacts_role_dba extends midcom_core_dbaobject
         $new_role->objectGuid = $object_guid;
         return $new_role->create();
     }
+
+    /**
+     * Returns true for NO existing duplicates
+     */
+    public function check_duplicates()
+    {
+        $qb = new midgard_query_builder('org_openpsa_role');
+        $qb->add_constraint('person', '=', $this->person);
+        $qb->add_constraint('objectGuid', '=', $this->objectGuid);
+        $qb->add_constraint('role', '=', $this->role);
+
+        if ($this->id)
+        {
+            $qb->add_constraint('id', '<>', $this->id);
+        }
+
+        return ($qb->count() == 0);
+    }
+
+    public function _on_creating()
+    {
+        return $this->check_duplicates();
+    }
+
+    public function _on_updating()
+    {
+        return $this->check_duplicates();
+    }
 }

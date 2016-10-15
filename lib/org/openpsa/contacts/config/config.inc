@@ -32,6 +32,15 @@
     ),
     'org_openpsa_contacts_person_dba' => array(),
     'org_openpsa_contacts_group_dba' => array(),
+    'org_openpsa_contacts_role_dba' => array
+    (
+        'person' => array
+        (
+            'target' => 'id',
+            'duplicate_check' => 'check_duplicates'
+        )
+    ),
+
     'org_openpsa_directmarketing_campaign_member_dba' => array
     (
         'person' => array
