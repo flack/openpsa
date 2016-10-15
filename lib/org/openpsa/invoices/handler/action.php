@@ -102,6 +102,7 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
 
         $cancelation_invoice = new org_openpsa_invoices_invoice_dba();
         $cancelation_invoice->customerContact = $invoice->customerContact;
+        $cancelation_invoice->customer = $invoice->customer;
         $cancelation_invoice->sum = $reverse_sum;
         $cancelation_invoice->number = $cancelation_invoice->generate_invoice_number();
         $cancelation_invoice->vat = $invoice->vat;
@@ -138,14 +139,21 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
 
         // if cancelation invoice was created, mark the related invoice as sent and paid
         $time = time();
+        $needs_update = false;
 
         if (!$invoice->sent)
         {
             $invoice->sent = $time;
+            // if original wasn't sent, we probably dont need to send cancelation
+            $cancelation_invoice->sent = $time;
+            $needs_update = true;
         }
         if (!$invoice->paid)
         {
             $invoice->paid = $time;
+            // if original wasn't paid, we probably dont need to pay cancelation
+            $cancelation_invoice->paid = $time;
+            $needs_update = true;
         }
         $invoice->cancelationInvoice = $cancelation_invoice->id;
         if (!$invoice->update())
@@ -154,6 +162,11 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
             $cancelation_invoice->delete();
             $this->_request_data['message']['message'] = sprintf($this->_l10n->get('could not update invoice %s'), $invoice->get_label());
             return false;
+        }
+
+        if ($needs_update)
+        {
+            $cancelation_invoice->update();
         }
 
         // redirect to invoice page

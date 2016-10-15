@@ -68,8 +68,8 @@ class org_openpsa_invoices_handler_actionTest extends openpsa_testcase
         $reverse_sum = $invoice->sum * (-1);
         $this->assertEquals($reverse_sum, $cancelation_invoice->sum, 'Wrong sum for cancelation invoice');
 
-        // the invoice should be marked as canceled now, the cancelation should still be unsent
-        $this->assertEquals('unsent', $cancelation_invoice->get_status());
+        // the invoice should be marked as canceled now, the cancelation should be paid (because original was unsent)
+        $this->assertEquals('paid', $cancelation_invoice->get_status());
         $this->assertEquals('canceled', $invoice->get_status());
 
         midcom::get()->auth->drop_sudo();
