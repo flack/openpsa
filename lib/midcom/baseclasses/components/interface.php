@@ -142,7 +142,7 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
     protected $_autoload_libraries = Array();
 
     /**
-     * This is the class suffix used when constructing the NAP handler class.
+     * Class suffix used when constructing the NAP handler class.
      * It is appended to the component class prefix, f.x. resulting in
      * net_nehmer_static_navigation (as a default).
      *
@@ -151,7 +151,7 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
     protected $_nap_class_suffix = 'navigation';
 
     /**
-     * This is the class suffix used when constructing the on-site handler class.
+     * Class suffix used when constructing the on-site handler class.
      * It is appended to the component class prefix, f.x. resulting in
      * net_nehmer_static_viewer (as a default).
      *

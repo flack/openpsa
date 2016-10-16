@@ -311,7 +311,7 @@ class midcom_core_manifest
     }
 
     /**
-     * This internal helper loads and evaluates the given manifest file.
+     * Load and evaluate the given manifest file.
      *
      * @todo move this into the constructor, use isset.
      */
@@ -373,8 +373,7 @@ class midcom_core_manifest
     }
 
     /**
-     * This is an internal startup helper which extracts and post-processes the privilege
-     * definitions in the loaded manifest information.
+     * Extract and post-processes the privilege definitions in the loaded manifest information.
      *
      * It will not complete any missing owner default privileges, this is done by the
      * Authentication service upon privilege registering.

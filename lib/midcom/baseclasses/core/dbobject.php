@@ -101,7 +101,7 @@ class midcom_baseclasses_core_dbobject
     }
 
     /**
-     * This is an internal helper adds full privileges to the owner of the object.
+     * Add full privileges to the owner of the object.
      * This is essentially sets the midgard:owner privilege for the current user.
      *
      * @param midcom_core_dbaobject $object The DBA object we're working on

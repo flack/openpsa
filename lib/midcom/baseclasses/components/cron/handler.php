@@ -40,7 +40,7 @@ abstract class midcom_baseclasses_components_cron_handler extends midcom_basecla
     var $_component_data = null;
 
     /**
-     * This is a reference to the Component Interface class. It is loaded during class instantiation.
+     * Reference to the Component Interface class. It is loaded during class instantiation.
      *
      * Not available for midcom core cron jobs.
      *
@@ -50,7 +50,7 @@ abstract class midcom_baseclasses_components_cron_handler extends midcom_basecla
     var $_component_interface = null;
 
     /**
-     * This initializes the cron job. Before calling the on_initialize callback, it prepares
+     * Initialize the cron job. Before calling the on_initialize callback, it prepares
      * the instance with various configuration variables and helper references.
      *
      * @param array $config The full cron job configuration data.

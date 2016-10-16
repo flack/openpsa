@@ -85,7 +85,7 @@ class midcom_services_metadata
      *
      * @param int $context_id The context ID for which the metadata should be created.
      */
-    function _create_metadata ($context_id)
+    private function _create_metadata ($context_id)
     {
         $this->_metadata[$context_id] = Array();
         $this->_metadata[$context_id][MIDCOM_METADATA_VIEW] = null;

@@ -369,9 +369,8 @@ class midcom_core_resolver
     }
 
     /**
-     * This is a helper to execute any given Script in the current MidCOM
-     * context. All files have to be in $component_dir/exec directly, otherwise
-     * the script will not execute.
+     * Execute any given Script in the current MidCOM context. All files have to be
+     * in $component_dir/exec directly, otherwise the script will not execute.
      *
      * The script's name is taken from the current argv[0].
      *

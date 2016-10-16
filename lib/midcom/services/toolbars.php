@@ -275,8 +275,7 @@ class midcom_services_toolbars
     /**
      * Renders the specified toolbar for the indicated context.
      *
-     * If the toolbar is undefined, an empty string is returned. If you want to
-     * show the toolbar directly, look for the _show_toolbar method.
+     * If the toolbar is undefined, an empty string is returned.
      *
      * @param int $toolbar_identifier The toolbar identifier constant (one of
      *     MIDCOM_TOOLBAR_NODE or MIDCOM_TOOLBAR_VIEW etc.)

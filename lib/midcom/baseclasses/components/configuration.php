@@ -14,7 +14,7 @@
 class midcom_baseclasses_components_configuration
 {
     /**
-     * This is a component specific global data storage area, which should
+     * Component specific global data storage area, which should
      * be used for stuff like default configurations etc. thus avoiding the
      * pollution of the global namespace. Each component has its own array
      * in the global one, allowing storage of arbitrary data indexed by arbitrary

@@ -50,7 +50,7 @@ abstract class midcom_core_query
     protected $_offset = 0;
 
     /**
-     * This is an internal count which is incremented by one each time a constraint is added.
+     * Count which is incremented by one each time a constraint is added.
      * It is used to emit a warning if no constraints have been added to the QB during execution.
      *
      * @var int
@@ -65,8 +65,7 @@ abstract class midcom_core_query
     protected $_orders = array();
 
     /**
-     * This helper holds the type that the application expects to retrieve
-     * from this instance.
+     * Type that the application expects to retrieve from this instance.
      *
      * @var string
      */

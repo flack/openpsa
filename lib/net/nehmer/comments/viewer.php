@@ -23,7 +23,7 @@ class net_nehmer_comments_viewer extends midcom_baseclasses_components_request
     /**
      * Populates the node toolbar depending on the user's rights.
      */
-    function _populate_node_toolbar()
+    private function _populate_node_toolbar()
     {
         $buttons = array();
         if (   $this->_topic->can_do('midgard:update')

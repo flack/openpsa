@@ -417,7 +417,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
     }
 
     /**
-     * This public helper post-processes the initial information as set by the constructor.
+     * Post-process the initial information as set by the constructor.
      * It fills all missing fields with sensible defaults, see the class introduction for
      * details.
      */
@@ -814,7 +814,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
     }
 
     /**
-     * This helper loads the specified namespace/plugin combo.
+     * Load the specified namespace/plugin combo.
      *
      * Any problem to load a plugin will be logged accordingly and false will be returned.
      * Critical errors will trigger midcom_error.

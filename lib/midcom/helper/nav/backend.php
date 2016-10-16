@@ -88,7 +88,7 @@ class midcom_helper_nav_backend
     private $_currentleaf = false;
 
     /**
-     * This is the leaf cache. It is an array which contains elements indexed by
+     * Leaf cache. It is an array which contains elements indexed by
      * their leaf ID. The data is again stored in an associative array:
      *
      * - MIDCOM_NAV_NODEID => ID of the parent node (int)
@@ -101,7 +101,7 @@ class midcom_helper_nav_backend
     private $_leaves = array();
 
     /**
-     * This is the node cache. It is an array which contains elements indexed by
+     * Node cache. It is an array which contains elements indexed by
      * their node ID. The data is again stored in an associative array:
      *
      * - MIDCOM_NAV_NODEID => ID of the parent node (-1 for the root node) (int)
@@ -114,7 +114,7 @@ class midcom_helper_nav_backend
     private static $_nodes = array();
 
     /**
-     * This array holds a list of all topics for which the leaves have been loaded.
+     * List of all topics for which the leaves have been loaded.
      * If the id of the node is in this array, the leaves are available, otherwise,
      * the leaves have to be loaded.
      *
@@ -129,14 +129,14 @@ class midcom_helper_nav_backend
      */
 
     /**
-     * This is a reference to the systemwide component loader class.
+     * Reference to the systemwide component loader class.
      *
      * @var midcom_helper__componentloader
      */
     private $_loader;
 
     /**
-     * This is a temporary storage where _loadNode can return the last known good
+     * Temporary storage where _loadNode can return the last known good
      * node in case the current node not visible. It is evaluated by the
      * constructor.
      *
@@ -161,8 +161,7 @@ class midcom_helper_nav_backend
     private $_node_path = Array();
 
     /**
-     * This private helper holds the user id for ACL checks. This is set when instantiating
-     * to avoid unnecessary overhead
+     * User id for ACL checks. This is set when instantiating to avoid unnecessary overhead
      *
      * @var string
      */
@@ -402,7 +401,7 @@ class midcom_helper_nav_backend
     }
 
     /**
-     * This helper object will construct a complete node data structure for a given topic,
+     * Construct a complete node data structure for a given topic,
      * without any dependant objects like subtopics or leaves. It does not do any visibility
      * checks, it just prepares the object for later processing.
      *
@@ -619,10 +618,9 @@ class midcom_helper_nav_backend
     }
 
     /**
-     * This helper is responsible for loading the leaves for a given node out of the
-     * database. It will complete all default fields to provide full blown nap structures.
-     * It will also build the base relative URLs which will later be completed by the
-     * _get_leaves() interface functions.
+     * Load the leaves for a given node from the database. Will complete all default fields to
+     * provide full blown nap structures, and also build the base relative URLs which will
+     * later be completed by the _get_leaves() interface functions.
      *
      * Important note:
      * - The IDs constructed for the leaves are the concatenation of the ID delivered by the component
@@ -725,7 +723,7 @@ class midcom_helper_nav_backend
     }
 
     /**
-     * This helper updates the URLs in the reference-passed leaf list.
+     * Update the URLs in the reference-passed leaf list.
      * FULLURL, ABSOLUTEURL and PERMALINK are built upon RELATIVEURL, NAV_NAME
      * and NAV_URL are populated based on the administration mode with NAV_SITE values
      *

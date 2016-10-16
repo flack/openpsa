@@ -88,8 +88,7 @@ class midcom_core_user
     private $_direct_groups = null;
 
     /**
-     * This array lists all groups the user is a member in ordered by their inheritance
-     * chain.
+     * All groups the user is a member in, ordered by their inheritance chain.
      *
      * The first element in the array is always the top-level group, while the last
      * one is always a member of $_direct_groups. This is therefore a multilevel array and is

@@ -34,8 +34,7 @@ class midcom_core_collector extends midcom_core_query
     private $_executed = false;
 
     /**
-     * This private helper holds the user id for ACL checks. This is set when executing
-     * to avoid unnecessary overhead
+     * User id for ACL checks. This is set when executing to avoid unnecessary overhead
      *
      * @var string
      */

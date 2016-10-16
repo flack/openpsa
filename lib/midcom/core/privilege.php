@@ -212,7 +212,7 @@ class midcom_core_privilege
     }
 
     /**
-     * This call sets the assignee member string to the correct value to represent the
+     * Set the assignee member string to the correct value to represent the
      * object passed, in general, this resolves users and groups to their strings and
      * leaves magic assignees intact.
      *
@@ -260,7 +260,7 @@ class midcom_core_privilege
     }
 
     /**
-     * This call validates the privilege for correctness of all set options. This includes:
+     * Validate the privilege for correctness of all set options. This includes:
      *
      * - A check against the list of registered privileges to ensure the existence of the
      *   privilege itself.
@@ -692,8 +692,7 @@ class midcom_core_privilege
     }
 
     /**
-     * This is an internal helper called after all I/O operation which invalidates the memcache
-     * accordingly.
+     * Invalidate the memcache after I/O operations
      */
     private function _invalidate_cache()
     {
