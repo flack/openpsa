@@ -33,7 +33,7 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
         }
     }
 
-    abstract function _show_generator($handler_id, array &$data);
+    abstract public function _show_generator($handler_id, array &$data);
 
     /**
      * @param mixed $handler_id The ID of the handler.

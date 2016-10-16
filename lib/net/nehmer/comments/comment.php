@@ -338,7 +338,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
         return $log_entries;
     }
 
-    function _log_moderation($action = 'marked_spam', $reporter = null, $extra = null)
+    private function _log_moderation($action = 'marked_spam', $reporter = null, $extra = null)
     {
         if ($reporter === null)
         {

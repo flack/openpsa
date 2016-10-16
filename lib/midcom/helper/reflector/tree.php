@@ -564,7 +564,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         static $child_classes_all = array();
         if (!isset($child_classes_all[$this->mgdschema_class]))
         {
-            $child_classes_all[$this->mgdschema_class] = $this->_resolve_child_classes();;
+            $child_classes_all[$this->mgdschema_class] = $this->_resolve_child_classes();
         }
         return $child_classes_all[$this->mgdschema_class];
     }
@@ -574,7 +574,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
      *
      * @return array of class names (or false on critical failure)
      */
-    function _resolve_child_classes()
+    private function _resolve_child_classes()
     {
         $child_class_exceptions_neverchild = $this->_config->get('child_class_exceptions_neverchild');
 
@@ -610,7 +610,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         return $child_classes;
     }
 
-    function _resolve_child_classes_links_back($property, $prospect_type, $schema_type)
+    private function _resolve_child_classes_links_back($property, $prospect_type, $schema_type)
     {
         if (empty($property))
         {

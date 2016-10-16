@@ -31,7 +31,7 @@ class net_nehmer_comments_handler_moderate extends midcom_baseclasses_components
      * Simple helper which references all important members to the request data listing
      * for usage within the style listing.
      */
-    function _prepare_request_data()
+    private function _prepare_request_data()
     {
         $this->_request_data['objectguid'] = $this->_objectguid;
         $this->_request_data['comment'] = $this->_comment;

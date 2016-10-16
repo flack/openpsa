@@ -79,7 +79,7 @@ class midcom_services_at_entry_dba extends midcom_core_dbaobject
     /**
      * Unserializes argumentsstore to arguments
      */
-    function _unserialize_arguments()
+    private function _unserialize_arguments()
     {
         $unserRet = @unserialize($this->argumentsstore);
         if ($unserRet === false)
@@ -99,7 +99,7 @@ class midcom_services_at_entry_dba extends midcom_core_dbaobject
     /**
      * Serializes arguments to argumentsstore
      */
-    function _serialize_arguments()
+    private function _serialize_arguments()
     {
         $this->argumentsstore = serialize($this->arguments);
     }
