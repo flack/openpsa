@@ -275,42 +275,6 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         return false;
     }
 
-    function _get_parent_objectresolver($object, $property)
-    {
-        $target_class = $this->_mgd_reflector->get_link_name($property);
-        $dummy_object = new $target_class();
-        $midcom_dba_classname = midcom::get()->dbclassloader->get_midcom_class_name_for_mgdschema_object($dummy_object);
-        if (!empty($midcom_dba_classname))
-        {
-            if (!midcom::get()->dbclassloader->load_mgdschema_class_handler($midcom_dba_classname))
-            {
-                debug_add("Failed to load the handling component for {$midcom_dba_classname}, cannot continue.", MIDCOM_LOG_ERROR);
-                return false;
-            }
-            // DBA classes can supposedly handle their own typecasts correctly
-            return new $midcom_dba_classname($object->$property);
-        }
-        debug_add("MidCOM DBA does not know how to handle {$target_class}, falling back to pure MgdSchema", MIDCOM_LOG_WARN);
-
-        $linktype = $this->_mgd_reflector->get_midgard_type($property);
-        switch ($linktype)
-        {
-            case MGD_TYPE_STRING:
-            case MGD_TYPE_GUID:
-                $parent_object = new $target_class((string)$object->$property);
-                break;
-            case MGD_TYPE_INT:
-            case MGD_TYPE_UINT:
-                $parent_object = new $target_class((int)$object->$property);
-                break;
-            default:
-                debug_add("Do not know how to handle linktype {$linktype}", MIDCOM_LOG_ERROR);
-                return false;
-        }
-
-        return $parent_object;
-    }
-
     private static function _check_permissions($deleted)
     {
         // PONDER: Check for some generic user privilege instead  ??
