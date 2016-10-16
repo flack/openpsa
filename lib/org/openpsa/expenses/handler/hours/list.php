@@ -99,7 +99,7 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
     }
 
     /**
-     * Helper to load the data linked to the hour reports
+     * Load the data linked to the hour reports
      *
      * @param array $hours the hour reports we're working with
      */

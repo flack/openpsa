@@ -93,7 +93,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
     private $args = array();
 
     /**
-     * Method for loading an object, must be implemented in the component handler.
+     * Load an object, should be implemented in the component handler.
      *
      * The method will generate an error if the object could not be found.
      *
@@ -107,7 +107,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
     }
 
     /**
-     * Method for loading parent object for an object that is to be created, must be
+     * Load parent object for an object that is to be created, must be
      * implemented in the component handler.
      *
      * The method will generate an error if the object could not be found.
@@ -122,7 +122,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
     }
 
     /**
-     * Method for adding or updating an object to the MidCOM indexer service.
+     * Add or update an object to the MidCOM indexer service.
      *
      * @param &$dm Datamanager2 instance containing the object
      * @todo implement this properly now it's just a stub
@@ -145,7 +145,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
     }
 
     /**
-     * Method for getting URL to an object.
+     * Get URL to an object.
      *
      * <b>Note</b>: This implementation uses MidCOM's permalink resolution service for generating the
      * link, which is slow. Overriding this with a local implementation is recommended.
@@ -159,7 +159,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
     }
 
     /**
-     * Helper function to convert the user's prefix (if any) into a URL prefix
+     * Convert the user's prefix (if any) into a URL prefix
      *
      * @return string URL prefix to the current object
      */
@@ -173,7 +173,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
     }
 
     /**
-     * Helper function to convert the user's prefix (if any) into a style name prefix
+     * Convert the user's prefix (if any) into a style name prefix
      *
      * @return string stylename prefix
      */
@@ -187,15 +187,14 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
     }
 
     /**
-     * Method for updating breadcrumb for current object and handler, must be implemented in the
-     * component handler.
+     * Update breadcrumb for current object and handler
      *
      * @param mixed $handler_id The ID of the handler.
      */
     abstract public function _update_breadcrumb($handler_id);
 
     /**
-     * Method for updating title for current object and handler, should be implemented in the
+     * Update title for current object and handler, should be implemented in the
      * component handler for better performance.
      *
      * @param mixed $handler_id The ID of the handler.
@@ -223,7 +222,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
     }
 
     /**
-     * Method for adding the supported operations into the toolbar.
+     * Add the supported operations into the toolbar.
      *
      * @param mixed $handler_id The ID of the handler.
      */

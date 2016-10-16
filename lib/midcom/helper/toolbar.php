@@ -218,7 +218,7 @@ class midcom_helper_toolbar
     }
 
     /**
-     * This function will add a help item to the toolbar.
+     * Add a help item to the toolbar.
      *
      * @param string $help_id Name of the help file in component documentation directory.
      * @param string $component Component to display the help from
@@ -264,7 +264,7 @@ class midcom_helper_toolbar
     }
 
     /**
-     * This function will add an item to the toolbar.
+     * Add an item to the toolbar.
      *
      * Set before to the index of the element before which you want to insert
      * the item or use -1 if you want to append an item. Alternatively,
@@ -326,9 +326,9 @@ class midcom_helper_toolbar
     }
 
     /**
-     * This function adds an item to another item by either adding the item
-     * to the MIDCOM_TOOLBAR_SUBMENU or creating a new subtoolbar and adding the
-     * item there.
+     * Add an item to another item by either adding the item to the MIDCOM_TOOLBAR_SUBMENU
+     * or creating a new subtoolbar and adding the item there.
+     *
      * @param array item
      * @param int toolbar itemindex.
      * @return boolean false if insert failed.
@@ -680,7 +680,7 @@ class midcom_helper_toolbar
     }
 
     /**
-     * Helper function, generates a label for the item that includes its accesskey
+     * Generate a label for the item that includes its accesskey
      *
      * @param array $item The item to label
      * @return string Item's label to display
@@ -718,7 +718,7 @@ class midcom_helper_toolbar
     }
 
     /**
-     * Helper function, renders a regular a href... based link target.
+     * Render a regular a href... based link target.
      *
      * @param array $item The item to render
      * @return string The rendered item
@@ -773,7 +773,7 @@ class midcom_helper_toolbar
     }
 
     /**
-     * Helper function, renders a form based link target.
+     * Render a form based link target.
      *
      * @param array $item The item to render
      * @return string The rendered item
@@ -833,7 +833,7 @@ class midcom_helper_toolbar
     }
 
     /**
-     * This function will traverse all available items and return the first
+     * Traverse all available items and return the first
      * element whose URL matches the value passed to the function.
      *
      * Note, that if two items point to the same URL, only the first one
@@ -856,8 +856,7 @@ class midcom_helper_toolbar
     }
 
     /**
-     * Private helper function which checks an index for validity.
-     * Upon any error, a MidCOM Error is triggered.
+     * Check an index for validity.
      *
      * It will automatically convert a string-based URL into an
      * Index (if possible); if the URL can't be found, it will
@@ -866,6 +865,7 @@ class midcom_helper_toolbar
      *
      * @param mixed $index The integer index or URL to check
      * @param boolean $raise_error Whether we should raise an error on missing item
+     * @throws midcom_error
      * @return int $index The valid index (possibly translated from the URL) or null on missing index.
      */
     private function _check_index ($index, $raise_error = true)

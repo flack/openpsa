@@ -481,7 +481,7 @@ class midcom_baseclasses_core_dbobject
     }
 
     /**
-     * Helper method for undeleting objects
+     * Undelete objects
      *
      * @param array $guids
      * @param string $type
@@ -618,7 +618,7 @@ class midcom_baseclasses_core_dbobject
     }
 
     /**
-     * Helper method for purging objects
+     * Purge objects
      *
      * @param array $guids
      * @param string $type
@@ -923,8 +923,8 @@ class midcom_baseclasses_core_dbobject
     }
 
     /**
-     * Internal helper function, called upon successful delete. It will unconditionally
-     * drop all privileges assigned to the given object.
+     * Unconditionally drop all privileges assigned to the given object.
+     * Called upon successful delete
      *
      * @param midcom_core_dbaobject $object The DBA object we're working on
      * @return bool Indicating Success.
@@ -1564,9 +1564,8 @@ class midcom_baseclasses_core_dbobject
     }
 
     /**
-     * This helper function will create a new privilege object for the object in question.
-     * It will initialize the privilege with the values given in the arguments, as outlined
-     * below.
+     * Create a new privilege object for the object in question. The privilege will
+     * be initialized with the values given in the arguments, as outlined below.
      *
      * This call requires the <i>midgard:privileges</i> privilege.
      *

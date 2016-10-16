@@ -67,7 +67,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
     }
 
     /**
-     * Static method for binding view to an object
+     * Bind view to an object
      */
     public static function bind_to_object($object, $handler_id, array &$data)
     {
@@ -148,7 +148,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
     }
 
     /**
-     * Helper function that sets the default object mode
+     * Set the default object mode
      */
     public static function get_default_mode(array &$data)
     {
@@ -173,7 +173,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
     }
 
     /**
-     * Helper to construct urls for the breadcrumbs
+     * Construct urls for the breadcrumbs
      *
      * @param string $action The action
      * @param string $guid The GUID

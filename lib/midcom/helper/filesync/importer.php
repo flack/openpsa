@@ -103,9 +103,8 @@ abstract class midcom_helper_filesync_importer extends midcom_baseclasses_compon
     }
 
     /**
-     * This is a static factory method which lets you dynamically create importer instances.
-     * It takes care of loading the required class files. The returned instances will be created
-     * but not initialized.
+     * Dynamically create importer instances.
+     * The returned instances will be created but not initialized.
      *
      * @param string $type type
      * @return midcom_helper_filesync_importer The newly created importer instance.

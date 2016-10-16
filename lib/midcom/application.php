@@ -527,8 +527,7 @@ class midcom_application
     /**
      * Relocate to another URL.
      *
-     * Helper function to facilitate HTTP relocation (Location: ...) headers. The helper
-     * actually can distinguish between site-local, absolute redirects and external
+     * The helper actually can distinguish between site-local, absolute redirects and external
      * redirects. If the url does not start with http[s] or /, it is taken as a URL relative to
      * the current anchor prefix, which gets prepended automatically (no other characters
      * as the anchor prefix get inserted).
@@ -549,7 +548,7 @@ class midcom_application
     }
 
     /**
-     * Helper function that raises some PHP limits for resource-intensive tasks
+     * Raise some PHP limits for resource-intensive tasks
      */
     public function disable_limits()
     {

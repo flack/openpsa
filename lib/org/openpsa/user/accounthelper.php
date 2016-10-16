@@ -528,7 +528,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
     }
 
     /**
-     * Helper to determine if an account is blocked
+     * Determine if an account is blocked
      */
     public function is_blocked()
     {
@@ -559,7 +559,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
     }
 
     /**
-     * Helper function to record failed login attempts and disable account is necessary
+     * Record failed login attempts and disable account is necessary
      *
      * @param string $component the component we take the config values from
      * @return boolean True if further login attempts are allowed, false otherwise

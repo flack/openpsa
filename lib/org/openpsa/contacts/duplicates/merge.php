@@ -128,7 +128,7 @@ class org_openpsa_contacts_duplicates_merge
     }
 
     /**
-     * Method to handle metadata dependencies
+     * Handle metadata dependencies
      */
     private function merge_metadata($person1, $person2, array $config)
     {

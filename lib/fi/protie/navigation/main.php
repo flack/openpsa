@@ -246,8 +246,7 @@ class fi_protie_navigation
     private $_params_cache = false;
 
     /**
-     * Constructor method. Here we initialize the classes and variables
-     * needed through the class.
+     * Here we initialize the classes and variables needed through the class.
      */
     public function __construct($id = null)
     {
@@ -547,7 +546,7 @@ class fi_protie_navigation
     }
 
     /**
-     * Method for drawing the navigation.
+     * Draw the navigation.
      */
     public function draw()
     {

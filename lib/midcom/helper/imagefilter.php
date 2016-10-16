@@ -231,7 +231,7 @@ class midcom_helper_imagefilter
     }
 
     /**
-     * This function will process a string-based filter chain.
+     * Process a string-based filter chain.
      *
      * This is a semicolon-separated list of commands, which will be evaluated
      * using process_command each.
@@ -381,7 +381,7 @@ class midcom_helper_imagefilter
     }
 
     /**
-     * This function converts the image to the specified image format.
+     * Convert the image to the specified image format.
      *
      * It must be a suitable extension to use with the Imagemagick convert
      * utility. The file will not be renamed, you have to do this yourself.

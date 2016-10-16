@@ -502,8 +502,7 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
     }
 
     /**
-     * Helper, updates the context so that we get a complete breadcrumb line towards the current
-     * location.
+     * Update the context so that we get a complete breadcrumb line towards the current location.
      */
     private function _update_breadcrumb_line()
     {

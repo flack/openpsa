@@ -130,9 +130,8 @@ class midcom_services_cache implements EventSubscriberInterface
     }
 
     /**
-     * This helper function will load the specified cache module (if not already loaded),
-     * add it to the _modules array and assign it to a member variable named after the
-     * module.
+     * Load the specified cache module (if not already loaded), add it to the _modules array
+     * and assign it to a member variable named after the module.
      *
      * @param string $name The name of the cache module to load.
      */

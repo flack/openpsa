@@ -147,7 +147,7 @@ class midcom_helper_reflector_nameresolver
     }
 
     /**
-     * Method to check that none of given objects siblings have same name.
+     * Check that none of given object's siblings have same name.
      *
      * @return boolean indicating uniqueness
      */
@@ -211,7 +211,7 @@ class midcom_helper_reflector_nameresolver
     }
 
     /**
-     * Helper for name_is_unique, checks uniqueness for each sibling
+     * Check uniqueness for each sibling
      *
      * @param array $sibling_classes array of classes to check
      * @return boolean true means no clashes, false means clash.
@@ -240,7 +240,7 @@ class midcom_helper_reflector_nameresolver
     }
 
     /**
-     * Helper for name_is_unique, checks uniqueness for each root level class
+     * Check uniqueness for each root level class
      *
      * @param array $sibling_classes array of classes to check
      * @return boolean true means no clashes, false means clash.
@@ -425,7 +425,7 @@ class midcom_helper_reflector_nameresolver
     }
 
     /**
-     * Helper to resolve the base value for the incrementing suffix and for the name.
+     * Resolve the base value for the incrementing suffix and for the name.
      *
      * @see midcom_helper_reflector_nameresolver::generate_unique_name()
      * @param string $current_name the "current name" of the object (might not be the actual name value see the title logic in generate_unique_name())

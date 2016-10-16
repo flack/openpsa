@@ -185,7 +185,7 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
     }
 
     /**
-     * Helper function that adds the necessary JS/CSS to HTML head
+     * Add the necessary JS/CSS to HTML head
      */
     static function add_header_files()
     {

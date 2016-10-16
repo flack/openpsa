@@ -486,7 +486,7 @@ implements org_openpsa_widgets_grid_provider_client
     }
 
     /**
-     * Helper to get the relevant data for cells in table view
+     * Get the relevant data for cells in table view
      */
     public function get_table_row_data($task, &$data)
     {
@@ -529,7 +529,7 @@ implements org_openpsa_widgets_grid_provider_client
     }
 
     /**
-     * Helper to get priorities from default-schema
+     * Get priorities from default schema
      */
     private function _get_priorities()
     {
@@ -546,7 +546,7 @@ implements org_openpsa_widgets_grid_provider_client
     }
 
     /**
-     * Helper to prepare non json output
+     * Prepare non-JSON output
      */
     private function _prepare_output()
     {

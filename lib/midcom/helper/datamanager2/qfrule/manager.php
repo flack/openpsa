@@ -103,8 +103,8 @@ class midcom_helper_datamanager2_qfrule_manager
     }
 
     /**
-     * This helper function adds all rules which are deducible from the schema
-     * to the form. It recognizes the following schema options:
+     * Add all rules which are deducible from the schema to the form.
+     * Recognizes the following schema options:
      *
      * - required: Adds a required rule to the form, bound to the given element.
      *

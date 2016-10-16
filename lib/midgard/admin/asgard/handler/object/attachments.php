@@ -174,8 +174,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
     }
 
     /**
-     * Helper function that adds the necessary files for attachment operations,
-     * if attachments exist
+     * Add the necessary files for attachment operations, if attachments exist
      */
     private function _add_jscripts()
     {
@@ -194,7 +193,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
     }
 
     /**
-     * Handler method for creating new attachments
+     * Handler for creating new attachments
      *
      * @param string $handler_id Name of the used handler
      * @param array $args Array containing the variable arguments passed to the handler
@@ -306,7 +305,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
     }
 
     /**
-     * Handler method for confirming file deleting for the requested file
+     * Handler for confirming file deleting for the requested file
      *
      * @param string $handler_id Name of the used handler
      * @param array $args Array containing the variable arguments passed to the handler

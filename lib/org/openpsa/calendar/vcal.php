@@ -25,7 +25,7 @@ class org_openpsa_calendar_vcal
     private $_calendar;
 
     /**
-     * @param string method vCalendar method (defaults to "publish")
+     * @param string $method vCalendar method (defaults to "publish")
      */
     public function __construct($method = "PUBLISH")
     {
@@ -39,7 +39,7 @@ class org_openpsa_calendar_vcal
     }
 
     /**
-     * Method for exporting event in vCalendar format
+     * Export event in vCalendar format
      *
      * @param org_openpsa_calendar_event_dba $event The event we're working on
      * @return string vCalendar data

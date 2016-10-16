@@ -14,8 +14,7 @@ interface midcom_services_rcs_backend
     public function __construct($object, $config);
 
     /**
-     * This function saves a revision of an object, creating a revision
-     * if none exists
+     * Save a revision of an object, or create a revision if none exists
      *
      * @param midcom_core_dbaobject $object the object to save.
      * @param string $updatemessage the message to be saved with the object.

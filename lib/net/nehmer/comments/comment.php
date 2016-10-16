@@ -519,7 +519,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
     }
 
     /**
-     * This function constructs the message
+     * Construct the message
      */
     private function _construct_message()
     {

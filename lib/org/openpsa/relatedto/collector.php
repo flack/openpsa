@@ -113,7 +113,7 @@ class org_openpsa_relatedto_collector extends midcom_core_collector
     }
 
     /**
-     * Helper function that saves object QB constraints for later use
+     * Save object QB constraints for later use
      *
      * @param string $field The DB field
      * @param string $operator The constraint operator
@@ -130,7 +130,7 @@ class org_openpsa_relatedto_collector extends midcom_core_collector
     }
 
     /**
-     * Helper function that saves object QB constraints for later use
+     * Save object QB orders for later use
      *
      * @param string $field The DB field
      * @param string $direction The direction (ASC, DESC)
@@ -145,7 +145,7 @@ class org_openpsa_relatedto_collector extends midcom_core_collector
     }
 
     /**
-     * Helper function that saves object QB constraints for later use
+     * Save object QB limit for later use
      *
      * @param integer $limit The query limit
      */
@@ -155,7 +155,7 @@ class org_openpsa_relatedto_collector extends midcom_core_collector
     }
 
     /**
-     * Helper function that applies constraints (if any) to the final object QBs
+     * Apply constraints (if any) to the final object QBs
      *
      * @param midcom_core_querybuilder $qb the QB instance in question
      */
@@ -168,7 +168,7 @@ class org_openpsa_relatedto_collector extends midcom_core_collector
     }
 
     /**
-     * Helper function that applies orders (if any) to the final object QBs
+     * Apply orders (if any) to the final object QBs
      *
      * @param midcom_core_querybuilder $qb the QB instance in question
      */
@@ -181,7 +181,7 @@ class org_openpsa_relatedto_collector extends midcom_core_collector
     }
 
     /**
-     * Helper function that applies the limit (if any) to the final object QBs
+     * Apply the limit (if any) to the final object QBs
      *
      * @param midcom_core_querybuilder $qb the QB instance in question
      */
@@ -195,9 +195,8 @@ class org_openpsa_relatedto_collector extends midcom_core_collector
     }
 
     /**
-     * Helper function that returns an array of DBA objects grouped by the specified key
-     *
      * @param string $key The column the results should be grouped by
+     * @return midcom_core_dbaobject[] DBA objects grouped by the specified key
      */
     public function get_related_objects_grouped_by($key)
     {
@@ -243,9 +242,8 @@ class org_openpsa_relatedto_collector extends midcom_core_collector
     }
 
     /**
-     * Helper function that returns an array of DBA objects
-     *
      * @param string $component A component name to further narrow down the results
+     * @return midcom_core_dbaobject[] DBA objects
      */
     public function get_related_objects($component = false)
     {
@@ -272,8 +270,6 @@ class org_openpsa_relatedto_collector extends midcom_core_collector
     }
 
     /**
-     * Helper function that returns an array of related object GUIDs
-     *
      * @param string $component A component name to further narrow down the results
      * @return array Array of GUIDs
      */

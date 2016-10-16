@@ -724,8 +724,7 @@ class midcom_services_auth
     }
 
     /**
-     * Factory Method: Resolves any assignee identifier known by the system into an appropriate
-     * user/group object.
+     * Resolve any assignee identifier known by the system into an appropriate user/group object.
      *
      * You must adhere the reference that is returned, otherwise the internal caching
      * and runtime state strategy will fail.
@@ -821,7 +820,7 @@ class midcom_services_auth
     }
 
     /**
-     * Factory Method: Loads a user from the database and returns an object instance.
+     * Load a user from the database and returns an object instance.
      *
      * You must adhere the reference that is returned, otherwise the internal caching
      * and runtime state strategy will fail.
@@ -1020,8 +1019,8 @@ class midcom_services_auth
     }
 
     /**
-     * This function should be used to render the main login form. This does only include the form,
-     * no heading or whatsoever.
+     * Render the main login form.
+     * This only includes the form, no heading or whatsoever.
      *
      * It is recommended to call this function only as long as the headers are not yet sent (which
      * is usually given thanks to MidCOMs output buffering).
@@ -1038,7 +1037,7 @@ class midcom_services_auth
     }
 
     /**
-     * This will show a complete login page unconditionally and exit afterwards.
+     * Show a complete login page unconditionally and exit afterwards.
      * If the current style has an element called <i>midcom_services_auth_login_page</i>
      * it will be shown instead. The local scope will contain the two variables
      * $title and $login_warning. $title is the localized string 'login' from the main

@@ -247,7 +247,7 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
     }
 
     /**
-     * Helper function to create & recalculate existing invoice_items by tasks
+     * Create & recalculate existing invoice_items by tasks
      *
      * @param array $tasks array containing the task id's to recalculate for - if empty all tasks will be recalculated
      */
@@ -339,7 +339,7 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
     }
 
     /**
-     * Helper function to get corresponding invoice_items indexed by GUID
+     * Get corresponding invoice_items indexed by GUID
      */
     function get_invoice_items()
     {
@@ -357,7 +357,8 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
     }
 
     /**
-     * helper function to get the billing data for given contact if any
+     * Get the billing data for given contact if any
+     *
      * @param string $dba_class
      * @param mixed $contact_id
      */
@@ -391,7 +392,7 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
     }
 
     /**
-     * helper function to get the billing data for the invoice
+     * Get the billing data for the invoice
      */
     public function get_billing_data()
     {
@@ -456,8 +457,7 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
     }
 
     /**
-     * Helper function to get invoice_item for the passed task id, if there is no item
-     * it will return a new created one
+     * Get invoice_item for the passed task id, if there is no item it will return a newly created one
      */
     private function _probe_invoice_item_for_task($task_id)
     {

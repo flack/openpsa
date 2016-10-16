@@ -45,7 +45,7 @@ class midcom_db_parameter extends midcom_core_dbaobject
     }
 
     /**
-     * Helper function to read a parameter without loading the corresponding object.
+     * Read a parameter without loading the corresponding object.
      * This is primarily for improving performance, so the function does not check
      * for privileges.
      *

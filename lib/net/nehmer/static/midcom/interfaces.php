@@ -33,8 +33,7 @@ implements midcom_services_permalinks_resolver
     }
 
     /**
-     * Iterate over all articles and create index record using the datamanager indexer
-     * method.
+     * Iterate over all articles and create index record using the datamanager indexer method.
      */
     public function _on_reindex($topic, $config, &$indexer)
     {
@@ -67,7 +66,7 @@ implements midcom_services_permalinks_resolver
     }
 
     /**
-     * Simple lookup method which tries to map the guid to an article of out topic.
+     * @inheritdoc
      */
     public function resolve_object_link(midcom_db_topic $topic, midcom_core_dbaobject $object)
     {

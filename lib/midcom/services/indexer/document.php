@@ -362,8 +362,7 @@ class midcom_services_indexer_document
     }
 
     /**
-     * This is a small helper which will create a normal date field and
-     * a unindexed _TS-postfixed timestamp field at the same time.
+     * Create a normal date field and an unindexed _TS-postfixed timestamp field at the same time.
      *
      * This is useful because the date fields are not in a readable format,
      * it can't even be determined that they were a date in the first place.
@@ -499,9 +498,8 @@ class midcom_services_indexer_document
     }
 
     /**
-     * This function should be called after retrieving a document from the
-     * index. It will populate all relevant members with the according
-     * values.
+     * Populate all relevant members with the respective values after
+     * retrieving a document from the index
      */
     public function fields_to_members()
     {
@@ -552,7 +550,7 @@ class midcom_services_indexer_document
     }
 
     /**
-     * This is a small helper that converts HTML to plain text (relatively simple):
+     * Convert HTML to plain text (relatively simple):
      *
      * Basically, JavaScript blocks and
      * HTML Tags are stripped, and all HTML Entities

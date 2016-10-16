@@ -356,7 +356,7 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
     /**
      * Workaround for odd PHP DateTime behavior where for example
      * 2012-10-31 + 1 month would return 2012-12-01. This function makes
-     * sure the new date is always in the exoected month (so in the example above
+     * sure the new date is always in the expected month (so in the example above
      * it would return 2012-11-30)
      *
      * @param integer $time Original timestamp

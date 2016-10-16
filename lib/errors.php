@@ -170,9 +170,8 @@ class midcom_exception_handler
     /**
      * Show an error page.
      *
-     * This function is a small helper, that will display a simple HTML Page reporting
-     * the error described by $httpcode and $message. The $httpcode is also used to
-     * send an appropriate HTTP Response.
+     * This will display a simple HTML Page reporting the error described by $httpcode and $message.
+     * The $httpcode is also used to send an appropriate HTTP Response.
      *
      * The error pages can be customized by creating style elements named midcom_error_$httpcode.
      *

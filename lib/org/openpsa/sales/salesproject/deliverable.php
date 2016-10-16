@@ -163,8 +163,7 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
     }
 
     /**
-     * Helper function to recalculate the deliverable's unit trackers based on data form a
-     * (recently updated) task
+     * Recalculate the deliverable's unit trackers based on data form a (recently updated) task
      *
      * @param integer $task_id The ID of the task that requested the update
      * @param array $hours The task's hours

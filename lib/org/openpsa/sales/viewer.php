@@ -105,8 +105,7 @@ class org_openpsa_sales_viewer extends midcom_baseclasses_components_request
     }
 
     /**
-     * Helper, updates the context so that we get a complete breadcrumb line towards the current
-     * location.
+     * Update the context so that we get a complete breadcrumb line towards the current location.
      *
      * @param mixed $object
      * @param mixed $handler The current handler

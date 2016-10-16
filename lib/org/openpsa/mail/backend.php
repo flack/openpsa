@@ -20,14 +20,14 @@ abstract class org_openpsa_mail_backend
     abstract public function __construct(array $params);
 
     /**
-     * This function sends the actual email
+     * Send the actual email
      *
      * @param org_openpsa_mail_message $messages
      */
     abstract public function mail(org_openpsa_mail_message $message);
 
     /**
-     * Factory method that prepares the mail backend
+     * Prepare the mail backend
      */
     public static function get($implementation, array $params)
     {

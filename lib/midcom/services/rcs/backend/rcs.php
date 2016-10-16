@@ -80,10 +80,9 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
     }
 
     /**
-     * This function takes an object and updates it to RCS, it should be
-     * called just before $object->update(), if the type parameter is omitted
-     * the function will use GUID to determine the type, this makes an
-     * extra DB query.
+     * Update object to RCS
+     * Should be called just before $object->update(), if the type parameter is omitted
+     * the function will use GUID to determine the type, this makes an extra DB query.
      *
      * @param string root of rcs directory.
      * @param object object to be updated.
@@ -247,9 +246,8 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
     }
 
     /**
-     * This function returns a list of the revisions as a
-     * key => value par where the key is the index of the revision
-     * and the value is the revision id.
+     * Return a list of the revisions as a key => value pair where
+     * the key is the index of the revision and the value is the revision id.
      * Order: revision 0 is the newest.
      *
      * @return array
@@ -452,7 +450,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
     }
 
     /**
-     * This function takes an object and adds it to RCS
+     * Add object to RCS
      *
      * @param object $object object to be saved
      * @param string $description changelog comment.-

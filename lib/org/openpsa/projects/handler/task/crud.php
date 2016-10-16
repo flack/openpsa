@@ -34,7 +34,7 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
     }
 
     /**
-     * Method for adding the supported operations into the toolbar.
+     * Add the supported operations into the toolbar.
      *
      * @param mixed $handler_id The ID of the handler.
      */
@@ -47,7 +47,7 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
     }
 
     /**
-     * Method for updating title for current object and handler
+     * Update title for current object and handler
      *
      * @param mixed $handler_id The ID of the handler.
      */
@@ -151,7 +151,7 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
     }
 
     /**
-     * Method for loading parent object for an object that is to be created.
+     * Load parent object for an object that is to be created.
      *
      * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
@@ -193,8 +193,7 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
     }
 
     /**
-     * Helper, updates the context so that we get a complete breadcrumb line towards the current
-     * location.
+     * Update the context so that we get a complete breadcrumb line towards the current location.
      *
      * @param string $handler_id
      */
@@ -335,7 +334,7 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
     }
 
     /**
-     * Method for adding or updating the task to the MidCOM indexer service.
+     * Add or update the task to the MidCOM indexer service.
      *
      * @param &$dm Datamanager2 instance containing the object
      */

@@ -125,12 +125,10 @@ class midcom_helper__dbfactory
     }
 
     /**
-     * Helper function, it takes an MgdSchema object and converts it into a MidCOM DBA object.
+     * Convert MgdSchema object into a MidCOM DBA object.
      *
      * If the conversion cannot be done for some reason, the function returns null and logs
-     * an error.
-     *
-     * We also ensure that the corresponding component has been loaded.
+     * an error. We also ensure that the corresponding component has been loaded.
      *
      * @param MidgardObject $object MgdSchema Object
      * @return midcom_core_dbaobject

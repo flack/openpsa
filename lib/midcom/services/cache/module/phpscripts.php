@@ -150,7 +150,7 @@ class midcom_services_cache_module_phpscripts extends midcom_services_cache_modu
     }
 
     /**
-     * This function creates a filename out of the given namespace and local identifier pair.
+     * Create a filename out of the given namespace and local identifier pair.
      * Be aware, that this script does <i>not</i> protect against misuse of the system, it
      * is limited to prevent accidential problems like slashes in path names and the like.
      * Namespace and local identifier are separated by a dash.

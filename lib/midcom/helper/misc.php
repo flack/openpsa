@@ -14,7 +14,7 @@
 class midcom_helper_misc
 {
     /**
-     * Helper function to turn typical midcom config files into PHP arrays
+     * Turn midcom config files into PHP arrays
      *
      * @param string $data The data to parse
      * @throws midcom_error
@@ -207,9 +207,9 @@ class midcom_helper_misc
     }
 
     /**
-     * Helper function for finding MIME type image for a document
+     * Find MIME type image for a document
      *
-     * Used in midcom.admin.styleeditor, midcom.helper.imagepopup, midgard.admin.asgard and org.openpsa.documents.
+     * Used in midcom.helper.imagepopup, midgard.admin.asgard and org.openpsa.documents.
      *
      * @param string $mimetype  Document MIME type
      * @return string    Path to the icon
@@ -253,7 +253,7 @@ class midcom_helper_misc
     }
 
     /**
-     * Helper function for pretty printing file sizes
+     * Pretty print file sizes
      *
      * @param int $size  File size in bytes
      * @return string    Prettified file size
@@ -274,7 +274,7 @@ class midcom_helper_misc
     }
 
     /**
-     * Fixes newline etc encoding issues in serialized data
+     * Fix newline etc encoding issues in serialized data
      *
      * @param string $data The data to fix.
      * @return string $data with serializations fixed.
@@ -423,8 +423,7 @@ class midcom_helper_misc
     }
 
     /**
-     * Helper function iterating through possible page directories in style-tree and checking if
-     * the page exist(as a folder).
+     * Iterate through possible page directories in style-tree and check if the page exists (as a folder).
      *
      * @param string $page_name
      * @param string $theme_root

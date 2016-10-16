@@ -526,8 +526,7 @@ class midcom_helper_head
     /**
      * Echo the jquery statuses
      *
-     * This function echos the scripts added by the add_jquery_state_script
-     * method.
+     * This function echos the scripts added by the add_jquery_state_script method.
      *
      * This method is called from print_head_elements method.
      *

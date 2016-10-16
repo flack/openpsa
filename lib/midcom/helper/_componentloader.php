@@ -106,8 +106,7 @@ class midcom_helper__componentloader
     public $manifests = array();
 
     /**
-     * This function will invoke _load directly. If the loading process
-     * is unsuccessful, it will throw midcom_error.
+     * Invoke _load directly. If the loading process is unsuccessful, throw midcom_error.
      *
      * @param string $path    The component to load explicitly.
      */
@@ -120,8 +119,7 @@ class midcom_helper__componentloader
     }
 
     /**
-     * This function will invoke _load directly. If the loading process
-     * is unsuccessful, false is returned.
+     * Invoke _load directly. If the loading process is unsuccessful, false is returned.
      *
      * @param string $path    The component to load explicitly.
      * @return boolean Indicating success.
@@ -167,9 +165,8 @@ class midcom_helper__componentloader
     }
 
     /**
-     * This function will load the component specified by the MidCOM
-     * path $path. If the component could not be loaded successfully due
-     * to integrity errors, it will return false.
+     * Load the component specified by $path. If the component could not be loaded
+     * successfully due to integrity errors, it will return false.
      *
      * @param string $path    The component to load.
      * @return boolean Indicating success.
@@ -304,8 +301,7 @@ class midcom_helper__componentloader
     }
 
     /**
-     * Helper, converting a component path (net.nehmer.blog)
-     * to a snippetpath (/net/nehmer/blog).
+     * Convert a component path (net.nehmer.blog) to a snippetpath (/net/nehmer/blog).
      *
      * @param string $component_name    Input string.
      * @return string        Converted string.
@@ -325,8 +321,7 @@ class midcom_helper__componentloader
     }
 
     /**
-     * Helper, converting a component path (net.nehmer.blog)
-     * to a class prefix (net_nehmer_blog).
+     * Convert a component path (net.nehmer.blog) to a class prefix (net_nehmer_blog).
      *
      * @param string $path    Input string.
      * @return string        Converted string.
@@ -475,7 +470,7 @@ class midcom_helper__componentloader
     }
 
     /**
-     * This small helper builds a complete set of custom data associated with a given component
+     * Build a complete set of custom data associated with a given component
      * identifier. In case a given component does not have the key set and the boolean parameter
      * is set to true, an empty array is added implicitly.
      *

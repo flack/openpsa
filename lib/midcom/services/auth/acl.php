@@ -420,8 +420,7 @@ class midcom_services_auth_acl
     }
 
     /**
-     * This helper function loads and prepares the list of class magic privileges for
-     * usage. It will assign them to the $_*_default_class_privileges members.
+     * Load and prepare the list of class magic privileges for usage.
      *
      * @param string $class The class name for which defaults should be loaded.
      */
@@ -508,9 +507,8 @@ class midcom_services_auth_acl
     }
 
     /**
-     * This is a simple helper function which validates whether a given privilege
-     * exists by its name. Essentially this checks if a corresponding default privilege
-     * has been registered in the system.
+     * Validate whether a given privilege exists by its name. Essentially this checks
+     * if a corresponding default privilege has been registered in the system.
      *
      * @todo This call should load the component associated to the privilege on demand.
      * @param string $name The name of the privilege to check.

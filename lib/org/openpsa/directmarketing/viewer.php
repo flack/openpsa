@@ -44,7 +44,7 @@ class org_openpsa_directmarketing_viewer extends midcom_baseclasses_components_r
     }
 
     /**
-     * This function prepares the schemadb
+     * Prepare the schemadb
      */
     public function load_schemas()
     {

@@ -338,7 +338,7 @@ class midcom_core_user
     }
 
     /**
-     * Small helper to get the GUID of the user's first group. This is used mainly to populate
+     * Get the GUID of the user's first group. This is used mainly to populate
      * the owner field during DBa object create calls
      *
      * @return mixed GUID of the first group found or false
@@ -557,7 +557,7 @@ class midcom_core_user
     }
 
     /**
-     * This function will return a MidCOM DBA level storage object for the current user.
+     * Return the MidCOM DBA object for the current user.
      * Be aware that depending on ACL information, the retrieval of the user may fail.
      *
      * @return midcom_db_person The user which is associated with this record or false if the object cannot be accessed.

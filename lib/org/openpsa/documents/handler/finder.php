@@ -56,7 +56,7 @@ class org_openpsa_documents_handler_finder extends midcom_baseclasses_components
     }
 
     /**
-     * Helper that adds toolbar items
+     * Add toolbar items
      */
     private function _populate_toolbar()
     {

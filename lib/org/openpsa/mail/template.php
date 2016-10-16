@@ -159,7 +159,7 @@ class org_openpsa_mail_template
     }
 
     /**
-     * Helper function to convert an object into a string representation.
+     * Convert an object into a string representation.
      *
      * Uses word wrapping and skips members beginning with an underscore
      * (which are private per definition). Relies on reflection to parse
@@ -198,7 +198,7 @@ class org_openpsa_mail_template
     }
 
     /**
-     * Helper function to convert an array into a string representation
+     * Convert an array into a string representation
      *
      * Uses word wrapping and skips recursive Arrays or objects.
      *

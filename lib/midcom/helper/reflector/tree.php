@@ -179,7 +179,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
     }
 
     /**
-     * Method to get rendered path for object
+     * Get rendered path for object
      *
      * @param midgard_object $object, the object to get path for
      * @param string $separator the string used to separate path components
@@ -752,7 +752,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
     }
 
     /**
-     * Static method to add default ("title" and "name") sorts to a QB instance
+     * Add default ("title" and "name") sorts to a QB instance
      *
      * @param midgard_query_builder $qb QB instance
      * @param string $schema_type valid mgdschema class name

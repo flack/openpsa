@@ -46,7 +46,7 @@ class org_openpsa_projects_task_resource_dba extends midcom_core_dbaobject
     }
 
     /**
-     * Helper function that adds a member to parents if necessary
+     * Add a member to parents if necessary
      *
      * @param org_openpsa_projects_task_dba $object The object for which we search the parent
      */
@@ -82,7 +82,7 @@ class org_openpsa_projects_task_resource_dba extends midcom_core_dbaobject
     }
 
     /**
-     * Helper function that removes a member from parent resources if necessary
+     * Remove a member from parent resources if necessary
      *
      * @param org_openpsa_projects_task_dba $object The object for which we search the parent
      */

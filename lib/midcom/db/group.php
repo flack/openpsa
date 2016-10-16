@@ -43,7 +43,7 @@ class midcom_db_group extends midcom_core_dbaobject
     }
 
     /**
-     * Helper function, adds the given person to this group. The current user must have
+     * Add the given person to this group. The current user must have
      * midgard:create privileges on this object for this to succeed. If the person is
      * already a member of this group, nothing is done.
      *
@@ -75,7 +75,7 @@ class midcom_db_group extends midcom_core_dbaobject
     }
 
     /**
-     * Checks whether the given user is a member of this group.
+     * Check whether the given user is a member of this group.
      *
      * @param midcom_db_person The person to check.
      * @return boolean Indicating membership.

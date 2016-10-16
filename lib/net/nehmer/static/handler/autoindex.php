@@ -95,8 +95,7 @@ class net_nehmer_static_handler_autoindex extends midcom_baseclasses_components_
     }
 
     /**
-     * This helper function goes over the topic and loads all available objects for displaying
-     * in the autoindex.
+     * Go over the topic and load all available objects for displaying in the autoindex.
      *
      * It will populate the request data key 'create_urls' as well. See the view handler for
      * further details.

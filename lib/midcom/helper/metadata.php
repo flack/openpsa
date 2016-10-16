@@ -132,7 +132,7 @@ class midcom_helper_metadata
     /* ------- BASIC METADATA INTERFACE --------- */
 
     /**
-     * This function will return a single metadata key from the object. Its return
+     * Return a single metadata key from the object. The return
      * type depends on the metadata key that is requested (see the class introduction).
      *
      * You will not get the data from the datamanager using this calls, but the only
@@ -225,7 +225,7 @@ class midcom_helper_metadata
     }
 
     /**
-     * Helper function to determine the schema to use for a particular object
+     * Determine the schema to use for a particular object
      *
      * @param array $schemadb The schema DB
      * @param midcom_core_dbaobject $object the object to work on

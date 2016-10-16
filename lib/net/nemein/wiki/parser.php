@@ -232,7 +232,7 @@ class net_nemein_wiki_parser extends midcom_baseclasses_components_purecode
     }
 
     /**
-     * Method for replacing wiki syntax in the document with HTML for display purposes
+     * Replace wiki syntax in the document with HTML for display purposes
      */
     function replace_wikiwords($match)
     {

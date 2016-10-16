@@ -58,7 +58,7 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
     }
 
     /**
-     * Helper that populates the toolbar
+     * Populate the toolbar
      */
     private function _populate_toolbar()
     {
@@ -145,7 +145,7 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
     }
 
     /**
-     * Helper that lists all deliverables belonging to the current project
+     * List all deliverables belonging to the current project
      */
     private function _list_deliverables()
     {

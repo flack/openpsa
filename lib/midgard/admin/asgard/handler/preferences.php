@@ -110,7 +110,7 @@ implements midcom_helper_datamanager2_interfaces_edit
     }
 
     /**
-     * Static method for getting the languages
+     * Get the languages
      */
     public static function get_languages()
     {

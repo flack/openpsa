@@ -14,7 +14,7 @@
 class org_openpsa_slideshow_handler_index extends midcom_baseclasses_components_handler
 {
     /**
-     * Handler method for listing users
+     * Handler for listing users
      *
      * @param string $handler_id Name of the used handler
      * @param array $args Array containing the variable arguments passed to the handler
@@ -79,7 +79,7 @@ class org_openpsa_slideshow_handler_index extends midcom_baseclasses_components_
     }
 
     /**
-     * Handler method for listing users
+     * Handler for listing users
      *
      * @param string $handler_id Name of the used handler
      * @param array $args Array containing the variable arguments passed to the handler

@@ -80,7 +80,7 @@ class org_openpsa_expenses_viewer extends midcom_baseclasses_components_request
     }
 
     /**
-     * Helper function that lists options for the person filter
+     * List options for the person filter
      */
     public function get_person_options()
     {

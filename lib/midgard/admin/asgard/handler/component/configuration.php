@@ -253,7 +253,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
     /**
      * Ensure the configuration is valid
      *
-     * This method will throw an Exception if it is not.
+     * @throws midcom_error
      */
     private function _check_config($config)
     {

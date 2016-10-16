@@ -343,8 +343,8 @@ class midcom_core_privilege
     }
 
     /**
-     * This is a helper function which lists all content privileges
-     * assigned to a given object. Essentially, this will exclude all SELF style assignees.
+     * List all content privileges assigned to a given object.
+     * Essentially, this will exclude all SELF style assignees.
      *
      * This function is for use in the authentication framework only.
      *
@@ -357,8 +357,8 @@ class midcom_core_privilege
     }
 
     /**
-     * This is a helper function which lists all privileges assigned
-     * directly to a user or group. These are all SELF privileges.
+     * List all privileges assigned directly to a user or group.
+     * These are all SELF privileges.
      *
      * This function is for use in the authentication framework only.
      *
@@ -371,8 +371,7 @@ class midcom_core_privilege
     }
 
     /**
-     * This is a static helper function which lists all privileges assigned
-     * an object unfiltered.
+     * List all privileges assigned an object unfiltered.
      *
      * This function is for use in the authentication framework only
      *
@@ -385,8 +384,7 @@ class midcom_core_privilege
     }
 
     /**
-     * This is a static helper function which lists all privileges assigned
-     * an object unfiltered.
+     * List all privileges assigned an object unfiltered.
      *
      * @param string $guid The GUID of the object for which we should look up privileges.
      * @return midcom_core_privilege[]
@@ -415,9 +413,7 @@ class midcom_core_privilege
     }
 
     /**
-     * This is an internal helper function used by get_privileges in case
-     * that there is no cache hit. It will query the database and construct all
-     * necessary objects out of it.
+     * Query the database for privileges and construct all necessary objects out of it.
      *
      * @param string $guid The GUID of the object for which to query ACL data.
      * @param string $type SELF or CONTENT
@@ -467,9 +463,8 @@ class midcom_core_privilege
     }
 
     /**
-     * This is a helper function which retrieves a single given privilege
-     * at a content object, identified by the combination of assignee and privilege
-     * name.
+     * Retrieve a single given privilege at a content object, identified by
+     * the combination of assignee and privilege name.
      *
      * This call will return an object even if the privilege is set to INHERITED at
      * the given object (i.e. does not exist) for consistency reasons. Errors are
@@ -526,7 +521,7 @@ class midcom_core_privilege
     }
 
     /**
-     * Internal helper function, determines whether a given privilege applies for the given
+     * Determine whether a given privilege applies for the given
      * user in content mode. This means, that all SELF privileges are skipped at this point,
      * EVERYONE privileges apply always, and all other privileges are checked against the
      * user.

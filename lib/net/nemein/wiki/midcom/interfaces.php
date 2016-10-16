@@ -15,8 +15,7 @@ class net_nemein_wiki_interface extends midcom_baseclasses_components_interface
 implements midcom_services_permalinks_resolver
 {
     /**
-     * Iterate over all wiki pages and create index record using the datamanager2 indexer
-     * method.
+     * @inheritdoc
      */
     public function _on_reindex($topic, $config, &$indexer)
     {

@@ -72,7 +72,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
     }
 
     /**
-     * Static method for actually fetching a feed
+     * Actually fetch a feed
      *
      * @param string $url The URL to fetch
      * @return SimplePie

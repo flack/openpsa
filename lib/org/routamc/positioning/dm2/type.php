@@ -20,7 +20,7 @@ class org_routamc_positioning_dm2_type extends midcom_helper_datamanager2_type
     var $relation = org_routamc_positioning_location_dba::RELATION_LOCATED;
 
     /**
-     * This function loads all known attachments from the storage object. It
+     * Load all known attachments from the storage object. It
      * will leave the field empty in case the storage object is null.
      */
     public function convert_from_storage($source)

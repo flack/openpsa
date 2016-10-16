@@ -571,8 +571,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
     }
 
     /**
-     * This method handles the request using the handler determined by the can_handle
-     * check.
+     * Handle the request using the handler determined by the can_handle check.
      *
      * Before doing anything, it will call the _on_handle event handler to allow for
      * generic request preparation.
@@ -644,7 +643,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
     }
 
     /**
-     * Helper function, which prepares the handler callback for execution.
+     * Prepares the handler callback for execution.
      * This will create the handler class instance if required.
      */
     public function _prepare_handler()
@@ -792,7 +791,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
     /**#@-*/
 
     /**
-     * This function creates a new plugin namespace and maps the configuration to it.
+     * Create a new plugin namespace and map the configuration to it.
      * It allows flexible, user-configurable extension of components.
      *
      * Only very basic testing is done to keep runtime up, currently the system only
@@ -947,8 +946,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
     }
 
     /**
-     * This helper function registers the plugin namespaces provided from the MidCOM
-     * core.
+     * Register the plugin namespaces provided from MidCOM core.
      */
     private function _register_core_plugin_namespaces()
     {

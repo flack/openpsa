@@ -745,8 +745,8 @@ class midcom_helper__styleloader
     }
 
     /**
-     * This function merges the prepend and append styles with the
-     * componentstyle. This happens when the enter_context function is called.
+     * Merge the prepend and append styles with the componentstyle. This happens when the
+     * enter_context function is called.
      * You cannot change the style call stack after that (unless you call enter_context again of course).
      *
      * @param string component style

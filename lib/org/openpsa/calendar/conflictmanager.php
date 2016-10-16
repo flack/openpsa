@@ -40,7 +40,7 @@ class org_openpsa_calendar_conflictmanager
     }
 
     /**
-     * Helper function to validate create/edit forms
+     * Validate create/edit forms
      *
      * @param array $input Form submit values
      * @return mixed Array with error message or true on success

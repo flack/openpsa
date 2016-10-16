@@ -34,7 +34,7 @@ implements org_openpsa_widgets_grid_provider_client
     }
 
     /**
-     * Handler method for listing users
+     * Handler for listing users
      *
      * @param string $handler_id Name of the used handler
      * @param array $args Array containing the variable arguments passed to the handler

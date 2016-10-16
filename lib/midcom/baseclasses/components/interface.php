@@ -356,8 +356,7 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
     // ===================== COMMAND EXECUTION HANDLER ======================
 
     /**
-     * This new interface function will initiate a reindex run for the given
-     * component and topic. See the _on_reindex() event handler for details.
+     * Initiate a reindex run for the given component and topic.
      *
      * @param midcom_db_topic $topic The topic that should be reindexed.
      * @return boolean Indicating success.
@@ -384,8 +383,8 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
     }
 
     /**
-     * This is a small helper function which gets the full configuration set active for a given
-     * topic. If no topic is passed, the system wide default configuration is returned.
+     * Get the full configuration set active for a given topic.
+     * If no topic is passed, the system wide default configuration is returned.
      *
      * Be aware, that this call does not check if the passed topic is actually handled by
      * this component, as it is theoretically possible for components to drop configuration
@@ -405,7 +404,7 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
     }
 
     /**
-     * This function delegates all watched operations, in two phases. First,
+     * Delegate all watched operations, in two phases. First,
      * the general _on_watched_operation handler is called, to allow for handling
      * generic operations. After that, the individual watches are called, to allow
      * for more specific processing.

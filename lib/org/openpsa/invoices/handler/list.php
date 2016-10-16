@@ -225,7 +225,7 @@ implements org_openpsa_widgets_grid_provider_client
     }
 
     /**
-     * Helper that shows the six most recently paid invoices
+     * Show the six most recently paid invoices
      */
     private function _show_recent()
     {
@@ -244,7 +244,7 @@ implements org_openpsa_widgets_grid_provider_client
     }
 
     /**
-     * Helper that adds a customer/deliverable constraints to list QBs
+     * Add a customer/deliverable constraint to list QBs
      *
      * @param midcom_core_querybuilder $qb th QB we're working with
      */

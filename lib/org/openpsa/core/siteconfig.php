@@ -98,7 +98,7 @@ class org_openpsa_core_siteconfig extends midcom_baseclasses_components_purecode
     }
 
     /**
-     * Helper function to set the values in the config snippet
+     * Set the values in the config snippet
      *
      * @param string $key The config key to set
      * @param string $value The config value to set
@@ -161,7 +161,7 @@ class org_openpsa_core_siteconfig extends midcom_baseclasses_components_purecode
     }
 
     /**
-     * Helper function to retrieve the full URL for the first topic of a given component
+     * Retrieve the full URL for the first topic of a given component
      *
      * @param string $component the component to look for
      * @return mixed The component URL or false
@@ -179,7 +179,7 @@ class org_openpsa_core_siteconfig extends midcom_baseclasses_components_purecode
     }
 
     /**
-     * Helper function to retrieve the relative URL for the first topic of a given component
+     * Retrieve the relative URL for the first topic of a given component
      *
      * @param string $component The component to look for
      * @return mixed the component URL or false
@@ -196,7 +196,7 @@ class org_openpsa_core_siteconfig extends midcom_baseclasses_components_purecode
     }
 
     /**
-     * Helper function to retrieve the GUID for the first topic of a given component
+     * Retrieve the GUID for the first topic of a given component
      *
      * @param string $component the component to look for
      * @return mixed the component URL or false

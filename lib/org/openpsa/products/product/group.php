@@ -75,7 +75,7 @@ class org_openpsa_products_product_group_dba extends midcom_core_dbaobject
     }
 
     /**
-     * Helper to make an array usable with DM2 select datatype for selecting product groups
+     * Make an array usable with DM2 select datatype for selecting product groups
      *
      * @param mixed $up            Either the ID or GUID of the product group
      * @param string $prefix       Prefix for the code

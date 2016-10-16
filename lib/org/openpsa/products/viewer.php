@@ -249,8 +249,7 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
     }
 
     /**
-     * Helper, updates the context so that we get a complete breadcrumb line towards the current
-     * location.
+     * Update the context so that we get a complete breadcrumb line towards the current location.
      *
      * @param midcom_core_dbaobject $object
      */

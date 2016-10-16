@@ -244,8 +244,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
     }
 
     /**
-     * Helper, updates the context so that we get a complete breadcrumb line towards the current
-     * location.
+     * Update the context so that we get a complete breadcrumb line towards the current location.
      */
     private function _update_breadcrumb_line($action)
     {

@@ -93,7 +93,7 @@ class midcom_services_dbclassloader
     }
 
     /**
-     * This helper function validates a class definition list for correctness.
+     * Validate a class definition list for correctness.
      *
      * Where possible, missing elements are completed with sensible defaults.
      *
@@ -116,8 +116,7 @@ class midcom_services_dbclassloader
     }
 
     /**
-     * This helper function loads a class definition file from the disk and
-     * returns its contents.
+     * Loads a class definition file from the disk and returns its contents.
      *
      * It will translate component and filename into a full path and delivers
      * the contents as an array.

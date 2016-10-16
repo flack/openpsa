@@ -287,7 +287,7 @@ class midcom_helper_nav
     }
 
     /**
-     * This function tries to resolve a guid into a NAP object.
+     * Try to resolve a guid into a NAP object.
      *
      * The code is optimized trying to avoid a full-scan if possible. To do this it
      * will treat topic and article guids specially: In both cases the system will

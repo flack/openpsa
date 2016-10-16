@@ -30,9 +30,8 @@ abstract class org_routamc_positioning_geocoder extends midcom_baseclasses_compo
     abstract public function geocode(array $location, array $options = array());
 
     /**
-     * This is a static factory method which lets you dynamically create geocoder instances.
-     * It takes care of loading the required class files. The returned instances will be created
-     * but not initialized.
+     * Dynamically create geocoder instances.
+     * The returned instances will be created, but not initialized.
      *
      * @param string $type The type of the geocoder (the file name from the geocoder directory).
      * @return org_routamc_positioning_geocoder A reference to the newly created geocoder instance.

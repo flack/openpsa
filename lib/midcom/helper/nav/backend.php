@@ -753,8 +753,7 @@ class midcom_helper_nav_backend
     }
 
     /**
-     * Writes the leaves passed to this function to the cache, assigning them to the
-     * specified node.
+     * Writes the passed leaves to the cache, assigning them to the specified node.
      *
      * The function will bail out on any critical error. Data inconsistencies will be
      * logged and overwritten silently otherwise.
@@ -1180,7 +1179,7 @@ class midcom_helper_nav_backend
     }
 
     /**
-     * Small helper to determine a topic's parent id without loading the full object
+     * Determine a topic's parent id without loading the full object
      *
      * @param integer $topic_id The topic ID
      * @return integer The parent ID or false

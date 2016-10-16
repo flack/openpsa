@@ -95,8 +95,7 @@ class midcom_services_rcs
     }
 
     /**
-     * Method for determining if we should display a particular field
-     * in the diff or preview states
+     * Determine if we should display a particular field in the diff or preview states
      */
     public static function is_field_showable($field)
     {

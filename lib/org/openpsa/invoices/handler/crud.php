@@ -35,7 +35,7 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
     }
 
     /**
-     * Helper function to alter the schema based on the current operation
+     * Alter the schema based on the current operation
      */
     private function _modify_schema()
     {
@@ -342,8 +342,7 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
     }
 
     /**
-     * Helper, updates the context so that we get a complete breadcrumb line towards the current
-     * location.
+     * Update the context so that we get a complete breadcrumb line towards the current location.
      *
      * @param string $handler_id The current handler
      */
@@ -358,7 +357,7 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
     }
 
     /**
-     * Method for updating title for current object and handler
+     * Update title for current object and handler
      *
      * @param mixed $handler_id The ID of the handler.
      */
@@ -389,9 +388,9 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
     }
 
     /**
-     * Method for adding or updating the invoice to the MidCOM indexer service.
+     * Add or update the invoice to the MidCOM indexer service.
      *
-     * @param $dm Datamanager2 instance containing the object
+     * @param &$dm Datamanager2 instance containing the object
      */
     public function _index_object(&$dm)
     {

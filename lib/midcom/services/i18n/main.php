@@ -94,9 +94,8 @@ class midcom_services_i18n
     private $_language_hosts = array();
 
     /**
-     * This method initializes the available i18n framework by determining
-     * the desired language from these different sources: HTTP Content
-     * Negotiation, Client side language cookie.
+     * Initialize the available i18n framework by determining the desired language
+     * from these different sources: HTTP Content Negotiation, Client side language cookie.
      *
      * It uses the MidCOM Language database now located at
      * /lib/midcom/config/language-db.inc for any decisions. Its two
@@ -435,7 +434,7 @@ class midcom_services_i18n
     }
 
     /**
-     * This method tries to pull the user's preferred language and
+     * Try to pull the user's preferred language and
      * character set out of a cookie named "midcom_services_i18n".
      */
     private function _read_cookie()
@@ -459,9 +458,8 @@ class midcom_services_i18n
     }
 
     /**
-     * This method pulls available language and content type data out of
-     * the HTTP Headers delivered by the browser and populates the member
-     * variables $_http_lang and $_http_content_type.
+     * Pull available language and content type data out of the HTTP Headers delivered
+     * by the browser and populate the member variables $_http_lang and $_http_content_type.
      *
      * q-parameters for prioritization are supported.
      */
@@ -601,8 +599,7 @@ class midcom_services_i18n
     }
 
     /**
-     * This function will convert a string assumed to be in the currently active
-     * charset to UTF8.
+     * Convert a string assumed to be in the currently active charset to UTF8.
      *
      * @param string $string The string to convert
      * @return string The string converted to UTF-8
@@ -617,8 +614,7 @@ class midcom_services_i18n
     }
 
     /**
-     * This function will convert a string assumed to be in UTF-8 to the currently
-     * active charset.
+     * Convert a string assumed to be in UTF-8 to the currently active charset.
      *
      * @param string $string The string to convert
      * @return string The string converted to the current charset

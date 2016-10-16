@@ -188,8 +188,7 @@ class midcom_core_group
     }
 
     /**
-     * This method returns a list of all groups in which the
-     * MidCOM user passed is a member.
+     * Return a list of all groups in which the MidCOM user passed is a member.
      *
      * @param midcom_core_user $user The user that should be looked-up.
      * @return midcom_core_group[] Member groups, indexed by their ID.
@@ -282,7 +281,7 @@ class midcom_core_group
     }
 
     /**
-     * This function will return a MidCOM DBA level storage object for the current group. Be aware,
+     * Return a MidCOM DBA level storage object for the current group. Be aware,
      * that depending on ACL information, the retrieval of the user may fail.
      *
      * Also, as outlined in the member $_storage, not all groups may have a DBA object associated

@@ -123,8 +123,8 @@ class midcom_core_querybuilder extends midcom_core_query
     }
 
     /**
-     * This function will execute the Querybuilder and call the appropriate callbacks from the
-     * class it is associated to. This way, class authors have full control over what is actually
+     * Execute the Querybuilder and call the appropriate callbacks from the associated
+     * class. This way, class authors have full control over what is actually
      * returned to the application.
      *
      * The calling sequence of all event handlers of the associated class is like this:

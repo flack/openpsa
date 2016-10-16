@@ -56,7 +56,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
     private $_schemadb = null;
 
     /**
-     * Helper function to retrieve the object from the db
+     * Retrieve the object from the db
      *
      * @param string $guid GUID
      */
@@ -613,7 +613,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
     }
 
     /**
-     * Helper function that adds the necessary static files for copy/delete operations
+     * Add the necessary static files for copy/delete operations
      */
     private function _add_jscripts()
     {

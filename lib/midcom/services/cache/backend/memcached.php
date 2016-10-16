@@ -102,12 +102,12 @@ class midcom_services_cache_backend_memcached extends midcom_services_cache_back
     }
 
     /**
-     * This method is unused as we use persistant connections, letting memcached take care about synchronization.
+     * This method is unused as we use persistent connections, letting memcached take care about synchronization.
      */
     function _open($write = false) {}
 
     /**
-     * This method is unused as we use persistant connections, letting memcached take care about synchronization.
+     * This method is unused as we use persistent connections, letting memcached take care about synchronization.
      */
     function _close() {}
 

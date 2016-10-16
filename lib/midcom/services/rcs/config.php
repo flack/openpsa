@@ -43,8 +43,7 @@ class midcom_services_rcs_config
     }
 
     /**
-     *
-     * This method should return an array() of config options.
+     * Return an array() of config options.
      */
     function _get_config()
     {

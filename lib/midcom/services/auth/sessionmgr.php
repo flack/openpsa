@@ -315,7 +315,7 @@ class midcom_services_auth_sessionmgr
     }
 
     /**
-     * This function authenticates a given session, which must have been loaded
+     * Authenticate a given session, which must have been loaded
      * previously with load_login_session (this is mandatory).
      *
      * On success, the Auth service main object will automatically be resynced to
@@ -360,7 +360,7 @@ class midcom_services_auth_sessionmgr
     }
 
     /**
-     * Call this function to drop a session which has been previously loaded successfully.
+     * Drop a session which has been previously loaded successfully.
      * Usually, you will use this during logouts.
      *
      * @param string $sessionid The id of the session to invalidate.
@@ -388,7 +388,7 @@ class midcom_services_auth_sessionmgr
     }
 
     /**
-     * This function obfuscates a password in some way so that accidential
+     * Obfuscate a password in some way so that accidential
      * "views" of a password in the database or a log are not immediately
      * a problem. This is not targeted to prevent intrusion, just to prevent
      * somebody viewing the logs or debugging the system is able to just

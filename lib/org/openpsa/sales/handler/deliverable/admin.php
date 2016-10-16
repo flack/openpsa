@@ -64,7 +64,7 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
     }
 
     /**
-     * Helper function to alter the schema based on the current operation
+     * Alter the schema based on the current operation
      */
     private function _modify_schema()
     {

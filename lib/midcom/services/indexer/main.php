@@ -317,8 +317,7 @@ class midcom_services_indexer implements EventSubscriberInterface
     }
 
     /**
-     * This function tries to instantiate the most specific document class
-     * for the object given in the parameter.
+     * Try to instantiate the most specific document class for the object given in the parameter.
      *
      * This class will not return empty document base class instances if nothing
      * specific can be found. If you are in this situation, you need to instantiate

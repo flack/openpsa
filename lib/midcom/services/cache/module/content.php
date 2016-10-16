@@ -273,7 +273,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
     }
 
     /**
-     * This function is responsible for initializing the cache.
+     * Initialize the cache.
      *
      * The first step is to initialize the cache backends. The names of the
      * cache backends used for meta and data storage are derived from the name
@@ -464,7 +464,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
     }
 
     /**
-     * This function will start the output cache. Call this before any output
+     * Start the output cache. Call this before any output
      * is made. MidCOM's startup sequence will automatically do this.
      */
     private function _start_caching()
@@ -595,7 +595,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
     }
 
     /**
-     * Use this function to put the cache into a "live mode". This will disable the
+     * Put the cache into a "live mode". This will disable the
      * cache during runtime, correctly flushing the output buffer and sending cache
      * control headers. You will not be able to send any additional headers after
      * executing this call therefore you should adjust the headers in advance.
@@ -643,7 +643,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
     }
 
     /**
-     * This method stores a sent header into the cache database, so that it will
+     * Store a sent header into the cache database, so that it will
      * be resent when the cache page is delivered. midcom_application::header()
      * will automatically call this function, you need to do this only if you use
      * the PHP header function.

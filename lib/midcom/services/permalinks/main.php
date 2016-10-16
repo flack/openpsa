@@ -41,8 +41,8 @@
 class midcom_services_permalinks
 {
     /**
-     * This function resolves any GUID into a fully qualified URL which can be relocated
-     * to. It operates in multiple phases:
+     * Resolve any GUID into a fully qualified URL which can be relocated
+     * to. Operates in multiple phases:
      *
      * 1. Check, whether the GUID is already known by NAP. In case we have the corresponding
      *    node/leaf loaded, use its linking information directly.
@@ -196,8 +196,7 @@ class midcom_services_permalinks
     }
 
     /**
-     * This small helper should be used to create Permalink URLs from GUIDs. It always
-     * points to the live site (given correct system configuration).
+     * Create Permalink URLs from GUIDs. They always point to the live site (given correct system configuration).
      *
      * @param string $guid The Guid to link to.
      * @return string The full URL of the Permalink.
@@ -208,8 +207,8 @@ class midcom_services_permalinks
     }
 
     /**
-     * This small helper should be used to create Permalink URLs for attachments. It always
-     * points to the live site (given correct system configuration).
+     * Create Permalink URLs for attachments.
+     * They always point to the live site (given correct system configuration).
      *
      * @param string $guid The GUID to link to.
      * @param string $filename The attachment's filename

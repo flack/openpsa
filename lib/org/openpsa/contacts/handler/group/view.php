@@ -111,7 +111,7 @@ implements midcom_helper_datamanager2_interfaces_view, org_openpsa_widgets_grid_
     }
 
     /**
-     * Handler method for listing group members
+     * Handler for listing group members
      *
      * @param string $handler_id Name of the used handler
      * @param array $args Array containing the variable arguments passed to the handler

@@ -95,7 +95,7 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
     }
 
     /**
-     * Helper function that populates the toolbar with the necessary items
+     * Populate the toolbar with the necessary items
      *
      * @param string $handler_id the ID of the current handler
      */

@@ -530,7 +530,7 @@ class midcom_services_i18n_l10n
     }
 
     /**
-     * Helper function that returns the entire translation table for the given language
+     * Returns the entire translation table for the given language
      *
      * @param string $language The language to query
      */

@@ -65,8 +65,7 @@ class net_nemein_rss_handler_fetch extends midcom_baseclasses_components_handler
     }
 
     /**
-     * Helper, updates the context so that we get a complete breadcrumb line towards the current
-     * location.
+     * Update the context so that we get a complete breadcrumb line towards the current location.
      *
      * @param string $handler_id The current handler's ID
      */

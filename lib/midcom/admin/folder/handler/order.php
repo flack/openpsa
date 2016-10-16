@@ -16,7 +16,7 @@
 class midcom_admin_folder_handler_order extends midcom_baseclasses_components_handler
 {
     /**
-     * This function will set the score.
+     * Set the score.
      */
     private function _process_order_form()
     {

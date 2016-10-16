@@ -97,9 +97,8 @@ abstract class midcom_helper_filesync_exporter extends midcom_baseclasses_compon
     }
 
     /**
-     * This is a static factory method which lets you dynamically create exporter instances.
-     * It takes care of loading the required class files. The returned instances will be created
-     * but not initialized.
+     * Dynamically create exporter instances.
+     * The returned instances will be created, but not initialized.
      *
      * @param string $type type
      * @return midcom_helper_filesync_exporter The newly created exporter instance.

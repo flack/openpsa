@@ -67,9 +67,8 @@ abstract class org_routamc_positioning_importer extends midcom_baseclasses_compo
     abstract function import(array $logs, $person_id);
 
     /**
-     * This is a static factory method which lets you dynamically create importer instances.
-     * It takes care of loading the required class files. The returned instances will be created
-     * but not initialized.
+     * Dynamically create importer instances.
+     * The returned instances will be created, but not initialized.
      *
      * @param string $type The type of the importer (the file name from the importer directory).
      * @return org_routamc_positioning_importer A reference to the newly created importer instance.

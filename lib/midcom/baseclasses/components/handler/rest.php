@@ -197,7 +197,7 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
     }
 
     /**
-     * do the processing: will call the corresponding handler method and set the mode
+     * Do the processing: will call the corresponding handler method and set the mode
      *
      * @return midcom_response_json
      */

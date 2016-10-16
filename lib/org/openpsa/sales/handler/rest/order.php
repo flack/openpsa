@@ -117,9 +117,10 @@ class org_openpsa_sales_handler_rest_order extends midcom_baseclasses_components
     }
 
     /**
-     * Helper function to copy some defaults from the given product to the deliverable
+     * Build new deliverable based on the given product
      *
      * @param org_openpsa_products_product_dba $product
+     * @return org_openpsa_sales_salesproject_deliverable_dba
      */
     function prepare_deliverable(org_openpsa_products_product_dba $product)
     {

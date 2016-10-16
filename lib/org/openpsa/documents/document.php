@@ -112,7 +112,7 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
     }
 
     /**
-     * Helper function to load the document's attachment
+     * Load the document's attachment
      *
      * @return midcom_db_attachment The attachment object
      */
@@ -139,8 +139,7 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
     }
 
     /**
-     * Helper function that tries to generate a human-readable file type by
-     * doing some educated guessing based on mimetypes
+     * Try to generate a human-readable file type by doing some educated guessing based on mimetypes
      *
      * @param string $mimetype The mimetype as reported by PHP
      * @return string The localized file type

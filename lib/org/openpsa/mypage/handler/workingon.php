@@ -80,7 +80,7 @@ class org_openpsa_mypage_handler_workingon extends midcom_baseclasses_components
     }
 
     /**
-     * Helper function that sets the request data for hour reports
+     * Set request data for hour reports
      *
      * @param $array The array returned by collector
      */

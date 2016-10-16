@@ -100,7 +100,7 @@ class org_openpsa_invoices_calculator extends midcom_baseclasses_components_pure
     }
 
     /**
-     * Helper function that tries to locate unsent invoices for deliverables in the same salesproject
+     * Try to locate unsent invoices for deliverables in the same salesproject
      *
      * Example use case: A support contract with multiple hourly rates (defined
      * as deliverables) for different types of work. Instead of sending the customer

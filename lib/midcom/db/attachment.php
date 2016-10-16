@@ -116,7 +116,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
     }
 
     /**
-     * This function reads the file and returns its contents
+     * Read the file and return its contents
      *
      * @return string
      */
@@ -129,7 +129,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
     }
 
     /**
-     * This function closes the open write handle obtained by the open() call again.
+     * Close the open write handle obtained by the open() call again.
      * It is required to call this function instead of a simple fclose to ensure proper
      * upgrade notifications.
      */

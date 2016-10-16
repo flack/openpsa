@@ -140,8 +140,8 @@ class midcom_services_cron
     }
 
     /**
-     * This helper function loads and validates all registered jobs. After
-     * this call, all required handler classes will be available.
+     * Load and validate all registered jobs.
+     * After this call, all required handler classes will be available.
      *
      * @param array $data The job configurations
      */
@@ -186,7 +186,7 @@ class midcom_services_cron
     }
 
     /**
-     * This function checks a jobs definition for validity.
+     * Check a jobs definition for validity.
      *
      * @param array $job The job to register.
      * @return boolean Indicating validity.

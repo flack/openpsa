@@ -66,8 +66,7 @@ implements midcom_services_permalinks_resolver
     }
 
     /**
-     * Iterate over all articles and create index record using the datamanager indexer
-     * method.
+     * Iterate over all articles and create index record using the datamanager indexer method.
      */
     public function _on_reindex($topic, $config, &$indexer)
     {

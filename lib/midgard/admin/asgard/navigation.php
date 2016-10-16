@@ -353,11 +353,9 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
     }
 
     /**
-     * Helper function that applies visibility restrictions from various sources
+     * Appliy visibility restrictions from various sources
      *
-     * Returns an alphabetically sorted list of class => title pairs
-     *
-     * @return Array
+     * @return array Alphabetically sorted list of class => title pairs
      */
     private function _process_root_types()
     {

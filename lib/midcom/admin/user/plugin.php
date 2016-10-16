@@ -20,7 +20,7 @@ class midcom_admin_user_plugin extends midcom_baseclasses_components_plugin
     }
 
     /**
-     * Static method for generating one password
+     * Generate one password
      *
      * @param int $length
      */

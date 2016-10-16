@@ -94,7 +94,7 @@ class org_openpsa_relatedto_suspect extends midcom_baseclasses_components_pureco
     }
 
     /**
-     * Helper to fill properties of given $link object from given link object with defaults
+     * Fill properties of given $link object from given link object with defaults
      *
      * Tries to be smart about the direction (inbound vs outbound) properties
      */

@@ -248,9 +248,9 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
     }
 
     /**
-     * helper function - contains code to mark invoice as paid,
-     * maybe move it to invoice-class ?
+     * Mark invoice as paid
      *
+     * @todo maybe move it to invoice-class ?
      * @param org_openpsa_invoices_invoice_dba $invoice contains invoice
      */
     private function _mark_as_paid(org_openpsa_invoices_invoice_dba $invoice)
@@ -269,9 +269,9 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
     }
 
     /**
-     * helper function - contains code to mark invoice as sent,
-     * maybe move it to invoice-class ?
+     * Mark invoice as sent
      *
+     * @todo maybe move it to invoice-class ?
      * @param org_openpsa_invoices_invoice_dba $invoice contains invoice
      */
     private function _mark_as_sent(org_openpsa_invoices_invoice_dba $invoice)

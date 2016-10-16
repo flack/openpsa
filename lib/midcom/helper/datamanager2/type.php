@@ -149,7 +149,7 @@ abstract class midcom_helper_datamanager2_type extends midcom_baseclasses_compon
     public function _on_configuring($config) {}
 
     /**
-     * Small helper which sets the current storage object to a new one
+     * Set the current storage object to a new one
      *
      * @param midcom_helper_datamanager2_storage $storage A reference to the storage object to use.
      */

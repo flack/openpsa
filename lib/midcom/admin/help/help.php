@@ -58,7 +58,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
     }
 
     /**
-     * Static method for getting component's documentation directory path
+     * Get component's documentation directory path
      *
      * @param string $component Component name
      * @return string Component documentation directory path
@@ -75,7 +75,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
     }
 
     /**
-     * Static method for checking if help file exists
+     * Check if help file exists
      *
      * @param string $help_id Help name ID
      * @param string $component Component name

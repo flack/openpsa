@@ -595,7 +595,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
     }
 
     /**
-     * Method to map extended classes
+     * Map extended classes
      *
      * For example org.openpsa.* components often expand core objects,
      * in config we specify which classes we wish to substitute with which
@@ -625,7 +625,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
     }
 
     /**
-     * Method to see if two MgdSchema classes are the same
+     * See if two MgdSchema classes are the same
      *
      * NOTE: also takes into account the various extended class scenarios
      *
@@ -725,7 +725,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
     }
 
     /**
-     * Method to resolve the "name" property of given object
+     * Resolve the "name" property of given object
      *
      * @see midcom_helper_reflector::get_name_property()
      * @param object $object the object to get the name property for

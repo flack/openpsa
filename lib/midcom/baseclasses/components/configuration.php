@@ -136,7 +136,7 @@ class midcom_baseclasses_components_configuration
     }
 
     /**
-     * This helper function reads a file from disk and evaluates its content as array.
+     * Read a file from disk and evaluate its content as array.
      * This is essentially a simple Array($data\n) eval construct.
      *
      * If the file does not exist, false is returned.
@@ -165,7 +165,7 @@ class midcom_baseclasses_components_configuration
     }
 
     /**
-     * This helper function reads a snippet and evaluates its content as array.
+     * Read a snippet and evaluate its content as array.
      * This is essentially a simple Array($data\n) eval construct.
      *
      * If the snippet does not exist, false is returned.

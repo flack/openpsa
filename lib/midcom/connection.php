@@ -560,7 +560,7 @@ class midcom_connection
     }
 
     /**
-     * Helper function that enables themes to have subdirectories (which have a similar effect to mgd1 pages)
+     * Enables themes to have subdirectories (which have a similar effect to mgd1 pages)
      *
      * @param string $uri The request path
      * @param string $self The instance's root URL

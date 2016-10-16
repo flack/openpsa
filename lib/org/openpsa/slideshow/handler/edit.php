@@ -88,7 +88,7 @@ class org_openpsa_slideshow_handler_edit extends midcom_baseclasses_components_h
     }
 
     /**
-     * Handler method for edit page
+     * Handler for edit page
      *
      * @param string $handler_id Name of the used handler
      * @param array $args Array containing the variable arguments passed to the handler

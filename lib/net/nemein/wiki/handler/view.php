@@ -298,9 +298,9 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
     }
 
     /**
-     * This function parses HTML content and looks for header tags, making index of them.
+     * Parse HTML content and look for header tags, making index of them.
      *
-     * What exactly it does is looks for all H<num> tags and converts them to named
+     * It looks for all H<num> tags and converts them to named
      * anchors, and prepends a list of links to them to the start of HTML.
      *
      * @todo Parse the heading structure to create OL subtrees based on their relative levels

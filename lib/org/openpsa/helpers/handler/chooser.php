@@ -153,7 +153,7 @@ implements midcom_helper_datamanager2_interfaces_create
     }
 
     /**
-     * Helper that tries to determine the schemadb based on the requested DBA class
+     * Try to determine the schemadb based on the requested DBA class
      *
      * @return string The path to the schemadb
      */

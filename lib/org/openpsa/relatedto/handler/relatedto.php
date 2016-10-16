@@ -137,7 +137,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
     }
 
     /**
-     * Method for getting object's relatedtos
+     * Get object's relatedtos
      *
      * @param array &$arr
      * @param midcom_core_dbaobject $obj

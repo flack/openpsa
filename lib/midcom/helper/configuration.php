@@ -103,8 +103,7 @@ class midcom_helper_configuration
     }
 
     /**
-     * This function will fetch the configuration data stored in the parameter domain
-     * $path of the Midgard Object $object.
+     * Fetch the configuration data stored in the parameter domain _path of _object.
      *
      * The flag $global controls whether the global or the local configuration should
      * be updated. No control whether an update of the global data is allowed is done
@@ -148,8 +147,7 @@ class midcom_helper_configuration
     }
 
     /**
-     * This method will merge the local and the global configuration arrays into the
-     * cache array.
+     * Merge the local and the global configuration arrays into the cache array.
      */
     private function _update_cache()
     {
@@ -182,8 +180,7 @@ class midcom_helper_configuration
     }
 
     /**
-     * The method store will write the parameters in $params into the local
-     * configuration.
+     * Write the parameters in $params into the local configuration.
      *
      * If $reset is set, the local configuration will be cleared before
      * the new set is imported, if not, the new data is merged with the old local

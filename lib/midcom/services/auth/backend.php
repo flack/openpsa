@@ -65,9 +65,8 @@ abstract class midcom_services_auth_backend
     abstract function read_login_session();
 
     /**
-     * This function checks the given username / password pair is valid and sets
-     * the $user member accordingly. The default implementation checks against
-     * midcom_connection::login().
+     * Check the given username / password pair is valid and set the $user member accordingly.
+     * The default implementation checks against midcom_connection::login().
      *
      * Normally you should not need to override this function.
      *
@@ -81,7 +80,7 @@ abstract class midcom_services_auth_backend
     }
 
     /**
-     * This function stores a login session using the given credentials through the
+     * Stores a login session using the given credentials through the
      * session service. It assumes that no login has concluded earlier. The login
      * session management system is used for authentication. If the login session
      * was created successfully, the _on_login_session_created() handler is called
@@ -116,7 +115,7 @@ abstract class midcom_services_auth_backend
     }
 
     /**
-     * This function stores a trusted login session using the given credentials through the
+     * Stores a trusted login session using the given credentials through the
      * session service. It assumes that no login has concluded earlier. The login
      * session management system is used for authentication. If the login session
      * was created successfully, the _on_login_session_created() handler is called

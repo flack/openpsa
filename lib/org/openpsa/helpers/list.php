@@ -93,7 +93,7 @@ class org_openpsa_helpers_list
     }
 
     /**
-     * Helper function for listing tasks user can see
+     * List tasks user can see
      */
     static function projects($add_all = false)
     {
@@ -121,7 +121,7 @@ class org_openpsa_helpers_list
     }
 
     /**
-     * Helper function for listing virtual groups of user
+     * List virtual groups of user
      */
     static function workgroups($add_me = 'last', $show_members = false)
     {

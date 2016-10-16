@@ -69,7 +69,7 @@ class midcom_admin_folder_management extends midcom_baseclasses_components_plugi
     }
 
     /**
-     * Static method to list names of the non-purecore components
+     * List names of the non-purecore components
      *
      * @param string $parent_component  Name of the parent component, which will pop the item first on the list
      * @return array containing names of the components
@@ -130,7 +130,7 @@ class midcom_admin_folder_management extends midcom_baseclasses_components_plugi
     }
 
     /**
-     * Static method for populating user interface for editing and creating topics
+     * Populate user interface for editing and creating topics
      *
      * @return array Containing a list of components
      */
@@ -171,7 +171,7 @@ class midcom_admin_folder_management extends midcom_baseclasses_components_plugi
     }
 
     /**
-     * Static method for listing available style templates
+     * List available style templates
      */
     public static function list_styles($up = 0, $prefix = '/', $spacer = '')
     {

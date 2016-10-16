@@ -25,7 +25,7 @@ class org_openpsa_user_viewer extends midcom_baseclasses_components_request
     }
 
     /**
-     * Helper function to create account based on data from DM2
+     * Create account based on data from DM2
      *
      * @param midcom_db_person $person The person we're working on
      * @param midcom_helper_datamanager2_formmanager $formmanager The formmanager instance to use

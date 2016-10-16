@@ -171,7 +171,7 @@ class org_openpsa_projects_project extends midcom_core_dbaobject
     }
 
     /**
-     * Helper functions that gets the number of tasks for the different status types
+     * Get the number of tasks for the different status types
      *
      * @return array The task status overview
      */
@@ -196,7 +196,7 @@ class org_openpsa_projects_project extends midcom_core_dbaobject
     }
 
     /**
-     * Helper functions that gets the number of tasks for the different status types
+     * Get the number of hours for the different status types
      *
      * @return array The task hours overview
      */
@@ -218,7 +218,7 @@ class org_openpsa_projects_project extends midcom_core_dbaobject
     }
 
     /**
-     * This function sets project information according to the situation of its tasks
+     * Set project information according to the situation of its tasks
      *
      * This adjusts the timeframe if necessary and tries to determine the project's
      * status according to the current task situation

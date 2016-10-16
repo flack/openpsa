@@ -61,7 +61,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
     }
 
     /**
-     * This function prepares the requestdata with all computed values.
+     * Prepare the request data with all computed values.
      * A special case is the visible_data array, which maps field names
      * to prepared values, which can be used in display directly. The
      * information returned is already HTML escaped.
@@ -107,7 +107,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
     }
 
     /**
-     * This is an internal helper function, resetting the password to a randomly generated one.
+     * Reset the password to a randomly generated one.
      */
     private function _reset_password()
     {

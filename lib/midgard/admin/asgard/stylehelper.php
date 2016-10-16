@@ -90,7 +90,7 @@ class midgard_admin_asgard_stylehelper
     }
 
     /**
-     * Helper for suggesting element names to create under a style
+     * Suggest element names to create under a style
      */
     private function _get_help_style_elementnames(midcom_db_style $style)
     {
