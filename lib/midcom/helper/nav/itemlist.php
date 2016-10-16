@@ -46,7 +46,7 @@ abstract class midcom_helper_nav_itemlist
      *
      * @return Array An array of all objects.
      */
-    abstract function get_sorted_list();
+    abstract public function get_sorted_list();
 
     /**
      * Get style. If the elements should use a special style, return that here.

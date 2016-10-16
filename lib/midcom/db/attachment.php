@@ -34,7 +34,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
      */
     private $_open_write_mode = false;
 
-    function get_parent_guid_uncached()
+    public function get_parent_guid_uncached()
     {
         return $this->parentguid;
     }
@@ -76,7 +76,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
      *     mgd_open_attachmentl for details).
      * @return resource A file handle to the attachment if successful, false on failure.
      */
-    function open($mode = 'default')
+    public function open($mode = 'default')
     {
         if (! $this->id)
         {
@@ -133,7 +133,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
      * It is required to call this function instead of a simple fclose to ensure proper
      * upgrade notifications.
      */
-    function close()
+    public function close()
     {
         if ($this->_open_handle === null)
         {
@@ -313,7 +313,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
      *
      * @return mixed Either a stat array as for stat() or false on failure.
      */
-    function stat()
+    public function stat()
     {
         if (!$this->id)
         {
@@ -431,7 +431,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
      * @param mixed $source File contents.
      * @return boolean Indicating success.
      */
-    function copy_from_memory($source)
+    public function copy_from_memory($source)
     {
         $dest = $this->open();
         if (! $dest)
@@ -453,7 +453,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
      * @param resource $source The handle to read from.
      * @return boolean Indicating success.
      */
-    function copy_from_handle($source)
+    public function copy_from_handle($source)
     {
         $dest = $this->open();
         if (! $dest)
@@ -475,7 +475,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
      * @param string $filename The file to read.
      * @return boolean Indicating success.
      */
-    function copy_from_file($filename)
+    public function copy_from_file($filename)
     {
         $source = @fopen ($filename, 'r');
         if (! $source)

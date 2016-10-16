@@ -225,7 +225,7 @@ class midcom_helper_toolbar
      * @param string $label Label for the help link
      * @param string $anchor Anchor ("a name" or "id" in HTML page) to link to
      */
-    function add_help_item($help_id, $component = null, $label = null, $anchor = null, $before = -1)
+    public function add_help_item($help_id, $component = null, $label = null, $anchor = null, $before = -1)
     {
         if (is_null($component))
         {
@@ -284,7 +284,7 @@ class midcom_helper_toolbar
      * @see midcom_helper_toolbar::_check_index()
      * @see midcom_helper_toolbar::clean_item()
      */
-    function add_item($item, $before = -1)
+    public function add_item($item, $before = -1)
     {
         if ($before != -1)
         {
@@ -333,7 +333,7 @@ class midcom_helper_toolbar
      * @param int toolbar itemindex.
      * @return boolean false if insert failed.
      */
-    function add_item_to_index($item, $index)
+    public function add_item_to_index($item, $index)
     {
         $item = $this->clean_item($item);
         if (! array_key_exists($index, $this->items))
@@ -433,7 +433,7 @@ class midcom_helper_toolbar
      * @see midcom_helper_toolbar::get_index_from_url()
      * @see midcom_helper_toolbar::_check_index()
      */
-    function remove_item($index)
+    public function remove_item($index)
     {
         $index = $this->_check_index($index);
 
@@ -455,7 +455,7 @@ class midcom_helper_toolbar
     /**
      * Clears the complete toolbar.
      */
-    function remove_all_items()
+    public function remove_all_items()
     {
         $this->items = Array();
     }
@@ -467,7 +467,7 @@ class midcom_helper_toolbar
      *
      * @param mixed $index The integer index or URL of the item to move upwards.
      */
-    function move_item_up($index)
+    public function move_item_up($index)
     {
         if ($index == 0)
         {
@@ -487,7 +487,7 @@ class midcom_helper_toolbar
      *
      * @param mixed $index The integer index or URL of the item to move downwards.
      */
-    function move_item_down($index)
+    public function move_item_down($index)
     {
         if ($index == (count($this->items) - 1))
         {
@@ -505,7 +505,7 @@ class midcom_helper_toolbar
      *
      * @param mixed $index The integer index or URL of the item to enable.
      */
-    function enable_item($index)
+    public function enable_item($index)
     {
         $index = $this->_check_index($index);
         $this->items[$index][MIDCOM_TOOLBAR_ENABLED] = true;
@@ -516,7 +516,7 @@ class midcom_helper_toolbar
      *
      * @param mixed $index The integer index or URL of the item to disable.
      */
-    function disable_item($index)
+    public function disable_item($index)
     {
         $index = $this->_check_index($index, false);
 
@@ -533,7 +533,7 @@ class midcom_helper_toolbar
      *
      * @param mixed $index The integer index or URL of the item to hide.
      */
-    function hide_item($index)
+    public function hide_item($index)
     {
         $index = $this->_check_index($index, false);
 
@@ -550,7 +550,7 @@ class midcom_helper_toolbar
      *
      * @param mixed $index The integer index or URL of the item to show.
      */
-    function show_item($index)
+    public function show_item($index)
     {
         $index = $this->_check_index($index);
         $this->items[$index][MIDCOM_TOOLBAR_HIDDEN] = false;
@@ -568,7 +568,7 @@ class midcom_helper_toolbar
      * @see midcom_helper_toolbar::_check_index()
      * @see midcom_helper_toolbar::add_item()
      */
-    function update_item_url ($index, $url)
+    public function update_item_url ($index, $url)
     {
         $index = $this->_check_index($index);
 
@@ -594,7 +594,7 @@ class midcom_helper_toolbar
      *
      * @return string The rendered toolbar.
      */
-    function render()
+    public function render()
     {
         if (count ($this->items) == 0)
         {
@@ -842,7 +842,7 @@ class midcom_helper_toolbar
      * @param string $url The url to search in the list.
      * @return int The index of the item or null, if not found.
      */
-    function get_index_from_url($url)
+    public function get_index_from_url($url)
     {
         for ($i = 0; $i < count ($this->items); $i++)
         {

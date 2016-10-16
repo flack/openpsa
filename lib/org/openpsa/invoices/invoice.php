@@ -23,7 +23,7 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
 
     private $_billing_data = false;
 
-    function get_status()
+    public function get_status()
     {
         if ($this->id == 0)
         {
@@ -48,7 +48,7 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
         return 'open';
     }
 
-    function get_icon()
+    public function get_icon()
     {
         return 'printer.png';
     }
@@ -98,7 +98,7 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
     /**
      * Human-readable label for cases like Asgard navigation
      */
-    function get_label()
+    public function get_label()
     {
         $config = midcom_baseclasses_components_configuration::get('org.openpsa.invoices', 'config');
         return sprintf($config->get('invoice_number_format'), $this->number);
@@ -107,7 +107,7 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
     /**
      * Label property (for Asgard chooser and the likes)
      */
-    function get_label_property()
+    public function get_label_property()
     {
         return 'number';
     }
@@ -200,7 +200,7 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
      * whatever they wish with relatedto objects, later we can add
      * restrictions on object level as necessary.
      */
-    function get_class_magic_default_privileges()
+    public function get_class_magic_default_privileges()
     {
         $privileges = parent::get_class_magic_default_privileges();
         $privileges['ANONYMOUS']['midgard:read'] = MIDCOM_PRIVILEGE_DENY;

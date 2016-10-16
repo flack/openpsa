@@ -67,5 +67,5 @@ abstract class midcom_helper_datamanager2_baseclasses_filter
      * @param mixed $input The form values which should be filtered.
      * @return mixed The filtered values.
      */
-    abstract function execute ($input);
+    abstract public function execute ($input);
 }

@@ -114,7 +114,7 @@ class midcom_services_indexer implements EventSubscriberInterface
      *           midcom_services_indexer_document or an Array of these objects.
      * @return boolean Indicating success.
      */
-    function index($documents)
+    public function index($documents)
     {
         if ($this->_disabled)
         {
@@ -240,7 +240,7 @@ class midcom_services_indexer implements EventSubscriberInterface
      * @param array $options Options that are passed straight to the backend
      * @todo Refactor into multiple methods
      */
-    function query($query, midcom_services_indexer_filter $filter = null, array $options = array())
+    public function query($query, midcom_services_indexer_filter $filter = null, array $options = array())
     {
         if ($this->_disabled)
         {

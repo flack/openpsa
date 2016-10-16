@@ -111,7 +111,7 @@ class midcom_services_at_entry_dba extends midcom_core_dbaobject
      *
      * @return array MidCOM privileges
      */
-    function get_class_magic_default_privileges()
+    public function get_class_magic_default_privileges()
     {
         $privileges = parent::get_class_magic_default_privileges();
         $privileges['USERS']['midgard:create']  = MIDCOM_PRIVILEGE_ALLOW;

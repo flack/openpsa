@@ -312,7 +312,7 @@ class midcom_helper__styleloader
      * @param string $path    The style element to show.
      * @return boolean            True on success, false otherwise.
      */
-    function show($path)
+    public function show($path)
     {
         if ($this->_context === array())
         {
@@ -419,7 +419,7 @@ class midcom_helper__styleloader
      * @param string $path    The style element to show.
      * @return boolean            True on success, false otherwise.
      */
-    function show_midcom($path)
+    public function show_midcom($path)
     {
         $_element = $path;
         $_style = false;
@@ -770,7 +770,7 @@ class midcom_helper__styleloader
      * @param int $context    The context to enter
      * @return boolean            True on success, false on failure.
      */
-    function enter_context($context)
+    public function enter_context($context)
     {
         // set new context and topic
         array_unshift($this->_context, $context); // push into context stack
@@ -810,7 +810,7 @@ class midcom_helper__styleloader
      * @todo check documentation
      * @return boolean            True on success, false on failure.
      */
-    function leave_context()
+    public function leave_context()
     {
         if (   $this->_topic
             && $this->_get_component_style($this->_topic))

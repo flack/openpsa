@@ -36,7 +36,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
     /**
      * Deny midgard:read by default
      */
-    function get_class_magic_default_privileges()
+    public function get_class_magic_default_privileges()
     {
         $privileges = parent::get_class_magic_default_privileges();
         $privileges['EVERYONE']['midgard:read'] = MIDCOM_PRIVILEGE_DENY;
@@ -141,7 +141,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
     /**
      * Generate a user-readable label for the task using the task/project hierarchy
      */
-    function get_label()
+    public function get_label()
     {
         $label_elements = array($this->title);
         $task = $this;
@@ -158,7 +158,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
         return trim($label);
     }
 
-    function get_icon()
+    public function get_icon()
     {
         return org_openpsa_projects_workflow::get_status_type_icon($this->status_type);
     }

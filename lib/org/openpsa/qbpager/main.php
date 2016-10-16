@@ -243,7 +243,7 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
     /**
      * Displays page selector
      */
-    function show_pages($acl_checks = false)
+    public function show_pages($acl_checks = false)
     {
         //Won't work (wrong scope), so the code is copied below.
         //midcom_show_style('show-pages');
@@ -389,7 +389,7 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
         debug_add("set offset to {$this->_offset} and limit to {$this->results_per_page}");
     }
 
-    function execute()
+    public function execute()
     {
         if (!$this->_sanity_check())
         {
@@ -399,7 +399,7 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
         return $this->_midcom_qb->execute();
     }
 
-    function execute_unchecked()
+    public function execute_unchecked()
     {
         if (!$this->_sanity_check())
         {
@@ -446,7 +446,7 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
     }
 
     //Rest of supported methods wrapped with extra sanity check
-    function add_constraint($param, $op, $val)
+    public function add_constraint($param, $op, $val)
     {
         if (!$this->_sanity_check())
         {
@@ -456,7 +456,7 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
         return $this->_midcom_qb->add_constraint($param, $op, $val);
     }
 
-    function add_order($param, $sort='ASC')
+    public function add_order($param, $sort='ASC')
     {
         if (!$this->_sanity_check())
         {
@@ -465,7 +465,7 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
         return $this->_midcom_qb->add_order($param, $sort);
     }
 
-    function begin_group($type)
+    public function begin_group($type)
     {
         if (!$this->_sanity_check())
         {
@@ -475,7 +475,7 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
         return $this->_midcom_qb->begin_group($type);
     }
 
-    function end_group()
+    public function end_group()
     {
         if (!$this->_sanity_check())
         {
@@ -485,13 +485,13 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
         return $this->_midcom_qb->end_group();
     }
 
-    function include_deleted()
+    public function include_deleted()
     {
         $this->_midcom_qb_count->include_deleted();
         return $this->_midcom_qb->include_deleted();
     }
 
-    function count()
+    public function count()
     {
         if (!$this->_sanity_check())
         {
@@ -506,7 +506,7 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
         return $this->count;
     }
 
-    function count_unchecked()
+    public function count_unchecked()
     {
         if (!$this->_sanity_check())
         {

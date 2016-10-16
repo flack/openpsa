@@ -57,7 +57,7 @@ class midcom_services_permalinks
      * @param string $guid The GUID to resolve.
      * @return string The full HTTP relocation'able URL to the GUID.
      */
-    function resolve_permalink($guid)
+    public function resolve_permalink($guid)
     {
         // resolves a guid into a fully qualified url, uses some heuristics for that, mainly replaces
         // the nap permalink resolver, with the difference that it will be based on the
@@ -202,7 +202,7 @@ class midcom_services_permalinks
      * @param string $guid The Guid to link to.
      * @return string The full URL of the Permalink.
      */
-    function create_permalink($guid)
+    public function create_permalink($guid)
     {
         return midcom::get()->config->get('midcom_site_url') . "midcom-permalink-{$guid}";
     }
@@ -215,7 +215,7 @@ class midcom_services_permalinks
      * @param string $filename The attachment's filename
      * @return string The full URL of the Permalink.
      */
-    function create_attachment_link($guid, $filename)
+    public function create_attachment_link($guid, $filename)
     {
         return midcom::get()->config->get('midcom_site_url') . 'midcom-serveattachmentguid-' . $guid . '/' . urlencode($filename);
     }

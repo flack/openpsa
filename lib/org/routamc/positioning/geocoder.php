@@ -18,7 +18,7 @@ abstract class org_routamc_positioning_geocoder extends midcom_baseclasses_compo
      *
      * @var string
      */
-    var $error = 'MGD_ERR_OK';
+    public $error = 'MGD_ERR_OK';
 
     /**
      * Geocode information
@@ -27,7 +27,7 @@ abstract class org_routamc_positioning_geocoder extends midcom_baseclasses_compo
      * @param array $options Implementation-specific configuration
      * @return array containing geocoded information
      */
-    abstract function geocode(array $location, array $options = array());
+    abstract public function geocode(array $location, array $options = array());
 
     /**
      * This is a static factory method which lets you dynamically create geocoder instances.
@@ -37,7 +37,7 @@ abstract class org_routamc_positioning_geocoder extends midcom_baseclasses_compo
      * @param string $type The type of the geocoder (the file name from the geocoder directory).
      * @return org_routamc_positioning_geocoder A reference to the newly created geocoder instance.
      */
-    static function & create($type)
+    public static function & create($type)
     {
         $classname = "org_routamc_positioning_geocoder_{$type}";
         if (!class_exists($classname))

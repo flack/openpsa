@@ -15,9 +15,9 @@ use midgard\introspection\helper;
  */
 abstract class midcom_helper_exporter
 {
-    abstract function array2data(array $array);
+    abstract public function array2data(array $array);
 
-    abstract function data2array($data);
+    abstract public function data2array($data);
 
     /**
      * Take an object and return an array of useful fields (removing private properties)

@@ -27,7 +27,7 @@ class midcom_core_temporary_object extends midcom_core_dbaobject
      * This allows you to assign further privileges to the temporary object during
      * data entry for example (and then copy these privileges to the live object).
      */
-    function get_class_magic_default_privileges()
+    public function get_class_magic_default_privileges()
     {
         return Array
         (

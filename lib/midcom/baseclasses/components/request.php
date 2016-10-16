@@ -103,7 +103,7 @@
  *  * @param array &$data The local request data.
  *  * @return boolean True if the request can be handled, false otherwise.
  *  {@*}
- * function _can_handle_xxx ($handler_id, array $args, array &$data) {}
+ * public function _can_handle_xxx ($handler_id, array $args, array &$data) {}
  *
  * /**
  *  * Exec handler example, with Docblock:
@@ -111,14 +111,14 @@
  *  * @param array $args The argument list.
  *  * @param array &$data The local request data.
  *  {@*}
- * function _handler_xxx ($handler_id, array $args, array &$data) {}
+ * public function _handler_xxx ($handler_id, array $args, array &$data) {}
  *
  * /**
  *  * Show handler example, with Docblock:
  *  * @param mixed $handler_id The ID of the handler.
  *  * @param array &$data The local request data.
  *  {@*}
- * function _show_xxx ($handler_id, array &$data) {}
+ * public function _show_xxx ($handler_id, array &$data) {}
  * </code>
  *
  * The three callbacks match the regular processing sequence of MidCOM.
@@ -157,7 +157,7 @@
  * <code>
  * class my_handler extends midcom_baseclasses_components_handler
  * {
- *     function _on_initialize()
+ *     public function _on_initialize()
  *     {
  *         // Add class initialization code here, all members have
  *         // been prepared, and the instance is already stable, so
@@ -194,7 +194,7 @@
  * <i>Example: Plugin handler callback</i>
  *
  * <code>
- * function get_plugin_handlers()
+ * public function get_plugin_handlers()
  * {
  *     return Array
  *     (

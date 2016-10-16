@@ -86,7 +86,7 @@
  * <code>
  * class net_nehmer_static_interface extends midcom_baseclasses_components_interface
  * {
- *     function _on_reindex($topic, $config, &$indexer)
+ *     public function _on_reindex($topic, $config, &$indexer)
  *     {
  *         $qb = midcom::get()->dbfactory->new_query_builder('midcom_db_article');
  *         $qb->add_constraint('topic', '=', $topic->id);

@@ -152,7 +152,7 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
     /**
      * This is what Datamanager calls to actually create an invoice
      */
-    function & dm2_create_callback(&$datamanager)
+    public function & dm2_create_callback(&$datamanager)
     {
         $this->_object = new org_openpsa_invoices_invoice_dba();
 
@@ -165,7 +165,7 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
         return $this->_object;
     }
 
-    function _load_defaults()
+    public function _load_defaults()
     {
         $this->_defaults['date'] = time();
         $this->_defaults['deliverydate'] = time();

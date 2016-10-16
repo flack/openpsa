@@ -13,7 +13,7 @@
  */
 class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_handler
 {
-    var $type;
+    private $type;
 
     private function _prepare_qb($dummy_object)
     {

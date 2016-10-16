@@ -225,7 +225,7 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
     /**
      * Sends the email
      */
-    function send()
+    public function send()
     {
         if (!is_object($this->_backend))
         {
@@ -252,7 +252,7 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
     /**
      * Get error message from mail class
      */
-    function get_error_message()
+    public function get_error_message()
     {
         if (is_object($this->_backend))
         {

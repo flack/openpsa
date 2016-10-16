@@ -27,14 +27,14 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
      *
      * @var array
      */
-    var $participants = array();
+    public $participants = array();
 
     /**
      * like $participants but for resources.
      *
      * @var array
      */
-    var $resources = array();
+    public $resources = array();
 
     /**
      * vCalendar (or similar external source) GUID for this event
@@ -43,8 +43,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
      *
      * @var string
      */
-    var $externalGuid = '';
-    var $old_externalGuid = '';    //as above, for diffs
+    private $old_externalGuid = '';
 
     /**
      * Send notifications to participants of the event
@@ -66,8 +65,8 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
      * @var boolean
      */
     var $notify_force_add = false;
-    var $search_relatedtos = true;
 
+    public  $search_relatedtos = true;
     public $ignorebusy_em = false;
     public $rob_tentative = false;
 
@@ -81,7 +80,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
         return $l10n->get_formatter()->date($this->start) . " {$this->title}";
     }
 
-    function get_parent_guid_uncached()
+    public function get_parent_guid_uncached()
     {
         $root_event = org_openpsa_calendar_interface::find_root_event();
         if ($this->id != $root_event->id)

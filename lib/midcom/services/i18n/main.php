@@ -129,7 +129,7 @@ class midcom_services_i18n
      *
      * @param string $charset    Charset name.
      */
-    function set_charset ($charset)
+    public function set_charset ($charset)
     {
         $charset = strtolower($charset);
         $this->_current_charset = $charset;
@@ -153,7 +153,7 @@ class midcom_services_i18n
      * @param string $lang    Language ISO 639-1 code
      * @see _synchronize_midgard_language()
      */
-    function set_language($lang)
+    public function set_language($lang)
     {
         if (!array_key_exists($lang, $this->_language_db))
         {
@@ -237,7 +237,7 @@ class midcom_services_i18n
      *
      * @param string $lang    Language name.
      */
-    function set_fallback_language($lang)
+    public function set_fallback_language($lang)
     {
         $this->_fallback_language = $lang;
         foreach ($this->_obj_l10n as $object)
@@ -261,7 +261,7 @@ class midcom_services_i18n
      *
      * @return string
      */
-    function get_current_language()
+    public function get_current_language()
     {
         return $this->_current_language;
     }
@@ -271,7 +271,7 @@ class midcom_services_i18n
      *
      * @return string
      */
-    function get_content_language()
+    public function get_content_language()
     {
         return $this->get_current_language();
     }
@@ -281,7 +281,7 @@ class midcom_services_i18n
      *
      * @return string
      */
-    function get_fallback_language()
+    public function get_fallback_language()
     {
         return $this->_fallback_language;
     }
@@ -291,7 +291,7 @@ class midcom_services_i18n
      *
      * @return string
      */
-    function get_current_charset()
+    public function get_current_charset()
     {
         return $this->_current_charset;
     }
@@ -326,7 +326,7 @@ class midcom_services_i18n
      * @param string $database    The string table to retrieve from the component's locale directory.
      * @return midcom_services_i18n_l10n    The cached L10n database; honor the reference for memory consumptions sake.
      */
-    function get_l10n($component = 'midcom', $database = 'default')
+    public function get_l10n($component = 'midcom', $database = 'default')
     {
         $cacheid = "{$component}/{$database}";
 
@@ -350,7 +350,7 @@ class midcom_services_i18n
      * @return string The translated string
      * @see midcom_services_i18n_l10n::get()
      */
-    function get_string($stringid, $component = null, $database = 'default')
+    public function get_string($stringid, $component = null, $database = 'default')
     {
         if (is_null($component))
         {
@@ -380,7 +380,7 @@ class midcom_services_i18n
      * @see midcom_services_i18n_l10n::get()
      * @see get_string()
      */
-    function show_string($stringid, $component = null, $database = 'default')
+    public function show_string($stringid, $component = null, $database = 'default')
     {
         echo $this->get_string($stringid, $component, $database);
     }

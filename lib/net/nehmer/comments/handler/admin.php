@@ -60,7 +60,7 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
      * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    function _handler_welcome($handler_id, array $args, array &$data)
+    public function _handler_welcome($handler_id, array $args, array &$data)
     {
         midcom::get()->auth->require_valid_user();
 
@@ -76,7 +76,7 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    function _show_welcome($handler_id, array &$data)
+    public function _show_welcome($handler_id, array &$data)
     {
         midcom_show_style('admin-start');
         midcom_show_style('admin-welcome');

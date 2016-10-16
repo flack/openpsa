@@ -16,7 +16,7 @@ interface midcom_helper_datamanager2_callback_interface
     /**
      * @param array $arg The arguments for the callback
      */
-    function __construct($arg);
+    public function __construct($arg);
 
     /**
      * The set_type call is executed upon type startup, giving you a reference to the type

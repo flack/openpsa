@@ -41,7 +41,7 @@ class org_openpsa_contacts_group_dba extends midcom_core_dbaobject
         parent::__set($name, $value);
     }
 
-    function get_label()
+    public function get_label()
     {
         if ($this->official)
         {
@@ -50,7 +50,7 @@ class org_openpsa_contacts_group_dba extends midcom_core_dbaobject
         return $this->name;
     }
 
-    function get_label_property()
+    public function get_label_property()
     {
         if ($this->official)
         {

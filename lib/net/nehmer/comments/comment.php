@@ -15,8 +15,8 @@
  */
 class net_nehmer_comments_comment extends midcom_core_dbaobject
 {
-    var $__midcom_class_name__ = __CLASS__;
-    var $__mgdschema_class_name__ = 'net_nehmer_comments_comment_db';
+    public $__midcom_class_name__ = __CLASS__;
+    public $__mgdschema_class_name__ = 'net_nehmer_comments_comment_db';
 
     // New messages enter at 4, and can be lowered or raised
     const JUNK = 1;
@@ -34,7 +34,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
      * DBA magic defaults which assign write privileges for all USERS, so that they can
      * add new comments at will.
      */
-    function get_class_magic_default_privileges()
+    public function get_class_magic_default_privileges()
     {
         return array
         (
@@ -50,7 +50,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
     /**
      * Link to the parent object specified in the objectguid field.
      */
-    function get_parent_guid_uncached()
+    public function get_parent_guid_uncached()
     {
         return $this->objectguid;
     }

@@ -18,7 +18,7 @@ class midcom_db_host extends midcom_core_dbaobject
     public $__midcom_class_name__ = __CLASS__;
     public $__mgdschema_class_name__ = 'midgard_host';
 
-    function get_label()
+    public function get_label()
     {
         if (   $this->port == 0
             || $this->port == 80)
@@ -28,7 +28,7 @@ class midcom_db_host extends midcom_core_dbaobject
         return "{$this->name}:{$this->port}{$this->prefix}";
     }
 
-    function get_icon()
+    public function get_icon()
     {
         return 'stock_internet.png';
     }

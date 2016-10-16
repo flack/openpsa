@@ -310,7 +310,7 @@ class midcom_services_auth
      *     You may specify "EVERYONE" instead of an object to check what an anonymous user can do.
      * @return boolean True if the privilege has been granted, false otherwise.
      */
-    function can_do($privilege, $content_object, $user = null)
+    public function can_do($privilege, $content_object, $user = null)
     {
         if (!is_object($content_object))
         {
@@ -366,7 +366,7 @@ class midcom_services_auth
      * @param string $component Component providing the class
      * @return boolean True if the privilege has been granted, false otherwise.
      */
-    function can_user_do($privilege, $user = null, $class = null, $component = null)
+    public function can_user_do($privilege, $user = null, $class = null, $component = null)
     {
         if ($this->is_admin($user))
         {
@@ -417,7 +417,7 @@ class midcom_services_auth
      *     You may specify "EVERYONE" instead of an object to check what an anonymous user can do.
      * @return Array Associative listing of all privileges and their value.
      */
-    function get_privileges($content_object, $user = null)
+    public function get_privileges($content_object, $user = null)
     {
         $user_id = $this->acl->get_user_id($user);
 
@@ -436,7 +436,7 @@ class midcom_services_auth
      * @param string $domain The domain to request sudo for. This is a component name.
      * @return boolean True if admin privileges were granted, false otherwise.
      */
-    function request_sudo ($domain = null)
+    public function request_sudo ($domain = null)
     {
         if (! midcom::get()->config->get('auth_allow_sudo'))
         {
@@ -468,7 +468,7 @@ class midcom_services_auth
      *
      * @see request_sudo()
      */
-    function drop_sudo()
+    public function drop_sudo()
     {
         if ($this->_component_sudo > 0)
         {
@@ -522,7 +522,7 @@ class midcom_services_auth
      *
      * @return boolean True if there is a user logged in.
      */
-    function is_valid_user()
+    public function is_valid_user()
     {
         return (! is_null($this->user));
     }
@@ -542,7 +542,7 @@ class midcom_services_auth
      * @param MidgardObject $content_object A Midgard Content Object
      * @param string $message The message to show if the privilege has been denied.
      */
-    function require_do($privilege, $content_object, $message = null)
+    public function require_do($privilege, $content_object, $message = null)
     {
         if (!$this->can_do($privilege, $content_object))
         {
@@ -573,7 +573,7 @@ class midcom_services_auth
      * @param string $message The message to show if the privilege has been denied.
      * @param string $class Optional parameter to set if the check should take type specific permissions into account. The class must be default constructible.
      */
-    function require_user_do($privilege, $message = null, $class = null)
+    public function require_user_do($privilege, $message = null, $class = null)
     {
         if (! $this->can_user_do($privilege, null, $class))
         {

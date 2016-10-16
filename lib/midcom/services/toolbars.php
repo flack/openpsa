@@ -119,7 +119,7 @@ class midcom_services_toolbars
         $this->_enable_centralized = true;
     }
 
-    function get_class_magic_default_privileges()
+    public function get_class_magic_default_privileges()
     {
         return array
         (

@@ -21,7 +21,7 @@ class midcom_db_parameter extends midcom_core_dbaobject
     public $_use_activitystream = false;
     public $_use_rcs = false;
 
-    function get_parent_guid_uncached()
+    public function get_parent_guid_uncached()
     {
         return $this->parentguid;
     }

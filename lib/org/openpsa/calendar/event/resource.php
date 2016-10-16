@@ -19,7 +19,7 @@ class org_openpsa_calendar_event_resource_dba extends midcom_core_dbaobject
     /**
      * Human-readable label for cases like Asgard navigation
      */
-    function get_label()
+    public function get_label()
     {
         if ($this->resource)
         {

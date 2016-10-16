@@ -109,7 +109,7 @@ class midcom_services__sessioning
      * @param mixed $key        The key to query.
      * @return boolean                Indicating availability.
      */
-    function exists($domain, $key)
+    public function exists($domain, $key)
     {
         if (!$this->_initialize(true))
         {
@@ -131,7 +131,7 @@ class midcom_services__sessioning
      * @return mixed            The session key's data value, or null on failure.
      * @see midcom_services__sessioning::exists()
      */
-    function get($domain, $key)
+    public function get($domain, $key)
     {
         static $no_cache = false;
         if (!$this->exists($domain, $key))
@@ -158,7 +158,7 @@ class midcom_services__sessioning
      * @return mixed            The session key's data value, or null on failure.
      * @see midcom_services__sessioning::exists()
      */
-    function remove($domain, $key)
+    public function remove($domain, $key)
     {
         if (!$this->exists($domain, $key))
         {
@@ -180,7 +180,7 @@ class midcom_services__sessioning
      * @param mixed    $key        Session value identifier.
      * @param mixed    $value        Session value.
      */
-    function set($domain, $key, $value)
+    public function set($domain, $key, $value)
     {
         if (!$this->_initialize(true))
         {

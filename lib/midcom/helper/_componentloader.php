@@ -111,7 +111,7 @@ class midcom_helper__componentloader
      *
      * @param string $path    The component to load explicitly.
      */
-    function load($path)
+    public function load($path)
     {
         if (! $this->_load($path))
         {
@@ -126,7 +126,7 @@ class midcom_helper__componentloader
      * @param string $path    The component to load explicitly.
      * @return boolean Indicating success.
      */
-    function load_graceful($path)
+    public function load_graceful($path)
     {
         return $this->_load($path);
     }
@@ -146,7 +146,7 @@ class midcom_helper__componentloader
      * @param string $path    The name of the code library to load.
      * @return boolean            Indicates whether the library was successfully loaded.
      */
-    function load_library($path)
+    public function load_library($path)
     {
         if (! array_key_exists($path, $this->manifests))
         {

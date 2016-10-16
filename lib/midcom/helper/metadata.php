@@ -142,7 +142,7 @@ class midcom_helper_metadata
      * @param string $key The key to retrieve
      * @return mixed The key's value.
      */
-    function get($key)
+    public function get($key)
     {
         if (!$this->__metadata)
         {
@@ -267,7 +267,7 @@ class midcom_helper_metadata
      * @param string $key The key to set.
      * @param mixed $value The value to set.
      */
-    function set($key, $value)
+    public function set($key, $value)
     {
         if ($return = $this->_set_property($key, $value))
         {
@@ -574,7 +574,7 @@ class midcom_helper_metadata
      *
      * @return boolean Indicating approval state.
      */
-    function is_approved()
+    public function is_approved()
     {
         return $this->__object->is_approved();
     }
@@ -587,7 +587,7 @@ class midcom_helper_metadata
      * @see midcom_helper_metadata::is_approved()
      * @return boolean Indicating visibility state.
      */
-    function is_visible()
+    public function is_visible()
     {
         if ($this->get('hidden'))
         {
@@ -633,7 +633,7 @@ class midcom_helper_metadata
      * approver person GUID to the GUID of the person currently
      * authenticated.
      */
-    function approve()
+    public function approve()
     {
         midcom::get()->auth->require_do('midcom:approve', $this->__object);
         midcom::get()->auth->require_do('midgard:update', $this->__object);
@@ -675,7 +675,7 @@ class midcom_helper_metadata
      * approver person GUID to the GUID of the person currently
      * authenticated.
      */
-    function unapprove()
+    public function unapprove()
     {
         midcom::get()->auth->require_do('midcom:approve', $this->__object);
         midcom::get()->auth->require_do('midgard:update', $this->__object);

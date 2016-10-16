@@ -21,7 +21,7 @@ class midcom_db_group extends midcom_core_dbaobject
         'midcom_db_member' => 'gid'
     );
 
-    function get_label()
+    public function get_label()
     {
         return $this->official;
     }

@@ -19,7 +19,7 @@ class org_routamc_positioning_country_dba extends midcom_core_dbaobject
     /**
      * Human-readable label for cases like Asgard navigation
      */
-    function get_label()
+    public function get_label()
     {
         return $this->name;
     }

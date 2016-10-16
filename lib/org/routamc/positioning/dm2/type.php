@@ -17,7 +17,7 @@ class org_routamc_positioning_dm2_type extends midcom_helper_datamanager2_type
 {
     var $location = null;
     var $object = null;
-    var $relation = 30; // org_routamc_positioning_location_dba::RELATION_LOCATED
+    var $relation = org_routamc_positioning_location_dba::RELATION_LOCATED;
 
     /**
      * This function loads all known attachments from the storage object. It

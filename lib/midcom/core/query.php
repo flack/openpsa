@@ -252,7 +252,7 @@ abstract class midcom_core_query
      * @param string $operator One of 'OR' or 'AND' denoting the logical operation with which all
      *     constraints in the group are concatenated.
      */
-    function begin_group($operator = 'OR')
+    public function begin_group($operator = 'OR')
     {
         $this->_groups++;
         try
@@ -269,7 +269,7 @@ abstract class midcom_core_query
     /**
      * Ends a group previously started with begin_group().
      */
-    function end_group()
+    public function end_group()
     {
         $this->_groups--;
 
@@ -289,7 +289,7 @@ abstract class midcom_core_query
      *
      * @param int $limit The maximum number of records in the resultset.
      */
-    function set_limit($limit)
+    public function set_limit($limit)
     {
         $this->_reset();
         $this->_limit = $limit;

@@ -17,14 +17,14 @@ abstract class org_openpsa_mail_backend
 
     protected $_mail;
 
-    abstract function __construct(array $params);
+    abstract public function __construct(array $params);
 
     /**
      * This function sends the actual email
      *
      * @param org_openpsa_mail_message $messages
      */
-    abstract function mail(org_openpsa_mail_message $message);
+    abstract public function mail(org_openpsa_mail_message $message);
 
     /**
      * Factory method that prepares the mail backend

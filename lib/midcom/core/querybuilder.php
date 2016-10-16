@@ -291,7 +291,7 @@ class midcom_core_querybuilder extends midcom_core_query
      *
      * @see execute()
      */
-    function execute_unchecked()
+    public function execute_unchecked()
     {
         $this->_check_groups();
 
@@ -405,7 +405,7 @@ class midcom_core_querybuilder extends midcom_core_query
      *
      * @return integer The number of records matching the constraints without taking access control or visibility into account.
      */
-    function count_unchecked()
+    public function count_unchecked()
     {
         $this->_check_groups();
 
@@ -430,7 +430,7 @@ class midcom_core_querybuilder extends midcom_core_query
      *
      * @param bool $toggle enables or disables query builder read-only mode.
      */
-    function toggle_read_only($toggle = false)
+    public function toggle_read_only($toggle = false)
     {
         if (method_exists($this->_query, "toggle_read_only"))
         {

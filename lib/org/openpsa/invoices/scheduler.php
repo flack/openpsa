@@ -32,7 +32,7 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
      * The subscription cycles rely on midcom.services.at. I'm not sure if it is wise to rely on it for such
      * a totally mission critical part of OpenPSA. Some safeguards might be wise to add.
      */
-    function run_cycle($cycle_number, $send_invoice = true)
+    public function run_cycle($cycle_number, $send_invoice = true)
     {
         if (time() < $this->_deliverable->start)
         {

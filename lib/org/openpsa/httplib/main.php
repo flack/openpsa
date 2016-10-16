@@ -27,9 +27,9 @@ class org_openpsa_httplib extends midcom_baseclasses_components_purecode
         'follow_redirects' => true
     );
 
-    var $error = '';
+    public $error = '';
 
-    var $basicauth = array
+    public $basicauth = array
     (
         'user' => false,
         'password' => false,
@@ -149,7 +149,7 @@ class org_openpsa_httplib extends midcom_baseclasses_components_purecode
      * @param array $headers Additional HTTP headers
      * @return string Contents
      */
-    function post($uri, array $variables, $headers = null)
+    public function post($uri, array $variables, $headers = null)
     {
         $browser = $this->_get_browser();
         $request = $this->_get_request(RequestInterface::METHOD_POST, $uri, $headers, $this->basicauth['user'], $this->basicauth['password']);

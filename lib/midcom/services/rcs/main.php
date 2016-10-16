@@ -24,7 +24,7 @@ class midcom_services_rcs
     /**
      * Array of handlers that rcs uses to manage object versioning.
      */
-    var $_handlers = Array();
+    private $_handlers = array();
 
     /**
      * The configuration object for the rcs service.

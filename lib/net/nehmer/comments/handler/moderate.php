@@ -44,7 +44,7 @@ class net_nehmer_comments_handler_moderate extends midcom_baseclasses_components
      * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    function _handler_report($handler_id, array $args, array &$data)
+    public function _handler_report($handler_id, array $args, array &$data)
     {
         if (!array_key_exists('mark', $_POST))
         {

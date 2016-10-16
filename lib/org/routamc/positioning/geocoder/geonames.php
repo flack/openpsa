@@ -19,7 +19,7 @@ class org_routamc_positioning_geocoder_geonames extends org_routamc_positioning_
      * @param array $options Implementation-specific configuration
      * @return array containing geocoded information
      */
-    function geocode(array $location, array $options = array())
+    public function geocode(array $location, array $options = array())
     {
         $results = array();
 

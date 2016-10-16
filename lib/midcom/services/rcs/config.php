@@ -106,7 +106,7 @@ class midcom_services_rcs_config
      *
      * @return string of the backend to start
      */
-    function _get_handler_class()
+    private function _get_handler_class()
     {
         if ($this->use_rcs())
         {

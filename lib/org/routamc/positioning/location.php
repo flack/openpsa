@@ -50,7 +50,7 @@ class org_routamc_positioning_location_dba extends midcom_core_dbaobject
      *
      * @return string Parent GUID or null if there is none
      */
-    function get_parent_guid_uncached()
+    public function get_parent_guid_uncached()
     {
         return $this->parent;
     }

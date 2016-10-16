@@ -562,7 +562,7 @@ class midcom_core_user
      *
      * @return midcom_db_person The user which is associated with this record or false if the object cannot be accessed.
      */
-    function get_storage()
+    public function get_storage()
     {
         return new midcom_db_person($this->_storage);
     }
