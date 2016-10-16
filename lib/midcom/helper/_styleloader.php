@@ -83,13 +83,6 @@ class midcom_helper__styleloader
     private $_snippetdir;
 
     /**
-     * Path to file styles.
-     *
-     * @var array
-     */
-    var $_filedirs = array();
-
-    /**
      * Context stack
      *
      * @var array
@@ -127,12 +120,12 @@ class midcom_helper__styleloader
     /**
      * The stack of directories to check for styles.
      */
-    var $_styledirs = array();
+    private $_styledirs = array();
 
     /**
      * The actual Midgard style object
      */
-    var $object = null;
+    private $object = null;
 
     /**
      * Data to pass to the style

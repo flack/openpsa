@@ -159,14 +159,6 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
      */
     protected $_site_class_suffix = 'viewer';
 
-    /**
-     * The component manifest instance associated with this component. Read-Only and automatically
-     * populated during initialization.
-     *
-     * @var midcom_core_manifest
-     */
-    var $_manifest = null;
-
     // END OF COMPONENT STATE VARIABLES
 
     // ===================== INITIALIZATION (startup) INTERFACE ======================
@@ -187,7 +179,6 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
     {
         // Preparation
         $this->_component = $component;
-        $this->_manifest = midcom::get()->componentloader->manifests[$this->_component];
 
         // Load libraries
         foreach ($this->_autoload_libraries as $library)

@@ -54,17 +54,12 @@ class midcom_services_cache_backend_memcached extends midcom_services_cache_back
     private static $memcache = null;
 
     /**
-     * Whether to abort the request if connection to memcached fails
-     */
-    var $_abort_on_fail = false;
-
-    /**
      * Whether memcached is working
      */
     static $memcache_operational = true;
 
     /**
-     * We use persistant connections, so we let midcom assume the read/write
+     * We use persistent connections, so we let midcom assume the read/write
      * connection is always open
      */
     public function __construct()
@@ -100,15 +95,6 @@ class midcom_services_cache_backend_memcached extends midcom_services_cache_back
             }
             catch (Exception $e)
             {
-                // Memcache connection failed
-                if ($this->_abort_on_fail)
-                {
-                    debug_add("Failed to connect to {$this->_host}:{$this->_port}. " . $e->getMessage(), MIDCOM_LOG_ERROR);
-                    // Abort the request
-                    throw new midcom_error("Failed to connect to {$this->_host}:{$this->_port}.");
-                }
-
-                // Otherwise we just skip caching
                 debug_add("memcache handler: Failed to connect to {$this->_host}:{$this->_port}. " . $e->getMessage() . ". Serving this request without cache.", MIDCOM_LOG_ERROR);
                 self::$memcache_operational = false;
             }
