@@ -307,7 +307,7 @@ class midcom_services_indexer implements EventSubscriberInterface
                 catch (midcom_error $e)
                 {
                     // Skip document, the object is hidden, deleted or otherwise unavailable.
-                    //@todo Maybe nonexistant objects should be removed from index?
+                    //@todo Maybe nonexistent objects should be removed from index?
                     continue;
                 }
             }

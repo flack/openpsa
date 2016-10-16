@@ -67,7 +67,7 @@ class midcom_services_indexer_document
      *
      * @var double
      */
-    var $score = 0.0;
+    public $score = 0.0;
 
     /* ------ START OF DOCUMENT FIELDS --------- */
 
@@ -80,7 +80,7 @@ class midcom_services_indexer_document
      *
      * @var string
      */
-    var $RI = '';
+    public $RI = '';
 
     /**
      * Two letter language code of the document content
@@ -89,7 +89,7 @@ class midcom_services_indexer_document
      *
      * @var string
      */
-    var $lang = '';
+    public $lang = '';
 
     /**
      * The GUID of the topic the document is assigned to.
@@ -100,7 +100,7 @@ class midcom_services_indexer_document
      *
      * @var string GUID
      */
-    var $topic_guid = '';
+    public $topic_guid = '';
 
     /**
      * The name of the component responsible for the document.
@@ -111,7 +111,7 @@ class midcom_services_indexer_document
      *
      * @var string
      */
-    var $component = '';
+    public $component = '';
 
     /**
      * The fully qualified URL to the document, this should be a PermaLink.
@@ -120,7 +120,7 @@ class midcom_services_indexer_document
      *
      * @var string
      */
-    var $document_url = '';
+    public $document_url = '';
 
     /**
      * The time of document creation, this is a UNIX timestamp.
@@ -129,7 +129,7 @@ class midcom_services_indexer_document
      *
      * @var int
      */
-    var $created = 0;
+    public $created = 0;
 
     /**
      * The time of the last document modification, this is a UNIX timestamp.
@@ -138,7 +138,7 @@ class midcom_services_indexer_document
      *
      * @var int
      */
-    var $edited = 0;
+    public $edited = 0;
 
     /**
      * The timestamp of indexing.
@@ -147,25 +147,25 @@ class midcom_services_indexer_document
      *
      * @var int
      */
-    var $indexed = 0;
+    public $indexed = 0;
 
     /**
      * The MidgardPerson who created the object.
      *
      * This is optional.
      *
-     * @var MidgardPerson
+     * @var midcom_db_person
      */
-    var $creator = null;
+    public $creator = null;
 
     /**
      * The MidgardPerson who modified the object the last time.
      *
      * This is optional.
      *
-     * @var MidgardPerson
+     * @var midcom_db_person
      */
-    var $editor = null;
+    public $editor = null;
 
     /**
      * The title of the document
@@ -174,7 +174,7 @@ class midcom_services_indexer_document
      *
      * @var string
      */
-    var $title = '';
+    public $title = '';
 
     /**
      * The content of the document
@@ -185,7 +185,7 @@ class midcom_services_indexer_document
      *
      * @var string
      */
-    var $content = '';
+    public $content = '';
 
     /**
      * The abstract of the document
@@ -194,7 +194,7 @@ class midcom_services_indexer_document
      *
      * @var string
      */
-    var $abstract = '';
+    public $abstract = '';
 
     /**
      * The author of the document
@@ -203,7 +203,7 @@ class midcom_services_indexer_document
      *
      * @var string
      */
-    var $author = '';
+    public $author = '';
 
     /**
      * An additional tag indicating the source of the document for use by the
@@ -216,7 +216,7 @@ class midcom_services_indexer_document
      *
      * @var string
      */
-    var $source = '';
+    public $source = '';
 
     /**
      * The full path to the topic that houses the document.
@@ -232,7 +232,7 @@ class midcom_services_indexer_document
      *
      * @var string
      */
-    var $topic_url = '';
+    public $topic_url = '';
 
     /**
      * The type of the document, set by subclasses and added to the index
@@ -437,6 +437,28 @@ class midcom_services_indexer_document
     }
 
     /**
+     * Add a person field.
+     *
+     * @param string $name The field's name.
+     * @param midcom_db_person $person The field's content.
+     */
+    private function add_person($name, $person)
+    {
+        if (! is_object($person))
+        {
+            if (! is_null($person))
+            {
+                debug_print_r("Warning, person is not an object:", $person, MIDCOM_LOG_INFO);
+            }
+            $this->add_text($name, '');
+        }
+        else
+        {
+            $this->add_text($name, $person->guid);
+        }
+    }
+
+    /**
      * This will translate all member variables into appropriate
      * field records, the backend should call this immediately before
      * indexing.
@@ -467,30 +489,9 @@ class midcom_services_indexer_document
         $this->add_unstored('content', $this->content);
 
         $this->add_unindexed('__SOURCE', $this->source);
-        if (! is_object($this->creator))
-        {
-            if (! is_null($this->creator))
-            {
-                debug_print_r("Warning, creator is not an object:", $this->creator, MIDCOM_LOG_INFO);
-            }
-            $this->add_text('__CREATOR', '');
-        }
-        else
-        {
-            $this->add_text('__CREATOR', $this->creator->guid);
-        }
-        if (! is_object($this->editor))
-        {
-            if (! is_null($this->editor))
-            {
-                debug_print_r("Warning, editor is not an object:", $this->creator, MIDCOM_LOG_INFO);
-            }
-            $this->add_text('__EDITOR', '');
-        }
-        else
-        {
-            $this->add_text('__EDITOR', $this->editor->guid);
-        }
+        $this->add_person('__CREATOR', $this->creator);
+        $this->add_person('__EDITOR', $this->editor);
+
         $this->add_text('author', $this->author);
         $this->add_text('abstract', $this->abstract);
         $this->add_text('__TYPE', $this->type);
@@ -519,12 +520,12 @@ class midcom_services_indexer_document
         $this->creator = $this->get_field('__CREATOR');
         if ($this->creator != '')
         {
-            $this->creator = $this->_read_metadata_from_object_get_person_cached($this->creator);
+            $this->creator = $this->read_person($this->creator);
         }
         $this->editor = $this->get_field('__EDITOR');
         if ($this->editor != '')
         {
-            $this->editor = $this->_read_metadata_from_object_get_person_cached($this->editor);
+            $this->editor = $this->read_person($this->editor);
         }
         $this->author = $this->get_field('author');
         $this->abstract = $this->get_field('abstract');
@@ -563,7 +564,7 @@ class midcom_services_indexer_document
      * @param string $text The text to convert to text
      * @return string The converted text.
      */
-    function html2text($text)
+    public function html2text($text)
     {
         $search = Array
         (
@@ -590,7 +591,7 @@ class midcom_services_indexer_document
      * @param string $document_type The base type to search for.
      * @return boolean Indicating relationship.
      */
-    function is_a($document_type)
+    public function is_a($document_type)
     {
         return (strpos($this->type, $document_type) === 0);
     }
@@ -600,10 +601,9 @@ class midcom_services_indexer_document
      *
      * @see $type
      * @see is_a()
-     * @access protected
      * @param string $type The name of this document type
      */
-    function _set_type($type)
+    protected function _set_type($type)
     {
         if (strlen($this->type) == 0)
         {
@@ -616,56 +616,55 @@ class midcom_services_indexer_document
     }
 
     /**
-     * Tries to resolve created,revised,author,editor and creator for the document from Midgard object
+     * Tries to resolve created, revised, author, editor and creator for the document from Midgard object
      *
      * @param midgard_object $object object to use as source for the info
      */
-    function read_metadata_from_object($object)
+    public function read_metadata_from_object($object)
     {
         // Published is set to non-empty value, use it as creation data
         if (   !empty($object->metadata->published)
             && !preg_match('/0{1,4}-0{1,2}0{1,2}\s+0{1,2}:0{1,2}:0{1,2}/', $object->metadata->published))
         {
-            $this->created = $this->_read_metadata_from_object_to_unixtime($object->metadata->published);
+            $this->created = $this->read_unixtime($object->metadata->published);
         }
         else if (isset($object->metadata->created))
         {
-            $this->created = $this->_read_metadata_from_object_to_unixtime($object->metadata->created);
+            $this->created = $this->read_unixtime($object->metadata->created);
         }
         // Revised
         if (isset($object->metadata->revised))
         {
-            $this->edited = $this->_read_metadata_from_object_to_unixtime($object->metadata->revised);
+            $this->edited = $this->read_unixtime($object->metadata->revised);
         }
         // Heuristics to determine author
         if (!empty($object->metadata->authors))
         {
-            $this->author = $this->_read_metadata_from_object_to_authorname($object->metadata->authors);
+            $this->author = $this->read_authorname($object->metadata->authors);
         }
         else if (!empty($object->metadata->creator))
         {
-            $this->author = $this->_read_metadata_from_object_to_authorname($object->metadata->creator);
+            $this->author = $this->read_authorname($object->metadata->creator);
         }
         // Creator
         if (isset($object->metadata->creator))
         {
-            $this->creator = $this->_read_metadata_from_object_get_person_cached($object->metadata->creator);
+            $this->creator = $this->read_person($object->metadata->creator);
         }
         // Editor
         if (isset($object->metadata->revisor))
         {
-            $this->editor = $this->_read_metadata_from_object_get_person_cached($object->metadata->revisor);
+            $this->editor = $this->read_person($object->metadata->revisor);
         }
     }
 
     /**
      * Heuristics to determine how to convert given timestamp to local unixtime
      *
-     * @see read_metadata_from_object()
      * @param string $stamp ISO or unix datetime
      * @return unixtime
      */
-    private function _read_metadata_from_object_to_unixtime($stamp)
+    private function read_unixtime($stamp)
     {
         if (preg_match('/[0-9]{4}-[0-9]{2}-[0-9]{2}/', $stamp))
         {
@@ -679,11 +678,10 @@ class midcom_services_indexer_document
     /**
      * Get person by given ID, caches results.
      *
-     * @see read_metadata_from_object()
      * @param string $id GUID or ID to get person for
      * @return midcom_db_person object
      */
-    private function _read_metadata_from_object_get_person_cached($id)
+    private function read_person($id)
     {
         try
         {
@@ -698,11 +696,10 @@ class midcom_services_indexer_document
     /**
      * Gets person name for given ID (in case it's imploded_wrapped of multiple GUIDs it will use the first)
      *
-     * @see read_metadata_from_object()
      * @param string $id GUID or ID to get person for
      * @return string $author->name
      */
-    private function _read_metadata_from_object_to_authorname($id)
+    private function read_authorname($id)
     {
         // Check for imploded_wrapped DM2 select storage.
         if (strpos($id, '|') !== false)

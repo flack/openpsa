@@ -36,16 +36,15 @@
  */
 class midcom_services_indexer_document_attachment extends midcom_services_indexer_document
 {
-    var $_attachment;
-    var $_source;
+    private $attachment;
 
     /**
      * Create a new attachment document
      *
      * @param MidgardAttachment $attachment The Attachment to index.
-     * @param MidgardObject $source The source objece to which the attachment is bound.
+     * @param MidgardObject $object The source object to which the attachment is bound.
      */
-    public function __construct($attachment, $source)
+    public function __construct($attachment, $object)
     {
         //before doing anything else, verify that the attachment is readable, otherwise we might get stuck in endless loops later on
         if (!$attachment->open('r'))
@@ -59,17 +58,16 @@ class midcom_services_indexer_document_attachment extends midcom_services_indexe
 
         $this->_set_type('midcom_attachment');
 
-        $this->_attachment = $attachment;
-        $this->_source = $source;
+        $this->attachment = $attachment;
 
         debug_print_r("Processing this attachment:", $attachment);
 
-        $this->source = $this->_source->guid;
+        $this->source = $this->object->guid;
         $this->RI = $attachment->guid;
         $this->document_url = midcom::get()->permalinks->create_attachment_link($this->RI, $attachment->name);
 
-        $this->_process_attachment();
-        $this->_process_topic();
+        $this->process_attachment();
+        $this->process_topic();
     }
 
     /**
@@ -78,7 +76,7 @@ class midcom_services_indexer_document_attachment extends midcom_services_indexe
      * If this fails, you have to set the members $topic_guid, $topic_url and
      * $component manually.
      */
-    function _process_topic()
+    private function process_topic()
     {
         $nav = new midcom_helper_nav();
         $object = $nav->resolve_guid($this->source);
@@ -96,85 +94,70 @@ class midcom_services_indexer_document_attachment extends midcom_services_indexe
         $this->component = $object[MIDCOM_NAV_COMPONENT];
     }
 
-    function _process_attachment()
+    private function process_attachment()
     {
-        if (   !isset($this->_attachment->metadata)
-            || !is_object($this->_attachment->metadata))
+        if (   !isset($this->attachment->metadata)
+            || !is_object($this->attachment->metadata))
         {
             return;
         }
-        $this->creator = new midcom_db_person($this->_attachment->metadata->creator);
-        $this->created = $this->_attachment->metadata->created;
+        $this->creator = new midcom_db_person($this->attachment->metadata->creator);
+        $this->created = $this->attachment->metadata->created;
         $this->editor = $this->creator;
         $this->edited = $this->created;
         $this->author = $this->creator->name;
-        $this->add_text('mimetype', $this->_attachment->mimetype);
-        $this->add_text('filename', $this->_attachment->name);
+        $this->add_text('mimetype', $this->attachment->mimetype);
+        $this->add_text('filename', $this->attachment->name);
 
-        $mimetype = explode("/", $this->_attachment->mimetype);
+        $mimetype = explode("/", $this->attachment->mimetype);
         debug_print_r("Evaluating this Mime Type:", $mimetype);
-        switch($mimetype[0])
+
+        switch ($mimetype[1])
         {
-            case 'text':
-                switch ($mimetype[1])
-                {
-                    case 'html':
-                        $this->_process_mime_html();
-                        break;
-
-                    case 'richtext':
-                        $this->_process_mime_richtext();
-                        break;
-
-                    default:
-                        $this->_process_mime_plaintext();
-                        break;
-                }
+            case 'html':
+            case 'xml':
+                $this->process_mime_html();
                 break;
 
-            case 'application':
-                switch ($mimetype[1])
-                {
-                    case 'xml':
-                        $this->_process_mime_html();
-                        break;
+            case 'rtf':
+            case 'richtext':
+                $this->process_mime_richtext();
+                break;
 
-                    case 'xml-dtd':
-                        $this->_process_mime_plaintext();
-                        break;
+            case 'xml-dtd':
+                $this->process_mime_plaintext();
+                break;
 
-                    case 'pdf':
-                        $this->_process_mime_pdf();
-                        break;
+            case 'pdf':
+                $this->process_mime_pdf();
+                break;
 
-                    case 'msword':
-                    case 'vnd.ms-word':
-                        $this->_process_mime_word();
-                        break;
-                    case 'rtf':
-                        $this->_process_mime_richtext();
-                        break;
-
-                    default:
-                        $this->_process_mime_binary();
-                        break;
-                }
+            case 'msword':
+            case 'vnd.ms-word':
+                $this->process_mime_word();
                 break;
 
             default:
-                $this->_process_mime_binary();
+                if ($mimetype[0] === 'text')
+                {
+                    $this->process_mime_plaintext();
+                }
+                else
+                {
+                    $this->process_mime_binary();
+                }
                 break;
         }
 
-        if (strlen(trim($this->_attachment->title)) > 0)
+        if (strlen(trim($this->attachment->title)) > 0)
         {
-            $this->title =  "{$this->_attachment->title} ({$this->_attachment->name})";
-            $this->content .= "\n{$this->_attachment->title}\n{$this->_attachment->name}";
+            $this->title =  "{$this->attachment->title} ({$this->attachment->name})";
+            $this->content .= "\n{$this->attachment->title}\n{$this->attachment->name}";
         }
         else
         {
-            $this->title =  $this->_attachment->name;
-            $this->content .= "\n{$this->_attachment->name}";
+            $this->title =  $this->attachment->name;
+            $this->content .= "\n{$this->attachment->name}";
         }
 
         if (strlen($this->content) > 200)
@@ -190,17 +173,17 @@ class midcom_services_indexer_document_attachment extends midcom_services_indexe
     /**
      * Convert a Word attachment to plain text and index it.
      */
-    function _process_mime_word()
+    private function process_mime_word()
     {
         if (!midcom::get()->config->get('utility_catdoc'))
         {
             debug_add('Could not find catdoc, indexing as binary.', MIDCOM_LOG_INFO);
-            $this->_process_mime_binary();
+            $this->process_mime_binary();
             return;
         }
 
         debug_add("Converting Word-Attachment to plain text");
-        $wordfile = $this->_write_attachment_tmpfile();
+        $wordfile = $this->write_attachment_tmpfile();
         $txtfile = "{$wordfile}.txt";
         $encoding = (strtoupper($this->_i18n->get_current_charset()) == 'UTF-8') ? 'utf-8' : '8859-1';
 
@@ -214,12 +197,12 @@ class midcom_services_indexer_document_attachment extends midcom_services_indexe
         if (!file_exists($txtfile))
         {
             // We were unable to read the document into text
-            $this->_process_mime_binary();
+            $this->process_mime_binary();
             return;
         }
 
         $handle = fopen($txtfile, "r");
-        $this->content = $this->_get_attachment_content($handle);
+        $this->content = $this->get_attachment_content($handle);
         // Kill all ^L (FF) characters
         $this->content = str_replace("\x0C", '', $this->content);
         fclose($handle);
@@ -230,17 +213,17 @@ class midcom_services_indexer_document_attachment extends midcom_services_indexe
     /**
      * Convert a PDF attachment to plain text and index it.
      */
-    function _process_mime_pdf()
+    private function process_mime_pdf()
     {
         if (!midcom::get()->config->get('utility_pdftotext'))
         {
             debug_add('Could not find pdftotext, indexing as binary.', MIDCOM_LOG_INFO);
-            $this->_process_mime_binary();
+            $this->process_mime_binary();
             return;
         }
 
         debug_add("Converting PDF-Attachment to plain text");
-        $pdffile = $this->_write_attachment_tmpfile();
+        $pdffile = $this->write_attachment_tmpfile();
         $txtfile = "{$pdffile}.txt";
         $encoding = (strtoupper($this->_i18n->get_current_charset()) == 'UTF-8') ? 'UTF-8' : 'Latin1';
 
@@ -254,12 +237,12 @@ class midcom_services_indexer_document_attachment extends midcom_services_indexe
         if (!file_exists($txtfile))
         {
             // We were unable to read the document into text
-            $this->_process_mime_binary();
+            $this->process_mime_binary();
             return;
         }
 
         $handle = fopen($txtfile, 'r');
-        $this->content = $this->_get_attachment_content($handle);
+        $this->content = $this->get_attachment_content($handle);
         fclose($handle);
 
         unlink ($txtfile);
@@ -268,17 +251,17 @@ class midcom_services_indexer_document_attachment extends midcom_services_indexe
     /**
      * Convert an RTF attachment to plain text and index it.
      */
-    function _process_mime_richtext()
+    private function process_mime_richtext()
     {
         if (!midcom::get()->config->get('utility_unrtf'))
         {
             debug_add('Could not find unrtf, indexing as binary.', MIDCOM_LOG_INFO);
-            $this->_process_mime_binary();
+            $this->process_mime_binary();
             return;
         }
 
         debug_add("Converting RTF-Attachment to plain text");
-        $rtffile = $this->_write_attachment_tmpfile();
+        $rtffile = $this->write_attachment_tmpfile();
         $txtfile = "{$rtffile}.txt";
 
         // Kill the first five lines, they are crap from the converter.
@@ -292,12 +275,12 @@ class midcom_services_indexer_document_attachment extends midcom_services_indexe
         if (!file_exists($txtfile))
         {
             // We were unable to read the document into text
-            $this->_process_mime_binary();
+            $this->process_mime_binary();
             return;
         }
 
         $handle = fopen($txtfile, 'r');
-        $this->content = $this->_i18n->convert_to_current_charset($this->_get_attachment_content($handle));
+        $this->content = $this->_i18n->convert_to_current_charset($this->get_attachment_content($handle));
         fclose($handle);
 
         unlink ($txtfile);
@@ -306,18 +289,18 @@ class midcom_services_indexer_document_attachment extends midcom_services_indexe
     /**
      * Simple plain-text driver, just copies the attachment.
      */
-    function _process_mime_plaintext()
+    private function process_mime_plaintext()
     {
-        $this->content = $this->_i18n->convert_to_current_charset($this->_get_attachment_content());
+        $this->content = $this->_i18n->convert_to_current_charset($this->get_attachment_content());
     }
 
     /**
      * Processes HTML-style attachments (should therefore work with XML too),
      * strips tags and resolves entities.
      */
-    function _process_mime_html()
+    private function process_mime_html()
     {
-        $this->content = $this->_i18n->convert_to_current_charset($this->html2text($this->_get_attachment_content()));
+        $this->content = $this->_i18n->convert_to_current_charset($this->html2text($this->get_attachment_content()));
     }
 
     /**
@@ -325,11 +308,11 @@ class midcom_services_indexer_document_attachment extends midcom_services_indexe
      * is defined, in which case the documents title already contains the file's
      * name.
      */
-    function _process_mime_binary()
+    private function process_mime_binary()
     {
         if (strlen(trim($this->title)) > 0)
         {
-            $this->abstract = $this->_attachment->name;
+            $this->abstract = $this->attachment->name;
         }
     }
 
@@ -346,7 +329,7 @@ class midcom_services_indexer_document_attachment extends midcom_services_indexe
      * @param resource $handle A valid file-handle to read from, or null to automatically create a
      *        handle to the current attachment.
      */
-    function _get_attachment_content($handle = null)
+    private function get_attachment_content($handle = null)
     {
         // Read a max of 4 MB
         debug_add("Returning File content of handle {$handle}");
@@ -354,7 +337,7 @@ class midcom_services_indexer_document_attachment extends midcom_services_indexe
         $close = false;
         if (is_null($handle))
         {
-            $handle = $this->_attachment->open('r');
+            $handle = $this->attachment->open('r');
             $close = true;
         }
         $content = fread($handle, $max);
@@ -371,12 +354,12 @@ class midcom_services_indexer_document_attachment extends midcom_services_indexe
      *
      * @return string The name of the temporary file.
      */
-    function _write_attachment_tmpfile()
+    private function write_attachment_tmpfile()
     {
         $tmpname = tempnam(midcom::get()->config->get('midcom_tempdir'), 'midcom-indexer');
         debug_add("Creating an attachment copy as {$tmpname}");
 
-        $in = $this->_attachment->open('r');
+        $in = $this->attachment->open('r');
         $out = fopen($tmpname, 'w');
         stream_copy_to_stream($in, $out);
         fclose($out);
