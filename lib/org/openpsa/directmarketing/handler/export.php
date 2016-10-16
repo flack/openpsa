@@ -20,14 +20,14 @@ class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_comp
      */
     var $membership_mode = false;
 
+    protected $_schema = 'export';
+
     public function _load_schemadbs($handler_id, &$args, &$data)
     {
         // Try to load the correct campaign
         $this->_request_data['campaign'] = $this->_master->load_campaign($args[0]);
 
         $data['filename'] = preg_replace('/[^a-z0-9-]/i', '_', strtolower($this->_request_data['campaign']->title)) . '_' . date('Y-m-d') . '.csv';
-
-        $this->_schema = 'export';
 
         return $this->_master->load_schemas();
     }

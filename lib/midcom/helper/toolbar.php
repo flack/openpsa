@@ -139,7 +139,7 @@ class midcom_helper_toolbar
      *
      * @var string
      */
-    var $id_style;
+    public $id_style;
 
     /**
      * The CSS class-Style rule that should be used for the toolbar.
@@ -147,7 +147,7 @@ class midcom_helper_toolbar
      *
      * @var string
      */
-    var $class_style;
+    public $class_style;
 
     /**
      * The toolbar's label

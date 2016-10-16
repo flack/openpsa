@@ -34,12 +34,12 @@ class midcom_core_querybuilder extends midcom_core_query
     /**
      * When determining window sizes for offset/limit queries use this as minimum size
      */
-    var $min_window_size = 10;
+    private $min_window_size = 10;
 
     /**
      * When determining window sizes for offset/limit queries use this as maximum size
      */
-    var $max_window_size = 500;
+    private $max_window_size = 500;
 
     /**
      * @param string $classname The classname which should be queried.
@@ -426,7 +426,7 @@ class midcom_core_querybuilder extends midcom_core_query
      * which can not be set, and all intances are created with better performance.
      * This method is dedicated for resultsets which are not meant to be updated or edited.
      *
-     * If underlying midgard_query_buidler doesn't provide read-only toggle, this method does nothing.
+     * If underlying midgard_query_builder doesn't provide read-only toggle, this method does nothing.
      *
      * @param bool $toggle enables or disables query builder read-only mode.
      */

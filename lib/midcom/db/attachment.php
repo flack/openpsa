@@ -32,7 +32,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
     /**
      * Internal tracking state variable, true if the attachment has a handle opened in write mode
      */
-    var $_open_write_mode = false;
+    private $_open_write_mode = false;
 
     function get_parent_guid_uncached()
     {

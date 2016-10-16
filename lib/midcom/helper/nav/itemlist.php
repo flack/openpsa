@@ -25,7 +25,7 @@ abstract class midcom_helper_nav_itemlist
      */
     protected $_nap;
 
-    var $parent_node_id;
+    protected $parent_node_id;
 
     /**
      * Initialize the object, used by the factory function.

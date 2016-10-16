@@ -16,7 +16,7 @@ use midgard\introspection\helper;
  */
 class midcom_admin_help_help extends midcom_baseclasses_components_plugin
 {
-    var $mgdtypes = array
+    private $mgdtypes = array
     (
         MGD_TYPE_STRING => "string",
         MGD_TYPE_INT => "integer",
@@ -266,7 +266,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
 
     private function _list_physical_files($component)
     {
-        $component_dir = midcom_admin_help_help::get_documentation_dir($component);
+        $component_dir = self::get_documentation_dir($component);
         if (!is_dir($component_dir))
         {
             return array();
@@ -387,7 +387,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
             $data[$file]['url'] = '/midcom-exec-' . $component . '/' . $file;
             $data[$file]['description'] = self::get_help_contents($info_id, $component);
 
-            if (midcom_admin_help_help::help_exists($info_id, $component))
+            if (self::help_exists($info_id, $component))
             {
                 $data[$file]['handler_help_url'] = $info_id;
             }

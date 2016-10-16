@@ -298,14 +298,14 @@ class midcom_core_context
      *
      * <code>
      * class my_component_class_one {
-     *     function init () {
+     *     public function init () {
      *         midcom_core_context::get()->set_custom_key('classone', $this);
      *     }
      * }
      *
      * class my_component_class_two {
-     *        var one;
-     *     function my_component_class_two () {
+     *     public $one;
+     *     public function __construct() {
      *         $this->one =& midcom_core_context::get()->get_custom_key('classone');
      *     }
      * }

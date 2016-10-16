@@ -28,7 +28,7 @@ class midcom_services_at_entry_dba extends midcom_core_dbaobject
      *
      * @var array
      */
-    var $arguments = array();
+    public $arguments = array();
 
     /**
      * Makes sure $arguments is properly set

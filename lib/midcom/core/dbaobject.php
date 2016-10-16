@@ -33,18 +33,16 @@ abstract class midcom_core_dbaobject
     /**
      * Should the revision control system be enabled for object updates
      *
-     * @access private
      * @var boolean
      */
-    var $_use_rcs = true;
+    public $_use_rcs = true;
 
     /**
      * Should the Activity Log be enabled for object actions
      *
-     * @access private
      * @var boolean
      */
-    var $_use_activitystream = true;
+    public $_use_activitystream = true;
 
     /**
      * Change message used for RCS and the Activity Log summary

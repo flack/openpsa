@@ -23,7 +23,7 @@ class midcom_services_cache_backend_sqlite extends midcom_services_cache_backend
     /**
      * Sanitized version of database table name
      */
-    var $_table = '';
+    private $_table = '';
 
     /**
      * This handler completes the configuration.

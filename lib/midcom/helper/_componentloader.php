@@ -101,10 +101,9 @@ class midcom_helper__componentloader
      *
      * This information is loaded during startup.
      *
-     * @var array
-     * @see midcom_core_manifest
+     * @var midcom_core_manifest[]
      */
-    var $manifests = array();
+    public $manifests = array();
 
     /**
      * This function will invoke _load directly. If the loading process

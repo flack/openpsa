@@ -13,7 +13,7 @@ class org_openpsa_projects_handler_csv extends midcom_baseclasses_components_han
 {
     public $include_guid = false;
     public $include_totals = true;
-    public $_schema = 'default';
+    protected $_schema = 'default';
 
     public function _load_schemadbs($handler_id, &$args, &$data)
     {
