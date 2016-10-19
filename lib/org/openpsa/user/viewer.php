@@ -13,17 +13,6 @@
  */
 class org_openpsa_user_viewer extends midcom_baseclasses_components_request
 {
-    public function add_password_validation_code()
-    {
-        //get rules for js in style
-        $this->_request_data['password_rules'] = $this->_config->get('password_score_rules');
-
-        //get password_length & minimum score for js
-        $this->_request_data['min_score'] = $this->_config->get('min_password_score');
-        $this->_request_data['min_length'] = $this->_config->get('min_password_length');
-        $this->_request_data['max_length'] = $this->_config->get('max_password_length');
-    }
-
     /**
      * Create account based on data from DM2
      *

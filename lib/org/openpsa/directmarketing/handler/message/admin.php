@@ -140,7 +140,6 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
         foreach ($campaigns as $campaign)
         {
             $new_object = $copy->copy_object($original, $campaign, array('sendStarted' => 0, 'sendCompleted' => 0));
-            $guid = $new_object->guid;
 
             // Store for later use
             $copy_data[] = array

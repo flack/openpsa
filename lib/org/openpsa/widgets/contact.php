@@ -393,7 +393,7 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
         $mc->add_constraint('gid.orgOpenpsaObtype', '>=', org_openpsa_contacts_group_dba::ORGANIZATION);
         $memberships = $mc->get_rows(array('gid', 'extra'));
 
-        foreach ($memberships as $guid => $data)
+        foreach ($memberships as $data)
         {
             try
             {

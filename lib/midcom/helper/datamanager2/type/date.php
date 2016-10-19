@@ -214,7 +214,6 @@ class midcom_helper_datamanager2_type_date extends midcom_helper_datamanager2_ty
      */
     private function get_time_format()
     {
-        $format = 'none';
         // FIXME: This is not exactly an elegant way to do this
         $widget_conf = $this->storage->_schema->fields[$this->name]['widget_config'];
         if (    $this->storage_type != 'ISO_DATE'

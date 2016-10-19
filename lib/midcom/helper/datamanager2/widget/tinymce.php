@@ -339,7 +339,7 @@ EOT;
             $this->_add_initscript();
         }
 
-        $attribute['rows'] = $this->height;
+        $attributes['rows'] = $this->height;
         $attributes['cols'] = $this->width;
         $attributes['class'] = 'tinymce';
         if ($this->wrap != '')

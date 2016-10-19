@@ -527,7 +527,6 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
         $return = array();
         $oldest = array_intersect_key($oldest, $newest);
 
-        $ln = midcom::get()->i18n->get_l10n("midcom");
         $repl = array(
             '<del>' => "<span class=\"deleted\">",
             '</del>' => '</span>',

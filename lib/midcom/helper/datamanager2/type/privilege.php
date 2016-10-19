@@ -230,7 +230,7 @@ class midcom_helper_datamanager2_type_privilege extends midcom_helper_datamanage
 
             case MIDCOM_PRIVILEGE_INHERIT:
                 $effective_value = $this->get_effective_value() ? 'allow' : 'deny';
-                return sprintf($this->_l10n->get('widget privilege: inherit %s'), $this->_l10n->get('widget privilege: ' . $get_effective_value));
+                return sprintf($this->_l10n->get('widget privilege: inherit %s'), $this->_l10n->get('widget privilege: ' . $effective_value));
 
             default:
                 return $this->get_value();

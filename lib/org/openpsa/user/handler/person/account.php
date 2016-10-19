@@ -103,13 +103,6 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         return $db;
     }
 
-    private function _prepare_request_data()
-    {
-        $this->_request_data['person'] = $this->_person;
-        $this->_request_data['account'] = $this->_account;
-        $this->_master->add_password_validation_code();
-    }
-
     /**
      * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
@@ -241,14 +234,5 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
             midcom::get()->uimessages->add($this->_l10n->get($this->_component), sprintf($this->_l10n_midcom->get("%s deleted"), $this->_l10n->get('account')));
         }
         return new midcom_response_relocate('view/' . $this->_person->guid . "/");
-    }
-
-    /**
-     * Update the context so that we get a complete breadcrumb line towards the current location.
-     */
-    private function _update_breadcrumb_line($action)
-    {
-        $this->add_breadcrumb("view/{$this->_person->guid}/", $this->_person->name);
-        $this->add_breadcrumb("", $this->_l10n->get($action));
     }
 }

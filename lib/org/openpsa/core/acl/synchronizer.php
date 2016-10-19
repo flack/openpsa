@@ -69,7 +69,6 @@ class org_openpsa_core_acl_synchronizer
         {
             foreach ($privileges as $privilege)
             {
-                $found = false;
                 if (   !empty($needed_privileges[$privilege->privilegename])
                     && $needed_privileges[$privilege->privilegename]['assignee'] == $privilege->assignee
                     && $needed_privileges[$privilege->privilegename]['value'] == $privilege->value)

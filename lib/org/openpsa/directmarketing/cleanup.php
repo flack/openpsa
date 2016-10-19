@@ -42,14 +42,14 @@ class org_openpsa_directmarketing_cleanup extends midcom_baseclasses_components_
     private function get_message_receipt_qb($kept = false)
     {
         $qb = org_openpsa_directmarketing_campaign_messagereceipt_dba::new_query_builder();
-        $qb->add_time_filter($qb, $kept);
+        $this->add_time_filter($qb, $kept);
         return $qb;
     }
 
     private function get_link_log_qb($kept = false)
     {
         $qb = org_openpsa_directmarketing_link_log_dba::new_query_builder();
-        $qb->add_time_filter($qb, $kept);
+        $this->add_time_filter($qb, $kept);
         return $qb;
     }
 
@@ -127,7 +127,7 @@ class org_openpsa_directmarketing_cleanup extends midcom_baseclasses_components_
         $objects = $qb->execute();
         foreach ($objects as $object)
         {
-            $objects->delete();
+            $object->delete();
         }
     }
 }

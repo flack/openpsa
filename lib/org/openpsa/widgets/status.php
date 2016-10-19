@@ -14,7 +14,6 @@ abstract class org_openpsa_widgets_status
     public function render()
     {
         $l10n = midcom::get()->i18n->get_l10n('org.openpsa.widgets');
-        $l10n_midcom = midcom::get()->i18n->get_l10n('midcom');
 
         echo "<h2 class=\"current-status {$this->get_status_class()}\">";
         echo $l10n->get('status') . ': ' . $this->get_current_status();

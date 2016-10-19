@@ -143,16 +143,6 @@ implements midcom_services_permalinks_resolver
         return $workflow->render_attributes() . ' href="' . $node[MIDCOM_NAV_FULLURL] . 'event/' . $guid . '/"';
     }
 
-    /**
-     * Returns string of correct window options for JS
-     */
-    private static function _js_window_options($height, $width)
-    {
-        $ret = "toolbar=0,location=0,status=0,height={$height},width={$width},";
-        $ret .= "dependent=1,alwaysRaised=1,scrollbars=1,resizable=1";
-        return $ret;
-    }
-
     public function resolve_object_link(midcom_db_topic $topic, midcom_core_dbaobject $object)
     {
         if ($object instanceof org_openpsa_calendar_event_dba)

@@ -30,7 +30,6 @@ implements midcom_services_permalinks_resolver
 
     private function _resolve_productgroup($product_group, $topic)
     {
-        $intree = false;
         $real_config = new midcom_helper_configuration($topic, 'org.openpsa.products');
 
         if ($real_config->get('root_group'))

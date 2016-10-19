@@ -133,7 +133,7 @@ class org_openpsa_calendar_conflictmanager
 
         foreach ($this->_load_resources() as $resource)
         {
-            $this->_process_resource($member, $modified_events, $rob_tentative);
+            $this->_process_resource($resource, $modified_events, $rob_tentative);
         }
         // TODO: Shared tasks need a separate check (different member object)
 

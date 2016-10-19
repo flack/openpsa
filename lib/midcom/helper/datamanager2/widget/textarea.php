@@ -89,7 +89,7 @@ class midcom_helper_datamanager2_widget_textarea extends midcom_helper_datamanag
      */
     public function add_elements_to_form($attributes)
     {
-        $attribute['rows'] = $this->height;
+        $attributes['rows'] = $this->height;
         $attributes['cols'] = $this->width;
         $attributes['class'] = 'longtext';
         if ($this->wrap != '')

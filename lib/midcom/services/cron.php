@@ -161,7 +161,6 @@ class midcom_services_cron
 
             foreach ($jobs as $job)
             {
-                $stat = false;
                 try
                 {
                     if ($this->_validate_job($job))
