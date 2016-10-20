@@ -66,7 +66,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
      */
     var $notify_force_add = false;
 
-    public  $search_relatedtos = true;
+    public $search_relatedtos = true;
     public $ignorebusy_em = false;
     public $rob_tentative = false;
 

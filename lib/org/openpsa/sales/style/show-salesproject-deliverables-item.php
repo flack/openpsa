@@ -6,7 +6,6 @@ $price = $data['l10n']->get_formatter()->number($data['deliverable_object']->pri
 <li class="deliverable collapsed" id="deliverable_<?php echo $data['deliverable_object']->guid; ?>">
     <span class="icon">
     </span>
-    <a name="<?php echo $data['deliverable_object']->guid; ?>"></a>
     <div class="tags">&(deliverable['tags']:h);</div>
     <?php
     echo "<h3><a href=\"{$prefix}deliverable/{$data['deliverable_object']->guid}/\">{$data['deliverable_object']->title}</a></h3>\n";

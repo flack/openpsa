@@ -6,7 +6,6 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 <li class="deliverable subscription collapsed" id="deliverable_<?php echo $data['deliverable_object']->guid; ?>">
     <span class="icon">
     </span>
-    <a name="<?php echo $data['deliverable_object']->guid; ?>"></a>
     <div class="tags">&(deliverable['tags']:h);</div>
     <?php
     echo "<h3><a href=\"{$prefix}deliverable/{$data['deliverable_object']->guid}/\">{$data['deliverable_object']->title}</a></h3>\n";
