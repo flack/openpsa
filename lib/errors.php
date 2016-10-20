@@ -280,16 +280,16 @@ class midcom_exception_handler
         // Send as email handler
         if ($error_actions[$httpcode]['action'] == 'email')
         {
-            $this->_send_email($httpcode, $msg, $error_actions[$httpcode]);
+            $this->_send_email($msg, $error_actions[$httpcode]);
         }
         // Append to log file handler
         else if ($error_actions[$httpcode]['action'] == 'log')
         {
-            $this->_log($httpcode, $msg, $error_actions[$httpcode]);
+            $this->_log($msg, $error_actions[$httpcode]);
         }
     }
 
-    private function _log($httpcode, $msg, array $config)
+    private function _log($msg, array $config)
     {
         if (empty($config['filename']))
         {
@@ -310,7 +310,7 @@ class midcom_exception_handler
         $logger->log($msg, MIDCOM_LOG_INFO);
     }
 
-    private function _send_email($httpcode, $msg, array $config)
+    private function _send_email($msg, array $config)
     {
         if (empty($config['email']))
         {

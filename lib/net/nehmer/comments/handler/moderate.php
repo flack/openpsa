@@ -21,13 +21,6 @@ class net_nehmer_comments_handler_moderate extends midcom_baseclasses_components
     private $_comment;
 
     /**
-     * The GUID of the object we're bound to.
-     *
-     * @var string GUID
-     */
-    private $_objectguid;
-
-    /**
      * Marks comment as possible abuse
      *
      * @param mixed $handler_id The ID of the handler.

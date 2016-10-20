@@ -272,7 +272,7 @@ class midcom_services_auth_sessionmgr
         }
         $this->user = midcom_connection::login($username, $password);
 
-        return $this->_load_person($username);
+        return $this->_load_person();
     }
 
     /**
@@ -291,10 +291,10 @@ class midcom_services_auth_sessionmgr
 
         $this->user = midcom_connection::login($username, '', true);
 
-        return $this->_load_person($username);
+        return $this->_load_person();
     }
 
-    private function _load_person($username)
+    private function _load_person()
     {
         if (!$this->user)
         {

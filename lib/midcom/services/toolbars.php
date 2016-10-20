@@ -371,7 +371,7 @@ class midcom_services_toolbars
     {
         if (!$this->_centralized_mode)
         {
-            echo $this->render_node_toolbar();
+            echo $this->render_node_toolbar($context_id);
         }
     }
 
@@ -387,7 +387,7 @@ class midcom_services_toolbars
     {
         if (!$this->_centralized_mode)
         {
-            echo $this->render_host_toolbar();
+            echo $this->render_host_toolbar($context_id);
         }
     }
 
@@ -403,7 +403,7 @@ class midcom_services_toolbars
     {
         if (!$this->_centralized_mode)
         {
-            echo $this->render_view_toolbar();
+            echo $this->render_view_toolbar($context_id);
         }
     }
 
@@ -419,7 +419,7 @@ class midcom_services_toolbars
     {
         if (!$this->_centralized_mode)
         {
-            echo $this->render_help_toolbar();
+            echo $this->render_help_toolbar($context_id);
         }
     }
 

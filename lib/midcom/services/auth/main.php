@@ -363,10 +363,9 @@ class midcom_services_auth
      * @param midcom_core_user $user The user against which to check the privilege, defaults to the currently authenticated user,
      *     you may specify 'EVERYONE' here to check what an anonymous user can do.
      * @param string $class Optional parameter to set if the check should take type specific permissions into account. The class must be default constructible.
-     * @param string $component Component providing the class
      * @return boolean True if the privilege has been granted, false otherwise.
      */
-    public function can_user_do($privilege, $user = null, $class = null, $component = null)
+    public function can_user_do($privilege, $user = null, $class = null)
     {
         if ($this->is_admin($user))
         {

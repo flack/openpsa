@@ -33,7 +33,6 @@ class org_openpsa_widgets_calendar extends midcom_baseclasses_components_purecod
         if ($lang)
         {
             $head->add_jsfile(MIDCOM_STATIC_URL . $prefix . "locale/{$lang}.js");
-            $options['lang'] = $lang;
         }
 
         $head->add_stylesheet(MIDCOM_STATIC_URL . $prefix . 'fullcalendar.min.css');
