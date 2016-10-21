@@ -347,21 +347,20 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
         $history = $this->rcs_exec('rlog', $what . ',v');
         $revisions = array();
         $lines = explode("\n", $history);
+        $total = count($lines);
 
-        for ($i = 0; $i < count($lines); $i++)
+        for ($i = 0; $i < $total; $i++)
         {
             if (substr($lines[$i], 0, 9) == "revision ")
             {
-                $history_entry[0] = $lines[$i];
-                $history_entry[1] = $lines[$i+1];
-                $history_entry[2] = $lines[$i+2];
+                $history_entry = array($lines[$i], $lines[$i + 1], $lines[$i + 2]);
                 $history = $this->rcs_parse_history_entry($history_entry);
 
                 $revisions[$history['revision']] = $history;
 
                 $i += 3;
 
-                while (   $i < count($lines)
+                while (   $i < $total
                        && substr($lines[$i], 0, 4) != '----'
                        && substr($lines[$i], 0, 5) != '=====')
                 {
