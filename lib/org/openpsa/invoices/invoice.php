@@ -21,7 +21,7 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
         'org_openpsa_invoices_invoice_item_dba' => 'invoice'
     );
 
-    private $_billing_data = false;
+    private $_billing_data;
 
     public function get_status()
     {
@@ -396,37 +396,22 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
      */
     public function get_billing_data()
     {
-        // check if we got the billing data cached already
-        if ($this->_billing_data)
+            // check if we got the billing data cached already
+        if (   !$this->_billing_data
+            // check if there is a customer set with invoice_data
+            && !($this->_billing_data = $this->_get_billing_data('org_openpsa_contacts_group_dba', $this->customer))
+            // check if the customerContact is set and has invoice_data
+            && !($this->_billing_data = $this->_get_billing_data('org_openpsa_contacts_person_dba', $this->customerContact)))
         {
-            return $this->_billing_data;
+            // set the default-values for vat and due from config
+            $this->_billing_data = new org_openpsa_invoices_billing_data_dba();
+            $due = midcom_baseclasses_components_configuration::get('org.openpsa.invoices', 'config')->get('default_due_days');
+            $vat = explode(',', midcom_baseclasses_components_configuration::get('org.openpsa.invoices', 'config')->get('vat_percentages'));
+
+            $this->_billing_data->vat = (int) $vat[0];
+            $this->_billing_data->due = $due;
         }
-
-        // check if there is a customer set with invoice_data
-        $bd = $this->_get_billing_data('org_openpsa_contacts_group_dba', $this->customer);
-        if ($bd)
-        {
-            $this->_billing_data = $bd;
-            return $bd;
-        }
-        // check if the customerContact is set and has invoice_data
-        $bd = $this->_get_billing_data('org_openpsa_contacts_person_dba', $this->customerContact);
-        if ($bd)
-        {
-            $this->_billing_data = $bd;
-            return $bd;
-        }
-
-        // set the default-values for vat and due from config
-        $bd = new org_openpsa_invoices_billing_data_dba();
-        $due = midcom_baseclasses_components_configuration::get('org.openpsa.invoices', 'config')->get('default_due_days');
-        $vat = explode(',', midcom_baseclasses_components_configuration::get('org.openpsa.invoices', 'config')->get('vat_percentages'));
-
-        $bd->vat = (int) $vat[0];
-        $bd->due = $due;
-
-        $this->_billing_data = $bd;
-        return $bd;
+        return $this->_billing_data;
     }
 
     public function get_customer()
