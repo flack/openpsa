@@ -38,11 +38,10 @@ class midcom_helper_xsspreventer
         return preg_replace_callback
         (
             "%(<\s*)+(/\s*)+{$element}%i",
-            create_function
-            (
-                '$matches',
-                'return htmlentities($matches[0]);'
-            ),
+            function ($matches)
+            {
+                return htmlentities($matches[0]);
+            },
             $input
         );
     }

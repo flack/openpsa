@@ -199,10 +199,10 @@ class org_openpsa_directmarketing_sender_backend_email implements org_openpsa_di
         $address = addslashes($address);
         return preg_replace_callback(
                 '/href="(http:\/\/.*?)"/i',
-                create_function(
-                        '$match',
-                        'return "href=\\"" . str_replace("URL", rawurlencode($match[1]), "' . $address . '") . "\\"";'
-                        ),
+                function ($match) use ($address)
+                {
+                    return 'href="' . str_replace("URL", rawurlencode($match[1]), $address) . '"';
+                },
                 $html);
         }
 }
