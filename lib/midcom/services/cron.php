@@ -60,8 +60,6 @@
  *         $this->print_error(strftime('%x %X'));
  *     }
  * }
- *
- * ?>
  * </code>
  *
  * <b>Cron Job implementation suggestions</b>

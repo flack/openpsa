@@ -63,8 +63,6 @@ abstract class midcom_baseclasses_components_navigation extends midcom_baseclass
      *  }
      *
      *  return $leaves;
-     *
-     * ?>
      * </code>
      *
      * @return array NAP compliant list of leaves.

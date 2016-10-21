@@ -128,4 +128,3 @@ class net_nemein_wiki_viewer extends midcom_baseclasses_components_request
         return $page;
     }
 }
-?>

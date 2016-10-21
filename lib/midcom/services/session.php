@@ -23,7 +23,6 @@
  *     echo "setting session value...";
  *     $session->set("mykey", "hello world");
  * }
- * ?>
  * </code>
  *
  * You should keep in mind, that the isolation level by default is per-component,

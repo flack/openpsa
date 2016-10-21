@@ -28,7 +28,6 @@
  * echo "Visible : " . $meta->is_visible() . "</br>";
  * echo "Approved : " . $meta->is_approved() . "</br>";
  * echo "Keywords: " . $meta->get('keywords') . "</br>";
- * ?>
  * </code>
  *
  * <b>Example Usage, Approval</b>
@@ -39,7 +38,6 @@
  *
  * $meta = midcom_helper_metadata::retrieve($article);
  * $meta->approve();
- * ?>
  * </code>
  *
  * @property integer $schedulestart The time upon which the object should be made visible. 0 for no restriction.

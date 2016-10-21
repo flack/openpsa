@@ -36,7 +36,6 @@
  *     printf('You\'re in %s, %s', $user_location['latitude'], $user_location['longitude']);
  *     // Will print "You're in 60.2345, 25.00456"
  * }
- * ?>
  * </code>
  *
  *

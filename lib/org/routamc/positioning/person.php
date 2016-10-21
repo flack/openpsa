@@ -20,7 +20,6 @@
  *     printf('On %s % was in %s, %s', strftime('%x' $time), $user->name, $coordinates['latitude'], $coordinates['longitude']);
  *     // Will print "On 19.6.2006 Henri Bergius was in 60.2345, 25.00456"
  * }
- * ?>
  * </code>
  *
  * @package org.routamc.positioning

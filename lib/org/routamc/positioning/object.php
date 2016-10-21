@@ -19,7 +19,6 @@
  * {
  *     echo "<meta name=\"icbm\" content=\"{$coordinates['latitude']},{$coordinates['longitude']}\" />\n";
  * }
- * ?>
  * </code>
  *
  * @package org.routamc.positioning
