@@ -133,7 +133,6 @@ implements midcom_services_permalinks_resolver
             }
         }
 
-        $subgroups = array();
         $qb_groups = org_openpsa_products_product_group_dba::new_query_builder();
         $qb_groups->add_constraint('up', '=', $group->id);
         $subgroups = $qb_groups->execute();

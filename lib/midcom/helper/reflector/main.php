@@ -313,6 +313,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
             // class has static method to tell us the answer ? great !
             case (is_callable($icon_callback)):
                 $icon = call_user_func($icon_callback);
+                break;
             // configuration icon
             case (isset(self::$_cache['create_icon_map'][$type])):
                 $icon = self::$_cache['create_icon_map'][$type];

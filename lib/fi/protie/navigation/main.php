@@ -316,9 +316,6 @@ class fi_protie_navigation
      */
     public static function get_node_path()
     {
-        // Initialize variables
-        $node_path = array ();
-
         // Initialize the `midcom_helper_nav` class
         $nap = new midcom_helper_nav();
 

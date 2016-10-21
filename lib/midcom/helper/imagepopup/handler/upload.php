@@ -38,17 +38,7 @@ class midcom_helper_imagepopup_handler_upload extends midcom_baseclasses_compone
         // Get the data
         $temp_name = $temp['tmp_name'];
         $mimetype = $temp['type'];
-        $parentguid = "";
-
-        // Do we have guid ?
-        if($handler_id == '____ais-imagepopup-upload_image_noobject')
-        {
-            $parentguid = $this->_topic->guid;
-        }
-        else
-        {
-            $parentguid = $args[0];
-        }
+        $parentguid = (!empty($args[0])) ? $args[0] : $this->_topic->guid;
 
         // Set modified filename
         $filename = $this->get_modify_filename($temp['name']);

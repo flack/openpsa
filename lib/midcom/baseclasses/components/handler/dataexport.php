@@ -223,7 +223,6 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
                 foreach ($datamanager->schema->field_order as $fieldname)
                 {
                     $fieldtype = $datamanager->schema->fields[$fieldname]['type'];
-                    $data = '';
                     $data = $datamanager->types[$fieldname]->convert_to_csv();
                     if (   $this->include_totals
                         && $fieldtype == 'number')

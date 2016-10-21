@@ -133,13 +133,6 @@ function remove_anchor(id)
 }
 
 function add_anchor(id)
-{
-    var string = window.location.hash;
-    id = id.replace(/_contents$/, '');
-    
-    string = string.replace(/([#]*)/, '#' + id + ',');
-    string = string.replace(/,$/, '');
-    string = string.replace(/,,/g, ',');
-//    window.location.hash = string;
-    window.location.hash = '#' + id;
+{ 
+    window.location.hash = '#' + id.replace(/_contents$/, '');
 }

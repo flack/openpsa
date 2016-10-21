@@ -350,7 +350,6 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
             $html
         );
 
-        $script = "init_position_widget('{$this->_element_id}', mapstraction_{$this->_element_id}_map, {$this->js_options_str});";
         $script = "jQuery('#{$this->_element_id}').dm2_position_widget(mapstraction_{$this->_element_id}_map, {$this->js_options_str});";
         midcom::get()->head->add_jquery_state_script($script);
     }

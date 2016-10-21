@@ -15,10 +15,8 @@ $(document).ready(function()
 
     $('#midcom_admin_folder_order_form').submit(function()
     {
-        $(this).find('ul').each(function(i)
+        $(this).find('ul').each(function()
         {
-            var count = $(this).find('li').size();
-            
             $(this).find('li').each(function(i)
             {
                 $(this).find('input').val(i);

@@ -117,8 +117,6 @@ class midcom_helper_configuration
      */
     private function _store_from_object($global = false, $merge = false)
     {
-        $array = array();
-
         // Cast to DBA type.
         if (! midcom::get()->dbclassloader->is_midcom_db_object($this->_object))
         {

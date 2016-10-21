@@ -327,7 +327,6 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
     function check_password_strength($password)
     {
         $password_length = strlen($password);
-        $score = 0;
 
         // score for length & repetition
         $pattern_length = 4;
@@ -397,7 +396,6 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
             if ($repeated)
             {
                 $i += $plen - 1;
-                $repeated = false;
             }
             else
             {

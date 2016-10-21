@@ -35,7 +35,7 @@ abstract class org_openpsa_mail_backend
         {
             return self::_load_backend('unittest', $params);
         }
-        if ($implementation = 'try_default')
+        if ($implementation == 'try_default')
         {
             $try_backends = midcom_baseclasses_components_configuration::get('org.openpsa.mail', 'config')->get('default_try_backends');
             //Use first available backend in list

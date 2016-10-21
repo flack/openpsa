@@ -6,8 +6,6 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
-use midcom\events\dbaevent;
-
 /**
  * MidCOM level replacement for the Midgard Attachment record with framework support.
  *
@@ -345,7 +343,6 @@ class midcom_db_attachment extends midcom_core_dbaobject
     private function _create_attachment_location()
     {
         $max_tries = 500;
-        $location = '';
 
         for ($i = 0; $i < $max_tries; $i++)
         {

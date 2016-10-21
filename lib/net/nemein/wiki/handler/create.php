@@ -85,7 +85,6 @@ implements midcom_helper_datamanager2_interfaces_create
         {
             $to_node = $resolved['folder'];
         }
-        $created_page = false;
         switch (true)
         {
             case (strstr($resolved['remaining_path'], '/')):
@@ -126,7 +125,7 @@ implements midcom_helper_datamanager2_interfaces_create
                 {
                     try
                     {
-                        $created_page = net_nemein_wiki_viewer::initialize_index_article($topic);
+                        net_nemein_wiki_viewer::initialize_index_article($topic);
                     }
                     catch (midcom_error $e)
                     {

@@ -839,7 +839,6 @@ class midcom_helper_nav_backend
     function list_nodes($parent_node, $show_noentry)
     {
         static $listed = array();
-        $up = null;
 
         if ($this->_loadNode($parent_node) !== MIDCOM_ERROK)
         {

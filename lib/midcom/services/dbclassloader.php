@@ -329,10 +329,8 @@ class midcom_services_dbclassloader
             return false;
         }
 
-        $component = false;
         if ($classname == midcom::get()->config->get('person_class'))
         {
-            $component = 'midcom';
             $definitions = $this->get_midgard_classes();
         }
         else

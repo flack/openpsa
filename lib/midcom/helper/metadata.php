@@ -301,7 +301,6 @@ class midcom_helper_metadata
      */
     function set_multiple($properties)
     {
-        $return = false;
         foreach ($properties as $key => $value)
         {
             if (!$this->_set_property($key, $value))
@@ -707,30 +706,26 @@ class midcom_helper_metadata
     public static function retrieve($source)
     {
         $object = null;
-        $guid = '';
 
         if (is_object($source))
         {
             $object = $source;
             $guid = $source->guid;
         }
+        else if (is_array($source))
+        {
+            if (   !array_key_exists(MIDCOM_NAV_GUID, $source)
+                || is_null($source[MIDCOM_NAV_GUID]))
+            {
+                debug_print_r('We got an invalid input, cannot return metadata:', $source);
+                return false;
+            }
+            $guid = $source[MIDCOM_NAV_GUID];
+            $object = $source[MIDCOM_NAV_OBJECT];
+        }
         else
         {
-            if (is_array($source))
-            {
-                if (   !array_key_exists(MIDCOM_NAV_GUID, $source)
-                    || is_null($source[MIDCOM_NAV_GUID]))
-                {
-                    debug_print_r('We got an invalid input, cannot return metadata:', $source);
-                    return false;
-                }
-                $guid = $source[MIDCOM_NAV_GUID];
-                $object = $source[MIDCOM_NAV_OBJECT];
-            }
-            else
-            {
-                $guid = $source;
-            }
+            $guid = $source;
         }
 
         if (   is_null($object)

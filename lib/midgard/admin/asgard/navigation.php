@@ -183,7 +183,6 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
                 {
                     $this->_draw_collapsed_element($level, $type, $data['total']);
                 }
-                $children = $data['qb']->execute();
             }
             echo "</ul>\n";
         }

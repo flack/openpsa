@@ -179,7 +179,6 @@ abstract class org_openpsa_directmarketing_importer extends midcom_baseclasses_c
     private function _import_subscribers_campaign_member(array $subscriber, org_openpsa_contacts_person_dba $person, org_openpsa_directmarketing_campaign_dba $campaign)
     {
         // Check if person is already in campaign
-        $member = null;
         $qb = org_openpsa_directmarketing_campaign_member_dba::new_query_builder();
         $qb->add_constraint('person', '=', $person->id);
         $qb->add_constraint('campaign', '=', $campaign->id);

@@ -135,7 +135,7 @@ var midcom_helper_datamanager2_autocomplete =
         }
     },
 
-    open: function(event, ui)
+    open: function()
     {
         var offset = $(this).offset(),
         height = $(window).height() - (offset.top + $(this).height() + 10);
@@ -219,7 +219,10 @@ var midcom_helper_datamanager2_autocomplete =
         {
             minLength: min_length,
             //Don't change input field during keyboard navigation:
-            focus: function(event, ui){event.preventDefault();}
+            focus: function(event)
+            {
+                event.preventDefault();
+            }
         },
         options =  $.extend(dm2_defaults, midcom_helper_datamanager2_autocomplete.get_default_options()),
         input = $('#' + selector),
@@ -335,14 +338,14 @@ var midcom_helper_datamanager2_autocomplete =
                 update: function() {
                     var result = [];
                     $("#" + identifier + "_selection_holder .autocomplete-item:not(.autocomplete-todelete)")
-                        .each(function(e) {
+                        .each(function() {
                             result.push($(this).data("id"));
                         });
                     $("#" + identifier + "_selection").val(JSON.stringify(result));
                 }
             });
 
-            $("#" + identifier + "_search_input").on("autocompleteselect", function(event, ui)
+            $("#" + identifier + "_search_input").on("autocompleteselect", function()
             {
                 $("#" + identifier + "_selection_holder").sortable("refresh");
             });

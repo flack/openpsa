@@ -272,7 +272,6 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
                 {
                     debug_add("Could not get target for symlinked topic #{$this->_new_topic->id}: " .
                         $e->getMessage(), MIDCOM_LOG_ERROR);
-                    $topic = $this->_new_topic;
 
                     $this->_new_topic->purge();
                     throw new midcom_error

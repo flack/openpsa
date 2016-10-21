@@ -116,7 +116,6 @@ class midcom_core_account
     public function delete()
     {
         midcom::get()->auth->require_do('midgard:delete', $this->_person);
-        $stat = false;
         if ($this->_midgard2)
         {
             // Ratatoskr

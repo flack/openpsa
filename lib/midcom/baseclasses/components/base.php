@@ -54,27 +54,25 @@ abstract class midcom_baseclasses_components_base
             return $this->_services[$field];
         }
 
-        $instance = null;
         switch ($field)
         {
             case '_i18n':
-                $instance = midcom::get()->i18n;
+                $this->_services[$field] = midcom::get()->i18n;
                 break;
             case '_l10n':
-                $instance = midcom::get()->i18n->get_l10n($this->_component);
+                $this->_services[$field] = midcom::get()->i18n->get_l10n($this->_component);
                 break;
             case '_l10n_midcom':
-                $instance = midcom::get()->i18n->get_l10n('midcom');
+                $this->_services[$field] = midcom::get()->i18n->get_l10n('midcom');
                 break;
             case '_config':
-                $instance = midcom_baseclasses_components_configuration::get($this->_component, 'config');
+                $this->_services[$field] = midcom_baseclasses_components_configuration::get($this->_component, 'config');
                 break;
             default:
                 debug_add('Component ' . $this->_component . ' tried to access nonexistent service "' . $field . '"', MIDCOM_LOG_ERROR);
                 debug_print_function_stack('Called from here:');
                 return false;
         }
-        $this->_services[$field] = $instance;
         return $this->_services[$field];
     }
 

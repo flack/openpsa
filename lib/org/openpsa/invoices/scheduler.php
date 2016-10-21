@@ -66,7 +66,6 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
         {
             // Close previous task(s)
             $last_task = null;
-            $new_task = null;
 
             $task_qb = org_openpsa_projects_task_dba::new_query_builder();
             $task_qb->add_constraint('agreement', '=', $this->_deliverable->id);
@@ -88,7 +87,7 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
 
             // Create task for the duration of this cycle
             $task_title = sprintf('%s %s', $this->_deliverable->title, $this->get_cycle_identifier($this_cycle_start));
-            $new_task = $this->create_task($this_cycle_start, $next_cycle_start - 1, $task_title, $last_task);
+            $this->create_task($this_cycle_start, $next_cycle_start - 1, $task_title, $last_task);
         }
 
         // TODO: Warehouse management: create new order

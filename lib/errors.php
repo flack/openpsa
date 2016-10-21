@@ -342,8 +342,6 @@ class midcom_exception_handler
 
     public function get_function_stack()
     {
-        $stacktrace = '';
-
         if ($this->_exception)
         {
             $stack = $this->_exception->getTrace();

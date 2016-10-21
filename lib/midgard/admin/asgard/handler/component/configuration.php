@@ -99,7 +99,6 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
     {
         // Load SchemaDb
         $schemadb_config_path = midcom::get()->componentloader->path_to_snippetpath($this->_request_data['name']) . '/config/config_schemadb.inc';
-        $schemadb = null;
         $schema = 'default';
 
         if (file_exists($schemadb_config_path))
@@ -240,7 +239,6 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
                 $result = '<strong>Object</strong>';
                 break;
             case 'NULL':
-                $result = "<img src='" . MIDCOM_STATIC_URL . "/stock-icons/16x16/cancel.png'/>";
                 $result = '<strong>N/A</strong>';
                 break;
             default:

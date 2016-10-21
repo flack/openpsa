@@ -57,7 +57,6 @@ implements midcom_services_permalinks_resolver
             return $data['calendar_root_event'];
         }
 
-        $root_event = false;
         $root_guid = $data['config']->get('calendar_root_event');
 
         if (mgd_is_guid($root_guid))

@@ -412,8 +412,6 @@ implements midcom_helper_datamanager2_interfaces_edit
                 $html .= "  </div>\n";
 
                 $data['editor_header_assignees'] = $html;
-
-                $html = '';
             }
 
             if (is_a($row, 'HTML_QuickForm_group'))

@@ -93,8 +93,6 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
      */
     public function rcs_update ($object, $message)
     {
-        $status = null;
-
         if (empty($object->guid))
         {
             debug_add("Missing GUID, returning error");
@@ -112,7 +110,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
         }
 
         $command = 'co -q -f -l ' . escapeshellarg($filename);
-        $status = $this->exec($command);
+        $this->exec($command);
 
         $data = $this->rcs_object2data($object);
 
@@ -461,8 +459,6 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
      */
     private function rcs_create(midcom_core_dbaobject $object, $description)
     {
-        $status = null;
-
         $data = $this->rcs_object2data($object);
 
         if (empty($object->guid))

@@ -105,7 +105,6 @@ class org_openpsa_contacts_duplicates_merge
                                 {
                                     $todelete[$result->id] = $result;
                                 }
-                                $needs_update = false;
                                 continue 2;
                             }
                         }
