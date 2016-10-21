@@ -147,7 +147,7 @@ class midcom_db_person extends midcom_core_dbaobject
         {
             $title = htmlspecialchars($this->name);
             $url = htmlspecialchars($this->email);
-            @$this->emaillink = "<a href=\"mailto:{$url}\" title=\"{$title}\">{$url}</a>";
+            $this->emaillink = "<a href=\"mailto:{$url}\" title=\"{$title}\">{$url}</a>";
         }
     }
 
