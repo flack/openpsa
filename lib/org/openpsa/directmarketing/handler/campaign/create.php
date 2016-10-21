@@ -17,7 +17,7 @@ implements midcom_helper_datamanager2_interfaces_create
     /**
      * The campaign which has been created
      *
-     * @var org_openpsa_directmarketing_campaign
+     * @var org_openpsa_directmarketing_campaign_dba
      */
     private $_campaign = null;
 

@@ -22,7 +22,7 @@ abstract class org_openpsa_mail_backend
     /**
      * Send the actual email
      *
-     * @param org_openpsa_mail_message $messages
+     * @param org_openpsa_mail_message $message
      */
     abstract public function mail(org_openpsa_mail_message $message);
 

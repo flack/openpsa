@@ -37,7 +37,7 @@ class org_openpsa_relatedto_collector extends midcom_core_collector
     /**
      * The class(es) of the objects we're looking for
      *
-     * @var string
+     * @var array
      */
     private $_target_classes = array();
 

@@ -17,7 +17,7 @@ implements midcom_helper_datamanager2_interfaces_create
     /**
      * The message which has been created
      *
-     * @var org_openpsa_directmarketing_campaign_message
+     * @var org_openpsa_directmarketing_campaign_message_dba
      */
     private $_message = null;
 
@@ -59,7 +59,6 @@ implements midcom_helper_datamanager2_interfaces_create
     public function & dm2_create_callback (&$controller)
     {
         $this->_message = new org_openpsa_directmarketing_campaign_message_dba();
-        //  duh ? (copy-paste artefact ??)
         $this->_message->campaign = $this->_request_data['campaign']->id;
         $this->_message->orgOpenpsaObtype = $this->_schemadb[$this->_schema]->customdata['org_openpsa_directmarketing_messagetype'];
 

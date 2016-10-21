@@ -17,7 +17,7 @@ implements org_openpsa_widgets_grid_provider_client
     /**
      * The customer we're working with, if any
      *
-     * @var org_openpsa_contacts_group_dba
+     * @var midcom_core_dbaobject
      */
     private $_customer;
 

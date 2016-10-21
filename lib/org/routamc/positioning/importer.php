@@ -16,9 +16,9 @@ abstract class org_routamc_positioning_importer extends midcom_baseclasses_compo
     /**
      * The imported log entries
      *
-     * @var org_routamc_positioning_log
+     * @var org_routamc_positioning_log_dba
      */
-    var $log = null;
+    var $log;
 
     /**
      * Error code from trying to import. Either a midcom_connection::get_error_string() or an additional error code from component
