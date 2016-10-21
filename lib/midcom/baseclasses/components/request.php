@@ -368,10 +368,10 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
      *
      * Put all further initialization work into the _on_initialize event handler.
      *
-     * @param midgard_topic $topic The topic we are working on
+     * @param midcom_db_topic $topic The topic we are working on
      * @param midcom_helper_configuration $config The currently active configuration.
      */
-    final public function __construct($topic, $config)
+    final public function __construct(midcom_db_topic $topic, $config)
     {
         if (! midcom::get()->dbclassloader->is_midcom_db_object($topic))
         {

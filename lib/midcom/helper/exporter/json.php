@@ -16,7 +16,7 @@ class midcom_helper_exporter_json extends midcom_helper_exporter
     /**
      * Make JSON out of an array.
      *
-     * @param array $data
+     * @param array $array
      * @return string
      */
     public function array2data(array $array)

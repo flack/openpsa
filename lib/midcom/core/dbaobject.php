@@ -363,7 +363,7 @@ abstract class midcom_core_dbaobject
 
     /**
      *
-     * @param integer $guid
+     * @param integer $id
      * @return boolean Indicating success
      */
     public function get_by_id($id)

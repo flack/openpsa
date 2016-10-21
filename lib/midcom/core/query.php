@@ -60,7 +60,7 @@ abstract class midcom_core_query
     /**
      * The ordering instructions used for this query
      *
-     * @var int
+     * @var array
      */
     protected $_orders = array();
 

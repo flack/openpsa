@@ -197,7 +197,7 @@ class midcom_core_manifest
     /**
      * The raw manifest array as loaded from disc.
      *
-     * @var string
+     * @var array
      */
     public $_raw_data = null;
 

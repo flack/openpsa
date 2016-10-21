@@ -260,7 +260,7 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
     /**
      * Relays the handle call to the component.
      *
-     * @return boolean True, if the component successfully handle the request, false otherwise.
+     * @return midcom_response|boolean True, if the component successfully handle the request, false otherwise.
      */
     public function handle()
     {

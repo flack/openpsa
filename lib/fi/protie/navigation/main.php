@@ -573,7 +573,7 @@ class fi_protie_navigation
     /**
      * Set the root element id
      *
-     * @param string $id root ul id
+     * @param int $id root ul id
      */
     public function set_root_element_id($id)
     {

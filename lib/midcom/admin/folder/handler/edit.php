@@ -16,14 +16,14 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
     /**
      * DM2 schema
      *
-     * @var midcom_helper_datamanager2_schema $_schema
+     * @var midcom_helper_datamanager2_schema[]
      */
     private $_schemadb;
 
     /**
      * DM2 controller instance
      *
-     * @var midcom_helper_datamanager2_controller $_controller
+     * @var midcom_helper_datamanager2_controller
      */
     private $_controller;
 

@@ -560,7 +560,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
      *
      * @param mixed $raw_db Either an already created raw schema array, or a midcom_helper_misc::get_snippet_content
      *     compatible URL to a snippet / file from which the db should be loaded or schemadb contents as a string.
-     * @return Array An array of midcom_helper_datamanager2_schema class instances.
+     * @return midcom_helper_datamanager2_schema[]
      * @see midcom_helper_misc::get_snippet_content()
      */
     public static function load_database($raw_db)

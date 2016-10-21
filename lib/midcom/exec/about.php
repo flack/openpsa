@@ -92,8 +92,7 @@ midcom::get()->auth->require_valid_user();
                     // FIXME: IIRC, there was a function for getting this info
                     $server_software = explode(' ', $_SERVER['SERVER_SOFTWARE']);
                     $apache = explode('/', $server_software[0]);
-                    if (   $apache
-                        && count($apache) > 1)
+                    if (!empty($apache))
                     {
                         switch ($apache[0])
                         {
