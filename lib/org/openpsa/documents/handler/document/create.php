@@ -16,7 +16,7 @@ class org_openpsa_documents_handler_document_create extends midcom_baseclasses_c
     /**
      * The document we're working with (if any).
      *
-     * @var org_openpsa_documents_documen_dba
+     * @var org_openpsa_documents_document_dba
      */
     private $_document = null;
 

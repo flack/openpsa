@@ -17,7 +17,7 @@ implements org_openpsa_widgets_grid_provider_client
     /**
      * The document we're working with (if any).
      *
-     * @var org_openpsa_documents_documen_dba
+     * @var org_openpsa_documents_document_dba
      */
     private $_document = null;
 
