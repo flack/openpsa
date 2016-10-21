@@ -75,7 +75,7 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
     /**
      * Prepare version control toolbar
      */
-    private function _rcs_toolbar($args = null)
+    private function _rcs_toolbar($current = null)
     {
         $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 
@@ -85,16 +85,6 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
         {
             $first = end($keys);
             $last = $keys[0];
-        }
-
-        $current = '';
-        if (isset($this->_request_data['args'][2]))
-        {
-            $current = $this->_request_data['args'][2];
-        }
-        else if (isset($this->_request_data['args'][1]))
-        {
-            $current = $this->_request_data['args'][1];
         }
 
         $this->_request_data['rcs_toolbar'] = new midcom_helper_toolbar();
@@ -286,7 +276,6 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
      */
     public function _handler_history($handler_id, array $args, array &$data)
     {
-        $data['args'] = $args;
         midcom::get()->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
 
         // Check if the comparison request is valid
@@ -317,9 +306,6 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
         $this->_load_object();
         $this->_prepare_toolbars();
         $this->_prepare_request_data($handler_id);
-
-        // Store the arguments for later use
-        $data['args'] = $args;
 
         // Load the toolbars
         $this->_rcs_toolbar();
@@ -353,9 +339,6 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
         $this->_guid = $args[0];
         $this->_load_object();
 
-        // Store the arguments for later use
-        $data['args'] = $args;
-
         if (   !$this->_backend->version_exists($args[1])
             || !$this->_backend->version_exists($args[2]))
         {
@@ -369,8 +352,8 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
         $this->_request_data['comment'] = $this->_backend->get_comment($args[2]);
 
         // Set the version numbers
+        $this->_request_data['compare_revision'] = $args[1];
         $this->_request_data['latest_revision'] = $args[2];
-
         $this->_request_data['guid'] = $args[0];
 
         $this->_request_data['view_title'] = sprintf($this->_l10n->get('changes done in revision %s to %s'), $this->_request_data['latest_revision'], $this->_resolve_object_title());
@@ -378,7 +361,7 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
         $this->_prepare_request_data($handler_id);
 
         // Load the toolbars
-        $this->_rcs_toolbar();
+        $this->_rcs_toolbar($args[2]);
         return new midgard_admin_asgard_response($this, '_show_diff');
     }
 
@@ -401,9 +384,10 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
     {
         midcom::get()->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
         $this->_guid = $args[0];
-        $data['args'] = $args;
 
         $revision = $args[1];
+        $this->_request_data['latest_revision'] = $revision;
+        $this->_request_data['guid'] = $args[0];
 
         $this->_load_object();
         $this->_prepare_toolbars($revision);
@@ -415,12 +399,9 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
 
         $this->_prepare_request_data($handler_id);
 
-        // Set the version numbers
-        $this->_request_data['latest_revision'] = $args[1];
-        $this->_request_data['guid'] = $args[0];
 
         // Load the toolbars
-        $this->_rcs_toolbar();
+        $this->_rcs_toolbar($revision);
         return new midgard_admin_asgard_response($this, '_show_preview');
     }
 
@@ -440,11 +421,7 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
     {
         midcom::get()->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
         $this->_guid = $args[0];
-        $data['args'] = $args;
         $this->_load_object();
-
-        // Store the arguments for later use
-        $data['args'] = $args;
 
         $this->_object->require_do('midgard:update');
         // TODO: set another privilege for restoring?

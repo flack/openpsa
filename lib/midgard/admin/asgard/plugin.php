@@ -334,24 +334,15 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
             case '____mfa-asgard-object_rcs_diff':
                 $tmp[] = array
                 (
-                    MIDCOM_NAV_URL => "__mfa/asgard/object/rcs/preview/{$object->guid}/{$data['args'][1]}/{$data['args'][2]}",
-                    MIDCOM_NAV_NAME => sprintf($data['l10n']->get('differences between %s and %s'), $data['args'][1], $data['args'][2]),
+                    MIDCOM_NAV_URL => "__mfa/asgard/object/rcs/preview/{$object->guid}/{$data['compare_revision']}/{$data['latest_revision']}",
+                    MIDCOM_NAV_NAME => sprintf($data['l10n']->get('differences between %s and %s'), $data['compare_revision'], $data['latest_revision']),
                 );
 
             case '____mfa-asgard-object_rcs_preview':
-                if (isset($data['args'][2]))
-                {
-                    $current = $data['args'][2];
-                }
-                else
-                {
-                    $current = $data['args'][1];
-                }
-
                 $tmp[] = array
                 (
-                    MIDCOM_NAV_URL => "__mfa/asgard/object/rcs/preview/{$object->guid}/{$current}/",
-                    MIDCOM_NAV_NAME => sprintf($data['l10n']->get('version %s'), $current),
+                    MIDCOM_NAV_URL => "__mfa/asgard/object/rcs/preview/{$object->guid}/{$data['latest_revision']}/",
+                    MIDCOM_NAV_NAME => sprintf($data['l10n']->get('version %s'), $data['latest_revision']),
                 );
 
             case '____mfa-asgard-object_rcs_history':
