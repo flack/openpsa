@@ -233,18 +233,12 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
         }
 
         // Copy parameters
-        $params = $this->list_parameters();
-
-        if ($params)
+        if ($params = $this->list_parameters())
         {
             foreach ($params as $domain => $array)
             {
                 foreach ($array as $name => $value)
                 {
-                    if ($name == 'identifier')
-                    {
-                        $value = md5(time() . $backup_attachment->name);
-                    }
                     $backup->set_parameter($domain, $name, $value);
                 }
             }
@@ -278,9 +272,7 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
             fclose($original_handle);
 
             // Copy attachment parameters
-            $params = $original_attachment->list_parameters();
-
-            if ($params)
+            if ($params = $original_attachment->list_parameters())
             {
                 foreach ($params as $domain => $array)
                 {
