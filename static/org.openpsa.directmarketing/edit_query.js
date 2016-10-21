@@ -561,7 +561,7 @@ function generate_rule(property, match, value)
 function get_child_rules(parent, rules_array)
 {
     var map_class,
-    rule_match, rule_value, rule_domain, rule_parameter_value, rule_property, rule_id,
+    rule_match, rule_value, rule_domain, rule_parameter_name, rule_property, rule_id,
     properties,
     parameters, group_id;
 

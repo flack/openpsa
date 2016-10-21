@@ -38,7 +38,7 @@ var org_openpsa_widgets_tabs =
                     History.pushState(data, $('body').data('title'), '?' + data.tab_id);
                 }
             },
-            create: function(event, ui)
+            create: function()
             {
                 // Prepare History.js
                 if (History.enabled)
@@ -104,7 +104,7 @@ var org_openpsa_widgets_tabs =
                     dataFilter: org_openpsa_widgets_tabs.load_head_elements,
                     type: $(this).attr("method"),
                     url: $(this).attr("action"),
-                    success: function(data, textStatus, jqXHR)
+                    success: function(data)
                     {
                         $(":not(.ui-tabs-hide) > .tab_div").html(data);
                     }
@@ -191,7 +191,7 @@ var org_openpsa_widgets_tabs =
             $.ajax({
                 url: href,
                 dataFilter: org_openpsa_widgets_tabs.load_head_elements,
-                success: function(data, textStatus, jqXHR)
+                success: function(data)
                 {
                     $(":not(.ui-tabs-hide) > .tab_div").html(data);
                 }

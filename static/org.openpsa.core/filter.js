@@ -69,19 +69,20 @@ var org_openpsa_filter =
         var datepickers = $('#' + ids.from + ', #' + ids.to).datepicker(
         {
             dateFormat: 'yy-mm-dd',
-            beforeShow: function (input, inst)
+            beforeShow: function (input)
             {
                 var default_date = $(input).val(),
-                other_option = this.id == ids.from ? "minDate" : "maxDate",
-                option = this.id == ids.from ? "maxDate" : "minDate",
-                instance = $(this).data("datepicker"),
-                date = $.datepicker.parseDate(
+                    other_option = this.id == ids.from ? "minDate" : "maxDate",
+                    option = this.id == ids.from ? "maxDate" : "minDate",
+                    instance = $(this).data("datepicker"),
+                    date = $.datepicker.parseDate(
                         instance.settings.dateFormat ||
-                        $.datepicker._defaults.dateFormat,
-                        default_date, instance.settings);
-                datepickers.not(this).datepicker("option", other_option, date),
-                config = {defaultDate: default_date};
+                            $.datepicker._defaults.dateFormat,
+                        default_date, instance.settings),
+                    config = {defaultDate: default_date};
+
                 config[option] = datepickers.not(this).val();
+                datepickers.not(this).datepicker("option", other_option, date);
                 return config;
             }
         });

@@ -177,7 +177,6 @@
             if (repeated)
             {
                 i += pLen - 1;
-                repeated = false;
             }
             else
             {

@@ -65,7 +65,7 @@ function calculate_invoices_total(table)
 function process_invoice(button, action, invoice_url)
 {
     var id = button.parent().parent().attr('id');
-    $.post(invoice_url + 'invoice/process/', {id: id, action: action}, function(data, status)
+    $.post(invoice_url + 'invoice/process/', {id: id, action: action}, function(data)
     {
         var parsed = jQuery.parseJSON(data);
         if (parsed.success === false)
@@ -157,7 +157,7 @@ $(document).ready(function()
                 modal: true,
                 buttons: {}
             },
-            form = $('<form action="' + MIDCOM_PAGE_PREFIX + '__mfa/org.openpsa.relatedto/rest/journalentry/" method="post">')
+            form = $('<form action="' + MIDCOM_PAGE_PREFIX + '__mfa/org.openpsa.relatedto/rest/journalentry/" method="post">'),
             text = $('<input type="text" required name="title" class="add-journal-text">').appendTo(form),
             submit = $('<input type="submit">')
                     .hide()
@@ -182,7 +182,7 @@ $(document).ready(function()
                        linkGuid: button.data('guid'),
                        title: text.val()
                    },
-                   function (data)
+                   function ()
                    {
                        dialog.dialog("close");
                        window.location.reload();

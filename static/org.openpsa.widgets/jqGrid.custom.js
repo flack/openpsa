@@ -450,8 +450,7 @@ var org_openpsa_grid_editable =
     {
         var edit_url = $('#' + this.grid_id).jqGrid('getGridParam', 'editurl'),
             rowdata = $('#' + this.grid_id).jqGrid('getRowData', id),
-            self = this;
-            rowdata.oper = 'del',
+            self = this,
             callAfterSave = function()
             {
                 $('#' + self.grid_id).jqGrid('delRowData', id);
@@ -461,6 +460,7 @@ var org_openpsa_grid_editable =
                     self.options.aftersavefunc(0, []);
                 }
             };
+        rowdata.oper = 'del';
 
         if (rowdata.id == '')
         {
@@ -468,7 +468,7 @@ var org_openpsa_grid_editable =
         }
         else
         {
-            $.post(edit_url, rowdata, function(data, textStatus, jqXHR)
+            $.post(edit_url, rowdata, function()
             {
                 callAfterSave();
             });
@@ -791,8 +791,7 @@ var org_openpsa_batch_processing =
 
         $('#' + config.id + '_batch_select').bind('change', function(event)
         {
-            var grid_id = $(event.target).attr('id').replace(/_batch_select$/, ''),
-            selected_option = $(event.target).val();
+            var selected_option = $(event.target).val();
             $('.batch_widget').hide();
             $('#' + config.id + '_batch').css('display', 'inline');
             $('#' + config.id + '__' + selected_option + '_search_input').show();

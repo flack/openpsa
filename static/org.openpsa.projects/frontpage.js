@@ -1,4 +1,4 @@
-function get_tasks_json(object , url , prefix)
+function get_tasks_json(object, url)
 {
     var wait_html = "<tr id='child_" + $(object).attr('id') +"'><td colspan ='3' style='text-align:center'><img class='loading' src='" + MIDCOM_STATIC_URL + "/stock-icons/32x32/ajax-loading.gif' alt='loading' /></td></tr>";
     row = $(object).parent().parent();
@@ -82,7 +82,7 @@ function get_tasks_json(object , url , prefix)
     });
 }
 
-function show_tasks_for_project(object, url, prefix)
+function show_tasks_for_project(object, url)
 {
     var position = '';
     if ($(".child_" + $(object).attr('id')).length == 0)
@@ -95,7 +95,7 @@ function show_tasks_for_project(object, url, prefix)
         }
 
         $(object).attr('src', MIDCOM_STATIC_URL + "/stock-icons/16x16/minus" + position + ".png");
-        get_tasks_json(object, url, prefix);
+        get_tasks_json(object, url);
     }
     else
     {

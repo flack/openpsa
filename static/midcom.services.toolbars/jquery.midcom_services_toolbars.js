@@ -120,14 +120,14 @@ $.midcom_services_toolbars = function(root, settings) {
             handle = $('.midcom_services_toolbars_topic_title', item),
             children = $('ul',item);
 
-            item.bind('mouseover',function(e){
+            item.on('mouseover', function() {
                 clearTimeout($(item_holder).data("hide"));
                 $('.item ul', item_holder).hide();
                 $('.midcom_services_toolbars_topic_title.hover', item_holder).removeClass("hover");
                 handle.addClass("hover");
                 children.show();
             });
-            item.bind('mouseout',function(e){
+            item.on('mouseout',function() {
                 $(item_holder).data('hide', setTimeout(function() {
                     handle.removeClass("hover");
                     children.hide();
@@ -136,7 +136,7 @@ $.midcom_services_toolbars = function(root, settings) {
         });
 
         root_element.draggable({
-            start: function(event, ui)
+            start: function()
             {
                 if (root_element.hasClass('type_menu'))
                 {

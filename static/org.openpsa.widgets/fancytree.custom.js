@@ -33,11 +33,11 @@ var org_openpsa_tree =
                 }
                 return true;
             },
-            init: function(event, data)
+            init: function()
             {
                 $(window).trigger('resize');
             },
-            expand: function(event, data)
+            expand: function()
             {
                 $(window).trigger('resize');
             }

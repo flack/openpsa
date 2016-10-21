@@ -18,7 +18,7 @@ $(document).ready(function()
     });
     $('#upload_field').bind('change', function()
     {
-        var image, thumbnail, entry, reader,
+        var image, entry, reader,
         entry_template = $('#item_container .entry-template')[0];
         $.each(this.files, function(index, file)
         {
@@ -31,7 +31,7 @@ $(document).ready(function()
             image = document.createElement('img');
             image.file = file;
             reader = new FileReader();
-            reader.onload = (function(img) { return function(e) {img.src = e.target.result};})(image);
+            reader.onload = (function(img) { return function(e) {img.src = e.target.result;};})(image);
             reader.readAsDataURL(file);
 
             entry = $.clone(entry_template);
@@ -349,11 +349,11 @@ $(document).ready(function()
         {
             autoOpen: true,
             modal: true,
-            open: function (event, ui)
+            open: function()
             {
                 process_pending_requests();
             },
-            close: function (event, ui)
+            close: function()
             {
                 progressbar.progressbar('value', false);
                 label.text('');

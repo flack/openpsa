@@ -264,7 +264,7 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
         $this->_process_admintoolbar();
         // This might exit.
 
-        if (   $handler_id = 'view-comments-custom'
+        if (   $handler_id == 'view-comments-custom'
             && count($args) > 1)
         {
             midcom::get()->skip_page_style = true;

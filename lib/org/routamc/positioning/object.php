@@ -158,11 +158,6 @@ class org_routamc_positioning_object extends midcom_baseclasses_components_purec
 
         if (is_null($time))
         {
-            if (!isset($this->_object->metadata->published))
-            {
-                //return null;
-                $time = time();
-            }
             $time = $this->_object->metadata->published;
         }
 

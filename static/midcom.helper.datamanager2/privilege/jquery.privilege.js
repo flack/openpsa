@@ -10,11 +10,10 @@
      * @example jQuery('a.image-link').moveBackground({startPos: 0, endPos: -16});
      * @cat plugin
      * @type jQuery
-     *
      */
     $.fn.extend({
         moveBackground: function(settings) {
-            settings = jQuery.extend({
+            settings = $.extend({
                 direction: "down",
                 startPos: 0,
                 endPos: 0,
@@ -86,7 +85,6 @@
          * @example jQuery('#select-holder').render_privilege();
          * @cat plugin
          * @type jQuery
-         *
          */
         render_privilege: function(settings) {
             settings = $.extend({
@@ -109,7 +107,7 @@
                     selected_index = 0;
 
                 $(list_menu).each(function(){
-                    $(this).bind('onchange', function(e, val){
+                    $(this).on('change', function() {
                         div.find('div.privilege_val').trigger('click');
                     });
                 });
@@ -197,14 +195,15 @@
 
                 var row = this,
                     actions_holder = $('#privilege_row_actions_' + privilege_key, row),
-                    clear_action = $('<div class="privilege_action" />').insertAfter( actions_holder ),
-                    clear_action_icon = $('<img src="' + MIDCOM_STATIC_URL + '/stock-icons/16x16/trash.png" />').attr({
+                    clear_action = $('<div class="privilege_action" />').insertAfter( actions_holder );
+
+                $('<img src="' + MIDCOM_STATIC_URL + '/stock-icons/16x16/trash.png" />').attr({
                         alt: "Clear privileges",
                         border: 0
                     }).appendTo(clear_action);
 
-                clear_action.bind('click', function(e){
-                    $('select', row).each(function(i,n){
+                clear_action.on('click', function() {
+                    $('select', row).each(function(i, n) {
                         $(n).val(3).trigger('onchange', [0]);
                         $(row).hide();
                     });

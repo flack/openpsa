@@ -5,7 +5,6 @@ $(document).ready(function()
         event.preventDefault();
         var button = $(this),
             dialog = $('<div class="midcom-delete-dialog">'),
-            label = button.text(),
             action = button.attr('href') || button.data('action'),
             options = {
                 title:  button.data('dialog-heading'),

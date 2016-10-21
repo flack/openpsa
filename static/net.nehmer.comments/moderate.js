@@ -11,12 +11,12 @@ $(document).ready(function()
             return;
         }
         toolbar.addClass('net_nehmer_comments_comment_toolbar_busy');
-        $.post($(this).attr('href'), {guid: $(this).data('guid'), action: $(this).data('action')}, function(data, textStatus, jqXHR)
+        $.post($(this).attr('href'), {guid: $(this).data('guid'), action: $(this).data('action')}, function(data)
         {
             var container = comment.parent();
             comment.slideUp('fast', function()
             {
-                $(this).remove()
+                $(this).remove();
             });
             if ($('.net_nehmer_comments_comment').length > 0)
             {

@@ -292,15 +292,7 @@ class org_routamc_positioning_utils extends midcom_baseclasses_components_pureco
     function get_closest($class, array $center, $limit, $max_distance = null, $modifier = 0.15)
     {
         $classname = org_routamc_positioning_utils::get_positioning_class($class);
-        $direct = false;
-        if ($classname != $class)
-        {
-            $direct = false;
-        }
-        else
-        {
-            $direct = true;
-        }
+        $direct = ($classname == $class);
         $qb =  midcom::get()->dbfactory->new_query_builder($classname);
 
         if (!$direct)

@@ -1,78 +1,78 @@
-jQuery.fn.check_all = function(target)
+$.fn.check_all = function(target)
 {
-    var checked = jQuery(this).is(':checked');
-    
-    jQuery(target).find("input[type='checkbox']").each(function(i)
+    var checked = $(this).is(':checked');
+
+    $(target).find("input[type='checkbox']").each(function()
     {
         // Skip the write protected
-        if (jQuery(this).is(':disabled'))
+        if ($(this).is(':disabled'))
         {
             return;
         }
-        
+
         if (checked)
         {
-            jQuery(this).prop('checked', true);
+            $(this).prop('checked', true);
         }
         else
         {
-            jQuery(this).prop('checked', false);
+            $(this).prop('checked', false);
         }
-        
-        // Trigger the onChange event of the input
-        jQuery(this).change();
-    });
-}
 
-jQuery.fn.invert_selection = function(target)
+        // Trigger the onChange event of the input
+        $(this).change();
+    });
+};
+
+$.fn.invert_selection = function(target)
 {
-    jQuery(target).find("input[type='checkbox']").each(function(i)
+    $(target).find("input[type='checkbox']").each(function()
     {
         // Skip the write protected
-        if (jQuery(this).is(':disabled'))
+        if ($(this).is(':disabled'))
         {
             return;
         }
-        
-        jQuery(this).prop('checked', !jQuery(this).is(':checked'));
-        
-        // Trigger the onChange event of the input
-        jQuery(this).change();
-    });
-    
-    jQuery(this).prop('checked', false);
-}
 
-jQuery(document).ready(function()
+        $(this).prop('checked', !$(this).is(':checked'));
+
+        // Trigger the onChange event of the input
+        $(this).change();
+    });
+
+    $(this).prop('checked', false);
+};
+
+$(document).ready(function()
 {
-    jQuery('#batch_process tbody tr').find('td:first').addClass('first');
-    jQuery('#batch_process tbody tr').find('td:last').addClass('last');
-    
-    jQuery("#batch_process tbody input[type='checkbox']").each(function(i)
+    $('#batch_process tbody tr').find('td:first').addClass('first');
+    $('#batch_process tbody tr').find('td:last').addClass('last');
+
+    $("#batch_process tbody input[type='checkbox']").each(function()
     {
-        jQuery(this).change(function()
+        $(this).change(function()
         {
-            var object = this.parentNode;
-            var n = 0;
-            
+            var object = this.parentNode,
+                n = 0;
+
             while (!object.tagName.match(/tr/i))
             {
                 object = object.parentNode;
-                
+
                 // Protect against infinite loops
                 if (n > 20)
                 {
                     return;
                 }
             }
-            
-            if (jQuery(this).is(':checked'))
+
+            if ($(this).is(':checked'))
             {
-                jQuery(object).addClass('row_selected');
+                $(object).addClass('row_selected');
             }
             else
             {
-                jQuery(object).removeClass('row_selected');
+                $(object).removeClass('row_selected');
             }
         });
     });

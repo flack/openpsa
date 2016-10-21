@@ -2,7 +2,7 @@ $(window).load(function()
 {
     var editor = window.editors[window.midgard_admin_asgard_shell_identifier];
 
-    var storage_available = (typeof window.localStorage !== 'undefined' && window.localStorage)
+    var storage_available = (typeof window.localStorage !== 'undefined' && window.localStorage);
     if (storage_available)
     {
         $('#save-script').on('click', function(event)
@@ -42,7 +42,7 @@ $(window).load(function()
     $("#" + form_id)
         .attr('target', 'shell-runner')
         .attr('action', $("#" + form_id).attr('action') + '?ajax')
-        .on('submit', function(event)
+        .on('submit', function()
         {
             $('#output-wrapper').show();
         });

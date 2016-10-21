@@ -113,7 +113,7 @@ $(document).ready(function()
                 var btn = $(this);
                 buttons.push({
                     text: btn.val(),
-                    click: function(e) {
+                    click: function() {
                         if (btn.hasClass('cancel'))
                         {
                             dialog.dialog('close');

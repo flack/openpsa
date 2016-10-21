@@ -258,7 +258,7 @@
                     name = field.attr('id').replace(self.identifier + '_', ''),
 
                     child = $(field).children('input'),
-                    child_name = null;
+                    child_name;
                     //resolve the post name by the input-field...
                     if (child.length > 0)
                     {
@@ -333,7 +333,7 @@
                     input.val(value);
                 });
             },
-            _on_form_submit: function(status)
+            _on_form_submit: function()
             {
                 $('#' + this.identifier + '_ajax_toolbar').find('input[type="submit"]').prop('disabled', true);
             },
@@ -591,7 +591,7 @@
                 identifier = this.identifier,
                 unreplaced_fields = [],
                 notfound_wrapper = $('<div id="' + identifier + '_invisible_fields">'),
-                last_field, notfound_element;
+                last_field;
 
                 if (   this.parsed_data.is_editable
                     || this.state.current !== 'edit')

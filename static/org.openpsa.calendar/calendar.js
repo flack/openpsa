@@ -7,7 +7,7 @@ var openpsa_calendar_widget =
             window.opener.openpsa_calendar_instance.fullCalendar('refetchEvents');
         }
     },
-    prepare_toolbar_buttons: function(selector, prefix, settings)
+    prepare_toolbar_buttons: function(selector, prefix)
     {
         $('#openpsa_calendar_add_event').on('click', function()
         {
@@ -44,7 +44,7 @@ var openpsa_calendar_widget =
                     defaultDate: default_date,
                     prevText: "",
                     nextText: "",
-                    onSelect: function(dateText, inst)
+                    onSelect: function(dateText)
                     {
                         var date = $.fullCalendar.moment(dateText);
                         $(selector).fullCalendar('gotoDate', date);
@@ -110,7 +110,7 @@ var openpsa_calendar_widget =
     },
     initialize: function(selector, prefix, settings, embedded)
     {
-        function save_event(event, delta, revertFunc, jsEvent, ui, view) {
+        function save_event(event, delta, revertFunc) {
             var params = {
                 start: event.start.add(1, 's').format('YYYY-MM-DD HH:mm:ss')
             };
@@ -155,7 +155,7 @@ var openpsa_calendar_widget =
                     }
                 });
             },
-            viewRender: function (view, element)
+            viewRender: function ()
             {
                 if (!embedded)
                 {
@@ -168,7 +168,7 @@ var openpsa_calendar_widget =
                     element.find('.fc-content, .fc-list-item-title a').append('<span class="participants">(' + event.participants.join(', ') + ')</span>');
                 }
             },
-            eventClick: function (calEvent, jsEvent, view) {
+            eventClick: function (calEvent, jsEvent) {
                 jsEvent.preventDefault();
                 create_dialog($(jsEvent.target), '', prefix + 'event/' + calEvent.id + '/');
             },
@@ -185,7 +185,7 @@ var openpsa_calendar_widget =
         settings = $.extend({}, defaults, openpsa_calendar_widget.parse_url(prefix), settings || {});
 
         window.openpsa_calendar_instance = $(selector).fullCalendar(settings);
-        openpsa_calendar_widget.prepare_toolbar_buttons(selector, prefix, settings);
+        openpsa_calendar_widget.prepare_toolbar_buttons(selector, prefix);
 
         if (!embedded)
         {

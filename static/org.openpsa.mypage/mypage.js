@@ -10,25 +10,23 @@ function send_working_on(action)
     var description = $("#working_description").serialize(),
     task = $("#working_task_selection").val().replace(/[\[|"|\]]/g, ''),
     invoiceable = $('#working_invoiceable').is(':checked'),
-    task_before = $("#task_before").val(),
     send_url = MIDCOM_PAGE_PREFIX + "workingon/set/";
 
     $.ajax({
-       type: "POST",
-       url: send_url,
-       data: description + "&task=" + task + "&invoiceable=" + invoiceable + '&action=' + action,
-       success: function(msg)
-       {
-           $("#org_openpsa_mypage_workingon_widget").html(msg);
-       },
-        error: function(msg, a, b){
-           location.href = location.href;
-       },
-       beforeSend: function(msg){
-           show_loading();
-       }
-     });
-
+        type: "POST",
+        url: send_url,
+        data: description + "&task=" + task + "&invoiceable=" + invoiceable + '&action=' + action,
+        success: function(msg)
+        {
+            $("#org_openpsa_mypage_workingon_widget").html(msg);
+        },
+        error: function() {
+            location.href = location.href;
+        },
+        beforeSend: function() {
+            show_loading();
+        }
+    });
 }
 
 var org_openpsa_workingon =

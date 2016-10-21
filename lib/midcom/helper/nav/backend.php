@@ -272,7 +272,6 @@ class midcom_helper_nav_backend
         $topic_id = (int) $node_id;
 
         // Load parent nodes also to cache
-        $parent_id = 0;
         $up_ids = array();
         if ($up)
         {

@@ -68,7 +68,7 @@ $formatter = $data['l10n']->get_formatter();
             echo "    <tr class='{$class}'>\n";
             echo "        <td class='multivalue'>";
             $toggle_class = (array_sum($task_count) > 0) ? 'expand-icon' : 'hidden-icon';
-            echo "<img class='" . $toggle_class . "' id='project_" . $project->id . "' onclick=\"show_tasks_for_project(this, '{$prefix}task/list/json/{$project->guid}/', '{$prefix}task/');\" src=\"" . MIDCOM_STATIC_URL . "/stock-icons/16x16/plus" . $position . ".png\" alt=\"" . $data['l10n']->get($project->status_type) . "\" title=\"" . $data['l10n']->get('show tasks') . "\" />\n";
+            echo "<img class='" . $toggle_class . "' id='project_" . $project->id . "' onclick=\"show_tasks_for_project(this, '{$prefix}task/list/json/{$project->guid}/');\" src=\"" . MIDCOM_STATIC_URL . "/stock-icons/16x16/plus" . $position . ".png\" alt=\"" . $data['l10n']->get($project->status_type) . "\" title=\"" . $data['l10n']->get('show tasks') . "\" />\n";
 
             echo "<img class='status-icon' src=\"" . MIDCOM_STATIC_URL . "/stock-icons/16x16/" . $project->get_icon() . "\" alt=\"" . $data['l10n']->get($project->status_type) . "\" title=\"" . $data['l10n']->get($project->status_type) . "\" />";
             echo "        <a href=\"{$prefix}project/{$project->guid}/\">{$project->title}</a></td>\n";
