@@ -146,7 +146,7 @@ class org_openpsa_projects_workflow
      * @param integer $pid The person ID
      * @param string $comment Status comment, if any
      */
-    static function propose($task, $pid, $comment = '')
+    public static function propose($task, $pid, $comment = '')
     {
         debug_add("saving proposed status for person {$pid}");
         return self::create_status($task, org_openpsa_projects_task_status_dba::PROPOSED, $pid, $comment);
@@ -159,7 +159,7 @@ class org_openpsa_projects_workflow
      * @param integer $pid The person ID
      * @param string $comment Status comment, if any
      */
-    static function accept($task, $pid = -1, $comment = '')
+    public static function accept($task, $pid = -1, $comment = '')
     {
         if ($pid < 0)
         {
@@ -187,7 +187,7 @@ class org_openpsa_projects_workflow
      *
      * @param org_openpsa_projects_task_dba $task The task we're working on
      */
-    static function start($task, $started_by = 0)
+    public static function start($task, $started_by = 0)
     {
         debug_add("task->start() called with user #" . midcom_connection::get_user());
         //PONDER: Check actual status objects for more accurate logic ?
@@ -206,7 +206,7 @@ class org_openpsa_projects_workflow
      *
      * @param org_openpsa_projects_task_dba $task The task we're working on
      */
-    static function complete($task, $comment = '')
+    public static function complete($task, $comment = '')
     {
         debug_add("task->complete() called with user #" . midcom_connection::get_user());
         //TODO: Check deliverables
@@ -317,7 +317,7 @@ class org_openpsa_projects_workflow
      *
      * @param org_openpsa_projects_task_dba $task The task we're working on
      */
-    static function close($task, $comment = '')
+    public static function close($task, $comment = '')
     {
         debug_add("task->close() called with user #" . midcom_connection::get_user());
         //TODO: Check deliverables / require to be approved first
@@ -361,7 +361,7 @@ class org_openpsa_projects_workflow
      *
      * @param org_openpsa_projects_task_dba $task The task we're working on
      */
-    static function reopen($task, $comment = '')
+    public static function reopen($task, $comment = '')
     {
         debug_add("task->reopen() called with user #" . midcom_connection::get_user());
         if ($task->status != org_openpsa_projects_task_status_dba::CLOSED)
@@ -378,7 +378,7 @@ class org_openpsa_projects_workflow
      * @param org_openpsa_projects_task_dba $task The task we're working on
      * @param org_openpsa_invoices_invoice_dba $invoice The invoice we're working on
      */
-    static function mark_invoiced($task, $invoice)
+    public static function mark_invoiced($task, $invoice)
     {
         debug_add("task->mark_invoiced() called with user #" . midcom_connection::get_user());
 
