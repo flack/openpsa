@@ -48,25 +48,6 @@ document.getElementById('search_field').focus();
 <?php
 if (isset($data['search_results']))
 {
-    function resolve_label(&$object)
-    {
-        if (empty($object->guid))
-        {
-            return;
-        }
-        $reflector = midcom_helper_reflector_tree::get($object);
-        $label = $reflector->get_object_label($object);
-        try
-        {
-            $parent = $object->get_parent();
-            $label = resolve_label($parent) . "/" . $label;
-        }
-        catch (midcom_error $e)
-        {
-            $e->log();
-        }
-        return $label;
-    }
     if (!$data['search_results'])
     {
         echo "<p>" . $data['l10n']->get('no results') . "</p>\n";
@@ -87,7 +68,7 @@ if (isset($data['search_results']))
         {
             $reflector = midcom_helper_reflector_tree::get($result);
             $icon = $reflector->get_object_icon($result);
-            $label = resolve_label($result);
+            $label = $reflector->resolve_path($result, '/');
 
             if (!isset($persons[$result->metadata->creator]))
             {
