@@ -166,7 +166,12 @@ implements midcom_services_permalinks_resolver
         return true;
     }
 
-    function background_search_resources($args, $handler)
+    /**
+     * @param array $args handler arguments
+     * @param midcom_baseclasses_components_cron_handler $handler cron_handler object calling this method.
+     * @return boolean indicating success/failure
+     */
+    public function background_search_resources(array $args, midcom_baseclasses_components_cron_handler $handler)
     {
         try
         {

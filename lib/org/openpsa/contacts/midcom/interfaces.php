@@ -157,10 +157,10 @@ implements midcom_services_permalinks_resolver
      * AT handler for fetching Semantic Web data for person or group
      *
      * @param array $args handler arguments
-     * @param object $handler The cron_handler object calling this method.
+     * @param midcom_baseclasses_components_cron_handler $handler The cron_handler object calling this method.
      * @return boolean indicating success/failure
      */
-    function check_url($args, $handler)
+    public function check_url(array $args, midcom_baseclasses_components_cron_handler $handler)
     {
         if (array_key_exists('person', $args))
         {

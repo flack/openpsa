@@ -91,7 +91,7 @@ class midcom_services_cron
      * The list of jobs to run. See the class introduction for a more precise definition of
      * these keys.
      *
-     * @var array
+     * @var midcom_baseclasses_components_cron_handler[]
      */
     private $_jobs = Array();
 

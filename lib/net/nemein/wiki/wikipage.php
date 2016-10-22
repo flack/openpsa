@@ -75,14 +75,14 @@ class net_nemein_wiki_wikipage extends midcom_db_article
     public function _on_updated()
     {
         parent::_on_updated();
-        $this->_update_watchers();
-        $this->_update_link_cache();
+        $this->update_watchers();
+        $this->update_link_cache();
     }
 
     /**
      * Caches links in the wiki page into database for faster "what links here" queries
      */
-    private function _update_link_cache()
+    private function update_link_cache()
     {
         $parser = new net_nemein_wiki_parser($this);
         $links_in_content = $parser->find_links_in_content();
@@ -116,7 +116,7 @@ class net_nemein_wiki_wikipage extends midcom_db_article
         }
     }
 
-    function list_watchers()
+    private function list_watchers()
     {
         $topic = new midcom_db_topic($this->topic);
         // Get list of people watching this page
@@ -144,7 +144,7 @@ class net_nemein_wiki_wikipage extends midcom_db_article
         return $watchers;
     }
 
-    private function _update_watchers()
+    private function update_watchers()
     {
         $watchers = $this->list_watchers();
         if (empty($watchers))
@@ -152,7 +152,7 @@ class net_nemein_wiki_wikipage extends midcom_db_article
             return;
         }
 
-        $diff = $this->_get_diff();
+        $diff = $this->get_diff();
         if (empty($diff))
         {
             // No sense to email empty diffs
@@ -193,7 +193,7 @@ class net_nemein_wiki_wikipage extends midcom_db_article
         }
     }
 
-    private function _get_diff($field = 'content')
+    private function get_diff($field = 'content')
     {
         // Load the RCS handler
         $rcs = midcom::get()->rcs;

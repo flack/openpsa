@@ -324,7 +324,7 @@ class net_nemein_wiki_parser extends midcom_baseclasses_components_purecode
         return "<a href=\"{$url_name}{$page_anchor}\" class=\"wikipage {$type}\" title=\"{$wikilink}\">{$text}</a>";
     }
 
-    function find_links_in_content()
+    public function find_links_in_content()
     {
         // Seek wiki page links inside page content
         // TODO: Simplify

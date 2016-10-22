@@ -167,7 +167,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
      *
      * This will update post status on the background and log the information.
      */
-    function check_spam($config)
+    public function check_spam($config)
     {
         if (!$config->get('enable_spam_check'))
         {
@@ -197,7 +197,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
         }
     }
 
-    function report_abuse()
+    public function report_abuse()
     {
         if ($this->status == net_nehmer_comments_comment::MODERATED)
         {
@@ -227,7 +227,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
     /**
      * Marks the message as confirmed abuse
      */
-    function confirm_abuse()
+    public function confirm_abuse()
     {
         if ($this->status == net_nehmer_comments_comment::MODERATED)
         {
@@ -253,7 +253,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
     /**
      * Marks the message as confirmed junk (spam)
      */
-    function confirm_junk()
+    public function confirm_junk()
     {
         if ($this->status == net_nehmer_comments_comment::MODERATED)
         {
@@ -280,7 +280,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
     /**
      * Marks the message as not abuse
      */
-    function report_not_abuse()
+    public function report_not_abuse()
     {
         if (   !$this->can_do('net.nehmer.comments:moderation')
             || $this->_sudo_requested)

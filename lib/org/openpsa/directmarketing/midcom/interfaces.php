@@ -44,10 +44,10 @@ implements midcom_services_permalinks_resolver
      * Background message sending AT batch handler
      *
      * @param array $args handler arguments
-     * @param object $handler reference to the cron_handler object calling this method.
+     * @param midcom_baseclasses_components_cron_handler $handler cron_handler object calling this method.
      * @return boolean indicating success/failure
      */
-    function background_send_message($args, $handler)
+    function background_send_message(array $args, midcom_baseclasses_components_cron_handler $handler)
     {
         if (   !isset($args['url_base'])
             || !isset($args['batch']))
@@ -80,10 +80,10 @@ implements midcom_services_permalinks_resolver
      * For updating smart campaigns members in background
      *
      * @param array $args handler arguments
-     * @param object $handler reference to the cron_handler object calling this method.
+     * @param midcom_baseclasses_components_cron_handler $handler cron_handler object calling this method.
      * @return boolean indicating success/failure
      */
-    function background_update_campaign_members(array $args, $handler)
+    public function background_update_campaign_members(array $args, midcom_baseclasses_components_cron_handler $handler)
     {
         if (!array_key_exists('campaign_guid', $args))
         {

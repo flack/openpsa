@@ -92,7 +92,7 @@ class net_nemein_wiki_resolver
      *
      * @return array containing midcom_db_topic and net_nemein_wiki_wikipage objects if found
      */
-    function path_to_wikipage($path, $force_resolve_folder_tree = false, $force_as_root = false)
+    public function path_to_wikipage($path, $force_resolve_folder_tree = false, $force_as_root = false)
     {
         $matches = array
         (
