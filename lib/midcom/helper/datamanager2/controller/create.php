@@ -175,12 +175,9 @@ class midcom_helper_datamanager2_controller_create extends midcom_helper_dataman
     function process_ajax()
     {
         $this->form_identifier = "dm2_composite_{$this->form_identifier}";
-
         $this->formmanager = new midcom_helper_datamanager2_formmanager_ajax($this->datamanager->schema, $this->datamanager->types);
 
         $mode = 'inline';
-        $creation_mode_enabled = 'true';
-
         if ($this->wide_mode)
         {
             $mode = 'wide';
@@ -190,12 +187,7 @@ class midcom_helper_datamanager2_controller_create extends midcom_helper_dataman
             $mode = 'window';
         }
 
-        if ($mode != 'inline')
-        {
-            $creation_mode_enabled = 'false';
-        }
-
-        $config = "{mode: '{$mode}'}";//, allow_creation: {$creation_mode_enabled}}";
+        $config = "{mode: '{$mode}'}";
         $script = "jQuery.dm2.ajax_editor.init('{$this->form_identifier}', {$config}, true);";
 
         midcom::get()->head->enable_jquery();

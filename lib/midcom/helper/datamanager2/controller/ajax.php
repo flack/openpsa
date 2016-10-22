@@ -191,8 +191,6 @@ class midcom_helper_datamanager2_controller_ajax extends midcom_helper_datamanag
     private function _generate_editor_config()
     {
         $mode = 'inline';
-        $creation_mode_enabled = true;
-
         if ($this->wide_mode)
         {
             $mode = 'wide';
@@ -208,15 +206,9 @@ class midcom_helper_datamanager2_controller_ajax extends midcom_helper_datamanag
             $this->allow_removal = false;
         }
 
-        if ($mode != 'inline')
-        {
-            $creation_mode_enabled = false;
-        }
-
         $config = array
         (
             'mode' => $mode,
-            //'allow_creation' => $creation_mode_enabled,
             'allow_removal' => $this->allow_removal
         );
 
