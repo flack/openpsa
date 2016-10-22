@@ -44,7 +44,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
         parent::__construct();
 
         $this->_object = $object;
-        $this->_object_path = $this->get_object_path();
+        $this->get_object_path();
         $this->_request_data =& $request_data;
 
         $this->root_types = midcom_helper_reflector_tree::get_root_classes();
@@ -81,7 +81,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
      * @param midgard_object $object
      * @return midcom_helper_reflector_tree
      */
-    function &_get_reflector($object)
+    protected function _get_reflector($object)
     {
         if (is_string($object))
         {
@@ -99,26 +99,15 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
         return $this->_reflectors[$classname];
     }
 
-    // FIXME: Use reflectors path resolving methods.
-    function get_object_path()
+    private function get_object_path()
     {
-        $object_path = array();
-        if (!is_object($this->_object))
+        if (is_object($this->_object))
         {
-            return $object_path;
+            foreach (midcom_helper_reflector_tree::resolve_path_parts($this->_object) as $part)
+            {
+                $this->_object_path[] = $part['object'];
+            }
         }
-
-        $object_path[] = $this->_object;
-
-        $parent = $this->_object->get_parent();
-        while (   is_object($parent)
-               && $parent->guid)
-        {
-            $object_path[] = $parent;
-            $parent = $parent->get_parent();
-        }
-
-        return array_reverse($object_path);
     }
 
     protected function _is_collapsed($type, $total)
