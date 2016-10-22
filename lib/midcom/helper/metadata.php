@@ -108,7 +108,7 @@ class midcom_helper_metadata
      * This will construct a new metadata object for an existing content object.
      *
      * You must never use this constructor directly, it is considered private
-     * in this respect. Instead, use the get method, which may be called as a
+     * in this respect. Instead, use the retrieve method, which may be called as a
      * class method.
      *
      * You may use objects derived from any MidgardObject will do as well as long
@@ -117,7 +117,7 @@ class midcom_helper_metadata
      * @param GUID $guid The GUID of the object
      * @param mixed $object The MidgardObject to attach to.
      * @param string $schemadb The URL of the schemadb to use.
-     * @see midcom_helper_metadata::get()
+     * @see midcom_helper_metadata::retrieve()
      */
     public function __construct($guid, $object, $schemadb)
     {

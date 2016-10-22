@@ -84,7 +84,7 @@ class midcom_helper_imagefilter
      * @param mixed $input The attachment object or filename to copy
      * @return string tmp file name (or false on failure)
      */
-    function create_tmp_copy($input)
+    public function create_tmp_copy($input)
     {
         $tmpname = $this->_get_tempfile();
 
@@ -198,7 +198,7 @@ class midcom_helper_imagefilter
      * @param string filename The file to be edited.
      * @return boolean true, if the file is valid, false otherwise.
      */
-    function set_file($filename)
+    public function set_file($filename)
     {
         if (!self::imagemagick_available())
         {
@@ -240,7 +240,7 @@ class midcom_helper_imagefilter
      *
      * @param string chain The filter chain to be processed (filter1();filter2();...)
      */
-    function process_chain($chain)
+    public function process_chain($chain)
     {
         $filters = array_filter(explode(";", $chain));
         array_map(array($this, 'process_command'), $filters);

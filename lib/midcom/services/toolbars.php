@@ -150,7 +150,7 @@ class midcom_services_toolbars
      *     defaults to the current context.
      * @return midcom_helper_toolbar_node
      */
-    function get_node_toolbar($context_id = null)
+    public function get_node_toolbar($context_id = null)
     {
         return $this->_get_toolbar($context_id, MIDCOM_TOOLBAR_NODE);
     }
@@ -163,7 +163,7 @@ class midcom_services_toolbars
      *     defaults to the current context.
      * @return midcom_helper_toolbar_view
      */
-    function get_view_toolbar($context_id = null)
+    public function get_view_toolbar($context_id = null)
     {
         return $this->_get_toolbar($context_id, MIDCOM_TOOLBAR_VIEW);
     }
@@ -176,7 +176,7 @@ class midcom_services_toolbars
      *     defaults to the current context.
      * @return midcom_helper_toolbar_help
      */
-    function get_help_toolbar($context_id = null)
+    public function get_help_toolbar($context_id = null)
     {
         return $this->_get_toolbar($context_id, MIDCOM_TOOLBAR_HELP);
     }
@@ -252,7 +252,7 @@ class midcom_services_toolbars
      * @see create_object_toolbar()
      * @param midcom_helper_toolbar $toolbar
      */
-    function bind_toolbar_to_object(midcom_helper_toolbar $toolbar, $object)
+    public function bind_toolbar_to_object(midcom_helper_toolbar $toolbar, $object)
     {
         if (!midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX))
         {
@@ -309,7 +309,7 @@ class midcom_services_toolbars
      * @return string The rendered toolbar
      * @see midcom_helper_toolbar::render()
      */
-    function render_node_toolbar($context_id = null)
+    public function render_node_toolbar($context_id = null)
     {
         return $this->_render_toolbar(MIDCOM_TOOLBAR_NODE, $context_id);
     }
@@ -324,7 +324,7 @@ class midcom_services_toolbars
      * @return string The rendered toolbar
      * @see midcom_helper_toolbar::render()
      */
-    function render_view_toolbar($context_id = null)
+    public function render_view_toolbar($context_id = null)
     {
         return $this->_render_toolbar(MIDCOM_TOOLBAR_VIEW, $context_id);
     }
@@ -339,7 +339,7 @@ class midcom_services_toolbars
      * @return string The rendered toolbar
      * @see midcom_helper_toolbar::render()
      */
-    function render_host_toolbar($context_id = null)
+    public function render_host_toolbar($context_id = null)
     {
         return $this->_render_toolbar(MIDCOM_TOOLBAR_HOST, $context_id);
     }
@@ -354,7 +354,7 @@ class midcom_services_toolbars
      * @return string The rendered toolbar
      * @see midcom_helper_toolbar::render()
      */
-    function render_help_toolbar($context_id = null)
+    public function render_help_toolbar($context_id = null)
     {
         return $this->_render_toolbar(MIDCOM_TOOLBAR_HELP, $context_id);
     }
@@ -399,7 +399,7 @@ class midcom_services_toolbars
      *     defaults to the current context.
      * @see midcom_helper_toolbar::render()
      */
-    function show_view_toolbar($context_id = null)
+    public function show_view_toolbar($context_id = null)
     {
         if (!$this->_centralized_mode)
         {
@@ -430,7 +430,7 @@ class midcom_services_toolbars
      *     defaults to the current context.
      * @see midcom_helper_toolbar::render()
      */
-    function show($context_id = null)
+    public function show($context_id = null)
     {
         if (!$this->_enable_centralized)
         {

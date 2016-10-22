@@ -24,11 +24,11 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
      */
     public function _handler_searchform($handler_id, array $args, array &$data)
     {
-        $this->_prepare_formdata($handler_id);
-        $this->_populate_toolbar();
+        $this->prepare_formdata($handler_id);
+        $this->populate_toolbar();
     }
 
-    private function _prepare_formdata($handler_id)
+    private function prepare_formdata($handler_id)
     {
         $this->_request_data['query'] = (array_key_exists('query', $_REQUEST) ? $_REQUEST['query'] : '');
         if ($handler_id === 'advanced')
@@ -41,7 +41,7 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
             $this->_request_data['components'] = array('' => $this->_l10n->get('search all content types'));
 
             $nap = new midcom_helper_nav();
-            $this->_search_nodes($nap->get_root_node(), $nap, '');
+            $this->search_nodes($nap->get_root_node(), $nap, '');
         }
         $this->_request_data['type'] = $handler_id;
     }
@@ -50,7 +50,7 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
      * Prepare the topic and component listings, this is a bit work intensive though,
      * we need to traverse everything.
      */
-    private function _search_nodes($node_id, $nap, $prefix)
+    private function search_nodes($node_id, $nap, $prefix)
     {
         $node = $nap->get_node($node_id);
 
@@ -67,7 +67,7 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
         $subnodes = $nap->list_nodes($node_id);
         foreach ($subnodes as $sub_id)
         {
-            $this->_search_nodes($sub_id, $nap, $prefix);
+            $this->search_nodes($sub_id, $nap, $prefix);
         }
     }
 
@@ -89,7 +89,7 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
      * @param string &$final_query reference to the query string to be passed on to the indexer.
      * @param mixed $terms array or string to append
      */
-    function append_terms_recursive(&$final_query, $terms)
+    private function append_terms_recursive(&$final_query, $terms)
     {
         if (is_array($terms))
         {
@@ -118,8 +118,8 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
      */
     public function _handler_result($handler_id, array $args, array &$data)
     {
-        $this->_prepare_query_data();
-        $this->_prepare_formdata($_REQUEST['type']);
+        $this->prepare_query_data();
+        $this->prepare_formdata($_REQUEST['type']);
 
         if (   count(explode(' ', $data['query'])) == 1
             && strpos($data['query'], '*') === false
@@ -139,15 +139,15 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
                 break;
 
             case 'advanced':
-                $result = $this->_do_advanced_query($data);
+                $result = $this->do_advanced_query($data);
                 break;
         }
 
-        $this->_process_results($result);
-        $this->_populate_toolbar();
+        $this->process_results($result);
+        $this->populate_toolbar();
     }
 
-    private function _populate_toolbar()
+    private function populate_toolbar()
     {
         $other_type = ($this->_request_data['type'] == 'advanced') ? 'basic' : 'advanced';
         $this->_request_data['params'] = '';
@@ -176,7 +176,7 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
         );
     }
 
-    private function _process_results($result)
+    private function process_results($result)
     {
         if ($result === false)
         {
@@ -231,7 +231,7 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
     /**
      * Sane defaults for REQUEST vars
      */
-    private function _prepare_query_data()
+    private function prepare_query_data()
     {
         // If we don't have a query string, relocate to empty search form
         if (!isset($_REQUEST['query']))
@@ -255,7 +255,7 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
         $_REQUEST = array_merge($defaults, $_REQUEST);
     }
 
-    private function _do_advanced_query(array &$data)
+    private function do_advanced_query(array &$data)
     {
         $data['request_topic'] = trim($_REQUEST['topic']);
         $data['component'] = trim($_REQUEST['component']);

@@ -325,8 +325,7 @@ class midcom_helper__dbfactory
     }
 
     /**
-     * This is a helper function which determines the parent GUID for an existing
-     * GUID according to the MidCOM content tree rules.
+     * Determines the parent GUID for an existing GUID according to the MidCOM content tree rules.
      *
      * It tries to look up the GUID in the memory cache, only if this fails, the regular
      * content getters are invoked.
@@ -335,7 +334,7 @@ class midcom_helper__dbfactory
      * @param string $class class name of object if known (so we can use get_parent_guid_uncached_static and avoid instantiating full object)
      * @return array The parent GUID and class (value might be null, if this is a top level object).
      */
-    function get_parent_data($object, $class = null)
+    public function get_parent_data($object, $class = null)
     {
         if (is_object($object))
         {

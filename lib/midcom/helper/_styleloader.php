@@ -626,8 +626,6 @@ class midcom_helper__styleloader
     }
 
     /**
-     * Function append styledir
-     *
      * Adds an extra style directory to check for style elements at
      * the end of the styledir queue.
      *
@@ -678,7 +676,7 @@ class midcom_helper__styleloader
      *
      * @param string $component component name
      */
-    function prepend_component_styledir ($component)
+    public function prepend_component_styledir($component)
     {
         $loader = midcom::get()->componentloader;
         $path = $loader->path_to_snippetpath($component) . "/style";
@@ -693,7 +691,7 @@ class midcom_helper__styleloader
      *
      * @param string $newsub The substyle to append.
      */
-    function append_substyle ($newsub)
+    public function append_substyle($newsub)
     {
         // Make sure try to use only the first argument if we get space separated list, fixes #1788
         if (strpos($newsub, ' ') !== false)
