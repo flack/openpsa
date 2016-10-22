@@ -261,23 +261,19 @@ class midcom_helper_nav
         {
             $guid = $parent_node[MIDCOM_NAV_OBJECT]->guid;
         }
+
         $navorder = (int) midcom_db_parameter::get_by_objectguid($guid, 'midcom.helper.nav', 'navorder');
-
-        switch ($navorder)
+        if ($navorder == MIDCOM_NAVORDER_ARTICLESFIRST)
         {
-            case MIDCOM_NAVORDER_ARTICLESFIRST:
-                $navorder = 'articlesfirst';
-                break;
-
-            case MIDCOM_NAVORDER_SCORE:
-                $navorder = 'score';
-                break;
-
-            case MIDCOM_NAVORDER_TOPICSFIRST:
-            case MIDCOM_NAVORDER_DEFAULT:
-            default:
-                $navorder = 'topicsfirst';
-                break;
+            $navorder = 'articlesfirst';
+        }
+        else if ($navorder == MIDCOM_NAVORDER_SCORE)
+        {
+            $navorder = 'score';
+        }
+        else
+        {
+            $navorder = 'topicsfirst';
         }
 
         $nav_object = midcom_helper_nav_itemlist::factory($navorder, $this, $parent_node_id);
@@ -328,7 +324,7 @@ class midcom_helper_nav
             {
                 // Ok. This topic should be within the content tree,
                 // we check this and return the node if everything is ok.
-                if (! $this->is_node_in_tree($object->id, $this->get_root_node()))
+                if (!$this->is_node_in_tree($object->id, $this->get_root_node()))
                 {
                     debug_add("The GUID {$guid} leads to an unknown topic not in our tree.", MIDCOM_LOG_WARN);
                     return false;
@@ -340,7 +336,7 @@ class midcom_helper_nav
             if (is_a($object, 'midcom_db_article'))
             {
                 // Ok, let's try to find the article using the topic in the tree.
-                if (! $this->is_node_in_tree($object->topic, $this->get_root_node()))
+                if (!$this->is_node_in_tree($object->topic, $this->get_root_node()))
                 {
                     debug_add("The GUID {$guid} leads to an unknown topic not in our tree.", MIDCOM_LOG_WARN);
                     return false;
@@ -473,21 +469,18 @@ class midcom_helper_nav
             $breadcrumb_data = array_slice($breadcrumb_data, $skip_levels);
         }
 
+        $class = is_null($class) ? '' : ' class="' . $class . '"';
         while (current($breadcrumb_data) !== false)
         {
             $data = current($breadcrumb_data);
-            $data[MIDCOM_NAV_NAME] = htmlspecialchars($data[MIDCOM_NAV_NAME]);
+            $entry = htmlspecialchars($data[MIDCOM_NAV_NAME]);
 
             // Add the next element sensitive to the fact whether we are at the end or not.
             if (next($breadcrumb_data) === false)
             {
                 if ($current_class !== null)
                 {
-                    $result .= "<span class=\"{$current_class}\">{$data[MIDCOM_NAV_NAME]}</span>";
-                }
-                else
-                {
-                    $result .= $data[MIDCOM_NAV_NAME];
+                    $entry = "<span class=\"{$current_class}\">{$entry}</span>";
                 }
             }
             else
@@ -498,10 +491,9 @@ class midcom_helper_nav
                     continue;
                 }
 
-                $result .= "<a href=\"{$data[MIDCOM_NAV_URL]}\""
-                  . (is_null($class) ? '' : " class=\"{$class}\"")
-                  . ">{$data[MIDCOM_NAV_NAME]}</a>{$separator}";
+                $entry = "<a href=\"{$data[MIDCOM_NAV_URL]}\"{$class}>{$entry}</a>{$separator}";
             }
+            $result .= $entry;
         }
 
         return $result;

@@ -251,7 +251,7 @@ class fi_protie_navigation
     public function __construct($id = null)
     {
         $this->_nap = new midcom_helper_nav();
-        $this->node_path = $this->get_node_path();
+        $this->get_node_path();
 
         if (!is_null($id))
         {
@@ -314,21 +314,16 @@ class fi_protie_navigation
     /**
      * Traverses through the node path to fetch the location of the current navigation access point.
      */
-    public static function get_node_path()
+    private function get_node_path()
     {
-        // Initialize the `midcom_helper_nav` class
-        $nap = new midcom_helper_nav();
-
         // Get nodes
-        $node_path = $nap->get_node_path();
+        $this->node_path = $this->_nap->get_node_path();
 
         // If NAP offers a leaf it should be stored in the node path
-        if ($leaf = $nap->get_current_leaf())
+        if ($leaf = $this->_nap->get_current_leaf())
         {
-            $node_path[] = $leaf;
+            $this->node_path[] = $leaf;
         }
-
-        return $node_path;
     }
 
     /**
