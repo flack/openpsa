@@ -97,7 +97,6 @@ var org_openpsa_layout =
         dropdown = container.find('ul.midcom_toolbar'),
         toolbarWidth = $('#org_openpsa_toolbar').width(),
         lastchild = $('#org_openpsa_toolbar .view_toolbar li:last-child'),
-        positionLast = lastchild.length > 0 ? (lastchild.position().left + lastchild.width()) : 0,
         over = false;
 
         $('#org_openpsa_toolbar > .view_toolbar > li:not(#toolbar_dropdown)').each(function()
@@ -125,7 +124,7 @@ var org_openpsa_layout =
                 var item = $(this)
                     .clone()
                     .css('visibility', 'hidden')
-                    .insertBefore(container);
+                    .insertBefore(container),
                 positionLast = $('#org_openpsa_toolbar .view_toolbar li:last-child').position().left + $('#org_openpsa_toolbar .view_toolbar li:last-child').width();
 
                 if (positionLast < toolbarWidth)

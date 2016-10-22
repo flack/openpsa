@@ -26,7 +26,6 @@ $.fn.create_tablesorter = function(options)
     $(this).create_tablesorter_rows(options);
     $(this).create_tablesorter_columns(options);
     $(this).rearrange_scores();
-    $(this).check_column_positions(options);
 
     // Column adding and sorting
     if ($(options.sortable_columns))
@@ -117,7 +116,7 @@ $.fn.create_tablesorter = function(options)
                 {
                     $(this).parents('tr')
                         .addClass('deleted')
-                        .find('input, select, textarea').each(function(i)
+                        .find('input, select, textarea').each(function()
                         {
                             var name = $(this).attr('name');
                             name = '___' + name;
@@ -461,11 +460,6 @@ $.fn.move_column = function(direction, options)
     });
 
     $(options.table_id).create_tablesorter_columns(options);
-};
-
-$.fn.check_column_positions = function(options)
-{
-
 };
 
 $.fn.delete_column = function(column_id, options)

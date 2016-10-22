@@ -1,7 +1,7 @@
 function get_tasks_json(object, url)
 {
-    var wait_html = "<tr id='child_" + $(object).attr('id') +"'><td colspan ='3' style='text-align:center'><img class='loading' src='" + MIDCOM_STATIC_URL + "/stock-icons/32x32/ajax-loading.gif' alt='loading' /></td></tr>";
-    row = $(object).parent().parent();
+    var wait_html = "<tr id='child_" + $(object).attr('id') +"'><td colspan ='3' style='text-align:center'><img class='loading' src='" + MIDCOM_STATIC_URL + "/stock-icons/32x32/ajax-loading.gif' alt='loading' /></td></tr>",
+        row = $(object).parent().parent();
     row.after(wait_html);
     $.ajax({
         type: "GET",
@@ -15,8 +15,7 @@ function get_tasks_json(object, url)
                 var max_rows = json.length,
                 html = "",
                 tr_class = $(object).parent().parent().attr('class'),
-                indent_class = 'expand-icon',
-                expand_icon = '';
+                indent_class = 'expand-icon';
 
                 if (   (!$(object).parent().parent().next())
                     || $(object).parent().parent().next().children('th')[0])
