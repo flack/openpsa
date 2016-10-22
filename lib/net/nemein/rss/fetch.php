@@ -126,7 +126,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
     /**
      * Fetches and imports items in the feed
      */
-    function import()
+    public function import()
     {
         if (!$this->_node->component)
         {
@@ -206,73 +206,32 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
             return false;
         }
 
-        $guid_property = $this->_guid_property;
-        $qb = midcom_db_article::new_query_builder();
-        $qb->add_constraint('topic', '=', $this->_feed->node);
-        // TODO: Move this to a parameter in Midgard 1.8
-        $qb->add_constraint($guid_property, '=', substr($guid, 0, 255));
-        $articles = $qb->execute();
-        if (count($articles) > 0)
+        $article = $this->find_article($item, $guid);
+        if (!$article)
         {
-            // This item has been imported already earlier. Update
-            $article = $articles[0];
+            return false;
         }
-        else
-        {
-            // Check against duplicate hits that may come from different feeds
-            if ($item->get_link())
-            {
-                $qb = midcom_db_article::new_query_builder();
-                $qb->add_constraint('topic', '=', $this->_feed->node);
-                $qb->add_constraint('url', '=', $item->get_link());
-                $hits = $qb->count();
-                if ($hits > 0)
-                {
-                    // Dupe, skip
-                    return false;
-                }
-            }
 
-            // This is a new item
-            $article = new midcom_db_article();
-            $article->topic = $this->_feed->node;
-        }
         $article->allow_name_catenate = true;
-
-        $updated = false;
-
-        // Copy properties
-        if ($article->title != $title)
-        {
-            $article->title = $title;
-            $updated = true;
-        }
-
-        // FIXME: This breaks with URLs longer than 255 chars
-        if ($article->$guid_property != $guid)
-        {
-            $article->$guid_property = $guid;
-            $updated = true;
-        }
-
-        if ($article->content != $item->get_content())
-        {
-            $article->content = $item->get_content();
-            $updated = true;
-        }
-
-        if ($article->url != $item->get_link())
-        {
-            $article->url = $item->get_link();
-            $updated = true;
-        }
-
-        $feed_category = 'feed:' . md5($this->_feed->url);
-        $orig_extra1 = $article->extra1;
-        $article->extra1 = "|{$feed_category}|";
-
         $article->_activitystream_verb = 'http://community-equity.org/schema/1.0/clone';
-        $article->_rcs_message = sprintf(midcom::get()->i18n->get_string('%s was imported from %s', 'net.nemein.rss'), $article->title, $this->_feed->title);
+        $article->_rcs_message = sprintf(midcom::get()->i18n->get_string('%s was imported from %s', 'net.nemein.rss'), $title, $this->_feed->title);
+
+        $values = array
+        (
+            'title' => $title,
+            $this->_guid_property => $guid, // FIXME: This breaks with URLs longer than 255 chars
+            'content' => $item->get_content(),
+            'url' => $item->get_link(),
+            'extra1' => '|feed:' . md5($this->_feed->url) . '|',
+        );
+        $meta_values = array();
+
+        // Safety, make sure we have sane name (the allow_catenate was set earlier, so this will not clash
+        if (empty($article->name))
+        {
+            $generator = midcom::get()->serviceloader->load('midcom_core_service_urlgenerator');
+            $values['name'] = $generator->from_string($title);
+        }
 
         $categories = $item->get_categories();
         if (is_array($categories))
@@ -282,50 +241,14 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
             {
                 // Clean up the categories and save
                 $category = str_replace('|', '_', trim($category->get_term()));
-                $article->extra1 .= "{$category}|";
+                $values['extra1'] .= "{$category}|";
             }
         }
 
-        if ($orig_extra1 != $article->extra1)
-        {
-            $updated = true;
-        }
-
-        // Try to figure out item author
-        if (   $this->_feed->forceauthor
-            && $this->_feed->defaultauthor)
-        {
-            // Feed has a "default author" set, use it
-            $article_author = new midcom_db_person($this->_feed->defaultauthor);
-        }
-        else
-        {
-            $article_author = $this->match_item_author($item);
-            $fallback_person_id = 1;
-            if (   !$article_author
-                || $article_author->id == $fallback_person_id)
-            {
-                if ($this->_feed->defaultauthor)
-                {
-                    // Feed has a "default author" set, use it
-                    $article_author = new midcom_db_person($this->_feed->defaultauthor);
-                }
-                else
-                {
-                    // Fall back to "Midgard Admin" just in case
-                    $fallback_author = new midcom_db_person($fallback_person_id);
-                    $article_author = $fallback_author;
-                }
-            }
-        }
-
+        $article_author = $this->find_author($item);
         if (!empty($article_author->guid))
         {
-            if ($article->metadata->authors != "|{$article_author->guid}|")
-            {
-                $article->metadata->set('authors', "|{$article_author->guid}|");
-                $updated = true;
-            }
+            $meta_values['authors'] = "|{$article_author->guid}|";
         }
 
         // Try to figure out item publication date
@@ -347,54 +270,22 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
             $this->_feed->update();
         }
 
-        // Safety, make sure we have sane name (the allow_catenate was set earlier, so this will not clash
-        if (empty($article->name))
-        {
-            $generator = midcom::get()->serviceloader->load('midcom_core_service_urlgenerator');
-            $article->name = $generator->from_string($article->title);
-            $updated = true;
-        }
         if ($article->id)
         {
-            if (   $article->metadata->published != $article_date
-                && !$article_data_tweaked)
+            if (!$article_data_tweaked)
             {
-                $article->metadata->published = $article_date;
-                $updated = true;
+                $meta_values['published'] = $article_date;
             }
 
-            if ($updated)
+            if (   $this->apply_values($article, $values, $meta_values)
+                && !$article->update())
             {
-                $article->allow_name_catenate = true;
-                if (!$article->update())
-                {
-                    return false;
-                }
+                return false;
             }
         }
         else
         {
-            // This is a new item
-            $node = new midcom_db_topic($this->_feed->node);
-            $node_lang_code = $node->get_parameter('net.nehmer.blog', 'language');
-            if ($node->get_parameter('net.nehmer.blog', 'symlink_topic') != '')
-            {
-                try
-                {
-                    $symlink_topic = new midcom_db_topic($node->get_parameter('net.nehmer.blog', 'symlink_topic'));
-                    $article->topic = $symlink_topic->id;
-                }
-                catch (midcom_error $e)
-                {
-                    $e->log();
-                }
-            }
-            if ($node_lang_code != '')
-            {
-                $lang_id = midcom::get()->i18n->code_to_id($node_lang_code);
-                $article->lang = $lang_id;
-            }
-            $article->allow_name_catenate = true;
+            $this->apply_values($article, $values, $meta_values);
             if (!$article->create())
             {
                 return false;
@@ -416,6 +307,109 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
         }
 
         return $article->guid;
+    }
+
+    private function find_author(net_nemein_rss_parser_item $item)
+    {
+        // Try to figure out item author
+        if (   $this->_feed->forceauthor
+            && $this->_feed->defaultauthor)
+        {
+            // Feed has a "default author" set, use it
+            return new midcom_db_person($this->_feed->defaultauthor);
+        }
+        $author = $this->match_item_author($item);
+        $fallback_person_id = 1;
+        if (   !$author
+            || $author->id == $fallback_person_id)
+        {
+            if ($this->_feed->defaultauthor)
+            {
+                // Feed has a "default author" set, use it
+                $author = new midcom_db_person($this->_feed->defaultauthor);
+            }
+            else
+            {
+                // Fall back to "Midgard Admin" just in case
+                $author = new midcom_db_person($fallback_person_id);
+            }
+        }
+        return $author;
+    }
+
+    private function find_article(net_nemein_rss_parser_item $item, $guid)
+    {
+        $qb = midcom_db_article::new_query_builder();
+        $qb->add_constraint('topic', '=', $this->_feed->node);
+        $qb->add_constraint($this->_guid_property, '=', substr($guid, 0, 255));
+        $articles = $qb->execute();
+        if (count($articles) > 0)
+        {
+            // This item has been imported already earlier. Update
+            return $articles[0];
+        }
+
+        // Check against duplicate hits that may come from different feeds
+        if ($link = $item->get_link())
+        {
+            $qb = midcom_db_article::new_query_builder();
+            $qb->add_constraint('topic', '=', $this->_feed->node);
+            $qb->add_constraint('url', '=', $link);
+            if ($qb->count() > 0)
+            {
+                // Dupe, skip
+                return false;
+            }
+        }
+
+        // This is a new item
+        $article = new midcom_db_article();
+        $article->topic = $this->_feed->node;
+
+        $node = new midcom_db_topic($this->_feed->node);
+        if ($symlink = $node->get_parameter('net.nehmer.blog', 'symlink_topic'))
+        {
+            try
+            {
+                $symlink_topic = new midcom_db_topic($symlink);
+                $article->topic = $symlink_topic->id;
+            }
+            catch (midcom_error $e)
+            {
+                $e->log();
+            }
+        }
+        if ($node_lang_code = $node->get_parameter('net.nehmer.blog', 'language'))
+        {
+            $lang_id = midcom::get()->i18n->code_to_id($node_lang_code);
+            $article->lang = $lang_id;
+        }
+        return $article;
+    }
+
+    private function apply_values(midcom_db_article $article, array $values, array $meta_values)
+    {
+        $updated = false;
+
+        foreach ($values as $fieldname => $value)
+        {
+            if ($article->$fieldname !== $value)
+            {
+                $article->$fieldname = $value;
+                $updated = true;
+            }
+        }
+
+        foreach ($meta_values as $fieldname => $value)
+        {
+            if ($article->metadata->$fieldname !== $value)
+            {
+                $article->metadata->$fieldname = $value;
+                $updated = true;
+            }
+        }
+
+        return $updated;
     }
 
     /**
