@@ -478,20 +478,13 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
      */
     public static function get_objects_with_tags(array $tags, array $classes, $match = 'OR')
     {
-        switch (strtoupper($match))
+        $match = str_replace(array('ANY', 'ALL'), array('OR', 'AND'), strtoupper($match));
+        if ($match !== 'AND' && $match !== 'OR')
         {
-            case 'ANY':
-            case 'OR':
-                $match = 'OR';
-                break;
-            case 'ALL':
-            case 'AND':
-                $match = 'AND';
-                break;
-            default:
-                // Invalid match rule
-                return false;
+            // Invalid match rule
+            return false;
         }
+
         $qb = net_nemein_tag_link_dba::new_query_builder();
         $qb->add_constraint('fromClass', 'IN', $classes);
         $qb->add_constraint('tag.tag', 'IN', $tags);
@@ -506,17 +499,13 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
         {
             if (!array_key_exists($link->fromGuid, $link_object_map))
             {
-                $link_object_map[$link->fromGuid] = array
-                (
-                    'object' => false,
-                    'links'  => array(),
-                );
+                $link_object_map[$link->fromGuid] = array();
             }
 
             try
             {
                 $tag = net_nemein_tag_tag_dba::get_cached($link->tag);
-                $link_object_map[$link->fromGuid]['links'][$tag->tag] = $link;
+                $link_object_map[$link->fromGuid][$tag->tag] = $link;
             }
             catch (midcom_error $e)
             {
@@ -530,46 +519,32 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
             // Filter links that do not contain all of the required tags on each object
             foreach ($link_object_map as $guid => $map)
             {
-                $link_map = $link_object_map[$guid]['links'];
                 foreach ($tags as $tag)
                 {
-                    if (   !array_key_exists($tag, $link_map)
-                        || !is_object($link_map[$tag]))
+                    if (empty($map[$tag]))
                     {
                         unset($link_object_map[$guid]);
+                        break;
                     }
                 }
             }
         }
         $return = array();
 
-        // Get the actual objects (casted to midcom DBA if possible)
+        // Get the actual objects (casted to midcom DBA)
         foreach ($link_object_map as $map)
         {
-            if (!$map['object'])
+            $link = array_pop($map);
+            $tmpclass = $link->fromClass;
+            try
             {
-                $link = array_pop($map['links']);
-                $tmpclass = $link->fromClass;
-                // Rewrite midgard_ level classes to DBA classes
-                $tmpclass = preg_replace('/^midgard_/', 'midcom_db_', $tmpclass);
-                if (!class_exists($tmpclass))
-                {
-                    // We don't have a class available, very weird indeed (rewriting may cause this but midcom has wrappers for all first class DB objects)
-                    continue;
-                }
-                try
-                {
-                    $tmpobject = new $tmpclass($link->fromGuid);
-                }
-                catch (midcom_error $e)
-                {
-                    $e->log();
-                    continue;
-                }
-                // PHP5-TODO: Must be copy-by-value
-                $map['object'] = $tmpobject;
+                $tmpobject = new $tmpclass($link->fromGuid);
+                $return[] = midcom::get()->dbfactory->convert_midgard_to_midcom($tmpobject);
             }
-            $return[] = $map['object'];
+            catch (midcom_error $e)
+            {
+                $e->log();
+            }
         }
         return $return;
     }
