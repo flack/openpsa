@@ -298,7 +298,7 @@ class midcom_helper_nav
      * @return mixed Either a node or leaf structure, distinguishable by MIDCOM_NAV_TYPE, or false on failure.
      * @see midcom_services_permalinks
      */
-    function resolve_guid($guid, $node_is_sufficient = false)
+    public function resolve_guid($guid, $node_is_sufficient = false)
     {
         // First, check if the GUID is already known by the backend:
         if ($cached_result = $this->_backend->get_loaded_object_by_guid($guid))

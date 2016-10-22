@@ -14,7 +14,7 @@
 class midcom_helper_reflector_tree extends midcom_helper_reflector
 {
     /**
-     * Creates a QB instance for get_root_objects and count_root_objects
+     * Creates a QB instance for get_root_objects
      */
     public function _root_objects_qb($deleted)
     {
@@ -57,35 +57,6 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
     }
 
     /**
-     * Get count of "root" objects for the class this reflector was instantiated for
-     *
-     * @param boolean $deleted whether to count (only) deleted or not-deleted objects
-     * @return array of objects or false on failure
-     * @see get_root_objects
-     */
-    function count_root_objects($deleted = false)
-    {
-        if (!self::_check_permissions($deleted))
-        {
-            return false;
-        }
-
-        $qb = $this->_root_objects_qb($deleted);
-        if (!$qb)
-        {
-            debug_add('Could not get QB instance', MIDCOM_LOG_ERROR);
-            return false;
-        }
-
-        return $qb->count();
-    }
-
-    function has_root_objects($deleted = false)
-    {
-        return (int) $this->count_root_objects($deleted) > 0;
-    }
-
-    /**
      * Get "root" objects for the class this reflector was instantiated for
      *
      * NOTE: deleted objects can only be listed as admin, also: they do not come
@@ -110,72 +81,6 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         self::add_schema_sorts_to_qb($qb, $this->mgdschema_class);
 
         return $qb->execute();
-    }
-
-    /**
-     * Statically callable method to determine if given object has children
-     *
-     * @param midgard_object $object object to get children for
-     * @param boolean $deleted whether to count (only) deleted or not-deleted objects
-     * @return array multidimensional array (keyed by classname) of objects or false on failure
-     */
-    function has_child_objects($object, $deleted = false)
-    {
-        if (!self::_check_permissions($deleted))
-        {
-            return false;
-        }
-        $resolver = new self($object);
-        $child_classes = $resolver->get_child_classes();
-        if (!$child_classes)
-        {
-            debug_add('resolver returned false (critical failure) from get_child_classes()', MIDCOM_LOG_ERROR);
-            return false;
-        }
-        foreach ($child_classes as $schema_type)
-        {
-            $qb = $resolver->_child_objects_type_qb($schema_type, $object, $deleted);
-            if (!$qb)
-            {
-                debug_add('resolver returned false (critical failure) from _child_objects_type_qb()', MIDCOM_LOG_ERROR);
-                return false;
-            }
-            $qb->set_limit(1);
-            if ($qb->count())
-            {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Statically callable method to count children of given object
-     *
-     * @param midgard_object $object object to get children for
-     * @param boolean $deleted whether to count (only) deleted or not-deleted objects
-     * @return array multidimensional array (keyed by classname) of objects or false on failure
-     */
-    function count_child_objects($object, $deleted = false)
-    {
-        if (!self::_check_permissions($deleted))
-        {
-            return false;
-        }
-        $resolver = new self($object);
-        $child_classes = $resolver->get_child_classes();
-        if (!$child_classes)
-        {
-            debug_add('resolver returned false (critical failure) from get_child_classes()', MIDCOM_LOG_ERROR);
-            return false;
-        }
-
-        $child_counts = array();
-        foreach ($child_classes as $schema_type)
-        {
-            $child_counts[$schema_type] = $resolver->_count_child_objects_type($schema_type, $object, $deleted);
-        }
-        return $child_counts;
     }
 
     /**
@@ -406,7 +311,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
     }
 
     /**
-     * Creates a QB instance for _get_child_objects_type and _count_child_objects_type
+     * Creates a QB instance for _get_child_objects_type
      */
     public function _child_objects_type_qb($schema_type, $for_object, $deleted)
     {
@@ -523,27 +428,11 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
     }
 
     /**
-     * Used by count_child_objects
-     *
-     * @return array of objects
-     */
-    public function _count_child_objects_type($schema_type, $for_object, $deleted)
-    {
-        $qb = $this->_child_objects_type_qb($schema_type, $for_object, $deleted);
-        if (!$qb)
-        {
-            debug_add('Could not get QB instance', MIDCOM_LOG_ERROR);
-            return false;
-        }
-        return $qb->count();
-    }
-
-    /**
      * Get the parent class of the class this reflector was instantiated for
      *
      * @return string class name (or false if the type has no parent)
      */
-    function get_parent_class()
+    public function get_parent_class()
     {
         $parent_property = midgard_object_class::get_property_parent($this->mgdschema_class);
         if (!$parent_property)
@@ -557,9 +446,9 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
     /**
      * Get the child classes of the class this reflector was instantiated for
      *
-     * @return array of class names (or false on critical failure)
+     * @return array of class names
      */
-    function get_child_classes()
+    public function get_child_classes()
     {
         static $child_classes_all = array();
         if (!isset($child_classes_all[$this->mgdschema_class]))
@@ -572,7 +461,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
     /**
      * Resolve the child classes of the class this reflector was instantiated for, used by get_child_classes()
      *
-     * @return array of class names (or false on critical failure)
+     * @return array of class names
      */
     private function _resolve_child_classes()
     {
@@ -682,8 +571,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
                 continue;
             }
 
-            $dba_class = midcom::get()->dbclassloader->get_midcom_class_name_for_mgdschema_object($schema_type);
-            if (!$dba_class)
+            if (!midcom::get()->dbclassloader->get_midcom_class_name_for_mgdschema_object($schema_type))
             {
                 // Not a MidCOM DBA object, skip
                 continue;

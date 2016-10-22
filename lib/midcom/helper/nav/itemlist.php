@@ -49,18 +49,6 @@ abstract class midcom_helper_nav_itemlist
     abstract public function get_sorted_list();
 
     /**
-     * Get style. If the elements should use a special style, return that here.
-     * if not. use default.
-     *
-     * @return string MidCOM stylename.
-     */
-    /** @ignore */
-    function get_style()
-    {
-        return false;
-    }
-
-    /**
      * Generate the object you want to use for getting a list of items for a certain topic.
      * Use this function to create sorted lists. Example:
      *     $nav_object = midcom_helper_nav_itemlist::factory($navorder, $this, $parent_topic);
