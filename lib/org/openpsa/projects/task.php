@@ -114,7 +114,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
             //Ensure manager can do stuff
             if ($this->manager)
             {
-                $manager_person = self::pid_to_obj($this->manager);
+                $manager_person = midcom::get()->auth->get_user($this->manager);
                 $this->set_privilege('midgard:read', $manager_person->id, MIDCOM_PRIVILEGE_ALLOW);
                 $this->set_privilege('midgard:create', $manager_person->id, MIDCOM_PRIVILEGE_ALLOW);
                 $this->set_privilege('midgard:delete', $manager_person->id, MIDCOM_PRIVILEGE_ALLOW);
@@ -423,11 +423,6 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
         }
 
         return true;
-    }
-
-    static function pid_to_obj($pid)
-    {
-        return midcom::get()->auth->get_user($pid);
     }
 
     /**

@@ -23,8 +23,6 @@ class org_openpsa_projects_task_resource_dba extends midcom_core_dbaobject
     public $_use_activitystream = false;
     public $_use_rcs = false;
 
-    private $_personobject;
-
     private function _find_duplicates()
     {
         $qb = org_openpsa_projects_task_resource_dba::new_query_builder();
@@ -121,7 +119,7 @@ class org_openpsa_projects_task_resource_dba extends midcom_core_dbaobject
     {
         $task = new org_openpsa_projects_task_dba($this->task);
         $this->remove_resource_from_parent($task);
-        if ($personobject = self::pid_to_obj($this->person))
+        if ($personobject = midcom::get()->auth->get_user($this->person))
         {
             $task->unset_privilege('midgard:read', $personobject->id);
             $task->unset_privilege('midgard:create', $personobject->id);
@@ -141,25 +139,23 @@ class org_openpsa_projects_task_resource_dba extends midcom_core_dbaobject
             {
                 org_openpsa_projects_workflow::propose($task, $this->person);
             }
-            $this->_personobject = self::pid_to_obj($this->person);
 
-            if (   !$this->_personobject
-                || !is_object($this->_personobject))
+            if ($personobject = midcom::get()->auth->get_user($this->person))
             {
-                debug_add('Person ' . $this->person . ' could not be resolved to user, skipping privilege assignment');
+                $this->set_privilege('midgard:read', $personobject->id, MIDCOM_PRIVILEGE_ALLOW);
+                $this->set_privilege('midgard:delete', $personobject->id, MIDCOM_PRIVILEGE_ALLOW);
+                $this->set_privilege('midgard:update', $personobject->id, MIDCOM_PRIVILEGE_ALLOW);
+                $this->set_privilege('midgard:read', $personobject->id, MIDCOM_PRIVILEGE_ALLOW);
+
+                $task->set_privilege('midgard:read', $personobject->id, MIDCOM_PRIVILEGE_ALLOW);
+                // Resources must be permitted to create hour/expense reports into tasks
+                $task->set_privilege('midgard:create', $personobject->id, MIDCOM_PRIVILEGE_ALLOW);
+                //For declines etc they also need update...
+                $task->set_privilege('midgard:update', $personobject->id, MIDCOM_PRIVILEGE_ALLOW);
             }
             else
             {
-                $this->set_privilege('midgard:read', $this->_personobject->id, MIDCOM_PRIVILEGE_ALLOW);
-                $this->set_privilege('midgard:delete', $this->_personobject->id, MIDCOM_PRIVILEGE_ALLOW);
-                $this->set_privilege('midgard:update', $this->_personobject->id, MIDCOM_PRIVILEGE_ALLOW);
-                $this->set_privilege('midgard:read', $this->_personobject->id, MIDCOM_PRIVILEGE_ALLOW);
-
-                $task->set_privilege('midgard:read', $this->_personobject->id, MIDCOM_PRIVILEGE_ALLOW);
-                // Resources must be permitted to create hour/expense reports into tasks
-                $task->set_privilege('midgard:create', $this->_personobject->id, MIDCOM_PRIVILEGE_ALLOW);
-                //For declines etc they also need update...
-                $task->set_privilege('midgard:update', $this->_personobject->id, MIDCOM_PRIVILEGE_ALLOW);
+                debug_add('Person ' . $this->person . ' could not be resolved to user, skipping privilege assignment');
             }
         }
     }
@@ -167,10 +163,5 @@ class org_openpsa_projects_task_resource_dba extends midcom_core_dbaobject
     public function _on_updating()
     {
         return (!$this->_find_duplicates());
-    }
-
-    static function pid_to_obj($pid)
-    {
-        return midcom::get()->auth->get_user($pid);
     }
 }
