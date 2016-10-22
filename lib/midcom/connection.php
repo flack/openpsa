@@ -177,7 +177,7 @@ class midcom_connection
      *
      * @param int $errorcode Midgard error code
      */
-    static function set_error($errorcode)
+    public static function set_error($errorcode)
     {
         if (method_exists('midgard_connection', 'get_instance'))
         {
@@ -193,7 +193,7 @@ class midcom_connection
      *
      * @return int Midgard error code
      */
-    static function get_error()
+    public static function get_error()
     {
         if (method_exists('midgard_connection', 'get_instance'))
         {
@@ -432,7 +432,7 @@ class midcom_connection
      *
      * @return boolean True or false
      */
-    static function is_admin()
+    public static function is_admin()
     {
         if (method_exists('midgard_connection', 'get_instance'))
         {
@@ -520,7 +520,7 @@ class midcom_connection
      *
      * @return array A list of class names
      */
-    static function get_schema_types()
+    public static function get_schema_types()
     {
         if (!isset(self::$_data['schema_types']))
         {

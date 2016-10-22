@@ -91,7 +91,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         return false;
     }
 
-    static function generate_file_path($help_id, $component, $language = null)
+    public static function generate_file_path($help_id, $component, $language = null)
     {
         if ($language === null)
         {

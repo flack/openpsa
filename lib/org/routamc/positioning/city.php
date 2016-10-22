@@ -51,7 +51,7 @@ class org_routamc_positioning_city_dba extends midcom_core_dbaobject
         return true;
     }
 
-    static function get_by_name($name)
+    public static function get_by_name($name)
     {
         if (empty($name))
         {

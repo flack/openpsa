@@ -168,7 +168,7 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
      *
      * @return boolean
      */
-    static function disable_language_select()
+    public static function disable_language_select()
     {
         // We cannot use $this->_topic in a static method
         $topic = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_CONTENTTOPIC);

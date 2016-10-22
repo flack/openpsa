@@ -47,7 +47,7 @@ implements midcom_services_permalinks_resolver
      * @param midcom_baseclasses_components_cron_handler $handler cron_handler object calling this method.
      * @return boolean indicating success/failure
      */
-    function background_send_message(array $args, midcom_baseclasses_components_cron_handler $handler)
+    public function background_send_message(array $args, midcom_baseclasses_components_cron_handler $handler)
     {
         if (   !isset($args['url_base'])
             || !isset($args['batch']))

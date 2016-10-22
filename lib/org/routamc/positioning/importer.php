@@ -73,7 +73,7 @@ abstract class org_routamc_positioning_importer extends midcom_baseclasses_compo
      * @param string $type The type of the importer (the file name from the importer directory).
      * @return org_routamc_positioning_importer A reference to the newly created importer instance.
      */
-    static function & create($type)
+    public static function & create($type)
     {
         $classname = "org_routamc_positioning_importer_{$type}";
         if (!class_exists($classname))

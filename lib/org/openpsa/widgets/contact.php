@@ -104,9 +104,9 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
      * Retrieve a reference to an object, uses in-request caching
      *
      * @param mixed $src GUID of object (ids work but are discouraged)
-     * @return mixed reference to device object or false
+     * @return org_openpsa_widgets_contact
      */
-    static function &get($src)
+    public static function get($src)
     {
         static $cache = array();
 
