@@ -101,25 +101,8 @@ class org_openpsa_directmarketing_campaign_member_dba extends midcom_core_dbaobj
             $sep_end = '&gt;';
         }
 
-        // Unsubscribe URL
-        $content = str_replace($sep_start . 'UNSUBSCRIBE_URL' . $sep_end, $this->get_unsubscribe_url($node), $content);
-        // Unsubscribe from all URL
-        $content = str_replace($sep_start . 'UNSUBSCRIBE_ALL_URL' . $sep_end, "{$node[MIDCOM_NAV_FULLURL]}campaign/unsubscribe_all/{$person->guid}/", $content);
-        // Unsubscribe from all URL
-        $content = str_replace($sep_start . 'UNSUBSCRIBE_ALL_FUTURE_URL' . $sep_end, "{$node[MIDCOM_NAV_FULLURL]}campaign/unsubscribe_all_future/{$person->guid}/all.html", $content);
-        // General membership GUID
-        $content = str_replace($sep_start . 'MEMBER_GUID' . $sep_end, $this->guid, $content);
-        // General person GUID
-        $content = str_replace($sep_start . 'PERSON_GUID' . $sep_end, $person->guid, $content);
-        // E-Mail
-        $content = str_replace($sep_start . 'EMAIL' . $sep_end, $person->email, $content);
-        // Firstname
-        $content = str_replace($sep_start . 'FNAME' . $sep_end, $person->firstname, $content);
-        // Lastname
-        $content = str_replace($sep_start . 'LNAME' . $sep_end, $person->lastname, $content);
-        // Username
-        $content = str_replace($sep_start . 'UNAME' . $sep_end, $person->username, $content);
         // Password (if plaintext)
+        // @todo Not mgd2 compatible!
         if (preg_match('/^\*\*(.*)/', $person->password, $pwd_matches))
         {
             $plaintext_password = $pwd_matches[1];
@@ -128,8 +111,22 @@ class org_openpsa_directmarketing_campaign_member_dba extends midcom_core_dbaobj
         {
             $plaintext_password = $sep_start . 'unknown' . $sep_end;
         }
-        $content = str_replace($sep_start . 'PASSWD' . $sep_end, $plaintext_password, $content);
-        // Callback functions
+
+        $replace_map = array
+        (
+            $sep_start . 'UNSUBSCRIBE_URL' . $sep_end => $this->get_unsubscribe_url($node),
+            $sep_start . 'UNSUBSCRIBE_ALL_URL' . $sep_end => "{$node[MIDCOM_NAV_FULLURL]}campaign/unsubscribe_all/{$person->guid}/",
+            $sep_start . 'UNSUBSCRIBE_ALL_FUTURE_URL' . $sep_end => "{$node[MIDCOM_NAV_FULLURL]}campaign/unsubscribe_all_future/{$person->guid}/all.html",
+            $sep_start . 'MEMBER_GUID' . $sep_end => $this->guid,
+            $sep_start . 'PERSON_GUID' . $sep_end => $person->guid,
+            $sep_start . 'EMAIL' . $sep_end => $person->email,
+            $sep_start . 'FNAME' . $sep_end => $person->firstname,
+            $sep_start . 'LNAME' . $sep_end => $person->lastname,
+            $sep_start . 'UNAME' . $sep_end => $person->username,
+            $sep_start . 'PASSWD' . $sep_end => $plaintext_password,
+        );
+        $content = str_replace(array_keys($replace_map), $replace_map, $content);
+
         if (preg_match_all('/' . $sep_start . 'CALLBACK:(.*?)' . $sep_end . '/', $content, $callback_matches))
         {
             foreach ($callback_matches[0] as $k => $search)
