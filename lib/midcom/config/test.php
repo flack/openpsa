@@ -203,7 +203,7 @@ class midcom_config_test
             $this->add('Memcache', self::ERROR, "The PHP Memcache module is available and set to be in use, but it cannot be connected to.");
         }
 
-        if (! function_exists('exif_read_data'))
+        if (!function_exists('exif_read_data'))
         {
             $this->add('EXIF reader', self::WARNING, 'PHP-EXIF is not available. It required for proper operation of Image Gallery components.');
         }

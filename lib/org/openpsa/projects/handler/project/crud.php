@@ -154,7 +154,7 @@ class org_openpsa_projects_handler_project_crud extends midcom_baseclasses_compo
     /**
      * This is what Datamanager calls to actually create a project
      */
-    function & dm2_create_callback(&$controller)
+    public function & dm2_create_callback(&$controller)
     {
         $this->_object = new org_openpsa_projects_project();
 

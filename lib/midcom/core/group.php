@@ -155,7 +155,7 @@ class midcom_core_group
      *
      * @return midcom_core_user[] A list of user objects in which are members of the current group, indexed by their ID.
      */
-    function list_members()
+    public function list_members()
     {
         $return = array();
 
@@ -293,7 +293,7 @@ class midcom_core_group
      * @return midcom_db_group A MidCOM DBA object that holds the information associated with
      *     this group, or null if there is no storage object.
      */
-    function get_storage()
+    public function get_storage()
     {
         if ($this->_storage === null)
         {

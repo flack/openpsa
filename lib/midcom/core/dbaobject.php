@@ -573,7 +573,7 @@ abstract class midcom_core_dbaobject
 
     // Legacy API
     // TODO: Get rid of these
-    function parameter($domain, $name)
+    public function parameter($domain, $name)
     {
         if (func_num_args() == 2)
         {

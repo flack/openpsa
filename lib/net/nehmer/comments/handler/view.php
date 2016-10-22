@@ -149,7 +149,7 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
     /**
      * DM2 creation callback, binds the new object directly to the _objectguid.
      */
-    function & dm2_create_callback (&$controller)
+    public function & dm2_create_callback (&$controller)
     {
         $this->_new_comment = new net_nehmer_comments_comment();
         $this->_new_comment->objectguid = $this->_objectguid;

@@ -262,7 +262,7 @@ class midcom_core_user
      *
      * @return midcom_core_group[] A list of groups in which the current user is a member
      */
-    function list_memberships()
+    public function list_memberships()
     {
         if (is_null($this->_direct_groups))
         {
@@ -628,7 +628,7 @@ class midcom_core_user
      *
      * @return boolean Indicating success.
      */
-    function delete()
+    public function delete()
     {
         $person = $this->get_storage();
         $account = new midom_core_account($person);

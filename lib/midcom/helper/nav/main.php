@@ -92,7 +92,7 @@ class midcom_helper_nav
      * @return int    The ID of the node in question.
      * @see midcom_helper_nav_backend::get_current_node()
      */
-    function get_current_node ()
+    public function get_current_node()
     {
         return $this->_backend->get_current_node();
     }
@@ -106,7 +106,7 @@ class midcom_helper_nav
      * @return int    The ID of the leaf in question or false on failure.
      * @see midcom_helper_nav_backend::get_current_leaf()
      */
-    function get_current_leaf ()
+    public function get_current_leaf()
     {
         return $this->_backend->get_current_leaf();
     }
@@ -120,7 +120,7 @@ class midcom_helper_nav
      * @return int    The ID of the root node.
      * @see midcom_helper_nav_backend::get_root_node()
      */
-    function get_root_node ()
+    public function get_root_node()
     {
         return $this->_backend->get_root_node();
     }
@@ -136,7 +136,7 @@ class midcom_helper_nav
      * @return Array            An Array of Node IDs or false on failure.
      * @see midcom_helper_nav_backend::list_nodes()
      */
-    function list_nodes($parent_node, $show_noentry = false)
+    public function list_nodes($parent_node, $show_noentry = false)
     {
         return $this->_backend->list_nodes($parent_node, $show_noentry);
     }
@@ -152,7 +152,7 @@ class midcom_helper_nav
      * @return Array             A list of leaves found, or false on failure.
      * @see midcom_helper_nav_backend::list_leaves()
      */
-    function list_leaves($parent_node, $show_noentry = false)
+    public function list_leaves($parent_node, $show_noentry = false)
     {
         return $this->_backend->list_leaves($parent_node, $show_noentry);
     }
@@ -166,7 +166,7 @@ class midcom_helper_nav
      * @return Array        The node data as outlined in the class introduction, false on failure
      * @see midcom_helper_nav_backend::get_node()
      */
-    function get_node($node_id)
+    public function get_node($node_id)
     {
         return $this->_backend->get_node($node_id);
     }
@@ -180,7 +180,7 @@ class midcom_helper_nav
      * @return Array        The leaf-data as outlined in the class introduction, false on failure
      * @see midcom_helper_nav_backend::get_leaf()
      */
-    function get_leaf($leaf_id)
+    public function get_leaf($leaf_id)
     {
         return $this->_backend->get_leaf($leaf_id);
     }
@@ -206,7 +206,7 @@ class midcom_helper_nav
      * @return int             The ID of the Node for which we have a match, -1 for the root node, or false on failure.
      * @see midcom_helper_nav_backend::get_node_uplink()
      */
-    function get_node_uplink ($node_id)
+    public function get_node_uplink($node_id)
     {
         return $this->_backend->get_node_uplink($node_id);
     }
@@ -218,7 +218,7 @@ class midcom_helper_nav
      * @param int    $root_id    The root node to use.
      * @return boolean                True, if the node is a subnode of the root node, false otherwise.
      */
-    function is_node_in_tree($node_id, $root_id)
+    public function is_node_in_tree($node_id, $root_id)
     {
         $uplink = $this->get_node_uplink($node_id);
         if ($uplink == $root_id)
@@ -248,10 +248,8 @@ class midcom_helper_nav
      * @param int $parent_node_id    The ID of the parent node.
      * @return Array                A list of found elements, or false on failure.
      */
-    function list_child_elements($parent_node_id)
+    public function list_child_elements($parent_node_id)
     {
-        // Fetch nodes and leaves
-
         $parent_node = $this->get_node($parent_node_id);
         if (!$parent_node)
         {
@@ -455,7 +453,7 @@ class midcom_helper_nav
      * @param array     $skip_guids       Array of guids that are skipped.
      * @return string    The computed breadcrumb line.
      */
-    function get_breadcrumb_line ($separator = ' &gt; ', $class = null, $skip_levels = 0, $current_class = null, $skip_guids = array())
+    public function get_breadcrumb_line($separator = ' &gt; ', $class = null, $skip_levels = 0, $current_class = null, $skip_guids = array())
     {
         $breadcrumb_data = $this->get_breadcrumb_data();
         $result = '';
@@ -567,12 +565,12 @@ class midcom_helper_nav
      * @todo Maybe cache this? I don't know how complex it really is, but DB accesses are
      *     already cached by the _backend core. So it is not that hard.
      */
-    function get_breadcrumb_data ($id = null)
+    public function get_breadcrumb_data($id = null)
     {
         $prefix = midcom_core_context::get($this->_contextid)->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
         $result = Array();
 
-        if (! $id)
+        if (!$id)
         {
             $curr_leaf = $this->get_current_leaf();
             $curr_node = $this->get_current_node();
@@ -661,7 +659,7 @@ class midcom_helper_nav
      *
      * @return Array    The node path array.
      */
-    function get_node_path($node_id = null)
+    public function get_node_path($node_id = null)
     {
         if ($node_id === null)
         {
@@ -686,7 +684,7 @@ class midcom_helper_nav
      *
      * @return mixed    The ID of the node in question.
      */
-    function get_current_upper_node()
+    public function get_current_upper_node()
     {
         return $this->_backend->get_current_upper_node();
     }

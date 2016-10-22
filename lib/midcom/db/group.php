@@ -50,7 +50,7 @@ class midcom_db_group extends midcom_core_dbaobject
      * @param midcom_db_person The person to add.
      * @return boolean Indicating success.
      */
-    function add_member($person)
+    public function add_member($person)
     {
         $this->require_do('midgard:create');
 

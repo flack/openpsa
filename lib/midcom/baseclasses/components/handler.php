@@ -96,7 +96,7 @@ abstract class midcom_baseclasses_components_handler extends midcom_baseclasses_
      * @param midcom_baseclasses_components_request $master A reference to the request class
      *     handling the request.
      */
-    function initialize($master)
+    public function initialize($master)
     {
         $this->_master = $master;
 

@@ -305,7 +305,7 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
     /**
      * This is what Datamanager calls to actually create a task
      */
-    function & dm2_create_callback(&$controller)
+    public function & dm2_create_callback(&$controller)
     {
         $this->_object = new org_openpsa_projects_task_dba();
         $project = $controller->formmanager->get_value('project');

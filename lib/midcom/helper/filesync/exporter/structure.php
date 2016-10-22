@@ -13,7 +13,7 @@
  */
 class midcom_helper_filesync_exporter_structure extends midcom_helper_filesync_exporter
 {
-    function read_node(midcom_db_topic $node)
+    private function read_node(midcom_db_topic $node)
     {
         $node_array = array();
         $node_array['name'] = $node->name;
@@ -58,10 +58,10 @@ class midcom_helper_filesync_exporter_structure extends midcom_helper_filesync_e
         // Read the topic data
         $structure[$structure_name]['root'] = $this->read_node($root_node);
 
-        file_put_contents("{$this->root_dir}{$structure_name}.inc", $this->_draw_array($structure));
+        file_put_contents("{$this->root_dir}{$structure_name}.inc", $this->draw_array($structure));
     }
 
-    private function _draw_array($array, $prefix = '')
+    private function draw_array($array, $prefix = '')
     {
         $data = '';
         foreach ($array as $key => $val)
@@ -84,7 +84,7 @@ class midcom_helper_filesync_exporter_structure extends midcom_helper_filesync_e
                     }
                     else
                     {
-                        $data .= "array\n{$prefix}(\n" . $this->_draw_array($val, "{$prefix}    ") . "{$prefix})";
+                        $data .= "array\n{$prefix}(\n" . $this->draw_array($val, "{$prefix}    ") . "{$prefix})";
                     }
                     break;
 
@@ -105,7 +105,7 @@ class midcom_helper_filesync_exporter_structure extends midcom_helper_filesync_e
         return $data;
     }
 
-    function export()
+    public function export()
     {
         // Generate a safe name for the structure
         $generator = midcom::get()->serviceloader->load('midcom_core_service_urlgenerator');

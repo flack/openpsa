@@ -238,7 +238,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
     /**
      * DM2 creation callback, binds to the current content topic.
      */
-    function & dm2_create_callback(&$controller)
+    public function & dm2_create_callback(&$controller)
     {
         $create_type = $this->_new_type;
         $this->_new_object = new $create_type();

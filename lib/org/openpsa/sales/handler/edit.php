@@ -121,7 +121,7 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
     /**
      * This is what Datamanager calls to actually create a salesproject
      */
-    function & dm2_create_callback(&$datamanager)
+    public function & dm2_create_callback(&$datamanager)
     {
         $this->_salesproject = new org_openpsa_sales_salesproject_dba();
 

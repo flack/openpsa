@@ -103,7 +103,7 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
     /**
      * This is what Datamanager calls to actually create a query
      */
-    function & dm2_create_callback(&$controller)
+    public function & dm2_create_callback(&$controller)
     {
         $query = new org_openpsa_reports_query_dba();
         $query->component = $this->_component;
