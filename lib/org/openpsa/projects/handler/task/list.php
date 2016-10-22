@@ -283,10 +283,9 @@ implements org_openpsa_widgets_grid_provider_client
     {
         $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
         $task_url = $prefix . "task/{$task->guid}/";
-        $celldata = $this->get_table_row_data($task, $this->_request_data);
         $manager_card = org_openpsa_widgets_contact::get($task->manager);
-        $entry = array();
 
+        $entry = $this->get_table_row_data($task);
         $entry['id'] = $task->id;
         $entry['index_task'] = $task->title;
         $entry['task'] = '<a href="' . $task_url . '"><img class="status-icon" src="' . MIDCOM_STATIC_URL . '/stock-icons/16x16/' . $task->get_icon() . '" /> ' . $task->title . '</a>';
@@ -302,22 +301,12 @@ implements org_openpsa_widgets_grid_provider_client
                 $entry['task'] = '<div class="title">' . $entry['task'] . '</div><div class="details">' . $controls . '</div>';
             }
         }
-        $entry['index_project'] = $celldata['index_parent'];
-        $entry['project'] = $celldata['parent'];
 
         $entry['index_priority'] = $task->priority;
         $entry['priority'] = $task->priority;
-        if (   isset($this->_request_data['priority_array'])
-            && array_key_exists($task->priority, $this->_request_data['priority_array']))
+        if (!empty($this->_request_data['priority_array'][$task->priority]))
         {
             $entry['priority'] = '<span title="' . $this->_l10n->get($this->_request_data['priority_array'][$task->priority]) . '">' . $task->priority . '</span>';
-        }
-
-        if (   $this->_request_data['view_identifier'] != 'agreement'
-            && $this->_request_data['view_identifier'] != 'project_tasks')
-        {
-            $entry['index_customer'] = $celldata['index_customer'];
-            $entry['customer'] = $celldata['customer'];
         }
 
         $entry['manager'] = $manager_card->show_inline();
@@ -488,20 +477,20 @@ implements org_openpsa_widgets_grid_provider_client
     /**
      * Get the relevant data for cells in table view
      */
-    public function get_table_row_data($task, &$data)
+    private function get_table_row_data($task)
     {
         $ret = array
         (
-            'parent' => '&nbsp;',
-            'index_parent' => '',
+            'project' => '&nbsp;',
+            'index_project' => '',
         );
 
         try
         {
             $project = org_openpsa_projects_project::get_cached($task->project);
             $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
-            $ret['parent'] = '<a href="' . $prefix . 'project/' . $project->guid . '/">' . $project->title . '</a>';
-            $ret['index_parent'] = $project->title;
+            $ret['project'] = '<a href="' . $prefix . 'project/' . $project->guid . '/">' . $project->title . '</a>';
+            $ret['index_project'] = $project->title;
 
         }
         catch (midcom_error $e)
@@ -509,7 +498,8 @@ implements org_openpsa_widgets_grid_provider_client
             $e->log();
         }
 
-        if ($this->_request_data['view_identifier'] != 'agreement')
+        if (   $this->_request_data['view_identifier'] != 'agreement'
+            && $this->_request_data['view_identifier'] != 'project_tasks')
         {
             try
             {
