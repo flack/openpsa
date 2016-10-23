@@ -86,20 +86,13 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
     /**
      * Get rendered path for object
      *
-     * @param midgard_object $object, the object to get path for
+     * @param midgard_object $object The object to get path for
      * @param string $separator the string used to separate path components
-     * @param GUID $stop_at in case we wish to stop resolving at certain object give guid here
      * @return string resolved path
      */
-    public static function resolve_path($object, $separator = ' &gt; ', $stop_at = null)
+    public static function resolve_path($object, $separator = ' &gt; ')
     {
-        static $cache = array();
-        $cache_key = $object->guid . $separator . $stop_at;
-        if (isset($cache[$cache_key]))
-        {
-            return $cache[$cache_key];
-        }
-        $parts = self::resolve_path_parts($object, $stop_at);
+        $parts = self::resolve_path_parts($object);
         $d = count($parts);
         $ret = '';
         foreach ($parts as $part)
@@ -110,24 +103,21 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
                 $ret .= $separator;
             }
         }
-        $cache[$cache_key] = $ret;
-        return $cache[$cache_key];
+        return $ret;
     }
 
     /**
      * Get path components for object
      *
-     * @param midgard_object $object, the object to get path for
-     * @param GUID $stop_at in case we wish to stop resolving at certain object give guid here
+     * @param midgard_object $object The object to get path for
      * @return array path components
      */
-    public static function resolve_path_parts($object, $stop_at = null)
+    public static function resolve_path_parts($object)
     {
         static $cache = array();
-        $cache_key = $object->guid . $stop_at;
-        if (isset($cache[$cache_key]))
+        if (isset($cache[$object->guid]))
         {
-            return $cache[$cache_key];
+            return $cache[$object->guid];
         }
 
         $ret = array();
@@ -150,8 +140,8 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
             $parent = self::get_parent($parent);
         }
 
-        $cache[$cache_key] = array_reverse($ret);
-        return $cache[$cache_key];
+        $cache[$object->guid] = array_reverse($ret);
+        return $cache[$object->guid];
     }
 
     /**
