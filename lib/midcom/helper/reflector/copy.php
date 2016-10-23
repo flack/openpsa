@@ -80,13 +80,6 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
     public $copy_tree = true;
 
     /**
-     * Switch for name catenating
-     *
-     * @var boolean
-     */
-    public $allow_name_catenate = true;
-
-    /**
      * Metadata fields that shall be copied
      */
     public $copy_metadata_fields = array
@@ -414,40 +407,10 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
             $target->$parent_property = (is_string($source->$parent_property)) ? '' : 0;
         }
 
-        $name_property = midcom_helper_reflector::get_name_property($target);
-        $resolver = new midcom_helper_reflector_nameresolver($target);
-
-        if (   !empty($name_property)
-            && !$resolver->name_is_safe_or_empty($name_property))
+        if ($name_property = midcom_helper_reflector::get_name_property($target))
         {
-            debug_add('Source object ' . get_class($source) . " {$source->guid} has unsafe name, rewriting to safe form for the target", MIDCOM_LOG_WARN);
-            $generator = midcom::get()->serviceloader->load('midcom_core_service_urlgenerator');
-            $name_parts = explode('.', $target->$name_property, 2);
-            if (isset($name_parts[1]))
-            {
-                $target->$name_property = $generator->from_string($name_parts[0]) . ".{$name_parts[1]}";
-                // Doublecheck safety and fall back if needed
-                if (!$resolver->name_is_safe_or_empty())
-                {
-                    $target->$name_property = $generator->from_string($target->$name_property);
-                }
-            }
-            else
-            {
-                $target->$name_property = $generator->from_string($target->$name_property);
-            }
-            unset($name_parts, $name_property);
-        }
-
-        if (   $this->allow_name_catenate
-            && $name_property)
-        {
-            $name = $resolver->generate_unique_name();
-
-            if ($name !== $target->$name_property)
-            {
-                $target->$name_property = $name;
-            }
+            $resolver = new midcom_helper_reflector_nameresolver($target);
+            $target->$name_property = $resolver->generate_unique_name();
         }
 
         // This needs to be here, otherwise it will be overridden

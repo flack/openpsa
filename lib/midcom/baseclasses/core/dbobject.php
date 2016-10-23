@@ -221,11 +221,7 @@ class midcom_baseclasses_core_dbobject
         if (empty($object->{$name_property}))
         {
             // name is empty, try to generate
-            $new_name = $resolver->generate_unique_name();
-            if (!empty($new_name))
-            {
-                $object->{$name_property} = $new_name;
-            }
+            $object->{$name_property} = (string) $resolver->generate_unique_name();
         }
 
         /**
@@ -1027,13 +1023,13 @@ class midcom_baseclasses_core_dbobject
      */
     public static function list_parameters(midcom_core_dbaobject $object, $domain)
     {
-        if (! $object->id)
+        if (!$object->guid)
         {
             debug_add('Cannot retrieve information on a non-persistant object.', MIDCOM_LOG_WARN);
             return false;
         }
 
-        if (! is_null($domain))
+        if (!is_null($domain))
         {
             return self::_list_parameters_domain($object, $domain);
         }
@@ -1053,11 +1049,6 @@ class midcom_baseclasses_core_dbobject
      */
     private static function _list_parameters_domain(midcom_core_dbaobject $object, $domain)
     {
-        if (!$object->guid)
-        {
-            return array();
-        }
-
         if (!isset(self::$parameter_cache[$object->guid]))
         {
             self::$parameter_cache[$object->guid] = array();
@@ -1096,11 +1087,6 @@ class midcom_baseclasses_core_dbobject
      */
     private static function _list_parameters_all(midcom_core_dbaobject $object)
     {
-        if (!$object->guid)
-        {
-            return array();
-        }
-
         if (!isset(self::$parameter_cache[$object->guid]))
         {
             self::$parameter_cache[$object->guid] = array();
