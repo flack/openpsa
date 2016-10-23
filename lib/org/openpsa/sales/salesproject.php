@@ -61,7 +61,7 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
      * Single deliveries are calculated based on their price and the already invoiced sum, when invoice by
      * actual units is true
      */
-    function calculate_price()
+    public function calculate_price()
     {
         $value = 0;
         $cost = 0;
@@ -156,7 +156,7 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
      * Fills the next and previous action properties
      * based on the confirmed relatedto links
      */
-    function get_actions()
+    public function get_actions()
     {
         $default = array
         (
@@ -243,18 +243,10 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
 
     public function _on_creating()
     {
-        if (!$this->start)
-        {
-            $this->start = time();
-        }
-        if (!$this->state)
-        {
-            $this->state = self::STATE_ACTIVE;
-        }
-        if (!$this->owner)
-        {
-            $this->owner = midcom_connection::get_user();
-        }
+        $this->start = $this->start ?: time();
+        $this->state = $this->state ?: self::STATE_ACTIVE;
+        $this->owner = $this->owner ?: midcom_connection::get_user();
+
         return true;
     }
 
@@ -284,15 +276,10 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
         }
     }
 
-    private function _pid_to_obj($pid)
-    {
-        return midcom::get()->auth->get_user($pid);
-    }
-
     public function _on_updated()
     {
         //Ensure owner can do stuff regardless of other ACLs
-        if (($owner_person = $this->_pid_to_obj($this->owner)))
+        if (($owner_person = midcom::get()->auth->get_user($this->owner)))
         {
             $this->set_privilege('midgard:read', $owner_person->id, MIDCOM_PRIVILEGE_ALLOW);
             $this->set_privilege('midgard:create', $owner_person->id, MIDCOM_PRIVILEGE_ALLOW);
@@ -306,22 +293,18 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
      */
     function get_members()
     {
-        if (!$this->id)
+        if ($this->id)
         {
-            return false;
+            $mc = org_openpsa_contacts_role_dba::new_collector('objectGuid', $this->guid);
+            $mc->add_constraint('role', '=', self::ROLE_MEMBER);
+
+            $this->_contacts = array_fill_keys($mc->get_values('person'), true);
+
+            if ($this->customerContact)
+            {
+                $this->_contacts[$this->customerContact] = true;
+            }
         }
-
-        $mc = org_openpsa_contacts_role_dba::new_collector('objectGuid', $this->guid);
-        $mc->add_constraint('role', '=', self::ROLE_MEMBER);
-
-        $this->_contacts = array_fill_keys($mc->get_values('person'), true);
-
-        if ($this->customerContact)
-        {
-            $this->_contacts[$this->customerContact] = true;
-        }
-
-        return true;
     }
 
     /**
