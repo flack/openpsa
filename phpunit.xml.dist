@@ -13,4 +13,14 @@
         </testsuite>
     </testsuites>
 
+    <filter>
+        <whitelist>
+            <directory>./lib</directory>
+            <directory>./src</directory>
+            <exclude>
+                <directory>./lib/external</directory>
+            </exclude>
+        </whitelist>
+	</filter>
+
 </phpunit>
