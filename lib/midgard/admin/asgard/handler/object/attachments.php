@@ -16,7 +16,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
     /**
      * Current loaded object
      *
-     * @var MidCOM DBA object
+     * @var midcom_core_dbaobject
      */
     private $_object = null;
 
@@ -192,6 +192,14 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
         }
     }
 
+    private function prepare_object($guid)
+    {
+        midcom::get()->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
+        $this->_object = midcom::get()->dbfactory->get_object_by_guid($guid);
+        $this->_object->require_do('midgard:update');
+        $this->_object->require_do('midgard:attachments');
+    }
+
     /**
      * Handler for creating new attachments
      *
@@ -201,10 +209,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
      */
     public function _handler_create($handler_id, array $args, array &$data)
     {
-        $this->_object = midcom::get()->dbfactory->get_object_by_guid($args[0]);
-        $this->_object->require_do('midgard:update');
-        $this->_object->require_do('midgard:attachments');
-        midcom::get()->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
+        $this->prepare_object($args[0]);
 
         if ($filename = $this->_process_form())
         {
@@ -240,10 +245,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
      */
     public function _handler_edit($handler_id, array $args, array &$data)
     {
-        $this->_object = midcom::get()->dbfactory->get_object_by_guid($args[0]);
-        $this->_object->require_do('midgard:update');
-        $this->_object->require_do('midgard:attachments');
-        midcom::get()->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
+        $this->prepare_object($args[0]);
 
         $data['filename'] = $args[1];
         $this->_file = $this->_get_file($data['filename']);
@@ -313,10 +315,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
      */
     public function _handler_delete($handler_id, array $args, array &$data)
     {
-        $this->_object = midcom::get()->dbfactory->get_object_by_guid($args[0]);
-        $this->_object->require_do('midgard:update');
-        $this->_object->require_do('midgard:attachments');
-        midcom::get()->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
+        $this->prepare_object($args[0]);
 
         $filename = $args[1];
         $file = $this->_get_file($filename);
