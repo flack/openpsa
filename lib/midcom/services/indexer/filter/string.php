@@ -36,7 +36,6 @@ class midcom_services_indexer_filter_string extends midcom_services_indexer_filt
         parent::__construct($field);
 
         $this->value = $value;
-        $this->type = 'string';
     }
 
     public function get_query_string()

@@ -19,14 +19,6 @@
 abstract class midcom_services_indexer_filter
 {
     /**
-     * This variable is set by the subclass constructors and indicates
-     * the type of the filter.
-     *
-     * @var string
-     */
-    var $type = '';
-
-    /**
      * The name of the field that should be restricted.
      *
      * @var string

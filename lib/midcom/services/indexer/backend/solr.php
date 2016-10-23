@@ -222,8 +222,10 @@ class midcom_services_indexer_solrDocumentFactory
 
     /**
      * The xml document to post.
+     *
+     * @var DomDocument
      */
-    var $document = null;
+    private $xml;
 
     public function __construct($index_name)
     {
@@ -333,14 +335,14 @@ class midcom_services_indexer_solrRequest
      *
      * @var Buzz\Message\Request
      */
-    var $request;
+    private $request;
 
     /**
      * The xml factory
      */
-    var $factory;
+    private $factory;
 
-    public function __construct ($factory, $index_name = null)
+    public function __construct($factory)
     {
         $this->factory = $factory;
     }

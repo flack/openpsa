@@ -52,7 +52,6 @@ class midcom_services_indexer_filter_date extends midcom_services_indexer_filter
 
         $this->_start = $start;
         $this->_end = $end;
-        $this->type = 'datefilter';
     }
 
     /**
