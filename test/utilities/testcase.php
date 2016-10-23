@@ -467,7 +467,8 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
                     }
                 }
                 $classnames_string = implode(', ', $classnames);
-                throw new midcom_error('Maximum retry count for ' . $queue_name . ' cleanup reached (' . sizeof($queue) . ' remaining entries: ' . $classnames_string . '). Last Midgard error was: ' . midcom_connection::get_error_string());
+                self::fail('Maximum retry count for ' . $queue_name . ' cleanup reached (' . sizeof($queue) . ' remaining entries: ' . $classnames_string . '). Last Midgard error was: ' . midcom_connection::get_error_string());
+                $queue = array();
             }
         }
 
