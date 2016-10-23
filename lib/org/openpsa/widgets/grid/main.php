@@ -85,7 +85,7 @@ class org_openpsa_widgets_grid extends midcom_baseclasses_components_purecode
     private $_prepend_js;
 
     /**
-     * function that loads the necessary javascript & css files for jqgrid
+     * Adds the necessary javascript & css files for jqgrid
      */
     public static function add_head_elements()
     {

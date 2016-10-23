@@ -16,9 +16,11 @@ class org_openpsa_user_interface extends midcom_baseclasses_components_interface
     /**
      * Function to unblock an account after too many failed to login attempts
      *
-     * @param array $args Contains the guid, parameter & parameter names to get username&password
+     * @param array $args Contains the guid, parameter & parameter names to get username & password
+     * @param midcom_baseclasses_components_cron_handler $handler cron_handler object calling this method.
+     * @return boolean indicating success/failure
      */
-    function reopen_account($args, &$handler)
+    public function reopen_account(array $args, midcom_baseclasses_components_cron_handler $handler)
     {
         midcom::get()->auth->request_sudo($this->_component);
         try

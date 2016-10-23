@@ -22,7 +22,7 @@ class org_openpsa_helpers_list
      * @param string $mode By which property should groups be listed
      * @param array $contacts Default contacts for nonpersistent objects
      */
-    static function task_groups(midcom_core_dbaobject $task, $mode = 'id', array $contacts = array())
+    public static function task_groups(midcom_core_dbaobject $task, $mode = 'id', array $contacts = array())
     {
         //TODO: Localize something for the empty choice ?
         $ret = array(0 => '');
@@ -95,7 +95,7 @@ class org_openpsa_helpers_list
     /**
      * List tasks user can see
      */
-    static function projects($add_all = false)
+    public static function projects($add_all = false)
     {
         //Only query once per request
         static $cache = null;
@@ -123,7 +123,7 @@ class org_openpsa_helpers_list
     /**
      * List virtual groups of user
      */
-    static function workgroups($add_me = 'last', $show_members = false)
+    public static function workgroups($add_me = 'last', $show_members = false)
     {
         static $cache = array();
         // List user's ACL groups for usage in DM arrays

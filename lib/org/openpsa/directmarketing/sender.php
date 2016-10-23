@@ -142,7 +142,7 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
     /**
      * Sends $content to all members of the campaign
      */
-    function send_bg($url_base, $batch, $content, $from, $subject)
+    public function send_bg($url_base, $batch, $content, $from, $subject)
     {
         //TODO: Figure out how to recognize errors and pass the info on
         $this->send_output = false;

@@ -69,7 +69,7 @@ abstract class org_openpsa_directmarketing_importer extends midcom_baseclasses_c
      * @param mixed $input
      * @return array
      */
-    abstract function parse($input);
+    abstract public function parse($input);
 
     /**
      * Process the datamanager

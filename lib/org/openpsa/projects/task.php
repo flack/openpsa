@@ -166,7 +166,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
     /**
      * Populates contacts as resources lists
      */
-    function get_members()
+    public function get_members()
     {
         if (!$this->id)
         {

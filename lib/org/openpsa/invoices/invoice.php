@@ -208,7 +208,8 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
     }
 
     /**
-     * function to get the default value for invoice
+     * Get the default value for invoice
+     *
      * @param string $attribute
      */
     public function get_default($attribute)
@@ -341,7 +342,7 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
     /**
      * Get corresponding invoice_items indexed by GUID
      */
-    function get_invoice_items()
+    public function get_invoice_items()
     {
         $qb = org_openpsa_invoices_invoice_item_dba::new_query_builder();
         $qb->add_constraint('invoice', '=', $this->id);

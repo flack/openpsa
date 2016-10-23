@@ -59,7 +59,7 @@ class org_openpsa_user_validator extends midcom_admin_user_validator
      * @var array $fields The form's data
      * @return mixed True on success, array of error messages otherwise
      */
-    function username_exists(array $fields)
+    public function username_exists(array $fields)
     {
         $result = array();
         $user = midcom::get()->auth->get_user_by_name($fields["username"]);

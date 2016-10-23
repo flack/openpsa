@@ -112,7 +112,7 @@ class org_openpsa_directmarketing_campaign_dba extends midcom_core_dbaobject
      *
      * @return boolean indicating success/failure
      */
-    function update_smart_campaign_members()
+    public function update_smart_campaign_members()
     {
         if (!$this->id)
         {
@@ -191,7 +191,7 @@ class org_openpsa_directmarketing_campaign_dba extends midcom_core_dbaobject
     /**
      * Schedules a background memberships update for a smart campaign
      */
-    function schedule_update_smart_campaign_members($time = false)
+    public function schedule_update_smart_campaign_members($time = false)
     {
         if (!$this->id)
         {

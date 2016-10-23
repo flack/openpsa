@@ -113,7 +113,7 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
         $this->_deliverable_html .= "</span>\n";
     }
 
-    function get_state()
+    public function get_state()
     {
         switch ($this->state)
         {
@@ -134,14 +134,14 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
         return '';
     }
 
-    function get_at_entries()
+    public function get_at_entries()
     {
         $mc = new org_openpsa_relatedto_collector($this->guid, 'midcom_services_at_entry_dba');
         $mc->add_object_constraint('method', '=', 'new_subscription_cycle');
         return $mc->get_related_objects();
     }
 
-    function calculate_price($update = true)
+    public function calculate_price($update = true)
     {
         $calculator_class = midcom_baseclasses_components_configuration::get('org.openpsa.sales', 'config')->get('calculator');
         $calculator = new $calculator_class();
@@ -168,7 +168,7 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
      * @param integer $task_id The ID of the task that requested the update
      * @param array $hours The task's hours
      */
-    function update_units($task_id = 0, $hours = null)
+    public function update_units($task_id = 0, $hours = null)
     {
         debug_add('Units before update: ' . $this->units . ", uninvoiceable: " . $this->uninvoiceableUnits);
 
@@ -227,7 +227,7 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
     /**
      * Manually trigger a subscription cycle run.
      */
-    function run_cycle()
+    public function run_cycle()
     {
         $at_entries = $this->get_at_entries();
         if (!isset($at_entries[0]))
@@ -265,7 +265,7 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
         return true;
     }
 
-    function invoice()
+    public function invoice()
     {
         if (   $this->state >= self::STATE_INVOICED
             || $this->orgOpenpsaObtype == org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION)
@@ -284,7 +284,7 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
         return true;
     }
 
-    function decline()
+    public function decline()
     {
         if ($this->state >= self::STATE_DECLINED)
         {
@@ -312,7 +312,7 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
         return false;
     }
 
-    function order()
+    public function order()
     {
         if ($this->state >= self::STATE_ORDERED)
         {
@@ -370,7 +370,7 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
         return false;
     }
 
-    function deliver($update_deliveries = true)
+    public function deliver($update_deliveries = true)
     {
         if ($this->state > self::STATE_DELIVERED)
         {

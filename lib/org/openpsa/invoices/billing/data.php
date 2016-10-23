@@ -34,9 +34,9 @@ class org_openpsa_invoices_billing_data_dba extends midcom_core_dbaobject
     }
 
     /**
-     * function to render the address of billing_data
+     * Render the address
      */
-    function render_address()
+    public function render_address()
     {
         //add contact address if needed
         $this->set_address();
@@ -95,7 +95,7 @@ class org_openpsa_invoices_billing_data_dba extends midcom_core_dbaobject
      * Function to add the address of the contact(person/group) to the billing_data
      * if the flag useContactAddress is set
      */
-    function set_address()
+    public function set_address()
     {
         if ($this->useContactAddress && !empty($this->linkGuid))
         {

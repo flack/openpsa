@@ -37,7 +37,7 @@ implements midcom_services_permalinks_resolver
     /**
      * Locates the root group
      */
-    static function find_root_group($name = '__org_openpsa_contacts')
+    public static function find_root_group($name = '__org_openpsa_contacts')
     {
         static $root_groups = array();
 

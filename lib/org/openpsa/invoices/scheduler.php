@@ -214,7 +214,7 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
     /**
      * @todo Check if we already have an open task for this delivery?
      */
-    function create_task($start, $end, $title, $source_task = null)
+    public function create_task($start, $end, $title, $source_task = null)
     {
         $salesproject = org_openpsa_sales_salesproject_dba::get_cached($this->_deliverable->salesproject);
 
@@ -273,7 +273,7 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
      * @param integer $start The timestamp from which to begin
      * @return integer
      */
-    function calculate_cycles($months = null, $start = null)
+    public function calculate_cycles($months = null, $start = null)
     {
         if ($start === null)
         {

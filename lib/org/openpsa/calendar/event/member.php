@@ -59,7 +59,6 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
 
     function notify($type, org_openpsa_calendar_event_dba $event = null, $nl = "\n")
     {
-        $l10n = midcom::get()->i18n->get_l10n('org.openpsa.calendar');
         $recipient = $this->get_person_obj();
 
         if (!$recipient)
@@ -81,6 +80,7 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
             return false;
         }
 
+        $l10n = midcom::get()->i18n->get_l10n('org.openpsa.calendar');
         $message = array();
         $timeframe = $l10n->get_formatter()->timeframe($event->start, $event->end);
         $action = 'org.openpsa.calendar:event_' . $type;

@@ -133,7 +133,7 @@ class org_openpsa_projects_project extends midcom_core_dbaobject
     /**
      * Populates contacts as resources lists
      */
-    function get_members()
+    public function get_members()
     {
         if (!$this->guid)
         {

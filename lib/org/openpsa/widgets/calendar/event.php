@@ -121,7 +121,7 @@ class org_openpsa_widgets_calendar_event
     /**
      * Renders hEvent compatible and nice time label
      */
-    function render_timelabel($show_day_name = false)
+    public function render_timelabel($show_day_name = false)
     {
         $formatter = midcom::get()->i18n->get_l10n()->get_formatter();
 
