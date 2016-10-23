@@ -89,27 +89,25 @@ implements midcom_helper_datamanager2_interfaces_create
      * Get the item according to the given rule
      *
      * @param mixed $rule
-     * @return false on failure or net_nemein_redirector_tinyurl_dba on success
+     * @return net_nemein_redirector_tinyurl_dba
      */
     private function _get_item($rule)
     {
-        $mc = net_nemein_redirector_tinyurl_dba::new_collector('node', $this->_topic->guid);
+        $qb = net_nemein_redirector_tinyurl_dba::new_query_builder();
+        $qb->add_constraint('node', '=', $this->_topic->guid);
 
-        // Set the rules
-        $mc->begin_group('OR');
-            $mc->add_constraint('guid', '=', $rule);
-            $mc->add_constraint('name', '=', $rule);
-        $mc->end_group();
-        $mc->execute();
+        $qb->begin_group('OR');
+            $qb->add_constraint('guid', '=', $rule);
+            $qb->add_constraint('name', '=', $rule);
+        $qb->end_group();
+        $results = $qb->execute();
 
-        $keys = $mc->list_keys();
-
-        if (count($keys) === 0)
+        if (empty($results))
         {
-            return false;
+            throw new midcom_error_notfound('Item not found');
         }
 
-        return new net_nemein_redirector_tinyurl_dba(key($keys));
+        return new $results[0];
     }
 
     /**
@@ -157,13 +155,6 @@ implements midcom_helper_datamanager2_interfaces_create
     public function _handler_edit($handler_id, array $args, array &$data)
     {
         $this->_tinyurl = $this->_get_item($args[0]);
-
-        // Show error page on failure
-        if (!$this->_tinyurl)
-        {
-            throw new midcom_error_notfound('Item not found');
-        }
-
         $this->_tinyurl->require_do('midgard:update');
 
         // Edit controller
