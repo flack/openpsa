@@ -100,7 +100,7 @@ class midcom_helper_metadata
     /**
      * Datamanager instance for the given object.
      *
-     * @var midcom_helper_datamanager2
+     * @var midcom_helper_datamanager2_datamanager
      */
     private $_datamanager = null;
 
@@ -114,7 +114,7 @@ class midcom_helper_metadata
      * You may use objects derived from any MidgardObject will do as well as long
      * as the parameter call is available normally.
      *
-     * @param GUID $guid The GUID of the object
+     * @param string $guid The GUID of the object
      * @param mixed $object The MidgardObject to attach to.
      * @param string $schemadb The URL of the schemadb to use.
      * @see midcom_helper_metadata::retrieve()

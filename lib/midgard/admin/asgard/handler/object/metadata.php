@@ -19,7 +19,7 @@ implements midcom_helper_datamanager2_interfaces_edit
     /**
      * Object requested for metadata editing
      *
-     * @var mixed Object for metadata editing
+     * @var midcom_core_dbaobject Object for metadata editing
      */
     private $_object = null;
 

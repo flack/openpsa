@@ -88,7 +88,7 @@ class midcom_services_session
             $this->_domain = $context;
         }
 
-        $this->_sessioning = midcom::get("session");
+        $this->_sessioning = midcom::get()->session;
     }
 
     /**

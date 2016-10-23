@@ -15,14 +15,14 @@ implements midcom_helper_datamanager2_interfaces_create
     /**
      * TinyURL object
      *
-     * @var net_nemein_redirector_tinyurl
+     * @var net_nemein_redirector_tinyurl_dba
      */
-    private $_tinyurl = null;
+    private $_tinyurl;
 
     /**
      * TinyURL object array
      *
-     * @var array
+     * @var net_nemein_redirector_tinyurl_dba[]
      */
     private $_tinyurls = array();
 

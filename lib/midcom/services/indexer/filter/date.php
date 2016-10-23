@@ -38,8 +38,8 @@ class midcom_services_indexer_filter_date extends midcom_services_indexer_filter
      * direction.
      *
      * @param string $field The name of the field that should be filtered.
-     * @param string $start Start of filter range (or 0 for no start filter)
-     * @param string $end End of filter range (or 0 for no end filter)
+     * @param int $start Start of filter range (or 0 for no start filter)
+     * @param int $end End of filter range (or 0 for no end filter)
      */
     public function __construct($field, $start, $end)
     {

@@ -16,7 +16,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
     /**
      * Root types
      *
-     * @var string
+     * @var array
      */
     public $root_types = array();
 

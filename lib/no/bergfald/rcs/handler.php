@@ -49,9 +49,9 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_plugin
     private $_backend;
 
     /**
-     * Pointer to midgard object
+     * The object we're working on
      *
-     * @var midcom_db_object
+     * @var midcom_core_dbaobject
      */
     private $_object;
 

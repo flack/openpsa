@@ -70,10 +70,10 @@ class midcom_helper_nav
      * different contexts both referring to the same root node, you will get two
      * different instances.
      *
-     * @return midcom_helper_nav_backend&    A reference to the backend instance in the cache.
+     * @return midcom_helper_nav_backend The backend instance in the cache.
      * @see midcom_helper_nav
      */
-    private function & _get_backend()
+    private function _get_backend()
     {
         if (!isset(self::$_backends[$this->_contextid]))
         {

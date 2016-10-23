@@ -14,9 +14,9 @@ use midgard\introspection\helper;
  */
 class midcom_helper_reflector extends midcom_baseclasses_components_purecode
 {
-    public $mgdschema_class = false;
-    protected $_mgd_reflector = false;
-    protected $_dummy_object = false;
+    public $mgdschema_class;
+    protected $_mgd_reflector;
+    protected $_dummy_object;
 
     private static $_cache = array
     (
@@ -32,7 +32,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
     /**
      * Constructor, takes classname or object, resolved MgdSchema root class automagically
      *
-     * @param string/midgard_object $src classname or object
+     * @param string|midgard_object $src classname or object
      */
     public function __construct($src)
     {

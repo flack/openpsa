@@ -198,7 +198,7 @@ class midcom_core_collector extends midcom_core_query
      * They are indexed by GUID unless you specify something else
      *
      * @param array $fields The fields to get
-     * @param string $field the column name
+     * @param string $indexed_by the column name to be used as index
      * @return array
      */
     public function get_rows(array $fields, $indexed_by = 'guid')
