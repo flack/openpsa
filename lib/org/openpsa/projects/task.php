@@ -183,21 +183,18 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
         }
 
         $mc = org_openpsa_projects_task_resource_dba::new_collector('task', $this->id);
-        $mc->add_value_property('orgOpenpsaObtype');
-        $mc->add_value_property('person');
         $mc->add_constraint('orgOpenpsaObtype', '<>', org_openpsa_projects_task_resource_dba::PROSPECT);
-        $mc->execute();
-        $ret = $mc->list_keys();
+        $ret = $mc->get_rows(array('orgOpenpsaObtype', 'person'));
 
-        foreach (array_keys($ret) as $guid)
+        foreach ($ret as $data)
         {
-            if ($mc->get_subkey($guid, 'orgOpenpsaObtype') == org_openpsa_projects_task_resource_dba::CONTACT)
+            if ($data['orgOpenpsaObtype'] == org_openpsa_projects_task_resource_dba::CONTACT)
             {
-                $this->contacts[$mc->get_subkey($guid, 'person')] = true;
+                $this->contacts[$data['person']] = true;
             }
             else
             {
-                $this->resources[$mc->get_subkey($guid, 'person')] = true;
+                $this->resources[$data['person']] = true;
             }
         }
         return true;
@@ -206,7 +203,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
     /**
      * Adds new contacts or resources
      *
-     * @param string $property Where should thy be added
+     * @param string $property Where should they be added
      * @param array $ids The IDs of the contacts to add
      */
     function add_members($property, $ids)
@@ -216,6 +213,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
         {
             return;
         }
+
         foreach ($ids as $id)
         {
             $resource = new org_openpsa_projects_task_resource_dba();
@@ -253,18 +251,8 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
         }
 
         //Reset start and end to start/end of day
-        $this->start = mktime(  0,
-                                0,
-                                0,
-                                date('n', $this->start),
-                                date('j', $this->start),
-                                date('Y', $this->start));
-        $this->end = mktime(23,
-                            59,
-                            59,
-                            date('n', $this->end),
-                            date('j', $this->end),
-                            date('Y', $this->end));
+        $this->start = mktime(0, 0, 0, date('n', $this->start), date('j', $this->start), date('Y', $this->start));
+        $this->end = mktime(23, 59, 59, date('n', $this->end), date('j', $this->end), date('Y', $this->end));
 
         if ($this->start > $this->end)
         {
@@ -437,10 +425,6 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
         );
         //Simplistic approach
         $mc = org_openpsa_projects_task_status_dba::new_collector('task', $this->id);
-        $mc->add_value_property('type');
-        $mc->add_value_property('comment');
-        $mc->add_value_property('timestamp');
-
         if ($this->status > org_openpsa_projects_task_status_dba::PROPOSED)
         {
             //Only get proposed status objects here if are not over that phase
@@ -455,10 +439,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
         $mc->add_order('type', 'DESC'); //Our timestamps are not accurate enough so if we have multiple with same timestamp suppose highest type is latest
         $mc->set_limit(1);
 
-        $mc->execute();
-
-        $ret = $mc->list_keys();
-
+        $ret = $mc->get_rows(array('type', 'comment', 'timestamp'));
         if (empty($ret))
         {
             //Failure to get status object
@@ -467,24 +448,18 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
             debug_add('Could not find any status objects, defaulting to previous status');
             return $return;
         }
-
-        $main_ret = key($ret);
-        $type = $mc->get_subkey($main_ret, 'type');
+        $status = current($ret);
 
         //Update the status cache if necessary
-        if ($this->status != $type)
+        if ($this->status != $status['type'])
         {
-            $this->status = $type;
+            $this->status = $status['type'];
             $this->update();
         }
 
         //TODO: Check various combinations of accept/decline etc etc
-
-        $comment = $mc->get_subkey($main_ret, 'comment');
-        $return['status_comment'] = $comment;
-
-        $timestamp = $mc->get_subkey($main_ret, 'timestamp');
-        $return['status_time'] = $timestamp;
+        $return['status_comment'] = $status['comment'];
+        $return['status_time'] = $status['timestamp'];
 
         return $return;
     }

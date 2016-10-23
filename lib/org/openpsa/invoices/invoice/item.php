@@ -116,7 +116,7 @@ class org_openpsa_invoices_invoice_item_dba extends midcom_core_dbaobject
 
     public static function get_sum(array $constraints)
     {
-        if (sizeof($constraints) == 0)
+        if (count($constraints) == 0)
         {
             throw new midcom_error('Invalid constraints given');
         }
@@ -126,20 +126,15 @@ class org_openpsa_invoices_invoice_item_dba extends midcom_core_dbaobject
         $sum = 0;
 
         $mc = self::new_collector($field, $value);
-        $mc->add_value_property('units');
-        $mc->add_value_property('pricePerUnit');
-
         foreach ($constraints as $field => $value)
         {
             $mc->add_constraint($field, '=', $value);
         }
 
-        $mc->execute();
-        $keys = $mc->list_keys();
-
-        foreach (array_keys($keys) as $key)
+        $results = $mc->get_rows(array('units', 'pricePerUnit'));
+        foreach ($results as $result)
         {
-            $sum += $mc->get_subkey($key, 'units') * $mc->get_subkey($key, 'pricePerUnit');
+            $sum += $result['units'] * $result['pricePerUnit'];
         }
 
         return $sum;

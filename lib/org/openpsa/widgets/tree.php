@@ -116,36 +116,33 @@ JSINIT;
     {
         $data = array();
 
+        $value_properties = array('id');
         $mc = midcom::get()->dbfactory->new_collector($this->_object_class, $this->_parent_field, (int) $id);
-        $mc->add_value_property('id');
-
-        foreach ($this->title_fields as $field)
-        {
-            $mc->add_value_property($field);
-            $mc->add_order($field);
-        }
         foreach ($this->constraints as $constraint)
         {
             $mc->add_constraint($constraint[0], $constraint[1], $constraint[2]);
         }
+        foreach ($this->title_fields as $field)
+        {
+            $value_properties[] = $field;
+            $mc->add_order($field);
+        }
 
-        $mc->execute();
-        $keys = $mc->list_keys();
-
-        if (sizeof($keys) === 0)
+        $results = $mc->get_rows($value_properties);
+        if (count($results) === 0)
         {
             return;
         }
 
-        foreach (array_keys($keys) as $guid)
+        foreach ($results as $guid => $values)
         {
             $entry = array('guid' => $guid);
 
             foreach ($this->title_fields as $field)
             {
-                if (($title = $mc->get_subkey($guid, $field)))
+                if (!empty($values[$field]))
                 {
-                    $entry['title'] = $title;
+                    $entry['title'] = $values[$field];
                     break;
                 }
             }
@@ -154,7 +151,7 @@ JSINIT;
                 $entry['title'] = $this->_l10n->get('unknown');
             }
 
-            $entry['children'] = $this->_list_items($mc->get_subkey($guid, 'id'));
+            $entry['children'] = $this->_list_items($values['id']);
             $data[] = $entry;
         }
         return $data;

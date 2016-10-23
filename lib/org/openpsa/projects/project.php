@@ -150,21 +150,18 @@ class org_openpsa_projects_project extends midcom_core_dbaobject
         }
 
         $mc = org_openpsa_contacts_role_dba::new_collector('objectGuid', $this->guid);
-        $mc->add_value_property('role');
-        $mc->add_value_property('person');
         $mc->add_constraint('role', '<>', org_openpsa_projects_task_resource_dba::PROSPECT);
-        $mc->execute();
-        $ret = $mc->list_keys();
+        $ret = $mc->get_rows(array('role', 'person'));
 
-        foreach ($ret as $guid => $empty)
+        foreach ($ret as $data)
         {
-            if ($mc->get_subkey($guid, 'role') == org_openpsa_projects_task_resource_dba::CONTACT)
+            if ($data['role'] == org_openpsa_projects_task_resource_dba::CONTACT)
             {
-                $this->contacts[$mc->get_subkey($guid, 'person')] = true;
+                $this->contacts[$data['person']] = true;
             }
             else
             {
-                $this->resources[$mc->get_subkey($guid, 'person')] = true;
+                $this->resources[$data['person']] = true;
             }
         }
         return true;

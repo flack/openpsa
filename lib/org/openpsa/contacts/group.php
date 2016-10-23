@@ -25,7 +25,7 @@ class org_openpsa_contacts_group_dba extends midcom_core_dbaobject
     const DAUGHTER = 1001;
     const DEPARTMENT = 1002;
 
-    var $members = array();
+    private $members = array();
     private $_members_loaded = false;
     private $_register_prober = false;
     private $_address_extras = array();

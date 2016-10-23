@@ -77,12 +77,12 @@ use midgard\introspection\helper;
 class org_openpsa_directmarketing_campaign_ruleresolver
 {
     private $rules = array(); //Copy of rules as received
-    private $result_mc; // Contact-qb containing results
+    private $mc; // Contact-qb containing results
 
     public function __construct()
     {
         // if querybuilder is used response-time will increase -> set_key_property has to be removed
-        $this->result_mc = org_openpsa_contacts_person_dba::new_collector('metadata.deleted', false);
+        $this->mc = org_openpsa_contacts_person_dba::new_collector('metadata.deleted', false);
     }
 
     /**
@@ -90,7 +90,7 @@ class org_openpsa_directmarketing_campaign_ruleresolver
      */
     public function get_mc()
     {
-        return $this->result_mc;
+        return $this->mc;
     }
 
     /**
@@ -141,7 +141,7 @@ class org_openpsa_directmarketing_campaign_ruleresolver
         $this->rules = $rules;
         $stat = true;
         //start with first group
-        $this->result_mc->begin_group(strtoupper($rules['type']));
+        $this->mc->begin_group(strtoupper($rules['type']));
         reset ($rules['classes']);
         //iterate over groups
         foreach ($rules['classes'] as $group)
@@ -152,7 +152,7 @@ class org_openpsa_directmarketing_campaign_ruleresolver
                 break;
             }
         }
-        $this->result_mc->end_group();
+        $this->mc->end_group();
 
         return $stat;
     }
@@ -164,26 +164,8 @@ class org_openpsa_directmarketing_campaign_ruleresolver
      */
     public function execute()
     {
-        $this->result_mc->add_value_property('lastname');
-        $this->result_mc->add_value_property('firstname');
-        $this->result_mc->add_value_property('email');
-        $this->result_mc->add_value_property('id');
-        $this->result_mc->add_order('lastname', 'ASC');
-        $this->result_mc->execute();
-        $results = $this->result_mc->list_keys();
-        $ret = array();
-        foreach (array_keys($results) as $key)
-        {
-            $ret[$this->result_mc->get_subkey($key, 'id')] = array
-            (
-                'lastname' => $this->result_mc->get_subkey($key, 'lastname'),
-                'firstname' => $this->result_mc->get_subkey($key, 'firstname'),
-                'email' => $this->result_mc->get_subkey($key, 'email'),
-                'guid' => $key,
-            );
-        }
-
-        return $ret;
+        $this->mc->add_order('lastname', 'ASC');
+        return $this->mc->get_rows(array('lastname', 'firstname', 'email', 'guid'), 'id');
     }
 
     /**
@@ -197,12 +179,12 @@ class org_openpsa_directmarketing_campaign_ruleresolver
         //check if rule is a group
         if (array_key_exists('groups', $group))
         {
-            $this->result_mc->begin_group(strtoupper($group['groups']));
+            $this->mc->begin_group(strtoupper($group['groups']));
             foreach ($group['classes'] as $subgroup)
             {
                 $this->resolve_rule_group($subgroup);
             }
-            $this->result_mc->end_group();
+            $this->mc->end_group();
             return true;
         }
         if (!array_key_exists('rules', $group))
@@ -270,7 +252,7 @@ class org_openpsa_directmarketing_campaign_ruleresolver
      */
     private function add_person_rule(array $rule)
     {
-        return $this->result_mc->add_constraint($rule['property'], $rule['match'], $rule['value']);
+        return $this->mc->add_constraint($rule['property'], $rule['match'], $rule['value']);
     }
 
     /**
@@ -297,7 +279,7 @@ class org_openpsa_directmarketing_campaign_ruleresolver
             //build constraint only if on 'LIKE' or '=' should be matched
             if ($rule['match'] == 'LIKE' || $rule['match'] == '=')
             {
-                return $this->result_mc->add_constraint('id', '=', -1);
+                return $this->mc->add_constraint('id', '=', -1);
             }
             return true;
         }
@@ -386,7 +368,7 @@ class org_openpsa_directmarketing_campaign_ruleresolver
             $persons[] = $mc_misc->get_subkey($key, $person_property);
         }
 
-        return $this->result_mc->add_constraint('id', $constraint_match, $persons);
+        return $this->mc->add_constraint('id', $constraint_match, $persons);
     }
 
     public static function build_property_map(midcom_services_i18n_l10n $l10n)

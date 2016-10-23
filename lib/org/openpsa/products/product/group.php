@@ -115,47 +115,41 @@ class org_openpsa_products_product_group_dba extends midcom_core_dbaobject
             $up = $group->id;
         }
 
-        $mc = org_openpsa_products_product_group_dba::new_collector('up', (int)$up);
-
-        $mc->add_value_property('title');
-        $mc->add_value_property('code');
-        $mc->add_value_property('id');
+        $value_properties = array('title', 'code', 'id');
         if ($keyproperty !== 'id')
         {
-            $mc->add_value_property($keyproperty);
+            $value_properties[] = $keyproperty;
         }
         foreach ($label_fields as $fieldname)
         {
-            if (   $fieldname == 'id'
-                || $fieldname == $keyproperty)
+            if (   $fieldname != 'id'
+                && $fieldname != $keyproperty)
             {
+                $value_properties[] = $fieldname;
                 continue;
             }
-            $mc->add_value_property($fieldname);
         }
-        unset($fieldname);
 
-        // Order by score if required
+        $mc = org_openpsa_products_product_group_dba::new_collector('up', (int)$up);
         if ($order_by_score)
         {
             $mc->add_order('metadata.score', 'DESC');
         }
         $mc->add_order('code');
         $mc->add_order('title');
-        $mc->execute();
-        $mc_keys = $mc->list_keys();
-        foreach ($mc_keys as $mc_key => $dummy)
+        $results = $mc->get_rows($value_properties);
+
+        foreach ($results as $result)
         {
-            $id = $mc->get_subkey($mc_key, 'id');
-            $key = $mc->get_subkey($mc_key, $keyproperty);
+            $key = $result[$keyproperty];
             $ret[$key] = $prefix;
             foreach ($label_fields as $fieldname)
             {
-                $field_val = $mc->get_subkey($mc_key, $fieldname);
+                $field_val = $result[$fieldname];
                 $ret[$key] .= "{$field_val} ";
             }
 
-            $ret = $ret + self::list_groups($id, "{$prefix} > ", $keyproperty, $order_by_score, $label_fields);
+            $ret = $ret + self::list_groups($result['id'], "{$prefix} > ", $keyproperty, $order_by_score, $label_fields);
         }
 
         return $ret;

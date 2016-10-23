@@ -54,16 +54,6 @@ class org_openpsa_mypage_handler_workingon extends midcom_baseclasses_components
      */
     private function _list_work_hours()
     {
-        $hours_mc = org_openpsa_projects_hour_report_dba::new_collector('person', midcom_connection::get_user());
-        $hours_mc->add_value_property('task');
-        $hours_mc->add_value_property('invoiceable');
-        $hours_mc->add_value_property('hours');
-        $hours_mc->add_constraint('date', '>=', $this->_request_data['week_start']);
-        $hours_mc->add_constraint('date', '<=', $this->_request_data['week_end']);
-        $hours_mc->execute();
-
-        $hours = $hours_mc->list_keys();
-
         $this->_request_data['customers'] = array();
         $this->_request_data['hours'] = array
         (
@@ -73,9 +63,14 @@ class org_openpsa_mypage_handler_workingon extends midcom_baseclasses_components
             'total_uninvoiceable' => 0,
         );
 
-        foreach (array_keys($hours) as $guid)
+        $hours_mc = org_openpsa_projects_hour_report_dba::new_collector('person', midcom_connection::get_user());
+        $hours_mc->add_constraint('date', '>=', $this->_request_data['week_start']);
+        $hours_mc->add_constraint('date', '<=', $this->_request_data['week_end']);
+
+        $reports = $hours_mc->get_rows(array('task', 'invoiceable', 'hours'));
+        foreach ($reports as $report)
         {
-            $this->_add_hour_data($hours_mc->get($guid));
+            $this->_add_hour_data($report);
         }
     }
 

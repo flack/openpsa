@@ -250,22 +250,16 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
         }
 
         $mc = net_nemein_tag_tag_dba::new_collector('metadata.deleted', false);
-        $mc->add_value_property('tag');
-        $mc->add_value_property('url');
-        $mc->add_value_property('id');
         $mc->add_constraint('id', 'IN', array_keys($links));
-        $mc->execute();
-        $tag_guids = $mc->list_keys();
+        $results = $mc->get_rows(array('tag', 'url', 'id'));
 
-        foreach ($tag_guids as $tag_guid => $value)
+        foreach ($results as $result)
         {
-            $tag = $mc->get_subkey($tag_guid, 'tag');
-            $url = $mc->get_subkey($tag_guid, 'url');
-            $context = $link_mc->get_subkey($mc->get_subkey($tag_guid, 'id'), 'context');
-            $value = $link_mc->get_subkey($mc->get_subkey($tag_guid, 'id'), 'value');
+            $context = $link_mc->get_subkey($result['id'], 'context');
+            $value = $link_mc->get_subkey($result['id'], 'value');
 
-            $tagname = self::tag_link2tagname($tag, $value, $context);
-            $tags[$tagname] = $url;
+            $tagname = self::tag_link2tagname($result['tag'], $value, $context);
+            $tags[$tagname] = $result['url'];
         }
         return $tags;
     }
@@ -365,16 +359,12 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
         }
 
         $mc = net_nemein_tag_tag_dba::new_collector('metadata.deleted', false);
-        $mc->add_value_property('tag');
-        $mc->add_value_property('url');
-        $mc->add_value_property('id');
         $mc->add_constraint('id', 'IN', array_keys($links));
-        $mc->execute();
-        $tag_guids = $mc->list_keys();
+        $results = $mc->get_rows(array('tag', 'url', 'id'));
 
-        foreach ($tag_guids as $tag_guid => $value)
+        foreach ($results as $result)
         {
-            $context = $link_mc->get_subkey($tag_guid, 'context');
+            $context = $link_mc->get_subkey($result['id'], 'context');
             if (empty($context))
             {
                 $context = 0;
@@ -385,12 +375,10 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
                 $tags[$context] = array();
             }
 
-            $tag = $mc->get_subkey($tag_guid, 'tag');
-            $url = $mc->get_subkey($tag_guid, 'url');
-            $value = $link_mc->get_subkey($mc->get_subkey($tag_guid, 'id'), 'value');
+            $value = $link_mc->get_subkey($result['id'], 'value');
+            $tagname = self::tag_link2tagname($result['tag'], $value, $context);
 
-            $tagname = self::tag_link2tagname($tag, $value, $context);
-            $tags[$context][$tagname] = $url;
+            $tags[$context][$tagname] = $result['url'];
         }
         return $tags;
     }

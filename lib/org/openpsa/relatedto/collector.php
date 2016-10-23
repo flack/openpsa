@@ -203,25 +203,22 @@ class org_openpsa_relatedto_collector extends midcom_core_collector
         $entries = array();
         $guids = array();
 
-        $this->add_value_property($key);
-
         $this->add_constraint('status', '<>', org_openpsa_relatedto_dba::NOTRELATED);
-        $this->execute();
-        $relations = $this->list_keys();
+        $relations = $this->get_rows(array($key));
 
         if (sizeof($relations) == 0)
         {
             return $entries;
         }
 
-        foreach ($relations as $guid => $empty)
+        foreach ($relations as $relation)
         {
-            $group_value = $this->get_subkey($guid, $key);
+            $group_value = $relation[$key];
             if (!array_key_exists($group_value, $guids))
             {
                 $guids[$group_value] = array();
             }
-            $guids[$group_value][] = $this->get_subkey($guid, $this->_other_prefix . 'Guid');
+            $guids[$group_value][] = $relation[$this->_other_prefix . 'Guid'];
         }
 
         foreach ($guids as $group_value => $grouped_guids)
@@ -233,7 +230,10 @@ class org_openpsa_relatedto_collector extends midcom_core_collector
                 $this->_apply_object_constraints($qb);
                 $this->_apply_object_orders($qb);
                 $this->_apply_object_limit($qb);
-                $entries[$group_value] = array();
+                if (!array_key_exists($group_value, $entries))
+                {
+                    $entries[$group_value] = array();
+                }
                 $entries[$group_value] = array_merge($entries[$group_value], $qb->execute());
             }
         }
