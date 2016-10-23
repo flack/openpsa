@@ -185,19 +185,15 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
 
         // List hours from tasks of the agreement
         $mc = org_openpsa_projects_task_dba::new_collector('agreement', $this->id);
-        $mc->add_value_property('reportedHours');
-        $mc->add_value_property('invoicedHours');
-        $mc->add_value_property('invoiceableHours');
         $mc->add_constraint('id', '<>', $task_id);
-        $mc->execute();
-        $other_tasks = $mc->list_keys();
+        $other_tasks = $mc->get_rows(array('reportedHours', 'invoicedHours', 'invoiceableHours'));
 
-        foreach (array_keys($other_tasks) as $guid)
+        foreach ($other_tasks as $other_task)
         {
             // Add the hours of the other tasks to agreement's totals
-            $agreement_hours['reported'] += $mc->get_subkey($guid, 'reportedHours');
-            $agreement_hours['invoiced'] += $mc->get_subkey($guid, 'invoicedHours');
-            $agreement_hours['invoiceable'] += $mc->get_subkey($guid, 'invoiceableHours');
+            $agreement_hours['reported'] += $other_task['reportedHours'];
+            $agreement_hours['invoiced'] += $other_task['invoicedHours'];
+            $agreement_hours['invoiceable'] += $other_task['invoiceableHours'];
         }
 
         // Update units on the agreement with invoiceable hours
