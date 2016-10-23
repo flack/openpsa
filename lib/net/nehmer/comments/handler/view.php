@@ -216,6 +216,9 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
      */
     public function _handler_comments($handler_id, array $args, array &$data)
     {
+        $this->_process_admintoolbar();
+        // This might exit.
+
         if (! mgd_is_guid($args[0]))
         {
             throw new midcom_error("The GUID '{$args[0]}' is invalid. Cannot continue.");
@@ -260,9 +263,6 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
         {
             $this->_init_display_datamanager();
         }
-
-        $this->_process_admintoolbar();
-        // This might exit.
 
         if (   $handler_id == 'view-comments-custom'
             && count($args) > 1)
