@@ -170,29 +170,12 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
             $this->contact_details['lastname'] = $person->lastname;
         }
 
-        if ($person->handphone)
+        foreach (array('handphone', 'workphone', 'homephone', 'email', 'homepage') as $property)
         {
-            $this->contact_details['handphone'] = $person->handphone;
-        }
-
-        if ($person->workphone)
-        {
-            $this->contact_details['workphone'] = $person->workphone;
-        }
-
-        if ($person->homephone)
-        {
-            $this->contact_details['homephone'] = $person->homephone;
-        }
-
-        if ($person->email)
-        {
-            $this->contact_details['email'] = $person->email;
-        }
-
-        if ($person->homepage)
-        {
-            $this->contact_details['homepage'] = $person->homepage;
+            if ($person->$property)
+            {
+                $this->contact_details[$property] = $person->$property;
+            }
         }
 
         if (   $this->_config->get('jabber_enable_presence')
@@ -274,7 +257,7 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
     /**
      * Show the selected person. Outputs hCard XHTML.
      */
-    function show()
+    public function show()
     {
         if (!$this->_data_read_ok)
         {
