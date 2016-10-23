@@ -18,7 +18,7 @@ class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_comp
      *
      * @var string
      */
-    var $membership_mode = false;
+    private $membership_mode;
 
     protected $_schema = 'export';
 
@@ -52,12 +52,12 @@ class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_comp
 
         foreach ($members as $member)
         {
-            $this->_process_member($member, $rows);
+            $this->process_member($member, $rows);
         }
         return $rows;
     }
 
-    private function _process_member(org_openpsa_directmarketing_campaign_member_dba $member, array &$rows)
+    private function process_member(org_openpsa_directmarketing_campaign_member_dba $member, array &$rows)
     {
         try
         {
@@ -68,6 +68,13 @@ class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_comp
             $e->log();
             return;
         }
+
+        $row = array
+        (
+            'person' => $person,
+            'campaign_member' => $member
+        );
+
         $qb_memberships = midcom_db_member::new_query_builder();
         $qb_memberships->add_constraint('uid', '=', $member->person);
 
@@ -83,12 +90,7 @@ class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_comp
             }
             foreach ($memberships as $membership)
             {
-                $row = array
-                (
-                    'person' => $person,
-                    'campaign_member' => $member,
-                    'organization_member' => $membership
-                );
+                $row['organization_member'] = $membership;
                 try
                 {
                     $row['organization'] = org_openpsa_contacts_group_dba::get_cached($membership->gid);
@@ -100,14 +102,7 @@ class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_comp
                 }
             }
         }
-        else
-        {
-            $row = array
-            (
-                'person' => $person,
-                'campaign_member' => $member
-            );
-        }
+
         $rows[] = $row;
     }
 }
