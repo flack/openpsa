@@ -26,8 +26,6 @@ then
     tar zxf ${MIDGARD_EXT_VERSION}
     sh -c "cd midgardproject-midgard-php5-*&& ../pake/bin/pake install"
     echo "extension=midgard2.so" >> `php --ini | grep "Loaded Configuration" | sed -e "s|.*:\s*||"`
-else
-    ${COMPOSER} require openpsa/midgard-portable:dev-master
 fi
 
 ${COMPOSER} install

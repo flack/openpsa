@@ -21,41 +21,31 @@ three different environments supported:
   webserver or database choice. PHP 5.4 is recommended
 
 * [midgard-portable](https://github.com/flack/midgard-portable), which is based on [Doctrine](http://www.doctrine-project.org/), 
-  so it will support all environments Doctrine supports. Be advised that midgard-portable is still considered experimental
+  so it will support all environments Doctrine supports.
 
-The repository's `composer.json` does not force any of those choices, but you will have to select one to be able to 
+The repository's `composer.json` installs `midgard-portable` by default, but you can still select one of the others to
 run the application.
 
 On the client side, all modern web browser should work
 
-## Setting up a Midgard server
+## Setup
 
-You need `php-cgi` (typically at `/etc/php5/cgi/conf.d/midgard2.ini`) with some settings that open a Midgard2 database connection:
+You can either clone this repo or add `openpsa/midcom` to your `composer.json`
 
-    extension=midgard2.so
+Then, change to your project's root dir and use Composer to install PHP dependencies
 
-    [midgard2]
-    midgard.engine = On
-    midgard.http = On
-    midgard.configuration_file="/etc/midgard2/conf.d/openpsa"
-
-Next you should install OpenPSA under your document root:
-
-    $ cp -R openpsa /var/www/
-
-Then, use Composer to install PHP dependencies
-
-    $ cd /var/www/openpsa
     $ wget http://getcomposer.org/installer && php installer
     $ php composer.phar install
 
+Next you should make OpenPSA available under your document root:
+
+    $ ln -s web /var/www/yourdomain
 
 This will setup the project directory for OpenPSA usage. You can then create new database by running:
 
     $ ./vendor/bin/openpsa-installer midgard2:setup
 
 See the [openpsa-installer](https://github.com/flack/openpsa-installer) documentation for more details.
-
 
 ## Setting up Lighttpd
 
@@ -100,3 +90,14 @@ And use something like this in your vhost config (or .htaccess file):
     RewriteEngine On
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^(.*)$ /openpsa/rootfile.php [QSA,L]
+
+## Setting up a Midgard2 server
+
+You need `php-cgi` (typically at `/etc/php5/cgi/conf.d/midgard2.ini`) with some settings that open a Midgard2 database connection:
+
+    extension=midgard2.so
+
+    [midgard2]
+    midgard.engine = On
+    midgard.http = On
+    midgard.configuration_file="/etc/midgard2/conf.d/openpsa"
