@@ -177,10 +177,6 @@ class midcom_config_test
         {
             $this->add("Bytecode cache", self::OK, "APC is enabled");
         }
-        else if (ini_get("eaccelerator.enable") == "1")
-        {
-            $this->add("Bytecode cache", self::OK, "eAccelerator is enabled");
-        }
         else
         {
             $this->add("Bytecode cache", self::WARNING, "A PHP bytecode cache is recommended for efficient MidCOM operation");
