@@ -23,7 +23,7 @@
  *
  * <code>
  * $GLOBALS['midcom_config_site']['cache_module_content_backend'] =
- *     Array ('directory' => 'content/', 'driver' => 'dba');
+ *     Array ('directory' => 'content/', 'driver' => 'sqlite');
  * </code>
  *
  * <b>Instance-specific configuration:</b>
@@ -101,8 +101,7 @@
  *   Check the documentation of midcom_services_cache_backend of what options are available here.
  *   In general, you should use this only to change the backend driver.
  *   In all other cases you should leave this option untouched. The defaults are to store all
- *   cache databases into the 'content/' subdirectory of the cache base directory, using the
- *   dba driver.
+ *   cache databases into the 'content/' subdirectory of the cache base directory.
  * - <b>string cache_module_content_name:</b> The identifier, the content cache should use for
  *   naming the files/directories it creates. This defaults to a string constructed out of the
  *   host's name, port and prefix. You should only change this if you run multiple MidCOM
@@ -127,8 +126,8 @@
  *   Check the documentation of midcom_services_cache_backend of what options are available here.
  *   In general, you should use this only to change the backend driver.
  *   In all other cases you should leave this option untouched. The defaults are to store all
- *   cache databases into the 'nap/' subdirectory of the cache base directory, using the
- *   dba driver. The databases are named after the root topic guid, which should be sufficient
+ *   cache databases into the 'nap/' subdirectory of the cache base directory.
+ *   The databases are named after the root topic guid, which should be sufficient
  *   in all cases. If you really want to separate things here, use different directories for
  *   the backends.
  * - <b>string cache_module_memcache_backend:</b> The cache backend to use for the memcache caching

@@ -41,33 +41,19 @@
  */
 class midcom_services_cache_module_memcache extends midcom_services_cache_module
 {
-    /**#@+
-     * Internal runtime state variable.
-     */
-
-    /**
-     * The configuration to use to start up the backend drivers. Initialized during
-     * startup from the MidCOM configuration key cache_module_nap_backend.
-     *
-     * @var Array
-     */
-    private $_backend = null;
-
     /**
      * List of known data groups. See the class introduction for details.
      *
      * @var Array
      */
-    private $_data_groups = null;
+    private $_data_groups = array();
 
     /**
      * The cache backend instance to use.
      *
-     * @var midcom_services_cache_backend
+     * @var Doctrine\Common\Cache\CacheProvider
      */
-    private $_cache = null;
-
-    /**#@-*/
+    private $_cache;
 
     /**
      * Initialization event handler.
@@ -78,13 +64,11 @@ class midcom_services_cache_module_memcache extends midcom_services_cache_module
      */
     public function _on_initialize()
     {
-        $this->_backend = midcom::get()->config->get('cache_module_memcache_backend');
-
-        if ($this->_backend)
+        if ($driver = midcom::get()->config->get('cache_module_memcache_backend'))
         {
             $this->_data_groups = midcom::get()->config->get('cache_module_memcache_data_groups');
             $config = midcom::get()->config->get('cache_module_memcache_backend_config');
-            $config['driver'] = $this->_backend;
+            $config['driver'] = $driver;
             $this->_cache = $this->_create_backend('module_memcache', $config);
         }
     }
@@ -100,12 +84,12 @@ class midcom_services_cache_module_memcache extends midcom_services_cache_module
             {
                 if ($group == 'ACL')
                 {
-                    $this->_cache->_remove("{$group}-SELF::{$guid}");
-                    $this->_cache->_remove("{$group}-CONTENT::{$guid}");
+                    $this->_cache->delete("{$group}-SELF::{$guid}");
+                    $this->_cache->delete("{$group}-CONTENT::{$guid}");
                 }
                 else
                 {
-                    $this->_cache->_remove("{$group}-{$guid}");
+                    $this->_cache->delete("{$group}-{$guid}");
                 }
             }
         }
@@ -127,7 +111,7 @@ class midcom_services_cache_module_memcache extends midcom_services_cache_module
             return false;
         }
 
-        return $this->_cache->get("{$data_group}-{$key}");
+        return $this->_cache->fetch("{$data_group}-{$key}");
     }
 
     /**
@@ -144,7 +128,7 @@ class midcom_services_cache_module_memcache extends midcom_services_cache_module
             return false;
         }
 
-        return $this->_cache->exists("{$data_group}-{$key}");
+        return $this->_cache->contains("{$data_group}-{$key}");
     }
 
     /**
@@ -163,7 +147,7 @@ class midcom_services_cache_module_memcache extends midcom_services_cache_module
             return;
         }
 
-        if (! in_array($data_group, $this->_data_groups))
+        if (!in_array($data_group, $this->_data_groups))
         {
             debug_add("Tried to add data to the unknown data group {$data_group}, cannot do that.", MIDCOM_LOG_WARN);
             debug_print_r('Known data groups:', $this->_data_groups);
@@ -176,11 +160,11 @@ class midcom_services_cache_module_memcache extends midcom_services_cache_module
             // if a timeout is specified, we have to pass to the driver directly, since
             // the memory cache in the baseclass would drop the timeout information
             // TODO: This needs to be solved in a more general way at some point
-            $this->_cache->_put("{$data_group}-{$key}", $data, $timeout);
+            $this->_cache->save("{$data_group}-{$key}", $data, $timeout);
         }
         else
         {
-            $this->_cache->put("{$data_group}-{$key}", $data);
+            $this->_cache->save("{$data_group}-{$key}", $data);
         }
     }
 

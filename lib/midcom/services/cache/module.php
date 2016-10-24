@@ -6,6 +6,9 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use Doctrine\Common\Cache;
+use Doctrine\Common\Cache\CacheProvider;
+
 /**
  * This is the base class for the MidCOM cache modules. It provides a basic infrastructure
  * for building your own caching service, providing hooks for initialization and shutdown.
@@ -20,17 +23,10 @@
 abstract class midcom_services_cache_module
 {
     /**
-     * Current configuration.
-     *
-     * @var Array
-     */
-    protected $_config = null;
-
-    /**
      * A list of all backends created by _create_backend(). They will be automatically
      * shut down when the module shuts down. They are indexed by their name.
      *
-     * @var Array
+     * @var Doctrine\Common\Cache\CacheProvider[]
      */
     protected $_backends = Array();
 
@@ -54,19 +50,11 @@ abstract class midcom_services_cache_module
     }
 
     /**
-     * Shuts the module down. This will fist call the corresponding event handler, and will
-     * close all registered backends <i>afterwards</i>.
+     * Shuts the module down. This will call the corresponding event handler
      */
     function shutdown()
     {
-        // First call the shutdown event.
         $this->_on_shutdown();
-
-        // Now close all backends.
-        foreach ($this->_backends as $backend)
-        {
-            $backend->shutdown();
-        }
     }
 
     /**
@@ -83,7 +71,7 @@ abstract class midcom_services_cache_module
      * @param string $name The name of the backend, must be unique throughout the system.
      * @param array $config The configuration of the backend to create. It must contain
      *     the key 'driver', which indicates which backend to use.
-     * @return midcom_services_cache_backend A reference to the new backend.
+     * @return Doctrine\Common\Cache\CacheProvider The new backend.
      */
     protected function _create_backend($name, array $config)
     {
@@ -94,22 +82,63 @@ abstract class midcom_services_cache_module
             throw new midcom_error("Cannot create backend driver instance {$name}: A backend with this name does already exist.");
         }
 
-        if (! array_key_exists('driver', $config))
+        if (!array_key_exists('driver', $config))
         {
             throw new midcom_error("Cannot create backend driver instance {$name}: The driver class is not specified in the configuration.");
         }
-        $classname = "midcom_services_cache_backend_{$config['driver']}";
 
-        if (! class_exists($classname))
+        if (is_string($config['driver']))
         {
-            throw new midcom_error("Cannot create backend driver instance {$name}: The class {$classname} was not found.");
+            $backend = $this->prepare_backend($config, $name);
         }
-        $backend = new $classname();
-        $backend->initialize($name, $config);
+        else
+        {
+            $backend = $config['driver'];
+        }
+        $backend->setNamespace($name);
 
         $this->_backends[$name] = $backend;
 
         return $backend;
+    }
+
+    private function prepare_backend(array $config, $name)
+    {
+        $directory = midcom::get()->config->get('cache_base_directory');
+        if (!empty($config['directory']))
+        {
+            $directory .= $config['directory'];
+        }
+
+        switch ($config['driver'])
+        {
+            case 'memcached':
+                $host = !empty($config['host']) ? $config['host'] : 'localhost';
+                $port = !empty($config['port']) ? $config['port'] : 11211;
+                $memcache = new Memcache;
+                $memcache->pconnect($host, $port);
+                $backend = new Cache\MemcacheCache();
+                $backend->setMemcache($memcache);
+                break;
+            case 'apc':
+                $backend = new Cache\ApcCache();
+                break;
+            case 'dba':
+                // fall-through
+            case 'flatfile':
+                $backend = new Cache\FilesystemCache($directory . $name);
+                break;
+            case 'sqlite':
+                $sqlite = new SQLite3("{$directory}/{$name}.db");
+                $table = str_replace(array('.', '-'), '_', $name);
+                $backend = new Cache\SQLite3Cache($sqlite, $table);
+                break;
+            case 'null':
+            default:
+                $backend = new Cache\VoidCache();
+                break;
+        }
+        return new Cache\ChainCache(array(new Cache\ArrayCache, $backend));
     }
 
     /**
@@ -130,16 +159,15 @@ abstract class midcom_services_cache_module
 
     /**
      * Invalidate the cache completely, dropping all entries. The default implementation will
-     * drop all entries from all registered cache backends using
-     * midcom_services_cache_backend::remove_all(). Override this function, if this behavior
-     * doesn't suit your needs.
+     * drop all entries from all registered cache backends using CacheProvider::flushAll().
+     * Override this function if this behavior doesn't suit your needs.
      */
     function invalidate_all()
     {
         foreach ($this->_backends as $name => $backend)
         {
             debug_add("Invalidating cache backend {$name}...", MIDCOM_LOG_INFO);
-            $backend->remove_all();
+            $backend->flushAll();
         }
     }
 

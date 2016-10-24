@@ -45,7 +45,8 @@
         "checkdomain/holiday": "~2.0.0",
         "studio-42/elfinder": "^2.1.8",
         "openpsa/ranger": "^0.1.0",
-        "openpsa/midgard-portable": "^0.8.2"
+        "openpsa/midgard-portable": "^0.8.2",
+        "doctrine/cache": "^1.5.4"
     },
     "scripts": {
         "post-install-cmd": [
