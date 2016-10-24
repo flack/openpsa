@@ -182,7 +182,7 @@ class midcom_config_test
             $this->add("Bytecode cache", self::WARNING, "A PHP bytecode cache is recommended for efficient MidCOM operation");
         }
 
-        if (! class_exists('Memcache'))
+        if (!class_exists('Memcache'))
         {
             $this->add('Memcache', self::WARNING, 'The PHP Memcache module is recommended for efficient MidCOM operation.');
         }
@@ -190,7 +190,7 @@ class midcom_config_test
         {
             $this->add('Memcache', self::WARNING, 'The PHP Memcache module is recommended for efficient MidCOM operation. It is available but is not set to be in use.');
         }
-        else if (midcom_services_cache_backend_memcached::$memcache_operational)
+        else if (midcom::get()->cache->memcache->is_operational())
         {
             $this->add('Memcache', self::OK);
         }

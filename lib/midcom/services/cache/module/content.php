@@ -297,12 +297,8 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             $backend_config['driver'] = 'null';
         }
 
-        $name = 'content';
-        $meta_backend_name = "{$name}_meta";
-        $data_backend_name = "{$name}_data";
-
-        $this->_meta_cache = $this->_create_backend($meta_backend_name, $backend_config);
-        $this->_data_cache = $this->_create_backend($data_backend_name, $backend_config);
+        $this->_meta_cache = $this->_create_backend('content_meta', $backend_config);
+        $this->_data_cache = $this->_create_backend('content_data', $backend_config);
 
         $this->_uncached = midcom::get()->config->get('cache_module_content_uncached');
         $this->_headers_strategy = strtolower(midcom::get()->config->get('cache_module_content_headers_strategy'));

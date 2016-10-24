@@ -109,22 +109,30 @@ abstract class midcom_services_cache_module
         {
             $directory .= $config['directory'];
         }
-
+        $memcache_operational = false;
         switch ($config['driver'])
         {
+            case 'apc':
+                $backend = new Cache\ApcCache();
+                break;
             case 'memcached':
                 $host = !empty($config['host']) ? $config['host'] : 'localhost';
                 $port = !empty($config['port']) ? $config['port'] : 11211;
                 $memcache = new Memcache;
-                $memcache->pconnect($host, $port);
-                $backend = new Cache\MemcacheCache();
-                $backend->setMemcache($memcache);
-                break;
-            case 'apc':
-                $backend = new Cache\ApcCache();
-                break;
-            case 'dba':
+                if (@$memcache->pconnect($host, $port))
+                {
+                    $backend = new Cache\MemcacheCache();
+                    $backend->setMemcache($memcache);
+                    $memcache_operational = true;
+                    break;
+                }
+                else
+                {
+                    midcom::get()->debug->log_php_error(MIDCOM_LOG_ERROR);
+                    debug_add("memcache: Failed to connect to {$this->_host}:{$this->_port}. Falling back to filecache", MIDCOM_LOG_ERROR);
+                }
                 // fall-through
+            case 'dba':
             case 'flatfile':
                 $backend = new Cache\FilesystemCache($directory . $name);
                 break;
@@ -138,7 +146,9 @@ abstract class midcom_services_cache_module
                 $backend = new Cache\VoidCache();
                 break;
         }
-        return new Cache\ChainCache(array(new Cache\ArrayCache, $backend));
+        $cache = new Cache\ChainCache(array(new Cache\ArrayCache, $backend));
+        $cache->memcache_operational = $memcache_operational;
+        return $cache;
     }
 
     /**
