@@ -140,8 +140,6 @@
  * - <b>Array cache_module_memcache_data_groups:</b> The data groups available for the memcache module.
  *   You should normally not have to touch this, see the memcache module documentation for details.
  *   This defaults to Array('ACL', 'PARENT').
- * - <b>string cache_module_phpscripts_directory:</b> The directory used for systemwide caching
- *   of PHP scripts (for example for the DBA intermediate classes or the component manifests).
  *
  * See also midcom_services_cache, the midcom_services_cache_backend class hierarchy and
  * the midcom_services_cache_module class hierarchy.
@@ -322,7 +320,7 @@ class midcom_config implements arrayaccess
 
         // Cache configuration
         'cache_base_directory' => '/tmp/',
-        'cache_autoload_queue' => Array('content', 'nap', 'phpscripts', 'memcache'),
+        'cache_autoload_queue' => Array('content', 'nap', 'memcache'),
 
         // Content Cache
         'cache_module_content_name' => 'auto',
@@ -347,9 +345,6 @@ class midcom_config implements arrayaccess
 
         // NAP Cache
         'cache_module_nap_backend' => Array() /* Auto-Detect */,
-
-        // Generated class cache directory
-        'cache_module_phpscripts_directory' => 'phpscripts/',
 
         // CRON Service configuration
         'cron_day_hours' => 0,
