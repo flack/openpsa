@@ -321,40 +321,22 @@ class midcom_core_manifest
         {
             debug_add("Manifest read from file {$this->filename} does not evaluate properly", MIDCOM_LOG_ERROR);
         }
+        else
+        {
+            foreach ($this->_raw_data as $field => $value)
+            {
+                if (   property_exists($this, $field)
+                    && $field != '_raw_data')
+                {
+                    $this->$field = $value;
+                }
+            }
+        }
+        $this->purecode = ($this->purecode == true);
 
-        $this->name = $this->_raw_data['name'];
-
-        if (array_key_exists('purecode', $this->_raw_data))
-        {
-            $this->purecode = ($this->_raw_data['purecode'] == true);
-        }
-        if (!empty($this->_raw_data['extends']))
-        {
-            $this->extends = $this->_raw_data['extends'];
-        }
-        if (array_key_exists('version', $this->_raw_data))
-        {
-            $this->version = $this->_raw_data['version'];
-        }
-        if (array_key_exists('state', $this->_raw_data))
-        {
-            $this->state = $this->_raw_data['state'];
-        }
-        if (array_key_exists('privileges', $this->_raw_data))
+        if (!empty($this->privileges))
         {
             $this->_process_privileges();
-        }
-        if (array_key_exists('class_mapping', $this->_raw_data))
-        {
-            $this->class_mapping = $this->_raw_data['class_mapping'];
-        }
-        if (array_key_exists('watches', $this->_raw_data))
-        {
-            $this->watches = $this->_raw_data['watches'];
-        }
-        if (array_key_exists('customdata', $this->_raw_data))
-        {
-            $this->customdata = $this->_raw_data['customdata'];
         }
     }
 
@@ -380,9 +362,11 @@ class midcom_core_manifest
      */
     private function _process_privileges()
     {
-        foreach ($this->_raw_data['privileges'] as $name => $defaults)
+        $processed = array();
+        foreach ($this->privileges as $name => $defaults)
         {
-            $this->privileges["{$this->name}:{$name}"] = $defaults;
+            $processed["{$this->name}:{$name}"] = $defaults;
         }
+        $this->privileges = $processed;
     }
 }
