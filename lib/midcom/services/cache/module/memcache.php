@@ -145,7 +145,7 @@ class midcom_services_cache_module_memcache extends midcom_services_cache_module
      * @param mixed $data The data to store.
      * @param int $timeout how long the data should live in the cache.
      */
-    function put($data_group, $key, $data, $timeout = false)
+    function put($data_group, $key, $data, $timeout = 0)
     {
         if ($this->_cache === null)
         {
@@ -160,17 +160,7 @@ class midcom_services_cache_module_memcache extends midcom_services_cache_module
             return;
         }
 
-        if (false !== $timeout)
-        {
-            // if a timeout is specified, we have to pass to the driver directly, since
-            // the memory cache in the baseclass would drop the timeout information
-            // TODO: This needs to be solved in a more general way at some point
-            $this->_cache->save("{$data_group}-{$key}", $data, $timeout);
-        }
-        else
-        {
-            $this->_cache->save("{$data_group}-{$key}", $data);
-        }
+        $this->_cache->save("{$data_group}-{$key}", $data, $timeout);
     }
 
     /**

@@ -663,7 +663,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             return;
         }
 
-        $guidmap = $this->_meta_cache->get($guid);
+        $guidmap = $this->_meta_cache->fetch($guid);
         foreach ($guidmap as $content_id)
         {
             if ($this->_meta_cache->contains($content_id))
@@ -893,8 +893,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         // Construct cache identifiers
         $context = midcom_core_context::get()->id;
         $request_id = $this->generate_request_identifier($context);
-        $this->_meta_cache->save($content_id, $entry_data);
-        $this->_meta_cache->save($request_id, $content_id);
+        $this->_meta_cache->saveMultiple(array($content_id => $entry_data, $request_id => $content_id));
 
         // Cache where the object have been
         $this->store_context_guid_map($context, $content_id, $request_id);
@@ -907,37 +906,28 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         {
             return;
         }
+
+        $maps = $this->_meta_cache->fetchMultiple($this->context_guids[$context]);
+        $to_save = array();
         foreach ($this->context_guids[$context] as $guid)
         {
-            // Getting old map from cache
-            $guidmap = $this->_meta_cache->fetch($guid);
-            // Or creating new, empty one
-            if (!is_array($guidmap))
-            {
-                $guidmap = array();
-            }
-
-            // flag, which will help us to avoid dumb cache-writes
-            $_added = false;
+            // Getting old map from cache or create new, empty one
+            $guidmap = (empty($maps[$guid])) ? array() : $maps[$guid];
 
             if (!in_array($content_id, $guidmap))
             {
                 $guidmap[] = $content_id;
-                $_added = true;
+                $to_save[$guid] = $guidmap;
             }
 
             if (   $content_id !== $request_id
                 && !in_array($request_id, $guidmap))
             {
                 $guidmap[] = $request_id;
-                $_added = true;
-            }
-
-            if ($_added === true)
-            {
-                $this->_meta_cache->save($guid, $guidmap);
+                $to_save[$guid] = $guidmap;
             }
         }
+        $this->_meta_cache->saveMultiple($to_save);
     }
 
     public function check_dl_hit($context, $dl_config)
@@ -994,9 +984,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             // Use default expiry for cache entry, most components don't bother calling expires() properly
             $dl_entry_data['expires'] = time() + $this->_default_lifetime;
         }
-
-        $this->_meta_cache->save($dl_request_id, $dl_content_id);
-        $this->_meta_cache->save($dl_content_id, $dl_entry_data);
+        $this->_meta_cache->saveMultiple(array($dl_request_id => $dl_content_id, $dl_content_id => $dl_entry_data));
         $this->_data_cache->save($dl_content_id, $dl_cache_data);
         // Cache where the object have been
         $this->store_context_guid_map($context, $dl_content_id, $dl_request_id);
