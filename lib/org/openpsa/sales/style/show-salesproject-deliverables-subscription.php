@@ -1,7 +1,9 @@
 <?php
 $deliverable = $data['deliverable'];
-$price = $data['l10n']->get_formatter()->number($data['deliverable_object']->price);
 $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
+$formatter = $data['l10n']->get_formatter();
+$price = $formatter->number($data['deliverable_object']->price);
+$ppu = $formatter->number($data['deliverable_object']->pricePerUnit);
 ?>
 <li class="deliverable subscription collapsed" id="deliverable_<?php echo $data['deliverable_object']->guid; ?>">
     <span class="icon">
@@ -34,11 +36,11 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
             </tr>
             <tr>
                 <th><?php echo $data['l10n']->get('price per unit'); ?></th>
-                <td>&(deliverable['pricePerUnit']:h); / &(deliverable['unit']:h);</td>
+                <td>&(ppu); / &(deliverable['unit']:h);</td>
             </tr>
             <tr>
                 <th><?php echo $data['l10n']->get('cost per unit'); ?></th>
-                <td>&(deliverable['costPerUnit']:h); &(deliverable['costType']:h);</td>
+                <td>&(deliverable['costPerUnit']:h); / &(deliverable['costType']:h);</td>
             </tr>
             <tr>
                 <th><?php echo $data['l10n']->get('units'); ?></th>
