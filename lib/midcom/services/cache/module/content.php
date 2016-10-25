@@ -385,9 +385,10 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         }
 
         // Check that we have cache for the identifier
-
         $request_id = $this->generate_request_identifier(0);
-        if (!$this->_meta_cache->contains($request_id))
+        // Load metadata for the content identifier connected to current request
+        $content_id = $this->_meta_cache->fetch($request_id);
+        if ($content_id === false)
         {
             debug_add("MISS {$request_id}");
             // We have no information about content cached for this request
@@ -395,17 +396,13 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         }
         debug_add("HIT {$request_id}");
 
-        // Load metadata for the content identifier connected to current request
-        $content_id = $this->_meta_cache->fetch($request_id);
-
-        if (!$this->_meta_cache->contains($content_id))
+        $data = $this->_meta_cache->fetch($content_id);
+        if ($data === false)
         {
             debug_add("MISS meta_cache {$content_id}");
             // Content cache data is missing
             return;
         }
-
-        $data = $this->_meta_cache->fetch($content_id);
 
         if (isset($data['expires']))
         {
@@ -428,14 +425,14 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         // we have a not modified match.
         if (!$this->_check_not_modified($data['last_modified'], $data['etag']))
         {
-            if (!$this->_data_cache->contains($content_id))
+            $content = $this->_data_cache->fetch($content_id);
+            if ($content === false)
             {
                 debug_add("Current page is in not in the data cache, possible ghost read.", MIDCOM_LOG_WARN);
                 return;
             }
-
             debug_add("HIT {$content_id}");
-            $content = $this->_data_cache->fetch($content_id);
+
             array_map('_midcom_header', $data['sent_headers']);
 
             echo $content;
@@ -502,7 +499,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         _midcom_header('Cache-Control: no-store, no-cache, must-revalidate');
         _midcom_header('Cache-Control: post-check=0, pre-check=0', false);
 
-        //Suppress "Pragma: no-cache" header, because otherwise file downloads don't work in IE with https.
+        //Suppress "Pragma: no-cache" header, because otherwise file downloads don't work in IE < 9 with https.
         if (   !isset($_SERVER['HTTPS'])
             || !isset($_SERVER['HTTP_USER_AGENT'])
             || !preg_match('/MSIE/', $_SERVER['HTTP_USER_AGENT']))
@@ -657,21 +654,23 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      */
     public function invalidate($guid, $object = null)
     {
-        if (!$this->_meta_cache->contains($guid))
+        $guidmap = $this->_meta_cache->fetch($guid);
+        if ($guidmap === false)
         {
             debug_add("No entry for {$guid} in meta cache, ignoring invalidation request.");
             return;
         }
 
-        $guidmap = $this->_meta_cache->fetch($guid);
+        // see https://github.com/doctrine/cache/issues/182
+        $is_memcache = !empty($this->_meta_cache->memcache_operational);
         foreach ($guidmap as $content_id)
         {
-            if ($this->_meta_cache->contains($content_id))
+            if ($is_memcache || $this->_meta_cache->contains($content_id))
             {
                 $this->_meta_cache->delete($content_id);
             }
 
-            if ($this->_data_cache->contains($content_id))
+            if ($is_memcache || $this->_data_cache->contains($content_id))
             {
                 $this->_data_cache->delete($content_id);
             }
@@ -927,6 +926,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
                 $to_save[$guid] = $guidmap;
             }
         }
+
         $this->_meta_cache->saveMultiple($to_save);
     }
 
@@ -938,28 +938,30 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             return false;
         }
         $dl_request_id = 'DL' . $this->generate_request_identifier($context, $dl_config);
-        if (!$this->_meta_cache->contains($dl_request_id))
+        $dl_content_id = $this->_meta_cache->fetch($dl_request_id);
+        if ($dl_content_id === false)
         {
             return false;
         }
-        $dl_content_id = $this->_meta_cache->get($dl_request_id);
-        if (!$this->_meta_cache->contains($dl_content_id))
+        $dl_metadata = $this->_meta_cache->fetch($dl_content_id);
+        if ($dl_metadata === false)
         {
             // No expiry information (or other content metadata) in cache
             return false;
         }
-        $dl_metadata = $this->_meta_cache->fetch($dl_content_id);
+
         if (time() > $dl_metadata['expires'])
         {
             // DL content expired
             return false;
         }
-        if (!$this->_data_cache->contains($dl_content_id))
+        $content = $this->_data_cache->fetch($dl_content_id);
+        if ($content === false)
         {
             // Ghost read, we have everything but the actual content in cache
             return false;
         }
-        echo $this->_data_cache->fetch($dl_content_id);
+        echo $content;
         return true;
     }
 

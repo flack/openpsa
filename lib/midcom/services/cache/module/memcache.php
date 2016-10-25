@@ -22,11 +22,11 @@
  * Number Two, it is entirely possible (as it is the default), that the memcache
  * is actually not available, as no memcache daemon has been found.  This is
  * controlled by the <i>cache_module_memcache_backend</i> configuration option,
- * which defaults to null. If it is set to the name of a caching module (normally
- * memcached) it will actually start caching. Otherwise it will silently ignore
+ * which tries to auto-detect a sensible default. If it is set to the name of a caching module
+ * it will actually start caching. Otherwise it will silently ignore
  * put requests, and reports all keys as not existent.
  *
- * Number Three, as at least memcached does not provide key_exists check, key
+ * Number Three, as at least memcache's contains() check isn't working on some machines, key
  * values of false are forbidden, as they are used to check a keys existence
  * during the get cycle. You should also avoid null and 0 members, if possible,
  * they could naturally be error prone if you start forgetting about the typed
@@ -81,7 +81,7 @@ class midcom_services_cache_module_memcache extends midcom_services_cache_module
     /**
      * {@inheritDoc}
      */
-    function invalidate($guid, $object = null)
+    public function invalidate($guid, $object = null)
     {
         if ($this->_cache !== null)
         {
@@ -132,7 +132,11 @@ class midcom_services_cache_module_memcache extends midcom_services_cache_module
         {
             return false;
         }
-
+        // Workaround for https://github.com/doctrine/cache/issues/182
+        if ($this->is_operational())
+        {
+            return (bool) $this->_cache->fetch("{$data_group}-{$key}");
+        }
         return $this->_cache->contains("{$data_group}-{$key}");
     }
 
