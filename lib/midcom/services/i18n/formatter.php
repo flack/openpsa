@@ -35,7 +35,7 @@ class midcom_services_i18n_formatter
             // workaround for http://bugs.icu-project.org/trac/ticket/8561
             if ($precision == 0)
             {
-                $value = (int) $precision;
+                $value = (int) $value;
             }
             else
             {
