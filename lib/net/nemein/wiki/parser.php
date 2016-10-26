@@ -240,8 +240,7 @@ class net_nemein_wiki_parser extends midcom_baseclasses_components_purecode
         // http://warpedvisions.org/projects/simplelink
         // Since then refactored again...
         $fulltext = $match[1];
-        $after = $match[2] or '';
-        $wikilink = null;
+        $after = $match[2] ?: '';
 
         // See what kind of tag we have hit
         switch (true)
@@ -257,29 +256,19 @@ class net_nemein_wiki_parser extends midcom_baseclasses_components_purecode
 
             // MediaWiki-style link [wikipage|label]
             case (preg_match("/^(.*?)\|(.*?)$/i", $fulltext, $parts)):
-                $text = $parts[2];
-                $wikilink = $parts[1];
-                break;
+                return $this->render_link($parts[1], $parts[2]) . $after;
+
             // Macro [something: <data>] (for example [abbr: BOFH - Bastard Operator From Hell] or [photo: <GUID>])
             case (   preg_match('/^(.*?): (.*)/', $fulltext, $macro_parts)
-                  && ($method = "_run_macro_{$macro_parts[1]}")
-                  && method_exists($this, $method)):
+                  && method_exists($this, "_run_macro_{$macro_parts[1]}")):
+                $method = "_run_macro_{$macro_parts[1]}";
                 return $this->$method($macro_parts[2], $match[0], $after);
 
             // MediaWiki-style link [wikipage] (no text)
             // TODO: it is possible that this wasn't originally intended to be default, but the if/elseif tree was complex and this ended up being resolved as the last else
             default:
-                $text = $fulltext;
-                $wikilink = $fulltext;
-                break;
+                return $this->render_link($fulltext, $fulltext) . $after;
         }
-
-        if ($wikilink)
-        {
-            return $this->render_link($wikilink, $text) . $after;
-        }
-        // We have no idea of what to do so just return the text
-        return $fulltext;
     }
 
     public function render_link($wikilink, $text = null)
@@ -330,11 +319,11 @@ class net_nemein_wiki_parser extends midcom_baseclasses_components_purecode
         // TODO: Simplify
         $matches = array();
         $links = array();
-        preg_match_all('/\[(.*?)\](.|)/', $this->_page->content, $matches);
+        preg_match_all($this->_config->get('wikilink_regexp'), $this->_page->content, $matches);
         foreach ($matches[1] as $match_key => $match)
         {
             $fulltext = $match;
-            $after = $matches[2][$match_key] or '';
+            $after = $matches[2][$match_key] ?: '';
             // See what kind of tag we have hit
             switch (true)
             {
@@ -345,29 +334,24 @@ class net_nemein_wiki_parser extends midcom_baseclasses_components_purecode
                     continue 2;
 
                 // Ignore escaped tag [!!text]
-                case (preg_match("/^\!\!(.*)/", $fulltext, $parts)):
+                case (preg_match("/^\!\!(.*)/", $fulltext)):
                     continue 2;
 
                 // MediaWiki-style link [wikipage|label]
                 case (preg_match("/^(.*?)\|(.*?)$/i", $fulltext, $parts)):
-                    $text = $parts[2];
-                    $wikilink = $parts[1];
+                    $links[$parts[1]] = $parts[2];
                     break;
                 // Ignore macros [something: <data>] (for example [abbr: BOFH - Bastard Operator From Hell] or [photo: <GUID>])
                 case (   preg_match('/^(.*?): (.*)/', $fulltext, $macro_parts)
-                      && ($method = "_run_macro_{$macro_parts[1]}")
-                      && method_exists($this, $method)):
+                      && method_exists($this, "_run_macro_{$macro_parts[1]}")):
                     continue 2;
 
                 // MediaWiki-style link [wikipage] (no text)
                 // TODO: it is possible that this wasn't originally intended to be default, but the if/elseif tree was complex and this ended up being resolved as the last else
                 default:
-                    $text = $fulltext;
-                    $wikilink = $fulltext;
+                    $links[$fulltext] = $fulltext;
                     break;
             }
-            // MediaWiki-style link [wikipage] (no text)
-            $links[$wikilink] = $text;
         }
 
         return $links;
