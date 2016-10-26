@@ -58,7 +58,7 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
     /**
      * {@inheritDoc}
      */
-    function invalidate($guid, $object = null)
+    public function invalidate($guid, $object = null)
     {
         $napobject = $this->get_guid($guid);
 

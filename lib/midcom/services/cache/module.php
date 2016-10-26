@@ -146,6 +146,7 @@ abstract class midcom_services_cache_module
                 $backend = new Cache\VoidCache();
                 break;
         }
+
         $cache = new Cache\ChainCache(array(new Cache\ArrayCache, $backend));
         $cache->memcache_operational = $memcache_operational;
         return $cache;
@@ -172,7 +173,7 @@ abstract class midcom_services_cache_module
      * drop all entries from all registered cache backends using CacheProvider::flushAll().
      * Override this function if this behavior doesn't suit your needs.
      */
-    function invalidate_all()
+    public function invalidate_all()
     {
         foreach ($this->_backends as $name => $backend)
         {
@@ -187,5 +188,5 @@ abstract class midcom_services_cache_module
      * @param GUID $guid The GUID that has to be invalidated.
      * @param object $object The object that has to be invalidated (if available).
      */
-    abstract function invalidate($guid, $object = null);
+    abstract public function invalidate($guid, $object = null);
 }

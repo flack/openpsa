@@ -120,7 +120,7 @@ class midcom_services_cache implements EventSubscriberInterface
      * Shuts all cache modules down. The content module is explicitly stopped as the
      * last module for clear content cache handling (it might _midcom_stop_request()).
      */
-    function shutdown()
+    public function shutdown()
     {
         foreach ($this->_unload_queue as $name)
         {
@@ -161,7 +161,7 @@ class midcom_services_cache implements EventSubscriberInterface
      * Use this, if you have, f.x. changes in the layout. The URL function
      * midcom-cache-invalidate will trigger this function.
      */
-    function invalidate_all()
+    public function invalidate_all()
     {
         foreach ($this->_unload_queue as $name)
         {
@@ -185,7 +185,7 @@ class midcom_services_cache implements EventSubscriberInterface
      *     optimizations within the core cache modules (which sometimes need to invalidate only other
      *     modules, and invalidate themselves implicitly).
      */
-    function invalidate($guid, $skip_module = '')
+    public function invalidate($guid, $skip_module = '')
     {
         $object = null;
         if (is_object($guid))
