@@ -877,7 +877,8 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         }
 
         // Construct cache identifier
-        $request_id = $this->generate_request_identifier(midcom_core_context::get()->id);
+        $context = midcom_core_context::get()->id;
+        $request_id = $this->generate_request_identifier($context);
 
         $entries = array
         (
