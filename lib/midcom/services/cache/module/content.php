@@ -404,15 +404,6 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             return;
         }
 
-        if (isset($data['expires']))
-        {
-            if ($data['expires'] < time())
-            {
-                debug_add('Current page is in cache, but has expired on ' . gmdate('c', $data['expires']), MIDCOM_LOG_INFO);
-                return;
-            }
-        }
-
         if (!isset($data['last_modified']))
         {
             debug_add('Current page is in cache, but has insufficient information', MIDCOM_LOG_INFO);
@@ -874,25 +865,32 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         {
             return;
         }
-        $entry_data = array();
 
         if (!is_null($this->_expires))
         {
-            $entry_data['expires'] = $this->_expires;
+            $lifetime = $this->_expires - time();
         }
         else
         {
             // Use default expiry for cache entry, most components don't bother calling expires() properly
-            $entry_data['expires'] = time() + $this->_default_lifetime;
+            $lifetime = $this->_default_lifetime;
         }
-        $entry_data['etag'] = $etag;
-        $entry_data['last_modified'] = $this->_last_modified;
-        $entry_data['sent_headers'] = $this->_sent_headers;
 
-        // Construct cache identifiers
-        $context = midcom_core_context::get()->id;
-        $request_id = $this->generate_request_identifier($context);
-        $this->_meta_cache->saveMultiple(array($content_id => $entry_data, $request_id => $content_id));
+        // Construct cache identifier
+        $request_id = $this->generate_request_identifier(midcom_core_context::get()->id);
+
+        $entries = array
+        (
+            $request_id => $content_id,
+            $content_id => array
+            (
+                'etag' => $etag,
+                'last_modified' => $this->_last_modified,
+                'sent_headers' => $this->_sent_headers
+            )
+        );
+
+        $this->_meta_cache->saveMultiple($entries, $lifetime);
 
         // Cache where the object have been
         $this->store_context_guid_map($context, $content_id, $request_id);
@@ -943,18 +941,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         {
             return false;
         }
-        $dl_metadata = $this->_meta_cache->fetch($dl_content_id);
-        if ($dl_metadata === false)
-        {
-            // No expiry information (or other content metadata) in cache
-            return false;
-        }
 
-        if (time() > $dl_metadata['expires'])
-        {
-            // DL content expired
-            return false;
-        }
         $content = $this->_data_cache->fetch($dl_content_id);
         if ($content === false)
         {
@@ -976,18 +963,17 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         $dl_request_id = 'DL' . $this->generate_request_identifier($context, $dl_config);
         $dl_content_id = 'DLC-' . md5($dl_cache_data);
 
-        $dl_entry_data = array();
         if (!is_null($this->_expires))
         {
-            $dl_entry_data['expires'] = $this->_expires;
+            $lifetime = $this->_expires - time();
         }
         else
         {
             // Use default expiry for cache entry, most components don't bother calling expires() properly
-            $dl_entry_data['expires'] = time() + $this->_default_lifetime;
+            $lifetime = $this->_default_lifetime;
         }
-        $this->_meta_cache->saveMultiple(array($dl_request_id => $dl_content_id, $dl_content_id => $dl_entry_data));
-        $this->_data_cache->save($dl_content_id, $dl_cache_data);
+        $this->_meta_cache->save($dl_request_id, $dl_content_id, $lifetime);
+        $this->_data_cache->save($dl_content_id, $dl_cache_data, $lifetime);
         // Cache where the object have been
         $this->store_context_guid_map($context, $dl_content_id, $dl_request_id);
     }
