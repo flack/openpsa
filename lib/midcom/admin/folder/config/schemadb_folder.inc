@@ -10,7 +10,6 @@
             'storage' => 'name',
             'type' => 'urlname',
             'widget' => 'text',
-            'required' => ($GLOBALS['midcom_admin_folder_mode'] === 'edit') ? true : false,
         ),
         'title' => array
         (

@@ -14,13 +14,6 @@
 class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_handler
 {
     /**
-     * DM2 schema
-     *
-     * @var midcom_helper_datamanager2_schema[]
-     */
-    private $_schemadb;
-
-    /**
      * DM2 controller instance
      *
      * @var midcom_helper_datamanager2_controller
@@ -34,6 +27,8 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
 
     private $old_name;
 
+    private $_new_topic;
+
     /**
      * Load either a create controller or an edit (simple) controller or trigger an error message
      */
@@ -42,44 +37,46 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
         // Get the configured schemas
         $schemadbs = $this->_config->get('schemadbs_folder');
 
-        // Check if a custom schema exists
-        if (array_key_exists($this->_topic->component, $schemadbs))
+        if ($this->_handler_id === 'createlink')
         {
-            $schemadb = $schemadbs[$this->_topic->component];
+            $schemadb = 'link';
+        }
+        // Check if a custom schema exists
+        else if (array_key_exists($this->_topic->component, $schemadbs))
+        {
+            $schemadb = $this->_topic->component;
         }
         else
         {
-            if (!array_key_exists('default', $schemadbs))
-            {
-                throw new midcom_error('Configuration error. No default schema for topic has been defined!');
-            }
-
-            $schemadb = $schemadbs['default'];
+            $schemadb = 'default';
         }
 
-        $GLOBALS['midcom_admin_folder_mode'] = $this->_handler_id;
+        if (!array_key_exists($schemadb, $schemadbs))
+        {
+            throw new midcom_error('Configuration error. No ' . $schemadb . ' schema for topic has been defined!');
+        }
 
         // Create the schema instance
-        $this->_schemadb = midcom_helper_datamanager2_schema::load_database($schemadb);
+        $schemadb = midcom_helper_datamanager2_schema::load_database($schemadbs[$schemadb]);
 
+        foreach ($schemadb as $schema)
+        {
+            if (isset($schema->fields['name']))
+            {
+                $schema->fields['name']['required'] = ($this->_handler_id === 'edit');
+            }
+        }
         switch ($this->_handler_id)
         {
             case 'edit':
                 $this->_controller = midcom_helper_datamanager2_controller::create('simple');
-                $this->_controller->schemadb =& $this->_schemadb;
+                $this->_controller->schemadb = $schemadb;
                 $this->_controller->set_storage($this->_topic);
                 break;
 
             case 'create':
-                foreach ($this->_schemadb as $schema)
-                {
-                    if (isset($schema->fields['name']))
-                    {
-                        $schema->fields['name']['required'] = 0;
-                    }
-                }
                 $this->_controller = midcom_helper_datamanager2_controller::create('create');
-                $this->_controller->schemadb =& $this->_schemadb;
+                $this->_controller->schemadb = $schemadb;
                 $this->_controller->schemaname = 'default';
                 $this->_controller->callback_object =& $this;
 
@@ -99,16 +96,8 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
                 break;
 
             case 'createlink':
-                if (!array_key_exists('link', $schemadbs))
-                {
-                     throw new midcom_error('Configuration error. No link schema for topic has been defined!');
-                }
-                $schemadb = $schemadbs['link'];
-                // Create the schema instance
-                $this->_schemadb = midcom_helper_datamanager2_schema::load_database($schemadb);
-
                 $this->_controller = midcom_helper_datamanager2_controller::create('create');
-                $this->_controller->schemadb =& $this->_schemadb;
+                $this->_controller->schemadb =& $schemadb;
                 $this->_controller->schemaname = 'link';
                 $this->_controller->callback_object =& $this;
                 break;
@@ -259,14 +248,14 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
         if (!empty($this->_new_topic->symlink))
         {
             $name = $this->_new_topic->name;
-            $topic = $this->_new_topic;
-            while (!empty($topic->symlink))
+            $target = $this->_new_topic;
+            while (!empty($target->symlink))
             {
                 // Only direct symlinks are supported, but indirect symlinks are ok as we change them to direct ones here
-                $this->_new_topic->symlink = $topic->symlink;
+                $this->_new_topic->symlink = $target->symlink;
                 try
                 {
-                    $topic = new midcom_db_topic($topic->symlink);
+                    $target = new midcom_db_topic($target->symlink);
                 }
                 catch (midcom_error $e)
                 {
@@ -280,9 +269,9 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
                         $e->getMessage()
                     );
                 }
-                $name = $topic->name;
+                $name = $target->name;
             }
-            if ($this->_new_topic->up == $topic->up)
+            if ($this->_new_topic->up == $target->up)
             {
                 $this->_new_topic->purge();
                 throw new midcom_error
@@ -291,7 +280,7 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
                     folder as its target"
                 );
             }
-            if ($this->_new_topic->up == $topic->id)
+            if ($this->_new_topic->up == $target->id)
             {
                 $this->_new_topic->purge();
                 throw new midcom_error
@@ -301,7 +290,7 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
                 );
             }
             $this->_new_topic->update();
-            if (!midcom_admin_folder_management::is_child_listing_finite($topic))
+            if (!midcom_admin_folder_management::is_child_listing_finite($target))
             {
                 $this->_new_topic->purge();
                 throw new midcom_error
