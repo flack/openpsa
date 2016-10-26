@@ -93,11 +93,6 @@ class midgard_admin_asgard_toolbar extends midcom_helper_toolbar_view
         {
             // Find out what types of children the object can have and show create buttons for them
             $child_types = $data['tree_reflector']->get_child_classes();
-            if (!is_array($child_types))
-            {
-                debug_add("\$data['tree_reflector']->get_child_classes() failed critically, recasting \$child_types as array", MIDCOM_LOG_WARN);
-                $child_types = array();
-            }
             foreach ($child_types as $type)
             {
                 $display_button = true;

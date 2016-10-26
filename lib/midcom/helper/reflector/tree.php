@@ -121,22 +121,20 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         }
 
         $ret = array();
-        $part = array
+        $ret[] = array
         (
             'object' => $object,
             'label' => parent::get($object)->get_object_label($object),
         );
-        $ret[] = $part;
 
         $parent = self::get_parent($object);
         while (is_object($parent))
         {
-            $part = array
+            $ret[] = array
             (
                 'object' => $parent,
                 'label' => parent::get($parent)->get_object_label($parent),
             );
-            $ret[] = $part;
             $parent = self::get_parent($parent);
         }
 
@@ -200,10 +198,6 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         $child_classes = $resolver->get_child_classes();
         if (!$child_classes)
         {
-            if ($child_classes === false)
-            {
-                debug_add('resolver returned false (critical failure) from get_child_classes()', MIDCOM_LOG_ERROR);
-            }
             return false;
         }
 
