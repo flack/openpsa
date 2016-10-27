@@ -62,22 +62,7 @@ abstract class midcom_services_auth_backend
      * @return boolean Return true if the login session was successfully loaded, false
      *     otherwise.
      */
-    abstract function read_login_session();
-
-    /**
-     * Check the given username / password pair is valid and set the $user member accordingly.
-     * The default implementation checks against midcom_connection::login().
-     *
-     * Normally you should not need to override this function.
-     *
-     * @param string $username The name of the user to authenticate.
-     * @param string $password The password of the user to authenticate.
-     * @return boolean Indicating successful authentication.
-     */
-    function authenticate()
-    {
-        return $this->auth->sessionmgr->authenticate_session($this->_session_id);
-    }
+    abstract public function read_login_session();
 
     /**
      * Stores a login session using the given credentials through the
@@ -161,7 +146,7 @@ abstract class midcom_services_auth_backend
      *
      * You should throw midcom_error if anything goes wrong here.
      */
-    function logout()
+    public function logout()
     {
         if (!$this->session_id)
         {

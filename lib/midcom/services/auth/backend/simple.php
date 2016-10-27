@@ -63,7 +63,7 @@ class midcom_services_auth_backend_simple extends midcom_services_auth_backend
         parent::__construct($auth);
     }
 
-    function read_login_session()
+    public function read_login_session()
     {
         $reset_cookie = false;
         if (   array_key_exists($this->_cookie_id, $_GET)
@@ -109,7 +109,7 @@ class midcom_services_auth_backend_simple extends midcom_services_auth_backend
 
         $this->session_id = $this->auth->sessionmgr->load_login_session($session_id, $this->user);
 
-        if (! $this->session_id)
+        if (!$this->session_id)
         {
             debug_add("The session {$session_id} is invalid (usually this means an expired session).",
                 MIDCOM_LOG_ERROR);

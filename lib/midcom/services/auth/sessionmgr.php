@@ -329,7 +329,7 @@ class midcom_services_auth_sessionmgr
      */
     function authenticate_session($sessionid)
     {
-        if (! array_key_exists($sessionid, $this->_loaded_sessions))
+        if (!array_key_exists($sessionid, $this->_loaded_sessions))
         {
             debug_add("The session {$sessionid} has not been loaded yet, cannot authenticate to it.", MIDCOM_LOG_ERROR);
             return false;
@@ -368,7 +368,7 @@ class midcom_services_auth_sessionmgr
      */
     function delete_session($sessionid)
     {
-        if (! array_key_exists($sessionid, $this->_loaded_sessions))
+        if (!array_key_exists($sessionid, $this->_loaded_sessions))
         {
             debug_add('Only sessions which have been previously loaded can be deleted.', MIDCOM_LOG_ERROR);
             return false;

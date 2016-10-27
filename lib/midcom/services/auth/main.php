@@ -158,7 +158,7 @@ class midcom_services_auth
     private function _check_for_new_login_session()
     {
         $credentials = $this->_auth_frontend->read_authentication_data();
-        if (! $credentials)
+        if (!$credentials)
         {
             return false;
         }
@@ -247,12 +247,12 @@ class midcom_services_auth
      */
     private function _check_for_active_login_session()
     {
-        if (! $this->_auth_backend->read_login_session())
+        if (!$this->_auth_backend->read_login_session())
         {
             return;
         }
 
-        if (! $this->sessionmgr->authenticate_session($this->_auth_backend->session_id))
+        if (!$this->sessionmgr->authenticate_session($this->_auth_backend->session_id))
         {
             debug_add('Failed to re-authenticate a previous login session, not changing credentials.');
             return;
@@ -699,7 +699,7 @@ class midcom_services_auth
     /**
      * Handles HTTP Basic authentication
      */
-    function _http_basic_auth()
+    private function _http_basic_auth()
     {
         if (!isset($_SERVER['PHP_AUTH_USER']))
         {
@@ -1028,7 +1028,7 @@ class midcom_services_auth
      * of form. The output from the frontend is surrounded by a div tag whose CSS ID is set to
      * 'midcom_login_form'.
      */
-    function show_login_form()
+    public function show_login_form()
     {
         echo "<div id='midcom_login_form'>\n";
         $this->_auth_frontend->show_authentication_form();

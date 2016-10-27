@@ -22,7 +22,7 @@ class midcom_services_auth_frontend_form implements midcom_services_auth_fronten
      *     'password' holding the information read by the driver or null if no
      *     information could be read.
      */
-    function read_authentication_data()
+    public function read_authentication_data()
     {
         if (   ! array_key_exists('midcom_services_auth_frontend_form_submit', $_REQUEST)
             || ! array_key_exists('username', $_REQUEST)
@@ -50,7 +50,7 @@ class midcom_services_auth_frontend_form implements midcom_services_auth_fronten
      * included in this function. In that case you should look into the source
      * of it to see exactly what is required.
      */
-    function show_authentication_form()
+    public function show_authentication_form()
     {
         // Store the submitted form if the session expired, but user wants to save the data
         if (count($_POST) > 0)
