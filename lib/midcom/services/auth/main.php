@@ -495,7 +495,7 @@ class midcom_services_auth
      * @param midcom_core_user The user which should be checked, defaults to the current user.
      * @return boolean Indicating membership state.
      */
-    function is_group_member($group, $user = null)
+    public function is_group_member($group, $user = null)
     {
         if ($this->is_admin($user))
         {
@@ -732,7 +732,7 @@ class midcom_services_auth
      *     of any midcom_core_user or midcom_core_group object).
      * @return object A reference to the corresponding object or false on failure.
      */
-    function get_assignee($id)
+    public function get_assignee($id)
     {
         $result = null;
 
@@ -764,7 +764,7 @@ class midcom_services_auth
      * @return midcom_core_user A reference to the user object matching the username,
      *     or false if the username is unknown.
      */
-    function get_user_by_name($name)
+    public function get_user_by_name($name)
     {
         $person_class = midcom::get()->config->get('person_class');
         if (method_exists('midgard_user', 'login'))
@@ -828,7 +828,7 @@ class midcom_services_auth
      *     or subclass thereof, a Person ID or GUID or a midcom_core_user identifier.
      * @return midcom_core_user A reference to the user object matching the identifier or false on failure.
      */
-    function get_user($id)
+    public function get_user($id)
     {
         if (is_double($id))
         {
@@ -881,7 +881,7 @@ class midcom_services_auth
      * @param mixed $id The identifier of the group as outlined above.
      * @return midcom_core_group A group object instance matching the identifier, or false on failure.
      */
-    function get_group($id)
+    public function get_group($id)
     {
         if (   is_a($id, 'midcom_db_group')
             || is_a($id, 'midgard_group'))
@@ -976,7 +976,7 @@ class midcom_services_auth
     /**
      * This call clears any authentication state
      */
-    function logout()
+    public function logout()
     {
         $this->drop_login_session();
         $this->admin = false;
@@ -1044,7 +1044,7 @@ class midcom_services_auth
      * attempt, in which case it will have a localized warning message enclosed in a
      * paragraph with the ID 'login_warning'.
      */
-    function show_login_page()
+    public function show_login_page()
     {
         // Drop any output buffer first
         midcom::get()->cache->content->disable_ob();
