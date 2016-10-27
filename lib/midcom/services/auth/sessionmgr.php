@@ -118,7 +118,7 @@ class midcom_services_auth_sessionmgr
             return false;
         }
 
-        return $this->create_session($usernme, $clientip);
+        return $this->create_session($username, $clientip);
     }
 
     /**
