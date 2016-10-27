@@ -378,7 +378,8 @@ class form extends base
         $string = '<div' . $this->renderer->block($view, 'widget_container_attributes') . '>';
         $string .= '<table class="midcom_datamanager_table_photo"><tr><td>';
         $preview_url = null;
-        foreach ($data['value'] as $identifier => $info)
+        $values = array_filter($data['value']); // this gets rid of the delete key in case the form was submitted
+        foreach ($values as $identifier => $info)
         {
             $preview_url = $info['url'];
             if ($identifier == 'thumbnail')
@@ -390,11 +391,13 @@ class form extends base
         {
             $string .= '<img src="' . $preview_url . '" class="preview-image">';
         }
+
         $string .= '</td><td>';
-        if (!empty($data['value']))
+
+        if (!empty($values))
         {
             $string .= '<ul>';
-            foreach ($data['value'] as $identifier => $info)
+            foreach ($values as $identifier => $info)
             {
                 if (   $info['size_x']
                     && $info['size_y'])
