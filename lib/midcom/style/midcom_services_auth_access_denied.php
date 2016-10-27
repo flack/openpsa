@@ -40,5 +40,6 @@ midcom::get()->head->add_stylesheet(MIDCOM_STATIC_URL.'/midcom.services.auth/sty
                     Copyright &copy; 1998-2012 <a href="http://midgard-project.org/">The Midgard Project</a>. Midgard is <a href="http://en.wikipedia.org/wiki/Free_software">free software</a> available under <a href="http://www.gnu.org/licenses/lgpl.html">GNU Lesser General Public License</a>.
                 </div>
             </div>
+        </div>
     </body>
 </html>
