@@ -95,28 +95,7 @@ class midcom_services_auth_sessionmgr
             return false;
         }
 
-        if (!$user = $this->auth->get_user($this->person))
-        {
-            debug_add("Failed to create a new login session: User ID " . midcom_connection::get_user() . " is invalid.", MIDCOM_LOG_ERROR);
-            return false;
-        }
-
-        $session = $this->_prepare_session_object($user, $clientip);
-        $session->password = $this->_obfuscate_password($password);
-
-        if (!$session->create())
-        {
-            debug_add('Failed to create a new login session: ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-            return false;
-        }
-
-        $this->current_session_id = $session->guid;
-        $this->_loaded_sessions[$session->guid] = $session;
-        return array
-        (
-            'session_id' => $session->guid,
-            'user' => $user
-        );
+        return $this->create_session($username, $clientip);
     }
 
     /**
@@ -139,39 +118,25 @@ class midcom_services_auth_sessionmgr
             return false;
         }
 
+        return $this->create_session($usernme, $clientip);
+    }
+
+    /**
+     * Creates the session object
+     *
+     * @param string $username
+     * @param string $clientip
+     * @return Array An array holding the session identifier in the 'session_id' key and
+     *     the associated user in the 'user' key. Failure returns false.
+     */
+    private function create_session($username, $clientip)
+    {
         if (!$user = $this->auth->get_user($this->person))
         {
             debug_add("Failed to create a new login session: User ID {$username} is invalid.", MIDCOM_LOG_ERROR);
             return false;
         }
 
-        $session = $this->_prepare_session_object($user, $clientip);
-        $session->trusted = true;
-
-        if (!$session->create())
-        {
-            debug_add('Failed to create a new login session: ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-            return false;
-        }
-
-        $this->current_session_id = $session->guid;
-
-        return array
-        (
-            'session_id' => $session->guid,
-            'user' => $user
-        );
-    }
-
-    /**
-     * Prepare the session object
-     *
-     * @param midcom_core_user $user
-     * @param string $clientip
-     * @return midcom_core_login_session_db
-     */
-    private function _prepare_session_object(midcom_core_user $user, $clientip)
-    {
         if (empty($clientip))
         {
             $clientip = $_SERVER['REMOTE_ADDR'];
@@ -182,7 +147,18 @@ class midcom_services_auth_sessionmgr
         $session->username = $user->username;
         $session->clientip = $clientip;
         $session->timestamp = time();
-        return $session;
+        if (!$session->create())
+        {
+            debug_add('Failed to create a new login session: ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
+            return false;
+        }
+        $this->current_session_id = $session->guid;
+        $this->_loaded_sessions[$session->guid] = $session;
+        return array
+        (
+            'session_id' => $this->current_session_id,
+            'user' => $user
+        );
     }
 
     /**
@@ -335,20 +311,9 @@ class midcom_services_auth_sessionmgr
             return false;
         }
 
-        $session = $this->_loaded_sessions[$sessionid];
-        $username = $session->username;
+        $username = $this->_loaded_sessions[$sessionid]->username;
 
-        if ($session->trusted)
-        {
-            $auth_result = $this->_do_trusted_midgard_auth($username);
-        }
-        else
-        {
-            $password = $this->_unobfuscate_password($session->password);
-            $auth_result = $this->_do_midgard_auth($username, $password);
-        }
-
-        if (!$auth_result)
+        if (!$this->_do_trusted_midgard_auth($username))
         {
             $this->delete_session($sessionid);
             return false;
@@ -385,70 +350,6 @@ class midcom_services_auth_sessionmgr
 
         unset ($this->_loaded_sessions[$sessionid]);
         return true;
-    }
-
-    /**
-     * Obfuscate a password in some way so that accidential
-     * "views" of a password in the database or a log are not immediately
-     * a problem. This is not targeted to prevent intrusion, just to prevent
-     * somebody viewing the logs or debugging the system is able to just
-     * read somebody elses passwords (especially given that many users
-     * share their passwords over multiple systems).
-     *
-     * _unobfuscate_password() is used to restore the password into its original
-     * form.
-     *
-     * @param string $password The password to obfuscate.
-     * @return string The obfuscated password.
-     * @see _unobfuscate_password()
-     */
-    private function _obfuscate_password($password)
-    {
-        return base64_encode($password);
-    }
-
-    /**
-     * Reverses password obfuscation.
-     *
-     * @param string $password The password to obfuscate.
-     * @return string The obfuscated password.
-     * @see _unobfuscate_password()
-     */
-    private function _unobfuscate_password($password)
-    {
-        return base64_decode($password);
-    }
-
-    /**
-     * This function is called by the framework whenever a user's password is updated. It will
-     * synchronize all active login sessions of that user to the new password.
-     *
-     * Access to this function is restricted to midcom_core_account.
-     *
-     * @param midcom_core_user $user The user object which has been updated.
-     * @param string $new The new password (plain text).
-     */
-    function _update_user_password($user, $new)
-    {
-        if (empty($new))
-        {
-            return;
-        }
-        $qb = new midgard_query_builder('midcom_core_login_session_db');
-        $qb->add_constraint('userid', '=', $user->id);
-        $result = @$qb->execute();
-
-        if (empty($result))
-        {
-            // No login sessions found
-            return;
-        }
-
-        foreach ($result as $session)
-        {
-            $session->password = $this->_obfuscate_password($new);
-            $session->update();
-        }
     }
 
     /**
