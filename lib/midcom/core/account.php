@@ -42,12 +42,10 @@ class midcom_core_account
     private static $_instances = array();
 
     /**
-     * Change tracking variables
+     * Change tracking variable
      *
      * @var string
      */
-    private $_new_password;
-    private $_old_password;
     private $_old_username;
 
     /**
@@ -174,8 +172,6 @@ class midcom_core_account
      */
     public function set_password($password, $encode = true)
     {
-        $this->_new_password = $password;
-        $this->_old_password = $this->get_password();
         if ($encode)
         {
             $password = midcom_connection::prepare_password($password);

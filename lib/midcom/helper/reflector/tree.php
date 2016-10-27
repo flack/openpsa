@@ -644,12 +644,10 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
                 }
                 $shown_guids[$object->guid] = true;
 
-                $title = $reflector->get_object_label($object);
-                $icon = $reflector->get_object_icon($object);
                 $leaf = array
                 (
-                    'title' => $title,
-                    'icon' => $icon,
+                    'title' => $reflector->get_object_label($object),
+                    'icon' => $reflector->get_object_icon($object),
                     'class' => $class
                 );
                 $grandchildren = self::get_tree($object);
