@@ -189,11 +189,6 @@ class midcom_services_auth_sessionmgr
             return false;
         }
 
-        if ($clientip === null)
-        {
-            $clientip = $_SERVER['REMOTE_ADDR'];
-        }
-
         $timed_out = time() - midcom::get()->config->get('auth_login_session_timeout');
 
         if ($session->timestamp < $timed_out)
@@ -201,6 +196,11 @@ class midcom_services_auth_sessionmgr
             $session->delete();
             debug_add("The session {$session->guid} (#{$session->id}) has timed out.", MIDCOM_LOG_INFO);
             return false;
+        }
+
+        if ($clientip === null)
+        {
+            $clientip = $_SERVER['REMOTE_ADDR'];
         }
 
         if (   midcom::get()->config->get('auth_check_client_ip')

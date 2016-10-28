@@ -11,9 +11,6 @@
  * mapping them to a given user as well as the "sessioning" part, e.g. the transition
  * of the authentication credentials over several requests.
  *
- * All functions except authenticate() must be implemented, see their individual
- * documentation about what exactly they should do.
- *
  * Configuration, if necessary, should be done using the MidCOM configuration
  * system, prefixing all values with 'auth_backend_$name_', e.g.
  * 'auth_backend_cookie_timeout'.
