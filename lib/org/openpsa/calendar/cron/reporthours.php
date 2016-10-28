@@ -116,8 +116,7 @@ class org_openpsa_calendar_cron_reporthours extends midcom_baseclasses_component
 
     private function get_event_links($guid)
     {
-        // Avoid multiple queries of events links
-        if (!isset($event_links[$guid]))
+        if (!isset($this->event_links[$guid]))
         {
             $qb2 = org_openpsa_relatedto_dba::new_query_builder();
             $qb2->add_constraint('fromGuid', '=', $guid);

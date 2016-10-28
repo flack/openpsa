@@ -182,11 +182,11 @@ implements midcom_services_permalinks_resolver
 
         try
         {
-            $object = new $classname($args[$type]);
+            $object = new $classname($guid);
         }
         catch (midcom_error $e)
         {
-            $handler->print_error($type . " {$args[$type]} not found, error " . $e->getMessage());
+            $handler->print_error($type . " {$guid} not found, error " . $e->getMessage());
             return false;
         }
         if (!$object->homepage)
