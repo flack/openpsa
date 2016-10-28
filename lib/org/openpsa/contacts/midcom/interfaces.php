@@ -164,49 +164,42 @@ implements midcom_services_permalinks_resolver
     {
         if (array_key_exists('person', $args))
         {
-            // Handling for persons
-            try
-            {
-                $person = new org_openpsa_contacts_person_dba($args['person']);
-            }
-            catch (midcom_error $e)
-            {
-                $handler->print_error("Person {$args['person']} not found, error " . $e->getMessage());
-                return false;
-            }
-            if (!$person->homepage)
-            {
-                $handler->print_error("Person {$person->guid} has no homepage, skipping");
-                return false;
-            }
-            return $this->_check_person_url($person);
+            $type = 'person';
         }
         else if (array_key_exists('group', $args))
         {
-            // Handling for groups
-            try
-            {
-                $group = new org_openpsa_contacts_group_dba($args['group']);
-            }
-            catch (midcom_error $e)
-            {
-                $handler->print_error("Group {$args['group']} not found, error " . $e->getMessage());
-                return false;
-            }
-            if (!$group->homepage)
-            {
-                $handler->print_error("Group {$group->guid} has no homepage, skipping");
-                return false;
-            }
-            return $this->_check_group_url($group);
+            $type = 'group';
         }
-        $handler->print_error('Person or Group GUID not set, aborting');
-        return false;
+        else
+        {
+            $handler->print_error('Person or Group GUID not set, aborting');
+            return false;
+        }
+
+        $classname = 'org_openpsa_contacts_' . $type . '_dba';
+        $method = '_check_' . $type . '_url';
+        $guid = $args[$type];
+
+        try
+        {
+            $object = new $classname($args[$type]);
+        }
+        catch (midcom_error $e)
+        {
+            $handler->print_error($type . " {$args[$type]} not found, error " . $e->getMessage());
+            return false;
+        }
+        if (!$object->homepage)
+        {
+            $handler->print_error($type . " {$object->guid} has no homepage, skipping");
+            return false;
+        }
+        return $this->$method($object);
     }
 
     private function _check_group_url(org_openpsa_contacts_group_dba $group)
     {
-        $data = org_openpsa_contacts_interface::_get_data_from_url($group->homepage);
+        $data = $this->_get_data_from_url($group->homepage);
 
         // Use the data we got
         if (array_key_exists('icbm', $data))
@@ -248,7 +241,7 @@ implements midcom_services_permalinks_resolver
 
     private function _check_person_url(org_openpsa_contacts_person_dba $person)
     {
-        $data = org_openpsa_contacts_interface::_get_data_from_url($person->homepage);
+        $data = $this->_get_data_from_url($person->homepage);
 
         // Use the data we got
         if (array_key_exists('georss_url', $data))
