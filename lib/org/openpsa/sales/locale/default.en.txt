@@ -202,7 +202,7 @@ The next invoice will be generated on %s
 ---STRINGEND
 
 ---STRING next run
-Next run
+Next billing run
 ---STRINGEND
 
 ---STRING no customer

@@ -18,8 +18,8 @@ Running
 Scheduled
 ---STRINGEND
 
----STRING next billing run
-Next billing run
+---STRING scheduled operations
+Scheduled operations
 ---STRINGEND
 
 ---STRING status

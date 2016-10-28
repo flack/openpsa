@@ -41,7 +41,7 @@ if (   $data['product']
         $at_entries = $data['deliverable']->get_at_entries();
         if (count($at_entries) > 0)
         {
-            echo "<h2>" . midcom::get()->i18n->get_string('next billing run', 'midcom.services.at') . "</h2>\n";
+            echo "<h2>" . $data['l10n']->get('next run') . "</h2>\n";
             echo "<table>\n";
             echo "    <thead>\n";
             echo "        <tr>\n";

@@ -18,7 +18,7 @@ Kör
 Schemalagd
 ---STRINGEND
 
----STRING next billing run
+---STRING scheduled operations
 Schemalagda operationer
 ---STRINGEND
 

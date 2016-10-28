@@ -18,8 +18,8 @@ Läuft
 Eingetragen
 ---STRINGEND
 
----STRING next billing run
-Nächster Rechnungslauf
+---STRING scheduled operations
+Geplante Operationen
 ---STRINGEND
 
 ---STRING status
