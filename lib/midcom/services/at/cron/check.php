@@ -51,12 +51,7 @@ class midcom_services_at_cron_check extends midcom_baseclasses_components_cron_h
             if (!is_callable(array($interface, $method)))
             {
                 $error = get_class($interface) . "->{$method}() is not callable";
-                $this->print_error($error, $args);
-                //PONDER: Delete instead ? (There is currently nothing we do with failed entries)
-                $entry->status = midcom_services_at_entry_dba::FAILED;
-                midcom::get()->auth->request_sudo('midcom.services.at');
-                $entry->update();
-                midcom::get()->auth->drop_sudo();
+                $this->handle_error($entry, $error, $args);
                 continue;
             }
             $mret = $interface->$method($args, $this);
@@ -64,12 +59,7 @@ class midcom_services_at_cron_check extends midcom_baseclasses_components_cron_h
             if ($mret !== true)
             {
                 $error = get_class($interface) . "->{$method}(\$args, \$this) returned '{$mret}', errstr: " . midcom_connection::get_error_string();
-                $this->print_error($error, $args);
-                //PONDER: Delete instead ? (There is currently nothing we do with failed entries)
-                $entry->status = midcom_services_at_entry_dba::FAILED;
-                midcom::get()->auth->request_sudo('midcom.services.at');
-                $entry->update();
-                midcom::get()->auth->drop_sudo();
+                $this->handle_error($entry, $error, $args);
             }
             else
             {
@@ -78,5 +68,15 @@ class midcom_services_at_cron_check extends midcom_baseclasses_components_cron_h
                 midcom::get()->auth->drop_sudo();
             }
         }
+    }
+
+    private function handle_error(midcom_services_at_entry_dba $entry, $error, array $args)
+    {
+        $this->print_error($error, $args);
+        //PONDER: Delete instead ? (There is currently nothing we do with failed entries)
+        $entry->status = midcom_services_at_entry_dba::FAILED;
+        midcom::get()->auth->request_sudo('midcom.services.at');
+        $entry->update();
+        midcom::get()->auth->drop_sudo();
     }
 }

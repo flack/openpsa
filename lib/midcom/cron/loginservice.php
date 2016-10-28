@@ -22,7 +22,7 @@ class midcom_cron_loginservice extends midcom_baseclasses_components_cron_handle
         $result = $qb->execute();
         foreach ($result as $tmp)
         {
-            if (! $tmp->delete())
+            if (!$tmp->delete())
             {
                 $msg = "Failed to delete login session {$tmp->id}, last Midgard error was: " . midcom_connection::get_error_string();
                 $this->print_error($msg, $tmp);
