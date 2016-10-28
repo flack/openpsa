@@ -7,9 +7,9 @@
  */
 
 /**
- * org.openpsa.contacts group handler and viewer class.
+ * org.openpsa.user group handler and viewer class.
  *
- * @package org.openpsa.contacts
+ * @package org.openpsa.user
  */
 class org_openpsa_user_handler_group_privileges extends midcom_baseclasses_components_handler
 implements midcom_helper_datamanager2_interfaces_edit
