@@ -22,34 +22,6 @@
 abstract class midcom_baseclasses_components_cron_handler extends midcom_baseclasses_components_base
 {
     /**
-     * The local handler configuration as written in the Component Manifest.
-     *
-     * @var Array
-     * @access protected
-     */
-    var $_handler_config = null;
-
-    /**
-     * The systemwide component data store.
-     *
-     * Not available for midcom core cron jobs.
-     *
-     * @var Array
-     * @access protected
-     */
-    var $_component_data = null;
-
-    /**
-     * Reference to the Component Interface class. It is loaded during class instantiation.
-     *
-     * Not available for midcom core cron jobs.
-     *
-     * @var midcom_baseclasses_components_interface
-     * @access protected
-     */
-    var $_component_interface = null;
-
-    /**
      * Initialize the cron job. Before calling the on_initialize callback, it prepares
      * the instance with various configuration variables and helper references.
      *
@@ -58,17 +30,7 @@ abstract class midcom_baseclasses_components_cron_handler extends midcom_basecla
     public function initialize(array $config)
     {
         $this->_component = $config['component'];
-        $this->_handler_config = $config['handler_config'];
 
-        if ($config['component'] == 'midcom')
-        {
-            // Special treatment for MidCOM internal handlers.
-            $this->_component_interface = null;
-        }
-        else
-        {
-            $this->_component_interface = midcom::get()->componentloader->get_interface_class($this->_component);
-        }
         return $this->_on_initialize();
     }
 
@@ -99,7 +61,7 @@ abstract class midcom_baseclasses_components_cron_handler extends midcom_basecla
      * the user of any errors. As long as everything goes fine, you should not print anything
      * to avoid needles cron mailings.
      */
-    public function _on_execute() {}
+    abstract public function _on_execute();
 
     /**
      * Echo the error message to the client, automatically appending

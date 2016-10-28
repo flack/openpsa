@@ -18,9 +18,6 @@
  *
  * - <i>string handler</i> holds the full class name which should handle the cron job invocation,
  *   it will be defined by the responsible component.
- * - <i>Array handler_config</i> is the handler specific configuration of the cron job. This is optional
- *   and can therefore be an empty array. It is used to customize cron job behavior on a manifest
- *   level only (use your component configuration for more specific settings.)
  * - <i>int recurrence</i> must be one of MIDCOM_CRON_* constants.
  * - <i>string component (INTERNAL)</i> holds the name of the component this Cron job is associated with.
  *   This key is created automatically.
@@ -36,7 +33,6 @@
  *         Array
  *         (
  *             'handler' => 'net_nehmer_static_cron_test',
- *             'handler_config' => Array ('test', 'configuration', 'entries'),
  *             'recurrence' => MIDCOM_CRON_MINUTE,
  *         )
  *     ),
@@ -164,10 +160,6 @@ class midcom_services_cron
                     if ($this->_validate_job($job))
                     {
                         $job['component'] = $component;
-                        if (!array_key_exists('handler_config', $job))
-                        {
-                            $job['handler_config'] = Array();
-                        }
                         $this->_jobs[] = $job;
                     }
                 }
