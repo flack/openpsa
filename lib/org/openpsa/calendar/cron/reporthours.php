@@ -13,6 +13,14 @@
  */
 class org_openpsa_calendar_cron_reporthours extends midcom_baseclasses_components_cron_handler
 {
+    /**
+     * keyed by event guid
+     *
+     * @var array
+     */
+    private $event_links = array();
+
+
     public function _on_initialize()
     {
         return array_key_exists('org.openpsa.projects', midcom::get()->componentloader->manifests);
@@ -63,8 +71,6 @@ class org_openpsa_calendar_cron_reporthours extends midcom_baseclasses_component
         $qb->add_constraint('hoursReported', '=', 0);
         $eventmembers = $qb->execute();
 
-        // keyed by event guid
-        $event_links = array();
         foreach ($eventmembers as $member)
         {
             // Bulletproofing: prevent duplicating hour reports
@@ -76,25 +82,11 @@ class org_openpsa_calendar_cron_reporthours extends midcom_baseclasses_component
                 $this->print_error($msg);
                 continue;
             }
-            //Avoid multiple loads of same event
             $event = org_openpsa_calendar_event_dba::get_cached($member->eid);
-
-            // Avoid multiple queries of events links
-            if (!isset($event_links[$event->guid]))
-            {
-                $qb2 = org_openpsa_relatedto_dba::new_query_builder();
-                $qb2->add_constraint('fromGuid', '=', $event->guid);
-                $qb2->add_constraint('fromComponent', '=', 'org.openpsa.calendar');
-                $qb2->add_constraint('toComponent', '=', 'org.openpsa.projects');
-                $qb2->add_constraint('toClass', '=', 'org_openpsa_projects_task_dba');
-                $qb2->add_constraint('status', '=', org_openpsa_relatedto_dba::CONFIRMED);
-                $event_links[$event->guid] = $qb2->execute();
-            }
-            $links = $event_links[$event->guid];
+            $links = $this->get_event_links($event->guid);
 
             foreach ($links as $link)
             {
-                //Avoid multiple loads of same task
                 $task = org_openpsa_projects_task_dba::get_cached($link->toGuid);
 
                 debug_add("processing task #{$task->id} ({$task->title}) for person #{$member->uid} from event #{$event->id} ({$event->title})");
@@ -107,7 +99,7 @@ class org_openpsa_calendar_cron_reporthours extends midcom_baseclasses_component
                     continue;
                 }
 
-                if (!org_openpsa_projects_interface::create_hour_report($task, $member->uid, $event, 'org.openpsa.calendar'))
+                if (!$this->create_hour_report($task, $member->uid, $event))
                 {
                     // MidCOM error log is filled in the method, here we just display error
                     $this->print_error("Failed to create hour_report to task #{$task->id} for person #{$member->uid} from event #{$event->id}");
@@ -125,5 +117,48 @@ class org_openpsa_calendar_cron_reporthours extends midcom_baseclasses_component
 
         midcom::get()->auth->drop_sudo();
         debug_add('done');
+    }
+
+    private function get_event_links($guid)
+    {
+        // Avoid multiple queries of events links
+        if (!isset($event_links[$guid]))
+        {
+            $qb2 = org_openpsa_relatedto_dba::new_query_builder();
+            $qb2->add_constraint('fromGuid', '=', $guid);
+            $qb2->add_constraint('fromComponent', '=', 'org.openpsa.calendar');
+            $qb2->add_constraint('toComponent', '=', 'org.openpsa.projects');
+            $qb2->add_constraint('toClass', '=', 'org_openpsa_projects_task_dba');
+            $qb2->add_constraint('status', '=', org_openpsa_relatedto_dba::CONFIRMED);
+            $this->event_links[$guid] = $qb2->execute();
+        }
+        return $this->event_links[$guid];
+    }
+
+    private function create_hour_report(org_openpsa_projects_task_dba $task, $person_id, org_openpsa_calendar_event_dba $event)
+    {
+        //TODO: this should probably have privileges like midgard:owner set to $person_id
+        $hr = new org_openpsa_projects_hour_report_dba();
+        $hr->task = $task->id;
+        $hr->person = $person_id;
+        $hr->invoiceable = $task->hoursInvoiceableDefault;
+
+        $hr->date = $event->start;
+        $hr->hours = round((($event->end - $event->start) / 3600), 2);
+        // TODO: Localize ? better indicator that this is indeed from event ??
+        $hr->description = "event: {$event->title} " . $this->_l10n->get_formatter()->timeframe($event->start, $event->end) . ", {$event->location}\n";
+        $hr->description .= "\n{$event->description}\n";
+
+        if (!$hr->create())
+        {
+            debug_add("failed to create hour_report to task #{$task->id} for person #{$person_id}", MIDCOM_LOG_ERROR);
+            return false;
+        }
+        debug_add("created hour_report #{$hr->id}");
+
+        // Create a relatedtolink from hour_report to the object it was created from
+        org_openpsa_relatedto_plugin::create($hr, 'org.openpsa.projects', $event, 'org.openpsa.calendar');
+
+        return true;
     }
 }

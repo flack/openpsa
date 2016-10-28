@@ -123,49 +123,6 @@ implements midcom_services_permalinks_resolver
         }
     }
 
-    function create_hour_report(org_openpsa_projects_task_dba $task, $person_id, $from_object, $from_component)
-    {
-        if (empty($person_id))
-        {
-            debug_add('person_id is "empty"', MIDCOM_LOG_ERROR);
-            return false;
-        }
-
-        //TODO: this should probably have privileges like midgard:owner set to $person_id
-        $hr = new org_openpsa_projects_hour_report_dba();
-        $hr->task = $task->id;
-        $hr->person = $person_id;
-        $hr->invoiceable = $task->hoursInvoiceableDefault;
-
-        switch (true)
-        {
-            case midcom::get()->dbfactory->is_a($from_object, 'org_openpsa_calendar_event_dba'):
-                $event = $from_object;
-                $hr->date = $event->start;
-                $hr->hours = round((($event->end - $event->start) / 3600), 2);
-                // TODO: Localize ? better indicator that this is indeed from event ??
-                $hr->description = "event: {$event->title} " . $this->_l10n->get_formatter()->timeframe($event->start, $event->end) . ", {$event->location}\n";
-                $hr->description .= "\n{$event->description}\n";
-                break;
-            default:
-                debug_add("class '" . get_class($from_object) . "' not supported", MIDCOM_LOG_ERROR);
-                return false;
-        }
-        debug_print_r("about to create hour_report", $hr);
-
-        if (!$hr->create())
-        {
-            debug_add("failed to create hour_report to task #{$task->id} for person #{$person_id}", MIDCOM_LOG_ERROR);
-            return false;
-        }
-        debug_add("created hour_report #{$hr->id}");
-
-        // Create a relatedtolink from hour_report to the object it was created from
-        org_openpsa_relatedto_plugin::create($hr, 'org.openpsa.projects', $from_object, $from_component);
-
-        return true;
-    }
-
     /**
      * @param array $args handler arguments
      * @param midcom_baseclasses_components_cron_handler $handler cron_handler object calling this method.
