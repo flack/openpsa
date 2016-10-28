@@ -12,14 +12,10 @@
  */
 class org_openpsa_reports_cron_clearold extends midcom_baseclasses_components_cron_handler
 {
-    /**
-     * Find all old temporary reports and clear them.
-     */
-    public function _on_execute()
+    private $cutoff;
+
+    public function _on_initialize()
     {
-        //Disable limits, TODO: think if this could be done in smaller chunks to save memory.
-        midcom::get()->disable_limits();
-        debug_add('_on_execute called');
         $days = $this->_config->get('temporary_report_max_age');
         if ($days == 0)
         {
@@ -27,9 +23,20 @@ class org_openpsa_reports_cron_clearold extends midcom_baseclasses_components_cr
             return;
         }
 
-        $th = time() - ($days * 3600 * 24);
+        $this->cutoff = gmstrftime('%Y-%m-%d %T', time() - ($days * 3600 * 24));
+
+        return true;
+    }
+
+    /**
+     * Find all old temporary reports and clear them.
+     */
+    public function _on_execute()
+    {
+        //Disable limits, TODO: think if this could be done in smaller chunks to save memory.
+        midcom::get()->disable_limits();
         $qb = org_openpsa_reports_query_dba::new_query_builder();
-        $qb->add_constraint('metadata.created', '<', gmstrftime('%Y-%m-%d %T', $th));
+        $qb->add_constraint('metadata.created', '<', $this->cutoff);
         $qb->add_constraint('orgOpenpsaObtype', '=', org_openpsa_reports_query_dba::OBTYPE_REPORT_TEMPORARY);
         $ret = $qb->execute_unchecked();
 
@@ -41,7 +48,5 @@ class org_openpsa_reports_cron_clearold extends midcom_baseclasses_components_cr
                 debug_add("FAILED to delete query #{$query->id}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
             }
         }
-
-        debug_add('Done');
     }
 }

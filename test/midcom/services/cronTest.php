@@ -59,7 +59,6 @@ class midcom_services_cronTest extends openpsa_testcase
                     array
                     (
                         'component' => 'midcom.services.at',
-                        'handler_config' => array(),
                         'handler' => 'midcom_services_at_cron_check',
                         'recurrence' => MIDCOM_CRON_MINUTE,
                     )
@@ -110,7 +109,6 @@ class midcom_services_cronTest extends openpsa_testcase
                     array
                     (
                         'component' => 'midcom.services.at',
-                        'handler_config' => array(),
                         'handler' => 'midcom_services_at_cron_clean',
                         'recurrence' => MIDCOM_CRON_DAY,
                     )

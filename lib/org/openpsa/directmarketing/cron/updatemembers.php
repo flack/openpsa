@@ -18,7 +18,6 @@ class org_openpsa_directmarketing_cron_updatemembers extends midcom_baseclasses_
      */
     public function _on_execute()
     {
-        debug_add('_on_execute called');
         $qb = org_openpsa_directmarketing_campaign_dba::new_query_builder();
         $qb->add_constraint('archived', '=', 0);
         $qb->add_constraint('orgOpenpsaObtype', '=', org_openpsa_directmarketing_campaign_dba::TYPE_SMART);
@@ -36,7 +35,5 @@ class org_openpsa_directmarketing_cron_updatemembers extends midcom_baseclasses_
                 debug_add('schedule_update_smart_campaign_members returned false', MIDCOM_LOG_ERROR);
             }
         }
-
-        debug_add('Done');
     }
 }

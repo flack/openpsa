@@ -12,6 +12,21 @@
  */
 class org_openpsa_directmarketing_cron_cleartokens extends midcom_baseclasses_components_cron_handler
 {
+    private $cutoff;
+
+    public function _on_initialize()
+    {
+        $days = $this->_config->get('send_token_max_age');
+        if ($days == 0)
+        {
+            debug_add('send_token_max_age evaluates to zero, aborting');
+            return false;
+        }
+        $this->cutoff = time() - ($days * 3600 * 24);
+
+        return true;
+    }
+
     /**
      * Find all old send tokens and clear them.
      */
@@ -19,18 +34,10 @@ class org_openpsa_directmarketing_cron_cleartokens extends midcom_baseclasses_co
     {
         //Disable limits, TODO: think if this could be done in smaller chunks to save memory.
         midcom::get()->disable_limits();
-        debug_add('_on_execute called');
-        $days = $this->_config->get('send_token_max_age');
-        if ($days == 0)
-        {
-            debug_add('send_token_max_age evaluates to zero, aborting');
-            return;
-        }
 
-        $th = time() - ($days * 3600 * 24);
         $qb = org_openpsa_directmarketing_campaign_messagereceipt_dba::new_query_builder();
         $qb->add_constraint('token', '<>', '');
-        $qb->add_constraint('timestamp', '<', $th);
+        $qb->add_constraint('timestamp', '<', $this->cutoff);
         $qb->add_constraint('orgOpenpsaObtype', '=', org_openpsa_directmarketing_campaign_messagereceipt_dba::SENT);
         $ret = $qb->execute_unchecked();
 
@@ -43,7 +50,5 @@ class org_openpsa_directmarketing_cron_cleartokens extends midcom_baseclasses_co
                 debug_add("FAILED to update receipt #{$receipt->id}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
             }
         }
-
-        debug_add('Done');
     }
 }

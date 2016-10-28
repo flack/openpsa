@@ -22,7 +22,6 @@ class org_openpsa_directmarketing_cron_cleanup extends midcom_baseclasses_compon
         {
             return;
         }
-        debug_add('_on_execute called');
 
         if (!midcom::get()->auth->request_sudo('org.openpsa.directmarketing'))
         {
@@ -34,7 +33,5 @@ class org_openpsa_directmarketing_cron_cleanup extends midcom_baseclasses_compon
         $cleanup->delete();
 
         midcom::get()->auth->drop_sudo();
-
-        debug_add('Done');
     }
 }

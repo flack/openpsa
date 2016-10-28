@@ -20,9 +20,14 @@ class org_openpsa_calendar_cron_reporthours extends midcom_baseclasses_component
      */
     private $event_links = array();
 
+    /**
+     * @var org_openpsa_calendar_event_dba
+     */
+    private $root_event;
 
     public function _on_initialize()
     {
+        $this->root_event = org_openpsa_calendar_interface::find_root_event();
         return array_key_exists('org.openpsa.projects', midcom::get()->componentloader->manifests);
     }
 
@@ -34,15 +39,6 @@ class org_openpsa_calendar_cron_reporthours extends midcom_baseclasses_component
      */
     public function _on_execute()
     {
-        debug_add('_on_execute called');
-
-        $root_event = org_openpsa_calendar_interface::find_root_event();
-        if ( !is_object($root_event))
-        {
-            debug_add('calendar root event not found', MIDCOM_LOG_WARN);
-            return;
-        }
-
         if (!class_exists('org_openpsa_relatedto_dba'))
         {
             debug_add('relatedto library could not be loaded', MIDCOM_LOG_WARN);
@@ -57,7 +53,7 @@ class org_openpsa_calendar_cron_reporthours extends midcom_baseclasses_component
 
         $qb = org_openpsa_calendar_event_member_dba::new_query_builder();
         // Event must be directly under openpsa calendar root event
-        $qb->add_constraint('eid.up', '=', $root_event->id);
+        $qb->add_constraint('eid.up', '=', $this->root_event->id);
         // Event must have ended
         $qb->add_constraint('eid.end', '<', time());
         // Event can be at most week old
@@ -116,7 +112,6 @@ class org_openpsa_calendar_cron_reporthours extends midcom_baseclasses_component
         }
 
         midcom::get()->auth->drop_sudo();
-        debug_add('done');
     }
 
     private function get_event_links($guid)

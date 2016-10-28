@@ -13,7 +13,6 @@ class midcom_cron_loginservice extends midcom_baseclasses_components_cron_handle
 {
     public function _on_execute()
     {
-        debug_add('called!');
         midcom::get()->dbclassloader->load_classes('midcom', 'core_classes.inc', null, true);
 
         $qb = new midgard_query_builder('midcom_core_login_session_db');

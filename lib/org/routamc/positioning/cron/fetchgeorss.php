@@ -8,6 +8,7 @@
 
 /**
  * Cron handler for fetching person position information from GeoRSS URLs
+ *
  * @package org.routamc.positioning
  */
 class org_routamc_positioning_cron_fetchgeorss extends midcom_baseclasses_components_cron_handler
@@ -17,11 +18,7 @@ class org_routamc_positioning_cron_fetchgeorss extends midcom_baseclasses_compon
      */
     public function _on_execute()
     {
-        debug_add('_on_execute called');
-
         $georss = org_routamc_positioning_importer::create('georss');
         $georss->seek_georss_users();
-
-        debug_add('Done');
     }
 }

@@ -81,7 +81,5 @@ class net_nehmer_comments_cron_atom extends midcom_baseclasses_components_cron_h
         } // <-- articles
 
         midcom::get()->auth->drop_sudo();
-
-        debug_add('Done');
     }
 }

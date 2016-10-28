@@ -8,6 +8,7 @@
 
 /**
  * Cron handler for fetching person position information from icbm URLs
+ *
  * @package org.routamc.positioning
  */
 class org_routamc_positioning_cron_fetchicbm extends midcom_baseclasses_components_cron_handler
@@ -17,11 +18,7 @@ class org_routamc_positioning_cron_fetchicbm extends midcom_baseclasses_componen
      */
     public function _on_execute()
     {
-        debug_add('_on_execute called');
-
         $html = org_routamc_positioning_importer::create('html');
         $html->seek_icbm_users();
-
-        debug_add('Done');
     }
 }

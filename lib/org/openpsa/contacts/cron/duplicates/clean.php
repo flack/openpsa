@@ -18,7 +18,6 @@ class org_openpsa_contacts_cron_duplicates_clean extends midcom_baseclasses_comp
      */
     public function _on_execute()
     {
-        debug_add('_on_execute called');
         if (!$this->_config->get('enable_duplicate_search'))
         {
             debug_add('Duplicate operations disabled, aborting', MIDCOM_LOG_INFO);
@@ -55,7 +54,5 @@ class org_openpsa_contacts_cron_duplicates_clean extends midcom_baseclasses_comp
                 }
             }
         }
-
-        debug_add('Done');
     }
 }
