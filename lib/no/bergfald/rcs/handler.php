@@ -109,25 +109,20 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_plugin
             return;
         }
 
-        $before = $this->_backend->get_prev_version($revision);
-        $before2 = $this->_backend->get_prev_version($before);
-        $after  = $this->_backend->get_next_version($revision);
-
         $show_previous = false;
-        if ($diff_view)
+        if ($before = $this->_backend->get_prev_version($revision))
         {
-            if (   $before != ''
-                && $before2 != '')
+            if ($diff_view)
             {
-                // When browsing diffs we want to display buttons to previous instead of current
-                $first = $before2;
-                $second = $before;
-                $show_previous = true;
+                if ($before2 = $this->_backend->get_prev_version($before))
+                {
+                    // When browsing diffs we want to display buttons to previous instead of current
+                    $first = $before2;
+                    $second = $before;
+                    $show_previous = true;
+                }
             }
-        }
-        else
-        {
-            if ($before != '')
+            else
             {
                 $first = $before;
                 $second = $revision;
@@ -153,7 +148,7 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_plugin
         );
 
         // Display restore and next buttons only if we're not in latest revision
-        if ($after != '')
+        if ($after = $this->_backend->get_next_version($revision))
         {
             $buttons[] = array
             (
@@ -344,8 +339,6 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_plugin
 
         $this->_object->require_do('midgard:update');
         // TODO: set another privilege for restoring?
-
-        $this->_prepare_toolbars($args[1]);
 
         if (   $this->_backend->version_exists($args[1])
             && $this->_backend->restore_to_revision($args[1]))
