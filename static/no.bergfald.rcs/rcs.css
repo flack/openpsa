@@ -13,7 +13,7 @@ dl.no_bergfald_rcs_diff span.inserted
     color: #000000;
 }
 
-dl.no_bergfald_rcs_diff .line-number
+dl.no_bergfald_rcs_diff tbody th
 {
     color: #555;
     font-weight: normal;
