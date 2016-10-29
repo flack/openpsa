@@ -204,7 +204,7 @@ class net_nemein_rss_handler_admin extends midcom_baseclasses_components_handler
 
         if ($handler_id == '____feeds-rss-feeds_subscribe')
         {
-                $this->add_breadcrumb("__feeds/rss/subscribe/", $this->_l10n->get('subscribe feeds'));
+            $this->add_breadcrumb("__feeds/rss/subscribe/", $this->_l10n->get('subscribe feeds'));
         }
         else if ($handler_id == '____feeds-rss-feeds_edit')
         {
