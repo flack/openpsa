@@ -93,6 +93,11 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
         }
     }
 
+    public function get_label()
+    {
+        return $this->title;
+    }
+
     public function get_class()
     {
         if (   !midcom::get()->auth->user
