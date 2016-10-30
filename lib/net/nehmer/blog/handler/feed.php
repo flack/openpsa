@@ -38,7 +38,7 @@ class net_nehmer_blog_handler_feed extends midcom_baseclasses_components_handler
     private $_datamanager = null;
 
     /**
-     * The de.bitfolge.feedcreator instance used.
+     * The feedcreator instance used.
      *
      * @var UniversalFeedCreator
      */
@@ -139,7 +139,7 @@ class net_nehmer_blog_handler_feed extends midcom_baseclasses_components_handler
         $this->_feed->link = midcom::get()->get_host_name() . midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
         $this->_feed->cssStyleSheet = false;
 
-        switch($handler_id)
+        switch ($handler_id)
         {
             case 'feed-rss2':
                 $this->_feed->syndicationURL = "{$this->_feed->link}rss.xml";
@@ -189,7 +189,7 @@ class net_nehmer_blog_handler_feed extends midcom_baseclasses_components_handler
             }
         }
 
-        switch($handler_id)
+        switch ($handler_id)
         {
             case 'feed-rss2':
             case 'feed-category-rss2':
