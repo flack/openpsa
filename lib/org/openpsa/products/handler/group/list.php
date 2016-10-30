@@ -27,9 +27,9 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
      */
     public function _can_handle_list($handler_id, array $args, array &$data)
     {
+        // We're in root-level product index
         if ($handler_id == 'index')
         {
-            // We're in root-level product index
             if ($data['root_group'])
             {
                 $data['group'] = org_openpsa_products_product_group_dba::get_cached($data['root_group']);
@@ -41,81 +41,71 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
                 $data['view_title'] = $this->_l10n->get('product database');
             }
             $data['parent_group'] = $data['root_group'];
+            return true;
+        }
+
+        // We're in some level of groups
+        $qb = org_openpsa_products_product_group_dba::new_query_builder();
+        if ($handler_id == 'list')
+        {
+            $qb->add_constraint('code', '=', $args[0]);
         }
         else
         {
-            // We're in some level of groups
-            $qb = org_openpsa_products_product_group_dba::new_query_builder();
-            if (   $handler_id == 'list_intree'
-                || $handler_id == 'listall')
-            {
-                $parentgroup_qb = org_openpsa_products_product_group_dba::new_query_builder();
-                $parentgroup_qb->add_constraint('code', '=', $args[0]);
-                $groups = $parentgroup_qb->execute();
-                if (empty($groups))
-                {
-                    // No such parent group found
-                    return false;
-                }
-                $qb->add_constraint('up', '=', $groups[0]->id);
-                if ($handler_id == 'listall')
-                {
-                    $qb->add_constraint('code', '=', $args[1]);
-                }
-            }
-            else
-            {
-                $qb->add_constraint('code', '=', $args[0]);
-            }
-
-            $results = $qb->execute();
-            if (count($results) == 0)
-            {
-                try
-                {
-                    $data['group'] = new org_openpsa_products_product_group_dba($args[0]);
-                }
-                catch (midcom_error $e)
-                {
-                    return false;
-                }
-            }
-            else
-            {
-                $data['group'] = $results[0];
-            }
-
-            $data['parent_group'] = $data['group']->id;
-
+            $qb->add_constraint('up.code', '=', $args[0]);
             if ($handler_id == 'listall')
             {
-                try
-                {
-                    $group_up = new org_openpsa_products_product_group_dba($data['group']->up);
-                    if (isset($group_up->title))
-                    {
-                        $data['group'] = $group_up;
-                    }
-                }
-                catch (midcom_error $e){}
+                $qb->add_constraint('code', '=', $args[1]);
             }
-
-            if ($this->_config->get('code_in_title'))
-            {
-                $data['view_title'] = "{$data['group']->code} {$data['group']->title}";
-            }
-            else
-            {
-                $data['view_title'] = $data['group']->title;
-            }
-
-            if ($handler_id == 'listall')
-            {
-                $data['view_title'] = sprintf($this->_l10n_midcom->get('All %s'), $data['view_title']);
-            }
-
-            $data['acl_object'] = $data['group'];
         }
+        $results = $qb->execute();
+
+        if (count($results) == 0)
+        {
+            try
+            {
+                $data['group'] = new org_openpsa_products_product_group_dba($args[0]);
+            }
+            catch (midcom_error $e)
+            {
+                return false;
+            }
+        }
+        else
+        {
+            $data['group'] = $results[0];
+        }
+
+        $data['parent_group'] = $data['group']->id;
+
+        if ($handler_id == 'listall')
+        {
+            try
+            {
+                $group_up = new org_openpsa_products_product_group_dba($data['group']->up);
+                if (isset($group_up->title))
+                {
+                    $data['group'] = $group_up;
+                }
+            }
+            catch (midcom_error $e){}
+        }
+
+        if ($this->_config->get('code_in_title'))
+        {
+            $data['view_title'] = "{$data['group']->code} {$data['group']->title}";
+        }
+        else
+        {
+            $data['view_title'] = $data['group']->title;
+        }
+
+        if ($handler_id == 'listall')
+        {
+            $data['view_title'] = sprintf($this->_l10n_midcom->get('All %s'), $data['view_title']);
+        }
+
+        $data['acl_object'] = $data['group'];
 
         return true;
     }
