@@ -273,28 +273,18 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
             $data['wikipage_view'] = $this->_datamanager->get_content_html();
         }
         $data['wikipage'] = $this->_page;
-        if ($this->_config->get('autogenerate_toc'))
-        {
-            $data['wikipage_view']['content'] = $this->_autogenerate_toc($data['wikipage_view']['content']);
-        }
-        else
-        {
-            $data['wikipage_view']['content'] = $data['view']['content'];
-        }
-
         $data['display_related_to'] = $this->_config->get('display_related_to');
 
         // Replace wikiwords
         // TODO: We should somehow make DM2 do this so it would also work in AJAX previews
         $parser = new net_nemein_wiki_parser($this->_page);
         $data['wikipage_view']['content'] = $parser->get_markdown($data['wikipage_view']['content']);
+        if ($this->_config->get('autogenerate_toc'))
+        {
+            $data['wikipage_view']['content'] = $this->_autogenerate_toc($data['wikipage_view']['content']);
+        }
 
         midcom_show_style('view-wikipage');
-    }
-
-    private function _toc_prefix($level)
-    {
-        return str_pad('', 4 * $level);
     }
 
     /**
@@ -319,13 +309,12 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
         $toc .= "\n<ol class=\"midcom_helper_toc_formatter level_{$current_list_level}\">\n";
         foreach ($headings[4] as $key => $heading)
         {
-            $anchor = md5($heading);
+            $anchor = 'heading-' . md5($heading);
             $tag_level =& $headings[3][$key];
             $heading_code =& $headings[0][$key];
             $heading_tag =& $headings[2][$key];
-            $heading_new_code = "<a name='{$anchor}'></a>{$heading_code}";
+            $heading_new_code = "<a id='{$anchor}'></a>{$heading_code}";
             $content = str_replace($heading_code, $heading_new_code, $content);
-            $prefix = $this->_toc_prefix($current_list_level);
             if ($current_tag_level === false)
             {
                 $current_tag_level = $tag_level;
@@ -340,11 +329,10 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
                 {
                     $current_tag_level = $tag_level;
                     $current_list_level++;
-                    $toc .= $prefix . "<ol class=\"level_{$current_list_level}\">\n";
-                    $prefix .= '    ';
+                    $toc .= "<ol class=\"level_{$current_list_level}\">\n";
                     if ($tag_level > $i + 1)
                     {
-                        $toc .= $prefix . "<li>\n";
+                        $toc .= "<li>\n";
                     }
                 }
             }
@@ -352,23 +340,20 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
             {
                 for ($i = $current_tag_level; $i > $tag_level; $i--)
                 {
-                    $toc .= $prefix . "</li>\n";
+                    $toc .= "</li>\n";
                     $current_tag_level = $tag_level;
                     if ($current_list_level > 1)
                     {
                         $current_list_level--;
-                        $prefix = $this->_toc_prefix($current_list_level);
-                        $toc .= "{$prefix}</ol>\n";
+                        $toc .= "</ol>\n";
                     }
                 }
             }
-            $toc .= $prefix . "<li class='{$heading_tag}'><a href='#{$anchor}'>" . strip_tags($heading) .  "</a>";
+            $toc .= "<li class='{$heading_tag}'><a href='#{$anchor}'>" . strip_tags($heading) .  "</a>";
         }
         for ($i = $current_list_level; $i > 0; $i--)
         {
-            $toc .= $prefix . "</li>\n";
-            $prefix = $this->_toc_prefix($i - 1);
-            $toc .= $prefix . "</ol>\n";
+            $toc .= "</li>\n</ol>\n";
         }
 
         return $toc . $content;
