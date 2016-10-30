@@ -167,7 +167,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
      *
      * @param net_nemein_rss_parser_item $item Feed item as provided by SimplePie
      */
-    function import_item(net_nemein_rss_parser_item $item)
+    public function import_item(net_nemein_rss_parser_item $item)
     {
         switch ($this->_node->component)
         {
@@ -468,7 +468,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
      * @param net_nemein_rss_parser_item $item Feed item as provided by SimplePie
      * @return Array Information found
      */
-    function parse_item_author(net_nemein_rss_parser_item $item)
+    public static function parse_item_author(net_nemein_rss_parser_item $item)
     {
         $author_info = array();
 
@@ -538,10 +538,10 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
      * @param net_nemein_rss_parser_item $item Feed item as provided by SimplePie
      * @return midcom_db_person Person object matched, or null
      */
-    function match_item_author(net_nemein_rss_parser_item $item)
+    public function match_item_author(net_nemein_rss_parser_item $item)
     {
         // Parse the item for author information
-        $author_info = $this->parse_item_author($item);
+        $author_info = self::parse_item_author($item);
 
         if (!empty($author_info['email']))
         {
@@ -555,12 +555,10 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
             }
         }
 
-        if (!empty($author_info['username']))
+        if (   !empty($author_info['username'])
+            && $person = midcom::get()->auth->get_user_by_name($author_info['username']))
         {
-            if ($person = midcom::get()->auth->get_user_by_name($author_info['username']))
-            {
-                return $person->get_storage();
-            }
+            return $person->get_storage();
         }
 
         if (!empty($author_info['full_name']))
