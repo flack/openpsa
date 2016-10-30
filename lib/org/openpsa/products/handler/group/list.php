@@ -52,7 +52,17 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
         }
         else
         {
-            $qb->add_constraint('up.code', '=', $args[0]);
+            // in midgard-portable, we could simply do
+            //$qb->add_constraint('up.code', '=', $args[0]);
+            // but for now, let's stay compatible with mgd extension..
+            $parentgroup_mc = org_openpsa_products_product_group_dba::new_collector('code', $args[0]);
+            $groups = $parentgroup_mc->get_values('id');
+            if (empty($groups))
+            {
+                // No such parent group found
+                return false;
+            }
+            $qb->add_constraint('up', '=', reset($groups));
             if ($handler_id == 'listall')
             {
                 $qb->add_constraint('code', '=', $args[1]);
