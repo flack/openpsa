@@ -137,10 +137,7 @@ class org_openpsa_products_handler_product_search extends midcom_baseclasses_com
         return $normalized_parameters;
     }
 
-    /**
-     * Search products using Midgard 1.8+ Query Builder
-     */
-    private function _qb_list_all()
+    private function get_qbpager()
     {
         $qb = new org_openpsa_qbpager('org_openpsa_products_product_dba', 'org_openpsa_products_product_dba');
         $qb->results_per_page = $this->_config->get('products_per_page');
@@ -154,23 +151,17 @@ class org_openpsa_products_handler_product_search extends midcom_baseclasses_com
 
         foreach ($this->_config->get('search_index_order') as $ordering)
         {
-            $this->_add_ordering($qb, $ordering);
+            if (preg_match('/\s*reversed?\s*/', $ordering))
+            {
+                $ordering = preg_replace('/\s*reversed?\s*/', '', $ordering);
+                $qb->add_order($ordering, 'DESC');
+            }
+            else
+            {
+                $qb->add_order($ordering);
+            }
         }
-
-        return $qb->execute();
-    }
-
-    private function _add_ordering(&$qb, $ordering)
-    {
-        if (preg_match('/\s*reversed?\s*/', $ordering))
-        {
-            $ordering = preg_replace('/\s*reversed?\s*/', '', $ordering);
-            $qb->add_order($ordering, 'DESC');
-        }
-        else
-        {
-            $qb->add_order($ordering);
-        }
+        return $qb;
     }
 
     /**
@@ -178,23 +169,7 @@ class org_openpsa_products_handler_product_search extends midcom_baseclasses_com
      */
     private function _qb_search($constraints)
     {
-        $qb = new org_openpsa_qbpager('org_openpsa_products_product_dba', 'org_openpsa_products_product_dba');
-        $qb->results_per_page = $this->_config->get('products_per_page');
-        /* FIXME: It this the right way to do this? */
-        $this->_request_data['search_qb'] = $qb;
-
-        // Check that the object has correct schema
-        $mc = new midgard_collector('midgard_parameter', 'domain', 'midcom.helper.datamanager2');
-        $mc->set_key_property('parentguid');
-        $mc->add_constraint('name', '=', 'schema_name');
-        $mc->add_constraint('value', '=', $this->_request_data['search_schema']);
-        $mc->execute();
-        $keys = $mc->list_keys();
-        if (empty($keys))
-        {
-            return array();
-        }
-        $qb->add_constraint('guid', 'IN', array_keys($keys));
+        $qb = $this->get_qbpager();
 
         if ($this->_request_data['search_type'] == 'OR')
         {
@@ -214,17 +189,11 @@ class org_openpsa_products_handler_product_search extends midcom_baseclasses_com
             if (   $storage['location'] == 'parameter'
                 || $storage['location'] == 'configuration')
             {
-                $mc = new midgard_collector('midgard_parameter', 'domain', $storage['domain']);
-                $mc->set_key_property('parentguid');
-                $mc->add_constraint('name', '=', $constraint['property']);
-                $mc->add_constraint('value', $constraint['constraint'], $constraint['value']);
-                $mc->execute();
-                $keys = $mc->list_keys();
-                if (!empty($keys))
-                {
-                    $qb->add_constraint('guid', 'IN', array_keys($keys));
-                }
-                unset($mc, $keys);
+                $qb->begin_group('AND');
+                $qb->add_constraint('parameter.domain', '=', $storage['domain']);
+                $qb->add_constraint('parameter.name', '=', $constraint['property']);
+                $qb->add_constraint('parameter.value', $constraint['constraint'], $constraint['value']);
+                $qb->end_group();
             }
             else
             {
@@ -240,11 +209,6 @@ class org_openpsa_products_handler_product_search extends midcom_baseclasses_com
         if ($this->_request_data['search_type'] == 'OR')
         {
             $qb->end_group();
-        }
-
-        foreach ($this->_config->get('search_index_order') as $ordering)
-        {
-            $this->_add_ordering($qb, $ordering);
         }
 
         return $qb->execute();
@@ -296,7 +260,7 @@ class org_openpsa_products_handler_product_search extends midcom_baseclasses_com
                  || $this->_config->get('search_default_to_all'))
         {
             // Process search
-            $data['results'] = $this->_qb_list_all();
+            $data['results'] = $this->get_qbpager()->execute();
         }
 
         // Prepare datamanager
