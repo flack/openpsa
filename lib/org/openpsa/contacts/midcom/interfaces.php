@@ -99,10 +99,6 @@ implements midcom_services_permalinks_resolver
 
     private function _get_data_from_url($url)
     {
-        // TODO: Error handling
-        $client = new org_openpsa_httplib();
-        $html = $client->get($url);
-
         $data = array();
 
         // TODO: Error handling
