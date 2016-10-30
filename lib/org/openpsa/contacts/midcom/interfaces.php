@@ -99,14 +99,10 @@ implements midcom_services_permalinks_resolver
 
     private function _get_data_from_url($url)
     {
-        //We have to hang on to the hKit object, because its configuration is done by require_once
-        //and will thus only work for the first instantiation...
-        static $hkit;
-        if (is_null($hkit))
-        {
-            require_once MIDCOM_ROOT . '/external/hkit.php';
-            $hkit = new hKit();
-        }
+        // TODO: Error handling
+        $client = new org_openpsa_httplib();
+        $html = $client->get($url);
+
         $data = array();
 
         // TODO: Error handling
@@ -141,10 +137,17 @@ implements midcom_services_permalinks_resolver
             }
         }
 
-        $hcards = @$hkit->getByURL('hcard', $url);
+        $microformats = Mf2\parse($html);
+        $hcards = array();
+        foreach ($microformats['items'] as $item)
+        {
+            if (in_array('h-card', $item['type']))
+            {
+                $hcards[] = $item['properties'];
+            }
+        }
 
-        if (   is_array($hcards)
-            && count($hcards) > 0)
+        if (count($hcards) > 0)
         {
             // We have found hCard data here
             $data['hcards'] = $hcards;
@@ -281,15 +284,15 @@ implements midcom_services_permalinks_resolver
             switch ($key)
             {
                 case 'email':
-                    $object->email = $val;
+                    $object->email = reset($val);
                     break;
 
                 case 'tel':
-                    $object->workphone = $val;
+                    $object->workphone = reset($val);
                     break;
 
                 case 'note':
-                    $object->extra = $val;
+                    $object->extra = reset($val);
                     break;
 
                 case 'photo':
@@ -297,21 +300,22 @@ implements midcom_services_permalinks_resolver
                     break;
 
                 case 'adr':
-                    if (array_key_exists('street-address', $val))
+                    $adr = reset($val);
+                    if (array_key_exists('street-address', $adr['properties']))
                     {
-                        $object->street = $val['street-address'];
+                        $object->street = reset($adr['properties']['street-address']);
                     }
-                    if (array_key_exists('postal-code', $val))
+                    if (array_key_exists('postal-code', $adr['properties']))
                     {
-                        $object->postcode = $val['postal-code'];
+                        $object->postcode = reset($adr['properties']['postal-code']);
                     }
-                    if (array_key_exists('locality', $val))
+                    if (array_key_exists('locality', $adr['properties']))
                     {
-                        $object->city = $val['locality'];
+                        $object->city = reset($adr['properties']['locality']);
                     }
-                    if (array_key_exists('country-name', $val))
+                    if (array_key_exists('country-name', $adr['properties']))
                     {
-                        $object->country = $val['country-name'];
+                        $object->country = reset($adr['properties']['country-name']);
                     }
                     break;
             }
