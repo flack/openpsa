@@ -348,9 +348,7 @@ class elFinderVolumeOpenpsa extends elFinderVolumeDriver
 
         if ($object instanceof org_openpsa_documents_document_dba)
         {
-            $parentfield = 'topic';
             $owner = $object->orgOpenpsaOwnerWg;
-
 
             $attachments = org_openpsa_helpers::get_dm2_attachments($object, 'document');
             if ($attachments)
@@ -365,7 +363,6 @@ class elFinderVolumeOpenpsa extends elFinderVolumeDriver
         }
         else
         {
-            $parentfield = 'up';
             $owner = $object->get_parameter('org.openpsa.core', 'orgOpenpsaOwnerWg');
 
             $qb = org_openpsa_documents_directory::new_query_builder();
@@ -382,16 +379,10 @@ class elFinderVolumeOpenpsa extends elFinderVolumeDriver
             $data['group'] = $group->name;
         }
 
-        if ($this->root !== $path)
+        if (   $this->root !== $path
+            && $parent = $object->get_parent())
         {
-            $parent_mc = org_openpsa_documents_directory::new_collector('component', 'org.openpsa.documents');
-            $parent_mc->add_constraint('id', '=', $object->$parentfield);
-
-            $keys = $parent_mc->list_keys();
-            if ($keys)
-            {
-                $data['phash'] = $this->encode(key($keys));
-            }
+            $data['phash'] = $this->encode($parent->guid);
         }
         return $data;
     }
