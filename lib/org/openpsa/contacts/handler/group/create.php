@@ -33,7 +33,7 @@ implements midcom_helper_datamanager2_interfaces_create
      *
      * @var org_openpsa_contacts_group_dba
      */
-    private $_parent_group = null;
+    private $_parent_group;
 
     public function load_schemadb()
     {
@@ -48,20 +48,13 @@ implements midcom_helper_datamanager2_interfaces_create
     public function get_schema_defaults()
     {
         $defaults = array();
-        if (!is_null($this->_parent_group))
+        if ($this->_parent_group)
         {
+            $defaults['owner'] = $this->_parent_group->id;
             if ($this->_type == 'organization')
             {
                 // Set the default type to "department"
                 $defaults['object_type'] = org_openpsa_contacts_group_dba::DEPARTMENT;
-            }
-            else
-            {
-                $defaults['owner'] = org_openpsa_contacts_interface::find_root_group()->id;
-            }
-            if ($this->_parent_group)
-            {
-                $defaults['owner'] = $this->_parent_group->id;
             }
         }
         return $defaults;
@@ -104,7 +97,6 @@ implements midcom_helper_datamanager2_interfaces_create
     {
         $this->_type = $args[0];
 
-        $this->_parent_group = false;
         if (count($args) > 1)
         {
             // Get the parent organization

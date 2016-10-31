@@ -9,6 +9,7 @@
 namespace midcom\events;
 
 use Symfony\Component\EventDispatcher\Event;
+use midcom_core_dbaobject;
 
 /**
  * midcom DBA listener
@@ -30,7 +31,7 @@ class dbaevent extends Event
      */
     private $_object;
 
-    public function __construct(\midcom_core_dbaobject $object)
+    public function __construct(midcom_core_dbaobject $object)
     {
         $this->_object = $object;
     }

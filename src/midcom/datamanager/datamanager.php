@@ -35,7 +35,7 @@ class datamanager
 
     /**
      *
-     * @var storage\storage\container
+     * @var storage\container\container
      */
     private $storage;
 

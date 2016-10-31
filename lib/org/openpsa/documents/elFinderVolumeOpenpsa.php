@@ -543,9 +543,9 @@ class elFinderVolumeOpenpsa extends elFinderVolumeDriver
     /**
      * Copy file into another file (only inside one volume)
      *
-     * @param  string  $source  source file path
-     * @param  string  $target  target dir path
-     * @param  string  $name    file name
+     * @param  string  $source     source file path
+     * @param  string  $targetDir  target dir path
+     * @param  string  $name       file name
      * @return bool
      */
     protected function _copy($source, $targetDir, $name)
@@ -569,9 +569,9 @@ class elFinderVolumeOpenpsa extends elFinderVolumeDriver
      * Move file into another parent dir.
      * Return new file path or false.
      *
-     * @param  string  $source  source file path
-     * @param  string  $target  target dir path
-     * @param  string  $name    file name
+     * @param  string  $source     source file path
+     * @param  string  $targetDir  target dir path
+     * @param  string  $name       file name
      * @return string|bool
      */
     protected function _move($source, $targetDir, $name)

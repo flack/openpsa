@@ -491,18 +491,14 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
         if (empty($authors))
         {
             // Fall back to original creator if authors are not set for some reason
-            $authors = array();
-            $authors[] = $parent->metadata->creator;
+            $authors = array($parent->metadata->creator);
         }
 
-        if (!empty($authors))
+        //Go through all the authors
+        foreach ($authors as $author)
         {
-            //Go through all the authors
-            foreach ($authors as $author)
-            {
-                // Send the notification to each author of the original document
-                org_openpsa_notifications::notify('net.nehmer.comments:comment_posted', $author, $message);
-            }
+            // Send the notification to each author of the original document
+            org_openpsa_notifications::notify('net.nehmer.comments:comment_posted', $author, $message);
         }
 
         //Get all the subscriptions

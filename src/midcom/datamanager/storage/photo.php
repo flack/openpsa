@@ -68,7 +68,7 @@ class photo extends images
      * @param array $data
      * @param array $existing
      * @param string $identifier
-     * @param \midcom_core_dbaobject
+     * @return midcom_db_attachment
      */
     protected function get_attachment(array $data, $existing, $identifier)
     {

@@ -24,7 +24,7 @@ class blobs extends delayed
     protected $map = array();
 
     /**
-     * {@inheritdoc}
+     * @return midcom_db_attachment[]
      */
     public function load()
     {
@@ -203,6 +203,14 @@ class blobs extends delayed
         return $map;
     }
 
+    /**
+     *
+     * @param string $filename
+     * @param string $title
+     * @param string $mimetype
+     * @throws midcom_error
+     * @return midcom_db_attachment
+     */
     protected function create_attachment($filename, $title, $mimetype)
     {
         $filename = $this->generate_unique_name($filename);

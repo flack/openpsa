@@ -548,8 +548,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
                 continue;
             }
 
-            $parent = midgard_object_class::get_property_parent($schema_type);
-            if (!empty($parent))
+            if (midgard_object_class::get_property_parent($schema_type))
             {
                 // type has parent set, thus cannot be root type
                 continue;
