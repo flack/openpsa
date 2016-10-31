@@ -671,11 +671,7 @@ class midcom_helper_toolbar
             }
             if ($position !== false)
             {
-                $new_label  = substr($label, 0, $position);
-                $new_label .= "<span style=\"text-decoration: underline;\">{$accesskey}</span>";
-                $new_label .= substr($label, $position + 1);
-                // FIXME: This is an ugly IE rendering fix
-                $label = str_replace(' ', '&nbsp;', $new_label);
+                $label = substr_replace($label, "<span style=\"text-decoration: underline;\">{$accesskey}</span>", $position, 1);
             }
         }
 
