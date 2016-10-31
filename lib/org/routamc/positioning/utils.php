@@ -18,7 +18,7 @@ class org_routamc_positioning_utils extends midcom_baseclasses_components_pureco
      *
      * Code from http://www.corecoding.com/getfile.php?file=25
      */
-    function get_distance($from, $to, $unit = 'K', $round = true)
+    public static function get_distance($from, $to, $unit = 'K', $round = true)
     {
         $theta = $from['longitude'] - $to['longitude'];
         $dist = sin(deg2rad($from['latitude'])) * sin(deg2rad($to['latitude'])) + cos(deg2rad($from['latitude'])) * cos(deg2rad($to['latitude'])) * cos(deg2rad($theta));
@@ -47,22 +47,15 @@ class org_routamc_positioning_utils extends midcom_baseclasses_components_pureco
      *
      * Code from http://www.corecoding.com/getfile.php?file=25
      */
-    function get_bearing($from, $to)
+    public static function get_bearing($from, $to)
     {
         if (round($from['longitude'], 1) == round($to['longitude'], 1))
         {
-            if ($from['latitude'] < $to['latitude'])
-            {
-                $bearing = 0;
-            }
-            else
-            {
-                $bearing = 180;
-            }
+            $bearing = ($from['latitude'] < $to['latitude']) ? 0 : 180;
         }
         else
         {
-            $dist = org_routamc_positioning_utils::get_distance($from, $to, 'N');
+            $dist = self::get_distance($from, $to, 'N');
             $arad = acos((sin(deg2rad($to['latitude'])) - sin(deg2rad($from['latitude'])) * cos(deg2rad($dist / 60))) / (sin(deg2rad($dist / 60)) * cos(deg2rad($from['latitude']))));
             $bearing = $arad * 180 / pi();
             if (sin(deg2rad($to['longitude'] - $from['longitude'])) < 0)
@@ -88,49 +81,13 @@ class org_routamc_positioning_utils extends midcom_baseclasses_components_pureco
     }
 
     /**
-     * Converts DMS ( Degrees / minutes / seconds ) to decimal format longitude / latitude
-     *
-     * Code from http://www.web-max.ca/PHP/misc_6.php
-     */
-    function coordinate_to_decimal($deg, $min, $sec)
-    {
-        return $deg+((($min*60)+($sec))/3600);
-    }
-
-    /**
-     * Converts decimal longitude / latitude to DMS ( Degrees / minutes / seconds )
-     *
-     * Code from http://www.web-max.ca/PHP/misc_6.php
-     */
-    function decimal_to_coordinate($dec)
-    {
-        // This is the piece of code which may appear to
-        // be inefficient, but to avoid issues with floating
-        // point math we extract the integer part and the float
-        // part by using a string function.
-        $vars = explode(".", $dec);
-        $deg = $vars[0];
-        $tempma = "0.{$vars[1]}";
-        $tempma = $tempma * 3600;
-        $min = floor($tempma / 60);
-        $sec = $tempma - ($min * 60);
-        $coordinate = array
-        (
-            'deg' => $deg,
-            'min' => $min,
-            'sec' => $sec
-        );
-        return $coordinate;
-    }
-
-    /**
      * Pretty-print a coordinate value (latitude or longitude)
      *
      * Code from http://en.wikipedia.org/wiki/Geographic_coordinate_conversion
      *
      * @return string
      */
-    function pretty_print_coordinate($coordinate)
+    public static function pretty_print_coordinate($coordinate)
     {
         return sprintf("%0.0f° %2.3f",
                  floor(abs($coordinate)),
@@ -145,11 +102,11 @@ class org_routamc_positioning_utils extends midcom_baseclasses_components_pureco
      *
      * @return string
      */
-    function pretty_print_coordinates($latitude, $longitude)
+    public static function pretty_print_coordinates($latitude, $longitude)
     {
         return sprintf("%s %s, %s %s",
-                 ($latitude>0)?"N":"S",  org_routamc_positioning_utils::pretty_print_coordinate($latitude),
-                 ($longitude>0)?"E":"W", org_routamc_positioning_utils::pretty_print_coordinate($longitude)
+                 ($latitude>0)?"N":"S",  self::pretty_print_coordinate($latitude),
+                 ($longitude>0)?"E":"W", self::pretty_print_coordinate($longitude)
         );
     }
 
@@ -158,15 +115,15 @@ class org_routamc_positioning_utils extends midcom_baseclasses_components_pureco
      *
      * @return string
      */
-    function pretty_print_location($latitude, $longitude)
+    public static function pretty_print_location($latitude, $longitude)
     {
         $coordinates = array
         (
             'latitude'  => $latitude,
             'longitude' => $longitude,
         );
-        $closest = org_routamc_positioning_utils::get_closest('org_routamc_positioning_city_dba', $coordinates, 1);
-        $city_string = org_routamc_positioning_utils::pretty_print_coordinates($coordinates['latitude'], $coordinates['longitude']);
+        $closest = self::get_closest('org_routamc_positioning_city_dba', $coordinates, 1);
+        $city_string = self::pretty_print_coordinates($coordinates['latitude'], $coordinates['longitude']);
         foreach ($closest as $city)
         {
             $city_coordinates = array
@@ -174,14 +131,14 @@ class org_routamc_positioning_utils extends midcom_baseclasses_components_pureco
                 'latitude'  => $city->latitude,
                 'longitude' => $city->longitude,
             );
-            $city_distance = round(org_routamc_positioning_utils::get_distance($coordinates, $city_coordinates));
+            $city_distance = round(self::get_distance($coordinates, $city_coordinates));
             if ($city_distance <= 4)
             {
                 $city_string = "{$city->city}, {$city->country}";
             }
             else
             {
-                $bearing = org_routamc_positioning_utils::get_bearing($city_coordinates, $coordinates);
+                $bearing = self::get_bearing($city_coordinates, $coordinates);
                 $city_string = sprintf(midcom::get()->i18n->get_string('%skm %s of %s', 'org.routamc.positioning'), $city_distance, $bearing, "{$city->city}, {$city->country}");
             }
         }
@@ -193,18 +150,18 @@ class org_routamc_positioning_utils extends midcom_baseclasses_components_pureco
      *
      * @return string
      */
-    function microformat_location($latitude, $longitude)
+    public static function microformat_location($latitude, $longitude)
     {
         $coordinates = array
         (
             'latitude'  => $latitude,
             'longitude' => $longitude,
         );
-        $closest = org_routamc_positioning_utils::get_closest('org_routamc_positioning_city_dba', $coordinates, 1);
+        $closest = self::get_closest('org_routamc_positioning_city_dba', $coordinates, 1);
 
-        $latitude_string = org_routamc_positioning_utils::pretty_print_coordinate($latitude);
+        $latitude_string = self::pretty_print_coordinate($latitude);
         $latitude_string .= ($latitude > 0) ? " N" : " S";
-        $longitude_string = org_routamc_positioning_utils::pretty_print_coordinate($longitude);
+        $longitude_string = self::pretty_print_coordinate($longitude);
         $longitude_string .= ($longitude > 0) ? " E" : " W";
 
         if (count($closest) == 0)
@@ -233,7 +190,7 @@ class org_routamc_positioning_utils extends midcom_baseclasses_components_pureco
                 'longitude' => $city->longitude,
             );
 
-            $city_distance = round(org_routamc_positioning_utils::get_distance($coordinates, $city_coordinates));
+            $city_distance = round(self::get_distance($coordinates, $city_coordinates));
 
             $city_label  = "<span class=\"locality\">{$city->city}</span>, ";
             $city_label .= "<span class=\"country-name\">{$city->country}</span>";
@@ -244,7 +201,7 @@ class org_routamc_positioning_utils extends midcom_baseclasses_components_pureco
             }
             else
             {
-                $bearing = org_routamc_positioning_utils::get_bearing($city_coordinates, $coordinates);
+                $bearing = self::get_bearing($city_coordinates, $coordinates);
                 $city_string .= sprintf(midcom::get()->i18n->get_string('%skm %s of %s', 'org.routamc.positioning'), $city_distance, $bearing, $city_label);
             }
 
@@ -258,7 +215,7 @@ class org_routamc_positioning_utils extends midcom_baseclasses_components_pureco
      * @param string $class MidCOM class name
      * @param string $classname
      */
-    function get_positioning_class($class)
+    private static function get_positioning_class($class)
     {
         // See what kind of object we're querying for
         switch ($class)
@@ -289,9 +246,9 @@ class org_routamc_positioning_utils extends midcom_baseclasses_components_pureco
      * @param float $modifier
      * @return array array of MidCOM DBA objects sorted by proximity
      */
-    function get_closest($class, array $center, $limit, $max_distance = null, $modifier = 0.15)
+    public static function get_closest($class, array $center, $limit, $max_distance = null, $modifier = 0.15)
     {
-        $classname = org_routamc_positioning_utils::get_positioning_class($class);
+        $classname = self::get_positioning_class($class);
         $direct = ($classname == $class);
         $qb =  midcom::get()->dbfactory->new_query_builder($classname);
 
@@ -305,26 +262,10 @@ class org_routamc_positioning_utils extends midcom_baseclasses_components_pureco
         $rounds++;
 
         // Limit to earth coordinates
-        $from['latitude'] = $center['latitude'] + $modifier;
-        if ($from['latitude'] > 90)
-        {
-            $from['latitude'] = 90;
-        }
-        $from['longitude'] = $center['longitude'] - $modifier;
-        if ($from['longitude'] < -180)
-        {
-            $from['longitude'] = -180;
-        }
-        $to['latitude'] = $center['latitude'] - $modifier;
-        if ($to['latitude'] < -90)
-        {
-            $to['latitude'] = -90;
-        }
-        $to['longitude'] = $center['longitude'] + $modifier;
-        if ($to['longitude'] > 180)
-        {
-            $to['longitude'] = 180;
-        }
+        $from['latitude'] = min($center['latitude'] + $modifier, 90);
+        $from['longitude'] = max($center['longitude'] - $modifier, -180);
+        $to['latitude'] = max($center['latitude'] - $modifier, -90);
+        $to['longitude'] = min($center['longitude'] + $modifier, 180);
 
         if (!isset($current_locale))
         {
@@ -360,48 +301,7 @@ class org_routamc_positioning_utils extends midcom_baseclasses_components_pureco
                 && $to['longitude'] == 180)
             {
                 // We've queried the entire globe so we return whatever we got
-                $results = $qb->execute();
-                $closest = array();
-                foreach ($results as $result)
-                {
-                    $result_coordinates = array
-                    (
-                        'latitude' => $result->latitude,
-                        'longitude' => $result->longitude,
-                    );
-
-                    $distance = sprintf("%05d", round(org_routamc_positioning_utils::get_distance($center, $result_coordinates)));
-
-                    if (   !is_null($max_distance)
-                        && $distance > $max_distance)
-                    {
-                        // This entry is too far
-                        continue;
-                    }
-
-                    if (!$direct)
-                    {
-                        // Instantiate the real object as the result
-                        $located_object = new $class($result->parent);
-                        if (!$located_object->guid)
-                        {
-                            // This one has been deleted
-                            midcom::get()->auth->request_sudo('org.routamc.positioning');
-                            $result->delete();
-                            midcom::get()->auth->drop_sudo();
-                            continue;
-                        }
-                        $result = $located_object;
-                        $result->latitude = $result_coordinates['latitude'];
-                        $result->longitude = $result_coordinates['longitude'];
-                        $result->distance = (int) $distance;
-                    }
-
-                    $closest[$distance . $result->guid] = $result;
-                }
-                ksort($closest);
-                reset($closest);
-                return $closest;
+                return self::get_closest_results($qb, $class, $center, $max_distance, $direct);
             }
 
             $modifier = $modifier * 1.05;
@@ -409,15 +309,27 @@ class org_routamc_positioning_utils extends midcom_baseclasses_components_pureco
             return self::get_closest($class, $center, $limit, $max_distance, $modifier);
         }
 
+        $closest = self::get_closest_results($qb, $class, $center, $max_distance, $direct);
+        while (count($closest) > $limit)
+        {
+            array_pop($closest);
+        }
+        setlocale(LC_NUMERIC, $current_locale);
+        return $closest;
+    }
+
+    private static function get_closest_results(midcom_core_querybuilder $qb, $class, $center, $max_distance, $direct)
+    {
         $results = $qb->execute();
         $closest = array();
         foreach ($results as $result)
         {
             $result_coordinates = array
             (
-                'latitude'  => $result->latitude,
+                'latitude' => $result->latitude,
                 'longitude' => $result->longitude,
             );
+
             $distance = sprintf("%05d", round(self::get_distance($center, $result_coordinates)));
 
             if (   !is_null($max_distance)
@@ -430,9 +342,13 @@ class org_routamc_positioning_utils extends midcom_baseclasses_components_pureco
             if (!$direct)
             {
                 // Instantiate the real object as the result
-                $located_object = new $class($result->parent);
-                if (!$located_object->guid)
+                try
                 {
+                    $located_object = new $class($result->parent);
+                }
+                catch (midcom_error $e)
+                {
+                    $e->log();
                     // This one has been deleted
                     midcom::get()->auth->request_sudo('org.routamc.positioning');
                     $result->delete();
@@ -447,14 +363,8 @@ class org_routamc_positioning_utils extends midcom_baseclasses_components_pureco
 
             $closest[$distance . $result->guid] = $result;
         }
-
         ksort($closest);
         reset($closest);
-        while (count($closest) > $limit)
-        {
-            array_pop($closest);
-        }
-        setlocale(LC_NUMERIC, $current_locale);
         return $closest;
     }
 }
