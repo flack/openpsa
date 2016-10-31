@@ -170,35 +170,36 @@ class midcom_core_querybuilder extends midcom_core_query
 
             while (($resultset = $this->_execute_and_check_privileges(true)) !== false)
             {
-                $size = sizeof($resultset);
+                $size = count($resultset);
 
                 if ($offset >= $size)
                 {
                     // We still have offset left to skip
                     $offset -= $size;
-                    $this->_set_limit_offset_window(++$i);
-                    continue;
                 }
-                if ($offset)
+                else
                 {
-                    $resultset = array_slice($resultset, $offset);
-                    $size = $size - $offset;
-                }
+                    if ($offset)
+                    {
+                        $resultset = array_slice($resultset, $offset);
+                        $size = $size - $offset;
+                        $offset = 0;
+                    }
 
-                if ($limit > $size)
-                {
-                    $limit -= $size;
-                }
-                else if ($limit > 0)
-                {
-                    // We have reached the limit
-                    $resultset = array_slice($resultset, 0, $limit);
+                    if ($limit > $size)
+                    {
+                        $limit -= $size;
+                    }
+                    else if ($limit > 0)
+                    {
+                        // We have reached the limit
+                        $resultset = array_slice($resultset, 0, $limit);
+                        $newresult = array_merge($newresult, $resultset);
+                        break;
+                    }
+
                     $newresult = array_merge($newresult, $resultset);
-                    break;
                 }
-
-                $newresult = array_merge($newresult, $resultset);
-
                 $this->_set_limit_offset_window(++$i);
             }
         }
@@ -228,28 +229,21 @@ class midcom_core_querybuilder extends midcom_core_query
                     /* TODO: Somehow factor in that if we have huge number of objects and relatively small offset we want to increase window size
                     $full_object_count = $this->_query->count();
                     */
-                    $this->_window_size = round($this->_offset * 2);
+                    $this->_window_size = $this->_offset * 2;
                 case (   $this->_offset > $this->_limit):
                     // Offset is greater than limit, basically this is almost the same problem as above
-                    $this->_window_size = round($this->_offset * 2);
+                    $this->_window_size = $this->_offset * 2;
                     break;
                 case (   $this->_limit > $this->_offset):
                     // Limit is greater than offset, this is probably similar to getting limited number from beginning
-                    $this->_window_size = round($this->_limit * 2);
+                    $this->_window_size = $this->_limit * 2;
                     break;
                 case ($this->_limit == $this->_offset):
-                    $this->_window_size = round($this->_offset * 2);
+                    $this->_window_size = $this->_offset * 2;
                     break;
             }
 
-            if ($this->_window_size > $this->max_window_size)
-            {
-                $this->_window_size = $this->max_window_size;
-            }
-            if ($this->_window_size < $this->min_window_size)
-            {
-                $this->_window_size = $this->min_window_size;
-            }
+            $this->_window_size = min(max($this->_window_size, $this->min_window_size), $this->max_window_size);
         }
 
         $offset = $iteration * $this->_window_size;
@@ -320,14 +314,6 @@ class midcom_core_querybuilder extends midcom_core_query
         }
 
         $newresult = $this->_execute_and_check_privileges();
-
-        if ($this->_limit)
-        {
-            while (count($newresult) > $this->_limit)
-            {
-                array_pop($newresult);
-            }
-        }
 
         call_user_func_array(array($this->_real_class, '_on_process_query_result'), array(&$newresult));
 
