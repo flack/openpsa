@@ -652,16 +652,14 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             return;
         }
 
-        // see https://github.com/doctrine/cache/issues/182
-        $is_memcache = !empty($this->_meta_cache->memcache_operational);
         foreach ($guidmap as $content_id)
         {
-            if ($is_memcache || $this->_meta_cache->contains($content_id))
+            if ($this->_meta_cache->contains($content_id))
             {
                 $this->_meta_cache->delete($content_id);
             }
 
-            if ($is_memcache || $this->_data_cache->contains($content_id))
+            if ($this->_data_cache->contains($content_id))
             {
                 $this->_data_cache->delete($content_id);
             }
