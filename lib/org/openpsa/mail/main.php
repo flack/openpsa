@@ -150,19 +150,14 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
     /**
      * Tries to convert HTML to plaintext
      */
-    function html2text($html)
+    private function html2text($html)
     {
         //Convert various newlines to unix ones
         $text = preg_replace('/\x0a\x0d|\x0d\x0a|\x0d/', "\n", $html);
         //convert <br/> tags to newlines
         $text = preg_replace("/<br\s*\\/?>/i", "\n", $text);
-        //strip all STYLE and SCRIPT tags, including their content
-        $text = preg_replace('/(<style[^>]*>.*?<\\/style>)/si', '', $text);
-        $text = preg_replace('/(<script[^>]*>.*?<\\/script>)/si', '', $text);
-        //strip comments
-        $text = preg_replace('/<!--.*?-->/s', '', $text);
-        //strip all remaining tags, just the tags
-        $text = preg_replace('/(<[^>]*>)/', '', $text);
+        //strip all remaining tags
+        $text = strip_tags($text);
 
         //Decode entities
         $text = html_entity_decode($text, ENT_QUOTES);

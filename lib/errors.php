@@ -76,7 +76,7 @@ class midcom_exception_handler
      *
      * @param string $message The message to show to the user.
      */
-    function access_denied($message)
+    private function access_denied($message)
     {
         debug_print_function_stack("access_denied was called from here:");
 

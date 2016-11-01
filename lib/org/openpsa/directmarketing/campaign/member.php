@@ -87,7 +87,7 @@ class org_openpsa_directmarketing_campaign_member_dba extends midcom_core_dbaobj
      * Substitutes magic strings in content with values from the membership
      * and/or the person.
      */
-    function personalize_message($content, $message_type, org_openpsa_contacts_person_dba $person)
+    public function personalize_message($content, $message_type, org_openpsa_contacts_person_dba $person)
     {
         $nap = new midcom_helper_nav();
         $node = $nap->get_node($nap->get_current_node());
@@ -144,7 +144,7 @@ class org_openpsa_directmarketing_campaign_member_dba extends midcom_core_dbaobj
         return $content;
     }
 
-    function get_unsubscribe_url($node = false)
+    public function get_unsubscribe_url($node = false)
     {
         if (!$node)
         {

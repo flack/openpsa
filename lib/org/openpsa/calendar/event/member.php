@@ -57,7 +57,7 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
         }
     }
 
-    function notify($type, org_openpsa_calendar_event_dba $event = null, $nl = "\n")
+    public function notify($type, org_openpsa_calendar_event_dba $event = null, $nl = "\n")
     {
         $recipient = $this->get_person_obj();
 
@@ -146,7 +146,7 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
     /**
      * Returns the person this member points to if that person can be used for notifications
      */
-    function get_person_obj()
+    private function get_person_obj()
     {
         try
         {

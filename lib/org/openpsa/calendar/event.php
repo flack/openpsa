@@ -274,7 +274,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
     /**
      * Queries org.openpsa.projects for suspected task links and saves them
      */
-    function get_suspected_task_links()
+    private function get_suspected_task_links()
     {
         //Safety
         if (!$this->_suspects_classes_present())
@@ -332,7 +332,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
     /**
      * Queries org.openpsa.sales for suspected task links and saves them
      */
-    function get_suspected_sales_links()
+    private function get_suspected_sales_links()
     {
         //Safety
         if (!$this->_suspects_classes_present())
@@ -538,7 +538,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
     /**
      * Returns a comma separated list of persons from array
      */
-    function implode_members(array $array)
+    private function implode_members(array $array)
     {
         $output = array();
         foreach (array_keys($array) as $pid)

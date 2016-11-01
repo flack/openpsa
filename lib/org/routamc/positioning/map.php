@@ -28,21 +28,18 @@ class org_routamc_positioning_map extends midcom_baseclasses_components_purecode
 
     /**
      * Type of the map to use
-     * @access private
      */
-    var $type = 'google';
+    private $type = 'google';
 
     /**
      * API key to use with the mapping service, if needed
-     * @access private
      */
-    var $api_key = '';
+    private $api_key = '';
 
     /**
      * Markers to display on the map
-     * @access private
      */
-    var $markers = array();
+    private $markers = array();
 
     /**
      * Set map zoom level to this value (note: effect of zoom level varies by map provider)

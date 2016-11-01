@@ -130,7 +130,7 @@ class org_openpsa_mail_template
      * @param string $input The string to parse
      * @return string The parsed string
      */
-    function parse($input)
+    public function parse($input)
     {
         return preg_replace_callback($this->_patterns, array($this, '_replace_callback'), $input);
     }
@@ -147,7 +147,7 @@ class org_openpsa_mail_template
             }
             return $value[$matches[2]];
         }
-        else if (is_object($value))
+        if (is_object($value))
         {
             if (empty($matches[2]))
             {
