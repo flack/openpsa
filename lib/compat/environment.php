@@ -32,13 +32,13 @@ abstract class midcom_compat_environment
         }
     }
 
-    public abstract function header($string, $replace = true, $http_response_code = null);
+    abstract public function header($string, $replace = true, $http_response_code = null);
 
-    public abstract function stop_request($message = '');
+    abstract public function stop_request($message = '');
 
-    public abstract function headers_sent();
+    abstract public function headers_sent();
 
-    public abstract function setcookie($name, $value = '', $expire = 0, $path = '/', $domain = null, $secure = false, $httponly = false);
+    abstract public function setcookie($name, $value = '', $expire = 0, $path = '/', $domain = null, $secure = false, $httponly = false);
 }
 
 /**

@@ -247,7 +247,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
         return midcom_connection::get_url('self') . 'midcom-serveattachmentguid-' . $guid . '/' . urlencode($name);
     }
 
-    function file_to_cache()
+    public function file_to_cache()
     {
         // Check if the attachment can be read anonymously
         if (!midcom::get()->config->get('attachment_cache_enabled'))
@@ -382,7 +382,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
         return true;
     }
 
-    function update_cache()
+    public function update_cache()
     {
         // Check if the attachment can be read anonymously
         if (   midcom::get()->config->get('attachment_cache_enabled')

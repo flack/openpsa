@@ -148,7 +148,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
     /**
      * Load a help file and markdownize it
      */
-    function get_help_contents($help_id, $component)
+    public function get_help_contents($help_id, $component)
     {
         $text = $this->_load_file($help_id, $component);
         if (!$text)
