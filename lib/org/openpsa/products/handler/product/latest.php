@@ -20,7 +20,6 @@ class org_openpsa_products_handler_product_latest extends midcom_baseclasses_com
         $product_qb = new org_openpsa_qbpager('org_openpsa_products_product_dba', 'latest_products');
         $this->_request_data['product_qb'] = $product_qb;
         $product_qb->results_per_page = $limit;
-        $product_qb->set_limit($limit);
         $product_qb->add_order('metadata.published', 'DESC');
 
         if ($product_group != '')

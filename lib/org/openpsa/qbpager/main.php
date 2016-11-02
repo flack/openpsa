@@ -432,19 +432,6 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
         return ceil($this->count / $this->results_per_page);
     }
 
-    //These two wrapped to prevent their use since the pager needs them internally
-    function set_limit($limit)
-    {
-        debug_add('operation not allowed', MIDCOM_LOG_WARN);
-        return false;
-    }
-
-    function set_offset($offset)
-    {
-        debug_add('operation not allowed', MIDCOM_LOG_WARN);
-        return false;
-    }
-
     //Rest of supported methods wrapped with extra sanity check
     public function add_constraint($param, $op, $val)
     {
