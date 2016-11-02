@@ -349,8 +349,7 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
 
     private function _list_group_products()
     {
-        $product_qb = new org_openpsa_qbpager('org_openpsa_products_product_dba', 'org_openpsa_products_product_dba');
-        $product_qb->results_per_page = $this->_config->get('products_per_page');
+        $product_qb = org_openpsa_products_product_dba::new_query_builder();
 
         if (   $this->_request_data['group']
             && $this->_request_data['group']->orgOpenpsaObtype == org_openpsa_products_product_group_dba::TYPE_SMART)
@@ -425,7 +424,6 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
         }
 
         $this->_request_data['products'] = $product_qb->execute();
-        $this->_request_data['products_qb'] = $product_qb;
     }
 
     /**
@@ -458,16 +456,13 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
             {
                 midcom_show_style('group_header');
 
-                $groups_counter = 0;
                 $data['groups_count'] = count($data['groups']);
 
                 midcom_show_style('group_subgroups_header');
                 $parent_category = (isset($data["parent_category"])) ? $data["parent_category"] : null;
-                foreach ($data['groups'] as $group)
+                foreach ($data['groups'] as $i => $group)
                 {
-                    $groups_counter++;
-                    $data['groups_counter'] = $groups_counter;
-
+                    $data['groups_counter'] = $i;
                     $data['group'] = $group;
                     if (! $data['datamanager_group']->autoset_storage($group))
                     {
@@ -488,9 +483,6 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
         else if (count($data['products']) > 0)
         {
             midcom_show_style('group_header');
-
-            $data['products_count'] = count($data['products']);
-
             midcom_show_style('group_products_grid');
             midcom_show_style('group_products_footer');
             midcom_show_style('group_footer');

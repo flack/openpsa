@@ -73,10 +73,3 @@ jQuery("#&(grid_id);").jqGrid({
       sortname: 'index_title'
 });
 </script>
-
-<?php
-if (method_exists($data['products_qb'], 'show_pages'))
-{
-    $data['products_qb']->show_pages();
-}
-?>
