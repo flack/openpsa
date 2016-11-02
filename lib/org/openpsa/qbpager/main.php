@@ -15,7 +15,6 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
     protected $_pager_id = false;
     private $_offset = 0;
     protected $_prefix = '';
-    private $_request_data = array();
     private $_current_page = 1;
     public $results_per_page = 25;
     private $count = false;
@@ -76,7 +75,7 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
             $this->results_per_page = (int)$_REQUEST[$results_var];
         }
         $this->_offset = ($this->_current_page-1)*$this->results_per_page;
-        if ($this->_offset<0)
+        if ($this->_offset < 0)
         {
             $this->_offset = 0;
         }
@@ -99,7 +98,7 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
 
         foreach ($_GET as $key => $value)
         {
-            if ( $key != $page_var && $key != '' )
+            if ($key != $page_var && $key != '')
             {
                 $query[$key] = $value;
             }
@@ -113,37 +112,26 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
      */
     function show_previousnext($acl_checks = false)
     {
-        $this->_request_data['prefix'] = $this->_prefix;
-        $this->_request_data['current_page'] = $this->_current_page;
-        $this->_request_data['page_count'] = $this->count_pages($acl_checks);
-        $this->_request_data['results_per_page'] = $this->results_per_page;
-        $this->_request_data['offset'] = $this->_offset;
-        $this->_request_data['display_pages'] = $this->display_pages;
-        //Won't work (wrong scope), so the code is copied below.
-        //midcom_show_style('show-pages');
-        $data = $this->_request_data;
-
+        $page_count = $this->count_pages($acl_checks);
         //Skip the header in case we only have one page
-        if ($data['page_count'] <= 1)
+        if ($page_count <= 1)
         {
             return;
         }
-
+        //@todo Move to style element
         //TODO: "showing results (offset)-(offset+limit)
-        //TODO: Localizations
-
-        $page_var = $data['prefix'] . 'page';
+        $page_var = $this->_prefix . 'page';
         echo '<div class="org_openpsa_qbpager_previousnext">';
 
-        if ($data['current_page'] > 1)
+        if ($this->_current_page > 1)
         {
-            $previous = $data['current_page'] - 1;
+            $previous = $this->_current_page - 1;
             echo "\n<a class=\"previous_page\" href=\"" . $this->_get_query_string($page_var, $previous) . "\" rel=\"prev\">" . $this->_l10n->get($this->string_previous) . "</a>";
         }
 
-        if ($data['current_page'] < $data['page_count'])
+        if ($this->_current_page < $page_count)
         {
-            $next = $data['current_page'] + 1;
+            $next = $this->_current_page + 1;
             echo "\n<a class=\"next_page\" href=\"" . $this->_get_query_string($page_var, $next) . "\" rel=\"next\">" . $this->_l10n->get($this->string_next) . "</a>";
         }
 
@@ -153,27 +141,20 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
     public function get_pages($acl_checks = false)
     {
         $pages = array();
-        $this->_request_data['prefix'] = $this->_prefix;
-        $this->_request_data['current_page'] = $this->_current_page;
-        $this->_request_data['page_count'] = $this->count_pages($acl_checks);
-        $this->_request_data['results_per_page'] = $this->results_per_page;
-        $this->_request_data['offset'] = $this->_offset;
-        $this->_request_data['display_pages'] = $this->display_pages;
+        $page_count = $this->count_pages($acl_checks);
 
-        if ($this->_request_data['page_count'] < 1)
+        if ($page_count < 1)
         {
             return $pages;
         }
 
-        $data = $this->_request_data;
-        $page_var = $data['prefix'] . 'page';
+        $page_var = $this->_prefix . 'page';
+        $display_start = max(($this->_current_page - ceil($this->display_pages / 2)), 1);
+        $display_end = min(($this->_current_page + ceil($this->display_pages / 2)), $page_count);
 
-        $display_start = max(($data['current_page'] - ceil($data['display_pages'] / 2)), 1);
-        $display_end = min(($data['current_page'] + ceil($data['display_pages'] / 2)), $data['page_count']);
-
-        if ($data['current_page'] > 1)
+        if ($this->_current_page > 1)
         {
-            $previous = $data['current_page'] - 1;
+            $previous = $this->_current_page - 1;
             if ($previous > 1)
             {
                 $pages[] = array
@@ -198,7 +179,7 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
         while ($page++ < $display_end)
         {
             $href = false;
-            if ($page != $data['current_page'])
+            if ($page != $this->_current_page)
             {
                 $href = $this->_get_query_string($page_var, $page);
             }
@@ -212,9 +193,9 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
             );
         }
 
-        if ($data['current_page'] < $data['page_count'])
+        if ($this->_current_page < $page_count)
         {
-            $next = $data['current_page'] + 1;
+            $next = $this->_current_page + 1;
             $pages[] = array
             (
                 'class' => 'next',
@@ -224,15 +205,15 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
                 'number' => $next
             );
 
-            if ($next < $data['page_count'])
+            if ($next < $page_count)
             {
                 $pages[] = array
                 (
                     'class' => 'last',
-                    'href' => $this->_get_query_string($page_var, $data['page_count']),
+                    'href' => $this->_get_query_string($page_var, $page_count),
                     'rel' => 'next',
                     'label' => $this->_l10n->get('last'),
-                    'number' => $data['page_count']
+                    'number' => $page_count
                 );
             }
         }
@@ -240,84 +221,25 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
         return $pages;
     }
 
+    private function show($name, $data)
+    {
+        $context = new midcom_core_context;
+        $old = midcom_core_context::get();
+        $context->set_current();
+        $context->set_custom_key('request_data', $data);
+        midcom::get()->style->prepend_component_styledir($this->_component);
+        midcom::get()->style->enter_context($context->id);
+        midcom_show_style('show_' . $name);
+        midcom::get()->style->leave_context();
+        $old->set_current();
+    }
+
     /**
      * Displays page selector
      */
     public function show_pages($acl_checks = false)
     {
-        //Won't work (wrong scope), so the code is copied below.
-        //midcom_show_style('show-pages');
-
-        $pages = $this->get_pages($acl_checks);
-        //Skip the header in case we only have one page
-        if (count($pages) <= 1)
-        {
-            return;
-        }
-
-        //TODO: "showing results (offset)-(offset+limit)
-
-        echo '<div class="org_openpsa_qbpager_pages">';
-
-        foreach ($pages as $page)
-        {
-            if ($page['href'] === false)
-            {
-                echo "\n<span class=\"" . $page['class'] . "_page\">{$page['label']}</span>";
-            }
-            else
-            {
-                $rel = '';
-                if ($page['rel'] !== false)
-                {
-                    $rel = ' rel="' . $page['rel'] . '"';
-                }
-                echo "\n<a class=\"{$page['class']}_page\" href=\"" . $page['href'] . "\"{$rel}>" . $page['label'] . "</a>";
-            }
-        }
-
-        echo "\n</div>\n";
-    }
-
-    /**
-     * Displays page selector as XML
-     */
-    function show_pages_as_xml($acl_checks = false, $echo = true)
-    {
-        $pages = $this->get_pages($acl_checks);
-        $pages_xml_str = "<pages total=\"" . count($pages) . "\">\n";
-
-        //Skip the header in case we only have one page
-        if (count($pages) <= 1)
-        {
-            $pages_xml_str .= "</pages>\n";
-            if ($echo)
-            {
-                echo $pages_xml_str;
-            }
-            return $pages_xml_str;
-        }
-
-        //TODO: "showing results (offset)-(offset+limit)
-        foreach ($pages as $page)
-        {
-            if ($page['href'] === false)
-            {
-                echo "\n<page class=\"page_" . $page['class'] . "_page\" number=\"{$page['number']}\" url=\"\"><![CDATA[{$page['label']}]]></page>";
-            }
-            else
-            {
-                echo "\n<page class=\"page_{$page['class']}_page\" number=\"{$page['number']}\" url=\"" . $page['href'] . "\"><![CDATA[" . $page['label'] . "]]></page>";
-            }
-        }
-
-        $pages_xml_str .= "</pages>\n";
-
-        if ($echo)
-        {
-            echo $pages_xml_str;
-        }
-        return $pages_xml_str;
+        $this->show('pages', array('pages' => $this->get_pages($acl_checks)));
     }
 
     /**
@@ -325,50 +247,7 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
      */
     function show_pages_as_list($acl_checks = false)
     {
-        $pages = $this->get_pages($acl_checks);
-
-        //Won't work (wrong scope), so the code is copied below.
-        //midcom_show_style('show-pages');
-
-        //Skip the header in case we only have one page
-        $total_links = count($pages);
-        if ($total_links <= 1)
-        {
-            return;
-        }
-
-        //TODO: "showing results (offset)-(offset+limit)
-        echo '<div class="org_openpsa_qbpager_pages">';
-        echo "\n    <ul>\n";
-        foreach ($pages as $i => $page)
-        {
-            if ($page['class'] == 'next')
-            {
-                echo "\n<li class=\"separator\"></li>";
-                echo "\n<li class=\"page splitter\">...</li>";
-            }
-            if (   $i > 0
-                && $i < $total_links)
-            {
-                echo "\n<li class=\"separator\"></li>";
-            }
-            if ($page['href'] === false)
-            {
-                echo "\n<li class=\"page {$page['class']}\">{$page['label']}</li>";
-            }
-            else
-            {
-                echo "\n<li class=\"page {$page['class']}\" onclick=\"window.location='{$page['href']}';\">{$page['label']}</li>";
-            }
-            if ($page['class'] == 'previous')
-            {
-                echo "\n<li class=\"page splitter\">...</li>";
-                echo "\n<li class=\"separator\"></li>";
-            }
-        }
-
-        echo "\n    </ul>\n";
-        echo "</div>\n";
+        $this->show('pages_as_list', array('pages' => $this->get_pages($acl_checks)));
     }
 
     /**
@@ -459,7 +338,7 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
             return false;
         }
         $this->_midcom_qb_count->begin_group($type);
-        return $this->_midcom_qb->begin_group($type);
+        $this->_midcom_qb->begin_group($type);
     }
 
     public function end_group()
@@ -469,13 +348,13 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
             return false;
         }
         $this->_midcom_qb_count->end_group();
-        return $this->_midcom_qb->end_group();
+        $this->_midcom_qb->end_group();
     }
 
     public function include_deleted()
     {
         $this->_midcom_qb_count->include_deleted();
-        return $this->_midcom_qb->include_deleted();
+        $this->_midcom_qb->include_deleted();
     }
 
     public function count()
