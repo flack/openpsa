@@ -62,7 +62,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
      * @param guid $guid The GUID of the object to bind to.
      * @return net_nehmer_comments_comment[] List of applicable comments.
      */
-    public static function list_by_objectguid($guid, $limit=false, $order='ASC', $paging = false, $status = false)
+    public static function list_by_objectguid($guid, $limit = false, $order = 'ASC', $paging = false, $status = false)
     {
         $qb = self::_prepare_query($guid, $status, $paging);
 
@@ -90,7 +90,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
      * @param guid $guid The GUID of the object to bind to.
      * @return net_nehmer_comments_comment[] List of applicable comments.
      */
-    public static function list_by_objectguid_filter_anonymous($guid, $limit=false, $order='ASC', $paging=false, $status = false)
+    public static function list_by_objectguid_filter_anonymous($guid, $limit = false, $order = 'ASC', $paging = false, $status = false)
     {
         $qb = self::_prepare_query($guid, $status, $paging);
         $qb->add_constraint('author', '<>', '');

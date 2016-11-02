@@ -260,15 +260,13 @@ class org_openpsa_products_handler_group_groupsblock  extends midcom_baseclasses
 
         if (count($data['groups']) > 0)
         {
-            $groups_counter = 0;
             $data['groups_count'] = count($data['groups']);
 
             midcom_show_style('groupsblock_subgroups_header');
             $parent_category = (isset($data["parent_category"])) ? $data["parent_category"] : null;
-            foreach ($data['groups'] as $group)
+            foreach ($data['groups'] as $i => $group)
             {
-                $groups_counter++;
-                $data['groups_counter'] = $groups_counter;
+                $data['groups_counter'] = $i;
 
                 $data['group'] = $group;
                 if (! $data['datamanager_group']->autoset_storage($group))
