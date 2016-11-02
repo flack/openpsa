@@ -24,7 +24,7 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
     /**
      * Contact information of the person being displayed
      */
-    var $contact_details = array
+    public $contact_details = array
     (
         'guid' => '',
         'id' => '',
@@ -37,14 +37,14 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
      *
      * @var string
      */
-    var $link = null;
+    public $link = null;
 
     /**
      * Optional HTML to be placed into the card
      *
      * @var string
      */
-    var $extra_html = null;
+    public $extra_html = null;
 
     /**
      * Optional HTML to be placed into the card (before any other output in the DIV)
@@ -58,7 +58,7 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
      *
      * @var boolean
      */
-    var $show_groups = true;
+    public $show_groups = true;
 
     /**
      * Whether to generate links to the groups using NAP

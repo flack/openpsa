@@ -18,9 +18,9 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
     private $_request_data = array();
     private $_current_page = 1;
     public $results_per_page = 25;
-    var $count = false;
+    private $count = false;
     private $_count_mode;
-    var $display_pages = 10;
+    public $display_pages = 10;
     public $string_next = 'next';
     public $string_previous = 'previous';
 
@@ -85,7 +85,7 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
     /**
      * Get the current page number
      */
-    function get_current_page()
+    public function get_current_page()
     {
         return $this->_current_page;
     }

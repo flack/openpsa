@@ -57,7 +57,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
      *
      * @var boolean
      */
-    var $send_notify_me = false;
+    public $send_notify_me = false;
 
     /**
      * Used to work around DM creation features to get correct notification type out

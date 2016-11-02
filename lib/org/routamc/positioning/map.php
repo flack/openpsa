@@ -22,9 +22,8 @@ class org_routamc_positioning_map extends midcom_baseclasses_components_purecode
 {
     /**
      * ID of the map
-     * @access private
      */
-    var $id = '';
+    private $id = '';
 
     /**
      * Type of the map to use
