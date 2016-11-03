@@ -79,6 +79,14 @@ class org_openpsa_sales_handler_deliverable_processTest extends openpsa_testcase
         $deliverable->refresh();
         $this->assertEquals(org_openpsa_sales_salesproject_deliverable_dba::STATE_INVOICED, $deliverable->state);
 
+        $qb = org_openpsa_invoices_invoice_item_dba::new_query_builder();
+        $qb->add_constraint('deliverable', '=', $deliverable->id);
+        $items = $qb->execute();
+        $this->register_objects($items);
+        $this->assertCount(1, $items);
+        $invoice = new org_openpsa_invoices_invoice_dba($items[0]->invoice);
+        $this->register_object($invoice);
+
         midcom::get()->auth->drop_sudo();
     }
 
@@ -119,8 +127,8 @@ class org_openpsa_sales_handler_deliverable_processTest extends openpsa_testcase
         $mc->add_object_order('start', 'DESC');
         $at_entries = $mc->get_related_objects();
 
-        $this->assertEquals(1, sizeof($at_entries));
-        $this->register_object($at_entries[0]);
+        $this->register_objects($at_entries);
+        $this->assertCount(1, $at_entries);
 
         $_POST = array
         (
@@ -136,8 +144,8 @@ class org_openpsa_sales_handler_deliverable_processTest extends openpsa_testcase
         $mc->add_object_order('start', 'DESC');
         $at_entries = $mc->get_related_objects();
 
-        $this->assertEquals(1, sizeof($at_entries));
-        $this->register_object($at_entries[0]);
+        $this->register_objects($at_entries);
+        $this->assertCount(1, $at_entries);
 
         midcom::get()->auth->drop_sudo();
     }
