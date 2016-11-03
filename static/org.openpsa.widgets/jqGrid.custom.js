@@ -422,12 +422,12 @@ var org_openpsa_grid_editable =
 
             if (isEdit)
             {
-                $( '#' + this.grid_id + ' tbody').sortable( "disable");
+                $( '#' + this.grid_id).sortable("disable");
                 $( '#' + this.grid_id + ' tbody > .jqgrow').enableSelection();
             }
             else
             {
-                $( '#' + this.grid_id + ' tbody').sortable( "enable");
+                $( '#' + this.grid_id).sortable("enable");
                 $( '#' + this.grid_id + ' tbody > .jqgrow').disableSelection();
             }
         }

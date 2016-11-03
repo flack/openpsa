@@ -28,10 +28,10 @@ $grid->set_column('actions', '',  'width: 65, fixed: true, sortable: false');
     }
 
     //trigger the drag&drop-sortability of this (current) grid
-    jQuery("#<?php echo $grid->get_identifier(); ?>").jqGrid("sortableRows");
+    jQuery("#<?php echo $grid->get_identifier(); ?>").jqGrid("sortableRows", {helper: "clone"});
 
     //Event that is triggered after Drop
-    jQuery( "#<?php echo $grid->get_identifier(); ?>" ).bind( "sortstop",
+    jQuery( "#<?php echo $grid->get_identifier(); ?>" ).bind("sortstop",
         function(event, ui)
         {
             refreshItemPositions();
