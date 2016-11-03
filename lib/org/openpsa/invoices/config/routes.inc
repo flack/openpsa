@@ -82,7 +82,7 @@
 // Match /invoice/recalculation/<guid>
 'recalc_invoice' => array
 (
-    'handler' => Array('org_openpsa_invoices_handler_action', 'recalculation'),
+    'handler' => Array('org_openpsa_invoices_handler_items', 'recalculation'),
     'fixed_args' => array('invoice', 'recalculation'),
     'variable_args' => 1,
 ),
@@ -90,7 +90,7 @@
 // Match /invoice/items/<guid>
 'invoice_items' => array
 (
-    'handler' => Array('org_openpsa_invoices_handler_action', 'items'),
+    'handler' => Array('org_openpsa_invoices_handler_items', 'items'),
     'fixed_args' => array('invoice', 'items'),
     'variable_args' => 1,
 ),
@@ -98,7 +98,7 @@
 // Match /invoice/itemedit/<guid>
 'invoice_item_edit' => array
 (
-    'handler' => Array('org_openpsa_invoices_handler_action', 'itemedit'),
+    'handler' => Array('org_openpsa_invoices_handler_items', 'itemedit'),
     'fixed_args' => array('invoice', 'itemedit'),
     'variable_args' => 1,
 ),
@@ -106,7 +106,7 @@
 // Match /invoice/itemposition/
 'invoice_item_position' => array
 (
-    'handler' => Array('org_openpsa_invoices_handler_action', 'itemposition'),
+    'handler' => Array('org_openpsa_invoices_handler_items', 'itemposition'),
     'fixed_args' => array('invoice', 'itemposition'),
 ),
 

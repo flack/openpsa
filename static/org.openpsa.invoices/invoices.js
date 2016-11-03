@@ -67,15 +67,14 @@ function process_invoice(button, action, invoice_url)
     var id = button.parent().parent().attr('id');
     $.post(invoice_url + 'invoice/process/', {id: id, action: action}, function(data)
     {
-        var parsed = jQuery.parseJSON(data);
-        if (parsed.success === false)
+        if (data.success === false)
         {
-            $.midcom_services_uimessage_add(parsed.message);
+            $.midcom_services_uimessage_add(data.message);
             return;
         }
         var old_grid = button.closest('.ui-jqgrid-btable'),
         row_data = old_grid.getRowData(id),
-        new_grid = jQuery('#' + parsed.new_status + '_invoices_grid');
+        new_grid = jQuery('#' + data.new_status + '_invoices_grid');
 
         old_grid.delRowData(id);
         calculate_invoices_total(old_grid);
@@ -89,9 +88,9 @@ function process_invoice(button, action, invoice_url)
 
         if (new_grid.jqGrid('getGridParam', 'datatype') === 'local')
         {
-            row_data.action = parsed.action;
-            row_data.due = parsed.due;
-            jQuery('#' + parsed.new_status + '_invoices_grid').addRowData(row_data.id, row_data, "last");
+            row_data.action = data.action;
+            row_data.due = data.due;
+            jQuery('#' + data.new_status + '_invoices_grid').addRowData(row_data.id, row_data, "last");
             calculate_invoices_total(new_grid);
         }
         else
@@ -99,7 +98,7 @@ function process_invoice(button, action, invoice_url)
             new_grid.trigger('reloadGrid');
         }
         $(window).trigger('resize');
-        $.midcom_services_uimessage_add(parsed.message);
+        $.midcom_services_uimessage_add(data.message);
     });
 }
 
