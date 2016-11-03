@@ -42,11 +42,11 @@ Számla száma
 Számlázási információ
 ---STRINGEND
 
----STRING mark paid
+---STRING mark_paid
 Megjelölés fizetettként
 ---STRINGEND
 
----STRING mark sent
+---STRING mark_sent
 Megjelenés elküldöttként
 ---STRINGEND
 

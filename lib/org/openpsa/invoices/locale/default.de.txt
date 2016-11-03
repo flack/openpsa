@@ -170,7 +170,7 @@ Rechnung wurde storniert durch %s
 Storniert am %s
 ---STRINGEND
 
----STRING create cancelation
+---STRING create_cancelation
 stornieren
 ---STRINGEND
 
@@ -186,15 +186,15 @@ Für Rechnung %s konnte keine Stornorechnung erzeugt werden
 Storno zur Rechnung %s, Position %s
 ---STRINGEND
 
----STRING mark paid
+---STRING mark_paid
 bezahlt
 ---STRINGEND
 
----STRING mark sent
+---STRING mark_sent
 verschickt
 ---STRINGEND
 
----STRING mark sent_per_mail
+---STRING send_by_mail
 Mail versenden
 ---STRINGEND
 

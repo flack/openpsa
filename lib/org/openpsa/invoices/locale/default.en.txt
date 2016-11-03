@@ -170,7 +170,7 @@ Cancelation invoice
 This is the cancelation for
 ---STRINGEND
 
----STRING create cancelation
+---STRING create_cancelation
 Create cancelation
 ---STRINGEND
 
@@ -190,16 +190,16 @@ Cancelation for invoice %s, item %s
 Canceled by
 ---STRINGEND
 
----STRING mark paid
+---STRING mark_paid
 Mark paid
 ---STRINGEND
 
----STRING mark sent
+---STRING mark_sent
 Mark sent
 ---STRINGEND
 
----STRING mark sent_per_mail
-send per mail
+---STRING send_by_mail
+send by mail
 ---STRINGEND
 
 ---STRING marked invoice %s paid

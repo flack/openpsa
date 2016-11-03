@@ -255,37 +255,11 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
 
         if (!$this->_object->sent)
         {
-            $buttons[] = array
-            (
-                MIDCOM_TOOLBAR_URL => "invoice/process/",
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('mark sent'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_mail-reply.png',
-                MIDCOM_TOOLBAR_POST => true,
-                MIDCOM_TOOLBAR_POST_HIDDENARGS => array
-                (
-                    'action' => 'mark_sent',
-                    'id' => $this->_object->id,
-                    'relocate' => true
-                ),
-                MIDCOM_TOOLBAR_ENABLED => $this->_object->can_do('midgard:update'),
-            );
+            $buttons[] = $this->build_button('mark_sent', 'stock-icons/16x16/stock_mail-reply.png');
         }
         else if (!$this->_object->paid)
         {
-            $buttons[] = array
-            (
-                MIDCOM_TOOLBAR_URL => "invoice/process/",
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('mark paid'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/ok.png',
-                MIDCOM_TOOLBAR_POST => true,
-                MIDCOM_TOOLBAR_POST_HIDDENARGS => array
-                (
-                    'action' => 'mark_paid',
-                    'id' => $this->_object->id,
-                    'relocate' => true
-                ),
-                MIDCOM_TOOLBAR_ENABLED => $this->_object->can_do('midgard:update'),
-            );
+            $buttons[] = $this->build_button('mark_paid', 'stock-icons/16x16/ok.png');
         }
 
         if (   !$this->_object->paid
@@ -301,44 +275,36 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
             $billing_data = $this->_object->get_billing_data();
             if (intval($billing_data->sendingoption) == 2)
             {
-                $buttons[] = array
-                (
-                    MIDCOM_TOOLBAR_URL => "invoice/process/",
-                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('mark sent_per_mail'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_mail-reply.png',
-                    MIDCOM_TOOLBAR_POST => true,
-                    MIDCOM_TOOLBAR_POST_HIDDENARGS => array
-                    (
-                        'action' => 'send_by_mail',
-                        'id' => $this->_object->id,
-                        'relocate' => true
-                    ),
-                    MIDCOM_TOOLBAR_ENABLED => $this->_object->can_do('midgard:update'),
-                );
+                $buttons[] = $this->build_button('send_by_mail', 'stock-icons/16x16/stock_mail-reply.png');
             }
         }
 
         if ($this->_object->is_cancelable())
         {
-            $buttons[] = array
-            (
-                MIDCOM_TOOLBAR_URL => "invoice/process/",
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create cancelation'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/cancel.png',
-                MIDCOM_TOOLBAR_POST => true,
-                MIDCOM_TOOLBAR_POST_HIDDENARGS => array
-                (
-                    'action' => 'create_cancelation',
-                    'id' => $this->_object->id,
-                    'relocate' => true
-                ),
-                MIDCOM_TOOLBAR_ENABLED => $this->_object->can_do('midgard:update'),
-            );
+            $buttons[] = $this->build_button('create_cancelation', 'stock-icons/16x16/cancel.png');
         }
         $this->_view_toolbar->add_items($buttons);
         org_openpsa_relatedto_plugin::add_button($this->_view_toolbar, $this->_object->guid);
 
         $this->_master->add_next_previous($this->_object, $this->_view_toolbar, 'invoice/');
+    }
+
+    private function build_button($action, $icon)
+    {
+        return array
+        (
+            MIDCOM_TOOLBAR_URL => "invoice/process/",
+            MIDCOM_TOOLBAR_LABEL => $this->_l10n->get($action),
+            MIDCOM_TOOLBAR_ICON => $icon,
+            MIDCOM_TOOLBAR_POST => true,
+            MIDCOM_TOOLBAR_POST_HIDDENARGS => array
+            (
+                'action' => $action,
+                'id' => $this->_object->id,
+                'relocate' => true
+            ),
+            MIDCOM_TOOLBAR_ENABLED => $this->_object->can_do('midgard:update'),
+        );
     }
 
     /**

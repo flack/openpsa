@@ -111,7 +111,7 @@ function bind_invoice_actions(classes, invoice_url)
         {
             process_invoice($(this), 'mark_sent', invoice_url);
         })
-        .delegate('button.mark_sent_per_mail', 'click', function()
+        .delegate('button.send_by_mail', 'click', function()
         {
             process_invoice($(this), 'send_by_mail', invoice_url);
         })

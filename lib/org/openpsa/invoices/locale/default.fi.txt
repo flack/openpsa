@@ -98,11 +98,11 @@ Laskutetut tuntiraportit
 Laskutiedot
 ---STRINGEND
 
----STRING mark paid
+---STRING mark_paid
 Merkkaa maksetuksi
 ---STRINGEND
 
----STRING mark sent
+---STRING mark_sent
 Merkkaa lähetetyksi
 ---STRINGEND
 

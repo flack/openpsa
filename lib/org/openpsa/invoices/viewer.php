@@ -27,8 +27,8 @@ class org_openpsa_invoices_viewer extends midcom_baseclasses_components_request
 
     public function render_invoice_actions(org_openpsa_invoices_invoice_dba $invoice)
     {
-        $action = '';
-        $next_marker = array();
+        $actions = '';
+        $next = array();
 
         // unsent invoices
         if ($invoice->sent == 0)
@@ -38,35 +38,35 @@ class org_openpsa_invoices_viewer extends midcom_baseclasses_components_request
             // only show if mail was chosen as option
             if (intval($billing_data->sendingoption) == 2)
             {
-                $next_marker[] = 'sent_per_mail';
+                $next[] = 'send_by_mail';
             }
             else
             {
-                $next_marker[] = 'sent';
+                $next[] = 'mark_sent';
             }
         }
         // not paid yet
         else if (!$invoice->paid)
         {
-            $next_marker[] = 'paid';
+            $next[] = 'mark_paid';
         }
         else
         {
-            $action .= strftime('%Y-%m-%d', $invoice->paid);
+            $actions .= strftime('%Y-%m-%d', $invoice->paid);
         }
 
         // generate next action buttons
         if (   $invoice->can_do('midgard:update')
-            && count($next_marker) > 0)
+            && count($next) > 0)
         {
-            foreach ($next_marker as $mark)
+            foreach ($next as $action)
             {
-                $action .= '<button id="invoice_' . $invoice->guid . '" class="yes mark_' . $mark . '">';
-                $action .= $this->_l10n->get('mark ' . $mark);
-                $action .= '</button>';
+                $actions .= '<button id="invoice_' . $invoice->guid . '" class="yes ' . $action . '">';
+                $actions .= $this->_l10n->get($action);
+                $actions .= '</button>';
             }
         }
-        return $action;
+        return $actions;
     }
 
     public function prepare_toolbar($mode)
