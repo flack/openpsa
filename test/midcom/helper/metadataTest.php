@@ -86,7 +86,6 @@ class midcom_helper_metadataTest extends openpsa_testcase
 
     public function providerSetDBObjectProperties()
     {
-        $person = $this->create_object('midcom_db_person');
         return array
         (
             array('schedulestart', 1329255039),

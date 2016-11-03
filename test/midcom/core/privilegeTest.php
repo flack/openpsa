@@ -13,15 +13,17 @@
  */
 class midcom_core_privilegeTest extends openpsa_testcase
 {
-    protected $_person;
-    protected $_project;
-
     /**
      * @dataProvider providerStoreArray
      */
     public function testStoreArray($input, $output)
     {
         midcom::get()->auth->request_sudo('midcom.core');
+
+        $person = $this->create_object('midcom_db_person');
+        $project = $this->create_object('org_openpsa_projects_project');
+        $input['assignee'] = 'user:' . $person->guid;
+        $input['objectguid'] = $project->guid;
 
         $privilege = new midcom_core_privilege($input);
         $stat = $privilege->store();
@@ -45,18 +47,13 @@ class midcom_core_privilegeTest extends openpsa_testcase
 
     public function providerStoreArray()
     {
-        $this->_person = $this->create_object('midcom_db_person');
-        $this->_project = $this->create_object('org_openpsa_projects_project');
-
         return array
         (
             1 => array
             (
                 'input' => array
                 (
-                    'assignee' => 'user:' . $this->_person->guid,
                     'privilegename' => 'midgard:read',
-                    'objectguid' => $this->_project->guid,
                     'value' => MIDCOM_PRIVILEGE_ALLOW,
                 ),
                 'output' => array

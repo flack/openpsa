@@ -339,6 +339,7 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
         $beginning_feb = gmmktime(0, 0, 0, 2, 1, 2011);
         $beginning_mar = gmmktime(0, 0, 0, 3, 1, 2011);
 
+        //@todo These two aren't properly cleaned up after the test
         $customer = $this->create_object('org_openpsa_contacts_group_dba');
         $customer_contact = $this->create_object('org_openpsa_contacts_person_dba');
 
