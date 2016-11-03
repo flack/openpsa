@@ -369,8 +369,6 @@ class midcom_core_querybuilder extends midcom_core_query
      */
     public function count()
     {
-        $this->_check_groups();
-
         if ($this->count == -1)
         {
             $this->execute();
