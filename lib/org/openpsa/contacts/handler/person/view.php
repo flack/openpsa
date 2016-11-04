@@ -248,10 +248,6 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
                 continue;
             }
             $this->_request_data['member'] = $member;
-            if ($member->extra == "")
-            {
-                $member->extra = $this->_l10n->get('<title>');
-            }
             $this->_request_data['member_title'] = $member->extra;
 
             midcom_show_style('show-person-groups-item');

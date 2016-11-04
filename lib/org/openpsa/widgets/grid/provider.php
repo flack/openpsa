@@ -321,10 +321,10 @@ class org_openpsa_widgets_grid_provider
         if (   $this->_datatype == 'json'
             && !empty($this->_results_per_page))
         {
-            $this->_query->set_limit($this->_results_per_page);
+            $qb->set_limit($this->_results_per_page);
             if (!empty($this->_offset))
             {
-                $this->_query->set_offset($this->_offset);
+                $qb->set_offset($this->_offset);
             }
         }
         $this->_rows = array();

@@ -21,6 +21,8 @@ implements midcom_helper_datamanager2_interfaces_view, org_openpsa_widgets_grid_
      */
     private $_type;
 
+    private $_group;
+
     /**
      * Loads and prepares the schema database.
      *

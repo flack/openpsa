@@ -104,14 +104,12 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
 
         $data['view_title'] = $this->_l10n->get('asgard');
 
-        if (isset($_POST['execute_mass_action']))
+        if (    isset($_POST['execute_mass_action'])
+             && !empty($_POST['selections'])
+             && isset($_POST['mass_action']))
         {
-            if (   !empty($_POST['selections'])
-                && isset($_POST['mass_action']))
-            {
-                $method_name = "_mass_{$_POST['mass_action']}";
-                $this->$method_name($_POST['selections']);
-            }
+            $method_name = "_mass_{$_POST['mass_action']}";
+            $this->$method_name($_POST['selections']);
         }
 
         $data['revised'] = array();

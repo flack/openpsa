@@ -135,10 +135,7 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
     }
 
     /**
-     * Checks if a button of the admin toolbar was pressed. Detected by looking for the
-     * net_nehmer_comment_adminsubmit value in the Request.
-     *
-     * As of this point, this tool assumes at least owner level privileges for all
+     * Checks if a button of the admin toolbar was pressed.
      *
      * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.

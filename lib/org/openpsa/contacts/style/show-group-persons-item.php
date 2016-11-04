@@ -15,7 +15,7 @@ if ($data['member']->can_do('midgard:update'))
                value=\"{$data['member_title']}\"
                data-guid=\"{$data['member']->guid}\"
                data-ajax-url=\"{$prefix}group/{$data['group']->guid}/update_member_title/\"
-               data-ajax-default=\"" . $data['l10n']->get('<title>') . "\" />
+               placeholder=\"" . $data['l10n']->get('<title>') . "\" />
         </li>\n";
 }
 else

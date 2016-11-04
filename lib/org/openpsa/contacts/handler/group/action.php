@@ -90,7 +90,7 @@ class org_openpsa_contacts_handler_group_action extends midcom_baseclasses_compo
                     foreach ($results as $member)
                     {
                         $this->_request_data['member'] = $member;
-                        $this->_request_data['member_title'] = $member->extra ?: $this->_l10n->get('<title>');
+                        $this->_request_data['member_title'] = $member->extra;
 
                         $this->_request_data['person'] = new org_openpsa_contacts_person_dba($member->uid);
                         midcom_show_style('show-group-persons-item');

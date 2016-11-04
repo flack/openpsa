@@ -101,17 +101,16 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
         $data['label_property'] = $data['reflector']->get_label_property();
 
         if (   isset($_POST['undelete'])
-            && !isset($_POST['purge'])
             && is_array($_POST['undelete']))
         {
-            $this->_undelete();
-            return new midcom_response_relocate("__mfa/asgard/trash/{$this->type}/");
-        }
-
-        if (   isset($_POST['purge'])
-            && is_array($_POST['undelete']))
-        {
-            $this->_purge();
+            if (isset($_POST['purge']))
+            {
+                $this->_purge();
+            }
+            else
+            {
+                $this->_undelete();
+            }
             return new midcom_response_relocate("__mfa/asgard/trash/{$this->type}/");
         }
 
@@ -169,8 +168,6 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
 
     private function _undelete()
     {
-        //TODO: This variable is unused
-        static $undeleted_size = 0;
         if (!$this->_request_data['midcom_dba_classname'])
         {
             // No DBA class for the type, use plain Midgard undelete API
@@ -189,12 +186,11 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
         else
         {
             // Delegate undeletion to DBA
-            midcom_baseclasses_core_dbobject::undelete($_POST['undelete'], $this->type);
-        }
-
-        if ($undeleted_size > 0)
-        {
-            midcom::get()->uimessages->add($this->_l10n->get('midgard.admin.asgard'), sprintf($this->_l10n->get('in total %s undeleted'), midcom_helper_misc::filesize_to_string($undeleted_size)), 'info');
+            $undeleted_size = midcom_baseclasses_core_dbobject::undelete($_POST['undelete'], $this->type);
+            if ($undeleted_size > 0)
+            {
+                midcom::get()->uimessages->add($this->_l10n->get('midgard.admin.asgard'), sprintf($this->_l10n->get('in total %s undeleted'), midcom_helper_misc::filesize_to_string($undeleted_size)), 'info');
+            }
         }
     }
 
