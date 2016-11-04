@@ -293,13 +293,12 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
     {
         return array
         (
-            MIDCOM_TOOLBAR_URL => "invoice/process/",
+            MIDCOM_TOOLBAR_URL => 'invoice/action/' . $action . '/',
             MIDCOM_TOOLBAR_LABEL => $this->_l10n->get($action),
             MIDCOM_TOOLBAR_ICON => $icon,
             MIDCOM_TOOLBAR_POST => true,
             MIDCOM_TOOLBAR_POST_HIDDENARGS => array
             (
-                'action' => $action,
                 'id' => $this->_object->id,
                 'relocate' => true
             ),

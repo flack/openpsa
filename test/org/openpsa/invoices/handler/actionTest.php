@@ -23,7 +23,7 @@ class org_openpsa_invoices_handler_actionTest extends openpsa_testcase
         self::create_class_object('org_openpsa_invoices_invoice_item_dba', array('invoice' => self::$_invoice->id));
     }
 
-    public function testHandler_process_create_cancelation()
+    public function testHandler_create_cancelation()
     {
         midcom::get()->auth->request_sudo('org.openpsa.invoices');
 
@@ -43,11 +43,10 @@ class org_openpsa_invoices_handler_actionTest extends openpsa_testcase
         $_SERVER['REQUEST_METHOD'] = 'POST';
         $_POST = array
         (
-            'action' => 'create_cancelation',
             'id' => $invoice->id,
             'relocate' => true
         );
-        $url = $this->run_relocate_handler('org.openpsa.invoices', array('invoice', 'process'));
+        $url = $this->run_relocate_handler('org.openpsa.invoices', array('invoice', 'action', 'create_cancelation'));
 
         // now we should got a cancelation invoice
         $invoice->refresh();
@@ -75,33 +74,31 @@ class org_openpsa_invoices_handler_actionTest extends openpsa_testcase
         midcom::get()->auth->drop_sudo();
     }
 
-    public function testHandler_process_mark_sent()
+    public function testHandler_mark_sent()
     {
         midcom::get()->auth->request_sudo('org.openpsa.invoices');
         $_SERVER['REQUEST_METHOD'] = 'POST';
         $_POST = array
         (
-            'action' => 'mark_sent',
             'id' => self::$_invoice->id,
             'relocate' => true
         );
-        $url = $this->run_relocate_handler('org.openpsa.invoices', array('invoice', 'process'));
+        $url = $this->run_relocate_handler('org.openpsa.invoices', array('invoice', 'action', 'mark_sent'));
         $this->assertEquals('', $url);
 
         midcom::get()->auth->drop_sudo();
     }
 
-    public function testHandler_process_mark_paid()
+    public function testHandler_mark_paid()
     {
         midcom::get()->auth->request_sudo('org.openpsa.invoices');
         $_SERVER['REQUEST_METHOD'] = 'POST';
         $_POST = array
         (
-            'action' => 'mark_paid',
             'id' => self::$_invoice->id,
             'relocate' => true
         );
-        $url = $this->run_relocate_handler('org.openpsa.invoices', array('invoice', 'process'));
+        $url = $this->run_relocate_handler('org.openpsa.invoices', array('invoice', 'action', 'mark_paid'));
         $this->assertEquals('', $url);
 
         midcom::get()->auth->drop_sudo();

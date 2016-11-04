@@ -15,91 +15,87 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
 {
     private $message = array();
 
-    /**
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
-     * @param array &$data The local request data.
-     */
-    public function _handler_process($handler_id, array $args, array &$data)
+    private $invoice;
+
+    public function _on_initialize()
     {
         midcom::get()->auth->require_valid_user();
-
-        if (   empty($_POST['id'])
-            || empty($_POST['action']))
+        if (empty($_POST['id']))
         {
             throw new midcom_error('Incomplete POST data');
         }
+        $this->invoice = new org_openpsa_invoices_invoice_dba((int) $_POST['id']);
+        $this->invoice->require_do('midgard:update');
+    }
 
-        $invoice = new org_openpsa_invoices_invoice_dba((int) $_POST['id']);
-        $invoice->require_do('midgard:update');
-
-        if (   $_POST['action'] === '_handler_process'
-            || !method_exists($this, $_POST['action']))
-        {
-            debug_add("The action " . $_POST["action"] . " is unknown");
-            throw new midcom_error_notfound('Invalid operation');
-        }
-        $success = $this->{$_POST['action']}($invoice);
-
-        $this->message['title'] = $this->_l10n->get($this->_component);
-        $this->message['type'] = $success ? 'info' : 'error';
+    private function reply($success, $message)
+    {
+        $message = array
+        (
+            'title' => $this->_l10n->get($this->_component),
+            'type' => $success ? 'info' : 'error',
+            'message' => $message
+        );
 
         if (!empty($_POST['relocate']))
         {
-            midcom::get()->uimessages->add($this->message['title'], $this->message['message'], $this->message['type']);
+            midcom::get()->uimessages->add($message['title'], $message['message'], $message['type']);
             return new midcom_response_relocate('');
         }
 
         $result = array
         (
             'success' => $success,
-            'action' => $this->_master->render_invoice_actions($invoice),
-            'due' => strftime('%Y-%m-%d', $invoice->due),
-            'new_status' => $invoice->get_status(),
-            'message' => $this->message
+            'action' => $this->_master->render_invoice_actions($this->invoice),
+            'due' => strftime('%Y-%m-%d', $this->invoice->due),
+            'new_status' => $this->invoice->get_status(),
+            'message' => $message
         );
         return new midcom_response_json($result);
     }
 
-    private function create_cancelation(org_openpsa_invoices_invoice_dba $invoice)
+    /**
+     * @param mixed $handler_id The ID of the handler.
+     * @param array $args The argument list.
+     * @param array &$data The local request data.
+     */
+    public function _handler_create_cancelation($handler_id, array $args, array &$data)
     {
         // can be canceled?
-        if (!$invoice->is_cancelable())
+        if (!$this->invoice->is_cancelable())
         {
-            $this->message['message'] = sprintf($this->_l10n->get('cancelation for invoice %s already exists'), $invoice->get_label());
-            return false;
+            return $this->reply(false, sprintf($this->_l10n->get('cancelation for invoice %s already exists'), $this->invoice->get_label()));
         }
 
         // process
         $cancelation_invoice = new org_openpsa_invoices_invoice_dba();
-        $cancelation_invoice->customerContact = $invoice->customerContact;
-        $cancelation_invoice->customer = $invoice->customer;
+        $cancelation_invoice->customerContact = $this->invoice->customerContact;
+        $cancelation_invoice->customer = $this->invoice->customer;
         $cancelation_invoice->number = $cancelation_invoice->generate_invoice_number();
-        $cancelation_invoice->sum = $invoice->sum * (-1);
-        $cancelation_invoice->vat = $invoice->vat;
+        $cancelation_invoice->sum = $this->invoice->sum * (-1);
+        $cancelation_invoice->vat = $this->invoice->vat;
 
-        if (!$invoice->sent)
+        if (!$this->invoice->sent)
         {
-            $invoice->sent = time();
+            $this->invoice->sent = time();
             // if original wasn't sent, we probably don't need to send cancelation
             $cancelation_invoice->sent = time();
         }
-        if (!$invoice->paid)
+        if (!$this->invoice->paid)
         {
-            $invoice->paid = time();
+            $this->invoice->paid = time();
             // if original wasn't paid, we probably don't need to pay cancelation
             $cancelation_invoice->paid = time();
         }
 
         if (!$cancelation_invoice->create())
         {
-            $this->message['message'] = sprintf($this->_l10n->get('could not create cancelation for invoice %s'), $invoice->get_label());
-            return false;
+            return $this->reply(false, sprintf($this->_l10n->get('could not create cancelation for invoice %s'), $this->invoice->get_label()));
         }
 
         // add invoice item(s) to cancelation invoice
         // we need to copy each original item and cancel it
-        $items = $invoice->get_invoice_items();
+        $items = $this->invoice->get_invoice_items();
         $count = 1;
         foreach ($items as $item)
         {
@@ -107,7 +103,7 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
             $cancelation_item->invoice = $cancelation_invoice->id;
             $cancelation_item->deliverable = $item->deliverable;
             $cancelation_item->task = $item->task;
-            $cancelation_item->description = sprintf($this->_l10n->get('cancelation for invoice %s, item %s'), $invoice->number, $count);
+            $cancelation_item->description = sprintf($this->_l10n->get('cancelation for invoice %s, item %s'), $this->invoice->number, $count);
             $cancelation_item->units = $item->units;
             $cancelation_item->pricePerUnit = $item->pricePerUnit * (-1);
 
@@ -115,46 +111,48 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
             {
                 // cleanup
                 $cancelation_invoice->delete();
-                $this->message['message'] = sprintf($this->_l10n->get('could not create item for cancelation invoice %s'), $cancelation_invoice->get_label());
-                return false;
+                return $this->reply(false, sprintf($this->_l10n->get('could not create item for cancelation invoice %s'), $cancelation_invoice->get_label()));
             }
             $count++;
         }
 
-        $invoice->cancelationInvoice = $cancelation_invoice->id;
-        if (!$invoice->update())
+        $this->invoice->cancelationInvoice = $cancelation_invoice->id;
+        if (!$this->invoice->update())
         {
             // cleanup
             $cancelation_invoice->delete();
-            $this->message['message'] = sprintf($this->_l10n->get('could not update invoice %s'), $invoice->get_label());
-            return false;
+            return $this->reply(false, sprintf($this->_l10n->get('could not update invoice %s'), $this->invoice->get_label()));
         }
 
-        // redirect to invoice page
-        midcom::get()->relocate("invoice/" . $cancelation_invoice->guid . "/");
+        return new midcom_response_relocate("invoice/" . $cancelation_invoice->guid . "/");
     }
 
-    private function send_by_mail(org_openpsa_invoices_invoice_dba $invoice)
+    /**
+     * @param mixed $handler_id The ID of the handler.
+     * @param array $args The argument list.
+     * @param array &$data The local request data.
+     */
+    public function _handler_send_by_mail($handler_id, array $args, array &$data)
     {
-        $customerCard = org_openpsa_widgets_contact::get($invoice->customerContact);
+        $customerCard = org_openpsa_widgets_contact::get($this->invoice->customerContact);
         $contactDetails = $customerCard->contact_details;
-        $invoice_label = $invoice->get_label();
+        $invoice_label = $this->invoice->get_label();
 
         // check if we got an invoice date..
-        if (!$invoice->date)
+        if (!$this->invoice->date)
         {
-            $invoice->date = time();
-            $invoice->update();
+            $this->invoice->date = time();
+            $this->invoice->update();
         }
-        $invoice_date = $this->_l10n->get_formatter()->date($invoice->date);
+        $invoice_date = $this->_l10n->get_formatter()->date($this->invoice->date);
 
         // generate pdf, only if not existing yet
-        $pdf_files = org_openpsa_helpers::get_dm2_attachments($invoice, "pdf_file");
+        $pdf_files = org_openpsa_helpers::get_dm2_attachments($this->invoice, "pdf_file");
         if (count($pdf_files) == 0)
         {
-            org_openpsa_invoices_handler_pdf::render_and_attach_pdf($invoice);
+            org_openpsa_invoices_handler_pdf::render_and_attach_pdf($this->invoice);
             //refresh to get new file. TODO: This should be optimized by changing the render interface
-            $pdf_files = org_openpsa_helpers::get_dm2_attachments($invoice, "pdf_file");
+            $pdf_files = org_openpsa_helpers::get_dm2_attachments($this->invoice, "pdf_file");
         }
 
         $mail = new org_openpsa_mail();
@@ -201,54 +199,47 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
 
         if (!$mail->send())
         {
-            $this->message['message'] = sprintf($this->_l10n->get('unable to deliver mail: %s'), $mail->get_error_message());
-            return false;
+            return $this->reply(false, sprintf($this->_l10n->get('unable to deliver mail: %s'), $mail->get_error_message()));
         }
-        $invoice->set_parameter($this->_component, 'sent_by_mail', time());
-        return $this->mark_sent($invoice);
+        $this->invoice->set_parameter($this->_component, 'sent_by_mail', time());
+        return $this->_handler_mark_sent($handler_id, $args, $data);
     }
 
     /**
-     * Mark invoice as paid
-     *
-     * @todo maybe move it to invoice-class ?
-     * @param org_openpsa_invoices_invoice_dba $invoice contains invoice
+     * @param mixed $handler_id The ID of the handler.
+     * @param array $args The argument list.
+     * @param array &$data The local request data.
      */
-    private function mark_paid(org_openpsa_invoices_invoice_dba $invoice)
+    public function _handler_mark_paid($handler_id, array $args, array &$data)
     {
-        if (!$invoice->paid)
+        if (!$this->invoice->paid)
         {
-            $invoice->paid = time();
-            if (!$invoice->update())
+            $this->invoice->paid = time();
+            if (!$this->invoice->update())
             {
-                $this->message['message'] = sprintf($this->_l10n->get('could not mark invoice %s paid'), $invoice->get_label());
-                return false;
+                return $this->reply(false, sprintf($this->_l10n->get('could not mark invoice %s paid'), $this->invoice->get_label()));
             }
-            $this->message['message'] = sprintf($this->_l10n->get('marked invoice %s paid'), $invoice->get_label());
         }
-        return true;
+        return $this->reply(true, $this->_l10n->get('marked invoice %s paid'), $this->invoice->get_label());
     }
 
     /**
-     * Mark invoice as sent
-     *
-     * @todo maybe move it to invoice-class ?
-     * @param org_openpsa_invoices_invoice_dba $invoice contains invoice
+     * @param mixed $handler_id The ID of the handler.
+     * @param array $args The argument list.
+     * @param array &$data The local request data.
      */
-    private function mark_sent(org_openpsa_invoices_invoice_dba $invoice)
+    public function _handler_mark_sent($handler_id, array $args, array &$data)
     {
-        if (!$invoice->sent)
+        if (!$this->invoice->sent)
         {
-            $invoice->sent = time();
+            $this->invoice->sent = time();
 
-            if (!$invoice->update())
+            if (!$this->invoice->update())
             {
-                $this->message['message'] = sprintf($this->_l10n->get('could not mark invoice %s paid'), $invoice->get_label());
-                return false;
+                return $this->reply(false, sprintf($this->_l10n->get('could not mark invoice %s paid'), $this->invoice->get_label()));
             }
-            $this->message['message'] = sprintf($this->_l10n->get('marked invoice %s sent'), $invoice->get_label());
 
-            $mc = new org_openpsa_relatedto_collector($invoice->guid, 'org_openpsa_projects_task_dba');
+            $mc = new org_openpsa_relatedto_collector($this->invoice->guid, 'org_openpsa_projects_task_dba');
             $tasks = $mc->get_related_objects();
 
             // Close "Send invoice" task
@@ -256,10 +247,10 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
             {
                 if (org_openpsa_projects_workflow::complete($task))
                 {
-                    midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.invoices'), sprintf($this->_l10n->get('marked task "%s" finished'), $task->title));
+                    midcom::get()->uimessages->add($this->_l10n->get($this->_component), sprintf($this->_l10n->get('marked task "%s" finished'), $task->title));
                 }
             }
         }
-        return true;
+        return $this->reply(true, sprintf($this->_l10n->get('marked invoice %s sent'), $this->invoice->get_label()));
     }
 }

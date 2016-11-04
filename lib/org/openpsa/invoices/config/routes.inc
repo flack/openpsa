@@ -72,11 +72,29 @@
     'fixed_args' => array('invoice', 'delete'),
     'variable_args' => 1,
 ),
-// Match /invoice/process/
-'invoice_process' => array
+// Match /invoice/action/mark_sent/
+'invoice_mark_sent' => array
 (
-    'handler' => Array('org_openpsa_invoices_handler_action', 'process'),
-    'fixed_args' => array('invoice', 'process'),
+    'handler' => Array('org_openpsa_invoices_handler_action', 'mark_sent'),
+    'fixed_args' => array('invoice', 'action', 'mark_sent'),
+),
+// Match /invoice/action/send_by_mail/
+'invoice_send_by_mail' => array
+(
+    'handler' => Array('org_openpsa_invoices_handler_action', 'send_by_mail'),
+    'fixed_args' => array('invoice', 'action', 'send_by_mail'),
+),
+// Match /invoice/action/mark_paid/
+'invoice_mark_paid' => array
+(
+    'handler' => Array('org_openpsa_invoices_handler_action', 'mark_paid'),
+    'fixed_args' => array('invoice', 'action', 'mark_paid'),
+),
+// Match /invoice/action/create_cancelation/
+'invoice_create_cancelation' => array
+(
+    'handler' => Array('org_openpsa_invoices_handler_action', 'create_cancelation'),
+    'fixed_args' => array('invoice', 'action', 'create_cancelation'),
 ),
 
 // Match /invoice/recalculation/<guid>

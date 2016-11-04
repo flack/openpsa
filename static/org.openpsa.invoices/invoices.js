@@ -65,7 +65,7 @@ function calculate_invoices_total(table)
 function process_invoice(button, action, invoice_url)
 {
     var id = button.parent().parent().attr('id');
-    $.post(invoice_url + 'invoice/process/', {id: id, action: action}, function(data)
+    $.post(invoice_url + 'invoice/action/' + action + '/', {id: id}, function(data)
     {
         if (data.success === false)
         {
