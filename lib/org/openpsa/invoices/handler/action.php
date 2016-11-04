@@ -13,8 +13,6 @@
  */
 class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_handler
 {
-    private $message = array();
-
     private $invoice;
 
     public function _on_initialize()
