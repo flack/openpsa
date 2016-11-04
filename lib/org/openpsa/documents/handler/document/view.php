@@ -180,13 +180,6 @@ implements org_openpsa_widgets_grid_provider_client
         // Get the requested document object
         $this->_document = $this->_load_document($args[0]);
 
-        //If the user hasn't looked at the document since its last update, save the current time as last visit
-        $person = midcom::get()->auth->user->get_storage();
-        if ((int) $person->get_parameter('org.openpsa.documents_visited', $this->_document->guid) < (int) $this->_document->metadata->revised)
-        {
-            $person->set_parameter('org.openpsa.documents_visited', $this->_document->guid, time());
-        }
-
         // Get number of older versions
         $this->_request_data['document_versions'] = 0;
         $qb = org_openpsa_documents_document_dba::new_query_builder();

@@ -1,34 +1,3 @@
-.list_item
-{
-    float: left;
-    height: 95px;
-    width: 80px;
-    overflow: hidden;
-    margin: 7px;
-    text-align: center;
-}
-
-.new
-{
-    font-weight: bold;
-}
-
-.document_icon
-{
-    border: 0px;
-    height: 18px;
-    vertical-align: middle;
-    margin-right: 5px;
-}
-
-.folder_icon
-{
-    border: 0px;
-    height: 16px;
-    vertical-align: middle;
-    margin-right: 5px;
-}
-
 .wide #document_search
 {
     margin-bottom: .4em
@@ -72,16 +41,6 @@ dl.search_results dd .icon img
 dl.search_results ul
 {
     list-style-type: none
-}
-.jqgrid_size, .jqgrid_date
-{
-    width: 100%;
-    display: block;
-}
-
-.jqgrid_size
-{
-    text-align: right;
 }
 
 .elfinder-button-icon.elfinder-button-icon-details {

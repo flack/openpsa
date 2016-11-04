@@ -98,24 +98,6 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
         return $this->title;
     }
 
-    public function get_class()
-    {
-        if (   !midcom::get()->auth->user
-            || empty($this->guid))
-        {
-            return '';
-        }
-        $person = midcom::get()->auth->user->get_storage();
-        $lastvisited = $person->get_parameter('org.openpsa.documents_visited', $this->guid);
-
-        if (   $lastvisited
-            && $lastvisited > $this->metadata->revised)
-        {
-            return 'visited';
-        }
-        return 'new';
-    }
-
     /**
      * Load the document's attachment
      *
