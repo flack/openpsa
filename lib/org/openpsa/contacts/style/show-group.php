@@ -16,8 +16,8 @@ $node = $nap->get_node($nap->get_current_node());
         <?php
     }
 
-    midcom::get()->dynamic_load($node[MIDCOM_NAV_RELATIVEURL] . "group/" . $data['group']->guid . "/members/");
-    midcom::get()->dynamic_load($node[MIDCOM_NAV_RELATIVEURL] . "group/" . $data['group']->guid . "/subgroups/"); ?>
+    midcom::get()->dynamic_load($node[MIDCOM_NAV_RELATIVEURL] . "group/members/" . $data['group']->guid . "/");
+    midcom::get()->dynamic_load($node[MIDCOM_NAV_RELATIVEURL] . "group/subgroups/" . $data['group']->guid . "/"); ?>
 
     <!-- TODO: Projects list, Add project button -->
 </div>

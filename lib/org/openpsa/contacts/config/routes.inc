@@ -88,12 +88,28 @@
     'variable_args' => 1,
 ),
 
-// Match /group/<GUID>/<action>
-'group_action' => array
+// Match /group/update_member_title/<GUID>
+'group_update_member_title' => array
 (
-    'handler' => array('org_openpsa_contacts_handler_group_action', 'action'),
-    'fixed_args' => 'group',
-    'variable_args' => 2,
+    'handler' => array('org_openpsa_contacts_handler_group_action', 'update_member_title'),
+    'fixed_args' => array('group', 'update_member_title'),
+    'variable_args' => 1,
+),
+
+// Match /group/members/<GUID>
+'group_members' => array
+(
+    'handler' => array('org_openpsa_contacts_handler_group_action', 'members'),
+    'fixed_args' => array('group', 'members'),
+    'variable_args' => 1,
+),
+
+// Match /group/subgroups/<GUID>
+'group_subgroups' => array
+(
+    'handler' => array('org_openpsa_contacts_handler_group_action', 'subgroups'),
+    'fixed_args' => array('group', 'subgroups'),
+    'variable_args' => 1,
 ),
 
 // Match /person/create/GroupGUID
