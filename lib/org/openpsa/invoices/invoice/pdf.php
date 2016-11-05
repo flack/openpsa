@@ -39,19 +39,41 @@ class org_openpsa_invoices_invoice_pdf
         return $this->render_and_attach();
     }
 
-    public function has_manual_attachment()
+    public function get_button_options()
     {
-        if ($attachment = $this->get_attachment())
+        if ($this->invoice->sent)
+        {
+            $message = 'invoice has already been sent. should it be replaced?';
+        }
+        else if ($attachment = $this->get_attachment())
         {
             // check if auto generated parameter is same as md5 in current-file
             // if not the file was manually uploaded
             if ($checksum = $attachment->get_parameter('org.openpsa.invoices', 'auto_generated'))
             {
                 $blob = new midgard_blob($attachment->__object);
-                return $checksum !== md5_file($blob->get_path());
+                if ($checksum !== md5_file($blob->get_path()))
+                {
+                    $message = 'current pdf file was manually uploaded shall it be replaced ?';
+                }
             }
         }
-        return false;
+        if (empty($message))
+        {
+            return array();
+        }
+        midcom\workflow\dialog::add_head_elements();
+        $l10n_midcom = midcom::get()->i18n->get_l10n();
+        $l10n = midcom::get()->i18n->get_l10n('org.openpsa.invoices');
+
+        return array
+        (
+            'data-dialog' => 'confirm',
+            'data-dialog-heading' => $l10n->get('create_pdf'),
+            'data-dialog-text' => $l10n->get($message),
+            'data-dialog-confirm-label' => $l10n_midcom->get('confirm'),
+            'data-dialog-cancel-label' => $l10n_midcom->get('cancel')
+        );
     }
 
     public function render_and_attach()

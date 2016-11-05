@@ -264,12 +264,11 @@ class org_openpsa_invoices_handler_invoice_crud extends midcom_baseclasses_compo
 
         if ($this->_config->get('invoice_pdfbuilder_class'))
         {
-            $buttons[] = array
-            (
-                MIDCOM_TOOLBAR_URL => "invoice/pdf/{$this->_object->guid}/",
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create pdf'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/printer.png',
-            );
+            $button = $this->build_button('create_pdf', 'stock-icons/16x16/printer.png');
+            $pdf_helper = new org_openpsa_invoices_invoice_pdf($this->_object);
+            $button[MIDCOM_TOOLBAR_OPTIONS] = $pdf_helper->get_button_options();
+            $buttons[] = $button;
+
             // sending per email enabled in billing data?
             $billing_data = $this->_object->get_billing_data();
             if (intval($billing_data->sendingoption) == 2)

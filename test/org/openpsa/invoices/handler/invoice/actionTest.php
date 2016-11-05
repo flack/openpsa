@@ -74,6 +74,27 @@ class org_openpsa_invoices_handler_invoice_actionTest extends openpsa_testcase
         midcom::get()->auth->drop_sudo();
     }
 
+    /**
+     * @todo: Once we have a way to inject config values, we should add a mock object here
+     */
+    public function testHandler_create_pdf()
+    {
+        midcom::get()->auth->request_sudo('org.openpsa.invoices');
+
+        $topic = $this->create_object('midcom_db_topic', array('component' => 'org.openpsa.invoices'));
+        $topic->set_parameter('org.openpsa.invoices', 'invoice_pdfbuilder_class', 'nonexistent');
+        $_SERVER['REQUEST_METHOD'] = 'POST';
+        $_POST = array
+        (
+            'id' => self::$_invoice->id,
+            'relocate' => true
+        );
+        $url = $this->run_relocate_handler($topic, array('invoice', 'action', 'create_pdf'));
+        $this->assertEquals('invoice/' . self::$_invoice->guid . '/', $url);
+
+        midcom::get()->auth->drop_sudo();
+    }
+
     public function testHandler_mark_sent()
     {
         midcom::get()->auth->request_sudo('org.openpsa.invoices');

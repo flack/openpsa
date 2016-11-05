@@ -418,7 +418,7 @@ Use the address given in contact
 The current PDF file was manually uploaded. So shall it really be replaced ?
 ---STRINGEND
 
----STRING create pdf
+---STRING create_pdf
 Create PDF
 ---STRINGEND
 

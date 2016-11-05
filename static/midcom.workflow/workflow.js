@@ -93,6 +93,43 @@ $(document).ready(function()
             create_dialog($(this), $(this).find('.toolbar_label').text() || $(this).attr('title') || '', $(this).attr('href'));
         }
     });
+    
+    $('body').on('click', '[data-dialog="confirm"]', function(event)
+    {
+        event.preventDefault();
+        var button = $(this),
+        dialog = $('<div class="midcom-confirm-dialog">'),
+        options = {
+            title:  button.data('dialog-heading'),
+            modal: true,
+            width: 'auto',
+            maxHeight: $(window).height(),
+            buttons: [{
+                text: button.data('dialog-confirm-label'),
+                click: function() {
+                    button.closest('form').submit();
+                }
+            },
+            {
+                text: button.data('dialog-cancel-label'),
+                click: function() {
+                    $(this).dialog("close");
+                }
+            }]
+        };
+
+    if ($('.midcom-confirm-dialog').length > 0)
+    {
+        $('.midcom-confirm-dialog').remove();
+    }
+
+    dialog
+        .css('min-width', '300px') // This should be handled by dialog's minWidth option, but that doesn't work with width: "auto"
+                                   // Should be fixed in https://github.com/jquery/jquery-ui/commit/643b80c6070e2eba700a09a5b7b9717ea7551005
+        .append($('<p>' + button.data('dialog-text') + '</p>'))
+        .appendTo($('body'))
+        .dialog(options);
+    });
 });
 
 function create_dialog(control, title, url)

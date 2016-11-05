@@ -96,6 +96,12 @@
     'handler' => Array('org_openpsa_invoices_handler_invoice_action', 'create_cancelation'),
     'fixed_args' => array('invoice', 'action', 'create_cancelation'),
 ),
+// Match /invoice/action/create_pdf/
+'create_pdf' => array
+(
+    'handler' => Array('org_openpsa_invoices_handler_invoice_action', 'create_pdf'),
+    'fixed_args' => array('invoice', 'action', 'create_pdf'),
+),
 
 // Match /invoice/recalculation/<guid>
 'recalc_invoice' => array
@@ -128,13 +134,6 @@
     'fixed_args' => array('invoice', 'itemposition'),
 ),
 
-// Match /invoice/pdf/<guid>
-'create_pdf' => array
-(
-    'fixed_args' => array('invoice', 'pdf'),
-    'handler' => Array('org_openpsa_invoices_handler_invoice_pdf', 'pdf'),
-    'variable_args' => 1,
-),
 // Match /invoice/<guid>
 'invoice' => array
 (

@@ -422,7 +422,7 @@ Adresse aus Kontaktdaten benutzen
 Die derzeitige PDF-Datei wurde manuell hochgeladen. Soll diese Datei wirklich ersetzt werden?
 ---STRINGEND
 
----STRING create pdf
+---STRING create_pdf
 PDF erzeugen
 ---STRINGEND
 
