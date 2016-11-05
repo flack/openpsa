@@ -38,7 +38,7 @@ class org_openpsa_invoices_handler_invoice_action extends midcom_baseclasses_com
         if (!empty($_POST['relocate']))
         {
             midcom::get()->uimessages->add($message['title'], $message['message'], $message['type']);
-            return new midcom_response_relocate('');
+            return new midcom_response_relocate('invoice/' . $this->invoice->guid . '/');
         }
 
         $result = array
@@ -132,23 +132,16 @@ class org_openpsa_invoices_handler_invoice_action extends midcom_baseclasses_com
      */
     public function _handler_create_pdf($handler_id, array $args, array &$data)
     {
-        $invoice_url = "invoice/" . $this->invoice->guid . "/";
-
-        if (array_key_exists('cancel', $_POST))
-        {
-            return new midcom_response_relocate($invoice_url);
-        }
         $pdf_helper = new org_openpsa_invoices_invoice_pdf($this->invoice);
         try
         {
             $pdf_helper->render_and_attach();
-            midcom::get()->uimessages->add($this->_l10n->get($this->_component), $this->_l10n->get('pdf created'));
+            return $this->reply(true, $this->_l10n->get('pdf created'));
         }
         catch (midcom_error $e)
         {
-            midcom::get()->uimessages->add($this->_l10n->get($this->_component), $this->_l10n->get('pdf creation failed') . ': ' . $e->getMessage(), 'error');
+            return $this->reply(true, $this->_l10n->get('pdf creation failed') . ': ' . $e->getMessage());
         }
-        return new midcom_response_relocate($invoice_url);
     }
 
     /**
@@ -223,7 +216,7 @@ class org_openpsa_invoices_handler_invoice_action extends midcom_baseclasses_com
                 return $this->reply(false, sprintf($this->_l10n->get('could not mark invoice %s paid'), $this->invoice->get_label()));
             }
         }
-        return $this->reply(true, $this->_l10n->get('marked invoice %s paid'), $this->invoice->get_label());
+        return $this->reply(true, sprintf($this->_l10n->get('marked invoice %s paid'), $this->invoice->get_label()));
     }
 
     /**

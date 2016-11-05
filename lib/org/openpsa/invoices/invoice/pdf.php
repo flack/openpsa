@@ -41,15 +41,15 @@ class org_openpsa_invoices_invoice_pdf
 
     public function get_button_options()
     {
-        if ($this->invoice->sent)
+        if ($attachment = $this->get_attachment())
         {
-            $message = 'invoice has already been sent. should it be replaced?';
-        }
-        else if ($attachment = $this->get_attachment())
-        {
+            if ($this->invoice->sent)
+            {
+                $message = 'invoice has already been sent. should it be replaced?';
+            }
             // check if auto generated parameter is same as md5 in current-file
             // if not the file was manually uploaded
-            if ($checksum = $attachment->get_parameter('org.openpsa.invoices', 'auto_generated'))
+            else if ($checksum = $attachment->get_parameter('org.openpsa.invoices', 'auto_generated'))
             {
                 $blob = new midgard_blob($attachment->__object);
                 if ($checksum !== md5_file($blob->get_path()))

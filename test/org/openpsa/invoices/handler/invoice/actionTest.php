@@ -105,7 +105,7 @@ class org_openpsa_invoices_handler_invoice_actionTest extends openpsa_testcase
             'relocate' => true
         );
         $url = $this->run_relocate_handler('org.openpsa.invoices', array('invoice', 'action', 'mark_sent'));
-        $this->assertEquals('', $url);
+        $this->assertEquals('invoice/' . self::$_invoice->guid . '/', $url);
 
         midcom::get()->auth->drop_sudo();
     }
@@ -120,7 +120,7 @@ class org_openpsa_invoices_handler_invoice_actionTest extends openpsa_testcase
             'relocate' => true
         );
         $url = $this->run_relocate_handler('org.openpsa.invoices', array('invoice', 'action', 'mark_paid'));
-        $this->assertEquals('', $url);
+        $this->assertEquals('invoice/' . self::$_invoice->guid . '/', $url);
 
         midcom::get()->auth->drop_sudo();
     }
