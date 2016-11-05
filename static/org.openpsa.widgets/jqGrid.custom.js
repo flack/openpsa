@@ -826,11 +826,11 @@ var org_openpsa_batch_processing =
         });
 
         // We use regular post instead of ajax to get browser's busy indicator
-        $("#form_" + config.id).bind('submit', function(e)
+        $("#form_" + config.id).bind('submit', function()
         {
             function add_array(field, data)
             {
-                for (i = 0; i < data.length; i++)
+                for (var i = 0; i < data.length; i++)
                 {
                     $('<input type="hidden" name="' + field + '[]" value="' + data[i] + '" />')
                         .appendTo('#form_' + config.id);
