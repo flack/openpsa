@@ -63,16 +63,11 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
         if (   array_key_exists('org_openpsa_projects_prospects', $_POST)
             && $_POST['save'])
         {
-            foreach ($_POST['org_openpsa_projects_prospects'] as $prospect_guid => $slots)
+            $qb = org_openpsa_projects_task_resource_dba::new_query_builder();
+            $qb->add_constraint('guid', 'IN', array_keys($_POST['org_openpsa_projects_prospects']));
+            foreach ($qb->execute() as $prospect)
             {
-                try
-                {
-                    $prospect = new org_openpsa_projects_task_resource_dba($prospect_guid);
-                }
-                catch (midcom_error $e)
-                {
-                    continue;
-                }
+                $slots = $_POST['org_openpsa_projects_prospects'][$prospect->guid];
                 $update_prospect = false;
                 foreach ($slots as $slotdata)
                 {
@@ -109,7 +104,7 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
             }
             return new midcom_response_relocate("task/{$this->_task->guid}/");
         }
-        else if (!empty($_POST['cancel']))
+        if (!empty($_POST['cancel']))
         {
             return new midcom_response_relocate("task/{$this->_task->guid}/");
         }
