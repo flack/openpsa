@@ -11,7 +11,7 @@
  *
  * @package org.openpsa.invoices
  */
-class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_handler_crud
+class org_openpsa_invoices_handler_invoice_crud extends midcom_baseclasses_components_handler_crud
 {
     protected $_dba_class = 'org_openpsa_invoices_invoice_dba';
 

@@ -11,7 +11,7 @@
  *
  * @package org.openpsa.invoices
  */
-class org_openpsa_invoices_handler_pdf extends midcom_baseclasses_components_handler
+class org_openpsa_invoices_handler_invoice_pdf extends midcom_baseclasses_components_handler
 {
     /**
      * @var org_openpsa_invoices_invoice_dba

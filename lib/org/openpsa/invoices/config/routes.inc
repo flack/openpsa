@@ -45,14 +45,14 @@
 // Match /invoice/new/
 'invoice_new_nocustomer' => array
 (
-    'handler' => Array('org_openpsa_invoices_handler_crud', 'create'),
+    'handler' => Array('org_openpsa_invoices_handler_invoice_crud', 'create'),
     'fixed_args' => array('invoice', 'new'),
 ),
 
 // Match /invoice/new/<company guid>
 'invoice_new' => array
 (
-    'handler' => Array('org_openpsa_invoices_handler_crud', 'create'),
+    'handler' => Array('org_openpsa_invoices_handler_invoice_crud', 'create'),
     'fixed_args' => array('invoice', 'new'),
     'variable_args' => 1,
 ),
@@ -60,7 +60,7 @@
 // Match /invoice/edit/<guid>
 'invoice_edit' => array
 (
-    'handler' => Array('org_openpsa_invoices_handler_crud', 'update'),
+    'handler' => Array('org_openpsa_invoices_handler_invoice_crud', 'update'),
     'fixed_args' => array('invoice', 'edit'),
     'variable_args' => 1,
 ),
@@ -68,39 +68,39 @@
 // Match /invoice/delete/<guid>
 'invoice_delete' => array
 (
-    'handler' => Array('org_openpsa_invoices_handler_crud', 'delete'),
+    'handler' => Array('org_openpsa_invoices_handler_invoice_crud', 'delete'),
     'fixed_args' => array('invoice', 'delete'),
     'variable_args' => 1,
 ),
 // Match /invoice/action/mark_sent/
 'invoice_mark_sent' => array
 (
-    'handler' => Array('org_openpsa_invoices_handler_action', 'mark_sent'),
+    'handler' => Array('org_openpsa_invoices_handler_invoice_action', 'mark_sent'),
     'fixed_args' => array('invoice', 'action', 'mark_sent'),
 ),
 // Match /invoice/action/send_by_mail/
 'invoice_send_by_mail' => array
 (
-    'handler' => Array('org_openpsa_invoices_handler_action', 'send_by_mail'),
+    'handler' => Array('org_openpsa_invoices_handler_invoice_action', 'send_by_mail'),
     'fixed_args' => array('invoice', 'action', 'send_by_mail'),
 ),
 // Match /invoice/action/mark_paid/
 'invoice_mark_paid' => array
 (
-    'handler' => Array('org_openpsa_invoices_handler_action', 'mark_paid'),
+    'handler' => Array('org_openpsa_invoices_handler_invoice_action', 'mark_paid'),
     'fixed_args' => array('invoice', 'action', 'mark_paid'),
 ),
 // Match /invoice/action/create_cancelation/
 'invoice_create_cancelation' => array
 (
-    'handler' => Array('org_openpsa_invoices_handler_action', 'create_cancelation'),
+    'handler' => Array('org_openpsa_invoices_handler_invoice_action', 'create_cancelation'),
     'fixed_args' => array('invoice', 'action', 'create_cancelation'),
 ),
 
 // Match /invoice/recalculation/<guid>
 'recalc_invoice' => array
 (
-    'handler' => Array('org_openpsa_invoices_handler_items', 'recalculation'),
+    'handler' => Array('org_openpsa_invoices_handler_invoice_items', 'recalculation'),
     'fixed_args' => array('invoice', 'recalculation'),
     'variable_args' => 1,
 ),
@@ -108,7 +108,7 @@
 // Match /invoice/items/<guid>
 'invoice_items' => array
 (
-    'handler' => Array('org_openpsa_invoices_handler_items', 'items'),
+    'handler' => Array('org_openpsa_invoices_handler_invoice_items', 'items'),
     'fixed_args' => array('invoice', 'items'),
     'variable_args' => 1,
 ),
@@ -116,7 +116,7 @@
 // Match /invoice/itemedit/<guid>
 'invoice_item_edit' => array
 (
-    'handler' => Array('org_openpsa_invoices_handler_items', 'itemedit'),
+    'handler' => Array('org_openpsa_invoices_handler_invoice_items', 'itemedit'),
     'fixed_args' => array('invoice', 'itemedit'),
     'variable_args' => 1,
 ),
@@ -124,7 +124,7 @@
 // Match /invoice/itemposition/
 'invoice_item_position' => array
 (
-    'handler' => Array('org_openpsa_invoices_handler_items', 'itemposition'),
+    'handler' => Array('org_openpsa_invoices_handler_invoice_items', 'itemposition'),
     'fixed_args' => array('invoice', 'itemposition'),
 ),
 
@@ -132,13 +132,13 @@
 'create_pdf' => array
 (
     'fixed_args' => array('invoice', 'pdf'),
-    'handler' => Array('org_openpsa_invoices_handler_pdf', 'pdf'),
+    'handler' => Array('org_openpsa_invoices_handler_invoice_pdf', 'pdf'),
     'variable_args' => 1,
 ),
 // Match /invoice/<guid>
 'invoice' => array
 (
-    'handler' => Array('org_openpsa_invoices_handler_crud', 'read'),
+    'handler' => Array('org_openpsa_invoices_handler_invoice_crud', 'read'),
     'fixed_args' => array('invoice'),
     'variable_args' => 1,
 ),

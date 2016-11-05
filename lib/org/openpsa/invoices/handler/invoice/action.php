@@ -11,7 +11,7 @@
  *
  * @package org.openpsa.invoices
  */
-class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_handler
+class org_openpsa_invoices_handler_invoice_action extends midcom_baseclasses_components_handler
 {
     private $invoice;
 
@@ -148,7 +148,7 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
         $pdf_files = org_openpsa_helpers::get_dm2_attachments($this->invoice, "pdf_file");
         if (count($pdf_files) == 0)
         {
-            org_openpsa_invoices_handler_pdf::render_and_attach_pdf($this->invoice);
+            org_openpsa_invoices_handler_invoice_pdf::render_and_attach_pdf($this->invoice);
             //refresh to get new file. TODO: This should be optimized by changing the render interface
             $pdf_files = org_openpsa_helpers::get_dm2_attachments($this->invoice, "pdf_file");
         }

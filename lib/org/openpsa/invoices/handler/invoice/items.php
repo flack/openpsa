@@ -11,7 +11,7 @@
  *
  * @package org.openpsa.invoices
  */
-class org_openpsa_invoices_handler_items extends midcom_baseclasses_components_handler
+class org_openpsa_invoices_handler_invoice_items extends midcom_baseclasses_components_handler
 {
     /**
      * The invoice we're working with

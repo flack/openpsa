@@ -11,7 +11,7 @@
  *
  * @package openpsa.test
  */
-class org_openpsa_invoices_handler_actionTest extends openpsa_testcase
+class org_openpsa_invoices_handler_invoice_actionTest extends openpsa_testcase
 {
     protected static $_person;
     protected static $_invoice;
