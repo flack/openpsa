@@ -262,8 +262,7 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
             $buttons[] = $this->build_button('mark_paid', 'stock-icons/16x16/ok.png');
         }
 
-        if (   !$this->_object->paid
-            && $this->_config->get('invoice_pdfbuilder_class'))
+        if ($this->_config->get('invoice_pdfbuilder_class'))
         {
             $buttons[] = array
             (
