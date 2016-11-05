@@ -127,14 +127,6 @@
     'variable_args' => 1,
 ),
 
-// Match /csv/<type>
-'csv' => array
-(
-    'handler' => array('org_openpsa_projects_handler_csv', 'csv'),
-    'fixed_args' => 'csv',
-    'variable_args' => 1,
-),
-
 // Match /
 'frontpage' => array
 (
