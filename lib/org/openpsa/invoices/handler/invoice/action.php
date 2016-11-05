@@ -144,16 +144,16 @@ class org_openpsa_invoices_handler_invoice_action extends midcom_baseclasses_com
         }
         $invoice_date = $this->_l10n->get_formatter()->date($this->invoice->date);
 
-        // generate pdf, only if not existing yet
-        $pdf_files = org_openpsa_helpers::get_dm2_attachments($this->invoice, "pdf_file");
-        if (count($pdf_files) == 0)
-        {
-            org_openpsa_invoices_handler_invoice_pdf::render_and_attach_pdf($this->invoice);
-            //refresh to get new file. TODO: This should be optimized by changing the render interface
-            $pdf_files = org_openpsa_helpers::get_dm2_attachments($this->invoice, "pdf_file");
-        }
+        $pdf_helper = new org_openpsa_invoices_invoice_pdf($this->invoice);
+        $attachment = $pdf_helper->get_attachment(true);
 
         $mail = new org_openpsa_mail();
+        $mail->attachments[] = array
+        (
+            'name' => $attachment->name . ".pdf",
+            'mimetype' => "application/pdf",
+            'content' => $attachment->read()
+        );
 
         // define replacements for subject / body
         $mail->parameters = array
@@ -172,27 +172,6 @@ class org_openpsa_invoices_handler_invoice_action extends midcom_baseclasses_com
         if ($this->_config->get('invoice_mail_bcc'))
         {
             $mail->bcc = $this->_config->get('invoice_mail_bcc');
-        }
-
-        // attach pdf to mail
-        foreach ($pdf_files as $attachment)
-        {
-            $att = array();
-            $att['name'] = $attachment->name . ".pdf";
-            $att['mimetype'] = "application/pdf";
-
-            $fp = $attachment->open("r");
-            if (!$fp)
-            {
-                //Failed to open attachment for reading, skip the file
-                continue;
-            }
-
-            $att['content'] = stream_get_contents($fp);
-            $attachment->close();
-            debug_add("adding attachment '{$att['name']}' to attachments array of invoice mail");
-
-            $mail->attachments[] = $att;
         }
 
         if (!$mail->send())

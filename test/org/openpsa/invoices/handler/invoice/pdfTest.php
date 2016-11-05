@@ -23,7 +23,6 @@ class org_openpsa_invoices_handler_invoice_pdfTest extends openpsa_testcase
     }
 
     /**
-     * @expectedException midcom_error
      * @todo: Once we have a way to inject config values, we should add a mock object here
      */
     public function testHandler_pdf()
