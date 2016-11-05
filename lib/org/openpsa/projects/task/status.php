@@ -35,21 +35,12 @@ class org_openpsa_projects_task_status_dba extends midcom_core_dbaobject
     const APPROVED = 6570;
     const CLOSED = 6580;
 
-    public function __construct($id = null)
-    {
-        parent::__construct($id);
-        if (!$this->id)
-        {
-            $this->timestamp = $this->gmtime();
-        }
-    }
-
     public function _on_creating()
     {
         //Make sure we have timestamp
         if ($this->timestamp == 0)
         {
-            $this->timestamp = $this->gmtime();
+            $this->timestamp = time();
         }
 
         //Check for duplicate(s) (for some reason at times the automagic actions in task object try to create duplicate statuses)
@@ -62,7 +53,7 @@ class org_openpsa_projects_task_status_dba extends midcom_core_dbaobject
             $mc->add_constraint('targetPerson', '=', $this->targetPerson);
         }
         $mc->execute();
-        if ( $mc->count() > 0)
+        if ($mc->count() > 0)
         {
             debug_add('Duplicate statuses found, aborting create', MIDCOM_LOG_WARN);
             debug_print_r("List of duplicate status objects:", $mc->list_keys());
@@ -129,7 +120,7 @@ class org_openpsa_projects_task_status_dba extends midcom_core_dbaobject
         $task->update();
     }
 
-    function get_status_message()
+    public function get_status_message()
     {
         $map = array
         (
@@ -149,10 +140,5 @@ class org_openpsa_projects_task_status_dba extends midcom_core_dbaobject
             return $map[$this->type];
         }
         return "{$this->type} by %s";
-    }
-
-    function gmtime()
-    {
-        return gmmktime(date('G'), date('i'), date('s'), date('n'), date('j'), date('Y'));
     }
 }

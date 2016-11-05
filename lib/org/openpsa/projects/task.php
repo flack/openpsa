@@ -206,10 +206,22 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
      * @param string $property Where should they be added
      * @param array $ids The IDs of the contacts to add
      */
-    function add_members($property, $ids)
+    public function add_members($property, $ids)
     {
         if (   !is_array($ids)
-            || empty ($ids))
+            || empty($ids))
+        {
+            return;
+        }
+        if ($property === 'contacts')
+        {
+            $type = org_openpsa_projects_task_resource_dba::CONTACT;
+        }
+        else if ($property === 'contacts')
+        {
+            $type = org_openpsa_projects_task_resource_dba::RESOURCE;
+        }
+        else
         {
             return;
         }
@@ -217,17 +229,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
         foreach ($ids as $id)
         {
             $resource = new org_openpsa_projects_task_resource_dba();
-            switch ($property)
-            {
-                case 'contacts':
-                    $resource->orgOpenpsaObtype = org_openpsa_projects_task_resource_dba::CONTACT;
-                    break;
-                case 'resources':
-                    $resource->orgOpenpsaObtype = org_openpsa_projects_task_resource_dba::RESOURCE;
-                    break;
-                default:
-                    continue;
-            }
+            $resource->orgOpenpsaObtype = $type;
             $resource->task = $this->id;
             $resource->person = (int) $id;
             if ($resource->create())
@@ -295,7 +297,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
     /**
      * Update hour report caches
      */
-    function update_cache($update = true)
+    public function update_cache($update = true)
     {
         if (!$this->id)
         {

@@ -165,7 +165,6 @@ class org_openpsa_directmarketing_campaign_member_dba extends midcom_core_dbaobj
         $receipt->person = $this->person;
         $receipt->message = $message_id;
         $receipt->token = $token;
-        $receipt->timestamp = time();
 
         midcom::get()->auth->request_sudo('org.openpsa.directmarketing');
 

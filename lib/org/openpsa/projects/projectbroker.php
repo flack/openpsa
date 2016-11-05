@@ -104,7 +104,7 @@ class org_openpsa_projects_projectbroker
      * @param org_openpsa_projects_task_dba $task object to search prospect resources for
      * @return boolean indicating success/failure
      */
-    function save_task_prospects($task)
+    public function save_task_prospects($task)
     {
         midcom::get()->auth->request_sudo('org.openpsa.projects');
         $task->set_parameter('org.openpsa.projects.projectbroker', 'local_search', 'SEARCH_IN_PROGRESS');
@@ -140,11 +140,11 @@ class org_openpsa_projects_projectbroker
      * Does the person in question have slots of time available, what
      * are the previous and next events etc
      *
-     * @parameter $person person object (alternatively ID, full person will then be loaded from DB)
-     * @parameter $task the task object to search for
+     * @param $person person object (alternatively ID, full person will then be loaded from DB)
+     * @param $task the task object to search for
      * @return array of slots
      */
-    function resolve_person_timeslots($person, $task)
+    public function resolve_person_timeslots($person, $task)
     {
         $minimum_time_slot = $task->get_parameter('org.openpsa.projects.projectbroker', 'minimum_slot');
         if (empty($minimum_time_slot))

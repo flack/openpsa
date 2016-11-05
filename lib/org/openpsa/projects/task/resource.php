@@ -72,7 +72,7 @@ class org_openpsa_projects_task_resource_dba extends midcom_core_dbaobject
             return;
         }
 
-        $new_resource = new org_openpsa_projects_task_resource_dba();
+        $new_resource = new self();
         $new_resource->person = $this->person;
         $new_resource->orgOpenpsaObtype = $this->orgOpenpsaObtype;
         $new_resource->task = $parent->id;

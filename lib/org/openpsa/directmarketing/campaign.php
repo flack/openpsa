@@ -66,7 +66,7 @@ class org_openpsa_directmarketing_campaign_dba extends midcom_core_dbaobject
     /**
      * Populates the testers array from memberships
      */
-    function get_testers()
+    public function get_testers()
     {
         if (!$this->id)
         {

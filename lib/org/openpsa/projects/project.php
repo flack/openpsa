@@ -172,7 +172,7 @@ class org_openpsa_projects_project extends midcom_core_dbaobject
      *
      * @return array The task status overview
      */
-    function get_task_count()
+    public function get_task_count()
     {
         $numbers = array
         (
@@ -197,7 +197,7 @@ class org_openpsa_projects_project extends midcom_core_dbaobject
      *
      * @return array The task hours overview
      */
-    function get_task_hours()
+    public function get_task_hours()
     {
         $numbers = array
         (

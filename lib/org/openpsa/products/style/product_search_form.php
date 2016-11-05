@@ -1,30 +1,19 @@
 <?php
+$options = array
+(
+    '' => '',
+    org_openpsa_products_product_dba::TYPE_SERVICE => $data['l10n']->get('service'),
+    org_openpsa_products_product_dba::TYPE_GOODS => $data['l10n']->get('material goods'),
+    org_openpsa_products_product_dba::TYPE_SOLUTION => $data['l10n']->get('solution'),
+);
 
-if (!function_exists('org_openpsa_products_search_options_helper'))
-{
-    function org_openpsa_products_search_options_helper($options, $request_key, $request_name = 'org_openpsa_products_search')
-    {
-        foreach ($options as $key => $value)
-        {
-            $selected = '';
-            if (   isset($_REQUEST[$request_name][$request_key]['value'])
-                && $_REQUEST[$request_name][$request_key]['value'] == $key)
-            {
-                $selected = ' selected';
-            }
-            $key_esc = midcom_helper_xsspreventer::escape_attribute($key);
-            $value_esc = midcom_helper_xsspreventer::escape_element('option', $value);
-            echo "        <option value={$key_esc}{$selected}>{$value_esc}</option>\n";
-        }
-    }
-}
 if (!function_exists('org_openpsa_products_search_value_helper'))
 {
-    function org_openpsa_products_search_value_helper($request_key, $request_name = 'org_openpsa_products_search')
+    function org_openpsa_products_search_value_helper($request_key)
     {
-        if (isset($_REQUEST[$request_name][$request_key]['value']))
+        if (isset($_REQUEST['org_openpsa_products_search'][$request_key]['value']))
         {
-            echo ' value=' . midcom_helper_xsspreventer::escape_attribute($_REQUEST[$request_name][$request_key]['value']);
+            echo ' value=' . midcom_helper_xsspreventer::escape_attribute($_REQUEST['org_openpsa_products_search'][$request_key]['value']);
         }
     }
 }
@@ -58,16 +47,20 @@ if (!function_exists('org_openpsa_products_search_value_helper'))
     <label>
         <span class="field_text"><?php printf($data['l10n']->get('%s is'), $data['l10n']->get('type')); ?></span>
         <select name="org_openpsa_products_search[3][value]">
-<?php
-    $options = array
-    (
-        '' => '',
-        org_openpsa_products_product_dba::TYPE_SERVICE => $data['l10n']->get('service'),
-        org_openpsa_products_product_dba::TYPE_GOODS => $data['l10n']->get('material goods'),
-        org_openpsa_products_product_dba::TYPE_SOLUTION => $data['l10n']->get('solution'),
-    );
-    org_openpsa_products_search_options_helper($options, 3);
-?>
+        <?php
+        foreach ($options as $key => $value)
+        {
+            $selected = '';
+            if (   isset($_REQUEST['org_openpsa_products_search'][3]['value'])
+                && $_REQUEST['org_openpsa_products_search'][3]['value'] == $key)
+            {
+                $selected = ' selected';
+            }
+            $key_esc = midcom_helper_xsspreventer::escape_attribute($key);
+            $value_esc = midcom_helper_xsspreventer::escape_element('option', $value);
+            echo "        <option value={$key_esc}{$selected}>{$value_esc}</option>\n";
+        }
+        ?>
         </select>
     </label>
 

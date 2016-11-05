@@ -103,7 +103,7 @@ class org_openpsa_products_product_dba extends midcom_core_dbaobject
         return true;
     }
 
-    function validate_code($code)
+    public function validate_code($code)
     {
         if ($code == '')
         {
