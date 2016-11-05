@@ -183,18 +183,7 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
             }
             $data['subheading'] = $this->_l10n->get($status . ' reports');
             $data['status'] = $status;
-            $data['action_options'] = $this->_prepare_batch_options();
-
-            //add different options for different statuses
-            switch ($status)
-            {
-                case 'invoiceable':
-                    $data['action_options']['mark_uninvoiceable'] = array('label' => $this->_l10n->get('mark_uninvoiceable'));
-                    break;
-                case 'uninvoiceable':
-                    $data['action_options']['mark_invoiceable'] =  array('label' => $this->_l10n->get('mark_invoiceable'));
-                    break;
-            }
+            $data['action_options'] = $this->_prepare_batch_options($status === 'uninvoiceable');
             $data['reports'] = $reports;
 
             midcom_show_style('hours_grid');
@@ -205,7 +194,7 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
     /**
      * Set options array for JS, to show the right choosers
      */
-    private function _prepare_batch_options()
+    private function _prepare_batch_options($status)
     {
         $task_conf = midcom_helper_datamanager2_widget_autocomplete::get_widget_config('task');
         $invoice_conf = midcom_helper_datamanager2_widget_autocomplete::get_widget_config('invoice');
@@ -213,12 +202,17 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
         return array
         (
             'none' => array('label' => midcom::get()->i18n->get_string("choose action", "midcom.admin.user")),
-            'change_task' => array
+            'invoiceable' => array
+            (
+                'label' => $this->_l10n->get('mark_' . ($status ? 'invoiceable' : 'uninvoiceable')),
+                'value' => $status
+            ),
+            'task' => array
             (
                 'label' => $this->_l10n->get('change_task'),
                 'widget_config' => $task_conf
             ),
-            'change_invoice' => array
+            'invoice' => array
             (
                 'label' => $this->_l10n->get('change_invoice'),
                 'widget_config' => $invoice_conf

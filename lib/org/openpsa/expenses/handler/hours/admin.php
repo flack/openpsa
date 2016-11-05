@@ -193,65 +193,38 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
      */
     public function _handler_batch($handler_id, array $args, array &$data)
     {
-        //get url to relocate
-        $relocate = "/";
-        if (isset($_POST['relocate_url']))
+        if (!empty($_POST['entries']))
         {
-            $relocate = $_POST['relocate_url'];
-        }
-        else
-        {
-            debug_print_r('no relocate url was passed ', $_POST);
-        }
+            $qb = org_openpsa_projects_hour_report_dba::new_query_builder();
+            $qb->add_constraint('id', 'IN', $_POST['entries']);
 
-        //check if reports are passed
-        if (isset($_POST['entries']))
-        {
-            //iterate through reports
-            foreach ($_POST['entries'] as $report_id => $void)
+            $value = $this->parse_input($_POST);
+            $field = $_POST['action'];
+            foreach ($qb->execute() as $hour_report)
             {
-                $hour_report = new org_openpsa_projects_hour_report_dba($report_id);
-                switch ($_POST['action'])
-                {
-                    case 'mark_invoiceable':
-                        $hour_report->invoiceable = true;
-                        break;
-                    case 'mark_uninvoiceable':
-                        $hour_report->invoiceable = false;
-                        break;
-                    case 'change_invoice':
-                        $id = $this->_get_autocomplete_selection();
-                        $hour_report->invoice = $id;
-                        break;
-                    case 'change_task':
-                        $id = $this->_get_autocomplete_selection();
-                        if ($id != 0)
-                        {
-                            $hour_report->task = $id;
-                        }
-                        break;
-                    default:
-                        throw new midcom_error('passed action ' . $_POST['action'] . ' is unknown');
-                }
+                $hour_report->$field = $value;
                 $hour_report->update();
             }
         }
-        else
-        {
-            debug_print_r('No reports passed to action handler', $_POST);
-        }
 
+        $relocate = isset($_POST['relocate_url']) ? $_POST['relocate_url'] : "/";
         return new midcom_response_relocate($relocate);
     }
 
-    private function _get_autocomplete_selection()
+    private function parse_input(array $input)
     {
-        $selection = $_POST['batch_grid_id'] . '__' . $_POST['action'] . '_selection';
-        if (empty($_POST[$selection]))
+        if (!in_array($input['action'], array('invoiceable', 'invoice', 'task')))
+        {
+            throw new midcom_error('passed action ' . $input['action'] . ' is unknown');
+        }
+        if ($input['action'] == 'invoiceable')
+        {
+            return !empty($input['value']);
+        }
+        if (empty($input['selection']))
         {
             return 0;
         }
-        $selection = json_decode($_POST[$selection]);
-        return (int) array_pop($selection);
+        return (int) array_pop($input['selection']);
     }
 }

@@ -769,16 +769,15 @@ var org_openpsa_batch_processing =
         var widgets_to_add = [],
         //build action form and associated widgets
         action_select = '<div class="action_select_div" id="' + config.id + '_batch" style="display: none;">';
-        action_select += '<input type="hidden" name="batch_grid_id" value="' + config.id + '" />';
         action_select += '<select id="' + config.id + '_batch_select" class="action_select" name="action" size="1">';
 
-        $.each(config.options, function(key, values)
+        $.each(config.options, function(key, value)
         {
-            action_select += '<option value="' + key + '" >' + values.label + '</option>';
-            if (typeof values.widget_config !== 'undefined')
+            action_select += '<option value="' + key + '" >' + value.label + '</option>';
+            if (typeof value.widget_config !== 'undefined')
             {
                 var widget_id = config.id + '__' + key;
-                widgets_to_add.push({id: widget_id, insertAfter: '#' + config.id + '_batch_select', widget_config: values.widget_config});
+                widgets_to_add.push({id: widget_id, insertAfter: '#' + config.id + '_batch_select', widget_config: value.widget_config});
             }
         });
         action_select += '</select><input type="submit" name="send" /></div>';
@@ -826,14 +825,30 @@ var org_openpsa_batch_processing =
             }
         });
 
-        //make sure grid POSTs our selection
-        $("#form_" + config.id).bind('submit', function()
+        // We use regular post instead of ajax to get browser's busy indicator
+        $("#form_" + config.id).bind('submit', function(e)
         {
-            var i,
-            s = $("#" + config.id).jqGrid('getGridParam', 'selarrrow');
-            for (i = 0; i < s.length; i++)
+            function add_array(field, data)
             {
-                $('<input type="hidden" name="entries[' + s[i] + ']" value="On" />').appendTo('#form_' + config.id);
+                for (i = 0; i < data.length; i++)
+                {
+                    $('<input type="hidden" name="' + field + '[]" value="' + data[i] + '" />')
+                        .appendTo('#form_' + config.id);
+                }
+            }
+            add_array('entries', $("#" + config.id).jqGrid('getGridParam', 'selarrrow'));
+
+            var action = $("#form_" + config.id + ' select[name="action"]').val(),
+                autocomplete = $("#" + config.id + '__' + action + '_selection');
+
+            if (autocomplete.length > 0 && autocomplete.val().length)
+            {
+                add_array('selection', JSON.parse(autocomplete.val()));
+            }
+            else if (config.options[action].value)
+            {
+                $('<input type="hidden" name="value" value="' + config.options[action].value + '" />')
+                    .appendTo('#form_' + config.id);
             }
         });
     }
