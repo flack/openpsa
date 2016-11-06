@@ -87,7 +87,6 @@ class midcom_debug
         // Load FirePHP logger if enabled
         if (midcom::get()->config->get('log_firephp'))
         {
-            include_once('FirePHPCore/FirePHP.class.php');
             if (class_exists('FirePHP'))
             {
                 $this->firephp = FirePHP::getInstance(true);
