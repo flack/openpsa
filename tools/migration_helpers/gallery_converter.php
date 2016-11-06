@@ -7,6 +7,15 @@ class gallery_converter
 {
     private $_node;
 
+    public function __construct()
+    {
+        if (   !class_exists('org_routamc_gallery_photolink')
+            || !class_exists('org_routamc_photostream_photo'))
+        {
+            throw new midcom_error('MgdSchemas for the converter could not be found');
+        }
+    }
+
     public function execute()
     {
         $qb = new midgard_query_builder('midgard_topic');
