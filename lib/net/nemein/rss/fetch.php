@@ -441,19 +441,6 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
         $purge_guids = array();
         foreach ($local_items as $item)
         {
-            if (   midcom::get()->componentloader->is_installed('net.nemein.favourites')
-                && midcom::get()->componentloader->load_graceful('net.nemein.favourites'))
-            {
-                // If it has been favorited keep it
-                $qb = net_nemein_favourites_favourite_dba::new_query_builder();
-                $qb->add_constraint('objectGuid', '=', $item->guid);
-                if ($qb->count_unchecked() > 0)
-                {
-                    continue;
-                    // Skip deleting this one
-                }
-            }
-
             $purge_guids[] = $item->guid;
             $item->delete();
         }

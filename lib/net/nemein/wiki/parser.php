@@ -63,23 +63,9 @@ class net_nemein_wiki_parser extends midcom_baseclasses_components_purecode
             return $fulltag;
         }
 
-        midcom::get()->componentloader->load_graceful('org.routamc.photostream');
-        if (!class_exists('org_routamc_photostream_photo_dba'))
-        {
-            // TODO: do something to explain that we can't load o.r.photos...
-            return $fulltag;
-        }
-
         try
         {
-            $photo = new org_routamc_photostream_photo_dba($guid);
-            // Get the correct photo NAP object based on the GUID
-            $nap = new midcom_helper_nav();
-            $node = $nap->get_node($photo->node);
-            if ($node[MIDCOM_NAV_COMPONENT] != 'org.routamc.photostream')
-            {
-                return "<span class=\"missing_photo\" title=\"{$guid}\">{$fulltag}</span>{$after}";
-            }
+            $attachment = new midcom_db_attachment($guid);
         }
         catch (midcom_error $e)
         {
@@ -87,15 +73,7 @@ class net_nemein_wiki_parser extends midcom_baseclasses_components_purecode
             return "<span class=\"missing_photo\" title=\"{$guid}\">{$fulltag}</span>{$after}";
         }
 
-        // Start buffering
-        ob_start();
-        // Load the photo
-        midcom::get()->dynamic_load("{$node[MIDCOM_NAV_RELATIVEURL]}photo/raw/{$photo->guid}");
-        // FIXME: The newlines are to avoid some CSS breakage. Problem is that Markdown adds block-level tags around this first
-        $content = "\n\n" . str_replace('h1', 'h3', ob_get_contents()) . "\n\n";
-        ob_end_clean();
-
-        return "{$content}{$after}";
+        return '<img src="' . midcom_db_attachment::get_url($attachment) . '" class="wiki_photo">' . $after;
     }
 
     /**
