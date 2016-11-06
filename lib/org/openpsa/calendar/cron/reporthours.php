@@ -28,7 +28,7 @@ class org_openpsa_calendar_cron_reporthours extends midcom_baseclasses_component
     public function _on_initialize()
     {
         $this->root_event = org_openpsa_calendar_interface::find_root_event();
-        return array_key_exists('org.openpsa.projects', midcom::get()->componentloader->manifests);
+        return true;
     }
 
     /**
@@ -39,12 +39,6 @@ class org_openpsa_calendar_cron_reporthours extends midcom_baseclasses_component
      */
     public function _on_execute()
     {
-        if (!class_exists('org_openpsa_relatedto_dba'))
-        {
-            debug_add('relatedto library could not be loaded', MIDCOM_LOG_WARN);
-            return;
-        }
-
         if (!midcom::get()->auth->request_sudo('org.openpsa.calendar'))
         {
             $this->print_error("Could not get sudo, aborting operation, see error log for details");

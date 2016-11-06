@@ -276,13 +276,6 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
      */
     private function get_suspected_task_links()
     {
-        //Safety
-        if (!$this->_suspects_classes_present())
-        {
-            debug_add('required classes not present, aborting', MIDCOM_LOG_WARN);
-            return;
-        }
-
         // Do not seek if we have only one participant (gives a ton of results, most of them useless)
         if (count($this->participants) < 2)
         {
@@ -319,28 +312,10 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
     }
 
     /**
-     * Check if we have necessary classes available to do relatedto suspects
-     *
-     * @return boolean
-     */
-    private function _suspects_classes_present()
-    {
-        return (   class_exists('org_openpsa_relatedto_dba')
-                && class_exists('org_openpsa_relatedto_suspect'));
-    }
-
-    /**
      * Queries org.openpsa.sales for suspected task links and saves them
      */
     private function get_suspected_sales_links()
     {
-        //Safety
-        if (!$this->_suspects_classes_present())
-        {
-            debug_add('required classes not present, aborting', MIDCOM_LOG_WARN);
-            return;
-        }
-
         // Do no seek if we already have confirmed links
         $mc = new org_openpsa_relatedto_collector($this->guid, array('org_openpsa_salesproject_dba', 'org_openpsa_salesproject_deliverable_dba'));
         $mc->add_constraint('status', '=', org_openpsa_relatedto_dba::CONFIRMED);

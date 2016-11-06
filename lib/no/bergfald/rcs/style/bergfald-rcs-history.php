@@ -38,16 +38,7 @@ else
                     $user = midcom::get()->auth->get_user($history['user']);
                     if (is_object($user))
                     {
-                        $person = $user->get_storage();
-                        if (class_exists('org_openpsa_widgets_contact'))
-                        {
-                            $user_card = new org_openpsa_widgets_contact($person);
-                            $person_label = $user_card->show_inline();
-                        }
-                        else
-                        {
-                            $person_label = $person->name;
-                        }
+                        $person_label = $user->get_storage()->name;
                         echo "                    <td>{$person_label}</td>\n";
                     }
                     elseif ($history['ip'])

@@ -43,17 +43,7 @@ echo $data['rcs_toolbar']->render();
                 if (   $history['user']
                     && $user = midcom::get()->auth->get_user($history['user']))
                 {
-                    $person = $user->get_storage();
-                    if (class_exists('org_openpsa_widgets_contact'))
-                    {
-                        $user_card = new org_openpsa_widgets_contact($person);
-                        $person_label = $user_card->show_inline();
-                    }
-                    else
-                    {
-                        $person_label = $person->name;
-                    }
-                    echo $person_label;
+                    echo $user->get_storage()->name;
                 }
                 else if ($history['ip'])
                 {

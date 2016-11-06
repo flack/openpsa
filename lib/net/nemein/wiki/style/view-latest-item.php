@@ -20,16 +20,7 @@ $formatter = $data['l10n']->get_formatter();
         if (   $history['user']
             && $user = midcom::get()->auth->get_user($history['user']))
         {
-            if (class_exists('org_openpsa_widgets_contact'))
-            {
-                $user_card = org_openpsa_widgets_contact::get($user->guid);
-                $person_label = $user_card->show_inline();
-            }
-            else
-            {
-                $person = $user->get_storage();
-                $person_label = $person->name;
-            }
+            $person_label = org_openpsa_widgets_contact::get($user->guid)->show_inline();
             echo "                    {$person_label}\n";
         }
         else if ($history['ip'])

@@ -54,18 +54,15 @@ class midgard_admin_asgard_handler_components extends midcom_baseclasses_compone
             )
         );
 
-        if (isset(midcom::get()->componentloader->manifests['midcom.admin.help']))
-        {
-            $component_array['toolbar']->add_item
+        $component_array['toolbar']->add_item
+        (
+            array
             (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => "__ais/help/{$name}/",
-                    MIDCOM_TOOLBAR_LABEL => $this->_i18n->get_string('midcom.admin.help', 'midcom.admin.help'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_help-agent.png',
-                )
-            );
-        }
+                MIDCOM_TOOLBAR_URL => "__ais/help/{$name}/",
+                MIDCOM_TOOLBAR_LABEL => $this->_i18n->get_string('midcom.admin.help', 'midcom.admin.help'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_help-agent.png',
+            )
+        );
 
         return $component_array;
     }

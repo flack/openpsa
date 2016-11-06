@@ -128,11 +128,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
             );
         }
         $this->_view_toolbar->add_items($buttons);
-
-        if (midcom::get()->componentloader->is_installed('org.openpsa.relatedto'))
-        {
-            org_openpsa_relatedto_plugin::add_button($this->_view_toolbar, $this->_page->guid);
-        }
+        org_openpsa_relatedto_plugin::add_button($this->_view_toolbar, $this->_page->guid);
 
         $this->bind_view_to_object($this->_page, $this->_datamanager->schema->name);
     }

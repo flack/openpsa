@@ -21,10 +21,6 @@ class org_openpsa_projects_projectbroker
      */
     function find_task_prospects($task)
     {
-        if (!class_exists('net_nemein_tag_handler'))
-        {
-            return false;
-        }
         $return = array();
         $classes = array
         (
@@ -76,11 +72,6 @@ class org_openpsa_projects_projectbroker
         if (empty($minimum_time_slot))
         {
             debug_add('minimum time slot is not defined, aborting', MIDCOM_LOG_WARN);
-            return;
-        }
-        if (!class_exists('org_openpsa_calendar_event_member_dba'))
-        {
-            debug_add('could not load org.openpsa.calendar, aborting', MIDCOM_LOG_WARN);
             return;
         }
 
@@ -151,11 +142,6 @@ class org_openpsa_projects_projectbroker
         {
             // Default to 15 minutes for minimum time here
             $minimum_time_slot = 0.25;
-        }
-        if (!class_exists('org_openpsa_calendar_event_member_dba'))
-        {
-            debug_add('could not load org.openpsa.calendar, aborting', MIDCOM_LOG_WARN);
-            return false;
         }
         return org_openpsa_calendar_event_member_dba::find_free_times(($minimum_time_slot * 60), $person, $task->start, $task->end);
     }

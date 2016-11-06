@@ -117,14 +117,7 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
 
         try
         {
-            if (class_exists('org_openpsa_contacts_person_dba'))
-            {
-                $person = org_openpsa_contacts_person_dba::get_cached($src);
-            }
-            else
-            {
-                $person = new midcom_db_person($src);
-            }
+            $person = org_openpsa_contacts_person_dba::get_cached($src);
         }
         catch (midcom_error $e)
         {

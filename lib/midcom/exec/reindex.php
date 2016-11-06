@@ -26,12 +26,6 @@ if (isset($_REQUEST['language']))
     $language = $_REQUEST['language'];
 }
 
-if (!class_exists('org_openpsa_httplib'))
-{
-    $singlep_uri = midcom::get()->get_page_prefix() . 'midcom-exec-midcom/reindex_singleprocess.php';
-    throw new midcom_error("We need org.openpsa.httplib installed to use the granular reindex, use {$singlep_uri} to get the old way.");
-}
-
 debug_add('Disabling script abort through client.');
 ignore_user_abort(true);
 
