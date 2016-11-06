@@ -11,7 +11,7 @@ use midgard\introspection\helper;
 
 /**
  * This class only contains static functions which are there to hook into
- * the classes you derive from the MidgardSchema DB types like (New)MidgardArticle.
+ * the classes you derive from the midcom_core_dbaobject.
  *
  * The static members will invoke a number of callback methods so that you should
  * normally never have to override the base midgard methods like update or the like.
@@ -21,6 +21,7 @@ use midgard\introspection\helper;
 class midcom_baseclasses_core_dbobject
 {
     static $parameter_cache = array();
+    static $parameter_all = array();
 
     /**
      * "Pre-flight" checks for update method
@@ -38,7 +39,7 @@ class midcom_baseclasses_core_dbobject
             midcom_connection::set_error(MGD_ERR_ACCESS_DENIED);
             return false;
         }
-        if (! $object->_on_updating())
+        if (!$object->_on_updating())
         {
             debug_add("The _on_updating event handler returned false.");
             return false;
@@ -108,7 +109,7 @@ class midcom_baseclasses_core_dbobject
      */
     private static function _set_owner_privileges(midcom_core_dbaobject $object)
     {
-        if (! midcom::get()->auth->user)
+        if (!midcom::get()->auth->user)
         {
             debug_add ("Could not retrieve the midcom_core_user instance for the creator of " . get_class($object) . " {$object->guid}, skipping owner privilege assignment.",
                 MIDCOM_LOG_INFO);
@@ -123,7 +124,7 @@ class midcom_baseclasses_core_dbobject
         $privilege->objectguid = $object->guid;
         $privilege->value = MIDCOM_PRIVILEGE_ALLOW;
 
-        if (! $privilege->create())
+        if (!$privilege->create())
         {
             debug_add("Could not set the owner privilege {$privilege->privilegename} for {$object->guid}, see debug level log for details. Last Midgard Error: " . midcom_connection::get_error_string(),
                 MIDCOM_LOG_WARN);
@@ -140,7 +141,7 @@ class midcom_baseclasses_core_dbobject
     public static function create_pre_checks(midcom_core_dbaobject $object)
     {
         $parent = $object->get_parent();
-        if (! is_null($parent))
+        if (!is_null($parent))
         {
             // Attachments are a special case
             if (midcom::get()->dbfactory->is_a($object, 'midgard_attachment'))
@@ -163,14 +164,14 @@ class midcom_baseclasses_core_dbobject
                 return false;
             }
         }
-        else if (! midcom::get()->auth->can_user_do('midgard:create', null, get_class($object)))
+        else if (!midcom::get()->auth->can_user_do('midgard:create', null, get_class($object)))
         {
             debug_add("Failed to create object, general create privilege not granted for the current user.", MIDCOM_LOG_ERROR);
             midcom_connection::set_error(MGD_ERR_ACCESS_DENIED);
             return false;
         }
 
-        if (! $object->_on_creating())
+        if (!$object->_on_creating())
         {
             debug_add("The _on_creating event handler returned false.");
             return false;
@@ -368,7 +369,7 @@ class midcom_baseclasses_core_dbobject
         // Attachments can't have attachments so no need to query those
         if (!is_a($object, 'midcom_db_attachment'))
         {
-            $list = $object->list_attachments();
+            $list = self::list_attachments($object);
             foreach ($list as $attachment)
             {
                 if (!$attachment->delete())
@@ -386,7 +387,7 @@ class midcom_baseclasses_core_dbobject
         {
             foreach ($result as $parameter)
             {
-                if (! $parameter->delete())
+                if (!$parameter->delete())
                 {
                     debug_add("Failed to delete parameter ID {$parameter->id}", MIDCOM_LOG_ERROR);
                     return false;
@@ -439,7 +440,7 @@ class midcom_baseclasses_core_dbobject
                 {
                     //Inherit RCS status (so that f.x. large tree deletions can run faster)
                     $child->_use_rcs = $object->_use_rcs;
-                    if (!$child->delete_tree())
+                    if (!self::delete_tree($child))
                     {
                         debug_print_r('Failed to delete the children of this object:', $object, MIDCOM_LOG_INFO);
                         return false;
@@ -448,7 +449,7 @@ class midcom_baseclasses_core_dbobject
             }
         }
 
-        if (!$object->delete())
+        if (!self::delete($object))
         {
             debug_print_r('Failed to delete the object', $object, MIDCOM_LOG_ERROR);
             return false;
@@ -1092,7 +1093,7 @@ class midcom_baseclasses_core_dbobject
             self::$parameter_cache[$object->guid] = array();
         }
 
-        if (!isset(self::$parameter_cache[$object->guid]['__midcom_baseclasses_core_dbobject_all']))
+        if (!isset(self::$parameter_all[$object->guid]))
         {
             $mc = midgard_parameter::new_collector('parentguid', $object->guid);
             $mc->set_key_property('guid');
@@ -1116,13 +1117,10 @@ class midcom_baseclasses_core_dbobject
             }
 
             // Flag that we have queried all domains for this object
-            self::$parameter_cache[$object->guid]['__midcom_baseclasses_core_dbobject_all'] = array();
+            self::$parameter_all[$object->guid] = true;
         }
-        $copy = self::$parameter_cache[$object->guid];
-
-        // Clean up internal marker and empty arrays
-        unset($copy['__midcom_baseclasses_core_dbobject_all']);
-        return array_filter($copy, 'count');
+        // Clean up empty arrays
+        return array_filter(self::$parameter_cache[$object->guid], 'count');
     }
 
     /**
@@ -1200,7 +1198,7 @@ class midcom_baseclasses_core_dbobject
      */
     public static function delete_parameter(midcom_core_dbaobject $object, $domain, $name)
     {
-        if (! $object->guid)
+        if (!$object->guid)
         {
             debug_add('Cannot delete parameters on a non-persistant object.', MIDCOM_LOG_WARN);
             return false;
@@ -1292,8 +1290,8 @@ class midcom_baseclasses_core_dbobject
         }
         else if (is_string($privilege))
         {
-            $tmp = $object->create_new_privilege_object($privilege, $assignee, $value, $classname);
-            if (! $tmp)
+            $tmp = self::create_new_privilege_object($object, $privilege, $assignee, $value, $classname);
+            if (!$tmp)
             {
                 throw new midcom_error('Failed to create the privilege. See debug level log for details.');
             }
@@ -1340,8 +1338,8 @@ class midcom_baseclasses_core_dbobject
         }
         else if (is_string($privilege))
         {
-            $priv = $object->get_privilege($privilege, $assignee, $classname);
-            if (! $priv)
+            $priv = self::get_privilege($object, $privilege, $assignee, $classname);
+            if (!$priv)
             {
                 return false;
             }
@@ -1388,15 +1386,15 @@ class midcom_baseclasses_core_dbobject
      */
     public static function unset_all_privileges(midcom_core_dbaobject $object)
     {
-        $privileges = $object->get_privileges();
-        if (! $privileges)
+        $privileges = self::get_privileges($object);
+        if (!$privileges)
         {
             debug_add('Failed to access the privileges. See above for details.', MIDCOM_LOG_ERROR);
             return false;
         }
         foreach ($privileges as $privilege)
         {
-            if (! $object->unset_privilege($privilege))
+            if (self::unset_privilege($object, $privilege))
             {
                 debug_add('Failed to drop a privilege record, see debug log for more information, aborting.', MIDCOM_LOG_WARN);
                 return false;
@@ -1416,14 +1414,14 @@ class midcom_baseclasses_core_dbobject
      */
     public static function get_attachment(midcom_core_dbaobject $object, $name)
     {
-        if (! $object->id)
+        if (!$object->id)
         {
             debug_add('Cannot retrieve attachments on a non-persistant object.', MIDCOM_LOG_WARN);
             return false;
         }
 
         // Locate attachment
-        $qb = $object->get_attachment_qb();
+        $qb = self::get_attachment_qb($object);
         $qb->add_constraint('name', '=', $name);
         $result = $qb->execute();
 
@@ -1446,7 +1444,7 @@ class midcom_baseclasses_core_dbobject
      */
     public static function delete_attachment(midcom_core_dbaobject $object, $name)
     {
-        $attachment = $object->get_attachment($name);
+        $attachment = self::get_attachment($object, $name);
 
         if (!$attachment)
         {
@@ -1476,7 +1474,7 @@ class midcom_baseclasses_core_dbobject
      */
     public static function create_attachment(midcom_core_dbaobject $object, $name, $title, $mimetype)
     {
-        if (! $object->id)
+        if (!$object->id)
         {
             debug_add('Cannot create attachments on a non-persistant object.', MIDCOM_LOG_WARN);
             return false;
@@ -1497,8 +1495,8 @@ class midcom_baseclasses_core_dbobject
         $attachment->parentguid = $object->guid;
         $result = $attachment->create();
 
-        if (   ! $result
-            || ! $attachment->id)
+        if (   !$result
+            || !$attachment->id)
         {
             debug_add("Could not create the attachment '{$name}' for " . get_class($object) . " {$object->guid}: "  . midcom_connection::get_error_string(),
                 MIDCOM_LOG_INFO);
@@ -1539,14 +1537,13 @@ class midcom_baseclasses_core_dbobject
      */
     public static function list_attachments(midcom_core_dbaobject $object)
     {
-        if (! $object->id)
+        if (!$object->id)
         {
             debug_add('Cannot retrieve attachments on a non-persistant object.', MIDCOM_LOG_WARN);
             return array();
         }
 
-        $qb = $object->get_attachment_qb();
-        return $qb->execute();
+        return self::get_attachment_qb($object)->execute();
     }
 
     /**
@@ -1577,7 +1574,7 @@ class midcom_baseclasses_core_dbobject
         }
 
         $privilege = new midcom_core_privilege();
-        if (! $privilege->set_assignee($assignee))
+        if (!$privilege->set_assignee($assignee))
         {
             debug_add('Failed to set the assignee, aborting.', MIDCOM_LOG_INFO);
             return false;
