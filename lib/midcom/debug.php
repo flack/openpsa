@@ -126,7 +126,7 @@ class midcom_debug
      *
      * @param int $loglevel        New log level
      */
-    function set_loglevel($loglevel)
+    public function set_loglevel($loglevel)
     {
         $this->_loglevel = $loglevel;
     }
@@ -154,7 +154,7 @@ class midcom_debug
      * @param string $message    The message to be logged
      * @param int $loglevel        The log level
      */
-    function log($message, $loglevel = MIDCOM_LOG_DEBUG)
+    public function log($message, $loglevel = MIDCOM_LOG_DEBUG)
     {
         if (   ! $this->_enabled
             || $this->_loglevel < $loglevel)
@@ -268,7 +268,7 @@ class midcom_debug
      * @param mixed $variable    The variable to be logged
      * @param int $loglevel        The log level
      */
-    function print_r($message, $variable, $loglevel = MIDCOM_LOG_DEBUG)
+    public function print_r($message, $variable, $loglevel = MIDCOM_LOG_DEBUG)
     {
         if (   !$this->_enabled
             || $this->_loglevel < $loglevel)
@@ -290,7 +290,7 @@ class midcom_debug
      * @param int $loglevel        The log level
      * @link http://www.xdebug.org/ xdebug.org
      */
-    function print_function_stack($message, $loglevel = MIDCOM_LOG_DEBUG)
+    public function print_function_stack($message, $loglevel = MIDCOM_LOG_DEBUG)
     {
         if (   ! $this->_enabled
             || $this->_loglevel < $loglevel)
@@ -349,7 +349,7 @@ class midcom_debug
      * @param mixed $variable    The variable of which the type should be logged
      * @param int $loglevel        The log level
      */
-    function print_type ($message, $variable, $loglevel = MIDCOM_LOG_DEBUG)
+    public function print_type($message, $variable, $loglevel = MIDCOM_LOG_DEBUG)
     {
         if (   !$this->_enabled
             || $this->_loglevel < $loglevel)
@@ -377,7 +377,7 @@ class midcom_debug
      * @param string $message    The message to be logged
      * @param int $loglevel        The log level
      */
-    function print_dump_mem ($message, $loglevel = MIDCOM_LOG_DEBUG)
+    public function print_dump_mem($message, $loglevel = MIDCOM_LOG_DEBUG)
     {
         if (   ! $this->_enabled
             || $this->_loglevel < $loglevel)

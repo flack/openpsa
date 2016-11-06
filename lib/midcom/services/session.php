@@ -103,7 +103,7 @@ class midcom_services_session
      * @return mixed        The session key's data value, or null on failure.
      * @see midcom_services_session::exists()
      */
-    function get ($key)
+    public function get($key)
     {
         return $this->_sessioning->get($this->_domain, $key);
     }
@@ -118,7 +118,7 @@ class midcom_services_session
      * @param    mixed    $key    Session value identifier.
      * @param    mixed    $value    Session value.
      */
-    function set ($key, $value)
+    public function set($key, $value)
     {
         $this->_sessioning->set($this->_domain, $key, $value);
     }
@@ -131,7 +131,7 @@ class midcom_services_session
      * @param mixed $key    The key to query.
      * @return boolean            Indicating availability.
      */
-    function exists ($key)
+    public function exists($key)
     {
         return $this->_sessioning->exists($this->_domain, $key);
     }
@@ -146,7 +146,7 @@ class midcom_services_session
      * @return mixed        The session key's data value, or null on failure.
      * @see midcom_services_session::exists()
      */
-    function remove ($key)
+    public function remove($key)
     {
         return $this->_sessioning->remove($this->_domain, $key);
     }

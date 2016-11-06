@@ -109,7 +109,7 @@ class midcom_services_cache_module_memcache extends midcom_services_cache_module
      * @param string $key The key to look up.
      * @return mixed The cached value on success, false on failure.
      */
-    function get($data_group, $key)
+    public function get($data_group, $key)
     {
         if ($this->_cache === null)
         {
@@ -149,7 +149,7 @@ class midcom_services_cache_module_memcache extends midcom_services_cache_module
      * @param mixed $data The data to store.
      * @param int $timeout how long the data should live in the cache.
      */
-    function put($data_group, $key, $data, $timeout = 0)
+    public function put($data_group, $key, $data, $timeout = 0)
     {
         if ($this->_cache === null)
         {
@@ -175,7 +175,7 @@ class midcom_services_cache_module_memcache extends midcom_services_cache_module
      * @param string $guid The guid of which a parent is searched.
      * @return array|false The classname => GUID pair or false when nothing is in cache
      */
-    function lookup_parent_data($guid)
+    public function lookup_parent_data($guid)
     {
         return $this->get('PARENT', $guid);
     }
@@ -187,7 +187,7 @@ class midcom_services_cache_module_memcache extends midcom_services_cache_module
      * @param string $object_guid The guid of which a parent is saved.
      * @param array $parent_data The guid and classname of the parent which is saved.
      */
-    function update_parent_data($object_guid, array $parent_data)
+    public function update_parent_data($object_guid, array $parent_data)
     {
         $this->put('PARENT', $object_guid, $parent_data);
     }

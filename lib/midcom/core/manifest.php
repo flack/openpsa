@@ -345,7 +345,7 @@ class midcom_core_manifest
      *
      * @see $name_translated
      */
-    function get_name_translated()
+    public function get_name_translated()
     {
         if ($this->name_translated === null)
         {

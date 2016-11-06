@@ -271,7 +271,7 @@ class midcom_core_group
      *
      * @return midcom_core_privilege[]
      */
-    function get_privileges()
+    public function get_privileges()
     {
         if (is_null($this->_storage))
         {

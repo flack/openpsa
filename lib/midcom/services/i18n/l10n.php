@@ -387,7 +387,7 @@ class midcom_services_i18n_l10n
      * @param string $charset    Charset name.
      * @see midcom_services_i18n::set_charset()
      */
-    function set_charset ($charset)
+    public function set_charset($charset)
     {
         $this->_charset = strtolower($charset);
     }
@@ -408,7 +408,7 @@ class midcom_services_i18n_l10n
      * @param string $lang    Language code.
      * @see midcom_services_i18n::set_language()
      */
-    function set_language($lang)
+    public function set_language($lang)
     {
         if (!array_key_exists($lang, $this->_language_db))
         {
@@ -428,7 +428,7 @@ class midcom_services_i18n_l10n
      * @param string $lang    Language name.
      * @see midcom_services_i18n::set_fallback_language()
      */
-    function set_fallback_language ($lang)
+    public function set_fallback_language($lang)
     {
         $this->_fallback_language = $lang;
     }

@@ -64,21 +64,21 @@ class org_routamc_positioning_dm2_callbacks_countries extends midcom_baseclasses
         }
     }
 
-    function get_name_for_key($key)
+    public function get_name_for_key($key)
     {
         return $this->_data[$key];
     }
 
-    function key_exists($key)
+    public function key_exists($key)
     {
         return array_key_exists($key, $this->_data);
     }
 
-    function list_all()
+    public function list_all()
     {
         return $this->_data;
     }
 
     /** Ignored. */
-    function set_type(&$type) {}
+    public function set_type(&$type) {}
 }

@@ -616,7 +616,7 @@ class midcom_core_privilege
      *
      * @return boolean Indicating success.
      */
-    function store()
+    public function store()
     {
         if (! $this->validate())
         {

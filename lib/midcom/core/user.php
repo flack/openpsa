@@ -293,7 +293,7 @@ class midcom_core_user
      *
      * @return array Array keys are the privilege names, the values are the Privilege states (ALLOW/DENY).
      */
-    function get_privileges()
+    public function get_privileges()
     {
         if (is_null($this->_privileges))
         {
@@ -311,7 +311,7 @@ class midcom_core_user
      * @param object $object The object for which we should look up privileges for. This is passed by-reference.
      * @return array Array keys are the privilege names, the values are the Privilege states (ALLOW/DENY).
      */
-    function get_per_class_privileges($object)
+    public function get_per_class_privileges($object)
     {
         if (is_null($this->_per_class_privileges))
         {
