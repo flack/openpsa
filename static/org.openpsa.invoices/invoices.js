@@ -121,8 +121,29 @@ function bind_invoice_actions(classes, invoice_url)
         });
 }
 
+function hide_invoice_address()
+{
+    if ($('#org_openpsa_invoices_use_contact_address').is(':checked'))
+    {
+        $(".invoice_adress").hide();
+    }
+    else
+    {
+        $(".invoice_adress").show();
+    }
+}
+
 $(document).ready(function()
 {
+    if ($('#org_openpsa_invoices_use_contact_address').length > 0)
+    {
+        hide_invoice_address();
+        $('#org_openpsa_invoices_use_contact_address').change(function()
+        {
+            hide_invoice_address();
+        });
+    }
+
     $('.projects table')
         .delegate('input[type="text"]', 'change', function()
         {

@@ -94,6 +94,7 @@ implements midcom_helper_datamanager2_interfaces_create
         }
 
         midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get($mode . ' %s'), $this->_l10n->get('billing data')));
+        midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/' . $this->_component . '/invoices.js');
 
         return $workflow->run();
     }
