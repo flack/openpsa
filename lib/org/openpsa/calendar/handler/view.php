@@ -135,15 +135,9 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
                     break;
 
                 case 'groups':
-                    $mc = midcom_db_group::new_collector('metadata.deleted', false);
-                    $mc->add_constraint('guid', 'IN', $selected);
-                    $gids = $mc->get_values('id');
-                    if (!empty($gids))
-                    {
-                        $mc = midcom_db_member::new_collector('metadata.deleted', false);
-                        $mc->add_constraint('gid', 'IN', $gids);
-                        $uids = array_merge($uids, $mc->get_values('uid'));
-                    }
+                    $mc = midcom_db_member::new_collector('metadata.deleted', false);
+                    $mc->add_constraint('gid.uid', 'IN', $selected);
+                    $uids = array_merge($uids, $mc->get_values('uid'));
                     break;
             }
         }
@@ -265,62 +259,54 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
         // Get the requested event object
         $data['event'] = new org_openpsa_calendar_event_dba($args[0]);
 
-        if ($handler_id == 'event_view_raw')
-        {
-            midcom::get()->skip_page_style = true;
-        }
+        midcom::get()->skip_page_style = ($handler_id == 'event_view_raw');
 
         $this->_load_datamanager();
 
         // Add toolbar items
-        if ($this->_request_data['view'] == 'default')
+        $buttons = array
+        (
+            array
+            (
+                MIDCOM_TOOLBAR_URL => 'event/edit/' . $this->_request_data['event']->guid . '/',
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('edit'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
+                MIDCOM_TOOLBAR_ENABLED => $data['event']->can_do('midgard:update'),
+                MIDCOM_TOOLBAR_ACCESSKEY => 'e',
+            )
+        );
+        if ($data['event']->can_do('midgard:delete'))
         {
-            $buttons = array
-            (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => 'event/edit/' . $this->_request_data['event']->guid . '/',
-                    MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('edit'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
-                    MIDCOM_TOOLBAR_ENABLED => $data['event']->can_do('midgard:update'),
-                    MIDCOM_TOOLBAR_ACCESSKEY => 'e',
-                )
-            );
-            if ($data['event']->can_do('midgard:delete'))
-            {
-                $workflow = $this->get_workflow('delete', array('object' => $data['event']));
-                $buttons[] = $workflow->get_button("event/delete/{$data['event']->guid}/");
-            }
-            $buttons[] = array
-            (
-                MIDCOM_TOOLBAR_URL => 'javascript:window.print()',
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('print'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/printer.png',
-                MIDCOM_TOOLBAR_OPTIONS  => array
-                (
-                    'rel' => 'directlink',
-                )
-            );
-
-            $relatedto_button_settings = null;
-
-            if (midcom::get()->auth->user)
-            {
-                $user = midcom::get()->auth->user->get_storage();
-                $date = $this->_l10n->get_formatter()->date();
-                $relatedto_button_settings = array
-                (
-                    'wikinote'      => array
-                    (
-                        'component' => 'net.nemein.wiki',
-                        'node'  => false,
-                        'wikiword'  => str_replace('/', '-', sprintf($this->_l10n->get($this->_config->get('wiki_title_skeleton')), $data['event']->title, $date, $user->name)),
-                    ),
-                );
-            }
-            $this->_view_toolbar->add_items($buttons);
-            org_openpsa_relatedto_plugin::common_node_toolbar_buttons($this->_view_toolbar, $data['event'], $this->_component, $relatedto_button_settings);
+            $workflow = $this->get_workflow('delete', array('object' => $data['event']));
+            $buttons[] = $workflow->get_button("event/delete/{$data['event']->guid}/");
         }
+        $buttons[] = array
+        (
+            MIDCOM_TOOLBAR_URL => 'javascript:window.print()',
+            MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('print'),
+            MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/printer.png',
+            MIDCOM_TOOLBAR_OPTIONS  => array('rel' => 'directlink')
+        );
+
+        $relatedto_button_settings = null;
+
+        if (midcom::get()->auth->user)
+        {
+            $user = midcom::get()->auth->user->get_storage();
+            $date = $this->_l10n->get_formatter()->date();
+            $relatedto_button_settings = array
+            (
+                'wikinote'      => array
+                (
+                    'component' => 'net.nemein.wiki',
+                    'node'  => false,
+                    'wikiword'  => str_replace('/', '-', sprintf($this->_l10n->get($this->_config->get('wiki_title_skeleton')), $data['event']->title, $date, $user->name)),
+                ),
+            );
+        }
+        $this->_view_toolbar->add_items($buttons);
+        org_openpsa_relatedto_plugin::common_node_toolbar_buttons($this->_view_toolbar, $data['event'], $this->_component, $relatedto_button_settings);
+
         midcom::get()->head->set_pagetitle(sprintf($this->_l10n->get('event %s'), $this->_request_data['event']->title));
         return $this->get_workflow('viewer')->run();
     }
