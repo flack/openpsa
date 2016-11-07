@@ -306,7 +306,7 @@ class org_openpsa_calendar_conflictmanager
         {
             $processed[$type][$eid] = array();
         }
-        $processed_events_participants[$type][$eid][$id] = true;
+        $processed[$type][$eid][$id] = true;
         return false;
     }
 }
