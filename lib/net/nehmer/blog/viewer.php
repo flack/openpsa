@@ -312,24 +312,14 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
     public static function article_qb_constraints($qb, array $data, $handler_id)
     {
         $config = $data['config'];
-        $topic_ids = array($data['content_topic']->id);
+        $topic_guids = array($data['content_topic']->guid);
 
         // Resolve any other topics we may need
         if ($list_from_folders = $config->get('list_from_folders'))
         {
             // We have specific folders to list from, therefore list from them and current node
             $guids = explode('|', $list_from_folders);
-            $guids_array = array_filter($guids, 'mgd_is_guid');
-            /**
-             * Ref #1776, expands GUIDs before adding them as constraints, should save query time
-             */
-            if (!empty($guids_array))
-            {
-                $mc = midcom_db_topic::new_collector('metadata.deleted', false);
-                $mc->add_constraint('guid', 'IN', $guids_array);
-                $topic_ids = $mc->get_values('id');
-                unset($mc);
-            }
+            $topic_guids = array_merge($topic_guids, array_filter($guids, 'mgd_is_guid'));
         }
 
         // Include the article links to the indexes if enabled
@@ -342,17 +332,18 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
             // Get the results
             $qb->begin_group('OR');
                 $qb->add_constraint('id', 'IN', $mc->get_values('article'));
-                $qb->add_constraint('topic', 'IN', $topic_ids);
+                $qb->add_constraint('topic.guid', 'IN', $topic_guids);
             $qb->end_group();
         }
         else
         {
-            $qb->add_constraint('topic', 'IN', $topic_ids);
+            $qb->add_constraint('topic.guid', 'IN', $topic_guids);
         }
 
-        if (   count($topic_ids) > 1
+        if (   count($topic_guids) > 1
             && $list_from_folders_categories = $config->get('list_from_folders_categories'))
         {
+            $list_from_folders_categories = explode(',', $list_from_folders_categories);
             // TODO: check schema storage to get fieldname
             $multiple_categories = true;
             if (   isset($data['schemadb']['default'])
@@ -365,36 +356,23 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
             debug_add("multiple_categories={$multiple_categories}");
 
             $qb->begin_group('OR');
-                $list_from_folders_categories = explode(',', $list_from_folders_categories);
-                $is_content_topic = true;
-                foreach ($topic_ids as $topic_id)
-                {
-                    if ($is_content_topic)
+                $qb->add_constraint('topic.guid', '=', $topic_guids[0]);
+                $qb->begin_group('OR');
+                    foreach ($list_from_folders_categories as $category)
                     {
-                        $qb->add_constraint('topic', '=', $topic_id);
-                        $is_content_topic = false;
-                        continue;
-                    }
-                    $qb->begin_group('AND');
-                        $qb->add_constraint('topic', '=', $topic_id);
-                        $qb->begin_group('OR');
-                            foreach ($list_from_folders_categories as $category)
+                        if ($category = trim($category))
+                        {
+                            if ($multiple_categories)
                             {
-                                if ($category = trim($category))
-                                {
-                                    if ($multiple_categories)
-                                    {
-                                        $qb->add_constraint('extra1', 'LIKE', "%|{$category}|%");
-                                    }
-                                    else
-                                    {
-                                        $qb->add_constraint('extra1', '=', $category);
-                                    }
-                                }
+                                $qb->add_constraint('extra1', 'LIKE', "%|{$category}|%");
                             }
-                        $qb->end_group();
-                    $qb->end_group();
-                }
+                            else
+                            {
+                                $qb->add_constraint('extra1', '=', $category);
+                            }
+                        }
+                    }
+                $qb->end_group();
             $qb->end_group();
         }
 
