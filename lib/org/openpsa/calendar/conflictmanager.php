@@ -204,19 +204,10 @@ class org_openpsa_calendar_conflictmanager
 
     private function _process_resource($member, array &$modified_events, $rob_tentative)
     {
-        //We might get multiple matches for same event/resource
-        static $processed_events_resources = array();
-
-        //Check if we have processed this resource/event combination already
-        if (!empty($processed_events_resources[$member->event][$member->resource]))
+        if ($this->is_processed('resources', $member->event, $member->resource))
         {
             return;
         }
-        if (!array_key_exists($member->event, $processed_events_resources))
-        {
-            $processed_events_resources[$member->event] = array();
-        }
-        $processed_events_resources[$member->event][$member->resource] = true;
 
         if (array_key_exists($member->event, $modified_events))
         {
@@ -243,10 +234,6 @@ class org_openpsa_calendar_conflictmanager
             && $rob_tentative)
         {
             debug_add('event is tentative, robbing resources');
-            //"rob" resources from tentative event
-            $event = new org_openpsa_calendar_event_dba($event->id);
-
-            //resources
             $event->resources = array_diff_key($event->resources, $this->_event->resources);
             if ($set_as_modified)
             {
@@ -255,33 +242,16 @@ class org_openpsa_calendar_conflictmanager
         }
         else
         {
-            debug_add('event is normal, flagging busy');
-            //Non tentative event, flag busy resources
-            if (!array_key_exists($member->resource, $this->busy_resources))
-            {
-                //for mapping
-                $this->busy_resources[$member->resource] = array();
-            }
-            //PONDER: The display end might have issues with event guid that they cannot see without sudo...
-            $this->busy_resources[$member->resource][] = $event;
+            $this->flag_busy('resources', $member->resource, $event);
         }
     }
 
     private function _process_participant($member, array &$modified_events, $rob_tentative)
     {
-        //We might get multiple matches for same event/person
-        static $processed_events_participants = array();
-
-        //Check if we have processed this participant/event combination already
-        if (!empty($processed_events_participants[$member->eid][$member->uid]))
+        if ($this->is_processed('participants', $member->eid, $member->uid))
         {
             return;
         }
-        if (!array_key_exists($member->eid, $processed_events_participants))
-        {
-            $processed_events_participants[$member->eid] = array();
-        }
-        $processed_events_participants[$member->eid][$member->uid] = true;
 
         try
         {
@@ -298,25 +268,45 @@ class org_openpsa_calendar_conflictmanager
         if (   $event->tentative
             && $rob_tentative)
         {
-            debug_add('event is tentative, robbing resources');
-            //"rob" resources from tentative event
-            $event = new org_openpsa_calendar_event_dba($event->id);
-
-            //participants
+            debug_add('event is tentative, robbing participants');
             $event->participants = array_diff_key($event->participants, $this->_event->participants);
             $modified_events[$event->id] = $event;
         }
         else
         {
-            debug_add('event is normal, flagging busy');
-            //Non tentative event, flag busy resources
-            if (!array_key_exists($member->uid, $this->busy_members))
-            {
-                //for mapping
-                $this->busy_members[$member->uid] = array();
-            }
-            //PONDER: The display end might have issues with event guid that they cannot see without sudo...
-            $this->busy_members[$member->uid][] = $event;
+            $this->flag_busy('members', $member->uid, $event);
         }
+    }
+
+    private function flag_busy($type, $id, $event)
+    {
+        $field = 'busy_' . $type;
+        if (!array_key_exists($id, $this->$field))
+        {
+            //for mapping
+            $this->{$field}[$id] = array();
+        }
+        //PONDER: The display end might have issues with event guid that they cannot see without sudo...
+        $this->{$field}[$id][] = $event;
+    }
+
+    private function is_processed($type, $eid, $id)
+    {
+        static $processed = array
+        (
+            'members' => array(),
+            'resources' => array()
+        );
+
+        if (!empty($processed[$type][$eid][$id]))
+        {
+            return true;
+        }
+        if (!array_key_exists($eid, $processed[$type]))
+        {
+            $processed[$type][$eid] = array();
+        }
+        $processed_events_participants[$type][$eid][$id] = true;
+        return false;
     }
 }
