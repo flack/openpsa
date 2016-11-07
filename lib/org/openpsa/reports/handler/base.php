@@ -14,7 +14,7 @@
 abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_components_handler
 {
     private $_datamanagers = array();
-    var $module;
+    protected $module;
 
     /**
      * @param mixed $handler_id The ID of the handler.

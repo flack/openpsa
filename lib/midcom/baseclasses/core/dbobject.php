@@ -20,8 +20,8 @@ use midgard\introspection\helper;
  */
 class midcom_baseclasses_core_dbobject
 {
-    static $parameter_cache = array();
-    static $parameter_all = array();
+    private static $parameter_cache = array();
+    private static $parameter_all = array();
 
     /**
      * "Pre-flight" checks for update method

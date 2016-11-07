@@ -25,14 +25,14 @@ class org_openpsa_widgets_calendar_event
      *
      * @var integer
      */
-    var $start = 0;
+    public $start = 0;
 
     /**
      * Defines the end of an event
      *
      * @var integer
      */
-    var $end = 0;
+    public $end = 0;
 
     /**
      * Link to the event

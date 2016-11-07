@@ -63,7 +63,7 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
      */
     private $_display_datamanager = null;
 
-    var $custom_view = null;
+    private $custom_view = null;
 
     /**
      * Prepares the request data
