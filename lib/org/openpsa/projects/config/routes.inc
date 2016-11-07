@@ -84,13 +84,6 @@
     'variable_args' => 1,
 ),
 
-// Match /task/<GUID>/<action>
-'task-action' => array
-(
-    'handler' => array('org_openpsa_projects_handler_task_action', 'action'),
-    'fixed_args' => 'task',
-    'variable_args' => 2,
-),
 // Match /task/new
 'task-new' => array
 (

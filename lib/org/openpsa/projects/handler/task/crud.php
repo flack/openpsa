@@ -96,22 +96,32 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
 
         if ($this->_object->status == org_openpsa_projects_task_status_dba::CLOSED)
         {
-            // TODO: Make POST request
             $buttons[] = array
             (
-                MIDCOM_TOOLBAR_URL => "task/{$this->_object->guid}/reopen/",
+                MIDCOM_TOOLBAR_URL => "workflow/{$this->_object->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('reopen'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/folder-expanded.png',
+                MIDCOM_TOOLBAR_POST => true,
+                MIDCOM_TOOLBAR_POST_HIDDENARGS => array
+                (
+                    'org_openpsa_projects_workflow_action[reopen]' => 'dummy',
+                    'org_openpsa_projects_workflow_action_redirect' => "task/{$this->_object->guid}/"
+                ),
             );
         }
         else if ($this->_object->status_type == 'ongoing')
         {
-            // TODO: Make POST request
             $buttons[] = array
             (
-                MIDCOM_TOOLBAR_URL => "task/{$this->_object->guid}/complete/",
+                MIDCOM_TOOLBAR_URL => "workflow/{$this->_object->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('mark completed'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new_task.png',
+                MIDCOM_TOOLBAR_POST => true,
+                MIDCOM_TOOLBAR_POST_HIDDENARGS => array
+                (
+                    'org_openpsa_projects_workflow_action[complete]' => 'dummy',
+                    'org_openpsa_projects_workflow_action_redirect' => "task/{$this->_object->guid}/"
+                ),
             );
         }
 
