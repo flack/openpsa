@@ -253,6 +253,7 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
             'suspected' => array(),
         );
         $mc = new org_openpsa_relatedto_collector($this->_object->guid, 'org_openpsa_calendar_event_dba');
+        $mc->add_object_order('start', 'ASC');
         $events = $mc->get_related_objects_grouped_by('status');
 
         foreach ($events as $status => $list)
@@ -271,9 +272,6 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
             $task_booked_time += ($booking->end - $booking->start) / 3600;
         }
 
-        usort($bookings['confirmed'], array('self', '_sort_by_time'));
-        usort($bookings['suspected'], array('self', '_sort_by_time'));
-
         $task_booked_time = round($task_booked_time);
 
         if ($this->_object->plannedHours != 0)
@@ -285,26 +283,6 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
         $this->_request_data['task_booked_time'] = $task_booked_time;
 
         return $bookings;
-    }
-
-    /**
-     * Code to sort array of events by $event->start, from smallest to greatest
-     *
-     * Used by $this->_list_bookings()
-     */
-    private static function _sort_by_time($a, $b)
-    {
-        $ap = $a->start;
-        $bp = $b->start;
-        if ($ap > $bp)
-        {
-            return 1;
-        }
-        if ($ap < $bp)
-        {
-            return -1;
-        }
-        return 0;
     }
 
     public function _load_defaults()
