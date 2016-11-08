@@ -130,7 +130,7 @@ class midcom_helper_head
     {
         // Adds a URL for a <script type="text/javascript" src="tinymce.js"></script>
         // like call. $url is inserted into src. Duplicates are omitted.
-        if (! in_array($url, $this->_jsfiles))
+        if (!in_array($url, $this->_jsfiles))
         {
             $this->_jsfiles[] = $url;
             $js_call = array('url' => $url);

@@ -390,7 +390,7 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
     {
         if (array_key_exists("{$this->name}_delete", $results))
         {
-            if (! $this->_type->delete_all_attachments())
+            if (!$this->_type->delete_all_attachments())
             {
                 debug_add("Failed to delete all attached old images on the field {$this->name}.", MIDCOM_LOG_ERROR);
             }

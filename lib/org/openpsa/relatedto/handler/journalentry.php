@@ -147,7 +147,7 @@ implements midcom_helper_datamanager2_interfaces_create
     {
         $reminder = new org_openpsa_relatedto_journal_entry_dba();
         $reminder->linkGuid = $this->_current_object->guid;
-        if (! $reminder->create())
+        if (!$reminder->create())
         {
             debug_print_r('We operated on this object:', $reminder);
             throw new midcom_error("Failed to create a new reminder. Error: " . midcom_connection::get_error_string());

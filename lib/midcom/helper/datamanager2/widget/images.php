@@ -232,7 +232,7 @@ END;
         );
         $this->_elements['e_new_title'] = $this->_form->createElement('text', 'e_new_title', '', $attributes);
 
-        if (! $frozen)
+        if (!$frozen)
         {
             // Controls Column
             $html = "            </td>\n
@@ -281,7 +281,7 @@ END;
         $html .= $this->_l10n->get('add new file') . ':';
         $this->_elements['s_new_filename'] = $this->_form->createElement('static', 's_new_filename', '', $html);
 
-        if (! $frozen)
+        if (!$frozen)
         {
             // Controls Column
             $html = "</td><td class=\"new upload\" colspan=\"2\">";
@@ -536,7 +536,7 @@ END;
      */
     private function _check_new_upload($values)
     {
-        if (! array_key_exists('e_new_file', $this->_elements))
+        if (!array_key_exists('e_new_file', $this->_elements))
         {
             // We are frozen, no upload can happen, so we exit immediately.
             return;
@@ -552,7 +552,7 @@ END;
 
         if ( preg_match('/\.(zip|tar(\.gz|\.bz2)?|tgz)$/', strtolower($file['name']), $extension_matches))
         {
-            if (! $this->_type->_batch_handler($extension_matches[1], $file))
+            if (!$this->_type->_batch_handler($extension_matches[1], $file))
             {
                 debug_add("Failed to add attachments from compressed files to the field '{$this->name}'. Ignoring silently.", MIDCOM_LOG_WARN);
             }
@@ -577,7 +577,7 @@ END;
             $filename = $file['name'];
         }
 
-        if (! $this->_type->add_image($filename, $file['tmp_name'], $title))
+        if (!$this->_type->add_image($filename, $file['tmp_name'], $title))
         {
             debug_add("Failed to add an attachment to the field '{$this->name}'. Ignoring silently.", MIDCOM_LOG_WARN);
         }
@@ -598,7 +598,7 @@ END;
      */
     private function _check_for_update($identifier, $values)
     {
-        if (! array_key_exists($identifier, $this->_type->images))
+        if (!array_key_exists($identifier, $this->_type->images))
         {
             // The image does no longer exist
             return;
@@ -608,7 +608,7 @@ END;
         {
             // Image to be deleted
             case (array_key_exists("{$this->name}_e_exist_{$identifier}_delete", $values)):
-                if (! $this->_type->delete_image($identifier))
+                if (!$this->_type->delete_image($identifier))
                 {
                     debug_add("Failed to delete the image {$identifier} on the field '{$this->name}'. Ignoring silently.", MIDCOM_LOG_WARN);
                 }
@@ -620,12 +620,12 @@ END;
                 $title = $values["e_exist_{$identifier}_title"];
                 $filename = $this->_type->images[$identifier]['main']['filename'];
 
-                if (! $title)
+                if (!$title)
                 {
                     $title = $filename;
                 }
 
-                if (! $this->_type->update_image($identifier, $filename, $file['tmp_name'], $title))
+                if (!$this->_type->update_image($identifier, $filename, $file['tmp_name'], $title))
                 {
                     debug_add("Failed to update the image {$identifier} on the field '{$this->name}'. Ignoring silently.", MIDCOM_LOG_WARN);
                 }
@@ -639,7 +639,7 @@ END;
      */
     function on_submit($results)
     {
-        if (! array_key_exists($this->name, $results))
+        if (!array_key_exists($this->name, $results))
         {
             return;
         }

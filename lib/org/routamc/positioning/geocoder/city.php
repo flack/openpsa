@@ -29,7 +29,7 @@ class org_routamc_positioning_geocoder_city extends org_routamc_positioning_geoc
             'maxRows' => 1,
         );
 
-        if (! empty($options))
+        if (!empty($options))
         {
             foreach ($options as $key => $value)
             {
@@ -122,7 +122,7 @@ class org_routamc_positioning_geocoder_city extends org_routamc_positioning_geoc
             'maxRows' => 1,
         );
 
-        if (! empty($options))
+        if (!empty($options))
         {
             foreach ($options as $key => $value)
             {

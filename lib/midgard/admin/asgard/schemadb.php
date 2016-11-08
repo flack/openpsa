@@ -543,7 +543,7 @@ class midgard_admin_asgard_schemadb
             case MGD_TYPE_STRING:
             case MGD_TYPE_GUID:
                 $class = midcom::get()->dbclassloader->get_midcom_class_name_for_mgdschema_object($linked_type);
-                if (! $class)
+                if (!$class)
                 {
                     break;
                 }

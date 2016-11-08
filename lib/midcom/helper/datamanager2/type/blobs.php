@@ -319,7 +319,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
         }
 
         $handle = @fopen($tmpname, 'r');
-        if (! $handle)
+        if (!$handle)
         {
             debug_add("Cannot add attachment, could not open {$tmpname} for reading.", MIDCOM_LOG_INFO);
             midcom::get()->debug->log_php_error(MIDCOM_LOG_INFO);
@@ -329,7 +329,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
         // Ensure that the filename is URL safe (but allow multiple extensions)
         // PONDER: make use of this configurable in type-config ??
         $filename = midcom_db_attachment::safe_filename($filename, false);
-        if (! $this->add_attachment_by_handle($identifier, $filename, $title, $mimetype, $handle))
+        if (!$this->add_attachment_by_handle($identifier, $filename, $title, $mimetype, $handle))
         {
             fclose($handle);
             debug_add('Failed to create attachment, see above for details.');
@@ -400,7 +400,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
 
         // Obtain a temporary object if necessary. This is the only place where this needs to be
         // done (all other I/O ops are logically behind the add operation).
-        if (! $this->storage->object)
+        if (!$this->storage->object)
         {
             $this->storage->create_temporary_object();
         }
@@ -409,7 +409,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
 
         // Try to create a new attachment.
         $attachment = $this->storage->object->create_attachment($filename, $title, $mimetype);
-        if (! $attachment)
+        if (!$attachment)
         {
             debug_add('Failed to create attachment record, see above for details.', MIDCOM_LOG_INFO);
             return false;
@@ -472,14 +472,14 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
      */
     function update_attachment_title($identifier, $title)
     {
-        if (! array_key_exists($identifier, $this->attachments))
+        if (!array_key_exists($identifier, $this->attachments))
         {
             debug_add("Failed to update the attachment title: The identifier {$identifier} is unknown", MIDCOM_LOG_INFO);
             return false;
         }
 
         $this->attachments[$identifier]->title = $title;
-        if (! $this->attachments[$identifier]->update())
+        if (!$this->attachments[$identifier]->update())
         {
             debug_add('Failed to update the attachment title: Last Midgard error was: ' . midcom_connection::get_error_string(), MIDCOM_LOG_INFO);
             return false;
@@ -515,7 +515,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
 
         $handle = @fopen($tmpname, 'r');
 
-        if (! $handle)
+        if (!$handle)
         {
             debug_add("Cannot add attachment, could not open {$tmpname} for reading.", MIDCOM_LOG_INFO);
             midcom::get()->debug->log_php_error(MIDCOM_LOG_INFO);
@@ -523,7 +523,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
         }
 
         $filename = midcom_db_attachment::safe_filename($filename, false);
-        if (! $this->update_attachment_by_handle($identifier, $filename, $title, $mimetype, $handle, $tmpname))
+        if (!$this->update_attachment_by_handle($identifier, $filename, $title, $mimetype, $handle, $tmpname))
         {
             debug_add('Failed to create attachment, see above for details.');
             return false;
@@ -571,7 +571,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
      */
     function update_attachment_by_handle($identifier, $filename, $title, $mimetype, $source, $tmpfile = null)
     {
-        if (! array_key_exists($identifier, $this->attachments))
+        if (!array_key_exists($identifier, $this->attachments))
         {
             debug_add("Failed to update the attachment record: The identifier {$identifier} is unknown", MIDCOM_LOG_INFO);
             return false;
@@ -593,7 +593,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
 
         $attachment->title = $title;
         $attachment->name = $filename;
-        if (! $attachment->update())
+        if (!$attachment->update())
         {
             debug_add('Failed to update the attachment record.', MIDCOM_LOG_INFO);
             return false;
@@ -738,7 +738,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
         {
             return $checked_files[$filepath];
         }
-        if (! file_exists($filepath))
+        if (!file_exists($filepath))
         {
             debug_add("The file {$filepath} was not found.", MIDCOM_LOG_INFO);
             $checked_files[$filepath] = false;

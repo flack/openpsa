@@ -106,7 +106,7 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
                 throw new midcom_error('Unable to process the request, unknown handler id');
         }
 
-        if (! $this->_controller->initialize())
+        if (!$this->_controller->initialize())
         {
             throw new midcom_error("Failed to initialize a DM2 controller instance for article {$this->_event->id}.");
         }
@@ -120,7 +120,7 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
         $this->_new_topic = new midcom_db_topic();
         $this->_new_topic->up = $this->_topic->id;
 
-        if (! $this->_new_topic->create())
+        if (!$this->_new_topic->create())
         {
             debug_print_r('We operated on this object:', $this->_new_topic);
             throw new midcom_error('Failed to create a new topic, cannot continue. Last Midgard error was: '. midcom_connection::get_error_string());
@@ -214,7 +214,7 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
 
             midcom::get()->uimessages->add($this->_l10n->get('midcom.admin.folder'), $this->_l10n->get('new style created'));
 
-            if (! $this->_topic->update())
+            if (!$this->_topic->update())
             {
                 midcom::get()->uimessages->add($this->_l10n->get('midcom.admin.folder'), sprintf($this->_l10n->get('could not save folder: %s'), midcom_connection::get_error_string()));
                 return false;

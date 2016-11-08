@@ -69,7 +69,7 @@ class midcom_baseclasses_core_dbobject
             return false;
         }
 
-        if (! $object->__exec_update())
+        if (!$object->__exec_update())
         {
             debug_add("Failed to update the record, last Midgard error: " . midcom_connection::get_error_string());
             return false;
@@ -395,14 +395,14 @@ class midcom_baseclasses_core_dbobject
             }
         }
 
-        if (! self::_delete_privileges($object))
+        if (!self::_delete_privileges($object))
         {
             debug_add('Failed to delete the object privileges.', MIDCOM_LOG_INFO);
             return false;
         }
 
         // Finally, delete the object itself
-        if (! $object->__exec_delete())
+        if (!$object->__exec_delete())
         {
             debug_add("Failed to delete " . get_class($object) . ", last Midgard error: " . midcom_connection::get_error_string(), MIDCOM_LOG_INFO);
             return false;
@@ -1139,7 +1139,7 @@ class midcom_baseclasses_core_dbobject
      */
     public static function set_parameter(midcom_core_dbaobject $object, $domain, $name, $value)
     {
-        if (! $object->guid)
+        if (!$object->guid)
         {
             debug_add('Cannot set parameters on a non-persistant object.', MIDCOM_LOG_WARN);
             return false;
@@ -1276,8 +1276,8 @@ class midcom_baseclasses_core_dbobject
      */
     public static function set_privilege(midcom_core_dbaobject $object, $privilege, $assignee = null, $value = MIDCOM_PRIVILEGE_ALLOW, $classname = '')
     {
-        if (   ! $object->can_do('midgard:update')
-            || ! $object->can_do('midgard:privileges'))
+        if (   !$object->can_do('midgard:update')
+            || !$object->can_do('midgard:privileges'))
         {
             debug_add("Failed to set a privilege, midgard:update or midgard:privileges on the " . get_class($object) . " {$object->guid} not granted for the current user.",
                 MIDCOM_LOG_ERROR);
@@ -1583,7 +1583,7 @@ class midcom_baseclasses_core_dbobject
         $privilege->privilegename = $name;
         $privilege->value = $value;
         $privilege->classname = $classname;
-        if (! $privilege->validate())
+        if (!$privilege->validate())
         {
             debug_add('Failed to validate the newly created privilege.', MIDCOM_LOG_INFO);
             return false;

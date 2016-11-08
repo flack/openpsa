@@ -63,7 +63,7 @@ implements midcom_helper_datamanager2_interfaces_create
         // We can clear the session now
         $this->_request_data['session']->remove('wikiword');
 
-        if (! $this->_page->create())
+        if (!$this->_page->create())
         {
             debug_print_r('We operated on this object:', $this->_page);
             throw new midcom_error('Failed to create a new page. Last Midgard error was: '. midcom_connection::get_error_string());

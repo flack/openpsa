@@ -111,7 +111,7 @@ implements midcom_helper_datamanager2_interfaces_create
     {
         // Create a new person
         $this->_person = new midcom_db_person;
-        if (! $this->_person->create())
+        if (!$this->_person->create())
         {
             debug_print_r('We operated on this object:', $this->_person);
             throw new midcom_error('Failed to create a new person. Last Midgard error was: '. midcom_connection::get_error_string());

@@ -269,7 +269,7 @@ class org_openpsa_products_handler_group_groupsblock  extends midcom_baseclasses
                 $data['groups_counter'] = $i;
 
                 $data['group'] = $group;
-                if (! $data['datamanager_group']->autoset_storage($group))
+                if (!$data['datamanager_group']->autoset_storage($group))
                 {
                     debug_add("The datamanager for group #{$group->id} could not be initialized, skipping it.");
                     debug_print_r('Object was:', $group);

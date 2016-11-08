@@ -94,7 +94,7 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
         $this->_controller = midcom_helper_datamanager2_controller::create('simple');
         $this->_controller->schemadb =& $this->_schemadb;
         $this->_controller->set_storage($this->_request_data['query'], 'default');
-        if (! $this->_controller->initialize())
+        if (!$this->_controller->initialize())
         {
             throw new midcom_error("Failed to initialize a DM2 controller instance for document {$this->_document->id}.");
         }
@@ -108,7 +108,7 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
         $query = new org_openpsa_reports_query_dba();
         $query->component = $this->_component;
 
-        if (! $query->create())
+        if (!$query->create())
         {
             debug_print_r('We operated on this object:', $query);
             throw new midcom_error("Failed to create a new project. Error: " . midcom_connection::get_error_string());
@@ -140,7 +140,7 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
         $this->_controller->schemadb =& $this->_schemadb;
         $this->_controller->schemaname = 'default';
         $this->_controller->callback_object =& $this;
-        if (! $this->_controller->initialize())
+        if (!$this->_controller->initialize())
         {
             throw new midcom_error("Failed to initialize a DM2 create controller.");
         }

@@ -400,7 +400,7 @@ class midcom_core_user
              * FIXME: Parent group members should inherit permissions from
              * the child groups, not the other way around!!!
             $parent = $group->get_parent_group();
-            while (! is_null($parent))
+            while (!is_null($parent))
             {
                 $this->_all_groups[$parent->id] = $parent;
                 array_unshift($inheritance_chain, $parent->id);

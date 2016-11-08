@@ -29,7 +29,7 @@
                 'name'     => 'opengraph_type',
             ),
             'default' => midcom::get()->metadata->get_opengraph_type_default(),
-            'hidden' => ! midcom::get()->config->get('metadata_opengraph'),
+            'hidden' => !midcom::get()->config->get('metadata_opengraph'),
         ),
         'navnoentry' => array
         (
@@ -59,7 +59,7 @@
         ),
         'schedulestart' => array
         (
-            'hidden' => ! midcom::get()->config->get('metadata_scheduling'),
+            'hidden' => !midcom::get()->config->get('metadata_scheduling'),
             'title' => 'schedule start',
             'type' => 'date',
             'type_config' => array
@@ -72,7 +72,7 @@
         ),
         'scheduleend' => array
         (
-            'hidden' => ! midcom::get()->config->get('metadata_scheduling'),
+            'hidden' => !midcom::get()->config->get('metadata_scheduling'),
             'title' => 'schedule end',
             'type' => 'date',
             'type_config' => array
@@ -364,11 +364,11 @@
             ),
             'widget' => 'jsdate',
             'readonly' => true,
-            'hidden' => ! midcom::get()->config->get('metadata_approval'),
+            'hidden' => !midcom::get()->config->get('metadata_approval'),
         ),
         'approver' => array
         (
-            'hidden' => ! midcom::get()->config->get('metadata_approval'),
+            'hidden' => !midcom::get()->config->get('metadata_approval'),
             'title' => 'approver',
             'storage' => 'metadata',
             'type' => 'select',

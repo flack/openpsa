@@ -227,7 +227,7 @@ implements midcom_helper_datamanager2_interfaces_edit
                     $privilege_label = $this->_i18n->get_string("privilege {$privilege_components[1]}", $privilege_components[0]);
                 }
 
-                if (! isset($header_items[$privilege_label]))
+                if (!isset($header_items[$privilege_label]))
                 {
                     $header_items[$privilege_label] = "        <th scope=\"col\" class=\"{$privilege_components[1]}\"><span>" . $this->_l10n->get($privilege_label) . "</span></th>\n";
                 }

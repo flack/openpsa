@@ -67,12 +67,12 @@ class midcom
         ///////////////////////////////////
         // Try to be smart about the paths:
         // Define default constants
-        if (! defined('MIDCOM_ROOT'))
+        if (!defined('MIDCOM_ROOT'))
         {
             define('MIDCOM_ROOT', __DIR__);
         }
 
-        if (! defined('MIDCOM_STATIC_ROOT'))
+        if (!defined('MIDCOM_STATIC_ROOT'))
         {
             $pos = strrpos(MIDCOM_ROOT, '/');
             if ($pos === false)
@@ -82,7 +82,7 @@ class midcom
             }
             define('MIDCOM_STATIC_ROOT', substr(MIDCOM_ROOT, 0, $pos) . '/static');
         }
-        if (! defined('MIDCOM_STATIC_URL'))
+        if (!defined('MIDCOM_STATIC_URL'))
         {
             define('MIDCOM_STATIC_URL', '/midcom-static');
         }

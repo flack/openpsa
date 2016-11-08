@@ -29,8 +29,7 @@ class midcom_helper_datamanager2_type_tags extends midcom_helper_datamanager2_ty
 
     public function convert_from_storage($source)
     {
-
-        if (! $this->storage->object)
+        if (!$this->storage->object)
         {
             if (is_string($source) && !empty($source))
             {

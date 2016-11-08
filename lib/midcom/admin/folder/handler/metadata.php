@@ -43,7 +43,7 @@ class midcom_admin_folder_handler_metadata extends midcom_baseclasses_components
 
         $this->_controller->set_storage($this->_object, $object_schema);
 
-        if (! $this->_controller->initialize())
+        if (!$this->_controller->initialize())
         {
             throw new midcom_error("Failed to initialize a DM2 controller instance for article {$this->_article->id}.");
         }

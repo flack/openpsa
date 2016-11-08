@@ -307,7 +307,7 @@ class midcom_helper_datamanager2_controller_ajax extends midcom_helper_datamanag
             || $result == 'next')
         {
             // Ok, we can save now. At this point we already have a content object.
-            if (! $this->datamanager->validate())
+            if (!$this->datamanager->validate())
             {
                 // In case that the type validation fails, we bail with an exception, until
                 // we have a better defined way-of-life here.

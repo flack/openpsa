@@ -142,7 +142,7 @@ class net_nehmer_static_handler_autoindex extends midcom_baseclasses_components_
 
         foreach ($result as $article)
         {
-            if (! $datamanager->autoset_storage($article))
+            if (!$datamanager->autoset_storage($article))
             {
                 debug_add("The datamanager for article {$article->id} could not be initialized, skipping it.");
                 debug_print_r('Object was:', $article);

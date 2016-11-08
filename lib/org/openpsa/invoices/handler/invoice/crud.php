@@ -156,7 +156,7 @@ class org_openpsa_invoices_handler_invoice_crud extends midcom_baseclasses_compo
     {
         $this->_object = new org_openpsa_invoices_invoice_dba();
 
-        if (! $this->_object->create())
+        if (!$this->_object->create())
         {
             debug_print_r('We operated on this object:', $this->_object);
             throw new midcom_error("Failed to create a new invoice. Error: " . midcom_connection::get_error_string());

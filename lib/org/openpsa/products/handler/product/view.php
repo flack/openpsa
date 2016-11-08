@@ -72,7 +72,7 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
         {
             $data['controller'] = null;
             $data['datamanager'] = new midcom_helper_datamanager2_datamanager($data['schemadb_product']);
-            if (! $data['datamanager']->autoset_storage($this->_product))
+            if (!$data['datamanager']->autoset_storage($this->_product))
             {
                 throw new midcom_error("Failed to create a DM2 instance for product {$this->_product->guid}.");
             }

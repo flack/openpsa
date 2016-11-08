@@ -65,7 +65,7 @@ if (   !empty($_SERVER['PHP_AUTH_USER'])
     $http_client->basicauth['password'] = $_SERVER['PHP_AUTH_PW'];
 }
 
-while (! is_null($nodeid))
+while (!is_null($nodeid))
 {
     // Reindex the node...
     $node = $nap->get_node($nodeid);

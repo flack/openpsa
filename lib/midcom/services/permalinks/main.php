@@ -90,7 +90,7 @@ class midcom_services_permalinks
         if (is_a($object, 'midcom_db_topic'))
         {
             $napobj = $nav->get_node($object->id);
-            if (! $napobj)
+            if (!$napobj)
             {
                 debug_add("Failed to retrieve the NAP object for topic {$object->id}.", MIDCOM_LOG_INFO);
                 return null;
@@ -184,7 +184,7 @@ class midcom_services_permalinks
         $nav = new midcom_helper_nav();
         $node = $nav->get_node($topic->id);
 
-        if (! $node)
+        if (!$node)
         {
             debug_add("Failed to load the NAP information of the topic #{$topic->id}, cannot attempt to resolve the permalink here.",
                 MIDCOM_LOG_WARN);

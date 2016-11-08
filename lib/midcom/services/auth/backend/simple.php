@@ -80,7 +80,7 @@ class midcom_services_auth_backend_simple extends midcom_services_auth_backend
             $reset_cookie = true;
         }
 
-        if (! array_key_exists($this->_cookie_id, $_COOKIE))
+        if (!array_key_exists($this->_cookie_id, $_COOKIE))
         {
             return false;
         }
@@ -98,7 +98,7 @@ class midcom_services_auth_backend_simple extends midcom_services_auth_backend
         $session_id = $data[0];
         $user_id = $data[1];
         $this->user = $this->auth->get_user($user_id);
-        if (! $this->user)
+        if (!$this->user)
         {
             debug_add("The user ID {$user_id} is invalid, could not load the user from the database, assuming tampered session.",
                 MIDCOM_LOG_ERROR);

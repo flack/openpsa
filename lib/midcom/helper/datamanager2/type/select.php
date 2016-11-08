@@ -216,7 +216,7 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
     {
         $key = (string) $key;
 
-        if (! $this->key_exists($key))
+        if (!$this->key_exists($key))
         {
             if ($this->require_corresponding_option)
             {
@@ -345,7 +345,7 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
             if ($this->key_exists($key))
             {
                 $this->selection[] = $key;
-                if (! $this->allow_multiple)
+                if (!$this->allow_multiple)
                 {
                     // Whatever happens, in this mode we only have one key.
                     return;
@@ -355,7 +355,7 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
             else if (!$this->require_corresponding_option)
             {
                 $this->selection[] = $key;
-                if (! $this->allow_multiple)
+                if (!$this->allow_multiple)
                 {
                     // Whatever happens, in this mode we only have one key.
                     return;
@@ -365,7 +365,7 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
             {
                 $this->others[] = $key;
 
-                if (! $this->allow_multiple)
+                if (!$this->allow_multiple)
                 {
                     // Whatever happens, in this mode we only have one key.
                     return;
@@ -553,14 +553,14 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
      */
     public function _on_validate()
     {
-        if (   ! $this->allow_other
+        if (   !$this->allow_other
             && $this->others)
         {
             $this->validation_error = $this->_l10n->get('type select: other selection not allowed');
             return false;
         }
 
-        if (   ! $this->allow_multiple
+        if (   !$this->allow_multiple
             && count($this->selection) > 1)
         {
             $this->validation_error = $this->_l10n->get('type select: multiselect not allowed');

@@ -518,11 +518,11 @@ class midcom_config implements arrayaccess
         $this->_complete_defaults();
 
         /* ----- MERGE THE CONFIGURATION ----- */
-        if (! array_key_exists('midcom_config_site', $GLOBALS))
+        if (!array_key_exists('midcom_config_site', $GLOBALS))
         {
             $GLOBALS['midcom_config_site'] = Array();
         }
-        if (! array_key_exists('midcom_config_local', $GLOBALS))
+        if (!array_key_exists('midcom_config_local', $GLOBALS))
         {
             $GLOBALS['midcom_config_local'] = Array();
         }

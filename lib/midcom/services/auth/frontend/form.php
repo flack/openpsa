@@ -24,9 +24,9 @@ class midcom_services_auth_frontend_form implements midcom_services_auth_fronten
      */
     public function read_authentication_data()
     {
-        if (   ! array_key_exists('midcom_services_auth_frontend_form_submit', $_REQUEST)
-            || ! array_key_exists('username', $_REQUEST)
-            || ! array_key_exists('password', $_REQUEST))
+        if (   !array_key_exists('midcom_services_auth_frontend_form_submit', $_REQUEST)
+            || !array_key_exists('username', $_REQUEST)
+            || !array_key_exists('password', $_REQUEST))
         {
             return null;
         }

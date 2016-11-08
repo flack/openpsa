@@ -30,7 +30,7 @@ implements midcom_services_permalinks_resolver
 
             foreach ($result as $wikipage)
             {
-                if (! $datamanager->autoset_storage($wikipage))
+                if (!$datamanager->autoset_storage($wikipage))
                 {
                     debug_add("Warning, failed to initialize datamanager for Wiki page {$wikipage->id}. Skipping it.", MIDCOM_LOG_WARN);
                     continue;

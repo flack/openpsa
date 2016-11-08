@@ -251,7 +251,7 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
         );
         $this->_elements['e_new_title'] = $this->_form->createElement('text', 'e_new_title', '', $attributes);
 
-        if (! $frozen)
+        if (!$frozen)
         {
             // Controls Column
             $html = "</td>\n<td class=\"new upload\">";
@@ -448,7 +448,7 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
      */
     private function _check_new_upload($values)
     {
-        if (! array_key_exists('e_new_file', $this->_elements))
+        if (!array_key_exists('e_new_file', $this->_elements))
         {
             // We are frozen, no upload can happen, so we exit immediately.
             return;
@@ -460,11 +460,11 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
             $title = $values['e_new_title'];
             $filename = $values['e_new_filename'];
 
-            if (! $filename)
+            if (!$filename)
             {
                 $filename = $file['name'];
             }
-            if (! $title)
+            if (!$title)
             {
                 $title = $filename;
             }
@@ -479,7 +479,7 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
                 $file['type'] = $this->_extension_to_mimetype($extension, $file['type']);
             }
 
-            if (! $this->_type->add_attachment($identifier, $filename, $title, $file['type'], $file['tmp_name']))
+            if (!$this->_type->add_attachment($identifier, $filename, $title, $file['type'], $file['tmp_name']))
             {
                 debug_add("Failed to add an attachment to the field '{$this->name}'. Ignoring silently.", MIDCOM_LOG_WARN);
             }
@@ -503,7 +503,7 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
      */
     private function _check_for_update($identifier, $values)
     {
-        if (! array_key_exists($identifier, $this->_type->attachments_info))
+        if (!array_key_exists($identifier, $this->_type->attachments_info))
         {
             // The attachment does no longer exist
             return;
@@ -511,7 +511,7 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
 
         if (array_key_exists("{$this->name}_e_exist_{$identifier}_delete", $values))
         {
-            if (! $this->_type->delete_attachment($identifier))
+            if (!$this->_type->delete_attachment($identifier))
             {
                 debug_add("Failed to delete the attachment {$identifier} on the field '{$this->name}'. Ignoring silently.", MIDCOM_LOG_WARN);
             }
@@ -529,7 +529,7 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
                 $title = $file['name'];
             }
 
-            if (! $this->_type->update_attachment($identifier, $file['name'], $title, $file['type'], $file['tmp_name']))
+            if (!$this->_type->update_attachment($identifier, $file['name'], $title, $file['type'], $file['tmp_name']))
             {
                 debug_add("Failed to update the attachment {$identifier} on the field '{$this->name}'. Ignoring silently.", MIDCOM_LOG_WARN);
             }
@@ -547,7 +547,7 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
      */
     function on_submit($results)
     {
-        if (! array_key_exists($this->name, $results))
+        if (!array_key_exists($this->name, $results))
         {
             return;
         }

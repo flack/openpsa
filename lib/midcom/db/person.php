@@ -176,7 +176,7 @@ class midcom_db_person extends midcom_core_dbaobject
     function add_to_group($name)
     {
         $group = midcom::get()->auth->get_midgard_group_by_name($name);
-        if (! $group)
+        if (!$group)
         {
             debug_add("Failed to add the person {$this->id} to group {$name}, the group does not exist.", MIDCOM_LOG_WARN);
             return false;
@@ -185,7 +185,7 @@ class midcom_db_person extends midcom_core_dbaobject
         $member = new midcom_db_member();
         $member->uid = $this->id;
         $member->gid = $storage->id;
-        if (! $member->create())
+        if (!$member->create())
         {
             debug_add("Failed to add the person {$this->id} to group {$name}, object could not be created.", MIDCOM_LOG_WARN);
             debug_add('Last Midgard error was: ' . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);

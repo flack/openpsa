@@ -30,7 +30,7 @@ class org_routamc_positioning_geocoder_geonames extends org_routamc_positioning_
             'style' => 'FULL',
         );
 
-        if (! empty($options))
+        if (!empty($options))
         {
             foreach ($options as $key => $value)
             {
@@ -64,7 +64,7 @@ class org_routamc_positioning_geocoder_geonames extends org_routamc_positioning_
 
         foreach ($parameters as $key => $value)
         {
-            if (! is_null($value))
+            if (!is_null($value))
             {
                 $params[] = "{$key}=" . urlencode($value);
             }
@@ -86,9 +86,9 @@ class org_routamc_positioning_geocoder_geonames extends org_routamc_positioning_
             return null;
         }
 
-        for ($i=0; $i<$parameters['maxRows']; $i++)
+        for ($i = 0; $i < $parameters['maxRows']; $i++)
         {
-            if (! isset($simplexml->code[$i]))
+            if (!isset($simplexml->code[$i]))
             {
                 break;
             }
@@ -131,7 +131,7 @@ class org_routamc_positioning_geocoder_geonames extends org_routamc_positioning_
             'style' => 'FULL',
         );
 
-        if (! empty($options))
+        if (!empty($options))
         {
             foreach ($options as $key => $value)
             {
@@ -155,7 +155,7 @@ class org_routamc_positioning_geocoder_geonames extends org_routamc_positioning_
 
         foreach ($parameters as $key => $value)
         {
-            if (! is_null($value))
+            if (!is_null($value))
             {
                 $params[] = "{$key}=" . urlencode($value);
             }
@@ -178,9 +178,9 @@ class org_routamc_positioning_geocoder_geonames extends org_routamc_positioning_
             return null;
         }
 
-        for ($i=0; $i<$parameters['maxRows']; $i++)
+        for ($i = 0; $i < $parameters['maxRows']; $i++)
         {
-            if (! isset($simplexml->geoname[$i]))
+            if (!isset($simplexml->geoname[$i]))
             {
                 break;
             }

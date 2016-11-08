@@ -43,7 +43,7 @@
  */
 class org_routamc_positioning_user extends midcom_baseclasses_components_purecode
 {
-    static public function set_location(array $location)
+    public static function set_location(array $location)
     {
         if (   !isset($location['latitude'])
             || !isset($location['longitude']))
@@ -62,7 +62,7 @@ class org_routamc_positioning_user extends midcom_baseclasses_components_purecod
         return $session->set('org_routamc_positioning_user_location', $location);
     }
 
-    static public function set_location_for_person(array $location, midcom_db_person $person)
+    public static function set_location_for_person(array $location, midcom_db_person $person)
     {
         if (   !isset($location['latitude'])
             || !isset($location['longitude']))
@@ -87,7 +87,7 @@ class org_routamc_positioning_user extends midcom_baseclasses_components_purecod
         return $log->create();
     }
 
-    static public function get_location($when = null)
+    public static function get_location($when = null)
     {
         if (midcom::get()->auth->user)
         {
@@ -104,7 +104,7 @@ class org_routamc_positioning_user extends midcom_baseclasses_components_purecod
         return $session->get('org_routamc_positioning_user_location');
     }
 
-    static public function get_location_for_person(midcom_db_person $person, $when = null)
+    public static function get_location_for_person(midcom_db_person $person, $when = null)
     {
         $person_position = new org_routamc_positioning_person($person);
         return $person_position->get_coordinates($when);

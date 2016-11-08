@@ -75,7 +75,7 @@ class org_openpsa_mail_formmailer extends midcom_baseclasses_components_purecode
         $controller = midcom_helper_datamanager2_controller::create('nullstorage');
         $controller->schemadb = $this->_schemadb;
         $controller->schemaname = 'default';
-        if (! $controller->initialize())
+        if (!$controller->initialize())
         {
             throw new midcom_error('Failed to initialize a DM2 nullstorage controller.');
         }

@@ -135,7 +135,7 @@ class midcom_helper__dbfactory
      */
     public function convert_midgard_to_midcom($object)
     {
-        if (! is_object($object))
+        if (!is_object($object))
         {
             debug_print_r("Object dump:", $object);
             throw new midcom_error("Cannot cast the object to a MidCOM DBA type, it is not an object.");
@@ -148,7 +148,7 @@ class midcom_helper__dbfactory
         }
         $classname = midcom::get()->dbclassloader->get_midcom_class_name_for_mgdschema_object($object);
 
-        if (! midcom::get()->dbclassloader->load_mgdschema_class_handler($classname))
+        if (!midcom::get()->dbclassloader->load_mgdschema_class_handler($classname))
         {
             throw new midcom_error("Failed to load the handling component for {$classname}, cannot convert.");
         }
@@ -171,7 +171,7 @@ class midcom_helper__dbfactory
      */
     public function convert_midcom_to_midgard($object)
     {
-        if (! is_object($object))
+        if (!is_object($object))
         {
             debug_print_r("Object dump:", $object);
             throw new midcom_error("Cannot cast the object to an MgdSchema type, it is not an object");

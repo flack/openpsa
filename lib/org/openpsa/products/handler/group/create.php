@@ -71,7 +71,7 @@ implements midcom_helper_datamanager2_interfaces_create
         $this->_group = new org_openpsa_products_product_group_dba();
         $this->_group->up = $this->_request_data['up'];
 
-        if (! $this->_group->create())
+        if (!$this->_group->create())
         {
             debug_print_r('We operated on this object:', $this->_group);
             throw new midcom_error('Failed to create a new product group. Last Midgard error was: ' . midcom_connection::get_error_string());

@@ -357,7 +357,7 @@ class midcom_services_i18n
         }
 
         $cacheid = "{$component}/{$database}";
-        if (! array_key_exists($cacheid, $this->_obj_l10n))
+        if (!array_key_exists($cacheid, $this->_obj_l10n))
         {
             $this->_load_l10n_db($component, $database);
         }
@@ -447,8 +447,8 @@ class midcom_services_i18n
         $rawdata = base64_decode($_COOKIE['midcom_services_i18n']);
         $array = unserialize($rawdata);
 
-        if (   ! array_key_exists('language', $array)
-            || ! array_key_exists('charset', $array))
+        if (   !array_key_exists('language', $array)
+            || !array_key_exists('charset', $array))
         {
             debug_add("Rejecting cookie, it seems invalid.");
             return;
@@ -507,7 +507,7 @@ class midcom_services_i18n
     {
         $q = 1.0;
         $option = array_shift($params);
-        while (! is_null($option))
+        while (!is_null($option))
         {
             $option_params = explode("=", $option);
             if (count($option_params) != 2)

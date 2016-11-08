@@ -213,7 +213,7 @@ class midcom_helper_datamanager2_widget_select extends midcom_helper_datamanager
 
         if ($this->_type->allow_other)
         {
-            if (! $this->_type->allow_multiple)
+            if (!$this->_type->allow_multiple)
             {
                 $output .= '; ';
             }

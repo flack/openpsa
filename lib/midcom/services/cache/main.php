@@ -144,7 +144,7 @@ class midcom_services_cache implements EventSubscriberInterface
 
         $classname = "midcom_services_cache_module_{$name}";
 
-        if (! class_exists($classname))
+        if (!class_exists($classname))
         {
             throw new midcom_error("Tried to load the cache module {$name}, but the class {$classname} was not found");
         }

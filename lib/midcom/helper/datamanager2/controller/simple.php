@@ -142,7 +142,7 @@ class midcom_helper_datamanager2_controller_simple extends midcom_helper_dataman
 
     private function _save_form($result)
     {
-        if (! $this->datamanager->validate())
+        if (!$this->datamanager->validate())
         {
             // In case that the type validation fails, we bail with midcom_error
             foreach ($this->datamanager->validation_errors as $field => $error)

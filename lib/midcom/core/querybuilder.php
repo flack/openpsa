@@ -141,7 +141,7 @@ class midcom_core_querybuilder extends midcom_core_query
     {
         $this->_reset();
 
-        if (! call_user_func_array(array($this->_real_class, '_on_prepare_exec_query_builder'), array(&$this)))
+        if (!call_user_func_array(array($this->_real_class, '_on_prepare_exec_query_builder'), array(&$this)))
         {
             debug_add('The _on_prepare_exec_query_builder callback returned false, so we abort now.');
             return array();
@@ -291,7 +291,7 @@ class midcom_core_querybuilder extends midcom_core_query
 
         $this->_reset();
 
-        if (! call_user_func_array(array($this->_real_class, '_on_prepare_exec_query_builder'), array(&$this)))
+        if (!call_user_func_array(array($this->_real_class, '_on_prepare_exec_query_builder'), array(&$this)))
         {
             debug_add('The _on_prepare_exec_query_builder callback returned false, so we abort now.');
             return array();

@@ -67,7 +67,7 @@ implements midcom_helper_datamanager2_interfaces_create
         $this->_request_data['up'] = $controller->formmanager->get_value('productGroup');
         $this->_product->productGroup = $this->_request_data['up'];
 
-        if (! $this->_product->create())
+        if (!$this->_product->create())
         {
             debug_print_r('We operated on this object:', $this->_product);
             throw new midcom_error("Failed to create a new product under product group #{$this->_request_data['up']}. Error: " . midcom_connection::get_error_string());

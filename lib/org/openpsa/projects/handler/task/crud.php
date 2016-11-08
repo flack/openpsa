@@ -312,7 +312,7 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
         $this->_object->orgOpenpsaAccesstype = $project->orgOpenpsaAccesstype;
         $this->_object->orgOpenpsaOwnerWg = $project->orgOpenpsaOwnerWg;
 
-        if (! $this->_object->create())
+        if (!$this->_object->create())
         {
             debug_print_r('We operated on this object:', $this->_object);
             throw new midcom_error("Failed to create a new task under project #{$project->id}. Error: " . midcom_connection::get_error_string());

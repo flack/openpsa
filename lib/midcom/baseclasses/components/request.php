@@ -373,7 +373,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
      */
     final public function __construct(midcom_db_topic $topic, $config)
     {
-        if (! midcom::get()->dbclassloader->is_midcom_db_object($topic))
+        if (!midcom::get()->dbclassloader->is_midcom_db_object($topic))
         {
             $this->_topic = midcom::get()->dbfactory->convert_midgard_to_midcom($topic);
         }
@@ -434,7 +434,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
                 $value['fixed_args'] = (array) $value['fixed_args'];
             }
 
-            if (! array_key_exists('variable_args', $value))
+            if (!array_key_exists('variable_args', $value))
             {
                 $value['variable_args'] = 0;
             }
@@ -444,13 +444,13 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
                 $this->_request_switch[$key]['handler'] = Array(&$this, $value['handler']);
             }
 
-            if (   ! array_key_exists('expires', $value)
-                || ! is_integer($value['expires'])
+            if (   !array_key_exists('expires', $value)
+                || !is_integer($value['expires'])
                 || $value['expires'] < -1)
             {
                 $this->_request_switch[$key]['expires'] = -1;
             }
-            if (! array_key_exists('no_cache', $value))
+            if (!array_key_exists('no_cache', $value))
             {
                 $this->_request_switch[$key]['no_cache'] = false;
             }
@@ -473,7 +473,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
     {
         // Call the general can_handle event handler
         $result = $this->_on_can_handle($argc, $argv);
-        if (! $result)
+        if (!$result)
         {
             return false;
         }
@@ -651,13 +651,13 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
         if (is_string($this->_handler['handler'][0]))
         {
             $classname = $this->_handler['handler'][0];
-            if (! class_exists($classname))
+            if (!class_exists($classname))
             {
                 throw new midcom_error("Failed to create a class instance of the type {$classname}, the class is not declared.");
             }
 
             $this->_handler['handler'][0] = new $classname();
-            if (! is_a($this->_handler['handler'][0], 'midcom_baseclasses_components_handler'))
+            if (!is_a($this->_handler['handler'][0], 'midcom_baseclasses_components_handler'))
             {
                 throw new midcom_error("Failed to create a class instance of the type {$classname}, it is no subclass of midcom_baseclasses_components_handler.");
             }
@@ -903,7 +903,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
                 throw new midcom_error("The plugin loader method {$method} is unknown, cannot continue.");
         }
 
-        if (! class_exists($plugin_config['class']))
+        if (!class_exists($plugin_config['class']))
         {
             throw new midcom_error("Failed to load the plugin {$namespace}/{$plugin}, implementation class not available.");
         }

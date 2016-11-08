@@ -155,7 +155,7 @@ class midcom_debug
      */
     public function log($message, $loglevel = MIDCOM_LOG_DEBUG)
     {
-        if (   ! $this->_enabled
+        if (   !$this->_enabled
             || $this->_loglevel < $loglevel)
         {
             return;
@@ -291,7 +291,7 @@ class midcom_debug
      */
     public function print_function_stack($message, $loglevel = MIDCOM_LOG_DEBUG)
     {
-        if (   ! $this->_enabled
+        if (   !$this->_enabled
             || $this->_loglevel < $loglevel)
         {
             return;
@@ -378,7 +378,7 @@ class midcom_debug
      */
     public function print_dump_mem($message, $loglevel = MIDCOM_LOG_DEBUG)
     {
-        if (   ! $this->_enabled
+        if (   !$this->_enabled
             || $this->_loglevel < $loglevel)
         {
             return;

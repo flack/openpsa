@@ -112,7 +112,7 @@ class midcom_helper__componentloader
      */
     public function load($path)
     {
-        if (! $this->_load($path))
+        if (!$this->_load($path))
         {
             throw new midcom_error("Failed to load the component {$path}, see the debug log for more information");
         }
@@ -146,13 +146,13 @@ class midcom_helper__componentloader
      */
     public function load_library($path)
     {
-        if (! array_key_exists($path, $this->manifests))
+        if (!array_key_exists($path, $this->manifests))
         {
             debug_add("Cannot load component {$path} as library, it is not installed.", MIDCOM_LOG_ERROR);
             return false;
         }
 
-        if (! $this->manifests[$path]->purecode)
+        if (!$this->manifests[$path]->purecode)
         {
             debug_add("Cannot load component {$path} as library, it is a full-fledged component.", MIDCOM_LOG_ERROR);
             debug_print_r('Manifest:', $this->manifests[$path]);
@@ -193,7 +193,7 @@ class midcom_helper__componentloader
         // Check if the component is listed in the class manifest list. If not,
         // we immediately bail - anything went wrong while loading the component
         // (f.x. broken DBA classes).
-        if (! array_key_exists($path, $this->manifests))
+        if (!array_key_exists($path, $this->manifests))
         {
             debug_add("The component {$path} was not found in the manifest list. Cannot load it.",
                 MIDCOM_LOG_WARN);
@@ -201,7 +201,7 @@ class midcom_helper__componentloader
         }
 
         // Validate and translate url
-        if (! $this->validate_url($path))
+        if (!$this->validate_url($path))
         {
             return false;
         }
@@ -291,7 +291,7 @@ class midcom_helper__componentloader
      */
     public function get_interface_class($path)
     {
-        if (! $this->is_loaded($path))
+        if (!$this->is_loaded($path))
         {
             $this->load($path);
             //This will exit on error
@@ -375,7 +375,7 @@ class midcom_helper__componentloader
     {
         $manifests = midcom::get()->cache->memcache->get('MISC', 'midcom.componentloader.manifests');
 
-        if (! is_array($manifests))
+        if (!is_array($manifests))
         {
             debug_add('Cache miss, generating component manifest cache now.');
             $manifests = $this->get_manifests();

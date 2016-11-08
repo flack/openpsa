@@ -55,7 +55,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
         else
         {
             $this->_datamanager = new midcom_helper_datamanager2_datamanager($this->_request_data['schemadb']);
-            if (! $this->_datamanager->autoset_storage($this->_page))
+            if (!$this->_datamanager->autoset_storage($this->_page))
             {
                 throw new midcom_error("Failed to create a DM2 instance for wiki page {$this->_page->guid}.");
             }

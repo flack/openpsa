@@ -80,7 +80,7 @@ class midcom_helper_datamanager2_qfrule_manager
     {
         foreach ($rules as $config)
         {
-            if (! is_callable($config['callback']))
+            if (!is_callable($config['callback']))
             {
                 // Try autoload:
                 if (array_key_exists('autoload_snippet', $config))
@@ -92,7 +92,7 @@ class midcom_helper_datamanager2_qfrule_manager
                     require_once($config['autoload_file']);
                 }
 
-                if (! function_exists($config['callback']))
+                if (!function_exists($config['callback']))
                 {
                     debug_add("Failed to register the callback {$config['callback']} for validation, the function is not defined.", MIDCOM_LOG_CRIT);
                     continue;

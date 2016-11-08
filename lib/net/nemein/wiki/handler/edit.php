@@ -62,7 +62,7 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
         $this->_controller = midcom_helper_datamanager2_controller::create('simple');
         $this->_controller->schemadb =& $this->_schemadb;
         $this->_controller->set_storage($this->_page);
-        if (! $this->_controller->initialize())
+        if (!$this->_controller->initialize())
         {
             throw new midcom_error("Failed to initialize a DM2 controller instance for article {$this->_article->id}.");
         }

@@ -200,7 +200,7 @@ abstract class midcom_core_query
                 return $this->add_constraint('id', '=', 0);
             }
         }
-        if (! $this->_query->add_constraint($field, $operator, $value))
+        if (!$this->_query->add_constraint($field, $operator, $value))
         {
             debug_add("Failed to execute add_constraint.", MIDCOM_LOG_ERROR);
             debug_add("Class = '{$this->_real_class}, Field = '{$field}', Operator = '{$operator}'");
@@ -227,7 +227,7 @@ abstract class midcom_core_query
     public function add_constraint_with_property($field, $operator, $compare_field)
     {
         $this->_reset();
-        if (! $this->_query->add_constraint_with_property($field, $operator, $compare_field))
+        if (!$this->_query->add_constraint_with_property($field, $operator, $compare_field))
         {
             debug_add("Failed to execute add_constraint_with_property.", MIDCOM_LOG_ERROR);
             debug_add("Class = '{$this->_real_class}, Field = '{$field}', Operator = '{$operator}', compare_field: '{$compare_field}'");

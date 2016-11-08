@@ -56,7 +56,7 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
         $controller = midcom_helper_datamanager2_controller::create('simple');
         $controller->schemadb =& $this->_schemadb;
         $controller->set_storage($this->_deliverable, $this->_schema);
-        if (! $controller->initialize())
+        if (!$controller->initialize())
         {
             throw new midcom_error("Failed to initialize a DM2 controller instance for deliverable {$this->_deliverable->id}.");
         }

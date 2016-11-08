@@ -333,7 +333,7 @@ class org_openpsa_products_handler_product_search extends midcom_baseclasses_com
             {
                 $data['results_counter'] = $i;
 
-                if (! $data['datamanager']->autoset_storage($result))
+                if (!$data['datamanager']->autoset_storage($result))
                 {
                     debug_add("The datamanager for product {$result->id} could not be initialized, skipping it.");
                     debug_print_r('Object was:', $result);

@@ -58,7 +58,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
         $controller->schemaname = $this->_schema;
         $controller->defaults = $defaults;
         $controller->callback_object =& $this;
-        if (! $controller->initialize())
+        if (!$controller->initialize())
         {
             throw new midcom_error("Failed to initialize a DM2 create controller.");
         }
@@ -80,7 +80,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
         {
             $this->_hour_report->task = $this->_request_data['task'];
         }
-        if (! $this->_hour_report->create())
+        if (!$this->_hour_report->create())
         {
             debug_print_r('We operated on this object:', $this->_hour_report);
             throw new midcom_error("Failed to create a new hour_report under hour_report group #{$this->_request_data['task']}. Error: " . midcom_connection::get_error_string());
@@ -140,7 +140,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
         $data['controller'] = midcom_helper_datamanager2_controller::create('simple');
         $data['controller']->schemadb =& $this->_schemadb;
         $data['controller']->set_storage($this->_hour_report);
-        if (! $data['controller']->initialize())
+        if (!$data['controller']->initialize())
         {
             throw new midcom_error("Failed to initialize a DM2 controller instance for hour_report {$this->_hour_report->id}.");
         }

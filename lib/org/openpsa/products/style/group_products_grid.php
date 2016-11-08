@@ -6,7 +6,7 @@ $grid_id = 'group_products_grid';
 
 foreach ($data['products'] as $product)
 {
-    if (! $data['datamanager_product']->autoset_storage($product))
+    if (!$data['datamanager_product']->autoset_storage($product))
     {
         debug_add("The datamanager for product #{$product->id} could not be initialized, skipping it.");
         debug_print_r('Object was:', $product);

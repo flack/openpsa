@@ -127,7 +127,7 @@ class midcom_baseclasses_components_configuration
         $component_path = $loader->path_to_snippetpath($component);
         // Load and parse the global config
         $data = self::read_array_from_file($component_path . '/config/routes.inc');
-        if (! $data)
+        if (!$data)
         {
             // Empty defaults
             $data = Array();

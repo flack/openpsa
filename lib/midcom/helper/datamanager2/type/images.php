@@ -531,14 +531,14 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
     {
         parent::_update_attachment_info($identifier);
 
-        if (! array_key_exists($identifier, $this->_attachment_map))
+        if (!array_key_exists($identifier, $this->_attachment_map))
         {
             // Log and skip further processing.
             debug_add("Could not find the attachment '{$identifier}' in the image map. Skipping it.",
                 MIDCOM_LOG_INFO);
             return;
         }
-        if (! array_key_exists($identifier, $this->attachments_info))
+        if (!array_key_exists($identifier, $this->attachments_info))
         {
             // Log and skip further processing.
             debug_add("Could not find the attachment '{$identifier}' in the \$this->attachments_info. Skipping it.",

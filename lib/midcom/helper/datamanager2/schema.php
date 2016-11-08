@@ -329,7 +329,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
     private function _load_schema($name)
     {
         // Setup the raw schema reference
-        if (! array_key_exists($name, $this->_raw_schemadb))
+        if (!array_key_exists($name, $this->_raw_schemadb))
         {
             throw new midcom_error("The schema {$name} was not found in the schema database.");
         }
@@ -505,13 +505,13 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
             }
         }
 
-        if (   ! array_key_exists('type_config', $config)
-            || ! is_array($config['type_config']))
+        if (   !array_key_exists('type_config', $config)
+            || !is_array($config['type_config']))
         {
             $config['type_config'] = Array();
         }
-        if (   ! array_key_exists('widget_config', $config)
-            || ! is_array($config['type_config']))
+        if (   !array_key_exists('widget_config', $config)
+            || !is_array($config['type_config']))
         {
             $config['widget_config'] = Array();
         }

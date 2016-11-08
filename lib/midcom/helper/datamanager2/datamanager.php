@@ -151,7 +151,7 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
             return false;
         }
 
-        if (! is_a($object, 'midcom_helper_datamanager2_storage'))
+        if (!is_a($object, 'midcom_helper_datamanager2_storage'))
         {
             $this->storage = new midcom_helper_datamanager2_storage_midgard($this->schema, $object);
         }
@@ -251,7 +251,7 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
             $schema = $object->get_parameter('midcom.helper.datamanager2', 'schema_name');
         }
 
-        if (! $schema)
+        if (!$schema)
         {
             $schema = null;
         }
@@ -310,7 +310,7 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
      */
     function save()
     {
-        if (! $this->validate())
+        if (!$this->validate())
         {
             debug_add(count($this->validation_errors) . ' fields have failed validation, cannot save.',
                 MIDCOM_LOG_WARN);
@@ -337,7 +337,7 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
             {
                 continue;
             }
-            if (! $this->types[$name]->validate())
+            if (!$this->types[$name]->validate())
             {
                 $this->validation_errors[$name] = $this->types[$name]->validation_error;
                 $validated = false;

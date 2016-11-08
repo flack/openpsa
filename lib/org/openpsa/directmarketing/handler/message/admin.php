@@ -53,7 +53,7 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
         $this->_controller = midcom_helper_datamanager2_controller::create('simple');
         $this->_controller->schemadb =& $this->_schemadb;
         $this->_controller->set_storage($this->_message);
-        if (! $this->_controller->initialize())
+        if (!$this->_controller->initialize())
         {
             throw new midcom_error("Failed to initialize a DM2 controller instance for message {$this->_message->id}.");
         }

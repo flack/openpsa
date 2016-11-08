@@ -1,5 +1,5 @@
 <?php
-if (! isset($_GET['service']))
+if (!isset($_GET['service']))
 {
     $service = 'city';
 }
@@ -8,7 +8,7 @@ else
     $service = $_GET['service'];
 }
 
-if (! isset($_GET['dir']))
+if (!isset($_GET['dir']))
 {
     $direction = '';
 }
@@ -36,7 +36,7 @@ foreach ($_GET as $key => $value)
     {
         case 'longitude':
         case 'latitude':
-            if (! empty($direction))
+            if (!empty($direction))
             {
                 $location[$key] = $value;
             }

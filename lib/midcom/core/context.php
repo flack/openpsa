@@ -353,7 +353,7 @@ class midcom_core_context
         // Load configuration
         $config_obj = $this->_loadconfig($this->id, $object);
         $config = ($config_obj == false) ? array() : $config_obj->get_all();
-        if (! $component_interface->configure($config, $this->id))
+        if (!$component_interface->configure($config, $this->id))
         {
             throw new midcom_error("Component Configuration failed: " . midcom_connection::get_error_string());
         }

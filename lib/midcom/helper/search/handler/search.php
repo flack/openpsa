@@ -54,7 +54,7 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
     {
         $node = $nap->get_node($node_id);
 
-        if (   ! array_key_exists($node[MIDCOM_NAV_COMPONENT], $this->_request_data['components'])
+        if (   !array_key_exists($node[MIDCOM_NAV_COMPONENT], $this->_request_data['components'])
             && $node[MIDCOM_NAV_COMPONENT] != 'midcom.helper.search')
         {
             $l10n = $this->_i18n->get_l10n($node[MIDCOM_NAV_COMPONENT]);

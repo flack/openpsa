@@ -123,7 +123,7 @@ class midcom_helper_datamanager2_widget_captcha extends midcom_helper_datamanage
     function validate($fields)
     {
         $session = new midcom_services_session($this->_session_domain);
-        if (! $session->exists($this->_session_key))
+        if (!$session->exists($this->_session_key))
         {
             return array("{$this->name}_group" => $this->_l10n->get('captcha validation failed'));
         }

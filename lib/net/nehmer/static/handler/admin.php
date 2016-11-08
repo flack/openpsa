@@ -55,7 +55,7 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
     {
         $this->_schemadb =& $this->_request_data['schemadb'];
         if (   $this->_config->get('simple_name_handling')
-            && ! midcom::get()->auth->admin)
+            && !midcom::get()->auth->admin)
         {
             foreach (array_keys($this->_schemadb) as $name)
             {
@@ -76,7 +76,7 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
         $controller->schemadb =& $this->_schemadb;
         $controller->set_storage($this->_article);
 
-        if (! $controller->initialize())
+        if (!$controller->initialize())
         {
             throw new midcom_error("Failed to initialize a DM2 controller instance for article {$this->_article->id}.");
         }

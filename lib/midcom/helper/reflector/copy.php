@@ -188,7 +188,7 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
      * @param mixed $object     MgdSchema object or MidCOM db object
      * @return array            id, parent property, class and label of the object
      */
-    static public function get_target_properties($object)
+    public static function get_target_properties($object)
     {
         $mgdschema_class = midcom_helper_reflector::resolve_baseclass($object);
         $mgdschema_object = new $mgdschema_class($object->guid);
@@ -253,7 +253,7 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
      * @param mixed &$object    MgdSchema object, GUID or ID
      * @return mixed MgdSchema object or false on failure
      */
-    static public function resolve_object(&$object)
+    public static function resolve_object(&$object)
     {
         // Check the type of the requested parent
         if (mgd_is_guid($object))
@@ -609,7 +609,7 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
      * @param boolean $copy_attachments Switch to determine if the attachments should be copied (creates only a new link, doesn't duplicate the content)
      * @return mixed               False on failure, newly created MgdSchema root object on success
      */
-    static public function copy_object_tree($source, $parent, $exclude = array(), $copy_parameters = true, $copy_metadata = true, $copy_attachments = true)
+    public static function copy_object_tree($source, $parent, $exclude = array(), $copy_parameters = true, $copy_metadata = true, $copy_attachments = true)
     {
         $copy = new midcom_helper_reflector_copy();
         $copy->source =& $source;

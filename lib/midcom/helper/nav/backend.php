@@ -992,7 +992,7 @@ class midcom_helper_nav_backend
      */
     function get_leaf ($leaf_id)
     {
-        if (! $this->_check_leaf_id($leaf_id))
+        if (!$this->_check_leaf_id($leaf_id))
         {
             debug_add("This leaf is unknown, aborting.", MIDCOM_LOG_INFO);
             return false;
@@ -1073,7 +1073,7 @@ class midcom_helper_nav_backend
      */
     function get_leaf_uplink($leaf_id)
     {
-        if (! $this->_check_leaf_id($leaf_id))
+        if (!$this->_check_leaf_id($leaf_id))
         {
             debug_add("This leaf is unknown, aborting.", MIDCOM_LOG_ERROR);
             return false;
@@ -1147,7 +1147,7 @@ class midcom_helper_nav_backend
      */
     private function _check_leaf_id($leaf_id)
     {
-        if (! $leaf_id)
+        if (!$leaf_id)
         {
             debug_add("Tried to load a suspicious leaf id, probably a false from get_current_leaf.");
             return false;
@@ -1219,7 +1219,7 @@ class midcom_helper_nav_backend
             // Check Hiding, Scheduling and Approval
             $metadata = $napdata[MIDCOM_NAV_OBJECT]->metadata;
 
-            if (! $metadata)
+            if (!$metadata)
             {
                 // For some reason, the metadata for this object could not be retrieved. so we skip
                 // Approval/Visibility checks.
@@ -1227,7 +1227,7 @@ class midcom_helper_nav_backend
                 return true;
             }
 
-            if (! $metadata->is_object_visible_onsite())
+            if (!$metadata->is_object_visible_onsite())
             {
                 return false;
             }

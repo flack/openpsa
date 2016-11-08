@@ -108,7 +108,7 @@ implements midcom_helper_datamanager2_interfaces_create
             $this->_article->name = 'index';
         }
 
-        if (! $this->_article->create())
+        if (!$this->_article->create())
         {
             debug_print_r('We operated on this object:', $this->_article);
             throw new midcom_error('Failed to create a new article. Last Midgard error was: '. midcom_connection::get_error_string());

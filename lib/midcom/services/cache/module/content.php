@@ -826,7 +826,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         ob_end_clean();
 
         // If-Modified-Since / If-None-Match checks, if no match, flush the output.
-        if (! $this->_check_not_modified($this->_last_modified, $etag))
+        if (!$this->_check_not_modified($this->_last_modified, $etag))
         {
             echo $cache_data;
         }
@@ -1021,11 +1021,11 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             }
         }
 
-        if (! $ranges)
+        if (!$ranges)
         {
             midcom::get()->header("Accept-Ranges: none");
         }
-        if (! $size)
+        if (!$size)
         {
             /* TODO: Doublecheck the way this is handled, it seems it's one byte too short
                which causes issues with Squid for example (could be that we output extra
@@ -1041,7 +1041,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
                     break;
             }
         }
-        if (! $lastmod)
+        if (!$lastmod)
         {
             /* Determine Last-Modified using MidCOM's component context,
              * Fallback to time() if this fails.

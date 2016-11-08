@@ -80,7 +80,7 @@ class midcom_services_indexer_document_attachment extends midcom_services_indexe
     {
         $nav = new midcom_helper_nav();
         $object = $nav->resolve_guid($this->source);
-        if (! $object)
+        if (!$object)
         {
             debug_add("Failed to resolve the topic, skipping autodetection.");
             return;

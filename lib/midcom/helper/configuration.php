@@ -89,13 +89,13 @@ class midcom_helper_configuration
      */
     public function __construct($param1, $param2 = null)
     {
-        if (! is_null($param2))
+        if (!is_null($param2))
         {
             $this->_object = $param1;
             $this->_path = $param2;
             $this->_store_from_object(true);
         }
-        else if (! is_null($param1))
+        else if (!is_null($param1))
         {
             $this->_global = $param1;
             $this->_merged = $param1;
@@ -118,7 +118,7 @@ class midcom_helper_configuration
     private function _store_from_object($global = false, $merge = false)
     {
         // Cast to DBA type.
-        if (! midcom::get()->dbclassloader->is_midcom_db_object($this->_object))
+        if (!midcom::get()->dbclassloader->is_midcom_db_object($this->_object))
         {
             $this->_object = midcom::get()->dbfactory->convert_midgard_to_midcom($this->_object);
         }

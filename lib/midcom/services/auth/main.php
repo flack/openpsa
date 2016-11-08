@@ -142,7 +142,7 @@ class midcom_services_auth
         $this->_initialize_user_from_midgard();
         $this->_prepare_authentication_drivers();
 
-        if (! $this->_check_for_new_login_session())
+        if (!$this->_check_for_new_login_session())
         {
             // No new login detected, so we check if there is a running session.
             $this->_check_for_active_login_session();
@@ -166,7 +166,7 @@ class midcom_services_auth
         $this->auth_credentials_found = true;
 
         // Try to start up a new session, this will authenticate as well.
-        if (! $this->_auth_backend->create_login_session($credentials['username'], $credentials['password']))
+        if (!$this->_auth_backend->create_login_session($credentials['username'], $credentials['password']))
         {
             debug_add('The login information passed to the system was invalid.', MIDCOM_LOG_ERROR);
             debug_add("Username was {$credentials['username']}");
@@ -196,7 +196,7 @@ class midcom_services_auth
 
         $person->parameter('midcom', 'last_login', time());
 
-        if (! $person->parameter('midcom', 'first_login'))
+        if (!$person->parameter('midcom', 'first_login'))
         {
             $person->parameter('midcom', 'first_login', time());
         }
@@ -437,7 +437,7 @@ class midcom_services_auth
      */
     public function request_sudo ($domain = null)
     {
-        if (! midcom::get()->config->get('auth_allow_sudo'))
+        if (!midcom::get()->config->get('auth_allow_sudo'))
         {
             debug_add("SUDO is not allowed on this website.", MIDCOM_LOG_ERROR);
             return false;
@@ -523,7 +523,7 @@ class midcom_services_auth
      */
     public function is_valid_user()
     {
-        return (! is_null($this->user));
+        return (!is_null($this->user));
     }
 
     /**
@@ -574,7 +574,7 @@ class midcom_services_auth
      */
     public function require_user_do($privilege, $message = null, $class = null)
     {
-        if (! $this->can_user_do($privilege, null, $class))
+        if (!$this->can_user_do($privilege, null, $class))
         {
             if (is_null($message))
             {
@@ -600,7 +600,7 @@ class midcom_services_auth
      */
     function require_group_member($group, $message = null)
     {
-        if (! $this->is_group_member($group))
+        if (!$this->is_group_member($group))
         {
             if (is_null($message))
             {
@@ -629,8 +629,8 @@ class midcom_services_auth
      */
     public function require_admin_user($message = null)
     {
-        if (   ! $this->admin
-            && ! $this->_component_sudo)
+        if (   !$this->admin
+            && !$this->_component_sudo)
         {
             if ($message === null)
             {
@@ -654,7 +654,7 @@ class midcom_services_auth
         if (   $ips
             && in_array($_SERVER['REMOTE_ADDR'], $ips))
         {
-            if (! $this->request_sudo($domain))
+            if (!$this->request_sudo($domain))
             {
                 throw new midcom_error('Failed to acquire SUDO rights. Aborting.');
             }
@@ -888,14 +888,14 @@ class midcom_services_auth
         {
             $object = $id;
             $id = "group:{$object->guid}";
-            if (! array_key_exists($id, $this->_group_cache))
+            if (!array_key_exists($id, $this->_group_cache))
             {
                 $this->_group_cache[$id] = new midcom_core_group($object->id);
             }
         }
         else if (is_string($id))
         {
-            if (! array_key_exists($id, $this->_group_cache))
+            if (!array_key_exists($id, $this->_group_cache))
             {
                 $id_parts = explode(':', $id);
                 if (count($id_parts) == 2)

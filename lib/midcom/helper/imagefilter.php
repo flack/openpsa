@@ -206,7 +206,7 @@ class midcom_helper_imagefilter
             midcom::get()->uimessages->add('midcom.helper.imagefilter', "ImageMagick is not available, can't process commands", 'error');
             return false;
         }
-        if (! is_writeable($filename))
+        if (!is_writeable($filename))
         {
             debug_add("The File {$filename} is not writeable.", MIDCOM_LOG_ERROR);
             return false;
@@ -427,7 +427,7 @@ class midcom_helper_imagefilter
      */
     public function exifrotate()
     {
-        if (! function_exists("exif_read_data"))
+        if (!function_exists("exif_read_data"))
         {
             throw new midcom_error("exif_read_data required for exifrotate.");
         }

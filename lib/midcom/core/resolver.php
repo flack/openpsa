@@ -184,7 +184,7 @@ class midcom_core_resolver
         }
 
         $f = $attachment->open('r');
-        if (! $f)
+        if (!$f)
         {
             throw new midcom_error('Failed to open attachment for reading: ' . midcom_connection::get_error_string());
         }

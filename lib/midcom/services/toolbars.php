@@ -194,7 +194,7 @@ class midcom_services_toolbars
             $context_id = midcom_core_context::get()->id;
         }
 
-        if (! array_key_exists($context_id, $this->_toolbars))
+        if (!array_key_exists($context_id, $this->_toolbars))
         {
             $this->_create_toolbars($context_id);
         }
@@ -291,7 +291,7 @@ class midcom_services_toolbars
             $context_id = midcom_core_context::get()->id;
         }
 
-        if (! array_key_exists($context_id, $this->_toolbars))
+        if (!array_key_exists($context_id, $this->_toolbars))
         {
             return '';
         }

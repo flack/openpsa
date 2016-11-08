@@ -241,7 +241,7 @@ class midcom_core_privilege
             else
             {
                 $tmp = midcom::get()->auth->get_assignee($assignee);
-                if (! $tmp)
+                if (!$tmp)
                 {
                     debug_add("Could not resolve the assignee string '{$assignee}', see above for more information.", MIDCOM_LOG_INFO);
                     return false;
@@ -274,7 +274,7 @@ class midcom_core_privilege
     public function validate()
     {
         // 1. Privilege name
-        if (! midcom::get()->auth->acl->privilege_exists($this->privilegename))
+        if (!midcom::get()->auth->acl->privilege_exists($this->privilegename))
         {
             debug_add("The privilege name '{$this->privilegename}' is unknown to the system. Perhaps the corresponding component is not loaded?",
                 MIDCOM_LOG_INFO);
@@ -282,8 +282,8 @@ class midcom_core_privilege
         }
 
         // 2. Assignee
-        if (   ! $this->is_magic_assignee()
-            && ! $this->get_assignee())
+        if (   !$this->is_magic_assignee()
+            && !$this->get_assignee())
         {
             debug_add("The assignee identifier '{$this->assignee}' is invalid.", MIDCOM_LOG_INFO);
             return false;
@@ -291,7 +291,7 @@ class midcom_core_privilege
 
         if (   $this->assignee == 'SELF'
             && $this->classname != ''
-            && ! class_exists($this->classname))
+            && !class_exists($this->classname))
         {
             debug_add("The class '{$this->classname}' is not loaded, the SELF magic assignee with class restriction is invalid therefore.", MIDCOM_LOG_INFO);
             return false;
@@ -399,7 +399,7 @@ class midcom_core_privilege
         {
             $return = midcom::get()->cache->memcache->get('ACL', $cache_key);
 
-            if (! is_array($return))
+            if (!is_array($return))
             {
                 // Didn't get privileges from cache, get them from DB
                 $return = self::_query_privileges($guid, $type);
@@ -494,7 +494,7 @@ class midcom_core_privilege
             $privilege->set_object($object);
             $privilege->set_assignee($assignee);
             $privilege->privilegename = $name;
-            if (! is_null($classname))
+            if (!is_null($classname))
             {
                 $privilege->classname = $classname;
             }
@@ -618,7 +618,7 @@ class midcom_core_privilege
      */
     public function store()
     {
-        if (! $this->validate())
+        if (!$this->validate())
         {
             debug_add('This privilege failed to validate, rejecting it, see the debug log for details.', MIDCOM_LOG_WARN);
             $this->__cached_object = null;
@@ -641,7 +641,7 @@ class midcom_core_privilege
             $privilege = $this->get_privilege($object, $this->privilegename, $this->assignee, $this->classname);
             if (!empty($privilege->__guid))
             {
-                if (! $privilege->drop())
+                if (!$privilege->drop())
                 {
                     return false;
                 }
@@ -715,7 +715,7 @@ class midcom_core_privilege
             return true;
         }
 
-        if (! $this->validate())
+        if (!$this->validate())
         {
             debug_add('This privilege failed to validate, rejecting to drop it, see the debug log for details.', MIDCOM_LOG_WARN);
             debug_print_r('Privilege dump:', $this);

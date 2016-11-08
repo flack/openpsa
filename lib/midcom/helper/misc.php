@@ -54,7 +54,7 @@ class midcom_helper_misc
         if (substr($path, 0, 5) == 'file:')
         {
             $filename = MIDCOM_ROOT . substr($path, 5);
-            if (! file_exists($filename))
+            if (!file_exists($filename))
             {
                 //If we can't find the file in-tree, we look for out-of-tree components before giving up
                 $found = false;
@@ -83,7 +83,7 @@ class midcom_helper_misc
         else if (substr($path, 0, 5) == 'conf:')
         {
             $filename = midcom::get()->config->get('midcom_config_basedir') . '/midcom' . substr($path, 5);
-            if (! file_exists($filename))
+            if (!file_exists($filename))
             {
                 $cached_snippets[$path] = null;
                 return null;

@@ -382,7 +382,7 @@ class midcom_application
      */
     function get_host_name()
     {
-        if (! $this->_cached_host_name)
+        if (!$this->_cached_host_name)
         {
             if (   array_key_exists("SSL_PROTOCOL", $_SERVER)
                 ||
@@ -425,7 +425,7 @@ class midcom_application
      */
     function get_page_prefix()
     {
-        if (! $this->_cached_page_prefix)
+        if (!$this->_cached_page_prefix)
         {
             $host_name = $this->get_host_name();
             $this->_cached_page_prefix = $host_name . midcom_connection::get_url('self');
@@ -446,7 +446,7 @@ class midcom_application
      */
     function get_host_prefix()
     {
-        if (! $this->_cached_host_prefix)
+        if (!$this->_cached_host_prefix)
         {
             $host_name = $this->get_host_name();
             $host_prefix = midcom_connection::get_url('prefix');

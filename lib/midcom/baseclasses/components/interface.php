@@ -183,7 +183,7 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
         // Load libraries
         foreach ($this->_autoload_libraries as $library)
         {
-            if (! midcom::get()->componentloader->load_library($library))
+            if (!midcom::get()->componentloader->load_library($library))
             {
                 throw new midcom_error("Failed to load library {$library} while initializing {$this->_component}");
             }

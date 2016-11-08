@@ -341,7 +341,7 @@ class midcom_services_auth_sessionmgr
 
         $session = $this->_loaded_sessions[$sessionid];
 
-        if (! $session->delete())
+        if (!$session->delete())
         {
             debug_add("Failed to delete the delete session {$session->guid} (#{$session->id}): " . midcom_connection::get_error_string(), MIDCOM_LOG_INFO);
             return false;
@@ -371,7 +371,7 @@ class midcom_services_auth_sessionmgr
         $qb->add_constraint('userid', '=', $user->id);
         $result = @$qb->execute();
 
-        if (! $result)
+        if (!$result)
         {
             // No login sessions found
             return true;
@@ -424,7 +424,7 @@ class midcom_services_auth_sessionmgr
         $qb->add_constraint('timestamp', '>=', $timed_out);
         $result = @$qb->execute();
 
-        if (! $result)
+        if (!$result)
         {
             return 'offline';
         }

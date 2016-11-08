@@ -62,7 +62,7 @@ class midcom_db_group extends midcom_core_dbaobject
         $member = new midcom_db_member();
         $member->gid = $this->id;
         $member->uid = $person->id;
-        if (! $member->create())
+        if (!$member->create())
         {
             return false;
         }

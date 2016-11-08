@@ -174,7 +174,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         $this->_controller = midcom_helper_datamanager2_controller::create('simple');
         $this->_controller->schemadb =& $this->_schemadb;
         $this->_controller->set_storage($this->_object, 'object');
-        if (! $this->_controller->initialize())
+        if (!$this->_controller->initialize())
         {
             throw new midcom_error("Failed to initialize a DM2 controller instance for object {$this->_object->guid}.");
         }
@@ -249,7 +249,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
             $this->_new_object->$parent_property = $controller->formmanager->get_value($parent_property);
         }
 
-        if (! $this->_new_object->create())
+        if (!$this->_new_object->create())
         {
             debug_print_r('We operated on this object:', $this->_new_object);
             throw new midcom_error('Failed to create a new object. Last Midgard error was: '. midcom_connection::get_error_string());
@@ -309,7 +309,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         $this->_controller->schema = 'object';
         $this->_controller->callback_object =& $this;
         $this->_controller->defaults = $this->_get_defaults();
-        if (! $this->_controller->initialize())
+        if (!$this->_controller->initialize())
         {
             throw new midcom_error("Failed to initialize a DM2 create controller.");
         }

@@ -19,7 +19,7 @@ class net_nemein_rss_handler_admin extends midcom_baseclasses_components_handler
         $data['controller'] = midcom_helper_datamanager2_controller::create('simple');
         $data['controller']->schemadb =& $data['schemadb'];
         $data['controller']->set_storage($data['feed']);
-        if (! $data['controller']->initialize())
+        if (!$data['controller']->initialize())
         {
             throw new midcom_error("Failed to initialize a DM2 controller instance for feed {$data['feed']->id}.");
         }

@@ -103,7 +103,7 @@ class midcom_services_dbclassloader
     {
         foreach ($definition_list as $mgdschema_class => $midcom_class)
         {
-            if (! class_exists($mgdschema_class))
+            if (!class_exists($mgdschema_class))
             {
                 throw new midcom_error("Validation failed: Key {$midcom_class} had an invalid mgdschema_class_name element: {$mgdschema_class}. Probably the required MgdSchema is not loaded.");
             }
@@ -135,7 +135,7 @@ class midcom_services_dbclassloader
         {
             $filename = midcom::get()->componentloader->path_to_snippetpath($component) . "/config/{$filename}";
         }
-        if (! file_exists($filename))
+        if (!file_exists($filename))
         {
             throw new midcom_error("Failed to access the file {$filename}: File does not exist.");
         }
@@ -410,11 +410,11 @@ class midcom_services_dbclassloader
             return false;
         }
 
-        if (! array_key_exists($classname, $this->_mgdschema_class_handler))
+        if (!array_key_exists($classname, $this->_mgdschema_class_handler))
         {
             $component = $this->get_component_for_class($classname);
             midcom::get()->componentloader->load($component);
-            if (! array_key_exists($classname, $this->_mgdschema_class_handler))
+            if (!array_key_exists($classname, $this->_mgdschema_class_handler))
             {
                 debug_add("Requested to load the classhandler for {$classname} which is not known.", MIDCOM_LOG_ERROR);
                 return false;

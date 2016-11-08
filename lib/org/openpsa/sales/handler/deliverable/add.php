@@ -72,7 +72,7 @@ implements midcom_helper_datamanager2_interfaces_create
         $this->_deliverable->state = org_openpsa_sales_salesproject_deliverable_dba::STATE_NEW;
         $this->_deliverable->orgOpenpsaObtype = $this->_product->delivery;
 
-        if (! $this->_deliverable->create())
+        if (!$this->_deliverable->create())
         {
             debug_print_r('We operated on this object:', $this->_deliverable);
             throw new midcom_error('Failed to create a new deliverable. Last Midgard error was: ' . midcom_connection::get_error_string());

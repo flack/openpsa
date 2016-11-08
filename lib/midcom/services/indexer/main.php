@@ -135,7 +135,7 @@ class midcom_services_indexer implements EventSubscriberInterface
         {
             // We don't have a document. Try auto-cast to a suitable document.
             // arg to _cast_to_document is passed by-reference.
-            if (! is_a($value, 'midcom_services_indexer_document'))
+            if (!is_a($value, 'midcom_services_indexer_document'))
             {
                 $this->_index_cast_to_document($value);
             }

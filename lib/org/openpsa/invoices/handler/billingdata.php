@@ -53,7 +53,7 @@ implements midcom_helper_datamanager2_interfaces_create
     {
         $billing_data = new org_openpsa_invoices_billing_data_dba();
         $billing_data->linkGuid = $this->_linked_object->guid;
-        if (! $billing_data->create())
+        if (!$billing_data->create())
         {
             debug_print_r('We operated on this object:', $billing_data);
             throw new midcom_error("Failed to create a new billing_data. Error: " . midcom_connection::get_error_string());

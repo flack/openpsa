@@ -116,7 +116,7 @@ abstract class midcom_helper_datamanager2_controller extends midcom_baseclasses_
     {
         foreach ($schemadb as $value)
         {
-            if (! is_a($value, 'midcom_helper_datamanager2_schema'))
+            if (!is_a($value, 'midcom_helper_datamanager2_schema'))
             {
                 debug_print_r('The database passed was:', $schemadb);
                 throw new midcom_error('An invalid schema database has been passed.');
@@ -155,7 +155,7 @@ abstract class midcom_helper_datamanager2_controller extends midcom_baseclasses_
             $this->datamanager = new midcom_helper_datamanager2_datamanager($this->schemadb);
             if ($schema === null)
             {
-                if (! $this->datamanager->autoset_storage($storage))
+                if (!$this->datamanager->autoset_storage($storage))
                 {
                     debug_print_r('We got this storage object:', $storage);
                     throw new midcom_error
@@ -166,13 +166,13 @@ abstract class midcom_helper_datamanager2_controller extends midcom_baseclasses_
             }
             else
             {
-                if (! $this->datamanager->set_schema($schema))
+                if (!$this->datamanager->set_schema($schema))
                 {
                     debug_add("Tried to set the schema {$schema}");
                     debug_print_r('We got this storage object:', $storage);
                     throw new midcom_error('Failed to set the autocreated datamanager\'s schema. See the debug level log for more information.');
                 }
-                if (! $this->datamanager->set_storage($storage))
+                if (!$this->datamanager->set_storage($storage))
                 {
                     debug_add("Tried to set the schema {$schema}");
                     debug_print_r('We got this storage object:', $storage);

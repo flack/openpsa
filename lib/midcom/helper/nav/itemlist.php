@@ -69,7 +69,7 @@ abstract class midcom_helper_nav_itemlist
      * @param integer $parent_topic pointer to the topic to base the list on.
      * @return midcom_helper_nav_itemlist sortobject
      */
-    static public function factory ($sorting, midcom_helper_nav $nap, $parent_topic)
+    public static function factory($sorting, midcom_helper_nav $nap, $parent_topic)
     {
         $class = "midcom_helper_nav_itemlist_{$sorting}";
         return new $class($nap, $parent_topic);

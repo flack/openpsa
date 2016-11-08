@@ -147,7 +147,7 @@ class midcom_helper_datamanager2_indexer_document extends midcom_services_indexe
             $this->content .= "{$this->abstract}\n";
         }
 
-        if (! $this->title)
+        if (!$this->title)
         {
             $this->title = $this->document_url;
         }

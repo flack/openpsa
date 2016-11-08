@@ -113,11 +113,11 @@ class midcom_helper_datamanager2_controller_create extends midcom_helper_dataman
         {
             throw new midcom_error('You must set a schema database before initializing midcom_helper_datamanager2_controller_create.');
         }
-        if (! is_object($this->callback_object))
+        if (!is_object($this->callback_object))
         {
             throw new midcom_error('You must set a valid callback_object prior initialization: Object is undefined.');
         }
-        if (! method_exists($this->callback_object, $this->callback_method))
+        if (!method_exists($this->callback_object, $this->callback_method))
         {
             throw new midcom_error("You must set a valid callback_object prior initialization: Method {$this->callback_method} is undefined.");
         }
@@ -284,7 +284,7 @@ class midcom_helper_datamanager2_controller_create extends midcom_helper_dataman
             || $result == 'next')
         {
             // Ok, we can save now. At this point we already have a content object.
-            if (! $this->datamanager->validate())
+            if (!$this->datamanager->validate())
             {
                 // In case that the type validation fails, we return to edit mode
                 foreach ($this->datamanager->validation_errors as $field => $error)
@@ -301,7 +301,7 @@ class midcom_helper_datamanager2_controller_create extends midcom_helper_dataman
             }
 
             if (   $result == 'save'
-                && ! $this->datamanager->save())
+                && !$this->datamanager->save())
             {
                 // Get the error message
                 $midgard_error = midcom_connection::get_error_string();

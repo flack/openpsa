@@ -70,11 +70,11 @@ class midcom_config_test
 
         // Validate the Cache Base Directory.
         $cachedir = midcom::get()->config->get('cache_base_directory');
-        if  (! is_dir($cachedir))
+        if (!is_dir($cachedir))
         {
             $this->add('MidCOM cache base directory', self::ERROR, "The configured MidCOM cache base directory ({$cachedir}) does not exist or is not a directory. You have to create it as a directory writable by the Apache user.");
         }
-        else if (! is_writable($cachedir))
+        else if (!is_writable($cachedir))
         {
             $this->add('MidCOM cache base directory', self::ERROR, "The configured MidCOM cache base directory ({$cachedir}) is not writable by the Apache user. You have to create it as a directory writable by the Apache user.");
         }
@@ -152,7 +152,7 @@ class midcom_config_test
             $this->add('Setting: post_max_size', self::WARNING, 'post_max_size should be larger than upload_max_filesize, as both limits apply during uploads.');
         }
 
-        if (! $this->ini_get_boolean('magic_quotes_gpc'))
+        if (!$this->ini_get_boolean('magic_quotes_gpc'))
         {
             $this->add('Setting: magic_quotes_gpc', self::OK);
         }
@@ -160,7 +160,7 @@ class midcom_config_test
         {
             $this->add('Setting: magic_quotes_gpc', self::ERROR, 'Magic Quotes must be turned off, Midgard/MidCOM does this explicitly where required.');
         }
-        if (! $this->ini_get_boolean('magic_quotes_runtime'))
+        if (!$this->ini_get_boolean('magic_quotes_runtime'))
         {
             $this->add('Setting: magic_quotes_runtime', self::OK);
         }

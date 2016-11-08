@@ -42,7 +42,7 @@ class midcom_helper_datamanager2_widget_privilege extends midcom_helper_datamana
     public function add_elements_to_form($attributes)
     {
         if (   $this->_type->storage->object
-            && ! $this->_type->storage->object->can_do('midgard:privileges'))
+            && !$this->_type->storage->object->can_do('midgard:privileges'))
         {
             return;
         }
@@ -111,7 +111,7 @@ class midcom_helper_datamanager2_widget_privilege extends midcom_helper_datamana
     public function sync_type_with_widget($results)
     {
         if (   $this->_type->storage->object
-            && ! $this->_type->storage->object->can_do('midgard:privileges'))
+            && !$this->_type->storage->object->can_do('midgard:privileges'))
         {
             return;
         }
@@ -122,8 +122,8 @@ class midcom_helper_datamanager2_widget_privilege extends midcom_helper_datamana
     public function is_frozen()
     {
         if (    (   $this->_type->storage->object
-                 && ! $this->_type->storage->object->can_do('midgard:privileges'))
-             || ! $this->_elements)
+                 && !$this->_type->storage->object->can_do('midgard:privileges'))
+             || !$this->_elements)
         {
             return false;
         }
@@ -133,8 +133,8 @@ class midcom_helper_datamanager2_widget_privilege extends midcom_helper_datamana
     public function freeze()
     {
         if (    (   $this->_type->storage->object
-                 && ! $this->_type->storage->object->can_do('midgard:privileges'))
-             || ! $this->_elements)
+                 && !$this->_type->storage->object->can_do('midgard:privileges'))
+             || !$this->_elements)
         {
             return;
         }
@@ -148,8 +148,8 @@ class midcom_helper_datamanager2_widget_privilege extends midcom_helper_datamana
     public function unfreeze()
     {
         if (    (   $this->_type->storage->object
-                 && ! $this->_type->storage->object->can_do('midgard:privileges'))
-             || ! $this->_elements)
+                 && !$this->_type->storage->object->can_do('midgard:privileges'))
+             || !$this->_elements)
         {
             return;
         }

@@ -111,7 +111,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      */
     private function _reset_password()
     {
-        if (! midcom::get()->auth->request_sudo($this->_component))
+        if (!midcom::get()->auth->request_sudo($this->_component))
         {
             throw new midcom_error('Failed to request sudo privileges.');
         }
@@ -163,11 +163,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      */
     private function _send_reset_mail($person, $password)
     {
-        $from = $this->_config->get('lostpassword_reset_mail_sender');
-        if (! $from)
-        {
-            $from = $person->email;
-        }
+        $from = $this->_config->get('lostpassword_reset_mail_sender') ?: $person->email;
 
         $parameters = array
         (

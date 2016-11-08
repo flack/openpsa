@@ -219,7 +219,7 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
             $data['article_count'] = $total_count;
             foreach ($this->_articles as $article_counter => $article)
             {
-                if (! $this->_datamanager->autoset_storage($article))
+                if (!$this->_datamanager->autoset_storage($article))
                 {
                     debug_add("The datamanager for article {$article->id} could not be initialized, skipping it.");
                     debug_print_r('Object was:', $article);

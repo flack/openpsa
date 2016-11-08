@@ -48,7 +48,7 @@ implements midcom_services_permalinks_resolver
 
             foreach ($result as $article)
             {
-                if (! $datamanager->autoset_storage($article))
+                if (!$datamanager->autoset_storage($article))
                 {
                     debug_add("Warning, failed to initialize datamanager for Article {$article->id}. Skipping it.", MIDCOM_LOG_WARN);
                     continue;

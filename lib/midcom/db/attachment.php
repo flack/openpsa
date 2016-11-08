@@ -76,7 +76,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
      */
     public function open($mode = 'default')
     {
-        if (! $this->id)
+        if (!$this->id)
         {
             debug_add('Cannot open a non-persistent attachment.', MIDCOM_LOG_WARN);
             debug_print_r('Object state:', $this);
@@ -146,7 +146,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
         {
             // We need to update the attachment now, this cannot be done in the Midgard Core
             // at this time.
-            if (! $this->update())
+            if (!$this->update())
             {
                 debug_add("Failed to update attachment {$this->id}", MIDCOM_LOG_WARN);
                 return;
@@ -431,7 +431,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
     public function copy_from_memory($source)
     {
         $dest = $this->open();
-        if (! $dest)
+        if (!$dest)
         {
             debug_add('Could not open attachment for writing, last Midgard error was: ' . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
             return false;
@@ -453,7 +453,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
     public function copy_from_handle($source)
     {
         $dest = $this->open();
-        if (! $dest)
+        if (!$dest)
         {
             debug_add('Could not open attachment for writing, last Midgard error was: ' . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
             return false;
@@ -475,7 +475,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
     public function copy_from_file($filename)
     {
         $source = @fopen ($filename, 'r');
-        if (! $source)
+        if (!$source)
         {
             debug_add('Could not open file for reading.' . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
             midcom::get()->debug->log_php_error(MIDCOM_LOG_WARN);

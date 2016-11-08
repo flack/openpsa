@@ -119,7 +119,7 @@ abstract class midcom_helper_datamanager2_type extends midcom_baseclasses_compon
     {
         $classname = $this->option_callback;
 
-        if (! class_exists($classname))
+        if (!class_exists($classname))
         {
             throw new midcom_error("Auto-loading of the class {$classname} failed: File does not exist.");
         }
@@ -290,7 +290,7 @@ abstract class midcom_helper_datamanager2_type extends midcom_baseclasses_compon
      */
     function get_external_config($key)
     {
-        if (! array_key_exists($key, $this->_external_config))
+        if (!array_key_exists($key, $this->_external_config))
         {
             return null;
         }

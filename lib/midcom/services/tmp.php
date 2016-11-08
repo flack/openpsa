@@ -54,7 +54,7 @@ class midcom_services_tmp
         midcom::get()->auth->require_user_do('midgard:create', null, 'midcom_core_temporary_object');
 
         $tmp = new midcom_core_temporary_object();
-        if (! $tmp->create())
+        if (!$tmp->create())
         {
             debug_print_r('Tried to create this object:', $tmp);
             throw new midcom_error('Failed to create a new temporary object, last Midgard error was: ' . midcom_connection::get_error_string());

@@ -102,7 +102,7 @@ class midcom_helper_datamanager2_controller_nullstorage extends midcom_helper_da
         if (   $result == 'save'
             || $result == 'next')
         {
-            if (! $this->datamanager->validate())
+            if (!$this->datamanager->validate())
             {
                 debug_add('Type validation failed. Reverting to edit mode transparently.');
                 debug_print_r('Validation error listing:', $this->datamanager->validation_errors);

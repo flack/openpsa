@@ -147,7 +147,7 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
         $this->_verify_post_data();
 
         $comment = new net_nehmer_comments_comment($_POST['guid']);
-        if (! $comment->delete())
+        if (!$comment->delete())
         {
             throw new midcom_error("Failed to delete comment GUID '{$_REQUEST['guid']}': " . midcom_connection::get_error_string());
         }

@@ -126,7 +126,7 @@ abstract class midcom_helper_datamanager2_storage extends midcom_baseclasses_com
         }
 
         // Update the storage object last
-        if (! $this->_on_update_object())
+        if (!$this->_on_update_object())
         {
             debug_add('Failed to update the content object, last Midgard Error was: ' . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
             return false;
@@ -160,7 +160,7 @@ abstract class midcom_helper_datamanager2_storage extends midcom_baseclasses_com
     {
         foreach ($this->_schema->fields as $name => $type_definition)
         {
-            if (! array_key_exists($name, $types))
+            if (!array_key_exists($name, $types))
             {
                 if ($type_definition['required'] == true)
                 {

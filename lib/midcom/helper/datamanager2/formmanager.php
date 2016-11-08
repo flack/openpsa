@@ -171,7 +171,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
             // Replace the dots in the component name with underscores
             $name = midcom::get()->componentloader->path_to_prefix($name);
         }
-        if (! $name)
+        if (!$name)
         {
             // Fallback for componentless operation
             $name = 'midcom_helper_datamanager2';
@@ -203,7 +203,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
                 continue;
             }
             $config = $this->_schema->fields[$name];
-            if (! $this->_is_widget_visible($name, $config))
+            if (!$this->_is_widget_visible($name, $config))
             {
                 // Naturally we should skip invisible objects
                 continue;
@@ -341,7 +341,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
     {
         foreach ($this->_schema->filters as $config)
         {
-            if (! class_exists($config['callback']))
+            if (!class_exists($config['callback']))
             {
                 // Try autoload:
                 if (array_key_exists('autoload_snippet', $config))
@@ -353,7 +353,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
                     require_once($config['autoload_file']);
                 }
 
-                if (! class_exists($config['callback']))
+                if (!class_exists($config['callback']))
                 {
                     debug_add("Failed to register the callback {$config['callback']} for validation, the class is not defined.", MIDCOM_ERRCRIT);
                     continue;
@@ -557,12 +557,12 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
         if ($config['read_privilege'] !== null)
         {
             if (   array_key_exists('group', $config['read_privilege'])
-                && ! midcom::get()->auth->is_group_member($config['read_privilege']['group']))
+                && !midcom::get()->auth->is_group_member($config['read_privilege']['group']))
             {
                 return false;
             }
             if (   array_key_exists('privilege', $config['read_privilege'])
-                && ! $this->_types[$name]->can_do($config['read_privilege']['privilege']))
+                && !$this->_types[$name]->can_do($config['read_privilege']['privilege']))
             {
                 return false;
             }
@@ -612,12 +612,12 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
         if ($config['write_privilege'] !== null)
         {
             if (   array_key_exists('group', $config['write_privilege'])
-                && ! midcom::get()->auth->is_group_member($config['write_privilege']['group']))
+                && !midcom::get()->auth->is_group_member($config['write_privilege']['group']))
             {
                 $widget->freeze();
             }
             if (   array_key_exists('privilege', $config['write_privilege'])
-                && ! $this->_types[$name]->can_do($config['write_privilege']['privilege']))
+                && !$this->_types[$name]->can_do($config['write_privilege']['privilege']))
             {
                 $widget->freeze();
             }
@@ -665,7 +665,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
                     throw new midcom_error('Invalid renderer configuration');
                 }
                 midcom_helper_misc::include_snippet_php($src);
-                if (! class_exists($default))
+                if (!class_exists($default))
                 {
                     throw new midcom_error("The renderer class '{$default}' set in the DM2 configuration does not exist.");
                 }
@@ -679,8 +679,8 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
      */
     function display_form()
     {
-        if (   ! $this->renderer
-            ||  ( is_string($this->renderer) && $this->renderer == 'none'))
+        if (   !$this->renderer
+            ||  (is_string($this->renderer) && $this->renderer == 'none'))
         {
             echo $this->form->toHtml();
         }

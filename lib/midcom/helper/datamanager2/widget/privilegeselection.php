@@ -117,7 +117,7 @@ class midcom_helper_datamanager2_widget_privilegeselection extends midcom_helper
     public function get_default()
     {
         $key = $this->_type->get_value();
-        if (! $key)
+        if (!$key)
         {
             reset($this->_privilege_options);
             $key = key($this->_privilege_options);
@@ -129,7 +129,7 @@ class midcom_helper_datamanager2_widget_privilegeselection extends midcom_helper
     public function sync_type_with_widget($results)
     {
         if (   $this->_type->storage->object
-            && ! $this->_type->storage->object->can_do('midgard:privileges'))
+            && !$this->_type->storage->object->can_do('midgard:privileges'))
         {
             return;
         }
@@ -140,8 +140,8 @@ class midcom_helper_datamanager2_widget_privilegeselection extends midcom_helper
     public function is_frozen()
     {
         if (    (   $this->_type->storage->object
-                 && ! $this->_type->storage->object->can_do('midgard:privileges'))
-             || ! $this->_element)
+                 && !$this->_type->storage->object->can_do('midgard:privileges'))
+             || !$this->_element)
         {
             return false;
         }
@@ -151,8 +151,8 @@ class midcom_helper_datamanager2_widget_privilegeselection extends midcom_helper
     public function freeze()
     {
         if (    (   $this->_type->storage->object
-                 && ! $this->_type->storage->object->can_do('midgard:privileges'))
-             || ! $this->_element)
+                 && !$this->_type->storage->object->can_do('midgard:privileges'))
+             || !$this->_element)
         {
             return;
         }
@@ -163,8 +163,8 @@ class midcom_helper_datamanager2_widget_privilegeselection extends midcom_helper
     public function unfreeze()
     {
         if (    (   $this->_type->storage->object
-                 && ! $this->_type->storage->object->can_do('midgard:privileges'))
-             || ! $this->_element)
+                 && !$this->_type->storage->object->can_do('midgard:privileges'))
+             || !$this->_element)
         {
             return;
         }

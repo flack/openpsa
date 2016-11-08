@@ -216,7 +216,7 @@ class midcom_helper_metadata
 
         $object_schema = self::find_schemaname($this->_schemadb, $this->__object);
         $this->_datamanager->set_schema($object_schema);
-        if (! $this->_datamanager->set_storage($this->__object))
+        if (!$this->_datamanager->set_storage($this->__object))
         {
             throw new midcom_error('Failed to initialize the metadata datamanager instance, see the Debug Log for details.');
         }
@@ -253,7 +253,7 @@ class midcom_helper_metadata
 
     function release_datamanager()
     {
-        if (! is_null($this->_datamanager))
+        if (!is_null($this->_datamanager))
         {
             $this->_datamanager = null;
         }

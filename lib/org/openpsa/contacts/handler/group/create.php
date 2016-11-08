@@ -79,7 +79,7 @@ implements midcom_helper_datamanager2_interfaces_create
         }
         $this->_group->name = time();
 
-        if (! $this->_group->create())
+        if (!$this->_group->create())
         {
             debug_print_r('We operated on this object:', $this->_group);
             throw new midcom_error("Failed to create a new group. Error: " . midcom_connection::get_error_string());

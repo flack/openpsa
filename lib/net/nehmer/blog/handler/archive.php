@@ -166,7 +166,7 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
         $this->_request_data['first_post'] = $first_post;
         $this->_request_data['total_count'] =& $total_count;
         $this->_request_data['year_data'] =& $year_data;
-        if (! $first_post)
+        if (!$first_post)
         {
             return;
         }
@@ -388,7 +388,7 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
      */
     private function _set_startend_from_year($year)
     {
-        if (   ! is_numeric($year)
+        if (   !is_numeric($year)
             || strlen($year) != 4)
         {
             throw new midcom_error_notfound("The year '{$year}' is not a valid year identifier.");
@@ -417,13 +417,13 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
      */
     private function _set_startend_from_month($year, $month)
     {
-        if (   ! is_numeric($year)
+        if (   !is_numeric($year)
             || strlen($year) != 4)
         {
             throw new midcom_error_notfound("The year '{$year}' is not a valid year identifier.");
         }
 
-        if (   ! is_numeric($month)
+        if (   !is_numeric($month)
             || $month < 1
             || $month > 12)
         {
@@ -473,7 +473,7 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
 
             foreach ($this->_articles as $article_counter => $article)
             {
-                if (! $this->_datamanager->autoset_storage($article))
+                if (!$this->_datamanager->autoset_storage($article))
                 {
                     debug_add("The datamanager for article {$article->id} could not be initialized, skipping it.");
                     debug_print_r('Object was:', $article);

@@ -215,9 +215,9 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
      */
     public function _on_initialize()
     {
-        if (   ! $this->mapping_class_name
-            || ! $this->master_fieldname
-            || ! $this->member_fieldname)
+        if (   !$this->mapping_class_name
+            || !$this->master_fieldname
+            || !$this->member_fieldname)
         {
             throw new midcom_error
             (

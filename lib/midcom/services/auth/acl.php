@@ -386,7 +386,7 @@ class midcom_services_auth_acl
     {
         foreach ($privileges as $name => $values)
         {
-            if (! is_array($values))
+            if (!is_array($values))
             {
                 $values = array($values, MIDCOM_PRIVILEGE_INHERIT);
             }
@@ -713,7 +713,7 @@ class midcom_services_auth_acl
             else
             {
                 $assignee = $privilege->get_assignee();
-                if (! $assignee)
+                if (!$assignee)
                 {
                     debug_print_r('Could not resolve the assignee of this privilege, skipping it:', $privilege);
                     // Skip broken privileges.
@@ -733,7 +733,7 @@ class midcom_services_auth_acl
         }
 
         // Process owner privileges
-        if (! $is_owner)
+        if (!$is_owner)
         {
             // Drop the owner privileges from the merging chain again, we are not an owner
             unset ($valid_privileges[MIDCOM_PRIVILEGE_SCOPE_OWNER]);
@@ -852,7 +852,7 @@ class midcom_services_auth_acl
             );
         }
 
-        if (! array_key_exists($privilege, $full_privileges))
+        if (!array_key_exists($privilege, $full_privileges))
         {
             debug_add("Warning, the privilege {$privilege} is unknown at this point. Assuming not granted privilege.");
             return false;

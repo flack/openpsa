@@ -254,7 +254,7 @@ class midcom_services_i18n_l10n
             // Kill any excess whitespace first.
             $string = trim($string);
 
-            if (! $instring)
+            if (!$instring)
             {
                 // outside of a string value
                 if ($string == '')
@@ -361,7 +361,7 @@ class midcom_services_i18n_l10n
      */
     private function _check_for_language($lang)
     {
-        if (! array_key_exists($lang, $this->_stringdb))
+        if (!array_key_exists($lang, $this->_stringdb))
         {
             $this->_load_language($lang);
         }
@@ -499,12 +499,12 @@ class midcom_services_i18n_l10n
             $language = $this->_language;
         }
 
-        if (! $this->string_exists($string, $language))
+        if (!$this->string_exists($string, $language))
         {
             // Go for Fallback
             $language = $this->_fallback_language;
 
-            if (! $this->string_exists($string, $language))
+            if (!$this->string_exists($string, $language))
             {
                 // Nothing found, log is produced by string_exists.
                 return $string;

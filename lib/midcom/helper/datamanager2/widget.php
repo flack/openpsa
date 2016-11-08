@@ -165,7 +165,7 @@ abstract class midcom_helper_datamanager2_widget extends midcom_baseclasses_comp
      */
     protected function _require_type_value()
     {
-        if (   ! array_key_exists('value', $this->_type)
+        if (   !array_key_exists('value', $this->_type)
             || is_array($this->_type->value)
             || (   is_object($this->_type->value)
                 && !$this->_type->value instanceof DateTime))
@@ -232,7 +232,7 @@ abstract class midcom_helper_datamanager2_widget extends midcom_baseclasses_comp
      */
     function get_external_config($key)
     {
-        if (! array_key_exists($key, $this->_external_config))
+        if (!array_key_exists($key, $this->_external_config))
         {
             return null;
         }

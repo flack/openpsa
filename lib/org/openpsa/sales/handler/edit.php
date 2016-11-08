@@ -57,7 +57,7 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
         $this->_controller = midcom_helper_datamanager2_controller::create('simple');
         $this->_controller->schemadb =& $this->_schemadb;
         $this->_controller->set_storage($this->_salesproject, $this->_schema);
-        if (! $this->_controller->initialize())
+        if (!$this->_controller->initialize())
         {
             throw new midcom_error("Failed to initialize a DM2 controller instance for salesproject {$this->_salesproject->id}.");
         }
@@ -76,7 +76,7 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
         $this->_controller->schemaname = $this->_schema;
         $this->_controller->callback_object =& $this;
         $this->_controller->defaults = $this->_defaults;
-        if (! $this->_controller->initialize())
+        if (!$this->_controller->initialize())
         {
             throw new midcom_error("Failed to initialize a DM2 create controller.");
         }
@@ -125,7 +125,7 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
     {
         $this->_salesproject = new org_openpsa_sales_salesproject_dba();
 
-        if (! $this->_salesproject->create())
+        if (!$this->_salesproject->create())
         {
             debug_print_r('We operated on this object:', $this->_salesproject);
             throw new midcom_error("Failed to create a new invoice. Error: " . midcom_connection::get_error_string());
