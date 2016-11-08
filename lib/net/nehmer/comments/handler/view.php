@@ -140,7 +140,7 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
         $this->_post_controller->defaults = $defaults;
         $this->_post_controller->callback_object =& $this;
 
-        if (! $this->_post_controller->initialize())
+        if (!$this->_post_controller->initialize())
         {
             throw new midcom_error('Failed to initialize a DM2 create controller.');
         }
@@ -178,7 +178,7 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
            $this->_new_comment->_send_notification = true;
         }
 
-        if (! $this->_new_comment->create())
+        if (!$this->_new_comment->create())
         {
             debug_print_r('We operated on this object:', $this->_new_comment);
             throw new midcom_error('Failed to create a new comment, cannot continue. Last Midgard error was: '. midcom_connection::get_error_string());
@@ -219,7 +219,7 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
         $this->_process_admintoolbar();
         // This might exit.
 
-        if (! mgd_is_guid($args[0]))
+        if (!mgd_is_guid($args[0]))
         {
             throw new midcom_error("The GUID '{$args[0]}' is invalid. Cannot continue.");
         }
@@ -329,7 +329,7 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
                 // Fall-through intentional
 
             case 'cancel':
-                if (! midcom::get()->auth->user)
+                if (!midcom::get()->auth->user)
                 {
                     midcom::get()->auth->drop_sudo();
                 }
@@ -346,27 +346,10 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
      */
     private function _get_last_modified()
     {
-        if (! $this->_comments)
+        return array_reduce($this->_comments, function($carry, net_nehmer_comments_comment $item)
         {
-            return 0;
-        }
-
-        $lastmod = $this->_comments[0]->metadata->revised;
-
-        foreach ($this->_comments as $comment)
-        {
-            if ($comment->metadata->revised > $lastmod)
-            {
-                $lastmod = $comment->metadata->revised;
-            }
-        }
-
-        if ($lastmod)
-        {
-            return strtotime($lastmod);
-        }
-
-        return 0;
+            return max($item->metadata->revised, $carry);
+        }, 0);
     }
 
     /**

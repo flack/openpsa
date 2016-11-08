@@ -456,36 +456,9 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
 
     public function _init_widgets_js_options()
     {
-        $this->js_options['maxRows'] = 20;
-        $this->js_options['radius'] = 5;
-
-        if (   !is_null($this->js_maxRows)
-            && $this->js_maxRows > 0)
-        {
-            $this->js_options['maxRows'] = $this->js_maxRows;
-        }
-        if (   !is_null($this->js_radius)
-            && $this->js_radius > 0)
-        {
-            $this->js_options['radius'] = $this->js_radius;
-        }
-
-        $this->js_options_str = "{ ";
-        if (! empty($this->js_options))
-        {
-            $opt_cnt = count($this->js_options);
-            $i = 0;
-            foreach ($this->js_options as $key => $value)
-            {
-                $i++;
-                $this->js_options_str .= "{$key}: {$value}";
-                if ($i < $opt_cnt)
-                {
-                    $this->js_options_str .= ", ";
-                }
-            }
-        }
-        $this->js_options_str .= " }";
+        $this->js_options['maxRows'] = $this->js_maxRows ?: 20;
+        $this->js_options['radius'] = $this->js_radius ?: 5;
+        $this->js_options_str = json_encode($this->js_options);
     }
 
     public function get_default()
@@ -545,7 +518,7 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
         {
             $city_id = $city->id;
         }
-        else if (! empty($results))
+        else if (!empty($results))
         {
             $city = new org_routamc_positioning_city_dba();
             $city->city = $city_name;
@@ -570,7 +543,7 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
             {
                 $city->longitude = $lon;
             }
-            if (! $city->create())
+            if (!$city->create())
             {
                 debug_add("Cannot save new city '{$city_name}'");
             }
