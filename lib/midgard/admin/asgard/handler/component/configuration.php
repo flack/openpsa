@@ -359,7 +359,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
 
     private function _get_config_from_controller()
     {
-        $post = $this->_controller->formmanager->form->_submitValues;
+        $post = $this->_controller->formmanager->form->getSubmitValues();
         $config_array = array();
         foreach ($this->_request_data['config']->_global as $key => $val)
         {

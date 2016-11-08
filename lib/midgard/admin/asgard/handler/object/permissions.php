@@ -370,15 +370,10 @@ implements midcom_helper_datamanager2_interfaces_edit
 
     private function _generate_editor(&$data)
     {
+        $qf = $this->_controller->formmanager->form;
         $data['editor_rows'] = '';
 
-        $form_start = "<form ";
-        foreach ($this->_controller->formmanager->form->_attributes as $key => $value)
-        {
-            $form_start .= "{$key}=\"{$value}\" ";
-        }
-        $form_start .= ">\n";
-
+        $form_start = "<form " . $qf->getAttributes(true) . ">\n";
         $data['editor_header_form_start'] = $form_start;
         $data['editor_header_form_end'] = "</form>\n";
 
@@ -387,22 +382,13 @@ implements midcom_helper_datamanager2_interfaces_edit
         $data['editor_header'] = '';
 
         $priv_item_cnt = count($this->_privileges);
-
         $s = 0;
-        foreach ($this->_controller->formmanager->form->_elements as $row)
+        foreach ($qf->_elements as $row)
         {
             if (is_a($row, 'HTML_QuickForm_hidden'))
             {
-                $html = "<input  ";
-                foreach ($row->_attributes as $key => $value)
-                {
-                    $html .= "{$key}=\"{$value}\" ";
-                }
-                $html .= "/>\n";
-
-                $data['editor_header_form_start'] .= $html;
+                $data['editor_header_form_start'] .= $row->toHtml();
             }
-
             if (is_a($row, 'HTML_QuickForm_select'))
             {
                 $html = "  <div class=\"assignees\">\n";
@@ -416,23 +402,23 @@ implements midcom_helper_datamanager2_interfaces_edit
 
             if (is_a($row, 'HTML_QuickForm_group'))
             {
-                if ($row->_name == 'form_toolbar')
+                if ($row->getName() == 'form_toolbar')
                 {
                     $form_toolbar_html = "  <div class=\"actions\">\n";
-                    foreach ($row->_elements as $element)
+                    foreach ($row->getElements() as $element)
                     {
                         if (is_a($element, 'HTML_QuickForm_submit'))
                         {
-                            $form_toolbar_html .= $this->_render_button($element);
+                            $form_toolbar_html .= $element->toHtml();
                         }
                     }
                     $form_toolbar_html .= "  </div>\n";
                     continue;
                 }
 
-                $html = $this->_render_row_label($row->_name);
+                $html = $this->_render_row_label($row->getName());
 
-                foreach ($row->_elements as $element)
+                foreach ($row->getElements() as $element)
                 {
                     if (is_a($element, 'HTML_QuickForm_select'))
                     {
@@ -440,14 +426,14 @@ implements midcom_helper_datamanager2_interfaces_edit
                     }
                     if (is_a($element, 'HTML_QuickForm_static'))
                     {
-                        if (strpos($element->_attributes['name'], 'holder_start') !== false)
+                        if (strpos($element->getName(), 'holder_start') !== false)
                         {
                             $priv_class = $this->_get_row_value_class($row->_name);
                             $html .= "      <td class=\"row_value {$priv_class}\">\n";
                         }
 
-                        $html .= $this->_render_static($element);
-                        if (strpos($element->_attributes['name'], 'initscripts') !== false)
+                        $html .= $element->toHtml();
+                        if (strpos($element->getName(), 'initscripts') !== false)
                         {
                             $html .= "      </td>\n";
                         }
@@ -459,7 +445,7 @@ implements midcom_helper_datamanager2_interfaces_edit
                 if ($s == $priv_item_cnt)
                 {
                     $s = 0;
-                    $html .= $this->_render_row_actions($row->_name);
+                    $html .= $this->_render_row_actions($row->getName());
                     $html .= "    </tr>\n";
                 }
 
@@ -473,68 +459,20 @@ implements midcom_helper_datamanager2_interfaces_edit
         $data['editor_footer'] = $footer;
     }
 
-    private function _render_select($object)
+    private function _render_select(HTML_QuickForm_select $object)
     {
-        $html = '';
-        $element_name = '';
-
-        $html .= "<select ";
-        foreach ($object->_attributes as $key => $value)
-        {
-            if ($key == 'helptext')
-            {
-                $key = 'title';
-            }
-            $html .= "{$key}=\"{$value}\" ";
-            if ($key == 'name')
-            {
-                $element_name = $value;
-            }
-        }
-        $html .= ">\n";
-
-        $selected_val = '';
+        $element_name = $object->getName();
         if (isset($this->_controller->formmanager->form->_defaultValues[$element_name]))
         {
-            $selected_val = $this->_controller->formmanager->form->_defaultValues[$element_name];
+            $object->setValue($this->_controller->formmanager->form->_defaultValues[$element_name]);
         }
-        if (isset($this->_controller->formmanager->form->_submitValues[$element_name]))
+
+        if ($helptext = $object->getAttribute('helptext'))
         {
-            $selected_val = $this->_controller->formmanager->form->_submitValues[$element_name];
+            $object->setAttribute('title', $helptext);
+            $object->removeAttribute('helptext');
         }
-
-        foreach ($object->_options as $item)
-        {
-            $selected = '';
-            if (   $selected_val != ''
-                && $selected_val == $item['attr']['value'])
-            {
-                $selected = 'selected="selected"';
-            }
-
-            $html .= "<option value=\"{$item['attr']['value']}\" {$selected}>{$item['text']}</option>\n";
-        }
-
-        $html .= "</select>\n";
-
-        return $html;
-    }
-
-    private function _render_button($object)
-    {
-        $html = "    <input ";
-        foreach ($object->_attributes as $key => $value)
-        {
-            $html .= "{$key}=\"{$value}\" ";
-        }
-        $html .= " />\n";
-
-        return $html;
-    }
-
-    private function _render_static($object)
-    {
-        return $object->_text;
+        return $object->toHtml();
     }
 
     private function _render_row_label($row_name)
