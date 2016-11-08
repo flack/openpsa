@@ -8,9 +8,9 @@ $title = midcom::get()->i18n->get_string('test settings', 'midcom')
 <style type="text/css">
 tr.test th
 {
-	text-align: left;
-	white-space: nowrap;
-	font-weight: normal
+    text-align: left;
+    white-space: nowrap;
+    font-weight: normal
 }
 </style>
 </head>

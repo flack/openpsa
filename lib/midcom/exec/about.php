@@ -1,5 +1,5 @@
 <?php
-midcom::get()->head->add_stylesheet( MIDCOM_STATIC_URL.'/midcom.services.auth/style.css');
+midcom::get()->head->add_stylesheet( MIDCOM_STATIC_URL . '/midcom.services.auth/style.css');
 $title = 'About Midgard';
 midcom::get()->auth->require_valid_user();
 ?>
@@ -25,7 +25,7 @@ midcom::get()->auth->require_valid_user();
                 padding-top: 50px;
             }
             table.apps td
-	        {
+            {
                 padding-left: 5px;
             }
             -->

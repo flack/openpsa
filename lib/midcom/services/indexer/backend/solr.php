@@ -109,7 +109,7 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
 
     /**
      * Clear the index completely or by constraint.
-	 *
+     *
      * @return boolean Indicating success.
      */
     function delete_all($constraint)

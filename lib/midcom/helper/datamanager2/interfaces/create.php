@@ -16,7 +16,7 @@ interface midcom_helper_datamanager2_interfaces_create extends midcom_helper_dat
     /**
      * DM2 callback, has to create the new DBA object
      *
-	 * It must return a reference to a freshly created object that should be populated
+     * It must return a reference to a freshly created object that should be populated
      * with the validated form data. It receives a reference to the controller instance
      * calling it.
      *
