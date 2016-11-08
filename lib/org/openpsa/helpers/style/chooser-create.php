@@ -9,15 +9,15 @@ widget_id = widget_id.replace(/_creation_dialog_content/, '');
 
 if ($('#container header').length > 0)
 {
-	var title = $('#container h1'),
+    var title = $('#container h1'),
         header_height = 12,
         buttons = [];
-	if ($('#org_openpsa_toolbar').length > 0)
-	{
+    if ($('#org_openpsa_toolbar').length > 0)
+    {
         header_height += $('#org_openpsa_toolbar').height();
-	}
-	if ($('.datamanager2 .form_toolbar input').length > 0)
-	{
+    }
+    if ($('.datamanager2 .form_toolbar input').length > 0)
+    {
         $('.datamanager2 .form_toolbar input').each(function() {
             var btn = $(this);
             buttons.push({

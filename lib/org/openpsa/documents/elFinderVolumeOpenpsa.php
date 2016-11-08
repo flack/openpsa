@@ -21,73 +21,73 @@ class elFinderVolumeOpenpsa extends elFinderVolumeDriver
         register_shutdown_function(function(){midcom::get()->finish();});
     }
 
-	/**
-	 * Save uploaded file.
-	 * On success return array with new file stat and with removed file hash (if existed file was replaced)
+    /**
+     * Save uploaded file.
+     * On success return array with new file stat and with removed file hash (if existed file was replaced)
      *
      * Copied from parent and slightly modified to support attachment versioning
-	 *
-	 * @param  Resource $fp      file pointer
-	 * @param  string   $dst     destination folder hash
-	 * @param  string   $src     file name
-	 * @param  string   $tmpname file tmp name - required to detect mime type
-	 * @return array|false
-	 * @author Dmitry (dio) Levashov
-	 **/
-	public function upload($fp, $dst, $name, $tmpname, $hashes = array()) {
-		if ($this->commandDisabled('upload')) {
-			return $this->setError(elFinder::ERROR_PERM_DENIED);
-		}
+     *
+     * @param  Resource $fp      file pointer
+     * @param  string   $dst     destination folder hash
+     * @param  string   $src     file name
+     * @param  string   $tmpname file tmp name - required to detect mime type
+     * @return array|false
+     * @author Dmitry (dio) Levashov
+     **/
+    public function upload($fp, $dst, $name, $tmpname, $hashes = array()) {
+        if ($this->commandDisabled('upload')) {
+            return $this->setError(elFinder::ERROR_PERM_DENIED);
+        }
 
-		if (($dir = $this->dir($dst)) == false) {
-			return $this->setError(elFinder::ERROR_TRGDIR_NOT_FOUND, '#'.$dst);
-		}
+        if (($dir = $this->dir($dst)) == false) {
+            return $this->setError(elFinder::ERROR_TRGDIR_NOT_FOUND, '#'.$dst);
+        }
 
-		if (!$dir['write']) {
-			return $this->setError(elFinder::ERROR_PERM_DENIED);
-		}
+        if (!$dir['write']) {
+            return $this->setError(elFinder::ERROR_PERM_DENIED);
+        }
 
-		if (!$this->nameAccepted($name)) {
-			return $this->setError(elFinder::ERROR_INVALID_NAME);
-		}
+        if (!$this->nameAccepted($name)) {
+            return $this->setError(elFinder::ERROR_INVALID_NAME);
+        }
 
-		$mime = $this->mimetype($this->mimeDetect == 'internal' ? $name : $tmpname, $name);
-		$mimeByName = '';
-		if ($this->mimeDetect !== 'internal') {
-			$mimeByName = elFinderVolumeDriver::mimetypeInternalDetect($name);
-			if ($mime == 'unknown') {
-				$mime = $mimeByName;
-			}
-		}
+        $mime = $this->mimetype($this->mimeDetect == 'internal' ? $name : $tmpname, $name);
+        $mimeByName = '';
+        if ($this->mimeDetect !== 'internal') {
+            $mimeByName = elFinderVolumeDriver::mimetypeInternalDetect($name);
+            if ($mime == 'unknown') {
+                $mime = $mimeByName;
+            }
+        }
 
-		if (!$this->allowPutMime($mime) || ($mimeByName && $mimeByName !== 'unknown' && !$this->allowPutMime($mimeByName))) {
-			return $this->setError(elFinder::ERROR_UPLOAD_FILE_MIME);
-		}
+        if (!$this->allowPutMime($mime) || ($mimeByName && $mimeByName !== 'unknown' && !$this->allowPutMime($mimeByName))) {
+            return $this->setError(elFinder::ERROR_UPLOAD_FILE_MIME);
+        }
 
-		$tmpsize = sprintf('%u', filesize($tmpname));
-		if ($this->uploadMaxSize > 0 && $tmpsize > $this->uploadMaxSize) {
-			return $this->setError(elFinder::ERROR_UPLOAD_FILE_SIZE);
-		}
+        $tmpsize = sprintf('%u', filesize($tmpname));
+        if ($this->uploadMaxSize > 0 && $tmpsize > $this->uploadMaxSize) {
+            return $this->setError(elFinder::ERROR_UPLOAD_FILE_SIZE);
+        }
 
-		$dstpath = $this->decode($dst);
-		if (isset($hashes[$name])) {
-			$test = $this->decode($hashes[$name]);
-		} else {
-			$test = $this->joinPathCE($dstpath, $name);
-		}
+        $dstpath = $this->decode($dst);
+        if (isset($hashes[$name])) {
+            $test = $this->decode($hashes[$name]);
+        } else {
+            $test = $this->joinPathCE($dstpath, $name);
+        }
 
-		$file = $this->stat($test);
-		$this->clearcache();
+        $file = $this->stat($test);
+        $this->clearcache();
 
-		if ($file && $file['name'] === $name) { // file exists and check filename for item ID based filesystem
-			// check POST data `overwrite` for 3rd party uploader
-			$overwrite = isset($_POST['overwrite'])? (bool)$_POST['overwrite'] : $this->options['uploadOverwrite'];
-			if ($overwrite) {
-				if (!$file['write']) {
-					return $this->setError(elFinder::ERROR_PERM_DENIED);
-				} elseif ($file['mime'] == 'directory') {
-					return $this->setError(elFinder::ERROR_NOT_REPLACE, $name);
-				}
+        if ($file && $file['name'] === $name) { // file exists and check filename for item ID based filesystem
+            // check POST data `overwrite` for 3rd party uploader
+            $overwrite = isset($_POST['overwrite'])? (bool)$_POST['overwrite'] : $this->options['uploadOverwrite'];
+            if ($overwrite) {
+                if (!$file['write']) {
+                    return $this->setError(elFinder::ERROR_PERM_DENIED);
+                } elseif ($file['mime'] == 'directory') {
+                    return $this->setError(elFinder::ERROR_NOT_REPLACE, $name);
+                }
                 $document = new org_openpsa_documents_document_dba($test);
                 $document->backup_version();
                 $attachments = org_openpsa_helpers::get_dm2_attachments($document, 'document');
@@ -108,49 +108,49 @@ class elFinderVolumeOpenpsa extends elFinderVolumeDriver
 
                 return $this->stat($document->guid);
 
-			} else {
-				$name = $this->uniqueName($dstpath, $name, '-', false);
-			}
-		}
+            } else {
+                $name = $this->uniqueName($dstpath, $name, '-', false);
+            }
+        }
 
-		$stat = array(
-			'mime'   => $mime,
-			'width'  => 0,
-			'height' => 0,
-			'size'   => $tmpsize);
+        $stat = array(
+            'mime'   => $mime,
+            'width'  => 0,
+            'height' => 0,
+            'size'   => $tmpsize);
 
-		if (strpos($mime, 'image') === 0 && ($s = getimagesize($tmpname))) {
-			$stat['width'] = $s[0];
-			$stat['height'] = $s[1];
-		}
+        if (strpos($mime, 'image') === 0 && ($s = getimagesize($tmpname))) {
+            $stat['width'] = $s[0];
+            $stat['height'] = $s[1];
+        }
 
-		if (($path = $this->saveCE($fp, $dstpath, $name, $stat)) == false) {
-			return false;
-		}
+        if (($path = $this->saveCE($fp, $dstpath, $name, $stat)) == false) {
+            return false;
+        }
 
-		return $this->stat($path);
-	}
+        return $this->stat($path);
+    }
 
-	private function get_by_path($path)
-	{
-	    try
-	    {
-	        return org_openpsa_documents_document_dba::get_cached($path);
-	    }
-	    catch (midcom_error $e)
-	    {
-	        $e->log();
-	        try
-	        {
-	            return org_openpsa_documents_directory::get_cached($path);
-	        }
-	        catch (midcom_error $e)
-	        {
-	            $e->log();
-	        }
-	    }
-	    return false;
-	}
+    private function get_by_path($path)
+    {
+        try
+        {
+            return org_openpsa_documents_document_dba::get_cached($path);
+        }
+        catch (midcom_error $e)
+        {
+            $e->log();
+            try
+            {
+                return org_openpsa_documents_directory::get_cached($path);
+            }
+            catch (midcom_error $e)
+            {
+                $e->log();
+            }
+        }
+        return false;
+    }
 
     /**
      * Return parent directory path

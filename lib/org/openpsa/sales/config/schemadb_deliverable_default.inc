@@ -59,7 +59,7 @@
                     'name',
                     'official'
                 ),
-		        'result_headers' => array
+                'result_headers' => array
                 (
                     array
                     (

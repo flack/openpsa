@@ -8,7 +8,7 @@
 (
     'handler' => array('org_openpsa_user_handler_list', 'list'),
     'fixed_args' => 'members',
-	'variable_args' => 1,
+    'variable_args' => 1,
 ),
 // Match /json/
 'user_list_json' => array
@@ -21,7 +21,7 @@
 (
     'handler' => array('org_openpsa_user_handler_list', 'json'),
     'fixed_args' => array('json', 'members'),
-	'variable_args' => 1,
+    'variable_args' => 1,
 ),
 // Match /view/<guid>/
 'user_view' => array

@@ -21,5 +21,5 @@
 'gravatar_size'          => 40,
 'skype_enable_presence'  => true,
 /* This needs a pbx that can you can send links to. For example speakroute http://www.speakroute.net */
-'click_to_dial'		=> false,
-'click_to_dial_url'	=> 'https://yourdialurl.com/dodial.php?to=',
+'click_to_dial'        => false,
+'click_to_dial_url'    => 'https://yourdialurl.com/dodial.php?to=',

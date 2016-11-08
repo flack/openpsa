@@ -154,13 +154,13 @@
             ),
             'widget'      => 'radiocheckselect',
         ),
-    	'remarks' => array
+        'remarks' => array
         (
             'title'    => 'remarks',
             'storage'  => 'remarks',
             'type'     => 'text',
             'widget'   => 'textarea',
-			'end_fieldset' => '',
+            'end_fieldset' => '',
         ),
     )
 ),

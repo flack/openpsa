@@ -15,8 +15,8 @@
     </p>
 
     <form enctype="multipart/form-data" action="<?php midcom_connection::get_url('uri'); ?>" method="post" class="datamanager2">
-	<div class="form">
-	<div class="element">
+    <div class="form">
+    <div class="element">
         <label for="org_openpsa_products_import_upload">
             <span class="field_text"><?php echo $data['l10n']->get('file to import'); ?></span>
         </label>
@@ -24,7 +24,7 @@
             <input type="file" class="fileselector" name="org_openpsa_products_import_upload" id="org_openpsa_products_import_upload" />
         </div>
         </div>
-	<div class="element">
+    <div class="element">
         <label for="org_openpsa_products_import_separator">
             <span class="field_text"><?php echo $data['l10n']->get('field separator'); ?></span>
         </label>
@@ -35,7 +35,7 @@
             </select>
         </div>
         </div>
-	<div class="element">
+    <div class="element">
         <label for="org_openpsa_products_import_schema">
             <span class="field_text"><?php echo $data['l10n']->get('schema'); ?></span>
         </label>
@@ -50,7 +50,7 @@
             </select>
         </div>
         </div>
-	<div class="element">
+    <div class="element">
         <label for="org_openpsa_products_import_new_products_product_group">
             <span class="field_text"><?php echo $data['l10n']->get('import new products to this product group'); ?></span>
         </label>

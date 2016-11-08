@@ -80,7 +80,7 @@
             'widget' => 'autocomplete',
             'widget_config' => array
             (
-	            'class' => 'midcom_db_person',
+                'class' => 'midcom_db_person',
                 'id_field' => 'id',
                 'searchfields' => array
                 (

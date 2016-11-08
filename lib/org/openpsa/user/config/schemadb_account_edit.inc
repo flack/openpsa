@@ -40,7 +40,7 @@
             'widget' => 'text',
             'widget_config' => array
             (
-            	'hideinput' => true
+                'hideinput' => true
             ),
             'storage' => null,
             'hidden' => (midcom::get()->auth->can_user_do('org.openpsa.user:manage', null, 'org_openpsa_user_interface')),

@@ -6,16 +6,16 @@
     <script type="text/javascript">
     $(document).ready(function()
     {
-		function add_member(event, ui)
-	    {
-	        midcom_helper_datamanager2_autocomplete.select(event, ui);
-	        if ($('#add_contact_selection').val() !== '')
-	        {
-		        var value = $('#add_contact_selection').val()
-		        guid = value.substr(2).substr(0, value.length - 4);
-	            location.href += 'mycontacts/add/' + guid + '/?return_url=' + location.href;
-	        }
-	    }
+        function add_member(event, ui)
+        {
+            midcom_helper_datamanager2_autocomplete.select(event, ui);
+            if ($('#add_contact_selection').val() !== '')
+            {
+                var value = $('#add_contact_selection').val()
+                guid = value.substr(2).substr(0, value.length - 4);
+                location.href += 'mycontacts/add/' + guid + '/?return_url=' + location.href;
+            }
+        }
 
         var widget_conf =
         {

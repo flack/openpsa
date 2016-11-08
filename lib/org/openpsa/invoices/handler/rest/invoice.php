@@ -57,7 +57,7 @@ class org_openpsa_invoices_handler_rest_invoice extends midcom_baseclasses_compo
             $data[] = array(
                 "guid" => $invoice->guid,
                 "number" => $invoice->number,
-            	"date" => $date,
+                "date" => $date,
                 "status" => $invoice->get_status(),
                 "sum" => $invoice->sum
             );

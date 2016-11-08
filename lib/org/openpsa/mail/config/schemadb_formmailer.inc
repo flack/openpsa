@@ -15,7 +15,7 @@
             'title'    => 'message',
             'type'     => 'text',
             'widget'   => 'textarea',
-			'required' => true
+            'required' => true
         ),
     )
 ),
