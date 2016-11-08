@@ -342,7 +342,7 @@ class midcom_core_user
      *
      * @return mixed GUID of the first group found or false
      */
-    function get_first_group_guid()
+    public function get_first_group_guid()
     {
         if (!is_null($this->_direct_groups))
         {
@@ -520,7 +520,7 @@ class midcom_core_user
      * @param mixed $group Group to check against, this can be either a midcom_core_group object or a group string identifier.
      * @return boolean Indicating membership state.
      */
-    function is_in_group($group)
+    public function is_in_group($group)
     {
         if (is_null($this->_all_groups))
         {

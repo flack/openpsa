@@ -52,7 +52,7 @@ abstract class midcom_services_cache_module
     /**
      * Shuts the module down. This will call the corresponding event handler
      */
-    function shutdown()
+    public function shutdown()
     {
         $this->_on_shutdown();
     }

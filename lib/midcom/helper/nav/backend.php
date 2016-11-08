@@ -835,7 +835,7 @@ class midcom_helper_nav_backend
      * @param boolean $show_noentry Show all objects on-site which have the noentry flag set.
      * @return Array            An array of node IDs or false on failure.
      */
-    function list_nodes($parent_node, $show_noentry)
+    public function list_nodes($parent_node, $show_noentry)
     {
         static $listed = array();
 
@@ -904,7 +904,7 @@ class midcom_helper_nav_backend
      * @param boolean $show_noentry Show all objects on-site which have the noentry flag set.
      * @return Array             A list of leaves found, or false on failure.
      */
-    function list_leaves($parent_node, $show_noentry)
+    public function list_leaves($parent_node, $show_noentry)
     {
         static $listed = array();
 
@@ -945,7 +945,7 @@ class midcom_helper_nav_backend
      * @param string $guid The GUID to look up in the NAP cache.
      * @return Array A NAP structure if the GUID is known, null otherwise.
      */
-    function get_loaded_object_by_guid($guid)
+    public function get_loaded_object_by_guid($guid)
     {
         $entry = $this->_nap_cache->get_guid($guid);
         if (empty($entry))
@@ -967,7 +967,7 @@ class midcom_helper_nav_backend
      * @param mixed $node_id    The node ID to be retrieved.
      * @return Array        The node data as outlined in the class introduction, false on failure
      */
-    function get_node($node_id)
+    public function get_node($node_id)
     {
         $node = $node_id;
         if (!empty($node->guid))
@@ -990,7 +990,7 @@ class midcom_helper_nav_backend
      * @param string $leaf_id    The leaf-id to be retrieved.
      * @return Array        The leaf-data as outlined in the class introduction, false on failure
      */
-    function get_leaf ($leaf_id)
+    public function get_leaf ($leaf_id)
     {
         if (!$this->_check_leaf_id($leaf_id))
         {
@@ -1007,7 +1007,7 @@ class midcom_helper_nav_backend
      *
      * @return mixed    The ID of the node in question.
      */
-    function get_current_node()
+    public function get_current_node()
     {
         return $this->_current;
     }
@@ -1020,7 +1020,7 @@ class midcom_helper_nav_backend
      *
      * @return string    The ID of the leaf in question or false on failure.
      */
-    function get_current_leaf()
+    public function get_current_leaf()
     {
         return $this->_currentleaf;
     }
@@ -1030,7 +1030,7 @@ class midcom_helper_nav_backend
      *
      * @return mixed    The ID of the node in question.
      */
-    function get_current_upper_node()
+    public function get_current_upper_node()
     {
         if (count($this->_node_path) > 1)
         {
@@ -1047,7 +1047,7 @@ class midcom_helper_nav_backend
      *
      * @return int    The ID of the root node.
      */
-    function get_root_node()
+    public function get_root_node()
     {
         return $this->_root;
     }
@@ -1059,7 +1059,7 @@ class midcom_helper_nav_backend
      *
      * @return Array    The node path array.
      */
-    function get_node_path()
+    public function get_node_path()
     {
         return $this->_node_path;
     }
@@ -1089,7 +1089,7 @@ class midcom_helper_nav_backend
      * @param mixed $node_id    The node ID to search an uplink for.
      * @return mixed             The ID of the node for which we have a match, -1 for the root node, or false on failure.
      */
-    function get_node_uplink($node_id)
+    public function get_node_uplink($node_id)
     {
         if ($this->_loadNode($node_id) !== MIDCOM_ERROK)
         {

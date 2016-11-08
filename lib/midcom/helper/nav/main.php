@@ -193,7 +193,7 @@ class midcom_helper_nav
      * @return int             The ID of the Node for which we have a match, or false on failure.
      * @see midcom_helper_nav_backend::get_leaf_uplink()
      */
-    function get_leaf_uplink ($leaf_id)
+    function get_leaf_uplink($leaf_id)
     {
         return $this->_backend->get_leaf_uplink($leaf_id);
     }

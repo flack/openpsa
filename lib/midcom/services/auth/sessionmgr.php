@@ -177,7 +177,7 @@ class midcom_services_auth_sessionmgr
      * @return string The token you can use for authentication or false, in case there
      *     is no valid session.
      */
-    function load_login_session($sessionid, $user, $clientip = null)
+    public function load_login_session($sessionid, $user, $clientip = null)
     {
         try
         {
@@ -303,7 +303,7 @@ class midcom_services_auth_sessionmgr
      * @param string $sessionid The session identifier to authenticate against.
      * @return boolean Indicating success.
      */
-    function authenticate_session($sessionid)
+    public function authenticate_session($sessionid)
     {
         if (!array_key_exists($sessionid, $this->_loaded_sessions))
         {

@@ -613,7 +613,7 @@ class midcom_helper_metadata
      *
      * @return boolean Indicating visibility.
      */
-    function is_object_visible_onsite()
+    public function is_object_visible_onsite()
     {
         return
         (   (   midcom::get()->config->get('show_hidden_objects')
@@ -808,7 +808,7 @@ class midcom_helper_metadata
      * @return boolean indicating privileges
      * @todo enable specifying user ?
      */
-    function can_unlock()
+    public function can_unlock()
     {
         return (   $this->__object->can_do('midcom:unlock')
                 || midcom::get()->auth->can_user_do('midcom:unlock', null, 'midcom_services_auth', 'midcom'));

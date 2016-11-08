@@ -803,7 +803,7 @@ class midcom_services_auth
      * @return midcom_core_group A reference to the group object matching the group name,
      *     or false if the group name is unknown.
      */
-    function & get_midgard_group_by_name($name)
+    public function & get_midgard_group_by_name($name)
     {
         $qb = new midgard_query_builder('midgard_group');
         $qb->add_constraint('name', '=', $name);

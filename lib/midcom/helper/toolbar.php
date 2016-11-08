@@ -863,7 +863,7 @@ class midcom_helper_toolbar
      * @param DBAObject $object The DBA class instance to bind to.
      * @see midcom_services_toolbars
      */
-    function bind_to($object)
+    public function bind_to($object)
     {
         midcom::get()->toolbars->bind_toolbar_to_object($this, $object);
     }

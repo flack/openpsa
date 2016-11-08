@@ -165,7 +165,7 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
      * @param string $key The key to look up.
      * @return mixed The cached value on success, false on failure.
      */
-    function get_node($key)
+    public function get_node($key)
     {
         if ($this->_cache === null)
         {
@@ -190,7 +190,7 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
      * @param string $key The key to look up.
      * @return mixed The cached value on success, false on failure.
      */
-    function get_leaves($key)
+    public function get_leaves($key)
     {
         if ($this->_cache === null)
         {

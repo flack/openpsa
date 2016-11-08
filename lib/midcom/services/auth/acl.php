@@ -382,7 +382,7 @@ class midcom_services_auth_acl
      *
      * @param array $privileges An associative privilege_name => default_values listing.
      */
-    function register_default_privileges ($privileges)
+    public function register_default_privileges ($privileges)
     {
         foreach ($privileges as $name => $values)
         {
@@ -404,7 +404,7 @@ class midcom_services_auth_acl
      *
      * @return Array Privilege Name / Value map.
      */
-    function get_default_privileges()
+    public function get_default_privileges()
     {
         return self::$_default_privileges;
     }
@@ -414,7 +414,7 @@ class midcom_services_auth_acl
      *
      * @return Array Privilege Name / Value map.
      */
-    function get_owner_default_privileges()
+    public function get_owner_default_privileges()
     {
         return self::$_owner_default_privileges;
     }
@@ -514,7 +514,7 @@ class midcom_services_auth_acl
      * @param string $name The name of the privilege to check.
      * @return boolean Indicating whether the privilege does exist.
      */
-    function privilege_exists($name)
+    public function privilege_exists($name)
     {
         return (array_key_exists($name, self::$_default_privileges));
     }
@@ -533,7 +533,7 @@ class midcom_services_auth_acl
      *     You may specify "EVERYONE" instead of an object to check what an anonymous user can do.
      * @return Array Associative listing of all privileges and their value.
      */
-    function get_privileges_by_guid($object_guid, $object_class, $user_id)
+    public function get_privileges_by_guid($object_guid, $object_class, $user_id)
     {
         $cache_id = $user_id . '::' . $object_guid;
 

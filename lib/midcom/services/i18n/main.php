@@ -604,7 +604,7 @@ class midcom_services_i18n
      * @param string $string The string to convert
      * @return string The string converted to UTF-8
      */
-    function convert_to_utf8($string)
+    public function convert_to_utf8($string)
     {
         if ($this->_current_charset == 'utf-8')
         {
@@ -619,7 +619,7 @@ class midcom_services_i18n
      * @param string $string The string to convert
      * @return string The string converted to the current charset
      */
-    function convert_from_utf8($string)
+    public function convert_from_utf8($string)
     {
         if ($this->_current_charset == 'utf-8')
         {
