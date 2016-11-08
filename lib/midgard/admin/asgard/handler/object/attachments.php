@@ -266,7 +266,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
         if (array_key_exists($this->_file->mimetype, $data['attachment_text_types']))
         {
             // Figure out correct syntax from MIME type
-            switch(preg_replace('/.+?\//', '', $this->_file->mimetype))
+            switch (preg_replace('/.+?\//', '', $this->_file->mimetype))
             {
                 case 'css':
                     $data['file_syntax'] = 'css';

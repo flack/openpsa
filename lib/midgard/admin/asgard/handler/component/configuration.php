@@ -576,35 +576,32 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
                 $type = gettype($type_array[$key]);
             }
 
-            switch($type)
+            if ($type === 'boolean')
             {
-                case 'boolean':
-                    $data .= ($val)?'true':'false';
-                    break;
-                case 'array':
-                    if (empty($val))
+                $data .= ($val) ? 'true' : 'false';
+            }
+            else if ($type === 'array')
+            {
+                if (empty($val))
+                {
+                    $data .= 'array()';
+                }
+                else
+                {
+                    if (is_string($val))
                     {
-                        $data .= 'array()';
+                        eval("\$val = $val;");
                     }
-                    else
-                    {
-                        if (is_string($val))
-                        {
-                            eval("\$val = $val;");
-                        }
-                        $data .= "array\n{$prefix}(\n" . $this->_draw_array($val, "{$prefix}    ") . "{$prefix})";
-                    }
-                    break;
-
-                default:
-                    if (is_numeric($val))
-                    {
-                        $data .= $val;
-                    }
-                    else
-                    {
-                        $data .= "'{$val}'";
-                    }
+                    $data .= "array\n{$prefix}(\n" . $this->_draw_array($val, "{$prefix}    ") . "{$prefix})";
+                }
+            }
+            else if (is_numeric($val))
+            {
+                $data .= $val;
+            }
+            else
+            {
+                $data .= "'{$val}'";
             }
 
             $data .= ",\n";

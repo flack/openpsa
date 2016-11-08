@@ -691,7 +691,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
     public function _show_help($handler_id, array &$data)
     {
         midcom_show_style('midcom_admin_help_header');
-        switch($this->_request_data['help_id'])
+        switch ($this->_request_data['help_id'])
         {
             case 'handlers':
                 midcom_show_style('midcom_admin_help_handlers');

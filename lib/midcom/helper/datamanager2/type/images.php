@@ -375,19 +375,19 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
                 foreach ($this->images as $identifier => $images)
                 {
                     $result .= "<li>";
-                    switch(true)
+                    if (isset($images['main']))
                     {
-                        case (isset($images['main'])):
-                            $main = $images['main'];
-                            break;
-                        case (isset($images['original'])):
-                            $main = $images['original'];
-                            break;
-                        default:
-                            // ugly fallback...
-                            $images_copy = $images;
-                            $main = array_shift($images_copy);
-                            break;
+                        $main = $images['main'];
+                    }
+                    else if (isset($images['original']))
+                    {
+                        $main = $images['original'];
+                    }
+                    else
+                    {
+                        // ugly fallback...
+                        $images_copy = $images;
+                        $main = array_shift($images_copy);
                     }
                     if (empty($main['object']->guid))
                     {

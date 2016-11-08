@@ -36,20 +36,17 @@ class org_openpsa_projects_workflow
      */
     public static function get_status_type_icon($status)
     {
-        $url = 'document-text.png';
-        switch($status)
+        switch ($status)
         {
             case 'ongoing':
-                $url = 'page-approved-notpublished.png';
-                break;
+                return 'page-approved-notpublished.png';
             case 'on_hold':
-                $url = 'page-notapproved.png';
-                break;
+                return 'page-notapproved.png';
             case 'closed':
-                $url = 'page-approved.png';
-                break;
+                return 'page-approved.png';
+            default:
+                return 'document-text.png';
         }
-        return $url;
     }
 
     /**

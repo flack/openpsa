@@ -604,32 +604,31 @@ END;
             return;
         }
 
-        switch(true)
+        // Image to be deleted
+        if (array_key_exists("{$this->name}_e_exist_{$identifier}_delete", $values))
         {
-            // Image to be deleted
-            case (array_key_exists("{$this->name}_e_exist_{$identifier}_delete", $values)):
-                if (!$this->_type->delete_image($identifier))
-                {
-                    debug_add("Failed to delete the image {$identifier} on the field '{$this->name}'. Ignoring silently.", MIDCOM_LOG_WARN);
-                }
-                break;
-            // Image to be updated
-            case (   array_key_exists("e_exist_{$identifier}_file", $this->_elements)
-                  && $this->_elements["e_exist_{$identifier}_file"]->isUploadedFile()):
-                $file = $this->_elements["e_exist_{$identifier}_file"]->getValue();
-                $title = $values["e_exist_{$identifier}_title"];
-                $filename = $this->_type->images[$identifier]['main']['filename'];
+            if (!$this->_type->delete_image($identifier))
+            {
+                debug_add("Failed to delete the image {$identifier} on the field '{$this->name}'. Ignoring silently.", MIDCOM_LOG_WARN);
+            }
+        }
+        // Image to be updated
+        else if  (   array_key_exists("e_exist_{$identifier}_file", $this->_elements)
+                  && $this->_elements["e_exist_{$identifier}_file"]->isUploadedFile())
+        {
+            $file = $this->_elements["e_exist_{$identifier}_file"]->getValue();
+            $title = $values["e_exist_{$identifier}_title"];
+            $filename = $this->_type->images[$identifier]['main']['filename'];
 
-                if (!$title)
-                {
-                    $title = $filename;
-                }
+            if (!$title)
+            {
+                $title = $filename;
+            }
 
-                if (!$this->_type->update_image($identifier, $filename, $file['tmp_name'], $title))
-                {
-                    debug_add("Failed to update the image {$identifier} on the field '{$this->name}'. Ignoring silently.", MIDCOM_LOG_WARN);
-                }
-                break;
+            if (!$this->_type->update_image($identifier, $filename, $file['tmp_name'], $title))
+            {
+                debug_add("Failed to update the image {$identifier} on the field '{$this->name}'. Ignoring silently.", MIDCOM_LOG_WARN);
+            }
         }
     }
 

@@ -357,7 +357,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         $object_class = get_class($obj);
         $object_baseclass = self::resolve_baseclass($obj);
 
-        switch(true)
+        switch (true)
         {
             // object knows it's icon, how handy!
             case (method_exists($obj, 'get_icon')):

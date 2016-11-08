@@ -5,7 +5,7 @@ $person = $data['current_row']['person'];
 $query_data = $data['query_data'];
 ?>
                     <tr class="item">
-<?php   switch($data['grouping'])
+<?php   switch ($data['grouping'])
         {
             case 'date': ?>
                         <td>&(person->rname);</td>

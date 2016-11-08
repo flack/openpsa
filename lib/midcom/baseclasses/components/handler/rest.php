@@ -86,9 +86,10 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
     {
         $this->_request['method'] = strtolower($_SERVER['REQUEST_METHOD']);
 
-        switch($this->_request['method'])
+        switch ($this->_request['method'])
         {
             case 'get':
+            case 'delete':
                 $this->_request['params'] = $_GET;
                 break;
             case 'post':
@@ -96,11 +97,6 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
                 break;
             case 'put':
                 parse_str(file_get_contents('php://input'), $this->_request['params']);
-                break;
-            case 'delete':
-                $this->_request['params'] = $_GET;
-                break;
-            default:
                 break;
         }
         $this->_request['params'] = array_map('trim', $this->_request['params']);

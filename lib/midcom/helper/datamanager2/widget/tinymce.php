@@ -279,7 +279,7 @@ EOT;
         $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
         $url = $prefix . '__ais/imagepopup/upload/image/';
 
-        if(!empty($this->_type->storage->object))
+        if (!empty($this->_type->storage->object))
         {
             $url .= $this->_type->storage->object->guid . '/';
         }

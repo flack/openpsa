@@ -196,7 +196,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
      */
     private function _get_object_links_sort_time($obj)
     {
-        switch(true)
+        switch (true)
         {
             case midcom::get()->dbfactory->is_a($obj, 'midcom_db_event'):
             case midcom::get()->dbfactory->is_a($obj, 'org_openpsa_projects_task_dba'):

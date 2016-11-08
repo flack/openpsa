@@ -54,25 +54,16 @@ class org_openpsa_calendar_vcal
         $this->_add_date_fields($vevent, $event);
 
         // Type handling
-        switch ($event->orgOpenpsaAccesstype)
+        if ($event->orgOpenpsaAccesstype === org_openpsa_core_acl::ACCESS_PUBLIC)
         {
-            case org_openpsa_core_acl::ACCESS_PUBLIC:
-                $vevent->{'CLASS'} = 'PUBLIC';
-                break;
-            default:
-            case org_openpsa_core_acl::ACCESS_PRIVATE:
-                $vevent->{'CLASS'} = 'PRIVATE';
-                break;
-        }
-        // "busy" or "transparency" as vCalendar calls it
-        if ($event->busy)
-        {
-            $vevent->TRANSP = 'OPAQUE';
+            $vevent->{'CLASS'} = 'PUBLIC';
         }
         else
         {
-            $vevent->TRANSP = 'TRANSPARENT';
+            $vevent->{'CLASS'} = 'PRIVATE';
         }
+        // "busy" or "transparency" as vCalendar calls it
+        $vevent->TRANSP = ($event->busy) ? 'OPAQUE' : 'TRANSPARENT';
         // tentative vs confirmed
         $vevent->STATUS = 'CONFIRMED';
         // we don't categorize events, at least yet

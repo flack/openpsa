@@ -10,7 +10,7 @@ $query_data = $data['query_data'];
             <table class="report" id="org_openpsa_reports_basic_reporttable">
                 <thead>
                     <tr>
-<?php   switch($data['grouping'])
+<?php   switch ($data['grouping'])
         {
             case 'date': ?>
                         <th><?php echo $data['l10n']->get('person'); ?></th>
