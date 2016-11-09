@@ -68,6 +68,10 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
 
     public function get_schema_defaults()
     {
+        if ($this->_account->get_username())
+        {
+            return array('username' => $this->_account->get_username());
+        }
         if ($this->_person->email)
         {
             // Email address (first part) is the default username
