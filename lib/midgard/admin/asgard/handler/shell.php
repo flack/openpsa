@@ -37,7 +37,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
                 break;
 
             case 'edit':
-                if (   isset($_REQUEST['midcom_helper_datamanager2_save'])
+                if (   $controller->formmanager->form->isSubmitted()
                     && !empty($controller->datamanager->validation_errors))
                 {
                     foreach ($controller->datamanager->validation_errors as $field => $error)

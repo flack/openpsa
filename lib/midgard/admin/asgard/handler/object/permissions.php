@@ -249,7 +249,7 @@ implements midcom_helper_datamanager2_interfaces_edit
             }
         }
 
-        $header .= "        <th align=\"left\" scope=\"col\" class=\"assignee_name\"><span>&nbsp;</span></th>\n";
+        $header .= "        <th scope=\"col\" class=\"assignee_name\"><span>&nbsp;</span></th>\n";
         $header .= implode('', $header_items);
         $header .= "        <th scope=\"col\" class=\"row_actions\"><span>&nbsp;</span></th>\n";
 
@@ -379,8 +379,6 @@ implements midcom_helper_datamanager2_interfaces_edit
 
         $data['editor_header_titles'] = $this->_header;
 
-        $data['editor_header'] = '';
-
         $priv_item_cnt = count($this->_privileges);
         $s = 0;
         foreach ($qf->_elements as $row)
@@ -392,7 +390,7 @@ implements midcom_helper_datamanager2_interfaces_edit
             if (is_a($row, 'HTML_QuickForm_select'))
             {
                 $html = "  <div class=\"assignees\">\n";
-                $html .= "    <label for=\"{$row->_attributes['id']}\">\n<span class=\"field_text\">{$row->_label}</span>\n";
+                $html .= "    <label for=\"{$row->getAttribute('id')}\">\n<span class=\"field_text\">{$row->getLabel()}</span>\n";
                 $html .= $this->_render_select($row);
                 $html .= "    </label>\n";
                 $html .= "  </div>\n";
@@ -469,7 +467,7 @@ implements midcom_helper_datamanager2_interfaces_edit
 
         if ($helptext = $object->getAttribute('helptext'))
         {
-            $object->setAttribute('title', $helptext);
+            $object->setAttribute('title', $object->getAttribute('helptext'));
             $object->removeAttribute('helptext');
         }
         return $object->toHtml();

@@ -55,7 +55,7 @@ $extra_class = (!empty($data['asgard_toolbar']->items)) ? ' page-title-with-tool
                     </div>
 <?php
 $toolbar_style = '';
-if (($position = midgard_admin_asgard_plugin::get_preference('toolbar_mode')))
+if ($position = midgard_admin_asgard_plugin::get_preference('toolbar_mode'))
 {
     $toolbar_style = " style=\"position: {$position}\" class=\"{$position}\"";
 }

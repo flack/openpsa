@@ -15,7 +15,6 @@
     <tbody>
         <?php echo $data['editor_rows']; ?>
     </tbody>
-    </table>
 </table>
 <div class="maa_permissions_footer">
     <?php echo $data['editor_footer']; ?>
