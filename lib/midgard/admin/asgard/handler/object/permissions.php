@@ -235,7 +235,6 @@ implements midcom_helper_datamanager2_interfaces_edit
                 $schemadb['privileges']->append_field(str_replace(array(':', '.'), '_', $assignee . '_' . $privilege), array
                     (
                         'title' => $privilege_label,
-                        'helptext'    => sprintf($this->_l10n->get('sets privilege %s'), $privilege),
                         'storage' => null,
                         'type' => 'privilege',
                         'type_config' => Array
@@ -465,11 +464,6 @@ implements midcom_helper_datamanager2_interfaces_edit
             $object->setValue($this->_controller->formmanager->form->_defaultValues[$element_name]);
         }
 
-        if ($helptext = $object->getAttribute('helptext'))
-        {
-            $object->setAttribute('title', $object->getAttribute('helptext'));
-            $object->removeAttribute('helptext');
-        }
         return $object->toHtml();
     }
 
