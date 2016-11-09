@@ -304,19 +304,6 @@ implements midcom_helper_datamanager2_interfaces_edit
     }
 
     /**
-     * Default helper function for DM2 schema-related operations
-     *
-     * @return array The schema defaults
-     */
-    public function get_schema_defaults()
-    {
-        if ($this->additional_assignee)
-        {
-            return array('add_assignee' => $this->additional_assignee);
-        }
-    }
-
-    /**
      * Object editing view
      *
      * @param mixed $handler_id The ID of the handler.
@@ -370,13 +357,11 @@ implements midcom_helper_datamanager2_interfaces_edit
     private function _generate_editor(&$data)
     {
         $qf = $this->_controller->formmanager->form;
-        $data['editor_rows'] = '';
 
-        $form_start = "<form " . $qf->getAttributes(true) . ">\n";
-        $data['editor_header_form_start'] = $form_start;
-        $data['editor_header_form_end'] = "</form>\n";
-
+        $data['editor_header_form_start'] = "<form " . $qf->getAttributes(true) . ">\n";
         $data['editor_header_titles'] = $this->_header;
+        $data['editor_rows'] = '';
+        $data['editor_header_form_end'] = "</form>\n";
 
         $priv_item_cnt = count($this->_privileges);
         $s = 0;
@@ -425,7 +410,7 @@ implements midcom_helper_datamanager2_interfaces_edit
                     {
                         if (strpos($element->getName(), 'holder_start') !== false)
                         {
-                            $priv_class = $this->_get_row_value_class($row->_name);
+                            $priv_class = $this->_get_col_value_class($row->getName());
                             $html .= "      <td class=\"row_value {$priv_class}\">\n";
                         }
 
@@ -493,18 +478,15 @@ implements midcom_helper_datamanager2_interfaces_edit
             {
                 $this->_rendered_row_actions[$key] = true;
 
-                $actions = "<div class=\"actions\" id=\"privilege_row_actions_{$key}\">";
-                $actions .= "</div>";
-                $html = "      <td class=\"row_value row_actions\">{$actions}</td>\n";
-
-                return $html;
+                $actions = "<div class=\"actions\" id=\"privilege_row_actions_{$key}\"></div>";
+                return "      <td class=\"row_value row_actions\">{$actions}</td>\n";
             }
         }
 
         return '';
     }
 
-    private function _get_row_value_class($row_name)
+    private function _get_col_value_class($row_name)
     {
         foreach (array_keys($this->_row_labels) as $key)
         {
