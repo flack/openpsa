@@ -152,9 +152,7 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
      */
     public function _load_parent($handler_id, array $args, array &$data)
     {
-        if (   $this->_mode == 'create'
-            && count($args) > 0
-            && $args[0] == 'project') {
+        if ($this->_mode == 'create' && count($args) > 0 && $args[0] == 'project') {
             // This task is to be connected to a project
             try {
                 $this->_parent = new org_openpsa_projects_project($args[1]);

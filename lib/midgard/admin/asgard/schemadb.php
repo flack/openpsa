@@ -499,9 +499,9 @@ class midgard_admin_asgard_schemadb
                             'creation_default_key' => $linked_type_reflector->get_title_property(new $linked_type),
                             'categorize_by_parent_label' => true,
                             'get_label_for' => $linked_type_reflector->get_label_property(),
-                            ),
-                        )
-                    );
+                        ),
+                    )
+                );
                 break;
         }
     }

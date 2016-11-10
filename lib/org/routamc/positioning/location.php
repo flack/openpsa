@@ -26,8 +26,7 @@ class org_routamc_positioning_location_dba extends midcom_core_dbaobject
     public function get_label()
     {
         if ($this->parent) {
-            $parent = $this->get_parent();
-            if ($parent) {
+            if ($parent = $this->get_parent()) {
                 $label = $parent->guid;
                 if (isset($parent->title)) {
                     $label = $parent->title;

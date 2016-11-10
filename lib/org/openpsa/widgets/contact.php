@@ -143,8 +143,7 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
 
         if ($person->guid == "") {
             $this->contact_details['lastname'] = $this->_l10n->get('no person');
-        } elseif (   $person->firstname == ''
-                 && $person->lastname == '') {
+        } elseif ($person->firstname == '' && $person->lastname == '') {
             $this->contact_details['lastname'] = "Person #{$person->id}";
         } else {
             $this->contact_details['firstname'] = $person->firstname;
@@ -178,8 +177,7 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
 
         if ($this->link) {
             $url = $this->link;
-        } elseif (   $this->link_contacts
-                 && !empty($this->contact_details['guid'])) {
+        } elseif ($this->link_contacts && !empty($this->contact_details['guid'])) {
             if (!self::$_contacts_url) {
                 $this->link_contacts = false;
             } else {
@@ -375,20 +373,16 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
             $property = $cardname . 'Street';
 
             if (sizeof($cards_to_show) == 0) {
-                if (   $property != 'street'
-                    && $customer->$property) {
+                if ($property != 'street' && $customer->$property) {
                     $inherited_cards_only = false;
                     $cards_to_show[] = $cardname;
-                } elseif (   !$default_shown
-                         && $customer->street) {
+                } elseif (!$default_shown && $customer->street) {
                     $default_shown = true;
                     $cards_to_show[] = $cardname;
                 }
             } else {
                 if (    $customer->$property
-                    || (   $customer->street
-                        && (   !$inherited_cards_only
-                            && !$default_shown))) {
+                    || ($customer->street && !$inherited_cards_only && !$default_shown)) {
                     $inherited_cards_only = false;
                     $multiple_addresses = true;
                     $cards_to_show[] = $cardname;

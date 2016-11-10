@@ -66,8 +66,7 @@ class org_routamc_positioning_object extends midcom_baseclasses_components_purec
      */
     function seek_log_object($person = null, $time = null)
     {
-        if (   is_integer($person)
-            || is_string($person)) {
+        if (is_integer($person) || is_string($person)) {
             $person_guid = $person;
         } elseif (is_null($person)) {
             if (!empty($this->_object->metadata->authors)) {

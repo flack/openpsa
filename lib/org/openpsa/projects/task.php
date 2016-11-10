@@ -75,8 +75,8 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
     {
         if ($property == 'status_type') {
             return org_openpsa_projects_workflow::get_status_type($this->status);
-        } elseif (   $property == 'status_comment'
-                 || $property == 'status_time') {
+        }
+        if ($property == 'status_comment' || $property == 'status_time') {
             if (is_null($this->_status)) {
                 $this->_status = $this->_get_status();
             }
@@ -187,8 +187,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
      */
     public function add_members($property, $ids)
     {
-        if (   !is_array($ids)
-            || empty($ids)) {
+        if (!is_array($ids) || empty($ids)) {
             return;
         }
         if ($property === 'contacts') {

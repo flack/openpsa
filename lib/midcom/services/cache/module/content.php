@@ -729,8 +729,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             return;
         }
 
-        if (   $this->_no_cache
-            || $this->_live_mode) {
+        if ($this->_no_cache || $this->_live_mode) {
             if ($this->_obrunning) {
                 if (ob_get_contents()) {
                     ob_end_flush();

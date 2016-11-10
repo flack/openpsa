@@ -82,15 +82,12 @@ class midcom_core_group
             throw new midcom_error('The class midcom_core_group is not default constructible.');
         }
 
-        if (   is_a($id, 'midcom_db_group')
-            || is_a($id, 'midgard_group')) {
+        if (is_a($id, 'midcom_db_group') || is_a($id, 'midgard_group')) {
             $this->_storage = $id;
         } else {
-            if (   is_string($id)
-                 && substr($id, 0, 6) == 'group:') {
+            if (is_string($id) && substr($id, 0, 6) == 'group:') {
                 $id = substr($id, 6);
-            } elseif (   is_numeric($id)
-                     && $id == 0) {
+            } elseif (is_numeric($id) && $id == 0) {
                 throw new midcom_error('0 is not a valid DB identifier');
             }
             try {

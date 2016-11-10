@@ -472,8 +472,7 @@ class midcom_services_auth_acl
                 $user_id = $this->auth->user->id;
             }
         } elseif (is_string($user)) {
-            if (   mgd_is_guid($user)
-                || is_numeric($user)) {
+            if (mgd_is_guid($user) || is_numeric($user)) {
                 $user_id = $this->auth->get_user($user)->id;
             } else {
                 $user_id = $user;

@@ -454,7 +454,7 @@ class midcom_helper_metadata
                         $value = (int) $this->__metadata->$key->format('U');
                     }
                 } elseif (   empty($this->__metadata->$key)
-                         || $this->__metadata->$key == '0000-00-00 00:00:00') {
+                          || $this->__metadata->$key == '0000-00-00 00:00:00') {
                     $value = 0;
                 } else {
                     $value = strtotime("{$this->__metadata->$key} UTC");

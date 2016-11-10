@@ -88,7 +88,8 @@ class elFinderVolumeOpenpsa extends elFinderVolumeDriver
             if ($overwrite) {
                 if (!$file['write']) {
                     return $this->setError(elFinder::ERROR_PERM_DENIED);
-                } elseif ($file['mime'] == 'directory') {
+                }
+                if ($file['mime'] == 'directory') {
                     return $this->setError(elFinder::ERROR_NOT_REPLACE, $name);
                 }
                 $document = new org_openpsa_documents_document_dba($test);

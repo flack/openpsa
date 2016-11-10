@@ -184,8 +184,7 @@ class midcom_core_user
                 debug_add("Failed to retrieve the person ID {$id}: " . $e->getMessage(), MIDCOM_LOG_INFO);
                 throw new midcom_error_midgard($e, $id);
             }
-        } elseif (   is_a($id, 'midcom_db_person')
-                 || is_a($id, $person_class)) {
+        } elseif (is_a($id, 'midcom_db_person') || is_a($id, $person_class)) {
             $this->_storage = $id;
         } else {
             debug_print_r('Passed argument was:', $id);

@@ -326,8 +326,8 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
                     } else {
                         $qb->begin_group('AND');
                         $qb->add_constraint($field, '=', (int) $for_object->$field_target);
-                            // make sure we don't accidentally find other objects with the same id
-                            $qb->add_constraint($field . '.guid', '=', (string) $for_object->guid);
+                        // make sure we don't accidentally find other objects with the same id
+                        $qb->add_constraint($field . '.guid', '=', (string) $for_object->guid);
                         $qb->end_group();
                     }
                     break;

@@ -145,7 +145,7 @@ class midcom_baseclasses_core_dbobject
                     return false;
                 }
             } elseif (   !$parent->can_do('midgard:create')
-                     && !midcom::get()->auth->can_user_do('midgard:create', null, get_class($object))) {
+                      && !midcom::get()->auth->can_user_do('midgard:create', null, get_class($object))) {
                 debug_add("Failed to create object, create privilege on the parent " . get_class($parent) . " {$parent->guid} or the actual object class not granted for the current user.",
                     MIDCOM_LOG_ERROR);
                 midcom_connection::set_error(MGD_ERR_ACCESS_DENIED);
@@ -1166,18 +1166,16 @@ class midcom_baseclasses_core_dbobject
         }
 
         if (is_a($privilege, 'midcom_core_privilege')) {
-            $result = $privilege->store();
-        } elseif (is_string($privilege)) {
+            return $privilege->store();
+        }
+        if (is_string($privilege)) {
             $tmp = self::create_new_privilege_object($object, $privilege, $assignee, $value, $classname);
             if (!$tmp) {
                 throw new midcom_error('Failed to create the privilege. See debug level log for details.');
             }
-            $result = $tmp->store();
-        } else {
-            throw new midcom_error('Unknown $privilege argument type. See debug level log for details.');
+            return $tmp->store();
         }
-
-        return $result;
+        throw new midcom_error('Unknown $privilege argument type');
     }
 
     /**

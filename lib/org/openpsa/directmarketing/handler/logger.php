@@ -173,8 +173,7 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
         }
         $this->_request_data['token'] = $args[0];
 
-        if (   count($args) == 2
-            && !empty($args[1])) {
+        if (count($args) == 2 && !empty($args[1])) {
             //Due to the way browsers handle the URLs this form only works for root pages
             $this->_request_data['target'] = $args[1];
         } elseif (!empty($_GET['link'])) {

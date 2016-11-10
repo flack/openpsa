@@ -406,8 +406,8 @@ class midcom_services_dbclassloader
     {
         if (is_object($object)) {
             return (is_a($object, 'midcom_core_dbaobject') || is_a($object, 'midcom_core_dbaproxy'));
-        } elseif (   is_string($object)
-                 && class_exists($object)) {
+        }
+        if (is_string($object) && class_exists($object)) {
             return $this->is_midcom_db_object(new $object);
         }
 

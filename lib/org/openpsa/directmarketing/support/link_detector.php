@@ -67,8 +67,7 @@ header("Location: $link");
 
 // Log the link to the configured link logger
 if (substr($logger, 0, strlen("file://")) == "file://") {
-    $fh = fopen(substr($logger, strlen("file://")), "w+");
-    if ($fh) {
+    if ($fh = fopen(substr($logger, strlen("file://")), "w+")) {
         fwrite($fh, "$token $link\n");
         fclose($fh);
     }
