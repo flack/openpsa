@@ -56,10 +56,9 @@ class midcom_admin_folder_management extends midcom_baseclasses_components_plugi
              *
              * Match /createlink/
              */
-            $return['createlink'] = array
-            (
+            $return['createlink'] = array(
                 'handler' => array('midcom_admin_folder_handler_edit', 'edit'),
-                'fixed_args' => array ('createlink'),
+                'fixed_args' => array('createlink'),
             );
         }
         return $return;
@@ -94,8 +93,7 @@ class midcom_admin_folder_management extends midcom_baseclasses_components_plugi
                 $description = '';
             }
 
-            $components[$manifest->name] = array
-            (
+            $components[$manifest->name] = array(
                 'name'        => $manifest->get_name_translated(),
                 'description' => $description,
                 'state'       => @$manifest->state,

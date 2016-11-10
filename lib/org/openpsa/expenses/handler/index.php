@@ -86,22 +86,18 @@ class org_openpsa_expenses_handler_index  extends midcom_baseclasses_components_
     {
         $week_start = strftime('%Y-%m-%d', $this->_request_data['week_start']);
         $week_end = strftime('%Y-%m-%d', $this->_request_data['week_end']);
-        $buttons = array
-        (
-            array
-            (
+        $buttons = array(
+            array(
                 MIDCOM_TOOLBAR_URL => 'hours/?date[from]=' . $week_start . '&date[to]=' . $week_end,
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('list view'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/view.png',
             ),
-            array
-            (
+            array(
                 MIDCOM_TOOLBAR_URL => $previous_week . "/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('previous week'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/back.png',
             ),
-            array
-            (
+            array(
                 MIDCOM_TOOLBAR_URL => $next_week . "/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('next week'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/next.png',
@@ -141,8 +137,7 @@ class org_openpsa_expenses_handler_index  extends midcom_baseclasses_components_
                     $person_name = '';
                 }
 
-                $reports[$row_identifier] = array
-                (
+                $reports[$row_identifier] = array(
                     'task' => $this->_get_list_link($task->get_label(), null, $task->guid),
                     'index_task' => $task->get_label(),
                     'person' => $person_label,

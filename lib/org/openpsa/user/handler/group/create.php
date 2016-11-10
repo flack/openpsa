@@ -41,8 +41,7 @@ implements midcom_helper_datamanager2_interfaces_create
         midcom::get()->auth->require_user_do('org.openpsa.user:manage', null, 'org_openpsa_user_interface');
         midcom::get()->head->set_pagetitle($this->_l10n->get('create group'));
 
-        $workflow = $this->get_workflow('datamanager2', array
-        (
+        $workflow = $this->get_workflow('datamanager2', array(
             'controller' => $this->get_controller('create'),
             'save_callback' => array($this, 'save_callback')
         ));

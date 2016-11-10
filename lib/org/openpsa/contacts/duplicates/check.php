@@ -43,8 +43,7 @@ class org_openpsa_contacts_duplicates_check
         //Search for all potential duplicates (more detailed checking is done later)
         $check_persons = $this->get_person_candidates($person);
 
-        $person = $this->normalize_fields(array
-        (
+        $person = $this->normalize_fields(array(
             'firstname' => $person->firstname,
             'lastname' => $person->lastname,
             'email' => $person->email,
@@ -111,8 +110,7 @@ class org_openpsa_contacts_duplicates_check
      */
     function p_duplicate_person(array $person1, array $person2)
     {
-        $ret = array
-        (
+        $ret = array(
             'p' => 0,
             'email_match' => false,
             'handphone_match' => false,
@@ -216,8 +214,7 @@ class org_openpsa_contacts_duplicates_check
 
         $check_groups = $this->get_group_candidates($group);
 
-        $group = $this->normalize_fields(array
-        (
+        $group = $this->normalize_fields(array(
             'official' => $group->official,
             'street' => $group->street,
             'phone' => $group->phone,
@@ -271,8 +268,7 @@ class org_openpsa_contacts_duplicates_check
      */
     function p_duplicate_group(array $group1, array $group2)
     {
-        $ret = array
-        (
+        $ret = array(
             'p' => 0,
             'homepage_match' => false,
             'phone_match' => false,

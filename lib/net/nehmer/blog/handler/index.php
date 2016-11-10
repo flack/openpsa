@@ -114,8 +114,7 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
         midcom::get()->metadata->set_request_metadata(net_nehmer_blog_viewer::get_last_modified($this->_topic, $this->_content_topic), $this->_topic->guid);
 
         if ($qb->get_current_page() > 1) {
-            $this->add_breadcrumb
-            (
+            $this->add_breadcrumb(
                 midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX),
                 sprintf($this->_i18n->get_string('page %s', 'org.openpsa.qbpager'), $qb->get_current_page())
             );
@@ -159,10 +158,8 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
 
         // Add RSS feed to headers
         if ($this->_config->get('rss_enable')) {
-            midcom::get()->head->add_link_head
-            (
-                array
-                (
+            midcom::get()->head->add_link_head(
+                array(
                     'rel'   => 'alternate',
                     'type'  => 'application/rss+xml',
                     'title' => $this->_l10n->get('rss 2.0 feed') . ": {$this->_request_data['category']}",

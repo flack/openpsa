@@ -33,13 +33,11 @@ class net_nehmer_static_viewer extends midcom_baseclasses_components_request
         // These, especially the general view handler, must come last, otherwise we'll hide other
         // handlers
         if ($this->_config->get('autoindex')) {
-            $this->_request_switch['autoindex'] = array
-            (
+            $this->_request_switch['autoindex'] = array(
                 'handler' => array('net_nehmer_static_handler_autoindex', 'autoindex'),
             );
         } else {
-            $this->_request_switch['index'] = array
-            (
+            $this->_request_switch['index'] = array(
                 'handler' => array('net_nehmer_static_handler_view', 'view'),
             );
         }
@@ -103,10 +101,8 @@ class net_nehmer_static_viewer extends midcom_baseclasses_components_request
         $workflow = $this->get_workflow('datamanager2');
         if ($this->_content_topic->can_do('midgard:create')) {
             foreach (array_keys($this->_request_data['schemadb']) as $name) {
-                $buttons[] = $workflow->get_button("create/{$name}/", array
-                (
-                    MIDCOM_TOOLBAR_LABEL => sprintf
-                    (
+                $buttons[] = $workflow->get_button("create/{$name}/", array(
+                    MIDCOM_TOOLBAR_LABEL => sprintf(
                         $this->_l10n_midcom->get('create %s'),
                         $this->_l10n->get($this->_request_data['schemadb'][$name]->description)
                     ),
@@ -119,8 +115,7 @@ class net_nehmer_static_viewer extends midcom_baseclasses_components_request
 
         if (   $this->_config->get('enable_article_links')
             && $this->_content_topic->can_do('midgard:create')) {
-            $buttons[] = $workflow->get_button("create/link/", array
-            (
+            $buttons[] = $workflow->get_button("create/link/", array(
                 MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('article link')),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/attach.png',
             ));
@@ -128,8 +123,7 @@ class net_nehmer_static_viewer extends midcom_baseclasses_components_request
 
         if (   $this->_topic->can_do('midgard:update')
             && $this->_topic->can_do('midcom:component_config')) {
-            $buttons[] = $workflow->get_button('config/', array
-            (
+            $buttons[] = $workflow->get_button('config/', array(
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('component configuration'),
                 MIDCOM_TOOLBAR_HELPTEXT => $this->_l10n_midcom->get('component configuration helptext'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_folder-properties.png',

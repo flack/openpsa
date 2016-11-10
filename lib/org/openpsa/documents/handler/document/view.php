@@ -204,8 +204,7 @@ implements org_openpsa_widgets_grid_provider_client
     {
         if ($this->_document->can_do('midgard:update')) {
             $workflow = $this->get_workflow('datamanager2');
-            $this->_view_toolbar->add_item($workflow->get_button("document/edit/{$this->_document->guid}/", array
-            (
+            $this->_view_toolbar->add_item($workflow->get_button("document/edit/{$this->_document->guid}/", array(
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
             )));
         }
@@ -260,10 +259,8 @@ implements org_openpsa_widgets_grid_provider_client
         }
 
         if ($next_version) {
-            $this->_view_toolbar->add_item
-            (
-                array
-                (
+            $this->_view_toolbar->add_item(
+                array(
                     MIDCOM_TOOLBAR_URL => "document/{$next_version->guid}/",
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('next version'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/up.png',
@@ -271,10 +268,8 @@ implements org_openpsa_widgets_grid_provider_client
              );
         }
         if ($previous_version) {
-            $this->_view_toolbar->add_item
-            (
-                array
-                (
+            $this->_view_toolbar->add_item(
+                array(
                     MIDCOM_TOOLBAR_URL => "document/{$previous_version->guid}/",
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('previous version'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/down.png',

@@ -121,8 +121,7 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
             throw new midcom_error('"content" not defined in schema');
         }
 
-        $settings = array
-        (
+        $settings = array(
             'mail_send_backend' => 'mail_send_backend',
             'bouncer_address' => 'bounce_detector_address',
             'linkdetector_address' => 'link_detector_address',

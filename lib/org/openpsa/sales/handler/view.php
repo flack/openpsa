@@ -65,8 +65,7 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
         $buttons = array();
         if ($this->_salesproject->can_do('midgard:update')) {
             $workflow = $this->get_workflow('datamanager2');
-            $buttons[] = $workflow->get_button("salesproject/edit/{$this->_salesproject->guid}/", array
-            (
+            $buttons[] = $workflow->get_button("salesproject/edit/{$this->_salesproject->guid}/", array(
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
             ));
         }
@@ -78,8 +77,7 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
 
         if (!empty($this->_request_data['projects_url'])) {
             $prefix = midcom_connection::get_url('self') . $this->_request_data['projects_url'];
-            $buttons[] = array
-            (
+            $buttons[] = array(
                 MIDCOM_TOOLBAR_URL => $prefix . "project/{$this->_salesproject->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_i18n->get_string('org.openpsa.projects', 'org.openpsa.projects'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/jump-to.png',

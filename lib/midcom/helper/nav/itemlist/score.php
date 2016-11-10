@@ -29,7 +29,7 @@ class midcom_helper_nav_itemlist_score extends midcom_helper_nav_itemlist
 
         $result = array_map(array($this->_nap, 'get_node'), $nodes_list);
         $result = array_merge($result, array_map(array($this->_nap, 'get_leaf'), $leaves_list));
-        if (!uasort($result, array ('midcom_helper_nav_itemlist_score', 'sort_cmp'))) {
+        if (!uasort($result, array('midcom_helper_nav_itemlist_score', 'sort_cmp'))) {
             throw new midcom_error('Failed to sort the navigation');
         }
         return $result;

@@ -74,8 +74,7 @@ class org_openpsa_core_filter_timeframe extends org_openpsa_core_filter
      */
     public function render()
     {
-        $ids = array
-        (
+        $ids = array(
             'from' => 'datepicker_' . $this->name . '_from',
             'to' => 'datepicker_' . $this->name . '_to',
         );

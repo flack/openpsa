@@ -56,8 +56,7 @@ class org_routamc_positioning_importer_html extends org_routamc_positioning_impo
                     return null;
                 }
 
-                $position = array
-                (
+                $position = array(
                     'latitude'    => $latitude,
                     'longitude'    => $longitude,
                 );

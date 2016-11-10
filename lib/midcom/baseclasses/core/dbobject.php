@@ -105,7 +105,7 @@ class midcom_baseclasses_core_dbobject
     private static function _set_owner_privileges(midcom_core_dbaobject $object)
     {
         if (!midcom::get()->auth->user) {
-            debug_add ("Could not retrieve the midcom_core_user instance for the creator of " . get_class($object) . " {$object->guid}, skipping owner privilege assignment.",
+            debug_add("Could not retrieve the midcom_core_user instance for the creator of " . get_class($object) . " {$object->guid}, skipping owner privilege assignment.",
                 MIDCOM_LOG_INFO);
             return;
         }
@@ -626,8 +626,7 @@ class midcom_baseclasses_core_dbobject
             if ($param->purge()) {
                 $purged_size += $param->metadata->size;
             } else {
-                midcom::get()->uimessages->add
-                (
+                midcom::get()->uimessages->add(
                     midcom::get()->i18n->get_string('midgard.admin.asgard', 'midgard.admin.asgard'),
                     sprintf(midcom::get()->i18n->get_string('failed purging parameter %s => %s, reason %s', 'midgard.admin.asgard'), $param->domain, $param->name, midcom_connection::get_error_string()),
                     'error'

@@ -18,10 +18,8 @@ class net_nemein_wiki_viewer extends midcom_baseclasses_components_request
         $this->_request_data['schemadb'] = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb'));
 
         // Add machine-readable RSS link
-        midcom::get()->head->add_link_head
-        (
-            array
-            (
+        midcom::get()->head->add_link_head(
+            array(
                 'rel'   => 'alternate',
                 'type'  => 'application/rss+xml',
                 'title' => sprintf($this->_l10n->get('latest updates in %s'), $this->_topic->extra),
@@ -38,16 +36,13 @@ class net_nemein_wiki_viewer extends midcom_baseclasses_components_request
             } else {
                 $action = 'subscribe';
             }
-            $this->_node_toolbar->add_item
-            (
-                array
-                (
+            $this->_node_toolbar->add_item(
+                array(
                     MIDCOM_TOOLBAR_URL => "subscribe/index/",
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get($action),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_mail.png',
                     MIDCOM_TOOLBAR_POST => true,
-                    MIDCOM_TOOLBAR_POST_HIDDENARGS => array
-                    (
+                    MIDCOM_TOOLBAR_POST_HIDDENARGS => array(
                         $action => 1,
                         'target'      => 'folder',
                     ),
@@ -55,10 +50,8 @@ class net_nemein_wiki_viewer extends midcom_baseclasses_components_request
             );
         }
 
-        $this->_node_toolbar->add_item
-        (
-            array
-            (
+        $this->_node_toolbar->add_item(
+            array(
                 MIDCOM_TOOLBAR_URL => "orphans/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('orphaned pages'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/editcut.png',

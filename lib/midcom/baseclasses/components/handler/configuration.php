@@ -92,8 +92,7 @@ implements midcom_helper_datamanager2_interfaces_edit
         $workflow = $this->get_workflow('datamanager2', array('controller' => $this->_controller));
         if (   method_exists($this, '_load_datamanagers')
             && method_exists($this, '_load_objects')) {
-            $workflow->add_post_button('config/recreate/', $this->_l10n_midcom->get('recreate images'), array
-            (
+            $workflow->add_post_button('config/recreate/', $this->_l10n_midcom->get('recreate images'), array(
                 'midcom_baseclasses_components_handler_configuration_recreateok' => true,
             ));
         }

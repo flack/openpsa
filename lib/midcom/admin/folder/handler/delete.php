@@ -36,8 +36,7 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
         $nav = new midcom_helper_nav();
         $upper_node = $nav->get_node($nav->get_current_upper_node());
 
-        $workflow = $this->get_workflow('delete', array
-        (
+        $workflow = $this->get_workflow('delete', array(
             'object' => $this->_topic,
             'recursive' => true,
             'success_url' => $upper_node[MIDCOM_NAV_ABSOLUTEURL]

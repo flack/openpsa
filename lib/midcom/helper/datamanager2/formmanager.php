@@ -216,8 +216,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
 
             //Load custom QF rules, so that they can be used in widgets' add_element_to_form calls
             $rulemanager->load_type_rules($this->_schema->fields[$name]['type']);
-            $attributes = array
-            (
+            $attributes = array(
                 'helptext' => $this->_translate($config['helptext']),
                 'id' => $this->namespace . $name
             );
@@ -251,8 +250,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
         $this->_add_filter_rules();
 
         // Translate the required note
-        $this->form->setRequiredNote
-        (
+        $this->form->setRequiredNote(
             '<span style="font-size:80%; color:#ff0000;">*</span><span style="font-size:80%;">' .
             $this->_l10n->get('denotes required field') .
             '</span>'
@@ -756,8 +754,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
      */
     public static function get_clicked_button()
     {
-        $available_buttons = array
-        (
+        $available_buttons = array(
             'save',
             'next',
             'previous',

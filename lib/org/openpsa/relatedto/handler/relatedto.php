@@ -37,8 +37,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
      *
      * @var array
      */
-    private $_links = array
-    (
+    private $_links = array(
         'incoming' => array(),
         'outgoing' => array()
     );
@@ -94,10 +93,8 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
         $object_url = midcom::get()->permalinks->create_permalink($this->_object->guid);
 
         if ($object_url) {
-            $this->_view_toolbar->add_item
-            (
-                array
-                (
+            $this->_view_toolbar->add_item(
+                array(
                     MIDCOM_TOOLBAR_URL => $object_url,
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('back'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_left.png',
@@ -158,10 +155,8 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
 
         foreach (array_keys($links) as $guid) {
             //TODO: check for duplicates ?
-            $to_arr = array
-            (
-                'link' => array
-                (
+            $to_arr = array(
+                'link' => array(
                     'guid' => $guid,
                     'component' => $mc->get_subkey($guid, $object_prefix . 'Component'),
                     'class' => $mc->get_subkey($guid, $object_prefix . 'Class'),

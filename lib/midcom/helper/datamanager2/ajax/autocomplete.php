@@ -146,8 +146,7 @@ class midcom_helper_datamanager2_ajax_autocomplete
                     continue;
             }
             debug_add("adding search (ORed) constraint: {$field} {$operator} '{$query}'");
-            $constraints[] = array
-            (
+            $constraints[] = array(
                 'field' => $field,
                 'op' => $operator,
                 'value' => $query
@@ -202,8 +201,7 @@ class midcom_helper_datamanager2_ajax_autocomplete
         $items = array();
 
         foreach ($results as $object) {
-            $item = array
-            (
+            $item = array(
                 'id' => $object->{$this->_request['id_field']},
                 'label' => midcom_helper_datamanager2_widget_autocomplete::create_item_label($object, $this->_request['result_headers'], $this->_request['get_label_for']),
             );

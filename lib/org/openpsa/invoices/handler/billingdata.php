@@ -78,8 +78,7 @@ implements midcom_helper_datamanager2_interfaces_create
         $workflow = $this->get_workflow('datamanager2', array('controller' => $data['controller']));
         if (   $mode == 'edit'
             && $billing_data[0]->can_do('midgard:delete')) {
-            $delete = $this->get_workflow('delete', array
-            (
+            $delete = $this->get_workflow('delete', array(
                 'object' => $billing_data[0],
                 'label' => $this->_l10n->get('billing data')
             ));
@@ -103,8 +102,7 @@ implements midcom_helper_datamanager2_interfaces_create
         $billing_data->require_do('midgard:delete');
         $this->_linked_object = midcom::get()->dbfactory->get_object_by_guid($billing_data->linkGuid);
 
-        $workflow = $this->get_workflow('delete', array
-        (
+        $workflow = $this->get_workflow('delete', array(
             'object' => $billing_data,
             'success_url' => $this->get_relocate_url()
         ));

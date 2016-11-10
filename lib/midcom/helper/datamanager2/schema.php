@@ -175,8 +175,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
                     $extended_schema_name = $schema['extends']['name'];
                 }
             } elseif (isset($contents[$schema['extends']])) {
-                $schema['extends'] = array
-                (
+                $schema['extends'] = array(
                     'name' => $schema['extends'],
                 );
             } else {
@@ -412,8 +411,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
         }
         /* Rest of the defaults */
         // Simple ones
-        $simple_defaults = array
-        (
+        $simple_defaults = array(
             'description' => null,
             'helptext' => null,
             'static_prepend' => null,
@@ -432,8 +430,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
 
         // And complex ones
         if (!array_key_exists('storage', $config)) {
-            $config['storage'] = array
-            (
+            $config['storage'] = array(
                 'location' => 'parameter',
                 'domain' => 'midcom.helper.datamanager2'
             );
@@ -478,8 +475,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
                 throw new midcom_error("Missing compare_with option for compare type rule {$key} on field {$config['name']}, this is a required option.");
             }
 
-            $defaults = array
-            (
+            $defaults = array(
                 'message' => "validation failed: {$rule['type']}",
                 'format' => ''
             );

@@ -53,8 +53,7 @@ class org_routamc_positioning_geocoder_geoplugin extends org_routamc_positioning
             throw new RuntimeException("GeoPlugin did not return coordinates for IP");
         }
 
-        $location = array
-        (
+        $location = array(
             'latitude' => (float) $geocoded->geoplugin_latitude,
             'longitude' => (float) $geocoded->geoplugin_longitude,
         );

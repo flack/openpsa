@@ -40,8 +40,7 @@ class org_openpsa_widgets_ui extends midcom_baseclasses_components_purecode
             if (   $node_url
                 && (   !$user_id
                     || midcom::get()->auth->acl->can_do_byguid('midgard:read', $siteconfig->get_node_guid($component), 'midcom_db_topic', $user_id))) {
-                $providers[] = array
-                (
+                $providers[] = array(
                     'placeholder' => midcom::get()->i18n->get_string('search title', $component),
                     'url' => $node_url . $config['route'],
                     'identifier' => $component,
@@ -102,13 +101,11 @@ class org_openpsa_widgets_ui extends midcom_baseclasses_components_purecode
 
         if (null !== $guid) {
             //pass the urls & titles for the tabs
-            $tabdata[] = array
-            (
+            $tabdata[] = array(
                'url' => '__mfa/org.openpsa.relatedto/journalentry/' . $guid . '/html/',
                'title' => midcom::get()->i18n->get_string('journal entries', 'org.openpsa.relatedto'),
             );
-            $tabdata[] = array
-            (
+            $tabdata[] = array(
                'url' => '__mfa/org.openpsa.relatedto/render/' . $guid . '/both/',
                'title' => midcom::get()->i18n->get_string('related objects', 'org.openpsa.relatedto'),
             );

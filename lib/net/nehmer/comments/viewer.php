@@ -29,51 +29,44 @@ class net_nehmer_comments_viewer extends midcom_baseclasses_components_request
         if (   $this->_topic->can_do('midgard:update')
             && $this->_topic->can_do('midcom:component_config')) {
             $workflow = $this->get_workflow('datamanager2');
-            $buttons[] = $workflow->get_button('config/', array
-            (
+            $buttons[] = $workflow->get_button('config/', array(
                 MIDCOM_TOOLBAR_HELPTEXT => $this->_l10n_midcom->get('component configuration helptext'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_folder-properties.png',
             ));
         }
         if (   $this->_topic->can_do('midgard:update')
             && $this->_topic->can_do('net.nehmer.comments:moderation')) {
-            $buttons[] = array
-            (
+            $buttons[] = array(
                 MIDCOM_TOOLBAR_URL => 'moderate/reported_abuse/',
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('reported abuse'),
                 MIDCOM_TOOLBAR_HELPTEXT => $this->_l10n_midcom->get('reported abuse helptext'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_news.png',
             );
-            $buttons[] = array
-            (
+            $buttons[] = array(
                 MIDCOM_TOOLBAR_URL => 'moderate/abuse/',
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('abuse'),
                 MIDCOM_TOOLBAR_HELPTEXT => $this->_l10n_midcom->get('abuse helptext'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_news.png',
             );
-            $buttons[] = array
-            (
+            $buttons[] = array(
                 MIDCOM_TOOLBAR_URL => 'moderate/junk/',
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('junk'),
                 MIDCOM_TOOLBAR_HELPTEXT => $this->_l10n_midcom->get('junk helptext'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_news.png',
             );
-            $buttons[] = array
-            (
+            $buttons[] = array(
                 MIDCOM_TOOLBAR_URL => 'moderate/latest/',
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('latest comments'),
                 MIDCOM_TOOLBAR_HELPTEXT => $this->_l10n_midcom->get('latest helptext'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_news.png',
             );
-            $buttons[] = array
-            (
+            $buttons[] = array(
                 MIDCOM_TOOLBAR_URL => 'moderate/latest_new/',
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('only new'),
                 MIDCOM_TOOLBAR_HELPTEXT => $this->_l10n_midcom->get('only new helptext'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_news.png',
             );
-            $buttons[] = array
-            (
+            $buttons[] = array(
                 MIDCOM_TOOLBAR_URL => 'moderate/latest_approved/',
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('only approved'),
                 MIDCOM_TOOLBAR_HELPTEXT => $this->_l10n_midcom->get('only approved helptext'),
@@ -91,67 +84,57 @@ class net_nehmer_comments_viewer extends midcom_baseclasses_components_request
             && $comment->status < net_nehmer_comments_comment::MODERATED) {
             if (!$comment->can_do('net.nehmer.comments:moderation')) {
                 // Regular users can only report abuse
-                $buttons[] = array
-                (
+                $buttons[] = array(
                     MIDCOM_TOOLBAR_URL => "report/{$comment->guid}/",
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('report abuse'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_help-agent.png',
                     MIDCOM_TOOLBAR_POST => true,
-                    MIDCOM_TOOLBAR_POST_HIDDENARGS => array
-                    (
+                    MIDCOM_TOOLBAR_POST_HIDDENARGS => array(
                         'mark' => 'abuse',
                         'return_url' => midcom_connection::get_url('uri'),
                     )
                 );
             } else {
-                $buttons[] = array
-                (
+                $buttons[] = array(
                     MIDCOM_TOOLBAR_URL => "report/{$comment->guid}/",
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('confirm abuse'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
                     MIDCOM_TOOLBAR_ENABLED => $comment->can_do('net.nehmer.comments:moderation'),
                     MIDCOM_TOOLBAR_POST => true,
-                    MIDCOM_TOOLBAR_POST_HIDDENARGS => array
-                    (
+                    MIDCOM_TOOLBAR_POST_HIDDENARGS => array(
                         'mark' => 'confirm_abuse',
                         'return_url' => midcom_connection::get_url('uri'),
                     )
                 );
-                $buttons[] = array
-                (
+                $buttons[] = array(
                     MIDCOM_TOOLBAR_URL => "report/{$comment->guid}/",
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('confirm junk'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
                     MIDCOM_TOOLBAR_ENABLED => $comment->can_do('net.nehmer.comments:moderation'),
                     MIDCOM_TOOLBAR_POST => true,
-                    MIDCOM_TOOLBAR_POST_HIDDENARGS => array
-                    (
+                    MIDCOM_TOOLBAR_POST_HIDDENARGS => array(
                         'mark' => 'confirm_junk',
                         'return_url' => midcom_connection::get_url('uri'),
                     )
                 );
-                $buttons[] = array
-                (
+                $buttons[] = array(
                     MIDCOM_TOOLBAR_URL => "report/{$comment->guid}/",
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('not abuse'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/ok.png',
                     MIDCOM_TOOLBAR_ENABLED => $comment->can_do('net.nehmer.comments:moderation'),
                     MIDCOM_TOOLBAR_POST => true,
-                    MIDCOM_TOOLBAR_POST_HIDDENARGS => array
-                    (
+                    MIDCOM_TOOLBAR_POST_HIDDENARGS => array(
                         'mark' => 'not_abuse',
                         'return_url' => midcom_connection::get_url('uri'),
                     )
                 );
                 if (!empty($viewtype)) {
-                    $buttons[] = array
-                    (
+                    $buttons[] = array(
                         MIDCOM_TOOLBAR_URL => 'moderate/ajax/' . $viewtype . '/',
                         MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('delete'),
                         MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/editdelete.png',
                         MIDCOM_TOOLBAR_ENABLED => $comment->can_do('net.nehmer.comments:moderation'),
-                        MIDCOM_TOOLBAR_OPTIONS => array
-                        (
+                        MIDCOM_TOOLBAR_OPTIONS => array(
                             'class' => 'moderate-ajax',
                             'data-guid' => $comment->guid,
                             'data-action' => 'action_delete',

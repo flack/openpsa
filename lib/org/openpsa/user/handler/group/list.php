@@ -32,8 +32,7 @@ class org_openpsa_user_handler_group_list extends midcom_baseclasses_components_
         $this->add_breadcrumb("", $this->_l10n->get('groups'));
         if (midcom::get()->auth->can_user_do('midgard:create', null, 'midcom_db_group')) {
             $workflow = $this->get_workflow('datamanager2');
-            $this->_view_toolbar->add_item($workflow->get_button("group/create/", array
-            (
+            $this->_view_toolbar->add_item($workflow->get_button("group/create/", array(
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create group'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_people-new.png',
             )));

@@ -30,24 +30,20 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         if (   $this->_config->get('allow_manage_accounts')
             && $this->_person) {
             $this->_account = new midcom_core_account($this->_person);
-            $buttons = array
-            (
-                array
-                (
+            $buttons = array(
+                array(
                     MIDCOM_TOOLBAR_URL => "__mfa/asgard/preferences/{$this->_person->guid}/",
                     MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('user preferences', 'midgard.admin.asgard'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/configuration.png',
                 ),
-                array
-                (
+                array(
                     MIDCOM_TOOLBAR_URL => "__mfa/asgard_midcom.admin.user/account/{$this->_person->guid}/",
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('edit account'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/repair.png',
                 )
             );
             if (($this->_account->get_username() !== '')) {
-                $buttons[] = array
-                (
+                $buttons[] = array(
                     MIDCOM_TOOLBAR_URL => "__mfa/asgard_midcom.admin.user/delete_account/{$this->_person->guid}/",
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('delete account'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
@@ -80,8 +76,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
 
     public function get_schema_defaults()
     {
-        $defaults = array
-        (
+        $defaults = array(
             'username' => $this->_account->get_username(),
             'person' => $this->_person->guid
         );

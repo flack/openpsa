@@ -242,8 +242,7 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
     {
         if ($this->_request_data['group']) {
             $workflow = $this->get_workflow('datamanager2');
-            $this->_view_toolbar->add_item($workflow->get_button("edit/{$this->_request_data['group']->guid}/", array
-            (
+            $this->_view_toolbar->add_item($workflow->get_button("edit/{$this->_request_data['group']->guid}/", array(
                 MIDCOM_TOOLBAR_URL => "edit/{$this->_request_data['group']->guid}/",
                 MIDCOM_TOOLBAR_ENABLED => $this->_request_data['group']->can_do('midgard:update'),
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
@@ -267,12 +266,10 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
     {
         $workflow = $this->get_workflow('datamanager2');
         foreach (array_keys($this->_request_data[$schemadb_name]) as $name) {
-            $config = array
-            (
+            $config = array(
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/' . $default_icon . '.png',
                 MIDCOM_TOOLBAR_ENABLED => $allowed,
-                MIDCOM_TOOLBAR_LABEL => sprintf
-                (
+                MIDCOM_TOOLBAR_LABEL => sprintf(
                     $this->_l10n_midcom->get('create %s'),
                     $this->_l10n->get($this->_request_data[$schemadb_name][$name]->description)
                 ),

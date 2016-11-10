@@ -116,8 +116,7 @@ class midcom_services_toolbars
 
     public function get_class_magic_default_privileges()
     {
-        return array
-        (
+        return array(
             'EVERYONE' => array(),
             'ANONYMOUS' => array(),
             'USERS' => array()

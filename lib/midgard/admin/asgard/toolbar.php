@@ -30,8 +30,7 @@ class midgard_admin_asgard_toolbar extends midcom_helper_toolbar_view
         $buttons = array();
         // Show view toolbar button, if the user hasn't configured to use straight the edit mode
         if ($data['default_mode'] === 'view') {
-            $buttons[] = array
-            (
+            $buttons[] = array(
                 MIDCOM_TOOLBAR_URL => $this->_generate_url('view', $object),
                 MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('view', 'midcom'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/view.png',
@@ -50,8 +49,7 @@ class midgard_admin_asgard_toolbar extends midcom_helper_toolbar_view
             && substr($object->__mgdschema_class_name__, 0, 14) != 'net_nemein_tag') {
             $link = midcom::get()->permalinks->resolve_permalink($object->guid);
             if ($link) {
-                $buttons[] = array
-                (
+                $buttons[] = array(
                     MIDCOM_TOOLBAR_URL => $link,
                     MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('view on site', 'midgard.admin.asgard'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_internet.png',
@@ -60,8 +58,7 @@ class midgard_admin_asgard_toolbar extends midcom_helper_toolbar_view
         }
 
         if ($object->can_do('midgard:update')) {
-            $buttons[] = array
-            (
+            $buttons[] = array(
                 MIDCOM_TOOLBAR_URL => $this->_generate_url('edit', $object),
                 MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('edit', 'midcom'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
@@ -71,8 +68,7 @@ class midgard_admin_asgard_toolbar extends midcom_helper_toolbar_view
 
         if ($object->can_do('midgard:create')) {
             $url = (midcom_helper_reflector_tree::get_child_objects($object)) ? 'copy/tree' : 'copy';
-            $buttons[] = array
-            (
+            $buttons[] = array(
                 MIDCOM_TOOLBAR_URL => $this->_generate_url($url, $object),
                 MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('copy', 'midcom'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/editcopy.png',
@@ -132,8 +128,7 @@ class midgard_admin_asgard_toolbar extends midcom_helper_toolbar_view
                     continue;
                 }
 
-                $buttons[] = array
-                (
+                $buttons[] = array(
                     MIDCOM_TOOLBAR_URL => $this->_generate_url('create/' . $type, $object),
                     MIDCOM_TOOLBAR_LABEL => sprintf(midcom::get()->i18n->get_string('create %s', 'midcom'), midgard_admin_asgard_plugin::get_type_label($type)),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/' . $data['tree_reflector']->get_create_icon($type),
@@ -142,8 +137,7 @@ class midgard_admin_asgard_toolbar extends midcom_helper_toolbar_view
         }
 
         if ($object->can_do('midgard:delete')) {
-            $buttons[] = array
-            (
+            $buttons[] = array(
                 MIDCOM_TOOLBAR_URL => $this->_generate_url('delete', $object),
                 MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('delete', 'midcom'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
@@ -154,8 +148,7 @@ class midgard_admin_asgard_toolbar extends midcom_helper_toolbar_view
         if (   midcom::get()->config->get('midcom_services_rcs_enable')
             && $object->can_do('midgard:update')
             && $object->_use_rcs) {
-            $buttons[] = array
-            (
+            $buttons[] = array(
                 MIDCOM_TOOLBAR_URL => $this->_generate_url('rcs', $object),
                 MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('show history', 'midgard.admin.asgard'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/history.png',
@@ -216,16 +209,14 @@ class midgard_admin_asgard_toolbar extends midcom_helper_toolbar_view
         if (   is_a($object, 'midcom_db_topic')
             && $object->component
             && $object->can_do('midcom:component_config')) {
-            $buttons[] = array
-            (
+            $buttons[] = array(
                 MIDCOM_TOOLBAR_URL => "__mfa/asgard/components/configuration/edit/{$object->component}/{$object->guid}/",
                 MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('component configuration', 'midcom'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_folder-properties.png',
             );
         }
 
-        $buttons[] = array
-        (
+        $buttons[] = array(
             MIDCOM_TOOLBAR_URL => $this->_generate_url('metadata', $object),
             MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('metadata', 'midcom'),
             MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/metadata.png',
@@ -233,23 +224,20 @@ class midgard_admin_asgard_toolbar extends midcom_helper_toolbar_view
         );
         $buttons = array_merge($buttons, $this->get_approval_controls($object));
 
-        $buttons[] = array
-        (
+        $buttons[] = array(
             MIDCOM_TOOLBAR_URL => $this->_generate_url('attachments', $object),
             MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('attachments', 'midgard.admin.asgard'),
             MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/attach.png',
         );
 
-        $buttons[] = array
-        (
+        $buttons[] = array(
             MIDCOM_TOOLBAR_URL => $this->_generate_url('parameters', $object),
             MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('parameters', 'midcom'),
             MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/properties.png',
             MIDCOM_TOOLBAR_ENABLED => $object->can_do('midgard:parameters'),
         );
 
-        $buttons[] = array
-        (
+        $buttons[] = array(
             MIDCOM_TOOLBAR_URL => $this->_generate_url('permissions', $object),
             MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('privileges', 'midcom'),
             MIDCOM_TOOLBAR_ICON => 'midgard.admin.asgard/permissions-16.png',
@@ -258,8 +246,7 @@ class midgard_admin_asgard_toolbar extends midcom_helper_toolbar_view
 
         if (   midcom::get()->componentloader->is_installed('midcom.helper.replicator')
             && midcom::get()->auth->admin) {
-            $buttons[] = array
-            (
+            $buttons[] = array(
                 MIDCOM_TOOLBAR_URL => "__mfa/asgard_midcom.helper.replicator/object/{$object->guid}/",
                 MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('replication information', 'midcom.helper.replicator'),
                 MIDCOM_TOOLBAR_ICON => 'midcom.helper.replicator/replicate-server-16.png',

@@ -3,8 +3,7 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 
 // Map, timestamps => text
 // default is 1, 3, 6 and a year
-$lastmod_content = array
-(
+$lastmod_content = array(
     0 => $data['l10n']->get('no limit'),
     strtotime('-1 month') => $data['l10n']->get('since 1 month'),
     strtotime('-3 month') => $data['l10n']->get('since 3 months'),

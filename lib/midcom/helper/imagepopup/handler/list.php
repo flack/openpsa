@@ -163,31 +163,23 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
      */
     private function _load_schema()
     {
-        return array
-        (
-            $this->_request_data['schema_name'] => new midcom_helper_datamanager2_schema
-            (
-                array
-                (
-                    $this->_request_data['schema_name'] => array
-                    (
+        return array(
+            $this->_request_data['schema_name'] => new midcom_helper_datamanager2_schema(
+                array(
+                    $this->_request_data['schema_name'] => array(
                         'description' => 'generated schema',
-                        'fields' => array
-                        (
-                            'midcom_helper_imagepopup_images' => array
-                            (
+                        'fields' => array(
+                            'midcom_helper_imagepopup_images' => array(
                                 'title' => $this->_l10n->get('images'),
                                 'storage' => null,
                                 'type' => 'images',
                                 'widget' => 'images',
-                                'widget_config' => array
-                                (
+                                'widget_config' => array(
                                     'set_name_and_title_on_upload' => false
                                 ),
                             ),
 
-                            'midcom_helper_imagepopup_files' => array
-                            (
+                            'midcom_helper_imagepopup_files' => array(
                                 'title' => $this->_l10n->get('files'),
                                 'storage' => null,
                                 'type' => 'blobs',

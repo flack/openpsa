@@ -46,8 +46,7 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
      *
      * @var array
      */
-    public $headers = array
-    (
+    public $headers = array(
         'Subject' => null,
         'From' => null,
         'To' => null,

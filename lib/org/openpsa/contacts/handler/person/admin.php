@@ -81,8 +81,7 @@ class org_openpsa_contacts_handler_person_admin extends midcom_baseclasses_compo
         $this->_load_controller();
         midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('edit %s'), $this->_l10n->get('person')));
 
-        $workflow = $this->get_workflow('datamanager2', array
-        (
+        $workflow = $this->get_workflow('datamanager2', array(
             'controller' => $this->_controller,
             'save_callback' => array($this, 'save_callback')
         ));

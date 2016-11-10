@@ -71,10 +71,8 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
         $data['person_rss_url'] = $this->_contact->get_parameter('net.nemein.rss', 'url');
         if ($data['person_rss_url']) {
             // We've autoprobed that this contact has a RSS feed available, link it
-            midcom::get()->head->add_link_head
-            (
-                array
-                (
+            midcom::get()->head->add_link_head(
+                array(
                     'rel'   => 'alternate',
                     'type'  => 'application/rss+xml',
                     'title' => sprintf($this->_l10n->get('rss feed of person %s'), $this->_contact->name),
@@ -103,8 +101,7 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
         $workflow = $this->get_workflow('datamanager2');
         $buttons = array();
         if ($this->_contact->can_do('midgard:update')) {
-            $buttons[] = $workflow->get_button("person/edit/{$this->_contact->guid}/", array
-            (
+            $buttons[] = $workflow->get_button("person/edit/{$this->_contact->guid}/", array(
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
             ));
         }
@@ -116,8 +113,7 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
         if (   $invoices_url
             && midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_invoices_invoice_dba')) {
             if ($this->_contact->can_do('midgard:update')) {
-                $buttons[] = $workflow->get_button($invoices_url . "billingdata/" . $this->_contact->guid . '/', array
-                (
+                $buttons[] = $workflow->get_button($invoices_url . "billingdata/" . $this->_contact->guid . '/', array(
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('edit billingdata'),
                 ));
             }
@@ -126,8 +122,7 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
         if (   $user_url
             && (   midcom_connection::get_user() == $this->_contact->id
                 || midcom::get()->auth->can_user_do('org.openpsa.user:access', null, 'org_openpsa_user_interface'))) {
-            $buttons[] = array
-            (
+            $buttons[] = array(
                 MIDCOM_TOOLBAR_URL => $user_url . "view/{$this->_contact->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_i18n->get_string('user management', 'org.openpsa.user'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/properties.png',
@@ -143,16 +138,14 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
 
         if ($mycontacts->is_member($this->_contact->guid)) {
             // We're buddies, show remove button
-            $buttons[] = array
-            (
+            $buttons[] = array(
                 MIDCOM_TOOLBAR_URL => "mycontacts/remove/{$this->_contact->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('remove from my contacts'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
             );
         } else {
             // We're not buddies, show add button
-            $buttons[] = array
-            (
+            $buttons[] = array(
                 MIDCOM_TOOLBAR_URL => "mycontacts/add/{$this->_contact->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('add to my contacts'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_person.png',

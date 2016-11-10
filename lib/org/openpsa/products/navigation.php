@@ -63,8 +63,7 @@ class org_openpsa_products_navigation extends midcom_baseclasses_components_navi
 
         // Get the properties of each group
         foreach ($groups as $group) {
-            $leaves[$group->id] = array
-            (
+            $leaves[$group->id] = array(
                 MIDCOM_NAV_URL => ($group->code) ? "{$group->code}/" : "{$group->guid}/",
                 MIDCOM_NAV_NAME => $group->title,
                 MIDCOM_NAV_GUID => $group->guid,

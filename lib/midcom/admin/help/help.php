@@ -16,8 +16,7 @@ use midgard\introspection\helper;
  */
 class midcom_admin_help_help extends midcom_baseclasses_components_plugin
 {
-    private $mgdtypes = array
-    (
+    private $mgdtypes = array(
         MGD_TYPE_STRING => "string",
         MGD_TYPE_INT => "integer",
         MGD_TYPE_UINT => "unsigned integer",
@@ -170,12 +169,9 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         ksort($files);
         // prepend 'index' URL if required
         if ($with_index) {
-            $files = array_merge
-            (
-                array
-                (
-                    'index' => array
-                    (
+            $files = array_merge(
+                array(
+                    'index' => array(
                         'path' => '/',
                         'subject' => $this->_l10n->get('help_index'),
                         'lang' => 'en',
@@ -192,8 +188,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         // Schemas
         $this->_request_data['mgdschemas'] = midcom::get()->dbclassloader->get_component_classes($component);
         if (count($this->_request_data['mgdschemas'])) {
-            $files['mgdschemas'] = array
-            (
+            $files['mgdschemas'] = array(
                 'path' => '/mgdschemas',
                 'subject' => $this->_l10n->get('help_mgdschemas'),
                 'lang' => 'en',
@@ -203,8 +198,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         // URL Methods
         $this->_request_data['urlmethods'] = $this->read_url_methods($component);
         if (count($this->_request_data['urlmethods'])) {
-            $files['urlmethods'] = array
-            (
+            $files['urlmethods'] = array(
                 'path' => '/urlmethods',
                 'subject' => $this->_l10n->get('help_urlmethods'),
                 'lang' => 'en',
@@ -220,8 +214,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         // handlers
         $this->_request_data['request_switch_info'] = $this->read_component_handlers($component);
         if (count($this->_request_data['request_switch_info'])) {
-            $files['handlers'] = array
-            (
+            $files['handlers'] = array(
                 'path' => '/handlers',
                 'subject' => $this->_l10n->get('help_handlers'),
                 'lang' => 'en',
@@ -231,8 +224,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         // Dependencies
         $this->_request_data['dependencies'] = midcom::get()->componentloader->get_component_dependencies($component);
         if (count($this->_request_data['dependencies'])) {
-            $files['dependencies'] = array
-            (
+            $files['dependencies'] = array(
                 'path' => '/dependencies',
                 'subject' => $this->_l10n->get('help_dependencies'),
                 'lang' => 'en',
@@ -262,8 +254,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
 
             $filename_parts = explode('.', $entry);
 
-            $files[$filename_parts[0]] = array
-            (
+            $files[$filename_parts[0]] = array(
                 'path' => $path,
                 'subject' => self::get_help_title($filename_parts[0], $component),
                 'lang' => $filename_parts[1],
@@ -391,8 +382,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
 
     private function _get_property_data(midgard_reflection_property $mrp, $prop)
     {
-        return array
-        (
+        return array(
             'value' => $mrp->description($prop),
             'link' => $mrp->is_link($prop),
             'link_name' => $mrp->get_link_name($prop),
@@ -469,8 +459,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
 
         if (   $handler_id == '____ais-help-help'
             || $handler_id == '____ais-help-component') {
-            $this->add_breadcrumb
-            (
+            $this->add_breadcrumb(
                 "__ais/help/{$this->_request_data['component']}/",
                 sprintf($this->_l10n->get('help for %s'), midcom::get()->i18n->get_string($this->_request_data['component'], $this->_request_data['component']))
             );
@@ -481,14 +470,12 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
                 || $this->_request_data['help_id'] == 'dependencies'
                 || $this->_request_data['help_id'] == 'urlmethods'
                 || $this->_request_data['help_id'] == 'mgdschemas') {
-                $this->add_breadcrumb
-                (
+                $this->add_breadcrumb(
                     "__ais/help/{$this->_request_data['component']}/{$this->_request_data['help_id']}",
                     $this->_l10n->get($this->_request_data['help_id'])
                 );
             } else {
-                $this->add_breadcrumb
-                (
+                $this->add_breadcrumb(
                     "__ais/help/{$this->_request_data['component']}/{$this->_request_data['help_id']}",
                     self::get_help_title($this->_request_data['help_id'], $this->_request_data['component'])
                 );
@@ -610,8 +597,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         }
 
         // Table of contents navi
-        $data['view_title'] = sprintf
-        (
+        $data['view_title'] = sprintf(
             $this->_l10n->get('help for %s in %s'),
             self::get_help_title($data['help_id'], $data['component']),
             $this->_i18n->get_string($data['component'], $data['component'])

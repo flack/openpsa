@@ -66,8 +66,7 @@ class midcom_helper_datamanager2_type_urlname extends midcom_helper_datamanager2
          */
         $schema =& $this->_datamanager->schema->fields[$this->name];
         if (!isset($schema['write_privilege'])) {
-            $schema['write_privilege'] = array
-            (
+            $schema['write_privilege'] = array(
                 'privilege' => 'midcom:urlname',
             );
         }

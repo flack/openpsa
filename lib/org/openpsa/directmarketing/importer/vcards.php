@@ -33,8 +33,7 @@ class org_openpsa_directmarketing_importer_vcards extends org_openpsa_directmark
 
     private function _parse_vcard(Component $card)
     {
-        $contact = array
-        (
+        $contact = array(
             'person'              => array(),
             'organization'        => array(),
             'organization_member' => array(),

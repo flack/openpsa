@@ -39,8 +39,7 @@ implements midcom_helper_datamanager2_interfaces_create
         $last = sizeof($account_schema['default']->fields);
         foreach ($account_schema['default']->fields as $name => $field) {
             if ($current++ == 0) {
-                $field['start_fieldset'] = array
-                (
+                $field['start_fieldset'] = array(
                     'title' => 'account_fieldset',
                     'css_group' => 'area meta',
                 );
@@ -81,8 +80,7 @@ implements midcom_helper_datamanager2_interfaces_create
         midcom::get()->head->set_pagetitle($this->_l10n->get('create person'));
 
         $data['controller'] = $this->get_controller('create');
-        $workflow = $this->get_workflow('datamanager2', array
-        (
+        $workflow = $this->get_workflow('datamanager2', array(
             'controller' => $data['controller'],
             'save_callback' => array($this, 'save_callback')
         ));

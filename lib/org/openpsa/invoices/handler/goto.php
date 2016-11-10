@@ -31,8 +31,7 @@ class org_openpsa_invoices_handler_goto extends midcom_baseclasses_components_ha
             return new midcom_response_relocate('invoice/' . $invoice->guid . '/');
         }
 
-        $MessageContent = sprintf
-        (
+        $MessageContent = sprintf(
             $this->_l10n->get('there is no invoice with number %s'),
             $this->_l10n->get($invoicenumber)
         );

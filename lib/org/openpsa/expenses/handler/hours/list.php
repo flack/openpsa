@@ -65,10 +65,8 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
                 $projects_url = $siteconfig->get_node_full_url('org.openpsa.projects');
 
                 if ($projects_url) {
-                    $this->_view_toolbar->add_item
-                    (
-                        array
-                        (
+                    $this->_view_toolbar->add_item(
+                        array(
                             MIDCOM_TOOLBAR_URL => $projects_url . "task/{$task->guid}/",
                             MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n->get('show task %s'), $task->title),
                             MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/jump-to.png',
@@ -103,20 +101,16 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
      */
     private function _load_hour_data(array $hours)
     {
-        $reports = array
-        (
-            'invoiceable' => array
-            (
+        $reports = array(
+            'invoiceable' => array(
                 'hours' => 0,
                 'reports' => array(),
             ),
-            'uninvoiceable' => array
-            (
+            'uninvoiceable' => array(
                 'hours' => 0,
                 'reports' => array(),
             ),
-            'invoiced' => array
-            (
+            'invoiced' => array(
                 'hours' => 0,
                 'reports' => array(),
             ),
@@ -127,8 +121,7 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
                 try {
                     $reporter = new midcom_db_person($report->person);
                     $reporter_card = new org_openpsa_widgets_contact($reporter);
-                    $this->reporters[$report->person] = array
-                    (
+                    $this->reporters[$report->person] = array(
                         'card' => $reporter_card->show_inline(),
                         'rname' => $reporter->rname
                     );
@@ -189,21 +182,17 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
         $task_conf = midcom_helper_datamanager2_widget_autocomplete::get_widget_config('task');
         $invoice_conf = midcom_helper_datamanager2_widget_autocomplete::get_widget_config('invoice');
 
-        return array
-        (
+        return array(
             'none' => array('label' => midcom::get()->i18n->get_string("choose action", "midcom.admin.user")),
-            'invoiceable' => array
-            (
+            'invoiceable' => array(
                 'label' => $this->_l10n->get('mark_' . ($status ? 'invoiceable' : 'uninvoiceable')),
                 'value' => $status
             ),
-            'task' => array
-            (
+            'task' => array(
                 'label' => $this->_l10n->get('change_task'),
                 'widget_config' => $task_conf
             ),
-            'invoice' => array
-            (
+            'invoice' => array(
                 'label' => $this->_l10n->get('change_invoice'),
                 'widget_config' => $invoice_conf
             )

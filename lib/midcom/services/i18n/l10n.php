@@ -530,7 +530,7 @@ class midcom_services_i18n_l10n
     {
         // This is error-resilient, deleting a non-existent string will
         // just do nothing.
-        unset ($this->_stringdb[$language][$string]);
+        unset($this->_stringdb[$language][$string]);
     }
 
     /**

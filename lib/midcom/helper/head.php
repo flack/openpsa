@@ -292,8 +292,7 @@ class midcom_helper_head
      */
     public function add_stylesheet($url, $media = false)
     {
-        $attributes = array
-        (
+        $attributes = array(
             'rel'  => 'stylesheet',
             'type' => 'text/css',
             'href' => $url,
@@ -355,7 +354,7 @@ class midcom_helper_head
      */
     public function print_jsonload()
     {
-        if (count ($this->_jsonload) > 0) {
+        if (count($this->_jsonload) > 0) {
             $calls = implode("; ", $this->_jsonload);
             echo " onload=\"$calls\" ";
         }

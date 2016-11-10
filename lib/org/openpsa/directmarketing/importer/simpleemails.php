@@ -23,10 +23,8 @@ class org_openpsa_directmarketing_importer_simpleemails extends org_openpsa_dire
         $contacts = array_filter(array_map('trim', $contacts));
 
         foreach ($contacts as $contact) {
-            $parsed[] = array
-            (
-                'person' => array
-                (
+            $parsed[] = array(
+                'person' => array(
                     'email' => strtolower($contact),
                 )
             );

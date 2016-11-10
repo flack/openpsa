@@ -48,8 +48,7 @@ class midcom_debug
      *
      * @var array
      */
-    private $_loglevels = array
-    (
+    private $_loglevels = array(
         MIDCOM_LOG_DEBUG => "debug",
         MIDCOM_LOG_INFO  => "info",
         MIDCOM_LOG_WARN  => "warn",
@@ -302,7 +301,7 @@ class midcom_debug
             $stacktrace .= "\n";
         }
 
-        $this->log (trim ($message) . "\n{$stacktrace}", $loglevel);
+        $this->log(trim($message) . "\n{$stacktrace}", $loglevel);
     }
 
     /**
@@ -324,7 +323,7 @@ class midcom_debug
             $type .= ": " . get_class($variable);
         }
 
-        $this->log (trim ($message) . "\nVariable Type: $type", $loglevel);
+        $this->log(trim($message) . "\nVariable Type: $type", $loglevel);
     }
 
     /**

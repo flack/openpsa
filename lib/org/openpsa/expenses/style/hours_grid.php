@@ -68,8 +68,7 @@ $grid->set_option('loadonce', true)
 
 $grid->add_pager();
 
-$footer_data = array
-(
+$footer_data = array(
     'hours' => $reports['hours']
 );
 

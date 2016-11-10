@@ -39,8 +39,7 @@ class midcom_core_context
      *
      * @var array
      */
-    private $_data = array
-    (
+    private $_data = array(
         MIDCOM_CONTEXT_ANCHORPREFIX => '',
         MIDCOM_CONTEXT_URI => '',
         MIDCOM_CONTEXT_ROOTTOPIC => null,

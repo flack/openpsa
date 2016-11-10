@@ -97,7 +97,7 @@ class org_openpsa_mail_message
             $this->_headers['Content-Type'] = "text/plain; charset={$this->_encoding}";
         }
 
-        reset ($this->_headers);
+        reset($this->_headers);
         foreach ($this->_headers as $header => $value) {
             if (is_string($value)) {
                 $this->_headers[$header] = trim($value);

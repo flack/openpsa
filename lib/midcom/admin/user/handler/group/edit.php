@@ -94,20 +94,16 @@ implements midcom_helper_datamanager2_interfaces_edit
 
         $this->_update_breadcrumb();
 
-        $data['asgard_toolbar']->add_item
-        (
-            array
-            (
+        $data['asgard_toolbar']->add_item(
+            array(
                 MIDCOM_TOOLBAR_URL => "__mfa/asgard_midcom.admin.user/group/move/{$this->_group->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('move group'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/save-as.png',
             )
         );
 
-        $data['asgard_toolbar']->add_item
-        (
-            array
-            (
+        $data['asgard_toolbar']->add_item(
+            array(
                 MIDCOM_TOOLBAR_URL => "__mfa/asgard_midcom.admin.user/group/folders/{$this->_group->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('folders'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/folder.png',

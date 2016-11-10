@@ -79,8 +79,7 @@ class org_openpsa_projects_status extends org_openpsa_widgets_status
                 $target_person_label = $target_person->show_inline();
             }
 
-            $entries[] = array
-            (
+            $entries[] = array(
                 'message' => sprintf($this->l10n->get($status_change->get_status_message()), $status_changer_label, $target_person_label),
                 'timestamp' => $status_change->metadata->created
             );

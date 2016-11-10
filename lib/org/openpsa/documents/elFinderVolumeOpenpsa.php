@@ -314,8 +314,7 @@ class elFinderVolumeOpenpsa extends elFinderVolumeDriver
         }
         $object = midcom::get()->dbfactory->get_object_by_guid($path);
 
-        $data = array
-        (
+        $data = array(
             'ts' => $object->metadata->revised,
             'read' => true,
             'write' => $object->can_do('midgard:update'),

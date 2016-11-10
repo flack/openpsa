@@ -57,8 +57,7 @@ class midgard_admin_asgard_stylehelper
 
         if ($this->_data['object']->name == 'ROOT') {
             $element_path = midcom::get()->componentloader->path_to_snippetpath('midgard.admin.asgard') . '/documentation/ROOT.php';
-            $this->_data['help_style_element'] = array
-            (
+            $this->_data['help_style_element'] = array(
                 'component' => 'midcom',
                 'default'   => file_get_contents($element_path),
             );
@@ -70,8 +69,7 @@ class midgard_admin_asgard_stylehelper
         foreach ($style_elements['elements'] as $component => $elements) {
             if (!empty($elements[$this->_data['object']->name])) {
                 $element_path = $elements[$this->_data['object']->name];
-                $this->_data['help_style_element'] = array
-                (
+                $this->_data['help_style_element'] = array(
                     'component' => $component,
                     'default'   => file_get_contents($element_path),
                 );
@@ -91,12 +89,9 @@ class midgard_admin_asgard_stylehelper
 
     private function _get_style_elements_and_nodes($style_id)
     {
-        $results = array
-        (
-            'elements' => array
-            (
-                'midcom' => array
-                (
+        $results = array(
+            'elements' => array(
+                'midcom' => array(
                     'style-init' => '',
                     'style-finish' => '',
                  )

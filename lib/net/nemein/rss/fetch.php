@@ -203,8 +203,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
         $article->_activitystream_verb = 'http://community-equity.org/schema/1.0/clone';
         $article->_rcs_message = sprintf(midcom::get()->i18n->get_string('%s was imported from %s', 'net.nemein.rss'), $title, $this->_feed->title);
 
-        $values = array
-        (
+        $values = array(
             'title' => $title,
             $this->_guid_property => $guid, // FIXME: This breaks with URLs longer than 255 chars
             'content' => $item->get_content(),

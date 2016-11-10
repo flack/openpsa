@@ -18,8 +18,7 @@ class org_openpsa_products_handler_configuration extends midcom_baseclasses_comp
 {
     function _load_datamanagers()
     {
-        return array
-        (
+        return array(
             'org_openpsa_products_product_group_dba' => new midcom_helper_datamanager2_datamanager($this->_request_data['schemadb_group']),
             'org_openpsa_products_product_dba' => new midcom_helper_datamanager2_datamanager($this->_request_data['schemadb_product'])
         );

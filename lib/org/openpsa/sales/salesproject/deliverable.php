@@ -163,8 +163,7 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
         debug_add('Units before update: ' . $this->units . ", uninvoiceable: " . $this->uninvoiceableUnits);
 
         if (null === $hours) {
-            $hours = array
-            (
+            $hours = array(
                 'reported' => 0,
                 'invoiced' => 0,
                 'invoiceable' => 0

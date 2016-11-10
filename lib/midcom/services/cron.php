@@ -106,20 +106,16 @@ class midcom_services_cron
      * @var Array
      * @todo Factor this out into its own configuration file.
      */
-    private $_midcom_jobs = array
-    (
-        array
-        (
+    private $_midcom_jobs = array(
+        array(
             'handler' => 'midcom_cron_tmpservice',
             'recurrence' => MIDCOM_CRON_HOUR,
         ),
-        array
-        (
+        array(
             'handler' => 'midcom_cron_loginservice',
             'recurrence' => MIDCOM_CRON_HOUR,
         ),
-        array
-        (
+        array(
             'handler' => 'midcom_cron_purgedeleted',
             'recurrence' => MIDCOM_CRON_DAY,
         ),

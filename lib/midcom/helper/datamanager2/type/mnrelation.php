@@ -218,8 +218,7 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
         if (   !$this->mapping_class_name
             || !$this->master_fieldname
             || !$this->member_fieldname) {
-            throw new midcom_error
-            (
+            throw new midcom_error(
                 'The configuration options mapping_class_name, master_filename and member_fieldname
                  must be defined for  any mnselect type.'
             );
@@ -398,7 +397,7 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
 
                 $index = $existing_members[$key];
                 $new_membership_objects[] = $this->_membership_objects[$index];
-                unset ($this->_membership_objects[$index]);
+                unset($this->_membership_objects[$index]);
             } else {
                 // Create new member
                 $member = new $this->mapping_class_name();

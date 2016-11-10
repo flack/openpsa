@@ -63,8 +63,7 @@ class org_routamc_positioning_importer_georss extends org_routamc_positioning_im
                         $time = time();
                     }
 
-                    $position = array
-                    (
+                    $position = array(
                         'latitude'    => $latitude,
                         'longitude'   => $longitude,
                         'time'        => $time,

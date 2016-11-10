@@ -254,7 +254,7 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
         // Call the appropriate methods
         $this->_add_thumbnail_to_derived_images();
         $ret = $this->_save_derived_images();
-        unlink ($this->_original_tmpname);
+        unlink($this->_original_tmpname);
         // Clear up all attachments no longer in use
         if ($ret) {
             unset($this->_pending_attachments['main']);

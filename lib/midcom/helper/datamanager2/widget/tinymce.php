@@ -196,8 +196,7 @@ EOT;
      */
     private function _get_configuration()
     {
-        $ok_elements = array
-        (
+        $ok_elements = array(
             'simple'   => true,
             'advanced' => true,
             'tiny'     => true,

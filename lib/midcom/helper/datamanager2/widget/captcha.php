@@ -127,7 +127,7 @@ class midcom_helper_datamanager2_widget_captcha extends midcom_helper_datamanage
         if ($fields[$this->name] != $passphrase) {
             $this->_element->setValue('');
 
-            return array ("{$this->name}_group" => $this->_l10n->get('captcha validation failed'));
+            return array("{$this->name}_group" => $this->_l10n->get('captcha validation failed'));
         }
 
         return true;

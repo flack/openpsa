@@ -33,8 +33,7 @@ class org_openpsa_user_viewer extends midcom_baseclasses_components_request
             $password = $formmanager->_types['password']->value;
         }
 
-        $stat = $account_helper->create_account
-        (
+        $stat = $account_helper->create_account(
             $person->guid,
             $formmanager->_types["username"]->value,
             $person->email,

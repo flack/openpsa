@@ -149,8 +149,7 @@ abstract class midcom_helper_datamanager2_controller extends midcom_baseclasses_
             if ($schema === null) {
                 if (!$this->datamanager->autoset_storage($storage)) {
                     debug_print_r('We got this storage object:', $storage);
-                    throw new midcom_error
-                    (
+                    throw new midcom_error(
                         'Failed to automatically create a datamanager instance for a storage object or a MidCOM type. See the debug level log for more information.'
                     );
                 }

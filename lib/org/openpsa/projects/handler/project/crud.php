@@ -46,12 +46,10 @@ class org_openpsa_projects_handler_project_crud extends midcom_baseclasses_compo
         $workflow = $this->get_workflow('datamanager2');
         $buttons = array();
         if ($this->_object->can_do('midgard:update')) {
-            $buttons[] = $workflow->get_button("project/edit/{$this->_object->guid}/", array
-            (
+            $buttons[] = $workflow->get_button("project/edit/{$this->_object->guid}/", array(
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
             ));
-            $buttons[] = $workflow->get_button("task/new/project/{$this->_object->guid}/", array
-            (
+            $buttons[] = $workflow->get_button("task/new/project/{$this->_object->guid}/", array(
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("create task"),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new_task.png',
             ));
@@ -61,8 +59,7 @@ class org_openpsa_projects_handler_project_crud extends midcom_baseclasses_compo
         $sales_url = $siteconfig->get_node_full_url('org.openpsa.sales');
 
         if (!empty($sales_url)) {
-            $buttons[] = array
-            (
+            $buttons[] = array(
                 MIDCOM_TOOLBAR_URL => $sales_url . "salesproject/{$this->_object->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_i18n->get_string('salesproject', 'org.openpsa.sales'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/jump-to.png',

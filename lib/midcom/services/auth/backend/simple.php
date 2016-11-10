@@ -125,8 +125,7 @@ class midcom_services_auth_backend_simple extends midcom_services_auth_backend
      */
     private function _set_cookie()
     {
-        $stat = _midcom_setcookie
-        (
+        $stat = _midcom_setcookie(
             $this->_cookie_id,
             "{$this->session_id}-{$this->user->id}",
             0,
@@ -145,8 +144,7 @@ class midcom_services_auth_backend_simple extends midcom_services_auth_backend
      */
     private function _delete_cookie()
     {
-        $stat = _midcom_setcookie
-        (
+        $stat = _midcom_setcookie(
             $this->_cookie_id,
             false,
             time() - 3600,

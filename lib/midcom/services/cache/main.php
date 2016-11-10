@@ -70,8 +70,7 @@ class midcom_services_cache implements EventSubscriberInterface
 
     public static function getSubscribedEvents()
     {
-        return array
-        (
+        return array(
             dbaevent::CREATE => array('handle_create'),
             dbaevent::UPDATE => array('handle_update'),
             dbaevent::DELETE => array('handle_event'),

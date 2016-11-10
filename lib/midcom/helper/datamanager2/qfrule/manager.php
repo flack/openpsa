@@ -34,8 +34,7 @@ class midcom_helper_datamanager2_qfrule_manager
      */
     private $_loaded = array();
 
-    private $_available = array
-    (
+    private $_available = array(
         'date' => array('checkjsdate', 'checksimpledate'),
         'select' => array('requiremultiselect')
     );

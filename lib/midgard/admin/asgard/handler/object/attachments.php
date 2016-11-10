@@ -296,8 +296,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
         $filename = $args[1];
         $file = $this->_get_file($filename);
 
-        $workflow = $this->get_workflow('delete', array
-        (
+        $workflow = $this->get_workflow('delete', array(
             'object' => $file,
             'label' => $filename,
             'success_url' => "__mfa/asgard/object/attachments/{$this->_object->guid}/"

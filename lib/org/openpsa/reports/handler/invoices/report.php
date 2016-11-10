@@ -127,8 +127,7 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
     {
         $invoices = array();
         $qb = org_openpsa_sales_salesproject_deliverable_dba::new_query_builder();
-        $states = array
-        (
+        $states = array(
             org_openpsa_sales_salesproject_deliverable_dba::STATE_DELIVERED,
             org_openpsa_sales_salesproject_deliverable_dba::STATE_STARTED,
             org_openpsa_sales_salesproject_deliverable_dba::STATE_ORDERED

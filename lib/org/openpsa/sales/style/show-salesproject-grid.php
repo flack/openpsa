@@ -4,8 +4,7 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 $rows = array();
 $formatter = $data['l10n']->get_formatter();
 
-$state_labels = array
-(
+$state_labels = array(
     org_openpsa_sales_salesproject_dba::STATE_LOST => 'lost',
     org_openpsa_sales_salesproject_dba::STATE_CANCELED => 'canceled',
     org_openpsa_sales_salesproject_dba::STATE_ACTIVE => 'active',
@@ -112,8 +111,7 @@ $grid->set_option('scroll', 1)
 ->set_option('sortname', 'index_title');
 
 $grid->set_option('grouping', true)
-    ->set_option('groupingView', array
-    (
+    ->set_option('groupingView', array(
         'groupField' => ($data['mode'] != 'customer') ? array('customer') : array('state'),
         'groupColumnShow' => array(false),
         'groupText' => array('<strong>{0}</strong> ({1})'),

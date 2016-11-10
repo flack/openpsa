@@ -36,12 +36,10 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
      */
     public function get_class_magic_default_privileges()
     {
-        return array
-        (
+        return array(
             'EVERYONE' => array(),
             'ANONYMOUS' => array(),
-            'USERS' => array
-            (
+            'USERS' => array(
                 'midgard:create' => MIDCOM_PRIVILEGE_ALLOW
             ),
         );
@@ -298,8 +296,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
                         break;
                 }
 
-                $log_entries[$log_action[1]] = array
-                (
+                $log_entries[$log_action[1]] = array(
                     'action'   => $log_action[0],
                     'reporter' => $reporter,
                     'ip'       => $log_details[1],
@@ -322,14 +319,12 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
         $browser = str_replace(':', '_', $_SERVER['HTTP_USER_AGENT']);
         $date_string = gmdate('Ymd\This');
 
-        $log_action = array
-        (
+        $log_action = array(
             0 => $action,
             1 => $date_string
         );
 
-        $log_details = array
-        (
+        $log_details = array(
             0 => $reporter,
             1 => str_replace(':', '_', $_SERVER['REMOTE_ADDR']),
             2 => $browser
@@ -344,8 +339,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
 
     public static function get_default_status()
     {
-        $view_status = array
-        (
+        $view_status = array(
             net_nehmer_comments_comment::NEW_ANONYMOUS,
             net_nehmer_comments_comment::NEW_USER,
             net_nehmer_comments_comment::MODERATED,

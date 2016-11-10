@@ -21,38 +21,30 @@ class net_nemein_rss_helpers extends midcom_baseclasses_components_purecode
      */
     public static function default_rss_config_schema_fields($component)
     {
-        return array
-        (
-            'rss_enable' => array
-            (
+        return array(
+            'rss_enable' => array(
                 'title' => midcom::get()->i18n->get_string('rss_enable', 'net.nemein.rss'),
-                'storage' => array
-                (
+                'storage' => array(
                     'location' => 'configuration',
                     'domain' => $component,
                     'name' => 'rss_enable',
                 ),
                 'type' => 'select',
-                'type_config' => array
-                (
-                    'options' => array
-                    (
+                'type_config' => array(
+                    'options' => array(
                         '' => 'default setting',
                         '1' => 'yes',
                         '0' => 'no',
                     ),
                 ),
                 'widget' => 'select',
-                'start_fieldset' => array
-                (
+                'start_fieldset' => array(
                     'title' =>  midcom::get()->i18n->get_string('rss output settings', 'net.nemein.rss'),
                 ),
             ),
-            'rss_count' => array
-            (
+            'rss_count' => array(
                 'title' => midcom::get()->i18n->get_string('rss_count', 'net.nemein.rss'),
-                'storage' => array
-                (
+                'storage' => array(
                     'location' => 'configuration',
                     'domain' => $component,
                     'name' => 'rss_count',
@@ -60,11 +52,9 @@ class net_nemein_rss_helpers extends midcom_baseclasses_components_purecode
                 'type' => 'number',
                 'widget' => 'text',
             ),
-            'rss_title' => array
-            (
+            'rss_title' => array(
                 'title' => midcom::get()->i18n->get_string('rss_title', 'net.nemein.rss'),
-                'storage' => array
-                (
+                'storage' => array(
                     'location' => 'configuration',
                     'domain' => $component,
                     'name' => 'rss_title',
@@ -72,11 +62,9 @@ class net_nemein_rss_helpers extends midcom_baseclasses_components_purecode
                 'type' => 'text',
                 'widget' => 'text',
             ),
-            'rss_description' => array
-            (
+            'rss_description' => array(
                 'title' => midcom::get()->i18n->get_string('rss_description', 'net.nemein.rss'),
-                'storage' => array
-                (
+                'storage' => array(
                     'location' => 'configuration',
                     'domain' => $component,
                     'name' => 'rss_description',
@@ -84,11 +72,9 @@ class net_nemein_rss_helpers extends midcom_baseclasses_components_purecode
                 'type' => 'text',
                 'widget' => 'text',
             ),
-            'rss_webmaster' => array
-            (
+            'rss_webmaster' => array(
                 'title' => midcom::get()->i18n->get_string('rss_webmaster', 'net.nemein.rss'),
-                'storage' => array
-                (
+                'storage' => array(
                     'location' => 'configuration',
                     'domain' => $component,
                     'name' => 'rss_webmaster',
@@ -96,11 +82,9 @@ class net_nemein_rss_helpers extends midcom_baseclasses_components_purecode
                 'type' => 'text',
                 'widget' => 'text',
             ),
-            'rss_language' => array
-            (
+            'rss_language' => array(
                 'title' => midcom::get()->i18n->get_string('rss_language', 'net.nemein.rss'),
-                'storage' => array
-                (
+                'storage' => array(
                     'location' => 'configuration',
                     'domain' => $component,
                     'name' => 'rss_language',

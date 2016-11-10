@@ -30,8 +30,7 @@ class org_openpsa_products_handler_product_crud extends midcom_baseclasses_compo
         // Get common breadcrumb for the product
         $breadcrumb = $this->_master->update_breadcrumb_line($this->_object);
 
-        $breadcrumb[] = array
-        (
+        $breadcrumb[] = array(
             MIDCOM_NAV_URL => '',
             MIDCOM_NAV_NAME => sprintf($this->_l10n_midcom->get('edit %s'), $this->_l10n->get('product')),
         );

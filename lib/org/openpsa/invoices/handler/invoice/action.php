@@ -27,8 +27,7 @@ class org_openpsa_invoices_handler_invoice_action extends midcom_baseclasses_com
 
     private function reply($success, $message)
     {
-        $message = array
-        (
+        $message = array(
             'title' => $this->_l10n->get($this->_component),
             'type' => $success ? 'info' : 'error',
             'message' => $message
@@ -39,8 +38,7 @@ class org_openpsa_invoices_handler_invoice_action extends midcom_baseclasses_com
             return new midcom_response_relocate('invoice/' . $this->invoice->guid . '/');
         }
 
-        $result = array
-        (
+        $result = array(
             'success' => $success,
             'action' => $this->_master->render_invoice_actions($this->invoice),
             'due' => strftime('%Y-%m-%d', $this->invoice->due),
@@ -154,16 +152,14 @@ class org_openpsa_invoices_handler_invoice_action extends midcom_baseclasses_com
         $attachment = $pdf_helper->get_attachment(true);
 
         $mail = new org_openpsa_mail();
-        $mail->attachments[] = array
-        (
+        $mail->attachments[] = array(
             'name' => $attachment->name . ".pdf",
             'mimetype' => "application/pdf",
             'content' => $attachment->read()
         );
 
         // define replacements for subject / body
-        $mail->parameters = array
-        (
+        $mail->parameters = array(
             "INVOICE_LABEL" => $invoice_label,
             "INVOICE_DATE" => $invoice_date,
             "FIRSTNAME" => $contactDetails["firstname"],

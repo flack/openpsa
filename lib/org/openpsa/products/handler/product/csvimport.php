@@ -21,8 +21,7 @@ class org_openpsa_products_handler_product_csvimport extends midcom_baseclasses_
         midcom::get()->auth->require_admin_user();
         $this->_request_data['type'] = 'product';
 
-        $this->_request_data['import_status'] = array
-        (
+        $this->_request_data['import_status'] = array(
             'updated' => 0,
             'created' => 0,
             'failed_create' => 0,

@@ -95,8 +95,7 @@ class org_openpsa_slideshow_handler_edit extends midcom_baseclasses_components_h
         $data['images'] = $qb->execute();
 
         $head = midcom::get()->head;
-        $head->enable_jquery_ui(array
-        (
+        $head->enable_jquery_ui(array(
             'mouse', 'draggable', 'droppable', 'sortable',
             'progressbar', 'button', 'position', 'dialog',
             'effect', 'effect-pulsate'
@@ -106,16 +105,13 @@ class org_openpsa_slideshow_handler_edit extends midcom_baseclasses_components_h
         $head->add_jsfile(MIDCOM_STATIC_URL . '/' . $this->_component . '/edit.js');
         $head->add_stylesheet(MIDCOM_STATIC_URL . '/' . $this->_component . '/edit.css');
 
-        $buttons = array
-        (
-            array
-            (
+        $buttons = array(
+            array(
                 MIDCOM_TOOLBAR_URL => "",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('view'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/view.png',
             ),
-            array
-            (
+            array(
                 MIDCOM_TOOLBAR_URL => "recreate/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('recreate derived images'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_refresh.png',

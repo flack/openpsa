@@ -230,8 +230,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
         if (   $this->_mode !== 'update'
             && $this->_object->can_do('midgard:update')) {
             $workflow = $this->get_workflow('datamanager2');
-            $buttons[] = $workflow->get_button($prefix . "edit/{$this->_object->guid}/", array
-            (
+            $buttons[] = $workflow->get_button($prefix . "edit/{$this->_object->guid}/", array(
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
             ));
         }
@@ -394,8 +393,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
 
         $this->_update_title($handler_id);
         $this->args = $args;
-        $workflow = $this->get_workflow('datamanager2', array
-        (
+        $workflow = $this->get_workflow('datamanager2', array(
             'controller' => $this->_controller,
             'save_callback' => array($this, 'save_callback')
         ));
@@ -485,8 +483,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
         $this->_update_title($handler_id);
         $this->args = $args;
         $data['controller'] = $this->_controller;
-        $workflow = $this->get_workflow('datamanager2', array
-        (
+        $workflow = $this->get_workflow('datamanager2', array(
             'controller' => $this->_controller,
             'save_callback' => array($this, 'save_callback')
         ));

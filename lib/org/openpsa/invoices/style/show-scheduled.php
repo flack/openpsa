@@ -1,16 +1,14 @@
 <?php
 $i18n = midcom::get()->i18n;
 $grid = $data['grid'];
-$footer_data = array
-(
+$footer_data = array(
     'customer' => $data['l10n']->get('totals'),
     'sum' => $grid->get_provider()->get_column_total('sum')
 );
 
 $grid->set_option('loadonce', true)
 ->set_option('grouping', true)
-->set_option('groupingView', array
-(
+->set_option('groupingView', array(
     'groupField' => array('month'),
     'groupColumnShow' => array(false),
     'groupText' => array('<strong>{0}</strong> ({1})'),

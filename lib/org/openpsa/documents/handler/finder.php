@@ -61,25 +61,21 @@ class org_openpsa_documents_handler_finder extends midcom_baseclasses_components
         $workflow = $this->get_workflow('datamanager2');
         $buttons = array();
         if ($this->_request_data['directory']->can_do('midgard:create')) {
-            $buttons[] = $workflow->get_button("document/create/", array
-            (
+            $buttons[] = $workflow->get_button("document/create/", array(
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('new document'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-text.png',
             ));
-            $buttons[] = $workflow->get_button("create/", array
-            (
+            $buttons[] = $workflow->get_button("create/", array(
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('new directory'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-dir.png',
             ));
         }
         if ($this->_request_data['directory']->can_do('midgard:update')) {
-            $buttons[] = $workflow->get_button("edit/", array
-            (
+            $buttons[] = $workflow->get_button("edit/", array(
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('edit directory'),
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
             ));
-            $buttons[] = array
-            (
+            $buttons[] = array(
                 MIDCOM_TOOLBAR_URL => "__ais/folder/move/{$this->_request_data['directory']->guid}/",
                 MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('move', 'midcom.admin.folder'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/save-as.png',
@@ -87,8 +83,7 @@ class org_openpsa_documents_handler_finder extends midcom_baseclasses_components
         }
         if ($this->_request_data['directory']->can_do('midgard:delete')) {
             $workflow = $this->get_workflow('delete', array('object' => $this->_request_data['directory'], 'recursive' => true));
-            $buttons[] = $workflow->get_button("__ais/folder/delete/", array
-            (
+            $buttons[] = $workflow->get_button("__ais/folder/delete/", array(
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('delete directory'),
                 MIDCOM_TOOLBAR_ACCESSKEY => 'd',
             ));
@@ -114,12 +109,9 @@ class org_openpsa_documents_handler_finder extends midcom_baseclasses_components
      */
     public function _handler_connector($handler_id, array $args, array &$data)
     {
-        $options = array
-        (
-            'roots' => array
-            (
-                array
-                (
+        $options = array(
+            'roots' => array(
+                array(
                     'driver' => 'Openpsa',
                     'path' => $this->_topic->guid
                 )

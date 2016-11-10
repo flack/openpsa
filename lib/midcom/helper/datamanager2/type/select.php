@@ -450,8 +450,7 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
 
         if ($this->others) {
             if (is_string($this->others)) {
-                $this->others = array
-                (
+                $this->others = array(
                     $this->others => $this->others,
                 );
             }

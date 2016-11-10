@@ -75,8 +75,7 @@ class midcom_helper_datamanager2_renderer_default extends HTML_QuickForm_Rendere
      *
      * @var array
      */
-    private $_templates = array
-    (
+    private $_templates = array(
         'form_toolbar' => "<div class='form_toolbar'>{element}</div>",
     );
 
@@ -376,8 +375,7 @@ class midcom_helper_datamanager2_renderer_default extends HTML_QuickForm_Rendere
     {
         $name = $group->getName();
 
-        $this->_current_group_templates[$name] = array
-        (
+        $this->_current_group_templates[$name] = array(
             'group_template' => $this->_prepare_template($name, $group, $required, $error, 'group'),
             'group_element_template' => empty($this->_group_element_templates[$name]) ? '' : $this->_group_element_templates[$name],
             'group_wrap' => empty($this->_group_wraps[$name]) ? '' : $this->_group_wraps[$name],

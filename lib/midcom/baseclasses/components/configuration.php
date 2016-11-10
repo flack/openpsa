@@ -58,8 +58,7 @@ class midcom_baseclasses_components_configuration
      */
     private static function _initialize($component)
     {
-        self::$_data[$component] = array
-        (
+        self::$_data[$component] = array(
             'active_leaf' => false,
             'config' => array(),
             'routes' => array()

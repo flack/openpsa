@@ -14,8 +14,7 @@ class org_openpsa_projects_project extends midcom_core_dbaobject
     public $__midcom_class_name__ = __CLASS__;
     public $__mgdschema_class_name__ = 'org_openpsa_project';
 
-    public $autodelete_dependents = array
-    (
+    public $autodelete_dependents = array(
         'org_openpsa_contacts_role_dba' => 'objectGuid'
     );
 
@@ -31,46 +30,38 @@ class org_openpsa_projects_project extends midcom_core_dbaobject
      *
      * @var array
      */
-    private $_status_map = array
-    (
-        'rejected' => array
-        (
+    private $_status_map = array(
+        'rejected' => array(
             'ongoing' => org_openpsa_projects_task_status_dba::REOPENED, // If there's an ongoing task, the project seems to have resumed
             'not_started' => org_openpsa_projects_task_status_dba::PROPOSED, // There are pending tasks, so maybe the project is back to start
             'rejected' => null, // Sanity check
             'on_hold' => org_openpsa_projects_task_status_dba::ONHOLD, //Blocker task
             'closed' => org_openpsa_projects_task_status_dba::COMPLETED //Work seems to have been finished
         ),
-        'not_started' => array
-        (
+        'not_started' => array(
             'ongoing' => org_openpsa_projects_task_status_dba::STARTED, //Work seems to have been started
             'on_hold' => org_openpsa_projects_task_status_dba::ONHOLD, // Or is on hold
             'not_started' => null,
             'closed' => org_openpsa_projects_task_status_dba::COMPLETED // Or is even finished already
         ),
-        'ongoing' => array
-        (
+        'ongoing' => array(
             'ongoing' => null, //Only do something if there are no ongoing tasks
             'on_hold' => org_openpsa_projects_task_status_dba::ONHOLD, //Blocker task
-            'not_started' => array
-            (
+            'not_started' => array(
                 'closed' => org_openpsa_projects_task_status_dba::ONHOLD, //Project is in limbo: Some tasks are finished, others didn't begin yet
                 'not_started' => org_openpsa_projects_task_status_dba::PROPOSED //Back to start: Someone withdrew acceptance
             ),
             'closed' => org_openpsa_projects_task_status_dba::ONHOLD //Work seems to have been finished
         ),
-        'closed' => array
-        (
+        'closed' => array(
             'not_started' => org_openpsa_projects_task_status_dba::REOPENED, //Something new came up, reopen
             'ongoing' => org_openpsa_projects_task_status_dba::REOPENED, //Something new came up, reopen
             'closed' => null, //Sanity check
             'on_hold' => org_openpsa_projects_task_status_dba::ONHOLD
         ),
-        'on_hold' => array
-        (
+        'on_hold' => array(
             'on_hold' => null, //only if no task is on hold we have to look for something else
-            'not_started' => array
-            (
+            'not_started' => array(
                 'closed' => null,
                 'not_started' => org_openpsa_projects_task_status_dba::PROPOSED // If nothing is closed, ongoing or on hold, let's try not_started
             ),
@@ -162,8 +153,7 @@ class org_openpsa_projects_project extends midcom_core_dbaobject
      */
     public function get_task_count()
     {
-        $numbers = array
-        (
+        $numbers = array(
             'not_started' => 0,
             'ongoing' => 0,
             'on_hold' => 0,
@@ -186,8 +176,7 @@ class org_openpsa_projects_project extends midcom_core_dbaobject
      */
     public function get_task_hours()
     {
-        $numbers = array
-        (
+        $numbers = array(
             'plannedHours' => 0,
             'reportedHours' => 0
         );

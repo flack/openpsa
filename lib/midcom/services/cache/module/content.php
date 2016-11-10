@@ -812,11 +812,9 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         $context = midcom_core_context::get()->id;
         $request_id = $this->generate_request_identifier($context);
 
-        $entries = array
-        (
+        $entries = array(
             $request_id => $content_id,
-            $content_id => array
-            (
+            $content_id => array(
                 'etag' => $etag,
                 'last_modified' => $this->_last_modified,
                 'sent_headers' => $this->_sent_headers

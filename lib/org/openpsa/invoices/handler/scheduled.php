@@ -49,8 +49,7 @@ implements org_openpsa_widgets_grid_provider_client
 
     public function get_row(midcom_core_dbaobject $at_entry)
     {
-        $invoice = array
-        (
+        $invoice = array(
             'time' => strftime('%Y-%m-%d %H:%M:%S', $at_entry->start),
             'month' => strftime('%B %Y', $at_entry->start),
             'index_month' => strftime('%Y-%m', $at_entry->start),

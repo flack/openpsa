@@ -213,8 +213,7 @@ class midcom_core_service_implementation_urlparsertopic implements midcom_core_s
         array_shift($this->argv_original);
         $this->argc -= 1;
 
-        return array
-        (
+        return array(
             $key => $value,
         );
     }

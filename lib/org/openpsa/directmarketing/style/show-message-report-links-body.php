@@ -43,8 +43,7 @@ $body_class = " class='{$data['body_class']}'";
                     debug_add("Trying to fetch '{$target}' and read title from there");
                     $remote_data = file_get_contents($url);
                     if ($remote_data) {
-                        $regexs = array
-                        (
+                        $regexs = array(
                             /* The parentheses are funny because we need to always have the same key for the label */
                             "/(<h([1-3])>)(.*?)(<\/h\\2>)/msi",
                             "/(<meta name=['\"].*?title['\"] content=(['\"]))(.*?)\\2(\/>)/msi",

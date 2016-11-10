@@ -59,8 +59,7 @@ class org_openpsa_invoices_invoice_pdf
         $l10n_midcom = midcom::get()->i18n->get_l10n();
         $l10n = midcom::get()->i18n->get_l10n('org.openpsa.invoices');
 
-        return array
-        (
+        return array(
             'data-dialog' => 'confirm',
             'data-dialog-heading' => $l10n->get('create_pdf'),
             'data-dialog-text' => $l10n->get($message),

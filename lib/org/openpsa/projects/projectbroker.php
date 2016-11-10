@@ -22,8 +22,7 @@ class org_openpsa_projects_projectbroker
     function find_task_prospects($task)
     {
         $return = array();
-        $classes = array
-        (
+        $classes = array(
             'midgard_person',
             'midcom_db_person',
             'org_openpsa_contacts_person_dba',

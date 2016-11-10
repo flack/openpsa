@@ -121,8 +121,7 @@ class org_routamc_positioning_object extends midcom_baseclasses_components_purec
      */
     function get_coordinates($person = null, $time = null, $cache = true)
     {
-        $coordinates = array
-        (
+        $coordinates = array(
             'latitude'  => null,
             'longitude' => null,
             'altitude'  => null,
@@ -203,10 +202,8 @@ class org_routamc_positioning_object extends midcom_baseclasses_components_purec
         $coordinates = $this->get_coordinates();
         if (!is_null($coordinates)) {
             // ICBM tag as defined by http://geourl.org/
-            midcom::get()->head->add_meta_head
-            (
-                array
-                (
+            midcom::get()->head->add_meta_head(
+                array(
                     'name' => 'icbm',
                     'content' => str_replace(',', '.', $coordinates['latitude']) . ',' . str_replace(',', '.', $coordinates['longitude']),
                 )

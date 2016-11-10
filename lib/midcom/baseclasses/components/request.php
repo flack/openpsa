@@ -878,8 +878,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
             } elseif (!is_array($handler_config['fixed_args'])) {
                 $handler_config['fixed_args'] = array($namespace, $plugin, $handler_config['fixed_args']);
             } else {
-                $handler_config['fixed_args'] = array_merge
-                (
+                $handler_config['fixed_args'] = array_merge(
                     array($namespace, $plugin),
                     $handler_config['fixed_args']
                 );
@@ -895,31 +894,25 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
      */
     private function _register_core_plugin_namespaces()
     {
-        $this->register_plugin_namespace
-        (
+        $this->register_plugin_namespace(
             '__ais',
-            array
-            (
-                'folder' => array
-                (
+            array(
+                'folder' => array(
                     'class' => 'midcom_admin_folder_management',
                     'name' => 'Folder administration',
                     'config' => null,
                 ),
-                'rcs' => array
-                (
+                'rcs' => array(
                     'class' => 'no_bergfald_rcs_handler',
                     'name' => 'Revision control',
                     'config' => null,
                 ),
-                'imagepopup' => array
-                (
+                'imagepopup' => array(
                     'class' => 'midcom_helper_imagepopup_viewer',
                     'name' => 'Image pop-up',
                     'config' => null,
                 ),
-                'help' => array
-                (
+                'help' => array(
                     'class' => 'midcom_admin_help_help',
                     'name' => 'On-site help',
                     'config' => null,
@@ -936,18 +929,15 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
             $manifest_plugins["asgard_{$component}"] = $plugin_config;
         }
 
-        $hardcoded_plugins = array
-        (
-            'asgard' => array
-            (
+        $hardcoded_plugins = array(
+            'asgard' => array(
                 'class' => 'midgard_admin_asgard_plugin',
                 'name' => 'Asgard',
                 'config' => null,
             ),
         );
 
-        $this->register_plugin_namespace
-        (
+        $this->register_plugin_namespace(
             '__mfa',
             array_merge($hardcoded_plugins, $manifest_plugins)
         );

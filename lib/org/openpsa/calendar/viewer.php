@@ -68,10 +68,8 @@ class org_openpsa_calendar_viewer extends midcom_baseclasses_components_request
      */
     public function get_calendar_options()
     {
-        $options = array
-        (
-            'businessHours' => array
-            (
+        $options = array(
+            'businessHours' => array(
                 'start' => $this->_config->get('day_start_time') . ':00',
                 'end' => $this->_config->get('day_end_time') . ':00',
                 'dow' => array(1, 2, 3, 4, 5)

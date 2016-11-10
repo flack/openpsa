@@ -216,20 +216,16 @@ class midcom_services_metadata
         $request_metadata = $this->get_request_metadata();
 
         // HTML generator information
-        midcom::get()->head->add_meta_head
-        (
-            array
-            (
+        midcom::get()->head->add_meta_head(
+            array(
                 'name' => 'generator',
                 'content' => 'Midgard/' . mgd_version() . ' MidCOM/' . midcom::get_version() . ' PHP/' . phpversion()
             )
         );
 
         // PermaLink into machine-detectable format
-        midcom::get()->head->add_link_head
-        (
-            array
-            (
+        midcom::get()->head->add_link_head(
+            array(
                 'rel' => 'bookmark',
                 'href' => $request_metadata['permalink']
             )
@@ -237,10 +233,8 @@ class midcom_services_metadata
 
         // Last revision time for the entire page
         if ($request_metadata['lastmodified']) {
-            midcom::get()->head->add_meta_head
-            (
-                array
-                (
+            midcom::get()->head->add_meta_head(
+                array(
                     'name' => 'lastupdated',
                     'content' => @gmdate('Y-m-d H:i:s\Z', $request_metadata['lastmodified'])
                 )
@@ -262,10 +256,8 @@ class midcom_services_metadata
                             break;
                     }
 
-                    midcom::get()->head->add_meta_head
-                    (
-                        array
-                        (
+                    midcom::get()->head->add_meta_head(
+                        array(
                             'name' => $metatag,
                             'content' => $content,
                         )
@@ -293,45 +285,35 @@ class midcom_services_metadata
             && $opengraph_type != 'none') {
             $request_metadata = $this->get_request_metadata();
 
-            midcom::get()->head->add_meta_head
-            (
-                array
-                (
+            midcom::get()->head->add_meta_head(
+                array(
                     'property' => 'og:type',
                     'content' => $opengraph_type,
                 )
             );
-            midcom::get()->head->add_meta_head
-            (
-                array
-                (
+            midcom::get()->head->add_meta_head(
+                array(
                     'property' => 'og:title',
                     'content' => midcom_core_context::get()->get_key(MIDCOM_CONTEXT_PAGETITLE),
                 )
             );
-            midcom::get()->head->add_meta_head
-            (
-                array
-                (
+            midcom::get()->head->add_meta_head(
+                array(
                     'property' => 'og:url',
                     'content' => $request_metadata['permalink'],
                 )
             );
             $opengraph_image = $view_metadata->object->get_parameter('midcom.helper.metadata', 'opengraph_image');
             if (mgd_is_guid($opengraph_image)) {
-                midcom::get()->head->add_meta_head
-                (
-                    array
-                    (
+                midcom::get()->head->add_meta_head(
+                    array(
                         'property' => 'og:image',
                         'content' => midcom_db_attachment::get_url($opengraph_image),
                     )
                 );
             }
-            midcom::get()->head->add_meta_head
-            (
-                array
-                (
+            midcom::get()->head->add_meta_head(
+                array(
                     'property' => 'og:description',
                     'content' => $view_metadata->get('description'),
                 )
@@ -351,8 +333,7 @@ class midcom_services_metadata
             return array();
         }
 
-        return array
-        (
+        return array(
             'none' => 'opengraph type select',
             'activity' => 'opengraph activity activity',
             'sport' => 'opengraph activity sport',
@@ -469,8 +450,7 @@ class midcom_services_metadata
         if ($context === null) {
             $context = midcom_core_context::get();
         }
-        $meta = array
-        (
+        $meta = array(
             'lastmodified' => $context->get_key(MIDCOM_CONTEXT_LASTMODIFIED),
             'permalinkguid' => $context->get_key(MIDCOM_CONTEXT_PERMALINKGUID),
             'permalink' => midcom::get()->permalinks->create_permalink($context->get_key(MIDCOM_CONTEXT_PERMALINKGUID)),

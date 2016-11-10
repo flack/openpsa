@@ -241,16 +241,13 @@ class midcom_helper_toolbar
             $label = midcom::get()->i18n->get_string('help', 'midcom.admin.help');
         }
 
-        $this->add_item
-        (
-            array
-            (
+        $this->add_item(
+            array(
                 MIDCOM_TOOLBAR_URL => $uri,
                 MIDCOM_TOOLBAR_LABEL => $label,
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_help-agent.png',
                 MIDCOM_TOOLBAR_ACCESSKEY => 'h',
-                MIDCOM_TOOLBAR_OPTIONS => array
-                (
+                MIDCOM_TOOLBAR_OPTIONS => array(
                     'target' => '_blank',
                 ),
             ),
@@ -349,8 +346,7 @@ class midcom_helper_toolbar
     {
         static $used_access_keys = array();
 
-        $defaults = array
-        (
+        $defaults = array(
             MIDCOM_TOOLBAR_URL => './',
             MIDCOM_TOOLBAR_OPTIONS => array(),
             MIDCOM_TOOLBAR_HIDDEN => false,

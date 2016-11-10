@@ -68,8 +68,7 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
 
                 $revisor = midcom::get()->auth->get_user($object->metadata->revisor);
 
-                $revised["{$object->metadata->revised}_{$object->guid}_{$object->metadata->revision}"] = array
-                (
+                $revised["{$object->metadata->revised}_{$object->guid}_{$object->metadata->revision}"] = array(
                     'object' => $object,
                     'revisor' => $revisor
                 );
@@ -160,8 +159,7 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
                 $actor = null;
             }
 
-            $objects[] = array
-            (
+            $objects[] = array(
                 'object' => $object,
                 'revisor' => $actor
             );
@@ -176,8 +174,7 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
             $object = $data['object'];
             $reflector = midcom_helper_reflector::get($object);
 
-            $row = array
-            (
+            $row = array(
                 'icon' => $reflector->get_object_icon($object),
                 'revision' => $object->metadata->revision,
                 'revised' => $object->metadata->revised,
@@ -211,45 +208,39 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
     private function _populate_toolbar()
     {
         $buttons = array();
-        $buttons[] = array
-        (
+        $buttons[] = array(
             MIDCOM_TOOLBAR_URL => '__mfa/asgard/preferences/',
             MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('user preferences'),
             MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/configuration.png',
         );
 
         if (midcom::get()->auth->admin) {
-            $buttons[] = array
-            (
+            $buttons[] = array(
                 MIDCOM_TOOLBAR_URL => '__mfa/asgard/shell/',
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('shell'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/properties.png',
             );
-            $buttons[] = array
-            (
+            $buttons[] = array(
                 MIDCOM_TOOLBAR_URL => '__mfa/asgard/trash/',
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('trash'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash-full.png',
             );
         }
 
-        $buttons[] = array
-        (
+        $buttons[] = array(
             MIDCOM_TOOLBAR_URL => '__mfa/asgard/components/',
             MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('components'),
             MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/component.png',
         );
 
         // Add link to site
-        $buttons[] = array
-        (
+        $buttons[] = array(
             MIDCOM_TOOLBAR_URL => midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX),
             MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('back to site'),
             MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/gohome.png',
         );
 
-        $buttons[] = array
-        (
+        $buttons[] = array(
             MIDCOM_TOOLBAR_URL => midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . "midcom-logout-",
             MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('logout'),
             MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/exit.png',

@@ -52,8 +52,7 @@ implements midcom_helper_datamanager2_interfaces_view
         $workflow = $this->get_workflow('datamanager2');
         $buttons = array();
         if ($this->_group->can_do('midgard:update')) {
-            $buttons[] = $workflow->get_button("group/edit/{$this->_group->guid}/", array
-            (
+            $buttons[] = $workflow->get_button("group/edit/{$this->_group->guid}/", array(
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
             ));
         }
@@ -63,24 +62,21 @@ implements midcom_helper_datamanager2_interfaces_view
         }
 
         if ($this->_group->can_do('midgard:privileges')) {
-            $buttons[] = $workflow->get_button("group/privileges/{$this->_group->guid}/", array
-            (
+            $buttons[] = $workflow->get_button("group/privileges/{$this->_group->guid}/", array(
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("permissions"),
                 MIDCOM_TOOLBAR_ICON => 'midgard.admin.asgard/permissions-16.png',
             ));
         }
 
         if ($this->_group->can_do('midgard:update')) {
-            $buttons[] = $workflow->get_button("group/notifications/{$this->_group->guid}/", array
-            (
+            $buttons[] = $workflow->get_button("group/notifications/{$this->_group->guid}/", array(
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("notification settings"),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock-discussion.png',
             ));
         }
 
         if (midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_contacts_person_dba')) {
-            $buttons[] = $workflow->get_button("create/{$this->_group->guid}/", array
-            (
+            $buttons[] = $workflow->get_button("create/{$this->_group->guid}/", array(
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create person'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_person-new.png',
             ));

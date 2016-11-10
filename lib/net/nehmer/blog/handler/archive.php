@@ -202,8 +202,7 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
                 $month_count = $this->_compute_welcome_posting_count($start_time, $end_time);
                 $year_count += $month_count;
                 $total_count += $month_count;
-                $month_data[$month] = array
-                (
+                $month_data[$month] = array(
                     'month' => $month,
                     'name' => $month_names[$month],
                     'url' => $month_url,
@@ -211,8 +210,7 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
                 );
             }
 
-            $year_data[$year] = array
-            (
+            $year_data[$year] = array(
                 'year' => $year,
                 'url' => $year_url,
                 'count' => $year_count,

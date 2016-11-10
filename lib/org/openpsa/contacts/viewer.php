@@ -58,8 +58,7 @@ class org_openpsa_contacts_viewer extends midcom_baseclasses_components_request
         if (   empty($my_company_guid)
             || !mgd_is_guid($my_company_guid)) {
             if (midcom::get()->auth->admin) {
-                midcom::get()->uimessages->add
-                (
+                midcom::get()->uimessages->add(
                     $this->_l10n->get($this->_component),
                     $this->_l10n->get('owner organization couldnt be found'),
                     'error'

@@ -24,8 +24,7 @@ class org_routamc_positioning_geocoder_city extends org_routamc_positioning_geoc
     {
         $results = array();
 
-        $parameters = array
-        (
+        $parameters = array(
             'maxRows' => 1,
         );
 
@@ -77,12 +76,10 @@ class org_routamc_positioning_geocoder_city extends org_routamc_positioning_geoc
         }
 
         foreach ($matches as $city_entry) {
-            $results[] = array
-            (
+            $results[] = array(
                 'latitude' => $city_entry->latitude,
                 'longitude' => $city_entry->longitude,
-                'distance' => array
-                (
+                'distance' => array(
                     'meters' => 0,
                     'bearing' => null,
                 ),
@@ -107,8 +104,7 @@ class org_routamc_positioning_geocoder_city extends org_routamc_positioning_geoc
     {
         $results = array();
 
-        $parameters = array
-        (
+        $parameters = array(
             'maxRows' => 1,
         );
 
@@ -134,8 +130,7 @@ class org_routamc_positioning_geocoder_city extends org_routamc_positioning_geoc
         }
 
         foreach ($closest as $city) {
-            $city_coordinates = array
-            (
+            $city_coordinates = array(
                 'latitude'  => $city->latitude,
                 'longitude' => $city->longitude,
             );
@@ -143,8 +138,7 @@ class org_routamc_positioning_geocoder_city extends org_routamc_positioning_geoc
             $position = array();
             $position['latitude' ] = $city->latitude;
             $position['longitude' ] = $city->longitude;
-            $position['distance'] = array
-            (
+            $position['distance'] = array(
                 'meters' => round( org_routamc_positioning_utils::get_distance($coordinates, $city_coordinates) * 1000 ),
                 'bearing' => org_routamc_positioning_utils::get_bearing($coordinates, $city_coordinates),
             );

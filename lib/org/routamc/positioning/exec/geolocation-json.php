@@ -4,8 +4,7 @@ midcom::get()->header('Content-type: application/json');
 if (   isset($_POST['latitude'])
     && isset($_POST['longitude'])) {
     // Updating user's location
-    $location_array = array
-    (
+    $location_array = array(
         'latitude' => (float) $_POST['latitude'],
         'longitude' => (float) $_POST['longitude'],
     );

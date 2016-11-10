@@ -17,8 +17,7 @@ $grid->set_column('invoiced', $data['l10n']->get('invoiced'), 'width: 50, templa
 
 $grid->set_option('loadonce', true)
     ->set_option('grouping', true)
-    ->set_option('groupingView', array
-    (
+    ->set_option('groupingView', array(
         'groupField' => array('state'),
         'groupColumnShow' => array(false),
         'groupText' => array('<strong>{0}</strong> ({1})'),

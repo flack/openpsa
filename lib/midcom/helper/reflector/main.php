@@ -18,8 +18,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
     protected $_mgd_reflector;
     protected $_dummy_object;
 
-    private static $_cache = array
-    (
+    private static $_cache = array(
         'l10n' => array(),
         'instance' => array(),
         'title' => array(),
@@ -209,8 +208,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
                 $property = 'extra';
                 break;
             case (midcom::get()->dbfactory->is_a($obj, 'midcom_db_person')):
-                $property = array
-                (
+                $property = array(
                     'rname',
                     'username',
                     'id',
@@ -412,8 +410,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
 
         $properties = self::get_object_fieldnames($this->_dummy_object);
 
-        $default_properties = array
-        (
+        $default_properties = array(
             'title' => true,
             'tag' => true,
             'firstname' => true,
@@ -500,8 +497,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
                 continue;
             }
             debug_add("Processing property '{$property}'");
-            $linkinfo = array
-            (
+            $linkinfo = array(
                 'class' => null,
                 'target' => null,
                 'parent' => false,

@@ -132,8 +132,7 @@ class net_nemein_tag_link_dba extends midcom_core_dbaobject
         $object = midcom::get()->dbfactory->get_object_by_guid($this->fromGuid);
         $geotags = net_nemein_tag_handler::get_object_machine_tags_in_context($object, 'geo');
 
-        $position = array
-        (
+        $position = array(
             'longitude' => null,
             'latitude'  => null,
             'altitude'  => null,

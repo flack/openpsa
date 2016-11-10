@@ -343,24 +343,23 @@ class midcom_services_auth_acl
     private function _register_core_privileges()
     {
         $this->register_default_privileges(
-            array
-            (
+            array(
                 // Midgard core level privileges
-                'midgard:update' => array (MIDCOM_PRIVILEGE_DENY, MIDCOM_PRIVILEGE_ALLOW),
-                'midgard:delete' => array (MIDCOM_PRIVILEGE_DENY, MIDCOM_PRIVILEGE_ALLOW),
-                'midgard:create' => array (MIDCOM_PRIVILEGE_DENY, MIDCOM_PRIVILEGE_ALLOW),
-                'midgard:read' => array (MIDCOM_PRIVILEGE_ALLOW, MIDCOM_PRIVILEGE_ALLOW),
-                'midgard:parameters' => array (MIDCOM_PRIVILEGE_ALLOW, MIDCOM_PRIVILEGE_ALLOW),
-                'midgard:attachments' => array (MIDCOM_PRIVILEGE_ALLOW, MIDCOM_PRIVILEGE_ALLOW),
+                'midgard:update' => array(MIDCOM_PRIVILEGE_DENY, MIDCOM_PRIVILEGE_ALLOW),
+                'midgard:delete' => array(MIDCOM_PRIVILEGE_DENY, MIDCOM_PRIVILEGE_ALLOW),
+                'midgard:create' => array(MIDCOM_PRIVILEGE_DENY, MIDCOM_PRIVILEGE_ALLOW),
+                'midgard:read' => array(MIDCOM_PRIVILEGE_ALLOW, MIDCOM_PRIVILEGE_ALLOW),
+                'midgard:parameters' => array(MIDCOM_PRIVILEGE_ALLOW, MIDCOM_PRIVILEGE_ALLOW),
+                'midgard:attachments' => array(MIDCOM_PRIVILEGE_ALLOW, MIDCOM_PRIVILEGE_ALLOW),
                 'midgard:autoserve_attachment' => MIDCOM_PRIVILEGE_ALLOW,
-                'midgard:privileges' => array (MIDCOM_PRIVILEGE_DENY, MIDCOM_PRIVILEGE_ALLOW),
+                'midgard:privileges' => array(MIDCOM_PRIVILEGE_DENY, MIDCOM_PRIVILEGE_ALLOW),
                 'midgard:owner' => MIDCOM_PRIVILEGE_DENY,
 
                 // MidCOM core level privileges
                 'midcom:approve' => MIDCOM_PRIVILEGE_DENY,
-                'midcom:component_config' => array (MIDCOM_PRIVILEGE_DENY, MIDCOM_PRIVILEGE_ALLOW),
+                'midcom:component_config' => array(MIDCOM_PRIVILEGE_DENY, MIDCOM_PRIVILEGE_ALLOW),
                 'midcom:urlname' => MIDCOM_PRIVILEGE_DENY,
-                'midcom:isonline' => array (MIDCOM_PRIVILEGE_DENY, MIDCOM_PRIVILEGE_ALLOW),
+                'midcom:isonline' => array(MIDCOM_PRIVILEGE_DENY, MIDCOM_PRIVILEGE_ALLOW),
                 'midcom:ajax' => MIDCOM_PRIVILEGE_DENY,
                 'midcom:centralized_toolbar' => MIDCOM_PRIVILEGE_DENY,
                 'midcom:unlock' => MIDCOM_PRIVILEGE_DENY,
@@ -428,8 +427,7 @@ class midcom_services_auth_acl
             return;
         }
 
-        $privs = array
-        (
+        $privs = array(
             'EVERYONE' => array(),
             'ANONYMOUS' => array(),
             'USERS' => array()
@@ -699,7 +697,7 @@ class midcom_services_auth_acl
         // Process owner privileges
         if (!$is_owner) {
             // Drop the owner privileges from the merging chain again, we are not an owner
-            unset ($valid_privileges[MIDCOM_PRIVILEGE_SCOPE_OWNER]);
+            unset($valid_privileges[MIDCOM_PRIVILEGE_SCOPE_OWNER]);
         }
 
         ksort($valid_privileges);
@@ -758,8 +756,7 @@ class midcom_services_auth_acl
             $user_privileges = array();
             $user_per_class_privileges = array();
             if ($tmp_object !== null) {
-                $default_magic_class_privileges = array_merge
-                (
+                $default_magic_class_privileges = array_merge(
                     self::$_default_magic_class_privileges[$class]['EVERYONE'],
                     self::$_default_magic_class_privileges[$class]['ANONYMOUS']
                 );
@@ -770,16 +767,14 @@ class midcom_services_auth_acl
                 $user_per_class_privileges = array();
             } else {
                 $user_per_class_privileges = $user->get_per_class_privileges($tmp_object);
-                $default_magic_class_privileges = array_merge
-                (
+                $default_magic_class_privileges = array_merge(
                     self::$_default_magic_class_privileges[$class]['EVERYONE'],
                     self::$_default_magic_class_privileges[$class]['USERS']
                 );
             }
         }
         // Remember to synchronize this merging chain with the one in get_privileges();
-        $full_privileges = array_merge
-        (
+        $full_privileges = array_merge(
             self::$_default_privileges,
             $default_magic_class_privileges,
             $user_privileges,
@@ -788,8 +783,7 @@ class midcom_services_auth_acl
 
         // Check for Ownership:
         if ($full_privileges['midgard:owner'] == MIDCOM_PRIVILEGE_ALLOW) {
-            $full_privileges = array_merge
-            (
+            $full_privileges = array_merge(
                 $full_privileges,
                 $this->get_owner_default_privileges()
             );

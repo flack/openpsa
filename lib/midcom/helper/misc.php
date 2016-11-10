@@ -131,7 +131,7 @@ class midcom_helper_misc
             return false;
         }
         debug_add("Evaluating snippet {$path}.");
-        eval ('?>' . self::preparse($code));
+        eval('?>' . self::preparse($code));
         return true;
     }
 

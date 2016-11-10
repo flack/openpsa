@@ -159,8 +159,7 @@ class org_openpsa_slideshow_image_dba extends midcom_core_dbaobject
             $orig_data = $rows[$image->attachment];
             $image_data = $rows[$image->image];
             $thumb_data = $rows[$image->thumbnail];
-            $data[] = array
-            (
+            $data[] = array(
                 'big' => midcom_db_attachment::get_url($orig_data['guid'], $orig_data['name']),
                 'image' => midcom_db_attachment::get_url($image_data['guid'], $image_data['name']),
                 'thumb' => midcom_db_attachment::get_url($thumb_data['guid'], $thumb_data['name']),

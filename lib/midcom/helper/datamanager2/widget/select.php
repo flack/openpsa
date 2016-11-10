@@ -133,10 +133,8 @@ class midcom_helper_datamanager2_widget_select extends midcom_helper_datamanager
             return null;
         }
         if ($this->_type->allow_other) {
-            return array
-            (
-                $this->name => array
-                (
+            return array(
+                $this->name => array(
                     'select' => $this->_type->selection,
                     'other' => implode(',', $this->_type->others)
                 ),

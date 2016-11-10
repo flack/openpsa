@@ -1,4 +1,4 @@
-<?php $data['controller']->display_form (); ?>
+<?php $data['controller']->display_form(); ?>
 <script type="text/javascript">
 /*
  * we need to determine the correct widget_id prefix here, loading from the parent

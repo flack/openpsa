@@ -25,8 +25,7 @@ class midcom_helper_toolbar_host extends midcom_helper_toolbar
     {
         $buttons = array();
         if (midcom::get()->auth->user) {
-            $buttons[] = array
-            (
+            $buttons[] = array(
                 MIDCOM_TOOLBAR_URL => midcom_connection::get_url('self') . "midcom-logout-",
                 MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('logout', 'midcom'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/exit.png',
@@ -34,8 +33,7 @@ class midcom_helper_toolbar_host extends midcom_helper_toolbar
             );
         }
 
-        $buttons[] = array
-        (
+        $buttons[] = array(
             MIDCOM_TOOLBAR_URL => midcom_connection::get_url('self') . "__mfa/asgard/",
             MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('midgard.admin.asgard', 'midgard.admin.asgard'),
             MIDCOM_TOOLBAR_ICON => 'midgard.admin.asgard/asgard2-16.png',
@@ -44,15 +42,13 @@ class midcom_helper_toolbar_host extends midcom_helper_toolbar
         );
 
         if (midcom_connection::is_admin()) {
-            $buttons[] = array
-            (
+            $buttons[] = array(
                 MIDCOM_TOOLBAR_URL => midcom_connection::get_url('self') . "midcom-cache-invalidate",
                 MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('invalidate cache', 'midcom'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_refresh.png',
             );
             $workflow = new midcom\workflow\viewer;
-            $buttons[] = $workflow->get_button(midcom_connection::get_url('self') . "midcom-exec-midcom/config-test.php", array
-            (
+            $buttons[] = $workflow->get_button(midcom_connection::get_url('self') . "midcom-exec-midcom/config-test.php", array(
                 MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('test settings', 'midcom'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/start-here.png',
             ));

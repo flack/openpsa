@@ -97,11 +97,9 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
             if (   $this->_config->get('use_captcha')
                 || (   !midcom::get()->auth->user
                     && $this->_config->get('use_captcha_if_anonymous'))) {
-                $this->_schemadb['comment']->append_field
-                (
+                $this->_schemadb['comment']->append_field(
                     'captcha',
-                    array
-                    (
+                    array(
                         'title' => $this->_l10n_midcom->get('captcha field title'),
                         'storage' => null,
                         'type' => 'captcha',

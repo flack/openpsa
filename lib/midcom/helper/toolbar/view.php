@@ -32,23 +32,19 @@ class midcom_helper_toolbar_view extends midcom_helper_toolbar
 
         if ($object->can_do('midgard:update')) {
             $workflow = new midcom\workflow\datamanager2;
-            $buttons[] = $workflow->get_button("__ais/folder/metadata/{$object->guid}/", array
-            (
+            $buttons[] = $workflow->get_button("__ais/folder/metadata/{$object->guid}/", array(
                 MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('edit metadata', 'midcom.admin.folder'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/metadata.png',
                 MIDCOM_TOOLBAR_ACCESSKEY => 'm',
             ));
-            $buttons = array_merge($buttons, array
-            (
-                array
-                (
+            $buttons = array_merge($buttons, array(
+                array(
                     MIDCOM_TOOLBAR_URL => "__ais/folder/move/{$object->guid}/",
                     MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('move', 'midcom.admin.folder'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/save-as.png',
                     MIDCOM_TOOLBAR_ENABLED => is_a($object, 'midcom_db_article')
                 ),
-                array
-                (
+                array(
                     MIDCOM_TOOLBAR_URL => midcom_connection::get_url('self') . "__mfa/asgard/object/open/{$object->guid}/",
                     MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('manage object', 'midgard.admin.asgard'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/properties.png',
@@ -60,8 +56,7 @@ class midcom_helper_toolbar_view extends midcom_helper_toolbar
         if (   midcom::get()->config->get('midcom_services_rcs_enable')
             && $object->can_do('midgard:update')
             && $object->_use_rcs) {
-            $buttons[] = array
-            (
+            $buttons[] = array(
                 MIDCOM_TOOLBAR_URL => "__ais/rcs/{$object->guid}/",
                 MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('show history', 'no.bergfald.rcs'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/history.png',
@@ -93,15 +88,13 @@ class midcom_helper_toolbar_view extends midcom_helper_toolbar
                 // Take scheduling into account
                 $icon = 'stock-icons/16x16/page-' . $icontype . '-notpublished.png';
             }
-            $buttons[] = array
-            (
+            $buttons[] = array(
                 MIDCOM_TOOLBAR_URL => "__ais/folder/" . $action . "/",
                 MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string($action, 'midcom'),
                 MIDCOM_TOOLBAR_HELPTEXT => midcom::get()->i18n->get_string($helptext, 'midcom'),
                 MIDCOM_TOOLBAR_ICON => $icon,
                 MIDCOM_TOOLBAR_POST => true,
-                MIDCOM_TOOLBAR_POST_HIDDENARGS => array
-                (
+                MIDCOM_TOOLBAR_POST_HIDDENARGS => array(
                     'guid' => $object->guid,
                     'return_to' => $_SERVER['REQUEST_URI'],
                 ),

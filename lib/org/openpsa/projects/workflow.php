@@ -55,8 +55,7 @@ class org_openpsa_projects_workflow
      */
     public static function get_status_type($status)
     {
-        $map = array
-        (
+        $map = array(
             org_openpsa_projects_task_status_dba::REJECTED => 'rejected',
             org_openpsa_projects_task_status_dba::PROPOSED => 'not_started',
             org_openpsa_projects_task_status_dba::DECLINED => 'not_started',

@@ -113,8 +113,7 @@ class org_openpsa_relatedto_collector extends midcom_core_collector
      */
     public function add_object_constraint($field, $operator, $value)
     {
-        $this->_object_constraints[] = array
-        (
+        $this->_object_constraints[] = array(
             'field' => $field,
             'operator' => $operator,
             'value' => $value
@@ -129,8 +128,7 @@ class org_openpsa_relatedto_collector extends midcom_core_collector
      */
     public function add_object_order($field, $direction)
     {
-        $this->_object_orders[] = array
-        (
+        $this->_object_orders[] = array(
             'field' => $field,
             'direction' => $direction
         );

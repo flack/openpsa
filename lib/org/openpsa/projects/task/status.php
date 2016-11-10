@@ -111,8 +111,7 @@ class org_openpsa_projects_task_status_dba extends midcom_core_dbaobject
 
     public function get_status_message()
     {
-        $map = array
-        (
+        $map = array(
             self::PROPOSED => 'proposed to %s by %s',
             self::DECLINED => 'declined by %s',
             self::ACCEPTED => 'accepted by %s',

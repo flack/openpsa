@@ -63,10 +63,8 @@ class org_openpsa_invoices_viewer extends midcom_baseclasses_components_request
     public function prepare_toolbar($mode)
     {
         if ($mode !== 'dashboard') {
-            $this->_view_toolbar->add_item
-            (
-                array
-                (
+            $this->_view_toolbar->add_item(
+                array(
                     MIDCOM_TOOLBAR_URL => '',
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('dashboard'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_left.png',
@@ -75,8 +73,7 @@ class org_openpsa_invoices_viewer extends midcom_baseclasses_components_request
         }
         if (midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_invoices_invoice_dba')) {
             $workflow = $this->get_workflow('datamanager2');
-            $this->_view_toolbar->add_item($workflow->get_button('invoice/new/', array
-            (
+            $this->_view_toolbar->add_item($workflow->get_button('invoice/new/', array(
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create invoice'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/printer.png',
             )));
@@ -93,10 +90,8 @@ class org_openpsa_invoices_viewer extends midcom_baseclasses_components_request
             $results = $mc->list_keys();
 
             if (sizeof($results) == 1) {
-                $toolbar->add_item
-                (
-                    array
-                    (
+                $toolbar->add_item(
+                    array(
                         MIDCOM_TOOLBAR_URL => $urlprefix . key($results) . '/',
                         MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('previous'),
                         MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/back.png',
@@ -114,10 +109,8 @@ class org_openpsa_invoices_viewer extends midcom_baseclasses_components_request
             $results = $mc->list_keys();
 
             if (sizeof($results) == 1) {
-                $toolbar->add_item
-                (
-                    array
-                    (
+                $toolbar->add_item(
+                    array(
                         MIDCOM_TOOLBAR_URL => $urlprefix . key($results) . '/',
                         MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('next'),
                         MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/next.png',

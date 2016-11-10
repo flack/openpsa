@@ -30,14 +30,12 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
         $this->_request_data['content_topic'] = $this->_content_topic;
 
         if ($this->_config->get('view_in_url')) {
-            $this->_request_switch['view-raw'] = array
-            (
+            $this->_request_switch['view-raw'] = array(
                 'handler' => array('net_nehmer_blog_handler_view', 'view'),
                 'fixed_args' => array('view', 'raw'),
                 'variable_args' => 1,
             );
-            $this->_request_switch['view'] = array
-            (
+            $this->_request_switch['view'] = array(
                 'handler' => array('net_nehmer_blog_handler_view', 'view'),
                 'fixed_args' => 'view',
                 'variable_args' => 1,
@@ -71,20 +69,16 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
     private function _add_link_head()
     {
         if ($this->_config->get('rss_enable')) {
-            midcom::get()->head->add_link_head
-            (
-                array
-                (
+            midcom::get()->head->add_link_head(
+                array(
                     'rel'   => 'alternate',
                     'type'  => 'application/rss+xml',
                     'title' => $this->_l10n->get('rss 2.0 feed'),
                     'href'  => midcom::get()->get_host_name() . midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . 'rss.xml',
                 )
             );
-            midcom::get()->head->add_link_head
-            (
-                array
-                (
+            midcom::get()->head->add_link_head(
+                array(
                     'rel'   => 'alternate',
                     'type'  => 'application/atom+xml',
                     'title' => $this->_l10n->get('atom feed'),
@@ -94,10 +88,8 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
         }
 
         // RSD (Really Simple Discoverability) autodetection
-        midcom::get()->head->add_link_head
-        (
-            array
-            (
+        midcom::get()->head->add_link_head(
+            array(
                 'rel' => 'EditURI',
                 'type' => 'application/rsd+xml',
                 'title' => 'RSD',
@@ -115,10 +107,8 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
         $workflow = $this->get_workflow('datamanager2');
         if ($this->_content_topic->can_do('midgard:create')) {
             foreach (array_keys($this->_request_data['schemadb']) as $name) {
-                $buttons[] = $workflow->get_button("create/{$name}/", array
-                (
-                    MIDCOM_TOOLBAR_LABEL => sprintf
-                    (
+                $buttons[] = $workflow->get_button("create/{$name}/", array(
+                    MIDCOM_TOOLBAR_LABEL => sprintf(
                         $this->_l10n_midcom->get('create %s'),
                         $this->_l10n->get($this->_request_data['schemadb'][$name]->description)
                     ),
@@ -134,8 +124,7 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
 
         if (   $this->_config->get('enable_article_links')
             && $this->_content_topic->can_do('midgard:create')) {
-            $buttons[] = $workflow->get_button("create/link/", array
-            (
+            $buttons[] = $workflow->get_button("create/link/", array(
                 MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('article link')),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/attach.png'
             ));
@@ -143,8 +132,7 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
 
         if (   $this->_topic->can_do('midgard:update')
             && $this->_topic->can_do('midcom:component_config')) {
-            $buttons[] = $workflow->get_button('config/', array
-            (
+            $buttons[] = $workflow->get_button('config/', array(
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('component configuration'),
                 MIDCOM_TOOLBAR_HELPTEXT => $this->_l10n_midcom->get('component configuration helptext'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_folder-properties.png',

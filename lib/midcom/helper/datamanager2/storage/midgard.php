@@ -44,8 +44,7 @@ class midcom_helper_datamanager2_storage_midgard extends midcom_helper_datamanag
 
         switch ($this->_schema->fields[$name]['storage']['location']) {
             case 'parameter':
-                $this->object->set_parameter
-                (
+                $this->object->set_parameter(
                     $this->_schema->fields[$name]['storage']['domain'],
                     $name,
                     $data
@@ -53,8 +52,7 @@ class midcom_helper_datamanager2_storage_midgard extends midcom_helper_datamanag
                 break;
 
             case 'configuration':
-                $this->object->set_parameter
-                (
+                $this->object->set_parameter(
                     $this->_schema->fields[$name]['storage']['domain'],
                     $this->_schema->fields[$name]['storage']['name'],
                     $data
@@ -96,8 +94,7 @@ class midcom_helper_datamanager2_storage_midgard extends midcom_helper_datamanag
                     $loaded_domains[$this->_schema->fields[$name]['storage']['domain']] = $this->object->list_parameters($this->_schema->fields[$name]['storage']['domain']);
                 }
 
-                return $this->object->get_parameter
-                (
+                return $this->object->get_parameter(
                     $this->_schema->fields[$name]['storage']['domain'],
                     $name
                 );
@@ -108,8 +105,7 @@ class midcom_helper_datamanager2_storage_midgard extends midcom_helper_datamanag
                     $loaded_domains[$this->_schema->fields[$name]['storage']['domain']] = $this->object->list_parameters($this->_schema->fields[$name]['storage']['domain']);
                 }
 
-                return $this->object->get_parameter
-                (
+                return $this->object->get_parameter(
                     $this->_schema->fields[$name]['storage']['domain'],
                     $this->_schema->fields[$name]['storage']['name']
                 );

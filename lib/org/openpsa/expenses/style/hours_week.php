@@ -20,8 +20,7 @@ while ($time < $data['week_end']) {
 }
 $grid->set_option('footerrow', true)
 ->set_option('grouping', true)
-->set_option('groupingView', array
-(
+->set_option('groupingView', array(
     'groupField' => array('task'),
     'groupColumnShow' => array(false),
     'groupText' => array('<strong>{0}</strong> ({1})'),

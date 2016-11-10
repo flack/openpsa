@@ -21,8 +21,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
     public $__midcom_class_name__ = __CLASS__;
     public $__mgdschema_class_name__ = 'org_openpsa_task';
 
-    public $autodelete_dependents = array
-    (
+    public $autodelete_dependents = array(
         'org_openpsa_projects_task_status_dba' => 'task',
         'org_openpsa_projects_task_resource_dba' => 'task',
     );
@@ -295,8 +294,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
 
     function list_hours()
     {
-        $hours = array
-        (
+        $hours = array(
             'reported'    => 0,
             'approved'    => 0,
             'invoiced'    => 0,
@@ -368,8 +366,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
      */
     private function _get_status()
     {
-        $return = array
-        (
+        $return = array(
             'status_comment' => '',
             'status_time' => false,
         );

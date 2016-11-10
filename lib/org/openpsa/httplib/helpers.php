@@ -68,8 +68,7 @@ class org_openpsa_httplib_helpers extends midcom_baseclasses_components_purecode
         }
         $regex_properties = "/(title|href|hreflang)=([{$quotes}])(.*?)\\2/i";
         foreach ($tag_matches[1] as $tagcode) {
-            $tag = array
-            (
+            $tag = array(
                 'title' => false,
                 'href' => false,
                 'hreflang' => false,
@@ -110,8 +109,7 @@ class org_openpsa_httplib_helpers extends midcom_baseclasses_components_purecode
         }
         $regex_properties = "/(title|href)=([{$quotes}])(.*?)\\2/i";
         foreach ($tag_matches[1] as $key => $tagcode) {
-            $tag = array
-            (
+            $tag = array(
                 'title' => false,
                 'href' => false,
                 'value' => false,

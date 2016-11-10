@@ -80,8 +80,7 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
                     $component_suggestion = $this->_config->get('default_component');
                 }
 
-                $this->_controller->defaults = array
-                (
+                $this->_controller->defaults = array(
                     'component' => $component_suggestion,
                 );
                 break;
@@ -159,8 +158,7 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
 
         midcom::get()->head->set_pagetitle($title);
 
-        $workflow = $this->get_workflow('datamanager2', array
-        (
+        $workflow = $this->get_workflow('datamanager2', array(
             'controller' => $this->_controller,
             'save_callback' => array($this, 'save_callback')
         ));
@@ -235,8 +233,7 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
                         $e->getMessage(), MIDCOM_LOG_ERROR);
 
                     $this->_new_topic->purge();
-                    throw new midcom_error
-                    (
+                    throw new midcom_error(
                         "Refusing to create this symlink because its target folder was not found: " .
                         $e->getMessage()
                     );
@@ -245,16 +242,14 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
             }
             if ($this->_new_topic->up == $target->up) {
                 $this->_new_topic->purge();
-                throw new midcom_error
-                (
+                throw new midcom_error(
                     "Refusing to create this symlink because it is located in the same
                     folder as its target"
                 );
             }
             if ($this->_new_topic->up == $target->id) {
                 $this->_new_topic->purge();
-                throw new midcom_error
-                (
+                throw new midcom_error(
                     "Refusing to create this symlink because its parent folder is the same
                     folder as its target."
                 );
@@ -262,8 +257,7 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
             $this->_new_topic->update();
             if (!midcom_admin_folder_management::is_child_listing_finite($target)) {
                 $this->_new_topic->purge();
-                throw new midcom_error
-                (
+                throw new midcom_error(
                     "Refusing to create this symlink because it would have created an
                     infinite loop situation."
                 );

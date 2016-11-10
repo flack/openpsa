@@ -106,16 +106,14 @@ class org_routamc_positioning_utils extends midcom_baseclasses_components_pureco
      */
     public static function pretty_print_location($latitude, $longitude)
     {
-        $coordinates = array
-        (
+        $coordinates = array(
             'latitude'  => $latitude,
             'longitude' => $longitude,
         );
         $closest = self::get_closest('org_routamc_positioning_city_dba', $coordinates, 1);
         $city_string = self::pretty_print_coordinates($coordinates['latitude'], $coordinates['longitude']);
         foreach ($closest as $city) {
-            $city_coordinates = array
-            (
+            $city_coordinates = array(
                 'latitude'  => $city->latitude,
                 'longitude' => $city->longitude,
             );
@@ -137,8 +135,7 @@ class org_routamc_positioning_utils extends midcom_baseclasses_components_pureco
      */
     public static function microformat_location($latitude, $longitude)
     {
-        $coordinates = array
-        (
+        $coordinates = array(
             'latitude'  => $latitude,
             'longitude' => $longitude,
         );
@@ -167,8 +164,7 @@ class org_routamc_positioning_utils extends midcom_baseclasses_components_pureco
             $city_string .= "<abbr class=\"latitude\" title=\"{$latitude}\">{$latitude_string}</abbr> ";
             $city_string .= "<abbr class=\"longitude\" title=\"{$longitude}\">{$longitude_string}</abbr> ";
 
-            $city_coordinates = array
-            (
+            $city_coordinates = array(
                 'latitude'  => $city->latitude,
                 'longitude' => $city->longitude,
             );
@@ -295,8 +291,7 @@ class org_routamc_positioning_utils extends midcom_baseclasses_components_pureco
         $results = $qb->execute();
         $closest = array();
         foreach ($results as $result) {
-            $result_coordinates = array
-            (
+            $result_coordinates = array(
                 'latitude' => $result->latitude,
                 'longitude' => $result->longitude,
             );

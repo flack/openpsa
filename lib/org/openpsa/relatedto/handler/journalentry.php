@@ -82,8 +82,7 @@ implements midcom_helper_datamanager2_interfaces_create
             if ($object_url) {
                 $this->add_breadcrumb($object_url, $object_label);
             }
-            $this->add_breadcrumb
-            (
+            $this->add_breadcrumb(
                 midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . "__mfa/org.openpsa.relatedto/render/" . $this->_current_object->guid . "/both/",
                 $this->_l10n->get('view related information')
             );
@@ -98,15 +97,13 @@ implements midcom_helper_datamanager2_interfaces_create
     private function _prepare_output()
     {
         $buttons = array();
-        $buttons[] = array
-        (
+        $buttons[] = array(
             MIDCOM_TOOLBAR_URL => $this->_relocate_url,
             MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('back'),
             MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_left.png',
         );
         $workflow = $this->get_workflow('datamanager2');
-        $buttons[] = $workflow->get_button($this->_request_data['url_prefix'] . "create/" . $this->_current_object->guid . "/", array
-        (
+        $buttons[] = $workflow->get_button($this->_request_data['url_prefix'] . "create/" . $this->_current_object->guid . "/", array(
             MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('add journal entry'),
             MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-text.png'
         ));

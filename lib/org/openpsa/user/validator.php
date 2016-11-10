@@ -42,8 +42,7 @@ class org_openpsa_user_validator extends midcom_admin_user_validator
         }
 
         if (!midcom_connection::login($fields["username"], $fields["current_password"])) {
-            return array
-            (
+            return array(
                 'current_password' => midcom::get()->i18n->get_string("wrong current password", "org.openpsa.user")
             );
         }

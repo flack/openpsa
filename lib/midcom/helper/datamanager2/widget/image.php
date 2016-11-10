@@ -146,8 +146,7 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
 
         $elements[] = $this->_upload_element;
 
-        $attributes = array
-        (
+        $attributes = array(
             'id'    => "{$this->_namespace}{$this->name}_upload_button",
         );
         $elements[] = $this->_form->createElement('submit', "{$this->name}_upload", $this->_l10n->get('upload file'), $attributes);
@@ -160,8 +159,7 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
                 <td class='midcom_helper_datamanager2_widget_image_title'>";
             $elements[] = $this->_form->createElement('static', "{$this->name}_inter2", '', $static_html);
 
-            $attributes = array
-            (
+            $attributes = array(
                 'class' => 'shorttext',
                 'id'    => "{$this->_namespace}{$this->name}_title",
             );
@@ -227,15 +225,13 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
         $elements[] = $this->_form->createElement('static', "{$this->name}_inter1", '', $static_html);
 
         $elements[] = $this->_upload_element;
-        $attributes = array
-        (
+        $attributes = array(
             'id'    => "{$this->_namespace}{$this->name}_upload_button",
         );
         $elements[] = $this->_form->createElement('submit', "{$this->name}_upload", $this->_l10n->get('upload file'), $attributes);
 
         // Add the Delete button
-        $attributes = array
-        (
+        $attributes = array(
             'id'    => "{$this->_namespace}{$this->name}_delete_button",
         );
         $elements[] = $this->_form->createElement('submit', "{$this->name}_delete", $this->_l10n->get('delete image'), $attributes);
@@ -248,8 +244,7 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
                 <td class='midcom_helper_datamanager2_widget_image_title'>";
             $elements[] = $this->_form->createElement('static', "{$this->name}_inter2", '', $static_html);
 
-            $attributes = array
-            (
+            $attributes = array(
                 'class' => 'shorttext',
                 'id'    => "{$this->_namespace}{$this->name}_title",
             );

@@ -17,8 +17,7 @@ class midcom_config_test
     const WARNING =  1;
     const ERROR = 2;
 
-    private $messages = array
-    (
+    private $messages = array(
         'midcom' => array(),
         'php' => array(),
         'external' => array()
@@ -42,8 +41,7 @@ class midcom_config_test
 
     private function add($testname, $result_code, $recommendations = '&nbsp;')
     {
-        $this->messages[$this->section][$testname] = array
-        (
+        $this->messages[$this->section][$testname] = array(
             'result' => $result_code,
             'message' => $recommendations
         );
@@ -188,7 +186,7 @@ class midcom_config_test
         $this->section = 'external';
         // ImageMagick
         $cmd = midcom::get()->config->get('utility_imagemagick_base') . "identify -version";
-        exec ($cmd, $output, $result);
+        exec($cmd, $output, $result);
         if ($result !== 0 && $result !== 1) {
             $this->add('ImageMagick', self::ERROR, 'The existence ImageMagick toolkit could not be verified, it is required for all kinds of image processing in MidCOM.');
         } else {
@@ -219,7 +217,7 @@ class midcom_config_test
         } elseif (!exec('which which')) {
             $this->add('which', self::ERROR, "The 'which' utility cannot be found.");
         } else {
-            exec ("which {$executable}", $output, $exitcode);
+            exec("which {$executable}", $output, $exitcode);
             if ($exitcode == 0) {
                 $this->add($testname, self::OK, $ok_notice);
             } else {

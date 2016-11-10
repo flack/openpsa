@@ -31,16 +31,14 @@ $node = $nap->get_node($nap->get_current_node());
         $qb->add_constraint('customerContact', '=', $data['person']->id);
         $qb->set_limit(1);
         if ($qb->count() > 0) {
-            $tabs[] = array
-            (
+            $tabs[] = array(
                 'url' => $invoices_url . "list/customer/all/{$data['person']->guid}/",
                 'title' => midcom::get()->i18n->get_string('invoices', 'org.openpsa.invoices'),
             );
         }
     }
     if ($sales_url) {
-        $tabs[] = array
-        (
+        $tabs[] = array(
             'url' => $sales_url . "list/customer/{$data['person']->guid}/",
             'title' => midcom::get()->i18n->get_string('salesprojects', 'org.openpsa.sales'),
         );

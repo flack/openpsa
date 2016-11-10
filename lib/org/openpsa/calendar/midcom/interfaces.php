@@ -111,8 +111,7 @@ implements midcom_services_permalinks_resolver
         }
 
         $workflow = new midcom\workflow\datamanager2;
-        return $workflow->get_button("new/" . $url, array
-        (
+        return $workflow->get_button("new/" . $url, array(
             MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('create event', 'org.openpsa.calendar'),
             MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_new-event.png',
         ));

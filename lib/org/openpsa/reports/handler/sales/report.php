@@ -41,8 +41,7 @@ implements org_openpsa_widgets_grid_provider_client
     public function get_row(midcom_core_dbaobject $object)
     {
         $invoices_url = org_openpsa_core_siteconfig::get_instance()->get_node_full_url('org.openpsa.invoices');
-        $row = array
-        (
+        $row = array(
             'invoice' => '',
             'index_invoice' => '',
             'owner' => '',

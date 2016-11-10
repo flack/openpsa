@@ -6,8 +6,7 @@ $grid_id = $grid->get_identifier();
 $footer_data = array('invoice' => $data['l10n']->get('totals'));
 $grid->set_option('loadonce', true)
 ->set_option('grouping', true)
-->set_option('groupingView', array
-(
+->set_option('groupingView', array(
     'groupField' => array('salesproject'),
     'groupColumnShow' => array(false),
     'groupText' => array('<strong>{0}</strong> ({1})'),

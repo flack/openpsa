@@ -181,8 +181,7 @@ EOT;
         $rules = array();
         if ($this->_field['required']) {
             $errmsg = sprintf($this->_l10n->get('field %s is required'), $this->_translate($this->_field['title']));
-            $rules = array
-            (
+            $rules = array(
                 array($errmsg, 'required'),
                 array($errmsg, 'regex', '/^[^0]/')
             );
@@ -200,8 +199,7 @@ EOT;
     private function _create_elements($frozen = false)
     {
         $elements = array();
-        $attributes = array
-        (
+        $attributes = array(
             'class' => 'jsdate',
             'id'    => "{$this->_namespace}{$this->name}_date",
             'size'  => 10
@@ -209,8 +207,7 @@ EOT;
         $elements[] = $this->_form->createElement('text', $this->name . '_date', '', $attributes);
 
         if ($this->show_time) {
-            $attributes = array
-            (
+            $attributes = array(
                 'class' => 'jsdate_hours',
                 'id'    => "{$this->_namespace}{$this->name}_hours",
                 'size'  => 2,
@@ -218,8 +215,7 @@ EOT;
             );
             $elements[] = $this->_form->createElement('text', "{$this->name}_hours", '', $attributes);
             $elements[] = $this->_form->createElement('static', "{$this->name}_hours_separator", '', ':');
-            $attributes = array
-            (
+            $attributes = array(
                 'class' => 'jsdate_minutes',
                 'id'    => "{$this->_namespace}{$this->name}_minutes",
                 'size'  => 2,
@@ -229,8 +225,7 @@ EOT;
 
             if (!$this->hide_seconds) {
                 $elements[] = $this->_form->createElement('static', "{$this->name}_minutes_separator", '', ':');
-                $attributes = array
-                (
+                $attributes = array(
                     'class' => 'jsdate_seconds',
                     'id'    => "{$this->_namespace}{$this->name}_seconds",
                     'size'  => 2,

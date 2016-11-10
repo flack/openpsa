@@ -188,8 +188,7 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
     public function register_send_job($batch, $url_base, $time = null)
     {
         $time = $time ?: time() + 60;
-        $args = array
-        (
+        $args = array(
             'batch' => $batch,
             'url_base' => $url_base,
         );
@@ -226,8 +225,7 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
         } catch (midcom_error $e) {
             $status = org_openpsa_directmarketing_campaign_messagereceipt_dba::FAILURE;
             if (!$this->test_mode) {
-                $params[] = array
-                (
+                $params[] = array(
                     'domain' => 'org.openpsa.directmarketing',
                     'name' => 'send_error_message',
                     'value' => $e->getMessage(),

@@ -22,13 +22,11 @@ class net_nemein_redirector_viewer extends midcom_baseclasses_components_request
         if (   is_null($this->_config->get('redirection_type'))
             || (   $this->_topic->can_do('net.nemein.redirector:noredirect')
                 && !$this->_config->get('admin_redirection'))) {
-            $this->_request_switch['redirect'] = array
-            (
+            $this->_request_switch['redirect'] = array(
                 'handler' => array('net_nemein_redirector_handler_tinyurl', 'list'),
             );
         } else {
-            $this->_request_switch['redirect'] = array
-            (
+            $this->_request_switch['redirect'] = array(
                 'handler' => 'redirect'
             );
         }
@@ -41,10 +39,8 @@ class net_nemein_redirector_viewer extends midcom_baseclasses_components_request
     {
         if ($this->_topic->can_do('midgard:create')) {
             // Add the creation link to toolbar
-            $this->_node_toolbar->add_item
-            (
-                array
-                (
+            $this->_node_toolbar->add_item(
+                array(
                     MIDCOM_TOOLBAR_URL => "create/",
                     MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('tinyurl')),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_event.png',
@@ -118,10 +114,8 @@ class net_nemein_redirector_viewer extends midcom_baseclasses_components_request
             $data['redirection_url'] = $data['url'];
             $data['redirection_speed'] = $this->_config->get('redirection_metatag_speed');
 
-            midcom::get()->head->add_meta_head
-            (
-                array
-                (
+            midcom::get()->head->add_meta_head(
+                array(
                     'http-equiv' => 'refresh',
                     'content' => "{$data['redirection_speed']};url={$data['url']}",
                 )

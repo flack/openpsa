@@ -16,8 +16,7 @@ $footer_data = array('task' => $data['l10n']->get('totals'));
 $grid = $data['provider']->get_grid($grid_id);
 $grid->set_option('loadonce', true)
 ->set_option('grouping', true)
-->set_option('groupingView', array
-(
+->set_option('groupingView', array(
     'groupField' => array($grouping),
     'groupColumnShow' => array(false),
     'groupText' => array('<strong>{0}</strong> ({1})'),

@@ -23,8 +23,7 @@ class org_routamc_positioning_geocoder_geonames extends org_routamc_positioning_
     {
         $results = array();
 
-        $parameters = array
-        (
+        $parameters = array(
             'radius' => null,
             'maxRows' => 1,
             'style' => 'FULL',
@@ -84,8 +83,7 @@ class org_routamc_positioning_geocoder_geonames extends org_routamc_positioning_
             $position = array();
             $position['latitude' ] = (float) $entry->lat;
             $position['longitude' ] = (float) $entry->lng;
-            $position['distance'] = array
-            (
+            $position['distance'] = array(
                 'meters' => round( (float) $entry->distance * 1000 ),
                 'bearing' => null,
             );
@@ -111,8 +109,7 @@ class org_routamc_positioning_geocoder_geonames extends org_routamc_positioning_
     {
         $results = array();
 
-        $parameters = array
-        (
+        $parameters = array(
             'radius' => 10,
             'maxRows' => 20,
             'style' => 'FULL',
@@ -164,8 +161,7 @@ class org_routamc_positioning_geocoder_geonames extends org_routamc_positioning_
 
             $entry = $simplexml->geoname[$i];
 
-            $entry_coordinates = array
-            (
+            $entry_coordinates = array(
                 'latitude'  => (float) $entry->lat,
                 'longitude' => (float) $entry->lng,
             );
@@ -180,8 +176,7 @@ class org_routamc_positioning_geocoder_geonames extends org_routamc_positioning_
             $position = array();
             $position['latitude' ] = (float) $entry->lat;
             $position['longitude' ] = (float) $entry->lng;
-            $position['distance'] = array
-            (
+            $position['distance'] = array(
                 'meters' => $meters,
                 'bearing' => org_routamc_positioning_utils::get_bearing($coordinates, $entry_coordinates),
             );

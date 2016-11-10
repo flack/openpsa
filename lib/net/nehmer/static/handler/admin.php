@@ -105,8 +105,7 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
         $this->_article->require_do('midgard:update');
         midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('edit %s'), $this->_article->title));
 
-        $workflow = $this->get_workflow('datamanager2', array
-        (
+        $workflow = $this->get_workflow('datamanager2', array(
             'controller' => $this->_load_controller(),
             'save_callback' => array($this, 'save_callback')
         ));
@@ -146,8 +145,7 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
         // Get the link
         $results = $qb->execute_unchecked();
         $this->_link = $results[0];
-        $workflow = $this->get_workflow('delete', array
-        (
+        $workflow = $this->get_workflow('delete', array(
             'object' => $this->_link,
             'label' => $this->_l10n->get('article link')
         ));

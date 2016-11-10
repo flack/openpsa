@@ -157,8 +157,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
     {
         $from = $this->_config->get('lostpassword_reset_mail_sender') ?: $person->email;
 
-        $parameters = array
-        (
+        $parameters = array(
             'PERSON' => $person,
             'PASSWORD' => $password,
         );

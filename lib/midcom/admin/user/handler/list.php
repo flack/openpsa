@@ -25,23 +25,19 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
 
     private function _prepare_toolbar(&$data)
     {
-        $buttons = array
-        (
-            array
-            (
+        $buttons = array(
+            array(
                 MIDCOM_TOOLBAR_URL => "__mfa/asgard_midcom.admin.user/create/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create user'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_people.png',
                 MIDCOM_TOOLBAR_ENABLED => $this->_config->get('allow_manage_accounts'),
             ),
-            array
-            (
+            array(
                 MIDCOM_TOOLBAR_URL => "__mfa/asgard_midcom.admin.user/group/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('groups'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_person-new.png',
             ),
-            array
-            (
+            array(
                 MIDCOM_TOOLBAR_URL => "__mfa/asgard_midcom.admin.user/group/create/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create group'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_people-new.png',
@@ -69,8 +65,7 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
         // Used in select
         $data['groups_for_select'] = array();
         if (midcom::get()->auth->admin) {
-            $data['groups_for_select'][] = array
-            (
+            $data['groups_for_select'][] = array(
                 'title' => 'Midgard Administrators',
                 'level' => '0',
                 'id' => 0,
@@ -271,8 +266,7 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
         $mail->body = $_POST['body'];
         $mail->subject = $_POST['subject'];
         $now = time();
-        $mail->parameters = array
-        (
+        $mail->parameters = array(
             'PASSWORD' => $password,
             'FROM' => $this->_config->get('message_sender'),
             'LONGDATE' => $this->_l10n->get_formatter()->datetime($now, 'full'),
@@ -313,8 +307,7 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
         $data['view_title'] = $this->_l10n->get('batch generate passwords');
         $formatter = $this->_l10n->get_formatter();
         $now = time();
-        $data['variables'] = array
-        (
+        $data['variables'] = array(
             '__FIRSTNAME__' => $this->_l10n->get('firstname'),
             '__LASTNAME__' => $this->_l10n->get('lastname'),
             '__USERNAME__' => $this->_l10n->get('username'),

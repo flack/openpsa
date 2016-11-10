@@ -86,8 +86,7 @@ class net_nemein_wiki_resolver
      */
     public function path_to_wikipage($path, $force_resolve_folder_tree = false, $force_as_root = false)
     {
-        $matches = array
-        (
+        $matches = array(
             'wikipage' => null,
             'folder' => null,
             'latest_parent' => null,

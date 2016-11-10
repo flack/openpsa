@@ -94,8 +94,7 @@ class org_openpsa_documents_handler_document_create extends midcom_baseclasses_c
     {
         $data['directory']->require_do('midgard:create');
 
-        $this->_defaults = array
-        (
+        $this->_defaults = array(
             'topic' => $this->_request_data['directory']->id,
             'author' => midcom_connection::get_user(),
             'orgOpenpsaAccesstype' => $this->_topic->get_parameter('org.openpsa.core', 'orgOpenpsaAccesstype'),
@@ -106,8 +105,7 @@ class org_openpsa_documents_handler_document_create extends midcom_baseclasses_c
 
         midcom::get()->head->set_pagetitle($this->_l10n->get('create document'));
 
-        $workflow = $this->get_workflow('datamanager2', array
-        (
+        $workflow = $this->get_workflow('datamanager2', array(
             'controller' => $this->_controller,
             'save_callback' => array($this, 'save_callback')
         ));

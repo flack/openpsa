@@ -343,16 +343,16 @@ class midcom_core_account
                 $qs = new midgard_query_select($storage);
 
                 $group = new midgard_query_constraint_group('AND');
-                $group->add_constraint (
-                    new midgard_query_constraint (
-                        new midgard_query_property ('person'),
+                $group->add_constraint(
+                    new midgard_query_constraint(
+                        new midgard_query_property('person'),
                         '=',
-                        new midgard_query_value ($this->_person->guid)));
-                $group->add_constraint (
-                    new midgard_query_constraint (
-                        new midgard_query_property ('authtype'),
+                        new midgard_query_value($this->_person->guid)));
+                $group->add_constraint(
+                    new midgard_query_constraint(
+                        new midgard_query_property('authtype'),
                         '=',
-                        new midgard_query_value (midcom::get()->config->get('auth_type'))));
+                        new midgard_query_value(midcom::get()->config->get('auth_type'))));
                 $qs->set_constraint($group);
                 $qs->toggle_readonly(false);
                 $qs->execute();

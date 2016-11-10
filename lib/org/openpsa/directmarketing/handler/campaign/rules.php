@@ -49,8 +49,7 @@ implements org_openpsa_widgets_grid_provider_client
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
         $url = $siteconfig->get_node_full_url('org.openpsa.contacts') . 'person/';
 
-        return array
-        (
+        return array(
             'id' => $person->id,
             'index_firstname' => $person->firstname,
             'firstname' => '<a target="_blank" href="' . $url . $person->guid . '/">' . $person->firstname . '</a>',
@@ -126,25 +125,20 @@ implements org_openpsa_widgets_grid_provider_client
             midcom::get()->uimessages->add($this->_component, sprintf($this->_l10n->get('error when saving rule, errstr: %s'), midcom_connection::get_error_string()), 'error');
         }
 
-        $buttons = array
-        (
-            array
-            (
+        $buttons = array(
+            array(
                 MIDCOM_TOOLBAR_URL => "#",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('advanced rule editor'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/repair.png',
-                MIDCOM_TOOLBAR_OPTIONS  => array
-                (
+                MIDCOM_TOOLBAR_OPTIONS  => array(
                     'id' => 'openpsa_dirmar_edit_query_advanced',
                 ),
             ),
-            array
-            (
+            array(
                 MIDCOM_TOOLBAR_URL => "campaign/edit_query/{$this->_campaign->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('edit rules'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/repair.png',
-                MIDCOM_TOOLBAR_OPTIONS  => array
-                (
+                MIDCOM_TOOLBAR_OPTIONS  => array(
                     'id' => 'openpsa_dirmar_edit_query',
                 ),
             )

@@ -271,13 +271,11 @@ class midcom_helper__dbfactory
             //This must be a GUID link (or wrongly configured schema)
             try {
                 $parent = $this->get_object_by_guid($parent_guid);
-                $parent_data = array
-                (
+                $parent_data = array(
                     $parent->__midcom_class_name__ => $parent_guid
                 );
             } catch (midcom_error $e) {
-                $parent_data = array
-                (
+                $parent_data = array(
                     '' => null
                 );
                 $parent = null;
@@ -459,8 +457,7 @@ class midcom_helper__dbfactory
             $parent_property = midgard_object_class::get_property_parent($classname);
 
             if ($up_property) {
-                $this->_parent_candidates[$classname][] = array
-                (
+                $this->_parent_candidates[$classname][] = array(
                     'source_property' => $up_property,
                     'target_property' => $reflector->get_link_target($up_property),
                     'target_class' => $reflector->get_link_name($up_property),
@@ -476,8 +473,7 @@ class midcom_helper__dbfactory
                         $target_class = $person_class;
                     }
                 }
-                $this->_parent_candidates[$classname][] = array
-                (
+                $this->_parent_candidates[$classname][] = array(
                     'source_property' => $parent_property,
                     'target_property' => $reflector->get_link_target($parent_property),
                     'target_class' => $target_class,

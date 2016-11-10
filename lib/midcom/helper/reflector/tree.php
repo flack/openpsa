@@ -112,16 +112,14 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         }
 
         $ret = array();
-        $ret[] = array
-        (
+        $ret[] = array(
             'object' => $object,
             'label' => parent::get($object)->get_object_label($object),
         );
 
         $parent = self::get_parent($object);
         while (is_object($parent)) {
-            $ret[] = array
-            (
+            $ret[] = array(
                 'object' => $parent,
                 'label' => parent::get($parent)->get_object_label($parent),
             );
@@ -244,8 +242,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
             $linkfields = array_filter($linkfields);
             $data = array();
             foreach ($linkfields as $link_type => $field) {
-                $info = array
-                (
+                $info = array(
                     'name' => $field,
                     'type' => $ref->get_midgard_type($field),
                     'target' => $ref->get_link_target($field)
@@ -574,8 +571,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
                 }
                 $shown_guids[$object->guid] = true;
 
-                $leaf = array
-                (
+                $leaf = array(
                     'title' => $reflector->get_object_label($object),
                     'icon' => $reflector->get_object_icon($object),
                     'class' => $class

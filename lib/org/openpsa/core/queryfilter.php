@@ -81,8 +81,7 @@ class org_openpsa_core_queryfilter
             && $_POST['unset_filter'] == $filter_id) {
             if (   $user->get_parameter("org_openpsa_core_filter", $filter_id)
                 && !$user->delete_parameter("org_openpsa_core_filter", $filter_id)) {
-                $message_content = sprintf
-                (
+                $message_content = sprintf(
                     $l10n->get('the handed filter for %s could not be set as parameter'),
                     $l10n->get_string($filtername)
                 );

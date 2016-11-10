@@ -25,8 +25,7 @@ class net_nemein_redirector_navigation extends midcom_baseclasses_components_nav
         $results = $qb->execute();
 
         foreach ($results as $tinyurl) {
-            $leaves[$tinyurl->id] = array
-            (
+            $leaves[$tinyurl->id] = array(
                 MIDCOM_NAV_URL => "{$tinyurl->name}/",
                 MIDCOM_NAV_NAME => $tinyurl->title,
                 MIDCOM_NAV_GUID => $tinyurl->guid,

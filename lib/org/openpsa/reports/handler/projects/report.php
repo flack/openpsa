@@ -14,8 +14,7 @@
 class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_handler_base
 {
     private $_grouping = 'date';
-    private $_valid_groupings = array
-    (
+    private $_valid_groupings = array(
         'date' => true,
         'person' => true,
     );
@@ -182,8 +181,7 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
         if ($recursed) {
             return false;
         }
-        $rows[] = array
-        (
+        $rows[] = array(
             'is_group' => true,
             'matching' => $matching,
             'sort' => $sort,

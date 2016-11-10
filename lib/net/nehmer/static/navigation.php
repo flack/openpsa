@@ -76,8 +76,7 @@ class net_nehmer_static_navigation extends midcom_baseclasses_components_navigat
             if ($article->name == 'index') {
                 $article_url = '';
             }
-            $leaves[$article->id] = array
-            (
+            $leaves[$article->id] = array(
                 MIDCOM_NAV_URL => $article_url,
                 MIDCOM_NAV_NAME => $article->title ?: $article->name,
                 MIDCOM_NAV_GUID => $article->guid,

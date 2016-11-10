@@ -139,8 +139,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
 
         $workflow = $this->get_workflow('datamanager2', array('controller' => $data['controller']));
         if ($this->_hour_report->can_do('midgard:delete')) {
-            $delete = $this->get_workflow('delete', array
-            (
+            $delete = $this->get_workflow('delete', array(
                 'object' => $this->_hour_report,
                 'label' => $this->_l10n->get('hour report')
             ));

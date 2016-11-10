@@ -144,8 +144,7 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
         if ($this->_current_page > 1) {
             $previous = $this->_current_page - 1;
             if ($previous > 1) {
-                $pages[] = array
-                (
+                $pages[] = array(
                     'class' => 'first',
                     'href' => $this->_get_query_string($page_var, 1),
                     'rel' => 'prev',
@@ -153,8 +152,7 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
                     'number' => 1
                 );
             }
-            $pages[] = array
-            (
+            $pages[] = array(
                 'class' => 'previous',
                 'href' => $this->_get_query_string($page_var, $previous),
                 'rel' => 'prev',
@@ -168,8 +166,7 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
             if ($page != $this->_current_page) {
                 $href = $this->_get_query_string($page_var, $page);
             }
-            $pages[] = array
-            (
+            $pages[] = array(
                 'class' => 'current',
                 'href' => $href,
                 'rel' => false,
@@ -180,8 +177,7 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
 
         if ($this->_current_page < $page_count) {
             $next = $this->_current_page + 1;
-            $pages[] = array
-            (
+            $pages[] = array(
                 'class' => 'next',
                 'href' => $this->_get_query_string($page_var, $next),
                 'rel' => 'next',
@@ -190,8 +186,7 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
             );
 
             if ($next < $page_count) {
-                $pages[] = array
-                (
+                $pages[] = array(
                     'class' => 'last',
                     'href' => $this->_get_query_string($page_var, $page_count),
                     'rel' => 'next',

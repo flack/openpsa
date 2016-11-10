@@ -131,7 +131,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
             return;
         }
 
-        fclose ($this->_open_handle);
+        fclose($this->_open_handle);
         $this->_open_handle = null;
 
         if ($this->_open_write_mode) {
@@ -430,7 +430,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
      */
     public function copy_from_file($filename)
     {
-        $source = @fopen ($filename, 'r');
+        $source = @fopen($filename, 'r');
         if (!$source) {
             debug_add('Could not open file for reading.' . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
             midcom::get()->debug->log_php_error(MIDCOM_LOG_WARN);

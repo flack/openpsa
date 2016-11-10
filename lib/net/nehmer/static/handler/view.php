@@ -46,8 +46,7 @@ class net_nehmer_static_handler_view extends midcom_baseclasses_components_handl
         $buttons = array();
         $workflow = $this->get_workflow('datamanager2');
         if ($this->_article->can_do('midgard:update')) {
-            $buttons[] = $workflow->get_button("edit/{$this->_article->guid}/", array
-            (
+            $buttons[] = $workflow->get_button("edit/{$this->_article->guid}/", array(
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
             ));
         }
@@ -70,8 +69,7 @@ class net_nehmer_static_handler_view extends midcom_baseclasses_components_handl
                     $delete_original = $this->get_workflow('delete', array('object' => $this->_article));
                     $delete_url .= ' ' . $delete_original->render_attributes();
 
-                    $delete = $this->get_workflow('delete', array
-                    (
+                    $delete = $this->get_workflow('delete', array(
                         'object' => $results[0],
                         'dialog_text' => '<p>' . sprintf($this->_l10n->get("this article has been linked from <a href=\"%s\">%s</a> and confirming will delete only the link"), $topic_url, $topic_name) . '</p>' .
                                          '<p>' . sprintf($this->_l10n->get("if you want to delete the original article, <a href=\"%s\">click here</a>"), $delete_url) . '</p>'
@@ -85,8 +83,7 @@ class net_nehmer_static_handler_view extends midcom_baseclasses_components_handl
         }
         if (   $this->_config->get('enable_article_links')
             && $this->_content_topic->can_do('midgard:create')) {
-            $buttons[] = $workflow->get_button("create/link/?article={$this->_article->id}", array
-            (
+            $buttons[] = $workflow->get_button("create/link/?article={$this->_article->id}", array(
                 MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('article link')),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/attach.png',
             ));

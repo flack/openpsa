@@ -247,7 +247,7 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
                 unset($this->_attachment_map[$blob_identifier]);
                 $this->delete_attachment($blob_identifier);
             }
-            unset ($this->images[$identifier]);
+            unset($this->images[$identifier]);
         }
 
         $this->_save_image_listing();

@@ -85,8 +85,7 @@ implements midcom_helper_datamanager2_interfaces_create
         $data['controller'] = $this->get_controller('create');
         midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get($this->_schemadb[$this->_schema]->description)));
 
-        $workflow = $this->get_workflow('datamanager2', array
-        (
+        $workflow = $this->get_workflow('datamanager2', array(
             'controller' => $data['controller'],
             'save_callback' => array($this, 'save_callback')
         ));

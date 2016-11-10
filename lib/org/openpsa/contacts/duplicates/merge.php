@@ -158,8 +158,7 @@ class org_openpsa_contacts_duplicates_merge
     private function merge_persons($person1, $person2)
     {
         // Copy fields missing from person1 and present in person2 over
-        $skip_properties = array
-        (
+        $skip_properties = array(
             'id' => true,
             'guid' => true,
         );

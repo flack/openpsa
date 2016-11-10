@@ -12,8 +12,7 @@
         $rows = array();
         $workflow = new midcom\workflow\datamanager2;
         foreach ($data['entries'] as $entry) {
-            $row = array
-            (
+            $row = array(
                 'id' => $entry->id,
                 'index_name' => $entry->title,
                 'description' => $entry->text,

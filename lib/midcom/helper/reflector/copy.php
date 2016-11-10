@@ -82,8 +82,7 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
     /**
      * Metadata fields that shall be copied
      */
-    public $copy_metadata_fields = array
-    (
+    public $copy_metadata_fields = array(
         'owner',
         'authors',
         'schedulestart',
@@ -197,8 +196,7 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
         }
 
         // Empty result set for the current class
-        $target = array
-        (
+        $target = array(
             'id' => null,
             'parent' => '',
             'class' => $mgdschema_class,
@@ -485,8 +483,7 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
      */
     public function copy_attachments(&$source, &$target)
     {
-        $defaults = array
-        (
+        $defaults = array(
             'parentguid' => $target->guid,
         );
 
@@ -514,8 +511,7 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
         static $privilege_fields = null;
 
         if (is_null($privilege_fields)) {
-            $privilege_fields = array
-            (
+            $privilege_fields = array(
                 'classname',
                 'assignee',
                 'name',

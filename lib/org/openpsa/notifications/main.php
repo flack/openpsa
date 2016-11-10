@@ -134,10 +134,8 @@ class org_openpsa_notifications extends midcom_baseclasses_components_purecode
 
     public function load_schemadb()
     {
-        $schemadb = array
-        (
-            'default' => array
-            (
+        $schemadb = array(
+            'default' => array(
                 'description' => 'notifications',
                 'fields'      => array()
             )
@@ -153,19 +151,16 @@ class org_openpsa_notifications extends midcom_baseclasses_components_purecode
             $total = sizeof($actions);
             foreach ($actions as $action => $settings) {
                 $action_key = "{$component}:{$action}";
-                $field_config = array
-                (
+                $field_config = array(
                     'title'   => $this->_i18n->get_string("action {$action}", $component),
-                    'storage' => array
-                    (
+                    'storage' => array(
                         'location' => 'configuration',
                         'domain'   => 'org.openpsa.notifications',
                         'name'     => $action_key,
                     ),
                     'type'    => 'select',
                     'widget'  => 'radiocheckselect',
-                    'type_config' => array
-                    (
+                    'type_config' => array(
                         'options' => $notifiers,
                     ),
                 );
@@ -173,8 +168,7 @@ class org_openpsa_notifications extends midcom_baseclasses_components_purecode
                     $field_config['default'] = $settings['default'];
                 }
                 if ($i == 0) {
-                    $field_config['start_fieldset'] = array
-                    (
+                    $field_config['start_fieldset'] = array(
                         'title' => $this->_i18n->get_string($component, $component),
                         'css_group' => 'area',
                     );
@@ -183,8 +177,7 @@ class org_openpsa_notifications extends midcom_baseclasses_components_purecode
                     $field_config['end_fieldset'] = '';
                 }
 
-                $schemadb['default']->append_field
-                (
+                $schemadb['default']->append_field(
                     str_replace(array(':', '.'), '_', $action_key),
                     $field_config
                 );
@@ -196,8 +189,7 @@ class org_openpsa_notifications extends midcom_baseclasses_components_purecode
     private function _list_notifiers()
     {
         // TODO: Figure out which notifiers are possible
-        return array
-        (
+        return array(
             ''         => $this->_l10n->get('inherit'),
             'none'     => $this->_l10n->get('none'),
             'email'    => $this->_l10n->get('email'),

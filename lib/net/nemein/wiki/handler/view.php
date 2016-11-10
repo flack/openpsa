@@ -61,17 +61,14 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
     private function _populate_toolbar()
     {
         $workflow = $this->get_workflow('datamanager2');
-        $buttons = array
-        (
-            array
-            (
+        $buttons = array(
+            array(
                 MIDCOM_TOOLBAR_URL => "{$this->_page->name}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('view'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_left.png',
                 MIDCOM_TOOLBAR_ACCESSKEY => 'v',
             ),
-            $workflow->get_button("edit/{$this->_page->name}/", array
-            (
+            $workflow->get_button("edit/{$this->_page->name}/", array(
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
                 MIDCOM_TOOLBAR_ENABLED => $this->_page->can_do('midgard:update'),
             ))
@@ -81,8 +78,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
             $buttons[] = $workflow->get_button("delete/{$this->_page->name}/");
         }
 
-        $buttons[] = array
-        (
+        $buttons[] = array(
             MIDCOM_TOOLBAR_URL => "whatlinks/{$this->_page->name}/",
             MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('what links'),
             MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/jump-to.png',
@@ -95,8 +91,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
             } else {
                 $action = 'subscribe';
             }
-            $buttons[] = array
-            (
+            $buttons[] = array(
                 MIDCOM_TOOLBAR_URL => "subscribe/{$this->_page->name}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get($action),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_mail.png',
@@ -106,10 +101,8 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
         }
 
         if ($this->_page->can_do('midgard:update')) {
-            midcom::get()->head->add_link_head
-            (
-                array
-                (
+            midcom::get()->head->add_link_head(
+                array(
                     'rel' => 'alternate',
                     'type' => 'application/x-wiki',
                     'title' => $this->_l10n_midcom->get('edit'),

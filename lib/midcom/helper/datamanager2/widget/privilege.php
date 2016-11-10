@@ -56,8 +56,7 @@ class midcom_helper_datamanager2_widget_privilege extends midcom_helper_datamana
 
         $elements = array();
 
-        $elements[] = $this->_form->createElement
-        (
+        $elements[] = $this->_form->createElement(
             'radio',
             null,
             MIDCOM_PRIVILEGE_ALLOW,
@@ -65,8 +64,7 @@ class midcom_helper_datamanager2_widget_privilege extends midcom_helper_datamana
             MIDCOM_PRIVILEGE_ALLOW,
             array('class' => 'radiobutton')
         );
-        $elements[] = $this->_form->createElement
-        (
+        $elements[] = $this->_form->createElement(
             'radio',
             null,
             MIDCOM_PRIVILEGE_DENY,
@@ -74,8 +72,7 @@ class midcom_helper_datamanager2_widget_privilege extends midcom_helper_datamana
             MIDCOM_PRIVILEGE_DENY,
             array('class' => 'radiobutton')
         );
-        $elements[] = $this->_form->createElement
-        (
+        $elements[] = $this->_form->createElement(
             'radio',
             null,
             MIDCOM_PRIVILEGE_INHERIT,
@@ -86,8 +83,7 @@ class midcom_helper_datamanager2_widget_privilege extends midcom_helper_datamana
 
         $this->_elements = $elements;
 
-        $group = $this->_form->addGroup
-        (
+        $group = $this->_form->addGroup(
             $this->_elements,
             $this->name,
             $this->_translate($this->_field['title']),

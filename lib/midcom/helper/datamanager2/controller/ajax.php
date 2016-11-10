@@ -186,8 +186,7 @@ class midcom_helper_datamanager2_controller_ajax extends midcom_helper_datamanag
             $this->allow_removal = false;
         }
 
-        $config = array
-        (
+        $config = array(
             'mode' => $mode,
             'allow_removal' => $this->allow_removal
         );
@@ -280,8 +279,7 @@ class midcom_helper_datamanager2_controller_ajax extends midcom_helper_datamanag
             if (!$this->datamanager->validate()) {
                 // In case that the type validation fails, we bail with an exception, until
                 // we have a better defined way-of-life here.
-                throw new midcom_error
-                (
+                throw new midcom_error(
                     "Failed to save object, type validation failed:\n" . implode("\n", $this->datamanager->validation_errors)
                 );
             }

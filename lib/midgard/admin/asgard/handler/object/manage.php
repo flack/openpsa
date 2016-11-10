@@ -198,8 +198,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
                     foreach ($qf->_errors as $field => $error) {
                         $element =& $qf->getElement($field);
                         $message = sprintf($this->_l10n->get('validation error in field %s: %s'), $element->getLabel(), $error);
-                        midcom::get()->uimessages->add
-                        (
+                        midcom::get()->uimessages->add(
                             $this->_l10n->get('midgard.admin.asgard'),
                             $message,
                             'error'
@@ -389,8 +388,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
 
     private function _object_to_jsdata($object)
     {
-        $jsdata = array
-        (
+        $jsdata = array(
             'id' => (string) @$object->id,
             'guid' => @$object->guid,
             'pre_selected' => true

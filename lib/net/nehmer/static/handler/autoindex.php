@@ -77,7 +77,7 @@ class net_nehmer_static_handler_autoindex extends midcom_baseclasses_components_
     {
         midcom_show_style('autoindex-start');
 
-        if (count ($this->_index_entries) > 0) {
+        if (count($this->_index_entries) > 0) {
             foreach ($this->_index_entries as $filename => $thedata) {
                 $data['filename'] = $filename;
                 $data['data'] = $thedata;
@@ -190,8 +190,7 @@ class net_nehmer_static_handler_autoindex extends midcom_baseclasses_components_
 
     private function _get_attachment_data($filename, array $data)
     {
-        return array
-        (
+        return array(
             'name' => $filename,
             'url' => $data['url'],
             'size' => $data['formattedsize'],

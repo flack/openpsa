@@ -131,8 +131,7 @@ abstract class midcom_baseclasses_components_handler extends midcom_baseclasses_
      */
     public function add_breadcrumb($url, $title)
     {
-        $this->_breadcrumbs[] = array
-        (
+        $this->_breadcrumbs[] = array(
             MIDCOM_NAV_URL => $url,
             MIDCOM_NAV_NAME => $title,
         );

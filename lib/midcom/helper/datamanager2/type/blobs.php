@@ -210,8 +210,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
         $att = $this->attachments[$identifier];
         $stats = $att->stat();
 
-        $this->attachments_info[$identifier] = array
-        (
+        $this->attachments_info[$identifier] = array(
             'filename' => $att->name,
             'description' => $att->title,
             'mimetype' => $att->mimetype,
@@ -679,8 +678,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
     function file_sanity_checks($filepath)
     {
         static $checked_files = array();
-        $checks = array
-        (
+        $checks = array(
             'sizenotzero',
             'avscan',
         );

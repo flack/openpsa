@@ -105,8 +105,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
             $mail->body = $this->_config->get('welcome_mail_body');
 
             // Make replacements to body
-            $mail->parameters = array
-            (
+            $mail->parameters = array(
                 "USERNAME" => $username,
                 "PASSWORD" => $password,
                 "SITE_URL" => midcom::get()->config->get('midcom_site_url')
@@ -394,8 +393,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
             return false;
         }
         $release_time = time() + ($timeframe_minutes * 60);
-        $args = array
-        (
+        $args = array(
             'guid' => $this->_person->guid,
             'parameter_name' => 'org_openpsa_user_blocked_account',
             'password' => 'account_password',

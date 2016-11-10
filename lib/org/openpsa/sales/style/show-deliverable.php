@@ -143,8 +143,7 @@ if (   $data['product']
     $tabs = array();
     if (   $data['invoices_url']
         && $data['deliverable']->invoiced > 0) {
-        $tabs[] = array
-        (
+        $tabs[] = array(
             'url' => $data['invoices_url'] . "list/deliverable/{$data['deliverable']->guid}/",
             'title' => midcom::get()->i18n->get_string('invoices', 'org.openpsa.invoices'),
         );
@@ -154,8 +153,7 @@ if (   $data['product']
         && $data['deliverable']->state >= org_openpsa_sales_salesproject_deliverable_dba::STATE_ORDERED) {
         if (   $data['product']
             && $data['product']->orgOpenpsaObtype == org_openpsa_products_product_dba::TYPE_SERVICE) {
-            $tabs[] = array
-            (
+            $tabs[] = array(
                 'url' => $data['projects_url'] . "task/list/all/agreement/{$data['deliverable']->id}/",
                 'title' => midcom::get()->i18n->get_string('tasks', 'org.openpsa.projects'),
             );

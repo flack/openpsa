@@ -20,8 +20,7 @@ use Buzz\Util\Url;
  */
 class org_openpsa_httplib extends midcom_baseclasses_components_purecode
 {
-    private $_params = array
-    (
+    private $_params = array(
         'timeout' => 30,
         'ssl_verify_peer' => false,
         'follow_redirects' => true
@@ -29,8 +28,7 @@ class org_openpsa_httplib extends midcom_baseclasses_components_purecode
 
     public $error = '';
 
-    public $basicauth = array
-    (
+    public $basicauth = array(
         'user' => false,
         'password' => false,
     );

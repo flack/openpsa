@@ -254,8 +254,7 @@ class org_openpsa_calendar_conflictmanager
 
     private function is_processed($type, $eid, $id)
     {
-        static $processed = array
-        (
+        static $processed = array(
             'members' => array(),
             'resources' => array()
         );

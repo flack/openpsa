@@ -403,7 +403,7 @@ class midcom_helper_metadata
     function on_update($key = false)
     {
         if ($key) {
-            unset ($this->_cache[$key]);
+            unset($this->_cache[$key]);
         } else {
             $this->_cache = array();
         }

@@ -102,8 +102,7 @@ class org_openpsa_directmarketing_campaign_member_dba extends midcom_core_dbaobj
             $plaintext_password = $sep_start . 'unknown' . $sep_end;
         }
 
-        $replace_map = array
-        (
+        $replace_map = array(
             $sep_start . 'UNSUBSCRIBE_URL' . $sep_end => $this->get_unsubscribe_url($node),
             $sep_start . 'UNSUBSCRIBE_ALL_URL' . $sep_end => "{$node[MIDCOM_NAV_FULLURL]}campaign/unsubscribe_all/{$person->guid}/",
             $sep_start . 'UNSUBSCRIBE_ALL_FUTURE_URL' . $sep_end => "{$node[MIDCOM_NAV_FULLURL]}campaign/unsubscribe_all_future/{$person->guid}/all.html",

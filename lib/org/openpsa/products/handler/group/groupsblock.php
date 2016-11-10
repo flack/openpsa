@@ -167,8 +167,7 @@ class org_openpsa_products_handler_group_groupsblock  extends midcom_baseclasses
     {
         $buttons = array();
         $workflow = $this->get_workflow('datamanager2');
-        $buttons[] = $workflow->get_button("edit/{$this->_request_data['group']->guid}/", array
-        (
+        $buttons[] = $workflow->get_button("edit/{$this->_request_data['group']->guid}/", array(
             MIDCOM_TOOLBAR_ENABLED => $this->_request_data['group']->can_do('midgard:update'),
             MIDCOM_TOOLBAR_ACCESSKEY => 'e',
         ));
@@ -176,10 +175,8 @@ class org_openpsa_products_handler_group_groupsblock  extends midcom_baseclasses
         $allow_create_group = $this->_request_data['group']->can_do('midgard:create');
         $allow_create_product = $this->_request_data['group']->can_do('midgard:create');
         foreach (array_keys($this->_request_data['schemadb_group']) as $name) {
-            $buttons[] = $workflow->get_button("create/{$this->_request_data['parent_group']}/{$name}/", array
-            (
-                MIDCOM_TOOLBAR_LABEL => sprintf
-                (
+            $buttons[] = $workflow->get_button("create/{$this->_request_data['parent_group']}/{$name}/", array(
+                MIDCOM_TOOLBAR_LABEL => sprintf(
                     $this->_l10n_midcom->get('create %s'),
                     $this->_l10n->get($this->_request_data['schemadb_group'][$name]->description)
                 ),
@@ -189,10 +186,8 @@ class org_openpsa_products_handler_group_groupsblock  extends midcom_baseclasses
         }
 
         foreach (array_keys($this->_request_data['schemadb_product']) as $name) {
-            $buttons[] = $workflow->get_button("product/create/{$this->_request_data['parent_group']}/{$name}/", array
-            (
-                MIDCOM_TOOLBAR_LABEL => sprintf
-                (
+            $buttons[] = $workflow->get_button("product/create/{$this->_request_data['parent_group']}/{$name}/", array(
+                MIDCOM_TOOLBAR_LABEL => sprintf(
                     $this->_l10n_midcom->get('create %s'),
                     $this->_l10n->get($this->_request_data['schemadb_product'][$name]->description)
                 ),

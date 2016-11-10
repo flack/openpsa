@@ -74,10 +74,8 @@ class org_openpsa_invoices_handler_invoice_items extends midcom_baseclasses_comp
         $this->add_breadcrumb("invoice/" . $this->_object->guid . "/", $this->_l10n->get('edit invoice items') . ': ' . $title);
 
         midcom::get()->head->set_pagetitle($this->_l10n->get('edit invoice items') . ': ' . $title);
-        $this->_view_toolbar->add_item
-        (
-            array
-            (
+        $this->_view_toolbar->add_item(
+            array(
                 MIDCOM_TOOLBAR_URL => "invoice/recalculation/{$this->_object->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('recalculate_by_reports'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
@@ -137,8 +135,7 @@ class org_openpsa_invoices_handler_invoice_items extends midcom_baseclasses_comp
             default:
                 throw new midcom_error('Invalid operation "' . $_POST['oper'] . '"');
         }
-        $result = array
-        (
+        $result = array(
             'id' => $item->id,
             'quantity' => $item->units,
             'price' => $item->pricePerUnit,

@@ -30,8 +30,7 @@ class midcom_services_auth_frontend_form implements midcom_services_auth_fronten
             return null;
         }
 
-        return array
-        (
+        return array(
             'username' => trim($_REQUEST['username']),
             'password' => trim($_REQUEST['password'])
         );

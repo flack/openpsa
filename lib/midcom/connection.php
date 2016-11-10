@@ -22,8 +22,7 @@ class midcom_connection
      */
     private static $_data;
 
-    private static $_defaults = array
-    (
+    private static $_defaults = array(
         'user' => 0,
         'admin' => false,
         'root' => false,
@@ -38,15 +37,13 @@ class midcom_connection
         'host' => 0,
         'style' => 0,
         'author' => 0,
-        'config' => array
-        (
+        'config' => array(
             'prefix' => '',
             'quota' => false,
             'auth_cookie_id' => 1,
         ),
 
-        'schema' => array
-        (
+        'schema' => array(
         ),
     );
 
@@ -206,8 +203,7 @@ class midcom_connection
     {
         if (method_exists('midgard_user', 'login')) {
             // Ratatoskr
-            $login_tokens = array
-            (
+            $login_tokens = array(
                 'login' => $username,
                 'authtype' => midcom::get()->config->get('auth_type'),
             );

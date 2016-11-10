@@ -46,8 +46,7 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
      */
     private function _analyze_message_report(array $data)
     {
-        $this->_request_data['report'] = array
-        (
+        $this->_request_data['report'] = array(
             'campaign_data' => array(),
             'receipt_data' => array()
         );
@@ -168,27 +167,22 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
                 $segment_data['rules'][$link->target] = $link_data['rules'][$link->target];
 
                 if (!$segment_notfound) {
-                    $segmentrule = array
-                    (
+                    $segmentrule = array(
                         'comment' => $this->_l10n->get('segment limits'),
                         'type' => 'AND',
                         'class' => 'org_openpsa_contacts_person_dba',
-                        'rules' => array
-                        (
-                            array
-                            (
+                        'rules' => array(
+                            array(
                                 'property' => 'parameter.domain',
                                 'match' => '=',
                                 'value' => 'org.openpsa.directmarketing.segments',
                             ),
-                            array
-                            (
+                            array(
                                 'property' => 'parameter.name',
                                 'match' => '=',
                                 'value' => $segmentation_param,
                             ),
-                            array
-                            (
+                            array(
                                 'property' => 'parameter.value',
                                 'match' => '=',
                                 'value' => $segment,
@@ -217,28 +211,22 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
 
     private function _generate_link_rules(org_openpsa_directmarketing_link_log_dba $link)
     {
-        return array
-        (
+        return array(
             'comment' => sprintf($this->_l10n->get('all persons who have clicked on link "%s" in message #%d and have not unsubscribed from campaign #%d'), $link->target, $link->message, $this->_message->campaign),
             'type' => 'AND',
-            'classes' => array
-            (
-                array
-                (
+            'classes' => array(
+                array(
                     'comment' => $this->_l10n->get('link and message limits'),
                     'type' => 'AND',
                     'class' => 'org_openpsa_directmarketing_link_log_dba',
-                    'rules' => array
-                    (
-                        array
-                        (
+                    'rules' => array(
+                        array(
                             'property' => 'target',
                             'match' => '=',
                             'value' => $link->target,
                         ),
                         // PONDER: do we want to limit to this message only ??
-                        array
-                        (
+                        array(
                             'property' => 'message',
                             'match' => '=',
                             'value' => $link->message,
@@ -246,21 +234,17 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
                     ),
                 ),
                 // Add rule that prevents unsubscribed persons from ending up to the smart-campaign ??
-                array
-                (
+                array(
                     'comment' => $this->_l10n->get('not-unsubscribed -limits'),
                     'type' => 'AND',
                     'class' => 'org_openpsa_directmarketing_campaign_member_dba',
-                    'rules' => array
-                    (
-                        array
-                        (
+                    'rules' => array(
+                        array(
                             'property' => 'orgOpenpsaObtype',
                             'match' => '<>',
                             'value' => org_openpsa_directmarketing_campaign_member_dba::UNSUBSCRIBED,
                         ),
-                        array
-                        (
+                        array(
                             'property' => 'campaign',
                             'match' => '=',
                             'value' => $this->_message->campaign,
@@ -365,16 +349,13 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
             $preview_url .= midcom::get()->auth->user->guid .'/';
         }
 
-        $buttons = array
-        (
-            array
-            (
+        $buttons = array(
+            array(
                 MIDCOM_TOOLBAR_URL => "message/{$this->_message->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get("back"),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_left.png',
             ),
-            array
-            (
+            array(
                 MIDCOM_TOOLBAR_URL => $preview_url,
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('preview message'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/view.png',

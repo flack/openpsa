@@ -75,15 +75,13 @@ $node = $nap->get_node($nap->get_current_node());
     if (strpos($data['view']['categories'], $data['l10n']->get('client')) !== false) {
         //TODO: Check for privileges somehow
         if ($invoices_url = $siteconfig->get_node_relative_url('org.openpsa.invoices')) {
-            $tabs[] = array
-            (
+            $tabs[] = array(
                 'url' => $invoices_url . "list/customer/all/{$data['group']->guid}/",
                 'title' => midcom::get()->i18n->get_string('invoices', 'org.openpsa.invoices'),
             );
         }
         if ($sales_url = $siteconfig->get_node_relative_url('org.openpsa.sales')) {
-            $tabs[] = array
-            (
+            $tabs[] = array(
                 'url' => $sales_url . "list/customer/{$data['group']->guid}/",
                 'title' => midcom::get()->i18n->get_string('salesprojects', 'org.openpsa.sales'),
             );

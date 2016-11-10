@@ -36,8 +36,7 @@ class midcom_core_privilege
      *
      * @var array
      */
-    private $__privilege = array
-    (
+    private $__privilege = array(
         'guid' => '',
         'objectguid' => '',
         'privilegename'=> '',
@@ -295,8 +294,7 @@ class midcom_core_privilege
                 MIDCOM_LOG_INFO);
             return false;
         }
-        $valid_values = array
-        (
+        $valid_values = array(
             MIDCOM_PRIVILEGE_ALLOW,
             MIDCOM_PRIVILEGE_DENY,
             MIDCOM_PRIVILEGE_INHERIT,

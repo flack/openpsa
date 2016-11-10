@@ -9,8 +9,7 @@ if ($data['query']->orgOpenpsaObtype !== org_openpsa_reports_query_dba::OBTYPE_R
     $grid_id .= $data['query']->id;
 }
 
-$footer_data = array
-(
+$footer_data = array(
     'number' => $data['l10n']->get('totals'),
     'sum' => 0,
     'vat_sum' => 0
@@ -127,8 +126,7 @@ $grid->set_column('number', $l10n->get('invoice number'), 'width: 120', 'string'
 
 $grid->set_option('loadonce', true)
     ->set_option('grouping', true)
-    ->set_option('groupingView', array
-         (
+    ->set_option('groupingView', array(
              'groupField' => array('status'),
              'groupColumnShow' => array(false),
              'groupText' => array('<strong>{0}</strong> ({1})'),

@@ -41,8 +41,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
                     foreach ($controller->datamanager->validation_errors as $field => $error) {
                         $element =& $controller->formmanager->form->getElement($field);
                         $message = sprintf($this->_l10n->get('validation error in field %s: %s'), $element->getLabel(), $error);
-                        midcom::get()->uimessages->add
-                            (
+                        midcom::get()->uimessages->add(
                                 $this->_l10n->get('midgard.admin.asgard'),
                                 $message,
                                 'error'
@@ -67,24 +66,20 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
     private function _prepare_toolbar()
     {
         $toolbar = new midgard_admin_asgard_toolbar();
-        $buttons = array
-        (
-            array
-            (
+        $buttons = array(
+            array(
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('save in browser'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/save.png',
                 MIDCOM_TOOLBAR_ACCESSKEY => 's',
                 MIDCOM_TOOLBAR_OPTIONS => array('id' => 'save-script')
             ),
-            array
-            (
+            array(
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('restore from browser'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_refresh.png',
                 MIDCOM_TOOLBAR_ACCESSKEY => 'r',
                 MIDCOM_TOOLBAR_OPTIONS => array('id' => 'restore-script')
             ),
-            array
-            (
+            array(
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('clear all'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
                 MIDCOM_TOOLBAR_ACCESSKEY => 'r',

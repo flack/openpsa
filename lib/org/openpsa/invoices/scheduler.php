@@ -100,8 +100,7 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
 
     private function _create_at_entry($cycle_number, $start)
     {
-        $args = array
-        (
+        $args = array(
             'deliverable' => $this->_deliverable->guid,
             'cycle'       => $cycle_number,
         );

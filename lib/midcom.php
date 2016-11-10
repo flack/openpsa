@@ -38,8 +38,7 @@ class midcom
     /**
      * Mapping of service names to classes implementing the service
      */
-    private static $_service_classes = array
-    (
+    private static $_service_classes = array(
         'auth' => 'midcom_services_auth',
         'componentloader' => 'midcom_helper__componentloader',
         'cache' => 'midcom_services_cache',
@@ -84,7 +83,7 @@ class midcom
         }
 
         if (!defined('OPENPSA2_THEME_ROOT')) {
-            define ('OPENPSA2_THEME_ROOT', MIDCOM_ROOT . '/../var/themes/');
+            define('OPENPSA2_THEME_ROOT', MIDCOM_ROOT . '/../var/themes/');
         }
 
         // Instantiate the MidCOM main class

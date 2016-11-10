@@ -16,8 +16,7 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
     public $__midcom_class_name__ = __CLASS__;
     public $__mgdschema_class_name__ = 'org_openpsa_salesproject';
 
-    public $autodelete_dependents = array
-    (
+    public $autodelete_dependents = array(
         'org_openpsa_contacts_role_dba' => 'objectGuid'
     );
 
@@ -141,8 +140,7 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
      */
     public function get_actions()
     {
-        $default = array
-        (
+        $default = array(
             'time'  => false,
             'obj'   => false,
             /* valid types are: noaction, task, event */

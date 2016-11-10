@@ -179,8 +179,7 @@ implements midcom_helper_datamanager2_interfaces_create
 
         midcom::get()->head->set_pagetitle(sprintf($this->_l10n->get('create wikipage %s'), $this->_wikiword));
 
-        $workflow = $this->get_workflow('datamanager2', array
-        (
+        $workflow = $this->get_workflow('datamanager2', array(
             'controller' => $data['controller'],
             'save_callback' => array($this, 'save_callback')
         ));

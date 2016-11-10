@@ -104,8 +104,7 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
         $this->_require_type_class('org_routamc_positioning_dm2_type');
 
         if (is_null($this->enabled_methods)) {
-            $this->enabled_methods = array
-            (
+            $this->enabled_methods = array(
                 'place',
                 'map',
                 'coordinates'
@@ -136,8 +135,7 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
         $this->_get_country_list();
         $this->_init_widgets_js_options();
 
-        $this->_allowed_xep_keys = array
-        (
+        $this->_allowed_xep_keys = array(
             'area',
             'building',
             'description',
@@ -175,8 +173,7 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
         }
 
         $html .= "    </ul>\n";
-        $this->_widget_elements[] = $this->_form->createElement
-        (
+        $this->_widget_elements[] = $this->_form->createElement(
             'static',
             "{$this->_element_id}_static_widget_start",
             '',
@@ -189,16 +186,14 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
         }
 
         $html = "</div><!-- widget ends -->\n";
-        $this->_widget_elements[] = $this->_form->createElement
-        (
+        $this->_widget_elements[] = $this->_form->createElement(
             'static',
             "{$this->_element_id}_static_widget_end",
             '',
             $html
         );
 
-        $this->_main_group = $this->_form->addGroup
-        (
+        $this->_main_group = $this->_form->addGroup(
             $this->_widget_elements,
             $this->name,
             $this->_translate($this->_field['title']),
@@ -240,8 +235,7 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
 
         $html .= "\n</div><!-- tab_content_place ends -->\n";
 
-        $this->_widget_elements[] = $this->_form->createElement
-        (
+        $this->_widget_elements[] = $this->_form->createElement(
             'static',
             "{$this->_element_id}_static_place",
             '',
@@ -327,8 +321,7 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
 
         $html .= "\n</div><!-- tab_content_map ends -->\n";
 
-        $this->_widget_elements[] = $this->_form->createElement
-        (
+        $this->_widget_elements[] = $this->_form->createElement(
             'static',
             "{$this->_element_id}_static_map",
             '',
@@ -374,8 +367,7 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
 
         $html .= "\n</div><!-- tab_content_coordinates ends -->\n";
 
-        $this->_widget_elements[] = $this->_form->createElement
-        (
+        $this->_widget_elements[] = $this->_form->createElement(
             'static',
             "{$this->_element_id}_static_coordinates",
             '',
@@ -385,8 +377,7 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
 
     public function _get_country_list()
     {
-        $this->_countrylist = array
-        (
+        $this->_countrylist = array(
             '' => midcom::get()->i18n->get_string('select your country', 'org.routamc.positioning'),
         );
 
@@ -467,8 +458,7 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
             midcom::get()->head->add_jquery_state_script($script);
         }
 
-        return array
-        (
+        return array(
             $this->_get_input_key("country") => $this->_type->location->country,
             $this->_get_input_key("city") => $city_name,
             $this->_get_input_key("street") => $this->_type->location->street,

@@ -195,8 +195,7 @@ class org_openpsa_widgets_grid extends midcom_baseclasses_components_purecode
         if (empty($name)) {
             throw new midcom_error('Invalid column name ' . $name);
         }
-        $this->_columns[$name] = array
-        (
+        $this->_columns[$name] = array(
             'label' => $label,
             'options' => $options,
             'separate_index' => $separate_index

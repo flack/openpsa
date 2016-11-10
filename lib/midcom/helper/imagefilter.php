@@ -421,8 +421,7 @@ class midcom_helper_imagefilter
         if (   $imagesize[2] == IMAGETYPE_JPEG
             && $this->_jpegtran_available()) {
             /* jpegtran */
-            $operations = array
-            (
+            $operations = array(
                 2 => "-flip horizontal",
                 3 => "-rotate 180",
                 4 => "-flip vertical",
@@ -438,8 +437,7 @@ class midcom_helper_imagefilter
             /* Mogrify */
             debug_add("jpegtran not found, falling back to mogrify.");
 
-            $operations = array
-            (
+            $operations = array(
                 2 => "-flip",
                 3 => "-rotate 180",
                 4 => "-flip",

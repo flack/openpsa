@@ -14,8 +14,7 @@
 class org_openpsa_projects_handler_task_list extends midcom_baseclasses_components_handler
 implements org_openpsa_widgets_grid_provider_client
 {
-    private $_status_order = array
-    (
+    private $_status_order = array(
         'proposed' => 0,
         'current' => 1,
         'pending_accept' => 2,
@@ -207,8 +206,7 @@ implements org_openpsa_widgets_grid_provider_client
         $this->_get_priorities();
         $this->_provider = new org_openpsa_widgets_grid_provider($this, 'local');
 
-        $resource_statuses = array
-        (
+        $resource_statuses = array(
             org_openpsa_projects_task_status_dba::PROPOSED,
             org_openpsa_projects_task_status_dba::ACCEPTED,
             org_openpsa_projects_task_status_dba::STARTED,
@@ -216,8 +214,7 @@ implements org_openpsa_widgets_grid_provider_client
             org_openpsa_projects_task_status_dba::COMPLETED
         );
 
-        $task_statuses = array
-        (
+        $task_statuses = array(
             org_openpsa_projects_task_status_dba::PROPOSED,
             org_openpsa_projects_task_status_dba::DECLINED,
             org_openpsa_projects_task_status_dba::COMPLETED,
@@ -363,12 +360,10 @@ implements org_openpsa_widgets_grid_provider_client
                 $this->_provider->add_order('end', 'DESC');
                 break;
             case 'current':
-                $this->_qb->add_constraint
-                (
+                $this->_qb->add_constraint(
                     'status',
                     'IN',
-                    array
-                    (
+                    array(
                         org_openpsa_projects_task_status_dba::ACCEPTED,
                         org_openpsa_projects_task_status_dba::STARTED,
                         org_openpsa_projects_task_status_dba::REJECTED,
@@ -442,8 +437,7 @@ implements org_openpsa_widgets_grid_provider_client
      */
     private function get_table_row_data($task)
     {
-        $ret = array
-        (
+        $ret = array(
             'project' => '&nbsp;',
             'index_project' => '',
         );
@@ -504,15 +498,13 @@ implements org_openpsa_widgets_grid_provider_client
         $workflow = $this->get_workflow('datamanager2');
 
         if (midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_projects_project')) {
-            $this->_view_toolbar->add_item($workflow->get_button('project/new/', array
-            (
+            $this->_view_toolbar->add_item($workflow->get_button('project/new/', array(
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("create project"),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-dir.png',
             )));
         }
         if (midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_projects_task_dba')) {
-            $this->_view_toolbar->add_item($workflow->get_button('task/new/', array
-            (
+            $this->_view_toolbar->add_item($workflow->get_button('task/new/', array(
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("create task"),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new_task.png',
             )));

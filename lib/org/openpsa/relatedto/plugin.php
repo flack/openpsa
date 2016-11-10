@@ -140,8 +140,7 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
                 //Wrong type of object found in array, cruelly abort the whole procedure
                 return false;
             }
-            $entry = array
-            (
+            $entry = array(
                 'toGuid' => $rel->toGuid,
                 'toComponent' => $rel->toComponent,
                 'toClass' => $rel->toClass
@@ -176,10 +175,8 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
 
     static function add_button(midcom_helper_toolbar $toolbar, $guid, $mode = 'both')
     {
-        $toolbar->add_item
-        (
-            array
-            (
+        $toolbar->add_item(
+            array(
                 MIDCOM_TOOLBAR_URL => "__mfa/org.openpsa.relatedto/render/{$guid}/{$mode}/",
                 MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('view related information', 'org.openpsa.relatedto'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/attach.png',
@@ -224,26 +221,21 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
 
     static function common_toolbar_buttons_defaults()
     {
-        return array
-        (
-            'event' => array
-            (
+        return array(
+            'event' => array(
                 'node' => false,
                 'component' => 'org.openpsa.calendar'
             ),
-            'task'  => array
-            (
+            'task'  => array(
                 'node' => false,
                 'component' => 'org.openpsa.projects'
             ),
-            'wikinote' => array
-            (
+            'wikinote' => array(
                 'node' => false,
                 'component' => 'net.nemein.wiki',
                 'wikiword'  => false, //Calling component MUST define this key to get a wikinote button
             ),
-            'document' => array
-            (
+            'document' => array(
                 'node' => false,
                 'component' => 'org.openpsa.documents'
             ),
@@ -282,8 +274,7 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
                     break;
                 case 'task':
                     if (midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_projects_task_dba')) {
-                        $toolbar_buttons[] = $workflow->get_button("{$data['node'][MIDCOM_NAV_ABSOLUTEURL]}task/new/?" . self::relatedto2get(array($related_to)), array
-                        (
+                        $toolbar_buttons[] = $workflow->get_button("{$data['node'][MIDCOM_NAV_ABSOLUTEURL]}task/new/?" . self::relatedto2get(array($related_to)), array(
                             MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('create task', $data['component']),
                             MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new_task.png',
                             MIDCOM_TOOLBAR_OPTIONS  => array('data-refresh-opener' => 'true'),
@@ -305,8 +296,7 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
                     }
 
                     $data['wikiword_encoded'] = rawurlencode($data['wikiword']);
-                    $toolbar_buttons[] = $workflow->get_button("{$data['node'][MIDCOM_NAV_ABSOLUTEURL]}create/?wikiword={$data['wikiword_encoded']}&" . self::relatedto2get(array($related_to)), array
-                    (
+                    $toolbar_buttons[] = $workflow->get_button("{$data['node'][MIDCOM_NAV_ABSOLUTEURL]}create/?wikiword={$data['wikiword_encoded']}&" . self::relatedto2get(array($related_to)), array(
                         MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('create note', $data['component']),
                         //TODO: Different icon from new document ?
                         MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-text.png',
@@ -316,8 +306,7 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
                     break;
                 case 'document':
                     if ($data['node'][MIDCOM_NAV_OBJECT]->can_do('midgard:create')) {
-                        $toolbar_buttons[] = $workflow->get_button("{$data['node'][MIDCOM_NAV_ABSOLUTEURL]}document/create/choosefolder/?" . self::relatedto2get(array($related_to)), array
-                        (
+                        $toolbar_buttons[] = $workflow->get_button("{$data['node'][MIDCOM_NAV_ABSOLUTEURL]}document/create/choosefolder/?" . self::relatedto2get(array($related_to)), array(
                             MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('create document', $data['component']),
                             MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-text.png',
                             MIDCOM_TOOLBAR_OPTIONS  => array('data-refresh-opener' => 'true'),
@@ -337,10 +326,8 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
      */
     static function add_journal_entry_button(midcom_helper_toolbar $toolbar, $guid)
     {
-        $toolbar->add_item
-        (
-            array
-            (
+        $toolbar->add_item(
+            array(
                 MIDCOM_TOOLBAR_URL => "__mfa/org.openpsa.relatedto/journalentry/{$guid}/html/",
                 MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('view journal entries', 'org.openpsa.relatedto'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/attach.png',

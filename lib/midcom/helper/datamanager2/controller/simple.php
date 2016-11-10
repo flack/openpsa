@@ -143,8 +143,7 @@ class midcom_helper_datamanager2_controller_simple extends midcom_helper_dataman
                     $label = $this->datamanager->schema->translate_schema_string($this->formmanager->_schema->fields[$name]['title']);
                 }
 
-                midcom::get()->uimessages->add
-                (
+                midcom::get()->uimessages->add(
                     $this->_l10n->get($this->_component),
                     sprintf($this->_l10n->get('validation failed for field %s: %s'), $label, $message),
                     'error'

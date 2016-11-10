@@ -94,8 +94,7 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_plugin
     private function _prepare_toolbars($revision = '', $diff_view = false)
     {
         $this->_view_toolbar->add_item(
-            array
-            (
+            array(
                 MIDCOM_TOOLBAR_URL => midcom::get()->permalinks->create_permalink($this->_guid),
                 MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n->get('back to %s'), $this->_resolve_object_title()),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_up.png',
@@ -123,16 +122,14 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_plugin
         }
         $buttons = array();
         if ($show_previous) {
-            $buttons[] = array
-            (
+            $buttons[] = array(
                 MIDCOM_TOOLBAR_URL => "__ais/rcs/diff/{$this->_guid}/{$first}/{$second}/",
                 MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n->get('view %s differences with previous (%s)'), $second, $first),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_left.png',
             );
         }
 
-        $buttons[] = array
-        (
+        $buttons[] = array(
             MIDCOM_TOOLBAR_URL => "__ais/rcs/preview/{$this->_guid}/{$revision}/",
             MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n->get('view this revision (%s)'), $revision),
             MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/search.png',
@@ -140,16 +137,14 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_plugin
 
         // Display restore and next buttons only if we're not in latest revision
         if ($after = $this->_backend->get_next_version($revision)) {
-            $buttons[] = array
-            (
+            $buttons[] = array(
                 MIDCOM_TOOLBAR_URL => "__ais/rcs/restore/{$this->_guid}/{$revision}/",
                 MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n->get('restore this revision (%s)'), $revision),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/editpaste.png',
                 MIDCOM_TOOLBAR_ENABLED => $this->_object->can_do('midgard:update'),
             );
 
-            $buttons[] = array
-            (
+            $buttons[] = array(
                 MIDCOM_TOOLBAR_URL => "__ais/rcs/diff/{$this->_guid}/{$revision}/{$after}/",
                 MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n->get('view %s differences with next (%s)'), $revision, $after),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_right.png',
@@ -230,13 +225,11 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_plugin
         midcom::get()->head->set_pagetitle($this->_request_data['view_title']);
 
         $this->_prepare_breadcrumb();
-        $this->add_breadcrumb
-        (
+        $this->add_breadcrumb(
             "__ais/rcs/preview/{$this->_guid}/{$data['latest_revision']}/",
             sprintf($this->_l10n->get('version %s'), $data['latest_revision'])
         );
-        $this->add_breadcrumb
-        (
+        $this->add_breadcrumb(
             "__ais/rcs/diff/{$this->_guid}/{$data['previous_revision']}/{$data['latest_revision']}/",
             sprintf($this->_l10n->get('changes from version %s'), $data['previous_revision'])
         );
@@ -290,8 +283,7 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_plugin
         midcom::get()->head->set_pagetitle($this->_request_data['view_title']);
 
         $this->_prepare_breadcrumb();
-        $this->add_breadcrumb
-        (
+        $this->add_breadcrumb(
             "__ais/rcs/preview/{$this->_guid}/{$revision}/",
             sprintf($this->_l10n->get('version %s'), $revision)
         );

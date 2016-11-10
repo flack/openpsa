@@ -516,8 +516,7 @@ class midcom_helper__componentloader
             return (in_array($component, $core_components));
         }
 
-        $core_components = array
-        (
+        $core_components = array(
             'fi.protie.navigation',
             'midcom.admin.folder',
             'midcom.admin.help',

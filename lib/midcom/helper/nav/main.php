@@ -346,9 +346,9 @@ class midcom_helper_nav
         // this is the rest of the lot, we need to traverse everything, unfortunately.
         // First, we traverse a list of nodes to be checked on by one, avoiding a recursive
         // function call.
-        $unprocessed_node_ids = array ($this->get_root_node());
+        $unprocessed_node_ids = array($this->get_root_node());
 
-        while (count ($unprocessed_node_ids) > 0) {
+        while (count($unprocessed_node_ids) > 0) {
             $node_id = array_shift($unprocessed_node_ids);
 
             // Check leaves of this node first.
@@ -539,8 +539,7 @@ class midcom_helper_nav
         }
         foreach ($this->get_node_path($curr_node) as $node_id) {
             $node = $this->get_node($node_id);
-            $result[$node[MIDCOM_NAV_ID]] = array
-            (
+            $result[$node[MIDCOM_NAV_ID]] = array(
                 MIDCOM_NAV_URL => $node[MIDCOM_NAV_ABSOLUTEURL],
                 MIDCOM_NAV_NAME => $node[MIDCOM_NAV_NAME],
                 MIDCOM_NAV_TYPE => 'node',
@@ -553,8 +552,7 @@ class midcom_helper_nav
 
             // Ignore Index Article Leaves
             if ($leaf[MIDCOM_NAV_URL] != '') {
-                $result[$leaf[MIDCOM_NAV_ID]] = array
-                (
+                $result[$leaf[MIDCOM_NAV_ID]] = array(
                     MIDCOM_NAV_URL => $leaf[MIDCOM_NAV_ABSOLUTEURL],
                     MIDCOM_NAV_NAME => $leaf[MIDCOM_NAV_NAME],
                     MIDCOM_NAV_TYPE => 'leaf',
@@ -576,8 +574,7 @@ class midcom_helper_nav
                         $url = $entry[MIDCOM_NAV_URL];
                     }
 
-                    $result[$id] = array
-                    (
+                    $result[$id] = array(
                         MIDCOM_NAV_URL => $url,
                         MIDCOM_NAV_NAME => $entry[MIDCOM_NAV_NAME],
                         MIDCOM_NAV_TYPE => 'custom',

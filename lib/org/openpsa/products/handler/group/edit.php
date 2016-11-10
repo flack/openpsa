@@ -40,8 +40,7 @@ class org_openpsa_products_handler_group_edit extends midcom_baseclasses_compone
 
         midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('edit %s'), $this->_group->title));
 
-        $workflow = $this->get_workflow('datamanager2', array
-        (
+        $workflow = $this->get_workflow('datamanager2', array(
             'controller' => $data['controller'],
             'save_callback' => array($this, 'save_callback')
         ));

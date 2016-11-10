@@ -134,8 +134,7 @@ implements midcom_helper_datamanager2_interfaces_create
         $this->_content_topic->require_do('midgard:create');
         $this->_schema = $args[0];
 
-        $workflow = $this->get_workflow('datamanager2', array
-        (
+        $workflow = $this->get_workflow('datamanager2', array(
             'controller' => $this->get_controller('create'),
             'save_callback' => array($this, 'save_callback')
         ));

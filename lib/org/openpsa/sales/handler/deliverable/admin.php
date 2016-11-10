@@ -107,8 +107,7 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
         midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/' . $this->_component . '/sales.js');
         midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('edit %s'), $this->_l10n->get('deliverable')));
 
-        $workflow = $this->get_workflow('datamanager2', array
-        (
+        $workflow = $this->get_workflow('datamanager2', array(
             'controller' => $data['controller'],
             'save_callback' => array($this, 'save_callback')
         ));
@@ -149,8 +148,7 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
             }
         } elseif ($next_cycle > 0) {
             //TODO: This code is copied from scheduler, and should be merged into a separate method at some point
-            $args = array
-            (
+            $args = array(
                 'deliverable' => $this->_deliverable->guid,
                 'cycle'       => 2, //TODO: We might want to calculate the correct cycle number from start and unit at some point
             );
@@ -176,8 +174,7 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
     {
         $deliverable = new org_openpsa_sales_salesproject_deliverable_dba($args[0]);
         $salesproject = $deliverable->get_parent();
-        $workflow = $this->get_workflow('delete', array
-        (
+        $workflow = $this->get_workflow('delete', array(
             'object' => $deliverable,
             'success_url' => "salesproject/{$salesproject->guid}/"
         ));

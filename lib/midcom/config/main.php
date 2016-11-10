@@ -293,8 +293,7 @@
  */
 class midcom_config implements arrayaccess
 {
-    private $_default_config = array
-    (
+    private $_default_config = array(
         // Authentication configuration
         'auth_type' => 'Plaintext',
         'auth_backend' => 'simple',
@@ -446,8 +445,7 @@ class midcom_config implements arrayaccess
         'metadata_schema' => 'file:/midcom/config/metadata_default.inc',
 
         // Map MidCOM metadata properties to HTML meta tags
-        'metadata_head_elements' => array
-        (
+        'metadata_head_elements' => array(
             'published'   => 'DC.date',
             'description'   => 'description',
         ),
@@ -524,8 +522,7 @@ class midcom_config implements arrayaccess
         if (!array_key_exists('midcom_config_local', $GLOBALS)) {
             $GLOBALS['midcom_config_local'] = array();
         }
-        $this->_merged_config = array_merge
-        (
+        $this->_merged_config = array_merge(
             $this->_default_config,
             $GLOBALS['midcom_config_site'],
             $GLOBALS['midcom_config_local']

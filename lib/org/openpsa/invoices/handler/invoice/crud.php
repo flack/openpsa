@@ -201,8 +201,7 @@ class org_openpsa_invoices_handler_invoice_crud extends midcom_baseclasses_compo
         $buttons = array();
         if ($this->_object->can_do('midgard:update')) {
             $workflow = $this->get_workflow('datamanager2');
-            $buttons[] = $workflow->get_button("invoice/edit/{$this->_object->guid}/", array
-            (
+            $buttons[] = $workflow->get_button("invoice/edit/{$this->_object->guid}/", array(
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
             ));
         }
@@ -212,8 +211,7 @@ class org_openpsa_invoices_handler_invoice_crud extends midcom_baseclasses_compo
             $buttons[] = $workflow->get_button("invoice/delete/{$this->_object->guid}/");
         }
 
-        $buttons[] = array
-        (
+        $buttons[] = array(
             MIDCOM_TOOLBAR_URL => "invoice/items/{$this->_object->guid}/",
             MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('edit invoice items'),
             MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
@@ -250,14 +248,12 @@ class org_openpsa_invoices_handler_invoice_crud extends midcom_baseclasses_compo
 
     private function build_button($action, $icon)
     {
-        return array
-        (
+        return array(
             MIDCOM_TOOLBAR_URL => 'invoice/action/' . $action . '/',
             MIDCOM_TOOLBAR_LABEL => $this->_l10n->get($action),
             MIDCOM_TOOLBAR_ICON => $icon,
             MIDCOM_TOOLBAR_POST => true,
-            MIDCOM_TOOLBAR_POST_HIDDENARGS => array
-            (
+            MIDCOM_TOOLBAR_POST_HIDDENARGS => array(
                 'id' => $this->_object->id,
                 'relocate' => true
             ),

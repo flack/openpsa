@@ -51,19 +51,15 @@ implements midcom_helper_datamanager2_interfaces_edit
 
         if (   $this->_config->get('enable_review_dates')
             && !isset($schemadb['metadata']->fields['review_date'])) {
-            $schemadb['metadata']->append_field
-            (
+            $schemadb['metadata']->append_field(
                 'review_date',
-                array
-                (
+                array(
                     'title' => $this->_l10n->get('review date'),
                     'type' => 'date',
-                    'type_config' => array
-                    (
+                    'type_config' => array(
                         'storage_type' => 'UNIXTIME',
                     ),
-                    'storage' => array
-                    (
+                    'storage' => array(
                         'location' => 'parameter',
                         'domain' => 'midcom.helper.metadata',
                         'name' => 'review_date',

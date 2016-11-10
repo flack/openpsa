@@ -34,10 +34,8 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
         // Try to load the correct campaign
         $this->_request_data['campaign'] = $this->_master->load_campaign($args[0]);
 
-        $this->_view_toolbar->add_item
-        (
-            array
-            (
+        $this->_view_toolbar->add_item(
+            array(
                 MIDCOM_TOOLBAR_URL => "campaign/{$this->_request_data['campaign']->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get("back"),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_left.png',
@@ -313,8 +311,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
         $this->_update_breadcrumb($handler_id, $args);
 
         $data['rows'] = array();
-        $config = array
-        (
+        $config = array(
             'fields' => $_POST['org_openpsa_directmarketing_import_csv_field'],
             'separator' => $_POST['org_openpsa_directmarketing_import_separator'],
         );

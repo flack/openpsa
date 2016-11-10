@@ -42,10 +42,8 @@ class org_openpsa_user_widget_password extends midcom_helper_datamanager2_widget
 
     public static function jsinit($name, midcom_services_i18n_l10n $l10n, midcom_helper_configuration $config, $userid_required)
     {
-        $conf = array
-        (
-            'strings' => array
-            (
+        $conf = array(
+            'strings' => array(
                 'shortPass' => $l10n->get("password too short"),
                 'badPass' => $l10n->get("password weak"),
                 'goodPass' => $l10n->get("password good"),

@@ -242,8 +242,7 @@ class org_openpsa_widgets_grid_provider
             $this->_total_rows = count($rows);
         }
 
-        $response = array
-        (
+        $response = array(
             'total' => ceil($this->_total_rows / $this->_results_per_page),
             'page' => ($this->_offset / $this->_results_per_page) + 1,
             'records' => $this->_total_rows,

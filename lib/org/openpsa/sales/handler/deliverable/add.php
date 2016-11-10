@@ -78,8 +78,7 @@ implements midcom_helper_datamanager2_interfaces_create
 
     public function get_schema_defaults()
     {
-        $defaults = array
-        (
+        $defaults = array(
             'product' => $this->_product->id,
             'units' => 1,
 
@@ -148,8 +147,7 @@ implements midcom_helper_datamanager2_interfaces_create
 
         midcom::get()->head->set_pagetitle($this->_l10n->get('add offer'));
         midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/' . $this->_component . '/sales.js');
-        $workflow = $this->get_workflow('datamanager2', array
-        (
+        $workflow = $this->get_workflow('datamanager2', array(
             'controller' => $data['controller'],
             'save_callback' => array($this, 'save_callback')
         ));

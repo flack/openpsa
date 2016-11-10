@@ -117,8 +117,7 @@ implements midcom_helper_datamanager2_interfaces_create
         $this->_schema = $args[0];
 
         $data['controller'] = $this->get_controller('create');
-        $workflow = $this->get_workflow('datamanager2', array
-        (
+        $workflow = $this->get_workflow('datamanager2', array(
             'controller' => $data['controller'],
             'save_callback' => array($this, 'save_callback')
         ));

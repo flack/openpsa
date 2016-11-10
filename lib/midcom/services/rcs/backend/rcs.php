@@ -108,7 +108,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
         $command = 'ci -q -m' . escapeshellarg($message) . " {$filename}";
         $status = $this->exec($command);
 
-        chmod ($rcsfilename, 0770);
+        chmod($rcsfilename, 0770);
 
         return $status;
     }
@@ -263,8 +263,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
     private function rcs_parse_history_entry($entry)
     {
         // Create the empty history array
-        $history = array
-        (
+        $history = array(
             'revision' => null,
             'date'     => null,
             'lines'    => null,
@@ -437,7 +436,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
         $filename = $filepath . ",v";
 
         if (file_exists($filename)) {
-            chmod ($filename, 0770);
+            chmod($filename, 0770);
         }
         return $status;
     }
@@ -491,15 +490,14 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
                 continue;
             }
 
-            $return[$attribute] = array
-            (
+            $return[$attribute] = array(
                 'old' => $oldest_value,
                 'new' => $newest[$attribute]
             );
 
             if ($oldest_value != $newest[$attribute]) {
-                $lines1 = explode ("\n", $oldest_value);
-                $lines2 = explode ("\n", $newest[$attribute]);
+                $lines1 = explode("\n", $oldest_value);
+                $lines2 = explode("\n", $newest[$attribute]);
 
                 $options = array();
                 $diff = new Diff($lines1, $lines2, $options);

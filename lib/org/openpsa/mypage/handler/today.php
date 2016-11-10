@@ -15,22 +15,18 @@ class org_openpsa_mypage_handler_today extends midcom_baseclasses_components_han
 {
     private function _populate_toolbar()
     {
-        $buttons = array
-        (
-            array
-            (
+        $buttons = array(
+            array(
                 MIDCOM_TOOLBAR_URL => 'weekreview/' . $this->_request_data['this_day'] . '/',
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('week review'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/properties.png',
             ),
-            array
-            (
+            array(
                 MIDCOM_TOOLBAR_URL => 'day/' . $this->_request_data['prev_day'] . '/',
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('previous'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/back.png',
             ),
-            array
-            (
+            array(
                 MIDCOM_TOOLBAR_URL => 'day/' . $this->_request_data['next_day'] . '/',
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('next'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/next.png',
@@ -76,8 +72,7 @@ class org_openpsa_mypage_handler_today extends midcom_baseclasses_components_han
         //set the start-constraints for journal-entries
         $time_span = 7 * 24 * 60 * 60 ; //7 days
 
-        $this->_request_data['journal_constraints'] = array
-        (
+        $this->_request_data['journal_constraints'] = array(
             //just show entries of current_user
             array(
                 'property' => 'metadata.creator',

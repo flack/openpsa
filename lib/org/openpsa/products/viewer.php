@@ -19,8 +19,7 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
     public function _on_initialize()
     {
         if ($this->_config->get('search_first')) {
-            $this->_request_switch['index'] = array
-            (
+            $this->_request_switch['index'] = array(
                 'handler' => array('org_openpsa_products_handler_product_search', 'search_redirect'),
             );
         }
@@ -81,15 +80,13 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
         $buttons = array();
         if (   $this->_topic->can_do('midgard:update')
             && $this->_topic->can_do('midgard:create')) {
-            $buttons[] = array
-            (
+            $buttons[] = array(
                 MIDCOM_TOOLBAR_URL => 'export/product/csv/',
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('export products'),
                 MIDCOM_TOOLBAR_HELPTEXT => $this->_l10n->get('export products'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/editshred.png',
             );
-            $buttons[] = array
-            (
+            $buttons[] = array(
                 MIDCOM_TOOLBAR_URL => 'import/product/csv/',
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('import products'),
                 MIDCOM_TOOLBAR_HELPTEXT => $this->_l10n->get('import products from csv-file'),
@@ -99,8 +96,7 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
         if (   $this->_topic->can_do('midgard:update')
             && $this->_topic->can_do('midcom:component_config')) {
             $workflow = $this->get_workflow('datamanager2');
-            $buttons[] = $workflow->get_button('config/', array
-            (
+            $buttons[] = $workflow->get_button('config/', array(
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('component configuration'),
                 MIDCOM_TOOLBAR_HELPTEXT => $this->_l10n_midcom->get('component configuration helptext'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_folder-properties.png',
@@ -149,10 +145,8 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
             $feeds = $this->_config->get('custom_rss_feeds');
             if (!empty($feeds)) {
                 foreach ($feeds as $title => $url) {
-                    midcom::get()->head->add_link_head
-                    (
-                        array
-                        (
+                    midcom::get()->head->add_link_head(
+                        array(
                             'rel'   => 'alternate',
                             'type'  => 'application/rss+xml',
                             'title' => $this->_l10n->get($title),
@@ -162,10 +156,8 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
                 }
             }
         } else {
-            midcom::get()->head->add_link_head
-            (
-                array
-                (
+            midcom::get()->head->add_link_head(
+                array(
                     'rel'   => 'alternate',
                     'type'  => 'application/rss+xml',
                     'title' => $this->_l10n->get('updated products'),
@@ -232,8 +224,7 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
             $parent = $object->get_parent();
 
             if ($object instanceof org_openpsa_products_product_dba) {
-                $tmp[] = array
-                (
+                $tmp[] = array(
                     MIDCOM_NAV_URL => "product/{$object->code}/",
                     MIDCOM_NAV_NAME => $object->title,
                 );
@@ -247,8 +238,7 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
                     $prefix = $parent->code ?: $parent->guid;
                     $url = "{$prefix}/" . $url;
                 }
-                $tmp[] = array
-                (
+                $tmp[] = array(
                     MIDCOM_NAV_URL => $url . '/',
                     MIDCOM_NAV_NAME => $object->title,
                 );

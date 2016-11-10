@@ -43,8 +43,7 @@ class org_openpsa_sales_handler_deliverable_process extends midcom_baseclasses_c
         $this->_deliverable = new org_openpsa_sales_salesproject_deliverable_dba($args[0]);
         $this->_salesproject = new org_openpsa_sales_salesproject_dba($this->_deliverable->salesproject);
 
-        $supported_operations = array
-        (
+        $supported_operations = array(
             'decline', 'order', 'deliver', 'invoice', 'run_cycle'
         );
 

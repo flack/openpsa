@@ -48,8 +48,7 @@ implements midcom_helper_datamanager2_interfaces_view
             $buttons = array();
             $workflow = $this->get_workflow('datamanager2');
             if ($this->_person->can_do('midgard:update')) {
-                $buttons[] = $workflow->get_button("edit/{$this->_person->guid}/", array
-                (
+                $buttons[] = $workflow->get_button("edit/{$this->_person->guid}/", array(
                     MIDCOM_TOOLBAR_ACCESSKEY => 'e',
                 ));
             }
@@ -59,16 +58,14 @@ implements midcom_helper_datamanager2_interfaces_view
             }
             if (   midcom_connection::is_user($this->_person)
                 && $this->_person->can_do('midgard:privileges')) {
-                $buttons[] = $workflow->get_button("privileges/{$this->_person->guid}/", array
-                (
+                $buttons[] = $workflow->get_button("privileges/{$this->_person->guid}/", array(
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("permissions"),
                     MIDCOM_TOOLBAR_ICON => 'midgard.admin.asgard/permissions-16.png',
                 ));
             }
 
             if ($this->_person->can_do('midgard:update')) {
-                $buttons[] = $workflow->get_button("person/notifications/{$this->_person->guid}/", array
-                (
+                $buttons[] = $workflow->get_button("person/notifications/{$this->_person->guid}/", array(
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("notification settings"),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock-discussion.png',
                 ));

@@ -25,16 +25,13 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
 
     private function _prepare_toolbar($handler_id)
     {
-        $buttons = array
-        (
-            array
-            (
+        $buttons = array(
+            array(
                 MIDCOM_TOOLBAR_URL => "__mfa/asgard/components/configuration/{$this->_request_data['name']}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('view'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/view.png',
             ),
-            array
-            (
+            array(
                 MIDCOM_TOOLBAR_URL => "__mfa/asgard/components/configuration/edit/{$this->_request_data['name']}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('edit'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
@@ -60,20 +57,17 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         $this->add_breadcrumb('__mfa/asgard/', $this->_l10n->get('midgard.admin.asgard'));
         $this->add_breadcrumb('__mfa/asgard/components/', $this->_l10n->get('components'));
 
-        $this->add_breadcrumb
-        (
+        $this->add_breadcrumb(
             "__mfa/asgard/components/{$this->_request_data['name']}/",
             midcom::get()->i18n->get_string($this->_request_data['name'], $this->_request_data['name'])
         );
-        $this->add_breadcrumb
-        (
+        $this->add_breadcrumb(
             "__mfa/asgard/components/configuration/{$this->_request_data['name']}/",
             $this->_l10n_midcom->get('component configuration')
         );
 
         if ($handler_id == '____mfa-asgard-components_configuration_edit') {
-            $this->add_breadcrumb
-            (
+            $this->add_breadcrumb(
                 "__mfa/asgard/components/configuration/{$this->_request_data['name']}/edit/",
                 $this->_l10n_midcom->get('edit')
             );
@@ -419,8 +413,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         try {
             $this->_check_config($config);
         } catch (Exception $e) {
-            midcom::get()->uimessages->add
-            (
+            midcom::get()->uimessages->add(
                 $this->_l10n_midcom->get('component configuration'),
                 sprintf($this->_l10n->get('configuration save failed: %s'), $e->getMessage()),
                 'error'
@@ -432,8 +425,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         if ($data['handler_id'] == '____mfa-asgard-components_configuration_edit_folder') {
             // Editing folder configuration
             $this->_save_topic($data['folder'], $config_array);
-            midcom::get()->uimessages->add
-            (
+            midcom::get()->uimessages->add(
                 $this->_l10n_midcom->get('component configuration'),
                 $this->_l10n->get('configuration saved successfully')
             );
@@ -442,14 +434,12 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         }
 
         if ($this->_save_snippet($config)) {
-            midcom::get()->uimessages->add
-            (
+            midcom::get()->uimessages->add(
                 $this->_l10n_midcom->get('component configuration'),
                 $this->_l10n->get('configuration saved successfully')
             );
         } else {
-            midcom::get()->uimessages->add
-            (
+            midcom::get()->uimessages->add(
                 $this->_l10n_midcom->get('component configuration'),
                 sprintf($this->_l10n->get('configuration save failed: %s'), midcom_connection::get_error_string()),
                 'error'
@@ -468,8 +458,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
 
     private function _detect_schema($key, $value)
     {
-        $result = array
-        (
+        $result = array(
             'title'       => $key,
             'type'        => 'text',
             'widget'      => 'text',

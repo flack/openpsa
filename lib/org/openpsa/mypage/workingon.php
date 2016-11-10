@@ -117,8 +117,7 @@ class org_openpsa_mypage_workingon
         }
 
         // Mark the new task work session as started
-        $workingon = array
-        (
+        $workingon = array(
             'task' => $task_guid,
             'description' => $description,
             'invoiceable' => $invoiceable,

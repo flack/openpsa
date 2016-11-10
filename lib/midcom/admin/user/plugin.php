@@ -26,8 +26,7 @@ class midcom_admin_user_plugin extends midcom_baseclasses_components_plugin
      */
     public static function generate_password($length = 8, $no_similars = true, $strong = true)
     {
-        $similars = array
-        (
+        $similars = array(
             'I', 'l', '1', '0', 'O',
         );
 

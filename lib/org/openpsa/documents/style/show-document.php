@@ -15,8 +15,7 @@ $view = $data['document_dm'];
         $nap = new midcom_helper_nav();
         $node = $nap->get_node($nap->get_current_node());
 
-        $tabs[] = array
-        (
+        $tabs[] = array(
             'url' => "{$node[MIDCOM_NAV_RELATIVEURL]}document/versions/{$data['document']->guid}/",
             'title' => $data['l10n']->get('older versions'),
         );

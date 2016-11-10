@@ -70,8 +70,7 @@ implements org_openpsa_widgets_grid_provider_client
 
             $schemadb_campaign = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_campaign'));
             foreach (array_keys($schemadb_campaign) as $name) {
-                $this->_view_toolbar->add_item($workflow->get_button("campaign/create/{$name}/", array
-                (
+                $this->_view_toolbar->add_item($workflow->get_button("campaign/create/{$name}/", array(
                     MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get($schemadb_campaign[$name]->description)),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_people.png',
                 )));

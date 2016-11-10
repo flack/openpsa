@@ -18,8 +18,7 @@ class midcom_helper_formatter
      *
      * @var array
      */
-    private static $_filters = array
-    (
+    private static $_filters = array(
         'h' => 'html',
         'H' => 'html',
         'p' => 'php',

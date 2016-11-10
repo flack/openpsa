@@ -22,8 +22,7 @@ class midcom_core_nullcomponent_viewer extends midcom_baseclasses_components_req
          * Prepare the request switch, which contains URL handlers for the component
          */
         // Handle /
-        $this->_request_switch['index'] = array
-        (
+        $this->_request_switch['index'] = array(
             'handler' => array('midcom_core_nullcomponent_handler_index', 'index'),
         );
     }

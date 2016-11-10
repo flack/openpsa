@@ -44,8 +44,7 @@ class midcom_helper_datamanager2_widget_privilegeselection extends midcom_helper
     {
         $this->_require_type_class('midcom_helper_datamanager2_type_privilege');
 
-        $this->_privilege_options = array
-        (
+        $this->_privilege_options = array(
             MIDCOM_PRIVILEGE_INHERIT => $this->_l10n->get('widget privilege: inherit'),
             MIDCOM_PRIVILEGE_ALLOW => $this->_l10n->get('widget privilege: allow'),
             MIDCOM_PRIVILEGE_DENY => $this->_l10n->get('widget privilege: deny'),
@@ -80,31 +79,27 @@ class midcom_helper_datamanager2_widget_privilegeselection extends midcom_helper
         $jscript .= '$("#' . $this->_namespace . $this->name . '_holder").render_privilege({effective_value: "' . $effective_value . '"});';
         $jscript .= '</script>';
 
-        $elements[] = $this->_form->createElement
-        (
+        $elements[] = $this->_form->createElement(
             'static',
             "{$this->_namespace}{$this->name}_holder_start",
             '',
             "<div id=\"{$this->_namespace}{$this->name}_holder\">"
         );
         $elements[] = $this->_element;
-        $elements[] = $this->_form->createElement
-        (
+        $elements[] = $this->_form->createElement(
             'static',
             "{$this->_namespace}{$this->name}_holder_end",
             '',
             "</div>"
         );
-        $elements[] = $this->_form->createElement
-        (
+        $elements[] = $this->_form->createElement(
             'static',
             "{$this->_namespace}{$this->name}_initscripts",
             '',
             $jscript
         );
 
-        $this->_form->addGroup
-        (
+        $this->_form->addGroup(
             $elements,
             $this->name,
             '',

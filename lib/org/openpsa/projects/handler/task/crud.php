@@ -78,8 +78,7 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
         }
         $buttons = array();
         $workflow = $this->get_workflow('datamanager2');
-        $buttons[] = $workflow->get_button("task/edit/{$this->_object->guid}/", array
-        (
+        $buttons[] = $workflow->get_button("task/edit/{$this->_object->guid}/", array(
             MIDCOM_TOOLBAR_ACCESSKEY => 'e',
         ));
 
@@ -90,27 +89,23 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
         }
 
         if ($this->_object->status == org_openpsa_projects_task_status_dba::CLOSED) {
-            $buttons[] = array
-            (
+            $buttons[] = array(
                 MIDCOM_TOOLBAR_URL => "workflow/{$this->_object->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('reopen'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/folder-expanded.png',
                 MIDCOM_TOOLBAR_POST => true,
-                MIDCOM_TOOLBAR_POST_HIDDENARGS => array
-                (
+                MIDCOM_TOOLBAR_POST_HIDDENARGS => array(
                     'org_openpsa_projects_workflow_action[reopen]' => 'dummy',
                     'org_openpsa_projects_workflow_action_redirect' => "task/{$this->_object->guid}/"
                 ),
             );
         } elseif ($this->_object->status_type == 'ongoing') {
-            $buttons[] = array
-            (
+            $buttons[] = array(
                 MIDCOM_TOOLBAR_URL => "workflow/{$this->_object->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('mark completed'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new_task.png',
                 MIDCOM_TOOLBAR_POST => true,
-                MIDCOM_TOOLBAR_POST_HIDDENARGS => array
-                (
+                MIDCOM_TOOLBAR_POST_HIDDENARGS => array(
                     'org_openpsa_projects_workflow_action[complete]' => 'dummy',
                     'org_openpsa_projects_workflow_action_redirect' => "task/{$this->_object->guid}/"
                 ),
@@ -122,14 +117,12 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
             midcom_helper_datamanager2_widget_autocomplete::add_head_elements();
             org_openpsa_widgets_grid::add_head_elements();
             if ($this->_object->status < org_openpsa_projects_task_status_dba::CLOSED) {
-                $buttons[] = $workflow->get_button($expenses_url . "hours/create/hour_report/{$this->_object->guid}/", array
-                (
+                $buttons[] = $workflow->get_button($expenses_url . "hours/create/hour_report/{$this->_object->guid}/", array(
                     MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('hour report')),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_new-event.png',
                 ));
             }
-            $buttons[] = array
-            (
+            $buttons[] = array(
                 MIDCOM_TOOLBAR_URL => $expenses_url . "hours/task/all/{$this->_object->guid}",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('hour reports'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/scheduled_and_shown.png',
@@ -227,8 +220,7 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
         $task_booked_time = 0;
         $task_booked_percentage = 100;
 
-        $bookings = array
-        (
+        $bookings = array(
             'confirmed' => array(),
             'suspected' => array(),
         );

@@ -55,8 +55,7 @@ class org_openpsa_core_filter_multiselect extends org_openpsa_core_filter_select
 
             $this->_render_actions();
 
-            $config = array
-            (
+            $config = array(
                 'height' => 200,
                 'noneSelectedText' => $this->_label,
                 'selectedList' => 2

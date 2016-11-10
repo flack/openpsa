@@ -203,8 +203,7 @@ implements midcom_helper_datamanager2_interfaces_create
 
     private function object_to_jsdata()
     {
-        $jsdata = array
-        (
+        $jsdata = array(
             'id' => @$this->_object->id,
             'guid' => @$this->_object->guid,
             'pre_selected' => true

@@ -216,8 +216,8 @@ class midcom_exception_handler
                 $title = "Server Error";
                 break;
         }
-        _midcom_header ($header);
-        _midcom_header ('Content-Type: text/html');
+        _midcom_header($header);
+        _midcom_header('Content-Type: text/html');
 
         $style = midcom::get()->style;
 

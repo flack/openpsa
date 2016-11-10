@@ -178,7 +178,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
     public static function resolve_context($tagname)
     {
         if (strpos($tagname, ':')) {
-            list ($context, $tag) = explode(':', $tagname, 2);
+            list($context, $tag) = explode(':', $tagname, 2);
             return trim($context);
         }
         return '';

@@ -6,8 +6,7 @@ if ($data['max_pages'] > 1) {
 
 <p class="midcom_helper_search_result_nav">
 <?php
-    $query = array
-    (
+    $query = array(
         'query' => $data['query'],
         'type' => $data['type']
     );

@@ -687,7 +687,7 @@ class midcom_helper_nav_backend
      */
     private function _write_leaves_to_cache($node, $leaves)
     {
-        debug_add('Writing ' . count ($leaves) . ' leaves to the cache.');
+        debug_add('Writing ' . count($leaves) . ' leaves to the cache.');
 
         $cached_node = $this->_nap_cache->get_node($node[MIDCOM_NAV_ID]);
 

@@ -24,8 +24,7 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
     /**
      * Contact information of the person being displayed
      */
-    public $contact_details = array
-    (
+    public $contact_details = array(
         'guid' => '',
         'id' => '',
         'firstname' => '',

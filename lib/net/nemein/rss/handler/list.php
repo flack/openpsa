@@ -98,8 +98,7 @@ class net_nemein_rss_handler_list extends midcom_baseclasses_components_handler
         $toolbar = new midcom_helper_toolbar();
         $buttons = array();
         if ($feed->can_do('midgard:update')) {
-            $buttons[] = array
-            (
+            $buttons[] = array(
                 MIDCOM_TOOLBAR_URL => "__feeds/rss/edit/{$feed->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('edit'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
@@ -107,8 +106,7 @@ class net_nemein_rss_handler_list extends midcom_baseclasses_components_handler
         }
 
         if ($this->_topic->can_do('midgard:create')) {
-            $buttons[] = array
-            (
+            $buttons[] = array(
                 MIDCOM_TOOLBAR_URL => "__feeds/rss/fetch/{$feed->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('refresh feed'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_refresh.png',

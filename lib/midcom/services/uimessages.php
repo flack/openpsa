@@ -95,8 +95,7 @@ class midcom_services_uimessages
 
     public function get_class_magic_default_privileges()
     {
-        return array
-        (
+        return array(
             'EVERYONE' => array(),
             'ANONYMOUS' => array(),
             'USERS' => array()
@@ -119,8 +118,7 @@ class midcom_services_uimessages
             return false;
         }
 
-        $msg = array
-        (
+        $msg = array(
             'title'   => $title,
             'message' => $message,
             'type'    => $type,

@@ -137,7 +137,7 @@ class org_openpsa_directmarketing_campaign_ruleresolver
         $stat = true;
         //start with first group
         $this->mc->begin_group(strtoupper($rules['type']));
-        reset ($rules['classes']);
+        reset($rules['classes']);
         //iterate over groups
         foreach ($rules['classes'] as $group) {
             $stat = $this->resolve_rule_group($group);
@@ -318,7 +318,7 @@ class org_openpsa_directmarketing_campaign_ruleresolver
      */
     private function add_misc_rule(array $rule, $class, $person_property)
     {
-        $persons = array ( 0 => -1);
+        $persons = array( 0 => -1);
         $match = $rule['match'];
         $constraint_match = "IN";
         if ($rule['match'] == '<>') {
@@ -347,23 +347,20 @@ class org_openpsa_directmarketing_campaign_ruleresolver
 
     public static function build_property_map(midcom_services_i18n_l10n $l10n)
     {
-        $types = array
-        (
+        $types = array(
             'person' => new org_openpsa_contacts_person_dba,
             'group' => new org_openpsa_contacts_group_dba,
             'membership' => new org_openpsa_contacts_member_dba
         );
         $return = array();
         foreach ($types as $name => $object) {
-            $return[$name] = array
-            (
+            $return[$name] = array(
                 'properties' => self::list_object_properties($object, $l10n),
                 'localized' => $l10n->get('class:' . $name),
                 'parameters' => false
             );
         }
-        $return['generic_parameters'] = array
-        (
+        $return['generic_parameters'] = array(
             'properties' => false,
             'localized' => $l10n->get('class:generic parameters'),
             'parameters' => true
@@ -383,8 +380,7 @@ class org_openpsa_directmarketing_campaign_ruleresolver
     public static function list_object_properties(midcom_core_dbaobject $object, midcom_services_i18n_l10n $l10n)
     {
         // These are internal to midgard and/or not valid QB constraints
-        $skip_properties = array
-        (
+        $skip_properties = array(
             // These will be deprecated soon
             'orgOpenpsaAccesstype',
             'orgOpenpsaWgtype',
@@ -420,7 +416,7 @@ class org_openpsa_directmarketing_campaign_ruleresolver
             }
             if (   is_object($value)
                 && !is_a($value, 'midgard_datetime')) {
-                while (list ($property2, $value2) = each($value)) {
+                while (list($property2, $value2) = each($value)) {
                     $prop_merged = "{$property}.{$property2}";
                     $ret[$prop_merged] = $l10n->get("property:{$prop_merged}");
                 }

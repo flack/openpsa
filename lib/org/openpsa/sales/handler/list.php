@@ -85,10 +85,8 @@ class org_openpsa_sales_handler_list extends midcom_baseclasses_components_handl
 
             if ($this->_request_data['contacts_url']) {
                 $url_prefix = $this->_request_data['contacts_url'] . (is_a($this->_request_data['customer'], 'org_openpsa_contacts_group_dba') ? 'group' : 'person') . "/";
-                $this->_view_toolbar->add_item
-                (
-                    array
-                    (
+                $this->_view_toolbar->add_item(
+                    array(
                         MIDCOM_TOOLBAR_URL => $url_prefix . $this->_request_data['customer']->guid . '/',
                         MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('go to customer'),
                         MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/jump-to.png',
@@ -98,8 +96,7 @@ class org_openpsa_sales_handler_list extends midcom_baseclasses_components_handl
         }
         if (midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_sales_salesproject_dba')) {
             $workflow = $this->get_workflow('datamanager2');
-            $this->_view_toolbar->add_item($workflow->get_button($create_url, array
-            (
+            $this->_view_toolbar->add_item($workflow->get_button($create_url, array(
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create salesproject'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_people.png',
             )));

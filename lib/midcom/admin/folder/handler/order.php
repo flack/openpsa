@@ -158,8 +158,7 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
         $data['navorder'] = (int) $this->_topic->get_parameter('midcom.helper.nav', 'navorder');
 
         // Navorder list for the selection
-        $data['navorder_list'] = array
-        (
+        $data['navorder_list'] = array(
             MIDCOM_NAVORDER_DEFAULT => $this->_l10n->get('default sort order'),
             MIDCOM_NAVORDER_TOPICSFIRST => $this->_l10n->get('folders first'),
             MIDCOM_NAVORDER_ARTICLESFIRST => $this->_l10n->get('pages first'),
@@ -198,8 +197,7 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
 
             case MIDCOM_NAVORDER_TOPICSFIRST:
                 // Sort the array to have the nodes first
-                $ret = array
-                (
+                $ret = array(
                     'nodes' => array(),
                     'leaves' => array(),
                 );
@@ -208,8 +206,7 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
             case MIDCOM_NAVORDER_ARTICLESFIRST:
                 // Sort the array to have the leaves first
                 if (!isset($ret['leaves'])) {
-                    $ret = array
-                    (
+                    $ret = array(
                         'leaves' => array(),
                         'nodes' => array(),
                     );

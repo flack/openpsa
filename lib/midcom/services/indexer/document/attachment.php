@@ -174,10 +174,10 @@ class midcom_services_indexer_document_attachment extends midcom_services_indexe
 
         $command = midcom::get()->config->get('utility_catdoc') . " -d{$encoding} -a $wordfile > $txtfile";
         debug_add("Executing: {$command}");
-        exec ($command, $result, $returncode);
+        exec($command, $result, $returncode);
         debug_print_r("Execution returned {$returncode}: ", $result);
 
-        unlink ($wordfile);
+        unlink($wordfile);
 
         if (!file_exists($txtfile)) {
             // We were unable to read the document into text
@@ -191,7 +191,7 @@ class midcom_services_indexer_document_attachment extends midcom_services_indexe
         $this->content = str_replace("\x0C", '', $this->content);
         fclose($handle);
 
-        unlink ($txtfile);
+        unlink($txtfile);
     }
 
     /**
@@ -212,10 +212,10 @@ class midcom_services_indexer_document_attachment extends midcom_services_indexe
 
         $command = midcom::get()->config->get('utility_pdftotext') . " -enc {$encoding} -nopgbrk -eol unix $pdffile $txtfile 2>&1";
         debug_add("Executing: {$command}");
-        exec ($command, $result, $returncode);
+        exec($command, $result, $returncode);
         debug_print_r("Execution returned {$returncode}: ", $result);
 
-        unlink ($pdffile);
+        unlink($pdffile);
 
         if (!file_exists($txtfile)) {
             // We were unable to read the document into text
@@ -227,7 +227,7 @@ class midcom_services_indexer_document_attachment extends midcom_services_indexe
         $this->content = $this->get_attachment_content($handle);
         fclose($handle);
 
-        unlink ($txtfile);
+        unlink($txtfile);
     }
 
     /**
@@ -248,10 +248,10 @@ class midcom_services_indexer_document_attachment extends midcom_services_indexe
         // Kill the first five lines, they are crap from the converter.
         $command = midcom::get()->config->get('utility_unrtf') . " --nopict --text $rtffile | sed '1,5d' > $txtfile";
         debug_add("Executing: {$command}");
-        exec ($command, $result, $returncode);
+        exec($command, $result, $returncode);
         debug_print_r("Execution returned {$returncode}: ", $result);
 
-        unlink ($rtffile);
+        unlink($rtffile);
 
         if (!file_exists($txtfile)) {
             // We were unable to read the document into text
@@ -263,7 +263,7 @@ class midcom_services_indexer_document_attachment extends midcom_services_indexe
         $this->content = $this->_i18n->convert_to_current_charset($this->get_attachment_content($handle));
         fclose($handle);
 
-        unlink ($txtfile);
+        unlink($txtfile);
     }
 
     /**

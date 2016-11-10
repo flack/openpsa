@@ -61,8 +61,7 @@ class org_openpsa_contacts_person_dba extends midcom_db_person
     public function _on_updated()
     {
         if ($this->_register_prober) {
-            $args = array
-            (
+            $args = array(
                 'person' => $this->guid,
             );
             midcom_services_at_interface::register(time() + 60, 'org.openpsa.contacts', 'check_url', $args);

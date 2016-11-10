@@ -48,30 +48,25 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
         midcom::get()->auth->require_valid_user();
         $buttons = array();
         if ($this->_root_event->can_do('midgard:create')) {
-            $buttons[] = $workflow->get_button('#', array
-            (
+            $buttons[] = $workflow->get_button('#', array(
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create event'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_new-event.png',
-                MIDCOM_TOOLBAR_OPTIONS  => array
-                (
+                MIDCOM_TOOLBAR_OPTIONS  => array(
                     'id' => 'openpsa_calendar_add_event',
                 )
             ));
         }
-        $buttons[] = array
-        (
+        $buttons[] = array(
             MIDCOM_TOOLBAR_URL => "filters/?org_openpsa_calendar_returnurl=" . midcom_connection::get_url('uri'),
             MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('choose calendars'),
             MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/preferences-desktop.png',
         );
 
-        $buttons[] = array
-        (
+        $buttons[] = array(
             MIDCOM_TOOLBAR_URL => '#',
             MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('go to'),
             MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_jump-to.png',
-            MIDCOM_TOOLBAR_OPTIONS  => array
-            (
+            MIDCOM_TOOLBAR_OPTIONS  => array(
                 'rel' => 'directlink',
                 'id' => 'date-navigation',
             )
@@ -151,8 +146,7 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
 
             do {
                 if ($holiday = $util->getHoliday($country, $from, $region)) {
-                    $events[] = array
-                    (
+                    $events[] = array(
                         'title' => $holiday->getName(),
                         'start' => $from->format('Y-m-d'),
                         'className' => array(),
@@ -201,8 +195,7 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
                         $label = $user->name;
                     }
 
-                    $events[$event->guid] = array
-                    (
+                    $events[$event->guid] = array(
                         'id' => $event->guid,
                         'title' => $label,
                         'location' => $event->location,
@@ -247,10 +240,8 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
         $this->_load_datamanager();
 
         // Add toolbar items
-        $buttons = array
-        (
-            array
-            (
+        $buttons = array(
+            array(
                 MIDCOM_TOOLBAR_URL => 'event/edit/' . $this->_request_data['event']->guid . '/',
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('edit'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
@@ -262,8 +253,7 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
             $workflow = $this->get_workflow('delete', array('object' => $data['event']));
             $buttons[] = $workflow->get_button("event/delete/{$data['event']->guid}/");
         }
-        $buttons[] = array
-        (
+        $buttons[] = array(
             MIDCOM_TOOLBAR_URL => 'javascript:window.print()',
             MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('print'),
             MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/printer.png',
@@ -275,10 +265,8 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
         if (midcom::get()->auth->user) {
             $user = midcom::get()->auth->user->get_storage();
             $date = $this->_l10n->get_formatter()->date();
-            $relatedto_button_settings = array
-            (
-                'wikinote'      => array
-                (
+            $relatedto_button_settings = array(
+                'wikinote'      => array(
                     'component' => 'net.nemein.wiki',
                     'node'  => false,
                     'wikiword'  => str_replace('/', '-', sprintf($this->_l10n->get($this->_config->get('wiki_title_skeleton')), $data['event']->title, $date, $user->name)),

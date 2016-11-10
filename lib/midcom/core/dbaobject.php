@@ -586,8 +586,7 @@ abstract class midcom_core_dbaobject
     // DBA API
     public function get_class_magic_default_privileges()
     {
-        return array
-        (
+        return array(
             'EVERYONE' => array(),
             'ANONYMOUS' => array(),
             'USERS' => array()

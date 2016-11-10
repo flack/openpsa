@@ -88,8 +88,7 @@ implements midcom_helper_datamanager2_interfaces_create
             throw new midcom_error_notfound('Article linking disabled');
         }
 
-        $workflow = $this->get_workflow('datamanager2', array
-        (
+        $workflow = $this->get_workflow('datamanager2', array(
             'controller' => $this->get_controller('create'),
             'save_callback' => array($this, 'save_callback')
         ));
@@ -132,8 +131,7 @@ implements midcom_helper_datamanager2_interfaces_create
         $this->_link = $results[0];
         $this->_link->require_do('midgard:delete');
 
-        $workflow = $this->get_workflow('delete', array
-        (
+        $workflow = $this->get_workflow('delete', array(
             'object' => $this->_link,
             'label' => $this->_l10n->get('article link')
         ));

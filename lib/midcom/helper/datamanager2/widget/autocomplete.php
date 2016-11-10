@@ -263,13 +263,11 @@ class midcom_helper_datamanager2_widget_autocomplete extends midcom_helper_datam
         $handler_url = midcom_connection::get_url('self') . 'midcom-exec-midcom.helper.datamanager2/autocomplete_handler.php';
         $selection = $this->_get_selection();
 
-        $this->_widget_elements[] = $this->_form->createElement
-        (
+        $this->_widget_elements[] = $this->_form->createElement(
             'hidden',
             "selection",
             json_encode($selection),
-            array
-            (
+            array(
                 'id' => "{$this->_element_id}_selection",
             )
         );
@@ -286,20 +284,17 @@ class midcom_helper_datamanager2_widget_autocomplete extends midcom_helper_datam
         }
 
         // Text input for the search box
-        $this->_widget_elements[] = $this->_form->createElement
-        (
+        $this->_widget_elements[] = $this->_form->createElement(
             'text',
             "search_input",
             $this->_translate($this->_field['title']),
-            array_merge($attributes, array
-            (
+            array_merge($attributes, array(
                 'class' => 'shorttext autocomplete_input',
                 'id' => "{$this->_element_id}_search_input",
             ))
         );
 
-        $handler_options = json_encode(array
-        (
+        $handler_options = json_encode(array(
             'handler_url' => $handler_url,
             'class' => $this->class,
             'component' => $this->component,
@@ -331,8 +326,7 @@ EOT;
 
         $script = '<script type="text/javascript">' . $script . '</script>';
 
-        $this->_widget_elements[] = $this->_form->createElement
-        (
+        $this->_widget_elements[] = $this->_form->createElement(
             'static',
             "{$this->_element_id}_initscript",
             '',
@@ -342,10 +336,8 @@ EOT;
         $this->_form->addGroup($this->_widget_elements, $this->name, $this->_translate($this->_field['title']), '', array('class' => 'midcom_helper_datamanager2_widget_autocomplete'));
         if ($this->_field['required']) {
             $errmsg = sprintf($this->_l10n->get('field %s is required'), $this->_translate($this->_field['title']));
-            $this->_form->addGroupRule($this->name, array
-            (
-                "selection" => array
-                (
+            $this->_form->addGroupRule($this->name, array(
+                "selection" => array(
                     array($errmsg, 'required'),
                     array($errmsg, 'regex', '/\[.+?\]/')
                 )

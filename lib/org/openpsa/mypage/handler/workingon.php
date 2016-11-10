@@ -30,8 +30,7 @@ class org_openpsa_mypage_handler_workingon extends midcom_baseclasses_components
         $task_conf = midcom_helper_datamanager2_widget_autocomplete::get_widget_config('task');
         $task_conf['id_field'] = 'guid';
 
-        $task_conf['constraints'][] = array
-        (
+        $task_conf['constraints'][] = array(
             'field' => 'status',
             'op'    => '<',
             'value' => org_openpsa_projects_task_status_dba::COMPLETED,
@@ -55,8 +54,7 @@ class org_openpsa_mypage_handler_workingon extends midcom_baseclasses_components
     private function _list_work_hours()
     {
         $this->_request_data['customers'] = array();
-        $this->_request_data['hours'] = array
-        (
+        $this->_request_data['hours'] = array(
             'invoiceable' => array(),
             'uninvoiceable' => array(),
             'total_invoiceable' => 0,

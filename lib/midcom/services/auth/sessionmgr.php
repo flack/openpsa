@@ -149,8 +149,7 @@ class midcom_services_auth_sessionmgr
         }
         $this->current_session_id = $session->guid;
         $this->_loaded_sessions[$session->guid] = $session;
-        return array
-        (
+        return array(
             'session_id' => $this->current_session_id,
             'user' => $user
         );
@@ -324,7 +323,7 @@ class midcom_services_auth_sessionmgr
         }
         $session->purge();
 
-        unset ($this->_loaded_sessions[$sessionid]);
+        unset($this->_loaded_sessions[$sessionid]);
         return true;
     }
 

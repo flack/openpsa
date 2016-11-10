@@ -83,8 +83,7 @@ class net_nehmer_blog_navigation extends midcom_baseclasses_components_navigatio
         $results = $qb->execute();
 
         foreach ($results as $article) {
-            $leaves[$article->id] = array
-            (
+            $leaves[$article->id] = array(
                 MIDCOM_NAV_URL => $this->_get_url($article),
                 MIDCOM_NAV_NAME => $article->title ?: $article->name,
                 MIDCOM_NAV_GUID => $article->guid,
@@ -107,16 +106,14 @@ class net_nehmer_blog_navigation extends midcom_baseclasses_components_navigatio
     {
         if (   $this->_config->get('archive_enable')
             && $this->_config->get('archive_in_navigation')) {
-            $leaves["{$this->_topic->id}_ARCHIVE"] = array
-            (
+            $leaves["{$this->_topic->id}_ARCHIVE"] = array(
                 MIDCOM_NAV_URL => "archive/",
                 MIDCOM_NAV_NAME => $this->_l10n->get('archive'),
             );
         }
         if (   $this->_config->get('rss_enable')
             && $this->_config->get('feeds_in_navigation')) {
-            $leaves[self::LEAFID_FEEDS] = array
-            (
+            $leaves[self::LEAFID_FEEDS] = array(
                 MIDCOM_NAV_URL => "feeds/",
                 MIDCOM_NAV_NAME => $this->_l10n->get('available feeds'),
             );
@@ -126,8 +123,7 @@ class net_nehmer_blog_navigation extends midcom_baseclasses_components_navigatio
             && $this->_config->get('categories') != '') {
             $categories = explode(',', $this->_config->get('categories'));
             foreach ($categories as $category) {
-                $leaves["{$this->_topic->id}_CAT_{$category}"] = array
-                (
+                $leaves["{$this->_topic->id}_CAT_{$category}"] = array(
                     MIDCOM_NAV_URL => "category/{$category}/",
                     MIDCOM_NAV_NAME => $category,
                 );
@@ -166,8 +162,7 @@ class net_nehmer_blog_navigation extends midcom_baseclasses_components_navigatio
             $year = $first_year;
             $this_year = (int) gmdate('Y', time());
             while ($year <= $this_year) {
-                $leaves["{$this->_topic->id}_ARCHIVE_{$year}"] = array
-                (
+                $leaves["{$this->_topic->id}_ARCHIVE_{$year}"] = array(
                     MIDCOM_NAV_URL => "archive/year/{$year}/",
                     MIDCOM_NAV_NAME => $year,
                 );

@@ -33,8 +33,7 @@ implements midcom_helper_datamanager2_interfaces_edit
      *
      * @var Array
      */
-    private $_privileges = array
-    (
+    private $_privileges = array(
         // Midgard core level privileges
         'midgard:owner', 'midgard:read', 'midgard:update', 'midgard:delete', 'midgard:create',
         'midgard:parameters', 'midgard:attachments', 'midgard:privileges'
@@ -162,8 +161,7 @@ implements midcom_helper_datamanager2_interfaces_edit
 
         if (!$this->additional_assignee) {
             // Populate additional assignee selector
-            $additional_assignees = array
-            (
+            $additional_assignees = array(
                 '' => '',
                 'EVERYONE' => $this->_l10n->get('EVERYONE'),
                 'USERS' => $this->_l10n->get('USERS'),
@@ -211,13 +209,11 @@ implements midcom_helper_datamanager2_interfaces_edit
                     $header_items[$privilege_label] = "        <th scope=\"col\" class=\"{$privilege_components[1]}\"><span>" . $this->_l10n->get($privilege_label) . "</span></th>\n";
                 }
 
-                $schemadb['privileges']->append_field(str_replace(array(':', '.'), '_', $assignee . '_' . $privilege), array
-                    (
+                $schemadb['privileges']->append_field(str_replace(array(':', '.'), '_', $assignee . '_' . $privilege), array(
                         'title' => $privilege_label,
                         'storage' => null,
                         'type' => 'privilege',
-                        'type_config' => array
-                        (
+                        'type_config' => array(
                             'privilege_name' => $privilege,
                             'assignee'       => $assignee,
                             ),

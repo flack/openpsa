@@ -109,8 +109,7 @@ class net_nehmer_blog_handler_admin extends midcom_baseclasses_components_handle
         midcom::get()->head->set_pagetitle($this->_l10n->get('edit article'));
 
         $this->_load_controller();
-        $workflow = $this->get_workflow('datamanager2', array
-        (
+        $workflow = $this->get_workflow('datamanager2', array(
             'controller' => $this->_controller,
             'save_callback' => array($this, 'save_callback')
         ));

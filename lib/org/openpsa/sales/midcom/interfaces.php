@@ -190,11 +190,9 @@ implements midcom_services_permalinks_resolver
             return false;
         }
 
-        $message = array
-        (
+        $message = array(
             'title' => sprintf($this->_l10n->get('notification for agreement %s'), $deliverable->title),
-            'content' => sprintf
-            (
+            'content' => sprintf(
                 $this->_l10n->get('agreement %s ends on %s. click here: %s'),
                 $deliverable->title,
                 $this->_l10n->get_formatter()->date($deliverable->end),

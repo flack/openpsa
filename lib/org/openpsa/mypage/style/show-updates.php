@@ -1,6 +1,5 @@
 <?php
-$view_types = array
-(
+$view_types = array(
     'today',
     'yesterday',
 );

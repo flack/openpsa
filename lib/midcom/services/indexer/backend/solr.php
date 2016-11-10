@@ -131,8 +131,7 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
 
         $url = $url . '?' . http_build_query($query);
 
-        $headers = array
-        (
+        $headers = array(
             'Accept-Charset' => 'UTF-8',
             'Content-type' => 'text/xml; charset=utf-8',
             'Connection' => 'close'

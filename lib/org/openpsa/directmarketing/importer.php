@@ -281,8 +281,7 @@ abstract class org_openpsa_directmarketing_importer extends midcom_baseclasses_c
      */
     public function import_subscribers(array $subscribers, org_openpsa_directmarketing_campaign_dba $campaign)
     {
-        $this->_import_status = array
-        (
+        $this->_import_status = array(
             'already_subscribed' => 0,
             'subscribed_new' => 0,
             'failed_create' => 0,

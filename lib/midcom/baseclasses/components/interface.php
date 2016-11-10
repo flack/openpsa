@@ -221,8 +221,7 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
     public function configure($configuration, $contextid)
     {
         // Initialize the context data
-        $this->_context_data[$contextid] = array
-        (
+        $this->_context_data[$contextid] = array(
             'config' => $this->_config,
             'handler' => null
         );

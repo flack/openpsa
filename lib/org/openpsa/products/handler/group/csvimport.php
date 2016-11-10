@@ -21,8 +21,7 @@ class org_openpsa_products_handler_group_csvimport extends midcom_baseclasses_co
         midcom::get()->auth->require_admin_user();
         $this->_request_data['type'] = 'group';
 
-        $this->_request_data['import_status'] = array
-        (
+        $this->_request_data['import_status'] = array(
             'already_created' => 0,
             'created_new' => 0,
             'failed_create' => 0,

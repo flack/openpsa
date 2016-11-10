@@ -109,8 +109,7 @@ class org_openpsa_core_filter_select extends org_openpsa_core_filter
 
         $options = array();
         foreach ($data as $id => $title) {
-            $option = array
-            (
+            $option = array(
                 'id' => $id,
                 'title' => $title,
                 'selected' => in_array($id, $this->_selection)

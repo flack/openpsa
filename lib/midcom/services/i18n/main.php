@@ -164,7 +164,7 @@ class midcom_services_i18n
          * NOTE: setlocale can take an array of locales as value, it will use
          * the first name valid for the system
          */
-        setlocale (LC_ALL, $this->_language_db[$lang]['locale']);
+        setlocale(LC_ALL, $this->_language_db[$lang]['locale']);
 
         foreach ($this->_obj_l10n as $object) {
             $object->set_language($lang);
@@ -401,7 +401,7 @@ class midcom_services_i18n
 
         $this->_read_http_negotiation();
 
-        if (count ($this->_http_lang) > 0) {
+        if (count($this->_http_lang) > 0) {
             foreach (array_keys($this->_http_lang) as $name) {
                 if (array_key_exists($name, $this->_language_db)) {
                     $this->set_language($name);
@@ -470,7 +470,7 @@ class midcom_services_i18n
 
                 $this->_http_charset[$lang] = $q;
             }
-            arsort ($this->_http_charset, SORT_NUMERIC);
+            arsort($this->_http_charset, SORT_NUMERIC);
         }
     }
 

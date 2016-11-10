@@ -74,8 +74,7 @@ class midcom_cron_purgedeleted extends midcom_baseclasses_components_cron_handle
         }
         $objects = $qb->execute();
 
-        $stats = array
-        (
+        $stats = array(
             'found' => count($objects),
             'purged' => 0,
             'errors' => array()

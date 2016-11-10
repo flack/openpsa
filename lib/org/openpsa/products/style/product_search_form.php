@@ -1,6 +1,5 @@
 <?php
-$options = array
-(
+$options = array(
     '' => '',
     org_openpsa_products_product_dba::TYPE_SERVICE => $data['l10n']->get('service'),
     org_openpsa_products_product_dba::TYPE_GOODS => $data['l10n']->get('material goods'),

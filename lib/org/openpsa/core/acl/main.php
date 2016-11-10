@@ -27,8 +27,7 @@ class org_openpsa_core_acl
     public static function get_options()
     {
         $l10n = midcom::get()->i18n->get_l10n('org.openpsa.core');
-        return array
-        (
+        return array(
             self::ACCESS_WGRESTRICTED => $l10n->get('workgroup restricted'),
             self::ACCESS_WGPRIVATE => $l10n->get('workgroup private'),
             self::ACCESS_PRIVATE => $l10n->get('private'),

@@ -30,63 +30,55 @@ class org_openpsa_reports_viewer extends midcom_baseclasses_components_request
             $last = array_pop($parts);
 
             // Match /xxx/get
-            $this->_request_switch["{$last}_report_get"] = array
-            (
+            $this->_request_switch["{$last}_report_get"] = array(
                 'fixed_args' => array($last, 'get'),
                 'handler' => array("org_openpsa_reports_handler_{$last}_report", 'generator_get'),
             );
 
             // Match /xxx/<edit>/<guid>
-            $this->_request_switch["{$last}_edit_report_guid"] = array
-            (
+            $this->_request_switch["{$last}_edit_report_guid"] = array(
                 'fixed_args' => array($last, 'edit'),
                 'variable_args' => 1,
                 'handler' => array("org_openpsa_reports_handler_{$last}_report", 'query_form'),
             );
 
             // Match /xxx/<guid>/<filename>
-            $this->_request_switch["{$last}_report_guid_file"] = array
-            (
+            $this->_request_switch["{$last}_report_guid_file"] = array(
                 'fixed_args' => array($last),
                 'variable_args' => 2,
                 'handler' => array("org_openpsa_reports_handler_{$last}_report", 'generator'),
             );
 
             // Match /xxx/<guid>
-            $this->_request_switch["{$last}_report_guid"] = array
-            (
+            $this->_request_switch["{$last}_report_guid"] = array(
                 'fixed_args' => array($last),
                 'variable_args' => 1,
                 'handler' => array("org_openpsa_reports_handler_{$last}_report", 'generator'),
             );
 
             // Match /xxx
-            $this->_request_switch["{$last}_report"] = array
-            (
+            $this->_request_switch["{$last}_report"] = array(
                 'fixed_args' => array($last),
                 'handler' => array("org_openpsa_reports_handler_{$last}_report", 'query_form'),
             );
         }
 
         // Match /csv/<filename>
-        $this->_request_switch['csv_export'] = array
-        (
+        $this->_request_switch['csv_export'] = array(
             'fixed_args'    => 'csv',
             'variable_args' => 1,
             'handler'       => 'csv',
         );
 
         // Match /delete/<guid>
-        $this->_request_switch['delete_report'] = array
-        (
+        $this->_request_switch['delete_report'] = array(
             'fixed_args'    => 'delete',
             'variable_args' => 1,
             'handler'       => 'delete_report',
         );
 
         // Match /
-        $this->_request_switch['frontpage'] = array
-        (
+        $this->_request_switch['frontpage'] = array(
             'handler' => 'frontpage'
         );
     }
@@ -168,8 +160,7 @@ class org_openpsa_reports_viewer extends midcom_baseclasses_components_request
         }
         $this->_available_generators = array();
 
-        $components = array
-        (
+        $components = array(
             // TODO: better localization strings
             'org.openpsa.projects' => $this->_i18n->get_string('org.openpsa.projects', 'org.openpsa.projects'),
             'org.openpsa.sales' => $this->_i18n->get_string('org.openpsa.sales', 'org.openpsa.sales'),

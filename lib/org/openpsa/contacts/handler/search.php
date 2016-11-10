@@ -180,8 +180,7 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
         $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
         $data = array();
         foreach ($this->_persons as $person) {
-            $data[] = array
-            (
+            $data[] = array(
                 'category' => $this->_l10n->get('persons'),
                 'label' => $person->get_label(),
                 'value' => $person->get_label(),
@@ -189,8 +188,7 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
             );
         }
         foreach ($this->_groups as $group) {
-            $data[] = array
-            (
+            $data[] = array(
                 'category' => $this->_l10n->get('groups'),
                 'label' => $group->get_label(),
                 'value' => $group->get_label(),
@@ -207,20 +205,17 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
         $workflow = $this->get_workflow('datamanager2');
         $buttons = array();
         if (midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_contacts_person_dba')) {
-            $buttons[] = $workflow->get_button('person/create/', array
-            (
+            $buttons[] = $workflow->get_button('person/create/', array(
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create person'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_person-new.png',
             ));
         }
         if (midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_contacts_group_dba')) {
-            $buttons[] = $workflow->get_button('group/create/organization/', array
-            (
+            $buttons[] = $workflow->get_button('group/create/organization/', array(
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create organization'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_people-new.png',
             ));
-            $buttons[] = $workflow->get_button('group/create/group/', array
-            (
+            $buttons[] = $workflow->get_button('group/create/group/', array(
                 MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('group')),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_people-new.png',
             ));

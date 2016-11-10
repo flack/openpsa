@@ -120,8 +120,7 @@ abstract class midcom_core_query
         $this->_real_class = $classname;
         if (empty($_class_mapping_cache[$classname])) {
             if (!is_subclass_of($classname, 'midcom_core_dbaobject')) {
-                throw new midcom_error
-                (
+                throw new midcom_error(
                     "Cannot create a midcom_core_query instance for the type {$classname}: Does not seem to be a DBA class name."
                 );
             }
@@ -305,8 +304,7 @@ abstract class midcom_core_query
             debug_add("Failed to execute add_order for column '{$field}', midgard error: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
             return false;
         }
-        $this->_orders[] = array
-        (
+        $this->_orders[] = array(
             'field' => $field,
             'direction' => $direction
         );
