@@ -29,8 +29,7 @@ class org_openpsa_sales_handler_deliverable_adminTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('org.openpsa.sales');
 
-        $deliverable_attributes = array
-        (
+        $deliverable_attributes = array(
             'salesproject' => self::$_salesproject->id,
             'product' => self::$_product->id,
         );
@@ -41,10 +40,8 @@ class org_openpsa_sales_handler_deliverable_adminTest extends openpsa_testcase
         $year = date('Y') + 1;
         $start = strtotime($year . '-10-15 00:00:00');
 
-        $at_parameters = array
-        (
-            'arguments' => array
-            (
+        $at_parameters = array(
+            'arguments' => array(
                 'deliverable' => $deliverable->guid,
                 'cycle' => 1,
             ),
@@ -65,8 +62,7 @@ class org_openpsa_sales_handler_deliverable_adminTest extends openpsa_testcase
         $elements = $group->getElements();
         $this->assertEquals($year . '-10-15', $elements[0]->getValue());
 
-        $formdata = array
-        (
+        $formdata = array(
             'next_cycle_date' => '',
             'title' => 'test',
             'start_date' => '2012-10-10',

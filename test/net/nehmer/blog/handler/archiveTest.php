@@ -19,8 +19,7 @@ class net_nehmer_blog_handler_archiveTest extends openpsa_testcase
     public static function setUpBeforeClass()
     {
         self::$_topic = self::get_component_node('net.nehmer.blog');
-        $article_properties = array
-        (
+        $article_properties = array(
             'topic' => self::$_topic->id,
             'name' => __CLASS__ . time()
         );

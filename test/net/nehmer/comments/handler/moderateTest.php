@@ -22,8 +22,7 @@ class net_nehmer_comments_handler_moderateTest extends openpsa_testcase
 
         midcom::get()->auth->request_sudo('net.nehmer.comments');
 
-        $_POST = array
-        (
+        $_POST = array(
             'mark' => 'abuse'
         );
 

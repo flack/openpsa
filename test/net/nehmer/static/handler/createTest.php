@@ -18,14 +18,12 @@ class net_nehmer_static_handler_createTest extends openpsa_testcase
 
     public static function setUpBeforeClass()
     {
-        $topic_attributes = array
-        (
+        $topic_attributes = array(
             'component' => 'net.nehmer.static',
             'name' => __CLASS__ . time()
         );
         self::$_topic = self::create_class_object('midcom_db_topic', $topic_attributes);
-        $article_properties = array
-        (
+        $article_properties = array(
             'topic' => self::$_topic->id,
             'name' => __CLASS__ . time()
         );

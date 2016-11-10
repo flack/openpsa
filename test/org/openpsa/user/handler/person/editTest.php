@@ -28,8 +28,7 @@ class org_openpsa_user_handler_person_editTest extends openpsa_testcase
         $this->assertEquals('user_edit', $data['handler_id']);
         $this->assertEquals('person', $data['controller']->schemadb['default']->description);
 
-        $formdata = array
-        (
+        $formdata = array(
             'email' => 'test@test.info',
             'lastname' => 'TEST'
         );

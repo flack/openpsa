@@ -20,8 +20,7 @@ class net_nehmer_blog_handler_feedTest extends openpsa_testcase
     {
         self::$topic = self::get_component_node('net.nehmer.blog');
 
-        $article_properties = array
-        (
+        $article_properties = array(
             'topic' => self::$topic->id,
             'name' => __CLASS__ . time()
         );

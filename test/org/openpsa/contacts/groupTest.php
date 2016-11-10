@@ -18,7 +18,7 @@ class org_openpsa_contacts_groupTest extends openpsa_testcase
         midcom::get()->auth->request_sudo('org.openpsa.contacts');
         $group = new org_openpsa_contacts_group_dba();
         $time = time();
-        $group->name = 'TEST NAME' . $time;;
+        $group->name = 'TEST NAME' . $time;
         $group->_use_activitystream = false;
         $group->_use_rcs = false;
 

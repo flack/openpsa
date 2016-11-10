@@ -22,10 +22,8 @@ class controllerTest extends openpsa_testcase
         $dm = new datamanager($schemadb);
         $controller = $dm->get_controller('test');
         $_SERVER['REQUEST_METHOD'] = 'post';
-        $_POST = array
-        (
-            'test' => array
-            (
+        $_POST = array(
+            'test' => array(
                 'form_toolbar' => array('cancel0' => '')
             )
         );

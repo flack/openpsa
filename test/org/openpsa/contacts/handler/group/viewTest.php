@@ -37,8 +37,7 @@ class org_openpsa_contacts_handler_group_viewTest extends openpsa_testcase
 
     public function testHandler_view_organization()
     {
-        $attributes = array
-        (
+        $attributes = array(
             'orgOpenpsaObtype' => org_openpsa_contacts_group_dba::ORGANIZATION
         );
         $organization = $this->create_object('org_openpsa_contacts_group_dba', $attributes);

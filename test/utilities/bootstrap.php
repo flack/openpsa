@@ -17,20 +17,17 @@ define('OPENPSA2_UNITTEST_OUTPUT_DIR', OPENPSA_TEST_ROOT . '__output');
 function openpsa_test_create_dir($dir)
 {
     if (   !is_dir($dir)
-        && !mkdir($dir))
-    {
+        && !mkdir($dir)) {
         throw new Exception('could not create directory ' . $dir);
     }
 }
 
 if (   file_exists(OPENPSA2_UNITTEST_OUTPUT_DIR)
-    && !defined('OPENPSA_DB_CREATED'))
-{
+    && !defined('OPENPSA_DB_CREATED')) {
     $ret = false;
     $output = system('rm -R ' . OPENPSA2_UNITTEST_OUTPUT_DIR, $ret);
 
-    if ($ret)
-    {
+    if ($ret) {
         throw new Exception('Could not remove old output dir: ' . $output);
     }
 }
@@ -43,47 +40,38 @@ openpsa_test_create_dir(OPENPSA2_UNITTEST_OUTPUT_DIR . '/cache/blobs');
 openpsa_test_create_dir(OPENPSA2_UNITTEST_OUTPUT_DIR . '/blobs');
 
 $subdirs = array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'A', 'B', 'C', 'D', 'E', 'F');
-foreach ($subdirs as $dir)
-{
+foreach ($subdirs as $dir) {
     openpsa_test_create_dir(OPENPSA2_UNITTEST_OUTPUT_DIR . '/blobs/' . $dir);
-    foreach ($subdirs as $subdir)
-    {
+    foreach ($subdirs as $subdir) {
         openpsa_test_create_dir(OPENPSA2_UNITTEST_OUTPUT_DIR . '/blobs/' . $dir . '/' . $subdir);
     }
 }
 
-if (empty($GLOBALS['midcom_config_local']['theme']))
-{
+if (empty($GLOBALS['midcom_config_local']['theme'])) {
     $GLOBALS['midcom_config_local']['theme'] = 'OpenPsa2';
 }
-if (empty($GLOBALS['midcom_config_local']['midcom_services_rcs_root']))
-{
+if (empty($GLOBALS['midcom_config_local']['midcom_services_rcs_root'])) {
     $GLOBALS['midcom_config_local']['midcom_services_rcs_root'] = OPENPSA2_UNITTEST_OUTPUT_DIR . '/rcs';
 }
-if (empty($GLOBALS['midcom_config_local']['cache_base_directory']))
-{
+if (empty($GLOBALS['midcom_config_local']['cache_base_directory'])) {
     $GLOBALS['midcom_config_local']['cache_base_directory'] = OPENPSA2_UNITTEST_OUTPUT_DIR . '/cache/';
 }
 if (   empty($GLOBALS['midcom_config_local']['log_filename'])
-    || !file_exists(dirname($GLOBALS['midcom_config_local']['log_filename'])))
-{
+    || !file_exists(dirname($GLOBALS['midcom_config_local']['log_filename']))) {
     $GLOBALS['midcom_config_local']['log_filename'] = OPENPSA2_UNITTEST_OUTPUT_DIR . '/midcom.log';
 }
 
 $GLOBALS['midcom_config_local']['attachment_cache_url'] = '/blobcache';
 $GLOBALS['midcom_config_local']['attachment_cache_root'] = OPENPSA2_UNITTEST_OUTPUT_DIR . '/cache/blobs';
 
-if (!defined('OPENPSA2_PREFIX'))
-{
+if (!defined('OPENPSA2_PREFIX')) {
     define('OPENPSA2_PREFIX', '/');
 }
-if (! defined('MIDCOM_STATIC_URL'))
-{
+if (! defined('MIDCOM_STATIC_URL')) {
     define('MIDCOM_STATIC_URL', '/openpsa2-static');
 }
 
-$_SERVER = array
-(
+$_SERVER = array(
     'HTTP_HOST' => 'localhost',
     'SERVER_NAME' => 'localhost',
     'SERVER_SOFTWARE' => 'PHPUnit',
@@ -99,8 +87,7 @@ $_SERVER = array
 if (   function_exists('gc_enabled')
     && gc_enabled()
     && (   extension_loaded('midgard')
-        || extension_loaded('midgard2')))
-{
+        || extension_loaded('midgard2'))) {
     // workaround for segfaults (mostly under mgd2) that might have something to do with https://bugs.php.net/bug.php?id=51091
     gc_disable();
 }

@@ -111,8 +111,7 @@ class midcom_core_accountTest extends openpsa_testcase
     public function testAddUsernameConstraint()
     {
         $rdm_username = uniqid(__FUNCTION__ . ' user');
-        if (method_exists('midgard_user', 'login'))
-        {
+        if (method_exists('midgard_user', 'login')) {
             // test invalid user
             $operator = "=";
             $query = $this->getQueryMock();
@@ -129,9 +128,7 @@ class midcom_core_accountTest extends openpsa_testcase
             ->with($this->equalTo('guid'), $this->equalTo("NOT IN"));
 
             midcom_core_account::add_username_constraint($query, "=", "");
-        }
-        else
-        {
+        } else {
             $operator = "=";
             $value = "bob";
 

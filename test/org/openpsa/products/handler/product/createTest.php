@@ -27,14 +27,12 @@ class org_openpsa_products_handler_product_createTest extends openpsa_testcase
         $data = $this->run_handler('org.openpsa.products', array('product', 'create', 'default'));
         $this->assertEquals('create_product', $data['handler_id']);
 
-        $formdata = array
-        (
+        $formdata = array(
             'title' => 'TEST ' . __CLASS__ . ' ' . time(),
             'code' => 'TEST_' . __CLASS__ . '_' . time(),
             'delivery' => (string) org_openpsa_products_product_dba::DELIVERY_SINGLE,
             'orgOpenpsaObtype' => (string) org_openpsa_products_product_dba::TYPE_GOODS,
-            'productGroup' => array
-            (
+            'productGroup' => array(
                 'selection' => '[' . self::$_group->id . ']'
             ),
         );

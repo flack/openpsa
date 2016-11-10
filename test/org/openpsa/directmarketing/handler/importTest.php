@@ -48,15 +48,12 @@ class org_openpsa_directmarketing_handler_importTest extends openpsa_testcase
         $this->show_handler($data);
 
         $email = __FUNCTION__ . '.' . time() . '@' . __CLASS__ . '.org';
-        $_POST = array
-        (
+        $_POST = array(
             'org_openpsa_directmarketing_import_separator' => 'N',
             'org_openpsa_directmarketing_import_textarea' => $email,
         );
-        $_FILES = array
-        (
-            'org_openpsa_directmarketing_import_upload' => array
-            (
+        $_FILES = array(
+            'org_openpsa_directmarketing_import_upload' => array(
                 'tmp_name' => null
             )
         );

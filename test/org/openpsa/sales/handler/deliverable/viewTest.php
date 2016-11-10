@@ -26,8 +26,7 @@ class org_openpsa_sales_salesproject_deliverable_viewTest extends openpsa_testca
     {
         midcom::get()->auth->request_sudo('org.openpsa.sales');
 
-        $deliverable_attributes = array
-        (
+        $deliverable_attributes = array(
             'salesproject' => self::$_salesproject->id,
         );
 

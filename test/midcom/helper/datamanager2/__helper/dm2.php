@@ -22,37 +22,28 @@ class openpsa_test_dm2_helper
     public function __construct($object = null)
     {
         $this->_object = $object;
-        $schemadb_raw = array
-        (
-            'default' => array
-            (
+        $schemadb_raw = array(
+            'default' => array(
                 'description' => __CLASS__ . ' testcase schema',
                 'fields' => array()
             )
         );
         $this->_schemadb = midcom_helper_datamanager2_schema::load_database($schemadb_raw);
 
-        if ($this->_object)
-        {
-            if (!empty($this->_object->id))
-            {
+        if ($this->_object) {
+            if (!empty($this->_object->id)) {
                 $controller_type = 'simple';
-            }
-            else
-            {
+            } else {
                 $controller_type = 'create';
             }
-        }
-        else
-        {
+        } else {
             $controller_type = 'nullstorage';
         }
         $this->_controller = midcom_helper_datamanager2_controller::create($controller_type);
         $this->_controller->schemaname = 'default';
         $this->_controller->schemadb =& $this->_schemadb;
 
-        switch ($controller_type)
-        {
+        switch ($controller_type) {
             case 'create':
                 $this->_controller->callback_object =& $this;
 
@@ -64,8 +55,7 @@ class openpsa_test_dm2_helper
 
     public function get_widget($widget_class, $type_class, array $config = array(), $name = null)
     {
-        if (null === $name)
-        {
+        if (null === $name) {
             $name = 'test_' . $widget_class . '_' . sizeof($this->_schemadb['default']->fields);
         }
 
@@ -74,20 +64,17 @@ class openpsa_test_dm2_helper
         $config['type'] = $type_class;
         $config['widget'] = $widget_class;
 
-        if (!array_key_exists('storage', $config))
-        {
+        if (!array_key_exists('storage', $config)) {
             $config['storage'] = null;
         }
 
         $this->_schemadb['default']->append_field($name, $config);
 
-        if ($this->_controller instanceof midcom_helper_datamanager2_controller_simple)
-        {
+        if ($this->_controller instanceof midcom_helper_datamanager2_controller_simple) {
             $this->_controller->set_storage($this->_object, 'default');
         }
 
-        if (!$this->_controller->initialize())
-        {
+        if (!$this->_controller->initialize()) {
             throw new Exception('Failed to initialize DM2 controller.');
         }
 

@@ -25,8 +25,7 @@ class net_nemein_rss_fetchTest extends openpsa_testcase
     public function test_import_article()
     {
         $topic = $this->create_object('midcom_db_topic', array('component' => 'net.nehmer.blog'));
-        $attributes = array
-        (
+        $attributes = array(
             'node' => $topic->id,
             'url' => 'http://openpsa2.org/'
         );
@@ -100,8 +99,7 @@ class net_nemein_rss_fetchTest extends openpsa_testcase
         $this->assertInstanceOf('midcom_db_person', $author);
         $this->assertEquals($person->guid, $author->guid);
 
-        $attributes = array
-        (
+        $attributes = array(
             'firstname' => uniqid('firstname'),
             'lastname' => uniqid('lastname')
         );
@@ -120,8 +118,7 @@ class net_nemein_rss_fetchTest extends openpsa_testcase
      */
     public function test_normalize_item($item, $expected)
     {
-        foreach ($expected as $field => $value)
-        {
+        foreach ($expected as $field => $value) {
             $method = 'get_' . $field;
             $this->assertEquals($value, $item->$method(), 'difference in field ' . $field);
         }
@@ -130,35 +127,28 @@ class net_nemein_rss_fetchTest extends openpsa_testcase
     public function provider_normalize_item()
     {
         $items = $this->_get_items(__DIR__ . '/__files/normalize.xml', true);
-        return array
-        (
-            array
-            (
+        return array(
+            array(
                 $items[0],
-                array
-                (
+                array(
                     'id' => 'http://openpsa2.org/midcom-permalink-nosuchguid',
                     'title' => 'Untitled',
                     'link' => 'http://openpsa2.org/midcom-permalink-nosuchguid',
                     'description' => ''
                 )
             ),
-            array
-            (
+            array(
                 $items[1],
-                array
-                (
+                array(
                     'id' => 'http://openpsa2.org/midcom-permalink-nosuchlink',
                     'title' => 'Test Description...',
                     'link' => 'http://openpsa2.org/midcom-permalink-nosuchlink',
                     'description' => '<a href="http://localhost/">Test Description</a>',
                 )
             ),
-            array
-            (
+            array(
                 $items[2],
-                array
-                (
+                array(
                     'id' => '',
                     'title' => 'Test Description...',
                     'link' => '',

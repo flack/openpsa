@@ -49,8 +49,7 @@ class org_openpsa_invoices_handler_invoice_itemsTest extends openpsa_testcase
         midcom::get()->auth->request_sudo('org.openpsa.invoices');
         $item = $this->create_object('org_openpsa_invoices_invoice_item_dba', array('invoice' => self::$_invoice->id));
 
-        $_POST = array
-        (
+        $_POST = array(
             'oper' => 'edit',
             'id' => $item->id,
             'description' => 'TEST DESCRIPTION',

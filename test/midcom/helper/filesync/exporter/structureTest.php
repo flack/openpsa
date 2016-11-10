@@ -39,14 +39,11 @@ class midcom_helper_filesync_exporter_structureTest extends openpsa_testcase
         $structure = file_get_contents(self::$_rootdir . $export_name . '.inc');
         $structure_array = eval('return array(' . $structure . ');');
 
-        $expected = array
-        (
-            'export' => array
-            (
+        $expected = array(
+            'export' => array(
                 'name' => 'export',
                 'title' => 'localhost',
-                'root' => array
-                (
+                'root' => array(
                     'name' => $topic_name,
                     'title' => '',
                     'component' => '',
@@ -54,10 +51,8 @@ class midcom_helper_filesync_exporter_structureTest extends openpsa_testcase
                     'style_inherit' => false,
                     'parameters' => array(),
                     'acl' => array(),
-                    'nodes' => array
-                    (
-                        $topic_name => array
-                        (
+                    'nodes' => array(
+                        $topic_name => array(
                             'name' => $topic_name,
                             'title' => '',
                             'component' => 'midcom.core.nullcomponent',

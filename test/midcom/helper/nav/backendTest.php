@@ -30,15 +30,13 @@ class midcom_helper_backendTest extends openpsa_testcase
         $child_topic_name = uniqid('child');
         $article_name = uniqid('article');
         $root_topic = $this->create_object('midcom_db_topic', array('name' => $root_topic_name));
-        $child_attributes = array
-        (
+        $child_attributes = array(
             'name' => $child_topic_name,
             'up' => $root_topic->id,
             'component' => 'net.nehmer.static'
         );
         $child_topic = $this->create_object('midcom_db_topic', $child_attributes);
-        $article_attributes = array
-        (
+        $article_attributes = array(
             'name' => $article_name,
             'topic' => $child_topic->id,
         );
@@ -64,8 +62,7 @@ class midcom_helper_backendTest extends openpsa_testcase
 
         $this->assertEquals($backend->list_leaves($child_topic->id, true), array($child_topic->id . '-' . $article->id));
 
-        $expected = array
-        (
+        $expected = array(
             MIDCOM_NAV_URL => $article->name . '/',
             MIDCOM_NAV_NAME => $article->name,
             MIDCOM_NAV_GUID => $article->guid,
@@ -85,8 +82,7 @@ class midcom_helper_backendTest extends openpsa_testcase
 
         $actual = $backend->get_leaf($leaf_id);
         $this->assertTrue(is_array($actual));
-        foreach ($expected as $key => $value)
-        {
+        foreach ($expected as $key => $value) {
             $this->assertEquals($actual[$key], $value);
         }
 

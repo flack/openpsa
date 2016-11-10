@@ -28,15 +28,13 @@ class org_openpsa_user_handler_person_createTest extends openpsa_testcase
         $this->assertEquals('user_create', $data['handler_id']);
 
         $username = uniqid(__FUNCTION__);
-        $formdata = array
-        (
+        $formdata = array(
             'firstname' => __CLASS__ . '::' . __FUNCTION__,
             'lastname' => __CLASS__ . '::' . __FUNCTION__,
             'email' => __FUNCTION__ . '@openpsa2.org',
             'org_openpsa_user_person_account_password_switch' => '1',
             'username' => $username,
-            'password' => array
-            (
+            'password' => array(
                 'password_input' => 'p@ssword123'
             ),
             'send_welcome_mail' => '1'

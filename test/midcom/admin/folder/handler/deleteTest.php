@@ -17,8 +17,7 @@ class midcom_admin_folder_handler_deleteTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('midcom.admin.folder');
         $parent = self::get_component_node('net.nehmer.static');
-        $attributes = array
-        (
+        $attributes = array(
             'component' => 'net.nehmer.static',
             'parent' => $parent->id
         );

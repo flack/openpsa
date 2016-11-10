@@ -44,8 +44,7 @@ class org_openpsa_products_handler_group_listTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('org.openpsa.products');
 
-        $group_attributes = array
-        (
+        $group_attributes = array(
             'code' => 'TEST_' . __FUNCTION__ . time(),
             'up' => self::$_group->id
         );
@@ -62,8 +61,7 @@ class org_openpsa_products_handler_group_listTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('org.openpsa.products');
 
-        $group_attributes = array
-        (
+        $group_attributes = array(
             'code' => 'TEST_' . __FUNCTION__ . time(),
             'up' => self::$_group->id
         );

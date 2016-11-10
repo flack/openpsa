@@ -18,8 +18,7 @@ class org_openpsa_calendar_handler_icalTest extends openpsa_testcase
         $user = $this->create_user(true);
         $account = new midcom_core_account($user);
 
-        $attributes = array
-        (
+        $attributes = array(
             'up' => org_openpsa_calendar_interface::find_root_event()->id,
             'start' => time() - 10,
             'end' => time() + 8000,
@@ -29,8 +28,7 @@ class org_openpsa_calendar_handler_icalTest extends openpsa_testcase
         );
         $event = $this->create_object('org_openpsa_calendar_event_dba', $attributes);
 
-        $attributes = array
-        (
+        $attributes = array(
             'uid' => $user->id,
             'eid' => $event->id
         );

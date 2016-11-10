@@ -27,8 +27,7 @@ class midcom_helper_metadataTest extends openpsa_testcase
 
     public function providerEmptyProperties()
     {
-        return array
-        (
+        return array(
             array('schedulestart'),
             array('scheduleend'),
             array('navnoentry'),
@@ -60,8 +59,7 @@ class midcom_helper_metadataTest extends openpsa_testcase
 
     public function providerSetEmptyObjectProperties()
     {
-        return array
-        (
+        return array(
             array('schedulestart', 1329255039),
             array('scheduleend', 0),
             array('navnoentry', true),
@@ -86,8 +84,7 @@ class midcom_helper_metadataTest extends openpsa_testcase
 
     public function providerSetDBObjectProperties()
     {
-        return array
-        (
+        return array(
             array('schedulestart', 1329255039),
             array('scheduleend', 0),
             array('navnoentry', true),

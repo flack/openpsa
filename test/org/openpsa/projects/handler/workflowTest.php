@@ -21,8 +21,7 @@ class org_openpsa_projects_handler_workflowTest extends openpsa_testcase
         $project = $this->create_object('org_openpsa_projects_project');
         $task = $this->create_object('org_openpsa_projects_task_dba', array('project' => $project->id));
 
-        $_POST = array
-        (
+        $_POST = array(
             'org_openpsa_projects_workflow_action' => array('accept' => true),
             'org_openpsa_projects_workflow_action_redirect' => 'test'
         );

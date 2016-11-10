@@ -17,10 +17,8 @@ class midcom_helper_datamanager2_widget_autocompleteTest extends openpsa_testcas
 {
     public function test_get_default()
     {
-        $config = array
-        (
-            'type_config' => array
-            (
+        $config = array(
+            'type_config' => array(
                 'mapping_class_name' => 'midcom_db_member',
                 'master_fieldname' => 'gid',
                 'member_fieldname' => 'uid',
@@ -28,18 +26,14 @@ class midcom_helper_datamanager2_widget_autocompleteTest extends openpsa_testcas
                 'allow_multiple' => true,
             ),
             'widget' => 'autocomplete',
-            'widget_config' => array
-            (
+            'widget_config' => array(
                 'class' => 'midcom_db_person',
                 'id_field' => 'id',
-                'searchfields' => array
-                (
+                'searchfields' => array(
                     'lastname',
                 ),
-                'result_headers' => array
-                (
-                    array
-                    (
+                'result_headers' => array(
+                    array(
                         'name' => 'name',
                         'title' => 'Name',
                     ),
@@ -85,10 +79,8 @@ class midcom_helper_datamanager2_widget_autocompleteTest extends openpsa_testcas
 
     public function test_render_content()
     {
-        $config = array
-        (
-            'type_config' => array
-            (
+        $config = array(
+            'type_config' => array(
                 'mapping_class_name' => 'midcom_db_member',
                 'master_fieldname' => 'gid',
                 'member_fieldname' => 'uid',
@@ -96,18 +88,14 @@ class midcom_helper_datamanager2_widget_autocompleteTest extends openpsa_testcas
                 'allow_multiple' => true,
             ),
             'widget' => 'autocomplete',
-            'widget_config' => array
-            (
+            'widget_config' => array(
                 'class' => 'midcom_db_person',
                 'id_field' => 'id',
-                'searchfields' => array
-                (
+                'searchfields' => array(
                     'lastname',
                 ),
-                'result_headers' => array
-                (
-                    array
-                    (
+                'result_headers' => array(
+                    array(
                         'name' => 'name',
                         'title' => 'Name',
                     ),

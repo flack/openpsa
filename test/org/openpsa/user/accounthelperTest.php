@@ -120,30 +120,24 @@ class org_openpsa_user_accounthelperTest extends openpsa_testcase
         $this->assertFalse($helper->is_blocked());
 
         // try reopening unblocked account
-        try
-        {
+        try {
             $helper->reopen_account();
             $this->fail("Reopening an unblocked account should throw an exception");
+        } catch (Exception $e) {
         }
-        catch(Exception $e)
-        {}
 
         midcom::get()->auth->drop_sudo();
     }
 
     private function _get_person_by_formdata($data, $expected_result)
     {
-        if (isset($data["username"]))
-        {
+        if (isset($data["username"])) {
             $_POST["username"] = $data["username"];
         }
         $person = org_openpsa_user_accounthelper::get_person_by_formdata($data);
-        if ($expected_result)
-        {
+        if ($expected_result) {
             $this->assertTrue($person instanceof midcom_db_person);
-        }
-        else
-        {
+        } else {
             $this->assertFalse($person);
         }
         $this->reset_server_vars();
@@ -185,8 +179,7 @@ class org_openpsa_user_accounthelperTest extends openpsa_testcase
         $this->assertFalse($helper->is_blocked(), 'account should not be blocked');
         $this->assertNull($person->get_parameter("org_openpsa_user_password", "attempts"));
 
-        for ($attempt_num = 1; $attempt_num < $max_attempts; $attempt_num++)
-        {
+        for ($attempt_num = 1; $attempt_num < $max_attempts; $attempt_num++) {
             $this->assertTrue($helper->check_login_attempts());
             $attempts = unserialize($person->get_parameter("org_openpsa_user_password", "attempts"));
             $this->assertEquals($attempt_num, count($attempts));
@@ -239,16 +232,13 @@ class org_openpsa_user_accounthelperTest extends openpsa_testcase
         $password = $account->get_password();
         $this->assertFalse($accounthelper->check_password_reuse($password));
 
-        do
-        {
+        do {
             $password1 = $accounthelper->generate_safe_password();
         } while ($password === $password1);
-        do
-        {
+        do {
             $password2 = $accounthelper->generate_safe_password();
         } while ($password === $password2 || $password1 === $password2);
-        do
-        {
+        do {
             $password3 = $accounthelper->generate_safe_password();
         } while ($password3 === $password || $password3 === $password1 || $password3 === $password2);
         $old_passwords = array($password1, $password2);
@@ -289,8 +279,7 @@ class org_openpsa_user_accounthelperTest extends openpsa_testcase
         $this->assertEquals('', $account->get_password());
         $this->assertEquals($password, self::$_user->get_parameter('org_openpsa_user_blocked_account', 'account_password'));
 
-        $args = array
-        (
+        $args = array(
             'guid' => self::$_user->guid,
             'parameter_name' => 'org_openpsa_user_blocked_account',
             'password' => 'account_password',
@@ -322,8 +311,7 @@ class org_openpsa_user_accounthelperTest extends openpsa_testcase
         midcom::get()->auth->request_sudo('org.openpsa.user');
         self::$_user->delete_parameter('org_openpsa_user_password', 'old_passwords');
         self::$_user->delete_parameter('org_openpsa_user_password', 'last_change');
-        do
-        {
+        do {
             $new_password = $accounthelper->generate_safe_password();
         } while ($password === $new_password);
 

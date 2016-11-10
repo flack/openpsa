@@ -169,8 +169,7 @@ class org_openpsa_projects_workflowTest extends openpsa_testcase
     {
         $group = $this->create_object('org_openpsa_products_product_group_dba');
 
-        $product_attributes = array
-        (
+        $product_attributes = array(
             'productGroup' => $group->id,
             'code' => 'TEST-' . __CLASS__ . time(),
             'delivery' => org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION
@@ -179,8 +178,7 @@ class org_openpsa_projects_workflowTest extends openpsa_testcase
 
         $salesproject = $this->create_object('org_openpsa_sales_salesproject_dba');
 
-        $deliverable_attributes = array
-        (
+        $deliverable_attributes = array(
            'salesproject' => $salesproject->id,
            'product' => $product->id,
            'description' => 'TEST DESCRIPTION',
@@ -190,8 +188,7 @@ class org_openpsa_projects_workflowTest extends openpsa_testcase
         self::$_task->agreement = $deliverable->id;
         self::$_task->update();
 
-        $report_attributes = array
-        (
+        $report_attributes = array(
             'task' => self::$_task->id,
             'invoiceable' => true,
             'hours' => 15

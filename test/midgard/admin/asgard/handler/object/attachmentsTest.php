@@ -21,8 +21,7 @@ class midgard_admin_asgard_handler_object_attachmentsTest extends openpsa_testca
     public static function setUpBeforeClass()
     {
         self::$_object = self::create_class_object('midcom_db_topic');
-        $parameters = array
-        (
+        $parameters = array(
             'parentguid' => self::$_object->guid,
             'name' => self::$_filename
         );

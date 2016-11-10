@@ -27,8 +27,7 @@ class org_openpsa_invoices_handler_invoice_actionTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('org.openpsa.invoices');
 
-        $data = array
-        (
+        $data = array(
             'customerContact' => self::$_person->id,
             'sum' => 300,
             'date' => gmmktime(0, 0, 0, date('n'), date('j'), date('Y')),
@@ -41,8 +40,7 @@ class org_openpsa_invoices_handler_invoice_actionTest extends openpsa_testcase
 
         // process
         $_SERVER['REQUEST_METHOD'] = 'POST';
-        $_POST = array
-        (
+        $_POST = array(
             'id' => $invoice->id,
             'relocate' => true
         );
@@ -84,8 +82,7 @@ class org_openpsa_invoices_handler_invoice_actionTest extends openpsa_testcase
         $topic = $this->create_object('midcom_db_topic', array('component' => 'org.openpsa.invoices'));
         $topic->set_parameter('org.openpsa.invoices', 'invoice_pdfbuilder_class', 'nonexistent');
         $_SERVER['REQUEST_METHOD'] = 'POST';
-        $_POST = array
-        (
+        $_POST = array(
             'id' => self::$_invoice->id,
             'relocate' => true
         );
@@ -99,8 +96,7 @@ class org_openpsa_invoices_handler_invoice_actionTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('org.openpsa.invoices');
         $_SERVER['REQUEST_METHOD'] = 'POST';
-        $_POST = array
-        (
+        $_POST = array(
             'id' => self::$_invoice->id,
             'relocate' => true
         );
@@ -114,8 +110,7 @@ class org_openpsa_invoices_handler_invoice_actionTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('org.openpsa.invoices');
         $_SERVER['REQUEST_METHOD'] = 'POST';
-        $_POST = array
-        (
+        $_POST = array(
             'id' => self::$_invoice->id,
             'relocate' => true
         );

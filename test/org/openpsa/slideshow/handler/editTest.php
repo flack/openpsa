@@ -36,8 +36,7 @@ class org_openpsa_slideshow_handler_editTest extends openpsa_testcase
         $topic = $this->get_component_node('org.openpsa.slideshow');
         $image = $this->create_object('org_openpsa_slideshow_image_dba', array('topic' => $topic->id));
 
-        $_POST = array
-        (
+        $_POST = array(
             'operation' => 'delete',
             'guids' => $image->guid
         );

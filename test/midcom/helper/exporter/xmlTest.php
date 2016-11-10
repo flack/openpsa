@@ -74,10 +74,8 @@ EOX;
 
     private function _get_data_array()
     {
-        return array
-        (
-            'midcom_helper_metadata' => array
-            (
+        return array(
+            'midcom_helper_metadata' => array(
                 'guid' => 'a4de2d4263af11df90631192dd1df1f4f1f4'
             ),
             'guid' => 'a4de2d4263af11df90631192dd1df1f4f1f4',

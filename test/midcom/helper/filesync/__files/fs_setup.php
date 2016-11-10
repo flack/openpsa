@@ -24,8 +24,7 @@ class openpsa_test_fs_setup
     private static function check_dir($dir)
     {
         if (   !is_dir($dir)
-            && !mkdir($dir))
-        {
+            && !mkdir($dir)) {
             throw new Exception('Failed to create directory ' . $dir);
         }
     }

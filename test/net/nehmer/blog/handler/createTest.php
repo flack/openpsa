@@ -29,8 +29,7 @@ class net_nehmer_blog_handler_createTest extends openpsa_testcase
 
         $this->show_handler($data);
 
-        $formdata = array
-        (
+        $formdata = array(
             'title' => uniqid(__CLASS__),
             'content' => '<p>TEST</p>'
         );

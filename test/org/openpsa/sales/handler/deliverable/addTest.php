@@ -27,8 +27,7 @@ class org_openpsa_sales_handler_deliverable_addTest extends openpsa_testcase
     {
         $this->_salesproject = $this->create_object('org_openpsa_sales_salesproject_dba');
         $product_group = $this->create_object('org_openpsa_products_product_group_dba');
-        $product_attributes = array
-        (
+        $product_attributes = array(
             'productGroup' => $product_group->id,
             'code' => 'TEST_' . __CLASS__ . '_' . time(),
             'unit' => 'm'
@@ -37,8 +36,7 @@ class org_openpsa_sales_handler_deliverable_addTest extends openpsa_testcase
 
         $_SERVER['REQUEST_METHOD'] = 'POST';
 
-        $_POST = array
-        (
+        $_POST = array(
             'product' => $this->_product->id,
         );
     }
@@ -58,8 +56,7 @@ class org_openpsa_sales_handler_deliverable_addTest extends openpsa_testcase
         midcom::get()->auth->request_sudo('org.openpsa.sales');
 
         $data = $this->run_handler('org.openpsa.sales', array('deliverable', 'add', $this->_salesproject->guid));
-        $formdata = array
-        (
+        $formdata = array(
             'title' => 'TEST ' . __CLASS__ . '_' . time(),
             'plannedUnits' => '1',
         );
@@ -87,8 +84,7 @@ class org_openpsa_sales_handler_deliverable_addTest extends openpsa_testcase
 
         $data = $this->run_handler('org.openpsa.sales', array('deliverable', 'add', $this->_salesproject->guid));
 
-        $formdata = array
-        (
+        $formdata = array(
             'title' => 'TEST ' . __CLASS__ . '_' . time(),
             'continuous' => true,
             'start_date' => strftime('%Y-%m-%d')

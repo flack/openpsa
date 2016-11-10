@@ -22,8 +22,7 @@ class org_openpsa_helpers_handler_chooserTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('org.openpsa.helpers');
 
-        $_GET = array
-        (
+        $_GET = array(
             'chooser_widget_id' => 'org_openpsa_sales_customerContact_chooser',
             'defaults' => array('openpsa' => 'undefined')
         );
@@ -32,8 +31,7 @@ class org_openpsa_helpers_handler_chooserTest extends openpsa_testcase
         $data = $this->run_handler('org.openpsa.sales', $handler_args);
         $this->assertEquals('____mfa-org.openpsa.helpers-chooser_create', $data['handler_id']);
 
-        $formdata = array
-        (
+        $formdata = array(
             'salutation' => 'mr',
             'lastname' => 'test',
             'email' => 'test@openpsa2.org'

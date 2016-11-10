@@ -18,8 +18,7 @@ class org_openpsa_calendar_handler_agendaTest extends openpsa_testcase
         $this->create_user(true);
         midcom::get()->auth->request_sudo('org.openpsa.calendar');
 
-        $attributes = array
-        (
+        $attributes = array(
             'start' => 1144056938,
             'end' => 1144066938
         );

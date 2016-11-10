@@ -24,37 +24,27 @@ class org_openpsa_directmarketing_campaign_ruleresolverTest extends openpsa_test
 
     public function provider_resolve()
     {
-        return array
-        (
-            0 => array
-            (
+        return array(
+            0 => array(
                 array(),
                 false
             ),
-            1 => array
-            (
+            1 => array(
                 array('classes' => array()),
                 false
             ),
-            2 => array
-            (
+            2 => array(
                 array('classes' => array(), 'type' => 'AND'),
                 true
             ),
-            3 => array
-            (
-                array
-                (
-                    'classes' => array
-                    (
-                        array
-                        (
+            3 => array(
+                array(
+                    'classes' => array(
+                        array(
                             'type' => 'AND',
                             'class' => 'org_openpsa_contacts_person_dba',
-                            'rules' => array
-                            (
-                                array
-                                (
+                            'rules' => array(
+                                array(
                                     'property' => 'email',
                                     'match' => 'LIKE',
                                     'value' => '%fl%'
@@ -65,48 +55,37 @@ class org_openpsa_directmarketing_campaign_ruleresolverTest extends openpsa_test
                     'type' => 'AND'),
                 true
             ),
-            4 => array
-            (
-                array
-                (
-                    'classes' => array
-                    (
-                        array
-                        (
+            4 => array(
+                array(
+                    'classes' => array(
+                        array(
                             'type' => 'AND',
                             'class' => 'org_openpsa_directmarketing_link_log_dba',
-                            'rules' => array
-                            (
-                                array
-                                (
+                            'rules' => array(
+                                array(
                                     'property' => 'target',
                                     'match' => '=',
                                     'value' => 'http://openpsa2.org',
                                 ),
-                                array
-                                (
+                                array(
                                     'property' => 'message',
                                     'match' => '=',
                                     'value' => 25,
                                 )
                             )
                         ),
-                        array
-                        (
+                        array(
                             'comment' => 'Not-unsubscribed -limits',
                             'type' => 'AND',
                             'class' => 'org_openpsa_directmarketing_campaign_member_dba',
                             'rules' =>
-                            array
-                            (
-                                array
-                                (
+                            array(
+                                array(
                                     'property' => 'orgOpenpsaObtype',
                                     'match' => '<>',
                                     'value' => 9002,
                                 ),
-                                array
-                                (
+                                array(
                                     'property' => 'campaign',
                                     'match' => '=',
                                     'value' => 5,
@@ -117,21 +96,15 @@ class org_openpsa_directmarketing_campaign_ruleresolverTest extends openpsa_test
                     'type' => 'AND'),
                 true
             ),
-            5 => array
-            (
-                array
-                (
-                    'classes' => array
-                    (
-                        array
-                        (
+            5 => array(
+                array(
+                    'classes' => array(
+                        array(
                             'type' => 'AND',
                             'class' => 'org_openpsa_contacts_group_dba',
                             'rules' =>
-                            array
-                            (
-                                array
-                                (
+                            array(
+                                array(
                                     'property' => 'official',
                                     'match' => 'LIKE',
                                     'value' => '%test%',

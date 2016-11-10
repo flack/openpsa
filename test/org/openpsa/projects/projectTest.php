@@ -36,5 +36,5 @@ class org_openpsa_projects_projectTest extends openpsa_testcase
         $this->assertTrue($stat);
 
         midcom::get()->auth->drop_sudo();
-     }
+    }
 }

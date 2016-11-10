@@ -35,5 +35,5 @@ class org_openpsa_directmarketing_campaign_memberTest extends openpsa_testcase
         $this->assertTrue($stat);
 
         midcom::get()->auth->drop_sudo();
-     }
+    }
 }

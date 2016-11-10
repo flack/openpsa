@@ -19,53 +19,42 @@ class midcom_helper__dbfactoryTest extends openpsa_testcase
     public function test_property_exists($input)
     {
         $dbfactory = new midcom_helper__dbfactory;
-        $test_properties = array
-        (
+        $test_properties = array(
             'guid',
             'name',
             'title',
         );
 
-        foreach ($test_properties as $property)
-        {
+        foreach ($test_properties as $property) {
             $this->assertTrue($dbfactory->property_exists($input, $property), 'Property ' . $property . ' not found');
         }
     }
 
     public function provider_property_exists()
     {
-        return array
-        (
-            array
-            (
+        return array(
+            array(
                 new midgard_article
             ),
-            array
-            (
+            array(
                 new midcom_db_article,
             ),
-            array
-            (
+            array(
                 'midgard_article',
             ),
-            array
-            (
+            array(
                 'midcom_db_article',
             ),
-            array
-            (
+            array(
                 new midgard_topic,
             ),
-            array
-            (
+            array(
                 new midcom_db_topic,
             ),
-            array
-            (
+            array(
                 'midgard_topic',
             ),
-            array
-            (
+            array(
                 'midcom_db_topic',
             )
         );

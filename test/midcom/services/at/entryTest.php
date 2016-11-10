@@ -15,8 +15,7 @@ class midcom_services_at_entryTest extends openpsa_testcase
 {
     public function testCRUD()
     {
-        $args = array
-        (
+        $args = array(
             'arg1' => 'test',
             'arg2' => 12,
         );

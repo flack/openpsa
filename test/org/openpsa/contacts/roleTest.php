@@ -53,5 +53,5 @@ class org_openpsa_contacts_roleTest extends openpsa_testcase
         $this->assertTrue($stat);
 
         midcom::get()->auth->drop_sudo();
-     }
+    }
 }

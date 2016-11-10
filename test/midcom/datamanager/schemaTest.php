@@ -14,10 +14,8 @@ class schemaTest extends openpsa_testcase
 {
     public function test_process_parameter()
     {
-        $schema = new schema(array('fields' => array
-        (
-            'test' => array
-            (
+        $schema = new schema(array('fields' => array(
+            'test' => array(
                 'title' => 'test',
                 'storage' => 'parameter',
                 'type' => 'text',

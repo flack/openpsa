@@ -17,15 +17,11 @@ class midcom_helper_datamanager2_type_textTest extends openpsa_testcase
 {
     public function test_validate_htmlpurifier()
     {
-        $config = array
-        (
-            'type_config' => array
-            (
+        $config = array(
+            'type_config' => array(
                 'purify' => true,
-                'forbidden_patterns' => array
-                (
-                    array
-                    (
+                'forbidden_patterns' => array(
+                    array(
                         'type' => 'regex',
                         'pattern' => '%(<[^>]+>)%si',
                         'explanation' => 'HTML is not allowed',

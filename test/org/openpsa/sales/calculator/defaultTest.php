@@ -26,8 +26,7 @@ class org_openpsa_sales_calculatorTest extends openpsa_testcase
         midcom::get()->auth->request_sudo('org.openpsa.sales');
 
         $project = $this->create_object('org_openpsa_projects_project');
-        $task_attributes = array
-        (
+        $task_attributes = array(
             'project' => $project->id,
             'agreement' => $this->_deliverable->id
         );
@@ -53,12 +52,9 @@ class org_openpsa_sales_calculatorTest extends openpsa_testcase
         $last_invoice = $qb->execute_unchecked();
         midcom::get()->auth->drop_sudo();
 
-        if (count($last_invoice) == 0)
-        {
+        if (count($last_invoice) == 0) {
             $previous = 0;
-        }
-        else
-        {
+        } else {
             $previous = $last_invoice[0]->number;
         }
 

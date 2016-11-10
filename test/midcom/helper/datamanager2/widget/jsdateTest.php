@@ -18,14 +18,12 @@ class midcom_helper_datamanager2_widget_jsdateTest extends openpsa_testcase
     public function test_get_default()
     {
         $timestamp = strtotime('2011-10-15 00:00:00');
-        $default_values = array
-        (
+        $default_values = array(
             'test_jsdate_1_date' => "2011-10-15",
             'test_jsdate_1_hours' => "00",
             'test_jsdate_1_minutes' => "00"
         );
-        $empty_values = array
-        (
+        $empty_values = array(
             'test_jsdate_0_date' => "0000-00-00",
             'test_jsdate_0_hours' => "00",
             'test_jsdate_0_minutes' => "00"

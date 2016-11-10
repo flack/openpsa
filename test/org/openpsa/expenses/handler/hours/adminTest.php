@@ -53,16 +53,13 @@ class org_openpsa_expenses_handler_hours_adminTest extends openpsa_testcase
 
         $person = $this->create_object('midcom_db_person');
 
-        $formdata = array
-        (
+        $formdata = array(
             'description' => __CLASS__ . '::' . __FUNCTION__,
             'hours' => '2',
-            'person' => array
-            (
+            'person' => array(
                 'selection' => '[' . $person->id . ']'
             ),
-            'task' => array
-            (
+            'task' => array(
                 'selection' => '[' . self::$_task->id . ']'
             ),
         );

@@ -50,7 +50,7 @@ class org_openpsa_calendar_eventTest extends openpsa_testcase
         $this->assertTrue($stat, midcom_connection::get_error_string());
 
         midcom::get()->auth->drop_sudo();
-     }
+    }
 
     private function _mktime($timestamp)
     {

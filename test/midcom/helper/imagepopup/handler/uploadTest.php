@@ -32,7 +32,7 @@ class midcom_helper_imagepopup_handler_uploadTest extends openpsa_testcase
         $_FILES['file'] = array_shift(self::$_images);
         
         // Do it goes with guid ?
-        $data = $this->run_handler('net.nehmer.static', array ('__ais', 'imagepopup', 'upload', 'image', $node->guid));
+        $data = $this->run_handler('net.nehmer.static', array('__ais', 'imagepopup', 'upload', 'image', $node->guid));
         $this->assertEquals('____ais-imagepopup-upload_image', $data['handler_id']);
         
         // Do new attachment exists ? Has a location and name ?
@@ -55,7 +55,7 @@ class midcom_helper_imagepopup_handler_uploadTest extends openpsa_testcase
         sleep(1);
         
         // Do it goes without guid ?
-        $data = $this->run_handler('net.nehmer.static', array ('__ais', 'imagepopup', 'upload', 'image'));
+        $data = $this->run_handler('net.nehmer.static', array('__ais', 'imagepopup', 'upload', 'image'));
         $this->assertEquals('____ais-imagepopup-upload_image_noobject', $data['handler_id']);
         
         // Do new attachment exists ? Has a location and name ?
@@ -73,17 +73,14 @@ class midcom_helper_imagepopup_handler_uploadTest extends openpsa_testcase
         $images = array();
         $path = sys_get_temp_dir() . "/" . md5(rand());
         self::$_tmp_folder = $path;
-        if(!mkdir($path))
-        {
+        if (!mkdir($path)) {
             throw new Exception("mkdir() failed.");
         }
         
-        for($i = 0; $i < $how_many; $i++)
-        {
-            $filename = $path . "/file" . $i . ".jpg"; 
+        for ($i = 0; $i < $how_many; $i++) {
+            $filename = $path . "/file" . $i . ".jpg";
             $myFile = fopen($filename, "w");
-            if(!$myFile)
-            {
+            if (!$myFile) {
                 throw new Exception("Cannot open file handle.");
             }
             fclose($myFile);
@@ -99,8 +96,7 @@ class midcom_helper_imagepopup_handler_uploadTest extends openpsa_testcase
     
     public static function tearDownAfterClass()
     {
-        foreach(self::$_tmp_names as $temp_name)
-        {
+        foreach (self::$_tmp_names as $temp_name) {
             unlink($temp_name);
         }
         rmdir(self::$_tmp_folder);

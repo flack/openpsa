@@ -17,21 +17,17 @@ class midcom_helper_datamanager2_widget_radiocheckselectTest extends openpsa_tes
 {
     public function test_get_default_radio()
     {
-        $config = array
-        (
-            'type_config' => array
-            (
+        $config = array(
+            'type_config' => array(
                 'allow_multiple' => false,
-                'options' => array
-                (
+                'options' => array(
                     1 => 'value 1',
                     2 => 'value 2'
                 )
             )
         );
 
-        $default_values = array
-        (
+        $default_values = array(
             'test_radiocheckselect_1' => 2
         );
 
@@ -79,21 +75,17 @@ class midcom_helper_datamanager2_widget_radiocheckselectTest extends openpsa_tes
 
     public function test_get_default_checkbox()
     {
-        $config = array
-        (
-            'type_config' => array
-            (
+        $config = array(
+            'type_config' => array(
                 'allow_multiple' => true,
-                'options' => array
-                (
+                'options' => array(
                     1 => 'value 1',
                     2 => 'value 2'
                 )
             )
         );
 
-        $default_values = array
-        (
+        $default_values = array(
             'test_radiocheckselect_1' => array(2 => true)
         );
 

@@ -30,10 +30,8 @@ class midcom_core_privilegeTest extends openpsa_testcase
 
         $this->assertEquals($output['stat'], $stat, midcom_connection::get_error_string());
 
-        foreach ($output as $field => $value)
-        {
-            if ($field == 'stat')
-            {
+        foreach ($output as $field => $value) {
+            if ($field == 'stat') {
                 continue;
             }
             $this->assertEquals($value, $privilege->$field, 'Difference in field ' . $field);
@@ -47,17 +45,13 @@ class midcom_core_privilegeTest extends openpsa_testcase
 
     public function providerStoreArray()
     {
-        return array
-        (
-            1 => array
-            (
-                'input' => array
-                (
+        return array(
+            1 => array(
+                'input' => array(
                     'privilegename' => 'midgard:read',
                     'value' => MIDCOM_PRIVILEGE_ALLOW,
                 ),
-                'output' => array
-                (
+                'output' => array(
                     'stat' => true,
                     'privilegename' => 'midgard:read'
                 )

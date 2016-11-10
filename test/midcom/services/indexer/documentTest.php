@@ -25,8 +25,7 @@ class midcom_services_indexer_documentTest extends openpsa_testcase
 
     public function provider_html2text()
     {
-        return array
-        (
+        return array(
             array('some string', 'some string'),
             array('<strong>some</strong> string', 'some string'),
             array("<strong>some\n</strong> string", 'some string'),

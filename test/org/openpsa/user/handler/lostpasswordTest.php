@@ -21,8 +21,7 @@ class org_openpsa_user_handler_lostpasswordTest extends openpsa_testcase
         $user = self::create_user();
         $account = new midcom_core_account($user);
         $old_password = $account->get_password();
-        $formdata = array
-        (
+        $formdata = array(
             'username' => $account->get_username()
         );
 

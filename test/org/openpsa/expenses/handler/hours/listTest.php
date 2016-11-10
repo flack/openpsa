@@ -46,10 +46,8 @@ class org_openpsa_expenses_handler_hours_listTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('org.openpsa.expenses');
 
-        $_GET = array
-        (
-            'date' => array
-            (
+        $_GET = array(
+            'date' => array(
                 'from' => '2011-10-03',
                 'to' => '2011-10-10'
             )

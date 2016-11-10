@@ -23,8 +23,7 @@ class org_openpsa_calendar_handler_adminTest extends openpsa_testcase
         $data = $this->run_handler('org.openpsa.calendar', array('event', 'edit', $event->guid));
         $this->assertEquals('event_edit', $data['handler_id']);
 
-        $formdata = array
-        (
+        $formdata = array(
             'start_date' => '2009-10-11',
             'start_hours' => '10',
             'start_minutes' => '15',

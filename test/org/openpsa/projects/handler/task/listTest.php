@@ -20,8 +20,7 @@ class org_openpsa_projects_handler_task_listTest extends openpsa_testcase
         $user = self::create_user(true);
 
         self::$_project = self::create_class_object('org_openpsa_projects_project');
-        $attributes = array
-        (
+        $attributes = array(
             'manager' => $user->id,
             'project' => self::$_project->id
         );

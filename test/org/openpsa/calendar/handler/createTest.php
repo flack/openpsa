@@ -40,8 +40,7 @@ class org_openpsa_calendar_handler_createTest extends openpsa_testcase
 
         $title = uniqid(__CLASS__ . '::' . __FUNCTION__);
 
-        $formdata = array
-        (
+        $formdata = array(
             'title' => $title,
             'start_date' => '2009-10-11',
             'start_hours' => '10',

@@ -25,8 +25,7 @@ class org_openpsa_helpers_listTest extends openpsa_testcase
 
         $result = org_openpsa_helpers_list::task_groups($salesproject);
 
-        $expected = array
-        (
+        $expected = array(
             0 => '',
             $org->id => $org->get_label()
         );

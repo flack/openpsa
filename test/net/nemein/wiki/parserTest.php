@@ -18,8 +18,7 @@ class net_nemein_wiki_parserTest extends openpsa_testcase
     public static function setUpBeforeClass()
     {
         $topic = self::get_component_node('net.nemein.wiki');
-        $attributes = array
-        (
+        $attributes = array(
             'topic' => $topic->id,
             'title' => uniqid(__CLASS__)
         );
@@ -43,20 +42,16 @@ class net_nemein_wiki_parserTest extends openpsa_testcase
 
     public function provider_find_links_in_content()
     {
-        return array
-        (
-            '1' => array
-            (
+        return array(
+            '1' => array(
                 'filler [link|Link Title] filler',
                 array('link' => 'Link Title')
             ),
-            '2' => array
-            (
+            '2' => array(
                 'filler [link] filler',
                 array('link' => 'link')
             ),
-            '3' => array
-            (
+            '3' => array(
                 'filler filler',
                 array()
             ),

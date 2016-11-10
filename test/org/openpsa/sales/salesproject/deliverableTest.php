@@ -89,15 +89,12 @@ class org_openpsa_sales_salesproject_deliverableTest extends openpsa_testcase
 
         $this->assertEquals($stat, $retval);
 
-        if ($retval === true)
-        {
+        if ($retval === true) {
             $salesproject = $this->_salesproject;
             $salesproject->refresh();
 
-            foreach ($results as $type => $values)
-            {
-                foreach ($values as $field => $value)
-                {
+            foreach ($results as $type => $values) {
+                foreach ($values as $field => $value) {
                     $this->assertEquals($value, $$type->$field, 'Difference in ' . $type . ' field ' . $field);
                 }
             }
@@ -106,78 +103,60 @@ class org_openpsa_sales_salesproject_deliverableTest extends openpsa_testcase
 
     public function providerOrder()
     {
-        return array
-        (
-            0 => array
-            (
-                'attributes' => array
-                (
-                    'product' => array
-                    (
+        return array(
+            0 => array(
+                'attributes' => array(
+                    'product' => array(
                         'delivery' => org_openpsa_products_product_dba::DELIVERY_SINGLE,
                         'type' => org_openpsa_products_product_dba::TYPE_GOODS,
                     ),
-                    'deliverable' => array
-                    (
+                    'deliverable' => array(
                         'plannedUnits' => 10,
                         'costPerUnit' => 2,
                     )
                 ),
                 true,
-                'results' => array
-                (
-                    'deliverable' => array
-                    (
+                'results' => array(
+                    'deliverable' => array(
                         'plannedUnits' => 10,
                         'state' => org_openpsa_sales_salesproject_deliverable_dba::STATE_ORDERED
                     ),
-                    'salesproject' => array
-                    (
+                    'salesproject' => array(
                         'state' => org_openpsa_sales_salesproject_dba::STATE_WON
                     )
                 ),
             ),
-            1 => array
-            (
-                'attributes' => array
-                (
+            1 => array(
+                'attributes' => array(
                     'product' => array(),
-                    'deliverable' => array
-                    (
+                    'deliverable' => array(
                         'state' => org_openpsa_sales_salesproject_deliverable_dba::STATE_ORDERED
                     )
                 ),
                 false,
                 'results' => array()
             ),
-            2 => array
-            (
-                'attributes' => array
-                (
-                    'product' => array
-                    (
+            2 => array(
+                'attributes' => array(
+                    'product' => array(
                         'delivery' => org_openpsa_products_product_dba::DELIVERY_SINGLE,
                         'type' => org_openpsa_products_product_dba::TYPE_GOODS,
                     ),
-                    'deliverable' => array
-                    (
+                    'deliverable' => array(
                         'plannedUnits' => 10,
                         'costPerUnit' => 2,
                         'invoiceByActualUnits' => true,
                     )
                 ),
                 true,
-                'results' => array
-                (
-                    'deliverable' => array
-                    (
+                'results' => array(
+                    'deliverable' => array(
                         'plannedUnits' => 10,
                         'cost' => 0,
                         'units' => 0,
                         'state' => org_openpsa_sales_salesproject_deliverable_dba::STATE_ORDERED
                     ),
-                    'salesproject' => array
-                    (
+                    'salesproject' => array(
                         'state' => org_openpsa_sales_salesproject_dba::STATE_WON
                     )
                 ),
@@ -190,8 +169,7 @@ class org_openpsa_sales_salesproject_deliverableTest extends openpsa_testcase
      */
     public function testDecline()
     {
-        $attributes = array
-        (
+        $attributes = array(
             'salesproject' => $this->_salesproject->id
         );
 
@@ -233,20 +211,16 @@ class org_openpsa_sales_salesproject_deliverableTest extends openpsa_testcase
         $attributes['salesproject'] = $salesproject->id;
 
         $deliverable = $this->create_object('org_openpsa_sales_salesproject_deliverable_dba', $attributes);
-        foreach ($results as $key => $value)
-        {
+        foreach ($results as $key => $value) {
             $this->assertEquals($value, $deliverable->$key, $key . ' test failed');
         }
     }
 
     public function providerCalculate_price()
     {
-        return array
-        (
-            array
-            (
-                array
-                (
+        return array(
+            array(
+                array(
                     'invoiceByActualUnits' => true,
                     'plannedUnits' => 1,
                     'units' => 1,
@@ -254,16 +228,13 @@ class org_openpsa_sales_salesproject_deliverableTest extends openpsa_testcase
                     'costPerUnit' => 10,
                     'costType' => 'm',
                 ),
-                array
-                (
+                array(
                     'price' => 100,
                     'cost' => 10,
                 ),
             ),
-            array
-            (
-                array
-                (
+            array(
+                array(
                     'invoiceByActualUnits' => false,
                     'plannedUnits' => 2,
                     'units' => 1,
@@ -271,16 +242,13 @@ class org_openpsa_sales_salesproject_deliverableTest extends openpsa_testcase
                     'costPerUnit' => 10,
                     'costType' => 'm',
                 ),
-                array
-                (
+                array(
                     'price' => 200,
                     'cost' => 20,
                 ),
             ),
-            array
-            (
-                array
-                (
+            array(
+                array(
                     'invoiceByActualUnits' => true,
                     'plannedUnits' => 0,
                     'units' => 2,
@@ -288,8 +256,7 @@ class org_openpsa_sales_salesproject_deliverableTest extends openpsa_testcase
                     'costPerUnit' => 10,
                     'costType' => '%',
                 ),
-                array
-                (
+                array(
                     'price' => 200,
                     'cost' => 20,
                 ),

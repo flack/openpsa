@@ -30,8 +30,7 @@ class org_openpsa_mypage_handler_workingonTest extends openpsa_testcase
         $task = $this->create_object('org_openpsa_projects_task_dba', array('project' => $project->id));
 
         $_SERVER['REQUEST_METHOD'] = 'POST';
-        $_POST = array
-        (
+        $_POST = array(
             'task' => $task->id,
             'description' => 'test',
             'action' => 'stop',

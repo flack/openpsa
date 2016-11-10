@@ -66,18 +66,14 @@ class org_openpsa_projects_handler_task_crudTest extends openpsa_testcase
         $this->assertEquals('task_edit', $data['handler_id']);
         $this->show_handler($data);
 
-        $formdata = array
-        (
-            'resources' => array
-            (
+        $formdata = array(
+            'resources' => array(
                 'selection' => json_encode(array($person->id))
             ),
-            'manager' => array
-            (
+            'manager' => array(
                 'selection' => json_encode(array($person->id))
             ),
-            'project' => array
-            (
+            'project' => array(
                 'selection' => json_encode(array(self::$_project->id))
             )
         );

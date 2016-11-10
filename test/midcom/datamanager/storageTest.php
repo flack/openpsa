@@ -19,14 +19,10 @@ class storageTest extends openpsa_testcase
         midcom::get()->auth->request_sudo('dm.test');
         $topic = new \midcom_db_topic;
 
-        $config = array
-        (
-            'fields' => array
-            (
-                'test' => array
-                (
-                    'storage' => array
-                    (
+        $config = array(
+            'fields' => array(
+                'test' => array(
+                    'storage' => array(
                         'location' => 'parameter',
                         'domain' => 'dm.test',
                         'name' => 'test',
@@ -53,14 +49,10 @@ class storageTest extends openpsa_testcase
         midcom::get()->auth->request_sudo('dm.test');
         $topic = $this->create_object('midcom_db_topic');
 
-        $config = array
-        (
-            'fields' => array
-            (
-                'test' => array
-                (
-                    'storage' => array
-                    (
+        $config = array(
+            'fields' => array(
+                'test' => array(
+                    'storage' => array(
                         'location' => 'parameter',
                         'domain' => 'dm.test',
                         'name' => 'test',
@@ -84,12 +76,9 @@ class storageTest extends openpsa_testcase
 
     public function test_process_blobs()
     {
-        $config = array
-        (
-            'fields' => array
-            (
-                'test' => array
-                (
+        $config = array(
+            'fields' => array(
+                'test' => array(
                     'title' => 'test',
                     'storage' => null,
                     'type' => 'blobs',

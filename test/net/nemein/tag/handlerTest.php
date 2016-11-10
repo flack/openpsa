@@ -23,25 +23,20 @@ class net_nemein_tag_handlerTest extends openpsa_testcase
 
     public function provider_resolve_tagname()
     {
-        return array
-        (
-            array
-            (
+        return array(
+            array(
                 'context: tagname =value',
                 'tagname'
             ),
-            array
-            (
+            array(
                 'context:"Tag Name"',
                 '"Tag Name"'
             ),
-            array
-            (
+            array(
                 'tagname=val',
                 'tagname'
             ),
-            array
-            (
+            array(
                 'tagname',
                 'tagname'
             ),
@@ -58,25 +53,20 @@ class net_nemein_tag_handlerTest extends openpsa_testcase
 
     public function provider_resolve_value()
     {
-        return array
-        (
-            array
-            (
+        return array(
+            array(
                 'context:tagname=value ',
                 'value'
             ),
-            array
-            (
+            array(
                 'context:tagname="Tag Name"',
                 '"Tag Name"'
             ),
-            array
-            (
+            array(
                 'tagname= val',
                 'val'
             ),
-            array
-            (
+            array(
                 'tagname',
                 ''
             ),
@@ -93,25 +83,20 @@ class net_nemein_tag_handlerTest extends openpsa_testcase
 
     public function provider_resolve_context()
     {
-        return array
-        (
-            array
-            (
+        return array(
+            array(
                 'context :tagname=value',
                 'context'
             ),
-            array
-            (
+            array(
                 'context:"Tag Name"',
                 'context'
             ),
-            array
-            (
+            array(
                 'tagname=val',
                 ''
             ),
-            array
-            (
+            array(
                 'tagname',
                 ''
             ),

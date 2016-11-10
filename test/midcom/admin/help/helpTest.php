@@ -73,54 +73,43 @@ class midcom_admin_help_helpTest extends openpsa_testcase
 
     public function provider_list_files()
     {
-        return array
-        (
-            array
-            (
+        return array(
+            array(
                 'org.openpsa.core',
                 false,
-                array
-                (
-                    'dependencies' => array
-                    (
+                array(
+                    'dependencies' => array(
                         'path' => '/dependencies',
                         'subject' => 'Component dependencies',
                         'lang' => 'en'
                     ),
-                    'urlmethods' => array
-                    (
+                    'urlmethods' => array(
                         'path' => '/urlmethods',
                         'subject' => 'Additional URL methods',
                         'lang' => 'en'
                     ),
                 )
             ),
-            array
-            (
+            array(
                 'net.nehmer.blog',
                 false,
-                array
-                (
-                    'dependencies' => array
-                    (
+                array(
+                    'dependencies' => array(
                         'path' => '/dependencies',
                         'subject' => 'Component dependencies',
                         'lang' => 'en'
                     ),
-                    '01_component_config' => array
-                    (
+                    '01_component_config' => array(
                         'path' => MIDCOM_ROOT . '/net/nehmer/blog/documentation/01_component_config.en.txt',
                         'subject' => 'Component configuration',
                         'lang' => 'en'
                     ),
-                    'mgdschemas' => array
-                    (
+                    'mgdschemas' => array(
                         'path' => '/mgdschemas',
                         'subject' => 'MgdSchema classes',
                         'lang' => 'en'
                     ),
-                    'style' => array
-                    (
+                    'style' => array(
                         'path' => MIDCOM_ROOT . '/net/nehmer/blog/documentation/style.en.txt',
                         'subject' => 'net.nehmer.blog style elements',
                         'lang' => 'en'

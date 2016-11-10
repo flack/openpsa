@@ -37,8 +37,7 @@ class midcom_db_personTest extends openpsa_testcase
         $this->assertEquals('Lastname, Firstname', $person->rname);
 
         $group = $this->create_object('midcom_db_group');
-        $attributes = array
-        (
+        $attributes = array(
             'gid' => $group->id,
             'uid' => $person->id
         );
@@ -52,7 +51,7 @@ class midcom_db_personTest extends openpsa_testcase
         $this->assertEquals(0, $qb->count());
 
         midcom::get()->auth->drop_sudo();
-     }
+    }
 
     /**
      * @dataProvider providerUpdate_computed_members
@@ -60,42 +59,34 @@ class midcom_db_personTest extends openpsa_testcase
     public function testUpdate_computed_members($attributes, $results)
     {
         $person = self::prepare_object('midcom_db_person', $attributes);
-        foreach ($results as $field => $value)
-        {
+        foreach ($results as $field => $value) {
             $this->assertEquals($value, $person->$field, 'Mismatch on field ' . $field);
         }
     }
 
     public function providerUpdate_computed_members()
     {
-        return array
-        (
-            array
-            (
-                array
-                (
+        return array(
+            array(
+                array(
                     'firstname' => 'FIRSTNAME',
                     'lastname' => 'LASTNAME',
                     'email' => 'test@test.com',
                 ),
-                array
-                (
+                array(
                     'name' => 'FIRSTNAME LASTNAME',
                     'rname' => 'LASTNAME, FIRSTNAME',
                     'emaillink' => '<a href="mailto:test@test.com" title="FIRSTNAME LASTNAME">test@test.com</a>',
                     'homepagelink' => '',
                 ),
             ),
-            array
-            (
-                array
-                (
+            array(
+                array(
                     'firstname' => '',
                     'lastname' => 'LASTNAME',
                     'homepage' => 'http://openpsa2.org',
                 ),
-                array
-                (
+                array(
                     'name' => 'LASTNAME',
                     'rname' => 'LASTNAME',
                     'emaillink' => '',

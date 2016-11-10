@@ -17,12 +17,12 @@ class midcom_connectionTest extends openpsa_testcase
     {
         $test_uri = '/test///test//250/test/0///';
         $target_uri = '/test/test/250/test/0/';
-        $method = new ReflectionMethod("midcom_connection" , "_parse_url");
+        $method = new ReflectionMethod("midcom_connection", "_parse_url");
         $method->setAccessible(true);
         
-        $method->invoke(null, $test_uri , '/' , '/');
+        $method->invoke(null, $test_uri, '/', '/');
         $uri = midcom_connection::get_url('uri');
         
-        $this->assertEquals($uri , $target_uri);
+        $this->assertEquals($uri, $target_uri);
     }
 }

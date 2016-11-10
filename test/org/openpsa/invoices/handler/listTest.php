@@ -61,8 +61,7 @@ class org_openpsa_invoices_handler_listTest extends openpsa_testcase
         $deliverable = $this->create_object('org_openpsa_sales_salesproject_deliverable_dba', array('salesproject' => $salesproject->id));
 
         $invoice  = $this->create_object('org_openpsa_invoices_invoice_dba');
-        $attributes = array
-        (
+        $attributes = array(
             'invoice' => $invoice->id,
             'deliverable' => $deliverable->id
         );

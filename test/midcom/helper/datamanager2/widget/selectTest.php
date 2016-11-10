@@ -17,21 +17,17 @@ class midcom_helper_datamanager2_widget_selectTest extends openpsa_testcase
 {
     public function test_get_default()
     {
-        $config = array
-        (
-            'type_config' => array
-            (
+        $config = array(
+            'type_config' => array(
                 'allow_multiple' => false,
-                'options' => array
-                (
+                'options' => array(
                     1 => 'value 1',
                     2 => 'value 2'
                 )
             )
         );
 
-        $default_values = array
-        (
+        $default_values = array(
             'test_select_1' => array(2)
         );
 

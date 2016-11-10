@@ -51,20 +51,15 @@ class midcom_helper_search_handler_searchTest extends openpsa_testcase
 
     public function provider_result()
     {
-        return array
-        (
-            1 => array
-            (
-                array
-                (
+        return array(
+            1 => array(
+                array(
                     'type' => 'basic',
                     'query' => 'test'
                 )
             ),
-            2 => array
-            (
-                array
-                (
+            2 => array(
+                array(
                     'type' => 'advanced',
                     'query' => 'test',
                     'append_terms' => array('test1', 'test2'),

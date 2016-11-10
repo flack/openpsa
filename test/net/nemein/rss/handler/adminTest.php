@@ -18,8 +18,7 @@ class net_nemein_rss_handler_adminTest extends openpsa_testcase
     public static function setUpBeforeClass()
     {
         self::create_user(true);
-        $data = array
-        (
+        $data = array(
             'component' => 'net.nehmer.blog',
             'name' => __CLASS__ . time()
         );

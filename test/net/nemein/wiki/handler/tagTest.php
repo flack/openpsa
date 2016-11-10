@@ -18,15 +18,13 @@ class net_nemein_wiki_handler_tagTest extends openpsa_testcase
 
     public static function setUpBeforeClass()
     {
-        $topic_attributes = array
-        (
+        $topic_attributes = array(
             'component' => 'net.nemein.wiki',
             'name' => __CLASS__ . time()
         );
         self::$_topic = self::create_class_object('midcom_db_topic', $topic_attributes);
 
-        $article_properties = array
-        (
+        $article_properties = array(
             'topic' => self::$_topic->id,
             'title' => __CLASS__ . ' ' . time()
         );
@@ -35,8 +33,7 @@ class net_nemein_wiki_handler_tagTest extends openpsa_testcase
 
     public function testHandler_tagged()
     {
-        $article_properties = array
-        (
+        $article_properties = array(
             'topic' => self::$_topic->id,
             'title' => __CLASS__ . ' ' . __FUNCTION__ . ' ' . time()
         );

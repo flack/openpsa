@@ -26,12 +26,10 @@ class openpsa_test_campaign_helper
 
     public function get_campaign($type = org_openpsa_directmarketing_campaign_dba::TYPE_NORMAL)
     {
-        if (!$this->_campaign)
-        {
+        if (!$this->_campaign) {
             $topic = openpsa_testcase::get_component_node('org.openpsa.directmarketing');
 
-            $attributes = array
-            (
+            $attributes = array(
                 'node' => $topic->id,
                 'orgOpenpsaObtype' => $type
             );
@@ -43,11 +41,9 @@ class openpsa_test_campaign_helper
 
     public function get_member(midcom_db_person $person)
     {
-        if (!$this->_member)
-        {
+        if (!$this->_member) {
             $campaign = $this->get_campaign();
-            $parameters = array
-            (
+            $parameters = array(
                 'campaign' => $campaign->id,
                 'person' => $person->id
             );
@@ -58,8 +54,7 @@ class openpsa_test_campaign_helper
 
     public function get_log(org_openpsa_directmarketing_campaign_message_dba $message, midcom_db_person $person)
     {
-        $parameters = array
-        (
+        $parameters = array(
             'message' => $message->id,
             'person' => $person->id,
             'timestamp' => time(),
@@ -71,8 +66,7 @@ class openpsa_test_campaign_helper
 
     public function get_receipt(org_openpsa_directmarketing_campaign_message_dba $message, midcom_db_person $person)
     {
-        $parameters = array
-        (
+        $parameters = array(
             'message' => $message->id,
             'person' => $person->id,
             'timestamp' => time(),
@@ -84,11 +78,9 @@ class openpsa_test_campaign_helper
 
     public function get_message()
     {
-        if (!$this->_message)
-        {
+        if (!$this->_message) {
             $campaign = $this->get_campaign();
-            $parameters = array
-            (
+            $parameters = array(
                 'campaign' => $campaign->id,
             );
             $this->_message = $this->_testcase->create_object('org_openpsa_directmarketing_campaign_message_dba', $parameters);

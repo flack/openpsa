@@ -17,8 +17,7 @@ class net_nemein_redirector_handler_tinyurlTest extends openpsa_testcase
 
     public static function setUpBeforeClass()
     {
-        $topic_attributes = array
-        (
+        $topic_attributes = array(
             'component' => 'net.nemein.redirector',
             'name' => __CLASS__ . time()
         );
@@ -39,8 +38,7 @@ class net_nemein_redirector_handler_tinyurlTest extends openpsa_testcase
     public function testHandler_edit()
     {
         midcom::get()->auth->request_sudo('net.nemein.redirector');
-        $attributes = array
-        (
+        $attributes = array(
             'node' => self::$_topic->guid,
             'name' => net_nemein_redirector_tinyurl_dba::generate()
         );

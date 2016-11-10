@@ -17,8 +17,7 @@ class net_nemein_wiki_handler_createTest extends openpsa_testcase
 
     public static function setUpBeforeClass()
     {
-        $topic_attributes = array
-        (
+        $topic_attributes = array(
             'component' => 'net.nemein.wiki',
             'name' => __CLASS__ . time()
         );

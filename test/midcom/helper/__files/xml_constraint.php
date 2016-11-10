@@ -17,8 +17,7 @@ class xml_comparison extends PHPUnit_Framework_Constraint_IsEqual
 {
     public function __construct($value, $delta = 0, $maxDepth = 10, $canonicalize = false, $ignoreCase = false)
     {
-        if (!is_string($value))
-        {
+        if (!is_string($value)) {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(2, 'string');
         }
         $this->value = $this->_normalize_string($value, 2);
@@ -28,8 +27,7 @@ class xml_comparison extends PHPUnit_Framework_Constraint_IsEqual
     {
         $doc = new DOMDocument;
 
-        if (!$doc->loadXML($string))
-        {
+        if (!$doc->loadXML($string)) {
             throw PHPUnit_Util_InvalidArgumentHelper::factory($argument, 'valid XML');
         }
         $xpath = new DOMXPath($doc);
@@ -41,20 +39,17 @@ class xml_comparison extends PHPUnit_Framework_Constraint_IsEqual
 
         $nodes = $xpath->query('//*/*');
         $map = array();
-        foreach ($nodes as $node)
-        {
+        foreach ($nodes as $node) {
             if (   $node->tagName == 'lang'
                 || $node->tagName == 'sid'
-                || $node->tagName == 'sitegroup')
-            {
+                || $node->tagName == 'sitegroup') {
                 //skip midgard 1 properties
                 continue;
             }
             $map[$node->tagName] = $node;
         }
         ksort($map);
-        foreach ($map as $node)
-        {
+        foreach ($map as $node) {
             $node = $new_doc->importNode($node, true);
             $new_doc->documentElement->appendChild($node);
         }
@@ -64,8 +59,7 @@ class xml_comparison extends PHPUnit_Framework_Constraint_IsEqual
 
     public function evaluate($other, $description = '', $returnResult = false)
     {
-        if (!is_string($other))
-        {
+        if (!is_string($other)) {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(1, 'string');
         }
 

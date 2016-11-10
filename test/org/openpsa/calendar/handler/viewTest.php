@@ -33,8 +33,7 @@ class org_openpsa_calendar_handler_viewTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('org.openpsa.calendar');
 
-        $_GET = array
-        (
+        $_GET = array(
             'start' => time(),
             'end' => time() + 3600,
         );

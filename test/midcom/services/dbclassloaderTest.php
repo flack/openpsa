@@ -24,13 +24,10 @@ class midcom_services_dbclassloaderTest extends openpsa_testcase
 
     public function providerGet_component_classes()
     {
-        return array
-        (
-            array
-            (
+        return array(
+            array(
                 'org.openpsa.projects',
-                array
-                (
+                array(
                     'org_openpsa_hour_report' => 'org_openpsa_projects_hour_report_dba',
                     'org_openpsa_project' => 'org_openpsa_projects_project',
                     'org_openpsa_task' => 'org_openpsa_projects_task_dba',
@@ -52,23 +49,18 @@ class midcom_services_dbclassloaderTest extends openpsa_testcase
 
     public function providerGet_midcom_class_name_for_mgdschema_object()
     {
-        $ret = array
-        (
-            array
-            (
+        $ret = array(
+            array(
                 new org_openpsa_task,
                 'org_openpsa_projects_task_dba'
             ),
-            array
-            (
+            array(
                 new midgard_person,
                 'midcom_db_person'
             )
         );
-        if (class_exists('openpsa_person'))
-        {
-            $ret[] = array
-            (
+        if (class_exists('openpsa_person')) {
+            $ret[] = array(
                 new openpsa_person,
                 'midcom_db_person'
             );

@@ -53,23 +53,20 @@ class org_openpsa_invoices_invoiceTest extends openpsa_testcase
         $invoice = $this->create_object('org_openpsa_invoices_invoice_dba');
 
         $salesproject = $this->create_object('org_openpsa_sales_salesproject_dba');
-        $deliverable_attributes = array
-        (
+        $deliverable_attributes = array(
             'salesproject' => $salesproject->id,
             'pricePerUnit' => 10
         );
         $deliverable = $this->create_object('org_openpsa_sales_salesproject_deliverable_dba', $deliverable_attributes);
 
-        $task_attributes = array
-        (
+        $task_attributes = array(
             'agreement' => $deliverable->id,
             'project' => $salesproject->id
         );
         $task1 = $this->create_object('org_openpsa_projects_task_dba', $task_attributes);
         $task2 = $this->create_object('org_openpsa_projects_task_dba', $task_attributes);
 
-        $report_attributes = array
-        (
+        $report_attributes = array(
             'invoice' => $invoice->id,
             'hours' => 1,
             'invoiceable' => true,
