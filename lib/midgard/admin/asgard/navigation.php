@@ -292,7 +292,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
             {
                 $this->_request_data['expanded'] = true;
                 midcom_show_style('midgard_admin_asgard_navigation_section_header');
-                call_user_func(array($class,'navigation'));
+                call_user_func(array($class, 'navigation'));
             }
             else
             {
