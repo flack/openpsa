@@ -64,7 +64,7 @@ class org_routamc_positioning_utils extends midcom_baseclasses_components_pureco
             }
         }
 
-        $dirs = array("N","E","S","W");
+        $dirs = array("N", "E", "S", "W");
 
         $rounded = round($bearing / 22.5) % 16;
         if (($rounded % 4) == 0)
