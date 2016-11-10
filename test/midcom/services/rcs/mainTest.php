@@ -13,18 +13,6 @@
  */
 class midcom_services_rcs_mainTest extends openpsa_testcase
 {
-    public function test__construct()
-    {
-        $conf = new midcom_config;
-        $conf['midcom_services_rcs_root'] = '/tmp';
-        $conf['midcom_services_rcs_bin_dir'] = '/usr/bin';
-        $conf['midcom_services_rcs_enable'] = true;
-
-        $rcs = new midcom_services_rcs($conf);
-
-        $this->assertEquals('midcom_services_rcs_config', get_class($rcs->config));
-    }
-
     public function test_load_handler()
     {
         $conf = new midcom_config;
@@ -39,7 +27,7 @@ class midcom_services_rcs_mainTest extends openpsa_testcase
 
         $topic = $this->create_object('midcom_db_topic');
         $handler = $rcs->load_handler($topic);
-        $this->assertEquals('midcom_services_rcs_backend_rcs', get_class($handler));
+        $this->assertInstanceOf('midcom_services_rcs_backend_rcs', $handler);
     }
 
     public function test_update()

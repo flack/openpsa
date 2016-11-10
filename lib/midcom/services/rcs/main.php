@@ -31,7 +31,7 @@ class midcom_services_rcs
      *
      * @var midcom_services_rcs_config
      */
-    var $config;
+    private $config;
 
     /**
      * Constructor

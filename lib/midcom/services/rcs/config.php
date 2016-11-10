@@ -21,7 +21,7 @@ class midcom_services_rcs_config
      *
      * @var array
      */
-    public $config = null;
+    private $config = null;
 
     /**
      * Constructor
@@ -36,18 +36,10 @@ class midcom_services_rcs_config
      *
      * @return midcom_services_rcs_backend
      */
-    function get_handler($object)
+    public function get_handler($object)
     {
         $class = $this->_get_handler_class();
         return new $class($object, $this);
-    }
-
-    /**
-     * Return an array() of config options.
-     */
-    function _get_config()
-    {
-        return $this->config;
     }
 
     /**

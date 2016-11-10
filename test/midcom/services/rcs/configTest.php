@@ -51,7 +51,7 @@ class midcom_services_rcs_configTest extends openpsa_testcase
 
         $config = new midcom_services_rcs_config($conf);
         $handler = $config->get_handler($topic);
-        $this->assertEquals('midcom_services_rcs_backend_rcs', get_class($handler));
+        $this->assertInstanceOf('midcom_services_rcs_backend_rcs', $handler);
 
         $conf['midcom_services_rcs_enable'] = false;
 
@@ -59,6 +59,6 @@ class midcom_services_rcs_configTest extends openpsa_testcase
 
         $config = new midcom_services_rcs_config($conf);
         $handler = $config->get_handler($topic);
-        $this->assertEquals('midcom_services_rcs_backend_null', get_class($handler));
+        $this->assertInstanceOf('midcom_services_rcs_backend_null', $handler);
     }
 }
