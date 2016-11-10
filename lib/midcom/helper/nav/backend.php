@@ -120,7 +120,7 @@ class midcom_helper_nav_backend
      *
      * @var Array
      */
-    private $_loaded_leaves = Array();
+    private $_loaded_leaves = array();
 
     /**#@-*/
 
@@ -158,7 +158,7 @@ class midcom_helper_nav_backend
      *
      * @var Array
      */
-    private $_node_path = Array();
+    private $_node_path = array();
 
     /**
      * User id for ACL checks. This is set when instantiating to avoid unnecessary overhead
@@ -640,7 +640,7 @@ class midcom_helper_nav_backend
         }
 
         $leafdata = $interface->get_leaves();
-        $leaves = Array();
+        $leaves = array();
 
         foreach ($leafdata as $id => $leaf)
         {

@@ -25,7 +25,7 @@ class midcom_helper_datamanager2_controller_nullstorage extends midcom_helper_da
      *
      * @var Array
      */
-    public $defaults = Array();
+    public $defaults = array();
 
     /**
      * The name of the schema to use. If this is left to null, the first schema

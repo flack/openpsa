@@ -4,7 +4,7 @@ midcom::get()->auth->require_admin_user();
 // If we import some other database than Geonames this is the place to tune
 // Also, the Geonames dump format may change. See http://download.geonames.org/export/dump/readme.txt
 // The current state of this, incl. comments reflects the Geonames format as of 2008-12-15
-$fields_map = Array(
+$fields_map = array(
     'geonameid'        => 0, // integer id of record in geonames database
     'name'             => 1, // name of geographical point (utf8) varchar(200)
     'asciiname'        => 2, // name of geographical point in plain ascii characters, varchar(200)
@@ -36,7 +36,7 @@ if (   array_key_exists('cities_file_path', $_POST)
     proc_nice(10);
     while (@ob_end_flush());
 
-    $imported_cities = Array();
+    $imported_cities = array();
 
     // Read CSV file
     $cities_created = 0;

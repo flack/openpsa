@@ -29,14 +29,14 @@ class midcom_core_temporary_object extends midcom_core_dbaobject
      */
     public function get_class_magic_default_privileges()
     {
-        return Array
+        return array
         (
-            'EVERYONE' => Array
+            'EVERYONE' => array
             (
                 'midgard:owner' => MIDCOM_PRIVILEGE_ALLOW,
             ),
-            'ANONYMOUS' => Array(),
-            'USERS' => Array(),
+            'ANONYMOUS' => array(),
+            'USERS' => array(),
         );
     }
 

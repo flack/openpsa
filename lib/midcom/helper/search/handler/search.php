@@ -185,7 +185,7 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
             // the indexer backend though (what would I give for a decent exception
             // handling here...)
             debug_add('Got boolean false as resultset (likely broken query), casting to empty array', MIDCOM_LOG_WARN);
-            $result = Array();
+            $result = array();
         }
 
         $count = count($result);

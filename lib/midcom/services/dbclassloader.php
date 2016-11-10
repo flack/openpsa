@@ -60,7 +60,7 @@ class midcom_services_dbclassloader
      *
      * @var Array
      */
-    private $_midgard_classes = Array();
+    private $_midgard_classes = array();
 
     /**
      * A mapping storing which component handles which class.
@@ -71,7 +71,7 @@ class midcom_services_dbclassloader
      *
      * @var Array
      */
-    private $_mgdschema_class_handler = Array();
+    private $_mgdschema_class_handler = array();
 
     /**
      * This is the main class loader function. It takes a component/filename pair as

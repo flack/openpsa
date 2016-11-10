@@ -32,7 +32,7 @@ class midcom_admin_folder_selectcomponent extends  midcom_helper_datamanager2_wi
 
         if ($this->_field['readonly'])
         {
-            $this->_all_elements = Array();
+            $this->_all_elements = array();
             foreach ($this->_type->selection as $key)
             {
                 $this->_all_elements[$key] = $this->_type->get_name_for_key($key);

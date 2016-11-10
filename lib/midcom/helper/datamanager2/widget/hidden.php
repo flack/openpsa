@@ -41,7 +41,7 @@ class midcom_helper_datamanager2_widget_hidden extends midcom_helper_datamanager
         if (is_a($this->_type, 'midcom_helper_datamanager2_type_number'))
         {
             $this->_form->addRule($this->name, $this->_translate('validation failed: numeric'), 'regex', '/^-?[0-9]*([.,][0-9]*)?$/');
-            $this->_form->addFormRule(Array(&$this->_type, 'validate_number'));
+            $this->_form->addFormRule(array(&$this->_type, 'validate_number'));
         }
     }
 

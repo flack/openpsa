@@ -346,21 +346,21 @@ class midcom_services_auth_acl
             array
             (
                 // Midgard core level privileges
-                'midgard:update' => Array (MIDCOM_PRIVILEGE_DENY, MIDCOM_PRIVILEGE_ALLOW),
-                'midgard:delete' => Array (MIDCOM_PRIVILEGE_DENY, MIDCOM_PRIVILEGE_ALLOW),
-                'midgard:create' => Array (MIDCOM_PRIVILEGE_DENY, MIDCOM_PRIVILEGE_ALLOW),
-                'midgard:read' => Array (MIDCOM_PRIVILEGE_ALLOW, MIDCOM_PRIVILEGE_ALLOW),
-                'midgard:parameters' => Array (MIDCOM_PRIVILEGE_ALLOW, MIDCOM_PRIVILEGE_ALLOW),
-                'midgard:attachments' => Array (MIDCOM_PRIVILEGE_ALLOW, MIDCOM_PRIVILEGE_ALLOW),
+                'midgard:update' => array (MIDCOM_PRIVILEGE_DENY, MIDCOM_PRIVILEGE_ALLOW),
+                'midgard:delete' => array (MIDCOM_PRIVILEGE_DENY, MIDCOM_PRIVILEGE_ALLOW),
+                'midgard:create' => array (MIDCOM_PRIVILEGE_DENY, MIDCOM_PRIVILEGE_ALLOW),
+                'midgard:read' => array (MIDCOM_PRIVILEGE_ALLOW, MIDCOM_PRIVILEGE_ALLOW),
+                'midgard:parameters' => array (MIDCOM_PRIVILEGE_ALLOW, MIDCOM_PRIVILEGE_ALLOW),
+                'midgard:attachments' => array (MIDCOM_PRIVILEGE_ALLOW, MIDCOM_PRIVILEGE_ALLOW),
                 'midgard:autoserve_attachment' => MIDCOM_PRIVILEGE_ALLOW,
-                'midgard:privileges' => Array (MIDCOM_PRIVILEGE_DENY, MIDCOM_PRIVILEGE_ALLOW),
+                'midgard:privileges' => array (MIDCOM_PRIVILEGE_DENY, MIDCOM_PRIVILEGE_ALLOW),
                 'midgard:owner' => MIDCOM_PRIVILEGE_DENY,
 
                 // MidCOM core level privileges
                 'midcom:approve' => MIDCOM_PRIVILEGE_DENY,
-                'midcom:component_config' => Array (MIDCOM_PRIVILEGE_DENY, MIDCOM_PRIVILEGE_ALLOW),
+                'midcom:component_config' => array (MIDCOM_PRIVILEGE_DENY, MIDCOM_PRIVILEGE_ALLOW),
                 'midcom:urlname' => MIDCOM_PRIVILEGE_DENY,
-                'midcom:isonline' => Array (MIDCOM_PRIVILEGE_DENY, MIDCOM_PRIVILEGE_ALLOW),
+                'midcom:isonline' => array (MIDCOM_PRIVILEGE_DENY, MIDCOM_PRIVILEGE_ALLOW),
                 'midcom:ajax' => MIDCOM_PRIVILEGE_DENY,
                 'midcom:centralized_toolbar' => MIDCOM_PRIVILEGE_DENY,
                 'midcom:unlock' => MIDCOM_PRIVILEGE_DENY,
@@ -777,7 +777,7 @@ class midcom_services_auth_acl
         }
 
         // Initialize this one to be sure to have it.
-        $default_magic_class_privileges = Array();
+        $default_magic_class_privileges = array();
 
         if ($class !== null)
         {
@@ -805,8 +805,8 @@ class midcom_services_auth_acl
 
         if (is_null($user))
         {
-            $user_privileges = Array();
-            $user_per_class_privileges = Array();
+            $user_privileges = array();
+            $user_per_class_privileges = array();
             if ($tmp_object !== null)
             {
                 $default_magic_class_privileges = array_merge

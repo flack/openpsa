@@ -266,7 +266,7 @@ class midcom_services_indexer implements EventSubscriberInterface
             debug_add("Failed to execute the query, aborting.", MIDCOM_LOG_INFO);
             return false;
         }
-        $result = Array();
+        $result = array();
         foreach ($result_raw as $document)
         {
             $document->fields_to_members();

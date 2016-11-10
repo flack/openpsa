@@ -317,7 +317,7 @@ class midcom_core_user
         {
             $this->_load_privileges();
         }
-        $result = Array();
+        $result = array();
         foreach ($this->_per_class_privileges as $class => $privileges)
         {
             if (midcom::get()->dbfactory->is_a($object, $class))
@@ -389,13 +389,13 @@ class midcom_core_user
             $this->_load_direct_groups();
         }
 
-        $this->_all_groups = Array();
-        $this->_inheritance_chains = Array();
+        $this->_all_groups = array();
+        $this->_inheritance_chains = array();
 
         foreach ($this->_direct_groups as $id => $group)
         {
             $this->_all_groups[$id] =& $this->_direct_groups[$id];
-            $inheritance_chain = Array($group->id);
+            $inheritance_chain = array($group->id);
             /**
              * FIXME: Parent group members should inherit permissions from
              * the child groups, not the other way around!!!
@@ -420,7 +420,7 @@ class midcom_core_user
      */
     private function _load_privileges()
     {
-        static $cache = Array();
+        static $cache = array();
 
         if (!array_key_exists($this->id, $cache))
         {
@@ -431,8 +431,8 @@ class midcom_core_user
                 $this->_load_all_groups();
             }
 
-            $this->_privileges = Array();
-            $this->_per_class_privileges = Array();
+            $this->_privileges = array();
+            $this->_per_class_privileges = array();
 
             foreach ($this->_inheritance_chains as $inheritance_chain)
             {

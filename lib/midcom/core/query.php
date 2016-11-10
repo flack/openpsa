@@ -116,7 +116,7 @@ abstract class midcom_core_query
             throw new midcom_error("Cannot create a midcom_core_query instance for the type {$classname}: Class does not exist.");
         }
 
-        static $_class_mapping_cache = Array();
+        static $_class_mapping_cache = array();
 
         $this->_real_class = $classname;
         if (empty($_class_mapping_cache[$classname]))

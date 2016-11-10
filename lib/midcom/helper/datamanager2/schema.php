@@ -30,7 +30,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
      *
      * @var Array
      */
-    var $fields = Array();
+    var $fields = array();
 
     /**
      * The title of this schema, used to display schemas when
@@ -81,7 +81,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
      *
      * @var Array
      */
-    var $field_order = Array();
+    var $field_order = array();
 
     /**
      * The operations to add to the form.
@@ -91,7 +91,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
      *
      * @var Array
      */
-    var $operations = Array('save' => '', 'cancel' => '');
+    var $operations = array('save' => '', 'cancel' => '');
 
     /**
      * This array holds custom information attached to this schema. Its exact usage is component
@@ -99,7 +99,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
      *
      * @var Array
      */
-    var $customdata = Array();
+    var $customdata = array();
 
     /**
      * Form-wide validation callbacks, executed by QuickForm. This is a list of arrays. Each
@@ -108,7 +108,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
      *
      * @var Array
      */
-    var $validation = Array();
+    var $validation = array();
 
     /**
      * Custom data filter rules.
@@ -119,7 +119,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
      *
      * @var Array
      */
-    var $filters = Array();
+    var $filters = array();
 
     /**
      * Construct a schema, takes a schema snippet URI resolvable through the
@@ -508,12 +508,12 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
         if (   !array_key_exists('type_config', $config)
             || !is_array($config['type_config']))
         {
-            $config['type_config'] = Array();
+            $config['type_config'] = array();
         }
         if (   !array_key_exists('widget_config', $config)
             || !is_array($config['type_config']))
         {
-            $config['widget_config'] = Array();
+            $config['widget_config'] = array();
         }
 
         $config['validation'] = $this->_complete_validation_field($config);

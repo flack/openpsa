@@ -320,15 +320,15 @@ class midcom_config implements arrayaccess
 
         // Cache configuration
         'cache_base_directory' => '/tmp/',
-        'cache_autoload_queue' => Array('content', 'nap', 'memcache'),
+        'cache_autoload_queue' => array('content', 'nap', 'memcache'),
 
         // Content Cache
         'cache_module_content_name' => 'auto',
 
         //Memory Caching Daemon
         'cache_module_memcache_backend' => 'flatfile',
-        'cache_module_memcache_backend_config' => Array(),
-        'cache_module_memcache_data_groups' => Array('ACL', 'PARENT', 'L10N', 'MISC'),
+        'cache_module_memcache_backend_config' => array(),
+        'cache_module_memcache_data_groups' => array('ACL', 'PARENT', 'L10N', 'MISC'),
 
         // Defaults:
         'cache_module_content_backend' => array('driver' => 'flatfile'),
@@ -344,7 +344,7 @@ class midcom_config implements arrayaccess
         'cache_module_content_caching_strategy' => 'user',
 
         // NAP Cache
-        'cache_module_nap_backend' => Array() /* Auto-Detect */,
+        'cache_module_nap_backend' => array() /* Auto-Detect */,
 
         // CRON Service configuration
         'cron_day_hours' => 0,
@@ -359,7 +359,7 @@ class midcom_config implements arrayaccess
         // Indexer Configuration
         'indexer_backend' => false,
         'indexer_index_name' => 'auto',
-        'indexer_reindex_allowed_ips' => Array('127.0.0.1'),
+        'indexer_reindex_allowed_ips' => array('127.0.0.1'),
 
         'indexer_config_options' => array('fl' => '*,score', 'rows' => 1000, 'defType' => 'dismax', 'qf' => 'content'),
 
@@ -390,7 +390,7 @@ class midcom_config implements arrayaccess
         'show_unapproved_objects' => true,
         // Style Engine defaults
         'styleengine_relative_paths' => false,
-        'styleengine_default_styles' => Array(),
+        'styleengine_default_styles' => array(),
 
         // Toolbars service
         'toolbars_host_style_class' => 'midcom_toolbar host_toolbar',
@@ -520,11 +520,11 @@ class midcom_config implements arrayaccess
         /* ----- MERGE THE CONFIGURATION ----- */
         if (!array_key_exists('midcom_config_site', $GLOBALS))
         {
-            $GLOBALS['midcom_config_site'] = Array();
+            $GLOBALS['midcom_config_site'] = array();
         }
         if (!array_key_exists('midcom_config_local', $GLOBALS))
         {
-            $GLOBALS['midcom_config_local'] = Array();
+            $GLOBALS['midcom_config_local'] = array();
         }
         $this->_merged_config = array_merge
         (

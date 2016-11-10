@@ -101,7 +101,7 @@ implements org_openpsa_widgets_grid_provider_client
     {
         parent::_handler_generator($handler_id, $args, $data);
 
-        $data['invoices'] = Array();
+        $data['invoices'] = array();
 
         // Calculate time range
         $data['start'] = $this->_request_data['query_data']['start'];

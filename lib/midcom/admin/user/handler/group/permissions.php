@@ -27,7 +27,7 @@ class midcom_admin_user_handler_group_permissions extends midcom_baseclasses_com
     {
         $this->add_breadcrumb("__mfa/asgard_midcom.admin.user/", $this->_l10n->get('midcom.admin.user'));
 
-        $tmp = Array();
+        $tmp = array();
         $grp = $this->_group;
 
         while ($grp)

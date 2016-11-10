@@ -93,7 +93,7 @@ class net_nemein_wiki_handler_latest extends midcom_baseclasses_components_handl
      */
     public function _handler_latest($handler_id, array $args, array &$data)
     {
-        $this->_request_data['latest_pages'] = Array();
+        $this->_request_data['latest_pages'] = array();
 
         $this->_max_pages = $this->_config->get('latest_count');
 

@@ -181,7 +181,7 @@ class midcom_helper_toolbar
      *
      * @var Array
      */
-    public $customdata = Array();
+    public $customdata = array();
 
     /**
      * Basic constructor, initializes the class and sets defaults for the
@@ -461,7 +461,7 @@ class midcom_helper_toolbar
      */
     public function remove_all_items()
     {
-        $this->items = Array();
+        $this->items = array();
     }
 
     /**

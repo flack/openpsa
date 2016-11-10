@@ -24,7 +24,7 @@ class midcom_core_nullcomponent_viewer extends midcom_baseclasses_components_req
         // Handle /
         $this->_request_switch['index'] = array
         (
-            'handler' => Array('midcom_core_nullcomponent_handler_index', 'index'),
+            'handler' => array('midcom_core_nullcomponent_handler_index', 'index'),
         );
     }
 }

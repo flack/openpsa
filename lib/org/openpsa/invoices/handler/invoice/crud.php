@@ -142,7 +142,7 @@ class org_openpsa_invoices_handler_invoice_crud extends midcom_baseclasses_compo
         $fields['customerContact']['type_config']['options'] = $persons_array;
 
         // And display the organization too
-        $organization_array = Array();
+        $organization_array = array();
         $organization_array[$customer->id] = $customer->official;
 
         $fields['customer']['widget'] = 'select';

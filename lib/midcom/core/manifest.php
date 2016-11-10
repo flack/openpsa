@@ -260,7 +260,7 @@ class midcom_core_manifest
      *
      * @var Array
      */
-    public $privileges = Array();
+    public $privileges = array();
 
     /**
      * A list of class definition filenames
@@ -269,7 +269,7 @@ class midcom_core_manifest
      *
      * @var array
      */
-    public $class_mapping = Array();
+    public $class_mapping = array();
 
     /**
      * A list of all watches defined by the component.
@@ -286,7 +286,7 @@ class midcom_core_manifest
      *
      * @var array
      */
-    public $customdata = Array();
+    public $customdata = array();
 
     /**
      * the filename the manifest was loaded from

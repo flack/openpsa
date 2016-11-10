@@ -209,7 +209,7 @@ EOT;
     private function _create_elements($frozen = false)
     {
         $elements = array();
-        $attributes = Array
+        $attributes = array
         (
             'class' => 'jsdate',
             'id'    => "{$this->_namespace}{$this->name}_date",
@@ -219,7 +219,7 @@ EOT;
 
         if ($this->show_time)
         {
-            $attributes = Array
+            $attributes = array
             (
                 'class' => 'jsdate_hours',
                 'id'    => "{$this->_namespace}{$this->name}_hours",
@@ -228,7 +228,7 @@ EOT;
             );
             $elements[] = $this->_form->createElement('text', "{$this->name}_hours", '', $attributes);
             $elements[] = $this->_form->createElement('static', "{$this->name}_hours_separator", '', ':');
-            $attributes = Array
+            $attributes = array
             (
                 'class' => 'jsdate_minutes',
                 'id'    => "{$this->_namespace}{$this->name}_minutes",
@@ -240,7 +240,7 @@ EOT;
             if (!$this->hide_seconds)
             {
                 $elements[] = $this->_form->createElement('static', "{$this->name}_minutes_separator", '', ':');
-                $attributes = Array
+                $attributes = array
                 (
                     'class' => 'jsdate_seconds',
                     'id'    => "{$this->_namespace}{$this->name}_seconds",

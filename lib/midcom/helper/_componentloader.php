@@ -69,7 +69,7 @@ class midcom_helper__componentloader
      *
      * @var Array
      */
-    private $_loaded = Array();
+    private $_loaded = array();
 
     /**
      * This array contains a list of components that were tried to be loaded.
@@ -481,7 +481,7 @@ class midcom_helper__componentloader
      */
     public function get_all_manifest_customdata($component, $showempty = false)
     {
-        $result = Array();
+        $result = array();
         foreach ($this->manifests as $manifest)
         {
             if (array_key_exists($component, $manifest->customdata))
@@ -490,7 +490,7 @@ class midcom_helper__componentloader
             }
             else if ($showempty)
             {
-                $result[$manifest->name] = Array();
+                $result[$manifest->name] = array();
             }
         }
         return $result;

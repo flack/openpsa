@@ -88,7 +88,7 @@ class midcom_helper_metadata
      *
      * @var Array
      */
-    private $_cache = Array();
+    private $_cache = array();
 
     /**
      * The schema database URL to use for this instance.
@@ -438,7 +438,7 @@ class midcom_helper_metadata
         }
         else
         {
-            $this->_cache = Array();
+            $this->_cache = array();
         }
 
         if (!empty($this->guid))

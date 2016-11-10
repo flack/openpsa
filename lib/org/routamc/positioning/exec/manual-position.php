@@ -8,7 +8,7 @@ if (array_key_exists('add_position', $_POST))
 {
     $manual = org_routamc_positioning_importer::create('manual', $user->id);
 
-    $manual_position = Array();
+    $manual_position = array();
 
     if (array_key_exists('geocoder', $_POST))
     {

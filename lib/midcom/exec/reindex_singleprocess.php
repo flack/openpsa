@@ -30,7 +30,7 @@ while(@ob_end_flush());
 midcom::get()->disable_limits();
 
 $nap = new midcom_helper_nav();
-$nodes = Array();
+$nodes = array();
 $nodeid = $nap->get_root_node();
 $loader = midcom::get()->componentloader;
 $indexer = midcom::get()->indexer;

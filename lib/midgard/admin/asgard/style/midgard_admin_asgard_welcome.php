@@ -12,7 +12,7 @@ foreach ($data['schema_types'] as $schema_type)
     $type_choices[$schema_type] = $data['reflectors'][$schema_type]->get_class_label();
     asort($type_choices);
 }
-$type_choices = Array('any' => $data['l10n']->get('any')) + $type_choices;
+$type_choices = array('any' => $data['l10n']->get('any')) + $type_choices;
 
 $revised_after_choices = array();
 if ($data['config']->get('enable_review_dates'))

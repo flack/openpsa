@@ -1,7 +1,7 @@
 <?php
 midcom::get()->auth->require_valid_user();
 
-$cities = Array();
+$cities = array();
 /*
 $cities_to_add = Array(
     Array(
@@ -94,7 +94,7 @@ while ($run < $run_times)
     echo "<ol>\n";
     foreach ($closest as $city)
     {
-        $city_coordinates = Array(
+        $city_coordinates = array(
             'latitude'  => $city->latitude,
             'longitude' => $city->longitude,
         );

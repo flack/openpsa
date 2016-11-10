@@ -31,13 +31,13 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
 
         if ($this->_config->get('view_in_url'))
         {
-            $this->_request_switch['view-raw'] = Array
+            $this->_request_switch['view-raw'] = array
             (
                 'handler' => array('net_nehmer_blog_handler_view', 'view'),
                 'fixed_args' => array('view', 'raw'),
                 'variable_args' => 1,
             );
-            $this->_request_switch['view'] = Array
+            $this->_request_switch['view'] = array
             (
                 'handler' => array('net_nehmer_blog_handler_view', 'view'),
                 'fixed_args' => 'view',
@@ -197,7 +197,7 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
         if ($this->_config->get('categories') == '')
         {
             // No categories defined, skip this.
-            $this->_request_data['categories'] = Array();
+            $this->_request_data['categories'] = array();
             return false;
         }
 
@@ -209,7 +209,7 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
                 && $this->_request_data['schemadb'][$name]->fields['categories']['type'] == 'select')
             {
                 // TODO: Merge schema local and component config categories?
-                $this->_request_data['schemadb'][$name]->fields['categories']['type_config']['options'] = Array();
+                $this->_request_data['schemadb'][$name]->fields['categories']['type_config']['options'] = array();
                 foreach ($this->_request_data['categories'] as $category)
                 {
                     $this->_request_data['schemadb'][$name]->fields['categories']['type_config']['options'][$category] = $category;

@@ -107,11 +107,11 @@ class midcom_helper_datamanager2_widget_textarea extends midcom_helper_datamanag
         }
         if (!empty($this->_type->forbidden_patterns))
         {
-            $this->_form->addFormRule(Array(&$this->_type, 'validate_forbidden_patterns'));
+            $this->_form->addFormRule(array(&$this->_type, 'validate_forbidden_patterns'));
         }
         if (!empty($this->_type->allowed_patterns))
         {
-            $this->_form->addFormRule(Array(&$this->_type, 'validate_allowed_patterns'));
+            $this->_form->addFormRule(array(&$this->_type, 'validate_allowed_patterns'));
         }
     }
 

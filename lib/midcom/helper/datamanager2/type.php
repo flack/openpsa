@@ -60,7 +60,7 @@ abstract class midcom_helper_datamanager2_type extends midcom_baseclasses_compon
      * @see set_external_config()
      * @see get_external_config()
      */
-    private $_external_config = Array();
+    private $_external_config = array();
 
     /**
      * The name field holds the name of the field the datatype is encapsulating.

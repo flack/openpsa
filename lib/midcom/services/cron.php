@@ -89,7 +89,7 @@ class midcom_services_cron
      *
      * @var midcom_baseclasses_components_cron_handler[]
      */
-    private $_jobs = Array();
+    private $_jobs = array();
 
     /**
      * The recurrence rule to use, one of the MIDCOM_CRON_* constants (MIDCOM_CRON_MINUTE, MIDCOM_CRON_HOUR, MIDCOM_CRON_DAY).
@@ -106,19 +106,19 @@ class midcom_services_cron
      * @var Array
      * @todo Factor this out into its own configuration file.
      */
-    private $_midcom_jobs = Array
+    private $_midcom_jobs = array
     (
-        Array
+        array
         (
             'handler' => 'midcom_cron_tmpservice',
             'recurrence' => MIDCOM_CRON_HOUR,
         ),
-        Array
+        array
         (
             'handler' => 'midcom_cron_loginservice',
             'recurrence' => MIDCOM_CRON_HOUR,
         ),
-        Array
+        array
         (
             'handler' => 'midcom_cron_purgedeleted',
             'recurrence' => MIDCOM_CRON_DAY,

@@ -495,7 +495,7 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
             midcom::get()->head->add_jquery_state_script($script);
         }
 
-        return Array
+        return array
         (
             $this->_get_input_key("country") => $this->_type->location->country,
             $this->_get_input_key("city") => $city_name,

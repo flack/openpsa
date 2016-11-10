@@ -13,7 +13,7 @@
  */
 class org_openpsa_slideshow_image_dba extends midcom_core_dbaobject
 {
-    CONST FOLDER_THUMBNAIL = 'folder_thumbnail';
+    const FOLDER_THUMBNAIL = 'folder_thumbnail';
 
     public $__midcom_class_name__ = __CLASS__;
     public $__mgdschema_class_name__ = 'org_openpsa_slideshow_image';

@@ -72,7 +72,7 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
      * @var Array
      * @see midcom_helper_datamanager2_type::$validation_error
      */
-    var $validation_errors = Array();
+    var $validation_errors = array();
 
     /**
      * Reference to the form manager instance which is currently in use. Usually, it is created and referenced here by the controller
@@ -182,7 +182,7 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
      */
     private function _load_types()
     {
-        $this->types = Array();
+        $this->types = array();
 
         if (!$this->schema)
         {
@@ -329,7 +329,7 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
      */
     function validate()
     {
-        $this->validation_errors = Array();
+        $this->validation_errors = array();
         $validated = true;
         foreach (array_keys($this->schema->fields) as $name)
         {
@@ -380,7 +380,7 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
             $this->formmanager->initialize();
         }
 
-        $result = Array();
+        $result = array();
         foreach ($this->schema->field_order as $name)
         {
             if ($this->_schema_field_is_broken($name))
@@ -409,7 +409,7 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
      */
     function get_content_xml()
     {
-        $result = Array();
+        $result = array();
         foreach ($this->schema->field_order as $name)
         {
             if ($this->_schema_field_is_broken($name))
@@ -442,7 +442,7 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
      */
     function get_content_csv()
     {
-        $result = Array();
+        $result = array();
         foreach ($this->schema->field_order as $name)
         {
             if ($this->_schema_field_is_broken($name))
@@ -462,7 +462,7 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
      */
     function get_content_email()
     {
-        $result = Array();
+        $result = array();
         foreach ($this->schema->field_order as $name)
         {
             if ($this->_schema_field_is_broken($name))
@@ -481,7 +481,7 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
      */
     function get_content_raw()
     {
-        $result = Array();
+        $result = array();
         foreach ($this->schema->field_order as $name)
         {
             if ($this->_schema_field_is_broken($name))

@@ -97,14 +97,14 @@ class midcom_helper_datamanager2_widget_photo extends midcom_helper_datamanager2
         $elements[] = $this->_form->createElement('static', "{$this->name}_inter1", '', $static_html);
 
         $elements[] = $this->_upload_element;
-        $attributes = Array
+        $attributes = array
         (
             'id'    => "{$this->_namespace}{$this->name}_upload_button",
         );
         $elements[] = $this->_form->createElement('submit', "{$this->name}_upload", $this->_l10n->get('upload file'), $attributes);
 
         // Add the Delete button
-        $attributes = Array
+        $attributes = array
         (
             'id'    => "{$this->_namespace}{$this->name}_delete_button",
         );

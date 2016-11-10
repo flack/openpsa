@@ -347,7 +347,7 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
         // Build a reverse lookup map for the existing membership objects.
         // We map keys to _membership_objects indexes.
         // If we have duplicate keys, the latter will overwrite the former, leaving the dupe for deletion.
-        $existing_members = Array();
+        $existing_members = array();
         foreach ($this->_membership_objects as $index => $member)
         {
             $key = $member->{$this->member_fieldname};

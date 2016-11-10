@@ -214,7 +214,7 @@ END;
                 $sortable .
                 "            <td class=\"new filename\">";
         $this->_elements['s_new_filename'] = $this->_form->createElement('static', 's_new_filename', '', $html);
-        $attributes = Array
+        $attributes = array
         (
             'class' => 'new filename',
             'id'    => "{$this->_namespace}{$this->name}_e_new_filename",
@@ -225,7 +225,7 @@ END;
         $html = "            </td>\n
                             <td class=\"new title\">";
         $this->_elements['s_new_title'] = $this->_form->createElement('static', 's_new_title', '', $html);
-        $attributes = Array
+        $attributes = array
         (
             'class' => 'new title',
             'id'    => "{$this->_namespace}{$this->name}_e_new_title",
@@ -238,13 +238,13 @@ END;
             $html = "            </td>\n
                                 <td class=\"new upload\">";
             $this->_elements['s_new_upload'] = $this->_form->createElement('static', 's_new_upload', '', $html);
-            $attributes = Array
+            $attributes = array
             (
                 'class' => 'new file',
                 'id'    => "{$this->_namespace}{$this->name}_e_new_file",
             );
             $this->_elements['e_new_file'] = $this->_form->createElement('file', 'e_new_file', '', $attributes);
-            $attributes = Array
+            $attributes = array
             (
                 'class' => 'new upload',
                 'id'    => "{$this->_namespace}{$this->name}_e_new_upload",
@@ -286,13 +286,13 @@ END;
             // Controls Column
             $html = "</td><td class=\"new upload\" colspan=\"2\">";
             $this->_elements['s_new_upload'] = $this->_form->createElement('static', 's_new_upload', '', $html);
-            $attributes = Array
+            $attributes = array
             (
                 'class' => 'new file',
                 'id'    => "{$this->_namespace}{$this->name}_e_new_file",
             );
             $this->_elements['e_new_file'] = $this->_form->createElement('file', 'e_new_file', '', $attributes);
-            $attributes = Array
+            $attributes = array
             (
                 'class' => 'new upload',
                 'id'    => "{$this->_namespace}{$this->name}_e_new_upload",
@@ -368,7 +368,7 @@ END;
         // Title Column, set the value explicitly, as we are sometimes called after the defaults kick in.
         $html = "            <td class=\"exist title\" title=\"{$img_title}\">";
         $this->_elements["s_exist_{$identifier}_title"] = $this->_form->createElement('static', "s_exist_{$identifier}_title", '', $html);
-        $attributes = Array
+        $attributes = array
         (
             'class' => 'exist title',
             'id'    => "{$this->_namespace}{$this->name}_e_exist_{$identifier}_title",
@@ -437,7 +437,7 @@ END;
             $html = "            </td>\n
                                  <td class=\"exist upload\">\n";
             $this->_elements["s_exist_{$identifier}_upload"] = $this->_form->createElement('static', "s_exist_{$identifier}_upload", '', $html);
-            $attributes = Array
+            $attributes = array
             (
                 'class' => 'exist file',
                 'id'    => "{$this->_namespace}{$this->name}_e_exist_{$identifier}_file",
@@ -445,7 +445,7 @@ END;
             );
             $this->_elements["e_exist_{$identifier}_file"] = $this->_form->createElement('file', "e_exist_{$identifier}_file", '', $attributes);
             $this->_elements["s_exist_{$identifier}_br"] = $this->_form->createElement('static', "s_exist_{$identifier}_upload", '', "<br/>");
-            $attributes = Array
+            $attributes = array
             (
                 'class' => 'exist upload',
                 'id'    => "{$this->_namespace}{$this->name}_e_exist_{$identifier}_upload",
@@ -454,7 +454,7 @@ END;
         }
         if ($info['object']->can_do('midgard:delete'))
         {
-            $attributes = Array
+            $attributes = array
             (
                 'class' => 'exist delete',
                 'id'    => "{$this->_namespace}{$this->name}_e_exist_{$identifier}_delete",
@@ -509,7 +509,7 @@ END;
      */
     private function _compute_elements($frozen = false)
     {
-        $this->_elements = Array();
+        $this->_elements = array();
 
         $this->_add_table_header($frozen);
 

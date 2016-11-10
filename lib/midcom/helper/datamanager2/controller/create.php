@@ -54,7 +54,7 @@ class midcom_helper_datamanager2_controller_create extends midcom_helper_dataman
      *
      * @var Array
      */
-    public $ajax_options = Array();
+    public $ajax_options = array();
 
     /**
      * Wide mode switch
@@ -76,7 +76,7 @@ class midcom_helper_datamanager2_controller_create extends midcom_helper_dataman
      *
      * @var Array
      */
-    public $defaults = Array();
+    public $defaults = array();
 
     /**
      * The name of the schema to use. If this is left to null, the first schema

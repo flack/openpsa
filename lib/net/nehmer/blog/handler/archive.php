@@ -161,7 +161,7 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
 
         // First step of request data: Overall info
         $total_count = 0;
-        $year_data = Array();
+        $year_data = array();
         $first_post = $this->_compute_welcome_first_post();
         $this->_request_data['first_post'] = $first_post;
         $this->_request_data['total_count'] =& $total_count;
@@ -182,7 +182,7 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
         {
             $year_url = "{$prefix}year/{$year}/";
             $year_count = 0;
-            $month_data = Array();
+            $month_data = array();
 
             // Loop over the months, start month is either first posting month
             // or January in all other cases. End months are treated similarly,
@@ -216,7 +216,7 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
                 $month_count = $this->_compute_welcome_posting_count($start_time, $end_time);
                 $year_count += $month_count;
                 $total_count += $month_count;
-                $month_data[$month] = Array
+                $month_data[$month] = array
                 (
                     'month' => $month,
                     'name' => $month_names[$month],
@@ -225,7 +225,7 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
                 );
             }
 
-            $year_data[$year] = Array
+            $year_data[$year] = array
             (
                 'year' => $year,
                 'url' => $year_url,

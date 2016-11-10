@@ -605,7 +605,7 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
         }
         if (isset($this->_attachment_map))
         {
-            $this->_attachment_map[$blob_identifier] = Array($this->_identifier, $identifier);
+            $this->_attachment_map[$blob_identifier] = array($this->_identifier, $identifier);
         }
         return $this->add_attachment($blob_identifier, $filename, $title, $mimetype, $tmpname, false);
     }

@@ -84,7 +84,7 @@ class org_routamc_positioning_person extends midcom_baseclasses_components_purec
             $time = time();
         }
 
-        $coordinates = Array(
+        $coordinates = array(
             'latitude'  => null,
             'longitude' => null,
             'altitude'  => null,

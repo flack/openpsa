@@ -130,7 +130,7 @@ class midcom_baseclasses_components_configuration
         if (!$data)
         {
             // Empty defaults
-            $data = Array();
+            $data = array();
         }
         self::$_data[$component]['routes'] = $data;
     }

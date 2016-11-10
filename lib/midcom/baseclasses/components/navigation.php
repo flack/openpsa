@@ -69,7 +69,7 @@ abstract class midcom_baseclasses_components_navigation extends midcom_baseclass
      */
     public function get_leaves()
     {
-        return Array();
+        return array();
     }
 
     /**

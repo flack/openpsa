@@ -38,7 +38,7 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
 
     private function _search($term)
     {
-        $dummy_objects = Array();
+        $dummy_objects = array();
         $type_class = $this->type;
         $dummy_type_object = new $type_class();
 
@@ -53,7 +53,7 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
             }
         }
 
-        $search_results = Array();
+        $search_results = array();
         foreach ($dummy_objects as $dummy_object)
         {
             $results = $this->_search_type_qb($dummy_object, $term);
@@ -96,7 +96,7 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
         $qb->end_group();
         if (!$constraints)
         {
-            return Array();
+            return array();
         }
 
         return $qb->execute();

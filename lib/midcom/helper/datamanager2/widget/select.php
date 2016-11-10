@@ -81,7 +81,7 @@ class midcom_helper_datamanager2_widget_select extends midcom_helper_datamanager
 
         if ($this->_field['readonly'])
         {
-            $this->_all_elements = Array();
+            $this->_all_elements = array();
             foreach ($this->_type->selection as $key)
             {
                 $this->_all_elements[$key] = $this->_type->get_name_for_key($key);
@@ -117,7 +117,7 @@ class midcom_helper_datamanager2_widget_select extends midcom_helper_datamanager
             $select_element->setName('select');
             $other_element = $this->_form->createElement('text', 'other', "Others");
 
-            $elements = Array();
+            $elements = array();
             $elements[] = $select_element;
             $elements[] = $other_element;
 
@@ -145,9 +145,9 @@ class midcom_helper_datamanager2_widget_select extends midcom_helper_datamanager
         }
         if ($this->_type->allow_other)
         {
-            return Array
+            return array
             (
-                $this->name => Array
+                $this->name => array
                 (
                     'select' => $this->_type->selection,
                     'other' => implode(',', $this->_type->others)
@@ -166,7 +166,7 @@ class midcom_helper_datamanager2_widget_select extends midcom_helper_datamanager
         $selection = $this->_select_element->getSelected();
         if ($selection === null)
         {
-            $selection = Array();
+            $selection = array();
         }
 
         $this->_type->selection = $selection;

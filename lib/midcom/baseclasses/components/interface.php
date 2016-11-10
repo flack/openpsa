@@ -128,7 +128,7 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
      * @deprecated This field is provided mainly for backwards compatibility. Dependencies should be
      * loaded on-demand by the autoloader instead
      */
-    protected $_autoload_files = Array();
+    protected $_autoload_files = array();
 
     /**
      * A list of libraries which should by loaded during initialization.
@@ -139,7 +139,7 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
      * @deprecated This field is provided mainly for backwards compatibility. Dependencies should be
      * loaded on-demand by the autoloader instead
      */
-    protected $_autoload_libraries = Array();
+    protected $_autoload_libraries = array();
 
     /**
      * Class suffix used when constructing the NAP handler class.
@@ -210,7 +210,7 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
      * - <i>config</i> holds the configuration for this context
      * - <i>handler</i> The class handling the request.
      */
-    public $_context_data = Array();
+    public $_context_data = array();
 
     /**
      * Configures the component for usage. The configuration is merged, and,

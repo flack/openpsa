@@ -58,7 +58,7 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
     {
         $attributes['class'] = 'fileselector';
         $this->_upload_element = $this->_form->createElement('file', "{$this->name}_file", '', $attributes);
-        $elements = Array();
+        $elements = array();
 
         if ($this->_type->attachments)
         {
@@ -90,7 +90,7 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
      */
     private function _cast_formgroup_to_upload()
     {
-        $new_elements = Array();
+        $new_elements = array();
         $this->_create_upload_elements($new_elements);
 
         $group = $this->_form->getElement($this->name);
@@ -103,7 +103,7 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
      */
     protected function _cast_formgroup_to_replacedelete()
     {
-        $new_elements = Array();
+        $new_elements = array();
         $this->_create_replace_elements($new_elements);
 
         $group = $this->_form->getElement($this->name);
@@ -156,7 +156,7 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
 
         $elements[] = $this->_upload_element;
 
-        $attributes = Array
+        $attributes = array
         (
             'id'    => "{$this->_namespace}{$this->name}_upload_button",
         );
@@ -171,7 +171,7 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
                 <td class='midcom_helper_datamanager2_widget_image_title'>";
             $elements[] = $this->_form->createElement('static', "{$this->name}_inter2", '', $static_html);
 
-            $attributes = Array
+            $attributes = array
             (
                 'class' => 'shorttext',
                 'id'    => "{$this->_namespace}{$this->name}_title",
@@ -244,14 +244,14 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
         $elements[] = $this->_form->createElement('static', "{$this->name}_inter1", '', $static_html);
 
         $elements[] = $this->_upload_element;
-        $attributes = Array
+        $attributes = array
         (
             'id'    => "{$this->_namespace}{$this->name}_upload_button",
         );
         $elements[] = $this->_form->createElement('submit', "{$this->name}_upload", $this->_l10n->get('upload file'), $attributes);
 
         // Add the Delete button
-        $attributes = Array
+        $attributes = array
         (
             'id'    => "{$this->_namespace}{$this->name}_delete_button",
         );
@@ -266,7 +266,7 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
                 <td class='midcom_helper_datamanager2_widget_image_title'>";
             $elements[] = $this->_form->createElement('static', "{$this->name}_inter2", '', $static_html);
 
-            $attributes = Array
+            $attributes = array
             (
                 'class' => 'shorttext',
                 'id'    => "{$this->_namespace}{$this->name}_title",
@@ -449,7 +449,7 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
      */
     public function freeze()
     {
-        $new_elements = Array();
+        $new_elements = array();
         $this->_create_frozen_elements($new_elements);
 
         $group = $this->_form->getElement($this->name);
@@ -462,7 +462,7 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
      */
     public function unfreeze()
     {
-        $new_elements = Array();
+        $new_elements = array();
 
         if ($this->_type->attachments)
         {
@@ -492,7 +492,7 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
     {
         if ($this->show_title && $this->_type->title !== '')
         {
-            return Array("{$this->name}_title" => $this->_type->title);
+            return array("{$this->name}_title" => $this->_type->title);
         }
         return null;
     }

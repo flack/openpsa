@@ -25,7 +25,7 @@ class midcom_services_metadata
      *
      * @var Array
      */
-    private $_metadata = Array();
+    private $_metadata = array();
 
     /**
      * Class of the current page per each context.
@@ -34,7 +34,7 @@ class midcom_services_metadata
      *
      * @var Array
      */
-    private $_page_classes = Array();
+    private $_page_classes = array();
 
     /**
      * Returns a reference to the node metadata of the specified context. The metadata
@@ -87,7 +87,7 @@ class midcom_services_metadata
      */
     private function _create_metadata($context_id)
     {
-        $this->_metadata[$context_id] = Array();
+        $this->_metadata[$context_id] = array();
         $this->_metadata[$context_id][MIDCOM_METADATA_VIEW] = null;
         $this->_metadata[$context_id][MIDCOM_METADATA_NODE] = null;
 

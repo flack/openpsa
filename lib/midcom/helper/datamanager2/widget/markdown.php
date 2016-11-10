@@ -79,7 +79,7 @@ class midcom_helper_datamanager2_widget_markdown extends midcom_helper_datamanag
             $attributes['wrap'] = $this->wrap;
         }
 
-        $elements = Array();
+        $elements = array();
         $elements[] = $this->_form->createElement('textarea', $this->name, $this->_translate($this->_field['title']), $attributes);
         $this->_form->applyFilter($this->name, 'trim');
 

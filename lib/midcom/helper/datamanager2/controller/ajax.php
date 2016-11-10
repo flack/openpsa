@@ -224,7 +224,7 @@ class midcom_helper_datamanager2_controller_ajax extends midcom_helper_datamanag
     {
         $is_editable = $this->_is_ajax_editable();
 
-        $result = Array();
+        $result = array();
         foreach ($this->datamanager->schema->field_order as $name)
         {
             $html_contents = $this->datamanager->types[$name]->convert_to_html();

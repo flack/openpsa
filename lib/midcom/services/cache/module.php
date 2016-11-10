@@ -28,7 +28,7 @@ abstract class midcom_services_cache_module
      *
      * @var Doctrine\Common\Cache\CacheProvider[]
      */
-    protected $_backends = Array();
+    protected $_backends = array();
 
     /**
      * The cache key prefix.

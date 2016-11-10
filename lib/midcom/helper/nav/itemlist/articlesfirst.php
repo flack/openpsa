@@ -30,7 +30,7 @@ class midcom_helper_nav_itemlist_articlesfirst extends midcom_helper_nav_itemlis
             throw new midcom_error("Could not retrieve the leaf listing.");
         }
 
-        $result = Array();
+        $result = array();
         foreach ($leaves_list as $id)
         {
             $result[] = $this->_nap->get_leaf($id);

@@ -36,7 +36,7 @@ abstract class midcom_helper_datamanager2_controller extends midcom_baseclasses_
      *
      * @var Array
      */
-    var $schemadb = Array();
+    var $schemadb = array();
 
     /**
      * The datamanager instance which is used for data I/O processing.

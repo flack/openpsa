@@ -97,7 +97,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      *
      * @var array
      */
-    private $_sent_headers = Array();
+    private $_sent_headers = array();
 
     /**
      * The MIME content-type of the current request. It defaults to text/html, but

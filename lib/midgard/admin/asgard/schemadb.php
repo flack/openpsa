@@ -400,12 +400,12 @@ class midgard_admin_asgard_schemadb
                 'title'       => $key,
                 'storage'     => $key,
                 'type'        => $dm_type,
-                'type_config' => Array
+                'type_config' => array
                 (
                     'output_mode' => $output_mode,
                 ),
                 'widget'      => $widget,
-                'widget_config' => Array
+                'widget_config' => array
                 (
                     'height' => $height,
                     'width' => '100%',

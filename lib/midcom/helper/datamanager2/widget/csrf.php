@@ -57,7 +57,7 @@ class midcom_helper_datamanager2_widget_csrf extends midcom_helper_datamanager2_
         $this->_form->addElement('hidden', $this->name, null, $attributes);
         $this->_form->applyFilter($this->name, 'trim');
 
-        $this->_form->addFormRule(Array(&$this, 'validate'));
+        $this->_form->addFormRule(array(&$this, 'validate'));
     }
 
     /**

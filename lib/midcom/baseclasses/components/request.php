@@ -294,7 +294,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
      *
      * @var array
      */
-    public $_request_data = Array();
+    public $_request_data = array();
 
     /**
      * The node toolbar for the current request context. Not available during the can_handle
@@ -324,7 +324,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
      *
      * @var array
      */
-    private static $_plugin_namespace_config = Array();
+    private static $_plugin_namespace_config = array();
 
     /**
      * The controlling class for the active plugin, if any
@@ -427,7 +427,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
         {
             if (empty($value['fixed_args']))
             {
-                $value['fixed_args'] = Array();
+                $value['fixed_args'] = array();
             }
             else
             {
@@ -441,7 +441,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
 
             if (is_string($value['handler']))
             {
-                $this->_request_switch[$key]['handler'] = Array(&$this, $value['handler']);
+                $this->_request_switch[$key]['handler'] = array(&$this, $value['handler']);
             }
 
             if (   !array_key_exists('expires', $value)
@@ -953,21 +953,21 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
         $this->register_plugin_namespace
         (
             '__ais',
-            Array
+            array
             (
-                'folder' => Array
+                'folder' => array
                 (
                     'class' => 'midcom_admin_folder_management',
                     'name' => 'Folder administration',
                     'config' => null,
                 ),
-                'rcs' => Array
+                'rcs' => array
                 (
                     'class' => 'no_bergfald_rcs_handler',
                     'name' => 'Revision control',
                     'config' => null,
                 ),
-                'imagepopup' => Array
+                'imagepopup' => array
                 (
                     'class' => 'midcom_helper_imagepopup_viewer',
                     'name' => 'Image pop-up',

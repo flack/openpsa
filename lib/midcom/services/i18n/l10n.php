@@ -581,7 +581,7 @@ class midcom_services_i18n_l10n
     {
         $this->_load_all_languages();
 
-        $found_strings = Array();
+        $found_strings = array();
         foreach ($this->_stringdb as $stringtable)
         {
             $found_strings = array_unique(array_merge(array_keys($stringtable), $found_strings));

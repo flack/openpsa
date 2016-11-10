@@ -48,7 +48,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
      *
      * @var Array
      */
-    var $widgets = Array();
+    var $widgets = array();
 
     /**
      * This is the QuickForm generated out of the schema. This member is set during the
@@ -180,7 +180,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
         $this->namespace = "{$name}_";
 
         // TODO: make configurable to get URL from midcom_core_context::get()->get_key(MIDCOM_CONTEXT_URI) instead, see #1262
-        $this->form = new HTML_QuickForm($name, 'post', $_SERVER['REQUEST_URI'], '_self', Array('id' => $name), true);
+        $this->form = new HTML_QuickForm($name, 'post', $_SERVER['REQUEST_URI'], '_self', array('id' => $name), true);
         $this->_defaults = array();
         $this->widgets = array();
 
@@ -327,7 +327,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
                     $accesskey = 'c';
                 }
 
-                $buttons[] = $this->form->createElement('submit', $buttonname, $buttonlabel, Array('class' => $class, 'accesskey' => $accesskey));
+                $buttons[] = $this->form->createElement('submit', $buttonname, $buttonlabel, array('class' => $class, 'accesskey' => $accesskey));
             }
         }
 
@@ -370,7 +370,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
                 $arg = null;
             }
             $callback_object = new $config['callback']($this, $arg);
-            $callback = Array(&$callback_object, 'execute');
+            $callback = array(&$callback_object, 'execute');
 
             // Compute the field list.
             if (!empty($config['fields']))

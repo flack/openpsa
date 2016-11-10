@@ -20,9 +20,9 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
     {
         if ($this->_config->get('search_first'))
         {
-            $this->_request_switch['index'] = Array
+            $this->_request_switch['index'] = array
             (
-                'handler' => Array('org_openpsa_products_handler_product_search', 'search_redirect'),
+                'handler' => array('org_openpsa_products_handler_product_search', 'search_redirect'),
             );
         }
     }
@@ -255,7 +255,7 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
      */
     public function update_breadcrumb_line($object)
     {
-        $tmp = Array();
+        $tmp = array();
         $root_group = $this->_config->get('root_group');
 
         while ($object)

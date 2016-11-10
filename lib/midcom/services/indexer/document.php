@@ -52,7 +52,7 @@ class midcom_services_indexer_document
      *
      * @var Array
      */
-    private $_fields = Array();
+    private $_fields = array();
 
     /**
      * A reference to the i18n service, used for charset conversion.
@@ -541,7 +541,7 @@ class midcom_services_indexer_document
      */
     protected function _add_field($name, $type, $content, $is_utf8 = false)
     {
-        $this->_fields[$name] = Array
+        $this->_fields[$name] = array
         (
             'name' => $name,
             'type' => $type,
@@ -564,12 +564,12 @@ class midcom_services_indexer_document
      */
     public function html2text($text)
     {
-        $search = Array
+        $search = array
         (
             "'\s*<script[^>]*?>.*?</script>\s*'si", // Strip out javascript
             "'\s*<[\/\!]*?[^<>]*?>\s*'si", // Strip out html tags
         );
-        $replace = Array
+        $replace = array
         (
             ' ',
             ' ',

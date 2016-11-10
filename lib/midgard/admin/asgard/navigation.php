@@ -149,7 +149,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
             foreach ($child_types as $type => $data)
             {
                 $children = $data['qb']->execute();
-                $label_mapping = Array();
+                $label_mapping = array();
                 foreach ($children as $i => $child)
                 {
                     if (isset($this->shown_objects[$child->guid]))
@@ -396,7 +396,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
             $types = array_intersect($this->root_types, $types);
         }
 
-        $label_mapping = Array();
+        $label_mapping = array();
         foreach ($types as $root_type)
         {
             // If the regular expression has been set, check which types should be shown
@@ -514,7 +514,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
             $this->_request_data['navigation_type'] = '';
         }
 
-        $label_mapping = Array();
+        $label_mapping = array();
 
         foreach ($this->root_types as $root_type)
         {

@@ -224,7 +224,7 @@ class midcom_helper_misc
             debug_add("Couldn't read directory {$mime_fspath}", MIDCOM_LOG_WARN);
         }
 
-        $check_files = Array();
+        $check_files = array();
         switch ($mimetype_filename)
         {
             case 'application-x-zip-compressed':
