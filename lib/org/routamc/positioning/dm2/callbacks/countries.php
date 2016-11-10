@@ -37,7 +37,7 @@ class org_routamc_positioning_dm2_callbacks_countries extends midcom_baseclasses
             {
                 $this->_data[''] = $this->_l10n->get('select your country');
             }
-            else if (is_string($args['start_message']))
+            elseif (is_string($args['start_message']))
             {
                 $this->_data[''] = $args['start_message'];
             }

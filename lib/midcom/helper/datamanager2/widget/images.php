@@ -318,7 +318,7 @@ END;
         {
             $info = $images['main'];
         }
-        else if (isset($images['original']))
+        elseif (isset($images['original']))
         {
             $info = $images['original'];
         }
@@ -342,7 +342,7 @@ END;
             $img_title = $_POST[$this->name]["e_exist_{$identifier}_title"];
         }
         // Otherwise use the type title if available
-        else if (isset($this->_type->titles[$identifier]))
+        elseif (isset($this->_type->titles[$identifier]))
         {
             $img_title = $this->_type->titles[$identifier];
         }
@@ -613,7 +613,7 @@ END;
             }
         }
         // Image to be updated
-        else if  (   array_key_exists("e_exist_{$identifier}_file", $this->_elements)
+        elseif  (   array_key_exists("e_exist_{$identifier}_file", $this->_elements)
                   && $this->_elements["e_exist_{$identifier}_file"]->isUploadedFile())
         {
             $file = $this->_elements["e_exist_{$identifier}_file"]->getValue();

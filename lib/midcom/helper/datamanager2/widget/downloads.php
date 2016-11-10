@@ -516,7 +516,7 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
                 debug_add("Failed to delete the attachment {$identifier} on the field '{$this->name}'. Ignoring silently.", MIDCOM_LOG_WARN);
             }
         }
-        else if (   array_key_exists("e_exist_{$identifier}_file", $this->_elements)
+        elseif (   array_key_exists("e_exist_{$identifier}_file", $this->_elements)
                  && $this->_elements["e_exist_{$identifier}_file"]->isUploadedFile())
         {
             $file = $this->_elements["e_exist_{$identifier}_file"]->getValue();
@@ -534,7 +534,7 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
                 debug_add("Failed to update the attachment {$identifier} on the field '{$this->name}'. Ignoring silently.", MIDCOM_LOG_WARN);
             }
         }
-        else if (   array_key_exists("e_exist_{$identifier}_title", $values)
+        elseif (   array_key_exists("e_exist_{$identifier}_title", $values)
                  && $values["e_exist_{$identifier}_title"] != $this->_type->attachments_info[$identifier]['description'])
         {
             $this->_type->update_attachment_title($identifier, $values["e_exist_{$identifier}_title"]);

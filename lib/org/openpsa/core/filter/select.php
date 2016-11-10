@@ -109,7 +109,7 @@ class org_openpsa_core_filter_select extends org_openpsa_core_filter
         {
             $data = $this->_options;
         }
-        else if (!empty($this->_option_callback))
+        elseif (!empty($this->_option_callback))
         {
             $data = call_user_func($this->_option_callback);
         }

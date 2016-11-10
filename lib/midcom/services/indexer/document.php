@@ -626,7 +626,7 @@ class midcom_services_indexer_document
         {
             $this->created = $this->read_unixtime($object->metadata->published);
         }
-        else if (isset($object->metadata->created))
+        elseif (isset($object->metadata->created))
         {
             $this->created = $this->read_unixtime($object->metadata->created);
         }
@@ -640,7 +640,7 @@ class midcom_services_indexer_document
         {
             $this->author = $this->read_authorname($object->metadata->authors);
         }
-        else if (!empty($object->metadata->creator))
+        elseif (!empty($object->metadata->creator))
         {
             $this->author = $this->read_authorname($object->metadata->creator);
         }

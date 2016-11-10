@@ -59,7 +59,7 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
         {
             $this->end = 0;
         }
-        else if ($this->end < $this->start)
+        elseif ($this->end < $this->start)
         {
             $this->end = $this->start + 1;
         }

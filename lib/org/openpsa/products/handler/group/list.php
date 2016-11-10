@@ -134,11 +134,11 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
         {
             $this->_handle_list_intree($args);
         }
-        else if ($handler_id == 'listall')
+        elseif ($handler_id == 'listall')
         {
             $this->_handle_listall($args);
         }
-        else if ($handler_id == 'list')
+        elseif ($handler_id == 'list')
         {
             $this->_handle_list($args);
         }
@@ -338,7 +338,7 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
             {
                 $create_url = $this->_request_data['parent_group'] . '/' . $create_url;
             }
-            else if ($schemadb_name == 'schemadb_group')
+            elseif ($schemadb_name == 'schemadb_group')
             {
                 $create_url = '0/' . $create_url;
             }
@@ -390,11 +390,11 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
                 $product_qb->add_constraint($constraint_members[0], $constraint_members[1], $constraint_members[2]);
             }
         }
-        else if ($this->_request_data['handler_id'] == 'list_intree')
+        elseif ($this->_request_data['handler_id'] == 'list_intree')
         {
             $product_qb->add_constraint('productGroup', '=', $this->_request_data['parent_category_id']);
         }
-        else if ($this->_request_data['handler_id'] == 'listall')
+        elseif ($this->_request_data['handler_id'] == 'listall')
         {
             $product_qb->add_constraint('productGroup.up', '=', $this->_request_data['group']->id);
         }
@@ -479,7 +479,7 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
                 midcom_show_style('group_footer');
             }
         }
-        else if (count($data['products']) > 0)
+        elseif (count($data['products']) > 0)
         {
             midcom_show_style('group_header');
             midcom_show_style('group_products_grid');

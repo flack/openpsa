@@ -46,7 +46,7 @@ foreach ($data['invoices'] as $invoice)
     {
         $entry['number'] = "<a target='_blank' href=\"{$data['invoices_url']}invoice/{$invoice->guid}/\">" . $invoice->get_label() . "</a>";
     }
-    else if ($invoice->id)
+    elseif ($invoice->id)
     {
         $entry['number'] = $invoice->get_label();
     }

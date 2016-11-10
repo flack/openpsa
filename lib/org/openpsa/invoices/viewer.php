@@ -46,7 +46,7 @@ class org_openpsa_invoices_viewer extends midcom_baseclasses_components_request
             }
         }
         // not paid yet
-        else if (!$invoice->paid)
+        elseif (!$invoice->paid)
         {
             $next[] = 'mark_paid';
         }

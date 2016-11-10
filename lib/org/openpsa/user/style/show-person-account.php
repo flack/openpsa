@@ -13,7 +13,7 @@ $username = $data['account']->get_username();
         {
             echo '<p>' . $data['l10n']->get('user is online') . "</p>\n";
         }
-        else if ($lastlogin = $user->get_last_login())
+        elseif ($lastlogin = $user->get_last_login())
         {
             $formatter = $data['l10n']->get_formatter();
             echo '<p>' . $data['l10n']->get('last login') . ': ' . $formatter->datetime($lastlogin) . "</p>\n";

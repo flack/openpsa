@@ -81,7 +81,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
         {
             return org_openpsa_projects_workflow::get_status_type($this->status);
         }
-        else if (   $property == 'status_comment'
+        elseif (   $property == 'status_comment'
                  || $property == 'status_time')
         {
             if (is_null($this->_status))
@@ -217,7 +217,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
         {
             $type = org_openpsa_projects_task_resource_dba::CONTACT;
         }
-        else if ($property === 'contacts')
+        elseif ($property === 'contacts')
         {
             $type = org_openpsa_projects_task_resource_dba::RESOURCE;
         }
@@ -383,7 +383,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
             {
                 $hours['invoiced'] += $report_hours;
             }
-            else if ($report_data['invoiceable'])
+            elseif ($report_data['invoiceable'])
             {
                 // Check agreement for invoiceability rules
                 if ($invoice_approved)

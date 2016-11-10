@@ -114,7 +114,7 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
             $this->_persons = $qb->execute();
         }
         // List all persons if there are less than N of them
-        else if ($qb->count_unchecked() < $this->_config->get('list_without_search'))
+        elseif ($qb->count_unchecked() < $this->_config->get('list_without_search'))
         {
             $this->_persons = $qb->execute();
         }

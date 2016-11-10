@@ -457,7 +457,7 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
         {
             $invoice_item = $invoice_items[0];
         }
-        else if (count($invoice_items) > 1)
+        elseif (count($invoice_items) > 1)
         {
             debug_add('More than one item found for task #' . $task_id . ', only returning the first', MIDCOM_LOG_INFO);
             $invoice_item = $invoice_items[0];

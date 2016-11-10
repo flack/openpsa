@@ -300,7 +300,7 @@ class fi_protie_navigation
                     $params[$key] = $value;
                 }
             }
-            else if (!$_GET[$key])
+            elseif (!$_GET[$key])
             {
                 $params[$key] = '';
             }
@@ -464,11 +464,11 @@ class fi_protie_navigation
             {
                 $classes[] = $this->css_first_last;
             }
-            else if ($item_counter == 1)
+            elseif ($item_counter == 1)
             {
                 $classes[] = $this->css_first;
             }
-            else if ($item_counter == $item_count)
+            elseif ($item_counter == $item_count)
             {
                 $classes[] = $this->css_last;
             }

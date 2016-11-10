@@ -59,7 +59,7 @@ implements midcom_helper_datamanager2_interfaces_edit
         {
             $schemadb_path = $this->_master->_handler['schemadb'];
         }
-        else if ($this->_config->get('schemadb_config'))
+        elseif ($this->_config->get('schemadb_config'))
         {
             $schemadb_path = $this->_config->get('schemadb_config');
         }

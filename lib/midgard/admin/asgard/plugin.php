@@ -164,7 +164,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
         {
             $data['default_mode'] = 'edit';
         }
-        else if (midgard_admin_asgard_plugin::get_preference('edit_mode') == 1)
+        elseif (midgard_admin_asgard_plugin::get_preference('edit_mode') == 1)
         {
             $data['default_mode'] = 'edit';
         }

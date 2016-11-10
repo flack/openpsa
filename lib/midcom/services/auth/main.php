@@ -843,7 +843,7 @@ class midcom_services_auth
         {
             $id = $param->id;
         }
-        else if (   !is_string($id)
+        elseif (   !is_string($id)
                  && !is_integer($id))
         {
             debug_print_type('The passed argument was an object of an unsupported type:', $param, MIDCOM_LOG_WARN);
@@ -893,7 +893,7 @@ class midcom_services_auth
                 $this->_group_cache[$id] = new midcom_core_group($object->id);
             }
         }
-        else if (is_string($id))
+        elseif (is_string($id))
         {
             if (!array_key_exists($id, $this->_group_cache))
             {
@@ -919,7 +919,7 @@ class midcom_services_auth
                 }
             }
         }
-        else if (is_int($id))
+        elseif (is_int($id))
         {
             // Looks like an object ID, again we try the group constructor.
             $id = $this->_load_group($id);

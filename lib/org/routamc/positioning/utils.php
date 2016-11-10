@@ -30,7 +30,7 @@ class org_routamc_positioning_utils extends midcom_baseclasses_components_pureco
         {
             $dist *= 1.609344;
         }
-        else if ($unit == "N")
+        elseif ($unit == "N")
         {
             $dist *= 0.8684;
         }

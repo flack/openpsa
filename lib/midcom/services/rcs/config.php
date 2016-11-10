@@ -59,7 +59,7 @@ class midcom_services_rcs_config
                     $basedir = '/var/local/lib/midgard';
                 }
             }
-            else if (midgard_connection::get_instance())
+            elseif (midgard_connection::get_instance())
             {
                 $basedir = dirname(midgard_connection::get_instance()->config->sharedir);
             }

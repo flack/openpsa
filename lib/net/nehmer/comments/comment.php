@@ -186,7 +186,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
             $this->update();
             $this->_log_moderation('reported_not_junk', 'linksleeve');
         }
-        else if ($ret == net_nehmer_comments_spamchecker::SPAM)
+        elseif ($ret == net_nehmer_comments_spamchecker::SPAM)
         {
             // Spam
             debug_add("Linksleeve noted comment \"{$this->title}\" ({$this->guid}) as spam");
@@ -427,7 +427,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
             {
                 $value = $ratings_total;
             }
-            else if ($rating_comments != 0)
+            elseif ($rating_comments != 0)
             {
                 $value = $ratings_total / $rating_comments;
             }

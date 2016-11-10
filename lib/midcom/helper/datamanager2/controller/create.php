@@ -182,7 +182,7 @@ class midcom_helper_datamanager2_controller_create extends midcom_helper_dataman
         {
             $mode = 'wide';
         }
-        else if ($this->window_mode)
+        elseif ($this->window_mode)
         {
             $mode = 'window';
         }

@@ -47,7 +47,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
             {
                 $add_tags[$tagname] = $url;
             }
-            else if (!empty($url))
+            elseif (!empty($url))
             {
                 $update_tags[$tagname] = $url;
             }

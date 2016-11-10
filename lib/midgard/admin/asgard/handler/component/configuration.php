@@ -580,7 +580,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
             {
                 $data .= ($val) ? 'true' : 'false';
             }
-            else if ($type === 'array')
+            elseif ($type === 'array')
             {
                 if (empty($val))
                 {
@@ -595,7 +595,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
                     $data .= "array\n{$prefix}(\n" . $this->_draw_array($val, "{$prefix}    ") . "{$prefix})";
                 }
             }
-            else if (is_numeric($val))
+            elseif (is_numeric($val))
             {
                 $data .= $val;
             }

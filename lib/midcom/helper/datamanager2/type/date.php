@@ -111,7 +111,7 @@ class midcom_helper_datamanager2_type_date extends midcom_helper_datamanager2_ty
         {
             $this->value = null;
         }
-        else if (!$source)
+        elseif (!$source)
         {
             $this->value = new DateTime('0000-00-00 00:00:00');
         }
@@ -192,7 +192,7 @@ class midcom_helper_datamanager2_type_date extends midcom_helper_datamanager2_ty
         {
             $format .= ' H:i';
         }
-        else if ($time_format == 'medium')
+        elseif ($time_format == 'medium')
         {
             $format .= ' H:i:s';
         }

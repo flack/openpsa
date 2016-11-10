@@ -195,7 +195,7 @@ class midcom_helper_datamanager2_controller_ajax extends midcom_helper_datamanag
         {
             $mode = 'wide';
         }
-        else if ($this->window_mode)
+        elseif ($this->window_mode)
         {
             $mode = 'window';
         }
@@ -297,7 +297,7 @@ class midcom_helper_datamanager2_controller_ajax extends midcom_helper_datamanag
             $this->datamanager->storage->object->metadata->unlock();
         }
         // or set it, if needed
-        else if (!$this->datamanager->storage->object->is_locked())
+        elseif (!$this->datamanager->storage->object->is_locked())
         {
             $this->datamanager->storage->object->metadata->lock();
         }

@@ -188,14 +188,14 @@ class net_nehmer_static_handler_autoindex extends midcom_baseclasses_components_
                     $view[$filename] = $this->_get_attachment_data($filename, $data);
                 }
             }
-            else if (   $datamanager->types[$name] instanceof midcom_helper_datamanager2_type_image
+            elseif (   $datamanager->types[$name] instanceof midcom_helper_datamanager2_type_image
                      && $datamanager->types[$name]->attachments_info)
             {
                 $data = $datamanager->types[$name]->attachments_info['main'];
                 $filename = "{$article->name}/{$data['filename']}";
                 $view[$filename] = $this->_get_attachment_data($filename, $data);
             }
-            else if ($datamanager->types[$name] instanceof midcom_helper_datamanager2_type_blobs)
+            elseif ($datamanager->types[$name] instanceof midcom_helper_datamanager2_type_blobs)
             {
                 foreach ($datamanager->types[$name]->attachments_info as $data)
                 {

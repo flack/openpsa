@@ -255,7 +255,7 @@ implements org_openpsa_widgets_grid_provider_client
             $mc = org_openpsa_invoices_invoice_item_dba::new_collector('deliverable', $this->_deliverable->id);
             $qb->add_constraint('id', 'IN', $mc->get_values('invoice'));
         }
-        else if ($this->_customer)
+        elseif ($this->_customer)
         {
             if (is_a($this->_customer, 'org_openpsa_contacts_group_dba'))
             {

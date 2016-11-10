@@ -91,7 +91,7 @@ if (substr($logger, 0, strlen("file://")) == "file://")
         fclose($fh);
     }
 }
-else if (preg_match('/https?:\/\//', $logger))
+elseif (preg_match('/https?:\/\//', $logger))
 {
     $client = new HTTP_Client();
     $client->post($logger, array("token" => $token, "link" => $link));

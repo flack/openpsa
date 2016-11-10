@@ -58,7 +58,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
             }
             $this->expanded_root_types[] = $expanded_type;
         }
-        else if (isset($this->_object))
+        elseif (isset($this->_object))
         {
             // we go through the path bottom up and show the first root type we find
             foreach (array_reverse($this->_object_path) as $object)
@@ -391,7 +391,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
         {
             $types = array_diff($this->root_types, $types);
         }
-        else if (!empty($types))
+        elseif (!empty($types))
         {
             $types = array_intersect($this->root_types, $types);
         }
@@ -505,7 +505,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
             $this->_request_data['root_object'] = $this->_object_path[0];
             $this->_request_data['navigation_type'] = $this->_object_path[0]->__mgdschema_class_name__;
         }
-        else if (isset($this->expanded_root_types[0]))
+        elseif (isset($this->expanded_root_types[0]))
         {
             $this->_request_data['navigation_type'] = $this->expanded_root_types[0];
         }

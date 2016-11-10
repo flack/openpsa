@@ -190,7 +190,7 @@ class midcom_core_querybuilder extends midcom_core_query
                     {
                         $limit -= $size;
                     }
-                    else if ($limit > 0)
+                    elseif ($limit > 0)
                     {
                         // We have reached the limit
                         $resultset = array_slice($resultset, 0, $limit);

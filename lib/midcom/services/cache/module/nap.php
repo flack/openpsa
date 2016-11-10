@@ -144,7 +144,7 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
             {
                 $napobject = $nav->get_node($object->id);
             }
-            else if (   ($node = $nav->find_closest_topic($object))
+            elseif (   ($node = $nav->find_closest_topic($object))
                      && $nodeobject = $nav->get_node($node->id))
             {
                 $napobject = $nav->get_leaf($nodeobject[MIDCOM_NAV_ID] . '-' . $object->id);

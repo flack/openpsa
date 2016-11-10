@@ -22,7 +22,7 @@ implements midcom_services_permalinks_resolver
         {
             $qb->add_constraint('person', '=', $object->id);
         }
-        else if (is_a($object, 'org_openpsa_directmarketing_campaign_dba'))
+        elseif (is_a($object, 'org_openpsa_directmarketing_campaign_dba'))
         {
             $qb->add_constraint('campaign', '=', $object->id);
         }

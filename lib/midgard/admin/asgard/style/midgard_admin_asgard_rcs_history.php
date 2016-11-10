@@ -45,7 +45,7 @@ echo $data['rcs_toolbar']->render();
                 {
                     echo $user->get_storage()->name;
                 }
-                else if ($history['ip'])
+                elseif ($history['ip'])
                 {
                     echo $history['ip'];
                 }

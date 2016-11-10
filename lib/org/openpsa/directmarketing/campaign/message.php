@@ -64,7 +64,7 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
         {
             $class .= ' ' . $class . '-completed';
         }
-        else if ($this->sendStarted)
+        elseif ($this->sendStarted)
         {
             $class .= ' ' . $class . '-started';
         }

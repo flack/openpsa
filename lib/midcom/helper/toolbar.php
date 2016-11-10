@@ -296,7 +296,7 @@ class midcom_helper_toolbar
         {
             $this->items[] = $item;
         }
-        else if ($before == 0)
+        elseif ($before == 0)
         {
             array_unshift($this->items, $item);
         }
@@ -445,7 +445,7 @@ class midcom_helper_toolbar
         {
             array_shift($this->items);
         }
-        else if ($index == count($this->items) -1)
+        elseif ($index == count($this->items) -1)
         {
             array_pop($this->items);
         }
@@ -615,7 +615,7 @@ class midcom_helper_toolbar
             {
                 $output .= $first_class .  ' ';
             }
-            else if ($i == $last)
+            elseif ($i == $last)
             {
                 $output .= 'last_item ';
             }

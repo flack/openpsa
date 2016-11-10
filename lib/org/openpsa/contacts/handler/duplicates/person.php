@@ -144,7 +144,7 @@ class org_openpsa_contacts_handler_duplicates_person extends midcom_baseclasses_
                     $person1 =& $option1;
                     $person2 =& $option2;
                 }
-                else if ($keep == $option2->guid)
+                elseif ($keep == $option2->guid)
                 {
                     $person1 =& $option2;
                     $person2 =& $option1;

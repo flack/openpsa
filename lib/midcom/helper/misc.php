@@ -80,7 +80,7 @@ class midcom_helper_misc
             }
             $data = file_get_contents($filename);
         }
-        else if (substr($path, 0, 5) == 'conf:')
+        elseif (substr($path, 0, 5) == 'conf:')
         {
             $filename = midcom::get()->config->get('midcom_config_basedir') . '/midcom' . substr($path, 5);
             if (!file_exists($filename))
@@ -265,7 +265,7 @@ class midcom_helper_misc
             // More than a meg
             return sprintf("%01.1f", $size / 1048576) . " MB";
         }
-        else if ($size >= 1024)
+        elseif ($size >= 1024)
         {
             // More than a kilo
             return sprintf("%01.1f", $size / 1024) . " KB";

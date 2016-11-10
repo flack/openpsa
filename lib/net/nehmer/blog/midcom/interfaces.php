@@ -41,7 +41,7 @@ implements midcom_services_permalinks_resolver
         {
             debug_add("The topic {$topic->id} is symlinked to another topic, skipping indexing.");
         }
-        else if (!$config->get('disable_indexing'))
+        elseif (!$config->get('disable_indexing'))
         {
             debug_add("The topic {$topic->id} is not to be indexed, skipping indexing.");
         }

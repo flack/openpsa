@@ -171,7 +171,7 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
         {
             $status = true; //All should be ok
         }
-        else if ($status = $this->process_results($results, $subject, $content, $from))
+        elseif ($status = $this->process_results($results, $subject, $content, $from))
         {
             //register next batch
             return $this->register_send_job($batch + 1, $url_base);

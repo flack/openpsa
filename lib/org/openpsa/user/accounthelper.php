@@ -130,7 +130,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
                 return false;
             }
         }
-        else if ($generated_password)
+        elseif ($generated_password)
         {
             /*
              * no welcome mail was sent:

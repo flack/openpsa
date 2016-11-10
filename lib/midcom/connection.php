@@ -87,7 +87,7 @@ class midcom_connection
                     $config->read_file($config_name);
                     $stat = $midgard->open_config($config);
                 }
-                else if ($path = ini_get('midgard.configuration_file'))
+                elseif ($path = ini_get('midgard.configuration_file'))
                 {
                     $config = new midgard_config();
                     $config->read_file_at_path($path);
@@ -99,7 +99,7 @@ class midcom_connection
                 return false;
             }
         }
-        else if (extension_loaded('midgard'))
+        elseif (extension_loaded('midgard'))
         {
             if (!isset($_MIDGARD_CONNECTION))
             {
@@ -107,7 +107,7 @@ class midcom_connection
                 {
                     include $basedir . 'config/mgd1-connection.inc.php';
                 }
-                else if (file_exists($basedir . 'config/mgd1-connection-default.inc.php'))
+                elseif (file_exists($basedir . 'config/mgd1-connection-default.inc.php'))
                 {
                     include $basedir . 'config/mgd1-connection-default.inc.php';
                 }

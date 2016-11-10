@@ -64,7 +64,7 @@ class org_openpsa_invoices_handler_invoice_crud extends midcom_baseclasses_compo
         {
             $this->_populate_schema_customers_for_contact($this->_object->customerContact);
         }
-        else if (array_key_exists('customer', $this->_request_data))
+        elseif (array_key_exists('customer', $this->_request_data))
         {
             if (is_a($this->_request_data['customer'], 'org_openpsa_contacts_group_dba'))
             {
@@ -75,7 +75,7 @@ class org_openpsa_invoices_handler_invoice_crud extends midcom_baseclasses_compo
                 $this->_populate_schema_customers_for_contact($this->_request_data['customer']->id);
             }
         }
-        else if (!empty($this->_object->customer))
+        elseif (!empty($this->_object->customer))
         {
             try
             {
@@ -257,7 +257,7 @@ class org_openpsa_invoices_handler_invoice_crud extends midcom_baseclasses_compo
         {
             $buttons[] = $this->build_button('mark_sent', 'stock-icons/16x16/stock_mail-reply.png');
         }
-        else if (!$this->_object->paid)
+        elseif (!$this->_object->paid)
         {
             $buttons[] = $this->build_button('mark_paid', 'stock-icons/16x16/ok.png');
         }

@@ -648,7 +648,7 @@ class midcom_helper_nav_backend
             {
                 $leaf[MIDCOM_NAV_GUID] = $leaf[MIDCOM_NAV_OBJECT]->guid;
             }
-            else if (!empty($leaf[MIDCOM_NAV_GUID]))
+            elseif (!empty($leaf[MIDCOM_NAV_GUID]))
             {
                 try
                 {

@@ -352,7 +352,7 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
                 }
             }
             // Done as separate check instead of || because I'm not 100% sure this is the correct place for it (Rambo)
-            else if (!$this->require_corresponding_option)
+            elseif (!$this->require_corresponding_option)
             {
                 $this->selection[] = $key;
                 if (!$this->allow_multiple)
@@ -361,7 +361,7 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
                     return;
                 }
             }
-            else if ($this->allow_other)
+            elseif ($this->allow_other)
             {
                 $this->others[] = $key;
 

@@ -155,7 +155,7 @@ class midcom_baseclasses_core_dbobject
                     return false;
                 }
             }
-            else if (   !$parent->can_do('midgard:create')
+            elseif (   !$parent->can_do('midgard:create')
                      && !midcom::get()->auth->can_user_do('midgard:create', null, get_class($object)))
             {
                 debug_add("Failed to create object, create privilege on the parent " . get_class($parent) . " {$parent->guid} or the actual object class not granted for the current user.",
@@ -164,7 +164,7 @@ class midcom_baseclasses_core_dbobject
                 return false;
             }
         }
-        else if (!midcom::get()->auth->can_user_do('midgard:create', null, get_class($object)))
+        elseif (!midcom::get()->auth->can_user_do('midgard:create', null, get_class($object)))
         {
             debug_add("Failed to create object, general create privilege not granted for the current user.", MIDCOM_LOG_ERROR);
             midcom_connection::set_error(MGD_ERR_ACCESS_DENIED);
@@ -1288,7 +1288,7 @@ class midcom_baseclasses_core_dbobject
         {
             $result = $privilege->store();
         }
-        else if (is_string($privilege))
+        elseif (is_string($privilege))
         {
             $tmp = self::create_new_privilege_object($object, $privilege, $assignee, $value, $classname);
             if (!$tmp)
@@ -1336,7 +1336,7 @@ class midcom_baseclasses_core_dbobject
         {
             $priv = $privilege;
         }
-        else if (is_string($privilege))
+        elseif (is_string($privilege))
         {
             $priv = self::get_privilege($object, $privilege, $assignee, $classname);
             if (!$priv)

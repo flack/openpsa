@@ -55,7 +55,7 @@ class org_openpsa_contacts_mycontacts
             {
                 $this->_group = $results[0];
             }
-            else if ($autocreate)
+            elseif ($autocreate)
             {
                 $this->_group = new org_openpsa_contacts_list_dba;
                 $this->_group->person = $this->_user->guid;

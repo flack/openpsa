@@ -66,7 +66,7 @@ class org_openpsa_calendar_handler_admin extends midcom_baseclasses_components_h
             $indexer->index($data['controller']->datamanager);
             midcom::get()->head->add_jsonload('openpsa_calendar_widget.refresh_parent();');
         }
-        else if (!empty($conflictmanager->busy_members))
+        elseif (!empty($conflictmanager->busy_members))
         {
             midcom::get()->uimessages->add($this->_l10n->get('event conflict'), $conflictmanager->get_message($this->_l10n->get_formatter()), 'warning');
         }

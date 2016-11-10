@@ -50,14 +50,14 @@ $expenses_url = $siteconfig->get_node_relative_url('org.openpsa.expenses');
             {
                 echo $data['l10n']->get('remote resource search requested');
             }
-            else if ($remote_search == 'SEARCH_IN_PROGRESS')
+            elseif ($remote_search == 'SEARCH_IN_PROGRESS')
             {
                 echo $data['l10n']->get('remote resource search in progress');
                 // TODO: Link to results listing
             }
             echo "</div>\n";
         }
-        else if (count($task->resources) > 0)
+        elseif (count($task->resources) > 0)
         {
             echo '<div class="area">';
             echo "<h2>" . $data['l10n']->get('resources') . "</h2>\n";
@@ -158,11 +158,11 @@ $expenses_url = $siteconfig->get_node_relative_url('org.openpsa.expenses');
             {
                 $status = 'acceptable';
             }
-            else if ($data['task_booked_percentage'] >= 95)
+            elseif ($data['task_booked_percentage'] >= 95)
             {
                 $status = 'ok';
             }
-            else if ($data['task_booked_percentage'] >= 75)
+            elseif ($data['task_booked_percentage'] >= 75)
             {
                 $status = 'acceptable';
             }

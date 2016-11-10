@@ -582,7 +582,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
             {
                 $linkinfo['target'] = $target;
             }
-            else if ($linkinfo['type'] == MGD_TYPE_GUID)
+            elseif ($linkinfo['type'] == MGD_TYPE_GUID)
             {
                 $linkinfo['target'] = 'guid';
             }

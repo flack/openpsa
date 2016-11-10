@@ -309,7 +309,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
             $data = midcom_helper_misc::get_snippet_content($schemadb);
             return midcom_helper_misc::parse_config($data);
         }
-        else if (is_array($schemadb))
+        elseif (is_array($schemadb))
         {
             return $schemadb;
         }
@@ -533,11 +533,11 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
             {
                 $rule = array('type' => $rule);
             }
-            else if (!array_key_exists('type', $rule))
+            elseif (!array_key_exists('type', $rule))
             {
                 throw new midcom_error("Missing validation rule type for rule {$key} on field {$config['name']}, this is a required option.");
             }
-            else if (   $rule['type'] == 'compare'
+            elseif (   $rule['type'] == 'compare'
                      && !array_key_exists('compare_with', $rule))
             {
                 throw new midcom_error("Missing compare_with option for compare type rule {$key} on field {$config['name']}, this is a required option.");

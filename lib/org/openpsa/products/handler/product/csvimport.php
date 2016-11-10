@@ -128,7 +128,7 @@ class org_openpsa_products_handler_product_csvimport extends midcom_baseclasses_
             }
         }
         // FIXME, we should check the field that has storage set to code, not just the field 'code'
-        else if (isset($productdata['code']))
+        elseif (isset($productdata['code']))
         {
             // FIXME: the product group should be taken into account here, codes are quaranteed to be unique only within the group
             $qb = org_openpsa_products_product_dba::new_query_builder();

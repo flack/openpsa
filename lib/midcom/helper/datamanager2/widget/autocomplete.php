@@ -404,7 +404,7 @@ EOT;
                 }
             }
         }
-        else if (!$this->_type->allow_multiple)
+        elseif (!$this->_type->allow_multiple)
         {
             $selection[] = $real_results;
         }

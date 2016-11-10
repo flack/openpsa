@@ -166,7 +166,7 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
                 $title = $formatter->date($row['hour']->date);
                 $this->add_to_group($row, $matching, $sort, $title);
             }
-            else if ($this->_grouping == 'person')
+            elseif ($this->_grouping == 'person')
             {
                 $matching = 'person:' . $row['person']->guid;
                 $sort = $row['person']->rname;

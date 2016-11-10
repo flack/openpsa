@@ -146,7 +146,7 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
                 $entry->delete();
                 $this->_deliverable->end_subscription();
             }
-            else if ($next_cycle != $entry->start)
+            elseif ($next_cycle != $entry->start)
             {
                 //@todo If next_cycle is changed to be in the past, should we check if this would lead
                 //to multiple runs immediately? i.e. if you set a monthly subscriptions next cycle to
@@ -157,7 +157,7 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
                 $entry->update();
             }
         }
-        else if ($next_cycle > 0)
+        elseif ($next_cycle > 0)
         {
             //TODO: This code is copied from scheduler, and should be merged into a separate method at some point
             $args = array

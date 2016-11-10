@@ -927,7 +927,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
             {
                 $handler_config['fixed_args'] = array($namespace, $plugin);
             }
-            else if (!is_array($handler_config['fixed_args']))
+            elseif (!is_array($handler_config['fixed_args']))
             {
                 $handler_config['fixed_args'] = array($namespace, $plugin, $handler_config['fixed_args']);
             }

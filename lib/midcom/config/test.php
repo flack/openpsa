@@ -58,7 +58,7 @@ class midcom_config_test
         {
             $this->add('Midgard Version', self::ERROR, 'Midgard 8.09.9 or greater is required for OpenPSA.');
         }
-        else if (   extension_loaded('midgard2')
+        elseif (   extension_loaded('midgard2')
                  && version_compare(mgd_version(), '10.05.5', '<'))
         {
             $this->add('Midgard Version', self::ERROR, 'Midgard2 10.05.5 or greater is required for OpenPSA.');
@@ -74,7 +74,7 @@ class midcom_config_test
         {
             $this->add('MidCOM cache base directory', self::ERROR, "The configured MidCOM cache base directory ({$cachedir}) does not exist or is not a directory. You have to create it as a directory writable by the Apache user.");
         }
-        else if (!is_writable($cachedir))
+        elseif (!is_writable($cachedir))
         {
             $this->add('MidCOM cache base directory', self::ERROR, "The configured MidCOM cache base directory ({$cachedir}) is not writable by the Apache user. You have to create it as a directory writable by the Apache user.");
         }
@@ -173,7 +173,7 @@ class midcom_config_test
         {
             $this->add("Bytecode cache", self::OK, "OPCache is enabled");
         }
-        else if (ini_get("apc.enabled") == "1")
+        elseif (ini_get("apc.enabled") == "1")
         {
             $this->add("Bytecode cache", self::OK, "APC is enabled");
         }
@@ -186,11 +186,11 @@ class midcom_config_test
         {
             $this->add('Memcache', self::WARNING, 'The PHP Memcache module is recommended for efficient MidCOM operation.');
         }
-        else if (!midcom::get()->config->get('cache_module_memcache_backend'))
+        elseif (!midcom::get()->config->get('cache_module_memcache_backend'))
         {
             $this->add('Memcache', self::WARNING, 'The PHP Memcache module is recommended for efficient MidCOM operation. It is available but is not set to be in use.');
         }
-        else if (midcom::get()->cache->memcache->is_operational())
+        elseif (midcom::get()->cache->memcache->is_operational())
         {
             $this->add('Memcache', self::OK);
         }
@@ -217,11 +217,11 @@ class midcom_config_test
         {
             $result = substr($result, 0, -1) * 1024 * 1024;
         }
-        else if ($last_char == 'K')
+        elseif ($last_char == 'K')
         {
             $result = substr($result, 0, -1) * 1024;
         }
-        else if ($last_char == 'G')
+        elseif ($last_char == 'G')
         {
             $result = substr($result, 0, -1) * 1024 * 1024 * 1024;
         }
@@ -277,7 +277,7 @@ class midcom_config_test
         {
             $this->add($testname, $fail_code, "The path to the utility {$testname} is not configured. {$fail_recommendations}");
         }
-        else if (!exec('which which'))
+        elseif (!exec('which which'))
         {
             $this->add('which', self::ERROR, "The 'which' utility cannot be found.");
         }

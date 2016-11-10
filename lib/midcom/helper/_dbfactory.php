@@ -343,7 +343,7 @@ class midcom_helper__dbfactory
             {
                 $object_guid = $object->guid;
             }
-            else if (isset($object->__guid))
+            elseif (isset($object->__guid))
             {
                 $object_guid = $object->__guid;
             }
@@ -373,7 +373,7 @@ class midcom_helper__dbfactory
 
             $parent_data = midcom::get()->cache->memcache->lookup_parent_data($object_guid);
         }
-        else if ($the_object === null)
+        elseif ($the_object === null)
         {
             throw new midcom_error('Tried to resolve an invalid GUID without an object being present. This cannot be done.');
         }

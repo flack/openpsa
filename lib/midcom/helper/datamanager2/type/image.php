@@ -293,7 +293,7 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
             // Copy original as original
             $att = $this->attachments['original'];
         }
-        else if (array_key_exists('main', $this->attachments))
+        elseif (array_key_exists('main', $this->attachments))
         {
             // Copy main as original
             $att = $this->attachments['main'];
@@ -737,7 +737,7 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
         {
             $main = $this->attachments_info['main'];
         }
-        else if (isset($this->attachments_info['original']))
+        elseif (isset($this->attachments_info['original']))
         {
             $main = $this->attachments_info['original'];
         }

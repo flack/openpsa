@@ -140,7 +140,7 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
 
             $objects = $this->_list_revised($data['revised_after'], $data['review_by'], $data['type_filter'], $data['only_mine']);
         }
-        else if (class_exists('midcom_helper_activitystream_activity_dba'))
+        elseif (class_exists('midcom_helper_activitystream_activity_dba'))
         {
             $objects = $this->_load_activities();
         }

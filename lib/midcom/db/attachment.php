@@ -223,7 +223,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
                 $name = array_pop($names);
             }
         }
-        else if (midcom::get()->dbfactory->is_a($attachment, 'midgard_attachment'))
+        elseif (midcom::get()->dbfactory->is_a($attachment, 'midgard_attachment'))
         {
             $guid = $attachment->guid;
             $name = $attachment->name;

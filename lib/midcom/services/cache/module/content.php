@@ -788,7 +788,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
                 {
                     ob_end_flush();
                 }
-                else if (ob_get_level())
+                elseif (ob_get_level())
                 {
                     ob_end_clean();
                 }
@@ -999,11 +999,11 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             {
                 $ranges = true;
             }
-            else if (strncasecmp($header, 'Content-Length', 14) == 0)
+            elseif (strncasecmp($header, 'Content-Length', 14) == 0)
             {
                 $size = true;
             }
-            else if (strncasecmp($header, 'Last-Modified', 13) == 0)
+            elseif (strncasecmp($header, 'Last-Modified', 13) == 0)
             {
                 $lastmod = true;
                 // Populate last modified timestamp (force GMT):

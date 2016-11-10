@@ -188,7 +188,7 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
             //Due to the way browsers handle the URLs this form only works for root pages
             $this->_request_data['target'] = $args[1];
         }
-        else if (!empty($_GET['link']))
+        elseif (!empty($_GET['link']))
         {
             $this->_request_data['target'] = $_GET['link'];
         }

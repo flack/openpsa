@@ -95,7 +95,7 @@ class midcom_helper_configuration
             $this->_path = $param2;
             $this->_store_from_object(true);
         }
-        else if (!is_null($param1))
+        elseif (!is_null($param1))
         {
             $this->_global = $param1;
             $this->_merged = $param1;

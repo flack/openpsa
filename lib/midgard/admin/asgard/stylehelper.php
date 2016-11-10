@@ -40,7 +40,7 @@ class midgard_admin_asgard_stylehelper
         {
             $help_element = $this->_get_help_style_elementnames($this->_data['object']);
         }
-        else if (   midcom::get()->dbfactory->is_a($this->_data['object'], 'midgard_element')
+        elseif (   midcom::get()->dbfactory->is_a($this->_data['object'], 'midgard_element')
                  && $this->_data['handler_id'] !== '____mfa-asgard-object_create')
         {
             $help_element = $this->_get_help_element();

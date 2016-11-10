@@ -84,7 +84,7 @@ class net_nehmer_static_handler_view extends midcom_baseclasses_components_handl
                 }
             }
         }
-        else if ($this->_article->can_do('midgard:delete'))
+        elseif ($this->_article->can_do('midgard:delete'))
         {
             $delete = $this->get_workflow('delete', array('object' => $this->_article));
             $buttons[] = $delete->get_button("delete/{$this->_article->guid}/");

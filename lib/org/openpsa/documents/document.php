@@ -165,11 +165,11 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
                     $type = str_replace('vnd.oasis.opendocument.', '', $subtype);
                     $subtype = 'OpenDocument';
                 }
-                else if (preg_match('/^vnd\.ms/', $subtype))
+                elseif (preg_match('/^vnd\.ms/', $subtype))
                 {
                     $subtype = ucfirst(str_replace('vnd.ms-', '', $subtype));
                 }
-                else if (preg_match('/^vnd\.openxmlformats/', $subtype))
+                elseif (preg_match('/^vnd\.openxmlformats/', $subtype))
                 {
                     $type = str_replace('vnd.openxmlformats-officedocument.', '', $subtype);
                     $type = str_replace('ml.', ' ', $type);

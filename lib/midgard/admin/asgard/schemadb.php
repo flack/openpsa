@@ -524,7 +524,7 @@ class midgard_admin_asgard_schemadb
                 // Handle abbreviations like "lang" for "language"
                 $field_label = $type_label;
             }
-            else if ($key == $type_label)
+            elseif ($key == $type_label)
             {
                 $field_label = $key;
             }
@@ -681,27 +681,27 @@ class midgard_admin_asgard_schemadb
         {
             $score = 1;
         }
-        else if (in_array($field, $preferred_fields))
+        elseif (in_array($field, $preferred_fields))
         {
             $score = 0;
         }
-        else if ($this->_reflector->is_link($field))
+        elseif ($this->_reflector->is_link($field))
         {
             $score = 2;
         }
-        else if (in_array($field, $timerange_fields))
+        elseif (in_array($field, $timerange_fields))
         {
             $score = 3;
         }
-        else if (in_array($field, $phone_fields))
+        elseif (in_array($field, $phone_fields))
         {
             $score = 4;
         }
-        else if (in_array($field, $address_fields))
+        elseif (in_array($field, $address_fields))
         {
             $score = 5;
         }
-        else if (in_array($field, $location_fields))
+        elseif (in_array($field, $location_fields))
         {
             $score = 6;
         }

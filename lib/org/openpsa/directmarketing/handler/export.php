@@ -84,7 +84,7 @@ class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_comp
             {
                 $memberships = array(reset($memberships));
             }
-            else if ($this->membership_mode == 'last')
+            elseif ($this->membership_mode == 'last')
             {
                 $memberships = array(end($memberships));
             }

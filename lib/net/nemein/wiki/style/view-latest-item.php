@@ -23,7 +23,7 @@ $formatter = $data['l10n']->get_formatter();
             $person_label = org_openpsa_widgets_contact::get($user->guid)->show_inline();
             echo "                    {$person_label}\n";
         }
-        else if ($history['ip'])
+        elseif ($history['ip'])
         {
             echo "                    {$history['ip']}\n";
         }

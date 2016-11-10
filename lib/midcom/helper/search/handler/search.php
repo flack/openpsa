@@ -98,7 +98,7 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
                 $this->append_terms_recursive($final_query, $term);
             }
         }
-        else if (is_string($terms))
+        elseif (is_string($terms))
         {
             $final_query .= "{$terms}";
         }

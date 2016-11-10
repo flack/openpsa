@@ -45,7 +45,7 @@ implements midcom_helper_datamanager2_interfaces_create
             $person = $person->get_storage();
             $defaults['participants'][$person->id] = $person;
         }
-        else if ($group = midcom::get()->auth->get_group($this->resource))
+        elseif ($group = midcom::get()->auth->get_group($this->resource))
         {
             foreach ($group->list_members() as $member)
             {
@@ -121,7 +121,7 @@ implements midcom_helper_datamanager2_interfaces_create
             $indexer->index($data['controller']->datamanager);
             midcom::get()->head->add_jsonload('openpsa_calendar_widget.refresh_parent();');
         }
-        else if (!empty($conflictmanager->busy_members))
+        elseif (!empty($conflictmanager->busy_members))
         {
             midcom::get()->uimessages->add($this->_l10n->get('event conflict'), $conflictmanager->get_message($this->_l10n->get_formatter()), 'warning');
         }

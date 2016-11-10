@@ -379,7 +379,7 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
                     {
                         $main = $images['main'];
                     }
-                    else if (isset($images['original']))
+                    elseif (isset($images['original']))
                     {
                         $main = $images['original'];
                     }
@@ -462,7 +462,7 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
         {
             $this->storage->object->set_parameter('midcom.helper.datamanager2.type.images', "attachment_map_{$this->name}", implode(',', $data));
         }
-        else if ($data)
+        elseif ($data)
         {
             debug_add("We were told to store image infos, but no storage object was present. This should not happen, ignoring silently.",
                 MIDCOM_LOG_WARN);
@@ -653,7 +653,7 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
             {
                 $image = $images['original'];
             }
-            else if (isset($images['main']))
+            elseif (isset($images['main']))
             {
                 $image = $images['main'];
             }

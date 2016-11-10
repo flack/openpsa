@@ -47,7 +47,7 @@ implements midcom_helper_datamanager2_interfaces_create
                     'css_group' => 'area meta',
                 );
             }
-            else if ($current == $last)
+            elseif ($current == $last)
             {
                 $field['end_fieldset'] = '';
             }

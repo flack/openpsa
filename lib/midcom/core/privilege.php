@@ -232,7 +232,7 @@ class midcom_core_privilege
         {
             $this->assignee = $assignee->id;
         }
-        else if (is_string($assignee))
+        elseif (is_string($assignee))
         {
             if ($this->is_magic_assignee($assignee))
             {
@@ -501,7 +501,7 @@ class midcom_core_privilege
             $privilege->value = MIDCOM_PRIVILEGE_INHERIT;
             return $privilege;
         }
-        else if (count($result) > 1)
+        elseif (count($result) > 1)
         {
             debug_add('A DB inconsistency has been detected. There is more than one record for privilege specified. Deleting all excess records after the first one!',
                 MIDCOM_LOG_ERROR);
@@ -569,7 +569,7 @@ class midcom_core_privilege
             $this->__guid = $src->guid;
             $this->__privilege_object = $src;
         }
-        else if (   is_string($src)
+        elseif (   is_string($src)
                  && mgd_is_guid($src))
         {
             $this->__guid = $src;

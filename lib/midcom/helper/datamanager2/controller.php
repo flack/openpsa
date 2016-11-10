@@ -149,7 +149,7 @@ abstract class midcom_helper_datamanager2_controller extends midcom_baseclasses_
         {
             $this->datamanager = $storage;
         }
-        else if (   $storage instanceof midcom_helper_datamanager2_storage
+        elseif (   $storage instanceof midcom_helper_datamanager2_storage
                  || midcom::get()->dbclassloader->is_midcom_db_object($storage))
         {
             $this->datamanager = new midcom_helper_datamanager2_datamanager($this->schemadb);

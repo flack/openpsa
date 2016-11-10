@@ -327,7 +327,7 @@ class midcom_debug
 
                 $stacktrace .= "{$frame['class']}::{$frame['function']}";
             }
-            else if (array_key_exists('function', $frame))
+            elseif (array_key_exists('function', $frame))
             {
                 $stacktrace .= $frame['function'];
             }

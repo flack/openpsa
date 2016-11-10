@@ -18,7 +18,7 @@ $view_group_name = $data['group']->get_label();
         {
             echo "<li>{$data['group']->postalStreet}, {$data['group']->postalCity}</li>\n";
         }
-        else if ($data['group']->street)
+        elseif ($data['group']->street)
         {
             echo "<li>{$data['group']->street}, {$data['group']->city}</li>\n";
         }

@@ -337,7 +337,7 @@ class midcom_helper_datamanager2_renderer_default extends HTML_QuickForm_Rendere
             $html = $this->_prepare_template($element->getName(), $element, $required, $error, $element->getType());
             $this->_html .= str_replace('{element}', $element->toHtml(), $html);
         }
-        else if (!empty($this->_group_element_template))
+        elseif (!empty($this->_group_element_template))
         {
             $html = str_replace('{label}', $element->getLabel(), $this->_group_element_template);
             $helptext = $this->_extract_helptext($element);

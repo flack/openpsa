@@ -7,11 +7,11 @@ if ($data['list_type'] == 'overdue')
 {
     $classes .= ' bad';
 }
-else if ($data['list_type'] == 'paid')
+elseif ($data['list_type'] == 'paid')
 {
     $classes .= ' good';
 }
-else if ($data['list_type'] == 'open')
+elseif ($data['list_type'] == 'open')
 {
     $classes .= ' normal';
 }

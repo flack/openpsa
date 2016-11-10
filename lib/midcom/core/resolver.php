@@ -204,7 +204,7 @@ class midcom_core_resolver
             // If custom expiry now+expires is set use that
             $cache->content->expires(time() + $expires);
         }
-        else if ($expires == 0)
+        elseif ($expires == 0)
         {
             // expires set to 0 means disable cache, so we shall
             $cache->content->no_cache();
@@ -315,7 +315,7 @@ class midcom_core_resolver
             $response = new midcom_response_relocate($url);
             $response->send();
         }
-        else if ($value == 'nocache')
+        elseif ($value == 'nocache')
         {
             midcom::get()->cache->content->no_cache();
         }

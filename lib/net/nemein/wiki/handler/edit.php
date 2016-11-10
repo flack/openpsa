@@ -107,7 +107,7 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
         {
             $this->add_preview();
         }
-        else if ($workflow->get_state() == 'save')
+        elseif ($workflow->get_state() == 'save')
         {
             $indexer = midcom::get()->indexer;
             net_nemein_wiki_viewer::index($this->_controller->datamanager, $indexer, $this->_topic);

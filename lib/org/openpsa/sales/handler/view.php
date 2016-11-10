@@ -220,12 +220,12 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
             $toolbar['buttons']['order'] = $this->_l10n->get('mark ordered');
             $toolbar['buttons']['decline'] = $this->_l10n->get('mark declined');
         }
-        else if ($deliverable->state == org_openpsa_sales_salesproject_deliverable_dba::STATE_DECLINED)
+        elseif ($deliverable->state == org_openpsa_sales_salesproject_deliverable_dba::STATE_DECLINED)
         {
             //declined, nothing to do...
             return $toolbar;
         }
-        else if ($deliverable->state < org_openpsa_sales_salesproject_deliverable_dba::STATE_DELIVERED)
+        elseif ($deliverable->state < org_openpsa_sales_salesproject_deliverable_dba::STATE_DELIVERED)
         {
             //started, ordered
             if ($deliverable->orgOpenpsaObtype == org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION)
@@ -241,12 +241,12 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
                     }
                 }
             }
-            else if ($deliverable->state == org_openpsa_sales_salesproject_deliverable_dba::STATE_ORDERED)
+            elseif ($deliverable->state == org_openpsa_sales_salesproject_deliverable_dba::STATE_ORDERED)
             {
                 $toolbar['buttons']['deliver'] = $this->_l10n->get('mark delivered');
             }
         }
-        else if ($deliverable->state == org_openpsa_sales_salesproject_deliverable_dba::STATE_INVOICED)
+        elseif ($deliverable->state == org_openpsa_sales_salesproject_deliverable_dba::STATE_INVOICED)
         {
             //delivered, invoiced
             if ($deliverable->invoiced > 0)
@@ -254,7 +254,7 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
                 $toolbar['label'] = $this->_l10n->get('invoiced') . ': ' . $formatter->number($deliverable->invoiced);
             }
         }
-        else if (   $deliverable->orgOpenpsaObtype != org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION
+        elseif (   $deliverable->orgOpenpsaObtype != org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION
                  && midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_invoices_invoice_dba'))
         {
             //not invoiced yet

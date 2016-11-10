@@ -167,15 +167,15 @@ class org_openpsa_widgets_grid extends midcom_baseclasses_components_purecode
         {
             $value = '"' . str_replace('"', '\\"', $value) . '"';
         }
-        else if ($value === true)
+        elseif ($value === true)
         {
             $value = 'true';
         }
-        else if ($value === false)
+        elseif ($value === false)
         {
             $value = 'false';
         }
-        else if (is_array($value))
+        elseif (is_array($value))
         {
             $value = json_encode($value);
         }

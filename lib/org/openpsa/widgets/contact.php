@@ -152,7 +152,7 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
         {
             $this->contact_details['lastname'] = $this->_l10n->get('no person');
         }
-        else if (   $person->firstname == ''
+        elseif (   $person->firstname == ''
                  && $person->lastname == '')
         {
             $this->contact_details['lastname'] = "Person #{$person->id}";
@@ -196,7 +196,7 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
         {
             $url = $this->link;
         }
-        else if (   $this->link_contacts
+        elseif (   $this->link_contacts
                  && !empty($this->contact_details['guid']))
         {
             if (!self::$_contacts_url)
@@ -433,7 +433,7 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
                     $inherited_cards_only = false;
                     $cards_to_show[] = $cardname;
                 }
-                else if (   !$default_shown
+                elseif (   !$default_shown
                          && $customer->street)
                 {
                     $default_shown = true;
@@ -508,7 +508,7 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
                 echo "<p>{$customer->$property_street}<br />\n";
                 echo "{$customer->$property_postcode} {$customer->$property_city}</p>\n";
             }
-            else if ($customer->street)
+            elseif ($customer->street)
             {
                 echo "<p>{$customer->street}<br />\n";
                 echo "{$customer->postcode} {$customer->city}</p>\n";

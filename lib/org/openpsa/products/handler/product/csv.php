@@ -31,7 +31,7 @@ class org_openpsa_products_handler_product_csv extends midcom_baseclasses_compon
             $data['schemadb_to_use'] = str_replace('.csv', '', $args[0]);
             $data['filename'] = $group_name_to_filename . $data['schemadb_to_use'] . '_' . date('Y-m-d') . '.csv';
         }
-        else if (array_key_exists('org_openpsa_products_export_schema', $_POST))
+        elseif (array_key_exists('org_openpsa_products_export_schema', $_POST))
         {
             //We do not have filename in URL, generate one and redirect
             $schemaname = $_POST['org_openpsa_products_export_schema'];

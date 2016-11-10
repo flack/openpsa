@@ -95,7 +95,7 @@ class midcom_core_group
             {
                 $id = substr($id, 6);
             }
-            else if (   is_numeric($id)
+            elseif (   is_numeric($id)
                      && $id == 0)
             {
                 throw new midcom_error('0 is not a valid DB identifier');
@@ -116,7 +116,7 @@ class midcom_core_group
         {
             $this->name = $this->_storage->official;
         }
-        else if ($this->_storage->name != '')
+        elseif ($this->_storage->name != '')
         {
             $this->name = $this->_storage->name;
         }

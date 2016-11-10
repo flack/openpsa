@@ -256,7 +256,7 @@ class org_openpsa_products_handler_product_search extends midcom_baseclasses_com
                 $data['results'] = $this->_qb_search($data['search_constraints']);
             }
         }
-        else if (   array_key_exists('org_openpsa_products_list_all', $_REQUEST)
+        elseif (   array_key_exists('org_openpsa_products_list_all', $_REQUEST)
                  || $this->_config->get('search_default_to_all'))
         {
             // Process search

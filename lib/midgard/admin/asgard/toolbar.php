@@ -120,7 +120,7 @@ class midgard_admin_asgard_toolbar extends midcom_helper_toolbar_view
                             break;
                     }
                 }
-                else if (is_a($object, 'midcom_db_article'))
+                elseif (is_a($object, 'midcom_db_article'))
                 {
                     try
                     {

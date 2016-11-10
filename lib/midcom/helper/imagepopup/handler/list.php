@@ -86,7 +86,7 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
         {
             $this->_create_controller($data);
         }
-        else if ($data['query'] != '')
+        elseif ($data['query'] != '')
         {
             $this->_run_search($data);
         }

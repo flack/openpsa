@@ -45,7 +45,7 @@ class midcom_helper_datamanager2_type_photo extends midcom_helper_datamanager2_t
             // Copy archival as original
             $att = $this->attachments['archival'];
         }
-        else if (array_key_exists('main', $this->attachments))
+        elseif (array_key_exists('main', $this->attachments))
         {
             // Copy main as original
             $att = $this->attachments['main'];
@@ -122,12 +122,12 @@ class midcom_helper_datamanager2_type_photo extends midcom_helper_datamanager2_t
             $img = $this->attachments_info['view'];
             $linkto = $this->attachments_info['main'];
         }
-        else if (array_key_exists('thumbnail', $this->attachments_info))
+        elseif (array_key_exists('thumbnail', $this->attachments_info))
         {
             $img = $this->attachments_info['thumbnail'];
             $linkto = $this->attachments_info['main'];
         }
-        else if (array_key_exists('archival', $this->attachments_info))
+        elseif (array_key_exists('archival', $this->attachments_info))
         {
             $linkto = $this->attachments_info['archival'];
         }

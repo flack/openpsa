@@ -348,7 +348,7 @@ class org_openpsa_directmarketing_campaign_ruleresolver
             $constraint_match = "NOT IN";
             $match = '=';
         }
-        else if ($rule['match'] == 'NOT LIKE')
+        elseif ($rule['match'] == 'NOT LIKE')
         {
             $constraint_match = "NOT IN";
             $match = 'LIKE';

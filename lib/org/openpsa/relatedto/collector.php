@@ -80,7 +80,7 @@ class org_openpsa_relatedto_collector extends midcom_core_collector
             parent::__construct('org_openpsa_relatedto_dba', $this->_object_prefix . 'Guid', $guids);
             $this->add_constraint($this->_other_prefix . 'Class', 'IN', (array) $classes);
         }
-        else if (is_string($classes))
+        elseif (is_string($classes))
         {
             parent::__construct('org_openpsa_relatedto_dba', $this->_other_prefix . 'Class', $classes);
             $this->add_constraint($this->_object_prefix . 'Guid', 'IN', (array) $guids);

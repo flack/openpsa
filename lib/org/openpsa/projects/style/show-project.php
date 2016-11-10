@@ -32,7 +32,7 @@ $node = $nap->get_node($nap->get_current_node());
         $contact = org_openpsa_widgets_contact::get($project->manager);
         echo $contact->show_inline();
     }
-    else if (count($project->resources) > 0)
+    elseif (count($project->resources) > 0)
     {
         echo "<h2>" . $data['l10n']->get('resources') . "</h2>\n";
         foreach (array_keys($project->resources) as $contact_id)

@@ -97,7 +97,7 @@ class org_openpsa_widgets_grid_provider
         {
             $this->_client = $source;
         }
-        else if (is_array($source))
+        elseif (is_array($source))
         {
             $this->set_rows($source);
         }
@@ -333,7 +333,7 @@ class org_openpsa_widgets_grid_provider
         {
             $items = $qb->execute();
         }
-        else if ($qb instanceof midcom_core_collector)
+        elseif ($qb instanceof midcom_core_collector)
         {
             $items = $qb->get_objects();
         }

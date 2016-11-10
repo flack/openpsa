@@ -537,7 +537,7 @@ class midcom_helper__styleloader
         {
             $_st = $this->get_style_id_from_path($topic->style);
         }
-        else if (!empty($GLOBALS['midcom_style_inherited']))
+        elseif (!empty($GLOBALS['midcom_style_inherited']))
         {
             // FIXME: This GLOBALS is set by urlparser. Should be removed
             // get user defined style inherited from topic tree
@@ -551,7 +551,7 @@ class midcom_helper__styleloader
             {
                 $_st = $this->get_style_id_from_path($styleengine_default_styles[$topic->component]);
             }
-            else if (midcom::get()->config->get('styleengine_relative_paths'))
+            elseif (midcom::get()->config->get('styleengine_relative_paths'))
             {
                 $_st = midcom_connection::get('style');
             }

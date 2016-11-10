@@ -454,7 +454,7 @@ class midcom_application
             {
                 $host_prefix = '/';
             }
-            else if ($host_prefix != '/')
+            elseif ($host_prefix != '/')
             {
                 if (substr($host_prefix, 0, 1) != '/')
                 {

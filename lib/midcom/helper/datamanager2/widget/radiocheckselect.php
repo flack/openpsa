@@ -166,7 +166,7 @@ class midcom_helper_datamanager2_widget_radiocheckselect extends midcom_helper_d
                 $this->_type->selection = array_keys(array_intersect_key($all_elements, $results[$this->name]));
             }
         }
-        else if ($results[$this->name] !== null)
+        elseif ($results[$this->name] !== null)
         {
             $this->_type->selection = array($results[$this->name]);
         }

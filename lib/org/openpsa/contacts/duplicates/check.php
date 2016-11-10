@@ -134,7 +134,7 @@ class org_openpsa_contacts_duplicates_check
             $ret['email_match'] = true;
             $ret['p'] += 1;
         }
-        else if (!empty($person1['lastname']))
+        elseif (!empty($person1['lastname']))
         {
             // if user's lastname is part of the email address, check to see if the difference is only in the domain part
             $email1 = preg_replace('/@.+/', '', $person1['email']);

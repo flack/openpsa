@@ -184,7 +184,7 @@ implements org_openpsa_widgets_grid_provider_client
                     $html .=  '<li><input type="submit" name="org_openpsa_projects_workflow_action[reject]" class="no" value="' . $this->_l10n->get('dont approve') . '" /></li>';
                     $html .= "</ul></form>";
                 }
-                else if ($task->manager)
+                elseif ($task->manager)
                 {
                     $contact = org_openpsa_widgets_contact::get($task->manager);
                     $html .= sprintf($this->_l10n->get("pending approval by %s"), $contact->show_inline());

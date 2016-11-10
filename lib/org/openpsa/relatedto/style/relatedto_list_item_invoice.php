@@ -9,7 +9,7 @@ if ($invoice->paid > 0)
 {
     $paid = ", " . midcom::get()->i18n->get_string('paid', 'org.openpsa.invoices') . ": " . $formatter->date($invoice->paid);
 }
-else if ($invoice->due < time())
+elseif ($invoice->due < time())
 {
     $paid = ", " . midcom::get()->i18n->get_string('not paid', 'org.openpsa.invoices');
 }

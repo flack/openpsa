@@ -283,7 +283,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
         {
             $this->storage->object->set_parameter('midcom.helper.datamanager2.type.blobs', "guids_{$this->name}", implode(',', $data));
         }
-        else if ($data)
+        elseif ($data)
         {
             debug_add('We were told to store attachment GUIDs, but no storage object was present. This should not happen, ignoring silently.',
                 MIDCOM_LOG_WARN);
@@ -636,7 +636,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
         {
             debug_add("Attachment {$attachment->guid} is used also elsewhere by DM2, remove only the reference", MIDCOM_LOG_INFO);
         }
-        else if (!$attachment->delete())
+        elseif (!$attachment->delete())
         {
             debug_add('Failed to delete the attachment record: DBA delete call returned false.', MIDCOM_LOG_INFO);
             return false;

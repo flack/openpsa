@@ -42,7 +42,7 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
             $schemadb = 'link';
         }
         // Check if a custom schema exists
-        else if (array_key_exists($this->_topic->component, $schemadbs))
+        elseif (array_key_exists($this->_topic->component, $schemadbs))
         {
             $schemadb = $this->_topic->component;
         }

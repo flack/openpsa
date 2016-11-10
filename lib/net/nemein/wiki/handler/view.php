@@ -315,11 +315,11 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
             {
                 $current_tag_level = $tag_level;
             }
-            else if ($current_tag_level == $tag_level)
+            elseif ($current_tag_level == $tag_level)
             {
                 $toc .= "</li>\n";
             }
-            else if ($tag_level > $current_tag_level)
+            elseif ($tag_level > $current_tag_level)
             {
                 for ($i = $current_tag_level; $i < $tag_level; $i++)
                 {

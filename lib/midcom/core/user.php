@@ -176,7 +176,7 @@ class midcom_core_user
         {
             $this->_storage = $this->_load_from_string($id, $person_class);
         }
-        else if (is_numeric($id))
+        elseif (is_numeric($id))
         {
             if ($id < 1)
             {
@@ -192,7 +192,7 @@ class midcom_core_user
                 throw new midcom_error_midgard($e, $id);
             }
         }
-        else if (   is_a($id, 'midcom_db_person')
+        elseif (   is_a($id, 'midcom_db_person')
                  || is_a($id, $person_class))
         {
             $this->_storage = $id;

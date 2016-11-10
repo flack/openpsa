@@ -7,7 +7,7 @@ if ($view_counter == 0)
 {
     $class_str = ' first';
 }
-else if ($view_counter == ($article_count - 1))
+elseif ($view_counter == ($article_count - 1))
 {
     $class_str = ' last';
 }

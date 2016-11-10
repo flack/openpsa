@@ -276,7 +276,7 @@ class midcom_helper_imagefilter
         {
             call_user_func_array(array($this, $command), $args);
         }
-        else if ($command != 'none')
+        elseif ($command != 'none')
         {
             debug_add('This is no known command, we try to find a callback.');
             $this->execute_user_callback($command, $args);
@@ -584,7 +584,7 @@ class midcom_helper_imagefilter
         {
             $geo = "x{$y}>";
         }
-        else if ($y == 0)
+        elseif ($y == 0)
         {
             $geo = "{$x}x>";
         }

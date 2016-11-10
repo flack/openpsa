@@ -282,7 +282,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
                         $info['target'] = 'guid';
                     }
                 }
-                else if ($linked_class != $object_baseclass)
+                elseif ($linked_class != $object_baseclass)
                 {
                     // This link points elsewhere
                     continue;
@@ -350,7 +350,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
                     {
                         $qb->add_constraint($field, '=', (int) $for_object->$field_target);
                     }
-                    else if ($link_type == 'parent')
+                    elseif ($link_type == 'parent')
                     {
                         $up_property = midgard_object_class::get_property_up($schema_type);
                         if (!empty($up_property))

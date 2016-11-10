@@ -165,7 +165,7 @@ implements midcom_services_permalinks_resolver
         {
             $type = 'person';
         }
-        else if (array_key_exists('group', $args))
+        elseif (array_key_exists('group', $args))
         {
             $type = 'group';
         }
@@ -248,7 +248,7 @@ implements midcom_services_permalinks_resolver
             // GeoRSS subscription is a good way to keep track of person's location
             $person->set_parameter('org.routamc.positioning:georss', 'georss_url', $data['georss_url']);
         }
-        else if (array_key_exists('icbm', $data))
+        elseif (array_key_exists('icbm', $data))
         {
             // Instead of using the ICBM position data directly we can subscribe to it so we get modifications too
             $person->set_parameter('org.routamc.positioning:html', 'icbm_url', $person->homepage);

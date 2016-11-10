@@ -81,7 +81,7 @@ while (!is_null($nodeid))
         echo "failure.\n   Background processing failed, error: {$http_client->error}\n";
         echo "Url: " . $reindex_topic_uri . "?" . $post_string . "\n";
     }
-    else if (!preg_match("#(\n|\r\n)Reindex complete for node http.*\s*</pre>\s*$#", $response))
+    elseif (!preg_match("#(\n|\r\n)Reindex complete for node http.*\s*</pre>\s*$#", $response))
     {
         // Does not end with 'Reindex complete for node...'
         echo "failure.\n   Background reindex returned unexpected data:\n---\n{$response}\n---\n";

@@ -650,7 +650,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
         {
             $this->renderer = 'none';
         }
-        else if (strpos($default, '_') === false)
+        elseif (strpos($default, '_') === false)
         {
             $this->create_renderer($default);
         }

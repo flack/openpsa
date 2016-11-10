@@ -248,7 +248,7 @@ class midcom_core_account
             {
                 $query->add_constraint('guid', 'NOT IN', array_keys($user_results));
             }
-            else if (count($user_results) < 1)
+            elseif (count($user_results) < 1)
             {
                 // make sure we don't return any results if no midgard_user entry was found
                 $query->add_constraint('id', '=', 0);

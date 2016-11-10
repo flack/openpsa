@@ -87,7 +87,7 @@ class midcom_exception_handler
             // The user has insufficient privileges
             $login_warning = midcom::get()->i18n->get_string('login message - insufficient privileges', 'midcom');
         }
-        else if (midcom::get()->auth->auth_credentials_found)
+        elseif (midcom::get()->auth->auth_credentials_found)
         {
             $login_warning = midcom::get()->i18n->get_string('login message - user or password wrong', 'midcom');
         }
@@ -283,7 +283,7 @@ class midcom_exception_handler
             $this->_send_email($msg, $error_actions[$httpcode]);
         }
         // Append to log file handler
-        else if ($error_actions[$httpcode]['action'] == 'log')
+        elseif ($error_actions[$httpcode]['action'] == 'log')
         {
             $this->_log($msg, $error_actions[$httpcode]);
         }
@@ -347,7 +347,7 @@ class midcom_exception_handler
             $stack = $this->_exception->getTrace();
         }
 
-        else if (function_exists('xdebug_get_function_stack'))
+        elseif (function_exists('xdebug_get_function_stack'))
         {
             $stack = xdebug_get_function_stack();
         }
@@ -382,7 +382,7 @@ class midcom_exception_handler
                 }
                 $line .= $frame['function'];
             }
-            else if (array_key_exists('function', $frame))
+            elseif (array_key_exists('function', $frame))
             {
                 $line .= $frame['function'];
             }
@@ -475,12 +475,12 @@ class midcom_error_midgard extends midcom_error
                 $message = "The object with identifier {$id} was not found.";
             }
 
-            else if ($last_error == MGD_ERR_ACCESS_DENIED)
+            elseif ($last_error == MGD_ERR_ACCESS_DENIED)
             {
                 $code = MIDCOM_ERRFORBIDDEN;
                 $message = midcom::get()->i18n->get_string('access denied', 'midcom');
             }
-            else if ($last_error == MGD_ERR_OBJECT_DELETED)
+            elseif ($last_error == MGD_ERR_OBJECT_DELETED)
             {
                 $code = MIDCOM_ERRNOTFOUND;
                 $message = "The object with identifier {$id} was deleted.";

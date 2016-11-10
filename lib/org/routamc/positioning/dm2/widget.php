@@ -518,7 +518,7 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
         {
             $city_id = $city->id;
         }
-        else if (!empty($results))
+        elseif (!empty($results))
         {
             $city = new org_routamc_positioning_city_dba();
             $city->city = $city_name;

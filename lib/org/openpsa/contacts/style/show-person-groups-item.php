@@ -41,7 +41,7 @@ if ($view_group_name == '')
         {
             echo "<li>{$view_group->postalStreet}, {$view_group->postalCity}</li>\n";
         }
-        else if ($view_group->street)
+        elseif ($view_group->street)
         {
             echo "<li>{$view_group->street}, {$view_group->city}</li>\n";
         }

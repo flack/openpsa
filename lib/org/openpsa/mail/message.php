@@ -182,7 +182,7 @@ class org_openpsa_mail_message
                 $uri = $matches["uri"][$key];
             }
             // uri is relative
-            else if (preg_match('/^\//', $location))
+            elseif (preg_match('/^\//', $location))
             {
                 $uri = midcom::get()->get_host_name() . $location;
             }
@@ -210,7 +210,7 @@ class org_openpsa_mail_message
                 $swift_att = Swift_Attachment::fromPath($att['file'], $att['mimetype']);
             }
             // we got the contents (bytes)
-            else if (isset($att['content']) && strlen($att['content']) > 0)
+            elseif (isset($att['content']) && strlen($att['content']) > 0)
             {
                 $swift_att = Swift_Attachment::newInstance($att['content'], $att['name'], $att['mimetype']);
             }

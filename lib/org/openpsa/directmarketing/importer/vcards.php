@@ -94,7 +94,7 @@ class org_openpsa_directmarketing_importer_vcards extends org_openpsa_directmark
         {
             $contact['person']['external-uid'] = $card->UID->value;
         }
-        else if ($card->{'X-ABUID'})
+        elseif ($card->{'X-ABUID'})
         {
             $contact['person']['external-uid'] = $card->{'X-ABUID'}->value;
         }

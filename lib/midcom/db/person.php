@@ -125,7 +125,7 @@ class midcom_db_person extends midcom_core_dbaobject
         {
             $this->rname = $firstname;
         }
-        else if ($firstname != '')
+        elseif ($firstname != '')
         {
             $this->rname .= ", {$firstname}";
         }

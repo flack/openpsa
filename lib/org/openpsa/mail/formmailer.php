@@ -101,7 +101,7 @@ class org_openpsa_mail_formmailer extends midcom_baseclasses_components_purecode
         {
             $mail->subject = $values['subject'];
         }
-        else if (!empty($this->subject))
+        elseif (!empty($this->subject))
         {
             $mail->subject = $this->subject;
         }

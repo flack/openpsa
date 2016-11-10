@@ -9,7 +9,7 @@ if (   $data['view_identifier'] == 'my_tasks'
     $grouping = 'status';
     $task_classes = 'multiline';
 }
-else if ($data['view_identifier'] == 'agreement')
+elseif ($data['view_identifier'] == 'agreement')
 {
     $grouping = 'manager';
 }

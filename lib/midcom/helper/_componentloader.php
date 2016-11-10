@@ -488,7 +488,7 @@ class midcom_helper__componentloader
             {
                 $result[$manifest->name] = $manifest->customdata[$component];
             }
-            else if ($showempty)
+            elseif ($showempty)
             {
                 $result[$manifest->name] = array();
             }

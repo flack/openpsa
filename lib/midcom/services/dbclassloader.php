@@ -307,7 +307,7 @@ class midcom_services_dbclassloader
             // In some cases we get a class name instead
             $classname = $object;
         }
-        else if (is_object($object))
+        elseif (is_object($object))
         {
             $classname = get_class($object);
         }
@@ -453,7 +453,7 @@ class midcom_services_dbclassloader
         {
             return (is_a($object, 'midcom_core_dbaobject') || is_a($object, 'midcom_core_dbaproxy'));
         }
-        else if (   is_string($object)
+        elseif (   is_string($object)
                  && class_exists($object))
         {
             return $this->is_midcom_db_object(new $object);

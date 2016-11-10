@@ -25,7 +25,7 @@ class midcom_helper_imagepopup_handler_links extends midcom_baseclasses_componen
         {
             $url .= 'links/';
         }
-        else if (empty($args[2]))
+        elseif (empty($args[2]))
         {
             $url .= 'folder/';
         }

@@ -76,7 +76,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
         {
             $this->_hour_report->task = $task;
         }
-        else if ($this->_request_data['task'])
+        elseif ($this->_request_data['task'])
         {
             $this->_hour_report->task = $this->_request_data['task'];
         }

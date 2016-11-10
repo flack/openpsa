@@ -267,7 +267,7 @@ class midcom_helper_nav
         {
             $navorder = 'articlesfirst';
         }
-        else if ($navorder == MIDCOM_NAVORDER_SCORE)
+        elseif ($navorder == MIDCOM_NAVORDER_SCORE)
         {
             $navorder = 'score';
         }

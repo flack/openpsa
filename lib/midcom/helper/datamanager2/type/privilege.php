@@ -118,7 +118,7 @@ class midcom_helper_datamanager2_type_privilege extends midcom_helper_datamanage
         {
             $this->privilege->value = $value;
         }
-        else if ($value != MIDCOM_PRIVILEGE_INHERIT)
+        elseif ($value != MIDCOM_PRIVILEGE_INHERIT)
         {
             if (!$this->storage->object)
             {

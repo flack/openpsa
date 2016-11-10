@@ -91,7 +91,7 @@ class org_openpsa_user_validator extends midcom_admin_user_validator
         {
             $result["email"] = midcom::get()->i18n->get_string("unknown email address", "org.openpsa.user");
         }
-        else if ($count > 1)
+        elseif ($count > 1)
         {
             $result["email"] = midcom::get()->i18n->get_string("multiple entries found, cannot continue", "org.openpsa.user");
         }

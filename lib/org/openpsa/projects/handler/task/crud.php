@@ -109,7 +109,7 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
                 ),
             );
         }
-        else if ($this->_object->status_type == 'ongoing')
+        elseif ($this->_object->status_type == 'ongoing')
         {
             $buttons[] = array
             (
@@ -189,7 +189,7 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
             $this->_defaults['resources'] = array_keys($this->_parent->resources);
             $this->_defaults['contacts'] = array_keys($this->_parent->contacts);
         }
-        else if ($this->_mode == 'delete')
+        elseif ($this->_mode == 'delete')
         {
             try
             {

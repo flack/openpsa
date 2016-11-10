@@ -122,7 +122,7 @@ class org_openpsa_invoices_status extends org_openpsa_widgets_status
                 'order' => 4
             );
         }
-        else if ($this->invoice->paid)
+        elseif ($this->invoice->paid)
         {
             $entries[] = array
             (
