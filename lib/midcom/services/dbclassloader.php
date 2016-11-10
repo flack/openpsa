@@ -86,7 +86,7 @@ class midcom_services_dbclassloader
     {
         if (is_null($definition_list))
         {
-            $definition_list = $this->_read_class_definition_file($component, $filename);;
+            $definition_list = $this->_read_class_definition_file($component, $filename);
         }
 
         $this->_register_loaded_classes($definition_list, $component);

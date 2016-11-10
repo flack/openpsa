@@ -66,7 +66,7 @@ class midcom_helper_datamanager2_type_boolean extends midcom_helper_datamanager2
 
     public function convert_from_csv ($source)
     {
-        $this->value = (boolean) $source;;
+        $this->value = (boolean) $source;
     }
 
     public function convert_to_csv()

@@ -270,7 +270,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
                 && isset($this->_sorted_list[$identifier]))
             {
                 // Store the attachment score
-                $attachment->metadata->score = $count - $this->_sorted_list[$identifier] + 1;;
+                $attachment->metadata->score = $count - $this->_sorted_list[$identifier] + 1;
             }
 
             $data[] = "{$identifier}:{$attachment->guid}";
