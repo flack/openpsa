@@ -48,15 +48,13 @@ class midcom_services_auth_backend_simple extends midcom_services_auth_backend
         $this->_cookie_id .= midcom::get()->config->get('auth_backend_simple_cookie_id');
 
         $this->_cookie_path = midcom::get()->config->get('auth_backend_simple_cookie_path');
-        if ($this->_cookie_path == 'auto')
-        {
+        if ($this->_cookie_path == 'auto') {
             $this->_cookie_path = midcom_connection::get_url('self');
         }
 
         if (   !empty($_SERVER['HTTPS'])
             && $_SERVER['HTTPS'] !== 'off'
-            && midcom::get()->config->get('auth_backend_simple_cookie_secure'))
-        {
+            && midcom::get()->config->get('auth_backend_simple_cookie_secure')) {
             $this->_secure_cookie = true;
         }
 
@@ -67,8 +65,7 @@ class midcom_services_auth_backend_simple extends midcom_services_auth_backend
     {
         $reset_cookie = false;
         if (   array_key_exists($this->_cookie_id, $_GET)
-            && !array_key_exists($this->_cookie_id, $_COOKIE))
-        {
+            && !array_key_exists($this->_cookie_id, $_COOKIE)) {
             /**
              * Loginbroker passed us the session data via GET (browsers can be very finicky about
              * cross-host cookies these days), make it available via $_COOKIE as well
@@ -80,14 +77,12 @@ class midcom_services_auth_backend_simple extends midcom_services_auth_backend
             $reset_cookie = true;
         }
 
-        if (!array_key_exists($this->_cookie_id, $_COOKIE))
-        {
+        if (!array_key_exists($this->_cookie_id, $_COOKIE)) {
             return false;
         }
 
         $data = explode('-', $_COOKIE[$this->_cookie_id]);
-        if (count($data) != 2)
-        {
+        if (count($data) != 2) {
             debug_add("The cookie data could not be parsed, assuming tampered session.",
                 MIDCOM_LOG_ERROR);
             debug_add('Killing the cookie...', MIDCOM_LOG_INFO);
@@ -98,8 +93,7 @@ class midcom_services_auth_backend_simple extends midcom_services_auth_backend
         $session_id = $data[0];
         $user_id = $data[1];
         $this->user = $this->auth->get_user($user_id);
-        if (!$this->user)
-        {
+        if (!$this->user) {
             debug_add("The user ID {$user_id} is invalid, could not load the user from the database, assuming tampered session.",
                 MIDCOM_LOG_ERROR);
             debug_add('Killing the cookie...');
@@ -109,8 +103,7 @@ class midcom_services_auth_backend_simple extends midcom_services_auth_backend
 
         $this->session_id = $this->auth->sessionmgr->load_login_session($session_id, $this->user);
 
-        if (!$this->session_id)
-        {
+        if (!$this->session_id) {
             debug_add("The session {$session_id} is invalid (usually this means an expired session).",
                 MIDCOM_LOG_ERROR);
             debug_add('Killing the cookie...');
@@ -118,8 +111,7 @@ class midcom_services_auth_backend_simple extends midcom_services_auth_backend
             return false;
         }
 
-        if ($reset_cookie)
-        {
+        if ($reset_cookie) {
             debug_add('Re-Setting of session cookie requested, doing it', MIDCOM_LOG_INFO);
             $this->_set_cookie();
         }
@@ -142,8 +134,7 @@ class midcom_services_auth_backend_simple extends midcom_services_auth_backend
             midcom::get()->config->get('auth_backend_simple_cookie_domain'),
             $this->_secure_cookie
         );
-        if (!$stat)
-        {
+        if (!$stat) {
             debug_add('Failed to set auth cookie, it seems that output has already started', MIDCOM_LOG_WARN);
         }
     }
@@ -163,8 +154,7 @@ class midcom_services_auth_backend_simple extends midcom_services_auth_backend
             midcom::get()->config->get('auth_backend_simple_cookie_domain'),
             $this->_secure_cookie
         );
-        if (!$stat)
-        {
+        if (!$stat) {
             debug_add('Failed to delete auth cookie, it seems that output has already started', MIDCOM_LOG_WARN);
         }
     }

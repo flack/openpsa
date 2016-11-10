@@ -34,8 +34,7 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
      */
     public function run_cycle($cycle_number, $send_invoice = true)
     {
-        if (time() < $this->_deliverable->start)
-        {
+        if (time() < $this->_deliverable->start) {
             debug_add('Subscription hasn\'t started yet, register the start-up event to $start');
             return $this->_create_at_entry($cycle_number, $this->_deliverable->start);
         }
@@ -47,14 +46,12 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
 
         $product = org_openpsa_products_product_dba::get_cached($this->_deliverable->product);
 
-        if ($this->_deliverable->state < org_openpsa_sales_salesproject_deliverable_dba::STATE_STARTED)
-        {
+        if ($this->_deliverable->state < org_openpsa_sales_salesproject_deliverable_dba::STATE_STARTED) {
             $this->_deliverable->state = org_openpsa_sales_salesproject_deliverable_dba::STATE_STARTED;
             $this->_deliverable->update();
         }
 
-        if ($send_invoice)
-        {
+        if ($send_invoice) {
             $calculator = new org_openpsa_invoices_calculator();
             $this_cycle_amount = $calculator->process_deliverable($this->_deliverable, $cycle_number);
         }
@@ -62,8 +59,7 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
         $tasks_completed = array();
         $tasks_not_completed = array();
 
-        if ($product->orgOpenpsaObtype == org_openpsa_products_product_dba::TYPE_SERVICE)
-        {
+        if ($product->orgOpenpsaObtype == org_openpsa_products_product_dba::TYPE_SERVICE) {
             // Close previous task(s)
             $last_task = null;
 
@@ -72,14 +68,10 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
             $task_qb->add_constraint('status', '<', org_openpsa_projects_task_status_dba::COMPLETED);
             $tasks = $task_qb->execute();
 
-            foreach ($tasks as $task)
-            {
-                if (org_openpsa_projects_workflow::complete($task, sprintf($this->_i18n->get_string('completed by subscription %s', 'org.openpsa.sales'), $cycle_number)))
-                {
+            foreach ($tasks as $task) {
+                if (org_openpsa_projects_workflow::complete($task, sprintf($this->_i18n->get_string('completed by subscription %s', 'org.openpsa.sales'), $cycle_number))) {
                     $tasks_completed[] = $task;
-                }
-                else
-                {
+                } else {
                     $tasks_not_completed[] = $task;
                 }
                 $last_task = $task;
@@ -92,16 +84,13 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
 
         // TODO: Warehouse management: create new order
         if (   $this->_deliverable->end < $next_cycle_start
-            && $this->_deliverable->end != 0)
-        {
+            && $this->_deliverable->end != 0) {
             debug_add('Do not register next cycle, the contract ends before');
             return $this->_deliverable->end_subscription();
         }
 
-        if ($this->_create_at_entry($cycle_number + 1, $next_cycle_start))
-        {
-            if ($send_invoice)
-            {
+        if ($this->_create_at_entry($cycle_number + 1, $next_cycle_start)) {
+            if ($send_invoice) {
                 $this->_notify_owner($calculator, $cycle_number, $next_cycle_start, $this_cycle_amount, $tasks_completed, $tasks_not_completed);
             }
             return true;
@@ -122,8 +111,7 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
         $at_entry->method = 'new_subscription_cycle';
         $at_entry->arguments = $args;
 
-        if (!$at_entry->create())
-        {
+        if (!$at_entry->create()) {
             debug_add('AT registration failed, last midgard error was: ' . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
             return false;
         }
@@ -137,23 +125,17 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
         $message = array();
         $salesproject = org_openpsa_sales_salesproject_dba::get_cached($this->_deliverable->salesproject);
-        try
-        {
+        try {
             $owner = midcom_db_person::get_cached($salesproject->owner);
-        }
-        catch (midcom_error $e)
-        {
+        } catch (midcom_error $e) {
             $e->log();
             return;
         }
         $customer = $salesproject->get_customer();
         $l10n = $this->_i18n->get_l10n('org.openpsa.sales');
-        if (is_null($next_run))
-        {
+        if (is_null($next_run)) {
             $next_run_label = $l10n->get('no more cycles');
-        }
-        else
-        {
+        } else {
             $next_run_label = $l10n->get_formatter()->date($next_run);
         }
 
@@ -164,36 +146,30 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
         $message['content'] = "{$message['title']}\n\n";
         $message['content'] .= $l10n->get('invoiced') . ": {$invoiced_sum}\n\n";
 
-        if ($invoiced_sum > 0)
-        {
+        if ($invoiced_sum > 0) {
             $invoice = $calculator->get_invoice();
             $message['content'] .= $this->_l10n->get('invoice') . " {$invoice->number}:\n";
             $url = $siteconfig->get_node_full_url('org.openpsa.invoices');
             $message['content'] .= $url . 'invoice/' . $invoice->guid . "/\n\n";
         }
 
-        if (count($tasks_completed) > 0)
-        {
+        if (count($tasks_completed) > 0) {
             $message['content'] .= "\n" . $l10n->get('tasks completed') . ":\n";
 
-            foreach ($tasks_completed as $task)
-            {
+            foreach ($tasks_completed as $task) {
                 $message['content'] .= "{$task->title}: {$task->reportedHours}h\n";
             }
         }
 
-        if (count($tasks_not_completed) > 0)
-        {
+        if (count($tasks_not_completed) > 0) {
             $message['content'] .= "\n" . $l10n->get('tasks not completed') . ":\n";
 
-            foreach ($tasks_not_completed as $task)
-            {
+            foreach ($tasks_not_completed as $task) {
                 $message['content'] .= "{$task->title}: {$task->reportedHours}h\n";
             }
         }
 
-        if ($new_task)
-        {
+        if ($new_task) {
             $message['content'] .= "\n" . $l10n->get('created new task') . ":\n";
             $message['content'] .= "{$task->title}\n";
         }
@@ -232,28 +208,24 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
         $task->plannedHours = $this->_deliverable->plannedUnits;
 
         $task->manager = $salesproject->owner;
-        if ($project)
-        {
+        if ($project) {
             $task->project = $project->id;
             $task->orgOpenpsaAccesstype = $project->orgOpenpsaAccesstype;
             $task->orgOpenpsaOwnerWg = $project->orgOpenpsaOwnerWg;
         }
 
-        if (!empty($source_task))
-        {
+        if (!empty($source_task)) {
             $task->priority = $source_task->priority;
             $task->manager = $source_task->manager;
         }
 
         // TODO: Figure out if we really want to keep this
         $task->hoursInvoiceableDefault = true;
-        if (!$task->create())
-        {
+        if (!$task->create()) {
             throw new midcom_error("The task for this cycle could not be created. Last Midgard error was: " . midcom_connection::get_error_string());
         }
         $task->add_members('contacts', array_keys($salesproject->contacts));
-        if (!empty($source_task))
-        {
+        if (!empty($source_task)) {
             $source_task->get_members();
             $task->add_members('resources', array_keys($source_task->resources));
         }
@@ -275,8 +247,7 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
      */
     public function calculate_cycles($months = null, $start = null)
     {
-        if ($start === null)
-        {
+        if ($start === null) {
             $start = time();
         }
         $cycles = 0;
@@ -284,27 +255,22 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
         $end_time = $this->_deliverable->end;
 
         // This takes care of invalid/unsupported unit configs
-        if ($this->calculate_cycle_next($cycle_time) === false)
-        {
+        if ($this->calculate_cycle_next($cycle_time) === false) {
             return $cycles;
         }
 
-        while ($cycle_time < $start)
-        {
+        while ($cycle_time < $start) {
             $cycle_time = $this->calculate_cycle_next($cycle_time);
         }
 
-        if (!is_null($months))
-        {
+        if (!is_null($months)) {
             $end_time = mktime(date('H', $cycle_time), date('m', $cycle_time), date('i', $cycle_time), date('m', $cycle_time) + $months, date('d', $cycle_time), date('Y', $cycle_time));
         }
 
         $cycles = 0;
-        while ($cycle_time < $end_time)
-        {
+        while ($cycle_time < $end_time) {
             $cycle_time = $this->calculate_cycle_next($cycle_time);
-            if ($cycle_time <= $end_time)
-            {
+            if ($cycle_time <= $end_time) {
                 $cycles++;
             }
         }
@@ -313,8 +279,7 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
 
     public function calculate_cycle_next($time)
     {
-        switch ($this->_deliverable->unit)
-        {
+        switch ($this->_deliverable->unit) {
             case 'd':
                 // Daily recurring subscription
                 $new_date = new DateTime('+1 day ' . gmdate('Y-m-d', $time), new DateTimeZone('GMT'));
@@ -339,13 +304,11 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
                 debug_add('Unrecognized unit value "' . $this->_deliverable->unit . '" for deliverable ' . $this->_deliverable->guid . ", returning false", MIDCOM_LOG_WARN);
                 return false;
         }
-        if ($this->_deliverable->unit != 'd')
-        {
+        if ($this->_deliverable->unit != 'd') {
             //If previous cycle was run at the end of the month, the new one should be at the end of the month as well
             $date = new DateTime(gmdate('Y-m-d', $time), new DateTimeZone('GMT'));
             if (   $date->format('t') == $date->format('j')
-                && $new_date->format('t') != $new_date->format('j'))
-            {
+                && $new_date->format('t') != $new_date->format('j')) {
                 $new_date->setDate((int) $new_date->format('Y'), (int) $new_date->format('m'), (int) $new_date->format('t'));
             }
         }
@@ -370,8 +333,7 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
         $control = clone $new_date;
         $control->modify('-' . $offset . ' months');
 
-        while ($orig->format('m') !== $control->format('m'))
-        {
+        while ($orig->format('m') !== $control->format('m')) {
             $new_date->modify('-1 day');
             $control = clone $new_date;
             $control->modify('-' . $offset . ' months');
@@ -382,11 +344,9 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
 
     public function get_cycle_start($cycle_number, $time)
     {
-        if ($cycle_number == 1)
-        {
+        if ($cycle_number == 1) {
             $day_of_month = midcom_baseclasses_components_configuration::get('org.openpsa.sales', 'config')->get('subscription_invoice_day_of_month');
-            if ($day_of_month)
-            {
+            if ($day_of_month) {
                 return gmmktime(0, 0, 0, date('n', $time) + 1, $day_of_month, date('Y', $time));
             }
 
@@ -402,8 +362,7 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
     {
         $date = new DateTime(gmdate('Y-m-d', $time), new DateTimeZone('GMT'));
 
-        switch ($this->_deliverable->unit)
-        {
+        switch ($this->_deliverable->unit) {
             case 'd':
                 // Daily recurring subscription
                 $identifier = $date->format('Y-m-d');

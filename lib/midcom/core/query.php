@@ -111,18 +111,15 @@ abstract class midcom_core_query
      */
     protected function _convert_class($classname)
     {
-        if (!class_exists($classname))
-        {
+        if (!class_exists($classname)) {
             throw new midcom_error("Cannot create a midcom_core_query instance for the type {$classname}: Class does not exist.");
         }
 
         static $_class_mapping_cache = array();
 
         $this->_real_class = $classname;
-        if (empty($_class_mapping_cache[$classname]))
-        {
-            if (!is_subclass_of($classname, 'midcom_core_dbaobject'))
-            {
+        if (empty($_class_mapping_cache[$classname])) {
+            if (!is_subclass_of($classname, 'midcom_core_dbaobject')) {
                 throw new midcom_error
                 (
                     "Cannot create a midcom_core_query instance for the type {$classname}: Does not seem to be a DBA class name."
@@ -141,16 +138,14 @@ abstract class midcom_core_query
     {
         if (   !$this->_visibility_checks_added
             && $this->hide_invisible
-            && !midcom::get()->config->get('show_hidden_objects'))
-        {
+            && !midcom::get()->config->get('show_hidden_objects')) {
             $this->add_constraint('metadata.hidden', '=', false);
             $now = strftime('%Y-%m-%d %H:%M:%S');
             $this->begin_group('OR');
-                $this->add_constraint('metadata.schedulestart', '>', $now);
-                $this->add_constraint('metadata.schedulestart', '=', '0000-00-00 00:00:00');
+            $this->add_constraint('metadata.schedulestart', '>', $now);
+            $this->add_constraint('metadata.schedulestart', '=', '0000-00-00 00:00:00');
             $this->end_group();
             $this->add_constraint('metadata.scheduleend', '<', $now);
-
         }
 
         $this->_visibility_checks_added = true;
@@ -180,8 +175,7 @@ abstract class midcom_core_query
     {
         $this->_reset();
         // Add check against null values, Core MC is too stupid to get this right.
-        if ($value === null)
-        {
+        if ($value === null) {
             debug_add("Query: Cannot add constraint on field '{$field}' with null value.", MIDCOM_LOG_WARN);
             return false;
         }
@@ -189,19 +183,15 @@ abstract class midcom_core_query
         // This is done here to avoid repetitive code in callers, and because
         // it's easy enough to generalize: IN empty set => always false, NOT IN empty set => always true
         if (   is_array($value)
-            && empty($value))
-        {
-            if ($operator == 'NOT IN')
-            {
+            && empty($value)) {
+            if ($operator == 'NOT IN') {
                 return true;
             }
-            if ($operator == 'IN')
-            {
+            if ($operator == 'IN') {
                 return $this->add_constraint('id', '=', 0);
             }
         }
-        if (!$this->_query->add_constraint($field, $operator, $value))
-        {
+        if (!$this->_query->add_constraint($field, $operator, $value)) {
             debug_add("Failed to execute add_constraint.", MIDCOM_LOG_ERROR);
             debug_add("Class = '{$this->_real_class}, Field = '{$field}', Operator = '{$operator}'");
             debug_print_r('Value:', $value);
@@ -227,8 +217,7 @@ abstract class midcom_core_query
     public function add_constraint_with_property($field, $operator, $compare_field)
     {
         $this->_reset();
-        if (!$this->_query->add_constraint_with_property($field, $operator, $compare_field))
-        {
+        if (!$this->_query->add_constraint_with_property($field, $operator, $compare_field)) {
             debug_add("Failed to execute add_constraint_with_property.", MIDCOM_LOG_ERROR);
             debug_add("Class = '{$this->_real_class}, Field = '{$field}', Operator = '{$operator}', compare_field: '{$compare_field}'");
 
@@ -254,12 +243,9 @@ abstract class midcom_core_query
     public function begin_group($operator = 'OR')
     {
         $this->_groups++;
-        try
-        {
+        try {
             @$this->_query->begin_group($operator);
-        }
-        catch (Exception $e)
-        {
+        } catch (Exception $e) {
             debug_add("Failed to execute begin_group {$operator}, Midgard Exception: " . $e->getMessage(), MIDCOM_LOG_ERROR);
             $this->_groups--;
         }
@@ -272,12 +258,9 @@ abstract class midcom_core_query
     {
         $this->_groups--;
 
-        try
-        {
+        try {
             @$this->_query->end_group();
-        }
-        catch (Exception $e)
-        {
+        } catch (Exception $e) {
             debug_add("Failed to execute end_group, Midgard Exception: " . $e->getMessage(), MIDCOM_LOG_ERROR);
         }
     }
@@ -318,8 +301,7 @@ abstract class midcom_core_query
      */
     public function add_order($field, $direction = 'ASC')
     {
-        if (!$this->_query->add_order($field, $direction))
-        {
+        if (!$this->_query->add_order($field, $direction)) {
             debug_add("Failed to execute add_order for column '{$field}', midgard error: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
             return false;
         }

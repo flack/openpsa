@@ -92,8 +92,8 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
      */
     public function __construct(array &$schemadb)
     {
-         parent::__construct();
-         $this->_schemadb =& $schemadb;
+        parent::__construct();
+        $this->_schemadb =& $schemadb;
     }
 
     /**
@@ -110,13 +110,11 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
      */
     function set_schema($name = null)
     {
-        if ($name === null)
-        {
+        if ($name === null) {
             reset($this->_schemadb);
             $name = key($this->_schemadb);
         }
-        if (!array_key_exists($name, $this->_schemadb))
-        {
+        if (!array_key_exists($name, $this->_schemadb)) {
             debug_add("The schema {$name} was not found in the active schema database.", MIDCOM_LOG_INFO);
             return false;
         }
@@ -145,26 +143,21 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
      */
     function set_storage($object)
     {
-        if ($this->schema === null)
-        {
+        if ($this->schema === null) {
             debug_add('Cannot initialize to a storage object if the schema is not yet set.', MIDCOM_LOG_INFO);
             return false;
         }
 
-        if (!is_a($object, 'midcom_helper_datamanager2_storage'))
-        {
+        if (!is_a($object, 'midcom_helper_datamanager2_storage')) {
             $this->storage = new midcom_helper_datamanager2_storage_midgard($this->schema, $object);
-        }
-        else
-        {
+        } else {
             $this->storage = $object;
         }
 
         // For reasons I do not completely comprehend, PHP drops the storage references into the types
         // in the lines above. Right now the only solution (except debugging this 5 hours long line
         // by line) I see is explicitly setting the storage references in the types.
-        foreach ($this->types as $type)
-        {
+        foreach ($this->types as $type) {
             $type->set_storage($this->storage);
         }
 
@@ -184,15 +177,13 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
     {
         $this->types = array();
 
-        if (!$this->schema)
-        {
+        if (!$this->schema) {
             debug_add("Failed to initialize the types, schema not defined.",
                 MIDCOM_LOG_INFO);
             return false;
         }
 
-        foreach ($this->schema->fields as $name => $config)
-        {
+        foreach ($this->schema->fields as $name => $config) {
             $this->_load_type($name, $config);
         }
 
@@ -201,26 +192,22 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
 
     private function _load_type($name, $config)
     {
-        if (!isset($config['type']))
-        {
+        if (!isset($config['type'])) {
             throw new midcom_error("The field {$name} is missing type");
         }
 
         $classname = $config['type'];
-        if (strpos($classname, '_') === false)
-        {
+        if (strpos($classname, '_') === false) {
             // Built-in type called using the shorthand notation
             $classname = "midcom_helper_datamanager2_type_{$config['type']}";
         }
 
         $this->types[$name] = new $classname();
-        if (!$this->types[$name] instanceof midcom_helper_datamanager2_type)
-        {
+        if (!$this->types[$name] instanceof midcom_helper_datamanager2_type) {
             throw new midcom_error("{$classname} is not a valid DM2 type");
         }
 
-        if ($this->types[$name]->initialize($name, $config['type_config'], $this->storage, $this) === false)
-        {
+        if ($this->types[$name]->initialize($name, $config['type_config'], $this->storage, $this) === false) {
             throw new midcom_error("Failed to initialize the type for {$name}");
         }
     }
@@ -238,35 +225,27 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
      */
     function autoset_storage($object, $strict = false)
     {
-        if (is_a($object, 'midcom_helper_datamanager2_storage'))
-        {
+        if (is_a($object, 'midcom_helper_datamanager2_storage')) {
             $schema = $object->object->get_parameter('midcom.helper.datamanager2', 'schema_name');
-        }
-        else
-        {
-            if (!is_object($object))
-            {
+        } else {
+            if (!is_object($object)) {
                 return false;
             }
             $schema = $object->get_parameter('midcom.helper.datamanager2', 'schema_name');
         }
 
-        if (!$schema)
-        {
+        if (!$schema) {
             $schema = null;
         }
 
-        if (!$this->set_schema($schema))
-        {
+        if (!$this->set_schema($schema)) {
             if (   $strict
-                || $schema == null)
-            {
+                || $schema == null) {
                 return false;
             }
             debug_add("Given schema name {$schema} was not found, reverting to default.", MIDCOM_LOG_INFO);
             // Schema database has probably changed so we should be graceful here
-            if (!$this->set_schema(null))
-            {
+            if (!$this->set_schema(null)) {
                 return false;
             }
         }
@@ -285,15 +264,12 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
     function recreate()
     {
         $stat = true;
-        foreach ($this->types as $type)
-        {
-            if (!method_exists($type, 'recreate'))
-            {
+        foreach ($this->types as $type) {
+            if (!method_exists($type, 'recreate')) {
                 // This type doesn't support recreation
                 continue;
             }
-            if (!$type->recreate())
-            {
+            if (!$type->recreate()) {
                 $stat = false;
             }
         }
@@ -310,8 +286,7 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
      */
     function save()
     {
-        if (!$this->validate())
-        {
+        if (!$this->validate()) {
             debug_add(count($this->validation_errors) . ' fields have failed validation, cannot save.',
                 MIDCOM_LOG_WARN);
             debug_print_r('Validation errors:', $this->validation_errors);
@@ -331,14 +306,11 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
     {
         $this->validation_errors = array();
         $validated = true;
-        foreach (array_keys($this->schema->fields) as $name)
-        {
-            if ($this->_schema_field_is_broken($name))
-            {
+        foreach (array_keys($this->schema->fields) as $name) {
+            if ($this->_schema_field_is_broken($name)) {
                 continue;
             }
-            if (!$this->types[$name]->validate())
-            {
+            if (!$this->types[$name]->validate()) {
                 $this->validation_errors[$name] = $this->types[$name]->validation_error;
                 $validated = false;
             }
@@ -354,8 +326,7 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
      */
     function _schema_field_is_broken($name)
     {
-        if (isset($this->types[$name]))
-        {
+        if (isset($this->types[$name])) {
             return false;
         }
         $msg = "DM2->types['{$name}'] is not set (but was present in field_order/fields array), current instance of schema '{$this->schema_name}' is somehow broken";
@@ -374,26 +345,20 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
      */
     function get_content_html()
     {
-        if (is_null($this->formmanager))
-        {
+        if (is_null($this->formmanager)) {
             $this->formmanager = new midcom_helper_datamanager2_formmanager($this->schema, $this->types);
             $this->formmanager->initialize();
         }
 
         $result = array();
-        foreach ($this->schema->field_order as $name)
-        {
-            if ($this->_schema_field_is_broken($name))
-            {
+        foreach ($this->schema->field_order as $name) {
+            if ($this->_schema_field_is_broken($name)) {
                 continue;
             }
-            if (empty($this->formmanager->widgets[$name]))
-            {
+            if (empty($this->formmanager->widgets[$name])) {
                 //This field seems to be hidden, i.e. DM has not loaded the widget
                 $result[$name] = $this->types[$name]->convert_to_html();
-            }
-            else
-            {
+            } else {
                 $this->formmanager->widgets[$name]->_type = $this->types[$name];
                 $result[$name] = $this->formmanager->widgets[$name]->render_content();
             }
@@ -410,24 +375,17 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
     function get_content_xml()
     {
         $result = array();
-        foreach ($this->schema->field_order as $name)
-        {
-            if ($this->_schema_field_is_broken($name))
-            {
+        foreach ($this->schema->field_order as $name) {
+            if ($this->_schema_field_is_broken($name)) {
                 continue;
             }
-            if (is_a($this->types[$name], 'midcom_helper_datamanager2_type_blobs'))
-            {
+            if (is_a($this->types[$name], 'midcom_helper_datamanager2_type_blobs')) {
                 $result[$name] = explode(',', $this->types[$name]->convert_to_csv());
-            }
-            elseif (is_a($this->types[$name], 'midcom_helper_datamanager2_type_select'))
-            {
+            } elseif (is_a($this->types[$name], 'midcom_helper_datamanager2_type_select')) {
                 $this->types[$name]->csv_export_key = true;
                 $this->types[$name]->multiple_storagemode = 'array';
                 $result[$name] = $this->types[$name]->convert_to_storage();
-            }
-            else
-            {
+            } else {
                 $result[$name] = $this->types[$name]->convert_to_storage();
             }
         }
@@ -443,10 +401,8 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
     function get_content_csv()
     {
         $result = array();
-        foreach ($this->schema->field_order as $name)
-        {
-            if ($this->_schema_field_is_broken($name))
-            {
+        foreach ($this->schema->field_order as $name) {
+            if ($this->_schema_field_is_broken($name)) {
                 continue;
             }
             $result[$name] = $this->types[$name]->convert_to_csv();
@@ -463,10 +419,8 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
     function get_content_email()
     {
         $result = array();
-        foreach ($this->schema->field_order as $name)
-        {
-            if ($this->_schema_field_is_broken($name))
-            {
+        foreach ($this->schema->field_order as $name) {
+            if ($this->_schema_field_is_broken($name)) {
                 continue;
             }
             $result[$name] = $this->types[$name]->convert_to_email();
@@ -482,10 +436,8 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
     function get_content_raw()
     {
         $result = array();
-        foreach ($this->schema->field_order as $name)
-        {
-            if ($this->_schema_field_is_broken($name))
-            {
+        foreach ($this->schema->field_order as $name) {
+            if ($this->_schema_field_is_broken($name)) {
                 continue;
             }
             $result[$name] = $this->types[$name]->convert_to_raw();
@@ -509,45 +461,31 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
         // iterate over all types so that they can add their piece to the form
         echo "<div class=\"midcom_helper_datamanager2_view\">\n";
         $fieldset_count = 0;
-        foreach ($this->schema->field_order as $name)
-        {
+        foreach ($this->schema->field_order as $name) {
             $config =& $this->schema->fields[$name];
-            if (!empty($config['hidden']))
-            {
+            if (!empty($config['hidden'])) {
                 continue;
             }
 
-            if (isset($config['start_fieldset']))
-            {
-                if (isset($config['start_fieldset']['title']))
-                {
+            if (isset($config['start_fieldset'])) {
+                if (isset($config['start_fieldset']['title'])) {
                     $fieldsets = array();
                     $fieldsets[] = $config['start_fieldset'];
-                }
-                else
-                {
+                } else {
                     $fieldsets = $config['start_fieldset'];
                 }
-                foreach ($fieldsets as $fieldset)
-                {
-                    if (isset($fieldset['css_group']))
-                    {
+                foreach ($fieldsets as $fieldset) {
+                    if (isset($fieldset['css_group'])) {
                         $class = $fieldset['css_group'];
-                    }
-                    else
-                    {
+                    } else {
                         $class = $name;
                     }
                 }
                 echo "<div class=\"fieldset {$class}\">\n";
-                if (isset($fieldset['title']))
-                {
-                    if (isset($fieldset['css_title']))
-                    {
+                if (isset($fieldset['title'])) {
+                    if (isset($fieldset['css_title'])) {
                         $class = " class=\"{$fieldset['css_title']}\"";
-                    }
-                    else
-                    {
+                    } else {
                         $class = " class=\"{$name}\"";
                     }
 
@@ -555,8 +493,7 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
                     echo "        ". $this->schema->translate_schema_string($fieldset['title']) ."\n";
                     echo "    </h2>\n";
                 }
-                if (isset($fieldset['description']))
-                {
+                if (isset($fieldset['description'])) {
                     echo "<p>". $this->schema->translate_schema_string($fieldset['description']) . "</p>\n";
                 }
                 $fieldset_count++;
@@ -564,8 +501,7 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
 
             $field_value = $values[$name];
             if (   !$skip_empty
-                || trim($field_value) !== '')
-            {
+                || trim($field_value) !== '') {
                 echo "<div class=\"field\">\n";
                 echo '<div class="title">' . $this->schema->translate_schema_string($this->schema->fields[$name]['title']) . "</div>\n";
                 echo '<div class="value">';
@@ -577,27 +513,21 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
             }
 
             if (   !isset($config['end_fieldset'])
-                || $fieldset_count <= 0)
-            {
+                || $fieldset_count <= 0) {
                 // No more fieldsets to close
                 continue;
             }
 
-            if (is_numeric($config['end_fieldset']))
-            {
-                for ($i = 0; $i < $config['end_fieldset']; $i++)
-                {
+            if (is_numeric($config['end_fieldset'])) {
+                for ($i = 0; $i < $config['end_fieldset']; $i++) {
                     echo "</div>\n";
                     $fieldset_count--;
 
-                    if ($fieldset_count <= 0)
-                    {
+                    if ($fieldset_count <= 0) {
                         break;
                     }
                 }
-            }
-            else
-            {
+            } else {
                 echo "</div>\n";
                 $fieldset_count--;
             }

@@ -40,8 +40,7 @@ class midcom_services_rcs
      */
     public function __construct($config = null)
     {
-        if (is_null($config))
-        {
+        if (is_null($config)) {
             $config = midcom::get()->config;
         }
 
@@ -55,13 +54,11 @@ class midcom_services_rcs
      */
     function load_handler($object)
     {
-        if (!$object->guid)
-        {
+        if (!$object->guid) {
             return false;
         }
 
-        if (!array_key_exists($object->guid, $this->_handlers))
-        {
+        if (!array_key_exists($object->guid, $this->_handlers)) {
             $this->_handlers[$object->guid] = $this->config->get_handler($object);
         }
 
@@ -76,18 +73,15 @@ class midcom_services_rcs
      */
     function update($object, $message = null)
     {
-        if (!$this->config->use_rcs())
-        {
+        if (!$this->config->use_rcs()) {
             return true;
         }
         $handler = $this->load_handler($object);
-        if (!is_object($handler))
-        {
+        if (!is_object($handler)) {
             debug_add('Could not load handler!');
             return false;
         }
-        if (!$handler->update($object, $message))
-        {
+        if (!$handler->update($object, $message)) {
             debug_add('RCS: Could not save file!');
             return false;
         }
@@ -99,8 +93,7 @@ class midcom_services_rcs
      */
     public static function is_field_showable($field)
     {
-        switch ($field)
-        {
+        switch ($field) {
             case 'guid':
             case 'id':
             case 'sitegroup':

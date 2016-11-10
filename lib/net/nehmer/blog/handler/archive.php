@@ -84,8 +84,7 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
         $this->_compute_welcome_data();
         $this->_prepare_request_data();
 
-        if ($this->_config->get('archive_in_navigation'))
-        {
+        if ($this->_config->get('archive_in_navigation')) {
             $this->set_active_leaf($this->_topic->id . '_ARCHIVE');
         }
 
@@ -114,18 +113,14 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
         $qb->add_order('metadata.published');
         $qb->set_limit(1);
 
-        if (midcom::get()->auth->request_sudo($this->_component))
-        {
+        if (midcom::get()->auth->request_sudo($this->_component)) {
             $result = $qb->execute_unchecked();
             midcom::get()->auth->drop_sudo();
-        }
-        else
-        {
+        } else {
             $result = $qb->execute();
         }
 
-        if (!empty($result))
-        {
+        if (!empty($result)) {
             return new DateTime(strftime('%Y-%m-%d %H:%M:%S', $result[0]->metadata->published));
         }
         return null;
@@ -166,8 +161,7 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
         $this->_request_data['first_post'] = $first_post;
         $this->_request_data['total_count'] =& $total_count;
         $this->_request_data['year_data'] =& $year_data;
-        if (!$first_post)
-        {
+        if (!$first_post) {
             return;
         }
 
@@ -178,8 +172,7 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
 
         $month_names = $this->_get_month_names();
 
-        for ($year = $last_year; $year >= $first_year; $year--)
-        {
+        for ($year = $last_year; $year >= $first_year; $year--) {
             $year_url = "{$prefix}year/{$year}/";
             $year_count = 0;
             $month_data = array();
@@ -187,26 +180,19 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
             // Loop over the months, start month is either first posting month
             // or January in all other cases. End months are treated similarly,
             // being december by default unless for the current year.
-            if ($year == $first_year)
-            {
+            if ($year == $first_year) {
                 $first_month = $first_post->format('n');
-            }
-            else
-            {
+            } else {
                 $first_month = 1;
             }
 
-            if ($year == $last_year)
-            {
+            if ($year == $last_year) {
                 $last_month = $now->format('n');
-            }
-            else
-            {
+            } else {
                 $last_month = 12;
             }
 
-            for ($month = $first_month; $month <= $last_month; $month++)
-            {
+            for ($month = $first_month; $month <= $last_month; $month++) {
                 $start_time = new DateTime();
                 $start_time->setDate($year, $month, 1);
                 $end_time = clone $start_time;
@@ -238,8 +224,7 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
     private function _get_month_names()
     {
         $names = array();
-        for ($i = 1; $i < 13; $i++)
-        {
+        for ($i = 1; $i < 13; $i++) {
             $timestamp = mktime(0, 0, 0, $i, 1, 2011);
             $names[$i] = strftime('%B', $timestamp);
         }
@@ -282,8 +267,7 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
     {
         midcom_show_style('archive-welcome-start');
 
-        foreach ($data['year_data'] as $year => $year_data)
-        {
+        foreach ($data['year_data'] as $year => $year_data) {
             $data['year'] = $year;
             $data['url'] = $year_data['url'];
             $data['count'] = $year_data['count'];
@@ -309,25 +293,20 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
         net_nehmer_blog_viewer::article_qb_constraints($qb, $data, $handler_id);
 
         // Use helper functions to determine start/end
-        switch ($handler_id)
-        {
+        switch ($handler_id) {
             case 'archive-year-category':
                 $data['category'] = trim(strip_tags($args[1]));
                 if (   isset($data['schemadb']['default']->fields['categories'])
                     && array_key_exists('allow_multiple', $data['schemadb']['default']->fields['categories']['type_config'])
-                    && !$data['schemadb']['default']->fields['categories']['type_config']['allow_multiple'])
-                {
+                    && !$data['schemadb']['default']->fields['categories']['type_config']['allow_multiple']) {
                     $qb->add_constraint('extra1', '=', (string) $data['category']);
-                }
-                else
-                {
+                } else {
                     $qb->add_constraint('extra1', 'LIKE', "%|{$this->_request_data['category']}|%");
                 }
                 //Fall-through
 
             case 'archive-year':
-                if (!$this->_config->get('archive_years_enable'))
-                {
+                if (!$this->_config->get('archive_years_enable')) {
                     throw new midcom_error_notfound('Year archive not allowed');
                 }
 
@@ -351,12 +330,9 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
 
         // Move end date one day backwards for display purposes.
         $now = new DateTime();
-        if ($now < $this->_end)
-        {
+        if ($now < $this->_end) {
             $this->_end = $now;
-        }
-        else
-        {
+        } else {
             $this->_end->modify('-1 day');
         }
 
@@ -365,12 +341,9 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
 
         $this->_prepare_request_data();
 
-        if ($this->_config->get('archive_in_navigation'))
-        {
+        if ($this->_config->get('archive_in_navigation')) {
             $this->set_active_leaf($this->_topic->id . '_ARCHIVE');
-        }
-        else
-        {
+        } else {
             $this->set_active_leaf($this->_topic->id . '_ARCHIVE_' . $args[0]);
         }
 
@@ -389,14 +362,12 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
     private function _set_startend_from_year($year)
     {
         if (   !is_numeric($year)
-            || strlen($year) != 4)
-        {
+            || strlen($year) != 4) {
             throw new midcom_error_notfound("The year '{$year}' is not a valid year identifier.");
         }
 
         $now = new DateTime();
-        if ($year > (int) $now->format('Y'))
-        {
+        if ($year > (int) $now->format('Y')) {
             throw new midcom_error_notfound("The year '{$year}' is in the future, no archive available.");
         }
 
@@ -418,32 +389,26 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
     private function _set_startend_from_month($year, $month)
     {
         if (   !is_numeric($year)
-            || strlen($year) != 4)
-        {
+            || strlen($year) != 4) {
             throw new midcom_error_notfound("The year '{$year}' is not a valid year identifier.");
         }
 
         if (   !is_numeric($month)
             || $month < 1
-            || $month > 12)
-        {
+            || $month > 12) {
             throw new midcom_error_notfound("The year {$month} is not a valid year identifier.");
         }
 
         $now = new DateTime();
         $this->_start = new DateTime("{$year}-" . sprintf('%02d', $month) .  "-01 00:00:00");
-        if ($this->_start > $now)
-        {
+        if ($this->_start > $now) {
             throw new midcom_error_notfound("The month '{$year}-" . sprintf('%02d', $month) .  "' is in the future, no archive available.");
         }
 
-        if ($month == 12)
-        {
+        if ($month == 12) {
             $endyear = $year + 1;
             $endmonth = 1;
-        }
-        else
-        {
+        } else {
             $endyear = $year;
             $endmonth = $month + 1;
         }
@@ -463,18 +428,15 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
         $this->_config->store_from_object($this->_topic, $this->_component);
 
         midcom_show_style('archive-list-start');
-        if ($this->_articles)
-        {
+        if ($this->_articles) {
             $data['index_fulltext'] = $this->_config->get('index_fulltext');
             $data['comments_enable'] = (boolean) $this->_config->get('comments_enable');
 
             $total_count = count($this->_articles);
             $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 
-            foreach ($this->_articles as $article_counter => $article)
-            {
-                if (!$this->_datamanager->autoset_storage($article))
-                {
+            foreach ($this->_articles as $article_counter => $article) {
+                if (!$this->_datamanager->autoset_storage($article)) {
                     debug_add("The datamanager for article {$article->id} could not be initialized, skipping it.");
                     debug_print_r('Object was:', $article);
                     continue;
@@ -486,23 +448,19 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
                 $data['view_url'] = $prefix . $this->_master->get_url($article);
                 $data['local_view_url'] = $data['view_url'];
                 if (   $this->_config->get('link_to_external_url')
-                    && !empty($article->url))
-                {
+                    && !empty($article->url)) {
                     $data['view_url'] = $article->url;
                 }
 
                 $data['linked'] = ($article->topic !== $this->_content_topic->id);
-                if ($data['linked'])
-                {
+                if ($data['linked']) {
                     $nap = new midcom_helper_nav();
                     $data['node'] = $nap->get_node($article->topic);
                 }
 
                 midcom_show_style('archive-list-item');
             }
-        }
-        else
-        {
+        } else {
             midcom_show_style('archive-list-empty');
         }
 

@@ -22,8 +22,7 @@
        }
    }
     <?php
-    if ($data['action'] == 'save')
-    {
+    if ($data['action'] == 'save') {
         echo "add_item({$data['jsdata']});";
     }
     ?>

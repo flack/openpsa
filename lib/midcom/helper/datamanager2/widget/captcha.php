@@ -78,12 +78,9 @@ class midcom_helper_datamanager2_widget_captcha extends midcom_helper_datamanage
     public function _on_initialize()
     {
         $request_fieldname = "{$this->name}_session_key";
-        if (array_key_exists($request_fieldname, $_REQUEST))
-        {
+        if (array_key_exists($request_fieldname, $_REQUEST)) {
             $this->_session_key = $_REQUEST[$request_fieldname];
-        }
-        else
-        {
+        } else {
             $this->_session_key = md5($_SERVER['REQUEST_URI']);
         }
     }
@@ -123,13 +120,11 @@ class midcom_helper_datamanager2_widget_captcha extends midcom_helper_datamanage
     function validate($fields)
     {
         $session = new midcom_services_session($this->_session_domain);
-        if (!$session->exists($this->_session_key))
-        {
+        if (!$session->exists($this->_session_key)) {
             return array("{$this->name}_group" => $this->_l10n->get('captcha validation failed'));
         }
         $passphrase = $session->get($this->_session_key);
-        if ($fields[$this->name] != $passphrase)
-        {
+        if ($fields[$this->name] != $passphrase) {
             $this->_element->setValue('');
 
             return array ("{$this->name}_group" => $this->_l10n->get('captcha validation failed'));

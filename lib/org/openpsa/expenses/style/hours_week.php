@@ -10,8 +10,7 @@ $grid->set_column('task', $data['l10n']->get('task'), '', 'string')
 
 $formatter = $data['l10n']->get_formatter();
 $i = 6;
-while ($time < $data['week_end'])
-{
+while ($time < $data['week_end']) {
     $date_identifier = date('Y-m-d', $time);
     $grid->set_column($date_identifier, strftime('%a', $time), 'fixed: true, headerTitle: "' . $formatter->date($time) . '" , width: 40, summaryType: calculate_subtotal, align: "right"', 'float');
     // Hop to next day

@@ -102,8 +102,7 @@ abstract class midcom_helper_datamanager2_type extends midcom_baseclasses_compon
         $this->_on_configuring($config);
 
         // Assign the configuration values.
-        foreach ($config as $key => $value)
-        {
+        foreach ($config as $key => $value) {
             $this->$key = $value;
         }
 
@@ -119,21 +118,18 @@ abstract class midcom_helper_datamanager2_type extends midcom_baseclasses_compon
     {
         $classname = $this->option_callback;
 
-        if (!class_exists($classname))
-        {
+        if (!class_exists($classname)) {
             throw new midcom_error("Auto-loading of the class {$classname} failed: File does not exist.");
         }
 
         $callback = new $classname($this->option_callback_arg);
-        if (!($callback instanceof midcom_helper_datamanager2_callback_interface))
-        {
+        if (!($callback instanceof midcom_helper_datamanager2_callback_interface)) {
             throw new midcom_error($classname . ' must implement interface midcom_helper_datamanager2_callback_interface');
         }
 
         $callback->set_type($this);
 
-        if (is_callable(array($callback, 'initialize')))
-        {
+        if (is_callable(array($callback, 'initialize'))) {
             $callback->initialize();
         }
 
@@ -146,7 +142,9 @@ abstract class midcom_helper_datamanager2_type extends midcom_baseclasses_compon
      *
      * @param array $config The configuration passed to the type.
      */
-    public function _on_configuring($config) {}
+    public function _on_configuring($config)
+    {
+    }
 
     /**
      * Set the current storage object to a new one
@@ -290,8 +288,7 @@ abstract class midcom_helper_datamanager2_type extends midcom_baseclasses_compon
      */
     function get_external_config($key)
     {
-        if (!array_key_exists($key, $this->_external_config))
-        {
+        if (!array_key_exists($key, $this->_external_config)) {
             return null;
         }
         return $this->_external_config[$key];

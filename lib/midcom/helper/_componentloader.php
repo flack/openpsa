@@ -112,8 +112,7 @@ class midcom_helper__componentloader
      */
     public function load($path)
     {
-        if (!$this->_load($path))
-        {
+        if (!$this->_load($path)) {
             throw new midcom_error("Failed to load the component {$path}, see the debug log for more information");
         }
     }
@@ -146,14 +145,12 @@ class midcom_helper__componentloader
      */
     public function load_library($path)
     {
-        if (!array_key_exists($path, $this->manifests))
-        {
+        if (!array_key_exists($path, $this->manifests)) {
             debug_add("Cannot load component {$path} as library, it is not installed.", MIDCOM_LOG_ERROR);
             return false;
         }
 
-        if (!$this->manifests[$path]->purecode)
-        {
+        if (!$this->manifests[$path]->purecode) {
             debug_add("Cannot load component {$path} as library, it is a full-fledged component.", MIDCOM_LOG_ERROR);
             debug_print_r('Manifest:', $this->manifests[$path]);
             return false;
@@ -173,15 +170,13 @@ class midcom_helper__componentloader
      */
     private function _load($path)
     {
-        if (empty($path))
-        {
+        if (empty($path)) {
             debug_add("No component path given, aborting");
             return false;
         }
 
         // Check if this component is already loaded...
-        if (array_key_exists($path, $this->_tried_to_load))
-        {
+        if (array_key_exists($path, $this->_tried_to_load)) {
             debug_add("Component {$path} already loaded.");
             return $this->_tried_to_load[$path];
         }
@@ -193,22 +188,19 @@ class midcom_helper__componentloader
         // Check if the component is listed in the class manifest list. If not,
         // we immediately bail - anything went wrong while loading the component
         // (f.x. broken DBA classes).
-        if (!array_key_exists($path, $this->manifests))
-        {
+        if (!array_key_exists($path, $this->manifests)) {
             debug_add("The component {$path} was not found in the manifest list. Cannot load it.",
                 MIDCOM_LOG_WARN);
             return false;
         }
 
         // Validate and translate url
-        if (!$this->validate_url($path))
-        {
+        if (!$this->validate_url($path)) {
             return false;
         }
 
         $classname = $this->path_to_prefix($path) . '_interface';
-        if (!class_exists($classname))
-        {
+        if (!class_exists($classname)) {
             debug_add("Class {$classname} does not exist.", MIDCOM_LOG_CRIT);
             return false;
         }
@@ -216,8 +208,7 @@ class midcom_helper__componentloader
 
         midcom::get()->dbclassloader->load_classes($this->manifests[$path]->name, null, $this->manifests[$path]->class_mapping);
 
-        if ($this->_interface_classes[$path]->initialize($path) == false)
-        {
+        if ($this->_interface_classes[$path]->initialize($path) == false) {
             debug_add("Initialize of Component {$path} failed.", MIDCOM_LOG_CRIT);
             return false;
         }
@@ -237,8 +228,7 @@ class midcom_helper__componentloader
      */
     public function is_loaded($path)
     {
-        if ($path == 'midcom')
-        {
+        if ($path == 'midcom') {
             // MidCOM is "always loaded"
             return true;
         }
@@ -254,12 +244,10 @@ class midcom_helper__componentloader
      */
     public function is_installed($path)
     {
-        if (empty($this->manifests))
-        {
+        if (empty($this->manifests)) {
             $this->load_all_manifests();
         }
-        if (!isset($this->manifests[$path]))
-        {
+        if (!isset($this->manifests[$path])) {
             return ($path == 'midcom');
         }
         return true;
@@ -268,12 +256,10 @@ class midcom_helper__componentloader
     public function register_component($name, $path)
     {
         $filename = "{$path}/config/manifest.inc";
-        if (!file_exists($filename))
-        {
+        if (!file_exists($filename)) {
             throw new midcom_error('Manifest not found for ' . $name);
         }
-        if (empty($this->manifests))
-        {
+        if (empty($this->manifests)) {
             $this->load_all_manifests();
         }
         $this->_register_manifest(new midcom_core_manifest($filename));
@@ -291,8 +277,7 @@ class midcom_helper__componentloader
      */
     public function get_interface_class($path)
     {
-        if (!$this->is_loaded($path))
-        {
+        if (!$this->is_loaded($path)) {
             $this->load($path);
             //This will exit on error
         }
@@ -308,12 +293,10 @@ class midcom_helper__componentloader
      */
     public function path_to_snippetpath($component_name)
     {
-        if (array_key_exists($component_name, $this->manifests))
-        {
+        if (array_key_exists($component_name, $this->manifests)) {
             return dirname(dirname($this->manifests[$component_name]->filename));
         }
-        if ($component_name == 'midcom')
-        {
+        if ($component_name == 'midcom') {
             return MIDCOM_ROOT . '/midcom';
         }
         debug_add("Component {$component_name} is not registered", MIDCOM_LOG_CRIT);
@@ -343,8 +326,7 @@ class midcom_helper__componentloader
      */
     public function validate_url($path)
     {
-        if (!preg_match("/^[a-z][a-z0-9\.]*[a-z0-9]$/", $path))
-        {
+        if (!preg_match("/^[a-z][a-z0-9\.]*[a-z0-9]$/", $path)) {
             debug_add("Invalid URL: " . $path, MIDCOM_LOG_CRIT);
             return false;
         }
@@ -375,8 +357,7 @@ class midcom_helper__componentloader
     {
         $manifests = midcom::get()->cache->memcache->get('MISC', 'midcom.componentloader.manifests');
 
-        if (!is_array($manifests))
-        {
+        if (!is_array($manifests)) {
             debug_add('Cache miss, generating component manifest cache now.');
             $manifests = $this->get_manifests();
             midcom::get()->cache->memcache->put('MISC', 'midcom.componentloader.manifests', $manifests);
@@ -400,20 +381,16 @@ class midcom_helper__componentloader
         $directories = array();
         $manifests = array();
         exec('find ' . MIDCOM_ROOT . ' '  . dirname(MIDCOM_ROOT) . '/src -follow -type d -name "config"', $directories);
-        foreach ($directories as $directory)
-        {
+        foreach ($directories as $directory) {
             $candidates[] = "{$directory}/manifest.inc";
         }
         // now we look for extra components the user my have registered
         $config = midcom::get()->config;
-        foreach ($config->get('midcom_components', array()) as $path)
-        {
+        foreach ($config->get('midcom_components', array()) as $path) {
             $candidates[] = $path . '/config/manifest.inc';
         }
-        foreach ($candidates as $filename)
-        {
-            if (file_exists($filename))
-            {
+        foreach ($candidates as $filename) {
+            if (file_exists($filename)) {
                 $manifests[] = new midcom_core_manifest($filename);
             }
         }
@@ -436,8 +413,7 @@ class midcom_helper__componentloader
         midcom::get()->auth->acl->register_default_privileges($manifest->privileges);
 
         // Register watches
-        if ($manifest->watches !== null)
-        {
+        if ($manifest->watches !== null) {
             midcom::get()->dispatcher->add_watches($manifest->watches, $manifest->name);
         }
     }
@@ -482,14 +458,10 @@ class midcom_helper__componentloader
     public function get_all_manifest_customdata($component, $showempty = false)
     {
         $result = array();
-        foreach ($this->manifests as $manifest)
-        {
-            if (array_key_exists($component, $manifest->customdata))
-            {
+        foreach ($this->manifests as $manifest) {
+            if (array_key_exists($component, $manifest->customdata)) {
                 $result[$manifest->name] = $manifest->customdata[$component];
-            }
-            elseif ($showempty)
-            {
+            } elseif ($showempty) {
                 $result[$manifest->name] = array();
             }
         }
@@ -506,23 +478,19 @@ class midcom_helper__componentloader
     public function get_component_dependencies($component, $called_from = false)
     {
         static $checked = array();
-        if (isset($checked[$component]))
-        {
+        if (isset($checked[$component])) {
             return $checked[$component];
         }
         $checked[$component] = array();
 
         if (   !$this->is_installed($component)
-            || empty($this->manifests[$component]->_raw_data['package.xml']['dependencies']))
-        {
+            || empty($this->manifests[$component]->_raw_data['package.xml']['dependencies'])) {
             return $checked[$component];
         }
 
-        foreach (array_keys($this->manifests[$component]->_raw_data['package.xml']['dependencies']) as $dependency)
-        {
+        foreach (array_keys($this->manifests[$component]->_raw_data['package.xml']['dependencies']) as $dependency) {
             if (   $dependency == 'midcom'
-                || $dependency == $called_from)
-            {
+                || $dependency == $called_from) {
                 // Ignore
                 continue;
             }
@@ -544,8 +512,7 @@ class midcom_helper__componentloader
     public function is_core_component($component)
     {
         static $core_components = null;
-        if (is_array($core_components))
-        {
+        if (is_array($core_components)) {
             return (in_array($component, $core_components));
         }
 
@@ -580,8 +547,7 @@ class midcom_helper__componentloader
 
         // Gather dependencies too
         $dependencies = array();
-        foreach ($core_components as $core_component)
-        {
+        foreach ($core_components as $core_component) {
             $component_dependencies = $this->get_component_dependencies($core_component);
             $dependencies = array_merge($dependencies, $component_dependencies);
         }
@@ -592,14 +558,12 @@ class midcom_helper__componentloader
 
     public function get_component_version($component)
     {
-        if ($component == 'midcom')
-        {
+        if ($component == 'midcom') {
             return midcom::get_version();
         }
 
         if (   !$this->is_installed($component)
-            || !isset($this->manifests[$component]->version))
-        {
+            || !isset($this->manifests[$component]->version)) {
             return null;
         }
 
@@ -608,23 +572,19 @@ class midcom_helper__componentloader
 
     public function get_component_icon($component, $provide_fallback = true)
     {
-        if ($component == 'midcom')
-        {
+        if ($component == 'midcom') {
             return 'stock-icons/logos/midgard-16x16.png';
         }
 
-        if (!$this->is_installed($component))
-        {
+        if (!$this->is_installed($component)) {
             return null;
         }
 
-        if (isset($this->manifests[$component]->_raw_data['icon']))
-        {
+        if (isset($this->manifests[$component]->_raw_data['icon'])) {
             return $this->manifests[$component]->_raw_data['icon'];
         }
 
-        if (!$provide_fallback)
-        {
+        if (!$provide_fallback) {
             return null;
         }
 

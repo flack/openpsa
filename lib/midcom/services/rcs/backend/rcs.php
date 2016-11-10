@@ -33,8 +33,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
     {
         // Keep files organized to subfolders to keep filesystem sane
         $dirpath = $this->_config->get_rcs_root() . "/{$guid[0]}/{$guid[1]}";
-        if (!file_exists($dirpath))
-        {
+        if (!file_exists($dirpath)) {
             debug_add("Directory {$dirpath} does not exist, attempting to create", MIDCOM_LOG_INFO);
             mkdir($dirpath, 0777, true);
         }
@@ -50,24 +49,17 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
     public function update($object, $updatemessage = null)
     {
         // Store user identifier and IP address to the update string
-        if (midcom::get()->auth->user)
-        {
+        if (midcom::get()->auth->user) {
             $update_string = midcom::get()->auth->user->id . "|{$_SERVER['REMOTE_ADDR']}";
-        }
-        else
-        {
+        } else {
             $update_string = "NOBODY|{$_SERVER['REMOTE_ADDR']}";
         }
 
         // Generate update message if needed
-        if (!$updatemessage)
-        {
-            if (midcom::get()->auth->user !== null)
-            {
+        if (!$updatemessage) {
+            if (midcom::get()->auth->user !== null) {
                 $updatemessage = sprintf("Updated on %s by %s", strftime("%x %X"), midcom::get()->auth->user->name);
-            }
-            else
-            {
+            } else {
                 $updatemessage = sprintf("Updated on %s.", strftime("%x %X"));
             }
         }
@@ -93,8 +85,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
      */
     public function rcs_update($object, $message)
     {
-        if (empty($object->guid))
-        {
+        if (empty($object->guid)) {
             debug_add("Missing GUID, returning error");
             return 3;
         }
@@ -102,8 +93,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
         $filename = $this->_generate_rcs_filename($object->guid);
         $rcsfilename =  "{$filename},v";
 
-        if (!file_exists($rcsfilename))
-        {
+        if (!file_exists($rcsfilename)) {
             $message = str_replace('|Updated ', '|Created ', $message);
             // The methods return basically what the RCS unix level command returns, so nonzero value is error and zero is ok...
             return $this->rcs_create($object, $message);
@@ -131,8 +121,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
     */
     public function get_revision($revision)
     {
-        if (empty($this->_guid))
-        {
+        if (empty($this->_guid)) {
             return array();
         }
         $filepath = $this->_generate_rcs_filename($this->_guid);
@@ -179,20 +168,17 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
         $versions = $this->list_history_numeric();
 
         if (   !in_array($version, $versions)
-            || $version === end($versions))
-        {
+            || $version === end($versions)) {
             return '';
         }
 
         $mode = end($versions);
 
-        while( $mode
-            && $mode !== $version)
-        {
+        while ( $mode
+            && $mode !== $version) {
             $mode = prev($versions);
 
-            if ($mode === $version)
-            {
+            if ($mode === $version) {
                 return next($versions);
             }
         }
@@ -222,20 +208,17 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
         $versions = $this->list_history_numeric();
 
         if (   !in_array($version, $versions)
-            || $version === current($versions))
-        {
+            || $version === current($versions)) {
             return '';
         }
 
         $mode = current($versions);
 
         while (   $mode
-               && $mode !== $version)
-        {
+               && $mode !== $version) {
             $mode = next($versions);
 
-            if ($mode === $version)
-            {
+            if ($mode === $version) {
                 return prev($versions);
             }
         }
@@ -263,13 +246,11 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
      */
     public function list_history()
     {
-        if (empty($this->_guid))
-        {
+        if (empty($this->_guid)) {
             return array();
         }
 
-        if (is_null($this->_history))
-        {
+        if (is_null($this->_history)) {
             $filepath = $this->_generate_rcs_filename($this->_guid);
             $this->_history = $this->rcs_gethistory($filepath);
         }
@@ -300,15 +281,11 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
         // date: 2006/01/10 09:40:49;  author: www-data;  state: Exp;  lines: +2 -2
         // NOTE: Time here appears to be stored as UTC according to http://parand.com/docs/rcs.html
         $metadata_array = explode(';', $entry[1]);
-        foreach ($metadata_array as $metadata)
-        {
+        foreach ($metadata_array as $metadata) {
             $metadata = trim($metadata);
-            if (substr($metadata, 0, 5) == 'date:')
-            {
+            if (substr($metadata, 0, 5) == 'date:') {
                 $history['date'] = strtotime(substr($metadata, 6));
-            }
-            elseif (substr($metadata, 0, 6) == 'lines:')
-            {
+            } elseif (substr($metadata, 0, 6) == 'lines:') {
                 $history['lines'] = substr($metadata, 7);
             }
         }
@@ -316,14 +293,10 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
         // Entry message is in format
         // user:27b841929d1e04118d53dd0a45e4b93a|84.34.133.194|Updated on Tue 10.Jan 2006 by admin kw
         $message_array = explode('|', $entry[2]);
-        if (count($message_array) == 1)
-        {
+        if (count($message_array) == 1) {
             $history['message'] = $message_array[0];
-        }
-        else
-        {
-            if ($message_array[0] != 'Object')
-            {
+        } else {
+            if ($message_array[0] != 'Object') {
                 $history['user'] = $message_array[0];
             }
             $history['ip']   = $message_array[1];
@@ -349,10 +322,8 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
         $lines = explode("\n", $history);
         $total = count($lines);
 
-        for ($i = 0; $i < $total; $i++)
-        {
-            if (substr($lines[$i], 0, 9) == "revision ")
-            {
+        for ($i = 0; $i < $total; $i++) {
+            if (substr($lines[$i], 0, 9) == "revision ") {
                 $history_entry = array($lines[$i], $lines[$i + 1], $lines[$i + 2]);
                 $history = $this->rcs_parse_history_entry($history_entry);
 
@@ -362,9 +333,8 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
 
                 while (   $i < $total
                        && substr($lines[$i], 0, 4) != '----'
-                       && substr($lines[$i], 0, 5) != '=====')
-                {
-                     $i++;
+                       && substr($lines[$i], 0, 5) != '=====') {
+                    $i++;
                 }
             }
         }
@@ -380,15 +350,13 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
      */
     private function rcs_exec($command, $filename)
     {
-        if (!is_readable($filename))
-        {
+        if (!is_readable($filename)) {
             debug_add('file ' . $filename . ' is not readable, returning empty result', MIDCOM_LOG_INFO);
             return '';
         }
         $fh = popen($command . ' "' . $filename . '" 2>&1', "r");
         $ret = "";
-        while ($reta = fgets($fh, 1024))
-        {
+        while ($reta = fgets($fh, 1024)) {
             $ret .= $reta;
         }
         pclose($fh);
@@ -402,8 +370,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
     private function rcs_writefile($guid, $data)
     {
         if (   !is_writable($this->_config->get_rcs_root())
-            || empty($guid))
-        {
+            || empty($guid)) {
             return false;
         }
         $filename = $this->_generate_rcs_filename($guid);
@@ -418,11 +385,9 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
      */
     private function rcs_readfile($guid)
     {
-        if (!empty($guid))
-        {
+        if (!empty($guid)) {
             $filename = $this->_generate_rcs_filename($guid);
-            if (file_exists($filename))
-            {
+            if (file_exists($filename)) {
                 return file_get_contents($filename);
             }
         }
@@ -438,8 +403,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
     private function rcs_object2data(midcom_core_dbaobject $object)
     {
         $mapper = new midcom_helper_exporter_xml();
-        if ($result = $mapper->object2data($object))
-        {
+        if ($result = $mapper->object2data($object)) {
             return $result;
         }
         debug_add("Objectmapper returned false.");
@@ -460,8 +424,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
     {
         $data = $this->rcs_object2data($object);
 
-        if (empty($object->guid))
-        {
+        if (empty($object->guid)) {
             return 3;
         }
         $this->rcs_writefile($object->guid, $data);
@@ -473,8 +436,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
 
         $filename = $filepath . ",v";
 
-        if (file_exists($filename))
-        {
+        if (file_exists($filename)) {
             chmod ($filename, 0770);
         }
         return $status;
@@ -490,17 +452,13 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
 
         debug_add("Executing '{$command}'");
 
-        try
-        {
+        try {
             @exec($command, $output, $status);
-        }
-        catch (Exception $e)
-        {
+        } catch (Exception $e) {
             debug_add($e->getMessage());
         }
 
-        if ($status !== 0)
-        {
+        if ($status !== 0) {
             debug_add("Command '{$command}' returned with status {$status}, see debug log for output", MIDCOM_LOG_WARN);
             debug_print_r('Got output: ', $output);
         }
@@ -528,10 +486,8 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
             '<ins>' => "<span class=\"inserted\">",
             '</ins>' => '</span>'
         );
-        foreach ($oldest as $attribute => $oldest_value)
-        {
-            if (is_array($oldest_value))
-            {
+        foreach ($oldest as $attribute => $oldest_value) {
+            if (is_array($oldest_value)) {
                 continue;
             }
 
@@ -541,33 +497,26 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
                 'new' => $newest[$attribute]
             );
 
-            if ($oldest_value != $newest[$attribute])
-            {
+            if ($oldest_value != $newest[$attribute]) {
                 $lines1 = explode ("\n", $oldest_value);
                 $lines2 = explode ("\n", $newest[$attribute]);
 
                 $options = array();
                 $diff = new Diff($lines1, $lines2, $options);
-                if ($renderer_style == 'unified')
-                {
+                if ($renderer_style == 'unified') {
                     $renderer = new Diff_Renderer_Text_Unified;
-                }
-                else
-                {
+                } else {
                     $renderer = new midcom_services_rcs_renderer_html_sidebyside(array('old' => $oldest_revision, 'new' => $latest_revision));
                 }
 
-                if ($lines1 != $lines2)
-                {
+                if ($lines1 != $lines2) {
                     // Run the diff
                     $return[$attribute]['diff'] = $diff->render($renderer);
-                    if ($renderer_style == 'unified')
-                    {
+                    if ($renderer_style == 'unified') {
                         $return[$attribute]['diff'] = htmlspecialchars($return[$attribute]['diff']);
                     }
 
-                    if ($renderer_style == 'inline')
-                    {
+                    if ($renderer_style == 'inline') {
                         // Modify the output for nicer rendering
                         $return[$attribute]['diff'] = strtr($return[$attribute]['diff'], $repl);
                     }
@@ -600,12 +549,9 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
     {
         $new = $this->get_revision($revision);
 
-        try
-        {
+        try {
             $object = midcom::get()->dbfactory->get_object_by_guid($this->_guid);
-        }
-        catch (midcom_error $e)
-        {
+        } catch (midcom_error $e) {
             debug_add("{$this->_guid} could not be resolved to object", MIDCOM_LOG_ERROR);
             return false;
         }

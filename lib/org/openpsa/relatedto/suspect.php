@@ -31,16 +31,13 @@ class org_openpsa_relatedto_suspect extends midcom_baseclasses_components_pureco
         $ret = array();
         $components = array_keys(midcom::get()->componentloader->manifests);
         //Check all installed components
-        foreach ($components as $component)
-        {
-            if ($component == 'midcom')
-            {
+        foreach ($components as $component) {
+            if ($component == 'midcom') {
                 //Skip midcom core
                 continue;
             }
             $component_ret = self::find_links_object_component($object, $component, $defaults);
-            foreach ($component_ret as $linkdata)
-            {
+            foreach ($component_ret as $linkdata) {
                 $ret[] = $linkdata;
             }
         }
@@ -60,8 +57,7 @@ class org_openpsa_relatedto_suspect extends midcom_baseclasses_components_pureco
         $ret = array();
 
         //Make sure we can load and access the component
-        if (!midcom::get()->componentloader->load_graceful($component))
-        {
+        if (!midcom::get()->componentloader->load_graceful($component)) {
             //We could not load the component/interface
             debug_add("could not load component {$component}", MIDCOM_LOG_ERROR);
             return $ret;
@@ -69,8 +65,7 @@ class org_openpsa_relatedto_suspect extends midcom_baseclasses_components_pureco
 
         $interface = midcom::get()->componentloader->get_interface_class($component);
 
-        if (!method_exists($interface, 'org_openpsa_relatedto_find_suspects'))
-        {
+        if (!method_exists($interface, 'org_openpsa_relatedto_find_suspects')) {
             //Component does not wish to tell us anything
             debug_add("component {$component} does not support querying for suspects", MIDCOM_LOG_INFO);
             return $ret;
@@ -79,10 +74,8 @@ class org_openpsa_relatedto_suspect extends midcom_baseclasses_components_pureco
         $interface->org_openpsa_relatedto_find_suspects($object, $defaults, $ret);
 
         //Filter out existing links
-        foreach ($ret as $k => $linkdata)
-        {
-            if ($guid = $linkdata['link']->check_db(false))
-            {
+        foreach ($ret as $k => $linkdata) {
+            if ($guid = $linkdata['link']->check_db(false)) {
                 //Essentially same link already exists in db, remove from returned values
                 debug_print_r("found matching link with {$guid} (skipping), our data:", $linkdata['link']);
                 unset($ret[$k]);
@@ -101,43 +94,33 @@ class org_openpsa_relatedto_suspect extends midcom_baseclasses_components_pureco
     public static function defaults_helper($link, $defaults, $component = false, $obj = false)
     {
         $properties = array('fromClass', 'toClass', 'fromGuid', 'toGuid', 'fromComponent', 'toComponent', 'status', 'toExtra', 'toExtra');
-        foreach ($properties as $property)
-        {
+        foreach ($properties as $property) {
             if (   !empty($defaults->$property)
-                && empty($link->$property))
-            {
+                && empty($link->$property)) {
                 debug_add("Copying property '{$property}' ('{$defaults->$property}') from defaults");
                 $link->$property = $defaults->$property;
             }
         }
-        if ($component)
-        {
+        if ($component) {
             debug_add('$component given, guessing direction');
             if (   empty($link->toComponent)
-                && !empty($link->fromComponent))
-            {
+                && !empty($link->fromComponent)) {
                 debug_add("Setting property 'toComponent' to '{$component}'");
                 $link->toComponent = $component;
-            }
-            else
-            {
+            } else {
                 debug_add("Setting property 'fromComponent' to '{$component}'");
                 $link->fromComponent = $component;
             }
         }
-        if (is_object($obj))
-        {
+        if (is_object($obj)) {
             debug_add('$obj given, guessing direction');
             if (   empty($link->toGuid)
-                && !empty($link->fromGuid))
-            {
+                && !empty($link->fromGuid)) {
                 $link->toClass = get_class($obj);
                 $link->toGuid = $obj->guid;
                 debug_add("Setting property 'toGuid' to '{$link->toGuid}'");
                 debug_add("Setting property 'toClass' to '{$link->toClass}'");
-            }
-            else
-            {
+            } else {
                 $link->fromClass = get_class($obj);
                 $link->fromGuid = $obj->guid;
                 debug_add("Setting property 'fromGuid' to '{$link->fromGuid}'");

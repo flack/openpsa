@@ -19,45 +19,34 @@ echo "<records>" . count($data['entries']) . "</records>";
   </row>
 */
 $workflow = new midcom\workflow\datamanager2;
-foreach ($data['entries'] as $entry)
-{
+foreach ($data['entries'] as $entry) {
     echo "<row>";
-        echo "<cell>" . $entry->id . "</cell>";
-        ?>
+    echo "<cell>" . $entry->id . "</cell>"; ?>
         <cell><![CDATA[&(entry.title:h)]]></cell>
         <?php
         $link_html = "<![CDATA[";
-        $link_html .= '<a href="' . $data['url_prefix'] . 'edit/' . $entry->guid . '" ' . $workflow->render_attributes() . '>';
-        $link_html .= "<span>" . $entry->title . "</span></a>";
-        $link_html .= "]]>";
-        echo "<cell>" . $link_html . "</cell>";
-        ?>
+    $link_html .= '<a href="' . $data['url_prefix'] . 'edit/' . $entry->guid . '" ' . $workflow->render_attributes() . '>';
+    $link_html .= "<span>" . $entry->title . "</span></a>";
+    $link_html .= "]]>";
+    echo "<cell>" . $link_html . "</cell>"; ?>
         <cell><![CDATA[&(entry.text:h);]]></cell>
         <?php
-        if ($entry->followUp == 0)
-        {
+        if ($entry->followUp == 0) {
             echo "<cell>none</cell>";
-        }
-        else
-        {
+        } else {
             echo "<cell>" . date('Y-m-d', $entry->followUp) . "</cell>";
         }
-        if ($data['show_object'])
-        {
-            echo "<cell>" . $data['linked_raw_objects'][$entry->linkGuid] . "</cell>";
-            echo "<cell><![CDATA[" . $data['linked_objects'][$entry->linkGuid] . "]]></cell>";
+    if ($data['show_object']) {
+        echo "<cell>" . $data['linked_raw_objects'][$entry->linkGuid] . "</cell>";
+        echo "<cell><![CDATA[" . $data['linked_objects'][$entry->linkGuid] . "]]></cell>";
+    }
+    if ($data['show_closed']) {
+        if ($entry->closed) {
+            echo "<cell>" . midcom::get()->i18n->get_string('finished', 'org.openpsa.relatedto') . "</cell>";
+        } else {
+            echo "<cell>" . midcom::get()->i18n->get_string('open', 'org.openpsa.relatedto') . "</cell>";
         }
-        if ($data['show_closed'])
-        {
-            if ($entry->closed)
-            {
-                echo "<cell>" . midcom::get()->i18n->get_string('finished', 'org.openpsa.relatedto') . "</cell>";
-            }
-            else
-            {
-                echo "<cell>" . midcom::get()->i18n->get_string('open', 'org.openpsa.relatedto') . "</cell>";
-            }
-        }
+    }
 
     echo "</row>";
 }

@@ -81,17 +81,14 @@ class midcom_services_uimessages
      */
     public function initialize()
     {
-        if (midcom::get()->auth->can_user_do('midcom:ajax', null, 'midcom_services_uimessages'))
-        {
+        if (midcom::get()->auth->can_user_do('midcom:ajax', null, 'midcom_services_uimessages')) {
             midcom::get()->head->enable_jquery();
             midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.services.uimessages/jquery.midcom_services_uimessages.js');
             midcom::get()->head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/effect.min.js');
             midcom::get()->head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/effect-pulsate.min.js');
 
             midcom::get()->head->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.services.uimessages/growl.css', 'screen');
-        }
-        else
-        {
+        } else {
             midcom::get()->head->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.services.uimessages/simple.css', 'screen');
         }
     }
@@ -116,8 +113,7 @@ class midcom_services_uimessages
     public function add($title, $message, $type = 'info')
     {
         // Make sure the given class is allowed
-        if (!in_array($type, $this->_allowed_types))
-        {
+        if (!in_array($type, $this->_allowed_types)) {
             // Message class not in allowed list
             debug_add("Message type {$type} is not allowed");
             return false;
@@ -137,10 +133,8 @@ class midcom_services_uimessages
     public function get_messages()
     {
         $result = array();
-        foreach ($this->_message_stack->all() as $messages)
-        {
-            foreach ($messages as $message)
-            {
+        foreach ($this->_message_stack->all() as $messages) {
+            foreach ($messages as $message) {
                 $result[] = $message;
             }
         }
@@ -155,8 +149,7 @@ class midcom_services_uimessages
     public function show($show_simple = false)
     {
         if (   $show_simple
-            || !midcom::get()->auth->can_user_do('midcom:ajax', null, 'midcom_services_uimessages'))
-        {
+            || !midcom::get()->auth->can_user_do('midcom:ajax', null, 'midcom_services_uimessages')) {
             $this->show_simple();
             return;
         }
@@ -171,8 +164,7 @@ class midcom_services_uimessages
         echo "                    .appendTo('{$this->uimessage_holder}');\n";
         echo "            }\n";
 
-        foreach ($this->get_messages() as $message)
-        {
+        foreach ($this->get_messages() as $message) {
             echo "            jQuery('#midcom_services_uimessages_wrapper').midcom_services_uimessage(" . $message . ")\n";
         }
 
@@ -188,17 +180,14 @@ class midcom_services_uimessages
     public function show_simple($prefer_fancy = false)
     {
         if (   $prefer_fancy
-            && midcom::get()->auth->can_user_do('midcom:ajax', null, 'midcom_services_uimessages'))
-        {
+            && midcom::get()->auth->can_user_do('midcom:ajax', null, 'midcom_services_uimessages')) {
             return $this->show();
         }
 
-        if (count($this->_message_stack->peekAll()) > 0)
-        {
+        if (count($this->_message_stack->peekAll()) > 0) {
             echo "<div id=\"midcom_services_uimessages_wrapper\">\n";
 
-            foreach ($this->get_messages() as $message)
-            {
+            foreach ($this->get_messages() as $message) {
                 $this->_render_message($message);
             }
 

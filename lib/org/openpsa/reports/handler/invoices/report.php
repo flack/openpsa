@@ -34,15 +34,13 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
         $data['start'] = $data['query_data']['start'];
         $data['end'] = $data['query_data']['end'];
 
-        if (empty($data['query_data']['date_field']))
-        {
+        if (empty($data['query_data']['date_field'])) {
             $data['query_data']['date_field'] = $data['query']->get_parameter('midcom.helper.datamanager2', 'date_field');
         }
         $data['date_field'] = $data['query_data']['date_field'];
 
         $data['invoices'] = array();
-        foreach ($data['query_data']['invoice_status'] as $status)
-        {
+        foreach ($data['query_data']['invoice_status'] as $status) {
             $data['invoices'] = array_merge($data['invoices'], $this->_load_invoices($status));
         }
 
@@ -52,17 +50,13 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
     private function _get_invoices_for_subscription($deliverable, $at_entry)
     {
         if (   $deliverable->invoiceByActualUnits
-            && $at_entry->arguments['cycle'] > 1)
-        {
+            && $at_entry->arguments['cycle'] > 1) {
             $invoice_sum = $deliverable->invoiced / ($at_entry->arguments['cycle'] - 1);
-            if ($invoice_sum == 0)
-            {
+            if ($invoice_sum == 0) {
                 return array();
             }
             $calculation_base = sprintf($this->_l10n->get('average of %s runs'), $at_entry->arguments['cycle'] - 1);
-        }
-        else
-        {
+        } else {
             $invoice_sum = $deliverable->price;
             $calculation_base = $this->_l10n->get('fixed price');
         }
@@ -73,12 +67,10 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
 
         while (   $time < $this->_request_data['end']
                && (   $time < $deliverable->end
-                   || $deliverable->continuous))
-        {
+                   || $deliverable->continuous)) {
             $invoices[] = $this->get_invoice_for_deliverable($deliverable, $invoice_sum, $time, $calculation_base);
 
-            if (!$time = $scheduler->calculate_cycle_next($time))
-            {
+            if (!$time = $scheduler->calculate_cycle_next($time)) {
                 debug_add('Failed to calculate timestamp for next cycle, exiting', MIDCOM_LOG_WARN);
                 break;
             }
@@ -99,8 +91,7 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
         $invoice->due = ($invoice->get_default('due') * 3600 * 24) + $time;
         $invoice->vat = $invoice->get_default('vat');
         $invoice->description = $deliverable->title . ' (' . $calculation_base . ')';
-        if ($this->_sales_url)
-        {
+        if ($this->_sales_url) {
             $invoice->description = '<a href="' . $this->_sales_url . 'deliverable/' . $deliverable->guid . '/">' . $invoice->description . '</a>';
         }
         $invoice->paid = $invoice->due;
@@ -115,19 +106,16 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
         $at_qb->add_constraint('method', '=', 'new_subscription_cycle');
         $at_qb->add_constraint('component', '=', 'org.openpsa.sales');
         $at_entries = $at_qb->execute();
-        foreach ($at_entries as $at_entry)
-        {
-            try
-            {
+        foreach ($at_entries as $at_entry) {
+            try {
                 $deliverable = org_openpsa_sales_salesproject_deliverable_dba::get_cached($at_entry->arguments['deliverable']);
                 if (   $deliverable->continuous
                     || (   $deliverable->start < $this->_request_data['end']
-                        && $deliverable->end > $this->_request_data['start']))
-                {
+                        && $deliverable->end > $this->_request_data['start'])) {
                     $invoices = array_merge($invoices, $this->_get_invoices_for_subscription($deliverable, $at_entry));
                 }
+            } catch (midcom_error $e) {
             }
-            catch (midcom_error $e){}
         }
         $invoices = array_merge($invoices, $this->_get_deliverable_invoices());
         $invoices = array_filter($invoices, array($this, '_filter_by_date'));
@@ -154,11 +142,9 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
         $client_class = midcom_baseclasses_components_configuration::get('org.openpsa.sales', 'config')->get('calculator');
         $client = new $client_class();
         $calculation_base = midcom::get()->i18n->get_string('estimated delivery', 'org.openpsa.sales') . ': ';
-        foreach ($deliverables as $deliverable)
-        {
+        foreach ($deliverables as $deliverable) {
             $client->run($deliverable);
-            if ($client->get_price())
-            {
+            if ($client->get_price()) {
                 $invoices[] = $this->get_invoice_for_deliverable($deliverable, $client->get_price(), $deliverable->end, $calculation_base . strftime('%x', $deliverable->end));
             }
         }
@@ -172,8 +158,7 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
 
     private function _load_invoices($status)
     {
-        if ($status == 'scheduled')
-        {
+        if ($status == 'scheduled') {
             $siteconfig = org_openpsa_core_siteconfig::get_instance();
             $this->_sales_url = $siteconfig->get_node_full_url('org.openpsa.sales');
             return $this->_get_scheduled_invoices();
@@ -181,21 +166,18 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
 
         $qb = org_openpsa_invoices_invoice_dba::new_query_builder();
 
-        if ($status != 'unsent')
-        {
+        if ($status != 'unsent') {
             $qb->begin_group('AND');
-                $qb->add_constraint($this->_request_data['date_field'], '>=', $this->_request_data['start']);
-                $qb->add_constraint($this->_request_data['date_field'], '<', $this->_request_data['end']);
+            $qb->add_constraint($this->_request_data['date_field'], '>=', $this->_request_data['start']);
+            $qb->add_constraint($this->_request_data['date_field'], '<', $this->_request_data['end']);
             $qb->end_group();
         }
-        if ($this->_request_data['query_data']['resource'] != 'all')
-        {
+        if ($this->_request_data['query_data']['resource'] != 'all') {
             $this->_request_data['query_data']['resource_expanded'] = $this->_expand_resource($this->_request_data['query_data']['resource']);
             $qb->add_constraint('owner', 'IN', $this->_request_data['query_data']['resource_expanded']);
         }
 
-        switch ($status)
-        {
+        switch ($status) {
             case 'unsent':
                 $qb->add_constraint('sent', '=', 0);
                 $qb->add_constraint('paid', '=', 0);

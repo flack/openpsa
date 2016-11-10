@@ -31,13 +31,11 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
 
     public function _on_loaded()
     {
-        if ($this->title == "")
-        {
+        if ($this->title == "") {
             $this->title = "Document #{$this->id}";
         }
 
-        if (!$this->docStatus)
-        {
+        if (!$this->docStatus) {
             $this->docStatus = org_openpsa_documents_document_dba::STATUS_DRAFT;
         }
     }
@@ -45,8 +43,7 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
     public function _on_creating()
     {
         $this->orgOpenpsaObtype = self::OBTYPE_DOCUMENT;
-        if (!$this->author)
-        {
+        if (!$this->author) {
             $user = midcom::get()->auth->user->get_storage();
             $this->author = $user->id;
         }
@@ -74,14 +71,12 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
 
     private function _update_directory_timestamp()
     {
-        if ($this->nextVersion != 0)
-        {
+        if ($this->nextVersion != 0) {
             return;
         }
         $parent = $this->get_parent();
         if (   $parent
-            && $parent->component == 'org.openpsa.documents')
-        {
+            && $parent->component == 'org.openpsa.documents') {
             midcom::get()->auth->request_sudo('org.openpsa.documents');
 
             $parent = new org_openpsa_documents_directory($parent);
@@ -105,20 +100,17 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
      */
     public function load_attachment()
     {
-        if (!$this->guid)
-        {
+        if (!$this->guid) {
             // Non-persistent object will not have attachments
             return null;
         }
 
         $attachments = org_openpsa_helpers::get_dm2_attachments($this, 'document');
-        if (empty($attachments))
-        {
+        if (empty($attachments)) {
             return null;
         }
 
-        if (sizeof($attachments) > 1)
-        {
+        if (sizeof($attachments) > 1) {
             debug_add("Multiple attachments have been found for document #" . $this->id . ", returning only the first.", MIDCOM_LOG_INFO);
         }
 
@@ -133,14 +125,12 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
      */
     public static function get_file_type($mimetype)
     {
-        if (!preg_match('/\//', $mimetype))
-        {
+        if (!preg_match('/\//', $mimetype)) {
             return $mimetype;
         }
 
         //first, try if there is a direct translation
-        if ($mimetype != midcom::get()->i18n->get_string($mimetype, 'org.openpsa.documents'))
-        {
+        if ($mimetype != midcom::get()->i18n->get_string($mimetype, 'org.openpsa.documents')) {
             return (midcom::get()->i18n->get_string($mimetype, 'org.openpsa.documents'));
         }
 
@@ -149,8 +139,7 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
         $type = $parts[0];
         $subtype = $parts[1];
 
-        switch ($type)
-        {
+        switch ($type) {
             case 'image':
                 $subtype = strtoupper($subtype);
                 break;
@@ -160,17 +149,12 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
             case 'application':
                 $type = 'document';
 
-                if (preg_match('/^vnd\.oasis\.opendocument/', $subtype))
-                {
+                if (preg_match('/^vnd\.oasis\.opendocument/', $subtype)) {
                     $type = str_replace('vnd.oasis.opendocument.', '', $subtype);
                     $subtype = 'OpenDocument';
-                }
-                elseif (preg_match('/^vnd\.ms/', $subtype))
-                {
+                } elseif (preg_match('/^vnd\.ms/', $subtype)) {
                     $subtype = ucfirst(str_replace('vnd.ms-', '', $subtype));
-                }
-                elseif (preg_match('/^vnd\.openxmlformats/', $subtype))
-                {
+                } elseif (preg_match('/^vnd\.openxmlformats/', $subtype)) {
                     $type = str_replace('vnd.openxmlformats-officedocument.', '', $subtype);
                     $type = str_replace('ml.', ' ', $type);
                     $subtype = 'OOXML';
@@ -189,8 +173,7 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
          * that it's probably a file extension
          */
         if (   $parts[1] == $subtype
-            && preg_match('/^[a-z0-9]+$/', $subtype))
-        {
+            && preg_match('/^[a-z0-9]+$/', $subtype)) {
             $subtype = strtoupper($subtype);
         }
 
@@ -203,29 +186,23 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
         $backup = new org_openpsa_documents_document_dba();
         $properties = $this->get_properties();
         // Copy current properties
-        foreach ($properties as $key)
-        {
+        foreach ($properties as $key) {
             if (   $key != 'guid'
                 && $key != 'id'
-                && $key != 'metadata')
-            {
+                && $key != 'metadata') {
                 $backup->$key = $this->{$key};
             }
         }
 
         $backup->nextVersion = $this->id;
-        if (!$backup->create())
-        {
+        if (!$backup->create()) {
             return false;
         }
 
         // Copy parameters
-        if ($params = $this->list_parameters())
-        {
-            foreach ($params as $domain => $array)
-            {
-                foreach ($array as $name => $value)
-                {
+        if ($params = $this->list_parameters()) {
+            foreach ($params as $domain => $array) {
+                foreach ($array as $name => $value) {
                     $backup->set_parameter($domain, $name, $value);
                 }
             }
@@ -234,19 +211,16 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
         // Find the attachment
         $attachments = $this->list_attachments();
 
-        if (!$attachments)
-        {
+        if (!$attachments) {
             return true;
         }
 
-        foreach ($attachments as $original_attachment)
-        {
+        foreach ($attachments as $original_attachment) {
             $backup_attachment = $backup->create_attachment($original_attachment->name, $original_attachment->title, $original_attachment->mimetype);
 
             $original_handle = $original_attachment->open('r');
             if (   !$backup_attachment
-                || !$original_handle)
-            {
+                || !$original_handle) {
                 // Failed to copy the attachment, abort
                 return $backup->delete();
             }
@@ -259,14 +233,10 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
             fclose($original_handle);
 
             // Copy attachment parameters
-            if ($params = $original_attachment->list_parameters())
-            {
-                foreach ($params as $domain => $array)
-                {
-                    foreach ($array as $name => $value)
-                    {
-                        if ($name == 'identifier')
-                        {
+            if ($params = $original_attachment->list_parameters()) {
+                foreach ($params as $domain => $array) {
+                    foreach ($array as $name => $value) {
+                        if ($name == 'identifier') {
                             $value = md5(time() . $backup_attachment->name);
                             $backup->set_parameter('midcom.helper.datamanager2.type.blobs', 'guids_document', $value . ":" . $backup_attachment->guid);
                         }

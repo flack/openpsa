@@ -37,8 +37,7 @@ class midcom_services_indexer_filter_chained extends midcom_services_indexer_fil
     public function get_query_string()
     {
         $ret = array();
-        foreach ($this->filters as $filter)
-        {
+        foreach ($this->filters as $filter) {
             $ret[] = $filter->get_query_string();
         }
         return implode(' AND ', $ret);

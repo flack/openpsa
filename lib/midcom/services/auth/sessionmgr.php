@@ -89,8 +89,7 @@ class midcom_services_auth_sessionmgr
      */
     public function create_login_session($username, $password, $clientip = null)
     {
-        if (!$this->_do_midgard_auth($username, $password))
-        {
+        if (!$this->_do_midgard_auth($username, $password)) {
             debug_add('Failed to create a new login session: Authentication Failure', MIDCOM_LOG_ERROR);
             return false;
         }
@@ -112,8 +111,7 @@ class midcom_services_auth_sessionmgr
      */
     public function create_trusted_login_session($username, $clientip = null)
     {
-        if (!$this->_do_trusted_midgard_auth($username))
-        {
+        if (!$this->_do_trusted_midgard_auth($username)) {
             debug_add('Failed to create a new login session: Authentication Failure', MIDCOM_LOG_ERROR);
             return false;
         }
@@ -131,14 +129,12 @@ class midcom_services_auth_sessionmgr
      */
     private function create_session($username, $clientip)
     {
-        if (!$user = $this->auth->get_user($this->person))
-        {
+        if (!$user = $this->auth->get_user($this->person)) {
             debug_add("Failed to create a new login session: User ID {$username} is invalid.", MIDCOM_LOG_ERROR);
             return false;
         }
 
-        if (empty($clientip))
-        {
+        if (empty($clientip)) {
             $clientip = $_SERVER['REMOTE_ADDR'];
         }
 
@@ -147,8 +143,7 @@ class midcom_services_auth_sessionmgr
         $session->username = $user->username;
         $session->clientip = $clientip;
         $session->timestamp = time();
-        if (!$session->create())
-        {
+        if (!$session->create()) {
             debug_add('Failed to create a new login session: ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
             return false;
         }
@@ -179,51 +174,40 @@ class midcom_services_auth_sessionmgr
      */
     public function load_login_session($sessionid, $user, $clientip = null)
     {
-        try
-        {
+        try {
             $session = new midcom_core_login_session_db($sessionid);
-        }
-        catch (Exception $e)
-        {
+        } catch (Exception $e) {
             debug_add('Login session ' . $sessionid . ' failed to load: ' . $e->getMessage(), MIDCOM_LOG_INFO);
             return false;
         }
 
         $timed_out = time() - midcom::get()->config->get('auth_login_session_timeout');
 
-        if ($session->timestamp < $timed_out)
-        {
+        if ($session->timestamp < $timed_out) {
             $session->delete();
             debug_add("The session {$session->guid} (#{$session->id}) has timed out.", MIDCOM_LOG_INFO);
             return false;
         }
 
-        if ($clientip === null)
-        {
+        if ($clientip === null) {
             $clientip = $_SERVER['REMOTE_ADDR'];
         }
 
         if (   midcom::get()->config->get('auth_check_client_ip')
-            && $session->clientip != $clientip)
-        {
+            && $session->clientip != $clientip) {
             debug_add("The session {$session->guid} (#{$session->id}) had mismatching client IP.", MIDCOM_LOG_INFO);
             debug_add("Expected {$session->clientip}, got {$clientip}.");
             return false;
         }
 
-        if ($session->timestamp < time() - midcom::get()->config->get('auth_login_session_update_interval'))
-        {
+        if ($session->timestamp < time() - midcom::get()->config->get('auth_login_session_update_interval')) {
             // Update the timestamp if previous timestamp is older than specified interval
             $session->timestamp = time();
-            try
-            {
-                if (!$session->update())
-                {
+            try {
+                if (!$session->update()) {
                     debug_add("Failed to update the session {$session->guid} (#{$session->id}) to the current timestamp: " . midcom_connection::get_error_string(), MIDCOM_LOG_INFO);
                 }
-            }
-            catch (Exception $e)
-            {
+            } catch (Exception $e) {
                 debug_add("Failed to update the session {$session->guid} (#{$session->id}) to the current timestamp: " . $e->getMessage(), MIDCOM_LOG_INFO);
             }
         }
@@ -241,8 +225,7 @@ class midcom_services_auth_sessionmgr
      */
     private function _do_midgard_auth($username, $password)
     {
-        if ($username == '' || $password == '')
-        {
+        if ($username == '' || $password == '') {
             debug_add("Failed to authenticate: Username or password is empty.", MIDCOM_LOG_ERROR);
             return false;
         }
@@ -259,8 +242,7 @@ class midcom_services_auth_sessionmgr
      */
     private function _do_trusted_midgard_auth($username)
     {
-        if ($username == '')
-        {
+        if ($username == '') {
             debug_add("Failed to authenticate: Username is empty.", MIDCOM_LOG_ERROR);
             return false;
         }
@@ -272,8 +254,7 @@ class midcom_services_auth_sessionmgr
 
     private function _load_person()
     {
-        if (!$this->user)
-        {
+        if (!$this->user) {
             debug_add("Failed to authenticate the given user: ". midcom_connection::get_error_string(),
             MIDCOM_LOG_INFO);
             return false;
@@ -281,8 +262,7 @@ class midcom_services_auth_sessionmgr
 
         $this->person = $this->user->get_person();
         $person_class = midcom::get()->config->get('person_class');
-        if (get_class($this->person) != $person_class)
-        {
+        if (get_class($this->person) != $person_class) {
             // Cast the person object to correct person class
             $this->person = new $person_class($this->person->guid);
         }
@@ -305,16 +285,14 @@ class midcom_services_auth_sessionmgr
      */
     public function authenticate_session($sessionid)
     {
-        if (!array_key_exists($sessionid, $this->_loaded_sessions))
-        {
+        if (!array_key_exists($sessionid, $this->_loaded_sessions)) {
             debug_add("The session {$sessionid} has not been loaded yet, cannot authenticate to it.", MIDCOM_LOG_ERROR);
             return false;
         }
 
         $username = $this->_loaded_sessions[$sessionid]->username;
 
-        if (!$this->_do_trusted_midgard_auth($username))
-        {
+        if (!$this->_do_trusted_midgard_auth($username)) {
             $this->delete_session($sessionid);
             return false;
         }
@@ -333,16 +311,14 @@ class midcom_services_auth_sessionmgr
      */
     function delete_session($sessionid)
     {
-        if (!array_key_exists($sessionid, $this->_loaded_sessions))
-        {
+        if (!array_key_exists($sessionid, $this->_loaded_sessions)) {
             debug_add('Only sessions which have been previously loaded can be deleted.', MIDCOM_LOG_ERROR);
             return false;
         }
 
         $session = $this->_loaded_sessions[$sessionid];
 
-        if (!$session->delete())
-        {
+        if (!$session->delete()) {
             debug_add("Failed to delete the delete session {$session->guid} (#{$session->id}): " . midcom_connection::get_error_string(), MIDCOM_LOG_INFO);
             return false;
         }
@@ -363,22 +339,19 @@ class midcom_services_auth_sessionmgr
      */
     function _update_user_username($user, $new)
     {
-        if (empty($new))
-        {
+        if (empty($new)) {
             return;
         }
         $qb = new midgard_query_builder('midcom_core_login_session_db');
         $qb->add_constraint('userid', '=', $user->id);
         $result = @$qb->execute();
 
-        if (!$result)
-        {
+        if (!$result) {
             // No login sessions found
             return true;
         }
 
-        foreach ($result as $session)
-        {
+        foreach ($result as $session) {
             $session->username = $new;
             $session->update();
         }
@@ -390,10 +363,8 @@ class midcom_services_auth_sessionmgr
         $qb = new midgard_query_builder('midcom_core_login_session_db');
         $qb->add_constraint('userid', '=', $user->id);
         $result = @$qb->execute();
-        if ($result)
-        {
-            foreach ($result as $entry)
-            {
+        if ($result) {
+            foreach ($result as $entry) {
                 debug_add("Deleting login session ID {$entry->id} for user {$entry->username} with timestamp {$entry->timestamp}");
                 $entry->delete();
             }
@@ -413,8 +384,7 @@ class midcom_services_auth_sessionmgr
      */
     function is_user_online($user)
     {
-        if (!$user->get_storage()->can_do('midcom:isonline'))
-        {
+        if (!$user->get_storage()->can_do('midcom:isonline')) {
             return 'unknown';
         }
 
@@ -424,8 +394,7 @@ class midcom_services_auth_sessionmgr
         $qb->add_constraint('timestamp', '>=', $timed_out);
         $result = @$qb->execute();
 
-        if (!$result)
-        {
+        if (!$result) {
             return 'offline';
         }
         return 'online';
@@ -471,11 +440,9 @@ class midcom_services_auth_sessionmgr
 
         $result = array();
         $query_result = array_keys($mc->list_keys());
-        foreach ($query_result as $userid)
-        {
+        foreach ($query_result as $userid) {
             if (   ($user = $this->auth->get_user($userid))
-                && $user->is_online())
-            {
+                && $user->is_online()) {
                 $result[$user->guid] = $user;
             }
         }

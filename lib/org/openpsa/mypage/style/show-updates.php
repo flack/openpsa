@@ -5,21 +5,17 @@ $view_types = array
     'yesterday',
 );
 $formatter = $data['l10n']->get_formatter();
-foreach ($view_types as $type)
-{
-    if ($data[$type])
-    {
+foreach ($view_types as $type) {
+    if ($data[$type]) {
         echo "<div class=\"area\">\n";
         echo "<h2>" . sprintf($data['l10n']->get("updated %s"), $data['l10n']->get($type)) . "</h2>\n";
         echo "<ul class=\"updated\">\n";
-        foreach ($data[$type] as $document)
-        {
+        foreach ($data[$type] as $document) {
             $class = explode('.', $document->component);
             $class = $class[count($class)-1];
 
             $onclick = '';
-            switch ($class)
-            {
+            switch ($class) {
                 case "calendar":
                     $url = "#";
                     $onclick = " onclick=\"javascript:window.open('{$document->document_url}', 'event', 'toolbar=0,location=0,status=0,height=600,width=300,resizable=1');\"";
@@ -29,20 +25,16 @@ foreach ($view_types as $type)
                     break;
             }
 
-            try
-            {
-                if ($document->editor)
-                {
+            try {
+                if ($document->editor) {
                     $editor = new midcom_db_person($document->editor);
-                }
-                else
-                {
+                } else {
                     $editor = new midcom_db_person($document->creator);
                 }
                 $contact = new org_openpsa_widgets_contact($editor);
                 echo "<li class=\"updated-{$class}\"><a href=\"{$url}\"{$onclick}>{$document->title}</a> <div class=\"metadata\">" . $formatter->datetime($document->edited) . " (" . $contact->show_inline() . ")</div></li>\n";
+            } catch (midcom_error $e) {
             }
-            catch (midcom_error $e){}
         }
         echo "</ul></div>\n";
     }

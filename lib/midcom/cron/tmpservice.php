@@ -17,15 +17,11 @@ class midcom_cron_tmpservice extends midcom_baseclasses_components_cron_handler
         $qb->add_constraint('timestamp', '<', time() - midcom::get()->config->get('midcom_temporary_resource_timeout'));
         $qb->set_limit(500);
         $result = $qb->execute();
-        foreach ($result as $tmp)
-        {
-            if (!$tmp->delete())
-            {
+        foreach ($result as $tmp) {
+            if (!$tmp->delete()) {
                 $msg = "Failed to delete temporary object {$tmp->id}, last Midgard error was: " . midcom_connection::get_error_string();
                 $this->print_error($msg, $tmp);
-            }
-            else
-            {
+            } else {
                 debug_add("Deleted temporary object {$tmp->id}.");
             }
         }

@@ -26,11 +26,9 @@ class midcom_helper_imagepopup_handler_upload extends midcom_baseclasses_compone
         reset($_FILES);
         $temp = array_shift($_FILES);
 
-        if (is_uploaded_file($temp['tmp_name']))
-        {
+        if (is_uploaded_file($temp['tmp_name'])) {
             // Verify file extension
-            if (!in_array(strtolower(pathinfo($temp['name'], PATHINFO_EXTENSION)), array("gif", "jpg", "png")))
-            {
+            if (!in_array(strtolower(pathinfo($temp['name'], PATHINFO_EXTENSION)), array("gif", "jpg", "png"))) {
                 throw new midcom_error('Invalid extension.');
             }
         }
@@ -69,7 +67,6 @@ class midcom_helper_imagepopup_handler_upload extends midcom_baseclasses_compone
      */
     private function get_modify_filename($filename)
     {
-
         $filename = midcom_db_attachment::safe_filename($filename);
         $pieces = explode('.', $filename);
         $core = array_shift($pieces);
@@ -93,12 +90,10 @@ class midcom_helper_imagepopup_handler_upload extends midcom_baseclasses_compone
         $query->add_constraint('parentguid', '=', $parentguid);
         $entry = $query->execute();
 
-        if (count($entry) == 0)
-        {
+        if (count($entry) == 0) {
             throw new midcom_error_notfound("There is no match in database " . midcom_connection::get_error_string());
         }
-        if (count($entry) == 1)
-        {
+        if (count($entry) == 1) {
             return $entry[0];
         }
         throw new midcom_error('There is more than just one object' . midcom_connection::get_error_string());
@@ -111,14 +106,12 @@ class midcom_helper_imagepopup_handler_upload extends midcom_baseclasses_compone
     private function write_the_file($tmp, midcom_db_attachment $target)
     {
         $source = fopen($tmp, 'r');
-        if (!$source)
-        {
+        if (!$source) {
             throw new midcom_error("Could not open file " . $tmp . " for reading.");
         }
         $stat = $target->copy_from_handle($source);
         fclose($source);
-        if (!$stat)
-        {
+        if (!$stat) {
             throw new midcom_error('Failed to copy from handle: ' . midcom_connection::get_error_string());
         }
     }
@@ -136,8 +129,7 @@ class midcom_helper_imagepopup_handler_upload extends midcom_baseclasses_compone
         $attachment->title = $filename;
         $attachment->mimetype = $mimetype;
         $attachment->parentguid = $parentguid;
-        if(!$attachment->create())
-        {
+        if (!$attachment->create()) {
             throw new midcom_error('Failed to create derived image: ' . midcom_connection::get_error_string());
         }
 

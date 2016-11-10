@@ -29,10 +29,8 @@ class midcom_helper_datamanager2_type_tags extends midcom_helper_datamanager2_ty
 
     public function convert_from_storage($source)
     {
-        if (!$this->storage->object)
-        {
-            if (is_string($source) && !empty($source))
-            {
+        if (!$this->storage->object) {
+            if (is_string($source) && !empty($source)) {
                 $this->value = $source;
             }
             return;
@@ -46,22 +44,18 @@ class midcom_helper_datamanager2_type_tags extends midcom_helper_datamanager2_ty
     {
         $tag_array = net_nemein_tag_handler::string2tag_array($this->value);
         $this->auto_context = trim($this->auto_context);
-        if (!empty($this->auto_context))
-        {
+        if (!empty($this->auto_context)) {
             $new_tag_array = array();
-            foreach ($tag_array as $tagname => $url)
-            {
+            foreach ($tag_array as $tagname => $url) {
                 $context = net_nemein_tag_handler::resolve_context($tagname);
-                if (empty($context))
-                {
+                if (empty($context)) {
                     $tagname = "{$this->auto_context}:{$tagname}";
                 }
                 $new_tag_array[$tagname] = $url;
             }
             $tag_array = $new_tag_array;
         }
-        if (!net_nemein_tag_handler::tag_object($this->storage->object, $tag_array))
-        {
+        if (!net_nemein_tag_handler::tag_object($this->storage->object, $tag_array)) {
             debug_add("Tried to save the tags \"{$this->value}\" for field {$this->name}, but failed. Ignoring silently.",
                 MIDCOM_LOG_WARN);
         }

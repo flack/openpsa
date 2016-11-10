@@ -13,7 +13,6 @@
  */
 class org_openpsa_sales_handler_rest_order extends midcom_baseclasses_components_handler_rest
 {
-
     public function get_object_classname()
     {
         return "";
@@ -34,8 +33,7 @@ class org_openpsa_sales_handler_rest_order extends midcom_baseclasses_components
         $qb->add_constraint('customerContact', '=', $person->id);
         $results = $qb->execute();
 
-        if (count($results) > 0)
-        {
+        if (count($results) > 0) {
             return array_pop($results);
         }
 
@@ -47,14 +45,12 @@ class org_openpsa_sales_handler_rest_order extends midcom_baseclasses_components
         $salesproject->owner = midcom::get()->auth->user->get_storage()->id;
 
         $salesproject->title = "";
-        if (isset($this->_request['params']['salesproject_title']))
-        {
+        if (isset($this->_request['params']['salesproject_title'])) {
             $salesproject->title = $this->_request['params']['salesproject_title'];
         }
         // add username to salesproject title
         $salesproject->title .= ' ' . $person->rname;
-        if (!$salesproject->create())
-        {
+        if (!$salesproject->create()) {
             $this->_stop("Failed creating salesproject: " . midcom_connection::get_error_string());
         }
 
@@ -72,8 +68,7 @@ class org_openpsa_sales_handler_rest_order extends midcom_baseclasses_components
         $run_cycle = isset($this->_request['params']['run_cycle']) ? $this->_request['params']['run_cycle'] : false;
 
         // check param
-        if (!$person_guid || !$product_id)
-        {
+        if (!$person_guid || !$product_id) {
             $this->_stop("Missing param for creating the order");
         }
         $salesproject = $this->get_salesproject($person_guid);
@@ -85,14 +80,12 @@ class org_openpsa_sales_handler_rest_order extends midcom_baseclasses_components
         $deliverable = $this->prepare_deliverable($product);
         $deliverable->salesproject = $salesproject->id;
 
-        if (!$deliverable->create())
-        {
+        if (!$deliverable->create()) {
             $this->_stop("Failed creating deliverable: " . midcom_connection::get_error_string());
         }
 
         // is a subscription?
-        if ($product->delivery == org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION)
-        {
+        if ($product->delivery == org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION) {
             $continuous = isset($this->_request['params']['continuous']) ? ((bool) $this->_request['params']['continuous']) : false;
             $deliverable->continuous = $continuous;
             // setting schema parameter to subscription
@@ -100,12 +93,10 @@ class org_openpsa_sales_handler_rest_order extends midcom_baseclasses_components
         }
 
         // finally, order the product
-        if (!$deliverable->order())
-        {
+        if (!$deliverable->order()) {
             $this->_stop("Failed ordering deliverable: " . midcom_connection::get_error_string());
         }
-        if ($run_cycle)
-        {
+        if ($run_cycle) {
             $deliverable->run_cycle();
         }
 

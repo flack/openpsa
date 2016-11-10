@@ -45,19 +45,14 @@ class midcom_helper_imagepopup_viewer extends midcom_baseclasses_components_plug
             )
         );
 
-        if (!empty($data['object']))
-        {
-            foreach ($navlinks as &$link)
-            {
+        if (!empty($data['object'])) {
+            foreach ($navlinks as &$link) {
                 $link['url'] .= $data['object']->guid . '/';
             }
-        }
-        else
-        {
+        } else {
             unset($navlinks['page']);
         }
-        if ($data['filetype'] !== 'file')
-        {
+        if ($data['filetype'] !== 'file') {
             unset($navlinks['links']);
         }
         $navlinks[$data['list_type']]['selected'] = true;

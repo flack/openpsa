@@ -44,12 +44,9 @@ implements midcom_helper_datamanager2_interfaces_create
     public function get_schema_defaults()
     {
         $defaults = array();
-        if (isset($_GET['article']))
-        {
+        if (isset($_GET['article'])) {
             $defaults['article'] = $_GET['article'];
-        }
-        else
-        {
+        } else {
             $defaults['topic'] = $this->_topic->id;
         }
         return $defaults;
@@ -63,8 +60,7 @@ implements midcom_helper_datamanager2_interfaces_create
         $this->_link = new net_nehmer_static_link_dba();
         $this->_link->topic = $this->_topic->id;
 
-        if (!$this->_link->create())
-        {
+        if (!$this->_link->create()) {
             debug_print_r('We operated on this object:', $this->_link);
             throw new midcom_error('Failed to create a new article. Last Midgard error was: '. midcom_connection::get_error_string());
         }
@@ -91,8 +87,7 @@ implements midcom_helper_datamanager2_interfaces_create
     {
         $this->_content_topic->require_do('midgard:create');
 
-        if (!$this->_config->get('enable_article_links'))
-        {
+        if (!$this->_config->get('enable_article_links')) {
             throw new midcom_error_notfound('Article linking disabled');
         }
         midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('article link')));

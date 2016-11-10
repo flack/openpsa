@@ -27,13 +27,11 @@ class org_openpsa_httplib_helpers extends midcom_baseclasses_components_purecode
         $quotes = self::$_quotes;
         $regex_metatag = "/<html.*?>.*?<head.*?>.*?(<meta[^>]*?name=([{$quotes}]){$name}\\2[^>]*?>).*?<\/head>/msi";
         $regex_value = "/content=([{$quotes}])(.*?)\\1/i";
-        if (!preg_match($regex_metatag, $html, $tag_matches))
-        {
+        if (!preg_match($regex_metatag, $html, $tag_matches)) {
             debug_add("Failed to find meta tag for name \"{$name}\"");
             return '';
         }
-        if (!preg_match($regex_value, $tag_matches[1], $value_matches))
-        {
+        if (!preg_match($regex_value, $tag_matches[1], $value_matches)) {
             debug_add("Failed to find meta tag value for tag name \"{$name}\"");
             return '';
         }
@@ -53,19 +51,15 @@ class org_openpsa_httplib_helpers extends midcom_baseclasses_components_purecode
         $quotes = self::$_quotes;
         $values = array();
         $regex_linktags = "/<html.*?>.*?<head.*?>.*?(<link[^>]*?rel=([{$quotes}]){$relation}\\2[^>]*?>).*?<\/head>/msi";
-        if (!preg_match_all($regex_linktags, $html, $tag_matches))
-        {
+        if (!preg_match_all($regex_linktags, $html, $tag_matches)) {
             debug_add("Failed to find link tag values for relation \"{$relation}\"");
             return $values;
         }
-        if (!is_null($type))
-        {
+        if (!is_null($type)) {
             $regex_type_filter = "/type=([{$quotes}]){$type}\\1/i";
-            foreach ($tag_matches[1] as $k => $tagcode)
-            {
+            foreach ($tag_matches[1] as $k => $tagcode) {
                 // Type filter not matches, clear from resultset
-                if (!preg_match($regex_type_filter, $tagcode))
-                {
+                if (!preg_match($regex_type_filter, $tagcode)) {
                     unset($tag_matches[0][$k]);
                     unset($tag_matches[1][$k]);
                     unset($tag_matches[2][$k]);
@@ -73,24 +67,20 @@ class org_openpsa_httplib_helpers extends midcom_baseclasses_components_purecode
             }
         }
         $regex_properties = "/(title|href|hreflang)=([{$quotes}])(.*?)\\2/i";
-        foreach ($tag_matches[1] as $tagcode)
-        {
+        foreach ($tag_matches[1] as $tagcode) {
             $tag = array
             (
                 'title' => false,
                 'href' => false,
                 'hreflang' => false,
             );
-            if (!preg_match_all($regex_properties, $tagcode, $property_matches))
-            {
+            if (!preg_match_all($regex_properties, $tagcode, $property_matches)) {
                 // Could not read properties
                 continue;
             }
-            foreach ($property_matches[1] as $k => $property)
-            {
+            foreach ($property_matches[1] as $k => $property) {
                 $value = $property_matches[3][$k];
-                if (!array_key_exists($property, $tag))
-                {
+                if (!array_key_exists($property, $tag)) {
                     // WTF unsupported property ??
                     continue;
                 }
@@ -114,34 +104,28 @@ class org_openpsa_httplib_helpers extends midcom_baseclasses_components_purecode
         $quotes = self::$_quotes;
         $values = array();
         $regex_atags = "/(<a[^>]*?rel=([{$quotes}]){$relation}\\2[^>]*?>)((.*?)<\/a>)?/msi";
-        if (!preg_match_all($regex_atags, $html, $tag_matches))
-        {
+        if (!preg_match_all($regex_atags, $html, $tag_matches)) {
             debug_add("Failed to find anchor tag values for relation \"{$relation}\"");
             return $values;
         }
         $regex_properties = "/(title|href)=([{$quotes}])(.*?)\\2/i";
-        foreach ($tag_matches[1] as $key => $tagcode)
-        {
+        foreach ($tag_matches[1] as $key => $tagcode) {
             $tag = array
             (
                 'title' => false,
                 'href' => false,
                 'value' => false,
             );
-            if (!preg_match_all($regex_properties, $tagcode, $property_matches))
-            {
+            if (!preg_match_all($regex_properties, $tagcode, $property_matches)) {
                 // Could not read properties
                 continue;
             }
-            if (isset($tag_matches[4][$key]))
-            {
+            if (isset($tag_matches[4][$key])) {
                 $tag['value'] = $tag_matches[4][$key];
             }
-            foreach ($property_matches[1] as $k => $property)
-            {
+            foreach ($property_matches[1] as $k => $property) {
                 $value = $property_matches[3][$k];
-                if (!array_key_exists($property, $tag))
-                {
+                if (!array_key_exists($property, $tag)) {
                     // WTF unsupported property ??
                     continue;
                 }

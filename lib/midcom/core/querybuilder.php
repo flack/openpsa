@@ -67,41 +67,31 @@ class midcom_core_querybuilder extends midcom_core_query
      */
     private function _execute_and_check_privileges($false_on_empty_mgd_resultset = false)
     {
-        try
-        {
+        try {
             $result = $this->_query->execute();
-        }
-        catch (Exception $e)
-        {
+        } catch (Exception $e) {
             debug_add("Query failed: " . $e->getMessage(), MIDCOM_LOG_ERROR);
             return array();
         }
 
-        if (!is_array($result))
-        {
+        if (!is_array($result)) {
             debug_add('Last Midgard error was: ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
             midcom::get()->debug->log_php_error(MIDCOM_LOG_ERROR);
             return array();
         }
         if (   empty($result)
-            && $false_on_empty_mgd_resultset)
-        {
+            && $false_on_empty_mgd_resultset) {
             return false;
         }
 
         $newresult = array();
         $this->denied = 0;
-        foreach ($result as $object)
-        {
+        foreach ($result as $object) {
             $classname = $this->_real_class;
-            try
-            {
+            try {
                 $object = new $classname($object);
-            }
-            catch (midcom_error $e)
-            {
-                if ($e->getCode() == MIDCOM_ERRFORBIDDEN)
-                {
+            } catch (midcom_error $e) {
+                if ($e->getCode() == MIDCOM_ERRFORBIDDEN) {
                     $this->denied++;
                 }
                 $e->log();
@@ -111,8 +101,7 @@ class midcom_core_querybuilder extends midcom_core_query
             // Check approval
             if (   $this->hide_invisible
                 && !midcom::get()->config->get('show_unapproved_objects')
-                && !$object->__object->is_approved())
-            {
+                && !$object->__object->is_approved()) {
                 continue;
             }
 
@@ -141,26 +130,21 @@ class midcom_core_querybuilder extends midcom_core_query
     {
         $this->_reset();
 
-        if (!call_user_func_array(array($this->_real_class, '_on_prepare_exec_query_builder'), array(&$this)))
-        {
+        if (!call_user_func_array(array($this->_real_class, '_on_prepare_exec_query_builder'), array(&$this))) {
             debug_add('The _on_prepare_exec_query_builder callback returned false, so we abort now.');
             return array();
         }
 
-        if ($this->_constraint_count == 0)
-        {
+        if ($this->_constraint_count == 0) {
             debug_add('This Query Builder instance has no constraints (set loglevel to debug to see stack trace)', MIDCOM_LOG_WARN);
             debug_print_function_stack('We were called from here:');
         }
 
         if (   empty($this->_limit)
-            && empty($this->_offset))
-        {
+            && empty($this->_offset)) {
             // No point to do windowing
             $newresult = $this->_execute_and_check_privileges();
-        }
-        else
-        {
+        } else {
             $newresult = array();
             // Must be copies
             $limit = $this->_limit;
@@ -168,30 +152,22 @@ class midcom_core_querybuilder extends midcom_core_query
             $i = 0;
             $this->_set_limit_offset_window($i);
 
-            while (($resultset = $this->_execute_and_check_privileges(true)) !== false)
-            {
+            while (($resultset = $this->_execute_and_check_privileges(true)) !== false) {
                 $size = count($resultset);
 
-                if ($offset >= $size)
-                {
+                if ($offset >= $size) {
                     // We still have offset left to skip
                     $offset -= $size;
-                }
-                else
-                {
-                    if ($offset)
-                    {
+                } else {
+                    if ($offset) {
                         $resultset = array_slice($resultset, $offset);
                         $size = $size - $offset;
                         $offset = 0;
                     }
 
-                    if ($limit > $size)
-                    {
+                    if ($limit > $size) {
                         $limit -= $size;
-                    }
-                    elseif ($limit > 0)
-                    {
+                    } elseif ($limit > 0) {
                         // We have reached the limit
                         $resultset = array_slice($resultset, 0, $limit);
                         $newresult = array_merge($newresult, $resultset);
@@ -213,11 +189,9 @@ class midcom_core_querybuilder extends midcom_core_query
 
     private function _set_limit_offset_window($iteration)
     {
-        if (!$this->_window_size)
-        {
+        if (!$this->_window_size) {
             // Try to be smart about the window size
-            switch (true)
-            {
+            switch (true) {
                 case (   empty($this->_offset)
                       && $this->_limit):
                     // Get limited number from start (I supposed generally less than 50% will be unreadable)
@@ -247,8 +221,7 @@ class midcom_core_querybuilder extends midcom_core_query
         }
 
         $offset = $iteration * $this->_window_size;
-        if ($offset)
-        {
+        if ($offset) {
             $this->_query->set_offset($offset);
         }
         $this->_query->set_limit($this->_window_size);
@@ -256,8 +229,7 @@ class midcom_core_querybuilder extends midcom_core_query
 
     private function _check_groups()
     {
-        while ($this->_groups > 0)
-        {
+        while ($this->_groups > 0) {
             debug_add('Ending unterminated QB group', MIDCOM_LOG_INFO);
             $this->end_group();
         }
@@ -291,25 +263,21 @@ class midcom_core_querybuilder extends midcom_core_query
 
         $this->_reset();
 
-        if (!call_user_func_array(array($this->_real_class, '_on_prepare_exec_query_builder'), array(&$this)))
-        {
+        if (!call_user_func_array(array($this->_real_class, '_on_prepare_exec_query_builder'), array(&$this))) {
             debug_add('The _on_prepare_exec_query_builder callback returned false, so we abort now.');
             return array();
         }
 
-        if ($this->_constraint_count == 0)
-        {
+        if ($this->_constraint_count == 0) {
             debug_add('This Query Builder instance has no constraints, see debug level log for stacktrace', MIDCOM_LOG_WARN);
             debug_print_function_stack('We were called from here:');
         }
 
         // Add the limit / offsets
-        if ($this->_limit)
-        {
+        if ($this->_limit) {
             $this->_query->set_limit($this->_limit);
         }
-        if ($this->_offset)
-        {
+        if ($this->_offset) {
             $this->_query->set_offset($this->_offset);
         }
 
@@ -331,17 +299,13 @@ class midcom_core_querybuilder extends midcom_core_query
      */
     public function get_result($key, $mode = null)
     {
-        if ($mode == 'unchecked')
-        {
+        if ($mode == 'unchecked') {
             $results = $this->execute_unchecked();
-        }
-        else
-        {
+        } else {
             $results = $this->execute();
         }
 
-        if (!isset($results[$key]))
-        {
+        if (!isset($results[$key])) {
             return false;
         }
 
@@ -369,8 +333,7 @@ class midcom_core_querybuilder extends midcom_core_query
      */
     public function count()
     {
-        if ($this->count == -1)
-        {
+        if ($this->count == -1) {
             $this->execute();
         }
         return $this->count;
@@ -393,12 +356,10 @@ class midcom_core_querybuilder extends midcom_core_query
     {
         $this->_check_groups();
 
-        if ($this->_limit)
-        {
+        if ($this->_limit) {
             $this->_query->set_limit($this->_limit);
         }
-        if ($this->_offset)
-        {
+        if ($this->_offset) {
             $this->_query->set_offset($this->_offset);
         }
         return $this->_query->count();
@@ -416,8 +377,7 @@ class midcom_core_querybuilder extends midcom_core_query
      */
     public function toggle_read_only($toggle = false)
     {
-        if (method_exists($this->_query, "toggle_read_only"))
-        {
+        if (method_exists($this->_query, "toggle_read_only")) {
             $this->_query->toggle_read_only($toggle);
         }
     }

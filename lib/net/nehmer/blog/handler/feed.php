@@ -76,13 +76,10 @@ class net_nehmer_blog_handler_feed extends midcom_baseclasses_components_handler
 
         $qb->add_order('metadata.published', 'DESC');
 
-        if ($handler_id == 'feed-category-rss2')
-        {
-            if (!in_array($args[0], $this->_request_data['categories']))
-            {
+        if ($handler_id == 'feed-category-rss2') {
+            if (!in_array($args[0], $this->_request_data['categories'])) {
                 // This is not a predefined category from configuration, check if site maintainer allows us to show it
-                if (!$this->_config->get('categories_custom_enable'))
-                {
+                if (!$this->_config->get('categories_custom_enable')) {
                     throw new midcom_error('Custom category support is disabled');
                 }
             }
@@ -94,17 +91,13 @@ class net_nehmer_blog_handler_feed extends midcom_baseclasses_components_handler
             // TODO: check schema storage to get fieldname
             if (   isset($this->_request_data['schemadb']['default']->fields['categories'])
                 && array_key_exists('allow_multiple', $this->_request_data['schemadb']['default']->fields['categories']['type_config'])
-                && !$this->_request_data['schemadb']['default']->fields['categories']['type_config']['allow_multiple'])
-            {
+                && !$this->_request_data['schemadb']['default']->fields['categories']['type_config']['allow_multiple']) {
                 $multiple_categories = false;
             }
             debug_add("multiple_categories={$multiple_categories}");
-            if ($multiple_categories)
-            {
+            if ($multiple_categories) {
                 $qb->add_constraint('extra1', 'LIKE', "%|{$this->_request_data['category']}|%");
-            }
-            else
-            {
+            } else {
                 $qb->add_constraint('extra1', '=', (string)$this->_request_data['category']);
             }
         }
@@ -125,12 +118,9 @@ class net_nehmer_blog_handler_feed extends midcom_baseclasses_components_handler
     private function _create_feed($handler_id)
     {
         $this->_feed = new UniversalFeedCreator();
-        if ($this->_config->get('rss_title'))
-        {
+        if ($this->_config->get('rss_title')) {
             $this->_feed->title = $this->_config->get('rss_title');
-        }
-        else
-        {
+        } else {
             $this->_feed->title = $this->_topic->extra;
         }
         $this->_feed->description = $this->_config->get('rss_description');
@@ -139,8 +129,7 @@ class net_nehmer_blog_handler_feed extends midcom_baseclasses_components_handler
         $this->_feed->link = midcom::get()->get_host_name() . midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
         $this->_feed->cssStyleSheet = false;
 
-        switch ($handler_id)
-        {
+        switch ($handler_id) {
             case 'feed-rss2':
                 $this->_feed->syndicationURL = "{$this->_feed->link}rss.xml";
                 break;
@@ -178,10 +167,8 @@ class net_nehmer_blog_handler_feed extends midcom_baseclasses_components_handler
         $data['feedcreator'] = $this->_feed;
 
         // Add each article now.
-        if ($this->_articles)
-        {
-            foreach ($this->_articles as $article)
-            {
+        if ($this->_articles) {
+            foreach ($this->_articles as $article) {
                 $this->_datamanager->autoset_storage($article);
                 $data['article'] = $article;
                 $data['datamanager'] = $this->_datamanager;
@@ -189,8 +176,7 @@ class net_nehmer_blog_handler_feed extends midcom_baseclasses_components_handler
             }
         }
 
-        switch ($handler_id)
-        {
+        switch ($handler_id) {
             case 'feed-rss2':
             case 'feed-category-rss2':
                 echo $this->_feed->createFeed('RSS2.0');

@@ -217,8 +217,7 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
     {
         if (   !$this->mapping_class_name
             || !$this->master_fieldname
-            || !$this->member_fieldname)
-        {
+            || !$this->member_fieldname) {
             throw new midcom_error
             (
                 'The configuration options mapping_class_name, master_filename and member_fieldname
@@ -226,8 +225,7 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
             );
         }
 
-        if (!class_exists($this->mapping_class_name))
-        {
+        if (!class_exists($this->mapping_class_name)) {
             throw new midcom_error("The mapping class {$this->mapping_class_name} does not exist.");
         }
 
@@ -243,8 +241,7 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
      */
     private function _get_master_foreign_key()
     {
-        if ($this->master_is_id)
-        {
+        if ($this->master_is_id) {
             return $this->storage->object->id;
         }
         return $this->storage->object->guid;
@@ -260,21 +257,17 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
         $qb->add_constraint($this->master_fieldname, '=', $this->_get_master_foreign_key());
 
         if (   $this->sortable
-            && preg_match('/^(ASC|DESC)/i', $this->sortable_sort_order, $regs))
-        {
+            && preg_match('/^(ASC|DESC)/i', $this->sortable_sort_order, $regs)) {
             $order = strtoupper($regs[1]);
             $qb->add_order('metadata.score', $order);
         }
 
-        foreach ($this->constraints as $constraint)
-        {
+        foreach ($this->constraints as $constraint) {
             $qb->add_constraint($this->member_fieldname . '.' . $constraint['field'], $constraint['op'], $constraint['value']);
         }
 
-        if (!empty($this->additional_fields))
-        {
-            foreach ($this->additional_fields as $fieldname => $value)
-            {
+        if (!empty($this->additional_fields)) {
+            foreach ($this->additional_fields as $fieldname => $value) {
                 $qb->add_constraint($fieldname, '=', $value);
             }
         }
@@ -291,39 +284,29 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
     {
         $this->selection = array();
         // Check for the defaults section first
-        if (is_array($source))
-        {
-            foreach ($source as $id)
-            {
-                if (is_object($id))
-                {
+        if (is_array($source)) {
+            foreach ($source as $id) {
+                if (is_object($id)) {
                     $this->selection[] = ($this->master_is_id) ? $id->id : $id->guid;
-                }
-                else
-                {
+                } else {
                     $this->selection[] = $id;
                 }
             }
         }
 
-        if (!$this->storage->object)
-        {
+        if (!$this->storage->object) {
             // That's all folks, no storage object, thus we cannot continue.
             return;
         }
 
         $this->_load_membership_objects();
 
-        foreach ($this->_membership_objects as $member)
-        {
+        foreach ($this->_membership_objects as $member) {
             $key = $member->{$this->member_fieldname};
             if (   !$this->require_corresponding_option
-                || $this->key_exists($key))
-            {
+                || $this->key_exists($key)) {
                 $this->selection[] = $key;
-            }
-            else
-            {
+            } else {
                 debug_add("Encountered unknown key {$key} for field {$this->name}, skipping it.", MIDCOM_LOG_INFO);
             }
         }
@@ -336,8 +319,7 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
      */
     public function convert_to_storage()
     {
-        if (!$this->storage->object)
-        {
+        if (!$this->storage->object) {
             // That's all folks, no storage object, thus we cannot continue.
             debug_add("Tried to save the membership info for field {$this->name}, but no storage object was set. Ignoring silently.",
                 MIDCOM_LOG_WARN);
@@ -348,8 +330,7 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
         // We map keys to _membership_objects indexes.
         // If we have duplicate keys, the latter will overwrite the former, leaving the dupe for deletion.
         $existing_members = array();
-        foreach ($this->_membership_objects as $index => $member)
-        {
+        foreach ($this->_membership_objects as $index => $member) {
             $key = $member->{$this->member_fieldname};
             $existing_members[$key] = $index;
         }
@@ -358,10 +339,8 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
         $new_membership_objects = $this->_get_new_membership_objects($existing_members);
 
         // Delete all remaining objects, then update the membership_objects list
-        foreach ($this->_membership_objects as $member)
-        {
-            if (!$member->delete())
-            {
+        foreach ($this->_membership_objects as $member) {
+            if (!$member->delete()) {
                 debug_add("Failed to delete a no longer needed member record #{$member->id}, ignoring silently. " .
                     'Last Midgard error was: ' .
                     midcom_connection::get_error_string(),
@@ -380,46 +359,35 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
         $new_membership_objects = array();
         // Cache the total quantity of items and get the order if the field is supposed to store the member order
         if (   $this->sortable
-            && isset($this->sorted_order))
-        {
+            && isset($this->sorted_order)) {
             $count = count($this->sorted_order);
 
-            if (preg_match('/ASC/i', $this->sortable_sort_order))
-            {
+            if (preg_match('/ASC/i', $this->sortable_sort_order)) {
                 $direction = 'asc';
-            }
-            else
-            {
+            } else {
                 $direction = 'desc';
             }
         }
 
         $i = 0;
 
-        foreach ($this->selection as $key)
-        {
+        foreach ($this->selection as $key) {
             //TODO: Ideally, selections not matching the constraints should be filtered out, but
             //for now, we trust the component author to correctly configure their stuff
 
             // Do we have this key already? If yes, move it to the new list, otherwise create it.
-            if (array_key_exists($key, $existing_members))
-            {
+            if (array_key_exists($key, $existing_members)) {
                 // Update the existing member
-                if ($this->sortable)
-                {
+                if ($this->sortable) {
                     $index = $existing_members[$key];
 
-                    if ($direction === 'asc')
-                    {
+                    if ($direction === 'asc') {
                         $this->_membership_objects[$index]->metadata->score = $i;
-                    }
-                    else
-                    {
+                    } else {
                         $this->_membership_objects[$index]->metadata->score = $count - $i;
                     }
 
-                    if (!$this->_membership_objects[$index]->update())
-                    {
+                    if (!$this->_membership_objects[$index]->update()) {
                         debug_add("Failed to update the member record for key {$key}. Couldn't store the order information", MIDCOM_LOG_ERROR);
                         debug_add('Last Midgard error was ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
                         debug_print_r('Tried to update this object', $this->_membership_objects[$index]);
@@ -431,42 +399,32 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
                 $index = $existing_members[$key];
                 $new_membership_objects[] = $this->_membership_objects[$index];
                 unset ($this->_membership_objects[$index]);
-            }
-            else
-            {
+            } else {
                 // Create new member
                 $member = new $this->mapping_class_name();
                 $member->{$this->master_fieldname} = $this->_get_master_foreign_key();
                 $member->{$this->member_fieldname} = $key;
 
                 // Set the score if requested
-                if ($this->sortable)
-                {
-                    if ($direction === 'asc')
-                    {
+                if ($this->sortable) {
+                    if ($direction === 'asc') {
                         $member->metadata->score = $i;
-                    }
-                    else
-                    {
+                    } else {
                         $member->metadata->score = $count - $i;
                     }
 
                     $i++;
                 }
 
-                if (!empty($this->additional_fields))
-                {
-                    foreach ($this->additional_fields as $fieldname => $value)
-                    {
+                if (!empty($this->additional_fields)) {
+                    foreach ($this->additional_fields as $fieldname => $value) {
                         // Determine what to do if using dot (.) in the additional fields,
-                        if (preg_match('/^(.+)\.(.+)$/', $fieldname, $regs))
-                        {
+                        if (preg_match('/^(.+)\.(.+)$/', $fieldname, $regs)) {
                             $domain = $regs[1];
                             $key = $regs[2];
 
                             // Determine what should be done with conjunction
-                            switch ($domain)
-                            {
+                            switch ($domain) {
                                 case 'metadata':
                                     $member->metadata->$key = $value;
                                     break;
@@ -483,8 +441,7 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
                     }
                 }
 
-                if (!$member->create())
-                {
+                if (!$member->create()) {
                     debug_add("Failed to create a new member record for key {$key}, skipping it. " .
                         'Last Midgard error was: ' .
                         midcom_connection::get_error_string(),

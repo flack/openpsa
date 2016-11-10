@@ -25,8 +25,7 @@ class midcom_response_xml extends midcom_response
         echo '<?xml version="1.0" encoding="' . $this->encoding . '" standalone="yes"?>' . "\n";
         echo "<response>\n";
 
-        foreach ($this->_data as $field => $value)
-        {
+        foreach ($this->_data as $field => $value) {
             echo $this->_render_tag($field, $value);
         }
 
@@ -38,33 +37,24 @@ class midcom_response_xml extends midcom_response
     private function _render_tag($field, $value)
     {
         $output = '';
-        if (is_array($value))
-        {
+        if (is_array($value)) {
             $subtypes = array();
-            foreach ($value as $key => $subvalue)
-            {
-                if (is_int($key))
-                {
+            foreach ($value as $key => $subvalue) {
+                if (is_int($key)) {
                     $output .= $this->_render_tag($field, $subvalue);
-                }
-                else
-                {
+                } else {
                     $subtypes[$key] = $subvalue;
                 }
             }
 
-            if (!empty($subtypes))
-            {
+            if (!empty($subtypes)) {
                 $subtype_string = '';
-                foreach ($subtypes as $key => $subvalue)
-                {
+                foreach ($subtypes as $key => $subvalue) {
                     $subtype_string .= $this->_render_tag($key, $subvalue);
                 }
                 $output .= $this->_render_tag($field, $subtype_string);
             }
-        }
-        else
-        {
+        } else {
             $output .= '<' . $field . '>' . $value . '</' . $field . ">\n";
         }
         return $output;

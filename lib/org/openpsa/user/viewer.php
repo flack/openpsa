@@ -21,8 +21,7 @@ class org_openpsa_user_viewer extends midcom_baseclasses_components_request
      */
     public function create_account(midcom_db_person $person, midcom_helper_datamanager2_formmanager $formmanager)
     {
-        if (empty($formmanager->_types['username']))
-        {
+        if (empty($formmanager->_types['username'])) {
             return;
         }
         $account_helper = new org_openpsa_user_accounthelper();
@@ -30,8 +29,7 @@ class org_openpsa_user_viewer extends midcom_baseclasses_components_request
         $password = "";
 
         //take user password?
-        if ((int) $formdata['org_openpsa_user_person_account_password_switch'] > 0)
-        {
+        if ((int) $formdata['org_openpsa_user_person_account_password_switch'] > 0) {
             $password = $formmanager->_types['password']->value;
         }
 
@@ -43,8 +41,7 @@ class org_openpsa_user_viewer extends midcom_baseclasses_components_request
             $password,
             $formmanager->_types["send_welcome_mail"]->value
         );
-        if (!$stat)
-        {
+        if (!$stat) {
             midcom::get()->uimessages->add($this->_l10n->get($this->_component), $account_helper->errstr, 'error');
         }
         return $stat;
@@ -52,8 +49,7 @@ class org_openpsa_user_viewer extends midcom_baseclasses_components_request
 
     public function _on_handle($handler_id, array $args)
     {
-        if ($handler_id != 'lostpassword')
-        {
+        if ($handler_id != 'lostpassword') {
             midcom::get()->auth->require_valid_user();
         }
     }

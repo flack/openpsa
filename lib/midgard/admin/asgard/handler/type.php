@@ -20,13 +20,11 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
         // Figure correct MidCOM DBA class to use and get midcom QB
         $qb = false;
         $midcom_dba_classname = midcom::get()->dbclassloader->get_midcom_class_name_for_mgdschema_object($dummy_object);
-        if (empty($midcom_dba_classname))
-        {
+        if (empty($midcom_dba_classname)) {
             debug_add("MidCOM DBA does not know how to handle " . get_class($dummy_object), MIDCOM_LOG_ERROR);
             return $qb;
         }
-        if (!midcom::get()->dbclassloader->load_mgdschema_class_handler($midcom_dba_classname))
-        {
+        if (!midcom::get()->dbclassloader->load_mgdschema_class_handler($midcom_dba_classname)) {
             debug_add("Failed to load the handling component for {$midcom_dba_classname}, cannot continue.", MIDCOM_LOG_ERROR);
             return $qb;
         }
@@ -45,17 +43,14 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
         $dummy_objects[] = $dummy_type_object;
         $resolver = new midcom_helper_reflector_tree($dummy_type_object);
         $child_classes = $resolver->get_child_classes();
-        foreach ($child_classes as $child_class)
-        {
-            if ($child_class != $type_class)
-            {
+        foreach ($child_classes as $child_class) {
+            if ($child_class != $type_class) {
                 $dummy_objects[] = new $child_class();
             }
         }
 
         $search_results = array();
-        foreach ($dummy_objects as $dummy_object)
-        {
+        foreach ($dummy_objects as $dummy_object) {
             $results = $this->_search_type_qb($dummy_object, $term);
             $search_results = array_merge($search_results, $results);
         }
@@ -68,19 +63,16 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
         $mgd_reflector = new midgard_reflection_property($object_class);
 
         $qb = $this->_prepare_qb($dummy_object);
-        if (!$qb)
-        {
+        if (!$qb) {
             return array();
         }
         $type_fields = midcom_helper_reflector::get($dummy_object)->get_search_properties();
 
         $constraints = 0;
         $qb->begin_group('OR');
-        foreach ($type_fields as $key)
-        {
+        foreach ($type_fields as $key) {
             $field_type = $mgd_reflector->get_midgard_type($key);
-            switch ($field_type)
-            {
+            switch ($field_type) {
                 case MGD_TYPE_STRING:
                 case MGD_TYPE_LONGTEXT:
                     $qb->add_constraint($key, 'LIKE', "%{$term}%");
@@ -94,8 +86,7 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
             }
         }
         $qb->end_group();
-        if (!$constraints)
-        {
+        if (!$constraints) {
             return array();
         }
 
@@ -107,14 +98,12 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
         // Figure out the component
         $dummy = new $this->type;
         $midcom_dba_classname = midcom::get()->dbclassloader->get_midcom_class_name_for_mgdschema_object($dummy);
-        if (!$midcom_dba_classname)
-        {
+        if (!$midcom_dba_classname) {
             throw new midcom_error("Failed to load DBA class for type {$this->type}.");
         }
         $component = midcom::get()->dbclassloader->get_component_for_class($midcom_dba_classname);
         $help_component = $component;
-        if ($component == 'midcom')
-        {
+        if ($component == 'midcom') {
             $component = 'midgard';
             $help_component = 'midgard.admin.asgard';
         }
@@ -135,18 +124,15 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
     {
         $this->type = $args[0];
         midcom::get()->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
-        if (!midcom::get()->dbclassloader->get_midcom_class_name_for_mgdschema_object($this->type))
-        {
+        if (!midcom::get()->dbclassloader->get_midcom_class_name_for_mgdschema_object($this->type)) {
             throw new midcom_error_notfound("MgdSchema type '{$args[0]}' not installed.");
         }
 
-        if (isset($_GET['search']))
-        {
+        if (isset($_GET['search'])) {
             $data['search_results'] = $this->_search($_GET['search']);
 
             //If there is exactly one result, go there directly
-            if (sizeof($data['search_results']) == 1)
-            {
+            if (sizeof($data['search_results']) == 1) {
                 return new midcom_response_relocate('__mfa/asgard/object/' . $data['default_mode'] . '/' . $data['search_results'][0]->guid . '/');
             }
             midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.tablesorter.pack.js');
@@ -157,8 +143,7 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
 
         $this->_find_component();
         $data['documentation_component'] = $data['component'];
-        if ($data['component'] == 'midgard')
-        {
+        if ($data['component'] == 'midgard') {
             $data['documentation_component'] = 'midcom';
         }
 
@@ -173,8 +158,7 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
     private function _prepare_toolbar(&$data)
     {
         $buttons = array();
-        if (midcom::get()->auth->can_user_do('midgard:create', null, $this->type))
-        {
+        if (midcom::get()->auth->can_user_do('midgard:create', null, $this->type)) {
             $buttons[] = array
             (
                 MIDCOM_TOOLBAR_URL => "__mfa/asgard/object/create/{$this->type}/",
@@ -183,23 +167,19 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
             );
         }
 
-        if (midcom::get()->auth->admin)
-        {
+        if (midcom::get()->auth->admin) {
             $qb = new midgard_query_builder($this->type);
             $qb->include_deleted();
             $qb->add_constraint('metadata.deleted', '=', true);
             $deleted = $qb->count();
-            if ($deleted > 0)
-            {
+            if ($deleted > 0) {
                 $buttons[] = array
                 (
                     MIDCOM_TOOLBAR_URL => "__mfa/asgard/trash/{$this->type}/",
                     MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n->get('%s deleted items'), $deleted),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash-full.png',
                 );
-            }
-            else
-            {
+            } else {
                 $buttons[] = array
                 (
                     MIDCOM_TOOLBAR_URL => "__mfa/asgard/trash/{$this->type}/",
@@ -208,8 +188,7 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
                 );
             }
         }
-        if ($data['component'] != 'midgard')
-        {
+        if ($data['component'] != 'midgard') {
             $buttons[] = array
             (
                 MIDCOM_TOOLBAR_URL => "__mfa/asgard/components/{$data['component']}/",
@@ -226,7 +205,6 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
         );
 
         $data['asgard_toolbar']->add_items($buttons);
-
     }
 
     /**
@@ -257,8 +235,7 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
 
         $types = $data['reflector']->get_child_classes();
 
-        if (count($types) > 0)
-        {
+        if (count($types) > 0) {
             midcom_show_style('midgard_admin_asgard_type_children_start');
             $this->show_child_types($types, $data);
             midcom_show_style('midgard_admin_asgard_type_children_end');
@@ -269,16 +246,13 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
     {
         $first = true;
 
-        foreach ($types as $child_type)
-        {
-            if (in_array($child_type, $data['used_types']))
-            {
+        foreach ($types as $child_type) {
+            if (in_array($child_type, $data['used_types'])) {
                 continue;
             }
 
             // Show the header on first item. Has to be inside foreach loop
-            if ($first)
-            {
+            if ($first) {
                 $first = false;
                 midcom_show_style('midgard_admin_asgard_type_children_header');
             }
@@ -294,8 +268,7 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
         }
 
         // Not a single type was shown, skip the footer item
-        if ($first)
-        {
+        if ($first) {
             return;
         }
 

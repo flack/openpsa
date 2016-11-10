@@ -43,8 +43,7 @@ implements org_openpsa_widgets_grid_provider_client
     public function _handler_list($handler_id, array $args, array &$data)
     {
         $auth = midcom::get()->auth;
-        if (!$auth->can_user_do('org.openpsa.user:access', null, 'org_openpsa_user_interface'))
-        {
+        if (!$auth->can_user_do('org.openpsa.user:access', null, 'org_openpsa_user_interface')) {
             $person = $auth->user->get_storage();
             return new midcom_response_relocate('view/' . $person->guid . '/');
         }
@@ -52,8 +51,7 @@ implements org_openpsa_widgets_grid_provider_client
         $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
         $data['provider_url'] = $prefix . 'json/';
         $grid_id = 'org_openpsa_user_grid';
-        if (sizeof($args) == 1)
-        {
+        if (sizeof($args) == 1) {
             $grid_id = 'org_openpsa_members_grid';
             $this->_group = new org_openpsa_contacts_group_dba($args[0]);
             $data['group'] = $this->_group;
@@ -65,8 +63,7 @@ implements org_openpsa_widgets_grid_provider_client
         org_openpsa_widgets_tree::add_head_elements();
 
         $workflow = $this->get_workflow('datamanager2');
-        if (midcom::get()->auth->can_user_do('midgard:create', null, 'midcom_db_person'))
-        {
+        if (midcom::get()->auth->can_user_do('midgard:create', null, 'midcom_db_person')) {
             $this->_view_toolbar->add_item($workflow->get_button("create/", array
             (
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create person'),
@@ -74,8 +71,7 @@ implements org_openpsa_widgets_grid_provider_client
             )));
         }
 
-        if (midcom::get()->auth->can_user_do('midgard:create', null, 'midcom_db_group'))
-        {
+        if (midcom::get()->auth->can_user_do('midgard:create', null, 'midcom_db_group')) {
             $this->_view_toolbar->add_item($workflow->get_button("group/create/", array
             (
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create group'),
@@ -106,8 +102,7 @@ implements org_openpsa_widgets_grid_provider_client
     {
         midcom::get()->skip_page_style = true;
         $data['provider'] = $this->_provider;
-        if (sizeof($args) == 1)
-        {
+        if (sizeof($args) == 1) {
             $this->_group = new org_openpsa_contacts_group_dba($args[0]);
         }
     }
@@ -131,35 +126,25 @@ implements org_openpsa_widgets_grid_provider_client
         $qb = midcom_db_person::new_collector('metadata.deleted', false);
         //@todo constraint username <> '' ?
 
-        if ($this->_group)
-        {
+        if ($this->_group) {
             $mc = midcom_db_member::new_collector('gid', $this->_group->id);
             $qb->add_constraint('id', 'IN', $mc->get_values('uid'));
         }
 
-        if (!empty($search))
-        {
-            foreach ($search as $field => $value)
-            {
-                if ($field == 'username')
-                {
+        if (!empty($search)) {
+            foreach ($search as $field => $value) {
+                if ($field == 'username') {
                     midcom_core_account::add_username_constraint($qb, 'LIKE', $value . '%');
-                }
-                else
-                {
+                } else {
                     $qb->add_constraint($field, 'LIKE', $value . '%');
                 }
             }
         }
 
-        if (!is_null($field))
-        {
-            if ($field == 'username')
-            {
+        if (!is_null($field)) {
+            if ($field == 'username') {
                 midcom_core_account::add_username_order($qb, $direction);
-            }
-            else
-            {
+            } else {
                 $qb->add_order($field, $direction);
             }
         }
@@ -178,8 +163,7 @@ implements org_openpsa_widgets_grid_provider_client
         $entry = array();
         $entry['id'] = $user->id;
         $lastname = trim($user->lastname);
-        if (empty($lastname))
-        {
+        if (empty($lastname)) {
             $lastname = $this->_l10n->get('person') . ' #' . $user->id;
         }
         $entry['lastname'] = "<a href='" . $prefix . 'view/' . $user->guid . "/'>" . $lastname . "</a>";
@@ -197,15 +181,11 @@ implements org_openpsa_widgets_grid_provider_client
         $mc_member->add_order('gid.name');
         $gids = $mc_member->get_values('gid');
 
-        foreach ($gids as $gid)
-        {
-            try
-            {
+        foreach ($gids as $gid) {
+            try {
                 $group = org_openpsa_contacts_group_dba::get_cached($gid);
                 $entry['groups'][] = '<a href="' . $prefix . 'group/' . $group->guid . '/">' . $group->get_label() . '</a>';
-            }
-            catch (midcom_error $e)
-            {
+            } catch (midcom_error $e) {
                 $e->log();
             }
         }

@@ -55,8 +55,7 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
         $this->_controller = midcom_helper_datamanager2_controller::create('simple');
         $this->_controller->schemadb =& $this->_schemadb;
         $this->_controller->set_storage($this->_document, $this->_schema);
-        if (!$this->_controller->initialize())
-        {
+        if (!$this->_controller->initialize()) {
             throw new midcom_error( "Failed to initialize a DM2 controller instance for document {$this->_document->id}.");
         }
     }
@@ -67,8 +66,7 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
 
         // if the document doesn't belong to the current topic, we don't
         // show it, because otherwise folder-based permissions would be useless
-        if ($document->topic != $this->_topic->id)
-        {
+        if ($document->topic != $this->_topic->id) {
             throw new midcom_error_notfound("The document '{$guid}' could not be found in this folder.");
         }
 
@@ -88,8 +86,7 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
         $this->_load_edit_controller();
 
         if (   $data['enable_versioning']
-            && !empty($_POST))
-        {
+            && !empty($_POST)) {
             $this->_backup_attachment();
         }
         midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('edit %s'), $this->_document->title));
@@ -104,11 +101,9 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
 
     public function save_callback(midcom_helper_datamanager2_controller $controller)
     {
-        if (empty($this->_document->title))
-        {
+        if (empty($this->_document->title)) {
             $attachments = org_openpsa_helpers::get_dm2_attachments($this->_document, 'document');
-            if (!empty($attachments))
-            {
+            if (!empty($attachments)) {
                 $att = current($attachments);
                 $this->_document->title = $att->title;
             }
@@ -120,8 +115,7 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
         $indexer->index($this->_controller->datamanager);
 
         $prefix = '';
-        if ($this->_document->topic != $this->_topic->id)
-        {
+        if ($this->_document->topic != $this->_topic->id) {
             $nap = new midcom_helper_nav();
             $node = $nap->get_node($this->_document->topic);
             $prefix = $node[MIDCOM_NAV_ABSOLUTEURL];
@@ -138,14 +132,11 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
     private function _backup_attachment()
     {
         // First, look at post data (from in-form replace/delete buttons)
-        if (!empty($_POST['document']))
-        {
-            foreach (array_keys($_POST['document']) as $key)
-            {
+        if (!empty($_POST['document'])) {
+            foreach (array_keys($_POST['document']) as $key) {
                 if (    strpos($key, '_delete')
                     || (    strpos($key, '_upload')
-                        && !strpos($key, 'new_upload')))
-                {
+                        && !strpos($key, 'new_upload'))) {
                     $this->_document->backup_version();
                     return;
                 }
@@ -154,11 +145,9 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
 
         // If nothing is found, try looking in quickform (regular form submission)
         $group = $this->_controller->formmanager->form->getElement('document');
-        foreach ($group->getElements() as $element)
-        {
+        foreach ($group->getElements() as $element) {
             if (   preg_match('/e_exist_.+?_file$/', $element->getName())
-                && $element->isUploadedFile())
-            {
+                && $element->isUploadedFile()) {
                 $this->_document->backup_version();
                 return;
             }

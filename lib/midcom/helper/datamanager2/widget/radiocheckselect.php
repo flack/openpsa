@@ -56,8 +56,7 @@ class midcom_helper_datamanager2_widget_radiocheckselect extends midcom_helper_d
     {
         $this->_require_type_class('midcom_helper_datamanager2_type_select');
 
-        if ($this->_type->allow_other)
-        {
+        if ($this->_type->allow_other) {
             throw new midcom_error("Allow Other support for radiocheckselect widget not yet implemented.");
         }
     }
@@ -69,10 +68,8 @@ class midcom_helper_datamanager2_widget_radiocheckselect extends midcom_helper_d
     {
         $elements = array();
         $all_elements = $this->_type->list_all();
-        foreach ($all_elements as $key => $value)
-        {
-            if ($this->_type->allow_multiple)
-            {
+        foreach ($all_elements as $key => $value) {
+            if ($this->_type->allow_multiple) {
                 $elements[] = $this->_form->createElement
                 (
                     'checkbox',
@@ -81,9 +78,7 @@ class midcom_helper_datamanager2_widget_radiocheckselect extends midcom_helper_d
                     $this->_translate($value),
                     array('class' => 'checkbox')
                 );
-            }
-            else
-            {
+            } else {
                 $elements[] = $this->_form->createElement
                 (
                     'radio',
@@ -96,14 +91,10 @@ class midcom_helper_datamanager2_widget_radiocheckselect extends midcom_helper_d
             }
         }
 
-        if ($this->render_mode == 'auto')
-        {
-            if (sizeof($elements) > $this->list_threshold)
-            {
+        if ($this->render_mode == 'auto') {
+            if (sizeof($elements) > $this->list_threshold) {
                 $this->render_mode = 'vertical';
-            }
-            else
-            {
+            } else {
                 $this->render_mode = 'horizontal';
             }
         }
@@ -111,13 +102,10 @@ class midcom_helper_datamanager2_widget_radiocheckselect extends midcom_helper_d
         $separator = '<span class="separator separator-' . $this->render_mode . '"></span>';
 
         $group = $this->_form->addGroup($elements, $this->name, $this->_translate($this->_field['title']), $separator);
-        if ($this->_type->allow_multiple)
-        {
+        if ($this->_type->allow_multiple) {
             $attributes['class'] = 'checkbox checkbox-' . $this->render_mode;
             $group->setAttributes($attributes);
-        }
-        else
-        {
+        } else {
             $attributes['class'] = 'radiobox radiobox-' . $this->render_mode;
             $group->setAttributes($attributes);
         }
@@ -128,20 +116,16 @@ class midcom_helper_datamanager2_widget_radiocheckselect extends midcom_helper_d
      */
     public function get_default()
     {
-        if ($this->_type->allow_multiple)
-        {
-            if (sizeof($this->_type->selection) == 0)
-            {
+        if ($this->_type->allow_multiple) {
+            if (sizeof($this->_type->selection) == 0) {
                 return null;
             }
             return array($this->name => array_fill_keys($this->_type->selection, true));
         }
-        if (count($this->_type->selection) > 0)
-        {
+        if (count($this->_type->selection) > 0) {
             return array($this->name => $this->_type->selection[0]);
         }
-        if ($this->_field['required'])
-        {
+        if ($this->_field['required']) {
             // Select the first radiobox always when this is a required field:
             $all = $this->_type->list_all();
             reset($all);
@@ -158,40 +142,30 @@ class midcom_helper_datamanager2_widget_radiocheckselect extends midcom_helper_d
     {
         $this->_type->selection = array();
 
-        if ($this->_type->allow_multiple)
-        {
-            if ($results[$this->name])
-            {
+        if ($this->_type->allow_multiple) {
+            if ($results[$this->name]) {
                 $all_elements = $this->_type->list_all();
                 $this->_type->selection = array_keys(array_intersect_key($all_elements, $results[$this->name]));
             }
-        }
-        elseif ($results[$this->name] !== null)
-        {
+        } elseif ($results[$this->name] !== null) {
             $this->_type->selection = array($results[$this->name]);
         }
     }
 
     public function render_content()
     {
-        if ($this->_type->allow_multiple)
-        {
+        if ($this->_type->allow_multiple) {
             $output = '<ul>';
-            if (count($this->_type->selection) == 0)
-            {
+            if (count($this->_type->selection) == 0) {
                 $output .= '<li>' . $this->_translate('type select: no selection') . '</li>';
-            }
-            else
-            {
-                foreach ($this->_type->selection as $key)
-                {
+            } else {
+                foreach ($this->_type->selection as $key) {
                     $output .= '<li>' . $this->_translate($this->_type->get_name_for_key($key)) . '</li>';
                 }
             }
             return $output . '</ul>';
         }
-        if (count($this->_type->selection) == 0)
-        {
+        if (count($this->_type->selection) == 0) {
             return $this->_translate('type select: no selection');
         }
         return $this->_translate($this->_type->get_name_for_key($this->_type->selection[0]));

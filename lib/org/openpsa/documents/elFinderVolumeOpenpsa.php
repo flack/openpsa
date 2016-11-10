@@ -18,7 +18,9 @@ class elFinderVolumeOpenpsa extends elFinderVolumeDriver
         // elfinder tmp detection doesn't work on OS X
         $this->tmpPath = midcom::get()->config->get('midcom_tempdir');
         // elfinder calls exit(), so we need to make sure we write caches
-        register_shutdown_function(function () {midcom::get()->finish();});
+        register_shutdown_function(function () {
+            midcom::get()->finish();
+        });
     }
 
     /**
@@ -34,7 +36,8 @@ class elFinderVolumeOpenpsa extends elFinderVolumeDriver
      * @return array|false
      * @author Dmitry (dio) Levashov
      **/
-    public function upload($fp, $dst, $name, $tmpname, $hashes = array()) {
+    public function upload($fp, $dst, $name, $tmpname, $hashes = array())
+    {
         if ($this->commandDisabled('upload')) {
             return $this->setError(elFinder::ERROR_PERM_DENIED);
         }
@@ -91,23 +94,19 @@ class elFinderVolumeOpenpsa extends elFinderVolumeDriver
                 $document = new org_openpsa_documents_document_dba($test);
                 $document->backup_version();
                 $attachments = org_openpsa_helpers::get_dm2_attachments($document, 'document');
-                foreach ($attachments as $att)
-                {
-                    if (!$att->delete())
-                    {
+                foreach ($attachments as $att) {
+                    if (!$att->delete()) {
                         return false;
                     }
                 }
 
-                if (!$this->create_attachment($document, $name, $mime, $fp))
-                {
+                if (!$this->create_attachment($document, $name, $mime, $fp)) {
                     return false;
                 }
                 //make sure metadata.revised changes
                 $document->update();
 
                 return $this->stat($document->guid);
-
             } else {
                 $name = $this->uniqueName($dstpath, $name, '-', false);
             }
@@ -133,19 +132,13 @@ class elFinderVolumeOpenpsa extends elFinderVolumeDriver
 
     private function get_by_path($path)
     {
-        try
-        {
+        try {
             return org_openpsa_documents_document_dba::get_cached($path);
-        }
-        catch (midcom_error $e)
-        {
+        } catch (midcom_error $e) {
             $e->log();
-            try
-            {
+            try {
                 return org_openpsa_documents_directory::get_cached($path);
-            }
-            catch (midcom_error $e)
-            {
+            } catch (midcom_error $e) {
                 $e->log();
             }
         }
@@ -161,8 +154,7 @@ class elFinderVolumeOpenpsa extends elFinderVolumeDriver
     protected function _dirname($path)
     {
         $object = $this->get_by_path($path);
-        if ($object === false)
-        {
+        if ($object === false) {
             return '';
         }
         return $object->get_parent()->guid;
@@ -177,8 +169,7 @@ class elFinderVolumeOpenpsa extends elFinderVolumeDriver
     protected function _basename($path)
     {
         $object = $this->get_by_path($path);
-        if ($object === false)
-        {
+        if ($object === false) {
             return '';
         }
         return $object->get_label();
@@ -197,15 +188,13 @@ class elFinderVolumeOpenpsa extends elFinderVolumeDriver
         $mc = org_openpsa_documents_document_dba::new_collector('title', $name);
         $mc->add_constraint('topic.guid', '=', $dir);
         $keys = $mc->list_keys();
-        if ($keys)
-        {
+        if ($keys) {
             return key($keys);
         }
         $mc = org_openpsa_documents_directory::new_collector('extra', $name);
         $mc->add_constraint('up.guid', '=', $dir);
         $keys = $mc->list_keys();
-        if ($keys)
-        {
+        if ($keys) {
             return key($keys);
         }
         return -1;
@@ -254,16 +243,14 @@ class elFinderVolumeOpenpsa extends elFinderVolumeDriver
     protected function _path($path)
     {
         $object = $this->get_by_path($path);
-        if ($object === false)
-        {
+        if ($object === false) {
             return '';
         }
         $output = array($object->get_label());
 
         $parent = $object->get_parent();
         while (   $parent
-               && $parent->component == 'org.openpsa.documents')
-        {
+               && $parent->component == 'org.openpsa.documents') {
             $output[] = $parent->extra;
             $parent = $parent->get_parent();
         }
@@ -280,30 +267,23 @@ class elFinderVolumeOpenpsa extends elFinderVolumeDriver
      */
     protected function _inpath($path, $parent)
     {
-        if ($path === $parent)
-        {
+        if ($path === $parent) {
             return true;
         }
 
         $object = midcom::get()->dbfactory->get_object_by_guid($path);
-        try
-        {
+        try {
             $parentdir = org_openpsa_documents_directory::get_cached($parent);
-        }
-        catch (midcom_error $e)
-        {
+        } catch (midcom_error $e) {
             $e->log();
             return false;
         }
 
         $qb = org_openpsa_documents_directory::new_query_builder();
         $qb->add_constraint('up', 'INTREE', $parentdir->id);
-        if ($object instanceof org_openpsa_documents_document_dba)
-        {
+        if ($object instanceof org_openpsa_documents_document_dba) {
             $qb->add_constraint('id', '=', $object->topic);
-        }
-        else
-        {
+        } else {
             $qb->add_constraint('id', '=', $object->id);
         }
         return $qb->count() > 0;
@@ -329,8 +309,7 @@ class elFinderVolumeOpenpsa extends elFinderVolumeDriver
      */
     protected function _stat($path)
     {
-        if (!mgd_is_guid($path))
-        {
+        if (!mgd_is_guid($path)) {
             return false;
         }
         $object = midcom::get()->dbfactory->get_object_by_guid($path);
@@ -346,23 +325,18 @@ class elFinderVolumeOpenpsa extends elFinderVolumeDriver
         $creator = org_openpsa_widgets_contact::get($object->metadata->creator);
         $data['owner'] = $creator->show_inline();
 
-        if ($object instanceof org_openpsa_documents_document_dba)
-        {
+        if ($object instanceof org_openpsa_documents_document_dba) {
             $owner = $object->orgOpenpsaOwnerWg;
 
             $attachments = org_openpsa_helpers::get_dm2_attachments($object, 'document');
-            if ($attachments)
-            {
+            if ($attachments) {
                 $att = current($attachments);
                 $data['mime'] = $att->mimetype;
-                if ($stat = $att->stat())
-                {
+                if ($stat = $att->stat()) {
                     $data['size'] = $stat['size'];
                 }
             }
-        }
-        else
-        {
+        } else {
             $owner = $object->get_parameter('org.openpsa.core', 'orgOpenpsaOwnerWg');
 
             $qb = org_openpsa_documents_directory::new_query_builder();
@@ -374,14 +348,12 @@ class elFinderVolumeOpenpsa extends elFinderVolumeDriver
         }
 
         if (   $owner
-            && $group = midcom::get()->auth->get_assignee($owner))
-        {
+            && $group = midcom::get()->auth->get_assignee($owner)) {
             $data['group'] = $group->name;
         }
 
         if (   $this->root !== $path
-            && $parent = $object->get_parent())
-        {
+            && $parent = $object->get_parent()) {
             $data['phash'] = $this->encode($parent->guid);
         }
         return $data;
@@ -443,8 +415,7 @@ class elFinderVolumeOpenpsa extends elFinderVolumeDriver
     {
         $document = org_openpsa_documents_document_dba::get_cached($path);
         $attachments = org_openpsa_helpers::get_dm2_attachments($document, 'document');
-        if ($attachments)
-        {
+        if ($attachments) {
             $att = current($attachments);
             return $att->open($mode);
         }
@@ -478,13 +449,11 @@ class elFinderVolumeOpenpsa extends elFinderVolumeDriver
         $dir->extra = $name;
         $dir->component = 'org.openpsa.documents';
         $dir->up = $parent->id;
-        if (!$dir->create())
-        {
+        if (!$dir->create()) {
             return false;
         }
         $groups = org_openpsa_helpers_list::workgroups();
-        if ($groups)
-        {
+        if ($groups) {
             $dir->set_parameter('org.openpsa.core', 'orgOpenpsaOwnerWg', key($groups));
         }
         $access_types = org_openpsa_core_acl::get_options();
@@ -504,8 +473,7 @@ class elFinderVolumeOpenpsa extends elFinderVolumeDriver
         $document->orgOpenpsaOwnerWg = $dir->get_parameter('org.openpsa.core', 'orgOpenpsaOwnerWg');
         $document->orgOpenpsaAccesstype = $dir->get_parameter('org.openpsa.core', 'orgOpenpsaAccesstype');
 
-        if ($document->create())
-        {
+        if ($document->create()) {
             return $document;
         }
         return false;
@@ -520,8 +488,7 @@ class elFinderVolumeOpenpsa extends elFinderVolumeDriver
      */
     protected function _mkfile($path, $name)
     {
-        if ($document = $this->create_document($path, $name))
-        {
+        if ($document = $this->create_document($path, $name)) {
             return $document;
         }
         return false;
@@ -556,8 +523,7 @@ class elFinderVolumeOpenpsa extends elFinderVolumeDriver
         $copy->source = $source;
         $copy->target = $target;
 
-        if (!$copy->execute())
-        {
+        if (!$copy->execute()) {
             debug_print_r('Copying failed with the following errors', $copy->errors, MIDCOM_LOG_ERROR);
             return false;
         }
@@ -578,20 +544,15 @@ class elFinderVolumeOpenpsa extends elFinderVolumeDriver
     {
         $target = org_openpsa_documents_directory::get_cached($targetDir);
         $object = $this->get_by_path($source);
-        if ($object !== false)
-        {
-            if ($object instanceof org_openpsa_documents_document_dba)
-            {
+        if ($object !== false) {
+            if ($object instanceof org_openpsa_documents_document_dba) {
                 $object->topic = $target->id;
                 $object->title = $name;
-            }
-            else
-            {
+            } else {
                 $object->up = $target->id;
                 $object->extra = $name;
             }
-            if ($object->update())
-            {
+            if ($object->update()) {
                 midcom::get()->cache->invalidate($target->guid);
                 return $source;
             }
@@ -607,13 +568,10 @@ class elFinderVolumeOpenpsa extends elFinderVolumeDriver
      */
     protected function _unlink($path)
     {
-        try
-        {
+        try {
             $doc = new org_openpsa_documents_document_dba($path);
             return $doc->delete();
-        }
-        catch (midcom_error $e)
-        {
+        } catch (midcom_error $e) {
             return false;
         }
     }
@@ -643,13 +601,11 @@ class elFinderVolumeOpenpsa extends elFinderVolumeDriver
     protected function _save($fp, $dir, $name, $stat)
     {
         $doc = $this->create_document($dir, $name);
-        if (!$doc)
-        {
+        if (!$doc) {
             return false;
         }
 
-        if (!$this->create_attachment($doc, $name, $stat['mime'], $fp))
-        {
+        if (!$this->create_attachment($doc, $name, $stat['mime'], $fp)) {
             return false;
         }
         return $doc->guid;
@@ -660,8 +616,7 @@ class elFinderVolumeOpenpsa extends elFinderVolumeDriver
         $filename = midcom_db_attachment::safe_filename($name, true);
         $att = $doc->create_attachment($filename, $name, $mimetype);
         if (   !$att
-            || !$att->copy_from_handle($fp))
-        {
+            || !$att->copy_from_handle($fp)) {
             return false;
         }
         $identifier = md5(time() . $name);

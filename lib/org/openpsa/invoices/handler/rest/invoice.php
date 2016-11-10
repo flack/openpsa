@@ -13,7 +13,6 @@
  */
 class org_openpsa_invoices_handler_rest_invoice extends midcom_baseclasses_components_handler_rest
 {
-
     public function get_object_classname()
     {
         return "org_openpsa_invoices_invoice_dba";
@@ -24,25 +23,20 @@ class org_openpsa_invoices_handler_rest_invoice extends midcom_baseclasses_compo
         $filter = $this->_request['params'];
 
         // just guid
-        if (count($filter) == 1)
-        {
+        if (count($filter) == 1) {
             return parent::handle_get();
         }
 
         // got filter
         $person_guid = isset($filter['person_guid']) ? $filter['person_guid'] : false;
-        if (!$person_guid)
-        {
+        if (!$person_guid) {
             $this->_stop("Invalid filter options");
         }
 
         // person exists?
-        try
-        {
+        try {
             $person = new org_openpsa_contacts_person_dba($person_guid);
-        }
-        catch(Exception $e)
-        {
+        } catch (Exception $e) {
             $this->_stop("Invalid person: " . $e->getMessage());
         }
 
@@ -51,8 +45,7 @@ class org_openpsa_invoices_handler_rest_invoice extends midcom_baseclasses_compo
         $invoices = $qb->execute();
 
         $data = array();
-        foreach($invoices as $invoice)
-        {
+        foreach ($invoices as $invoice) {
             $date = $invoice->date ? $invoice->date : $invoice->metadata->created;
             $data[] = array(
                 "guid" => $invoice->guid,

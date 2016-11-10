@@ -138,20 +138,17 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
     {
         $config = $this->_schema->fields[$name];
         $classname = $config['widget'];
-        if (strpos($classname, '_') === false)
-        {
+        if (strpos($classname, '_') === false) {
             // Built-in widget called using the shorthand notation
             $classname = "midcom_helper_datamanager2_widget_{$config['widget']}";
         }
 
         $this->widgets[$name] = new $classname($this->renderer);
-        if (!$this->widgets[$name] instanceof midcom_helper_datamanager2_widget)
-        {
+        if (!$this->widgets[$name] instanceof midcom_helper_datamanager2_widget) {
             throw new midcom_error("{$classname} is not a valid DM2 widget");
         }
 
-        if ($this->widgets[$name]->initialize($name, $config['widget_config'], $this->_schema, $this->_types[$name], $this->namespace, $initialize_dependencies) === false)
-        {
+        if ($this->widgets[$name]->initialize($name, $config['widget_config'], $this->_schema, $this->_types[$name], $this->namespace, $initialize_dependencies) === false) {
             throw new midcom_error("Failed to initialize the widget for {$name}");
         }
     }
@@ -165,14 +162,12 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
      */
     function initialize($name = null)
     {
-        if ($name === null)
-        {
+        if ($name === null) {
             $name = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_COMPONENT);
             // Replace the dots in the component name with underscores
             $name = midcom::get()->componentloader->path_to_prefix($name);
         }
-        if (!$name)
-        {
+        if (!$name) {
             // Fallback for componentless operation
             $name = 'midcom_helper_datamanager2';
         }
@@ -195,16 +190,13 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
     {
         $rulemanager = new midcom_helper_datamanager2_qfrule_manager($this->form, $this->_l10n);
         // iterate over all widgets so that they can add their piece to the form
-        foreach ($this->_schema->field_order as $name)
-        {
-            if (!isset($this->_schema->fields[$name]))
-            {
+        foreach ($this->_schema->field_order as $name) {
+            if (!isset($this->_schema->fields[$name])) {
                 debug_add("Field {$name} is not present in \$this->_schema->fields (read from \$this->_schema->field_order)", MIDCOM_LOG_ERROR);
                 continue;
             }
             $config = $this->_schema->fields[$name];
-            if (!$this->_is_widget_visible($name, $config))
-            {
+            if (!$this->_is_widget_visible($name, $config)) {
                 // Naturally we should skip invisible objects
                 continue;
             }
@@ -214,8 +206,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
             // Start the fieldsets if required
             $this->_start_fieldset($name, $config);
 
-            if ($config['static_prepend'] !== null)
-            {
+            if ($config['static_prepend'] !== null) {
                 $static_name = "static_prepend_{$name}";
                 $this->form->addElement('static', $static_name, '', "<span class=\"static_prepend\">" . $this->_translate($config['static_prepend']) . "</span>");
             }
@@ -231,16 +222,14 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
                 'id' => $this->namespace . $name
             );
             $this->widgets[$name]->add_elements_to_form($attributes);
-            if (!$this->_check_freeze_status($name, $config))
-            {
+            if (!$this->_check_freeze_status($name, $config)) {
                 // rules make only sense if an element is not frozen, e.g. editable by the user
                 $rulemanager->add_type_rules($this->_types[$name], $config);
             }
 
             $this->_load_field_default($name, $config);
 
-            if ($config['static_append'] !== null)
-            {
+            if ($config['static_append'] !== null) {
                 $static_name = "__static_append_{$name}";
                 $this->form->addElement('static', $static_name, '', "<span class=\"static_append\">" . $this->_translate($config['static_append']) . "</span>");
             }
@@ -253,8 +242,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
         $this->form->setDefaults($this->_defaults);
 
         // Close the fieldsets left open
-        if ($this->_fieldsets > 0)
-        {
+        if ($this->_fieldsets > 0) {
             $this->_end_fieldset('', array('end_fieldset' => $this->_fieldsets));
         }
 
@@ -275,27 +263,21 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
     {
         $field_default = $this->widgets[$name]->get_default();
         if (   null === $field_default
-            && !empty($config['default']))
-        {
+            && !empty($config['default'])) {
             // Empty value from widget, run defaults
             $field_default = $config['default'];
         }
 
-        if ($field_default !== null)
-        {
-            if (is_object($field_default))
-            {
+        if ($field_default !== null) {
+            if (is_object($field_default)) {
                 debug_add("An object has been passed as default value for {$name}, this is not allowed, skipping default.",
                     MIDCOM_LOG_WARN);
                 debug_print_r('Passed object was:', $field_default);
                 return;
             }
-            if (is_array($field_default))
-            {
+            if (is_array($field_default)) {
                 $this->_defaults = array_merge($this->_defaults, $field_default);
-            }
-            else
-            {
+            } else {
                 $this->_defaults[$name] = $field_default;
             }
         }
@@ -304,12 +286,9 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
     private function _add_operation_buttons()
     {
         $buttons = array();
-        foreach ($this->_schema->operations as $operation => $button_labels)
-        {
-            foreach ((array) $button_labels as $key => $label)
-            {
-                if ($label == '')
-                {
+        foreach ($this->_schema->operations as $operation => $button_labels) {
+            foreach ((array) $button_labels as $key => $label) {
+                if ($label == '') {
                     $label = "form submit: {$operation}";
                 }
                 $buttonname = "midcom_helper_datamanager2_{$operation}[{$key}]";
@@ -317,13 +296,10 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
 
                 $class = 'submit ' . $operation;
                 $accesskey = '';
-                if ($operation == 'save')
-                {
+                if ($operation == 'save') {
                     $accesskey = 's';
                     $class .= ' save_'.$key;
-                }
-                elseif ($operation == 'cancel')
-                {
+                } elseif ($operation == 'cancel') {
                     $accesskey = 'c';
                 }
 
@@ -339,52 +315,40 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
      */
     private function _add_filter_rules()
     {
-        foreach ($this->_schema->filters as $config)
-        {
-            if (!class_exists($config['callback']))
-            {
+        foreach ($this->_schema->filters as $config) {
+            if (!class_exists($config['callback'])) {
                 // Try autoload:
-                if (array_key_exists('autoload_snippet', $config))
-                {
+                if (array_key_exists('autoload_snippet', $config)) {
                     midcom_helper_misc::include_snippet_php($config['autoload_snippet']);
                 }
-                if (array_key_exists('autoload_file', $config))
-                {
+                if (array_key_exists('autoload_file', $config)) {
                     require_once($config['autoload_file']);
                 }
 
-                if (!class_exists($config['callback']))
-                {
+                if (!class_exists($config['callback'])) {
                     debug_add("Failed to register the callback {$config['callback']} for validation, the class is not defined.", MIDCOM_ERRCRIT);
                     continue;
                 }
             }
 
             // Now create the instance
-            if (array_key_exists('constructor_argument', $config))
-            {
+            if (array_key_exists('constructor_argument', $config)) {
                 $arg = $config['constructor_argument'];
-            }
-            else
-            {
+            } else {
                 $arg = null;
             }
             $callback_object = new $config['callback']($this, $arg);
             $callback = array(&$callback_object, 'execute');
 
             // Compute the field list.
-            if (!empty($config['fields']))
-            {
+            if (!empty($config['fields'])) {
                 $fields = (array) $config['fields'];
-            }
-            else
-            {
+            } else {
                 $fields = $this->_schema->field_order;
             }
 
             // Now fire away.
-            foreach ($fields as $name)
-            {
+            foreach ($fields as $name) {
                 $callback_object->set_fieldname($name);
                 $this->form->applyFilter($name, $callback);
             }
@@ -402,44 +366,32 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
     private function _start_fieldset($name, $config)
     {
         // Return if fieldsets are not requested
-        if (!isset($config['start_fieldset']))
-        {
+        if (!isset($config['start_fieldset'])) {
             return;
         }
 
         // Enable multiple fieldset starts in the same schema field
         $fieldsets = array();
-        if (isset($config['start_fieldset']['title']))
-        {
+        if (isset($config['start_fieldset']['title'])) {
             $fieldsets[] = $config['start_fieldset'];
-        }
-        else
-        {
+        } else {
             $fieldsets = $config['start_fieldset'];
         }
 
         // Output the fieldsets
-        foreach ($fieldsets as $key => $fieldset)
-        {
-            if (isset($fieldset['css_group']))
-            {
+        foreach ($fieldsets as $key => $fieldset) {
+            if (isset($fieldset['css_group'])) {
                 $class = $fieldset['css_group'];
-            }
-            else
-            {
+            } else {
                 $class = $name;
             }
 
             $html = "<fieldset class=\"fieldset {$class}\">\n";
 
-            if (!empty($fieldset['title']))
-            {
-                if (isset($fieldset['css_title']))
-                {
+            if (!empty($fieldset['title'])) {
+                if (isset($fieldset['css_title'])) {
                     $class = " class=\"{$fieldset['css_title']}\"";
-                }
-                else
-                {
+                } else {
                     $class = " class=\"{$name}\"";
                 }
 
@@ -448,8 +400,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
                 $html .= "    </legend>\n";
             }
 
-            if (isset($fieldset['description']))
-            {
+            if (isset($fieldset['description'])) {
                 $html .= "<p>". $this->_translate($fieldset['description']) . "</p>\n";
             }
 
@@ -470,29 +421,23 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
     private function _end_fieldset($name, $config)
     {
         if (   !isset($config['end_fieldset'])
-            || $this->_fieldsets <= 0)
-        {
+            || $this->_fieldsets <= 0) {
             return;
         }
 
         $html = '';
 
         // Interface for closing the fieldsets
-        if (is_numeric($config['end_fieldset']))
-        {
-            for ($i = 0; $i < $config['end_fieldset']; $i++)
-            {
+        if (is_numeric($config['end_fieldset'])) {
+            for ($i = 0; $i < $config['end_fieldset']; $i++) {
                 $html .= "</fieldset>\n";
                 $this->_fieldsets--;
 
-                if ($this->_fieldsets <= 0)
-                {
+                if ($this->_fieldsets <= 0) {
                     break;
                 }
             }
-        }
-        else
-        {
+        } else {
             $html .= "</fieldset>\n";
             $this->_fieldsets--;
         }
@@ -529,12 +474,9 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
      */
     function create_renderer($name)
     {
-        if ($name == 'none')
-        {
+        if ($name == 'none') {
             $this->renderer = 'none';
-        }
-        else
-        {
+        } else {
             $classname = "midcom_helper_datamanager2_renderer_{$name}";
             $this->renderer = new $classname($this->namespace);
         }
@@ -549,21 +491,17 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
      */
     private function _is_widget_visible($name, $config)
     {
-        if ($config['hidden'])
-        {
+        if ($config['hidden']) {
             return false;
         }
 
-        if ($config['read_privilege'] !== null)
-        {
+        if ($config['read_privilege'] !== null) {
             if (   array_key_exists('group', $config['read_privilege'])
-                && !midcom::get()->auth->is_group_member($config['read_privilege']['group']))
-            {
+                && !midcom::get()->auth->is_group_member($config['read_privilege']['group'])) {
                 return false;
             }
             if (   array_key_exists('privilege', $config['read_privilege'])
-                && !$this->_types[$name]->can_do($config['read_privilege']['privilege']))
-            {
+                && !$this->_types[$name]->can_do($config['read_privilege']['privilege'])) {
                 return false;
             }
         }
@@ -577,8 +515,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
     public function freeze()
     {
         $this->form->freeze();
-        foreach ($this->widgets as $widget)
-        {
+        foreach ($this->widgets as $widget) {
             $widget->freeze();
         }
     }
@@ -589,8 +526,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
     public function unfreeze()
     {
         $this->form->unfreeze();
-        foreach ($this->widgets as $widget)
-        {
+        foreach ($this->widgets as $widget) {
             $widget->unfreeze();
         }
     }
@@ -605,20 +541,16 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
     private function _check_freeze_status($name, array $config)
     {
         $widget = $this->widgets[$name];
-        if ($config['readonly'])
-        {
+        if ($config['readonly']) {
             $widget->freeze();
         }
-        if ($config['write_privilege'] !== null)
-        {
+        if ($config['write_privilege'] !== null) {
             if (   array_key_exists('group', $config['write_privilege'])
-                && !midcom::get()->auth->is_group_member($config['write_privilege']['group']))
-            {
+                && !midcom::get()->auth->is_group_member($config['write_privilege']['group'])) {
                 $widget->freeze();
             }
             if (   array_key_exists('privilege', $config['write_privilege'])
-                && !$this->_types[$name]->can_do($config['write_privilege']['privilege']))
-            {
+                && !$this->_types[$name]->can_do($config['write_privilege']['privilege'])) {
                 $widget->freeze();
             }
         }
@@ -646,27 +578,19 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
     private function _create_default_renderer()
     {
         $default = $this->_config->get('default_renderer');
-        if ($default == 'none')
-        {
+        if ($default == 'none') {
             $this->renderer = 'none';
-        }
-        elseif (strpos($default, '_') === false)
-        {
+        } elseif (strpos($default, '_') === false) {
             $this->create_renderer($default);
-        }
-        else
-        {
-            if (!class_exists($default))
-            {
+        } else {
+            if (!class_exists($default)) {
                 $src = $this->_config->get('default_renderer_src');
 
-                if (!$src)
-                {
+                if (!$src) {
                     throw new midcom_error('Invalid renderer configuration');
                 }
                 midcom_helper_misc::include_snippet_php($src);
-                if (!class_exists($default))
-                {
+                if (!class_exists($default)) {
                     throw new midcom_error("The renderer class '{$default}' set in the DM2 configuration does not exist.");
                 }
             }
@@ -680,12 +604,9 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
     function display_form()
     {
         if (   !$this->renderer
-            ||  (is_string($this->renderer) && $this->renderer == 'none'))
-        {
+            ||  (is_string($this->renderer) && $this->renderer == 'none')) {
             echo $this->form->toHtml();
-        }
-        else
-        {
+        } else {
             $this->form->accept($this->renderer);
             echo $this->renderer->toHtml();
         }
@@ -701,8 +622,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
     function display_view()
     {
         // iterate over all widgets so that they can add their piece to the form
-        foreach ($this->widgets as $name => $widget)
-        {
+        foreach ($this->widgets as $name => $widget) {
             echo '<div class="title" style="font-weight: bold;">' . $this->_translate($this->_schema->fields[$name]['title']) . "</div>\n";
             echo '<div class="value" style="margin-left: 5em;">';
             echo $widget->render_content();
@@ -725,11 +645,9 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
         $exitcode = self::get_clicked_button();
 
         if (   $exitcode == 'save'
-            || $exitcode == 'next')
-        {
+            || $exitcode == 'next') {
             // Validate the form.
-            if (!$this->form->validate())
-            {
+            if (!$this->form->validate()) {
                 debug_add('Failed to validate the form, reverting to edit mode.');
                 $exitcode = 'edit';
             }
@@ -755,8 +673,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
      */
     public function get_value($field)
     {
-        if (!array_key_exists($field, $this->widgets))
-        {
+        if (!array_key_exists($field, $this->widgets)) {
             debug_add('Widget ' . $field . ' not found in form', MIDCOM_LOG_WARN);
             return null;
         }
@@ -789,26 +706,20 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
         // Check if we were really submitted, if yes, trigger the on_submit event
         // on the widgets as well:
         if (   $exitcode != 'cancel'
-            && $exitcode != 'previous')
-        {
-            foreach ($this->widgets as $name => $copy)
-            {
+            && $exitcode != 'previous') {
+            foreach ($this->widgets as $name => $copy) {
                 $this->widgets[$name]->on_submit($results);
             }
         }
 
         if (   $exitcode == 'save'
             || $exitcode == 'next'
-            || $exitcode == 'preview')
-        {
+            || $exitcode == 'preview') {
             // Iterate over the widgets and tell them to re-synchronize with their
             // types.
-            foreach (array_keys($this->widgets) as $name)
-            {
-                if (!array_key_exists($name, $results))
-                {
-                    if ($ajax_mode)
-                    {
+            foreach (array_keys($this->widgets) as $name) {
+                if (!array_key_exists($name, $results)) {
+                    if ($ajax_mode) {
                         continue;
                     }
                     $results[$name] = null;
@@ -854,10 +765,8 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
             'preview',
             'delete'
         );
-        foreach ($available_buttons as $button)
-        {
-            if (array_key_exists('midcom_helper_datamanager2_' . $button, $_REQUEST))
-            {
+        foreach ($available_buttons as $button) {
+            if (array_key_exists('midcom_helper_datamanager2_' . $button, $_REQUEST)) {
                 return $button;
             }
         }

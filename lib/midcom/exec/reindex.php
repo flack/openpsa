@@ -14,15 +14,13 @@
 
 $ip_sudo = midcom::get()->auth->require_admin_or_ip('midcom.services.indexer');
 
-if (midcom::get()->config->get('indexer_backend') === false)
-{
+if (midcom::get()->config->get('indexer_backend') === false) {
     throw new midcom_error('No indexer backend has been defined. Aborting.');
 }
 
 //check if language is passed - if not take the current-one
 $language = midcom::get()->i18n->get_current_language();
-if (isset($_REQUEST['language']))
-{
+if (isset($_REQUEST['language'])) {
     $language = $_REQUEST['language'];
 }
 
@@ -41,14 +39,13 @@ $indexer = midcom::get()->indexer;
 // Use this to check that indexer is online (and hope the root topic isn't a gigantic wiki)
 $root_node = $nap->get_node($nodeid);
 $existing_documents = $indexer->query("__TOPIC_GUID:{$root_node[MIDCOM_NAV_OBJECT]->guid}");
-if ($existing_documents === false)
-{
+if ($existing_documents === false) {
     $msg = "Query '__TOPIC_GUID:{$root_node[MIDCOM_NAV_OBJECT]->guid}' returned false, indicating problem with indexer";
     throw new midcom_error($msg);
 }
 unset($existing_documents, $root_node);
 // Disable ob
-while(@ob_end_flush());
+while (@ob_end_flush());
 
 echo "<pre>\n";
 
@@ -59,14 +56,12 @@ $reindex_topic_uri = midcom::get()->get_page_prefix() . 'midcom-exec-midcom/rein
 $http_client = new org_openpsa_httplib();
 $http_client->set_param('timeout', 300);
 if (   !empty($_SERVER['PHP_AUTH_USER'])
-    && !empty($_SERVER['PHP_AUTH_PW']))
-{
+    && !empty($_SERVER['PHP_AUTH_PW'])) {
     $http_client->basicauth['user'] = $_SERVER['PHP_AUTH_USER'];
     $http_client->basicauth['password'] = $_SERVER['PHP_AUTH_PW'];
 }
 
-while (!is_null($nodeid))
-{
+while (!is_null($nodeid)) {
     // Reindex the node...
     $node = $nap->get_node($nodeid);
     echo "Processing node #{$nodeid}, {$node[MIDCOM_NAV_FULLURL]}: ";
@@ -75,20 +70,15 @@ while (!is_null($nodeid))
     $post_variables = array('nodeid' => $nodeid, 'language' => $language);
     $post_string = 'nodeid=' . $nodeid . '&language=' . $language;
     $response = $http_client->post($reindex_topic_uri, $post_variables, array('User-Agent' => 'midcom-exec-midcom/reindex.php'));
-    if ($response === false)
-    {
+    if ($response === false) {
         // returned with failure
         echo "failure.\n   Background processing failed, error: {$http_client->error}\n";
         echo "Url: " . $reindex_topic_uri . "?" . $post_string . "\n";
-    }
-    elseif (!preg_match("#(\n|\r\n)Reindex complete for node http.*\s*</pre>\s*$#", $response))
-    {
+    } elseif (!preg_match("#(\n|\r\n)Reindex complete for node http.*\s*</pre>\s*$#", $response)) {
         // Does not end with 'Reindex complete for node...'
         echo "failure.\n   Background reindex returned unexpected data:\n---\n{$response}\n---\n";
         echo "Url: " . $reindex_topic_uri . "?" . $post_string . "\n\n";
-    }
-    else
-    {
+    } else {
         // Background reindex ok
         echo "OK.\n";
     }
@@ -98,8 +88,7 @@ while (!is_null($nodeid))
 
     // Retrieve all child nodes and append them to $nodes:
     $childs = $nap->list_nodes($nodeid);
-    if ($childs === false)
-    {
+    if ($childs === false) {
         throw new midcom_error("Failed to list the child nodes of {$nodeid}. Aborting.");
     }
     $nodes = array_merge($nodes, $childs);
@@ -109,8 +98,7 @@ while (!is_null($nodeid))
 debug_add('Enabling script abort through client again.');
 ignore_user_abort(false);
 
-if ($ip_sudo)
-{
+if ($ip_sudo) {
     midcom::get()->auth->drop_sudo();
 }
 

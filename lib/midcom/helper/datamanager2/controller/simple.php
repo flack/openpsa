@@ -30,12 +30,10 @@ class midcom_helper_datamanager2_controller_simple extends midcom_helper_dataman
     {
         parent::initialize($identifier);
 
-        if (count($this->schemadb) == 0)
-        {
+        if (count($this->schemadb) == 0) {
             throw new midcom_error('You must set a schema database before initializing midcom_helper_datamanager2_controller_simple.');
         }
-        if ($this->datamanager === null)
-        {
+        if ($this->datamanager === null) {
             throw new midcom_error('You must set the datamanager member before initializing midcom_helper_datamanager2_controller_simple.');
         }
 
@@ -76,8 +74,7 @@ class midcom_helper_datamanager2_controller_simple extends midcom_helper_dataman
      */
     function process_form()
     {
-        if ($this->formmanager === null)
-        {
+        if ($this->formmanager === null) {
             throw new midcom_error('You must initialize a controller class before using it.');
         }
 
@@ -85,18 +82,13 @@ class midcom_helper_datamanager2_controller_simple extends midcom_helper_dataman
 
         if (    $metadata
              && array_key_exists('midcom_helper_datamanager2_unlock', $_REQUEST)
-             && isset($_REQUEST['midcom_helper_datamanager2_object']))
-        {
+             && isset($_REQUEST['midcom_helper_datamanager2_object'])) {
             // Remove the lock, if permission is granted
-            if ($metadata->can_unlock())
-            {
-                if (!$metadata->unlock())
-                {
+            if ($metadata->can_unlock()) {
+                if (!$metadata->unlock()) {
                     midcom::get()->uimessages->add($this->_l10n->get($this->_component), sprintf($this->_l10n->get('failed to unlock, reason %s'), midcom_connection::get_error_string()), 'error');
                 }
-            }
-            else
-            {
+            } else {
                 midcom::get()->uimessages->add($this->_l10n->get($this->_component), $this->_l10n_midcom->get('permission denied'), 'error');
             }
 
@@ -104,34 +96,28 @@ class midcom_helper_datamanager2_controller_simple extends midcom_helper_dataman
             $this->add_stylesheet(MIDCOM_STATIC_URL . "/midcom.helper.datamanager2/legacy.css");
 
             $result = 'edit';
-        }
-        else
-        {
+        } else {
             $result = $this->formmanager->process_form();
         }
 
-        if ($metadata)
-        {
+        if ($metadata) {
             // Remove the lock
             if (   $this->lock_timeout
                 && (   $result === 'save'
-                    || $result === 'cancel'))
-            {
+                    || $result === 'cancel')) {
                 $metadata->unlock();
             }
             // or set it, if needed
             elseif (   $this->lock_object
                     && !$metadata->is_locked()
-                    && $this->lock_timeout)
-            {
+                    && $this->lock_timeout) {
                 $metadata->lock();
             }
         }
 
         // Handle successful save explicitly.
         if (   $result == 'save'
-            || $result == 'next')
-        {
+            || $result == 'next') {
             // Ok, we can save now. At this point we already have a content object.
             $result = $this->_save_form($result);
         }
@@ -142,24 +128,18 @@ class midcom_helper_datamanager2_controller_simple extends midcom_helper_dataman
 
     private function _save_form($result)
     {
-        if (!$this->datamanager->validate())
-        {
+        if (!$this->datamanager->validate()) {
             // In case that the type validation fails, we bail with midcom_error
-            foreach ($this->datamanager->validation_errors as $field => $error)
-            {
+            foreach ($this->datamanager->validation_errors as $field => $error) {
                 $this->formmanager->form->setElementError($field, $error);
             }
 
             debug_add("Failed to save object, type validation failed:\n" . implode("\n", $this->datamanager->validation_errors), MIDCOM_LOG_ERROR);
 
-            foreach ($this->datamanager->validation_errors as $name => $message)
-            {
-                if (!isset($this->formmanager->_schema->fields[$name]))
-                {
+            foreach ($this->datamanager->validation_errors as $name => $message) {
+                if (!isset($this->formmanager->_schema->fields[$name])) {
                     $label = $name;
-                }
-                else
-                {
+                } else {
                     $label = $this->datamanager->schema->translate_schema_string($this->formmanager->_schema->fields[$name]['title']);
                 }
 
@@ -175,10 +155,8 @@ class midcom_helper_datamanager2_controller_simple extends midcom_helper_dataman
         }
 
         if (   $result == 'save'
-            && !$this->datamanager->save())
-        {
-            if (count($this->datamanager->validation_errors) == 0)
-            {
+            && !$this->datamanager->save()) {
+            if (count($this->datamanager->validation_errors) == 0) {
                 // It seems to be a critical error.
                 throw new midcom_error('Failed to save the data to disk, last Midgard error: ' . midcom_connection::get_error_string() . '. Check the debug level log for more information.');
             }

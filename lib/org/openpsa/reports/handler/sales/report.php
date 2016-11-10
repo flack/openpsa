@@ -24,8 +24,7 @@ implements org_openpsa_widgets_grid_provider_client
         $deliverable_mc = org_openpsa_sales_salesproject_deliverable_dba::new_collector('metadata.deleted', false);
         $deliverable_mc->add_constraint('state', '<>', org_openpsa_sales_salesproject_deliverable_dba::STATE_DECLINED);
         $deliverable_mc->add_constraint('salesproject.state', '<>', org_openpsa_sales_salesproject_dba::STATE_LOST);
-        if ($this->_request_data['query_data']['resource'] != 'all')
-        {
+        if ($this->_request_data['query_data']['resource'] != 'all') {
             $resource_expanded = $this->_expand_resource($this->_request_data['query_data']['resource']);
             $deliverable_mc->add_constraint('salesproject.owner', 'IN', $resource_expanded);
         }
@@ -55,13 +54,11 @@ implements org_openpsa_widgets_grid_provider_client
             'amount' => 0
         );
 
-        try
-        {
+        try {
             $invoice = org_openpsa_invoices_invoice_dba::get_cached($object->invoice);
             $row['index_invoice'] = $invoice->number;
             $row['invoice'] = $invoice->get_label();
-            if ($invoices_url)
-            {
+            if ($invoices_url) {
                 $row['invoice'] = "<a href=\"{$invoices_url}invoice/{$invoice->guid}/\">" . $row['invoice'] . "</a>";
             }
             $deliverable = org_openpsa_sales_salesproject_deliverable_dba::get_cached($object->deliverable);
@@ -75,9 +72,7 @@ implements org_openpsa_widgets_grid_provider_client
             $owner = org_openpsa_contacts_person_dba::get_cached($salesproject->owner);
             $row['index_owner'] = $owner->name;
             $row['owner'] = org_openpsa_widgets_contact::get($owner->guid)->show_inline();
-        }
-        catch (midcom_error $e)
-        {
+        } catch (midcom_error $e) {
             $e->log();
         }
         $row['amount'] = $object->pricePerUnit * $object->units;
@@ -121,13 +116,10 @@ implements org_openpsa_widgets_grid_provider_client
         midcom_show_style('sales_report-deliverable-start');
 
         // Quick workaround to Bergies lazy determination of whether this is user's or everyone's report...
-        if ($this->_request_data['query_data']['resource'] == 'user:' . midcom::get()->auth->user->guid)
-        {
+        if ($this->_request_data['query_data']['resource'] == 'user:' . midcom::get()->auth->user->guid) {
             // My report
             $data['handler_id'] = 'deliverable_report';
-        }
-        else
-        {
+        } else {
             // Generic report
             $data['handler_id'] = 'sales_report';
         }

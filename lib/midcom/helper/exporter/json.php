@@ -21,10 +21,8 @@ class midcom_helper_exporter_json extends midcom_helper_exporter
      */
     public function array2data(array $array)
     {
-        foreach ($array as $key => $val)
-        {
-            if (is_object($array[$key]))
-            {
+        foreach ($array as $key => $val) {
+            if (is_object($array[$key])) {
                 $array[$key] = $this->object2array($val, true);
             }
         }
@@ -39,8 +37,7 @@ class midcom_helper_exporter_json extends midcom_helper_exporter
      */
     public function data2array($data)
     {
-        if (!is_string($data))
-        {
+        if (!is_string($data)) {
             debug_add("Missing data cannot unserialize");
             return false;
         }

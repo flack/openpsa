@@ -20,12 +20,10 @@ class org_openpsa_expenses_viewer extends midcom_baseclasses_components_request
     {
         $schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_hours'));
         $workflow = $this->get_workflow('datamanager2');
-        foreach (array_keys($schemadb) as $name)
-        {
+        foreach (array_keys($schemadb) as $name) {
             $create_url = "hours/create/{$name}/";
 
-            if ($task)
-            {
+            if ($task) {
                 $create_url .= $task . "/";
             }
 
@@ -44,13 +42,11 @@ class org_openpsa_expenses_viewer extends midcom_baseclasses_components_request
     {
         $task = false;
         if (   $handler == 'list_hours_task'
-            || $handler == 'list_hours_task_all')
-        {
+            || $handler == 'list_hours_task_all') {
             $task = $args[0];
         }
         if (   strpos($handler, 'index') !== false
-            || strpos($handler, 'list') !== false)
-        {
+            || strpos($handler, 'list') !== false) {
             $this->_populate_view_toolbar($task);
         }
     }
@@ -69,8 +65,7 @@ class org_openpsa_expenses_viewer extends midcom_baseclasses_components_request
         $qf->add_filter($person_filter);
 
         if (   $this->_request_data['handler_id'] != 'index_timestamp'
-            && $this->_request_data['handler_id'] != 'index')
-        {
+            && $this->_request_data['handler_id'] != 'index') {
             $date_filter = new org_openpsa_core_filter_timeframe('date');
             $date_filter->set_label($this->_l10n->get("timeframe"));
             $qf->add_filter($date_filter);
@@ -90,8 +85,7 @@ class org_openpsa_expenses_viewer extends midcom_baseclasses_components_request
         $person_array = array();
 
         $persons = $qb_persons->execute();
-        foreach ($persons as $person)
-        {
+        foreach ($persons as $person) {
             $person_array[$person->id] = $person->get_label();
         }
         return $person_array;

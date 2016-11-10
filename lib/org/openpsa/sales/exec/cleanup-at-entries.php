@@ -3,9 +3,9 @@ midcom::get()->auth->require_admin_user();
 
 // Ensure this is not buffered
 midcom::get()->cache->content->enable_live_mode();
-while(@ob_end_flush())
-
-midcom::get()->disable_limits();
+while (@ob_end_flush()) {
+    midcom::get()->disable_limits();
+}
 
 echo "<h1>Cleanup deliverable AT entries:</h1>\n";
 
@@ -16,14 +16,12 @@ $deliverables = $qb->execute();
 
 echo "<pre>\n";
 flush();
-foreach ($deliverables as $deliverable)
-{
+foreach ($deliverables as $deliverable) {
     $mc = new org_openpsa_relatedto_collector($deliverable->guid, 'midcom_services_at_entry_dba');
     $mc->add_object_order('start', 'DESC');
     $at_entries = $mc->get_related_objects();
 
-    if (sizeof($at_entries) <= 1)
-    {
+    if (sizeof($at_entries) <= 1) {
         continue;
     }
 
@@ -31,10 +29,8 @@ foreach ($deliverables as $deliverable)
     flush();
 
     $first = true;
-    foreach ($at_entries as $entry)
-    {
-        if ($first)
-        {
+    foreach ($at_entries as $entry) {
+        if ($first) {
             $first = false;
             echo "Keeping entry for " . strftime('%x %X', $entry->start) . "\n";
             flush();

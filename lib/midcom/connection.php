@@ -60,80 +60,59 @@ class midcom_connection
      */
     public static function setup($basedir = null, $config_name = null)
     {
-        if (extension_loaded('midgard2'))
-        {
+        if (extension_loaded('midgard2')) {
             $midgard = midgard_connection::get_instance();
 
-            if (method_exists($midgard, 'enable_workspace'))
-            {
+            if (method_exists($midgard, 'enable_workspace')) {
                 $midgard->enable_workspace(false);
             }
 
             // workaround for segfaults that might have something to do with https://bugs.php.net/bug.php?id=51091
             // see also https://github.com/midgardproject/midgard-php5/issues/50
             if (   function_exists('gc_enabled')
-                && gc_enabled())
-            {
+                && gc_enabled()) {
                 gc_disable();
             }
 
             $stat = false;
             // Workaround for https://github.com/midgardproject/midgard-php5/issues/49
-            if (!$midgard->is_connected())
-            {
-                if ($config_name !== null)
-                {
+            if (!$midgard->is_connected()) {
+                if ($config_name !== null) {
                     $config = new midgard_config();
                     $config->read_file($config_name);
                     $stat = $midgard->open_config($config);
-                }
-                elseif ($path = ini_get('midgard.configuration_file'))
-                {
+                } elseif ($path = ini_get('midgard.configuration_file')) {
                     $config = new midgard_config();
                     $config->read_file_at_path($path);
                     $stat = $midgard->open_config($config);
                 }
             }
-            if (!$stat)
-            {
+            if (!$stat) {
                 return false;
             }
-        }
-        elseif (extension_loaded('midgard'))
-        {
-            if (!isset($_MIDGARD_CONNECTION))
-            {
-                if (file_exists($basedir . 'config/mgd1-connection.inc.php'))
-                {
+        } elseif (extension_loaded('midgard')) {
+            if (!isset($_MIDGARD_CONNECTION)) {
+                if (file_exists($basedir . 'config/mgd1-connection.inc.php')) {
                     include $basedir . 'config/mgd1-connection.inc.php';
-                }
-                elseif (file_exists($basedir . 'config/mgd1-connection-default.inc.php'))
-                {
+                } elseif (file_exists($basedir . 'config/mgd1-connection-default.inc.php')) {
                     include $basedir . 'config/mgd1-connection-default.inc.php';
-                }
-                else
-                {
+                } else {
                     throw new Exception("Could not connect to database, configuration file not found");
                 }
             }
-        }
-        else
-        {
-            if (file_exists($basedir . 'config/midgard-portable.inc.php'))
-            {
+        } else {
+            if (file_exists($basedir . 'config/midgard-portable.inc.php')) {
                 include $basedir . 'config/midgard-portable.inc.php';
                 return midgard_connection::get_instance()->is_connected();
             }
-            if (file_exists($basedir . 'config/midgard-portable-default.inc.php'))
-            {
+            if (file_exists($basedir . 'config/midgard-portable-default.inc.php')) {
                 include $basedir . 'config/midgard-portable-default.inc.php';
                 //default config has in-memory db, so all the tables may be missing
                 return midgard_storage::class_storage_exists('midgard_user');
             }
             throw new Exception("Could not connect to database, configuration file not found");
         }
-        if (!class_exists('midgard_topic'))
-        {
+        if (!class_exists('midgard_topic')) {
             throw new Exception('You need to install DB MgdSchemas from the "schemas" directory to the Midgard2 schema directory');
         }
 
@@ -147,8 +126,7 @@ class midcom_connection
      */
     static function is_connected()
     {
-        if (method_exists('midgard_connection', 'get_instance'))
-        {
+        if (method_exists('midgard_connection', 'get_instance')) {
             // Midgard 9.09 or newer
             return midgard_connection::get_instance()->is_connected();
         }
@@ -163,8 +141,7 @@ class midcom_connection
      */
     static function set_loglevel($loglevel)
     {
-        if (method_exists('midgard_connection', 'get_instance'))
-        {
+        if (method_exists('midgard_connection', 'get_instance')) {
             // Midgard 9.09 or newer
             return midgard_connection::get_instance()->set_loglevel($loglevel);
         }
@@ -179,8 +156,7 @@ class midcom_connection
      */
     public static function set_error($errorcode)
     {
-        if (method_exists('midgard_connection', 'get_instance'))
-        {
+        if (method_exists('midgard_connection', 'get_instance')) {
             // Midgard 9.09 or newer
             return midgard_connection::get_instance()->set_error($errorcode);
         }
@@ -195,8 +171,7 @@ class midcom_connection
      */
     public static function get_error()
     {
-        if (method_exists('midgard_connection', 'get_instance'))
-        {
+        if (method_exists('midgard_connection', 'get_instance')) {
             // Midgard 9.09 or newer
             return midgard_connection::get_instance()->get_error();
         }
@@ -211,8 +186,7 @@ class midcom_connection
      */
     public static function get_error_string()
     {
-        if (method_exists('midgard_connection', 'get_instance'))
-        {
+        if (method_exists('midgard_connection', 'get_instance')) {
             // Midgard 9.09 or newer
             return midgard_connection::get_instance()->get_error_string();
         }
@@ -230,8 +204,7 @@ class midcom_connection
      */
     public static function login($username, $password, $trusted = false)
     {
-        if (method_exists('midgard_user', 'login'))
-        {
+        if (method_exists('midgard_user', 'login')) {
             // Ratatoskr
             $login_tokens = array
             (
@@ -239,22 +212,17 @@ class midcom_connection
                 'authtype' => midcom::get()->config->get('auth_type'),
             );
 
-            if (!$trusted)
-            {
+            if (!$trusted) {
                 $login_tokens['password'] = self::prepare_password($password, $username);
             }
 
-            try
-            {
+            try {
                 $user = new midgard_user($login_tokens);
-            }
-            catch (midgard_error_exception $e)
-            {
+            } catch (midgard_error_exception $e) {
                 return false;
             }
 
-            if (!$user->login())
-            {
+            if (!$user->login()) {
                 return false;
             }
             return $user;
@@ -264,21 +232,18 @@ class midcom_connection
         $sg_name = '';
         $mode = midcom::get()->config->get('auth_sitegroup_mode');
 
-        if ($mode == 'auto')
-        {
+        if ($mode == 'auto') {
             $mode = (self::_get('sitegroup') == 0) ? 'not-sitegrouped' : 'sitegrouped';
         }
 
-        if ($mode == 'sitegrouped')
-        {
+        if ($mode == 'sitegrouped') {
             $sitegroup = new midgard_sitegroup(self::_get('sitegroup'));
             $sg_name = $sitegroup->name;
         }
         $stat = midgard_user::auth($username, $password, $sg_name, $trusted);
         if (   !$stat
             && midcom::get()->config->get('auth_type') == 'Plaintext'
-            && strlen($password) > 11)
-        {
+            && strlen($password) > 11) {
             //mgd1 has the password field defined with length 13, but it doesn't complain
             //when saving a longer password, it just sometimes shortens it, so we try the
             //shortened version here (we cut at 11 because the first two characters are **)
@@ -289,10 +254,8 @@ class midcom_connection
 
     public static function prepare_password($password, $username = null)
     {
-        if (method_exists('midgard_user', 'login'))
-        {
-            switch (midcom::get()->config->get('auth_type'))
-            {
+        if (method_exists('midgard_user', 'login')) {
+            switch (midcom::get()->config->get('auth_type')) {
                 case 'Plaintext':
                     // Compare plaintext to plaintext
                     break;
@@ -314,15 +277,11 @@ class midcom_connection
                     throw new midcom_error('Unsupported authentication type attempted', 500);
             }
             // TODO: Support other types
-        }
-        else
-        {
-            switch (midcom::get()->config->get('auth_type'))
-            {
+        } else {
+            switch (midcom::get()->config->get('auth_type')) {
                 case 'Plaintext':
                     //do not add the ** for empty passwords - in case it was set to empty do disable account
-                    if (!empty($password))
-                    {
+                    if (!empty($password)) {
                         $password = '**' . $password;
                     }
                     break;
@@ -342,28 +301,24 @@ class midcom_connection
         $crypted = false;
 
         if (   null !== $username
-            && method_exists('midgard_user', 'login'))
-        {
+            && method_exists('midgard_user', 'login')) {
             $mc = new midgard_collector('midgard_user', 'login', $username);
             $mc->set_key_property('password');
             $mc->add_constraint('authtype', '=', 'Legacy');
             $mc->execute();
             $keys = $mc->list_keys();
-            if (count($keys) == 1)
-            {
+            if (count($keys) == 1) {
                 $crypted = crypt($password, substr(key($keys), 0, 2));
             }
         }
-        if (!$crypted)
-        {
+        if (!$crypted) {
             /*
              It seems having nonprintable characters in the password breaks replication
              Here we recreate salt and hash until we have a combination where only
              printable characters exist
              */
             while (   empty($crypted)
-                   || preg_match('/[\x00-\x20\x7f-\xff]/', $crypted))
-            {
+                   || preg_match('/[\x00-\x20\x7f-\xff]/', $crypted)) {
                 $crypted = crypt($password, self::generate_des_salt());
             }
         }
@@ -375,8 +330,7 @@ class midcom_connection
         $options = './abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
         $salt = '';
 
-        while (strlen($salt) < 2)
-        {
+        while (strlen($salt) < 2) {
             $salt .= $options[mt_rand(0, strlen($options) - 1)];
         }
 
@@ -385,12 +339,10 @@ class midcom_connection
 
     public static function is_user($person)
     {
-        if (empty($person->guid))
-        {
+        if (empty($person->guid)) {
             return false;
         }
-        if (method_exists('midgard_user', 'login'))
-        {
+        if (method_exists('midgard_user', 'login')) {
             // Ratatoskr
             $qb = new midgard_query_builder('midgard_user');
             $qb->add_constraint('person', '=', $person->guid);
@@ -408,19 +360,15 @@ class midcom_connection
      */
     public static function get_user()
     {
-        if (method_exists('midgard_connection', 'get_instance'))
-        {
+        if (method_exists('midgard_connection', 'get_instance')) {
             // Midgard 9.09 or newer
             $user = midgard_connection::get_instance()->get_user();
-        }
-        else
-        {
+        } else {
             // Midgard 8.09 or 9.03
             $user = midgard_connection::get_user();
         }
 
-        if (!$user)
-        {
+        if (!$user) {
             return 0;
         }
 
@@ -434,19 +382,15 @@ class midcom_connection
      */
     public static function is_admin()
     {
-        if (method_exists('midgard_connection', 'get_instance'))
-        {
+        if (method_exists('midgard_connection', 'get_instance')) {
             // Midgard 9.09 or newer
             $user = midgard_connection::get_instance()->get_user();
-        }
-        else
-        {
+        } else {
             // Midgard 8.09 or 9.03
             $user = midgard_connection::get_user();
         }
 
-        if (!$user)
-        {
+        if (!$user) {
             return false;
         }
 
@@ -463,8 +407,7 @@ class midcom_connection
      */
     public static function get($key, $subkey = null)
     {
-        switch ($key)
-        {
+        switch ($key) {
             case 'uri':
             case 'self':
             case 'prefix':
@@ -473,13 +416,11 @@ class midcom_connection
             case 'argc':
                 return self::get_url($key);
             case 'schema':
-                if ($subkey == 'types')
-                {
+                if ($subkey == 'types') {
                     return self::get_schema_types();
                 }
             case 'config':
-                if ($subkey == 'unique_host_name')
-                {
+                if ($subkey == 'unique_host_name') {
                     return self::get_unique_host_name();
                 }
             default:
@@ -489,26 +430,20 @@ class midcom_connection
 
     public static function _get($key, $subkey = null)
     {
-        if (null === self::$_data)
-        {
-            if (!empty($_MIDGARD))
-            {
+        if (null === self::$_data) {
+            if (!empty($_MIDGARD)) {
                 self::$_data = $_MIDGARD;
-            }
-            else
-            {
+            } else {
                 self::$_data = self::$_defaults;
             }
         }
 
         if (   null === $subkey
-            && isset(self::$_data[$key]))
-        {
+            && isset(self::$_data[$key])) {
             return self::$_data[$key];
         }
         if (   null !== $subkey
-            && isset(self::$_data[$key][$subkey]))
-        {
+            && isset(self::$_data[$key][$subkey])) {
             return self::$_data[$key][$subkey];
         }
 
@@ -522,8 +457,7 @@ class midcom_connection
      */
     public static function get_schema_types()
     {
-        if (!isset(self::$_data['schema_types']))
-        {
+        if (!isset(self::$_data['schema_types'])) {
             $helper = new helper;
             self::$_data['schema_types'] = $helper->get_all_schemanames();
         }
@@ -539,16 +473,12 @@ class midcom_connection
     static function get_url($key)
     {
         static $parsed = false;
-        if (!$parsed)
-        {
+        if (!$parsed) {
             // This has the side effect to ensure that $_data is properly initialized
-            if (null !== self::_get($key))
-            {
+            if (null !== self::_get($key)) {
                 // key was found, so we must have a (real, mgd1) superglobal
                 self::_parse_url(implode('/', $_MIDGARD['argv']), $_MIDGARD['self'], $_MIDGARD['prefix']);
-            }
-            else
-            {
+            } else {
                 // Superglobal disabled, Midgard 9.09 or newer
                 $url_components = parse_url("http://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}");
                 self::_parse_url($url_components['path'], OPENPSA2_PREFIX, substr(OPENPSA2_PREFIX, 0, -1));
@@ -575,21 +505,16 @@ class midcom_connection
 
         self::$_data['argv'] = array();
         $args_started = false;
-        foreach ($path_parts as $part)
-        {
-            if ($part === '')
-            {
+        foreach ($path_parts as $part) {
+            if ($part === '') {
                 continue;
             }
             if (    midcom::get()->config->get('theme')
                  && !$args_started
-                 && midcom_helper_misc::check_page_exists($part))
-            {
+                 && midcom_helper_misc::check_page_exists($part)) {
                 $page_style .= '/' . $part;
                 $self .= $part . '/';
-            }
-            else
-            {
+            } else {
                 self::$_data['argv'][] = $part;
                 $path .= $part . '/';
                 $args_started = true;
@@ -605,8 +530,7 @@ class midcom_connection
 
     public static function get_unique_host_name()
     {
-        if (null === self::_get('config', 'unique_host_name'))
-        {
+        if (null === self::_get('config', 'unique_host_name')) {
             self::$_data['config']['unique_host_name'] = str_replace(':', '_', $_SERVER['SERVER_NAME']) . '_' . str_replace('/', '_', self::get_url('prefix'));
         }
 

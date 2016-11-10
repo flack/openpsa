@@ -6,17 +6,14 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 <div class="midgard_admin_asgard_components_component">
     <div class="maintainers">
         <?php
-        if (count($component['maintainers']) > 0)
-        {
+        if (count($component['maintainers']) > 0) {
             echo "<h3>" . $data['l10n']->get('created by') . "</h3>\n";
             echo "<ul>\n";
 
-            foreach ($component['maintainers'] as $username => $maintainer)
-            {
+            foreach ($component['maintainers'] as $username => $maintainer) {
                 $status = 'active';
                 if (   isset($maintainer['active'])
-                    && $maintainer['active'] == 'no')
-                {
+                    && $maintainer['active'] == 'no') {
                     $status = 'passive';
                 }
 
@@ -41,24 +38,18 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
         <p class="description">&(component['title']);</p>
 
         <?php
-        if (count($data['component_dependencies']) > 0)
-        {
+        if (count($data['component_dependencies']) > 0) {
             echo "<h2>" . $data['l10n_midcom']->get('component depends on') . "</h2>\n";
             echo "<ul>\n";
-            foreach ($data['component_dependencies'] as $dependency)
-            {
-                if (substr($dependency, 0, 9) == 'template_')
-                {
+            foreach ($data['component_dependencies'] as $dependency) {
+                if (substr($dependency, 0, 9) == 'template_') {
                     echo "<li><img src=\"" . MIDCOM_STATIC_URL . "/stock-icons/16x16/text-x-generic-template.png\" alt=\"\" /> {$dependency}</li>\n";
                     continue;
                     // Done.
                 }
-                if ($component_icon = midcom::get()->componentloader->get_component_icon($dependency))
-                {
+                if ($component_icon = midcom::get()->componentloader->get_component_icon($dependency)) {
                     echo "<li><a href=\"{$prefix}__mfa/asgard/components/{$dependency}/\"><img src=\"" . MIDCOM_STATIC_URL . "/" . $component_icon . "\" alt=\"\" /> {$dependency}</a></li>\n";
-                }
-                else
-                {
+                } else {
                     echo "<li><img src=\"" . MIDCOM_STATIC_URL . "/stock-icons/16x16/cancel.png\" alt=\"\" /> {$dependency} <span class='alert'>Error: This component is not installed!</span></li>\n";
                 }
             }
@@ -71,14 +62,11 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
         <?php
         $help = new midcom_admin_help_help();
         $files = $help->list_files($data['component'], true);
-        if (count($files) > 0)
-        {
+        if (count($files) > 0) {
             echo "<h3>" . midcom::get()->i18n->get_string('component help', 'midcom.admin.help') . "</h3>\n";
             echo "<ul>\n";
-            foreach ($files as $identifier => $filedata)
-            {
-                if ($identifier == 'index')
-                {
+            foreach ($files as $identifier => $filedata) {
+                if ($identifier == 'index') {
                     $identifier = '';
                 }
                 echo "<li><a href=\"{$prefix}__ais/help/{$data['component']}/{$identifier}/\" target='_blank'>{$filedata['subject']}</a></li>\n";

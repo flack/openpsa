@@ -60,12 +60,9 @@ class org_openpsa_mail_formmailer extends midcom_baseclasses_components_purecode
     public function __construct($schemadb = null)
     {
         parent::__construct();
-        if (null === $schemadb)
-        {
+        if (null === $schemadb) {
             $this->_schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_formmailer'));
-        }
-        else
-        {
+        } else {
             $this->_schemadb = $schemadb;
         }
     }
@@ -75,13 +72,11 @@ class org_openpsa_mail_formmailer extends midcom_baseclasses_components_purecode
         $controller = midcom_helper_datamanager2_controller::create('nullstorage');
         $controller->schemadb = $this->_schemadb;
         $controller->schemaname = 'default';
-        if (!$controller->initialize())
-        {
+        if (!$controller->initialize()) {
             throw new midcom_error('Failed to initialize a DM2 nullstorage controller.');
         }
 
-        switch ($controller->process_form())
-        {
+        switch ($controller->process_form()) {
             case 'save':
                 $this->_send_form($controller->datamanager->get_content_email());
                 break;
@@ -97,59 +92,41 @@ class org_openpsa_mail_formmailer extends midcom_baseclasses_components_purecode
     {
         $mail = new org_openpsa_mail;
 
-        if (!empty($values['subject']))
-        {
+        if (!empty($values['subject'])) {
             $mail->subject = $values['subject'];
-        }
-        elseif (!empty($this->subject))
-        {
+        } elseif (!empty($this->subject)) {
             $mail->subject = $this->subject;
-        }
-        else
-        {
+        } else {
             $mail->subject = $this->_config->get('formmailer_subject');
         }
 
-        if (!empty($this->from))
-        {
+        if (!empty($this->from)) {
             $mail->from = $this->from;
-        }
-        else
-        {
+        } else {
             $mail->from = $this->_config->get('formmailer_from');
         }
 
-        if (!empty($this->to))
-        {
+        if (!empty($this->to)) {
             $mail->to = $this->to;
-        }
-        else
-        {
+        } else {
             $mail->to = $this->_config->get('formmailer_to');
         }
 
-        if (!empty($this->body))
-        {
+        if (!empty($this->body)) {
             $mail->body = $this->body;
-        }
-        else
-        {
+        } else {
             $mail->body = $this->_config->get('formmailer_body');
         }
 
         $parameters = array();
-        foreach ($values as $field => $value)
-        {
+        foreach ($values as $field => $value) {
             $parameters[strtoupper($field)] = $value;
         }
         $mail->parameters = $parameters;
 
-        if ($mail->send())
-        {
+        if ($mail->send()) {
             echo $this->_l10n->get('form successfully sent');
-        }
-        else
-        {
+        } else {
             echo $this->_l10n->get('error sending form');
         }
     }

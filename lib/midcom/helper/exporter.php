@@ -27,8 +27,7 @@ abstract class midcom_helper_exporter
      */
     public function object2array($object, $all_metadata_fields = false)
     {
-        if (!is_object($object))
-        {
+        if (!is_object($object)) {
             debug_add("Missing object needed as parameter.", MIDCOM_LOG_ERROR);
             return false;
         }
@@ -36,19 +35,14 @@ abstract class midcom_helper_exporter
         $out = array();
         $fields = $this->_get_object_fields($object, $all_metadata_fields);
 
-        foreach ($fields as $key)
-        {
-            if (substr($key, 0, 1) == '_' && $key != "__metadata")
-            {
+        foreach ($fields as $key) {
+            if (substr($key, 0, 1) == '_' && $key != "__metadata") {
                 // Remove private fields
                 continue;
             }
-            if (is_object($object->{$key}))
-            {
+            if (is_object($object->{$key})) {
                 $out[$key] = $this->object2array($object->{$key}, $all_metadata_fields);
-            }
-            else
-            {
+            } else {
                 $out[$key] = $object->{$key};
             }
         }
@@ -65,36 +59,30 @@ abstract class midcom_helper_exporter
      */
     public function array2object(array $data, midcom_core_dbaobject $object)
     {
-        if (!is_array($data))
-        {
+        if (!is_array($data)) {
             debug_add("Invalid datatype");
             return false;
         }
 
         // set the object's values to the ones from the data
         $fields = $this->_get_object_fields($object);
-        foreach ($fields as $field_name)
-        {
+        foreach ($fields as $field_name) {
             // skip private fields.
-            if (substr($field_name, 0, 1) == '_')
-            {
+            if (substr($field_name, 0, 1) == '_') {
                 continue;
             }
 
             // skip read_only fields
-            if ($field_name == 'guid' || $field_name == 'id')
-            {
+            if ($field_name == 'guid' || $field_name == 'id') {
                 continue;
             }
 
             // TODO: decide what to do with object metadata
-            if ($field_name == 'metadata')
-            {
+            if ($field_name == 'metadata') {
                 continue;
             }
 
-            if (isset($data[$field_name]))
-            {
+            if (isset($data[$field_name])) {
                 $object->{$field_name} = $data[$field_name];
                 continue;
             }
@@ -113,13 +101,11 @@ abstract class midcom_helper_exporter
     protected function _get_object_fields($object, $all_metadata_fields = false)
     {
         // workaround for problem with _get_object_fields / instrospection helper returning only array("__object", "guid") and is missing all other fields under midgard2
-        if ($all_metadata_fields && $object instanceof midcom_helper_metadata)
-        {
+        if ($all_metadata_fields && $object instanceof midcom_helper_metadata) {
             return array("guid", "created", "hidden", "deleted", "isapproved", "islocked");
         }
 
-        if (method_exists($object, 'get_properties'))
-        {
+        if (method_exists($object, 'get_properties')) {
             // MidCOM DBA decorator object
             return $object->get_properties();
         }
@@ -136,8 +122,7 @@ abstract class midcom_helper_exporter
      */
     protected function _get_classname($object)
     {
-        if (!empty($object->__mgdschema_class_name__))
-        {
+        if (!empty($object->__mgdschema_class_name__)) {
             return $object->__mgdschema_class_name__;
         }
         return get_class($object);

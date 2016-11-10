@@ -38,24 +38,19 @@ implements midcom_helper_datamanager2_interfaces_edit
         $data['controller'] = $this->get_controller('simple', $this->_person);
 
         // Process the form
-        switch ($data['controller']->process_form())
-        {
+        switch ($data['controller']->process_form()) {
             case 'save':
             case 'cancel':
-                if (isset($_GET['org_openpsa_calendar_returnurl']))
-                {
+                if (isset($_GET['org_openpsa_calendar_returnurl'])) {
                     $url = $_GET['org_openpsa_calendar_returnurl'];
-                }
-                else
-                {
+                } else {
                     $url = '';
                 }
                 return new midcom_response_relocate($url);
         }
 
         // Add the breadcrumb pieces
-        if (isset($_GET['org_openpsa_calendar_returnurl']))
-        {
+        if (isset($_GET['org_openpsa_calendar_returnurl'])) {
             $this->add_breadcrumb($_GET['org_openpsa_calendar_returnurl'], $this->_l10n->get('calendar'));
         }
 

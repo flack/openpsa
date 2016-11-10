@@ -42,8 +42,7 @@ implements midcom_helper_datamanager2_interfaces_view, org_openpsa_widgets_grid_
     {
         $workflow = $this->get_workflow('datamanager2');
         $buttons = array();
-        if ($this->_group->can_do('midgard:update'))
-        {
+        if ($this->_group->can_do('midgard:update')) {
             $buttons = array
             (
                 $workflow->get_button("group/edit/{$this->_group->guid}/", array
@@ -64,8 +63,7 @@ implements midcom_helper_datamanager2_interfaces_view, org_openpsa_widgets_grid_
         }
 
         if (   midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_contacts_person_dba')
-            && $this->_group->can_do('midgard:create'))
-        {
+            && $this->_group->can_do('midgard:create')) {
             $buttons[] = $workflow->get_button("person/create/{$this->_group->guid}/", array
             (
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create person'),
@@ -76,8 +74,7 @@ implements midcom_helper_datamanager2_interfaces_view, org_openpsa_widgets_grid_
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
         $user_url = $siteconfig->get_node_full_url('org.openpsa.user');
         if (   $user_url
-            && midcom::get()->auth->can_user_do('org.openpsa.user:access', null, 'org_openpsa_user_interface'))
-        {
+            && midcom::get()->auth->can_user_do('org.openpsa.user:access', null, 'org_openpsa_user_interface')) {
             $buttons[] = array
             (
                 MIDCOM_TOOLBAR_URL => $user_url . "group/{$this->_group->guid}/",
@@ -87,8 +84,7 @@ implements midcom_helper_datamanager2_interfaces_view, org_openpsa_widgets_grid_
         }
 
         $cal_node = midcom_helper_misc::find_node_by_component('org.openpsa.calendar');
-        if (!empty($cal_node))
-        {
+        if (!empty($cal_node)) {
             //TODO: Check for privileges somehow
             $buttons[] = org_openpsa_calendar_interface::get_create_button($cal_node, $this->_group->guid . '/');
         }
@@ -102,12 +98,9 @@ implements midcom_helper_datamanager2_interfaces_view, org_openpsa_widgets_grid_
      */
     public function _show_view($handler_id, array &$data)
     {
-        if ($this->_group->orgOpenpsaObtype < org_openpsa_contacts_group_dba::MYCONTACTS)
-        {
+        if ($this->_group->orgOpenpsaObtype < org_openpsa_contacts_group_dba::MYCONTACTS) {
             midcom_show_style('show-group-other');
-        }
-        else
-        {
+        } else {
             midcom_show_style('show-group');
         }
     }
@@ -124,31 +117,24 @@ implements midcom_helper_datamanager2_interfaces_view, org_openpsa_widgets_grid_
         $this->_group = new org_openpsa_contacts_group_dba($args[0]);
         $data['group'] = $this->_group;
 
-        if ($this->_group->orgOpenpsaObtype < org_openpsa_contacts_group_dba::MYCONTACTS)
-        {
+        if ($this->_group->orgOpenpsaObtype < org_openpsa_contacts_group_dba::MYCONTACTS) {
             $this->_type = 'group';
             $data['group_tree'] = $this->_master->get_group_tree();
             $data['members_grid'] = new org_openpsa_widgets_grid('members_grid', 'json');
             org_openpsa_widgets_tree::add_head_elements();
-        }
-        else
-        {
+        } else {
             $this->_type = 'organization';
             $root_group = org_openpsa_contacts_interface::find_root_group();
-            if ($this->_group->owner != $root_group->id)
-            {
+            if ($this->_group->owner != $root_group->id) {
                 $data['parent_group'] = $this->_group->get_parent();
-            }
-            else
-            {
+            } else {
                 $data['parent_group'] = false;
             }
 
             $qb_billing_data = org_openpsa_invoices_billing_data_dba::new_query_builder();
             $qb_billing_data->add_constraint('linkGuid', '=', $this->_group->guid);
             $billing_data = $qb_billing_data->execute();
-            if (count($billing_data) > 0)
-            {
+            if (count($billing_data) > 0) {
                 $this->_request_data['billing_data'] = $billing_data[0];
             }
             // This handler uses Ajax, include the handler javascripts
@@ -201,8 +187,7 @@ implements midcom_helper_datamanager2_interfaces_view, org_openpsa_widgets_grid_
         $member_ids = array_keys($this->_request_data['group']->get_members());
         $qb->add_constraint('id', 'IN', $member_ids);
 
-        if (!is_null($field))
-        {
+        if (!is_null($field)) {
             $qb->add_order($field, $direction);
         }
         $qb->add_order('lastname');
@@ -221,8 +206,7 @@ implements midcom_helper_datamanager2_interfaces_view, org_openpsa_widgets_grid_
         $entry = array();
         $entry['id'] = $user->id;
         $lastname = trim($user->lastname);
-        if (empty($lastname))
-        {
+        if (empty($lastname)) {
             $lastname = $this->_l10n->get('person') . ' #' . $user->id;
         }
         $entry['lastname'] = "<a href='" . $prefix . 'person/' . $user->guid . "/'>" . $lastname . "</a>";
@@ -231,11 +215,9 @@ implements midcom_helper_datamanager2_interfaces_view, org_openpsa_widgets_grid_
         $entry['index_firstname'] = $user->firstname;
         $entry['homepage'] = '';
         $entry['index_homepage'] = $user->homepage;
-        if (!empty($user->homepage))
-        {
+        if (!empty($user->homepage)) {
             $url = $user->homepage;
-            if (!preg_match('/https?:\/\//', $url))
-            {
+            if (!preg_match('/https?:\/\//', $url)) {
                 $url = 'http://' . $user->homepage;
             }
             $entry['homepage'] = '<a href="' . $url . '">' . $user->homepage . '</a>';

@@ -28,11 +28,9 @@ implements midcom_helper_datamanager2_interfaces_create
         $fields =& $schemadb[$this->get_schema_name()]->fields;
         // Fill VAT select
         $vat_array = explode(',', $this->_config->get('vat_percentages'));
-        if (!empty($vat_array))
-        {
+        if (!empty($vat_array)) {
             $vat_values = array();
-            foreach ($vat_array as $vat)
-            {
+            foreach ($vat_array as $vat) {
                 $vat_values[$vat] = "{$vat}%";
             }
             $fields['vat']['type_config']['options'] = $vat_values;
@@ -53,8 +51,7 @@ implements midcom_helper_datamanager2_interfaces_create
     {
         $billing_data = new org_openpsa_invoices_billing_data_dba();
         $billing_data->linkGuid = $this->_linked_object->guid;
-        if (!$billing_data->create())
-        {
+        if (!$billing_data->create()) {
             debug_print_r('We operated on this object:', $billing_data);
             throw new midcom_error("Failed to create a new billing_data. Error: " . midcom_connection::get_error_string());
         }
@@ -70,21 +67,17 @@ implements midcom_helper_datamanager2_interfaces_create
         $qb_billing_data = org_openpsa_invoices_billing_data_dba::new_query_builder();
         $qb_billing_data->add_constraint('linkGuid', '=', $this->_linked_object->guid);
         $billing_data = $qb_billing_data->execute();
-        if (count($billing_data) > 0)
-        {
+        if (count($billing_data) > 0) {
             $mode = 'edit';
             $data['controller'] = $this->get_controller('simple', $billing_data[0]);
-        }
-        else
-        {
+        } else {
             $mode = 'create';
             $data['controller'] = $this->get_controller('create');
         }
 
         $workflow = $this->get_workflow('datamanager2', array('controller' => $data['controller']));
         if (   $mode == 'edit'
-            && $billing_data[0]->can_do('midgard:delete'))
-        {
+            && $billing_data[0]->can_do('midgard:delete')) {
             $delete = $this->get_workflow('delete', array
             (
                 'object' => $billing_data[0],
@@ -122,8 +115,7 @@ implements midcom_helper_datamanager2_interfaces_create
     {
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
         $relocate = $siteconfig->get_node_full_url('org.openpsa.contacts');
-        switch (true)
-        {
+        switch (true) {
             case is_a($this->_linked_object, 'org_openpsa_contacts_person_dba'):
                 $relocate .= 'person/' . $this->_linked_object->guid . '/';
                 break;

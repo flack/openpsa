@@ -21,15 +21,12 @@ class net_nemein_redirector_viewer extends midcom_baseclasses_components_request
         // Match /
         if (   is_null($this->_config->get('redirection_type'))
             || (   $this->_topic->can_do('net.nemein.redirector:noredirect')
-                && !$this->_config->get('admin_redirection')))
-        {
+                && !$this->_config->get('admin_redirection'))) {
             $this->_request_switch['redirect'] = array
             (
                 'handler' => array('net_nemein_redirector_handler_tinyurl', 'list'),
             );
-        }
-        else
-        {
+        } else {
             $this->_request_switch['redirect'] = array
             (
                 'handler' => 'redirect'
@@ -42,8 +39,7 @@ class net_nemein_redirector_viewer extends midcom_baseclasses_components_request
      */
     public function _on_handle($handler_id, array $args)
     {
-        if ($this->_topic->can_do('midgard:create'))
-        {
+        if ($this->_topic->can_do('midgard:create')) {
             // Add the creation link to toolbar
             $this->_node_toolbar->add_item
             (
@@ -69,8 +65,7 @@ class net_nemein_redirector_viewer extends midcom_baseclasses_components_request
     public function _can_handle_redirect($handler_id, array $args, array &$data)
     {
         // Process the request immediately
-        if (isset($args[0]))
-        {
+        if (isset($args[0])) {
             $mc = net_nemein_redirector_tinyurl_dba::new_collector('node', $this->_topic->guid);
             $mc->add_constraint('name', '=', $args[0]);
             $mc->add_value_property('code');
@@ -80,16 +75,14 @@ class net_nemein_redirector_viewer extends midcom_baseclasses_components_request
             $results = $mc->list_keys();
 
             // No results found
-            if (count($results) === 0)
-            {
+            if (count($results) === 0) {
                 return false;
             }
 
             // Catch first the configuration option for showing editing interface instead
             // of redirecting administrators
             if (   $this->_topic->can_do('net.nemein.redirector:noredirect')
-                && !$this->_config->get('admin_redirection'))
-            {
+                && !$this->_config->get('admin_redirection')) {
                 midcom::get()->relocate("{$this->_topic->name}/edit/{$args[0]}/");
             }
             $guid = key($results);
@@ -97,8 +90,7 @@ class net_nemein_redirector_viewer extends midcom_baseclasses_components_request
             $code = $mc->get_subkey($guid, 'code');
 
             // Redirection HTTP code
-            if (!$code)
-            {
+            if (!$code) {
                 $code = $this->_config->get('redirection_code');
             }
 
@@ -122,8 +114,7 @@ class net_nemein_redirector_viewer extends midcom_baseclasses_components_request
         $data['url'] = net_nemein_redirector_viewer::topic_links_to($data);
 
         // Metatag redirection
-        if ($this->_config->get('redirection_metatag'))
-        {
+        if ($this->_config->get('redirection_metatag')) {
             $data['redirection_url'] = $data['url'];
             $data['redirection_speed'] = $this->_config->get('redirection_metatag_speed');
 
@@ -135,9 +126,7 @@ class net_nemein_redirector_viewer extends midcom_baseclasses_components_request
                     'content' => "{$data['redirection_speed']};url={$data['url']}",
                 )
             );
-        }
-        else
-        {
+        } else {
             return new midcom_response_relocate($data['url'], $this->_config->get('redirection_code'));
         }
     }
@@ -161,21 +150,16 @@ class net_nemein_redirector_viewer extends midcom_baseclasses_components_request
      */
     public static function topic_links_to(array $data)
     {
-        switch ($data['config']->get('redirection_type'))
-        {
+        switch ($data['config']->get('redirection_type')) {
             case 'node':
                 $nap = new midcom_helper_nav();
                 $id = $data['config']->get('redirection_node');
 
-                if (is_string($id))
-                {
-                    try
-                    {
+                if (is_string($id)) {
+                    try {
                         $topic = new midcom_db_topic($id);
                         $id = $topic->id;
-                    }
-                    catch (midcom_error $e)
-                    {
+                    } catch (midcom_error $e) {
                         $e->log();
                         break;
                     }
@@ -184,8 +168,7 @@ class net_nemein_redirector_viewer extends midcom_baseclasses_components_request
                 $node = $nap->get_node($id);
 
                 // Node not found, fall through to configuration
-                if (!$node)
-                {
+                if (!$node) {
                     break;
                 }
 
@@ -196,8 +179,7 @@ class net_nemein_redirector_viewer extends midcom_baseclasses_components_request
                 $nodes = $nap->list_nodes($nap->get_current_node());
 
                 // Subnodes not found, fall through to configuration
-                if (count($nodes) == 0)
-                {
+                if (count($nodes) == 0) {
                     break;
                 }
 
@@ -206,19 +188,16 @@ class net_nemein_redirector_viewer extends midcom_baseclasses_components_request
                 return $node[MIDCOM_NAV_FULLURL];
 
             case 'permalink':
-                if ($url = midcom::get()->permalinks->resolve_permalink($data['config']->get('redirection_guid')))
-                {
+                if ($url = midcom::get()->permalinks->resolve_permalink($data['config']->get('redirection_guid'))) {
                     return $url;
                 }
 
             case 'url':
-                if ($data['config']->get('redirection_url') != '')
-                {
+                if ($data['config']->get('redirection_url') != '') {
                     $url = $data['config']->get('redirection_url');
 
                     // Support varying host prefixes
-                    if (strpos($url, '__PREFIX__') !== false)
-                    {
+                    if (strpos($url, '__PREFIX__') !== false) {
                         $url = str_replace('__PREFIX__', midcom_connection::get_url('self'), $url);
                     }
 

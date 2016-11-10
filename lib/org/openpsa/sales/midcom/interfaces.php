@@ -16,12 +16,10 @@ implements midcom_services_permalinks_resolver
 {
     public function resolve_object_link(midcom_db_topic $topic, midcom_core_dbaobject $object)
     {
-        if ($object instanceof org_openpsa_sales_salesproject_dba)
-        {
+        if ($object instanceof org_openpsa_sales_salesproject_dba) {
             return "salesproject/{$object->guid}/";
         }
-        if ($object instanceof org_openpsa_sales_salesproject_deliverable_dba)
-        {
+        if ($object instanceof org_openpsa_sales_salesproject_deliverable_dba) {
             return "deliverable/{$object->guid}/";
         }
         return null;
@@ -34,8 +32,7 @@ implements midcom_services_permalinks_resolver
      */
     public function org_openpsa_relatedto_find_suspects(midcom_core_dbaobject $object, $defaults, array &$links_array)
     {
-        switch (true)
-        {
+        switch (true) {
             case midcom::get()->dbfactory->is_a($object, 'midcom_db_person'):
                 //List all projects and tasks given person is involved with
                 $this->_find_suspects_person($object, $defaults, $links_array);
@@ -57,8 +54,7 @@ implements midcom_services_permalinks_resolver
     private function _find_suspects_event(midcom_core_dbaobject $object, $defaults, array &$links_array)
     {
         if (   !is_array($object->participants)
-            || count($object->participants) < 2)
-        {
+            || count($object->participants) < 2) {
             //We have invalid list or less than two participants, abort
             return;
         }
@@ -71,8 +67,8 @@ implements midcom_services_permalinks_resolver
         // Target sales project starts or ends inside given events window or starts before and ends after
         $qb->add_constraint('start', '<=', $object->end);
         $qb->begin_group('OR');
-            $qb->add_constraint('end', '>=', $object->start);
-            $qb->add_constraint('end', '=', 0);
+        $qb->add_constraint('end', '>=', $object->start);
+        $qb->add_constraint('end', '=', 0);
         $qb->end_group();
 
         //Target sales project is active
@@ -80,14 +76,13 @@ implements midcom_services_permalinks_resolver
 
         //Each event participant is either manager or member (resource/contact) in task
         $qb->begin_group('OR');
-            $qb->add_constraint('owner', 'IN', array_keys($object->participants));
-            $qb->add_constraint('guid', 'IN', $guids);
+        $qb->add_constraint('owner', 'IN', array_keys($object->participants));
+        $qb->add_constraint('guid', 'IN', $guids);
         $qb->end_group();
 
         $qbret = $qb->execute();
 
-        foreach ($qbret as $salesproject)
-        {
+        foreach ($qbret as $salesproject) {
             $to_array = array('other_obj' => false, 'link' => false);
             $link = new org_openpsa_relatedto_dba();
             org_openpsa_relatedto_suspect::defaults_helper($link, $defaults, $this->_component, $salesproject);
@@ -108,14 +103,12 @@ implements midcom_services_permalinks_resolver
         $mc->add_constraint('person', '=', $object->id);
         $guids = $mc->get_values('objectGuid');
 
-        if (!empty($guids))
-        {
+        if (!empty($guids)) {
             $qb = org_openpsa_sales_salesproject_dba::new_query_builder();
             $qb->add_constraint('state', '=', org_openpsa_sales_salesproject_dba::STATE_ACTIVE);
             $qb->add_constraint('guid', 'IN', $guids);
             $qbret = $qb->execute();
-            foreach ($qbret as $salesproject)
-            {
+            foreach ($qbret as $salesproject) {
                 $seen_sp[$salesproject->id] = true;
                 $to_array = array('other_obj' => false, 'link' => false);
                 $link = new org_openpsa_relatedto_dba();
@@ -131,8 +124,7 @@ implements midcom_services_permalinks_resolver
         $qb2->add_constraint('state', '=', org_openpsa_sales_salesproject_dba::STATE_ACTIVE);
         $qb2->add_constraint('id', 'NOT IN', array_keys($seen_sp));
         $qb2ret = $qb2->execute();
-        foreach ($qb2ret as $sp)
-        {
+        foreach ($qb2ret as $sp) {
             $to_array = array('other_obj' => false, 'link' => false);
             $link = new org_openpsa_relatedto_dba();
             org_openpsa_relatedto_suspect::defaults_helper($link, $defaults, $this->_component, $sp);
@@ -153,18 +145,14 @@ implements midcom_services_permalinks_resolver
     public function new_subscription_cycle(array $args, midcom_baseclasses_components_cron_handler $handler)
     {
         if (   !isset($args['deliverable'])
-            || !isset($args['cycle']))
-        {
+            || !isset($args['cycle'])) {
             $handler->print_error('deliverable GUID or cycle number not set, aborting');
             return false;
         }
 
-        try
-        {
+        try {
             $deliverable = new org_openpsa_sales_salesproject_deliverable_dba($args['deliverable']);
-        }
-        catch (midcom_error $e)
-        {
+        } catch (midcom_error $e) {
             $msg = "Deliverable {$args['deliverable']} not found, error " . midcom_connection::get_error_string();
             $handler->print_error($msg);
             return false;
@@ -183,28 +171,21 @@ implements midcom_services_permalinks_resolver
      */
     public function new_notification_message(array $args, midcom_baseclasses_components_cron_handler $handler)
     {
-        if (!isset($args['deliverable']))
-        {
+        if (!isset($args['deliverable'])) {
             $handler->print_error('deliverable GUID not set, aborting');
             return false;
         }
-        try
-        {
+        try {
             $deliverable = new org_openpsa_sales_salesproject_deliverable_dba($args['deliverable']);
-        }
-        catch (midcom_error $e)
-        {
+        } catch (midcom_error $e) {
             $handler->print_error('no deliverable with passed GUID: ' . $args['deliverable'] . ', aborting');
             return false;
         }
 
         //get the owner of the salesproject the deliverable belongs to
-        try
-        {
+        try {
             $project = new org_openpsa_sales_salesproject_dba($deliverable->salesproject);
-        }
-        catch (midcom_error $e)
-        {
+        } catch (midcom_error $e) {
             $handler->print_error('Failed to load salesproject: ' . $e->getMessage());
             return false;
         }

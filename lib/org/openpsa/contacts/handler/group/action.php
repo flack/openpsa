@@ -24,17 +24,13 @@ class org_openpsa_contacts_handler_group_action extends midcom_baseclasses_compo
         $response->status = false;
 
         if (   !empty($_POST['guid'])
-            && array_key_exists('title', $_POST))
-        {
-            try
-            {
+            && array_key_exists('title', $_POST)) {
+            try {
                 $member = new midcom_db_member($_POST['guid']);
                 $member->require_do('midgard:update');
                 $member->extra = $_POST['title'];
                 $response->status = $member->update();
-            }
-            catch (midcom_error $e)
-            {
+            } catch (midcom_error $e) {
                 $e->log();
             }
             $response->message = midcom_connection::get_error_string();
@@ -64,11 +60,9 @@ class org_openpsa_contacts_handler_group_action extends midcom_baseclasses_compo
     public function _show_members($handler_id, array &$data)
     {
         $results = $data['members_qb']->execute();
-        if (count($results) > 0)
-        {
+        if (count($results) > 0) {
             midcom_show_style('show-group-persons-header');
-            foreach ($results as $member)
-            {
+            foreach ($results as $member) {
                 $this->_request_data['member'] = $member;
                 $this->_request_data['member_title'] = $member->extra;
 
@@ -98,11 +92,9 @@ class org_openpsa_contacts_handler_group_action extends midcom_baseclasses_compo
      */
     public function _show_subgroups($handler_id, array &$data)
     {
-        if (count($data['results']) > 0)
-        {
+        if (count($data['results']) > 0) {
             midcom_show_style('show-group-subgroups-header');
-            foreach ($data['results'] as $subgroup)
-            {
+            foreach ($data['results'] as $subgroup) {
                 $this->_request_data['subgroup'] = $subgroup;
                 midcom_show_style('show-group-subgroups-item');
             }

@@ -34,15 +34,13 @@ implements midcom_helper_datamanager2_interfaces_edit
         $tmp = array();
 
         $grp = $this->_group;
-        while ($grp)
-        {
+        while ($grp) {
             $tmp[$grp->guid] = $grp->official;
             $grp = $grp->get_parent();
         }
         $tmp = array_reverse($tmp);
 
-        foreach ($tmp as $guid => $title)
-        {
+        foreach ($tmp as $guid => $title) {
             $this->add_breadcrumb('__mfa/asgard_midcom.admin.user/group/edit/' . $guid . '/', $title);
         }
     }
@@ -57,12 +55,10 @@ implements midcom_helper_datamanager2_interfaces_edit
         $qb = midcom_db_member::new_query_builder();
         $qb->add_constraint('gid', '=', $this->_group->id);
         if (   $qb->count_unchecked() > $this->_config->get('list_users_max')
-            && isset($schemadb['default']->fields['persons']))
-        {
+            && isset($schemadb['default']->fields['persons'])) {
             unset($schemadb['default']->fields['persons']);
             $field_order_key = array_search('persons', $schemadb['default']->field_order);
-            if ($field_order_key !== false)
-            {
+            if ($field_order_key !== false) {
                 unset($schemadb['default']->field_order[$field_order_key]);
             }
         }
@@ -80,8 +76,7 @@ implements midcom_helper_datamanager2_interfaces_edit
         $this->_group->require_do('midgard:update');
 
         $controller = $this->get_controller('simple', $this->_group);
-        switch ($controller->process_form())
-        {
+        switch ($controller->process_form()) {
             case 'save':
                 // Show confirmation for the group
                 midcom::get()->uimessages->add($this->_l10n->get('midcom.admin.user'), sprintf($this->_l10n->get('group %s saved'), $this->_group->name));

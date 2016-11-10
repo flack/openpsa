@@ -68,8 +68,7 @@ implements midcom_helper_datamanager2_interfaces_create
 
         $this->_controller = $this->get_controller('create');
 
-        switch ($this->_controller->process_form())
-        {
+        switch ($this->_controller->process_form()) {
             case 'save':
                 $this->_post_create_actions();
                 //TODO: indexing
@@ -88,8 +87,7 @@ implements midcom_helper_datamanager2_interfaces_create
 
     public function get_schema_defaults()
     {
-        if (empty($_GET['defaults']))
-        {
+        if (empty($_GET['defaults'])) {
             return array();
         }
         return $_GET['defaults'];
@@ -107,8 +105,7 @@ implements midcom_helper_datamanager2_interfaces_create
     {
         $this->_object = new $this->_dbaclass();
 
-        if (!$this->_object->create())
-        {
+        if (!$this->_object->create()) {
             debug_print_r('We operated on this object:', $this->_object);
             throw new midcom_error("Failed to create a new object. Error: " . midcom_connection::get_error_string());
         }
@@ -121,8 +118,7 @@ implements midcom_helper_datamanager2_interfaces_create
      */
     private function _post_create_actions()
     {
-        switch ($this->_dbaclass)
-        {
+        switch ($this->_dbaclass) {
             case 'org_openpsa_contacts_person_dba':
                 $indexer = new org_openpsa_contacts_midcom_indexer($this->_node[MIDCOM_NAV_OBJECT]);
                 $indexer->index($this->_controller->datamanager);
@@ -146,8 +142,7 @@ implements midcom_helper_datamanager2_interfaces_create
         $topic_guid = $siteconfig->get_node_guid($component);
         $this->_node = $nap->resolve_guid($topic_guid);
 
-        if (!$this->_node)
-        {
+        if (!$this->_node) {
             throw new midcom_error("Could not load node information for topic {$topic_guid}. Last error was: " . midcom_connection::get_error_string());
         }
     }
@@ -161,8 +156,7 @@ implements midcom_helper_datamanager2_interfaces_create
     {
         $config_key = 'schemadb';
 
-        switch ($this->_dbaclass)
-        {
+        switch ($this->_dbaclass) {
             case 'org_openpsa_contacts_person_dba':
                 $config_key .= '_person';
                 break;
@@ -183,8 +177,7 @@ implements midcom_helper_datamanager2_interfaces_create
      */
     public function _show_create($handler_id, array &$data)
     {
-        switch ($this->_dbaclass)
-        {
+        switch ($this->_dbaclass) {
             case 'org_openpsa_contacts_person_dba':
                 $title = 'person';
                 break;
@@ -197,16 +190,12 @@ implements midcom_helper_datamanager2_interfaces_create
         $data['title'] = sprintf($this->_l10n_midcom->get('create %s'), $this->_i18n->get_string($title, $this->_node[MIDCOM_NAV_COMPONENT]));
 
         midcom_show_style('popup-head');
-        if ($this->_action != 'form')
-        {
-            if ($this->_object)
-            {
+        if ($this->_action != 'form') {
+            if ($this->_object) {
                 $data['jsdata'] = $this->object_to_jsdata();
             }
             midcom_show_style('chooser-create-after');
-        }
-        else
-        {
+        } else {
             midcom_show_style('chooser-create');
         }
         midcom_show_style('popup-foot');
@@ -221,8 +210,7 @@ implements midcom_helper_datamanager2_interfaces_create
             'pre_selected' => true
         );
 
-        switch ($this->_dbaclass)
-        {
+        switch ($this->_dbaclass) {
             case 'org_openpsa_contacts_person_dba':
                 //We need to reload the object so that name is constructed properly
                 $this->_object = new org_openpsa_contacts_person_dba($this->_object->id);

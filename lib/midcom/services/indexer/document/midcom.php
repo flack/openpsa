@@ -48,22 +48,17 @@ class midcom_services_indexer_document_midcom extends midcom_services_indexer_do
     {
         parent::__construct();
 
-        if (!midcom::get()->config->get('indexer_backend'))
-        {
+        if (!midcom::get()->config->get('indexer_backend')) {
             return;
         }
 
         $this->_set_type('midcom');
 
-        if (is_a($object, 'midcom_helper_metadata'))
-        {
+        if (is_a($object, 'midcom_helper_metadata')) {
             $this->_metadata = $object;
-        }
-        else
-        {
+        } else {
             $this->_metadata = midcom_helper_metadata::retrieve($object);
-            if ($this->_metadata == false)
-            {
+            if ($this->_metadata == false) {
                 debug_add('document_midcom: Failed to retrieve a Metadata object, aborting.');
                 return false;
             }
@@ -85,10 +80,8 @@ class midcom_services_indexer_document_midcom extends midcom_services_indexer_do
     {
         $this->read_metadata_from_object($this->_metadata->__object);
         $datamanager = $this->_metadata->get_datamanager();
-        foreach ($datamanager->types as $key => $instance)
-        {
-            switch ($key)
-            {
+        foreach ($datamanager->types as $key => $instance) {
+            switch ($key) {
                 /**
                  * @see parent::read_metadata_from_object()
                  */
@@ -118,8 +111,7 @@ class midcom_services_indexer_document_midcom extends midcom_services_indexer_do
     {
         if (   empty($this->topic_guid)
             || empty($this->topic_url)
-            || empty($this->component))
-        {
+            || empty($this->component)) {
             //if one of those is missing, we override all three to ensure consistency
             $this->_process_topic();
         }
@@ -136,13 +128,11 @@ class midcom_services_indexer_document_midcom extends midcom_services_indexer_do
         $nav = new midcom_helper_nav();
         // TODO: Is there a better way ?
         $object = $nav->resolve_guid($this->source, true);
-        if (!$object)
-        {
+        if (!$object) {
             debug_add("Failed to resolve the topic, skipping autodetection.");
             return;
         }
-        if ($object[MIDCOM_NAV_TYPE] == 'leaf')
-        {
+        if ($object[MIDCOM_NAV_TYPE] == 'leaf') {
             $object = $nav->get_node($object[MIDCOM_NAV_NODEID]);
         }
         $this->topic_guid = $object[MIDCOM_NAV_GUID];

@@ -50,16 +50,12 @@ class midgard_admin_asgard_schemadb
 
     public function __construct($object, $config, $type = null)
     {
-        if ($type != null)
-        {
+        if ($type != null) {
             $this->_object = new $type();
-        }
-        else
-        {
+        } else {
             $this->_object = $object;
         }
-        if (!midcom::get()->dbclassloader->is_midcom_db_object($this->_object))
-        {
+        if (!midcom::get()->dbclassloader->is_midcom_db_object($this->_object)) {
             $this->_object = midcom::get()->dbfactory->convert_midgard_to_midcom($this->_object);
         }
         $this->_reflector = new midgard_reflection_property(midcom_helper_reflector::resolve_baseclass($this->_object));
@@ -85,39 +81,33 @@ class midgard_admin_asgard_schemadb
         //workaround end
 
         $component = midcom::get()->dbclassloader->get_component_for_class($type);
-        if ($component)
-        {
+        if ($component) {
             $this->_schemadb['object']->l10n_schema = midcom::get()->i18n->get_l10n($component);
         }
 
-        if (!empty($include_fields))
-        {
+        if (!empty($include_fields)) {
             // Skip the fields that aren't requested, if inclusion list has been defined
             $type_fields = array_intersect($type_fields, (array) $include_fields);
         }
 
         $type_fields = array_filter($type_fields, array($this, '_filter_schema_fields'));
 
-        if (extension_loaded('midgard'))
-        {
+        if (extension_loaded('midgard')) {
             // Midgard1 returns properties in random order so we need to sort them heuristically
             usort($type_fields, array($this, 'sort_schema_fields'));
         }
 
         // Iterate through object properties
-        foreach ($type_fields as $key)
-        {
+        foreach ($type_fields as $key) {
             // Linked fields should use chooser
-            if ($this->_reflector->is_link($key))
-            {
+            if ($this->_reflector->is_link($key)) {
                 $this->_add_linked_field($key);
                 // Skip rest of processing
                 continue;
             }
 
             $field_type = $this->_reflector->get_midgard_type($key);
-            switch ($field_type)
-            {
+            switch ($field_type) {
                 case MGD_TYPE_GUID:
                 case MGD_TYPE_STRING:
                     $this->_add_string_field($key, $type);
@@ -173,8 +163,7 @@ class midgard_admin_asgard_schemadb
 
         $this->_add_rcs_field();
 
-        if ($this->add_copy_fields)
-        {
+        if ($this->add_copy_fields) {
             $this->_add_copy_fields();
         }
 
@@ -184,22 +173,19 @@ class midgard_admin_asgard_schemadb
     private function _filter_schema_fields($key)
     {
         if (   $key == 'metadata'
-            || in_array($key, $this->_config->get('object_skip_fields')))
-        {
+            || in_array($key, $this->_config->get('object_skip_fields'))) {
             return false;
         }
 
         // Only hosts have lang field that we will actually display
         if (   $key == 'lang'
-            && !is_a($this->_object, 'midcom_db_host'))
-        {
+            && !is_a($this->_object, 'midcom_db_host')) {
             return false;
         }
 
         // Skip topic symlink field because it is a special field not meant to be touched directly
         if (   $key == 'symlink'
-            && is_a($this->_object, 'midcom_db_topic'))
-        {
+            && is_a($this->_object, 'midcom_db_topic')) {
             return false;
         }
         return true;
@@ -208,22 +194,18 @@ class midgard_admin_asgard_schemadb
     private function _add_string_field($key, $type)
     {
         if (   $key == 'component'
-            && $type == 'midcom_db_topic')
-        {
+            && $type == 'midcom_db_topic') {
             $this->_add_component_dropdown($key);
             return;
         }
         // Special page treatment
-        if ($key === 'info')
-        {
-            if ($type === 'midcom_db_page')
-            {
+        if ($key === 'info') {
+            if ($type === 'midcom_db_page') {
                 $this->_add_info_field_for_page($key);
                 return;
             }
 
-            if ($type === 'midcom_db_pageelement')
-            {
+            if ($type === 'midcom_db_pageelement') {
                 $this->_schemadb['object']->append_field
                 (
                     $key,
@@ -248,17 +230,13 @@ class midgard_admin_asgard_schemadb
         }
 
         // Special name handling, start by checking if given type is same as $this->_object and if not making a dummy copy (we're probably in creation mode then)
-        if (midcom::get()->dbfactory->is_a($this->_object, $type))
-        {
+        if (midcom::get()->dbfactory->is_a($this->_object, $type)) {
             $name_obj = $this->_object;
-        }
-        else
-        {
+        } else {
             $name_obj = new $type();
         }
 
-        if ($key === midcom_helper_reflector::get_name_property($name_obj))
-        {
+        if ($key === midcom_helper_reflector::get_name_property($name_obj)) {
             $this->_add_name_field($key, $name_obj);
             return;
         }
@@ -302,8 +280,7 @@ class midgard_admin_asgard_schemadb
         if (   $key == 'start'
             || $key == 'end'
             || $key == 'added'
-            || $key == 'date')
-        {
+            || $key == 'date') {
             // We can safely assume that INT fields called start and end store unixtimes
             $this->_schemadb['object']->append_field
             (
@@ -320,9 +297,7 @@ class midgard_admin_asgard_schemadb
                     'widget' => 'jsdate',
                 )
             );
-        }
-        else
-        {
+        } else {
             $this->_schemadb['object']->append_field
             (
                 $key,
@@ -348,13 +323,11 @@ class midgard_admin_asgard_schemadb
         // Workaround for the content field of pages
         $adjusted_key = $key;
         if (   $type == 'midcom_db_page'
-            && $key == 'content')
-        {
+            && $key == 'content') {
             $adjusted_key = 'code';
         }
 
-        switch ($adjusted_key)
-        {
+        switch ($adjusted_key) {
             case 'content':
             case 'description':
                 $height = 30;
@@ -362,8 +335,7 @@ class midgard_admin_asgard_schemadb
                 // Check the user preference and configuration
                 if (   midgard_admin_asgard_plugin::get_preference('tinymce_enabled')
                     || (   midgard_admin_asgard_plugin::get_preference('tinymce_enabled') !== '0'
-                        && $this->_config->get('tinymce_enabled')))
-                {
+                        && $this->_config->get('tinymce_enabled'))) {
                     $widget = 'tinymce';
                 }
                 $output_mode = 'html';
@@ -377,8 +349,7 @@ class midgard_admin_asgard_schemadb
                 // Check the user preference and configuration
                 if (   midgard_admin_asgard_plugin::get_preference('codemirror_enabled')
                     || (   midgard_admin_asgard_plugin::get_preference('codemirror_enabled') !== '0'
-                        && $this->_config->get('codemirror_enabled')))
-                {
+                        && $this->_config->get('codemirror_enabled'))) {
                     $widget = 'codemirror';
                 }
 
@@ -448,10 +419,8 @@ class midgard_admin_asgard_schemadb
     {
         $type_urlname_config = array();
         $allow_unclean_name_types = $this->_config->get('allow_unclean_names_for');
-        foreach ($allow_unclean_name_types as $allow_unclean_name_types_type)
-        {
-            if (midcom::get()->dbfactory->is_a($name_obj, $allow_unclean_name_types_type))
-            {
+        foreach ($allow_unclean_name_types as $allow_unclean_name_types_type) {
+            if (midcom::get()->dbfactory->is_a($name_obj, $allow_unclean_name_types_type)) {
                 $type_urlname_config['allow_unclean'] = true;
                 break;
             }
@@ -477,11 +446,9 @@ class midgard_admin_asgard_schemadb
     private function _add_component_dropdown($key)
     {
         $components = array('' => '');
-        foreach (midcom::get()->componentloader->manifests as $manifest)
-        {
+        foreach (midcom::get()->componentloader->manifests as $manifest) {
             // Skip purecode components
-            if ($manifest->purecode)
-            {
+            if ($manifest->purecode) {
                 continue;
             }
 
@@ -512,24 +479,16 @@ class midgard_admin_asgard_schemadb
         $linked_type_reflector = midcom_helper_reflector::get($linked_type);
         $field_type = $this->_reflector->get_midgard_type($key);
 
-        if ($key == 'up')
-        {
+        if ($key == 'up') {
             $field_label = sprintf($this->_l10n->get('under %s'), midgard_admin_asgard_plugin::get_type_label($linked_type));
-        }
-        else
-        {
+        } else {
             $type_label = midgard_admin_asgard_plugin::get_type_label($linked_type);
-            if (substr($type_label, 0, strlen($key)) == $key)
-            {
+            if (substr($type_label, 0, strlen($key)) == $key) {
                 // Handle abbreviations like "lang" for "language"
                 $field_label = $type_label;
-            }
-            elseif ($key == $type_label)
-            {
+            } elseif ($key == $type_label) {
                 $field_label = $key;
-            }
-            else
-            {
+            } else {
                 $ref = midcom_helper_reflector::get($this->_object);
                 $component_l10n = $ref->get_component_l10n();
                 $field_label = sprintf($this->_l10n->get('%s (%s)'), $component_l10n->get($key), $type_label);
@@ -537,14 +496,12 @@ class midgard_admin_asgard_schemadb
         }
 
         // Get the chooser widgets
-        switch ($field_type)
-        {
+        switch ($field_type) {
             case MGD_TYPE_UINT:
             case MGD_TYPE_STRING:
             case MGD_TYPE_GUID:
                 $class = midcom::get()->dbclassloader->get_midcom_class_name_for_mgdschema_object($linked_type);
-                if (!$class)
-                {
+                if (!$class) {
                     break;
                 }
                 $component = midcom::get()->dbclassloader->get_component_for_class($linked_type);
@@ -597,8 +554,7 @@ class midgard_admin_asgard_schemadb
         $headers = array();
         $properties = $linked_type_reflector->get_search_properties();
         $l10n = $linked_type_reflector->get_component_l10n();
-        foreach ($properties as $property)
-        {
+        foreach ($properties as $property) {
             $headers[] = array
             (
                 'name' => $property,
@@ -677,32 +633,19 @@ class midgard_admin_asgard_schemadb
 
         $score = 7;
 
-        if ($this->_reflector->get_midgard_type($field) == MGD_TYPE_LONGTEXT)
-        {
+        if ($this->_reflector->get_midgard_type($field) == MGD_TYPE_LONGTEXT) {
             $score = 1;
-        }
-        elseif (in_array($field, $preferred_fields))
-        {
+        } elseif (in_array($field, $preferred_fields)) {
             $score = 0;
-        }
-        elseif ($this->_reflector->is_link($field))
-        {
+        } elseif ($this->_reflector->is_link($field)) {
             $score = 2;
-        }
-        elseif (in_array($field, $timerange_fields))
-        {
+        } elseif (in_array($field, $timerange_fields)) {
             $score = 3;
-        }
-        elseif (in_array($field, $phone_fields))
-        {
+        } elseif (in_array($field, $phone_fields)) {
             $score = 4;
-        }
-        elseif (in_array($field, $address_fields))
-        {
+        } elseif (in_array($field, $address_fields)) {
             $score = 5;
-        }
-        elseif (in_array($field, $location_fields))
-        {
+        } elseif (in_array($field, $location_fields)) {
             $score = 6;
         }
 
@@ -713,21 +656,17 @@ class midgard_admin_asgard_schemadb
     {
         $score1 = $this->_get_score($first);
         $score2 = $this->_get_score($second);
-        if ($score1 < $score2)
-        {
+        if ($score1 < $score2) {
             return -1;
         }
-        if ($score1 > $score2)
-        {
+        if ($score1 > $score2) {
             return 1;
         }
         if (   $score1 < 3
-            || $score1 > 6)
-        {
+            || $score1 > 6) {
             return strnatcmp($first, $second);
         }
-        switch ($score1)
-        {
+        switch ($score1) {
             case 3:
                 $type = 'timerange';
                 break;

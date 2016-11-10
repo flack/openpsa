@@ -47,29 +47,21 @@ class org_openpsa_sales_viewer extends midcom_baseclasses_components_request
         $entry_keys = $mc_entry->get_values('fromGuid');
 
         //check date
-        if (!$formdata['notify']->is_empty())
-        {
+        if (!$formdata['notify']->is_empty()) {
             $notification_entry = null;
 
-            if (count($entry_keys) == 0)
-            {
+            if (count($entry_keys) == 0) {
                 $notification_entry = new midcom_services_at_entry_dba();
                 $notification_entry->create();
                 //relatedto from notifcation to deliverable
                 org_openpsa_relatedto_plugin::create($notification_entry, 'midcom.services.at', $deliverable, 'org.openpsa.sales', false, array('toExtra' => 'notify_at_entry'));
-            }
-            else
-            {
+            } else {
                 //get guid of at_entry
-                foreach ($entry_keys as $key => $entry)
-                {
+                foreach ($entry_keys as $key => $entry) {
                     //check if related at_entry exists
-                    try
-                    {
+                    try {
                         $notification_entry = new midcom_services_at_entry_dba($entry);
-                    }
-                    catch (midcom_error $e)
-                    {
+                    } catch (midcom_error $e) {
                         //relatedto links to a non-existing at_entry - so create a new one an link to it
                         $notification_entry = new midcom_services_at_entry_dba();
                         $notification_entry->create();
@@ -84,20 +76,14 @@ class org_openpsa_sales_viewer extends midcom_baseclasses_components_request
             $notification_entry->component = 'org.openpsa.sales';
             $notification_entry->arguments = array('deliverable' => $deliverable->guid);
             $notification_entry->update();
-        }
-        else
-        {
+        } else {
             //void date - so delete existing at_entrys for this notify_date
-            foreach ($entry_keys as $key => $empty)
-            {
-                try
-                {
+            foreach ($entry_keys as $key => $empty) {
+                try {
                     $notification_entry = new midcom_services_at_entry_dba($mc_entry->get_subkey($key, 'fromGuid'));
                     //check if related at_entry exists & delete it
                     $notification_entry->delete();
-                }
-                catch (midcom_error $e)
-                {
+                } catch (midcom_error $e) {
                     $e->log();
                 }
             }
@@ -114,30 +100,22 @@ class org_openpsa_sales_viewer extends midcom_baseclasses_components_request
     {
         $tmp = array();
 
-        while ($object)
-        {
-            if (midcom::get()->dbfactory->is_a($object, 'org_openpsa_sales_salesproject_deliverable_dba'))
-            {
-                if ($object->orgOpenpsaObtype == org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION)
-                {
+        while ($object) {
+            if (midcom::get()->dbfactory->is_a($object, 'org_openpsa_sales_salesproject_deliverable_dba')) {
+                if ($object->orgOpenpsaObtype == org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION) {
                     $prefix = $handler->_l10n->get('subscription');
-                }
-                else
-                {
+                } else {
                     $prefix = $handler->_l10n->get('single delivery');
                 }
                 $tmp["deliverable/{$object->guid}/"] = $prefix . ': ' . $object->title;
-            }
-            else
-            {
+            } else {
                 $tmp["salesproject/{$object->guid}/"] = $object->title;
             }
             $object = $object->get_parent();
         }
         $tmp = array_reverse($tmp);
 
-        foreach ($tmp as $url => $title)
-        {
+        foreach ($tmp as $url => $title) {
             $handler->add_breadcrumb($url, $title);
         }
     }

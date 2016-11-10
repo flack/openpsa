@@ -89,14 +89,11 @@ class midcom_helper_configuration
      */
     public function __construct($param1, $param2 = null)
     {
-        if (!is_null($param2))
-        {
+        if (!is_null($param2)) {
             $this->_object = $param1;
             $this->_path = $param2;
             $this->_store_from_object(true);
-        }
-        elseif (!is_null($param1))
-        {
+        } elseif (!is_null($param1)) {
             $this->_global = $param1;
             $this->_merged = $param1;
         }
@@ -118,21 +115,18 @@ class midcom_helper_configuration
     private function _store_from_object($global = false, $merge = false)
     {
         // Cast to DBA type.
-        if (!midcom::get()->dbclassloader->is_midcom_db_object($this->_object))
-        {
+        if (!midcom::get()->dbclassloader->is_midcom_db_object($this->_object)) {
             $this->_object = midcom::get()->dbfactory->convert_midgard_to_midcom($this->_object);
         }
 
         $array = array();
         $manifest = midcom::get()->componentloader->manifests[$this->_path];
-        if (!empty($manifest->extends))
-        {
+        if (!empty($manifest->extends)) {
             $array = $this->_object->list_parameters($manifest->extends);
         }
         $array = array_merge($array, $this->_object->list_parameters($this->_path));
 
-        if ($global)
-        {
+        if ($global) {
             $this->_global = ($merge) ? array_merge($this->_global, $array) : $array;
             $this->_local = array();
             $this->_merged = $array;
@@ -151,8 +145,7 @@ class midcom_helper_configuration
     {
         $this->_merged = $this->_global;
         if (   !empty($this->_local)
-            && is_array($this->_local))
-        {
+            && is_array($this->_local)) {
             $this->_merged = array_merge($this->_merged, $this->_local);
         }
     }
@@ -167,11 +160,9 @@ class midcom_helper_configuration
      */
     private function _check_local_array(array $array)
     {
-        if (!empty($array))
-        {
+        if (!empty($array)) {
             $diff = array_keys(array_diff_key($array, $this->_global));
-            foreach ($diff as $key)
-            {
+            foreach ($diff as $key) {
                 debug_add("The key {$key} is not present in the global configuration array.", MIDCOM_LOG_INFO);
             }
         }
@@ -196,14 +187,12 @@ class midcom_helper_configuration
     public function store(array $params, $reset = true)
     {
         if (   !$this->_object_stored
-            && $this->_object)
-        {
+            && $this->_object) {
             $this->_store_from_object();
         }
 
         $this->_check_local_array($params);
-        if ($reset == true)
-        {
+        if ($reset == true) {
             $this->reset_local();
         }
         $this->_local = array_merge($this->_local, $params);
@@ -258,13 +247,11 @@ class midcom_helper_configuration
     public function get($key)
     {
         if (   !$this->_object_stored
-            && $this->_object)
-        {
+            && $this->_object) {
             $this->_store_from_object();
         }
 
-        if ($this->exists($key))
-        {
+        if ($this->exists($key)) {
             return $this->_merged[$key];
         }
         return false;
@@ -278,8 +265,7 @@ class midcom_helper_configuration
      */
     public function set($key, $value)
     {
-        if ($this->exists($key))
-        {
+        if ($this->exists($key)) {
             $this->_local[$key] = $value;
             $this->_update_cache();
         }
@@ -293,8 +279,7 @@ class midcom_helper_configuration
     public function get_all()
     {
         if (   !$this->_object_stored
-            && $this->_object)
-        {
+            && $this->_object) {
             $this->_store_from_object();
         }
 
@@ -310,8 +295,7 @@ class midcom_helper_configuration
     public function exists($key)
     {
         if (   !$this->_object_stored
-            && $this->_object)
-        {
+            && $this->_object) {
             $this->_store_from_object();
         }
 

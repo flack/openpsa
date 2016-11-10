@@ -18,8 +18,7 @@ class org_openpsa_qbpager_direct extends org_openpsa_qbpager
 
     function execute()
     {
-        if (!$this->_sanity_check())
-        {
+        if (!$this->_sanity_check()) {
             return false;
         }
         $this->_qb_limits($this->_midcom_qb);

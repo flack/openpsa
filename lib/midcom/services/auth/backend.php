@@ -76,15 +76,13 @@ abstract class midcom_services_auth_backend
      */
     public function create_login_session($username, $password, $clientip = null)
     {
-        if ($clientip === null)
-        {
+        if ($clientip === null) {
             $clientip = $_SERVER['REMOTE_ADDR'];
         }
 
         $result = $this->auth->sessionmgr->create_login_session($username, $password, $clientip);
 
-        if (!$result)
-        {
+        if (!$result) {
             // The callee will log errors at this point.
             return false;
         }
@@ -110,15 +108,13 @@ abstract class midcom_services_auth_backend
      */
     public function create_trusted_login_session($username, $clientip = null)
     {
-        if ($clientip === null)
-        {
+        if ($clientip === null) {
             $clientip = $_SERVER['REMOTE_ADDR'];
         }
 
         $result = $this->auth->sessionmgr->create_trusted_login_session($username, $clientip);
 
-        if (!$result)
-        {
+        if (!$result) {
             // The callee will log errors at this point.
             return false;
         }
@@ -145,14 +141,12 @@ abstract class midcom_services_auth_backend
      */
     public function logout()
     {
-        if (!$this->session_id)
-        {
+        if (!$this->session_id) {
             debug_add('You were not logged in, so we do nothing.', MIDCOM_LOG_INFO);
             return;
         }
 
-        if (!$this->auth->sessionmgr->delete_session($this->session_id))
-        {
+        if (!$this->auth->sessionmgr->delete_session($this->session_id)) {
             throw new midcom_error('The system could not log you out, check the log file for details.');
         }
 

@@ -90,24 +90,20 @@ class midcom_core_resolver
 
         midcom::get()->set_status(MIDCOM_STATUS_CANHANDLE);
 
-        do
-        {
+        do {
             $object = $this->_context->parser->get_current_object();
             if (   !is_object($object)
-                || !$object->guid)
-            {
+                || !$object->guid) {
                 throw new midcom_error('Root node missing.');
             }
 
-            if (is_a($object, 'midcom_db_attachment'))
-            {
+            if (is_a($object, 'midcom_db_attachment')) {
                 $this->serve_attachment($object);
             }
 
             // Check whether the component can handle the request.
             // If so, execute it, if not, continue.
-            if ($handler = $this->_context->get_handler($object))
-            {
+            if ($handler = $this->_context->get_handler($object)) {
                 return $handler;
             }
         } while ($this->_context->parser->get_object() !== false);
@@ -141,11 +137,9 @@ class midcom_core_resolver
      */
     public function serve_attachment($attachment, $expires = -1)
     {
-        if (midcom::get()->config->get('attachment_cache_enabled'))
-        {
+        if (midcom::get()->config->get('attachment_cache_enabled')) {
             $path = '/' . substr($attachment->guid, 0, 1) . "/{$attachment->guid}_{$attachment->name}";
-            if (file_exists(midcom::get()->config->get('attachment_cache_root') . $path))
-            {
+            if (file_exists(midcom::get()->config->get('attachment_cache_root') . $path)) {
                 $response = new midcom_response_relocate(midcom::get()->config->get('attachment_cache_url') . $path, 301);
                 $response->send();
             }
@@ -153,8 +147,7 @@ class midcom_core_resolver
 
         // Sanity check expires
         if (   !is_int($expires)
-            || $expires < -1)
-        {
+            || $expires < -1) {
             throw new midcom_error("\$expires has to be a positive integer or zero or -1, is now {$expires}.");
         }
 
@@ -169,23 +162,20 @@ class midcom_core_resolver
 
         // Check etag and return 304 if necessary
         if (   $expires <> 0
-            && $cache->content->_check_not_modified($last_modified, $etag))
-        {
-            if (!_midcom_headers_sent())
-            {
+            && $cache->content->_check_not_modified($last_modified, $etag)) {
+            if (!_midcom_headers_sent()) {
                 $cache->content->cache_control_headers();
                 // Doublemakesure these are present
                 $app->header('HTTP/1.0 304 Not Modified', 304);
                 $app->header("ETag: {$etag}");
             }
-            while(@ob_end_flush());
+            while (@ob_end_flush());
             debug_add("End of MidCOM run: {$_SERVER['REQUEST_URI']}");
             _midcom_stop_request();
         }
 
         $f = $attachment->open('r');
-        if (!$f)
-        {
+        if (!$f) {
             throw new midcom_error('Failed to open attachment for reading: ' . midcom_connection::get_error_string());
         }
 
@@ -199,13 +189,10 @@ class midcom_core_resolver
         // PONDER: Support ranges ("continue download") somehow ?
         $app->header("Accept-Ranges: none");
 
-        if ($expires > 0)
-        {
+        if ($expires > 0) {
             // If custom expiry now+expires is set use that
             $cache->content->expires(time() + $expires);
-        }
-        elseif ($expires == 0)
-        {
+        } elseif ($expires == 0) {
             // expires set to 0 means disable cache, so we shall
             $cache->content->no_cache();
         }
@@ -214,13 +201,11 @@ class midcom_core_resolver
         $cache->content->cache_control_headers();
 
         $send_att_body = true;
-        if (midcom::get()->config->get('attachment_xsendfile_enable'))
-        {
+        if (midcom::get()->config->get('attachment_xsendfile_enable')) {
             $blob = new midgard_blob($attachment->__object);
             $att_local_path = $blob->get_path();
             debug_add("Checking is_readable({$att_local_path})");
-            if (is_readable($att_local_path))
-            {
+            if (is_readable($att_local_path)) {
                 $app->header("X-Sendfile: {$att_local_path}");
                 $send_att_body = false;
             }
@@ -229,10 +214,9 @@ class midcom_core_resolver
         // Store metadata in cache so _check_hit() can help us
         $cache->content->write_meta_cache('A-' . $etag, $etag);
 
-        while(@ob_end_flush());
+        while (@ob_end_flush());
 
-        if (!$send_att_body)
-        {
+        if (!$send_att_body) {
             debug_add('NOT sending file (X-Sendfile will take care of that, _midcom_stop_request()ing so nothing has a chance the mess things up anymore');
             _midcom_stop_request();
         }
@@ -245,20 +229,14 @@ class midcom_core_resolver
 
     private function _process_urlmethods()
     {
-        while (($tmp = $this->_context->parser->get_variable('midcom')) !== false)
-        {
-            foreach ($tmp as $key => $value)
-            {
-                if ($key == 'substyle')
-                {
+        while (($tmp = $this->_context->parser->get_variable('midcom')) !== false) {
+            foreach ($tmp as $key => $value) {
+                if ($key == 'substyle') {
                     $this->_context->set_key(MIDCOM_CONTEXT_SUBSTYLE, $value);
                     debug_add("Substyle '$value' selected");
-                }
-                else
-                {
+                } else {
                     $method_name = '_process_' . $key;
-                    if (!method_exists($this, $method_name))
-                    {
+                    if (!method_exists($this, $method_name)) {
                         debug_add("Unknown URL method: {$key} => {$value}", MIDCOM_LOG_WARN);
                         throw new midcom_error_notfound("This URL method is unknown.");
                     }
@@ -270,14 +248,12 @@ class midcom_core_resolver
 
     private function _process_serveattachmentguid($value)
     {
-        if ($this->_context->parser->argc > 1)
-        {
+        if ($this->_context->parser->argc > 1) {
             debug_add('Too many arguments remaining for serve_attachment.', MIDCOM_LOG_ERROR);
         }
 
         $attachment = new midcom_db_attachment($value);
-        if (!$attachment->can_do('midgard:autoserve_attachment'))
-        {
+        if (!$attachment->can_do('midgard:autoserve_attachment')) {
             throw new midcom_error_notfound('Failed to access attachment: Autoserving denied.');
         }
 
@@ -287,8 +263,7 @@ class midcom_core_resolver
     private function _process_permalink($value)
     {
         $destination = midcom::get()->permalinks->resolve_permalink($value);
-        if ($destination === null)
-        {
+        if ($destination === null) {
             throw new midcom_error_notfound("This Permalink is unknown.");
         }
 
@@ -299,11 +274,9 @@ class midcom_core_resolver
 
     private function _process_cache($value)
     {
-        if ($value == 'invalidate')
-        {
+        if ($value == 'invalidate') {
             if (   !is_array(midcom::get()->config->get('indexer_reindex_allowed_ips'))
-                || !in_array($_SERVER['REMOTE_ADDR'], midcom::get()->config->get('indexer_reindex_allowed_ips')))
-            {
+                || !in_array($_SERVER['REMOTE_ADDR'], midcom::get()->config->get('indexer_reindex_allowed_ips'))) {
                 midcom::get()->auth->require_valid_user('basic');
                 midcom::get()->auth->require_admin_user();
             }
@@ -314,13 +287,9 @@ class midcom_core_resolver
             $url = (isset($_SERVER['HTTP_REFERER'])) ? $_SERVER['HTTP_REFERER'] : midcom_connection::get('self');
             $response = new midcom_response_relocate($url);
             $response->send();
-        }
-        elseif ($value == 'nocache')
-        {
+        } elseif ($value == 'nocache') {
             midcom::get()->cache->content->no_cache();
-        }
-        else
-        {
+        } else {
             throw new midcom_error_notfound("Invalid cache request URL.");
         }
     }
@@ -341,8 +310,7 @@ class midcom_core_resolver
         // rest of URL used as redirect
         $redirect_to = $this->_get_remaining_url($value);
 
-        if (midcom::get()->auth->is_valid_user())
-        {
+        if (midcom::get()->auth->is_valid_user()) {
             $response = new midcom_response_relocate($redirect_to);
             $response->send();
             // This will exit
@@ -355,14 +323,12 @@ class midcom_core_resolver
     {
         $redirect_to = '';
         if (   !empty($value)
-            || !empty($this->_context->parser->argv))
-        {
+            || !empty($this->_context->parser->argv)) {
             $redirect_to = "{$value}/" . implode($this->_context->parser->argv, '/');
             $redirect_to = preg_replace('%^(.*?):/([^/])%', '\\1://\\2', $redirect_to);
         }
 
-        if (!empty($_SERVER['QUERY_STRING']))
-        {
+        if (!empty($_SERVER['QUERY_STRING'])) {
             $redirect_to .= "?{$_SERVER['QUERY_STRING']}";
         }
         return $redirect_to;
@@ -385,21 +351,16 @@ class midcom_core_resolver
     private function _process_exec($component)
     {
         // Sanity checks
-        if ($this->_context->parser->argc < 1)
-        {
+        if ($this->_context->parser->argc < 1) {
             throw new midcom_error_notfound("Script exec path invalid, need exactly one argument.");
         }
 
         // Build the path
-        if ($component == 'midcom')
-        {
+        if ($component == 'midcom') {
             $path = MIDCOM_ROOT . '/midcom/exec/';
-        }
-        else
-        {
+        } else {
             $componentloader = midcom::get()->componentloader;
-            if (!$componentloader->is_installed($component))
-            {
+            if (!$componentloader->is_installed($component)) {
                 throw new midcom_error_notfound('The requested component is not installed');
             }
             $componentloader->load($component);
@@ -408,8 +369,7 @@ class midcom_core_resolver
         }
         $path .= $this->_context->parser->argv[0];
 
-        if (!is_file($path))
-        {
+        if (!is_file($path)) {
             throw new midcom_error_notfound("File not found.");
         }
 

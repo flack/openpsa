@@ -76,8 +76,7 @@ class midcom_debug
      */
     public function __construct($filename = null)
     {
-        if (null === $filename)
-        {
+        if (null === $filename) {
             $filename = midcom::get()->config->get('log_filename');
         }
         $this->_filename = $filename;
@@ -85,10 +84,8 @@ class midcom_debug
         $this->_loglevel = midcom::get()->config->get('log_level');
 
         // Load FirePHP logger if enabled
-        if (midcom::get()->config->get('log_firephp'))
-        {
-            if (class_exists('FirePHP'))
-            {
+        if (midcom::get()->config->get('log_firephp')) {
+            if (class_exists('FirePHP')) {
                 $this->firephp = FirePHP::getInstance(true);
             }
         }
@@ -141,8 +138,7 @@ class midcom_debug
     public function log_php_error($loglevel = MIDCOM_LOG_DEBUG)
     {
         $error = error_get_last();
-        if (!empty($error['message']))
-        {
+        if (!empty($error['message'])) {
             $this->log('Last PHP error was: ' . $error['message'], $loglevel);
         }
     }
@@ -156,15 +152,13 @@ class midcom_debug
     public function log($message, $loglevel = MIDCOM_LOG_DEBUG)
     {
         if (   !$this->_enabled
-            || $this->_loglevel < $loglevel)
-        {
+            || $this->_loglevel < $loglevel) {
             return;
         }
 
         $file = fopen($this->_filename, 'a+');
 
-        if (function_exists('xdebug_memory_usage'))
-        {
+        if (function_exists('xdebug_memory_usage')) {
             static $lastmem = 0;
             $curmem = xdebug_memory_usage();
             $delta = $curmem - $lastmem;
@@ -176,14 +170,11 @@ class midcom_debug
                 number_format($curmem, 0, ',', '.'),
                 number_format($delta, 0, ',', '.')
             );
-        }
-        else
-        {
+        } else {
             $prefix = date('M d Y H:i:s') . "\t";
         }
 
-        if (array_key_exists($loglevel, $this->_loglevels))
-        {
+        if (array_key_exists($loglevel, $this->_loglevels)) {
             $prefix .= '[' . $this->_loglevels[$loglevel] . '] ';
         }
 
@@ -193,23 +184,17 @@ class midcom_debug
         fclose($file);
 
         if (   $this->firephp
-            && !_midcom_headers_sent())
-        {
-            try
-            {
+            && !_midcom_headers_sent()) {
+            try {
                 $log_method = $this->_loglevels[$loglevel];
-                if ($loglevel == MIDCOM_LOG_DEBUG)
-                {
+                if ($loglevel == MIDCOM_LOG_DEBUG) {
                     $log_method = 'log';
                 }
-                if ($loglevel == MIDCOM_LOG_CRIT)
-                {
+                if ($loglevel == MIDCOM_LOG_CRIT) {
                     $log_method = 'error';
                 }
                 $this->firephp->$log_method($message);
-            }
-            catch (Exception $e)
-            {
+            } catch (Exception $e) {
                 // Ignore FirePHP errors for now
             }
         }
@@ -219,42 +204,34 @@ class midcom_debug
     {
         $return = '';
         $options = false;
-        if (defined('DEBUG_BACKTRACE_IGNORE_ARGS'))
-        {
+        if (defined('DEBUG_BACKTRACE_IGNORE_ARGS')) {
             $options = DEBUG_BACKTRACE_IGNORE_ARGS;
         }
 
         $bt = debug_backtrace($options);
 
-        while ($bt)
-        {
+        while ($bt) {
             $caller = array_shift($bt);
             if (   array_key_exists('class', $caller)
-                && $caller['class'] == 'midcom_debug')
-            {
+                && $caller['class'] == 'midcom_debug') {
                 continue;
             }
 
             if (   !array_key_exists('function', $bt[0])
-                || $bt[0]['function'] != 'require')
-            {
+                || $bt[0]['function'] != 'require') {
                 $caller = array_shift($bt);
             }
 
             break;
         }
 
-        if (array_key_exists('class', $caller))
-        {
+        if (array_key_exists('class', $caller)) {
             $return .= $caller['class'] . '::';
         }
         if (   array_key_exists('function', $caller)
-            && substr($caller['function'], 0, 6) != 'debug_')
-        {
+            && substr($caller['function'], 0, 6) != 'debug_') {
             $return .= $caller['function'] . ': ';
-        }
-        else
-        {
+        } else {
             $return .= $caller['file'] . ' (' . $caller['line']. '): ';
         }
         return $return;
@@ -270,8 +247,7 @@ class midcom_debug
     public function print_r($message, $variable, $loglevel = MIDCOM_LOG_DEBUG)
     {
         if (   !$this->_enabled
-            || $this->_loglevel < $loglevel)
-        {
+            || $this->_loglevel < $loglevel) {
             return;
         }
 
@@ -292,17 +268,13 @@ class midcom_debug
     public function print_function_stack($message, $loglevel = MIDCOM_LOG_DEBUG)
     {
         if (   !$this->_enabled
-            || $this->_loglevel < $loglevel)
-        {
+            || $this->_loglevel < $loglevel) {
             return;
         }
 
-        if (function_exists('xdebug_get_function_stack'))
-        {
+        if (function_exists('xdebug_get_function_stack')) {
             $stack = array_reverse(xdebug_get_function_stack());
-        }
-        else
-        {
+        } else {
             $stack = debug_backtrace(false);
         }
         //the last two levels are already inside the debugging system, so skip those
@@ -310,29 +282,21 @@ class midcom_debug
         array_shift($stack);
 
         $stacktrace = "";
-        foreach ($stack as $number => $frame)
-        {
+        foreach ($stack as $number => $frame) {
             $stacktrace .= $number + 1;
-            if (isset($frame['file']))
-            {
+            if (isset($frame['file'])) {
                 $stacktrace .= ": {$frame['file']}:{$frame['line']} ";
             }
-            if (array_key_exists('class', $frame))
-            {
-                if (!array_key_exists('function', $frame))
-                {
+            if (array_key_exists('class', $frame)) {
+                if (!array_key_exists('function', $frame)) {
                     // workaround for what is most likely a bug in xdebug 2.4.rc3 and/or PHP 7.0.3
                     continue;
                 }
 
                 $stacktrace .= "{$frame['class']}::{$frame['function']}";
-            }
-            elseif (array_key_exists('function', $frame))
-            {
+            } elseif (array_key_exists('function', $frame)) {
                 $stacktrace .= $frame['function'];
-            }
-            else
-            {
+            } else {
                 $stacktrace .= 'require, include or eval';
             }
             $stacktrace .= "\n";
@@ -351,14 +315,12 @@ class midcom_debug
     public function print_type($message, $variable, $loglevel = MIDCOM_LOG_DEBUG)
     {
         if (   !$this->_enabled
-            || $this->_loglevel < $loglevel)
-        {
+            || $this->_loglevel < $loglevel) {
             return;
         }
 
         $type = gettype($variable);
-        if ($type == "object")
-        {
+        if ($type == "object") {
             $type .= ": " . get_class($variable);
         }
 
@@ -379,13 +341,11 @@ class midcom_debug
     public function print_dump_mem($message, $loglevel = MIDCOM_LOG_DEBUG)
     {
         if (   !$this->_enabled
-            || $this->_loglevel < $loglevel)
-        {
+            || $this->_loglevel < $loglevel) {
             return;
         }
 
-        if (!function_exists('memory_get_usage'))
-        {
+        if (!function_exists('memory_get_usage')) {
             return false;
         }
 

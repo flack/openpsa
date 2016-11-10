@@ -44,16 +44,12 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
      */
     public function __construct($index_name = null)
     {
-        if (is_null($index_name))
-        {
+        if (is_null($index_name)) {
             $this->_index_name = midcom::get()->config->get('indexer_index_name');
-            if ($this->_index_name == 'auto')
-            {
+            if ($this->_index_name == 'auto') {
                 $this->_index_name = midcom_connection::get_unique_host_name();
             }
-        }
-        else
-        {
+        } else {
             $this->_index_name = $index_name;
         }
         $this->factory = new midcom_services_indexer_solrDocumentFactory($this->_index_name);
@@ -76,18 +72,15 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
         $this->factory->reset();
 
         $added = false;
-        foreach ($documents as $document)
-        {
-            if (!$document->actually_index)
-            {
+        foreach ($documents as $document) {
+            if (!$document->actually_index) {
                 continue;
             }
             $this->factory->add($document);
             $added = true;
         }
 
-        if (!$added)
-        {
+        if (!$added) {
             return true;
         }
 
@@ -129,12 +122,10 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
         $query = array_merge(midcom::get()->config->get('indexer_config_options'), $options);
         $query['q'] = $querystring;
 
-        if (!empty($this->_index_name))
-        {
+        if (!empty($this->_index_name)) {
             $query['fq'] = '__INDEX_NAME:"' . rawurlencode($this->_index_name) . '"';
         }
-        if ($filter !== null)
-        {
+        if ($filter !== null) {
             $query['fq'] = (isset($query['fq']) ? $query['fq'] . ' AND ' : '') . $filter->get_query_string();
         }
 
@@ -149,19 +140,15 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
 
         $browser = new Browser;
 
-        try
-        {
+        try {
             $response = $browser->get($url, $headers);
-        }
-        catch (Exception $e)
-        {
+        } catch (Exception $e) {
             debug_add("Failed to execute request " . $url . ": " . $e->getMessage(), MIDCOM_LOG_WARN);
             return false;
         }
         $this->code = $response->getStatusCode();
 
-        if ($this->code != 200)
-        {
+        if ($this->code != 200) {
             debug_print_r($url . " returned response code {$this->code}, body:", $response->getContent());
             return false;
         }
@@ -172,16 +159,13 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
         $result = array();
 
         $num = $xquery->query('/response/result')->item(0);
-        if ($num->getAttribute('numFound') == 0)
-        {
+        if ($num->getAttribute('numFound') == 0) {
             return $result;
         }
 
-        foreach ($xquery->query('/response/result/doc') as $res)
-        {
+        foreach ($xquery->query('/response/result/doc') as $res) {
             $doc = new midcom_services_indexer_document();
-            foreach ($res->childNodes as $str)
-            {
+            foreach ($res->childNodes as $str) {
                 $name = $str->getAttribute('name');
 
                 $doc->add_result($name, ($str->tagName == 'float') ? (float) $str->nodeValue : (string) $str->nodeValue);
@@ -243,8 +227,7 @@ class midcom_services_indexer_solrDocumentFactory
      */
     public function add($document)
     {
-        if (empty($this->xml->documentElement))
-        {
+        if (empty($this->xml->documentElement)) {
             $root = $this->xml->createElement('add');
             $this->xml->appendChild($root);
         }
@@ -254,16 +237,14 @@ class midcom_services_indexer_solrDocumentFactory
         $field->setAttribute('name', 'RI');
         $field->nodeValue = $document->RI;
         $element->appendChild($field);
-        if (!empty($this->_index_name))
-        {
+        if (!empty($this->_index_name)) {
             $field = $this->xml->createElement('field');
             $field->setAttribute('name', '__INDEX_NAME');
             $field->nodeValue = htmlspecialchars($this->_index_name);
             $element->appendChild($field);
         }
 
-        foreach ($document->list_fields() as $field_name)
-        {
+        foreach ($document->list_fields() as $field_name) {
             $field_record = $document->get_field_record($field_name);
             $field = $this->xml->createElement('field');
             $field->setAttribute('name', $field_record['name']);
@@ -285,8 +266,7 @@ class midcom_services_indexer_solrDocumentFactory
         $query = $this->xml->createElement('query');
         $this->xml->documentElement->appendChild($query);
         $query->nodeValue = 'RI:' . $id . '*';
-        if (!empty($this->_index_name))
-        {
+        if (!empty($this->_index_name)) {
             $query->nodeValue .= ' AND __INDEX_NAME:"' . htmlspecialchars($this->_index_name) . '"';
         }
     }
@@ -303,12 +283,10 @@ class midcom_services_indexer_solrDocumentFactory
         $query = $this->xml->createElement('query');
         $this->xml->documentElement->appendChild($query);
         $query->nodeValue = "RI:[ * TO * ]";
-        if (!empty($constraint))
-        {
+        if (!empty($constraint)) {
             $query->nodeValue .= ' AND ' . $constraint;
         }
-        if (!empty($this->_index_name))
-        {
+        if (!empty($this->_index_name)) {
             $query->nodeValue .= ' AND __INDEX_NAME:"' . htmlspecialchars($this->_index_name) . '"';
         }
     }
@@ -366,30 +344,23 @@ class midcom_services_indexer_solrRequest
         $this->request->addHeader('Content-type: text/xml; charset=utf-8');
         $this->request->addHeader('Connection: close');
 
-        if (!$this->_send_request())
-        {
+        if (!$this->_send_request()) {
             return false;
         }
 
-        if ($optimize)
-        {
+        if ($optimize) {
             $this->request->setContent('<optimize/>');
-        }
-        else
-        {
+        } else {
             $this->request->setContent('<commit/>');
         }
 
-        if (!$this->_send_request())
-        {
+        if (!$this->_send_request()) {
             return false;
         }
 
-        if ($optimize)
-        {
+        if ($optimize) {
             $this->request->setContent('<optimize/>');
-            if (!$this->_send_request())
-            {
+            if (!$this->_send_request()) {
                 return false;
             }
         }
@@ -401,19 +372,15 @@ class midcom_services_indexer_solrRequest
     private function _send_request()
     {
         $browser = new Browser;
-        try
-        {
+        try {
             $response = $browser->send($this->request);
-        }
-        catch (Exception $e)
-        {
+        } catch (Exception $e) {
             debug_add("Failed to execute request " . $this->request->getUrl() . ": " . $e->getMessage(), MIDCOM_LOG_WARN);
             return false;
         }
         $this->code = $response->getStatusCode();
 
-        if ($this->code != 200)
-        {
+        if ($this->code != 200) {
             debug_print_r($this->request->getUrl() . " returned response code {$this->code}, body:", $response->getContent());
             debug_print_r('Request content:', $this->request->getContent());
             return false;

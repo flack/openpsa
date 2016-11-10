@@ -27,8 +27,7 @@ class net_nemein_wiki_handler_tag extends midcom_baseclasses_components_handler
         $mc->add_constraint('tag.tag', '=', $data['tag']);
         $wikipage_guids = $mc->get_values('fromGuid');
 
-        if (empty($wikipage_guids))
-        {
+        if (empty($wikipage_guids)) {
             throw new midcom_error_notfound("No wiki pages tagged with {$data['tag']}");
         }
 
@@ -37,8 +36,7 @@ class net_nemein_wiki_handler_tag extends midcom_baseclasses_components_handler
         $qb->add_constraint('guid', 'IN', $wikipage_guids);
         $qb->add_order('metadata.score', 'DESC');
         $data['wikipages'] = $qb->execute();
-        if (count($data['wikipages']) == 0)
-        {
+        if (count($data['wikipages']) == 0) {
             throw new midcom_error_notfound("No wiki pages tagged with {$data['tag']}");
         }
 

@@ -28,12 +28,11 @@ $query = midcom_helper_xsspreventer::escape_attribute($data['query']);
         <td>
             <select name="topic" size="1" style="width: 20em;">
 <?php
-foreach ($data['topics'] as $url => $name)
-{
-    $selected = ($data['request_topic'] == $url) ? ' selected="selected"' : '';
-?>
+foreach ($data['topics'] as $url => $name) {
+    $selected = ($data['request_topic'] == $url) ? ' selected="selected"' : ''; ?>
                 <option&(selected:h); value='&(url);'>&(name:h);</option>
 <?php
+
 }
 ?>
             </select>
@@ -44,12 +43,11 @@ foreach ($data['topics'] as $url => $name)
         <td>
             <select name="component" size="1" style="width: 20em;">
 <?php
-foreach ($data['components'] as $id => $name)
-{
-    $selected = ($data['component'] == $id) ? ' selected="selected"' : '';
-?>
+foreach ($data['components'] as $id => $name) {
+    $selected = ($data['component'] == $id) ? ' selected="selected"' : ''; ?>
                 <option&(selected:h); value='&(id);'>&(name:h);</option>
 <?php
+
 }
 ?>
             </select>
@@ -60,12 +58,11 @@ foreach ($data['components'] as $id => $name)
         <td>
             <select name="lastmodified" size="1" style="width: 20em;">
 <?php
-foreach ($lastmod_content as $timestamp => $name)
-{
-    $selected = (abs($data['lastmodified'] - $timestamp) < 10000) ? ' selected="selected"' : '';
-?>
+foreach ($lastmod_content as $timestamp => $name) {
+    $selected = (abs($data['lastmodified'] - $timestamp) < 10000) ? ' selected="selected"' : ''; ?>
                 <option&(selected:h); value='&(timestamp);'>&(name:h);</option>
 <?php
+
 }
 ?>
             </select>

@@ -3,8 +3,7 @@ $task_array = array();
 $tasks = $data['provider']->get_rows();
 $formatter = $data['l10n']->get_formatter();
 
-foreach ($tasks as $task)
-{
+foreach ($tasks as $task) {
     $task_array[] = array
     (
         'title' => $task['task'],

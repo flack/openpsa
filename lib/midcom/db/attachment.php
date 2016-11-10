@@ -51,8 +51,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
         $mc->set_key_property('parentguid');
         $mc->execute();
         $link_values = $mc->list_keys();
-        if (empty($link_values))
-        {
+        if (empty($link_values)) {
             return null;
         }
         return key($link_values);
@@ -76,35 +75,29 @@ class midcom_db_attachment extends midcom_core_dbaobject
      */
     public function open($mode = 'default')
     {
-        if (!$this->id)
-        {
+        if (!$this->id) {
             debug_add('Cannot open a non-persistent attachment.', MIDCOM_LOG_WARN);
             debug_print_r('Object state:', $this);
             return false;
         }
 
-        if ($this->_open_handle !== null)
-        {
+        if ($this->_open_handle !== null) {
             debug_add("Warning, the Attachment {$this->id} already had an open file handle, we close it implicitly.", MIDCOM_LOG_WARN);
             fclose($this->_open_handle);
             $this->_open_handle = null;
         }
 
         $blob = new midgard_blob($this->__object);
-        if ($mode == 'default')
-        {
+        if ($mode == 'default') {
             $this->_open_write_mode = true;
             $handle = $blob->get_handler();
-        }
-        else
-        {
+        } else {
             /* WARNING, read mode not supported by midgard_blob! */
             $this->_open_write_mode = ($mode{0} != 'r');
             $handle = fopen($blob->get_path(), $mode);
         }
 
-        if (!$handle)
-        {
+        if (!$handle) {
             debug_add("Failed to open attachment with mode {$mode}, last Midgard error was: " . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
         }
 
@@ -133,8 +126,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
      */
     public function close()
     {
-        if ($this->_open_handle === null)
-        {
+        if ($this->_open_handle === null) {
             debug_add("Tried to close non-open attachment {$this->id}", MIDCOM_LOG_WARN);
             return;
         }
@@ -142,12 +134,10 @@ class midcom_db_attachment extends midcom_core_dbaobject
         fclose ($this->_open_handle);
         $this->_open_handle = null;
 
-        if ($this->_open_write_mode)
-        {
+        if ($this->_open_write_mode) {
             // We need to update the attachment now, this cannot be done in the Midgard Core
             // at this time.
-            if (!$this->update())
-            {
+            if (!$this->update()) {
                 debug_add("Failed to update attachment {$this->id}", MIDCOM_LOG_WARN);
                 return;
             }
@@ -167,21 +157,15 @@ class midcom_db_attachment extends midcom_core_dbaobject
     public static function safe_filename($filename, $force_single_extension = true)
     {
         $filename = basename(trim($filename));
-        if ($force_single_extension)
-        {
+        if ($force_single_extension) {
             $regex = '/^(.*)(\..*?)$/';
-        }
-        else
-        {
+        } else {
             $regex = '/^(.*?)(\..*)$/';
         }
-        if (preg_match($regex, $filename, $ext_matches))
-        {
+        if (preg_match($regex, $filename, $ext_matches)) {
             $name = $ext_matches[1];
             $ext = $ext_matches[2];
-        }
-        else
-        {
+        } else {
             $name = $filename;
             $ext = '';
         }
@@ -195,16 +179,14 @@ class midcom_db_attachment extends midcom_core_dbaobject
      */
     public function get_cache_path()
     {
-        if (!midcom::get()->config->get('attachment_cache_enabled'))
-        {
+        if (!midcom::get()->config->get('attachment_cache_enabled')) {
             return null;
         }
 
         // Copy the file to the static directory
         $cacheroot = midcom::get()->config->get('attachment_cache_root');
         $subdir = substr($this->guid, 0, 1);
-        if (!file_exists("{$cacheroot}/{$subdir}"))
-        {
+        if (!file_exists("{$cacheroot}/{$subdir}")) {
             mkdir("{$cacheroot}/{$subdir}", 0777, true);
         }
 
@@ -213,32 +195,24 @@ class midcom_db_attachment extends midcom_core_dbaobject
 
     public static function get_url($attachment, $name = null)
     {
-        if (is_string($attachment))
-        {
+        if (is_string($attachment)) {
             $guid = $attachment;
-            if (null === $name)
-            {
+            if (null === $name) {
                 $mc = self::new_collector('guid', $guid);
                 $names = $mc->get_values('name');
                 $name = array_pop($names);
             }
-        }
-        elseif (midcom::get()->dbfactory->is_a($attachment, 'midgard_attachment'))
-        {
+        } elseif (midcom::get()->dbfactory->is_a($attachment, 'midgard_attachment')) {
             $guid = $attachment->guid;
             $name = $attachment->name;
-        }
-        else
-        {
+        } else {
             throw new midcom_error('Invalid attachment identifier');
         }
 
-        if (midcom::get()->config->get('attachment_cache_enabled'))
-        {
+        if (midcom::get()->config->get('attachment_cache_enabled')) {
             $subdir = substr($guid, 0, 1);
 
-            if (file_exists(midcom::get()->config->get('attachment_cache_root') . '/' . $subdir . '/' . $guid . '_' . $name))
-            {
+            if (file_exists(midcom::get()->config->get('attachment_cache_root') . '/' . $subdir . '/' . $guid . '_' . $name)) {
                 return midcom::get()->config->get('attachment_cache_url') . '/' . $subdir . '/' . $guid . '_' . urlencode($name);
             }
         }
@@ -250,28 +224,24 @@ class midcom_db_attachment extends midcom_core_dbaobject
     public function file_to_cache()
     {
         // Check if the attachment can be read anonymously
-        if (!midcom::get()->config->get('attachment_cache_enabled'))
-        {
+        if (!midcom::get()->config->get('attachment_cache_enabled')) {
             return;
         }
 
-        if (!$this->can_do('midgard:read', 'EVERYONE'))
-        {
+        if (!$this->can_do('midgard:read', 'EVERYONE')) {
             debug_add("Attachment {$this->name} ({$this->guid}) is not publicly readable, not caching.");
             return;
         }
 
         $filename = $this->get_cache_path();
 
-        if (!$filename)
-        {
+        if (!$filename) {
             debug_add("Failed to generate cache path for attachment {$this->name} ({$this->guid}), not caching.");
             return;
         }
 
         if (   file_exists($filename)
-            && is_link($filename))
-        {
+            && is_link($filename)) {
             debug_add("Attachment {$this->name} ({$this->guid}) is already in cache as {$filename}, skipping.");
             return;
         }
@@ -279,23 +249,20 @@ class midcom_db_attachment extends midcom_core_dbaobject
         // Then symlink the file
         $blob = new midgard_blob($this->__object);
 
-        if (@symlink($blob->get_path(), $filename))
-        {
+        if (@symlink($blob->get_path(), $filename)) {
             debug_add("Symlinked attachment {$this->name} ({$this->guid}) as {$filename}.");
             return;
         }
 
         // Symlink failed, actually copy the data
         $fh = $this->open('r');
-        if (!$fh)
-        {
+        if (!$fh) {
             debug_add("Failed to cache attachment {$this->name} ({$this->guid}), opening failed.");
             return;
         }
 
         $data = '';
-        while (!feof($fh))
-        {
+        while (!feof($fh)) {
             $data .= fgets($fh);
         }
         fclose($fh);
@@ -313,8 +280,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
      */
     public function stat()
     {
-        if (!$this->id)
-        {
+        if (!$this->id) {
             debug_add('Cannot open a non-persistent attachment.', MIDCOM_LOG_WARN);
             debug_print_r('Object state:', $this);
             return false;
@@ -323,8 +289,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
         $blob = new midgard_blob($this->__object);
 
         $path = $blob->get_path();
-        if (!file_exists($path))
-        {
+        if (!file_exists($path)) {
             debug_add("File {$path} that blob {$this->guid} points to cannot be found", MIDCOM_LOG_WARN);
             return false;
         }
@@ -344,8 +309,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
     {
         $max_tries = 500;
 
-        for ($i = 0; $i < $max_tries; $i++)
-        {
+        for ($i = 0; $i < $max_tries; $i++) {
             $name = strtolower(md5(uniqid('', true)));
             $location = strtoupper(substr($name, 0, 1) . '/' . substr($name, 1, 1) . '/') . $name;
 
@@ -354,8 +318,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
             $qb->add_constraint('location', '=', $location);
             $result = $qb->count_unchecked();
 
-            if ($result == 0)
-            {
+            if ($result == 0) {
                 debug_add("Created this location: {$location}");
                 return $location;
             }
@@ -372,8 +335,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
      */
     public function _on_creating()
     {
-        if (empty($this->mimetype))
-        {
+        if (empty($this->mimetype)) {
             $this->mimetype = 'application/octet-stream';
         }
 
@@ -386,13 +348,11 @@ class midcom_db_attachment extends midcom_core_dbaobject
     {
         // Check if the attachment can be read anonymously
         if (   midcom::get()->config->get('attachment_cache_enabled')
-            && !$this->can_do('midgard:read', 'EVERYONE'))
-        {
+            && !$this->can_do('midgard:read', 'EVERYONE')) {
             // Not public file, ensure it is removed
             $subdir = substr($this->guid, 0, 1);
             $filename = midcom::get()->config->get('attachment_cache_root') . "/{$subdir}/{$this->guid}_{$this->name}";
-            if (file_exists($filename))
-            {
+            if (file_exists($filename)) {
                 @unlink($filename);
             }
         }
@@ -411,12 +371,10 @@ class midcom_db_attachment extends midcom_core_dbaobject
      */
     public function _on_deleted()
     {
-        if (midcom::get()->config->get('attachment_cache_enabled'))
-        {
+        if (midcom::get()->config->get('attachment_cache_enabled')) {
             // Remove attachment cache
             $filename = $this->get_cache_path();
-            if (file_exists($filename))
-            {
+            if (file_exists($filename)) {
                 @unlink($filename);
             }
         }
@@ -431,8 +389,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
     public function copy_from_memory($source)
     {
         $dest = $this->open();
-        if (!$dest)
-        {
+        if (!$dest) {
             debug_add('Could not open attachment for writing, last Midgard error was: ' . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
             return false;
         }
@@ -453,8 +410,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
     public function copy_from_handle($source)
     {
         $dest = $this->open();
-        if (!$dest)
-        {
+        if (!$dest) {
             debug_add('Could not open attachment for writing, last Midgard error was: ' . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
             return false;
         }
@@ -475,8 +431,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
     public function copy_from_file($filename)
     {
         $source = @fopen ($filename, 'r');
-        if (!$source)
-        {
+        if (!$source) {
             debug_add('Could not open file for reading.' . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
             midcom::get()->debug->log_php_error(MIDCOM_LOG_WARN);
             return false;

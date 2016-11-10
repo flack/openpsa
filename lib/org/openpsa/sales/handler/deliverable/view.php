@@ -36,8 +36,7 @@ class org_openpsa_sales_handler_deliverable_view extends midcom_baseclasses_comp
         $this->_request_data['deliverable'] = $this->_deliverable;
         $this->_request_data['salesproject'] = $this->_salesproject;
 
-        if ($this->_deliverable->can_do('midgard:update'))
-        {
+        if ($this->_deliverable->can_do('midgard:update')) {
             $workflow = $this->get_workflow('datamanager2');
             $this->_view_toolbar->add_item($workflow->get_button("deliverable/edit/{$this->_deliverable->guid}/", array
             (
@@ -48,17 +47,13 @@ class org_openpsa_sales_handler_deliverable_view extends midcom_baseclasses_comp
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
         $this->_request_data['projects_url'] = $siteconfig->get_node_relative_url('org.openpsa.projects');
         $this->_request_data['invoices_url'] = $siteconfig->get_node_relative_url('org.openpsa.invoices');
-        if ($this->_deliverable->can_do('midgard:delete'))
-        {
+        if ($this->_deliverable->can_do('midgard:delete')) {
             $workflow = $this->get_workflow('delete', array('object' => $this->_deliverable));
             $this->_view_toolbar->add_item($workflow->get_button("deliverable/delete/{$this->_deliverable->guid}/"));
         }
-        try
-        {
+        try {
             $this->_request_data['product'] = org_openpsa_products_product_dba::get_cached($this->_deliverable->product);
-        }
-        catch (midcom_error $e)
-        {
+        } catch (midcom_error $e) {
             $this->_request_data['product'] = false;
         }
     }
@@ -110,12 +105,9 @@ class org_openpsa_sales_handler_deliverable_view extends midcom_baseclasses_comp
         // For AJAX handling it is the controller that renders everything
         $this->_request_data['view_deliverable'] = $this->_request_data['controller']->get_content_html();
 
-        if ($this->_deliverable->orgOpenpsaObtype == org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION)
-        {
+        if ($this->_deliverable->orgOpenpsaObtype == org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION) {
             midcom_show_style('show-deliverable-subscription');
-        }
-        else
-        {
+        } else {
             midcom_show_style('show-deliverable');
         }
     }

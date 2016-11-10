@@ -42,8 +42,7 @@ class org_routamc_positioning_log_dba extends midcom_core_dbaobject
             && round($previous->longitude, 4) == round($this->longitude, 4)
             && round($previous->latitude, 4) == round($this->latitude, 4)
             && $previous->altitude == $this->altitude
-            && date('Y-m-d', $previous->date) == date('Y-m-d', $this->date))
-        {
+            && date('Y-m-d', $previous->date) == date('Y-m-d', $this->date)) {
             // We don't need to save duplicate entries on same day
             debug_add("Not saving log, previous log \"{$previous->guid}\" on same day is in same place.",
                     MIDCOM_LOG_WARN);
@@ -60,8 +59,7 @@ class org_routamc_positioning_log_dba extends midcom_core_dbaobject
      */
     function get_previous()
     {
-        if (!$this->person)
-        {
+        if (!$this->person) {
             return null;
         }
         $qb = org_routamc_positioning_log_dba::new_query_builder();
@@ -70,8 +68,7 @@ class org_routamc_positioning_log_dba extends midcom_core_dbaobject
         $qb->add_order('date', 'DESC');
         $qb->set_limit(1);
         $matches = $qb->execute_unchecked();
-        if (count($matches) > 0)
-        {
+        if (count($matches) > 0) {
             return $matches[0];
         }
         return null;
@@ -84,8 +81,7 @@ class org_routamc_positioning_log_dba extends midcom_core_dbaobject
      */
     function get_next()
     {
-        if (!$this->person)
-        {
+        if (!$this->person) {
             return null;
         }
         $qb = org_routamc_positioning_log_dba::new_query_builder();
@@ -94,8 +90,7 @@ class org_routamc_positioning_log_dba extends midcom_core_dbaobject
         $qb->add_order('date', 'ASC');
         $qb->set_limit(1);
         $matches = $qb->execute_unchecked();
-        if (count($matches) > 0)
-        {
+        if (count($matches) > 0) {
             return $matches[0];
         }
         return null;
@@ -105,8 +100,7 @@ class org_routamc_positioning_log_dba extends midcom_core_dbaobject
     {
         $previous = $this->get_previous();
 
-        if (is_object($previous))
-        {
+        if (is_object($previous)) {
             $qb = org_routamc_positioning_location_dba::new_query_builder();
 
             // Find locations reported to previous log but after
@@ -115,8 +109,7 @@ class org_routamc_positioning_log_dba extends midcom_core_dbaobject
             $qb->add_constraint('date', '>=', $this->date);
 
             $matches = $qb->execute();
-            foreach ($matches as $location)
-            {
+            foreach ($matches as $location) {
                 // Switch the location to point to this log
                 $location->log = $this->id;
                 $location->latitude = $this->latitude;

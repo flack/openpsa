@@ -85,8 +85,7 @@ class org_openpsa_widgets_calendar_event
 
     public function __construct($event = null)
     {
-        if (is_object($event))
-        {
+        if (is_object($event)) {
             $this->event = $event;
 
             // Read values from event object
@@ -94,8 +93,7 @@ class org_openpsa_widgets_calendar_event
             $this->end = $this->event->end;
             $this->title = $this->event->title;
 
-            if (isset($this->event->location))
-            {
+            if (isset($this->event->location)) {
                 $this->location = $this->event->location;
             }
         }
@@ -106,12 +104,10 @@ class org_openpsa_widgets_calendar_event
      */
     private function _render_link()
     {
-        if ($this->attributes != '')
-        {
+        if ($this->attributes != '') {
             return "<a class=\"url\" {$this->attributes}>{$this->title}</a>";
         }
-        if (!$this->link)
-        {
+        if (!$this->link) {
             return $this->title;
         }
 
@@ -144,18 +140,15 @@ class org_openpsa_widgets_calendar_event
 
         $rendered_event .= $this->render_timelabel();
 
-        if ($this->title)
-        {
+        if ($this->title) {
             $rendered_event .= "    <h{$h_level} class=\"summary\">" . $this->_render_link() . "</h{$h_level}>\n";
         }
 
-        if ($this->location != '')
-        {
+        if ($this->location != '') {
             $rendered_event .= "    <div class=\"location\">{$this->location}</div>\n";
         }
 
-        if (!is_null($this->event))
-        {
+        if (!is_null($this->event)) {
             $rendered_event .= "    <span class=\"uid\" style=\"display: none;\">{$this->event->guid}</span>\n";
         }
         $rendered_event .= "</{$element}>\n";

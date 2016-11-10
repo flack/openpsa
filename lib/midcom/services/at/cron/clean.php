@@ -22,8 +22,8 @@ class midcom_services_at_cron_clean extends midcom_baseclasses_components_cron_h
         // (to be) start(ed) AND last touched over two days ago
         $qb->add_constraint('start', '<=', time() - 3600 * 24 * 2);
         $qb->begin_group('OR');
-            $qb->add_constraint('host', '=', midcom_connection::get('host'));
-            $qb->add_constraint('host', '=', 0);
+        $qb->add_constraint('host', '=', midcom_connection::get('host'));
+        $qb->add_constraint('host', '=', 0);
         $qb->end_group();
         $qb->add_constraint('metadata.revised', '<=', date('Y-m-d H:i:s', time() - 3600 * 24 * 2));
         $qb->add_constraint('status', '>=', midcom_services_at_entry_dba::RUNNING);
@@ -31,8 +31,7 @@ class midcom_services_at_cron_clean extends midcom_baseclasses_components_cron_h
         midcom::get()->auth->request_sudo('midcom.services.at');
         $qbret = $qb->execute();
 
-        foreach ($qbret as $entry)
-        {
+        foreach ($qbret as $entry) {
             debug_add("Deleting dangling entry #{$entry->id}\n", MIDCOM_LOG_INFO);
             debug_print_r("Entry #{$entry->id} dump: ", $entry);
             $entry->delete();

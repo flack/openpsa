@@ -31,23 +31,19 @@ class midcom_helper_datamanager2_ajax_autocomplete
         // Load component if possible
         midcom::get()->componentloader->load_graceful($this->_request['component']);
 
-        if (!class_exists($this->_request['class']))
-        {
+        if (!class_exists($this->_request['class'])) {
             throw new midcom_error("Class {$this->_request['class']} could not be loaded");
         }
 
-        if (empty($this->_request['searchfields']))
-        {
+        if (empty($this->_request['searchfields'])) {
             throw new midcom_error("No fields to search for defined");
         }
 
-        if (empty($this->_request["term"]))
-        {
+        if (empty($this->_request["term"])) {
             throw new midcom_error("Empty query string.");
         }
 
-        if (!isset($this->_request['get_label_for']))
-        {
+        if (!isset($this->_request['get_label_for'])) {
             $this->_request['get_label_for'] = null;
         }
     }
@@ -57,27 +53,22 @@ class midcom_helper_datamanager2_ajax_autocomplete
         $qb = call_user_func(array($this->_request['class'], 'new_query_builder'));
 
         if (   !empty($this->_request['constraints'])
-            && is_array($this->_request['constraints']))
-        {
+            && is_array($this->_request['constraints'])) {
             $this->_apply_constraints($qb, $this->_request['constraints']);
         }
 
         $constraints = $this->_get_search_constraints();
-        if (!empty($constraints))
-        {
+        if (!empty($constraints)) {
             $qb->begin_group('OR');
             $this->_apply_constraints($qb, $constraints);
             $qb->end_group();
         }
 
         if (   !empty($this->_request['orders'])
-            && is_array($this->_request['orders']))
-        {
+            && is_array($this->_request['orders'])) {
             ksort($this->_request['orders']);
-            foreach ($this->_request['orders'] as $data)
-            {
-                foreach ($data as $field => $order)
-                {
+            foreach ($this->_request['orders'] as $data) {
+                foreach ($data as $field => $order) {
                     $qb->add_order($field, $order);
                 }
             }
@@ -92,25 +83,19 @@ class midcom_helper_datamanager2_ajax_autocomplete
 
         $mgd2 = (!extension_loaded('midgard'));
         ksort($constraints);
-        foreach ($constraints as $key => $data)
-        {
+        foreach ($constraints as $key => $data) {
             if (   !array_key_exists('value', $data)
                 || empty($data['field'])
-                || empty($data['op']))
-            {
+                || empty($data['op'])) {
                 debug_add("Constraint #{$key} is not correctly defined, skipping", MIDCOM_LOG_WARN);
                 continue;
             }
             if (   $mgd2
-                && $data['field'] === 'username')
-            {
+                && $data['field'] === 'username') {
                 debug_add("enable workaround for mg2 username constraint", MIDCOM_LOG_INFO);
                 midcom_core_account::add_username_constraint($query, $data['op'], $data['value']);
-            }
-            else
-            {
-                switch ($reflector->get_midgard_type($data['field']))
-                {
+            } else {
+                switch ($reflector->get_midgard_type($data['field'])) {
                     case MGD_TYPE_INT:
                     case MGD_TYPE_UINT:
                         $data['value'] = (int) $data['value'];
@@ -131,25 +116,21 @@ class midcom_helper_datamanager2_ajax_autocomplete
     {
         $constraints = array();
         $query = $this->_request["term"];
-        if (preg_match('/^%+$/', $query))
-        {
+        if (preg_match('/^%+$/', $query)) {
             debug_add('query is all wildcards, don\'t waste time in adding LIKE constraints');
             return $constraints;
         }
 
         $reflector = new midgard_reflection_property(midcom_helper_reflector::resolve_baseclass($this->_request['class']));
 
-        foreach ($this->_request['searchfields'] as $field)
-        {
+        foreach ($this->_request['searchfields'] as $field) {
             $field_type = $reflector->get_midgard_type($field);
             $operator = 'LIKE';
-            if (strpos($field, '.'))
-            {
+            if (strpos($field, '.')) {
                 //TODO: This should be resolved properly
                 $field_type = MGD_TYPE_STRING;
             }
-            switch ($field_type)
-            {
+            switch ($field_type) {
                 case MGD_TYPE_GUID:
                 case MGD_TYPE_STRING:
                 case MGD_TYPE_LONGTEXT:
@@ -180,10 +161,8 @@ class midcom_helper_datamanager2_ajax_autocomplete
         $query = $this->_request["term"];
         $wildcard_query = $query;
         if (   isset($this->_request['auto_wildcards'])
-            && strpos($query, '%') === false)
-        {
-            switch ($this->_request['auto_wildcards'])
-            {
+            && strpos($query, '%') === false) {
+            switch ($this->_request['auto_wildcards']) {
                 case 'start':
                     $wildcard_query = '%' . $query;
                     break;
@@ -207,8 +186,7 @@ class midcom_helper_datamanager2_ajax_autocomplete
     {
         $qb = $this->_prepare_qb();
         $results = $qb->execute();
-        if (!is_array($results))
-        {
+        if (!is_array($results)) {
             throw new midcom_error('Error when executing QB');
         }
         return $results;
@@ -216,26 +194,22 @@ class midcom_helper_datamanager2_ajax_autocomplete
 
     public function get_results()
     {
-        if (empty($this->_request["id_field"]))
-        {
+        if (empty($this->_request["id_field"])) {
             throw new midcom_error("Empty ID field.");
         }
 
         $results = $this->get_objects();
         $items = array();
 
-        foreach ($results as $object)
-        {
+        foreach ($results as $object) {
             $item = array
             (
                 'id' => $object->{$this->_request['id_field']},
                 'label' => midcom_helper_datamanager2_widget_autocomplete::create_item_label($object, $this->_request['result_headers'], $this->_request['get_label_for']),
             );
-            if (!empty($this->_request['categorize_by_parent_label']))
-            {
+            if (!empty($this->_request['categorize_by_parent_label'])) {
                 $item['category'] = '';
-                if ($parent = $object->get_parent())
-                {
+                if ($parent = $object->get_parent()) {
                     $item['category'] = midcom_helper_reflector::get($parent)->get_object_label($parent);
                 }
             }
@@ -251,13 +225,11 @@ class midcom_helper_datamanager2_ajax_autocomplete
 
     public static function get_property_string($object, $item_name)
     {
-        if (preg_match('/^metadata\.(.+)$/', $item_name, $regs))
-        {
+        if (preg_match('/^metadata\.(.+)$/', $item_name, $regs)) {
             $metadata_property = $regs[1];
             $value = $object->metadata->$metadata_property;
 
-            switch ($metadata_property)
-            {
+            switch ($metadata_property) {
                 case 'created':
                 case 'revised':
                 case 'published':
@@ -266,8 +238,7 @@ class midcom_helper_datamanager2_ajax_autocomplete
                 case 'imported':
                 case 'exported':
                 case 'approved':
-                    if ($value)
-                    {
+                    if ($value) {
                         return strftime('%x %X', $value);
                     }
                     break;
@@ -275,16 +246,13 @@ class midcom_helper_datamanager2_ajax_autocomplete
                 case 'revisor':
                 case 'approver':
                 case 'locker':
-                    if ($value)
-                    {
+                    if ($value) {
                         $person = new midcom_db_person($value);
                         return $person->name;
                     }
                     break;
             }
-        }
-        else
-        {
+        } else {
             $value = $object->$item_name;
         }
         return $value;

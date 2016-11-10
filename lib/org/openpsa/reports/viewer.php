@@ -25,8 +25,7 @@ class org_openpsa_reports_viewer extends midcom_baseclasses_components_request
     public function _on_initialize()
     {
         $components = $this->_get_available_generators();
-        foreach (array_keys($components) as $component)
-        {
+        foreach (array_keys($components) as $component) {
             $parts = explode('.', $component);
             $last = array_pop($parts);
 
@@ -121,8 +120,7 @@ class org_openpsa_reports_viewer extends midcom_baseclasses_components_request
      */
     public function _handler_csv($handler_id, array $args, array &$data)
     {
-        if (!isset($_POST['org_openpsa_reports_csv']))
-        {
+        if (!isset($_POST['org_openpsa_reports_csv'])) {
             throw new midcom_error('Variable org_openpsa_reports_csv not set in _POST');
         }
 
@@ -165,8 +163,7 @@ class org_openpsa_reports_viewer extends midcom_baseclasses_components_request
 
     private function _get_available_generators()
     {
-        if (is_array($this->_available_generators))
-        {
+        if (is_array($this->_available_generators)) {
             return $this->_available_generators;
         }
         $this->_available_generators = array();
@@ -181,16 +178,12 @@ class org_openpsa_reports_viewer extends midcom_baseclasses_components_request
 
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
 
-        foreach ($components as $component => $loc)
-        {
+        foreach ($components as $component => $loc) {
             $node_guid = $siteconfig->get_node_guid($component);
-            try
-            {
+            try {
                 midcom_db_topic::get_cached($node_guid);
                 $this->_available_generators[$component] = $loc;
-            }
-            catch (midcom_error $e)
-            {
+            } catch (midcom_error $e) {
                 debug_add("topic for component '{$component}' not found or accessible");
             }
         }

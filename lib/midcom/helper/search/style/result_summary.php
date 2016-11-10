@@ -1,13 +1,10 @@
 <?php
 $found_docs = sprintf($data['l10n']->get('found %s documents, showing %s documents.'),
     $data['document_count'], $data['shown_documents']);
-if ($data['shown_documents'] > 1)
-{
+if ($data['shown_documents'] > 1) {
     $shown_docs = sprintf($data['l10n']->get('showing %s to %s.'),
         $data['first_document_number'], $data['last_document_number']);
-}
-else
-{
+} else {
     $shown_docs = sprintf($data['l10n']->get('showing %s.'),
         $data['first_document_number']);
 }

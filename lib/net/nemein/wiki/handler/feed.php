@@ -49,34 +49,24 @@ class net_nemein_wiki_handler_feed extends midcom_baseclasses_components_handler
         $qb->set_limit($this->_config->get('rss_count'));
         $result = $qb->execute();
 
-        foreach ($result as $wikipage)
-        {
-            if ($wikipage->topic == $this->_topic->id)
-            {
+        foreach ($result as $wikipage) {
+            if ($wikipage->topic == $this->_topic->id) {
                 $node = $data['node'];
-            }
-            else
-            {
+            } else {
                 $node = $data['nap']->get_node($wikipage->topic);
             }
             $item = new FeedItem();
             $item->title = $wikipage->title;
-            if ($wikipage->name == 'index')
-            {
+            if ($wikipage->name == 'index') {
                 $item->link = "{$node[MIDCOM_NAV_FULLURL]}";
-            }
-            else
-            {
+            } else {
                 $item->link = "{$node[MIDCOM_NAV_FULLURL]}{$wikipage->name}/";
             }
             $item->date = $wikipage->metadata->revised;
-            try
-            {
+            try {
                 $author = new midcom_db_person($wikipage->metadata->revisor);
                 $item->author = $author->name;
-            }
-            catch (midcom_error $e)
-            {
+            } catch (midcom_error $e) {
                 $e->log();
             }
 

@@ -27,12 +27,9 @@ midcom::get()->head->add_stylesheet(MIDCOM_STATIC_URL.'/midcom.services.auth/sty
                     <div class="clear"></div>
                 </div>
                 <?php
-                if ($login_warning == '')
-                {
+                if ($login_warning == '') {
                     echo "<div id=\"ok\">" . midcom::get()->i18n->get_string('login message - please enter credentials', 'midcom') . "</div>\n";
-                }
-                else
-                {
+                } else {
                     echo "<div id=\"error\">{$login_warning}</div>\n";
                 }
                 ?>

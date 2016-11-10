@@ -30,15 +30,11 @@ class org_routamc_positioning_dm2_callbacks_countries extends midcom_baseclasses
     {
         parent::__construct();
 
-        if (isset($args['start_message']))
-        {
+        if (isset($args['start_message'])) {
             if (    is_bool($args['start_message'])
-                 && $args['start_message'])
-            {
+                 && $args['start_message']) {
                 $this->_data[''] = $this->_l10n->get('select your country');
-            }
-            elseif (is_string($args['start_message']))
-            {
+            } elseif (is_string($args['start_message'])) {
                 $this->_data[''] = $args['start_message'];
             }
         }
@@ -48,8 +44,7 @@ class org_routamc_positioning_dm2_callbacks_countries extends midcom_baseclasses
         $qb->add_order('name', 'ASC');
         $countries = $qb->execute_unchecked();
 
-        if (count($countries) == 0)
-        {
+        if (count($countries) == 0) {
             debug_add('No countries found. You have to use org.routamc.positioning to import countries to database.');
         }
 
@@ -58,8 +53,7 @@ class org_routamc_positioning_dm2_callbacks_countries extends midcom_baseclasses
 
     private function _populate_data(array $countries)
     {
-        foreach ($countries as $country)
-        {
+        foreach ($countries as $country) {
             $this->_data[$country->code] = $country->name;
         }
     }
@@ -80,5 +74,7 @@ class org_routamc_positioning_dm2_callbacks_countries extends midcom_baseclasses
     }
 
     /** Ignored. */
-    public function set_type(&$type) {}
+    public function set_type(&$type)
+    {
+    }
 }

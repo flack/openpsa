@@ -66,32 +66,26 @@ class midcom_services__sessioning
     private function _initialize($unconditional_start = false)
     {
         static $initialized = false;
-        if ($initialized)
-        {
+        if ($initialized) {
             return true;
         }
 
         if (   !midcom::get()->config->get('sessioning_service_enable')
             && !(   midcom::get()->config->get('sessioning_service_always_enable_for_users')
-                 && midcom_connection::get_user()))
-        {
+                 && midcom_connection::get_user())) {
             return false;
         }
 
         $this->session = new Session(null, new NamespacedAttributeBag('midcom_session_data', $this->ns_separator));
         // Try to start session only if the client sends the id OR we need to set data
         if (   !isset($_REQUEST[$this->session->getName()])
-            && !$unconditional_start)
-        {
+            && !$unconditional_start) {
             return false;
         }
 
-        try
-        {
+        try {
             $this->session->start();
-        }
-        catch (RuntimeException $e)
-        {
+        } catch (RuntimeException $e) {
             debug_add($e->getMessage(), MIDCOM_LOG_ERROR);
             return false;
         }
@@ -111,8 +105,7 @@ class midcom_services__sessioning
      */
     public function exists($domain, $key)
     {
-        if (!$this->_initialize(true))
-        {
+        if (!$this->_initialize(true)) {
             return false;
         }
         return $this->session->has($domain . $this->ns_separator . $key);
@@ -134,13 +127,11 @@ class midcom_services__sessioning
     public function get($domain, $key)
     {
         static $no_cache = false;
-        if (!$this->exists($domain, $key))
-        {
+        if (!$this->exists($domain, $key)) {
             debug_add("Request for the key '{$key}' in the domain '{$domain}' failed, because the key doesn't exist.");
             return null;
         }
-        if (!$no_cache)
-        {
+        if (!$no_cache) {
             midcom::get()->cache->content->no_cache();
             $no_cache = true;
         }
@@ -160,8 +151,7 @@ class midcom_services__sessioning
      */
     public function remove($domain, $key)
     {
-        if (!$this->exists($domain, $key))
-        {
+        if (!$this->exists($domain, $key)) {
             return null;
         }
         $data = $this->session->get($domain . $this->ns_separator . $key);
@@ -182,13 +172,11 @@ class midcom_services__sessioning
      */
     public function set($domain, $key, $value)
     {
-        if (!$this->_initialize(true))
-        {
+        if (!$this->_initialize(true)) {
             return false;
         }
         static $no_cache = false;
-        if (!$no_cache)
-        {
+        if (!$no_cache) {
             midcom::get()->cache->content->no_cache();
             $no_cache = true;
         }
@@ -203,8 +191,7 @@ class midcom_services__sessioning
      */
     public function get_session_data($domain)
     {
-        if (!$this->session->exists($domain))
-        {
+        if (!$this->session->exists($domain)) {
             return false;
         }
 

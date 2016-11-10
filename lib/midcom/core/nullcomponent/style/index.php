@@ -6,11 +6,11 @@ $node = $data['node'];
 &(node.description:h);
 
 <?php
-if ($data['config']->get('enable_folder_code_execution'))
-{
+if ($data['config']->get('enable_folder_code_execution')) {
     // Run code in folder's code field
     ?>
     &(node.code:p);
     <?php
+
 }
 ?>

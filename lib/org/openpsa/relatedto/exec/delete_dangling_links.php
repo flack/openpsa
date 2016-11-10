@@ -12,7 +12,7 @@
 midcom::get()->auth->require_admin_user();
 
 midcom::get()->disable_limits();
-while(@ob_end_flush());
+while (@ob_end_flush());
 echo "<pre>\n";
 flush();
 
@@ -25,16 +25,12 @@ echo "Checking " . $total . " relatedto links. \n";
 flush();
 
 $i = 0;
-foreach ($results as $result)
-{
+foreach ($results as $result) {
     $i++;
-    try
-    {
+    try {
         midcom::get()->dbfactory->get_object_by_guid($result->fromGuid);
         midcom::get()->dbfactory->get_object_by_guid($result->toGuid);
-    }
-    catch (midcom_error $e)
-    {
+    } catch (midcom_error $e) {
         echo $i . "/" . $total . ": Deleting relatedto #" . $result->id . "\n";
         flush();
         $result->delete();

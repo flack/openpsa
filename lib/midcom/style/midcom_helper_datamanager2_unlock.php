@@ -1,13 +1,10 @@
 <?php
 $metadata = $this->data['handler']->datamanager->storage->object->metadata;
 $formatter = $data['l10n']->get_formatter();
-try
-{
+try {
     $person = new midcom_db_person($metadata->locker);
     $name = $person->name;
-}
-catch (midcom_error $e)
-{
+} catch (midcom_error $e) {
     $name = $this->data['handler']->_l10n_midcom->get('unknown user');
     $e->log();
 }
@@ -19,8 +16,7 @@ catch (midcom_error $e)
             <?php printf($this->data['handler']->_l10n->get('lock will expire on %s'), $formatter->datetime(($metadata->get('locked') + (midcom::get()->config->get('metadata_lock_timeout') * 60)))); ?>.
         </p>
 <?php
-if ($metadata->can_unlock())
-{
+if ($metadata->can_unlock()) {
     echo "<form method=\"post\">\n";
     echo "    <p class=\"unlock\">\n";
     echo "        <input type=\"hidden\" name=\"midcom_helper_datamanager2_object\" value=\"{$this->data['handler']->datamanager->storage->object->guid}\" />\n";

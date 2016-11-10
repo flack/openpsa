@@ -10,8 +10,7 @@ midcom_show_style('result_summary');
 midcom_show_style('result_nav');
 
 midcom_show_style('result_start');
-foreach ($data['result'] as $document)
-{
+foreach ($data['result'] as $document) {
     $data['document'] = $document;
     midcom_show_style('result_item');
 }

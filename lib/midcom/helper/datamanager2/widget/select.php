@@ -79,41 +79,33 @@ class midcom_helper_datamanager2_widget_select extends midcom_helper_datamanager
         // fields.
         // TODO: This doesn't support Access control yet.
 
-        if ($this->_field['readonly'])
-        {
+        if ($this->_field['readonly']) {
             $this->_all_elements = array();
-            foreach ($this->_type->selection as $key)
-            {
+            foreach ($this->_type->selection as $key) {
                 $this->_all_elements[$key] = $this->_type->get_name_for_key($key);
             }
-        }
-        else
-        {
+        } else {
             $this->_all_elements = $this->_type->list_all();
         }
         // Translate
-        foreach ($this->_all_elements as $key => $value)
-        {
+        foreach ($this->_all_elements as $key => $value) {
             $this->_all_elements[$key] = $this->_translate($value);
         }
 
         $attributes['class'] = ($this->_type->allow_multiple) ? 'list' : 'dropdown';
 
-        if (is_array($this->jsevents))
-        {
+        if (is_array($this->jsevents)) {
             $attributes = array_merge($attributes, $this->jsevents);
         }
 
         $select_element = $this->_form->createElement('select', $this->name, $this->_translate($this->_field['title']),
             $this->_all_elements, $attributes);
         $select_element->setMultiple($this->_type->allow_multiple);
-        if ($this->_type->allow_multiple)
-        {
+        if ($this->_type->allow_multiple) {
             $select_element->setSize($this->height);
         }
 
-        if ($this->_type->allow_other)
-        {
+        if ($this->_type->allow_other) {
             $select_element->setName('select');
             $other_element = $this->_form->createElement('text', 'other', "Others");
 
@@ -125,9 +117,7 @@ class midcom_helper_datamanager2_widget_select extends midcom_helper_datamanager
 
             $separator = $this->_translate($this->othertext);
             $this->_form->addGroup($elements, $this->name, $this->_field['title'], " {$separator}: ");
-        }
-        else
-        {
+        } else {
             $this->_select_element = $this->_form->addElement($select_element);
         }
     }
@@ -139,12 +129,10 @@ class midcom_helper_datamanager2_widget_select extends midcom_helper_datamanager
     {
         if (   empty($this->_type->selection)
             && (    !$this->_type->allow_other
-                 || empty($this->_type->others)))
-        {
+                 || empty($this->_type->others))) {
             return null;
         }
-        if ($this->_type->allow_other)
-        {
+        if ($this->_type->allow_other) {
             return array
             (
                 $this->name => array
@@ -164,18 +152,14 @@ class midcom_helper_datamanager2_widget_select extends midcom_helper_datamanager
     public function sync_type_with_widget($results)
     {
         $selection = $this->_select_element->getSelected();
-        if ($selection === null)
-        {
+        if ($selection === null) {
             $selection = array();
         }
 
         $this->_type->selection = $selection;
-        if ($this->_type->allow_other && $results[$this->name]['other'] != '')
-        {
+        if ($this->_type->allow_other && $results[$this->name]['other'] != '') {
             $this->_type->others = explode(',', $results[$this->name]['other']);
-        }
-        else
-        {
+        } else {
             $this->_type->others = null;
         }
     }
@@ -183,38 +167,26 @@ class midcom_helper_datamanager2_widget_select extends midcom_helper_datamanager
     public function render_content()
     {
         $output = '';
-        if ($this->_type->allow_multiple)
-        {
+        if ($this->_type->allow_multiple) {
             $output .= '<ul>';
-            if (count($this->_type->selection) == 0)
-            {
+            if (count($this->_type->selection) == 0) {
                 $output .= '<li>' . $this->_translate('type select: no selection') . '</li>';
-            }
-            else
-            {
-                foreach ($this->_type->selection as $key)
-                {
+            } else {
+                foreach ($this->_type->selection as $key) {
                     $output .= '<li>' . $this->_translate($this->_type->get_name_for_key($key)) . '</li>';
                 }
             }
             $output .= '</ul>';
-        }
-        else
-        {
-            if (count($this->_type->selection) == 0)
-            {
+        } else {
+            if (count($this->_type->selection) == 0) {
                 $output .= $this->_translate('type select: no selection');
-            }
-            else
-            {
+            } else {
                 $output .= $this->_translate($this->_type->get_name_for_key($this->_type->selection[0]));
             }
         }
 
-        if ($this->_type->allow_other)
-        {
-            if (!$this->_type->allow_multiple)
-            {
+        if ($this->_type->allow_other) {
+            if (!$this->_type->allow_multiple) {
                 $output .= '; ';
             }
             $output .= $this->_translate($this->othertext) . ': ';

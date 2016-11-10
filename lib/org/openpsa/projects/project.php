@@ -80,8 +80,7 @@ class org_openpsa_projects_project extends midcom_core_dbaobject
 
     public function __get($property)
     {
-        if ($property == 'status_type')
-        {
+        if ($property == 'status_type') {
             return org_openpsa_projects_workflow::get_status_type($this->status);
         }
         return parent::__get($property);
@@ -89,13 +88,11 @@ class org_openpsa_projects_project extends midcom_core_dbaobject
 
     public function _on_loaded()
     {
-        if ($this->title == "")
-        {
+        if ($this->title == "") {
             $this->title = "Project #{$this->id}";
         }
 
-        if (!$this->status)
-        {
+        if (!$this->status) {
             //Default to proposed if no status is set
             $this->status = org_openpsa_projects_task_status_dba::PROPOSED;
         }
@@ -113,10 +110,8 @@ class org_openpsa_projects_project extends midcom_core_dbaobject
     {
         $label_elements = array($this->title);
         $project = $this;
-        while ($project = $project->get_parent())
-        {
-            if (!empty($project->title))
-            {
+        while ($project = $project->get_parent()) {
+            if (!empty($project->title)) {
                 $label_elements[] = $project->title;
             }
         }
@@ -135,17 +130,14 @@ class org_openpsa_projects_project extends midcom_core_dbaobject
      */
     public function get_members()
     {
-        if (!$this->guid)
-        {
+        if (!$this->guid) {
             return false;
         }
 
-        if (!is_array($this->contacts))
-        {
+        if (!is_array($this->contacts)) {
             $this->contacts = array();
         }
-        if (!is_array($this->resources))
-        {
+        if (!is_array($this->resources)) {
             $this->resources = array();
         }
 
@@ -153,14 +145,10 @@ class org_openpsa_projects_project extends midcom_core_dbaobject
         $mc->add_constraint('role', '<>', org_openpsa_projects_task_resource_dba::PROSPECT);
         $ret = $mc->get_rows(array('role', 'person'));
 
-        foreach ($ret as $data)
-        {
-            if ($data['role'] == org_openpsa_projects_task_resource_dba::CONTACT)
-            {
+        foreach ($ret as $data) {
+            if ($data['role'] == org_openpsa_projects_task_resource_dba::CONTACT) {
                 $this->contacts[$data['person']] = true;
-            }
-            else
-            {
+            } else {
                 $this->resources[$data['person']] = true;
             }
         }
@@ -184,8 +172,7 @@ class org_openpsa_projects_project extends midcom_core_dbaobject
         );
         $task_mc = org_openpsa_projects_task_dba::new_collector('project', $this->id);
         $statuses = $task_mc->get_values('status');
-        foreach ($statuses as $status)
-        {
+        foreach ($statuses as $status) {
             $type = org_openpsa_projects_workflow::get_status_type($status);
             $numbers[$type]++;
         }
@@ -206,8 +193,7 @@ class org_openpsa_projects_project extends midcom_core_dbaobject
         );
         $task_mc = org_openpsa_projects_task_dba::new_collector('project', $this->id);
         $tasks = $task_mc->get_rows(array('plannedHours', 'reportedHours'));
-        foreach ($tasks as $values)
-        {
+        foreach ($tasks as $values) {
             $numbers['plannedHours'] += $values['plannedHours'];
             $numbers['reportedHours'] += $values['reportedHours'];
         }
@@ -231,20 +217,16 @@ class org_openpsa_projects_project extends midcom_core_dbaobject
         $task_qb->add_constraint('project', '=', $this->id);
         $ret = $task_qb->execute();
 
-        if (sizeof($ret) == 0)
-        {
+        if (sizeof($ret) == 0) {
             return;
         }
 
-        foreach ($ret as $task)
-        {
-            if ($task->start < $this->start)
-            {
+        foreach ($ret as $task) {
+            if ($task->start < $this->start) {
                 $this->start = $task->start;
                 $update_required = true;
             }
-            if ($task->end > $this->end)
-            {
+            if ($task->end > $this->end) {
                 $this->end = $task->end;
                 $update_required = true;
             }
@@ -253,25 +235,20 @@ class org_openpsa_projects_project extends midcom_core_dbaobject
             $task_statuses[$task->status] = true;
         }
 
-        if (sizeof($task_statuses) == 1)
-        {
+        if (sizeof($task_statuses) == 1) {
             // If all tasks are of the same type, that is the type to use then
             $new_status = key($task_statuses);
-        }
-        else
-        {
+        } else {
             $new_status = $this->_find_status($this->_status_map[$this->status_type], $status_types);
         }
 
         if (   !is_null($new_status)
-            && $this->status != $new_status)
-        {
+            && $this->status != $new_status) {
             $this->status = $new_status;
             $update_required = true;
         }
 
-        if ($update_required)
-        {
+        if ($update_required) {
             debug_add("Some project information needs to be updated, skipping RCS");
             $this->_use_rcs = false;
             $this->_use_activitystream = false;
@@ -283,12 +260,9 @@ class org_openpsa_projects_project extends midcom_core_dbaobject
 
     private function _find_status(array $map, array $status_types)
     {
-        foreach ($map as $type => $new_status)
-        {
-            if (array_key_exists($type, $status_types))
-            {
-                if (is_array($new_status))
-                {
+        foreach ($map as $type => $new_status) {
+            if (array_key_exists($type, $status_types)) {
+                if (is_array($new_status)) {
                     return $this->_find_status($new_status, $status_types);
                 }
                 return $new_status;

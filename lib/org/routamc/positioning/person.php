@@ -50,12 +50,10 @@ class org_routamc_positioning_person extends midcom_baseclasses_components_purec
      */
     function seek_log($time = null)
     {
-        if (empty($this->_person->id))
-        {
+        if (empty($this->_person->id)) {
             return null;
         }
-        if (is_null($time))
-        {
+        if (is_null($time)) {
             $time = time();
         }
         $qb = org_routamc_positioning_log_dba::new_query_builder();
@@ -64,8 +62,7 @@ class org_routamc_positioning_person extends midcom_baseclasses_components_purec
         $qb->add_order('date', 'DESC');
         $qb->set_limit(1);
         $matches = $qb->execute_unchecked();
-        if (count($matches) > 0)
-        {
+        if (count($matches) > 0) {
             return $matches[0];
         }
         return null;
@@ -78,8 +75,7 @@ class org_routamc_positioning_person extends midcom_baseclasses_components_purec
      */
     function get_coordinates($time = null)
     {
-        if (is_null($time))
-        {
+        if (is_null($time)) {
             // Default to current time
             $time = time();
         }
@@ -93,8 +89,7 @@ class org_routamc_positioning_person extends midcom_baseclasses_components_purec
 
         // No location set, seek based on creator and creation time
         $log = $this->seek_log($time);
-        if (is_object($log))
-        {
+        if (is_object($log)) {
             $coordinates['latitude'] = $log->latitude;
             $coordinates['longitude'] = $log->longitude;
             $coordinates['altitude'] = $log->altitude;

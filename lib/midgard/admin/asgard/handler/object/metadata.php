@@ -50,8 +50,7 @@ implements midcom_helper_datamanager2_interfaces_edit
         $schemadb = midcom_helper_datamanager2_schema::load_database(midcom::get()->config->get('metadata_schema'));
 
         if (   $this->_config->get('enable_review_dates')
-            && !isset($schemadb['metadata']->fields['review_date']))
-        {
+            && !isset($schemadb['metadata']->fields['review_date'])) {
             $schemadb['metadata']->append_field
             (
                 'review_date',
@@ -91,16 +90,14 @@ implements midcom_helper_datamanager2_interfaces_edit
         $this->_object->require_do('midgard:update');
         midcom::get()->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
 
-        if (is_a($this->_object, 'midcom_db_topic'))
-        {
+        if (is_a($this->_object, 'midcom_db_topic')) {
             // This is a topic
             $this->_topic->require_do('midgard.admin.asgard:topic_management');
         }
 
         // Load the DM2 controller instance
         $this->_controller = $this->get_controller('simple', $this->_object);
-        switch ($this->_controller->process_form())
-        {
+        switch ($this->_controller->process_form()) {
             case 'save':
                 // Reindex the object
                 //$indexer = midcom::get()->indexer;

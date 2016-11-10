@@ -43,16 +43,14 @@ class midcom_helper_datamanager2_type_php extends midcom_helper_datamanager2_typ
 
     public function _on_initialize()
     {
-        if ($this->enabled)
-        {
+        if ($this->enabled) {
             $prefix = MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/codemirror-' . $this->version;
 
             midcom::get()->head->add_stylesheet($prefix . '/lib/codemirror.css');
             midcom::get()->head->add_stylesheet($prefix . '/theme/eclipse.css');
 
             midcom::get()->head->add_jsfile($prefix . '/lib/codemirror.js');
-            foreach ($this->modes as $mode)
-            {
+            foreach ($this->modes as $mode) {
                 midcom::get()->head->add_jsfile($prefix . '/mode/' . $mode . '/' . $mode . '.js');
             }
         }
@@ -90,8 +88,7 @@ class midcom_helper_datamanager2_type_php extends midcom_helper_datamanager2_typ
     public function _on_validate()
     {
         if (   is_array($this->value)
-            || is_object($this->value))
-        {
+            || is_object($this->value)) {
             $this->validation_error = $this->_l10n->get('type text: value may not be array or object');
             return false;
         }
@@ -105,11 +102,9 @@ class midcom_helper_datamanager2_type_php extends midcom_helper_datamanager2_typ
 
         debug_print_r("'php -l {$tmpfile}' returned:", $parse_results);
 
-        if ($return_status !== 0)
-        {
+        if ($return_status !== 0) {
             $parse_result = array_pop($parse_results);
-            if (strpos($parse_result, 'No syntax errors detected in ' . $tmpfile) !== false)
-            {
+            if (strpos($parse_result, 'No syntax errors detected in ' . $tmpfile) !== false) {
                 // We have an error, but it's most likely a false positive,
                 // e.g. a PHP startup error under mgd2
                 return true;
@@ -126,8 +121,7 @@ class midcom_helper_datamanager2_type_php extends midcom_helper_datamanager2_typ
 
     public function convert_to_html()
     {
-        if (!$this->enabled)
-        {
+        if (!$this->enabled) {
             return highlight_string((string) $this->value, true);
         }
 

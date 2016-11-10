@@ -25,8 +25,7 @@ class net_nemein_wiki_handler_notfound extends midcom_baseclasses_components_han
         $qb->add_constraint('topic', '=', $this->_topic->id);
         $qb->add_constraint('title', '=', $data['wikiword']);
         $result = $qb->execute();
-        if (count($result) > 0)
-        {
+        if (count($result) > 0) {
             // This wiki page actually exists, so go there as "Permanent Redirect"
             return new midcom_response_relocate("{$result[0]->name}/", 301);
         }
@@ -43,8 +42,7 @@ class net_nemein_wiki_handler_notfound extends midcom_baseclasses_components_han
         $data['wiki_tools'] = new midcom_helper_toolbar();
         $workflow = $this->get_workflow('datamanager2');
         $buttons = array();
-        if ($this->_topic->can_do('midgard:create'))
-        {
+        if ($this->_topic->can_do('midgard:create')) {
             $buttons[] = $workflow->get_button('create/?wikiword=' . rawurlencode($data['wikiword']), array
             (
                 MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n->get('create page %s'), $data['wikiword']),

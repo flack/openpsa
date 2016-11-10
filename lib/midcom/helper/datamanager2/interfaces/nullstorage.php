@@ -19,5 +19,4 @@ interface midcom_helper_datamanager2_interfaces_nullstorage extends midcom_helpe
      * @return array Default values for the form (the array key has to match a key in the schema)
      */
     public function get_schema_defaults();
-
 }

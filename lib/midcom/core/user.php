@@ -172,39 +172,27 @@ class midcom_core_user
     {
         $person_class = midcom::get()->config->get('person_class');
 
-        if (is_string($id))
-        {
+        if (is_string($id)) {
             $this->_storage = $this->_load_from_string($id, $person_class);
-        }
-        elseif (is_numeric($id))
-        {
-            if ($id < 1)
-            {
+        } elseif (is_numeric($id)) {
+            if ($id < 1) {
                 throw new midcom_error($id . ' is not a valid database ID');
             }
-            try
-            {
+            try {
                 $this->_storage = new $person_class($id);
-            }
-            catch (midgard_error_exception $e)
-            {
+            } catch (midgard_error_exception $e) {
                 debug_add("Failed to retrieve the person ID {$id}: " . $e->getMessage(), MIDCOM_LOG_INFO);
                 throw new midcom_error_midgard($e, $id);
             }
-        }
-        elseif (   is_a($id, 'midcom_db_person')
-                 || is_a($id, $person_class))
-        {
+        } elseif (   is_a($id, 'midcom_db_person')
+                 || is_a($id, $person_class)) {
             $this->_storage = $id;
-        }
-        else
-        {
+        } else {
             debug_print_r('Passed argument was:', $id);
             throw new midcom_error('Tried to load a midcom_core_user, but $id was of unknown type.');
         }
 
-        if (empty($this->_storage->guid))
-        {
+        if (empty($this->_storage->guid)) {
             debug_print_r('Passed argument was:', $id);
             debug_print_r('_storage is:', $this->_storage);
             throw new midcom_error('storage GUID is not set');
@@ -215,8 +203,7 @@ class midcom_core_user
         $this->username = $account->get_username();
         $this->name = trim("{$this->_storage->firstname} {$this->_storage->lastname}");
         $this->rname = trim("{$this->_storage->lastname}, {$this->_storage->firstname}");
-        if (empty($this->name))
-        {
+        if (empty($this->name)) {
             $this->name = $this->username;
             $this->rname = $this->username;
         }
@@ -231,24 +218,18 @@ class midcom_core_user
             || 'EVERYONE' === $id
             || 'USERS' === $id
             || 'OWNER' === $id
-            || 'SELF' === $id)
-        {
+            || 'SELF' === $id) {
             throw new midcom_error('Cannot instantiate magic assignees');
         }
 
-        if (substr($id, 0, 5) == 'user:')
-        {
+        if (substr($id, 0, 5) == 'user:') {
             $id = substr($id, 5);
         }
 
-        if (mgd_is_guid($id))
-        {
-            try
-            {
+        if (mgd_is_guid($id)) {
+            try {
                 return new $person_class($id);
-            }
-            catch (midgard_error_exception $e)
-            {
+            } catch (midgard_error_exception $e) {
                 debug_add("Failed to retrieve the person GUID {$id}: " . $e->getMessage(), MIDCOM_LOG_INFO);
                 throw new midcom_error_midgard($e, $id);
             }
@@ -264,8 +245,7 @@ class midcom_core_user
      */
     public function list_memberships()
     {
-        if (is_null($this->_direct_groups))
-        {
+        if (is_null($this->_direct_groups)) {
             $this->_load_direct_groups();
         }
         return $this->_direct_groups;
@@ -280,8 +260,7 @@ class midcom_core_user
      */
     function list_all_memberships()
     {
-        if (is_null($this->_all_groups))
-        {
+        if (is_null($this->_all_groups)) {
             $this->_load_all_groups();
         }
         return $this->_all_groups;
@@ -295,8 +274,7 @@ class midcom_core_user
      */
     public function get_privileges()
     {
-        if (is_null($this->_privileges))
-        {
+        if (is_null($this->_privileges)) {
             $this->_load_privileges();
         }
         return $this->_privileges;
@@ -313,15 +291,12 @@ class midcom_core_user
      */
     public function get_per_class_privileges($object)
     {
-        if (is_null($this->_per_class_privileges))
-        {
+        if (is_null($this->_per_class_privileges)) {
             $this->_load_privileges();
         }
         $result = array();
-        foreach ($this->_per_class_privileges as $class => $privileges)
-        {
-            if (midcom::get()->dbfactory->is_a($object, $class))
-            {
+        foreach ($this->_per_class_privileges as $class => $privileges) {
+            if (midcom::get()->dbfactory->is_a($object, $class)) {
                 $result = array_merge($result, $privileges);
             }
         }
@@ -344,10 +319,8 @@ class midcom_core_user
      */
     public function get_first_group_guid()
     {
-        if (!is_null($this->_direct_groups))
-        {
-            if (empty($this->_direct_groups))
-            {
+        if (!is_null($this->_direct_groups)) {
+            if (empty($this->_direct_groups)) {
                 // User is not member of any groups
                 return false;
             }
@@ -361,18 +334,15 @@ class midcom_core_user
         $mc->set_limit(1);
         @$mc->execute();
         $result = $mc->list_keys();
-        if (!empty($result))
-        {
-            if ($group = midcom::get()->auth->get_group(key($result)))
-            {
+        if (!empty($result)) {
+            if ($group = midcom::get()->auth->get_group(key($result))) {
                 return $group->get_storage()->guid;
             }
         }
 
         $this->_load_all_groups();
 
-        if (!empty($this->_direct_groups))
-        {
+        if (!empty($this->_direct_groups)) {
             return $this->_direct_groups[key($this->_direct_groups)]->get_storage()->guid;
         }
 
@@ -384,16 +354,14 @@ class midcom_core_user
      */
     private function _load_all_groups()
     {
-        if (is_null($this->_direct_groups))
-        {
+        if (is_null($this->_direct_groups)) {
             $this->_load_direct_groups();
         }
 
         $this->_all_groups = array();
         $this->_inheritance_chains = array();
 
-        foreach ($this->_direct_groups as $id => $group)
-        {
+        foreach ($this->_direct_groups as $id => $group) {
             $this->_all_groups[$id] =& $this->_direct_groups[$id];
             $inheritance_chain = array($group->id);
             /**
@@ -422,23 +390,19 @@ class midcom_core_user
     {
         static $cache = array();
 
-        if (!array_key_exists($this->id, $cache))
-        {
+        if (!array_key_exists($this->id, $cache)) {
             debug_add("Loading privileges for user {$this->name} ({$this->id})");
 
-            if (is_null($this->_all_groups))
-            {
+            if (is_null($this->_all_groups)) {
                 $this->_load_all_groups();
             }
 
             $this->_privileges = array();
             $this->_per_class_privileges = array();
 
-            foreach ($this->_inheritance_chains as $inheritance_chain)
-            {
+            foreach ($this->_inheritance_chains as $inheritance_chain) {
                 // Compute permissions based on this group line.
-                foreach ($inheritance_chain as $group_id)
-                {
+                foreach ($inheritance_chain as $group_id) {
                     $this->_merge_privileges($this->_all_groups[$group_id]->get_privileges());
                 }
             }
@@ -447,9 +411,7 @@ class midcom_core_user
             $this->_merge_privileges(midcom_core_privilege::get_self_privileges($this->guid));
             $cache[$this->id]['direct'] = $this->_privileges;
             $cache[$this->id]['class'] = $this->_per_class_privileges;
-        }
-        else
-        {
+        } else {
             $this->_privileges = $cache[$this->id]['direct'];
             $this->_per_class_privileges = $cache[$this->id]['class'];
         }
@@ -465,12 +427,9 @@ class midcom_core_user
      */
     private function _merge_privileges($privileges)
     {
-        foreach ($privileges as $privilege)
-        {
-            if ($privilege->classname != '')
-            {
-                switch ($privilege->value)
-                {
+        foreach ($privileges as $privilege) {
+            if ($privilege->classname != '') {
+                switch ($privilege->value) {
                     case MIDCOM_PRIVILEGE_ALLOW:
                         debug_add("Grant {$privilege->privilegename} for class hierarchy {$privilege->classname}.");
                         $this->_per_class_privileges[$privilege->classname][$privilege->privilegename] = $privilege->value;
@@ -485,11 +444,8 @@ class midcom_core_user
                         debug_add("Inheriting {$privilege->privilegename} for class hierarchy {$privilege->classname}.");
                         break;
                 }
-            }
-            else
-            {
-                switch ($privilege->value)
-                {
+            } else {
+                switch ($privilege->value) {
                     case MIDCOM_PRIVILEGE_ALLOW:
                         debug_add("Grant {$privilege->privilegename}.");
                         $this->_privileges[$privilege->privilegename] = $privilege->value;
@@ -522,26 +478,21 @@ class midcom_core_user
      */
     public function is_in_group($group)
     {
-        if (is_null($this->_all_groups))
-        {
+        if (is_null($this->_all_groups)) {
             $this->_load_all_groups();
         }
 
         // Process
-        if (midcom::get()->dbfactory->is_a($group, 'midcom_core_group'))
-        {
+        if (midcom::get()->dbfactory->is_a($group, 'midcom_core_group')) {
             return array_key_exists($group->id, $this->_all_groups);
         }
-        if (preg_match('/^group:/', $group))
-        {
+        if (preg_match('/^group:/', $group)) {
             return array_key_exists($group, $this->_all_groups);
         }
         // We scan through our groups looking for a midgard group with the right name
-        foreach ($this->_all_groups as $group_object)
-        {
+        foreach ($this->_all_groups as $group_object) {
             if (   midcom::get()->dbfactory->is_a($group_object, 'midcom_core_group')
-                && $group_object->get_storage()->name == $group)
-            {
+                && $group_object->get_storage()->name == $group) {
                 return true;
             }
         }
@@ -600,8 +551,7 @@ class midcom_core_user
     public function get_last_login()
     {
         $person = $this->get_storage();
-        if (!$person->can_do('midcom:isonline'))
-        {
+        if (!$person->can_do('midcom:isonline')) {
             return null;
         }
 
@@ -633,8 +583,7 @@ class midcom_core_user
         $person = $this->get_storage();
         $account = new midom_core_account($person);
 
-        if (!$account->delete())
-        {
+        if (!$account->delete()) {
             debug_add('Failed to delete the account, last Midgard error was: ' . midcom_connection::get_error_string(), MIDCOM_LOG_INFO);
             return false;
         }

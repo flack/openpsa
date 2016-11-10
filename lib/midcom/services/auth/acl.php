@@ -384,16 +384,13 @@ class midcom_services_auth_acl
      */
     public function register_default_privileges($privileges)
     {
-        foreach ($privileges as $name => $values)
-        {
-            if (!is_array($values))
-            {
+        foreach ($privileges as $name => $values) {
+            if (!is_array($values)) {
                 $values = array($values, MIDCOM_PRIVILEGE_INHERIT);
             }
 
             self::$_default_privileges[$name] = $values[0];
-            if ($values[1] != MIDCOM_PRIVILEGE_INHERIT)
-            {
+            if ($values[1] != MIDCOM_PRIVILEGE_INHERIT) {
                 self::$_owner_default_privileges[$name] = $values[1];
             }
         }
@@ -427,8 +424,7 @@ class midcom_services_auth_acl
     private function _load_class_magic_privileges($class)
     {
         // Check if we have loaded these privileges already...
-        if (array_key_exists($class, self::$_default_magic_class_privileges))
-        {
+        if (array_key_exists($class, self::$_default_magic_class_privileges)) {
             return;
         }
 
@@ -439,8 +435,7 @@ class midcom_services_auth_acl
             'USERS' => array()
         );
 
-        if (method_exists($class, 'get_class_magic_default_privileges'))
-        {
+        if (method_exists($class, 'get_class_magic_default_privileges')) {
             $object = new $class();
             $privs = $object->get_class_magic_default_privileges();
         }
@@ -454,8 +449,7 @@ class midcom_services_auth_acl
 
         $cache_id = $user->id . '::' . $classname;
 
-        if (!array_key_exists($cache_id, $cache))
-        {
+        if (!array_key_exists($cache_id, $cache)) {
             $tmp_object = new $classname;
             $cache[$cache_id] = $user->get_per_class_privileges($tmp_object);
         }
@@ -475,31 +469,20 @@ class midcom_services_auth_acl
         $user_id = 'ANONYMOUS';
 
         // TODO: Clean if/else shorthands, make sure this works correctly for magic assignees as well
-        if (is_null($user))
-        {
-            if ($this->auth->user)
-            {
+        if (is_null($user)) {
+            if ($this->auth->user) {
                 $user_id = $this->auth->user->id;
             }
-        }
-        elseif (is_string($user))
-        {
+        } elseif (is_string($user)) {
             if (   mgd_is_guid($user)
-                || is_numeric($user))
-            {
+                || is_numeric($user)) {
                 $user_id = $this->auth->get_user($user)->id;
-            }
-            else
-            {
+            } else {
                 $user_id = $user;
             }
-        }
-        elseif (is_object($user))
-        {
+        } elseif (is_object($user)) {
             $user_id = $user->id;
-        }
-        else
-        {
+        } else {
             $user_id = $user;
         }
 
@@ -537,17 +520,14 @@ class midcom_services_auth_acl
     {
         $cache_id = $user_id . '::' . $object_guid;
 
-        if (!array_key_exists($cache_id, self::$_privileges_cache))
-        {
+        if (!array_key_exists($cache_id, self::$_privileges_cache)) {
             if (   empty($object_guid)
-                || empty($object_class))
-            {
+                || empty($object_class)) {
                 /* No idea if there should be some special log message written */
                 return array();
             }
 
-            if (!class_exists($object_class))
-            {
+            if (!class_exists($object_class)) {
                 throw new midcom_error("class '{$object_class}' does not exist");
             }
 
@@ -583,13 +563,10 @@ class midcom_services_auth_acl
         $user = $this->auth->get_user($user_id);
 
         // user privileges
-        if (is_a($user, 'midcom_core_user'))
-        {
+        if (is_a($user, 'midcom_core_user')) {
             $user_privileges = $user->get_privileges();
             $user_per_class_privileges = $this->_get_user_per_class_privileges($object_class, $user);
-        }
-        else
-        {
+        } else {
             $user_privileges = array();
             $user_per_class_privileges = array();
         }
@@ -608,8 +585,7 @@ class midcom_services_auth_acl
         );
 
         // cache for future queries
-        foreach ($full_privileges as $priv => $value)
-        {
+        foreach ($full_privileges as $priv => $value) {
             $full_privileges[$priv] = ($value == MIDCOM_PRIVILEGE_ALLOW);
         }
         self::$_privileges_cache[$cache_id] = $full_privileges;
@@ -643,8 +619,7 @@ class midcom_services_auth_acl
         $cache_key = $user_id . '::' . $guid;
 
         // check cache
-        if (isset($cached_collected_privileges[$cache_key]))
-        {
+        if (isset($cached_collected_privileges[$cache_key])) {
             return $cached_collected_privileges[$cache_key];
         }
 
@@ -664,12 +639,9 @@ class midcom_services_auth_acl
         // <== out of SUDO
 
         if (   $parent_guid == $guid
-            || !mgd_is_guid($parent_guid))
-        {
+            || !mgd_is_guid($parent_guid)) {
             $base_privileges = array();
-        }
-        else
-        {
+        } else {
             // recursion
             $base_privileges = self::_collect_content_privileges($parent_guid, $user_id, key($parent_data));
         }
@@ -678,8 +650,7 @@ class midcom_services_auth_acl
         $is_owner = false;
         $last_owner_scope = -1;
         if (   array_key_exists('midgard:owner', $base_privileges)
-            && $base_privileges['midgard:owner'] == MIDCOM_PRIVILEGE_ALLOW)
-        {
+            && $base_privileges['midgard:owner'] == MIDCOM_PRIVILEGE_ALLOW) {
             $is_owner = true;
         }
         // }}}
@@ -696,25 +667,19 @@ class midcom_services_auth_acl
 
         $object_privileges = midcom_core_privilege::get_content_privileges($guid);
 
-        foreach ($object_privileges as $privilege)
-        {
+        foreach ($object_privileges as $privilege) {
             // Check whether we need to take this privilege into account
-            if (!$privilege->does_privilege_apply($user_id))
-            {
+            if (!$privilege->does_privilege_apply($user_id)) {
                 continue;
             }
 
             // The privilege applies if we arrive here, so we merge it into the current collection
             // taking its scope into account.
-            if (defined('MIDCOM_PRIVILEGE_SCOPE_' . $privilege->assignee))
-            {
+            if (defined('MIDCOM_PRIVILEGE_SCOPE_' . $privilege->assignee)) {
                 $scope = constant('MIDCOM_PRIVILEGE_SCOPE_' . $privilege->assignee);
-            }
-            else
-            {
+            } else {
                 $assignee = $privilege->get_assignee();
-                if (!$assignee)
-                {
+                if (!$assignee) {
                     debug_print_r('Could not resolve the assignee of this privilege, skipping it:', $privilege);
                     // Skip broken privileges.
                     continue;
@@ -725,16 +690,14 @@ class midcom_services_auth_acl
             $valid_privileges[$scope][$privilege->privilegename] = $privilege->value;
 
             if (   $privilege->privilegename == 'midgard:owner'
-                && $scope > $last_owner_scope)
-            {
+                && $scope > $last_owner_scope) {
                 $is_owner = ($privilege->value == MIDCOM_PRIVILEGE_ALLOW);
                 $last_owner_scope = $scope;
             }
         }
 
         // Process owner privileges
-        if (!$is_owner)
-        {
+        if (!$is_owner) {
             // Drop the owner privileges from the merging chain again, we are not an owner
             unset ($valid_privileges[MIDCOM_PRIVILEGE_SCOPE_OWNER]);
         }
@@ -744,18 +707,14 @@ class midcom_services_auth_acl
         $collected_privileges = array();
         // Note, that this merging order does not take the group order into account, it just
         // follows the basic rule that the deeper the group is, the smaller is its scope.
-        foreach ($valid_privileges as $privileges)
-        {
+        foreach ($valid_privileges as $privileges) {
             $collected_privileges = array_merge($collected_privileges, $privileges);
         }
 
         // printing debug-statements if object doesn't override base privileges
-        if (midcom::get()->config->get('log_level') >= MIDCOM_LOG_DEBUG)
-        {
-            foreach ($base_privileges as $name => $value)
-            {
-                if (!isset($collected_privileges[$name]))
-                {
+        if (midcom::get()->config->get('log_level') >= MIDCOM_LOG_DEBUG) {
+            foreach ($base_privileges as $name => $value) {
+                if (!isset($collected_privileges[$name])) {
                     debug_add("Object privilege {$name} has no value, from parent {$parent_guid} it is {$value}.");
                 }
             }
@@ -770,8 +729,7 @@ class midcom_services_auth_acl
 
     public function can_do_byclass($privilege, $user, $class)
     {
-        if ($this->_internal_sudo)
-        {
+        if ($this->_internal_sudo) {
             debug_add('INTERNAL SUDO mode is enabled. Generic Read-Only mode set.');
             return $this->_can_do_internal_sudo($privilege);
         }
@@ -779,52 +737,38 @@ class midcom_services_auth_acl
         // Initialize this one to be sure to have it.
         $default_magic_class_privileges = array();
 
-        if ($class !== null)
-        {
-            if (!is_object($class))
-            {
-                if (!class_exists($class))
-                {
+        if ($class !== null) {
+            if (!is_object($class)) {
+                if (!class_exists($class)) {
                     debug_add("can_user_do check to undefined class '{$class}'.", MIDCOM_LOG_ERROR);
                     return false;
                 }
 
                 $tmp_object = new $class();
-            }
-            else
-            {
+            } else {
                 $tmp_object = $class;
                 $class = get_class($tmp_object);
             }
             $this->_load_class_magic_privileges($class);
-        }
-        else
-        {
+        } else {
             $tmp_object = null;
         }
 
-        if (is_null($user))
-        {
+        if (is_null($user)) {
             $user_privileges = array();
             $user_per_class_privileges = array();
-            if ($tmp_object !== null)
-            {
+            if ($tmp_object !== null) {
                 $default_magic_class_privileges = array_merge
                 (
                     self::$_default_magic_class_privileges[$class]['EVERYONE'],
                     self::$_default_magic_class_privileges[$class]['ANONYMOUS']
                 );
             }
-        }
-        else
-        {
+        } else {
             $user_privileges = $user->get_privileges();
-            if ($tmp_object === null)
-            {
+            if ($tmp_object === null) {
                 $user_per_class_privileges = array();
-            }
-            else
-            {
+            } else {
                 $user_per_class_privileges = $user->get_per_class_privileges($tmp_object);
                 $default_magic_class_privileges = array_merge
                 (
@@ -843,8 +787,7 @@ class midcom_services_auth_acl
         );
 
         // Check for Ownership:
-        if ($full_privileges['midgard:owner'] == MIDCOM_PRIVILEGE_ALLOW)
-        {
+        if ($full_privileges['midgard:owner'] == MIDCOM_PRIVILEGE_ALLOW) {
             $full_privileges = array_merge
             (
                 $full_privileges,
@@ -852,8 +795,7 @@ class midcom_services_auth_acl
             );
         }
 
-        if (!array_key_exists($privilege, $full_privileges))
-        {
+        if (!array_key_exists($privilege, $full_privileges)) {
             debug_add("Warning, the privilege {$privilege} is unknown at this point. Assuming not granted privilege.");
             return false;
         }
@@ -875,30 +817,25 @@ class midcom_services_auth_acl
      */
     public function can_do_byguid($privilege, $object_guid, $object_class, $user_id)
     {
-        if ($this->_internal_sudo)
-        {
+        if ($this->_internal_sudo) {
             return $this->_can_do_internal_sudo($privilege);
         }
 
-        if ($this->auth->is_component_sudo())
-        {
+        if ($this->auth->is_component_sudo()) {
             return true;
         }
 
         $cache_key = "{$user_id}::{$object_guid}";
 
-        if (!isset(self::$_privileges_cache[$cache_key]))
-        {
+        if (!isset(self::$_privileges_cache[$cache_key])) {
             self::$_privileges_cache[$cache_key] = array();
         }
 
-        if (isset(self::$_privileges_cache[$cache_key][$privilege]))
-        {
+        if (isset(self::$_privileges_cache[$cache_key][$privilege])) {
             return self::$_privileges_cache[$cache_key][$privilege];
         }
 
-        if ($this->_load_content_privilege($privilege, $object_guid, $object_class, $user_id))
-        {
+        if ($this->_load_content_privilege($privilege, $object_guid, $object_class, $user_id)) {
             self::$_privileges_cache[$cache_key][$privilege] = self::$_content_privileges_cache[$cache_key][$privilege];
             return self::$_privileges_cache[$cache_key][$privilege];
         }
@@ -906,20 +843,17 @@ class midcom_services_auth_acl
         $user = $this->auth->get_user($user_id);
 
         // user privileges
-        if (is_a($user, 'midcom_core_user'))
-        {
+        if (is_a($user, 'midcom_core_user')) {
             $user_per_class_privileges = $this->_get_user_per_class_privileges($object_class, $user);
 
-            if (array_key_exists($privilege, $user_per_class_privileges))
-            {
+            if (array_key_exists($privilege, $user_per_class_privileges)) {
                 self::$_privileges_cache[$cache_key][$privilege] = ($user_per_class_privileges[$privilege] == MIDCOM_PRIVILEGE_ALLOW);
                 return self::$_privileges_cache[$cache_key][$privilege];
             }
 
             $user_privileges = $user->get_privileges();
 
-            if (array_key_exists($privilege, $user_privileges))
-            {
+            if (array_key_exists($privilege, $user_privileges)) {
                 self::$_privileges_cache[$cache_key][$privilege] = ($user_privileges[$privilege] == MIDCOM_PRIVILEGE_ALLOW);
                 return self::$_privileges_cache[$cache_key][$privilege];
             }
@@ -930,20 +864,17 @@ class midcom_services_auth_acl
         // default magic class privileges user
         $dmcp_user = is_null($this->auth->user) ? 'ANONYMOUS' : 'USERS';
 
-        if (array_key_exists($privilege, self::$_default_magic_class_privileges[$object_class][$dmcp_user]))
-        {
+        if (array_key_exists($privilege, self::$_default_magic_class_privileges[$object_class][$dmcp_user])) {
             self::$_privileges_cache[$cache_key][$privilege] = (self::$_default_magic_class_privileges[$object_class][$dmcp_user][$privilege] == MIDCOM_PRIVILEGE_ALLOW);
             return self::$_privileges_cache[$cache_key][$privilege];
         }
 
-        if (array_key_exists($privilege, self::$_default_magic_class_privileges[$object_class]['EVERYONE']))
-        {
+        if (array_key_exists($privilege, self::$_default_magic_class_privileges[$object_class]['EVERYONE'])) {
             self::$_privileges_cache[$cache_key][$privilege] = (self::$_default_magic_class_privileges[$object_class]['EVERYONE'][$privilege] == MIDCOM_PRIVILEGE_ALLOW);
             return self::$_privileges_cache[$cache_key][$privilege];
         }
 
-        if (array_key_exists($privilege, self::$_default_privileges))
-        {
+        if (array_key_exists($privilege, self::$_default_privileges)) {
             self::$_privileges_cache[$cache_key][$privilege] = (self::$_default_privileges[$privilege] == MIDCOM_PRIVILEGE_ALLOW);
             return self::$_privileges_cache[$cache_key][$privilege];
         }
@@ -967,12 +898,10 @@ class midcom_services_auth_acl
     {
         $cache_id = $user_id . '::' . $guid;
 
-        if (!array_key_exists($cache_id, self::$_content_privileges_cache))
-        {
+        if (!array_key_exists($cache_id, self::$_content_privileges_cache)) {
             self::$_content_privileges_cache[$cache_id] = array();
         }
-        if (array_key_exists($privilegename, self::$_content_privileges_cache[$cache_id]))
-        {
+        if (array_key_exists($privilegename, self::$_content_privileges_cache[$cache_id])) {
             return self::$_content_privileges_cache[$cache_id][$privilegename];
         }
 
@@ -981,12 +910,10 @@ class midcom_services_auth_acl
         $last_scope = -1;
         $content_privilege = null;
 
-        foreach ($object_privileges as $privilege)
-        {
+        foreach ($object_privileges as $privilege) {
             if (   $privilege->privilegename != $privilegename
                 ||  $privilege->scope <= $last_scope
-                || !$privilege->does_privilege_apply($user_id))
-            {
+                || !$privilege->does_privilege_apply($user_id)) {
                 continue;
             }
 
@@ -996,23 +923,19 @@ class midcom_services_auth_acl
 
         //owner privileges override everything but person privileges, so we have to cross-check those here
         if (   $privilegename != 'midgard:owner'
-            && $last_scope < MIDCOM_PRIVILEGE_SCOPE_OWNER)
-        {
+            && $last_scope < MIDCOM_PRIVILEGE_SCOPE_OWNER) {
             $owner_privileges = $this->get_owner_default_privileges();
-            if (array_key_exists($privilegename, $owner_privileges))
-            {
+            if (array_key_exists($privilegename, $owner_privileges)) {
                 $found = $this->_load_content_privilege('midgard:owner', $guid, $class, $user_id);
                 if (    $found
-                     && self::$_content_privileges_cache[$cache_id]['midgard:owner'])
-                {
+                     && self::$_content_privileges_cache[$cache_id]['midgard:owner']) {
                     self::$_content_privileges_cache[$cache_id][$privilegename] = ($owner_privileges[$privilegename] == MIDCOM_PRIVILEGE_ALLOW);
                     return true;
                 }
             }
         }
 
-        if (!is_null($content_privilege))
-        {
+        if (!is_null($content_privilege)) {
             self::$_content_privileges_cache[$cache_id][$privilegename] = ($content_privilege->value == MIDCOM_PRIVILEGE_ALLOW);
             return true;
         }
@@ -1029,19 +952,16 @@ class midcom_services_auth_acl
         // <== out of SUDO
 
         if (   $parent_guid == $guid
-            || !mgd_is_guid($parent_guid))
-        {
+            || !mgd_is_guid($parent_guid)) {
             return false;
         }
 
         $parent_cache_id = $user_id . '::' . $parent_guid;
-        if (!array_key_exists($parent_cache_id, self::$_privileges_cache))
-        {
+        if (!array_key_exists($parent_cache_id, self::$_privileges_cache)) {
             self::$_content_privileges_cache[$parent_cache_id] = array();
         }
 
-        if ($this->_load_content_privilege($privilegename, $parent_guid, key($parent_data), $user_id))
-        {
+        if ($this->_load_content_privilege($privilegename, $parent_guid, key($parent_data), $user_id)) {
             self::$_content_privileges_cache[$cache_id][$privilegename] = self::$_content_privileges_cache[$parent_cache_id][$privilegename];
 
             return true;
@@ -1060,8 +980,7 @@ class midcom_services_auth_acl
      */
     private function _can_do_internal_sudo($privilege)
     {
-        switch ($privilege)
-        {
+        switch ($privilege) {
             case 'midgard:create':
             case 'midgard:update':
             case 'midgard:delete':

@@ -142,8 +142,7 @@ class midcom_services_auth
         $this->_initialize_user_from_midgard();
         $this->_prepare_authentication_drivers();
 
-        if (!$this->_check_for_new_login_session())
-        {
+        if (!$this->_check_for_new_login_session()) {
             // No new login detected, so we check if there is a running session.
             $this->_check_for_active_login_session();
         }
@@ -158,22 +157,19 @@ class midcom_services_auth
     private function _check_for_new_login_session()
     {
         $credentials = $this->_auth_frontend->read_authentication_data();
-        if (!$credentials)
-        {
+        if (!$credentials) {
             return false;
         }
 
         $this->auth_credentials_found = true;
 
         // Try to start up a new session, this will authenticate as well.
-        if (!$this->_auth_backend->create_login_session($credentials['username'], $credentials['password']))
-        {
+        if (!$this->_auth_backend->create_login_session($credentials['username'], $credentials['password'])) {
             debug_add('The login information passed to the system was invalid.', MIDCOM_LOG_ERROR);
             debug_add("Username was {$credentials['username']}");
             // No password logging for security reasons.
 
-            if (is_callable(midcom::get()->config->get('auth_failure_callback')))
-            {
+            if (is_callable(midcom::get()->config->get('auth_failure_callback'))) {
                 debug_print_r('Calling auth failure callback: ', midcom::get()->config->get('auth_failure_callback'));
                 // Calling the failure function with the username as a parameter. No password sended to the user function for security reasons
                 call_user_func(midcom::get()->config->get('auth_failure_callback'), $credentials['username']);
@@ -189,20 +185,17 @@ class midcom_services_auth
         $person_class = midcom::get()->config->get('person_class');
         $person = new $person_class($this->user->guid);
         if (   midcom::get()->config->get('auth_save_prev_login')
-            && $person->parameter('midcom', 'last_login'))
-        {
+            && $person->parameter('midcom', 'last_login')) {
             $person->parameter('midcom', 'prev_login', $person->parameter('midcom', 'last_login'));
         }
 
         $person->parameter('midcom', 'last_login', time());
 
-        if (!$person->parameter('midcom', 'first_login'))
-        {
+        if (!$person->parameter('midcom', 'first_login')) {
             $person->parameter('midcom', 'first_login', time());
         }
 
-        if (is_callable(midcom::get()->config->get('auth_success_callback')))
-        {
+        if (is_callable(midcom::get()->config->get('auth_success_callback'))) {
             debug_print_r('Calling auth success callback:', midcom::get()->config->get('auth_success_callback'));
             // Calling the success function. No parameters, because authenticated user is stored in midcom_connection
             call_user_func(midcom::get()->config->get('auth_success_callback'));
@@ -210,10 +203,8 @@ class midcom_services_auth
 
         // There was form data sent before authentication was re-required
         if (   isset($_POST['restore_form_data'])
-            && isset($_POST['restored_form_data']))
-        {
-            foreach ($_POST['restored_form_data'] as $key => $string)
-            {
+            && isset($_POST['restored_form_data'])) {
+            foreach ($_POST['restored_form_data'] as $key => $string) {
                 $value = @unserialize(base64_decode($string));
                 $_POST[$key] = $value;
                 $_REQUEST[$key] = $value;
@@ -221,8 +212,7 @@ class midcom_services_auth
         }
 
         // Now we check whether there is a success-relocate URL given somewhere.
-        if (array_key_exists('midcom_services_auth_login_success_url', $_REQUEST))
-        {
+        if (array_key_exists('midcom_services_auth_login_success_url', $_REQUEST)) {
             midcom::get()->relocate($_REQUEST['midcom_services_auth_login_success_url']);
             // This will exit.
         }
@@ -247,13 +237,11 @@ class midcom_services_auth
      */
     private function _check_for_active_login_session()
     {
-        if (!$this->_auth_backend->read_login_session())
-        {
+        if (!$this->_auth_backend->read_login_session()) {
             return;
         }
 
-        if (!$this->sessionmgr->authenticate_session($this->_auth_backend->session_id))
-        {
+        if (!$this->sessionmgr->authenticate_session($this->_auth_backend->session_id)) {
             debug_add('Failed to re-authenticate a previous login session, not changing credentials.');
             return;
         }
@@ -268,12 +256,10 @@ class midcom_services_auth
     private function _initialize_user_from_midgard()
     {
         if (   midcom_connection::get_user()
-            && $user = $this->get_user(midcom_connection::get_user()))
-        {
+            && $user = $this->get_user(midcom_connection::get_user())) {
             $this->user = $user;
             if (   midcom_connection::is_admin()
-                || midcom_connection::get('root'))
-            {
+                || midcom_connection::get('root')) {
                 $this->admin = true;
             }
         }
@@ -285,15 +271,13 @@ class midcom_services_auth
     private function _prepare_authentication_drivers()
     {
         $classname = midcom::get()->config->get('auth_backend');
-        if (strpos($classname, "_") === false)
-        {
+        if (strpos($classname, "_") === false) {
             $classname = 'midcom_services_auth_backend_' . $classname;
         }
         $this->_auth_backend = new $classname($this);
 
         $classname = midcom::get()->config->get('auth_frontend');
-        if (strpos($classname, "_") === false)
-        {
+        if (strpos($classname, "_") === false) {
             $classname = 'midcom_services_auth_frontend_' . $classname;
         }
         $this->_auth_frontend = new $classname();
@@ -312,13 +296,11 @@ class midcom_services_auth
      */
     public function can_do($privilege, $content_object, $user = null)
     {
-        if (!is_object($content_object))
-        {
+        if (!is_object($content_object)) {
             return false;
         }
 
-        if ($this->is_admin($user))
-        {
+        if ($this->is_admin($user)) {
             // Administrators always have access.
             return true;
         }
@@ -326,13 +308,11 @@ class midcom_services_auth
         $user_id = $this->acl->get_user_id($user);
 
         //if we're handed the correct object type, we use it's class right away
-        if (midcom::get()->dbclassloader->is_midcom_db_object($content_object))
-        {
+        if (midcom::get()->dbclassloader->is_midcom_db_object($content_object)) {
             $content_object_class = get_class($content_object);
         }
         //otherwise, we assume (hope) that it's a midgard object
-        else
-        {
+        else {
             $content_object_class = midcom::get()->dbclassloader->get_midcom_class_name_for_mgdschema_object($content_object);
         }
 
@@ -341,12 +321,10 @@ class midcom_services_auth
 
     private function is_admin($user)
     {
-        if ($user === null)
-        {
+        if ($user === null) {
             return $this->user && $this->admin;
         }
-        if (is_a($user, 'midcom_core_user'))
-        {
+        if (is_a($user, 'midcom_core_user')) {
             return $user->is_admin();
         }
         return false;
@@ -367,33 +345,25 @@ class midcom_services_auth
      */
     public function can_user_do($privilege, $user = null, $class = null)
     {
-        if ($this->is_admin($user))
-        {
+        if ($this->is_admin($user)) {
             // Administrators always have access.
             return true;
         }
-        if ($this->_component_sudo)
-        {
+        if ($this->_component_sudo) {
             return true;
         }
-        if (is_null($user))
-        {
+        if (is_null($user)) {
             $user =& $this->user;
         }
 
-        if ($user == 'EVERYONE')
-        {
+        if ($user == 'EVERYONE') {
             $user = null;
         }
 
-        if (!is_null($user))
-        {
-            if (is_object($class))
-            {
+        if (!is_null($user)) {
+            if (is_object($class)) {
                 $classname = get_class($class);
-            }
-            else
-            {
+            } else {
                 $classname = $class;
             }
 
@@ -437,20 +407,17 @@ class midcom_services_auth
      */
     public function request_sudo($domain = null)
     {
-        if (!midcom::get()->config->get('auth_allow_sudo'))
-        {
+        if (!midcom::get()->config->get('auth_allow_sudo')) {
             debug_add("SUDO is not allowed on this website.", MIDCOM_LOG_ERROR);
             return false;
         }
 
-        if (is_null($domain))
-        {
+        if (is_null($domain)) {
             $domain = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_COMPONENT);
             debug_add("Domain was not supplied, falling back to '{$domain}' which we got from the current component context.");
         }
 
-        if ($domain == '')
-        {
+        if ($domain == '') {
             debug_add("SUDO request for an empty domain, this should not happen. Denying sudo.", MIDCOM_LOG_INFO);
             return false;
         }
@@ -469,13 +436,10 @@ class midcom_services_auth
      */
     public function drop_sudo()
     {
-        if ($this->_component_sudo > 0)
-        {
+        if ($this->_component_sudo > 0) {
             debug_add('Leaving SUDO mode.');
             $this->_component_sudo--;
-        }
-        else
-        {
+        } else {
             debug_add('Requested to leave SUDO mode, but sudo was already disabled. Ignoring request.', MIDCOM_LOG_INFO);
         }
     }
@@ -497,16 +461,13 @@ class midcom_services_auth
      */
     public function is_group_member($group, $user = null)
     {
-        if ($this->is_admin($user))
-        {
+        if ($this->is_admin($user)) {
             // Administrators always have access.
             return true;
         }
         // Default parameter
-        if (is_null($user))
-        {
-            if (is_null($this->user))
-            {
+        if (is_null($user)) {
+            if (is_null($this->user)) {
                 // not authenticated
                 return false;
             }
@@ -543,10 +504,8 @@ class midcom_services_auth
      */
     public function require_do($privilege, $content_object, $message = null)
     {
-        if (!$this->can_do($privilege, $content_object))
-        {
-            if (is_null($message))
-            {
+        if (!$this->can_do($privilege, $content_object)) {
+            if (is_null($message)) {
                 $string = midcom::get()->i18n->get_string('access denied: privilege %s not granted', 'midcom');
                 $message = sprintf($string, $privilege);
             }
@@ -574,10 +533,8 @@ class midcom_services_auth
      */
     public function require_user_do($privilege, $message = null, $class = null)
     {
-        if (!$this->can_user_do($privilege, null, $class))
-        {
-            if (is_null($message))
-            {
+        if (!$this->can_user_do($privilege, null, $class)) {
+            if (is_null($message)) {
                 $string = midcom::get()->i18n->get_string('access denied: privilege %s not granted', 'midcom');
                 $message = sprintf($string, $privilege);
             }
@@ -600,17 +557,12 @@ class midcom_services_auth
      */
     function require_group_member($group, $message = null)
     {
-        if (!$this->is_group_member($group))
-        {
-            if (is_null($message))
-            {
+        if (!$this->is_group_member($group)) {
+            if (is_null($message)) {
                 $string = midcom::get()->i18n->get_string('access denied: user is not member of the group %s', 'midcom');
-                if (is_object($group))
-                {
+                if (is_object($group)) {
                     $message = sprintf($string, $group->name);
-                }
-                else
-                {
+                } else {
                     $message = sprintf($string, $group);
                 }
             }
@@ -630,10 +582,8 @@ class midcom_services_auth
     public function require_admin_user($message = null)
     {
         if (   !$this->admin
-            && !$this->_component_sudo)
-        {
-            if ($message === null)
-            {
+            && !$this->_component_sudo) {
+            if ($message === null) {
                 $message = midcom::get()->i18n->get_string('access denied: admin level privileges required', 'midcom');
             }
 
@@ -652,10 +602,8 @@ class midcom_services_auth
     {
         $ips = midcom::get()->config->get('indexer_reindex_allowed_ips');
         if (   $ips
-            && in_array($_SERVER['REMOTE_ADDR'], $ips))
-        {
-            if (!$this->request_sudo($domain))
-            {
+            && in_array($_SERVER['REMOTE_ADDR'], $ips)) {
+            if (!$this->request_sudo($domain)) {
                 throw new midcom_error('Failed to acquire SUDO rights. Aborting.');
             }
             return true;
@@ -680,10 +628,8 @@ class midcom_services_auth
     public function require_valid_user($method = 'form')
     {
         debug_print_function_stack("require_valid_user called at this level");
-        if (!$this->is_valid_user())
-        {
-            switch ($method)
-            {
+        if (!$this->is_valid_user()) {
+            switch ($method) {
                 case 'basic':
                     $this->_http_basic_auth();
                     break;
@@ -701,18 +647,14 @@ class midcom_services_auth
      */
     private function _http_basic_auth()
     {
-        if (!isset($_SERVER['PHP_AUTH_USER']))
-        {
+        if (!isset($_SERVER['PHP_AUTH_USER'])) {
             midcom::get()->header("WWW-Authenticate: Basic realm=\"Midgard\"");
             midcom::get()->header('HTTP/1.0 401 Unauthorized');
             // TODO: more fancy 401 output ?
             echo "<h1>Authorization required</h1>\n";
             midcom::get()->finish();
-        }
-        else
-        {
-            if (!$this->sessionmgr->create_login_session($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW']))
-            {
+        } else {
+            if (!$this->sessionmgr->create_login_session($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'])) {
                 // Wrong password: Recurse until auth ok or user gives up
                 unset($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW']);
                 $this->_http_basic_auth();
@@ -738,8 +680,7 @@ class midcom_services_auth
 
         $parts = explode(':', $id);
 
-        switch ($parts[0])
-        {
+        switch ($parts[0]) {
             case 'user':
                 $result = $this->get_user($id);
                 break;
@@ -767,23 +708,19 @@ class midcom_services_auth
     public function get_user_by_name($name)
     {
         $person_class = midcom::get()->config->get('person_class');
-        if (method_exists('midgard_user', 'login'))
-        {
+        if (method_exists('midgard_user', 'login')) {
             //Midgard2
             $mc = new midgard_collector('midgard_user', 'login', $name);
             $mc->set_key_property('person');
             $mc->add_constraint('authtype', '=', midcom::get()->config->get('auth_type'));
-        }
-        else
-        {
+        } else {
             //Midgard1
             $mc = new midgard_collector($person_class, 'username', $name);
             $mc->set_key_property('guid');
         }
         $mc->execute();
         $keys = $mc->list_keys();
-        if (count($keys) != 1)
-        {
+        if (count($keys) != 1) {
             return false;
         }
 
@@ -809,8 +746,7 @@ class midcom_services_auth
         $qb->add_constraint('name', '=', $name);
 
         $result = @$qb->execute();
-        if (empty($result))
-        {
+        if (empty($result)) {
             $result = false;
             return $result;
         }
@@ -830,8 +766,7 @@ class midcom_services_auth
      */
     public function get_user($id)
     {
-        if (is_double($id))
-        {
+        if (is_double($id)) {
             // This is some crazy workaround for cases where the ID passed is a double
             // (coming from midcom_connection::get_user() possibly) and is_object($id), again for
             // whatever reason, evaluates to true for that object...
@@ -839,29 +774,21 @@ class midcom_services_auth
         }
         $param = $id;
 
-        if (isset($param->id))
-        {
+        if (isset($param->id)) {
             $id = $param->id;
-        }
-        elseif (   !is_string($id)
-                 && !is_integer($id))
-        {
+        } elseif (   !is_string($id)
+                 && !is_integer($id)) {
             debug_print_type('The passed argument was an object of an unsupported type:', $param, MIDCOM_LOG_WARN);
             debug_print_r('Complete object dump:', $param);
             return false;
         }
-        if (!array_key_exists($id, $this->_user_cache))
-        {
-            try
-            {
-                if (is_a($param, 'midcom_db_person'))
-                {
+        if (!array_key_exists($id, $this->_user_cache)) {
+            try {
+                if (is_a($param, 'midcom_db_person')) {
                     $param = $param->__object;
                 }
                 $this->_user_cache[$id] = new midcom_core_user($param);
-            }
-            catch (midcom_error $e)
-            {
+            } catch (midcom_error $e) {
                 // Keep it silent while missing user object can mess here
                 $this->_user_cache[$id] = false;
             }
@@ -884,48 +811,33 @@ class midcom_services_auth
     public function get_group($id)
     {
         if (   is_a($id, 'midcom_db_group')
-            || is_a($id, 'midgard_group'))
-        {
+            || is_a($id, 'midgard_group')) {
             $object = $id;
             $id = "group:{$object->guid}";
-            if (!array_key_exists($id, $this->_group_cache))
-            {
+            if (!array_key_exists($id, $this->_group_cache)) {
                 $this->_group_cache[$id] = new midcom_core_group($object->id);
             }
-        }
-        elseif (is_string($id))
-        {
-            if (!array_key_exists($id, $this->_group_cache))
-            {
+        } elseif (is_string($id)) {
+            if (!array_key_exists($id, $this->_group_cache)) {
                 $id_parts = explode(':', $id);
-                if (count($id_parts) == 2)
-                {
+                if (count($id_parts) == 2) {
                     // This is a (v)group:... identifier
-                    if ($id_parts[0] == 'group')
-                    {
+                    if ($id_parts[0] == 'group') {
                         $id = $this->_load_group($id_parts[1]);
-                    }
-                    else
-                    {
+                    } else {
                         $this->_group_cache[$id] = false;
                         debug_add("The group type identifier {$id_parts[0]} is unknown, no group was loaded.", MIDCOM_LOG_WARN);
                     }
-                }
-                else
-                {
+                } else {
                     // This must be a group ID, lets hope that the group constructor
                     // can take it.
                     $id = $this->_load_group($id);
                 }
             }
-        }
-        elseif (is_int($id))
-        {
+        } elseif (is_int($id)) {
             // Looks like an object ID, again we try the group constructor.
             $id = $this->_load_group($id);
-        }
-        else
-        {
+        } else {
             $this->_group_cache[$id] = false;
             debug_add("The group type identifier {$id} is of an invalid type, no group was loaded.", MIDCOM_LOG_WARN);
         }
@@ -935,14 +847,11 @@ class midcom_services_auth
 
     private function _load_group($id)
     {
-        try
-        {
+        try {
             $tmp = new midcom_core_group($id);
             $id = $tmp->id;
             $this->_group_cache[$id] = $tmp;
-        }
-        catch (midcom_error $e)
-        {
+        } catch (midcom_error $e) {
             $this->_group_cache[$id] = false;
             debug_add("Group with identifier {$id} could not be loaded: " . $e->getMessage(), MIDCOM_LOG_WARN);
         }
@@ -954,8 +863,7 @@ class midcom_services_auth
      */
     public function login($username, $password)
     {
-        if ($this->_auth_backend->create_login_session($username, $password))
-        {
+        if ($this->_auth_backend->create_login_session($username, $password)) {
             $this->_sync_user_with_backend();
             return true;
         }
@@ -964,8 +872,7 @@ class midcom_services_auth
 
     public function trusted_login($username)
     {
-        if (midcom::get()->config->get('auth_allow_trusted') !== true)
-        {
+        if (midcom::get()->config->get('auth_allow_trusted') !== true) {
             debug_add("Trusted logins are prohibited", MIDCOM_LOG_ERROR);
             return false;
         }
@@ -992,12 +899,9 @@ class midcom_services_auth
      */
     function drop_login_session()
     {
-        if (is_null($this->_auth_backend->user))
-        {
+        if (is_null($this->_auth_backend->user)) {
             debug_add('The backend has no authenticated user set, so we should be fine, doing the relocate nevertheless though.');
-        }
-        else
-        {
+        } else {
             $this->_auth_backend->logout();
         }
 
@@ -1009,8 +913,7 @@ class midcom_services_auth
 
     private function _generate_http_response()
     {
-        if (midcom::get()->config->get('auth_login_form_httpcode') == 200)
-        {
+        if (midcom::get()->config->get('auth_login_form_httpcode') == 200) {
             _midcom_header('HTTP/1.0 200 OK');
             return;
         }
@@ -1058,8 +961,7 @@ class midcom_services_auth
         // Determine login warning so that wrong user/pass is shown.
         $login_warning = '';
         if (   $this->auth_credentials_found
-            && is_null($this->user))
-        {
+            && is_null($this->user)) {
             $login_warning = midcom::get()->i18n->get_string('login message - user or password wrong', 'midcom');
         }
 

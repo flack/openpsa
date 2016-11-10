@@ -63,8 +63,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
     {
         $this->add_breadcrumb("campaign/import/{$args[0]}/", $this->_l10n->get('import subscribers'));
 
-        switch ($handler_id)
-        {
+        switch ($handler_id) {
             case 'import_simpleemails':
                 $this->add_breadcrumb("", $this->_l10n->get('email addresses'));
                 break;
@@ -118,10 +117,8 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
         // Update the breadcrumb line
         $this->_update_breadcrumb($handler_id, $args);
 
-        if (array_key_exists('org_openpsa_directmarketing_import_separator', $_POST))
-        {
-            switch ($_POST['org_openpsa_directmarketing_import_separator'])
-            {
+        if (array_key_exists('org_openpsa_directmarketing_import_separator', $_POST)) {
+            switch ($_POST['org_openpsa_directmarketing_import_separator']) {
                 case 'N':
                     $separator = "\n";
                     break;
@@ -137,18 +134,15 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
             // Initialize the raw contact data
             $contacts_raw = '';
 
-            if (is_uploaded_file($_FILES['org_openpsa_directmarketing_import_upload']['tmp_name']))
-            {
+            if (is_uploaded_file($_FILES['org_openpsa_directmarketing_import_upload']['tmp_name'])) {
                 $contacts_raw = file_get_contents($_FILES['org_openpsa_directmarketing_import_upload']['tmp_name']);
             }
 
-            if (isset($_POST['org_openpsa_directmarketing_import_textarea']))
-            {
+            if (isset($_POST['org_openpsa_directmarketing_import_textarea'])) {
                 $contacts_raw .= $_POST['org_openpsa_directmarketing_import_textarea'];
             }
 
-            if ($contacts_raw)
-            {
+            if ($contacts_raw) {
                 $importer = new org_openpsa_directmarketing_importer_simpleemails($this->_schemadbs, array('separator' => $separator));
                 $this->_run_import($importer, $contacts_raw);
             }
@@ -160,12 +154,10 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
         $this->_request_data['time_start'] = time();
 
         $this->_request_data['contacts'] = $importer->parse($input);
-        if (count($this->_request_data['contacts']) > 0)
-        {
+        if (count($this->_request_data['contacts']) > 0) {
             $this->_request_data['import_status'] = $importer->import_subscribers($this->_request_data['contacts'], $this->_request_data['campaign']);
             if (   $this->_request_data['import_status']['subscribed_new'] > 0
-                || $this->_request_data['import_status']['already_subscribed'] > 0)
-            {
+                || $this->_request_data['import_status']['already_subscribed'] > 0) {
                 $this->_import_success = true;
             }
         }
@@ -181,12 +173,9 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
      */
     public function _show_simpleemails($handler_id, array &$data)
     {
-        if (!$this->_import_success)
-        {
+        if (!$this->_import_success) {
             midcom_show_style('show-import-simpleemails-form');
-        }
-        else
-        {
+        } else {
             midcom_show_style('show-import-status');
         }
     }
@@ -206,8 +195,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
         $this->_update_breadcrumb($handler_id, $args);
 
         if (   array_key_exists('org_openpsa_directmarketing_import', $_POST)
-            && is_uploaded_file($_FILES['org_openpsa_directmarketing_import_upload']['tmp_name']))
-        {
+            && is_uploaded_file($_FILES['org_openpsa_directmarketing_import_upload']['tmp_name'])) {
             $importer = new org_openpsa_directmarketing_importer_vcards($this->_schemadbs);
             $this->_run_import($importer, $_FILES['org_openpsa_directmarketing_import_upload']['tmp_name']);
         }
@@ -221,12 +209,9 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
      */
     public function _show_vcards($handler_id, array &$data)
     {
-        if (!$this->_import_success)
-        {
+        if (!$this->_import_success) {
             midcom_show_style('show-import-vcard-form');
-        }
-        else
-        {
+        } else {
             midcom_show_style('show-import-status');
         }
     }
@@ -245,19 +230,16 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
         // Update the breadcrumb
         $this->_update_breadcrumb($handler_id, $args);
 
-        if (array_key_exists('org_openpsa_directmarketing_import_separator', $_POST))
-        {
+        if (array_key_exists('org_openpsa_directmarketing_import_separator', $_POST)) {
             $data['time_start'] = time();
 
             $data['rows'] = array();
             $data['separator'] = $_POST['org_openpsa_directmarketing_import_separator'];
-            if ($data['separator'] != ';')
-            {
+            if ($data['separator'] != ';') {
                 $data['separator'] = ',';
             }
 
-            if (is_uploaded_file($_FILES['org_openpsa_directmarketing_import_upload']['tmp_name']))
-            {
+            if (is_uploaded_file($_FILES['org_openpsa_directmarketing_import_upload']['tmp_name'])) {
                 // Copy the file for later processing
                 $data['tmp_file'] = tempnam(midcom::get()->config->get('midcom_tempdir'), 'org_openpsa_directmarketing_import_csv');
                 move_uploaded_file($_FILES['org_openpsa_directmarketing_import_upload']['tmp_name'], $data['tmp_file']);
@@ -267,24 +249,19 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
                 $handle = fopen($_FILES['org_openpsa_directmarketing_import_upload']['tmp_name'], 'r');
                 $total_columns = 0;
                 while (   $read_rows < 2
-                       && $csv_line = fgetcsv($handle, 1000, $data['separator']))
-                {
-                    if ($total_columns == 0)
-                    {
+                       && $csv_line = fgetcsv($handle, 1000, $data['separator'])) {
+                    if ($total_columns == 0) {
                         $total_columns = count($csv_line);
                     }
                     $columns_with_content = 0;
-                    foreach ($csv_line as $value)
-                    {
-                        if ($value != '')
-                        {
+                    foreach ($csv_line as $value) {
+                        if ($value != '') {
                             $columns_with_content++;
                         }
                     }
                     $percentage = round(100 / $total_columns * $columns_with_content);
 
-                    if ($percentage >= 20)
-                    {
+                    if ($percentage >= 20) {
                         $data['rows'][] = $csv_line;
                         $read_rows++;
                     }
@@ -303,14 +280,11 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
      */
     public function _show_csv_select($handler_id, array &$data)
     {
-        if (array_key_exists('rows', $data))
-        {
+        if (array_key_exists('rows', $data)) {
             // Present user with the field matching form
             $data['schemadbs'] = $this->_schemadbs;
             midcom_show_style('show-import-csv-select');
-        }
-        else
-        {
+        } else {
             // Present user with upload form
             midcom_show_style('show-import-csv-form');
         }
@@ -325,13 +299,11 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
      */
     public function _handler_csv($handler_id, array $args, array &$data)
     {
-        if (!array_key_exists('org_openpsa_directmarketing_import_separator', $_POST))
-        {
+        if (!array_key_exists('org_openpsa_directmarketing_import_separator', $_POST)) {
             throw new midcom_error('No CSV separator specified.');
         }
 
-        if (!file_exists($_POST['org_openpsa_directmarketing_import_tmp_file']))
-        {
+        if (!file_exists($_POST['org_openpsa_directmarketing_import_tmp_file'])) {
             throw new midcom_error('No CSV file available.');
         }
 

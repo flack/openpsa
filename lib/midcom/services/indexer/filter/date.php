@@ -45,8 +45,7 @@ class midcom_services_indexer_filter_date extends midcom_services_indexer_filter
     {
         parent::__construct($field);
 
-        if ($start == 0 && $end == 0)
-        {
+        if ($start == 0 && $end == 0) {
             throw new midcom_error('Both start and end of a datefilter must not be 0.');
         }
 

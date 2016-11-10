@@ -23,21 +23,17 @@ class org_openpsa_directmarketing_sender_backend_email implements org_openpsa_di
     public function __construct(array $config, org_openpsa_directmarketing_campaign_message_dba $message)
     {
         //Make sure we have some backend and parameters for it defined
-        if (!isset($config['mail_send_backend']))
-        {
+        if (!isset($config['mail_send_backend'])) {
             $config['mail_send_backend'] = 'try_default';
         }
-        if (!isset($config['mail_send_backend_params']))
-        {
+        if (!isset($config['mail_send_backend_params'])) {
             $config['mail_send_backend_params'] = array();
         }
         //Check for bounce detector usage
-        if (!empty($config['bounce_detector_address']))
-        {
+        if (!empty($config['bounce_detector_address'])) {
             //Force bouncer as backend if default specified
             if (   empty($config['mail_send_backend'])
-                || $config['mail_send_backend'] == 'try_default')
-            {
+                || $config['mail_send_backend'] == 'try_default') {
                 $config['mail_send_backend'] = 'bouncer';
             }
         }
@@ -83,12 +79,10 @@ class org_openpsa_directmarketing_sender_backend_email implements org_openpsa_di
         $mail->subject = $subject;
 
         $mail->from = $from;
-        if (isset($this->_config['reply-to']))
-        {
+        if (isset($this->_config['reply-to'])) {
             $mail->headers['Reply-To'] = $this->_config['reply-to'];
         }
-        if (!empty($this->_config['bounce_detector_address']))
-        {
+        if (!empty($this->_config['bounce_detector_address'])) {
             $bounce_address = str_replace('TOKEN', $token, $this->_config['bounce_detector_address']);
             $mail->headers['Return-Path'] = $bounce_address;
         }
@@ -98,28 +92,24 @@ class org_openpsa_directmarketing_sender_backend_email implements org_openpsa_di
         $mail->headers['List-Unsubscribe'] =  '<' . $member->get_unsubscribe_url() . '>';
 
         debug_add('mail->from: ' . $mail->from . ', mail->to: ' . $mail->to . ', mail->subject: ' . $mail->subject);
-        switch ($this->_message->orgOpenpsaObtype)
-        {
+        switch ($this->_message->orgOpenpsaObtype) {
             case org_openpsa_directmarketing_campaign_message_dba::EMAIL_TEXT:
                 $mail->body = $content;
                 break;
             case org_openpsa_directmarketing_campaign_message_dba::EMAIL_HTML:
                 $mail->html_body = $content;
-                if (!empty($this->_config['htmlemail_force_text_body']))
-                {
+                if (!empty($this->_config['htmlemail_force_text_body'])) {
                     $mail->body = $member->personalize_message($this->_config['htmlemail_force_text_body'], $this->_message->orgOpenpsaObtype, $person);
                 }
                 // Allow sending only HTML body if requested
                 $mail->allow_only_html = !empty($this->_config['htmlemail_onlyhtml']);
                 // Skip embedding if requested
-                if (empty($this->_config['htmlemail_donotembed']))
-                {
+                if (empty($this->_config['htmlemail_donotembed'])) {
                     $mail->embed_images();
                 }
 
                 // Handle link detection
-                if (!empty($this->_config['link_detector_address']))
-                {
+                if (!empty($this->_config['link_detector_address'])) {
                     $link_address = str_replace('TOKEN', $token, $this->_config['link_detector_address']);
                     $mail->html_body = $this->_insert_link_detector($mail->html_body, $link_address);
                 }
@@ -130,8 +120,7 @@ class org_openpsa_directmarketing_sender_backend_email implements org_openpsa_di
 
         $mail->attachments = $this->_get_attachments();
 
-        if (!$mail->send())
-        {
+        if (!$mail->send()) {
             throw new midcom_error(sprintf(midcom::get()->i18n->get_string('FAILED to send mail to: %s, reason: %s', 'org.openpsa.directmarketing'), $mail->to, $mail->get_error_message()));
         }
         debug_add('Mail sent to: ' . $mail->to);
@@ -145,29 +134,24 @@ class org_openpsa_directmarketing_sender_backend_email implements org_openpsa_di
     private function _get_attachments()
     {
         $attachments = array();
-        foreach ($this->_config['dm_types'] as $field => $typedata)
-        {
-            if (empty($typedata->attachments_info))
-            {
+        foreach ($this->_config['dm_types'] as $field => $typedata) {
+            if (empty($typedata->attachments_info)) {
                 continue;
             }
 
             // If you don't want to add the image as an attachment to the field, add show_attachment customdata-definition to
             // schema and set it to false
             if (   isset($typedata->storage->_schema->fields[$field]['customdata']['show_attachment'])
-                && $typedata->storage->_schema->fields[$field]['customdata']['show_attachment'] === false)
-            {
+                && $typedata->storage->_schema->fields[$field]['customdata']['show_attachment'] === false) {
                 continue;
             }
 
-            foreach ($typedata->attachments_info as $attachment_data)
-            {
+            foreach ($typedata->attachments_info as $attachment_data) {
                 $att = array();
                 $att['name'] = $attachment_data['filename'];
                 $att['mimetype'] = $attachment_data['mimetype'];
                 $fp = $attachment_data['object']->open('r');
-                if (!$fp)
-                {
+                if (!$fp) {
                     //Failed to open attachment for reading, skip the file
                     continue;
                 }
@@ -199,10 +183,9 @@ class org_openpsa_directmarketing_sender_backend_email implements org_openpsa_di
         $address = addslashes($address);
         return preg_replace_callback(
                 '/href="(http:\/\/.*?)"/i',
-                function ($match) use ($address)
-                {
+                function ($match) use ($address) {
                     return 'href="' . str_replace("URL", rawurlencode($match[1]), $address) . '"';
                 },
                 $html);
-        }
+    }
 }

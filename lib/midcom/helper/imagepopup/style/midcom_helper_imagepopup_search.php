@@ -4,8 +4,7 @@ $query = htmlspecialchars($data['query'], ENT_QUOTES);
 $schema_name = $data['schema_name'];
 
 $url = $prefix . 'unified/' . $data['schema_name'] . '/' . $data['filetype'] . '/';
-if ($data['object'])
-{
+if ($data['object']) {
     $url .= $data['object']->guid;
 }
 ?>

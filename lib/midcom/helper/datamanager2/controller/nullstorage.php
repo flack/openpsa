@@ -42,12 +42,10 @@ class midcom_helper_datamanager2_controller_nullstorage extends midcom_helper_da
      */
     function initialize($identifier = null)
     {
-        if (count($this->schemadb) == 0)
-        {
+        if (count($this->schemadb) == 0) {
             throw new midcom_error('You must set a schema database before initializing midcom_helper_datamanager2_controller_nullstorage.');
         }
-        if ($this->schemaname === null)
-        {
+        if ($this->schemaname === null) {
             $schemas = array_keys($this->schemadb);
             $this->schemaname = array_shift($schemas);
         }
@@ -91,8 +89,7 @@ class midcom_helper_datamanager2_controller_nullstorage extends midcom_helper_da
      */
     function process_form()
     {
-        if ($this->formmanager === null)
-        {
+        if ($this->formmanager === null) {
             throw new midcom_error('You must initialize a controller class before using it.');
         }
 
@@ -100,10 +97,8 @@ class midcom_helper_datamanager2_controller_nullstorage extends midcom_helper_da
 
         // Handle successful save explicitly.
         if (   $result == 'save'
-            || $result == 'next')
-        {
-            if (!$this->datamanager->validate())
-            {
+            || $result == 'next') {
+            if (!$this->datamanager->validate()) {
                 debug_add('Type validation failed. Reverting to edit mode transparently.');
                 debug_print_r('Validation error listing:', $this->datamanager->validation_errors);
                 $result = 'edit';

@@ -27,14 +27,11 @@ class org_openpsa_widgets_ui extends midcom_baseclasses_components_purecode
         $configured_providers = self::get_config_value('search_providers');
         $user_id = false;
 
-        if (!midcom::get()->auth->admin)
-        {
+        if (!midcom::get()->auth->admin) {
             $user_id = midcom::get()->auth->acl->get_user_id();
         }
-        foreach ($configured_providers as $component => $config)
-        {
-            if (!is_array($config))
-            {
+        foreach ($configured_providers as $component => $config) {
+            if (!is_array($config)) {
                 $config = array('route' => $config);
             }
             $config = array_merge($defaults, $config);
@@ -42,8 +39,7 @@ class org_openpsa_widgets_ui extends midcom_baseclasses_components_purecode
             $node_url = $siteconfig->get_node_full_url($component);
             if (   $node_url
                 && (   !$user_id
-                    || midcom::get()->auth->acl->can_do_byguid('midgard:read', $siteconfig->get_node_guid($component), 'midcom_db_topic', $user_id)))
-            {
+                    || midcom::get()->auth->acl->can_do_byguid('midgard:read', $siteconfig->get_node_guid($component), 'midcom_db_topic', $user_id))) {
                 $providers[] = array
                 (
                     'placeholder' => midcom::get()->i18n->get_string('search title', $component),
@@ -59,10 +55,8 @@ class org_openpsa_widgets_ui extends midcom_baseclasses_components_purecode
     public static function initialize_search()
     {
         $providers = self::get_search_providers();
-        foreach ($providers as $config)
-        {
-            if ($config['autocomplete'] === true)
-            {
+        foreach ($providers as $config) {
+            if ($config['autocomplete'] === true) {
                 midcom_helper_datamanager2_widget_autocomplete::add_head_elements();
             }
         }
@@ -93,7 +87,6 @@ class org_openpsa_widgets_ui extends midcom_baseclasses_components_purecode
         //functions needed for ui-tab to work here
         $head->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/history.js-1.8.0/jquery.history.js');
         $head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.widgets/tab_functions.js');
-
     }
 
     /**
@@ -107,8 +100,7 @@ class org_openpsa_widgets_ui extends midcom_baseclasses_components_purecode
         $uipage = self::get_config_value('ui_page');
         $prefix = midcom_connection::get_url('self') . $uipage . '/';
 
-        if (null !== $guid)
-        {
+        if (null !== $guid) {
             //pass the urls & titles for the tabs
             $tabdata[] = array
             (
@@ -124,8 +116,7 @@ class org_openpsa_widgets_ui extends midcom_baseclasses_components_purecode
 
         echo '<div id="tabs">';
         echo "\n<ul>\n";
-        foreach ($tabdata as $key => $tab)
-        {
+        foreach ($tabdata as $key => $tab) {
             echo "<li><a id='key_" . $key ."' class='tabs_link' href='" . $prefix . $tab['url'] . "' ><span> " . $tab['title'] . "</span></a></li>";
         }
         echo "\n</ul>\n";

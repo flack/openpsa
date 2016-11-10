@@ -68,8 +68,7 @@ class org_openpsa_mypage_handler_workingon extends midcom_baseclasses_components
         $hours_mc->add_constraint('date', '<=', $this->_request_data['week_end']);
 
         $reports = $hours_mc->get_rows(array('task', 'invoiceable', 'hours'));
-        foreach ($reports as $report)
-        {
+        foreach ($reports as $report) {
             $this->_add_hour_data($report);
         }
     }
@@ -82,31 +81,26 @@ class org_openpsa_mypage_handler_workingon extends midcom_baseclasses_components
     private function _add_hour_data(array $array)
     {
         static $customer_cache = array();
-        if (!isset($customer_cache[$array['task']]))
-        {
+        if (!isset($customer_cache[$array['task']])) {
             $customer = 0;
             $customer_label = $this->_l10n->get('no customer');
-            if ($array['task'] != 0)
-            {
+            if ($array['task'] != 0) {
                 $mc = new midgard_collector('org_openpsa_task', 'id', $array['task']);
                 $mc->set_key_property('id');
                 $mc->add_value_property('customer');
                 $mc->execute();
                 $customer_id = $mc->get_subkey($array['task'], 'customer');
-                if ($customer_id)
-                {
-                    try
-                    {
+                if ($customer_id) {
+                    try {
                         $customer = new org_openpsa_contacts_group_dba($customer_id);
                         $customer_label = $customer->official;
                         $customer = $customer_id;
+                    } catch (midcom_error $e) {
                     }
-                    catch (midcom_error $e){}
-               }
+                }
             }
             $customer_cache[$array['task']] = $customer;
-            if (!isset($this->_request_data['customers'][$customer]))
-            {
+            if (!isset($this->_request_data['customers'][$customer])) {
                 $this->_request_data['customers'][$customer] = $customer_label;
             }
         }
@@ -114,17 +108,13 @@ class org_openpsa_mypage_handler_workingon extends midcom_baseclasses_components
         $customer = $customer_cache[$array['task']];
 
         $category = 'uninvoiceable';
-        if ($array['invoiceable'])
-        {
+        if ($array['invoiceable']) {
             $category = 'invoiceable';
         }
 
-        if (!isset($this->_request_data['hours'][$category][$customer]))
-        {
+        if (!isset($this->_request_data['hours'][$category][$customer])) {
             $this->_request_data['hours'][$category][$customer] = $array['hours'];
-        }
-        else
-        {
+        } else {
             $this->_request_data['hours'][$category][$customer] += $array['hours'];
         }
         $this->_request_data['hours']['total_' . $category] += $array['hours'];
@@ -147,27 +137,23 @@ class org_openpsa_mypage_handler_workingon extends midcom_baseclasses_components
      */
     public function _handler_set($handler_id, array $args, array &$data)
     {
-        if (!array_key_exists('task', $_POST))
-        {
+        if (!array_key_exists('task', $_POST)) {
             throw new midcom_error('No task specified.');
         }
 
         $relocate = '';
-        if (array_key_exists('url', $_POST))
-        {
+        if (array_key_exists('url', $_POST)) {
             $relocate = $_POST['url'];
         }
 
         // Handle "not working on anything"
-        if ($_POST['action'] == 'stop')
-        {
+        if ($_POST['action'] == 'stop') {
             $_POST['task'] = '';
         }
 
         // Set the "now working on" status
         $workingon = new org_openpsa_mypage_workingon();
-        if (!$workingon->set($_POST['task']))
-        {
+        if (!$workingon->set($_POST['task'])) {
             midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.mypage'),  'Failed to set "working on" parameter to "' . $_POST['task'] . '", reason ' . midcom_connection::get_error_string(), 'error');
         }
 

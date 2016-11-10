@@ -41,8 +41,7 @@ implements midcom_helper_datamanager2_interfaces_create
     public function load_schemadb()
     {
         $this->_schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_message'));
-        if (!array_key_exists($this->_schema, $this->_schemadb))
-        {
+        if (!array_key_exists($this->_schema, $this->_schemadb)) {
             throw new midcom_error_notfound('The type ' . $this->_schema . ' isn\'t available in the schemadb');
         }
         return $this->_schemadb;
@@ -62,8 +61,7 @@ implements midcom_helper_datamanager2_interfaces_create
         $this->_message->campaign = $this->_request_data['campaign']->id;
         $this->_message->orgOpenpsaObtype = $this->_schemadb[$this->_schema]->customdata['org_openpsa_directmarketing_messagetype'];
 
-        if (!$this->_message->create())
-        {
+        if (!$this->_message->create()) {
             debug_print_r('We operated on this object:', $this->_message);
             throw new midcom_error('Failed to create a new message. Last Midgard error was: ' . midcom_connection::get_error_string());
         }

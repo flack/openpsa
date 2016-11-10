@@ -39,12 +39,10 @@ class org_openpsa_core_filter_timeframe extends org_openpsa_core_filter
         $this->name = $name;
         $this->start = $start;
         $this->end = $end;
-        if (empty($this->start))
-        {
+        if (empty($this->start)) {
             $this->start = $name;
         }
-        if (empty($this->end))
-        {
+        if (empty($this->end)) {
             $this->end = $this->start;
         }
     }
@@ -57,12 +55,10 @@ class org_openpsa_core_filter_timeframe extends org_openpsa_core_filter
      */
     public function apply(array $selection, midcom_core_query $query)
     {
-        if (!empty($selection['to']))
-        {
+        if (!empty($selection['to'])) {
             $query->add_constraint($this->start, '<=', strtotime($selection['to'] . ' 23:59:59'));
         }
-        if (!empty($selection['from']))
-        {
+        if (!empty($selection['from'])) {
             $query->add_constraint($this->end, '>=', strtotime($selection['from'] . ' 00:00:00'));
         }
         $this->_selection = $selection;

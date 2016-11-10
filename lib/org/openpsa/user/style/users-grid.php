@@ -1,6 +1,5 @@
 <?php
-if (empty($data['group']))
-{
+if (empty($data['group'])) {
     midcom_show_style('group-sidebar');
 }
 
@@ -12,8 +11,7 @@ $grid->set_option('scroll', 1)
     ->set_option('url', $data['provider_url'])
     ->set_option('sortname', 'index_lastname');
 
-if (isset($data['group']))
-{
+if (isset($data['group'])) {
     $grid->set_option('caption', $data['l10n']->get('members'));
 }
 

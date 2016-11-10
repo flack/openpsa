@@ -63,8 +63,7 @@ $ppu = $formatter->number($data['deliverable_object']->pricePerUnit);
         if (   $data['projects_url']
             && $data['product']
             && $data['product']->orgOpenpsaObtype == org_openpsa_products_product_dba::TYPE_SERVICE
-            && $data['deliverable_object']->state >= org_openpsa_sales_salesproject_deliverable_dba::STATE_ORDERED)
-        {
+            && $data['deliverable_object']->state >= org_openpsa_sales_salesproject_deliverable_dba::STATE_ORDERED) {
             midcom::get()->dynamic_load($data['projects_url'] . "task/list/all/agreement/{$data['deliverable_object']->id}/");
         }
         ?>
@@ -72,8 +71,7 @@ $ppu = $formatter->number($data['deliverable_object']->pricePerUnit);
     <div class="invoices">
         <?php
         if (   $data['invoices_url']
-            && $data['deliverable_object']->invoiced > 0)
-        {
+            && $data['deliverable_object']->invoiced > 0) {
             midcom::get()->dynamic_load($data['invoices_url'] . "list/deliverable/{$data['deliverable_object']->guid}/");
         }
         ?>
@@ -85,8 +83,7 @@ $ppu = $formatter->number($data['deliverable_object']->pricePerUnit);
             <p>
             <?php
             echo $data['deliverable_toolbar']['label'];
-            foreach ($data['deliverable_toolbar']['buttons'] as $name => $label)
-            {
+            foreach ($data['deliverable_toolbar']['buttons'] as $name => $label) {
                 echo "<input type=\"submit\" class=\"$name\" name=\"$name\" value=\"$label\" />\n";
             }
             ?>

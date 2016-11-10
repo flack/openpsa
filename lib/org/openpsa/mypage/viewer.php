@@ -19,12 +19,9 @@ class org_openpsa_mypage_viewer extends midcom_baseclasses_components_request
     {
         // Always run in uncached mode
         midcom::get()->cache->content->no_cache();
-        if ($handler_id == 'workingon_set')
-        {
+        if ($handler_id == 'workingon_set') {
             midcom::get()->auth->require_valid_user('basic');
-        }
-        else
-        {
+        } else {
             midcom::get()->auth->require_valid_user();
             org_openpsa_widgets_contact::add_head_elements();
         }

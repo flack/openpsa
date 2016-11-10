@@ -11,8 +11,7 @@
 
         <tbody>
             <?php
-            foreach ($data['import_status'] as $status => $count)
-            {
+            foreach ($data['import_status'] as $status => $count) {
                 echo "<tr>\n";
                 echo "<td>" . $data['l10n']->get($status) . "</td>\n";
                 echo "<td>{$count}</td>\n";

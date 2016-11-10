@@ -22,15 +22,14 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
                         ?>
                     </th>
                     <?php
-                    if (isset($data['rows'][1]))
-                    {
-                    ?>
+                    if (isset($data['rows'][1])) {
+                        ?>
                     <th>
                         <?php
-                        echo $data['l10n']->get('example');
-                        ?>
+                        echo $data['l10n']->get('example'); ?>
                     </th>
                     <?php
+
                     }
                     ?>
                     <th>
@@ -44,16 +43,13 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
                 <?php
                 $fields = $data['schemadb'][$data['schema']]->fields;
                 $fields_to_skip = explode(',', $data['config']->get('import_skip_fields'));
-                if (is_array($fields_to_skip))
-                {
+                if (is_array($fields_to_skip)) {
                     $fields = array_diff_key($fields, array_keys($fields_to_skip));
                 }
-                foreach ($data['rows'][0] as $key => $cell)
-                {
+                foreach ($data['rows'][0] as $key => $cell) {
                     echo "<tr>\n";
                     echo "    <td><label for=\"org_openpsa_products_import_csv_field_{$key}\">{$cell}</label></td>\n";
-                    if (isset($data['rows'][1]))
-                    {
+                    if (isset($data['rows'][1])) {
                         echo "    <td>{$data['rows'][1][$key]}</td>\n";
                     }
                     echo "    <td>\n";
@@ -61,19 +57,16 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
                     echo "            <option></option>\n";
 
                     // Show fields from "default" schemas as selectors
-                    foreach ($fields as $field_id => $field)
-                    {
+                    foreach ($fields as $field_id => $field) {
                         $selected = '';
-                        if (!empty($field['hidden']))
-                        {
+                        if (!empty($field['hidden'])) {
                             // Hidden field, skip
                             // TODO: We may want to use some customdata field for this instead
                             continue;
                         }
 
                         $field_label = $data['schemadb'][$data['schema']]->translate_schema_string($field['title']);
-                        if ($cell == $field_label)
-                        {
+                        if ($cell == $field_label) {
                             $selected = ' selected';
                         }
                         echo "            <option{$selected} value=\"{$field_id}\">{$field_label}</option>\n";

@@ -11,8 +11,7 @@ $tabs = array();
 $siteconfig = org_openpsa_core_siteconfig::get_instance();
 $sales_url = $siteconfig->get_node_relative_url('org.openpsa.sales');
 
-if ($sales_url)
-{
+if ($sales_url) {
     $tabs[] = array
     (
         'url' => $sales_url . "deliverable/list/product/{$data['product']->guid}/",

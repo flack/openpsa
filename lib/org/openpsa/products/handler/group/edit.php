@@ -34,8 +34,7 @@ class org_openpsa_products_handler_group_edit extends midcom_baseclasses_compone
         $data['controller'] = midcom_helper_datamanager2_controller::create('simple');
         $data['controller']->schemadb =& $this->_request_data['schemadb_group'];
         $data['controller']->set_storage($this->_group);
-        if (!$data['controller']->initialize())
-        {
+        if (!$data['controller']->initialize()) {
             throw new midcom_error("Failed to initialize a DM2 controller instance for product {$this->_group->id}.");
         }
 
@@ -51,8 +50,7 @@ class org_openpsa_products_handler_group_edit extends midcom_baseclasses_compone
 
     public function save_callback(midcom_helper_datamanager2_controller $controller)
     {
-        if ($this->_config->get('index_groups'))
-        {
+        if ($this->_config->get('index_groups')) {
             // Index the group
             $indexer = midcom::get()->indexer;
             org_openpsa_products_viewer::index($controller->datamanager, $indexer, $this->_topic);

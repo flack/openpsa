@@ -21,12 +21,9 @@ class midcom_helper_imagepopup_handler_links extends midcom_baseclasses_componen
     {
         $url = '__ais/imagepopup/';
         $filetype = $args[1];
-        if ($filetype === 'file')
-        {
+        if ($filetype === 'file') {
             $url .= 'links/';
-        }
-        elseif (empty($args[2]))
-        {
+        } elseif (empty($args[2])) {
             $url .= 'folder/';
         }
         $url .= implode('/', $args) . '/';

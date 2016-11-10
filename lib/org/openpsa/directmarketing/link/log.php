@@ -21,13 +21,11 @@ class org_openpsa_directmarketing_link_log_dba extends midcom_core_dbaobject
 
     public function _on_creating()
     {
-        if (!$this->timestamp)
-        {
+        if (!$this->timestamp) {
             $this->timestamp = time();
         }
         if (   !$this->referrer
-            && !empty($_SERVER['HTTP_REFERER']))
-        {
+            && !empty($_SERVER['HTTP_REFERER'])) {
             $this->referrer = $_SERVER['HTTP_REFERER'];
         }
         return true;

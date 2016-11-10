@@ -127,8 +127,7 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
     public function __get($name)
     {
         $name = ucfirst($name);
-        if (array_key_exists($name, $this->headers))
-        {
+        if (array_key_exists($name, $this->headers)) {
             return $this->headers[$name];
         }
 
@@ -141,8 +140,7 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
     public function __set($name, $value)
     {
         $name = ucfirst($name);
-        if (array_key_exists($name, $this->headers))
-        {
+        if (array_key_exists($name, $this->headers)) {
             $this->headers[$name] = $value;
         }
     }
@@ -183,8 +181,7 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
      */
     private function _prepare_message()
     {
-        if (!empty($this->parameters))
-        {
+        if (!empty($this->parameters)) {
             $template_helper = new org_openpsa_mail_template($this->parameters);
             $this->headers['Subject'] = $template_helper->parse($this->headers['Subject']);
             $this->body = $template_helper->parse($this->body);
@@ -197,20 +194,16 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
         //Try to translate HTML-only body to plaintext as well
         if (   strlen($this->body) == 0
             && strlen($this->html_body) > 0
-            && !$this->allow_only_html)
-        {
+            && !$this->allow_only_html) {
             $this->body = $this->html2text($this->html_body);
         }
 
         $message = new org_openpsa_mail_message($this->to, $this->headers, $this->encoding);
 
         //Check whether it's necessary to initialize MIME
-        if (!empty($this->html_body) || !empty($this->attachments))
-        {
+        if (!empty($this->html_body) || !empty($this->attachments)) {
             $message->set_html_body($this->html_body, $this->body, $this->attachments, $this->_do_image_embedding);
-        }
-        else
-        {
+        } else {
             $message->set_body($this->body);
         }
 
@@ -222,8 +215,7 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
      */
     public function send()
     {
-        if (!is_object($this->_backend))
-        {
+        if (!is_object($this->_backend)) {
             debug_add('no backend object available, aborting', MIDCOM_LOG_WARN);
             return false;
         }
@@ -232,8 +224,7 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
         $message = $this->_prepare_message();
 
         $ret = $this->_backend->send($message);
-        if (!$ret)
-        {
+        if (!$ret) {
             debug_add('Mail sending failed: ' . $this->_backend->get_error_message(), MIDCOM_LOG_ERROR);
         }
         return $ret;
@@ -249,8 +240,7 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
      */
     public function get_error_message()
     {
-        if (is_object($this->_backend))
-        {
+        if (is_object($this->_backend)) {
             return $this->_backend->get_error_message();
         }
         return 'Unknown error';

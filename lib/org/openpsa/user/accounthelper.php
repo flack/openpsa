@@ -31,8 +31,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
 
     public function __construct(midcom_db_person $person = null)
     {
-        if (null !== $person)
-        {
+        if (null !== $person) {
             $this->_person = $person;
         }
         parent::__construct();
@@ -40,8 +39,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
 
     private function _get_account()
     {
-        if ($this->_account === null)
-        {
+        if ($this->_account === null) {
             $this->_account = new midcom_core_account($this->_person);
         }
         return $this->_account;
@@ -57,20 +55,17 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
         $this->errstr = ""; // start fresh
 
         // quick validation
-        if (empty($person_guid))
-        {
+        if (empty($person_guid)) {
             $this->errstr = "Unable to identify user: no guid given";
             return false;
         }
 
-        if (empty($username))
-        {
+        if (empty($username)) {
             $this->errstr = "Unable to create account: no username given";
             return false;
         }
 
-        if ($send_welcome_mail && empty($usermail))
-        {
+        if ($send_welcome_mail && empty($usermail)) {
             $this->errstr = "Unable to deliver welcome mail: no usermail adress given";
             return false;
         }
@@ -80,35 +75,29 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
         $this->_person->require_do('midgard:update');
 
         //need to generate password?
-        if (empty($password))
-        {
+        if (empty($password)) {
             $generated_password = true;
             $password = $this->generate_safe_password($this->_config->get("min_password_length"));
-        }
-        else
-        {
+        } else {
             $generated_password = false;
         }
 
         $account = $this->_get_account();
 
         //an account already existing?
-        if ($account->get_password())
-        {
+        if ($account->get_password()) {
             $this->errstr = "Creating new account for existing account is not possible";
             return false;
         }
 
         //try creating
-        if (!$this->set_account($username, $password))
-        {
+        if (!$this->set_account($username, $password)) {
             $this->errstr = "Could not set account, reason: " . midcom_connection::get_error_string();
             return false;
         }
 
         //send welcome mail?
-        if ($send_welcome_mail)
-        {
+        if ($send_welcome_mail) {
             $mail = new org_openpsa_mail();
             $mail->to = $usermail;
             $mail->from = $this->_config->get('welcome_mail_from_address');
@@ -123,15 +112,12 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
                 "SITE_URL" => midcom::get()->config->get('midcom_site_url')
             );
 
-            if (!$mail->send())
-            {
+            if (!$mail->send()) {
                 $this->errstr = "Unable to deliver welcome mail: " . $mail->get_error_message();
                 $this->delete_account();
                 return false;
             }
-        }
-        elseif ($generated_password)
-        {
+        } elseif ($generated_password) {
             /*
              * no welcome mail was sent:
              * if the password was auto generated show it in an ui message
@@ -141,8 +127,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
                 sprintf($this->_l10n->get("account_creation_success"), $username, $password), 'ok');
         }
 
-        if (!empty($this->errstr))
-        {
+        if (!empty($this->errstr)) {
             throw new midcom_error('Could not create account: ' . $this->errstr);
         }
 
@@ -158,19 +143,15 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
     public function set_account($username, $new_password)
     {
         $account = $this->_get_account();
-        if (!empty($new_password))
-        {
+        if (!empty($new_password)) {
             $new_password_encrypted = midcom_connection::prepare_password($new_password);
 
             //check if the new encrypted password was already used
             if (    $this->check_password_reuse($new_password_encrypted)
-                 && $this->check_password_strength($new_password))
-            {
+                 && $this->check_password_strength($new_password)) {
                 $this->_save_old_password();
                 $account->set_password($new_password);
-            }
-            else
-            {
+            } else {
                 $this->errstr = "password strength too low";
                 return false;
             }
@@ -179,14 +160,12 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
         $account->set_username($username);
 
         // probably username not unique
-        if (!$account->save())
-        {
+        if (!$account->save()) {
             $this->errstr = "Failed to save account, reason: " . midcom_connection::get_error_string();
             return false;
         }
 
-        if (!empty($new_password))
-        {
+        if (!empty($new_password)) {
             // add timestamp of password-change
             $this->_person->set_parameter("org_openpsa_user_password", "last_change", time());
         }
@@ -208,19 +187,16 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
     {
         // We should do this by listening to /dev/urandom
         // Safety
-        if ($length == 0)
-        {
+        if ($length == 0) {
             $length = 8;
         }
         // Valid characters for default password (PONDER: make configurable ?)
         $passwdchars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,-*!:+=()/&%$<>?#@';
         $password = "";
-        while ($length--)
-        {
+        while ($length--) {
             $offset = 1;
             if (   $length == 1
-                || $password == '')
-            {
+                || $password == '') {
                 //make sure password doesn't begin or end in punctuation character
                 $offset = 20;
             }
@@ -237,10 +213,9 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
      */
     public function generate_safe_password($length = 0)
     {
-        do
-        {
+        do {
             $password = self::generate_password($length);
-        } while(!$this->check_password_strength($password));
+        } while (!$this->check_password_strength($password));
         return $password;
     }
 
@@ -253,8 +228,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
     function check_password_reuse($password)
     {
         //check current password
-        if (($this->_get_account()->get_password() == $password))
-        {
+        if (($this->_get_account()->get_password() == $password)) {
             midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.user'), $this->_l10n->get('password is the same as the current one'), 'error');
             return false;
         }
@@ -263,8 +237,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
         $old_passwords = $this->_get_old_passwords();
 
         //check last passwords
-        if (in_array($password, $old_passwords))
-        {
+        if (in_array($password, $old_passwords)) {
             midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.user'), $this->_l10n->get('password was already used'), 'error');
             return false;
         }
@@ -277,15 +250,13 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
     protected function _save_old_password()
     {
         $max_old_passwords = $this->_config->get('max_old_passwords');
-        if ($max_old_passwords < 1)
-        {
+        if ($max_old_passwords < 1) {
             return;
         }
         $old_passwords_array = $this->_get_old_passwords();
         array_unshift($old_passwords_array, $this->_get_account()->get_password());
 
-        if (count($old_passwords_array) > $max_old_passwords)
-        {
+        if (count($old_passwords_array) > $max_old_passwords) {
             array_pop($old_passwords_array);
         }
 
@@ -302,18 +273,14 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
     protected function _get_old_passwords()
     {
         $old_passwords_string = $this->_person->get_parameter("org_openpsa_user_password", "old_passwords");
-        if (!empty($old_passwords_string))
-        {
+        if (!empty($old_passwords_string)) {
             $old_passwords_array = unserialize($old_passwords_string);
             $count = count($old_passwords_array);
             $max = (int) $this->_config->get('max_old_passwords');
-            if ($count > $max)
-            {
+            if ($count > $max) {
                 $old_passwords_array = array_slice($old_passwords_array, 0, $max);
             }
-        }
-        else
-        {
+        } else {
             $old_passwords_array = array();
         }
         return $old_passwords_array;
@@ -332,32 +299,27 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
         $pattern_length = 4;
         $score_char = 4;
         $score = $password_length * $score_char;
-        for ($count = 1; $count <= $pattern_length; $count++)
-        {
+        for ($count = 1; $count <= $pattern_length; $count++) {
             $score += strlen($this->_check_repetition($count, $password)) - $password_length;
         }
 
         $max = $this->_config->get('min_password_length');
 
-        if ($password_length < $max)
-        {
+        if ($password_length < $max) {
             midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.user'), $this->_l10n->get('password too short'), 'error');
             return false;
         }
 
         //check $password with rules
         $rules = $this->_config->get('password_score_rules');
-        foreach ($rules as $rule)
-        {
+        foreach ($rules as $rule) {
             $match = preg_match($rule['match'], $password);
-            if ($match > 0)
-            {
+            if ($match > 0) {
                 $score += $rule['score'];
             }
         }
 
-        if ($score < $this->_config->get('min_password_score'))
-        {
+        if ($score < $this->_config->get('min_password_score')) {
             midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.user'), $this->_l10n->get('password weak'), 'error');
             return false;
         }
@@ -374,31 +336,22 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
     protected function _check_repetition($plen, $password)
     {
         $result = "";
-        for ($i = 0; $i < strlen($password); $i++)
-        {
+        for ($i = 0; $i < strlen($password); $i++) {
             $repeated = true;
-            for ($j = 0; $j < $plen && ($j + $i + $plen) < strlen($password); $j++)
-            {
+            for ($j = 0; $j < $plen && ($j + $i + $plen) < strlen($password); $j++) {
                 if (   (substr($password, $j + $i, 1) == substr($password, $j + $i + $plen, 1))
-                    && $repeated)
-                {
+                    && $repeated) {
                     $repeated = true;
-                }
-                else
-                {
+                } else {
                     $repeated = false;
                 }
             }
-            if ($j < $plen)
-            {
+            if ($j < $plen) {
                 $repeated = false;
             }
-            if ($repeated)
-            {
+            if ($repeated) {
                 $i += $plen - 1;
-            }
-            else
-            {
+            } else {
                 $result .= substr($password, $i, 1);
             }
         }
@@ -413,15 +366,13 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
     function check_password_age()
     {
         $max_age_days = $this->_config->get('password_max_age_days');
-        if ($max_age_days == 0)
-        {
+        if ($max_age_days == 0) {
             return true;
         }
         $max_timeframe = time() - ($max_age_days * 24 * 60 * 60);
         $last_change = $this->_person->get_parameter("org_openpsa_user_password", "last_change");
 
-        if (empty($last_change))
-        {
+        if (empty($last_change)) {
             return false;
         }
 
@@ -439,8 +390,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
 
         $timeframe_minutes = $this->_config->get('password_block_timeframe_min');
 
-        if ($timeframe_minutes == 0)
-        {
+        if ($timeframe_minutes == 0) {
             return false;
         }
         $release_time = time() + ($timeframe_minutes * 60);
@@ -455,17 +405,15 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
         $qb->add_constraint('argumentsstore', '=', serialize($args));
         $qb->add_constraint('status', '=', midcom_services_at_entry_dba::SCHEDULED);
         $results = $qb->execute();
-        if (sizeof($results) > 0)
-        {
+        if (sizeof($results) > 0) {
             //the account is already blocked, so we just extend the block's duration
             $entry = $results[0];
             $entry->start = $release_time;
             return $entry->update();
         }
 
-        if (!midcom_services_at_interface::register($release_time, 'org.openpsa.user', 'reopen_account', $args))
-        {
-             throw new midcom_error("Failed to register interface for re_open the user account, last Midgard error was: " . midcom_connection::get_error_string());
+        if (!midcom_services_at_interface::register($release_time, 'org.openpsa.user', 'reopen_account', $args)) {
+            throw new midcom_error("Failed to register interface for re_open the user account, last Midgard error was: " . midcom_connection::get_error_string());
         }
         $this->_person->set_parameter("org_openpsa_user_blocked_account", "account_password", $account->get_password());
         $account->set_password('', false);
@@ -491,8 +439,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
     {
         $account = $this->_get_account();
 
-        if (!$account->get_password())
-        {
+        if (!$account->get_password()) {
             // the account is already blocked, so skip the rest
             return true;
         }
@@ -510,16 +457,14 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
     public function reopen_account()
     {
         $account = new midcom_core_account($this->_person);
-        if ($account->get_password())
-        {
+        if ($account->get_password()) {
             $this->_person->set_parameter('org_openpsa_user_blocked_account', 'account_password', "");
             $msg = 'Account for person #' . $this->_person->id . ' does have a password already';
             throw new midcom_error($msg);
         }
 
         $account->set_password($this->_person->get_parameter('org_openpsa_user_blocked_account', 'account_password'), false);
-        if (!$account->save())
-        {
+        if (!$account->save()) {
             throw new midcom_error('Failed to save account: ' . midcom_connection::get_error_string());
         }
         $this->_person->delete_parameter('org_openpsa_user_blocked_account', 'account_password');
@@ -538,8 +483,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
     public static function get_person_by_formdata($data)
     {
         if (   empty($data['username'])
-            || empty($data['password']))
-        {
+            || empty($data['password'])) {
             return false;
         }
 
@@ -549,8 +493,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
         $results = $qb->execute();
         midcom::get()->auth->drop_sudo();
 
-        if (sizeof($results) != 1)
-        {
+        if (sizeof($results) != 1) {
             return false;
         }
         return $results[0];
@@ -565,8 +508,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
     public function check_login_attempts($component = null)
     {
         $stat = true;
-        if (is_null($component))
-        {
+        if (is_null($component)) {
             $component = "org.openpsa.user";
         }
 
@@ -575,24 +517,20 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
         $timeframe = midcom_baseclasses_components_configuration::get($component, 'config')->get('password_block_timeframe_min');
 
         if (   $max_attempts == 0
-            || $timeframe == 0)
-        {
+            || $timeframe == 0) {
             return $stat;
         }
 
         midcom::get()->auth->request_sudo('org.openpsa.user');
         $attempts = $this->_person->get_parameter("org_openpsa_user_password", "attempts");
 
-        if (!empty($attempts))
-        {
+        if (!empty($attempts)) {
             $attempts = unserialize($attempts);
-            if (is_array($attempts))
-            {
+            if (is_array($attempts)) {
                 $attempts = array_slice($attempts, 0, ($max_attempts - 1));
             }
         }
-        if (!is_array($attempts))
-        {
+        if (!is_array($attempts)) {
             $attempts = array();
         }
         array_unshift($attempts, time());
@@ -602,8 +540,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
          * on the stack is within our defined timeframe, we block the account
          */
         if (   sizeof($attempts) >= $max_attempts
-            && $attempts[$max_attempts-1] >= (time() - ($timeframe * 60)))
-        {
+            && $attempts[$max_attempts-1] >= (time() - ($timeframe * 60))) {
             $this->disable_account();
             $stat = false;
         }

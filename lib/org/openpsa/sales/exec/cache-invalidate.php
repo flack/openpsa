@@ -3,9 +3,9 @@ midcom::get()->auth->require_admin_user();
 
 // Ensure this is not buffered
 midcom::get()->cache->content->enable_live_mode();
-while(@ob_end_flush())
-
-midcom::get()->disable_limits();
+while (@ob_end_flush()) {
+    midcom::get()->disable_limits();
+}
 
 echo "<h1>Invalidating deliverable caches:</h1>\n";
 
@@ -15,8 +15,7 @@ $deliverables = $qb->execute();
 
 echo "<pre>\n";
 flush();
-foreach ($deliverables as $deliverable)
-{
+foreach ($deliverables as $deliverable) {
     $start = microtime(true);
     echo "Update caches for deliverable #{$deliverable->id} " . $deliverable->title . "\n";
     echo "units: {$deliverable->units} uninvoiceable: {$deliverable->uninvoiceableUnits} price: {$deliverable->price} cost: {$deliverable->cost} invoiced: {$deliverable->invoiced}\n";

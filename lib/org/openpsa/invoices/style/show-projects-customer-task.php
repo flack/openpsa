@@ -4,12 +4,9 @@
     </td>
     <td>
         <?php
-        if ($data['projects_url'])
-        {
+        if ($data['projects_url']) {
             echo "<a href=\"{$data['projects_url']}task/{$data['task']->guid}/\">" . $data['task']->get_label() . "</a>\n";
-        }
-        else
-        {
+        } else {
             echo $data['task']->get_label();
         }
         ?>

@@ -19,8 +19,7 @@ class org_openpsa_expenses_handler_csv extends midcom_baseclasses_components_han
     {
         if (   isset($_GET['filename'])
             && is_string($_GET['filename'])
-            && strpos($_GET['filename'], '.csv'))
-        {
+            && strpos($_GET['filename'], '.csv')) {
             $data['filename'] = $_GET['filename'];
         }
         return array(midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_hours')));
@@ -30,18 +29,15 @@ class org_openpsa_expenses_handler_csv extends midcom_baseclasses_components_han
     {
         midcom::get()->auth->require_valid_user();
         if (   empty($_POST['guids'])
-            || !is_array($_POST['guids']))
-        {
+            || !is_array($_POST['guids'])) {
             throw new midcom_error("No GUIDs found, aborting.");
         }
 
         $qb = org_openpsa_projects_hour_report_dba::new_query_builder();
         $qb->add_constraint('guid', 'IN', $_POST['guids']);
         if (   isset($_POST['order'])
-            && is_array($_POST['order']))
-        {
-            foreach ($_POST['order'] as $field => $order)
-            {
+            && is_array($_POST['order'])) {
+            foreach ($_POST['order'] as $field => $order) {
                 $qb->add_order($field, $order);
             }
         }

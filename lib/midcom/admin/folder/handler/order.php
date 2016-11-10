@@ -20,22 +20,19 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
      */
     private function _process_order_form()
     {
-        if (isset($_POST['f_navorder']))
-        {
+        if (isset($_POST['f_navorder'])) {
             $this->_topic->set_parameter('midcom.helper.nav', 'navorder', $_POST['f_navorder']);
         }
 
         // Form has been handled if cancel has been pressed
-        if (isset($_POST['f_cancel']))
-        {
+        if (isset($_POST['f_cancel'])) {
             midcom::get()->uimessages->add($this->_l10n->get($this->_component), $this->_l10n_midcom->get('cancelled'));
             midcom::get()->relocate('');
             // This will exit
         }
 
         // If the actual score list hasn't been posted, return
-        if (!isset($_POST['f_submit']))
-        {
+        if (!isset($_POST['f_submit'])) {
             return;
         }
 
@@ -44,28 +41,23 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
         $success = true;
 
         $count = 0;
-        foreach ($_POST['sortable'] as $type_items)
-        {
+        foreach ($_POST['sortable'] as $type_items) {
             // Total number of the entries
             $count += count($type_items);
         }
 
         // Loop through the sortables and store the new score
-        foreach ($_POST['sortable'] as $array)
-        {
-            foreach ($array as $identifier => $i)
-            {
+        foreach ($_POST['sortable'] as $array) {
+            foreach ($array as $identifier => $i) {
                 $score_r = $count - (int) $i;
 
-                if (!$this->_update_score($identifier, $score_r))
-                {
+                if (!$this->_update_score($identifier, $score_r)) {
                     $success = false;
                 }
             }
         }
 
-        if ($success)
-        {
+        if ($success) {
             midcom::get()->uimessages->add($this->_l10n->get($this->_component), $this->_l10n_midcom->get('order saved'));
             midcom::get()->relocate('');
             // This will exit
@@ -75,12 +67,9 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
     private function _update_score($identifier, $score)
     {
         // Use the DB Factory to resolve the class and to get the object
-        try
-        {
+        try {
             $object = midcom::get()->dbfactory->get_object_by_guid($identifier);
-        }
-        catch (midcom_error $e)
-        {
+        } catch (midcom_error $e) {
             // This is probably a pseudo leaf, store the score to the current node
             $this->_topic->set_parameter('midcom.helper.nav.score', $identifier, $score);
             return true;
@@ -91,8 +80,7 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
         $approval_status = $object->metadata->is_approved();
 
         //$metadata->set() calls update *AND* updates the metadata cache correctly, thus we use that instead of raw update
-        if (!$object->metadata->set('score', $score))
-        {
+        if (!$object->metadata->set('score', $score)) {
             // Show an error message on an update failure
             $reflector = midcom_helper_reflector::get($object);
             $title = $reflector->get_class_label() . ' ' . $reflector->get_object_label($object);
@@ -102,8 +90,7 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
 
         // Approve if possible
         if (   $approval_status
-            && $object->can_do('midcom:approve'))
-        {
+            && $object->can_do('midcom:approve')) {
             $object->metadata->approve();
         }
         return true;
@@ -127,12 +114,9 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
         $this->_process_order_form();
 
         // Skip the page style on AJAX form handling
-        if (isset($_GET['ajax']))
-        {
+        if (isset($_GET['ajax'])) {
             midcom::get()->skip_page_style = true;
-        }
-        else
-        {
+        } else {
             // Add the view to breadcrumb trail
             $this->add_breadcrumb('__ais/folder/order/', $this->_l10n->get('order navigation'));
 
@@ -182,23 +166,20 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
             MIDCOM_NAVORDER_SCORE => $this->_l10n->get('by score'),
         );
 
-        if (!isset($_GET['ajax']))
-        {
+        if (!isset($_GET['ajax'])) {
             midcom_show_style('midcom-admin-folder-order-start');
         }
 
         $data['navigation'] = $this->_get_navigation_data();
 
         // Loop through each navigation type (node, leaf and mixed)
-        foreach ($data['navigation'] as $key => $array)
-        {
+        foreach ($data['navigation'] as $key => $array) {
             $data['navigation_type'] = $key;
             $data['navigation_items'] = $array;
             midcom_show_style('midcom-admin-folder-order-type');
         }
 
-        if (!isset($_GET['ajax']))
-        {
+        if (!isset($_GET['ajax'])) {
             midcom_show_style('midcom-admin-folder-order-end');
         }
     }
@@ -209,8 +190,7 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
         // Initialize the midcom_helper_nav or navigation access point
         $nap = new midcom_helper_nav();
 
-        switch ($this->_request_data['navorder'])
-        {
+        switch ($this->_request_data['navorder']) {
             case MIDCOM_NAVORDER_DEFAULT:
                 $nodes = $nap->list_nodes($nap->get_current_node());
                 $ret['nodes'] = array_map(array($nap, 'get_node'), $nodes);
@@ -227,8 +207,7 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
 
             case MIDCOM_NAVORDER_ARTICLESFIRST:
                 // Sort the array to have the leaves first
-                if (!isset($ret['leaves']))
-                {
+                if (!isset($ret['leaves'])) {
                     $ret = array
                     (
                         'leaves' => array(),

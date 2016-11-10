@@ -66,45 +66,36 @@ class midcom_services_permalinks
         $nav = new midcom_helper_nav();
 
         // Step 1: Maybe NAP already knows the topic.
-        if ($napobj = $nav->resolve_guid($guid))
-        {
+        if ($napobj = $nav->resolve_guid($guid)) {
             return $napobj[MIDCOM_NAV_FULLURL];
         }
 
-        try
-        {
+        try {
             $object = midcom::get()->dbfactory->get_object_by_guid($guid);
-        }
-        catch (midcom_error $e)
-        {
+        } catch (midcom_error $e) {
             debug_add("Failed to resolve the GUID {$guid}, this is most probably an access denied error.", MIDCOM_LOG_ERROR);
             debug_add('Last MidCOM error string: ' . $e->getMessage());
             return null;
         }
 
-        if (!$object->metadata->is_object_visible_onsite())
-        {
+        if (!$object->metadata->is_object_visible_onsite()) {
             return null;
         }
 
-        if (is_a($object, 'midcom_db_topic'))
-        {
+        if (is_a($object, 'midcom_db_topic')) {
             $napobj = $nav->get_node($object->id);
-            if (!$napobj)
-            {
+            if (!$napobj) {
                 debug_add("Failed to retrieve the NAP object for topic {$object->id}.", MIDCOM_LOG_INFO);
                 return null;
             }
             return $napobj[MIDCOM_NAV_FULLURL];
         }
 
-        if (is_a($object, 'midcom_db_attachment'))
-        {
+        if (is_a($object, 'midcom_db_attachment')) {
             // Faster linking to attachments
             $parent = $object->get_parent();
             if (   is_a($parent, 'midcom_db_topic')
-                && $nav->is_node_in_tree($parent->id, $nav->get_root_node()))
-            {
+                && $nav->is_node_in_tree($parent->id, $nav->get_root_node())) {
                 $napobj = $nav->get_node($parent->id);
                 return $napobj[MIDCOM_NAV_FULLURL] . $object->name;
             }
@@ -115,17 +106,13 @@ class midcom_services_permalinks
         // upwards in the object chain to find a topic.
         $parent = $object->get_parent();
 
-        while ($parent)
-        {
-            if (is_a($parent, 'midcom_db_topic'))
-            {
+        while ($parent) {
+            if (is_a($parent, 'midcom_db_topic')) {
                 // Verify that this topic is within the current sites tree, if it is not,
                 // we ignore it. This might happen on symlink topics with static & co
                 // which point to the outside f.x.
-                if ($nav->is_node_in_tree($parent->id, $nav->get_root_node()))
-                {
-                    if ($return_value = $this->_resolve_permalink_in_topic($parent, $object))
-                    {
+                if ($nav->is_node_in_tree($parent->id, $nav->get_root_node())) {
+                    if ($return_value = $this->_resolve_permalink_in_topic($parent, $object)) {
                         return $return_value;
                     }
                     break;
@@ -140,10 +127,8 @@ class midcom_services_permalinks
         $topic_qb->add_constraint('name', '<>', '');
         $topic_qb->add_constraint('up', 'INTREE', midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ROOTTOPICID));
         $topics = $topic_qb->execute();
-        foreach ($topics as $topic)
-        {
-            if ($result = $this->_resolve_permalink_in_topic($topic, $object))
-            {
+        foreach ($topics as $topic) {
+            if ($result = $this->_resolve_permalink_in_topic($topic, $object)) {
                 return $result;
             }
         }
@@ -155,37 +140,30 @@ class midcom_services_permalinks
     private function _resolve_permalink_in_topic(midcom_db_topic $topic, midcom_core_dbaobject $object)
     {
         $component = $topic->component;
-        if (!midcom::get()->componentloader->is_installed($component))
-        {
+        if (!midcom::get()->componentloader->is_installed($component)) {
             return null;
         }
         $interface = midcom::get()->componentloader->get_interface_class($component);
-        if ($interface === null)
-        {
+        if ($interface === null) {
             debug_add("Failed to load the interface class for the component {$component} of the topic #{$topic->id}, cannot attempt to resolve the permalink here.",
                 MIDCOM_LOG_WARN);
             debug_print_r('Passed topic was:', $topic);
             return null;
         }
 
-        if ($interface instanceof midcom_services_permalinks_resolver)
-        {
+        if ($interface instanceof midcom_services_permalinks_resolver) {
             $result = $interface->resolve_object_link($topic, $object);
-        }
-        else
-        {
+        } else {
             $result = $interface->_on_resolve_permalink($topic, $interface->get_config_for_topic($topic), $object->guid);
         }
-        if ($result === null)
-        {
+        if ($result === null) {
             return null;
         }
 
         $nav = new midcom_helper_nav();
         $node = $nav->get_node($topic->id);
 
-        if (!$node)
-        {
+        if (!$node) {
             debug_add("Failed to load the NAP information of the topic #{$topic->id}, cannot attempt to resolve the permalink here.",
                 MIDCOM_LOG_WARN);
             debug_print_r('Passed topic was:', $topic);

@@ -59,8 +59,7 @@ abstract class midcom_services_indexer_client
     {
         $this->_topic = $topic;
         $this->_l10n = midcom::get()->i18n->get_l10n($topic->component);
-        if (null === $indexer)
-        {
+        if (null === $indexer) {
             $indexer = midcom::get()->indexer;
         }
         $this->_indexer = $indexer;
@@ -86,15 +85,12 @@ abstract class midcom_services_indexer_client
 
     public function reindex()
     {
-        foreach ($this->_queries as $name => $data)
-        {
+        foreach ($this->_queries as $name => $data) {
             $qb = $data[0];
             $results = $qb->execute();
-            if (!empty($results))
-            {
+            if (!empty($results)) {
                 $documents = $this->process_results($name, $results, $data[1]);
-                if (!empty($documents))
-                {
+                if (!empty($documents)) {
                     $this->_indexer->index($documents);
                 }
             }

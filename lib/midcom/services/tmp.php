@@ -54,8 +54,7 @@ class midcom_services_tmp
         midcom::get()->auth->require_user_do('midgard:create', null, 'midcom_core_temporary_object');
 
         $tmp = new midcom_core_temporary_object();
-        if (!$tmp->create())
-        {
+        if (!$tmp->create()) {
             debug_print_r('Tried to create this object:', $tmp);
             throw new midcom_error('Failed to create a new temporary object, last Midgard error was: ' . midcom_connection::get_error_string());
         }
@@ -80,16 +79,14 @@ class midcom_services_tmp
      */
     function request_object($id)
     {
-        if (!$id)
-        {
+        if (!$id) {
             debug_add("Invalid argument, may not evaluate to false", MIDCOM_LOG_INFO);
             debug_print_r('Got this argument:', $id);
             return null;
         }
 
         $tmp = new midcom_core_temporary_object((int) $id);
-        if (!$tmp->can_do('midgard:owner'))
-        {
+        if (!$tmp->can_do('midgard:owner')) {
             debug_add("The current user does not have owner privileges on the temporary object {$id}, denying access.",
                 MIDCOM_LOG_INFO);
             debug_print_r('Got this object:', $tmp);
@@ -98,8 +95,7 @@ class midcom_services_tmp
 
         // Check if the object has timeouted already.
         $timeout = time() - midcom::get()->config->get('midcom_temporary_resource_timeout');
-        if ($tmp->timestamp < $timeout)
-        {
+        if ($tmp->timestamp < $timeout) {
             debug_add("The temporary object {$id}  has exceeded its maximum lifetime, rejecting access and dropping it",
                 MIDCOM_LOG_INFO);
             debug_print_r("Object was:", $tmp);

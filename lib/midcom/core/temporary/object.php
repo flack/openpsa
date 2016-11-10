@@ -88,27 +88,22 @@ class midcom_core_temporary_object extends midcom_core_dbaobject
         // Copy parameters from temporary object
         $parameters = $this->list_parameters();
 
-        foreach ($parameters as $domain => $array)
-        {
-            foreach ($array as $name => $value)
-            {
+        foreach ($parameters as $domain => $array) {
+            foreach ($array as $name => $value) {
                 $object->set_parameter($domain, $name, $value);
             }
         }
 
         // Move attachments from temporary object
         $attachments = $this->list_attachments();
-        foreach ($attachments as $attachment)
-        {
+        foreach ($attachments as $attachment) {
             $attachment->parentguid = $object->guid;
             $attachment->update();
         }
 
         // Privileges are moved using the DBA API as well.
-        if ($privileges = $this->get_privileges())
-        {
-            foreach ($privileges as $privilege)
-            {
+        if ($privileges = $this->get_privileges()) {
+            foreach ($privileges as $privilege) {
                 $privilege->set_object($object);
                 $privilege->store();
             }

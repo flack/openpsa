@@ -9,16 +9,12 @@ ini_set('max_execution_time', 0);
 
 function render_breadcrumb(&$crumbs)
 {
-    while(current($crumbs) !== false)
-    {
+    while (current($crumbs) !== false) {
         $crumb = current($crumbs);
-        if (next($crumbs) === false)
-        {
+        if (next($crumbs) === false) {
             // last item
             echo "<a href='{$crumb['napobject'][MIDCOM_NAV_FULLURL]}'>{$crumb[MIDCOM_NAV_NAME]}</a>";
-        }
-        else
-        {
+        } else {
             echo "{$crumb[MIDCOM_NAV_NAME]} &gt; ";
         }
     }
@@ -37,8 +33,7 @@ $qb->end_group();
 $qb->add_order('name');
 $topics = $qb->execute();
 echo "<h2>Topics</h2>\n";
-foreach ($topics as $topic)
-{
+foreach ($topics as $topic) {
     $node = $nap->get_node($topic->id);
     $crumbs = $nap->get_breadcrumb_data($node[MIDCOM_NAV_ID]);
     render_breadcrumb($crumbs);
@@ -54,8 +49,7 @@ $qb->begin_group('OR');
 $qb->end_group();
 $qb->add_order('name');
 $articles = $qb->execute();
-foreach ($articles as $article)
-{
+foreach ($articles as $article) {
     $node = $nap->get_node($article->topic);
     /* FIXME correct way to figure out leaf id ?
     $leaf = $nap->get_leaf($article->id);
@@ -63,8 +57,7 @@ foreach ($articles as $article)
     render_breadcrumb($crumbs);
     */
     $node_crumbs = $nap->get_breadcrumb_data($node[MIDCOM_NAV_ID]);
-    foreach ($node_crumbs as $crumb)
-    {
+    foreach ($node_crumbs as $crumb) {
         echo "{$crumb[MIDCOM_NAV_NAME]} &gt; ";
     }
     echo "<a href='{$crumb['napobject'][MIDCOM_NAV_FULLURL]}{$article->name}/'>{$article->title}</a>";

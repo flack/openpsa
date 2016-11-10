@@ -4,14 +4,14 @@
         <input type="submit" name="midgard_admin_asgard_deleteok" value="<?php echo $data['l10n_midcom']->get('delete'); ?> " />
         <input type="submit" name="midgard_admin_asgard_deletecancel" value="<?php echo $data['l10n_midcom']->get('cancel'); ?>" />
         <?php
-        if (midcom::get()->config->get('midcom_services_rcs_enable'))
-        {
+        if (midcom::get()->config->get('midcom_services_rcs_enable')) {
             ?>
         <label for="midgard_admin_asgard_disablercs">
           <input type="checkbox" id="midgard_admin_asgard_disablercs" name="midgard_admin_asgard_disablercs" />
           <?php echo $data['l10n']->get('disable rcs'); ?>
         </label>
             <?php
+
         }
         ?>
     </p>
@@ -24,14 +24,14 @@
         <input type="submit" name="midgard_admin_asgard_deleteok" value="<?php echo $data['l10n_midcom']->get('delete'); ?> " />
         <input type="submit" name="midgard_admin_asgard_deletecancel" value="<?php echo $data['l10n_midcom']->get('cancel'); ?>" />
         <?php
-        if (midcom::get()->config->get('midcom_services_rcs_enable'))
-        {
+        if (midcom::get()->config->get('midcom_services_rcs_enable')) {
             ?>
         <label>
             <input type="checkbox" name="midgard_admin_asgard_disablercs" />
             <?php echo $data['l10n']->get('disable rcs'); ?>
         </label>
             <?php
+
         }
         ?>
     </p>

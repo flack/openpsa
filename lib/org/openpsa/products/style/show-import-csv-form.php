@@ -42,8 +42,7 @@
         <div class="input">
             <select class="dropdown" name="org_openpsa_products_import_schema" id="org_openpsa_products_import_schema">
                 <?php
-                foreach (array_keys($data['schemadb_product']) as $name)
-                {
+                foreach (array_keys($data['schemadb_product']) as $name) {
                     echo "                <option value=\"{$name}\">" . $data['l10n']->get($data['schemadb_product'][$name]->description) . "</option>\n";
                 }
                 ?>
@@ -57,8 +56,7 @@
         <div class="input">
             <select class="dropdown" name="org_openpsa_products_import_new_products_product_group" id="org_openpsa_products_import_new_products_product_group">
                 <?php
-                foreach ($data['product_groups'] as $id => $label)
-                {
+                foreach ($data['product_groups'] as $id => $label) {
                     echo "                <option value='{$id}'>{$label}</option>\n";
                 }
                 ?>

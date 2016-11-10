@@ -13,7 +13,6 @@
  */
 class org_openpsa_contacts_handler_rest_person extends midcom_baseclasses_components_handler_rest
 {
-
     public function get_object_classname()
     {
         return "org_openpsa_contacts_person_dba";
@@ -24,8 +23,7 @@ class org_openpsa_contacts_handler_rest_person extends midcom_baseclasses_compon
         parent::handle_create();
 
         // add to group
-        if (isset($this->_request['params']['group_id']))
-        {
+        if (isset($this->_request['params']['group_id'])) {
             $group = new midcom_db_group(intval($this->_request['params']['group_id']));
 
             $member = new midcom_db_member();

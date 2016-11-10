@@ -67,15 +67,13 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
         $qb = self::_prepare_query($guid, $status, $paging);
 
         if (   $limit
-            && !$paging)
-        {
+            && !$paging) {
             $qb->set_limit($limit);
         }
 
         $qb->add_order('metadata.published', $order);
 
-        if ($paging !== false)
-        {
+        if ($paging !== false) {
             return $qb;
         }
 
@@ -97,15 +95,13 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
         $qb->add_constraint('content', '<>', '');
 
         if (   $limit
-            && !$paging)
-        {
+            && !$paging) {
             $qb->set_limit($limit);
         }
 
         $qb->add_order('metadata.published', $order);
 
-        if ($paging !== false)
-        {
+        if ($paging !== false) {
             return $qb;
         }
 
@@ -141,18 +137,14 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
 
     private static function _prepare_query($guid, $status = false, $paging = false)
     {
-        if ($paging !== false)
-        {
+        if ($paging !== false) {
             $qb = new org_openpsa_qbpager('net_nehmer_comments_comment', 'net_nehmer_comments_comment');
             $qb->results_per_page = $paging;
-        }
-        else
-        {
+        } else {
             $qb = net_nehmer_comments_comment::new_query_builder();
         }
 
-        if (!is_array($status))
-        {
+        if (!is_array($status)) {
             $status = net_nehmer_comments_comment::get_default_status();
         }
 
@@ -169,25 +161,21 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
      */
     public function check_spam($config)
     {
-        if (!$config->get('enable_spam_check'))
-        {
+        if (!$config->get('enable_spam_check')) {
             // Spam checker is not enabled, skip check
             return;
         }
 
         $ret = net_nehmer_comments_spamchecker::check_linksleeve($this->title . ' ' . $this->content . ' ' . $this->author);
 
-        if ($ret == net_nehmer_comments_spamchecker::HAM)
-        {
+        if ($ret == net_nehmer_comments_spamchecker::HAM) {
             // Quality content
             debug_add("Linksleeve noted comment \"{$this->title}\" ({$this->guid}) as ham");
 
             $this->status = net_nehmer_comments_comment::MODERATED;
             $this->update();
             $this->_log_moderation('reported_not_junk', 'linksleeve');
-        }
-        elseif ($ret == net_nehmer_comments_spamchecker::SPAM)
-        {
+        } elseif ($ret == net_nehmer_comments_spamchecker::SPAM) {
             // Spam
             debug_add("Linksleeve noted comment \"{$this->title}\" ({$this->guid}) as spam");
 
@@ -199,24 +187,19 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
 
     public function report_abuse()
     {
-        if ($this->status == net_nehmer_comments_comment::MODERATED)
-        {
+        if ($this->status == net_nehmer_comments_comment::MODERATED) {
             return false;
         }
 
         // Set the status
         if (   $this->can_do('net.nehmer.comments:moderation')
-            && !$this->_sudo_requested)
-        {
+            && !$this->_sudo_requested) {
             $this->status = net_nehmer_comments_comment::ABUSE;
-        }
-        else
-        {
+        } else {
             $this->status = net_nehmer_comments_comment::REPORTED_ABUSE;
         }
 
-        if ($this->update())
-        {
+        if ($this->update()) {
             // Log who reported it
             $this->_log_moderation('reported_abuse');
             return true;
@@ -229,20 +212,17 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
      */
     public function confirm_abuse()
     {
-        if ($this->status == net_nehmer_comments_comment::MODERATED)
-        {
+        if ($this->status == net_nehmer_comments_comment::MODERATED) {
             return false;
         }
         // Set the status
         if (   !$this->can_do('net.nehmer.comments:moderation')
-            || $this->_sudo_requested)
-        {
+            || $this->_sudo_requested) {
             return false;
         }
 
         $this->status = net_nehmer_comments_comment::ABUSE;
-        if ($this->update())
-        {
+        if ($this->update()) {
             // Log who reported it
             $this->_log_moderation('confirmed_abuse');
             return true;
@@ -255,21 +235,18 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
      */
     public function confirm_junk()
     {
-        if ($this->status == net_nehmer_comments_comment::MODERATED)
-        {
+        if ($this->status == net_nehmer_comments_comment::MODERATED) {
             return false;
         }
 
         // Set the status
         if (   !$this->can_do('net.nehmer.comments:moderation')
-            || $this->_sudo_requested)
-        {
+            || $this->_sudo_requested) {
             return false;
         }
 
         $this->status = net_nehmer_comments_comment::JUNK;
-        if ($this->update())
-        {
+        if ($this->update()) {
             // Log who reported it
             $this->_log_moderation('confirmed_junk');
             return true;
@@ -283,16 +260,14 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
     public function report_not_abuse()
     {
         if (   !$this->can_do('net.nehmer.comments:moderation')
-            || $this->_sudo_requested)
-        {
+            || $this->_sudo_requested) {
             return false;
         }
 
         // Set the status
         $this->status = net_nehmer_comments_comment::MODERATED;
 
-        if ($this->update())
-        {
+        if ($this->update()) {
             // Log who reported it
             $this->_log_moderation('reported_not_abuse');
             return true;
@@ -304,16 +279,13 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
     {
         $log_entries = array();
         $logs = $this->list_parameters('net.nehmer.comments:moderation_log');
-        foreach ($logs as $action => $details)
-        {
+        foreach ($logs as $action => $details) {
             // TODO: Show everything only to moderators
             $log_action  = explode(':', $action);
             $log_details = explode(':', $details);
 
-            if (count($log_action) == 2)
-            {
-                switch ($log_details[0])
-                {
+            if (count($log_action) == 2) {
+                switch ($log_details[0]) {
                     case 'anonymous':
                         $reporter = 'anonymous';
                         break;
@@ -340,14 +312,10 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
 
     private function _log_moderation($action = 'marked_spam', $reporter = null, $extra = null)
     {
-        if ($reporter === null)
-        {
-            if (midcom::get()->auth->user)
-            {
+        if ($reporter === null) {
+            if (midcom::get()->auth->user) {
                 $reporter = midcom::get()->auth->user->guid;
-            }
-            else
-            {
+            } else {
                 $reporter = 'anonymous';
             }
         }
@@ -367,8 +335,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
             2 => $browser
         );
 
-        if ($extra !== null)
-        {
+        if ($extra !== null) {
             $log_details[] = $extra;
         }
 
@@ -385,8 +352,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
         );
 
         $config = midcom_baseclasses_components_configuration::get('net.nehmer.comments', 'config');
-        if ($config->get('show_reported_abuse_as_normal'))
-        {
+        if ($config->get('show_reported_abuse_as_normal')) {
             $view_status[] = net_nehmer_comments_comment::REPORTED_ABUSE;
         }
 
@@ -402,17 +368,14 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
 
         if (   $config->get('ratings_enable')
             && (    $config->get('ratings_cache_to_object')
-                 || $config->get('comment_count_cache_to_object')))
-        {
+                 || $config->get('comment_count_cache_to_object'))) {
             // Handle ratings
             $comments = net_nehmer_comments_comment::list_by_objectguid($this->objectguid);
             $ratings_total = 0;
             $rating_comments = 0;
             $value = 0;
-            foreach ($comments as $comment)
-            {
-                if (!empty($comment->rating))
-                {
+            foreach ($comments as $comment) {
+                if (!empty($comment->rating)) {
                     $rating_comments++;
                     $ratings_total += $comment->rating;
                 }
@@ -423,21 +386,15 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
             midcom::get()->auth->request_sudo('net.nehmer.comments');
             $parent_object = midcom::get()->dbfactory->get_object_by_guid($this->objectguid);
 
-            if ($config->get('ratings_cache_total'))
-            {
+            if ($config->get('ratings_cache_total')) {
                 $value = $ratings_total;
-            }
-            elseif ($rating_comments != 0)
-            {
+            } elseif ($rating_comments != 0) {
                 $value = $ratings_total / $rating_comments;
             }
 
-            if ($config->get('ratings_cache_to_object_property_metadata'))
-            {
+            if ($config->get('ratings_cache_to_object_property_metadata')) {
                 $parent_object->metadata->set($parent_property, round($value));
-            }
-            else
-            {
+            } else {
                 $orig_rcs = $parent_object->_use_rcs;
                 $parent_object->_use_rcs = (boolean) $config->get('ratings_cache_to_object_use_rcs');
                 // TODO: Figure out whether to round
@@ -448,12 +405,9 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
 
             // Get parent object
             $parent_property = $config->get('comment_count_cache_to_object_property');
-            if ($config->get('comment_count_cache_to_object_property_metadata'))
-            {
+            if ($config->get('comment_count_cache_to_object_property_metadata')) {
                 $parent_object->metadata->set($parent_property, count($comments));
-            }
-            else
-            {
+            } else {
                 $orig_rcs = $parent_object->_use_rcs;
                 $parent_object->_use_rcs = (boolean) $config->get('comment_count_cache_to_object_use_rcs');
                 $parent_object->$parent_property = count($comments);
@@ -467,19 +421,15 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
     private function _send_notifications()
     {
         //Get the parent object
-        try
-        {
+        try {
             $parent = midcom::get()->dbfactory->get_object_by_guid($this->objectguid);
-        }
-        catch (midcom_error $e)
-        {
+        } catch (midcom_error $e) {
             $e->log();
             return false;
         }
 
         if (   empty($this->title)
-            && empty($this->content))
-        {
+            && empty($this->content)) {
             // No need to send notifications about empty rating entries
             return false;
         }
@@ -488,26 +438,22 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
         $message = $this->_construct_message();
 
         $authors = explode('|', substr($parent->metadata->authors, 1, -1));
-        if (empty($authors))
-        {
+        if (empty($authors)) {
             // Fall back to original creator if authors are not set for some reason
             $authors = array($parent->metadata->creator);
         }
 
         //Go through all the authors
-        foreach ($authors as $author)
-        {
+        foreach ($authors as $author) {
             // Send the notification to each author of the original document
             org_openpsa_notifications::notify('net.nehmer.comments:comment_posted', $author, $message);
         }
 
         //Get all the subscriptions
         $subscriptions = $parent->list_parameters('net.nehmer.comments:subscription');
-        if (!empty($subscriptions))
-        {
+        if (!empty($subscriptions)) {
             //Go through each subscription
-            foreach (array_keys($subscriptions) as $user_guid)
-            {
+            foreach (array_keys($subscriptions) as $user_guid) {
                 // Send notice
                 org_openpsa_notifications::notify('net.nehmer.comments:subscription', $user_guid, $message);
             }
@@ -529,12 +475,9 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
 
         // Resolve commenting user
         $auth = midcom::get()->auth;
-        if ($auth->user)
-        {
+        if ($auth->user) {
             $user_string = "{$auth->user->name} ({$auth->user->username})";
-        }
-        else
-        {
+        } else {
             $user_string = "{$this->author} (" . midcom::get()->i18n->get_string('anonymous', 'midcom') . ")";
         }
 
@@ -554,8 +497,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
     {
         $this->_cache_ratings();
 
-        if ($this->_send_notification)
-        {
+        if ($this->_send_notification) {
             //Notify authors and subscribers about the new comment
             $this->_send_notifications();
         }

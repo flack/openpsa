@@ -31,36 +31,27 @@ class org_openpsa_invoices_viewer extends midcom_baseclasses_components_request
         $next = array();
 
         // unsent invoices
-        if ($invoice->sent == 0)
-        {
+        if ($invoice->sent == 0) {
             // sending per mail enabled in billing data?
             $billing_data = $invoice->get_billing_data();
             // only show if mail was chosen as option
-            if (intval($billing_data->sendingoption) == 2)
-            {
+            if (intval($billing_data->sendingoption) == 2) {
                 $next[] = 'send_by_mail';
-            }
-            else
-            {
+            } else {
                 $next[] = 'mark_sent';
             }
         }
         // not paid yet
-        elseif (!$invoice->paid)
-        {
+        elseif (!$invoice->paid) {
             $next[] = 'mark_paid';
-        }
-        else
-        {
+        } else {
             $actions .= strftime('%Y-%m-%d', $invoice->paid);
         }
 
         // generate next action buttons
         if (   $invoice->can_do('midgard:update')
-            && count($next) > 0)
-        {
-            foreach ($next as $action)
-            {
+            && count($next) > 0) {
+            foreach ($next as $action) {
                 $actions .= '<button id="invoice_' . $invoice->guid . '" class="yes ' . $action . '">';
                 $actions .= $this->_l10n->get($action);
                 $actions .= '</button>';
@@ -71,8 +62,7 @@ class org_openpsa_invoices_viewer extends midcom_baseclasses_components_request
 
     public function prepare_toolbar($mode)
     {
-        if ($mode !== 'dashboard')
-        {
+        if ($mode !== 'dashboard') {
             $this->_view_toolbar->add_item
             (
                 array
@@ -83,8 +73,7 @@ class org_openpsa_invoices_viewer extends midcom_baseclasses_components_request
                 )
             );
         }
-        if (midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_invoices_invoice_dba'))
-        {
+        if (midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_invoices_invoice_dba')) {
             $workflow = $this->get_workflow('datamanager2');
             $this->_view_toolbar->add_item($workflow->get_button('invoice/new/', array
             (
@@ -96,16 +85,14 @@ class org_openpsa_invoices_viewer extends midcom_baseclasses_components_request
 
     public function add_next_previous($object, $toolbar, $urlprefix)
     {
-        if ($object->number > 1)
-        {
+        if ($object->number > 1) {
             $mc = org_openpsa_invoices_invoice_dba::new_collector('metadata.deleted', false);
             $mc->add_constraint('number', '<', $object->number);
             $mc->set_limit(1);
             $mc->add_order('number', 'DESC');
             $results = $mc->list_keys();
 
-            if (sizeof($results) == 1)
-            {
+            if (sizeof($results) == 1) {
                 $toolbar->add_item
                 (
                     array
@@ -119,16 +106,14 @@ class org_openpsa_invoices_viewer extends midcom_baseclasses_components_request
             }
         }
 
-        if (($object->number + 1) < $object->generate_invoice_number())
-        {
+        if (($object->number + 1) < $object->generate_invoice_number()) {
             $mc = org_openpsa_invoices_invoice_dba::new_collector('metadata.deleted', false);
             $mc->add_constraint('number', '>', $object->number);
             $mc->set_limit(1);
             $mc->add_order('number', 'ASC');
             $results = $mc->list_keys();
 
-            if (sizeof($results) == 1)
-            {
+            if (sizeof($results) == 1) {
                 $toolbar->add_item
                 (
                     array

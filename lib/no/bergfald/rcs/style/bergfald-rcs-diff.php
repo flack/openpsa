@@ -8,19 +8,16 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 <p>&(data['comment']['message']);</p>
 <div class="rcs_navigation">
 <?php
-if ($data['earlier_revision'])
-{
+if ($data['earlier_revision']) {
     echo "<a href=\"{$prefix}__ais/rcs/diff/{$data['guid']}/{$data['earlier_revision']}/{$data['previous_revision']}/\">&lt;&lt; ". sprintf($data['l10n']->get('differences between versions %s and %s'), $data['earlier_revision'], $data['previous_revision']) ."</a>\n";
 }
 
 if (   $data['earlier_revision']
-    && $data['next_revision'])
-{
+    && $data['next_revision']) {
     echo " | ";
 }
 
-if ($data['next_revision'])
-{
+if ($data['next_revision']) {
     echo "<a href=\"{$prefix}__ais/rcs/diff/{$data['guid']}/{$data['latest_revision']}/{$data['next_revision']}/\">". sprintf($data['l10n']->get('differences between versions %s and %s'), $data['latest_revision'], $data['next_revision']) ." &gt;&gt;</a>\n";
 }
 ?>
@@ -28,20 +25,16 @@ if ($data['next_revision'])
 <dl class="no_bergfald_rcs_diff">
 <?php
 $changes = false;
-foreach ($diff as $attribute => $values)
-{
-    if (!array_key_exists('diff', $values))
-    {
+foreach ($diff as $attribute => $values) {
+    if (!array_key_exists('diff', $values)) {
         continue;
     }
 
-    if (!midcom_services_rcs::is_field_showable($attribute))
-    {
+    if (!midcom_services_rcs::is_field_showable($attribute)) {
         continue;
     }
 
-    if (is_array($values['diff']))
-    {
+    if (is_array($values['diff'])) {
         continue;
     }
 
@@ -53,8 +46,7 @@ foreach ($diff as $attribute => $values)
     echo "    </dd>\n";
 }
 
-if (!$changes)
-{
+if (!$changes) {
     echo "<dt>". $data['l10n']->get('no changes in content') ."</dt>\n";
 }
 ?>

@@ -59,8 +59,7 @@ class org_openpsa_core_filter_select extends org_openpsa_core_filter
         $this->_selection = $selection;
 
         $query->begin_group('OR');
-        foreach ($this->_selection as $id)
-        {
+        foreach ($this->_selection as $id) {
             $query->add_constraint($this->name, $this->_operator, (int) $id);
         }
         $query->end_group();
@@ -73,16 +72,13 @@ class org_openpsa_core_filter_select extends org_openpsa_core_filter
     {
         $options = $this->_get_options();
 
-        if (!empty($options))
-        {
+        if (!empty($options)) {
             echo '<label>' . $this->_label . ': </label>';
             echo '<select class="filter_input" onchange="document.forms[\'' . $this->name . '_filter\'].submit();" name="' . $this->name . '">';
 
-            foreach ($options as $option)
-            {
+            foreach ($options as $option) {
                 echo '<option value="' .  $option['id'] . '"';
-                if ($option['selected'] == true)
-                {
+                if ($option['selected'] == true) {
                     echo " selected=\"selected\"";
                 }
                 echo '>' . $option['title'] . '</option>';
@@ -105,18 +101,14 @@ class org_openpsa_core_filter_select extends org_openpsa_core_filter
      */
     protected function _get_options()
     {
-        if (!empty($this->_options))
-        {
+        if (!empty($this->_options)) {
             $data = $this->_options;
-        }
-        elseif (!empty($this->_option_callback))
-        {
+        } elseif (!empty($this->_option_callback)) {
             $data = call_user_func($this->_option_callback);
         }
 
         $options = array();
-        foreach ($data as $id => $title)
-        {
+        foreach ($data as $id => $title) {
             $option = array
             (
                 'id' => $id,

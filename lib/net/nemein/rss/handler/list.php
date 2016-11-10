@@ -41,8 +41,7 @@ class net_nemein_rss_handler_list extends midcom_baseclasses_components_handler
         $opml = new OPMLCreator();
         $opml->title = $this->_topic->extra;
 
-        foreach ($data['feeds'] as $feed)
-        {
+        foreach ($data['feeds'] as $feed) {
             $item = new FeedItem();
             $item->title = $feed->title;
             $item->xmlUrl = $feed->url;
@@ -78,8 +77,7 @@ class net_nemein_rss_handler_list extends midcom_baseclasses_components_handler
         $data['folder'] = $this->_topic;
         midcom_show_style('net-nemein-rss-feeds-list-header');
 
-        foreach ($data['feeds'] as $feed)
-        {
+        foreach ($data['feeds'] as $feed) {
             $data['feed'] = $feed;
             $data['feed_category'] = 'feed:' . md5($feed->url);
             $data['feed_toolbar'] = $this->create_toolbar($feed);
@@ -99,8 +97,7 @@ class net_nemein_rss_handler_list extends midcom_baseclasses_components_handler
     {
         $toolbar = new midcom_helper_toolbar();
         $buttons = array();
-        if ($feed->can_do('midgard:update'))
-        {
+        if ($feed->can_do('midgard:update')) {
             $buttons[] = array
             (
                 MIDCOM_TOOLBAR_URL => "__feeds/rss/edit/{$feed->guid}/",
@@ -109,8 +106,7 @@ class net_nemein_rss_handler_list extends midcom_baseclasses_components_handler
             );
         }
 
-        if ($this->_topic->can_do('midgard:create'))
-        {
+        if ($this->_topic->can_do('midgard:create')) {
             $buttons[] = array
             (
                 MIDCOM_TOOLBAR_URL => "__feeds/rss/fetch/{$feed->guid}/",
@@ -119,8 +115,7 @@ class net_nemein_rss_handler_list extends midcom_baseclasses_components_handler
             );
         }
 
-        if ($feed->can_do('midgard:delete'))
-        {
+        if ($feed->can_do('midgard:delete')) {
             $workflow = $this->get_workflow('delete', array('object' => $feed));
             $buttons[] = $workflow->get_button("__feeds/rss/delete/{$feed->guid}/");
         }

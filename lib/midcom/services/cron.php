@@ -141,30 +141,23 @@ class midcom_services_cron
      */
     public function load_jobs(array $data)
     {
-        foreach ($data as $component => $jobs)
-        {
+        foreach ($data as $component => $jobs) {
             // First, verify the component is loaded
             if (   $component != 'midcom'
-                && !midcom::get()->componentloader->load_graceful($component))
-            {
+                && !midcom::get()->componentloader->load_graceful($component)) {
                 $msg = "Failed to load the component {$component}. See the debug level log for further information, skipping this component.";
                 debug_add($msg, MIDCOM_LOG_ERROR);
                 echo "ERROR: {$msg}\n";
                 continue;
             }
 
-            foreach ($jobs as $job)
-            {
-                try
-                {
-                    if ($this->_validate_job($job))
-                    {
+            foreach ($jobs as $job) {
+                try {
+                    if ($this->_validate_job($job)) {
                         $job['component'] = $component;
                         $this->_jobs[] = $job;
                     }
-                }
-                catch (midcom_error $e)
-                {
+                } catch (midcom_error $e) {
                     $e->log(MIDCOM_LOG_ERROR);
                     debug_print_r('Got this job declaration:', $job);
                     echo "ERROR: Failed to register a job for {$component}: " . $e->getMessage() . "\n";
@@ -182,20 +175,16 @@ class midcom_services_cron
      */
     private function _validate_job(array $job)
     {
-        if (!array_key_exists('handler', $job))
-        {
+        if (!array_key_exists('handler', $job)) {
             throw new midcom_error("No handler declaration.");
         }
-        if (!array_key_exists('recurrence', $job))
-        {
+        if (!array_key_exists('recurrence', $job)) {
             throw new midcom_error("No recurrence declaration.");
         }
-        if (!class_exists($job['handler']))
-        {
+        if (!class_exists($job['handler'])) {
             throw new midcom_error("Handler class {$job['handler']} is not available.");
         }
-        switch ($job['recurrence'])
-        {
+        switch ($job['recurrence']) {
             case MIDCOM_CRON_MINUTE:
             case MIDCOM_CRON_HOUR:
             case MIDCOM_CRON_DAY:
@@ -213,8 +202,7 @@ class midcom_services_cron
      */
     public function execute()
     {
-        if (empty($this->_jobs))
-        {
+        if (empty($this->_jobs)) {
             $data = midcom::get()->componentloader->get_all_manifest_customdata('midcom.services.cron');
             $data['midcom'] = $this->_midcom_jobs;
             $this->load_jobs($data);
@@ -232,8 +220,7 @@ class midcom_services_cron
         debug_print_r('Executing job:', $job);
 
         $handler = new $job['handler']();
-        if (!$handler->initialize($job))
-        {
+        if (!$handler->initialize($job)) {
             $msg = "Failed to execute a job for {$job['component']}: Handler class failed to initialize.";
             debug_add($msg, MIDCOM_LOG_WARN);
             return;

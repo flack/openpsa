@@ -74,8 +74,7 @@ abstract class midcom_helper_datamanager2_storage extends midcom_baseclasses_com
      */
     function create_temporary_object()
     {
-        if ($this->object === null)
-        {
+        if ($this->object === null) {
             $this->object = midcom::get()->tmp->create_object();
         }
     }
@@ -94,20 +93,16 @@ abstract class midcom_helper_datamanager2_storage extends midcom_baseclasses_com
      */
     function store(array &$types)
     {
-        foreach ($this->_schema->fields as $name => $type_definition)
-        {
-            if (empty($types[$name]))
-            {
-                if ($type_definition['required'] == true)
-                {
+        foreach ($this->_schema->fields as $name => $type_definition) {
+            if (empty($types[$name])) {
+                if ($type_definition['required'] == true) {
                     throw new midcom_error("Failed to process the type array for the schema {$this->_schema->name}:
                         The type for the required field {$name} was not found.");
                 }
                 continue;
             }
 
-            if ($type_definition['readonly'])
-            {
+            if ($type_definition['readonly']) {
                 // Skip storage as we may raise exceptions if the field doesn't exist
                 continue;
             }
@@ -115,10 +110,8 @@ abstract class midcom_helper_datamanager2_storage extends midcom_baseclasses_com
             // Convert_to_storage is called always, the event handler can be used to manage
             // non-storage-backend driven storage operations as well (mainly for the blob type)
             $data = $types[$name]->convert_to_storage();
-            if ($type_definition['storage']['location'] !== null)
-            {
-                if ($types[$name]->serialized_storage)
-                {
+            if ($type_definition['storage']['location'] !== null) {
+                if ($types[$name]->serialized_storage) {
                     $data = serialize($data);
                 }
                 $this->_on_store_data($name, $data);
@@ -126,8 +119,7 @@ abstract class midcom_helper_datamanager2_storage extends midcom_baseclasses_com
         }
 
         // Update the storage object last
-        if (!$this->_on_update_object())
-        {
+        if (!$this->_on_update_object()) {
             debug_add('Failed to update the content object, last Midgard Error was: ' . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
             return false;
         }
@@ -158,38 +150,29 @@ abstract class midcom_helper_datamanager2_storage extends midcom_baseclasses_com
      */
     function load(array &$types)
     {
-        foreach ($this->_schema->fields as $name => $type_definition)
-        {
-            if (!array_key_exists($name, $types))
-            {
-                if ($type_definition['required'] == true)
-                {
+        foreach ($this->_schema->fields as $name => $type_definition) {
+            if (!array_key_exists($name, $types)) {
+                if ($type_definition['required'] == true) {
                     throw new midcom_error("Failed to process the type array for the schema {$this->_schema->name}:
                         The type for the required field {$name} was not found.");
                 }
                 continue;
             }
-            if ($type_definition['storage']['location'] !== null)
-            {
+            if ($type_definition['storage']['location'] !== null) {
                 $data = $this->_on_load_data($name);
                 if ($types[$name]->serialized_storage
-                    && is_string($data))
-                {
+                    && is_string($data)) {
                     // Hide unserialization errors, but log them.
                     $data = @unserialize($data);
-                    if (!$data)
-                    {
+                    if (!$data) {
                         debug_add("Unserialization failed for field {$name}", MIDCOM_LOG_INFO);
                         midcom::get()->debug->log_php_error(MIDCOM_LOG_INFO);
                     }
                 }
-            }
-            else
-            {
+            } else {
                 $data = null;
                 if (    isset($this->_defaults)
-                     && array_key_exists($name, $this->_defaults))
-                {
+                     && array_key_exists($name, $this->_defaults)) {
                     $data = $this->_defaults[$name];
                 }
             }
@@ -227,8 +210,7 @@ abstract class midcom_helper_datamanager2_storage extends midcom_baseclasses_com
      */
     function can_do($privilege)
     {
-        if ($this->object === null)
-        {
+        if ($this->object === null) {
             return midcom::get()->auth->can_user_do($privilege);
         }
         return $this->object->can_do($privilege);

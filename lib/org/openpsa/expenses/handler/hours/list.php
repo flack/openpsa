@@ -42,8 +42,7 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
         //url for batch_handler
         $this->_request_data['action_target_url'] = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . "hours/task/batch/";
 
-        switch ($handler_id)
-        {
+        switch ($handler_id) {
             case 'list_hours':
                 $this->_master->add_list_filter($qb);
 
@@ -65,8 +64,7 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
                 $siteconfig = org_openpsa_core_siteconfig::get_instance();
                 $projects_url = $siteconfig->get_node_full_url('org.openpsa.projects');
 
-                if ($projects_url)
-                {
+                if ($projects_url) {
                     $this->_view_toolbar->add_item
                     (
                         array
@@ -124,12 +122,9 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
             ),
         );
 
-        foreach ($hours as $report)
-        {
-            if (!array_key_exists($report->person, $this->reporters))
-            {
-                try
-                {
+        foreach ($hours as $report) {
+            if (!array_key_exists($report->person, $this->reporters)) {
+                try {
                     $reporter = new midcom_db_person($report->person);
                     $reporter_card = new org_openpsa_widgets_contact($reporter);
                     $this->reporters[$report->person] = array
@@ -137,16 +132,13 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
                         'card' => $reporter_card->show_inline(),
                         'rname' => $reporter->rname
                     );
-                }
-                catch (midcom_error $e)
-                {
+                } catch (midcom_error $e) {
                     $e->log();
                     $this->reporters[$report->person] = array('card' => '', 'rname' => '');
                 }
             }
 
-            switch (true)
-            {
+            switch (true) {
                 case ($report->invoice):
                     $category = 'invoiced';
                     break;
@@ -175,10 +167,8 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
 
         midcom_show_style('hours_list_top');
 
-        foreach ($data['sorted_reports'] as $status => $reports)
-        {
-            if (sizeof($reports['reports']) == 0)
-            {
+        foreach ($data['sorted_reports'] as $status => $reports) {
+            if (sizeof($reports['reports']) == 0) {
                 continue;
             }
             $data['subheading'] = $this->_l10n->get($status . ' reports');

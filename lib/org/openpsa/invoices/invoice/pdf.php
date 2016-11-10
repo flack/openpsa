@@ -28,12 +28,10 @@ class org_openpsa_invoices_invoice_pdf
     public function get_attachment($autocreate = false)
     {
         $pdf_files = org_openpsa_helpers::get_dm2_attachments($this->invoice, "pdf_file");
-        if (!empty($pdf_files))
-        {
+        if (!empty($pdf_files)) {
             return reset($pdf_files);
         }
-        if (!$autocreate)
-        {
+        if (!$autocreate) {
             return null;
         }
         return $this->render_and_attach();
@@ -41,25 +39,20 @@ class org_openpsa_invoices_invoice_pdf
 
     public function get_button_options()
     {
-        if ($attachment = $this->get_attachment())
-        {
-            if ($this->invoice->sent)
-            {
+        if ($attachment = $this->get_attachment()) {
+            if ($this->invoice->sent) {
                 $message = 'invoice has already been sent. should it be replaced?';
             }
             // check if auto generated parameter is same as md5 in current-file
             // if not the file was manually uploaded
-            elseif ($checksum = $attachment->get_parameter('org.openpsa.invoices', 'auto_generated'))
-            {
+            elseif ($checksum = $attachment->get_parameter('org.openpsa.invoices', 'auto_generated')) {
                 $blob = new midgard_blob($attachment->__object);
-                if ($checksum !== md5_file($blob->get_path()))
-                {
+                if ($checksum !== md5_file($blob->get_path())) {
                     $message = 'current pdf file was manually uploaded shall it be replaced ?';
                 }
             }
         }
-        if (empty($message))
-        {
+        if (empty($message)) {
             return array();
         }
         midcom\workflow\dialog::add_head_elements();
@@ -79,19 +72,15 @@ class org_openpsa_invoices_invoice_pdf
     public function render_and_attach()
     {
         $client_class = midcom_baseclasses_components_configuration::get('org.openpsa.invoices', 'config')->get('invoice_pdfbuilder_class');
-        if (!class_exists($client_class))
-        {
+        if (!class_exists($client_class)) {
             throw new midcom_error('Could not find PDF renderer ' . $client_class);
         }
 
-        if ($this->invoice->date == 0 || $this->invoice->deliverydate == 0)
-        {
-            if ($this->invoice->date == 0)
-            {
+        if ($this->invoice->date == 0 || $this->invoice->deliverydate == 0) {
+            if ($this->invoice->date == 0) {
                 $this->invoice->date = time();
             }
-            if ($this->invoice->deliverydate == 0)
-            {
+            if ($this->invoice->deliverydate == 0) {
                 $this->invoice->deliverydate = time();
             }
         }
@@ -107,27 +96,23 @@ class org_openpsa_invoices_invoice_pdf
         $pdf_builder->render($tmp_file);
 
         // cleanup old attachments
-        if ($attachment = $this->get_attachment())
-        {
+        if ($attachment = $this->get_attachment()) {
             $attachment->delete();
         }
 
         $attachment = $this->invoice->create_attachment($filename, $this->invoice->get_label(), "application/pdf");
 
-        if (!$attachment)
-        {
+        if (!$attachment) {
             throw new midcom_error("Failed to create invoice attachment for pdf");
         }
 
-        if (!$attachment->copy_from_file($tmp_file))
-        {
+        if (!$attachment->copy_from_file($tmp_file)) {
             throw new midcom_error("Failed to copy pdf from " . $tmp_file . " to attachment");
         }
 
         // set parameter for datamanager to find the pdf
         if (   !$this->invoice->set_parameter("midcom.helper.datamanager2.type.blobs", "guids_pdf_file", $attachment->guid . ":" . $attachment->guid)
-            || !$attachment->set_parameter('org.openpsa.invoices', 'auto_generated', md5_file($tmp_file)))
-        {
+            || !$attachment->set_parameter('org.openpsa.invoices', 'auto_generated', md5_file($tmp_file))) {
             throw new midcom_error("Failed to create attachment parameters, last midgard error was: " . midcom_connection::get_error_string());
         }
         // only save potential invoice changes when everything worked (also refreshes revised timestamp)

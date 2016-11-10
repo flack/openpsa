@@ -24,8 +24,7 @@ class org_openpsa_invoices_billing_data_dba extends midcom_core_dbaobject
     public function _on_creating()
     {
         $mc = self::new_collector('linkGuid', $this->linkGuid);
-        if ($mc->count() > 0)
-        {
+        if ($mc->count() > 0) {
             midcom_connection::set_error(MGD_ERR_DUPLICATE);
             return false;
         }
@@ -55,12 +54,9 @@ class org_openpsa_invoices_billing_data_dba extends midcom_core_dbaobject
     public function get_label()
     {
         $label = midcom::get()->i18n->get_l10n('org.openpsa.invoices')->get('billing data') . ' (';
-        if ($contact = $this->get_contact())
-        {
+        if ($contact = $this->get_contact()) {
             $label .= $contact->get_label() . ')';
-        }
-        else
-        {
+        } else {
             $label .= $this->linkGuid . ')';
         }
         return $label;
@@ -73,18 +69,12 @@ class org_openpsa_invoices_billing_data_dba extends midcom_core_dbaobject
      */
     public function get_contact()
     {
-        try
-        {
+        try {
             return new org_openpsa_contacts_person_dba($this->linkGuid);
-        }
-        catch (midcom_error $e)
-        {
-            try
-            {
+        } catch (midcom_error $e) {
+            try {
                 return new org_openpsa_contacts_group_dba($this->linkGuid);
-            }
-            catch (midcom_error $e)
-            {
+            } catch (midcom_error $e) {
                 debug_add("Failed to load contact with GUID: " . $this->linkGuid . " - last error:" . $e->getMessage(), MIDCOM_LOG_ERROR);
                 return false;
             }
@@ -97,11 +87,9 @@ class org_openpsa_invoices_billing_data_dba extends midcom_core_dbaobject
      */
     public function set_address()
     {
-        if ($this->useContactAddress && !empty($this->linkGuid))
-        {
+        if ($this->useContactAddress && !empty($this->linkGuid)) {
             $contact = $this->get_contact();
-            switch (true)
-            {
+            switch (true) {
                 case is_a($contact, 'org_openpsa_contacts_person_dba'):
                     $this->recipient = $contact->firstname . " " . $contact->lastname;
                     break;

@@ -75,16 +75,14 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_plugin
         $rcs = midcom::get()->rcs;
         $this->_backend = $rcs->load_handler($this->_object);
 
-        if (get_class($this->_object) != 'midcom_db_topic')
-        {
+        if (get_class($this->_object) != 'midcom_db_topic') {
             $this->bind_view_to_object($this->_object);
         }
     }
 
     private function _prepare_breadcrumb()
     {
-        if (!is_a($this->_object, 'midcom_db_topic'))
-        {
+        if (!is_a($this->_object, 'midcom_db_topic')) {
             $this->add_breadcrumb(midcom::get()->permalinks->create_permalink($this->_object->guid), $this->_resolve_object_title());
         }
         $this->add_breadcrumb("__ais/rcs/{$this->_object->guid}/", $this->_l10n->get('show history'));
@@ -104,34 +102,27 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_plugin
             )
         );
 
-        if ($revision == '')
-        {
+        if ($revision == '') {
             return;
         }
 
         $show_previous = false;
-        if ($before = $this->_backend->get_prev_version($revision))
-        {
-            if ($diff_view)
-            {
-                if ($before2 = $this->_backend->get_prev_version($before))
-                {
+        if ($before = $this->_backend->get_prev_version($revision)) {
+            if ($diff_view) {
+                if ($before2 = $this->_backend->get_prev_version($before)) {
                     // When browsing diffs we want to display buttons to previous instead of current
                     $first = $before2;
                     $second = $before;
                     $show_previous = true;
                 }
-            }
-            else
-            {
+            } else {
                 $first = $before;
                 $second = $revision;
                 $show_previous = true;
             }
         }
         $buttons = array();
-        if ($show_previous)
-        {
+        if ($show_previous) {
             $buttons[] = array
             (
                 MIDCOM_TOOLBAR_URL => "__ais/rcs/diff/{$this->_guid}/{$first}/{$second}/",
@@ -148,8 +139,7 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_plugin
         );
 
         // Display restore and next buttons only if we're not in latest revision
-        if ($after = $this->_backend->get_next_version($revision))
-        {
+        if ($after = $this->_backend->get_next_version($revision)) {
             $buttons[] = array
             (
                 MIDCOM_TOOLBAR_URL => "__ais/rcs/restore/{$this->_guid}/{$revision}/",
@@ -218,8 +208,7 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_plugin
         $this->_load_object();
 
         if (   !$this->_backend->version_exists($args[1])
-            || !$this->_backend->version_exists($args[2]))
-        {
+            || !$this->_backend->version_exists($args[2])) {
             throw new midcom_error_notfound("One of the revisions {$args[1]} or {$args[2]} does not exist.");
         }
 
@@ -269,16 +258,13 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_plugin
     {
         $translated = $string;
         $component = midcom::get()->dbclassloader->get_component_for_class($this->_object->__midcom_class_name__);
-        if (midcom::get()->componentloader->is_installed($component))
-        {
+        if (midcom::get()->componentloader->is_installed($component)) {
             $translated = midcom::get()->i18n->get_l10n($component)->get($string);
         }
-        if ($translated === $string)
-        {
+        if ($translated === $string) {
             $translated = $this->_l10n->get($string);
         }
-        if ($translated === $string)
-        {
+        if ($translated === $string) {
             $translated = $this->_l10n_midcom->get($string);
         }
         return $translated;
@@ -341,8 +327,7 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_plugin
         // TODO: set another privilege for restoring?
 
         if (   $this->_backend->version_exists($args[1])
-            && $this->_backend->restore_to_revision($args[1]))
-        {
+            && $this->_backend->restore_to_revision($args[1])) {
             midcom::get()->uimessages->add($this->_l10n->get($this->_component), sprintf($this->_l10n->get('restore to version %s successful'), $args[1]));
             return new midcom_response_relocate(midcom::get()->permalinks->create_permalink($this->_object->guid));
         }

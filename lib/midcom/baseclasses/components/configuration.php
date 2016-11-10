@@ -34,13 +34,11 @@ class midcom_baseclasses_components_configuration
 
     public static function get($component, $key = null)
     {
-        if (!array_key_exists($component, self::$_data))
-        {
+        if (!array_key_exists($component, self::$_data)) {
             self::_initialize($component);
         }
 
-        if (is_null($key))
-        {
+        if (is_null($key)) {
             return self::$_data[$component];
         }
         return self::$_data[$component][$key];
@@ -48,8 +46,7 @@ class midcom_baseclasses_components_configuration
 
     public static function set($component, $key, $value)
     {
-        if (!array_key_exists($component, self::$_data))
-        {
+        if (!array_key_exists($component, self::$_data)) {
             self::_initialize($component);
         }
 
@@ -90,31 +87,26 @@ class midcom_baseclasses_components_configuration
     {
         $data = array();
         $loader = midcom::get()->componentloader;
-        if (!empty($loader->manifests[$component]->extends))
-        {
+        if (!empty($loader->manifests[$component]->extends)) {
             $component_path = $loader->path_to_snippetpath($loader->manifests[$component]->extends);
             // Load and parse the global config
-            if ($parent_data = self::read_array_from_file($component_path . '/config/config.inc'))
-            {
+            if ($parent_data = self::read_array_from_file($component_path . '/config/config.inc')) {
                 $data = $parent_data;
             }
         }
         $component_path = $loader->path_to_snippetpath($component);
         // Load and parse the global config
-        if ($component_data = self::read_array_from_file($component_path . '/config/config.inc'))
-        {
+        if ($component_data = self::read_array_from_file($component_path . '/config/config.inc')) {
             $data = array_merge($data, $component_data);
         }
 
         // Go for the sitewide default
-        if ($fs_data = self::read_array_from_snippet("conf:/{$component}/config.inc"))
-        {
+        if ($fs_data = self::read_array_from_snippet("conf:/{$component}/config.inc")) {
             $data = array_merge($data, $fs_data);
         }
 
         // Finally, check the sitegroup config
-        if ($sn_data = self::read_array_from_snippet(midcom::get()->config->get('midcom_sgconfig_basedir') . "/{$component}/config"))
-        {
+        if ($sn_data = self::read_array_from_snippet(midcom::get()->config->get('midcom_sgconfig_basedir') . "/{$component}/config")) {
             $data = array_merge($data, $sn_data);
         }
 
@@ -127,8 +119,7 @@ class midcom_baseclasses_components_configuration
         $component_path = $loader->path_to_snippetpath($component);
         // Load and parse the global config
         $data = self::read_array_from_file($component_path . '/config/routes.inc');
-        if (!$data)
-        {
+        if (!$data) {
             // Empty defaults
             $data = array();
         }
@@ -147,17 +138,13 @@ class midcom_baseclasses_components_configuration
      */
     public static function read_array_from_file($filename)
     {
-        if (!file_exists($filename))
-        {
+        if (!file_exists($filename)) {
             return array();
         }
 
-        try
-        {
+        try {
             $data = file_get_contents($filename);
-        }
-        catch (Exception $e)
-        {
+        } catch (Exception $e) {
             return false;
         }
 

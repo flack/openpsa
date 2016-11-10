@@ -15,8 +15,7 @@ class org_openpsa_contacts_midcom_indexer extends midcom_helper_datamanager2_ind
 {
     public function prepare_document(midcom_services_indexer_document &$document, midcom_helper_datamanager2_datamanager $dm)
     {
-        if (is_a($dm->storage->object, 'org_openpsa_contacts_person_dba'))
-        {
+        if (is_a($dm->storage->object, 'org_openpsa_contacts_person_dba')) {
             $document->title = $dm->storage->object->name;
         }
     }

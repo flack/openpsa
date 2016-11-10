@@ -39,12 +39,9 @@ implements midcom_helper_datamanager2_interfaces_create
     {
         $schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_deliverable'));
 
-        if ($this->get_schema_name() == 'subscription')
-        {
+        if ($this->get_schema_name() == 'subscription') {
             $schemadb['subscription']->fields['start']['type_config']['min_date'] = strftime('%Y-%m-%d');
-        }
-        else
-        {
+        } else {
             $schemadb['default']->fields['end']['type_config']['min_date'] = strftime('%Y-%m-%d');
         }
 
@@ -54,8 +51,7 @@ implements midcom_helper_datamanager2_interfaces_create
     public function get_schema_name()
     {
         // Set schema based on product type
-        if ($this->_product->delivery == org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION)
-        {
+        if ($this->_product->delivery == org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION) {
             return 'subscription';
         }
 
@@ -72,8 +68,7 @@ implements midcom_helper_datamanager2_interfaces_create
         $this->_deliverable->state = org_openpsa_sales_salesproject_deliverable_dba::STATE_NEW;
         $this->_deliverable->orgOpenpsaObtype = $this->_product->delivery;
 
-        if (!$this->_deliverable->create())
-        {
+        if (!$this->_deliverable->create()) {
             debug_print_r('We operated on this object:', $this->_deliverable);
             throw new midcom_error('Failed to create a new deliverable. Last Midgard error was: ' . midcom_connection::get_error_string());
         }
@@ -116,8 +111,7 @@ implements midcom_helper_datamanager2_interfaces_create
         $controller = $this->get_controller('create');
 
         // adjust cost per unit label
-        if ($this->_product->costType == "%")
-        {
+        if ($this->_product->costType == "%") {
             $cost_per_unit_title = "cost per unit (percentage)";
             $controller->schemadb["default"]->fields['costPerUnit']['title'] = $this->_l10n->get($cost_per_unit_title);
         }
@@ -135,21 +129,17 @@ implements midcom_helper_datamanager2_interfaces_create
      */
     public function _handler_add($handler_id, array $args, array &$data)
     {
-        if (!array_key_exists('product', $_POST))
-        {
+        if (!array_key_exists('product', $_POST)) {
             throw new midcom_error('No product specified, aborting.');
         }
 
         $this->_salesproject = new org_openpsa_sales_salesproject_dba($args[0]);
         $this->_salesproject->require_do('midgard:create');
 
-        if (is_array($_POST['product']))
-        {
+        if (is_array($_POST['product'])) {
             $selection = json_decode($_POST['product']['selection']);
             $product_id = current($selection);
-        }
-        else
-        {
+        } else {
             $product_id = (int) $_POST['product'];
         }
         $this->_product = new org_openpsa_products_product_dba($product_id);

@@ -518,12 +518,10 @@ class midcom_config implements arrayaccess
         $this->_complete_defaults();
 
         /* ----- MERGE THE CONFIGURATION ----- */
-        if (!array_key_exists('midcom_config_site', $GLOBALS))
-        {
+        if (!array_key_exists('midcom_config_site', $GLOBALS)) {
             $GLOBALS['midcom_config_site'] = array();
         }
-        if (!array_key_exists('midcom_config_local', $GLOBALS))
-        {
+        if (!array_key_exists('midcom_config_local', $GLOBALS)) {
             $GLOBALS['midcom_config_local'] = array();
         }
         $this->_merged_config = array_merge
@@ -536,49 +534,40 @@ class midcom_config implements arrayaccess
 
     private function _complete_defaults()
     {
-        if (midcom_connection::get('config', 'auth_cookie_id'))
-        {
+        if (midcom_connection::get('config', 'auth_cookie_id')) {
             $auth_cookie_id = midcom_connection::get('config', 'auth_cookie_id');
-        }
-        else
-        {
+        } else {
             // Generate host identifier from Midgard host
             $auth_cookie_id = "host" . midcom_connection::get('host');
         }
         $this->_default_config['auth_backend_simple_cookie_id'] = $auth_cookie_id;
 
-        if (class_exists('Memcache'))
-        {
+        if (class_exists('Memcache')) {
             $this->_default_config['cache_module_content_backend'] = array('driver' => 'memcached');
             $this->_default_config['cache_module_memcache_backend'] = 'memcached';
         }
-        if (isset($_SERVER['SERVER_ADDR']))
-        {
+        if (isset($_SERVER['SERVER_ADDR'])) {
             $this->_default_config['indexer_reindex_allowed_ips'][] = $_SERVER['SERVER_ADDR'];
         }
-        if (!empty($_SERVER['SERVER_NAME']))
-        {
+        if (!empty($_SERVER['SERVER_NAME'])) {
             $this->_default_config['midcom_site_title'] = $_SERVER['SERVER_NAME'];
         }
         $this->_default_config['toolbars_simple_css_path'] = MIDCOM_STATIC_URL . "/midcom.services.toolbars/simple.css";
 
-        if (!extension_loaded('midgard'))
-        {
+        if (!extension_loaded('midgard')) {
             $this->_default_config['person_class'] = 'openpsa_person';
         }
     }
 
     public function get($key, $default = null)
     {
-        if (!$this->offsetExists($key))
-        {
+        if (!$this->offsetExists($key)) {
             return $default;
         }
 
         // Check the midcom_config site prefix for absolute local urls
         if (   $key === 'midcom_site_url'
-            && substr($this->_merged_config[$key], 0, 1) === '/')
-        {
+            && substr($this->_merged_config[$key], 0, 1) === '/') {
             $this->_merged_config[$key] = midcom::get()->get_page_prefix() . substr($this->_merged_config[$key], 1);
         }
 

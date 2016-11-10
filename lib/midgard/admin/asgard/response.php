@@ -32,21 +32,18 @@ class midgard_admin_asgard_response extends midcom_response
         $data =& $context->get_custom_key('request_data');
         midcom::get()->style->enter_context($context->id);
 
-        if (isset($data['view_title']))
-        {
+        if (isset($data['view_title'])) {
             midcom::get()->head->set_pagetitle($data['view_title']);
         }
 
-        if (!isset($_GET['ajax']))
-        {
+        if (!isset($_GET['ajax'])) {
             midcom_show_style('midgard_admin_asgard_header');
             midcom_show_style('midgard_admin_asgard_middle');
         }
 
         $this->_handler->{$this->_callback}($data['handler_id'], $data);
 
-        if (!isset($_GET['ajax']))
-        {
+        if (!isset($_GET['ajax'])) {
             midcom_show_style('midgard_admin_asgard_footer');
         }
 

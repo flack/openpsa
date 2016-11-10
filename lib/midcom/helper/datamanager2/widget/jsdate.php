@@ -75,8 +75,7 @@ class midcom_helper_datamanager2_widget_jsdate extends midcom_helper_datamanager
     public function _on_configuring()
     {
         if (   is_a($this->_type, 'midcom_helper_datamanager2_type_date')
-            && $this->_type->storage_type == 'UNIXTIME')
-        {
+            && $this->_type->storage_type == 'UNIXTIME') {
             $this->minyear = 1970;
             $this->maxyear = 2030;
         }
@@ -89,8 +88,7 @@ class midcom_helper_datamanager2_widget_jsdate extends midcom_helper_datamanager
     {
         $this->_require_type_class('midcom_helper_datamanager2_type_date');
 
-        if ($this->_initialize_dependencies)
-        {
+        if ($this->_initialize_dependencies) {
             self::add_head_elements();
         }
     }
@@ -103,8 +101,7 @@ class midcom_helper_datamanager2_widget_jsdate extends midcom_helper_datamanager
     {
         static $executed = false;
 
-        if ($executed)
-        {
+        if ($executed) {
             return;
         }
 
@@ -118,17 +115,14 @@ class midcom_helper_datamanager2_widget_jsdate extends midcom_helper_datamanager
          * Since a missing lang file causes the calendar to break, let's make extra sure
          * that this won't happen
          */
-        if (!file_exists(MIDCOM_STATIC_ROOT . "/jQuery/jquery-ui-" . midcom::get()->config->get('jquery_ui_version') . "/ui/i18n/datepicker-{$lang}.min.js"))
-        {
+        if (!file_exists(MIDCOM_STATIC_ROOT . "/jQuery/jquery-ui-" . midcom::get()->config->get('jquery_ui_version') . "/ui/i18n/datepicker-{$lang}.min.js")) {
             $lang = midcom::get()->i18n->get_fallback_language();
-            if (!file_exists(MIDCOM_STATIC_ROOT . "/jQuery/jquery-ui-" . midcom::get()->config->get('jquery_ui_version') . "/ui/i18n/datepicker-{$lang}.min.js"))
-            {
+            if (!file_exists(MIDCOM_STATIC_ROOT . "/jQuery/jquery-ui-" . midcom::get()->config->get('jquery_ui_version') . "/ui/i18n/datepicker-{$lang}.min.js")) {
                 $lang = false;
             }
         }
 
-        if ($lang)
-        {
+        if ($lang) {
             midcom::get()->head->add_jsfile(MIDCOM_JQUERY_UI_URL . "/ui/i18n/datepicker-{$lang}.min.js");
         }
     }
@@ -142,12 +136,10 @@ class midcom_helper_datamanager2_widget_jsdate extends midcom_helper_datamanager
     {
         $init_max = new DateTime($this->maxyear . '-12-31');
         $init_min = new DateTime($this->minyear . '-01-01');
-        if (!empty($this->_type->max_date))
-        {
+        if (!empty($this->_type->max_date)) {
             $init_max = new DateTime($this->_type->max_date);
         }
-        if (!empty($this->_type->min_date))
-        {
+        if (!empty($this->_type->min_date)) {
             $init_min = new DateTime($this->_type->min_date);
         }
         //need this due to js Date begins to count the months with 0 instead of 1
@@ -187,8 +179,7 @@ EOT;
         $this->_form->addGroup($elements, $this->name, $this->_translate($this->_field['title']), array(' ', '', '', '', ''), false);
 
         $rules = array();
-        if ($this->_field['required'])
-        {
+        if ($this->_field['required']) {
             $errmsg = sprintf($this->_l10n->get('field %s is required'), $this->_translate($this->_field['title']));
             $rules = array
             (
@@ -217,8 +208,7 @@ EOT;
         );
         $elements[] = $this->_form->createElement('text', $this->name . '_date', '', $attributes);
 
-        if ($this->show_time)
-        {
+        if ($this->show_time) {
             $attributes = array
             (
                 'class' => 'jsdate_hours',
@@ -237,8 +227,7 @@ EOT;
             );
             $elements[] = $this->_form->createElement('text', "{$this->name}_minutes", '', $attributes);
 
-            if (!$this->hide_seconds)
-            {
+            if (!$this->hide_seconds) {
                 $elements[] = $this->_form->createElement('static', "{$this->name}_minutes_separator", '', ':');
                 $attributes = array
                 (
@@ -251,8 +240,7 @@ EOT;
             }
         }
 
-        if (!$frozen)
-        {
+        if (!$frozen) {
             $elements[] = $this->_form->createElement('static', "{$this->name}_initscript", '', $this->_create_initscript());
         }
         return $elements;
@@ -266,8 +254,7 @@ EOT;
     {
         $new_elements = $this->_create_elements(true);
 
-        foreach ($new_elements as $element)
-        {
+        foreach ($new_elements as $element) {
             $element->freeze();
         }
 
@@ -295,37 +282,31 @@ EOT;
      */
     public function get_default()
     {
-        if (null === $this->_type->value)
-        {
+        if (null === $this->_type->value) {
             return null;
         }
 
         $defaults = array($this->name . '_date' => '0000-00-00');
         $this->format = 'Y-m-d';
 
-        if ($this->show_time)
-        {
+        if ($this->show_time) {
             $this->format = 'Y-m-d H:i';
             $defaults[$this->name . '_hours'] = '00';
             $defaults[$this->name . '_minutes'] = '00';
-            if (!$this->hide_seconds)
-            {
+            if (!$this->hide_seconds) {
                 $defaults[$this->name . '_seconds'] = '00';
                 $this->format = 'Y-m-d H:i:s';
             }
         }
 
-        if (!$this->_type->is_empty())
-        {
+        if (!$this->_type->is_empty()) {
             $defaults[$this->name . '_date'] = $this->_type->value->format('Y-m-d');
 
-            if ($this->show_time)
-            {
+            if ($this->show_time) {
                 $defaults[$this->name . '_hours'] = $this->_type->value->format('H');
                 $defaults[$this->name . '_minutes'] = $this->_type->value->format('i');
 
-                if (!$this->hide_seconds)
-                {
+                if (!$this->hide_seconds) {
                     $defaults[$this->name . '_seconds'] = $this->_type->value->format('s');
                 }
             }
@@ -336,12 +317,10 @@ EOT;
     private function _normalize_time_input($string)
     {
         $output = trim($string);
-        if (strlen($output) == 0)
-        {
+        if (strlen($output) == 0) {
             $output = '00';
         }
-        if (strlen($output) == 1)
-        {
+        if (strlen($output) == 1) {
             $output = '0' . $output;
         }
         return $output;
@@ -360,31 +339,25 @@ EOT;
         $empty_date = "0000-00-00 00:00:00";
 
         // Could not find any input
-        if (empty($results[$this->name . '_date']))
-        {
+        if (empty($results[$this->name . '_date'])) {
             return $empty_date;
         }
 
         $input = trim($results[$this->name . '_date']);
 
-        if ($this->is_frozen())
-        {
+        if ($this->is_frozen()) {
             return $input;
         }
-        if ($this->show_time)
-        {
+        if ($this->show_time) {
             $minutes = $this->_normalize_time_input($results[$this->name . '_minutes']);
             $hours = $this->_normalize_time_input($results[$this->name . '_hours']);
 
             $input .= ' ' . $hours . ':' . $minutes . ':';
             // If we have hidden seconds, we need to change format to save those seconds
             $this->format = '%Y-%m-%d %H:%M:%S';
-            if ($this->hide_seconds)
-            {
+            if ($this->hide_seconds) {
                 $input .= '00';
-            }
-            else
-            {
+            } else {
                 $input .= $this->_normalize_time_input($results[$this->name . '_seconds']);
             }
         }
@@ -393,20 +366,17 @@ EOT;
         static $valid_datetime_format = '/^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}$/';
 
         // Input is strict ISO date with time
-        if (preg_match($valid_datetime_format, $input))
-        {
+        if (preg_match($valid_datetime_format, $input)) {
             return $input;
         }
 
         // Input is strict ISO date
-        if (preg_match($valid_date_format, $input))
-        {
+        if (preg_match($valid_date_format, $input)) {
             return "{$input} 00:00:00";
         }
 
         // Value is numeric, expecting UNIXTIME
-        if (is_numeric($input))
-        {
+        if (is_numeric($input)) {
             return strftime($this->format, $input);
         }
 
@@ -414,17 +384,14 @@ EOT;
         $time = null;
 
         // Check against missing leading zeros from years, months, and days
-        if (preg_match('/^([0-9]{2,4})-([0-9]{1,2})-([0-9]{1,2})/', $input, $regs))
-        {
+        if (preg_match('/^([0-9]{2,4})-([0-9]{1,2})-([0-9]{1,2})/', $input, $regs)) {
             $date = str_pad($regs[1], 4, date('Y')) . '-' . str_pad($regs[2], 2, '0') . '-' . str_pad($regs[3], 2, 0);
         }
 
         // Check against missing leading zeros from minutes and seconds
-        if (preg_match('/^[0-9]{2,4}-[0-9]{1,2}-[0-9]{1,2}\s*(.*)$/', $input, $regs))
-        {
+        if (preg_match('/^[0-9]{2,4}-[0-9]{1,2}-[0-9]{1,2}\s*(.*)$/', $input, $regs)) {
             // Fill in the leading zeros to hours
-            if (!preg_match('/^[0-9]{2}/', $regs[1]))
-            {
+            if (!preg_match('/^[0-9]{2}/', $regs[1])) {
                 $regs[1] = str_pad($regs[1], 2, '0');
             }
 
@@ -434,8 +401,7 @@ EOT;
 
         // Both date and time found, convert the input to hopefully full-fletched ISO datetime
         if (   $date
-            && $time)
-        {
+            && $time) {
             $input = "{$date} {$time}";
         }
 
@@ -443,8 +409,7 @@ EOT;
         $timestamp = strtotime($input);
 
         // Expected output is higher than zero with strtotime
-        if ($timestamp > 0)
-        {
+        if ($timestamp > 0) {
             return strftime($this->format, $timestamp);
         }
 

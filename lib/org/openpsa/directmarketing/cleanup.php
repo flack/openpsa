@@ -29,12 +29,9 @@ class org_openpsa_directmarketing_cleanup extends midcom_baseclasses_components_
 
     private function add_time_filter(midcom_core_querybuilder $qb, $kept)
     {
-        if ($kept)
-        {
+        if ($kept) {
             $qb->add_constraint('metadata.revised', '>=', $this->get_deletion_timestamp());
-        }
-        else
-        {
+        } else {
             $qb->add_constraint('metadata.revised', '<', $this->get_deletion_timestamp());
         }
     }
@@ -56,16 +53,13 @@ class org_openpsa_directmarketing_cleanup extends midcom_baseclasses_components_
     private function get_campaign_member_qb($kept = false)
     {
         $qb = org_openpsa_directmarketing_campaign_member_dba::new_query_builder();
-        if ($kept)
-        {
+        if ($kept) {
             $qb->begin_group('OR');
             $qb->add_constraint('metadata.revised', '>=', $this->get_deletion_timestamp());
             $qb->add_constraint('orgOpenpsaObtype', '=', org_openpsa_directmarketing_campaign_member_dba::TESTER);
             $qb->add_constraint('campaign.orgOpenpsaObtype', '=', org_openpsa_directmarketing_campaign_dba::TYPE_SMART);
             $qb->end_group();
-        }
-        else
-        {
+        } else {
             $qb->add_constraint('metadata.revised', '<', $this->get_deletion_timestamp());
 
             // Don't delete testers
@@ -80,15 +74,12 @@ class org_openpsa_directmarketing_cleanup extends midcom_baseclasses_components_
     private function get_person_qb($kept = false)
     {
         $qb = org_openpsa_contacts_person_dba::new_query_builder();
-        if ($kept)
-        {
+        if ($kept) {
             $qb->begin_group('OR');
             $qb->add_constraint('metadata.revised', '>=', $this->get_deletion_timestamp());
             $qb->add_constraint('username', '<>', '');
             $qb->end_group();
-        }
-        else
-        {
+        } else {
             $qb->add_constraint('metadata.revised', '<', $this->get_deletion_timestamp());
 
             // Don't delete OpenPSA users
@@ -110,8 +101,7 @@ class org_openpsa_directmarketing_cleanup extends midcom_baseclasses_components_
 
     public function delete()
     {
-        if ($this->_config->get('delete_older'))
-        {
+        if ($this->_config->get('delete_older')) {
             midcom::get()->disable_limits();
 
             $this->delete_entries($this->get_message_receipt_qb());
@@ -125,8 +115,7 @@ class org_openpsa_directmarketing_cleanup extends midcom_baseclasses_components_
     {
         $qb->set_limit($this->_config->get('delete_older_per_run'));
         $objects = $qb->execute();
-        foreach ($objects as $object)
-        {
+        foreach ($objects as $object) {
             $object->delete();
         }
     }

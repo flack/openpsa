@@ -1,5 +1,6 @@
-<?php if ($data['expanded'])
-{ ?>
+<?php if ($data['expanded']) {
+    ?>
                         </div>
-<?php } ?>
+<?php 
+} ?>
                     </div>

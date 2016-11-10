@@ -35,12 +35,9 @@ class org_routamc_positioning_importer_manual extends org_routamc_positioning_im
         $this->log->importer = 'manual';
         $this->log->person = $person_id;
 
-        if (array_key_exists('timestamp', $log))
-        {
+        if (array_key_exists('timestamp', $log)) {
             $this->log->date = (int) $log['timestamp'];
-        }
-        else
-        {
+        } else {
             $this->log->date = time();
         }
 
@@ -48,8 +45,7 @@ class org_routamc_positioning_importer_manual extends org_routamc_positioning_im
 
         // Best option: we know coordinates
         if (   array_key_exists('latitude', $log)
-            && array_key_exists('longitude', $log))
-        {
+            && array_key_exists('longitude', $log)) {
             // Manually entered positions are assumed to be only semi-accurate
             $this->log->accuracy = org_routamc_positioning_log_dba::ACCURACY_MANUAL;
 
@@ -61,8 +57,7 @@ class org_routamc_positioning_importer_manual extends org_routamc_positioning_im
         }
 
         // Airport entered
-        if (array_key_exists('aerodrome', $log))
-        {
+        if (array_key_exists('aerodrome', $log)) {
             // Aerodrome position is not usually very accurate, except if we're at the airport of course
             $this->log->accuracy = org_routamc_positioning_log_dba::ACCURACY_CITY;
 
@@ -75,16 +70,14 @@ class org_routamc_positioning_importer_manual extends org_routamc_positioning_im
             $qb->begin_group('OR');
                 // We will seek by both ICAO and IATA codes
                 $qb->add_constraint('icao', '=', $aerodrome);
-                $qb->add_constraint('iata', '=', $aerodrome);
+            $qb->add_constraint('iata', '=', $aerodrome);
             $qb->end_group();
             $matches = $qb->execute();
-            if (count($matches) > 0)
-            {
+            if (count($matches) > 0) {
                 $aerodrome_entry = $matches[0];
             }
 
-            if (is_null($aerodrome_entry))
-            {
+            if (is_null($aerodrome_entry)) {
                 // Couldn't match the entered city to a location
                 $this->error = 'POSITIONING_AERODROME_NOT_FOUND';
                 return false;
@@ -97,32 +90,27 @@ class org_routamc_positioning_importer_manual extends org_routamc_positioning_im
         }
 
         // City and country entered
-        if (array_key_exists('city', $log))
-        {
-            if (!isset($log['geocoder']))
-            {
+        if (array_key_exists('city', $log)) {
+            if (!isset($log['geocoder'])) {
                 $log['geocoder'] = 'city';
             }
             $geocoder = org_routamc_positioning_geocoder::create($log['geocoder']);
             $position = $geocoder->geocode($log);
 
             if (   !$position['latitude']
-                || !$position['longitude'])
-            {
+                || !$position['longitude']) {
                 // Couldn't match the entered city to a location
                 $this->error = 'POSITIONING_CITY_NOT_FOUND';
                 return false;
             }
 
-            foreach ($position as $key => $value)
-            {
+            foreach ($position as $key => $value) {
                 $this->log->$key = $value;
             }
         }
 
         // Save altitude if provided
-        if (array_key_exists('altitude', $log))
-        {
+        if (array_key_exists('altitude', $log)) {
             $this->log->altitude = $log['altitude'];
         }
 
@@ -137,8 +125,7 @@ class org_routamc_positioning_importer_manual extends org_routamc_positioning_im
      */
     function normalize_country($country)
     {
-        if (strlen($country) == 2)
-        {
+        if (strlen($country) == 2) {
             // Probably an ISO code
             return $country;
         }
@@ -146,8 +133,7 @@ class org_routamc_positioning_importer_manual extends org_routamc_positioning_im
         $qb = org_routamc_positioning_country_dba::new_query_builder();
         $qb->add_constraint('name', '=', $country);
         $countries = $qb->execute();
-        if (count($countries) > 0)
-        {
+        if (count($countries) > 0) {
             return $countries[0]->code;
         }
 

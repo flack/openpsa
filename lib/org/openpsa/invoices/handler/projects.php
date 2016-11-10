@@ -36,28 +36,23 @@ class org_openpsa_invoices_handler_projects extends midcom_baseclasses_component
         $invoice->vat = $invoice->get_default('vat');
         $invoice->description = $invoice->get_default('remarks');
 
-        if (!$invoice->create())
-        {
+        if (!$invoice->create()) {
             midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.invoices'), $this->_l10n->get('failed to create invoice, reason') . midcom_connection::get_error_string(), 'error');
             return false;
         }
 
         // create invoice_items
         $ids = array_keys(array_filter($_POST['org_openpsa_invoices_invoice_tasks']));
-        foreach ($ids as $task_id)
-        {
+        foreach ($ids as $task_id) {
             $task = $this->_tasks[$task_id];
 
             //instance the invoice_items
             $item = new org_openpsa_invoices_invoice_item_dba();
             $item->task = $task_id;
-            try
-            {
+            try {
                 $deliverable = org_openpsa_sales_salesproject_deliverable_dba::get_cached($task->agreement);
                 $item->deliverable = $deliverable->id;
-            }
-            catch (midcom_error $e)
-            {
+            } catch (midcom_error $e) {
                 $e->log();
             }
             $item->invoice = $invoice->id;
@@ -72,8 +67,7 @@ class org_openpsa_invoices_handler_projects extends midcom_baseclasses_component
 
         // Generate "Send invoice" task
         $invoice_sender_guid = $this->_config->get('invoice_sender');
-        if (!empty($invoice_sender_guid))
-        {
+        if (!empty($invoice_sender_guid)) {
             $invoice->generate_invoicing_task($invoice_sender_guid);
         }
 
@@ -97,22 +91,20 @@ class org_openpsa_invoices_handler_projects extends midcom_baseclasses_component
         $qb->add_constraint('status', '>=', org_openpsa_projects_task_status_dba::COMPLETED);
 
         $qb->begin_group('OR');
-            $qb->add_constraint('invoiceableHours', '>', 0);
-            $qb->begin_group('AND');
-                $qb->add_constraint('agreement.invoiceByActualUnits', '=', false);
-                $qb->add_constraint('agreement.state', '=', org_openpsa_sales_salesproject_deliverable_dba::STATE_DELIVERED);
-                $qb->add_constraint('agreement.price', '>', 0);
-            $qb->end_group();
+        $qb->add_constraint('invoiceableHours', '>', 0);
+        $qb->begin_group('AND');
+        $qb->add_constraint('agreement.invoiceByActualUnits', '=', false);
+        $qb->add_constraint('agreement.state', '=', org_openpsa_sales_salesproject_deliverable_dba::STATE_DELIVERED);
+        $qb->add_constraint('agreement.price', '>', 0);
+        $qb->end_group();
         $qb->end_group();
 
         $tasks = $qb->execute();
 
-        foreach ($tasks as $task)
-        {
+        foreach ($tasks as $task) {
             $this->_tasks[$task->id] = $task;
 
-            if (!array_key_exists($task->customer, $this->_customers))
-            {
+            if (!array_key_exists($task->customer, $this->_customers)) {
                 $this->_customers[$task->customer] = array();
             }
 
@@ -120,8 +112,7 @@ class org_openpsa_invoices_handler_projects extends midcom_baseclasses_component
         }
 
         // Check if we're sending an invoice here
-        if (array_key_exists('org_openpsa_invoices_invoice', $_POST))
-        {
+        if (array_key_exists('org_openpsa_invoices_invoice', $_POST)) {
             $this->_generate_invoice();
         }
 
@@ -147,55 +138,41 @@ class org_openpsa_invoices_handler_projects extends midcom_baseclasses_component
         $data['projects_url'] = $siteconfig->get_node_full_url('org.openpsa.projects');
 
         midcom_show_style('show-projects-header');
-        foreach ($this->_customers as $customer_id => $tasks)
-        {
+        foreach ($this->_customers as $customer_id => $tasks) {
             $data['customer'] = $customer_id;
-            try
-            {
+            try {
                 $customer = org_openpsa_contacts_group_dba::get_cached($customer_id);
                 $data['customer_label'] = $customer->official;
                 $data['disabled'] = '';
-            }
-            catch (midcom_error $e)
-            {
+            } catch (midcom_error $e) {
                 $data['customer_label'] = $this->_l10n->get('no customer');
                 $data['disabled'] = ' disabled="disabled"';
             }
             midcom_show_style('show-projects-customer-header');
 
             $class = "even";
-            foreach ($tasks as $task)
-            {
+            foreach ($tasks as $task) {
                 $data['task'] = $task;
 
                 $class = ($class == "even") ? '' : 'even';
                 $data['class'] = $class;
                 $data['reported_hours'] = $task->reportedHours;
-                try
-                {
+                try {
                     $deliverable = new org_openpsa_sales_salesproject_deliverable_dba($task->agreement);
                     $deliverable->calculate_price(false);
                     $data['default_price'] = $deliverable->pricePerUnit;
 
-                    if ($deliverable->invoiceByActualUnits)
-                    {
+                    if ($deliverable->invoiceByActualUnits) {
                         $data['invoiceable_units'] = $task->invoiceableHours;
-                    }
-                    else
-                    {
+                    } else {
                         $data['invoiceable_units'] = $task->plannedHours;
                     }
-                }
-                catch (midcom_error $e)
-                {
+                } catch (midcom_error $e) {
                     $e->log();
-                    if ($this->_config->get('default_hourly_price'))
-                    {
+                    if ($this->_config->get('default_hourly_price')) {
                         $data['default_price'] = $this->_config->get('default_hourly_price');
                         $data['invoiceable_units'] = $task->invoiceableHours;
-                    }
-                    else
-                    {
+                    } else {
                         $data['default_price'] = '';
                     }
                 }

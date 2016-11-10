@@ -25,8 +25,7 @@ class midcom_helper_exporter_xml extends midcom_helper_exporter
      */
     public function data2array($data)
     {
-        if (!is_string($data))
-        {
+        if (!is_string($data)) {
             debug_add("Missing data cannot unserialize");
             return false;
         }
@@ -37,19 +36,14 @@ class midcom_helper_exporter_xml extends midcom_helper_exporter
     private function _xml_to_array(SimpleXMLIterator $sxi)
     {
         $data = array();
-        foreach ($sxi as $key => $val)
-        {
-            if ($sxi->hasChildren())
-            {
+        foreach ($sxi as $key => $val) {
+            if ($sxi->hasChildren()) {
                 $data[$key] = $this->_xml_to_array($val);
-            }
-            else
-            {
+            } else {
                 $val = trim($val);
                 //TODO: This is mainly here for backward-compatibility. Its main effect
                 // is that 0 is replaced by an empty string. The question is: Do we want/need this?
-                if (!$val)
-                {
+                if (!$val) {
                     $val = '';
                 }
                 $data[$key] = trim($val);
@@ -69,8 +63,7 @@ class midcom_helper_exporter_xml extends midcom_helper_exporter
         $content = $datamanager->get_content_xml();
         $content['guid'] = $datamanager->storage->object->guid;
         $label = $datamanager->schema->name;
-        if ($label == 'default')
-        {
+        if ($label == 'default') {
             $label = $fallback_label;
         }
 
@@ -89,27 +82,18 @@ class midcom_helper_exporter_xml extends midcom_helper_exporter
     {
         $data  = "{$prefix}<{$root_node}>\n";
 
-        foreach ($array as $key => $field)
-        {
-            if (is_numeric($key))
-            {
+        foreach ($array as $key => $field) {
+            if (is_numeric($key)) {
                 $key = 'value';
             }
 
-            if (is_object($field))
-            {
+            if (is_object($field)) {
                 $data .= $this->object2data($field, "{$prefix}    ");
-            }
-            elseif (is_array($field))
-            {
+            } elseif (is_array($field)) {
                 $data .= $this->array2data($field, $key, "{$prefix}    ") . "\n";
-            }
-            elseif (is_numeric($field) || is_null($field) || is_bool($field))
-            {
+            } elseif (is_numeric($field) || is_null($field) || is_bool($field)) {
                 $data .= "{$prefix}    <{$key}>{$field}</{$key}>\n";
-            }
-            else
-            {
+            } else {
                 // String
                 $data .= "{$prefix}    <{$key}><![CDATA[{$field}]]></{$key}>\n";
             }
@@ -129,36 +113,26 @@ class midcom_helper_exporter_xml extends midcom_helper_exporter
     public function object2data($object, $prefix = '')
     {
         $arr = $this->object2array($object);
-        if (!$arr)
-        {
+        if (!$arr) {
             return false;
         }
 
         $classname = $this->_get_classname($object);
 
         $data = "";
-        if (!empty($object->guid))
-        {
+        if (!empty($object->guid)) {
             $data .= "{$prefix}<{$classname} id=\"{$object->id}\" guid=\"{$object->guid}\">\n";
-        }
-        else
-        {
+        } else {
             $data .= "{$prefix}<{$classname}>\n";
         }
 
-        foreach ($arr as $key => $val)
-        {
-            if (is_array($val))
-            {
+        foreach ($arr as $key => $val) {
+            if (is_array($val)) {
                 $root_node = isset($object->{$key}) ? $this->_get_classname($object->{$key}) : "array";
                 $data .= $this->array2data($val, $root_node, "    ");
-            }
-            elseif (is_numeric($val) || is_null($val) || is_bool($val))
-            {
+            } elseif (is_numeric($val) || is_null($val) || is_bool($val)) {
                 $data .= "{$prefix}    <{$key}>{$val}</{$key}>\n";
-            }
-            else
-            {
+            } else {
                 $data .= "{$prefix}    <{$key}><![CDATA[{$val}]]></{$key}>\n";
             }
         }

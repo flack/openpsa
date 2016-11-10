@@ -20,16 +20,13 @@ class midcom_helper_filesync_importer_snippet extends midcom_helper_filesync_imp
         $directory = dir($path);
         $foldernames = array();
         $filenames = array();
-        while (false !== ($entry = $directory->read()))
-        {
-            if (substr($entry, 0, 1) == '.')
-            {
+        while (false !== ($entry = $directory->read())) {
+            if (substr($entry, 0, 1) == '.') {
                 // Ignore dotfiles
                 continue;
             }
 
-            if (is_dir("{$path}/{$entry}"))
-            {
+            if (is_dir("{$path}/{$entry}")) {
                 // Recurse deeper
                 $this->read_snippetdir("{$path}/{$entry}", $snippetdir->id);
                 $foldernames[] = $entry;
@@ -38,15 +35,13 @@ class midcom_helper_filesync_importer_snippet extends midcom_helper_filesync_imp
 
             // Check file type
             $filename_parts = explode('.', $entry);
-            if (count($filename_parts) < 2)
-            {
+            if (count($filename_parts) < 2) {
                 continue;
             }
             $snippet_name = $filename_parts[0];
 
             $field = false;
-            switch ($filename_parts[count($filename_parts) - 1])
-            {
+            switch ($filename_parts[count($filename_parts) - 1]) {
                 case 'php':
                     $field = 'code';
                     break;
@@ -62,8 +57,7 @@ class midcom_helper_filesync_importer_snippet extends midcom_helper_filesync_imp
 
             $qb = $this->get_leaf_qb($snippetdir->id);
             $qb->add_constraint('name', '=', $snippet_name);
-            if ($qb->count() == 0)
-            {
+            if ($qb->count() == 0) {
                 // New element
                 $snippet = new midcom_db_snippet();
                 $snippet->up = $snippetdir->id;
@@ -77,16 +71,14 @@ class midcom_helper_filesync_importer_snippet extends midcom_helper_filesync_imp
             $snippet = $snippets[0];
 
             // Update existing elements only if they have actually changed
-            if ($snippet->$field != $file_contents)
-            {
+            if ($snippet->$field != $file_contents) {
                 $snippet->$field = $file_contents;
                 $snippet->update();
             }
         }
         $directory->close();
 
-        if ($this->delete_missing)
-        {
+        if ($this->delete_missing) {
             // Then delete files and folders that are in DB but not in the importing folder
             $this->delete_missing_folders($foldernames, $snippetdir->id);
             $this->delete_missing_files($filenames, $snippetdir->id);
@@ -110,8 +102,7 @@ class midcom_helper_filesync_importer_snippet extends midcom_helper_filesync_imp
     public function import()
     {
         $nodes = $this->_read_dirs($this->root_dir);
-        foreach ($nodes as $node)
-        {
+        foreach ($nodes as $node) {
             $this->read_snippetdir($node, 0);
         }
     }

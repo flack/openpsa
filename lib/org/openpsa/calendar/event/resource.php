@@ -21,8 +21,7 @@ class org_openpsa_calendar_event_resource_dba extends midcom_core_dbaobject
      */
     public function get_label()
     {
-        if ($this->resource)
-        {
+        if ($this->resource) {
             $resource = new org_openpsa_calendar_resource_dba($this->resource);
             $event = new org_openpsa_calendar_event_dba($this->event);
             return sprintf(midcom::get()->i18n->get_string('%s for %s', 'midcom'), $resource->title, $event->title);
@@ -37,23 +36,18 @@ class org_openpsa_calendar_event_resource_dba extends midcom_core_dbaobject
      */
     public function verify_can_reserve()
     {
-        if (empty($this->resource))
-        {
+        if (empty($this->resource)) {
             debug_add("Resource is set to empty value returning true");
             return true;
         }
-        try
-        {
+        try {
             $resource = org_openpsa_calendar_resource_dba::get_cached($this->resource);
-        }
-        catch (midcom_error $e)
-        {
+        } catch (midcom_error $e) {
             debug_add("Cannot fetch resource #{$this->resource} returning false", MIDCOM_LOG_INFO);
             return false;
         }
         $stat = $resource->can_do('org.openpsa.calendar:reserve');
-        if (!$stat)
-        {
+        if (!$stat) {
             debug_add("\$resource->can_do('org.openpsa.calendar:reserve'), returned false, so will we", MIDCOM_LOG_INFO);
         }
         return $stat;
@@ -61,8 +55,7 @@ class org_openpsa_calendar_event_resource_dba extends midcom_core_dbaobject
 
     public function _on_creating()
     {
-        if (!$this->verify_can_reserve())
-        {
+        if (!$this->verify_can_reserve()) {
             midcom_connection::set_error(MGD_ERR_ACCESS_DENIED);
             return false;
         }
@@ -71,8 +64,7 @@ class org_openpsa_calendar_event_resource_dba extends midcom_core_dbaobject
 
     public function _on_updating()
     {
-        if (!$this->verify_can_reserve())
-        {
+        if (!$this->verify_can_reserve()) {
             midcom_connection::set_error(MGD_ERR_ACCESS_DENIED);
             return false;
         }

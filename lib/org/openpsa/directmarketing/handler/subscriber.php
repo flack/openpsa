@@ -30,15 +30,11 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
         midcom::get()->auth->require_valid_user();
         $this->_request_data['person'] = new org_openpsa_contacts_person_dba($args[0]);
 
-        if (array_key_exists('add_to_campaign', $_POST))
-        {
+        if (array_key_exists('add_to_campaign', $_POST)) {
             // Add person to campaign
-            try
-            {
+            try {
                 $campaign = new org_openpsa_directmarketing_campaign_dba($_POST['add_to_campaign']);
-            }
-            catch (midcom_error $e)
-            {
+            } catch (midcom_error $e) {
                 // FIXME: More informative error message
                 $this->notify('Failed adding person %s to campaign %s', $_POST['add_to_campaign'], 'error');
                 return;
@@ -51,12 +47,9 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
             $member->orgOpenpsaObType = org_openpsa_directmarketing_campaign_member_dba::NORMAL;
             $member->person = $this->_request_data['person']->id;
             $member->campaign = $campaign->id;
-            if ($member->create())
-            {
+            if ($member->create()) {
                 $this->notify('added person %s to campaign %s', $campaign->title, 'info');
-            }
-            else
-            {
+            } else {
                 $this->notify('Failed adding person %s to campaign %s', $campaign->title, 'error');
             }
         }
@@ -90,15 +83,11 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
         $memberships = $qb->execute();
 
         $campaign_membership_map = array();
-        foreach ($memberships as $membership)
-        {
-            try
-            {
+        foreach ($memberships as $membership) {
+            try {
                 $campaigns[$membership->campaign] = new org_openpsa_directmarketing_campaign_dba($membership->campaign);
                 $campaign_membership_map[$membership->campaign] = $membership;
-            }
-            catch (midcom_error $e)
-            {
+            } catch (midcom_error $e) {
                 debug_add('Failed to load campaign ' . $membership->campaign . ', reason: ' . $e->getMessage());
             }
         }
@@ -109,16 +98,13 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
         $qb_all->add_order('metadata.created', $this->_config->get('campaign_list_order'));
         $campaigns_all = $qb_all->execute();
 
-        foreach ($campaigns_all as $campaign)
-        {
-            if ($campaign->can_do('midgard:create'))
-            {
+        foreach ($campaigns_all as $campaign) {
+            if ($campaign->can_do('midgard:create')) {
                 $this->_request_data['campaigns_all'][] = $campaign;
             }
         }
 
-        foreach ($campaigns as $campaign)
-        {
+        foreach ($campaigns as $campaign) {
             $this->_request_data['campaign'] = $campaign;
             $this->_request_data['membership'] = $campaign_membership_map[$campaign->id];
 
@@ -158,12 +144,9 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
      */
     public function _show_unsubscribe($handler_id, array &$data)
     {
-        if ($this->_request_data['unsubscribe_status'] == false)
-        {
+        if ($this->_request_data['unsubscribe_status'] == false) {
             midcom_show_style('show-unsubscribe-failed');
-        }
-        else
-        {
+        } else {
             midcom_show_style('show-unsubscribe-ok');
         }
     }
@@ -204,8 +187,7 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
         midcom::get()->auth->request_sudo($this->_component);
         $this->_request_data['person'] = new org_openpsa_contacts_person_dba($args[0]);
 
-        if ($handler_id === 'subscriber_unsubscribe_all_future')
-        {
+        if ($handler_id === 'subscriber_unsubscribe_all_future') {
             $deny_type = strtolower($args[1]);
             $this->_request_data['person']->set_parameter('org.openpsa.directmarketing', "send_{$deny_type}_denied", '1');
         }
@@ -219,11 +201,9 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
         $qb->add_constraint('orgOpenpsaObtype', '<>', org_openpsa_directmarketing_campaign_member_dba::TESTER);
         $memberships = $qb->execute();
 
-        foreach ($memberships as $member)
-        {
+        foreach ($memberships as $member) {
             $member->orgOpenpsaObtype = org_openpsa_directmarketing_campaign_member_dba::UNSUBSCRIBED;
-            if (!$member->update())
-            {
+            if (!$member->update()) {
                 //TODO: How to report failures of single rows when other succeed sensibly ??
                 $this->_request_data['unsubscribe_status'] = false;
             }
@@ -240,12 +220,9 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
      */
     public function _show_unsubscribe_all($handler_id, array &$data)
     {
-        if ($data['unsubscribe_status'] == false)
-        {
+        if ($data['unsubscribe_status'] == false) {
             midcom_show_style('show-unsubscribe-failed');
-        }
-        else
-        {
+        } else {
             midcom_show_style('show-unsubscribe-ok');
         }
     }

@@ -55,12 +55,9 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
         $this->calculate_price(false);
 
         if (   $this->orgOpenpsaObtype == org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION
-            && $this->continuous == true)
-        {
+            && $this->continuous == true) {
             $this->end = 0;
-        }
-        elseif ($this->end < $this->start)
-        {
+        } elseif ($this->end < $this->start) {
             $this->end = $this->start + 1;
         }
         return true;
@@ -68,8 +65,7 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
 
     public function _on_updated()
     {
-        if ($this->_update_parent_on_save)
-        {
+        if ($this->_update_parent_on_save) {
             $this->_update_parent();
         }
     }
@@ -77,8 +73,7 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
     public function _on_deleted()
     {
         $entries = $this->get_at_entries();
-        foreach ($entries as $entry)
-        {
+        foreach ($entries as $entry) {
             $entry->delete();
         }
         $this->_update_parent();
@@ -92,10 +87,8 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
 
     public function __get($property)
     {
-        if ($property == 'deliverable_html')
-        {
-            if (is_null($this->_deliverable_html))
-            {
+        if ($property == 'deliverable_html') {
+            if (is_null($this->_deliverable_html)) {
                 $this->_generate_html();
             }
             return $this->_deliverable_html;
@@ -115,8 +108,7 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
 
     public function get_state()
     {
-        switch ($this->state)
-        {
+        switch ($this->state) {
             case self::STATE_NEW:
             case self::STATE_PROPOSED:
                 return 'proposed';
@@ -149,13 +141,11 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
         $cost = $calculator->get_cost();
         $price = $calculator->get_price();
         if (   $price != $this->price
-            || $cost != $this->cost)
-        {
+            || $cost != $this->cost) {
             $this->price = $price;
             $this->cost = $cost;
             $this->_update_parent_on_save = true;
-            if ($update)
-            {
+            if ($update) {
                 $this->update();
                 $this->_update_parent_on_save = false;
             }
@@ -172,8 +162,7 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
     {
         debug_add('Units before update: ' . $this->units . ", uninvoiceable: " . $this->uninvoiceableUnits);
 
-        if (null === $hours)
-        {
+        if (null === $hours) {
             $hours = array
             (
                 'reported' => 0,
@@ -188,8 +177,7 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
         $mc->add_constraint('id', '<>', $task_id);
         $other_tasks = $mc->get_rows(array('reportedHours', 'invoicedHours', 'invoiceableHours'));
 
-        foreach ($other_tasks as $other_task)
-        {
+        foreach ($other_tasks as $other_task) {
             // Add the hours of the other tasks to agreement's totals
             $agreement_hours['reported'] += $other_task['reportedHours'];
             $agreement_hours['invoiced'] += $other_task['invoicedHours'];
@@ -201,21 +189,17 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
         $uninvoiceableUnits = $agreement_hours['reported'] - ($agreement_hours['invoiceable'] + $agreement_hours['invoiced']);
 
         if (   $units != $this->units
-            || $uninvoiceableUnits != $this->uninvoiceableUnits)
-        {
+            || $uninvoiceableUnits != $this->uninvoiceableUnits) {
             debug_add("agreement values have changed, setting units to " . $units . ", uninvoiceable: " . $uninvoiceableUnits);
             $this->units = $units;
             $this->uninvoiceableUnits = $uninvoiceableUnits;
             $this->_use_rcs = false;
             $this->_use_activitystream = false;
 
-            if (!$this->update())
-            {
+            if (!$this->update()) {
                 debug_add("Agreement #{$this->id} couldn't be saved to disk, last Midgard error was: " . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
             }
-        }
-        else
-        {
+        } else {
             debug_add("Agreement values are unchanged, no update necessary");
         }
     }
@@ -226,8 +210,7 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
     public function run_cycle()
     {
         $at_entries = $this->get_at_entries();
-        if (!isset($at_entries[0]))
-        {
+        if (!isset($at_entries[0])) {
             debug_add('No AT entry found');
             return false;
         }
@@ -235,13 +218,11 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
         $entry = $at_entries[0];
         $scheduler = new org_openpsa_invoices_scheduler($this);
 
-        if (!$scheduler->run_cycle($entry->arguments['cycle']))
-        {
+        if (!$scheduler->run_cycle($entry->arguments['cycle'])) {
             debug_add('Failed to run cycle');
             return false;
         }
-        if (!$entry->delete())
-        {
+        if (!$entry->delete()) {
             debug_add('Could not delete AT entry: ' . midcom_connection::get_error_string());
             return false;
         }
@@ -251,8 +232,7 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
     public function end_subscription()
     {
         $this->state = org_openpsa_sales_salesproject_deliverable_dba::STATE_INVOICED;
-        if (!$this->update())
-        {
+        if (!$this->update()) {
             return false;
         }
         $salesproject = new org_openpsa_sales_salesproject_dba($this->salesproject);
@@ -264,16 +244,14 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
     public function invoice()
     {
         if (   $this->state >= self::STATE_INVOICED
-            || $this->orgOpenpsaObtype == org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION)
-        {
+            || $this->orgOpenpsaObtype == org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION) {
             return false;
         }
 
         $calculator = new org_openpsa_invoices_calculator();
         $amount = $calculator->process_deliverable($this);
 
-        if ($amount > 0)
-        {
+        if ($amount > 0) {
             $salesproject = new org_openpsa_sales_salesproject_dba($this->salesproject);
             $salesproject->mark_invoiced();
         }
@@ -282,21 +260,18 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
 
     public function decline()
     {
-        if ($this->state >= self::STATE_DECLINED)
-        {
+        if ($this->state >= self::STATE_DECLINED) {
             return false;
         }
 
         $this->state = self::STATE_DECLINED;
 
-        if ($this->update())
-        {
+        if ($this->update()) {
             // Update sales project if it doesn't have any open deliverables
             $qb = org_openpsa_sales_salesproject_deliverable_dba::new_query_builder();
             $qb->add_constraint('salesproject', '=', $this->salesproject);
             $qb->add_constraint('state', '<>', self::STATE_DECLINED);
-            if ($qb->count() == 0)
-            {
+            if ($qb->count() == 0) {
                 // No proposals that are not declined
                 $salesproject = new org_openpsa_sales_salesproject_dba($this->salesproject);
                 $salesproject->state = org_openpsa_sales_salesproject_dba::STATE_LOST;
@@ -310,13 +285,11 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
 
     public function order()
     {
-        if ($this->state >= self::STATE_ORDERED)
-        {
+        if ($this->state >= self::STATE_ORDERED) {
             return false;
         }
 
-        if ($this->invoiceByActualUnits)
-        {
+        if ($this->invoiceByActualUnits) {
             $this->cost = 0;
             $this->units = 0;
         }
@@ -325,19 +298,14 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
         $product = org_openpsa_products_product_dba::get_cached($this->product);
         $scheduler = new org_openpsa_invoices_scheduler($this);
 
-        if ($product->delivery == org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION)
-        {
+        if ($product->delivery == org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION) {
             // This is a new subscription, initiate the cycle but don't send invoice
-            if (!$scheduler->run_cycle(1, false))
-            {
+            if (!$scheduler->run_cycle(1, false)) {
                 return false;
             }
-        }
-        else
-        {
+        } else {
             // Check if we need to create task or ship goods
-            switch ($product->orgOpenpsaObtype)
-            {
+            switch ($product->orgOpenpsaObtype) {
                 case org_openpsa_products_product_dba::TYPE_SERVICE:
                     $scheduler->create_task($this->start, $this->end, $this->title);
                     break;
@@ -350,12 +318,10 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
 
         $this->state = self::STATE_ORDERED;
 
-        if ($this->update())
-        {
+        if ($this->update()) {
             // Update sales project and mark as won
             $salesproject = new org_openpsa_sales_salesproject_dba($this->salesproject);
-            if ($salesproject->state != org_openpsa_sales_salesproject_dba::STATE_WON)
-            {
+            if ($salesproject->state != org_openpsa_sales_salesproject_dba::STATE_WON) {
                 $salesproject->state = org_openpsa_sales_salesproject_dba::STATE_WON;
                 $salesproject->update();
             }
@@ -368,31 +334,26 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
 
     public function deliver($update_deliveries = true)
     {
-        if ($this->state > self::STATE_DELIVERED)
-        {
+        if ($this->state > self::STATE_DELIVERED) {
             return false;
         }
 
         $product = org_openpsa_products_product_dba::get_cached($this->product);
-        if ($product->delivery == org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION)
-        {
+        if ($product->delivery == org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION) {
             // Subscriptions are ongoing, not one delivery
             return false;
         }
 
         // Check if we need to create task or ship goods
-        if ($update_deliveries)
-        {
-            switch ($product->orgOpenpsaObtype)
-            {
+        if ($update_deliveries) {
+            switch ($product->orgOpenpsaObtype) {
                 case org_openpsa_products_product_dba::TYPE_SERVICE:
                     // Change status of tasks connected to the deliverable
                     $task_qb = org_openpsa_projects_task_dba::new_query_builder();
                     $task_qb->add_constraint('agreement', '=', $this->id);
                     $task_qb->add_constraint('status', '<', org_openpsa_projects_task_status_dba::CLOSED);
                     $tasks = $task_qb->execute();
-                    foreach ($tasks as $task)
-                    {
+                    foreach ($tasks as $task) {
                         org_openpsa_projects_workflow::close($task, sprintf(midcom::get()->i18n->get_string('completed from deliverable %s', 'org.openpsa.sales'), $this->title));
                     }
                     break;
@@ -405,8 +366,7 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
 
         $this->state = self::STATE_DELIVERED;
         $this->end = time();
-        if ($this->update())
-        {
+        if ($this->update()) {
             // Update sales project and mark as delivered (if no other deliverables are active)
             $salesproject = new org_openpsa_sales_salesproject_dba($this->salesproject);
             $salesproject->mark_delivered();

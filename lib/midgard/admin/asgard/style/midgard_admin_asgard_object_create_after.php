@@ -17,8 +17,7 @@
        window.parent.midcom_helper_datamanager2_autocomplete.add_result_item(widget_id, data);
    }
     <?php
-    if (!isset($data['cancelled']))
-    {
+    if (!isset($data['cancelled'])) {
         echo "add_item({$data['jsdata']});";
     }
     ?>

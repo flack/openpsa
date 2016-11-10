@@ -26,8 +26,7 @@ class midcom_helper_datamanager2_type_photo extends midcom_helper_datamanager2_t
     protected function _prepare_recreate($force = true)
     {
         if (   !empty($this->_original_tmpname)
-            && !$force)
-        {
+            && !$force) {
             // We have prepared.
             return true;
         }
@@ -35,23 +34,17 @@ class midcom_helper_datamanager2_type_photo extends midcom_helper_datamanager2_t
         $this->_filter = new midcom_helper_imagefilter();
         $this->_pending_attachments = $this->attachments;
         // Remove archival and main from pending attachments
-        if (!$this->do_not_save_archival)
-        {
+        if (!$this->do_not_save_archival) {
             unset($this->_pending_attachments['archival']);
         }
-        if (array_key_exists('archival', $this->attachments))
-        {
+        if (array_key_exists('archival', $this->attachments)) {
             // PONDER: This could cause issues with RAW etc special format archived versions...
             // Copy archival as original
             $att = $this->attachments['archival'];
-        }
-        elseif (array_key_exists('main', $this->attachments))
-        {
+        } elseif (array_key_exists('main', $this->attachments)) {
             // Copy main as original
             $att = $this->attachments['main'];
-        }
-        else
-        {
+        } else {
             return false;
         }
         $this->_filter = new midcom_helper_imagefilter($att);
@@ -66,8 +59,7 @@ class midcom_helper_datamanager2_type_photo extends midcom_helper_datamanager2_t
      */
     function recreate()
     {
-        if (!array_key_exists('archival', $this->attachments))
-        {
+        if (!array_key_exists('archival', $this->attachments)) {
             // Allow main image only be recreated if we have original stored
             return false;
         }
@@ -91,8 +83,7 @@ class midcom_helper_datamanager2_type_photo extends midcom_helper_datamanager2_t
 
     protected function _save_original()
     {
-        if ($this->do_not_save_archival)
-        {
+        if ($this->do_not_save_archival) {
             return true;
         }
         return $this->_save_image('archival', '', true);
@@ -100,14 +91,11 @@ class midcom_helper_datamanager2_type_photo extends midcom_helper_datamanager2_t
 
     public function convert_to_html()
     {
-        if (!array_key_exists('main', $this->attachments_info))
-        {
+        if (!array_key_exists('main', $this->attachments_info)) {
             $ret = "";
-            if (sizeof($this->attachments_info) > 0)
-            {
+            if (sizeof($this->attachments_info) > 0) {
                 $ret .= "\n" . $this->_l10n->get('could not figure out which image to show, listing files') . "\n<ul>\n";
-                foreach ($this->attachments_info as $key => $data)
-                {
+                foreach ($this->attachments_info as $key => $data) {
                     $ret .= "    <li><a href='{$data['url']}'>{$key}</a></li>\n";
                 }
                 $ret .= "</ul>\n";
@@ -117,33 +105,24 @@ class midcom_helper_datamanager2_type_photo extends midcom_helper_datamanager2_t
 
         $img = $this->attachments_info['main'];
         $linkto = false;
-        if (array_key_exists('view', $this->attachments_info))
-        {
+        if (array_key_exists('view', $this->attachments_info)) {
             $img = $this->attachments_info['view'];
             $linkto = $this->attachments_info['main'];
-        }
-        elseif (array_key_exists('thumbnail', $this->attachments_info))
-        {
+        } elseif (array_key_exists('thumbnail', $this->attachments_info)) {
             $img = $this->attachments_info['thumbnail'];
             $linkto = $this->attachments_info['main'];
-        }
-        elseif (array_key_exists('archival', $this->attachments_info))
-        {
+        } elseif (array_key_exists('archival', $this->attachments_info)) {
             $linkto = $this->attachments_info['archival'];
         }
 
         $return = "\n<div class='midcom_helper_datamanager2_type_photo'>\n";
         $img_tag = "<img src='{$img['url']}' {$img['size_line']} class='photo {$img['identifier']}' />";
-        if ($linkto)
-        {
+        if ($linkto) {
             $return .= "    <a href='{$linkto['url']}' target='_blank' class='{$linkto['identifier']} {$linkto['mimetype']}'>\n        {$img_tag}\n    </a>\n";
-        }
-        else
-        {
+        } else {
             $return .= "    {$img_tag}\n";
         }
-        if (array_key_exists('archival', $this->attachments_info))
-        {
+        if (array_key_exists('archival', $this->attachments_info)) {
             $arch = $this->attachments_info['archival'];
             $return .= "    <br/>\n    <a href='{$arch['url']}' target='_blank' class='archival {$arch['mimetype']}'>" . $this->_l10n->get('archived image') . "</a>\n";
         }
@@ -159,14 +138,11 @@ class midcom_helper_datamanager2_type_photo extends midcom_helper_datamanager2_t
      */
     function apply_filter_all($filter)
     {
-        foreach (array_keys($this->attachments) as $identifier)
-        {
-            if ($identifier === 'archival')
-            {
+        foreach (array_keys($this->attachments) as $identifier) {
+            if ($identifier === 'archival') {
                 continue;
             }
-            if (!$this->apply_filter($identifier, $filter))
-            {
+            if (!$this->apply_filter($identifier, $filter)) {
                 debug_add("Failed to apply filter '{$filter}' to image '{$identifier}', aborting", MIDCOM_LOG_ERROR);
                 return false;
             }

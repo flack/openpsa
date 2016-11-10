@@ -26,24 +26,21 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
     public function __construct($identifier = null)
     {
         parent::__construct($identifier);
-        if (!$this->orgOpenpsaObtype)
-        {
+        if (!$this->orgOpenpsaObtype) {
             $this->orgOpenpsaObtype = self::OBTYPE_EVENTPARTICIPANT;
         }
     }
 
     public function _on_created()
     {
-        if ($this->notify_person)
-        {
+        if ($this->notify_person) {
             $this->notify('add');
         }
     }
 
     public function _on_updating()
     {
-        if ($this->notify_person)
-        {
+        if ($this->notify_person) {
             $this->notify('update');
         }
         return true;
@@ -51,8 +48,7 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
 
     public function _on_deleted()
     {
-        if ($this->notify_person)
-        {
+        if ($this->notify_person) {
             $this->notify('remove');
         }
     }
@@ -61,20 +57,17 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
     {
         $recipient = $this->get_person_obj();
 
-        if (!$recipient)
-        {
+        if (!$recipient) {
             debug_add('recipient could not be gotten, aborting', MIDCOM_LOG_WARN);
             return false;
         }
 
-        if (null === $event)
-        {
+        if (null === $event) {
             $event = new org_openpsa_calendar_event_dba($this->eid);
         }
 
         if (    $recipient->id == midcom_connection::get_user()
-             && !$event->send_notify_me)
-        {
+             && !$event->send_notify_me) {
             //Do not send notification to current user
             debug_add('event->send_notify_me is false and recipient is current user, aborting notify');
             return false;
@@ -85,8 +78,7 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
         $timeframe = $l10n->get_formatter()->timeframe($event->start, $event->end);
         $action = 'org.openpsa.calendar:event_' . $type;
 
-        switch ($type)
-        {
+        switch ($type) {
             //Event information was updated
             case 'update':
                 //PONDER: This in theory should have the old event title
@@ -120,12 +112,9 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
         }
 
         if (   $type == 'cancel'
-            || $type == 'remove')
-        {
+            || $type == 'remove') {
             // TODO: Create iCal export with correct delete commands
-        }
-        else
-        {
+        } else {
             $generator = midcom::get()->serviceloader->load('midcom_core_service_urlgenerator');
             $encoder = new org_openpsa_calendar_vcal;
             $encoder->add_event($event);
@@ -148,19 +137,15 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
      */
     private function get_person_obj()
     {
-        try
-        {
+        try {
             $person = org_openpsa_contacts_person_dba::get_cached($this->uid);
 
             //We need to have an email which to send to so if no email no point
-            if (empty($person->email))
-            {
+            if (empty($person->email)) {
                 debug_add('person #' . $person->id . 'has no email address, aborting');
                 return false;
             }
-        }
-        catch (midcom_error $e)
-        {
+        } catch (midcom_error $e) {
             return false;
         }
 
@@ -185,32 +170,25 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
         $eventmembers = $mc->get_values('eid');
 
         $events_by_date = array();
-        foreach ($eventmembers as $eid)
-        {
-            try
-            {
+        foreach ($eventmembers as $eid) {
+            try {
                 $event = org_openpsa_calendar_event_dba::get_cached($eid);
-            }
-            catch (midcom_error $e)
-            {
+            } catch (midcom_error $e) {
                 continue;
             }
             $ymd = date('Ymd', $event->start);
-            if (!array_key_exists($ymd, $events_by_date))
-            {
+            if (!array_key_exists($ymd, $events_by_date)) {
                 $events_by_date[$ymd] = array();
             }
             $events_by_date[$ymd][] = $event;
         }
         // Make sure each date between start and end has at least a dummy event
         $stamp = mktime(0, 0, 1, date('m', $start), date('d', $start), date('Y', $start));
-        while ($stamp <= $end)
-        {
+        while ($stamp <= $end) {
             $ymd = date('Ymd', $stamp);
             debug_add("making sure date {$ymd} has at least one event");
             $stamp = mktime(0, 0, 1, date('m', $stamp), date('d', $stamp)+1, date('Y', $stamp));
-            if (array_key_exists($ymd, $events_by_date))
-            {
+            if (array_key_exists($ymd, $events_by_date)) {
                 continue;
             }
             debug_add('none found, adding a dummy one');
@@ -219,8 +197,7 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
             $dummy->end = $stamp + 1;
             $events_by_date[$ymd] = array($dummy);
         }
-        foreach ($events_by_date as $ymd => $events)
-        {
+        foreach ($events_by_date as $ymd => $events) {
             preg_match('/([0-9]{4})([0-9]{2})([0-9]{2})/', $ymd, $ymd_matches);
             // TODO: get from person's data based on event's weekday
             // PONDER: What to do with persons that do not have this data defined ??
@@ -231,25 +208,19 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
             $workday_ends_ts = mktime($workday_ends, 0, 0, (int)$ymd_matches[2], (int)$ymd_matches[3], (int)$ymd_matches[1]);
             $last_end_time = false;
             $last_event = false;
-            foreach ($events as $event)
-            {
+            foreach ($events as $event) {
                 if (   $event->end <= $workday_starts_ts
-                    || $event->start >= $workday_ends_ts)
-                {
+                    || $event->start >= $workday_ends_ts) {
                     // We need not to consider this event, it is outside the defined workday
                     continue;
                 }
 
                 debug_add("checking event #{$event->id} ({$event->title})");
-                if ($last_end_time === false)
-                {
-                    if ($event->start > $workday_starts_ts)
-                    {
+                if ($last_end_time === false) {
+                    if ($event->start > $workday_starts_ts) {
                         // First event of the day starts after we have started working, use work start time as last end time.
                         $last_end_time = $workday_starts_ts;
-                    }
-                    else
-                    {
+                    } else {
                         // Make the first event of the day the last end time and skip rest of the checks
                         $last_end_time = $event->end;
                         // PHP5-TODO: Must be copy by value
@@ -258,8 +229,7 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
                     }
                 }
                 $diff = $event->start - $last_end_time;
-                if ($diff >= $amount)
-                {
+                if ($diff >= $amount) {
                     // slot found
                     $slots[] = self::_create_slot($last_end_time, $event->start, $last_event, $event);
                 }
@@ -267,13 +237,11 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
                 $last_event = $event;
             }
             // End of day slot
-            if ($last_end_time === false)
-            {
+            if ($last_end_time === false) {
                 $last_end_time = $workday_starts_ts;
             }
             if (   $last_end_time < $workday_ends_ts
-                && (($workday_ends_ts- $last_end_time) >= $amount))
-            {
+                && (($workday_ends_ts- $last_end_time) >= $amount)) {
                 $slots[] = self::_create_slot($last_end_time, $workday_ends_ts, $last_event);
             }
         }

@@ -42,8 +42,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         );
         $this->_request_data['asgard_toolbar']->add_items($buttons);
 
-        switch ($handler_id)
-        {
+        switch ($handler_id) {
             case '____mfa-asgard-components_configuration_edit':
                 $this->_request_data['asgard_toolbar']->disable_item("__mfa/asgard/components/configuration/edit/{$this->_request_data['name']}/");
                 break;
@@ -72,8 +71,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
             $this->_l10n_midcom->get('component configuration')
         );
 
-        if ($handler_id == '____mfa-asgard-components_configuration_edit')
-        {
+        if ($handler_id == '____mfa-asgard-components_configuration_edit') {
             $this->add_breadcrumb
             (
                 "__mfa/asgard/components/configuration/{$this->_request_data['name']}/edit/",
@@ -86,8 +84,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
     {
         $config = midcom_baseclasses_components_configuration::get($component, 'config');
 
-        if ($object)
-        {
+        if ($object) {
             $topic_config = new midcom_helper_configuration($object, $component);
             $config->store($topic_config->_local, false);
         }
@@ -101,37 +98,30 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         $schemadb_config_path = midcom::get()->componentloader->path_to_snippetpath($this->_request_data['name']) . '/config/config_schemadb.inc';
         $schema = 'default';
 
-        if (file_exists($schemadb_config_path))
-        {
+        if (file_exists($schemadb_config_path)) {
             // Check that the schema is valid DM2 schema
             $schema_array = midcom_baseclasses_components_configuration::read_array_from_file($schemadb_config_path);
-            if (isset($schema_array['config']))
-            {
+            if (isset($schema_array['config'])) {
                 $schema = 'config';
             }
 
             $schemadb = midcom_helper_datamanager2_schema::load_database($schema_array);
             // TODO: Log error on deprecated config schema?
-        }
-        else
-        {
+        } else {
             // Create dummy schema. Naughty component would not provide config schema.
             $schemadb = midcom_helper_datamanager2_schema::load_database("file:/midgard/admin/asgard/config/schemadb_libconfig.inc");
         }
         $schemadb[$schema]->l10n_schema = $this->_i18n->get_l10n($this->_request_data['name']);
 
-        foreach ($this->_request_data['config']->_global as $key => $value)
-        {
+        foreach ($this->_request_data['config']->_global as $key => $value) {
             // try to sniff what fields are missing in schema
-            if (!array_key_exists($key, $schemadb[$schema]->fields))
-            {
+            if (!array_key_exists($key, $schemadb[$schema]->fields)) {
                 $schemadb[$schema]->append_field($key, $this->_detect_schema($key, $value));
                 $schemadb[$schema]->fields[$key]['title'] = $schemadb[$schema]->l10n_schema->get($schemadb[$schema]->fields[$key]['title']);
             }
 
             if (   !isset($this->_request_data['config']->_local[$key])
-                || $this->_request_data['config']->_local[$key] == $this->_request_data['config']->_global[$key])
-            {
+                || $this->_request_data['config']->_local[$key] == $this->_request_data['config']->_global[$key]) {
                 // No local configuration setting, note to user that this is the global value
                 $schemadb[$schema]->fields[$key]['title'] = $schemadb[$schema]->l10n_schema->get($schemadb[$schema]->fields[$key]['title']);
                 $schemadb[$schema]->fields[$key]['title'] .= " <span class=\"global\">(" . $this->_l10n->get('global value') .")</span>";
@@ -140,14 +130,10 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
 
         // Prepare defaults
         $config = array_intersect_key($this->_request_data['config']->get_all(), $schemadb[$schema]->fields);
-        foreach ($config as $key => $value)
-        {
-            if (is_array($value))
-            {
+        foreach ($config as $key => $value) {
+            if (is_array($value)) {
                 $schemadb[$schema]->fields[$key]['default'] = "array(\n" . $this->_draw_array($value, '    ') . ")";
-            }
-            else
-            {
+            } else {
                 $schemadb[$schema]->fields[$key]['default'] = $value;
             }
         }
@@ -170,8 +156,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
     public function _handler_view($handler_id, array $args, array &$data)
     {
         $data['name'] = $args[0];
-        if (!midcom::get()->componentloader->is_installed($data['name']))
-        {
+        if (!midcom::get()->componentloader->is_installed($data['name'])) {
             throw new midcom_error_notfound("Component {$data['name']} was not found.");
         }
 
@@ -191,17 +176,13 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
     {
         midcom_show_style('midgard_admin_asgard_component_configuration_header');
 
-        foreach ($data['config']->_global as $key => $value)
-        {
+        foreach ($data['config']->_global as $key => $value) {
             $data['key'] = $this->_i18n->get_string($key, $data['name']);
             $data['global'] = $this->_detect($value);
 
-            if (isset($data['config']->_local[$key]))
-            {
+            if (isset($data['config']->_local[$key])) {
                 $data['local'] = $this->_detect($data['config']->_local[$key]);
-            }
-            else
-            {
+            } else {
                 $data['local'] = $this->_detect(null);
             }
 
@@ -214,22 +195,19 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
     {
         $type = gettype($value);
 
-        switch ($type)
-        {
+        switch ($type) {
             case 'boolean':
                 $src = MIDCOM_STATIC_URL . '/stock-icons/16x16/cancel.png';
                 $result = "<img src='{$src}'/>";
 
-                if ($value === true)
-                {
+                if ($value === true) {
                     $result = "<img src='" . MIDCOM_STATIC_URL . "/stock-icons/16x16/ok.png'/>";
                 }
 
                 break;
             case 'array':
                 $content = '<ul>';
-                foreach ($value as $key => $val)
-                {
+                foreach ($value as $key => $val) {
                     $content .= "<li>{$key} => " . $this->_detect($val) . ",</li>\n";
                 }
                 $content .= '</ul>';
@@ -261,8 +239,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         debug_add("'php -l {$tmpfile}' returned: \n===\n{$parse_results}\n===\n");
         unlink($tmpfile);
 
-        if (strstr($parse_results, 'Parse error'))
-        {
+        if (strstr($parse_results, 'Parse error')) {
             $line = preg_replace('/\n.+?on line (\d+?)\n.*\n/', '\1', $parse_results);
             throw new midcom_error(sprintf($this->_i18n->get_string('type php: parse error in line %s', 'midcom.helper.datamanager2'), $line));
         }
@@ -278,16 +255,14 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         $basedir = midcom::get()->config->get('midcom_sgconfig_basedir');
         $sg_snippetdir = new midcom_db_snippetdir();
         $sg_snippetdir->get_by_path($basedir);
-        if (!$sg_snippetdir->guid)
-        {
+        if (!$sg_snippetdir->guid) {
             // Create SG config snippetdir
             $sd = new midcom_db_snippetdir();
             $sd->up = 0;
             $sd->name = $basedir;
             // remove leading slash from name
             $sd->name = preg_replace("/^\//", "", $sd->name);
-            if (!$sd->create())
-            {
+            if (!$sd->create()) {
                 throw new midcom_error("Failed to create snippetdir {$basedir}: " . midcom_connection::get_error_string());
             }
             $sg_snippetdir = new midcom_db_snippetdir($sd->guid);
@@ -295,13 +270,11 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
 
         $lib_snippetdir = new midcom_db_snippetdir();
         $lib_snippetdir->get_by_path("{$basedir}/{$this->_request_data['name']}");
-        if (!$lib_snippetdir->guid)
-        {
+        if (!$lib_snippetdir->guid) {
             $sd = new midcom_db_snippetdir();
             $sd->up = $sg_snippetdir->id;
             $sd->name = $this->_request_data['name'];
-            if (!$sd->create())
-            {
+            if (!$sd->create()) {
                 throw new midcom_error("Failed to create snippetdir {$basedir}/{$sd->name}: " . midcom_connection::get_error_string());
             }
             $lib_snippetdir = new midcom_db_snippetdir($sd->guid);
@@ -309,8 +282,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
 
         $snippet = new midcom_db_snippet();
         $snippet->get_by_path("{$basedir}/{$this->_request_data['name']}/config");
-        if ($snippet->id == false)
-        {
+        if ($snippet->id == false) {
             $sn = new midcom_db_snippet();
             $sn->up = $lib_snippetdir->id;
             $sn->name = 'config';
@@ -327,26 +299,21 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      */
     private function _save_topic($topic, $config)
     {
-        foreach (array_keys($this->_request_data['config']->_global) as $global_key)
-        {
-            if (isset($config[$global_key]))
-            {
+        foreach (array_keys($this->_request_data['config']->_global) as $global_key) {
+            if (isset($config[$global_key])) {
                 continue;
                 // Skip the ones we will set next
             }
 
             // Clear unset params
-            if ($topic->get_parameter($this->_request_data['name'], $global_key))
-            {
+            if ($topic->get_parameter($this->_request_data['name'], $global_key)) {
                 $topic->set_parameter($this->_request_data['name'], $global_key, '');
             }
         }
 
-        foreach ($config as $key => $value)
-        {
+        foreach ($config as $key => $value) {
             if (   is_array($value)
-                || is_object($value))
-            {
+                || is_object($value)) {
                 /**
                  * See http://trac.midgard-project.org/ticket/1442
                 $topic->set_parameter($this->_request_data['name'], $key, "array(\n" . $this->_draw_array($value, '    ') . ")");
@@ -361,34 +328,28 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
     {
         $post = $this->_controller->formmanager->form->getSubmitValues();
         $config_array = array();
-        foreach ($this->_request_data['config']->_global as $key => $val)
-        {
-            if (isset($post[$key]))
-            {
+        foreach ($this->_request_data['config']->_global as $key => $val) {
+            if (isset($post[$key])) {
                 $newval = $post[$key];
             }
 
             if (   is_a($this->_controller->datamanager->types[$key], 'midcom_helper_datamanager2_type_select')
-                || is_a($this->_controller->datamanager->types[$key], 'midcom_helper_datamanager2_type_boolean'))
-            {
+                || is_a($this->_controller->datamanager->types[$key], 'midcom_helper_datamanager2_type_boolean')) {
                 // We want the actual values regardless of widget
                 $newval = $this->_controller->datamanager->types[$key]->convert_to_storage();
             }
 
-            if (!isset($newval))
-            {
+            if (!isset($newval)) {
                 continue;
             }
 
-            if (is_array($val))
-            {
+            if (is_array($val)) {
                 //try make sure entries have the same format before deciding if there was a change
                 $val = "array(\n" . $this->_draw_array($val, "    ") . ")";
                 $newval = str_replace("\r\n", "\n", $newval);
             }
 
-            if ($newval != $val)
-            {
+            if ($newval != $val) {
                 $config_array[$key] = $newval;
             }
         }
@@ -404,39 +365,32 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
     public function _handler_edit($handler_id, array $args, array &$data)
     {
         $data['name'] = $args[0];
-        if (!midcom::get()->componentloader->is_installed($data['name']))
-        {
+        if (!midcom::get()->componentloader->is_installed($data['name'])) {
             throw new midcom_error_notfound("Component {$data['name']} was not found.");
         }
 
-        if ($handler_id == '____mfa-asgard-components_configuration_edit_folder')
-        {
+        if ($handler_id == '____mfa-asgard-components_configuration_edit_folder') {
             $data['folder'] = new midcom_db_topic($args[1]);
-            if ($data['folder']->component != $data['name'])
-            {
+            if ($data['folder']->component != $data['name']) {
                 throw new midcom_error_notfound("Folder {$args[1]} not found for configuration.");
             }
 
             $data['folder']->require_do('midgard:update');
 
             $data['config'] = $this->_load_configs($data['name'], $data['folder']);
-        }
-        else
-        {
+        } else {
             $data['config'] = $this->_load_configs($data['name']);
         }
 
         $this->_controller = $this->get_controller('nullstorage');
 
-        switch ($this->_controller->process_form())
-        {
+        switch ($this->_controller->process_form()) {
             case 'save':
                 $this->_save_configuration($data);
                 // *** FALL-THROUGH ***
 
             case 'cancel':
-                if ($handler_id == '____mfa-asgard-components_configuration_edit_folder')
-                {
+                if ($handler_id == '____mfa-asgard-components_configuration_edit_folder') {
                     return new midcom_response_relocate("__mfa/asgard/object/view/{$data['folder']->guid}/");
                 }
                 return new midcom_response_relocate("__mfa/asgard/components/configuration/{$data['name']}/");
@@ -444,13 +398,10 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
 
         $data['controller'] = $this->_controller;
 
-        if ($handler_id == '____mfa-asgard-components_configuration_edit_folder')
-        {
+        if ($handler_id == '____mfa-asgard-components_configuration_edit_folder') {
             midgard_admin_asgard_plugin::bind_to_object($data['folder'], $handler_id, $data);
             $data['view_title'] = sprintf($this->_l10n->get('edit configuration for %s folder %s'), $data['name'], $data['folder']->extra);
-        }
-        else
-        {
+        } else {
             $this->_prepare_toolbar($handler_id);
             $data['view_title'] = sprintf($this->_l10n->get('edit configuration for %s'), $data['name']);
             $this->_prepare_breadcrumbs($handler_id);
@@ -465,12 +416,9 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
 
         $config = $this->_draw_array($config_array, '', $data['config']->_global);
 
-        try
-        {
+        try {
             $this->_check_config($config);
-        }
-        catch (Exception $e)
-        {
+        } catch (Exception $e) {
             midcom::get()->uimessages->add
             (
                 $this->_l10n_midcom->get('component configuration'),
@@ -481,8 +429,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
             // Get back to form
         }
 
-        if ($data['handler_id'] == '____mfa-asgard-components_configuration_edit_folder')
-        {
+        if ($data['handler_id'] == '____mfa-asgard-components_configuration_edit_folder') {
             // Editing folder configuration
             $this->_save_topic($data['folder'], $config_array);
             midcom::get()->uimessages->add
@@ -494,16 +441,13 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
             // This will exit
         }
 
-        if ($this->_save_snippet($config))
-        {
+        if ($this->_save_snippet($config)) {
             midcom::get()->uimessages->add
             (
                 $this->_l10n_midcom->get('component configuration'),
                 $this->_l10n->get('configuration saved successfully')
             );
-        }
-        else
-        {
+        } else {
             midcom::get()->uimessages->add
             (
                 $this->_l10n_midcom->get('component configuration'),
@@ -532,8 +476,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         );
 
         $type = gettype($value);
-        switch ($type)
-        {
+        switch ($type) {
             case "boolean":
                 $result['type'] = 'boolean';
                 $result['widget'] = 'checkbox';
@@ -541,16 +484,14 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
             case "array":
                 $result['widget'] = 'textarea';
 
-                if (isset($this->_request_data['folder']))
-                {
+                if (isset($this->_request_data['folder'])) {
                     // Complex Array fields should be readonly for topics as we cannot store and read them properly with parameters
                     $result['readonly'] = true;
                 }
 
                 break;
             default:
-                if (preg_match("/\n/", $value))
-                {
+                if (preg_match("/\n/", $value)) {
                     $result['widget'] = 'textarea';
                 }
         }
@@ -561,46 +502,32 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
     private function _draw_array($array, $prefix = '', $type_array = null)
     {
         $data = '';
-        foreach ($array as $key => $val)
-        {
+        foreach ($array as $key => $val) {
             $data .= $prefix;
-            if (!is_numeric($key))
-            {
+            if (!is_numeric($key)) {
                 $data .= "'{$key}' => ";
             }
 
             $type = gettype($val);
             if (   $type_array
-                && isset($type_array[$key]))
-            {
+                && isset($type_array[$key])) {
                 $type = gettype($type_array[$key]);
             }
 
-            if ($type === 'boolean')
-            {
+            if ($type === 'boolean') {
                 $data .= ($val) ? 'true' : 'false';
-            }
-            elseif ($type === 'array')
-            {
-                if (empty($val))
-                {
+            } elseif ($type === 'array') {
+                if (empty($val)) {
                     $data .= 'array()';
-                }
-                else
-                {
-                    if (is_string($val))
-                    {
+                } else {
+                    if (is_string($val)) {
                         eval("\$val = $val;");
                     }
                     $data .= "array\n{$prefix}(\n" . $this->_draw_array($val, "{$prefix}    ") . "{$prefix})";
                 }
-            }
-            elseif (is_numeric($val))
-            {
+            } elseif (is_numeric($val)) {
                 $data .= $val;
-            }
-            else
-            {
+            } else {
                 $data .= "'{$val}'";
             }
 

@@ -46,8 +46,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
     public function _on_creating()
     {
         $this->orgOpenpsaObtype = self::OBTYPE;
-        if (!$this->manager)
-        {
+        if (!$this->manager) {
             $this->manager = midcom_connection::get_user();
         }
         return $this->_prepare_save();
@@ -55,13 +54,11 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
 
     public function _on_loaded()
     {
-        if ($this->title == "")
-        {
+        if ($this->title == "") {
             $this->title = "Task #{$this->id}";
         }
 
-        if (!$this->status)
-        {
+        if (!$this->status) {
             //Default to proposed if no status is set
             $this->status = org_openpsa_projects_task_status_dba::PROPOSED;
         }
@@ -77,15 +74,11 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
 
     public function __get($property)
     {
-        if ($property == 'status_type')
-        {
+        if ($property == 'status_type') {
             return org_openpsa_projects_workflow::get_status_type($this->status);
-        }
-        elseif (   $property == 'status_comment'
-                 || $property == 'status_time')
-        {
-            if (is_null($this->_status))
-            {
+        } elseif (   $property == 'status_comment'
+                 || $property == 'status_time') {
+            if (is_null($this->_status)) {
                 $this->_status = $this->_get_status();
             }
             return $this->_status[$property];
@@ -101,19 +94,16 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
     public function _on_updated()
     {
         // Sync the object's ACL properties into MidCOM ACL system
-        if (   !$this->_skip_acl_refresh)
-        {
+        if (   !$this->_skip_acl_refresh) {
             if ($this->orgOpenpsaAccesstype
-                && $this->orgOpenpsaOwnerWg)
-            {
+                && $this->orgOpenpsaOwnerWg) {
                 debug_add("Synchronizing task ACLs to MidCOM");
                 $sync = new org_openpsa_core_acl_synchronizer();
                 $sync->write_acls($this, $this->orgOpenpsaOwnerWg, $this->orgOpenpsaAccesstype);
             }
 
             //Ensure manager can do stuff
-            if ($this->manager)
-            {
+            if ($this->manager) {
                 $manager_person = midcom::get()->auth->get_user($this->manager);
                 $this->set_privilege('midgard:read', $manager_person->id, MIDCOM_PRIVILEGE_ALLOW);
                 $this->set_privilege('midgard:create', $manager_person->id, MIDCOM_PRIVILEGE_ALLOW);
@@ -128,8 +118,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
     public function _on_deleting()
     {
         $this->update_cache(false);
-        if ($this->reportedHours > 0)
-        {
+        if ($this->reportedHours > 0) {
             midcom_connection::set_error(MGD_ERR_HAS_DEPENDANTS);
             midcom::get()->uimessages->add(midcom::get()->i18n->get_string('org.openpsa.projects', 'org.openpsa.projects'), midcom::get()->i18n->get_string('task deletion now allowed because of hour reports', 'org.openpsa.projects'), 'warning');
             return false;
@@ -146,10 +135,8 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
         $label_elements = array($this->title);
         $task = $this;
         while (   !is_null($task)
-               && $task = $task->get_parent())
-        {
-            if (isset($task->title))
-            {
+               && $task = $task->get_parent()) {
+            if (isset($task->title)) {
                 $label_elements[] = $task->title;
             }
         }
@@ -168,17 +155,14 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
      */
     public function get_members()
     {
-        if (!$this->id)
-        {
+        if (!$this->id) {
             return false;
         }
 
-        if (!is_array($this->contacts))
-        {
+        if (!is_array($this->contacts)) {
             $this->contacts = array();
         }
-        if (!is_array($this->resources))
-        {
+        if (!is_array($this->resources)) {
             $this->resources = array();
         }
 
@@ -186,14 +170,10 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
         $mc->add_constraint('orgOpenpsaObtype', '<>', org_openpsa_projects_task_resource_dba::PROSPECT);
         $ret = $mc->get_rows(array('orgOpenpsaObtype', 'person'));
 
-        foreach ($ret as $data)
-        {
-            if ($data['orgOpenpsaObtype'] == org_openpsa_projects_task_resource_dba::CONTACT)
-            {
+        foreach ($ret as $data) {
+            if ($data['orgOpenpsaObtype'] == org_openpsa_projects_task_resource_dba::CONTACT) {
                 $this->contacts[$data['person']] = true;
-            }
-            else
-            {
+            } else {
                 $this->resources[$data['person']] = true;
             }
         }
@@ -209,31 +189,23 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
     public function add_members($property, $ids)
     {
         if (   !is_array($ids)
-            || empty($ids))
-        {
+            || empty($ids)) {
             return;
         }
-        if ($property === 'contacts')
-        {
+        if ($property === 'contacts') {
             $type = org_openpsa_projects_task_resource_dba::CONTACT;
-        }
-        elseif ($property === 'contacts')
-        {
+        } elseif ($property === 'contacts') {
             $type = org_openpsa_projects_task_resource_dba::RESOURCE;
-        }
-        else
-        {
+        } else {
             return;
         }
 
-        foreach ($ids as $id)
-        {
+        foreach ($ids as $id) {
             $resource = new org_openpsa_projects_task_resource_dba();
             $resource->orgOpenpsaObtype = $type;
             $resource->task = $this->id;
             $resource->person = (int) $id;
-            if ($resource->create())
-            {
+            if ($resource->create()) {
                 $this->{$property}[$id] = true;
             }
         }
@@ -242,13 +214,11 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
     private function _prepare_save()
     {
         //Make sure we have start
-        if (!$this->start)
-        {
+        if (!$this->start) {
             $this->start = time();
         }
         //Make sure we have end
-        if (!$this->end || $this->end == -1)
-        {
+        if (!$this->end || $this->end == -1) {
             $this->end = time();
         }
 
@@ -256,34 +226,27 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
         $this->start = mktime(0, 0, 0, date('n', $this->start), date('j', $this->start), date('Y', $this->start));
         $this->end = mktime(23, 59, 59, date('n', $this->end), date('j', $this->end), date('Y', $this->end));
 
-        if ($this->start > $this->end)
-        {
+        if ($this->start > $this->end) {
             debug_add("start ({$this->start}) is greater than end ({$this->end}), aborting", MIDCOM_LOG_ERROR);
             return false;
         }
 
-        if ($this->orgOpenpsaWgtype == self::OBTYPE)
-        {
+        if ($this->orgOpenpsaWgtype == self::OBTYPE) {
             $this->orgOpenpsaWgtype = self::WGTYPE_NONE;
         }
 
-        if ($this->agreement)
-        {
+        if ($this->agreement) {
             // Get customer company into cache from agreement's sales project
-            try
-            {
+            try {
                 $agreement = org_openpsa_sales_salesproject_deliverable_dba::get_cached($this->agreement);
                 $this->hoursInvoiceableDefault = true;
-                if (!$this->customer)
-                {
+                if (!$this->customer) {
                     $salesproject = org_openpsa_sales_salesproject_dba::get_cached($agreement->salesproject);
                     $this->customer = $salesproject->customer;
                 }
+            } catch (midcom_error $e) {
             }
-            catch (midcom_error $e){}
-        }
-        else
-        {
+        } else {
             // No agreement, we can't be invoiceable
             $this->hoursInvoiceableDefault = false;
         }
@@ -299,8 +262,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
      */
     public function update_cache($update = true)
     {
-        if (!$this->id)
-        {
+        if (!$this->id) {
             return false;
         }
 
@@ -314,15 +276,13 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
         $this->invoicedHours = $hours['invoiced'];
         $this->invoiceableHours = $hours['invoiceable'];
 
-        try
-        {
+        try {
             $agreement = new org_openpsa_sales_salesproject_deliverable_dba($this->agreement);
             $agreement->update_units($this->id, $hours);
+        } catch (midcom_error $e) {
         }
-        catch (midcom_error $e){}
 
-        if ($update)
-        {
+        if ($update) {
             $this->_use_rcs = false;
             $this->_use_activitystream = false;
             $this->_skip_acl_refresh = true;
@@ -346,16 +306,14 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
         // Check agreement for invoiceability rules
         $invoice_approved = false;
 
-        try
-        {
+        try {
             $agreement = new org_openpsa_sales_salesproject_deliverable_dba($this->agreement);
 
-            if ($agreement->invoiceApprovedOnly)
-            {
+            if ($agreement->invoiceApprovedOnly) {
                 $invoice_approved = true;
             }
+        } catch (midcom_error $e) {
         }
-        catch (midcom_error $e){}
 
         $report_mc = org_openpsa_projects_hour_report_dba::new_collector('task', $this->id);
         $report_mc->add_value_property('hours');
@@ -365,8 +323,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
         $report_mc->execute();
 
         $reports = $report_mc->list_keys();
-        foreach ($reports as $guid => $empty)
-        {
+        foreach ($reports as $guid => $empty) {
             $report_data = $report_mc->get($guid);
 
             $report_hours = $report_data['hours'];
@@ -374,28 +331,20 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
 
             $hours['reported'] += $report_hours;
 
-            if ($is_approved)
-            {
+            if ($is_approved) {
                 $hours['approved'] += $report_hours;
             }
 
-            if ($report_data['invoice'])
-            {
+            if ($report_data['invoice']) {
                 $hours['invoiced'] += $report_hours;
-            }
-            elseif ($report_data['invoiceable'])
-            {
+            } elseif ($report_data['invoiceable']) {
                 // Check agreement for invoiceability rules
-                if ($invoice_approved)
-                {
+                if ($invoice_approved) {
                     // Count only uninvoiced approved hours as invoiceable
-                    if ($is_approved)
-                    {
+                    if ($is_approved) {
                         $hours['invoiceable'] += $report_hours;
                     }
-                }
-                else
-                {
+                } else {
                     // Count all uninvoiced invoiceable hours as invoiceable regardless of approval status
                     $hours['invoiceable'] += $report_hours;
                 }
@@ -406,8 +355,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
 
     private function _update_parent()
     {
-        if (!$this->_skip_parent_refresh)
-        {
+        if (!$this->_skip_parent_refresh) {
             $project = new org_openpsa_projects_project($this->project);
             $project->refresh_from_tasks();
         }
@@ -427,13 +375,11 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
         );
         //Simplistic approach
         $mc = org_openpsa_projects_task_status_dba::new_collector('task', $this->id);
-        if ($this->status > org_openpsa_projects_task_status_dba::PROPOSED)
-        {
+        if ($this->status > org_openpsa_projects_task_status_dba::PROPOSED) {
             //Only get proposed status objects here if are not over that phase
             $mc->add_constraint('type', '<>', org_openpsa_projects_task_status_dba::PROPOSED);
         }
-        if (count($this->resources) > 0)
-        {
+        if (count($this->resources) > 0) {
             //Do not ever set status to declined if we still have resources left
             $mc->add_constraint('type', '<>', org_openpsa_projects_task_status_dba::DECLINED);
         }
@@ -442,8 +388,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
         $mc->set_limit(1);
 
         $ret = $mc->get_rows(array('type', 'comment', 'timestamp'));
-        if (empty($ret))
-        {
+        if (empty($ret)) {
             //Failure to get status object
 
             //Default to last status if available
@@ -453,8 +398,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
         $status = current($ret);
 
         //Update the status cache if necessary
-        if ($this->status != $status['type'])
-        {
+        if ($this->status != $status['type']) {
             $this->status = $status['type'];
             $this->update();
         }

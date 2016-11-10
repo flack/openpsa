@@ -2,10 +2,8 @@
 $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 
 $type_choices = array();
-foreach ($data['schema_types'] as $schema_type)
-{
-    if (!isset($data['reflectors'][$schema_type]))
-    {
+foreach ($data['schema_types'] as $schema_type) {
+    if (!isset($data['reflectors'][$schema_type])) {
         $data['reflectors'][$schema_type] = new midcom_helper_reflector($schema_type);
     }
 
@@ -15,8 +13,7 @@ foreach ($data['schema_types'] as $schema_type)
 $type_choices = array('any' => $data['l10n']->get('any')) + $type_choices;
 
 $revised_after_choices = array();
-if ($data['config']->get('enable_review_dates'))
-{
+if ($data['config']->get('enable_review_dates')) {
     $review_by_choices = array();
     $revised_after_choices['any'] = $data['l10n']->get('any');
     $review_by_choices['any'] = $data['l10n']->get('any');
@@ -50,12 +47,10 @@ $revised_after_choices[$date] = $data['l10n']->get('1 month');
                 <label for="type_filter"><?php echo $data['l10n']->get('type'); ?></label>
                 <select name="type_filter" id="type_filter">
                     <?php
-                    foreach ($type_choices as $value => $label)
-                    {
+                    foreach ($type_choices as $value => $label) {
                         $selected = '';
                         if (   isset($data['type_filter'])
-                            && $data['type_filter'] == $value)
-                        {
+                            && $data['type_filter'] == $value) {
                             $selected = ' selected="selected"';
                         }
                         echo "<option value=\"{$value}\"{$selected}>{$label}</option>\n";
@@ -67,12 +62,10 @@ $revised_after_choices[$date] = $data['l10n']->get('1 month');
                 <label for="revised_after"><?php echo $data['l10n']->get('objects revised within'); ?></label>
                 <select name="revised_after" id="revised_after">
                     <?php
-                    foreach ($revised_after_choices as $value => $label)
-                    {
+                    foreach ($revised_after_choices as $value => $label) {
                         $selected = '';
                         if (   isset($data['revised_after'])
-                            && $data['revised_after'] == date('Y-m-d H:i:s\Z', $value))
-                        {
+                            && $data['revised_after'] == date('Y-m-d H:i:s\Z', $value)) {
                             $selected = ' selected="selected"';
                         }
                         echo "<option value=\"{$value}\"{$selected}>{$label}</option>\n";
@@ -81,30 +74,29 @@ $revised_after_choices[$date] = $data['l10n']->get('1 month');
                 </select>
             </div>
             <?php
-            if ($data['config']->get('enable_review_dates'))
-            {
+            if ($data['config']->get('enable_review_dates')) {
                 ?>
             <div class="review_by">
                 <label for="review_by"><?php echo $data['l10n']->get('objects expiring within'); ?></label>
                 <select name="review_by" id="review_by">
                     <?php
-                    foreach ($review_by_choices as $value => $label)
-                    {
+                    foreach ($review_by_choices as $value => $label) {
                         $selected = '';
                         if (   isset($data['revised_after'])
-                            && $data['review_by'] == $value)
-                        {
+                            && $data['review_by'] == $value) {
                             $selected = ' selected="selected"';
                         }
                         echo "<option value=\"{$value}\"{$selected}>{$label}</option>\n";
-                    }
-                    ?>
+                    } ?>
                 </select>
             </div>
                 <?php
+
             }
             ?>
-            <input type="checkbox" id="only_mine" name="only_mine" value="1" <?php if (isset($data['only_mine']) && $data['only_mine'] == 1) { echo ' checked="checked"'; } ?> />
+            <input type="checkbox" id="only_mine" name="only_mine" value="1" <?php if (isset($data['only_mine']) && $data['only_mine'] == 1) {
+                echo ' checked="checked"';
+            } ?> />
             <label for="only_mine">
                 <?php echo $data['l10n']->get('only mine'); ?>
             </label>
@@ -121,8 +113,7 @@ $revised_after_choices[$date] = $data['l10n']->get('1 month');
             <th class="icon">&nbsp;</th>
             <th class="title"><?php echo $data['l10n_midcom']->get('title'); ?></th>
             <?php
-            if ($data['config']->get('enable_review_dates'))
-            {
+            if ($data['config']->get('enable_review_dates')) {
                 echo "            <th class=\"review_by\">" . $data['l10n']->get('review date') . "</th>\n";
             } ?>
 
@@ -146,24 +137,22 @@ $revised_after_choices[$date] = $data['l10n']->get('1 month');
         </tfoot>
     <tbody>
 <?php
-foreach ($data['revised'] as $row)
-{
-    echo "        <tr>\n";
-    echo "            <td class=\"selection\"><input type=\"checkbox\" name=\"selections[]\" value=\"{$row['guid']}\" /></td>\n";
-    echo "            <td class=\"icon\">" . $row['icon'] . "</td>\n";
-    echo "            <td class=\"title\"><a href=\"{$prefix}__mfa/asgard/object/{$data['default_mode']}/{$row['guid']}/\" title=\"{$row['class']}\">" . $row['title'] . "</a></td>\n";
+foreach ($data['revised'] as $row) {
+                echo "        <tr>\n";
+                echo "            <td class=\"selection\"><input type=\"checkbox\" name=\"selections[]\" value=\"{$row['guid']}\" /></td>\n";
+                echo "            <td class=\"icon\">" . $row['icon'] . "</td>\n";
+                echo "            <td class=\"title\"><a href=\"{$prefix}__mfa/asgard/object/{$data['default_mode']}/{$row['guid']}/\" title=\"{$row['class']}\">" . $row['title'] . "</a></td>\n";
 
-    if (isset($row['review_date']))
-    {
-        echo "            <td class=\"review_by\">" . $row['review_date'] . "</td>\n";
-    }
+                if (isset($row['review_date'])) {
+                    echo "            <td class=\"review_by\">" . $row['review_date'] . "</td>\n";
+                }
 
-    echo "            <td class=\"revised\">" . strftime('%x %X', $row['revised']) . "</td>\n";
-    echo "            <td class=\"revisor\">{$row['revisor']}</td>\n";
-    echo "            <td class=\"approved\">{$row['approved']}</td>\n";
-    echo "            <td class=\"revision\">{$row['revision']}</td>\n";
-    echo "        </tr>\n";
-}?>
+                echo "            <td class=\"revised\">" . strftime('%x %X', $row['revised']) . "</td>\n";
+                echo "            <td class=\"revisor\">{$row['revisor']}</td>\n";
+                echo "            <td class=\"approved\">{$row['approved']}</td>\n";
+                echo "            <td class=\"revision\">{$row['revision']}</td>\n";
+                echo "        </tr>\n";
+            }?>
   </tbody>
 </table>
     <script type="text/javascript">

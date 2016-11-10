@@ -52,13 +52,11 @@ class net_nehmer_comments_interface extends midcom_baseclasses_components_interf
 
         $result = net_nehmer_comments_comment::list_by_objectguid($object->guid);
 
-        foreach ($result as $comment)
-        {
+        foreach ($result as $comment) {
             $comment->delete();
         }
 
-        if ($sudo)
-        {
+        if ($sudo) {
             midcom::get()->auth->drop_sudo();
         }
     }

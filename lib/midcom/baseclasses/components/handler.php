@@ -106,12 +106,9 @@ abstract class midcom_baseclasses_components_handler extends midcom_baseclasses_
         // Load component specific stuff, special treatment if the handler has
         // a component different than the master handler set.
         if (   $this->_component
-            && $this->_component != $master->_component)
-        {
+            && $this->_component != $master->_component) {
             $this->_config->store_from_object($this->_topic, $this->_component, true);
-        }
-        else
-        {
+        } else {
             $this->_component = $master->_component;
         }
         $this->_on_initialize();
@@ -146,8 +143,7 @@ abstract class midcom_baseclasses_components_handler extends midcom_baseclasses_
      */
     public function populate_breadcrumb_line()
     {
-        if (empty($this->_breadcrumbs))
-        {
+        if (empty($this->_breadcrumbs)) {
             return;
         }
         midcom_core_context::get()->set_custom_key('midcom.helper.nav.breadcrumb', $this->_breadcrumbs);
@@ -165,8 +161,7 @@ abstract class midcom_baseclasses_components_handler extends midcom_baseclasses_
      */
     public function get_controller($type, $object = null)
     {
-        switch ($type)
-        {
+        switch ($type) {
             case 'simple':
                 return midcom_helper_datamanager2_handler::get_simple_controller($this, $object);
             case 'nullstorage':

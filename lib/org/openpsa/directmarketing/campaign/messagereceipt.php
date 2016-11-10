@@ -25,8 +25,7 @@ class org_openpsa_directmarketing_campaign_messagereceipt_dba extends midcom_cor
 
     public function _on_creating()
     {
-        if (!$this->timestamp)
-        {
+        if (!$this->timestamp) {
             $this->timestamp = time();
         }
         return true;
@@ -42,8 +41,7 @@ class org_openpsa_directmarketing_campaign_messagereceipt_dba extends midcom_cor
     {
         $qb = new midgard_query_builder('org_openpsa_campaign_message_receipt');
         $qb->add_constraint('token', '=', $token);
-        if ($type)
-        {
+        if ($type) {
             $qb->add_constraint('orgOpenpsaObtype', '=', $type);
         }
         return ($qb->count() == 0);

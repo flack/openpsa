@@ -8,8 +8,7 @@ $node = $nap->get_node($nap->get_current_node());
 
     // Try to find campaigns component
     $campaigns_node = midcom_helper_misc::find_node_by_component('org.openpsa.directmarketing');
-    if ($campaigns_node)
-    {
+    if ($campaigns_node) {
         midcom::get()->dynamic_load($campaigns_node[MIDCOM_NAV_RELATIVEURL] . "campaign/list/{$data['person']->guid}/");
     }
     ?>
@@ -27,13 +26,11 @@ $node = $nap->get_node($nap->get_current_node());
 
     //TODO: Check for privileges somehow
     $invoices_url = $siteconfig->get_node_relative_url('org.openpsa.invoices');
-    if ($invoices_url)
-    {
+    if ($invoices_url) {
         $qb = org_openpsa_invoices_invoice_dba::new_query_builder();
         $qb->add_constraint('customerContact', '=', $data['person']->id);
         $qb->set_limit(1);
-        if ($qb->count() > 0)
-        {
+        if ($qb->count() > 0) {
             $tabs[] = array
             (
                 'url' => $invoices_url . "list/customer/all/{$data['person']->guid}/",
@@ -41,8 +38,7 @@ $node = $nap->get_node($nap->get_current_node());
             );
         }
     }
-    if ($sales_url)
-    {
+    if ($sales_url) {
         $tabs[] = array
         (
             'url' => $sales_url . "list/customer/{$data['person']->guid}/",

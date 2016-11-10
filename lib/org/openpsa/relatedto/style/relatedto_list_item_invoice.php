@@ -5,12 +5,9 @@ $formatter = $data['l10n']->get_formatter();
 
 // Sum and due date
 $paid = '';
-if ($invoice->paid > 0)
-{
+if ($invoice->paid > 0) {
     $paid = ", " . midcom::get()->i18n->get_string('paid', 'org.openpsa.invoices') . ": " . $formatter->date($invoice->paid);
-}
-elseif ($invoice->due < time())
-{
+} elseif ($invoice->due < time()) {
     $paid = ", " . midcom::get()->i18n->get_string('not paid', 'org.openpsa.invoices');
 }
 ?>
@@ -21,8 +18,7 @@ elseif ($invoice->due < time())
     <ul class="metadata">
     <?php
     // Customer
-    if ($invoice->customer)
-    {
+    if ($invoice->customer) {
         $customer = midcom_db_group::get_cached($invoice->customer);
         echo "<li>" . midcom::get()->i18n->get_string('customer', 'org.openpsa.invoices') . ": {$customer->official}</li>";
     }

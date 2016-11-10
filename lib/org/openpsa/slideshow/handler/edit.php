@@ -36,14 +36,12 @@ class org_openpsa_slideshow_handler_edit extends midcom_baseclasses_components_h
     {
         $mc = midcom_db_topic::new_collector('up', $data['topic']->id);
         $subfolder_guids = $mc->get_values('guid');
-        if (!empty($subfolder_guids))
-        {
+        if (!empty($subfolder_guids)) {
             $qb = midcom_db_attachment::new_query_builder();
             $qb->add_constraint('parentguid', 'IN', $subfolder_guids);
             $qb->add_constraint('name', '=', org_openpsa_slideshow_image_dba::FOLDER_THUMBNAIL);
             $thumbnails = $qb->execute();
-            foreach ($thumbnails as $thumbnail)
-            {
+            foreach ($thumbnails as $thumbnail) {
                 $thumbnail->delete();
             }
         }
@@ -64,22 +62,17 @@ class org_openpsa_slideshow_handler_edit extends midcom_baseclasses_components_h
         $qb->add_order('position');
         $images = $qb->execute();
         $failed = 0;
-        foreach ($images as $image)
-        {
+        foreach ($images as $image) {
             if (   !$image->generate_image('thumbnail', $this->_config->get('thumbnail_filter'))
-                || !$image->generate_image('image', $this->_config->get('image_filter')))
-            {
+                || !$image->generate_image('image', $this->_config->get('image_filter'))) {
                 $failed++;
             }
         }
         $successful = sizeof($images) - $failed;
-        if ($failed == 0)
-        {
+        if ($failed == 0) {
             $message = sprintf($this->_l10n->get('generated derived images for %s entries'), $successful);
             $type = 'info';
-        }
-        else
-        {
+        } else {
             $message = sprintf($this->_l10n->get('generated derived images for %s entries, %s errors occurred'), $successful, $failed);
             $type = 'error';
         }
@@ -157,13 +150,10 @@ class org_openpsa_slideshow_handler_edit extends midcom_baseclasses_components_h
         $this->_response->title = $this->_l10n->get($this->_component);
 
         $function = '_process_' . $this->_operation;
-        try
-        {
+        try {
             $this->$function();
             $this->_response->success = true;
-        }
-        catch (midcom_error $e)
-        {
+        } catch (midcom_error $e) {
             $this->_response->success = false;
             $this->_response->error = $e->getMessage();
         }
@@ -179,14 +169,12 @@ class org_openpsa_slideshow_handler_edit extends midcom_baseclasses_components_h
         $image->description = $_POST['description'];
         $image->position = $_POST['position'];
 
-        if (!$image->create())
-        {
+        if (!$image->create()) {
             throw new midcom_error('Failed to create image: ' . midcom_connection::get_error_string());
         }
         $this->_response->position = $image->position;
         $this->_response->guid = $image->guid;
-        if (isset($_FILES['image']))
-        {
+        if (isset($_FILES['image'])) {
             $this->_upload_image($_FILES['image'], $image);
         }
     }
@@ -194,16 +182,14 @@ class org_openpsa_slideshow_handler_edit extends midcom_baseclasses_components_h
     private function _process_update()
     {
         $image = new org_openpsa_slideshow_image_dba($_POST['guid']);
-        if ($image->topic !== $this->_topic->id)
-        {
+        if ($image->topic !== $this->_topic->id) {
             throw new midcom_error_forbidden('Image does not belong to this topic');
         }
         $image->title = $_POST['title'];
         $image->description = $_POST['description'];
         $image->position = $_POST['position'];
 
-        if (!$image->update())
-        {
+        if (!$image->update()) {
             throw new midcom_error('Failed to update image: ' . midcom_connection::get_error_string());
         }
     }
@@ -211,19 +197,16 @@ class org_openpsa_slideshow_handler_edit extends midcom_baseclasses_components_h
     private function _process_batch_update()
     {
         $items = json_decode($_POST['items']);
-        foreach ($items as $item)
-        {
+        foreach ($items as $item) {
             $image = new org_openpsa_slideshow_image_dba($item->guid);
-            if ($image->topic !== $this->_topic->id)
-            {
+            if ($image->topic !== $this->_topic->id) {
                 throw new midcom_error_forbidden('Image does not belong to this topic');
             }
             $image->title = $item->title;
             $image->description = $item->description;
             $image->position = $item->position;
 
-            if (!$image->update())
-            {
+            if (!$image->update()) {
                 throw new midcom_error('Failed to update image: ' . midcom_connection::get_error_string());
             }
         }
@@ -232,18 +215,15 @@ class org_openpsa_slideshow_handler_edit extends midcom_baseclasses_components_h
     private function _process_delete()
     {
         $guids = explode('|', $_POST['guids']);
-        if (empty($guids))
-        {
+        if (empty($guids)) {
             return;
         }
         $qb = org_openpsa_slideshow_image_dba::new_query_builder();
         $qb->add_constraint('topic', '=', $this->_topic->id);
         $qb->add_constraint('guid', 'IN', $guids);
         $images = $qb->execute();
-        foreach ($images as $image)
-        {
-            if (!$image->delete())
-            {
+        foreach ($images as $image) {
+            if (!$image->delete()) {
                 throw new midcom_error('Failed to delete image: ' . midcom_connection::get_error_string());
             }
         }
@@ -251,37 +231,31 @@ class org_openpsa_slideshow_handler_edit extends midcom_baseclasses_components_h
 
     private function _validate_request()
     {
-        if (empty($_POST['operation']))
-        {
+        if (empty($_POST['operation'])) {
             throw new midcom_error('Invalid request');
         }
         $this->_operation = $_POST['operation'];
 
-        switch ($this->_operation)
-        {
+        switch ($this->_operation) {
             case 'batch_update':
-                if (!isset($_POST['items']))
-                {
+                if (!isset($_POST['items'])) {
                     throw new midcom_error('Invalid request');
                 }
                 break;
             case 'update':
-                if (!isset($_POST['guid']))
-                {
+                if (!isset($_POST['guid'])) {
                     throw new midcom_error('Invalid request');
                 }
                 //Fall-through
             case 'create':
                 if (   !isset($_POST['title'])
                     || !isset($_POST['description'])
-                    || !isset($_POST['position']))
-                {
+                    || !isset($_POST['position'])) {
                     throw new midcom_error('Invalid request');
                 }
                 break;
             case 'delete':
-                 if (empty($_POST['guids']))
-                 {
+                 if (empty($_POST['guids'])) {
                      throw new midcom_error('Invalid request');
                  }
                  break;
@@ -298,14 +272,12 @@ class org_openpsa_slideshow_handler_edit extends midcom_baseclasses_components_h
         $attachment->mimetype = $file['type'];
         $attachment->parentguid = $image->guid;
         if (   !$attachment->create()
-            || !$attachment->copy_from_file($file['tmp_name']))
-        {
+            || !$attachment->copy_from_file($file['tmp_name'])) {
             throw new midcom_error('Failed to create attachment: ' . midcom_connection::get_error_string());
         }
         // apply filter for original image
         $filter_chain = $this->_config->get('original_filter');
-        if (!empty($filter_chain))
-        {
+        if (!empty($filter_chain)) {
             $imagefilter = new midcom_helper_imagefilter($attachment);
             $imagefilter->process_chain($filter_chain);
         }

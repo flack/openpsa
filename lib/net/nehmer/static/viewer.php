@@ -32,15 +32,12 @@ class net_nehmer_static_viewer extends midcom_baseclasses_components_request
         // View mode handler, set index viewer according to autoindex setting.
         // These, especially the general view handler, must come last, otherwise we'll hide other
         // handlers
-        if ($this->_config->get('autoindex'))
-        {
+        if ($this->_config->get('autoindex')) {
             $this->_request_switch['autoindex'] = array
             (
                 'handler' => array('net_nehmer_static_handler_autoindex', 'autoindex'),
             );
-        }
-        else
-        {
+        } else {
             $this->_request_switch['index'] = array
             (
                 'handler' => array('net_nehmer_static_handler_view', 'view'),
@@ -54,8 +51,7 @@ class net_nehmer_static_viewer extends midcom_baseclasses_components_request
     private function _determine_content_topic()
     {
         $guid = $this->_config->get('symlink_topic');
-        if (is_null($guid))
-        {
+        if (is_null($guid)) {
             // No symlink topic
             // Workaround, we should talk to a DBA object automatically here in fact.
             $this->_content_topic = midcom_db_topic::get_cached($this->_topic->id);
@@ -64,8 +60,7 @@ class net_nehmer_static_viewer extends midcom_baseclasses_components_request
 
         $this->_content_topic = midcom_db_topic::get_cached($guid);
         // Validate topic.
-        if ($this->_content_topic->component != 'net.nehmer.static')
-        {
+        if ($this->_content_topic->component != 'net.nehmer.static') {
             debug_print_r('Retrieved topic was:', $this->_content_topic);
             throw new midcom_error('Symlink content topic is invalid, see the debug level log for details.');
         }
@@ -81,8 +76,7 @@ class net_nehmer_static_viewer extends midcom_baseclasses_components_request
      */
     public static function index($dm, $indexer, $topic)
     {
-        if (!is_object($topic))
-        {
+        if (!is_object($topic)) {
             $topic = new midcom_db_topic($topic);
         }
 
@@ -107,10 +101,8 @@ class net_nehmer_static_viewer extends midcom_baseclasses_components_request
     {
         $buttons = array();
         $workflow = $this->get_workflow('datamanager2');
-        if ($this->_content_topic->can_do('midgard:create'))
-        {
-            foreach (array_keys($this->_request_data['schemadb']) as $name)
-            {
+        if ($this->_content_topic->can_do('midgard:create')) {
+            foreach (array_keys($this->_request_data['schemadb']) as $name) {
                 $buttons[] = $workflow->get_button("create/{$name}/", array
                 (
                     MIDCOM_TOOLBAR_LABEL => sprintf
@@ -126,8 +118,7 @@ class net_nehmer_static_viewer extends midcom_baseclasses_components_request
         }
 
         if (   $this->_config->get('enable_article_links')
-            && $this->_content_topic->can_do('midgard:create'))
-        {
+            && $this->_content_topic->can_do('midgard:create')) {
             $buttons[] = $workflow->get_button("create/link/", array
             (
                 MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('article link')),
@@ -136,8 +127,7 @@ class net_nehmer_static_viewer extends midcom_baseclasses_components_request
         }
 
         if (   $this->_topic->can_do('midgard:update')
-            && $this->_topic->can_do('midcom:component_config'))
-        {
+            && $this->_topic->can_do('midcom:component_config')) {
             $buttons[] = $workflow->get_button('config/', array
             (
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('component configuration'),
@@ -169,17 +159,14 @@ class net_nehmer_static_viewer extends midcom_baseclasses_components_request
         $qb = midcom_db_article::new_query_builder();
 
         // Include the article links to the indexes if enabled
-        if ($config->get('enable_article_links'))
-        {
+        if ($config->get('enable_article_links')) {
             $mc = net_nehmer_static_link_dba::new_collector('topic', $id);
 
             $qb->begin_group('OR');
-                $qb->add_constraint('id', 'IN', $mc->get_values('article'));
-                $qb->add_constraint('topic', '=', $id);
+            $qb->add_constraint('id', 'IN', $mc->get_values('article'));
+            $qb->add_constraint('topic', '=', $id);
             $qb->end_group();
-        }
-        else
-        {
+        } else {
             $qb->add_constraint('topic', '=', $id);
         }
         return $qb;

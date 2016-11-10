@@ -37,8 +37,7 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
 
         $members = $mc->get_values('eid');
 
-        if (!empty($members))
-        {
+        if (!empty($members)) {
             $qb = org_openpsa_calendar_event_dba::new_query_builder();
             $qb->add_constraint('id', 'IN', $members);
             $qb->add_order('start', 'ASC');
@@ -98,8 +97,7 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
      */
     private function _find_person_by_name($username)
     {
-        if (empty($username))
-        {
+        if (empty($username)) {
             throw new midcom_error('Username missing');
         }
         $qb = org_openpsa_contacts_person_dba::new_query_builder();
@@ -107,8 +105,7 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
         midcom::get()->auth->request_sudo($this->_component);
         $persons = $qb->execute();
         midcom::get()->auth->drop_sudo();
-        if (empty($persons))
-        {
+        if (empty($persons)) {
             throw new midcom_error_notfound('Could not find person with username ' . $username);
         }
         return $persons[0];
@@ -141,13 +138,10 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
     public function _show_user_busy($handler_id, array &$data)
     {
         $encoder = new org_openpsa_calendar_vcal;
-        foreach ($this->_request_data['events'] as $event)
-        {
+        foreach ($this->_request_data['events'] as $event) {
             // clear all data not absolutely required for busy listing
-            foreach ($event->get_properties() as $fieldname)
-            {
-                switch (true)
-                {
+            foreach ($event->get_properties() as $fieldname) {
+                switch (true) {
                     case ($fieldname == 'metadata'):
                     case ($fieldname == 'guid'):
                     case ($fieldname == 'start'):

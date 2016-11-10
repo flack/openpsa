@@ -24,8 +24,7 @@ class midcom_helper_toolbar_host extends midcom_helper_toolbar
     private function add_commands()
     {
         $buttons = array();
-        if (midcom::get()->auth->user)
-        {
+        if (midcom::get()->auth->user) {
             $buttons[] = array
             (
                 MIDCOM_TOOLBAR_URL => midcom_connection::get_url('self') . "midcom-logout-",
@@ -44,8 +43,7 @@ class midcom_helper_toolbar_host extends midcom_helper_toolbar
             MIDCOM_TOOLBAR_ENABLED => midcom::get()->auth->can_user_do('midgard.admin.asgard:access', null, 'midgard_admin_asgard_plugin', 'midgard.admin.asgard'),
         );
 
-        if (midcom_connection::is_admin())
-        {
+        if (midcom_connection::is_admin()) {
             $buttons[] = array
             (
                 MIDCOM_TOOLBAR_URL => midcom_connection::get_url('self') . "midcom-cache-invalidate",

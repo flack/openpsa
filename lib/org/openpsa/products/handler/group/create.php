@@ -71,8 +71,7 @@ implements midcom_helper_datamanager2_interfaces_create
         $this->_group = new org_openpsa_products_product_group_dba();
         $this->_group->up = $this->_request_data['up'];
 
-        if (!$this->_group->create())
-        {
+        if (!$this->_group->create()) {
             debug_print_r('We operated on this object:', $this->_group);
             throw new midcom_error('Failed to create a new product group. Last Midgard error was: ' . midcom_connection::get_error_string());
         }
@@ -91,19 +90,15 @@ implements midcom_helper_datamanager2_interfaces_create
     {
         $data['up'] = (int) $args[0];
 
-        if ($data['up'] == 0)
-        {
+        if ($data['up'] == 0) {
             midcom::get()->auth->require_user_do('midgard:create', null, 'org_openpsa_products_product_group_dba');
-        }
-        else
-        {
+        } else {
             $parent = new org_openpsa_products_product_group_dba($data['up']);
             $parent->require_do('midgard:create');
         }
 
         $data['selected_schema'] = $args[1];
-        if (!array_key_exists($data['selected_schema'], $data['schemadb_group']))
-        {
+        if (!array_key_exists($data['selected_schema'], $data['schemadb_group'])) {
             throw new midcom_error_notfound('Schema ' . $data['selected_schema'] . ' was not found it schemadb');
         }
         $this->_schema = $data['selected_schema'];
@@ -121,8 +116,7 @@ implements midcom_helper_datamanager2_interfaces_create
 
     public function save_callback(midcom_helper_datamanager2_controller $controller)
     {
-        if ($this->_config->get('index_groups'))
-        {
+        if ($this->_config->get('index_groups')) {
             // Index the group
             $indexer = midcom::get()->indexer;
             org_openpsa_products_viewer::index($controller->datamanager, $indexer, $this->_topic);

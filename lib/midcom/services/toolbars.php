@@ -81,21 +81,18 @@ class midcom_services_toolbars
     public function __construct()
     {
         static $initialized = false;
-        if ($initialized)
-        {
+        if ($initialized) {
             // This is auth service looping because it instantiates classes for magic privileges!
             return;
         }
         $initialized = true;
         if (   !midcom::get()->auth->user
             || !midcom::get()->config->get('toolbars_enable_centralized')
-            || !midcom::get()->auth->can_user_do('midcom:centralized_toolbar', null, $this))
-        {
+            || !midcom::get()->auth->can_user_do('midcom:centralized_toolbar', null, $this)) {
             return;
         }
 
-        if (midcom::get()->auth->can_user_do('midcom:ajax', null, $this))
-        {
+        if (midcom::get()->auth->can_user_do('midcom:ajax', null, $this)) {
             midcom::get()->head->enable_jquery();
             midcom::get()->head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/core.min.js');
             midcom::get()->head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/widget.min.js');
@@ -109,9 +106,7 @@ class midcom_services_toolbars
             $script = "jQuery('body div.midcom_services_toolbars_fancy').midcom_services_toolbar();";
 
             midcom::get()->head->add_jquery_state_script($script);
-        }
-        else
-        {
+        } else {
             midcom::get()->head->add_stylesheet(midcom::get()->config->get('toolbars_simple_css_path'), 'screen');
         }
 
@@ -189,13 +184,11 @@ class midcom_services_toolbars
      */
     private function _get_toolbar($context_id, $identifier)
     {
-        if ($context_id === null)
-        {
+        if ($context_id === null) {
             $context_id = midcom_core_context::get()->id;
         }
 
-        if (!array_key_exists($context_id, $this->_toolbars))
-        {
+        if (!array_key_exists($context_id, $this->_toolbars)) {
             $this->_create_toolbars($context_id);
         }
 
@@ -228,8 +221,7 @@ class midcom_services_toolbars
      */
     function add_toolbar($identifier, midcom_helper_toolbar $toolbar, $context_id = null)
     {
-        if ($context_id === null)
-        {
+        if ($context_id === null) {
             $context_id = midcom_core_context::get()->id;
         }
 
@@ -254,13 +246,11 @@ class midcom_services_toolbars
      */
     public function bind_toolbar_to_object(midcom_helper_toolbar $toolbar, $object)
     {
-        if (!midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX))
-        {
+        if (!midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX)) {
             debug_add("Toolbar for object {$object->guid} was called before topic prefix was available, skipping global items.", MIDCOM_LOG_WARN);
             return;
         }
-        if (array_key_exists('midcom_services_toolbars_bound_to_object', $toolbar->customdata))
-        {
+        if (array_key_exists('midcom_services_toolbars_bound_to_object', $toolbar->customdata)) {
             // We already processed this toolbar, skipping further adds.
             return;
         }
@@ -286,13 +276,11 @@ class midcom_services_toolbars
      */
     function _render_toolbar($toolbar_identifier, $context_id = null)
     {
-        if ($context_id === null)
-        {
+        if ($context_id === null) {
             $context_id = midcom_core_context::get()->id;
         }
 
-        if (!array_key_exists($context_id, $this->_toolbars))
-        {
+        if (!array_key_exists($context_id, $this->_toolbars)) {
             return '';
         }
 
@@ -369,8 +357,7 @@ class midcom_services_toolbars
      */
     function show_node_toolbar($context_id = null)
     {
-        if (!$this->_centralized_mode)
-        {
+        if (!$this->_centralized_mode) {
             echo $this->render_node_toolbar($context_id);
         }
     }
@@ -385,8 +372,7 @@ class midcom_services_toolbars
      */
     function show_host_toolbar($context_id = null)
     {
-        if (!$this->_centralized_mode)
-        {
+        if (!$this->_centralized_mode) {
             echo $this->render_host_toolbar($context_id);
         }
     }
@@ -401,8 +387,7 @@ class midcom_services_toolbars
      */
     public function show_view_toolbar($context_id = null)
     {
-        if (!$this->_centralized_mode)
-        {
+        if (!$this->_centralized_mode) {
             echo $this->render_view_toolbar($context_id);
         }
     }
@@ -417,8 +402,7 @@ class midcom_services_toolbars
      */
     function show_help_toolbar($context_id = null)
     {
-        if (!$this->_centralized_mode)
-        {
+        if (!$this->_centralized_mode) {
             echo $this->render_help_toolbar($context_id);
         }
     }
@@ -432,13 +416,11 @@ class midcom_services_toolbars
      */
     public function show($context_id = null)
     {
-        if (!$this->_enable_centralized)
-        {
+        if (!$this->_enable_centralized) {
             return;
         }
 
-        if (null === $context_id)
-        {
+        if (null === $context_id) {
             $context_id = midcom_core_context::get()->id;
         }
 
@@ -448,8 +430,7 @@ class midcom_services_toolbars
         $toolbar_style = "";
         $toolbar_class = "midcom_services_toolbars_simple";
 
-        if (midcom::get()->auth->can_user_do('midcom:ajax', null, 'midcom_services_toolbars'))
-        {
+        if (midcom::get()->auth->can_user_do('midcom:ajax', null, 'midcom_services_toolbars')) {
             $enable_drag = true;
             $toolbar_class = "midcom_services_toolbars_fancy";
             $toolbar_style = "display: none;";
@@ -460,14 +441,11 @@ class midcom_services_toolbars
         echo "    </div>\n";
         echo "    <div class=\"items\">\n";
 
-        foreach (array_reverse($this->_toolbars[$context_id], true) as $identifier => $toolbar)
-        {
-            if (count($toolbar->items) == 0)
-            {
+        foreach (array_reverse($this->_toolbars[$context_id], true) as $identifier => $toolbar) {
+            if (count($toolbar->items) == 0) {
                 continue;
             }
-            switch ($identifier)
-            {
+            switch ($identifier) {
                 case MIDCOM_TOOLBAR_VIEW:
                     $id = $class = 'page';
                     break;
@@ -492,8 +470,7 @@ class midcom_services_toolbars
         }
         echo "</div>\n";
 
-        if ($enable_drag)
-        {
+        if ($enable_drag) {
             echo "     <div class=\"dragbar\"></div>\n";
         }
         echo "</div>\n";

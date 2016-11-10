@@ -25,8 +25,7 @@ implements midcom_services_permalinks_resolver
         $qb->add_constraint('article', '=', $object->id);
         $links = $qb->execute_unchecked();
 
-        foreach ($links as $link)
-        {
+        foreach ($links as $link) {
             $link->delete();
         }
         midcom::get()->auth->drop_sudo();
@@ -37,8 +36,7 @@ implements midcom_services_permalinks_resolver
      */
     public function _on_reindex($topic, $config, &$indexer)
     {
-        if (is_null($config->get('symlink_topic')))
-        {
+        if (is_null($config->get('symlink_topic'))) {
             $qb = midcom::get()->dbfactory->new_query_builder('midcom_db_article');
             $qb->add_constraint('topic', '=', $topic->id);
             $result = $qb->execute();
@@ -46,19 +44,15 @@ implements midcom_services_permalinks_resolver
             $schemadb = midcom_helper_datamanager2_schema::load_database($config->get('schemadb'));
             $datamanager = new midcom_helper_datamanager2_datamanager($schemadb);
 
-            foreach ($result as $article)
-            {
-                if (!$datamanager->autoset_storage($article))
-                {
+            foreach ($result as $article) {
+                if (!$datamanager->autoset_storage($article)) {
                     debug_add("Warning, failed to initialize datamanager for Article {$article->id}. Skipping it.", MIDCOM_LOG_WARN);
                     continue;
                 }
 
                 net_nehmer_static_viewer::index($datamanager, $indexer, $topic);
             }
-        }
-        else
-        {
+        } else {
             debug_add("The topic {$topic->id} is symlinked to another topic, skipping indexing.");
         }
 
@@ -70,33 +64,26 @@ implements midcom_services_permalinks_resolver
      */
     public function resolve_object_link(midcom_db_topic $topic, midcom_core_dbaobject $object)
     {
-        if (!($object instanceof midcom_db_article))
-        {
+        if (!($object instanceof midcom_db_article)) {
             return null;
         }
         $config = $this->get_config_for_topic($topic);
         $topic_guid = $config->get('symlink_topic');
         if (   !empty($topic_guid)
-            && mgd_is_guid($topic_guid))
-        {
-            try
-            {
+            && mgd_is_guid($topic_guid)) {
+            try {
                 $new_topic = new midcom_db_topic($topic_guid);
                 $topic = $new_topic;
-            }
-            catch (midcom_error $e)
-            {
+            } catch (midcom_error $e) {
                 $e->log();
             }
         }
-        if ($object->topic != $topic->id)
-        {
+        if ($object->topic != $topic->id) {
             return null;
         }
 
         if (   $object->name == 'index'
-            && !$config->get('autoindex'))
-        {
+            && !$config->get('autoindex')) {
             return '';
         }
 

@@ -44,26 +44,21 @@ class midcom_helper_datamanager2_formmanager_ajax extends midcom_helper_datamana
         echo '<?xml version="1.0" encoding="utf-8" standalone="yes"?>' . "\n";
 
         $exitcode = '';
-        if (!is_null($this->_exitcode))
-        {
+        if (!is_null($this->_exitcode)) {
             $exitcode = " exitcode=\"{$this->_exitcode}\"";
         }
 
         echo "<form id=\"{$form_identifier}\"{$exitcode} editable=\"true\">\n";
 
-        if (count($this->form->_errors) > 0)
-        {
-            foreach ($this->form->_errors as $field => $error)
-            {
+        if (count($this->form->_errors) > 0) {
+            foreach ($this->form->_errors as $field => $error) {
                 echo "<error field=\"{$field}\">{$error}</error>\n";
             }
         }
 
-        foreach (array_keys($this->widgets) as $name)
-        {
+        foreach (array_keys($this->widgets) as $name) {
             // TODO: Add support for other datatypes as we go
-            switch (get_class($this->_types[$name]))
-            {
+            switch (get_class($this->_types[$name])) {
                 case 'midcom_helper_datamanager2_type_text':
                 case 'midcom_helper_datamanager2_type_select':
                 case 'midcom_helper_datamanager2_type_date':
@@ -71,12 +66,10 @@ class midcom_helper_datamanager2_formmanager_ajax extends midcom_helper_datamana
                 case 'midcom_helper_datamanager2_type_boolean':
                 case 'midcom_helper_datamanager2_type_tags':
                     $element = $this->form->getElement($name);
-                    if ($element->isFrozen())
-                    {
+                    if ($element->isFrozen()) {
                         continue;
                     }
-                    if (method_exists($element, 'toHtml'))
-                    {
+                    if (method_exists($element, 'toHtml')) {
                         echo "<field name=\"{$name}\"><![CDATA[\n";
                         echo $element->toHtml();
                         echo "]]></field>\n";
@@ -97,32 +90,26 @@ class midcom_helper_datamanager2_formmanager_ajax extends midcom_helper_datamana
         echo '<?xml version="1.0" encoding="utf-8" standalone="yes"?>' . "\n";
 
         $exitcode = '';
-        if (!is_null($this->_exitcode))
-        {
+        if (!is_null($this->_exitcode)) {
             $exitcode = " exitcode=\"{$this->_exitcode}\"";
         }
 
         $new_identifier = '';
-        if (!is_null($new_form_identifier))
-        {
+        if (!is_null($new_form_identifier)) {
             $new_identifier = " new_identifier=\"{$new_form_identifier}\"";
         }
 
         echo "<form id=\"{$form_identifier}\"{$exitcode}{$new_identifier}>\n";
 
-        if (count($this->form->_errors) > 0)
-        {
-            foreach ($this->form->_errors as $field => $error)
-            {
+        if (count($this->form->_errors) > 0) {
+            foreach ($this->form->_errors as $field => $error) {
                 echo "<error field=\"{$field}\">{$error}</error>\n";
             }
         }
 
-        foreach ($this->widgets as $name => $widget)
-        {
+        foreach ($this->widgets as $name => $widget) {
             // TODO: Add support for other datatypes as we go
-            switch (get_class($this->_types[$name]))
-            {
+            switch (get_class($this->_types[$name])) {
                 case 'midcom_helper_datamanager2_type_text':
                 case 'midcom_helper_datamanager2_type_select':
                 case 'midcom_helper_datamanager2_type_date':

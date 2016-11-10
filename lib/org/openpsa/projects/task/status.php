@@ -38,8 +38,7 @@ class org_openpsa_projects_task_status_dba extends midcom_core_dbaobject
     public function _on_creating()
     {
         //Make sure we have timestamp
-        if ($this->timestamp == 0)
-        {
+        if ($this->timestamp == 0) {
             $this->timestamp = time();
         }
 
@@ -48,13 +47,11 @@ class org_openpsa_projects_task_status_dba extends midcom_core_dbaobject
         $mc->add_constraint('type', '=', $this->type);
         $mc->add_constraint('timestamp', '=', $this->timestamp);
         $mc->add_constraint('comment', '=', $this->comment);
-        if ($this->targetPerson)
-        {
+        if ($this->targetPerson) {
             $mc->add_constraint('targetPerson', '=', $this->targetPerson);
         }
         $mc->execute();
-        if ($mc->count() > 0)
-        {
+        if ($mc->count() > 0) {
             debug_add('Duplicate statuses found, aborting create', MIDCOM_LOG_WARN);
             debug_print_r("List of duplicate status objects:", $mc->list_keys());
             return false;
@@ -67,15 +64,13 @@ class org_openpsa_projects_task_status_dba extends midcom_core_dbaobject
     {
         //Remove the resource if necessary
         if (   $this->type == self::DECLINED
-            && $this->targetPerson)
-        {
+            && $this->targetPerson) {
             $qb = org_openpsa_projects_task_resource_dba::new_query_builder();
             $qb->add_constraint('task', '=', $this->task);
             $qb->add_constraint('person', '=', $this->targetPerson);
             $qb->add_constraint('orgOpenpsaObtype', '=', org_openpsa_projects_task_resource_dba::RESOURCE);
             $results = $qb->execute();
-            foreach ($results as $result)
-            {
+            foreach ($results as $result) {
                 debug_add("removing user #{$this->targetPerson} from resources");
                 $result->delete();
             }
@@ -88,27 +83,21 @@ class org_openpsa_projects_task_status_dba extends midcom_core_dbaobject
     {
         $task = org_openpsa_projects_task_dba::get_cached($this->task);
 
-        if ($this->type == self::PROPOSED)
-        {
-            try
-            {
+        if ($this->type == self::PROPOSED) {
+            try {
                 $recipient = midcom_db_person::get_cached($this->targetPerson);
 
                 //Creator will naturally accept his own proposal...
-                if ($recipient->guid == $this->metadata->creator)
-                {
+                if ($recipient->guid == $this->metadata->creator) {
                     return org_openpsa_projects_workflow::accept($task, 0, $this->comment);
                 }
-            }
-            catch (midcom_error $e)
-            {
+            } catch (midcom_error $e) {
                 $e->log();
             }
         }
 
         //See if the parent status needs updating
-        if ($task->status == $this->type)
-        {
+        if ($task->status == $this->type) {
             debug_add("Task status is up to date, returning");
             return;
         }
@@ -135,8 +124,7 @@ class org_openpsa_projects_task_status_dba extends midcom_core_dbaobject
             self::APPROVED => 'approved by %s',
             self::CLOSED => 'closed by %s'
         );
-        if (array_key_exists($this->type, $map))
-        {
+        if (array_key_exists($this->type, $map)) {
             return $map[$this->type];
         }
         return "{$this->type} by %s";

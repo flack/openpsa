@@ -23,15 +23,12 @@ implements midcom_services_permalinks_resolver
         $qb->add_constraint('topic', '=', $topic->id);
         $result = $qb->execute();
 
-        if ($result)
-        {
+        if ($result) {
             $schemadb = midcom_helper_datamanager2_schema::load_database($config->get('schemadb'));
             $datamanager = new midcom_helper_datamanager2_datamanager($schemadb);
 
-            foreach ($result as $wikipage)
-            {
-                if (!$datamanager->autoset_storage($wikipage))
-                {
+            foreach ($result as $wikipage) {
+                if (!$datamanager->autoset_storage($wikipage)) {
                     debug_add("Warning, failed to initialize datamanager for Wiki page {$wikipage->id}. Skipping it.", MIDCOM_LOG_WARN);
                     continue;
                 }
@@ -46,10 +43,8 @@ implements midcom_services_permalinks_resolver
     public function resolve_object_link(midcom_db_topic $topic, midcom_core_dbaobject $object)
     {
         if (   $object instanceof midcom_db_article
-            && $topic->id == $object->topic)
-        {
-            if ($object->name == 'index')
-            {
+            && $topic->id == $object->topic) {
+            if ($object->name == 'index') {
                 return '';
             }
             return "{$object->name}/";
@@ -65,8 +60,7 @@ implements midcom_services_permalinks_resolver
      */
     public static function node_wikiword_is_free($node, $wikiword)
     {
-        if (empty($node))
-        {
+        if (empty($node)) {
             //Invalid node
             debug_add('given node is not valid', MIDCOM_LOG_ERROR);
             return false;
@@ -77,8 +71,7 @@ implements midcom_services_permalinks_resolver
         $qb->add_constraint('topic', '=', $node[MIDCOM_NAV_OBJECT]->id);
         $qb->add_constraint('name', '=', $wikiword_name);
         $ret = $qb->execute();
-        if (!empty($ret))
-        {
+        if (!empty($ret)) {
             //Match found, word is reserved
             debug_add("QB found matches for name '{$wikiword_name}' in topic #{$node[MIDCOM_NAV_OBJECT]->id}, given word '{$wikiword}' is reserved", MIDCOM_LOG_INFO);
             debug_print_r('QB results:', $ret);

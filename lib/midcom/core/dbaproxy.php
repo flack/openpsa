@@ -53,20 +53,16 @@ class midcom_core_dbaproxy
 
     private function _load_object()
     {
-        if ($this->__tried_to_load)
-        {
+        if ($this->__tried_to_load) {
             return (null !== $this->__object);
         }
 
         $this->__tried_to_load = true;
 
-        try
-        {
+        try {
             $this->__object = call_user_func(array($this->__midcom_class_name__, 'get_cached'), $this->__identifier);
             return true;
-        }
-        catch (midcom_error $e)
-        {
+        } catch (midcom_error $e) {
             $e->log();
         }
         return false;
@@ -79,8 +75,7 @@ class midcom_core_dbaproxy
      */
     public function __get($property)
     {
-        if (!$this->_load_object())
-        {
+        if (!$this->_load_object()) {
             return null;
         }
 
@@ -95,8 +90,7 @@ class midcom_core_dbaproxy
      */
     public function __set($property, $value)
     {
-        if (!$this->_load_object())
-        {
+        if (!$this->_load_object()) {
             return null;
         }
 
@@ -110,8 +104,7 @@ class midcom_core_dbaproxy
      */
     public function __isset($property)
     {
-        if (!$this->_load_object())
-        {
+        if (!$this->_load_object()) {
             return null;
         }
 
@@ -120,8 +113,7 @@ class midcom_core_dbaproxy
 
     public function __call($method, $arguments)
     {
-        if (!$this->_load_object())
-        {
+        if (!$this->_load_object()) {
             return null;
         }
 

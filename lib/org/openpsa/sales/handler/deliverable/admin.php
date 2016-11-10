@@ -56,8 +56,7 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
         $controller = midcom_helper_datamanager2_controller::create('simple');
         $controller->schemadb =& $this->_schemadb;
         $controller->set_storage($this->_deliverable, $this->_schema);
-        if (!$controller->initialize())
-        {
+        if (!$controller->initialize()) {
             throw new midcom_error("Failed to initialize a DM2 controller instance for deliverable {$this->_deliverable->id}.");
         }
         return $controller;
@@ -75,12 +74,10 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
         $mc->set_object_limit(1);
         $at_entries = $mc->get_related_objects();
 
-        if (sizeof($at_entries) != 1)
-        {
+        if (sizeof($at_entries) != 1) {
             if (   (   $this->_deliverable->continuous
                     || $this->_deliverable->end > time())
-                && $this->_deliverable->state == org_openpsa_sales_salesproject_deliverable_dba::STATE_STARTED)
-            {
+                && $this->_deliverable->state == org_openpsa_sales_salesproject_deliverable_dba::STATE_STARTED) {
                 $fields['next_cycle']['hidden'] = false;
             }
             return;
@@ -129,25 +126,19 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
     {
         $entry = null;
         $next_cycle = 0;
-        if (!empty($formdata['at_entry']->value))
-        {
+        if (!empty($formdata['at_entry']->value)) {
             $entry = new midcom_services_at_entry_dba((int) $formdata['at_entry']->value);
         }
         if (   isset($formdata['next_cycle'])
-            && !$formdata['next_cycle']->is_empty())
-        {
+            && !$formdata['next_cycle']->is_empty()) {
             $next_cycle = (int) $formdata['next_cycle']->value->format('U');
         }
 
-        if (null !== $entry)
-        {
-            if ($next_cycle == 0)
-            {
+        if (null !== $entry) {
+            if ($next_cycle == 0) {
                 $entry->delete();
                 $this->_deliverable->end_subscription();
-            }
-            elseif ($next_cycle != $entry->start)
-            {
+            } elseif ($next_cycle != $entry->start) {
                 //@todo If next_cycle is changed to be in the past, should we check if this would lead
                 //to multiple runs immediately? i.e. if you set a monthly subscriptions next cycle to
                 //one year in the past, this would trigger twelve consecutive runs and maybe
@@ -156,9 +147,7 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
                 $entry->start = $next_cycle;
                 $entry->update();
             }
-        }
-        elseif ($next_cycle > 0)
-        {
+        } elseif ($next_cycle > 0) {
             //TODO: This code is copied from scheduler, and should be merged into a separate method at some point
             $args = array
             (
@@ -171,8 +160,7 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
             $at_entry->method = 'new_subscription_cycle';
             $at_entry->arguments = $args;
 
-            if (!$at_entry->create())
-            {
+            if (!$at_entry->create()) {
                 throw new midcom_error('AT registration failed, last midgard error was: ' . midcom_connection::get_error_string());
             }
             org_openpsa_relatedto_plugin::create($at_entry, 'midcom.services.at', $this->_deliverable, $this->_component);

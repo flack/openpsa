@@ -111,14 +111,12 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
 
         // Reflect the type config setting for maximum count
         if (   isset($this->_type->max_count)
-            && !$this->max_count)
-        {
+            && !$this->max_count) {
             $this->max_count = $this->_type->max_count;
         }
 
         // Create sortable
-        if ($this->_type->sortable)
-        {
+        if ($this->_type->sortable) {
             // Enable jQuery
             midcom::get()->head->enable_jquery();
 
@@ -140,8 +138,7 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
         }
         // controls if required apc-settings for the progressbar are set
         if (   ini_get("apc.rfc1867") == 1
-            && ini_get("apc.enabled") == 1)
-        {
+            && ini_get("apc.enabled") == 1) {
             $this->show_progressbar = true;
             $this->progress_id = uniqid("");
             // js Progressbar
@@ -173,8 +170,7 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
      */
     private function _add_table_header($frozen)
     {
-        if ($frozen)
-        {
+        if ($frozen) {
             $html = "<table class=\"midcom_helper_datamanager2_widget_downloads\" id=\"{$this->_namespace}{$this->name}\" >\n
                          <thead>\n
                              <tr>\n
@@ -183,12 +179,9 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
                              </tr>\n
                          </thead>\n
                          <tbody>\n";
-        }
-        else
-        {
+        } else {
             $index = '';
-            if ($this->_type->sortable)
-            {
+            if ($this->_type->sortable) {
                 $index = "            <th class=\"index\">" . $this->_l10n->get('index') . "</th>\n";
             }
 
@@ -215,16 +208,14 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
     {
         // Show only a configured amount of new image rows
         if (   $this->max_count
-            && count($this->_type->attachments_info) >= $this->max_count)
-        {
+            && count($this->_type->attachments_info) >= $this->max_count) {
             return;
         }
 
         // Initialize the string
         $sortable = '';
 
-        if ($this->_type->sortable)
-        {
+        if ($this->_type->sortable) {
             $sortable = "<td class=\"index\"></td>\n";
         }
 
@@ -251,8 +242,7 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
         );
         $this->_elements['e_new_title'] = $this->_form->createElement('text', 'e_new_title', '', $attributes);
 
-        if (!$frozen)
-        {
+        if (!$frozen) {
             // Controls Column
             $html = "</td>\n<td class=\"new upload\">";
             $html .= "<input type=\"hidden\" name=\"APC_UPLOAD_PROGRESS\" id=\"{$this->progress_id}_progress_key\"
@@ -270,16 +260,14 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
                 'class' => 'submit new upload',
                 'id'    => "{$this->_namespace}{$this->name}_e_new_upload",
             );
-            if ($this->show_progressbar)
-            {
+            if ($this->show_progressbar) {
                 $url = midcom_connection::get_url('self') . 'midcom-exec-midcom.helper.datamanager2/get_progress.php';
                 $attributes['onclick'] = "beginUpload('{$this->progress_id}','{$url}');$(this).prop('disabled', true)";
                 $this->_form->setAttribute("onsubmit", "beginUpload('{$this->progress_id}','{$url}')");
             }
             $this->_elements['e_new_upload'] = $this->_form->createElement('submit', "{$this->name}_e_new_upload", $this->_l10n->get('upload file'), $attributes);
 
-            if ($this->show_progressbar)
-            {
+            if ($this->show_progressbar) {
                 $html = "<span style=\"visibility:hidden;\" class=\"progressbar\"></span>";
                 $this->_elements['new_progress'] = & $this->_form->createElement('static', "new_progress", '', $html);
             }
@@ -301,8 +289,7 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
         // Initialize the string
         $sortable = '';
 
-        if ($this->_type->sortable)
-        {
+        if ($this->_type->sortable) {
             $sortable  = "            <td class=\"midcom_helper_datamanager2_helper_sortable\">\n";
             $sortable .= "               <input type=\"text\" class=\"downloads_sortable\" name=\"midcom_helper_datamanager2_sortable[{$this->name}][{$identifier}]\" value=\"{$this->_sort_index}\" />\n";
             $sortable .="             </td>\n";
@@ -329,11 +316,9 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
         $this->_elements["e_exist_{$identifier}_title"] = $this->_form->createElement('text', "e_exist_{$identifier}_title", '', $attributes);
         $this->_elements["e_exist_{$identifier}_title"]->setValue($info['description']);
 
-        if (!$frozen)
-        {
+        if (!$frozen) {
             // Controls Column
-            if ($this->_type->attachments[$identifier]->can_do('midgard:update'))
-            {
+            if ($this->_type->attachments[$identifier]->can_do('midgard:update')) {
                 $html = "</td>\n<td class=\"exist upload\">";
                 $html .= "<input type=\"hidden\" name=\"APC_UPLOAD_PROGRESS\" id=\"{$this->progress_id}_progress_key\"
                           value=\"" . $this->progress_id . "\" />";
@@ -350,8 +335,7 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
                     'class' => 'submit exist upload',
                     'id'    => "{$this->_namespace}{$this->name}_e_exist_{$identifier}_upload",
                 );
-                if ($this->show_progressbar)
-                {
+                if ($this->show_progressbar) {
                     $url = midcom_connection::get_url('self') . 'midcom-exec-midcom.helper.datamanager2/get_progress.php';
                     $attributes['onclick'] = "beginUpload('{$this->progress_id}','{$url}');$(this).prop('disabled', true)";
                     $this->_form->setAttribute("onsubmit", "beginUpload('{$this->progress_id}','{$url}')");
@@ -359,8 +343,7 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
                 $this->_elements["s_exist_{$identifier}_br"] = $this->_form->createElement('static', "s_exist_{$identifier}_upload", '', "<br/>");
                 $this->_elements["e_exist_{$identifier}_upload"] = $this->_form->createElement('submit', "{$this->name}_e_exist_{$identifier}_upload", $this->_l10n->get('replace file'), $attributes);
             }
-            if ($this->_type->attachments[$identifier]->can_do('midgard:delete'))
-            {
+            if ($this->_type->attachments[$identifier]->can_do('midgard:delete')) {
                 $attributes = array
                 (
                     'class' => 'submit exist delete',
@@ -369,8 +352,7 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
                 $this->_elements["e_exist_{$identifier}_delete"] = $this->_form->createElement('submit', "{$this->name}_e_exist_{$identifier}_delete", $this->_l10n->get('delete file'), $attributes);
             }
 
-            if ($this->show_progressbar)
-            {
+            if ($this->show_progressbar) {
                 $html = "<span style=\"visibility:hidden;\" class=\"progressbar\"></span>";
                 $this->_elements['new_progress'] = & $this->_form->createElement('static', "new_progress", '', $html);
             }
@@ -398,8 +380,7 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
         if (   $this->_type->storage->object
             && (   !$this->_type->storage->object->can_do('midgard:attachments')
                 || !$this->_type->storage->object->can_do('midgard:update')
-                || !$this->_type->storage->object->can_do('midgard:parameters')))
-        {
+                || !$this->_type->storage->object->can_do('midgard:parameters'))) {
             $frozen = true;
         }
         $this->_compute_elements($frozen);
@@ -418,8 +399,7 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
 
         $this->_add_table_header($frozen);
 
-        foreach ($this->_type->attachments_info as $identifier => $info)
-        {
+        foreach ($this->_type->attachments_info as $identifier => $info) {
             $this->_add_attachment_row($identifier, $info, $frozen);
         }
         $this->_add_new_upload_row($frozen);
@@ -428,8 +408,7 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
 
     function _extension_to_mimetype($extension, $mimetype)
     {
-        switch ($extension)
-        {
+        switch ($extension) {
             case 'ai':
                 return 'application/illustrator';
             case 'eps':
@@ -448,24 +427,20 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
      */
     private function _check_new_upload($values)
     {
-        if (!array_key_exists('e_new_file', $this->_elements))
-        {
+        if (!array_key_exists('e_new_file', $this->_elements)) {
             // We are frozen, no upload can happen, so we exit immediately.
             return;
         }
 
-        if ($this->_elements['e_new_file']->isUploadedFile())
-        {
+        if ($this->_elements['e_new_file']->isUploadedFile()) {
             $file = $this->_elements['e_new_file']->getValue();
             $title = $values['e_new_title'];
             $filename = $values['e_new_filename'];
 
-            if (!$filename)
-            {
+            if (!$filename) {
                 $filename = $file['name'];
             }
-            if (!$title)
-            {
+            if (!$title) {
                 $title = $filename;
             }
 
@@ -473,14 +448,12 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
 
             // In some cases we want to tweak the mimetype based on file extension
             $filename_parts = explode('.', $filename);
-            if (count($filename_parts) > 1)
-            {
+            if (count($filename_parts) > 1) {
                 $extension = $filename_parts[count($filename_parts) - 1];
                 $file['type'] = $this->_extension_to_mimetype($extension, $file['type']);
             }
 
-            if (!$this->_type->add_attachment($identifier, $filename, $title, $file['type'], $file['tmp_name']))
-            {
+            if (!$this->_type->add_attachment($identifier, $filename, $title, $file['type'], $file['tmp_name'])) {
                 debug_add("Failed to add an attachment to the field '{$this->name}'. Ignoring silently.", MIDCOM_LOG_WARN);
             }
         }
@@ -503,40 +476,31 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
      */
     private function _check_for_update($identifier, $values)
     {
-        if (!array_key_exists($identifier, $this->_type->attachments_info))
-        {
+        if (!array_key_exists($identifier, $this->_type->attachments_info)) {
             // The attachment does no longer exist
             return;
         }
 
-        if (array_key_exists("{$this->name}_e_exist_{$identifier}_delete", $values))
-        {
-            if (!$this->_type->delete_attachment($identifier))
-            {
+        if (array_key_exists("{$this->name}_e_exist_{$identifier}_delete", $values)) {
+            if (!$this->_type->delete_attachment($identifier)) {
                 debug_add("Failed to delete the attachment {$identifier} on the field '{$this->name}'. Ignoring silently.", MIDCOM_LOG_WARN);
             }
-        }
-        elseif (   array_key_exists("e_exist_{$identifier}_file", $this->_elements)
-                 && $this->_elements["e_exist_{$identifier}_file"]->isUploadedFile())
-        {
+        } elseif (   array_key_exists("e_exist_{$identifier}_file", $this->_elements)
+                 && $this->_elements["e_exist_{$identifier}_file"]->isUploadedFile()) {
             $file = $this->_elements["e_exist_{$identifier}_file"]->getValue();
             $title = $values["e_exist_{$identifier}_title"];
             $old_filename = $this->_type->attachments_info[$identifier]['filename'];
 
             //If the user didn't bother to enter a real title, update it to the new filename
-            if ($title == $old_filename)
-            {
+            if ($title == $old_filename) {
                 $title = $file['name'];
             }
 
-            if (!$this->_type->update_attachment($identifier, $file['name'], $title, $file['type'], $file['tmp_name']))
-            {
+            if (!$this->_type->update_attachment($identifier, $file['name'], $title, $file['type'], $file['tmp_name'])) {
                 debug_add("Failed to update the attachment {$identifier} on the field '{$this->name}'. Ignoring silently.", MIDCOM_LOG_WARN);
             }
-        }
-        elseif (   array_key_exists("e_exist_{$identifier}_title", $values)
-                 && $values["e_exist_{$identifier}_title"] != $this->_type->attachments_info[$identifier]['description'])
-        {
+        } elseif (   array_key_exists("e_exist_{$identifier}_title", $values)
+                 && $values["e_exist_{$identifier}_title"] != $this->_type->attachments_info[$identifier]['description']) {
             $this->_type->update_attachment_title($identifier, $values["e_exist_{$identifier}_title"]);
         }
     }
@@ -547,8 +511,7 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
      */
     function on_submit($results)
     {
-        if (!array_key_exists($this->name, $results))
-        {
+        if (!array_key_exists($this->name, $results)) {
             return;
         }
 
@@ -556,8 +519,7 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
 
         $this->_check_new_upload($values);
 
-        foreach (array_keys($this->_type->attachments_info) as $identifier)
-        {
+        foreach (array_keys($this->_type->attachments_info) as $identifier) {
             $this->_check_for_update($identifier, $values);
         }
 
@@ -596,8 +558,7 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
         // NOTE: Updating titles etc is done already on _on_submit
         if (   $this->_type->sortable
             && isset($_REQUEST['midcom_helper_datamanager2_sortable'])
-            && isset($_REQUEST['midcom_helper_datamanager2_sortable'][$this->name]))
-        {
+            && isset($_REQUEST['midcom_helper_datamanager2_sortable'][$this->name])) {
             $this->_type->_sorted_list = $_REQUEST['midcom_helper_datamanager2_sortable'][$this->name];
         }
     }
@@ -607,13 +568,11 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
      */
     public function get_default()
     {
-        if (sizeof($this->_type->attachments_info) == 0)
-        {
+        if (sizeof($this->_type->attachments_info) == 0) {
             return null;
         }
         $defaults = array();
-        foreach ($this->_type->attachments_info as $identifier => $info)
-        {
+        foreach ($this->_type->attachments_info as $identifier => $info) {
             $defaults["e_exist_{$identifier}_title"] = $info['description'];
         }
         return array ($this->name => $defaults);

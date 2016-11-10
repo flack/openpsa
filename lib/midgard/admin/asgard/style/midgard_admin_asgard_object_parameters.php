@@ -11,8 +11,7 @@ $parameter_toolbar->add_item
 );
 echo $parameter_toolbar->render();
 
-if (count($data['parameters']) > 0)
-{
+if (count($data['parameters']) > 0) {
     echo "<table class=\"midgard_admin_asgard_object_parameters\">\n";
     echo "    <thead>\n";
     echo "        <tr>\n";
@@ -23,8 +22,7 @@ if (count($data['parameters']) > 0)
     echo "    </thead>\n";
     echo "    <tbody>\n";
     $shown_domains = array();
-    foreach ($data['parameters'] as $parameter)
-    {
+    foreach ($data['parameters'] as $parameter) {
         $parameter_toolbar = new midcom_helper_toolbar();
         $buttons = array
         (
@@ -48,8 +46,7 @@ if (count($data['parameters']) > 0)
             )
         );
         $parameter_toolbar->add_items($buttons);
-        if (!in_array($parameter->domain, $shown_domains))
-        {
+        if (!in_array($parameter->domain, $shown_domains)) {
             echo "        <tr>\n";
             echo "            <th colspan=\"3\">{$parameter->domain}</th>\n";
             echo "        </tr>\n";

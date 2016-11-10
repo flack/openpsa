@@ -29,8 +29,7 @@ class midcom_db_event extends midcom_core_dbaobject
 
     public function get_label()
     {
-        if ($this->start == 0)
-        {
+        if ($this->start == 0) {
             return $this->title;
         }
         $formatter = midcom::get()->i18n->get_l10n()->get_formatter();

@@ -28,8 +28,7 @@ class midcom_admin_user_handler_group_list extends midcom_baseclasses_components
         $this->add_breadcrumb("__mfa/asgard_midcom.admin.user/", $this->_l10n->get('midcom.admin.user'));
         $this->add_breadcrumb("__mfa/asgard_midcom.admin.user/group/", $this->_l10n->get('groups'));
 
-        if (preg_match('/group_move$/', $handler_id))
-        {
+        if (preg_match('/group_move$/', $handler_id)) {
             $this->add_breadcrumb("__mfa/asgard_midcom.admin.user/group/{$this->_request_data['group']->guid}/", $this->_request_data['group']->official);
             $this->add_breadcrumb("__mfa/asgard_midcom.admin.user/group/move/{$this->_request_data['group']->guid}/", $this->_l10n_midcom->get('move'));
         }
@@ -48,17 +47,14 @@ class midcom_admin_user_handler_group_list extends midcom_baseclasses_components
         // Get the prefix
         $data['prefix'] = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 
-        if (isset($_POST['f_cancel']))
-        {
+        if (isset($_POST['f_cancel'])) {
             return new midcom_response_relocate("__mfa/asgard_midcom.admin.user/group/edit/{$data['group']->guid}/");
         }
 
-        if (isset($_POST['f_submit']))
-        {
+        if (isset($_POST['f_submit'])) {
             $data['group']->owner = (int) $_POST['midcom_admin_user_move_group'];
 
-            if ($data['group']->update())
-            {
+            if ($data['group']->update()) {
                 midcom::get()->uimessages->add($this->_l10n->get('midcom.admin.user'), $this->_l10n_midcom->get('updated'));
                 return new midcom_response_relocate("__mfa/asgard_midcom.admin.user/group/edit/{$data['group']->guid}/");
             }
@@ -148,8 +144,7 @@ class midcom_admin_user_handler_group_list extends midcom_baseclasses_components
         $groups = $mc->get_rows(array('name', 'official', 'id'));
 
         // Hide empty groups
-        if (count($groups) === 0)
-        {
+        if (count($groups) === 0) {
             return;
         }
 
@@ -159,32 +154,26 @@ class midcom_admin_user_handler_group_list extends midcom_baseclasses_components
         midcom_show_style('midcom-admin-user-group-list-header');
 
         // Show the groups
-        foreach ($groups as $guid => $array)
-        {
+        foreach ($groups as $guid => $array) {
             $data['guid'] = $guid;
             $data['id'] = $array['id'];
             $data['name'] = $array['name'];
             $data['title'] = $array['official'];
 
-            if (empty($data['title']))
-            {
+            if (empty($data['title'])) {
                 $data['title'] = $data['name'];
-                if (empty($data['title']))
-                {
+                if (empty($data['title'])) {
                     $data['title'] = $data['l10n_midcom']->get('unknown');
                 }
             }
 
             // Show the group
-            if ($move)
-            {
+            if ($move) {
                 // Prevent moving owner to any of its children
                 $data['disabled'] = self::belongs_to($data['id'], $data['group']->id);
 
                 midcom_show_style('midcom-admin-user-group-list-group-move');
-            }
-            else
-            {
+            } else {
                 midcom_show_style('midcom-admin-user-group-list-group');
             }
         }
@@ -201,8 +190,7 @@ class midcom_admin_user_handler_group_list extends midcom_baseclasses_components
      */
     public static function belongs_to($id, $owner)
     {
-        if ($id === $owner)
-        {
+        if ($id === $owner) {
             return true;
         }
         $qb = midcom_db_group::new_query_builder();

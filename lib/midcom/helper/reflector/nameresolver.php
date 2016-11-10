@@ -33,13 +33,11 @@ class midcom_helper_reflector_nameresolver
      */
     public function get_object_name($name_property = null)
     {
-        if (is_null($name_property))
-        {
+        if (is_null($name_property)) {
             $name_property = midcom_helper_reflector::get_name_property($this->_object);
         }
         if (   empty($name_property)
-            || !midcom::get()->dbfactory->property_exists($this->_object, $name_property))
-        {
+            || !midcom::get()->dbfactory->property_exists($this->_object, $name_property)) {
             // Could not resolve valid property
             return false;
         }
@@ -57,8 +55,7 @@ class midcom_helper_reflector_nameresolver
     public function name_is_clean($name_property = null)
     {
         $name_copy = $this->get_object_name($name_property);
-        if (empty($name_copy))
-        {
+        if (empty($name_copy)) {
             // empty name is not "clean"
             return false;
         }
@@ -77,8 +74,7 @@ class midcom_helper_reflector_nameresolver
     {
         $name_copy = $this->get_object_name($name_property);
 
-        if (empty($name_copy))
-        {
+        if (empty($name_copy)) {
             // empty name is not url-safe
             return false;
         }
@@ -95,13 +91,11 @@ class midcom_helper_reflector_nameresolver
     public function name_is_safe_or_empty($name_property = null)
     {
         $name_copy = $this->get_object_name($name_property);
-        if ($name_copy === false)
-        {
+        if ($name_copy === false) {
             //get_object_name failed
             return false;
         }
-        if (empty($name_copy))
-        {
+        if (empty($name_copy)) {
             return true;
         }
         return $this->name_is_safe($name_property);
@@ -117,13 +111,11 @@ class midcom_helper_reflector_nameresolver
     public function name_is_clean_or_empty($name_property = null)
     {
         $name_copy = $this->get_object_name($name_property);
-        if ($name_copy === false)
-        {
+        if ($name_copy === false) {
             //get_object_name failed
             return false;
         }
-        if (empty($name_copy))
-        {
+        if (empty($name_copy)) {
             return true;
         }
         return $this->name_is_clean($name_property);
@@ -138,8 +130,7 @@ class midcom_helper_reflector_nameresolver
     {
         $name_copy = $this->get_object_name();
         if (   empty($name_copy)
-            && $name_copy !== false)
-        {
+            && $name_copy !== false) {
             // Allow empty string name
             return true;
         }
@@ -155,8 +146,7 @@ class midcom_helper_reflector_nameresolver
     {
         // Get current name and sanity-check
         $name_copy = $this->get_object_name();
-        if (empty($name_copy))
-        {
+        if (empty($name_copy)) {
             // We do not check for empty names, and do not consider them to be unique
             return false;
         }
@@ -164,40 +154,31 @@ class midcom_helper_reflector_nameresolver
         // Start the magic
         midcom::get()->auth->request_sudo('midcom.helper.reflector');
         $parent = midcom_helper_reflector_tree::get_parent($this->_object);
-        if (!empty($parent->guid))
-        {
+        if (!empty($parent->guid)) {
             // We have parent, check siblings
             $parent_resolver = new midcom_helper_reflector_tree($parent);
             $sibling_classes = $parent_resolver->get_child_classes();
-            if (!in_array('midgard_attachment', $sibling_classes))
-            {
+            if (!in_array('midgard_attachment', $sibling_classes)) {
                 $sibling_classes[] = 'midgard_attachment';
             }
-            if (!$this->_name_is_unique_check_siblings($sibling_classes, $parent))
-            {
+            if (!$this->_name_is_unique_check_siblings($sibling_classes, $parent)) {
                 midcom::get()->auth->drop_sudo();
                 return false;
             }
-        }
-        else
-        {
+        } else {
             // No parent, we might be a root level class
             $is_root_class = false;
             $root_classes = midcom_helper_reflector_tree::get_root_classes();
-            foreach ($root_classes as $classname)
-            {
-                if (midcom::get()->dbfactory->is_a($this->_object, $classname))
-                {
+            foreach ($root_classes as $classname) {
+                if (midcom::get()->dbfactory->is_a($this->_object, $classname)) {
                     $is_root_class = true;
-                    if (!$this->_name_is_unique_check_roots($root_classes))
-                    {
+                    if (!$this->_name_is_unique_check_roots($root_classes)) {
                         midcom::get()->auth->drop_sudo();
                         return false;
                     }
                 }
             }
-            if (!$is_root_class)
-            {
+            if (!$is_root_class) {
                 // This should not happen, logging error and returning true (even though it's potentially dangerous)
                 midcom::get()->auth->drop_sudo();
                 debug_add("Object " . get_class($this->_object) . " #" . $this->_object->id . " has no valid parent but is not listed in the root classes, don't know what to do, returning true and supposing user knows what he is doing", MIDCOM_LOG_ERROR);
@@ -220,18 +201,15 @@ class midcom_helper_reflector_nameresolver
     {
         $name_copy = $this->get_object_name();
 
-        foreach ($sibling_classes as $schema_type)
-        {
+        foreach ($sibling_classes as $schema_type) {
             $qb = $this->_get_sibling_qb($schema_type, $parent);
-            if (!$qb)
-            {
+            if (!$qb) {
                 continue;
             }
             $child_name_property = midcom_helper_reflector::get_name_property(new $schema_type);
 
             $qb->add_constraint($child_name_property, '=', $name_copy);
-            if ($qb->count())
-            {
+            if ($qb->count()) {
                 debug_add("Name clash in sibling class {$schema_type} for " . get_class($this->_object) . " #{$this->_object->id} (path '" . midcom_helper_reflector_tree::resolve_path($this->_object, '/') . "')" );
                 return false;
             }
@@ -247,26 +225,22 @@ class midcom_helper_reflector_nameresolver
      */
     private function _name_is_unique_check_roots($sibling_classes)
     {
-        if (!$sibling_classes)
-        {
+        if (!$sibling_classes) {
             // We don't know about siblings, allow this to happen.
             // Note: This also happens with the "neverchild" types like midgard_attachment and midgard_parameter
             return true;
         }
         $name_copy = $this->get_object_name();
 
-        foreach ($sibling_classes as $schema_type)
-        {
+        foreach ($sibling_classes as $schema_type) {
             $qb = $this->_get_root_qb($schema_type);
-            if (!$qb)
-            {
+            if (!$qb) {
                 continue;
             }
             $child_name_property = midcom_helper_reflector::get_name_property(new $schema_type);
 
             $qb->add_constraint($child_name_property, '=', $name_copy);
-            if ($qb->count())
-            {
+            if ($qb->count()) {
                 debug_add("Name clash in sibling class {$schema_type} for " . get_class($this->_object) . " #{$this->_object->id} (path '" . midcom_helper_reflector_tree::resolve_path($this->_object, '/') . "')" );
                 return false;
             }
@@ -290,8 +264,7 @@ class midcom_helper_reflector_nameresolver
     {
         // Get current name and sanity-check
         $original_name = $this->get_object_name();
-        if ($original_name === false)
-        {
+        if ($original_name === false) {
             // Fatal error with name resolution
             debug_add("Object " . get_class($this->_object) . " #{$this->_object->id} returned critical failure for name resolution, aborting", MIDCOM_LOG_WARN);
             return false;
@@ -300,22 +273,17 @@ class midcom_helper_reflector_nameresolver
         // We need the name of the "name" property later
         $name_prop = midcom_helper_reflector::get_name_property($this->_object);
 
-        if (!empty($original_name))
-        {
+        if (!empty($original_name)) {
             $current_name = (string)$original_name;
-        }
-        else
-        {
+        } else {
             // Empty name, try to generate from title
             $title_copy = midcom_helper_reflector::get_object_title($this->_object, $title_property);
-            if ($title_copy === false)
-            {
+            if ($title_copy === false) {
                 // Fatal error with title resolution
                 debug_add("Object " . get_class($this->_object) . " #{$this->_object->id} returned critical failure for title resolution when name was empty, aborting", MIDCOM_LOG_WARN);
                 return false;
             }
-            if (empty($title_copy))
-            {
+            if (empty($title_copy)) {
                 debug_add("Object " . get_class($this->_object) . " #{$this->_object->id} has empty name and title, aborting", MIDCOM_LOG_WARN);
                 return false;
             }
@@ -332,18 +300,15 @@ class midcom_helper_reflector_nameresolver
         $d = 100;
 
         // The loop, usually we *should* hit gold in first try
-        do
-        {
-            if ($i > 1)
-            {
+        do {
+            if ($i > 1) {
                 // Start suffixes from -002
                 $this->_object->{$name_prop} = $base_name . sprintf('-%03d', $i) . $extension;
             }
 
             // Handle the decrementer
             --$d;
-            if ($d < 1)
-            {
+            if ($d < 1) {
                 // Decrementer underflowed
                 debug_add("Maximum number of tries exceeded, current name was: " . $this->_object->{$name_prop}, MIDCOM_LOG_ERROR);
                 $this->_object->{$name_prop} = $original_name;
@@ -351,8 +316,7 @@ class midcom_helper_reflector_nameresolver
             }
             // and the incrementer
             ++$i;
-        }
-        while (!$this->name_is_unique());
+        } while (!$this->name_is_unique());
 
         // Get a copy of the current, usable name
         $ret = (string)$this->_object->{$name_prop};
@@ -365,20 +329,17 @@ class midcom_helper_reflector_nameresolver
     {
         $dummy = new $schema_type();
         $child_name_property = midcom_helper_reflector::get_name_property($dummy);
-        if (empty($child_name_property))
-        {
+        if (empty($child_name_property)) {
             // This sibling class does not use names
             return false;
         }
         $resolver = midcom_helper_reflector_tree::get($schema_type);
         $qb = $resolver->_child_objects_type_qb($schema_type, $parent, false);
-        if (!is_object($qb))
-        {
+        if (!is_object($qb)) {
             return false;
         }
         // Do not include current object in results, this is the easiest way
-        if (!empty($this->_object->guid))
-        {
+        if (!empty($this->_object->guid)) {
             $qb->add_constraint('guid', '<>', $this->_object->guid);
         }
         $qb->add_order($child_name_property, 'DESC');
@@ -391,20 +352,17 @@ class midcom_helper_reflector_nameresolver
     {
         $dummy = new $schema_type();
         $child_name_property = midcom_helper_reflector::get_name_property($dummy);
-        if (empty($child_name_property))
-        {
+        if (empty($child_name_property)) {
             // This sibling class does not use names
             return false;
         }
         $qb = midcom_helper_reflector_tree::get($schema_type)->_root_objects_qb(false);
-        if (!$qb)
-        {
+        if (!$qb) {
             return false;
         }
 
         // Do not include current object in results, this is the easiest way
-        if (!empty($this->_object->guid))
-        {
+        if (!empty($this->_object->guid)) {
             $qb->add_constraint('guid', '<>', $this->_object->guid);
         }
         $qb->add_order($child_name_property, 'DESC');
@@ -415,8 +373,7 @@ class midcom_helper_reflector_nameresolver
 
     private function _parse_filename($name, $extension, $default = 0)
     {
-        if (preg_match('/(.*?)-([0-9]{3,})' . $extension . '$/', $name, $name_matches))
-        {
+        if (preg_match('/(.*?)-([0-9]{3,})' . $extension . '$/', $name, $name_matches)) {
             // Name already has i and base parts, split them.
             return array((int) $name_matches[2], (string) $name_matches[1]);
         }
@@ -439,42 +396,33 @@ class midcom_helper_reflector_nameresolver
         // Look for siblings with similar names and see if they have higher i.
         midcom::get()->auth->request_sudo('midcom.helper.reflector');
         $parent = midcom_helper_reflector_tree::get_parent($this->_object);
-        if (!empty($parent->guid))
-        {
+        if (!empty($parent->guid)) {
             // We have parent, check siblings
             $parent_resolver = new midcom_helper_reflector_tree($parent);
             $sibling_classes = $parent_resolver->get_child_classes();
-            if (!in_array('midgard_attachment', $sibling_classes))
-            {
+            if (!in_array('midgard_attachment', $sibling_classes)) {
                 $sibling_classes[] = 'midgard_attachment';
             }
-            foreach ($sibling_classes as $schema_type)
-            {
+            foreach ($sibling_classes as $schema_type) {
                 $i = $this->process_schema_type($this->_get_sibling_qb($schema_type, $parent), $i, $schema_type, $base_name, $extension);
             }
-        }
-        else
-        {
+        } else {
             // No parent, we might be a root level class
             $is_root_class = false;
             $root_classes = midcom_helper_reflector_tree::get_root_classes();
-            foreach ($root_classes as $schema_type)
-            {
-                if (midcom::get()->dbfactory->is_a($this->_object, $schema_type))
-                {
+            foreach ($root_classes as $schema_type) {
+                if (midcom::get()->dbfactory->is_a($this->_object, $schema_type)) {
                     $is_root_class = true;
                     break;
                 }
             }
-            if (!$is_root_class)
-            {
+            if (!$is_root_class) {
                 // This should not happen, logging error and returning true (even though it's potentially dangerous)
                 midcom::get()->auth->drop_sudo();
                 debug_add("Object " . get_class($this->_object) . " #" . $this->_object->id . " has no valid parent but is not listed in the root classes, don't know what to do, letting higher level decide", MIDCOM_LOG_ERROR);
                 return array($i, $base_name);
             }
-            foreach ($root_classes as $schema_type)
-            {
+            foreach ($root_classes as $schema_type) {
                 $i = $this->process_schema_type($this->_get_root_qb($schema_type), $i, $schema_type, $base_name, $extension);
             }
         }
@@ -485,22 +433,19 @@ class midcom_helper_reflector_nameresolver
 
     private function process_schema_type($qb, $i, $schema_type, $base_name, $extension)
     {
-        if (!$qb)
-        {
+        if (!$qb) {
             return $i;
         }
         $child_name_property = midcom_helper_reflector::get_name_property(new $schema_type);
 
         $qb->add_constraint($child_name_property, 'LIKE', "{$base_name}-%" . $extension);
         $siblings = $qb->execute();
-        if (!empty($siblings))
-        {
+        if (!empty($siblings)) {
             $sibling = $siblings[0];
             $sibling_name = $sibling->{$child_name_property};
 
             list ($sibling_i, $sibling_name) = $this->_parse_filename($sibling_name, $extension);
-            if ($sibling_i >= $i)
-            {
+            if ($sibling_i >= $i) {
                 $i = $sibling_i + 1;
             }
         }

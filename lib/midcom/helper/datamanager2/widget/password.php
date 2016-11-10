@@ -62,8 +62,7 @@ class midcom_helper_datamanager2_widget_password extends midcom_helper_datamanag
         $this->_form->addElement('password', $confirm_name, $confirm_title, array('class' => 'shorttext'));
         $this->_form->addRule(array($this->name, $confirm_name), $this->_translate('passwords do not match'), 'compare', null);
 
-        if ($this->require_password)
-        {
+        if ($this->require_password) {
             $this->_form->addRule($this->name, 'required', 'required', '');
             $this->_form->addRule($confirm_name, 'required', 'required', '');
         }
@@ -81,8 +80,7 @@ class midcom_helper_datamanager2_widget_password extends midcom_helper_datamanag
 
     public function sync_type_with_widget($results)
     {
-        if ($results[$this->name] != '')
-        {
+        if ($results[$this->name] != '') {
             $this->_type->value = $results[$this->name];
         }
     }

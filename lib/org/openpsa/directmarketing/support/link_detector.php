@@ -22,56 +22,40 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-if (isset($_GET["token"]))
-{
+if (isset($_GET["token"])) {
     $token = $_GET["token"];
-}
-else
-{
+} else {
     error_log("token parameter not given");
     header("Status: 400 Bad request");
     exit(0);
 }
-if (isset($_GET["link"]))
-{
+if (isset($_GET["link"])) {
     $link = $_GET["link"];
-}
-else
-{
+} else {
     error_log("link parameter not given");
     header("Status: 400 Bad request");
     exit(0);
 }
-if (isset($_ENV["logger"]))
-{
+if (isset($_ENV["logger"])) {
     $logger = $_ENV["logger"];
-}
-else
-{
+} else {
     $logger = "";
 }
-if (isset($_ENV["domains"]))
-{
+if (isset($_ENV["domains"])) {
     $domains = explode(",", $_ENV["domains"]);
-}
-else
-{
+} else {
     $domains = array();
 }
 
 // Domain control
-if ($domains)
-{
+if ($domains) {
     $found = false;
-    foreach ($domains as $domain)
-    {
-        if (strpos($link, $domain) !== false)
-        {
+    foreach ($domains as $domain) {
+        if (strpos($link, $domain) !== false) {
             $found = true;
         }
     }
-    if (!$found)
-    {
+    if (!$found) {
         error_log("Forbidden redirect: $link");
         header("Status: 403 Forbidden");
         exit(0);
@@ -82,22 +66,16 @@ if ($domains)
 header("Location: $link");
 
 // Log the link to the configured link logger
-if (substr($logger, 0, strlen("file://")) == "file://")
-{
+if (substr($logger, 0, strlen("file://")) == "file://") {
     $fh = fopen(substr($logger, strlen("file://")), "w+");
-    if ($fh)
-    {
+    if ($fh) {
         fwrite($fh, "$token $link\n");
         fclose($fh);
     }
-}
-elseif (preg_match('/https?:\/\//', $logger))
-{
+} elseif (preg_match('/https?:\/\//', $logger)) {
     $client = new HTTP_Client();
     $client->post($logger, array("token" => $token, "link" => $link));
-}
-else
-{
+} else {
     error_log("link detected: $token $link");
 }
 exit(0);

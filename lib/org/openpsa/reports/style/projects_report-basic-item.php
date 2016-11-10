@@ -5,8 +5,7 @@ $person = $data['current_row']['person'];
 $query_data = $data['query_data'];
 ?>
                     <tr class="item">
-<?php   switch ($data['grouping'])
-        {
+<?php   switch ($data['grouping']) {
             case 'date': ?>
                         <td>&(person->rname);</td>
 <?php           break;
@@ -15,22 +14,20 @@ $query_data = $data['query_data'];
 <?php           break;
         } ?>
                         <td>&(task->title);</td>
-<?php   if (array_key_exists('hour_type_filter', $query_data))
-        {   ?>
+<?php   if (array_key_exists('hour_type_filter', $query_data)) {
+            ?>
                         <td>&(hour->reportType);</td>
-<?php   }   ?>
-<?php   if (array_key_exists('invoiceable_filter', $query_data))
-        {
-            if ($hour->invoiceable)
-            {
+<?php 
+        }   ?>
+<?php   if (array_key_exists('invoiceable_filter', $query_data)) {
+            if ($hour->invoiceable) {
                 $hour_invoiceable_str = $data['l10n_midcom']->get('yes');
-            }
-            else
-            {
+            } else {
                 $hour_invoiceable_str = $data['l10n_midcom']->get('no');
-            }   ?>
+            } ?>
                         <td>&(hour_invoiceable_str);</td>
-<?php   }       ?>
+<?php 
+        }       ?>
                         <td>&(hour->description);</td>
                         <td class="numeric"><?php printf('%01.2f', $hour->hours); ?></td>
                     </tr>

@@ -22,8 +22,7 @@
  */
 
 // Get the configuration arguments
-if ($argc != 3)
-{
+if ($argc != 3) {
     error_log("usage: php bounce_detector.php BOUNCE_ADDRESS BOUNCE_LOGGER");
     exit(1);
 }
@@ -32,8 +31,7 @@ $BOUNCE_LOGGER = $argv[2];
 
 // Find the TOKEN position in the address template
 $template = explode("TOKEN", $BOUNCE_ADDRESS, 2);
-if (count($template) != 2)
-{
+if (count($template) != 2) {
     error_log("Invalid address template: $BOUNCE_ADDRESS");
     exit(1);
 }
@@ -41,8 +39,7 @@ $prefix = $template[0];
 $suffix = $template[1];
 
 // Match the recipient address to the address template
-if (!isset($_ENV["RECIPIENT"]))
-{
+if (!isset($_ENV["RECIPIENT"])) {
     error_log("Recipient address not set, unable to get bounce token");
     exit(1);
 }
@@ -50,27 +47,22 @@ $recipient = $_ENV["RECIPIENT"];
 $token_length = strlen($recipient) - strlen($prefix) - strlen($suffix);
 if (   $token_length <= 0
     || substr($recipient, 0, strlen($prefix)) != $prefix
-    || substr($recipient, strlen($prefix) + $token_length) != $suffix)
-{
+    || substr($recipient, strlen($prefix) + $token_length) != $suffix) {
     error_log("Recipient address does not match address template: $recipient");
     exit(1);
 }
 $token = substr($recipient, strlen($prefix), $token_length);
 
 // Log the bounce to the configured bounce logger
-if (substr($BOUNCE_LOGGER, 0, strlen("file://")) == "file://")
-{
+if (substr($BOUNCE_LOGGER, 0, strlen("file://")) == "file://") {
     $fh = fopen(substr($BOUNCE_LOGGER, strlen("file://")), "w+");
-    if ($fh)
-    {
+    if ($fh) {
         fwrite($fh, "$token\n");
         fclose($fh);
         exit(0);
     }
-}
-elseif (   substr($BOUNCE_LOGGER, 0, strlen("http://")) == "http://"
-        || substr($BOUNCE_LOGGER, 0, strlen("https://")) == "https://")
-{
+} elseif (   substr($BOUNCE_LOGGER, 0, strlen("http://")) == "http://"
+        || substr($BOUNCE_LOGGER, 0, strlen("https://")) == "https://") {
     /** @ ignore */
     $client = new HTTP_Client();
     $client->post($BOUNCE_LOGGER, array("token" => $token));

@@ -41,8 +41,7 @@ class net_nemein_redirector_tinyurl_dba extends midcom_core_dbaobject
         $mc->add_constraint('node', '=', $this->node);
 
         // This item already exists, exclude itself from duplicate name check
-        if ($this->guid)
-        {
+        if ($this->guid) {
             $mc->add_constraint('guid', '<>', $this->guid);
         }
 
@@ -56,16 +55,14 @@ class net_nemein_redirector_tinyurl_dba extends midcom_core_dbaobject
      */
     public static function generate($chars = null, $length = 6)
     {
-        if (!$chars)
-        {
+        if (!$chars) {
             $chars = '23456789abcdefghjkmnopqrstuvwxyz';
         }
 
         $url = '';
         $tmp = (int) strlen($chars);
 
-        for ($i = 0; $i < $length; $i++)
-        {
+        for ($i = 0; $i < $length; $i++) {
             $url .= substr($chars, rand(0, $tmp - 1), 1);
         }
 

@@ -15,8 +15,7 @@ class midcom_core_service_implementation_urlgeneratori18n implements midcom_core
 {
     public function from_string($string, $replacer = '-')
     {
-        if (empty($string))
-        {
+        if (empty($string)) {
             return '';
         }
         // TODO: sanity-check $replacer ?

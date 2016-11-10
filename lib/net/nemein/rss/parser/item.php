@@ -23,19 +23,15 @@ class net_nemein_rss_parser_item extends SimplePie_Item
     public function get_title()
     {
         $title = parent::get_title();
-        if (empty($title))
-        {
+        if (empty($title)) {
             $l10n = midcom::get()->i18n->get_l10n('net.nemein.rss');
             $title = $l10n->get('untitled');
             $description = $this->get_description();
             $date = $this->get_date('U');
-            if (!empty($description))
-            {
+            if (!empty($description)) {
                 // Use 20 first characters from the description as title
                 $title = substr(strip_tags($this->_decode($description)), 0, 20) . '...';
-            }
-            elseif (!empty($date))
-            {
+            } elseif (!empty($date)) {
                 // Use publication date as title
                 $title = $l10n->get_formatter()->date($date);
             }
@@ -66,19 +62,14 @@ class net_nemein_rss_parser_item extends SimplePie_Item
     {
         $link = parent::get_link($key, $rel);
         if (   $rel !== 'alternate'
-            || $key !== 0)
-        {
+            || $key !== 0) {
             return $link;
         }
 
-        if (empty($link))
-        {
-            if (!$this->_id_missing)
-            {
+        if (empty($link)) {
+            if (!$this->_id_missing) {
                 $link = $this->get_id();
-            }
-            else
-            {
+            } else {
                 // No link or GUID defined
                 // TODO: Generate a "link" using channel URL
                 $link = '';
@@ -93,8 +84,7 @@ class net_nemein_rss_parser_item extends SimplePie_Item
     public function get_id($hash = false)
     {
         $guid = parent::get_id($hash);
-        if (empty($guid))
-        {
+        if (empty($guid)) {
             $this->_id_missing = true;
             $guid = parent::get_link();
         }

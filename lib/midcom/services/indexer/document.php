@@ -294,8 +294,7 @@ class midcom_services_indexer_document
      */
     public function get_field($name)
     {
-        if (!array_key_exists($name, $this->_fields))
-        {
+        if (!array_key_exists($name, $this->_fields)) {
             debug_add("Field {$name} not found in the document.", MIDCOM_LOG_INFO);
             return false;
         }
@@ -314,8 +313,7 @@ class midcom_services_indexer_document
      */
     public function get_field_record($name)
     {
-        if (!array_key_exists($name, $this->_fields))
-        {
+        if (!array_key_exists($name, $this->_fields)) {
             debug_add("Field {$name} not found in the document.", MIDCOM_LOG_INFO);
             return false;
         }
@@ -443,16 +441,12 @@ class midcom_services_indexer_document
      */
     private function add_person($name, $person)
     {
-        if (!is_object($person))
-        {
-            if (!is_null($person))
-            {
+        if (!is_object($person)) {
+            if (!is_null($person)) {
                 debug_print_r("Warning, person is not an object:", $person, MIDCOM_LOG_INFO);
             }
             $this->add_text($name, '');
-        }
-        else
-        {
+        } else {
             $this->add_text($name, $person->guid);
         }
     }
@@ -470,8 +464,7 @@ class midcom_services_indexer_document
         // Complete fields
         $this->indexed = time();
         if (   $this->author == ''
-            && isset($this->creator->name))
-        {
+            && isset($this->creator->name)) {
             $this->author = $this->creator->name;
         }
 
@@ -516,13 +509,11 @@ class midcom_services_indexer_document
 
         $this->source = $this->get_field('__SOURCE');
         $this->creator = $this->get_field('__CREATOR');
-        if ($this->creator != '')
-        {
+        if ($this->creator != '') {
             $this->creator = $this->read_person($this->creator);
         }
         $this->editor = $this->get_field('__EDITOR');
-        if ($this->editor != '')
-        {
+        if ($this->editor != '') {
             $this->editor = $this->read_person($this->editor);
         }
         $this->author = $this->get_field('author');
@@ -603,12 +594,9 @@ class midcom_services_indexer_document
      */
     protected function _set_type($type)
     {
-        if (strlen($this->type) == 0)
-        {
+        if (strlen($this->type) == 0) {
             $this->type = $type;
-        }
-        else
-        {
+        } else {
             $this->type .= "_{$type}";
         }
     }
@@ -622,36 +610,27 @@ class midcom_services_indexer_document
     {
         // Published is set to non-empty value, use it as creation data
         if (   !empty($object->metadata->published)
-            && !preg_match('/0{1,4}-0{1,2}0{1,2}\s+0{1,2}:0{1,2}:0{1,2}/', $object->metadata->published))
-        {
+            && !preg_match('/0{1,4}-0{1,2}0{1,2}\s+0{1,2}:0{1,2}:0{1,2}/', $object->metadata->published)) {
             $this->created = $this->read_unixtime($object->metadata->published);
-        }
-        elseif (isset($object->metadata->created))
-        {
+        } elseif (isset($object->metadata->created)) {
             $this->created = $this->read_unixtime($object->metadata->created);
         }
         // Revised
-        if (isset($object->metadata->revised))
-        {
+        if (isset($object->metadata->revised)) {
             $this->edited = $this->read_unixtime($object->metadata->revised);
         }
         // Heuristics to determine author
-        if (!empty($object->metadata->authors))
-        {
+        if (!empty($object->metadata->authors)) {
             $this->author = $this->read_authorname($object->metadata->authors);
-        }
-        elseif (!empty($object->metadata->creator))
-        {
+        } elseif (!empty($object->metadata->creator)) {
             $this->author = $this->read_authorname($object->metadata->creator);
         }
         // Creator
-        if (isset($object->metadata->creator))
-        {
+        if (isset($object->metadata->creator)) {
             $this->creator = $this->read_person($object->metadata->creator);
         }
         // Editor
-        if (isset($object->metadata->revisor))
-        {
+        if (isset($object->metadata->revisor)) {
             $this->editor = $this->read_person($object->metadata->revisor);
         }
     }
@@ -664,8 +643,7 @@ class midcom_services_indexer_document
      */
     private function read_unixtime($stamp)
     {
-        if (preg_match('/[0-9]{4}-[0-9]{2}-[0-9]{2}/', $stamp))
-        {
+        if (preg_match('/[0-9]{4}-[0-9]{2}-[0-9]{2}/', $stamp)) {
             // ISO Datetime
             return @strtotime($stamp);
         }
@@ -681,12 +659,9 @@ class midcom_services_indexer_document
      */
     private function read_person($id)
     {
-        try
-        {
+        try {
             return midcom_db_person::get_cached($id);
-        }
-        catch (midcom_error $e)
-        {
+        } catch (midcom_error $e) {
             return false;
         }
     }
@@ -700,16 +675,14 @@ class midcom_services_indexer_document
     private function read_authorname($id)
     {
         // Check for imploded_wrapped DM2 select storage.
-        if (strpos($id, '|') !== false)
-        {
+        if (strpos($id, '|') !== false) {
             $id_arr = array_filter(explode('|', $id));
             // Find first non-empty value in the array and use that
             $id = (!empty($id_arr)) ? array_shift($id_arr) : false;
         }
 
         $author = midcom::get()->auth->get_user($id);
-        if (!$author)
-        {
+        if (!$author) {
             return '';
         }
         return $author->name;

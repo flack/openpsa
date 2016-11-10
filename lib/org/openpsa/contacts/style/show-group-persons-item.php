@@ -6,8 +6,7 @@ $contact = new org_openpsa_widgets_contact($data['person']);
 $contact->link = "{$prefix}person/{$data['person']->guid}/";
 $contact->show_groups = false;
 
-if ($data['member']->can_do('midgard:update'))
-{
+if ($data['member']->can_do('midgard:update')) {
     $contact->extra_html = "<li>
         <input name=\"member_title[{$data['member']->id}]\"
                class=\"ajax_editable\"
@@ -17,9 +16,7 @@ if ($data['member']->can_do('midgard:update'))
                data-ajax-url=\"{$prefix}group/update_member_title/{$data['group']->guid}/\"
                placeholder=\"" . $data['l10n']->get('<title>') . "\" />
         </li>\n";
-}
-else
-{
+} else {
     $contact->extra_html = "<li>{$data['member_title']}</li>\n";
 }
 

@@ -29,8 +29,7 @@ class org_openpsa_contacts_duplicates_merge
     {
         $this->config = $config;
         $this->_object_mode = $mode;
-        if ($this->_object_mode !== 'person' && $this->_object_mode !== 'group')
-        {
+        if ($this->_object_mode !== 'person' && $this->_object_mode !== 'group') {
             throw new midcom_error('invalid object mode');
         }
     }
@@ -47,8 +46,7 @@ class org_openpsa_contacts_duplicates_merge
     public function merge($obj1, $obj2, $merge_mode)
     {
         if (   $merge_mode !== 'all'
-            && $merge_mode !== 'future')
-        {
+            && $merge_mode !== 'future') {
             debug_add("invalid mode {$merge_mode}", MIDCOM_LOG_ERROR);
             throw new midcom_error('invalid merge mode');
         }
@@ -58,11 +56,9 @@ class org_openpsa_contacts_duplicates_merge
 
         $this->process_dba_classes($obj1, $obj2, $config);
 
-        if ($this->_object_mode == 'person')
-        {
+        if ($this->_object_mode == 'person') {
             // if person never logged in (or had no account), we don't need to look for metadata
-            if ($obj2->get_parameter('midcom', 'last_login'))
-            {
+            if ($obj2->get_parameter('midcom', 'last_login')) {
                 $this->merge_metadata($obj1, $obj2, $config);
             }
             $this->merge_persons($obj1, $obj2);
@@ -71,38 +67,30 @@ class org_openpsa_contacts_duplicates_merge
 
     private function process_dba_classes($obj1, $obj2, array $config)
     {
-        foreach (array_filter($config) as $classname => $fieldconfig)
-        {
+        foreach (array_filter($config) as $classname => $fieldconfig) {
             $qb = midcom::get()->dbfactory->new_query_builder($classname);
             $qb->begin_group('OR');
-            foreach ($fieldconfig as $field => $conf)
-            {
+            foreach ($fieldconfig as $field => $conf) {
                 $qb->add_constraint($field, '=', $obj1->{$conf['target']});
                 $qb->add_constraint($field, '=', $obj2->{$conf['target']});
             }
             $qb->end_group();
             $results = $qb->execute();
             $todelete = array();
-            foreach ($results as $result)
-            {
+            foreach ($results as $result) {
                 $needs_update = false;
-                foreach ($fieldconfig as $field => $conf)
-                {
-                    if ($result->$field == $obj2->{$conf['target']})
-                    {
+                foreach ($fieldconfig as $field => $conf) {
+                    if ($result->$field == $obj2->{$conf['target']}) {
                         $result->$field = $obj1->{$conf['target']};
                         $needs_update = true;
 
-                        if (!empty($conf['duplicate_check']))
-                        {
+                        if (!empty($conf['duplicate_check'])) {
                             $dup = $this->check_duplicate($results, $result, $conf['duplicate_check']);
 
                             if (   is_object($dup)
-                                || $dup === false)
-                            {
+                                || $dup === false) {
                                 if (   !is_object($dup)
-                                    || !array_key_exists($dup->id, $todelete))
-                                {
+                                    || !array_key_exists($dup->id, $todelete)) {
                                     $todelete[$result->id] = $result;
                                 }
                                 continue 2;
@@ -111,15 +99,12 @@ class org_openpsa_contacts_duplicates_merge
                     }
                 }
                 if (   $needs_update
-                    && !$result->update())
-                {
+                    && !$result->update()) {
                     throw new midcom_error("Failed to update {$classname} #{$result->id}, errstr: " . midcom_connection::get_error_string());
                 }
             }
-            foreach ($todelete as $object)
-            {
-                if (!$object->delete())
-                {
+            foreach ($todelete as $object) {
+                if (!$object->delete()) {
                     throw new midcom_error("Failed to delete {$classname} #{$object->id}, errstr: " . midcom_connection::get_error_string());
                 }
             }
@@ -131,8 +116,7 @@ class org_openpsa_contacts_duplicates_merge
      */
     private function merge_metadata($person1, $person2, array $config)
     {
-        foreach (array_keys($config) as $class)
-        {
+        foreach (array_keys($config) as $class) {
             $qb = call_user_func(array($class, 'new_query_builder'));
             $qb->begin_group('OR');
             $qb->add_constraint('metadata.approver', '=', $person2->guid);
@@ -140,20 +124,16 @@ class org_openpsa_contacts_duplicates_merge
             $qb->end_group();
             $objects = $qb->execute();
 
-            foreach ($objects as $object)
-            {
-                if ($object->metadata->approver == $person2->guid)
-                {
+            foreach ($objects as $object) {
+                if ($object->metadata->approver == $person2->guid) {
                     debug_add("Transferred approver to person #{$person1->id} on {$class} #{$object->id}");
                     $object->metadata->approver = $person1->guid;
                 }
-                if ($object->metadata->owner == $person2->guid)
-                {
+                if ($object->metadata->owner == $person2->guid) {
                     debug_add("Transferred owner to person #{$person1->id} on {$class} #{$object->id}");
                     $object->metadata->owner = $person1->guid;
                 }
-                if (!$object->update())
-                {
+                if (!$object->update()) {
                     throw new midcom_error("Could not update object {$class} #{$object->id}, errstr: " . midcom_connection::get_error_string());
                 }
             }
@@ -162,16 +142,13 @@ class org_openpsa_contacts_duplicates_merge
 
     private function check_duplicate(array $results, midcom_core_dbaobject $object, $field)
     {
-        if (method_exists($object, $field))
-        {
+        if (method_exists($object, $field)) {
             return $object->$field();
         }
 
-        foreach ($results as $result)
-        {
+        foreach ($results as $result) {
             if (   $result->$field === $object->$field
-                && $result->id !== $object->id)
-            {
+                && $result->id !== $object->id) {
                 return $result;
             }
         }
@@ -187,24 +164,20 @@ class org_openpsa_contacts_duplicates_merge
             'guid' => true,
         );
         $changed = false;
-        foreach ($person2 as $property => $value)
-        {
+        foreach ($person2 as $property => $value) {
             // Copy only simple properties not marked to be skipped missing from person1
             if (   empty($person2->$property)
                 || !empty($person1->$property)
                 || isset($skip_properties[$property])
-                || !is_scalar($value))
-            {
+                || !is_scalar($value)) {
                 continue;
             }
             $person1->$property = $value;
             $changed = true;
         }
         // Avoid unnecessary updates
-        if ($changed)
-        {
-            if (!$person1->update())
-            {
+        if ($changed) {
+            if (!$person1->update()) {
                 throw new midcom_error("Error updating person #{$person1->id}, errstr: " . midcom_connection::get_error_string());
             }
         }
@@ -220,18 +193,15 @@ class org_openpsa_contacts_duplicates_merge
     public function merge_delete(midcom_core_dbaobject $obj1, midcom_core_dbaobject $obj2)
     {
         $this->merge($obj1, $obj2, 'all');
-        if (!$obj2->delete())
-        {
+        if (!$obj2->delete()) {
             throw new midcom_error('Deletion failed: ' . midcom_connection::get_error_string());
         }
         $qb = new midgard_query_builder('midgard_parameter');
         $qb->add_constraint('domain', 'LIKE', 'org.openpsa.contacts.duplicates:%');
         $qb->add_constraint('name', '=', $obj2->guid);
         $results = $qb->execute();
-        foreach ($results as $param)
-        {
-            if (!$param->delete())
-            {
+        foreach ($results as $param) {
+            if (!$param->delete()) {
                 debug_add("Failed to delete parameter {$param->guid}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
             }
         }

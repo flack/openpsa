@@ -18,23 +18,17 @@ implements midcom_services_permalinks_resolver
     {
         $qb = org_openpsa_directmarketing_campaign_member_dba::new_query_builder();
         if (   is_a($object, 'midcom_db_person')
-            || is_a($object, 'org_openpsa_contacts_person_dba'))
-        {
+            || is_a($object, 'org_openpsa_contacts_person_dba')) {
             $qb->add_constraint('person', '=', $object->id);
-        }
-        elseif (is_a($object, 'org_openpsa_directmarketing_campaign_dba'))
-        {
+        } elseif (is_a($object, 'org_openpsa_directmarketing_campaign_dba')) {
             $qb->add_constraint('campaign', '=', $object->id);
-        }
-        else
-        {
+        } else {
             return;
         }
 
         midcom::get()->auth->request_sudo($this->_component);
         $memberships = $qb->execute();
-        foreach ($memberships as $membership)
-        {
+        foreach ($memberships as $membership) {
             $membership->delete();
         }
         midcom::get()->auth->drop_sudo();
@@ -50,8 +44,7 @@ implements midcom_services_permalinks_resolver
     public function background_send_message(array $args, midcom_baseclasses_components_cron_handler $handler)
     {
         if (   !isset($args['url_base'])
-            || !isset($args['batch']))
-        {
+            || !isset($args['batch'])) {
             $handler->print_error('url_base or batch number not set, aborting');
             return false;
         }
@@ -61,13 +54,10 @@ implements midcom_services_permalinks_resolver
         debug_add("batch_url: {$batch_url}");
 
         ob_start();
-        try
-        {
+        try {
             midcom::get()->dynamic_load($batch_url);
             $ret = true;
-        }
-        catch (midcom_error $e)
-        {
+        } catch (midcom_error $e) {
             $ret = $e->getMessage();
         }
         ob_end_clean();
@@ -85,25 +75,20 @@ implements midcom_services_permalinks_resolver
      */
     public function background_update_campaign_members(array $args, midcom_baseclasses_components_cron_handler $handler)
     {
-        if (!array_key_exists('campaign_guid', $args))
-        {
+        if (!array_key_exists('campaign_guid', $args)) {
             $handler->print_error('Campaign GUID not found in arguments list');
             return false;
         }
 
         midcom::get()->auth->request_sudo($this->_component);
-        try
-        {
+        try {
             $campaign = new org_openpsa_directmarketing_campaign_dba($args['campaign_guid']);
-        }
-        catch (midcom_error $e)
-        {
+        } catch (midcom_error $e) {
             $handler->print_error("{$args['campaign_guid']} is not a valid campaign GUID");
             return false;
         }
 
-        if (!$campaign->update_smart_campaign_members())
-        {
+        if (!$campaign->update_smart_campaign_members()) {
             $handler->print_error('Error while calling campaign->update_smart_campaign_members(), see error log for details');
             return false;
         }
@@ -117,12 +102,10 @@ implements midcom_services_permalinks_resolver
      */
     public function resolve_object_link(midcom_db_topic $topic, midcom_core_dbaobject $object)
     {
-        if ($object instanceof org_openpsa_directmarketing_campaign_dba)
-        {
+        if ($object instanceof org_openpsa_directmarketing_campaign_dba) {
             return "campaign/{$object->guid}/";
         }
-        if ($object instanceof org_openpsa_directmarketing_campaign_message_dba)
-        {
+        if ($object instanceof org_openpsa_directmarketing_campaign_message_dba) {
             return "message/{$object->guid}/";
         }
         return null;

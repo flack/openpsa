@@ -19,8 +19,7 @@ class midcom_services_rcs_renderer_html_sidebyside extends Diff_Renderer_Html_Si
     public function render()
     {
         $changes = parent::render();
-        if (!empty($changes))
-        {
+        if (!empty($changes)) {
             $html = '<table class="Differences DifferencesSideBySide">';
             $html .= '<thead>';
             $html .= '<tr>';

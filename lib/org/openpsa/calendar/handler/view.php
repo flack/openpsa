@@ -47,8 +47,7 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
         $workflow = $this->get_workflow('datamanager2');
         midcom::get()->auth->require_valid_user();
         $buttons = array();
-        if ($this->_root_event->can_do('midgard:create'))
-        {
+        if ($this->_root_event->can_do('midgard:create')) {
             $buttons[] = $workflow->get_button('#', array
             (
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create event'),
@@ -115,19 +114,16 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
     {
         $uids = array($user->guid => $user->id);
         // New UI for showing resources
-        foreach ($user->list_parameters('org.openpsa.calendar.filters') as $type => $value)
-        {
+        foreach ($user->list_parameters('org.openpsa.calendar.filters') as $type => $value) {
             $selected = @unserialize($value);
 
             // Skip empty
-            if (empty($selected))
-            {
+            if (empty($selected)) {
                 continue;
             }
 
             // Include each type
-            switch ($type)
-            {
+            switch ($type) {
                 case 'people':
                     $mc = midcom_db_person::new_collector('metadata.deleted', false);
                     $mc->add_constraint('guid', 'IN', $selected);
@@ -149,15 +145,12 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
         $from = new DateTime(strftime('%Y-%m-%d', $from));
         $to = new DateTime(strftime('%Y-%m-%d', $to));
         $country = $this->_config->get('holidays_country');
-        if (class_exists('\\Checkdomain\\Holiday\\Provider\\' . $country))
-        {
+        if (class_exists('\\Checkdomain\\Holiday\\Provider\\' . $country)) {
             $util = new \Checkdomain\Holiday\Util;
             $region = $this->_config->get('holidays_region');
 
-            do
-            {
-                if ($holiday = $util->getHoliday($country, $from, $region))
-                {
+            do {
+                if ($holiday = $util->getHoliday($country, $from, $region)) {
                     $events[] = array
                     (
                         'title' => $holiday->getName(),
@@ -167,8 +160,7 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
                     );
                 }
                 $from->modify('+1 day');
-            }
-            while ($from < $to);
+            } while ($from < $to);
         }
     }
 
@@ -193,23 +185,18 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
 
         $memberships = $mc->get_rows(array('uid', 'eid'));
 
-        if ($memberships)
-        {
+        if ($memberships) {
             // Customize label
             $label_field = $this->_config->get('event_label');
-            if (!$label_field)
-            {
+            if (!$label_field) {
                 $label_field = 'title';
             }
-            foreach ($memberships as $membership)
-            {
+            foreach ($memberships as $membership) {
                 $event = org_openpsa_calendar_event_dba::get_cached($membership['eid']);
 
-                if (!isset($events[$event->guid]))
-                {
+                if (!isset($events[$event->guid])) {
                     $label = $event->$label_field;
-                    if ($label_field == 'creator')
-                    {
+                    if ($label_field == 'creator') {
                         $user = midcom::get()->auth->get_user($event->metadata->creator);
                         $label = $user->name;
                     }
@@ -225,18 +212,14 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
                         'participants' => array(),
                         'allDay' => (($event->end - $event->start) > 8 * 60 * 60)
                     );
-                    if ($event->orgOpenpsaAccesstype == org_openpsa_core_acl::ACCESS_PRIVATE)
-                    {
+                    if ($event->orgOpenpsaAccesstype == org_openpsa_core_acl::ACCESS_PRIVATE) {
                         $events[$event->guid]['className'][] = 'private';
                     }
                 }
-                if ($membership['uid'] == midcom_connection::get_user())
-                {
+                if ($membership['uid'] == midcom_connection::get_user()) {
                     $events[$event->guid]['participants'][] = $this->_l10n->get('me');
                     $events[$event->guid]['className'][] = 'paticipant_me';
-                }
-                else
-                {
+                } else {
                     $person = org_openpsa_contacts_person_dba::get_cached($membership['uid']);
                     $events[$event->guid]['participants'][] = $person->get_label();
                 }
@@ -275,8 +258,7 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
             )
         );
-        if ($data['event']->can_do('midgard:delete'))
-        {
+        if ($data['event']->can_do('midgard:delete')) {
             $workflow = $this->get_workflow('delete', array('object' => $data['event']));
             $buttons[] = $workflow->get_button("event/delete/{$data['event']->guid}/");
         }
@@ -290,8 +272,7 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
 
         $relatedto_button_settings = null;
 
-        if (midcom::get()->auth->user)
-        {
+        if (midcom::get()->auth->user) {
             $user = midcom::get()->auth->user->get_storage();
             $date = $this->_l10n->get_formatter()->date();
             $relatedto_button_settings = array
@@ -317,17 +298,13 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
         $schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb'));
         $this->_datamanager = new midcom_helper_datamanager2_datamanager($schemadb);
 
-        if (!$this->_request_data['event']->can_do('org.openpsa.calendar:read'))
-        {
+        if (!$this->_request_data['event']->can_do('org.openpsa.calendar:read')) {
             $stat =    $this->_datamanager->set_schema('private')
                     && $this->_datamanager->set_storage($this->_request_data['event']);
-        }
-        else
-        {
+        } else {
             $stat = $this->_datamanager->autoset_storage($this->_request_data['event']);
         }
-        if (!$stat)
-        {
+        if (!$stat) {
             throw new midcom_error('Failed to load the event in datamanager');
         }
     }
@@ -340,17 +317,14 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
      */
     public function _show_event($handler_id, array &$data)
     {
-        if ($handler_id == 'event_view')
-        {
+        if ($handler_id == 'event_view') {
             // Set title to popup
             $this->_request_data['title'] = sprintf($this->_l10n->get('event %s'), $this->_request_data['event']->title);
 
             // Show popup
             $this->_request_data['event_dm'] = $this->_datamanager;
             midcom_show_style('show-event');
-        }
-        else
-        {
+        } else {
             midcom_show_style('show-event-raw');
         }
     }

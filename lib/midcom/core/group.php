@@ -78,62 +78,44 @@ class midcom_core_group
      */
     public function __construct($id = null)
     {
-        if (is_null($id))
-        {
+        if (is_null($id)) {
             throw new midcom_error('The class midcom_core_group is not default constructible.');
         }
 
         if (   is_a($id, 'midcom_db_group')
-            || is_a($id, 'midgard_group'))
-        {
+            || is_a($id, 'midgard_group')) {
             $this->_storage = $id;
-        }
-        else
-        {
+        } else {
             if (   is_string($id)
-                 && substr($id, 0, 6) == 'group:')
-            {
+                 && substr($id, 0, 6) == 'group:') {
                 $id = substr($id, 6);
-            }
-            elseif (   is_numeric($id)
-                     && $id == 0)
-            {
+            } elseif (   is_numeric($id)
+                     && $id == 0) {
                 throw new midcom_error('0 is not a valid DB identifier');
             }
-            try
-            {
+            try {
                 $this->_storage = new midgard_group($id);
-            }
-            catch (Exception $e)
-            {
+            } catch (Exception $e) {
                 debug_add('Tried to load a midcom_core_group, but got error ' . $e->getMessage(), MIDCOM_LOG_ERROR);
                 debug_print_r('Passed argument was:', $id);
                 throw new midcom_error($e->getMessage());
             }
         }
 
-        if ($this->_storage->official != '')
-        {
+        if ($this->_storage->official != '') {
             $this->name = $this->_storage->official;
-        }
-        elseif ($this->_storage->name != '')
-        {
+        } elseif ($this->_storage->name != '') {
             $this->name = $this->_storage->name;
-        }
-        else
-        {
+        } else {
             $this->name = "Group #{$this->_storage->id}";
         }
         $this->id = "group:{$this->_storage->guid}";
 
         // Determine scope
         $parent = $this->get_parent_group();
-        if (is_null($parent))
-        {
+        if (is_null($parent)) {
             $this->scope = MIDCOM_PRIVILEGE_SCOPE_ROOTGROUP;
-        }
-        else
-        {
+        } else {
             $this->scope = $parent->scope + 1;
         }
     }
@@ -159,8 +141,7 @@ class midcom_core_group
     {
         $return = array();
 
-        if (empty($this->_storage->id))
-        {
+        if (empty($this->_storage->id)) {
             debug_add('$this->storage is not object or id is empty', MIDCOM_LOG_ERROR);
             return $return;
         }
@@ -169,15 +150,11 @@ class midcom_core_group
         $qb->add_constraint('gid', '=', $this->_storage->id);
         $result = $qb->execute();
 
-        foreach ($result as $member)
-        {
-            try
-            {
+        foreach ($result as $member) {
+            try {
                 $user = new midcom_core_user($member->uid);
                 $return[$user->id] = $user;
-            }
-            catch (midcom_error $e)
-            {
+            } catch (midcom_error $e) {
                 debug_add("The membership record {$member->id} is invalid, the user {$member->uid} failed to load.", MIDCOM_LOG_ERROR);
                 debug_add('Last Midgard error was: ' . $e->getMessage());
                 debug_print_r('Membership record was:', $member);
@@ -200,21 +177,16 @@ class midcom_core_group
         $mc->set_key_property('gid');
         @$mc->execute();
         $result = $mc->list_keys();
-        if (empty($result))
-        {
+        if (empty($result)) {
             return array();
         }
 
         $return = array();
-        foreach (array_keys($result) as $gid)
-        {
-            try
-            {
+        foreach (array_keys($result) as $gid) {
+            try {
                 $group = new midcom_core_group($gid);
                 $return[$group->id] = $group;
-            }
-            catch (midcom_error $e)
-            {
+            } catch (midcom_error $e) {
                 debug_add("The group {$gid} is unknown, skipping the membership record.", MIDCOM_LOG_ERROR);
                 debug_add('Last Midgard error was: ' . midcom_connection::get_error_string());
             }
@@ -233,15 +205,12 @@ class midcom_core_group
      */
     function get_parent_group()
     {
-        if (is_null($this->_cached_parent_group))
-        {
-            if ($this->_storage->owner == 0)
-            {
+        if (is_null($this->_cached_parent_group)) {
+            if ($this->_storage->owner == 0) {
                 return null;
             }
 
-            if ($this->_storage->id == $this->_storage->owner)
-            {
+            if ($this->_storage->id == $this->_storage->owner) {
                 debug_print_r('Broken Group', $this, MIDCOM_LOG_CRIT);
                 throw new midcom_error('A group was its own parent, which will result in an infinite loop. See debug log for more info.');
             }
@@ -249,8 +218,7 @@ class midcom_core_group
             $parent = new midgard_group();
             $parent->get_by_id($this->_storage->owner);
 
-            if (!$parent->id)
-            {
+            if (!$parent->id) {
                 debug_add("Could not load Group ID {$this->_storage->owner} from the database, aborting, this should not happen. See the debug level log for details. ("
                     . midcom_connection::get_error_string() . ')',
                     MIDCOM_LOG_ERROR);
@@ -273,8 +241,7 @@ class midcom_core_group
      */
     public function get_privileges()
     {
-        if (is_null($this->_storage))
-        {
+        if (is_null($this->_storage)) {
             return array();
         }
         return midcom_core_privilege::get_self_privileges($this->_storage->guid);
@@ -295,8 +262,7 @@ class midcom_core_group
      */
     public function get_storage()
     {
-        if ($this->_storage === null)
-        {
+        if ($this->_storage === null) {
             return null;
         }
         return new midcom_db_group($this->_storage);

@@ -1,7 +1,6 @@
 <?php
 $year_string = "{$data['year']} ({$data['count']})";
-if ($data['config']->get('archive_years_enable'))
-{
+if ($data['config']->get('archive_years_enable')) {
     $year_string = "<a href=\"{$data['url']}\">{$year_string}</a>";
 }
 ?>
@@ -11,17 +10,13 @@ if ($data['config']->get('archive_years_enable'))
 <p>
 <?php
 $first = true;
-foreach ($data['month_data'] as $month => $month_data)
-{
-    if ($first)
-    {
+foreach ($data['month_data'] as $month => $month_data) {
+    if ($first) {
         $first = false;
-    }
-    else
-    {
+    } else {
         echo " - ";
-    }
-    ?>
+    } ?>
     <a href="&(month_data['url']);">&(month_data['name']); (&(month_data['count']);)</a>
-<?php } ?>
+<?php 
+} ?>
 </p>

@@ -55,8 +55,7 @@ class midcom_helper_nav
      */
     public function __construct($contextid = -1)
     {
-        if ($contextid == -1)
-        {
+        if ($contextid == -1) {
             $contextid = midcom_core_context::get()->id;
         }
         $this->_contextid = $contextid;
@@ -75,8 +74,7 @@ class midcom_helper_nav
      */
     private function _get_backend()
     {
-        if (!isset(self::$_backends[$this->_contextid]))
-        {
+        if (!isset(self::$_backends[$this->_contextid])) {
             self::$_backends[$this->_contextid] = new midcom_helper_nav_backend($this->_contextid);
         }
 
@@ -221,13 +219,11 @@ class midcom_helper_nav
     public function is_node_in_tree($node_id, $root_id)
     {
         $uplink = $this->get_node_uplink($node_id);
-        if ($uplink == $root_id)
-        {
+        if ($uplink == $root_id) {
             return true;
         }
         if (   $uplink == false
-            || $uplink == -1)
-        {
+            || $uplink == -1) {
             return false;
         }
         return $this->is_node_in_tree($uplink, $root_id);
@@ -251,28 +247,21 @@ class midcom_helper_nav
     public function list_child_elements($parent_node_id)
     {
         $parent_node = $this->get_node($parent_node_id);
-        if (!$parent_node)
-        {
+        if (!$parent_node) {
             return false;
         }
 
         $guid = $parent_node[MIDCOM_NAV_GUID];
-        if (midcom::get()->config->get('symlinks'))
-        {
+        if (midcom::get()->config->get('symlinks')) {
             $guid = $parent_node[MIDCOM_NAV_OBJECT]->guid;
         }
 
         $navorder = (int) midcom_db_parameter::get_by_objectguid($guid, 'midcom.helper.nav', 'navorder');
-        if ($navorder == MIDCOM_NAVORDER_ARTICLESFIRST)
-        {
+        if ($navorder == MIDCOM_NAVORDER_ARTICLESFIRST) {
             $navorder = 'articlesfirst';
-        }
-        elseif ($navorder == MIDCOM_NAVORDER_SCORE)
-        {
+        } elseif ($navorder == MIDCOM_NAVORDER_SCORE) {
             $navorder = 'score';
-        }
-        else
-        {
+        } else {
             $navorder = 'topicsfirst';
         }
 
@@ -301,8 +290,7 @@ class midcom_helper_nav
     public function resolve_guid($guid, $node_is_sufficient = false)
     {
         // First, check if the GUID is already known by the backend:
-        if ($cached_result = $this->_backend->get_loaded_object_by_guid($guid))
-        {
+        if ($cached_result = $this->_backend->get_loaded_object_by_guid($guid)) {
             debug_add('The GUID was already known by the backend instance, returning the cached copy directly.');
             return $cached_result;
         }
@@ -310,22 +298,16 @@ class midcom_helper_nav
         // Fetch the object in question for a start, so that we know what to do (tm)
         // Note, that objects that cannot be resolved will still be processed using a full-scan of
         // the tree. This is, for example, used by the on-delete cache invalidation.
-        try
-        {
+        try {
             $object = midcom::get()->dbfactory->get_object_by_guid($guid);
-        }
-        catch (midcom_error $e)
-        {
+        } catch (midcom_error $e) {
             debug_add("Could not load GUID {$guid}, trying to continue anyway. Last error was: " . $e->getMessage(), MIDCOM_LOG_WARN);
         }
-        if (!empty($object))
-        {
-            if (is_a($object, 'midcom_db_topic'))
-            {
+        if (!empty($object)) {
+            if (is_a($object, 'midcom_db_topic')) {
                 // Ok. This topic should be within the content tree,
                 // we check this and return the node if everything is ok.
-                if (!$this->is_node_in_tree($object->id, $this->get_root_node()))
-                {
+                if (!$this->is_node_in_tree($object->id, $this->get_root_node())) {
                     debug_add("The GUID {$guid} leads to an unknown topic not in our tree.", MIDCOM_LOG_WARN);
                     return false;
                 }
@@ -333,16 +315,13 @@ class midcom_helper_nav
                 return $this->get_node($object->id);
             }
 
-            if (is_a($object, 'midcom_db_article'))
-            {
+            if (is_a($object, 'midcom_db_article')) {
                 // Ok, let's try to find the article using the topic in the tree.
-                if (!$this->is_node_in_tree($object->topic, $this->get_root_node()))
-                {
+                if (!$this->is_node_in_tree($object->topic, $this->get_root_node())) {
                     debug_add("The GUID {$guid} leads to an unknown topic not in our tree.", MIDCOM_LOG_WARN);
                     return false;
                 }
-                if ($leaf = $this->_find_leaf_in_topic($object->topic, $guid))
-                {
+                if ($leaf = $this->_find_leaf_in_topic($object->topic, $guid)) {
                     return $leaf;
                 }
 
@@ -352,15 +331,12 @@ class midcom_helper_nav
 
             // Ok, unfortunately, this is not an immediate topic. We try to traverse
             // upwards in the object chain to find a topic.
-            if ($topic = $this->find_closest_topic($object))
-            {
+            if ($topic = $this->find_closest_topic($object)) {
                 debug_add("Found topic #{$topic->id}, searching the leaves");
-                if ($leaf = $this->_find_leaf_in_topic($topic->id, $guid))
-                {
+                if ($leaf = $this->_find_leaf_in_topic($topic->id, $guid)) {
                     return $leaf;
                 }
-                if ($node_is_sufficient)
-                {
+                if ($node_is_sufficient) {
                     debug_add("Could not find guid in leaves (maybe not listed?), but node is sufficient, returning node");
                     return $this->get_node($topic->id);
                 }
@@ -372,13 +348,11 @@ class midcom_helper_nav
         // function call.
         $unprocessed_node_ids = array ($this->get_root_node());
 
-        while (count ($unprocessed_node_ids) > 0)
-        {
+        while (count ($unprocessed_node_ids) > 0) {
             $node_id = array_shift($unprocessed_node_ids);
 
             // Check leaves of this node first.
-            if ($leaf = $this->_find_leaf_in_topic($node_id, $guid))
-            {
+            if ($leaf = $this->_find_leaf_in_topic($node_id, $guid)) {
                 return $leaf;
             }
 
@@ -392,11 +366,9 @@ class midcom_helper_nav
 
     private function _find_leaf_in_topic($topic, $guid)
     {
-        foreach ($this->list_leaves($topic, true) as $leafid)
-        {
+        foreach ($this->list_leaves($topic, true) as $leafid) {
             $leaf = $this->get_leaf($leafid);
-            if ($leaf[MIDCOM_NAV_GUID] == $guid)
-            {
+            if ($leaf[MIDCOM_NAV_GUID] == $guid) {
                 return $leaf;
             }
         }
@@ -405,20 +377,16 @@ class midcom_helper_nav
 
     public function find_closest_topic($object)
     {
-        if (!is_object($object))
-        {
+        if (!is_object($object)) {
             return null;
         }
         debug_add('Looking for a topic to use via get_parent()');
-        while ($parent = $object->get_parent())
-        {
-            if (is_a($parent, 'midcom_db_topic'))
-            {
+        while ($parent = $object->get_parent()) {
+            if (is_a($parent, 'midcom_db_topic')) {
                 // Verify that this topic is within the current sites tree, if it is not,
                 // we ignore it. This might happen on symlink topics with n.n.static & co
                 // which point to the outside f.x.
-                if ($this->is_node_in_tree($parent->id, $this->get_root_node()))
-                {
+                if ($this->is_node_in_tree($parent->id, $this->get_root_node())) {
                     return $parent;
                 }
             }
@@ -459,10 +427,8 @@ class midcom_helper_nav
         reset($breadcrumb_data);
 
         // Detect real starting Node
-        if ($skip_levels > 0)
-        {
-            if ($skip_levels >= count($breadcrumb_data))
-            {
+        if ($skip_levels > 0) {
+            if ($skip_levels >= count($breadcrumb_data)) {
                 debug_add('We were asked to skip all breadcrumb elements that were present (or even more). Returning an empty breadcrumb line therefore.', MIDCOM_LOG_INFO);
                 return '';
             }
@@ -470,24 +436,18 @@ class midcom_helper_nav
         }
 
         $class = is_null($class) ? '' : ' class="' . $class . '"';
-        while (current($breadcrumb_data) !== false)
-        {
+        while (current($breadcrumb_data) !== false) {
             $data = current($breadcrumb_data);
             $entry = htmlspecialchars($data[MIDCOM_NAV_NAME]);
 
             // Add the next element sensitive to the fact whether we are at the end or not.
-            if (next($breadcrumb_data) === false)
-            {
-                if ($current_class !== null)
-                {
+            if (next($breadcrumb_data) === false) {
+                if ($current_class !== null) {
                     $entry = "<span class=\"{$current_class}\">{$entry}</span>";
                 }
-            }
-            else
-            {
+            } else {
                 if (   !empty($data['napobject'][MIDCOM_NAV_GUID])
-                    && in_array($data['napobject'][MIDCOM_NAV_GUID], $skip_guids))
-                {
+                    && in_array($data['napobject'][MIDCOM_NAV_GUID], $skip_guids)) {
                     continue;
                 }
 
@@ -562,30 +522,22 @@ class midcom_helper_nav
         $prefix = midcom_core_context::get($this->_contextid)->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
         $result = array();
 
-        if (!$id)
-        {
+        if (!$id) {
             $curr_leaf = $this->get_current_leaf();
             $curr_node = $this->get_current_node();
-        }
-        else
-        {
+        } else {
             $curr_leaf = $this->get_leaf($id);
             $curr_node = -1;
 
-            if (!$curr_leaf)
-            {
-                if ($node = $this->get_node($id))
-                {
+            if (!$curr_leaf) {
+                if ($node = $this->get_node($id)) {
                     $curr_node = $node[MIDCOM_NAV_ID];
                 }
-            }
-            else
-            {
+            } else {
                 $curr_node = $this->get_node($curr_leaf[MIDCOM_NAV_NODEID]);
             }
         }
-        foreach ($this->get_node_path($curr_node) as $node_id)
-        {
+        foreach ($this->get_node_path($curr_node) as $node_id) {
             $node = $this->get_node($node_id);
             $result[$node[MIDCOM_NAV_ID]] = array
             (
@@ -596,13 +548,11 @@ class midcom_helper_nav
                 'napobject' => $node,
             );
         }
-        if ($curr_leaf !== false)
-        {
+        if ($curr_leaf !== false) {
             $leaf = $this->get_leaf($curr_leaf);
 
             // Ignore Index Article Leaves
-            if ($leaf[MIDCOM_NAV_URL] != '')
-            {
+            if ($leaf[MIDCOM_NAV_URL] != '') {
                 $result[$leaf[MIDCOM_NAV_ID]] = array
                 (
                     MIDCOM_NAV_URL => $leaf[MIDCOM_NAV_ABSOLUTEURL],
@@ -614,19 +564,15 @@ class midcom_helper_nav
             }
         }
 
-        if (midcom_core_context::get()->has_custom_key('midcom.helper.nav.breadcrumb'))
-        {
+        if (midcom_core_context::get()->has_custom_key('midcom.helper.nav.breadcrumb')) {
             $customdata = midcom_core_context::get()->get_custom_key('midcom.helper.nav.breadcrumb');
-            if (is_array($customdata))
-            {
-                foreach ($customdata as $key => $entry)
-                {
+            if (is_array($customdata)) {
+                foreach ($customdata as $key => $entry) {
                     $id = "custom-{$key}";
 
                     $url = "{$prefix}{$entry[MIDCOM_NAV_URL]}";
                     if (   substr($entry[MIDCOM_NAV_URL], 0, 1) == '/'
-                        || preg_match('|^https?://|', $entry[MIDCOM_NAV_URL]))
-                    {
+                        || preg_match('|^https?://|', $entry[MIDCOM_NAV_URL])) {
                         $url = $entry[MIDCOM_NAV_URL];
                     }
 
@@ -653,17 +599,14 @@ class midcom_helper_nav
      */
     public function get_node_path($node_id = null)
     {
-        if ($node_id === null)
-        {
+        if ($node_id === null) {
             return $this->_backend->get_node_path();
         }
         $path = array();
         $node = $this->get_node($node_id);
-        while ($node)
-        {
+        while ($node) {
             $path[] = $node[MIDCOM_NAV_ID];
-            if ($node[MIDCOM_NAV_NODEID] === -1)
-            {
+            if ($node[MIDCOM_NAV_NODEID] === -1) {
                 break;
             }
             $node = $this->get_node($node[MIDCOM_NAV_NODEID]);

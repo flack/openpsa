@@ -142,13 +142,11 @@ class midcom_helper_metadata
      */
     public function get($key)
     {
-        if (!$this->__metadata)
-        {
+        if (!$this->__metadata) {
             return null;
         }
 
-        if (!isset($this->_cache[$key]))
-        {
+        if (!isset($this->_cache[$key])) {
             $this->_retrieve_value($key);
         }
 
@@ -157,8 +155,7 @@ class midcom_helper_metadata
 
     public function __get($key)
     {
-        if ($key == 'object')
-        {
+        if ($key == 'object') {
             return $this->__object;
         }
         return $this->get($key);
@@ -166,13 +163,11 @@ class midcom_helper_metadata
 
     public function __isset($key)
     {
-        if (!$this->__metadata)
-        {
+        if (!$this->__metadata) {
             return false;
         }
 
-        if (!isset($this->_cache[$key]))
-        {
+        if (!isset($this->_cache[$key])) {
             $this->_retrieve_value($key);
         }
 
@@ -193,8 +188,7 @@ class midcom_helper_metadata
      */
     function & get_datamanager()
     {
-        if (is_null($this->_datamanager))
-        {
+        if (is_null($this->_datamanager)) {
             $this->load_datamanager();
         }
         return $this->_datamanager;
@@ -207,8 +201,7 @@ class midcom_helper_metadata
     function load_datamanager()
     {
         static $schemadbs = array();
-        if (!array_key_exists($this->_schemadb_path, $schemadbs))
-        {
+        if (!array_key_exists($this->_schemadb_path, $schemadbs)) {
             $schemadbs[$this->_schemadb_path] = midcom_helper_datamanager2_schema::load_database($this->_schemadb_path);
         }
         $this->_schemadb = $schemadbs[$this->_schemadb_path];
@@ -216,8 +209,7 @@ class midcom_helper_metadata
 
         $object_schema = self::find_schemaname($this->_schemadb, $this->__object);
         $this->_datamanager->set_schema($object_schema);
-        if (!$this->_datamanager->set_storage($this->__object))
-        {
+        if (!$this->_datamanager->set_storage($this->__object)) {
             throw new midcom_error('Failed to initialize the metadata datamanager instance, see the Debug Log for details.');
         }
     }
@@ -235,15 +227,11 @@ class midcom_helper_metadata
         $object_schema = $object->get_parameter('midcom.helper.datamanager2', 'schema_name');
         $component_schema = str_replace('.', '_', midcom_core_context::get()->get_key(MIDCOM_CONTEXT_COMPONENT));
         if (   $object_schema == ''
-            || !isset($schemadb[$object_schema]))
-        {
-            if (isset($schemadb[$component_schema]))
-            {
+            || !isset($schemadb[$object_schema])) {
+            if (isset($schemadb[$component_schema])) {
                 // No specific metadata schema for object, fall back to component-specific metadata schema
                 $object_schema = $component_schema;
-            }
-            else
-            {
+            } else {
                 // No metadata schema for component, fall back to default
                 $object_schema = 'metadata';
             }
@@ -253,8 +241,7 @@ class midcom_helper_metadata
 
     function release_datamanager()
     {
-        if (!is_null($this->_datamanager))
-        {
+        if (!is_null($this->_datamanager)) {
             $this->_datamanager = null;
         }
     }
@@ -267,10 +254,8 @@ class midcom_helper_metadata
      */
     public function set($key, $value)
     {
-        if ($return = $this->_set_property($key, $value))
-        {
-            if ($this->__object->guid)
-            {
+        if ($return = $this->_set_property($key, $value)) {
+            if ($this->__object->guid) {
                 $return = $this->__object->update();
             }
 
@@ -282,8 +267,7 @@ class midcom_helper_metadata
 
     public function __set($key, $value)
     {
-        switch ($key)
-        {
+        switch ($key) {
             case '_schemadb':
                 $this->_schemadb = $value;
                 return true;
@@ -299,21 +283,17 @@ class midcom_helper_metadata
      */
     function set_multiple($properties)
     {
-        foreach ($properties as $key => $value)
-        {
-            if (!$this->_set_property($key, $value))
-            {
+        foreach ($properties as $key => $value) {
+            if (!$this->_set_property($key, $value)) {
                 return false;
             }
         }
 
-        if (!$this->__object->guid)
-        {
+        if (!$this->__object->guid) {
             return false;
         }
 
-        if ($return = $this->__object->update())
-        {
+        if ($return = $this->__object->update()) {
             // Update the corresponding cache variables
             array_map(array($this, 'on_update'), array_keys($properties));
         }
@@ -337,8 +317,7 @@ class midcom_helper_metadata
      */
     private function _set_property($key, $value)
     {
-        if (is_object($value))
-        {
+        if (is_object($value)) {
             $classname = get_class($value);
             debug_add("Can not set metadata '{$key}' property with '{$classname}' object as value", MIDCOM_LOG_WARN);
 
@@ -348,8 +327,7 @@ class midcom_helper_metadata
         // Store the RCS mode
         $rcs_mode = $this->__object->_use_rcs;
 
-        switch ($key)
-        {
+        switch ($key) {
             // Read-only properties
             case 'creator':
             case 'created':
@@ -370,26 +348,18 @@ class midcom_helper_metadata
             case 'schedulestart':
             case 'scheduleend':
                 // Cast to ISO datetime
-                if (!is_numeric($value))
-                {
+                if (!is_numeric($value)) {
                     $value = 0;
                 }
-                if ($value == 0)
-                {
+                if ($value == 0) {
                     $value = '0000-00-00 00:00:00';
-                }
-                else
-                {
+                } else {
                     $value = gmstrftime('%Y-%m-%d %T', $value);
                 }
-                if (!extension_loaded('midgard'))
-                {
-                    if ($value == '0000-00-00 00:00:00')
-                    {
+                if (!extension_loaded('midgard')) {
+                    if ($value == '0000-00-00 00:00:00') {
                         $value = null;
-                    }
-                    else
-                    {
+                    } else {
                         $value = new midgard_datetime($value);
                     }
                 }
@@ -432,17 +402,13 @@ class midcom_helper_metadata
      */
     function on_update($key = false)
     {
-        if ($key)
-        {
+        if ($key) {
             unset ($this->_cache[$key]);
-        }
-        else
-        {
+        } else {
             $this->_cache = array();
         }
 
-        if (!empty($this->guid))
-        {
+        if (!empty($this->guid)) {
             midcom::get()->cache->invalidate($this->guid);
         }
     }
@@ -468,8 +434,7 @@ class midcom_helper_metadata
      */
     private function _retrieve_value($key)
     {
-        switch ($key)
-        {
+        switch ($key) {
             // Time-based properties
             case 'created':
             case 'revised':
@@ -481,25 +446,17 @@ class midcom_helper_metadata
             case 'exported':
             case 'imported':
                 if (   !extension_loaded('midgard')
-                    && isset($this->__metadata->$key))
-                {
+                    && isset($this->__metadata->$key)) {
                     //This is ugly, but seems the only possible way...
-                    if ((string) $this->__metadata->$key === "0001-01-01T00:00:00+00:00")
-                    {
+                    if ((string) $this->__metadata->$key === "0001-01-01T00:00:00+00:00") {
                         $value = 0;
-                    }
-                    else
-                    {
+                    } else {
                         $value = (int) $this->__metadata->$key->format('U');
                     }
-                }
-                elseif (   empty($this->__metadata->$key)
-                         || $this->__metadata->$key == '0000-00-00 00:00:00')
-                {
+                } elseif (   empty($this->__metadata->$key)
+                         || $this->__metadata->$key == '0000-00-00 00:00:00') {
                     $value = 0;
-                }
-                else
-                {
+                } else {
                     $value = strtotime("{$this->__metadata->$key} UTC");
                 }
                 break;
@@ -510,22 +467,17 @@ class midcom_helper_metadata
             case 'locker':
             case 'approver':
                 $value = $this->__metadata->$key;
-                if (!$value)
-                {
+                if (!$value) {
                     // Fall back to "Midgard root user" if person is not found
                     static $root_user_guid = null;
-                    if (!$root_user_guid)
-                    {
+                    if (!$root_user_guid) {
                         $mc = new midgard_collector('midgard_person', 'id', 1);
                         $mc->set_key_property('guid');
                         $mc->execute();
                         $guids = $mc->list_keys();
-                        if (empty($guids))
-                        {
+                        if (empty($guids)) {
                             $root_user_guid = 'f6b665f1984503790ed91f39b11b5392';
-                        }
-                        else
-                        {
+                        } else {
                             $root_user_guid = key($guids);
                         }
                     }
@@ -549,13 +501,10 @@ class midcom_helper_metadata
             // Fall-back for non-core properties
             default:
                 $dm = $this->get_datamanager();
-                if (!isset($dm->types[$key]))
-                {
+                if (!isset($dm->types[$key])) {
                     // Fall back to the parameter reader for non-core MidCOM metadata params
                     $value = $this->__object->get_parameter('midcom.helper.metadata', $key);
-                }
-                else
-                {
+                } else {
                     $value = $dm->types[$key]->convert_to_csv();
                 }
 
@@ -586,20 +535,17 @@ class midcom_helper_metadata
      */
     public function is_visible()
     {
-        if ($this->get('hidden'))
-        {
+        if ($this->get('hidden')) {
             return false;
         }
 
         $now = time();
         if (   $this->get('schedulestart')
-            && $this->get('schedulestart') > $now)
-        {
+            && $this->get('schedulestart') > $now) {
             return false;
         }
         if (   $this->get('scheduleend')
-            && $this->get('scheduleend') < $now)
-        {
+            && $this->get('scheduleend') < $now) {
             return false;
         }
         return true;
@@ -635,8 +581,7 @@ class midcom_helper_metadata
         midcom::get()->auth->require_do('midcom:approve', $this->__object);
         midcom::get()->auth->require_do('midgard:update', $this->__object);
 
-        if (!is_object($this->__object))
-        {
+        if (!is_object($this->__object)) {
             return false;
         }
 
@@ -653,13 +598,11 @@ class midcom_helper_metadata
     {
         midcom::get()->auth->require_do('midcom:approve', $this->__object);
         midcom::get()->auth->require_do('midgard:update', $this->__object);
-        if (!is_object($this->__object))
-        {
+        if (!is_object($this->__object)) {
             return false;
         }
 
-        if ($this->__object->is_approved())
-        {
+        if ($this->__object->is_approved()) {
             $this->__object->update();
         }
         return $this->__object->approve();
@@ -677,8 +620,7 @@ class midcom_helper_metadata
         midcom::get()->auth->require_do('midcom:approve', $this->__object);
         midcom::get()->auth->require_do('midgard:update', $this->__object);
 
-        if (!is_object($this->__object))
-        {
+        if (!is_object($this->__object)) {
             return false;
         }
 
@@ -705,36 +647,26 @@ class midcom_helper_metadata
     {
         $object = null;
 
-        if (is_object($source))
-        {
+        if (is_object($source)) {
             $object = $source;
             $guid = $source->guid;
-        }
-        elseif (is_array($source))
-        {
+        } elseif (is_array($source)) {
             if (   !array_key_exists(MIDCOM_NAV_GUID, $source)
-                || is_null($source[MIDCOM_NAV_GUID]))
-            {
+                || is_null($source[MIDCOM_NAV_GUID])) {
                 debug_print_r('We got an invalid input, cannot return metadata:', $source);
                 return false;
             }
             $guid = $source[MIDCOM_NAV_GUID];
             $object = $source[MIDCOM_NAV_OBJECT];
-        }
-        else
-        {
+        } else {
             $guid = $source;
         }
 
         if (   is_null($object)
-            && mgd_is_guid($guid))
-        {
-            try
-            {
+            && mgd_is_guid($guid)) {
+            try {
                 $object = midcom::get()->dbfactory->get_object_by_guid($guid);
-            }
-            catch (midcom_error $e)
-            {
+            } catch (midcom_error $e) {
                 debug_add("Failed to create a metadata instance for the GUID {$guid}: " . $e->getMessage(), MIDCOM_LOG_WARN);
                 debug_print_r("Source was:", $source);
 
@@ -754,13 +686,11 @@ class midcom_helper_metadata
     public function is_locked()
     {
         // Object hasn't been marked to be edited
-        if ($this->get('locked') == 0)
-        {
+        if ($this->get('locked') == 0) {
             return false;
         }
 
-        if (($this->get('locked') + (midcom::get()->config->get('metadata_lock_timeout') * 60)) < time())
-        {
+        if (($this->get('locked') + (midcom::get()->config->get('metadata_lock_timeout') * 60)) < time()) {
             // lock expired, explicitly clear lock
             $this->unlock();
             return false;
@@ -768,8 +698,7 @@ class midcom_helper_metadata
 
         // Lock was created by the user, return "not locked"
         if (   !empty(midcom::get()->auth->user->guid)
-            && $this->get('locker') === midcom::get()->auth->user->guid)
-        {
+            && $this->get('locker') === midcom::get()->auth->user->guid) {
             return false;
         }
 
@@ -787,14 +716,12 @@ class midcom_helper_metadata
     {
         midcom::get()->auth->require_do('midgard:update', $this->__object);
 
-        if (!$timeout)
-        {
+        if (!$timeout) {
             $timeout = midcom::get()->config->get('metadata_lock_timeout');
         }
 
         if (   is_object($this->__object)
-            && $this->__object->lock())
-        {
+            && $this->__object->lock()) {
             $this->_cache = array();
             return true;
         }
@@ -823,8 +750,7 @@ class midcom_helper_metadata
     {
         if (   $this->can_unlock()
             && is_object($this->__object)
-            && $this->__object->unlock())
-        {
+            && $this->__object->unlock()) {
             $this->_cache = array();
             return true;
         }

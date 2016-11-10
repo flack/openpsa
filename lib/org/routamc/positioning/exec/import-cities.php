@@ -27,8 +27,7 @@ $fields_map = array(
 );
 
 if (   array_key_exists('cities_file_path', $_POST)
-    && file_exists($_POST['cities_file_path']))
-{
+    && file_exists($_POST['cities_file_path'])) {
     $features = explode(',', $_POST['featurecodes_to_import']);
 
     midcom::get()->disable_limits();
@@ -42,24 +41,20 @@ if (   array_key_exists('cities_file_path', $_POST)
     $cities_created = 0;
     $row = 0;
     $handle = fopen($_POST['cities_file_path'], 'r');
-    while ($data = fgetcsv($handle, 1000, "\t"))
-    {
+    while ($data = fgetcsv($handle, 1000, "\t")) {
         $row++;
         //if ($row > 1000) { break; }
 
         if (   !isset($data[$fields_map['featurecode']])
-            || !in_array($data[$fields_map['featurecode']], $features))
-        {
+            || !in_array($data[$fields_map['featurecode']], $features)) {
             continue;
         }
 
-        if ($data[$fields_map['population']] < $_POST['population_to_import'])
-        {
+        if ($data[$fields_map['population']] < $_POST['population_to_import']) {
             continue;
         }
 
-        if (strlen($data[$fields_map['country']]) > 2)
-        {
+        if (strlen($data[$fields_map['country']]) > 2) {
             continue;
         }
 
@@ -73,36 +68,29 @@ if (   array_key_exists('cities_file_path', $_POST)
 
         // Handle possible alternate names
         $alternate_names = explode(',', $data[$fields_map['alternatenames']]);
-        if (count($alternate_names) > 0)
-        {
-            foreach ($alternate_names as $name)
-            {
+        if (count($alternate_names) > 0) {
+            foreach ($alternate_names as $name) {
                 $new_city->alternatenames .= "|{$name}";
             }
-            if (!empty($data[$fields_map['asciiname']]))
-            {
+            if (!empty($data[$fields_map['asciiname']])) {
                 $new_city->alternatenames .= '|' . $data[$fields_map['asciiname']];
             }
             $new_city->alternatenames .= '|';
         }
 
         if (   array_key_exists("{$new_city->country}:{$data[3]}:{$new_city->city}", $imported_cities)
-            || $row == 1)
-        {
+            || $row == 1) {
             // We have city by this name for the country already
             continue;
         }
 
         echo "{$row}: Adding {$new_city->city}, {$new_city->country}... ";
 
-        if ($new_city->create())
-        {
+        if ($new_city->create()) {
             echo "<span style=\"color: #00cc00;\">Success,</span> ";
             $imported_cities["{$new_city->country}:{$data[3]}:{$new_city->city}"] = true;
             $cities_created++;
-        }
-        else
-        {
+        } else {
             echo "<span style=\"color: #cc0000;\">FAILED</span>, ";
         }
         echo midcom_connection::get_error_string() . "<br />\n";
@@ -110,9 +98,7 @@ if (   array_key_exists('cities_file_path', $_POST)
     }
 
     echo "<p>{$cities_created} cities imported.</p>\n";
-}
-else
-{
+} else {
     ?>
     <h1>World Cities Database installation</h1>
 
@@ -160,8 +146,8 @@ modification date : date of last modification in yyyy-MM-dd format
     </pre>
     <p>example:</p>
     <pre><?php
-        echo "660561\tBorgå\tBorga\tBorga,Borgo,Borgå,PORVOO,Porvo,Porvoo,ПОРВОО\t60.4\t25.6666667\tP\tPPL\tFI\t13\03\t\t\t47192\t\t37\tEurope/Helsinki\t2008-04-04\n";
-    ?></pre>
+        echo "660561\tBorgå\tBorga\tBorga,Borgo,Borgå,PORVOO,Porvo,Porvoo,ПОРВОО\t60.4\t25.6666667\tP\tPPL\tFI\t13\03\t\t\t47192\t\t37\tEurope/Helsinki\t2008-04-04\n"; ?></pre>
     <?php
+
 }
 ?>

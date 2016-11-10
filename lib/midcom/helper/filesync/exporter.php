@@ -28,38 +28,33 @@ abstract class midcom_helper_filesync_exporter extends midcom_baseclasses_compon
      */
     public function __construct($root_dir, $delete_missing = false)
     {
-         $this->delete_missing = $delete_missing;
-         $this->root_dir = $root_dir;
+        $this->delete_missing = $delete_missing;
+        $this->root_dir = $root_dir;
 
-         parent::__construct();
+        parent::__construct();
     }
 
     abstract public function export();
 
     protected function delete_missing_folders(array $foldernames, $path)
     {
-        if (!$this->delete_missing)
-        {
+        if (!$this->delete_missing) {
             return;
         }
 
         $directory = dir($path);
-        while (false !== ($entry = $directory->read()))
-        {
-            if (substr($entry, 0, 1) == '.')
-            {
+        while (false !== ($entry = $directory->read())) {
+            if (substr($entry, 0, 1) == '.') {
                 // Ignore dotfiles
                 continue;
             }
 
-            if (!is_dir("{$path}/{$entry}"))
-            {
+            if (!is_dir("{$path}/{$entry}")) {
                 // We're only checking for directories here
                 continue;
             }
 
-            if (!in_array($entry, $foldernames))
-            {
+            if (!in_array($entry, $foldernames)) {
                 unlink("{$path}/{$entry}");
             }
         }
@@ -68,28 +63,23 @@ abstract class midcom_helper_filesync_exporter extends midcom_baseclasses_compon
 
     protected function delete_missing_files(array $filenames, $path)
     {
-        if (!$this->delete_missing)
-        {
+        if (!$this->delete_missing) {
             return;
         }
 
         $directory = dir($path);
-        while (false !== ($entry = $directory->read()))
-        {
-            if (substr($entry, 0, 1) == '.')
-            {
+        while (false !== ($entry = $directory->read())) {
+            if (substr($entry, 0, 1) == '.') {
                 // Ignore dotfiles
                 continue;
             }
 
-            if (is_dir("{$path}/{$entry}"))
-            {
+            if (is_dir("{$path}/{$entry}")) {
                 // We're only checking for files here
                 continue;
             }
 
-            if (!in_array($entry, $filenames))
-            {
+            if (!in_array($entry, $filenames)) {
                 unlink("{$path}/{$entry}");
             }
         }
@@ -106,8 +96,7 @@ abstract class midcom_helper_filesync_exporter extends midcom_baseclasses_compon
     public static function create($type)
     {
         $classname = "midcom_helper_filesync_exporter_{$type}";
-        if (!class_exists($classname))
-        {
+        if (!class_exists($classname)) {
             throw new midcom_error("Requested exporter class {$type} is not installed.");
         }
 

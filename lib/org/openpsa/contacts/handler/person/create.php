@@ -36,14 +36,10 @@ implements midcom_helper_datamanager2_interfaces_create
     public function get_schema_defaults()
     {
         $defaults = array();
-        if ($this->_group)
-        {
-            if ($this->_group->orgOpenpsaObtype >= org_openpsa_contacts_group_dba::ORGANIZATION)
-            {
+        if ($this->_group) {
+            if ($this->_group->orgOpenpsaObtype >= org_openpsa_contacts_group_dba::ORGANIZATION) {
                 $defaults['organizations'] = array($this->_group->id);
-            }
-            elseif ($this->_group->orgOpenpsaObtype < org_openpsa_contacts_group_dba::MYCONTACTS)
-            {
+            } elseif ($this->_group->orgOpenpsaObtype < org_openpsa_contacts_group_dba::MYCONTACTS) {
                 $defaults['groups'] = array($this->_group->id);
             }
         }
@@ -57,8 +53,7 @@ implements midcom_helper_datamanager2_interfaces_create
     {
         $this->_person = new org_openpsa_contacts_person_dba();
 
-        if (!$this->_person->create())
-        {
+        if (!$this->_person->create()) {
             debug_print_r('We operated on this object:', $this->_person);
             throw new midcom_error("Failed to create a new person, cannot continue. Error: " . midcom_connection::get_error_string());
         }
@@ -75,8 +70,7 @@ implements midcom_helper_datamanager2_interfaces_create
     {
         midcom::get()->auth->require_user_do('midgard:create', null, 'org_openpsa_contacts_person_dba');
 
-        if (count($args) > 0)
-        {
+        if (count($args) > 0) {
             // Get the organization
             $this->_group = new org_openpsa_contacts_group_dba($args[0]);
             $this->_group->require_do('midgard:create');

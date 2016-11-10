@@ -47,20 +47,15 @@ class midcom_services_rcs_config
      */
     public function get_rcs_root()
     {
-        if (empty($this->config['midcom_services_rcs_root']))
-        {
+        if (empty($this->config['midcom_services_rcs_root'])) {
             $basedir = "/var/lib/midgard";
             // TODO: Would be good to include DB name into the path
-            if (extension_loaded('midgard'))
-            {
+            if (extension_loaded('midgard')) {
                 $prefix = midcom_connection::get('config', 'prefix');
-                if ($prefix == '/usr/local')
-                {
+                if ($prefix == '/usr/local') {
                     $basedir = '/var/local/lib/midgard';
                 }
-            }
-            elseif (midgard_connection::get_instance())
-            {
+            } elseif (midgard_connection::get_instance()) {
                 $basedir = dirname(midgard_connection::get_instance()->config->sharedir);
             }
             $this->config['midcom_services_rcs_root'] = $basedir . '/rcs';
@@ -85,8 +80,7 @@ class midcom_services_rcs_config
      */
     public function get_bin_prefix()
     {
-        if (!isset($this->config['midcom_services_rcs_bin_dir']))
-        {
+        if (!isset($this->config['midcom_services_rcs_bin_dir'])) {
             return null;
         }
         return $this->config['midcom_services_rcs_bin_dir'];
@@ -99,8 +93,7 @@ class midcom_services_rcs_config
      */
     private function _get_handler_class()
     {
-        if ($this->use_rcs())
-        {
+        if ($this->use_rcs()) {
             $this->test_rcs_config();
             return 'midcom_services_rcs_backend_rcs';
         }
@@ -113,19 +106,16 @@ class midcom_services_rcs_config
      */
     public function test_rcs_config()
     {
-        if (!is_writable($this->get_rcs_root()))
-        {
+        if (!is_writable($this->get_rcs_root())) {
             throw new midcom_error("The root RCS directory {$this->config['midcom_services_rcs_root']} is not writable!");
         }
 
-        if ($this->get_bin_prefix() === null)
-        {
+        if ($this->get_bin_prefix() === null) {
             throw new midcom_error("midcom_services_rcs_bin_dir not found in configuration. This must be defined before RCS will work.");
         }
 
-        if (!is_executable($this->config['midcom_services_rcs_bin_dir'] . "/ci"))
-        {
+        if (!is_executable($this->config['midcom_services_rcs_bin_dir'] . "/ci")) {
             throw new midcom_error("Cannot execute {$this->config['midcom_services_rcs_bin_dir']}/ci.");
         }
     }
- }
+}

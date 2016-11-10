@@ -20,8 +20,7 @@ class midcom_db_snippet extends midcom_db_cachemember
 
     public function __set($property, $value)
     {
-        if ($property == 'up')
-        {
+        if ($property == 'up') {
             $property = self::get_parent_fieldname();
         }
         return parent::__set($property, $value);
@@ -29,8 +28,7 @@ class midcom_db_snippet extends midcom_db_cachemember
 
     public function __get($property)
     {
-        if ($property == 'up')
-        {
+        if ($property == 'up') {
             $property = self::get_parent_fieldname();
         }
         return parent::__get($property);
@@ -43,8 +41,7 @@ class midcom_db_snippet extends midcom_db_cachemember
      */
     public static function get_parent_fieldname()
     {
-        if (extension_loaded('midgard'))
-        {
+        if (extension_loaded('midgard')) {
             return 'up';
         }
         return 'snippetdir';

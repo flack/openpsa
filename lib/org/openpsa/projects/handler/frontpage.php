@@ -22,16 +22,14 @@ class org_openpsa_projects_handler_frontpage extends midcom_baseclasses_componen
     {
         midcom::get()->auth->require_valid_user();
         $workflow = $this->get_workflow('datamanager2');
-        if (midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_projects_project'))
-        {
+        if (midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_projects_project')) {
             $this->_view_toolbar->add_item($workflow->get_button('project/new/', array
             (
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("create project"),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-dir.png',
             )));
         }
-        if (midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_projects_task_dba'))
-        {
+        if (midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_projects_task_dba')) {
             $this->_view_toolbar->add_item($workflow->get_button('task/new/', array
             (
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("create task"),
@@ -46,10 +44,8 @@ class org_openpsa_projects_handler_frontpage extends midcom_baseclasses_componen
         $project_qb->add_order('customer.official');
         $project_qb->add_order('end');
         $projects = $project_qb->execute();
-        foreach ($projects as $project)
-        {
-            if (!isset($data['customers'][$project->customer]))
-            {
+        foreach ($projects as $project) {
+            if (!isset($data['customers'][$project->customer])) {
                 $data['customers'][$project->customer] = array();
             }
 
@@ -61,8 +57,7 @@ class org_openpsa_projects_handler_frontpage extends midcom_baseclasses_componen
         $nocustomer_qb->add_constraint('status', '<', org_openpsa_projects_task_status_dba::CLOSED);
         $nocustomer_qb->add_constraint('customer', '=', 0);
         $nocustomer_qb->add_order('end');
-        if ($nocustomer_qb->count() > 0)
-        {
+        if ($nocustomer_qb->count() > 0) {
             $data['customers'][0] = $nocustomer_qb->execute();
         }
 

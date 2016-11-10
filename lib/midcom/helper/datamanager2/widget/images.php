@@ -102,14 +102,12 @@ class midcom_helper_datamanager2_widget_images extends midcom_helper_datamanager
 
         // Reflect the type config setting for maximum count
         if (   isset($this->_type->max_count)
-            && !$this->max_count)
-        {
+            && !$this->max_count) {
             $this->max_count = $this->_type->max_count;
         }
 
         // Create sortable
-        if ($this->_type->sortable)
-        {
+        if ($this->_type->sortable) {
             midcom::get()->head->enable_jquery();
             midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/datamanager2.tablesorter.js');
             // Configuration options
@@ -156,8 +154,7 @@ END;
      */
     private function _add_table_header($frozen)
     {
-        if ($frozen)
-        {
+        if ($frozen) {
             $html = "<table class=\"midcom_helper_datamanager2_widget_images\" id=\"{$this->_namespace}{$this->name}\" >\n
                         <thead>\n
                             <tr>\n
@@ -166,12 +163,9 @@ END;
                             </tr>\n
                         </thead>\n
                         <tbody>\n";
-        }
-        else
-        {
+        } else {
             $index = '';
-            if ($this->_type->sortable)
-            {
+            if ($this->_type->sortable) {
                 $index = "            <th class=\"index\">" . $this->_l10n->get('index') . "</th>\n";
             }
 
@@ -198,14 +192,12 @@ END;
     {
         // Show only a configured amount of new image rows
         if (   $this->max_count
-            && count($this->_type->images) >= $this->max_count)
-        {
+            && count($this->_type->images) >= $this->max_count) {
             return;
         }
 
         $sortable = '';
-        if ($this->_type->sortable)
-        {
+        if ($this->_type->sortable) {
             $sortable = "            <td class=\"sortable_new\"></td>\n";
         }
 
@@ -232,8 +224,7 @@ END;
         );
         $this->_elements['e_new_title'] = $this->_form->createElement('text', 'e_new_title', '', $attributes);
 
-        if (!$frozen)
-        {
+        if (!$frozen) {
             // Controls Column
             $html = "            </td>\n
                                 <td class=\"new upload\">";
@@ -267,22 +258,19 @@ END;
     {
         // Show only a configured amount of new image rows
         if (   $this->max_count
-            && count($this->_type->images) >= $this->max_count)
-        {
+            && count($this->_type->images) >= $this->max_count) {
             return;
         }
         $html = "        <tr>\n";
-        if ($this->_type->sortable)
-        {
-             $html .= "            <td class=\"new sortable\"></td>\n";
+        if ($this->_type->sortable) {
+            $html .= "            <td class=\"new sortable\"></td>\n";
         }
         // Filename column
         $html .= "            <td class=\"new text\" colspan=\"2\">";
         $html .= $this->_l10n->get('add new file') . ':';
         $this->_elements['s_new_filename'] = $this->_form->createElement('static', 's_new_filename', '', $html);
 
-        if (!$frozen)
-        {
+        if (!$frozen) {
             // Controls Column
             $html = "</td><td class=\"new upload\" colspan=\"2\">";
             $this->_elements['s_new_upload'] = $this->_form->createElement('static', 's_new_upload', '', $html);
@@ -314,20 +302,14 @@ END;
      */
     private function _add_image_row($identifier, array $images, $frozen)
     {
-        if (isset($images['main']))
-        {
+        if (isset($images['main'])) {
             $info = $images['main'];
-        }
-        elseif (isset($images['original']))
-        {
+        } elseif (isset($images['original'])) {
             $info = $images['original'];
-        }
-        else
-        {
+        } else {
             $info = current($images);
         }
-        if (empty($info['object']->guid))
-        {
+        if (empty($info['object']->guid)) {
             //Panic, broken identifier
             debug_add("Identifier '{$identifier}' does not have a valid object behind it",  MIDCOM_LOG_ERROR);
             return;
@@ -337,21 +319,18 @@ END;
 
         $img_title = '';
         // Some reason we're kicking out-of-sync, check explicitly for POSTed value
-        if (!empty($_POST[$this->name]["e_exist_{$identifier}_title"]))
-        {
+        if (!empty($_POST[$this->name]["e_exist_{$identifier}_title"])) {
             $img_title = $_POST[$this->name]["e_exist_{$identifier}_title"];
         }
         // Otherwise use the type title if available
-        elseif (isset($this->_type->titles[$identifier]))
-        {
+        elseif (isset($this->_type->titles[$identifier])) {
             $img_title = $this->_type->titles[$identifier];
         }
 
         // Initialize the string
         $sortable = '';
 
-        if ($this->_type->sortable)
-        {
+        if ($this->_type->sortable) {
             $sortable = "            <td class=\"midcom_helper_datamanager2_helper_sortable\"><input type=\"text\" class=\"image_sortable\" name=\"midcom_helper_datamanager2_sortable[{$this->name}][{$identifier}]\" value=\"{$this->_sort_index}\" /></td>\n";
             $this->_sort_index++;
         }
@@ -376,8 +355,7 @@ END;
         $this->_elements["e_exist_{$identifier}_title"] = $this->_form->createElement('text', "e_exist_{$identifier}_title", '', $attributes);
         $this->_elements["e_exist_{$identifier}_title"]->setValue($img_title);
 
-        if (!$frozen)
-        {
+        if (!$frozen) {
             $this->_add_controls($info, $identifier);
         }
 
@@ -389,36 +367,28 @@ END;
     private function _get_preview_html($info, $identifier)
     {
         // Get preview image source
-        if (array_key_exists('thumbnail', $this->_type->images[$identifier]))
-        {
+        if (array_key_exists('thumbnail', $this->_type->images[$identifier])) {
             $url = $this->_type->images[$identifier]['thumbnail']['url'];
             $size_line = $this->_type->images[$identifier]['thumbnail']['size_line'];
             $preview = "<a href=\"{$info['url']}\" class=\"download\"><img src=\"{$url}\" {$size_line} /></a>";
-        }
-        else
-        {
+        } else {
             $url = $info['url'];
             $x = $info['size_x'];
             $y = $info['size_y'];
 
             // Downscale Preview image to max 75px, protect against broken images:
             if (   $x != 0
-                && $y != 0)
-            {
+                && $y != 0) {
                 $aspect = $x/$y;
-                if ($x > 75)
-                {
+                if ($x > 75) {
                     $x = 75;
                     $y = round($x / $aspect);
                 }
-                if ($y > 75)
-                {
+                if ($y > 75) {
                     $y = 75;
                     $x = round($y * $aspect);
                 }
-            }
-            else
-            {
+            } else {
                 // Final safety to prevent the editor from exploding with large images
                 $x = 75;
                 $y = 75;
@@ -432,8 +402,7 @@ END;
 
     private function _add_controls($info, $identifier)
     {
-        if ($info['object']->can_do('midgard:update'))
-        {
+        if ($info['object']->can_do('midgard:update')) {
             $html = "            </td>\n
                                  <td class=\"exist upload\">\n";
             $this->_elements["s_exist_{$identifier}_upload"] = $this->_form->createElement('static', "s_exist_{$identifier}_upload", '', $html);
@@ -452,8 +421,7 @@ END;
             );
             $this->_elements["e_exist_{$identifier}_upload"] = $this->_form->createElement('submit', "{$this->name}_e_exist_{$identifier}_upload", $this->_l10n->get('replace file'), $attributes);
         }
-        if ($info['object']->can_do('midgard:delete'))
-        {
+        if ($info['object']->can_do('midgard:delete')) {
             $attributes = array
             (
                 'class' => 'exist delete',
@@ -488,12 +456,10 @@ END;
         if (   $this->_type->storage->object
             && (   !$this->_type->storage->object->can_do('midgard:attachments')
                 || !$this->_type->storage->object->can_do('midgard:update')
-                || !$this->_type->storage->object->can_do('midgard:parameters')))
-        {
+                || !$this->_type->storage->object->can_do('midgard:parameters'))) {
             $frozen = true;
         }
-        if (!$this->_type->imagemagick_available(true))
-        {
+        if (!$this->_type->imagemagick_available(true)) {
             $frozen = true;
         }
 
@@ -513,17 +479,13 @@ END;
 
         $this->_add_table_header($frozen);
 
-        foreach ($this->_type->images as $identifier => $images)
-        {
+        foreach ($this->_type->images as $identifier => $images) {
             $this->_add_image_row($identifier, $images, $frozen);
         }
 
-        if ($this->set_name_and_title_on_upload)
-        {
+        if ($this->set_name_and_title_on_upload) {
             $this->_add_new_upload_row_old($frozen);
-        }
-        else
-        {
+        } else {
             $this->_add_new_upload_row($frozen);
         }
         $this->_add_table_footer();
@@ -536,49 +498,38 @@ END;
      */
     private function _check_new_upload($values)
     {
-        if (!array_key_exists('e_new_file', $this->_elements))
-        {
+        if (!array_key_exists('e_new_file', $this->_elements)) {
             // We are frozen, no upload can happen, so we exit immediately.
             return;
         }
 
-        if (!$this->_elements['e_new_file']->isUploadedFile())
-        {
+        if (!$this->_elements['e_new_file']->isUploadedFile()) {
             // not uploaded file, abort
             return;
         }
 
         $file = $this->_elements['e_new_file']->getValue();
 
-        if ( preg_match('/\.(zip|tar(\.gz|\.bz2)?|tgz)$/', strtolower($file['name']), $extension_matches))
-        {
-            if (!$this->_type->_batch_handler($extension_matches[1], $file))
-            {
+        if ( preg_match('/\.(zip|tar(\.gz|\.bz2)?|tgz)$/', strtolower($file['name']), $extension_matches)) {
+            if (!$this->_type->_batch_handler($extension_matches[1], $file)) {
                 debug_add("Failed to add attachments from compressed files to the field '{$this->name}'. Ignoring silently.", MIDCOM_LOG_WARN);
             }
             return;
         }
 
-        if (!empty($values['e_new_title']))
-        {
+        if (!empty($values['e_new_title'])) {
             $title = $values['e_new_title'];
-        }
-        else
-        {
+        } else {
             $title = $file['name'];
         }
 
-        if (!empty($values['e_new_filename']))
-        {
+        if (!empty($values['e_new_filename'])) {
             $filename = $values['e_new_filename'];
-        }
-        else
-        {
+        } else {
             $filename = $file['name'];
         }
 
-        if (!$this->_type->add_image($filename, $file['tmp_name'], $title))
-        {
+        if (!$this->_type->add_image($filename, $file['tmp_name'], $title)) {
             debug_add("Failed to add an attachment to the field '{$this->name}'. Ignoring silently.", MIDCOM_LOG_WARN);
         }
     }
@@ -598,35 +549,29 @@ END;
      */
     private function _check_for_update($identifier, $values)
     {
-        if (!array_key_exists($identifier, $this->_type->images))
-        {
+        if (!array_key_exists($identifier, $this->_type->images)) {
             // The image does no longer exist
             return;
         }
 
         // Image to be deleted
-        if (array_key_exists("{$this->name}_e_exist_{$identifier}_delete", $values))
-        {
-            if (!$this->_type->delete_image($identifier))
-            {
+        if (array_key_exists("{$this->name}_e_exist_{$identifier}_delete", $values)) {
+            if (!$this->_type->delete_image($identifier)) {
                 debug_add("Failed to delete the image {$identifier} on the field '{$this->name}'. Ignoring silently.", MIDCOM_LOG_WARN);
             }
         }
         // Image to be updated
-        elseif  (   array_key_exists("e_exist_{$identifier}_file", $this->_elements)
-                  && $this->_elements["e_exist_{$identifier}_file"]->isUploadedFile())
-        {
+        elseif (   array_key_exists("e_exist_{$identifier}_file", $this->_elements)
+                  && $this->_elements["e_exist_{$identifier}_file"]->isUploadedFile()) {
             $file = $this->_elements["e_exist_{$identifier}_file"]->getValue();
             $title = $values["e_exist_{$identifier}_title"];
             $filename = $this->_type->images[$identifier]['main']['filename'];
 
-            if (!$title)
-            {
+            if (!$title) {
                 $title = $filename;
             }
 
-            if (!$this->_type->update_image($identifier, $filename, $file['tmp_name'], $title))
-            {
+            if (!$this->_type->update_image($identifier, $filename, $file['tmp_name'], $title)) {
                 debug_add("Failed to update the image {$identifier} on the field '{$this->name}'. Ignoring silently.", MIDCOM_LOG_WARN);
             }
         }
@@ -638,8 +583,7 @@ END;
      */
     function on_submit($results)
     {
-        if (!array_key_exists($this->name, $results))
-        {
+        if (!array_key_exists($this->name, $results)) {
             return;
         }
 
@@ -647,8 +591,7 @@ END;
 
         $this->_check_new_upload($values);
 
-        foreach (array_keys($this->_type->images) as $identifier)
-        {
+        foreach (array_keys($this->_type->images) as $identifier) {
             $this->_check_for_update($identifier, $values);
         }
 
@@ -687,8 +630,7 @@ END;
         $values = $results[$this->name];
         if (   $this->_type->sortable
             && isset($_REQUEST['midcom_helper_datamanager2_sortable'])
-            && isset($_REQUEST['midcom_helper_datamanager2_sortable'][$this->name]))
-        {
+            && isset($_REQUEST['midcom_helper_datamanager2_sortable'][$this->name])) {
             /**
              * The regex match was *not* a good idea
             $this->_type->_sorted_list = $_REQUEST['midcom_helper_datamanager2_sortable'][$this->name];
@@ -697,10 +639,8 @@ END;
             $this->_type->_sorted_list = array();
             $images_scores = $_REQUEST['midcom_helper_datamanager2_sortable'][$this->name];
             $images_scores = array_intersect_key($images_scores, $this->_type->images);
-            foreach ($images_scores as $images_identifier => $score)
-            {
-                foreach ($this->_type->images[$images_identifier] as $info)
-                {
+            foreach ($images_scores as $images_identifier => $score) {
+                foreach ($this->_type->images[$images_identifier] as $info) {
                     /**
                      * This is still not 100% perfect (the absolute score values will be "too high" for
                      * each attachment stored, but relative to each other they all have correct values)
@@ -711,10 +651,8 @@ END;
             }
         }
 
-        foreach ($this->_type->images as $identifier => $info)
-        {
-            if (!isset($values["e_exist_{$identifier}_title"]))
-            {
+        foreach ($this->_type->images as $identifier => $info) {
+            if (!isset($values["e_exist_{$identifier}_title"])) {
                 continue;
             }
             $this->_type->titles[$identifier] = $values["e_exist_{$identifier}_title"];
@@ -726,19 +664,14 @@ END;
      */
     public function get_default()
     {
-        if (sizeof($this->_type->images) == 0)
-        {
+        if (sizeof($this->_type->images) == 0) {
             return null;
         }
         $defaults = array();
-        foreach (array_keys($this->_type->images) as $identifier)
-        {
-            if (isset($this->_type->titles[$identifier]))
-            {
+        foreach (array_keys($this->_type->images) as $identifier) {
+            if (isset($this->_type->titles[$identifier])) {
                 $defaults["e_exist_{$identifier}_title"] = $this->_type->titles[$identifier];
-            }
-            else
-            {
+            } else {
                 $defaults["e_exist_{$identifier}_title"] = '';
             }
         }

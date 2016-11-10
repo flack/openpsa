@@ -42,8 +42,7 @@ class org_openpsa_notifications extends midcom_baseclasses_components_purecode
     {
         // Parse action to component and action
         $action_parts = explode(':', $component_action);
-        if (count($action_parts) != 2)
-        {
+        if (count($action_parts) != 2) {
             return false;
         }
 
@@ -52,8 +51,7 @@ class org_openpsa_notifications extends midcom_baseclasses_components_purecode
 
         // Find in which ways to notify the user
         $notification_type = self::_merge_notification_prefences($component, $action, $recipient);
-        if ($notification_type == 'none')
-        {
+        if ($notification_type == 'none') {
             // User doesn't wish to be notified
             return true;
         }
@@ -69,8 +67,7 @@ class org_openpsa_notifications extends midcom_baseclasses_components_purecode
         // Send the type requested by user
         debug_add("Notifying {$recipient} with type {$notification_type}");
         $method = "send_{$notification_type}";
-        if (!method_exists($notifier, $method))
-        {
+        if (!method_exists($notifier, $method)) {
             return false;
         }
         return $notifier->$method($message);
@@ -88,20 +85,16 @@ class org_openpsa_notifications extends midcom_baseclasses_components_purecode
     {
         // TODO: Should we sudo here to ensure getting correct prefs regardless of ACLs?
         $preference = 'none';
-        try
-        {
+        try {
             $recipient = new midcom_db_person($recipient);
-        }
-        catch (midcom_error $e)
-        {
+        } catch (midcom_error $e) {
             return $preference;
         }
 
         // If user has preference for this message, we use that
         $personal_preferences = $recipient->list_parameters('org.openpsa.notifications');
         if (   count($personal_preferences) > 0
-            && array_key_exists("{$component}:{$action}", $personal_preferences))
-        {
+            && array_key_exists("{$component}:{$action}", $personal_preferences)) {
             return $personal_preferences[$action];
         }
 
@@ -115,30 +108,24 @@ class org_openpsa_notifications extends midcom_baseclasses_components_purecode
         $member_qb->add_constraint('uid', '=', (int)$recipient->id);
         $memberships = $member_qb->execute();
         $qb->begin_group('OR');
-        foreach ($memberships as $member)
-        {
-            try
-            {
+        foreach ($memberships as $member) {
+            try {
                 $group = new midcom_db_group($member->gid);
                 $qb->add_constraint('parentguid', '=', $group->guid);
-            }
-            catch (midcom_error $e)
-            {
+            } catch (midcom_error $e) {
                 $e->log();
             }
         }
         $qb->end_group();
 
         $group_preferences = $qb->execute();
-        if (count($group_preferences) > 0)
-        {
+        if (count($group_preferences) > 0) {
             return $group_preferences[0]->value;
         }
 
         // Fall back to component defaults
         $customdata = midcom::get()->componentloader->get_all_manifest_customdata('org.openpsa.notifications');
-        if (!empty($customdata[$component][$action]['default']))
-        {
+        if (!empty($customdata[$component][$action]['default'])) {
             $preference = $customdata[$component][$action]['default'];
         }
 
@@ -161,12 +148,10 @@ class org_openpsa_notifications extends midcom_baseclasses_components_purecode
         // Load actions of various components
         $customdata = midcom::get()->componentloader->get_all_manifest_customdata('org.openpsa.notifications');
 
-        foreach ($customdata as $component => $actions)
-        {
+        foreach ($customdata as $component => $actions) {
             $i = 0;
             $total = sizeof($actions);
-            foreach ($actions as $action => $settings)
-            {
+            foreach ($actions as $action => $settings) {
                 $action_key = "{$component}:{$action}";
                 $field_config = array
                 (
@@ -184,20 +169,17 @@ class org_openpsa_notifications extends midcom_baseclasses_components_purecode
                         'options' => $notifiers,
                     ),
                 );
-                if (!empty($settings['default']))
-                {
+                if (!empty($settings['default'])) {
                     $field_config['default'] = $settings['default'];
                 }
-                if ($i == 0)
-                {
+                if ($i == 0) {
                     $field_config['start_fieldset'] = array
                     (
                         'title' => $this->_i18n->get_string($component, $component),
                         'css_group' => 'area',
                     );
                 }
-                if (++$i == $total)
-                {
+                if (++$i == $total) {
                     $field_config['end_fieldset'] = '';
                 }
 

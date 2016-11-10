@@ -64,20 +64,17 @@ class org_openpsa_projects_status extends org_openpsa_widgets_status
         $qb->add_order('type', 'DESC');
 
         $fallback_creator = midcom_db_person::get_cached(1);
-        foreach ($qb->execute() as $status_change)
-        {
+        foreach ($qb->execute() as $status_change) {
             $status_changer_label = $this->l10n->get('system');
             $target_person_label = $this->l10n->get('system');
 
             if (    $status_change->metadata->creator
-                 && $status_change->metadata->creator != $fallback_creator->guid)
-            {
+                 && $status_change->metadata->creator != $fallback_creator->guid) {
                 $status_changer = org_openpsa_widgets_contact::get($status_change->metadata->creator);
                 $status_changer_label = $status_changer->show_inline();
             }
 
-            if ($status_change->targetPerson)
-            {
+            if ($status_change->targetPerson) {
                 $target_person = org_openpsa_widgets_contact::get($status_change->targetPerson);
                 $target_person_label = $target_person->show_inline();
             }

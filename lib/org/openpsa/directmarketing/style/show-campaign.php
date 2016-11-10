@@ -29,8 +29,7 @@ $grid->set_column('lastname', $data['l10n']->get('lastname'), 'classes: "title u
     <h1>&(view['title']:h);</h1>
 
     <?php
-    if ($data['campaign']->archived)
-    {
+    if ($data['campaign']->archived) {
         $date = $data['l10n']->get_formatter()->date($data['campaign']->archived);
         echo "<p class=\"archived\">" . sprintf($data['l10n']->get('archived on %s'), $date) . "</p>\n";
     }
@@ -41,18 +40,14 @@ $grid->set_column('lastname', $data['l10n']->get('lastname'), 'classes: "title u
     echo '<h2>' . $data['l10n']->get('testers') . '</h2>';
 
     $data['campaign']->get_testers();
-    if (count($data['campaign']->testers) > 0)
-    {
+    if (count($data['campaign']->testers) > 0) {
         $testers = array();
-        foreach (array_keys($data['campaign']->testers) as $id)
-        {
+        foreach (array_keys($data['campaign']->testers) as $id) {
             $person = org_openpsa_widgets_contact::get($id);
             $testers[] = $person->show_inline();
         }
         echo implode(', ', $testers);
-    }
-    else
-    {
+    } else {
         echo "<strong>" . $data['l10n']->get('no testers') . "</strong>";
     } ?>
     <div class="org_openpsa_directmarketing full-width fill-height">

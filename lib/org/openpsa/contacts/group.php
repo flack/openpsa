@@ -34,8 +34,7 @@ class org_openpsa_contacts_group_dba extends midcom_core_dbaobject
     {
         if (   $name == 'homepage'
             && !empty($value)
-            && $value != $this->homepage)
-        {
+            && $value != $this->homepage) {
             $this->_register_prober = true;
         }
         parent::__set($name, $value);
@@ -43,8 +42,7 @@ class org_openpsa_contacts_group_dba extends midcom_core_dbaobject
 
     public function get_label()
     {
-        if ($this->official)
-        {
+        if ($this->official) {
             return $this->official;
         }
         return $this->name;
@@ -52,8 +50,7 @@ class org_openpsa_contacts_group_dba extends midcom_core_dbaobject
 
     public function get_label_property()
     {
-        if ($this->official)
-        {
+        if ($this->official) {
             return 'official';
         }
         return 'name';
@@ -63,8 +60,7 @@ class org_openpsa_contacts_group_dba extends midcom_core_dbaobject
     {
         $siteconfig = new org_openpsa_core_siteconfig();
 
-        if ($contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts'))
-        {
+        if ($contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts')) {
             return '<a href="' . $contacts_url . 'group/' . $this->guid . '/">' . $this->get_label() . "</a>\n";
         }
         return $this->get_label();
@@ -73,8 +69,7 @@ class org_openpsa_contacts_group_dba extends midcom_core_dbaobject
     private function _get_address_extra($property)
     {
         $return = $this->get_parameter('midcom.helper.datamanager2', $property);
-        if (!$return)
-        {
+        if (!$return) {
             $return = $this->get_label();
         }
 
@@ -84,10 +79,8 @@ class org_openpsa_contacts_group_dba extends midcom_core_dbaobject
     public function __get($property)
     {
         if (   $property == 'invoice_label'
-            || $property == 'postal_label')
-        {
-            if (!isset($this->_address_extras[$property]))
-            {
+            || $property == 'postal_label') {
+            if (!isset($this->_address_extras[$property])) {
                 $this->_get_address_extra($property);
             }
             return $this->_address_extras[$property];
@@ -97,14 +90,10 @@ class org_openpsa_contacts_group_dba extends midcom_core_dbaobject
 
     public function _on_loaded()
     {
-        if (empty($this->official))
-        {
-            if (!empty($this->name))
-            {
+        if (empty($this->official)) {
+            if (!empty($this->name)) {
                 $this->official = $this->name;
-            }
-            else
-            {
+            } else {
                 $this->official = "Group #{$this->id}";
             }
         }
@@ -113,8 +102,7 @@ class org_openpsa_contacts_group_dba extends midcom_core_dbaobject
     public function _on_creating()
     {
         //Make sure we have accessType
-        if (!$this->orgOpenpsaAccesstype)
-        {
+        if (!$this->orgOpenpsaAccesstype) {
             $this->orgOpenpsaAccesstype = org_openpsa_core_acl::ACCESS_PUBLIC;
         }
         return true;
@@ -122,8 +110,7 @@ class org_openpsa_contacts_group_dba extends midcom_core_dbaobject
 
     public function _on_updated()
     {
-        if ($this->_register_prober)
-        {
+        if ($this->_register_prober) {
             $args = array
             (
                 'group' => $this->guid,
@@ -134,8 +121,7 @@ class org_openpsa_contacts_group_dba extends midcom_core_dbaobject
 
     private function _get_members_array()
     {
-        if (!$this->_members_loaded)
-        {
+        if (!$this->_members_loaded) {
             $mc = midcom_db_member::new_collector('gid', $this->id);
             $this->members = array_fill_keys($mc->get_values('uid'), true);
             $this->_members_loaded = true;

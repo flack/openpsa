@@ -4,8 +4,7 @@ $node = $nap->get_node($nap->get_current_node());
 ?>
 <div class="sidebar">
     <?php
-    if ($data['parent_group'])
-    {
+    if ($data['parent_group']) {
         ?>
         <div class="area parent">
           <h2><?php printf($data['l10n']->get('%s of'), $data['l10n']->get($data['view']['organization_type'])); ?></h2>
@@ -14,6 +13,7 @@ $node = $nap->get_node($nap->get_current_node());
             </dl>
         </div>
         <?php
+
     }
 
     midcom::get()->dynamic_load($node[MIDCOM_NAV_RELATIVEURL] . "group/members/" . $data['group']->guid . "/");
@@ -25,10 +25,8 @@ $node = $nap->get_node($nap->get_current_node());
 <div class="main">
     <?php
     // Display the group information
-    foreach (array_filter($data['view']) as $fieldname => $fielddata)
-    {
-        switch ($fieldname)
-        {
+    foreach (array_filter($data['view']) as $fieldname => $fielddata) {
+        switch ($fieldname) {
             case 'members':
             case 'organization_type':
                 break;
@@ -59,8 +57,7 @@ $node = $nap->get_node($nap->get_current_node());
                 break;
         }
     }
-    if (array_key_exists('billing_data', $data))
-    {
+    if (array_key_exists('billing_data', $data)) {
         echo "<h2>" . $data['l10n']->get('invoice defaults') . "</h2>\n";
         echo "<div><strong>" . midcom::get()->i18n->get_string('vat', 'org.openpsa.invoices') . ": </strong>";
         echo $data['billing_data']->vat . " %</div>\n";
@@ -75,19 +72,16 @@ $node = $nap->get_node($nap->get_current_node());
     $siteconfig = org_openpsa_core_siteconfig::get_instance();
 
     $tabs = array();
-    if (strpos($data['view']['categories'], $data['l10n']->get('client')) !== false)
-    {
+    if (strpos($data['view']['categories'], $data['l10n']->get('client')) !== false) {
         //TODO: Check for privileges somehow
-        if ($invoices_url = $siteconfig->get_node_relative_url('org.openpsa.invoices'))
-        {
+        if ($invoices_url = $siteconfig->get_node_relative_url('org.openpsa.invoices')) {
             $tabs[] = array
             (
                 'url' => $invoices_url . "list/customer/all/{$data['group']->guid}/",
                 'title' => midcom::get()->i18n->get_string('invoices', 'org.openpsa.invoices'),
             );
         }
-        if ($sales_url = $siteconfig->get_node_relative_url('org.openpsa.sales'))
-        {
+        if ($sales_url = $siteconfig->get_node_relative_url('org.openpsa.sales')) {
             $tabs[] = array
             (
                 'url' => $sales_url . "list/customer/{$data['group']->guid}/",

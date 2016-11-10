@@ -47,8 +47,7 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
         $operations['save'] = '';
         $operations['preview'] = $this->_l10n->get('preview');
         $operations['cancel'] = '';
-        foreach ($this->_schemadb as $schema)
-        {
+        foreach ($this->_schemadb as $schema) {
             $schema->operations = $operations;
         }
     }
@@ -62,8 +61,7 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
         $this->_controller = midcom_helper_datamanager2_controller::create('simple');
         $this->_controller->schemadb =& $this->_schemadb;
         $this->_controller->set_storage($this->_page);
-        if (!$this->_controller->initialize())
-        {
+        if (!$this->_controller->initialize()) {
             throw new midcom_error("Failed to initialize a DM2 controller instance for article {$this->_article->id}.");
         }
     }
@@ -90,10 +88,8 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
             'save_callback' => array($this, 'save_callback')
         ));
 
-        foreach (array_keys($this->_request_data['schemadb']) as $name)
-        {
-            if ($name == $this->_controller->datamanager->schema->name)
-            {
+        foreach (array_keys($this->_request_data['schemadb']) as $name) {
+            if ($name == $this->_controller->datamanager->schema->name) {
                 // The page is already of this type, skip
                 continue;
             }
@@ -103,12 +99,9 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
 
         $response = $workflow->run();
 
-        if ($workflow->get_state() == 'preview')
-        {
+        if ($workflow->get_state() == 'preview') {
             $this->add_preview();
-        }
-        elseif ($workflow->get_state() == 'save')
-        {
+        } elseif ($workflow->get_state() == 'save') {
             $indexer = midcom::get()->indexer;
             net_nemein_wiki_viewer::index($this->_controller->datamanager, $indexer, $this->_topic);
             midcom::get()->uimessages->add($this->_l10n->get($this->_component), sprintf($this->_l10n->get('page %s saved'), $this->_page->title));
@@ -120,15 +113,12 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
     private function add_preview()
     {
         $preview_page = $this->_page;
-        foreach ($this->_controller->datamanager->schema->fields as $name => $type_definition)
-        {
-            if (!is_a($this->_controller->datamanager->types[$name], 'midcom_helper_datamanager2_type_text'))
-            {
+        foreach ($this->_controller->datamanager->schema->fields as $name => $type_definition) {
+            if (!is_a($this->_controller->datamanager->types[$name], 'midcom_helper_datamanager2_type_text')) {
                 // Skip fields of other types
                 continue;
             }
-            switch ($type_definition['storage'])
-            {
+            switch ($type_definition['storage']) {
                 case 'parameter':
                 case 'configuration':
                 case 'metadata':
@@ -162,8 +152,7 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
      */
     public function _handler_change($handler_id, array $args, array &$data)
     {
-        if (empty($_POST['change_to']))
-        {
+        if (empty($_POST['change_to'])) {
             throw new midcom_error_forbidden('Only POST requests are allowed here.');
         }
 

@@ -60,12 +60,9 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
         $this->_upload_element = $this->_form->createElement('file', "{$this->name}_file", '', $attributes);
         $elements = array();
 
-        if ($this->_type->attachments)
-        {
+        if ($this->_type->attachments) {
             $this->_create_replace_elements($elements);
-        }
-        else
-        {
+        } else {
             $this->_create_upload_elements($elements);
         }
 
@@ -74,12 +71,10 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
         if (   $this->_type->storage->object
             && (   !$this->_type->storage->object->can_do('midgard:attachments')
                 || !$this->_type->storage->object->can_do('midgard:update')
-                || !$this->_type->storage->object->can_do('midgard:parameters')))
-        {
+                || !$this->_type->storage->object->can_do('midgard:parameters'))) {
             $this->freeze();
         }
-        if (!$this->_type->imagemagick_available(true))
-        {
+        if (!$this->_type->imagemagick_available(true)) {
             $this->freeze();
         }
     }
@@ -119,24 +114,19 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
     private function _create_upload_elements(array &$elements)
     {
         // Get preview image size
-        if ($this->_type->auto_thumbnail)
-        {
+        if ($this->_type->auto_thumbnail) {
             $x = $this->_type->auto_thumbnail[0];
             $y = $this->_type->auto_thumbnail[1];
-        }
-        else
-        {
+        } else {
             $x = 75;
             $y = 75;
         }
 
         // Treat auto-scales sanely
-        if ($x == 0)
-        {
+        if ($x == 0) {
             $x = $y;
         }
-        if ($y == 0)
-        {
+        if ($y == 0) {
             $y = $x;
         }
 
@@ -163,8 +153,7 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
         $elements[] = $this->_form->createElement('submit', "{$this->name}_upload", $this->_l10n->get('upload file'), $attributes);
 
         // Add Title line if configured to do so.
-        if ($this->show_title)
-        {
+        if ($this->show_title) {
             $static_html = "</td>\n</tr>\n
                 <tr>\n<td class='midcom_helper_datamanager2_widget_image_label'>" .
                 $this->_l10n_midcom->get('title') . ":</td>\n
@@ -192,8 +181,7 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
      */
     function _create_replace_elements(array &$elements)
     {
-        switch (true)
-        {
+        switch (true) {
             case (array_key_exists('main', $this->_type->attachments_info)):
                 $main_info = $this->_type->attachments_info['main'];
                 break;
@@ -213,15 +201,11 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
         $static_html .= "</td>\n<td valign='top' class='midcom_helper_datamanager2_widget_image_stats'>" . $this->_l10n->get('type blobs: file size') . ": {$main_info['formattedsize']}<br/>\n";
         $static_html .= $this->_l10n->get('type image: available sizes') . ":\n" .
                 "<ul class='midcom_helper_datamanager2_widget_image_sizelist'>";
-        foreach ($this->_type->attachments_info as $info)
-        {
+        foreach ($this->_type->attachments_info as $info) {
             if (   $info['size_x']
-                && $info['size_y'])
-            {
+                && $info['size_y']) {
                 $size = "{$info['size_x']}x{$info['size_y']}";
-            }
-            else
-            {
+            } else {
                 $size = $this->_l10n_midcom->get('unknown');
             }
             $static_html .= "<li title=\"{$info['guid']}\"><a href='{$info['url']}' target='_new'>{$info['filename']}:</a>
@@ -231,8 +215,7 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
         $elements[] = $this->_form->createElement('static', "{$this->name}_start", '', $static_html);
 
         // Add action buttons
-        if ($this->show_action_elements)
-        {
+        if ($this->show_action_elements) {
             $this->add_action_elements($elements);
         }
 
@@ -258,8 +241,7 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
         $elements[] = $this->_form->createElement('submit', "{$this->name}_delete", $this->_l10n->get('delete image'), $attributes);
 
         // Add Title line if configured to do so.
-        if ($this->show_title)
-        {
+        if ($this->show_title) {
             $static_html = "</td>\n</tr>\n
                 <tr>\n<td class='midcom_helper_datamanager2_widget_image_label'>" .
                 $this->_l10n_midcom->get('title') . ":</td>\n
@@ -280,15 +262,12 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
 
     protected function _get_preview_html($main_info)
     {
-        if (array_key_exists('thumbnail', $this->_type->attachments))
-        {
+        if (array_key_exists('thumbnail', $this->_type->attachments)) {
             $url = $this->_type->attachments_info['thumbnail']['url'];
             $x = $this->_type->attachments_info['thumbnail']['size_x'];
             $y = $this->_type->attachments_info['thumbnail']['size_y'];
             $is_thumbnail = true;
-        }
-        else
-        {
+        } else {
             $is_thumbnail = false;
             $url = $main_info['url'];
             $x = $main_info['size_x'];
@@ -296,16 +275,13 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
 
             // Downscale Preview image to max 75px, protect against broken images:
             if (   $x != 0
-                && $y != 0)
-            {
+                && $y != 0) {
                 $aspect = $x/$y;
-                if ($x > 75)
-                {
+                if ($x > 75) {
                     $x = 75;
                     $y = round($x / $aspect);
                 }
-                if ($y > 75)
-                {
+                if ($y > 75) {
                     $y = 75;
                     $x = round($y * $aspect);
                 }
@@ -317,8 +293,7 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
         // Start widget table, add Thumbnail
         $html = "<table border='0' class='midcom_helper_datamanager2_widget_image_table' id='{$this->_namespace}{$this->name}_table'>\n<tr>\n
             <td align='center' valign='top' class='midcom_helper_datamanager2_widget_image_thumbnail'><img class='midcom_helper_datamanager2_widget_image_thumbnail' alt='{$this->name}' src='{$url}' {$size} />";
-        if ($is_thumbnail)
-        {
+        if ($is_thumbnail) {
             $html .= "<br />\n(" . $this->_l10n->get('type image: thumbnail') . ')';
         }
         return $html;
@@ -333,33 +308,26 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
      */
     function _create_frozen_elements(array &$elements)
     {
-        if ($this->_type->attachments)
-        {
+        if ($this->_type->attachments) {
             // Get preview image source
-            if (array_key_exists('thumbnail', $this->_type->attachments))
-            {
+            if (array_key_exists('thumbnail', $this->_type->attachments)) {
                 $url = $this->_type->attachments_info['thumbnail']['url'];
                 $x = $this->_type->attachments_info['thumbnail']['size_x'];
                 $y = $this->_type->attachments_info['thumbnail']['size_y'];
-            }
-            else
-            {
+            } else {
                 $url = $this->_type->attachments_info['main']['url'];
                 $x = $this->_type->attachments_info['main']['size_x'];
                 $y = $this->_type->attachments_info['main']['size_y'];
 
                 // Downscale Preview image to max 75px, protect against broken images:
                 if (   $x != 0
-                    && $y != 0)
-                {
+                    && $y != 0) {
                     $aspect = $x/$y;
-                    if ($x > 75)
-                    {
+                    if ($x > 75) {
                         $x = 75;
                         $y = round($x / $aspect);
                     }
-                    if ($y > 75)
-                    {
+                    if ($y > 75) {
                         $y = 75;
                         $x = round($y * $aspect);
                     }
@@ -373,9 +341,7 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
             $html = "<p><img src='{$url}' {$size} />&nbsp;
                 <a href='{$main_info['url']}' target='_new'>{$main_info['filename']}</a>,
                 {$main_info['formattedsize']}";
-        }
-        else
-        {
+        } else {
             $html = $this->_l10n->get('no file uploaded');
         }
         $elements[] = $this->_form->createElement('static', "{$this->name}_filename", '', "<p>{$html}</p>");
@@ -388,10 +354,8 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
      */
     function on_submit($results)
     {
-        if (array_key_exists("{$this->name}_delete", $results))
-        {
-            if (!$this->_type->delete_all_attachments())
-            {
+        if (array_key_exists("{$this->name}_delete", $results)) {
+            if (!$this->_type->delete_all_attachments()) {
                 debug_add("Failed to delete all attached old images on the field {$this->name}.", MIDCOM_LOG_ERROR);
             }
 
@@ -400,12 +364,10 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
             return;
         }
 
-        if (array_key_exists("{$this->name}_rotate", $results))
-        {
+        if (array_key_exists("{$this->name}_rotate", $results)) {
             // The direction is the key (since the value is the point clicked on the image input)
             $direction = key($results["{$this->name}_rotate"]);
-            if (!$this->_type->rotate($direction))
-            {
+            if (!$this->_type->rotate($direction)) {
                 debug_add("Failed to rotate image on the field {$this->name}.", MIDCOM_LOG_ERROR);
             }
 
@@ -413,8 +375,7 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
             return;
         }
 
-        if (!$this->_upload_element->isUploadedFile())
-        {
+        if (!$this->_upload_element->isUploadedFile()) {
             return;
         }
 
@@ -422,22 +383,17 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
         // otherwhise if other form fields validations fail, it will not be set
         $file = $this->_upload_element->getValue();
         $title = "";
-        if ($this->show_title && isset($results[$this->name . "_title"]))
-        {
+        if ($this->show_title && isset($results[$this->name . "_title"])) {
             $title = $results[$this->name . "_title"];
         }
         $this->_type->title = $title;
         $this->_type->uploaded_file = $this->_upload_element;
 
-        if ($this->_type->validate())
-        {
-            if (!$this->_type->set_image($file['name'], $file['tmp_name'], $title))
-            {
+        if ($this->_type->validate()) {
+            if (!$this->_type->set_image($file['name'], $file['tmp_name'], $title)) {
                 debug_add("Failed to process image {$this->name}.", MIDCOM_LOG_INFO);
                 $this->_cast_formgroup_to_upload();
-            }
-            else
-            {
+            } else {
                 $this->_cast_formgroup_to_replacedelete();
             }
         }
@@ -464,12 +420,9 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
     {
         $new_elements = array();
 
-        if ($this->_type->attachments)
-        {
+        if ($this->_type->attachments) {
             $this->_create_replace_elements($new_elements);
-        }
-        else
-        {
+        } else {
             $this->_create_upload_elements($new_elements);
         }
 
@@ -490,8 +443,7 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
      */
     public function get_default()
     {
-        if ($this->show_title && $this->_type->title !== '')
-        {
+        if ($this->show_title && $this->_type->title !== '') {
             return array("{$this->name}_title" => $this->_type->title);
         }
         return null;

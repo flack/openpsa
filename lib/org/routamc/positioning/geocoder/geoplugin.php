@@ -30,21 +30,18 @@ class org_routamc_positioning_geocoder_geoplugin extends org_routamc_positioning
      */
     public function geocode(array $location, array $options = array())
     {
-        if (!isset($location['ip']))
-        {
+        if (!isset($location['ip'])) {
             throw new InvalidArgumentException("No IP address provided");
         }
 
         // Check that we have a valid IP
-        if (!filter_var($location['ip'], FILTER_VALIDATE_IP))
-        {
+        if (!filter_var($location['ip'], FILTER_VALIDATE_IP)) {
             throw new InvalidArgumentException("Invalid IP address provided");
         }
 
         $http_request = new org_openpsa_httplib();
         $json = $http_request->get("http://www.geoplugin.net/json.gp?ip={$location['ip']}");
-        if (!$json)
-        {
+        if (!$json) {
             throw new RuntimeException("GeoPlugin did not return data");
         }
         // Remove the geoPlugin() callback
@@ -52,8 +49,7 @@ class org_routamc_positioning_geocoder_geoplugin extends org_routamc_positioning
         $geocoded = json_decode($json);
 
         if (   !$geocoded->geoplugin_latitude
-            || !$geocoded->geoplugin_longitude)
-        {
+            || !$geocoded->geoplugin_longitude) {
             throw new RuntimeException("GeoPlugin did not return coordinates for IP");
         }
 
@@ -65,14 +61,12 @@ class org_routamc_positioning_geocoder_geoplugin extends org_routamc_positioning
         $location['accuracy'] = 80;
         $location['source'] = 'geoplugin';
 
-        if (isset($geocoded->geoplugin_countryCode))
-        {
+        if (isset($geocoded->geoplugin_countryCode)) {
             $location['country'] = $geocoded->geoplugin_countryCode;
             $location['accuracy'] = 60;
         }
 
-        if (isset($geocoded->geoplugin_city))
-        {
+        if (isset($geocoded->geoplugin_city)) {
             $location['city'] = $geocoded->geoplugin_city;
             $location['accuracy'] = 30;
         }

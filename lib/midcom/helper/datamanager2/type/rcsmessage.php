@@ -23,8 +23,7 @@ class midcom_helper_datamanager2_type_rcsmessage extends midcom_helper_datamanag
 
     public function convert_from_storage($source)
     {
-        if (method_exists($this->storage->object, 'get_rcs_message'))
-        {
+        if (method_exists($this->storage->object, 'get_rcs_message')) {
             $this->value = $this->storage->object->get_rcs_message();
         }
         // Nullstorage doesn't have RCS
@@ -32,8 +31,7 @@ class midcom_helper_datamanager2_type_rcsmessage extends midcom_helper_datamanag
 
     public function convert_to_storage()
     {
-        if (method_exists($this->storage->object, 'set_rcs_message'))
-        {
+        if (method_exists($this->storage->object, 'set_rcs_message')) {
             $this->storage->object->set_rcs_message($this->value);
         }
         // Nullstorage doesn't have RCS

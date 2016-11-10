@@ -17,8 +17,7 @@ class org_openpsa_helpers
     {
         $output = '';
         $attachments = self::get_dm2_attachments($object, $field);
-        foreach ($attachments as $attachment)
-        {
+        foreach ($attachments as $attachment) {
             $stat = $attachment->stat();
             $filesize = midcom_helper_misc::filesize_to_string($stat[7]);
             $url = midcom::get()->permalinks->create_attachment_link($attachment->guid, $attachment->name);
@@ -34,7 +33,7 @@ class org_openpsa_helpers
         }
 
         return $output;
-     }
+    }
 
      /**
       * @param midcom_core_dbaobject $object The object we're working on
@@ -45,24 +44,18 @@ class org_openpsa_helpers
      {
          $attachments = array();
          $identifiers = explode(',', $object->get_parameter('midcom.helper.datamanager2.type.blobs', 'guids_' . $field));
-         if (empty($identifiers))
-         {
+         if (empty($identifiers)) {
              return $attachments;
          }
-         foreach ($identifiers as $identifier)
-         {
+         foreach ($identifiers as $identifier) {
              $parts = explode(':', $identifier);
-             if (sizeof($parts) != 2)
-             {
+             if (sizeof($parts) != 2) {
                  continue;
              }
              $guid = $parts[1];
-             try
-             {
+             try {
                  $attachments[$parts[0]] = midcom_db_attachment::get_cached($guid);
-             }
-             catch (midcom_error $e)
-             {
+             } catch (midcom_error $e) {
                  $e->log();
              }
          }

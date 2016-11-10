@@ -19,11 +19,9 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
         $revised = array();
 
         // List installed MgdSchema types and convert to DBA classes
-        foreach ($this->_request_data['schema_types'] as $schema_type)
-        {
+        foreach ($this->_request_data['schema_types'] as $schema_type) {
             if (   !is_null($type)
-                && $schema_type != $type)
-            {
+                && $schema_type != $type) {
                 // Skip
                 continue;
             }
@@ -31,8 +29,7 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
             $mgdschema_class = midcom_helper_reflector::class_rewrite($schema_type);
             $dummy_object = new $mgdschema_class();
             $midcom_dba_classname = midcom::get()->dbclassloader->get_midcom_class_name_for_mgdschema_object($dummy_object);
-            if (empty($midcom_dba_classname))
-            {
+            if (empty($midcom_dba_classname)) {
                 continue;
             }
 
@@ -40,37 +37,30 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
         }
 
         // List all revised objects
-        foreach ($classes as $class)
-        {
-            if (!midcom::get()->dbclassloader->load_mgdschema_class_handler($class))
-            {
+        foreach ($classes as $class) {
+            if (!midcom::get()->dbclassloader->load_mgdschema_class_handler($class)) {
                 // Failed to load handling component, skip
                 continue;
             }
             $qb_callback = array($class, 'new_query_builder');
             $qb = call_user_func($qb_callback);
 
-            if ($since != 'any')
-            {
+            if ($since != 'any') {
                 $qb->add_constraint('metadata.revised', '>=', $since);
             }
 
             if (   $only_mine
-                && midcom::get()->auth->user)
-            {
+                && midcom::get()->auth->user) {
                 $qb->add_constraint('metadata.authors', 'LIKE', '|' . midcom::get()->auth->user->guid . '|');
             }
 
             $qb->add_order('metadata.revision', 'DESC');
             $objects = $qb->execute();
 
-            foreach ($objects as $object)
-            {
-                if (!is_null($review_by))
-                {
+            foreach ($objects as $object) {
+                if (!is_null($review_by)) {
                     $object_review_by = (int) $object->get_parameter('midcom.helper.metadata', 'review_date');
-                    if ($object_review_by > $review_by)
-                    {
+                    if ($object_review_by > $review_by) {
                         // Skip
                         continue;
                     }
@@ -106,46 +96,37 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
 
         if (    isset($_POST['execute_mass_action'])
              && !empty($_POST['selections'])
-             && isset($_POST['mass_action']))
-        {
+             && isset($_POST['mass_action'])) {
             $method_name = "_mass_{$_POST['mass_action']}";
             $this->$method_name($_POST['selections']);
         }
 
         $data['revised'] = array();
-        if (isset($_REQUEST['revised_after']))
-        {
+        if (isset($_REQUEST['revised_after'])) {
             $data['revised_after'] = $_REQUEST['revised_after'];
-            if ($data['revised_after'] != 'any')
-            {
+            if ($data['revised_after'] != 'any') {
                 $data['revised_after'] = date('Y-m-d H:i:s\Z', $_REQUEST['revised_after']);
             }
 
             $data['review_by'] = null;
             if (   $this->_config->get('enable_review_dates')
                 && isset($_REQUEST['review_by'])
-                && $_REQUEST['review_by'] != 'any')
-            {
+                && $_REQUEST['review_by'] != 'any') {
                 $data['review_by'] = (int) $_REQUEST['review_by'];
             }
 
             $data['type_filter'] = null;
             if (   isset($_REQUEST['type_filter'])
-                && $_REQUEST['type_filter'] != 'any')
-            {
+                && $_REQUEST['type_filter'] != 'any') {
                 $data['type_filter'] = $_REQUEST['type_filter'];
             }
 
             $data['only_mine'] = !empty($_REQUEST['only_mine']);
 
             $objects = $this->_list_revised($data['revised_after'], $data['review_by'], $data['type_filter'], $data['only_mine']);
-        }
-        elseif (class_exists('midcom_helper_activitystream_activity_dba'))
-        {
+        } elseif (class_exists('midcom_helper_activitystream_activity_dba')) {
             $objects = $this->_load_activities();
-        }
-        else
-        {
+        } else {
             $data['revised_after'] = date('Y-m-d H:i:s\Z', mktime(0, 0, 0, date('m'), date('d') - 1, date('Y')));
             $objects = $this->_list_revised($data['revised_after']);
         }
@@ -164,26 +145,18 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
     {
         $objects = array();
         $activities = midcom_helper_activitystream_activity_dba::get($this->_config->get('last_visited_size'));
-        foreach ($activities as $activity)
-        {
-            try
-            {
+        foreach ($activities as $activity) {
+            try {
                 $object = midcom::get()->dbfactory->get_object_by_guid($activity->target);
-            }
-            catch (midcom_error $e)
-            {
-                if (midcom_connection::get_error() == MGD_ERR_OBJECT_DELETED)
-                {
+            } catch (midcom_error $e) {
+                if (midcom_connection::get_error() == MGD_ERR_OBJECT_DELETED) {
                     // TODO: Visualize deleted objects somehow
                 }
                 continue;
             }
-            try
-            {
+            try {
                 $actor = midcom_db_person::get_cached($activity->actor);
-            }
-            catch (midcom_error $e)
-            {
+            } catch (midcom_error $e) {
                 $actor = null;
             }
 
@@ -199,8 +172,7 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
     private function _prepare_tabledata(array $objects)
     {
         $this->_request_data['revised'] = array();
-        foreach ($objects as $data)
-        {
+        foreach ($objects as $data) {
             $object = $data['object'];
             $reflector = midcom_helper_reflector::get($object);
 
@@ -218,24 +190,17 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
             $title = substr($reflector->get_object_label($object), 0, 60);
             $row['title'] = ($title) ?: '[' . $this->_l10n->get('no title') . ']';
 
-            if (empty($data['revisor']))
-            {
+            if (empty($data['revisor'])) {
                 $row['revisor'] = $this->_l10n_midcom->get('unknown');
-            }
-            else
-            {
+            } else {
                 $row['revisor'] = $data['revisor']->name;
             }
 
-            if ($this->_config->get('enable_review_dates'))
-            {
+            if ($this->_config->get('enable_review_dates')) {
                 $review_date = $object->get_parameter('midcom.helper.metadata', 'review_date');
-                if (!$review_date)
-                {
+                if (!$review_date) {
                     $row['review_date'] = $this->_l10n->get('n/a');
-                }
-                else
-                {
+                } else {
                     $row['review_date'] = strftime('%x', $review_date);
                 }
             }
@@ -253,8 +218,7 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
             MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/configuration.png',
         );
 
-        if (midcom::get()->auth->admin)
-        {
+        if (midcom::get()->auth->admin) {
             $buttons[] = array
             (
                 MIDCOM_TOOLBAR_URL => '__mfa/asgard/shell/',
@@ -295,21 +259,15 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
 
     private function _mass_delete($guids)
     {
-        foreach ($guids as $guid)
-        {
-            try
-            {
+        foreach ($guids as $guid) {
+            try {
                 $object = midcom::get()->dbfactory->get_object_by_guid($guid);
-            }
-            catch (midcom_error $e)
-            {
+            } catch (midcom_error $e) {
                 continue;
             }
 
-            if ($object->can_do('midgard:delete'))
-            {
-                if ($object->delete())
-                {
+            if ($object->can_do('midgard:delete')) {
+                if ($object->delete()) {
                     midcom::get()->uimessages->add($this->_l10n->get('midgard.admin.asgard'), sprintf($this->_l10n->get('object %s removed'), $object->guid));
                 }
             }
@@ -318,20 +276,15 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
 
     private function _mass_approve($guids)
     {
-        foreach ($guids as $guid)
-        {
-            try
-            {
+        foreach ($guids as $guid) {
+            try {
                 $object = midcom::get()->dbfactory->get_object_by_guid($guid);
-            }
-            catch (midcom_error $e)
-            {
+            } catch (midcom_error $e) {
                 continue;
             }
 
             if (   $object->can_do('midgard:update')
-                && $object->can_do('midcom:approve'))
-            {
+                && $object->can_do('midcom:approve')) {
                 $object->metadata->approve();
                 midcom::get()->uimessages->add($this->_l10n->get('midgard.admin.asgard'), sprintf($this->_l10n->get('object %s approved'), $object->guid));
             }
@@ -346,8 +299,7 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
      */
     public function _show_welcome($handler_id, array &$data)
     {
-        if (midcom::get()->auth->can_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin'))
-        {
+        if (midcom::get()->auth->can_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin')) {
             midcom_show_style('midgard_admin_asgard_welcome');
         }
     }

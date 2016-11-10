@@ -28,8 +28,7 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
     {
         $this->_request_data['task'] = $this->_task;
 
-        if ($this->_task->can_do('midgard:update'))
-        {
+        if ($this->_task->can_do('midgard:update')) {
             $workflow = $this->get_workflow('datamanager2');
             $this->_view_toolbar->add_item($workflow->get_button("task/edit/{$this->_task->guid}/", array
             (
@@ -61,18 +60,14 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
         $this->_task->require_do('midgard:create');
 
         if (   array_key_exists('org_openpsa_projects_prospects', $_POST)
-            && $_POST['save'])
-        {
+            && $_POST['save']) {
             $qb = org_openpsa_projects_task_resource_dba::new_query_builder();
             $qb->add_constraint('guid', 'IN', array_keys($_POST['org_openpsa_projects_prospects']));
-            foreach ($qb->execute() as $prospect)
-            {
+            foreach ($qb->execute() as $prospect) {
                 $slots = $_POST['org_openpsa_projects_prospects'][$prospect->guid];
                 $update_prospect = false;
-                foreach ($slots as $slotdata)
-                {
-                    if (empty($slotdata['used']))
-                    {
+                foreach ($slots as $slotdata) {
+                    if (empty($slotdata['used'])) {
                         // Slot not selected, skip
                         continue;
                     }
@@ -84,8 +79,7 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
                     $event->end = $slotdata['end'];
                     $event->search_relatedtos = false;
                     $event->title = sprintf($this->_l10n->get('work for task %s'), $this->_task->title);
-                    if (!$event->create())
-                    {
+                    if (!$event->create()) {
                         // TODO: error reporting
                         continue;
                     }
@@ -97,15 +91,13 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
                     org_openpsa_relatedto_plugin::create($event, 'org.openpsa.calendar', $this->_task, 'org.openpsa.projects');
                 }
                 if (   $update_prospect
-                    && !$prospect->update())
-                {
+                    && !$prospect->update()) {
                     debug_add('Failed to update prospect: ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
                 }
             }
             return new midcom_response_relocate("task/{$this->_task->guid}/");
         }
-        if (!empty($_POST['cancel']))
-        {
+        if (!empty($_POST['cancel'])) {
             return new midcom_response_relocate("task/{$this->_task->guid}/");
         }
 
@@ -141,8 +133,8 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
         $qb = org_openpsa_projects_task_resource_dba::new_query_builder();
         $qb->add_constraint('task', '=', $this->_task->id);
         $qb->begin_group('OR');
-            $qb->add_constraint('orgOpenpsaObtype', '=', org_openpsa_projects_task_resource_dba::PROSPECT);
-            $qb->add_constraint('orgOpenpsaObtype', '=', org_openpsa_projects_task_resource_dba::RESOURCE);
+        $qb->add_constraint('orgOpenpsaObtype', '=', org_openpsa_projects_task_resource_dba::PROSPECT);
+        $qb->add_constraint('orgOpenpsaObtype', '=', org_openpsa_projects_task_resource_dba::RESOURCE);
         $qb->end_group('OR');
         $qb->add_order('orgOpenpsaObtype');
         $data['prospects'] = $qb->execute();

@@ -17,8 +17,7 @@ $grid->set_option('loadonce', true)
 ));
 
 $grid->set_column('invoice', $invoices_l10n->get('invoice number'), 'align: "center", fixed: true', 'integer');
-if ($data['handler_id'] != 'deliverable_report')
-{
+if ($data['handler_id'] != 'deliverable_report') {
     $grid->set_column('owner', $sales_l10n->get('owner'), '', 'string');
 }
 $grid->set_column('customer', $sales_l10n->get('customer'));
@@ -33,8 +32,7 @@ $grid->set_footer_data($footer_data);
 <?php
 echo ' ' . midcom::get()->i18n->get_string('group by', 'org.openpsa.core') . ': ';
 echo '<select id="chgrouping_' . $grid_id . '">';
-if ($data['handler_id'] != 'deliverable_report')
-{
+if ($data['handler_id'] != 'deliverable_report') {
     echo '<option value="owner">' . $sales_l10n->get('owner') . "</option>\n";
 }
 

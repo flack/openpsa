@@ -5,20 +5,15 @@ $formatter = $data['l10n']->get_formatter();
 ?>
 <h1><?php printf($l10n->get('report for message %s'), $data['message']->title); ?></h1>
 <?php
-if ($data['message']->sendStarted == 0)
-{
+if ($data['message']->sendStarted == 0) {
     echo '<p>' . $l10n->get('nothing sent yet') . '</p>';
-}
-else
-{
+} else {
     $first_send = $l10n->get('nothing sent yet');
     $last_send = $l10n->get('nothing sent yet');
-    if ($report['receipt_data']['sent'] > 0)
-    {
+    if ($report['receipt_data']['sent'] > 0) {
         $first_send = $formatter->datetime($report['receipt_data']['first_send']);
         $last_send = $formatter->datetime($report['receipt_data']['last_send']);
-    }
-?>
+    } ?>
 <div class="midcom_helper_datamanager2_view">
   <div class="field">
     <div class="title"><?php echo $l10n->get('first message sent on'); ?></div>
@@ -52,35 +47,30 @@ else
     </tr>
     <tr>
     <?php
-        if ($report['campaign_data']['next_message'])
-        {
-    ?>
+        if ($report['campaign_data']['next_message']) {
+            ?>
         <td class="title"><?php printf($l10n->get('unsubscribed between %s - %s'), $first_send, $formatter->datetime($report['campaign_data']['next_message']->sendStarted)); ?></td>
     <?php
-        }
-        else
-        {
-    ?>
+
+        } else {
+            ?>
         <td class="title"><?php printf($l10n->get('unsubscribed since %s'), $first_send); ?></td>
     <?php
-        }
-    ?>
+
+        } ?>
         <td class="numeric"><?php echo round($report['campaign_data']['unsubscribed'], 2); ?></td>
     </tr>
   </tbody>
 </table>
 <?php
-    if (count($report['link_data']['counts']) > 0)
-    {
+    if (count($report['link_data']['counts']) > 0) {
         echo "\n<h3>" . $l10n->get('link statistics') . "</h3>\n";
         midcom_show_style('show-message-report-links-header');
         $data['use_link_data'] = $report['link_data'];
         $data['body_class'] = 'all';
         midcom_show_style('show-message-report-links-body');
-        if (!empty($report['link_data']['segments']))
-        {
-            foreach ($report['link_data']['segments'] as $segment => $segment_data)
-            {
+        if (!empty($report['link_data']['segments'])) {
+            foreach ($report['link_data']['segments'] as $segment => $segment_data) {
                 unset($data['use_link_data']);
                 $data['use_link_data'] = $segment_data;
                 $data['body_class'] = 'segment';

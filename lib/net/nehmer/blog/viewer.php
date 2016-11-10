@@ -29,8 +29,7 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
         $this->_determine_content_topic();
         $this->_request_data['content_topic'] = $this->_content_topic;
 
-        if ($this->_config->get('view_in_url'))
-        {
+        if ($this->_config->get('view_in_url')) {
             $this->_request_switch['view-raw'] = array
             (
                 'handler' => array('net_nehmer_blog_handler_view', 'view'),
@@ -45,8 +44,7 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
             );
         }
 
-        if ($this->_config->get('rss_subscription_enable'))
-        {
+        if ($this->_config->get('rss_subscription_enable')) {
             net_nemein_rss_manage::register_plugin($this);
         }
     }
@@ -55,15 +53,13 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
     {
         if (   $allow_external
             && $this->_config->get('link_to_external_url')
-            && !empty($article->url))
-        {
+            && !empty($article->url)) {
             return $article->url;
         }
 
         $view_url = $article->name ?: $article->guid;
 
-        if ($this->_config->get('view_in_url'))
-        {
+        if ($this->_config->get('view_in_url')) {
             $view_url = 'view/' . $view_url;
         }
         return $view_url . '/';
@@ -74,8 +70,7 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
      */
     private function _add_link_head()
     {
-        if ($this->_config->get('rss_enable'))
-        {
+        if ($this->_config->get('rss_enable')) {
             midcom::get()->head->add_link_head
             (
                 array
@@ -118,10 +113,8 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
     {
         $buttons = array();
         $workflow = $this->get_workflow('datamanager2');
-        if ($this->_content_topic->can_do('midgard:create'))
-        {
-            foreach (array_keys($this->_request_data['schemadb']) as $name)
-            {
+        if ($this->_content_topic->can_do('midgard:create')) {
+            foreach (array_keys($this->_request_data['schemadb']) as $name) {
                 $buttons[] = $workflow->get_button("create/{$name}/", array
                 (
                     MIDCOM_TOOLBAR_LABEL => sprintf
@@ -135,14 +128,12 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
             }
         }
 
-        if ($this->_config->get('rss_subscription_enable'))
-        {
+        if ($this->_config->get('rss_subscription_enable')) {
             net_nemein_rss_manage::add_toolbar_buttons($this->_node_toolbar, $this->_topic->can_do('midgard:create'));
         }
 
         if (   $this->_config->get('enable_article_links')
-            && $this->_content_topic->can_do('midgard:create'))
-        {
+            && $this->_content_topic->can_do('midgard:create')) {
             $buttons[] = $workflow->get_button("create/link/", array
             (
                 MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('article link')),
@@ -151,8 +142,7 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
         }
 
         if (   $this->_topic->can_do('midgard:update')
-            && $this->_topic->can_do('midcom:component_config'))
-        {
+            && $this->_topic->can_do('midcom:component_config')) {
             $buttons[] = $workflow->get_button('config/', array
             (
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('component configuration'),
@@ -194,8 +184,7 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
      */
     private function _add_categories()
     {
-        if ($this->_config->get('categories') == '')
-        {
+        if ($this->_config->get('categories') == '') {
             // No categories defined, skip this.
             $this->_request_data['categories'] = array();
             return false;
@@ -203,15 +192,12 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
 
         $this->_request_data['categories'] = explode(',', $this->_config->get('categories'));
 
-        foreach ($this->_request_data['schemadb'] as $name => $schema)
-        {
+        foreach ($this->_request_data['schemadb'] as $name => $schema) {
             if (   array_key_exists('categories', $schema->fields)
-                && $this->_request_data['schemadb'][$name]->fields['categories']['type'] == 'select')
-            {
+                && $this->_request_data['schemadb'][$name]->fields['categories']['type'] == 'select') {
                 // TODO: Merge schema local and component config categories?
                 $this->_request_data['schemadb'][$name]->fields['categories']['type_config']['options'] = array();
-                foreach ($this->_request_data['categories'] as $category)
-                {
+                foreach ($this->_request_data['categories'] as $category) {
                     $this->_request_data['schemadb'][$name]->fields['categories']['type_config']['options'][$category] = $category;
                 }
             }
@@ -225,8 +211,7 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
     private function _determine_content_topic()
     {
         $guid = $this->_config->get('symlink_topic');
-        if (is_null($guid))
-        {
+        if (is_null($guid)) {
             // No symlink topic
             // Workaround, we should talk to a DBA object automatically here in fact.
             $this->_content_topic = midcom_db_topic::get_cached($this->_topic->id);
@@ -235,8 +220,7 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
 
         $this->_content_topic = midcom_db_topic::get_cached($guid);
 
-        if ($this->_content_topic->component != 'net.nehmer.blog')
-        {
+        if ($this->_content_topic->component != 'net.nehmer.blog') {
             debug_print_r('Retrieved topic was:', $this->_content_topic);
             throw new midcom_error('Symlink content topic is invalid, see the debug level log for details.');
         }
@@ -254,13 +238,11 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
     {
         $config = new midcom_helper_configuration($topic, 'net.nehmer.blog');
 
-        if ($config->get('disable_indexing'))
-        {
+        if ($config->get('disable_indexing')) {
             return;
         }
 
-        if (!is_object($topic))
-        {
+        if (!is_object($topic)) {
             $topic = new midcom_db_topic($topic);
         }
 
@@ -296,8 +278,7 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
 
         $articles = $qb->execute();
 
-        if (array_key_exists(0, $articles))
-        {
+        if (array_key_exists(0, $articles)) {
             return max($topic->metadata->revised, $articles[0]->metadata->revised);
         }
         return $topic->metadata->revised;
@@ -315,81 +296,68 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
         $topic_guids = array($data['content_topic']->guid);
 
         // Resolve any other topics we may need
-        if ($list_from_folders = $config->get('list_from_folders'))
-        {
+        if ($list_from_folders = $config->get('list_from_folders')) {
             // We have specific folders to list from, therefore list from them and current node
             $guids = explode('|', $list_from_folders);
             $topic_guids = array_merge($topic_guids, array_filter($guids, 'mgd_is_guid'));
         }
 
         // Include the article links to the indexes if enabled
-        if ($config->get('enable_article_links'))
-        {
+        if ($config->get('enable_article_links')) {
             $mc = net_nehmer_blog_link_dba::new_collector('topic', $data['content_topic']->id);
             $mc->add_order('metadata.published', 'DESC');
             $mc->set_limit((int) $config->get('index_entries'));
 
             // Get the results
             $qb->begin_group('OR');
-                $qb->add_constraint('id', 'IN', $mc->get_values('article'));
-                $qb->add_constraint('topic.guid', 'IN', $topic_guids);
+            $qb->add_constraint('id', 'IN', $mc->get_values('article'));
+            $qb->add_constraint('topic.guid', 'IN', $topic_guids);
             $qb->end_group();
-        }
-        else
-        {
+        } else {
             $qb->add_constraint('topic.guid', 'IN', $topic_guids);
         }
 
         if (   count($topic_guids) > 1
-            && $list_from_folders_categories = $config->get('list_from_folders_categories'))
-        {
+            && $list_from_folders_categories = $config->get('list_from_folders_categories')) {
             $list_from_folders_categories = explode(',', $list_from_folders_categories);
             // TODO: check schema storage to get fieldname
             $multiple_categories = true;
             if (   isset($data['schemadb']['default'])
                 && isset($data['schemadb']['default']->fields['list_from_folders_categories'])
                 && array_key_exists('allow_multiple', $data['schemadb']['default']->fields['list_from_folders_categories']['type_config'])
-                && !$data['schemadb']['default']->fields['list_from_folders_categories']['type_config']['allow_multiple'])
-            {
+                && !$data['schemadb']['default']->fields['list_from_folders_categories']['type_config']['allow_multiple']) {
                 $multiple_categories = false;
             }
             debug_add("multiple_categories={$multiple_categories}");
 
             $qb->begin_group('OR');
-                $qb->add_constraint('topic.guid', '=', $topic_guids[0]);
-                $qb->begin_group('OR');
-                    foreach ($list_from_folders_categories as $category)
-                    {
-                        if ($category = trim($category))
-                        {
-                            if ($multiple_categories)
-                            {
-                                $qb->add_constraint('extra1', 'LIKE', "%|{$category}|%");
-                            }
-                            else
-                            {
-                                $qb->add_constraint('extra1', '=', $category);
-                            }
-                        }
+            $qb->add_constraint('topic.guid', '=', $topic_guids[0]);
+            $qb->begin_group('OR');
+            foreach ($list_from_folders_categories as $category) {
+                if ($category = trim($category)) {
+                    if ($multiple_categories) {
+                        $qb->add_constraint('extra1', 'LIKE', "%|{$category}|%");
+                    } else {
+                        $qb->add_constraint('extra1', '=', $category);
                     }
-                $qb->end_group();
+                }
+            }
+            $qb->end_group();
             $qb->end_group();
         }
 
         // Hide the articles that have the publish time in the future and if
         // the user is not administrator
         if (   $config->get('enable_scheduled_publishing')
-            && !midcom::get()->auth->admin)
-        {
+            && !midcom::get()->auth->admin) {
             // Show the article only if the publishing time has passed or the viewer
             // is the author
             $qb->begin_group('OR');
-                $qb->add_constraint('metadata.published', '<', gmdate('Y-m-d H:i:s'));
+            $qb->add_constraint('metadata.published', '<', gmdate('Y-m-d H:i:s'));
 
-                if (!empty(midcom::get()->auth->user->guid))
-                {
-                    $qb->add_constraint('metadata.authors', 'LIKE', '|' . midcom::get()->auth->user->guid . '|');
-                }
+            if (!empty(midcom::get()->auth->user->guid)) {
+                $qb->add_constraint('metadata.authors', 'LIKE', '|' . midcom::get()->auth->user->guid . '|');
+            }
             $qb->end_group();
         }
 

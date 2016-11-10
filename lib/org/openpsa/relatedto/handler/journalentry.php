@@ -48,8 +48,7 @@ implements midcom_helper_datamanager2_interfaces_create
     {
         $this->_current_object = midcom::get()->dbfactory->get_object_by_guid($args[0]);
 
-        if ($args[1])
-        {
+        if ($args[1]) {
             $this->_output_mode = $args[1];
         }
 
@@ -70,8 +69,7 @@ implements midcom_helper_datamanager2_interfaces_create
         $this->_request_data['show_closed'] = true;
         $this->_request_data['show_object'] = false;
 
-        if ($this->_output_mode == 'html')
-        {
+        if ($this->_output_mode == 'html') {
             $this->_prepare_output();
             org_openpsa_widgets_grid::add_head_elements();
             //pass url where to get the data for js-plugin
@@ -81,8 +79,7 @@ implements midcom_helper_datamanager2_interfaces_create
             $ref = midcom_helper_reflector::get($this->_current_object);
             $object_label = $ref->get_object_label($this->_current_object);
             $object_url = midcom::get()->permalinks->create_permalink($this->_current_object->guid);
-            if ($object_url)
-            {
+            if ($object_url) {
                 $this->add_breadcrumb($object_url, $object_label);
             }
             $this->add_breadcrumb
@@ -120,12 +117,9 @@ implements midcom_helper_datamanager2_interfaces_create
 
     public function _show_entry($handler_id, &$data)
     {
-        if ($this->_output_mode == 'xml')
-        {
+        if ($this->_output_mode == 'xml') {
             midcom_show_style('show_entries_xml');
-        }
-        else
-        {
+        } else {
             midcom_show_style('show_entries_html');
         }
     }
@@ -147,8 +141,7 @@ implements midcom_helper_datamanager2_interfaces_create
     {
         $reminder = new org_openpsa_relatedto_journal_entry_dba();
         $reminder->linkGuid = $this->_current_object->guid;
-        if (!$reminder->create())
-        {
+        if (!$reminder->create()) {
             debug_print_r('We operated on this object:', $reminder);
             throw new midcom_error("Failed to create a new reminder. Error: " . midcom_connection::get_error_string());
         }
@@ -187,8 +180,7 @@ implements midcom_helper_datamanager2_interfaces_create
         midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('edit %s'), $this->_l10n->get('journal entry')));
 
         $workflow = $this->get_workflow('datamanager2', array('controller' => $data['controller']));
-        if ($this->_journal_entry->can_do('midgard:delete'))
-        {
+        if ($this->_journal_entry->can_do('midgard:delete')) {
             $delete = $this->get_workflow('delete', array('object' => $this->_journal_entry));
             $workflow->add_dialog_button($delete, $url_prefix . "delete/" . $this->_journal_entry->guid . "/");
         }
@@ -200,8 +192,7 @@ implements midcom_helper_datamanager2_interfaces_create
         $this->_journal_entry = new org_openpsa_relatedto_journal_entry_dba($args[0]);
         $this->_current_object = midcom::get()->dbfactory->get_object_by_guid($this->_journal_entry->linkGuid);
 
-        if (!$this->_journal_entry->delete())
-        {
+        if (!$this->_journal_entry->delete()) {
             throw new midcom_error("Failed to delete journal_entry: " . $args[0] . " Last Error was :" . midcom_connection::get_error_string());
         }
 
@@ -210,13 +201,11 @@ implements midcom_helper_datamanager2_interfaces_create
 
     public function _handler_list($handler_id, $args, &$data)
     {
-        if (isset($args[0]))
-        {
+        if (isset($args[0])) {
             $this->_output_mode = $args[0];
         }
         //output_mode different from html means we just want the data
-        if ($this->_output_mode != 'html')
-        {
+        if ($this->_output_mode != 'html') {
             $this->qb_journal_entries = org_openpsa_relatedto_journal_entry_dba::new_query_builder();
             $this->qb_journal_entries->add_order('followUp');
             $this->_prepare_journal_query();
@@ -226,32 +215,25 @@ implements midcom_helper_datamanager2_interfaces_create
             $this->_request_data['show_closed'] = false;
             $this->_request_data['page'] = 1;
 
-            if (array_key_exists('show_closed', $_POST))
-            {
+            if (array_key_exists('show_closed', $_POST)) {
                 $this->_request_data['show_closed'] = true;
             }
             $this->_request_data['entries'] = $this->qb_journal_entries->execute();
 
             //get the corresponding objects
             if (   $this->_request_data['show_object'] == true
-                && !empty($this->_request_data['entries']))
-            {
+                && !empty($this->_request_data['entries'])) {
                 $this->_request_data['linked_objects'] = array();
                 $this->_request_data['linked_raw_objects'] = array();
 
-                foreach ($this->_request_data['entries'] as $i => $entry)
-                {
-                    if (array_key_exists($entry->linkGuid, $this->_request_data['linked_objects']))
-                    {
+                foreach ($this->_request_data['entries'] as $i => $entry) {
+                    if (array_key_exists($entry->linkGuid, $this->_request_data['linked_objects'])) {
                         continue;
                     }
                     //create reflector with linked object to get the right label
-                    try
-                    {
+                    try {
                         $linked_object = midcom::get()->dbfactory->get_object_by_guid($entry->linkGuid);
-                    }
-                    catch (midcom_error $e)
-                    {
+                    } catch (midcom_error $e) {
                         unset($this->_request_data['entries'][$i]);
                         $e->log();
                         continue;
@@ -265,9 +247,7 @@ implements midcom_helper_datamanager2_interfaces_create
             }
             //url_prefix to build the links to the entries
             $this->_request_data['url_prefix'] = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . "__mfa/org.openpsa.relatedto/journalentry/";
-        }
-        else
-        {
+        } else {
             //url where the xml-data can be loaded
             $this->_request_data['data_url'] =midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . "__mfa/org.openpsa.relatedto/journalentry/list/xml/" ;
             //enable jqgrid for html-output
@@ -283,8 +263,7 @@ implements midcom_helper_datamanager2_interfaces_create
 
     private function _prepare_header()
     {
-        if ($this->_output_mode == 'xml')
-        {
+        if ($this->_output_mode == 'xml') {
             midcom::get()->header("Content-type: text/xml; charset=UTF-8");
             midcom::get()->skip_page_style = true;
         }
@@ -292,21 +271,17 @@ implements midcom_helper_datamanager2_interfaces_create
 
     private function _prepare_journal_query()
     {
-        if (array_key_exists('journal_entry_constraints', $_POST))
-        {
-            foreach ($_POST['journal_entry_constraints'] as $constraint)
-            {
+        if (array_key_exists('journal_entry_constraints', $_POST)) {
+            foreach ($_POST['journal_entry_constraints'] as $constraint) {
                 //"type-cast" for closed because it will be passed as string
-                if ($constraint['property'] == 'closed')
-                {
+                if ($constraint['property'] == 'closed') {
                     $constraint['value'] = ($constraint['value'] != 'false');
                 }
                 $this->qb_journal_entries->add_constraint($constraint['property'], $constraint['operator'], $constraint['value']);
             }
         }
         //check if there is a page & rows - parameter passed - if add them to qb
-        if (array_key_exists('page', $_POST) && array_key_exists('rows', $_POST))
-        {
+        if (array_key_exists('page', $_POST) && array_key_exists('rows', $_POST)) {
             $this->_request_data['page'] = $_POST['page'];
             $this->qb_journal_entries->set_limit((int)$_POST['rows']);
             $offset = ((int)$_POST['page'] - 1) * (int)$_POST['rows'];

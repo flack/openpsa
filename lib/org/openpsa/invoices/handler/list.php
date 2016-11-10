@@ -55,15 +55,13 @@ implements org_openpsa_widgets_grid_provider_client
     public function get_qb($field = null, $direction = 'ASC', array $search = array())
     {
         $qb = org_openpsa_invoices_invoice_dba::new_collector('metadata.deleted', false);
-        if (!is_null($field))
-        {
+        if (!is_null($field)) {
             $qb->add_order($field, $direction);
         }
 
         $this->_add_filters($qb);
 
-        switch ($this->_list_type)
-        {
+        switch ($this->_list_type) {
             case 'paid':
                 $qb->add_constraint('paid', '>', 0);
                 break;
@@ -93,8 +91,7 @@ implements org_openpsa_widgets_grid_provider_client
         $number = $invoice->get_label();
         $link_html = "<a href='{$prefix}invoice/{$invoice->guid}/'>" . $number . "</a>";
 
-        if ($number == "")
-        {
+        if ($number == "") {
             $number = "n/a";
         }
 
@@ -102,38 +99,29 @@ implements org_openpsa_widgets_grid_provider_client
         $entry['index_number'] = $number;
         $entry['number'] = $link_html;
 
-        if (!is_a($this->_customer, 'org_openpsa_contacts_group_dba'))
-        {
-            try
-            {
+        if (!is_a($this->_customer, 'org_openpsa_contacts_group_dba')) {
+            try {
                 $customer = org_openpsa_contacts_group_dba::get_cached($invoice->customer);
                 $entry['customer'] = "<a href=\"{$this->_request_data['invoices_url']}list/customer/all/{$customer->guid}/\">" . $customer->get_label() . "</a>";
                 $entry['index_customer'] = $customer->get_label();
-            }
-            catch (midcom_error $e)
-            {
+            } catch (midcom_error $e) {
                 $entry['customer'] = '';
                 $entry['index_customer'] = '';
             }
         }
 
-        if (!is_a($this->_customer, 'org_openpsa_contacts_person_dba'))
-        {
-            try
-            {
+        if (!is_a($this->_customer, 'org_openpsa_contacts_person_dba')) {
+            try {
                 $contact = org_openpsa_contacts_person_dba::get_cached($invoice->customerContact);
                 $entry['contact'] = "<a href=\"{$this->_request_data['invoices_url']}list/customer/all/{$contact->guid}/\">" . $contact->get_label() . "</a>";
                 $entry['index_contact'] = $contact->get_label();
-            }
-            catch (midcom_error $e)
-            {
+            } catch (midcom_error $e) {
                 $entry['contact'] = '';
                 $entry['index_contact'] = '';
             }
         }
 
-        if (!empty($this->_request_data['deliverable']))
-        {
+        if (!empty($this->_request_data['deliverable'])) {
             $constraints = array
             (
                 'invoice' => $invoice->id,
@@ -148,14 +136,12 @@ implements org_openpsa_widgets_grid_provider_client
         $entry['sum'] = '<span title="' . $this->_l10n->get('sum including vat') . ': ' . $this->formatter->number((($invoice->sum / 100) * $invoice->vat) + $invoice->sum) . '">' . $this->formatter->number($invoice->sum) . '</span>';
 
         $entry['due'] = '';
-        if ($invoice->due > 0)
-        {
+        if ($invoice->due > 0) {
             $entry['due'] = strftime('%Y-%m-%d', $invoice->due);
         }
 
         $colname = 'action';
-        if ($this->_list_type == 'paid')
-        {
+        if ($this->_list_type == 'paid') {
             $colname = 'paid';
         }
         $entry[$colname] = $this->_master->render_invoice_actions($invoice);
@@ -195,8 +181,7 @@ implements org_openpsa_widgets_grid_provider_client
         $this->_master->prepare_toolbar('dashboard');
 
         if (   $this->_topic->can_do('midgard:update')
-            && $this->_topic->can_do('midcom:component_config'))
-        {
+            && $this->_topic->can_do('midcom:component_config')) {
             $workflow = $this->get_workflow('datamanager2');
             $this->_node_toolbar->add_item($workflow->get_button('config/', array
             (
@@ -234,8 +219,7 @@ implements org_openpsa_widgets_grid_provider_client
         $provider = new org_openpsa_widgets_grid_provider($this);
         $provider->add_order('paid', 'DESC');
 
-        if ($provider->count_rows() > 0)
-        {
+        if ($provider->count_rows() > 0) {
             $this->_request_data['grid'] = $provider->get_grid('paid_invoices_grid');
             $this->_request_data['list_label'] = $this->_l10n->get('recently paid invoices');
 
@@ -250,19 +234,13 @@ implements org_openpsa_widgets_grid_provider_client
      */
     private function _add_filters($qb)
     {
-        if ($this->_deliverable)
-        {
+        if ($this->_deliverable) {
             $mc = org_openpsa_invoices_invoice_item_dba::new_collector('deliverable', $this->_deliverable->id);
             $qb->add_constraint('id', 'IN', $mc->get_values('invoice'));
-        }
-        elseif ($this->_customer)
-        {
-            if (is_a($this->_customer, 'org_openpsa_contacts_group_dba'))
-            {
+        } elseif ($this->_customer) {
+            if (is_a($this->_customer, 'org_openpsa_contacts_group_dba')) {
                 $qb->add_constraint('customer', '=', $this->_customer->id);
-            }
-            else
-            {
+            } else {
                 $qb->add_constraint('customerContact', '=', $this->_customer->id);
             }
         }
@@ -273,13 +251,11 @@ implements org_openpsa_widgets_grid_provider_client
         $this->_list_type = $type;
 
         $provider = new org_openpsa_widgets_grid_provider($this, 'local');
-        if ($provider->count_rows() == 0)
-        {
+        if ($provider->count_rows() == 0) {
             return;
         }
 
-        switch ($this->_list_type)
-        {
+        switch ($this->_list_type) {
             case 'paid':
                 $provider->add_order('paid', 'DESC');
                 break;
@@ -293,8 +269,7 @@ implements org_openpsa_widgets_grid_provider_client
         }
         $grid_id = $type . '_invoices_grid';
 
-        if ($this->_deliverable)
-        {
+        if ($this->_deliverable) {
             $grid_id = 'd_' . $this->_deliverable->id . $grid_id;
             $this->_request_data['totals']['deliverable'] = 0;
         }
@@ -315,18 +290,14 @@ implements org_openpsa_widgets_grid_provider_client
      */
     public function _handler_customer($handler_id, array $args, array &$data)
     {
-        try
-        {
+        try {
             $this->_customer = new org_openpsa_contacts_group_dba($args[0]);
-        }
-        catch (midcom_error $e)
-        {
+        } catch (midcom_error $e) {
             $this->_customer = new org_openpsa_contacts_person_dba($args[0]);
         }
         $data['customer'] = $this->_customer;
         $buttons = array();
-        if (midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_invoices_invoice_dba'))
-        {
+        if (midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_invoices_invoice_dba')) {
             $workflow = $this->get_workflow('datamanager2');
             $buttons[] = $workflow->get_button("invoice/new/{$this->_customer->guid}/", array
             (
@@ -334,8 +305,7 @@ implements org_openpsa_widgets_grid_provider_client
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/printer.png',
             ));
 
-            if ($this->_customer->can_do('midgard:create'))
-            {
+            if ($this->_customer->can_do('midgard:create')) {
                 $buttons[] = $workflow->get_button("billingdata/" . $this->_customer->guid . "/", array
                 (
                     MIDCOM_TOOLBAR_LABEL => $this->_i18n->get_string('edit billingdata', 'org.openpsa.contacts'),
@@ -344,8 +314,7 @@ implements org_openpsa_widgets_grid_provider_client
             }
         }
 
-        if ($this->_request_data['contacts_url'])
-        {
+        if ($this->_request_data['contacts_url']) {
             $buttons[] = array
             (
                 MIDCOM_TOOLBAR_URL => $this->_request_data['contacts_url'] . (is_a($this->_customer, 'org_openpsa_contacts_group_dba') ? 'group' : 'person') . "/{$this->_customer->guid}/",
@@ -382,8 +351,7 @@ implements org_openpsa_widgets_grid_provider_client
      */
     public function _handler_deliverable($handler_id, array $args, array &$data)
     {
-        if (count($args) != 1)
-        {
+        if (count($args) != 1) {
             throw new midcom_error('Incomplete request data');
         }
 
@@ -397,8 +365,7 @@ implements org_openpsa_widgets_grid_provider_client
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
         $sales_url = $siteconfig->get_node_full_url('org.openpsa.sales');
 
-        if ($sales_url)
-        {
+        if ($sales_url) {
             $this->_view_toolbar->add_item
             (
                 array

@@ -46,13 +46,11 @@ class org_routamc_positioning_user extends midcom_baseclasses_components_purecod
     public static function set_location(array $location)
     {
         if (   !isset($location['latitude'])
-            || !isset($location['longitude']))
-        {
+            || !isset($location['longitude'])) {
             throw new InvalidArgumentException('No coordinates provided');
         }
 
-        if (midcom::get()->auth->user)
-        {
+        if (midcom::get()->auth->user) {
             // Set to user's location log
             return org_routamc_positioning_user::set_location_for_person($location, midcom::get()->auth->user->get_storage());
         }
@@ -65,8 +63,7 @@ class org_routamc_positioning_user extends midcom_baseclasses_components_purecod
     public static function set_location_for_person(array $location, midcom_db_person $person)
     {
         if (   !isset($location['latitude'])
-            || !isset($location['longitude']))
-        {
+            || !isset($location['longitude'])) {
             throw new InvalidArgumentException('No coordinates provided');
         }
 
@@ -75,12 +72,10 @@ class org_routamc_positioning_user extends midcom_baseclasses_components_purecod
         $log->latitude = $location['latitude'];
         $log->longitude = $location['longitude'];
 
-        if (isset($location['source']))
-        {
+        if (isset($location['source'])) {
             $log->importer = $location['source'];
         }
-        if (isset($location['accuracy']))
-        {
+        if (isset($location['accuracy'])) {
             $log->accuracy = $location['accuracy'];
         }
 
@@ -89,16 +84,14 @@ class org_routamc_positioning_user extends midcom_baseclasses_components_purecod
 
     public static function get_location($when = null)
     {
-        if (midcom::get()->auth->user)
-        {
+        if (midcom::get()->auth->user) {
             // Get from user's location log
             return org_routamc_positioning_user::get_location_for_person(midcom::get()->auth->user->get_storage(), $when);
         }
 
         // Get from session
         $session = new midcom_services_session();
-        if (!$session->exists('org_routamc_positioning_user_location'))
-        {
+        if (!$session->exists('org_routamc_positioning_user_location')) {
             return null;
         }
         return $session->get('org_routamc_positioning_user_location');

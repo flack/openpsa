@@ -115,8 +115,7 @@ class midcom_helper_datamanager2_widget_tinymce extends midcom_helper_datamanage
     {
         static $executed = false;
 
-        if ($executed)
-        {
+        if ($executed) {
             return;
         }
 
@@ -134,27 +133,23 @@ class midcom_helper_datamanager2_widget_tinymce extends midcom_helper_datamanage
     {
         $config = midcom_helper_misc::get_snippet_content_graceful($this->mce_config_snippet);
 
-        if (!$config)
-        {
+        if (!$config) {
             $config = $this->_get_configuration();
         }
 
         $language = $this->_i18n->get_current_language();
         // fix to use the correct langcode for norwegian.
-        if ($language == 'no')
-        {
-             $language = 'nb';
+        if ($language == 'no') {
+            $language = 'nb';
         }
 
         $img = '';
-        if ($this->use_imagepopup)
-        {
+        if ($this->use_imagepopup) {
             $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
             $suffix = '';
             $imagepopup_url = $prefix . '__ais/imagepopup/open/' . $this->_schema->name . '/';
 
-            if ($this->_type->storage->object)
-            {
+            if ($this->_type->storage->object) {
                 $suffix = $this->_type->storage->object->guid . '/';
             }
 
@@ -207,13 +202,11 @@ EOT;
             'advanced' => true,
             'tiny'     => true,
         );
-        if (array_key_exists($this->theme, $ok_elements))
-        {
+        if (array_key_exists($this->theme, $ok_elements)) {
             $function = "_get_{$this->theme}_configuration";
             return $this->$function();
         }
-        if ($this->mcs_config_snippet != '')
-        {
+        if ($this->mcs_config_snippet != '') {
             return $this->mcs_config_snippet;
         }
 
@@ -279,8 +272,7 @@ EOT;
         $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
         $url = $prefix . '__ais/imagepopup/upload/image/';
 
-        if (!empty($this->_type->storage->object))
-        {
+        if (!empty($this->_type->storage->object)) {
             $url .= $this->_type->storage->object->guid . '/';
         }
 
@@ -318,8 +310,7 @@ EOT;
      */
     public function _on_initialize()
     {
-        if ($this->_initialize_dependencies)
-        {
+        if ($this->_initialize_dependencies) {
             $this->_add_external_html_elements();
             $this->_add_initscript('none');
         }
@@ -333,8 +324,7 @@ EOT;
      */
     public function add_elements_to_form($attributes)
     {
-        if (!$this->_initialize_dependencies)
-        {
+        if (!$this->_initialize_dependencies) {
             $this->_add_external_html_elements();
             $this->_add_initscript();
         }
@@ -342,16 +332,14 @@ EOT;
         $attributes['rows'] = $this->height;
         $attributes['cols'] = $this->width;
         $attributes['class'] = 'tinymce';
-        if ($this->wrap != '')
-        {
+        if ($this->wrap != '') {
             $attributes['wrap'] = $this->wrap;
         }
 
         $this->_form->addElement('textarea', $this->name, $this->_translate($this->_field['title']), $attributes);
         $this->_form->applyFilter($this->name, 'trim');
 
-        if ($this->maxlength > 0)
-        {
+        if ($this->maxlength > 0) {
             $errormsg = sprintf($this->_l10n->get('type text: value is longer than %d characters'), $this->maxlength);
             $this->_form->addRule($this->name, $errormsg, 'maxlength', $this->maxlength);
         }
@@ -364,12 +352,10 @@ EOT;
     {
         $original_element = $this->_form->getElement($this->name);
 
-        foreach ($this->_form->_elements as $key => $element)
-        {
+        foreach ($this->_form->_elements as $key => $element) {
             if (   isset($element->_attributes['name'])
                 && $element->_attributes['name'] == $this->name
-                && isset($this->_form->_elements[$key + 1]->_attributes['name']))
-            {
+                && isset($this->_form->_elements[$key + 1]->_attributes['name'])) {
                 $name_after = $this->_form->_elements[$key + 1]->_attributes['name'];
                 break;
             }
@@ -382,13 +368,10 @@ EOT;
 
         $value_container = $this->_form->createElement('static', $original_element->getName() . '_previews', $original_element->getLabel(), $original_element->getValue());
 
-        if (isset($name_after))
-        {
+        if (isset($name_after)) {
             $this->_form->insertElementBefore($new_element, $name_after);
             $this->_form->insertElementBefore($value_container, $name_after);
-        }
-        else
-        {
+        } else {
             $this->_form->addElement($new_element);
             $this->_form->addElement($value_container);
         }

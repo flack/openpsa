@@ -50,13 +50,10 @@ class org_openpsa_mypage_workingon
      */
     public function __construct($person = null)
     {
-        if (is_null($person))
-        {
+        if (is_null($person)) {
             midcom::get()->auth->require_valid_user();
             $this->person = midcom::get()->auth->user->get_storage();
-        }
-        else
-        {
+        } else {
             // TODO: Check that this is really a person object
             $this->person = $person;
         }
@@ -72,8 +69,7 @@ class org_openpsa_mypage_workingon
     {
         $workingon = $this->person->get_parameter('org.openpsa.mypage', 'workingon');
 
-        if (!$workingon)
-        {
+        if (!$workingon) {
             // Person isn't working on anything at the moment
             return;
         }
@@ -97,16 +93,13 @@ class org_openpsa_mypage_workingon
         $description = trim($_POST['description']);
         midcom::get()->auth->request_sudo('org.openpsa.mypage');
         $invoiceable = false;
-        if (isset($_POST['invoiceable']) && $_POST['invoiceable'] == 'true')
-        {
+        if (isset($_POST['invoiceable']) && $_POST['invoiceable'] == 'true') {
             $invoiceable = true;
         }
-        if ($this->task)
-        {
+        if ($this->task) {
             // We were previously working on another task. Report hours
             // Generate a message
-            if ($description == "")
-            {
+            if ($description == "") {
                 $l10n = midcom::get()->i18n->get_l10n('org.openpsa.mypage');
                 $formatter = $l10n->get_formatter();
                 $description = sprintf($l10n->get('worked from %s to %s'), $formatter->time($this->start), $formatter->time());
@@ -115,8 +108,7 @@ class org_openpsa_mypage_workingon
             // Do the actual report
             $this->_report_hours($description, $invoiceable);
         }
-        if ($task_guid == '')
-        {
+        if ($task_guid == '') {
             // We won't be working on anything from now on. Delete existing parameter
             $stat = $this->person->delete_parameter('org.openpsa.mypage', 'workingon');
 
@@ -154,8 +146,7 @@ class org_openpsa_mypage_workingon
         //apply minimum_time_slot
         $hour_report->modify_hours_by_time_slot(false);
 
-        if (!$hour_report->create())
-        {
+        if (!$hour_report->create()) {
             midcom::get()->uimessages->add(midcom::get()->i18n->get_string('org.openpsa.mypage', 'org.openpsa.mypage'), sprintf(midcom::get()->i18n->get_string('reporting %f hours to task %s failed, reason %s', 'org.openpsa.mypage'), $hour_report->hours, $this->task->title, midcom_connection::get_error_string()), 'error');
             return false;
         }

@@ -135,23 +135,19 @@ class midcom_helper_datamanager2_type_text extends midcom_helper_datamanager2_ty
     public function _on_initialize()
     {
         // if purification is not explicitly set use according to config variables and output mode
-        if (!isset($this->purify))
-        {
+        if (!isset($this->purify)) {
             $this->purify = ($this->output_mode == 'html') ? $this->_config->get('html_purify') : false;
         }
         // Just in case someone *really* needs to specify html purifier configs here
-        if (!isset($this->purify_config))
-        {
+        if (!isset($this->purify_config)) {
             $this->purify_config = $this->_config->get('html_purify_config');
         }
-        if (!isset($this->purify_markdown_on_output))
-        {
+        if (!isset($this->purify_markdown_on_output)) {
             $this->purify_markdown_on_output = $this->_config->get('html_purify_markdown');
         }
 
         if (   !empty($this->forbidden_patterns)
-            && !empty($this->allowed_patterns))
-        {
+            && !empty($this->allowed_patterns)) {
             debug_add('Both allowed and forbidden patterns are set, allowed has precedence', MIDCOM_LOG_ERROR);
             $this->forbidden_patterns = null;
         }
@@ -165,15 +161,13 @@ class midcom_helper_datamanager2_type_text extends midcom_helper_datamanager2_ty
     function purify_string($content)
     {
         if (   isset($this->purify_config['Cache']['SerializerPath'])
-            && !file_exists($this->purify_config['Cache']['SerializerPath']))
-        {
+            && !file_exists($this->purify_config['Cache']['SerializerPath'])) {
             mkdir($this->purify_config['Cache']['SerializerPath']);
         }
 
         //This is a bit of a bogus test, but this class needs to be loaded so that necessary constants
         //are defined.
-        if (!class_exists('HTMLPurifier_Bootstrap'))
-        {
+        if (!class_exists('HTMLPurifier_Bootstrap')) {
             throw new midcom_error('HTMLPurifier_Bootstrap is missing, cannot continue');
         }
 
@@ -184,8 +178,7 @@ class midcom_helper_datamanager2_type_text extends midcom_helper_datamanager2_ty
         $purifier_config_object->loadArray($this->purify_config);
 
         // Set local IDPrefix to field name...
-        if (!empty($this->purify_config['Attr']['IDPrefix']))
-        {
+        if (!empty($this->purify_config['Attr']['IDPrefix'])) {
             $purifier_config_object->set('Attr.IDPrefixLocal', "{$this->name}_");
         }
 
@@ -193,21 +186,16 @@ class midcom_helper_datamanager2_type_text extends midcom_helper_datamanager2_ty
         $config_defs = $this->_config->get('html_purify_HTMLDefinition');
         if (   is_array($config_defs)
             && !empty($config_defs)
-            && $def = $purifier_config_object->maybeGetRawHTMLDefinition(true))
-        {
+            && $def = $purifier_config_object->maybeGetRawHTMLDefinition(true)) {
             if (   !empty($config_defs['addAttribute'])
-                && is_array($config_defs['addAttribute']))
-            {
-                foreach (array_filter($config_defs['addAttribute'], 'is_array') as $attrdef)
-                {
+                && is_array($config_defs['addAttribute'])) {
+                foreach (array_filter($config_defs['addAttribute'], 'is_array') as $attrdef) {
                     call_user_func_array(array($def, 'addAttribute'), $attrdef);
                 }
             }
             if (   !empty($config_defs['addElement'])
-                && is_array($config_defs['addElement']))
-            {
-                foreach (array_filter($config_defs['addElement'], 'is_array') as $elemdef)
-                {
+                && is_array($config_defs['addElement'])) {
+                foreach (array_filter($config_defs['addElement'], 'is_array') as $elemdef) {
                     call_user_func_array(array($def, 'addElement'), $elemdef);
                 }
             }
@@ -215,12 +203,9 @@ class midcom_helper_datamanager2_type_text extends midcom_helper_datamanager2_ty
         $purifier = new HTMLPurifier($purifier_config_object);
 
         // FIXME figure out why this always tries to put something to the default cache dir (it does put stuff to the defined one as well)
-        try
-        {
+        try {
             $ret = $purifier->purify($content);
-        }
-        catch (Exception $e)
-        {
+        } catch (Exception $e) {
             debug_add("HTML Purifier failed to purify contents of field {$this->name}: " . $e->getMessage(), MIDCOM_LOG_WARN);
         }
 
@@ -237,8 +222,7 @@ class midcom_helper_datamanager2_type_text extends midcom_helper_datamanager2_ty
         // Normalize line breaks to the UNIX format
         $this->value = preg_replace("/\n\r|\r\n|\r/", "\n", (string) $this->value);
 
-        if ($this->purify)
-        {
+        if ($this->purify) {
             $this->purify_content();
         }
 
@@ -264,37 +248,32 @@ class midcom_helper_datamanager2_type_text extends midcom_helper_datamanager2_ty
     public function _on_validate()
     {
         if (   is_array($this->value)
-            || is_object($this->value))
-        {
+            || is_object($this->value)) {
             $this->validation_error = $this->_l10n->get('type text: value may not be array or object');
             return false;
         }
 
         $this->value = (string) $this->value;
 
-        if ($this->purify)
-        {
+        if ($this->purify) {
             $this->purify_content();
         }
 
         if (   $this->maxlength > 0
-            && strlen($this->value) > $this->maxlength)
-        {
+            && strlen($this->value) > $this->maxlength) {
             $this->validation_error = sprintf($this->_l10n->get('type text: value is longer than %d characters'),
                 $this->maxlength);
             return false;
         }
 
         $stat = $this->validate_forbidden_patterns(array($this->name => $this->value));
-        if (is_array($stat))
-        {
+        if (is_array($stat)) {
             $this->validation_error = $stat[$this->name];
             return false;
         }
 
         $stat = $this->validate_allowed_patterns(array($this->name => $this->value));
-        if (is_array($stat))
-        {
+        if (is_array($stat)) {
             $this->validation_error = $stat[$this->name];
             return false;
         }
@@ -305,20 +284,15 @@ class midcom_helper_datamanager2_type_text extends midcom_helper_datamanager2_ty
     public function validate_allowed_patterns($fields)
     {
         if (   !empty($this->allowed_patterns)
-            && is_array($this->allowed_patterns))
-        {
-            foreach ($this->allowed_patterns as $condition)
-            {
-                if (!isset($condition['explanation']))
-                {
+            && is_array($this->allowed_patterns)) {
+            foreach ($this->allowed_patterns as $condition) {
+                if (!isset($condition['explanation'])) {
                     $condition['explanation'] = '';
                 }
-                switch ($condition['type'])
-                {
+                switch ($condition['type']) {
                     case 'regex':
                         $matches = array();
-                        if (!preg_match($condition['pattern'], $fields[$this->name], $matches))
-                        {
+                        if (!preg_match($condition['pattern'], $fields[$this->name], $matches)) {
                             return array($this->name => sprintf($this->_l10n->get('type text: value is not allowed. %s'), $condition['explanation']));
                         }
                         break;
@@ -335,31 +309,25 @@ class midcom_helper_datamanager2_type_text extends midcom_helper_datamanager2_ty
 
     public function validate_forbidden_patterns($fields)
     {
-        if (empty($this->forbidden_patterns))
-        {
+        if (empty($this->forbidden_patterns)) {
             return true;
         }
-        foreach ($this->forbidden_patterns as $condition)
-        {
-            if (!isset($condition['explanation']))
-            {
+        foreach ($this->forbidden_patterns as $condition) {
+            if (!isset($condition['explanation'])) {
                 $condition['explanation'] = '';
             }
 
-            switch ($condition['type'])
-            {
+            switch ($condition['type']) {
                 case 'text':
                     $pos = strpos($this->value, $condition['pattern']);
-                    if ($pos !== false)
-                    {
+                    if ($pos !== false) {
                         $offense = substr($fields[$this->name], $pos, strlen($condition['pattern']));
                         return array($this->name => sprintf($this->_l10n->get('type text: value contains an expression that is not allowed: "%s". %s'), htmlentities($offense), $condition['explanation']));
                     }
                     break;
                 case 'regex':
                     $matches = array();
-                    if (preg_match($condition['pattern'], $fields[$this->name], $matches))
-                    {
+                    if (preg_match($condition['pattern'], $fields[$this->name], $matches)) {
                         return array($this->name => sprintf($this->_l10n->get('type text: value contains an expression that is not allowed: "%s". %s'), htmlentities($matches[0]), $condition['explanation']));
                     }
                     break;
@@ -377,8 +345,7 @@ class midcom_helper_datamanager2_type_text extends midcom_helper_datamanager2_ty
     {
         $this->value = (string) $this->value;
 
-        switch ($this->output_mode)
-        {
+        switch ($this->output_mode) {
             case 'code':
                 return '<pre style="overflow:auto">' . htmlspecialchars($this->value, $this->specialchars_quotes, $this->specialchars_charset) . '</pre>';
 
@@ -399,8 +366,7 @@ class midcom_helper_datamanager2_type_text extends midcom_helper_datamanager2_ty
 
             case 'markdown':
                 if (   !$this->purify
-                    || !$this->purify_markdown_on_output)
-                {
+                    || !$this->purify_markdown_on_output) {
                     // Return the Markdown straight away
                     return MarkdownExtra::defaultTransform($this->value);
                 }

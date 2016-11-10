@@ -14,8 +14,7 @@ $task = $data['other_obj'];
     // Resources
     echo "<li>" . midcom::get()->i18n->get_string('resources', 'org.openpsa.projects') . ": ";
     $task->get_members();
-    foreach ($task->resources as $resource_id => $confirmed)
-    {
+    foreach ($task->resources as $resource_id => $confirmed) {
         $resource_card = org_openpsa_widgets_contact::get($resource_id);
         echo $resource_card->show_inline() . " ";
     }

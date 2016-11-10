@@ -25,8 +25,7 @@ abstract class org_openpsa_widgets_status
         echo "</h3>\n";
 
         echo "<ul>\n";
-        foreach ($this->get_history() as $entry)
-        {
+        foreach ($this->get_history() as $entry) {
             echo '<li><div class="date">' . $l10n->get_formatter()->datetime($entry['timestamp']) . '</div>';
             echo $entry['message'];
         }

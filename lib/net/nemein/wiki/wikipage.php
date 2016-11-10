@@ -21,8 +21,7 @@ class net_nemein_wiki_wikipage extends midcom_db_article
     public function _on_loaded()
     {
         // Backwards compatibility
-        if ($this->name == '')
-        {
+        if ($this->name == '') {
             $generator = midcom::get()->serviceloader->load('midcom_core_service_urlgenerator');
             $this->name = $generator->from_string($this->title);
             $this->update();
@@ -32,8 +31,7 @@ class net_nemein_wiki_wikipage extends midcom_db_article
     public function _on_creating()
     {
         if (   $this->title == ''
-            || !$this->topic)
-        {
+            || !$this->topic) {
             // We must have wikiword and topic at this stage
             return false;
         }
@@ -42,15 +40,13 @@ class net_nemein_wiki_wikipage extends midcom_db_article
         $qb = net_nemein_wiki_wikipage::new_query_builder();
         $qb->add_constraint('topic', '=', $this->topic);
         $qb->add_constraint('title', '=', $this->title);
-        if ($qb->count() > 0)
-        {
+        if ($qb->count() > 0) {
             midcom_connection::set_error(MGD_ERR_OBJECT_NAME_EXISTS);
             return false;
         }
 
         // Generate URL-clean name
-        if ($this->name != 'index')
-        {
+        if ($this->name != 'index') {
             $generator = midcom::get()->serviceloader->load('midcom_core_service_urlgenerator');
             $this->name = $generator->from_string($this->title);
         }
@@ -59,12 +55,10 @@ class net_nemein_wiki_wikipage extends midcom_db_article
 
     public function _on_updating()
     {
-        if (midcom::get()->auth->user)
-        {
+        if (midcom::get()->auth->user) {
             // Place current user in the page authors list
             $authors = explode('|', substr($this->metadata->authors, 1, -1));
-            if (!in_array(midcom::get()->auth->user->guid, $authors))
-            {
+            if (!in_array(midcom::get()->auth->user->guid, $authors)) {
                 $authors[] = midcom::get()->auth->user->guid;
                 $this->metadata->authors = '|' . implode('|', $authors) . '|';
             }
@@ -92,10 +86,8 @@ class net_nemein_wiki_wikipage extends midcom_db_article
         $links_in_db = $qb->execute();
 
         // Check links in DB versus links in content to see what needs to be removed
-        foreach ($links_in_db as $link)
-        {
-            if (!array_key_exists($link->topage, $links_in_content))
-            {
+        foreach ($links_in_db as $link) {
+            if (!array_key_exists($link->topage, $links_in_content)) {
                 // This link is not any more in content, remove
                 $link->delete();
                 continue;
@@ -106,8 +98,7 @@ class net_nemein_wiki_wikipage extends midcom_db_article
 
         // What is still left needs to be added
         $links_in_content = array_keys($links_in_content);
-        foreach ($links_in_content as $wikilink)
-        {
+        foreach ($links_in_content as $wikilink) {
             $link = new net_nemein_wiki_link_dba();
             $link->frompage = $this->id;
             $link->topage = $wikilink;
@@ -131,10 +122,8 @@ class net_nemein_wiki_wikipage extends midcom_db_article
         $qb->end_group();
         $watcher_params = $qb->execute();
 
-        foreach ($watcher_params as $parameter)
-        {
-            if (in_array($parameter->name, $watchers))
-            {
+        foreach ($watcher_params as $parameter) {
+            if (in_array($parameter->name, $watchers)) {
                 // We found this one already, skip
                 continue;
             }
@@ -147,14 +136,12 @@ class net_nemein_wiki_wikipage extends midcom_db_article
     private function update_watchers()
     {
         $watchers = $this->list_watchers();
-        if (empty($watchers))
-        {
+        if (empty($watchers)) {
             return;
         }
 
         $diff = $this->get_diff();
-        if (empty($diff))
-        {
+        if (empty($diff)) {
             // No sense to email empty diffs
             return;
         }
@@ -162,8 +149,7 @@ class net_nemein_wiki_wikipage extends midcom_db_article
         // Construct the message
         $message = array();
         $user_string = midcom::get()->i18n->get_string('anonymous', 'net.nemein.wiki');
-        if (midcom::get()->auth->user)
-        {
+        if (midcom::get()->auth->user) {
             $user = midcom::get()->auth->user->get_storage();
             $user_string = $user->name;
         }
@@ -186,8 +172,7 @@ class net_nemein_wiki_wikipage extends midcom_db_article
         debug_add("Processing list of Wiki subscribers");
 
         // Send the message out
-        foreach ($watchers as $recipient)
-        {
+        foreach ($watchers as $recipient) {
             debug_add("Notifying {$recipient}...");
             org_openpsa_notifications::notify('net.nemein.wiki:page_updated', $recipient, $message);
         }
@@ -198,32 +183,26 @@ class net_nemein_wiki_wikipage extends midcom_db_article
         // Load the RCS handler
         $rcs = midcom::get()->rcs;
         $rcs_handler = $rcs->load_handler($this);
-        if (!$rcs_handler)
-        {
+        if (!$rcs_handler) {
             return null;
         }
 
         // Find out what versions to diff
         $history = $rcs_handler->list_history_numeric();
-        if (count($history) < 2)
-        {
+        if (count($history) < 2) {
             return '';
         }
         $this_version = $history[0];
         $prev_version = $history[1];
 
-        try
-        {
+        try {
             $diff_fields = $rcs_handler->get_diff($prev_version, $this_version, 'unified');
-        }
-        catch (midcom_error $e)
-        {
+        } catch (midcom_error $e) {
             $e->log();
             return '';
         }
 
-        if (!array_key_exists('diff', $diff_fields[$field]))
-        {
+        if (!array_key_exists('diff', $diff_fields[$field])) {
             // No differences
             return '';
         }

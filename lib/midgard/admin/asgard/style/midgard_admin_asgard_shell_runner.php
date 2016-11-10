@@ -57,20 +57,15 @@ body .shell-error
 <body>
 <pre>
 <?php
-if (!empty($data['code']))
-{
-    try
-    {
+if (!empty($data['code'])) {
+    try {
         ?>&(data['code']:p);<?php
-    }
-    catch (Exception $e)
-    {
+
+    } catch (Exception $e) {
         echo '<div class="shell-error">' . $e->getMessage() . '</div>';
         echo htmlentities($e->getTraceAsString());
     }
-}
-else
-{
+} else {
     midcom::get()->uimessages->show_simple();
 }
 ?>

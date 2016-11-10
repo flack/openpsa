@@ -29,25 +29,20 @@ class midgard_admin_asgard_stylehelper
     public function render_help()
     {
         $help_element = null;
-        if (empty($this->_data['object']->id))
-        {
+        if (empty($this->_data['object']->id)) {
             return;
         }
 
         if (   midcom::get()->dbfactory->is_a($this->_data['object'], 'midgard_style')
             && (   $this->_data['handler_id'] !== '____mfa-asgard-object_create'
-                || $this->_data['current_type'] == 'midgard_element'))
-        {
+                || $this->_data['current_type'] == 'midgard_element')) {
             $help_element = $this->_get_help_style_elementnames($this->_data['object']);
-        }
-        elseif (   midcom::get()->dbfactory->is_a($this->_data['object'], 'midgard_element')
-                 && $this->_data['handler_id'] !== '____mfa-asgard-object_create')
-        {
+        } elseif (   midcom::get()->dbfactory->is_a($this->_data['object'], 'midgard_element')
+                 && $this->_data['handler_id'] !== '____mfa-asgard-object_create') {
             $help_element = $this->_get_help_element();
         }
 
-        if ($help_element)
-        {
+        if ($help_element) {
             midcom_show_style('midgard_admin_asgard_stylehelper_' . $help_element);
         }
     }
@@ -55,14 +50,12 @@ class midgard_admin_asgard_stylehelper
     private function _get_help_element()
     {
         if (   empty($this->_data['object']->name)
-            || empty($this->_data['object']->style))
-        {
+            || empty($this->_data['object']->style)) {
             // We cannot help with empty elements
             return;
         }
 
-        if ($this->_data['object']->name == 'ROOT')
-        {
+        if ($this->_data['object']->name == 'ROOT') {
             $element_path = midcom::get()->componentloader->path_to_snippetpath('midgard.admin.asgard') . '/documentation/ROOT.php';
             $this->_data['help_style_element'] = array
             (
@@ -74,10 +67,8 @@ class midgard_admin_asgard_stylehelper
 
         // Find the element we're looking for
         $style_elements = $this->_get_style_elements_and_nodes($this->_data['object']->style);
-        foreach ($style_elements['elements'] as $component => $elements)
-        {
-            if (!empty($elements[$this->_data['object']->name]))
-            {
+        foreach ($style_elements['elements'] as $component => $elements) {
+            if (!empty($elements[$this->_data['object']->name])) {
                 $element_path = $elements[$this->_data['object']->name];
                 $this->_data['help_style_element'] = array
                 (
@@ -113,17 +104,14 @@ class midgard_admin_asgard_stylehelper
             'nodes' => array(),
         );
 
-        if (!$style_id)
-        {
+        if (!$style_id) {
             return $results;
         }
         $style_path = midcom::get()->style->get_style_path_from_id($style_id);
         $style_nodes = $this->_get_nodes_using_style($style_path);
 
-        foreach ($style_nodes as $node)
-        {
-            if (!isset($results['nodes'][$node->component]))
-            {
+        foreach ($style_nodes as $node) {
+            if (!isset($results['nodes'][$node->component])) {
                 $results['nodes'][$node->component] = array();
                 // Get the list of style elements for the component
                 $results['elements'][$node->component] = $this->_get_component_default_elements($node->component);
@@ -132,18 +120,15 @@ class midgard_admin_asgard_stylehelper
             $results['nodes'][$node->component][] = $node;
         }
 
-        if ($style_id == midcom_connection::get('style'))
-        {
+        if ($style_id == midcom_connection::get('style')) {
             // We're in site main style, append elements from there to the list of "common elements"
             $mc = midcom_db_element::new_collector('style', $style_id);
             $elements = $mc->get_values('name');
-            foreach ($elements as $name)
-            {
+            foreach ($elements as $name) {
                 $results['elements']['midcom'][$name] = '';
             }
 
-            if (!isset($results['elements']['midcom']['ROOT']))
-            {
+            if (!isset($results['elements']['midcom']['ROOT'])) {
                 // There should always be the ROOT element available
                 $results['elements']['midcom']['ROOT'] = '';
             }
@@ -166,12 +151,10 @@ class midgard_admin_asgard_stylehelper
         $qb->add_constraint('style', '=', $style);
         $nodes = $qb->execute();
 
-        foreach ($nodes as $node)
-        {
+        foreach ($nodes as $node) {
             $style_nodes[] = $node;
 
-            if ($node->styleInherit)
-            {
+            if ($node->styleInherit) {
                 $child_nodes = $this->_get_nodes_inheriting_style($node);
                 $style_nodes = array_merge($style_nodes, $child_nodes);
             }
@@ -188,8 +171,7 @@ class midgard_admin_asgard_stylehelper
         $child_qb->add_constraint('style', '=', '');
         $children = $child_qb->execute();
 
-        foreach ($children as $child_node)
-        {
+        foreach ($children as $child_node) {
             $nodes[] = $child_node;
             $subnodes = $this->_get_nodes_inheriting_style($child_node);
             $nodes = array_merge($nodes, $subnodes);
@@ -211,14 +193,12 @@ class midgard_admin_asgard_stylehelper
         // Path to the file system
         $path = midcom::get()->componentloader->path_to_snippetpath($component) . '/style';
 
-        if (!is_dir($path))
-        {
+        if (!is_dir($path)) {
             debug_add("Directory {$path} not found.");
             return $elements;
         }
 
-        foreach (glob($path . '/*.php') as $filepath)
-        {
+        foreach (glob($path . '/*.php') as $filepath) {
             $file = basename($filepath);
             $elements[str_replace('.php', '', $file)] = $filepath;
         }

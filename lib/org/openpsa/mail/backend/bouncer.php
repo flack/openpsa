@@ -20,14 +20,10 @@ class org_openpsa_mail_backend_bouncer extends org_openpsa_mail_backend
 
     public function __construct(array $params)
     {
-        foreach ($this->_try_backends as $backend)
-        {
-            try
-            {
+        foreach ($this->_try_backends as $backend) {
+            try {
                 $this->_backend = org_openpsa_mail_backend::get($backend, $params);
-            }
-            catch (midcom_error $e)
-            {
+            } catch (midcom_error $e) {
                 debug_add('Failed to load backend ' . $backend . ', message:' . $e->getMessage());
             }
         }
@@ -42,8 +38,7 @@ class org_openpsa_mail_backend_bouncer extends org_openpsa_mail_backend
 
     public function get_error_message()
     {
-        if (is_object($this->_backend))
-        {
+        if (is_object($this->_backend)) {
             return $this->_backend->get_error_message();
         }
         return parent::get_error_message();

@@ -2,12 +2,9 @@
 $document = $data['document'];
 $score = round($document->score * 100);
 
-try
-{
+try {
     $topic = midcom_db_topic::get_cached($document->topic_guid);
-}
-catch (midcom_error $e)
-{
+} catch (midcom_error $e) {
     $e->log();
 }
 ?>
@@ -17,10 +14,11 @@ catch (midcom_error $e)
       &(document.abstract:h);
   </div>
   <div class="midcom_helper_search_result_metadata">
-    <?php if (isset($topic))
-    { ?>
+    <?php if (isset($topic)) {
+    ?>
         <span class="midcom_helper_search_result_topic"><?php echo $data['l10n_midcom']->get('topic') ?>: &(topic.extra);</span>,
-    <?php } ?>
+    <?php 
+} ?>
     <span class="midcom_helper_search_result_score"><?php echo $data['l10n']->get('score') ?>: &(score); %</span>
   </div>
 </div>

@@ -36,8 +36,7 @@ class org_openpsa_slideshow_handler_index extends midcom_baseclasses_components_
 
         $head = midcom::get()->head;
         $head->add_stylesheet(MIDCOM_STATIC_URL . '/' . $this->_component . '/slideshow.css');
-        if (sizeof($data['images']) > 0)
-        {
+        if (sizeof($data['images']) > 0) {
             $data['entries'] = org_openpsa_slideshow_image_dba::get_imagedata($data['images']);
             $head->enable_jquery();
             $head->add_jsfile(MIDCOM_STATIC_URL . '/' . $this->_component . '/galleria/galleria-1.3.5.min.js');
@@ -68,12 +67,9 @@ class org_openpsa_slideshow_handler_index extends midcom_baseclasses_components_
      */
     public function _show_index($handler_id, array &$data)
     {
-        if (sizeof($data['images']) > 0)
-        {
+        if (sizeof($data['images']) > 0) {
             midcom_show_style('index');
-        }
-        else
-        {
+        } else {
             midcom_show_style('index-empty');
         }
     }
@@ -99,8 +95,7 @@ class org_openpsa_slideshow_handler_index extends midcom_baseclasses_components_
     private function _get_folder_thumbnails($folders)
     {
         $thumbnails = array();
-        foreach ($folders as $i => $folder)
-        {
+        foreach ($folders as $i => $folder) {
             $thumbnails[$i] = org_openpsa_slideshow_image_dba::get_folder_thumbnail($folder);
         }
         return $thumbnails;
@@ -114,12 +109,9 @@ class org_openpsa_slideshow_handler_index extends midcom_baseclasses_components_
      */
     public function _show_subfolders($handler_id, array &$data)
     {
-        if (!empty($data['subfolders']))
-        {
+        if (!empty($data['subfolders'])) {
             midcom_show_style('index-subfolders');
-        }
-        else
-        {
+        } else {
             midcom_show_style('index-empty');
         }
     }

@@ -7,12 +7,10 @@ $options = array
     org_openpsa_products_product_dba::TYPE_SOLUTION => $data['l10n']->get('solution'),
 );
 
-if (!function_exists('org_openpsa_products_search_value_helper'))
-{
+if (!function_exists('org_openpsa_products_search_value_helper')) {
     function org_openpsa_products_search_value_helper($request_key)
     {
-        if (isset($_REQUEST['org_openpsa_products_search'][$request_key]['value']))
-        {
+        if (isset($_REQUEST['org_openpsa_products_search'][$request_key]['value'])) {
             echo ' value=' . midcom_helper_xsspreventer::escape_attribute($_REQUEST['org_openpsa_products_search'][$request_key]['value']);
         }
     }
@@ -23,8 +21,12 @@ if (!function_exists('org_openpsa_products_search_value_helper'))
     <label>
         <span class="field_text">match</span>
         <select name="org_openpsa_products_search_type">
-            <option value="AND"<?php if (isset($_REQUEST['org_openpsa_products_search_type']) && $_REQUEST['org_openpsa_products_search_type'] == 'AND') echo ' selected'; ?>>All of the following</option>
-            <option value="OR"<?php if (isset($_REQUEST['org_openpsa_products_search_type']) && $_REQUEST['org_openpsa_products_search_type'] == 'OR') echo ' selected'; ?>>Any of the following</option>
+            <option value="AND"<?php if (isset($_REQUEST['org_openpsa_products_search_type']) && $_REQUEST['org_openpsa_products_search_type'] == 'AND') {
+    echo ' selected';
+} ?>>All of the following</option>
+            <option value="OR"<?php if (isset($_REQUEST['org_openpsa_products_search_type']) && $_REQUEST['org_openpsa_products_search_type'] == 'OR') {
+    echo ' selected';
+} ?>>Any of the following</option>
         </select>
     </label>
 
@@ -48,12 +50,10 @@ if (!function_exists('org_openpsa_products_search_value_helper'))
         <span class="field_text"><?php printf($data['l10n']->get('%s is'), $data['l10n']->get('type')); ?></span>
         <select name="org_openpsa_products_search[3][value]">
         <?php
-        foreach ($options as $key => $value)
-        {
+        foreach ($options as $key => $value) {
             $selected = '';
             if (   isset($_REQUEST['org_openpsa_products_search'][3]['value'])
-                && $_REQUEST['org_openpsa_products_search'][3]['value'] == $key)
-            {
+                && $_REQUEST['org_openpsa_products_search'][3]['value'] == $key) {
                 $selected = ' selected';
             }
             $key_esc = midcom_helper_xsspreventer::escape_attribute($key);

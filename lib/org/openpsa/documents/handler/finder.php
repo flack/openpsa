@@ -36,11 +36,9 @@ class org_openpsa_documents_handler_finder extends midcom_baseclasses_components
         $head->add_jsfile(MIDCOM_STATIC_URL . $prefix . 'js/elfinder.min.js');
 
         $lang = midcom::get()->i18n->get_current_language();
-        if (!file_exists(MIDCOM_STATIC_ROOT . $prefix . "js/i18n/elfinder.{$lang}.js"))
-        {
+        if (!file_exists(MIDCOM_STATIC_ROOT . $prefix . "js/i18n/elfinder.{$lang}.js")) {
             $lang = midcom::get()->i18n->get_fallback_language();
-            if (!file_exists(MIDCOM_STATIC_ROOT . $prefix . "js/i18n/elfinder.{$lang}.js"))
-            {
+            if (!file_exists(MIDCOM_STATIC_ROOT . $prefix . "js/i18n/elfinder.{$lang}.js")) {
                 $lang = 'en';
             }
         }
@@ -62,8 +60,7 @@ class org_openpsa_documents_handler_finder extends midcom_baseclasses_components
     {
         $workflow = $this->get_workflow('datamanager2');
         $buttons = array();
-        if ($this->_request_data['directory']->can_do('midgard:create'))
-        {
+        if ($this->_request_data['directory']->can_do('midgard:create')) {
             $buttons[] = $workflow->get_button("document/create/", array
             (
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('new document'),
@@ -75,8 +72,7 @@ class org_openpsa_documents_handler_finder extends midcom_baseclasses_components
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-dir.png',
             ));
         }
-        if ($this->_request_data['directory']->can_do('midgard:update'))
-        {
+        if ($this->_request_data['directory']->can_do('midgard:update')) {
             $buttons[] = $workflow->get_button("edit/", array
             (
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('edit directory'),
@@ -89,8 +85,7 @@ class org_openpsa_documents_handler_finder extends midcom_baseclasses_components
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/save-as.png',
             );
         }
-        if ($this->_request_data['directory']->can_do('midgard:delete'))
-        {
+        if ($this->_request_data['directory']->can_do('midgard:delete')) {
             $workflow = $this->get_workflow('delete', array('object' => $this->_request_data['directory'], 'recursive' => true));
             $buttons[] = $workflow->get_button("__ais/folder/delete/", array
             (
@@ -145,8 +140,7 @@ class org_openpsa_documents_handler_finder extends midcom_baseclasses_components
         $parts = explode('_', $args[0]);
         $guid = base64_decode($parts[1]);
         $url = midcom::get()->permalinks->resolve_permalink($guid);
-        if (!$url)
-        {
+        if (!$url) {
             throw new midcom_error_notfound('Could not resolve URL for ' . $guid);
         }
         return new midcom_response_relocate($url);

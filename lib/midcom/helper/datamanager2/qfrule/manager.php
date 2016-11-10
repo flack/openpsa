@@ -48,22 +48,18 @@ class midcom_helper_datamanager2_qfrule_manager
 
     public function load_type_rules($type)
     {
-        if (isset($this->_loaded[$type]))
-        {
+        if (isset($this->_loaded[$type])) {
             // We have already initialized rules for this type
             return;
         }
-        if (empty($this->_available[$type]))
-        {
+        if (empty($this->_available[$type])) {
             // no file for this type found, skip silently
             return;
         }
 
-        foreach ($this->_available[$type] as $rule_name)
-        {
+        foreach ($this->_available[$type] as $rule_name) {
             $rule_class = "midcom_helper_datamanager2_qfrule_{$rule_name}";
-            if (!class_exists($rule_class))
-            {
+            if (!class_exists($rule_class)) {
                 continue;
             }
 
@@ -78,22 +74,17 @@ class midcom_helper_datamanager2_qfrule_manager
      */
     public function add_validation_rules(array $rules)
     {
-        foreach ($rules as $config)
-        {
-            if (!is_callable($config['callback']))
-            {
+        foreach ($rules as $config) {
+            if (!is_callable($config['callback'])) {
                 // Try autoload:
-                if (array_key_exists('autoload_snippet', $config))
-                {
+                if (array_key_exists('autoload_snippet', $config)) {
                     midcom_helper_misc::include_snippet_php($config['autoload_snippet']);
                 }
-                if (array_key_exists('autoload_file', $config))
-                {
+                if (array_key_exists('autoload_file', $config)) {
                     require_once($config['autoload_file']);
                 }
 
-                if (!function_exists($config['callback']))
-                {
+                if (!function_exists($config['callback'])) {
                     debug_add("Failed to register the callback {$config['callback']} for validation, the function is not defined.", MIDCOM_LOG_CRIT);
                     continue;
                 }
@@ -113,24 +104,18 @@ class midcom_helper_datamanager2_qfrule_manager
      */
     public function add_type_rules(midcom_helper_datamanager2_type $type, array $config)
     {
-        if ($config['required'])
-        {
-            if ($type instanceof midcom_helper_datamanager2_type_blobs)
-            {
+        if ($config['required']) {
+            if ($type instanceof midcom_helper_datamanager2_type_blobs) {
                 debug_add("required validation is currently unsupported for file fields (field name: {$type->name})", MIDCOM_LOG_ERROR);
-            }
-            else
-            {
+            } else {
                 $message = sprintf($this->_l10n->get('field %s is required'), $type->translate($config['title']));
                 $this->_form->addRule($type->name, $message, 'required', '');
             }
         }
 
-        foreach ($config['validation'] as $rule)
-        {
+        foreach ($config['validation'] as $rule) {
             $message = $type->translate($rule['message']);
-            switch ($rule['type'])
-            {
+            switch ($rule['type']) {
                 case 'compare':
                     $this->_form->addRule(array($rule['compare_with'], $type->name), $message, $rule['type'], $rule['format']);
                     break;

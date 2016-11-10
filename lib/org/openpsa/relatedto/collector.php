@@ -75,18 +75,13 @@ class org_openpsa_relatedto_collector extends midcom_core_collector
     {
         $this->_set_direction($direction);
 
-        if (is_string($guids))
-        {
+        if (is_string($guids)) {
             parent::__construct('org_openpsa_relatedto_dba', $this->_object_prefix . 'Guid', $guids);
             $this->add_constraint($this->_other_prefix . 'Class', 'IN', (array) $classes);
-        }
-        elseif (is_string($classes))
-        {
+        } elseif (is_string($classes)) {
             parent::__construct('org_openpsa_relatedto_dba', $this->_other_prefix . 'Class', $classes);
             $this->add_constraint($this->_object_prefix . 'Guid', 'IN', (array) $guids);
-        }
-        else
-        {
+        } else {
             throw new midcom_error('None of the arguments was passed as a string');
         }
         $this->initialize();
@@ -100,13 +95,10 @@ class org_openpsa_relatedto_collector extends midcom_core_collector
     private function _set_direction($dir)
     {
         $this->_direction = $dir;
-        if ($dir == 'incoming')
-        {
+        if ($dir == 'incoming') {
             $this->_object_prefix = 'to';
             $this->_other_prefix = 'from';
-        }
-        else
-        {
+        } else {
             $this->_object_prefix = 'from';
             $this->_other_prefix = 'to';
         }
@@ -161,8 +153,7 @@ class org_openpsa_relatedto_collector extends midcom_core_collector
      */
     private function _apply_object_constraints($qb)
     {
-        foreach ($this->_object_constraints as $constraint)
-        {
+        foreach ($this->_object_constraints as $constraint) {
             $qb->add_constraint($constraint['field'], $constraint['operator'], $constraint['value']);
         }
     }
@@ -174,8 +165,7 @@ class org_openpsa_relatedto_collector extends midcom_core_collector
      */
     private function _apply_object_orders($qb)
     {
-        foreach ($this->_object_orders as $order)
-        {
+        foreach ($this->_object_orders as $order) {
             $qb->add_order($order['field'], $order['direction']);
         }
     }
@@ -187,8 +177,7 @@ class org_openpsa_relatedto_collector extends midcom_core_collector
      */
     private function _apply_object_limit($qb)
     {
-        if ($this->_object_limit == 0)
-        {
+        if ($this->_object_limit == 0) {
             return;
         }
         $qb->set_limit($this->_object_limit);
@@ -206,32 +195,26 @@ class org_openpsa_relatedto_collector extends midcom_core_collector
         $this->add_constraint('status', '<>', org_openpsa_relatedto_dba::NOTRELATED);
         $relations = $this->get_rows(array($key));
 
-        if (sizeof($relations) == 0)
-        {
+        if (sizeof($relations) == 0) {
             return $entries;
         }
 
-        foreach ($relations as $relation)
-        {
+        foreach ($relations as $relation) {
             $group_value = $relation[$key];
-            if (!array_key_exists($group_value, $guids))
-            {
+            if (!array_key_exists($group_value, $guids)) {
                 $guids[$group_value] = array();
             }
             $guids[$group_value][] = $relation[$this->_other_prefix . 'Guid'];
         }
 
-        foreach ($guids as $group_value => $grouped_guids)
-        {
-            foreach ($this->_target_classes as $classname)
-            {
+        foreach ($guids as $group_value => $grouped_guids) {
+            foreach ($this->_target_classes as $classname) {
                 $qb = call_user_func(array($classname, 'new_query_builder'));
                 $qb->add_constraint('guid', 'IN', $grouped_guids);
                 $this->_apply_object_constraints($qb);
                 $this->_apply_object_orders($qb);
                 $this->_apply_object_limit($qb);
-                if (!array_key_exists($group_value, $entries))
-                {
+                if (!array_key_exists($group_value, $entries)) {
                     $entries[$group_value] = array();
                 }
                 $entries[$group_value] = array_merge($entries[$group_value], $qb->execute());
@@ -251,13 +234,11 @@ class org_openpsa_relatedto_collector extends midcom_core_collector
 
         $guids = $this->get_related_guids($component);
 
-        if (sizeof($guids) == 0)
-        {
+        if (sizeof($guids) == 0) {
             return $entries;
         }
 
-        foreach ($this->_target_classes as $classname)
-        {
+        foreach ($this->_target_classes as $classname) {
             $qb = call_user_func(array($classname, 'new_query_builder'));
             $qb->add_constraint('guid', 'IN', $guids);
             $this->_apply_object_constraints($qb);
@@ -277,8 +258,7 @@ class org_openpsa_relatedto_collector extends midcom_core_collector
     {
         $guids = array();
 
-        if ($component)
-        {
+        if ($component) {
             $this->add_constraint($this->_other_prefix . 'Component', '=', $component);
         }
 
@@ -286,13 +266,11 @@ class org_openpsa_relatedto_collector extends midcom_core_collector
         $this->execute();
         $relations = $this->list_keys();
 
-        if (sizeof($relations) == 0)
-        {
+        if (sizeof($relations) == 0) {
             return $guids;
         }
 
-        foreach ($relations as $guid => $empty)
-        {
+        foreach ($relations as $guid => $empty) {
             $guids[] = $this->get_subkey($guid, $this->_other_prefix . 'Guid');
         }
 

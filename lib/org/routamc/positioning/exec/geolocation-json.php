@@ -2,8 +2,7 @@
 midcom::get()->header('Content-type: application/json');
 
 if (   isset($_POST['latitude'])
-    && isset($_POST['longitude']))
-{
+    && isset($_POST['longitude'])) {
     // Updating user's location
     $location_array = array
     (
@@ -11,24 +10,16 @@ if (   isset($_POST['latitude'])
         'longitude' => (float) $_POST['longitude'],
     );
 
-    if (isset($_POST['accuracy']))
-    {
+    if (isset($_POST['accuracy'])) {
         // W3C accuracy is in meters, convert to our approximates
-        if ($_POST['accuracy'] < 30)
-        {
+        if ($_POST['accuracy'] < 30) {
             // Exact enough
             $location_array['accuracy'] = org_routamc_positioning_log_dba::ACCURACY_GPS;
-        }
-        elseif ($_POST['accuracy'] < 400)
-        {
+        } elseif ($_POST['accuracy'] < 400) {
             $location_array['accuracy'] = org_routamc_positioning_log_dba::ACCURACY_STREET;
-        }
-        elseif ($_POST['accuracy'] < 5000)
-        {
+        } elseif ($_POST['accuracy'] < 5000) {
             $location_array['accuracy'] = org_routamc_positioning_log_dba::ACCURACY_CITY;
-        }
-        else
-        {
+        } else {
             // Fall back to "state level"
             $location_array['accuracy'] = 50;
         }

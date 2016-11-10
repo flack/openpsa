@@ -40,8 +40,7 @@ implements midcom_helper_datamanager2_interfaces_create
     {
         // Create a new group
         $this->_group = new midcom_db_group();
-        if (!$this->_group->create())
-        {
+        if (!$this->_group->create()) {
             debug_print_r('We operated on this object:', $this->_group);
             throw new midcom_error('Failed to create a new group. Last Midgard error was: '. midcom_connection::get_error_string());
         }
@@ -57,8 +56,7 @@ implements midcom_helper_datamanager2_interfaces_create
     public function _handler_create($handler_id, array $args, array &$data)
     {
         $data['controller'] = $this->get_controller('create');
-        switch ($data['controller']->process_form())
-        {
+        switch ($data['controller']->process_form()) {
             case 'save':
                 // Show confirmation for the group
                 midcom::get()->uimessages->add($this->_l10n->get('midcom.admin.user'), sprintf($this->_l10n->get('group %s saved'), $this->_group->name));

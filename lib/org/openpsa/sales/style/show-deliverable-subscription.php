@@ -4,8 +4,7 @@ $state = $data['deliverable']->get_state();
 $formatter = $data['l10n']->get_formatter();
 $per_unit = $data['l10n']->get('per unit');
 if (   $data['product']
-    && $unit_option = org_openpsa_products_viewer::get_unit_option($data['product']->unit))
-{
+    && $unit_option = org_openpsa_products_viewer::get_unit_option($data['product']->unit)) {
     $per_unit = sprintf($data['l10n']->get('per %s'), $unit_option);
 }
 ?>
@@ -13,34 +12,31 @@ if (   $data['product']
     <div class="sidebar">
         <div class="contacts area">
             <?php
-            if ($customer = $data['salesproject']->get_customer())
-            {
+            if ($customer = $data['salesproject']->get_customer()) {
                 echo "<h2>" . $data['l10n']->get('customer') . "</h2>\n";
                 echo $customer->render_link();
             }
-            foreach (array_keys($data['salesproject']->contacts) as $contact_id)
-            {
+            foreach (array_keys($data['salesproject']->contacts) as $contact_id) {
                 $person_card = org_openpsa_widgets_contact::get($contact_id);
                 $person_card->show();
             }
             ?>
         </div>
 
-        <?php if ($data['product'])
-        { ?>
+        <?php if ($data['product']) {
+                ?>
         <div class="products area">
             <?php
             echo "<h2>" . $data['l10n']->get('product') . "</h2>\n";
-            echo $data['product']->render_link() . "\n";
-            ?>
+                echo $data['product']->render_link() . "\n"; ?>
         </div>
-        <?php } ?>
+        <?php 
+            } ?>
 
         <div class="at area">
         <?php
         $at_entries = $data['deliverable']->get_at_entries();
-        if (count($at_entries) > 0)
-        {
+        if (count($at_entries) > 0) {
             echo "<h2>" . $data['l10n']->get('next run') . "</h2>\n";
             echo "<table>\n";
             echo "    <thead>\n";
@@ -51,14 +47,12 @@ if (   $data['product']
             echo "    </thead>\n";
             echo "    <tbody>\n";
 
-            foreach ($at_entries as $entry)
-            {
+            foreach ($at_entries as $entry) {
                 echo "        <tr>\n";
                 echo "            <td>" . strftime('%x %X', $entry->start) . "</td>\n";
 
                 echo "            <td>";
-                switch ($entry->status)
-                {
+                switch ($entry->status) {
                     case midcom_services_at_entry_dba::SCHEDULED:
                         echo midcom::get()->i18n->get_string('scheduled', 'midcom.services.at');
                         break;
@@ -90,15 +84,15 @@ if (   $data['product']
                 <div class="title"><?php echo $data['l10n']->get('state'); ?></div>
                 <div class="value"><?php echo $data['l10n']->get($state); ?></div>
             </div>
-                <?php if ($data['deliverable']->supplier)
-                {
-                    ?>
+                <?php if ($data['deliverable']->supplier) {
+            ?>
                     <div class="field">
                         <div class="title"><?php echo $data['l10n']->get('supplier'); ?></div>
                         <div class="value">&(view['supplier']:h);</div>
                     </div>
                     <?php
-                } ?>
+
+        } ?>
                 <div class="field">
                     <div class="title"><?php echo $data['l10n']->get('subscription begins'); ?></div>
                     <div class="value">&(view['start']:h);</div>
@@ -107,24 +101,21 @@ if (   $data['product']
                     <div class="title"><?php echo $data['l10n']->get('subscription ends'); ?></div>
                     <div class="value">
                 <?php
-                if (!$data['deliverable']->continuous)
-                {
+                if (!$data['deliverable']->continuous) {
                     echo $view['end'];
-                }
-                else
-                {
+                } else {
                     echo $data['l10n']->get('continuous subscription');
                 } ?>
                     </div>
                 </div>
-                <?php if ($data['deliverable']->notify)
-                {
+                <?php if ($data['deliverable']->notify) {
                     ?>
                     <div class="field">
                         <div class="title"><?php echo $data['l10n']->get('notify date'); ?></div>
                         <div class="value"><?php echo $view['notify']; ?></div>
                     </div>
                     <?php
+
                 } ?>
                 <div class="field">
                     <div class="title"><?php echo $data['l10n_midcom']->get('description'); ?></div>
@@ -153,35 +144,34 @@ if (   $data['product']
                         <tr>
                           <td class="title"><?php echo $data['l10n']->get('cost'); ?></td>
                           <?php
-                          if ($data['deliverable']->costType == '%')
-                          { ?>
+                          if ($data['deliverable']->costType == '%') {
+                              ?>
                               <td class="numeric"><?php echo $view['costPerUnit']; ?> %</td>
                               <td class="numeric">&nbsp;</td>
                               <td class="numeric">&nbsp;</td>
-                          <?php }
-                          else
-                          { ?>
+                          <?php 
+                          } else {
+                              ?>
                               <td class="numeric"><?php echo $formatter->number($data['deliverable']->costPerUnit); ?></td>
                               <td class="numeric"><?php echo $view['plannedUnits']; ?></td>
                               <td class="numeric"><?php echo $view['units']; ?></td>
-                          <?php } ?>
+                          <?php 
+                          } ?>
                               <td class="numeric"><?php echo $formatter->number($data['deliverable']->cost); ?></td>
                         </tr>
                       </tbody>
                     </table>
-                <?php if ($data['deliverable']->invoiceByActualUnits)
-                {
-                    ?>
+                <?php if ($data['deliverable']->invoiceByActualUnits) {
+                              ?>
                     <ul>
                         <li><?php echo $data['l10n']->get('invoice by actual units'); ?></li>
                         <?php
-                        if ($data['deliverable']->invoiceApprovedOnly)
-                        {
+                        if ($data['deliverable']->invoiceApprovedOnly) {
                             echo "<li>" . $data['l10n']->get('invoice approved only') . "</li>\n";
-                        }
-                        ?>
+                        } ?>
                     </ul>
-                    <?php } ?>
+                    <?php 
+                          } ?>
                     </div>
                 </div>
                 <div class="field">
@@ -189,14 +179,14 @@ if (   $data['product']
                     <div class="value">&(view['unit']:h);</div>
                 </div>
                 <?php
-                if ($data['deliverable']->invoiced > 0)
-                {
+                if ($data['deliverable']->invoiced > 0) {
                     ?>
                     <div class="field">
                         <div class="title"><?php echo $data['l10n']->get('invoiced'); ?></div>
                         <div class="value"><?php echo $formatter->number($data['deliverable']->invoiced); ?></div>
                     </div>
                     <?php
+
                 }
                 ?>
         </div>
@@ -206,8 +196,7 @@ if (   $data['product']
     <?php
     $tabs = array();
     if (   $data['invoices_url']
-        && $data['deliverable']->invoiced > 0)
-    {
+        && $data['deliverable']->invoiced > 0) {
         $tabs[] = array
         (
             'url' => $data['invoices_url'] . "list/deliverable/{$data['deliverable']->guid}/",
@@ -216,11 +205,9 @@ if (   $data['product']
     }
 
     if (   $data['projects_url']
-        && $data['deliverable']->state >= org_openpsa_sales_salesproject_deliverable_dba::STATE_ORDERED)
-    {
+        && $data['deliverable']->state >= org_openpsa_sales_salesproject_deliverable_dba::STATE_ORDERED) {
         if (   $data['product']
-            && $data['product']->orgOpenpsaObtype == org_openpsa_products_product_dba::TYPE_SERVICE)
-        {
+            && $data['product']->orgOpenpsaObtype == org_openpsa_products_product_dba::TYPE_SERVICE) {
             $tabs[] = array
             (
                 'url' => $data['projects_url'] . "task/list/all/agreement/{$data['deliverable']->id}/",

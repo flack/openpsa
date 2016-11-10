@@ -27,10 +27,8 @@ class midcom_admin_folder_management extends midcom_baseclasses_components_plugi
     public function _on_initialize()
     {
         $config = $this->_request_data['plugin_config'];
-        if ($config)
-        {
-            foreach ($config as $key => $value)
-            {
+        if ($config) {
+            foreach ($config as $key => $value) {
                 $this->$key = $value;
             }
         }
@@ -52,8 +50,7 @@ class midcom_admin_folder_management extends midcom_baseclasses_components_plugi
     {
         $return = parent::get_plugin_handlers();
 
-        if (midcom::get()->config->get('symlinks'))
-        {
+        if (midcom::get()->config->get('symlinks')) {
             /**
              * Create a new topic symlink
              *
@@ -79,27 +76,21 @@ class midcom_admin_folder_management extends midcom_baseclasses_components_plugi
         $components = array();
 
         // Loop through the list of components of component loader
-        foreach (midcom::get()->componentloader->manifests as $manifest)
-        {
+        foreach (midcom::get()->componentloader->manifests as $manifest) {
             // Skip purecode components
-            if ($manifest->purecode)
-            {
+            if ($manifest->purecode) {
                 continue;
             }
 
             // Skip components beginning with midcom or midgard
             if (   preg_match('/^(midcom|midgard)\./', $manifest->name)
-                && $manifest->name != 'midcom.helper.search')
-            {
+                && $manifest->name != 'midcom.helper.search') {
                 continue;
             }
 
-            if (array_key_exists('description', $manifest->_raw_data['package.xml']))
-            {
+            if (array_key_exists('description', $manifest->_raw_data['package.xml'])) {
                 $description = midcom::get()->i18n->get_string($manifest->_raw_data['package.xml']['description'], $manifest->name);
-            }
-            else
-            {
+            } else {
                 $description = '';
             }
 
@@ -117,8 +108,7 @@ class midcom_admin_folder_management extends midcom_baseclasses_components_plugi
 
         // Set the parent component to be the first if applicable
         if (   $parent_component !== ''
-            && array_key_exists($parent_component, $components))
-        {
+            && array_key_exists($parent_component, $components)) {
             $temp = array();
             $temp[$parent_component] = $components[$parent_component];
             unset($components[$parent_component]);
@@ -139,28 +129,22 @@ class midcom_admin_folder_management extends midcom_baseclasses_components_plugi
         $list = array();
 
         $urltopics = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_URLTOPICS);
-        if ($urltopic = end($urltopics))
-        {
-            if (empty($urltopic->component))
-            {
+        if ($urltopic = end($urltopics)) {
+            if (empty($urltopic->component)) {
                 $list[''] = '';
             }
         }
 
-        foreach (self::get_component_list() as $component => $details)
-        {
+        foreach (self::get_component_list() as $component => $details) {
             if (   $component !== $parent_component
-                && !$all)
-            {
+                && !$all) {
                 if (   is_array(midcom::get()->config->get('component_listing_allowed'))
-                    && !in_array($component, midcom::get()->config->get('component_listing_allowed')))
-                {
+                    && !in_array($component, midcom::get()->config->get('component_listing_allowed'))) {
                     continue;
                 }
 
                 if (   is_array(midcom::get()->config->get('component_listing_excluded'))
-                    && in_array($component, midcom::get()->config->get('component_listing_excluded')))
-                {
+                    && in_array($component, midcom::get()->config->get('component_listing_excluded'))) {
                     continue;
                 }
             }
@@ -183,8 +167,7 @@ class midcom_admin_folder_management extends midcom_baseclasses_components_plugi
         $style_array['__create'] = midcom::get()->i18n->get_string('new layout template', 'midcom.admin.folder');
 
         if (   midcom::get()->config->get('styleengine_relative_paths')
-            && $up == 0)
-        {
+            && $up == 0) {
             // Relative paths in use, start seeking from under the style used for the Midgard host
             $up = midcom_connection::get('style');
         }
@@ -193,13 +176,11 @@ class midcom_admin_folder_management extends midcom_baseclasses_components_plugi
         $qb->add_constraint('up', '=', $up);
         $styles = $qb->execute();
 
-        foreach ($styles as $style)
-        {
+        foreach ($styles as $style) {
             $style_string = "{$prefix}{$style->name}";
 
             // Hide common unwanted material with heuristics
-            if (preg_match('/(asgard|empty)/i', $style_string))
-            {
+            if (preg_match('/(asgard|empty)/i', $style_string)) {
                 continue;
             }
 
@@ -214,8 +195,7 @@ class midcom_admin_folder_management extends midcom_baseclasses_components_plugi
     {
         $theme_styledir = OPENPSA2_THEME_ROOT . '/' . midcom::get()->config->get('theme') . '/style';
         $finder = new Finder();
-        foreach ($finder->directories()->in($theme_styledir) as $dir)
-        {
+        foreach ($finder->directories()->in($theme_styledir) as $dir) {
             $label = preg_replace('/.+?\//', '&nbsp;&nbsp;', $dir->getRelativePathname());
             $styles['theme:/' . $dir->getRelativePathname()] = $label;
         }
@@ -230,23 +210,18 @@ class midcom_admin_folder_management extends midcom_baseclasses_components_plugi
      */
     public static function is_child_listing_finite($topic, $stop = array())
     {
-        if (!empty($topic->symlink))
-        {
+        if (!empty($topic->symlink)) {
             midcom::get()->auth->request_sudo('midcom.admin.folder');
-            try
-            {
+            try {
                 $topic = new midcom_db_topic($topic->symlink);
-            }
-            catch (midcom_error $e)
-            {
+            } catch (midcom_error $e) {
                 debug_add("Could not get target for symlinked topic #{$topic->id}: " .
                           $e->getMessage(), MIDCOM_LOG_ERROR);
             }
             midcom::get()->auth->drop_sudo();
         }
 
-        if (in_array($topic->id, $stop))
-        {
+        if (in_array($topic->id, $stop)) {
             return false;
         }
 
@@ -258,10 +233,8 @@ class midcom_admin_folder_management extends midcom_baseclasses_components_plugi
         $results = $qb->execute();
         midcom::get()->auth->drop_sudo();
 
-        foreach ($results as $topic)
-        {
-            if (!self::is_child_listing_finite($topic, $stop))
-            {
+        foreach ($results as $topic) {
+            if (!self::is_child_listing_finite($topic, $stop)) {
                 return false;
             }
         }

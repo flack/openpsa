@@ -69,8 +69,7 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
         $this->_load_datamanager();
 
         $data['person_rss_url'] = $this->_contact->get_parameter('net.nemein.rss', 'url');
-        if ($data['person_rss_url'])
-        {
+        if ($data['person_rss_url']) {
             // We've autoprobed that this contact has a RSS feed available, link it
             midcom::get()->head->add_link_head
             (
@@ -103,8 +102,7 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
     {
         $workflow = $this->get_workflow('datamanager2');
         $buttons = array();
-        if ($this->_contact->can_do('midgard:update'))
-        {
+        if ($this->_contact->can_do('midgard:update')) {
             $buttons[] = $workflow->get_button("person/edit/{$this->_contact->guid}/", array
             (
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
@@ -116,10 +114,8 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
         $user_url = $siteconfig->get_node_full_url('org.openpsa.user');
 
         if (   $invoices_url
-            && midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_invoices_invoice_dba'))
-        {
-            if ($this->_contact->can_do('midgard:update'))
-            {
+            && midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_invoices_invoice_dba')) {
+            if ($this->_contact->can_do('midgard:update')) {
                 $buttons[] = $workflow->get_button($invoices_url . "billingdata/" . $this->_contact->guid . '/', array
                 (
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('edit billingdata'),
@@ -129,8 +125,7 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
 
         if (   $user_url
             && (   midcom_connection::get_user() == $this->_contact->id
-                || midcom::get()->auth->can_user_do('org.openpsa.user:access', null, 'org_openpsa_user_interface')))
-        {
+                || midcom::get()->auth->can_user_do('org.openpsa.user:access', null, 'org_openpsa_user_interface'))) {
             $buttons[] = array
             (
                 MIDCOM_TOOLBAR_URL => $user_url . "view/{$this->_contact->guid}/",
@@ -139,16 +134,14 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
             );
         }
 
-        if ($this->_contact->can_do('midgard:delete'))
-        {
+        if ($this->_contact->can_do('midgard:delete')) {
             $workflow = $this->get_workflow('delete', array('object' => $this->_contact));
             $buttons[] = $workflow->get_button("person/delete/{$this->_contact->guid}/");
         }
 
         $mycontacts = new org_openpsa_contacts_mycontacts;
 
-        if ($mycontacts->is_member($this->_contact->guid))
-        {
+        if ($mycontacts->is_member($this->_contact->guid)) {
             // We're buddies, show remove button
             $buttons[] = array
             (
@@ -156,9 +149,7 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('remove from my contacts'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
             );
-        }
-        else
-        {
+        } else {
             // We're not buddies, show add button
             $buttons[] = array
             (
@@ -216,13 +207,9 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
     {
         // This is most likely a dynamic_load
         if (   count($data['organizations']) == 0
-            && count($data['groups']) == 0)
-        {
+            && count($data['groups']) == 0) {
             midcom_show_style('show-person-groups-empty');
-
-        }
-        else
-        {
+        } else {
             $this->_show_memberships('organizations');
             $this->_show_memberships('groups');
         }
@@ -230,20 +217,15 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
 
     private function _show_memberships($identifier)
     {
-        if (empty($this->_request_data[$identifier]))
-        {
+        if (empty($this->_request_data[$identifier])) {
             return;
         }
         $this->_request_data['title'] = $this->_l10n->get($identifier);
         midcom_show_style('show-person-groups-header');
-        foreach ($this->_request_data[$identifier] as $member)
-        {
-            try
-            {
+        foreach ($this->_request_data[$identifier] as $member) {
+            try {
                 $this->_request_data['group'] = org_openpsa_contacts_group_dba::get_cached($member->gid);
-            }
-            catch (midcom_error $e)
-            {
+            } catch (midcom_error $e) {
                 $e->log();
                 continue;
             }

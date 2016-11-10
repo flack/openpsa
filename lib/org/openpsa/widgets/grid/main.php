@@ -89,8 +89,7 @@ class org_openpsa_widgets_grid extends midcom_baseclasses_components_purecode
      */
     public static function add_head_elements()
     {
-        if (self::$_head_elements_added)
-        {
+        if (self::$_head_elements_added) {
             return;
         }
         $version = '4.13.3';
@@ -102,8 +101,7 @@ class org_openpsa_widgets_grid extends midcom_baseclasses_components_purecode
         //needed js/css-files for jqgrid
         $lang = "en";
         $language = midcom::get()->i18n->get_current_language();
-        if (file_exists(MIDCOM_STATIC_ROOT . $jqgrid_path . 'i18n/grid.locale-' . $language . '.min.js'))
-        {
+        if (file_exists(MIDCOM_STATIC_ROOT . $jqgrid_path . 'i18n/grid.locale-' . $language . '.min.js')) {
             $lang = $language;
         }
         $head->add_jsfile(MIDCOM_STATIC_URL . $jqgrid_path . 'i18n/grid.locale-'. $lang . '.min.js');
@@ -163,20 +161,13 @@ class org_openpsa_widgets_grid extends midcom_baseclasses_components_purecode
     {
         $this->_raw_options[$key] = $value;
         if (   $autoquote_string
-            && is_string($value))
-        {
+            && is_string($value)) {
             $value = '"' . str_replace('"', '\\"', $value) . '"';
-        }
-        elseif ($value === true)
-        {
+        } elseif ($value === true) {
             $value = 'true';
-        }
-        elseif ($value === false)
-        {
+        } elseif ($value === false) {
             $value = 'false';
-        }
-        elseif (is_array($value))
-        {
+        } elseif (is_array($value)) {
             $value = json_encode($value);
         }
         $this->_options[$key] = $value;
@@ -185,8 +176,7 @@ class org_openpsa_widgets_grid extends midcom_baseclasses_components_purecode
 
     public function get_option($key)
     {
-        if (empty($this->_raw_options[$key]))
-        {
+        if (empty($this->_raw_options[$key])) {
             return null;
         }
         return $this->_raw_options[$key];
@@ -202,8 +192,7 @@ class org_openpsa_widgets_grid extends midcom_baseclasses_components_purecode
      */
     public function set_column($name, $label, $options = '', $separate_index = false)
     {
-        if (empty($name))
-        {
+        if (empty($name)) {
             throw new midcom_error('Invalid column name ' . $name);
         }
         $this->_columns[$name] = array
@@ -230,12 +219,10 @@ class org_openpsa_widgets_grid extends midcom_baseclasses_components_purecode
     public function remove_column($name)
     {
         if (   empty($name)
-            || !array_key_exists($name, $this->_columns))
-        {
+            || !array_key_exists($name, $this->_columns)) {
             throw new midcom_error('Invalid column name ' . $name);
         }
-        if ($this->_columns[$name]['separate_index'])
-        {
+        if ($this->_columns[$name]['separate_index']) {
             unset($this->_columns[$name . '_index']);
         }
         unset($this->_columns[$name]);
@@ -250,12 +237,9 @@ class org_openpsa_widgets_grid extends midcom_baseclasses_components_purecode
      */
     public function set_footer_data($data, $value = null, $formatted = true)
     {
-        if (null == $value)
-        {
+        if (null == $value) {
             $this->_footer_data = $data;
-        }
-        else
-        {
+        } else {
             $this->_footer_data[$data] = $value;
         }
         $this->format_footer = $formatted;
@@ -277,14 +261,10 @@ class org_openpsa_widgets_grid extends midcom_baseclasses_components_purecode
      */
     public function render($entries = false)
     {
-        if (is_array($entries))
-        {
-            if (null !== $this->_provider)
-            {
+        if (is_array($entries)) {
+            if (null !== $this->_provider) {
                 $this->_provider->set_rows($entries);
-            }
-            else
-            {
+            } else {
                 $this->_provider = new org_openpsa_widgets_grid_provider($entries, $this->get_option('datatype'));
                 $this->_provider->set_grid($this);
             }
@@ -294,8 +274,7 @@ class org_openpsa_widgets_grid extends midcom_baseclasses_components_purecode
 
     public function __toString()
     {
-        if ($this->_provider)
-        {
+        if ($this->_provider) {
             $this->_provider->setup_grid();
         }
 
@@ -306,10 +285,8 @@ class org_openpsa_widgets_grid extends midcom_baseclasses_components_purecode
         $string .= 'org_openpsa_grid_helper.setup_grid("' . $this->_identifier . '", {';
 
         $colnames = array();
-        foreach ($this->_columns as $name => $column)
-        {
-            if ($column['separate_index'])
-            {
+        foreach ($this->_columns as $name => $column) {
+            if ($column['separate_index']) {
                 $colnames[] = 'index_' . $name;
             }
             $colnames[] = $column['label'];
@@ -320,19 +297,16 @@ class org_openpsa_widgets_grid extends midcom_baseclasses_components_purecode
 
         $total_options = sizeof($this->_options);
         $i = 0;
-        foreach ($this->_options as $name => $value)
-        {
+        foreach ($this->_options as $name => $value) {
             $string .= $name . ': ' . $value;
-            if (++$i < $total_options)
-            {
+            if (++$i < $total_options) {
                 $string .= ',';
             }
             $string .= "\n";
         }
         $string .= "});\n";
 
-        if ($this->get_option('footerrow'))
-        {
+        if ($this->get_option('footerrow')) {
             $format = $this->format_footer ? 'true' : 'false';
             $string .= 'jQuery("#' . $this->_identifier . '").jqGrid("footerData", "set", ' . json_encode($this->_footer_data) . ", " . $format . ");\n";
         }
@@ -346,30 +320,23 @@ class org_openpsa_widgets_grid extends midcom_baseclasses_components_purecode
         $string = "colModel: [\n";
         $total_columns = sizeof($this->_columns);
         $i = 0;
-        foreach ($this->_columns as $name => $column)
-        {
-            if ($column['separate_index'])
-            {
+        foreach ($this->_columns as $name => $column) {
+            if ($column['separate_index']) {
                 $string .= '{name: "index_' . $name . '", index: "index_' . $name . '", ';
                 $string .= 'sorttype: "' . $column['separate_index'] . '", hidden: true}' . ",\n";
             }
 
             $string .= '{name: "' . $name . '", ';
-            if ($column['separate_index'])
-            {
+            if ($column['separate_index']) {
                 $string .= 'index: "index_' . $name . '"';
-            }
-            else
-            {
+            } else {
                 $string .= 'index: "' . $name . '"';
             }
-            if (!empty($column['options']))
-            {
+            if (!empty($column['options'])) {
                 $string .= ', ' . $column['options'];
             }
             $string .= '}';
-            if (++$i < $total_columns)
-            {
+            if (++$i < $total_columns) {
                 $string .= ",\n";
             }
         }

@@ -33,8 +33,7 @@ class org_routamc_positioning_country_dba extends midcom_core_dbaobject
         $qb->add_constraint('name', '=', (string)$this->name);
         $qb->set_limit(1);
         $matches = $qb->execute_unchecked();
-        if (count($matches) > 0)
-        {
+        if (count($matches) > 0) {
             // We don't need to save duplicate entries
             midcom_connection::set_error(MGD_ERR_DUPLICATE);
             return false;
@@ -49,8 +48,7 @@ class org_routamc_positioning_country_dba extends midcom_core_dbaobject
         $qb->add_constraint('name', 'LIKE', $name);
         $qb->set_limit(1);
         $matches = $qb->execute_unchecked();
-        if (count($matches) > 0)
-        {
+        if (count($matches) > 0) {
             return $matches[0];
         }
 
@@ -61,8 +59,7 @@ class org_routamc_positioning_country_dba extends midcom_core_dbaobject
         $qb->add_order('population', 'DESC');
         $qb->set_limit(1);
         $matches = $qb->execute_unchecked();
-        if (count($matches) > 0)
-        {
+        if (count($matches) > 0) {
             return $matches[0];
         }
 
@@ -79,14 +76,13 @@ class org_routamc_positioning_country_dba extends midcom_core_dbaobject
     {
         $qb = self::new_query_builder();
         $qb->begin_group('OR');
-            $qb->add_constraint('code', '=', $code);
-            $qb->add_constraint('code3', '=', $code);
+        $qb->add_constraint('code', '=', $code);
+        $qb->add_constraint('code3', '=', $code);
         $qb->end_group();
 
         $matches = $qb->execute();
 
-        if (!isset($matches[0]))
-        {
+        if (!isset($matches[0])) {
             return null;
         }
 

@@ -23,14 +23,12 @@ class midcom_helper_serviceloader
      */
     private function get_implementation($service)
     {
-        if (midcom::get()->config->get("service_{$service}") === null)
-        {
+        if (midcom::get()->config->get("service_{$service}") === null) {
             throw new midcom_error("Service interface {$service} could not be loaded: Not defined in system configuration");
         }
 
         // Load the interface class
-        if (!interface_exists($service))
-        {
+        if (!interface_exists($service)) {
             throw new midcom_error("Service interface {$service} could not be loaded: File not found");
         }
 
@@ -46,20 +44,17 @@ class midcom_helper_serviceloader
         // Start by checking what implementation is to be used
         $implementation_class = $this->get_implementation($service);
 
-        if (empty($implementation_class))
-        {
+        if (empty($implementation_class)) {
             // Service disabled for this site
             return false;
         }
 
         // Load the interface class
-        if (!class_exists($implementation_class))
-        {
+        if (!class_exists($implementation_class)) {
             throw new midcom_error("Service implementation {$implementation_class} for {$service} could not be loaded: File not found");
         }
 
-        if (!array_key_exists($service, class_implements($implementation_class)))
-        {
+        if (!array_key_exists($service, class_implements($implementation_class))) {
             throw new midcom_error("Class {$implementation_class} does not implement {$service}");
         }
         // TODO: Also run the check method of the class itself
@@ -72,17 +67,14 @@ class midcom_helper_serviceloader
      */
     public function load($service)
     {
-        if (!isset($this->instances[$service]))
-        {
+        if (!isset($this->instances[$service])) {
             $implementation_class = $this->get_implementation($service);
-            if (empty($implementation_class))
-            {
+            if (empty($implementation_class)) {
                 // Service disabled for this site
                 throw new midcom_error("Service implementation for {$service} not defined");
             }
 
-            if (!$this->can_load($service))
-            {
+            if (!$this->can_load($service)) {
                 // Service disabled for this site
                 throw new midcom_error("Service implementation for {$service} could not be loaded");
             }

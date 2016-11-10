@@ -23,13 +23,11 @@ implements org_openpsa_widgets_grid_provider_client
     public function get_qb($field = null, $direction = 'ASC', array $search = array())
     {
         $qb = org_openpsa_directmarketing_campaign_dba::new_query_builder();
-        if ($this->_topic->component = 'org.openpsa.directmarketing')
-        {
+        if ($this->_topic->component = 'org.openpsa.directmarketing') {
             $qb->add_constraint('node', '=', $this->_topic->id);
         }
         $qb->add_constraint('archived', '=', 0);
-        if (!is_null($field))
-        {
+        if (!is_null($field)) {
             $qb->add_order($field, $direction);
         }
         $qb->add_order('metadata.created', $this->_config->get('campaign_list_order'));
@@ -67,13 +65,11 @@ implements org_openpsa_widgets_grid_provider_client
     {
         midcom::get()->auth->require_valid_user();
 
-        if (midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_directmarketing_campaign_dba'))
-        {
+        if (midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_directmarketing_campaign_dba')) {
             $workflow = $this->get_workflow('datamanager2');
 
             $schemadb_campaign = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_campaign'));
-            foreach (array_keys($schemadb_campaign) as $name)
-            {
+            foreach (array_keys($schemadb_campaign) as $name) {
                 $this->_view_toolbar->add_item($workflow->get_button("campaign/create/{$name}/", array
                 (
                     MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get($schemadb_campaign[$name]->description)),

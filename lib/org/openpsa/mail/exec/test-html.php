@@ -4,9 +4,8 @@ midcom::get()->auth->require_admin_user();
 echo "<p>\n";
 
 if (   empty($_POST['to'])
-    || empty($_POST['from']))
-{
-?>
+    || empty($_POST['from'])) {
+    ?>
     <h2>Send test email</h2>
     <form method="post">
         <p>
@@ -42,9 +41,8 @@ if (   empty($_POST['to'])
         </p>
     </form>
 <?php
-}
-else
-{
+
+} else {
     $mail = new org_openpsa_mail($_POST['backend']);
     $mail->to = $_POST['to'];
     $mail->from = $_POST['from'];

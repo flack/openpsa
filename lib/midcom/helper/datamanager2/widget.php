@@ -152,8 +152,7 @@ abstract class midcom_helper_datamanager2_widget extends midcom_baseclasses_comp
         $this->_on_configuring();
 
         // Assign the configuration values.
-        foreach ($config as $key => $value)
-        {
+        foreach ($config as $key => $value) {
             $this->$key = $value;
         }
 
@@ -168,18 +167,15 @@ abstract class midcom_helper_datamanager2_widget extends midcom_baseclasses_comp
         if (   !array_key_exists('value', $this->_type)
             || is_array($this->_type->value)
             || (   is_object($this->_type->value)
-                && !$this->_type->value instanceof DateTime))
-        {
+                && !$this->_type->value instanceof DateTime)) {
             throw new midcom_error("The type {$this->name} does not have a value member or it is an array or object, you cannot use it with " . get_class($this));
         }
     }
 
     protected function _require_type_class($classes)
     {
-        foreach ((array) $classes as $class)
-        {
-            if (is_a($this->_type, $class))
-            {
+        foreach ((array) $classes as $class) {
+            if (is_a($this->_type, $class)) {
                 return true;
             }
         }
@@ -211,7 +207,9 @@ abstract class midcom_helper_datamanager2_widget extends midcom_baseclasses_comp
      * This function is called  before the configuration keys are merged into the types
      * configuration.
      */
-    public function _on_configuring() {}
+    public function _on_configuring()
+    {
+    }
 
     /**
      * This event handler is called during construction, so passing references to $this to the
@@ -232,8 +230,7 @@ abstract class midcom_helper_datamanager2_widget extends midcom_baseclasses_comp
      */
     function get_external_config($key)
     {
-        if (!array_key_exists($key, $this->_external_config))
-        {
+        if (!array_key_exists($key, $this->_external_config)) {
             return null;
         }
         return $this->_external_config[$key];
@@ -315,7 +312,9 @@ abstract class midcom_helper_datamanager2_widget extends midcom_baseclasses_comp
      * @param array $results The complete form results, you need to extract all values
      *     relevant for your type yourself.
      */
-    function on_submit($results) {}
+    function on_submit($results)
+    {
+    }
 
     /**
      * When called, this method should display the current data without any
@@ -341,8 +340,7 @@ abstract class midcom_helper_datamanager2_widget extends midcom_baseclasses_comp
     public function freeze()
     {
         $element = $this->_form->getElement($this->name);
-        if (method_exists($element, 'freeze'))
-        {
+        if (method_exists($element, 'freeze')) {
             $element->freeze();
         }
     }

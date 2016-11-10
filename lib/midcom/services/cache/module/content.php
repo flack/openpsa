@@ -206,33 +206,26 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
     {
         // Cache the request identifier so that it doesn't change between start and end of request
         static $identifier_cache = array();
-        if (isset($identifier_cache[$context]))
-        {
+        if (isset($identifier_cache[$context])) {
             // FIXME: Use customdata here, too
             return $identifier_cache[$context];
         }
 
         $module_name = midcom::get()->config->get('cache_module_content_name');
-        if ($module_name == 'auto')
-        {
+        if ($module_name == 'auto') {
             $module_name = midcom_connection::get_unique_host_name();
         }
         $identifier_source = 'CACHE:' . $module_name;
 
-        if (!isset($customdata['cache_module_content_caching_strategy']))
-        {
+        if (!isset($customdata['cache_module_content_caching_strategy'])) {
             $cache_strategy = midcom::get()->config->get('cache_module_content_caching_strategy');
-        }
-        else
-        {
+        } else {
             $cache_strategy = $customdata['cache_module_content_caching_strategy'];
         }
 
-        switch ($cache_strategy)
-        {
+        switch ($cache_strategy) {
             case 'memberships':
-                if (!midcom_connection::get_user())
-                {
+                if (!midcom_connection::get_user()) {
                     $identifier_source .= ';USER=ANONYMOUS';
                     break;
                 }
@@ -251,17 +244,13 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
                 break;
         }
 
-        if (midcom::get())
-        {
+        if (midcom::get()) {
             $identifier_source .= ';URL=' . midcom_core_context::get()->get_key(MIDCOM_CONTEXT_URI);
-        }
-        else
-        {
+        } else {
             $identifier_source .= ';URL=' . $_SERVER['REQUEST_URI'];
         }
         // check_dl_hit needs to take config changes into account...
-        if (!is_null($customdata))
-        {
+        if (!is_null($customdata)) {
             $identifier_source .= ';' . serialize($customdata);
         }
 
@@ -288,12 +277,10 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
     public function _on_initialize()
     {
         $backend_config = midcom::get()->config->get('cache_module_content_backend');
-        if (!isset($backend_config['directory']))
-        {
+        if (!isset($backend_config['directory'])) {
             $backend_config['directory'] = 'content/';
         }
-        if (!isset($backend_config['driver']))
-        {
+        if (!isset($backend_config['driver'])) {
             $backend_config['driver'] = 'null';
         }
 
@@ -307,8 +294,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         $this->_default_lifetime_authenticated = (int)midcom::get()->config->get('cache_module_content_default_lifetime_authenticated');
         $this->_force_headers = midcom::get()->config->get('cache_module_content_headers_force');
 
-        switch ($this->_headers_strategy)
-        {
+        switch ($this->_headers_strategy) {
             case 'no-cache':
                 $this->no_cache();
                 break;
@@ -356,10 +342,8 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      */
     private function _check_hit()
     {
-        foreach (midcom_connection::get_url('argv') as $arg)
-        {
-            switch ($arg)
-            {
+        foreach (midcom_connection::get_url('argv') as $arg) {
+            switch ($arg) {
                 case "midcom-cache-invalidate":
                 case "midcom-cache-nocache":
                 case "midcom-cache-stats":
@@ -370,16 +354,14 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         }
 
         // Check for POST variables, if any is found, go for no_cache.
-        if (count($_POST) > 0)
-        {
+        if (count($_POST) > 0) {
             debug_add('POST variables have been found, setting no_cache and not checking for a hit.');
             $this->no_cache();
             return;
         }
 
         // Check for uncached operation
-        if ($this->_uncached)
-        {
+        if ($this->_uncached) {
             debug_add("Uncached mode");
             return;
         }
@@ -388,8 +370,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         $request_id = $this->generate_request_identifier(0);
         // Load metadata for the content identifier connected to current request
         $content_id = $this->_meta_cache->fetch($request_id);
-        if ($content_id === false)
-        {
+        if ($content_id === false) {
             debug_add("MISS {$request_id}");
             // We have no information about content cached for this request
             return;
@@ -397,15 +378,13 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         debug_add("HIT {$request_id}");
 
         $data = $this->_meta_cache->fetch($content_id);
-        if ($data === false)
-        {
+        if ($data === false) {
             debug_add("MISS meta_cache {$content_id}");
             // Content cache data is missing
             return;
         }
 
-        if (!isset($data['last_modified']))
-        {
+        if (!isset($data['last_modified'])) {
             debug_add('Current page is in cache, but has insufficient information', MIDCOM_LOG_INFO);
             return;
         }
@@ -414,11 +393,9 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
 
         // Check If-Modified-Since and If-None-Match, do content output only if
         // we have a not modified match.
-        if (!$this->_check_not_modified($data['last_modified'], $data['etag']))
-        {
+        if (!$this->_check_not_modified($data['last_modified'], $data['etag'])) {
             $content = $this->_data_cache->fetch($content_id);
-            if ($content === false)
-            {
+            if ($content === false) {
                 debug_add("Current page is in not in the data cache, possible ghost read.", MIDCOM_LOG_WARN);
                 return;
             }
@@ -427,11 +404,8 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             array_map('_midcom_header', $data['sent_headers']);
 
             echo $content;
-        }
-        else
-        {
-            if ($this->_obrunning)
-            {
+        } else {
+            if ($this->_obrunning) {
                 // Drop the output buffer, if any.
                 ob_end_clean();
             }
@@ -473,15 +447,13 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      */
     public function no_cache()
     {
-        if ($this->_no_cache)
-        {
+        if ($this->_no_cache) {
             return;
         }
 
         $this->_no_cache = true;
 
-        if (_midcom_headers_sent())
-        {
+        if (_midcom_headers_sent()) {
             // Whatever is wrong here, we return.
             debug_add('Warning, we should move to no_cache but headers have already been sent, skipping header transmission.', MIDCOM_LOG_ERROR);
             return;
@@ -493,8 +465,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         //Suppress "Pragma: no-cache" header, because otherwise file downloads don't work in IE < 9 with https.
         if (   !isset($_SERVER['HTTPS'])
             || !isset($_SERVER['HTTP_USER_AGENT'])
-            || !preg_match('/MSIE/', $_SERVER['HTTP_USER_AGENT']))
-        {
+            || !preg_match('/MSIE/', $_SERVER['HTTP_USER_AGENT'])) {
             _midcom_header('Pragma: no-cache');
         }
         // PONDER: Send expires header (set to long time in past) as well ??
@@ -549,8 +520,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
     public function expires($timestamp)
     {
         if (   is_null($this->_expires)
-            || $this->_expires > $timestamp)
-        {
+            || $this->_expires > $timestamp) {
             $this->_expires = $timestamp;
         }
     }
@@ -588,8 +558,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      */
     public function enable_live_mode()
     {
-        if ($this->_live_mode)
-        {
+        if ($this->_live_mode) {
             debug_add('Cannot enter live mode twice, ignoring request.', MIDCOM_LOG_WARN);
             return;
         }
@@ -597,19 +566,15 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         $this->_live_mode = true;
         $this->no_cache();
 
-        if ($this->_obrunning)
-        {
+        if ($this->_obrunning) {
             // Flush any remaining output buffer.
             // Ignore errors in case _obrunning is wrong, we are in the right state then anyway.
             // We do this only if there is actually content in the output buffer. If not, we won't
             // send anything, so that you can still send HTTP Headers after enabling the live mode.
             // Check is for nonzero and non-false
-            if (ob_get_length())
-            {
+            if (ob_get_length()) {
                 @ob_end_flush();
-            }
-            else
-            {
+            } else {
                 @ob_end_clean();
             }
             $this->_obrunning = false;
@@ -646,21 +611,17 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
     public function invalidate($guid, $object = null)
     {
         $guidmap = $this->_meta_cache->fetch($guid);
-        if ($guidmap === false)
-        {
+        if ($guidmap === false) {
             debug_add("No entry for {$guid} in meta cache, ignoring invalidation request.");
             return;
         }
 
-        foreach ($guidmap as $content_id)
-        {
-            if ($this->_meta_cache->contains($content_id))
-            {
+        foreach ($guidmap as $content_id) {
+            if ($this->_meta_cache->contains($content_id)) {
                 $this->_meta_cache->delete($content_id);
             }
 
-            if ($this->_data_cache->contains($content_id))
-            {
+            if ($this->_data_cache->contains($content_id)) {
                 $this->_data_cache->delete($content_id);
             }
         }
@@ -672,25 +633,21 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
     public function register($guid)
     {
         // Check for uncached operation
-        if ($this->_uncached)
-        {
+        if ($this->_uncached) {
             return;
         }
 
         $context = midcom_core_context::get()->id;
-        if ($context != 0)
-        {
+        if ($context != 0) {
             // We're in a dynamic_load, register it for that as well
-            if (!isset($this->context_guids[$context]))
-            {
+            if (!isset($this->context_guids[$context])) {
                 $this->context_guids[$context] = array();
             }
             $this->context_guids[$context][] = $guid;
         }
 
         // Register all GUIDs also to the root context
-        if (!isset($this->context_guids[0]))
-        {
+        if (!isset($this->context_guids[0])) {
             $this->context_guids[0] = array();
         }
         $this->context_guids[0][] = $guid;
@@ -715,8 +672,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      */
     function _check_not_modified($last_modified, $etag)
     {
-        if (_midcom_headers_sent())
-        {
+        if (_midcom_headers_sent()) {
             debug_add("The headers have already been sent, cannot do a not modified check.", MIDCOM_LOG_INFO);
             return false;
         }
@@ -724,26 +680,21 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         // These variables are set to true if the corresponding header indicates a 304 is possible.
         $if_modified_since = false;
         $if_none_match = false;
-        if (array_key_exists('HTTP_IF_NONE_MATCH', $_SERVER))
-        {
-            if ($_SERVER['HTTP_IF_NONE_MATCH'] != $etag)
-            {
+        if (array_key_exists('HTTP_IF_NONE_MATCH', $_SERVER)) {
+            if ($_SERVER['HTTP_IF_NONE_MATCH'] != $etag) {
                 // The E-Tag is different, so we cannot 304 here.
                 debug_add("The HTTP supplied E-Tag requirement does not match: {$_SERVER['HTTP_IF_NONE_MATCH']} (!= {$etag})");
                 return false;
             }
             $if_none_match = true;
         }
-        if (array_key_exists('HTTP_IF_MODIFIED_SINCE', $_SERVER))
-        {
+        if (array_key_exists('HTTP_IF_MODIFIED_SINCE', $_SERVER)) {
             $tmp = $_SERVER['HTTP_IF_MODIFIED_SINCE'];
-            if (strpos($tmp, 'GMT') === false)
-            {
+            if (strpos($tmp, 'GMT') === false) {
                 $tmp .= ' GMT';
             }
             $modified_since = strtotime($tmp);
-            if ($modified_since < $last_modified)
-            {
+            if ($modified_since < $last_modified) {
                 // Last Modified does not match, so we cannot 304 here.
                 debug_add("The supplied HTTP Last Modified requirement does not match: {$_SERVER['HTTP_IF_MODIFIED_SINCE']}.");
                 debug_add("If-Modified-Since: ({$modified_since}) " . gmdate("D, d M Y H:i:s", $modified_since) . ' GMT');
@@ -774,22 +725,16 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         // make it safe to call this multiple times
         // done this way since it's slightly less hacky than mucking about with the cache->_modules etc
         static $run_count = 0;
-        if (++$run_count > 1)
-        {
+        if (++$run_count > 1) {
             return;
         }
 
         if (   $this->_no_cache
-            || $this->_live_mode)
-        {
-            if ($this->_obrunning)
-            {
-                if (ob_get_contents())
-                {
+            || $this->_live_mode) {
+            if ($this->_obrunning) {
+                if (ob_get_contents()) {
                     ob_end_flush();
-                }
-                elseif (ob_get_level())
-                {
+                } elseif (ob_get_level()) {
                     ob_end_clean();
                 }
             }
@@ -806,12 +751,9 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
          */
 
         // Generate E-Tag header.
-        if (strlen($cache_data) == 0)
-        {
+        if (strlen($cache_data) == 0) {
             $etag = md5(serialize($this->_sent_headers));
-        }
-        else
-        {
+        } else {
             $etag = md5($cache_data);
         }
 
@@ -826,12 +768,9 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         ob_end_clean();
 
         // If-Modified-Since / If-None-Match checks, if no match, flush the output.
-        if (!$this->_check_not_modified($this->_last_modified, $etag))
-        {
+        if (!$this->_check_not_modified($this->_last_modified, $etag)) {
             echo $cache_data;
-        }
-        else
-        {
+        } else {
             _midcom_header('HTTP/1.0 304 Not Modified');
             _midcom_header("ETag: {$etag}");
             array_map('_midcom_header', $this->_sent_headers);
@@ -842,8 +781,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
          *   Stuff below here is executed *after* we have flushed output,
          *   so here we should only write out our caches but do nothing else
          */
-        if ($this->_uncached)
-        {
+        if ($this->_uncached) {
             debug_add('Not writing cache file, we are in uncached operation mode.');
             return;
         }
@@ -859,17 +797,13 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
     public function write_meta_cache($content_id, $etag)
     {
         if (   $this->_uncached
-            || $this->_no_cache)
-        {
+            || $this->_no_cache) {
             return;
         }
 
-        if (!is_null($this->_expires))
-        {
+        if (!is_null($this->_expires)) {
             $lifetime = $this->_expires - time();
-        }
-        else
-        {
+        } else {
             // Use default expiry for cache entry, most components don't bother calling expires() properly
             $lifetime = $this->_default_lifetime;
         }
@@ -898,27 +832,23 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
     private function store_context_guid_map($context, $content_id, $request_id)
     {
         // non-existent context
-        if (!array_key_exists($context, $this->context_guids))
-        {
+        if (!array_key_exists($context, $this->context_guids)) {
             return;
         }
 
         $maps = $this->_meta_cache->fetchMultiple($this->context_guids[$context]);
         $to_save = array();
-        foreach ($this->context_guids[$context] as $guid)
-        {
+        foreach ($this->context_guids[$context] as $guid) {
             // Getting old map from cache or create new, empty one
             $guidmap = (empty($maps[$guid])) ? array() : $maps[$guid];
 
-            if (!in_array($content_id, $guidmap))
-            {
+            if (!in_array($content_id, $guidmap)) {
                 $guidmap[] = $content_id;
                 $to_save[$guid] = $guidmap;
             }
 
             if (   $content_id !== $request_id
-                && !in_array($request_id, $guidmap))
-            {
+                && !in_array($request_id, $guidmap)) {
                 $guidmap[] = $request_id;
                 $to_save[$guid] = $guidmap;
             }
@@ -930,20 +860,17 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
     public function check_dl_hit($context, $dl_config)
     {
         if (   $this->_no_cache
-            || $this->_live_mode)
-        {
+            || $this->_live_mode) {
             return false;
         }
         $dl_request_id = 'DL' . $this->generate_request_identifier($context, $dl_config);
         $dl_content_id = $this->_meta_cache->fetch($dl_request_id);
-        if ($dl_content_id === false)
-        {
+        if ($dl_content_id === false) {
             return false;
         }
 
         $content = $this->_data_cache->fetch($dl_content_id);
-        if ($content === false)
-        {
+        if ($content === false) {
             // Ghost read, we have everything but the actual content in cache
             return false;
         }
@@ -955,19 +882,15 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
     {
         if (   $this->_no_cache
             || $this->_live_mode
-            || $this->_uncached)
-        {
+            || $this->_uncached) {
             return;
         }
         $dl_request_id = 'DL' . $this->generate_request_identifier($context, $dl_config);
         $dl_content_id = 'DLC-' . md5($dl_cache_data);
 
-        if (!is_null($this->_expires))
-        {
+        if (!is_null($this->_expires)) {
             $lifetime = $this->_expires - time();
-        }
-        else
-        {
+        } else {
             // Use default expiry for cache entry, most components don't bother calling expires() properly
             $lifetime = $this->_default_lifetime;
         }
@@ -993,46 +916,35 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         $size = false;
         $lastmod = false;
 
-        foreach ($this->_sent_headers as $header)
-        {
-            if (strncasecmp($header, 'Accept-Ranges', 13) == 0)
-            {
+        foreach ($this->_sent_headers as $header) {
+            if (strncasecmp($header, 'Accept-Ranges', 13) == 0) {
                 $ranges = true;
-            }
-            elseif (strncasecmp($header, 'Content-Length', 14) == 0)
-            {
+            } elseif (strncasecmp($header, 'Content-Length', 14) == 0) {
                 $size = true;
-            }
-            elseif (strncasecmp($header, 'Last-Modified', 13) == 0)
-            {
+            } elseif (strncasecmp($header, 'Last-Modified', 13) == 0) {
                 $lastmod = true;
                 // Populate last modified timestamp (force GMT):
                 $tmp = substr($header, 15);
-                if (strpos($tmp, 'GMT') === false)
-                {
+                if (strpos($tmp, 'GMT') === false) {
                     $tmp .= ' GMT';
                 }
                 $this->_last_modified = strtotime($tmp);
-                if ($this->_last_modified == -1)
-                {
+                if ($this->_last_modified == -1) {
                     debug_add("Failed to extract the timecode from the last modified header '{$header}', defaulting to the current time.", MIDCOM_LOG_WARN);
                     $this->_last_modified = time();
                 }
             }
         }
 
-        if (!$ranges)
-        {
+        if (!$ranges) {
             midcom::get()->header("Accept-Ranges: none");
         }
-        if (!$size)
-        {
+        if (!$size) {
             /* TODO: Doublecheck the way this is handled, it seems it's one byte too short
                which causes issues with Squid for example (could be that we output extra
                whitespace somewhere or something), now we just don't send it if headers_strategy
                implies caching */
-            switch ($this->_headers_strategy)
-            {
+            switch ($this->_headers_strategy) {
                 case 'public':
                 case 'private':
                     break;
@@ -1041,23 +953,19 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
                     break;
             }
         }
-        if (!$lastmod)
-        {
+        if (!$lastmod) {
             /* Determine Last-Modified using MidCOM's component context,
              * Fallback to time() if this fails.
              */
             $time = 0;
-            foreach (midcom_core_context::get_all() as $context)
-            {
+            foreach (midcom_core_context::get_all() as $context) {
                 $meta = midcom::get()->metadata->get_request_metadata($context);
-                if ($meta['lastmodified'] > $time)
-                {
+                if ($meta['lastmodified'] > $time) {
                     $time = $meta['lastmodified'];
                 }
             }
             if (   $time == 0
-                || !is_numeric($time))
-            {
+                || !is_numeric($time)) {
                 $time = time();
             }
 
@@ -1068,10 +976,8 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         $this->cache_control_headers();
 
         if (   is_array($this->_force_headers)
-            && !empty($this->_force_headers))
-        {
-            foreach ($this->_force_headers as $header => $value)
-            {
+            && !empty($this->_force_headers)) {
+            foreach ($this->_force_headers as $header => $value) {
                 $header_string = "{$header}: {$value}";
                 _midcom_header($header_string, true);
                 $this->_replace_sent_header($header, $header_string);
@@ -1089,18 +995,15 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
     private function _replace_sent_header($header, $header_string)
     {
         $matched = false;
-        foreach ($this->_sent_headers as &$value)
-        {
-            if (!preg_match("%^{$header}:%", $value))
-            {
+        foreach ($this->_sent_headers as &$value) {
+            if (!preg_match("%^{$header}:%", $value)) {
                 continue;
             }
             $value = $header_string;
             $matched =  true;
             break;
         }
-        if (!$matched)
-        {
+        if (!$matched) {
             $this->_sent_headers[] = $header_string;
         }
     }
@@ -1108,8 +1011,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
     public function cache_control_headers()
     {
         // Just to be sure not to mess the headers sent by no_cache in case it was called
-        if ($this->_no_cache)
-        {
+        if ($this->_no_cache) {
             return;
         }
         // Add Expiration and Cache Control headers
@@ -1119,13 +1021,11 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         $strategy = $this->_headers_strategy;
         $default_lifetime = $this->_default_lifetime;
         if (   midcom::get()->auth->is_valid_user()
-            || midcom_connection::get_user())
-        {
+            || midcom_connection::get_user()) {
             $strategy = $this->_headers_strategy_authenticated;
             $default_lifetime = $this->_default_lifetime_authenticated;
         }
-        switch ($strategy)
-        {
+        switch ($strategy) {
             // included in case _headers_strategy_authenticated sets this
             case 'no-cache':
                 $this->no_cache();
@@ -1140,27 +1040,22 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             case 'private':
                 // Fall-strough intentional
             case 'public':
-                if (!is_null($this->_expires))
-                {
+                if (!is_null($this->_expires)) {
                     $expires = $this->_expires;
                     $max_age = $this->_expires - time();
-                }
-                else
-                {
+                } else {
                     $expires = time() + $default_lifetime;
                     $max_age = $default_lifetime;
                 }
                 $cache_control = "{$strategy} max-age={$max_age}";
-                if ($max_age == 0)
-                {
+                if ($max_age == 0) {
                     $cache_control .= ' must-revalidate';
                 }
                 $pragma = $strategy;
                 break;
         }
         midcom::get()->header("Cache-Control: {$cache_control}");
-        if ($pragma !== false)
-        {
+        if ($pragma !== false) {
             midcom::get()->header("Pragma: {$pragma}");
         }
         midcom::get()->header("Expires: " . gmdate("D, d M Y H:i:s", $expires) . " GMT");

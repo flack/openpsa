@@ -26,8 +26,7 @@ class midcom_services_auth_frontend_form implements midcom_services_auth_fronten
     {
         if (   !array_key_exists('midcom_services_auth_frontend_form_submit', $_REQUEST)
             || !array_key_exists('username', $_REQUEST)
-            || !array_key_exists('password', $_REQUEST))
-        {
+            || !array_key_exists('password', $_REQUEST)) {
             return null;
         }
 
@@ -53,16 +52,13 @@ class midcom_services_auth_frontend_form implements midcom_services_auth_fronten
     public function show_authentication_form()
     {
         // Store the submitted form if the session expired, but user wants to save the data
-        if (count($_POST) > 0)
-        {
+        if (count($_POST) > 0) {
             $data =& midcom_core_context::get()->get_custom_key('request_data');
 
             $data['restored_form_data'] = array();
 
-            foreach ($_POST as $key => $value)
-            {
-                if (preg_match('/(username|password|frontend_form_submit)/', $key))
-                {
+            foreach ($_POST as $key => $value) {
+                if (preg_match('/(username|password|frontend_form_submit)/', $key)) {
                     continue;
                 }
 

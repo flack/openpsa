@@ -17,12 +17,10 @@ implements midcom_services_permalinks_resolver
      */
     public function resolve_object_link(midcom_db_topic $topic, midcom_core_dbaobject $object)
     {
-        if ($object instanceof org_openpsa_products_product_dba)
-        {
+        if ($object instanceof org_openpsa_products_product_dba) {
             return $this->_resolve_product($object, $topic);
         }
-        if ($object instanceof org_openpsa_products_product_group_dba)
-        {
+        if ($object instanceof org_openpsa_products_product_group_dba) {
             return $this->_resolve_productgroup($object, $topic);
         }
         return null;
@@ -32,23 +30,19 @@ implements midcom_services_permalinks_resolver
     {
         $real_config = new midcom_helper_configuration($topic, 'org.openpsa.products');
 
-        if ($real_config->get('root_group'))
-        {
+        if ($real_config->get('root_group')) {
             $root_group = new org_openpsa_products_product_group_dba($real_config->get('root_group'));
-            if ($root_group->id != $product_group->id)
-            {
+            if ($root_group->id != $product_group->id) {
                 $qb_intree = org_openpsa_products_product_group_dba::new_query_builder();
                 $qb_intree->add_constraint('up', 'INTREE', $root_group->id);
                 $qb_intree->add_constraint('id', '=', $product_group->id);
 
-                if ($qb_intree->count() == 0)
-                {
+                if ($qb_intree->count() == 0) {
                     return null;
                 }
             }
         }
-        if ($product_group->code)
-        {
+        if ($product_group->code) {
             return "{$product_group->code}/";
         }
         return "{$product_group->guid}/";
@@ -56,8 +50,7 @@ implements midcom_services_permalinks_resolver
 
     private function _resolve_product($product, $topic)
     {
-        if (!$product->productGroup)
-        {
+        if (!$product->productGroup) {
             return null;
         }
 
@@ -70,8 +63,7 @@ implements midcom_services_permalinks_resolver
     public function _on_reindex($topic, $config, &$indexer)
     {
         if (   !$config->get('index_products')
-            && !$config->get('index_groups'))
-        {
+            && !$config->get('index_groups')) {
             debug_add("No indexing to groups and products, skipping", MIDCOM_LOG_WARN);
             return true;
         }
@@ -84,18 +76,14 @@ implements midcom_services_permalinks_resolver
 
         $qb = org_openpsa_products_product_group_dba::new_query_builder();
         $topic_root_group_guid = $topic->get_parameter('org.openpsa.products', 'root_group');
-        if (!mgd_is_guid($topic_root_group_guid))
-        {
+        if (!mgd_is_guid($topic_root_group_guid)) {
             $qb->add_constraint('up', '=', 0);
-        }
-        else
-        {
+        } else {
             $root_group = new org_openpsa_products_product_group_dba($topic_root_group_guid);
             $qb->add_constraint('id', '=', $root_group->id);
         }
         $root_groups = $qb->execute();
-        foreach ($root_groups as $group)
-        {
+        foreach ($root_groups as $group) {
             $this->_on_reindex_tree_iterator($indexer, $dms, $topic, $group, $config);
         }
 
@@ -104,28 +92,21 @@ implements midcom_services_permalinks_resolver
 
     public function _on_reindex_tree_iterator(&$indexer, array $dms, $topic, $group, $config)
     {
-        if ($dms['group']->autoset_storage($group))
-        {
-            if ($config->get('index_groups'))
-            {
+        if ($dms['group']->autoset_storage($group)) {
+            if ($config->get('index_groups')) {
                 org_openpsa_products_viewer::index($dms['group'], $indexer, $topic, $config);
             }
-        }
-        else
-        {
+        } else {
             debug_add("Warning, failed to initialize datamanager for product group {$group->id}. Skipping it.", MIDCOM_LOG_WARN);
         }
 
-        if ($config->get('index_products'))
-        {
+        if ($config->get('index_products')) {
             $qb_products = org_openpsa_products_product_dba::new_query_builder();
             $qb_products->add_constraint('productGroup', '=', $group->id);
             $products = $qb_products->execute();
 
-            foreach ($products as $product)
-            {
-                if (!$dms['product']->autoset_storage($product))
-                {
+            foreach ($products as $product) {
+                if (!$dms['product']->autoset_storage($product)) {
                     debug_add("Warning, failed to initialize datamanager for product {$product->id}. Skipping it.", MIDCOM_LOG_WARN);
                     continue;
                 }
@@ -137,8 +118,7 @@ implements midcom_services_permalinks_resolver
         $qb_groups->add_constraint('up', '=', $group->id);
         $subgroups = $qb_groups->execute();
 
-        foreach ($subgroups as $subgroup)
-        {
+        foreach ($subgroups as $subgroup) {
             $this->_on_reindex_tree_iterator($indexer, $dms, $topic, $subgroup, $config);
         }
 

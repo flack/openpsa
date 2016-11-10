@@ -18,13 +18,10 @@ $formatter = $data['l10n']->get_formatter();
     <td class="revisor">
         <?php
         if (   $history['user']
-            && $user = midcom::get()->auth->get_user($history['user']))
-        {
+            && $user = midcom::get()->auth->get_user($history['user'])) {
             $person_label = org_openpsa_widgets_contact::get($user->guid)->show_inline();
             echo "                    {$person_label}\n";
-        }
-        elseif ($history['ip'])
-        {
+        } elseif ($history['ip']) {
             echo "                    {$history['ip']}\n";
         }
         ?>
@@ -36,12 +33,9 @@ $formatter = $data['l10n']->get_formatter();
     </td>
     <td class="message">
         <?php
-        if (strlen($history['message']) > 42)
-        {
+        if (strlen($history['message']) > 42) {
             echo substr($history['message'], 0, 40) . '...';
-        }
-        else
-        {
+        } else {
             echo $history['message'];
         } ?>
     </td>

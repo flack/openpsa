@@ -24,8 +24,7 @@ class org_openpsa_products_navigation extends midcom_baseclasses_components_navi
      */
     public function get_leaves()
     {
-        if (!$this->_config->get('display_navigation'))
-        {
+        if (!$this->_config->get('display_navigation')) {
             return array();
         }
         // Get the configured root group for the navigation
@@ -42,14 +41,10 @@ class org_openpsa_products_navigation extends midcom_baseclasses_components_navi
         // Initialize the array
         $leaves = array();
 
-        if (mgd_is_guid($id))
-        {
-            try
-            {
+        if (mgd_is_guid($id)) {
+            try {
                 $group = org_openpsa_products_product_group_dba::get_cached($id);
-            }
-            catch (midcom_error $e)
-            {
+            } catch (midcom_error $e) {
                 // Stop silently
                 return $leaves;
             }
@@ -67,8 +62,7 @@ class org_openpsa_products_navigation extends midcom_baseclasses_components_navi
         $groups = $qb->execute();
 
         // Get the properties of each group
-        foreach ($groups as $group)
-        {
+        foreach ($groups as $group) {
             $leaves[$group->id] = array
             (
                 MIDCOM_NAV_URL => ($group->code) ? "{$group->code}/" : "{$group->guid}/",
@@ -95,32 +89,26 @@ class org_openpsa_products_navigation extends midcom_baseclasses_components_navi
         $levels = array();
 
         // Trial and error: try first if the ID is of a product
-        try
-        {
+        try {
             $product = new org_openpsa_products_product_dba($id);
             // If the request was for a product, change the request ID
             $id = $product->productGroup;
+        } catch (midcom_error $e) {
         }
-        catch (midcom_error $e){}
-        try
-        {
+        try {
             $group = new org_openpsa_products_product_group_dba($id);
-        }
-        catch (midcom_error $e)
-        {
+        } catch (midcom_error $e) {
             // Return an empty array if not able to get the product group
             return $levels;
         }
 
         // Get level at a time
-        while ($group->guid)
-        {
+        while ($group->guid) {
             $levels[] = org_openpsa_products_navigation::get_product_group_navigation($group->id);
 
             // Break to the requested level (probably the root group of the products content topic)
             if (   $group->id === $stopper
-                || $group->guid === $stopper)
-            {
+                || $group->guid === $stopper) {
                 break;
             }
             $group = new org_openpsa_products_product_group_dba($group->up);

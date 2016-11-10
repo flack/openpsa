@@ -21,8 +21,7 @@ class net_nemein_wiki_handler_latest extends midcom_baseclasses_components_handl
      */
     private function _seek_updated($from, $to = null)
     {
-        if (is_null($to))
-        {
+        if (is_null($to)) {
             $to = time();
         }
 
@@ -36,28 +35,23 @@ class net_nemein_wiki_handler_latest extends midcom_baseclasses_components_handl
 
         $rcs = midcom::get()->rcs;
 
-        foreach ($result as $page)
-        {
+        foreach ($result as $page) {
             $rcs_handler = $rcs->load_handler($page);
-            if (!$rcs_handler)
-            {
+            if (!$rcs_handler) {
                 // Skip this one
                 continue;
             }
 
             // Get object history
             $history = $rcs_handler->list_history();
-            foreach ($history as $version => $history)
-            {
-                if ($this->_updated_pages >= $this->_max_pages)
-                {
+            foreach ($history as $version => $history) {
+                if ($this->_updated_pages >= $this->_max_pages) {
                     // End here
                     return;
                 }
 
                 if (   $history['date'] < $from
-                    || $history['date'] > $to)
-                {
+                    || $history['date'] > $to) {
                     // We can ignore revisions outside the timeframe
                     continue;
                 }
@@ -71,13 +65,11 @@ class net_nemein_wiki_handler_latest extends midcom_baseclasses_components_handl
     {
         $history_date = date('Y-m-d', $entry['date']);
 
-        if (!isset($this->_request_data['latest_pages'][$history_date]))
-        {
+        if (!isset($this->_request_data['latest_pages'][$history_date])) {
             $this->_request_data['latest_pages'][$history_date] = array();
         }
 
-        if (!isset($this->_request_data['latest_pages'][$history_date][$entry['object']->guid]))
-        {
+        if (!isset($this->_request_data['latest_pages'][$history_date][$entry['object']->guid])) {
             $this->_request_data['latest_pages'][$history_date][$entry['object']->guid] = array();
         }
 
@@ -103,8 +95,7 @@ class net_nemein_wiki_handler_latest extends midcom_baseclasses_components_handl
 
         $i = 0;
         while (   $this->_updated_pages < $this->_max_pages
-               && $i < 20)
-        {
+               && $i < 20) {
             // Expand seek by another two weeks
             $to = $from;
             $from = mktime(0, 0, 0, date('m', $to), date('d', $to) - 14, date('Y', $to));
@@ -127,23 +118,18 @@ class net_nemein_wiki_handler_latest extends midcom_baseclasses_components_handl
     public function _show_latest($handler_id, array &$data)
     {
         $data['wikiname'] = $this->_topic->extra;
-        if (count($data['latest_pages']) > 0)
-        {
+        if (count($data['latest_pages']) > 0) {
             $dates_shown = array();
             midcom_show_style('view-latest-header');
-            foreach ($data['latest_pages'] as $date => $objects)
-            {
-                if (!isset($dates_shown[$date]))
-                {
+            foreach ($data['latest_pages'] as $date => $objects) {
+                if (!isset($dates_shown[$date])) {
                     $data['date'] = $date;
                     midcom_show_style('view-latest-date');
                     $dates_shown[$date] = true;
                 }
 
-                foreach ($objects as $versions)
-                {
-                    foreach ($versions as $version => $history)
-                    {
+                foreach ($objects as $versions) {
+                    foreach ($versions as $version => $history) {
                         $data['version'] = $version;
                         $data['history'] = $history;
                         $data['wikipage'] = $history['object'];

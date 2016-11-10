@@ -73,8 +73,7 @@ $user = midcom::get()->auth->user->get_storage();
 $user_position = new org_routamc_positioning_person($user);
 $coordinates = $user_position->get_coordinates();
 
-if (!$coordinates)
-{
+if (!$coordinates) {
     throw new midcom_error("Failed to get your current position.");
 }
 
@@ -83,8 +82,7 @@ echo "<p>".sprintf('Your position is %s', org_routamc_positioning_utils::pretty_
 $run_times = 1;
 $run = 0;
 $total_time = 0;
-while ($run < $run_times)
-{
+while ($run < $run_times) {
     $run++;
     $start = microtime();
 
@@ -92,8 +90,7 @@ while ($run < $run_times)
 
     echo "<p>Closest places to you are:<br />";
     echo "<ol>\n";
-    foreach ($closest as $city)
-    {
+    foreach ($closest as $city) {
         $city_coordinates = array(
             'latitude'  => $city->latitude,
             'longitude' => $city->longitude,

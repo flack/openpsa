@@ -200,25 +200,20 @@ class midcom_helper_datamanager2_renderer_default extends HTML_QuickForm_Rendere
     {
         // add a required note if needed
         if (   !empty($form->_required)
-            && !$form->_freezeAll)
-        {
+            && !$form->_freezeAll) {
             $this->_html .= str_replace('{requiredNote}', $form->getRequiredNote(), $this->_required_note_template);
         }
         // add form attributes and content
         $html = str_replace('{attributes}', $form->getAttributes(true), $this->_form_template);
-        if (strpos($this->_form_template, '{hidden}'))
-        {
+        if (strpos($this->_form_template, '{hidden}')) {
             $html = str_replace('{hidden}', $this->_hidden_html, $html);
-        }
-        else
-        {
+        } else {
             $this->_html .= $this->_hidden_html;
         }
         $this->_html = str_replace('{content}', $this->_html, $html);
 
         // add a validation script
-        if ('' != ($script = $form->getValidationScript()))
-        {
+        if ('' != ($script = $form->getValidationScript())) {
             $this->_html = $script . "\n" . $this->_html;
         }
     }
@@ -236,14 +231,10 @@ class midcom_helper_datamanager2_renderer_default extends HTML_QuickForm_Rendere
      */
     private function _prepare_template($name, $element, $required, $error, $type)
     {
-        if (isset($this->_templates[$name]))
-        {
+        if (isset($this->_templates[$name])) {
             $template = $this->_templates[$name];
-        }
-        else
-        {
-            switch ($type)
-            {
+        } else {
+            switch ($type) {
                 case 'group':
                     $template = $this->_default_group_template;
                     break;
@@ -259,12 +250,9 @@ class midcom_helper_datamanager2_renderer_default extends HTML_QuickForm_Rendere
         $helptext = $this->_extract_helptext($element);
         $label = $element->getLabel();
 
-        if (is_array($label))
-        {
+        if (is_array($label)) {
             $nameLabel = array_shift($label);
-        }
-        else
-        {
+        } else {
             $nameLabel = $label;
         }
 
@@ -276,10 +264,8 @@ class midcom_helper_datamanager2_renderer_default extends HTML_QuickForm_Rendere
         $this->_process_placeholder($html, 'error', $error);
         $this->_process_placeholder($html, 'helptext', $helptext);
 
-        if (is_array($label))
-        {
-            foreach ($label as $key => $text)
-            {
+        if (is_array($label)) {
+            foreach ($label as $key => $text) {
                 $key  = is_int($key) ? $key + 2 : $key;
                 $html = str_replace("{label_{$key}}", $text, $html);
                 $html = str_replace("<!-- BEGIN label_{$key} -->", '', $html);
@@ -288,8 +274,7 @@ class midcom_helper_datamanager2_renderer_default extends HTML_QuickForm_Rendere
         }
 
         $html = str_replace('{element_name}', $name, $html);
-        if (strpos($html, '{label_'))
-        {
+        if (strpos($html, '{label_')) {
             $html = preg_replace('/<!-- BEGIN label_(\S+) -->.*<!-- END label_\1 -->/i', '', $html);
         }
 
@@ -298,17 +283,13 @@ class midcom_helper_datamanager2_renderer_default extends HTML_QuickForm_Rendere
 
     private function _process_placeholder(&$html, $identifier, $value)
     {
-        if ($value)
-        {
-            if (is_string($value))
-            {
+        if ($value) {
+            if (is_string($value)) {
                 $html = str_replace('{' . $identifier . '}', $value, $html);
             }
             $html = str_replace('<!-- BEGIN ' . $identifier . ' -->', '', $html);
             $html = str_replace('<!-- END ' . $identifier . ' -->', '', $html);
-        }
-        else
-        {
+        } else {
             $html = preg_replace("/<!-- BEGIN " . $identifier . " -->.*?<!-- END " . $identifier . " -->/is", '', $html);
         }
     }
@@ -317,8 +298,7 @@ class midcom_helper_datamanager2_renderer_default extends HTML_QuickForm_Rendere
     {
         $helptext = '';
         $attributes = $element->getAttributes();
-        if (!empty($attributes['helptext']))
-        {
+        if (!empty($attributes['helptext'])) {
             $helptext = $element->getLabel() . "|" . $attributes['helptext'];
         }
 
@@ -332,13 +312,10 @@ class midcom_helper_datamanager2_renderer_default extends HTML_QuickForm_Rendere
      */
     public function renderElement(&$element, $required, $error)
     {
-        if (!$this->_in_group)
-        {
+        if (!$this->_in_group) {
             $html = $this->_prepare_template($element->getName(), $element, $required, $error, $element->getType());
             $this->_html .= str_replace('{element}', $element->toHtml(), $html);
-        }
-        elseif (!empty($this->_group_element_template))
-        {
+        } elseif (!empty($this->_group_element_template)) {
             $html = str_replace('{label}', $element->getLabel(), $this->_group_element_template);
             $helptext = $this->_extract_helptext($element);
             $this->_process_placeholder($html, 'required', $required);
@@ -346,9 +323,7 @@ class midcom_helper_datamanager2_renderer_default extends HTML_QuickForm_Rendere
             $this->_process_placeholder($html, 'helptext', $helptext);
 
             $this->_group_elements[] = str_replace('{element}', $element->toHtml(), $html);
-        }
-        else
-        {
+        } else {
             $this->_extract_helptext($element);
             $this->_group_elements[] = $element->toHtml();
         }
@@ -373,12 +348,9 @@ class midcom_helper_datamanager2_renderer_default extends HTML_QuickForm_Rendere
     {
         $name = $header->getName();
         if (   !empty($name)
-            && isset($this->_templates[$name]))
-        {
+            && isset($this->_templates[$name])) {
             $this->_html .= str_replace('{header}', $header->toHtml(), $this->_templates[$name]);
-        }
-        else
-        {
+        } else {
             $this->_html .= str_replace('{header}', $header->toHtml(), $this->_header_template);
         }
     }
@@ -426,26 +398,20 @@ class midcom_helper_datamanager2_renderer_default extends HTML_QuickForm_Rendere
     public function finishGroup(&$group)
     {
         $separator = $group->_separator;
-        if (is_array($separator))
-        {
+        if (is_array($separator)) {
             $count = count($separator);
             $html  = '';
-            for ($i = 0; $i < count($this->_group_elements); $i++)
-            {
+            for ($i = 0; $i < count($this->_group_elements); $i++) {
                 $html .= (0 == $i ? '' : $separator[($i - 1) % $count]) . $this->_group_elements[$i];
             }
-        }
-        else
-        {
-            if (is_null($separator))
-            {
+        } else {
+            if (is_null($separator)) {
                 $separator = '&nbsp;';
             }
             $html = implode((string) $separator, $this->_group_elements);
         }
 
-        if (!empty($this->_group_wrap))
-        {
+        if (!empty($this->_group_wrap)) {
             $html = str_replace('{content}', $html, $this->_group_wrap);
         }
 
@@ -455,15 +421,12 @@ class midcom_helper_datamanager2_renderer_default extends HTML_QuickForm_Rendere
 
         array_pop($this->_current_groups);
         $current_group_id = count($this->_current_groups) - 1;
-        if ($current_group_id > -1)
-        {
+        if ($current_group_id > -1) {
             $this->_current_group_name = $this->_current_groups[$current_group_id];
             $this->_current_group_templates[$this->_current_group_name]['group_elements'][] = $html;
             $this->_set_group_templates($this->_current_group_name);
             $this->_in_group = true;
-        }
-        else
-        {
+        } else {
             $this->_current_group_name = "";
             $this->_html .= $html;
             $this->_in_group = false;
@@ -491,12 +454,9 @@ class midcom_helper_datamanager2_renderer_default extends HTML_QuickForm_Rendere
      */
     public function setElementTemplate($html, $element = null)
     {
-        if (is_null($element))
-        {
+        if (is_null($element)) {
             $this->_element_template = $html;
-        }
-        else
-        {
+        } else {
             $this->_templates[$element] = $html;
         }
     }

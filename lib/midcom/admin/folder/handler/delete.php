@@ -26,8 +26,7 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
     {
         // Symlink support requires that we use actual URL topic object here
         $urltopics = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_URLTOPICS);
-        if ($urltopic = end($urltopics))
-        {
+        if ($urltopic = end($urltopics)) {
             $this->_topic = $urltopic;
         }
 
@@ -43,8 +42,7 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
             'recursive' => true,
             'success_url' => $upper_node[MIDCOM_NAV_ABSOLUTEURL]
         ));
-        if ($workflow->get_state() === delete::CONFIRMED)
-        {
+        if ($workflow->get_state() === delete::CONFIRMED) {
             $this->check_symlinks();
         }
         return $workflow->run();
@@ -55,18 +53,15 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
      */
     private function check_symlinks()
     {
-        if (midcom::get()->config->get('symlinks'))
-        {
+        if (midcom::get()->config->get('symlinks')) {
             midcom::get()->auth->request_sudo('midcom.admin.folder');
             $qb_topic = midcom_db_topic::new_query_builder();
             $qb_topic->add_constraint('symlink', '=', $this->_topic->id);
             $symlinks = $qb_topic->execute();
-            if (!empty($symlinks))
-            {
+            if (!empty($symlinks)) {
                 $msg = 'Refusing to delete Folder because it has symlinks:';
                 $nap = new midcom_helper_nav();
-                foreach ($symlinks as $symlink)
-                {
+                foreach ($symlinks as $symlink) {
                     $node = $nap->get_node($symlink->id);
                     $msg .= ' ' . $node[MIDCOM_NAV_FULLURL];
                 }

@@ -17,8 +17,7 @@ implements org_openpsa_widgets_grid_provider_client
     public function get_qb($field = null, $direction = 'ASC', array $search = array())
     {
         $mc = org_openpsa_sales_salesproject_deliverable_dba::new_collector('product', $this->_product->id);
-        if (!is_null($field))
-        {
+        if (!is_null($field)) {
             $mc->add_order($field, $direction);
         }
 
@@ -41,12 +40,9 @@ implements org_openpsa_widgets_grid_provider_client
         $entry['unit'] = org_openpsa_products_viewer::get_unit_option($deliverable->unit);
         $entry['index_state'] = $deliverable->state;
         $entry['state'] = $this->_l10n->get($deliverable->get_state());
-        if ($deliverable->invoiceByActualUnits)
-        {
+        if ($deliverable->invoiceByActualUnits) {
             $entry['type'] = $this->_l10n->get('invoice by actual units');
-        }
-        else
-        {
+        } else {
             $entry['type'] = $this->_i18n->get_string('fixed price', 'org.openpsa.reports');
         }
         $entry['pricePerUnit'] = $deliverable->pricePerUnit;

@@ -37,8 +37,7 @@ class midcom_response
 
     public function __get($name)
     {
-        if (!isset($this->_data[$name]))
-        {
+        if (!isset($this->_data[$name])) {
             return null;
         }
         return $this->_data[$name];
@@ -53,5 +52,4 @@ class midcom_response
     {
         $this->_data = $data;
     }
-
 }

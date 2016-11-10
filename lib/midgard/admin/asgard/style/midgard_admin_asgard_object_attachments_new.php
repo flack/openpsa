@@ -21,8 +21,7 @@
             <span><?php echo $data['l10n']->get('mimetype'); ?></span>
             <select name="midgard_admin_asgard_mimetype">
                 <?php
-                foreach ($data['attachment_text_types'] as $type => $label)
-                {
+                foreach ($data['attachment_text_types'] as $type => $label) {
                     $label = $data['l10n']->get($label);
                     echo "                <option value=\"{$type}\">{$label}</option>\n";
                 }

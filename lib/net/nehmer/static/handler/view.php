@@ -45,25 +45,21 @@ class net_nehmer_static_handler_view extends midcom_baseclasses_components_handl
 
         $buttons = array();
         $workflow = $this->get_workflow('datamanager2');
-        if ($this->_article->can_do('midgard:update'))
-        {
+        if ($this->_article->can_do('midgard:update')) {
             $buttons[] = $workflow->get_button("edit/{$this->_article->guid}/", array
             (
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
             ));
         }
 
-        if ($this->_article->topic !== $this->_content_topic->id)
-        {
+        if ($this->_article->topic !== $this->_content_topic->id) {
             $qb = net_nehmer_static_link_dba::new_query_builder();
             $qb->add_constraint('topic', '=', $this->_content_topic->id);
             $qb->add_constraint('article', '=', $this->_article->id);
-            if ($qb->count() === 1)
-            {
+            if ($qb->count() === 1) {
                 // Get the link
                 $results = $qb->execute_unchecked();
-                if ($results[0]->can_do('midgard:delete'))
-                {
+                if ($results[0]->can_do('midgard:delete')) {
                     $nap = new midcom_helper_nav();
                     $node = $nap->get_node($this->_article->topic);
 
@@ -83,15 +79,12 @@ class net_nehmer_static_handler_view extends midcom_baseclasses_components_handl
                     $buttons[] = $delete->get_button("delete/link/{$this->_article->guid}/");
                 }
             }
-        }
-        elseif ($this->_article->can_do('midgard:delete'))
-        {
+        } elseif ($this->_article->can_do('midgard:delete')) {
             $delete = $this->get_workflow('delete', array('object' => $this->_article));
             $buttons[] = $delete->get_button("delete/{$this->_article->guid}/");
         }
         if (   $this->_config->get('enable_article_links')
-            && $this->_content_topic->can_do('midgard:create'))
-        {
+            && $this->_content_topic->can_do('midgard:create')) {
             $buttons[] = $workflow->get_button("create/link/?article={$this->_article->id}", array
             (
                 MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('article link')),
@@ -123,8 +116,7 @@ class net_nehmer_static_handler_view extends midcom_baseclasses_components_handl
      */
     public function _can_handle_view($handler_id, array $args, array &$data)
     {
-        if ($handler_id == 'index')
-        {
+        if ($handler_id == 'index') {
             return true;
         }
 
@@ -135,8 +127,7 @@ class net_nehmer_static_handler_view extends midcom_baseclasses_components_handl
 
         $result = $qb->execute();
 
-        if (!empty($result))
-        {
+        if (!empty($result)) {
             $this->_article = $result[0];
             return true;
         }
@@ -161,20 +152,17 @@ class net_nehmer_static_handler_view extends midcom_baseclasses_components_handl
      */
     public function _handler_view($handler_id, array $args, array &$data)
     {
-        if ($handler_id == 'index')
-        {
+        if ($handler_id == 'index') {
             $this->_load_index_article();
         }
 
-        if ($handler_id == 'view_raw')
-        {
+        if ($handler_id == 'view_raw') {
             midcom::get()->skip_page_style = true;
         }
 
         $this->_load_datamanager();
 
-        if ($this->_config->get('enable_ajax_editing'))
-        {
+        if ($this->_config->get('enable_ajax_editing')) {
             $this->_request_data['controller'] = midcom_helper_datamanager2_controller::create('ajax');
             $this->_request_data['controller']->schemadb =& $this->_request_data['schemadb'];
             $this->_request_data['controller']->set_storage($this->_article);
@@ -183,8 +171,7 @@ class net_nehmer_static_handler_view extends midcom_baseclasses_components_handl
 
         $arg = $this->_article->name ?: $this->_article->guid;
         if (   $arg != 'index'
-            && $this->_config->get('hide_navigation'))
-        {
+            && $this->_config->get('hide_navigation')) {
             $this->add_breadcrumb("{$arg}/", $this->_article->title);
         }
 
@@ -195,18 +182,14 @@ class net_nehmer_static_handler_view extends midcom_baseclasses_components_handl
 
         if (   $this->_config->get('indexinnav')
             || $this->_config->get('autoindex')
-            || $this->_article->name != 'index')
-        {
+            || $this->_article->name != 'index') {
             $this->set_active_leaf($this->_article->id);
         }
 
         if (   $this->_config->get('folder_in_title')
-            && $this->_topic->extra != $this->_article->title)
-        {
+            && $this->_topic->extra != $this->_article->title) {
             midcom::get()->head->set_pagetitle("{$this->_topic->extra}: {$this->_article->title}");
-        }
-        else
-        {
+        } else {
             midcom::get()->head->set_pagetitle($this->_article->title);
         }
     }
@@ -218,16 +201,13 @@ class net_nehmer_static_handler_view extends midcom_baseclasses_components_handl
         $qb->set_limit(1);
         $result = $qb->execute();
 
-        if (empty($result))
-        {
-            if ($this->_content_topic->can_do('midgard:create'))
-            {
+        if (empty($result)) {
+            if ($this->_content_topic->can_do('midgard:create')) {
                 // Check via non-ACLd QB that the topic really doesn't have index article before relocating
                 $index_qb = midcom_db_article::new_query_builder();
                 $index_qb->add_constraint('topic', '=', $this->_content_topic->id);
                 $index_qb->add_constraint('name', '=', 'index');
-                if ($index_qb->count_unchecked() == 0)
-                {
+                if ($index_qb->count_unchecked() == 0) {
                     $schemas = array_keys($this->_request_data['schemadb']);
                     midcom::get()->relocate("createindex/{$schemas[0]}/");
                     // This will exit.
@@ -247,8 +227,7 @@ class net_nehmer_static_handler_view extends midcom_baseclasses_components_handl
     {
         $this->_datamanager = new midcom_helper_datamanager2_datamanager($this->_request_data['schemadb']);
 
-        if (!$this->_datamanager->autoset_storage($this->_article))
-        {
+        if (!$this->_datamanager->autoset_storage($this->_article)) {
             throw new midcom_error("Failed to create a DM2 instance for article {$this->_article->id}.");
         }
     }
@@ -262,13 +241,10 @@ class net_nehmer_static_handler_view extends midcom_baseclasses_components_handl
     public function _show_view($handler_id, array &$data)
     {
         if (   $this->_config->get('enable_ajax_editing')
-            && isset($data['controller']))
-        {
+            && isset($data['controller'])) {
             // For AJAX handling it is the controller that renders everything
             $this->_request_data['view_article'] = $this->_request_data['controller']->get_content_html();
-        }
-        else
-        {
+        } else {
             $this->_request_data['view_article'] = $data['datamanager']->get_content_html();
         }
 

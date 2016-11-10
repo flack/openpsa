@@ -30,16 +30,12 @@ class midcom_admin_folder_selectcomponent extends  midcom_helper_datamanager2_wi
         // fields.
         // TODO: This doesn't support Access control yet.
 
-        if ($this->_field['readonly'])
-        {
+        if ($this->_field['readonly']) {
             $this->_all_elements = array();
-            foreach ($this->_type->selection as $key)
-            {
+            foreach ($this->_type->selection as $key) {
                 $this->_all_elements[$key] = $this->_type->get_name_for_key($key);
             }
-        }
-        else
-        {
+        } else {
             $this->_all_elements = $this->_type->list_all();
         }
 
@@ -53,11 +49,9 @@ class midcom_admin_folder_selectcomponent extends  midcom_helper_datamanager2_wi
            array(), $select_attributes);
 
         // Translate and add
-        foreach ($this->_all_elements as $key => $value)
-        {
+        foreach ($this->_all_elements as $key => $value) {
             $option_attributes = array();
-            if (midcom::get()->componentloader->get_component_icon($key, false))
-            {
+            if (midcom::get()->componentloader->get_component_icon($key, false)) {
                 $option_attributes['style'] = 'background-image: url("' . MIDCOM_STATIC_URL . '/' . midcom::get()->componentloader->get_component_icon($key) . '")';
             }
 
@@ -65,8 +59,7 @@ class midcom_admin_folder_selectcomponent extends  midcom_helper_datamanager2_wi
         }
 
         $select_element->setMultiple($this->_type->allow_multiple);
-        if ($this->_type->allow_multiple)
-        {
+        if ($this->_type->allow_multiple) {
             $select_element->setSize($this->height);
         }
 

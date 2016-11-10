@@ -61,35 +61,25 @@ class org_openpsa_mail_message
         // map headers we got to swift setter methods
         $msg_headers = $this->_message->getHeaders();
         $headers = $this->get_headers();
-        foreach ($headers as $name => $value)
-        {
-            if (array_key_exists(strtolower($name), $headers_setter_map))
-            {
+        foreach ($headers as $name => $value) {
+            if (array_key_exists(strtolower($name), $headers_setter_map)) {
                 $setter = $headers_setter_map[strtolower($name)];
                 $this->_message->$setter($value);
-            }
-            else
-            {
+            } else {
                 // header already exists => just set a new value
-                if ($msg_headers->has($name))
-                {
+                if ($msg_headers->has($name)) {
                     $msg_headers->get($name)->setValue($value);
-                }
-                else
-                {
+                } else {
                     $msg_headers->addTextHeader($name, $value);
                 }
             }
         }
 
         // somehow we need to set the body after the headers...
-        if (!empty($this->_html_body))
-        {
+        if (!empty($this->_html_body)) {
             $this->_message->setBody($this->_html_body, 'text/html');
             $this->_message->addPart($this->_body, 'text/plain');
-        }
-        else
-        {
+        } else {
             $this->_message->setBody($this->_body, 'text/plain');
         }
 
@@ -103,22 +93,18 @@ class org_openpsa_mail_message
 
     public function get_headers()
     {
-        if (empty($this->_headers['Content-Type']))
-        {
+        if (empty($this->_headers['Content-Type'])) {
             $this->_headers['Content-Type'] = "text/plain; charset={$this->_encoding}";
         }
 
         reset ($this->_headers);
-        foreach ($this->_headers as $header => $value)
-        {
-            if (is_string($value))
-            {
+        foreach ($this->_headers as $header => $value) {
+            if (is_string($value)) {
                 $this->_headers[$header] = trim($value);
             }
             if (   strtolower($header) == 'from'
                 || strtolower($header) == 'reply-to'
-                || strtolower($header) == 'to')
-            {
+                || strtolower($header) == 'to') {
                 $this->_headers[$header] = $this->_encode_address_field($value);
             }
         }
@@ -150,8 +136,7 @@ class org_openpsa_mail_message
         $this->_html_body = $body;
 
         // adjust html body
-        if ($do_image_embedding)
-        {
+        if ($do_image_embedding) {
             $this->_embed_images();
         }
 
@@ -173,17 +158,14 @@ class org_openpsa_mail_message
             "location" => $matches_src[6]
         );
 
-        foreach ($matches["whole"] as $key => $match)
-        {
+        foreach ($matches["whole"] as $key => $match) {
             $location = $matches["location"][$key];
             // uri is fully qualified
-            if ($matches['proto'][$key])
-            {
+            if ($matches['proto'][$key]) {
                 $uri = $matches["uri"][$key];
             }
             // uri is relative
-            elseif (preg_match('/^\//', $location))
-            {
+            elseif (preg_match('/^\//', $location)) {
                 $uri = midcom::get()->get_host_name() . $location;
             }
 
@@ -196,27 +178,22 @@ class org_openpsa_mail_message
 
     private function _process_attachments($attachments)
     {
-        foreach ($attachments as $att)
-        {
-            if (empty($att['mimetype']))
-            {
+        foreach ($attachments as $att) {
+            if (empty($att['mimetype'])) {
                 $att['mimetype'] = "application/octet-stream";
             }
 
             $swift_att = false;
             // we got a file path
-            if (isset($att['file']) && strlen($att['file']) > 0)
-            {
+            if (isset($att['file']) && strlen($att['file']) > 0) {
                 $swift_att = Swift_Attachment::fromPath($att['file'], $att['mimetype']);
             }
             // we got the contents (bytes)
-            elseif (isset($att['content']) && strlen($att['content']) > 0)
-            {
+            elseif (isset($att['content']) && strlen($att['content']) > 0) {
                 $swift_att = Swift_Attachment::newInstance($att['content'], $att['name'], $att['mimetype']);
             }
 
-            if ($swift_att)
-            {
+            if ($swift_att) {
                 $this->_message->attach($swift_att);
             }
         }
@@ -231,13 +208,11 @@ class org_openpsa_mail_message
      */
     private function _encode_address_field($value)
     {
-        if (is_array($value))
-        {
+        if (is_array($value)) {
             array_walk($value, array($this, '_encode_address_field'));
             return $value;
         }
-        if (strpos($value, '<'))
-        {
+        if (strpos($value, '<')) {
             $name = substr($value, 0, strpos($value, '<'));
             $name = preg_replace('/^\s*"/', '', $name);
             $name = preg_replace('/"\s*$/', '', $name);

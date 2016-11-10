@@ -46,8 +46,7 @@ implements midcom_helper_datamanager2_interfaces_edit
 
     public function get_schema_name()
     {
-        if (isset($this->_master->_handler['schema']))
-        {
+        if (isset($this->_master->_handler['schema'])) {
             return $this->_master->_handler['schema'];
         }
         return 'config';
@@ -55,23 +54,17 @@ implements midcom_helper_datamanager2_interfaces_edit
 
     public function load_schemadb()
     {
-        if (isset($this->_master->_handler['schemadb']))
-        {
+        if (isset($this->_master->_handler['schemadb'])) {
             $schemadb_path = $this->_master->_handler['schemadb'];
-        }
-        elseif ($this->_config->get('schemadb_config'))
-        {
+        } elseif ($this->_config->get('schemadb_config')) {
             $schemadb_path = $this->_config->get('schemadb_config');
-        }
-        else
-        {
+        } else {
             throw new midcom_error("No configuration schema defined");
         }
 
         $schemadb = midcom_helper_datamanager2_schema::load_database($schemadb_path);
 
-        if (empty($schemadb))
-        {
+        if (empty($schemadb)) {
             throw new midcom_error('Failed to load configuration schemadb');
         }
 
@@ -98,8 +91,7 @@ implements midcom_helper_datamanager2_interfaces_edit
 
         $workflow = $this->get_workflow('datamanager2', array('controller' => $this->_controller));
         if (   method_exists($this, '_load_datamanagers')
-            && method_exists($this, '_load_objects'))
-        {
+            && method_exists($this, '_load_objects')) {
             $workflow->add_post_button('config/recreate/', $this->_l10n_midcom->get('recreate images'), array
             (
                 'midcom_baseclasses_components_handler_configuration_recreateok' => true,
@@ -107,8 +99,7 @@ implements midcom_helper_datamanager2_interfaces_edit
         }
         $response = $workflow->run();
 
-        if ($workflow->get_state() == 'save')
-        {
+        if ($workflow->get_state() == 'save') {
             midcom::get()->uimessages->add($this->_l10n_midcom->get('component configuration'), $this->_l10n_midcom->get('configuration saved'));
         }
         return $response;
@@ -131,13 +122,11 @@ implements midcom_helper_datamanager2_interfaces_edit
      */
     public function _handler_recreate($handler_id, array $args, array &$data)
     {
-        if (!method_exists($this, '_load_datamanagers'))
-        {
+        if (!method_exists($this, '_load_datamanagers')) {
             throw new midcom_error_notfound('_load_datamanagers method not available, recreation support disabled.');
         }
 
-        if (!method_exists($this, '_load_objects'))
-        {
+        if (!method_exists($this, '_load_objects')) {
             throw new midcom_error_notfound('_load_objects method not available, recreation support disabled.');
         }
 
@@ -145,8 +134,7 @@ implements midcom_helper_datamanager2_interfaces_edit
         $this->_topic->require_do('midgard:update');
         $this->_topic->require_do('midcom:component_config');
 
-        if (!array_key_exists('midcom_baseclasses_components_handler_configuration_recreateok', $_POST))
-        {
+        if (!array_key_exists('midcom_baseclasses_components_handler_configuration_recreateok', $_POST)) {
             return new midcom_response_relocate('config/');
         }
 

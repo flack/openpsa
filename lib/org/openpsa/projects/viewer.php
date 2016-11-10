@@ -32,22 +32,17 @@ class org_openpsa_projects_viewer extends midcom_baseclasses_components_request
     public static function add_breadcrumb_path($task, $handler)
     {
         $tmp = array();
-        while ($task)
-        {
-            if (is_a($task, 'org_openpsa_projects_project'))
-            {
+        while ($task) {
+            if (is_a($task, 'org_openpsa_projects_project')) {
                 $tmp["project/{$task->guid}/"] = $task->title;
-            }
-            else
-            {
+            } else {
                 $tmp["task/{$task->guid}/"] = $task->title;
             }
             $task = $task->get_parent();
         }
         $tmp = array_reverse($tmp);
 
-        foreach ($tmp as $url => $title)
-        {
+        foreach ($tmp as $url => $title) {
             $handler->add_breadcrumb($url, $title);
         }
     }

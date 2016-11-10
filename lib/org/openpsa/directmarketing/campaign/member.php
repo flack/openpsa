@@ -29,8 +29,7 @@ class org_openpsa_directmarketing_campaign_member_dba extends midcom_core_dbaobj
     public function __construct($id = null)
     {
         parent::__construct($id);
-        if (!$this->orgOpenpsaObtype)
-        {
+        if (!$this->orgOpenpsaObtype) {
             $this->orgOpenpsaObtype = self::NORMAL;
         }
     }
@@ -40,8 +39,7 @@ class org_openpsa_directmarketing_campaign_member_dba extends midcom_core_dbaobj
      */
     public function get_label()
     {
-        if ($this->person)
-        {
+        if ($this->person) {
             $person = new org_openpsa_contacts_person_dba($this->person);
             return $person->name;
         }
@@ -57,16 +55,12 @@ class org_openpsa_directmarketing_campaign_member_dba extends midcom_core_dbaobj
         $qb->add_constraint('person', '=', $this->person);
         $qb->add_constraint('campaign', '=', $this->campaign);
         //For tester membership check only other tester memberships for duplicates, for other memberships check all BUT testers
-        if ($this->orgOpenpsaObtype == self::TESTER)
-        {
+        if ($this->orgOpenpsaObtype == self::TESTER) {
             $qb->add_constraint('orgOpenpsaObtype', '=', self::TESTER);
-        }
-        else
-        {
+        } else {
             $qb->add_constraint('orgOpenpsaObtype', '<>', self::TESTER);
         }
-        if ($this->id)
-        {
+        if ($this->id) {
             $qb->add_constraint('id', '<>', $this->id);
         }
 
@@ -95,20 +89,16 @@ class org_openpsa_directmarketing_campaign_member_dba extends midcom_core_dbaobj
         $sep_start = '<';
         $sep_end = '>';
 
-        if ($message_type == org_openpsa_directmarketing_campaign_message_dba::EMAIL_HTML)
-        {
+        if ($message_type == org_openpsa_directmarketing_campaign_message_dba::EMAIL_HTML) {
             $sep_start = '&lt;';
             $sep_end = '&gt;';
         }
 
         // Password (if plaintext)
         // @todo Not mgd2 compatible!
-        if (preg_match('/^\*\*(.*)/', $person->password, $pwd_matches))
-        {
+        if (preg_match('/^\*\*(.*)/', $person->password, $pwd_matches)) {
             $plaintext_password = $pwd_matches[1];
-        }
-        else
-        {
+        } else {
             $plaintext_password = $sep_start . 'unknown' . $sep_end;
         }
 
@@ -127,13 +117,10 @@ class org_openpsa_directmarketing_campaign_member_dba extends midcom_core_dbaobj
         );
         $content = str_replace(array_keys($replace_map), $replace_map, $content);
 
-        if (preg_match_all('/' . $sep_start . 'CALLBACK:(.*?)' . $sep_end . '/', $content, $callback_matches))
-        {
-            foreach ($callback_matches[0] as $k => $search)
-            {
+        if (preg_match_all('/' . $sep_start . 'CALLBACK:(.*?)' . $sep_end . '/', $content, $callback_matches)) {
+            foreach ($callback_matches[0] as $k => $search) {
                 $callback_func = $callback_matches[1][$k];
-                if (!is_callable($callback_func))
-                {
+                if (!is_callable($callback_func)) {
                     continue;
                 }
                 $replace = call_user_func($callback_func, $person, $this);
@@ -146,8 +133,7 @@ class org_openpsa_directmarketing_campaign_member_dba extends midcom_core_dbaobj
 
     public function get_unsubscribe_url($node = false)
     {
-        if (!$node)
-        {
+        if (!$node) {
             $nap = new midcom_helper_nav();
             $node = $nap->get_node($nap->get_current_node());
         }
@@ -168,17 +154,14 @@ class org_openpsa_directmarketing_campaign_member_dba extends midcom_core_dbaobj
 
         midcom::get()->auth->request_sudo('org.openpsa.directmarketing');
 
-        if (!$receipt->create())
-        {
+        if (!$receipt->create()) {
             debug_add('Failed to create, errstr: ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
             return;
         }
-        foreach ($parameters as $param_data)
-        {
+        foreach ($parameters as $param_data) {
             if (   empty($param_data['domain'])
                 || empty($param_data['name'])
-                || empty($param_data['value']))
-            {
+                || empty($param_data['value'])) {
                 // TODO: Log warning
                 continue;
             }

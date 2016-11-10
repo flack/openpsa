@@ -137,8 +137,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
 
         $this->_load_schemadb($schemadb);
 
-        if ($name === null)
-        {
+        if ($name === null) {
             reset($this->_raw_schemadb);
             $name = key($this->_raw_schemadb);
         }
@@ -157,10 +156,8 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
     {
         $contents = $this->_load_schemadb_contents($schemadb);
 
-        foreach ($contents as $schema_name => $schema)
-        {
-            if (!isset($schema['extends']))
-            {
+        foreach ($contents as $schema_name => $schema) {
+            if (!isset($schema['extends'])) {
                 continue;
             }
 
@@ -168,37 +165,28 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
             $extended_schema_name = $schema_name;
             $path = $schemadb;
 
-            if (is_array($schema['extends']))
-            {
-                if (isset($schema['extends']['path']))
-                {
+            if (is_array($schema['extends'])) {
+                if (isset($schema['extends']['path'])) {
                     $path = $schema['extends']['path'];
                 }
 
                 // Override schema name
-                if (isset($schema['extends']['name']))
-                {
+                if (isset($schema['extends']['name'])) {
                     $extended_schema_name = $schema['extends']['name'];
                 }
-            }
-            elseif (isset($contents[$schema['extends']]))
-            {
+            } elseif (isset($contents[$schema['extends']])) {
                 $schema['extends'] = array
                 (
                     'name' => $schema['extends'],
                 );
-            }
-            else
-            {
+            } else {
                 $path = $schema['extends'];
             }
 
-            if ($path === $schemadb)
-            {
+            if ($path === $schemadb) {
                 // Infinite loop, set an UI message and stop executing
                 if (   !isset($schema['extends']['name'])
-                    || $schema['extends']['name'] === $schema_name)
-                {
+                    || $schema['extends']['name'] === $schema_name) {
                     $snippet_path = $this->_get_snippet_link($path);
                     midcom::get()->uimessages->add($this->_l10n->get('midcom.helper.datamanager2'), sprintf($this->_l10n->get('schema %s:%s extends itself'), $snippet_path, $schema_name), 'error');
 
@@ -208,15 +196,12 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
 
                 $extended_schemadb[$schema['extends']['name']] = $contents[$schema['extends']['name']];
                 $extended_schema_name = $schema['extends']['name'];
-            }
-            else
-            {
+            } else {
                 $extended_schemadb = $this->_load_schemadb($path);
             }
 
             // Raise a notice if extended schema was not found from the schemadb
-            if (!isset($extended_schemadb[$extended_schema_name]))
-            {
+            if (!isset($extended_schemadb[$extended_schema_name])) {
                 debug_add(sprintf($this->_l10n->get('extended schema %s:%s was not found'), $path, $schema_name), MIDCOM_LOG_WARN);
 
                 $snippet_path = $this->_get_snippet_link($path);
@@ -225,34 +210,26 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
             }
 
             // Override the extended schema with fields from the new schema
-            foreach ($contents[$schema_name] as $key => $value)
-            {
-                if ($key === 'extends')
-                {
+            foreach ($contents[$schema_name] as $key => $value) {
+                if ($key === 'extends') {
                     continue;
                 }
 
                 // This is probably either fields or operations
-                if (is_array($value))
-                {
-                    if (!isset($extended_schemadb[$extended_schema_name][$key]))
-                    {
+                if (is_array($value)) {
+                    if (!isset($extended_schemadb[$extended_schema_name][$key])) {
                         $extended_schemadb[$extended_schema_name][$key] = array();
                     }
 
-                    foreach ($value as $name => $field)
-                    {
-                        if (!$field)
-                        {
+                    foreach ($value as $name => $field) {
+                        if (!$field) {
                             unset($extended_schemadb[$extended_schema_name][$key][$name]);
                             continue;
                         }
 
                         $extended_schemadb[$extended_schema_name][$key][$name] = $field;
                     }
-                }
-                else
-                {
+                } else {
                     $extended_schemadb[$extended_schema_name][$key] = $value;
                 }
             }
@@ -273,23 +250,18 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
      */
     private function _get_snippet_link($path)
     {
-        if (!is_string($path))
-        {
+        if (!is_string($path)) {
             return false;
         }
 
         $snippet = new midgard_snippet();
-        try
-        {
+        try {
             $snippet->get_by_path($path);
 
-            if ($snippet->guid)
-            {
+            if ($snippet->guid) {
                 return "<a href=\"" . midcom_connection::get_url('self') . "__mfa/asgard/object/edit/{$snippet->guid}/\">{$path}</a>";
             }
-        }
-        catch (Exception $e)
-        {
+        } catch (Exception $e) {
         }
 
         return $path;
@@ -304,13 +276,10 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
      */
     private function _load_schemadb_contents($schemadb)
     {
-        if (is_string($schemadb))
-        {
+        if (is_string($schemadb)) {
             $data = midcom_helper_misc::get_snippet_content($schemadb);
             return midcom_helper_misc::parse_config($data);
-        }
-        elseif (is_array($schemadb))
-        {
+        } elseif (is_array($schemadb)) {
             return $schemadb;
         }
         debug_print_r('Passed schema db was:', $schemadb);
@@ -329,68 +298,53 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
     private function _load_schema($name)
     {
         // Setup the raw schema reference
-        if (!array_key_exists($name, $this->_raw_schemadb))
-        {
+        if (!array_key_exists($name, $this->_raw_schemadb)) {
             throw new midcom_error("The schema {$name} was not found in the schema database.");
         }
         $this->_raw_schema =& $this->_raw_schemadb[$name];
 
         // Populate the l10n_schema member
-        if (array_key_exists('l10n_db', $this->_raw_schema))
-        {
+        if (array_key_exists('l10n_db', $this->_raw_schema)) {
             $l10n_name = $this->_raw_schema['l10n_db'];
-        }
-        else
-        {
+        } else {
             $l10n_name = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_COMPONENT);
         }
-        if (!midcom::get()->componentloader->is_installed($l10n_name))
-        {
+        if (!midcom::get()->componentloader->is_installed($l10n_name)) {
             $l10n_name = 'midcom';
         }
         $this->l10n_schema = $this->_i18n->get_l10n($l10n_name);
 
-        if (array_key_exists('operations', $this->_raw_schema))
-        {
+        if (array_key_exists('operations', $this->_raw_schema)) {
             $this->operations = $this->_raw_schema['operations'];
         }
-        if (array_key_exists('customdata', $this->_raw_schema))
-        {
+        if (array_key_exists('customdata', $this->_raw_schema)) {
             $this->customdata = $this->_raw_schema['customdata'];
         }
-        if (array_key_exists('validation', $this->_raw_schema))
-        {
+        if (array_key_exists('validation', $this->_raw_schema)) {
             $this->validation = $this->_raw_schema['validation'];
         }
-        if (array_key_exists('filters', $this->_raw_schema))
-        {
+        if (array_key_exists('filters', $this->_raw_schema)) {
             $this->filters = $this->_raw_schema['filters'];
         }
 
         $this->description = $this->_raw_schema['description'];
         $this->name = $name;
 
-        foreach ($this->_raw_schema['fields'] as $name => $data)
-        {
+        foreach ($this->_raw_schema['fields'] as $name => $data) {
             $data['name'] = $name;
             $this->append_field($name, $data);
         }
 
         if (   $this->_config->get('include_metadata_required')
             && $this->_schemadb_path
-            && $this->_schemadb_path != midcom::get()->config->get('metadata_schema'))
-        {
+            && $this->_schemadb_path != midcom::get()->config->get('metadata_schema')) {
             // Include required fields from metadata schema to the schema
             $metadata_schema = midcom_helper_datamanager2_schema::load_database(midcom::get()->config->get('metadata_schema'));
-            if (isset($metadata_schema['metadata']))
-            {
+            if (isset($metadata_schema['metadata'])) {
                 $prepended = false;
-                foreach ($metadata_schema['metadata']->fields as $name => $field)
-                {
-                    if ($field['required'])
-                    {
-                        if (!$prepended)
-                        {
+                foreach ($metadata_schema['metadata']->fields as $name => $field) {
+                    if ($field['required']) {
+                        if (!$prepended) {
                             $field['static_prepend'] = "<h3 style='clear: left;'>" . $this->_l10n_midcom->get('metadata') . "</h3>\n" . $field['static_prepend'];
                             $prepended = true;
                         }
@@ -418,8 +372,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
      */
     function append_field($name, $config)
     {
-        if (array_key_exists($name, $this->fields))
-        {
+        if (array_key_exists($name, $this->fields)) {
             throw new midcom_error("Duplicate field {$name} encountered, schema operation is invalid. Aborting.");
         }
 
@@ -435,8 +388,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
      */
     public function remove_field($name)
     {
-        if (!array_key_exists($name, $this->fields))
-        {
+        if (!array_key_exists($name, $this->fields)) {
             throw new midcom_error("Field {$name} not found.");
         }
         $this->field_order = array_diff($this->field_order, array($name));
@@ -452,12 +404,10 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
     private function _complete_field_defaults(array &$config)
     {
         // Sanity check for b0rken schemas, missing type/widget would cause DM & PHP to barf later on...
-        if (empty($config['type']))
-        {
+        if (empty($config['type'])) {
             throw new midcom_error("Field '{$config['name']}' in schema '{$this->name}' loaded from {$this->_schemadb_path} is missing *type* definition");
         }
-        if (empty($config['widget']))
-        {
+        if (empty($config['widget'])) {
             throw new midcom_error("Field '{$config['name']}' in schema '{$this->name}' loaded from {$this->_schemadb_path} is missing *widget* definition");
         }
         /* Rest of the defaults */
@@ -481,38 +431,30 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
         $config = array_merge($simple_defaults, $config);
 
         // And complex ones
-        if (!array_key_exists('storage', $config))
-        {
+        if (!array_key_exists('storage', $config)) {
             $config['storage'] = array
             (
                 'location' => 'parameter',
                 'domain' => 'midcom.helper.datamanager2'
             );
-        }
-        else
-        {
-            if (is_string($config['storage']))
-            {
+        } else {
+            if (is_string($config['storage'])) {
                 $config['storage'] = array('location' => $config['storage']);
             }
-            if (strtolower($config['storage']['location']) === 'parameter')
-            {
+            if (strtolower($config['storage']['location']) === 'parameter') {
                 $config['storage']['location'] = strtolower($config['storage']['location']);
-                if (!array_key_exists('domain', $config['storage']))
-                {
+                if (!array_key_exists('domain', $config['storage'])) {
                     $config['storage']['domain'] = 'midcom.helper.datamanager2';
                 }
             }
         }
 
         if (   !array_key_exists('type_config', $config)
-            || !is_array($config['type_config']))
-        {
+            || !is_array($config['type_config'])) {
             $config['type_config'] = array();
         }
         if (   !array_key_exists('widget_config', $config)
-            || !is_array($config['type_config']))
-        {
+            || !is_array($config['type_config'])) {
             $config['widget_config'] = array();
         }
 
@@ -522,24 +464,17 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
     private function _complete_validation_field($config)
     {
         $validation = array();
-        if (array_key_exists('validation', $config))
-        {
+        if (array_key_exists('validation', $config)) {
             $validation = (array) $config['validation'];
         }
 
-        foreach ($validation as $key => $rule)
-        {
-            if (!is_array($rule))
-            {
+        foreach ($validation as $key => $rule) {
+            if (!is_array($rule)) {
                 $rule = array('type' => $rule);
-            }
-            elseif (!array_key_exists('type', $rule))
-            {
+            } elseif (!array_key_exists('type', $rule)) {
                 throw new midcom_error("Missing validation rule type for rule {$key} on field {$config['name']}, this is a required option.");
-            }
-            elseif (   $rule['type'] == 'compare'
-                     && !array_key_exists('compare_with', $rule))
-            {
+            } elseif (   $rule['type'] == 'compare'
+                     && !array_key_exists('compare_with', $rule)) {
                 throw new midcom_error("Missing compare_with option for compare type rule {$key} on field {$config['name']}, this is a required option.");
             }
 
@@ -567,19 +502,14 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
     {
         static $loaded_dbs = array();
         $path = null;
-        if (is_string($raw_db))
-        {
+        if (is_string($raw_db)) {
             // Determine if the given string is a path - assume that a path
             // doesn't have line breaks
-            if (preg_match('/\n/', $raw_db))
-            {
+            if (preg_match('/\n/', $raw_db)) {
                 $raw_db = midcom_helper_misc::parse_config($raw_db);
-            }
-            else
-            {
+            } else {
                 $path = $raw_db;
-                if (!array_key_exists($path, $loaded_dbs))
-                {
+                if (!array_key_exists($path, $loaded_dbs)) {
                     $data = midcom_helper_misc::get_snippet_content($raw_db);
                     $loaded_dbs[$path] = midcom_helper_misc::parse_config($data);
                 }
@@ -588,15 +518,13 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
             }
         }
 
-        if (!is_array($raw_db))
-        {
+        if (!is_array($raw_db)) {
             throw new midcom_error("Provided DM2 schema is not in Array format.");
         }
 
         $schemadb = array();
 
-        foreach (array_keys($raw_db) as $name)
-        {
+        foreach (array_keys($raw_db) as $name) {
             $schemadb[$name] = new static($raw_db, $name, $path);
         }
 
@@ -621,16 +549,13 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
     {
         $translate_string = strtolower($string);
 
-        if ($this->l10n_schema->string_available($translate_string))
-        {
+        if ($this->l10n_schema->string_available($translate_string)) {
             return $this->l10n_schema->get($translate_string);
         }
-        if ($this->_l10n->string_available($translate_string))
-        {
+        if ($this->_l10n->string_available($translate_string)) {
             return $this->_l10n->get($translate_string);
         }
-        if ($this->_l10n_midcom->string_available($translate_string))
-        {
+        if ($this->_l10n_midcom->string_available($translate_string)) {
             return $this->_l10n_midcom->get($translate_string);
         }
 

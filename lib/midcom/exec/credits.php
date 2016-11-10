@@ -7,47 +7,37 @@ midcom::get()->auth->require_valid_user();
 
 $developers = array();
 
-foreach (midcom::get()->componentloader->manifests as $name => $manifest)
-{
-    if (!array_key_exists('package.xml', $manifest->_raw_data))
-    {
+foreach (midcom::get()->componentloader->manifests as $name => $manifest) {
+    if (!array_key_exists('package.xml', $manifest->_raw_data)) {
         // This component is not yet packaged, skip
         continue;
     }
 
     $package_type = 'component';
-    if ($manifest->purecode)
-    {
+    if ($manifest->purecode) {
         $package_type = 'library';
     }
 
     $maintainers = $manifest->_raw_data['package.xml']['maintainers'];
-    if (is_array($maintainers))
-    {
-        foreach ($maintainers as $person => $details)
-        {
+    if (is_array($maintainers)) {
+        foreach ($maintainers as $person => $details) {
             $name_parts = explode(' ', trim($details['name']));
             $lastname = $name_parts[count($name_parts) - 1];
             $identifier = "{$lastname} {$person}";
             $developers[$identifier]['username'] = $person;
             $developers[$identifier]['name'] = $details['name'];
 
-            if (!isset($details['email']))
-            {
+            if (!isset($details['email'])) {
                 $developers[$identifier]['email'] = '';
-            }
-            else
-            {
+            } else {
                 $developers[$identifier]['email'] = $details['email'];
             }
-            if (!isset($details['role']))
-            {
+            if (!isset($details['role'])) {
                 $details['role'] = 'developer';
             }
 
             if (   array_key_exists('active', $details)
-                && $details['active'] == 'no')
-            {
+                && $details['active'] == 'no') {
                 $details['role'] = sprintf(midcom::get()->i18n->get_string('not active %s', 'midcom'), midcom::get()->i18n->get_string($details['role'], 'midcom'));
             }
 
@@ -139,50 +129,44 @@ ksort($developers);
                 </thead>-->
                 <tbody>
                     <?php
-                    foreach ($developers as $name => $details)
-                    {
+                    foreach ($developers as $name => $details) {
                         $person_label  = "<div class=\"vcard\">\n";
                         $person_label .= "    <h2><a href=\"https://github.com/{$details['username']}\" class=\"url fn\">{$details['name']}</a></h2>\n";
                         $gravatar_url = "http://www.gravatar.com/avatar.php?gravatar_id=" . md5($details['email']) . "&amp;size=60";
                         $person_label .= "    <div><img class=\"photo\" src=\"{$gravatar_url}\" /></div>\n";
                         $person_label .= "    <div style=\"display: none;\"><a class=\"email\" href=\"mailto:{$details['email']}\">{$details['email']}</a></div>\n";
-                        $person_label .= "</div>\n";
-                        ?>
+                        $person_label .= "</div>\n"; ?>
                         <tr>
                             <td class="name"><?php echo $person_label; ?></td>
                             <td class="role">
                                 <dl>
                                 <?php
-                                foreach ($details['roles'] as $role => $packages_types)
-                                {
+                                foreach ($details['roles'] as $role => $packages_types) {
                                     ksort($packages_types);
-                                    foreach ($packages_types as $package_type => $components)
-                                    {
+                                    foreach ($packages_types as $package_type => $components) {
                                         ?>
                                         <dt>
                                             <?php
-                                            printf(midcom::get()->i18n->get_string('%s of packages of type %s', 'midcom'), midcom::get()->i18n->get_string($role, 'midcom'), midcom::get()->i18n->get_string($package_type, 'midcom'));
-                                            ?>
+                                            printf(midcom::get()->i18n->get_string('%s of packages of type %s', 'midcom'), midcom::get()->i18n->get_string($role, 'midcom'), midcom::get()->i18n->get_string($package_type, 'midcom')); ?>
                                         </dt>
                                         <dd>
                                         <?php
-                                        foreach ($components as $component => $component_name)
-                                        {
+                                        foreach ($components as $component => $component_name) {
                                             $icon = midcom::get()->componentloader->get_component_icon($component);
                                             echo "<a href=\"" . midcom::get()->get_host_prefix() . "__mfa/asgard/components/{$component}/\">";
                                             echo "<img src=\"" . MIDCOM_STATIC_URL . "/{$icon}\" alt=\"{$component_name} ({$component})\" title=\"{$component_name} ({$component})\" />";
                                             echo "</a>\n";
-                                        }
-                                        ?>
+                                        } ?>
                                         </dd>
                                         <?php
+
                                     }
-                                }
-                                ?>
+                                } ?>
                                 </dl>
                             </td>
                         </tr>
                         <?php
+
                     }
                     ?>
                 </tbody>

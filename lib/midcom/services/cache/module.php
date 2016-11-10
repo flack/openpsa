@@ -77,22 +77,17 @@ abstract class midcom_services_cache_module
     {
         $name = $this->_prefix . $name;
 
-        if (array_key_exists($name, $this->_backends))
-        {
+        if (array_key_exists($name, $this->_backends)) {
             throw new midcom_error("Cannot create backend driver instance {$name}: A backend with this name does already exist.");
         }
 
-        if (!array_key_exists('driver', $config))
-        {
+        if (!array_key_exists('driver', $config)) {
             throw new midcom_error("Cannot create backend driver instance {$name}: The driver class is not specified in the configuration.");
         }
 
-        if (is_string($config['driver']))
-        {
+        if (is_string($config['driver'])) {
             $backend = $this->prepare_backend($config, $name);
-        }
-        else
-        {
+        } else {
             $backend = $config['driver'];
         }
         $backend->setNamespace($name);
@@ -105,13 +100,11 @@ abstract class midcom_services_cache_module
     private function prepare_backend(array $config, $name)
     {
         $directory = midcom::get()->config->get('cache_base_directory');
-        if (!empty($config['directory']))
-        {
+        if (!empty($config['directory'])) {
             $directory .= $config['directory'];
         }
         $memcache_operational = false;
-        switch ($config['driver'])
-        {
+        switch ($config['driver']) {
             case 'apc':
                 $backend = new Cache\ApcCache();
                 break;
@@ -119,15 +112,12 @@ abstract class midcom_services_cache_module
                 $host = !empty($config['host']) ? $config['host'] : 'localhost';
                 $port = !empty($config['port']) ? $config['port'] : 11211;
                 $memcache = new Memcache;
-                if (@$memcache->pconnect($host, $port))
-                {
+                if (@$memcache->pconnect($host, $port)) {
                     $backend = new Cache\MemcacheCache();
                     $backend->setMemcache($memcache);
                     $memcache_operational = true;
                     break;
-                }
-                else
-                {
+                } else {
                     midcom::get()->debug->log_php_error(MIDCOM_LOG_ERROR);
                     debug_add("memcache: Failed to connect to {$this->_host}:{$this->_port}. Falling back to filecache", MIDCOM_LOG_ERROR);
                 }
@@ -159,14 +149,18 @@ abstract class midcom_services_cache_module
      * (page cache) of midcom_application::finish() if you produce regular output that
      * might go into the content cache.
      */
-    public function _on_initialize() {}
+    public function _on_initialize()
+    {
+    }
 
     /**
      * Shutdown handler, called during midcom_application::finish(). Note, that for example
      * the page cache will not use this cleanup handler, as it produces a complete html page
      * based on a previous request.
      */
-    public function _on_shutdown() {}
+    public function _on_shutdown()
+    {
+    }
 
     /**
      * Invalidate the cache completely, dropping all entries. The default implementation will
@@ -175,8 +169,7 @@ abstract class midcom_services_cache_module
      */
     public function invalidate_all()
     {
-        foreach ($this->_backends as $name => $backend)
-        {
+        foreach ($this->_backends as $name => $backend) {
             debug_add("Invalidating cache backend {$name}...", MIDCOM_LOG_INFO);
             $backend->flushAll();
         }

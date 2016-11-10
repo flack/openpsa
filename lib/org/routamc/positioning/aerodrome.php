@@ -33,8 +33,7 @@ class org_routamc_positioning_aerodrome_dba extends midcom_core_dbaobject
      */
     public function get_label()
     {
-        if (!empty($this->name))
-        {
+        if (!empty($this->name)) {
             return "{$this->icao} ({$this->name})";
         }
         return $this->icao;
@@ -46,28 +45,24 @@ class org_routamc_positioning_aerodrome_dba extends midcom_core_dbaobject
     public function _on_creating()
     {
         if (   $this->longitude
-            && $this->latitude)
-        {
+            && $this->latitude) {
             $qb = org_routamc_positioning_aerodrome_dba::new_query_builder();
             $qb->add_constraint('longitude', '=', $this->longitude);
             $qb->add_constraint('latitude', '=', $this->latitude);
             $qb->set_limit(1);
             $matches = $qb->execute_unchecked();
-            if (count($matches) > 0)
-            {
+            if (count($matches) > 0) {
                 // We don't need to save duplicate entries
                 return false;
             }
         }
 
-        if (!empty($this->icao))
-        {
+        if (!empty($this->icao)) {
             $qb = org_routamc_positioning_aerodrome_dba::new_query_builder();
             $qb->add_constraint('icao', '=', $this->icao);
             $qb->set_limit(1);
             $matches = $qb->execute_unchecked();
-            if (count($matches) > 0)
-            {
+            if (count($matches) > 0) {
                 // We don't need to save duplicate entries
                 midcom_connection::set_error(MGD_ERR_DUPLICATE);
                 return false;

@@ -7,8 +7,7 @@
         <input type="file" name="midgard_admin_asgard_file" />
     </fieldset>
     <?php
-    if (array_key_exists($data['file']->mimetype, $data['attachment_text_types']))
-    {
+    if (array_key_exists($data['file']->mimetype, $data['attachment_text_types'])) {
         // Show file for editing only if it is a text file
         ?>
         <hr />
@@ -24,15 +23,14 @@
                 <span><?php echo $data['l10n']->get('file contents'); ?></span>
                 <textarea name="midgard_admin_asgard_contents" cols="60" rows="30" wrap="none" id="midgard_admin_asgard_file_edit" class="codemirror &(data['file_syntax']);"><?php
                     $f = $data['file']->open('r');
-                    if ($f)
-                    {
-                        fpassthru($f);
-                    }
-                    $data['file']->close();
-                ?></textarea>
+        if ($f) {
+            fpassthru($f);
+        }
+        $data['file']->close(); ?></textarea>
             </label>
         </fieldset>
        <?php
+
     }
     ?>
     <div class="form_toolbar">

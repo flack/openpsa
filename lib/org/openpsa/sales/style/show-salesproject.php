@@ -5,12 +5,10 @@ $formatter = $data['l10n']->get_formatter();
 ?>
 <div class="sidebar contacts">
     <?php
-    if ($customer = $data['salesproject']->get_customer())
-    {
+    if ($customer = $data['salesproject']->get_customer()) {
         echo "<h2>{$customer->get_label()}</h2>\n";
     }
-    foreach (array_keys($data['salesproject']->contacts) as $contact_id)
-    {
+    foreach (array_keys($data['salesproject']->contacts) as $contact_id) {
         $person_card = org_openpsa_widgets_contact::get($contact_id);
         $person_card->show();
     } ?>
@@ -31,8 +29,8 @@ $formatter = $data['l10n']->get_formatter();
      <div class="title"><?php echo $data['l10n_midcom']->get('description'); ?></div>
      <div class="value">&(view['description']:h);</div>
     </div>
-    <?php if ($salesproject->state == org_openpsa_sales_salesproject_dba::STATE_ACTIVE)
-    { ?>
+    <?php if ($salesproject->state == org_openpsa_sales_salesproject_dba::STATE_ACTIVE) {
+        ?>
         <div class="field">
          <div class="title"><?php echo $data['l10n']->get('estimated closing date'); ?></div>
          <div class="value">&(view['close_est']:h);</div>
@@ -41,7 +39,8 @@ $formatter = $data['l10n']->get_formatter();
          <div class="title"><?php echo $data['l10n']->get('probability'); ?></div>
          <div class="value">&(view['probability']:h);</div>
         </div>
-    <?php } ?>
+    <?php 
+    } ?>
     <div class="field">
      <div class="title"><?php echo $data['l10n']->get('value'); ?></div>
      <div class="value"><?php echo $formatter->number($salesproject->value); ?></div>

@@ -30,8 +30,7 @@ abstract class midcom_db_cachemember extends midcom_core_dbaobject
 
     private function _invalidate_cache()
     {
-        if (extension_loaded('midgard'))
-        {
+        if (extension_loaded('midgard')) {
             mgd_cache_invalidate();
         }
     }

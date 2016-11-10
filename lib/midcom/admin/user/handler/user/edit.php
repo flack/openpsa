@@ -28,8 +28,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
     private function _prepare_toolbar(&$data, $handler_id)
     {
         if (   $this->_config->get('allow_manage_accounts')
-            && $this->_person)
-        {
+            && $this->_person) {
             $this->_account = new midcom_core_account($this->_person);
             $buttons = array
             (
@@ -46,8 +45,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/repair.png',
                 )
             );
-            if (($this->_account->get_username() !== ''))
-            {
+            if (($this->_account->get_username() !== '')) {
                 $buttons[] = array
                 (
                     MIDCOM_TOOLBAR_URL => "__mfa/asgard_midcom.admin.user/delete_account/{$this->_person->guid}/",
@@ -66,16 +64,12 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
     public function load_schemadb()
     {
         $schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get($this->_schemadb_name));
-        if ($this->_schemadb_name == 'schemadb_account')
-        {
+        if ($this->_schemadb_name == 'schemadb_account') {
             if (   isset($_POST['username'])
-                && trim($_POST['username']) == '')
-            {
+                && trim($_POST['username']) == '') {
                 // Remove the password requirement if there is no username present
-                foreach ($schemadb as $key => $schema)
-                {
-                    if (isset($schema->fields['password']))
-                    {
+                foreach ($schemadb as $key => $schema) {
+                    if (isset($schema->fields['password'])) {
                         $schemadb[$key]->fields['password']['widget_config']['require_password'] = false;
                     }
                 }
@@ -92,8 +86,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
             'person' => $this->_person->guid
         );
 
-        if (!extension_loaded('midgard'))
-        {
+        if (!extension_loaded('midgard')) {
             $defaults['usertype'] = $this->_account->get_usertype();
         }
 
@@ -112,8 +105,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
 
         $data['controller'] = $this->get_controller('simple', $this->_person);
 
-        switch ($data['controller']->process_form())
-        {
+        switch ($data['controller']->process_form()) {
             case 'save':
                 // Show confirmation for the user
                 midcom::get()->uimessages->add($this->_l10n->get('midcom.admin.user'), sprintf($this->_l10n->get('person %s saved'), $this->_person->name));
@@ -147,8 +139,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      */
     public function _handler_edit_account($handler_id, array $args, array &$data)
     {
-        if (!$this->_config->get('allow_manage_accounts'))
-        {
+        if (!$this->_config->get('allow_manage_accounts')) {
             throw new midcom_error('Account management is disabled');
         }
 
@@ -159,8 +150,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
 
         $data['controller'] = $this->get_controller('nullstorage');
 
-        switch ($data['controller']->process_form())
-        {
+        switch ($data['controller']->process_form()) {
             case 'save':
                 $this->_save_account($data['controller']);
                 // Show confirmation for the user
@@ -190,8 +180,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         $data['person'] = $this->_person;
         midcom_show_style('midcom-admin-user-person-edit-account');
 
-        if (isset($_GET['f_submit']))
-        {
+        if (isset($_GET['f_submit'])) {
             midcom_show_style('midcom-admin-user-generate-passwords');
         }
     }
@@ -201,16 +190,13 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         $password = $controller->formmanager->_types['password']->value;
         $username = $controller->formmanager->_types['username']->value;
 
-        if (trim($username) !== '')
-        {
+        if (trim($username) !== '') {
             $this->_account->set_username($username);
         }
-        if (trim($password) !== '')
-        {
+        if (trim($password) !== '') {
             $this->_account->set_password($password);
         }
-        if (!extension_loaded('midgard'))
-        {
+        if (!extension_loaded('midgard')) {
             $this->_account->set_usertype($controller->formmanager->_types['usertype']->convert_to_storage());
         }
         $this->_account->save();
@@ -223,8 +209,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      */
     public function _handler_delete_account($handler_id, array $args, array &$data)
     {
-        if (!$this->_config->get('allow_manage_accounts'))
-        {
+        if (!$this->_config->get('allow_manage_accounts')) {
             throw new midcom_error('Account management is disabled');
         }
 
@@ -234,8 +219,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
 
         $data['controller'] = midcom_helper_datamanager2_handler::get_delete_controller();
 
-        switch ($data['controller']->process_form())
-        {
+        switch ($data['controller']->process_form()) {
             case 'delete':
                 $this->_account->delete();
                 // Show confirmation for the user

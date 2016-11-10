@@ -66,12 +66,9 @@ class midcom_helper_datamanager2_type_number extends midcom_helper_datamanager2_
      */
     public function convert_from_storage($source)
     {
-        if ($source === false || $source === null || trim($source) === '')
-        {
+        if ($source === false || $source === null || trim($source) === '') {
             $this->value = null;
-        }
-        else
-        {
+        } else {
             $this->value = $this->sanitize_number($source);
         }
         $this->round_value();
@@ -100,8 +97,7 @@ class midcom_helper_datamanager2_type_number extends midcom_helper_datamanager2_
      */
     private function sanitize_number($input)
     {
-        if (is_float($input))
-        {
+        if (is_float($input)) {
             return $input;
         }
         return (float) str_replace(',', '.', (string) $input);
@@ -113,8 +109,7 @@ class midcom_helper_datamanager2_type_number extends midcom_helper_datamanager2_
     public function convert_to_html()
     {
         $value = $this->sanitize_number($this->value);
-        if ($this->precision !== null)
-        {
+        if ($this->precision !== null) {
             return $this->_l10n->get_formatter()->number($value, $this->precision);
         }
         return htmlspecialchars($value);
@@ -143,15 +138,13 @@ class midcom_helper_datamanager2_type_number extends midcom_helper_datamanager2_
      */
     private function round_value()
     {
-        if (!$this->value)
-        {
+        if (!$this->value) {
             // Skip process, we are undefined.
             return;
         }
 
         $this->value = $this->sanitize_number($this->value);
-        if ($this->precision !== null)
-        {
+        if ($this->precision !== null) {
             $this->value = round($this->value, $this->precision);
         }
     }
@@ -178,13 +171,11 @@ class midcom_helper_datamanager2_type_number extends midcom_helper_datamanager2_
     public function validate_number($fields)
     {
         if (   $this->minimum !== null
-            && $fields[$this->name] < $this->minimum)
-        {
+            && $fields[$this->name] < $this->minimum) {
             return array($this->name => sprintf($this->_l10n->get('type number: value must not be smaller than %s'), $this->minimum));
         }
         if (   $this->maximum !== null
-            && $fields[$this->name] > $this->maximum)
-        {
+            && $fields[$this->name] > $this->maximum) {
             return array($this->name => sprintf($this->_l10n->get('type number: value must not be larger than %s'), $this->maximum));
         }
 

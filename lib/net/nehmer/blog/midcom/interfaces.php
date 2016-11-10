@@ -25,8 +25,7 @@ implements midcom_services_permalinks_resolver
         $qb->add_constraint('article', '=', $object->id);
         $links = $qb->execute_unchecked();
 
-        foreach ($links as $link)
-        {
+        foreach ($links as $link) {
             $link->delete();
         }
         midcom::get()->auth->drop_sudo();
@@ -37,16 +36,11 @@ implements midcom_services_permalinks_resolver
      */
     public function _on_reindex($topic, $config, &$indexer)
     {
-        if ($config->get('symlink_topic'))
-        {
+        if ($config->get('symlink_topic')) {
             debug_add("The topic {$topic->id} is symlinked to another topic, skipping indexing.");
-        }
-        elseif (!$config->get('disable_indexing'))
-        {
+        } elseif (!$config->get('disable_indexing')) {
             debug_add("The topic {$topic->id} is not to be indexed, skipping indexing.");
-        }
-        else
-        {
+        } else {
             $qb = midcom::get()->dbfactory->new_query_builder('midcom_db_article');
             $qb->add_constraint('topic', '=', $topic->id);
             $result = $qb->execute();
@@ -54,10 +48,8 @@ implements midcom_services_permalinks_resolver
             $schemadb = midcom_helper_datamanager2_schema::load_database($config->get('schemadb'));
             $datamanager = new midcom_helper_datamanager2_datamanager($schemadb);
 
-            foreach ($result as $article)
-            {
-                if (!$datamanager->autoset_storage($article))
-                {
+            foreach ($result as $article) {
+                if (!$datamanager->autoset_storage($article)) {
                     debug_add("Warning, failed to initialize datamanager for Article {$article->id}. Skipping it.", MIDCOM_LOG_WARN);
                     continue;
                 }
@@ -74,39 +66,31 @@ implements midcom_services_permalinks_resolver
      */
     public function resolve_object_link(midcom_db_topic $topic, midcom_core_dbaobject $object)
     {
-        if (!($object instanceof midcom_db_article))
-        {
+        if (!($object instanceof midcom_db_article)) {
             return null;
         }
         $config = $this->get_config_for_topic($topic);
-        if ($config->get('disable_permalinks'))
-        {
+        if ($config->get('disable_permalinks')) {
             return null;
         }
 
         $topic_guid = $config->get('symlink_topic');
-        if (mgd_is_guid($topic_guid))
-        {
-            try
-            {
+        if (mgd_is_guid($topic_guid)) {
+            try {
                 $new_topic = new midcom_db_topic($topic_guid);
                 $topic = $new_topic;
-            }
-            catch (midcom_error $e)
-            {
+            } catch (midcom_error $e) {
                 $e->log();
             }
         }
 
-        if ($object->topic != $topic->id)
-        {
+        if ($object->topic != $topic->id) {
             return null;
         }
 
         $arg = $object->name ?: $object->guid;
 
-        if ($config->get('view_in_url'))
-        {
+        if ($config->get('view_in_url')) {
             return "view/{$arg}/";
         }
         return "{$arg}/";
@@ -114,8 +98,7 @@ implements midcom_services_permalinks_resolver
 
     public function get_opengraph_default($object)
     {
-        if (midcom::get()->dbfactory->is_a($object, 'midgard_topic'))
-        {
+        if (midcom::get()->dbfactory->is_a($object, 'midgard_topic')) {
             return 'blog';
         }
 

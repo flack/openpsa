@@ -69,10 +69,8 @@ implements midcom_helper_datamanager2_interfaces_create
     public function load_schemadb()
     {
         $this->_schemadb = $this->_request_data['schemadb'];
-        if ($this->_config->get('simple_name_handling'))
-        {
-            foreach (array_keys($this->_schemadb) as $name)
-            {
+        if ($this->_config->get('simple_name_handling')) {
+            foreach (array_keys($this->_schemadb) as $name) {
                 $this->_schemadb[$name]->fields['name']['hidden'] = true;
             }
         }
@@ -86,8 +84,7 @@ implements midcom_helper_datamanager2_interfaces_create
 
     public function get_schema_defaults()
     {
-        if ($this->_request_data['handler_id'] == 'createindex')
-        {
+        if ($this->_request_data['handler_id'] == 'createindex') {
             $this->_defaults['name'] = 'index';
         }
         return $this->_defaults;
@@ -102,23 +99,19 @@ implements midcom_helper_datamanager2_interfaces_create
         $this->_article->topic = $this->_content_topic->id;
 
         if (   array_key_exists('name', $this->_defaults)
-            && $this->_defaults['name'] == 'index')
-        {
+            && $this->_defaults['name'] == 'index') {
             // Store this to article directly in case name field is not editable in schema
             $this->_article->name = 'index';
         }
 
-        if (!$this->_article->create())
-        {
+        if (!$this->_article->create()) {
             debug_print_r('We operated on this object:', $this->_article);
             throw new midcom_error('Failed to create a new article. Last Midgard error was: '. midcom_connection::get_error_string());
         }
 
         // Callback possibility
-        if ($this->_config->get('callback_function'))
-        {
-            if ($this->_config->get('callback_snippet'))
-            {
+        if ($this->_config->get('callback_function')) {
+            if ($this->_config->get('callback_snippet')) {
                 midcom_helper_misc::include_snippet_php($this->_config->get('callback_snippet'));
             }
 
@@ -155,8 +148,7 @@ implements midcom_helper_datamanager2_interfaces_create
         // Reindex the article
         $indexer = midcom::get()->indexer;
         net_nehmer_static_viewer::index($controller->datamanager, $indexer, $this->_content_topic);
-        if ($this->_article->name == 'index')
-        {
+        if ($this->_article->name == 'index') {
             return '';
         }
         return $this->_article->name . '/';

@@ -84,18 +84,15 @@ class midcom_core_context
      */
     public function __construct($id = null, $node = null)
     {
-        if (isset($_SERVER['REQUEST_URI']))
-        {
+        if (isset($_SERVER['REQUEST_URI'])) {
             $this->_data[MIDCOM_CONTEXT_URI] = $_SERVER['REQUEST_URI'];
         }
-        if (is_object($node))
-        {
+        if (is_object($node)) {
             $this->_data[MIDCOM_CONTEXT_ROOTTOPIC] = $node;
             $this->_data[MIDCOM_CONTEXT_ROOTTOPICID] = $node->id;
         }
 
-        if (is_null($id))
-        {
+        if (is_null($id)) {
             $id = count(self::$_contexts);
         }
         $this->id = $id;
@@ -120,19 +117,16 @@ class midcom_core_context
      */
     public static function & get($id = null)
     {
-        if (is_null($id))
-        {
+        if (is_null($id)) {
             $id = self::$_currentcontext;
-            if (!isset(self::$_contexts[$id]))
-            {
+            if (!isset(self::$_contexts[$id])) {
                 self::$_contexts[$id] = new self($id);
             }
             return self::$_contexts[$id];
         }
 
         if (   $id < 0
-            || $id >= count(self::$_contexts))
-        {
+            || $id >= count(self::$_contexts)) {
             debug_add("Could not get invalid context $id.", MIDCOM_LOG_WARN);
             $ret = false;
             return $ret;
@@ -163,8 +157,7 @@ class midcom_core_context
      */
     public function get_key($key)
     {
-        if (!array_key_exists($key, $this->_data) || $key >= 1000)
-        {
+        if (!array_key_exists($key, $this->_data) || $key >= 1000) {
             debug_add("Requested Key ID $key invalid.", MIDCOM_LOG_ERROR);
             debug_print_function_stack('Called from here');
 
@@ -173,8 +166,7 @@ class midcom_core_context
 
         if (   (   $key === MIDCOM_CONTEXT_ROOTTOPICID
                 || $key === MIDCOM_CONTEXT_ROOTTOPIC)
-            && $this->_data[$key] === null)
-        {
+            && $this->_data[$key] === null) {
             $this->_initialize_root_topic();
         }
 
@@ -184,21 +176,14 @@ class midcom_core_context
     private function _initialize_root_topic()
     {
         $guid = midcom::get()->config->get('midcom_root_topic_guid');
-        if (empty($guid))
-        {
+        if (empty($guid)) {
             $setup = new midcom_core_setup("Root folder is not configured. Please log in as administrator");
             $root_node = $setup->find_topic(true);
-        }
-        else
-        {
-            try
-            {
+        } else {
+            try {
                 $root_node = midcom_db_topic::get_cached($guid);
-            }
-            catch (midcom_error $e)
-            {
-                if ($e instanceof midcom_error_forbidden)
-                {
+            } catch (midcom_error $e) {
+                if ($e instanceof midcom_error_forbidden) {
                     throw $e;
                 }
                 // Fall back to another topic so that admin has a chance to fix this
@@ -247,13 +232,11 @@ class midcom_core_context
      */
     public function & get_custom_key($key, $component = null)
     {
-        if (null === $component)
-        {
+        if (null === $component) {
             $component = $this->_data[MIDCOM_CONTEXT_COMPONENT];
         }
 
-        if (!$this->has_custom_key($key, $component))
-        {
+        if (!$this->has_custom_key($key, $component)) {
             debug_add("Requested Key ID {$key} for the component {$component} is invalid.", MIDCOM_LOG_ERROR);
             $result = false;
             return $result;
@@ -264,8 +247,7 @@ class midcom_core_context
 
     public function has_custom_key($key, $component = null)
     {
-        if (null === $component)
-        {
+        if (null === $component) {
             $component = $this->_data[MIDCOM_CONTEXT_COMPONENT];
         }
 
@@ -318,8 +300,7 @@ class midcom_core_context
      */
     public function set_custom_key($key, &$value, $component = null)
     {
-        if (null === $component)
-        {
+        if (null === $component) {
             $component = $this->_data[MIDCOM_CONTEXT_COMPONENT];
         }
 
@@ -343,8 +324,7 @@ class midcom_core_context
 
         // Get component interface class
         $component_interface = midcom::get()->componentloader->get_interface_class($path);
-        if ($component_interface === null)
-        {
+        if ($component_interface === null) {
             $path = 'midcom.core.nullcomponent';
             $this->set_key(MIDCOM_CONTEXT_COMPONENT, $path);
             $component_interface = midcom::get()->componentloader->get_interface_class($path);
@@ -353,14 +333,12 @@ class midcom_core_context
         // Load configuration
         $config_obj = $this->_loadconfig($this->id, $object);
         $config = ($config_obj == false) ? array() : $config_obj->get_all();
-        if (!$component_interface->configure($config, $this->id))
-        {
+        if (!$component_interface->configure($config, $this->id)) {
             throw new midcom_error("Component Configuration failed: " . midcom_connection::get_error_string());
         }
 
         // Make can_handle check
-        if (!$component_interface->can_handle($object, $this->parser->argc, $this->parser->argv, $this->id))
-        {
+        if (!$component_interface->can_handle($object, $this->parser->argc, $this->parser->argv, $this->id)) {
             debug_add("Component {$path} in {$object->name} declared unable to handle request.", MIDCOM_LOG_INFO);
             return false;
         }
@@ -387,12 +365,10 @@ class midcom_core_context
     {
         $this->response = $handler->handle();
 
-        if (false === $this->response)
-        {
+        if (false === $this->response) {
             throw new midcom_error("Component " . $this->get_key(MIDCOM_CONTEXT_COMPONENT) . " failed to handle the request");
         }
-        if (!is_object($this->response))
-        {
+        if (!is_object($this->response)) {
             $this->response = new midcom_response_styled($this);
         }
     }
@@ -409,16 +385,14 @@ class midcom_core_context
 
     public function show()
     {
-        if (!midcom::get()->skip_page_style)
-        {
+        if (!midcom::get()->skip_page_style) {
             midcom_show_style('style-init');
         }
 
         $callback = $this->get_key(MIDCOM_CONTEXT_SHOWCALLBACK);
         call_user_func($callback, $this->id);
 
-        if (!midcom::get()->skip_page_style)
-        {
+        if (!midcom::get()->skip_page_style) {
             midcom_show_style('style-finish');
         }
     }
@@ -437,18 +411,15 @@ class midcom_core_context
     private function _loadconfig($context_id, midcom_db_topic $object)
     {
         static $configs = array();
-        if (!isset($configs[$context_id]))
-        {
+        if (!isset($configs[$context_id])) {
             $configs[$context_id] = array();
         }
 
-        if (!isset($configs[$context_id][$object->guid]))
-        {
+        if (!isset($configs[$context_id][$object->guid])) {
             $path = $this->get_key(MIDCOM_CONTEXT_COMPONENT);
             $configs[$context_id][$object->guid] = new midcom_helper_configuration($object, $path);
         }
 
         return $configs[$context_id][$object->guid];
     }
-
 }

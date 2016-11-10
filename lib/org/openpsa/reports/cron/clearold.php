@@ -17,8 +17,7 @@ class org_openpsa_reports_cron_clearold extends midcom_baseclasses_components_cr
     public function _on_initialize()
     {
         $days = $this->_config->get('temporary_report_max_age');
-        if ($days == 0)
-        {
+        if ($days == 0) {
             debug_add('temporary_report_max_age evaluates to zero, aborting');
             return;
         }
@@ -40,11 +39,9 @@ class org_openpsa_reports_cron_clearold extends midcom_baseclasses_components_cr
         $qb->add_constraint('orgOpenpsaObtype', '=', org_openpsa_reports_query_dba::OBTYPE_REPORT_TEMPORARY);
         $ret = $qb->execute_unchecked();
 
-        foreach ($ret as $query)
-        {
+        foreach ($ret as $query) {
             debug_add("removing temporary query #{$query->id}");
-            if (!$query->delete())
-            {
+            if (!$query->delete()) {
                 debug_add("FAILED to delete query #{$query->id}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
             }
         }

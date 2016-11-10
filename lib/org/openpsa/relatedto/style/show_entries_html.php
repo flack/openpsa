@@ -8,12 +8,10 @@
     //add static data to jqgrid if wanted
     $start = true;
     if (    !array_key_exists('dynamic_load', $data)
-         && array_key_exists('entries', $data))
-    {
+         && array_key_exists('entries', $data)) {
         $rows = array();
         $workflow = new midcom\workflow\datamanager2;
-        foreach ($data['entries'] as $entry)
-        {
+        foreach ($data['entries'] as $entry) {
             $row = array
             (
                 'id' => $entry->id,
@@ -28,25 +26,19 @@
 
             $row['date'] = date('Y-m-d', $entry->metadata->created);
 
-            try
-            {
+            try {
                 $creator = org_openpsa_contacts_person_dba::get_cached($entry->metadata->creator);
                 $row['creator_index'] = $creator->rname;
                 $creator_card = org_openpsa_widgets_contact::get($entry->metadata->creator);
                 $row['creator'] = $creator_card->show_inline();
-            }
-            catch (midcom_error $e)
-            {
+            } catch (midcom_error $e) {
                 $row['creator_index'] = '';
                 $row['creator'] = '';
             }
 
-            if ($entry->closed)
-            {
+            if ($entry->closed) {
                 $row['closed'] = midcom::get()->i18n->get_string('finished', 'org.openpsa.relatedto');
-            }
-            else
-            {
+            } else {
                 $row['closed'] = midcom::get()->i18n->get_string('open', 'org.openpsa.relatedto');
             }
             $rows[] = $row;
@@ -64,17 +56,18 @@
     //jqgrid call
     jQuery("#journal_entry_grid").jqGrid({
         <?php
-        if (!array_key_exists('dynamic_load', $data))
-        { ?>
+        if (!array_key_exists('dynamic_load', $data)) {
+            ?>
             datatype: "local",
             data: entries,
-        <?php }
-        else
-        { ?>
-            url: '<?php echo $data['data_url'] ;?>',
+        <?php 
+        } else {
+            ?>
+            url: '<?php echo $data['data_url'] ; ?>',
             datatype: "xml",
             mtype: "POST",
-        <?php } ?>
+        <?php 
+        } ?>
         colNames:["id",
                   <?php
                   //index is needed for sorting

@@ -44,25 +44,21 @@ implements midcom_helper_datamanager2_interfaces_view
 
         $auth = midcom::get()->auth;
         if (   $this->_person->id == midcom_connection::get_user()
-            || $auth->can_user_do('org.openpsa.user:manage', null, 'org_openpsa_user_interface'))
-        {
+            || $auth->can_user_do('org.openpsa.user:manage', null, 'org_openpsa_user_interface')) {
             $buttons = array();
             $workflow = $this->get_workflow('datamanager2');
-            if ($this->_person->can_do('midgard:update'))
-            {
+            if ($this->_person->can_do('midgard:update')) {
                 $buttons[] = $workflow->get_button("edit/{$this->_person->guid}/", array
                 (
                     MIDCOM_TOOLBAR_ACCESSKEY => 'e',
                 ));
             }
-            if ($this->_person->can_do('midgard:delete'))
-            {
+            if ($this->_person->can_do('midgard:delete')) {
                 $delete_workflow = $this->get_workflow('delete', array('object' => $this->_person));
                 $buttons[] = $delete_workflow->get_button("delete/{$this->_person->guid}/");
             }
             if (   midcom_connection::is_user($this->_person)
-                && $this->_person->can_do('midgard:privileges'))
-            {
+                && $this->_person->can_do('midgard:privileges')) {
                 $buttons[] = $workflow->get_button("privileges/{$this->_person->guid}/", array
                 (
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("permissions"),
@@ -70,8 +66,7 @@ implements midcom_helper_datamanager2_interfaces_view
                 ));
             }
 
-            if ($this->_person->can_do('midgard:update'))
-            {
+            if ($this->_person->can_do('midgard:update')) {
                 $buttons[] = $workflow->get_button("person/notifications/{$this->_person->guid}/", array
                 (
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("notification settings"),

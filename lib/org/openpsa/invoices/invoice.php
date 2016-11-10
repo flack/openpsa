@@ -25,24 +25,19 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
 
     public function get_status()
     {
-        if ($this->id == 0)
-        {
+        if ($this->id == 0) {
             return 'scheduled';
         }
-        if ($this->cancelationInvoice)
-        {
+        if ($this->cancelationInvoice) {
             return 'canceled';
         }
-        if ($this->sent == 0)
-        {
+        if ($this->sent == 0) {
             return 'unsent';
         }
-        if ($this->paid > 0)
-        {
+        if ($this->paid > 0) {
             return 'paid';
         }
-        if ($this->due < time())
-        {
+        if ($this->due < time()) {
             return 'overdue';
         }
         return 'open';
@@ -58,8 +53,7 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
         $qb = org_openpsa_invoices_invoice_dba::new_query_builder();
         $qb->add_constraint('number', '=', $number);
         $result = $qb->execute();
-        if (count($result) == 1)
-        {
+        if (count($result) == 1) {
             return $result[0];
         }
         return false;
@@ -70,12 +64,9 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
      */
     function generate_invoicing_task($invoicer)
     {
-        try
-        {
+        try {
             $invoice_sender = new midcom_db_person($invoicer);
-        }
-        catch (midcom_error $e)
-        {
+        } catch (midcom_error $e) {
             return;
         }
 
@@ -88,8 +79,7 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
         $task->title = sprintf(midcom::get()->i18n->get_string('send invoice %s', 'org.openpsa.invoices'), sprintf($config->get('invoice_number_format'), sprintf($config->get('invoice_number_format'), $this->number)));
         // TODO: Store link to invoice into description
         $task->end = time() + 24 * 3600;
-        if ($task->create())
-        {
+        if ($task->create()) {
             org_openpsa_relatedto_plugin::create($task, 'org.openpsa.projects', $this, 'org.openpsa.invoices');
             midcom::get()->uimessages->add(midcom::get()->i18n->get_string('org.openpsa.invoices', 'org.openpsa.invoices'), sprintf(midcom::get()->i18n->get_string('created "%s" task to %s', 'org.openpsa.invoices'), $task->title, $invoice_sender->name));
         }
@@ -126,19 +116,15 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
 
     private function _pre_write_operations()
     {
-        if ($this->sent > 0)
-        {
+        if ($this->sent > 0) {
             $time = time();
-            if (!$this->date)
-            {
+            if (!$this->date) {
                 $this->date = $time;
             }
-            if (!$this->deliverydate)
-            {
+            if (!$this->deliverydate) {
                 $this->deliverydate = $time;
             }
-            if ($this->due == 0)
-            {
+            if ($this->due == 0) {
                 $this->due = ($this->get_default('due') * 3600 * 24) + $this->date;
             }
         }
@@ -146,8 +132,7 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
 
     public function _on_deleting()
     {
-        if (!midcom::get()->auth->request_sudo('org.openpsa.invoices'))
-        {
+        if (!midcom::get()->auth->request_sudo('org.openpsa.invoices')) {
             debug_add('Failed to get SUDO privileges, skipping invoice hour deletion silently.', MIDCOM_LOG_ERROR);
             return false;
         }
@@ -157,35 +142,29 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
         $qb = org_openpsa_projects_hour_report_dba::new_query_builder();
         $qb->add_constraint('invoice', '=', $this->id);
         $hours = $qb->execute();
-        foreach ($hours as $hour)
-        {
+        foreach ($hours as $hour) {
             $hour->invoice = 0;
             $hour->_skip_parent_refresh = true;
             $tasks_to_update[] = $hour->task;
-            if (!$hour->update())
-            {
+            if (!$hour->update()) {
                 debug_add("Failed to remove invoice from hour record #{$hour->id}, last Midgard error was: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
             }
         }
 
-        foreach (array_unique($tasks_to_update) as $id)
-        {
-            try
-            {
+        foreach (array_unique($tasks_to_update) as $id) {
+            try {
                 $task = new org_openpsa_projects_task_dba($id);
                 $task->update_cache();
+            } catch (midcom_error $e) {
             }
-            catch (midcom_error $e){}
         }
 
         $qb = self::new_query_builder();
         $qb->add_constraint('cancelationInvoice', '=', $this->id);
         $result = $qb->execute();
-        foreach ($result as $canceled)
-        {
+        foreach ($result as $canceled) {
             $canceled->cancelationInvoice = 0;
-            if (!$canceled->update())
-            {
+            if (!$canceled->update()) {
                 debug_add("Failed to remove cancelation reference from invoice #{$canceled->id}, last Midgard error was: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
                 return false;
             }
@@ -240,8 +219,7 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
         $qb->add_constraint('cancelationInvoice', '=', $this->id);
         $results = $qb->execute();
 
-        if (count($results) == 0)
-        {
+        if (count($results) == 0) {
             return false;
         }
         return $results[0];
@@ -260,35 +238,29 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
         //get hour_reports for this invoice - mc ?
         $qb_hour_reports = org_openpsa_projects_hour_report_dba::new_query_builder();
         $qb_hour_reports->add_constraint('invoice', '=', $this->id);
-        if (!empty($tasks))
-        {
+        if (!empty($tasks)) {
             $qb_hour_reports->add_constraint('task', 'IN', $tasks);
             //if there is a task passed it must be calculated even
             //if it doesn't have associated hour_reports
-            foreach ($tasks as $task_id)
-            {
+            foreach ($tasks as $task_id) {
                 $result_tasks[$task_id] = 0;
             }
         }
         $hour_reports = $qb_hour_reports->execute();
 
         // sums up the hours of hour_reports for each task
-        foreach ($hour_reports as $hour_report)
-        {
-            if (!array_key_exists($hour_report->task, $result_tasks))
-            {
+        foreach ($hour_reports as $hour_report) {
+            if (!array_key_exists($hour_report->task, $result_tasks)) {
                 $result_tasks[$hour_report->task] = 0;
             }
 
             //only add invoiceable hour_reports
-            if ($hour_report->invoiceable)
-            {
+            if ($hour_report->invoiceable) {
                 $result_tasks[$hour_report->task] += $hour_report->hours;
             }
         }
 
-        foreach ($result_tasks as $task_id => $hours)
-        {
+        foreach ($result_tasks as $task_id => $hours) {
             $invoice_item = $this->_probe_invoice_item_for_task($task_id);
 
             //get deliverable for this task
@@ -301,33 +273,25 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
 
             $mc_task_key = $mc_task_agreement->list_keys();
             $deliverable = null;
-            foreach (array_keys($mc_task_key) as $key)
-            {
-                try
-                {
+            foreach (array_keys($mc_task_key) as $key) {
+                try {
                     $deliverable = new org_openpsa_sales_salesproject_deliverable_dba((int)$mc_task_agreement->get_subkey($key, 'agreement'));
                     $invoice_item->pricePerUnit = $deliverable->pricePerUnit;
                     $invoice_item->deliverable = $deliverable->id;
                     //calculate price
                     if (   $deliverable->invoiceByActualUnits
-                        || $deliverable->plannedUnits == 0)
-                    {
+                        || $deliverable->plannedUnits == 0) {
                         $invoice_item->units = $hours;
-                    }
-                    else
-                    {
+                    } else {
                         $invoice_item->units = $deliverable->plannedUnits;
                     }
-                }
-                catch (midcom_error $e)
-                {
+                } catch (midcom_error $e) {
                     $e->log();
                     $invoice_item->units = $hours;
                 }
             }
 
-            if ($invoice_item->description == '')
-            {
+            if ($invoice_item->description == '') {
                 $invoice_item->description = $mc_task_agreement->get_subkey($task_id, 'title');
             }
 
@@ -350,8 +314,7 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
         $result = $qb->execute();
 
         $items = array();
-        foreach ($result as $item)
-        {
+        foreach ($result as $item) {
             $items[$item->guid] = $item;
         }
         return $items;
@@ -365,19 +328,16 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
      */
     private function _get_billing_data($dba_class, $contact_id)
     {
-        if ($contact_id == 0)
-        {
+        if ($contact_id == 0) {
             return false;
         }
 
-        try
-        {
+        try {
             $contact = call_user_func(array($dba_class, 'get_cached'), $contact_id);
             $qb = org_openpsa_invoices_billing_data_dba::new_query_builder();
             $qb->add_constraint('linkGuid', '=', $contact->guid);
             $billing_data = $qb->execute();
-            if (count($billing_data) == 0)
-            {
+            if (count($billing_data) == 0) {
                 return false;
             }
 
@@ -385,9 +345,7 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
             // if the property useContactAddress is set
             $billing_data[0]->set_address();
             return $billing_data[0];
-        }
-        catch (midcom_error $e)
-        {
+        } catch (midcom_error $e) {
             $e->log();
         }
     }
@@ -397,13 +355,12 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
      */
     public function get_billing_data()
     {
-            // check if we got the billing data cached already
+        // check if we got the billing data cached already
         if (   !$this->_billing_data
             // check if there is a customer set with invoice_data
             && !($this->_billing_data = $this->_get_billing_data('org_openpsa_contacts_group_dba', $this->customer))
             // check if the customerContact is set and has invoice_data
-            && !($this->_billing_data = $this->_get_billing_data('org_openpsa_contacts_person_dba', $this->customerContact)))
-        {
+            && !($this->_billing_data = $this->_get_billing_data('org_openpsa_contacts_person_dba', $this->customerContact))) {
             // set the default-values for vat and due from config
             $this->_billing_data = new org_openpsa_invoices_billing_data_dba();
             $due = midcom_baseclasses_components_configuration::get('org.openpsa.invoices', 'config')->get('default_due_days');
@@ -417,25 +374,17 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
 
     public function get_customer()
     {
-        if (!empty($this->customer))
-        {
-            try
-            {
+        if (!empty($this->customer)) {
+            try {
                 return org_openpsa_contacts_group_dba::get_cached($this->customer);
-            }
-            catch (midcom_error $e)
-            {
+            } catch (midcom_error $e) {
                 $e->log();
             }
         }
-        if (!empty($this->customerContact))
-        {
-            try
-            {
+        if (!empty($this->customerContact)) {
+            try {
                 return org_openpsa_contacts_person_dba::get_cached($this->customerContact);
-            }
-            catch (midcom_error $e)
-            {
+            } catch (midcom_error $e) {
                 $e->log();
             }
         }
@@ -453,17 +402,12 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
         $qb_invoice_item->add_constraint('task', '=', $task_id);
 
         $invoice_items = $qb_invoice_item->execute();
-        if (count($invoice_items) == 1)
-        {
+        if (count($invoice_items) == 1) {
             $invoice_item = $invoice_items[0];
-        }
-        elseif (count($invoice_items) > 1)
-        {
+        } elseif (count($invoice_items) > 1) {
             debug_add('More than one item found for task #' . $task_id . ', only returning the first', MIDCOM_LOG_INFO);
             $invoice_item = $invoice_items[0];
-        }
-        else
-        {
+        } else {
             $invoice_item = new org_openpsa_invoices_invoice_item_dba();
             $invoice_item->task = $task_id;
             $invoice_item->invoice = $this->id;

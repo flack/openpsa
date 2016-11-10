@@ -5,8 +5,7 @@ $l10n = midcom::get()->i18n->get_l10n('org.openpsa.invoices');
 $entries = array();
 
 $grid_id = 'invoices_report_grid';
-if ($data['query']->orgOpenpsaObtype !== org_openpsa_reports_query_dba::OBTYPE_REPORT_TEMPORARY)
-{
+if ($data['query']->orgOpenpsaObtype !== org_openpsa_reports_query_dba::OBTYPE_REPORT_TEMPORARY) {
     $grid_id .= $data['query']->id;
 }
 
@@ -20,8 +19,7 @@ $sortname = 'date';
 $sortorder = 'asc';
 $cancelations = array();
 
-foreach ($data['invoices'] as $invoice)
-{
+foreach ($data['invoices'] as $invoice) {
     $entry = array();
 
     $vat_sum = ($invoice->sum / 100) * $invoice->vat;
@@ -33,8 +31,7 @@ foreach ($data['invoices'] as $invoice)
     $link_html = "<a href='{$prefix}invoice/{$invoice->guid}/'>" . $number . "</a>";
     $next_marker = false;
 
-    if ($number == "")
-    {
+    if ($number == "") {
         $number = "n/a";
     }
 
@@ -42,48 +39,34 @@ foreach ($data['invoices'] as $invoice)
 
     $entry['index_number'] = $invoice->number;
 
-    if ($data['invoices_url'] && $invoice->id)
-    {
+    if ($data['invoices_url'] && $invoice->id) {
         $entry['number'] = "<a target='_blank' href=\"{$data['invoices_url']}invoice/{$invoice->guid}/\">" . $invoice->get_label() . "</a>";
-    }
-    elseif ($invoice->id)
-    {
+    } elseif ($invoice->id) {
         $entry['number'] = $invoice->get_label();
-    }
-    else
-    {
+    } else {
         $entry['number'] = $invoice->description;
     }
 
-    if ($invoice->{$data['date_field']} > 0)
-    {
+    if ($invoice->{$data['date_field']} > 0) {
         $entry['date'] = strftime('%Y-%m-%d', $invoice->{$data['date_field']});
         $entry['year'] = strftime('%Y', $invoice->{$data['date_field']});
         $entry['month'] = strftime('%B %Y', $invoice->{$data['date_field']});
         $entry['index_month'] = strftime('%Y%m', $invoice->{$data['date_field']});
-    }
-    else
-    {
+    } else {
         $entry['date'] = '';
         $entry['year'] = '';
         $entry['month'] = '';
         $entry['index_month'] = '';
     }
-    try
-    {
+    try {
         $customer = org_openpsa_contacts_group_dba::get_cached($invoice->customer);
         $entry['index_customer'] = $customer->official;
-        if ($data['invoices_url'])
-        {
+        if ($data['invoices_url']) {
             $entry['customer'] = "<a href=\"{$data['invoices_url']}list/customer/all/{$customer->guid}/\" title=\"{$customer->name}: {$customer->official}\">{$customer->official}</a>";
-        }
-        else
-        {
+        } else {
             $entry['customer'] = $customer->official;
         }
-    }
-    catch (midcom_error $e)
-    {
+    } catch (midcom_error $e) {
         $entry['customer'] = '';
         $entry['index_customer'] = '';
     }
@@ -94,19 +77,17 @@ foreach ($data['invoices'] as $invoice)
     $entry['index_status'] = $invoice->get_status();
     $entry['status'] = $l10n->get($entry['index_status']);
 
-    if ($entry['index_status'] === 'canceled')
-    {
+    if ($entry['index_status'] === 'canceled') {
         $cancelations[] = $invoice->cancelationInvoice;
     }
 
-    try
-    {
+    try {
         $contact = org_openpsa_contacts_person_dba::get_cached($invoice->customerContact);
         $entry['index_contact'] = $contact->rname;
         $contact_card = org_openpsa_widgets_contact::get($invoice->customerContact);
         $entry['contact'] = $contact_card->show_inline();
+    } catch (midcom_error $e) {
     }
-    catch (midcom_error $e){}
 
     $entry['sum'] = $invoice->sum;
 
@@ -117,12 +98,9 @@ foreach ($data['invoices'] as $invoice)
     $entries[] = $entry;
 }
 
-if (count($cancelations) > 0)
-{
-    foreach ($entries as &$entry)
-    {
-        if (in_array($entry['id'], $cancelations))
-        {
+if (count($cancelations) > 0) {
+    foreach ($entries as &$entry) {
+        if (in_array($entry['id'], $cancelations)) {
             $entry['index_status'] = 'canceled';
             $entry['status'] = $l10n->get('canceled');
             $entry['number'] .= ' (' . $l10n->get('cancelation invoice') . ')';
@@ -130,8 +108,7 @@ if (count($cancelations) > 0)
     }
 }
 
-if ($data['date_field'] == 'date')
-{
+if ($data['date_field'] == 'date') {
     $data['date_field'] = 'invoice date';
 }
 

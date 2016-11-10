@@ -25,14 +25,12 @@ class org_routamc_positioning_dm2_type extends midcom_helper_datamanager2_type
      */
     public function convert_from_storage($source)
     {
-        if ($source instanceof org_routamc_positioning_location_dba)
-        {
+        if ($source instanceof org_routamc_positioning_location_dba) {
             $this->location = $source;
             return;
         }
 
-        if ($this->storage->object === null)
-        {
+        if ($this->storage->object === null) {
             // We don't have a storage object, skip the rest of the operations.
             $this->location = new org_routamc_positioning_location_dba();
             return;
@@ -41,8 +39,7 @@ class org_routamc_positioning_dm2_type extends midcom_helper_datamanager2_type
         $this->object = new org_routamc_positioning_object($this->storage->object);
 
         $this->location = $this->object->seek_location_object();
-        if (is_null($this->location))
-        {
+        if (is_null($this->location)) {
             $this->location = new org_routamc_positioning_location_dba();
         }
     }
@@ -55,18 +52,14 @@ class org_routamc_positioning_dm2_type extends midcom_helper_datamanager2_type
     public function convert_to_storage()
     {
         if (   !$this->storage
-            || !$this->storage->object)
-        {
+            || !$this->storage->object) {
             return '';
         }
 
         $this->location->relation = $this->relation;
-        if (!empty($this->location->guid))
-        {
+        if (!empty($this->location->guid)) {
             $this->location->update();
-        }
-        else
-        {
+        } else {
             $this->location->parent = $this->storage->object->guid;
             $this->location->parentclass = $this->storage->object->__midcom_class_name__;
 
@@ -92,42 +85,33 @@ class org_routamc_positioning_dm2_type extends midcom_helper_datamanager2_type
         $result = '';
 
         $adr_properties = array();
-        if ($this->location->description)
-        {
+        if ($this->location->description) {
             $adr_properties[] = "<span class=\"description\">{$this->location->description}</span>";
         }
-        if ($this->location->text)
-        {
+        if ($this->location->text) {
             $adr_properties[] = "<span class=\"text\">{$this->location->text}</span>";
         }
-        if ($this->location->room)
-        {
+        if ($this->location->room) {
             $adr_properties[] = "<span class=\"room\">{$this->location->room}</span>";
         }
-        if ($this->location->street)
-        {
+        if ($this->location->street) {
             $adr_properties[] = "<span class=\"street-address\">{$this->location->street}</span>";
         }
-        if ($this->location->postalcode)
-        {
+        if ($this->location->postalcode) {
             $adr_properties[] = "<span class=\"postal-code\">{$this->location->postalcode}</span>";
         }
-        if ($this->location->city)
-        {
+        if ($this->location->city) {
             $city = new org_routamc_positioning_city_dba($this->location->city);
             $adr_properties[] = "<span class=\"locality\">{$city->city}</span>";
         }
-        if ($this->location->region)
-        {
+        if ($this->location->region) {
             $adr_properties[] = "<span class=\"region\">{$this->location->region}</span>";
         }
-        if ($this->location->country)
-        {
+        if ($this->location->country) {
             $adr_properties[] = "<span class=\"country-name\">{$this->location->country}</span>";
         }
 
-        if (count($adr_properties) > 0)
-        {
+        if (count($adr_properties) > 0) {
             $result .= '<span class="adr">' . implode(', ', $adr_properties) . "</span>\n";
         }
 
@@ -137,8 +121,7 @@ class org_routamc_positioning_dm2_type extends midcom_helper_datamanager2_type
         $longitude_string .= ($this->location->longitude > 0) ? " E" : " W";
 
         $style = '';
-        if (!empty($result))
-        {
+        if (!empty($result)) {
             $style = ' style="display: none;"';
         }
 

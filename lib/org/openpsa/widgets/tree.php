@@ -79,12 +79,10 @@ class org_openpsa_widgets_tree extends midcom_baseclasses_components_purecode
 
     public function render(array $items = array())
     {
-        if (empty($items))
-        {
+        if (empty($items)) {
             $items = $this->_list_items($this->root_node);
         }
-        if (empty($items))
-        {
+        if (empty($items)) {
             return;
         }
 
@@ -104,7 +102,6 @@ class org_openpsa_widgets_tree extends midcom_baseclasses_components_purecode
       });
 </script>
 JSINIT;
-
     }
 
     /**
@@ -118,36 +115,29 @@ JSINIT;
 
         $value_properties = array('id');
         $mc = midcom::get()->dbfactory->new_collector($this->_object_class, $this->_parent_field, (int) $id);
-        foreach ($this->constraints as $constraint)
-        {
+        foreach ($this->constraints as $constraint) {
             $mc->add_constraint($constraint[0], $constraint[1], $constraint[2]);
         }
-        foreach ($this->title_fields as $field)
-        {
+        foreach ($this->title_fields as $field) {
             $value_properties[] = $field;
             $mc->add_order($field);
         }
 
         $results = $mc->get_rows($value_properties);
-        if (count($results) === 0)
-        {
+        if (count($results) === 0) {
             return;
         }
 
-        foreach ($results as $guid => $values)
-        {
+        foreach ($results as $guid => $values) {
             $entry = array('guid' => $guid);
 
-            foreach ($this->title_fields as $field)
-            {
-                if (!empty($values[$field]))
-                {
+            foreach ($this->title_fields as $field) {
+                if (!empty($values[$field])) {
                     $entry['title'] = $values[$field];
                     break;
                 }
             }
-            if (empty($entry['title']))
-            {
+            if (empty($entry['title'])) {
                 $entry['title'] = $this->_l10n->get('unknown');
             }
 
@@ -159,25 +149,19 @@ JSINIT;
 
     private function _render_items(array $items)
     {
-        if (sizeof($items) == 0)
-        {
+        if (sizeof($items) == 0) {
             return;
         }
         $prefix = midcom::get()->get_host_prefix();
         echo "<ul>\n";
-        foreach ($items as $item)
-        {
-            if (is_callable($this->link_callback))
-            {
+        foreach ($items as $item) {
+            if (is_callable($this->link_callback)) {
                 $url = call_user_func($this->link_callback, $item['guid']);
-            }
-            else
-            {
+            } else {
                 $url = $prefix . 'midcom-permalink-' . $item['guid'];
             }
             echo '<li id="g_' . $item['guid'] . '"><a href="' . $url . '">' . $item['title'] . "</a>\n";
-            if (!empty($item['children']))
-            {
+            if (!empty($item['children'])) {
                 $this->_render_items($item['children']);
             }
             echo "</li>\n";
@@ -190,8 +174,7 @@ JSINIT;
      */
     public static function add_head_elements()
     {
-        if (self::$_head_elements_added)
-        {
+        if (self::$_head_elements_added) {
             return;
         }
 

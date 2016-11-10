@@ -51,8 +51,7 @@ implements midcom_helper_datamanager2_interfaces_create
         $this->_tinyurl = new net_nemein_redirector_tinyurl_dba();
         $this->_tinyurl->node = $this->_topic->guid;
 
-        if (!$this->_tinyurl->create())
-        {
+        if (!$this->_tinyurl->create()) {
             throw new midcom_error('Failed to create a new TinyURL object. Last Midgard error was: '. midcom_connection::get_error_string());
         }
 
@@ -66,14 +65,12 @@ implements midcom_helper_datamanager2_interfaces_create
      */
     private function _populate_request_data($handler_id)
     {
-        if ($this->_tinyurl)
-        {
+        if ($this->_tinyurl) {
             $this->add_breadcrumb("{$this->_tinyurl->name}/", $this->_tinyurl->title);
             $this->_view_toolbar->bind_to($this->_tinyurl);
         }
 
-        switch ($handler_id)
-        {
+        switch ($handler_id) {
             case 'edit':
             case 'delete':
                 $this->add_breadcrumb("{$this->_tinyurl->name}/{$handler_id}", $this->_l10n->get($this->_l10n_midcom->get($handler_id)));
@@ -97,13 +94,12 @@ implements midcom_helper_datamanager2_interfaces_create
         $qb->add_constraint('node', '=', $this->_topic->guid);
 
         $qb->begin_group('OR');
-            $qb->add_constraint('guid', '=', $rule);
-            $qb->add_constraint('name', '=', $rule);
+        $qb->add_constraint('guid', '=', $rule);
+        $qb->add_constraint('name', '=', $rule);
         $qb->end_group();
         $results = $qb->execute();
 
-        if (empty($results))
-        {
+        if (empty($results)) {
             throw new midcom_error_notfound('Item not found');
         }
 
@@ -124,8 +120,7 @@ implements midcom_helper_datamanager2_interfaces_create
         // Load the controller
         $data['controller'] = $this->get_controller('create');
 
-        switch ($data['controller']->process_form())
-        {
+        switch ($data['controller']->process_form()) {
             case 'save':
                 return new midcom_response_relocate("edit/{$this->_tinyurl->name}");
         }
@@ -161,8 +156,7 @@ implements midcom_helper_datamanager2_interfaces_create
         $data['controller'] = $this->get_controller('simple', $this->_tinyurl);
         $data['tinyurl'] = $this->_tinyurl;
 
-        switch ($data['controller']->process_form())
-        {
+        switch ($data['controller']->process_form()) {
             case 'save':
                 midcom::get()->uimessages->add($this->_l10n->get('net.nemein.redirector'), $this->_l10n_midcom->get('saved'));
                 // Fall through
@@ -224,8 +218,7 @@ implements midcom_helper_datamanager2_interfaces_create
 
         $data['datamanager'] = $this->_datamanager;
 
-        foreach ($this->_tinyurls as $tinyurl)
-        {
+        foreach ($this->_tinyurls as $tinyurl) {
             $data['tinyurl'] = $tinyurl;
             $data['datamanager']->autoset_storage($tinyurl);
             $data['view_tinyurl'] = $data['datamanager']->get_content_html();

@@ -63,10 +63,8 @@ implements midcom_helper_datamanager2_interfaces_create
     {
         $this->_schemadb =& $this->_request_data['schemadb'];
         if (   $this->_config->get('simple_name_handling')
-            && !midcom::get()->auth->can_user_do('midcom:urlname'))
-        {
-            foreach (array_keys($this->_schemadb) as $name)
-            {
+            && !midcom::get()->auth->can_user_do('midcom:urlname')) {
+            foreach (array_keys($this->_schemadb) as $name) {
                 $this->_schemadb[$name]->fields['name']['readonly'] = true;
             }
         }
@@ -86,17 +84,14 @@ implements midcom_helper_datamanager2_interfaces_create
         $this->_article = new midcom_db_article();
         $this->_article->topic = $this->_content_topic->id;
 
-        if (!$this->_article->create())
-        {
+        if (!$this->_article->create()) {
             debug_print_r('We operated on this object:', $this->_article);
             throw new midcom_error('Failed to create a new article. Last Midgard error was: '. midcom_connection::get_error_string());
         }
 
         // Callback possibility
-        if ($this->_config->get('callback_function'))
-        {
-            if ($this->_config->get('callback_snippet'))
-            {
+        if ($this->_config->get('callback_function')) {
+            if ($this->_config->get('callback_snippet')) {
                 midcom_helper_misc::include_snippet_php($this->_config->get('callback_snippet'));
             }
 

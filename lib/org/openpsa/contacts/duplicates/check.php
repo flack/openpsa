@@ -55,12 +55,10 @@ class org_openpsa_contacts_duplicates_check
             'id' => $person->id
         ), $person->guid);
 
-        foreach ($check_persons as $check_person)
-        {
+        foreach ($check_persons as $check_person) {
             $p_array = $this->p_duplicate_person($person, $check_person);
             $this->p_map[$check_person['guid']] = $p_array;
-            if ($p_array['p'] >= $threshold)
-            {
+            if ($p_array['p'] >= $threshold) {
                 $ret[] = org_openpsa_contacts_person_dba::get_cached($check_person['guid']);
             }
         }
@@ -72,10 +70,8 @@ class org_openpsa_contacts_duplicates_check
     {
         $mc = org_openpsa_contacts_person_dba::new_collector('metadata.deleted', false);
 
-        if ($person)
-        {
-            if ($person->id)
-            {
+        if ($person) {
+            if ($person->id) {
                 $mc->add_constraint('id', '<>', $person->id);
             }
             // TODO: Avoid persons marked as not_duplicate already in this phase.
@@ -93,8 +89,7 @@ class org_openpsa_contacts_duplicates_check
 
         $results = $mc->get_rows(array('firstname', 'id', 'lastname', 'email', 'handphone', 'homephone', 'city', 'street'));
         $persons = array();
-        foreach ($results as $guid => $result)
-        {
+        foreach ($results as $guid => $result) {
             $persons[] = $this->normalize_fields($result, $guid);
         }
         return $persons;
@@ -102,8 +97,7 @@ class org_openpsa_contacts_duplicates_check
 
     private function add_constraint(midcom_core_query $query, midcom_core_dbaobject $object, $field)
     {
-        if ($object->$field)
-        {
+        if ($object->$field) {
             $query->add_constraint($field, 'LIKE', $object->$field);
         }
     }
@@ -129,60 +123,47 @@ class org_openpsa_contacts_duplicates_check
         );
 
         //TODO: read weight values from configuration
-        if ($this->match('email', $person1, $person2))
-        {
+        if ($this->match('email', $person1, $person2)) {
             $ret['email_match'] = true;
             $ret['p'] += 1;
-        }
-        elseif (!empty($person1['lastname']))
-        {
+        } elseif (!empty($person1['lastname'])) {
             // if user's lastname is part of the email address, check to see if the difference is only in the domain part
             $email1 = preg_replace('/@.+/', '', $person1['email']);
             $email2 = preg_replace('/@.+/', '', $person2['email']);
             if (   strpos($email1, $person1['lastname']) !== false
-                && $email1 == $email2)
-            {
+                && $email1 == $email2) {
                 $ret['email_match'] = true;
                 $ret['p'] += 0.5;
             }
         }
 
-        if ($this->match('handphone', $person1, $person2))
-        {
+        if ($this->match('handphone', $person1, $person2)) {
             $ret['handphone_match'] = true;
             $ret['p'] += 1;
         }
 
-        if ($this->match('firstname', $person1, $person2))
-        {
-            if ($this->match('homephone', $person1, $person2))
-            {
+        if ($this->match('firstname', $person1, $person2)) {
+            if ($this->match('homephone', $person1, $person2)) {
                 $ret['fname_hphone_match'] = true;
                 $ret['p'] += 0.7;
             }
-            if ($this->match('lastname', $person1, $person2))
-            {
-                if ($this->match('city', $person1, $person2))
-                {
+            if ($this->match('lastname', $person1, $person2)) {
+                if ($this->match('city', $person1, $person2)) {
                     $ret['fname_lname_city_match'] = true;
                     $ret['p'] += 0.5;
                 }
-                if ($this->match('street', $person1, $person2))
-                {
+                if ($this->match('street', $person1, $person2)) {
                     $ret['fname_lname_street_match'] = true;
                     $ret['p'] += 0.9;
                 }
 
                 // We cannot do this check if person1 hasn't been created yet...
-                if (!empty($person1['guid']))
-                {
+                if (!empty($person1['guid'])) {
                     $person1_memberships = $this->load_memberships($person1['id']);
                     $person2_memberships = $this->load_memberships($person2['id']);
 
-                    foreach ($person1_memberships as $gid)
-                    {
-                        if (!empty($person2_memberships[$gid]))
-                        {
+                    foreach ($person1_memberships as $gid) {
+                        if (!empty($person2_memberships[$gid])) {
                             $ret['fname_lname_company_match'] = true;
                             $ret['p'] += 0.5;
                             break;
@@ -199,8 +180,7 @@ class org_openpsa_contacts_duplicates_check
     private function match($property, array $data1, array $data2)
     {
         if (   !empty($data1[$property])
-            && $data1[$property] == $data2[$property])
-        {
+            && $data1[$property] == $data2[$property]) {
             return true;
         }
         return false;
@@ -211,14 +191,12 @@ class org_openpsa_contacts_duplicates_check
      */
     private function load_memberships($id)
     {
-        if (!isset($this->membership_cache[$id]))
-        {
+        if (!isset($this->membership_cache[$id])) {
             $this->membership_cache[$id] = array();
             $mc = midcom_db_member::new_collector('uid', $id);
             $mc->add_constraint('gid.orgOpenpsaObtype', '<>', org_openpsa_contacts_group_dba::MYCONTACTS);
             $memberships = $mc->get_values('gid');
-            foreach ($memberships as $member)
-            {
+            foreach ($memberships as $member) {
                 $this->membership_cache[$id][$member] = $member;
             }
         }
@@ -248,12 +226,10 @@ class org_openpsa_contacts_duplicates_check
             'id' => $group->id
         ), $group->guid);
 
-        foreach ($check_groups as $check_group)
-        {
+        foreach ($check_groups as $check_group) {
             $p_array = $this->p_duplicate_group($group, $check_group);
             $this->p_map[$check_group['guid']] = $p_array;
-            if ($p_array['p'] >= $threshold)
-            {
+            if ($p_array['p'] >= $threshold) {
                 $ret[] = org_openpsa_contacts_group_dba::get_cached($check_group['guid']);
             }
         }
@@ -265,10 +241,8 @@ class org_openpsa_contacts_duplicates_check
     {
         $mc = org_openpsa_contacts_group_dba::new_collector('metadata.deleted', false);
 
-        if ($group)
-        {
-            if ($group->id)
-            {
+        if ($group) {
+            if ($group->id) {
                 $mc->add_constraint('id', '<>', $group->id);
             }
             $mc->begin_group('OR');
@@ -282,8 +256,7 @@ class org_openpsa_contacts_duplicates_check
         $results = $mc->get_rows(array('id', 'homepage', 'phone', 'official', 'street', 'city'));
 
         $groups = array();
-        foreach ($results as $guid => $result)
-        {
+        foreach ($results as $guid => $result) {
             $groups[] = $this->normalize_fields($result, $guid);
         }
         return $groups;
@@ -310,34 +283,28 @@ class org_openpsa_contacts_duplicates_check
         );
 
         //TODO: read weight values from configuration
-        if ($this->match('homepage', $group1, $group2))
-        {
+        if ($this->match('homepage', $group1, $group2)) {
             $ret['homepage_match'] = true;
             $ret['p'] += 0.2;
         }
 
-        if ($this->match('phone', $group1, $group2))
-        {
+        if ($this->match('phone', $group1, $group2)) {
             $ret['phone_match'] = true;
             $ret['p'] += 0.5;
-            if ($this->match('street', $group1, $group2))
-            {
+            if ($this->match('street', $group1, $group2)) {
                 $ret['phone_street_match'] = true;
                 $ret['p'] += 1;
             }
         }
 
-        if ($this->match('official', $group1, $group2))
-        {
+        if ($this->match('official', $group1, $group2)) {
             $ret['official_match'] = true;
             $ret['p'] += 0.2;
-            if ($this->match('street', $group1, $group2))
-            {
+            if ($this->match('street', $group1, $group2)) {
                 $ret['official_street_match'] = true;
                 $ret['p'] += 1;
             }
-            if ($this->match('city', $group1, $group2))
-            {
+            if ($this->match('city', $group1, $group2)) {
                 $ret['city_street_match'] = true;
                 $ret['p'] += 0.5;
             }
@@ -391,26 +358,20 @@ class org_openpsa_contacts_duplicates_check
     {
         $objects = $params['objects'];
         $p_method = "p_duplicate_{$params['mode']}";
-        if (!method_exists($this, $p_method))
-        {
+        if (!method_exists($this, $p_method)) {
             debug_add("method {$p_method} is not valid, invalid mode string ??", MIDCOM_LOG_ERROR);
             return false;
         }
 
-        foreach ($objects as $key2 => $arr2)
-        {
-            if ($arr1['guid'] == $arr2['guid'])
-            {
+        foreach ($objects as $key2 => $arr2) {
+            if ($arr1['guid'] == $arr2['guid']) {
                 continue;
             }
 
             //we've already examined this combination from the other end
-            if ($key2 < $key1)
-            {
-                if (isset($this->p_map[$arr2['guid']][$arr1['guid']]))
-                {
-                    if (!isset($this->p_map[$arr1['guid']]))
-                    {
+            if ($key2 < $key1) {
+                if (isset($this->p_map[$arr2['guid']][$arr1['guid']])) {
+                    if (!isset($this->p_map[$arr1['guid']])) {
                         $this->p_map[$arr1['guid']] = array();
                     }
                     $this->p_map[$arr1['guid']][$arr2['guid']] = $this->p_map[$arr2['guid']][$arr1['guid']];
@@ -420,32 +381,26 @@ class org_openpsa_contacts_duplicates_check
 
             $p_arr = $this->$p_method($arr1, $arr2);
 
-            if ($p_arr['p'] < $this->threshold)
-            {
+            if ($p_arr['p'] < $this->threshold) {
                 continue;
             }
 
             $class = 'org_openpsa_contacts_' . $params['mode'] . '_dba';
-            try
-            {
+            try {
                 $obj1 = $class::get_cached($arr1['guid']);
                 $obj2 = $class::get_cached($arr2['guid']);
-            }
-            catch (midcom_error $e)
-            {
+            } catch (midcom_error $e) {
                 $e->log();
                 continue;
             }
 
             if (   $obj1->get_parameter('org.openpsa.contacts.duplicates:not_duplicate', $obj2->guid)
-                || $obj2->get_parameter('org.openpsa.contacts.duplicates:not_duplicate', $obj1->guid))
-            {
+                || $obj2->get_parameter('org.openpsa.contacts.duplicates:not_duplicate', $obj1->guid)) {
                 // Not-duplicate parameter found, returning zero probability
                 continue;
             }
 
-            if (!isset($this->p_map[$arr1['guid']]))
-            {
+            if (!isset($this->p_map[$arr1['guid']])) {
                 $this->p_map[$arr1['guid']] = array();
             }
 
@@ -488,33 +443,28 @@ class org_openpsa_contacts_duplicates_check
     {
         $time_start = time();
         debug_add("Called on {$time_start}");
-        if ($output)
-        {
+        if ($output) {
             echo "INFO: Starting with persons<br/>\n";
             flush();
         }
         $ret_persons = $this->check_all_persons();
 
-        foreach ($ret_persons as $p1guid => $duplicates)
-        {
+        foreach ($ret_persons as $p1guid => $duplicates) {
             $person1 = org_openpsa_contacts_person_dba::get_cached($p1guid);
-            foreach ($duplicates as $p2guid => $details)
-            {
+            foreach ($duplicates as $p2guid => $details) {
                 $person2 = org_openpsa_contacts_person_dba::get_cached($p2guid);
                 $msg = "Marking persons {$p1guid} (#{$person1->id}) and {$p2guid} (#{$person2->id}) as duplicates with P {$details['p']}";
                 debug_add($msg, MIDCOM_LOG_INFO);
                 $person1->set_parameter('org.openpsa.contacts.duplicates:possible_duplicate', $p2guid, $details['p']);
                 $person2->set_parameter('org.openpsa.contacts.duplicates:possible_duplicate', $p1guid, $details['p']);
-                if ($output)
-                {
+                if ($output) {
                     echo "&nbsp;&nbsp;&nbsp;INFO: {$msg}<br/>\n";
                     flush();
                 }
             }
         }
         debug_add("Done on " . time() . ", took: " . (time() - $time_start) .  " seconds");
-        if ($output)
-        {
+        if ($output) {
             echo "INFO: DONE with persons. Elapsed time " . (time() - $time_start) . " seconds<br/>\n";
             flush();
         }
@@ -527,25 +477,21 @@ class org_openpsa_contacts_duplicates_check
     {
         $time_start = time();
         debug_add("Called on {$time_start}");
-        if ($output)
-        {
+        if ($output) {
             echo "INFO: Starting with groups<br/>\n";
             flush();
         }
 
         $ret_groups = $this->check_all_groups();
-        foreach ($ret_groups as $g1guid => $duplicates)
-        {
+        foreach ($ret_groups as $g1guid => $duplicates) {
             $group1 = org_openpsa_contacts_group_dba::get_cached($g1guid);
-            foreach ($duplicates as $g2guid => $details)
-            {
+            foreach ($duplicates as $g2guid => $details) {
                 $group2 = org_openpsa_contacts_group_dba::get_cached($g2guid);
                 $msg = "Marking groups {$g1guid} (#{$group1->id}) and {$g2guid} (#{$group2->id}) as duplicates with P {$details['p']}";
                 debug_add($msg);
                 $group1->set_parameter('org.openpsa.contacts.duplicates:possible_duplicate', $g2guid, $details['p']);
                 $group2->set_parameter('org.openpsa.contacts.duplicates:possible_duplicate', $g1guid, $details['p']);
-                if ($output)
-                {
+                if ($output) {
                     echo "&nbsp;&nbsp;&nbsp;INFO: {$msg}<br/>\n";
                     flush();
                 }
@@ -553,8 +499,7 @@ class org_openpsa_contacts_duplicates_check
         }
 
         debug_add("Done on " . time() . ", took: " . (time()-$time_start) .  " seconds");
-        if ($output)
-        {
+        if ($output) {
             echo "INFO: DONE with groups. Elapsed time: " . (time()-$time_start) ." seconds<br/>\n";
             flush();
         }

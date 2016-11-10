@@ -2,15 +2,13 @@
 // Check the user preference and configuration
 if (   midgard_admin_asgard_plugin::get_preference('escape_frameset')
     || (   midgard_admin_asgard_plugin::get_preference('escape_frameset') !== '0'
-        && $data['config']->get('escape_frameset')))
-{
+        && $data['config']->get('escape_frameset'))) {
     midcom::get()->head->add_jsonload('if(top.frames.length != 0 && top.location.href != this.location.href){top.location.href = this.location.href}');
 }
 
 $pref_found = false;
 
-if (($width = midgard_admin_asgard_plugin::get_preference('offset')))
-{
+if (($width = midgard_admin_asgard_plugin::get_preference('offset'))) {
     $navigation_width = $width - 31;
     $content_offset = $width + 1;
     $pref_found = true;
@@ -33,8 +31,8 @@ midcom::get()->head->add_jscript("var MIDGARD_ROOT = '" . midcom_connection::get
         <link rel="shortcut icon" href="<?php echo MIDCOM_STATIC_URL; ?>/stock-icons/logos/favicon.ico" />
         <?php
         midcom::get()->head->print_head_elements();
-        if ($pref_found)
-        {?>
+        if ($pref_found) {
+            ?>
               <style type="text/css">
                 #container #navigation
                 {
@@ -46,7 +44,8 @@ midcom::get()->head->add_jscript("var MIDGARD_ROOT = '" . midcom_connection::get
                   margin-left: &(content_offset);px;
                 }
             </style>
-        <?php } ?>
+        <?php 
+        } ?>
     </head>
     <body class="asgard"<?php midcom::get()->head->print_jsonload(); ?>>
         <div id="container-wrapper">

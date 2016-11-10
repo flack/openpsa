@@ -43,8 +43,7 @@ implements org_openpsa_widgets_grid_provider_client
         midcom::get()->auth->drop_sudo();
         $query = org_openpsa_contacts_person_dba::new_query_builder();
         $query->add_constraint('id', 'IN', array_keys($this->memberships));
-        if (!is_null($field))
-        {
+        if (!is_null($field)) {
             $query->add_order($field, $direction);
         }
         // Set the order
@@ -75,8 +74,7 @@ implements org_openpsa_widgets_grid_provider_client
         $row['delete'] = '<input type="image" src="' . MIDCOM_STATIC_URL . '/stock-icons/16x16/trash.png" data-person-guid="' . $person->guid . '" data-member-guid="' . $this->memberships[$person->id]['guid'] . '" title="' . $delete_string . '"/>';
 
         $row['bounced'] = '';
-        if ($this->memberships[$person->id]['orgOpenpsaObtype'] == org_openpsa_directmarketing_campaign_member_dba::BOUNCED)
-        {
+        if ($this->memberships[$person->id]['orgOpenpsaObtype'] == org_openpsa_directmarketing_campaign_member_dba::BOUNCED) {
             $row['bounced'] = '<span class="icon icon-bounced" title="' . sprintf($this->_l10n->get('%s has bounced'), $person->email) . '"></span>';
         }
 
@@ -121,22 +119,19 @@ implements org_openpsa_widgets_grid_provider_client
     {
         $workflow = $this->get_workflow('datamanager2');
         $buttons = array();
-        if ($this->_campaign->can_do('midgard:update'))
-        {
+        if ($this->_campaign->can_do('midgard:update')) {
             $buttons[] = $workflow->get_button("campaign/edit/{$this->_campaign->guid}/", array
             (
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
             ));
         }
 
-        if ($this->_campaign->can_do('midgard:delete'))
-        {
+        if ($this->_campaign->can_do('midgard:delete')) {
             $delete_workflow = $this->get_workflow('delete', array('object' => $this->_campaign));
             $buttons[] = $delete_workflow->get_button("campaign/delete/{$this->_campaign->guid}/");
         }
 
-        if ($this->_campaign->orgOpenpsaObtype == org_openpsa_directmarketing_campaign_dba::TYPE_SMART)
-        {
+        if ($this->_campaign->orgOpenpsaObtype == org_openpsa_directmarketing_campaign_dba::TYPE_SMART) {
             //Edit query parameters button in case 1) not in edit mode 2) is smart campaign 3) can edit
             $buttons[] = array
             (
@@ -145,9 +140,7 @@ implements org_openpsa_widgets_grid_provider_client
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/repair.png',
                 MIDCOM_TOOLBAR_ENABLED => $this->_campaign->can_do('midgard:update'),
             );
-        }
-        else
-        {
+        } else {
             // Import button if we have permissions to create users
             $buttons[] = array
             (
@@ -164,11 +157,9 @@ implements org_openpsa_widgets_grid_provider_client
             MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_data-edit-table.png',
         );
 
-        if ($this->_campaign->can_do('midgard:create'))
-        {
+        if ($this->_campaign->can_do('midgard:create')) {
             $schemadb_message = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_message'));
-            foreach ($schemadb_message as $name => $schema)
-            {
+            foreach ($schemadb_message as $name => $schema) {
                 $buttons[] = $workflow->get_button("message/create/{$this->_campaign->guid}/{$name}/", array
                 (
                     MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n->get('new %s'), $this->_l10n->get($schema->description)),

@@ -51,7 +51,7 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
              * or are still in market
              */
             $mc->add_constraint('end', '=', 0);
-            $mc->add_constraint('end', '>=', time());
+        $mc->add_constraint('end', '>=', time());
         $mc->end_group();
 
         return $mc->get_rows(array('code', 'title', 'delivery', 'price', 'unit', 'productGroup'), 'id');
@@ -63,8 +63,7 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
     private function _populate_toolbar()
     {
         $buttons = array();
-        if ($this->_salesproject->can_do('midgard:update'))
-        {
+        if ($this->_salesproject->can_do('midgard:update')) {
             $workflow = $this->get_workflow('datamanager2');
             $buttons[] = $workflow->get_button("salesproject/edit/{$this->_salesproject->guid}/", array
             (
@@ -72,14 +71,12 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
             ));
         }
 
-        if ($this->_salesproject->can_do('midgard:delete'))
-        {
+        if ($this->_salesproject->can_do('midgard:delete')) {
             $workflow = $this->get_workflow('delete', array('object' => $this->_salesproject, 'recursive' => true));
             $buttons[] = $workflow->get_button("salesproject/delete/{$this->_salesproject->guid}/");
         }
 
-        if (!empty($this->_request_data['projects_url']))
-        {
+        if (!empty($this->_request_data['projects_url'])) {
             $prefix = midcom_connection::get_url('self') . $this->_request_data['projects_url'];
             $buttons[] = array
             (
@@ -126,8 +123,7 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
         $this->_prepare_request_data();
         $this->_populate_toolbar();
 
-        if ($customer = $this->_salesproject->get_customer())
-        {
+        if ($customer = $this->_salesproject->get_customer()) {
             $this->add_breadcrumb("list/customer/{$customer->guid}/", $customer->get_label());
         }
 
@@ -153,16 +149,14 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
         $qb->add_constraint('salesproject', '=', $this->_salesproject->id);
         $qb->add_constraint('up', '=', 0);
 
-        if ($this->_salesproject->state != org_openpsa_sales_salesproject_dba::STATE_LOST)
-        {
+        if ($this->_salesproject->state != org_openpsa_sales_salesproject_dba::STATE_LOST) {
             $qb->add_constraint('state', '<>', org_openpsa_sales_salesproject_deliverable_dba::STATE_DECLINED);
         }
         $qb->add_order('state');
         $qb->add_order('metadata.created', 'DESC');
         $deliverables = $qb->execute();
         $this->_request_data['deliverables_objects'] = array();
-        foreach ($deliverables as $deliverable)
-        {
+        foreach ($deliverables as $deliverable) {
             $this->_controllers[$deliverable->id] = midcom_helper_datamanager2_controller::create('ajax');
             $this->_controllers[$deliverable->id]->schemadb =& $this->_request_data['schemadb_salesproject_deliverable'];
             $this->_controllers[$deliverable->id]->set_storage($deliverable);
@@ -184,25 +178,18 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
         midcom_show_style('show-salesproject');
         midcom_show_style('show-salesproject-deliverables-header');
 
-        foreach ($data['deliverables_objects'] as $deliverable)
-        {
+        foreach ($data['deliverables_objects'] as $deliverable) {
             $data['deliverable'] = $this->_controllers[$deliverable->id]->get_content_html();
             $data['deliverable_object'] = $deliverable;
             $data['deliverable_toolbar'] = $this->build_status_toolbar($deliverable);
-            try
-            {
+            try {
                 $data['product'] = org_openpsa_products_product_dba::get_cached($deliverable->product);
-            }
-            catch (midcom_error $e)
-            {
+            } catch (midcom_error $e) {
                 $data['product'] = false;
             }
-            if ($deliverable->orgOpenpsaObtype == org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION)
-            {
+            if ($deliverable->orgOpenpsaObtype == org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION) {
                 midcom_show_style('show-salesproject-deliverables-subscription');
-            }
-            else
-            {
+            } else {
                 midcom_show_style('show-salesproject-deliverables-item');
             }
         }
@@ -214,56 +201,40 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
     {
         $toolbar = array('label' => '', 'buttons' => array());
         $formatter = $this->_l10n->get_formatter();
-        if ($deliverable->state < org_openpsa_sales_salesproject_deliverable_dba::STATE_DECLINED)
-        {
+        if ($deliverable->state < org_openpsa_sales_salesproject_deliverable_dba::STATE_DECLINED) {
             //new, proposed
             $toolbar['buttons']['order'] = $this->_l10n->get('mark ordered');
             $toolbar['buttons']['decline'] = $this->_l10n->get('mark declined');
-        }
-        elseif ($deliverable->state == org_openpsa_sales_salesproject_deliverable_dba::STATE_DECLINED)
-        {
+        } elseif ($deliverable->state == org_openpsa_sales_salesproject_deliverable_dba::STATE_DECLINED) {
             //declined, nothing to do...
             return $toolbar;
-        }
-        elseif ($deliverable->state < org_openpsa_sales_salesproject_deliverable_dba::STATE_DELIVERED)
-        {
+        } elseif ($deliverable->state < org_openpsa_sales_salesproject_deliverable_dba::STATE_DELIVERED) {
             //started, ordered
-            if ($deliverable->orgOpenpsaObtype == org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION)
-            {
+            if ($deliverable->orgOpenpsaObtype == org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION) {
                 $entries = $deliverable->get_at_entries();
-                if (isset($entries[0]))
-                {
+                if (isset($entries[0])) {
                     $toolbar['label'] = sprintf($this->_l10n->get('next invoice will be generated on %s'), $formatter->date($entries[0]->start));
                     if (   $entries[0]->status == midcom_services_at_entry_dba::SCHEDULED
-                        && midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_invoices_invoice_dba'))
-                    {
+                        && midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_invoices_invoice_dba')) {
                         $toolbar['buttons']['run_cycle'] = $this->_l10n->get('generate now');
                     }
                 }
-            }
-            elseif ($deliverable->state == org_openpsa_sales_salesproject_deliverable_dba::STATE_ORDERED)
-            {
+            } elseif ($deliverable->state == org_openpsa_sales_salesproject_deliverable_dba::STATE_ORDERED) {
                 $toolbar['buttons']['deliver'] = $this->_l10n->get('mark delivered');
             }
-        }
-        elseif ($deliverable->state == org_openpsa_sales_salesproject_deliverable_dba::STATE_INVOICED)
-        {
+        } elseif ($deliverable->state == org_openpsa_sales_salesproject_deliverable_dba::STATE_INVOICED) {
             //delivered, invoiced
-            if ($deliverable->invoiced > 0)
-            {
+            if ($deliverable->invoiced > 0) {
                 $toolbar['label'] = $this->_l10n->get('invoiced') . ': ' . $formatter->number($deliverable->invoiced);
             }
-        }
-        elseif (   $deliverable->orgOpenpsaObtype != org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION
-                 && midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_invoices_invoice_dba'))
-        {
+        } elseif (   $deliverable->orgOpenpsaObtype != org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION
+                 && midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_invoices_invoice_dba')) {
             //not invoiced yet
             $client_class = $this->_config->get('calculator');
             $client = new $client_class();
             $client->run($deliverable);
 
-            if ($client->get_price() > 0)
-            {
+            if ($client->get_price() > 0) {
                 $toolbar['buttons']['invoice'] = sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('invoice'));
             }
         }

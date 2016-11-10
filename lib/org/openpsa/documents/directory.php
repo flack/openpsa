@@ -21,8 +21,7 @@ class org_openpsa_documents_directory extends midcom_db_topic
         $accesstype = $this->get_parameter('org.openpsa.core', 'orgOpenpsaAccesstype');
 
         if (   $ownerwg
-            && $accesstype)
-        {
+            && $accesstype) {
             // Sync the object's ACL properties into MidCOM ACL system
             $sync = new org_openpsa_core_acl_synchronizer();
             $sync->write_acls($this, $ownerwg, $accesstype);
@@ -43,8 +42,7 @@ class org_openpsa_documents_directory extends midcom_db_topic
     {
         $parent = $this->get_parent();
         if (   $parent
-            && $parent->component == 'org.openpsa.documents')
-        {
+            && $parent->component == 'org.openpsa.documents') {
             midcom::get()->auth->request_sudo('org.openpsa.documents');
 
             $parent = new org_openpsa_documents_directory($parent);

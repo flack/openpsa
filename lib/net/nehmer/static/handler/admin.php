@@ -55,10 +55,8 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
     {
         $this->_schemadb =& $this->_request_data['schemadb'];
         if (   $this->_config->get('simple_name_handling')
-            && !midcom::get()->auth->admin)
-        {
-            foreach (array_keys($this->_schemadb) as $name)
-            {
+            && !midcom::get()->auth->admin) {
+            foreach (array_keys($this->_schemadb) as $name) {
                 $this->_schemadb[$name]->fields['name']['readonly'] = true;
             }
         }
@@ -76,8 +74,7 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
         $controller->schemadb =& $this->_schemadb;
         $controller->set_storage($this->_article);
 
-        if (!$controller->initialize())
-        {
+        if (!$controller->initialize()) {
             throw new midcom_error("Failed to initialize a DM2 controller instance for article {$this->_article->id}.");
         }
         return $controller;
@@ -95,13 +92,11 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
         $this->_article = new midcom_db_article($args[0]);
 
         // Relocate for the correct content topic, let the true content topic take care of the ACL
-        if ($this->_article->topic !== $this->_content_topic->id)
-        {
+        if ($this->_article->topic !== $this->_content_topic->id) {
             $nap = new midcom_helper_nav();
             $node = $nap->get_node($this->_article->topic);
 
-            if (!empty($node[MIDCOM_NAV_ABSOLUTEURL]))
-            {
+            if (!empty($node[MIDCOM_NAV_ABSOLUTEURL])) {
                 return new midcom_response_relocate($node[MIDCOM_NAV_ABSOLUTEURL] . "edit/{$args[0]}/");
             }
             throw new midcom_error_notfound("The article with GUID {$args[0]} was not found.");
@@ -123,8 +118,7 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
         // Reindex the article
         $indexer = midcom::get()->indexer;
         net_nehmer_static_viewer::index($controller->datamanager, $indexer, $this->_content_topic);
-        if ($this->_article->name == 'index')
-        {
+        if ($this->_article->name == 'index') {
             return '';
         }
         return $this->_article->name . '/';
@@ -145,8 +139,7 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
         $qb->add_constraint('topic', '=', $this->_content_topic->id);
         $qb->add_constraint('article', '=', $this->_article->id);
 
-        if ($qb->count() === 0)
-        {
+        if ($qb->count() === 0) {
             throw new midcom_error_notfound('No links were found');
         }
 
@@ -172,8 +165,7 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
     {
         $this->_article = new midcom_db_article($args[0]);
         // Relocate to delete the link instead of the article itself
-        if ($this->_article->topic !== $this->_content_topic->id)
-        {
+        if ($this->_article->topic !== $this->_content_topic->id) {
             return new midcom_response_relocate("delete/link/{$args[0]}/");
         }
         $workflow = $this->get_workflow('delete', array('object' => $this->_article));

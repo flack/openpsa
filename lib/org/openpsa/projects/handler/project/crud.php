@@ -31,8 +31,7 @@ class org_openpsa_projects_handler_project_crud extends midcom_baseclasses_compo
      */
     public function _populate_toolbar($handler_id)
     {
-        if ($this->_mode == 'read')
-        {
+        if ($this->_mode == 'read') {
             $this->_add_read_toolbar($handler_id);
         }
     }
@@ -46,8 +45,7 @@ class org_openpsa_projects_handler_project_crud extends midcom_baseclasses_compo
     {
         $workflow = $this->get_workflow('datamanager2');
         $buttons = array();
-        if ($this->_object->can_do('midgard:update'))
-        {
+        if ($this->_object->can_do('midgard:update')) {
             $buttons[] = $workflow->get_button("project/edit/{$this->_object->guid}/", array
             (
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
@@ -62,8 +60,7 @@ class org_openpsa_projects_handler_project_crud extends midcom_baseclasses_compo
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
         $sales_url = $siteconfig->get_node_full_url('org.openpsa.sales');
 
-        if (!empty($sales_url))
-        {
+        if (!empty($sales_url)) {
             $buttons[] = array
             (
                 MIDCOM_TOOLBAR_URL => $sales_url . "salesproject/{$this->_object->guid}/",
@@ -102,8 +99,7 @@ class org_openpsa_projects_handler_project_crud extends midcom_baseclasses_compo
      */
     public function _update_title($handler_id)
     {
-        switch ($this->_mode)
-        {
+        switch ($this->_mode) {
             case 'create':
                 $view_title = $this->_l10n->get('create project');
                 break;
@@ -137,8 +133,7 @@ class org_openpsa_projects_handler_project_crud extends midcom_baseclasses_compo
      */
     public function _handler_callback($handler_id, array $args, array &$data)
     {
-        if ($handler_id == 'project')
-        {
+        if ($handler_id == 'project') {
             org_openpsa_widgets_grid::add_head_elements();
             org_openpsa_widgets_contact::add_head_elements();
             midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.core/filter.js');
@@ -158,8 +153,7 @@ class org_openpsa_projects_handler_project_crud extends midcom_baseclasses_compo
     {
         $this->_object = new org_openpsa_projects_project();
 
-        if (!$this->_object->create())
-        {
+        if (!$this->_object->create()) {
             debug_print_r('We operated on this object:', $this->_object);
             throw new midcom_error("Failed to create a new project. Error: " . midcom_connection::get_error_string());
         }

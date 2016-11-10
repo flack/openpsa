@@ -103,8 +103,7 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
     {
         $this->_require_type_class('org_routamc_positioning_dm2_type');
 
-        if (is_null($this->enabled_methods))
-        {
+        if (is_null($this->enabled_methods)) {
             $this->enabled_methods = array
             (
                 'place',
@@ -113,8 +112,7 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
             );
         }
 
-        if (is_null($this->service))
-        {
+        if (is_null($this->service)) {
             $this->service = 'geonames';
         }
         $head = midcom::get()->head;
@@ -172,8 +170,7 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
 
         $html .= "    <ul>\n";
 
-        foreach ($this->enabled_methods as $method)
-        {
+        foreach ($this->enabled_methods as $method) {
             $html .= "        <li><a href=\"#{$this->_element_id}_tab_content_{$method}\"><span>" . midcom::get()->i18n->get_string($method, 'org.routamc.positioning') . "</span></a></li>\n";
         }
 
@@ -186,8 +183,7 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
             $html
         );
 
-        foreach ($this->enabled_methods as $method)
-        {
+        foreach ($this->enabled_methods as $method) {
             $function = "_add_{$method}_method_elements";
             $this->$function();
         }
@@ -214,13 +210,11 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
     {
         $value = $this->_type->location->$fieldname;
         $value_input = $this->_get_input($fieldname, $_REQUEST);
-        if (!$value && $value_input !== null)
-        {
+        if (!$value && $value_input !== null) {
             $value = $value_input;
         }
         if (   !$value
-            && isset($this->input_defaults[$fieldname]))
-        {
+            && isset($this->input_defaults[$fieldname])) {
             $value = $this->input_defaults[$fieldname];
         }
         return $value;
@@ -257,8 +251,7 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
 
     private function _render_input($fieldname, $value = null)
     {
-        if (null === $value)
-        {
+        if (null === $value) {
             $value = $this->_get_input_value($fieldname);
         }
         $input_key = $this->_get_input_key($fieldname);
@@ -275,36 +268,30 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
         $city_id = $this->_type->location->city;
 
         $city_input = $this->_get_input("city", $_REQUEST);
-        if (!$city_id && $city_input !== null)
-        {
+        if (!$city_id && $city_input !== null) {
             $city_id = $this->_get_city_by_name($city_input);
-            if (!$city_id)
-            {
+            if (!$city_id) {
                 $city_name = $city_input;
             }
         }
 
         if (   !$city_id
             && isset($this->input_defaults['city'])
-            && is_numeric($this->input_defaults['city']))
-        {
+            && is_numeric($this->input_defaults['city'])) {
             $city_id = $this->input_defaults['city'];
         }
         if (   !$city_name
             && isset($this->input_defaults['city'])
-            && is_string($this->input_defaults['city']))
-        {
+            && is_string($this->input_defaults['city'])) {
             $city_name = $this->input_defaults['city'];
         }
 
-        if ($city_id)
-        {
-            try
-            {
+        if ($city_id) {
+            try {
                 $city = new org_routamc_positioning_city_dba($city_id);
                 $city_name = $city->city;
+            } catch (midcom_error $e) {
             }
-            catch (midcom_error $e){}
         }
         return $city_name;
     }
@@ -314,12 +301,10 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
         $html = '';
         $inserted_xep_keys = array();
 
-        foreach ($this->_allowed_xep_keys as $xep_key)
-        {
+        foreach ($this->_allowed_xep_keys as $xep_key) {
             if (   !in_array($xep_key, $this->use_xep_keys)
                 || !midcom::get()->dbfactory->property_exists($this->_type->location, $xep_key)
-                || in_array($xep_key, $inserted_xep_keys))
-            {
+                || in_array($xep_key, $inserted_xep_keys)) {
                 // Skip
                 continue;
             }
@@ -363,14 +348,12 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
 
         $lat = $this->_type->location->latitude;
         $lat_input = $this->_get_input("latitude", $_REQUEST);
-        if (!$lat && $lat_input !== null)
-        {
+        if (!$lat && $lat_input !== null) {
             $lat = $lat_input;
         }
         $lon = $this->_type->location->longitude;
         $lon_input = $this->_get_input("longitude", $_REQUEST);
-        if (!$lon && $lon_input)
-        {
+        if (!$lon && $lon_input) {
             $lon = $lon_input;
         }
 
@@ -412,13 +395,11 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
         $qb->add_order('name', 'ASC');
         $countries = $qb->execute_unchecked();
 
-        if (count($countries) == 0)
-        {
+        if (count($countries) == 0) {
             debug_add('Cannot render country list: No countries found. You have to use org.routamc.positioning to import countries to database.');
         }
 
-        foreach ($countries as $country)
-        {
+        foreach ($countries as $country) {
             $this->_countrylist[$country->code] = $country->name;
         }
     }
@@ -428,8 +409,7 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
         $html = '';
 
         if (   empty($this->_countrylist)
-            || count($this->_countrylist) == 1)
-        {
+            || count($this->_countrylist) == 1) {
             return $html;
         }
 
@@ -438,11 +418,9 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
         $html .= "<span class=\"field_text\">" . midcom::get()->i18n->get_string('xep_country', 'org.routamc.positioning') . "</span>";
         $html .= "<select class=\"dropdown position_widget_input position_widget_input_place_country\" id=\"{$this->_element_id}_input_place_country\" name=\"".$input_key."\">";
 
-        foreach ($this->_countrylist as $code => $name)
-        {
+        foreach ($this->_countrylist as $code => $name) {
             $selected = '';
-            if ($code == $current)
-            {
+            if ($code == $current) {
                 $selected = 'selected="selected"';
             }
             $html .= "<option value=\"{$code}\" {$selected}>{$name}</option>";
@@ -463,34 +441,28 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
 
     public function get_default()
     {
-        try
-        {
+        try {
             $city = new org_routamc_positioning_city_dba($this->_type->location->city);
             $city_name = $city->city;
-        }
-        catch (midcom_error $e)
-        {
+        } catch (midcom_error $e) {
             $city_name = '';
         }
 
         $lat = $this->_type->location->latitude;
         $lat_input = $this->_get_input("latitude", $_REQUEST);
-        if (!$lat && $lat_input !== null)
-        {
+        if (!$lat && $lat_input !== null) {
             $lat = $lat_input;
         }
         $lon = $this->_type->location->longitude;
         $lon_input = $this->_get_input("longitude", $_REQUEST);
-        if (!$lon && $lon_input !== null)
-        {
+        if (!$lon && $lon_input !== null) {
             $lon = $lon_input;
         }
 
         $lat = str_replace(",", ".", $lat);
         $lon = str_replace(",", ".", $lon);
 
-        if (!empty($lat) && !empty($lon))
-        {
+        if (!empty($lat) && !empty($lon)) {
             $script = "jQuery('#{$this->_element_id}').dm2_pw_init_current_pos({$lat},{$lon});";
             midcom::get()->head->add_jquery_state_script($script);
         }
@@ -508,43 +480,34 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
 
     public function _get_city_by_name($city_name, $results = array())
     {
-        if (empty($city_name))
-        {
+        if (empty($city_name)) {
             return 0;
         }
         $city_id = 0;
         $city = org_routamc_positioning_city_dba::get_by_name($city_name);
-        if (!empty($city))
-        {
+        if (!empty($city)) {
             $city_id = $city->id;
-        }
-        elseif (!empty($results))
-        {
+        } elseif (!empty($results)) {
             $city = new org_routamc_positioning_city_dba();
             $city->city = $city_name;
 
             $country = $this->_get_input("country", $results);
-            if (!empty($country))
-            {
+            if (!empty($country)) {
                 $city->country = $country;
             }
             $region = $this->_get_input("region", $results);
-            if ($region !== null)
-            {
+            if ($region !== null) {
                 $city->region = $region;
             }
             $lat = $this->_get_input("latitude", $results);
-            if (!empty($lat))
-            {
+            if (!empty($lat)) {
                 $city->latitude = $lat;
             }
             $lon = $this->_get_input("longitude", $results);
-            if (!empty($lon))
-            {
+            if (!empty($lon)) {
                 $city->longitude = $lon;
             }
-            if (!$city->create())
-            {
+            if (!$city->create()) {
                 debug_add("Cannot save new city '{$city_name}'");
             }
 
@@ -567,47 +530,38 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
     public function sync_type_with_widget($results)
     {
         $country = $this->_get_input("country", $results);
-        if ($country !== null)
-        {
+        if ($country !== null) {
             $this->_type->location->country = $country;
         }
         $city = $this->_get_input("city", $results);
-        if ($city !== null)
-        {
+        if ($city !== null) {
             $city_id = $this->_get_city_by_name($city, $results);
             $this->_type->location->city = $city_id;
         }
         $street = $this->_get_input("street", $results);
-        if ($street !== null)
-        {
+        if ($street !== null) {
             $this->_type->location->street = $street;
         }
         $region = $this->_get_input("region", $results);
-        if ($region !== null)
-        {
+        if ($region !== null) {
             $this->_type->location->region = $region;
         }
         $postalcode = $this->_get_input("postalcode", $results);
-        if ($postalcode !== null)
-        {
+        if ($postalcode !== null) {
             $this->_type->location->postalcode = $postalcode;
         }
         $lat = $this->_get_input("latitude", $results);
-        if (!empty($lat))
-        {
+        if (!empty($lat)) {
             $this->_type->location->latitude = $lat;
         }
         $lon = $this->_get_input("longitude", $results);
-        if (!empty($lon))
-        {
+        if (!empty($lon)) {
             $this->_type->location->longitude = $lon;
         }
 
-        foreach ($this->_allowed_xep_keys as $xep_key)
-        {
+        foreach ($this->_allowed_xep_keys as $xep_key) {
             if (   !in_array($xep_key, $this->use_xep_keys)
-                || !midcom::get()->dbfactory->property_exists($this->_type->location, $xep_key))
-            {
+                || !midcom::get()->dbfactory->property_exists($this->_type->location, $xep_key)) {
                 continue;
             }
             $this->_type->location->$xep_key = $this->_get_input($xep_key, $results);

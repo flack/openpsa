@@ -8,20 +8,17 @@ $http_request = new org_openpsa_httplib();
 $csv = $http_request->get('http://weather.gladstonefamily.net/cgi-bin/location.pl/pjsg_all_location.csv?csv=1');
 $csv = str_replace('"', '', $csv);
 $lines = explode("\n", $csv);
-foreach ($lines as $line)
-{
+foreach ($lines as $line) {
     $aerodromeinfo = explode(',', $line);
 
     // Skip the non-ICAO ones
     if (   empty($aerodromeinfo[0])
-        || strlen($aerodromeinfo[0]) != 4)
-    {
+        || strlen($aerodromeinfo[0]) != 4) {
         continue;
     }
 
     // Skip non-WMO ones
-    if (empty($aerodromeinfo[1]))
-    {
+    if (empty($aerodromeinfo[1])) {
         continue;
     }
 

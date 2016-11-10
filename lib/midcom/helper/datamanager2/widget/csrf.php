@@ -67,12 +67,10 @@ class midcom_helper_datamanager2_widget_csrf extends midcom_helper_datamanager2_
     {
         $value = (string) $fields[$this->name];
 
-        if (!$value)
-        {
+        if (!$value) {
             return array($this->name => $this->_l10n->get('type csrf: missing csrf token'));
         }
-        if (!$this->manager->isTokenValid(new CsrfToken($this->_namespace . $this->name, $value)))
-        {
+        if (!$this->manager->isTokenValid(new CsrfToken($this->_namespace . $this->name, $value))) {
             return array($this->name => $this->_l10n->get('type csrf: invalid csrf token'));
         }
 

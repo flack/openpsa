@@ -53,8 +53,7 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
         $this->_controller = midcom_helper_datamanager2_controller::create('simple');
         $this->_controller->schemadb =& $this->_schemadb;
         $this->_controller->set_storage($this->_message);
-        if (!$this->_controller->initialize())
-        {
+        if (!$this->_controller->initialize()) {
             throw new midcom_error("Failed to initialize a DM2 controller instance for message {$this->_message->id}.");
         }
     }
@@ -137,8 +136,7 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
         $original = $this->_message;
         $copy_data = array();
 
-        foreach ($campaigns as $campaign)
-        {
+        foreach ($campaigns as $campaign) {
             $new_object = $copy->copy_object($original, $campaign, array('sendStarted' => 0, 'sendCompleted' => 0));
 
             // Store for later use
@@ -152,8 +150,7 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
         $message = $this->_l10n->get('message was copied to the following campaigns') . '<br><dl>';
         $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 
-        foreach ($copy_data as $cdata)
-        {
+        foreach ($copy_data as $cdata) {
             $message .= "<dt><a href=\"{$prefix}campaign/{$cdata['campaign']->guid}/\">{$cdata['campaign']->title}</a></dt>\n";
             $message .= "    <dd><a href=\"{$prefix}message/{$cdata['message']->guid}/\">{$cdata['message']->title}</a></dd>\n";
         }

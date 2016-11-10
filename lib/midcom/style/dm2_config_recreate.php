@@ -2,30 +2,24 @@
 echo "<p>" . midcom::get()->i18n->get_string('recreating', 'midcom') . "</p>\n";
 
 echo "<pre>\n";
-foreach ($this->data['objects'] as $object)
-{
+foreach ($this->data['objects'] as $object) {
     $type = get_class($object);
-    if (!isset($this->data['datamanagers'][$type]))
-    {
+    if (!isset($this->data['datamanagers'][$type])) {
         printf(midcom::get()->i18n->get_string('not recreating object %s %s, reason %s', 'midcom'), $type, $object->guid, 'No datamanager defined') . "\n";
         continue;
     }
 
     if (   !$object->can_do('midgard:update')
-        || !$object->can_do('midgard:attachments'))
-    {
+        || !$object->can_do('midgard:attachments')) {
         printf(midcom::get()->i18n->get_string('not recreating object %s %s, reason %s', 'midcom'), $type, $object->guid, 'Insufficient privileges') . "\n";
         continue;
     }
 
     printf(midcom::get()->i18n->get_string('recreating object %s %s', 'midcom'), $type, $object->guid) . ': ';
     $this->data['datamanagers'][$type]->autoset_storage($object);
-    if (!$this->data['datamanagers'][$type]->recreate())
-    {
+    if (!$this->data['datamanagers'][$type]->recreate()) {
         echo "SKIPPED\n";
-    }
-    else
-    {
+    } else {
         echo "OK\n";
     }
 }

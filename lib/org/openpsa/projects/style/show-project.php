@@ -8,8 +8,7 @@ $node = $nap->get_node($nap->get_current_node());
 ?>
 <div class="sidebar">
     <?php
-    try
-    {
+    try {
         $customer = org_openpsa_contacts_group_dba::get_cached($project->customer);
         echo "<h2>" . $data['l10n']->get('customer') . "</h2>\n";
 
@@ -18,35 +17,28 @@ $node = $nap->get_node($nap->get_current_node());
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
         $contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts');
 
-        if ($contacts_url)
-        {
+        if ($contacts_url) {
             $customer_html = '<a href="' . $contacts_url . '/group/' . $customer->guid . '/">' . $customer_html . "</a>\n";
         }
         echo $customer_html;
+    } catch (midcom_error $e) {
     }
-    catch (midcom_error $e){}
 
-    if ($project->manager)
-    {
+    if ($project->manager) {
         echo "<h2>" . $data['l10n']->get('manager') . "</h2>\n";
         $contact = org_openpsa_widgets_contact::get($project->manager);
         echo $contact->show_inline();
-    }
-    elseif (count($project->resources) > 0)
-    {
+    } elseif (count($project->resources) > 0) {
         echo "<h2>" . $data['l10n']->get('resources') . "</h2>\n";
-        foreach (array_keys($project->resources) as $contact_id)
-        {
+        foreach (array_keys($project->resources) as $contact_id) {
             $contact = org_openpsa_widgets_contact::get($contact_id);
             echo $contact->show_inline() . " ";
         }
     }
 
-    if (count($project->contacts) > 0)
-    {
+    if (count($project->contacts) > 0) {
         echo "<h2>" . $data['l10n']->get('contacts') . "</h2>\n";
-        foreach (array_keys($project->contacts) as $contact_id)
-        {
+        foreach (array_keys($project->contacts) as $contact_id) {
             $contact = org_openpsa_widgets_contact::get($contact_id);
             echo $contact->show();
         }

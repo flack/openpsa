@@ -22,35 +22,29 @@ class org_openpsa_products_handler_product_latest extends midcom_baseclasses_com
         $product_qb->results_per_page = $limit;
         $product_qb->add_order('metadata.published', 'DESC');
 
-        if ($product_group != '')
-        {
+        if ($product_group != '') {
             $group_qb = org_openpsa_products_product_group_dba::new_query_builder();
             $group_qb->add_constraint('code', '=', $product_group);
             $groups = $group_qb->execute();
-            if (count($groups) == 0)
-            {
+            if (count($groups) == 0) {
                 return false;
                 // No matching group
             }
             $categories_mc = org_openpsa_products_product_group_dba::new_collector('up', $groups[0]->id);
             $categories = $categories_mc->get_values('id');
 
-            if (count($categories) == 0)
-            {
+            if (count($categories) == 0) {
                 /* No matching categories belonging to this group
                  * So we can search for the application using only
                  * this group id
                  */
                 $product_qb->add_constraint('productGroup', 'INTREE', $groups[0]->id);
-            }
-            else
-            {
+            } else {
                 $product_qb->add_constraint('productGroup', 'IN', $categories);
             }
         }
 
-        if ($this->_config->get('enable_scheduling'))
-        {
+        if ($this->_config->get('enable_scheduling')) {
             $product_qb->add_constraint('start', '<=', time());
             $product_qb->begin_group('OR');
                 /*
@@ -58,7 +52,7 @@ class org_openpsa_products_handler_product_latest extends midcom_baseclasses_com
                  * or are still in market
                  */
                 $product_qb->add_constraint('end', '=', 0);
-                $product_qb->add_constraint('end', '>=', time());
+            $product_qb->add_constraint('end', '>=', time());
             $product_qb->end_group();
         }
 
@@ -75,13 +69,10 @@ class org_openpsa_products_handler_product_latest extends midcom_baseclasses_com
      */
     public function _handler_updated($handler_id, array $args, array &$data)
     {
-        if ($handler_id == 'updated_products_intree')
-        {
+        if ($handler_id == 'updated_products_intree') {
             $product_group = $args[0];
             $show_products = (int) $args[1];
-        }
-        else
-        {
+        } else {
             $show_products = (int) $args[0];
             $product_group = '';
         }
@@ -101,23 +92,19 @@ class org_openpsa_products_handler_product_latest extends midcom_baseclasses_com
     {
         $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 
-        if (count($data['products']) > 0)
-        {
+        if (count($data['products']) > 0) {
             midcom_show_style('updated_products_header');
 
-            foreach ($data['products'] as $product)
-            {
+            foreach ($data['products'] as $product) {
                 $data['product'] = $product;
-                if (!$data['datamanager_product']->autoset_storage($product))
-                {
+                if (!$data['datamanager_product']->autoset_storage($product)) {
                     debug_add("The datamanager for product #{$product->id} could not be initialized, skipping it.");
                     debug_print_r('Object was:', $product);
                     continue;
                 }
                 $data['view_product'] = $data['datamanager_product']->get_content_html();
                 $path = $product->code ?: $product->guid;
-                if ($handler_id == 'updated_products_intree')
-                {
+                if ($handler_id == 'updated_products_intree') {
                     $path = $data['product_group'] . '/' . $path;
                 }
                 $data['view_product_url'] = "{$prefix}product/" . $path . '/';
@@ -143,12 +130,9 @@ class org_openpsa_products_handler_product_latest extends midcom_baseclasses_com
         midcom::get()->header("Content-type: text/xml; charset=UTF-8");
         midcom::get()->skip_page_style = true;
 
-        if ($handler_id == 'updated_products_feed_intree')
-        {
+        if ($handler_id == 'updated_products_feed_intree') {
             $this->_list_products($this->_config->get('show_items_in_feed'), $args[0]);
-        }
-        else
-        {
+        } else {
             $this->_list_products($this->_config->get('show_items_in_feed'));
         }
 
@@ -172,13 +156,10 @@ class org_openpsa_products_handler_product_latest extends midcom_baseclasses_com
         $data['rss_creator']->syndicationURL = "{$prefix}rss.xml";
         $data['rss_creator']->cssStyleSheet = false;
 
-        if (count($data['products']) > 0)
-        {
-            foreach ($data['products'] as $product)
-            {
+        if (count($data['products']) > 0) {
+            foreach ($data['products'] as $product) {
                 $data['product'] = $product;
-                if (!$data['datamanager_product']->autoset_storage($product))
-                {
+                if (!$data['datamanager_product']->autoset_storage($product)) {
                     debug_add("The datamanager for product #{$product->id} could not be initialized, skipping it.");
                     debug_print_r('Object was:', $product);
                     continue;

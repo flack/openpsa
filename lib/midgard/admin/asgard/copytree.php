@@ -86,22 +86,17 @@ class midgard_admin_asgard_copytree extends midgard_admin_asgard_navigation
 
         $label = htmlspecialchars($ref->get_object_label($object));
         $icon = $ref->get_object_icon($object);
-        if (empty($label))
-        {
+        if (empty($label)) {
             $label = "#{$object->id}";
         }
 
-        if ($this->copy_tree)
-        {
+        if ($this->copy_tree) {
             $checked = ' checked="checked"';
-        }
-        else
-        {
+        } else {
             $checked = '';
         }
 
-        if ($this->inputs)
-        {
+        if ($this->inputs) {
             // This value is used for compiling the exclusion list: if the object is found from this list, but not from the selection list,
             // it means that the selection did not include the object GUID
             echo "<input type=\"hidden\" name=\"all_objects[]\" value=\"{$object->guid}\" />\n";
@@ -113,23 +108,20 @@ class midgard_admin_asgard_copytree extends midgard_admin_asgard_navigation
         echo "<span class=\"title{$span_class}\">{$icon}{$label}</span>\n";
 
         // Show the link to the object
-        if ($this->view_link)
-        {
+        if ($this->view_link) {
             echo "<a href=\"{$this->page_prefix}__mfa/asgard/object/view/{$object->guid}/\" class=\"thickbox\" target=\"_blank\" title=\"" . sprintf($this->_l10n->get('%s (%s)'), $label, $ref->get_class_label()) . "\">\n";
             echo "<img src=\"" . MIDCOM_STATIC_URL . "/stock-icons/16x16/view.png\" alt=\"" . $this->_l10n->get('view object') . "\" />\n";
             echo "</a>\n";
         }
 
         // Show the link to the object
-        if ($this->edit_link)
-        {
+        if ($this->edit_link) {
             echo "<a href=\"{$this->page_prefix}__mfa/asgard/object/edit/{$object->guid}/\" target='_blank' title=\"" . sprintf($this->_l10n->get('%s (%s)'), $label, $ref->get_class_label()) . "\">\n";
             echo "<img src=\"" . MIDCOM_STATIC_URL . "/stock-icons/16x16/edit.png\" alt=\"" . $this->_l10n->get('edit object') . "\" />\n";
             echo "</a>\n";
         }
 
-        if ($this->inputs)
-        {
+        if ($this->inputs) {
             echo "</label>\n";
         }
 
@@ -141,8 +133,7 @@ class midgard_admin_asgard_copytree extends midgard_admin_asgard_navigation
 
     protected function _is_collapsed($type, $total)
     {
-        if ($this->inputs)
-        {
+        if ($this->inputs) {
             return false;
         }
         return parent::_is_collapsed($type, $total);
@@ -153,19 +144,14 @@ class midgard_admin_asgard_copytree extends midgard_admin_asgard_navigation
      */
     public function draw()
     {
-        if (!$this->input_type)
-        {
+        if (!$this->input_type) {
             $this->input_type = 'checkbox';
         }
 
-        if (!$this->input_name)
-        {
-            if ($this->input_type === 'checkbox')
-            {
+        if (!$this->input_name) {
+            if ($this->input_type === 'checkbox') {
                 $this->input_name = 'selected[]';
-            }
-            else
-            {
+            } else {
                 $this->input_name = 'target';
             }
         }

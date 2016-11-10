@@ -63,8 +63,7 @@ class org_openpsa_user_widget_password extends midcom_helper_datamanager2_widget
 
     public function sync_type_with_widget($results)
     {
-        if ($results[$this->name] !== null)
-        {
+        if ($results[$this->name] !== null) {
             $this->_type->value = $results[$this->name][$this->name . '_input'];
         }
     }

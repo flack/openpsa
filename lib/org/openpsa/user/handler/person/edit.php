@@ -40,8 +40,7 @@ implements midcom_helper_datamanager2_interfaces_edit
     {
         $this->_person = new org_openpsa_contacts_person_dba($args[0]);
 
-        if ($this->_person->id != midcom_connection::get_user())
-        {
+        if ($this->_person->id != midcom_connection::get_user()) {
             midcom::get()->auth->require_user_do('org.openpsa.user:manage', null, 'org_openpsa_user_interface');
         }
 

@@ -3,14 +3,12 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 $workingon = $data['workingon'];
 
 $checked = "";
-if (!empty($workingon->invoiceable))
-{
+if (!empty($workingon->invoiceable)) {
     $checked = "checked = 'checked'";
 }
 $current_task = '';
 $default_text = '';
-if (!is_null($workingon->task))
-{
+if (!is_null($workingon->task)) {
     $current_task = '[' . $workingon->task->guid . ']';
     $default_text = $workingon->task->get_label();
 }
@@ -59,8 +57,8 @@ midcom::get()->uimessages->show();
     <div class="calculator" id="org_openpsa_mypage_workingon_time">
     </div>
     <?php
-    if ($workingon->task)
-    { ?>
+    if ($workingon->task) {
+        ?>
          <script type="text/javascript">
              jQuery('#org_openpsa_mypage_workingon_time').epiclock({
                    mode: $.epiclock.modes.countup,
@@ -68,7 +66,8 @@ midcom::get()->uimessages->show();
                    format: 'x:i:s'
              });
          </script>
-    <?php } ?>
+    <?php 
+    } ?>
       <input type="button" id="org_openpsa_mypage_workingon_stop" value="<?php echo $data['l10n']->get('stop'); ?>"/>
       <input type="button" id="org_openpsa_mypage_workingon_start" value="<?php echo $data['l10n']->get('start'); ?>"/>
     </div>
@@ -78,10 +77,9 @@ midcom::get()->uimessages->show();
 </div>
 
 <?php
-if ($data['expenses_url'])
-{
-    midcom_show_style('workingon_expenses');
-}
+if ($data['expenses_url']) {
+        midcom_show_style('workingon_expenses');
+    }
 ?>
 
 </div>

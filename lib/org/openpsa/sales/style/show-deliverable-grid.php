@@ -7,8 +7,7 @@ $grid = $data['grid'];
 $grid->set_column('title', $data['l10n']->get('title'), 'classes: "ui-ellipsis"', 'string');
 $grid->set_column('salesproject', $data['l10n']->get('salesproject'), 'width: 100, classes: "ui-ellipsis"', 'string');
 $grid->set_column('state', $data['l10n']->get('state'), 'width: 60', 'number');
-if ($data['product']->delivery == org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION)
-{
+if ($data['product']->delivery == org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION) {
     $grid->set_column('unit', $data['l10n']->get('invoicing period'), 'width: 60');
 }
 $grid->set_column('type', midcom::get()->i18n->get_string('type', 'midgard.admin.asgard'), 'width: 100');

@@ -69,8 +69,7 @@ class midcom_db_person extends midcom_core_dbaobject
      */
     public function __construct($id = null)
     {
-        if ($this->__mgdschema_class_name__ == 'midgard_person')
-        {
+        if ($this->__mgdschema_class_name__ == 'midgard_person') {
             $this->__mgdschema_class_name__ = midcom::get()->config->get('person_class');
         }
         parent::__construct($id);
@@ -83,8 +82,7 @@ class midcom_db_person extends midcom_core_dbaobject
         if (   $property == 'firstname'
             || $property == 'lastname'
             || $property == 'homepage'
-            || $property == 'email')
-        {
+            || $property == 'email') {
             $this->_update_computed_members();
         }
     }
@@ -121,30 +119,24 @@ class midcom_db_person extends midcom_core_dbaobject
         $this->emaillink = '';
 
         $this->rname = $lastname;
-        if ($this->rname == '')
-        {
+        if ($this->rname == '') {
             $this->rname = $firstname;
-        }
-        elseif ($firstname != '')
-        {
+        } elseif ($firstname != '') {
             $this->rname .= ", {$firstname}";
         }
 
-        if ($this->name == '')
-        {
+        if ($this->name == '') {
             $this->name = 'person #' . $this->id;
             $this->rname = 'person #' . $this->id;
         }
 
-        if ($this->homepage != '')
-        {
+        if ($this->homepage != '') {
             $title = htmlspecialchars($this->name);
             $url = htmlspecialchars($this->homepage);
             $this->homepagelink = "<a href=\"{$url}\" title=\"{$title}\">{$url}</a>";
         }
 
-        if ($this->email != '')
-        {
+        if ($this->email != '') {
             $title = htmlspecialchars($this->name);
             $url = htmlspecialchars($this->email);
             $this->emaillink = "<a href=\"mailto:{$url}\" title=\"{$title}\">{$url}</a>";
@@ -153,12 +145,10 @@ class midcom_db_person extends midcom_core_dbaobject
 
     public function get_label()
     {
-        if ($this->rname)
-        {
+        if ($this->rname) {
             return $this->rname;
         }
-        if ($this->username)
-        {
+        if ($this->username) {
             return $this->username;
         }
         return '#' . $this->id;
@@ -176,8 +166,7 @@ class midcom_db_person extends midcom_core_dbaobject
     function add_to_group($name)
     {
         $group = midcom::get()->auth->get_midgard_group_by_name($name);
-        if (!$group)
-        {
+        if (!$group) {
             debug_add("Failed to add the person {$this->id} to group {$name}, the group does not exist.", MIDCOM_LOG_WARN);
             return false;
         }
@@ -185,8 +174,7 @@ class midcom_db_person extends midcom_core_dbaobject
         $member = new midcom_db_member();
         $member->uid = $this->id;
         $member->gid = $storage->id;
-        if (!$member->create())
-        {
+        if (!$member->create()) {
             debug_add("Failed to add the person {$this->id} to group {$name}, object could not be created.", MIDCOM_LOG_WARN);
             debug_add('Last Midgard error was: ' . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
             debug_print_r('Tried to create this object:', $member);

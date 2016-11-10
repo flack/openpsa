@@ -33,8 +33,7 @@ implements org_openpsa_widgets_grid_provider_client
         $resolver->resolve($this->rules);
         $query = $resolver->get_mc();
 
-        if (!is_null($field))
-        {
+        if (!is_null($field)) {
             $query->add_order($field, $direction);
         }
         // Set the order
@@ -101,28 +100,22 @@ implements org_openpsa_widgets_grid_provider_client
         $data['campaign'] = $this->_campaign;
 
         // PONDER: Locking ?
-        if (!empty($_POST['midcom_helper_datamanager2_cancel']))
-        {
+        if (!empty($_POST['midcom_helper_datamanager2_cancel'])) {
             return new midcom_response_relocate("campaign/{$this->_campaign->guid}/");
         }
 
         //check if it should be saved
-        if (!empty($_POST['midcom_helper_datamanager2_save']))
-        {
-            try
-            {
+        if (!empty($_POST['midcom_helper_datamanager2_save'])) {
+            try {
                 $rules = $this->_load_rules();
-            }
-            catch (midcom_error $e)
-            {
+            } catch (midcom_error $e) {
                 midcom::get()->uimessages->add('org.openpsa.directmarketing', $this->_l10n->get($e->getMessage()), 'error');
                 return;
             }
 
             //update campaign & Schedule background members refresh
             $this->_campaign->rules = $rules;
-            if ($this->_campaign->update())
-            {
+            if ($this->_campaign->update()) {
                 //Schedule background members refresh
                 $this->_campaign->schedule_update_smart_campaign_members();
 
@@ -173,8 +166,7 @@ implements org_openpsa_widgets_grid_provider_client
 
     private function _load_rules()
     {
-        if (empty($_REQUEST['midcom_helper_datamanager2_dummy_field_rules']))
-        {
+        if (empty($_REQUEST['midcom_helper_datamanager2_dummy_field_rules'])) {
             return $this->_campaign->rules;
         }
         return org_openpsa_directmarketing_campaign_ruleresolver::parse($_REQUEST['midcom_helper_datamanager2_dummy_field_rules']);

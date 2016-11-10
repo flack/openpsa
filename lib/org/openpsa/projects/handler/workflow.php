@@ -27,14 +27,12 @@ class org_openpsa_projects_handler_workflow extends midcom_baseclasses_component
     public function _handler_action($handler_id, array $args, array &$data)
     {
         midcom::get()->auth->require_valid_user();
-        if (empty($this->action))
-        {
+        if (empty($this->action)) {
             $this->action = $args[1];
         }
         $task = new org_openpsa_projects_task_dba($args[0]);
 
-        if (!org_openpsa_projects_workflow::run($this->action, $task))
-        {
+        if (!org_openpsa_projects_workflow::run($this->action, $task)) {
             throw new midcom_error('Error when saving: ' . midcom_connection::get_error_string());
         }
         //TODO: return ajax status
@@ -51,21 +49,18 @@ class org_openpsa_projects_handler_workflow extends midcom_baseclasses_component
         midcom::get()->auth->require_valid_user();
         //Look for action among POST variables, then load main handler...
         if (   empty($_POST['org_openpsa_projects_workflow_action'])
-            || !is_array($_POST['org_openpsa_projects_workflow_action']))
-        {
+            || !is_array($_POST['org_openpsa_projects_workflow_action'])) {
             throw new midcom_error('Incomplete request');
         }
 
         //Go trough the array, in theory it should have only one element and in any case only the last of them will be processed
-        foreach (array_keys($_POST['org_openpsa_projects_workflow_action']) as $action)
-        {
+        foreach (array_keys($_POST['org_openpsa_projects_workflow_action']) as $action) {
             $this->action = $action;
         }
 
         $this->_handler_action($handler_id, $args, $data);
 
-        if (isset($_POST['org_openpsa_projects_workflow_action_redirect']))
-        {
+        if (isset($_POST['org_openpsa_projects_workflow_action_redirect'])) {
             return new midcom_response_relocate($_POST['org_openpsa_projects_workflow_action_redirect']);
         }
         //NOTE: This header might not be trustworthy...

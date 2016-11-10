@@ -37,18 +37,14 @@ implements midcom_helper_datamanager2_interfaces_create
         $account_schema = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_account'));
         $current = 0;
         $last = sizeof($account_schema['default']->fields);
-        foreach ($account_schema['default']->fields as $name => $field)
-        {
-            if ($current++ == 0)
-            {
+        foreach ($account_schema['default']->fields as $name => $field) {
+            if ($current++ == 0) {
                 $field['start_fieldset'] = array
                 (
                     'title' => 'account_fieldset',
                     'css_group' => 'area meta',
                 );
-            }
-            elseif ($current == $last)
-            {
+            } elseif ($current == $last) {
                 $field['end_fieldset'] = '';
             }
             $person_schema['default']->fields[$name] = $field;
@@ -61,8 +57,7 @@ implements midcom_helper_datamanager2_interfaces_create
     public function get_schema_defaults()
     {
         $defaults = array();
-        if ($this->_group)
-        {
+        if ($this->_group) {
             $defaults['groups'] = array($this->_group->id);
         }
         return $defaults;
@@ -77,8 +72,7 @@ implements midcom_helper_datamanager2_interfaces_create
     {
         midcom::get()->auth->require_user_do('org.openpsa.user:manage', null, 'org_openpsa_user_interface');
 
-        if (count($args) > 0)
-        {
+        if (count($args) > 0) {
             // Get the organization
             $this->_group = new midcom_db_group($args[0]);
             $this->_group->require_do('midgard:create');
@@ -97,8 +91,7 @@ implements midcom_helper_datamanager2_interfaces_create
 
     public function save_callback(midcom_helper_datamanager2_controller $controller)
     {
-        if ($this->_master->create_account($this->_person, $controller->formmanager))
-        {
+        if ($this->_master->create_account($this->_person, $controller->formmanager)) {
             midcom::get()->uimessages->add($this->_l10n->get($this->_component), sprintf($this->_l10n->get('person %s created'), $this->_person->name));
         }
         return 'view/' . $this->_person->guid . '/';
@@ -111,8 +104,7 @@ implements midcom_helper_datamanager2_interfaces_create
     {
         // Create a new person
         $this->_person = new midcom_db_person;
-        if (!$this->_person->create())
-        {
+        if (!$this->_person->create()) {
             debug_print_r('We operated on this object:', $this->_person);
             throw new midcom_error('Failed to create a new person. Last Midgard error was: '. midcom_connection::get_error_string());
         }

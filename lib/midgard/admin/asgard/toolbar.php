@@ -29,8 +29,7 @@ class midgard_admin_asgard_toolbar extends midcom_helper_toolbar_view
     {
         $buttons = array();
         // Show view toolbar button, if the user hasn't configured to use straight the edit mode
-        if ($data['default_mode'] === 'view')
-        {
+        if ($data['default_mode'] === 'view') {
             $buttons[] = array
             (
                 MIDCOM_TOOLBAR_URL => $this->_generate_url('view', $object),
@@ -48,11 +47,9 @@ class midgard_admin_asgard_toolbar extends midcom_helper_toolbar_view
             && !is_a($object, 'midcom_db_pageelement')
             && !is_a($object, 'midcom_db_parameter')
             && substr($object->__mgdschema_class_name__, 0, 23) != 'org_routamc_positioning'
-            && substr($object->__mgdschema_class_name__, 0, 14) != 'net_nemein_tag')
-        {
+            && substr($object->__mgdschema_class_name__, 0, 14) != 'net_nemein_tag') {
             $link = midcom::get()->permalinks->resolve_permalink($object->guid);
-            if ($link)
-            {
+            if ($link) {
                 $buttons[] = array
                 (
                     MIDCOM_TOOLBAR_URL => $link,
@@ -62,8 +59,7 @@ class midgard_admin_asgard_toolbar extends midcom_helper_toolbar_view
             }
         }
 
-        if ($object->can_do('midgard:update'))
-        {
+        if ($object->can_do('midgard:update')) {
             $buttons[] = array
             (
                 MIDCOM_TOOLBAR_URL => $this->_generate_url('edit', $object),
@@ -73,8 +69,7 @@ class midgard_admin_asgard_toolbar extends midcom_helper_toolbar_view
             );
         }
 
-        if ($object->can_do('midgard:create'))
-        {
+        if ($object->can_do('midgard:create')) {
             $url = (midcom_helper_reflector_tree::get_child_objects($object)) ? 'copy/tree' : 'copy';
             $buttons[] = array
             (
@@ -84,70 +79,55 @@ class midgard_admin_asgard_toolbar extends midcom_helper_toolbar_view
             );
         }
 
-        if ($object->can_do('midgard:update'))
-        {
+        if ($object->can_do('midgard:update')) {
             $buttons = array_merge($buttons, $this->get_toolbar_update_items($object));
         }
 
-        if ($object->can_do('midgard:create'))
-        {
+        if ($object->can_do('midgard:create')) {
             // Find out what types of children the object can have and show create buttons for them
             $child_types = $data['tree_reflector']->get_child_classes();
-            foreach ($child_types as $type)
-            {
+            foreach ($child_types as $type) {
                 $display_button = true;
-                if (is_a($object, 'midcom_db_topic'))
-                {
+                if (is_a($object, 'midcom_db_topic')) {
                     // With topics we should check for component before populating create buttons as so many types can be children of topics
-                    switch ($type)
-                    {
+                    switch ($type) {
                         case 'midgard_topic':
                         case 'midgard_article':
                             // Articles and topics can always be created
                             break;
                         default:
                             $midcom_dba_classname = midcom::get()->dbclassloader->get_midcom_class_name_for_mgdschema_object($type);
-                            if (!$midcom_dba_classname)
-                            {
+                            if (!$midcom_dba_classname) {
                                 $display_button = false;
                                 break;
                             }
                             $component = midcom::get()->dbclassloader->get_component_for_class($type);
-                            if ($component != $object->component)
-                            {
+                            if ($component != $object->component) {
                                 $display_button = false;
                             }
                             break;
                     }
-                }
-                elseif (is_a($object, 'midcom_db_article'))
-                {
-                    try
-                    {
+                } elseif (is_a($object, 'midcom_db_article')) {
+                    try {
                         $topic = new midcom_db_topic($object->topic);
                         // With articles we should check for topic component before populating create buttons as so many types can be children of topics
-                        switch ($type)
-                        {
+                        switch ($type) {
                             case 'midgard_article':
                                 // Articles can always be created
                                 break;
                             default:
                                 $component = midcom::get()->dbclassloader->get_component_for_class($type);
-                                if ($component != $topic->component)
-                                {
+                                if ($component != $topic->component) {
                                     $display_button = false;
                                 }
                                 break;
                         }
-                    }
-                    catch (midcom_error $e)
-                    {
+                    } catch (midcom_error $e) {
                         $e->log();
                     }
                 }
 
-                if (!$display_button)
-                {
+                if (!$display_button) {
                     // Skip this type
                     continue;
                 }
@@ -161,8 +141,7 @@ class midgard_admin_asgard_toolbar extends midcom_helper_toolbar_view
             }
         }
 
-        if ($object->can_do('midgard:delete'))
-        {
+        if ($object->can_do('midgard:delete')) {
             $buttons[] = array
             (
                 MIDCOM_TOOLBAR_URL => $this->_generate_url('delete', $object),
@@ -174,8 +153,7 @@ class midgard_admin_asgard_toolbar extends midcom_helper_toolbar_view
 
         if (   midcom::get()->config->get('midcom_services_rcs_enable')
             && $object->can_do('midgard:update')
-            && $object->_use_rcs)
-        {
+            && $object->_use_rcs) {
             $buttons[] = array
             (
                 MIDCOM_TOOLBAR_URL => $this->_generate_url('rcs', $object),
@@ -191,8 +169,7 @@ class midgard_admin_asgard_toolbar extends midcom_helper_toolbar_view
 
     private function _disable_active_item($handler_id, $object, array $data)
     {
-        switch ($handler_id)
-        {
+        switch ($handler_id) {
             case '____mfa-asgard-object_view':
                 $this->disable_item($this->_generate_url('view', $object));
                 break;
@@ -238,8 +215,7 @@ class midgard_admin_asgard_toolbar extends midcom_helper_toolbar_view
         $buttons = array();
         if (   is_a($object, 'midcom_db_topic')
             && $object->component
-            && $object->can_do('midcom:component_config'))
-        {
+            && $object->can_do('midcom:component_config')) {
             $buttons[] = array
             (
                 MIDCOM_TOOLBAR_URL => "__mfa/asgard/components/configuration/edit/{$object->component}/{$object->guid}/",
@@ -281,8 +257,7 @@ class midgard_admin_asgard_toolbar extends midcom_helper_toolbar_view
         );
 
         if (   midcom::get()->componentloader->is_installed('midcom.helper.replicator')
-            && midcom::get()->auth->admin)
-        {
+            && midcom::get()->auth->admin) {
             $buttons[] = array
             (
                 MIDCOM_TOOLBAR_URL => "__mfa/asgard_midcom.helper.replicator/object/{$object->guid}/",

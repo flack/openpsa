@@ -7,10 +7,8 @@ midcom::get()->header('Content-Type: text/plain');
 
 // Determine recurrence
 $recurrence = MIDCOM_CRON_MINUTE;
-if (isset($_GET['type']))
-{
-    switch ($_GET['type'])
-    {
+if (isset($_GET['type'])) {
+    switch ($_GET['type']) {
         case 'hour':
             $recurrence = MIDCOM_CRON_HOUR;
             break;
@@ -25,7 +23,6 @@ if (isset($_GET['type']))
 $cron = new midcom_services_cron($recurrence);
 $cron->execute();
 
-if ($ip_sudo)
-{
+if ($ip_sudo) {
     midcom::get()->auth->drop_sudo();
 }

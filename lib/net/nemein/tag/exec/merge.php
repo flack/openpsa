@@ -5,14 +5,10 @@ midcom::get()->auth->require_valid_user();
 
 <?php
 if (   isset($_POST['from'])
-    && isset($_POST['to']))
-{
-    if (net_nemein_tag_handler::merge_tags($_POST['from'], $_POST['to']))
-    {
+    && isset($_POST['to'])) {
+    if (net_nemein_tag_handler::merge_tags($_POST['from'], $_POST['to'])) {
         echo "<p>Successfully merged tag \"{$_POST['from']}\" to \"{$_POST['to']}\"</p>\n";
-    }
-    else
-    {
+    } else {
         echo "<p>Failed to merge tag \"{$_POST['from']}\" to \"{$_POST['to']}\"</p>\n";
     }
 }

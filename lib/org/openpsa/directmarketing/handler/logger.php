@@ -22,8 +22,7 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
      */
     public function _handler_bounce($handler_id, array $args, array &$data)
     {
-        if (empty($_POST['token']))
-        {
+        if (empty($_POST['token'])) {
             throw new midcom_error('Token not present in POST or empty');
         }
         $this->_request_data['update_status'] = array('receipts' => array(), 'members' => array());
@@ -31,8 +30,7 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
         midcom::get()->auth->request_sudo('org.openpsa.directmarketing');
         $ret = $this->_qb_token_receipts($_POST['token']);
         //While in theory we should have only one token lets use foreach just to be sure
-        foreach ($ret as $receipt)
-        {
+        foreach ($ret as $receipt) {
             //Mark receipt as bounced
             debug_add("Found receipt #{$receipt->id}, marking bounced");
             $receipt->bounced = time();
@@ -51,8 +49,7 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
             $qb2->add_constraint('person', '=', $receipt->person);
             $ret2 = $qb2->execute();
 
-            foreach ($ret2 as $member)
-            {
+            foreach ($ret2 as $member) {
                 debug_add("Found member #{$member->id}, marking bounced");
                 $member->orgOpenpsaObtype = org_openpsa_directmarketing_campaign_member_dba::BOUNCED;
                 $this->_request_data['update_status']['members'][$member->guid] = $member->update();
@@ -90,8 +87,7 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
         $qb->add_constraint('orgOpenpsaObtype', '=', $type);
         $ret =  $qb->execute();
         debug_print_r("_qb_token_receipts({$token}) returned", $ret);
-        if (empty($ret))
-        {
+        if (empty($ret)) {
             midcom::get()->auth->drop_sudo();
             throw new midcom_error_notfound("No receipts with token '{$token}' found");
         }
@@ -108,12 +104,10 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
      */
     public function _handler_link($handler_id, array $args, array &$data)
     {
-        if (empty($_POST['token']))
-        {
+        if (empty($_POST['token'])) {
             throw new midcom_error('Token not present in POST or empty');
         }
-        if (empty($_POST['link']))
-        {
+        if (empty($_POST['link'])) {
             throw new midcom_error('Link not present in POST or empty');
         }
 
@@ -121,8 +115,7 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
         $ret = $this->_qb_token_receipts($_POST['token']);
 
         //While in theory we should have only one token lets use foreach just to be sure
-        foreach ($ret as $receipt)
-        {
+        foreach ($ret as $receipt) {
             $this->_create_link_receipt($receipt, $_POST['token'], $_POST['link']);
         }
 
@@ -133,8 +126,7 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
 
     private function _create_link_receipt($receipt, $token, $target)
     {
-        if (!array_key_exists('create_status', $this->_request_data))
-        {
+        if (!array_key_exists('create_status', $this->_request_data)) {
             $this->_request_data['create_status'] = array('receipts' => array(), 'links' => array());
         }
 
@@ -176,32 +168,25 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
      */
     public function _handler_redirect($handler_id, array $args, array &$data)
     {
-        if (empty($args[0]))
-        {
+        if (empty($args[0])) {
             throw new midcom_error('Token empty');
         }
         $this->_request_data['token'] = $args[0];
 
         if (   count($args) == 2
-            && !empty($args[1]))
-        {
+            && !empty($args[1])) {
             //Due to the way browsers handle the URLs this form only works for root pages
             $this->_request_data['target'] = $args[1];
-        }
-        elseif (!empty($_GET['link']))
-        {
+        } elseif (!empty($_GET['link'])) {
             $this->_request_data['target'] = $_GET['link'];
-        }
-        else
-        {
+        } else {
             throw new midcom_error('Target not present in address or GET, or is empty');
         }
 
         //TODO: valid target domains check
 
         //If we have a dummy token don't bother with looking for it, just go on.
-        if ($this->_request_data['token'] === 'dummy')
-        {
+        if ($this->_request_data['token'] === 'dummy') {
             return new midcom_response_relocate($this->_request_data['target']);
         }
 
@@ -209,8 +194,7 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
         $ret = $this->_qb_token_receipts($this->_request_data['token']);
 
         //While in theory we should have only one token lets use foreach just to be sure
-        foreach ($ret as $receipt)
-        {
+        foreach ($ret as $receipt) {
             $this->_create_link_receipt($receipt, $this->_request_data['token'], $this->_request_data['target']);
         }
 

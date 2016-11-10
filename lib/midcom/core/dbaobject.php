@@ -82,47 +82,37 @@ abstract class midcom_core_dbaobject
      */
     public function __construct($id = null)
     {
-        if (is_object($id))
-        {
+        if (is_object($id)) {
             $this->__object = midcom::get()->dbfactory->convert_midcom_to_midgard($id);
-        }
-        else
-        {
+        } else {
             if (   is_string($id)
-                && strlen($id) == 1)
-            {
+                && strlen($id) == 1) {
                 debug_add('Constructing ' . $this->__mgdschema_class_name__ . ' object ' . $id . ' with ID typecast to string. Changing typecast.', MIDCOM_LOG_INFO);
                 $id = (int) $id;
             }
             if (   is_int($id)
-                && $id < 1)
-            {
+                && $id < 1) {
                 throw new midcom_error($id . ' is not a valid database ID');
             }
 
-            try
-            {
+            try {
                 $mgdschemaclass = $this->__mgdschema_class_name__;
                 $this->__object = new $mgdschemaclass($id);
-            }
-            catch (midgard_error_exception $e)
-            {
+            } catch (midgard_error_exception $e) {
                 debug_add('Constructing ' . $this->__mgdschema_class_name__ . ' object ' . $id . ' failed, reason: ' . $e->getMessage(), MIDCOM_LOG_WARN);
                 throw new midcom_error_midgard($e, $id);
             }
 
             //Some useful information for performance tuning
             if (   midcom::get()->config->get('log_level') >= MIDCOM_LOG_DEBUG
-                && $this->__object->guid)
-            {
+                && $this->__object->guid) {
                 static $guids = array();
                 static $total = 0;
 
                 $total++;
 
                 //If the GUID was loaded already, write the appropriate log entry
-                if (array_key_exists($this->__object->guid, $guids))
-                {
+                if (array_key_exists($this->__object->guid, $guids)) {
                     $guids[$this->__object->guid]++;
                     $message = $this->__mgdschema_class_name__ . ' ' . $this->__object->guid;
                     $message .= ' loaded from db ' . $guids[$this->__object->guid] . ' times.';
@@ -130,17 +120,14 @@ abstract class midcom_core_dbaobject
 
                     debug_add($message);
                     debug_add($stats);
-                }
-                else
-                {
+                } else {
                     $guids[$this->__object->guid] = 1;
                 }
             }
         }
 
         if (   $this->__object->guid
-            && mgd_is_guid($this->__object->guid))
-        {
+            && mgd_is_guid($this->__object->guid)) {
             midcom_baseclasses_core_dbobject::post_db_load_checks($this);
         }
     }
@@ -152,15 +139,12 @@ abstract class midcom_core_dbaobject
      */
     public function __get($property)
     {
-        if (null === $this->__object)
-        {
+        if (null === $this->__object) {
             return null;
         }
 
-        if ($property === 'metadata')
-        {
-            if (null === $this->__metadata)
-            {
+        if ($property === 'metadata') {
+            if (null === $this->__metadata) {
                 $this->__metadata = $this->get_metadata();
             }
             return $this->__metadata;
@@ -292,8 +276,7 @@ abstract class midcom_core_dbaobject
      */
     public function purge()
     {
-        if (!$this->__object)
-        {
+        if (!$this->__object) {
             return false;
         }
         return $this->__object->purge();
@@ -506,16 +489,14 @@ abstract class midcom_core_dbaobject
     }
     public function lock()
     {
-        if ($this->__object->is_locked())
-        {
+        if ($this->__object->is_locked()) {
             return true;
         }
         return $this->__object->lock();
     }
     public function unlock()
     {
-        if (!$this->__object->is_locked())
-        {
+        if (!$this->__object->is_locked()) {
             return true;
         }
         return $this->__object->unlock();
@@ -526,12 +507,10 @@ abstract class midcom_core_dbaobject
     }
     public function approve()
     {
-        if ($this->__object->is_approved())
-        {
+        if ($this->__object->is_approved()) {
             return true;
         }
-        if ($this->__object->approve())
-        {
+        if ($this->__object->approve()) {
             midcom::get()->dispatcher->dispatch(dbaevent::APPROVE, new dbaevent($this));
             return true;
         }
@@ -540,12 +519,10 @@ abstract class midcom_core_dbaobject
 
     public function unapprove()
     {
-        if (!$this->__object->is_approved())
-        {
+        if (!$this->__object->is_approved()) {
             return true;
         }
-        if ($this->__object->unapprove())
-        {
+        if ($this->__object->unapprove()) {
             midcom::get()->dispatcher->dispatch(dbaevent::UNAPPROVE, new dbaevent($this));
             return true;
         }
@@ -575,17 +552,13 @@ abstract class midcom_core_dbaobject
     // TODO: Get rid of these
     public function parameter($domain, $name)
     {
-        if (func_num_args() == 2)
-        {
+        if (func_num_args() == 2) {
             return $this->get_parameter($domain, $name);
-        }
-        else
-        {
+        } else {
             $value = func_get_arg(2);
             if (   $value === false
                 || $value === null
-                || $value === '')
-            {
+                || $value === '') {
                 return $this->delete_parameter($domain, $name);
             }
             return $this->set_parameter($domain, $name, $value);
@@ -623,15 +596,12 @@ abstract class midcom_core_dbaobject
 
     private function _delete_dependents()
     {
-        foreach ($this->autodelete_dependents as $classname => $link_property)
-        {
+        foreach ($this->autodelete_dependents as $classname => $link_property) {
             $qb = midcom::get()->dbfactory->new_query_builder($classname);
             $qb->add_constraint($link_property, '=', $this->id);
             $results = $qb->execute();
-            foreach ($results as $result)
-            {
-                if (!$result->delete())
-                {
+            foreach ($results as $result) {
+                if (!$result->delete()) {
                     debug_add('Could not delete dependent ' . $classname . ' #' . $result->id . ', aborting', MIDCOM_LOG_WARN);
                     return false;
                 }
@@ -641,32 +611,83 @@ abstract class midcom_core_dbaobject
     }
 
     // Event handlers
-    public function _on_created() {}
-    public function _on_creating() { return true; }
-    public function _on_deleted() {}
+    public function _on_created()
+    {
+    }
+    public function _on_creating()
+    {
+        return true;
+    }
+    public function _on_deleted()
+    {
+    }
     public function _on_deleting()
     {
         return $this->_delete_dependents();
     }
-    public function _on_loaded() {}
-    public static function _on_prepare_exec_query_builder(&$qb) { return true; }
-    public static function _on_prepare_new_query_builder(&$qb) {}
-    public static function _on_process_query_result(&$result) {}
-    public static function _on_prepare_new_collector(&$mc) {}
-    public static function _on_prepare_exec_collector(&$mc) { return true; }
-    public static function _on_process_collector_result(&$result) {}
-    public function _on_updated() {}
-    public function _on_updating() { return true; }
-    public function _on_imported() {}
-    public function _on_importing() { return true; }
+    public function _on_loaded()
+    {
+    }
+    public static function _on_prepare_exec_query_builder(&$qb)
+    {
+        return true;
+    }
+    public static function _on_prepare_new_query_builder(&$qb)
+    {
+    }
+    public static function _on_process_query_result(&$result)
+    {
+    }
+    public static function _on_prepare_new_collector(&$mc)
+    {
+    }
+    public static function _on_prepare_exec_collector(&$mc)
+    {
+        return true;
+    }
+    public static function _on_process_collector_result(&$result)
+    {
+    }
+    public function _on_updated()
+    {
+    }
+    public function _on_updating()
+    {
+        return true;
+    }
+    public function _on_imported()
+    {
+    }
+    public function _on_importing()
+    {
+        return true;
+    }
 
     // Exec handlers
-    public function __exec_create() { return @$this->__object->create(); }
-    public function __exec_update() { return @$this->__object->update(); }
-    public function __exec_delete() { return @$this->__object->delete(); }
-    public function __exec_get_by_id($id) { return $this->__object->get_by_id($id); }
-    public function __exec_get_by_guid($guid) { return $this->__object->get_by_guid($guid); }
-    public function __exec_get_by_path($path) { return $this->__object->get_by_path($path); }
+    public function __exec_create()
+    {
+        return @$this->__object->create();
+    }
+    public function __exec_update()
+    {
+        return @$this->__object->update();
+    }
+    public function __exec_delete()
+    {
+        return @$this->__object->delete();
+    }
+    public function __exec_get_by_id($id)
+    {
+        return $this->__object->get_by_id($id);
+    }
+    public function __exec_get_by_guid($guid)
+    {
+        return $this->__object->get_by_guid($guid);
+    }
+    public function __exec_get_by_path($path)
+    {
+        return $this->__object->get_by_path($path);
+    }
 
     // functions related to the RCS service.
     public function disable_rcs()

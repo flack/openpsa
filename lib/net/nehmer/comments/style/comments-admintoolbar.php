@@ -6,12 +6,9 @@ $creator = $comment->metadata->creator;
 $created = $comment->metadata->created;
 
 $user = midcom::get()->auth->get_user($creator);
-if ($user)
-{
+if ($user) {
     $username = "{$user->name} ({$user->username})";
-}
-else
-{
+} else {
     $username = $data['l10n_midcom']->get('anonymous');
 }
 $ip = $comment->ip ?: '?.?.?.?';

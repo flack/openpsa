@@ -29,8 +29,7 @@ class midcom_helper_datamanager2_storage_midgard extends midcom_helper_datamanag
     public function __construct($schema, $object)
     {
         parent::__construct($schema);
-        if (!midcom::get()->dbclassloader->is_mgdschema_object($object))
-        {
+        if (!midcom::get()->dbclassloader->is_mgdschema_object($object)) {
             debug_print_r('Object passed:', $object);
             throw new midcom_error('The midgard storage backend requires a MidCOM DBA object.');
         }
@@ -39,13 +38,11 @@ class midcom_helper_datamanager2_storage_midgard extends midcom_helper_datamanag
 
     public function _on_store_data($name, $data)
     {
-        if (is_null($data))
-        {
+        if (is_null($data)) {
             return;
         }
 
-        switch ($this->_schema->fields[$name]['storage']['location'])
-        {
+        switch ($this->_schema->fields[$name]['storage']['location']) {
             case 'parameter':
                 $this->object->set_parameter
                 (
@@ -79,8 +76,7 @@ class midcom_helper_datamanager2_storage_midgard extends midcom_helper_datamanag
                 $fieldname = $this->_schema->fields[$name]['storage']['location'];
                 $helper = new helper;
                 if (   !$helper->property_exists($this->object, $fieldname)
-                    && !$helper->property_exists($this->object->__object, $fieldname))
-                {
+                    && !$helper->property_exists($this->object->__object, $fieldname)) {
                     throw new midcom_error("Missing {$fieldname} field in object: " . get_class($this->object));
                 }
                 $this->object->$fieldname = $data;
@@ -93,11 +89,9 @@ class midcom_helper_datamanager2_storage_midgard extends midcom_helper_datamanag
         // Cache parameter queries so we get them once
         static $loaded_domains = array();
 
-        switch ($this->_schema->fields[$name]['storage']['location'])
-        {
+        switch ($this->_schema->fields[$name]['storage']['location']) {
             case 'parameter':
-                if (!isset($loaded_domains[$this->_schema->fields[$name]['storage']['domain']]))
-                {
+                if (!isset($loaded_domains[$this->_schema->fields[$name]['storage']['domain']])) {
                     // Run the list here so all parameters of the domain go to cache
                     $loaded_domains[$this->_schema->fields[$name]['storage']['domain']] = $this->object->list_parameters($this->_schema->fields[$name]['storage']['domain']);
                 }
@@ -109,8 +103,7 @@ class midcom_helper_datamanager2_storage_midgard extends midcom_helper_datamanag
                 );
 
             case 'configuration':
-                if (!isset($loaded_domains[$this->_schema->fields[$name]['storage']['domain']]))
-                {
+                if (!isset($loaded_domains[$this->_schema->fields[$name]['storage']['domain']])) {
                     // Run the list here so all parameters of the domain go to cache
                     $loaded_domains[$this->_schema->fields[$name]['storage']['domain']] = $this->object->list_parameters($this->_schema->fields[$name]['storage']['domain']);
                 }
@@ -125,8 +118,7 @@ class midcom_helper_datamanager2_storage_midgard extends midcom_helper_datamanag
                 $helper = new helper;
                 if (   !isset($this->object->metadata)
                     || (   !$helper->property_exists($this->object->metadata, $name)
-                        && !$helper->property_exists($this->object->__object->metadata, $name)))
-                {
+                        && !$helper->property_exists($this->object->__object->metadata, $name))) {
                     throw new midcom_error("Missing {$name} metadata field in object: " . get_class($this->object));
                 }
                 return $this->object->metadata->$name;

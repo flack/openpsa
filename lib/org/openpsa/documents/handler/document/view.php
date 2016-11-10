@@ -48,22 +48,17 @@ implements org_openpsa_widgets_grid_provider_client
     {
         $qb = org_openpsa_documents_document_dba::new_query_builder();
 
-        if ($this->_document->nextVersion == 0)
-        {
+        if ($this->_document->nextVersion == 0) {
             $qb->add_constraint('nextVersion', '=', $this->_document->id);
-        }
-        else
-        {
+        } else {
             $qb->add_constraint('nextVersion', '=', $this->_document->nextVersion);
             $qb->add_constraint('metadata.created', '<', gmstrftime('%Y-%m-%d %T', $this->_document->metadata->created));
         }
         $qb->add_constraint('topic', '=', $this->_request_data['directory']->id);
         $qb->add_constraint('orgOpenpsaObtype', '=', org_openpsa_documents_document_dba::OBTYPE_DOCUMENT);
 
-        if (!is_null($field))
-        {
-            if ($field == 'created')
-            {
+        if (!is_null($field)) {
+            if ($field == 'created') {
                 $field = 'metadata.created';
             }
             $qb->add_order($field, $direction);
@@ -88,8 +83,7 @@ implements org_openpsa_widgets_grid_provider_client
         $alt = '';
         $att = $document->load_attachment();
 
-        if ($att)
-        {
+        if ($att) {
             $icon = midcom_helper_misc::get_mime_icon($att->mimetype);
             $alt = $att->name;
             $stats = $att->stat();
@@ -108,8 +102,7 @@ implements org_openpsa_widgets_grid_provider_client
         $entry['index_author'] = '';
         $entry['author'] = '';
 
-        if ($document->author)
-        {
+        if ($document->author) {
             $author = org_openpsa_contacts_person_dba::get_cached($document->author);
             $entry['index_author'] = $author->rname;
             $author_card = org_openpsa_widgets_contact::get($author->guid);
@@ -125,14 +118,12 @@ implements org_openpsa_widgets_grid_provider_client
 
         // if the document doesn't belong to the current topic, we don't
         // show it, because otherwise folder-based permissions would be useless
-        if ($document->topic != $this->_topic->id)
-        {
+        if ($document->topic != $this->_topic->id) {
             throw new midcom_error_notfound("The document '{$guid}' could not be found in this folder.");
         }
 
         // Load the document to datamanager
-        if (!$this->_datamanager->autoset_storage($document))
-        {
+        if (!$this->_datamanager->autoset_storage($document)) {
             debug_print_r('Object to be used was:', $document);
             throw new midcom_error('Failed to initialize the datamanager, see debug level log for more information.');
         }
@@ -161,8 +152,7 @@ implements org_openpsa_widgets_grid_provider_client
      */
     public function _show_versions($handler_id, array &$data)
     {
-        if ($this->_provider->count_rows() == 0)
-        {
+        if ($this->_provider->count_rows() == 0) {
             return;
         }
         $data['grid'] = $this->_provider->get_grid('documents_grid');
@@ -184,12 +174,9 @@ implements org_openpsa_widgets_grid_provider_client
         $this->_request_data['document_versions'] = 0;
         $qb = org_openpsa_documents_document_dba::new_query_builder();
         $qb->add_constraint('topic', '=', $this->_request_data['directory']->id);
-        if ($this->_document->nextVersion == 0)
-        {
+        if ($this->_document->nextVersion == 0) {
             $qb->add_constraint('nextVersion', '=', $this->_document->id);
-        }
-        else
-        {
+        } else {
             $qb->add_constraint('nextVersion', '=', $this->_document->nextVersion);
             $qb->add_constraint('metadata.created', '<', gmstrftime('%Y-%m-%d %T', $this->_document->metadata->created));
         }
@@ -204,8 +191,7 @@ implements org_openpsa_widgets_grid_provider_client
 
         midcom::get()->head->set_pagetitle($this->_document->title);
 
-        if ($this->_document->nextVersion == 0)
-        {
+        if ($this->_document->nextVersion == 0) {
             $this->_populate_toolbar();
         }
 
@@ -216,16 +202,14 @@ implements org_openpsa_widgets_grid_provider_client
 
     private function _populate_toolbar()
     {
-        if ($this->_document->can_do('midgard:update'))
-        {
+        if ($this->_document->can_do('midgard:update')) {
             $workflow = $this->get_workflow('datamanager2');
             $this->_view_toolbar->add_item($workflow->get_button("document/edit/{$this->_document->guid}/", array
             (
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
             )));
         }
-        if ($this->_document->can_do('midgard:delete'))
-        {
+        if ($this->_document->can_do('midgard:delete')) {
             $workflow = $this->get_workflow('delete', array('object' => $this->_document));
             $this->_view_toolbar->add_item($workflow->get_button("document/delete/{$this->_document->guid}/"));
         }
@@ -237,27 +221,22 @@ implements org_openpsa_widgets_grid_provider_client
         $next_version = false;
 
         $qb = org_openpsa_documents_document_dba::new_query_builder();
-        if ($this->_document->nextVersion)
-        {
+        if ($this->_document->nextVersion) {
             $qb->add_constraint('nextVersion', '=', $this->_document->nextVersion);
             $qb->add_constraint('metadata.created', '<', gmstrftime('%Y-%m-%d %T', $this->_document->metadata->created));
-        }
-        else
-        {
+        } else {
             $qb->add_constraint('nextVersion', '=', $this->_document->id);
         }
         $version = $qb->count() + 1;
 
-        if ($version > 1)
-        {
+        if ($version > 1) {
             $qb->add_order('metadata.created', 'DESC');
             $qb->set_limit(1);
             $results = $qb->execute();
             $previous_version = $results[0];
         }
 
-        if ($this->_document->nextVersion != 0)
-        {
+        if ($this->_document->nextVersion != 0) {
             $qb = org_openpsa_documents_document_dba::new_query_builder();
             $qb->begin_group('OR');
             $qb->begin_group('AND');
@@ -276,14 +255,11 @@ implements org_openpsa_widgets_grid_provider_client
             $version_date = $this->_l10n->get_formatter()->datetime($this->_document->metadata->revised);
             $this->add_breadcrumb('document/' . $current_version->guid . '/', $current_version->title);
             $this->add_breadcrumb('', sprintf($this->_l10n->get('version %s (%s)'), $version, $version_date));
-        }
-        else
-        {
+        } else {
             $this->add_breadcrumb('document/' . $this->_document->guid . '/', $this->_document->title);
         }
 
-        if ($next_version)
-        {
+        if ($next_version) {
             $this->_view_toolbar->add_item
             (
                 array
@@ -294,8 +270,7 @@ implements org_openpsa_widgets_grid_provider_client
                 )
              );
         }
-        if ($previous_version)
-        {
+        if ($previous_version) {
             $this->_view_toolbar->add_item
             (
                 array

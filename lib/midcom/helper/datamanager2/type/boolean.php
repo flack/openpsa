@@ -49,12 +49,9 @@ class midcom_helper_datamanager2_type_boolean extends midcom_helper_datamanager2
 
     public function convert_from_storage($source)
     {
-        if ($source === null)
-        {
+        if ($source === null) {
             $this->value = null;
-        }
-        else
-        {
+        } else {
             $this->value = (boolean) $source;
         }
     }
@@ -85,17 +82,14 @@ class midcom_helper_datamanager2_type_boolean extends midcom_helper_datamanager2
      */
     public function convert_to_html()
     {
-        if ($this->value)
-        {
-            if ($this->true_text)
-            {
+        if ($this->value) {
+            if ($this->true_text) {
                 return $this->true_text;
             }
             $src = MIDCOM_STATIC_URL . '/stock-icons/16x16/ok.png';
             return "<img src='{$src}' alt='selected' />";
         }
-        if ($this->false_text)
-        {
+        if ($this->false_text) {
             return $this->false_text;
         }
         $src = MIDCOM_STATIC_URL . '/stock-icons/16x16/cancel.png';

@@ -3,10 +3,9 @@ $history = $data['history'];
 $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 $guid = $data['guid'];
 
-if (count($history) == 0)
-{
-   echo $data['l10n']->get('no revisions exist');
-   return;
+if (count($history) == 0) {
+    echo $data['l10n']->get('no revisions exist');
+    return;
 }
 ?>
 <div class="rcs_navigation">
@@ -31,8 +30,7 @@ echo $data['rcs_toolbar']->render();
             <?php
             $i = 0;
 
-            foreach ($history as $rev => $history)
-            {
+            foreach ($history as $rev => $history) {
                 $i++;
                 echo "                <tr id=\"midgard_admin_asgard_rcs_version_compare_{$i}_row\">\n";
                 echo "                    <td><input id=\"midgard_admin_asgard_rcs_version_compare_{$i}\" type=\"checkbox\" name=\"compare[]\" value=\"{$rev}\" />\n";
@@ -41,12 +39,9 @@ echo $data['rcs_toolbar']->render();
                 echo "                    <td>";
 
                 if (   $history['user']
-                    && $user = midcom::get()->auth->get_user($history['user']))
-                {
+                    && $user = midcom::get()->auth->get_user($history['user'])) {
                     echo $user->get_storage()->name;
-                }
-                elseif ($history['ip'])
-                {
+                } elseif ($history['ip']) {
                     echo $history['ip'];
                 }
                 echo "</td>\n";

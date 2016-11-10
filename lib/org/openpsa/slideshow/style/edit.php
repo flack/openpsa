@@ -14,23 +14,18 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 
 <div id="item_container">
 <?php
-foreach ($data['images'] as $image)
-{
-    try
-    {
+foreach ($data['images'] as $image) {
+    try {
         $attachment = new midcom_db_attachment($image->thumbnail);
         $url = midcom_db_attachment::get_url($attachment);
         $original = new midcom_db_attachment($image->attachment);
         $original_url = midcom_db_attachment::get_url($original);
         $name = $original->name;
-    }
-    catch (midcom_error $e)
-    {
+    } catch (midcom_error $e) {
         $url = MIDCOM_STATIC_URL . '/stock-icons/mime/gnome-text-blank.png';
         $name = $data['l10n']->get('attachment missing');
         $original_url = '';
-    }
-    ?>
+    } ?>
     <div class="entry existing-entry" id="image-&(image.guid);">
       <div class="thumbnail">
         <img src="&(url);" alt="&(name);" data-original-url="&(original_url);" />
@@ -45,7 +40,8 @@ foreach ($data['images'] as $image)
         <span class="description"><textarea rows="3" cols="40" placeholder="<?php echo $data['l10n_midcom']->get('description'); ?>">&(image.description);</textarea></span>
       </div>
     </div>
-<?php } ?>
+<?php 
+} ?>
 
 <div class="entry entry-template">
 <div class="thumbnail">

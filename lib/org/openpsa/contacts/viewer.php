@@ -56,10 +56,8 @@ class org_openpsa_contacts_viewer extends midcom_baseclasses_components_request
         $my_company_guid = $this->_config->get('owner_organization');
 
         if (   empty($my_company_guid)
-            || !mgd_is_guid($my_company_guid))
-        {
-            if (midcom::get()->auth->admin)
-            {
+            || !mgd_is_guid($my_company_guid)) {
+            if (midcom::get()->auth->admin) {
                 midcom::get()->uimessages->add
                 (
                     $this->_l10n->get($this->_component),
@@ -67,14 +65,11 @@ class org_openpsa_contacts_viewer extends midcom_baseclasses_components_request
                     'error'
                 );
             }
-        }
-        else
-        {
+        } else {
             // Figure out if user is from own organization or other org
             $person_user = new midcom_core_user($contact->id);
 
-            if ($person_user->is_in_group("group:{$my_company_guid}"))
-            {
+            if ($person_user->is_in_group("group:{$my_company_guid}")) {
                 return 'employee';
             }
         }
@@ -84,8 +79,7 @@ class org_openpsa_contacts_viewer extends midcom_baseclasses_components_request
 
     public static function add_breadcrumb_path_for_group($group, $handler)
     {
-        if (!is_object($group))
-        {
+        if (!is_object($group)) {
             return;
         }
         $tmp = array();
@@ -96,8 +90,7 @@ class org_openpsa_contacts_viewer extends midcom_baseclasses_components_request
         $tmp[$group->guid] = $group->official;
 
         $parent = $group->get_parent();
-        while ($parent && $parent->id != $root_id)
-        {
+        while ($parent && $parent->id != $root_id) {
             $group = $parent;
             $tmp[$group->guid] = $group->official;
             $parent = $group->get_parent();
@@ -105,8 +98,7 @@ class org_openpsa_contacts_viewer extends midcom_baseclasses_components_request
 
         $tmp = array_reverse($tmp, true);
 
-        foreach ($tmp as $guid => $title)
-        {
+        foreach ($tmp as $guid => $title) {
             $handler->add_breadcrumb('group/' . $guid . '/', $title);
         }
     }

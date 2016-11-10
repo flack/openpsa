@@ -46,8 +46,7 @@ implements midcom_helper_datamanager2_interfaces_create
     public function load_schemadb()
     {
         $this->_schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_campaign'));
-        if (!array_key_exists($this->_schema, $this->_schemadb))
-        {
+        if (!array_key_exists($this->_schema, $this->_schemadb)) {
             throw new midcom_error_notfound('The campaign type ' . $this->_schema . 'isn\'t available in the schemadb');
         }
         return $this->_schemadb;
@@ -61,8 +60,7 @@ implements midcom_helper_datamanager2_interfaces_create
         $this->_campaign = new org_openpsa_directmarketing_campaign_dba();
         $this->_campaign->node = $this->_topic->id;
 
-        if (!$this->_campaign->create())
-        {
+        if (!$this->_campaign->create()) {
             debug_print_r('We operated on this object:', $this->_campaign);
             throw new midcom_error('Failed to create a new campaign. Last Midgard error was: ' . midcom_connection::get_error_string());
         }

@@ -34,8 +34,7 @@ class org_openpsa_products_handler_configuration extends midcom_baseclasses_comp
         $group_qb = org_openpsa_products_product_group_dba::new_query_builder();
         $group_qb->add_constraint('up', '=', $group_id);
         $groups = $group_qb->execute();
-        foreach ($groups as $group)
-        {
+        foreach ($groups as $group) {
             $objects[] = $group;
             $child_objects = $this->_load_objects_group($group->id);
             $objects = array_merge($objects, $child_objects);

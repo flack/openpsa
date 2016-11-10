@@ -29,24 +29,19 @@ class org_routamc_positioning_geocoder_city extends org_routamc_positioning_geoc
             'maxRows' => 1,
         );
 
-        if (!empty($options))
-        {
-            foreach ($options as $key => $value)
-            {
-                if (isset($parameters[$key]))
-                {
+        if (!empty($options)) {
+            foreach ($options as $key => $value) {
+                if (isset($parameters[$key])) {
                     $parameters[$key] = $value;
                 }
             }
         }
 
-        if ($parameters['maxRows'] < 1)
-        {
+        if ($parameters['maxRows'] < 1) {
             $parameters['maxRows'] = 1;
         }
 
-        if (!isset($location['city']))
-        {
+        if (!isset($location['city'])) {
             $this->error = 'POSITIONING_MISSING_ATTRIBUTES';
             return null;
         }
@@ -55,8 +50,7 @@ class org_routamc_positioning_geocoder_city extends org_routamc_positioning_geoc
         $qb = org_routamc_positioning_city_dba::new_query_builder();
         $qb->add_constraint('city', '=', $location['city']);
 
-        if (isset($location['country']))
-        {
+        if (isset($location['country'])) {
             $qb->add_constraint('country', '=', $location['country']);
         }
 
@@ -64,29 +58,25 @@ class org_routamc_positioning_geocoder_city extends org_routamc_positioning_geoc
         $qb->set_limit($parameters['maxRows']);
         $matches = $qb->execute();
 
-        if (count($matches) < 1)
-        {
+        if (count($matches) < 1) {
             // Seek the city entry by alternate names via a LIKE query
             $qb = org_routamc_positioning_city_dba::new_query_builder();
             $qb->add_constraint('alternatenames', 'LIKE', "%|{$location['city']}|%");
 
-            if (isset($location['country']))
-            {
+            if (isset($location['country'])) {
                 $qb->add_constraint('country', '=', $location['country']);
             }
 
             $qb->set_limit($parameters['maxRows']);
             $matches = $qb->execute();
 
-            if (count($matches) < 1)
-            {
+            if (count($matches) < 1) {
                 $this->error = 'POSITIONING_CITY_NOT_FOUND';
                 return null;
             }
         }
 
-        foreach ($matches as $city_entry)
-        {
+        foreach ($matches as $city_entry) {
             $results[] = array
             (
                 'latitude' => $city_entry->latitude,
@@ -122,34 +112,28 @@ class org_routamc_positioning_geocoder_city extends org_routamc_positioning_geoc
             'maxRows' => 1,
         );
 
-        if (!empty($options))
-        {
-            foreach ($options as $key => $value)
-            {
-                if (isset($parameters[$key]))
-                {
+        if (!empty($options)) {
+            foreach ($options as $key => $value) {
+                if (isset($parameters[$key])) {
                     $parameters[$key] = $value;
                 }
             }
         }
 
         if (   !isset($coordinates['latitude'])
-            && !isset($coordinates['longitude']))
-        {
+            && !isset($coordinates['longitude'])) {
             $this->error = 'POSITIONING_MISSING_ATTRIBUTES';
             return null;
         }
 
         $closest = org_routamc_positioning_utils::get_closest('org_routamc_positioning_city_dba', $coordinates, $parameters['maxRows']);
 
-        if (empty($closest))
-        {
+        if (empty($closest)) {
             $this->error = 'POSITIONING_DETAILS_NOT_FOUND';
             return null;
         }
 
-        foreach ($closest as $city)
-        {
+        foreach ($closest as $city) {
             $city_coordinates = array
             (
                 'latitude'  => $city->latitude,

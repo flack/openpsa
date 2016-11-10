@@ -145,8 +145,7 @@ class midcom_services_i18n_l10n
         $this->_language_db = midcom::get()->i18n->get_language_db();
         $this->_fallback_language = midcom::get()->i18n->get_fallback_language();
 
-        if (!isset(self::$_localedb[$this->_library]))
-        {
+        if (!isset(self::$_localedb[$this->_library])) {
             self::$_localedb[$this->_library] = array();
         }
 
@@ -165,11 +164,9 @@ class midcom_services_i18n_l10n
      */
     function flush()
     {
-        foreach ($this->_stringdb as $lang => $table)
-        {
+        foreach ($this->_stringdb as $lang => $table) {
             $file = fopen("{$this->_library_filename}.{$lang}.txt", 'w');
-            if (!$file)
-            {
+            if (!$file) {
                 midcom::get()->uimessages->add("L10N Error", "Failed to open the file '{$this->_library_filename}.{$lang}.txt' for writing.", 'error');
                 debug_add("Failed to open the file '{$this->_library_filename}.{$lang}.txt' for writing.", MIDCOM_LOG_ERROR);
                 return false;
@@ -179,8 +176,7 @@ class midcom_services_i18n_l10n
             fwrite($file, "---VERSION 2.1.0\n");
             fwrite($file, "---LANGUAGE {$lang}\n\n");
 
-            foreach ($table as $key => $translation)
-            {
+            foreach ($table as $key => $translation) {
                 $key = trim($key);
                 $translation = str_replace("\r\n", "\n", trim($translation));
                 fwrite($file, "---STRING {$key}\n");
@@ -202,24 +198,20 @@ class midcom_services_i18n_l10n
         $this->_stringdb[$lang] = array();
         $filename = "{$this->_library_filename}.{$lang}.txt";
 
-        if (midcom::get()->config->get('cache_module_memcache_backend') != 'flatfile')
-        {
+        if (midcom::get()->config->get('cache_module_memcache_backend') != 'flatfile') {
             $stringtable = midcom::get()->cache->memcache->get('L10N', $filename);
-            if (is_array($stringtable))
-            {
+            if (is_array($stringtable)) {
                 $this->_stringdb[$lang] = $stringtable;
                 return;
             }
         }
 
-        if (!empty(midcom::get()->componentloader->manifests[$this->_component_name]->extends))
-        {
+        if (!empty(midcom::get()->componentloader->manifests[$this->_component_name]->extends)) {
             $parent_l10n = new self(midcom::get()->componentloader->manifests[$this->_component_name]->extends, $this->database);
             $this->_stringdb[$lang] = $parent_l10n->get_stringdb($lang);
         }
 
-        if (!file_exists($filename))
-        {
+        if (!file_exists($filename)) {
             return;
         }
 
@@ -227,15 +219,13 @@ class midcom_services_i18n_l10n
 
         // get site-specific l10n
         $component_locale = midcom_helper_misc::get_snippet_content_graceful("conf:/" . $this->_component_name . '/l10n/'. $this->database . '.' . $lang . '.txt');
-        if (!empty($component_locale))
-        {
+        if (!empty($component_locale)) {
             $data = array_merge($data, $this->parse_data(explode("\n", $component_locale), $lang, $component_locale));
         }
 
         $this->_stringdb[$lang] = array_merge($this->_stringdb[$lang], $data);
 
-        if (midcom::get()->config->get('cache_module_memcache_backend') != 'flatfile')
-        {
+        if (midcom::get()->config->get('cache_module_memcache_backend') != 'flatfile') {
             midcom::get()->cache->memcache->put('L10N', $filename, $this->_stringdb[$lang]);
         }
     }
@@ -249,38 +239,31 @@ class midcom_services_i18n_l10n
         $string_data = '';
         $string_key = '';
 
-        foreach ($data as $line => $string)
-        {
+        foreach ($data as $line => $string) {
             // Kill any excess whitespace first.
             $string = trim($string);
 
-            if (!$instring)
-            {
+            if (!$instring) {
                 // outside of a string value
-                if ($string == '')
-                {
+                if ($string == '') {
                     continue;
                 }
-                if (substr($string, 0, 3) == '---')
-                {
+                if (substr($string, 0, 3) == '---') {
                     // this is a command
-                    if (strlen($string) < 4)
-                    {
+                    if (strlen($string) < 4) {
                         $line++; // Array is 0-indexed
                         throw new midcom_error("L10n DB SYNTAX ERROR: An incorrect command was detected at {$filename}:{$line}");
                     }
 
                     $command = preg_replace('/^---(.+?) .+/', '$1', $string);
 
-                    switch ($command)
-                    {
+                    switch ($command) {
                         case '#':
                             // Skip
                             break;
 
                         case 'VERSION':
-                            if ($version != '')
-                            {
+                            if ($version != '') {
                                 $line++; // Array is 0-indexed
                                 throw new midcom_error("L10n DB SYNTAX ERROR: A second VERSION tag has been detected at {$filename}:{$line}");
                             }
@@ -288,8 +271,7 @@ class midcom_services_i18n_l10n
                             break;
 
                         case 'LANGUAGE':
-                            if ($language != '')
-                            {
+                            if ($language != '') {
                                 $line++; // Array is 0-indexed
                                 throw new midcom_error("L10n DB SYNTAX ERROR: A second LANGUAGE tag has been detected at {$filename}:{$line}");
                             }
@@ -306,45 +288,32 @@ class midcom_services_i18n_l10n
                             $line++; // Array is 0-indexed
                             throw new midcom_error("L10n DB SYNTAX ERROR: Unknown command '{$command}' at {$filename}:{$line}");
                     }
-                }
-                else
-                {
+                } else {
                     $line++; // Array is 0-indexed
                     throw new midcom_error("L10n DB SYNTAX ERROR: Invalid line at {$filename}:{$line}");
                 }
-            }
-            else
-            {
+            } else {
                 // Within a string value
-                if ($string == '---STRINGEND')
-                {
+                if ($string == '---STRINGEND') {
                     $instring = false;
                     $stringtable[$string_key] = $string_data;
-                }
-                else
-                {
-                    if ($string_data == '')
-                    {
+                } else {
+                    if ($string_data == '') {
                         $string_data .= $string;
-                    }
-                    else
-                    {
+                    } else {
                         $string_data .= "\n{$string}";
                     }
                 }
             }
         }
 
-        if ($instring)
-        {
+        if ($instring) {
             throw new midcom_error("L10n DB SYNTAX ERROR: String constant exceeds end of file.");
         }
-        if (version_compare($version, $this->_version, "<"))
-        {
+        if (version_compare($version, $this->_version, "<")) {
             throw new midcom_error("L10n DB ERROR: File format version of {$filename} is too old, no update available at the moment.");
         }
-        if ($lang != $language)
-        {
+        if ($lang != $language) {
             throw new midcom_error("L10n DB ERROR: The DB language version {$language} did not match the requested {$lang}.");
         }
 
@@ -361,8 +330,7 @@ class midcom_services_i18n_l10n
      */
     private function _check_for_language($lang)
     {
-        if (!array_key_exists($lang, $this->_stringdb))
-        {
+        if (!array_key_exists($lang, $this->_stringdb)) {
             $this->_load_language($lang);
         }
     }
@@ -373,8 +341,7 @@ class midcom_services_i18n_l10n
      */
     private function _load_all_languages()
     {
-        foreach (array_keys($this->_language_db) as $lang)
-        {
+        foreach (array_keys($this->_language_db) as $lang) {
             $this->_check_for_language($lang);
         }
     }
@@ -410,8 +377,7 @@ class midcom_services_i18n_l10n
      */
     public function set_language($lang)
     {
-        if (!array_key_exists($lang, $this->_language_db))
-        {
+        if (!array_key_exists($lang, $this->_language_db)) {
             debug_add("Language {$lang} not found in the language database.", MIDCOM_LOG_ERROR);
             return false;
         }
@@ -451,8 +417,7 @@ class midcom_services_i18n_l10n
      */
     function string_exists($string, $language = null)
     {
-        if (is_null($language))
-        {
+        if (is_null($language)) {
             $language = $this->_language;
         }
 
@@ -494,18 +459,15 @@ class midcom_services_i18n_l10n
      */
     public function get($string, $language = null)
     {
-        if (is_null($language))
-        {
+        if (is_null($language)) {
             $language = $this->_language;
         }
 
-        if (!$this->string_exists($string, $language))
-        {
+        if (!$this->string_exists($string, $language)) {
             // Go for Fallback
             $language = $this->_fallback_language;
 
-            if (!$this->string_exists($string, $language))
-            {
+            if (!$this->string_exists($string, $language)) {
                 // Nothing found, log is produced by string_exists.
                 return $string;
             }
@@ -537,8 +499,7 @@ class midcom_services_i18n_l10n
     public function get_stringdb($language)
     {
         $this->_check_for_language($language);
-        if (empty($this->_stringdb[$language]))
-        {
+        if (empty($this->_stringdb[$language])) {
             return array();
         }
         return $this->_stringdb[$language];
@@ -582,8 +543,7 @@ class midcom_services_i18n_l10n
         $this->_load_all_languages();
 
         $found_strings = array();
-        foreach ($this->_stringdb as $stringtable)
-        {
+        foreach ($this->_stringdb as $stringtable) {
             $found_strings = array_unique(array_merge(array_keys($stringtable), $found_strings));
         }
         sort($found_strings, SORT_STRING);

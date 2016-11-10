@@ -69,20 +69,17 @@ class org_openpsa_directmarketing_handler_message_message extends midcom_basecla
     {
         $workflow = $this->get_workflow('datamanager2');
         $buttons = array();
-        if ($this->_message->can_do('midgard:update'))
-        {
+        if ($this->_message->can_do('midgard:update')) {
             $buttons[] = $workflow->get_button("message/edit/{$this->_message->guid}/", array
             (
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
             ));
         }
-        if ($this->_message->can_do('midgard:delete'))
-        {
+        if ($this->_message->can_do('midgard:delete')) {
             $delete_workflow = $this->get_workflow('delete', array('object' => $this->_message));
             $buttons[] = $delete_workflow->get_button("message/delete/{$this->_message->guid}/");
         }
-        if ($this->_message->can_do('midgard:update'))
-        {
+        if ($this->_message->can_do('midgard:update')) {
             $buttons[] = $workflow->get_button("message/copy/{$this->_message->guid}/", array
             (
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('copy message'),
@@ -91,8 +88,7 @@ class org_openpsa_directmarketing_handler_message_message extends midcom_basecla
         }
 
         $preview_url = "message/compose/{$this->_message->guid}/";
-        if (!empty(midcom::get()->auth->user->guid))
-        {
+        if (!empty(midcom::get()->auth->user->guid)) {
             $preview_url .= midcom::get()->auth->user->guid . '/';
         }
         $buttons[] = array

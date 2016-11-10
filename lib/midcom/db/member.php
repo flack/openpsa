@@ -20,13 +20,10 @@ class midcom_db_member extends midcom_core_dbaobject
 
     public function get_label()
     {
-        try
-        {
+        try {
             $person = new midcom_db_person($this->uid);
             $grp = new midcom_db_group($this->gid);
-        }
-        catch (midcom_error $e)
-        {
+        } catch (midcom_error $e) {
             $e->log();
             return 'Invalid membership record';
         }
@@ -38,16 +35,12 @@ class midcom_db_member extends midcom_core_dbaobject
      */
     private function _invalidate_person_cache()
     {
-        if (!$this->uid)
-        {
+        if (!$this->uid) {
             return;
         }
-        try
-        {
+        try {
             $person = new midcom_db_person($this->uid);
-        }
-        catch (midcom_error $e)
-        {
+        } catch (midcom_error $e) {
             return;
         }
         midcom::get()->cache->invalidate($person->guid);
@@ -67,8 +60,7 @@ class midcom_db_member extends midcom_core_dbaobject
     {
         // Allow root group membership creation only for admins
         if (   $this->gid == 0
-            && !midcom::get()->auth->admin)
-        {
+            && !midcom::get()->auth->admin) {
             debug_add("Group #0 membership creation only allowed for admins");
             debug_print_function_stack('Forbidden ROOT member creation called from');
             return false;

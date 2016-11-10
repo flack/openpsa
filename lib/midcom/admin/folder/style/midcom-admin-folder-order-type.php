@@ -3,11 +3,9 @@
 <?php
 $count = count($data['navigation_items']);
 
-foreach ($data['navigation_items'] as $i => $item)
-{
+foreach ($data['navigation_items'] as $i => $item) {
     if (   isset($item[MIDCOM_NAV_SORTABLE])
-        && !$item[MIDCOM_NAV_SORTABLE])
-    {
+        && !$item[MIDCOM_NAV_SORTABLE]) {
         continue;
     }
 
@@ -16,8 +14,7 @@ foreach ($data['navigation_items'] as $i => $item)
     $index = $count - $i;
     $style = '';
 
-    if (isset($_GET['ajax']))
-    {
+    if (isset($_GET['ajax'])) {
         $style = ' style="display: none;"';
     }
 
@@ -28,18 +25,15 @@ foreach ($data['navigation_items'] as $i => $item)
     if (   isset($item[MIDCOM_NAV_COMPONENT])
         && $item[MIDCOM_NAV_COMPONENT] !== 'net.nehmer.static'
         && $item[MIDCOM_NAV_COMPONENT] !== 'net.nehmer.blog'
-        && ($tmp = midcom::get()->componentloader->get_component_icon($item[MIDCOM_NAV_COMPONENT], false)))
-    {
+        && ($tmp = midcom::get()->componentloader->get_component_icon($item[MIDCOM_NAV_COMPONENT], false))) {
         $icon = MIDCOM_STATIC_URL . "/{$tmp}";
     }
 
-    if (!$item[MIDCOM_NAV_GUID])
-    {
+    if (!$item[MIDCOM_NAV_GUID]) {
         $icon = MIDCOM_STATIC_URL . "/stock-icons/16x16/script.png";
     }
 
-    if ($icon)
-    {
+    if ($icon) {
         $icon = " style=\"background-image: url('{$icon}');\"";
     }
 

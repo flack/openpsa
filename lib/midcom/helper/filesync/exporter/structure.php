@@ -23,8 +23,7 @@ class midcom_helper_filesync_exporter_structure extends midcom_helper_filesync_e
         $node_array['style_inherit'] = $node->styleInherit;
 
         // Per-component specialties
-        switch ($node->component)
-        {
+        switch ($node->component) {
             case 'net.nehmer.static':
                 $node_array['create_index'] = true;
         }
@@ -40,8 +39,7 @@ class midcom_helper_filesync_exporter_structure extends midcom_helper_filesync_e
         $qb = midcom_db_topic::new_query_builder();
         $qb->add_constraint('up', '=', $node->id);
         $children = $qb->execute();
-        foreach ($children as $child)
-        {
+        foreach ($children as $child) {
             $node_array['nodes'][$child->name] = $this->read_node($child);
         }
 
@@ -64,43 +62,33 @@ class midcom_helper_filesync_exporter_structure extends midcom_helper_filesync_e
     private function draw_array($array, $prefix = '')
     {
         $data = '';
-        foreach ($array as $key => $val)
-        {
+        foreach ($array as $key => $val) {
             $data .= $prefix;
-            if (!is_numeric($key))
-            {
+            if (!is_numeric($key)) {
                 $data .= "'{$key}' => ";
             }
 
-            switch (gettype($val))
-            {
+            switch (gettype($val)) {
                 case 'boolean':
                     $data .= ($val)?'true':'false';
                     break;
                 case 'array':
-                    if (empty($val))
-                    {
+                    if (empty($val)) {
                         $data .= 'array()';
-                    }
-                    else
-                    {
+                    } else {
                         $data .= "array\n{$prefix}(\n" . $this->draw_array($val, "{$prefix}    ") . "{$prefix})";
                     }
                     break;
 
                 default:
-                    if (is_numeric($val))
-                    {
+                    if (is_numeric($val)) {
                         $data .= $val;
-                    }
-                    else
-                    {
+                    } else {
                         $data .= "'" . str_replace("'", "\'", $val) . "'";
                     }
             }
 
             $data .= ",\n";
-
         }
         return $data;
     }

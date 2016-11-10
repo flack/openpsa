@@ -79,12 +79,9 @@ class midcom_services_session
     public function __construct($context = null)
     {
         if (   is_null($context)
-            || is_numeric($context))
-        {
+            || is_numeric($context)) {
             $this->_domain = midcom_core_context::get($context)->get_key(MIDCOM_CONTEXT_COMPONENT);
-        }
-        else
-        {
+        } else {
             $this->_domain = $context;
         }
 

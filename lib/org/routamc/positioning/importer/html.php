@@ -24,10 +24,8 @@ class org_routamc_positioning_importer_html extends org_routamc_positioning_impo
         $qb->add_constraint('domain', '=', 'org.routamc.positioning:html');
         $qb->add_constraint('name', '=', 'icbm_url');
         $accounts = $qb->execute();
-        if (count($accounts) > 0)
-        {
-            foreach ($accounts as $account_param)
-            {
+        if (count($accounts) > 0) {
+            foreach ($accounts as $account_param) {
                 $user = new midcom_db_person($account_param->parentguid);
                 $this->get_icbm_location($user, true);
             }
@@ -39,15 +37,12 @@ class org_routamc_positioning_importer_html extends org_routamc_positioning_impo
         $client = new org_openpsa_httplib();
         $html = $client->get($url);
         $icbm = org_openpsa_httplib_helpers::get_meta_value($html, 'icbm');
-        if (strstr($icbm, ','))
-        {
+        if (strstr($icbm, ',')) {
             $icbm_parts = explode(',', $icbm);
-            if (count($icbm_parts) == 2)
-            {
+            if (count($icbm_parts) == 2) {
                 $latitude = (float) $icbm_parts[0];
                 if (   $latitude > 90
-                    || $latitude < -90)
-                {
+                    || $latitude < -90) {
                     // This is no earth coordinate, my friend
                     $this->error = 'POSITIONING_HTML_INCORRECT_LATITUDE';
                     return null;
@@ -55,8 +50,7 @@ class org_routamc_positioning_importer_html extends org_routamc_positioning_impo
 
                 $longitude = (float) $icbm_parts[1];
                 if (   $longitude > 180
-                    || $longitude < -180)
-                {
+                    || $longitude < -180) {
                     // This is no earth coordinate, my friend
                     $this->error = 'POSITIONING_HTML_INCORRECT_LONGITUDE';
                     return null;
@@ -85,17 +79,14 @@ class org_routamc_positioning_importer_html extends org_routamc_positioning_impo
     {
         $icbm_url = $user->get_parameter('org.routamc.positioning:html', 'icbm_url');
 
-        if ($icbm_url)
-        {
+        if ($icbm_url) {
             $position = $this->_fetch_icbm_position($icbm_url);
 
-            if (is_null($position))
-            {
+            if (is_null($position)) {
                 return null;
             }
 
-            if ($cache)
-            {
+            if ($cache) {
                 $this->import($position, $user->id);
             }
 

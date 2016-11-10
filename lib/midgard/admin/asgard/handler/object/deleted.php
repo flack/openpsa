@@ -28,8 +28,7 @@ class midgard_admin_asgard_handler_object_deleted extends midcom_baseclasses_com
          * this we'd have to loop through all schema types and qb until we find something ...
          */
 
-        if (midcom::get()->auth->admin)
-        {
+        if (midcom::get()->auth->admin) {
             $data['asgard_toolbar']->add_item
             (
                 array

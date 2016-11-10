@@ -45,13 +45,11 @@ class midcom_services_metadata
      */
     function & get_node_metadata($context_id = null)
     {
-        if ($context_id === null)
-        {
+        if ($context_id === null) {
             $context_id = midcom_core_context::get()->id;
         }
 
-        if (!array_key_exists($context_id, $this->_metadata))
-        {
+        if (!array_key_exists($context_id, $this->_metadata)) {
             $this->_create_metadata($context_id);
         }
 
@@ -67,13 +65,11 @@ class midcom_services_metadata
      */
     function & get_view_metadata($context_id = null)
     {
-        if ($context_id === null)
-        {
+        if ($context_id === null) {
             $context_id = midcom_core_context::get()->id;
         }
 
-        if (!array_key_exists($context_id, $this->_metadata))
-        {
+        if (!array_key_exists($context_id, $this->_metadata)) {
             $this->_create_metadata($context_id);
         }
 
@@ -92,8 +88,7 @@ class midcom_services_metadata
         $this->_metadata[$context_id][MIDCOM_METADATA_NODE] = null;
 
         $topic = midcom_core_context::get($context_id)->get_key(MIDCOM_CONTEXT_CONTENTTOPIC);
-        if (!empty($topic->id))
-        {
+        if (!empty($topic->id)) {
             $this->_metadata[$context_id][MIDCOM_METADATA_NODE] = midcom_helper_metadata::retrieve($topic);
         }
     }
@@ -109,15 +104,13 @@ class midcom_services_metadata
         $context = midcom_core_context::get($context_id);
 
         // Append current topic to page class if enabled
-        if (midcom::get()->config->get('page_class_include_component'))
-        {
+        if (midcom::get()->config->get('page_class_include_component')) {
             $page_class .= ' ' . str_replace('.', '_', $context->get_key(MIDCOM_CONTEXT_COMPONENT));
         }
 
         // Append a custom class from topic to page class
         $topic_class = $context->get_key(MIDCOM_CONTEXT_CONTENTTOPIC)->get_parameter('midcom.services.metadata', 'page_class');
-        if (!empty($topic_class))
-        {
+        if (!empty($topic_class)) {
             $page_class .= " {$topic_class}";
         }
 
@@ -134,8 +127,7 @@ class midcom_services_metadata
     {
         $context = midcom_core_context::get($context_id);
 
-        if (array_key_exists($context->id, $this->_page_classes))
-        {
+        if (array_key_exists($context->id, $this->_page_classes)) {
             return $this->_page_classes[$context->id];
         }
         return 'default';
@@ -155,34 +147,29 @@ class midcom_services_metadata
     public function get_object_classes($object, $existing_classes = null)
     {
         $css_classes = array();
-        if (!is_null($existing_classes))
-        {
+        if (!is_null($existing_classes)) {
             $css_classes[] = $existing_classes;
         }
 
         // Approval attributes
         if (   midcom::get()->config->get('metadata_approval')
-            && !$object->metadata->is_approved())
-        {
+            && !$object->metadata->is_approved()) {
             $css_classes[] = 'unapproved';
         }
 
         // Hiding and scheduling attributes
         if (   (   !midcom::get()->config->get('show_hidden_objects')
                 || midcom::get()->config->get('metadata_scheduling'))
-            && !$object->metadata->is_visible())
-        {
+            && !$object->metadata->is_visible()) {
             $css_classes[] = 'hidden';
         }
 
         // Folder's class
-        if ($page_class = $object->get_parameter('midcom.services.metadata', 'page_class'))
-        {
+        if ($page_class = $object->get_parameter('midcom.services.metadata', 'page_class')) {
             $css_classes[] = $page_class;
         }
 
-        if (empty($css_classes))
-        {
+        if (empty($css_classes)) {
             return '';
         }
 
@@ -207,16 +194,14 @@ class midcom_services_metadata
         $context = midcom_core_context::get($context_id);
 
         $this->_metadata[$context->id][$metadata_type] = midcom_helper_metadata::retrieve($object);
-        if (!$this->_metadata[$context->id][$metadata_type])
-        {
+        if (!$this->_metadata[$context->id][$metadata_type]) {
             return;
         }
 
         // Update request metadata if appropriate
         $request_metadata = $this->get_request_metadata($context);
         $edited = $this->_metadata[$context->id][$metadata_type]->get('revised');
-        if ($edited > $request_metadata['lastmodified'])
-        {
+        if ($edited > $request_metadata['lastmodified']) {
             $this->set_request_metadata($edited, $request_metadata['permalinkguid']);
         }
     }
@@ -251,8 +236,7 @@ class midcom_services_metadata
         );
 
         // Last revision time for the entire page
-        if ($request_metadata['lastmodified'])
-        {
+        if ($request_metadata['lastmodified']) {
             midcom::get()->head->add_meta_head
             (
                 array
@@ -264,15 +248,11 @@ class midcom_services_metadata
         }
 
         // If an object has been bound we have more information available
-        if ($view_metadata = $this->get_view_metadata())
-        {
-            foreach (midcom::get()->config->get('metadata_head_elements') as $property => $metatag)
-            {
-                if ($content = $view_metadata->get($property))
-                {
+        if ($view_metadata = $this->get_view_metadata()) {
+            foreach (midcom::get()->config->get('metadata_head_elements') as $property => $metatag) {
+                if ($content = $view_metadata->get($property)) {
                     // Handle date fields
-                    switch ($property)
-                    {
+                    switch ($property) {
                         case 'published':
                         case 'created':
                         case 'revised':
@@ -294,13 +274,11 @@ class midcom_services_metadata
             }
             // TODO: Add support for tags here
 
-            if (midcom::get()->config->get('metadata_opengraph'))
-            {
+            if (midcom::get()->config->get('metadata_opengraph')) {
                 $this->_add_opengraph_metadata($view_metadata);
             }
 
-            if (midcom::get()->config->get('positioning_enable'))
-            {
+            if (midcom::get()->config->get('positioning_enable')) {
                 // Display position metadata
                 $object_position = new org_routamc_positioning_object($view_metadata->object);
                 $object_position->set_metadata();
@@ -312,8 +290,7 @@ class midcom_services_metadata
     {
         $opengraph_type = $view_metadata->object->get_parameter('midcom.helper.metadata', 'opengraph_type');
         if (   $opengraph_type
-            && $opengraph_type != 'none')
-        {
+            && $opengraph_type != 'none') {
             $request_metadata = $this->get_request_metadata();
 
             midcom::get()->head->add_meta_head
@@ -341,8 +318,7 @@ class midcom_services_metadata
                 )
             );
             $opengraph_image = $view_metadata->object->get_parameter('midcom.helper.metadata', 'opengraph_image');
-            if (mgd_is_guid($opengraph_image))
-            {
+            if (mgd_is_guid($opengraph_image)) {
                 midcom::get()->head->add_meta_head
                 (
                     array
@@ -371,8 +347,7 @@ class midcom_services_metadata
      */
     public function get_opengraph_types()
     {
-        if (!midcom::get()->config->get('metadata_opengraph'))
-        {
+        if (!midcom::get()->config->get('metadata_opengraph')) {
             return array();
         }
 
@@ -426,24 +401,20 @@ class midcom_services_metadata
      */
     public function get_opengraph_type_default($object = null)
     {
-        if (!midcom::get()->config->get('metadata_opengraph'))
-        {
+        if (!midcom::get()->config->get('metadata_opengraph')) {
             return '';
         }
 
-        if (!$object)
-        {
+        if (!$object) {
             // No object given, use object bound to view
             $context_id = midcom_core_context::get()->id;
-            if (empty($this->_metadata[$context_id][MIDCOM_METADATA_VIEW]))
-            {
+            if (empty($this->_metadata[$context_id][MIDCOM_METADATA_VIEW])) {
                 return '';
             }
             $object = $this->_metadata[$context_id][MIDCOM_METADATA_VIEW]->object;
         }
 
-        if (empty($object->guid))
-        {
+        if (empty($object->guid)) {
             // Non-persistent or non-Midgard object
             return '';
         }
@@ -451,14 +422,12 @@ class midcom_services_metadata
         $component = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_COMPONENT);
         if (   !$component
             || !midcom::get()->componentloader->is_installed($component)
-            || !midcom::get()->componentloader->load_graceful($component))
-        {
+            || !midcom::get()->componentloader->load_graceful($component)) {
             return '';
         }
 
         $interface = midcom::get()->componentloader->get_interface_class($component);
-        if (!method_exists($interface, 'get_opengraph_default'))
-        {
+        if (!method_exists($interface, 'get_opengraph_default')) {
             return '';
         }
 
@@ -476,8 +445,7 @@ class midcom_services_metadata
     public function set_request_metadata($lastmodified, $permalinkguid)
     {
         if (   is_object($lastmodified)
-            && is_a($lastmodified, 'midgard_datetime'))
-        {
+            && is_a($lastmodified, 'midgard_datetime')) {
             // Midgard2 compatibility
             $lastmodified = $lastmodified->format('U');
         }
@@ -498,8 +466,7 @@ class midcom_services_metadata
      */
     public function get_request_metadata(midcom_core_context $context = null)
     {
-        if ($context === null)
-        {
+        if ($context === null) {
             $context = midcom_core_context::get();
         }
         $meta = array
@@ -510,8 +477,7 @@ class midcom_services_metadata
         );
 
         if (   is_object($meta['lastmodified'])
-            && is_a($meta['lastmodified'], 'midgard_datetime'))
-        {
+            && is_a($meta['lastmodified'], 'midgard_datetime')) {
             // Midgard2 compatibility
             $meta['lastmodified'] = $meta['lastmodified']->format('U');
         }

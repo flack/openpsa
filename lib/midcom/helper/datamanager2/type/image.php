@@ -204,14 +204,12 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
 
     function imagemagick_available($raise_uimessage = false)
     {
-        if (!$this->_config->get('verify_imagemagick'))
-        {
+        if (!$this->_config->get('verify_imagemagick')) {
             return true;
         }
 
         $ret = midcom_helper_imagefilter::imagemagick_available();
-        if (!$ret && $raise_uimessage)
-        {
+        if (!$ret && $raise_uimessage) {
             midcom::get()->uimessages->add($this->_l10n->get('midcom.helper.datamanager2'), 'ImageMagick is required but seems not to be available, image fields may be disabled', 'error');
         }
 
@@ -223,8 +221,7 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
      */
     public function recreate()
     {
-        if (!array_key_exists('original', $this->attachments))
-        {
+        if (!array_key_exists('original', $this->attachments)) {
             // Allow main image only be recreated if we have original stored
             debug_add("Image {$this->name} has no 'original' image, recreating derived images only.", MIDCOM_LOG_INFO);
             return $this->recreate_derived_images();
@@ -240,8 +237,7 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
     {
         if (   !$this->_prepare_recreate()
             || !$this->_auto_convert_to_web_type()
-            || !$this->_save_image('main', $this->filter_chain))
-        {
+            || !$this->_save_image('main', $this->filter_chain)) {
             return false;
         }
         return $this->recreate_derived_images(false);
@@ -252,8 +248,7 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
      */
     function recreate_derived_images($force_prepare = true)
     {
-        if (!$this->_prepare_recreate($force_prepare))
-        {
+        if (!$this->_prepare_recreate($force_prepare)) {
             return false;
         }
         // Call the appropriate methods
@@ -261,8 +256,7 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
         $ret = $this->_save_derived_images();
         unlink ($this->_original_tmpname);
         // Clear up all attachments no longer in use
-        if ($ret)
-        {
+        if ($ret) {
             unset($this->_pending_attachments['main']);
             $this->_clean_pending_attachments();
         }
@@ -277,35 +271,27 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
         if (   (   !empty($this->auto_thumbnail)
                 || !empty($this->filter_chain)
                 || !empty($this->derived_images))
-            && !$this->imagemagick_available())
-        {
+            && !$this->imagemagick_available()) {
             throw new midcom_error( 'DM2 type image requires ImageMagick for manipulation operations, see debug log for details');
         }
 
         if (   !empty($this->_original_tmpname)
-            && !$force)
-        {
+            && !$force) {
             // We have prepared.
             return true;
         }
-        if (array_key_exists('original', $this->attachments))
-        {
+        if (array_key_exists('original', $this->attachments)) {
             // Copy original as original
             $att = $this->attachments['original'];
-        }
-        elseif (array_key_exists('main', $this->attachments))
-        {
+        } elseif (array_key_exists('main', $this->attachments)) {
             // Copy main as original
             $att = $this->attachments['main'];
-        }
-        else
-        {
+        } else {
             return false;
         }
         $this->_filter = new midcom_helper_imagefilter($att);
         $this->_pending_attachments = $this->attachments;
-        if ($this->keep_original)
-        {
+        if ($this->keep_original) {
             unset($this->_pending_attachments['original']);
         }
 
@@ -322,8 +308,7 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
      */
     function rotate($direction)
     {
-        switch (strtolower($direction))
-        {
+        switch (strtolower($direction)) {
             case 'left':
                 // PONDER: shouldn't this be -90 ??
                 $filter = 'rotate(270)';
@@ -346,14 +331,11 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
      */
     function apply_filter_all($filter)
     {
-        foreach (array_keys($this->attachments) as $identifier)
-        {
-            if ($identifier === 'original')
-            {
+        foreach (array_keys($this->attachments) as $identifier) {
+            if ($identifier === 'original') {
                 continue;
             }
-            if (!$this->apply_filter($identifier, $filter))
-            {
+            if (!$this->apply_filter($identifier, $filter)) {
                 debug_add("Failed to apply filter '{$filter}' to image '{$identifier}', aborting", MIDCOM_LOG_ERROR);
                 return false;
             }
@@ -370,31 +352,25 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
      */
     function apply_filter($identifier, $filterchain)
     {
-        if (!$this->imagemagick_available())
-        {
+        if (!$this->imagemagick_available()) {
             return false;
         }
 
-        if (!array_key_exists($identifier, $this->attachments))
-        {
+        if (!array_key_exists($identifier, $this->attachments)) {
             debug_add("identifier '{$identifier}' not found", MIDCOM_LOG_ERROR);
             return false;
         }
 
         $filter = new midcom_helper_imagefilter($this->attachments[$identifier]);
-        try
-        {
+        try {
             $filter->process_chain($filterchain);
-        }
-        catch (midcom_error $e)
-        {
+        } catch (midcom_error $e) {
             midcom::get()->uimessages->add('midcom.helper.imagefilter', $e->getMessage(), 'error');
             $e->log();
             return false;
         }
 
-        if (!$filter->write($this->attachments[$identifier]))
-        {
+        if (!$filter->write($this->attachments[$identifier])) {
             debug_add("Failed to update image '{$identifier}', aborting", MIDCOM_LOG_ERROR);
             return false;
         }
@@ -434,13 +410,11 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
         if (   (   !empty($this->auto_thumbnail)
                 || !empty($this->filter_chain)
                 || !empty($this->derived_images))
-            && !$this->imagemagick_available())
-        {
+            && !$this->imagemagick_available()) {
             throw new midcom_error( 'DM2 type image requires ImageMagick for manipulation operations, see debug log for details');
         }
 
-        if (empty($filename))
-        {
+        if (empty($filename)) {
             debug_add("filename must not be empty", MIDCOM_LOG_ERROR);
             return false;
         }
@@ -448,12 +422,9 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
         // Ensure that the filename is URL safe and contains only one extension
         $filename = midcom_db_attachment::safe_filename($filename, true);
 
-        if ($force_pending_attachments === false)
-        {
+        if ($force_pending_attachments === false) {
             $this->_pending_attachments = $this->attachments;
-        }
-        else
-        {
+        } else {
             $this->_pending_attachments = $force_pending_attachments;
         }
 
@@ -466,16 +437,14 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
         // 1st step: original image storage and auto-conversion
         if (   !$this->_save_original()
             || !$this->_filter->set_file($tmpname)
-            || !$this->_auto_convert_to_web_type())
-        {
+            || !$this->_auto_convert_to_web_type()) {
             // TODO: Raise uimessage
 
             debug_add("Failed to process the conversion batch 1 (save original & web conversion) for the uploaded file {$filename} in {$tmpname}, aborting type processing.",
                 MIDCOM_LOG_ERROR);
 
             // Clean up (but only if we're not called by the images child class [or anyone else using the force_pending_attachments -argument)
-            if ($force_pending_attachments === false)
-            {
+            if ($force_pending_attachments === false) {
                 $this->delete_all_attachments();
             }
 
@@ -484,16 +453,14 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
         $this->_add_thumbnail_to_derived_images();
         // Prepare all other images
         if (   !$this->_save_image('main', $this->filter_chain)
-            || !$this->_save_derived_images())
-        {
+            || !$this->_save_derived_images()) {
             // TODO: Raise uimessage
 
             debug_add("Failed to process the conversion batch 2 (derived images) for the uploaded file {$filename} in {$tmpname}, aborting type processing.",
                 MIDCOM_LOG_ERROR);
 
             // Clean up (but only if we're not called by the images child class [or anyone else using the force_pending_attachments -argument)
-            if ($force_pending_attachments === false)
-            {
+            if ($force_pending_attachments === false) {
                 $this->delete_all_attachments();
             }
 
@@ -508,8 +475,7 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
 
     protected function _clean_pending_attachments()
     {
-        foreach (array_keys($this->_pending_attachments) as $identifier)
-        {
+        foreach (array_keys($this->_pending_attachments) as $identifier) {
             $this->delete_attachment($identifier);
         }
     }
@@ -521,8 +487,7 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
      */
     protected function _add_thumbnail_to_derived_images()
     {
-        if ($this->auto_thumbnail)
-        {
+        if ($this->auto_thumbnail) {
             $this->derived_images['thumbnail'] = "resize({$this->auto_thumbnail[0]},{$this->auto_thumbnail[1]})";
         }
     }
@@ -535,10 +500,8 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
      */
     protected function _save_derived_images()
     {
-        foreach ($this->derived_images as $identifier => $filter_chain)
-        {
-            if (!$this->_save_image($identifier, $filter_chain))
-            {
+        foreach ($this->derived_images as $identifier => $filter_chain) {
+            if (!$this->_save_image($identifier, $filter_chain)) {
                 return false;
             }
         }
@@ -555,26 +518,18 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
      */
     protected function _save_image($identifier, $filter_chain, $is_original = false)
     {
-        if ($is_original)
-        {
+        if ($is_original) {
             $tmpname = $this->_original_tmpname;
-        }
-        else
-        {
+        } else {
             $tmpname = $this->_filter->create_tmp_copy($this->_original_tmpname);
-            if (!$this->_filter->set_file($tmpname))
-            {
+            if (!$this->_filter->set_file($tmpname)) {
                 return false;
             }
             // Filter if necessary.
-            if ($filter_chain)
-            {
-                try
-                {
+            if ($filter_chain) {
+                try {
                     $this->_filter->process_chain($filter_chain);
-                }
-                catch (midcom_error $e)
-                {
+                } catch (midcom_error $e) {
                     midcom::get()->uimessages->add('midcom.helper.imagefilter', $e->getMessage(), 'error');
                     $e->log();
                     return false;
@@ -584,13 +539,11 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
 
         $filename = $this->_filename;
         $blob_identifier = $identifier;
-        if ($identifier !== 'main')
-        {
+        if ($identifier !== 'main') {
             $filename = $identifier . '_' . $filename;
         }
         $title = $this->title;
-        if (isset($this->_identifier))
-        {
+        if (isset($this->_identifier)) {
             // we come from the image*s* type
             $blob_identifier = $this->_identifier . $identifier;
             $title = $this->_title;
@@ -598,13 +551,11 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
 
         $guesser = new FileBinaryMimeTypeGuesser;
         $mimetype = $guesser->guess($tmpname);
-        if (array_key_exists($identifier, $this->_pending_attachments))
-        {
+        if (array_key_exists($identifier, $this->_pending_attachments)) {
             unset($this->_pending_attachments[$identifier]);
             return $this->update_attachment($blob_identifier, $filename, $title, $mimetype, $tmpname, false);
         }
-        if (isset($this->_attachment_map))
-        {
+        if (isset($this->_attachment_map)) {
             $this->_attachment_map[$blob_identifier] = array($this->_identifier, $identifier);
         }
         return $this->add_attachment($blob_identifier, $filename, $title, $mimetype, $tmpname, false);
@@ -617,8 +568,7 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
      */
     protected function _save_original()
     {
-        if (!$this->keep_original)
-        {
+        if (!$this->keep_original) {
             return true;
         }
         return $this->_save_image('original', '', true);
@@ -640,8 +590,7 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
     {
         $guesser = new FileBinaryMimeTypeGuesser;
         $original_mimetype = $guesser->guess($this->_filter->get_file());
-        switch ($original_mimetype)
-        {
+        switch ($original_mimetype) {
             case 'image/png':
             case 'image/gif':
             case 'image/jpeg':
@@ -659,24 +608,19 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
         }
         debug_add('convert ' . $original_mimetype . ' to ' . $conversion);
 
-        if (!$this->imagemagick_available())
-        {
+        if (!$this->imagemagick_available()) {
             throw new midcom_error('DM2 type image requires ImageMagick for manipulation operations, see debug log for details');
         }
 
         // Prevent double .jpg.jpg in case of trouble file the get_mimetype()
-        if (!preg_match("/\.{$conversion}$/", $this->_filename))
-        {
+        if (!preg_match("/\.{$conversion}$/", $this->_filename)) {
             // Make sure there is only one extension on the file ??
             $this->_filename = midcom_db_attachment::safe_filename($this->_filename . ".{$conversion}", true);
         }
 
-        try
-        {
+        try {
             $this->_filter->convert($conversion);
-        }
-        catch (midcom_error $e)
-        {
+        } catch (midcom_error $e) {
             $e->log();
             return false;
         }
@@ -691,8 +635,7 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
     {
         parent::convert_from_storage($source);
 
-        if (array_key_exists('main', $this->attachments))
-        {
+        if (array_key_exists('main', $this->attachments)) {
             $this->title = $this->attachments['main']->title;
         }
     }
@@ -702,12 +645,9 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
      */
     public function convert_to_storage()
     {
-        if ($this->_instance_mode === 'single' && !empty($this->title))
-        {
-            foreach ($this->attachments as $identifier => $copy)
-            {
-                if ($copy->title === $this->title)
-                {
+        if ($this->_instance_mode === 'single' && !empty($this->title)) {
+            foreach ($this->attachments as $identifier => $copy) {
+                if ($copy->title === $this->title) {
                     continue;
                 }
                 $this->update_attachment_title($identifier, $this->title);
@@ -733,38 +673,26 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
         $result = '';
 
         // Use either main or original image
-        if (isset($this->attachments_info['main']))
-        {
+        if (isset($this->attachments_info['main'])) {
             $main = $this->attachments_info['main'];
-        }
-        elseif (isset($this->attachments_info['original']))
-        {
+        } elseif (isset($this->attachments_info['original'])) {
             $main = $this->attachments_info['original'];
-        }
-        else
-        {
+        } else {
             return $result;
         }
 
-        switch ($this->output_mode)
-        {
+        switch ($this->output_mode) {
             case 'html':
-                if (!empty($main['description']))
-                {
+                if (!empty($main['description'])) {
                     $title = $main['description'];
-                }
-                else
-                {
+                } else {
                     $title = $main['filename'];
                 }
 
-                if (array_key_exists('thumbnail', $this->attachments_info))
-                {
+                if (array_key_exists('thumbnail', $this->attachments_info)) {
                     $thumb = $this->attachments_info['thumbnail'];
                     $result .= "<a href=\"{$main['url']}\"><img src=\"{$thumb['url']}\" {$thumb['size_line']} alt=\"{$title}\" title=\"{$title}\" /></a>";
-                }
-                else
-                {
+                } else {
                     $result .= "<img src=\"{$main['url']}\" {$main['size_line']} alt=\"{$title}\" title=\"{$title}\" />";
                 }
                 break;
@@ -773,8 +701,7 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
             case 'array':
                 $result = $main;
 
-                if (array_key_exists('thumbnail', $this->attachments_info))
-                {
+                if (array_key_exists('thumbnail', $this->attachments_info)) {
                     $result['thumbnail'] = $this->attachments_info['thumbnail'];
                 }
 
@@ -790,16 +717,14 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
      */
     public function validate()
     {
-        if ($this->_validation_done)
-        {
+        if ($this->_validation_done) {
             return empty($this->validation_error);
         }
         $this->validation_error = "";
         $this->_validation_done = true;
 
         // if no file was uploaded, there is nothing to validate
-        if (is_null($this->uploaded_file))
-        {
+        if (is_null($this->uploaded_file)) {
             return true;
         }
 
@@ -807,26 +732,22 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
 
         // use the imagefilters identify in order to check if its a valid image that might be converted
         $filter = new midcom_helper_imagefilter();
-        if (!$filter->identify($file["tmp_name"]))
-        {
+        if (!$filter->identify($file["tmp_name"])) {
             $this->validation_error = $this->_l10n->get('unsupported image format');
             return false;
         }
 
         // check filesize
-        if (!is_null($this->max_filesize))
-        {
+        if (!is_null($this->max_filesize)) {
             $filesize_kb = ($file["size"] / 1024); // filesize in byte
-            if ($filesize_kb > $this->max_filesize)
-            {
+            if ($filesize_kb > $this->max_filesize) {
                 $this->validation_error = $this->_l10n->get('upload max filesize exceeded');
                 return false;
             }
         }
 
         // we might get malicious upload, check it before further processing
-        if (!$this->file_sanity_checks($file["tmp_name"]))
-        {
+        if (!$this->file_sanity_checks($file["tmp_name"])) {
             $this->validation_error = $this->_l10n->get('sanity check failed');
             return false;
         }

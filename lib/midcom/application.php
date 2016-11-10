@@ -206,13 +206,11 @@ class midcom_application
     {
         debug_add("Dynamic load of URL {$url}");
 
-        if (substr($url, -5) == '.html')
-        {
+        if (substr($url, -5) == '.html') {
             $url = substr($url, 0, -5);
         }
 
-        if ($this->_status < MIDCOM_STATUS_CONTENT)
-        {
+        if ($this->_status < MIDCOM_STATUS_CONTENT) {
             throw new midcom_error("dynamic_load content request called before content output phase.");
         }
 
@@ -221,8 +219,7 @@ class midcom_application
         $oldcontext = midcom_core_context::get();
         $context = new midcom_core_context(null, $oldcontext->get_key(MIDCOM_CONTEXT_ROOTTOPIC));
         $uri = midcom_connection::get_url('self') . $url;
-        if ($pass_get)
-        {
+        if ($pass_get) {
             // Include GET parameters into cache URL
             $uri .= '?GET=' . serialize($_GET);
         }
@@ -230,8 +227,7 @@ class midcom_application
 
         $context->set_current();
         /* "content-cache" for DLs, check_hit */
-        if ($this->cache->content->check_dl_hit($context->id, $config))
-        {
+        if ($this->cache->content->check_dl_hit($context->id, $config)) {
             // The check_hit method serves cached content on hit
             return $context->id;
         }
@@ -243,8 +239,7 @@ class midcom_application
 
         $this->_process($context);
 
-        if ($this->_status == MIDCOM_STATUS_ABORT)
-        {
+        if ($this->_status == MIDCOM_STATUS_ABORT) {
             debug_add("Dynamic load _process() phase ended up with 404 Error. Aborting...", MIDCOM_LOG_ERROR);
 
             // Leave Context
@@ -317,17 +312,14 @@ class midcom_application
         $resolver = new midcom_core_resolver($context);
         $handler = $resolver->process();
 
-        if (false === $handler)
-        {
+        if (false === $handler) {
             /**
              * Simple: if current context is not '0' we were called from another context.
              * If so we should not break application now - just gracefully continue.
              */
-            if ($context->id == 0)
-            {
+            if ($context->id == 0) {
                 // We couldn't fetch a node due to access restrictions
-                if (midcom_connection::get_error() == MGD_ERR_ACCESS_DENIED)
-                {
+                if (midcom_connection::get_error() == MGD_ERR_ACCESS_DENIED) {
                     throw new midcom_error_forbidden($this->i18n->get_string('access denied', 'midcom'));
                 }
                 throw new midcom_error_notfound("This page is not available on this server.");
@@ -354,8 +346,7 @@ class midcom_application
 
         // Enter Context
         $oldcontext = midcom_core_context::get();
-        if ($oldcontext->id != $context->id)
-        {
+        if ($oldcontext->id != $context->id) {
             debug_add("Entering Context {$context->id} (old Context: {$oldcontext->id})");
             $context->set_current();
         }
@@ -363,8 +354,7 @@ class midcom_application
         $context->send($include_template);
 
         // Leave Context
-        if ($oldcontext->id != $context->id)
-        {
+        if ($oldcontext->id != $context->id) {
             debug_add("Leaving Context {$context->id} (new Context: {$oldcontext->id})");
             $oldcontext->set_current();
         }
@@ -382,27 +372,21 @@ class midcom_application
      */
     function get_host_name()
     {
-        if (!$this->_cached_host_name)
-        {
+        if (!$this->_cached_host_name) {
             if (   array_key_exists("SSL_PROTOCOL", $_SERVER)
                 ||
                    (   array_key_exists('HTTPS', $_SERVER)
                     && $_SERVER['HTTPS'] == 'on')
-                || $_SERVER["SERVER_PORT"] == 443)
-            {
+                || $_SERVER["SERVER_PORT"] == 443) {
                 $protocol = "https";
-            }
-            else
-            {
+            } else {
                 $protocol = "http";
             }
 
             $port = "";
-            if (strpos($_SERVER['SERVER_NAME'], ':') === false)
-            {
+            if (strpos($_SERVER['SERVER_NAME'], ':') === false) {
                 if (   ($protocol == "http" && $_SERVER["SERVER_PORT"] != 80)
-                    || ($protocol == "https" && $_SERVER["SERVER_PORT"] != 443))
-                {
+                    || ($protocol == "https" && $_SERVER["SERVER_PORT"] != 443)) {
                     $port = ":" . $_SERVER["SERVER_PORT"];
                 }
             }
@@ -425,8 +409,7 @@ class midcom_application
      */
     function get_page_prefix()
     {
-        if (!$this->_cached_page_prefix)
-        {
+        if (!$this->_cached_page_prefix) {
             $host_name = $this->get_host_name();
             $this->_cached_page_prefix = $host_name . midcom_connection::get_url('self');
         }
@@ -446,22 +429,16 @@ class midcom_application
      */
     function get_host_prefix()
     {
-        if (!$this->_cached_host_prefix)
-        {
+        if (!$this->_cached_host_prefix) {
             $host_name = $this->get_host_name();
             $host_prefix = midcom_connection::get_url('prefix');
-            if ($host_prefix == '')
-            {
+            if ($host_prefix == '') {
                 $host_prefix = '/';
-            }
-            elseif ($host_prefix != '/')
-            {
-                if (substr($host_prefix, 0, 1) != '/')
-                {
+            } elseif ($host_prefix != '/') {
+                if (substr($host_prefix, 0, 1) != '/') {
                     $host_prefix = "/{$host_prefix}";
                 }
-                if (substr($host_prefix, 0, -1) != '/')
-                {
+                if (substr($host_prefix, 0, -1) != '/') {
                     $host_prefix .= '/';
                 }
             }
@@ -513,13 +490,10 @@ class midcom_application
     {
         $this->cache->content->register_sent_header($header);
 
-        if (!is_null($response_code))
-        {
+        if (!is_null($response_code)) {
             // Send the HTTP response code as requested
             _midcom_header($header, true, $response_code);
-        }
-        else
-        {
+        } else {
             _midcom_header($header);
         }
     }
@@ -553,13 +527,11 @@ class midcom_application
     public function disable_limits()
     {
         $stat = @ini_set('max_execution_time', $this->config->get('midcom_max_execution_time'));
-        if (false === $stat)
-        {
+        if (false === $stat) {
             debug_add('ini_set("max_execution_time", ' . $this->config->get('midcom_max_execution_time') . ') returned false', MIDCOM_LOG_WARN);
         }
         $stat = @ini_set('memory_limit', $this->config->get('midcom_max_memory'));
-        if (false === $stat)
-        {
+        if (false === $stat) {
             debug_add('ini_set("memory_limit", ' . $this->config->get('midcom_max_memory') . ') returned false', MIDCOM_LOG_WARN);
         }
     }

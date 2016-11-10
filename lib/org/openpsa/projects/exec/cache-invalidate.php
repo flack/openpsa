@@ -3,27 +3,23 @@ midcom::get()->auth->require_admin_user();
 
 // Ensure this is not buffered
 midcom::get()->cache->content->enable_live_mode();
-while(@ob_end_flush())
-
-midcom::get()->disable_limits();
+while (@ob_end_flush()) {
+    midcom::get()->disable_limits();
+}
 
 echo "<h1>Invalidating task caches:</h1>\n";
 
 $qb = org_openpsa_projects_task_dba::new_query_builder();
 $tasks = $qb->execute();
 
-foreach ($tasks as $task)
-{
+foreach ($tasks as $task) {
     $start = microtime(true);
     echo "Invalidating cache for task #{$task->id} {$task->title}... \n";
     flush();
-    if ($task->update_cache())
-    {
+    if ($task->update_cache()) {
         $time_consumed = round(microtime(true) - $start, 2);
         echo "OK ({$time_consumed} secs, task has {$task->reportedHours}h reported)";
-    }
-    else
-    {
+    } else {
         echo "ERROR: " . midcom_connection::get_error_string();
     }
     echo "<br />\n";

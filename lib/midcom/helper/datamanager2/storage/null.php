@@ -51,15 +51,16 @@ class midcom_helper_datamanager2_storage_null extends midcom_helper_datamanager2
     /**
      * We don't store anything, this can be safely ignored therefore.
      */
-    public function _on_store_data($name, $data) {}
+    public function _on_store_data($name, $data)
+    {
+    }
 
     /**
      * This returns the defaults set. null is used for unset defaults.
      */
     public function _on_load_data($name)
     {
-        if (array_key_exists($name, $this->_defaults))
-        {
+        if (array_key_exists($name, $this->_defaults)) {
             return $this->_defaults[$name];
         }
         return null;

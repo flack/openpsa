@@ -20,14 +20,12 @@ class net_nemein_tag_interface extends midcom_baseclasses_components_interface
     {
         $qb = net_nemein_tag_link_dba::new_query_builder();
         $qb->add_constraint('fromGuid', '=', $object->guid);
-        if ($qb->count_unchecked() == 0)
-        {
+        if ($qb->count_unchecked() == 0) {
             return;
         }
         midcom::get()->auth->request_sudo($this->_component);
         $tag_links = $qb->execute();
-        foreach ($tag_links as $tag_link)
-        {
+        foreach ($tag_links as $tag_link) {
             $tag_link->delete();
         }
         midcom::get()->auth->drop_sudo();

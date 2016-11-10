@@ -42,19 +42,15 @@ class midcom_helper_datamanager2_widget_privilege extends midcom_helper_datamana
     public function add_elements_to_form($attributes)
     {
         if (   $this->_type->storage->object
-            && !$this->_type->storage->object->can_do('midgard:privileges'))
-        {
+            && !$this->_type->storage->object->can_do('midgard:privileges')) {
             return;
         }
         $effective_value = $this->_type->get_effective_value();
         if (   $this->_type->get_value() === MIDCOM_PRIVILEGE_INHERIT
-            || ($this->_type->get_value() !== MIDCOM_PRIVILEGE_DENY) !== $effective_value)
-        {
+            || ($this->_type->get_value() !== MIDCOM_PRIVILEGE_DENY) !== $effective_value) {
             $effective_value = $effective_value ? 'allow' : 'deny';
             $inherit_label = sprintf($this->_l10n->get('widget privilege: inherit %s'), $this->_l10n->get('widget privilege: ' . $effective_value));
-        }
-        else
-        {
+        } else {
             $inherit_label = $this->_l10n->get('widget privilege: inherit');
         }
 
@@ -111,8 +107,7 @@ class midcom_helper_datamanager2_widget_privilege extends midcom_helper_datamana
     public function sync_type_with_widget($results)
     {
         if (   $this->_type->storage->object
-            && !$this->_type->storage->object->can_do('midgard:privileges'))
-        {
+            && !$this->_type->storage->object->can_do('midgard:privileges')) {
             return;
         }
 
@@ -123,8 +118,7 @@ class midcom_helper_datamanager2_widget_privilege extends midcom_helper_datamana
     {
         if (    (   $this->_type->storage->object
                  && !$this->_type->storage->object->can_do('midgard:privileges'))
-             || !$this->_elements)
-        {
+             || !$this->_elements) {
             return false;
         }
         return $this->_elements[0]->isFrozen();
@@ -134,13 +128,11 @@ class midcom_helper_datamanager2_widget_privilege extends midcom_helper_datamana
     {
         if (    (   $this->_type->storage->object
                  && !$this->_type->storage->object->can_do('midgard:privileges'))
-             || !$this->_elements)
-        {
+             || !$this->_elements) {
             return;
         }
 
-        foreach (array_keys($this->_elements) as $index)
-        {
+        foreach (array_keys($this->_elements) as $index) {
             $this->_elements[$index]->freeze();
         }
     }
@@ -149,13 +141,11 @@ class midcom_helper_datamanager2_widget_privilege extends midcom_helper_datamana
     {
         if (    (   $this->_type->storage->object
                  && !$this->_type->storage->object->can_do('midgard:privileges'))
-             || !$this->_elements)
-        {
+             || !$this->_elements) {
             return;
         }
 
-        foreach (array_keys($this->_elements) as $index)
-        {
+        foreach (array_keys($this->_elements) as $index) {
             $this->_elements[$index]->unfreeze();
         }
     }

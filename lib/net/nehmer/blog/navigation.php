@@ -33,19 +33,16 @@ class net_nehmer_blog_navigation extends midcom_baseclasses_components_navigatio
     {
         $leaves = array();
 
-        if (!$this->_content_topic->guid)
-        {
+        if (!$this->_content_topic->guid) {
             // Safety in case symlink is broken
             return $leaves;
         }
 
-        if ($this->_config->get('show_navigation_pseudo_leaves'))
-        {
+        if ($this->_config->get('show_navigation_pseudo_leaves')) {
             $this->_add_pseudo_leaves($leaves);
         }
 
-        if ($this->_config->get('show_latest_in_navigation'))
-        {
+        if ($this->_config->get('show_latest_in_navigation')) {
             $this->_add_article_leaves($leaves);
         }
         return $leaves;
@@ -58,31 +55,26 @@ class net_nehmer_blog_navigation extends midcom_baseclasses_components_navigatio
         // Hide the articles that have the publish time in the future and if
         // the user is not administrator
         if (   $this->_config->get('enable_scheduled_publishing')
-            && !midcom::get()->auth->admin)
-        {
+            && !midcom::get()->auth->admin) {
             // Show the article only if the publishing time has passed or the viewer
             // is the author
             $qb->begin_group('OR');
-                $qb->add_constraint('metadata.published', '<', gmdate('Y-m-d H:i:s'));
+            $qb->add_constraint('metadata.published', '<', gmdate('Y-m-d H:i:s'));
 
-                if (!empty(midcom::get()->auth->user->guid))
-                {
-                    $qb->add_constraint('metadata.authors', 'LIKE', '|' . midcom::get()->auth->user->guid . '|');
-                }
+            if (!empty(midcom::get()->auth->user->guid)) {
+                $qb->add_constraint('metadata.authors', 'LIKE', '|' . midcom::get()->auth->user->guid . '|');
+            }
             $qb->end_group();
         }
 
-        if (!$this->_config->get('enable_article_links'))
-        {
+        if (!$this->_config->get('enable_article_links')) {
             $qb->add_constraint('topic', '=', $this->_content_topic->id);
             $qb->add_constraint('up', '=', 0);
-        }
-        else
-        {
+        } else {
             $mc = net_nehmer_blog_link_dba::new_collector('topic', $this->_content_topic->id);
             $qb->begin_group('OR');
-                $qb->add_constraint('id', 'IN', $mc->get_values('article'));
-                $qb->add_constraint('topic', '=', $this->_content_topic->id);
+            $qb->add_constraint('id', 'IN', $mc->get_values('article'));
+            $qb->add_constraint('topic', '=', $this->_content_topic->id);
             $qb->end_group();
         }
         $qb->add_order('metadata.published', 'DESC');
@@ -90,8 +82,7 @@ class net_nehmer_blog_navigation extends midcom_baseclasses_components_navigatio
 
         $results = $qb->execute();
 
-        foreach ($results as $article)
-        {
+        foreach ($results as $article) {
             $leaves[$article->id] = array
             (
                 MIDCOM_NAV_URL => $this->_get_url($article),
@@ -106,8 +97,7 @@ class net_nehmer_blog_navigation extends midcom_baseclasses_components_navigatio
     {
         $view_url = $article->name ?: $article->guid;
 
-        if ($this->_config->get('view_in_url'))
-        {
+        if ($this->_config->get('view_in_url')) {
             $view_url = 'view/' . $view_url;
         }
         return $view_url . '/';
@@ -116,8 +106,7 @@ class net_nehmer_blog_navigation extends midcom_baseclasses_components_navigatio
     private function _add_pseudo_leaves(array &$leaves)
     {
         if (   $this->_config->get('archive_enable')
-            && $this->_config->get('archive_in_navigation'))
-        {
+            && $this->_config->get('archive_in_navigation')) {
             $leaves["{$this->_topic->id}_ARCHIVE"] = array
             (
                 MIDCOM_NAV_URL => "archive/",
@@ -125,8 +114,7 @@ class net_nehmer_blog_navigation extends midcom_baseclasses_components_navigatio
             );
         }
         if (   $this->_config->get('rss_enable')
-            && $this->_config->get('feeds_in_navigation'))
-        {
+            && $this->_config->get('feeds_in_navigation')) {
             $leaves[self::LEAFID_FEEDS] = array
             (
                 MIDCOM_NAV_URL => "feeds/",
@@ -135,11 +123,9 @@ class net_nehmer_blog_navigation extends midcom_baseclasses_components_navigatio
         }
 
         if (   $this->_config->get('categories_in_navigation')
-            && $this->_config->get('categories') != '')
-        {
+            && $this->_config->get('categories') != '') {
             $categories = explode(',', $this->_config->get('categories'));
-            foreach ($categories as $category)
-            {
+            foreach ($categories as $category) {
                 $leaves["{$this->_topic->id}_CAT_{$category}"] = array
                 (
                     MIDCOM_NAV_URL => "category/{$category}/",
@@ -149,25 +135,22 @@ class net_nehmer_blog_navigation extends midcom_baseclasses_components_navigatio
         }
 
         if (   $this->_config->get('archive_years_in_navigation')
-            && $this->_config->get('archive_years_enable'))
-        {
+            && $this->_config->get('archive_years_enable')) {
             $qb = midcom_db_article::new_query_builder();
             $qb->add_constraint('topic', '=', $this->_content_topic->id);
 
             // Hide the articles that have the publish time in the future and if
             // the user is not administrator
             if (   $this->_config->get('enable_scheduled_publishing')
-                && !midcom::get()->auth->admin)
-            {
+                && !midcom::get()->auth->admin) {
                 // Show the article only if the publishing time has passed or the viewer
                 // is the author
                 $qb->begin_group('OR');
-                    $qb->add_constraint('metadata.published', '<', gmdate('Y-m-d H:i:s'));
+                $qb->add_constraint('metadata.published', '<', gmdate('Y-m-d H:i:s'));
 
-                    if (!empty(midcom::get()->auth->user->guid))
-                    {
-                        $qb->add_constraint('metadata.authors', 'LIKE', '|' . midcom::get()->auth->user->guid . '|');
-                    }
+                if (!empty(midcom::get()->auth->user->guid)) {
+                    $qb->add_constraint('metadata.authors', 'LIKE', '|' . midcom::get()->auth->user->guid . '|');
+                }
                 $qb->end_group();
             }
 
@@ -175,16 +158,14 @@ class net_nehmer_blog_navigation extends midcom_baseclasses_components_navigatio
             $qb->set_limit(1);
             $result = $qb->execute_unchecked();
 
-            if (count($result) == 0)
-            {
+            if (count($result) == 0) {
                 return $leaves;
             }
 
             $first_year = (int) gmdate('Y', (int) $result[0]->metadata->published);
             $year = $first_year;
             $this_year = (int) gmdate('Y', time());
-            while ($year <= $this_year)
-            {
+            while ($year <= $this_year) {
                 $leaves["{$this->_topic->id}_ARCHIVE_{$year}"] = array
                 (
                     MIDCOM_NAV_URL => "archive/year/{$year}/",
@@ -214,8 +195,7 @@ class net_nehmer_blog_navigation extends midcom_baseclasses_components_navigatio
     private function _determine_content_topic()
     {
         $guid = $this->_config->get('symlink_topic');
-        if (is_null($guid))
-        {
+        if (is_null($guid)) {
             // No symlink topic
             // Workaround, we should talk to a DBA object automatically here in fact.
             $this->_content_topic = midcom_db_topic::get_cached($this->_topic->id);

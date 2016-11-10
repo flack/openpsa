@@ -23,13 +23,14 @@ $ppu = $formatter->number($data['deliverable_object']->pricePerUnit);
                 <th><?php echo $data['l10n']->get('subscription starts'); ?></th>
                 <td>&(deliverable['start']:h);</td>
             </tr>
-            <?php if (!$data['deliverable_object']->continuous)
-            { ?>
+            <?php if (!$data['deliverable_object']->continuous) {
+        ?>
             <tr>
                 <th><?php echo $data['l10n']->get('subscription ends'); ?></th>
                 <td>&(deliverable['end']:h);</td>
             </tr>
-            <?php } ?>
+            <?php 
+    } ?>
             <tr>
                 <th><?php echo $data['l10n']->get('continuous subscription'); ?></th>
                 <td>&(deliverable['continuous']:h);</td>
@@ -74,8 +75,7 @@ $ppu = $formatter->number($data['deliverable_object']->pricePerUnit);
         if (   $data['projects_url']
             && $data['product']
             && $data['product']->orgOpenpsaObtype == org_openpsa_products_product_dba::TYPE_SERVICE
-            && $data['deliverable_object']->state >= org_openpsa_sales_salesproject_deliverable_dba::STATE_ORDERED)
-        {
+            && $data['deliverable_object']->state >= org_openpsa_sales_salesproject_deliverable_dba::STATE_ORDERED) {
             midcom::get()->dynamic_load($data['projects_url'] . "task/list/all/agreement/{$data['deliverable_object']->id}/");
         }
         ?>
@@ -84,8 +84,7 @@ $ppu = $formatter->number($data['deliverable_object']->pricePerUnit);
         <?php
         if ($data['invoices_url']
             && (   $data['deliverable_object']->state == org_openpsa_sales_salesproject_deliverable_dba::STATE_STARTED
-                || $data['deliverable_object']->state == org_openpsa_sales_salesproject_deliverable_dba::STATE_INVOICED))
-        {
+                || $data['deliverable_object']->state == org_openpsa_sales_salesproject_deliverable_dba::STATE_INVOICED)) {
             midcom::get()->dynamic_load($data['invoices_url'] . "list/deliverable/{$data['deliverable_object']->guid}/");
         }
         ?>
@@ -96,8 +95,7 @@ $ppu = $formatter->number($data['deliverable_object']->pricePerUnit);
             <p>
             <?php
             echo $data['deliverable_toolbar']['label'];
-            foreach ($data['deliverable_toolbar']['buttons'] as $name => $label)
-            {
+            foreach ($data['deliverable_toolbar']['buttons'] as $name => $label) {
                 echo " <input type=\"submit\" class=\"$name\" name=\"$name\" value=\"$label\" />\n";
             }
             ?>

@@ -18,8 +18,7 @@
     </thead>
     <tbody>
 <?php
-foreach ($data['variables'] as $variable => $definition)
-{
+foreach ($data['variables'] as $variable => $definition) {
     echo "        <tr>\n";
     echo "            <td><code>{$variable}</code></td>\n";
     echo "            <td>{$definition}</td>\n";

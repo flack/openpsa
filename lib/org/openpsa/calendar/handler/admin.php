@@ -47,8 +47,7 @@ class org_openpsa_calendar_handler_admin extends midcom_baseclasses_components_h
         $data['controller'] = midcom_helper_datamanager2_controller::create('simple');
         $data['controller']->schemadb = $schemadb;
         $data['controller']->set_storage($this->_event);
-        if (!$data['controller']->initialize())
-        {
+        if (!$data['controller']->initialize()) {
             throw new midcom_error("Failed to initialize a DM2 controller instance for article {$this->_article->id}.");
         }
         midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.calendar/calendar.js');
@@ -60,14 +59,11 @@ class org_openpsa_calendar_handler_admin extends midcom_baseclasses_components_h
         $workflow = $this->get_workflow('datamanager2', array('controller' => $data['controller']));
 
         $response = $workflow->run();
-        if ($workflow->get_state() == 'save')
-        {
+        if ($workflow->get_state() == 'save') {
             $indexer = new org_openpsa_calendar_midcom_indexer($this->_topic);
             $indexer->index($data['controller']->datamanager);
             midcom::get()->head->add_jsonload('openpsa_calendar_widget.refresh_parent();');
-        }
-        elseif (!empty($conflictmanager->busy_members))
-        {
+        } elseif (!empty($conflictmanager->busy_members)) {
             midcom::get()->uimessages->add($this->_l10n->get('event conflict'), $conflictmanager->get_message($this->_l10n->get_formatter()), 'warning');
         }
         return $response;
@@ -82,26 +78,21 @@ class org_openpsa_calendar_handler_admin extends midcom_baseclasses_components_h
      */
     public function _handler_move($handler_id, array $args, array &$data)
     {
-        if (empty($_POST['start']))
-        {
+        if (empty($_POST['start'])) {
             throw new midcom_error('Incomplete request');
         }
         $event = new org_openpsa_calendar_event_dba($args[0]);
         $event->require_do('midgard:update');
         $start = strtotime($_POST['start']);
         //workaround for https://github.com/fullcalendar/fullcalendar/issues/3037
-        if (empty($_POST['end']))
-        {
+        if (empty($_POST['end'])) {
             $end = $event->end + ($start - $event->start);
-        }
-        else
-        {
+        } else {
             $end = strtotime($_POST['end']);
         }
         $event->start = $start;
         $event->end = $end;
-        if (!$event->update())
-        {
+        if (!$event->update()) {
             throw new midcom_error('Update failed:' . midcom_connection::get_error_string());
         }
         return new midcom_response_json;

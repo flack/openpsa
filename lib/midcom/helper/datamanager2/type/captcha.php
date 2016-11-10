@@ -22,14 +22,18 @@
  */
 class midcom_helper_datamanager2_type_captcha extends midcom_helper_datamanager2_type
 {
-    public function convert_from_storage($source) {}
+    public function convert_from_storage($source)
+    {
+    }
 
     public function convert_to_storage()
     {
         return null;
     }
 
-    public function convert_from_csv($source) {}
+    public function convert_from_csv($source)
+    {
+    }
 
     public function convert_to_csv()
     {

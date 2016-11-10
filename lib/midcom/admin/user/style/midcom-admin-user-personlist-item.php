@@ -3,13 +3,11 @@
     $checked = '';
     if (isset($_POST['midcom_admin_user'])
         && is_array($_POST['midcom_admin_user'])
-        && in_array($data['person']->guid, $_POST['midcom_admin_user']))
-    {
+        && in_array($data['person']->guid, $_POST['midcom_admin_user'])) {
         $checked = ' checked="checked"';
     }
 
-    if (!$data['person']->can_do('midgard:update'))
-    {
+    if (!$data['person']->can_do('midgard:update')) {
         $checked .= ' disabled="disabled"';
     }
     ?>
@@ -17,19 +15,15 @@
     <?php
     $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
     $linked = 0;
-    foreach ($data['list_fields'] as $field)
-    {
+    foreach ($data['list_fields'] as $field) {
         $value = $data['person']->$field;
-        if ($field == 'username')
-        {
+        if ($field == 'username') {
             $account = new midcom_core_account($data['person']);
             $value = $account->get_username();
         }
         if (   $linked < 2
-            && $data['person']->can_do('midgard:update'))
-        {
-            if (!$value)
-            {
+            && $data['person']->can_do('midgard:update')) {
+            if (!$value) {
                 $value = '&lt;' . $data['l10n']->get($field) . '&gt;';
             }
             $value = "<a href=\"{$prefix}__mfa/asgard_midcom.admin.user/edit/{$data['person']->guid}/\">{$value}</a>";
@@ -42,25 +36,19 @@
     $qb->add_constraint('uid', '=', $data['person']->id);
     $memberships = $qb->execute();
     $groups = array();
-    foreach ($memberships as $member)
-    {
-        if ($member->gid == 0)
-        {
+    foreach ($memberships as $member) {
+        if ($member->gid == 0) {
             $groups[] = 'Midgard Administrators';
             continue;
         }
-        try
-        {
+        try {
             $group = midcom_db_group::get_cached($member->gid);
             $value = $group->get_label();
-            if ($group->can_do('midgard:update'))
-            {
+            if ($group->can_do('midgard:update')) {
                 $value = "<a href=\"{$prefix}__mfa/asgard_midcom.admin.user/group/edit/{$group->guid}/\">{$value}</a>";
             }
             $groups[] = $value;
-        }
-        catch (midcom_error $e)
-        {
+        } catch (midcom_error $e) {
             $groups[] = "#{$member->gid}";
         }
     }

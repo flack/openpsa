@@ -38,20 +38,17 @@ class midcom_core_service_implementation_urlparsertopic implements midcom_core_s
     {
         static $tokenized = array();
         $original_url = $url;
-        if (isset($tokenized[$original_url]))
-        {
+        if (isset($tokenized[$original_url])) {
             return $tokenized[$original_url];
         }
 
         $tokenized[$original_url] = array();
-        if (strlen(midcom_connection::get_url('prefix')) > 1)
-        {
+        if (strlen(midcom_connection::get_url('prefix')) > 1) {
             // FIXME: Replace only the first instance, there might be others matching the same string
             $url = str_replace(midcom_connection::get_url('prefix') . "/", '/', $url);
         }
         $url = trim($url, '/');
-        if ($url != '')
-        {
+        if ($url != '') {
             $argv_tmp = explode('/', $url);
             $tokenized[$original_url] = array_filter($argv_tmp);
         }
@@ -67,8 +64,7 @@ class midcom_core_service_implementation_urlparsertopic implements midcom_core_s
     private function check_style_inheritance($topic)
     {
         if (   !$topic->styleInherit
-            || !$topic->style)
-        {
+            || !$topic->style) {
             return;
         }
 
@@ -101,22 +97,17 @@ class midcom_core_service_implementation_urlparsertopic implements midcom_core_s
      */
     public function get_object()
     {
-        if ($this->argc == 0)
-        {
+        if ($this->argc == 0) {
             // No arguments left
             return false;
         }
 
-        if (empty($this->url))
-        {
+        if (empty($this->url)) {
             $object_url = "{$this->argv[0]}/";
-        }
-        else
-        {
+        } else {
             $object_url = "{$this->url}/{$this->argv[0]}/";
         }
-        if (array_key_exists($object_url, $this->objects))
-        {
+        if (array_key_exists($object_url, $this->objects)) {
             // Remove this component from path
             $this->argc -= 1;
             array_shift($this->argv);
@@ -131,11 +122,9 @@ class midcom_core_service_implementation_urlparsertopic implements midcom_core_s
         $qb->add_constraint('name', '=', $this->argv[0]);
         $qb->add_constraint('up', '=', $this->current_object->id);
 
-        if ($qb->count() == 0)
-        {
+        if ($qb->count() == 0) {
             //last load returned ACCESS DENIED, no sense to dig deeper
-            if ($qb->denied > 0)
-            {
+            if ($qb->denied > 0) {
                 midcom_connection::set_error(MGD_ERR_ACCESS_DENIED);
                 return false;
             }
@@ -143,8 +132,7 @@ class midcom_core_service_implementation_urlparsertopic implements midcom_core_s
             $att_qb =  midcom_db_attachment::new_query_builder();
             $att_qb->add_constraint('name', '=', $this->argv[0]);
             $att_qb->add_constraint('parentguid', '=', $this->current_object->guid);
-            if ($att_qb->count() == 0)
-            {
+            if ($att_qb->count() == 0) {
                 // allow for handler switches to work
                 return false;
             }
@@ -168,15 +156,11 @@ class midcom_core_service_implementation_urlparsertopic implements midcom_core_s
         $this->current_object = $topics[0];
         $this->objects[$object_url] = $this->current_object;
         if (   midcom::get()->config->get('symlinks')
-            && !empty($this->current_object->symlink))
-        {
-            try
-            {
+            && !empty($this->current_object->symlink)) {
+            try {
                 $topic = midcom_db_topic::get_cached($this->current_object->symlink);
                 $this->current_object = $topic;
-            }
-            catch (midcom_error $e)
-            {
+            } catch (midcom_error $e) {
                 debug_add("Could not get target for symlinked topic #{$this->current_object->id}: " .
                     $e->getMessage(), MIDCOM_LOG_ERROR);
             }
@@ -211,13 +195,11 @@ class midcom_core_service_implementation_urlparsertopic implements midcom_core_s
      */
     public function get_variable($namespace)
     {
-        if ($this->argc == 0)
-        {
+        if ($this->argc == 0) {
             return false;
         }
 
-        if (strpos($this->argv[0], $namespace . '-') !== 0)
-        {
+        if (strpos($this->argv[0], $namespace . '-') !== 0) {
             return false;
         }
 

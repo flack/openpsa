@@ -17,8 +17,7 @@ class net_nemein_rss_cron_fetchfeeds extends midcom_baseclasses_components_cron_
      */
     public function _on_execute()
     {
-        if (!midcom::get()->auth->request_sudo('net.nemein.rss'))
-        {
+        if (!midcom::get()->auth->request_sudo('net.nemein.rss')) {
             $this->print_error("Could not get sudo, aborting operation, see error log for details");
             return;
         }
@@ -29,14 +28,10 @@ class net_nemein_rss_cron_fetchfeeds extends midcom_baseclasses_components_cron_
         // Process lang0 subscriptions first
         $qb->add_order('itemlang', 'ASC');
         $feeds = $qb->execute();
-        foreach ($feeds as $feed)
-        {
-            try
-            {
+        foreach ($feeds as $feed) {
+            try {
                 midcom_db_topic::get_cached($feed->node);
-            }
-            catch (midcom_error $e)
-            {
+            } catch (midcom_error $e) {
                 debug_add("Node #{$feed->node} does not exist, skipping feed #{$feed->id}", MIDCOM_LOG_ERROR);
                 continue;
             }

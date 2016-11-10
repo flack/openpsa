@@ -10,13 +10,11 @@ echo $data['rcs_toolbar_2']->render();
 </div>
 <dl class="midgard_admin_asgard_rcs_diff">
 <?php
-foreach ($preview as $attribute => $value)
-{
+foreach ($preview as $attribute => $value) {
     if (   $value == ''
         || $value == '0000-00-00'
         || !midcom_services_rcs::is_field_showable($attribute)
-        || is_array($value))
-    {
+        || is_array($value)) {
         continue;
     }
 

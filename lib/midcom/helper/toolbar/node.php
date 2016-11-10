@@ -32,15 +32,13 @@ class midcom_helper_toolbar_node extends midcom_helper_toolbar_view
     {
         $topics = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_URLTOPICS);
         $urltopic = end($topics);
-        if (!$urltopic)
-        {
+        if (!$urltopic) {
             $urltopic = $this->topic;
         }
         $buttons = array();
         $workflow = new midcom\workflow\datamanager2;
         if (   $this->topic->can_do('midgard:update')
-            && $this->topic->can_do('midcom.admin.folder:topic_management'))
-        {
+            && $this->topic->can_do('midcom.admin.folder:topic_management')) {
             $buttons[] = $workflow->get_button("__ais/folder/edit/", array
             (
                 MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('edit folder', 'midcom.admin.folder'),
@@ -54,11 +52,9 @@ class midcom_helper_toolbar_node extends midcom_helper_toolbar_view
         }
 
         if (   $urltopic->can_do('midgard:update')
-            && $urltopic->can_do('midcom.admin.folder:topic_management'))
-        {
+            && $urltopic->can_do('midcom.admin.folder:topic_management')) {
             // Allow to move other than root folder
-            if ($urltopic->guid !== midcom::get()->config->get('midcom_root_topic_guid'))
-            {
+            if ($urltopic->guid !== midcom::get()->config->get('midcom_root_topic_guid')) {
                 $buttons[] = array
                 (
                     MIDCOM_TOOLBAR_URL => "__ais/folder/move/{$urltopic->guid}/",
@@ -69,8 +65,7 @@ class midcom_helper_toolbar_node extends midcom_helper_toolbar_view
         }
 
         if (   $this->topic->can_do('midgard:update')
-            && $this->topic->can_do('midcom.admin.folder:topic_management'))
-        {
+            && $this->topic->can_do('midcom.admin.folder:topic_management')) {
             $buttons[] = array
             (
                 MIDCOM_TOOLBAR_URL => "__ais/folder/order/",
@@ -89,22 +84,16 @@ class midcom_helper_toolbar_node extends midcom_helper_toolbar_view
         }
         $buttons = array_merge($buttons, $this->get_approval_controls($this->topic, false));
         if (   $this->topic->can_do('midcom.admin.folder:template_management')
-            && midcom::get()->auth->can_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin'))
-        {
+            && midcom::get()->auth->can_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin')) {
             $enabled = false;
             $styleeditor_url = '';
-            if ($this->topic->style != '')
-            {
-                if ($style_id = midcom::get()->style->get_style_id_from_path($this->topic->style))
-                {
-                    try
-                    {
+            if ($this->topic->style != '') {
+                if ($style_id = midcom::get()->style->get_style_id_from_path($this->topic->style)) {
+                    try {
                         $style = midcom_db_style::get_cached($style_id);
                         $styleeditor_url = midcom_connection::get_url('self') . "__mfa/asgard/object/view/{$style->guid}/";
                         $enabled = true;
-                    }
-                    catch (midcom_error $e)
-                    {
+                    } catch (midcom_error $e) {
                         $e->log();
                     }
                 }
@@ -121,8 +110,7 @@ class midcom_helper_toolbar_node extends midcom_helper_toolbar_view
         }
 
         if (   $this->topic->can_do('midgard:create')
-            && $this->topic->can_do('midcom.admin.folder:topic_management'))
-        {
+            && $this->topic->can_do('midcom.admin.folder:topic_management')) {
             $buttons[] = $workflow->get_button("__ais/folder/create/", array
             (
                 MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('create subfolder', 'midcom.admin.folder'),
@@ -130,8 +118,7 @@ class midcom_helper_toolbar_node extends midcom_helper_toolbar_view
                 MIDCOM_TOOLBAR_ACCESSKEY => 'f',
             ));
             if (   midcom::get()->config->get('symlinks')
-                && $this->topic->can_do('midcom.admin.folder:symlinks'))
-            {
+                && $this->topic->can_do('midcom.admin.folder:symlinks')) {
                 $buttons[] = $workflow->get_button("__ais/folder/createlink/", array
                 (
                     MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('create folder link', 'midcom.admin.folder'),
@@ -141,8 +128,7 @@ class midcom_helper_toolbar_node extends midcom_helper_toolbar_view
         }
         if (   $urltopic->guid !== midcom::get()->config->get('midcom_root_topic_guid')
             && $urltopic->can_do('midgard:delete')
-            && $urltopic->can_do('midcom.admin.folder:topic_management'))
-        {
+            && $urltopic->can_do('midcom.admin.folder:topic_management')) {
             $workflow = new midcom\workflow\delete(array('object' => $urltopic, 'recursive' => true));
             $buttons[] = $workflow->get_button("__ais/folder/delete/", array
             (

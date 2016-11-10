@@ -181,18 +181,15 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
         $this->_component = $component;
 
         // Load libraries
-        foreach ($this->_autoload_libraries as $library)
-        {
-            if (!midcom::get()->componentloader->load_library($library))
-            {
+        foreach ($this->_autoload_libraries as $library) {
+            if (!midcom::get()->componentloader->load_library($library)) {
                 throw new midcom_error("Failed to load library {$library} while initializing {$this->_component}");
             }
         }
 
         // Load scripts
         $loader = midcom::get()->componentloader;
-        foreach ($this->_autoload_files as $file)
-        {
+        foreach ($this->_autoload_files as $file) {
             require_once $loader->path_to_snippetpath($this->_component) . '/' . $file;
         }
 
@@ -250,8 +247,7 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
         $loader = midcom::get()->componentloader;
         $class = $loader->path_to_prefix($this->_component) . '_' . $this->_site_class_suffix;
         $data['handler'] = new $class($current_object, $data['config']);
-        if (is_a($data['handler'], 'midcom_baseclasses_components_request'))
-        {
+        if (is_a($data['handler'], 'midcom_baseclasses_components_request')) {
             $data['handler']->initialize($this->_component);
         }
         return $data['handler']->can_handle($argc, $argv);
@@ -296,13 +292,11 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
      */
     private function _check_nap_instance()
     {
-        if (is_null($this->_nap_instance))
-        {
+        if (is_null($this->_nap_instance)) {
             $loader = midcom::get()->componentloader;
             $class = $loader->path_to_prefix($this->_component) . "_{$this->_nap_class_suffix}";
             $this->_nap_instance = new $class();
-            if (is_a($this->_nap_instance, 'midcom_baseclasses_components_navigation'))
-            {
+            if (is_a($this->_nap_instance, 'midcom_baseclasses_components_navigation')) {
                 $this->_nap_instance->initialize($this->_component);
             }
         }
@@ -396,8 +390,7 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
      */
     public function get_config_for_topic($topic = null)
     {
-        if ($topic !== null)
-        {
+        if ($topic !== null) {
             $this->_config->store_from_object($topic, $this->_component);
         }
         return $this->_config;
@@ -419,8 +412,7 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
 
         $this->_on_watched_operation($operation, $object);
 
-        switch ($operation)
-        {
+        switch ($operation) {
             case MIDCOM_OPERATION_DBA_CREATE:
                 $this->_on_watched_dba_create($object);
                 break;
@@ -458,7 +450,9 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
      *     which applies.
      * @param object $object The object on which the operation has occurred.
      */
-    public function _on_watched_operation($operation, $object) {}
+    public function _on_watched_operation($operation, $object)
+    {
+    }
 
     /**
      * This function is triggered at the end of the request for each watched create operation
@@ -472,7 +466,9 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
      *
      * @param object $object The object on which the operation has occurred.
      */
-    public function _on_watched_dba_create($object) {}
+    public function _on_watched_dba_create($object)
+    {
+    }
 
     /**
      * This function is triggered at the end of the request for each watched update operation
@@ -486,7 +482,9 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
      *
      * @param object $object The object on which the operation has occurred.
      */
-    public function _on_watched_dba_update($object) {}
+    public function _on_watched_dba_update($object)
+    {
+    }
 
     /**
      * This function is triggered at the end of the request for each watched delete operation
@@ -496,7 +494,9 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
      *
      * @param object $object The object on which the operation has occurred.
      */
-    public function _on_watched_dba_delete($object) {}
+    public function _on_watched_dba_delete($object)
+    {
+    }
 
     /**
      * This function is triggered at the end of the request for each watched import operation
@@ -506,7 +506,9 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
      *
      * @param object $object The object on which the operation has occurred.
      */
-    public function _on_watched_dba_import($object) {}
+    public function _on_watched_dba_import($object)
+    {
+    }
 
     /**
      * This is an event handler, called after the basic component initialization has been done
@@ -593,15 +595,12 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
     {
         $nav = new midcom_helper_nav();
         $leaves = $nav->list_leaves($topic->id);
-        if (empty($leaves))
-        {
+        if (empty($leaves)) {
             return null;
         }
-        foreach ($leaves as $leafid)
-        {
+        foreach ($leaves as $leafid) {
             $leaf = $nav->get_leaf($leafid);
-            if ($leaf[MIDCOM_NAV_GUID] == $guid)
-            {
+            if ($leaf[MIDCOM_NAV_GUID] == $guid) {
                 return $leaf[MIDCOM_NAV_URL];
             }
         }

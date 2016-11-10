@@ -37,8 +37,7 @@ class midcom_db_parameter extends midcom_core_dbaobject
         $mc->set_key_property('parentguid');
         $mc->execute();
         $link_values = $mc->list_keys();
-        if (empty($link_values))
-        {
+        if (empty($link_values)) {
             return null;
         }
         return key($link_values);
@@ -57,13 +56,11 @@ class midcom_db_parameter extends midcom_core_dbaobject
     {
         static $parameter_cache = array();
 
-        if (!isset($parameter_cache[$objectguid]))
-        {
+        if (!isset($parameter_cache[$objectguid])) {
             $parameter_cache[$objectguid] = array();
         }
 
-        if (isset($parameter_cache[$objectguid][$name]))
-        {
+        if (isset($parameter_cache[$objectguid][$name])) {
             return $parameter_cache[$objectguid][$name];
         }
         $parameter_cache[$objectguid][$name] = null;
@@ -76,8 +73,7 @@ class midcom_db_parameter extends midcom_core_dbaobject
         $mc->execute();
         $parameters = $mc->list_keys();
 
-        if (count($parameters) > 0)
-        {
+        if (count($parameters) > 0) {
             $parameter_cache[$objectguid][$name] = key($parameters);
         }
 

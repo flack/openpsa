@@ -23,8 +23,7 @@ class net_nehmer_comments_spamchecker
         $buf = "";
 
         $fp = fsockopen("www.linksleeve.org", 80, $errno, $errstr, 30);
-        if ($fp === false)
-        {
+        if ($fp === false) {
             debug_add('Connection failure: ' . $errstr, MIDCOM_LOG_WARN);
             return self::ERROR;
         }
@@ -38,15 +37,13 @@ class net_nehmer_comments_spamchecker
 
         fputs($fp, $header, strlen($header));
 
-        while (!feof($fp))
-        {
+        while (!feof($fp)) {
             $buf .= fgets($fp, 128);
         }
 
         fclose($fp);
 
-        if (!stristr($buf, "-slv-1-/slv-"))
-        {
+        if (!stristr($buf, "-slv-1-/slv-")) {
             return self::SPAM;
         }
         return self::HAM;

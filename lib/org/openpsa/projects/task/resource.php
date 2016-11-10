@@ -30,8 +30,7 @@ class org_openpsa_projects_task_resource_dba extends midcom_core_dbaobject
         $qb->add_constraint('task', '=', (int)$this->task);
         $qb->add_constraint('orgOpenpsaObtype', '=', (int)$this->orgOpenpsaObtype);
 
-        if ($this->id)
-        {
+        if ($this->id) {
             $qb->add_constraint('id', '<>', (int)$this->id);
         }
 
@@ -51,13 +50,11 @@ class org_openpsa_projects_task_resource_dba extends midcom_core_dbaobject
     function add_resource_to_parent($object)
     {
         $parent = $object->get_parent();
-        if (!$parent)
-        {
+        if (!$parent) {
             return;
         }
 
-        if (is_a($parent, 'org_openpsa_projects_project'))
-        {
+        if (is_a($parent, 'org_openpsa_projects_project')) {
             org_openpsa_contacts_role_dba::add($parent->guid, $this->person, $this->orgOpenpsaObtype);
             return;
         }
@@ -66,8 +63,7 @@ class org_openpsa_projects_task_resource_dba extends midcom_core_dbaobject
         $mc->add_constraint('orgOpenpsaObtype', '=', $this->orgOpenpsaObtype);
         $mc->add_constraint('person', '=', $this->person);
         $mc->execute();
-        if ($mc->count() > 0)
-        {
+        if ($mc->count() > 0) {
             //Resource is already present, aborting
             return;
         }
@@ -87,8 +83,7 @@ class org_openpsa_projects_task_resource_dba extends midcom_core_dbaobject
     function remove_resource_from_parent($object)
     {
         $parent = $object->get_parent();
-        if (!$parent)
-        {
+        if (!$parent) {
             return;
         }
 
@@ -96,8 +91,7 @@ class org_openpsa_projects_task_resource_dba extends midcom_core_dbaobject
         $mc->add_constraint('orgOpenpsaObtype', '=', $this->orgOpenpsaObtype);
         $mc->add_constraint('task.project', 'INTREE', $parent->id);
         $mc->execute();
-        if ($mc->count() > 0)
-        {
+        if ($mc->count() > 0) {
             //Resource is still present in silbling tasks, aborting
             return;
         }
@@ -109,8 +103,7 @@ class org_openpsa_projects_task_resource_dba extends midcom_core_dbaobject
 
         $results = $qb->execute();
 
-        foreach ($results as $result)
-        {
+        foreach ($results as $result) {
             $result->delete();
         }
     }
@@ -119,8 +112,7 @@ class org_openpsa_projects_task_resource_dba extends midcom_core_dbaobject
     {
         $task = new org_openpsa_projects_task_dba($this->task);
         $this->remove_resource_from_parent($task);
-        if ($personobject = midcom::get()->auth->get_user($this->person))
-        {
+        if ($personobject = midcom::get()->auth->get_user($this->person)) {
             $task->unset_privilege('midgard:read', $personobject->id);
             $task->unset_privilege('midgard:create', $personobject->id);
             $task->unset_privilege('midgard:update', $personobject->id);
@@ -133,15 +125,12 @@ class org_openpsa_projects_task_resource_dba extends midcom_core_dbaobject
         $task = new org_openpsa_projects_task_dba($this->task);
         $this->add_resource_to_parent($task);
 
-        if ($this->person)
-        {
-            if ($this->orgOpenpsaObtype == self::RESOURCE)
-            {
+        if ($this->person) {
+            if ($this->orgOpenpsaObtype == self::RESOURCE) {
                 org_openpsa_projects_workflow::propose($task, $this->person);
             }
 
-            if ($personobject = midcom::get()->auth->get_user($this->person))
-            {
+            if ($personobject = midcom::get()->auth->get_user($this->person)) {
                 $this->set_privilege('midgard:read', $personobject->id, MIDCOM_PRIVILEGE_ALLOW);
                 $this->set_privilege('midgard:delete', $personobject->id, MIDCOM_PRIVILEGE_ALLOW);
                 $this->set_privilege('midgard:update', $personobject->id, MIDCOM_PRIVILEGE_ALLOW);
@@ -152,9 +141,7 @@ class org_openpsa_projects_task_resource_dba extends midcom_core_dbaobject
                 $task->set_privilege('midgard:create', $personobject->id, MIDCOM_PRIVILEGE_ALLOW);
                 //For declines etc they also need update...
                 $task->set_privilege('midgard:update', $personobject->id, MIDCOM_PRIVILEGE_ALLOW);
-            }
-            else
-            {
+            } else {
                 debug_add('Person ' . $this->person . ' could not be resolved to user, skipping privilege assignment');
             }
         }

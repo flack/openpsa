@@ -47,25 +47,20 @@ class org_openpsa_calendar_conflictmanager
      */
     public function validate_form(array $input)
     {
-        if (array_key_exists('busy', $input))
-        {
+        if (array_key_exists('busy', $input)) {
             $this->_event->busy = $input['busy'];
         }
-        if (array_key_exists('participants', $input))
-        {
+        if (array_key_exists('participants', $input)) {
             $this->_event->participants = array_fill_keys(json_decode($input['participants']['selection']), true);
         }
-        if (array_key_exists('start_date', $input))
-        {
+        if (array_key_exists('start_date', $input)) {
             $this->_event->start = strtotime($input['start_date'] . ' ' . $input['start_hours'] . ':' . $input['start_minutes'] . ':01');
         }
-        if (array_key_exists('end_date', $input))
-        {
+        if (array_key_exists('end_date', $input)) {
             $this->_event->end = strtotime($input['end_date'] . ' ' . $input['end_hours'] . ':' . $input['end_minutes'] . ':00');
         }
 
-        if (!$this->run($this->_event->rob_tentative))
-        {
+        if (!$this->run($this->_event->rob_tentative)) {
             return array('participants' => '');
         }
 
@@ -75,12 +70,10 @@ class org_openpsa_calendar_conflictmanager
     public function get_message(midcom_services_i18n_formatter $formatter)
     {
         $message = '<ul>';
-        foreach ($this->busy_members as $uid => $events)
-        {
+        foreach ($this->busy_members as $uid => $events) {
             $message .= '<li>' . org_openpsa_widgets_contact::get($uid)->show_inline();
             $message .= '<ul>';
-            foreach ($events as $event)
-            {
+            foreach ($events as $event) {
                 $message .= '<li>' . $formatter->timeframe($event->start, $event->end) . ': ' . $event->title . '</li>';
             }
             $message .= '</li>';
@@ -92,8 +85,7 @@ class org_openpsa_calendar_conflictmanager
     private function _add_event_constraints($qb, $fieldname = 'eid')
     {
         $qb->add_constraint($fieldname . '.busy', '<>', false);
-        if ($this->_event->id)
-        {
+        if ($this->_event->id) {
             $qb->add_constraint($fieldname . '.id', '<>', (int) $this->_event->id);
         }
         //Target event starts or ends inside this event's window or starts before and ends after
@@ -110,14 +102,12 @@ class org_openpsa_calendar_conflictmanager
     public function run($rob_tentative = false)
     {
         //If we're not busy it's not worth checking
-        if (!$this->_event->busy)
-        {
+        if (!$this->_event->busy) {
             debug_add('we allow overlapping, so there is no point in checking others');
             return true;
         }
         //If this event is tentative always disallow robbing resources from other tentative events
-        if ($this->_event->tentative)
-        {
+        if ($this->_event->tentative) {
             $rob_tentative = false;
         }
         //We need sudo to see busys in events we normally don't see and to rob resources from tentative events
@@ -126,20 +116,17 @@ class org_openpsa_calendar_conflictmanager
         //Storage for events that have been modified due the course of this method
         $modified_events = array();
 
-        foreach ($this->_load_participants() as $member)
-        {
+        foreach ($this->_load_participants() as $member) {
             $this->_process_participant($member, $modified_events, $rob_tentative);
         }
 
-        foreach ($this->_load_resources() as $resource)
-        {
+        foreach ($this->_load_resources() as $resource) {
             $this->_process_resource($resource, $modified_events, $rob_tentative);
         }
         // TODO: Shared tasks need a separate check (different member object)
 
         if (   !empty($this->busy_members)
-            || !empty($this->busy_resources))
-        {
+            || !empty($this->busy_resources)) {
             //Unresolved conflicts (note return value is for conflicts not lack of them)
             midcom::get()->auth->drop_sudo();
             debug_add(count($this->busy_members) . ' unresolvable conflicts found');
@@ -147,23 +134,19 @@ class org_openpsa_calendar_conflictmanager
             return false;
         }
 
-        foreach ($modified_events as $event)
-        {
+        foreach ($modified_events as $event) {
             //These events have been robbed of (some of) their resources
             $creator = midcom_db_person::get_cached($event->metadata->creator);
             if (   (   count($event->participants) == 0
                     || (   count($event->participants) == 1
                         && array_key_exists($creator->id, $event->participants)))
-                &&  count($event->resources) == 0)
-            {
+                &&  count($event->resources) == 0) {
                 /* If modified event has no-one or only creator as participant and no resources
                    then delete it (as it's unlikely the stub event is useful anymore) */
                 debug_add("event {$event->title} (#{$event->id}) has been robbed of all of its resources, calling delete");
                 //TODO: take notifications and repeats into account
                 $event->delete();
-            }
-            else
-            {
+            } else {
                 //Otherwise just commit the changes
                 //TODO: take notifications and repeats into account
                 debug_add("event {$event->title} (#{$event->id}) has been robbed of some its resources, calling update");
@@ -178,8 +161,7 @@ class org_openpsa_calendar_conflictmanager
 
     private function _load_participants()
     {
-        if (!empty($this->_event->participants))
-        {
+        if (!empty($this->_event->participants)) {
             //We attack this "backwards" in the sense that in the end we need the events but this is faster way to filter them
             $qb = org_openpsa_calendar_event_member_dba::new_query_builder();
             $this->_add_event_constraints($qb, 'eid');
@@ -192,8 +174,7 @@ class org_openpsa_calendar_conflictmanager
 
     private function _load_resources()
     {
-        if (!empty($this->_event->resources))
-        {
+        if (!empty($this->_event->resources)) {
             $qb = org_openpsa_calendar_event_resource_dba::new_query_builder();
             $this->_add_event_constraints($qb, 'event');
             $qb->add_constraint('resource', 'IN', array_keys($this->_event->resources));
@@ -204,25 +185,18 @@ class org_openpsa_calendar_conflictmanager
 
     private function _process_resource($member, array &$modified_events, $rob_tentative)
     {
-        if ($this->is_processed('resources', $member->event, $member->resource))
-        {
+        if ($this->is_processed('resources', $member->event, $member->resource)) {
             return;
         }
 
-        if (array_key_exists($member->event, $modified_events))
-        {
+        if (array_key_exists($member->event, $modified_events)) {
             $event =& $modified_events[$member->event];
             $set_as_modified = false;
-        }
-        else
-        {
-            try
-            {
+        } else {
+            try {
                 $event = new org_openpsa_calendar_event_dba($member->event);
                 $set_as_modified = true;
-            }
-            catch (midcom_error $e)
-            {
+            } catch (midcom_error $e) {
                 debug_add("event_resource #{$member->id} links ot bogus event #{$member->event}, skipping and removing", MIDCOM_LOG_WARN);
                 $member->delete();
                 return;
@@ -231,34 +205,26 @@ class org_openpsa_calendar_conflictmanager
         debug_add("overlap found in event {$event->title} (#{$event->id})");
 
         if (   $event->tentative
-            && $rob_tentative)
-        {
+            && $rob_tentative) {
             debug_add('event is tentative, robbing resources');
             $event->resources = array_diff_key($event->resources, $this->_event->resources);
-            if ($set_as_modified)
-            {
+            if ($set_as_modified) {
                 $modified_events[$event->id] = $event;
             }
-        }
-        else
-        {
+        } else {
             $this->flag_busy('resources', $member->resource, $event);
         }
     }
 
     private function _process_participant($member, array &$modified_events, $rob_tentative)
     {
-        if ($this->is_processed('participants', $member->eid, $member->uid))
-        {
+        if ($this->is_processed('participants', $member->eid, $member->uid)) {
             return;
         }
 
-        try
-        {
+        try {
             $event = new org_openpsa_calendar_event_dba($member->eid);
-        }
-        catch (midcom_error $e)
-        {
+        } catch (midcom_error $e) {
             debug_add("eventmember #{$member->id} links to bogus event #{$member->eid}, skipping and removing", MIDCOM_LOG_WARN);
             $member->delete();
             return;
@@ -266,14 +232,11 @@ class org_openpsa_calendar_conflictmanager
         debug_add("overlap found in event {$event->title} (#{$event->id})");
 
         if (   $event->tentative
-            && $rob_tentative)
-        {
+            && $rob_tentative) {
             debug_add('event is tentative, robbing participants');
             $event->participants = array_diff_key($event->participants, $this->_event->participants);
             $modified_events[$event->id] = $event;
-        }
-        else
-        {
+        } else {
             $this->flag_busy('members', $member->uid, $event);
         }
     }
@@ -281,8 +244,7 @@ class org_openpsa_calendar_conflictmanager
     private function flag_busy($type, $id, $event)
     {
         $field = 'busy_' . $type;
-        if (!array_key_exists($id, $this->$field))
-        {
+        if (!array_key_exists($id, $this->$field)) {
             //for mapping
             $this->{$field}[$id] = array();
         }
@@ -298,12 +260,10 @@ class org_openpsa_calendar_conflictmanager
             'resources' => array()
         );
 
-        if (!empty($processed[$type][$eid][$id]))
-        {
+        if (!empty($processed[$type][$eid][$id])) {
             return true;
         }
-        if (!array_key_exists($eid, $processed[$type]))
-        {
+        if (!array_key_exists($eid, $processed[$type])) {
             $processed[$type][$eid] = array();
         }
         $processed[$type][$eid][$id] = true;

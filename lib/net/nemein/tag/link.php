@@ -21,28 +21,23 @@ class net_nemein_tag_link_dba extends midcom_core_dbaobject
 
     public function get_parent_guid_uncached()
     {
-        if (empty($this->fromGuid))
-        {
+        if (empty($this->fromGuid)) {
             return null;
         }
         $class = $this->fromClass;
-        if (!class_exists($class))
-        {
+        if (!class_exists($class)) {
             debug_add("Class '{$class}' is missing, trying to find it", MIDCOM_LOG_WARN);
-            if (empty($this->fromComponent))
-            {
+            if (empty($this->fromComponent)) {
                 debug_add("\$this->fromComponent is empty, don't know how to load missing class '{$class}'", MIDCOM_LOG_ERROR);
                 return null;
             }
-            if (!midcom::get()->componentloader->load_graceful($this->fromComponent))
-            {
+            if (!midcom::get()->componentloader->load_graceful($this->fromComponent)) {
                 debug_add("Could not load component '{$this->fromComponent}' (to load missing class '{$class}')", MIDCOM_LOG_ERROR);
                 return null;
             }
         }
         $parent = new $class($this->fromGuid);
-        if (empty($parent->guid))
-        {
+        if (empty($parent->guid)) {
             return null;
         }
         return $parent->guid;
@@ -53,8 +48,7 @@ class net_nemein_tag_link_dba extends midcom_core_dbaobject
         $mc = net_nemein_tag_tag_dba::new_collector('id', $this->tag);
         $tag_guids = $mc->get_values('tag');
 
-        foreach ($tag_guids as $guid)
-        {
+        foreach ($tag_guids as $guid) {
             return net_nemein_tag_handler::tag_link2tagname($guid, $this->value, $this->context);
         }
         return $this->guid;
@@ -69,13 +63,11 @@ class net_nemein_tag_link_dba extends midcom_core_dbaobject
 
     public function _on_creating()
     {
-        if (!$this->_sanity_check())
-        {
+        if (!$this->_sanity_check()) {
             debug_add("Sanity check failed with tag #{$this->tag}", MIDCOM_LOG_WARN);
             return false;
         }
-        if ($this->_check_duplicates() > 0)
-        {
+        if ($this->_check_duplicates() > 0) {
             debug_add("Duplicate check failed with tag #{$this->tag}", MIDCOM_LOG_WARN);
             return false;
         }
@@ -85,21 +77,18 @@ class net_nemein_tag_link_dba extends midcom_core_dbaobject
 
     public function _on_created()
     {
-        if ($this->context == 'geo')
-        {
+        if ($this->context == 'geo') {
             $this->_geotag();
         }
     }
 
     public function _on_updating()
     {
-        if (!$this->_sanity_check())
-        {
+        if (!$this->_sanity_check()) {
             debug_add("Sanity check failed with tag #{$this->tag}", MIDCOM_LOG_WARN);
             return false;
         }
-        if ($this->_check_duplicates() > 0)
-        {
+        if ($this->_check_duplicates() > 0) {
             debug_add("Duplicate check failed with tag #{$this->tag}", MIDCOM_LOG_WARN);
             return false;
         }
@@ -108,8 +97,7 @@ class net_nemein_tag_link_dba extends midcom_core_dbaobject
 
     public function _on_updated()
     {
-        if ($this->context == 'geo')
-        {
+        if ($this->context == 'geo') {
             $this->_geotag();
         }
     }
@@ -117,8 +105,7 @@ class net_nemein_tag_link_dba extends midcom_core_dbaobject
     private function _check_duplicates()
     {
         $qb = net_nemein_tag_link_dba::new_query_builder();
-        if ($this->id)
-        {
+        if ($this->id) {
             $qb->add_constraint('id', '<>', $this->id);
         }
         $qb->add_constraint('fromGuid', '=', $this->fromGuid);
@@ -137,8 +124,7 @@ class net_nemein_tag_link_dba extends midcom_core_dbaobject
      */
     private function _geotag()
     {
-        if (!midcom::get()->config->get('positioning_enable'))
-        {
+        if (!midcom::get()->config->get('positioning_enable')) {
             return false;
         }
 
@@ -153,10 +139,8 @@ class net_nemein_tag_link_dba extends midcom_core_dbaobject
             'altitude'  => null,
         );
 
-        foreach ($geotags as $key => $value)
-        {
-            switch ($key)
-            {
+        foreach ($geotags as $key => $value) {
+            switch ($key) {
                 case 'lon':
                 case 'lng':
                 case 'long':
@@ -174,8 +158,7 @@ class net_nemein_tag_link_dba extends midcom_core_dbaobject
         }
 
         if (   is_null($position['longitude'])
-            || is_null($position['latitude']))
-        {
+            || is_null($position['latitude'])) {
             // Not enough information for positioning, we need both lon and lat
             return false;
         }

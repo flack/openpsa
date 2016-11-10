@@ -21,8 +21,7 @@ class midcom_db_host extends midcom_core_dbaobject
     public function get_label()
     {
         if (   $this->port == 0
-            || $this->port == 80)
-        {
+            || $this->port == 80) {
             return "{$this->name}{$this->prefix}";
         }
         return "{$this->name}:{$this->port}{$this->prefix}";

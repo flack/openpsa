@@ -47,8 +47,7 @@ implements midcom_helper_datamanager2_interfaces_edit
         $this->add_breadcrumb('__mfa/asgard/', $this->_l10n->get('midgard.admin.asgard'));
         $this->add_breadcrumb('__mfa/asgard/preferences/', $this->_l10n->get('user preferences'));
 
-        if ($this->_person->guid !== midcom::get()->auth->user->guid)
-        {
+        if ($this->_person->guid !== midcom::get()->auth->user->guid) {
             $this->add_breadcrumb("__mfa/asgard/preferences/{$this->_person->guid}/", $this->_person->name);
         }
     }
@@ -64,12 +63,9 @@ implements midcom_helper_datamanager2_interfaces_edit
     {
         midcom::get()->auth->require_valid_user();
 
-        if (isset($args[0]))
-        {
+        if (isset($args[0])) {
             $this->_person = new midcom_db_person($args[0]);
-        }
-        else
-        {
+        } else {
             $this->_person = new midcom_db_person(midcom_connection::get_user());
         }
 
@@ -77,13 +73,11 @@ implements midcom_helper_datamanager2_interfaces_edit
         $data['controller'] = $this->get_controller('simple', $this->_person);
 
         $return_page = '__mfa/asgard/';
-        if (isset($_GET['return_uri']))
-        {
+        if (isset($_GET['return_uri'])) {
             $return_page = $_GET['return_uri'];
         }
         // Process the requested form
-        switch ($data['controller']->process_form())
-        {
+        switch ($data['controller']->process_form()) {
             case 'save':
                 midcom::get()->uimessages->add($this->_l10n->get($this->_component), $this->_l10n->get('preferences saved'));
                 return new midcom_response_relocate($return_page);
@@ -117,8 +111,7 @@ implements midcom_helper_datamanager2_interfaces_edit
         $lang_str = midcom::get()->i18n->get_current_language();
         $languages = midcom::get()->i18n->list_languages();
 
-        if (!array_key_exists($lang_str, $languages))
-        {
+        if (!array_key_exists($lang_str, $languages)) {
             return $languages;
         }
 
@@ -153,20 +146,17 @@ implements midcom_helper_datamanager2_interfaces_edit
         // Patch for Midgard ACL problem of setting person's own parameters
         midcom::get()->auth->request_sudo('midgard.admin.asgard');
 
-        foreach ($_POST as $key => $value)
-        {
-             if (is_array($value))
-             {
-                 $value = serialize($value);
-             }
+        foreach ($_POST as $key => $value) {
+            if (is_array($value)) {
+                $value = serialize($value);
+            }
 
-             if (!$this->_person->set_parameter('midgard.admin.asgard:preferences', $key, $value))
-             {
-                 $this->_status = false;
-                 midcom::get()->uimessages->add($this->_l10n->get($this->_component), sprintf($this->_l10n->get('failed to save the preference for %s'), $this->_l10n->get($key)));
-             }
+            if (!$this->_person->set_parameter('midgard.admin.asgard:preferences', $key, $value)) {
+                $this->_status = false;
+                midcom::get()->uimessages->add($this->_l10n->get($this->_component), sprintf($this->_l10n->get('failed to save the preference for %s'), $this->_l10n->get($key)));
+            }
 
-             debug_add("Added configuration key-value pair {$key} => {$value}");
+            debug_add("Added configuration key-value pair {$key} => {$value}");
         }
 
         midcom::get()->auth->drop_sudo();

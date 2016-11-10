@@ -54,12 +54,9 @@ class org_openpsa_calendar_vcal
         $this->_add_date_fields($vevent, $event);
 
         // Type handling
-        if ($event->orgOpenpsaAccesstype === org_openpsa_core_acl::ACCESS_PUBLIC)
-        {
+        if ($event->orgOpenpsaAccesstype === org_openpsa_core_acl::ACCESS_PUBLIC) {
             $vevent->{'CLASS'} = 'PUBLIC';
-        }
-        else
-        {
+        } else {
             $vevent->{'CLASS'} = 'PRIVATE';
         }
         // "busy" or "transparency" as vCalendar calls it
@@ -82,11 +79,9 @@ class org_openpsa_calendar_vcal
     private function _add_participants(VEvent $vevent, array $participants)
     {
         $participants = array_filter($participants);
-        foreach (array_keys($participants) as $uid)
-        {
+        foreach (array_keys($participants) as $uid) {
             $person = midcom_db_person::get_cached($uid);
-            if (empty($person->email))
-            {
+            if (empty($person->email)) {
                 // Attendee must have email address of valid format, these must also be unique.
                 $person->email = preg_replace('/[^0-9_\x61-\x7a]/i', '_', strtolower($person->name)) . '_is_not@openpsa2.org';
             }

@@ -67,8 +67,7 @@ implements midcom_helper_datamanager2_interfaces_create
         $this->_request_data['up'] = $controller->formmanager->get_value('productGroup');
         $this->_product->productGroup = $this->_request_data['up'];
 
-        if (!$this->_product->create())
-        {
+        if (!$this->_product->create()) {
             debug_print_r('We operated on this object:', $this->_product);
             throw new midcom_error("Failed to create a new product under product group #{$this->_request_data['up']}. Error: " . midcom_connection::get_error_string());
         }
@@ -87,17 +86,13 @@ implements midcom_helper_datamanager2_interfaces_create
     {
         $this->_master->find_parent($args);
 
-        if ($handler_id == 'create_product')
-        {
+        if ($handler_id == 'create_product') {
             $this->_schema = $args[0];
-        }
-        else
-        {
+        } else {
             $this->_schema = $args[1];
         }
 
-        if (!array_key_exists($this->_schema, $data['schemadb_product']))
-        {
+        if (!array_key_exists($this->_schema, $data['schemadb_product'])) {
             throw new midcom_error_notfound('Schema ' . $this->_schema . ' was not found in schemadb');
         }
 
@@ -114,8 +109,7 @@ implements midcom_helper_datamanager2_interfaces_create
 
     public function save_callback(midcom_helper_datamanager2_controller $controller)
     {
-        if ($this->_config->get('index_products'))
-        {
+        if ($this->_config->get('index_products')) {
             // Index the product
             $indexer = midcom::get()->indexer;
             org_openpsa_products_viewer::index($controller->datamanager, $indexer, $this->_topic);

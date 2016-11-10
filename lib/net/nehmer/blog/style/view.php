@@ -14,10 +14,11 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
     <p class="excerpt">&(view['abstract']:h);</p>
 
     <div class="content">
-        <?php if (!empty($view['image']))
-        { ?>
+        <?php if (!empty($view['image'])) {
+    ?>
             <div style="float: right; padding: 5px;">&(view['image']:h);</div>
-        <?php } ?>
+        <?php 
+} ?>
 
         &(view["content"]:h);
     </div>
@@ -26,28 +27,22 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 
     <?php
     $without_pipes = str_replace('|', '', $data['article']->extra3);
-    if (!empty($without_pipes))
-    {
+    if (!empty($without_pipes)) {
         echo "<h2>{$data['l10n']->get('related stories')}</h2>\n";
         echo "<ul class=\"related\">\n";
         $relateds = explode('|', $data['article']->extra3);
-        foreach (array_filter($relateds) as $related)
-        {
-            try
-            {
+        foreach (array_filter($relateds) as $related) {
+            try {
                 $article = new midcom_db_article($related);
                 echo "<li><a href=\"" . midcom::get()->permalinks->create_permalink($article->guid) . "\">{$article->title}</a></li>\n";
-            }
-            catch (midcom_error $e)
-            {
+            } catch (midcom_error $e) {
                 $e->log();
             }
         }
         echo "</ul>\n";
     }
 
-    if (array_key_exists('comments_url', $data))
-    {
+    if (array_key_exists('comments_url', $data)) {
         midcom::get()->dynamic_load($data['comments_url']);
     }
     ?>

@@ -21,11 +21,9 @@ class org_openpsa_directmarketing_importer_vcards extends org_openpsa_directmark
         $reader = new VCard(fopen($input, 'r'));
         $parsed = array();
 
-        while ($card = $reader->getNext())
-        {
+        while ($card = $reader->getNext()) {
             $contact = $this->_parse_vcard($card);
-            if (count($contact['person']) > 0)
-            {
+            if (count($contact['person']) > 0) {
                 // We have parsed some contact info.
                 $parsed[] = $contact;
             }
@@ -42,25 +40,18 @@ class org_openpsa_directmarketing_importer_vcards extends org_openpsa_directmark
             'organization_member' => array(),
         );
 
-        if ($card->FN)
-        {
+        if ($card->FN) {
             $name_parts = explode(' ', $card->FN->value, 2);
-            if (sizeof($name_parts) > 1)
-            {
+            if (sizeof($name_parts) > 1) {
                 $contact['person']['lastname'] = $name_parts[1];
                 $contact['person']['firstname'] = $name_parts[0];
-            }
-            else
-            {
+            } else {
                 $contact['person']['lastname'] = $name_parts[0];
             }
         }
-        if ($card->TEL)
-        {
-            foreach ($card->TEL as $tel)
-            {
-                switch ($tel['TYPE'])
-                {
+        if ($card->TEL) {
+            foreach ($card->TEL as $tel) {
+                switch ($tel['TYPE']) {
                     case 'CELL':
                         $contact['person']['handphone'] = $tel->value;
                         break;
@@ -74,28 +65,21 @@ class org_openpsa_directmarketing_importer_vcards extends org_openpsa_directmark
             }
         }
 
-        if ($card->ORG)
-        {
+        if ($card->ORG) {
             $contact['organization']['official'] = $card->ORG->value;
         }
-        if ($card->TITLE)
-        {
+        if ($card->TITLE) {
             $contact['organization_member']['title'] = $card->TITLE->value;
         }
-        if ($card->EMAIL)
-        {
+        if ($card->EMAIL) {
             $contact['person']['email'] = $card->EMAIL->value;
         }
-        if ($card->{'X-SKYPE-USERNAME'})
-        {
+        if ($card->{'X-SKYPE-USERNAME'}) {
             $contact['person']['skype'] = $card->{'X-SKYPE-USERNAME'}->value;
         }
-        if ($card->UID)
-        {
+        if ($card->UID) {
             $contact['person']['external-uid'] = $card->UID->value;
-        }
-        elseif ($card->{'X-ABUID'})
-        {
+        } elseif ($card->{'X-ABUID'}) {
             $contact['person']['external-uid'] = $card->{'X-ABUID'}->value;
         }
         return $contact;

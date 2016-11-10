@@ -31,15 +31,11 @@ class net_nemein_wiki_viewer extends midcom_baseclasses_components_request
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/net.nemein.wiki/wiki.css");
 
-        if (midcom::get()->auth->user)
-        {
+        if (midcom::get()->auth->user) {
             $user = midcom::get()->auth->user->get_storage();
-            if ($this->_topic->get_parameter('net.nemein.wiki:watch', $user->guid))
-            {
+            if ($this->_topic->get_parameter('net.nemein.wiki:watch', $user->guid)) {
                 $action = 'unsubscribe';
-            }
-            else
-            {
+            } else {
                 $action = 'subscribe';
             }
             $this->_node_toolbar->add_item
@@ -77,8 +73,7 @@ class net_nemein_wiki_viewer extends midcom_baseclasses_components_request
         $qb->add_constraint('name', '=', $wikiword);
         $result = $qb->execute();
 
-        if (count($result) > 0)
-        {
+        if (count($result) > 0) {
             return $result[0];
         }
         throw new midcom_error_notfound('The page "' . $wikiword . '" could not be found.');
@@ -94,8 +89,7 @@ class net_nemein_wiki_viewer extends midcom_baseclasses_components_request
      */
     public static function index($dm, $indexer, $topic)
     {
-        if (!is_object($topic))
-        {
+        if (!is_object($topic)) {
             $topic = new midcom_db_topic($topic);
         }
 
@@ -121,8 +115,7 @@ class net_nemein_wiki_viewer extends midcom_baseclasses_components_request
         $page->title = $topic->extra;
         $page->content = midcom::get()->i18n->get_string('wiki default page content', 'net.nemein.wiki');
         $page->author = midcom_connection::get_user();
-        if (!$page->create())
-        {
+        if (!$page->create()) {
             throw new midcom_error('Failed to create index article: ' . midcom_connection::get_error_string());
         }
         return $page;

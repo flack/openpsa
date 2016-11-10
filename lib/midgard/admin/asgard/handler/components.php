@@ -26,20 +26,16 @@ class midgard_admin_asgard_handler_components extends midcom_baseclasses_compone
         $component_array['purecode'] = $manifest->purecode;
         $component_array['icon'] = midcom::get()->componentloader->get_component_icon($name);
 
-        if (isset($manifest->_raw_data['package.xml']['description']))
-        {
+        if (isset($manifest->_raw_data['package.xml']['description'])) {
             $component_array['description'] = $manifest->_raw_data['package.xml']['description'];
-        }
-        else
-        {
+        } else {
             $component_array['description'] = '';
         }
 
         $component_array['version'] = $manifest->_raw_data['version'];
 
         $component_array['maintainers'] = array();
-        if (isset($manifest->_raw_data['package.xml']['maintainers']))
-        {
+        if (isset($manifest->_raw_data['package.xml']['maintainers'])) {
             $component_array['maintainers'] = $manifest->_raw_data['package.xml']['maintainers'];
         }
 
@@ -73,21 +69,16 @@ class midgard_admin_asgard_handler_components extends midcom_baseclasses_compone
         $this->_request_data['components'] = array();
         $this->_request_data['libraries'] = array();
 
-        foreach (midcom::get()->componentloader->manifests as $name => $manifest)
-        {
-            if (!array_key_exists('package.xml', $manifest->_raw_data))
-            {
+        foreach (midcom::get()->componentloader->manifests as $name => $manifest) {
+            if (!array_key_exists('package.xml', $manifest->_raw_data)) {
                 // This component is not yet packaged, skip
                 continue;
             }
 
             $type = 'components';
-            if ($manifest->purecode)
-            {
+            if ($manifest->purecode) {
                 $type = 'libraries';
-            }
-            elseif (midcom::get()->componentloader->is_core_component($name))
-            {
+            } elseif (midcom::get()->componentloader->is_core_component($name)) {
                 $type = 'core_components';
             }
 
@@ -133,8 +124,7 @@ class midgard_admin_asgard_handler_components extends midcom_baseclasses_compone
     {
         $this->_request_data['list_type'] = $type;
         midcom_show_style('midgard_admin_asgard_components_header');
-        foreach ($this->_request_data[$type] as $component_data)
-        {
+        foreach ($this->_request_data[$type] as $component_data) {
             $this->_request_data['component_data'] = $component_data;
             midcom_show_style('midgard_admin_asgard_components_item');
         }
@@ -151,8 +141,7 @@ class midgard_admin_asgard_handler_components extends midcom_baseclasses_compone
     public function _handler_component($handler_id, array $args, array &$data)
     {
         $data['component'] = $args[0];
-        if (!midcom::get()->componentloader->is_installed($data['component']))
-        {
+        if (!midcom::get()->componentloader->is_installed($data['component'])) {
             throw new midcom_error_notfound("Component {$data['component']} is not installed.");
         }
 

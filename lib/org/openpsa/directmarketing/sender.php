@@ -80,8 +80,7 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
         parent::__construct();
         $this->_message = $message;
 
-        switch ($this->_message->orgOpenpsaObtype)
-        {
+        switch ($this->_message->orgOpenpsaObtype) {
             case org_openpsa_directmarketing_campaign_message_dba::EMAIL_TEXT:
             case org_openpsa_directmarketing_campaign_message_dba::EMAIL_HTML:
                 $classname = 'org_openpsa_directmarketing_sender_backend_email';
@@ -108,29 +107,24 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
     public function send($subject, $content, $from)
     {
         midcom::get()->disable_limits();
-        if (!$this->test_mode)
-        {
+        if (!$this->test_mode) {
             //Make sure we have smart campaign members up-to-date (this might take a while)
             $this->_check_campaign_up_to_date();
         }
 
         //TODO: Rethink the styles, now we filter those who already had message sent to themm thus the total member count becomes meaningless
-        if ($this->send_output)
-        {
+        if ($this->send_output) {
             midcom_show_style('send-start');
             flush();
             ob_flush(); //I Hope midcom doesn't wish to do any specific post-processing here...
         }
 
-        while ($results = $this->_qb_send_loop())
-        {
-            if (!$this->process_results($results, $subject, $content, $from))
-            {
+        while ($results = $this->_qb_send_loop()) {
+            if (!$this->process_results($results, $subject, $content, $from)) {
                 return false;
             }
         }
-        if ($this->send_output)
-        {
+        if ($this->send_output) {
             midcom_show_style('send-finish');
             flush();
             ob_flush(); //I Hope midcom doesn't wish to do any specific post-processing here...
@@ -150,16 +144,13 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
         $this->_chunk_num = $batch - 1;
 
         midcom::get()->disable_limits();
-        if (!$this->test_mode)
-        {
+        if (!$this->test_mode) {
             //For first batch (they start from 1 instead of 0) make sure we have smart campaign members up to date
-            if ($batch == 1)
-            {
+            if ($batch == 1) {
                 $this->_check_campaign_up_to_date();
             }
             // Register sendStarted if not already set
-            if (!$this->_message->sendStarted)
-            {
+            if (!$this->_message->sendStarted) {
                 $this->_message->sendStarted = time();
                 $this->_message->update();
             }
@@ -167,19 +158,15 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
         $results = $this->_qb_single_chunk();
         //The method above might have incremented the counter for internal reasons
         $batch = $this->_chunk_num + 1;
-        if ($results === false)
-        {
+        if ($results === false) {
             $status = true; //All should be ok
-        }
-        elseif ($status = $this->process_results($results, $subject, $content, $from))
-        {
+        } elseif ($status = $this->process_results($results, $subject, $content, $from)) {
             //register next batch
             return $this->register_send_job($batch + 1, $url_base);
         }
 
         // Last batch done, register sendCompleted if we're not in test mode
-        if (!$this->test_mode)
-        {
+        if (!$this->test_mode) {
             $this->_message->sendCompleted = time();
             $this->_message->update();
         }
@@ -189,12 +176,10 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
 
     private function process_results(array $results, $subject, $content, $from)
     {
-        if (!$this->_backend->check_results($results))
-        {
+        if (!$this->_backend->check_results($results)) {
             return false; //Backend refuses delivery
         }
-        foreach ($results as $member)
-        {
+        foreach ($results as $member) {
             $this->_send_member($member, $subject, $content, $from);
         }
         return true;
@@ -212,8 +197,7 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
         midcom::get()->auth->request_sudo('org.openpsa.directmarketing');
         $atstat = midcom_services_at_interface::register($time, 'org.openpsa.directmarketing', 'background_send_message', $args);
         midcom::get()->auth->drop_sudo();
-        if (!$atstat)
-        {
+        if (!$atstat) {
             debug_add("FAILED to register batch #{$args['batch']} for {$args['url_base']}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
         }
         return $atstat;
@@ -221,15 +205,13 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
 
     private function _send_member(org_openpsa_directmarketing_campaign_member_dba $member, $subject, $content, $from)
     {
-        if (!$person = $this->_get_person($member))
-        {
+        if (!$person = $this->_get_person($member)) {
             return;
         }
 
         $from = $from ?: 'noreplyaddress@openpsa2.org';
         $subject = $subject ?: '[no subject]';
-        if ($this->test_mode)
-        {
+        if ($this->test_mode) {
             $subject = "[TEST] {$subject}";
         }
         $content = $member->personalize_message($content, $this->_message->orgOpenpsaObtype, $person);
@@ -237,17 +219,13 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
         $subject = $member->personalize_message($subject, org_openpsa_directmarketing_campaign_message_dba::EMAIL_TEXT, $person);
         $params = array();
 
-        try
-        {
+        try {
             $this->_backend->send($person, $member, $token, $subject, $content, $from);
             self::$_messages_sent++;
             $status = org_openpsa_directmarketing_campaign_messagereceipt_dba::SENT;
-        }
-        catch (midcom_error $e)
-        {
+        } catch (midcom_error $e) {
             $status = org_openpsa_directmarketing_campaign_messagereceipt_dba::FAILURE;
-            if (!$this->test_mode)
-            {
+            if (!$this->test_mode) {
                 $params[] = array
                 (
                     'domain' => 'org.openpsa.directmarketing',
@@ -255,13 +233,11 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
                     'value' => $e->getMessage(),
                 );
             }
-            if ($this->send_output)
-            {
+            if ($this->send_output) {
                 midcom::get()->uimessages->add($this->_l10n->get($this->_component), $e->getMessage(), 'error');
             }
         }
-        if (!$this->test_mode)
-        {
+        if (!$this->test_mode) {
             $member->create_receipt($this->_message->id, $status, $token, $params);
         }
     }
@@ -278,21 +254,18 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
     private function _create_token()
     {
         //Testers need dummy token
-        if ($this->test_mode)
-        {
+        if ($this->test_mode) {
             return 'dummy';
         }
 
         $tokenchars = 'abcdefghijklmnopqrstuvwxyz0123456789';
         $token = $tokenchars[mt_rand(0, strlen($tokenchars) - 11)];
-        for ($i = 1; $i < $this->token_size; $i++)
-        {
+        for ($i = 1; $i < $this->token_size; $i++) {
             $token .= $tokenchars[mt_rand(0, strlen($tokenchars) - 1)];
         }
         //If token is not free or (very, very unlikely) matches our dummy token, recurse.
         if (   $token === 'dummy'
-            || !org_openpsa_directmarketing_campaign_messagereceipt_dba::token_is_free($token))
-        {
+            || !org_openpsa_directmarketing_campaign_messagereceipt_dba::token_is_free($token)) {
             return $this->_create_token();
         }
         return $token;
@@ -306,12 +279,9 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
      */
     private function _get_person(org_openpsa_directmarketing_campaign_member_dba $member)
     {
-        try
-        {
+        try {
             $person = org_openpsa_contacts_person_dba::get_cached($member->person);
-        }
-        catch (midcom_error $e)
-        {
+        } catch (midcom_error $e) {
             debug_add("Person #{$member->person} deleted or missing, removing member (member #{$member->id})");
             $member->orgOpenpsaObtype = org_openpsa_directmarketing_campaign_member_dba::UNSUBSCRIBED;
             $member->delete();
@@ -319,8 +289,7 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
         }
         $type = $this->_backend->get_type();
         if (   $person->get_parameter('org.openpsa.directmarketing', "send_all_denied")
-            || $person->get_parameter('org.openpsa.directmarketing', "send_{$type}_denied"))
-        {
+            || $person->get_parameter('org.openpsa.directmarketing', "send_{$type}_denied")) {
             debug_add("Sending {$type} messages to person {$person->rname} is denied, unsubscribing member (member #{$member->id})");
             $member->orgOpenpsaObtype = org_openpsa_directmarketing_campaign_member_dba::UNSUBSCRIBED;
             $member->update();
@@ -349,14 +318,12 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
         $this->_qb_chunk_limits($qb);
 
         $results = $qb->execute_unchecked();
-        if (empty($results))
-        {
+        if (empty($results)) {
             debug_add('Got failure or empty resultset, aborting');
             return false;
         }
 
-        if ($this->test_mode)
-        {
+        if ($this->test_mode) {
             debug_add('TEST mode, no receipt filtering will be done');
             return $results;
         }
@@ -369,8 +336,7 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
         /* Make sure we still have results left, if not just recurse...
          (basically this is to avoid returning an empty array when everything is otherwise ok) */
         if (   count($results) == 0
-            && ($level < $this->_chunk_max_recurse))
-        {
+            && ($level < $this->_chunk_max_recurse)) {
             debug_add('All our results got filtered, recursing for another round');
             //Trivial rate limiting.
             sleep(1);
@@ -386,8 +352,7 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
     {
         debug_add("Processing chunk {$this->_chunk_num}");
         $offset = $this->_chunk_num * $this->chunk_size;
-        if ($offset > 0)
-        {
+        if ($offset > 0) {
             debug_add("Setting offset to {$offset}");
             $qb->set_offset($offset);
         }
@@ -397,14 +362,12 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
 
     private function _qb_filter_results($results)
     {
-        if (empty($results))
-        {
+        if (empty($results)) {
             return $results;
         }
         //Make a map for receipt filtering
         $results_person_map = array();
-        foreach ($results as $k => $member)
-        {
+        foreach ($results as $k => $member) {
             $results_person_map[$member->person] = $k;
         }
         $mc = org_openpsa_directmarketing_campaign_messagereceipt_dba::new_collector('message', $this->_message->id);
@@ -414,8 +377,7 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
 
         $receipts = $mc->get_values('person');
 
-        if (empty($receipts))
-        {
+        if (empty($receipts)) {
             return $results;
         }
         debug_add('Found ' . count($receipts) . ' send receipts for this chunk');
@@ -456,8 +418,7 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
         midcom::get()->auth->request_sudo('org.openpsa.directmarketing');
         $campaign = new org_openpsa_directmarketing_campaign_dba($this->_message->campaign);
         midcom::get()->auth->drop_sudo();
-        if ($campaign->orgOpenpsaObtype == org_openpsa_directmarketing_campaign_dba::TYPE_SMART)
-        {
+        if ($campaign->orgOpenpsaObtype == org_openpsa_directmarketing_campaign_dba::TYPE_SMART) {
             $campaign->update_smart_campaign_members();
         }
     }
@@ -470,13 +431,10 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
         debug_add("Setting constraint campaign = {$this->_message->campaign}");
         $qb->add_constraint('campaign', '=', $this->_message->campaign);
         $qb->add_constraint('suspended', '<', time());
-        if ($this->test_mode)
-        {
+        if ($this->test_mode) {
             debug_add('TEST mode, adding constraints');
             $qb->add_constraint('orgOpenpsaObtype', '=', org_openpsa_directmarketing_campaign_member_dba::TESTER);
-        }
-        else
-        {
+        } else {
             debug_add('REAL mode, adding constraints');
             //Fail safe way, exclude those we know we do not want, in case some wanted members have incorrect type...
             // FIXME: use NOT IN

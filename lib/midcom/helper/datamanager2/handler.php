@@ -39,8 +39,7 @@ class midcom_helper_datamanager2_handler
         $datamanager = new midcom_helper_datamanager2_datamanager($schemadb);
         $datamanager->set_schema($handler->get_schema_name());
 
-        if (!$datamanager->set_storage($object))
-        {
+        if (!$datamanager->set_storage($object)) {
             throw new midcom_error("Failed to create a DM2 instance for object {$object->guid}.");
         }
         return $datamanager;
@@ -59,8 +58,7 @@ class midcom_helper_datamanager2_handler
         $controller->schemadb = $handler->load_schemadb();
 
         $controller->set_storage($object, $handler->get_schema_name());
-        if (!$controller->initialize())
-        {
+        if (!$controller->initialize()) {
             throw new midcom_error("Failed to initialize a DM2 controller instance for object {$object->guid}.");
         }
         return $controller;
@@ -78,8 +76,7 @@ class midcom_helper_datamanager2_handler
         $controller->schemadb = $handler->load_schemadb();
         $controller->schemaname = $handler->get_schema_name();
         $controller->defaults = $handler->get_schema_defaults();
-        if (!$controller->initialize())
-        {
+        if (!$controller->initialize()) {
             throw new midcom_error('Failed to initialize a DM2 nullstorage controller.');
         }
         return $controller;
@@ -98,8 +95,7 @@ class midcom_helper_datamanager2_handler
         $controller->schemaname = $handler->get_schema_name();
         $controller->defaults = $handler->get_schema_defaults();
         $controller->callback_object = $handler;
-        if (!$controller->initialize())
-        {
+        if (!$controller->initialize()) {
             throw new midcom_error('Failed to initialize a DM2 create controller.');
         }
         return $controller;
@@ -116,8 +112,7 @@ class midcom_helper_datamanager2_handler
         $delete_schemadb = midcom_baseclasses_components_configuration::get('midcom.helper.datamanager2', 'config')->get('schemadb_delete');
         $controller->schemadb = midcom_helper_datamanager2_schema::load_database($delete_schemadb);
 
-        if (!$controller->initialize())
-        {
+        if (!$controller->initialize()) {
             throw new midcom_error("Failed to initialize a DM2 delete controller.");
         }
         return $controller;

@@ -15,10 +15,8 @@ $data = $this->data;
         </label>
     </p>
 <?php
-if (!empty($data['restored_form_data']))
-{
-    foreach ($data['restored_form_data'] as $key => $value)
-    {
+if (!empty($data['restored_form_data'])) {
+    foreach ($data['restored_form_data'] as $key => $value) {
         echo "                <input type=\"hidden\" name=\"restored_form_data[{$key}]\" value=\"{$value}\" />\n";
     }
 
@@ -36,11 +34,9 @@ if (!empty($data['restored_form_data']))
     </div>
 </form>
 <?php
-if (midcom::get()->config->get('auth_openid_enable'))
-{
-    midcom::get()->componentloader->load_library('net.nemein.openid');
-    $url = midcom::get()->get_host_prefix() . 'midcom-exec-net.nemein.openid/initiate.php';
-    ?>
+if (midcom::get()->config->get('auth_openid_enable')) {
+            midcom::get()->componentloader->load_library('net.nemein.openid');
+            $url = midcom::get()->get_host_prefix() . 'midcom-exec-net.nemein.openid/initiate.php'; ?>
     <!--<h3><?php echo midcom::get()->i18n->get_string('login using openid', 'net.nemein.openid'); ?></h3>-->
 
     <div id="open_id_form">
@@ -58,4 +54,5 @@ if (midcom::get()->config->get('auth_openid_enable'))
                 echo midcom::get()->i18n->get_string('login', 'midcom'); ?>" />
         </form>
     </div>
-<?php } ?>
+<?php 
+        } ?>

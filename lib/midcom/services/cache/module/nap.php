@@ -47,8 +47,7 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
      */
     public function _on_initialize()
     {
-        if ($driver = midcom::get()->config->get('cache_module_memcache_backend'))
-        {
+        if ($driver = midcom::get()->config->get('cache_module_memcache_backend')) {
             $config = midcom::get()->config->get('cache_module_memcache_backend_config');
             $config['driver'] = $driver;
             $this->_cache = $this->_create_backend('module_nap', $config);
@@ -62,39 +61,31 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
     {
         $napobject = $this->get_guid($guid);
 
-        if (!$napobject)
-        {
+        if (!$napobject) {
             // The object itself is not in cache, but it still might have a parent that
             // needs invalidating (f.x. if it is newly-created or was moved from outside the tree)
             $napobject = $this->_load_from_guid($guid, $object);
-            if (!$napobject)
-            {
+            if (!$napobject) {
                 // We couldn't load the object (because it's deleted f.x.) or it is not in NAP.
                 // Either way, there is nothing more we can do here.
                 return;
             }
         }
 
-        if ($napobject[MIDCOM_NAV_TYPE] == 'leaf')
-        {
+        if ($napobject[MIDCOM_NAV_TYPE] == 'leaf') {
             $cached_node_id = $napobject[MIDCOM_NAV_NODEID];
             // Get parent from DB and compare to catch moves
-            if ($parent = $napobject[MIDCOM_NAV_OBJECT]->get_parent())
-            {
+            if ($parent = $napobject[MIDCOM_NAV_OBJECT]->get_parent()) {
                 $parent_entry_from_object = $this->get_guid($parent->guid);
                 if (    $parent_entry_from_object
-                     && $parent_entry_from_object[MIDCOM_NAV_ID] != $cached_node_id)
-                {
+                     && $parent_entry_from_object[MIDCOM_NAV_ID] != $cached_node_id) {
                     $this->_cache->delete($this->_prefix . '-' . $parent_entry_from_object[MIDCOM_NAV_ID] . '-leaves');
                 }
             }
-            if (!empty($napobject[MIDCOM_NAV_GUID]))
-            {
+            if (!empty($napobject[MIDCOM_NAV_GUID])) {
                 $this->_cache->delete($this->_prefix . '-' . $napobject[MIDCOM_NAV_GUID]);
             }
-        }
-        else
-        {
+        } else {
             $cached_node_id = $napobject[MIDCOM_NAV_ID];
 
             //Invalidate subnode cache for the (cached) parent
@@ -102,21 +93,18 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
             $parent_entry = $this->get_node($parent_id);
 
             if (   $parent_entry
-                && array_key_exists(MIDCOM_NAV_SUBNODES, $parent_entry))
-            {
+                && array_key_exists(MIDCOM_NAV_SUBNODES, $parent_entry)) {
                 unset($parent_entry[MIDCOM_NAV_SUBNODES]);
                 $this->put_node($parent_id, $parent_entry);
             }
 
             //Cross-check parent value from object to detect topic moves
-            if ($parent = $napobject[MIDCOM_NAV_OBJECT]->get_parent())
-            {
+            if ($parent = $napobject[MIDCOM_NAV_OBJECT]->get_parent()) {
                 $parent_entry_from_object = $this->get_guid($parent->guid);
 
                 if (    !empty($parent_entry_from_object[MIDCOM_NAV_ID])
                      && !empty($parent_entry[MIDCOM_NAV_ID])
-                     && $parent_entry_from_object[MIDCOM_NAV_ID] != $parent_entry[MIDCOM_NAV_ID])
-                {
+                     && $parent_entry_from_object[MIDCOM_NAV_ID] != $parent_entry[MIDCOM_NAV_ID]) {
                     unset($parent_entry_from_object[MIDCOM_NAV_SUBNODES]);
                     $this->put_node($parent_entry_from_object[MIDCOM_NAV_ID], $parent_entry_from_object);
                 }
@@ -133,25 +121,18 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
     private function _load_from_guid($guid, $object = null)
     {
         $napobject = false;
-        try
-        {
-            if (!is_object($object))
-            {
+        try {
+            if (!is_object($object)) {
                 $object = midcom::get()->dbfactory->get_object_by_guid($guid);
             }
             $nav = new midcom_helper_nav;
-            if (is_a($object, 'midcom_db_topic'))
-            {
+            if (is_a($object, 'midcom_db_topic')) {
                 $napobject = $nav->get_node($object->id);
-            }
-            elseif (   ($node = $nav->find_closest_topic($object))
-                     && $nodeobject = $nav->get_node($node->id))
-            {
+            } elseif (   ($node = $nav->find_closest_topic($object))
+                     && $nodeobject = $nav->get_node($node->id)) {
                 $napobject = $nav->get_leaf($nodeobject[MIDCOM_NAV_ID] . '-' . $object->id);
             }
-        }
-        catch (midcom_error $e)
-        {
+        } catch (midcom_error $e) {
             $e->log();
         }
         return $napobject;
@@ -167,15 +148,13 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
      */
     public function get_node($key)
     {
-        if ($this->_cache === null)
-        {
+        if ($this->_cache === null) {
             return false;
         }
         $lang_id = midcom::get()->i18n->get_current_language();
         $result = $this->_cache->fetch("{$this->_prefix}-{$key}");
         if (   !is_array($result)
-            || !isset($result[$lang_id]))
-        {
+            || !isset($result[$lang_id])) {
             return false;
         }
 
@@ -192,16 +171,14 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
      */
     public function get_leaves($key)
     {
-        if ($this->_cache === null)
-        {
+        if ($this->_cache === null) {
             return false;
         }
 
         $lang_id = midcom::get()->i18n->get_current_language();
         $result = $this->_cache->fetch("{$this->_prefix}-{$key}");
         if (   !is_array($result)
-            || !isset($result[$lang_id]))
-        {
+            || !isset($result[$lang_id])) {
             return false;
         }
 
@@ -216,16 +193,14 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
      */
     function exists($key)
     {
-        if ($this->_cache === null)
-        {
+        if ($this->_cache === null) {
             return false;
         }
 
         $lang_id = midcom::get()->i18n->get_current_language();
         $result = $this->_cache->fetch("{$this->_prefix}-{$key}");
         if (   !is_array($result)
-            || !isset($result[$lang_id]))
-        {
+            || !isset($result[$lang_id])) {
             return false;
         }
 
@@ -241,15 +216,13 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
      */
     public function put_node($key, $data, $timeout = false)
     {
-        if ($this->_cache === null)
-        {
+        if ($this->_cache === null) {
             return;
         }
 
         $lang_id = midcom::get()->i18n->get_current_language();
         $result = $this->_cache->fetch("{$this->_prefix}-{$key}");
-        if (!is_array($result))
-        {
+        if (!is_array($result)) {
             $result = array();
         }
         $result[$lang_id] = $data;
@@ -266,15 +239,13 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
      */
     public function put_guid($guid, $data, $timeout = false)
     {
-        if ($this->_cache === null)
-        {
+        if ($this->_cache === null) {
             return;
         }
 
         $lang_id = midcom::get()->i18n->get_current_language();
         $result = $this->_cache->fetch("{$this->_prefix}-{$guid}");
-        if (!is_array($result))
-        {
+        if (!is_array($result)) {
             $result = array();
         }
         $result[$lang_id] = $data;
@@ -289,16 +260,14 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
      */
     public function get_guid($guid, $timeout = false)
     {
-        if ($this->_cache === null)
-        {
+        if ($this->_cache === null) {
             return;
         }
 
         $lang_id = midcom::get()->i18n->get_current_language();
         $result = $this->_cache->fetch("{$this->_prefix}-{$guid}");
         if (   !is_array($result)
-            || !isset($result[$lang_id]))
-        {
+            || !isset($result[$lang_id])) {
             return false;
         }
         return $result[$lang_id];
@@ -313,15 +282,13 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
      */
     public function put_leaves($key, $data, $timeout = false)
     {
-        if ($this->_cache === null)
-        {
+        if ($this->_cache === null) {
             return;
         }
 
         $lang_id = midcom::get()->i18n->get_current_language();
         $result = $this->_cache->fetch("{$this->_prefix}-{$key}");
-        if (!is_array($result))
-        {
+        if (!is_array($result)) {
             $result = array();
         }
         $result[$lang_id] = $data;

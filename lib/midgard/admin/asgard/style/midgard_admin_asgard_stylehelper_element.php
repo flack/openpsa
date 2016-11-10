@@ -9,13 +9,13 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
         </label>
         <textarea class="default" id="midgard_admin_asgard_stylehelper_help_default" readonly="readonly"><?php echo $data['help_style_element']['default']; ?></textarea>
         <?php
-        if ($data['handler_id'] == '____mfa-asgard-object_edit')
-        {
+        if ($data['handler_id'] == '____mfa-asgard-object_edit') {
             ?>
             <button type="button" class="copy">
                 <?php echo $data['l10n']->get('copy to editor'); ?>
             </button>
             <?php
+
         }
         ?>
     </div>

@@ -10,7 +10,7 @@
 midcom::get()->auth->require_valid_user();
 
 // Get rid of output buffers (we need to make output to keep browser happy)
-while(@ob_end_flush());
+while (@ob_end_flush());
 
 echo "<p>\n";
 

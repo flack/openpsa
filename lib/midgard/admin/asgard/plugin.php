@@ -19,8 +19,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
         midcom::get()->cache->content->no_cache();
 
         // Preferred language
-        if (($language = self::get_preference('interface_language')))
-        {
+        if (($language = self::get_preference('interface_language'))) {
             $this->_i18n->set_language($language);
         }
 
@@ -51,8 +50,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
         self::get_default_mode($data);
 
         // Preferred language
-        if (($language = self::get_preference('interface_language')))
-        {
+        if (($language = self::get_preference('interface_language'))) {
             midcom::get()->i18n->set_language($language);
         }
 
@@ -79,8 +77,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
         $data['object'] = $object;
 
         // Populate toolbars
-        if (midcom::get()->dbclassloader->is_midcom_db_object($object))
-        {
+        if (midcom::get()->dbclassloader->is_midcom_db_object($object)) {
             $context = midcom_core_context::get();
 
             // Bind the object to the metadata service
@@ -99,8 +96,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
     public static function set_pagetitle($object, $handler_id, array &$data)
     {
         // Figure out correct title and language handling
-        switch ($handler_id)
-        {
+        switch ($handler_id) {
             case '____mfa-asgard-object_edit':
                 $title_string = midcom::get()->i18n->get_string('edit %s %s', 'midgard.admin.asgard');
                 break;
@@ -116,8 +112,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
                 break;
             case '____mfa-asgard-object_permissions':
                 // Figure out label for the object's class
-                switch (get_class($object))
-                {
+                switch (get_class($object)) {
                     case 'midcom_db_topic':
                         $type = midcom::get()->i18n->get_string('folder', 'midgard.admin.asgard');
                         break;
@@ -153,19 +148,15 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
     public static function get_default_mode(array &$data)
     {
         //only set mode once per request
-        if (!empty($data['default_mode']))
-        {
+        if (!empty($data['default_mode'])) {
             return $data['default_mode'];
         }
         $data['default_mode'] = 'view';
 
         if (   !midgard_admin_asgard_plugin::get_preference('edit_mode')
-            && midcom_baseclasses_components_configuration::get('midgard.admin.asgard', 'config')->get('edit_mode') == 1)
-        {
+            && midcom_baseclasses_components_configuration::get('midgard.admin.asgard', 'config')->get('edit_mode') == 1) {
             $data['default_mode'] = 'edit';
-        }
-        elseif (midgard_admin_asgard_plugin::get_preference('edit_mode') == 1)
-        {
+        } elseif (midgard_admin_asgard_plugin::get_preference('edit_mode') == 1) {
             $data['default_mode'] = 'edit';
         }
 
@@ -206,8 +197,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
 
         if (   is_a($object, 'midcom_db_parameter')
             && is_object($parent)
-            && $parent->guid)
-        {
+            && $parent->guid) {
             // Add "parameters" list to breadcrumb if we're in a param
             $breadcrumb[] = array
             (
@@ -219,8 +209,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
         $i = 0;
         while (   is_object($parent)
                && $parent->guid
-               && $i < 10)
-        {
+               && $i < 10) {
             $i++;
             $parent_reflector = midcom_helper_reflector::get($parent);
             $parent_label = $parent_reflector->get_object_label($parent);
@@ -233,8 +222,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
         }
         $breadcrumb = array_reverse($breadcrumb);
 
-        switch ($handler_id)
-        {
+        switch ($handler_id) {
             case '____mfa-asgard-object_edit':
                 $breadcrumb[] = array
                 (
@@ -278,8 +266,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
                     MIDCOM_NAV_NAME => midcom::get()->i18n->get_string('attachments', 'midgard.admin.asgard'),
                 );
 
-                if ($handler_id == '____mfa-asgard-object_attachments_edit')
-                {
+                if ($handler_id == '____mfa-asgard-object_attachments_edit') {
                     $breadcrumb[] = array
                     (
                         MIDCOM_NAV_URL => "__mfa/asgard/object/attachments/{$object->guid}/edit/",
@@ -302,8 +289,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
                 );
                 break;
             case '____mfa-asgard-object_create':
-                if ($data['current_type'] == 'midgard_parameter')
-                {
+                if ($data['current_type'] == 'midgard_parameter') {
                     // Add "parameters" list to breadcrumb if we're creating a param
                     $breadcrumb[] = array
                     (
@@ -371,13 +357,11 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
     {
         static $preferences = array();
 
-        if (!midcom::get()->auth->user)
-        {
+        if (!midcom::get()->auth->user) {
             return;
         }
 
-        if (!isset($preferences[$preference]))
-        {
+        if (!isset($preferences[$preference])) {
             $person = midcom_db_person::get_cached(midcom::get()->auth->user->guid);
 
             $preferences[$preference] = $person->get_parameter('midgard.admin.asgard:preferences', $preference);
@@ -396,8 +380,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
         static $root_classes = array();
 
         // Return cached results
-        if (!empty($root_classes))
-        {
+        if (!empty($root_classes)) {
             return $root_classes;
         }
 
@@ -408,8 +391,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
         $classes = midcom_helper_reflector_tree::get_root_classes();
 
         // Get the translated name
-        foreach ($classes as $class)
-        {
+        foreach ($classes as $class) {
             $ref = new midcom_helper_reflector($class);
             $root_classes[$class] = $ref->get_class_label();
         }

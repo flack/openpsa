@@ -46,8 +46,7 @@ class org_openpsa_invoices_status extends org_openpsa_widgets_status
      */
     public function get_current_status()
     {
-        switch ($this->invoice->get_status())
-        {
+        switch ($this->invoice->get_status()) {
             case 'unsent':
                 return $this->l10n->get('unsent');
 
@@ -86,12 +85,9 @@ class org_openpsa_invoices_status extends org_openpsa_widgets_status
     {
         $entries = array_merge($this->get_status_entries(), $this->get_journal_entries());
 
-        usort($entries, function ($a, $b)
-        {
-            if ($a['timestamp'] == $b['timestamp'])
-            {
-                if ($a['order'] == $b['order'])
-                {
+        usort($entries, function ($a, $b) {
+            if ($a['timestamp'] == $b['timestamp']) {
+                if ($a['order'] == $b['order']) {
                     return 0;
                 }
                 return ($a['order'] > $b['order']) ? -1 : 1;
@@ -109,8 +105,7 @@ class org_openpsa_invoices_status extends org_openpsa_widgets_status
     private function get_status_entries()
     {
         $entries = array();
-        if ($this->invoice->cancelationInvoice)
-        {
+        if ($this->invoice->cancelationInvoice) {
             $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
             $cancelation_invoice = new org_openpsa_invoices_invoice_dba($this->invoice->cancelationInvoice);
             $cancelation_invoice_link = $prefix . 'invoice/' . $cancelation_invoice->guid . '/';
@@ -121,9 +116,7 @@ class org_openpsa_invoices_status extends org_openpsa_widgets_status
                 'message' => sprintf($this->l10n->get('invoice got canceled by %s'), $cancelation_invoice_link),
                 'order' => 4
             );
-        }
-        elseif ($this->invoice->paid)
-        {
+        } elseif ($this->invoice->paid) {
             $entries[] = array
             (
                 'timestamp' => $this->invoice->paid,
@@ -134,8 +127,7 @@ class org_openpsa_invoices_status extends org_openpsa_widgets_status
         if (   $this->invoice->due
             && (   (   $this->invoice->due < time()
                     && $this->invoice->paid == 0)
-                || $this->invoice->due < $this->invoice->paid))
-        {
+                || $this->invoice->due < $this->invoice->paid)) {
             $entries[] = array
             (
                 'timestamp' => $this->invoice->due,
@@ -144,19 +136,15 @@ class org_openpsa_invoices_status extends org_openpsa_widgets_status
             );
         }
 
-        if ($this->invoice->sent)
-        {
-            if ($mail_time = $this->invoice->get_parameter('org.openpsa.invoices', 'sent_by_mail'))
-            {
+        if ($this->invoice->sent) {
+            if ($mail_time = $this->invoice->get_parameter('org.openpsa.invoices', 'sent_by_mail')) {
                 $entries[] = array
                 (
                     'timestamp' => $mail_time,
                     'message' => sprintf($this->l10n->get('marked invoice %s sent per mail'), ''),
                     'order' => 1
                 );
-            }
-            else
-            {
+            } else {
                 $entries[] = array
                 (
                     'timestamp' => $this->invoice->sent,
@@ -181,8 +169,7 @@ class org_openpsa_invoices_status extends org_openpsa_widgets_status
         $mc = org_openpsa_relatedto_journal_entry_dba::new_collector('linkGuid', $this->invoice->guid);
         $rows = $mc->get_rows(array('title', 'metadata.created'));
 
-        foreach ($rows as $row)
-        {
+        foreach ($rows as $row) {
             $entries[] = array
             (
                 'timestamp' => strtotime((string) $row['created']),

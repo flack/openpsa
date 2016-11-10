@@ -30,8 +30,7 @@ class midcom_helper_toolbar_view extends midcom_helper_toolbar
     {
         $buttons = $this->get_approval_controls($object);
 
-        if ($object->can_do('midgard:update'))
-        {
+        if ($object->can_do('midgard:update')) {
             $workflow = new midcom\workflow\datamanager2;
             $buttons[] = $workflow->get_button("__ais/folder/metadata/{$object->guid}/", array
             (
@@ -60,8 +59,7 @@ class midcom_helper_toolbar_view extends midcom_helper_toolbar
 
         if (   midcom::get()->config->get('midcom_services_rcs_enable')
             && $object->can_do('midgard:update')
-            && $object->_use_rcs)
-        {
+            && $object->_use_rcs) {
             $buttons[] = array
             (
                 MIDCOM_TOOLBAR_URL => "__ais/rcs/{$object->guid}/",
@@ -76,17 +74,13 @@ class midcom_helper_toolbar_view extends midcom_helper_toolbar
     public function get_approval_controls(midcom_core_dbaobject $object, $add_accesskey = false)
     {
         $buttons = array();
-        if (midcom::get()->config->get('metadata_approval'))
-        {
-            if ($object->metadata->is_approved())
-            {
+        if (midcom::get()->config->get('metadata_approval')) {
+            if ($object->metadata->is_approved()) {
                 $action = 'unapprove';
                 $helptext = 'approved';
                 $icontype = 'approved';
                 $accesskey = 'u';
-            }
-            else
-            {
+            } else {
                 $action = 'approve';
                 $helptext = 'unapproved';
                 $icontype = 'notapproved';
@@ -95,8 +89,7 @@ class midcom_helper_toolbar_view extends midcom_helper_toolbar
 
             $icon = 'stock-icons/16x16/page-' . $icontype . '.png';
             if (   !midcom::get()->config->get('show_hidden_objects')
-                && !$object->metadata->is_visible())
-            {
+                && !$object->metadata->is_visible()) {
                 // Take scheduling into account
                 $icon = 'stock-icons/16x16/page-' . $icontype . '-notpublished.png';
             }

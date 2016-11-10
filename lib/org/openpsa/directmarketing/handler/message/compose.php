@@ -55,42 +55,35 @@ class org_openpsa_directmarketing_handler_message_compose extends midcom_basecla
         $data['message'] = $this->_message;
         $data['message_dm'] = $this->_datamanager;
 
-        if ($handler_id === 'compose4person')
-        {
+        if ($handler_id === 'compose4person') {
             $data['person'] = new org_openpsa_contacts_person_dba($args[1]);
             $qb = org_openpsa_directmarketing_campaign_member_dba::new_query_builder();
             $qb->add_constraint('person', '=', $data['person']->id);
             $memberships = $qb->execute();
-            if (empty($memberships))
-            {
+            if (empty($memberships)) {
                 $data['member'] = new org_openpsa_directmarketing_campaign_member_dba();
                 $data['member']->person = $data['person']->id;
                 $data['member']->campaign = $this->_message->campaign;
-            }
-            else
-            {
+            } else {
                 $data['member'] = $memberships[0];
             }
         }
 
         $data['message_array'] = $this->_datamanager->get_content_raw();
 
-        if (!array_key_exists('content', $data['message_array']))
-        {
+        if (!array_key_exists('content', $data['message_array'])) {
             throw new midcom_error('"content" not defined in schema');
         }
         //Substyle handling
         if (   !empty($data['message_array']['substyle'])
-            && !preg_match('/^builtin:/', $data['message_array']['substyle']))
-        {
+            && !preg_match('/^builtin:/', $data['message_array']['substyle'])) {
             debug_add("Appending substyle {$data['message_array']['substyle']}");
             midcom::get()->style->append_substyle($data['message_array']['substyle']);
         }
         //This isn't necessary for dynamic-loading, but is nice for "preview".
         midcom::get()->skip_page_style = true;
         debug_add('message type: ' . $this->_message->orgOpenpsaObtype);
-        switch ($this->_message->orgOpenpsaObtype)
-        {
+        switch ($this->_message->orgOpenpsaObtype) {
             case org_openpsa_directmarketing_campaign_message_dba::EMAIL_TEXT:
             case org_openpsa_directmarketing_campaign_message_dba::SMS:
                 debug_add('Forcing content type: text/plain');
@@ -110,8 +103,7 @@ class org_openpsa_directmarketing_handler_message_compose extends midcom_basecla
      */
     public function _show_compose($handler_id, array &$data)
     {
-        if ($handler_id === 'compose4person')
-        {
+        if ($handler_id === 'compose4person') {
             ob_start();
             $this->_real_show_compose($handler_id, $data);
             $composed = ob_get_contents();
@@ -127,8 +119,7 @@ class org_openpsa_directmarketing_handler_message_compose extends midcom_basecla
     {
         $prefix = '';
         if (   !empty($data['message_array']['substyle'])
-            && preg_match('/^builtin:(.*)/', $data['message_array']['substyle'], $matches_style))
-        {
+            && preg_match('/^builtin:(.*)/', $data['message_array']['substyle'], $matches_style)) {
             $prefix = $matches_style[1] . '-';
         }
         debug_add("Calling midcom_show_style(\"compose-{$prefix}message\")");

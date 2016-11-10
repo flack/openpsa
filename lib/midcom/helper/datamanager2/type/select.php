@@ -187,18 +187,15 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
     public function _on_initialize()
     {
         if (   !is_array($this->options)
-            && $this->option_callback === null)
-        {
+            && $this->option_callback === null) {
             throw new midcom_error("Either 'options' or 'option_callback' must be defined for the field {$this->name}");
         }
         if (   !empty($this->options)
-            && $this->option_callback !== null)
-        {
+            && $this->option_callback !== null) {
             throw new midcom_error("Both 'options' and 'option_callback' was defined for the field {$this->name}");
         }
 
-        if ($this->option_callback !== null)
-        {
+        if ($this->option_callback !== null) {
             $this->_callback = $this->initialize_option_callback();
         }
 
@@ -216,10 +213,8 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
     {
         $key = (string) $key;
 
-        if (!$this->key_exists($key))
-        {
-            if ($this->require_corresponding_option)
-            {
+        if (!$this->key_exists($key)) {
+            if ($this->require_corresponding_option) {
                 return null;
             }
             // This is probably chooser or autocomplete
@@ -227,8 +222,7 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
             return $this->_get_name_from_object($key);
         }
 
-        if ($this->option_callback === null)
-        {
+        if ($this->option_callback === null) {
             return $this->options[$key];
         }
         return $this->_callback->get_name_for_key($key);
@@ -239,14 +233,12 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
         $widget_config = $this->storage->_schema->fields[$this->name]['widget_config'];
         if (   empty($widget_config['class'])
             || empty($widget_config['titlefield'])
-            || !$key)
-        {
+            || !$key) {
             return null;
         }
 
         if (   !empty($widget_config['component'])
-            && !midcom::get()->componentloader->is_loaded($widget_config['component']))
-        {
+            && !midcom::get()->componentloader->is_loaded($widget_config['component'])) {
             // Ensure the corresponding component is loaded
             midcom::get()->componentloader->load($widget_config['component']);
         }
@@ -255,17 +247,14 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
         $qb = new midcom_core_querybuilder($widget_config['class']);
         $qb->add_constraint($widget_config['id_field'], '=', $key);
         $results = $qb->execute();
-        if (count($results) != 1)
-        {
+        if (count($results) != 1) {
             debug_add('Failed to load ' . $widget_config['class'] . ' ' . $key . ': ' . count($results) . ' results found, 1 expected');
             return null;
         }
         $field_options = (array) $widget_config['titlefield'];
 
-        foreach ($field_options as $field)
-        {
-            if (!empty($object->$field))
-            {
+        foreach ($field_options as $field) {
+            if (!empty($object->$field)) {
                 return $object->$field;
             }
         }
@@ -282,14 +271,12 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
     {
         $key = (string) $key;
 
-        if ($this->option_callback === null)
-        {
+        if ($this->option_callback === null) {
             return array_key_exists($key, $this->options);
         }
 
         if (   isset($this->_callback)
-            && method_exists($this->_callback, 'key_exists'))
-        {
+            && method_exists($this->_callback, 'key_exists')) {
             return $this->_callback->key_exists($key);
         }
 
@@ -303,8 +290,7 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
      */
     function list_all()
     {
-        if ($this->option_callback === null)
-        {
+        if ($this->option_callback === null) {
             return $this->options;
         }
         return $this->_callback->list_all();
@@ -320,18 +306,14 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
         $this->others = array();
 
         if (   $source === false
-            || $source === null)
-        {
+            || $source === null) {
             // We are fine at this point.
             return;
         }
-        if ($this->allow_multiple)
-        {
+        if ($this->allow_multiple) {
             // In multiselect mode, we need to convert as per type setting.
             $source = $this->_convert_multiple_from_storage($source);
-        }
-        else
-        {
+        } else {
             // If we aren't in multiselect mode, we don't get an array by default (to have
             // plain storage), therefore we typecast here. This is easier to do than having
             // the same code below twice thus unifying allow_other handling mainly.
@@ -339,40 +321,30 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
             $source = array($source);
         }
 
-        foreach ($source as $key)
-        {
+        foreach ($source as $key) {
             $key = (string) $key;
-            if ($this->key_exists($key))
-            {
+            if ($this->key_exists($key)) {
                 $this->selection[] = $key;
-                if (!$this->allow_multiple)
-                {
+                if (!$this->allow_multiple) {
                     // Whatever happens, in this mode we only have one key.
                     return;
                 }
             }
             // Done as separate check instead of || because I'm not 100% sure this is the correct place for it (Rambo)
-            elseif (!$this->require_corresponding_option)
-            {
+            elseif (!$this->require_corresponding_option) {
                 $this->selection[] = $key;
-                if (!$this->allow_multiple)
-                {
+                if (!$this->allow_multiple) {
                     // Whatever happens, in this mode we only have one key.
                     return;
                 }
-            }
-            elseif ($this->allow_other)
-            {
+            } elseif ($this->allow_other) {
                 $this->others[] = $key;
 
-                if (!$this->allow_multiple)
-                {
+                if (!$this->allow_multiple) {
                     // Whatever happens, in this mode we only have one key.
                     return;
                 }
-            }
-            else
-            {
+            } else {
                 debug_add("Encountered unknown key {$key} for field {$this->name}, skipping it.", MIDCOM_LOG_INFO);
             }
         }
@@ -386,17 +358,14 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
      */
     public function convert_to_storage()
     {
-        if ($this->allow_multiple)
-        {
+        if ($this->allow_multiple) {
             return $this->_convert_multiple_to_storage();
         }
         if (   $this->allow_other
-            && !empty($this->others))
-        {
+            && !empty($this->others)) {
             return $this->others[0];
         }
-        if (count($this->selection) == 0)
-        {
+        if (count($this->selection) == 0) {
             return '';
         }
         return current($this->selection);
@@ -412,27 +381,23 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
     {
         $glue = $this->multiple_separator;
 
-        switch ($this->multiple_storagemode)
-        {
+        switch ($this->multiple_storagemode) {
             case 'serialized':
             case 'array':
                 if (   !is_array($source)
-                    && empty($source))
-                {
+                    && empty($source)) {
                     $source = array();
                 }
                 return $source;
 
             case 'imploded':
-                if (!is_string($source))
-                {
+                if (!is_string($source)) {
                     return array();
                 }
                 return explode($glue, $source);
 
             case 'imploded_wrapped':
-                if (!is_string($source))
-                {
+                if (!is_string($source)) {
                     return array();
                 }
                 return explode($glue, substr($source, 1, -1));
@@ -449,14 +414,12 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
      */
     function _convert_multiple_to_storage()
     {
-        switch ($this->multiple_storagemode)
-        {
+        switch ($this->multiple_storagemode) {
             case 'array':
                 return $this->selection;
 
             case 'serialized':
-                if ($this->others)
-                {
+                if ($this->others) {
                     return array_merge($this->selection, $this->others);
                 }
                 return $this->selection;
@@ -485,27 +448,21 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
     {
         $glue = $this->multiple_separator;
 
-        if ($this->others)
-        {
-            if (is_string($this->others))
-            {
+        if ($this->others) {
+            if (is_string($this->others)) {
                 $this->others = array
                 (
                     $this->others => $this->others,
                 );
             }
             $options = array_merge($this->selection, $this->others);
-        }
-        else
-        {
+        } else {
             $options = $this->selection;
         }
 
         $result = array();
-        foreach ($options as $key)
-        {
-            if (strpos($key, $glue) !== false)
-            {
+        foreach ($options as $key) {
+            if (strpos($key, $glue) !== false) {
                 debug_add("The option key '{$key}' contained the multiple separator ({$this->multiple_separator}) char, which is not allowed for imploded storage targets. ignoring silently.",
                     MIDCOM_LOG_WARN);
                 continue;
@@ -532,11 +489,9 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
      */
     public function convert_to_csv()
     {
-        if ($this->csv_export_key)
-        {
+        if ($this->csv_export_key) {
             $data = $this->convert_to_storage();
-            if (is_array($data))
-            {
+            if (is_array($data)) {
                 return implode(',', $data);
             }
             return $data;
@@ -554,23 +509,20 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
     public function _on_validate()
     {
         if (   !$this->allow_other
-            && $this->others)
-        {
+            && $this->others) {
             $this->validation_error = $this->_l10n->get('type select: other selection not allowed');
             return false;
         }
 
         if (   !$this->allow_multiple
-            && count($this->selection) > 1)
-        {
+            && count($this->selection) > 1) {
             $this->validation_error = $this->_l10n->get('type select: multiselect not allowed');
             return false;
         }
 
         $field = $this->_datamanager->schema->fields[$this->name];
         if (   $field['required']
-            && count($this->selection) == 0)
-        {
+            && count($this->selection) == 0) {
             $this->validation_error = sprintf($this->_l10n->get('field %s is required'), $field['title']);
             return false;
         }
@@ -581,8 +533,7 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
     function combine_values()
     {
         $selection = array_map(array($this, 'get_name_for_key'), $this->selection);
-        if ($this->others)
-        {
+        if ($this->others) {
             $selection = array_merge($selection, (array) $this->others);
         }
         return $selection;

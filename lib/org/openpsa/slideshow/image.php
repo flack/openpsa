@@ -35,17 +35,13 @@ class org_openpsa_slideshow_image_dba extends midcom_core_dbaobject
 
     private function _check_folder_thumbnail()
     {
-        if ($this->position > 0)
-        {
+        if ($this->position > 0) {
             return;
         }
 
-        try
-        {
+        try {
             $folder = midcom_db_topic::get_cached($this->topic);
-        }
-        catch (midcom_error $e)
-        {
+        } catch (midcom_error $e) {
             $e->log();
         }
         $folder->delete_attachment(self::FOLDER_THUMBNAIL);
@@ -53,12 +49,9 @@ class org_openpsa_slideshow_image_dba extends midcom_core_dbaobject
 
     public function load_attachment($type)
     {
-        try
-        {
+        try {
             return new midcom_db_attachment($this->$type);
-        }
-        catch (midcom_error $e)
-        {
+        } catch (midcom_error $e) {
             $e->log();
             return false;
         }
@@ -67,14 +60,12 @@ class org_openpsa_slideshow_image_dba extends midcom_core_dbaobject
     public function generate_image($type, $filter_chain)
     {
         $original = $this->load_attachment('attachment');
-        if (!$original)
-        {
+        if (!$original) {
             return false;
         }
         $is_new = false;
         $derived = $this->load_attachment($type);
-        if (!$derived)
-        {
+        if (!$derived) {
             $is_new = true;
             $derived = new midcom_db_attachment;
             $derived->parentguid = $original->parentguid;
@@ -85,10 +76,8 @@ class org_openpsa_slideshow_image_dba extends midcom_core_dbaobject
 
         $imagefilter = new midcom_helper_imagefilter($original);
         $imagefilter->process_chain($filter_chain);
-        if ($is_new)
-        {
-            if (!$derived->create())
-            {
+        if ($is_new) {
+            if (!$derived->create()) {
                 throw new midcom_error('Failed to create derived image: ' . midcom_connection::get_error_string());
             }
             $this->$type = $derived->id;
@@ -100,15 +89,13 @@ class org_openpsa_slideshow_image_dba extends midcom_core_dbaobject
     public static function get_folder_thumbnail(midcom_db_topic $folder)
     {
         $thumbnail = $folder->get_attachment(self::FOLDER_THUMBNAIL);
-        if (empty($thumbnail))
-        {
+        if (empty($thumbnail)) {
             $qb = self::new_query_builder();
             $qb->add_constraint('topic', '=', $folder->id);
             $qb->add_order('position');
             $qb->set_limit(1);
             $results = $qb->execute();
-            if (sizeof($results) == 0)
-            {
+            if (sizeof($results) == 0) {
                 return false;
             }
             midcom::get()->auth->request_sudo('org.openpsa.slideshow');
@@ -121,8 +108,7 @@ class org_openpsa_slideshow_image_dba extends midcom_core_dbaobject
     public function create_folder_thumbnail()
     {
         $original = $this->load_attachment('attachment');
-        if (!$original)
-        {
+        if (!$original) {
             return false;
         }
         $folder = midcom_db_topic::get_cached($this->topic);
@@ -137,12 +123,10 @@ class org_openpsa_slideshow_image_dba extends midcom_core_dbaobject
 
         $filter_chain = $config->get('folder_thumbnail_filter');
         $imagefilter->process_chain($filter_chain);
-        if (!$thumbnail->create())
-        {
+        if (!$thumbnail->create()) {
             throw new midcom_error('Failed to create folder thumbnail: ' . midcom_connection::get_error_string());
         }
-        if (!$imagefilter->write($thumbnail))
-        {
+        if (!$imagefilter->write($thumbnail)) {
             throw new midcom_error('Failed to write folder thumbnail: ' . midcom_connection::get_error_string());
         }
         return $thumbnail;
@@ -151,13 +135,11 @@ class org_openpsa_slideshow_image_dba extends midcom_core_dbaobject
     public static function get_imagedata(array $images)
     {
         $data = array();
-        if (empty($images))
-        {
+        if (empty($images)) {
             return $data;
         }
         $ids = array();
-        foreach ($images as $image)
-        {
+        foreach ($images as $image) {
             $ids[] = $image->attachment;
             $ids[] = $image->image;
             $ids[] = $image->thumbnail;
@@ -167,12 +149,10 @@ class org_openpsa_slideshow_image_dba extends midcom_core_dbaobject
         $mc->add_constraint('id', 'IN', $ids);
         $rows = $mc->get_rows(array('id', 'name', 'guid'), 'id');
 
-        foreach ($images as $image)
-        {
+        foreach ($images as $image) {
             if (   !isset($rows[$image->attachment])
                 || !isset($rows[$image->image])
-                || !isset($rows[$image->thumbnail]))
-            {
+                || !isset($rows[$image->thumbnail])) {
                 continue;
             }
 

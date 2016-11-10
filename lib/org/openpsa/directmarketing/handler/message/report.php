@@ -60,18 +60,14 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
         $receipt_data['last_send'] = 0;
         $receipt_data['sent'] = count($receipts);
         $receipt_data['bounced'] = 0;
-        foreach ($receipts as $receipt)
-        {
-            if ($receipt->timestamp < $receipt_data['first_send'])
-            {
+        foreach ($receipts as $receipt) {
+            if ($receipt->timestamp < $receipt_data['first_send']) {
                 $receipt_data['first_send'] = $receipt->timestamp;
             }
-            if ($receipt->timestamp > $receipt_data['last_send'])
-            {
+            if ($receipt->timestamp > $receipt_data['last_send']) {
                 $receipt_data['last_send'] = $receipt->timestamp;
             }
-            if ($receipt->bounced)
-            {
+            if ($receipt->bounced) {
                 $receipt_data['bounced']++;
             }
         }
@@ -84,8 +80,7 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
         $this->_get_campaign_data($receipt_data['first_send']);
 
         $segmentation_param = false;
-        if (!empty($data['message_array']['report_segmentation']))
-        {
+        if (!empty($data['message_array']['report_segmentation'])) {
             $segmentation_param = $data['message_array']['report_segmentation'];
         }
         $this->_get_link_data($segmentation_param);
@@ -107,8 +102,7 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
         $qb_messages->add_order('sendStarted', 'DESC');
         $qb_messages->set_limit(1);
         $messages = $qb_messages->execute_unchecked();
-        if (!empty($messages[0]))
-        {
+        if (!empty($messages[0])) {
             $campaign_data['next_message'] = $messages[0];
             $qb_unsub->add_constraint('metadata.revised', '<', date('Y-m-d H:i:s', $messages[0]->sendStarted));
         }
@@ -124,8 +118,7 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
         $link_data['percentages'] = array('of_links' => array(), 'of_recipients' => array());
         $link_data['rules'] = array();
         $link_data['tokens'] = array();
-        if ($segmentation_param)
-        {
+        if ($segmentation_param) {
             $link_data['segments'] = array();
         }
         $segment_prototype = array();
@@ -141,32 +134,25 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
 
         $link_data['total'] = count($links);
 
-        foreach ($links as $link)
-        {
+        foreach ($links as $link) {
             $segment = '';
             $segment_notfound = false;
             if (   $segmentation_param
-                && !empty($link->person))
-            {
-                try
-                {
+                && !empty($link->person)) {
+                try {
                     $person = org_openpsa_contacts_person_dba::get_cached($link->person);
                     $segment = $person->get_parameter('org.openpsa.directmarketing.segments', $segmentation_param);
+                } catch (midcom_error $e) {
                 }
-                catch (midcom_error $e){}
-                if (empty($segment))
-                {
+                if (empty($segment)) {
                     $segment = $this->_l10n->get('no segment');
                     $segment_notfound = true;
                 }
-                if (!isset($link_data['segments'][$segment]))
-                {
+                if (!isset($link_data['segments'][$segment])) {
                     $link_data['segments'][$segment] = $segment_prototype;
                 }
                 $segment_data =& $link_data['segments'][$segment];
-            }
-            else
-            {
+            } else {
                 $segment_data = $segment_prototype;
             }
 
@@ -175,16 +161,13 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
             $this->_calculate_percentages($link_data, $link);
             $this->_calculate_percentages($segment_data, $link);
 
-            if (!isset($link_data['rules'][$link->target]))
-            {
+            if (!isset($link_data['rules'][$link->target])) {
                 $link_data['rules'][$link->target] = $this->_generate_link_rules($link);
             }
-            if (!isset($segment_data['rules'][$link->target]))
-            {
+            if (!isset($segment_data['rules'][$link->target])) {
                 $segment_data['rules'][$link->target] = $link_data['rules'][$link->target];
 
-                if (!$segment_notfound)
-                {
+                if (!$segment_notfound) {
                     $segmentrule = array
                     (
                         'comment' => $this->_l10n->get('segment limits'),
@@ -222,11 +205,9 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
         arsort($link_data['percentages']['of_links']);
         arsort($link_data['percentages']['of_recipients']);
 
-        if ($segmentation_param)
-        {
+        if ($segmentation_param) {
             ksort($link_data['segments']);
-            foreach ($link_data['segments'] as &$segment_data)
-            {
+            foreach ($link_data['segments'] as &$segment_data) {
                 arsort($segment_data['counts']);
                 arsort($segment_data['percentages']['of_links']);
                 arsort($segment_data['percentages']['of_recipients']);
@@ -304,29 +285,25 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
         $array['percentages']['of_recipients'][$link->target][$link->token] = ($array['counts'][$link->target][$link->token]/($receipt_data['sent']-$receipt_data['bounced']))*100;
 
         if (   !isset($array['percentages']['of_recipients']['total'])
-            || $array['percentages']['of_recipients'][$link->target]['total'] > $array['percentages']['of_recipients']['total'])
-        {
+            || $array['percentages']['of_recipients'][$link->target]['total'] > $array['percentages']['of_recipients']['total']) {
             $array['percentages']['of_recipients']['total'] = $array['percentages']['of_recipients'][$link->target]['total'];
         }
     }
 
     private function _initialize_field(&$array, &$link)
     {
-        if (!isset($array[$link->target]))
-        {
+        if (!isset($array[$link->target])) {
             $array[$link->target] = array();
             $array[$link->target]['total'] = 0;
         }
-        if (!isset($array[$link->target][$link->token]))
-        {
+        if (!isset($array[$link->target][$link->token])) {
             $array[$link->target][$link->token] = 0;
         }
     }
 
     private function _increment_totals(&$array, &$link)
     {
-        if (!isset($array['tokens'][$link->token]))
-        {
+        if (!isset($array['tokens'][$link->token])) {
             $array['tokens'][$link->token] = 0;
         }
 
@@ -347,8 +324,7 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
         $campaign->title = sprintf($this->_l10n->get('from link "%s"'), $_POST['oo_dirmar_label_' . $identifier]);
         $campaign->testers[midcom_connection::get_user()] = true;
         $campaign->node = $this->_topic->id;
-        if (!$campaign->create())
-        {
+        if (!$campaign->create()) {
             throw new midcom_error('Could not create campaign: ' . midcom_connection::get_error_string());
         }
         $campaign->schedule_update_smart_campaign_members();
@@ -375,8 +351,7 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
         $data['campaign'] = $this->_campaign;
 
         if (   isset($_POST['oo_dirmar_userule'])
-            && !empty($_POST['oo_dirmar_rule_' . $_POST['oo_dirmar_userule']]))
-        {
+            && !empty($_POST['oo_dirmar_rule_' . $_POST['oo_dirmar_userule']])) {
             return $this->_create_campaign_from_link($_POST['oo_dirmar_userule']);
         }
 
@@ -386,8 +361,7 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
         $this->add_breadcrumb("message/report/{$this->_message->guid}/", sprintf($this->_l10n->get('report for message %s'), $this->_message->title));
 
         $preview_url = "message/compose/{$this->_message->guid}/";
-        if (!empty(midcom::get()->auth->user->guid))
-        {
+        if (!empty(midcom::get()->auth->user->guid)) {
             $preview_url .= midcom::get()->auth->user->guid .'/';
         }
 

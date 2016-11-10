@@ -30,8 +30,7 @@ class org_openpsa_notifications_notifier extends midcom_baseclasses_components_p
         $notification = new org_openpsa_notifications_notification_dba();
         $notification->recipient = $this->recipient->id;
 
-        if (midcom::get()->auth->user)
-        {
+        if (midcom::get()->auth->user) {
             $user = midcom::get()->auth->user->get_storage();
             $notification->sender = $user->id;
         }
@@ -40,18 +39,15 @@ class org_openpsa_notifications_notifier extends midcom_baseclasses_components_p
         $notification->component = $action_parts[0];
         $notification->action = $action_parts[1];
 
-        if (array_key_exists('title', $message))
-        {
+        if (array_key_exists('title', $message)) {
             $notification->title = $message['title'];
         }
 
-        if (array_key_exists('abstract', $message))
-        {
+        if (array_key_exists('abstract', $message)) {
             $notification->abstract = $message['abstract'];
         }
 
-        if (array_key_exists('content', $message))
-        {
+        if (array_key_exists('content', $message)) {
             $notification->content = $message['content'];
         }
 
@@ -65,8 +61,7 @@ class org_openpsa_notifications_notifier extends midcom_baseclasses_components_p
      */
     public function send_email($message)
     {
-        if (empty($this->recipient->email))
-        {
+        if (empty($this->recipient->email)) {
             return false;
         }
 
@@ -74,16 +69,14 @@ class org_openpsa_notifications_notifier extends midcom_baseclasses_components_p
         $mail->to = $this->recipient->email;
 
         $growl_to = $mail->to;
-        if (array_key_exists('growl_to', $message))
-        {
+        if (array_key_exists('growl_to', $message)) {
             $growl_to = $message['growl_to'];
             unset($message['growl_to']);
         }
 
         $sender = null;
 
-        if (!empty($message['from']))
-        {
+        if (!empty($message['from'])) {
             midcom::get()->auth->request_sudo($this->_component);
             $user = midcom::get()->auth->get_user($message['from']);
             $sender = $user->get_storage();
@@ -93,57 +86,41 @@ class org_openpsa_notifications_notifier extends midcom_baseclasses_components_p
         }
 
         $default_sender = $this->_config->get('default_sender');
-        if (!empty($sender->email))
-        {
+        if (!empty($sender->email)) {
             $mail->from = '"' . $sender->name . '" <' . $sender->email . '>';
-        }
-        elseif (!empty($default_sender))
-        {
+        } elseif (!empty($default_sender)) {
             $mail->from = $default_sender;
-        }
-        else
-        {
+        } else {
             $mail->from = '"OpenPSA Notifier" <noreply@' . $_SERVER['SERVER_NAME'] . '>';
         }
 
-        if (array_key_exists('title', $message))
-        {
+        if (array_key_exists('title', $message)) {
             $mail->subject = $message['title'];
             // Avoid double dump
             unset($message['title']);
-        }
-        else
-        {
+        } else {
             $mail->subject = 'org.openpsa.notifications message (no title provided)';
         }
-        if (array_key_exists('attachments', $message))
-        {
+        if (array_key_exists('attachments', $message)) {
             $mail->attachments = $message['attachments'];
             // Do not dump attachments as content
             unset($message['attachments']);
         }
 
-        if (array_key_exists('content', $message))
-        {
+        if (array_key_exists('content', $message)) {
             $mail->body = $message['content'];
-        }
-        else
-        {
+        } else {
             // No explicit content defined, dump all keys
-            foreach ($message as $key => $value)
-            {
+            foreach ($message as $key => $value) {
                 // TODO (nice-to-have): RFC "fold" the value
                 $mail->body .= "{$key}: {$value}\n";
             }
         }
 
         $ret = $mail->send();
-        if (!$ret)
-        {
+        if (!$ret) {
             debug_add("failed to send notification email to {$mail->to}, reason: " . $mail->get_error_message(), MIDCOM_LOG_WARN);
-        }
-        else
-        {
+        } else {
             midcom::get()->uimessages->add($this->_l10n->get($this->_component), sprintf($this->_l10n->get('notification sent to %s'), $growl_to));
         }
         return $ret;

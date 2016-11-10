@@ -39,8 +39,7 @@ abstract class org_routamc_positioning_geocoder extends midcom_baseclasses_compo
     public static function & create($type)
     {
         $classname = "org_routamc_positioning_geocoder_{$type}";
-        if (!class_exists($classname))
-        {
+        if (!class_exists($classname)) {
             throw new midcom_error("Geocoder {$type} not available.");
         }
 

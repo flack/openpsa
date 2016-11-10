@@ -16,8 +16,7 @@ class midcom_helper_filesync_exporter_page extends midcom_helper_filesync_export
     private function read_page($page, $path)
     {
         $page_path = "{$path}{$page->name}";
-        if (!file_exists($page_path))
-        {
+        if (!file_exists($page_path)) {
             mkdir($page_path);
         }
 
@@ -27,8 +26,7 @@ class midcom_helper_filesync_exporter_page extends midcom_helper_filesync_export
         $pageelement_qb = midcom_db_pageelement::new_query_builder();
         $pageelement_qb->add_constraint('page', '=', $page->id);
         $pageelements = $pageelement_qb->execute();
-        foreach ($pageelements as $pageelement)
-        {
+        foreach ($pageelements as $pageelement) {
             file_put_contents("{$page_path}/{$pageelement->name}.php", $pageelement->value);
             $filenames[] = "{$pageelement->name}.php";
         }
@@ -36,14 +34,12 @@ class midcom_helper_filesync_exporter_page extends midcom_helper_filesync_export
         $dir_qb = midcom_db_page::new_query_builder();
         $dir_qb->add_constraint('up', '=', $page->id);
         $dirs = $dir_qb->execute();
-        foreach ($dirs as $dir)
-        {
+        foreach ($dirs as $dir) {
             $this->read_page($dir, "{$page_path}/");
             $foldernames[] = $dir->name;
         }
 
-        if ($this->delete_missing)
-        {
+        if ($this->delete_missing) {
             // Then delete files and folders that are in DB but not in the importing folder
             $this->delete_missing_folders($foldernames, $path);
             $this->delete_missing_files($filenames, $path);
@@ -58,13 +54,11 @@ class midcom_helper_filesync_exporter_page extends midcom_helper_filesync_export
      */
     public function read_root($id)
     {
-        if (is_numeric($id))
-        {
+        if (is_numeric($id)) {
             $id = (int)$id;
         }
         $rootdir = new midcom_db_page($id);
-        if (!$rootdir->can_do('midgard:update'))
-        {
+        if (!$rootdir->can_do('midgard:update')) {
             return false;
         }
         $this->read_page($rootdir, $this->root_dir);
@@ -76,10 +70,8 @@ class midcom_helper_filesync_exporter_page extends midcom_helper_filesync_export
         $qb = midcom_db_page::new_query_builder();
         $qb->add_constraint('up', '=', 0);
         $rootdirs = $qb->execute();
-        foreach ($rootdirs as $rootdir)
-        {
-            if ($rootdir->can_do('midgard:update'))
-            {
+        foreach ($rootdirs as $rootdir) {
+            if ($rootdir->can_do('midgard:update')) {
                 $this->read_page($rootdir, $this->root_dir);
             }
         }

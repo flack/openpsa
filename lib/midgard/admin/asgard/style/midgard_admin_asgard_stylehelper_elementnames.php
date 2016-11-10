@@ -6,30 +6,22 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
     <div>
         <?php
         echo "<ul>\n";
-        foreach ($data['help_style_elementnames']['elements'] as $component => $elements)
-        {
+        foreach ($data['help_style_elementnames']['elements'] as $component => $elements) {
             echo "<li class=\"component\">";
-            if ($component == 'midcom')
-            {
+            if ($component == 'midcom') {
                 echo "Midgard CMS\n";
-            }
-            else
-            {
+            } else {
                 echo "<a href=\"{$prefix}__mfa/asgard/components/{$component}/\">" . midcom::get()->i18n->get_string($component, $component) ." </a>\n";
             }
 
             echo "<ul>\n";
-            foreach ($elements as $name => $path)
-            {
+            foreach ($elements as $name => $path) {
                 echo "<li>";
 
-                if ($data['handler_id'] == '____mfa-asgard-object_create')
-                {
+                if ($data['handler_id'] == '____mfa-asgard-object_create') {
                     // We're creating an element, on clicking a name we should input it to the form
                     echo '<a class="namepicker">';
-                }
-                else
-                {
+                } else {
                     // Clicking should take us to form creating such an element
                     echo "<a href=\"{$prefix}__mfa/asgard/object/create/midgard_element/{$data['object']->guid}/?defaults[name]={$name}\">";
                 }

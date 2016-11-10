@@ -9,22 +9,17 @@ $view_group_name = $data['group']->get_label();
     </div>
     <ul>
         <?php
-        if ($data['group']->phone)
-        {
+        if ($data['group']->phone) {
             echo "<li class=\"tel work\">{$data['group']->phone}</li>\n";
         }
 
-        if ($data['group']->postalStreet)
-        {
+        if ($data['group']->postalStreet) {
             echo "<li>{$data['group']->postalStreet}, {$data['group']->postalCity}</li>\n";
-        }
-        elseif ($data['group']->street)
-        {
+        } elseif ($data['group']->street) {
             echo "<li>{$data['group']->street}, {$data['group']->city}</li>\n";
         }
 
-        if ($data['group']->homepage)
-        {
+        if ($data['group']->homepage) {
             echo "<li class=\"url\"><a href=\"{$data['group']->homepage}\">{$data['group']->homepage}</a></li>\n";
         }
         ?>

@@ -16,8 +16,7 @@ implements midcom_services_permalinks_resolver
 {
     public function resolve_object_link(midcom_db_topic $topic, midcom_core_dbaobject $object)
     {
-        if ($object instanceof org_openpsa_invoices_invoice_dba)
-        {
+        if ($object instanceof org_openpsa_invoices_invoice_dba) {
             return "invoice/{$object->guid}/";
         }
         return null;
@@ -34,10 +33,8 @@ implements midcom_services_permalinks_resolver
         $qb_billing_data = org_openpsa_invoices_billing_data_dba::new_query_builder();
         $qb_billing_data->add_constraint('linkGuid', '=', $object->guid);
         $result = $qb_billing_data->execute();
-        if (count($result) > 0)
-        {
-            foreach ($result as $billing_data)
-            {
+        if (count($result) > 0) {
+            foreach ($result as $billing_data) {
                 debug_add("Delete billing data with guid:" . $billing_data->guid . " for object with guid:" . $object->guid);
                 $billing_data->delete();
             }

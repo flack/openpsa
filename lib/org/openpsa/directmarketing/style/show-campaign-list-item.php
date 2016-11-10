@@ -1,10 +1,8 @@
 <?php
 $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 
-if (array_key_exists('membership', $data))
-{
-    switch ($data['membership']->orgOpenpsaObtype)
-    {
+if (array_key_exists('membership', $data)) {
+    switch ($data['membership']->orgOpenpsaObtype) {
         case org_openpsa_directmarketing_campaign_member_dba::UNSUBSCRIBED:
             $class = 'unsubscribed';
             $unsubscribe_code = false;
@@ -19,9 +17,7 @@ if (array_key_exists('membership', $data))
             $unsubscribe_code = '<a href="' . $prefix . 'campaign/unsubscribe/' . $data['membership']->guid .'/" target="_blank"><img src="' . MIDCOM_STATIC_URL . '/stock-icons/16x16/trash.png"/></a>';
             break;
     }
-}
-else
-{
+} else {
     $class = 'campaign';
     $unsubscribe_code = false;
 }

@@ -24,8 +24,7 @@ class net_nehmer_blog_link_dba extends midcom_core_dbaobject
     public function _on_updating()
     {
         if (   !$this->topic
-            || !$this->article)
-        {
+            || !$this->article) {
             debug_add('Failed to update the link, either topic or article was undefined', MIDCOM_LOG_WARN);
             midcom_connection::set_error(MGD_ERR_ERROR);
             return false;

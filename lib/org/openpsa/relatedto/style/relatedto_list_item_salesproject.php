@@ -14,8 +14,7 @@ $owner_card = org_openpsa_widgets_contact::get($salesproject->owner);
     echo "<li>" . midcom::get()->i18n->get_string('owner', 'midcom') . ": ";
     echo $owner_card->show_inline() . "</li>";
     // Customer
-    if ($salesproject->customer)
-    {
+    if ($salesproject->customer) {
         $customer = midcom_db_group::get_cached($salesproject->customer);
         echo "<li>" . midcom::get()->i18n->get_string('customer', 'org.openpsa.sales') . ": ";
         echo $customer->official;

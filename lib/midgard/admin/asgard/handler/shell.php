@@ -30,18 +30,15 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
 
         $controller = $this->get_controller('nullstorage');
 
-        switch ($controller->process_form())
-        {
+        switch ($controller->process_form()) {
             case 'save':
                 $data['code'] = $controller->formmanager->get_value('code');
                 break;
 
             case 'edit':
                 if (   $controller->formmanager->form->isSubmitted()
-                    && !empty($controller->datamanager->validation_errors))
-                {
-                    foreach ($controller->datamanager->validation_errors as $field => $error)
-                    {
+                    && !empty($controller->datamanager->validation_errors)) {
+                    foreach ($controller->datamanager->validation_errors as $field => $error) {
                         $element =& $controller->formmanager->form->getElement($field);
                         $message = sprintf($this->_l10n->get('validation error in field %s: %s'), $element->getLabel(), $error);
                         midcom::get()->uimessages->add
@@ -104,12 +101,9 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      */
     public function _show_shell($handler_id, array &$data)
     {
-        if (!isset($_GET['ajax']))
-        {
+        if (!isset($_GET['ajax'])) {
             midcom_show_style('midgard_admin_asgard_shell');
-        }
-        else
-        {
+        } else {
             midcom::get()->cache->content->enable_live_mode();
             while (@ob_end_flush());
             ob_implicit_flush(true);

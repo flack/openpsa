@@ -28,10 +28,10 @@ abstract class midcom_helper_filesync_importer extends midcom_baseclasses_compon
      */
     public function __construct($root_dir, $delete_missing = false)
     {
-         $this->delete_missing = $delete_missing;
-         $this->root_dir = $root_dir;
+        $this->delete_missing = $delete_missing;
+        $this->root_dir = $root_dir;
 
-         parent::__construct();
+        parent::__construct();
     }
 
     public function run()
@@ -41,8 +41,7 @@ abstract class midcom_helper_filesync_importer extends midcom_baseclasses_compon
 
         $this->import();
         echo "Import from {$this->root_dir} completed\n";
-        if ($ip_sudo)
-        {
+        if ($ip_sudo) {
             midcom::get()->auth->drop_sudo();
         }
     }
@@ -51,14 +50,12 @@ abstract class midcom_helper_filesync_importer extends midcom_baseclasses_compon
     {
         $foldernames = array();
         $nodes = array();
-        foreach (glob($path . '/*', GLOB_NOSORT | GLOB_ONLYDIR) as $dirname)
-        {
+        foreach (glob($path . '/*', GLOB_NOSORT | GLOB_ONLYDIR) as $dirname) {
             $nodes[] = $dirname;
             $foldernames[] = basename($dirname);
         }
 
-        if ($this->delete_missing)
-        {
+        if ($this->delete_missing) {
             // Then delete files and folders that are in DB but not in the importing folder
             $this->delete_missing_folders($foldernames, 0);
         }
@@ -71,19 +68,15 @@ abstract class midcom_helper_filesync_importer extends midcom_baseclasses_compon
         $object_qb = midcom::get()->dbfactory->new_query_builder($classname);
         $object_qb->add_constraint('up', '=', $parent_id);
         $object_qb->add_constraint('name', '=', $name);
-        if ($object_qb->count() == 0)
-        {
+        if ($object_qb->count() == 0) {
             // New node
             $node = new $classname();
             $node->up = $parent_id;
             $node->name = $name;
-            if (!$node->create())
-            {
+            if (!$node->create()) {
                 throw new midcom_error(midcom_connection::get_error_string());
             }
-        }
-        else
-        {
+        } else {
             $nodes = $object_qb->execute();
             $node = $nodes[0];
         }
@@ -95,8 +88,7 @@ abstract class midcom_helper_filesync_importer extends midcom_baseclasses_compon
         // Deal with element
         $file_contents = file_get_contents($path);
         $encoding = mb_detect_encoding($file_contents);
-        if ($encoding != 'UTF-8')
-        {
+        if ($encoding != 'UTF-8') {
             $file_contents = @iconv($encoding, 'UTF-8', $file_contents);
         }
         return $file_contents;
@@ -112,8 +104,7 @@ abstract class midcom_helper_filesync_importer extends midcom_baseclasses_compon
     public static function create($type)
     {
         $classname = "midcom_helper_filesync_importer_{$type}";
-        if (!class_exists($classname))
-        {
+        if (!class_exists($classname)) {
             throw new midcom_error("Requested importer class {$type} is not installed.");
         }
 
@@ -126,8 +117,7 @@ abstract class midcom_helper_filesync_importer extends midcom_baseclasses_compon
         $qb->add_constraint('name', 'NOT IN', $foldernames);
 
         $folders = $qb->execute();
-        foreach ($folders as $folder)
-        {
+        foreach ($folders as $folder) {
             $folder->delete();
         }
     }
@@ -138,8 +128,7 @@ abstract class midcom_helper_filesync_importer extends midcom_baseclasses_compon
         $qb->add_constraint('name', 'NOT IN', $filenames);
 
         $files = $qb->execute();
-        foreach ($files as $file)
-        {
+        foreach ($files as $file) {
             $file->delete();
         }
     }

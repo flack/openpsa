@@ -111,8 +111,7 @@ class midcom_services_i18n
      */
     public function __construct()
     {
-        if (!$this->_load_language_db())
-        {
+        if (!$this->_load_language_db()) {
             debug_add("Could not load language database. Aborting.", MIDCOM_LOG_CRIT);
             return false;
         }
@@ -132,8 +131,7 @@ class midcom_services_i18n
     {
         $charset = strtolower($charset);
         $this->_current_charset = $charset;
-        foreach ($this->_obj_l10n as $object)
-        {
+        foreach ($this->_obj_l10n as $object) {
             $object->set_charset($charset);
         }
     }
@@ -154,8 +152,7 @@ class midcom_services_i18n
      */
     public function set_language($lang)
     {
-        if (!array_key_exists($lang, $this->_language_db))
-        {
+        if (!array_key_exists($lang, $this->_language_db)) {
             debug_add("Language {$lang} not found in the language database.", MIDCOM_LOG_ERROR);
             return false;
         }
@@ -169,8 +166,7 @@ class midcom_services_i18n
          */
         setlocale (LC_ALL, $this->_language_db[$lang]['locale']);
 
-        foreach ($this->_obj_l10n as $object)
-        {
+        foreach ($this->_obj_l10n as $object) {
             $object->set_language($lang);
         }
     }
@@ -183,19 +179,16 @@ class midcom_services_i18n
      */
     public function code_to_id($code)
     {
-        if ($code == '')
-        {
+        if ($code == '') {
             return 0;
         }
         static $cache = array();
-        if (!isset($cache[$code]))
-        {
+        if (!isset($cache[$code])) {
             $cache[$code] = null;
             $qb = new midgard_query_builder('midgard_language');
             $qb->add_constraint('code', '=', $code);
             $ret = $qb->execute();
-            if (!empty($ret))
-            {
+            if (!empty($ret)) {
                 $cache[$code] = $ret[0]->id;
             }
         }
@@ -210,21 +203,16 @@ class midcom_services_i18n
      */
     public function id_to_code($id)
     {
-        if ($id == 0)
-        {
+        if ($id == 0) {
             return '';
         }
         static $cache = array();
-        if (!isset($cache[$id]))
-        {
+        if (!isset($cache[$id])) {
             $cache[$id] = null;
-            try
-            {
+            try {
                 $lang = new midgard_language($id);
                 $cache[$id] = $lang->code;
-            }
-            catch (midcom_error $e)
-            {
+            } catch (midcom_error $e) {
                 return '';
             }
         }
@@ -239,8 +227,7 @@ class midcom_services_i18n
     public function set_fallback_language($lang)
     {
         $this->_fallback_language = $lang;
-        foreach ($this->_obj_l10n as $object)
-        {
+        foreach ($this->_obj_l10n as $object) {
             $object->set_fallback_language($lang);
         }
     }
@@ -297,8 +284,7 @@ class midcom_services_i18n
 
     function get_language_hosts()
     {
-        if (count($this->_language_hosts) == 0)
-        {
+        if (count($this->_language_hosts) == 0) {
             $qb = new midgard_query_builder('midgard_host');
             $qb->add_constraint('root', '=', midcom_connection::get('page'));
 
@@ -306,8 +292,7 @@ class midcom_services_i18n
 
             $hosts = $qb->execute();
 
-            foreach ($hosts as $host)
-            {
+            foreach ($hosts as $host) {
                 $this->_language_hosts[$host->lang] = $host;
             }
         }
@@ -329,8 +314,7 @@ class midcom_services_i18n
     {
         $cacheid = "{$component}/{$database}";
 
-        if (!array_key_exists($cacheid, $this->_obj_l10n))
-        {
+        if (!array_key_exists($cacheid, $this->_obj_l10n)) {
             $this->_load_l10n_db($component, $database);
         }
 
@@ -351,14 +335,12 @@ class midcom_services_i18n
      */
     public function get_string($stringid, $component = null, $database = 'default')
     {
-        if (is_null($component))
-        {
+        if (is_null($component)) {
             $component = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_COMPONENT);
         }
 
         $cacheid = "{$component}/{$database}";
-        if (!array_key_exists($cacheid, $this->_obj_l10n))
-        {
+        if (!array_key_exists($cacheid, $this->_obj_l10n)) {
             $this->_load_l10n_db($component, $database);
         }
 
@@ -411,8 +393,7 @@ class midcom_services_i18n
     private function _set_startup_langs()
     {
         $cookie_data = $this->_read_cookie();
-        if (!is_null($cookie_data))
-        {
+        if (!is_null($cookie_data)) {
             $this->_current_language = $cookie_data['language'];
             $this->_current_charset = $cookie_data['charset'];
             return;
@@ -420,12 +401,9 @@ class midcom_services_i18n
 
         $this->_read_http_negotiation();
 
-        if (count ($this->_http_lang) > 0)
-        {
-            foreach (array_keys($this->_http_lang) as $name)
-            {
-                if (array_key_exists($name, $this->_language_db))
-                {
+        if (count ($this->_http_lang) > 0) {
+            foreach (array_keys($this->_http_lang) as $name) {
+                if (array_key_exists($name, $this->_language_db)) {
                     $this->set_language($name);
                     break;
                 }
@@ -439,8 +417,7 @@ class midcom_services_i18n
      */
     private function _read_cookie()
     {
-        if (empty($_COOKIE['midcom_services_i18n']))
-        {
+        if (empty($_COOKIE['midcom_services_i18n'])) {
             return;
         }
 
@@ -448,8 +425,7 @@ class midcom_services_i18n
         $array = unserialize($rawdata);
 
         if (   !array_key_exists('language', $array)
-            || !array_key_exists('charset', $array))
-        {
+            || !array_key_exists('charset', $array)) {
             debug_add("Rejecting cookie, it seems invalid.");
             return;
         }
@@ -465,13 +441,11 @@ class midcom_services_i18n
      */
     private function _read_http_negotiation()
     {
-        if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE']))
-        {
+        if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
             $accept_langs = $_SERVER['HTTP_ACCEPT_LANGUAGE'];
 
             $rawdata = explode(",", $accept_langs);
-            foreach ($rawdata as $data)
-            {
+            foreach ($rawdata as $data) {
                 $params = explode(";", $data);
                 $lang = array_shift($params);
 
@@ -480,19 +454,16 @@ class midcom_services_i18n
                 $q = $this->_get_q($params);
 
                 if (   !isset($this->_http_lang[$lang])
-                    || $this->_http_lang[$lang] < $q)
-                {
+                    || $this->_http_lang[$lang] < $q) {
                     $this->_http_lang[$lang] = $q;
                 }
             }
         }
         arsort($this->_http_lang, SORT_NUMERIC);
 
-        if (isset($_SERVER['HTTP_ACCEPT_CHARSET']))
-        {
+        if (isset($_SERVER['HTTP_ACCEPT_CHARSET'])) {
             $rawdata = explode(",", $_SERVER['HTTP_ACCEPT_CHARSET']);
-            foreach ($rawdata as $data)
-            {
+            foreach ($rawdata as $data) {
                 $params = explode(";", $data);
                 $lang = array_shift($params);
                 $q = $this->_get_q($params);
@@ -507,23 +478,17 @@ class midcom_services_i18n
     {
         $q = 1.0;
         $option = array_shift($params);
-        while (!is_null($option))
-        {
+        while (!is_null($option)) {
             $option_params = explode("=", $option);
-            if (count($option_params) != 2)
-            {
+            if (count($option_params) != 2) {
                 $option = array_shift($params);
                 continue;
             }
-            if ($option_params[0] == "q")
-            {
+            if ($option_params[0] == "q") {
                 $q = $option_params[1];
-                if (!is_numeric($q))
-                {
+                if (!is_numeric($q)) {
                     $q = 1.0;
-                }
-                else
-                {
+                } else {
                     //make sure that 0.0 <= $q <= 1.0
                     $q = max(0.0, min(1.0, $q));
                 }
@@ -539,14 +504,11 @@ class midcom_services_i18n
     private function _load_language_db()
     {
         $path = midcom::get()->config->get('i18n_language_db_path');
-        try
-        {
+        try {
             $data = midcom_helper_misc::get_snippet_content($path);
             $this->_language_db = midcom_helper_misc::parse_config($data);
             return true;
-        }
-        catch (midcom_error $e)
-        {
+        } catch (midcom_error $e) {
             $e->log();
             return false;
         }
@@ -560,14 +522,10 @@ class midcom_services_i18n
     function list_languages()
     {
         $languages = array();
-        foreach ($this->_language_db as $identifier => $language)
-        {
-            if ($language['enname'] != $language['localname'])
-            {
+        foreach ($this->_language_db as $identifier => $language) {
+            if ($language['enname'] != $language['localname']) {
                 $languages[$identifier] = "{$language['enname']} ({$language['localname']})";
-            }
-            else
-            {
+            } else {
                 $languages[$identifier] = $language['enname'];
             }
         }
@@ -588,8 +546,7 @@ class midcom_services_i18n
     {
         $result = @iconv($source_charset, $destination_charset, $string);
         if (   $result === false
-            && strlen($string) > 0)
-        {
+            && strlen($string) > 0) {
             debug_add("Iconv returned failed to convert a string, returning an empty string.", MIDCOM_LOG_WARN);
             debug_print_r("Tried to convert this string from {$source_charset} to {$destination_charset}:", $string);
             midcom::get()->debug->log_php_error(MIDCOM_LOG_WARN);
@@ -606,8 +563,7 @@ class midcom_services_i18n
      */
     public function convert_to_utf8($string)
     {
-        if ($this->_current_charset == 'utf-8')
-        {
+        if ($this->_current_charset == 'utf-8') {
             return $string;
         }
         return $this->iconv($this->_current_charset, 'utf-8', $string);
@@ -621,8 +577,7 @@ class midcom_services_i18n
      */
     public function convert_from_utf8($string)
     {
-        if ($this->_current_charset == 'utf-8')
-        {
+        if ($this->_current_charset == 'utf-8') {
             return $string;
         }
         return $this->iconv('utf-8', $this->_current_charset, $string);
@@ -640,8 +595,7 @@ class midcom_services_i18n
      */
     function convert_to_current_charset($string, $charset = null)
     {
-        if (is_null($charset))
-        {
+        if (is_null($charset)) {
             // Try to detect source encoding.
             $charset = mb_detect_encoding($string, "UTF-8, UTF-7, ASCII, ISO-8859-15");
             debug_add("mb_detect_encoding got {$charset}");

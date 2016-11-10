@@ -37,37 +37,29 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
         // Get the configured schemas
         $schemadbs = $this->_config->get('schemadbs_folder');
 
-        if ($this->_handler_id === 'createlink')
-        {
+        if ($this->_handler_id === 'createlink') {
             $schemadb = 'link';
         }
         // Check if a custom schema exists
-        elseif (array_key_exists($this->_topic->component, $schemadbs))
-        {
+        elseif (array_key_exists($this->_topic->component, $schemadbs)) {
             $schemadb = $this->_topic->component;
-        }
-        else
-        {
+        } else {
             $schemadb = 'default';
         }
 
-        if (!array_key_exists($schemadb, $schemadbs))
-        {
+        if (!array_key_exists($schemadb, $schemadbs)) {
             throw new midcom_error('Configuration error. No ' . $schemadb . ' schema for topic has been defined!');
         }
 
         // Create the schema instance
         $schemadb = midcom_helper_datamanager2_schema::load_database($schemadbs[$schemadb]);
 
-        foreach ($schemadb as $schema)
-        {
-            if (isset($schema->fields['name']))
-            {
+        foreach ($schemadb as $schema) {
+            if (isset($schema->fields['name'])) {
                 $schema->fields['name']['required'] = ($this->_handler_id === 'edit');
             }
         }
-        switch ($this->_handler_id)
-        {
+        switch ($this->_handler_id) {
             case 'edit':
                 $this->_controller = midcom_helper_datamanager2_controller::create('simple');
                 $this->_controller->schemadb = $schemadb;
@@ -84,8 +76,7 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
                 $component_suggestion = $this->_topic->component;
 
                 //Unless config told us otherwise
-                if ($this->_config->get('default_component'))
-                {
+                if ($this->_config->get('default_component')) {
                     $component_suggestion = $this->_config->get('default_component');
                 }
 
@@ -106,8 +97,7 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
                 throw new midcom_error('Unable to process the request, unknown handler id');
         }
 
-        if (!$this->_controller->initialize())
-        {
+        if (!$this->_controller->initialize()) {
             throw new midcom_error("Failed to initialize a DM2 controller instance for article {$this->_event->id}.");
         }
     }
@@ -120,8 +110,7 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
         $this->_new_topic = new midcom_db_topic();
         $this->_new_topic->up = $this->_topic->id;
 
-        if (!$this->_new_topic->create())
-        {
+        if (!$this->_new_topic->create()) {
             debug_print_r('We operated on this object:', $this->_new_topic);
             throw new midcom_error('Failed to create a new topic, cannot continue. Last Midgard error was: '. midcom_connection::get_error_string());
         }
@@ -142,17 +131,13 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
 
         $this->_handler_id = str_replace('____ais-folder-', '', $handler_id);
 
-        if ($this->_handler_id == 'edit')
-        {
+        if ($this->_handler_id == 'edit') {
             $this->_topic->require_do('midgard:update');
             $title = sprintf($this->_l10n->get('edit folder %s'), $this->_topic->get_label());
-        }
-        else
-        {
+        } else {
             $this->_topic->require_do('midgard:create');
             $title = $this->_l10n->get('create folder');
-            if ($this->_handler_id == 'createlink')
-            {
+            if ($this->_handler_id == 'createlink') {
                 $this->_topic->require_do('midcom.admin.folder:symlinks');
                 $title = $this->_l10n->get('create folder link');
             }
@@ -166,8 +151,7 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
         $this->old_name = $this->_topic->name;
         // Symlink support requires that we use actual URL topic object here
         $urltopics = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_URLTOPICS);
-        if ($urltopic = end($urltopics))
-        {
+        if ($urltopic = end($urltopics)) {
             $this->old_name = $urltopic->name;
         }
 
@@ -186,8 +170,7 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
     public function save_callback(midcom_helper_datamanager2_controller $controller)
     {
         $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
-        if ($this->_handler_id === 'edit')
-        {
+        if ($this->_handler_id === 'edit') {
             return $this->_update_topic($prefix, $this->old_name);
         }
         return $this->_create_topic($prefix);
@@ -196,26 +179,22 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
     private function _update_topic($prefix, $old_name)
     {
         if (   !empty($this->_topic->symlink)
-            && !empty($this->_topic->component))
-        {
+            && !empty($this->_topic->component)) {
             $this->_topic->symlink = null;
             $this->_topic->update();
         }
 
-        if ($_REQUEST['style'] === '__create')
-        {
+        if ($_REQUEST['style'] === '__create') {
             $this->_topic->style = $this->_create_style($this->_topic->name);
 
             // Failed to create the new style template
-            if ($this->_topic->style === '')
-            {
+            if ($this->_topic->style === '') {
                 return false;
             }
 
             midcom::get()->uimessages->add($this->_l10n->get('midcom.admin.folder'), $this->_l10n->get('new style created'));
 
-            if (!$this->_topic->update())
-            {
+            if (!$this->_topic->update()) {
                 midcom::get()->uimessages->add($this->_l10n->get('midcom.admin.folder'), sprintf($this->_l10n->get('could not save folder: %s'), midcom_connection::get_error_string()));
                 return false;
             }
@@ -225,10 +204,8 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
         // Because edit from a symlink edits its target, it is best to keep name properties in sync to get the expected behavior
         $qb_topic = midcom_db_topic::new_query_builder();
         $qb_topic->add_constraint('symlink', '=', $this->_topic->id);
-        foreach ($qb_topic->execute() as $symlink_topic)
-        {
-            if ($symlink_topic->name !== $this->_topic->name)
-            {
+        foreach ($qb_topic->execute() as $symlink_topic) {
+            if ($symlink_topic->name !== $this->_topic->name) {
                 $symlink_topic->name = $this->_topic->name;
                 // This might fail if the URL name is already taken,
                 // but in such case we can just ignore it silently which keeps the original value
@@ -245,20 +222,15 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
 
     private function _create_topic($prefix)
     {
-        if (!empty($this->_new_topic->symlink))
-        {
+        if (!empty($this->_new_topic->symlink)) {
             $name = $this->_new_topic->name;
             $target = $this->_new_topic;
-            while (!empty($target->symlink))
-            {
+            while (!empty($target->symlink)) {
                 // Only direct symlinks are supported, but indirect symlinks are ok as we change them to direct ones here
                 $this->_new_topic->symlink = $target->symlink;
-                try
-                {
+                try {
                     $target = new midcom_db_topic($target->symlink);
-                }
-                catch (midcom_error $e)
-                {
+                } catch (midcom_error $e) {
                     debug_add("Could not get target for symlinked topic #{$this->_new_topic->id}: " .
                         $e->getMessage(), MIDCOM_LOG_ERROR);
 
@@ -271,8 +243,7 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
                 }
                 $name = $target->name;
             }
-            if ($this->_new_topic->up == $target->up)
-            {
+            if ($this->_new_topic->up == $target->up) {
                 $this->_new_topic->purge();
                 throw new midcom_error
                 (
@@ -280,8 +251,7 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
                     folder as its target"
                 );
             }
-            if ($this->_new_topic->up == $target->id)
-            {
+            if ($this->_new_topic->up == $target->id) {
                 $this->_new_topic->purge();
                 throw new midcom_error
                 (
@@ -290,8 +260,7 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
                 );
             }
             $this->_new_topic->update();
-            if (!midcom_admin_folder_management::is_child_listing_finite($target))
-            {
+            if (!midcom_admin_folder_management::is_child_listing_finite($target)) {
                 $this->_new_topic->purge();
                 throw new midcom_error
                 (
@@ -300,8 +269,7 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
                 );
             }
             $this->_new_topic->name = $name;
-            while (!$this->_new_topic->update() && midcom_connection::get_error() == MGD_ERR_DUPLICATE)
-            {
+            while (!$this->_new_topic->update() && midcom_connection::get_error() == MGD_ERR_DUPLICATE) {
                 $this->_new_topic->name .= "-link";
             }
         }
@@ -309,8 +277,7 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
         midcom::get()->uimessages->add($this->_l10n->get('midcom.admin.folder'), $this->_l10n->get('folder created'));
 
         // Generate name if it is missing
-        if (!$this->_new_topic->name)
-        {
+        if (!$this->_new_topic->name) {
             $generator = midcom::get()->serviceloader->load('midcom_core_service_urlgenerator');
             $this->_new_topic->name = $generator->from_string($this->_new_topic->extra);
             $this->_new_topic->update();
@@ -328,13 +295,10 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
      */
     private function _create_style($style_name)
     {
-        if (isset($GLOBALS['midcom_style_inherited']))
-        {
+        if (isset($GLOBALS['midcom_style_inherited'])) {
             $up = midcom::get()->style->get_style_id_from_path($GLOBALS['midcom_style_inherited']);
             debug_add("Style inherited from {$GLOBALS['midcom_style_inherited']}");
-        }
-        else
-        {
+        } else {
             $up = midcom_connection::get('style');
             debug_add("No inherited style found, placing the new style under host style ID: " . midcom_connection::get('style'));
         }
@@ -343,8 +307,7 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
         $style->name = $style_name;
         $style->up = $up;
 
-        if (!$style->create())
-        {
+        if (!$style->create()) {
             debug_print_r('Failed to create a new style due to ' . midcom_connection::get_error_string(), $style, MIDCOM_LOG_WARN);
 
             midcom::get()->uimessages->add('edit folder', sprintf($this->_l10n->get('failed to create a new style template: %s'), midcom_connection::get_error_string()), 'error');

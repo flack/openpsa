@@ -30,11 +30,9 @@ class midcom_response_relocate extends midcom_response
     {
         if (   $this->url == ''
             || (   substr($this->url, 0, 1) != "/")
-                && !preg_match('|^https?://|', $this->url))
-        {
+                && !preg_match('|^https?://|', $this->url)) {
             $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
-            if ($prefix == '')
-            {
+            if ($prefix == '') {
                 $prefix = '/';
             }
             $this->url =  "{$prefix}{$this->url}";

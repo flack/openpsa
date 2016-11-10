@@ -52,15 +52,12 @@ class midcom_helper_datamanager2_widget_text extends midcom_helper_datamanager2_
     {
         $this->_require_type_value();
 
-        if ($this->maxlength == -1)
-        {
-            if (array_key_exists('maxlength', $this->_type))
-            {
+        if ($this->maxlength == -1) {
+            if (array_key_exists('maxlength', $this->_type)) {
                 $this->maxlength = $this->_type->maxlength;
             }
         }
-        if ($this->maxlength < 0)
-        {
+        if ($this->maxlength < 0) {
             $this->maxlength = 0;
         }
     }
@@ -71,38 +68,30 @@ class midcom_helper_datamanager2_widget_text extends midcom_helper_datamanager2_
     public function add_elements_to_form($attributes)
     {
         $attributes['class'] = 'shorttext';
-        if ($this->maxlength > 0)
-        {
+        if ($this->maxlength > 0) {
             $attributes['maxlength'] = $this->maxlength;
         }
 
-        if ($this->hideinput)
-        {
+        if ($this->hideinput) {
             $this->_form->addElement('password', $this->name, $this->_translate($this->_field['title']), $attributes);
-        }
-        else
-        {
+        } else {
             $this->_form->addElement('text', $this->name, $this->_translate($this->_field['title']), $attributes);
         }
         $this->_form->applyFilter($this->name, 'trim');
 
-        if ($this->maxlength > 0)
-        {
+        if ($this->maxlength > 0) {
             $errormsg = sprintf($this->_l10n->get('type text: value is longer than %d characters'), $this->maxlength);
             $this->_form->addRule($this->name, $errormsg, 'maxlength', $this->maxlength);
         }
-        if (is_a($this->_type, 'midcom_helper_datamanager2_type_number'))
-        {
+        if (is_a($this->_type, 'midcom_helper_datamanager2_type_number')) {
             $this->_form->addRule($this->name, $this->_translate('validation failed: numeric'), 'regex', '/^-?[0-9]*([.,][0-9]*)?$/');
             $this->_form->addFormRule(array(&$this->_type, 'validate_number'));
         }
 
-        if (!empty($this->_type->forbidden_patterns))
-        {
+        if (!empty($this->_type->forbidden_patterns)) {
             $this->_form->addFormRule(array(&$this->_type, 'validate_forbidden_patterns'));
         }
-        if (!empty($this->_type->allowed_patterns))
-        {
+        if (!empty($this->_type->allowed_patterns)) {
             $this->_form->addFormRule(array(&$this->_type, 'validate_allowed_patterns'));
         }
     }

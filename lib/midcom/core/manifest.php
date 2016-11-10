@@ -317,25 +317,19 @@ class midcom_core_manifest
      */
     private function _load_manifest()
     {
-        if (!is_array($this->_raw_data))
-        {
+        if (!is_array($this->_raw_data)) {
             debug_add("Manifest read from file {$this->filename} does not evaluate properly", MIDCOM_LOG_ERROR);
-        }
-        else
-        {
-            foreach ($this->_raw_data as $field => $value)
-            {
+        } else {
+            foreach ($this->_raw_data as $field => $value) {
                 if (   property_exists($this, $field)
-                    && $field != '_raw_data')
-                {
+                    && $field != '_raw_data') {
                     $this->$field = $value;
                 }
             }
         }
         $this->purecode = ($this->purecode == true);
 
-        if (!empty($this->privileges))
-        {
+        if (!empty($this->privileges)) {
             $this->_process_privileges();
         }
     }
@@ -347,8 +341,7 @@ class midcom_core_manifest
      */
     public function get_name_translated()
     {
-        if ($this->name_translated === null)
-        {
+        if ($this->name_translated === null) {
             $this->name_translated = midcom::get()->i18n->get_string($this->name, $this->name);
         }
         return $this->name_translated;
@@ -363,8 +356,7 @@ class midcom_core_manifest
     private function _process_privileges()
     {
         $processed = array();
-        foreach ($this->privileges as $name => $defaults)
-        {
+        foreach ($this->privileges as $name => $defaults) {
             $processed["{$this->name}:{$name}"] = $defaults;
         }
         $this->privileges = $processed;

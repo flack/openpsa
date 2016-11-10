@@ -64,8 +64,7 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
     {
         midcom::get()->auth->require_valid_user();
 
-        if (!$this->_topic->can_do('net.nehmer.comments:moderation'))
-        {
+        if (!$this->_topic->can_do('net.nehmer.comments:moderation')) {
             return new midcom_response_relocate('/');
         }
         $this->_request_data['topic'] = $this->_topic;
@@ -86,8 +85,7 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
     private function _load_comments()
     {
         $view_status = array();
-        switch ($this->_request_data['handler'])
-        {
+        switch ($this->_request_data['handler']) {
             case 'reported_abuse':
                 $this->_request_data['status_to_show'] = 'reported abuse';
                 $view_status[] = net_nehmer_comments_comment::REPORTED_ABUSE;
@@ -105,8 +103,7 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
                 $view_status[] = net_nehmer_comments_comment::NEW_ANONYMOUS;
                 $view_status[] = net_nehmer_comments_comment::NEW_USER;
                 $view_status[] = net_nehmer_comments_comment::MODERATED;
-                if ($this->_config->get('show_reported_abuse_as_normal'))
-                {
+                if ($this->_config->get('show_reported_abuse_as_normal')) {
                     $view_status[] = net_nehmer_comments_comment::REPORTED_ABUSE;
                 }
                 break;
@@ -114,8 +111,7 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
                 $this->_request_data['status_to_show'] = 'latest comments, only new';
                 $view_status[] = net_nehmer_comments_comment::NEW_ANONYMOUS;
                 $view_status[] = net_nehmer_comments_comment::NEW_USER;
-                if ($this->_config->get('show_reported_abuse_as_normal'))
-                {
+                if ($this->_config->get('show_reported_abuse_as_normal')) {
                     $view_status[] = net_nehmer_comments_comment::REPORTED_ABUSE;
                 }
                 break;
@@ -147,8 +143,7 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
         $this->_verify_post_data();
 
         $comment = new net_nehmer_comments_comment($_POST['guid']);
-        if (!$comment->delete())
-        {
+        if (!$comment->delete()) {
             throw new midcom_error("Failed to delete comment GUID '{$_REQUEST['guid']}': " . midcom_connection::get_error_string());
         }
 
@@ -156,8 +151,7 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
 
         $this->_request_data['handler'] = $args[0];
         $comments = $this->_load_comments();
-        if (!empty($comments))
-        {
+        if (!empty($comments)) {
             $data['comment'] = end($comments);
             $this->_init_display_datamanager();
         }
@@ -167,12 +161,10 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
     private function _verify_post_data()
     {
         if (   !array_key_exists('action', $_POST)
-            || !array_key_exists('guid', $_POST))
-        {
+            || !array_key_exists('guid', $_POST)) {
             throw new midcom_error_notfound('Incomplete POST data');
         }
-        if ($_POST['action'] !== 'action_delete')
-        {
+        if ($_POST['action'] !== 'action_delete') {
             throw new midcom_error_notfound('Unsupported action');
         }
     }
@@ -184,14 +176,11 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
      */
     public function _show_moderate_ajax($handler_id, array &$data)
     {
-        if (!empty($data['comment']))
-        {
+        if (!empty($data['comment'])) {
             $this->_display_datamanager->autoset_storage($data['comment']);
             $data['comment_toolbar'] = $this->_master->_populate_post_toolbar($data['comment'], $data['handler']);
             midcom_show_style('admin-comments-item');
-        }
-        else
-        {
+        } else {
             midcom_show_style('comments-nonefound');
         }
     }
@@ -206,16 +195,14 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
     {
         midcom::get()->auth->require_valid_user();
 
-        if (!$this->_topic->can_do('net.nehmer.comments:moderation'))
-        {
+        if (!$this->_topic->can_do('net.nehmer.comments:moderation')) {
             return new midcom_response_relocate('/');
         }
 
         $this->_request_data['handler'] = $args[0];
 
         $this->_comments = $this->_load_comments();
-        if (!empty($this->_comments))
-        {
+        if (!empty($this->_comments)) {
             $this->_init_display_datamanager();
         }
 
@@ -235,20 +222,16 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
     public function _show_moderate($handler_id, array &$data)
     {
         midcom_show_style('admin-start');
-        if ($this->_comments)
-        {
+        if ($this->_comments) {
             midcom_show_style('admin-comments-start');
-            foreach ($this->_comments as $comment)
-            {
+            foreach ($this->_comments as $comment) {
                 $this->_display_datamanager->autoset_storage($comment);
                 $data['comment'] = $comment;
                 $data['comment_toolbar'] = $this->_master->_populate_post_toolbar($comment, $data['handler']);
                 midcom_show_style('admin-comments-item');
             }
             midcom_show_style('admin-comments-end');
-        }
-        else
-        {
+        } else {
             midcom_show_style('comments-nonefound');
         }
         midcom_show_style('admin-end');

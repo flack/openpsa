@@ -35,8 +35,7 @@ class net_nehmer_static_navigation extends midcom_baseclasses_components_navigat
     public function get_leaves()
     {
         $leaves = array();
-        if ($this->_config->get('hide_navigation'))
-        {
+        if ($this->_config->get('hide_navigation')) {
             return $leaves;
         }
 
@@ -48,24 +47,20 @@ class net_nehmer_static_navigation extends midcom_baseclasses_components_navigat
 
         // Unless in Auto-Index mode or the index article is hidden, we skip the index article.
         if (   !$this->_config->get('autoindex')
-            && !$this->_config->get('indexinnav'))
-        {
+            && !$this->_config->get('indexinnav')) {
             $qb->add_constraint('name', '<>', 'index');
         }
 
         $sort_order = 'ASC';
         $sort_property = $this->_config->get('sort_order');
-        if (strpos($sort_property, 'reverse ') === 0)
-        {
+        if (strpos($sort_property, 'reverse ') === 0) {
             $sort_order = 'DESC';
             $sort_property = substr($sort_property, strlen('reverse '));
         }
-        if (strpos($sort_property, 'metadata.') === false)
-        {
+        if (strpos($sort_property, 'metadata.') === false) {
             $helper = new helper;
             $article = new midgard_article();
-            if (!$helper->property_exists($article, $sort_property))
-            {
+            if (!$helper->property_exists($article, $sort_property)) {
                 $sort_property = 'metadata.' . $sort_property;
             }
         }
@@ -76,11 +71,9 @@ class net_nehmer_static_navigation extends midcom_baseclasses_components_navigat
 
         $articles = $qb->execute();
 
-        foreach ($articles as $article)
-        {
+        foreach ($articles as $article) {
             $article_url = "{$article->name}/";
-            if ($article->name == 'index')
-            {
+            if ($article->name == 'index') {
                 $article_url = '';
             }
             $leaves[$article->id] = array
@@ -113,8 +106,7 @@ class net_nehmer_static_navigation extends midcom_baseclasses_components_navigat
     private function _determine_content_topic()
     {
         $guid = $this->_config->get('symlink_topic');
-        if (is_null($guid))
-        {
+        if (is_null($guid)) {
             // No symlink topic
             // Workaround, we should talk to a DBA object automatically here in fact.
             $this->_content_topic = midcom_db_topic::get_cached($this->_topic->id);

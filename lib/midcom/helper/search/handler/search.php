@@ -31,8 +31,7 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
     private function prepare_formdata($handler_id)
     {
         $this->_request_data['query'] = (array_key_exists('query', $_REQUEST) ? $_REQUEST['query'] : '');
-        if ($handler_id === 'advanced')
-        {
+        if ($handler_id === 'advanced') {
             $this->_request_data['request_topic'] = (array_key_exists('topic', $_REQUEST) ? $_REQUEST['topic'] : '');
             $this->_request_data['component'] = (array_key_exists('component', $_REQUEST) ? $_REQUEST['component'] : '');
             $this->_request_data['lastmodified'] = (array_key_exists('lastmodified', $_REQUEST) ? ((integer) $_REQUEST['lastmodified']) : 0);
@@ -55,8 +54,7 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
         $node = $nap->get_node($node_id);
 
         if (   !array_key_exists($node[MIDCOM_NAV_COMPONENT], $this->_request_data['components'])
-            && $node[MIDCOM_NAV_COMPONENT] != 'midcom.helper.search')
-        {
+            && $node[MIDCOM_NAV_COMPONENT] != 'midcom.helper.search') {
             $l10n = $this->_i18n->get_l10n($node[MIDCOM_NAV_COMPONENT]);
             $this->_request_data['components'][$node[MIDCOM_NAV_COMPONENT]] = $l10n->get($node[MIDCOM_NAV_COMPONENT]);
         }
@@ -65,8 +63,7 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
         // Recurse
         $prefix .= "{$node[MIDCOM_NAV_NAME]} &rsaquo; ";
         $subnodes = $nap->list_nodes($node_id);
-        foreach ($subnodes as $sub_id)
-        {
+        foreach ($subnodes as $sub_id) {
             $this->search_nodes($sub_id, $nap, $prefix);
         }
     }
@@ -91,19 +88,13 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
      */
     private function append_terms_recursive(&$final_query, $terms)
     {
-        if (is_array($terms))
-        {
-            foreach ($terms as $term)
-            {
+        if (is_array($terms)) {
+            foreach ($terms as $term) {
                 $this->append_terms_recursive($final_query, $term);
             }
-        }
-        elseif (is_string($terms))
-        {
+        } elseif (is_string($terms)) {
             $final_query .= "{$terms}";
-        }
-        else
-        {
+        } else {
             debug_add('Don\'t know how to handle terms of type: ' . gettype($terms), MIDCOM_LOG_ERROR);
             debug_print_r('$terms', $terms);
         }
@@ -123,14 +114,12 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
 
         if (   count(explode(' ', $data['query'])) == 1
             && strpos($data['query'], '*') === false
-            && $this->_config->get('single_term_auto_wilcard'))
-        {
+            && $this->_config->get('single_term_auto_wilcard')) {
             //If there is only one search term append * to the query if auto_wildcard is enabled
             $data['query'] .= '*';
         }
 
-        switch ($data['type'])
-        {
+        switch ($data['type']) {
             case 'basic':
                 $indexer = midcom::get()->indexer;
                 $final_query = $data['query'];
@@ -151,8 +140,7 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
     {
         $other_type = ($this->_request_data['type'] == 'advanced') ? 'basic' : 'advanced';
         $this->_request_data['params'] = '';
-        if (!empty($_GET))
-        {
+        if (!empty($_GET)) {
             $this->_request_data['params'] = '?';
             $params = $_GET;
             $params['type'] = $other_type;
@@ -160,8 +148,7 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
         }
 
         $url = '';
-        if ($this->_request_data['type'] == 'basic')
-        {
+        if ($this->_request_data['type'] == 'basic') {
             $url = 'advanced/';
         }
 
@@ -178,8 +165,7 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
 
     private function process_results($result)
     {
-        if ($result === false)
-        {
+        if ($result === false) {
             // Error while searching, we ignore this silently, as this is usually
             // a broken query. We don't have yet a way to pass error messages from
             // the indexer backend though (what would I give for a decent exception
@@ -191,13 +177,11 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
         $count = count($result);
         $this->_request_data['document_count'] = $count;
 
-        if ($count == 0)
-        {
+        if ($count == 0) {
             midcom::get()->cache->content->uncached();
         }
 
-        if ($count > 0)
-        {
+        if ($count > 0) {
             $results_per_page = $this->_config->get('results_per_page');
             $max_pages = ceil($count / $results_per_page);
             $page = min($_REQUEST['page'], $max_pages);
@@ -214,11 +198,9 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
             $this->_request_data['result'] = array_slice($result, $first_document_id, $results_per_page);
 
             // Register GUIDs for cache engine
-            foreach ($this->_request_data['result'] as $doc)
-            {
+            foreach ($this->_request_data['result'] as $doc) {
                 if (   !isset($doc->source)
-                    || !mgd_is_guid($doc->source))
-                {
+                    || !mgd_is_guid($doc->source)) {
                     // Non-Midgard results don't need to go through cache registration
                     continue;
                 }
@@ -234,11 +216,9 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
     private function prepare_query_data()
     {
         // If we don't have a query string, relocate to empty search form
-        if (!isset($_REQUEST['query']))
-        {
+        if (!isset($_REQUEST['query'])) {
             debug_add('$_REQUEST["query"] is not set, relocating back to form', MIDCOM_LOG_INFO);
-            if ($this->_request_data['type'] == 'basic')
-            {
+            if ($this->_request_data['type'] == 'basic') {
                 midcom::get()->relocate('');
             }
             midcom::get()->relocate('advanced/');
@@ -261,38 +241,32 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
         $data['component'] = trim($_REQUEST['component']);
         $data['lastmodified'] = (integer) trim($_REQUEST['lastmodified']);
         $filter = new midcom_services_indexer_filter_chained;
-        if ($data['lastmodified'] > 0)
-        {
+        if ($data['lastmodified'] > 0) {
             $filter->add_filter(new midcom_services_indexer_filter_date('__EDITED', $data['lastmodified'], 0));
         }
 
         $final_query = '';
-        if ($data['query'] != '')
-        {
+        if ($data['query'] != '') {
             $final_query = (midcom::get()->config->get('indexer_backend') == 'solr') ? $data['query'] : "({$data['query']})";
         }
 
-        if ($data['request_topic'] != '')
-        {
+        if ($data['request_topic'] != '') {
             $filter->add_filter(new midcom_services_indexer_filter_string('__TOPIC_URL', '"' . $data['request_topic'] . '*"'));
         }
 
-        if ($data['component'] != '')
-        {
+        if ($data['component'] != '') {
             $filter->add_filter(new midcom_services_indexer_filter_string('__COMPONENT', $data['component']));
         }
 
         // Way to add very custom terms
-        if (isset($_REQUEST['append_terms']))
-        {
+        if (isset($_REQUEST['append_terms'])) {
             $this->append_terms_recursive($final_query, $_REQUEST['append_terms']);
         }
 
         debug_add("Final query: {$final_query}");
         $indexer = midcom::get()->indexer;
 
-        if ($filter->count() == 0)
-        {
+        if ($filter->count() == 0) {
             $filter = null;
         }
         return $indexer->query($final_query, $filter);
@@ -306,12 +280,9 @@ class midcom_helper_search_handler_search extends midcom_baseclasses_components_
      */
     public function _show_result($handler_id, array &$data)
     {
-        if ($data['document_count'] > 0)
-        {
+        if ($data['document_count'] > 0) {
             midcom_show_style('results');
-        }
-        else
-        {
+        } else {
             midcom_show_style('no_match');
         }
     }

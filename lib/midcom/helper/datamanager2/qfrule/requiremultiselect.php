@@ -14,8 +14,7 @@ class midcom_helper_datamanager2_qfrule_requiremultiselect extends HTML_QuickFor
     function validate($value, $options = null)
     {
         if (   !is_array($value)
-            || empty($value))
-        {
+            || empty($value)) {
             debug_print_r('got value', $value);
             debug_add('value is not array or is empty');
             return false;

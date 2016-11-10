@@ -39,8 +39,7 @@ class org_openpsa_calendar_cron_reporthours extends midcom_baseclasses_component
      */
     public function _on_execute()
     {
-        if (!midcom::get()->auth->request_sudo('org.openpsa.calendar'))
-        {
+        if (!midcom::get()->auth->request_sudo('org.openpsa.calendar')) {
             $this->print_error("Could not get sudo, aborting operation, see error log for details");
             return;
         }
@@ -61,13 +60,11 @@ class org_openpsa_calendar_cron_reporthours extends midcom_baseclasses_component
         $qb->add_constraint('hoursReported', '=', 0);
         $eventmembers = $qb->execute();
 
-        foreach ($eventmembers as $member)
-        {
+        foreach ($eventmembers as $member) {
             // Bulletproofing: prevent duplicating hour reports
             $member->hoursReported = time();
             $member->notify_person = false;
-            if (!$member->update())
-            {
+            if (!$member->update()) {
                 $msg = "Could not set hoursReported on member #{$member->id} (event #{$member->eid}), errstr: " . midcom_connection::get_error_string() . " skipping this member";
                 $this->print_error($msg);
                 continue;
@@ -75,29 +72,25 @@ class org_openpsa_calendar_cron_reporthours extends midcom_baseclasses_component
             $event = org_openpsa_calendar_event_dba::get_cached($member->eid);
             $links = $this->get_event_links($event->guid);
 
-            foreach ($links as $link)
-            {
+            foreach ($links as $link) {
                 $task = org_openpsa_projects_task_dba::get_cached($link->toGuid);
 
                 debug_add("processing task #{$task->id} ({$task->title}) for person #{$member->uid} from event #{$event->id} ({$event->title})");
 
                 // Make sure the person we found is a resource in this particular task
                 $task->get_members();
-                if (!isset($task->resources[$member->uid]))
-                {
+                if (!isset($task->resources[$member->uid])) {
                     debug_add("person #{$member->uid} is not a *resource* in task #{$task->id}, skipping");
                     continue;
                 }
 
-                if (!$this->create_hour_report($task, $member->uid, $event))
-                {
+                if (!$this->create_hour_report($task, $member->uid, $event)) {
                     // MidCOM error log is filled in the method, here we just display error
                     $this->print_error("Failed to create hour_report to task #{$task->id} for person #{$member->uid} from event #{$event->id}");
                     // Failed to create hour_report, unset hoursReported so that we might have better luck next time
                     // PONDER: This might be an issue in case be have multiple tasks linked and only one of them fails... figure out a more granular way to flag reported hours ?
                     $member->hoursReported = 0;
-                    if (!$member->update())
-                    {
+                    if (!$member->update()) {
                         $msg = "Could not UNSET hoursReported on member #{$member->id} (event #{$member->eid}), errstr: " . midcom_connection::get_error_string();
                         $this->print_error($msg);
                     }
@@ -110,8 +103,7 @@ class org_openpsa_calendar_cron_reporthours extends midcom_baseclasses_component
 
     private function get_event_links($guid)
     {
-        if (!isset($this->event_links[$guid]))
-        {
+        if (!isset($this->event_links[$guid])) {
             $qb2 = org_openpsa_relatedto_dba::new_query_builder();
             $qb2->add_constraint('fromGuid', '=', $guid);
             $qb2->add_constraint('fromComponent', '=', 'org.openpsa.calendar');
@@ -137,8 +129,7 @@ class org_openpsa_calendar_cron_reporthours extends midcom_baseclasses_component
         $hr->description = "event: {$event->title} " . $this->_l10n->get_formatter()->timeframe($event->start, $event->end) . ", {$event->location}\n";
         $hr->description .= "\n{$event->description}\n";
 
-        if (!$hr->create())
-        {
+        if (!$hr->create()) {
             debug_add("failed to create hour_report to task #{$task->id} for person #{$person_id}", MIDCOM_LOG_ERROR);
             return false;
         }

@@ -26,12 +26,10 @@ class org_openpsa_directmarketing_cron_updatemembers extends midcom_baseclasses_
         midcom::get()->auth->drop_sudo();
 
         $i = 1;
-        foreach ($ret as $campaign)
-        {
+        foreach ($ret as $campaign) {
             $next_time = time() + (($i++) * 60);
             debug_add("Scheduling member update for campaign #{$campaign->id} ({$campaign->title}) to happen on " . date('Y-m-d H:i:s', $next_time));
-            if (!$campaign->schedule_update_smart_campaign_members($next_time))
-            {
+            if (!$campaign->schedule_update_smart_campaign_members($next_time)) {
                 debug_add('schedule_update_smart_campaign_members returned false', MIDCOM_LOG_ERROR);
             }
         }

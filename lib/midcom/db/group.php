@@ -31,13 +31,11 @@ class midcom_db_group extends midcom_core_dbaobject
      */
     public function _on_loaded()
     {
-        if (empty($this->official))
-        {
+        if (empty($this->official)) {
             $this->official = $this->name;
         }
 
-        if (empty($this->official))
-        {
+        if (empty($this->official)) {
             $this->official = "Group #{$this->id}";
         }
     }
@@ -54,16 +52,14 @@ class midcom_db_group extends midcom_core_dbaobject
     {
         $this->require_do('midgard:create');
 
-        if ($this->is_member($person))
-        {
+        if ($this->is_member($person)) {
             return true;
         }
 
         $member = new midcom_db_member();
         $member->gid = $this->id;
         $member->uid = $person->id;
-        if (!$member->create())
-        {
+        if (!$member->create()) {
             return false;
         }
 

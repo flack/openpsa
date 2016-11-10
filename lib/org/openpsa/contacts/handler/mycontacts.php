@@ -26,8 +26,7 @@ class org_openpsa_contacts_handler_mycontacts extends midcom_baseclasses_compone
         $mycontacts->add($target->guid);
 
         $return_url = "person/{$target->guid}/";
-        if (!empty($_GET['return_url']))
-        {
+        if (!empty($_GET['return_url'])) {
             $return_url = $_GET['return_url'];
         }
         return new midcom_response_relocate($return_url);
@@ -72,8 +71,7 @@ class org_openpsa_contacts_handler_mycontacts extends midcom_baseclasses_compone
     public function _show_list($handler_id, array &$data)
     {
         midcom_show_style('show-mycontacts-header');
-        foreach ($data['mycontacts'] as $person)
-        {
+        foreach ($data['mycontacts'] as $person) {
             $data['person'] = $person;
             midcom_show_style('show-mycontacts-item');
         }

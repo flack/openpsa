@@ -80,8 +80,7 @@ abstract class midcom_helper_datamanager2_controller extends midcom_baseclasses_
      */
     function initialize($identifier = null)
     {
-        if (is_null($this->lock_timeout))
-        {
+        if (is_null($this->lock_timeout)) {
             $this->lock_timeout = midcom::get()->config->get('metadata_lock_timeout');
         }
 
@@ -114,10 +113,8 @@ abstract class midcom_helper_datamanager2_controller extends midcom_baseclasses_
      */
     function set_schemadb(array &$schemadb)
     {
-        foreach ($schemadb as $value)
-        {
-            if (!is_a($value, 'midcom_helper_datamanager2_schema'))
-            {
+        foreach ($schemadb as $value) {
+            if (!is_a($value, 'midcom_helper_datamanager2_schema')) {
                 debug_print_r('The database passed was:', $schemadb);
                 throw new midcom_error('An invalid schema database has been passed.');
             }
@@ -140,48 +137,36 @@ abstract class midcom_helper_datamanager2_controller extends midcom_baseclasses_
      */
     function set_storage($storage, $schema = null)
     {
-        if (count($this->schemadb) == 0)
-        {
+        if (count($this->schemadb) == 0) {
             throw new midcom_error('You cannot set a storage object for a DM2 controller object without loading a schema database previously.');
         }
 
-        if ($storage instanceof midcom_helper_datamanager2_datamanager)
-        {
+        if ($storage instanceof midcom_helper_datamanager2_datamanager) {
             $this->datamanager = $storage;
-        }
-        elseif (   $storage instanceof midcom_helper_datamanager2_storage
-                 || midcom::get()->dbclassloader->is_midcom_db_object($storage))
-        {
+        } elseif (   $storage instanceof midcom_helper_datamanager2_storage
+                 || midcom::get()->dbclassloader->is_midcom_db_object($storage)) {
             $this->datamanager = new midcom_helper_datamanager2_datamanager($this->schemadb);
-            if ($schema === null)
-            {
-                if (!$this->datamanager->autoset_storage($storage))
-                {
+            if ($schema === null) {
+                if (!$this->datamanager->autoset_storage($storage)) {
                     debug_print_r('We got this storage object:', $storage);
                     throw new midcom_error
                     (
                         'Failed to automatically create a datamanager instance for a storage object or a MidCOM type. See the debug level log for more information.'
                     );
                 }
-            }
-            else
-            {
-                if (!$this->datamanager->set_schema($schema))
-                {
+            } else {
+                if (!$this->datamanager->set_schema($schema)) {
                     debug_add("Tried to set the schema {$schema}");
                     debug_print_r('We got this storage object:', $storage);
                     throw new midcom_error('Failed to set the autocreated datamanager\'s schema. See the debug level log for more information.');
                 }
-                if (!$this->datamanager->set_storage($storage))
-                {
+                if (!$this->datamanager->set_storage($storage)) {
                     debug_add("Tried to set the schema {$schema}");
                     debug_print_r('We got this storage object:', $storage);
                     throw new midcom_error('Failed to set the autocreated datamanager\'s storage object. See the debug level log for more information.');
                 }
             }
-        }
-        else
-        {
+        } else {
             debug_print_r('Storage object passed was:', $storage);
             throw new midcom_error('You must pass either a datamanager subclass, an initialized storage encapsulation or a MidCOM DBA object');
         }
@@ -220,13 +205,11 @@ abstract class midcom_helper_datamanager2_controller extends midcom_baseclasses_
     {
         // Prevent temporary objects from failing
         if (   $this->lock_object
-            && !empty($this->datamanager->storage->object->guid))
-        {
+            && !empty($this->datamanager->storage->object->guid)) {
             // Get the metadata object
             $metadata = $this->datamanager->storage->object->metadata;
 
-            if ($metadata->is_locked())
-            {
+            if ($metadata->is_locked()) {
                 // Drop us to uncached state when locked
                 midcom::get()->cache->content->uncached();
                 $this->show_unlock();

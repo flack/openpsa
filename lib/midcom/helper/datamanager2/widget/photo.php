@@ -41,8 +41,7 @@ class midcom_helper_datamanager2_widget_photo extends midcom_helper_datamanager2
      */
     function _create_replace_elements(array &$elements)
     {
-        switch (true)
-        {
+        switch (true) {
             case (array_key_exists('main', $this->_type->attachments_info)):
                 $main_info = $this->_type->attachments_info['main'];
                 break;
@@ -60,21 +59,16 @@ class midcom_helper_datamanager2_widget_photo extends midcom_helper_datamanager2
 
         // Statistics & Available sizes
         $static_html .= "</td>\n";
-        if (isset($main_info))
-        {
+        if (isset($main_info)) {
             $static_html .= "<td valign='top' class='midcom_helper_datamanager2_widget_image_stats'>" . $this->_l10n->get('type blobs: file size') . ": {$main_info['formattedsize']}<br/>\n";
         }
         $static_html .= $this->_l10n->get('type image: available sizes') . ":\n
                 <ul class='midcom_helper_datamanager2_widget_image_sizelist'>";
-        foreach ($this->_type->attachments_info as $info)
-        {
+        foreach ($this->_type->attachments_info as $info) {
             if (   $info['size_x']
-                && $info['size_y'])
-            {
+                && $info['size_y']) {
                 $size = "{$info['size_x']}x{$info['size_y']}";
-            }
-            else
-            {
+            } else {
                 $size = $this->_l10n_midcom->get('unknown');
             }
             $static_html .= "<li title=\"{$info['guid']}\"><a href='{$info['url']}' target='_new'>{$info['filename']}:</a>
@@ -84,8 +78,7 @@ class midcom_helper_datamanager2_widget_photo extends midcom_helper_datamanager2
         $elements[] = $this->_form->createElement('static', "{$this->name}_start", '', $static_html);
 
         // Add action buttons
-        if ($this->show_action_elements)
-        {
+        if ($this->show_action_elements) {
             $this->add_action_elements($elements);
         }
 

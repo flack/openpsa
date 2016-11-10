@@ -11,8 +11,7 @@ $view = $data['document_dm'];
 
     $tabs = array();
 
-    if ($data['document_versions'] > 0)
-    {
+    if ($data['document_versions'] > 0) {
         $nap = new midcom_helper_nav();
         $node = $nap->get_node($nap->get_current_node());
 

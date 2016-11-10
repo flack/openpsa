@@ -6,8 +6,7 @@ $formatter = $data['l10n']->get_formatter();
 echo "<div class=\"{$data['message_class']}\"><a href=\"{$prefix}message/{$data['message']->guid}/\">{$view['title']}</a>\n";
 echo "<br />" . sprintf($data['l10n']->get('created on %s'), $formatter->datetime($data['message']->metadata->created)) . "\n";
 
-if ($data['message']->sendStarted)
-{
+if ($data['message']->sendStarted) {
     echo ", " . sprintf($data['l10n']->get('sent on %s'), $formatter->datetime($data['message']->sendStarted)) . "\n";
 }
 

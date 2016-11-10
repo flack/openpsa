@@ -91,8 +91,7 @@ class midcom_services_cache implements EventSubscriberInterface
         $object = $event->get_object();
         $parent = $object->get_parent();
         if (   $parent
-            && $parent->guid)
-        {
+            && $parent->guid) {
             // Invalidate parent from cache so content caches have chance to react
             $this->invalidate($parent);
         }
@@ -103,10 +102,8 @@ class midcom_services_cache implements EventSubscriberInterface
         $object = $event->get_object();
         $this->invalidate($object);
 
-        if (midcom::get()->config->get('attachment_cache_enabled'))
-        {
-            foreach ($object->list_attachments() as $att)
-            {
+        if (midcom::get()->config->get('attachment_cache_enabled')) {
+            foreach ($object->list_attachments() as $att) {
                 $this->invalidate($att->guid);
                 // This basically ensures that attachment cache links are
                 // deleted when their parent is no longer readable by everyone
@@ -122,8 +119,7 @@ class midcom_services_cache implements EventSubscriberInterface
      */
     public function shutdown()
     {
-        foreach ($this->_unload_queue as $name)
-        {
+        foreach ($this->_unload_queue as $name) {
             $this->_modules[$name]->shutdown();
         }
         midcom::get()->dispatcher->removeSubscriber($this);
@@ -137,15 +133,13 @@ class midcom_services_cache implements EventSubscriberInterface
      */
     function load_module($name)
     {
-        if (isset($this->_modules[$name]))
-        {
+        if (isset($this->_modules[$name])) {
             return;
         }
 
         $classname = "midcom_services_cache_module_{$name}";
 
-        if (!class_exists($classname))
-        {
+        if (!class_exists($classname)) {
             throw new midcom_error("Tried to load the cache module {$name}, but the class {$classname} was not found");
         }
 
@@ -163,15 +157,13 @@ class midcom_services_cache implements EventSubscriberInterface
      */
     public function invalidate_all()
     {
-        foreach ($this->_unload_queue as $name)
-        {
+        foreach ($this->_unload_queue as $name) {
             debug_add("Invalidating the cache module {$name} completely.");
             $this->_modules[$name]->invalidate_all();
         }
 
         // Invalidate Midgard cache, too
-        if (extension_loaded('midgard'))
-        {
+        if (extension_loaded('midgard')) {
             mgd_cache_invalidate();
         }
     }
@@ -188,21 +180,17 @@ class midcom_services_cache implements EventSubscriberInterface
     public function invalidate($guid, $skip_module = '')
     {
         $object = null;
-        if (is_object($guid))
-        {
+        if (is_object($guid)) {
             $object = $guid;
             $guid = $guid->guid;
         }
-        if (empty($guid))
-        {
+        if (empty($guid)) {
             debug_add("Called for empty GUID, ignoring invalidation request.");
             return;
         }
 
-        foreach ($this->_unload_queue as $name)
-        {
-            if ($name == $skip_module)
-            {
+        foreach ($this->_unload_queue as $name) {
+            if ($name == $skip_module) {
                 debug_add("We have to skip the cache module {$name}.");
                 continue;
             }

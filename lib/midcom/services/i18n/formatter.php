@@ -30,15 +30,11 @@ class midcom_services_i18n_formatter
     public function number($value, $precision = 2)
     {
         if (   is_float($value)
-            && version_compare(Intl::getIcuVersion(), '49', '<'))
-        {
+            && version_compare(Intl::getIcuVersion(), '49', '<')) {
             // workaround for http://bugs.icu-project.org/trac/ticket/8561
-            if ($precision == 0)
-            {
+            if ($precision == 0) {
                 $value = (int) $value;
-            }
-            else
-            {
+            } else {
                 $value = number_format($value, $precision, '|', '');
                 $parts = explode('|', $value);
                 $formatter = new NumberFormatter($this->get_locale(), NumberFormatter::DECIMAL);
@@ -57,14 +53,12 @@ class midcom_services_i18n_formatter
 
     public function date($value = null, $dateformat = 'medium', $timeformat = 'none')
     {
-        if ($value === null)
-        {
+        if ($value === null) {
             $value = time();
         }
         //PHP < 5.3.4 compat
         if (   version_compare(PHP_VERSION, '5.3.5', '<')
-            && $value instanceof DateTime)
-        {
+            && $value instanceof DateTime) {
             $value = (int) $value->format('U') + timezone_offset_get($value->getTimeZone(), $value);
         }
         $formatter = new IntlDateFormatter($this->get_locale(), $this->constant($dateformat), $this->constant($timeformat));
@@ -84,16 +78,13 @@ class midcom_services_i18n_formatter
     public function timeframe($start, $end, $mode = 'both', $range_separator = null, $fulldate = false)
     {
         $ranger = new Ranger($this->get_locale());
-        if ($mode !== 'date')
-        {
+        if ($mode !== 'date') {
             $ranger->setTimeType(IntlDateFormatter::SHORT);
         }
-        if ($fulldate)
-        {
+        if ($fulldate) {
             $ranger->setDateType(IntlDateFormatter::FULL);
         }
-        if ($range_separator !== null)
-        {
+        if ($range_separator !== null) {
             $ranger->setRangeSeparator($range_separator);
         }
         return $ranger->format($start, $end);
@@ -101,8 +92,7 @@ class midcom_services_i18n_formatter
 
     private function constant($input)
     {
-        if (is_int($input))
-        {
+        if (is_int($input)) {
             return $input;
         }
         return constant('IntlDateFormatter::' . strtoupper($input));

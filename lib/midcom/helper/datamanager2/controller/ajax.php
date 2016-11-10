@@ -36,12 +36,10 @@ class midcom_helper_datamanager2_controller_ajax extends midcom_helper_datamanag
     {
         parent::initialize();
 
-        if (count($this->schemadb) == 0)
-        {
+        if (count($this->schemadb) == 0) {
             throw new midcom_error('You must set a schema database before initializing midcom_helper_datamanager2_controller_ajax.');
         }
-        if ($this->datamanager === null)
-        {
+        if ($this->datamanager === null) {
             throw new midcom_error('You must set the datamanager member before initializing midcom_helper_datamanager2_controller_ajax.');
         }
 
@@ -57,29 +55,25 @@ class midcom_helper_datamanager2_controller_ajax extends midcom_helper_datamanag
      */
     private function _is_ajax_editable()
     {
-        if (!midcom::get()->config->get('enable_ajax_editing'))
-        {
+        if (!midcom::get()->config->get('enable_ajax_editing')) {
             // AJAX editing is globally disabled
             $this->_editable = false;
             return false;
         }
 
-        if (!is_null($this->_editable))
-        {
+        if (!is_null($this->_editable)) {
             return $this->_editable;
         }
 
         // Only first instance of AJAX controller for an object per view is actually editable
         static $usedform_identifiers = array();
-        if (array_key_exists($this->form_identifier, $usedform_identifiers))
-        {
+        if (array_key_exists($this->form_identifier, $usedform_identifiers)) {
             $this->_editable = false;
             return false;
         }
 
         // Check if user can actually edit the object, otherwise no sense in returning an editable state
-        if (!$this->datamanager->storage->object->can_do('midgard:update'))
-        {
+        if (!$this->datamanager->storage->object->can_do('midgard:update')) {
             $this->_editable = false;
             return false;
         }
@@ -113,8 +107,7 @@ class midcom_helper_datamanager2_controller_ajax extends midcom_helper_datamanag
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/midcom.helper.datamanager2/dm2_ajax_editor.css", 'screen');
 
-        if (!$this->_is_ajax_editable())
-        {
+        if (!$this->_is_ajax_editable()) {
             return $state;
         }
 
@@ -127,24 +120,19 @@ class midcom_helper_datamanager2_controller_ajax extends midcom_helper_datamanag
         midcom::get()->head->add_jquery_state_script($script);
 
         $action = (empty($_REQUEST[$this->form_identifier . '_action'])) ? 'view' : $_REQUEST[$this->form_identifier . '_action'];
-        if ($action === 'delete')
-        {
+        if ($action === 'delete') {
             // User has deleted, try to comply
             $this->datamanager->storage->object->delete();
             $state = 'ajax_delete';
 
-            if ($exit)
-            {
+            if ($exit) {
                 echo midcom_connection::get_error_string();
             }
-        }
-        else
-        {
+        } else {
             $this->formmanager = new midcom_helper_datamanager2_formmanager_ajax($this->datamanager->schema, $this->datamanager->types);
             $this->formmanager->initialize($this->form_identifier . '_qf');
 
-            switch ($action)
-            {
+            switch ($action) {
                 case 'edit':
                     $this->formmanager->display_form($this->form_identifier);
                     $state = 'ajax_editing';
@@ -157,14 +145,11 @@ class midcom_helper_datamanager2_controller_ajax extends midcom_helper_datamanag
                     break;
                 case 'save':
                     $exitcode = $this->formmanager->process_form();
-                    if ($exitcode == 'save')
-                    {
+                    if ($exitcode == 'save') {
                         $this->datamanager->save();
                         $this->formmanager->display_view($this->form_identifier);
                         $state = 'ajax_saved';
-                    }
-                    else
-                    {
+                    } else {
                         $this->formmanager->display_form($this->form_identifier);
                         $state = 'ajax_editing';
                     }
@@ -179,8 +164,7 @@ class midcom_helper_datamanager2_controller_ajax extends midcom_helper_datamanag
             }
         }
 
-        if ($exit)
-        {
+        if ($exit) {
             midcom::get()->finish();
         }
 
@@ -191,18 +175,14 @@ class midcom_helper_datamanager2_controller_ajax extends midcom_helper_datamanag
     private function _generate_editor_config()
     {
         $mode = 'inline';
-        if ($this->wide_mode)
-        {
+        if ($this->wide_mode) {
             $mode = 'wide';
-        }
-        elseif ($this->window_mode)
-        {
+        } elseif ($this->window_mode) {
             $mode = 'window';
         }
 
         if (   $this->allow_removal
-            && !$this->datamanager->storage->object->can_do('midgard:delete'))
-        {
+            && !$this->datamanager->storage->object->can_do('midgard:delete')) {
             $this->allow_removal = false;
         }
 
@@ -225,25 +205,19 @@ class midcom_helper_datamanager2_controller_ajax extends midcom_helper_datamanag
         $is_editable = $this->_is_ajax_editable();
 
         $result = array();
-        foreach ($this->datamanager->schema->field_order as $name)
-        {
+        foreach ($this->datamanager->schema->field_order as $name) {
             $html_contents = $this->datamanager->types[$name]->convert_to_html();
             // Composite type has its own AJAX controller so we don't want to add triggers to this AJAX controller
 
-            if ($this->datamanager->schema->fields[$name]['type'] !== 'composite')
-            {
-                if ($is_editable)
-                {
+            if ($this->datamanager->schema->fields[$name]['type'] !== 'composite') {
+                if ($is_editable) {
                     if (   $this->datamanager->schema->fields[$name]['required']
-                        && $html_contents == '')
-                    {
+                        && $html_contents == '') {
                         // Have an identifier people can actually click and edit
                         $html_contents = "&lt;{$name}&gt;";
                     }
                     $html_contents = "<div class=\"ajax_editable {$this->form_identifier}\" title=\"" . $this->_l10n->get('double click to edit') . "\" id=\"{$this->form_identifier}_{$name}\">{$html_contents}</div>\n";
-                }
-                else
-                {
+                } else {
                     $html_contents = "<div class=\"ajax_noneditable {$this->form_identifier}\" id=\"{$this->form_identifier}_{$name}\">{$html_contents}</div>\n";
                 }
             }
@@ -282,8 +256,7 @@ class midcom_helper_datamanager2_controller_ajax extends midcom_helper_datamanag
      */
     function process_form()
     {
-        if ($this->formmanager === null)
-        {
+        if ($this->formmanager === null) {
             throw new midcom_error('You must initialize a controller class before using it.');
         }
 
@@ -292,23 +265,19 @@ class midcom_helper_datamanager2_controller_ajax extends midcom_helper_datamanag
         // Remove the lock
         if (   $this->lock_timeout
             && (   $result === 'save'
-                || $result === 'cancel'))
-        {
+                || $result === 'cancel')) {
             $this->datamanager->storage->object->metadata->unlock();
         }
         // or set it, if needed
-        elseif (!$this->datamanager->storage->object->is_locked())
-        {
+        elseif (!$this->datamanager->storage->object->is_locked()) {
             $this->datamanager->storage->object->metadata->lock();
         }
 
         // Handle successful save explicitly.
         if (   $result == 'save'
-            || $result == 'next')
-        {
+            || $result == 'next') {
             // Ok, we can save now. At this point we already have a content object.
-            if (!$this->datamanager->validate())
-            {
+            if (!$this->datamanager->validate()) {
                 // In case that the type validation fails, we bail with an exception, until
                 // we have a better defined way-of-life here.
                 throw new midcom_error
@@ -318,10 +287,8 @@ class midcom_helper_datamanager2_controller_ajax extends midcom_helper_datamanag
             }
 
             if (   $result == 'save'
-                && !$this->datamanager->save())
-            {
-                if (count($this->datamanager->validation_errors) == 0)
-                {
+                && !$this->datamanager->save()) {
+                if (count($this->datamanager->validation_errors) == 0) {
                     // It seems to be a critical error.
                     throw new midcom_error('Failed to save the data to disk, last midgard error code: ' . midcom_connection::get_error_string() . '. Check the debug level log for more information.');
                 }

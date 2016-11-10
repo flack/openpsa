@@ -47,8 +47,7 @@ class midcom_services_indexer_document_attachment extends midcom_services_indexe
     public function __construct($attachment, $object)
     {
         //before doing anything else, verify that the attachment is readable, otherwise we might get stuck in endless loops later on
-        if (!$attachment->open('r'))
-        {
+        if (!$attachment->open('r')) {
             debug_add('Attachment ' . $attachment->guid . ' cannot be read, aborting. Last midgard error: ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
             return false;
         }
@@ -80,13 +79,11 @@ class midcom_services_indexer_document_attachment extends midcom_services_indexe
     {
         $nav = new midcom_helper_nav();
         $object = $nav->resolve_guid($this->source);
-        if (!$object)
-        {
+        if (!$object) {
             debug_add("Failed to resolve the topic, skipping autodetection.");
             return;
         }
-        if ($object[MIDCOM_NAV_TYPE] == 'leaf')
-        {
+        if ($object[MIDCOM_NAV_TYPE] == 'leaf') {
             $object = $nav->get_node($object[MIDCOM_NAV_NODEID]);
         }
         $this->topic_guid = $object[MIDCOM_NAV_GUID];
@@ -97,8 +94,7 @@ class midcom_services_indexer_document_attachment extends midcom_services_indexe
     private function process_attachment()
     {
         if (   !isset($this->attachment->metadata)
-            || !is_object($this->attachment->metadata))
-        {
+            || !is_object($this->attachment->metadata)) {
             return;
         }
         $this->creator = new midcom_db_person($this->attachment->metadata->creator);
@@ -112,8 +108,7 @@ class midcom_services_indexer_document_attachment extends midcom_services_indexe
         $mimetype = explode("/", $this->attachment->mimetype);
         debug_print_r("Evaluating this Mime Type:", $mimetype);
 
-        switch ($mimetype[1])
-        {
+        switch ($mimetype[1]) {
             case 'html':
             case 'xml':
                 $this->process_mime_html();
@@ -138,34 +133,25 @@ class midcom_services_indexer_document_attachment extends midcom_services_indexe
                 break;
 
             default:
-                if ($mimetype[0] === 'text')
-                {
+                if ($mimetype[0] === 'text') {
                     $this->process_mime_plaintext();
-                }
-                else
-                {
+                } else {
                     $this->process_mime_binary();
                 }
                 break;
         }
 
-        if (strlen(trim($this->attachment->title)) > 0)
-        {
+        if (strlen(trim($this->attachment->title)) > 0) {
             $this->title =  "{$this->attachment->title} ({$this->attachment->name})";
             $this->content .= "\n{$this->attachment->title}\n{$this->attachment->name}";
-        }
-        else
-        {
+        } else {
             $this->title =  $this->attachment->name;
             $this->content .= "\n{$this->attachment->name}";
         }
 
-        if (strlen($this->content) > 200)
-        {
+        if (strlen($this->content) > 200) {
             $this->abstract = substr($this->content, 0, 200) . ' ...';
-        }
-        else
-        {
+        } else {
             $this->abstract = $this->content;
         }
     }
@@ -175,8 +161,7 @@ class midcom_services_indexer_document_attachment extends midcom_services_indexe
      */
     private function process_mime_word()
     {
-        if (!midcom::get()->config->get('utility_catdoc'))
-        {
+        if (!midcom::get()->config->get('utility_catdoc')) {
             debug_add('Could not find catdoc, indexing as binary.', MIDCOM_LOG_INFO);
             $this->process_mime_binary();
             return;
@@ -194,8 +179,7 @@ class midcom_services_indexer_document_attachment extends midcom_services_indexe
 
         unlink ($wordfile);
 
-        if (!file_exists($txtfile))
-        {
+        if (!file_exists($txtfile)) {
             // We were unable to read the document into text
             $this->process_mime_binary();
             return;
@@ -215,8 +199,7 @@ class midcom_services_indexer_document_attachment extends midcom_services_indexe
      */
     private function process_mime_pdf()
     {
-        if (!midcom::get()->config->get('utility_pdftotext'))
-        {
+        if (!midcom::get()->config->get('utility_pdftotext')) {
             debug_add('Could not find pdftotext, indexing as binary.', MIDCOM_LOG_INFO);
             $this->process_mime_binary();
             return;
@@ -234,8 +217,7 @@ class midcom_services_indexer_document_attachment extends midcom_services_indexe
 
         unlink ($pdffile);
 
-        if (!file_exists($txtfile))
-        {
+        if (!file_exists($txtfile)) {
             // We were unable to read the document into text
             $this->process_mime_binary();
             return;
@@ -253,8 +235,7 @@ class midcom_services_indexer_document_attachment extends midcom_services_indexe
      */
     private function process_mime_richtext()
     {
-        if (!midcom::get()->config->get('utility_unrtf'))
-        {
+        if (!midcom::get()->config->get('utility_unrtf')) {
             debug_add('Could not find unrtf, indexing as binary.', MIDCOM_LOG_INFO);
             $this->process_mime_binary();
             return;
@@ -272,8 +253,7 @@ class midcom_services_indexer_document_attachment extends midcom_services_indexe
 
         unlink ($rtffile);
 
-        if (!file_exists($txtfile))
-        {
+        if (!file_exists($txtfile)) {
             // We were unable to read the document into text
             $this->process_mime_binary();
             return;
@@ -310,8 +290,7 @@ class midcom_services_indexer_document_attachment extends midcom_services_indexe
      */
     private function process_mime_binary()
     {
-        if (strlen(trim($this->title)) > 0)
-        {
+        if (strlen(trim($this->title)) > 0) {
             $this->abstract = $this->attachment->name;
         }
     }
@@ -335,14 +314,12 @@ class midcom_services_indexer_document_attachment extends midcom_services_indexe
         debug_add("Returning File content of handle {$handle}");
         $max = 4194304;
         $close = false;
-        if (is_null($handle))
-        {
+        if (is_null($handle)) {
             $handle = $this->attachment->open('r');
             $close = true;
         }
         $content = fread($handle, $max);
-        if ($close)
-        {
+        if ($close) {
             fclose($handle);
         }
         return $content;

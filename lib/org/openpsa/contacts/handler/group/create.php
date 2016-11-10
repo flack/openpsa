@@ -48,11 +48,9 @@ implements midcom_helper_datamanager2_interfaces_create
     public function get_schema_defaults()
     {
         $defaults = array();
-        if ($this->_parent_group)
-        {
+        if ($this->_parent_group) {
             $defaults['owner'] = $this->_parent_group->id;
-            if ($this->_type == 'organization')
-            {
+            if ($this->_type == 'organization') {
                 // Set the default type to "department"
                 $defaults['object_type'] = org_openpsa_contacts_group_dba::DEPARTMENT;
             }
@@ -68,19 +66,15 @@ implements midcom_helper_datamanager2_interfaces_create
         $this->_group = new org_openpsa_contacts_group_dba();
 
         if (   $this->_type == 'organization'
-            && $this->_parent_group)
-        {
+            && $this->_parent_group) {
             $this->_group->owner = (int) $this->_parent_group->id;
-        }
-        else
-        {
+        } else {
             $root_group = org_openpsa_contacts_interface::find_root_group();
             $this->_group->owner = (int) $root_group->id;
         }
         $this->_group->name = time();
 
-        if (!$this->_group->create())
-        {
+        if (!$this->_group->create()) {
             debug_print_r('We operated on this object:', $this->_group);
             throw new midcom_error("Failed to create a new group. Error: " . midcom_connection::get_error_string());
         }
@@ -97,14 +91,11 @@ implements midcom_helper_datamanager2_interfaces_create
     {
         $this->_type = $args[0];
 
-        if (count($args) > 1)
-        {
+        if (count($args) > 1) {
             // Get the parent organization
             $this->_parent_group = new org_openpsa_contacts_group_dba($args[1]);
             $this->_parent_group->require_do('midgard:create');
-        }
-        else
-        {
+        } else {
             // This is a root level organization, require creation permissions under the component root group
             midcom::get()->auth->require_user_do('midgard:create', null, 'org_openpsa_contacts_group_dba');
         }

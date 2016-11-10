@@ -16,8 +16,7 @@ class org_openpsa_core_acl_synchronizer
     public function write_acls(midcom_core_dbaobject $object, $owner_id, $accesstype)
     {
         if (   empty($owner_id)
-            || empty($accesstype))
-        {
+            || empty($accesstype)) {
             return false;
         }
 
@@ -28,8 +27,7 @@ class org_openpsa_core_acl_synchronizer
     private function _write_full_midcom_acls(midcom_core_dbaobject $object, $owner_id, $accesstype)
     {
         $owner_object = midcom::get()->auth->get_assignee($owner_id);
-        if (empty($owner_object->id))
-        {
+        if (empty($owner_object->id)) {
             debug_add('Given owner was invalid, aborting');
             return false;
         }
@@ -41,8 +39,7 @@ class org_openpsa_core_acl_synchronizer
             'midgard:owner' => array('value' => MIDCOM_PRIVILEGE_ALLOW)
         );
         // Handle ACL storage
-        switch ($accesstype)
-        {
+        switch ($accesstype) {
             case org_openpsa_core_acl::ACCESS_PUBLIC:
             case org_openpsa_core_acl::ACCESS_AGGREGATED:
                 debug_add("Public object, everybody can read");
@@ -65,27 +62,20 @@ class org_openpsa_core_acl_synchronizer
                 break;
         }
 
-        if ($privileges)
-        {
-            foreach ($privileges as $privilege)
-            {
+        if ($privileges) {
+            foreach ($privileges as $privilege) {
                 if (   !empty($needed_privileges[$privilege->privilegename])
                     && $needed_privileges[$privilege->privilegename]['assignee'] == $privilege->assignee
-                    && $needed_privileges[$privilege->privilegename]['value'] == $privilege->value)
-                {
+                    && $needed_privileges[$privilege->privilegename]['value'] == $privilege->value) {
                     unset($needed_privileges[$privilege->privilegename]);
                     continue;
                 }
                 // Clear old ACLs applying to others than current user or selected owner group
                 if (   $privilege->assignee != midcom::get()->auth->user->id
-                    && $privilege->assignee != $owner_id)
-                {
-                    if (is_array($privilege->assignee))
-                    {
+                    && $privilege->assignee != $owner_id) {
+                    if (is_array($privilege->assignee)) {
                         $assignee_key = $privilege->assignee['identifier'];
-                    }
-                    else
-                    {
+                    } else {
                         $assignee_key = $privilege->assignee;
                     }
                     debug_add("Removing privilege {$privilege->privilegename} from {$assignee_key}");
@@ -94,8 +84,7 @@ class org_openpsa_core_acl_synchronizer
             }
         }
 
-        foreach ($needed_privileges as $name => $priv)
-        {
+        foreach ($needed_privileges as $name => $priv) {
             $object->set_privilege($name, $priv['assignee'], $priv['value']);
         }
 
@@ -105,10 +94,8 @@ class org_openpsa_core_acl_synchronizer
     private function _set_attachment_permission($object, $privilege, $assignee, $value)
     {
         $attachments = $object->list_attachments();
-        if ($attachments)
-        {
-            foreach ($attachments as $attachment)
-            {
+        if ($attachments) {
+            foreach ($attachments as $attachment) {
                 debug_add("Setting {$value} to privilege {$privilege} for {$assignee} to attachment #{$attachment->id}");
                 $attachment->set_privilege($privilege, $assignee, $value);
             }

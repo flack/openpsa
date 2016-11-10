@@ -142,13 +142,11 @@ class midcom_helper_datamanager2_indexer_document extends midcom_services_indexe
         $this->content .= "{$this->author}\n{$this->title}\n";
 
         // Add the abstract only if we haven't done so already.
-        if (strstr($this->abstract, $this->content) === false)
-        {
+        if (strstr($this->abstract, $this->content) === false) {
             $this->content .= "{$this->abstract}\n";
         }
 
-        if (!$this->title)
-        {
+        if (!$this->title) {
             $this->title = $this->document_url;
         }
     }
@@ -163,10 +161,8 @@ class midcom_helper_datamanager2_indexer_document extends midcom_services_indexe
     {
         debug_add("Processing datamanager schema {$this->_schema->name}");
 
-        foreach ($this->_schema->fields as $name => $field)
-        {
-            switch ($field['index_method'])
-            {
+        foreach ($this->_schema->fields as $name => $field) {
+            switch ($field['index_method']) {
                 case 'auto':
                     $this->_process_auto_field($name);
                     break;
@@ -192,8 +188,7 @@ class midcom_helper_datamanager2_indexer_document extends midcom_services_indexe
                     break;
 
                 case 'attachment':
-                    if (!empty($this->_datamanager->types[$name]->attachments_info))
-                    {
+                    if (!empty($this->_datamanager->types[$name]->attachments_info)) {
                         //only index the first attachment for now
                         $attachment = array_shift($this->_datamanager->types[$name]->attachments_info);
                         $att_doc = new midcom_services_indexer_document_attachment($attachment['object'], $this->_datamanager->storage->object);
@@ -210,8 +205,7 @@ class midcom_helper_datamanager2_indexer_document extends midcom_services_indexe
                     $data = $this->_datamanager->types[$name]->convert_to_html();
                     $function = 'add_' . $field['index_method'];
                     $this->$function($name, $data);
-                    if ($field['index_merge_with_content'])
-                    {
+                    if ($field['index_merge_with_content']) {
                         $this->content .= $data . "\n";
                     }
                     break;
@@ -224,11 +218,9 @@ class midcom_helper_datamanager2_indexer_document extends midcom_services_indexe
             }
         }
 
-        if ($this->abstract == '')
-        {
+        if ($this->abstract == '') {
             $this->abstract = $this->html2text($this->content);
-            if (strlen($this->abstract) > 200)
-            {
+            if (strlen($this->abstract) > 200) {
                 $this->abstract = substr($this->abstract, 0, 200) . ' ...';
             }
         }
@@ -251,21 +243,16 @@ class midcom_helper_datamanager2_indexer_document extends midcom_services_indexe
      */
     private function _add_as_date_field($name)
     {
-        if ($this->_schema->fields[$name]['type'] == 'date')
-        {
+        if ($this->_schema->fields[$name]['type'] == 'date') {
             $timestamp = 0;
-            if (!$this->_datamanager->types[$name]->is_empty())
-            {
+            if (!$this->_datamanager->types[$name]->is_empty()) {
                 $timestamp = $this->_datamanager->types[$name]->value->format('U');
             }
             $this->add_date_pair($name, $timestamp);
-        }
-        else
-        {
+        } else {
             $string = $this->_datamanager->types[$name]->convert_to_html();
             $timestamp = strtotime($string);
-            if ($timestamp === -1)
-            {
+            if ($timestamp === -1) {
                 debug_add("The string representation of the field {$name} could not be parsed into a timestamp; treating as 0.", MIDCOM_LOG_INFO);
                 debug_print_r('String representation was:', $string);
                 $timestamp = 0;
@@ -282,8 +269,7 @@ class midcom_helper_datamanager2_indexer_document extends midcom_services_indexe
      */
     function _process_auto_field($name)
     {
-        switch ($name)
-        {
+        switch ($name) {
             case 'abstract':
                 $this->abstract = $this->_datamanager->types[$name]->convert_to_html();
                 break;

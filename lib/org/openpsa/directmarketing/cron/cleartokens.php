@@ -17,8 +17,7 @@ class org_openpsa_directmarketing_cron_cleartokens extends midcom_baseclasses_co
     public function _on_initialize()
     {
         $days = $this->_config->get('send_token_max_age');
-        if ($days == 0)
-        {
+        if ($days == 0) {
             debug_add('send_token_max_age evaluates to zero, aborting');
             return false;
         }
@@ -41,12 +40,10 @@ class org_openpsa_directmarketing_cron_cleartokens extends midcom_baseclasses_co
         $qb->add_constraint('orgOpenpsaObtype', '=', org_openpsa_directmarketing_campaign_messagereceipt_dba::SENT);
         $ret = $qb->execute_unchecked();
 
-        foreach ($ret as $receipt)
-        {
+        foreach ($ret as $receipt) {
             debug_add("clearing token '{$receipt->token}' from receipt #{$receipt->id}");
             $receipt->token = '';
-            if (!$receipt->update())
-            {
+            if (!$receipt->update()) {
                 debug_add("FAILED to update receipt #{$receipt->id}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
             }
         }

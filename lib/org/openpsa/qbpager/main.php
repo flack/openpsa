@@ -44,13 +44,11 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
      */
     protected function _sanity_check()
     {
-        if (empty($this->_pager_id))
-        {
+        if (empty($this->_pager_id)) {
             debug_add('this->_pager_id is not set (needed for distinguishing different instances on same request)', MIDCOM_LOG_WARN);
             return false;
         }
-        if ($this->results_per_page < 1)
-        {
+        if ($this->results_per_page < 1) {
             debug_add('this->results_per_page is set to ' . $this->results_per_page . ', aborting', MIDCOM_LOG_WARN);
             return false;
         }
@@ -64,19 +62,16 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
     {
         $page_var = $this->_prefix . 'page';
         $results_var =  $this->_prefix . 'results';
-        if (!empty($_REQUEST[$page_var]))
-        {
+        if (!empty($_REQUEST[$page_var])) {
             debug_add("{$page_var} has value: {$_REQUEST[$page_var]}");
             $this->_current_page = (int)$_REQUEST[$page_var];
         }
-        if (!empty($_REQUEST[$results_var]))
-        {
+        if (!empty($_REQUEST[$results_var])) {
             debug_add("{$results_var} has value: {$_REQUEST[$results_var]}");
             $this->results_per_page = (int)$_REQUEST[$results_var];
         }
         $this->_offset = ($this->_current_page-1)*$this->results_per_page;
-        if ($this->_offset < 0)
-        {
+        if ($this->_offset < 0) {
             $this->_offset = 0;
         }
     }
@@ -96,10 +91,8 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
     {
         $query = array($page_var => (int) $page_number);
 
-        foreach ($_GET as $key => $value)
-        {
-            if ($key != $page_var && $key != '')
-            {
+        foreach ($_GET as $key => $value) {
+            if ($key != $page_var && $key != '') {
                 $query[$key] = $value;
             }
         }
@@ -114,8 +107,7 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
     {
         $page_count = $this->count_pages($acl_checks);
         //Skip the header in case we only have one page
-        if ($page_count <= 1)
-        {
+        if ($page_count <= 1) {
             return;
         }
         //@todo Move to style element
@@ -123,14 +115,12 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
         $page_var = $this->_prefix . 'page';
         echo '<div class="org_openpsa_qbpager_previousnext">';
 
-        if ($this->_current_page > 1)
-        {
+        if ($this->_current_page > 1) {
             $previous = $this->_current_page - 1;
             echo "\n<a class=\"previous_page\" href=\"" . $this->_get_query_string($page_var, $previous) . "\" rel=\"prev\">" . $this->_l10n->get($this->string_previous) . "</a>";
         }
 
-        if ($this->_current_page < $page_count)
-        {
+        if ($this->_current_page < $page_count) {
             $next = $this->_current_page + 1;
             echo "\n<a class=\"next_page\" href=\"" . $this->_get_query_string($page_var, $next) . "\" rel=\"next\">" . $this->_l10n->get($this->string_next) . "</a>";
         }
@@ -143,8 +133,7 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
         $pages = array();
         $page_count = $this->count_pages($acl_checks);
 
-        if ($page_count < 1)
-        {
+        if ($page_count < 1) {
             return $pages;
         }
 
@@ -152,11 +141,9 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
         $display_start = max(($this->_current_page - ceil($this->display_pages / 2)), 1);
         $display_end = min(($this->_current_page + ceil($this->display_pages / 2)), $page_count);
 
-        if ($this->_current_page > 1)
-        {
+        if ($this->_current_page > 1) {
             $previous = $this->_current_page - 1;
-            if ($previous > 1)
-            {
+            if ($previous > 1) {
                 $pages[] = array
                 (
                     'class' => 'first',
@@ -176,11 +163,9 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
             );
         }
         $page = $display_start - 1;
-        while ($page++ < $display_end)
-        {
+        while ($page++ < $display_end) {
             $href = false;
-            if ($page != $this->_current_page)
-            {
+            if ($page != $this->_current_page) {
                 $href = $this->_get_query_string($page_var, $page);
             }
             $pages[] = array
@@ -193,8 +178,7 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
             );
         }
 
-        if ($this->_current_page < $page_count)
-        {
+        if ($this->_current_page < $page_count) {
             $next = $this->_current_page + 1;
             $pages[] = array
             (
@@ -205,8 +189,7 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
                 'number' => $next
             );
 
-            if ($next < $page_count)
-            {
+            if ($next < $page_count) {
                 $pages[] = array
                 (
                     'class' => 'last',
@@ -257,8 +240,7 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
     {
         $this->_check_page_vars();
 
-        if ($this->_current_page == 'all')
-        {
+        if ($this->_current_page == 'all') {
             debug_add("displaying all results");
             return;
         }
@@ -270,8 +252,7 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
 
     public function execute()
     {
-        if (!$this->_sanity_check())
-        {
+        if (!$this->_sanity_check()) {
             return false;
         }
         $this->_qb_limits($this->_midcom_qb);
@@ -280,8 +261,7 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
 
     public function execute_unchecked()
     {
-        if (!$this->_sanity_check())
-        {
+        if (!$this->_sanity_check()) {
             return false;
         }
         $this->_qb_limits($this->_midcom_qb);
@@ -296,16 +276,12 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
      */
     function count_pages($acl_checks = false)
     {
-        if (!$this->_sanity_check())
-        {
+        if (!$this->_sanity_check()) {
             return false;
         }
-        if (!$acl_checks)
-        {
+        if (!$acl_checks) {
             $this->count_unchecked();
-        }
-        else
-        {
+        } else {
             $this->count();
         }
         return ceil($this->count / $this->results_per_page);
@@ -314,8 +290,7 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
     //Rest of supported methods wrapped with extra sanity check
     public function add_constraint($param, $op, $val)
     {
-        if (!$this->_sanity_check())
-        {
+        if (!$this->_sanity_check()) {
             return false;
         }
         $this->_midcom_qb_count->add_constraint($param, $op, $val);
@@ -324,8 +299,7 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
 
     public function add_order($param, $sort='ASC')
     {
-        if (!$this->_sanity_check())
-        {
+        if (!$this->_sanity_check()) {
             return false;
         }
         return $this->_midcom_qb->add_order($param, $sort);
@@ -333,8 +307,7 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
 
     public function begin_group($type)
     {
-        if (!$this->_sanity_check())
-        {
+        if (!$this->_sanity_check()) {
             return false;
         }
         $this->_midcom_qb_count->begin_group($type);
@@ -343,8 +316,7 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
 
     public function end_group()
     {
-        if (!$this->_sanity_check())
-        {
+        if (!$this->_sanity_check()) {
             return false;
         }
         $this->_midcom_qb_count->end_group();
@@ -359,13 +331,11 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
 
     public function count()
     {
-        if (!$this->_sanity_check())
-        {
+        if (!$this->_sanity_check()) {
             return false;
         }
         if (   !$this->count
-            || $this->_count_mode != 'count')
-        {
+            || $this->_count_mode != 'count') {
             $this->count = $this->_midcom_qb_count->count();
         }
         $this->_count_mode = 'count';
@@ -374,13 +344,11 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
 
     public function count_unchecked()
     {
-        if (!$this->_sanity_check())
-        {
+        if (!$this->_sanity_check()) {
             return false;
         }
         if (   !$this->count
-            || $this->_count_mode != 'count_unchecked')
-        {
+            || $this->_count_mode != 'count_unchecked') {
             $this->count = $this->_midcom_qb_count->count_unchecked();
         }
         $this->_count_mode = 'count_unchecked';

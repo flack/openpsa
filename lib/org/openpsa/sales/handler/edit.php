@@ -57,8 +57,7 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
         $this->_controller = midcom_helper_datamanager2_controller::create('simple');
         $this->_controller->schemadb =& $this->_schemadb;
         $this->_controller->set_storage($this->_salesproject, $this->_schema);
-        if (!$this->_controller->initialize())
-        {
+        if (!$this->_controller->initialize()) {
             throw new midcom_error("Failed to initialize a DM2 controller instance for salesproject {$this->_salesproject->id}.");
         }
     }
@@ -76,8 +75,7 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
         $this->_controller->schemaname = $this->_schema;
         $this->_controller->callback_object =& $this;
         $this->_controller->defaults = $this->_defaults;
-        if (!$this->_controller->initialize())
-        {
+        if (!$this->_controller->initialize()) {
             throw new midcom_error("Failed to initialize a DM2 create controller.");
         }
     }
@@ -85,8 +83,7 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
     private function _load_schemadb()
     {
         $schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_salesproject'));
-        if ($this->_salesproject)
-        {
+        if ($this->_salesproject) {
             $fields =& $schemadb['default']->fields;
             $fields['customer']['type_config']['options'] = org_openpsa_helpers_list::task_groups($this->_salesproject);
         }
@@ -98,18 +95,14 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
         $this->_defaults['code'] = org_openpsa_sales_salesproject_dba::generate_salesproject_number();
         $this->_defaults['owner'] = midcom_connection::get_user();
 
-        if (!empty($args[0]))
-        {
+        if (!empty($args[0])) {
             $fields =& $this->_schemadb['default']->fields;
-            try
-            {
+            try {
                 $customer = new org_openpsa_contacts_group_dba($args[0]);
                 $fields['customer']['type_config']['options'] = array(0 => '', $customer->id => $customer->official);
 
                 $this->_defaults['customer'] = $customer->id;
-            }
-            catch (midcom_error $e)
-            {
+            } catch (midcom_error $e) {
                 $customer = new org_openpsa_contacts_person_dba($args[0]);
                 $this->_defaults['customerContact'] = $customer->id;
                 $fields['customer']['type_config']['options'] = org_openpsa_helpers_list::task_groups(new org_openpsa_sales_salesproject_dba, 'id', array($customer->id => true));
@@ -125,8 +118,7 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
     {
         $this->_salesproject = new org_openpsa_sales_salesproject_dba();
 
-        if (!$this->_salesproject->create())
-        {
+        if (!$this->_salesproject->create()) {
             debug_print_r('We operated on this object:', $this->_salesproject);
             throw new midcom_error("Failed to create a new invoice. Error: " . midcom_connection::get_error_string());
         }

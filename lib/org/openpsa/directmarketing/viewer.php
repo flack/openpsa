@@ -21,8 +21,7 @@ class org_openpsa_directmarketing_viewer extends midcom_baseclasses_components_r
     private function _populate_node_toolbar()
     {
         if (   $this->_topic->can_do('midgard:update')
-            && $this->_topic->can_do('midcom:component_config'))
-        {
+            && $this->_topic->can_do('midcom:component_config')) {
             $workflow = $this->get_workflow('datamanager2');
             $this->_node_toolbar->add_item($workflow->get_button('config/', array
             (
@@ -56,10 +55,8 @@ class org_openpsa_directmarketing_viewer extends midcom_baseclasses_components_r
             'organization_member' => midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_organization_member')),
         );
 
-        foreach ($schemadbs as $name => $db)
-        {
-            if (!$db)
-            {
+        foreach ($schemadbs as $name => $db) {
+            if (!$db) {
                 throw new midcom_error('Could not load ' . $name . ' schema database.');
             }
         }
@@ -69,8 +66,7 @@ class org_openpsa_directmarketing_viewer extends midcom_baseclasses_components_r
     public static function get_messagetype_icon($type)
     {
         $icon = 'stock_mail.png';
-        switch ($type)
-        {
+        switch ($type) {
             case org_openpsa_directmarketing_campaign_message_dba::SMS:
             case org_openpsa_directmarketing_campaign_message_dba::MMS:
                 $icon = 'stock_cell-phone.png';
@@ -89,8 +85,7 @@ class org_openpsa_directmarketing_viewer extends midcom_baseclasses_components_r
     public function load_campaign($identifier)
     {
         $campaign = new org_openpsa_directmarketing_campaign_dba($identifier);
-        if ($campaign->node != $this->_topic->id)
-        {
+        if ($campaign->node != $this->_topic->id) {
             throw new midcom_error_notfound("The campaign {$identifier} was not found.");
         }
         $this->set_active_leaf('campaign_' . $campaign->id);

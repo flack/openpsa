@@ -2,14 +2,12 @@
 $constraint = '';
 $disabled = false;
 
-if ($data['disabled'])
-{
+if ($data['disabled']) {
     $constraint = ' disabled="disabled"';
     $disabled = true;
 }
 
-if ($data['id'] === $data['group']->owner)
-{
+if ($data['id'] === $data['group']->owner) {
     $constraint = ' selected="selected"';
 }
 ?>

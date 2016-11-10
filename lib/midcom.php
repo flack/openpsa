@@ -67,28 +67,23 @@ class midcom
         ///////////////////////////////////
         // Try to be smart about the paths:
         // Define default constants
-        if (!defined('MIDCOM_ROOT'))
-        {
+        if (!defined('MIDCOM_ROOT')) {
             define('MIDCOM_ROOT', __DIR__);
         }
 
-        if (!defined('MIDCOM_STATIC_ROOT'))
-        {
+        if (!defined('MIDCOM_STATIC_ROOT')) {
             $pos = strrpos(MIDCOM_ROOT, '/');
-            if ($pos === false)
-            {
+            if ($pos === false) {
                 // No slash, this is strange
                 throw new midcom_error('MIDCOM_ROOT did not contain a slash, this should not happen and is most probably the cause of a configuration error.');
             }
             define('MIDCOM_STATIC_ROOT', substr(MIDCOM_ROOT, 0, $pos) . '/static');
         }
-        if (!defined('MIDCOM_STATIC_URL'))
-        {
+        if (!defined('MIDCOM_STATIC_URL')) {
             define('MIDCOM_STATIC_URL', '/midcom-static');
         }
 
-        if (!defined('OPENPSA2_THEME_ROOT'))
-        {
+        if (!defined('OPENPSA2_THEME_ROOT')) {
             define ('OPENPSA2_THEME_ROOT', MIDCOM_ROOT . '/../var/themes/');
         }
 
@@ -116,20 +111,16 @@ class midcom
      */
     public static function get($name = null)
     {
-        if (!self::$_application)
-        {
+        if (!self::$_application) {
             self::init();
         }
 
-        if (null === $name)
-        {
+        if (null === $name) {
             return self::$_application;
         }
 
-        if (!isset(self::$_services[$name]))
-        {
-            if (!isset(self::$_service_classes[$name]))
-            {
+        if (!isset(self::$_services[$name])) {
+            if (!isset(self::$_service_classes[$name])) {
                 throw new midcom_error("Requested service '$name' is not available.");
             }
             $service_class = self::$_service_classes[$name];

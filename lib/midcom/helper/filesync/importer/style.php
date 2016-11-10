@@ -20,16 +20,13 @@ class midcom_helper_filesync_importer_style extends midcom_helper_filesync_impor
         $directory = dir($path);
         $foldernames = array();
         $filenames = array();
-        while (false !== ($entry = $directory->read()))
-        {
-            if (substr($entry, 0, 1) == '.')
-            {
+        while (false !== ($entry = $directory->read())) {
+            if (substr($entry, 0, 1) == '.') {
                 // Ignore dotfiles
                 continue;
             }
 
-            if (is_dir("{$path}/{$entry}"))
-            {
+            if (is_dir("{$path}/{$entry}")) {
                 // Recurse deeper
                 $this->read_style("{$path}/{$entry}", $style->id);
                 $foldernames[] = $entry;
@@ -37,14 +34,12 @@ class midcom_helper_filesync_importer_style extends midcom_helper_filesync_impor
 
             // Check file type
             $filename_parts = explode('.', $entry);
-            if (count($filename_parts) < 2)
-            {
+            if (count($filename_parts) < 2) {
                 continue;
             }
             $element_name = $filename_parts[0];
             $field = false;
-            switch ($filename_parts[count($filename_parts) - 1])
-            {
+            switch ($filename_parts[count($filename_parts) - 1]) {
                 case 'php':
                     $field = 'value';
                     break;
@@ -57,8 +52,7 @@ class midcom_helper_filesync_importer_style extends midcom_helper_filesync_impor
 
             $qb = $this->get_leaf_qb($style->id);
             $qb->add_constraint('name', '=', $element_name);
-            if ($qb->count() == 0)
-            {
+            if ($qb->count() == 0) {
                 // New element
                 $element = new midcom_db_element();
                 $element->style = $style->id;
@@ -72,16 +66,14 @@ class midcom_helper_filesync_importer_style extends midcom_helper_filesync_impor
             $element = $elements[0];
 
             // Update existing elements only if they have actually changed
-            if ($element->$field != $file_contents)
-            {
+            if ($element->$field != $file_contents) {
                 $element->$field = $file_contents;
                 $element->update();
             }
         }
         $directory->close();
 
-        if ($this->delete_missing)
-        {
+        if ($this->delete_missing) {
             // Then delete files and folders that are in DB but not in the importing folder
             $this->delete_missing_folders($foldernames, $style->id);
             $this->delete_missing_files($filenames, $style->id);
@@ -105,8 +97,7 @@ class midcom_helper_filesync_importer_style extends midcom_helper_filesync_impor
     public function import()
     {
         $nodes = $this->_read_dirs($this->root_dir);
-        foreach ($nodes as $node)
-        {
+        foreach ($nodes as $node) {
             $this->read_style($node, 0);
         }
     }

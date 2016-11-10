@@ -29,22 +29,19 @@ class net_nehmer_comments_handler_moderate extends midcom_baseclasses_components
      */
     public function _handler_report($handler_id, array $args, array &$data)
     {
-        if (!array_key_exists('mark', $_POST))
-        {
+        if (!array_key_exists('mark', $_POST)) {
             throw new midcom_error('No post data found');
         }
 
         $this->_comment = new net_nehmer_comments_comment($args[0]);
         $this->_comment->_sudo_requested = false;
 
-        if (!$this->_comment->can_do('midgard:update'))
-        {
+        if (!$this->_comment->can_do('midgard:update')) {
             $this->_comment->_sudo_requested = true;
             midcom::get()->auth->request_sudo('net.nehmer.comments');
         }
 
-        switch ($_POST['mark'])
-        {
+        switch ($_POST['mark']) {
             case 'abuse':
                 $this->_report_abuse();
                 break;
@@ -75,14 +72,12 @@ class net_nehmer_comments_handler_moderate extends midcom_baseclasses_components
                 $this->_comment->report_not_abuse();
                 break;
         }
-        if ($this->_comment->_sudo_requested)
-        {
+        if ($this->_comment->_sudo_requested) {
             $this->_comment->_sudo_requested = false;
             midcom::get()->auth->drop_sudo();
         }
 
-        if (isset($_POST['return_url']))
-        {
+        if (isset($_POST['return_url'])) {
             return new midcom_response_relocate($_POST['return_url']);
         }
 
@@ -94,18 +89,15 @@ class net_nehmer_comments_handler_moderate extends midcom_baseclasses_components
         // Report the abuse
         $moderators = $this->_config->get('moderators');
         if (   $this->_comment->report_abuse()
-            && $moderators)
-        {
+            && $moderators) {
             // Prepare notification message
             $message = array();
             $message['title'] = sprintf($this->_l10n->get('comment %s reported as abuse'), $this->_comment->title);
             $message['content'] = '';
             $logs = $this->_comment->get_logs();
-            if (count($logs) > 0)
-            {
+            if (count($logs) > 0) {
                 $message['content'] .= $this->_l10n->get('moderation history').":\n\n";
-                foreach ($logs as $time => $log)
-                {
+                foreach ($logs as $time => $log) {
                     $reported = $this->_l10n->get_formatter()->datetime(strtotime("{$time}Z"));
                     $message['content'] .= $this->_l10n->get(sprintf('%s: %s by %s (from %s)', "$reported:\n", $this->_l10n->get($log['action']), $log['reporter'], $log['ip'])) . "\n\n";
                 }
@@ -117,8 +109,7 @@ class net_nehmer_comments_handler_moderate extends midcom_baseclasses_components
 
             // Notify moderators
             $moderator_guids = explode('|', $moderators);
-            foreach (array_filter($moderator_guids) as $moderator_guid)
-            {
+            foreach (array_filter($moderator_guids) as $moderator_guid) {
                 org_openpsa_notifications::notify('net.nehmer.comments:report_abuse', $moderator_guid, $message);
             }
         }

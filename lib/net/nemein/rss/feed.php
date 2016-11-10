@@ -19,8 +19,7 @@ class net_nemein_rss_feed_dba extends midcom_core_dbaobject
     public function _on_loaded()
     {
         if (   $this->title == ''
-            && $this->id)
-        {
+            && $this->id) {
             $this->title = "Feed #{$this->id}";
         }
     }

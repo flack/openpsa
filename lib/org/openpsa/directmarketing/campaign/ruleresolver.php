@@ -104,12 +104,10 @@ class org_openpsa_directmarketing_campaign_ruleresolver
         $eval_ret = @eval('$rules = ' . $ruleset . ';');
 
         if (   $eval_ret === false
-            || !is_array($rules))
-        {
+            || !is_array($rules)) {
             throw new midcom_error('given ruleset could not be parsed');
         }
-        if (count($rules) == 0)
-        {
+        if (count($rules) == 0) {
             throw new midcom_error('given ruleset is empty');
         }
         return $rules;
@@ -123,18 +121,15 @@ class org_openpsa_directmarketing_campaign_ruleresolver
      */
     public function resolve(array $rules)
     {
-        if (!array_key_exists('classes', $rules))
-        {
+        if (!array_key_exists('classes', $rules)) {
             debug_add('rules[classes] is not defined', MIDCOM_LOG_ERROR);
             return false;
         }
-        if (!is_array($rules['classes']))
-        {
+        if (!is_array($rules['classes'])) {
             debug_add('rules[classes] is not an array', MIDCOM_LOG_ERROR);
             return false;
         }
-        if (!array_key_exists('type', $rules))
-        {
+        if (!array_key_exists('type', $rules)) {
             debug_add('rules[type] is not defined', MIDCOM_LOG_ERROR);
             return false;
         }
@@ -144,11 +139,9 @@ class org_openpsa_directmarketing_campaign_ruleresolver
         $this->mc->begin_group(strtoupper($rules['type']));
         reset ($rules['classes']);
         //iterate over groups
-        foreach ($rules['classes'] as $group)
-        {
+        foreach ($rules['classes'] as $group) {
             $stat = $this->resolve_rule_group($group);
-            if (!$stat)
-            {
+            if (!$stat) {
                 break;
             }
         }
@@ -177,23 +170,19 @@ class org_openpsa_directmarketing_campaign_ruleresolver
     private function resolve_rule_group(array $group)
     {
         //check if rule is a group
-        if (array_key_exists('groups', $group))
-        {
+        if (array_key_exists('groups', $group)) {
             $this->mc->begin_group(strtoupper($group['groups']));
-            foreach ($group['classes'] as $subgroup)
-            {
+            foreach ($group['classes'] as $subgroup) {
                 $this->resolve_rule_group($subgroup);
             }
             $this->mc->end_group();
             return true;
         }
-        if (!array_key_exists('rules', $group))
-        {
+        if (!array_key_exists('rules', $group)) {
             debug_add('group[rules] is not defined', MIDCOM_LOG_ERROR);
             return false;
         }
-        if (!is_array($group['rules']))
-        {
+        if (!is_array($group['rules'])) {
             debug_add('group[rules] is not an array', MIDCOM_LOG_ERROR);
             return false;
         }
@@ -211,15 +200,12 @@ class org_openpsa_directmarketing_campaign_ruleresolver
     {
         $class = midcom::get()->dbclassloader->get_mgdschema_class_name_for_midcom_class($class);
         //special case parameters - uses 3 rules standard
-        if ($class == 'midgard_parameter')
-        {
+        if ($class == 'midgard_parameter') {
             return $this->add_parameter_rule($rules);
         }
         // iterate over rules
-        foreach ($rules as $rule)
-        {
-            switch ($class)
-            {
+        foreach ($rules as $rule) {
+            switch ($class) {
                 case midcom::get()->config->get('person_class'):
                 case 'midgard_person':
                 case 'org_openpsa_person':
@@ -266,38 +252,30 @@ class org_openpsa_directmarketing_campaign_ruleresolver
         $mc_parameter = new midgard_collector('midgard_parameter', 'metadata.deleted', false);
         $mc_parameter->set_key_property('id');
         $mc_parameter->add_value_property('parentguid');
-        foreach ($rules as $rule)
-        {
+        foreach ($rules as $rule) {
             $mc_parameter->add_constraint($rule['property'], $rule['match'], $rule['value']);
         }
         $mc_parameter->execute();
         $parameter_keys = $mc_parameter->list_keys();
 
-        if (count($parameter_keys) < 1)
-        {
+        if (count($parameter_keys) < 1) {
             //TODO: better solution for constraints leading to zero results
             //build constraint only if on 'LIKE' or '=' should be matched
-            if ($rule['match'] == 'LIKE' || $rule['match'] == '=')
-            {
+            if ($rule['match'] == 'LIKE' || $rule['match'] == '=') {
                 return $this->mc->add_constraint('id', '=', -1);
             }
             return true;
         }
         //iterate over found parameters & call needed rule-functions
-        foreach (array_keys($parameter_keys) as $parameter_key)
-        {
+        foreach (array_keys($parameter_keys) as $parameter_key) {
             $guid = $mc_parameter->get_subkey($parameter_key, 'parentguid');
-            try
-            {
+            try {
                 $parent = midcom::get()->dbfactory->get_object_by_guid($guid);
-            }
-            catch (midcom_error $e)
-            {
+            } catch (midcom_error $e) {
                 $e->log();
                 continue;
             }
-            switch (true)
-            {
+            switch (true) {
                 case (is_a($parent, 'midcom_db_person')):
                     $person_rule = array('property' => 'id', 'match' => '=', 'value' => $parent->id);
                     return $this->add_person_rule($person_rule);
@@ -343,13 +321,10 @@ class org_openpsa_directmarketing_campaign_ruleresolver
         $persons = array ( 0 => -1);
         $match = $rule['match'];
         $constraint_match = "IN";
-        if ($rule['match'] == '<>')
-        {
+        if ($rule['match'] == '<>') {
             $constraint_match = "NOT IN";
             $match = '=';
-        }
-        elseif ($rule['match'] == 'NOT LIKE')
-        {
+        } elseif ($rule['match'] == 'NOT LIKE') {
             $constraint_match = "NOT IN";
             $match = 'LIKE';
         }
@@ -362,8 +337,7 @@ class org_openpsa_directmarketing_campaign_ruleresolver
         $mc_misc->execute();
         $keys = $mc_misc->list_keys();
 
-        foreach (array_keys($keys) as $key)
-        {
+        foreach (array_keys($keys) as $key) {
             // get user-id
             $persons[] = $mc_misc->get_subkey($key, $person_property);
         }
@@ -380,8 +354,7 @@ class org_openpsa_directmarketing_campaign_ruleresolver
             'membership' => new org_openpsa_contacts_member_dba
         );
         $return = array();
-        foreach ($types as $name => $object)
-        {
+        foreach ($types as $name => $object) {
             $return[$name] = array
             (
                 'properties' => self::list_object_properties($object, $l10n),
@@ -419,8 +392,7 @@ class org_openpsa_directmarketing_campaign_ruleresolver
             'metadata'
         );
 
-        if (midcom::get()->dbfactory->is_a($object, 'org_openpsa_person'))
-        {
+        if (midcom::get()->dbfactory->is_a($object, 'org_openpsa_person')) {
             // The info field is a special case
             $skip_properties[] = 'info';
             // These legacy fields are rarely used
@@ -432,34 +404,27 @@ class org_openpsa_directmarketing_campaign_ruleresolver
             // Duh
             $skip_properties[] = 'password';
         }
-        if (midcom::get()->dbfactory->is_a($object, 'midgard_member'))
-        {
+        if (midcom::get()->dbfactory->is_a($object, 'midgard_member')) {
             // The info field is a special case
             $skip_properties[] = 'info';
         }
         $ret = array();
         $helper = new helper;
 
-        foreach ($helper->get_object_vars($object) as $property => $value)
-        {
+        foreach ($helper->get_object_vars($object) as $property => $value) {
             if (   preg_match('/^_/', $property)
                 || in_array($property, $skip_properties)
-                || property_exists($object, $property))
-            {
+                || property_exists($object, $property)) {
                 // Skip private or otherwise invalid properties
                 continue;
             }
             if (   is_object($value)
-                && !is_a($value, 'midgard_datetime'))
-            {
-                while (list ($property2, $value2) = each($value))
-                {
+                && !is_a($value, 'midgard_datetime')) {
+                while (list ($property2, $value2) = each($value)) {
                     $prop_merged = "{$property}.{$property2}";
                     $ret[$prop_merged] = $l10n->get("property:{$prop_merged}");
                 }
-            }
-            else
-            {
+            } else {
                 $ret[$property] = $l10n->get("property:{$property}");
             }
         }

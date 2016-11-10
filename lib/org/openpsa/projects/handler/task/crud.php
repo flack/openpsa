@@ -26,8 +26,7 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
      */
     public function _get_object_url(midcom_core_dbaobject $object)
     {
-        if ($object instanceof org_openpsa_projects_project)
-        {
+        if ($object instanceof org_openpsa_projects_project) {
             return 'project/' . $object->guid . '/';
         }
         return 'task/' . $object->guid . '/';
@@ -40,8 +39,7 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
      */
     public function _populate_toolbar($handler_id)
     {
-        if ($this->_mode == 'read')
-        {
+        if ($this->_mode == 'read') {
             $this->_populate_read_toolbar($handler_id);
         }
     }
@@ -53,8 +51,7 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
      */
     public function _update_title($handler_id)
     {
-        switch ($this->_mode)
-        {
+        switch ($this->_mode) {
             case 'create':
                 $view_title = $this->_l10n->get('create task');
                 break;
@@ -76,9 +73,8 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
      */
     private function _populate_read_toolbar($handler_id)
     {
-        if (!$this->_object->can_do('midgard:update'))
-        {
-             return;
+        if (!$this->_object->can_do('midgard:update')) {
+            return;
         }
         $buttons = array();
         $workflow = $this->get_workflow('datamanager2');
@@ -88,14 +84,12 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
         ));
 
         if (   $this->_object->reportedHours == 0
-            && $this->_object->can_do('midgard:delete'))
-        {
+            && $this->_object->can_do('midgard:delete')) {
             $delete_workflow = $this->get_workflow('delete', array('object' => $this->_object));
             $buttons[] = $delete_workflow->get_button("task/delete/{$this->_object->guid}/");
         }
 
-        if ($this->_object->status == org_openpsa_projects_task_status_dba::CLOSED)
-        {
+        if ($this->_object->status == org_openpsa_projects_task_status_dba::CLOSED) {
             $buttons[] = array
             (
                 MIDCOM_TOOLBAR_URL => "workflow/{$this->_object->guid}/",
@@ -108,9 +102,7 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
                     'org_openpsa_projects_workflow_action_redirect' => "task/{$this->_object->guid}/"
                 ),
             );
-        }
-        elseif ($this->_object->status_type == 'ongoing')
-        {
+        } elseif ($this->_object->status_type == 'ongoing') {
             $buttons[] = array
             (
                 MIDCOM_TOOLBAR_URL => "workflow/{$this->_object->guid}/",
@@ -126,12 +118,10 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
         }
 
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
-        if ($expenses_url = $siteconfig->get_node_full_url('org.openpsa.expenses'))
-        {
+        if ($expenses_url = $siteconfig->get_node_full_url('org.openpsa.expenses')) {
             midcom_helper_datamanager2_widget_autocomplete::add_head_elements();
             org_openpsa_widgets_grid::add_head_elements();
-            if ($this->_object->status < org_openpsa_projects_task_status_dba::CLOSED)
-            {
+            if ($this->_object->status < org_openpsa_projects_task_status_dba::CLOSED) {
                 $buttons[] = $workflow->get_button($expenses_url . "hours/create/hour_report/{$this->_object->guid}/", array
                 (
                     MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('hour report')),
@@ -171,15 +161,11 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
     {
         if (   $this->_mode == 'create'
             && count($args) > 0
-            && $args[0] == 'project')
-        {
+            && $args[0] == 'project') {
             // This task is to be connected to a project
-            try
-            {
+            try {
                 $this->_parent = new org_openpsa_projects_project($args[1]);
-            }
-            catch (midcom_error $e)
-            {
+            } catch (midcom_error $e) {
                 return false;
             }
 
@@ -188,15 +174,10 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
             $this->_parent->get_members();
             $this->_defaults['resources'] = array_keys($this->_parent->resources);
             $this->_defaults['contacts'] = array_keys($this->_parent->contacts);
-        }
-        elseif ($this->_mode == 'delete')
-        {
-            try
-            {
+        } elseif ($this->_mode == 'delete') {
+            try {
                 $this->_parent = new org_openpsa_projects_project($this->_object->project);
-            }
-            catch (midcom_error $e)
-            {
+            } catch (midcom_error $e) {
                 $e->log();
             }
         }
@@ -221,8 +202,7 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
      */
     public function _handler_callback($handler_id, array $args, array &$data)
     {
-        if ($handler_id == 'task_view')
-        {
+        if ($handler_id == 'task_view') {
             org_openpsa_widgets_contact::add_head_elements();
             $data['calendar_node'] = midcom_helper_misc::find_node_by_component('org.openpsa.calendar');
         }
@@ -256,26 +236,20 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
         $mc->add_object_order('start', 'ASC');
         $events = $mc->get_related_objects_grouped_by('status');
 
-        foreach ($events as $status => $list)
-        {
-            if ($status == org_openpsa_relatedto_dba::CONFIRMED)
-            {
+        foreach ($events as $status => $list) {
+            if ($status == org_openpsa_relatedto_dba::CONFIRMED) {
                 $bookings['confirmed'] = $list;
-            }
-            else
-            {
+            } else {
                 $bookings['suspected'] = $list;
             }
         }
-        foreach ($bookings['confirmed'] as $booking)
-        {
+        foreach ($bookings['confirmed'] as $booking) {
             $task_booked_time += ($booking->end - $booking->start) / 3600;
         }
 
         $task_booked_time = round($task_booked_time);
 
-        if ($this->_object->plannedHours != 0)
-        {
+        if ($this->_object->plannedHours != 0) {
             $task_booked_percentage = round(100 / $this->_object->plannedHours * $task_booked_time);
         }
 
@@ -297,12 +271,9 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
     {
         $this->_object = new org_openpsa_projects_task_dba();
         $project = $controller->formmanager->get_value('project');
-        if ($project)
-        {
+        if ($project) {
             $project = org_openpsa_projects_project::get_cached((int) $project);
-        }
-        else
-        {
+        } else {
             $project = $this->_parent;
         }
 
@@ -312,8 +283,7 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
         $this->_object->orgOpenpsaAccesstype = $project->orgOpenpsaAccesstype;
         $this->_object->orgOpenpsaOwnerWg = $project->orgOpenpsaOwnerWg;
 
-        if (!$this->_object->create())
-        {
+        if (!$this->_object->create()) {
             debug_print_r('We operated on this object:', $this->_object);
             throw new midcom_error("Failed to create a new task under project #{$project->id}. Error: " . midcom_connection::get_error_string());
         }

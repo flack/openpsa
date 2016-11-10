@@ -42,24 +42,19 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
 
     private function _process_file_upload($uploaded_file)
     {
-        if (is_null($this->_file))
-        {
+        if (is_null($this->_file)) {
             $local_filename = midcom_db_attachment::safe_filename($uploaded_file['name']);
             $local_file = $this->_get_file($local_filename, true);
-        }
-        else
-        {
+        } else {
             $local_file = $this->_file;
         }
 
-        if ($local_file->mimetype != $uploaded_file['type'])
-        {
+        if ($local_file->mimetype != $uploaded_file['type']) {
             $local_file->mimetype = $uploaded_file['type'];
             $local_file->update();
         }
 
-        if (!$local_file->copy_from_file($uploaded_file['tmp_name']))
-        {
+        if (!$local_file->copy_from_file($uploaded_file['tmp_name'])) {
             return false;
         }
         return $local_file->name;
@@ -67,65 +62,54 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
 
     private function _process_form()
     {
-        if (!isset($_POST['midgard_admin_asgard_save']))
-        {
+        if (!isset($_POST['midgard_admin_asgard_save'])) {
             return false;
         }
 
         // Check if we have an uploaded file
         if (   isset($_FILES['midgard_admin_asgard_file'])
-            && is_uploaded_file($_FILES['midgard_admin_asgard_file']['tmp_name']))
-        {
+            && is_uploaded_file($_FILES['midgard_admin_asgard_file']['tmp_name'])) {
             return $this->_process_file_upload($_FILES['midgard_admin_asgard_file']);
         }
 
-        if (is_null($this->_file))
-        {
-            if (empty($_POST['midgard_admin_asgard_filename']))
-            {
+        if (is_null($this->_file)) {
+            if (empty($_POST['midgard_admin_asgard_filename'])) {
                 return false;
             }
 
             // We're creating a new file
             $local_filename = midcom_db_attachment::safe_filename($_POST['midgard_admin_asgard_filename']);
             $local_file = $this->_get_file($local_filename, true);
-        }
-        else
-        {
+        } else {
             $local_file = $this->_file;
         }
 
         $needs_update = false;
 
         if (   !empty($_POST['midgard_admin_asgard_filename'])
-            && $local_file->name != $_POST['midgard_admin_asgard_filename'])
-        {
+            && $local_file->name != $_POST['midgard_admin_asgard_filename']) {
             $local_file->name = $_POST['midgard_admin_asgard_filename'];
             $needs_update = true;
         }
 
         if (   !empty($_POST['midgard_admin_asgard_mimetype'])
-            && $local_file->mimetype != $_POST['midgard_admin_asgard_mimetype'])
-        {
+            && $local_file->mimetype != $_POST['midgard_admin_asgard_mimetype']) {
             $local_file->mimetype = $_POST['midgard_admin_asgard_mimetype'];
             $needs_update = true;
         }
 
         if (   $needs_update
-            && !$local_file->update())
-        {
+            && !$local_file->update()) {
             return false;
         }
 
         // We should always store at least an empty string so it can be edited later
         $contents = '';
-        if (!empty($_POST['midgard_admin_asgard_contents']))
-        {
+        if (!empty($_POST['midgard_admin_asgard_contents'])) {
             $contents = $_POST['midgard_admin_asgard_contents'];
         }
 
-        if (!$local_file->copy_from_memory($contents))
-        {
+        if (!$local_file->copy_from_memory($contents)) {
             return false;
         }
         return $local_file->name;
@@ -144,18 +128,15 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
         $qb->add_constraint('name', '=', $filename);
 
         $files = $qb->execute();
-        if (empty($files))
-        {
-            if (!$autocreate)
-            {
+        if (empty($files)) {
+            if (!$autocreate) {
                 throw new midcom_error_notfound("Attachment '{$filename}' of object {$this->_object->guid} was not found.");
             }
             $file = new midcom_db_attachment();
             $file->name = $filename;
             $file->parentguid = $this->_object->guid;
 
-            if (!$file->create())
-            {
+            if (!$file->create()) {
                 throw new midcom_error('Failed to create attachment, reason: ' . midcom_connection::get_error_string());
             }
             return $file;
@@ -178,8 +159,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
      */
     private function _add_jscripts()
     {
-        if (sizeof($this->_files) > 0)
-        {
+        if (sizeof($this->_files) > 0) {
             // Add Colorbox
             midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/colorbox/jquery.colorbox-min.js');
             $this->add_stylesheet(MIDCOM_STATIC_URL . '/jQuery/colorbox/colorbox.css', 'screen');
@@ -211,8 +191,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
     {
         $this->prepare_object($args[0]);
 
-        if ($filename = $this->_process_form())
-        {
+        if ($filename = $this->_process_form()) {
             return new midcom_response_relocate("__mfa/asgard/object/attachments/{$this->_object->guid}/{$filename}/");
         }
 
@@ -254,8 +233,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
 
         $filename = $this->_process_form();
         if (   $filename
-            && $filename != $data['filename'])
-        {
+            && $filename != $data['filename']) {
             return new midcom_response_relocate("__mfa/asgard/object/attachments/{$this->_object->guid}/{$filename}/");
         }
 
@@ -263,11 +241,9 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
         $this->_add_jscripts();
 
         $data['attachment_text_types'] = $this->_config->get('attachment_text_types');
-        if (array_key_exists($this->_file->mimetype, $data['attachment_text_types']))
-        {
+        if (array_key_exists($this->_file->mimetype, $data['attachment_text_types'])) {
             // Figure out correct syntax from MIME type
-            switch (preg_replace('/.+?\//', '', $this->_file->mimetype))
-            {
+            switch (preg_replace('/.+?\//', '', $this->_file->mimetype)) {
                 case 'css':
                     $data['file_syntax'] = 'css';
                     break;

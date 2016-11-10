@@ -16,12 +16,10 @@ implements midcom_services_permalinks_resolver
 {
     public function resolve_object_link(midcom_db_topic $topic, midcom_core_dbaobject $object)
     {
-        if ($object instanceof org_openpsa_projects_project)
-        {
+        if ($object instanceof org_openpsa_projects_project) {
             return "project/{$object->guid}/";
         }
-        if ($object instanceof org_openpsa_projects_task_dba)
-        {
+        if ($object instanceof org_openpsa_projects_task_dba) {
             return "task/{$object->guid}/";
         }
         return null;
@@ -34,8 +32,7 @@ implements midcom_services_permalinks_resolver
      */
     public function org_openpsa_relatedto_find_suspects(midcom_core_dbaobject $object, $defaults, array &$links_array)
     {
-        switch (true)
-        {
+        switch (true) {
             case midcom::get()->dbfactory->is_a($object, 'midcom_db_person'):
                 $this->_find_suspects_person($object, $defaults, $links_array);
                 break;
@@ -57,8 +54,7 @@ implements midcom_services_permalinks_resolver
     private function _find_suspects_event(midcom_core_dbaobject $object, $defaults, array &$links_array)
     {
         if (   !is_array($object->participants)
-            || count($object->participants) < 1)
-        {
+            || count($object->participants) < 1) {
             //We have invalid list or zero participants, abort
             return;
         }
@@ -71,19 +67,17 @@ implements midcom_services_permalinks_resolver
         $mc->add_constraint('task.status', '<>', org_openpsa_projects_task_status_dba::DECLINED);
         //Each event participant is either manager or member (resource/contact) in task
         $mc->begin_group('OR');
-            $mc->add_constraint('task.manager', 'IN', array_keys($object->participants));
-            $mc->add_constraint('person', 'IN', array_keys($object->participants));
+        $mc->add_constraint('task.manager', 'IN', array_keys($object->participants));
+        $mc->add_constraint('person', 'IN', array_keys($object->participants));
         $mc->end_group();
         $suspects = $mc->get_values('task');
-        if (empty($suspects))
-        {
+        if (empty($suspects)) {
             return;
         }
         $qb = org_openpsa_projects_task_dba::new_query_builder();
         $qb->add_constraint('id', 'IN', array_unique($suspects));
         $tasks = $qb->execute();
-        foreach ($tasks as $task)
-        {
+        foreach ($tasks as $task) {
             $to_array = array('other_obj' => false, 'link' => false);
             $link = new org_openpsa_relatedto_dba();
             org_openpsa_relatedto_suspect::defaults_helper($link, $defaults, $this->_component, $task);
@@ -104,15 +98,13 @@ implements midcom_services_permalinks_resolver
         $mc->add_constraint('task.status', '<', org_openpsa_projects_task_status_dba::COMPLETED);
         $mc->add_constraint('task.status', '<>', org_openpsa_projects_task_status_dba::DECLINED);
         $suspects = $mc->get_values('task');
-        if (empty($suspects))
-        {
+        if (empty($suspects)) {
             return;
         }
         $qb = org_openpsa_projects_task_dba::new_query_builder();
         $qb->add_constraint('id', 'IN', array_unique($suspects));
         $tasks = $qb->execute();
-        foreach ($tasks as $task)
-        {
+        foreach ($tasks as $task) {
             $to_array = array('other_obj' => false, 'link' => false);
             $link = new org_openpsa_relatedto_dba();
             org_openpsa_relatedto_suspect::defaults_helper($link, $defaults, $this->_component, $task);
@@ -130,12 +122,9 @@ implements midcom_services_permalinks_resolver
      */
     public function background_search_resources(array $args, midcom_baseclasses_components_cron_handler $handler)
     {
-        try
-        {
+        try {
             $task = new org_openpsa_projects_task_dba($args['task']);
-        }
-        catch (midcom_error $e)
-        {
+        } catch (midcom_error $e) {
             $e->log();
             return false;
         }

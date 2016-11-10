@@ -71,15 +71,12 @@ class midcom_helper_datamanager2_widget_textarea extends midcom_helper_datamanag
     {
         $this->_require_type_value();
 
-        if ($this->maxlength == -1)
-        {
-            if (property_exists($this->_type, 'maxlength'))
-            {
+        if ($this->maxlength == -1) {
+            if (property_exists($this->_type, 'maxlength')) {
                 $this->maxlength = $this->_type->maxlength;
             }
         }
-        if ($this->maxlength < 0)
-        {
+        if ($this->maxlength < 0) {
             $this->maxlength = 0;
         }
     }
@@ -92,25 +89,21 @@ class midcom_helper_datamanager2_widget_textarea extends midcom_helper_datamanag
         $attributes['rows'] = $this->height;
         $attributes['cols'] = $this->width;
         $attributes['class'] = 'longtext';
-        if ($this->wrap != '')
-        {
+        if ($this->wrap != '') {
             $attributes['wrap'] = $this->wrap;
         }
 
         $this->_form->addElement('textarea', $this->name, $this->_translate($this->_field['title']), $attributes);
         $this->_form->applyFilter($this->name, 'trim');
 
-        if ($this->maxlength > 0)
-        {
+        if ($this->maxlength > 0) {
             $errormsg = sprintf($this->_l10n->get('type text: value is longer than %d characters'), $this->maxlength);
             $this->_form->addRule($this->name, $errormsg, 'maxlength', $this->maxlength);
         }
-        if (!empty($this->_type->forbidden_patterns))
-        {
+        if (!empty($this->_type->forbidden_patterns)) {
             $this->_form->addFormRule(array(&$this->_type, 'validate_forbidden_patterns'));
         }
-        if (!empty($this->_type->allowed_patterns))
-        {
+        if (!empty($this->_type->allowed_patterns)) {
             $this->_form->addFormRule(array(&$this->_type, 'validate_allowed_patterns'));
         }
     }

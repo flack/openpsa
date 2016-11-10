@@ -45,8 +45,7 @@ class net_nehmer_blog_handler_view extends midcom_baseclasses_components_handler
 
         $buttons = array();
         $workflow = $this->get_workflow('datamanager2');
-        if ($this->_article->can_do('midgard:update'))
-        {
+        if ($this->_article->can_do('midgard:update')) {
             $buttons[] = $workflow->get_button("edit/{$this->_article->guid}/", array
             (
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
@@ -54,31 +53,25 @@ class net_nehmer_blog_handler_view extends midcom_baseclasses_components_handler
         }
 
         $article = $this->_article;
-        if ($this->_article->topic !== $this->_content_topic->id)
-        {
+        if ($this->_article->topic !== $this->_content_topic->id) {
             $qb = net_nehmer_blog_link_dba::new_query_builder();
             $qb->add_constraint('topic', '=', $this->_content_topic->id);
             $qb->add_constraint('article', '=', $this->_article->id);
-            if ($qb->count() === 1)
-            {
+            if ($qb->count() === 1) {
                 // Get the link
                 $results = $qb->execute_unchecked();
                 $article = $results[0];
             }
         }
-        if ($article->can_do('midgard:delete'))
-        {
-            if ($this->_article->topic !== $this->_content_topic->id)
-            {
+        if ($article->can_do('midgard:delete')) {
+            if ($this->_article->topic !== $this->_content_topic->id) {
                 $qb = net_nehmer_blog_link_dba::new_query_builder();
                 $qb->add_constraint('topic', '=', $this->_content_topic->id);
                 $qb->add_constraint('article', '=', $this->_article->id);
-                if ($qb->count() === 1)
-                {
+                if ($qb->count() === 1) {
                     // Get the link
                     $results = $qb->execute_unchecked();
-                    if ($results[0]->can_do('midgard:delete'))
-                    {
+                    if ($results[0]->can_do('midgard:delete')) {
                         $nap = new midcom_helper_nav();
                         $node = $nap->get_node($this->_article->topic);
 
@@ -99,17 +92,14 @@ class net_nehmer_blog_handler_view extends midcom_baseclasses_components_handler
                         $buttons[] = $delete->get_button("delete/link/{$this->_article->guid}/");
                     }
                 }
-            }
-            else
-            {
+            } else {
                 $delete = $this->get_workflow('delete', array('object' => $this->_article));
                 $buttons[] = $delete->get_button("delete/{$this->_article->guid}/");
             }
         }
 
         if (   $this->_config->get('enable_article_links')
-            && $this->_content_topic->can_do('midgard:create'))
-        {
+            && $this->_content_topic->can_do('midgard:create')) {
             $buttons[] = $workflow->get_button("create/link/?article={$this->_article->id}", array
             (
                 MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('article link')),
@@ -143,12 +133,11 @@ class net_nehmer_blog_handler_view extends midcom_baseclasses_components_handler
         net_nehmer_blog_viewer::article_qb_constraints($qb, $data, $handler_id);
 
         $qb->begin_group('OR');
-            $qb->add_constraint('name', '=', $args[0]);
-            $qb->add_constraint('guid', '=', $args[0]);
+        $qb->add_constraint('name', '=', $args[0]);
+        $qb->add_constraint('guid', '=', $args[0]);
         $qb->end_group();
         $articles = $qb->execute();
-        if (count($articles) > 0)
-        {
+        if (count($articles) > 0) {
             $this->_article = $articles[0];
             return true;
         }
@@ -165,30 +154,25 @@ class net_nehmer_blog_handler_view extends midcom_baseclasses_components_handler
      */
     public function _handler_view($handler_id, array $args, array &$data)
     {
-        if ($handler_id == 'view-raw')
-        {
+        if ($handler_id == 'view-raw') {
             midcom::get()->skip_page_style = true;
         }
 
         $this->_load_datamanager();
 
-        if ($this->_config->get('enable_ajax_editing'))
-        {
+        if ($this->_config->get('enable_ajax_editing')) {
             $this->_request_data['controller'] = midcom_helper_datamanager2_controller::create('ajax');
             $this->_request_data['controller']->schemadb =& $this->_request_data['schemadb'];
             $this->_request_data['controller']->set_storage($this->_article);
             $this->_request_data['controller']->process_ajax();
         }
 
-        if ($this->_config->get('comments_enable'))
-        {
+        if ($this->_config->get('comments_enable')) {
             $comments_node = $this->_seek_comments();
-            if ($comments_node)
-            {
+            if ($comments_node) {
                 $this->_request_data['comments_url'] = $comments_node[MIDCOM_NAV_RELATIVEURL] . "comment/{$this->_article->guid}";
                 if (   $this->_topic->can_do('midgard:update')
-                    && $this->_topic->can_do('net.nehmer.comments:moderation'))
-                {
+                    && $this->_topic->can_do('net.nehmer.comments:moderation')) {
                     net_nehmer_comments_viewer::add_head_elements();
                 }
             }
@@ -211,8 +195,7 @@ class net_nehmer_blog_handler_view extends midcom_baseclasses_components_handler
     {
         $this->_datamanager = new midcom_helper_datamanager2_datamanager($this->_request_data['schemadb']);
 
-        if (!$this->_datamanager->autoset_storage($this->_article))
-        {
+        if (!$this->_datamanager->autoset_storage($this->_article)) {
             throw new midcom_error("Failed to create a DM2 instance for article {$this->_article->id}.");
         }
     }
@@ -222,14 +205,10 @@ class net_nehmer_blog_handler_view extends midcom_baseclasses_components_handler
      */
     private function _seek_comments()
     {
-        if ($this->_config->get('comments_topic'))
-        {
-            try
-            {
+        if ($this->_config->get('comments_topic')) {
+            try {
                 $comments_topic = new midcom_db_topic($this->_config->get('comments_topic'));
-            }
-            catch (midcom_error $e)
-            {
+            } catch (midcom_error $e) {
                 return false;
             }
 
@@ -242,8 +221,7 @@ class net_nehmer_blog_handler_view extends midcom_baseclasses_components_handler
         $comments_node = midcom_helper_misc::find_node_by_component('net.nehmer.comments');
 
         // Cache the data
-        if (midcom::get()->auth->request_sudo('net.nehmer.blog'))
-        {
+        if (midcom::get()->auth->request_sudo('net.nehmer.blog')) {
             $this->_topic->set_parameter('net.nehmer.blog', 'comments_topic', $comments_node[MIDCOM_NAV_GUID]);
             midcom::get()->auth->drop_sudo();
         }
@@ -259,13 +237,10 @@ class net_nehmer_blog_handler_view extends midcom_baseclasses_components_handler
      */
     public function _show_view($handler_id, array &$data)
     {
-        if ($this->_config->get('enable_ajax_editing'))
-        {
+        if ($this->_config->get('enable_ajax_editing')) {
             // For AJAX handling it is the controller that renders everything
             $this->_request_data['view_article'] = $this->_request_data['controller']->get_content_html();
-        }
-        else
-        {
+        } else {
             $this->_request_data['view_article'] = $this->_datamanager->get_content_html();
         }
 

@@ -77,17 +77,13 @@ class net_nehmer_static_handler_autoindex extends midcom_baseclasses_components_
     {
         midcom_show_style('autoindex-start');
 
-        if (count ($this->_index_entries) > 0)
-        {
-            foreach ($this->_index_entries as $filename => $thedata)
-            {
+        if (count ($this->_index_entries) > 0) {
+            foreach ($this->_index_entries as $filename => $thedata) {
                 $data['filename'] = $filename;
                 $data['data'] = $thedata;
                 midcom_show_style('autoindex-item');
             }
-        }
-        else
-        {
+        } else {
             midcom_show_style('autoindex-directory-empty');
         }
 
@@ -119,17 +115,14 @@ class net_nehmer_static_handler_autoindex extends midcom_baseclasses_components_
 
         $sort_order = 'ASC';
         $sort_property = $this->_config->get('sort_order');
-        if (strpos($sort_property, 'reverse ') === 0)
-        {
+        if (strpos($sort_property, 'reverse ') === 0) {
             $sort_order = 'DESC';
             $sort_property = substr($sort_property, strlen('reverse '));
         }
-        if (strpos($sort_property, 'metadata.') === false)
-        {
+        if (strpos($sort_property, 'metadata.') === false) {
             $helper = new helper;
             $article = new midgard_article();
-            if (!$helper->property_exists($article, $sort_property))
-            {
+            if (!$helper->property_exists($article, $sort_property)) {
                 $sort_property = 'metadata.' . $sort_property;
             }
         }
@@ -140,10 +133,8 @@ class net_nehmer_static_handler_autoindex extends midcom_baseclasses_components_
 
         $result = $qb->execute();
 
-        foreach ($result as $article)
-        {
-            if (!$datamanager->autoset_storage($article))
-            {
+        foreach ($result as $article) {
+            if (!$datamanager->autoset_storage($article)) {
                 debug_add("The datamanager for article {$article->id} could not be initialized, skipping it.");
                 debug_print_r('Object was:', $article);
                 continue;
@@ -173,32 +164,23 @@ class net_nehmer_static_handler_autoindex extends midcom_baseclasses_components_
         $view[$filename]['view_article'] = $datamanager->get_content_html();
 
         // Stop the press, if blobs should not be visible
-        if (!$this->_config->get('show_blobs_in_autoindex'))
-        {
+        if (!$this->_config->get('show_blobs_in_autoindex')) {
             return;
         }
 
-        foreach ($datamanager->schema->field_order as $name)
-        {
-            if ($datamanager->types[$name] instanceof midcom_helper_datamanager2_type_images)
-            {
-                foreach ($datamanager->types[$name]->images as $data)
-                {
+        foreach ($datamanager->schema->field_order as $name) {
+            if ($datamanager->types[$name] instanceof midcom_helper_datamanager2_type_images) {
+                foreach ($datamanager->types[$name]->images as $data) {
                     $filename = "{$article->name}/{$data['filename']}";
                     $view[$filename] = $this->_get_attachment_data($filename, $data);
                 }
-            }
-            elseif (   $datamanager->types[$name] instanceof midcom_helper_datamanager2_type_image
-                     && $datamanager->types[$name]->attachments_info)
-            {
+            } elseif (   $datamanager->types[$name] instanceof midcom_helper_datamanager2_type_image
+                     && $datamanager->types[$name]->attachments_info) {
                 $data = $datamanager->types[$name]->attachments_info['main'];
                 $filename = "{$article->name}/{$data['filename']}";
                 $view[$filename] = $this->_get_attachment_data($filename, $data);
-            }
-            elseif ($datamanager->types[$name] instanceof midcom_helper_datamanager2_type_blobs)
-            {
-                foreach ($datamanager->types[$name]->attachments_info as $data)
-                {
+            } elseif ($datamanager->types[$name] instanceof midcom_helper_datamanager2_type_blobs) {
+                foreach ($datamanager->types[$name]->attachments_info as $data) {
                     $filename = "{$article->name}/{$data['filename']}";
                     $view[$filename] = $this->_get_attachment_data($filename, $data);
                 }

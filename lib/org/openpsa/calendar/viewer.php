@@ -18,16 +18,13 @@ class org_openpsa_calendar_viewer extends midcom_baseclasses_components_request
      */
     public function _on_initialize()
     {
-        if (!$this->_config->get('calendar_root_event'))
-        {
+        if (!$this->_config->get('calendar_root_event')) {
             $stat = false;
-            if (midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_calendar_event_dba'))
-            {
+            if (midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_calendar_event_dba')) {
                 $stat = org_openpsa_calendar_interface::find_root_event();
             }
 
-            if (!$stat)
-            {
+            if (!$stat) {
                 midcom::get()->auth->require_admin_user();
             }
         }
@@ -53,8 +50,7 @@ class org_openpsa_calendar_viewer extends midcom_baseclasses_components_request
     {
         midcom::get()->auth->require_valid_user();
         $selected_time = time();
-        switch ($this->_config->get('start_view'))
-        {
+        switch ($this->_config->get('start_view')) {
             case 'day':
                 return new midcom_response_relocate('agendaDay/' . date('Y-m-d', $selected_time) . '/');
 
@@ -84,17 +80,14 @@ class org_openpsa_calendar_viewer extends midcom_baseclasses_components_request
 
         $prefix = '/org.openpsa.widgets/fullcalendar-3.0.0/';
         $lang = midcom::get()->i18n->get_current_language();
-        if (!file_exists(MIDCOM_STATIC_ROOT . $prefix . "locale/{$lang}.js"))
-        {
+        if (!file_exists(MIDCOM_STATIC_ROOT . $prefix . "locale/{$lang}.js")) {
             $lang = midcom::get()->i18n->get_fallback_language();
-            if (!file_exists(MIDCOM_STATIC_ROOT . $prefix . "locale/{$lang}.js"))
-            {
+            if (!file_exists(MIDCOM_STATIC_ROOT . $prefix . "locale/{$lang}.js")) {
                 $lang = false;
             }
         }
 
-        if ($lang)
-        {
+        if ($lang) {
             $options['lang'] = $lang;
         }
 

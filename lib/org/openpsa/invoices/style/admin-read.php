@@ -3,12 +3,9 @@ $view = $data['object_view'];
 $invoice = $data['object'];
 $status_helper = new org_openpsa_invoices_status($invoice);
 $formatter = $data['l10n']->get_formatter();
-try
-{
+try {
     $customer = org_openpsa_contacts_group_dba::get_cached($invoice->customer);
-}
-catch (midcom_error $e)
-{
+} catch (midcom_error $e) {
     $customer = false;
 }
 
@@ -19,8 +16,7 @@ $expenses_url = $siteconfig->get_node_full_url('org.openpsa.expenses');
 $contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts');
 
 $cancelation_invoice_link = false;
-if ($invoice->cancelationInvoice)
-{
+if ($invoice->cancelationInvoice) {
     $cancelation_invoice = new org_openpsa_invoices_invoice_dba($invoice->cancelationInvoice);
     $cancelation_invoice_link = $prefix . 'invoice/' . $cancelation_invoice->guid . '/';
 
@@ -29,16 +25,14 @@ if ($invoice->cancelationInvoice)
 ?>
     <div class="sidebar">
         <?php
-        if ($invoice->customerContact)
-        {
+        if ($invoice->customerContact) {
             echo '<div class="area">';
             echo "<h2>" . $data['l10n']->get('customer contact') . "</h2>\n";
             $contact = org_openpsa_widgets_contact::get($invoice->customerContact);
             echo $contact->show();
             echo '</div>';
         }
-        if ($customer)
-        {
+        if ($customer) {
             echo '<div class="area">';
             $billing_data = $invoice->get_billing_data();
             $billing_data->render_address();
@@ -49,26 +43,25 @@ if ($invoice->cancelationInvoice)
     </div>
 <div class="main org_openpsa_invoices_invoice">
   <div class="midcom_helper_datamanager2_view">
-    <?php if ($customer)
-    {
-        echo "<div class=\"field\"><div class=\"title\">" . $data['l10n']->get('customer') . ": </div>\n";
-        echo '<div class="value"><a href="' . $contacts_url . 'group/' . $customer->guid . '/">' . $customer->get_label() . "</a>\n</div>\n";
-        echo "</div>\n";
-    }
-    if ($invoice->date > 0)
-    {
-    ?>
+    <?php if ($customer) {
+            echo "<div class=\"field\"><div class=\"title\">" . $data['l10n']->get('customer') . ": </div>\n";
+            echo '<div class="value"><a href="' . $contacts_url . 'group/' . $customer->guid . '/">' . $customer->get_label() . "</a>\n</div>\n";
+            echo "</div>\n";
+        }
+    if ($invoice->date > 0) {
+        ?>
         <div class="field"><div class="title"><?php echo $data['l10n']->get('invoice date'); ?>: </div>
         <div class="value"><?php echo $formatter->date($invoice->date); ?></div></div>
     <?php
+
     }
 
-    if ($invoice->deliverydate > 0)
-    {
-    ?>
+    if ($invoice->deliverydate > 0) {
+        ?>
         <div class="field"><div class="title"><?php echo $data['l10n']->get('invoice delivery date'); ?>: </div>
         <div class="value"><?php echo $formatter->date($invoice->deliverydate); ?></div></div>
     <?php
+
     }
     ?>
 
@@ -76,19 +69,17 @@ if ($invoice->cancelationInvoice)
     <div class="description value">&(view['description']:h);</div></div>
 
     <?php
-    if ($invoice->owner)
-    {
-        $owner_card = org_openpsa_widgets_contact::get($invoice->owner);
-    ?>
+    if ($invoice->owner) {
+        $owner_card = org_openpsa_widgets_contact::get($invoice->owner); ?>
         <div class="field"><div class="title"><?php echo $data['l10n_midcom']->get('owner'); ?>: </div>
         <div class="value"><?php echo $owner_card->show_inline(); ?></div></div>
     <?php
+
     } ?>
 
     <?php
     // does the invoice have a cancelation invoice?
-    if ($cancelation_invoice_link)
-    {
+    if ($cancelation_invoice_link) {
         echo "<div class=\"field\">";
         echo "<div class=\"title\">" . $data['l10n']->get('canceled by') .":</div>";
         echo "<div class=\"value\">" . $cancelation_invoice_link . "</a></div>";
@@ -96,8 +87,7 @@ if ($invoice->cancelationInvoice)
     }
     // is the invoice a cancelation invoice itself?
     $canceled_invoice = $invoice->get_canceled_invoice();
-    if ($canceled_invoice)
-    {
+    if ($canceled_invoice) {
         $canceled_invoice_link = $prefix . 'invoice/' . $canceled_invoice->guid . '/';
 
         echo "<div class=\"field\">";
@@ -108,8 +98,8 @@ if ($invoice->cancelationInvoice)
     ?>
   </div>
     <?php
-    if (!empty($data['invoice_items']))
-    { ?>
+    if (!empty($data['invoice_items'])) {
+        ?>
         <p><strong><?php echo $data['l10n']->get('invoice items'); ?>:</strong></p>
         <table class='list invoice_items'>
         <thead>
@@ -145,8 +135,7 @@ if ($invoice->cancelationInvoice)
         <tbody>
         <?php
         $invoice_sum = 0;
-        foreach ($data['invoice_items'] as $item)
-        {
+        foreach ($data['invoice_items'] as $item) {
             echo "<tr class='invoice_item_row'>";
             echo "<td>";
             echo $item->render_link();
@@ -156,59 +145,51 @@ if ($invoice->cancelationInvoice)
             echo "<td class='numeric'>" . $formatter->number($item->units * $item->pricePerUnit) . "</td>";
             echo "</tr>\n";
             $invoice_sum += $item->units * $item->pricePerUnit;
-        }
-        ?>
+        } ?>
         </tbody>
 
         </table>
         <?php
+
     }
 
-    if ($view['files'] != "")
-    { ?>
+    if ($view['files'] != "") {
+        ?>
         <p><strong><?php echo $data['l10n']->get('files'); ?></strong></p>
         <?php echo org_openpsa_helpers::render_fileinfo($invoice, 'files');
     }
-    if ($view['pdf_file'] != "")
-    { ?>
+    if ($view['pdf_file'] != "") {
+        ?>
         <p><strong><?php echo $data['l10n']->get('pdf file'); ?></strong></p>
         <?php echo org_openpsa_helpers::render_fileinfo($invoice, 'pdf_file');
     }
 
 // Display invoiced hours and tasks
-if (!empty($data['reports']))
-{
+if (!empty($data['reports'])) {
     $grid_id = 'invoice_' . $invoice->number . '_hours_grid';
 
     $guids = array();
     $rows = array();
 
-    foreach ($data['reports'] as $report)
-    {
+    foreach ($data['reports'] as $report) {
         $row = array();
 
         $guids[] = $report->guid;
 
-        try
-        {
+        try {
             $task = org_openpsa_projects_task_dba::get_cached($report->task);
             $reporter = org_openpsa_contacts_person_dba::get_cached($report->person);
-        }
-        catch (midcom_error $e)
-        {
+        } catch (midcom_error $e) {
             continue;
         }
 
         $reporter_card = org_openpsa_widgets_contact::get($report->person);
 
         $approved_img_src = MIDCOM_STATIC_URL . '/stock-icons/16x16/';
-        if ($report->is_approved())
-        {
+        if ($report->is_approved()) {
             $approved_text = $data['l10n']->get('approved');
             $approved_img_src .= 'page-approved.png';
-        }
-        else
-        {
+        } else {
             $approved_text = $data['l10n']->get('not approved');
             $approved_img_src .= 'page-notapproved.png';
         }
@@ -225,8 +206,7 @@ if (!empty($data['reports']))
         $row['task'] = "<a href=\"{$projects_url}task/{$task->guid}/\">{$task->title}</a>";
 
         $rows[] = $row;
-    }
-?>
+    } ?>
 <script type="text/javascript">//<![CDATA[
      var &(grid_id);_entries = <?php echo json_encode($rows); ?>
 //]]></script>
@@ -245,12 +225,11 @@ jQuery("#&(grid_id);").jqGrid({
       colNames: ['id', <?php
                  echo '"index_date", "' .  midcom::get()->i18n->get_string('date', 'org.openpsa.projects') . '",';
 
-                 echo '"index_reporter", "' .  midcom::get()->i18n->get_string('reporter', 'org.openpsa.projects') . '",';
-                 echo '"' . midcom::get()->i18n->get_string('hours', 'org.openpsa.projects') . '",';
-                 echo '"' . midcom::get()->i18n->get_string('description', 'org.openpsa.projects') . '",';
-                 echo '"' . midcom::get()->i18n->get_string('approved', 'org.openpsa.projects') . '",';
-                 echo '"' . midcom::get()->i18n->get_string('task', 'org.openpsa.projects') . '"';
-                ?>],
+    echo '"index_reporter", "' .  midcom::get()->i18n->get_string('reporter', 'org.openpsa.projects') . '",';
+    echo '"' . midcom::get()->i18n->get_string('hours', 'org.openpsa.projects') . '",';
+    echo '"' . midcom::get()->i18n->get_string('description', 'org.openpsa.projects') . '",';
+    echo '"' . midcom::get()->i18n->get_string('approved', 'org.openpsa.projects') . '",';
+    echo '"' . midcom::get()->i18n->get_string('task', 'org.openpsa.projects') . '"'; ?>],
       colModel:[
           {name:'id', index:'id', hidden:true, key:true},
           {name:'index_date',index:'index_date', sorttype: "integer", hidden:true},
@@ -282,8 +261,7 @@ jQuery("#&(grid_id);").jqGrid({
 <?php
     echo "<form method=\"post\" action=\"" . $expenses_url . "csv/hour_report/?filename=hours_invoice_" . $invoice->number . ".csv\">\n";
     echo "    <input type=\"hidden\" id=\"csvdata\" name=\"org_openpsa_core_csvexport\" value=\"\" />";
-    foreach (array_filter($guids) as $guid)
-    {
+    foreach (array_filter($guids) as $guid) {
         echo "    <input type=\"hidden\" name=\"guids[]\" value=\"" . $guid . "\" />\n";
     }
     echo "    <input type=\"hidden\" name=\"order[date]\" value=\"ASC\" />\n";

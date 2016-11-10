@@ -103,26 +103,22 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
      */
     public function convert_from_storage($source)
     {
-        if ($this->storage->object === null)
-        {
+        if ($this->storage->object === null) {
             // We don't have a storage object, skip the rest of the operations.
             return;
         }
 
         $raw_list = $this->storage->object->get_parameter('midcom.helper.datamanager2.type.blobs', "guids_{$this->name}");
-        if (!$raw_list)
-        {
+        if (!$raw_list) {
             // No attachments found.
             return;
         }
 
         $items = explode(',', $raw_list);
 
-        foreach ($items as $item)
-        {
+        foreach ($items as $item) {
             $info = explode(':', $item);
-            if (count($info) < 2)
-            {
+            if (count($info) < 2) {
                 // Broken item
                 debug_add("item '{$item}' is broken!", MIDCOM_LOG_ERROR);
                 continue;
@@ -161,8 +157,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
      */
     public function sort_attachments_cmp($a, $b)
     {
-        if ($a->metadata->score == $b->metadata->score)
-        {
+        if ($a->metadata->score == $b->metadata->score) {
             return strnatcasecmp($a->name, $b->name);
         }
         return $b->metadata->score - $a->metadata->score;
@@ -191,12 +186,9 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
      */
     private function _load_attachment($identifier, $guid)
     {
-        try
-        {
+        try {
             $attachment = new midcom_db_attachment($guid);
-        }
-        catch (midcom_error $e)
-        {
+        } catch (midcom_error $e) {
             debug_add("Failed to load the attachment {$guid} from disk, aborting.", MIDCOM_LOG_INFO);
             $e->log();
             return;
@@ -258,17 +250,14 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
         // Count of attachments, used to calculate metadata->score
         $count = count($this->attachments);
 
-        foreach ($this->attachments as $identifier => $attachment)
-        {
-            if (!mgd_is_guid($attachment->guid))
-            {
+        foreach ($this->attachments as $identifier => $attachment) {
+            if (!mgd_is_guid($attachment->guid)) {
                 continue;
             }
 
             // Store score if is sortable and we have value
             if (   $this->sortable
-                && isset($this->_sorted_list[$identifier]))
-            {
+                && isset($this->_sorted_list[$identifier])) {
                 // Store the attachment score
                 $attachment->metadata->score = $count - $this->_sorted_list[$identifier] + 1;
             }
@@ -279,12 +268,9 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
         // We need to be selective when saving, excluding one case: empty list
         // with empty storage object. In that case we store nothing. If we have
         // an object, we set the parameter unconditionally, to get all deletions.
-        if ($this->storage->object)
-        {
+        if ($this->storage->object) {
             $this->storage->object->set_parameter('midcom.helper.datamanager2.type.blobs', "guids_{$this->name}", implode(',', $data));
-        }
-        elseif ($data)
-        {
+        } elseif ($data) {
             debug_add('We were told to store attachment GUIDs, but no storage object was present. This should not happen, ignoring silently.',
                 MIDCOM_LOG_WARN);
             debug_print_r('This data should have been stored:', $data);
@@ -312,15 +298,13 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
      */
     function add_attachment($identifier, $filename, $title, $mimetype, $tmpname, $autodelete = true)
     {
-        if (!$this->file_sanity_checks($tmpname))
-        {
+        if (!$this->file_sanity_checks($tmpname)) {
             // the method will log errors and raise uimessages as needed
             return false;
         }
 
         $handle = @fopen($tmpname, 'r');
-        if (!$handle)
-        {
+        if (!$handle) {
             debug_add("Cannot add attachment, could not open {$tmpname} for reading.", MIDCOM_LOG_INFO);
             midcom::get()->debug->log_php_error(MIDCOM_LOG_INFO);
             return false;
@@ -329,16 +313,14 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
         // Ensure that the filename is URL safe (but allow multiple extensions)
         // PONDER: make use of this configurable in type-config ??
         $filename = midcom_db_attachment::safe_filename($filename, false);
-        if (!$this->add_attachment_by_handle($identifier, $filename, $title, $mimetype, $handle))
-        {
+        if (!$this->add_attachment_by_handle($identifier, $filename, $title, $mimetype, $handle)) {
             fclose($handle);
             debug_add('Failed to create attachment, see above for details.');
             return false;
         }
 
         if (   $autodelete
-            && !@unlink($tmpname))
-        {
+            && !@unlink($tmpname)) {
             debug_add('Failed to automatically delete the source file, ignoring silently.', MIDCOM_LOG_WARN);
             midcom::get()->debug->log_php_error(MIDCOM_LOG_WARN);
         }
@@ -358,13 +340,11 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
      */
     protected function _set_attachment_info_additional(midcom_db_attachment $attachment, $filename)
     {
-        if ($data = @getimagesize($filename))
-        {
+        if ($data = @getimagesize($filename)) {
             $attachment->set_parameter('midcom.helper.datamanager2.type.blobs', 'size_x', $data[0]);
             $attachment->set_parameter('midcom.helper.datamanager2.type.blobs', 'size_y', $data[1]);
             $attachment->set_parameter('midcom.helper.datamanager2.type.blobs', 'size_line', $data[3]);
-            if (!$attachment->mimetype)
-            {
+            if (!$attachment->mimetype) {
                 $attachment->mimetype = image_type_to_mime_type($data[2]);
                 $attachment->update();
             }
@@ -388,8 +368,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
      */
     function add_attachment_by_handle($identifier, $filename, $title, $mimetype, $source)
     {
-        if ( array_key_exists($identifier, $this->attachments))
-        {
+        if ( array_key_exists($identifier, $this->attachments)) {
             debug_add("Failed to add the attachment record: The identifier '{$identifier}' is already in use.", MIDCOM_LOG_INFO);
             return false;
         }
@@ -400,8 +379,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
 
         // Obtain a temporary object if necessary. This is the only place where this needs to be
         // done (all other I/O ops are logically behind the add operation).
-        if (!$this->storage->object)
-        {
+        if (!$this->storage->object) {
             $this->storage->create_temporary_object();
         }
 
@@ -409,14 +387,12 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
 
         // Try to create a new attachment.
         $attachment = $this->storage->object->create_attachment($filename, $title, $mimetype);
-        if (!$attachment)
-        {
+        if (!$attachment) {
             debug_add('Failed to create attachment record, see above for details.', MIDCOM_LOG_INFO);
             return false;
         }
 
-        if (!$attachment->copy_from_handle($source))
-        {
+        if (!$attachment->copy_from_handle($source)) {
             debug_add('Failed to create the attachment file.', MIDCOM_LOG_WARN);
             return false;
         }
@@ -447,12 +423,10 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
         $attachment->parentguid = $this->storage->object->guid;
 
         $resolver = new midcom_helper_reflector_nameresolver($attachment);
-        if (!$resolver->name_is_unique())
-        {
+        if (!$resolver->name_is_unique()) {
             debug_add("Name '{$attachment->name}' is not unique, trying to generate", MIDCOM_LOG_INFO);
             $ext = '';
-            if (preg_match('/^(.*)(\..*?)$/', $filename, $ext_matches))
-            {
+            if (preg_match('/^(.*)(\..*?)$/', $filename, $ext_matches)) {
                 $ext = $ext_matches[2];
             }
             $filename = $resolver->generate_unique_name('name', $ext);
@@ -472,15 +446,13 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
      */
     function update_attachment_title($identifier, $title)
     {
-        if (!array_key_exists($identifier, $this->attachments))
-        {
+        if (!array_key_exists($identifier, $this->attachments)) {
             debug_add("Failed to update the attachment title: The identifier {$identifier} is unknown", MIDCOM_LOG_INFO);
             return false;
         }
 
         $this->attachments[$identifier]->title = $title;
-        if (!$this->attachments[$identifier]->update())
-        {
+        if (!$this->attachments[$identifier]->update()) {
             debug_add('Failed to update the attachment title: Last Midgard error was: ' . midcom_connection::get_error_string(), MIDCOM_LOG_INFO);
             return false;
         }
@@ -507,31 +479,27 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
      */
     function update_attachment($identifier, $filename, $title, $mimetype, $tmpname, $autodelete = true)
     {
-        if (!$this->file_sanity_checks($tmpname))
-        {
+        if (!$this->file_sanity_checks($tmpname)) {
             // the method will log errors and raise uimessages as needed
             return false;
         }
 
         $handle = @fopen($tmpname, 'r');
 
-        if (!$handle)
-        {
+        if (!$handle) {
             debug_add("Cannot add attachment, could not open {$tmpname} for reading.", MIDCOM_LOG_INFO);
             midcom::get()->debug->log_php_error(MIDCOM_LOG_INFO);
             return false;
         }
 
         $filename = midcom_db_attachment::safe_filename($filename, false);
-        if (!$this->update_attachment_by_handle($identifier, $filename, $title, $mimetype, $handle, $tmpname))
-        {
+        if (!$this->update_attachment_by_handle($identifier, $filename, $title, $mimetype, $handle, $tmpname)) {
             debug_add('Failed to create attachment, see above for details.');
             return false;
         }
 
         if (   $autodelete
-            && !@unlink($tmpname))
-        {
+            && !@unlink($tmpname)) {
             debug_add('Failed to automatically delete the source file, ignoring silently.', MIDCOM_LOG_WARN);
             midcom::get()->debug->log_php_error(MIDCOM_LOG_WARN);
         }
@@ -571,21 +539,18 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
      */
     function update_attachment_by_handle($identifier, $filename, $title, $mimetype, $source, $tmpfile = null)
     {
-        if (!array_key_exists($identifier, $this->attachments))
-        {
+        if (!array_key_exists($identifier, $this->attachments)) {
             debug_add("Failed to update the attachment record: The identifier {$identifier} is unknown", MIDCOM_LOG_INFO);
             return false;
         }
 
         $attachment = $this->attachments[$identifier];
 
-        if ($mimetype !== null)
-        {
+        if ($mimetype !== null) {
             $attachment->mimetype = $mimetype;
         }
 
-        if (!$attachment->copy_from_handle($source))
-        {
+        if (!$attachment->copy_from_handle($source)) {
             debug_add('Failed to update the attachment file.', MIDCOM_LOG_WARN);
             return false;
         }
@@ -593,8 +558,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
 
         $attachment->title = $title;
         $attachment->name = $filename;
-        if (!$attachment->update())
-        {
+        if (!$attachment->update()) {
             debug_add('Failed to update the attachment record.', MIDCOM_LOG_INFO);
             return false;
         }
@@ -618,8 +582,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
      */
     function delete_attachment($identifier)
     {
-        if (!array_key_exists($identifier, $this->attachments))
-        {
+        if (!array_key_exists($identifier, $this->attachments)) {
             debug_add('Failed to delete the attachment record: The identifier is unknown.', MIDCOM_LOG_INFO);
             return false;
         }
@@ -632,12 +595,9 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
         $qb->add_constraint('name', '=', "guids_{$this->name}");
         $qb->add_constraint('value', 'LIKE', "%:{$attachment->guid}%");
 
-        if ($qb->count() > 1)
-        {
+        if ($qb->count() > 1) {
             debug_add("Attachment {$attachment->guid} is used also elsewhere by DM2, remove only the reference", MIDCOM_LOG_INFO);
-        }
-        elseif (!$attachment->delete())
-        {
+        } elseif (!$attachment->delete()) {
             debug_add('Failed to delete the attachment record: DBA delete call returned false.', MIDCOM_LOG_INFO);
             return false;
         }
@@ -657,10 +617,8 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
      */
     function delete_all_attachments()
     {
-        foreach (array_keys($this->attachments) as $identifier)
-        {
-            if (!$this->delete_attachment($identifier))
-            {
+        foreach (array_keys($this->attachments) as $identifier) {
+            if (!$this->delete_attachment($identifier)) {
                 return false;
             }
         }
@@ -681,13 +639,11 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
     public function convert_to_csv()
     {
         $results = array();
-        foreach ($this->attachments_info as $info)
-        {
+        foreach ($this->attachments_info as $info) {
             $results[] = $info['url'];
         }
 
-        if (empty($results))
-        {
+        if (empty($results)) {
             return '';
         }
         return implode(',', $results);
@@ -696,18 +652,13 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
     public function convert_to_html()
     {
         $result = '';
-        if ($this->attachments_info)
-        {
+        if ($this->attachments_info) {
             $result .= "<ul>\n";
-            foreach ($this->attachments_info as $info)
-            {
+            foreach ($this->attachments_info as $info) {
                 if (   $info['description']
-                    && $info['description'] != $info['filename'])
-                {
+                    && $info['description'] != $info['filename']) {
                     $title = "{$info['filename']} - {$info['description']}";
-                }
-                else
-                {
+                } else {
                     $title = $info['filename'];
                 }
                 $result .= "<li><a href='{$info['url']}'>{$title}</a></li>\n";
@@ -734,21 +685,17 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
             'avscan',
         );
         // Do not check same file twice
-        if (isset($checked_files[$filepath]))
-        {
+        if (isset($checked_files[$filepath])) {
             return $checked_files[$filepath];
         }
-        if (!file_exists($filepath))
-        {
+        if (!file_exists($filepath)) {
             debug_add("The file {$filepath} was not found.", MIDCOM_LOG_INFO);
             $checked_files[$filepath] = false;
             return false;
         }
-        foreach ($checks as $check)
-        {
+        foreach ($checks as $check) {
             $methodname = "file_sanity_checks_{$check}";
-            if (!$this->$methodname($filepath))
-            {
+            if (!$this->$methodname($filepath)) {
                 // the methods will log their own errors
                 $checked_files[$filepath] = false;
                 return false;
@@ -767,8 +714,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
     function file_sanity_checks_sizenotzero($filepath)
     {
         $size = filesize($filepath);
-        if ($size == 0)
-        {
+        if ($size == 0) {
             debug_add("filesize('{$filepath}') returned {$size} which evaluated to zero", MIDCOM_LOG_ERROR);
 
             midcom::get()->uimessages->add($this->_l10n->get('midcom.helper.datamanager2'), $this->_l10n->get('uploaded file has zero size'), 'error');
@@ -787,16 +733,14 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
     function file_sanity_checks_avscan($filepath)
     {
         $scan_template = $this->_config->get('type_blobs_avscan_command');
-        if (empty($scan_template))
-        {
+        if (empty($scan_template)) {
             // silently ignore if scan command not configured
             return true;
         }
         $scan_command = escapeshellcmd(sprintf($scan_template, $filepath));
         $scan_output = array();
         exec($scan_command, $scan_output, $exit_code);
-        if ($exit_code !== 0)
-        {
+        if ($exit_code !== 0) {
             // Scan command returned error (likely infected file);
             debug_add("{$scan_command} returned {$exit_code}, likely file is infected", MIDCOM_LOG_ERROR);
             debug_print_r('scanner_output', $scan_output, MIDCOM_LOG_ERROR);
@@ -819,8 +763,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
                    // do not index the attachment for index_method attachment & noindex
                    // for index_method=attachment the content of the attachment is stored in content of the object
                    (    $this->_datamanager->schema->fields[$this->name]['index_method'] !== 'attachment'
-                    &&  $this->_datamanager->schema->fields[$this->name]['index_method'] !== 'noindex')))
-        {
+                    &&  $this->_datamanager->schema->fields[$this->name]['index_method'] !== 'noindex'))) {
             $document = new midcom_services_indexer_document_attachment($attachment, $this->storage->object);
             $indexer = midcom::get()->indexer;
             $indexer->index($document);

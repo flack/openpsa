@@ -23,26 +23,21 @@ class org_openpsa_invoices_handler_rest_billingdata extends midcom_baseclasses_c
         $qb = org_openpsa_invoices_billing_data_dba::new_query_builder();
         $qb->add_constraint("linkGuid", "=", $linkGuid);
         $billingdata = $qb->execute();
-        if (count($billingdata) > 0)
-        {
+        if (count($billingdata) > 0) {
             return array_pop($billingdata);
         }
 
         // got no billingdata so far.. auto-create!
         // before autocreation, check if person exists
-        try
-        {
+        try {
             $person = new org_openpsa_contacts_person_dba($linkGuid);
-        }
-        catch (midcom_error $e)
-        {
+        } catch (midcom_error $e) {
             $this->_stop("Failed to autocreate billingdata. Invalid linkGuid: " . $e->getMessage());
         }
 
         $billingdata = new org_openpsa_invoices_billing_data_dba();
         $billingdata->linkGuid = $person->guid;
-        if (!$billingdata->create())
-        {
+        if (!$billingdata->create()) {
             return false;
         }
 
@@ -54,20 +49,17 @@ class org_openpsa_invoices_handler_rest_billingdata extends midcom_baseclasses_c
         $filter = $this->_request['params'];
 
         // just guid
-        if (count($filter) == 1)
-        {
+        if (count($filter) == 1) {
             return parent::handle_get();
         }
         // got filter
         $linkGuid = isset($filter['linkGuid']) ? $filter['linkGuid'] : false;
-        if (!$linkGuid)
-        {
+        if (!$linkGuid) {
             $this->_stop("Invalid filter options");
         }
 
         $billingdata = $this->get_billingdata($linkGuid);
-        if (!$billingdata)
-        {
+        if (!$billingdata) {
             $this->_stop("Failed to retrieve billingdata, last error was: " . midcom_connection::get_error_string());
         }
 

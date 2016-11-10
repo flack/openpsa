@@ -26,8 +26,7 @@ implements midcom_services_permalinks_resolver
         $event->end = time() + 1;
         $ret = $event->create();
         midcom::get()->auth->drop_sudo();
-        if (!$ret)
-        {
+        if (!$ret) {
             debug_add('Failed to create OpenPSA root event, reason ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
             throw new midcom_error('Failed to create the root event');
         }
@@ -35,8 +34,7 @@ implements midcom_services_permalinks_resolver
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
         $topic_guid = $siteconfig->get_node_guid('org.openpsa.calendar');
 
-        if ($topic_guid)
-        {
+        if ($topic_guid) {
             $topic = new midcom_db_topic($topic_guid);
             $topic->set_parameter('org.openpsa.calendar', 'calendar_root_event', $event->guid);
         }
@@ -52,30 +50,23 @@ implements midcom_services_permalinks_resolver
         $data = midcom_baseclasses_components_configuration::get('org.openpsa.calendar');
 
         //Check if we have already initialized
-        if (!empty($data['calendar_root_event']))
-        {
+        if (!empty($data['calendar_root_event'])) {
             return $data['calendar_root_event'];
         }
 
         $root_guid = $data['config']->get('calendar_root_event');
 
-        if (mgd_is_guid($root_guid))
-        {
+        if (mgd_is_guid($root_guid)) {
             $root_event = org_openpsa_calendar_event_dba::get_cached($root_guid);
-        }
-        else
-        {
+        } else {
             // Check for calendar event tree.
             $qb = org_openpsa_calendar_event_dba::new_query_builder();
             $qb->add_constraint('title', '=', '__org_openpsa_calendar');
             $qb->add_constraint('up', '=', 0);
             $ret = $qb->execute();
-            if (!empty($ret))
-            {
+            if (!empty($ret)) {
                 $root_event = $ret[0];
-            }
-            else
-            {
+            } else {
                 debug_add("OpenPSA Calendar root event could not be found", MIDCOM_LOG_ERROR);
                 //Attempt to auto-initialize
                 $root_event = self::create_root_event();
@@ -83,8 +74,7 @@ implements midcom_services_permalinks_resolver
 
             $siteconfig = org_openpsa_core_siteconfig::get_instance();
             $topic_guid = $siteconfig->get_node_guid('org.openpsa.calendar');
-            if ($topic_guid)
-            {
+            if ($topic_guid) {
                 $topic = new midcom_db_topic($topic_guid);
                 $topic->set_parameter('org.openpsa.calendar', 'calendar_root_event', $root_event->guid);
                 $data['config']->set('calendar_root_event', $root_event->guid);
@@ -116,8 +106,7 @@ implements midcom_services_permalinks_resolver
      */
     public static function get_create_button($node, $url)
     {
-        if (empty($node[MIDCOM_NAV_FULLURL]))
-        {
+        if (empty($node[MIDCOM_NAV_FULLURL])) {
             throw new midcom_error('given node is not valid');
         }
 
@@ -134,8 +123,7 @@ implements midcom_services_permalinks_resolver
      */
     public static function get_viewer_attributes($guid, $node)
     {
-        if (empty($node[MIDCOM_NAV_FULLURL]))
-        {
+        if (empty($node[MIDCOM_NAV_FULLURL])) {
             throw new midcom_error('given node is not valid');
         }
         $workflow = new midcom\workflow\viewer;
@@ -144,8 +132,7 @@ implements midcom_services_permalinks_resolver
 
     public function resolve_object_link(midcom_db_topic $topic, midcom_core_dbaobject $object)
     {
-        if ($object instanceof org_openpsa_calendar_event_dba)
-        {
+        if ($object instanceof org_openpsa_calendar_event_dba) {
             return "event/{$object->guid}/";
         }
         return null;

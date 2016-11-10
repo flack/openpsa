@@ -165,8 +165,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
      */
     public function _get_url_prefix()
     {
-        if (empty($this->_prefix))
-        {
+        if (empty($this->_prefix)) {
             return '';
         }
         return $this->_prefix . '/';
@@ -179,8 +178,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
      */
     private function _get_style_prefix()
     {
-        if (empty($this->_prefix))
-        {
+        if (empty($this->_prefix)) {
             return '';
         }
         return $this->_prefix . '-';
@@ -203,8 +201,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
     {
         $ref = midcom_helper_reflector::get($this->_dba_class);
         $view_title = '';
-        switch ($this->_mode)
-        {
+        switch ($this->_mode) {
             case 'create':
                 $view_title = sprintf($this->_l10n_midcom->get('create %s'), $ref->get_class_label());
                 break;
@@ -231,8 +228,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
         $prefix = $this->_get_url_prefix();
         $buttons = array();
         if (   $this->_mode !== 'update'
-            && $this->_object->can_do('midgard:update'))
-        {
+            && $this->_object->can_do('midgard:update')) {
             $workflow = $this->get_workflow('datamanager2');
             $buttons[] = $workflow->get_button($prefix . "edit/{$this->_object->guid}/", array
             (
@@ -241,8 +237,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
         }
 
         if (   $this->_mode !== 'delete'
-            && $this->_object->can_do('midgard:delete'))
-        {
+            && $this->_object->can_do('midgard:delete')) {
             $workflow = $this->get_workflow('delete', array('object' => $this->_object));
             $buttons[] = $workflow->get_button($prefix . "delete/{$this->_object->guid}/");
         }
@@ -287,14 +282,12 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
      */
     public function _select_schema($args)
     {
-        if (count($args) == 0)
-        {
+        if (count($args) == 0) {
             // No arguments, we use "default";
             return;
         }
 
-        if (isset($this->_schemadb[$args[0]]))
-        {
+        if (isset($this->_schemadb[$args[0]])) {
             $this->_schema = $args[0];
         }
     }
@@ -311,15 +304,13 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
      */
     public function _load_datamanager()
     {
-        if (!$this->_object)
-        {
+        if (!$this->_object) {
             throw new midcom_error_notfound("No object defined for DM2.");
         }
 
         $this->_datamanager = new midcom_helper_datamanager2_datamanager($this->_schemadb);
 
-        if (!$this->_datamanager->autoset_storage($this->_object))
-        {
+        if (!$this->_datamanager->autoset_storage($this->_object)) {
             throw new midcom_error("Failed to create a DM2 instance for object {$this->_object->guid}.");
         }
     }
@@ -334,25 +325,20 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
         $this->_controller = midcom_helper_datamanager2_controller::create($type);
         $this->_controller->schemadb =& $this->_schemadb;
 
-        if ($type == 'create')
-        {
+        if ($type == 'create') {
             // Creation controller, give additional parameters
             $this->_controller->schemaname = $this->_schema;
             $this->_controller->defaults = $this->_defaults;
             $this->_controller->callback_object =& $this;
-        }
-        else
-        {
-            if (!$this->_object)
-            {
+        } else {
+            if (!$this->_object) {
                 throw new midcom_error_notfound("No object defined for DM2.");
             }
 
             $this->_controller->set_storage($this->_object);
         }
 
-        if (!$this->_controller->initialize())
-        {
+        if (!$this->_controller->initialize()) {
             throw new midcom_error("Failed to initialize a DM2 controller instance for object {$this->_object->guid}.");
         }
     }
@@ -389,13 +375,10 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
     {
         $this->_mode = 'create';
         $this->_load_parent($handler_id, $args, $data);
-        if ($this->_parent)
-        {
+        if ($this->_parent) {
             // Parent object available, check permissions
             $this->_parent->require_do('midgard:create');
-        }
-        else
-        {
+        } else {
             midcom::get()->auth->require_user_do('midgard:create', null, $this->_dba_class);
         }
 
@@ -423,8 +406,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
     {
         $this->_index_object($controller->datamanager);
         $this->_handler_callback($this->_request_data['handler_id'], $this->args, $this->_request_data);
-        if ($this->_mode !== 'update')
-        {
+        if ($this->_mode !== 'update') {
             return $this->_get_object_url($this->_object);
         }
     }
@@ -442,27 +424,21 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
         $this->_load_object($handler_id, $args, $data);
 
         $this->_load_schemadb();
-        if (midcom::get()->config->get('enable_ajax_editing'))
-        {
+        if (midcom::get()->config->get('enable_ajax_editing')) {
             // AJAX editing is possible
             $this->_load_controller('ajax');
             $this->_controller->process_ajax();
             $this->_datamanager =& $this->_controller->datamanager;
-        }
-        else
-        {
+        } else {
             $this->_load_datamanager();
         }
 
         $this->_prepare_request_data();
 
-        if ($this->_controller)
-        {
+        if ($this->_controller) {
             // For AJAX handling it is the controller that renders everything
             $this->_request_data['object_view'] = $this->_controller->get_content_html();
-        }
-        else
-        {
+        } else {
             $this->_request_data['object_view'] = $this->_datamanager->get_content_html();
         }
 
@@ -531,8 +507,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
 
         $options = array('object' => $this->_object);
         $this->_load_parent($handler_id, $args, $data);
-        if ($this->_parent)
-        {
+        if ($this->_parent) {
             $options['success_url'] = $this->_get_object_url($this->_parent);
         }
         $workflow = $this->get_workflow('delete', $options);

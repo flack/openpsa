@@ -42,8 +42,7 @@ class org_routamc_positioning_city_dba extends midcom_core_dbaobject
         if (   !empty($matches)
                /* doublecheck */
             && $matches[0]->longitude === $this->longitude
-            && $matches[0]->latitude === $this->latitude)
-        {
+            && $matches[0]->latitude === $this->latitude) {
             // We don't need to save duplicate entries
             midcom_connection::set_error(MGD_ERR_DUPLICATE);
             return false;
@@ -53,8 +52,7 @@ class org_routamc_positioning_city_dba extends midcom_core_dbaobject
 
     public static function get_by_name($name)
     {
-        if (empty($name))
-        {
+        if (empty($name)) {
             return false;
         }
         // Seek by strict city name first
@@ -62,8 +60,7 @@ class org_routamc_positioning_city_dba extends midcom_core_dbaobject
         $qb->add_constraint('city', 'LIKE', $name);
         $qb->set_limit(1);
         $matches = $qb->execute_unchecked();
-        if (count($matches) > 0)
-        {
+        if (count($matches) > 0) {
             return $matches[0];
         }
 
@@ -74,8 +71,7 @@ class org_routamc_positioning_city_dba extends midcom_core_dbaobject
         $qb->add_order('population', 'DESC');
         $qb->set_limit(1);
         $matches = $qb->execute_unchecked();
-        if (count($matches) > 0)
-        {
+        if (count($matches) > 0) {
             return $matches[0];
         }
 

@@ -84,8 +84,7 @@ class midcom_services_dbclassloader
      */
     function load_classes($component, $filename, $definition_list = null)
     {
-        if (is_null($definition_list))
-        {
+        if (is_null($definition_list)) {
             $definition_list = $this->_read_class_definition_file($component, $filename);
         }
 
@@ -101,15 +100,12 @@ class midcom_services_dbclassloader
      */
     function _validate_class_definition_list(array $definition_list)
     {
-        foreach ($definition_list as $mgdschema_class => $midcom_class)
-        {
-            if (!class_exists($mgdschema_class))
-            {
+        foreach ($definition_list as $mgdschema_class => $midcom_class) {
+            if (!class_exists($mgdschema_class)) {
                 throw new midcom_error("Validation failed: Key {$midcom_class} had an invalid mgdschema_class_name element: {$mgdschema_class}. Probably the required MgdSchema is not loaded.");
             }
 
-            if (preg_match('/^[a-zA-Z_][a-zA-Z0-9_]*$/', $midcom_class) == 0)
-            {
+            if (preg_match('/^[a-zA-Z_][a-zA-Z0-9_]*$/', $midcom_class) == 0) {
                 throw new midcom_error("Validation failed: Key {$mgdschema_class} had an invalid mgdschema_class_name element.");
             }
         }
@@ -127,16 +123,12 @@ class midcom_services_dbclassloader
      */
     private function _read_class_definition_file($component, $filename)
     {
-        if ($component == 'midcom')
-        {
+        if ($component == 'midcom') {
             $filename = MIDCOM_ROOT . "/midcom/config/{$filename}";
-        }
-        else
-        {
+        } else {
             $filename = midcom::get()->componentloader->path_to_snippetpath($component) . "/config/{$filename}";
         }
-        if (!file_exists($filename))
-        {
+        if (!file_exists($filename)) {
             throw new midcom_error("Failed to access the file {$filename}: File does not exist.");
         }
 
@@ -158,14 +150,12 @@ class midcom_services_dbclassloader
     {
         $this->_validate_class_definition_list($definitions);
 
-        foreach ($definitions as $mgdschema_class => $midcom_class)
-        {
+        foreach ($definitions as $mgdschema_class => $midcom_class) {
             $this->_mgdschema_class_handler[$midcom_class] = $component;
 
             if (   substr($mgdschema_class, 0, 8) == 'midgard_'
                 || substr($mgdschema_class, 0, 12) == 'midcom_core_'
-                || $mgdschema_class == midcom::get()->config->get('person_class'))
-            {
+                || $mgdschema_class == midcom::get()->config->get('person_class')) {
                 $this->_midgard_classes[$mgdschema_class] = $midcom_class;
             }
         }
@@ -181,31 +171,25 @@ class midcom_services_dbclassloader
     public function is_mgdschema_object($object)
     {
         // Sometimes we might get class string instead of an object
-        if (is_string($object))
-        {
+        if (is_string($object)) {
             $object = new $object;
         }
-        if ($this->is_midcom_db_object($object))
-        {
+        if ($this->is_midcom_db_object($object)) {
             return true;
         }
 
-        if (!extension_loaded('midgard'))
-        {
+        if (!extension_loaded('midgard')) {
             return is_a($object, 'midgard_object');
         }
 
         // Midgard1 compat, the quick way
-        if (in_array(get_class($object), midcom_connection::get_schema_types()))
-        {
+        if (in_array(get_class($object), midcom_connection::get_schema_types())) {
             return true;
         }
 
         // Then, do a thorough scan
-        foreach (midcom_connection::get_schema_types() as $mgdschema_class)
-        {
-            if (is_a($object, $mgdschema_class))
-            {
+        foreach (midcom_connection::get_schema_types() as $mgdschema_class) {
+            if (is_a($object, $mgdschema_class)) {
                 return true;
             }
         }
@@ -247,23 +231,17 @@ class midcom_services_dbclassloader
             'org.openpsa.hour' => 'org.openpsa.projects'
         );
 
-        foreach ($class_parts as $part)
-        {
-            if (empty($component))
-            {
+        foreach ($class_parts as $part) {
+            if (empty($component)) {
                 $component = $part;
-            }
-            else
-            {
+            } else {
                 $component .= ".{$part}";
             }
-            if (array_key_exists($component, $component_map))
-            {
+            if (array_key_exists($component, $component_map)) {
                 $component = $component_map[$component];
             }
 
-            if (midcom::get()->componentloader->is_installed($component))
-            {
+            if (midcom::get()->componentloader->is_installed($component)) {
                 return $component;
             }
         }
@@ -279,13 +257,11 @@ class midcom_services_dbclassloader
     public function load_component_for_class($classname)
     {
         $component = $this->get_component_for_class($classname);
-        if (!$component)
-        {
+        if (!$component) {
             return false;
         }
 
-        if (midcom::get()->componentloader->is_loaded($component))
-        {
+        if (midcom::get()->componentloader->is_loaded($component)) {
             return true;
         }
 
@@ -302,42 +278,31 @@ class midcom_services_dbclassloader
     {
         static $dba_classes_by_mgdschema = array();
 
-        if (is_string($object))
-        {
+        if (is_string($object)) {
             // In some cases we get a class name instead
             $classname = $object;
-        }
-        elseif (is_object($object))
-        {
+        } elseif (is_object($object)) {
             $classname = get_class($object);
-        }
-        else
-        {
+        } else {
             debug_print_r("Invalid input provided", $object, MIDCOM_LOG_WARN);
             return false;
         }
 
-        if (isset($dba_classes_by_mgdschema[$classname]))
-        {
+        if (isset($dba_classes_by_mgdschema[$classname])) {
             return $dba_classes_by_mgdschema[$classname];
         }
 
-        if (!$this->is_mgdschema_object($object))
-        {
+        if (!$this->is_mgdschema_object($object)) {
             debug_add("{$classname} is not an MgdSchema object, not resolving to MidCOM DBA class", MIDCOM_LOG_WARN);
             $dba_classes_by_mgdschema[$classname] = false;
             return false;
         }
 
-        if ($classname == midcom::get()->config->get('person_class'))
-        {
+        if ($classname == midcom::get()->config->get('person_class')) {
             $definitions = $this->get_midgard_classes();
-        }
-        else
-        {
+        } else {
             $component = $this->get_component_for_class($classname);
-            if (!$component)
-            {
+            if (!$component) {
                 debug_add("Component for class {$classname} cannot be found", MIDCOM_LOG_WARN);
                 $dba_classes_by_mgdschema[$classname] = false;
                 return false;
@@ -348,8 +313,7 @@ class midcom_services_dbclassloader
         //TODO: This allows components to override midcom classes fx. Do we want that?
         $dba_classes_by_mgdschema = array_merge($dba_classes_by_mgdschema, $definitions);
 
-        if (array_key_exists($classname, $dba_classes_by_mgdschema))
-        {
+        if (array_key_exists($classname, $dba_classes_by_mgdschema)) {
             return $dba_classes_by_mgdschema[$classname];
         }
 
@@ -368,15 +332,12 @@ class midcom_services_dbclassloader
     {
         static $mapping = array();
 
-        if (!array_key_exists($classname, $mapping))
-        {
+        if (!array_key_exists($classname, $mapping)) {
             $mapping[$classname] = false;
 
-            if (class_exists($classname))
-            {
+            if (class_exists($classname)) {
                 $dummy_object = new $classname();
-                if (!$this->is_midcom_db_object($dummy_object))
-                {
+                if (!$this->is_midcom_db_object($dummy_object)) {
                     return false;
                 }
                 $mapping[$classname] = $dummy_object->__mgdschema_class_name__;
@@ -404,32 +365,27 @@ class midcom_services_dbclassloader
      */
     public function load_mgdschema_class_handler($classname)
     {
-        if (!is_string($classname))
-        {
+        if (!is_string($classname)) {
             debug_add("Requested to load the classhandler for class name which is not a string.", MIDCOM_LOG_ERROR);
             return false;
         }
 
-        if (!array_key_exists($classname, $this->_mgdschema_class_handler))
-        {
+        if (!array_key_exists($classname, $this->_mgdschema_class_handler)) {
             $component = $this->get_component_for_class($classname);
             midcom::get()->componentloader->load($component);
-            if (!array_key_exists($classname, $this->_mgdschema_class_handler))
-            {
+            if (!array_key_exists($classname, $this->_mgdschema_class_handler)) {
                 debug_add("Requested to load the classhandler for {$classname} which is not known.", MIDCOM_LOG_ERROR);
                 return false;
             }
         }
         $component = $this->_mgdschema_class_handler[$classname];
 
-        if ($component == 'midcom')
-        {
+        if ($component == 'midcom') {
             // This is always loaded.
             return true;
         }
 
-        if (midcom::get()->componentloader->is_loaded($component))
-        {
+        if (midcom::get()->componentloader->is_loaded($component)) {
             // Already loaded, so we're fine too.
             return true;
         }
@@ -449,13 +405,10 @@ class midcom_services_dbclassloader
      */
     public function is_midcom_db_object($object)
     {
-        if (is_object($object))
-        {
+        if (is_object($object)) {
             return (is_a($object, 'midcom_core_dbaobject') || is_a($object, 'midcom_core_dbaproxy'));
-        }
-        elseif (   is_string($object)
-                 && class_exists($object))
-        {
+        } elseif (   is_string($object)
+                 && class_exists($object)) {
             return $this->is_midcom_db_object(new $object);
         }
 
@@ -464,8 +417,7 @@ class midcom_services_dbclassloader
 
     public function get_component_classes($component)
     {
-        if ($component == 'midcom')
-        {
+        if ($component == 'midcom') {
             return $this->get_midgard_classes();
         }
 

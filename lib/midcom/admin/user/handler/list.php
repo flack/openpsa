@@ -68,8 +68,7 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
 
         // Used in select
         $data['groups_for_select'] = array();
-        if (midcom::get()->auth->admin)
-        {
+        if (midcom::get()->auth->admin) {
             $data['groups_for_select'][] = array
             (
                 'title' => 'Midgard Administrators',
@@ -78,8 +77,7 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
             );
         }
 
-        if (count($this->_persons) > 0)
-        {
+        if (count($this->_persons) > 0) {
             $this->list_groups_for_select(0, $data, 0);
         }
 
@@ -94,28 +92,22 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
         $qb->add_order('lastname');
         $qb->add_order('firstname');
 
-        if (isset($_REQUEST['midcom_admin_user_search']))
-        {
+        if (isset($_REQUEST['midcom_admin_user_search'])) {
             // Run the person-seeking QB
             $qb->begin_group('OR');
-                foreach ($this->_request_data['search_fields'] as $field)
-                {
-                    if ($field == 'username')
-                    {
-                        midcom_core_account::add_username_constraint($qb, 'LIKE', "{$_REQUEST['midcom_admin_user_search']}%");
-                    }
-                    else
-                    {
-                        $qb->add_constraint($field, 'LIKE', "{$_REQUEST['midcom_admin_user_search']}%");
-                    }
+            foreach ($this->_request_data['search_fields'] as $field) {
+                if ($field == 'username') {
+                    midcom_core_account::add_username_constraint($qb, 'LIKE', "{$_REQUEST['midcom_admin_user_search']}%");
+                } else {
+                    $qb->add_constraint($field, 'LIKE', "{$_REQUEST['midcom_admin_user_search']}%");
                 }
+            }
             $qb->end_group('OR');
 
             $this->_persons = $qb->execute();
         }
         // List all persons if there are less than N of them
-        elseif ($qb->count_unchecked() < $this->_config->get('list_without_search'))
-        {
+        elseif ($qb->count_unchecked() < $this->_config->get('list_without_search')) {
             $this->_persons = $qb->execute();
         }
     }
@@ -140,18 +132,15 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
         $groupdata = $mc->get_rows(array('name', 'official', 'id', 'guid'));
 
         // Hide empty groups
-        if (count($groupdata) === 0)
-        {
+        if (count($groupdata) === 0) {
             return;
         }
 
         $data['parent_id'] = $id;
 
-        foreach ($groupdata as $group)
-        {
+        foreach ($groupdata as $group) {
             $group['title'] = $group['official'] ?: $group['name'];
-            if (!$group['title'])
-            {
+            if (!$group['title']) {
                 $group['title'] = "#{$group['id']}";
             }
             $group['level'] = $level;
@@ -172,8 +161,7 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
         $data['persons'] = $this->_persons;
         midcom_show_style('midcom-admin-user-personlist-header');
 
-        foreach ($data['persons'] as $person)
-        {
+        foreach ($data['persons'] as $person) {
             $data['person'] = $person;
             midcom_show_style('midcom-admin-user-personlist-item');
         }
@@ -189,28 +177,24 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
     public function _handler_batch($handler_id, array $args, array &$data)
     {
         $relocate_url = '__mfa/asgard_midcom.admin.user/';
-        if (!empty($_GET))
-        {
+        if (!empty($_GET)) {
             $relocate_url .= '?' . http_build_query($_GET);
         }
         if (   empty($_POST['midcom_admin_user'])
-            || !is_array($_POST['midcom_admin_user']))
-        {
+            || !is_array($_POST['midcom_admin_user'])) {
             midcom::get()->uimessages->add($this->_l10n->get('midcom.admin.user'), $this->_l10n->get('empty selection'));
             return new midcom_response_relocate($relocate_url);
         }
 
         $method = '_batch_' . $args[0];
-        if (!method_exists($this, $method))
-        {
+        if (!method_exists($this, $method)) {
             throw new midcom_error('Unknown action');
         }
 
         $qb = midcom_db_person::new_query_builder();
         $qb->add_constraint('guid', 'IN', $_POST['midcom_admin_user']);
         $this->_persons = $qb->execute();
-        foreach ($this->_persons as $person)
-        {
+        foreach ($this->_persons as $person) {
             $this->$method($person);
         }
         return new midcom_response_relocate($relocate_url);
@@ -218,13 +202,11 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
 
     private function _batch_groupadd(midcom_db_person $person)
     {
-        if (isset($_POST['midcom_admin_user_group']))
-        {
+        if (isset($_POST['midcom_admin_user_group'])) {
             $member = new midcom_db_member();
             $member->uid = $person->id;
             $member->gid = (int) $_POST['midcom_admin_user_group'];
-            if ($member->create())
-            {
+            if ($member->create()) {
                 midcom::get()->uimessages->add($this->_l10n->get('midcom.admin.user'), sprintf($this->_l10n->get('user %s added to group'), $person->name));
             }
         }
@@ -232,14 +214,12 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
 
     private function _batch_removeaccount(midcom_db_person $person)
     {
-        if (!$this->_config->get('allow_manage_accounts'))
-        {
+        if (!$this->_config->get('allow_manage_accounts')) {
             return;
         }
         $person->set_parameter('midcom.admin.user', 'username', $person->username);
         $account = new midcom_core_account($person);
-        if ($account->delete())
-        {
+        if ($account->delete()) {
             midcom::get()->uimessages->add($this->_l10n->get('midcom.admin.user'), sprintf($this->_l10n->get('user account revoked for %s'), $person->name));
         }
     }
@@ -257,12 +237,9 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
         // Get the context prefix
         $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 
-        try
-        {
+        try {
             $account = new midcom_core_account($person);
-        }
-        catch (midcom_error $e)
-        {
+        } catch (midcom_error $e) {
             midcom::get()->uimessages->add($this->_l10n->get('midcom.admin.user'), sprintf($this->_l10n->get('failed to get the user with id %s'), $person->id), 'error');
             return;
         }
@@ -271,15 +248,13 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
         $person_edit_url = "<a href=\"{$prefix}__mfa/asgard_midcom.admin.user/edit/{$person->guid}\">{$person->name}</a>";
 
         // Cannot send the email if address is not specified
-        if (!$person->email)
-        {
+        if (!$person->email) {
             midcom::get()->uimessages->add($this->_l10n->get('midcom.admin.user'), sprintf($this->_l10n->get('no email address defined for %s'), $person_edit_url), 'error');
             return;
         }
 
         // if account has no username, we don't need to set a password either
-        if ($account->get_username() == '')
-        {
+        if ($account->get_username() == '') {
             midcom::get()->uimessages->add($this->_l10n->get('midcom.admin.user'), sprintf($this->_l10n->get('no username defined for %s'), $person_edit_url), 'error');
             return;
         }
@@ -310,21 +285,17 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
         );
 
         // Send the message
-        if ($mail->send())
-        {
+        if ($mail->send()) {
             // Set the password
             $account->set_password($password);
 
-            if (!$account->save())
-            {
+            if (!$account->save()) {
                 midcom::get()->uimessages->add($this->_l10n->get('midcom.admin.user'), sprintf($this->_l10n->get('failed to update the password for %s'), $person_edit_url), 'error');
                 return;
             }
             // Show UI message on success
             midcom::get()->uimessages->add($this->_l10n->get('midcom.admin.user'), $this->_l10n->get('passwords updated and mail sent'));
-        }
-        else
-        {
+        } else {
             midcom::get()->uimessages->add($this->_l10n->get('midcom.admin.user'), "Failed to send the mail, SMTP returned error " . $mail->get_error_message(), 'error');
         }
     }

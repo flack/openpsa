@@ -34,8 +34,7 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
      */
     public function _handler_send_bg($handler_id, array $args, array &$data)
     {
-        if (!is_numeric($args[1]))
-        {
+        if (!is_numeric($args[1])) {
             throw new midcom_error('Batch number missing');
         }
         midcom::get()->auth->request_sudo($this->_component);
@@ -68,12 +67,9 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
         $data['sender'] = $this->_get_sender($data);
         $composed = $this->_prepare_send($data);
         $bgstat = $data['sender']->send_bg($data['batch_url_base_full'], $data['batch_number'], $composed, $data['compose_from'], $data['compose_subject']);
-        if (!$bgstat)
-        {
+        if (!$bgstat) {
             echo "ERROR\n";
-        }
-        else
-        {
+        } else {
             echo "Batch #{$data['batch_number']} DONE\n";
         }
         midcom::get()->auth->drop_sudo();
@@ -102,12 +98,10 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
         //PONDER: Should we leave these entirely for the methods to parse from the array ?
         $data['compose_subject'] = '';
         $data['compose_from'] = '';
-        if (array_key_exists('subject', $data['message_array']))
-        {
+        if (array_key_exists('subject', $data['message_array'])) {
             $data['compose_subject'] = &$data['message_array']['subject'];
         }
-        if (array_key_exists('from', $data['message_array']))
-        {
+        if (array_key_exists('from', $data['message_array'])) {
             $data['compose_from'] = &$data['message_array']['from'];
         }
 
@@ -123,8 +117,7 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
     {
         $data['message_array'] = $this->_datamanager->get_content_raw();
         $data['message_array']['dm_types'] =& $this->_datamanager->types;
-        if (!array_key_exists('content', $data['message_array']))
-        {
+        if (!array_key_exists('content', $data['message_array'])) {
             throw new midcom_error('"content" not defined in schema');
         }
 
@@ -135,17 +128,14 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
             'linkdetector_address' => 'link_detector_address',
         );
 
-        foreach ($settings as $config_name => $target_name)
-        {
-            if ($value = $this->_config->get($config_name))
-            {
+        foreach ($settings as $config_name => $target_name) {
+            if ($value = $this->_config->get($config_name)) {
                 $data['message_array'][$target_name] = $value;
             }
         }
 
         $sender = new org_openpsa_directmarketing_sender($data['message'], $data['message_array']);
-        if ($token_size = $this->_config->get('token_size'))
-        {
+        if ($token_size = $this->_config->get('token_size')) {
             $sender->token_size = $token_size;
         }
         return $sender;
@@ -184,8 +174,7 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
         $data['sender'] = $this->_get_sender($data);
         $composed = $this->_prepare_send($data);
         // TODO: Figure out the correct use of style elements, this is how it was but it's not exactly optimal...
-        switch ($handler_id)
-        {
+        switch ($handler_id) {
             case 'test_send_message':
                 // on-line send
                 $data['sender']->test_mode = true;
@@ -194,8 +183,7 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
                 break;
             default:
                 // Schedule background send
-                if (!$data['sender']->register_send_job(1, $data['batch_url_base_full'], $data['send_start']))
-                {
+                if (!$data['sender']->register_send_job(1, $data['batch_url_base_full'], $data['send_start'])) {
                     throw new midcom_error("Job registration failed: " . midcom_connection::get_error_string());
                 }
                 midcom_show_style('send-start');

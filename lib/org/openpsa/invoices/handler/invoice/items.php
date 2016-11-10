@@ -32,26 +32,19 @@ class org_openpsa_invoices_handler_invoice_items extends midcom_baseclasses_comp
         $data['entries'] = array();
 
         $invoice_sum = 0;
-        foreach ($this->_object->get_invoice_items() as $item)
-        {
+        foreach ($this->_object->get_invoice_items() as $item) {
             $entry =  array();
             $entry['id'] = $item->id;
-            try
-            {
+            try {
                 $deliverable = org_openpsa_sales_salesproject_deliverable_dba::get_cached($item->deliverable);
                 $entry['deliverable'] = $deliverable->title;
-            }
-            catch (midcom_error $e)
-            {
+            } catch (midcom_error $e) {
                 $entry['deliverable'] = '';
             }
-            try
-            {
+            try {
                 $task = org_openpsa_projects_task_dba::get_cached($item->task);
                 $entry['task'] = $task->title;
-            }
-            catch (midcom_error $e)
-            {
+            } catch (midcom_error $e) {
                 $entry['task'] = '';
             }
 
@@ -118,32 +111,26 @@ class org_openpsa_invoices_handler_invoice_items extends midcom_baseclasses_comp
 
         $invoice = new org_openpsa_invoices_invoice_dba($args[0]);
 
-        switch ($_POST['oper'])
-        {
+        switch ($_POST['oper']) {
             case 'edit':
-                if (strpos($_POST['id'], 'new_') === 0)
-                {
+                if (strpos($_POST['id'], 'new_') === 0) {
                     $item = new org_openpsa_invoices_invoice_item_dba();
                     $item->invoice = $invoice->id;
                     $item->create();
-                }
-                else
-                {
+                } else {
                     $item = new org_openpsa_invoices_invoice_item_dba((int) $_POST['id']);
                 }
                 $item->units = (float) str_replace(',', '.', $_POST['quantity']);
                 $item->pricePerUnit = (float) str_replace(',', '.', $_POST['price']);
                 $item->description = $_POST['description'];
 
-                if (!$item->update())
-                {
+                if (!$item->update()) {
                     throw new midcom_error('Failed to update item: ' . midcom_connection::get_error_string());
                 }
                 break;
             case 'del':
                 $item = new org_openpsa_invoices_invoice_item_dba((int) $_POST['id']);
-                if (!$item->delete())
-                {
+                if (!$item->delete()) {
                     throw new midcom_error('Failed to delete item: ' . midcom_connection::get_error_string());
                 }
                 break;
@@ -168,9 +155,8 @@ class org_openpsa_invoices_handler_invoice_items extends midcom_baseclasses_comp
             || !isset($_POST['id'])
             || !isset($_POST['description'])
             || !isset($_POST['price'])
-            || !isset($_POST['quantity']))
-        {
-             throw new midcom_error('Incomplete POST data');
+            || !isset($_POST['quantity'])) {
+            throw new midcom_error('Incomplete POST data');
         }
     }
 
@@ -184,8 +170,7 @@ class org_openpsa_invoices_handler_invoice_items extends midcom_baseclasses_comp
         $item = new org_openpsa_invoices_invoice_item_dba((int) $_POST['id']);
         $item->position = $_POST['position'];
 
-        if (!$item->update())
-        {
+        if (!$item->update()) {
             throw new midcom_error('Failed to update item: ' . midcom_connection::get_error_string());
         }
         return new midcom_response_json(array());

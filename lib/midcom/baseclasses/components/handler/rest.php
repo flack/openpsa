@@ -86,8 +86,7 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
     {
         $this->_request['method'] = strtolower($_SERVER['REQUEST_METHOD']);
 
-        switch ($this->_request['method'])
-        {
+        switch ($this->_request['method']) {
             case 'get':
             case 'delete':
                 $this->_request['params'] = $_GET;
@@ -102,12 +101,10 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
         $this->_request['params'] = array_map('trim', $this->_request['params']);
 
         // determine id / guid
-        if (isset($this->_request['params']['id']))
-        {
+        if (isset($this->_request['params']['id'])) {
             $this->_id = intval($this->_request['params']['id']);
         }
-        if (isset($this->_request['params']['guid']))
-        {
+        if (isset($this->_request['params']['guid'])) {
             $this->_id = $this->_request['params']['guid'];
         }
     }
@@ -121,33 +118,27 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
     public function retrieve_object()
     {
         // already got an object
-        if ($this->_object)
-        {
+        if ($this->_object) {
             return $this->_object;
         }
 
         $classname = $this->get_object_classname();
         // create mode
-        if ($this->_mode == "create")
-        {
+        if ($this->_mode == "create") {
             $this->_object = new $classname;
             return $this->_object;
         }
 
         // for all other modes, we need an id or guid
-        if (!$this->_id)
-        {
+        if (!$this->_id) {
             $this->_stop("Missing id / guid for " . $this->_mode . " mode", MIDCOM_ERRCRIT);
         }
 
         // try finding existing object
-        try
-        {
+        try {
             $this->_object = new $classname($this->_id);
             return $this->_object;
-        }
-        catch (Exception $e)
-        {
+        } catch (Exception $e) {
             $this->_stop($e->getMessage(), $e->getCode());
         }
     }
@@ -157,12 +148,11 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
      */
     public function bind_data()
     {
-         $this->_check_object();
+        $this->_check_object();
 
-         foreach ($this->_request['params'] as $field => $value)
-         {
-             $this->_object->{$field} = $value;
-         }
+        foreach ($this->_request['params'] as $field => $value) {
+            $this->_object->{$field} = $value;
+        }
     }
 
     /**
@@ -173,17 +163,14 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
         $this->_check_object();
 
         $stat = false;
-        if ($this->_mode == "create")
-        {
+        if ($this->_mode == "create") {
             $stat = $this->_object->create();
         }
-        if ($this->_mode == "update")
-        {
+        if ($this->_mode == "update") {
             $stat = $this->_object->update();
         }
 
-        if (!$stat)
-        {
+        if (!$stat) {
             $this->_stop("Failed to " . $this->_mode . " object, last error was: " . midcom_connection::get_error_string(), MIDCOM_ERRCRIT);
         }
         $this->_responseStatus = MIDCOM_ERROK;
@@ -199,42 +186,32 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
      */
     protected function _process_request()
     {
-        try
-        {
+        try {
             // call corresponding method
-            if ($this->_request['method'] == 'get')
-            {
+            if ($this->_request['method'] == 'get') {
                 $this->_mode = 'get';
                 $this->handle_get();
             }
             // post and put might be used for create/update
-            if ($this->_request['method'] == 'post' || $this->_request['method'] == 'put')
-            {
-                if ($this->_id)
-                {
+            if ($this->_request['method'] == 'post' || $this->_request['method'] == 'put') {
+                if ($this->_id) {
                     $this->_mode = 'update';
                     $this->handle_update();
-                }
-                else
-                {
+                } else {
                     $this->_mode = 'create';
                     $this->handle_create();
                 }
             }
-            if ($this->_request['method'] == 'delete')
-            {
+            if ($this->_request['method'] == 'delete') {
                 $this->_mode = 'delete';
                 $this->handle_delete();
             }
 
             // no response has been set
-            if (is_null($this->_response))
-            {
+            if (is_null($this->_response)) {
                 $this->_stop('Could not handle request, unknown method', 405);
             }
-        }
-        catch (midcom_error $e)
-        {
+        } catch (midcom_error $e) {
             $this->_responseStatus = $e->getCode();
             return $this->_send_response($e->getMessage());
         }
@@ -253,8 +230,7 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
     {
         // always add status code and message
         $this->_response['code'] = $this->_responseStatus;
-        if ($message)
-        {
+        if ($message) {
             $this->_response['message'] = $message;
         }
 
@@ -280,8 +256,7 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
      */
     private function _check_object()
     {
-        if (!$this->_object)
-        {
+        if (!$this->_object) {
             $this->_stop("No object given", MIDCOM_ERRCRIT);
         }
     }
@@ -315,8 +290,7 @@ abstract class midcom_baseclasses_components_handler_rest extends midcom_basecla
     public function handle_delete()
     {
         $this->retrieve_object();
-        if (!$this->_object->delete())
-        {
+        if (!$this->_object->delete()) {
             $this->_stop("Failed to delete object, last error was: " . midcom_connection::get_error_string(), MIDCOM_ERRCRIT);
         }
         // on success, return id

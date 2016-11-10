@@ -32,27 +32,20 @@ class org_openpsa_projects_projectbroker
 
         $tags = array();
         // Resolve tasks tags (with contexts) into single array of tags without contexts
-        foreach (array_keys($tag_map) as $tagname)
-        {
+        foreach (array_keys($tag_map) as $tagname) {
             $tag = net_nemein_tag_handler::resolve_tagname($tagname);
             $tags[$tag] = $tag;
         }
         $persons = net_nemein_tag_handler::get_objects_with_tags($tags, $classes, 'AND');
-        if (!is_array($persons))
-        {
+        if (!is_array($persons)) {
             return false;
         }
         // Normalize to contacts person class if necessary
-        foreach ($persons as $obj)
-        {
-            if (!$obj instanceof org_openpsa_contacts_person_dba)
-            {
-                try
-                {
+        foreach ($persons as $obj) {
+            if (!$obj instanceof org_openpsa_contacts_person_dba) {
+                try {
                     $obj = new org_openpsa_contacts_person_dba($obj->id);
-                }
-                catch (midcom_error $e)
-                {
+                } catch (midcom_error $e) {
                     $e->log();
                     continue;
                 }
@@ -69,19 +62,16 @@ class org_openpsa_projects_projectbroker
     private function _find_task_prospects_filter_by_minimum_time_slot($task, array &$prospects)
     {
         $minimum_time_slot = $task->get_parameter('org.openpsa.projects.projectbroker', 'minimum_slot');
-        if (empty($minimum_time_slot))
-        {
+        if (empty($minimum_time_slot)) {
             debug_add('minimum time slot is not defined, aborting', MIDCOM_LOG_WARN);
             return;
         }
 
         debug_add('clearing prospects that do not have free time from the list');
         midcom::get()->auth->request_sudo('org.openpsa.projects');
-        foreach ($prospects as $key => $person)
-        {
+        foreach ($prospects as $key => $person) {
             $slots = org_openpsa_calendar_event_member_dba::find_free_times(($minimum_time_slot * 60), $person, $task->start, $task->end);
-            if (empty($slots))
-            {
+            if (empty($slots)) {
                 debug_add("removing '{$person->name}' from prospects list");
                 unset($prospects[$key]);
             }
@@ -101,22 +91,18 @@ class org_openpsa_projects_projectbroker
         $task->set_parameter('org.openpsa.projects.projectbroker', 'local_search', 'SEARCH_IN_PROGRESS');
         $task->get_members();
         $prospects = $this->find_task_prospects($task);
-        if (!is_array($prospects))
-        {
+        if (!is_array($prospects)) {
             return false;
         }
-        foreach ($prospects as $person)
-        {
-            if (!empty($task->resources[$person->id]))
-            {
+        foreach ($prospects as $person) {
+            if (!empty($task->resources[$person->id])) {
                 continue;
             }
             $prospect = new org_openpsa_projects_task_resource_dba();
             $prospect->person = $person->id;
             $prospect->task = $task->id;
             $prospect->orgOpenpsaObtype = org_openpsa_projects_task_resource_dba::PROSPECT;
-            if (!$prospect->create())
-            {
+            if (!$prospect->create()) {
                 debug_add('Failed to create prospect: ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
             }
         }
@@ -138,8 +124,7 @@ class org_openpsa_projects_projectbroker
     public function resolve_person_timeslots($person, $task)
     {
         $minimum_time_slot = $task->get_parameter('org.openpsa.projects.projectbroker', 'minimum_slot');
-        if (empty($minimum_time_slot))
-        {
+        if (empty($minimum_time_slot)) {
             // Default to 15 minutes for minimum time here
             $minimum_time_slot = 0.25;
         }

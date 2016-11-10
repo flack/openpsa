@@ -23,8 +23,7 @@ class org_openpsa_contacts_person_dba extends midcom_db_person
     public function __construct($identifier = null)
     {
         if (   midcom::get()->config->get('person_class') != 'midgard_person'
-            && midcom::get()->config->get('person_class') != 'openpsa_person')
-        {
+            && midcom::get()->config->get('person_class') != 'openpsa_person') {
             $this->__mgdschema_class_name__ = midcom::get()->config->get('person_class');
         }
         parent::__construct($identifier);
@@ -34,8 +33,7 @@ class org_openpsa_contacts_person_dba extends midcom_db_person
     {
         if (   $name == 'homepage'
             && !empty($value)
-            && $value != $this->homepage)
-        {
+            && $value != $this->homepage) {
             $this->_url_changed = true;
         }
         parent::__set($name, $value);
@@ -45,8 +43,7 @@ class org_openpsa_contacts_person_dba extends midcom_db_person
     {
         $siteconfig = new org_openpsa_core_siteconfig();
 
-        if ($contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts'))
-        {
+        if ($contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts')) {
             return '<a href="' . $contacts_url . 'person/' . $this->guid . '/">' . $this->get_label() . "</a>\n";
         }
         return $this->get_label();
@@ -55,8 +52,7 @@ class org_openpsa_contacts_person_dba extends midcom_db_person
     public function _on_creating()
     {
         //Make sure we have objType
-        if (!$this->orgOpenpsaObtype)
-        {
+        if (!$this->orgOpenpsaObtype) {
             $this->orgOpenpsaObtype = self::TYPE_PERSON;
         }
         return true;
@@ -64,8 +60,7 @@ class org_openpsa_contacts_person_dba extends midcom_db_person
 
     public function _on_updated()
     {
-        if ($this->_register_prober)
-        {
+        if ($this->_register_prober) {
             $args = array
             (
                 'person' => $this->guid,
@@ -82,8 +77,7 @@ class org_openpsa_contacts_person_dba extends midcom_db_person
 
     public function get_label_property()
     {
-        if ($this->rname)
-        {
+        if ($this->rname) {
             return 'rname';
         }
         return 'username';

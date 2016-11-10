@@ -2,12 +2,11 @@
 
 <ul>
 <?php
-foreach ($data['wikipages'] as $wikipage)
-{
-    $wikipage_link = midcom::get()->permalinks->create_permalink($wikipage->guid);
-    ?>
+foreach ($data['wikipages'] as $wikipage) {
+    $wikipage_link = midcom::get()->permalinks->create_permalink($wikipage->guid); ?>
     <li><a href="&(wikipage_link);">&(wikipage.title);</a></li>
     <?php
+
 }
 ?>
 </ul>

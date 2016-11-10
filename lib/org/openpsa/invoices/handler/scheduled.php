@@ -40,8 +40,7 @@ implements org_openpsa_widgets_grid_provider_client
         $qb->add_constraint('method', '=', 'new_subscription_cycle');
         $qb->add_constraint('component', '=', 'org.openpsa.sales');
         $qb->add_constraint('status', '=', midcom_services_at_entry_dba::SCHEDULED);
-        if (!is_null($field))
-        {
+        if (!is_null($field)) {
             $qb->add_order($field, $direction);
         }
 
@@ -56,24 +55,18 @@ implements org_openpsa_widgets_grid_provider_client
             'month' => strftime('%B %Y', $at_entry->start),
             'index_month' => strftime('%Y-%m', $at_entry->start),
         );
-        try
-        {
+        try {
             $deliverable = org_openpsa_sales_salesproject_deliverable_dba::get_cached($at_entry->arguments['deliverable']);
             $salesproject = org_openpsa_sales_salesproject_dba::get_cached($deliverable->salesproject);
-        }
-        catch (midcom_error $e)
-        {
+        } catch (midcom_error $e) {
             $e->log();
             return $invoice;
         }
 
-        if ($deliverable->invoiceByActualUnits)
-        {
+        if ($deliverable->invoiceByActualUnits) {
             $type = $this->_i18n->get_l10n('org.openpsa.expenses')->get('invoiceable reports');
             $invoice_sum = $deliverable->units * $deliverable->pricePerUnit;
-        }
-        else
-        {
+        } else {
             $invoice_sum = $deliverable->price;
             $type = $this->_i18n->get_l10n('org.openpsa.reports')->get('fixed price');
         }
@@ -87,8 +80,7 @@ implements org_openpsa_widgets_grid_provider_client
         $this->_render_contact_field($salesproject->customerContact, 'customerContact', $invoice);
         $this->_render_contact_field($salesproject->owner, 'owner', $invoice);
 
-        if (!empty($this->_sales_url))
-        {
+        if (!empty($this->_sales_url)) {
             $invoice['deliverable'] = '<a href="' . $this->_sales_url . 'deliverable/' . $deliverable->guid . '/">' . $invoice['deliverable'] . '</a>';
         }
 
@@ -99,16 +91,12 @@ implements org_openpsa_widgets_grid_provider_client
     {
         $invoice[$fieldname] = '';
         $invoice['index_' . $fieldname] = '';
-        if ($id > 0)
-        {
-            try
-            {
+        if ($id > 0) {
+            try {
                 $object = $classname::get_cached($id);
                 $invoice[$fieldname] = $object->render_link();
                 $invoice['index_' . $fieldname] = $object->get_label();
-            }
-            catch (midcom_error $e)
-            {
+            } catch (midcom_error $e) {
                 $e->log();
             }
         }

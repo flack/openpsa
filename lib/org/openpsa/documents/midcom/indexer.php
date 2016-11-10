@@ -15,8 +15,7 @@ class org_openpsa_documents_midcom_indexer extends midcom_helper_datamanager2_in
 {
     public function prepare_document(midcom_services_indexer_document &$document, midcom_helper_datamanager2_datamanager $dm)
     {
-        if (is_a($dm->storage->object, 'midcom_db_topic'))
-        {
+        if (is_a($dm->storage->object, 'midcom_db_topic')) {
             $document->title = $dm->storage->object->extra;
         }
     }

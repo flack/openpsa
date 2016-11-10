@@ -29,8 +29,7 @@ class midcom_exception_handler
      */
     public static function register()
     {
-        if (!defined('OPENPSA2_UNITTEST_RUN'))
-        {
+        if (!defined('OPENPSA2_UNITTEST_RUN')) {
             $handler = new self;
             set_error_handler(array($handler, 'handle_error'), E_ALL ^ (E_NOTICE | E_WARNING));
             set_exception_handler(array($handler, 'handle_exception'));
@@ -39,8 +38,7 @@ class midcom_exception_handler
 
     private function _generate_http_response()
     {
-        if (midcom::get()->config->get('auth_login_form_httpcode') == 200)
-        {
+        if (midcom::get()->config->get('auth_login_form_httpcode') == 200) {
             _midcom_header('HTTP/1.0 200 OK');
             return;
         }
@@ -82,13 +80,10 @@ class midcom_exception_handler
 
         // Determine login message
         $login_warning = '';
-        if (!is_null(midcom::get()->auth->user))
-        {
+        if (!is_null(midcom::get()->auth->user)) {
             // The user has insufficient privileges
             $login_warning = midcom::get()->i18n->get_string('login message - insufficient privileges', 'midcom');
-        }
-        elseif (midcom::get()->auth->auth_credentials_found)
-        {
+        } elseif (midcom::get()->auth->auth_credentials_found) {
             $login_warning = midcom::get()->i18n->get_string('login message - user or password wrong', 'midcom');
         }
 
@@ -97,8 +92,7 @@ class midcom_exception_handler
         // Emergency check, if headers have been sent, kill MidCOM instantly, we cannot output
         // an error page at this point (dynamic_load from site style? Code in Site Style, something
         // like that)
-        if (_midcom_headers_sent())
-        {
+        if (_midcom_headers_sent()) {
             debug_add('Cannot render an access denied page, page output has already started. Aborting directly.', MIDCOM_LOG_INFO);
             echo "<br />{$title}: {$login_warning}";
             debug_add("Emergency Error Message output finished, exiting now");
@@ -135,8 +129,7 @@ class midcom_exception_handler
         $message = $e->getMessage();
         debug_print_r('Exception occurred: ' . $httpcode . ', Message: ' . $message . ', exception trace:', $trace);
 
-        if (!in_array($httpcode, array(MIDCOM_ERROK, MIDCOM_ERRNOTFOUND, MIDCOM_ERRFORBIDDEN, MIDCOM_ERRAUTH, MIDCOM_ERRCRIT)))
-        {
+        if (!in_array($httpcode, array(MIDCOM_ERROK, MIDCOM_ERRNOTFOUND, MIDCOM_ERRFORBIDDEN, MIDCOM_ERRAUTH, MIDCOM_ERRCRIT))) {
             debug_add("Unknown Errorcode {$httpcode} encountered, assuming 500");
             $httpcode = MIDCOM_ERRCRIT;
         }
@@ -144,8 +137,7 @@ class midcom_exception_handler
         // Send error to special log or recipient as per in configuration.
         $this->send($httpcode, $message);
 
-        if (PHP_SAPI !== 'cli')
-        {
+        if (PHP_SAPI !== 'cli') {
             $this->show($httpcode, $message);
             // This will exit
         }
@@ -158,8 +150,7 @@ class midcom_exception_handler
     public function handle_error($errno, $errstr, $errfile, $errline, $errcontext)
     {
         $msg = "PHP Error: {$errstr} \n in {$errfile} line {$errline}";
-        if (!empty($errcontext))
-        {
+        if (!empty($errcontext)) {
             debug_print_r('Error context', $errcontext);
         }
 
@@ -185,21 +176,18 @@ class midcom_exception_handler
      */
     public function show($httpcode, $message)
     {
-        if (!$this->_exception)
-        {
+        if (!$this->_exception) {
             debug_add("An error has been generated: Code: {$httpcode}, Message: {$message}");
             debug_print_function_stack('Stacktrace:');
         }
 
-        if (_midcom_headers_sent())
-        {
+        if (_midcom_headers_sent()) {
             debug_add("Generate-Error was called after sending the HTTP Headers!", MIDCOM_LOG_ERROR);
             debug_add("Unexpected Error: {$httpcode} - {$message}", MIDCOM_LOG_ERROR);
             _midcom_stop_request("Unexpected Error, this should display an HTTP {$httpcode} - " . htmlentities($message));
         }
 
-        switch ($httpcode)
-        {
+        switch ($httpcode) {
             case MIDCOM_ERROK:
                 $header = "HTTP/1.0 200 OK";
                 $title = "OK";
@@ -239,8 +227,7 @@ class midcom_exception_handler
         $style->data['error_exception'] = $this->_exception;
         $style->data['error_handler'] = $this;
 
-        if (!$style->show_midcom('midcom_error_' . $httpcode))
-        {
+        if (!$style->show_midcom('midcom_error_' . $httpcode)) {
             $style->show_midcom('midcom_error');
         }
 
@@ -263,8 +250,7 @@ class midcom_exception_handler
     {
         $error_actions = midcom::get()->config->get('error_actions');
         if (   !isset($error_actions[$httpcode])
-            || !isset($error_actions[$httpcode]['action']))
-        {
+            || !isset($error_actions[$httpcode]['action'])) {
             // No action specified for this error code, skip
             return;
         }
@@ -272,34 +258,29 @@ class midcom_exception_handler
         // Prepare the message
         $msg = "{$_SERVER['REQUEST_METHOD']} request to {$_SERVER['REQUEST_URI']}: ";
         $msg .= "{$httpcode} {$message}\n";
-        if (isset($_SERVER['HTTP_REFERER']))
-        {
+        if (isset($_SERVER['HTTP_REFERER'])) {
             $msg .= "(Referrer: {$_SERVER['HTTP_REFERER']})\n";
         }
 
         // Send as email handler
-        if ($error_actions[$httpcode]['action'] == 'email')
-        {
+        if ($error_actions[$httpcode]['action'] == 'email') {
             $this->_send_email($msg, $error_actions[$httpcode]);
         }
         // Append to log file handler
-        elseif ($error_actions[$httpcode]['action'] == 'log')
-        {
+        elseif ($error_actions[$httpcode]['action'] == 'log') {
             $this->_log($msg, $error_actions[$httpcode]);
         }
     }
 
     private function _log($msg, array $config)
     {
-        if (empty($config['filename']))
-        {
+        if (empty($config['filename'])) {
             // No log file specified, skip
             return;
         }
 
         if (   !is_writable($config['filename'])
-            && !is_writable(dirname($config['filename'])))
-        {
+            && !is_writable(dirname($config['filename']))) {
             debug_add("Error logging file {$config['filename']} is not writable", MIDCOM_LOG_WARN);
             return;
         }
@@ -312,14 +293,12 @@ class midcom_exception_handler
 
     private function _send_email($msg, array $config)
     {
-        if (empty($config['email']))
-        {
+        if (empty($config['email'])) {
             // No recipient specified, skip
             return;
         }
 
-        if (!midcom::get()->componentloader->is_installed('org.openpsa.mail'))
-        {
+        if (!midcom::get()->componentloader->is_installed('org.openpsa.mail')) {
             debug_add("Email sending library org.openpsa.mail, used for error notifications is not installed", MIDCOM_LOG_WARN);
             return;
         }
@@ -334,60 +313,41 @@ class midcom_exception_handler
 
         $mail->body .= "\n" . implode("\n", $stacktrace);
 
-        if (!$mail->send())
-        {
+        if (!$mail->send()) {
             debug_add("failed to send error notification email to {$mail->to}, reason: " . $mail->get_error_message(), MIDCOM_LOG_WARN);
         }
     }
 
     public function get_function_stack()
     {
-        if ($this->_exception)
-        {
+        if ($this->_exception) {
             $stack = $this->_exception->getTrace();
-        }
-
-        elseif (function_exists('xdebug_get_function_stack'))
-        {
+        } elseif (function_exists('xdebug_get_function_stack')) {
             $stack = xdebug_get_function_stack();
-        }
-        else
-        {
+        } else {
             $stack = array_reverse(debug_backtrace(false));
         }
 
         $stacktrace = array();
-        foreach ($stack as $number => $frame)
-        {
+        foreach ($stack as $number => $frame) {
             $line = $number + 1;
-            if (array_key_exists('file', $frame))
-            {
+            if (array_key_exists('file', $frame)) {
                 $file = str_replace(MIDCOM_ROOT, '[midcom_root]', $frame['file']);
                 $line .= ": {$file}:{$frame['line']}  ";
-            }
-            else
-            {
+            } else {
                 $line .= ': [internal]  ';
             }
-            if (array_key_exists('class', $frame))
-            {
+            if (array_key_exists('class', $frame)) {
                 $line .= $frame['class'];
-                if (array_key_exists('type', $frame))
-                {
+                if (array_key_exists('type', $frame)) {
                     $line .= $frame['type'];
-                }
-                else
-                {
+                } else {
                     $line .= '::';
                 }
                 $line .= $frame['function'];
-            }
-            elseif (array_key_exists('function', $frame))
-            {
+            } elseif (array_key_exists('function', $frame)) {
                 $line .= $frame['function'];
-            }
-            else
-            {
+            } else {
                 $line .= 'require, include or eval';
             }
             $stacktrace[] = $line;
@@ -442,8 +402,7 @@ class midcom_error_forbidden extends midcom_error
 {
     public function __construct($message = null, $code = MIDCOM_ERRFORBIDDEN)
     {
-        if (is_null($message))
-        {
+        if (is_null($message)) {
             $message = midcom::get()->i18n->get_string('access denied', 'midcom');
         }
         parent::__construct($message, $code);
@@ -467,28 +426,20 @@ class midcom_error_midgard extends midcom_error
         //catch last error which might be from dbaobject
         $last_error = midcom_connection::get_error();
 
-        if (!is_null($id))
-        {
-            if ($last_error === MGD_ERR_NOT_EXISTS)
-            {
+        if (!is_null($id)) {
+            if ($last_error === MGD_ERR_NOT_EXISTS) {
                 $code = MIDCOM_ERRNOTFOUND;
                 $message = "The object with identifier {$id} was not found.";
-            }
-
-            elseif ($last_error == MGD_ERR_ACCESS_DENIED)
-            {
+            } elseif ($last_error == MGD_ERR_ACCESS_DENIED) {
                 $code = MIDCOM_ERRFORBIDDEN;
                 $message = midcom::get()->i18n->get_string('access denied', 'midcom');
-            }
-            elseif ($last_error == MGD_ERR_OBJECT_DELETED)
-            {
+            } elseif ($last_error == MGD_ERR_OBJECT_DELETED) {
                 $code = MIDCOM_ERRNOTFOUND;
                 $message = "The object with identifier {$id} was deleted.";
             }
         }
         //If other options fail, go for the server error
-        if (!isset($code))
-        {
+        if (!isset($code)) {
             $code = MIDCOM_ERRCRIT;
             $message = $e->getMessage();
         }

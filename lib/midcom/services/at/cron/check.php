@@ -25,8 +25,8 @@ class midcom_services_at_cron_check extends midcom_baseclasses_components_cron_h
         $qb = midcom_services_at_entry_dba::new_query_builder();
         $qb->add_constraint('start', '<=', time());
         $qb->begin_group('OR');
-            $qb->add_constraint('host', '=', midcom_connection::get('host'));
-            $qb->add_constraint('host', '=', 0);
+        $qb->add_constraint('host', '=', midcom_connection::get('host'));
+        $qb->add_constraint('host', '=', 0);
         $qb->end_group();
         $qb->add_constraint('status', '=', midcom_services_at_entry_dba::SCHEDULED);
         $qb->set_limit((int) $this->_config->get('limit_per_run'));
@@ -35,8 +35,7 @@ class midcom_services_at_cron_check extends midcom_baseclasses_components_cron_h
         $qbret = $qb->execute();
         midcom::get()->auth->drop_sudo();
 
-        foreach ($qbret as $entry)
-        {
+        foreach ($qbret as $entry) {
             debug_add("Processing entry #{$entry->id}\n");
             //Avoid double-execute in case of long runs
             $entry->status = midcom_services_at_entry_dba::RUNNING;
@@ -48,21 +47,17 @@ class midcom_services_at_cron_check extends midcom_baseclasses_components_cron_h
             $args['midcom_services_at_entry_object'] = $entry;
             $interface = midcom::get()->componentloader->get_interface_class($entry->component);
             $method = $entry->method;
-            if (!is_callable(array($interface, $method)))
-            {
+            if (!is_callable(array($interface, $method))) {
                 $error = get_class($interface) . "->{$method}() is not callable";
                 $this->handle_error($entry, $error, $args);
                 continue;
             }
             $mret = $interface->$method($args, $this);
 
-            if ($mret !== true)
-            {
+            if ($mret !== true) {
                 $error = get_class($interface) . "->{$method}(\$args, \$this) returned '{$mret}', errstr: " . midcom_connection::get_error_string();
                 $this->handle_error($entry, $error, $args);
-            }
-            else
-            {
+            } else {
                 midcom::get()->auth->request_sudo('midcom.services.at');
                 $entry->delete();
                 midcom::get()->auth->drop_sudo();

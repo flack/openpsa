@@ -58,8 +58,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
         $controller->schemaname = $this->_schema;
         $controller->defaults = $defaults;
         $controller->callback_object =& $this;
-        if (!$controller->initialize())
-        {
+        if (!$controller->initialize()) {
             throw new midcom_error("Failed to initialize a DM2 create controller.");
         }
         return $controller;
@@ -72,16 +71,12 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
     {
         $this->_hour_report = new org_openpsa_projects_hour_report_dba();
 
-        if ($task = $controller->formmanager->get_value('task'))
-        {
+        if ($task = $controller->formmanager->get_value('task')) {
             $this->_hour_report->task = $task;
-        }
-        elseif ($this->_request_data['task'])
-        {
+        } elseif ($this->_request_data['task']) {
             $this->_hour_report->task = $this->_request_data['task'];
         }
-        if (!$this->_hour_report->create())
-        {
+        if (!$this->_hour_report->create()) {
             debug_print_r('We operated on this object:', $this->_hour_report);
             throw new midcom_error("Failed to create a new hour_report under hour_report group #{$this->_request_data['task']}. Error: " . midcom_connection::get_error_string());
         }
@@ -100,20 +95,16 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
     {
         $this->_load_schemadb();
         $data['selected_schema'] = $args[0];
-        if (!array_key_exists($data['selected_schema'], $this->_schemadb))
-        {
+        if (!array_key_exists($data['selected_schema'], $this->_schemadb)) {
             throw new midcom_error_notfound('The requested schema ' . $args[0] . ' was not found in the schemadb');
         }
         $this->_schema = $data['selected_schema'];
 
-        if (count($args) > 1)
-        {
+        if (count($args) > 1) {
             $task = new org_openpsa_projects_task_dba($args[1]);
             $task->require_do('midgard:create');
             $data['task'] = $task->id;
-        }
-        else
-        {
+        } else {
             midcom::get()->auth->require_valid_user();
             $data['task'] = 0;
         }
@@ -140,16 +131,14 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
         $data['controller'] = midcom_helper_datamanager2_controller::create('simple');
         $data['controller']->schemadb =& $this->_schemadb;
         $data['controller']->set_storage($this->_hour_report);
-        if (!$data['controller']->initialize())
-        {
+        if (!$data['controller']->initialize()) {
             throw new midcom_error("Failed to initialize a DM2 controller instance for hour_report {$this->_hour_report->id}.");
         }
 
         midcom::get()->head->set_pagetitle($this->_l10n->get($handler_id));
 
         $workflow = $this->get_workflow('datamanager2', array('controller' => $data['controller']));
-        if ($this->_hour_report->can_do('midgard:delete'))
-        {
+        if ($this->_hour_report->can_do('midgard:delete')) {
             $delete = $this->get_workflow('delete', array
             (
                 'object' => $this->_hour_report,
@@ -172,13 +161,10 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
         $hour_report = new org_openpsa_projects_hour_report_dba($args[0]);
         $options = array('object' => $hour_report);
 
-        try
-        {
+        try {
             $task = org_openpsa_projects_task_dba::get_cached($hour_report->task);
             $options['success_url'] = 'hours/task/' . $task->guid . '/';
-        }
-        catch (midcom_error $e)
-        {
+        } catch (midcom_error $e) {
             $e->log();
         }
         return $this->get_workflow('delete', $options)->run();
@@ -193,15 +179,13 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
      */
     public function _handler_batch($handler_id, array $args, array &$data)
     {
-        if (!empty($_POST['entries']))
-        {
+        if (!empty($_POST['entries'])) {
             $qb = org_openpsa_projects_hour_report_dba::new_query_builder();
             $qb->add_constraint('id', 'IN', $_POST['entries']);
 
             $value = $this->parse_input($_POST);
             $field = $_POST['action'];
-            foreach ($qb->execute() as $hour_report)
-            {
+            foreach ($qb->execute() as $hour_report) {
                 $hour_report->$field = $value;
                 $hour_report->update();
             }
@@ -213,16 +197,13 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
 
     private function parse_input(array $input)
     {
-        if (!in_array($input['action'], array('invoiceable', 'invoice', 'task')))
-        {
+        if (!in_array($input['action'], array('invoiceable', 'invoice', 'task'))) {
             throw new midcom_error('passed action ' . $input['action'] . ' is unknown');
         }
-        if ($input['action'] == 'invoiceable')
-        {
+        if ($input['action'] == 'invoiceable') {
             return !empty($input['value']);
         }
-        if (empty($input['selection']))
-        {
+        if (empty($input['selection'])) {
             return 0;
         }
         return (int) array_pop($input['selection']);

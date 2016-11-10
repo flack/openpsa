@@ -61,8 +61,7 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
         $qb->add_constraint('eid.end', '>=', $from);
         $eventmembers = $qb->execute();
 
-        foreach ($eventmembers as $eventmember)
-        {
+        foreach ($eventmembers as $eventmember) {
             $event = new org_openpsa_calendar_event_dba($eventmember->eid);
             $this->_add_to($data_array, $event, $event->start);
         }
@@ -77,8 +76,7 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
         $qb->add_constraint('person', '=', $person);
         $hour_reports = $qb->execute();
 
-        foreach ($hour_reports as $hour_report)
-        {
+        foreach ($hour_reports as $hour_report) {
             $time = mktime(date('H', $hour_report->metadata->created), date('i', $hour_report->metadata->created), date('s', $hour_report->metadata->created), date('m', $hour_report->date), date('d', $hour_report->date), date('Y', $hour_report->date));
             $this->_add_to($data_array, $hour_report, $time);
         }
@@ -91,21 +89,19 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
         $qb->add_constraint('timestamp', '>=', $from);
         $qb->add_constraint('timestamp', '<=', $to);
         $qb->begin_group('OR');
-            $qb->add_constraint('targetPerson', '=', $person->id);
-            $qb->add_constraint('metadata.creator', '=', $person->guid);
+        $qb->add_constraint('targetPerson', '=', $person->id);
+        $qb->add_constraint('metadata.creator', '=', $person->guid);
         $qb->end_group();
         $task_statuses = $qb->execute();
 
-        foreach ($task_statuses as $task_status)
-        {
+        foreach ($task_statuses as $task_status) {
             $this->_add_to($data_array, $task_status, $task_status->timestamp);
         }
     }
 
     private function _list_positions_between(array &$data_array, $person, $from, $to)
     {
-        if (!midcom::get()->config->get('positioning_enable'))
-        {
+        if (!midcom::get()->config->get('positioning_enable')) {
             return false;
         }
 
@@ -116,8 +112,7 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
         $qb->add_constraint('person', '=', $person);
         $positions = $qb->execute();
 
-        foreach ($positions as $position)
-        {
+        foreach ($positions as $position) {
             $this->_add_to($data_array, $position, $position->date);
         }
     }
@@ -125,12 +120,10 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
     private function _add_to(array &$array, midcom_core_dbaobject $object, $time)
     {
         $date = date('Y-m-d', $time);
-        if (!array_key_exists($date, $array))
-        {
+        if (!array_key_exists($date, $array)) {
             $array[$date] = array();
         }
-        if (!array_key_exists($time, $array[$date]))
-        {
+        if (!array_key_exists($time, $array[$date])) {
             $array[$date][$time] = array();
         }
         $array[$date][$time][$object->guid] = $object;
@@ -172,12 +165,9 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
         ksort($data['review_data']);
 
         // Set page title
-        if ($data['requested_time'] > time())
-        {
+        if ($data['requested_time'] > time()) {
             $title_string = 'preview for week %s';
-        }
-        else
-        {
+        } else {
             $title_string = 'review of week %s';
         }
 
@@ -211,8 +201,7 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
         $week_hours_total = 0;
 
         midcom_show_style('weekreview-header');
-        for ($i = 0; $i < 7; $i++)
-        {
+        for ($i = 0; $i < 7; $i++) {
             $day = $date->format('Y-m-d');
             $data['day_start'] = (int) $date->format('U');
 
@@ -222,8 +211,7 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
             //Roll over to the next day
             $date->modify('+1 second');
 
-            if (!array_key_exists($day, $data['review_data']))
-            {
+            if (!array_key_exists($day, $data['review_data'])) {
                 // Nothing for today
                 continue;
             }
@@ -236,30 +224,23 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
             // Arrange entries per time
             ksort($data['review_data'][$day]);
             $data['class'] = 'even';
-            foreach ($data['review_data'][$day] as $time => $guids)
-            {
-                foreach ($guids as $object)
-                {
-                    if ($data['class'] == 'even')
-                    {
+            foreach ($data['review_data'][$day] as $time => $guids) {
+                foreach ($guids as $object) {
+                    if ($data['class'] == 'even') {
                         $data['class'] = 'odd';
-                    }
-                    else
-                    {
+                    } else {
                         $data['class'] = 'even';
                     }
                     $data['time'] = $time;
                     $data['object'] = $object;
-                    switch (get_class($object))
-                    {
+                    switch (get_class($object)) {
                         case 'org_openpsa_calendar_event_dba':
                             midcom_show_style('weekreview-day-item-event');
                             break;
                         case 'org_openpsa_projects_hour_report_dba':
                             midcom_show_style('weekreview-day-item-hour-report');
 
-                            if ($object->invoiceable)
-                            {
+                            if ($object->invoiceable) {
                                 $day_hours_invoiceable += $object->hours;
                             }
                             $day_hours_total += $object->hours;

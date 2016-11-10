@@ -46,5 +46,4 @@ interface midcom_helper_datamanager2_callback_interface
      * @return array
      */
     public function list_all();
-
 }

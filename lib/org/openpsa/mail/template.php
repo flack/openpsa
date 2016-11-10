@@ -108,13 +108,11 @@ class org_openpsa_mail_template
     {
         $this->_parameters = $parameters;
 
-        foreach ($this->_parameters as $key => $value)
-        {
+        foreach ($this->_parameters as $key => $value) {
             $this->_patterns[] = "/__({$key})__/";
 
             if (   is_array($value)
-                || is_object($value))
-            {
+                || is_object($value)) {
                 $this->_patterns[] = "/__({$key})_([^ \.>\"-]*?)__/";
             }
         }
@@ -139,18 +137,14 @@ class org_openpsa_mail_template
     {
         $key = $matches[1];
         $value = $this->_parameters[$key];
-        if (is_array($value))
-        {
-            if (empty($matches[2]))
-            {
+        if (is_array($value)) {
+            if (empty($matches[2])) {
                 return $this->_format_array($value);
             }
             return $value[$matches[2]];
         }
-        if (is_object($value))
-        {
-            if (empty($matches[2]))
-            {
+        if (is_object($value)) {
+            if (empty($matches[2])) {
                 return $this->_format_object($value);
             }
             return $value->{$matches[2]};
@@ -172,20 +166,16 @@ class org_openpsa_mail_template
     {
         $helper = new helper;
         $result = "";
-        foreach ($helper->get_object_vars($obj) as $key => $value)
-        {
-            if (substr($key, 0, 1) == "_")
-            {
+        foreach ($helper->get_object_vars($obj) as $key => $value) {
+            if (substr($key, 0, 1) == "_") {
                 continue;
             }
             $key = trim($key);
-            if (is_object($value))
-            {
+            if (is_object($value)) {
                 $value = get_class($value) . " object";
                 debug_add("The key {$key} contains another object of type {$value}, can't dump this.");
             }
-            if (is_array($value))
-            {
+            if (is_array($value)) {
                 $value = "Array";
                 debug_add("The key {$key} contains an array, can't dump this.");
             }
@@ -208,17 +198,14 @@ class org_openpsa_mail_template
     private function _format_array(array $array)
     {
         $result = "";
-        foreach ($array as $key => $value)
-        {
+        foreach ($array as $key => $value) {
             $key = trim($key);
-            if (is_object($value))
-            {
+            if (is_object($value)) {
                 $value = get_class($value) . " object";
                 debug_add("The key {$key} contains another object of type {$value}, can't dump this.");
             }
 
-            if (is_array($value))
-            {
+            if (is_array($value)) {
                 $value = "Array";
                 debug_add("The key {$key} contains an array, can't dump this.");
             }

@@ -24,26 +24,20 @@ class org_openpsa_products_validation
     public function is_code_available(array $fields)
     {
         $result = array();
-        if (!empty($fields['id']))
-        {
+        if (!empty($fields['id'])) {
             $product = org_openpsa_products_product_dba::get_cached((int) $fields['id']);
-        }
-        else
-        {
+        } else {
             $product = new org_openpsa_products_product_dba;
         }
-        if (!empty($fields['productGroup']['selection']))
-        {
+        if (!empty($fields['productGroup']['selection'])) {
             $selection = json_decode($fields['productGroup']['selection']);
             $product->productGroup = (int) current($selection);
         }
-        if (!$product->validate_code($fields["code"]))
-        {
+        if (!$product->validate_code($fields["code"])) {
             $result["code"] = sprintf(midcom::get()->i18n->get_string("product code %s already exists in database", "org.openpsa.products"), $fields['code']);
         }
 
-        if (!empty($result))
-        {
+        if (!empty($result)) {
             return $result;
         }
         return true;

@@ -64,8 +64,7 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
      */
     public function _handler_index($handler_id, array $args, array &$data)
     {
-        if ($handler_id == 'ajax-latest')
-        {
+        if ($handler_id == 'ajax-latest') {
             midcom::get()->skip_page_style = true;
         }
 
@@ -79,20 +78,17 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
 
         // Filter by categories
         if (   $handler_id == 'index-category'
-            || $handler_id == 'latest-category')
-        {
+            || $handler_id == 'latest-category') {
             $data['category'] = trim(strip_tags($args[0]));
 
-            if (!$this->_process_category_constraint($qb))
-            {
+            if (!$this->_process_category_constraint($qb)) {
                 throw new midcom_error('Failed to process category constraint');
             }
         }
 
         $qb->add_order('metadata.published', 'DESC');
 
-        switch ($handler_id)
-        {
+        switch ($handler_id) {
             case 'index':
             case 'index-category':
                 $qb->results_per_page = $this->_config->get('index_entries');
@@ -117,8 +113,7 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
         $this->_prepare_request_data();
         midcom::get()->metadata->set_request_metadata(net_nehmer_blog_viewer::get_last_modified($this->_topic, $this->_content_topic), $this->_topic->guid);
 
-        if ($qb->get_current_page() > 1)
-        {
+        if ($qb->get_current_page() > 1) {
             $this->add_breadcrumb
             (
                 midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX),
@@ -129,11 +124,9 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
 
     private function _process_category_constraint($qb)
     {
-        if (!in_array($this->_request_data['category'], $this->_request_data['categories']))
-        {
+        if (!in_array($this->_request_data['category'], $this->_request_data['categories'])) {
             // This is not a predefined category from configuration, check if site maintainer allows us to show it
-            if (!$this->_config->get('categories_custom_enable'))
-            {
+            if (!$this->_config->get('categories_custom_enable')) {
                 return false;
             }
             // TODO: Check here if there are actually items in this cat?
@@ -144,17 +137,13 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
         if (   isset($this->_request_data['schemadb']['default'])
             && isset($this->_request_data['schemadb']['default']->fields['categories'])
             && array_key_exists('allow_multiple', $this->_request_data['schemadb']['default']->fields['categories']['type_config'])
-            && !$this->_request_data['schemadb']['default']->fields['categories']['type_config']['allow_multiple'])
-        {
+            && !$this->_request_data['schemadb']['default']->fields['categories']['type_config']['allow_multiple']) {
             $multiple_categories = false;
         }
         debug_add("multiple_categories={$multiple_categories}");
-        if ($multiple_categories)
-        {
+        if ($multiple_categories) {
             $qb->add_constraint('extra1', 'LIKE', "%|{$this->_request_data['category']}|%");
-        }
-        else
-        {
+        } else {
             $qb->add_constraint('extra1', '=', (string) $this->_request_data['category']);
         }
 
@@ -164,14 +153,12 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
 
         // Activate correct leaf
         if (   $this->_config->get('show_navigation_pseudo_leaves')
-            && in_array($this->_request_data['category'], $this->_request_data['categories']))
-        {
+            && in_array($this->_request_data['category'], $this->_request_data['categories'])) {
             $this->set_active_leaf($this->_topic->id . '_CAT_' . $this->_request_data['category']);
         }
 
         // Add RSS feed to headers
-        if ($this->_config->get('rss_enable'))
-        {
+        if ($this->_config->get('rss_enable')) {
             midcom::get()->head->add_link_head
             (
                 array
@@ -196,10 +183,8 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
     {
         $data['index_fulltext'] = $this->_config->get('index_fulltext');
 
-        if ($this->_config->get('ajax_comments_enable'))
-        {
-            if ($comments_node = $this->_seek_comments())
-            {
+        if ($this->_config->get('ajax_comments_enable')) {
+            if ($comments_node = $this->_seek_comments()) {
                 $this->_request_data['ajax_comments_enable'] = true;
                 $this->_request_data['base_ajax_comments_url'] = $comments_node[MIDCOM_NAV_RELATIVEURL] . "comment/";
             }
@@ -207,20 +192,16 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
 
         midcom_show_style('index-start');
 
-        if ($this->_config->get('comments_enable'))
-        {
+        if ($this->_config->get('comments_enable')) {
             $this->_request_data['comments_enable'] = true;
         }
 
-        if ($this->_articles)
-        {
+        if ($this->_articles) {
             $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
             $total_count = count($this->_articles);
             $data['article_count'] = $total_count;
-            foreach ($this->_articles as $article_counter => $article)
-            {
-                if (!$this->_datamanager->autoset_storage($article))
-                {
+            foreach ($this->_articles as $article_counter => $article) {
+                if (!$this->_datamanager->autoset_storage($article)) {
                     debug_add("The datamanager for article {$article->id} could not be initialized, skipping it.");
                     debug_print_r('Object was:', $article);
                     continue;
@@ -231,22 +212,18 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
 
                 $data['local_view_url'] = $prefix . $this->_master->get_url($article);
                 $data['view_url'] = $this->_master->get_url($article, true);
-                if (!preg_match('/^http(s):\/\//', $data['view_url']))
-                {
+                if (!preg_match('/^http(s):\/\//', $data['view_url'])) {
                     $data['view_url'] = $prefix . $data['view_url'];
                 }
                 $data['linked'] = ($article->topic !== $this->_content_topic->id);
-                if ($data['linked'])
-                {
+                if ($data['linked']) {
                     $nap = new midcom_helper_nav();
                     $data['node'] = $nap->get_node($article->topic);
                 }
 
                 midcom_show_style('index-item', array($article->guid));
             }
-        }
-        else
-        {
+        } else {
             midcom_show_style('index-empty');
         }
 
@@ -259,14 +236,10 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
      */
     private function _seek_comments()
     {
-        if ($this->_config->get('comments_topic'))
-        {
-            try
-            {
+        if ($this->_config->get('comments_topic')) {
+            try {
                 $comments_topic = new midcom_db_topic($this->_config->get('comments_topic'));
-            }
-            catch (midcom_error $e)
-            {
+            } catch (midcom_error $e) {
                 return false;
             }
 
@@ -279,8 +252,7 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
         $comments_node = midcom_helper_misc::find_node_by_component('net.nehmer.comments');
 
         // Cache the data
-        if (midcom::get()->auth->request_sudo('net.nehmer.blog'))
-        {
+        if (midcom::get()->auth->request_sudo('net.nehmer.blog')) {
             $this->_topic->set_parameter('net.nehmer.blog', 'comments_topic', $comments_node[MIDCOM_NAV_GUID]);
             midcom::get()->auth->drop_sudo();
         }

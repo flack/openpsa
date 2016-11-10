@@ -21,22 +21,19 @@ class net_nemein_tag_cron_clean extends midcom_baseclasses_components_cron_handl
         $qb_tags = net_nemein_tag_tag_dba::new_query_builder();
         $tags = $qb_tags->execute_unchecked();
 
-        foreach ($tags as $tag)
-        {
+        foreach ($tags as $tag) {
             debug_add("Processing tag #{$tag->id} ('{$tag->tag}')");
             $qb_links = net_nemein_tag_link_dba::new_query_builder();
             $qb_links->add_constraint('tag', '=', $tag->id);
             $count = $qb_links->count_unchecked();
 
-            if ($count > 0)
-            {
+            if ($count > 0) {
                 // Tag has links, skip
                 debug_add("Tag has links to it, do not clean");
                 continue;
             }
             debug_add("Cleaning dangling tag #{$tag->id} ('{$tag->tag}')", MIDCOM_LOG_INFO);
-            if (!$tag->delete())
-            {
+            if (!$tag->delete()) {
                 debug_add("Could not delete dangling tag #{$tag->id} ('{$tag->tag}'), errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
             }
         }

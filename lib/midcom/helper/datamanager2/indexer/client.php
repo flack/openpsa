@@ -18,10 +18,8 @@ abstract class midcom_helper_datamanager2_indexer_client extends midcom_services
         $documents = array();
         $datamanager = new midcom_helper_datamanager2_datamanager($schemadb);
 
-        foreach ($results as $object)
-        {
-            if (!$datamanager->autoset_storage($object))
-            {
+        foreach ($results as $object) {
+            if (!$datamanager->autoset_storage($object)) {
                 debug_add("Warning, failed to initialize datamanager for object {$object->id}. See debug log for details.", MIDCOM_LOG_WARN);
                 debug_print_r('Object dump:', $object);
                 continue;

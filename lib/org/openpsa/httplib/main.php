@@ -49,10 +49,8 @@ class org_openpsa_httplib extends midcom_baseclasses_components_purecode
     private function _get_browser()
     {
         $client = new FileGetContents;
-        foreach ($this->_params as $key => $value)
-        {
-            switch ($key)
-            {
+        foreach ($this->_params as $key => $value) {
+            switch ($key) {
                 case 'timeout':
                     $client->setTimeout($value);
                     break;
@@ -60,12 +58,9 @@ class org_openpsa_httplib extends midcom_baseclasses_components_purecode
                     $client->setVerifyPeer($value);
                     break;
                 case 'follow_redirects':
-                    if ($value)
-                    {
+                    if ($value) {
                         $value = 10;
-                    }
-                    else
-                    {
+                    } else {
                         $value = 0;
                     }
                     $client->setMaxRedirects($value);
@@ -79,12 +74,9 @@ class org_openpsa_httplib extends midcom_baseclasses_components_purecode
 
     private function _get_request($method, $url, $headers = null, $username = null, $password = null)
     {
-        if ($method == RequestInterface::METHOD_POST)
-        {
+        if ($method == RequestInterface::METHOD_POST) {
             $request = new FormRequest;
-        }
-        else
-        {
+        } else {
             $request = new Request($method);
         }
         $url = new Url($url);
@@ -94,14 +86,12 @@ class org_openpsa_httplib extends midcom_baseclasses_components_purecode
 
         // Handle basic auth
         if (   !empty($username)
-            && !empty($password))
-        {
+            && !empty($password)) {
             // Set basic auth
             $request->addHeader('Authorization: Basic ' . base64_encode($username . ':' . $password));
         }
         // add custom headers
-        if (!empty($headers))
-        {
+        if (!empty($headers)) {
             $request->addHeaders($headers);
         }
 
@@ -122,18 +112,14 @@ class org_openpsa_httplib extends midcom_baseclasses_components_purecode
         $browser = $this->_get_browser();
         $request = $this->_get_request(RequestInterface::METHOD_GET, $url);
 
-        try
-        {
+        try {
             $response = $browser->send($request);
-        }
-        catch (Exception $e)
-        {
+        } catch (Exception $e) {
             $this->error = $e->getMessage();
             debug_add("Got error '{$this->error}' from HTTP request", MIDCOM_LOG_INFO);
             return '';
         }
-        if (!$response->isSuccessful())
-        {
+        if (!$response->isSuccessful()) {
             $this->error = $response->getReasonPhrase();
             debug_add("Got error '{$this->error}' from '{$url}'", MIDCOM_LOG_INFO);
             return '';
@@ -155,26 +141,21 @@ class org_openpsa_httplib extends midcom_baseclasses_components_purecode
         $request = $this->_get_request(RequestInterface::METHOD_POST, $uri, $headers, $this->basicauth['user'], $this->basicauth['password']);
 
         // Handle the variables to POST
-        if (empty($variables))
-        {
+        if (empty($variables)) {
             $this->error = '$variables is empty';
             debug_add($this->error, MIDCOM_LOG_ERROR);
             return false;
         }
         $request->setFields($variables);
 
-        try
-        {
+        try {
             $response = $browser->send($request);
-        }
-        catch (Exception $e)
-        {
+        } catch (Exception $e) {
             $this->error = $e->getMessage();
             debug_add("Got error '{$this->error}' from HTTP request", MIDCOM_LOG_INFO);
             return false;
         }
-        if (!$response->isSuccessful())
-        {
+        if (!$response->isSuccessful()) {
             $this->error = $response->getReasonPhrase();
             debug_add("Got error '{$this->error}' from '{$uri}'", MIDCOM_LOG_INFO);
             return false;

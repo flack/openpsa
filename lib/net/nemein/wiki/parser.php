@@ -43,8 +43,7 @@ class net_nemein_wiki_parser extends midcom_baseclasses_components_purecode
      */
     private function _run_macro_abbr($macro_content, $fulltag, $after)
     {
-        if (preg_match("/^(.*?) \- (.*)/", $macro_content, $parts))
-        {
+        if (preg_match("/^(.*?) \- (.*)/", $macro_content, $parts)) {
             return "<abbr title=\"{$parts[2]}\">{$parts[1]}</abbr>{$after}";
         }
         // Could not figure it out, return the tag as is
@@ -57,18 +56,14 @@ class net_nemein_wiki_parser extends midcom_baseclasses_components_purecode
     private function _run_macro_photo($macro_content, $fulltag, $after)
     {
         $guid = trim($macro_content);
-        if (!mgd_is_guid($guid))
-        {
+        if (!mgd_is_guid($guid)) {
             // value is not guid
             return $fulltag;
         }
 
-        try
-        {
+        try {
             $attachment = new midcom_db_attachment($guid);
-        }
-        catch (midcom_error $e)
-        {
+        } catch (midcom_error $e) {
             $e->log();
             return "<span class=\"missing_photo\" title=\"{$guid}\">{$fulltag}</span>{$after}";
         }
@@ -84,8 +79,7 @@ class net_nemein_wiki_parser extends midcom_baseclasses_components_purecode
     private function _run_macro_wiki($macro_content, $fulltag, $after)
     {
         $text = trim($macro_content);
-        if (empty($text))
-        {
+        if (empty($text)) {
             return $fulltag;
         }
         $target = ucfirst(strtolower(preg_replace('/[\s-,.\']+/', "_", $text)));
@@ -141,15 +135,13 @@ class net_nemein_wiki_parser extends midcom_baseclasses_components_purecode
         $pages = $qb->execute();
 
         $ret = '';
-        if (!empty($text))
-        {
+        if (!empty($text)) {
             $ret .= "\n<h3 class=\"node-toc-headline\">{$text}</h3>\n";
         }
         $nap = new midcom_helper_nav();
         $node = $nap->get_node($this->_page->topic);
         $ret .= "\n<ul class=\"node-toc\">\n";
-        foreach ($pages as $page)
-        {
+        foreach ($pages as $page) {
             $url = $node[MIDCOM_NAV_ABSOLUTEURL] . "{$page->name}/";
             $ret .= "    <li class=\"page\"><a href=\"{$url}\">{$page->title}</a></li>\n";
         }
@@ -164,8 +156,7 @@ class net_nemein_wiki_parser extends midcom_baseclasses_components_purecode
     {
         $tags_exploded = explode(',', $macro_content);
         $tags = array();
-        foreach (array_filter($tags_exploded) as $tagname)
-        {
+        foreach (array_filter($tags_exploded) as $tagname) {
             $tag = net_nemein_tag_handler::resolve_tagname(trim($tagname));
             $tags[$tag] = $tag;
         }
@@ -176,8 +167,7 @@ class net_nemein_wiki_parser extends midcom_baseclasses_components_purecode
             'midgard_article',
         );
         $pages = net_nemein_tag_handler::get_objects_with_tags($tags, $classes, 'OR');
-        if (!is_array($pages))
-        {
+        if (!is_array($pages)) {
             // Failure in tag library
             return $fulltag;
         }
@@ -185,11 +175,9 @@ class net_nemein_wiki_parser extends midcom_baseclasses_components_purecode
         $ret = "\n<ul class=\"tagged\">\n";
 
         usort($pages, array($this, '_code_sort_by_title'));
-        foreach ($pages as $page)
-        {
+        foreach ($pages as $page) {
             $node = $nap->get_node($page->topic);
-            if ($node[MIDCOM_NAV_COMPONENT] !== 'net.nemein.wiki')
-            {
+            if ($node[MIDCOM_NAV_COMPONENT] !== 'net.nemein.wiki') {
                 // We only wish to link to wiki pages
                 continue;
             }
@@ -222,8 +210,7 @@ class net_nemein_wiki_parser extends midcom_baseclasses_components_purecode
         $after = $match[2] ?: '';
 
         // See what kind of tag we have hit
-        switch (true)
-        {
+        switch (true) {
             // Ignore markdown tags
             case (preg_match("/[\(:\[]/", $after)):
                 // TODO: should by str match (array) instead
@@ -252,32 +239,27 @@ class net_nemein_wiki_parser extends midcom_baseclasses_components_purecode
 
     public function render_link($wikilink, $text = null)
     {
-        if (null === $text)
-        {
+        if (null === $text) {
             $text = $wikilink;
         }
         // Don't choke on links with anchors
         $parts = explode('#', $wikilink, 2);
         $page_anchor = null;
-        if (count($parts) == 2)
-        {
+        if (count($parts) == 2) {
             $wikilink = $parts[0];
             $page_anchor = "#{$parts[1]}";
         }
         $resolver = new net_nemein_wiki_resolver($this->_page->topic);
         $wikipage_match = $resolver->path_to_wikipage($wikilink);
-        if (is_null($wikipage_match['wikipage']))
-        {
+        if (is_null($wikipage_match['wikipage'])) {
             // No page matched, link to creation
             $folder = $wikipage_match['folder'];
-            if (is_null($wikipage_match['folder']))
-            {
+            if (is_null($wikipage_match['folder'])) {
                 $folder = $wikipage_match['latest_parent'];
             }
 
             if (   isset($folder[MIDCOM_NAV_OBJECT])
-                && $folder[MIDCOM_NAV_OBJECT]->can_do('midgard:create'))
-            {
+                && $folder[MIDCOM_NAV_OBJECT]->can_do('midgard:create')) {
                 $workflow = $this->get_workflow('datamanager2');
                 return "<a href=\"{$folder[MIDCOM_NAV_ABSOLUTEURL]}create/?wikiword={$wikipage_match['remaining_path']}\" " . $workflow->render_attributes() . " class=\"wiki_missing\" title=\"" . $this->_l10n->get('click to create') . "\">{$text}</a>";
             }
@@ -299,13 +281,11 @@ class net_nemein_wiki_parser extends midcom_baseclasses_components_purecode
         $matches = array();
         $links = array();
         preg_match_all($this->_config->get('wikilink_regexp'), $this->_page->content, $matches);
-        foreach ($matches[1] as $match_key => $match)
-        {
+        foreach ($matches[1] as $match_key => $match) {
             $fulltext = $match;
             $after = $matches[2][$match_key] ?: '';
             // See what kind of tag we have hit
-            switch (true)
-            {
+            switch (true) {
                 // NOTE: This logic must be kept consistent with $this->replace_wikiwords()
                 // Ignore markdown tags
                 case (preg_match("/[\(:\[]/", $after)):

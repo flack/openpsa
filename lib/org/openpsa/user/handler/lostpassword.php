@@ -81,15 +81,13 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
     public function _handler_lostpassword($handler_id, array $args, array &$data)
     {
         $this->_mode = $this->_config->get('lostpassword_mode');
-        if ($this->_mode == 'none')
-        {
+        if ($this->_mode == 'none') {
             throw new midcom_error_notfound('This feature is disabled');
         }
 
         $this->_controller = $this->get_controller('nullstorage');
 
-        switch ($this->_controller->process_form())
-        {
+        switch ($this->_controller->process_form()) {
             case 'save':
                 $this->_reset_password();
                 $this->_processing_msg = $this->_l10n->get('password reset, mail sent.');
@@ -111,30 +109,25 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      */
     private function _reset_password()
     {
-        if (!midcom::get()->auth->request_sudo($this->_component))
-        {
+        if (!midcom::get()->auth->request_sudo($this->_component)) {
             throw new midcom_error('Failed to request sudo privileges.');
         }
 
         $qb = midcom_db_person::new_query_builder();
-        if (array_key_exists('username', $this->_controller->datamanager->types))
-        {
+        if (array_key_exists('username', $this->_controller->datamanager->types)) {
             $user = midcom::get()->auth->get_user_by_name($this->_controller->datamanager->types['username']->value);
-            if (!$user)
-            {
+            if (!$user) {
                 midcom::get()->auth->drop_sudo();
                 throw new midcom_error("Cannot find user. For some reason the QuickForm validation failed.");
             }
             $qb->add_constraint('guid', '=', $user->guid);
         }
-        if (array_key_exists('email', $this->_controller->datamanager->types))
-        {
+        if (array_key_exists('email', $this->_controller->datamanager->types)) {
             $qb->add_constraint('email', '=', $this->_controller->datamanager->types['email']->value);
         }
         $results = $qb->execute();
 
-        if (sizeof($results) != 1)
-        {
+        if (sizeof($results) != 1) {
             midcom::get()->auth->drop_sudo();
             throw new midcom_error("Cannot find user. For some reason the QuickForm validation failed.");
         }
@@ -145,8 +138,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         $length = max(8, $this->_config->get('password_minlength'));
         $password = org_openpsa_user_accounthelper::generate_password($length);
         $account->set_password($password);
-        if (!$account->save())
-        {
+        if (!$account->save()) {
             midcom::get()->auth->drop_sudo();
             throw new midcom_error("Could not update the password: " . midcom_connection::get_error_string());
         }
@@ -189,12 +181,9 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      */
     public function _show_lostpassword($handler_id, array &$data)
     {
-        if ($this->_success)
-        {
+        if ($this->_success) {
             midcom_show_style('show-lostpassword-ok');
-        }
-        else
-        {
+        } else {
             midcom_show_style('show-lostpassword');
         }
     }

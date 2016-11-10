@@ -63,8 +63,7 @@ implements midcom_helper_datamanager2_interfaces_create
         // We can clear the session now
         $this->_request_data['session']->remove('wikiword');
 
-        if (!$this->_page->create())
-        {
+        if (!$this->_page->create()) {
             debug_print_r('We operated on this object:', $this->_page);
             throw new midcom_error('Failed to create a new page. Last Midgard error was: '. midcom_connection::get_error_string());
         }
@@ -77,16 +76,12 @@ implements midcom_helper_datamanager2_interfaces_create
         $resolver = new net_nemein_wiki_resolver($this->_topic->id);
         $resolved = $resolver->path_to_wikipage($wikiword, true, true);
 
-        if (!empty($resolved['latest_parent']))
-        {
+        if (!empty($resolved['latest_parent'])) {
             $to_node = $resolved['latest_parent'];
-        }
-        else
-        {
+        } else {
             $to_node = $resolved['folder'];
         }
-        switch (true)
-        {
+        switch (true) {
             case (strstr($resolved['remaining_path'], '/')):
                 // One or more namespaces left, find first, create it and recurse
                 $paths = explode('/', $resolved['remaining_path']);
@@ -98,8 +93,7 @@ implements midcom_helper_datamanager2_interfaces_create
                 $generator = midcom::get()->serviceloader->load('midcom_core_service_urlgenerator');
                 $topic->name = $generator->from_string($folder_title);
                 $topic->component = 'net.nemein.wiki';
-                if (!$topic->create())
-                {
+                if (!$topic->create()) {
                     throw new midcom_error("Could not create wiki namespace '{$folder_title}', last Midgard error was: " . midcom_connection::get_error_string());
                 }
                 // refresh
@@ -111,24 +105,17 @@ implements midcom_helper_datamanager2_interfaces_create
                 $qb->add_constraint('topic', '=', $topic->up);
                 $results = $qb->execute();
 
-                if (count($results) == 1)
-                {
+                if (count($results) == 1) {
                     $article = $results[0];
                     $article->name = 'index';
                     $article->topic = $topic->id;
-                    if (!$article->update())
-                    {
+                    if (!$article->update()) {
                         // Could not move article, do something ?
                     }
-                }
-                else
-                {
-                    try
-                    {
+                } else {
+                    try {
                         net_nemein_wiki_viewer::initialize_index_article($topic);
-                    }
-                    catch (midcom_error $e)
-                    {
+                    } catch (midcom_error $e) {
                         // Could not create index
                         $topic->delete();
                         throw $e;
@@ -143,8 +130,7 @@ implements midcom_helper_datamanager2_interfaces_create
 
             default:
                 // No more namespaces left, create the page to latest parent
-                if ($to_node[MIDCOM_NAV_ID] != $this->_topic->id)
-                {
+                if ($to_node[MIDCOM_NAV_ID] != $this->_topic->id) {
                     // Last parent is not this topic, redirect there
                     $wikiword_url = rawurlencode($resolved['remaining_path']);
                     midcom::get()->relocate($to_node[MIDCOM_NAV_ABSOLUTEURL] . "create/{$this->_schema}?wikiword={$wikiword_url}");
@@ -165,33 +151,25 @@ implements midcom_helper_datamanager2_interfaces_create
         // Initialize sessioning first
         $data['session'] = new midcom_services_session();
 
-        if (!array_key_exists('wikiword', $_GET))
-        {
-            if (!$data['session']->exists('wikiword'))
-            {
+        if (!array_key_exists('wikiword', $_GET)) {
+            if (!$data['session']->exists('wikiword')) {
                 throw new midcom_error_notfound('No wiki word given');
             }
             $this->_wikiword = $data['session']->get('wikiword');
-        }
-        else
-        {
+        } else {
             $this->_wikiword = $_GET['wikiword'];
             $data['session']->set('wikiword', $this->_wikiword);
         }
 
         $this->_topic->require_do('midgard:create');
 
-        if ($handler_id == 'create_by_word_schema')
-        {
+        if ($handler_id == 'create_by_word_schema') {
             $this->_schema = $args[0];
-        }
-        else
-        {
+        } else {
             $this->_schema = $this->_config->get('default_schema');
         }
 
-        if (!array_key_exists($this->_schema, $data['schemadb']))
-        {
+        if (!array_key_exists($this->_schema, $data['schemadb'])) {
             throw new midcom_error_notfound('Schema ' . $this->_schema . ' not found in schemadb');
         }
 

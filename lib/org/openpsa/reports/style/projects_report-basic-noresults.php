@@ -2,8 +2,7 @@
 //If we need to do any specific mangling etc, we do it here.
 $query = $data['query_data'];
 $report = $data['report'];
-if (empty($report['title']))
-{
+if (empty($report['title'])) {
     $formatter = $data['l10n']->get_formatter();
     $report['title'] = sprintf($data['l10n']->get('basic report for %s - %s'), $formatter->date($query['start']), $formatter->date($query['end']));
 }

@@ -65,8 +65,7 @@ class midcom_helper_datamanager2_type_urlname extends midcom_helper_datamanager2
          * and in fact we want it to only freeze the widget this is fine
          */
         $schema =& $this->_datamanager->schema->fields[$this->name];
-        if (!isset($schema['write_privilege']))
-        {
+        if (!isset($schema['write_privilege'])) {
             $schema['write_privilege'] = array
             (
                 'privilege' => 'midcom:urlname',
@@ -103,11 +102,9 @@ class midcom_helper_datamanager2_type_urlname extends midcom_helper_datamanager2
         $resolver = new midcom_helper_reflector_nameresolver($copy);
         $generator = midcom::get()->serviceloader->load('midcom_core_service_urlgenerator');
 
-        if (empty($this->value))
-        {
+        if (empty($this->value)) {
             if (   isset($this->_datamanager->types[$this->title_field])
-                && $this->_datamanager->types[$this->title_field]->value)
-            {
+                && $this->_datamanager->types[$this->title_field]->value) {
                 $copy->{$property} = $generator->from_string($this->_datamanager->types[$this->title_field]->value);
                 $this->value = $resolver->generate_unique_name();
             }
@@ -115,23 +112,19 @@ class midcom_helper_datamanager2_type_urlname extends midcom_helper_datamanager2
 
         $copy->{$property} = $this->value;
 
-        if (!$resolver->name_is_safe($property))
-        {
+        if (!$resolver->name_is_safe($property)) {
             $this->validation_error = sprintf($this->_l10n->get('type urlname: name is not "URL-safe", try "%s"'), $generator->from_string($this->value));
             return false;
         }
 
         if (   !$this->allow_unclean
-            && !$resolver->name_is_clean($property))
-        {
+            && !$resolver->name_is_clean($property)) {
             $this->validation_error = sprintf($this->_l10n->get('type urlname: name is not "clean", try "%s"'), $generator->from_string($this->value));
             return false;
         }
 
-        if (!$resolver->name_is_unique())
-        {
-            if (!$this->allow_catenate)
-            {
+        if (!$resolver->name_is_unique()) {
+            if (!$this->allow_catenate) {
                 $this->validation_error = sprintf($this->_l10n->get('type urlname: name is already taken, try "%s"'), $new_name);
                 return false;
             }

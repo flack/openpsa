@@ -76,8 +76,7 @@ abstract class org_routamc_positioning_importer extends midcom_baseclasses_compo
     public static function & create($type)
     {
         $classname = "org_routamc_positioning_importer_{$type}";
-        if (!class_exists($classname))
-        {
+        if (!class_exists($classname)) {
             throw new midcom_error("Requested importer class {$type} is not installed.");
         }
 

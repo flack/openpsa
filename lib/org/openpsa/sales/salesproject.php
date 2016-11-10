@@ -71,37 +71,28 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
         $deliverable_qb->add_constraint('up', '=', 0);
         $deliverable_qb->add_constraint('state', '<>', org_openpsa_sales_salesproject_deliverable_dba::STATE_DECLINED);
         $deliverables = $deliverable_qb->execute();
-        foreach ($deliverables as $deliverable)
-        {
-            if ($deliverable->orgOpenpsaObtype == org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION)
-            {
+        foreach ($deliverables as $deliverable) {
+            if ($deliverable->orgOpenpsaObtype == org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION) {
                 $scheduler = new org_openpsa_invoices_scheduler($deliverable);
-                if ($deliverable->end == 0)
-                {
+                if ($deliverable->end == 0) {
                     // FIXME: Get this from config key 'subscription_profit_months'
                     $cycles = $scheduler->calculate_cycles(12);
-                }
-                else
-                {
+                } else {
                     $cycles = $scheduler->calculate_cycles();
                 }
                 $value = $value + ($deliverable->price * $cycles) + $deliverable->invoiced;
                 $cost = $cost + ($deliverable->cost * $cycles);
-            }
-            else
-            {
+            } else {
                 $value = $value + $deliverable->price;
                 $cost = $cost + $deliverable->cost;
-                if ($deliverable->invoiceByActualUnits)
-                {
+                if ($deliverable->invoiceByActualUnits) {
                     $value = $value + $deliverable->invoiced;
                 }
             }
         }
         $profit = $value - $cost;
         if (   $this->value != $value
-            || $this->profit != $profit)
-        {
+            || $this->profit != $profit) {
             $this->value = $value;
             $this->profit = $value - $cost;
             $this->update();
@@ -127,25 +118,17 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
 
     public function get_customer()
     {
-        if (!empty($this->customer))
-        {
-            try
-            {
+        if (!empty($this->customer)) {
+            try {
                 return org_openpsa_contacts_group_dba::get_cached($this->customer);
-            }
-            catch (midcom_error $e)
-            {
+            } catch (midcom_error $e) {
                 $e->log();
             }
         }
-        if (!empty($this->customerContact))
-        {
-            try
-            {
+        if (!empty($this->customerContact)) {
+            try {
                 return org_openpsa_contacts_person_dba::get_cached($this->customerContact);
-            }
-            catch (midcom_error $e)
-            {
+            } catch (midcom_error $e) {
                 $e->log();
             }
         }
@@ -172,43 +155,34 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
 
         $related_objects = $mc->get_related_objects();
 
-        if (count($related_objects) == 0)
-        {
+        if (count($related_objects) == 0) {
             return;
         }
 
         $sort_prev = array();
         $sort_next = array();
 
-        foreach ($related_objects as $object)
-        {
+        foreach ($related_objects as $object) {
             $to_sort = $default;
             $to_sort['obj'] = $object;
 
-            switch ($object->__mgdschema_class_name__)
-            {
+            switch ($object->__mgdschema_class_name__) {
                 case 'org_openpsa_task':
                     $to_sort['type'] = 'task';
-                    if ($object->status >= org_openpsa_projects_task_status_dba::COMPLETED)
-                    {
+                    if ($object->status >= org_openpsa_projects_task_status_dba::COMPLETED) {
                         $to_sort['time'] = $object->status_time;
                         $sort_prev[] = $to_sort;
-                    }
-                    else
-                    {
+                    } else {
                         $to_sort['time'] = $object->end;
                         $sort_next[] = $to_sort;
                     }
                     break;
                 case 'org_openpsa_event':
                     $to_sort['type'] = 'event';
-                    if ($object->end < time())
-                    {
+                    if ($object->end < time()) {
                         $to_sort['time'] = $object->end;
                         $sort_prev[] = $to_sort;
-                    }
-                    else
-                    {
+                    } else {
                         $to_sort['time'] = $object->start;
                         $sort_next[] = $to_sort;
                     }
@@ -218,22 +192,18 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
         usort($sort_prev, array('self', '_sort_action_by_time_reverse'));
         usort($sort_next, array('self', '_sort_action_by_time'));
 
-        if (isset($sort_next[0]))
-        {
+        if (isset($sort_next[0])) {
             $this->next_action = $sort_next[0];
         }
-        if (isset($sort_prev[0]))
-        {
+        if (isset($sort_prev[0])) {
             $this->prev_action = $sort_prev[0];
         }
     }
 
     public function __get($property)
     {
-        if ($property == 'contacts')
-        {
-            if (is_null($this->_contacts))
-            {
+        if ($property == 'contacts') {
+            if (is_null($this->_contacts)) {
                 $this->get_members();
             }
             return $this->_contacts;
@@ -253,14 +223,12 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
     public function _on_updating()
     {
         if (   $this->state != self::STATE_ACTIVE
-            && !$this->end)
-        {
+            && !$this->end) {
             //Not active anymore and end not set, set it to now
             $this->end = time();
         }
         if (   $this->end
-            && $this->state == self::STATE_ACTIVE)
-        {
+            && $this->state == self::STATE_ACTIVE) {
             //Returned to active state, clear the end marker.
             $this->end = 0;
         }
@@ -270,8 +238,7 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
 
     public function _on_loaded()
     {
-        if (empty($this->title))
-        {
+        if (empty($this->title)) {
             $this->title = "salesproject #{$this->id}";
         }
     }
@@ -279,8 +246,7 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
     public function _on_updated()
     {
         //Ensure owner can do stuff regardless of other ACLs
-        if (($owner_person = midcom::get()->auth->get_user($this->owner)))
-        {
+        if (($owner_person = midcom::get()->auth->get_user($this->owner))) {
             $this->set_privilege('midgard:read', $owner_person->id, MIDCOM_PRIVILEGE_ALLOW);
             $this->set_privilege('midgard:create', $owner_person->id, MIDCOM_PRIVILEGE_ALLOW);
             $this->set_privilege('midgard:delete', $owner_person->id, MIDCOM_PRIVILEGE_ALLOW);
@@ -293,15 +259,13 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
      */
     function get_members()
     {
-        if ($this->id)
-        {
+        if ($this->id) {
             $mc = org_openpsa_contacts_role_dba::new_collector('objectGuid', $this->guid);
             $mc->add_constraint('role', '=', self::ROLE_MEMBER);
 
             $this->_contacts = array_fill_keys($mc->get_values('person'), true);
 
-            if ($this->customerContact)
-            {
+            if ($this->customerContact) {
                 $this->_contacts[$this->customerContact] = true;
             }
         }
@@ -312,8 +276,7 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
      */
     public function mark_delivered()
     {
-        if ($this->state >= self::STATE_DELIVERED)
-        {
+        if ($this->state >= self::STATE_DELIVERED) {
             return;
         }
 
@@ -322,8 +285,7 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
         $mc->add_constraint('state', '<>', org_openpsa_sales_salesproject_deliverable_dba::STATE_DECLINED);
         $mc->execute();
 
-        if ($mc->count() == 0)
-        {
+        if ($mc->count() == 0) {
             $this->state = self::STATE_DELIVERED;
             $this->update();
         }
@@ -334,8 +296,7 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
      */
     public function mark_invoiced()
     {
-        if ($this->state >= self::STATE_INVOICED)
-        {
+        if ($this->state >= self::STATE_INVOICED) {
             return;
         }
 
@@ -344,8 +305,7 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
         $mc->add_constraint('state', '<>', org_openpsa_sales_salesproject_deliverable_dba::STATE_DECLINED);
         $mc->execute();
 
-        if ($mc->count() == 0)
-        {
+        if ($mc->count() == 0) {
             $this->state = self::STATE_INVOICED;
             $this->update();
         }

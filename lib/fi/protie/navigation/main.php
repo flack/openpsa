@@ -253,22 +253,19 @@ class fi_protie_navigation
         $this->_nap = new midcom_helper_nav();
         $this->get_node_path();
 
-        if (!is_null($id))
-        {
+        if (!is_null($id)) {
             $this->root_id = $id;
         }
     }
 
     function listen_parameter($name, $value = false)
     {
-        if (empty($name))
-        {
+        if (empty($name)) {
             return;
         }
 
         if (   isset($this->_get_params[$name])
-            && $this->_get_params[$name] == $value)
-        {
+            && $this->_get_params[$name] == $value) {
             return;
         }
         $this->_get_params[$name] = $value;
@@ -278,30 +275,23 @@ class fi_protie_navigation
 
     private function _get_parameter_string()
     {
-        if (false !== $this->_params_cache)
-        {
+        if (false !== $this->_params_cache) {
             return $this->_params_cache;
         }
 
         $this->_params_cache = '';
         $registered_params = array_intersect_key($this->_get_params, $_GET);
-        if (empty($registered_params))
-        {
+        if (empty($registered_params)) {
             return $this->_params_cache;
         }
 
         $params = array();
-        foreach ($registered_params as $key => $value)
-        {
-            if ($value)
-            {
-                if ($_GET[$key] == $value)
-                {
+        foreach ($registered_params as $key => $value) {
+            if ($value) {
+                if ($_GET[$key] == $value) {
                     $params[$key] = $value;
                 }
-            }
-            elseif (!$_GET[$key])
-            {
+            } elseif (!$_GET[$key]) {
                 $params[$key] = '';
             }
         }
@@ -320,8 +310,7 @@ class fi_protie_navigation
         $this->node_path = $this->_nap->get_node_path();
 
         // If NAP offers a leaf it should be stored in the node path
-        if ($leaf = $this->_nap->get_current_leaf())
-        {
+        if ($leaf = $this->_nap->get_current_leaf()) {
             $this->node_path[] = $leaf;
         }
     }
@@ -334,15 +323,13 @@ class fi_protie_navigation
         $children = $this->_nap->list_nodes($id);
 
         // Stop traversing the path if there are no children
-        if (empty($children))
-        {
+        if (empty($children)) {
             return;
         }
 
         // Add ID property to the first unordered list ever called
         $element_id = '';
-        if ($this->root_object_id)
-        {
+        if ($this->root_object_id) {
             $element_id = " id=\"{$this->root_object_id}\"";
             $this->root_object_id = null;
         }
@@ -352,8 +339,7 @@ class fi_protie_navigation
         $item_count = count($children);
 
         // Draw each child element
-        foreach ($children as $i => $child)
-        {
+        foreach ($children as $i => $child) {
             $item = $this->_nap->get_node($child);
 
             $classes = $this->_get_css_classes($child, $item, $i, $item_count);
@@ -369,8 +355,7 @@ class fi_protie_navigation
     private function _list_child_elements($id)
     {
         // If only nodes are to be listed use the appropriate NAP call
-        if (!$this->list_leaves)
-        {
+        if (!$this->list_leaves) {
             $this->_list_child_nodes($id);
             return;
         }
@@ -378,15 +363,13 @@ class fi_protie_navigation
         $children = $this->_nap->list_child_elements($id);
 
         // Stop traversing the path if there are no children
-        if (empty($children))
-        {
+        if (empty($children)) {
             return;
         }
 
         // Add ID property to the first unordered list ever called
         $element_id = '';
-        if ($this->root_object_id)
-        {
+        if ($this->root_object_id) {
             $element_id = " id=\"{$this->root_object_id}\"";
             $this->root_object_id = null;
         }
@@ -396,19 +379,14 @@ class fi_protie_navigation
         $item_count = count($children);
 
         // Draw each child element
-        foreach ($children as $i => $child)
-        {
-            if ($child[MIDCOM_NAV_TYPE] === 'node')
-            {
+        foreach ($children as $i => $child) {
+            if ($child[MIDCOM_NAV_TYPE] === 'node') {
                 // If the listing of nodes is set to false, skip this item and proceed to the next
-                if ($this->list_nodes === false)
-                {
+                if ($this->list_nodes === false) {
                     continue;
                 }
                 $item = $this->_nap->get_node($child[MIDCOM_NAV_ID]);
-            }
-            else
-            {
+            } else {
                 $item = $this->_nap->get_leaf($child[MIDCOM_NAV_ID]);
             }
             $classes = $this->_get_css_classes($child, $item, $i, $item_count);
@@ -423,69 +401,50 @@ class fi_protie_navigation
     {
         $classes = array();
 
-        if ($child[MIDCOM_NAV_TYPE] === 'node')
-        {
+        if ($child[MIDCOM_NAV_TYPE] === 'node') {
             if (   $item[MIDCOM_NAV_ID] === $this->_nap->get_current_node()
                 && (   !$this->_nap->get_current_leaf()
-                    || !$this->_nap->get_leaf($this->_nap->get_current_leaf())))
-            {
+                    || !$this->_nap->get_leaf($this->_nap->get_current_leaf()))) {
                 $classes[] = $this->css_active;
             }
 
-            if (in_array($item[MIDCOM_NAV_ID], $this->node_path, true))
-            {
+            if (in_array($item[MIDCOM_NAV_ID], $this->node_path, true)) {
                 $classes[] = $this->css_selected;
             }
 
-            if ($this->component_name_to_class)
-            {
+            if ($this->component_name_to_class) {
                 $classes[] = str_replace('.', '_', $item[MIDCOM_NAV_COMPONENT]);
             }
-        }
-        else
-        {
+        } else {
             // Place the corresponding css class for the currently active leaf)
-            if ($item[MIDCOM_NAV_ID] === $this->_nap->get_current_leaf())
-            {
+            if ($item[MIDCOM_NAV_ID] === $this->_nap->get_current_leaf()) {
                 $classes[] = $this->css_active;
                 $classes[] = $this->css_selected;
             }
         }
 
         // Check if the URL name is supposed to be drawn
-        if ($this->url_name_to_class)
-        {
+        if ($this->url_name_to_class) {
             $classes[] = str_replace('/', '', $item[MIDCOM_NAV_URL]);
         }
 
-        if ($this->first_and_last_to_class)
-        {
-            if ($item_count == 1)
-            {
+        if ($this->first_and_last_to_class) {
+            if ($item_count == 1) {
                 $classes[] = $this->css_first_last;
-            }
-            elseif ($item_counter == 1)
-            {
+            } elseif ($item_counter == 1) {
                 $classes[] = $this->css_first;
-            }
-            elseif ($item_counter == $item_count)
-            {
+            } elseif ($item_counter == $item_count) {
                 $classes[] = $this->css_last;
             }
         }
 
-        if ($this->has_children_to_class)
-        {
-            if (!$this->list_leaves)
-            {
+        if ($this->has_children_to_class) {
+            if (!$this->list_leaves) {
                 $children = $this->_nap->list_nodes($child[MIDCOM_NAV_ID]);
-            }
-            else
-            {
+            } else {
                 $children = $this->_nap->list_child_elements($child[MIDCOM_NAV_ID]);
             }
-            if (!empty($children))
-            {
+            if (!empty($children)) {
                 $classes[] = $this->css_has_children;
             }
         }
@@ -493,8 +452,7 @@ class fi_protie_navigation
         // Add information about the object's status
         if (   $this->object_status_to_class
             && isset($item[MIDCOM_NAV_OBJECT])
-            && $css_status_class = midcom::get()->metadata->get_object_classes($item[MIDCOM_NAV_OBJECT]))
-        {
+            && $css_status_class = midcom::get()->metadata->get_object_classes($item[MIDCOM_NAV_OBJECT])) {
             $classes[] = $css_status_class;
         }
 
@@ -516,12 +474,10 @@ class fi_protie_navigation
         if (   $item[MIDCOM_NAV_TYPE] === 'node'
             && !$this->show_only_current
             && (   $this->list_levels === 0
-                || $this->_level < $this->list_levels))
-        {
+                || $this->_level < $this->list_levels)) {
             if (   $this->follow_all
                 || (   $this->follow_selected
-                    && in_array($item[MIDCOM_NAV_ID], $this->node_path, true)))
-            {
+                    && in_array($item[MIDCOM_NAV_ID], $this->node_path, true))) {
                 $this->_level++;
                 $this->_list_child_elements($item[MIDCOM_NAV_ID]);
                 $this->_level--;
@@ -536,23 +492,19 @@ class fi_protie_navigation
      */
     public function draw()
     {
-        if (!$this->root_id)
-        {
+        if (!$this->root_id) {
             $this->root_id = $this->_nap->get_root_node();
         }
 
-        if ($this->skip_levels !== 0)
-        {
-            if (!array_key_exists($this->skip_levels, $this->node_path))
-            {
+        if ($this->skip_levels !== 0) {
+            if (!array_key_exists($this->skip_levels, $this->node_path)) {
                 return;
             }
 
             $this->root_id = $this->node_path[$this->skip_levels];
         }
 
-        if ($this->show_only_current)
-        {
+        if ($this->show_only_current) {
             $this->root_id = $this->_nap->get_current_node();
         }
 

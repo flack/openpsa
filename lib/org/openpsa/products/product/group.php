@@ -19,8 +19,7 @@ class org_openpsa_products_product_group_dba extends midcom_core_dbaobject
 
     public function _on_creating()
     {
-        if ($this->_check_duplicates($this->code))
-        {
+        if ($this->_check_duplicates($this->code)) {
             midcom_connection::set_error(MGD_ERR_OBJECT_NAME_EXISTS);
             return false;
         }
@@ -29,8 +28,7 @@ class org_openpsa_products_product_group_dba extends midcom_core_dbaobject
 
     public function _on_updating()
     {
-        if ($this->_check_duplicates($this->code))
-        {
+        if ($this->_check_duplicates($this->code)) {
             midcom_connection::set_error(MGD_ERR_OBJECT_NAME_EXISTS);
             return false;
         }
@@ -39,8 +37,7 @@ class org_openpsa_products_product_group_dba extends midcom_core_dbaobject
 
     private function _check_duplicates($code)
     {
-        if (!$code)
-        {
+        if (!$code) {
             return false;
         }
 
@@ -48,13 +45,11 @@ class org_openpsa_products_product_group_dba extends midcom_core_dbaobject
         $qb = org_openpsa_products_product_group_dba::new_query_builder();
         $qb->add_constraint('code', '=', $code);
 
-        if ($this->id)
-        {
+        if ($this->id) {
             $qb->add_constraint('id', '<>', $this->id);
         }
 
-        if ($this->up)
-        {
+        if ($this->up) {
             $qb->add_constraint('up', '=', $this->up);
         }
 
@@ -63,10 +58,8 @@ class org_openpsa_products_product_group_dba extends midcom_core_dbaobject
 
     public function get_path($parent_category = null)
     {
-        if ($this->code)
-        {
-            if ($parent_category)
-            {
+        if ($this->code) {
+            if ($parent_category) {
                 return $parent_category . '/' . $this->code . '/';
             }
             return $this->code . '/';
@@ -89,62 +82,50 @@ class org_openpsa_products_product_group_dba extends midcom_core_dbaobject
         static $result_cache = array();
 
         $cache_key = md5($up . $keyproperty . $prefix . $order_by_score . implode('', $label_fields));
-        if (isset($result_cache[$cache_key]))
-        {
+        if (isset($result_cache[$cache_key])) {
             return $result_cache[$cache_key];
         }
 
         $result_cache[$cache_key] = array();
         $ret =& $result_cache[$cache_key];
 
-        if (empty($up))
-        {
+        if (empty($up)) {
             // TODO: use reflection to see what kind of property this is ?
-            if ($keyproperty == 'id')
-            {
+            if ($keyproperty == 'id') {
                 $ret[0] = midcom::get()->i18n->get_string('toplevel', 'org.openpsa.products');
-            }
-            else
-            {
+            } else {
                 $ret[''] = midcom::get()->i18n->get_string('toplevel', 'org.openpsa.products');
             }
         }
-        if (mgd_is_guid($up))
-        {
+        if (mgd_is_guid($up)) {
             $group = new org_openpsa_products_product_group_dba($up);
             $up = $group->id;
         }
 
         $value_properties = array('title', 'code', 'id');
-        if ($keyproperty !== 'id')
-        {
+        if ($keyproperty !== 'id') {
             $value_properties[] = $keyproperty;
         }
-        foreach ($label_fields as $fieldname)
-        {
+        foreach ($label_fields as $fieldname) {
             if (   $fieldname != 'id'
-                && $fieldname != $keyproperty)
-            {
+                && $fieldname != $keyproperty) {
                 $value_properties[] = $fieldname;
                 continue;
             }
         }
 
         $mc = org_openpsa_products_product_group_dba::new_collector('up', (int)$up);
-        if ($order_by_score)
-        {
+        if ($order_by_score) {
             $mc->add_order('metadata.score', 'DESC');
         }
         $mc->add_order('code');
         $mc->add_order('title');
         $results = $mc->get_rows($value_properties);
 
-        foreach ($results as $result)
-        {
+        foreach ($results as $result) {
             $key = $result[$keyproperty];
             $ret[$key] = $prefix;
-            foreach ($label_fields as $fieldname)
-            {
+            foreach ($label_fields as $fieldname) {
                 $field_val = $result[$fieldname];
                 $ret[$key] .= "{$field_val} ";
             }
@@ -158,8 +139,7 @@ class org_openpsa_products_product_group_dba extends midcom_core_dbaobject
     public function get_root()
     {
         $root = $this;
-        while ($root->up != 0)
-        {
+        while ($root->up != 0) {
             $root = self::get_cached($root->up);
         }
         return $root;

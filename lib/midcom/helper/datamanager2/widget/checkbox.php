@@ -68,8 +68,7 @@ class midcom_helper_datamanager2_widget_checkbox extends midcom_helper_datamanag
 
         $title = ($this->show_title) ? $this->_translate($this->_field['title']) : '';
 
-        if (is_array($this->jsevents))
-        {
+        if (is_array($this->jsevents)) {
             $attributes = array_merge($attributes, $this->jsevents);
         }
 

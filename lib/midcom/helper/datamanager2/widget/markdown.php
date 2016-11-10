@@ -74,8 +74,7 @@ class midcom_helper_datamanager2_widget_markdown extends midcom_helper_datamanag
         $attributes['rows'] = $this->height;
         $attributes['cols'] = $this->width;
         $attributes['class'] = 'longtext';
-        if ($this->wrap != '')
-        {
+        if ($this->wrap != '') {
             $attributes['wrap'] = $this->wrap;
         }
 
@@ -88,8 +87,7 @@ class midcom_helper_datamanager2_widget_markdown extends midcom_helper_datamanag
         // Load help text
         // TODO: l10n
         $file = MIDCOM_ROOT . "/midcom/helper/datamanager2/documentation/markdown.en.txt";
-        if (file_exists($file))
-        {
+        if (file_exists($file)) {
             $elements[] = $this->_form->createElement('static', "{$this->name}_help", '', "<div class=\"markdown_cheatsheet\" style=\"display: none;\">" . MarkdownExtra::defaultTransform(file_get_contents($file)) . "</div>");
         }
         $elements[] = $this->_form->createElement('static', "{$this->name}_help_button", '', $this->get_help_button());

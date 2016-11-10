@@ -22,8 +22,7 @@ $code = $this->data['error_code'];
 <p>
 <?php echo $message; ?>
 </p>
-<?php if ($this->data['error_exception'])
-{
+<?php if ($this->data['error_exception']) {
     $e = $this->data['error_exception'];
     echo '<p>in ' . $e->getFile() . ', line ' . $e->getLine() . "</p>";
 }
@@ -37,8 +36,7 @@ $code = $this->data['error_code'];
 
 <?php
 $stacktrace = $this->data['error_handler']->get_function_stack();
-if (!empty($stacktrace))
-{
+if (!empty($stacktrace)) {
     echo "<pre>Stacktrace:\n" . implode("\n", $stacktrace) . "</pre>\n";
 }
 ?>

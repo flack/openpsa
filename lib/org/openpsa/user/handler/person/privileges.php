@@ -31,8 +31,7 @@ implements midcom_helper_datamanager2_interfaces_edit
         $schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_acl'));
 
         // Get the calendar root event
-        if ($root_event = org_openpsa_calendar_interface::find_root_event())
-        {
+        if ($root_event = org_openpsa_calendar_interface::find_root_event()) {
             $schemadb['default']->fields['calendar']['type_config']['privilege_object'] = $root_event;
             $schemadb['default']->fields['calendar']['type_config']['assignee'] = 'user:' . $this->_person->guid;
         }

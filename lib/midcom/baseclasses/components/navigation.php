@@ -83,8 +83,7 @@ abstract class midcom_baseclasses_components_navigation extends midcom_baseclass
      */
     public function get_node()
     {
-        if (!is_object($this->_topic->metadata))
-        {
+        if (!is_object($this->_topic->metadata)) {
             return null;
         }
 

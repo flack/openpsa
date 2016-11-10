@@ -30,66 +30,53 @@ class org_routamc_positioning_geocoder_geonames extends org_routamc_positioning_
             'style' => 'FULL',
         );
 
-        if (!empty($options))
-        {
-            foreach ($options as $key => $value)
-            {
-                if (isset($parameters[$key]))
-                {
+        if (!empty($options)) {
+            foreach ($options as $key => $value) {
+                if (isset($parameters[$key])) {
                     $parameters[$key] = $value;
                 }
             }
         }
 
         if (   !isset($location['postalcode'])
-            && !isset($location['city']))
-        {
+            && !isset($location['city'])) {
             $this->error = 'POSITIONING_MISSING_ATTRIBUTES';
             return null;
         }
         $params = array();
 
-        if (isset($location['postalcode']))
-        {
+        if (isset($location['postalcode'])) {
             $params[] = 'postalcode=' . urlencode($location['postalcode']);
         }
-        if (isset($location['city']))
-        {
+        if (isset($location['city'])) {
             $params[] = 'placename=' . urlencode($location['city']);
         }
-        if (isset($location['country']))
-        {
+        if (isset($location['country'])) {
             $params[] = 'country=' . urlencode($location['country']);
         }
 
-        foreach ($parameters as $key => $value)
-        {
-            if (!is_null($value))
-            {
+        foreach ($parameters as $key => $value) {
+            if (!is_null($value)) {
                 $params[] = "{$key}=" . urlencode($value);
             }
         }
 
         $http_request = new org_openpsa_httplib();
         $response = $http_request->get('http://ws.geonames.org/postalCodeSearch?' . implode('&', $params));
-        if (empty($response))
-        {
+        if (empty($response)) {
             $this->error = 'POSITIONING_SERVICE_NOT_AVAILABLE';
             return null;
         }
 
         $simplexml = simplexml_load_string($response);
 
-        if (empty($simplexml->code))
-        {
+        if (empty($simplexml->code)) {
             $this->error = 'POSITIONING_CITY_NOT_FOUND';
             return null;
         }
 
-        for ($i = 0; $i < $parameters['maxRows']; $i++)
-        {
-            if (!isset($simplexml->code[$i]))
-            {
+        for ($i = 0; $i < $parameters['maxRows']; $i++) {
+            if (!isset($simplexml->code[$i])) {
                 break;
             }
             $entry = $simplexml->code[$i];
@@ -131,20 +118,16 @@ class org_routamc_positioning_geocoder_geonames extends org_routamc_positioning_
             'style' => 'FULL',
         );
 
-        if (!empty($options))
-        {
-            foreach ($options as $key => $value)
-            {
-                if (isset($parameters[$key]))
-                {
+        if (!empty($options)) {
+            foreach ($options as $key => $value) {
+                if (isset($parameters[$key])) {
                     $parameters[$key] = $value;
                 }
             }
         }
 
         if (   !isset($coordinates['latitude'])
-            && !isset($coordinates['longitude']))
-        {
+            && !isset($coordinates['longitude'])) {
             $this->error = 'POSITIONING_MISSING_ATTRIBUTES';
             return null;
         }
@@ -153,10 +136,8 @@ class org_routamc_positioning_geocoder_geonames extends org_routamc_positioning_
         $params[] = 'lat=' . urlencode($coordinates['latitude']);
         $params[] = 'lng=' . urlencode($coordinates['longitude']);
 
-        foreach ($parameters as $key => $value)
-        {
-            if (!is_null($value))
-            {
+        foreach ($parameters as $key => $value) {
+            if (!is_null($value)) {
                 $params[] = "{$key}=" . urlencode($value);
             }
         }
@@ -166,22 +147,18 @@ class org_routamc_positioning_geocoder_geonames extends org_routamc_positioning_
         $response = $http_request->get($url);
         $simplexml = simplexml_load_string($response);
 
-        if (empty($simplexml->geoname))
-        {
+        if (empty($simplexml->geoname)) {
             $this->error = 'POSITIONING_DETAILS_NOT_FOUND';
 
-            if (isset($simplexml->status))
-            {
+            if (isset($simplexml->status)) {
                 $constant_name = strtoupper(str_replace(" ", "_", $simplexml->status));
                 $this->error = $constant_name;
             }
             return null;
         }
 
-        for ($i = 0; $i < $parameters['maxRows']; $i++)
-        {
-            if (!isset($simplexml->geoname[$i]))
-            {
+        for ($i = 0; $i < $parameters['maxRows']; $i++) {
+            if (!isset($simplexml->geoname[$i])) {
                 break;
             }
 
@@ -196,8 +173,7 @@ class org_routamc_positioning_geocoder_geonames extends org_routamc_positioning_
             $meters = round( org_routamc_positioning_utils::get_distance($coordinates, $entry_coordinates) * 1000 );
             $entry_meters = round( (float) $entry->distance * 1000 );
 
-            if ($entry_meters < $meters)
-            {
+            if ($entry_meters < $meters) {
                 $meters = $entry_meters;
             }
 

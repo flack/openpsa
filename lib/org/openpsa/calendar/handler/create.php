@@ -40,22 +40,17 @@ implements midcom_helper_datamanager2_interfaces_create
     public function get_schema_defaults()
     {
         $defaults = array('participants' => array());
-        if ($person = midcom::get()->auth->get_user($this->resource))
-        {
+        if ($person = midcom::get()->auth->get_user($this->resource)) {
             $person = $person->get_storage();
             $defaults['participants'][$person->id] = $person;
-        }
-        elseif ($group = midcom::get()->auth->get_group($this->resource))
-        {
-            foreach ($group->list_members() as $member)
-            {
+        } elseif ($group = midcom::get()->auth->get_group($this->resource)) {
+            foreach ($group->list_members() as $member) {
                 $person = $member->get_storage();
                 $defaults['participants'][$person->id] = $person;
             }
         }
 
-        if (!is_null($this->_requested_start))
-        {
+        if (!is_null($this->_requested_start)) {
             $defaults['start'] = $this->_requested_start;
             $defaults['end'] = $this->_requested_end;
         }
@@ -69,8 +64,7 @@ implements midcom_helper_datamanager2_interfaces_create
     {
         $this->_event = new org_openpsa_calendar_event_dba();
         $this->_event->up = $this->_root_event->id;
-        if (!$this->_event->create())
-        {
+        if (!$this->_event->create()) {
             debug_print_r('We operated on this object:', $this->_event);
             throw new midcom_error('Failed to create a new event. Last Midgard error was: ' . midcom_connection::get_error_string());
         }
@@ -92,15 +86,11 @@ implements midcom_helper_datamanager2_interfaces_create
 
         $this->resource = (isset($args[0])) ? $args[0] : midcom::get()->auth->user->guid;
 
-        if (!empty($_GET['start']))
-        {
+        if (!empty($_GET['start'])) {
             $this->_requested_start = strtotime($_GET['start']);
-            if (!empty($_GET['end']))
-            {
+            if (!empty($_GET['end'])) {
                 $this->_requested_end = strtotime($_GET['end']);
-            }
-            else
-            {
+            } else {
                 $this->_requested_end = $this->_requested_start + 3600;
             }
         }
@@ -115,14 +105,11 @@ implements midcom_helper_datamanager2_interfaces_create
 
         $workflow = $this->get_workflow('datamanager2', array('controller' => $data['controller']));
         $response = $workflow->run();
-        if ($workflow->get_state() == 'save')
-        {
+        if ($workflow->get_state() == 'save') {
             $indexer = new org_openpsa_calendar_midcom_indexer($this->_topic);
             $indexer->index($data['controller']->datamanager);
             midcom::get()->head->add_jsonload('openpsa_calendar_widget.refresh_parent();');
-        }
-        elseif (!empty($conflictmanager->busy_members))
-        {
+        } elseif (!empty($conflictmanager->busy_members)) {
             midcom::get()->uimessages->add($this->_l10n->get('event conflict'), $conflictmanager->get_message($this->_l10n->get_formatter()), 'warning');
         }
         return $response;

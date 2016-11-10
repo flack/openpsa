@@ -24,8 +24,7 @@ class org_openpsa_relatedto_dba extends midcom_core_dbaobject
 
     public function _on_creating()
     {
-        if (!$this->status)
-        {
+        if (!$this->status) {
             $this->status = self::SUSPECTED;
         }
         //PONDER: Should we call check_db() here and prevent creation of multiple very similar links ??
@@ -34,16 +33,14 @@ class org_openpsa_relatedto_dba extends midcom_core_dbaobject
 
     public function _on_loaded()
     {
-        if (!$this->status)
-        {
+        if (!$this->status) {
             $this->status = self::SUSPECTED;
         }
     }
 
     public function _on_updating()
     {
-        if (!$this->status)
-        {
+        if (!$this->status) {
             $this->status = self::SUSPECTED;
         }
         return true;
@@ -60,15 +57,13 @@ class org_openpsa_relatedto_dba extends midcom_core_dbaobject
         $mc->add_constraint('fromGuid', '=', $this->fromGuid);
         $mc->add_constraint('fromComponent', '=', $this->fromComponent);
         $mc->add_constraint('toComponent', '=', $this->toComponent);
-        if ($check_status)
-        {
+        if ($check_status) {
             $mc->add_constraint('status', '=', $this->status);
         }
         $mc->set_limit(1);
         $mc->execute();
         $ret = $mc->list_keys();
-        if (!empty($ret))
-        {
+        if (!empty($ret)) {
             return key($ret);
         }
 

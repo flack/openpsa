@@ -23,8 +23,7 @@ class org_openpsa_contacts_role_dba extends midcom_core_dbaobject
         $mc->add_constraint('role', '=', $role);
         $mc->add_constraint('person', '=', $person);
         $mc->execute();
-        if ($mc->count() > 0)
-        {
+        if ($mc->count() > 0) {
             //Resource is already present, aborting silently
             return;
         }
@@ -46,8 +45,7 @@ class org_openpsa_contacts_role_dba extends midcom_core_dbaobject
         $qb->add_constraint('objectGuid', '=', $this->objectGuid);
         $qb->add_constraint('role', '=', $this->role);
 
-        if ($this->id)
-        {
+        if ($this->id) {
             $qb->add_constraint('id', '<>', $this->id);
         }
 

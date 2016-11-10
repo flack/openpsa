@@ -11,7 +11,9 @@
  */
 class midcom_services_rcs_backend_null implements midcom_services_rcs_backend
 {
-    public function __construct($object, $config) {}
+    public function __construct($object, $config)
+    {
+    }
 
     public function update($object, $updatemessage = null)
     {

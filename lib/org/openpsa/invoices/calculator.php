@@ -39,16 +39,14 @@ class org_openpsa_invoices_calculator extends midcom_baseclasses_components_pure
 
         $this_cycle_amount = $client->get_price();
 
-        if ($this_cycle_amount == 0)
-        {
+        if ($this_cycle_amount == 0) {
             debug_add('Invoice sum 0, skipping invoice creation');
             return 0;
         }
 
         $this->_invoice = $this->_probe_invoice($cycle_number);
 
-        if (!$this->_invoice->update())
-        {
+        if (!$this->_invoice->update()) {
             throw new midcom_error("The invoice could not be saved. Last Midgard error was: " . midcom_connection::get_error_string());
         }
 
@@ -56,20 +54,15 @@ class org_openpsa_invoices_calculator extends midcom_baseclasses_components_pure
 
         $items = $client->get_invoice_items($this->_invoice);
 
-        foreach ($items as $item)
-        {
+        foreach ($items as $item) {
             $item->deliverable = $this->_deliverable->id;
             $item->skip_invoice_update = true;
-            if ($item->id)
-            {
+            if ($item->id) {
                 $stat = $item->update();
-            }
-            else
-            {
+            } else {
                 $stat = $item->create();
             }
-            if (!$stat)
-            {
+            if (!$stat) {
                 throw new midcom_error('Failed to save item to disk, ' . midcom_connection::get_error_string());
             }
         }
@@ -113,8 +106,7 @@ class org_openpsa_invoices_calculator extends midcom_baseclasses_components_pure
         $suspects = $item_mc->get_values('invoice');
 
         // validate suspects.. we want no cancelation invoices
-        if (count($suspects) > 0)
-        {
+        if (count($suspects) > 0) {
             $invoice_mc = org_openpsa_invoices_invoice_dba::new_collector('metadata.deleted', false);
             $invoice_mc->add_constraint('cancelationInvoice', 'IN', array_values($suspects));
             $cancelation_ids = $invoice_mc->get_values('cancelationInvoice');
@@ -123,8 +115,7 @@ class org_openpsa_invoices_calculator extends midcom_baseclasses_components_pure
         }
 
         // check which suspects are left
-        if (count($suspects) > 0)
-        {
+        if (count($suspects) > 0) {
             return new org_openpsa_invoices_invoice_dba(array_pop($suspects));
         }
         // Nothing found, create a new invoice
@@ -142,13 +133,11 @@ class org_openpsa_invoices_calculator extends midcom_baseclasses_components_pure
         $invoice->vat = $invoice->get_default('vat');
         $invoice->description = $invoice->get_default('remarks');
 
-        if (!$invoice->create())
-        {
+        if (!$invoice->create()) {
             throw new midcom_error('Failed to create invoice, ' . midcom_connection::get_error_string());
         }
         // Register the cycle number for reporting purposes
-        if (!is_null($cycle_number))
-        {
+        if (!is_null($cycle_number)) {
             $invoice->set_parameter('org.openpsa.sales', 'cycle_number', $cycle_number);
         }
         return $invoice;

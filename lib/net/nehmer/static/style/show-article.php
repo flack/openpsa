@@ -6,11 +6,11 @@ $view = $data['view_article'];
 
 <?php
 if (   array_key_exists('image', $view)
-    && $view['image'])
-{
+    && $view['image']) {
     ?>
     <div style="float: right; padding: 5px;">&(view['image']:h);</div>
     <?php
+
 }
 ?>
 

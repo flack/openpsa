@@ -11,8 +11,7 @@ $event = $data['other_obj'];
     <?php
     // Participants
     echo "<li class=\"members\">" . midcom::get()->i18n->get_string('participants', 'org.openpsa.calendar') . ": ";
-    foreach ($event->participants as $person_id => $confirmed)
-    {
+    foreach ($event->participants as $person_id => $confirmed) {
         $participant_card = org_openpsa_widgets_contact::get($person_id);
         echo $participant_card->show_inline()." ";
     }

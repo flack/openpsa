@@ -27,8 +27,7 @@ class net_nehmer_comments_viewer extends midcom_baseclasses_components_request
     {
         $buttons = array();
         if (   $this->_topic->can_do('midgard:update')
-            && $this->_topic->can_do('midcom:component_config'))
-        {
+            && $this->_topic->can_do('midcom:component_config')) {
             $workflow = $this->get_workflow('datamanager2');
             $buttons[] = $workflow->get_button('config/', array
             (
@@ -37,8 +36,7 @@ class net_nehmer_comments_viewer extends midcom_baseclasses_components_request
             ));
         }
         if (   $this->_topic->can_do('midgard:update')
-            && $this->_topic->can_do('net.nehmer.comments:moderation'))
-        {
+            && $this->_topic->can_do('net.nehmer.comments:moderation')) {
             $buttons[] = array
             (
                 MIDCOM_TOOLBAR_URL => 'moderate/reported_abuse/',
@@ -90,10 +88,8 @@ class net_nehmer_comments_viewer extends midcom_baseclasses_components_request
         $toolbar = new midcom_helper_toolbar();
         $buttons = array();
         if (   midcom::get()->auth->user
-            && $comment->status < net_nehmer_comments_comment::MODERATED)
-        {
-            if (!$comment->can_do('net.nehmer.comments:moderation'))
-            {
+            && $comment->status < net_nehmer_comments_comment::MODERATED) {
+            if (!$comment->can_do('net.nehmer.comments:moderation')) {
                 // Regular users can only report abuse
                 $buttons[] = array
                 (
@@ -107,9 +103,7 @@ class net_nehmer_comments_viewer extends midcom_baseclasses_components_request
                         'return_url' => midcom_connection::get_url('uri'),
                     )
                 );
-            }
-            else
-            {
+            } else {
                 $buttons[] = array
                 (
                     MIDCOM_TOOLBAR_URL => "report/{$comment->guid}/",
@@ -149,8 +143,7 @@ class net_nehmer_comments_viewer extends midcom_baseclasses_components_request
                         'return_url' => midcom_connection::get_url('uri'),
                     )
                 );
-                if (!empty($viewtype))
-                {
+                if (!empty($viewtype)) {
                     $buttons[] = array
                     (
                         MIDCOM_TOOLBAR_URL => 'moderate/ajax/' . $viewtype . '/',

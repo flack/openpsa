@@ -33,14 +33,12 @@ class net_nemein_wiki_handler_orphan extends midcom_baseclasses_components_handl
         $qb->add_order('name');
         $wikipages = $qb->execute();
 
-        foreach ($wikipages as $wikipage)
-        {
+        foreach ($wikipages as $wikipage) {
             $link_qb = net_nemein_wiki_link_dba::new_query_builder();
             $link_qb->add_constraint('topage', '=', $wikipage->title);
             $links = $link_qb->count_unchecked();
 
-            if ($links == 0)
-            {
+            if ($links == 0) {
                 $data['orphans'][] = $wikipage;
             }
         }

@@ -21,17 +21,14 @@ class org_openpsa_widgets_calendar extends midcom_baseclasses_components_purecod
         $head->add_jsfile(MIDCOM_STATIC_URL . $prefix . 'fullcalendar.min.js');
 
         $lang = midcom::get()->i18n->get_current_language();
-        if (!file_exists(MIDCOM_STATIC_ROOT . $prefix . "locale/{$lang}.js"))
-        {
+        if (!file_exists(MIDCOM_STATIC_ROOT . $prefix . "locale/{$lang}.js")) {
             $lang = midcom::get()->i18n->get_fallback_language();
-            if (!file_exists(MIDCOM_STATIC_ROOT . $prefix . "locale/{$lang}.js"))
-            {
+            if (!file_exists(MIDCOM_STATIC_ROOT . $prefix . "locale/{$lang}.js")) {
                 $lang = false;
             }
         }
 
-        if ($lang)
-        {
+        if ($lang) {
             $head->add_jsfile(MIDCOM_STATIC_URL . $prefix . "locale/{$lang}.js");
         }
 

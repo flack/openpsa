@@ -130,17 +130,13 @@ class midcom_helper_head
     {
         // Adds a URL for a <script type="text/javascript" src="tinymce.js"></script>
         // like call. $url is inserted into src. Duplicates are omitted.
-        if (!in_array($url, $this->_jsfiles))
-        {
+        if (!in_array($url, $this->_jsfiles)) {
             $this->_jsfiles[] = $url;
             $js_call = array('url' => $url);
-            if ($prepend)
-            {
+            if ($prepend) {
                 // Add the javascript include to the beginning, not the end of array
                 array_unshift($this->_jshead, $js_call);
-            }
-            else
-            {
+            } else {
                 $this->_jshead[] = $js_call;
             }
         }
@@ -167,12 +163,9 @@ class midcom_helper_head
     public function add_jscript($script, $defer = '', $prepend = false)
     {
         $js_call = array('content' => trim($script), 'defer' => $defer);
-        if ($prepend)
-        {
+        if ($prepend) {
             $this->_prepend_jshead[] = $js_call;
-        }
-        else
-        {
+        } else {
             $this->_jshead[] = $js_call;
         }
     }
@@ -191,12 +184,9 @@ class midcom_helper_head
     {
         $js_call = "\n" . trim($script) . "\n";
 
-        if (!isset($this->_jquery_states[$state]))
-        {
+        if (!isset($this->_jquery_states[$state])) {
             $this->_jquery_states[$state] = $js_call;
-        }
-        else
-        {
+        } else {
             $this->_jquery_states[$state] .= $js_call;
         }
     }
@@ -226,7 +216,7 @@ class midcom_helper_head
      */
     public function add_meta_head($attributes = null)
     {
-         $this->_meta_head .= '<meta' . $this->_get_attribute_string($attributes) . ' />' . "\n";
+        $this->_meta_head .= '<meta' . $this->_get_attribute_string($attributes) . ' />' . "\n";
     }
 
     /**
@@ -246,12 +236,10 @@ class midcom_helper_head
     private function _get_attribute_string($attributes)
     {
         $string = '';
-        if (null === $attributes)
-        {
+        if (null === $attributes) {
             return $string;
         }
-        foreach ($attributes as $key => $val)
-        {
+        foreach ($attributes as $key => $val) {
             $string .= ' ' . $key . '="' . htmlspecialchars($val, ENT_COMPAT) . '"';
         }
         return $string;
@@ -279,16 +267,13 @@ class midcom_helper_head
      */
     public function add_link_head(array $attributes)
     {
-        if (!array_key_exists('href', $attributes))
-        {
+        if (!array_key_exists('href', $attributes)) {
             return false;
         }
 
         // Register each URL only once
-        if ($key = array_search($attributes['href'], $this->_linkhrefs))
-        {
-            if (end($this->_linkhrefs) != $attributes['href'])
-            {
+        if ($key = array_search($attributes['href'], $this->_linkhrefs)) {
+            if (end($this->_linkhrefs) != $attributes['href']) {
                 unset($this->_linkhrefs[$key]);
                 $this->_linkhrefs[] = $attributes['href'];
                 reset($this->_linkhrefs);
@@ -313,8 +298,7 @@ class midcom_helper_head
             'type' => 'text/css',
             'href' => $url,
         );
-        if ($media)
-        {
+        if ($media) {
             $attributes['media'] = $media;
         }
         $this->add_link_head($attributes);
@@ -401,13 +385,11 @@ class midcom_helper_head
     public function print_head_elements()
     {
         echo $this->_meta_head;
-        foreach ($this->_linkhrefs as $url)
-        {
+        foreach ($this->_linkhrefs as $url) {
             $attributes = $this->_link_head[$url];
             $is_conditional = false;
 
-            if (array_key_exists('condition', $attributes))
-            {
+            if (array_key_exists('condition', $attributes)) {
                 echo "<!--[if {$attributes['condition']}]>\n";
                 $is_conditional = true;
                 unset($attributes['condition']);
@@ -415,8 +397,7 @@ class midcom_helper_head
 
             echo "<link" . $this->_get_attribute_string($attributes) . " />\n";
 
-            if ($is_conditional)
-            {
+            if ($is_conditional) {
                 echo "<![endif]-->\n";
             }
         }
@@ -424,13 +405,11 @@ class midcom_helper_head
         echo $this->_object_head;
         echo $this->_style_head;
 
-        if ($this->_jquery_enabled)
-        {
+        if ($this->_jquery_enabled) {
             echo $this->_jquery_init_scripts;
         }
 
-        if (!empty($this->_prepend_jshead))
-        {
+        if (!empty($this->_prepend_jshead)) {
             array_map(array($this, '_print_js'), $this->_prepend_jshead);
         }
 
@@ -440,12 +419,9 @@ class midcom_helper_head
 
     private function _print_js(array $js_call)
     {
-        if (array_key_exists('url', $js_call))
-        {
+        if (array_key_exists('url', $js_call)) {
             echo '<script type="text/javascript" src="' . $js_call['url'] . "\"></script>\n";
-        }
-        else
-        {
+        } else {
             echo '<script type="text/javascript"' . $js_call['defer'] . ">\n";
             echo  $js_call['content'] . "\n";
             echo "</script>\n";
@@ -469,31 +445,25 @@ class midcom_helper_head
      */
     public function enable_jquery($version = null)
     {
-        if ($this->_jquery_enabled)
-        {
+        if ($this->_jquery_enabled) {
             return;
         }
 
-        if (!$version)
-        {
+        if (!$version) {
             $version = midcom::get()->config->get('jquery_version');
         }
 
         $this->_jquery_init_scripts .= "\n";
 
-        if (midcom::get()->config->get('jquery_load_from_google'))
-        {
+        if (midcom::get()->config->get('jquery_load_from_google')) {
             // Use Google's hosted jQuery version
             $this->_jquery_init_scripts .= "<script src=\"http://www.google.com/jsapi\"></script>\n";
             $this->_jquery_init_scripts .= "<script>\n";
             $this->_jquery_init_scripts .= "    google.load('jquery', '{$version}');\n";
             $this->_jquery_init_scripts .= "</script>\n";
-        }
-        else
-        {
+        } else {
             $url = MIDCOM_STATIC_URL . "/jQuery/jquery-{$version}.js";
-            if (midcom::get()->config->get('jquery_version_oldie'))
-            {
+            if (midcom::get()->config->get('jquery_version_oldie')) {
                 $oldie_url = MIDCOM_STATIC_URL . '/jQuery/jquery-' . midcom::get()->config->get('jquery_version_oldie') . '.js';
                 $this->_jquery_init_scripts .= "<!--[if lt IE 9]>\n";
                 $this->_jquery_init_scripts .= "<script type=\"text/javascript\" src=\"{$oldie_url}\"></script>\n";
@@ -501,15 +471,12 @@ class midcom_helper_head
                 $this->_jquery_init_scripts .= "<!--[if gte IE 9]><!-->\n";
                 $this->_jquery_init_scripts .= "<script type=\"text/javascript\" src=\"{$url}\"></script>\n";
                 $this->_jquery_init_scripts .= "<!--<![endif]-->\n";
-            }
-            else
-            {
+            } else {
                 $this->_jquery_init_scripts .= "<script type=\"text/javascript\" src=\"{$url}\"></script>\n";
             }
         }
 
-        if (!defined('MIDCOM_JQUERY_UI_URL'))
-        {
+        if (!defined('MIDCOM_JQUERY_UI_URL')) {
             define('MIDCOM_JQUERY_UI_URL', MIDCOM_STATIC_URL . "/jQuery/jquery-ui-" . midcom::get()->config->get('jquery_ui_version'));
         }
 
@@ -535,15 +502,13 @@ class midcom_helper_head
      */
     public function print_jquery_statuses()
     {
-        if (empty($this->_jquery_states))
-        {
+        if (empty($this->_jquery_states)) {
             return;
         }
 
         echo '<script type="text/javascript">' . "\n";
 
-        foreach ($this->_jquery_states as $status => $scripts)
-        {
+        foreach ($this->_jquery_states as $status => $scripts) {
             $status_parts = explode('.', $status);
             $status_target = $status_parts[0];
             $status_method = $status_parts[1];
@@ -569,17 +534,13 @@ class midcom_helper_head
         $this->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/core.min.js');
         $this->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/widget.min.js');
 
-        foreach ($components as $component)
-        {
+        foreach ($components as $component) {
             $this->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/' . $component . '.min.js');
         }
 
-        if (midcom::get()->config->get('jquery_ui_theme'))
-        {
+        if (midcom::get()->config->get('jquery_ui_theme')) {
             $this->add_stylesheet(midcom::get()->config->get('jquery_ui_theme'));
-        }
-        else
-        {
+        } else {
             $this->add_stylesheet(MIDCOM_JQUERY_UI_URL . '/themes/base/jquery-ui.min.css');
         }
     }

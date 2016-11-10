@@ -1,8 +1,7 @@
 <?php echo $data['editor_header_form_start'];?>
 <div class="maa_permissions_assignees">
 <?php
-    if (!empty($data['editor_header_assignees']))
-    {
+    if (!empty($data['editor_header_assignees'])) {
         echo $data['editor_header_assignees'];
     } ?>
 </div>

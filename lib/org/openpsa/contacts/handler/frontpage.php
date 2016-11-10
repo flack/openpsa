@@ -25,8 +25,7 @@ class org_openpsa_contacts_handler_frontpage extends midcom_baseclasses_componen
 
         $workflow = $this->get_workflow('datamanager2');
         $buttons = array();
-        if (midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_contacts_person_dba'))
-        {
+        if (midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_contacts_person_dba')) {
             $buttons[] = $workflow->get_button('person/create/', array
             (
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create person'),
@@ -34,8 +33,7 @@ class org_openpsa_contacts_handler_frontpage extends midcom_baseclasses_componen
             ));
         }
 
-        if (midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_contacts_group_dba'))
-        {
+        if (midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_contacts_group_dba')) {
             $buttons[] = $workflow->get_button("group/create/organization/", array
             (
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create organization'),
@@ -49,8 +47,7 @@ class org_openpsa_contacts_handler_frontpage extends midcom_baseclasses_componen
         }
 
         $p_merger = new org_openpsa_contacts_duplicates_merge('person', $this->_config);
-        if ($p_merger->merge_needed())
-        {
+        if ($p_merger->merge_needed()) {
             $buttons[] = array
             (
                 MIDCOM_TOOLBAR_URL => 'duplicates/person/',
@@ -62,8 +59,7 @@ class org_openpsa_contacts_handler_frontpage extends midcom_baseclasses_componen
         $this->_view_toolbar->add_items($buttons);
 
         if (   $this->_topic->can_do('midgard:update')
-            && $this->_topic->can_do('midcom:component_config'))
-        {
+            && $this->_topic->can_do('midcom:component_config')) {
             $this->_node_toolbar->add_item($workflow->get_button('config/', array
             (
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('component configuration'),

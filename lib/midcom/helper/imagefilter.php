@@ -50,16 +50,13 @@ class midcom_helper_imagefilter
 
     public function __construct(midcom_db_attachment $input = null)
     {
-        if (null !== $input)
-        {
+        if (null !== $input) {
             $tmpfile = $this->create_tmp_copy($input);
-            if ($tmpfile === false)
-            {
+            if ($tmpfile === false) {
                 throw new midcom_error("Could not create a working copy, aborting");
             }
 
-            if (!$this->set_file($tmpfile))
-            {
+            if (!$this->set_file($tmpfile)) {
                 // Clean up
                 unlink($tmpfile);
                 throw new midcom_error("set_file() failed, aborting");
@@ -69,10 +66,8 @@ class midcom_helper_imagefilter
 
     public function __destruct()
     {
-        foreach ($this->_tmpfiles as $filename)
-        {
-            if (file_exists($filename))
-            {
+        foreach ($this->_tmpfiles as $filename) {
+            if (file_exists($filename)) {
                 unlink($filename);
             }
         }
@@ -88,8 +83,7 @@ class midcom_helper_imagefilter
     {
         $tmpname = $this->_get_tempfile();
 
-        if (is_string($input))
-        {
+        if (is_string($input)) {
             // TODO: error handling
             copy($input, $tmpname);
             // With the following line, filesize() will return zero, see https://bugs.php.net/bug.php?id=65701
@@ -98,15 +92,13 @@ class midcom_helper_imagefilter
         }
 
         $src = $input->open('r');
-        if (!$src)
-        {
+        if (!$src) {
             debug_add("Could not open attachment #{$input->id} for reading", MIDCOM_LOG_ERROR);
             return false;
         }
 
         $dst = fopen($tmpname, 'w+');
-        if (!$dst)
-        {
+        if (!$dst) {
             debug_add("Could not open file '{$tmpname}' for writing", MIDCOM_LOG_ERROR);
             unlink($tmpname);
             return false;
@@ -121,14 +113,12 @@ class midcom_helper_imagefilter
     public function write(midcom_db_attachment $target)
     {
         $src = fopen($this->_filename, 'r');
-        if (!$src)
-        {
+        if (!$src) {
             debug_add("Could not open file '{$this->_filename}' for reading", MIDCOM_LOG_ERROR);
             return false;
         }
         $stat = $target->copy_from_handle($src);
-        if (!$stat)
-        {
+        if (!$stat) {
             debug_add("copy_from_handle() failed", MIDCOM_LOG_ERROR);
         }
         fclose($src);
@@ -138,15 +128,13 @@ class midcom_helper_imagefilter
     public static function imagemagick_available()
     {
         static $return = -1;
-        if ($return === -1)
-        {
+        if ($return === -1) {
             $convert_cmd = escapeshellcmd(midcom::get()->config->get('utility_imagemagick_base') . "convert -version");
             $output = array();
             $ret = null;
             exec($convert_cmd, $output, $ret);
             $return = ($ret === 0 || $ret === 1);
-            if (!$return)
-            {
+            if (!$return) {
                 debug_add("ImageMagick, '{$convert_cmd}' (part of ImageMagick suite) returned failure", MIDCOM_LOG_ERROR);
             }
         }
@@ -157,23 +145,19 @@ class midcom_helper_imagefilter
     private function _jpegtran_available()
     {
         static $return = -1;
-        if ($return !== -1)
-        {
+        if ($return !== -1) {
             return $return;
         }
         $return = false;
-        if ($cmd = midcom::get()->config->get('utility_jpegtran'))
-        {
+        if ($cmd = midcom::get()->config->get('utility_jpegtran')) {
             $return = true;
-            if (!file_exists($cmd))
-            {
+            if (!file_exists($cmd)) {
                 $find_cmd = escapeshellcmd('which ' . midcom::get()->config->get('utility_jpegtran'));
                 $output = array();
                 $ret = null;
                 exec($find_cmd, $output, $ret);
 
-                if ($ret !== 0)
-                {
+                if ($ret !== 0) {
                     debug_add("jpegtran (part of libjpeg suite) was not found", MIDCOM_LOG_ERROR);
                     $return = false;
                 }
@@ -200,20 +184,17 @@ class midcom_helper_imagefilter
      */
     public function set_file($filename)
     {
-        if (!self::imagemagick_available())
-        {
+        if (!self::imagemagick_available()) {
             debug_add("ImageMagick is not available, can't do any operations", MIDCOM_LOG_ERROR);
             midcom::get()->uimessages->add('midcom.helper.imagefilter', "ImageMagick is not available, can't process commands", 'error');
             return false;
         }
-        if (!is_writeable($filename))
-        {
+        if (!is_writeable($filename)) {
             debug_add("The File {$filename} is not writeable.", MIDCOM_LOG_ERROR);
             return false;
         }
         if (   !empty($this->_filename)
-            && $this->_filename !== $filename)
-        {
+            && $this->_filename !== $filename) {
             $this->_tmpfiles[] = $this->_filename;
         }
         $this->_filename = $filename;
@@ -263,8 +244,7 @@ class midcom_helper_imagefilter
      */
     function process_command($cmd)
     {
-        if (!preg_match('/([a-z_:]*)\(([^)]*)\)/', $cmd, $matches))
-        {
+        if (!preg_match('/([a-z_:]*)\(([^)]*)\)/', $cmd, $matches)) {
             throw new midcom_error("Failed to parse command {$cmd}");
         }
 
@@ -272,12 +252,9 @@ class midcom_helper_imagefilter
         $args = explode(',', $matches[2]);
 
         debug_print_r("Have to execute {$command} with these arguments:", $args);
-        if (is_callable(array($this, $command)))
-        {
+        if (is_callable(array($this, $command))) {
             call_user_func_array(array($this, $command), $args);
-        }
-        elseif ($command != 'none')
-        {
+        } elseif ($command != 'none') {
             debug_add('This is no known command, we try to find a callback.');
             $this->execute_user_callback($command, $args);
         }
@@ -291,18 +268,15 @@ class midcom_helper_imagefilter
         $exit_code = 0;
         exec($cmd . ' 2>&1', $output, $exit_code);
 
-        if ($exit_code !== 0)
-        {
-            if ($tempfile !== null)
-            {
+        if ($exit_code !== 0) {
+            if ($tempfile !== null) {
                 unlink($tempfile);
             }
             $command = basename(preg_replace('/ .+/', '', $cmd));
             debug_print_r("Command [{$cmd}] returned {$exit_code}, the generated output was:", $output, MIDCOM_LOG_ERROR);
             throw new midcom_error($command . " returned error code {$exit_code}");
         }
-        if ($tempfile !== null)
-        {
+        if ($tempfile !== null) {
             $this->_process_tempfile($tempfile);
         }
         return $output;
@@ -346,15 +320,13 @@ class midcom_helper_imagefilter
      */
     private function execute_user_callback($command, $args)
     {
-        if (!is_callable($command))
-        {
+        if (!is_callable($command)) {
             throw new midcom_error("The function {$command} could not be found");
         }
 
         $tmpfile = $this->_get_tempfile();
 
-        if (!call_user_func($command, $this->_filename, $tmpfile, $args))
-        {
+        if (!call_user_func($command, $this->_filename, $tmpfile, $args)) {
             unlink($tmpfile);
             throw new midcom_error("The function {$command} returned false");
         }
@@ -405,13 +377,10 @@ class midcom_helper_imagefilter
 
     public function identify($filename)
     {
-        try
-        {
+        try {
             $cmd = midcom::get()->config->get('utility_imagemagick_base') . "identify " . escapeshellarg($filename);
             $this->_run_command($cmd);
-        }
-        catch(midcom_error $e)
-        {
+        } catch (midcom_error $e) {
             return false;
         }
         return true;
@@ -427,27 +396,21 @@ class midcom_helper_imagefilter
      */
     public function exifrotate()
     {
-        if (!function_exists("exif_read_data"))
-        {
+        if (!function_exists("exif_read_data")) {
             throw new midcom_error("exif_read_data required for exifrotate.");
         }
         // Silence this, gives warnings on images that do not contain EXIF data
-        try
-        {
+        try {
             $exif = @exif_read_data($this->_filename);
-            if (empty($exif['Orientation']))
-            {
+            if (empty($exif['Orientation'])) {
                 debug_add("EXIF information missing or without orientation tag. Skipping.", MIDCOM_LOG_INFO);
                 return;
             }
-        }
-        catch (Exception $e)
-        {
+        } catch (Exception $e) {
             debug_add("Could not read EXIF data: " . $e->getMessage() . ", skipping.", MIDCOM_LOG_WARN);
             return;
         }
-        if ($exif["Orientation"] == 1)
-        {
+        if ($exif["Orientation"] == 1) {
             debug_add("No rotation necessary.");
             return;
         }
@@ -456,8 +419,7 @@ class midcom_helper_imagefilter
         $imagesize = getimagesize($this->_filename);
 
         if (   $imagesize[2] == IMAGETYPE_JPEG
-            && $this->_jpegtran_available())
-        {
+            && $this->_jpegtran_available()) {
             /* jpegtran */
             $operations = array
             (
@@ -472,9 +434,7 @@ class midcom_helper_imagefilter
 
             $tmpfile = $this->_get_tempfile();
             $cmd = midcom::get()->config->get('utility_jpegtran') . " -outfile {$tmpfile} -copy all";
-        }
-        else
-        {
+        } else {
             /* Mogrify */
             debug_add("jpegtran not found, falling back to mogrify.");
 
@@ -491,8 +451,7 @@ class midcom_helper_imagefilter
 
             $cmd = midcom::get()->config->get('utility_imagemagick_base') . "mogrify {$this->_quality}";
         }
-        if (!array_key_exists($exif["Orientation"], $operations))
-        {
+        if (!array_key_exists($exif["Orientation"], $operations)) {
             debug_add("Unsupported EXIF-Rotation tag encountered, ingoring: " . $exif["Orientation"], MIDCOM_LOG_INFO);
             return;
         }
@@ -514,17 +473,14 @@ class midcom_helper_imagefilter
     public function rotate($rotate = 0)
     {
         // Do some normalizing on the argument
-        while ($rotate < 0)
-        {
+        while ($rotate < 0) {
             $rotate += 360;
         }
-        while ($rotate > 360)
-        {
+        while ($rotate > 360) {
             $rotate -= 360;
         }
         if (   $rotate == 0
-            || $rotate == 360)
-        {
+            || $rotate == 360) {
             debug_add("Rotate is {$rotate}, we're happy as-is.");
             return;
         }
@@ -535,13 +491,10 @@ class midcom_helper_imagefilter
         // Try lossless jpegtran rotation if possible
         if (   $imagesize[2] == IMAGETYPE_JPEG
             && ($rotate % 90 == 0)
-            && $this->_jpegtran_available())
-        {
+            && $this->_jpegtran_available()) {
             $tmpfile = $this->_get_tempfile();
             $cmd = midcom::get()->config->get('utility_jpegtran') . " -copy all -rotate {$rotate} -outfile {$tmpfile} " . escapeshellarg($this->_filename);
-        }
-        else
-        {
+        } else {
             /* Mogrify */
             debug_add("jpegtran not found or rotation incompatible, falling back to mogrify.");
 
@@ -574,22 +527,16 @@ class midcom_helper_imagefilter
         $x = (int) $x;
         $y = (int) $y;
 
-        if ($x == 0 && $y == 0)
-        {
+        if ($x == 0 && $y == 0) {
             debug_add("Both x and y are 0, skipping operation.", MIDCOM_LOG_INFO);
             return;
         }
 
-        if ($x == 0)
-        {
+        if ($x == 0) {
             $geo = "x{$y}>";
-        }
-        elseif ($y == 0)
-        {
+        } elseif ($y == 0) {
             $geo = "{$x}x>";
-        }
-        else
-        {
+        } else {
             $geo = "{$x}x{$y}>";
         }
         $geo = "-geometry " . escapeshellarg($geo);
@@ -626,34 +573,28 @@ class midcom_helper_imagefilter
      */
     public function crop($x = 0, $y = 0, $gravity = 'center')
     {
-        if ($x == 0)
-        {
+        if ($x == 0) {
             return;
         }
 
-        if ($y == 0)
-        {
+        if ($y == 0) {
             $y = $x;
         }
 
         $data = @getimagesize($this->_filename);
 
         // 1a. If got...
-        if ($data)
-        {
+        if ($data) {
             $size_x = $data[0];
             $size_y = $data[1];
-        }
-        else
-        {
+        } else {
             // If image data was not available, try to get it with identify program
             $cmd = midcom::get()->config->get('utility_imagemagick_base') . "identify -verbose {$this->_filename}";
 
             $output = $this->_run_command($cmd);
             $output = implode("\n", $output);
 
-            if (!preg_match('/Geometry:\s([0-9]+)x([0-9]+)/i', $output, $regs))
-            {
+            if (!preg_match('/Geometry:\s([0-9]+)x([0-9]+)/i', $output, $regs)) {
                 throw new midcom_error('Could not read geometry data');
             }
 
@@ -679,15 +620,13 @@ class midcom_helper_imagefilter
     {
         if (   empty($x)
             || empty($y)
-            || empty($color))
-        {
+            || empty($color)) {
             //This is a bit silly, but here for backwards compatibility...
             return;
         }
 
         // Currently accepting only hex colors
-        if (!preg_match('/^#?([0-9a-f]{3}){1,2}$/', $color))
-        {
+        if (!preg_match('/^#?([0-9a-f]{3}){1,2}$/', $color)) {
             throw new midcom_error("Given color ({$color}) is not hex RGB.");
         }
 

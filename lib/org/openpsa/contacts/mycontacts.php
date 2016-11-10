@@ -29,12 +29,9 @@ class org_openpsa_contacts_mycontacts
 
     public function __construct(midcom_core_user $user = null)
     {
-        if (null !== $user)
-        {
+        if (null !== $user) {
             $this->_user = $user;
-        }
-        else
-        {
+        } else {
             $this->_user = midcom::get()->auth->user;
         }
     }
@@ -46,26 +43,20 @@ class org_openpsa_contacts_mycontacts
      */
     private function _get_group($autocreate = false)
     {
-        if (!$this->_group)
-        {
+        if (!$this->_group) {
             $qb = org_openpsa_contacts_list_dba::new_query_builder();
             $qb->add_constraint('person', '=', $this->_user->guid);
             $results = $qb->execute();
-            if (sizeof($results) > 0)
-            {
+            if (sizeof($results) > 0) {
                 $this->_group = $results[0];
-            }
-            elseif ($autocreate)
-            {
+            } elseif ($autocreate) {
                 $this->_group = new org_openpsa_contacts_list_dba;
                 $this->_group->person = $this->_user->guid;
                 midcom::get()->auth->request_sudo('org.openpsa.contacts');
                 $this->_group->create();
                 $this->_group->set_privilege('midgard:owner', $this->_user->id, MIDCOM_PRIVILEGE_ALLOW);
                 midcom::get()->auth->drop_sudo();
-            }
-            else
-            {
+            } else {
                 return false;
             }
         }
@@ -81,16 +72,14 @@ class org_openpsa_contacts_mycontacts
 
     public function remove($guid)
     {
-        if ($group = $this->_get_group())
-        {
+        if ($group = $this->_get_group()) {
             $group->remove_member($guid);
         }
     }
 
     public function is_member($guid)
     {
-        if ($group = $this->_get_group())
-        {
+        if ($group = $this->_get_group()) {
             return $group->is_member($guid);
         }
         return false;
@@ -98,11 +87,9 @@ class org_openpsa_contacts_mycontacts
 
     public function list_members()
     {
-        if ($group = $this->_get_group())
-        {
+        if ($group = $this->_get_group()) {
             $memberships = $group->list_members();
-            if (sizeof($memberships) > 0)
-            {
+            if (sizeof($memberships) > 0) {
                 $qb = org_openpsa_contacts_person_dba::new_query_builder();
                 $qb->add_constraint('id', 'IN', $memberships);
                 return $qb->execute();

@@ -5,12 +5,11 @@
         <?php echo $data['l10n']->get('select the ordering method first to sort the pages'); ?>
             <select name="f_navorder" id="midcom_admin_folder_order_navorder">
 <?php
-foreach ($data['navorder_list'] as $key => $value)
-{
-    $selected = ($key == $data['navorder']) ? ' selected="selected"' : '';
-?>
+foreach ($data['navorder_list'] as $key => $value) {
+    $selected = ($key == $data['navorder']) ? ' selected="selected"' : ''; ?>
                 <option value="&(key);"&(selected:h);>&(value:h);</option>
 <?php
+
 }
 ?>
             </select>

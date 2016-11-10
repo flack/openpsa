@@ -29,13 +29,11 @@ class net_nemein_tag_tag_dba extends midcom_core_dbaobject
 
     public static function get_by_tag($tag)
     {
-        if (!empty($tag))
-        {
+        if (!empty($tag)) {
             $qb = net_nemein_tag_tag_dba::new_query_builder();
             $qb->add_constraint('tag', '=', $tag);
             $results = $qb->execute();
-            if (!empty($results))
-            {
+            if (!empty($results)) {
                 return $results[0];
             }
         }
@@ -56,24 +54,20 @@ class net_nemein_tag_tag_dba extends midcom_core_dbaobject
      */
     function validate_tag($tag)
     {
-        if (empty($tag))
-        {
+        if (empty($tag)) {
             midcom::get()->uimessages->add(midcom::get()->i18n->get_string('net.nemein.tag', 'net.nemein.tag'), sprintf(midcom::get()->i18n->get_string('tag "%s" is not valid. tags may not be empty', 'net.nemein.tag'), $tag), 'info');
             return false;
         }
-        if (!is_string($tag))
-        {
+        if (!is_string($tag)) {
             midcom::get()->uimessages->add(midcom::get()->i18n->get_string('net.nemein.tag', 'net.nemein.tag'), sprintf(midcom::get()->i18n->get_string('tag "%s" is not valid. tags must be valid strings', 'net.nemein.tag'), $tag), 'info');
             return false;
         }
-        if (is_numeric($tag))
-        {
+        if (is_numeric($tag)) {
             midcom::get()->uimessages->add(midcom::get()->i18n->get_string('net.nemein.tag', 'net.nemein.tag'), sprintf(midcom::get()->i18n->get_string('tag "%s" is not valid. tags may not be numeric', 'net.nemein.tag'), $tag), 'info');
             return false;
         }
         if (   strstr($tag, '"')
-            || strstr($tag, "'"))
-        {
+            || strstr($tag, "'")) {
             midcom::get()->uimessages->add(midcom::get()->i18n->get_string('net.nemein.tag', 'net.nemein.tag'), sprintf(midcom::get()->i18n->get_string('tag "%s" is not valid. tags may not contain quotes', 'net.nemein.tag'), $tag), 'info');
             return false;
         }
@@ -90,8 +84,7 @@ class net_nemein_tag_tag_dba extends midcom_core_dbaobject
     private function _check_duplicates()
     {
         $qb = net_nemein_tag_tag_dba::new_query_builder();
-        if ($this->id)
-        {
+        if ($this->id) {
             $qb->add_constraint('id', '<>', $this->id);
         }
         $qb->add_constraint('tag', '=', $this->tag);

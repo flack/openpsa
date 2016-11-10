@@ -26,17 +26,13 @@ class org_routamc_positioning_utils extends midcom_baseclasses_components_pureco
         $dist = rad2deg($dist);
         $dist = $dist * 60 * 1.1515;
 
-        if ($unit == "K")
-        {
+        if ($unit == "K") {
             $dist *= 1.609344;
-        }
-        elseif ($unit == "N")
-        {
+        } elseif ($unit == "N") {
             $dist *= 0.8684;
         }
 
-        if ($round)
-        {
+        if ($round) {
             $dist = round($dist, 1);
         }
         return $dist;
@@ -49,17 +45,13 @@ class org_routamc_positioning_utils extends midcom_baseclasses_components_pureco
      */
     public static function get_bearing($from, $to)
     {
-        if (round($from['longitude'], 1) == round($to['longitude'], 1))
-        {
+        if (round($from['longitude'], 1) == round($to['longitude'], 1)) {
             $bearing = ($from['latitude'] < $to['latitude']) ? 0 : 180;
-        }
-        else
-        {
+        } else {
             $dist = self::get_distance($from, $to, 'N');
             $arad = acos((sin(deg2rad($to['latitude'])) - sin(deg2rad($from['latitude'])) * cos(deg2rad($dist / 60))) / (sin(deg2rad($dist / 60)) * cos(deg2rad($from['latitude']))));
             $bearing = $arad * 180 / pi();
-            if (sin(deg2rad($to['longitude'] - $from['longitude'])) < 0)
-            {
+            if (sin(deg2rad($to['longitude'] - $from['longitude'])) < 0) {
                 $bearing = 360 - $bearing;
             }
         }
@@ -67,12 +59,9 @@ class org_routamc_positioning_utils extends midcom_baseclasses_components_pureco
         $dirs = array("N", "E", "S", "W");
 
         $rounded = round($bearing / 22.5) % 16;
-        if (($rounded % 4) == 0)
-        {
+        if (($rounded % 4) == 0) {
             $dir = $dirs[$rounded / 4];
-        }
-        else
-        {
+        } else {
             $dir = $dirs[2 * floor(((floor($rounded / 4) + 1) % 4) / 2)];
             $dir .= $dirs[1 + 2 * floor($rounded / 8)];
         }
@@ -124,20 +113,16 @@ class org_routamc_positioning_utils extends midcom_baseclasses_components_pureco
         );
         $closest = self::get_closest('org_routamc_positioning_city_dba', $coordinates, 1);
         $city_string = self::pretty_print_coordinates($coordinates['latitude'], $coordinates['longitude']);
-        foreach ($closest as $city)
-        {
+        foreach ($closest as $city) {
             $city_coordinates = array
             (
                 'latitude'  => $city->latitude,
                 'longitude' => $city->longitude,
             );
             $city_distance = round(self::get_distance($coordinates, $city_coordinates));
-            if ($city_distance <= 4)
-            {
+            if ($city_distance <= 4) {
                 $city_string = "{$city->city}, {$city->country}";
-            }
-            else
-            {
+            } else {
                 $bearing = self::get_bearing($city_coordinates, $coordinates);
                 $city_string = sprintf(midcom::get()->i18n->get_string('%skm %s of %s', 'org.routamc.positioning'), $city_distance, $bearing, "{$city->city}, {$city->country}");
             }
@@ -164,8 +149,7 @@ class org_routamc_positioning_utils extends midcom_baseclasses_components_pureco
         $longitude_string = self::pretty_print_coordinate($longitude);
         $longitude_string .= ($longitude > 0) ? " E" : " W";
 
-        if (count($closest) == 0)
-        {
+        if (count($closest) == 0) {
             // No city found, generate only geo microformat
 
             $coordinates_string  = "<span class=\"geo\">";
@@ -176,8 +160,7 @@ class org_routamc_positioning_utils extends midcom_baseclasses_components_pureco
             return $coordinates_string;
         }
 
-        foreach ($closest as $city)
-        {
+        foreach ($closest as $city) {
             // City found, combine it and geo
 
             $city_string  = "<span class=\"geo adr\">";
@@ -195,12 +178,9 @@ class org_routamc_positioning_utils extends midcom_baseclasses_components_pureco
             $city_label  = "<span class=\"locality\">{$city->city}</span>, ";
             $city_label .= "<span class=\"country-name\">{$city->country}</span>";
 
-            if ($city_distance <= 4)
-            {
+            if ($city_distance <= 4) {
                 $city_string .= $city_label;
-            }
-            else
-            {
+            } else {
                 $bearing = self::get_bearing($city_coordinates, $coordinates);
                 $city_string .= sprintf(midcom::get()->i18n->get_string('%skm %s of %s', 'org.routamc.positioning'), $city_distance, $bearing, $city_label);
             }
@@ -218,8 +198,7 @@ class org_routamc_positioning_utils extends midcom_baseclasses_components_pureco
     private static function get_positioning_class($class)
     {
         // See what kind of object we're querying for
-        switch ($class)
-        {
+        switch ($class) {
             case 'org_routamc_positioning_log_dba':
             case 'org_routamc_positioning_city_dba':
             case 'org_routamc_positioning_aerodrome_dba':
@@ -252,8 +231,7 @@ class org_routamc_positioning_utils extends midcom_baseclasses_components_pureco
         $direct = ($classname == $class);
         $qb =  midcom::get()->dbfactory->new_query_builder($classname);
 
-        if (!$direct)
-        {
+        if (!$direct) {
             // We're querying a regular DBA object through a location object
             $qb->add_constraint('parentclass', '=', $class);
         }
@@ -267,8 +245,7 @@ class org_routamc_positioning_utils extends midcom_baseclasses_components_pureco
         $to['latitude'] = max($center['latitude'] - $modifier, -90);
         $to['longitude'] = min($center['longitude'] + $modifier, 180);
 
-        if (!isset($current_locale))
-        {
+        if (!isset($current_locale)) {
             $current_locale = setlocale(LC_NUMERIC, '0');
             setlocale(LC_NUMERIC, 'C');
         }
@@ -283,23 +260,19 @@ class org_routamc_positioning_utils extends midcom_baseclasses_components_pureco
         $qb->end_group();
         $result_count = $qb->count();
 
-        if ($result_count == 0)
-        {
+        if ($result_count == 0) {
             // Check that there are any in the DB before proceeding further
             $qb_check =  midcom::get()->dbfactory->new_query_builder($classname);
-            if ($qb_check->count_unchecked() == 0)
-            {
+            if ($qb_check->count_unchecked() == 0) {
                 return array();
             }
         }
 
-        if ($result_count < $limit)
-        {
+        if ($result_count < $limit) {
             if (   $from['latitude'] == 90
                 && $from['longitude'] == -180
                 && $to['latitude'] == -90
-                && $to['longitude'] == 180)
-            {
+                && $to['longitude'] == 180) {
                 // We've queried the entire globe so we return whatever we got
                 return self::get_closest_results($qb, $class, $center, $max_distance, $direct);
             }
@@ -310,8 +283,7 @@ class org_routamc_positioning_utils extends midcom_baseclasses_components_pureco
         }
 
         $closest = self::get_closest_results($qb, $class, $center, $max_distance, $direct);
-        while (count($closest) > $limit)
-        {
+        while (count($closest) > $limit) {
             array_pop($closest);
         }
         setlocale(LC_NUMERIC, $current_locale);
@@ -322,8 +294,7 @@ class org_routamc_positioning_utils extends midcom_baseclasses_components_pureco
     {
         $results = $qb->execute();
         $closest = array();
-        foreach ($results as $result)
-        {
+        foreach ($results as $result) {
             $result_coordinates = array
             (
                 'latitude' => $result->latitude,
@@ -333,21 +304,16 @@ class org_routamc_positioning_utils extends midcom_baseclasses_components_pureco
             $distance = sprintf("%05d", round(self::get_distance($center, $result_coordinates)));
 
             if (   !is_null($max_distance)
-                && $distance > $max_distance)
-            {
+                && $distance > $max_distance) {
                 // This entry is too far
                 continue;
             }
 
-            if (!$direct)
-            {
+            if (!$direct) {
                 // Instantiate the real object as the result
-                try
-                {
+                try {
                     $located_object = new $class($result->parent);
-                }
-                catch (midcom_error $e)
-                {
+                } catch (midcom_error $e) {
                     $e->log();
                     // This one has been deleted
                     midcom::get()->auth->request_sudo('org.routamc.positioning');

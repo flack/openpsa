@@ -1,6 +1,5 @@
 <?php
-if (count($data['persons']) > 0)
-{
+if (count($data['persons']) > 0) {
     ?>
         </tbody>
         <tfoot>
@@ -20,30 +19,26 @@ if (count($data['persons']) > 0)
                     <select id="midcom_admin_user_action" name="midcom_admin_user_action">
                         <option value=""><?php echo $data['l10n']->get('choose action'); ?></option>
                         <?php
-                        if ($data['config']->get('allow_manage_accounts'))
-                        {
+                        if ($data['config']->get('allow_manage_accounts')) {
                             ?>
                             <option value="removeaccount"><?php echo $data['l10n']->get('remove account'); ?></option>
                             <?php
-                        }
-                        ?>
+
+                        } ?>
                         <option value="groupadd"><?php echo $data['l10n']->get('add to group'); ?></option>
                         <option value="passwords"><?php echo $data['l10n']->get('generate new passwords'); ?></option>
                     </select>
                     <select name="midcom_admin_user_group" id="midcom_admin_user_group" style="display: none;">
                         <?php
-                        foreach ($data['groups_for_select'] as $group)
-                        {
+                        foreach ($data['groups_for_select'] as $group) {
                             $title = $group['title'];
 
-                            if ($group['level'] > 0)
-                            {
+                            if ($group['level'] > 0) {
                                 $title = str_repeat('-', $group['level']) . '> ' . $group['title'];
                             }
 
                             echo "<option value=\"" . $group['id'] . "\">" . $title . "</option>\n";
-                        }
-                        ?>
+                        } ?>
                     </select>
                     <input type="submit" value="<?php echo $data['l10n']->get('apply to selected'); ?>"/>
                 </td>
@@ -52,5 +47,6 @@ if (count($data['persons']) > 0)
     </table>
     </form>
     <?php
+
 }
 ?>

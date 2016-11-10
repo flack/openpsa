@@ -16,8 +16,7 @@ class org_openpsa_projects_midcom_indexer extends midcom_helper_datamanager2_ind
     public function prepare_document(midcom_services_indexer_document &$document, midcom_helper_datamanager2_datamanager $dm)
     {
         $document->title = $dm->storage->object->get_label();
-        if (is_a($dm->storage->object, 'org_openpsa_projects_task_dba'))
-        {
+        if (is_a($dm->storage->object, 'org_openpsa_projects_task_dba')) {
             $values = $dm->get_content_csv();
             $document->abstract = $values['start'] . ' - ' . $values['end'] . ', ' . $this->_l10n->get($values['status']);
             $document->abstract .= ' ' . substr($values['description'], 0, 200);

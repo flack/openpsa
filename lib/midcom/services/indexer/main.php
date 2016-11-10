@@ -56,25 +56,20 @@ class midcom_services_indexer implements EventSubscriberInterface
      */
     public function __construct($backend = null)
     {
-        if (!midcom::get()->config->get('indexer_backend'))
-        {
+        if (!midcom::get()->config->get('indexer_backend')) {
             $this->_disabled = true;
             return;
         }
 
-        if (is_null($backend))
-        {
+        if (is_null($backend)) {
             $class = midcom::get()->config->get('indexer_backend');
-            if (strpos($class, '_') === false)
-            {
+            if (strpos($class, '_') === false) {
                 // Built-in backend called using the shorthand notation
                 $class = "midcom_services_indexer_backend_" . $class;
             }
 
             $this->_backend = new $class();
-        }
-        else
-        {
+        } else {
             $this->_backend = $backend;
         }
         midcom::get()->dispatcher->addSubscriber($this);
@@ -116,39 +111,31 @@ class midcom_services_indexer implements EventSubscriberInterface
      */
     public function index($documents)
     {
-        if ($this->_disabled)
-        {
+        if ($this->_disabled) {
             return true;
         }
 
-        if (!is_array($documents))
-        {
+        if (!is_array($documents)) {
             $documents = array($documents);
         }
-        if (count($documents) == 0)
-        {
+        if (count($documents) == 0) {
             // Nothing to do.
             return true;
         }
 
-        foreach ($documents as &$value)
-        {
+        foreach ($documents as &$value) {
             // We don't have a document. Try auto-cast to a suitable document.
             // arg to _cast_to_document is passed by-reference.
-            if (!is_a($value, 'midcom_services_indexer_document'))
-            {
+            if (!is_a($value, 'midcom_services_indexer_document')) {
                 $this->_index_cast_to_document($value);
             }
 
             $value->members_to_fields();
         }
 
-        try
-        {
+        try {
             return $this->_backend->index($documents);
-        }
-        catch (Exception $e)
-        {
+        } catch (Exception $e) {
             debug_add("Indexing error: " . $e->getMessage(), MIDCOM_LOG_ERROR);
             return false;
         }
@@ -178,22 +165,17 @@ class midcom_services_indexer implements EventSubscriberInterface
      */
     function delete($RIs)
     {
-        if ($this->_disabled)
-        {
+        if ($this->_disabled) {
             return true;
         }
         $RIs = (array) $RIs;
-        if (count($RIs) == 0)
-        {
+        if (count($RIs) == 0) {
             // Nothing to do.
             return true;
         }
-        try
-        {
+        try {
             return $this->_backend->delete($RIs);
-        }
-        catch (Exception $e)
-        {
+        } catch (Exception $e) {
             debug_add("Deleting error: " . $e->getMessage(), MIDCOM_LOG_ERROR);
             return false;
         }
@@ -208,17 +190,13 @@ class midcom_services_indexer implements EventSubscriberInterface
      */
     function delete_all($constraint = '')
     {
-        if ($this->_disabled)
-        {
+        if ($this->_disabled) {
             return true;
         }
 
-        try
-        {
+        try {
             return $this->_backend->delete_all($constraint);
-        }
-        catch (Exception $e)
-        {
+        } catch (Exception $e) {
             debug_add("Deleting error: " . $e->getMessage(), MIDCOM_LOG_ERROR);
             return false;
         }
@@ -242,8 +220,7 @@ class midcom_services_indexer implements EventSubscriberInterface
      */
     public function query($query, midcom_services_indexer_filter $filter = null, array $options = array())
     {
-        if ($this->_disabled)
-        {
+        if ($this->_disabled) {
             return false;
         }
 
@@ -251,24 +228,19 @@ class midcom_services_indexer implements EventSubscriberInterface
         $i18n = midcom::get()->i18n;
         $query = $i18n->convert_to_utf8($query);
 
-        try
-        {
+        try {
             $result_raw = $this->_backend->query($query, $filter, $options);
-        }
-        catch (Exception $e)
-        {
+        } catch (Exception $e) {
             debug_add("Query error: " . $e->getMessage(), MIDCOM_LOG_ERROR);
             return false;
         }
 
-        if ($result_raw === false)
-        {
+        if ($result_raw === false) {
             debug_add("Failed to execute the query, aborting.", MIDCOM_LOG_INFO);
             return false;
         }
         $result = array();
-        foreach ($result_raw as $document)
-        {
+        foreach ($result_raw as $document) {
             $document->fields_to_members();
             /**
              * FIXME: Rethink program flow and especially take into account that not all documents are
@@ -281,14 +253,10 @@ class midcom_services_indexer implements EventSubscriberInterface
             // topic instead.
 
             // Try to check topic only if the guid is actually set
-            if (!empty($document->topic_guid))
-            {
-                try
-                {
+            if (!empty($document->topic_guid)) {
+                try {
                     midcom_db_topic::get_cached($document->topic_guid);
-                }
-                catch (midcom_error $e)
-                {
+                } catch (midcom_error $e) {
                     // Skip document, the object is hidden.
                     debug_add("Skipping the generic document {$document->title}, its topic seems to be invisible, we cannot proceed.");
                     continue;
@@ -296,16 +264,12 @@ class midcom_services_indexer implements EventSubscriberInterface
             }
 
             // this checks acls!
-            if ($document->is_a('midcom'))
-            {
+            if ($document->is_a('midcom')) {
                 // Try to retrieve object:
                 // Strip language code from end of RI if it looks like "<GUID>_<LANG>"
-                try
-                {
+                try {
                     midcom::get()->dbfactory->get_object_by_guid(preg_replace('/^([0-9a-f]{32,80})_[a-z]{2}$/', '\\1', $document->RI));
-                }
-                catch (midcom_error $e)
-                {
+                } catch (midcom_error $e) {
                     // Skip document, the object is hidden, deleted or otherwise unavailable.
                     //@todo Maybe nonexistent objects should be removed from index?
                     continue;
@@ -343,23 +307,20 @@ class midcom_services_indexer implements EventSubscriberInterface
     function new_document($object)
     {
         // Scan for datamanager instances.
-        if (is_a($object, 'midcom_helper_datamanager2_datamanager'))
-        {
+        if (is_a($object, 'midcom_helper_datamanager2_datamanager')) {
             debug_add('This is a datamanager2 document');
             return new midcom_helper_datamanager2_indexer_document($object);
         }
 
         // Maybe we have a metadata object...
-        if (is_a($object, 'midcom_helper_metadata'))
-        {
+        if (is_a($object, 'midcom_helper_metadata')) {
             debug_add('This is a metadata document, built from a metadata object.');
             return new midcom_services_indexer_document_midcom($object);
         }
 
         // Try to get a metadata object for the argument passed
         // This should catch all DBA objects as well.
-        if ($metadata = midcom_helper_metadata::retrieve($object))
-        {
+        if ($metadata = midcom_helper_metadata::retrieve($object)) {
             debug_add('Successfully fetched a Metadata object for the argument.');
             return new midcom_services_indexer_document_midcom($metadata);
         }

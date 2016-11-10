@@ -25,18 +25,13 @@ class org_routamc_positioning_location_dba extends midcom_core_dbaobject
      */
     public function get_label()
     {
-        if ($this->parent)
-        {
+        if ($this->parent) {
             $parent = $this->get_parent();
-            if ($parent)
-            {
+            if ($parent) {
                 $label = $parent->guid;
-                if (isset($parent->title))
-                {
+                if (isset($parent->title)) {
                     $label = $parent->title;
-                }
-                elseif (method_exists($parent, 'get_label'))
-                {
+                } elseif (method_exists($parent, 'get_label')) {
                     $label = $parent->get_label();
                 }
                 return "{$this->parentclass} {$label}";
@@ -66,8 +61,7 @@ class org_routamc_positioning_location_dba extends midcom_core_dbaobject
         $mc->set_key_property('parent');
         $mc->execute();
         $link_values = $mc->list_keys();
-        if (empty($link_values))
-        {
+        if (empty($link_values)) {
             return null;
         }
 
@@ -80,8 +74,7 @@ class org_routamc_positioning_location_dba extends midcom_core_dbaobject
     public function _on_created()
     {
         if (   !$this->log
-            && $this->relation == self::RELATION_IN)
-        {
+            && $this->relation == self::RELATION_IN) {
             // This location entry is defined as being made in a location,
             // but is stored to object directly without corresponding log,
             // create one.

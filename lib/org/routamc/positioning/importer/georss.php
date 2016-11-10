@@ -24,10 +24,8 @@ class org_routamc_positioning_importer_georss extends org_routamc_positioning_im
         $qb->add_constraint('domain', '=', 'org.routamc.positioning:georss');
         $qb->add_constraint('name', '=', 'georss_url');
         $accounts = $qb->execute();
-        if (count($accounts) > 0)
-        {
-            foreach ($accounts as $account_param)
-            {
+        if (count($accounts) > 0) {
+            foreach ($accounts as $account_param) {
                 $user = new midcom_db_person($account_param->parentguid);
                 $this->get_georss_location($user, true);
             }
@@ -37,19 +35,15 @@ class org_routamc_positioning_importer_georss extends org_routamc_positioning_im
     private function _fetch_georss_position($url)
     {
         $items = net_nemein_rss_fetch::raw_fetch($url)->get_items();
-        if (!empty($items))
-        {
-            foreach ($items as $item)
-            {
+        if (!empty($items)) {
+            foreach ($items as $item) {
                 $latitude = $item->get_latitude();
                 $longitude = $item->get_longitude();
 
                 if (   !is_null($latitude)
-                    && !is_null($longitude))
-                {
+                    && !is_null($longitude)) {
                     if (   $latitude > 90
-                        || $latitude < -90)
-                    {
+                        || $latitude < -90) {
                         // This is no earth coordinate, my friend
                         $this->error = 'POSITIONING_GEORSS_INCORRECT_LATITUDE';
                         // Skip to next
@@ -57,8 +51,7 @@ class org_routamc_positioning_importer_georss extends org_routamc_positioning_im
                     }
 
                     if (   $longitude > 180
-                        || $longitude < -180)
-                    {
+                        || $longitude < -180) {
                         // This is no earth coordinate, my friend
                         $this->error = 'POSITIONING_GEORSS_INCORRECT_LONGITUDE';
                         // Skip to next
@@ -66,8 +59,7 @@ class org_routamc_positioning_importer_georss extends org_routamc_positioning_im
                     }
 
                     $time = $item->get_date('U');
-                    if (empty($time))
-                    {
+                    if (empty($time)) {
                         $time = time();
                     }
 
@@ -98,17 +90,14 @@ class org_routamc_positioning_importer_georss extends org_routamc_positioning_im
     {
         $georss_url = $user->get_parameter('org.routamc.positioning:georss', 'georss_url');
 
-        if ($georss_url)
-        {
+        if ($georss_url) {
             $position = $this->_fetch_georss_position($georss_url);
 
-            if (is_null($position))
-            {
+            if (is_null($position)) {
                 return null;
             }
 
-            if ($cache)
-            {
+            if ($cache) {
                 $this->import($position, $user->id);
             }
 
@@ -136,8 +125,7 @@ class org_routamc_positioning_importer_georss extends org_routamc_positioning_im
         $this->log->importer = 'georss';
         $this->log->person = $person_id;
 
-        if (is_null($position['time']))
-        {
+        if (is_null($position['time'])) {
             $position['time'] = time();
         }
         $this->log->date = $position['time'];

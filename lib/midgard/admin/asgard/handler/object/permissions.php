@@ -72,8 +72,7 @@ implements midcom_helper_datamanager2_interfaces_edit
 
     public function _on_initialize()
     {
-        if (midcom::get()->config->get('metadata_approval'))
-        {
+        if (midcom::get()->config->get('metadata_approval')) {
             $this->_privileges[] = 'midcom:approve';
         }
 
@@ -104,30 +103,23 @@ implements midcom_helper_datamanager2_interfaces_edit
         $i = 0;
         while (   !empty($tmp->guid)
                && !midcom::get()->dbfactory->is_a($tmp, 'midgard_topic')
-               && $i < 100)
-        {
+               && $i < 100) {
             // Get the parent; wishing eventually to get a topic
             $tmp = $tmp->get_parent();
             $i++;
         }
 
         // If the temporary object eventually reached a topic, fetch its manifest
-        if (midcom::get()->dbfactory->is_a($tmp, 'midgard_topic'))
-        {
+        if (midcom::get()->dbfactory->is_a($tmp, 'midgard_topic')) {
             $current_manifest = $component_loader->manifests[$tmp->component];
-        }
-        else
-        {
+        } else {
             $current_manifest = $component_loader->manifests[midcom_core_context::get()->get_key(MIDCOM_CONTEXT_COMPONENT)];
         }
         $this->_privileges = array_merge($this->_privileges, array_keys($current_manifest->privileges));
 
-        if (!empty($current_manifest->customdata['midgard.admin.asgard.acl']['extra_privileges']))
-        {
-            foreach ($current_manifest->customdata['midgard.admin.asgard.acl']['extra_privileges'] as $privilege)
-            {
-                if (!strpos($privilege, ':'))
-                {
+        if (!empty($current_manifest->customdata['midgard.admin.asgard.acl']['extra_privileges'])) {
+            foreach ($current_manifest->customdata['midgard.admin.asgard.acl']['extra_privileges'] as $privilege) {
+                if (!strpos($privilege, ':')) {
                     // Only component specified
                     // TODO: load components manifest and add privileges from there
                     continue;
@@ -137,14 +129,12 @@ implements midcom_helper_datamanager2_interfaces_edit
         }
 
         // In addition, give component configuration privileges if we're in topic
-        if (midcom::get()->dbfactory->is_a($this->_object, 'midgard_topic'))
-        {
+        if (midcom::get()->dbfactory->is_a($this->_object, 'midgard_topic')) {
             $this->_privileges[] = 'midcom.admin.folder:topic_management';
             $this->_privileges[] = 'midcom.admin.folder:template_management';
             $this->_privileges[] = 'midcom:component_config';
             $this->_privileges[] = 'midcom:urlname';
-            if (midcom::get()->config->get('symlinks'))
-            {
+            if (midcom::get()->config->get('symlinks')) {
                 $this->_privileges[] = 'midcom.admin.folder:symlinks';
             }
         }
@@ -170,8 +160,7 @@ implements midcom_helper_datamanager2_interfaces_edit
         $assignees = $this->load_assignees();
         $this->process_assignees($assignees, $schemadb);
 
-        if (!$this->additional_assignee)
-        {
+        if (!$this->additional_assignee) {
             // Populate additional assignee selector
             $additional_assignees = array
             (
@@ -184,10 +173,8 @@ implements midcom_helper_datamanager2_interfaces_edit
             // List groups as potential assignees
             $qb = midcom_db_group::new_query_builder();
             $groups = $qb->execute();
-            foreach ($groups as $group)
-            {
-                if (!array_key_exists("group:{$group->guid}", $assignees))
-                {
+            foreach ($groups as $group) {
+                if (!array_key_exists("group:{$group->guid}", $assignees)) {
                     $additional_assignees["group:{$group->guid}"] = $group->get_label();
                 }
             }
@@ -195,9 +182,7 @@ implements midcom_helper_datamanager2_interfaces_edit
 
             // Add the 'Add assignees' choices to schema
             $schemadb['privileges']->fields['add_assignee']['type_config']['options'] = $additional_assignees;
-        }
-        else
-        {
+        } else {
             $schemadb['privileges']->fields['add_assignee']['type'] = 'text';
             $schemadb['privileges']->fields['add_assignee']['widget'] = 'hidden';
         }
@@ -210,25 +195,19 @@ implements midcom_helper_datamanager2_interfaces_edit
         $header = '';
         $header_items = array();
 
-        foreach ($assignees as $assignee => $label)
-        {
-            foreach ($this->_privileges as $privilege)
-            {
+        foreach ($assignees as $assignee => $label) {
+            foreach ($this->_privileges as $privilege) {
                 $privilege_components = explode(':', $privilege);
                 if (   $privilege_components[0] == 'midcom'
-                    || $privilege_components[0] == 'midgard')
-                {
+                    || $privilege_components[0] == 'midgard') {
                     // This is one of the core privileges, we handle it
                     $privilege_label = $privilege;
-                }
-                else
-                {
+                } else {
                     // This is a component-specific privilege, call component to localize it
                     $privilege_label = $this->_i18n->get_string("privilege {$privilege_components[1]}", $privilege_components[0]);
                 }
 
-                if (!isset($header_items[$privilege_label]))
-                {
+                if (!isset($header_items[$privilege_label])) {
                     $header_items[$privilege_label] = "        <th scope=\"col\" class=\"{$privilege_components[1]}\"><span>" . $this->_l10n->get($privilege_label) . "</span></th>\n";
                 }
 
@@ -261,28 +240,20 @@ implements midcom_helper_datamanager2_interfaces_edit
 
         // Populate all resources having existing privileges
         $existing_privileges = $this->_object->get_privileges();
-        if ($this->additional_assignee)
-        {
+        if ($this->additional_assignee) {
             $existing_privileges[] = new midcom_core_privilege(array('assignee' => $this->additional_assignee));
         }
-        foreach ($existing_privileges as $privilege)
-        {
-            if ($privilege->is_magic_assignee())
-            {
+        foreach ($existing_privileges as $privilege) {
+            if ($privilege->is_magic_assignee()) {
                 // This is a magic assignee
                 $label = $this->_l10n->get($privilege->assignee);
-            }
-            else
-            {
+            } else {
                 //Inconsistent privilige base will mess here. Let's give a chance to remove ghosts
                 $assignee = midcom::get()->auth->get_assignee($privilege->assignee);
 
-                if (is_object($assignee))
-                {
+                if (is_object($assignee)) {
                     $label = $assignee->name;
-                }
-                else
-                {
+                } else {
                     $label = $this->_l10n->get('ghost assignee for '. $privilege->assignee);
                 }
             }
@@ -290,8 +261,7 @@ implements midcom_helper_datamanager2_interfaces_edit
             $assignees[$privilege->assignee] = $label;
 
             $key = str_replace(':', '_', $privilege->assignee);
-            if (!isset($this->_row_labels[$key]))
-            {
+            if (!isset($this->_row_labels[$key])) {
                 $this->_row_labels[$key] = $label;
             }
         }
@@ -319,16 +289,14 @@ implements midcom_helper_datamanager2_interfaces_edit
         // Load possible additional component privileges
         $this->_load_component_privileges();
 
-        if (!empty($_POST['add_assignee']))
-        {
+        if (!empty($_POST['add_assignee'])) {
             $this->additional_assignee = $_POST['add_assignee'];
         }
 
         // Load the datamanager controller
         $this->_controller = $this->get_controller('simple', $this->_object);
 
-        switch ($this->_controller->process_form())
-        {
+        switch ($this->_controller->process_form()) {
             case 'save':
                 //Fall-through
             case 'cancel':
@@ -365,14 +333,11 @@ implements midcom_helper_datamanager2_interfaces_edit
 
         $priv_item_cnt = count($this->_privileges);
         $s = 0;
-        foreach ($qf->_elements as $row)
-        {
-            if (is_a($row, 'HTML_QuickForm_hidden'))
-            {
+        foreach ($qf->_elements as $row) {
+            if (is_a($row, 'HTML_QuickForm_hidden')) {
                 $data['editor_header_form_start'] .= $row->toHtml();
             }
-            if (is_a($row, 'HTML_QuickForm_select'))
-            {
+            if (is_a($row, 'HTML_QuickForm_select')) {
                 $html = "  <div class=\"assignees\">\n";
                 $html .= "    <label for=\"{$row->getAttribute('id')}\">\n<span class=\"field_text\">{$row->getLabel()}</span>\n";
                 $html .= $this->_render_select($row);
@@ -382,15 +347,11 @@ implements midcom_helper_datamanager2_interfaces_edit
                 $data['editor_header_assignees'] = $html;
             }
 
-            if (is_a($row, 'HTML_QuickForm_group'))
-            {
-                if ($row->getName() == 'form_toolbar')
-                {
+            if (is_a($row, 'HTML_QuickForm_group')) {
+                if ($row->getName() == 'form_toolbar') {
                     $form_toolbar_html = "  <div class=\"actions\">\n";
-                    foreach ($row->getElements() as $element)
-                    {
-                        if (is_a($element, 'HTML_QuickForm_submit'))
-                        {
+                    foreach ($row->getElements() as $element) {
+                        if (is_a($element, 'HTML_QuickForm_submit')) {
                             $form_toolbar_html .= $element->toHtml();
                         }
                     }
@@ -400,23 +361,18 @@ implements midcom_helper_datamanager2_interfaces_edit
 
                 $html = $this->_render_row_label($row->getName());
 
-                foreach ($row->getElements() as $element)
-                {
-                    if (is_a($element, 'HTML_QuickForm_select'))
-                    {
+                foreach ($row->getElements() as $element) {
+                    if (is_a($element, 'HTML_QuickForm_select')) {
                         $html .= $this->_render_select($element);
                     }
-                    if (is_a($element, 'HTML_QuickForm_static'))
-                    {
-                        if (strpos($element->getName(), 'holder_start') !== false)
-                        {
+                    if (is_a($element, 'HTML_QuickForm_static')) {
+                        if (strpos($element->getName(), 'holder_start') !== false) {
                             $priv_class = $this->_get_col_value_class($row->getName());
                             $html .= "      <td class=\"row_value {$priv_class}\">\n";
                         }
 
                         $html .= $element->toHtml();
-                        if (strpos($element->getName(), 'initscripts') !== false)
-                        {
+                        if (strpos($element->getName(), 'initscripts') !== false) {
                             $html .= "      </td>\n";
                         }
                     }
@@ -424,8 +380,7 @@ implements midcom_helper_datamanager2_interfaces_edit
 
                 $s++;
 
-                if ($s == $priv_item_cnt)
-                {
+                if ($s == $priv_item_cnt) {
                     $s = 0;
                     $html .= $this->_render_row_actions($row->getName());
                     $html .= "    </tr>\n";
@@ -444,8 +399,7 @@ implements midcom_helper_datamanager2_interfaces_edit
     private function _render_select(HTML_QuickForm_select $object)
     {
         $element_name = $object->getName();
-        if (isset($this->_controller->formmanager->form->_defaultValues[$element_name]))
-        {
+        if (isset($this->_controller->formmanager->form->_defaultValues[$element_name])) {
             $object->setValue($this->_controller->formmanager->form->_defaultValues[$element_name]);
         }
 
@@ -454,11 +408,9 @@ implements midcom_helper_datamanager2_interfaces_edit
 
     private function _render_row_label($row_name)
     {
-        foreach ($this->_row_labels as $key => $label)
-        {
+        foreach ($this->_row_labels as $key => $label) {
             if (   strpos($row_name, $key) !== false
-                && !isset($this->_rendered_row_labels[$key]))
-            {
+                && !isset($this->_rendered_row_labels[$key])) {
                 $this->_rendered_row_labels[$key] = true;
 
                 $html = "    <tr id=\"privilege_row_{$key}\" class=\"maa_permissions_rows_row\">\n";
@@ -472,10 +424,8 @@ implements midcom_helper_datamanager2_interfaces_edit
 
     private function _render_row_actions($row_name)
     {
-        foreach (array_keys($this->_row_labels) as $key)
-        {
-            if (strpos($row_name, $key) !== false)
-            {
+        foreach (array_keys($this->_row_labels) as $key) {
+            if (strpos($row_name, $key) !== false) {
                 $this->_rendered_row_actions[$key] = true;
 
                 $actions = "<div class=\"actions\" id=\"privilege_row_actions_{$key}\"></div>";
@@ -488,15 +438,12 @@ implements midcom_helper_datamanager2_interfaces_edit
 
     private function _get_col_value_class($row_name)
     {
-        foreach (array_keys($this->_row_labels) as $key)
-        {
-            if (strpos($row_name, $key) !== false)
-            {
+        foreach (array_keys($this->_row_labels) as $key) {
+            if (strpos($row_name, $key) !== false) {
                 $tmp_priv = str_replace($key . '_', '', $row_name);
                 $tmp_priv_arr = explode('_', $tmp_priv);
                 $priv_class = "{$tmp_priv_arr[1]}";
-                if (count($tmp_priv_arr) > 2)
-                {
+                if (count($tmp_priv_arr) > 2) {
                     $priv_class = "{$tmp_priv_arr[1]}_{$tmp_priv_arr[2]}";
                 }
                 return $priv_class;

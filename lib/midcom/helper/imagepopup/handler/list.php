@@ -36,12 +36,10 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
         midcom::get()->auth->require_valid_user();
         midcom::get()->skip_page_style = true;
 
-        if (!$this->_config->get('enable_page'))
-        {
+        if (!$this->_config->get('enable_page')) {
             if (   $handler_id == '____ais-imagepopup-list_object'
                 || $handler_id == '____ais-imagepopup-list_folder'
-                || $handler_id == '____ais-imagepopup-list_unified')
-            {
+                || $handler_id == '____ais-imagepopup-list_unified') {
                 return new midcom_response_relocate('__ais/imagepopup/unified/default/');
             }
         }
@@ -54,13 +52,11 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
         $data['folder'] = $this->_topic;
 
         if (   $handler_id != '____ais-imagepopup-list_folder_noobject'
-            && isset($args[2]))
-        {
+            && isset($args[2])) {
             $data['object'] = midcom::get()->dbfactory->get_object_by_guid($args[2]);
         }
 
-        switch ($handler_id)
-        {
+        switch ($handler_id) {
             case '____ais-imagepopup-list_folder_noobject':
             case '____ais-imagepopup-list_folder':
                 $data['list_type'] = 'folder';
@@ -82,12 +78,9 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
 
         midcom::get()->head->set_pagetitle($data['list_title']);
 
-        if ($data['list_type'] != 'unified')
-        {
+        if ($data['list_type'] != 'unified') {
             $this->_create_controller($data);
-        }
-        elseif ($data['query'] != '')
-        {
+        } elseif ($data['query'] != '') {
             $this->_run_search($data);
         }
 
@@ -105,19 +98,15 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
         $this->_controller->schemadb = $this->_load_schema();
         $this->_controller->schemaname = $data['schema_name'];
 
-        if ($data['list_type'] == 'page')
-        {
+        if ($data['list_type'] == 'page') {
             $this->_controller->set_storage($data['object']);
-        }
-        else
-        {
+        } else {
             $this->_controller->set_storage($data['folder']);
         }
 
         $this->_controller->initialize();
         $this->_request_data['form'] = $this->_controller;
-        switch ($this->_controller->process_form())
-        {
+        switch ($this->_controller->process_form()) {
             case 'cancel':
                 midcom::get()->head->add_jsonload("top.tinymce.activeEditor.windowManager.close();");
                 break;
@@ -129,9 +118,9 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
         $qb = midcom_db_attachment::new_query_builder();
         $query = str_replace('*', '%', $data['query']);
         $qb->begin_group('OR');
-            $qb->add_constraint('name', 'LIKE', $query);
-            $qb->add_constraint('title', 'LIKE', $query);
-            $qb->add_constraint('mimetype', 'LIKE', $query);
+        $qb->add_constraint('name', 'LIKE', $query);
+        $qb->add_constraint('title', 'LIKE', $query);
+        $qb->add_constraint('mimetype', 'LIKE', $query);
         $qb->end_group();
 
         $this->_search_results = $qb->execute();
@@ -146,13 +135,10 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
     {
         $data['navlinks'] = midcom_helper_imagepopup_viewer::get_navigation($data);
         midcom_show_style('midcom_helper_imagepopup_init');
-        if ($data['list_type'] == 'unified')
-        {
+        if ($data['list_type'] == 'unified') {
             midcom_show_style('midcom_helper_imagepopup_search');
             $this->_show_search_results();
-        }
-        else
-        {
+        } else {
             midcom_show_style('midcom_helper_imagepopup_list');
         }
         midcom_show_style('midcom_helper_imagepopup_finish');
@@ -162,10 +148,8 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
     {
         midcom_show_style('midcom_helper_imagepopup_search_result_start');
 
-        if (count($this->_search_results) > 0)
-        {
-            foreach ($this->_search_results as $result)
-            {
+        if (count($this->_search_results) > 0) {
+            foreach ($this->_search_results as $result) {
                 $this->_request_data['result'] = $result;
                 midcom_show_style('midcom_helper_imagepopup_search_result_item');
             }

@@ -25,20 +25,14 @@ class org_openpsa_expenses_handler_index  extends midcom_baseclasses_components_
      */
     public function _can_handle_index($handler_id, array $args, array &$data)
     {
-        if (isset($args[0]))
-        {
+        if (isset($args[0])) {
             $requested_time = $args[0];
-        }
-        else
-        {
+        } else {
             $requested_time = date('Y-m-d');
         }
-        try
-        {
+        try {
             $date = new DateTime($requested_time);
-        }
-        catch (Exception $e)
-        {
+        } catch (Exception $e) {
             return false;
         }
         $offset = $date->format('N') - 1;
@@ -126,14 +120,10 @@ class org_openpsa_expenses_handler_index  extends midcom_baseclasses_components_
         $reports = array();
         $hours = $hours_mc->get_rows(array('task', 'hours', 'date', 'person'));
         $formatter = $this->_l10n->get_formatter();
-        foreach ($hours as $guid => $row)
-        {
-            try
-            {
+        foreach ($hours as $guid => $row) {
+            try {
                 $task = org_openpsa_projects_task_dba::get_cached($row['task']);
-            }
-            catch (midcom_error $e)
-            {
+            } catch (midcom_error $e) {
                 // Task couldn't be loaded, probably because of ACL
                 continue;
             }
@@ -141,16 +131,12 @@ class org_openpsa_expenses_handler_index  extends midcom_baseclasses_components_
             $date_identifier = date('Y-m-d', $row['date']);
             $row_identifier = $task->id . '-' .  $row['person'];
 
-            if (!isset($reports[$row_identifier]))
-            {
-                try
-                {
+            if (!isset($reports[$row_identifier])) {
+                try {
                     $person_object = org_openpsa_contacts_person_dba::get_cached($row['person']);
                     $person_label = $this->_get_list_link($person_object->name, null, null, $row['person']);
                     $person_name = $person_object->name;
-                }
-                catch (midcom_error $e)
-                {
+                } catch (midcom_error $e) {
                     $person_label = $this->_l10n->get('no person');
                     $person_name = '';
                 }
@@ -163,14 +149,11 @@ class org_openpsa_expenses_handler_index  extends midcom_baseclasses_components_
                     'index_person' => $person_name
                 );
             }
-            if (!isset($reports[$row_identifier][$date_identifier]))
-            {
+            if (!isset($reports[$row_identifier][$date_identifier])) {
                 $reports[$row_identifier]['index_' . $date_identifier] = $row['hours'];
                 $number = $formatter->number($reports[$row_identifier]['index_' . $date_identifier]);
                 $reports[$row_identifier][$date_identifier] = '<a href="' . $prefix . 'hours/edit/' . $guid . '/" ' . $workflow->render_attributes() . '>' . $number . '</a>';
-            }
-            else
-            {
+            } else {
                 $reports[$row_identifier]['index_' . $date_identifier] += $row['hours'];
                 $reports[$row_identifier][$date_identifier] = $this->_get_list_link($formatter->number($reports[$row_identifier]['index_' . $date_identifier]), $date_identifier, $task->guid, $row['person']);
             }
@@ -182,29 +165,23 @@ class org_openpsa_expenses_handler_index  extends midcom_baseclasses_components_
     private function _get_list_link($label, $date = null, $task_guid = null, $person_id = null)
     {
         $url = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . 'hours/';
-        if ($task_guid !== null)
-        {
+        if ($task_guid !== null) {
             $url .= 'task/' . $task_guid . '/';
         }
 
         $filters = array();
 
-        if ($date !== null)
-        {
+        if ($date !== null) {
             $filters['date'] = array('from' => $date, 'to' => $date);
-        }
-        else
-        {
+        } else {
             $start = strftime('%Y-%m-%d', $this->_request_data['week_start']);
             $end = strftime('%Y-%m-%d', $this->_request_data['week_end']);
             $filters['date'] = array('from' => $start, 'to' => $end);
         }
-        if ($person_id !== null)
-        {
+        if ($person_id !== null) {
             $filters['person'] = array($person_id);
         }
-        if (!empty($filters))
-        {
+        if (!empty($filters)) {
             $url .= '?' . http_build_query($filters);
         }
 

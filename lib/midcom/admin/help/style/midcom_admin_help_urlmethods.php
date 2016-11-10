@@ -1,14 +1,11 @@
 <?php
 $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 echo "<h1>" . $data['l10n']->get('urlmethods') . "</h1>\n";
-if (count($data['urlmethods']) > 0)
-{
+if (count($data['urlmethods']) > 0) {
     $i = 0;
-    foreach ($data['urlmethods'] as $file => $method_info)
-    {
+    foreach ($data['urlmethods'] as $file => $method_info) {
         $id = basename($method_info['url'], ".php");
-        $title = $method_info['url'];
-?>
+        $title = $method_info['url']; ?>
 <fieldset id="handler_&(id);">
     <legend onclick="javascript:toggle_twisty('&(id);_contents')">
         &(title);
@@ -19,15 +16,13 @@ if (count($data['urlmethods']) > 0)
         $i++;
         echo "<p>\n";
         echo $method_info['description'];
-        echo "</p>\n";
-?>
+        echo "</p>\n"; ?>
     </div>
 </fieldset>
 <?php
+
     }
-}
-else
-{
+} else {
     echo "<p>" . $data['l10n']->get('no url methods found') . "</p>";
 }
 ?>

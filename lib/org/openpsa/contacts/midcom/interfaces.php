@@ -42,8 +42,7 @@ implements midcom_services_permalinks_resolver
         static $root_groups = array();
 
         //Check if we have already initialized
-        if (!empty($root_groups[$name]))
-        {
+        if (!empty($root_groups[$name])) {
             return $root_groups[$name];
         }
 
@@ -53,15 +52,11 @@ implements midcom_services_permalinks_resolver
 
         $results = $qb->execute();
 
-        if (!empty($results))
-        {
-            foreach ($results as $group)
-            {
+        if (!empty($results)) {
+            foreach ($results as $group) {
                 $root_groups[$name] = $group;
             }
-        }
-        else
-        {
+        } else {
             debug_add("OpenPSA Contacts root group could not be found", MIDCOM_LOG_WARN);
 
             //Attempt to  auto-initialize the group.
@@ -72,8 +67,7 @@ implements midcom_services_permalinks_resolver
             $grp->official = midcom::get()->i18n->get_l10n('org.openpsa.contacts')->get($name);
             $ret = $grp->create();
             midcom::get()->auth->drop_sudo();
-            if (!$ret)
-            {
+            if (!$ret) {
                 throw new midcom_error("Could not auto-initialize the module, group creation failed: " . midcom_connection::get_error_string());
             }
             $root_groups[$name] = $grp;
@@ -85,13 +79,11 @@ implements midcom_services_permalinks_resolver
     public function resolve_object_link(midcom_db_topic $topic, midcom_core_dbaobject $object)
     {
         if (   $object instanceof org_openpsa_contacts_group_dba
-            || $object instanceof midcom_db_group)
-        {
+            || $object instanceof midcom_db_group) {
             return "group/{$object->guid}/";
         }
         if (   $object instanceof org_openpsa_contacts_person_dba
-            || $object instanceof midcom_db_person)
-        {
+            || $object instanceof midcom_db_person) {
             return "person/{$object->guid}/";
         }
         return null;
@@ -107,26 +99,22 @@ implements midcom_services_permalinks_resolver
 
         // Check for ICBM coordinate information
         $icbm = org_openpsa_httplib_helpers::get_meta_value($html, 'icbm');
-        if ($icbm)
-        {
+        if ($icbm) {
             $data['icbm'] = $icbm;
         }
 
         // Check for RSS feed
         $rss_url = org_openpsa_httplib_helpers::get_link_values($html, 'alternate');
 
-        if (!empty($rss_url))
-        {
+        if (!empty($rss_url)) {
             $data['rss_url'] = $rss_url[0]['href'];
 
             // We have a feed URL, but we should check if it is GeoRSS as well
             $items = net_nemein_rss_fetch::raw_fetch($data['rss_url'])->get_items();
 
-            if (count($items) > 0)
-            {
+            if (count($items) > 0) {
                 if (   $items[0]->get_latitude()
-                    || $items[0]->get_longitude())
-                {
+                    || $items[0]->get_longitude()) {
                     // This is a GeoRSS feed
                     $data['georss_url'] = $data['rss_url'];
                 }
@@ -135,16 +123,13 @@ implements midcom_services_permalinks_resolver
 
         $microformats = Mf2\parse($html);
         $hcards = array();
-        foreach ($microformats['items'] as $item)
-        {
-            if (in_array('h-card', $item['type']))
-            {
+        foreach ($microformats['items'] as $item) {
+            if (in_array('h-card', $item['type'])) {
                 $hcards[] = $item['properties'];
             }
         }
 
-        if (count($hcards) > 0)
-        {
+        if (count($hcards) > 0) {
             // We have found hCard data here
             $data['hcards'] = $hcards;
         }
@@ -161,16 +146,11 @@ implements midcom_services_permalinks_resolver
      */
     public function check_url(array $args, midcom_baseclasses_components_cron_handler $handler)
     {
-        if (array_key_exists('person', $args))
-        {
+        if (array_key_exists('person', $args)) {
             $type = 'person';
-        }
-        elseif (array_key_exists('group', $args))
-        {
+        } elseif (array_key_exists('group', $args)) {
             $type = 'group';
-        }
-        else
-        {
+        } else {
             $handler->print_error('Person or Group GUID not set, aborting');
             return false;
         }
@@ -179,17 +159,13 @@ implements midcom_services_permalinks_resolver
         $method = '_check_' . $type . '_url';
         $guid = $args[$type];
 
-        try
-        {
+        try {
             $object = new $classname($guid);
-        }
-        catch (midcom_error $e)
-        {
+        } catch (midcom_error $e) {
             $handler->print_error($type . " {$guid} not found, error " . $e->getMessage());
             return false;
         }
-        if (!$object->homepage)
-        {
+        if (!$object->homepage) {
             $handler->print_error($type . " {$object->guid} has no homepage, skipping");
             return false;
         }
@@ -201,17 +177,14 @@ implements midcom_services_permalinks_resolver
         $data = $this->_get_data_from_url($group->homepage);
 
         // Use the data we got
-        if (array_key_exists('icbm', $data))
-        {
+        if (array_key_exists('icbm', $data)) {
             // We know where the group is located
             $icbm_parts = explode(',', $data['icbm']);
-            if (count($icbm_parts) == 2)
-            {
+            if (count($icbm_parts) == 2) {
                 $latitude = (float) $icbm_parts[0];
                 $longitude = (float) $icbm_parts[1];
                 if (   abs($latitude) < 90
-                    && abs($longitude) < 180)
-                {
+                    && abs($longitude) < 180) {
                     $location = new org_routamc_positioning_location_dba();
                     $location->date = time();
                     $location->latitude = $latitude;
@@ -225,11 +198,9 @@ implements midcom_services_permalinks_resolver
             }
         }
         // TODO: We can use a lot of other data too
-        if (array_key_exists('hcards', $data))
-        {
+        if (array_key_exists('hcards', $data)) {
             // Process those hCard values that are interesting for us
-            foreach ($data['hcards'] as $hcard)
-            {
+            foreach ($data['hcards'] as $hcard) {
                 $group = $this->_update_from_hcard($group, $hcard);
             }
 
@@ -243,28 +214,22 @@ implements midcom_services_permalinks_resolver
         $data = $this->_get_data_from_url($person->homepage);
 
         // Use the data we got
-        if (array_key_exists('georss_url', $data))
-        {
+        if (array_key_exists('georss_url', $data)) {
             // GeoRSS subscription is a good way to keep track of person's location
             $person->set_parameter('org.routamc.positioning:georss', 'georss_url', $data['georss_url']);
-        }
-        elseif (array_key_exists('icbm', $data))
-        {
+        } elseif (array_key_exists('icbm', $data)) {
             // Instead of using the ICBM position data directly we can subscribe to it so we get modifications too
             $person->set_parameter('org.routamc.positioning:html', 'icbm_url', $person->homepage);
         }
 
-        if (array_key_exists('rss_url', $data))
-        {
+        if (array_key_exists('rss_url', $data)) {
             // Instead of using the ICBM position data directly we can subscribe to it so we get modifications too
             $person->set_parameter('net.nemein.rss', 'url', $data['rss_url']);
         }
 
-        if (array_key_exists('hcards', $data))
-        {
+        if (array_key_exists('hcards', $data)) {
             // Process those hCard values that are interesting for us
-            foreach ($data['hcards'] as $hcard)
-            {
+            foreach ($data['hcards'] as $hcard) {
                 $person = $this->_update_from_hcard($person, $hcard);
             }
 
@@ -275,10 +240,8 @@ implements midcom_services_permalinks_resolver
 
     private function _update_from_hcard($object, $hcard)
     {
-        foreach ($hcard as $key => $val)
-        {
-            switch ($key)
-            {
+        foreach ($hcard as $key => $val) {
+            switch ($key) {
                 case 'email':
                     $object->email = reset($val);
                     break;
@@ -297,20 +260,16 @@ implements midcom_services_permalinks_resolver
 
                 case 'adr':
                     $adr = reset($val);
-                    if (array_key_exists('street-address', $adr['properties']))
-                    {
+                    if (array_key_exists('street-address', $adr['properties'])) {
                         $object->street = reset($adr['properties']['street-address']);
                     }
-                    if (array_key_exists('postal-code', $adr['properties']))
-                    {
+                    if (array_key_exists('postal-code', $adr['properties'])) {
                         $object->postcode = reset($adr['properties']['postal-code']);
                     }
-                    if (array_key_exists('locality', $adr['properties']))
-                    {
+                    if (array_key_exists('locality', $adr['properties'])) {
                         $object->city = reset($adr['properties']['locality']);
                     }
-                    if (array_key_exists('country-name', $adr['properties']))
-                    {
+                    if (array_key_exists('country-name', $adr['properties'])) {
                         $object->country = reset($adr['properties']['country-name']);
                     }
                     break;

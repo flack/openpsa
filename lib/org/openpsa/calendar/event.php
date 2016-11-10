@@ -72,8 +72,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
 
     public function get_label()
     {
-        if ($this->start == 0)
-        {
+        if ($this->start == 0) {
             return $this->title;
         }
         $l10n = midcom::get()->i18n->get_l10n('org.openpsa.calendar');
@@ -83,8 +82,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
     public function get_parent_guid_uncached()
     {
         $root_event = org_openpsa_calendar_interface::find_root_event();
-        if ($this->id != $root_event->id)
-        {
+        if ($this->id != $root_event->id) {
             return $root_event->guid;
         }
         return null;
@@ -95,14 +93,12 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
         $l10n = midcom::get()->i18n->get_l10n('org.openpsa.calendar');
 
         // Check for empty title in existing events
-        if (!$this->title)
-        {
+        if (!$this->title) {
             $this->title = $l10n->get('untitled');
         }
 
         // Preserve vCal GUIDs once set
-        if (isset($this->externalGuid))
-        {
+        if (isset($this->externalGuid)) {
             $this->old_externalGuid = $this->externalGuid;
         }
 
@@ -110,13 +106,10 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
         $this->_get_em();
 
         // Hide details if we're not allowed to see them
-        if (!$this->can_do('org.openpsa.calendar:read'))
-        {
+        if (!$this->can_do('org.openpsa.calendar:read')) {
             // Hide almost all properties
-            foreach ($this->get_properties() as $key)
-            {
-                switch ($key)
-                {
+            foreach ($this->get_properties() as $key) {
+                switch ($key) {
                     //Internal fields, do nothing
                     case 'metadata':
                     case 'id':
@@ -146,19 +139,16 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
     private function _prepare_save()
     {
         // Make sure we have accessType
-        if (!$this->orgOpenpsaAccesstype)
-        {
+        if (!$this->orgOpenpsaAccesstype) {
             $this->orgOpenpsaAccesstype = org_openpsa_core_acl::ACCESS_PUBLIC;
         }
 
         // Make sure we can actually reserve the resources we need
         $resources = array_keys(array_filter($this->resources));
         $checker = new org_openpsa_calendar_event_resource_dba;
-        foreach ($resources as $id)
-        {
+        foreach ($resources as $id) {
             $checker->resource = $id;
-            if (!$checker->verify_can_reserve())
-            {
+            if (!$checker->verify_can_reserve()) {
                 debug_add("Cannot reserve resource #{$id}, returning false", MIDCOM_LOG_ERROR);
                 midcom_connection::set_error(MGD_ERR_ACCESS_DENIED);
                 return false;
@@ -167,18 +157,15 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
 
         //Check up
         if (   !$this->up
-            && $this->title != '__org_openpsa_calendar')
-        {
+            && $this->title != '__org_openpsa_calendar') {
             $root_event = org_openpsa_calendar_interface::find_root_event();
             $this->up = $root_event->id;
         }
 
         //check for busy participants/resources
-        if (!$this->ignorebusy_em)
-        {
+        if (!$this->ignorebusy_em) {
             $conflictmanager = new org_openpsa_calendar_conflictmanager($this);
-            if (!$conflictmanager->run($this->rob_tentative))
-            {
+            if (!$conflictmanager->run($this->rob_tentative)) {
                 debug_add("Unresolved resource conflicts, aborting", MIDCOM_LOG_WARN);
                 return false;
             }
@@ -191,8 +178,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
         $this->owner = 0;
 
         //Preserve vCal GUIDs once set
-        if (isset($this->old_externalGuid))
-        {
+        if (isset($this->old_externalGuid)) {
             $this->externalGuid = $this->old_externalGuid;
         }
 
@@ -205,8 +191,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
         $this->start = (int)$this->start;
         $this->end = (int)$this->end;
         if (   !$this->start
-            || !$this->end)
-        {
+            || !$this->end) {
             debug_add('Event must have start and end timestamps');
             midcom_connection::set_error(MGD_ERR_RANGE);
             return false;
@@ -229,8 +214,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
                             date('j', $this->end),
                             date('Y', $this->end));
 
-        if ($this->end < $this->start)
-        {
+        if ($this->end < $this->start) {
             debug_add('Event cannot end before it starts, aborting');
             midcom_connection::set_error(MGD_ERR_RANGE);
             return false;
@@ -248,8 +232,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
     {
         //TODO: handle the repeats somehow (if set)
 
-        if ($this->search_relatedtos)
-        {
+        if ($this->search_relatedtos) {
             //TODO: add check for failed additions
             $this->get_suspected_task_links();
             $this->get_suspected_sales_links();
@@ -277,8 +260,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
     private function get_suspected_task_links()
     {
         // Do not seek if we have only one participant (gives a ton of results, most of them useless)
-        if (count($this->participants) < 2)
-        {
+        if (count($this->participants) < 2) {
             debug_add("we have less than two participants, skipping seek");
             return;
         }
@@ -288,8 +270,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
         $mc->add_constraint('status', '=', org_openpsa_relatedto_dba::CONFIRMED);
 
         $links = $mc->get_related_guids();
-        if (!empty($links))
-        {
+        if (!empty($links)) {
             $cnt = count($links);
             debug_add("Found {$cnt} confirmed links already, skipping seek");
             return;
@@ -298,14 +279,10 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
         $link_def = $this->_suspect_defaults();
         $projects_suspect_links = org_openpsa_relatedto_suspect::find_links_object_component($this, 'org.openpsa.projects', $link_def);
 
-        foreach ($projects_suspect_links as $linkdata)
-        {
-            if ($linkdata['link']->create())
-            {
+        foreach ($projects_suspect_links as $linkdata) {
+            if ($linkdata['link']->create()) {
                 debug_add("saved link to task #{$linkdata['other_obj']->id} (link id #{$linkdata['link']->id})", MIDCOM_LOG_INFO);
-            }
-            else
-            {
+            } else {
                 debug_add("could not save link to task #{$linkdata['other_obj']->id}, errstr" . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
             }
         }
@@ -321,8 +298,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
         $mc->add_constraint('status', '=', org_openpsa_relatedto_dba::CONFIRMED);
 
         $links = $mc->get_related_guids();
-        if (!empty($links))
-        {
+        if (!empty($links)) {
             $cnt = count($links);
             debug_add("Found {$cnt} confirmed links already, skipping seek");
             return;
@@ -330,14 +306,10 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
 
         $link_def = $this->_suspect_defaults();
         $sales_suspect_links = org_openpsa_relatedto_suspect::find_links_object_component($this, 'org.openpsa.sales', $link_def);
-        foreach ($sales_suspect_links as $linkdata)
-        {
-            if ($linkdata['link']->create())
-            {
+        foreach ($sales_suspect_links as $linkdata) {
+            if ($linkdata['link']->create()) {
                 debug_add("saved sales link to {$linkdata['other_obj']->guid} (link id #{$linkdata['link']->id})", MIDCOM_LOG_INFO);
-            }
-            else
-            {
+            } else {
                 debug_add("could not save sales link to {$linkdata['other_obj']->guid}, errstr" . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
             }
         }
@@ -346,8 +318,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
     public function _on_updating()
     {
         //TODO: Handle repeats
-        if (!$this->_prepare_save())
-        {
+        if (!$this->_prepare_save()) {
             return false;
         }
 
@@ -357,30 +328,25 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
     public function _on_updated()
     {
         $this->_get_em();
-        if ($this->send_notify)
-        {
+        if ($this->send_notify) {
             $message_type = 'update';
-            if ($this->notify_force_add)
-            {
+            if ($this->notify_force_add) {
                 $message_type = 'add';
             }
 
-            foreach ($this->_get_participants() as $res_object)
-            {
+            foreach ($this->_get_participants() as $res_object) {
                 debug_add("Notifying participant #{$res_object->id}");
                 $res_object->notify($message_type, $this);
             }
 
-            foreach ($this->_get_resources() as $res_object)
-            {
+            foreach ($this->_get_resources() as $res_object) {
                 debug_add("Notifying resource #{$res_object->id}");
                 $res_object->notify($message_type, $this);
             }
         }
 
         // Handle ACL accordingly
-        foreach (array_keys($this->participants) as $person_id)
-        {
+        foreach (array_keys($this->participants) as $person_id) {
             $user = midcom::get()->auth->get_user($person_id);
 
             // All participants can read and update
@@ -392,17 +358,13 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
             $this->set_privilege('midgard:privileges', $user->id, MIDCOM_PRIVILEGE_ALLOW);
         }
 
-        if ($this->orgOpenpsaAccesstype == org_openpsa_core_acl::ACCESS_PRIVATE)
-        {
+        if ($this->orgOpenpsaAccesstype == org_openpsa_core_acl::ACCESS_PRIVATE) {
             $this->set_privilege('org.openpsa.calendar:read', 'EVERYONE', MIDCOM_PRIVILEGE_DENY);
-        }
-        else
-        {
+        } else {
             $this->set_privilege('org.openpsa.calendar:read', 'EVERYONE', MIDCOM_PRIVILEGE_ALLOW);
         }
 
-        if ($this->search_relatedtos)
-        {
+        if ($this->search_relatedtos) {
             $this->get_suspected_task_links();
             $this->get_suspected_sales_links();
         }
@@ -426,10 +388,8 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
     {
         //Remove participants
         midcom::get()->auth->request_sudo('org.openpsa.calendar');
-        foreach ($this->_get_participants() as $obj)
-        {
-            if ($this->send_notify)
-            {
+        foreach ($this->_get_participants() as $obj) {
+            if ($this->send_notify) {
                 $obj->notify('cancel', $this);
             }
             $obj->notify_person = false;
@@ -437,10 +397,8 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
         }
 
         //Remove resources
-        foreach ($this->_get_resources() as $obj)
-        {
-            if ($this->send_notify)
-            {
+        foreach ($this->_get_resources() as $obj) {
+            if ($this->send_notify) {
                 $obj->notify('cancel', $this);
             }
             $obj->delete();
@@ -459,12 +417,11 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
     {
         $qb = self::new_query_builder();
         $qb->begin_group('OR');
-            $qb->add_constraint('guid', '=', $uid);
-            $qb->add_constraint('externalGuid', '=', $uid);
+        $qb->add_constraint('guid', '=', $uid);
+        $qb->add_constraint('externalGuid', '=', $uid);
         $qb->end_group();
         $ret = $qb->execute();
-        if (!empty($ret))
-        {
+        if (!empty($ret)) {
             //It's unlikely to have more than one result and this should return an object (or false)
             return $ret[0];
         }
@@ -476,8 +433,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
      */
     private function _get_em()
     {
-        if (!$this->id)
-        {
+        if (!$this->id) {
             return;
         }
 
@@ -496,8 +452,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
     {
         $l10n = midcom::get()->i18n->get_l10n('org.openpsa.calendar');
         $str = '';
-        if ($display_title)
-        {
+        if ($display_title) {
             $str .= sprintf($l10n->get('title: %s') . $nl, $this->title);
         }
         $str .= sprintf($l10n->get('location: %s') . $nl, $this->location);
@@ -516,8 +471,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
     private function implode_members(array $array)
     {
         $output = array();
-        foreach (array_keys($array) as $pid)
-        {
+        foreach (array_keys($array) as $pid) {
             $person = org_openpsa_contacts_person_dba::get_cached($pid);
             $output[] = $person->name;
         }

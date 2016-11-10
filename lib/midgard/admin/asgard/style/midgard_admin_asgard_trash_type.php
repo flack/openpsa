@@ -11,18 +11,15 @@ function midgard_admin_asgard_trash_type_show($object, $indent = 0, $prefix = ''
     static $persons = array();
     static $shown = array();
     static $url_prefix = '';
-    if (!$url_prefix)
-    {
+    if (!$url_prefix) {
         $url_prefix =midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
     }
 
-    if (isset($shown[$object->guid]))
-    {
+    if (isset($shown[$object->guid])) {
         return;
     }
 
-    if (!isset($persons[$object->metadata->revisor]))
-    {
+    if (!isset($persons[$object->metadata->revisor])) {
         $persons[$object->metadata->revisor] = midcom::get()->auth->get_user($object->metadata->revisor);
     }
 
@@ -32,48 +29,37 @@ function midgard_admin_asgard_trash_type_show($object, $indent = 0, $prefix = ''
     echo "{$prefix}<tr>\n";
 
     $disabled = '';
-    if (!$enable_undelete)
-    {
+    if (!$enable_undelete) {
         $disabled = ' disabled="disabled"';
     }
 
     $object_label = $reflector->get_object_label($object);
-    if (empty($object_label))
-    {
+    if (empty($object_label)) {
         $object_label = $object->guid;
     }
     echo "{$prefix}    <td class=\"checkbox\"><input type=\"checkbox\" name=\"undelete[]\"{$disabled} value=\"{$object->guid}\" id=\"guid_{$object->guid}\" /></td>\n";
     echo "{$prefix}    <td class=\"label\" style=\"padding-left: {$indent}px\"><label for=\"guid_{$object->guid}\">{$icon}" . $object_label . "</label></td>\n";
     echo "{$prefix}    <td class=\"nowrap\">" . strftime('%x %X', strtotime($object->metadata->revised)) . "</td>\n";
 
-    if (!empty($persons[$object->metadata->revisor]->guid))
-    {
+    if (!empty($persons[$object->metadata->revisor]->guid)) {
         echo "{$prefix}    <td><a href=\"{$url_prefix}__mfa/asgard/object/view/{$persons[$object->metadata->revisor]->guid}/\">{$persons[$object->metadata->revisor]->name}</a></td>\n";
-    }
-    else
-    {
+    } else {
         echo "{$prefix}    <td>&nbsp;</td>\n";
     }
     echo "{$prefix}    <td>" . midcom_helper_misc::filesize_to_string($object->metadata->size) . "</td>\n";
     echo "{$prefix}</tr>\n";
 
     $child_types = midcom_helper_reflector_tree::get_child_objects($object, true);
-    if (!empty($child_types))
-    {
+    if (!empty($child_types)) {
         $child_indent = $indent + 20;
         echo "{$prefix}<tbody class=\"children\">\n";
-        foreach ($child_types as $type => $children)
-        {
+        foreach ($child_types as $type => $children) {
             if (   count($children) < 10
-                || isset($_GET['show_children'][$object->guid][$type]))
-            {
-                foreach ($children as $child)
-                {
+                || isset($_GET['show_children'][$object->guid][$type])) {
+                foreach ($children as $child) {
                     midgard_admin_asgard_trash_type_show($child, $child_indent, "{$prefix}    ", false);
                 }
-            }
-            else
-            {
+            } else {
                 echo "{$prefix}    <tr>\n";
                 echo "{$prefix}        <td class=\"label\" style=\"padding-left: {$child_indent}px\" colspan=\"5\"><a href=\"?show_children[{$object->guid}][{$type}]=1\">" . sprintf(midcom::get()->i18n->get_string('show %s %s children', 'midgard.admin.asgard'), count($children), midgard_admin_asgard_plugin::get_type_label($type)) . "</a></td>\n";
                 echo "{$prefix}    </tr>\n";
@@ -85,8 +71,7 @@ function midgard_admin_asgard_trash_type_show($object, $indent = 0, $prefix = ''
     $shown[$object->guid] = true;
 }
 
-if ($data['trash'])
-{
+if ($data['trash']) {
     echo "<form method=\"post\">\n";
     echo "<table class=\"trash table_widget\" id=\"batch_process\">\n";
     echo "    <thead>\n";
@@ -118,8 +103,7 @@ if ($data['trash'])
     echo "    </tfoot>\n";
     echo "    <tbody>\n";
 
-    foreach ($data['trash'] as $object)
-    {
+    foreach ($data['trash'] as $object) {
         midgard_admin_asgard_trash_type_show($object, 0, '        ');
     }
 
@@ -136,8 +120,6 @@ if ($data['trash'])
     echo "// ]]>\n";
     echo "</script>\n";
     echo $data['qb']->show_pages();
-}
-else
-{
+} else {
     echo "<p>" . $data['l10n']->get('trash is empty') . "</p>\n";
 }

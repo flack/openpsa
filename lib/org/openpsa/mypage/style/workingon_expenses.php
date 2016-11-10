@@ -3,8 +3,7 @@
      <div id="content_expenses">
 
 <?php
-if (count($data['hours']) > 0)
-{
+if (count($data['hours']) > 0) {
     $invoiceable_hours = $data['hours']['total_invoiceable'];
     $uninvoiceable_hours = $data['hours']['total_uninvoiceable'];
     $total_hours = $invoiceable_hours + $uninvoiceable_hours;
@@ -13,15 +12,12 @@ if (count($data['hours']) > 0)
     echo "    <tr>\n";
     echo "        <td>" . $data['l10n']->get('invoiceable') . "</td>\n";
     echo "        <td>" . round($invoiceable_hours, 2);
-    if (sizeof($data['hours']['invoiceable']) > 0)
-    {
+    if (sizeof($data['hours']['invoiceable']) > 0) {
         echo " (";
         $i = 1;
-        foreach ($data['hours']['invoiceable'] as $customer_id => $hours)
-        {
+        foreach ($data['hours']['invoiceable'] as $customer_id => $hours) {
             echo $data['customers'][$customer_id] . " " . $hours;
-            if ($i++ != sizeof($data['hours']['invoiceable']))
-            {
+            if ($i++ != sizeof($data['hours']['invoiceable'])) {
                 echo ", ";
             }
         }
@@ -32,15 +28,12 @@ if (count($data['hours']) > 0)
     echo "    <tr>\n";
     echo "        <td>" . $data['l10n']->get('uninvoiceable') . "</td>\n";
     echo "        <td>" . round($uninvoiceable_hours, 2);
-    if (sizeof($data['hours']['uninvoiceable']) > 0)
-    {
+    if (sizeof($data['hours']['uninvoiceable']) > 0) {
         echo " (";
         $i = 1;
-        foreach ($data['hours']['uninvoiceable'] as $customer_id => $hours)
-        {
+        foreach ($data['hours']['uninvoiceable'] as $customer_id => $hours) {
             echo $data['customers'][$customer_id] . " " . $hours;
-            if ($i++ != sizeof($data['hours']['uninvoiceable']))
-            {
+            if ($i++ != sizeof($data['hours']['uninvoiceable'])) {
                 echo ", ";
             }
         }
@@ -54,9 +47,7 @@ if (count($data['hours']) > 0)
     echo "<input type=\"hidden\" name=\"person[]\" value=\"{$current_user->id}\" />";
     echo "<input type=\"submit\" value=\"".sprintf($data['l10n']->get('see all %s hours'), round($total_hours, 2))."\" />";
     echo "</div></form>";
-}
-else
-{
+} else {
     echo "<p><a href=\"{$data['expenses_url']}\">" . midcom::get()->i18n->get_string('report hours', 'org.openpsa.expenses') . "</a></p>\n";
 }
 ?>

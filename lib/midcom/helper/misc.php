@@ -23,8 +23,7 @@ class midcom_helper_misc
     public static function parse_config($data)
     {
         $data = eval("return array({$data}\n);");
-        if ($data === false)
-        {
+        if ($data === false) {
             throw new midcom_error("Failed to parse config data, see above for PHP errors.");
         }
         return $data;
@@ -46,64 +45,48 @@ class midcom_helper_misc
     public static function get_snippet_content_graceful($path)
     {
         static $cached_snippets = array();
-        if (array_key_exists($path, $cached_snippets))
-        {
+        if (array_key_exists($path, $cached_snippets)) {
             return $cached_snippets[$path];
         }
 
-        if (substr($path, 0, 5) == 'file:')
-        {
+        if (substr($path, 0, 5) == 'file:') {
             $filename = MIDCOM_ROOT . substr($path, 5);
-            if (!file_exists($filename))
-            {
+            if (!file_exists($filename)) {
                 //If we can't find the file in-tree, we look for out-of-tree components before giving up
                 $found = false;
                 $filename = substr($path, 6);
-                if (preg_match('|.+?/.+?/.+?/|', $filename))
-                {
+                if (preg_match('|.+?/.+?/.+?/|', $filename)) {
                     $component_name = preg_replace('|(.+?)/(.+?)/(.+?)/.+|', '$1.$2.$3', $filename);
-                    if (midcom::get()->componentloader->is_installed($component_name))
-                    {
+                    if (midcom::get()->componentloader->is_installed($component_name)) {
                         $filename = substr($filename, strlen($component_name));
                         $filename = midcom::get()->componentloader->path_to_snippetpath($component_name) . $filename;
-                        if (file_exists($filename))
-                        {
+                        if (file_exists($filename)) {
                             $found = true;
                         }
                     }
                 }
-                if (!$found)
-                {
+                if (!$found) {
                     $cached_snippets[$path] = null;
                     return null;
                 }
             }
             $data = file_get_contents($filename);
-        }
-        elseif (substr($path, 0, 5) == 'conf:')
-        {
+        } elseif (substr($path, 0, 5) == 'conf:') {
             $filename = midcom::get()->config->get('midcom_config_basedir') . '/midcom' . substr($path, 5);
-            if (!file_exists($filename))
-            {
+            if (!file_exists($filename)) {
                 $cached_snippets[$path] = null;
                 return null;
             }
             $data = file_get_contents($filename);
-        }
-        else
-        {
+        } else {
             $snippet = new midgard_snippet();
-            try
-            {
+            try {
                 $snippet->get_by_path($path);
-            }
-            catch (Exception $e)
-            {
+            } catch (Exception $e) {
                 $cached_snippets[$path] = null;
                 return null;
             }
-            if (isset(midcom::get()->cache->content))
-            {
+            if (isset(midcom::get()->cache->content)) {
                 midcom::get()->cache->content->register($snippet->guid);
             }
             $data = $snippet->code;
@@ -128,8 +111,7 @@ class midcom_helper_misc
     public static function get_snippet_content($path)
     {
         $data = self::get_snippet_content_graceful($path);
-        if (is_null($data))
-        {
+        if (is_null($data)) {
             throw new midcom_error("Could not load the contents of the snippet {$path}: Snippet does not exist.");
         }
         return $data;
@@ -144,8 +126,7 @@ class midcom_helper_misc
     public static function include_snippet_php($path)
     {
         $code = self::get_snippet_content_graceful($path);
-        if (empty($code))
-        {
+        if (empty($code)) {
             debug_add("Could not find snippet {$path}: ", MIDCOM_LOG_ERROR);
             return false;
         }
@@ -173,17 +154,13 @@ class midcom_helper_misc
      */
     public static function include_element($name)
     {
-        if (is_array($name))
-        {
+        if (is_array($name)) {
             $element = $name[1];
-        }
-        else
-        {
+        } else {
             $element = $name;
         }
 
-        switch ($element)
-        {
+        switch ($element) {
             case 'title':
                 return midcom::get()->config->get('midcom_site_title');
             case 'content':
@@ -191,10 +168,8 @@ class midcom_helper_misc
             default:
                 $value = self::get_element_content($element);
 
-                if (empty($value))
-                {
-                    if ($element == 'ROOT')
-                    {
+                if (empty($value)) {
+                    if ($element == 'ROOT') {
                         /* If we don't have a ROOT element, go to content directly. style-init or style-finish
                          * can load the page style
                          */
@@ -219,14 +194,12 @@ class midcom_helper_misc
         $mime_fspath = MIDCOM_STATIC_ROOT . '/stock-icons/mime';
         $mime_urlpath = MIDCOM_STATIC_URL . '/stock-icons/mime';
         $mimetype_filename = str_replace('/', '-', $mimetype);
-        if (!is_readable($mime_fspath))
-        {
+        if (!is_readable($mime_fspath)) {
             debug_add("Couldn't read directory {$mime_fspath}", MIDCOM_LOG_WARN);
         }
 
         $check_files = array();
-        switch ($mimetype_filename)
-        {
+        switch ($mimetype_filename) {
             case 'application-x-zip-compressed':
                 $check_files[] = "gnome-application-zip.png";
                 break;
@@ -241,10 +214,8 @@ class midcom_helper_misc
         //TODO: handle other than PNG files ?
 
         //Return first match
-        foreach ($check_files as $filename)
-        {
-            if (is_readable("{$mime_fspath}/{$filename}"))
-            {
+        foreach ($check_files as $filename) {
+            if (is_readable("{$mime_fspath}/{$filename}")) {
                 return "{$mime_urlpath}/{$filename}";
             }
         }
@@ -260,13 +231,10 @@ class midcom_helper_misc
      */
     public static function filesize_to_string($size)
     {
-        if ($size >= 1048576)
-        {
+        if ($size >= 1048576) {
             // More than a meg
             return sprintf("%01.1f", $size / 1048576) . " MB";
-        }
-        elseif ($size >= 1024)
-        {
+        } elseif ($size >= 1024) {
             // More than a kilo
             return sprintf("%01.1f", $size / 1024) . " KB";
         }
@@ -282,8 +250,7 @@ class midcom_helper_misc
     public static function fix_serialization($data = null)
     {
         //Skip on empty data
-        if (empty($data))
-        {
+        if (empty($data)) {
             return $data;
         }
 
@@ -291,17 +258,14 @@ class midcom_helper_misc
         preg_match_all($preg, $data, $matches);
         $cache = array();
 
-        foreach ($matches[0] as $k => $origFullStr)
-        {
+        foreach ($matches[0] as $k => $origFullStr) {
             $origLen = $matches[1][$k];
             $origStr = $matches[2][$k];
             $newLen = strlen($origStr);
-            if ($newLen != $origLen)
-            {
+            if ($newLen != $origLen) {
                 $newFullStr = "s:$newLen:\"$origStr\";";
                 //For performance we cache information on which strings have already been replaced
-                if (!array_key_exists($origFullStr, $cache))
-                {
+                if (!array_key_exists($origFullStr, $cache)) {
                     $data = str_replace($origFullStr, $newFullStr, $data);
                     $cache[$origFullStr] = true;
                 }
@@ -324,33 +288,27 @@ class midcom_helper_misc
         static $cache = array();
 
         $cache_node = $node_id;
-        if (is_null($cache_node))
-        {
+        if (is_null($cache_node)) {
             $cache_node = 0;
         }
 
-        if (!isset($cache[$cache_node]))
-        {
+        if (!isset($cache[$cache_node])) {
             $cache[$cache_node] = array();
         }
 
-        if (array_key_exists($component, $cache[$cache_node]))
-        {
+        if (array_key_exists($component, $cache[$cache_node])) {
             return $cache[$cache_node][$component];
         }
 
-        if (null === $nap)
-        {
+        if (null === $nap) {
             $nap = new midcom_helper_nav;
         }
 
-        if (is_null($node_id))
-        {
+        if (is_null($node_id)) {
             $node_id = $nap->get_root_node();
 
             $root_node = $nap->get_node($node_id);
-            if ($root_node[MIDCOM_NAV_COMPONENT] == $component)
-            {
+            if ($root_node[MIDCOM_NAV_COMPONENT] == $component) {
                 $cache[$cache_node][$component] = $root_node;
                 return $root_node;
             }
@@ -364,8 +322,7 @@ class midcom_helper_misc
         $qb->set_limit(1);
         $topics = $qb->execute();
 
-        if (count($topics) == 0)
-        {
+        if (count($topics) == 0) {
             $cache[$cache_node][$component] = null;
             return null;
         }
@@ -392,25 +349,20 @@ class midcom_helper_misc
         $page = midcom_connection::get('page_style');
         $substyle = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_SUBSTYLE);
         //check if we have elements for the sub-styles
-        while (!empty($path_array))
-        {
+        while (!empty($path_array)) {
             $theme_path = implode('/', $path_array);
             $candidates = array();
-            if ($substyle)
-            {
+            if ($substyle) {
                 $candidates[] =  $theme_root . $theme_path .  "/style/{$substyle}/{$element_name}.php";
             }
-            if ($page)
-            {
+            if ($page) {
                 $candidates[] =  $theme_root . $theme_path .  "/style{$page}/{$element_name}.php";
             }
 
             $candidates[] = $theme_root . $theme_path .  "/style/{$element_name}.php";
 
-            foreach ($candidates as $candidate)
-            {
-                if (file_exists($candidate))
-                {
+            foreach ($candidates as $candidate) {
+                if (file_exists($candidate)) {
                     return file_get_contents($candidate);
                 }
             }
@@ -432,11 +384,9 @@ class midcom_helper_misc
     {
         $path_array = explode('/', midcom::get()->config->get('theme'));
 
-        while (!empty($path_array))
-        {
+        while (!empty($path_array)) {
             $theme_path = implode('/', $path_array);
-            if (is_dir($theme_root . $theme_path . '/style/' . $page_name))
-            {
+            if (is_dir($theme_root . $theme_path . '/style/' . $page_name)) {
                 return true;
             }
             array_pop($path_array);

@@ -30,15 +30,13 @@ class midcom_admin_user_handler_group_permissions extends midcom_baseclasses_com
         $tmp = array();
         $grp = $this->_group;
 
-        while ($grp)
-        {
+        while ($grp) {
             $tmp[$grp->guid] = $grp->official;
             $grp = $grp->get_parent();
         }
         $tmp = array_reverse($tmp);
 
-        foreach ($tmp as $guid => $title)
-        {
+        foreach ($tmp as $guid => $title) {
             $this->add_breadcrumb('__mfa/asgard_midcom.admin.user/group/edit/' . $guid . '/', $title);
         }
         $this->add_breadcrumb('', $this->_l10n->get('folders'));
@@ -60,11 +58,9 @@ class midcom_admin_user_handler_group_permissions extends midcom_baseclasses_com
         $privileges = $qb->execute();
         $data['objects'] = array();
         $data['privileges'] = array();
-        foreach ($privileges as $privilege)
-        {
+        foreach ($privileges as $privilege) {
             $data['privileges'][$privilege->privilegename] = $this->_i18n->get_string($privilege->privilegename, 'midgard.admin.asgard');
-            if (!isset($data['objects'][$privilege->objectguid]))
-            {
+            if (!isset($data['objects'][$privilege->objectguid])) {
                 $data['objects'][$privilege->objectguid] = array();
             }
             $data['objects'][$privilege->objectguid][$privilege->privilegename] = $privilege->value;

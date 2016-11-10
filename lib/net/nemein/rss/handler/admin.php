@@ -19,8 +19,7 @@ class net_nemein_rss_handler_admin extends midcom_baseclasses_components_handler
         $data['controller'] = midcom_helper_datamanager2_controller::create('simple');
         $data['controller']->schemadb =& $data['schemadb'];
         $data['controller']->set_storage($data['feed']);
-        if (!$data['controller']->initialize())
-        {
+        if (!$data['controller']->initialize()) {
             throw new midcom_error("Failed to initialize a DM2 controller instance for feed {$data['feed']->id}.");
         }
     }
@@ -31,12 +30,10 @@ class net_nemein_rss_handler_admin extends midcom_baseclasses_components_handler
         $rss = net_nemein_rss_fetch::raw_fetch($feed_url);
         // TODO: display error on invalid feed
 
-        if (!$feed_title)
-        {
+        if (!$feed_title) {
             // If we didn't get the channel title preset
             $feed_title = '';
-            if ($rss->get_title())
-            {
+            if ($rss->get_title()) {
                 $feed_title = $rss->get_title();
             }
         }
@@ -46,23 +43,19 @@ class net_nemein_rss_handler_admin extends midcom_baseclasses_components_handler
         $qb->add_constraint('node', '=', $this->_topic->id);
         $qb->add_constraint('url', '=', $feed_url);
         $feeds = $qb->execute();
-        if (count($feeds) == 0)
-        {
+        if (count($feeds) == 0) {
             $feed = new net_nemein_rss_feed_dba();
             $feed->node = $this->_topic->id;
             $feed->url = $feed_url;
             $feed->title = $feed_title;
             $stat = $feed->create();
-        }
-        else
-        {
+        } else {
             // If we're updating existing feed
             $feed = $feeds[0];
             $feed->title = $feed_title;
             $stat = $feed->update();
         }
-        if ($stat)
-        {
+        if ($stat) {
             $this->_request_data['feeds_subscribed'][$feed->id] = $feed->url;
         }
         return $stat;
@@ -82,8 +75,7 @@ class net_nemein_rss_handler_admin extends midcom_baseclasses_components_handler
         $data['feeds_updated'] = array();
 
         // Single feed addition
-        if (!empty($_POST['net_nemein_rss_manage_newfeed']['url']))
-        {
+        if (!empty($_POST['net_nemein_rss_manage_newfeed']['url'])) {
             $this->_subscribe_feed($_POST['net_nemein_rss_manage_newfeed']['url']);
             // TODO: display error messages
             // TODO: redirect user to edit page if creation succeeded
@@ -93,8 +85,7 @@ class net_nemein_rss_handler_admin extends midcom_baseclasses_components_handler
 
         // OPML subscription list import support
         if (   array_key_exists('net_nemein_rss_manage_opml', $_FILES)
-            && is_uploaded_file($_FILES['net_nemein_rss_manage_opml']['tmp_name']))
-        {
+            && is_uploaded_file($_FILES['net_nemein_rss_manage_opml']['tmp_name'])) {
             $opml_file = $_FILES['net_nemein_rss_manage_opml']['tmp_name'];
 
             // We have OPML file, parse it
@@ -103,17 +94,12 @@ class net_nemein_rss_handler_admin extends midcom_baseclasses_components_handler
 
             $opml_parser = xml_parser_create();
             xml_parse_into_struct($opml_parser, $opml_data, $opml_values);
-            foreach ($opml_values as $opml_element)
-            {
-                if ($opml_element['tag'] === 'OUTLINE')
-                {
+            foreach ($opml_values as $opml_element) {
+                if ($opml_element['tag'] === 'OUTLINE') {
                     // Subscribe to found channels
-                    if (isset($opml_element['attributes']['TITLE']))
-                    {
+                    if (isset($opml_element['attributes']['TITLE'])) {
                         $this->_subscribe_feed($opml_element['attributes']['XMLURL'], $opml_element['attributes']['TITLE']);
-                    }
-                    else
-                    {
+                    } else {
                         $this->_subscribe_feed($opml_element['attributes']['XMLURL']);
                     }
                 }
@@ -149,8 +135,7 @@ class net_nemein_rss_handler_admin extends midcom_baseclasses_components_handler
 
         $this->_load_controller($data);
 
-        switch ($data['controller']->process_form())
-        {
+        switch ($data['controller']->process_form()) {
             case 'save':
                 // TODO: Fetch the feed here?
                 // *** FALL-THROUGH ***
@@ -202,12 +187,9 @@ class net_nemein_rss_handler_admin extends midcom_baseclasses_components_handler
     {
         $this->add_breadcrumb("__feeds/rss/list/", $this->_l10n->get('manage feeds'));
 
-        if ($handler_id == '____feeds-rss-feeds_subscribe')
-        {
+        if ($handler_id == '____feeds-rss-feeds_subscribe') {
             $this->add_breadcrumb("__feeds/rss/subscribe/", $this->_l10n->get('subscribe feeds'));
-        }
-        elseif ($handler_id == '____feeds-rss-feeds_edit')
-        {
+        } elseif ($handler_id == '____feeds-rss-feeds_edit') {
             $this->add_breadcrumb("__feeds/rss/edit/{$this->_request_data['feed']->guid}/", $this->_l10n_midcom->get('edit'));
         }
         net_nemein_rss_manage::add_toolbar_buttons($this->_node_toolbar);

@@ -59,13 +59,11 @@ class midcom_helper_datamanager2_widget_codemirror extends midcom_helper_dataman
     {
         $this->_require_type_value();
 
-        if ($this->enabled)
-        {
+        if ($this->enabled) {
             $prefix = MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/codemirror-' . $this->_type->version;
             midcom::get()->head->add_stylesheet($prefix . '/lib/codemirror.css');
             midcom::get()->head->add_jsfile($prefix . '/lib/codemirror.js');
-            foreach ($this->_type->modes as $mode)
-            {
+            foreach ($this->_type->modes as $mode) {
                 midcom::get()->head->add_jsfile($prefix . '/mode/' . $mode . '/' . $mode . '.js');
             }
             midcom::get()->head->add_jsfile($prefix . '/addon/edit/matchbrackets.js');
@@ -88,8 +86,7 @@ class midcom_helper_datamanager2_widget_codemirror extends midcom_helper_dataman
         $attributes['cols'] = $this->width;
         $attributes['class'] = "codemirror {$this->language}";
 
-        if (!$this->enabled)
-        {
+        if (!$this->enabled) {
             $attributes['class'] = 'longtext';
         }
 

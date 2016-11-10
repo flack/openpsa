@@ -63,8 +63,7 @@ class org_openpsa_documents_handler_document_create extends midcom_baseclasses_c
         $this->_controller->schemaname = $this->_schema;
         $this->_controller->callback_object =& $this;
         $this->_controller->defaults = $this->_defaults;
-        if (!$this->_controller->initialize())
-        {
+        if (!$this->_controller->initialize()) {
             throw new midcom_error("Failed to initialize a DM2 create controller.");
         }
     }
@@ -78,8 +77,7 @@ class org_openpsa_documents_handler_document_create extends midcom_baseclasses_c
         $this->_document->topic = $this->_request_data['directory']->id;
         $this->_document->orgOpenpsaAccesstype = org_openpsa_core_acl::ACCESS_WGPRIVATE;
 
-        if (!$this->_document->create())
-        {
+        if (!$this->_document->create()) {
             debug_print_r('We operated on this object:', $this->_document);
             throw new midcom_error("Failed to create a new document. Error: " . midcom_connection::get_error_string());
         }
@@ -118,11 +116,9 @@ class org_openpsa_documents_handler_document_create extends midcom_baseclasses_c
 
     public function save_callback(midcom_helper_datamanager2_controller $controller)
     {
-        if (empty($this->_document->title))
-        {
+        if (empty($this->_document->title)) {
             $attachments = org_openpsa_helpers::get_dm2_attachments($this->_document, 'document');
-            if (!empty($attachments))
-            {
+            if (!empty($attachments)) {
                 $att = current($attachments);
                 $this->_document->title = $att->title;
             }
@@ -135,8 +131,7 @@ class org_openpsa_documents_handler_document_create extends midcom_baseclasses_c
 
         // Relocate to document view
         $prefix = '';
-        if ($this->_document->topic != $this->_topic->id)
-        {
+        if ($this->_document->topic != $this->_topic->id) {
             $nap = new midcom_helper_nav();
             $node = $nap->get_node($this->_document->topic);
             $prefix = $node[MIDCOM_NAV_ABSOLUTEURL];

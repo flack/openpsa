@@ -202,8 +202,7 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
      */
     function update_image($identifier, $filename, $tmpname, $title)
     {
-        if (!array_key_exists($identifier, $this->images))
-        {
+        if (!array_key_exists($identifier, $this->images)) {
             return false;
         }
         $this->_identifier = $identifier;
@@ -223,16 +222,12 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
     {
         $this->_title = $title;
         $this->titles[$this->_identifier] = $title;
-        if (array_key_exists($this->_identifier, $this->images))
-        {
+        if (array_key_exists($this->_identifier, $this->images)) {
             $force_pending_attachments = $this->images[$this->_identifier];
-        }
-        else
-        {
+        } else {
             $force_pending_attachments = array();
         }
-        if (!$this->_set_image($filename, $tmpname, $title, $force_pending_attachments))
-        {
+        if (!$this->_set_image($filename, $tmpname, $title, $force_pending_attachments)) {
             return false;
         }
         $this->_save_image_listing();
@@ -246,10 +241,8 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
      */
     function delete_image($identifier)
     {
-        if (array_key_exists($identifier, $this->images))
-        {
-            foreach (array_keys($this->images[$identifier]) as $name)
-            {
+        if (array_key_exists($identifier, $this->images)) {
+            foreach (array_keys($this->images[$identifier]) as $name) {
                 $blob_identifier = "{$identifier}{$name}";
                 unset($this->_attachment_map[$blob_identifier]);
                 $this->delete_attachment($blob_identifier);
@@ -267,29 +260,23 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
     private function _load_attachment_map()
     {
         // TODO: Change to use the attachments' parameters as authorative mapping source and this map only as fallback
-        if ($raw_list = $this->storage->object->get_parameter('midcom.helper.datamanager2.type.images', "attachment_map_{$this->name}"))
-        {
+        if ($raw_list = $this->storage->object->get_parameter('midcom.helper.datamanager2.type.images', "attachment_map_{$this->name}")) {
             $identifiers = explode(',', $raw_list);
         }
         // If applicable, recreate imagemap from guids list stored for the object
-        else
-        {
+        else {
             $identifiers = array();
             $source = $this->storage->object->get_parameter('midcom.helper.datamanager2.type.blobs', "guids_{$this->name}");
-            if (preg_match_all('/([0-9a-f]{32,})([^,]+?):/', $source, $regs))
-            {
-                foreach ($regs[1] as $i => $reg)
-                {
+            if (preg_match_all('/([0-9a-f]{32,})([^,]+?):/', $source, $regs)) {
+                foreach ($regs[1] as $i => $reg) {
                     $identifiers[] = "{$reg}{$regs[2][$i]}:{$reg}:{$regs[2][$i]}";
                 }
             }
         }
 
-        foreach ($identifiers as $item)
-        {
+        foreach ($identifiers as $item) {
             $info = explode(':', $item);
-            if (count($info) < 3)
-            {
+            if (count($info) < 3) {
                 // Broken item
                 debug_add("item '{$item}' is broken!", MIDCOM_LOG_ERROR);
                 continue;
@@ -304,8 +291,7 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
      */
     public function convert_from_storage($source)
     {
-        if ($this->storage->object === null)
-        {
+        if ($this->storage->object === null) {
             // We don't have a storage object, skip the rest of the operations.
             return;
         }
@@ -314,16 +300,13 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
 
         parent::convert_from_storage($source);
 
-        foreach ($this->_attachment_map as $blobs_identifier => $info)
-        {
-            if (!isset($info[0]))
-            {
+        foreach ($this->_attachment_map as $blobs_identifier => $info) {
+            if (!isset($info[0])) {
                 continue;
             }
             $images_identifier = $info[0];
             if (   !empty($this->attachments_info[$blobs_identifier]['object'])
-                && is_object($this->attachments_info[$blobs_identifier]['object']))
-            {
+                && is_object($this->attachments_info[$blobs_identifier]['object'])) {
                 $this->titles[$images_identifier] = $this->attachments_info[$blobs_identifier]['object']->title;
             }
         }
@@ -335,12 +318,9 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
     public function convert_to_storage()
     {
         $titles = array_intersect_key(array_filter($this->titles), $this->images);
-        foreach ($titles as $images_identifier => $title)
-        {
-            foreach ($this->images[$images_identifier] as $info)
-            {
-                if ($info['object']->title === $title)
-                {
+        foreach ($titles as $images_identifier => $title) {
+            foreach ($this->images[$images_identifier] as $info) {
+                if ($info['object']->title === $title) {
                     continue;
                 }
                 $this->update_attachment_title($info['identifier'], $title);
@@ -364,33 +344,24 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
     public function convert_to_html()
     {
         $result = '';
-        if (empty($this->images))
-        {
+        if (empty($this->images)) {
             return $result;
         }
-        switch ($this->output_mode)
-        {
+        switch ($this->output_mode) {
             case 'html':
                 $result .= "<ul class='midcom_helper_datamanager2_type_images_list'>";
-                foreach ($this->images as $identifier => $images)
-                {
+                foreach ($this->images as $identifier => $images) {
                     $result .= "<li>";
-                    if (isset($images['main']))
-                    {
+                    if (isset($images['main'])) {
                         $main = $images['main'];
-                    }
-                    elseif (isset($images['original']))
-                    {
+                    } elseif (isset($images['original'])) {
                         $main = $images['original'];
-                    }
-                    else
-                    {
+                    } else {
                         // ugly fallback...
                         $images_copy = $images;
                         $main = array_shift($images_copy);
                     }
-                    if (empty($main['object']->guid))
-                    {
+                    if (empty($main['object']->guid)) {
                         //Panic, broken identifier
                         debug_add("Identifier '{$identifier}' does not have a valid object behind it",  MIDCOM_LOG_ERROR);
                         continue;
@@ -398,13 +369,10 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
 
                     $title = $main['description'] ?: $main['filename'];
 
-                    if (array_key_exists('thumbnail', $images))
-                    {
+                    if (array_key_exists('thumbnail', $images)) {
                         $thumb = $images['thumbnail'];
                         $result .= "<a href='{$main['url']}'><img src='{$thumb['url']}' {$thumb['size_line']} alt='{$title}' title='{$title}' /></a>";
-                    }
-                    else
-                    {
+                    } else {
                         $result .= "<img src='{$main['url']}' {$main['size_line']} alt='{$title}' title='{$title}' />";
                     }
                     $result .= "</li>";
@@ -416,11 +384,9 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
             case 'array':
                 $result = array();
                 // FIXME: this probably does not work as expected, look into this
-                foreach ($this->images as $images)
-                {
+                foreach ($this->images as $images) {
                     $tmp = $images['main'];
-                    if (array_key_exists('thumbnail', $images))
-                    {
+                    if (array_key_exists('thumbnail', $images)) {
                         $tmp['thumbnail'] = $images['thumbnail'];
                     }
                     $result[] = $tmp;
@@ -441,10 +407,8 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
     {
         $data = array();
 
-        foreach ($this->attachments_info as $identifier => $info)
-        {
-            if (empty($identifier))
-            {
+        foreach ($this->attachments_info as $identifier => $info) {
+            if (empty($identifier)) {
                 // Identifier must not be empty
                 debug_add("\$identifier is empty, this is not allowed.", MIDCOM_LOG_ERROR);
                 continue;
@@ -458,12 +422,9 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
         // We need to be selective when saving, excluding one case: empty list
         // with empty storage object. In that case we store nothing. If we have
         // an object, we set the parameter unconditionally, to get all deletions.
-        if ($this->storage->object)
-        {
+        if ($this->storage->object) {
             $this->storage->object->set_parameter('midcom.helper.datamanager2.type.images', "attachment_map_{$this->name}", implode(',', $data));
-        }
-        elseif ($data)
-        {
+        } elseif ($data) {
             debug_add("We were told to store image infos, but no storage object was present. This should not happen, ignoring silently.",
                 MIDCOM_LOG_WARN);
             debug_print_r("This data should have been stored:", $data);
@@ -478,14 +439,12 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
      */
     private function _info_heuristics(array &$info, $identifier)
     {
-        if (!array_key_exists('images_identifier', $info))
-        {
+        if (!array_key_exists('images_identifier', $info)) {
             // We have somehow broken data, try heuristics
             $info['images_identifier'] = substr($identifier, 0, 32); // NOTE: the 16 byte identifier is MD5 not GUID, so this is safe
             debug_add("Setting images_identifier to '{$info['images_identifier']}' (from '{$identifier}')", MIDCOM_LOG_WARN);
         }
-        if (!array_key_exists('images_name', $info))
-        {
+        if (!array_key_exists('images_name', $info)) {
             // We have somehow broken data, try heuristics
             $info['images_name'] = substr($identifier, 32); // NOTE: the 16 byte identifier is MD5 not GUID, so this is safe
             debug_add("Setting images_name to '{$info['images_name']}' (from '{$identifier}')", MIDCOM_LOG_WARN);
@@ -501,8 +460,7 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
     {
         parent::_store_att_map_parameters($identifier, $attachment);
         $this->_update_attachment_info($identifier);
-        if (!isset($this->attachments_info[$identifier]))
-        {
+        if (!isset($this->attachments_info[$identifier])) {
             debug_add("Could not find identifier '{$identifier}' in attachments_info, skipping", MIDCOM_LOG_WARN);
             debug_print_r('$this->attachments_info', $this->attachments_info);
             return;
@@ -531,15 +489,13 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
     {
         parent::_update_attachment_info($identifier);
 
-        if (!array_key_exists($identifier, $this->_attachment_map))
-        {
+        if (!array_key_exists($identifier, $this->_attachment_map)) {
             // Log and skip further processing.
             debug_add("Could not find the attachment '{$identifier}' in the image map. Skipping it.",
                 MIDCOM_LOG_INFO);
             return;
         }
-        if (!array_key_exists($identifier, $this->attachments_info))
-        {
+        if (!array_key_exists($identifier, $this->attachments_info)) {
             // Log and skip further processing.
             debug_add("Could not find the attachment '{$identifier}' in the \$this->attachments_info. Skipping it.",
                 MIDCOM_LOG_ERROR);
@@ -578,22 +534,16 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
     {
         // safety against broken images
         if (   !empty($a['main']['object'])
-            && !empty($b['main']['object']))
-        {
+            && !empty($b['main']['object'])) {
             $a_obj = $a['main']['object'];
             $b_obj = $b['main']['object'];
-        }
-        else
-        {
+        } else {
             // Try to read the sort values from some other key
             if (   is_array($a)
-                && is_array($b))
-            {
-                foreach ($a as $key => $data)
-                {
+                && is_array($b)) {
+                foreach ($a as $key => $data) {
                     if (   !empty($data['object'])
-                        && !empty($b[$key]['object']))
-                    {
+                        && !empty($b[$key]['object'])) {
                         $a_obj = $data['object'];
                         $b_obj = $b[$key]['object'];
                         break;
@@ -601,8 +551,7 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
                 }
             }
             if (   empty($a_obj)
-                && empty($b_obj))
-            {
+                && empty($b_obj)) {
                 return 0;
             }
         }
@@ -647,24 +596,17 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
      */
     function recreate_images()
     {
-        foreach ($this->images as $identifier => $images)
-        {
-            if (isset($images['original']))
-            {
+        foreach ($this->images as $identifier => $images) {
+            if (isset($images['original'])) {
                 $image = $images['original'];
-            }
-            elseif (isset($images['main']))
-            {
+            } elseif (isset($images['main'])) {
                 $image = $images['main'];
-            }
-            else
-            {
+            } else {
                 debug_add("Image {$identifier} has no 'original' or 'main' image, skipping recreation.", MIDCOM_LOG_INFO);
                 continue;
             }
 
-            if (empty($image['object']))
-            {
+            if (empty($image['object'])) {
                 debug_add("Image {$identifier} has no image object, skipping recreation.", MIDCOM_LOG_INFO);
                 continue;
             }
@@ -674,8 +616,7 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
             $tmp = $filter->create_tmp_copy($image['object']);
 
             // Update all derived images
-            if (!$this->update_image($identifier, $image['filename'], $tmp, $this->titles[$identifier]))
-            {
+            if (!$this->update_image($identifier, $image['filename'], $tmp, $this->titles[$identifier])) {
                 debug_add("Failed to recreate image {$identifier}, skipping .", MIDCOM_LOG_INFO);
             }
         }
@@ -692,20 +633,16 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
      */
     function apply_filter_images($images_identifier, $filter)
     {
-        if (!array_key_exists($images_identifier, $this->images))
-        {
+        if (!array_key_exists($images_identifier, $this->images)) {
             debug_add("identifier '{$images_identifier}' not found in \$this->images", MIDCOM_LOG_ERROR);
             return false;
         }
-        foreach (array_keys($this->images[$images_identifier]) as $sub_identifier)
-        {
-            if ($sub_identifier === 'original')
-            {
+        foreach (array_keys($this->images[$images_identifier]) as $sub_identifier) {
+            if ($sub_identifier === 'original') {
                 continue;
             }
             $identifier = "{$images_identifier}{$sub_identifier}";
-            if (!$this->apply_filter($identifier, $filter))
-            {
+            if (!$this->apply_filter($identifier, $filter)) {
                 debug_add("Failed to apply filter '{$filter}' to image '{$identifier}', aborting", MIDCOM_LOG_ERROR);
                 return false;
             }
@@ -719,16 +656,14 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
         if (   !empty($tmp_dir)
             && $tmp_dir !== '/'
             /* TODO: better tmp dir matching */
-            && preg_match('|^/tmp/|', $tmp_dir))
-        {
+            && preg_match('|^/tmp/|', $tmp_dir)) {
             $cmd = "rm -rf {$tmp_dir}";
             debug_add("executing '{$cmd}'");
             exec($cmd, $output, $ret);
         }
         if (   empty($new_name)
             /* TODO: better tmp dir matching */
-            || !preg_match('|^/tmp/|', $new_name))
-        {
+            || !preg_match('|^/tmp/|', $new_name)) {
             return;
         }
         $cmd = "rm -f {$new_name}";
@@ -742,24 +677,21 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
         $new_name = "{$tmp_name}.{$extension}";
         $mv_cmd = "mv -f {$tmp_name} {$new_name}";
         exec($mv_cmd, $output, $ret);
-        if ($ret != 0)
-        {
+        if ($ret != 0) {
             // Move failed
             debug_add("failed to execute '{$mv_cmd}'", MIDCOM_LOG_ERROR);
             unlink($tmp_name);
             return false;
         }
         $tmp_dir = "{$tmp_name}_extracted";
-        if (!mkdir($tmp_dir))
-        {
+        if (!mkdir($tmp_dir)) {
             // Could not create temp dir
             debug_add("failed to create directory '{$tmp_dir}'", MIDCOM_LOG_ERROR);
             $this->_batch_handler_cleanup(false, $new_name);
             return false;
         }
         $zj = false;
-        switch (strtolower($extension))
-        {
+        switch (strtolower($extension)) {
             case 'zip':
                 $extract_cmd = midcom::get()->config->get('utility_unzip') . " -q -b -L -o {$new_name} -d {$tmp_dir}";
                 break;
@@ -767,8 +699,7 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
             case 'tar.gz':
                 $zj = 'z';
             case 'tar.bz2':
-                if (!$zj)
-                {
+                if (!$zj) {
                     $zj = 'j';
                 }
             case 'tar':
@@ -782,8 +713,7 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
         }
         debug_add("executing '{$extract_cmd}'");
         exec($extract_cmd, $output, $ret);
-        if ($ret != 0)
-        {
+        if ($ret != 0) {
             // extract failed
             debug_add("failed to execute '{$extract_cmd}'", MIDCOM_LOG_ERROR);
             $this->_batch_handler_cleanup($tmp_dir, $new_name);
@@ -792,8 +722,7 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
         // Handle archives with subdirectories correctly
         $files = $this->_batch_handler_get_files_recursive($tmp_dir);
 
-        foreach ($files as $file)
-        {
+        foreach ($files as $file) {
             // Set image
             $this->add_image($file->getBaseName(), $file->getPathName(), $file->getBaseName());
         }
@@ -803,15 +732,12 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
 
     private function _batch_handler_get_files_recursive($path)
     {
-        try
-        {
+        try {
             $dir = new RecursiveDirectoryIterator($path, FilesystemIterator::SKIP_DOTS);
             $iterator = new RecursiveIteratorIterator($dir);
             // ignore backup files
             return new RegexIterator($iterator, '/[^~]$/i');
-        }
-        catch (UnexpectedValueException $e)
-        {
+        } catch (UnexpectedValueException $e) {
             debug_add("failed to create iterator:" . $e->getMessage(), MIDCOM_LOG_ERROR);
             return array();
         }

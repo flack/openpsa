@@ -66,12 +66,10 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
 
     private function _parse_query()
     {
-        if (!isset($_GET['query']))
-        {
+        if (!isset($_GET['query'])) {
             return;
         }
-        if (isset($_GET['query_mode']))
-        {
+        if (isset($_GET['query_mode'])) {
             $this->_query_mode = $_GET['query_mode'];
         }
         $this->_query_string = trim($_GET['query']);
@@ -83,10 +81,8 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
         // Handle automatic wildcards
         $auto_wildcards = $this->_config->get('auto_wildcards');
         if (   $auto_wildcards
-            && strpos($this->_query_string_processed, '%') === false)
-        {
-            switch ($auto_wildcards)
-            {
+            && strpos($this->_query_string_processed, '%') === false) {
+            switch ($auto_wildcards) {
                 case 'both':
                     $this->_wildcard_template = '%__TERM__%';
                     break;
@@ -112,8 +108,7 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
     {
         $this->_parse_query();
 
-        switch ($args[0])
-        {
+        switch ($args[0]) {
             case 'foaf':
                 midcom::get()->skip_page_style = true;
                 $this->_view = 'foaf';
@@ -133,11 +128,9 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
     public function _show_search_type($handler_id, array &$data)
     {
         if (   $this->_view == 'foaf'
-            && sizeof($this->_persons) > 0)
-        {
+            && sizeof($this->_persons) > 0) {
             midcom_show_style('foaf-header');
-            foreach ($this->_persons as $person)
-            {
+            foreach ($this->_persons as $person) {
                 $data['person'] = $person;
                 midcom_show_style('foaf-person-item');
             }
@@ -155,28 +148,23 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
         $this->_query_mode = 'both';
         $this->_parse_query();
 
-        if ($this->_query_mode != 'person')
-        {
+        if ($this->_query_mode != 'person') {
             $this->_search_qb_groups();
         }
-        if ($this->_query_mode != 'group')
-        {
+        if ($this->_query_mode != 'group') {
             $this->_search_qb_persons();
         }
 
-        if ($handler_id == 'search_autocomplete')
-        {
+        if ($handler_id == 'search_autocomplete') {
             return $this->_prepare_json_reply();
         }
 
         if (   count($this->_groups) == 1
-            && count($this->_persons) == 0)
-        {
+            && count($this->_persons) == 0) {
             return new midcom_response_relocate('group/' . $this->_groups[0]->guid . '/');
         }
         if (   count($this->_groups) == 0
-            && count($this->_persons) == 1)
-        {
+            && count($this->_persons) == 1) {
             return new midcom_response_relocate('person/' . $this->_persons[0]->guid . '/');
         }
 
@@ -191,8 +179,7 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
     {
         $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
         $data = array();
-        foreach ($this->_persons as $person)
-        {
+        foreach ($this->_persons as $person) {
             $data[] = array
             (
                 'category' => $this->_l10n->get('persons'),
@@ -201,8 +188,7 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
                 'url' => $prefix . 'person/' . $person->guid . '/'
             );
         }
-        foreach ($this->_groups as $group)
-        {
+        foreach ($this->_groups as $group) {
             $data[] = array
             (
                 'category' => $this->_l10n->get('groups'),
@@ -220,16 +206,14 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
     {
         $workflow = $this->get_workflow('datamanager2');
         $buttons = array();
-        if (midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_contacts_person_dba'))
-        {
+        if (midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_contacts_person_dba')) {
             $buttons[] = $workflow->get_button('person/create/', array
             (
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create person'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_person-new.png',
             ));
         }
-        if (midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_contacts_group_dba'))
-        {
+        if (midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_contacts_group_dba')) {
             $buttons[] = $workflow->get_button('group/create/organization/', array
             (
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create organization'),
@@ -261,29 +245,22 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
 
         if (   count($this->_groups) == 0
             && count($this->_persons) == 0
-            && $this->_query_string)
-        {
+            && $this->_query_string) {
             //No results at all (from any of the queries)
             midcom_show_style('search-empty');
-        }
-        else
-        {
-            if (count($this->_groups) > 0)
-            {
+        } else {
+            if (count($this->_groups) > 0) {
                 midcom_show_style('search-groups-header');
-                foreach ($this->_groups as $group)
-                {
+                foreach ($this->_groups as $group) {
                     $data['group'] = $group;
                     midcom_show_style('search-groups-item');
                 }
                 midcom_show_style('search-groups-footer');
             }
 
-            if (count($this->_persons) > 0)
-            {
+            if (count($this->_persons) > 0) {
                 midcom_show_style('search-persons-header');
-                foreach ($this->_persons as $person)
-                {
+                foreach ($this->_persons as $person) {
                     $data['person'] = $person;
                     midcom_show_style('search-persons-item');
                 }
@@ -302,8 +279,7 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
      */
     private function _search_qb_groups()
     {
-        if (!$this->_query_string)
-        {
+        if (!$this->_query_string) {
             return;
         }
 
@@ -319,8 +295,7 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
      */
     private function _search_qb_persons()
     {
-        if (!$this->_query_string)
-        {
+        if (!$this->_query_string) {
             return;
         }
 
@@ -334,37 +309,30 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
     {
         // Search using only the fields defined in config
         $fields = explode(',', $this->_config->get($type . '_search_fields'));
-        if (is_array($fields))
-        {
+        if (is_array($fields)) {
             $fields = array_filter($fields);
         }
-        if (empty($fields))
-        {
+        if (empty($fields)) {
             throw new midcom_error('Invalid ' . $type . ' search configuration');
         }
 
-        if (sizeof($this->_query) > 1)
-        {
+        if (sizeof($this->_query) > 1) {
             //if we have more than one token in the query, we try to match the entire string as well
             $qb->begin_group('OR');
-            foreach ($fields as $field)
-            {
+            foreach ($fields as $field) {
                 $qb->add_constraint($field, 'LIKE', str_replace('__TERM__', $this->_query_string_processed, $this->_wildcard_template));
             }
         }
         $qb->begin_group('AND');
-        foreach ($this->_query as $term)
-        {
+        foreach ($this->_query as $term) {
             $qb->begin_group('OR');
-            foreach ($fields as $field)
-            {
+            foreach ($fields as $field) {
                 $qb->add_constraint($field, 'LIKE', str_replace('__TERM__', $term, $this->_wildcard_template));
             }
             $qb->end_group();
         }
         $qb->end_group();
-        if (sizeof($this->_query) > 1)
-        {
+        if (sizeof($this->_query) > 1) {
             $qb->end_group();
         }
     }

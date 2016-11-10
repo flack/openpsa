@@ -13,8 +13,7 @@ $item->author = $author->name;
 // TODO: Add more info to the description
 $item->description = $view_product['description'];
 
-if ($product->productGroup)
-{
+if ($product->productGroup) {
     $group = new org_openpsa_products_product_group_dba($product->productGroup);
     $item->category = $group->title;
 }

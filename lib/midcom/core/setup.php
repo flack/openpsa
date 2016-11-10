@@ -30,13 +30,11 @@ class midcom_core_setup
         $conf .= '$GLOBALS[\'midcom_config_local\'][\'midcom_root_topic_guid\'] = "' . $topic->guid . '";' . "\n";
 
         $project_dir = dirname(dirname(dirname(__DIR__)));
-        if (strpos($project_dir, '/vendor/'))
-        {
+        if (strpos($project_dir, '/vendor/')) {
             $project_dir = dirname(dirname(dirname($project_dir)));
         }
 
-        if (!@file_put_contents($project_dir . '/config.inc.php', $conf))
-        {
+        if (!@file_put_contents($project_dir . '/config.inc.php', $conf)) {
             echo "Please save the following under <code>" . $project_dir . '/config.inc.php</code><br>';
             echo '<textarea rows="5" cols="100">' . $conf . "</textarea>";
             midcom::get()->finish();
@@ -53,26 +51,22 @@ class midcom_core_setup
         $qb->add_constraint('component', '<>', '');
         $topics = $qb->execute();
 
-        if (count($topics) > 0)
-        {
+        if (count($topics) > 0) {
             return $topics[0];
         }
-        if (!$autocreate)
-        {
+        if (!$autocreate) {
             throw new midcom_error('Fatal error: Unable to find website root folder');
         }
 
         $runner = new midcom_config_test;
         $runner->check();
-        if ($runner->get_status() === midcom_config_test::ERROR)
-        {
+        if ($runner->get_status() === midcom_config_test::ERROR) {
             $runner->show();
             midcom::get()->finish();
         }
         $topic = new midcom_db_topic;
         $topic->component = 'midcom.core.nullcomponent';
-        if (!$topic->create())
-        {
+        if (!$topic->create()) {
             throw new midcom_error('Fatal error: Failed to create root folder: ' . midcom_connection::get_error_string());
         }
         $this->write_config($topic);

@@ -14,12 +14,10 @@ echo $data['rcs_toolbar_2']->render();
 <dl class="midgard_admin_asgard_rcs_diff">
 <?php
 $changes = false;
-foreach ($diff as $attribute => $values)
-{
+foreach ($diff as $attribute => $values) {
     if (   !array_key_exists('diff', $values)
         || !midcom_services_rcs::is_field_showable($attribute)
-        || is_array($values['diff']))
-    {
+        || is_array($values['diff'])) {
         continue;
     }
 
@@ -30,8 +28,7 @@ foreach ($diff as $attribute => $values)
     echo "    <dd>" . $values['diff'] . "</dd>\n";
 }
 
-if (!$changes)
-{
+if (!$changes) {
     echo "<dt>". $data['l10n']->get('no changes in content') ."</dt>\n";
 }
 ?>

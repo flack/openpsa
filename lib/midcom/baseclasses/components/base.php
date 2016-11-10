@@ -41,21 +41,18 @@ abstract class midcom_baseclasses_components_base
      */
     public function __construct()
     {
-        if ($this->_component == '')
-        {
+        if ($this->_component == '') {
             $this->_component = preg_replace('/^(.+?)_(.+?)_([^_]+).*/', '$1.$2.$3', get_class($this));
         }
     }
 
     public function __get($field)
     {
-        if (array_key_exists($field, $this->_services))
-        {
+        if (array_key_exists($field, $this->_services)) {
             return $this->_services[$field];
         }
 
-        switch ($field)
-        {
+        switch ($field) {
             case '_i18n':
                 $this->_services[$field] = midcom::get()->i18n;
                 break;

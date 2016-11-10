@@ -75,14 +75,12 @@ class midcom_core_collector extends midcom_core_query
      */
     public function execute()
     {
-        if (!call_user_func_array(array($this->_real_class, '_on_prepare_exec_collector'), array(&$this)))
-        {
+        if (!call_user_func_array(array($this->_real_class, '_on_prepare_exec_collector'), array(&$this))) {
             debug_add('The _on_prepare_exec_collector callback returned false, so we abort now.');
             return false;
         }
 
-        if (!midcom::get()->auth->admin)
-        {
+        if (!midcom::get()->auth->admin) {
             $this->_user_id = midcom::get()->auth->acl->get_user_id();
         }
 
@@ -96,15 +94,13 @@ class midcom_core_collector extends midcom_core_query
      */
     private function _real_execute()
     {
-        if ($this->_executed)
-        {
+        if ($this->_executed) {
             // mgd gets stuck in an infinite loop if execute() is called more than once,
             // so we have to prevent this...
             return true;
         }
         // Add the limit / offsets
-        if ($this->_limit)
-        {
+        if ($this->_limit) {
             $this->_query->set_limit($this->_limit);
         }
         // Disabled because of http://trac.midgard-project.org/ticket/1964
@@ -147,18 +143,15 @@ class midcom_core_collector extends midcom_core_query
     {
         $this->execute();
         $result = $this->_query->list_keys();
-        if (!is_array($result))
-        {
+        if (!is_array($result)) {
             return array();
         }
         $newresult = array();
         $classname = $this->_real_class;
 
-        foreach ($result as $object_guid => $empty_copy)
-        {
+        foreach ($result as $object_guid => $empty_copy) {
             if (    $this->_user_id
-                && !midcom::get()->auth->acl->can_do_byguid('midgard:read', $object_guid, $classname, $this->_user_id))
-            {
+                && !midcom::get()->auth->acl->can_do_byguid('midgard:read', $object_guid, $classname, $this->_user_id)) {
                 debug_add("Failed to load result, read privilege on {$object_guid} not granted for the current user.", MIDCOM_LOG_INFO);
                 continue;
             }
@@ -180,14 +173,12 @@ class midcom_core_collector extends midcom_core_query
      */
     public function get_values($field)
     {
-        if (!$this->_executed)
-        {
+        if (!$this->_executed) {
             $this->add_value_property($field);
             $this->execute();
         }
         $results = $this->list_keys();
-        foreach ($results as $guid => &$value)
-        {
+        foreach ($results as $guid => &$value) {
             $value = $this->get_subkey($guid, $field);
         }
         return $results;
@@ -203,12 +194,10 @@ class midcom_core_collector extends midcom_core_query
      */
     public function get_rows(array $fields, $indexed_by = 'guid')
     {
-        if (!$this->_executed)
-        {
+        if (!$this->_executed) {
             array_map(array($this, 'add_value_property'), $fields);
 
-            if ($indexed_by !== 'guid')
-            {
+            if ($indexed_by !== 'guid') {
                 $this->add_value_property($indexed_by);
             }
 
@@ -216,12 +205,10 @@ class midcom_core_collector extends midcom_core_query
         }
         $results = array();
         $keys = $this->list_keys();
-        foreach ($keys as $guid => $values)
-        {
+        foreach ($keys as $guid => $values) {
             $values = $this->get($guid);
             $index = $guid;
-            if ($indexed_by !== 'guid')
-            {
+            if ($indexed_by !== 'guid') {
                 $index = $values[$indexed_by];
             }
             $results[$index] = $values;
@@ -240,23 +227,18 @@ class midcom_core_collector extends midcom_core_query
 
         $size = sizeof($result);
 
-        if ($this->_offset)
-        {
-            if ($this->_offset > $size)
-            {
+        if ($this->_offset) {
+            if ($this->_offset > $size) {
                 $result = array();
                 $size = 0;
-            }
-            else
-            {
+            } else {
                 $result = array_slice($result, $this->_offset);
                 $size = $size - $this->_offset;
             }
         }
 
         if (   $this->_limit > 0
-            && $this->_limit < $size)
-        {
+            && $this->_limit < $size) {
             $result = array_slice($result, 0, $this->_limit);
         }
 
@@ -270,8 +252,7 @@ class midcom_core_collector extends midcom_core_query
     public function get_subkey($key, $property)
     {
         if (   $this->_user_id
-            && !midcom::get()->auth->acl->can_do_byguid('midgard:read', $key, $this->_real_class, $this->_user_id))
-        {
+            && !midcom::get()->auth->acl->can_do_byguid('midgard:read', $key, $this->_real_class, $this->_user_id)) {
             midcom_connection::set_error(MGD_ERR_ACCESS_DENIED);
             return false;
         }
@@ -281,8 +262,7 @@ class midcom_core_collector extends midcom_core_query
     public function get($key)
     {
         if (   $this->_user_id
-            && !midcom::get()->auth->acl->can_do_byguid('midgard:read', $key, $this->_real_class, $this->_user_id))
-        {
+            && !midcom::get()->auth->acl->can_do_byguid('midgard:read', $key, $this->_real_class, $this->_user_id)) {
             midcom_connection::set_error(MGD_ERR_ACCESS_DENIED);
             return false;
         }
@@ -301,8 +281,7 @@ class midcom_core_collector extends midcom_core_query
 
     public function add_value_property($property)
     {
-        if (!$this->_query->add_value_property($property))
-        {
+        if (!$this->_query->add_value_property($property)) {
             debug_add("Failed to execute add_value_property '{$property}' for {$this->_real_class}.", MIDCOM_LOG_ERROR);
 
             return false;
@@ -320,10 +299,8 @@ class midcom_core_collector extends midcom_core_query
      */
     public function count()
     {
-        if ($this->count == -1)
-        {
-            if (!$this->_executed)
-            {
+        if ($this->count == -1) {
+            if (!$this->_executed) {
                 $this->execute();
             }
             $this->list_keys();
@@ -344,12 +321,10 @@ class midcom_core_collector extends midcom_core_query
      */
     public function count_unchecked()
     {
-        if ($this->_limit)
-        {
+        if ($this->_limit) {
             $this->_query->set_limit($this->_limit);
         }
-        if ($this->_offset)
-        {
+        if ($this->_offset) {
             $this->_query->set_offset($this->_offset);
         }
         return $this->_query->count();
@@ -359,8 +334,7 @@ class midcom_core_collector extends midcom_core_query
     {
         $qb = new midcom_core_querybuilder($this->_real_class);
 
-        if (!empty($this->_orders))
-        {
+        if (!empty($this->_orders)) {
             //Reset offset/limit, otherwise sorting won't work properly
             $limit = $this->_limit;
             $offset = $this->_offset;
@@ -372,20 +346,17 @@ class midcom_core_collector extends midcom_core_query
         $this->execute();
         $guids = $this->list_keys();
 
-        if (!empty($this->_orders))
-        {
+        if (!empty($this->_orders)) {
             $this->_offset = $offset;
             $this->_limit = $limit;
         }
-        if (sizeof($guids) == 0)
-        {
+        if (sizeof($guids) == 0) {
             return array();
         }
 
         $qb->hide_invisible = $this->hide_invisible;
         $qb->add_constraint('guid', 'IN', array_keys($guids));
-        foreach ($this->_orders as $order)
-        {
+        foreach ($this->_orders as $order) {
             $qb->add_order($order['field'], $order['direction']);
         }
 

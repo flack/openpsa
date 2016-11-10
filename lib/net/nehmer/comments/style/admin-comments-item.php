@@ -4,8 +4,7 @@ $view = $data['display_datamanager']->get_content_html();
 $comment = $data['comment'];
 $formatter = $data['l10n']->get_formatter();
 $rating = '';
-if ($comment->rating > 0)
-{
+if ($comment->rating > 0) {
     $rating = ', ' . sprintf('rated %s', $comment->rating);
 }
 $object_link = midcom::get()->permalinks->create_permalink($comment->objectguid) . '#net_nehmer_comments_' . $comment->guid;
@@ -19,18 +18,14 @@ $published = sprintf(
 
 if (   midcom::get()->auth->admin
    || (   midcom::get()->auth->user
-       && $comment->can_do('midgard:delete')))
-{
+       && $comment->can_do('midgard:delete'))) {
     $creator = $comment->metadata->creator;
     $created = $comment->metadata->created;
 
     $user = midcom::get()->auth->get_user($creator);
-    if ($user)
-    {
+    if ($user) {
         $username = "{$user->name} ({$user->username})";
-    }
-    else
-    {
+    } else {
         $username = $data['l10n_midcom']->get('anonymous');
     }
     $ip = $comment->ip ?: '?.?.?.?';
@@ -53,13 +48,14 @@ if (   midcom::get()->auth->admin
         <?php echo $data['comment_toolbar']->render(); ?>
     </div>
 
-<?php if (!empty($metadata))
-{ ?>
+<?php if (!empty($metadata)) {
+    ?>
     <div class="metadata">
         &(metadata);
     </div>
 
-<?php } ?>
+<?php 
+} ?>
 
     <div class="content">&(view['content']:h);</div>
 </div>

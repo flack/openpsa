@@ -36,8 +36,7 @@ class org_openpsa_sales_handler_deliverable_process extends midcom_baseclasses_c
      */
     public function _handler_process($handler_id, array $args, array &$data)
     {
-        if ($_SERVER['REQUEST_METHOD'] != 'POST')
-        {
+        if ($_SERVER['REQUEST_METHOD'] != 'POST') {
             throw new midcom_error_forbidden('Only POST requests are allowed here.');
         }
 
@@ -49,12 +48,9 @@ class org_openpsa_sales_handler_deliverable_process extends midcom_baseclasses_c
             'decline', 'order', 'deliver', 'invoice', 'run_cycle'
         );
 
-        foreach ($supported_operations as $operation)
-        {
-            if (array_key_exists($operation, $_POST))
-            {
-                if (!$this->_deliverable->$operation())
-                {
+        foreach ($supported_operations as $operation) {
+            if (array_key_exists($operation, $_POST)) {
+                if (!$this->_deliverable->$operation()) {
                     throw new midcom_error('Operation failed. Last Midgard error was: ' . midcom_connection::get_error_string());
                 }
                 // Get user back to the sales project

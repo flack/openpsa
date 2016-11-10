@@ -20,16 +20,14 @@ class org_openpsa_invoices_handler_goto extends midcom_baseclasses_components_ha
      */
     public function _handler_goto($handler_id, array $args, array &$data)
     {
-        if (!isset($_GET['query']))
-        {
+        if (!isset($_GET['query'])) {
             midcom::get()->uimessages->add($this->_l10n->get('invoice was not found'), $this->_l10n->get('no invoice number was handed over'), 'info');
             return new midcom_response_relocate('');
         }
 
         $invoicenumber = (int) $_GET['query'] ;
 
-        if ($invoice = org_openpsa_invoices_invoice_dba::get_by_number($invoicenumber))
-        {
+        if ($invoice = org_openpsa_invoices_invoice_dba::get_by_number($invoicenumber)) {
             return new midcom_response_relocate('invoice/' . $invoice->guid . '/');
         }
 

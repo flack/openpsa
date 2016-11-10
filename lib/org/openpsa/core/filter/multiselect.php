@@ -22,17 +22,14 @@ class org_openpsa_core_filter_multiselect extends org_openpsa_core_filter_select
         $head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.core/jquery-ui-multiselect-widget/src/jquery.multiselect.min.js');
 
         $lang = midcom::get()->i18n->get_current_language();
-        if (!file_exists(MIDCOM_STATIC_ROOT . "/org.openpsa.core/jquery-ui-multiselect-widget/i18n/jquery.multiselect.{$lang}.js"))
-        {
+        if (!file_exists(MIDCOM_STATIC_ROOT . "/org.openpsa.core/jquery-ui-multiselect-widget/i18n/jquery.multiselect.{$lang}.js")) {
             $lang = midcom::get()->i18n->get_fallback_language();
-            if (!file_exists(MIDCOM_STATIC_ROOT . "/org.openpsa.core/jquery-ui-multiselect-widget/i18n/jquery.multiselect.{$lang}.js"))
-            {
+            if (!file_exists(MIDCOM_STATIC_ROOT . "/org.openpsa.core/jquery-ui-multiselect-widget/i18n/jquery.multiselect.{$lang}.js")) {
                 $lang = false;
             }
         }
 
-        if ($lang)
-        {
+        if ($lang) {
             $head->add_jsfile(MIDCOM_STATIC_URL . "/org.openpsa.core/jquery-ui-multiselect-widget/i18n/jquery.multiselect.{$lang}.js");
         }
     }
@@ -44,15 +41,12 @@ class org_openpsa_core_filter_multiselect extends org_openpsa_core_filter_select
     {
         $options = $this->_get_options();
 
-        if (!empty($options))
-        {
+        if (!empty($options)) {
             echo '<select class="filter_input" id="select_' . $this->name . '" name="' . $this->name . '[]" size="1" multiple="multiple" >';
 
-            foreach ($options as $option)
-            {
+            foreach ($options as $option) {
                 echo '<option value="' . $option['id'] . '"';
-                if ($option['selected'] == true)
-                {
+                if ($option['selected'] == true) {
                     echo " selected=\"selected\"";
                 }
                 echo '>' . $option['title'] . "</option>\n";

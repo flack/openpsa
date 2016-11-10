@@ -14,25 +14,19 @@ class midcom_helper_datamanager2_qfrule_checkjsdate extends HTML_QuickForm_Rule
     function validate($value, $options = null)
     {
         if (   !is_array($value)
-            || !isset($value[0][$options . '_date']))
-        {
+            || !isset($value[0][$options . '_date'])) {
             debug_add('value is not an array or date is missing');
             return false;
         }
         // This comes from AJAX editor. @todo: Find out why the format is different
-        if (is_string($value[0]))
-        {
+        if (is_string($value[0])) {
             $date = $value[0];
-        }
-        else
-        {
+        } else {
             $date = $value[0][$options . '_date'];
         }
-        if (isset($value[0][$options . '_hours']))
-        {
+        if (isset($value[0][$options . '_hours'])) {
             $time = $this->_sanitize_time($value, $options);
-            if ($time === false)
-            {
+            if ($time === false) {
                 return false;
             }
             $date .= $time;
@@ -44,14 +38,12 @@ class midcom_helper_datamanager2_qfrule_checkjsdate extends HTML_QuickForm_Rule
          */
         if (   $date == ""
             || $date == "0000-00-00"
-            || $date == "0000-00-00 00:00:00")
-        {
+            || $date == "0000-00-00 00:00:00") {
             debug_add("value {$date} is assumed to be intentionally blank");
             return true;
         }
         if (    preg_match("/^\d{4}-\d{2}-\d{2}/", $date) == 0
-             && preg_match("/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}/", $date) == 0)
-        {
+             && preg_match("/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}/", $date) == 0) {
             debug_add("value {$date} is incorrectly formatted");
             return false;
         }
@@ -59,8 +51,7 @@ class midcom_helper_datamanager2_qfrule_checkjsdate extends HTML_QuickForm_Rule
         $date_time = explode(" ", $date);
         $date_array = explode("-", $date);
 
-        if (is_array($date_time))
-        {
+        if (is_array($date_time)) {
             $date_array = explode("-", $date_time[0]);
         }
 
@@ -71,38 +62,28 @@ class midcom_helper_datamanager2_qfrule_checkjsdate extends HTML_QuickForm_Rule
     {
         if (   empty($value[0][$options . '_hours'])
             && empty($value[0][$options . '_minutes'])
-            && empty($value[0][$options . '_seconds']))
-        {
+            && empty($value[0][$options . '_seconds'])) {
             return '';
         }
         $hours = $value[0][$options . '_hours'];
-        if (!$this->_check_time($hours, 24))
-        {
+        if (!$this->_check_time($hours, 24)) {
             return false;
         }
 
-        if (isset($value[0][$options . '_minutes']))
-        {
+        if (isset($value[0][$options . '_minutes'])) {
             $minutes = $value[0][$options . '_minutes'];
-            if (!$this->_check_time($minutes, 60))
-            {
+            if (!$this->_check_time($minutes, 60)) {
                 return false;
             }
-        }
-        else
-        {
+        } else {
             $minutes = '00';
         }
-        if (isset($value[0][$options . '_seconds']))
-        {
+        if (isset($value[0][$options . '_seconds'])) {
             $seconds = $value[0][$options . '_seconds'];
-            if (!$this->_check_time($seconds, 60))
-            {
+            if (!$this->_check_time($seconds, 60)) {
                 return false;
             }
-        }
-        else
-        {
+        } else {
             $seconds = '00';
         }
 

@@ -45,14 +45,12 @@ class midcom_helper_formatter
      */
     public static function format($content, $name)
     {
-        if (!isset(self::$_filters[$name]))
-        {
+        if (!isset(self::$_filters[$name])) {
             return $content;
         }
 
         ob_start();
-        switch ($name)
-        {
+        switch ($name) {
             case 's':
                 //display as-is
             case 'h':
@@ -82,17 +80,14 @@ class midcom_helper_formatter
         $variable_parts = explode(':', $variable[1]);
         $variable = '$' . $variable_parts[0];
 
-        if (strpos($variable, '.') !== false)
-        {
+        if (strpos($variable, '.') !== false) {
             $parts = explode('.', $variable);
             $variable = $parts[0] . '->' . $parts[1];
         }
 
         if (    isset($variable_parts[1])
-             && array_key_exists($variable_parts[1], self::$_filters))
-        {
-            switch ($variable_parts[1])
-            {
+             && array_key_exists($variable_parts[1], self::$_filters)) {
+            switch ($variable_parts[1]) {
                 case 's':
                     //display as-is
                 case 'h':
@@ -108,9 +103,7 @@ class midcom_helper_formatter
                     $command = $function . '(' . $variable . ')';
                     break;
             }
-        }
-        else
-        {
+        } else {
             $command = 'echo htmlentities(' . $variable . ', ENT_COMPAT, midcom::get(\'i18n\')->get_current_charset())';
         }
 

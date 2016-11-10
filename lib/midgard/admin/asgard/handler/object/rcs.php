@@ -52,8 +52,7 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
         $this->_object = midcom::get()->dbfactory->get_object_by_guid($this->_guid);
 
         if (   !midcom::get()->config->get('midcom_services_rcs_enable')
-            || !$this->_object->_use_rcs)
-        {
+            || !$this->_object->_use_rcs) {
             throw new midcom_error_notfound("Revision control not supported for " . get_class($this->_object) . ".");
         }
 
@@ -61,8 +60,7 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
         $rcs = midcom::get()->rcs;
         $this->_backend = $rcs->load_handler($this->_object);
 
-        if (get_class($this->_object) != 'midcom_db_topic')
-        {
+        if (get_class($this->_object) != 'midcom_db_topic') {
             $this->bind_view_to_object($this->_object);
         }
     }
@@ -81,16 +79,14 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
 
         $keys = array_keys($this->_backend->list_history());
 
-        if (isset($keys[0]))
-        {
+        if (isset($keys[0])) {
             $first = end($keys);
             $last = $keys[0];
         }
 
         $this->_request_data['rcs_toolbar'] = new midcom_helper_toolbar();
         $buttons = array();
-        if (isset($first))
-        {
+        if (isset($first)) {
             $buttons[] = array
             (
                 MIDCOM_TOOLBAR_URL => "{$prefix}__mfa/asgard/object/rcs/preview/{$this->_guid}/{$first}",
@@ -100,17 +96,14 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
             );
         }
 
-        if (!empty($current))
-        {
+        if (!empty($current)) {
             $previous = $this->_backend->get_prev_version($current);
-            if (!$previous)
-            {
+            if (!$previous) {
                 $previous = $first;
             }
 
             $next = $this->_backend->get_next_version($current);
-            if (!$next)
-            {
+            if (!$next) {
                 $next = $last;
             }
 
@@ -155,8 +148,7 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
             );
         }
 
-        if (isset($last))
-        {
+        if (isset($last)) {
             $buttons[] = array
             (
                 MIDCOM_TOOLBAR_URL => "{$prefix}__mfa/asgard/object/rcs/preview/{$this->_guid}/{$last}",
@@ -179,8 +171,7 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
             )
         );
 
-        if (!empty($current))
-        {
+        if (!empty($current)) {
             $buttons[] = array
             (
                 MIDCOM_TOOLBAR_URL => "{$prefix}__mfa/asgard/object/rcs/restore/{$this->_guid}/{$current}/",
@@ -197,8 +188,7 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
      */
     private function _prepare_toolbars($revision = '', $diff_view = false)
     {
-        if ($revision == '')
-        {
+        if ($revision == '') {
             return;
         }
 
@@ -207,29 +197,23 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
         $after  = $this->_backend->get_next_version($revision);
 
         $show_previous = false;
-        if ($diff_view)
-        {
+        if ($diff_view) {
             if (   $before != ''
-                && $before2 != '')
-            {
+                && $before2 != '') {
                 // When browsing diffs we want to display buttons to previous instead of current
                 $first = $before2;
                 $second = $before;
                 $show_previous = true;
             }
-        }
-        else
-        {
-            if ($before != '')
-            {
+        } else {
+            if ($before != '') {
                 $first = $before;
                 $second = $revision;
                 $show_previous = true;
             }
         }
         $buttons = array();
-        if ($show_previous)
-        {
+        if ($show_previous) {
             $buttons[] = array
             (
                 MIDCOM_TOOLBAR_URL => "__mfa/asgard/object/rcs/diff/{$this->_guid}/{$first}/{$second}/",
@@ -246,8 +230,7 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
         );
 
         // Display restore and next buttons only if we're not in latest revision
-        if ($after != '')
-        {
+        if ($after != '') {
             $buttons[] = array
             (
                 MIDCOM_TOOLBAR_URL => "__mfa/asgard/object/rcs/restore/{$this->_guid}/{$revision}/",
@@ -279,21 +262,14 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
         midcom::get()->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
 
         // Check if the comparison request is valid
-        if (isset($_REQUEST['compare']))
-        {
-            if (count($_REQUEST['compare']) !== 2)
-            {
+        if (isset($_REQUEST['compare'])) {
+            if (count($_REQUEST['compare']) !== 2) {
                 midcom::get()->uimessages->add($this->_l10n->get('midgard.admin.asgard'), $this->_l10n->get('select exactly two choices'));
-            }
-            else
-            {
-                if (version_compare($_REQUEST['compare'][0], '<', $_REQUEST['compare'][1]))
-                {
+            } else {
+                if (version_compare($_REQUEST['compare'][0], '<', $_REQUEST['compare'][1])) {
                     $first = $_REQUEST['compare'][0];
                     $last = $_REQUEST['compare'][1];
-                }
-                else
-                {
+                } else {
                     $first = $_REQUEST['compare'][1];
                     $last = $_REQUEST['compare'][0];
                 }
@@ -340,8 +316,7 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
         $this->_load_object();
 
         if (   !$this->_backend->version_exists($args[1])
-            || !$this->_backend->version_exists($args[2]))
-        {
+            || !$this->_backend->version_exists($args[2])) {
             throw new midcom_error_notfound("One of the revisions {$args[1]} or {$args[2]} does not exist.");
         }
 
@@ -429,8 +404,7 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
         $this->_prepare_toolbars($args[1]);
 
         if (   $this->_backend->version_exists($args[1])
-            && $this->_backend->restore_to_revision($args[1]))
-        {
+            && $this->_backend->restore_to_revision($args[1])) {
             midcom::get()->uimessages->add($this->_l10n->get('no.bergfald.rcs'), sprintf($this->_l10n->get('restore to version %s successful'), $args[1]));
             return new midcom_response_relocate("__mfa/asgard/object/open/{$this->_guid}/");
         }

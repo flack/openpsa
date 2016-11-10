@@ -22,12 +22,9 @@ abstract class midcom_compat_environment
 
     public static function initialize()
     {
-        if (defined('OPENPSA2_UNITTEST_RUN'))
-        {
+        if (defined('OPENPSA2_UNITTEST_RUN')) {
             self::$_implementation = new midcom_compat_unittest();
-        }
-        else
-        {
+        } else {
             self::$_implementation = new midcom_compat_default();
         }
     }
@@ -51,8 +48,7 @@ class midcom_compat_default extends midcom_compat_environment
     public function __construct()
     {
         if (   php_sapi_name() != 'cli'
-            || !empty($_SERVER['REMOTE_ADDR']))
-        {
+            || !empty($_SERVER['REMOTE_ADDR'])) {
             $this->_httpd_setup();
         }
     }
@@ -69,13 +65,11 @@ class midcom_compat_default extends midcom_compat_environment
          */
         $redirect_test_uri = (string)$_SERVER['REQUEST_URI'];
         if (   !isset($_SERVER['MIDCOM_COMPAT_REDIR'])
-            || (bool)$_SERVER['MIDCOM_COMPAT_REDIR'] !== false)
-        {
+            || (bool)$_SERVER['MIDCOM_COMPAT_REDIR'] !== false) {
             $redirect_test_uri = preg_replace('/\.html$/', '', $redirect_test_uri);
         }
         if (   !preg_match('%\?|/$|midcom-.+-|/.*\.[^/]+$%', $redirect_test_uri)
-            && (empty($_POST)))
-        {
+            && (empty($_POST))) {
             $this->header('HTTP/1.0 301 Moved Permanently');
             $this->header("Location: {$redirect_test_uri}/");
             $redirect_test_uri_clean = htmlentities($redirect_test_uri);
@@ -116,12 +110,13 @@ class midcom_compat_unittest extends midcom_compat_environment
 {
     private static $_headers = array();
 
-    public function __construct() {}
+    public function __construct()
+    {
+    }
 
     public function header($string, $replace = true, $http_response_code = null)
     {
-        if (preg_match('/^Location: (.*?)$/', $string, $matches))
-        {
+        if (preg_match('/^Location: (.*?)$/', $string, $matches)) {
             throw new openpsa_test_relocate($matches[1], $http_response_code);
         }
         self::$_headers[] = array
@@ -132,11 +127,17 @@ class midcom_compat_unittest extends midcom_compat_environment
         );
     }
 
-    public function stop_request($message = '') {}
+    public function stop_request($message = '')
+    {
+    }
 
-    public function headers_sent() {}
+    public function headers_sent()
+    {
+    }
 
-    public function setcookie($name, $value = '', $expire = 0, $path = '/', $domain = null, $secure = false, $httponly = false) {}
+    public function setcookie($name, $value = '', $expire = 0, $path = '/', $domain = null, $secure = false, $httponly = false)
+    {
+    }
 
     public static function flush_registered_headers()
     {

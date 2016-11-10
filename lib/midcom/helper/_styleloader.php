@@ -143,34 +143,29 @@ class midcom_helper__styleloader
     public function get_style_path_from_id($id)
     {
         static $path_cache = array();
-        if (!isset($path_cache[$id]))
-        {
+        if (!isset($path_cache[$id])) {
             // Construct the path
             $path_parts = array();
             $original_id = $id;
 
-            try
-            {
-                while (($style = new midcom_db_style($id)))
-                {
+            try {
+                while (($style = new midcom_db_style($id))) {
                     $path_parts[] = $style->name;
                     $id = $style->up;
 
-                    if ($style->up == 0)
-                    {
+                    if ($style->up == 0) {
                         // Toplevel style
                         break;
                     }
 
                     if (   midcom::get()->config->get('styleengine_relative_paths')
-                        && $style->up == midcom_connection::get('style'))
-                    {
+                        && $style->up == midcom_connection::get('style')) {
                         // Relative path, stop before going to main Midgard style
                         break;
                     }
                 }
+            } catch (midcom_error $e) {
             }
-            catch (midcom_error $e){}
 
             $path_parts = array_reverse($path_parts);
 
@@ -196,18 +191,15 @@ class midcom_helper__styleloader
         static $cached = array();
 
         if (   midcom::get()->config->get('styleengine_relative_paths')
-            && $rootstyle == 0)
-        {
+            && $rootstyle == 0) {
             // Relative paths in use, start seeking from under the style used for the Midgard host
             $rootstyle = midcom_connection::get('style');
         }
 
-        if (!isset($cached[$rootstyle]))
-        {
+        if (!isset($cached[$rootstyle])) {
             $cached[$rootstyle] = array();
         }
-        if (array_key_exists($path, $cached[$rootstyle]))
-        {
+        if (array_key_exists($path, $cached[$rootstyle])) {
             return $cached[$rootstyle][$path];
         }
 
@@ -216,13 +208,11 @@ class midcom_helper__styleloader
         $current_style = 0;
 
         $path_array = array_filter(explode('/', $path));
-        if (count($path_array) > 0)
-        {
+        if (count($path_array) > 0) {
             $current_style = $rootstyle;
         }
 
-        foreach ($path_array as $path_item)
-        {
+        foreach ($path_array as $path_item) {
             $mc = midgard_style::new_collector('up', $current_style);
             $mc->set_key_property('guid');
             $mc->add_value_property('id');
@@ -230,15 +220,13 @@ class midcom_helper__styleloader
             $mc->execute();
             $styles = $mc->list_keys();
 
-            foreach (array_keys($styles) as $style_guid)
-            {
+            foreach (array_keys($styles) as $style_guid) {
                 $current_style = $mc->get_subkey($style_guid, 'id');
                 midcom::get()->cache->content->register($style_guid);
             }
         }
 
-        if ($current_style != 0)
-        {
+        if ($current_style != 0) {
             $cached[$rootstyle][$path] = $current_style;
         }
 
@@ -257,12 +245,10 @@ class midcom_helper__styleloader
     private function _get_element_in_styletree($id, $name)
     {
         static $cached = array();
-        if (!isset($cached[$id]))
-        {
+        if (!isset($cached[$id])) {
             $cached[$id] = array();
         }
-        if (array_key_exists($name, $cached[$id]))
-        {
+        if (array_key_exists($name, $cached[$id])) {
             return $cached[$id][$name];
         }
 
@@ -273,8 +259,7 @@ class midcom_helper__styleloader
         $element_mc->execute();
         $elements = $element_mc->list_keys();
 
-        foreach ($elements as $element_guid => $value)
-        {
+        foreach ($elements as $element_guid => $value) {
             $value = $element_mc->get_subkey($element_guid, 'value');
             midcom::get()->cache->content->register($element_guid);
             $cached[$id][$name] = $value;
@@ -288,13 +273,11 @@ class midcom_helper__styleloader
         $style_mc->execute();
         $styles = $style_mc->list_keys();
 
-        foreach ($styles as $style_guid => $value)
-        {
+        foreach ($styles as $style_guid => $value) {
             // FIXME: Should we register this also in the other case
             midcom::get()->cache->content->register($style_guid);
 
-            if ($up = $style_mc->get_subkey($style_guid, 'up'))
-            {
+            if ($up = $style_mc->get_subkey($style_guid, 'up')) {
                 $value = $this->_get_element_in_styletree($up, $name);
                 $cached[$id][$name] = $value;
                 return $value;
@@ -314,16 +297,14 @@ class midcom_helper__styleloader
      */
     public function show($path)
     {
-        if ($this->_context === array())
-        {
+        if ($this->_context === array()) {
             debug_add("Trying to show '{$path}' but there is no context set", MIDCOM_LOG_INFO);
             return false;
         }
 
         $style = $this->load($path);
 
-        if ($style === false)
-        {
+        if ($style === false) {
             debug_add("The element '{$path}' could not be found.", MIDCOM_LOG_INFO);
             return false;
         }
@@ -342,27 +323,23 @@ class midcom_helper__styleloader
     {
         $element = $path;
         // we have full qualified path to element
-        if (preg_match("|(.*)/(.*)|", $path, $matches))
-        {
+        if (preg_match("|(.*)/(.*)|", $path, $matches)) {
             $stylepath = $matches[1];
             $element = $matches[2];
         }
 
         if (   isset($stylepath)
-            && $styleid = $this->get_style_id_from_path($stylepath))
-        {
+            && $styleid = $this->get_style_id_from_path($stylepath)) {
             array_unshift($this->_scope, $styleid);
         }
 
         $style = $this->_find_element_in_scope($element);
 
-        if (!empty($styleid))
-        {
+        if (!empty($styleid)) {
             array_shift($this->_scope);
         }
 
-        if (!$style)
-        {
+        if (!$style) {
             $style = $this->_get_element_from_snippet($element);
         }
         return $style;
@@ -377,8 +354,7 @@ class midcom_helper__styleloader
      */
     public function parse($style, $path)
     {
-        if (midcom::get()->config->get('wrap_style_show_with_name'))
-        {
+        if (midcom::get()->config->get('wrap_style_show_with_name')) {
             $style = "\n<!-- Start of style '{$path}' -->\n" . $style;
             $style .= "\n<!-- End of style '{$path}' -->\n";
         }
@@ -397,13 +373,11 @@ class midcom_helper__styleloader
     public function render($preparsed, $path, array $data = array())
     {
         if (   empty($data)
-            && midcom_core_context::get()->has_custom_key('request_data'))
-        {
+            && midcom_core_context::get()->has_custom_key('request_data')) {
             $data =& midcom_core_context::get()->get_custom_key('request_data');
         }
 
-        if (eval('?>' . $preparsed) === false)
-        {
+        if (eval('?>' . $preparsed) === false) {
             // Note that src detection will be semi-reliable, as it depends on all errors being
             // found before caching kicks in.
             throw new midcom_error("Failed to parse style element '{$path}', see above for PHP errors.");
@@ -426,39 +400,31 @@ class midcom_helper__styleloader
 
         $this->_snippetdir = MIDCOM_ROOT . '/midcom/style';
         $context = midcom_core_context::get();
-        if (isset($this->_styledirs[$context->id]))
-        {
+        if (isset($this->_styledirs[$context->id])) {
             $styledirs_backup = $this->_styledirs;
         }
 
         $this->_styledirs[$context->id][0] = $this->_snippetdir;
 
-        try
-        {
+        try {
             $root_topic = $context->get_key(MIDCOM_CONTEXT_ROOTTOPIC);
             if (   $root_topic->style
-                && $db_style = $this->get_style_id_from_path($root_topic->style))
-            {
+                && $db_style = $this->get_style_id_from_path($root_topic->style)) {
                 $_style = $this->_get_element_in_styletree($db_style, $_element);
             }
-        }
-        catch (midcom_error_forbidden $e)
-        {
+        } catch (midcom_error_forbidden $e) {
             $e->log();
         }
 
-        if ($_style === false)
-        {
+        if ($_style === false) {
             $_style = $this->_get_element_from_snippet($_element);
         }
 
-        if (isset($styledirs_backup))
-        {
+        if (isset($styledirs_backup)) {
             $this->_styledirs = $styledirs_backup;
         }
 
-        if ($_style !== false)
-        {
+        if ($_style !== false) {
             $this->render($this->parse($_style, $path), $path);
             return true;
         }
@@ -471,17 +437,14 @@ class midcom_helper__styleloader
      */
     private function _find_element_in_scope($_element)
     {
-        if (count($this->_scope) > 0)
-        {
+        if (count($this->_scope) > 0) {
             $src = "{$this->_scope[0]}/{$_element}";
 
-            if (array_key_exists($src, $this->_styles))
-            {
+            if (array_key_exists($src, $this->_styles)) {
                 return $this->_styles[$src];
             }
             if (   $this->_scope[0] != ''
-                && $result = $this->_get_element_in_styletree($this->_scope[0], $_element))
-            {
+                && $result = $this->_get_element_in_styletree($this->_scope[0], $_element)) {
                 $this->_styles[$src] = $result;
                 return $this->_styles[$src];
             }
@@ -495,23 +458,19 @@ class midcom_helper__styleloader
     private function _get_element_from_snippet($_element)
     {
         $src = "{$this->_snippetdir}/{$_element}";
-        if (array_key_exists($src, $this->_snippets))
-        {
+        if (array_key_exists($src, $this->_snippets)) {
             return $this->_snippets[$src];
         }
         if (   midcom::get()->config->get('theme')
-            && $content = midcom_helper_misc::get_element_content($_element))
-        {
+            && $content = midcom_helper_misc::get_element_content($_element)) {
             $this->_snippets[$src] = $content;
             return $content;
         }
 
         $current_context = midcom_core_context::get()->id;
-        foreach ($this->_styledirs[$current_context] as $path)
-        {
+        foreach ($this->_styledirs[$current_context] as $path) {
             $filename = $path .  "/{$_element}.php";
-            if (file_exists($filename))
-            {
+            if (file_exists($filename)) {
                 $this->_snippets[$filename] = file_get_contents($filename);
                 return $this->_snippets[$filename];
             }
@@ -533,67 +492,49 @@ class midcom_helper__styleloader
         // get user defined style for component
         // style inheritance
         // should this be cached somehow?
-        if ($topic->style)
-        {
+        if ($topic->style) {
             $_st = $this->get_style_id_from_path($topic->style);
-        }
-        elseif (!empty($GLOBALS['midcom_style_inherited']))
-        {
+        } elseif (!empty($GLOBALS['midcom_style_inherited'])) {
             // FIXME: This GLOBALS is set by urlparser. Should be removed
             // get user defined style inherited from topic tree
             $_st = $this->get_style_id_from_path($GLOBALS['midcom_style_inherited']);
-        }
-        else
-        {
+        } else {
             // Get style from sitewide per-component defaults.
             $styleengine_default_styles = midcom::get()->config->get('styleengine_default_styles');
-            if (isset($styleengine_default_styles[$topic->component]))
-            {
+            if (isset($styleengine_default_styles[$topic->component])) {
                 $_st = $this->get_style_id_from_path($styleengine_default_styles[$topic->component]);
-            }
-            elseif (midcom::get()->config->get('styleengine_relative_paths'))
-            {
+            } elseif (midcom::get()->config->get('styleengine_relative_paths')) {
                 $_st = midcom_connection::get('style');
             }
         }
 
-        if ($_st)
-        {
+        if ($_st) {
             $substyle = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_SUBSTYLE);
 
-            if (is_string($substyle))
-            {
+            if (is_string($substyle)) {
                 $chain = explode('/', $substyle);
-                foreach ($chain as $stylename)
-                {
-                    if ($_subst_id = $this->get_style_id_from_path($stylename, $_st))
-                    {
+                foreach ($chain as $stylename) {
+                    if ($_subst_id = $this->get_style_id_from_path($stylename, $_st)) {
                         $_st = $_subst_id;
                     }
                 }
             }
-        }
-        else
-        {
+        } else {
             $style = $topic->style;
             if (   !$topic->style
-                && !empty($GLOBALS['midcom_style_inherited']))
-            {
+                && !empty($GLOBALS['midcom_style_inherited'])) {
                 $style = $GLOBALS['midcom_style_inherited'];
             }
             if (   is_string($style)
-                && strpos($style, 'theme:') === 0)
-            {
+                && strpos($style, 'theme:') === 0) {
                 $theme_dir = OPENPSA2_THEME_ROOT . midcom::get()->config->get('theme') . '/style';
                 $parts = explode('/', str_replace('theme:/', '', $style));
 
-                foreach ($parts as &$part)
-                {
+                foreach ($parts as &$part) {
                     $theme_dir = $theme_dir . '/' . $part;
                     $part = $theme_dir;
                 }
-                foreach (array_reverse(array_filter($parts, 'is_dir')) as $dirname)
-                {
+                foreach (array_reverse(array_filter($parts, 'is_dir')) as $dirname) {
                     $this->prepend_styledir($dirname);
                 }
             }
@@ -613,12 +554,10 @@ class midcom_helper__styleloader
         // get component's snippetdir (for default styles)
         $loader = midcom::get()->componentloader;
         if (   !$topic
-            || !$topic->guid)
-        {
+            || !$topic->guid) {
             return null;
         }
-        if (!empty($loader->manifests[$topic->component]->extends))
-        {
+        if (!empty($loader->manifests[$topic->component]->extends)) {
             $this->append_component_styledir($loader->manifests[$topic->component]->extends);
         }
 
@@ -634,8 +573,7 @@ class midcom_helper__styleloader
      */
     function append_styledir($dirname)
     {
-        if (!file_exists($dirname))
-        {
+        if (!file_exists($dirname)) {
             throw new midcom_error("Style directory $dirname does not exist!");
         }
         $this->_styledirs_append[midcom_core_context::get()->id][] = $dirname;
@@ -650,8 +588,7 @@ class midcom_helper__styleloader
      */
     function prepend_styledir($dirname)
     {
-        if (!file_exists($dirname))
-        {
+        if (!file_exists($dirname)) {
             throw new midcom_error("Style directory {$dirname} does not exist.");
         }
         $this->_styledirs_prepend[midcom_core_context::get()->id][] = $dirname;
@@ -694,21 +631,18 @@ class midcom_helper__styleloader
     public function append_substyle($newsub)
     {
         // Make sure try to use only the first argument if we get space separated list, fixes #1788
-        if (strpos($newsub, ' ') !== false)
-        {
+        if (strpos($newsub, ' ') !== false) {
             $newsub = preg_replace('/^(.+?) .+/', '$1', $newsub);
         }
 
-        if (midcom::get()->get_status() < MIDCOM_STATUS_HANDLE)
-        {
+        if (midcom::get()->get_status() < MIDCOM_STATUS_HANDLE) {
             throw new midcom_error("Cannot append a substyle before the HANDLE phase.");
         }
 
         $context = midcom_core_context::get();
         $current_style = $context->get_key(MIDCOM_CONTEXT_SUBSTYLE);
 
-        if (strlen($current_style) > 0)
-        {
+        if (strlen($current_style) > 0) {
             $newsub = $current_style . '/' . $newsub;
         }
 
@@ -725,16 +659,14 @@ class midcom_helper__styleloader
      */
     function prepend_substyle($newsub)
     {
-        if (midcom::get()->get_status() < MIDCOM_STATUS_HANDLE)
-        {
+        if (midcom::get()->get_status() < MIDCOM_STATUS_HANDLE) {
             throw new midcom_error("Cannot prepend a substyle before the HANDLE phase.");
         }
 
         $context = midcom_core_context::get();
         $current_style = $context->get_key(MIDCOM_CONTEXT_SUBSTYLE);
 
-        if (strlen($current_style) > 0)
-        {
+        if (strlen($current_style) > 0) {
             $newsub .= "/" . $current_style;
         }
         debug_add("Updating Component Context Substyle from $current_style to $newsub");
@@ -776,22 +708,18 @@ class midcom_helper__styleloader
         $this->_topic = midcom_core_context::get($context)->get_key(MIDCOM_CONTEXT_CONTENTTOPIC);
 
         // Prepare styledir stacks
-        if (!isset($this->_styledirs[$context]))
-        {
+        if (!isset($this->_styledirs[$context])) {
             $this->_styledirs[$context] = array();
         }
-        if (!isset($this->_styledirs_prepend[$context]))
-        {
+        if (!isset($this->_styledirs_prepend[$context])) {
             $this->_styledirs_prepend[$context] = array();
         }
-        if (!isset($this->_styledirs_append[$context]))
-        {
+        if (!isset($this->_styledirs_append[$context])) {
             $this->_styledirs_append[$context] = array();
         }
 
         if (   $this->_topic
-            && $_st = $this->_get_component_style($this->_topic))
-        {
+            && $_st = $this->_get_component_style($this->_topic)) {
             array_unshift($this->_scope, $_st);
         }
 
@@ -811,8 +739,7 @@ class midcom_helper__styleloader
     public function leave_context()
     {
         if (   $this->_topic
-            && $this->_get_component_style($this->_topic))
-        {
+            && $this->_get_component_style($this->_topic)) {
             array_shift($this->_scope);
         }
         array_shift($this->_context);
@@ -826,8 +753,7 @@ class midcom_helper__styleloader
 
     function get_style()
     {
-        if (is_null($this->object))
-        {
+        if (is_null($this->object)) {
             $this->object = new midcom_db_style(midcom_connection::get('style'));
         }
         return $this->object;
@@ -839,8 +765,7 @@ class midcom_helper__styleloader
     function add_database_head_elements()
     {
         static $called = false;
-        if ($called)
-        {
+        if ($called) {
             return;
         }
         $style = $this->get_style();
@@ -848,8 +773,7 @@ class midcom_helper__styleloader
         $mc->add_constraint('mimetype', '=', 'text/css');
         $attachments = $mc->get_values('name');
 
-        foreach ($attachments as $guid => $filename)
-        {
+        foreach ($attachments as $guid => $filename) {
             // TODO: Support media types
             midcom::get()->head->add_stylesheet(midcom_connection::get_url('self') . "midcom-serveattachmentguid-{$guid}/{$filename}");
         }

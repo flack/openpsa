@@ -3,14 +3,10 @@
     <select name="midgard_type" id="midgard_admin_asgard_navigation_chooser">
         <option value=""><?php echo $data['l10n']->get('midgard.admin.asgard'); ?></option>
 <?php
-foreach ($data['label_mapping'] as $type => $label)
-{
-    if ($type === $data['navigation_type'])
-    {
+foreach ($data['label_mapping'] as $type => $label) {
+    if ($type === $data['navigation_type']) {
         $selected = ' selected="selected"';
-    }
-    else
-    {
+    } else {
         $selected = '';
     }
 

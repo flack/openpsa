@@ -1,8 +1,6 @@
 <?php
-if (array_key_exists('view_group', $data))
-{
-    $view = $data['view_group'];
-    ?>
+if (array_key_exists('view_group', $data)) {
+    $view = $data['view_group']; ?>
     <h1>&(view['code']:h); &(view['title']:h);</h1>
 
     <table>
@@ -16,9 +14,8 @@ if (array_key_exists('view_group', $data))
 
     &(view['description']:h);
     <?php
-}
-else
-{
+
+} else {
     echo "<h1>{$data['view_title']}</h1>\n";
 }
 ?>

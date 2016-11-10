@@ -9,18 +9,15 @@ $qb->begin_group('OR');
 $qb->end_group();
 
 $comments = $qb->execute();
-foreach ($comments as $comment)
-{
+foreach ($comments as $comment) {
     $author = midcom::get()->auth->get_user($comment->metadata->creator);
-    if (!$author->guid)
-    {
+    if (!$author->guid) {
         continue;
     }
 
     $comment->metadata->authors = "|{$author->guid}|";
 
-    if ($author->name)
-    {
+    if ($author->name) {
         $comment->author = $author->name;
     }
 

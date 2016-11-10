@@ -26,8 +26,7 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
 
     public function _on_created()
     {
-        if (!$this->orgOpenpsaObtype)
-        {
+        if (!$this->orgOpenpsaObtype) {
             $this->orgOpenpsaObtype = self::EMAIL_TEXT;
             $this->update();
         }
@@ -37,8 +36,7 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
     {
         $this->title = trim($this->title);
         if (   $this->id
-            && empty($this->title))
-        {
+            && empty($this->title)) {
             $this->title = 'untitled';
         }
     }
@@ -46,8 +44,7 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
     public function get_css_class()
     {
         $class = 'email';
-        switch ($this->orgOpenpsaObtype)
-        {
+        switch ($this->orgOpenpsaObtype) {
             case self::SMS:
             case self::MMS:
                 $class = 'mobile';
@@ -60,12 +57,9 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
                 $class = 'postal';
                 break;
         }
-        if ($this->sendCompleted)
-        {
+        if ($this->sendCompleted) {
             $class .= ' ' . $class . '-completed';
-        }
-        elseif ($this->sendStarted)
-        {
+        } elseif ($this->sendStarted) {
             $class .= ' ' . $class . '-started';
         }
         return $class;

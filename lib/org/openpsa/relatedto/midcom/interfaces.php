@@ -19,25 +19,18 @@ class org_openpsa_relatedto_interface extends midcom_baseclasses_components_inte
     {
         //Check if we have data in session, if so use that.
         $session = new midcom_services_session('org.openpsa.relatedto');
-        if ($session->exists('relatedto2get_array'))
-        {
+        if ($session->exists('relatedto2get_array')) {
             $relatedto_arr = $session->get('relatedto2get_array');
             $session->remove('relatedto2get_array');
-        }
-        else
-        {
+        } else {
             $relatedto_arr = org_openpsa_relatedto_plugin::get2relatedto();
         }
-        foreach ($relatedto_arr as $rel)
-        {
+        foreach ($relatedto_arr as $rel) {
             $rel->fromClass = get_class($object);
             $rel->fromGuid = $object->guid;
-            if (!$rel->id)
-            {
+            if (!$rel->id) {
                 $rel->create();
-            }
-            else
-            {
+            } else {
                 //In theory we should not ever hit this, but better to be sure.
                 $rel->update();
             }
@@ -51,17 +44,15 @@ class org_openpsa_relatedto_interface extends midcom_baseclasses_components_inte
     {
         $qb = org_openpsa_relatedto_dba::new_query_builder();
         $qb->begin_group('OR');
-            $qb->add_constraint('fromGuid', '=', $object->guid);
-            $qb->add_constraint('toGuid', '=', $object->guid);
+        $qb->add_constraint('fromGuid', '=', $object->guid);
+        $qb->add_constraint('toGuid', '=', $object->guid);
         $qb->end_group();
-        if ($qb->count_unchecked() == 0)
-        {
+        if ($qb->count_unchecked() == 0) {
             return;
         }
         midcom::get()->auth->request_sudo($this->_component);
         $links = $qb->execute();
-        foreach ($links as $link)
-        {
+        foreach ($links as $link) {
             $link->delete();
         }
         midcom::get()->auth->drop_sudo();

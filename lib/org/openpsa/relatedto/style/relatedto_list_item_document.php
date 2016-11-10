@@ -11,14 +11,10 @@ $atts = org_openpsa_helpers::get_dm2_attachments($document, 'document');
     <li class="time"><?php echo $data['l10n']->get_formatter()->date($document->metadata->created); ?></li>
     <li class="file">
     <?php
-    if (empty($atts))
-    {
+    if (empty($atts)) {
         echo midcom::get()->i18n->get_string('no files', 'org.openpsa.documents');
-    }
-    else
-    {
-        foreach ($atts as $file)
-        {
+    } else {
+        foreach ($atts as $file) {
             $type = org_openpsa_documents_document_dba::get_file_type($file->mimetype);
             $url = midcom_db_attachment::get_url($file);
             echo "<a target=\"document_{$document->guid}\" href=\"{$url}\">{$file->name}</a> (" . $type . ")";

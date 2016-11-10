@@ -35,30 +35,25 @@ class midcom_admin_folder_handler_move extends midcom_baseclasses_components_han
         $this->_object = midcom::get()->dbfactory->get_object_by_guid($args[0]);
 
         if (   !is_a($this->_object, 'midcom_db_topic')
-            && !is_a($this->_object, 'midcom_db_article'))
-        {
+            && !is_a($this->_object, 'midcom_db_article')) {
             throw new midcom_error_notfound("Moving only topics and articles is supported.");
         }
 
         $this->_object->require_do('midgard:update');
 
-        if (isset($_POST['move_to']))
-        {
+        if (isset($_POST['move_to'])) {
             $this->_move_object((int) $_POST['move_to']);
             return new midcom_response_relocate(midcom::get()->permalinks->create_permalink($this->_object->guid));
         }
 
         $object_label = midcom_helper_reflector::get($this->_object)->get_object_label($this->_object);
 
-        if (is_a($this->_object, 'midcom_db_topic'))
-        {
+        if (is_a($this->_object, 'midcom_db_topic')) {
             // This is a topic
             $this->_object->require_do('midcom.admin.folder:topic_management');
             $this->_node_toolbar->hide_item("__ais/folder/move/{$this->_object->guid}/");
             $data['current_folder'] = new midcom_db_topic($this->_object->up);
-        }
-        else
-        {
+        } else {
             // This is a regular object, bind to view
             $this->bind_view_to_object($this->_object);
 
@@ -79,42 +74,36 @@ class midcom_admin_folder_handler_move extends midcom_baseclasses_components_han
 
     public function show_tree(midcom_db_topic $folder = null, $tree_disabled = false)
     {
-        if (null === $folder)
-        {
+        if (null === $folder) {
             $folder = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ROOTTOPIC);
         }
 
         if (   is_a($this->_object, 'midcom_db_topic')
-            && $folder->up == $this->_object->id)
-        {
+            && $folder->up == $this->_object->id) {
             $tree_disabled = true;
         }
 
         $class = '';
         $selected = '';
         $disabled = '';
-        if ($folder->guid == $this->_request_data['current_folder']->guid)
-        {
+        if ($folder->guid == $this->_request_data['current_folder']->guid) {
             $class = 'current';
             $selected = ' checked="checked"';
         }
 
         if (   !is_a($this->_object, 'midcom_db_topic')
-            && $folder->component !== $this->_request_data['current_folder']->component)
-        {
+            && $folder->component !== $this->_request_data['current_folder']->component) {
             // Non-topic objects may only be moved under folders of same component
             $class = 'wrong_component';
             $disabled = ' disabled="disabled"';
         }
 
-        if ($tree_disabled)
-        {
+        if ($tree_disabled) {
             $class = 'child';
             $disabled = ' disabled="disabled"';
         }
 
-        if ($folder->guid == $this->_object->guid)
-        {
+        if ($folder->guid == $this->_object->guid) {
             $class = 'self';
             $disabled = ' disabled="disabled"';
         }
@@ -126,8 +115,7 @@ class midcom_admin_folder_handler_move extends midcom_baseclasses_components_han
         $qb->add_constraint('component', '<>', '');
         $children = $qb->execute();
 
-        foreach ($children as $child)
-        {
+        foreach ($children as $child) {
             $this->show_tree($child, $tree_disabled);
         }
         echo "</li>\n";
@@ -138,25 +126,21 @@ class midcom_admin_folder_handler_move extends midcom_baseclasses_components_han
     {
         $move_to_topic = new midcom_db_topic();
 
-        if (!$move_to_topic->get_by_id($target))
-        {
+        if (!$move_to_topic->get_by_id($target)) {
             throw new midcom_error( 'Failed to move the topic. Could not get the target topic');
         }
 
         $move_to_topic->require_do('midgard:create');
 
-        if (is_a($this->_object, 'midcom_db_topic'))
-        {
+        if (is_a($this->_object, 'midcom_db_topic')) {
             $name = $this->_object->name;
             $this->_object->name = ''; // Prevents problematic location to break the site, we set this back below...
             $up = $this->_object->up;
             $this->_object->up = $move_to_topic->id;
-            if (!$this->_object->update())
-            {
+            if (!$this->_object->update()) {
                 throw new midcom_error('Failed to move the topic, reason ' . midcom_connection::get_error_string());
             }
-            if (!midcom_admin_folder_management::is_child_listing_finite($this->_object))
-            {
+            if (!midcom_admin_folder_management::is_child_listing_finite($this->_object)) {
                 $this->_object->up = $up;
                 $this->_object->name = $name;
                 $this->_object->update();
@@ -169,12 +153,9 @@ class midcom_admin_folder_handler_move extends midcom_baseclasses_components_han
             // It was ok, so set name back now
             $this->_object->name = $name;
             $this->_object->update();
-        }
-        else
-        {
+        } else {
             $this->_object->topic = $move_to_topic->id;
-            if (!$this->_object->update())
-            {
+            if (!$this->_object->update()) {
                 throw new midcom_error('Failed to move the article, reason ' . midcom_connection::get_error_string());
             }
         }

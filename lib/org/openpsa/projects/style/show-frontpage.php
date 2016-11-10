@@ -27,15 +27,11 @@ $formatter = $data['l10n']->get_formatter();
        </tr>
       </tfoot>
     <?php
-    foreach ($data['customers'] as $customer => $projects)
-    {
-        try
-        {
+    foreach ($data['customers'] as $customer => $projects) {
+        try {
             $customer = new org_openpsa_contacts_group_dba($customer);
             $customer_title = $customer->official;
-        }
-        catch (midcom_error $e)
-        {
+        } catch (midcom_error $e) {
             $customer_title = $data['l10n']->get('no customer');
         }
 
@@ -47,18 +43,13 @@ $formatter = $data['l10n']->get_formatter();
 
         $position = '';
 
-        foreach ($projects as $i => $project)
-        {
-            if ($class == "even")
-            {
+        foreach ($projects as $i => $project) {
+            if ($class == "even") {
                 $class = 'odd';
-            }
-            else
-            {
+            } else {
                 $class = "even";
             }
-            if ($i == sizeof($projects) - 1)
-            {
+            if ($i == sizeof($projects) - 1) {
                 $position = 'bottom';
             }
 
@@ -80,8 +71,7 @@ $formatter = $data['l10n']->get_formatter();
             echo "        <td class=\"numeric\"><span title=\"" . $data['l10n']->get('closed') . "\">{$task_count['closed']}</span></td>\n";
             echo "        <td class=\"numeric\"> " ;
             echo "            <span title=\"" . $data['l10n']->get('reported') .  "\">" . round($hours['reportedHours'], 2) . "</span>";
-            if ($hours['plannedHours'] > 0)
-            {
+            if ($hours['plannedHours'] > 0) {
                 echo          " / <span title=\"" . $data['l10n']->get('planned hours') .  "\">" . round($hours['plannedHours'], 2) . "</span>";
             }
             echo "        </td>\n";

@@ -15,14 +15,12 @@ class net_nehmer_comments_cron_atom extends midcom_baseclasses_components_cron_h
 {
     public function _on_execute()
     {
-        if (!$this->_config->get('atom_comments_import_enable'))
-        {
+        if (!$this->_config->get('atom_comments_import_enable')) {
             debug_add('Import of Atom comment feeds disabled, aborting', MIDCOM_LOG_INFO);
             return;
         }
 
-        if (!midcom::get()->auth->request_sudo('net.nehmer.comments'))
-        {
+        if (!midcom::get()->auth->request_sudo('net.nehmer.comments')) {
             debug_add('Could not get sudo, aborting operation', MIDCOM_LOG_ERROR);
             return;
         }
@@ -34,12 +32,10 @@ class net_nehmer_comments_cron_atom extends midcom_baseclasses_components_cron_h
         $qb->set_limit(50);
         $articles = $qb->execute();
 
-        foreach ($articles as $article)
-        {
+        foreach ($articles as $article) {
             $replies_url = $article->get_parameter('net.nemein.rss', 'replies_url');
 
-            if (empty($replies_url))
-            {
+            if (empty($replies_url)) {
                 // no replies-url for this article. skipping
                 continue;
             }
@@ -47,22 +43,18 @@ class net_nehmer_comments_cron_atom extends midcom_baseclasses_components_cron_h
             // fetch and parse Feed from URL
             $comments = net_nemein_rss_fetch::raw_fetch($replies_url)->get_items();
 
-            foreach ($comments as $comment)
-            {
+            foreach ($comments as $comment) {
                 $qb = net_nehmer_comments_comment::new_query_builder();
                 $qb->add_constraint('remoteid', '=', $comment->get_id());
                 $db_comments = $qb->execute();
 
-                if (count($db_comments) > 0)
-                {
+                if (count($db_comments) > 0) {
                     $db_comment = $db_comments[0];
 
                     $db_comment->title = $comment->get_title();
                     $db_comment->content = $comment->get_description();
                     $db_comment->update();
-                }
-                else
-                {
+                } else {
                     $author_info = net_nemein_rss_fetch::parse_item_author($comment);
 
                     $db_comment = new net_nehmer_comments_comment();

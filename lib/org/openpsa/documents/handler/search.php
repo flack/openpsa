@@ -29,8 +29,7 @@ class org_openpsa_documents_handler_search extends midcom_baseclasses_components
     public function _handler_search($handler_id, array $args, array &$data)
     {
         $this->_request_data['results'] = array();
-        if (array_key_exists('query', $_GET))
-        {
+        if (array_key_exists('query', $_GET)) {
             // Figure out where we are
             $nap = new midcom_helper_nav();
             $node = $nap->get_node($nap->get_current_node());
@@ -60,8 +59,7 @@ class org_openpsa_documents_handler_search extends midcom_baseclasses_components
      */
     private function _populate_toolbar()
     {
-        if ($this->_request_data['directory']->can_do('midgard:create'))
-        {
+        if ($this->_request_data['directory']->can_do('midgard:create')) {
             $workflow = $this->get_workflow('datamanager2');
             $this->_view_toolbar->add_item($workflow->get_button("document/create/", array
             (
@@ -85,20 +83,15 @@ class org_openpsa_documents_handler_search extends midcom_baseclasses_components
     {
         $displayed = 0;
         midcom_show_style('show-search-header');
-        if (!empty($this->_request_data['results']))
-        {
+        if (!empty($this->_request_data['results'])) {
             midcom_show_style('show-search-results-header');
-            foreach ($this->_request_data['results'] as $document)
-            {
-                try
-                {
+            foreach ($this->_request_data['results'] as $document) {
+                try {
                     // $obj->RI will contain either document or attachment GUID depending on match,
                     // ->source will always contain the document GUID
                     $data['document'] = new org_openpsa_documents_document_dba($document->source);
                     $this->_datamanagers['document']->autoset_storage($data['document']);
-                }
-                catch (Exception $e)
-                {
+                } catch (Exception $e) {
                     $e->log();
                     continue;
                 }
@@ -110,8 +103,7 @@ class org_openpsa_documents_handler_search extends midcom_baseclasses_components
             }
             midcom_show_style('show-search-results-footer');
         }
-        if ($displayed == 0)
-        {
+        if ($displayed == 0) {
             midcom_show_style('show-search-noresults');
         }
         midcom_show_style('show-search-footer');
