@@ -225,7 +225,7 @@ class midcom_connection
      *
      * @param string $username The username as entered
      * @param string $password The password as entered
-     * @param boolean $trusted Use trusted auth (mgd1 only, ATM)
+     * @param boolean $trusted Use trusted auth
      * @return mixed The appropriate object or false
      */
     public static function login($username, $password, $trusted = false)
