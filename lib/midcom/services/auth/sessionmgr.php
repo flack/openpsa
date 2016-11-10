@@ -43,26 +43,26 @@ class midcom_services_auth_sessionmgr
      *
      * @var string
      */
-    var $current_session_id;
+    private $current_session_id;
 
     /**
      * @var midcom_services_auth
      */
-    var $auth;
+    private $auth;
 
     /**
      * Currently authenticated midgard_user object
      *
      * @var midgard_user
      */
-    var $user;
+    private $user;
 
     /**
      * Currently authenticated midgard_person object
      *
      * @var midgard_person
      */
-    var $person;
+    private $person;
 
     /**
      * Simple, currently empty default constructor.

@@ -16,12 +16,7 @@ class org_openpsa_contacts_duplicates_check
     /**
      * Used to store map of probabilities when seeking duplicates for given person/group
      */
-    var $p_map = array();
-
-    /**
-     * Pointer to component configuration object.
-     */
-    var $config = null;
+    private $p_map = array();
 
     /**
      * Cache memberships when possible

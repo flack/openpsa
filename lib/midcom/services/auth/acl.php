@@ -247,7 +247,7 @@ class midcom_services_auth_acl
      *
      * @var midcom_services_auth
      */
-    var $auth = null;
+    private $auth = null;
 
     /**
      * This is an internal flag used to override all regular permission checks with a sort-of

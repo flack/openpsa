@@ -168,7 +168,7 @@ class midcom_helper_toolbar
      *
      * @var Array
      */
-    var $items = array();
+    public $items = array();
 
     /**
      * Allow our users to add arbitrary data to the toolbar.
@@ -181,7 +181,7 @@ class midcom_helper_toolbar
      *
      * @var Array
      */
-    var $customdata = Array();
+    public $customdata = Array();
 
     /**
      * Basic constructor, initializes the class and sets defaults for the

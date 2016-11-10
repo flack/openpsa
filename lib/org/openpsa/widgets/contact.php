@@ -51,7 +51,7 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
      *
      * @var string
      */
-    var $prefix_html = null;
+    public $prefix_html = null;
 
     /**
      * Whether to show person's groups in a list
