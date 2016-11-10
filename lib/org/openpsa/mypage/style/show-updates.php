@@ -47,4 +47,3 @@ foreach ($view_types as $type)
         echo "</ul></div>\n";
     }
 }
-?>

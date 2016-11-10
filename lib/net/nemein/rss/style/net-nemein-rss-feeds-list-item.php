@@ -35,4 +35,3 @@ if ($data['feed']->latestfetch)
 echo "    </ul>\n";
 echo $data['feed_toolbar']->render();
 echo "</li>\n";
-?>

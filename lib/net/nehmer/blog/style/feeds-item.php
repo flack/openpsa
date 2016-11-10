@@ -81,4 +81,3 @@ if (midcom::get()->config->get('positioning_enable'))
 }
 
 $data['feedcreator']->addItem($item);
-?>

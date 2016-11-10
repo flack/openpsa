@@ -12,4 +12,3 @@ else
     $exporter->read_root($_GET['root']);
 }
 echo "Export to {$exporter->root_dir} completed\n";
-?>

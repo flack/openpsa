@@ -32,4 +32,3 @@ else
         echo "No location found";
     }
 }
-?>

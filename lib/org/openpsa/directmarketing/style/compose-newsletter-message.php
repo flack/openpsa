@@ -6,4 +6,3 @@ if ($blog_node)
 {
     midcom::get()->dynamic_load("{$blog_node[MIDCOM_NAV_RELATIVEURL]}latest/{$data['message_array']['newsitems']}");
 }
-?>

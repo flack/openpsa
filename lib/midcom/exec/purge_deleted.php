@@ -54,4 +54,3 @@ foreach ($handler->get_classes() as $mgdschema)
 echo "Done.\n";
 echo "</pre>";
 ob_start();
-?>

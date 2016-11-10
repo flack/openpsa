@@ -98,4 +98,3 @@ foreach ($positions as $position)
     echo "    </position>\n";
 }
 echo "</results>\n";
-?>

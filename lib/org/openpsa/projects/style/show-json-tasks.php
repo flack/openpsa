@@ -19,4 +19,3 @@ foreach ($tasks as $task)
 }
 
 echo json_encode($task_array);
-?>

@@ -49,4 +49,3 @@ if ($ip_sudo)
     midcom::get()->auth->drop_sudo();
 }
 ob_start();
-?>

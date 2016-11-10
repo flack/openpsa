@@ -33,4 +33,3 @@ foreach ($pages as $page)
     echo midcom_connection::get_error_string();
     echo "<br />\n";
 }
-?>

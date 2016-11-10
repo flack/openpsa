@@ -25,4 +25,3 @@ $dfinder->mark_all(true);
 midcom::get()->auth->drop_sudo();
 echo " ** ALL DONE<br/>\n";
 echo "</p>\n";
-?>

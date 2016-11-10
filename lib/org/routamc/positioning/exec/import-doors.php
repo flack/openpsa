@@ -34,4 +34,3 @@ foreach ($doors->entrances as $entrance)
     echo "{$location->building}: " . midcom_connection::get_error_string() . "\n";
 }
 echo "</pre>\n";
-?>

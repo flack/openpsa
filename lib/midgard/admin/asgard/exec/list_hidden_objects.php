@@ -70,4 +70,3 @@ foreach ($articles as $article)
     echo "<a href='{$crumb['napobject'][MIDCOM_NAV_FULLURL]}{$article->name}/'>{$article->title}</a>";
     echo " (<a href='{$host_prefix}__mfa/asgard/object/view/{$article->guid}'>in Asgard</a>)<br/>\n";
 }
-?>

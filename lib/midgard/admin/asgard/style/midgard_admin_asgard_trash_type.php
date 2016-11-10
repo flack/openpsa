@@ -141,4 +141,3 @@ else
 {
     echo "<p>" . $data['l10n']->get('trash is empty') . "</p>\n";
 }
-?>

@@ -13,4 +13,3 @@ if (count($data['help_files']) > 0)
     }
     echo "</ul>\n";
 }
-?>

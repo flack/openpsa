@@ -1,1 +1,1 @@
-<?php midcom_show_style('index-item'); ?>
+<?php midcom_show_style('index-item');

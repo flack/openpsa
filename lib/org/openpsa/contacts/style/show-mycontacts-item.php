@@ -10,4 +10,3 @@ $contactwidget->link = "{$prefix}person/{$contact->guid}/";
 $contactwidget->prefix_html .= '<input type="image" style="float: right;" src="' . MIDCOM_STATIC_URL . '/stock-icons/16x16/trash.png" class="delete" id="org_openpsa_contacts_mycontactsremove-' . $contact->guid . '" value="' . $delete_string . '" title="' . $delete_string . '" alt="' . $delete_string . '" />';
 
 $contactwidget->show();
-?>

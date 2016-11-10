@@ -103,4 +103,3 @@ echo "Reindex complete for node {$node[MIDCOM_NAV_FULLURL]}\n</pre>";
 flush();
 // re-enable ob
 ob_start();
-?>

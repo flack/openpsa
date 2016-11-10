@@ -29,4 +29,3 @@ $session->set($argv[0], $builder->getPhrase());
 // Render the Captcha
 midcom::get()->header('Content-Type: image/jpeg');
 $builder->output();
-?>

@@ -27,4 +27,3 @@ else
 }
 echo "<dt class=\"{$class}\"><a href=\"{$prefix}campaign/{$data['campaign']->guid}/\">{$data['campaign']->title}</a>{$unsubscribe_code}</dt>\n";
 echo "    <dd class=\"description\">{$data['campaign']->description}</dd>\n";
-?>

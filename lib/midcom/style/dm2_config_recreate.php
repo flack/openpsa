@@ -32,4 +32,3 @@ foreach ($this->data['objects'] as $object)
 echo "</pre>\n";
 
 echo "<p>" . midcom::get()->i18n->get_string('done', 'midcom') . "</p>\n";
-?>

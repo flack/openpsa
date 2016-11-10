@@ -38,4 +38,3 @@ foreach ($lines as $line)
     echo midcom_connection::get_error_string();
     flush();
 }
-?>

@@ -112,4 +112,3 @@ while ($run < $run_times)
 }
 $average = $total_time / $run_times;
 echo "<p>Query took {$total_time} seconds (on average {$average} seconds per query).</p>";
-?>

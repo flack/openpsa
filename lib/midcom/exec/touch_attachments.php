@@ -27,4 +27,3 @@ foreach ($atts as $att)
 echo "</pre>\n";
 
 echo "<p>DONE</p>\n";
-?>

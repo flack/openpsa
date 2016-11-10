@@ -40,4 +40,3 @@ if (   isset($_POST['latitude'])
 }
 
 echo json_encode(org_routamc_positioning_user::get_location());
-?>

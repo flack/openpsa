@@ -8,4 +8,3 @@ if ($data['event']->can_do('org.openpsa.calendar:read'))
 
     midcom::get()->dynamic_load("{$node[MIDCOM_NAV_RELATIVEURL]}__mfa/org.openpsa.relatedto/render/{$data['event']->guid}/in/normal/");
 }
-?>

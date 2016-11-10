@@ -48,4 +48,3 @@ else
 {
     echo "<p>" . $data['l10n']->get('no routes found') . "</p>";
 }
-?>

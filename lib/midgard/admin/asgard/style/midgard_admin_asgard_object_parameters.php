@@ -65,4 +65,3 @@ if (count($data['parameters']) > 0)
     echo "    </tbody>\n";
     echo "</table>\n";
 }
-?>

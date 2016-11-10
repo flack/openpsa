@@ -14,4 +14,3 @@ else
 {
     echo "Failed to get position, last error is {$html->error}";
 }
-?>

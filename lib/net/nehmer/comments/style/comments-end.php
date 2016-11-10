@@ -5,4 +5,3 @@ if (isset($data['qb_pager']))
     $data['qb_pager']->show_pages();
     echo "</div>\n";
 }
-?>

@@ -20,4 +20,3 @@ if ($product->productGroup)
 }
 
 $data['rss_creator']->addItem($item);
-?>

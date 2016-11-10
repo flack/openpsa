@@ -1,3 +1,2 @@
 <?php
 $data['provider']->render();
-?>

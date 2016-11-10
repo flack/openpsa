@@ -16,4 +16,3 @@ if (isset($_POST['org_openpsa_export_csv_filename']))
 midcom::get()->header('Content-type: application/csv; charset=utf-8');
 midcom::get()->header('Content-Disposition: attachment;Filename=' . $filename);
 echo $_POST['org_openpsa_export_csv_data'];
-?>
