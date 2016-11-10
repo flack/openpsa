@@ -99,7 +99,7 @@ midcom::get()->auth->require_valid_user();
                             case 'lighttpd':
                                 $server_url = 'http://www.lighttpd.net/';
                                 break;
-                            case 'nginx';
+                            case 'nginx':
                                 $server_url = 'http://nginx.net/';
                                 break;
                             default:
