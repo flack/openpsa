@@ -26,8 +26,7 @@ class schemadb
      */
     public function get_first()
     {
-        if (empty($this->schemas))
-        {
+        if (empty($this->schemas)) {
             throw new midcom_error('Schema DB is empty');
         }
         return reset($this->schemas);
@@ -40,8 +39,7 @@ class schemadb
      */
     public function get($name)
     {
-        if (!array_key_exists($name, $this->schemas))
-        {
+        if (!array_key_exists($name, $this->schemas)) {
             throw new midcom_error('Schema ' . $name . ' not found in schemadb');
         }
         return $this->schemas[$name];

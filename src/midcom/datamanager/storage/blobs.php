@@ -29,20 +29,15 @@ class blobs extends delayed
     public function load()
     {
         $results = array();
-        if (!$this->object->id)
-        {
+        if (!$this->object->id) {
             return $results;
         }
 
         $items = $this->load_attachment_list();
-        foreach ($items as $identifier => $guid)
-        {
-            try
-            {
+        foreach ($items as $identifier => $guid) {
+            try {
                 $results[$identifier] = new midcom_db_attachment($guid);
-            }
-            catch (midcom_error $e)
-            {
+            } catch (midcom_error $e) {
                 $e->log();
             }
         }
@@ -58,72 +53,55 @@ class blobs extends delayed
         $this->map = array();
         $existing = $this->load();
 
-        if (!empty($this->value))
-        {
+        if (!empty($this->value)) {
             $guesser = new FileBinaryMimeTypeGuesser;
-            foreach ($this->value as $identifier => &$data)
-            {
+            foreach ($this->value as $identifier => &$data) {
                 $attachment = (array_key_exists($identifier, $existing)) ? $existing[$identifier] : null;
                 $title = (array_key_exists('title', $data)) ? $data['title'] : null;
-                if (!empty($data['file']))
-                {
+                if (!empty($data['file'])) {
                     $filename = midcom_db_attachment::safe_filename($data['file']['name'], true);
                     $title = $title ?: $data['file']['name'];
                     $mimetype = $guesser->guess($data['file']['tmp_name']);
-                    if (!$attachment)
-                    {
+                    if (!$attachment) {
                         $attachment = $this->create_attachment($filename, $title, $mimetype);
-                        if (is_integer($identifier))
-                        {
+                        if (is_integer($identifier)) {
                             $identifier = md5(time() . $data['file']['name'] . $data['file']['tmp_name']);
                         }
-                    }
-                    else
-                    {
-                        if ($attachment->name != $filename)
-                        {
+                    } else {
+                        if ($attachment->name != $filename) {
                             $filename = $this->generate_unique_name($filename);
                         }
                         $attachment->name = $filename;
                         $attachment->title = $title;
                         $attachment->mimetype = $mimetype;
                     }
-                    if (!$attachment->copy_from_file($data['file']['tmp_name']))
-                    {
+                    if (!$attachment->copy_from_file($data['file']['tmp_name'])) {
                         throw new midcom_error('Failed to copy attachment: ' . midcom_connection::get_error_string());
                     }
-                }
-                else if ($attachment === null)
-                {
+                } elseif ($attachment === null) {
                     continue;
                 }
                 // No file upload, only title change
-                else if ($attachment->title != $title)
-                {
+                elseif ($attachment->title != $title) {
                     $attachment->title = $title;
                     $attachment->update();
                 }
                 $this->map[$identifier] = $attachment;
                 $data['identifier'] = $identifier;
-                if (!empty($this->config['widget_config']['sortable']))
-                {
+                if (!empty($this->config['widget_config']['sortable'])) {
                     $attachment->metadata->score = (int) $data['score'];
                     $attachment->update();
                 }
             }
         }
         //delete attachments which are no longer in map
-        foreach (array_diff_key($existing, $this->map) as $attachment)
-        {
+        foreach (array_diff_key($existing, $this->map) as $attachment) {
             $attachment->delete();
         }
 
-        if (!empty($this->config['widget_config']['sortable']))
-        {
-            uasort($this->map, function ($a, $b)
-            {
-                if ($a->metadata->score == $b->metadata->score)
-                {
+        if (!empty($this->config['widget_config']['sortable'])) {
+            uasort($this->map, function ($a, $b) {
+                if ($a->metadata->score == $b->metadata->score) {
                     return strnatcasecmp($a->name, $b->name);
                 }
                 return $b->metadata->score - $a->metadata->score;
@@ -144,12 +122,10 @@ class blobs extends delayed
         $attachment->parentguid = $this->object->guid;
 
         $resolver = new midcom_helper_reflector_nameresolver($attachment);
-        if (!$resolver->name_is_unique())
-        {
+        if (!$resolver->name_is_unique()) {
             debug_add("Name '{$attachment->name}' is not unique, trying to generate", MIDCOM_LOG_INFO);
             $ext = '';
-            if (preg_match('/^(.*)(\..*?)$/', $filename, $ext_matches))
-            {
+            if (preg_match('/^(.*)(\..*?)$/', $filename, $ext_matches)) {
                 $ext = $ext_matches[2];
             }
             $filename = $resolver->generate_unique_name('name', $ext);
@@ -165,8 +141,7 @@ class blobs extends delayed
     {
         $list = array();
 
-        foreach ($this->map as $identifier => $attachment)
-        {
+        foreach ($this->map as $identifier => $attachment) {
             $list[] = $identifier . ':' . $attachment->guid;
         }
         return $this->object->set_parameter('midcom.helper.datamanager2.type.blobs', "guids_{$this->config['name']}", implode(',', $list));
@@ -180,23 +155,19 @@ class blobs extends delayed
     {
         $map = array();
         $raw_list = $this->object->get_parameter('midcom.helper.datamanager2.type.blobs', "guids_{$this->config['name']}");
-        if (!$raw_list)
-        {
+        if (!$raw_list) {
             return $map;
         }
 
-        foreach (explode(',', $raw_list) as $item)
-        {
+        foreach (explode(',', $raw_list) as $item) {
             $info = explode(':', $item);
-            if (count($info) < 2)
-            {
+            if (count($info) < 2) {
                 debug_add("item '{$item}' is broken!", MIDCOM_LOG_ERROR);
                 continue;
             }
             $identifier = $info[0];
             $guid = $info[1];
-            if (mgd_is_guid($guid))
-            {
+            if (mgd_is_guid($guid)) {
                 $map[$identifier] = $guid;
             }
         }
@@ -215,8 +186,7 @@ class blobs extends delayed
     {
         $filename = $this->generate_unique_name($filename);
         $attachment = $this->object->create_attachment($filename, $title, $mimetype);
-        if ($attachment === false)
-        {
+        if ($attachment === false) {
             throw new midcom_error('Failed to create attachment: ' . \midcom_connection::get_error_string());
         }
         return $attachment;

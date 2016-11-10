@@ -33,8 +33,7 @@ abstract class base
 
     public function form_widget(FormView $view, array $data)
     {
-        if ($data['compound'])
-        {
+        if ($data['compound']) {
             return $this->renderer->block($view, 'form_widget_compound');
         }
         return $this->renderer->block($view, 'form_widget_simple');
@@ -43,8 +42,7 @@ abstract class base
     public function form_widget_compound(FormView $view, array $data)
     {
         $string = '<div' . $this->renderer->block($view, 'widget_container_attributes') . '>';
-        if (!$view->parent && $data['errors'])
-        {
+        if (!$view->parent && $data['errors']) {
             $string .= $this->renderer->errors($view);
         }
         $string .= $this->renderer->block($view, 'form_rows');
@@ -55,10 +53,8 @@ abstract class base
     public function form_rest(FormView $view, array $data)
     {
         $string = '';
-        foreach ($view as $child)
-        {
-            if (!$child->isRendered())
-            {
+        foreach ($view as $child) {
+            if (!$child->isRendered()) {
                 $string .= $this->renderer->row($child);
             }
         }
@@ -70,16 +66,13 @@ abstract class base
         $attributes = $view->vars['attr'];
         $attributes['id'] = $data['id'];
         $attributes['name'] = $data['full_name'];
-        if ($data['read_only'])
-        {
+        if ($data['read_only']) {
             $attributes['readonly'] = 'readonly';
         }
-        if ($data['disabled'])
-        {
+        if ($data['disabled']) {
             $attributes['disabled'] = 'disabled';
         }
-        if ($data['required'])
-        {
+        if ($data['required']) {
             $attributes['required'] = 'required';
         }
         return $this->attributes($attributes, true);
@@ -88,12 +81,10 @@ abstract class base
     public function widget_container_attributes(FormView $view, array $data)
     {
         $attr = $data['attr'];
-        if (!empty($data['id']))
-        {
+        if (!empty($data['id'])) {
             $attr['id'] = $data['id'];
         }
-        if (!$view->parent)
-        {
+        if (!$view->parent) {
             unset($attr['id']);
             $attr['class'] = 'form';
         }
@@ -103,8 +94,7 @@ abstract class base
 
     public function choice_widget(FormView $view, array $data)
     {
-        if ($data['expanded'])
-        {
+        if ($data['expanded']) {
             return $this->renderer->block($view, 'choice_widget_expanded');
         }
         return $this->renderer->block($view, 'choice_widget_collapsed');
@@ -115,8 +105,7 @@ abstract class base
         $attributes = $data['attr'];
         $attributes['id'] = $data['id'];
         $attributes['name'] = $data['full_name'];
-        if ($data['disabled'])
-        {
+        if ($data['disabled']) {
             $attributes['disabled'] = 'disabled';
         }
 
@@ -131,18 +120,14 @@ abstract class base
     public function attributes(array $attributes, $autoescape = false)
     {
         $string = '';
-        foreach ($attributes as $name => $value)
-        {
-            if ($value === false)
-            {
+        foreach ($attributes as $name => $value) {
+            if ($value === false) {
                 continue;
             }
-            if ($value === true)
-            {
+            if ($value === true) {
                 $value = $name;
             }
-            if ($autoescape)
-            {
+            if ($autoescape) {
                 $value = $this->escape($value);
             }
             $string .= sprintf(' %s="%s"', $name, $value);

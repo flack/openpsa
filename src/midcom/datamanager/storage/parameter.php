@@ -26,8 +26,7 @@ class parameter extends delayed
         //workaround for weird mgd API behavior where setting falsy (i.e. deleting) a nonexistent parameter
         //returns an error
         if (   !$this->value
-            && $this->load() === null)
-        {
+            && $this->load() === null) {
             return true;
         }
         return $this->object->set_parameter($this->config['storage']['domain'], $this->config['storage']['name'], $this->value);

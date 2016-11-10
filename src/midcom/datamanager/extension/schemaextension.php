@@ -17,8 +17,7 @@ class schemaextension extends AbstractExtension
      */
     protected function loadTypes()
     {
-        return array
-        (
+        return array(
             new type\autocomplete,
             new type\blobs,
             new type\codemirror,

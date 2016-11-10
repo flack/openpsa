@@ -14,8 +14,7 @@ class form extends base
         $attributes['action'] = $data['action'];
         $attributes['class'] = 'datamanager2';
 
-        if ($data['multipart'])
-        {
+        if ($data['multipart']) {
             $attributes['enctype'] = 'multipart/form-data';
         }
 
@@ -26,8 +25,7 @@ class form extends base
     {
         $string = '';
 
-        foreach ($data['errors'] as $error)
-        {
+        foreach ($data['errors'] as $error) {
             $string .= '<span class="field_error">' . $error->getMessage() . '</span>';
         }
 
@@ -37,24 +35,19 @@ class form extends base
     public function form_rows(FormView $view, array $data)
     {
         $string = '';
-        foreach ($view as $child)
-        {
+        foreach ($view as $child) {
             if (    array_key_exists('start_fieldset', $child->vars)
-                && $child->vars['start_fieldset'] !== null)
-            {
+                && $child->vars['start_fieldset'] !== null) {
                 $string .= '<fieldset class="fieldset">';
-                if (!empty($child->vars['start_fieldset']['title']))
-                {
+                if (!empty($child->vars['start_fieldset']['title'])) {
                     $string .= '<legend>' . $child->vars['start_fieldset']['title'] . '</legend>';
                 }
             }
             $string .= $this->renderer->row($child);
             if (    array_key_exists('end_fieldset', $child->vars)
-                && $child->vars['end_fieldset'] !== null)
-            {
+                && $child->vars['end_fieldset'] !== null) {
                 $end_fieldsets = max(1, (int) $child->vars['end_fieldset']);
-                for ($i = 0; $i < $end_fieldsets; $i++)
-                {
+                for ($i = 0; $i < $end_fieldsets; $i++) {
                     $string .= '</fieldset>';
                 }
             }
@@ -66,8 +59,7 @@ class form extends base
     {
         $string = '';
         if (   !isset($data['render_rest'])
-            || $data['render_rest'])
-        {
+            || $data['render_rest']) {
             $string .= $this->renderer->rest($view);
         }
         return $string . '</form>';
@@ -77,13 +69,11 @@ class form extends base
     {
         $class = 'element element_' . $view->vars['block_prefixes'][count($view->vars['block_prefixes']) - 2];
 
-        if ($view->vars['required'])
-        {
+        if ($view->vars['required']) {
             $class .= ' required';
         }
 
-        if ($data['errors']->count() > 0)
-        {
+        if ($data['errors']->count() > 0) {
             $class .= ' error';
         }
 
@@ -110,8 +100,7 @@ class form extends base
     public function toolbar_row(FormView $view, array $data)
     {
         $string = '<div class="form_toolbar">';
-        foreach ($view as $child)
-        {
+        foreach ($view as $child) {
             $string .= $this->renderer->widget($child);
         }
         return $string . '</div>';
@@ -136,8 +125,7 @@ class form extends base
 
         $string .= '<div class="attachment-container">';
         $string .= '<div class="attachment-preview">';
-        if (!empty($data['value']['filename']))
-        {
+        if (!empty($data['value']['filename'])) {
             $icon = \midcom_helper_misc::get_mime_icon($data['value']['mimetype']);
 
             $string .= '<a href="' . $data['value']['url'] . '" target="_blank"><img alt="' . $data['value']['filename'] . '" src="' . $icon . '" /></a>';
@@ -157,16 +145,14 @@ class form extends base
         $type = isset($data['type']) ? $data['type'] : 'text';
         if (   $type == 'text'
             || $type == 'password'
-            || $type == 'email')
-        {
+            || $type == 'email') {
             $view->vars['attr']['class'] = 'shorttext';
         }
 
         $string = '<input type="' . $type . '"';
         $string .= $this->renderer->block($view, 'widget_attributes');
         if (   !empty($data['value'])
-            || is_numeric($data['value']))
-        {
+            || is_numeric($data['value'])) {
             $string .= ' value="' . $this->escape($data['value']) . '"';
         }
         return $string . ' />';
@@ -175,8 +161,7 @@ class form extends base
     public function button_widget(FormView $view, array $data)
     {
         $type = isset($data['type']) ? $data['type'] : 'button';
-        if (!$data['label'])
-        {
+        if (!$data['label']) {
             $data['label'] = $this->renderer->humanize($data['name']);
         }
         return '<button type="' . $type . '" ' . $this->renderer->block($view, 'button_attributes') . '>' . $data['label'] . '</button>';
@@ -184,12 +169,12 @@ class form extends base
 
     public function hidden_widget(FormView $view, array $data)
     {
-         return $this->renderer->block($view, 'form_widget_simple', array('type' => isset($data['type']) ? $data['type'] : "hidden"));
+        return $this->renderer->block($view, 'form_widget_simple', array('type' => isset($data['type']) ? $data['type'] : "hidden"));
     }
 
     public function email_widget(FormView $view, array $data)
     {
-         return $this->renderer->block($view, 'form_widget_simple', array('type' => isset($data['type']) ? $data['type'] : "email"));
+        return $this->renderer->block($view, 'form_widget_simple', array('type' => isset($data['type']) ? $data['type'] : "email"));
     }
 
     public function autocomplete_widget(FormView $view, array $data)
@@ -209,12 +194,10 @@ class form extends base
     {
         $string = '<input type="radio"';
         $string .= $this->renderer->block($view, 'widget_attributes');
-        if (strlen($data['value']) > 0)
-        {
+        if (strlen($data['value']) > 0) {
             $string .= ' value="' . $data['value'] . '"';
         }
-        if ($data['checked'])
-        {
+        if ($data['checked']) {
             $string .= 'checked="checked"';
         }
         return $string . ' />';
@@ -224,12 +207,10 @@ class form extends base
     {
         $string = '<input type="checkbox"';
         $string .= $this->renderer->block($view, 'widget_attributes');
-        if (strlen($data['value']) > 0)
-        {
+        if (strlen($data['value']) > 0) {
             $string .= ' value="' . $data['value'] . '"';
         }
-        if ($data['checked'])
-        {
+        if ($data['checked']) {
             $string .= 'checked="checked"';
         }
         return $string . ' />';
@@ -241,32 +222,26 @@ class form extends base
         if (   $data['required']
             && null === $data['empty_value']
             && $data['empty_value_in_choices'] === false
-            && $data['multiple'] === false)
-        {
+            && $data['multiple'] === false) {
             $data['required'] = false;
         }
         $string .= $this->renderer->block($view, 'widget_attributes', array('required' => $data['required']));
-        if ($data['multiple'])
-        {
+        if ($data['multiple']) {
             $string .= ' multiple="multiple"';
         }
         $string .= '>';
-        if (null !== $data['empty_value'])
-        {
+        if (null !== $data['empty_value']) {
             $string .= '<option value=""';
             if (   $data['required']
                 && empty($data['value'])
-                && "0" !== $data['value'])
-            {
+                && "0" !== $data['value']) {
                 $string .= ' selected="selected"';
             }
             $string .= '>' . $data['empty_value'] . '</option>';
         }
-        if (count($data['preferred_choices']) > 0)
-        {
+        if (count($data['preferred_choices']) > 0) {
             $string .= $this->renderer->block($view, 'choice_widget_options', array('choices' => $data['preferred_choices']));
-            if (count($data['choices']) > 0 && null !== $data['separator'])
-            {
+            if (count($data['choices']) > 0 && null !== $data['separator']) {
                 $string .= '<option disabled="disabled">' . $data['separator'] . '</option>';
             }
         }
@@ -282,8 +257,7 @@ class form extends base
     public function choice_widget_expanded(FormView $view, array $data)
     {
         $string = '<fieldset ' . $this->renderer->block($view, 'widget_container_attributes') . '>';
-        foreach ($view as $child)
-        {
+        foreach ($view as $child) {
             $string .= $this->renderer->widget($child);
             $string .= $this->renderer->label($child);
         }
@@ -294,19 +268,14 @@ class form extends base
     public function choice_widget_options(FormView $view, array $data)
     {
         $string = '';
-        foreach ($data['choices'] as $index => $choice)
-        {
-            if (is_array($choice))
-            {
+        foreach ($data['choices'] as $index => $choice) {
+            if (is_array($choice)) {
                 $string .= '<optgroup label="' . $index . '">';
                 $string .= $this->renderer->block($view, 'choice_widget_options', array('choices' => $choice));
                 $string .= '</optgroup>';
-            }
-            else
-            {
+            } else {
                 $string .= '<option value="' . $choice->value . '"';
-                if ($data['is_selected']($choice->value, $data['value']))
-                {
+                if ($data['is_selected']($choice->value, $data['value'])) {
                     $string .= ' selected="selected"';
                 }
                 $string .= '>' . $choice->label . '</option>';
@@ -320,8 +289,7 @@ class form extends base
         //we set required to false, because codemirror doesn't play well with html5 validation..
         $string = '<textarea ' . $this->renderer->block($view, 'widget_attributes', array('required' => false)) . '>';
         $string .= $data['value'] . '</textarea>';
-        if (!empty($data['codemirror_snippet']))
-        {
+        if (!empty($data['codemirror_snippet'])) {
             $snippet = str_replace('{$id}', $data['id'], $data['codemirror_snippet']);
             $snippet = str_replace('{$read_only}', 'false', $snippet);
             $string .= $this->jsinit($snippet);
@@ -334,8 +302,7 @@ class form extends base
         $string = '<fieldset' . $this->renderer->block($view, 'widget_container_attributes') . '>';
         $string .= $this->renderer->widget($view['date']);
 
-        if (isset($view['time']))
-        {
+        if (isset($view['time'])) {
             $string .= ' '. $this->renderer->widget($view['time']);
         }
         $string .= $data['jsinit'];
@@ -347,17 +314,13 @@ class form extends base
         $string = '<div' . $this->renderer->block($view, 'widget_container_attributes') . '>';
         $string .= '<table><tr><td>';
 
-        if (!empty($data['value']))
-        {
+        if (!empty($data['value'])) {
             $string .= '<a href="' . $view->vars['value']['url'] . '" target="_new"><img src="' . $view->vars['value']['url'] . '" class="preview-image">';
 
             if (   $data['value']['size_x']
-                && $data['value']['size_y'])
-            {
+                && $data['value']['size_y']) {
                 $size = "{$data['value']['size_x']}&times;{$data['value']['size_y']}";
-            }
-            else
-            {
+            } else {
                 $size = $this->renderer->humanize('unknown');
             }
             $string .= "<br><span title=\"{$data['value']['guid']}\">{$size}, {$data['value']['formattedsize']}</span></a>";
@@ -365,8 +328,7 @@ class form extends base
 
         $string .= '</td><td>';
 
-        foreach ($view->children as $child)
-        {
+        foreach ($view->children as $child) {
             $string .= $this->renderer->row($child);
         }
 
@@ -379,33 +341,25 @@ class form extends base
         $string .= '<table class="midcom_datamanager_table_photo"><tr><td>';
         $preview_url = null;
         $values = array_filter($data['value']); // this gets rid of the delete key in case the form was submitted
-        foreach ($values as $identifier => $info)
-        {
+        foreach ($values as $identifier => $info) {
             $preview_url = $info['url'];
-            if ($identifier == 'thumbnail')
-            {
+            if ($identifier == 'thumbnail') {
                 break;
             }
         }
-        if (!empty($preview_url))
-        {
+        if (!empty($preview_url)) {
             $string .= '<img src="' . $preview_url . '" class="preview-image">';
         }
 
         $string .= '</td><td>';
 
-        if (!empty($values))
-        {
+        if (!empty($values)) {
             $string .= '<ul>';
-            foreach ($values as $identifier => $info)
-            {
+            foreach ($values as $identifier => $info) {
                 if (   $info['size_x']
-                    && $info['size_y'])
-                {
+                    && $info['size_y']) {
                     $size = "{$info['size_x']}x{$info['size_y']}";
-                }
-                else
-                {
+                } else {
                     $size = 'unknown';
                 }
                 $string .= "<li title=\"{$info['guid']}\"><a href='{$info['url']}' target='_new'>{$info['filename']}:</a>
@@ -414,8 +368,7 @@ class form extends base
             $string .= '</ul>';
         }
         $string .= $this->renderer->widget($data['form']['file']);
-        if (array_key_exists('title', $view->children))
-        {
+        if (array_key_exists('title', $view->children)) {
             $string .= $this->renderer->widget($view->children['title']);
         }
         $string .= '<label class="midcom_datamanager_photo_lable">' . $this->renderer->humanize('delete photo') . ' ' . $this->renderer->widget($data['form']['delete']) . '</label>';
@@ -444,8 +397,7 @@ class form extends base
 
     public function textarea_widget(FormView $view, array $data)
     {
-        $view->vars['attr'] = array
-        (
+        $view->vars['attr'] = array(
             'class' => 'longtext',
             'cols' => 50
         );
@@ -461,24 +413,20 @@ class form extends base
 
     public function form_label(FormView $view, array $data)
     {
-        if ($data['label'] === false)
-        {
+        if ($data['label'] === false) {
             return '';
         }
-        if (!$data['label'])
-        {
+        if (!$data['label']) {
             $data['label'] = $data['name'];
         }
         $data['label'] = $this->renderer->humanize($data['label']);
 
         $label_attr = $data['label_attr'];
-        if ($data['required'])
-        {
+        if ($data['required']) {
             $label_attr['class'] = trim((isset($label_attr['class']) ? $label_attr['class'] : '') . ' required');
             $data['label'] .= ' <span class="field_required_start">*</span>';
         }
-        if (!$data['compound'])
-        {
+        if (!$data['compound']) {
             $label_attr['for'] = $data['id'];
         }
         return '<label' . $this->attributes($label_attr) . '><span class="field_text">' . $data['label'] . '</span></label>';

@@ -23,16 +23,13 @@ class blobs implements DataTransformerInterface
 
     public function transform($input)
     {
-        if ($input === null)
-        {
+        if ($input === null) {
             return;
         }
 
-        if (is_array($input))
-        {
+        if (is_array($input)) {
             //This happens when there is a form validation failure
-            if (!empty($input['filename']))
-            {
+            if (!empty($input['filename'])) {
                 //This is already transformed viewData from the parent object
                 return $input;
             }
@@ -46,12 +43,10 @@ class blobs implements DataTransformerInterface
     {
         $stats = $attachment->stat();
         $description = $attachment->title;
-        if (!empty($this->config['widget_config']['show_description']))
-        {
+        if (!empty($this->config['widget_config']['show_description'])) {
             $description = $attachment->get_parameter('midcom.helper.datamanager2.type.blobs', 'description');
         }
-        return array
-        (
+        return array(
             'filename' => $attachment->name,
             'description' => $description,
             'title' => $attachment->title,
@@ -74,15 +69,13 @@ class blobs implements DataTransformerInterface
 
     protected function transform_nonpersistent(array $data)
     {
-        if (empty($data['file']))
-        {
+        if (empty($data['file'])) {
             return null;
         }
         $title = (!empty($data['title'])) ? $data['title'] : $data['file']['name'];
         $description = (array_key_exists('description', $data)) ? $data['description'] : $title;
         $stat = stat($data['file']['tmp_name']);
-        return array
-        (
+        return array(
             'filename' => $data['file']['name'],
             'description' => $description,
             'title' => $title,
@@ -108,8 +101,7 @@ class blobs implements DataTransformerInterface
             throw new TransformationFailedException('Expected an array.');
         }
 
-        if (!empty($array))
-        {
+        if (!empty($array)) {
             return $array;
         }
         //@todo return $array; ?

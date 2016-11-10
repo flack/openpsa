@@ -23,16 +23,13 @@ class nullcontainer extends container
     {
         $this->schema = $schema;
 
-        foreach ($this->schema->get_fields() as $name => $config)
-        {
-            if (array_key_exists($name, $defaults))
-            {
+        foreach ($this->schema->get_fields() as $name => $config) {
+            if (array_key_exists($name, $defaults)) {
                 $config['default'] = $defaults[$name];
             }
             $config['name'] = $name;
             $this->fields[$name] = new transientnode($config);
-            if (isset($config['default']))
-            {
+            if (isset($config['default'])) {
                 $this->fields[$name]->set_value($config['default']);
             }
         }

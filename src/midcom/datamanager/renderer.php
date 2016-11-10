@@ -74,20 +74,16 @@ class renderer extends FormRenderer
     {
         $translate_string = strtolower($string);
 
-        if ($this->l10n->string_available($translate_string))
-        {
+        if ($this->l10n->string_available($translate_string)) {
             return $this->l10n->get($translate_string);
         }
-        if (midcom::get()->i18n->get_l10n('midcom.datamanager')->string_available($translate_string))
-        {
+        if (midcom::get()->i18n->get_l10n('midcom.datamanager')->string_available($translate_string)) {
             return midcom::get()->i18n->get_l10n('midcom.datamanager')->get($translate_string);
         }
-        if (midcom::get()->i18n->get_l10n('midcom')->string_available($translate_string))
-        {
+        if (midcom::get()->i18n->get_l10n('midcom')->string_available($translate_string)) {
             return midcom::get()->i18n->get_l10n('midcom')->get($translate_string);
         }
 
         return $string;
     }
-
 }

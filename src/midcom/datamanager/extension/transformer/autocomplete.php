@@ -22,10 +22,8 @@ class autocomplete implements DataTransformerInterface
     public function transform($input)
     {
         if (   $this->config['dm2_type'] == 'select'
-            && $this->config['type_config']['allow_multiple'])
-        {
-            switch ($this->config['type_config']['multiple_storagemode'])
-            {
+            && $this->config['type_config']['allow_multiple']) {
+            switch ($this->config['type_config']['multiple_storagemode']) {
                 case 'serialized':
                     $input = unserialize($input);
                     break;
@@ -47,21 +45,17 @@ class autocomplete implements DataTransformerInterface
             throw new TransformationFailedException('Expected an array.');
         }
 
-        if (empty($array['selection']))
-        {
+        if (empty($array['selection'])) {
             return;
         }
 
-        if (count($array['selection']) == 1)
-        {
+        if (count($array['selection']) == 1) {
             return reset($array['selection']);
         }
 
         if (   $this->config['dm2_type'] == 'select'
-            && $this->config['type_config']['allow_multiple'])
-        {
-            switch ($this->config['type_config']['multiple_storagemode'])
-            {
+            && $this->config['type_config']['allow_multiple']) {
+            switch ($this->config['type_config']['multiple_storagemode']) {
                 case 'serialized':
                     $selection = serialize($array['selection']);
                     break;

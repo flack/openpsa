@@ -43,10 +43,8 @@ class codemirror extends TextareaType
     {
         parent::configureOptions($resolver);
 
-        $map_attr = function (Options $options, $value)
-        {
-            if ($value === null)
-            {
+        $map_attr = function (Options $options, $value) {
+            if ($value === null) {
                 $value = array();
             }
             $value['rows'] = !empty($options['widget_config']['height']) ? $options['widget_config']['height'] : 6;
@@ -55,30 +53,24 @@ class codemirror extends TextareaType
             return $value;
         };
 
-        $get_config = function (Options $options, $value)
-        {
+        $get_config = function (Options $options, $value) {
             return \midcom_baseclasses_components_configuration::get('midcom.helper.datamanager2', 'config');
         };
 
-        $resolver->setDefaults(array
-        (
+        $resolver->setDefaults(array(
             'attr' => $map_attr,
             'config' => $get_config
         ));
 
-        $resolver->setNormalizer('widget_config', function (Options $options, $value)
-        {
-            $widget_defaults = array
-            (
+        $resolver->setNormalizer('widget_config', function (Options $options, $value) {
+            $widget_defaults = array(
                 'enabled' => true,
                 'language' => 'php',
             );
             return helper::resolve_options($widget_defaults, $value);
         });
-        $resolver->setNormalizer('type_config', function (Options $options, $value)
-        {
-            $type_defaults = array
-            (
+        $resolver->setNormalizer('type_config', function (Options $options, $value) {
+            $type_defaults = array(
                 'modes' => array('xml', 'javascript', 'css', 'clike', 'php'),
             );
             return helper::resolve_options($type_defaults, $value);
@@ -92,15 +84,13 @@ class codemirror extends TextareaType
     {
         parent::buildForm($builder, $options);
 
-        if ($options['widget_config']['enabled'])
-        {
+        if ($options['widget_config']['enabled']) {
             $prefix = MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/codemirror-' . $this->version;
             midcom::get()->head->enable_jquery();
             midcom::get()->head->add_stylesheet($prefix . '/lib/codemirror.css');
             midcom::get()->head->add_stylesheet($prefix . '/theme/eclipse.css');
             midcom::get()->head->add_jsfile($prefix . '/lib/codemirror.js');
-            foreach ($options['type_config']['modes'] as $mode)
-            {
+            foreach ($options['type_config']['modes'] as $mode) {
                 midcom::get()->head->add_jsfile($prefix . '/mode/' . $mode . '/' . $mode . '.js');
             }
             midcom::get()->head->add_jsfile($prefix . '/addon/edit/matchbrackets.js');
@@ -118,8 +108,7 @@ class codemirror extends TextareaType
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
         parent::buildView($view, $form, $options);
-        if ($options['widget_config']['enabled'])
-        {
+        if ($options['widget_config']['enabled']) {
             $view->vars['codemirror_snippet'] = \midcom_helper_misc::get_snippet_content_graceful($options['config']->get('codemirror_config_snippet'));
         }
     }

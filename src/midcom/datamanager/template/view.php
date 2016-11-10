@@ -23,24 +23,19 @@ class view extends base
     public function form_rows(FormView $view, array $data)
     {
         $string = '';
-        foreach ($view as $child)
-        {
+        foreach ($view as $child) {
             if (    array_key_exists('start_fieldset', $child->vars)
-                && $child->vars['start_fieldset'] !== null)
-            {
+                && $child->vars['start_fieldset'] !== null) {
                 $string .= '<div class="fieldset">';
-                if (!empty($child->vars['start_fieldset']['title']))
-                {
+                if (!empty($child->vars['start_fieldset']['title'])) {
                     $string .= '<h2>' . $child->vars['start_fieldset']['title'] . '</h2>';
                 }
             }
             $string .= $this->renderer->row($child);
             if (    array_key_exists('end_fieldset', $child->vars)
-                && $child->vars['end_fieldset'] !== null)
-            {
+                && $child->vars['end_fieldset'] !== null) {
                 $end_fieldsets = max(1, (int) $child->vars['end_fieldset']);
-                for ($i = 0; $i < $end_fieldsets; $i++)
-                {
+                for ($i = 0; $i < $end_fieldsets; $i++) {
                     $string .= '</div>';
                 }
             }
@@ -76,14 +71,12 @@ class view extends base
 
     public function form_label(FormView $view, array $data)
     {
-        if ($data['label'] === false)
-        {
+        if ($data['label'] === false) {
             return '';
         }
         $label_attr = $data['label_attr'];
         $label_attr['class'] = trim('title ' . (isset($label_attr['class']) ? $label_attr['class'] : ''));
-        if (!$data['label'])
-        {
+        if (!$data['label']) {
             $data['label'] = $this->renderer->humanize($data['name']);
         }
         return '<div' . $this->attributes($label_attr) . '>' . $data['label'] . '</div>';
@@ -92,8 +85,7 @@ class view extends base
     public function form_widget_simple(FormView $view, array $data)
     {
         if (   !empty($data['value'])
-            || is_numeric($data['value']))
-        {
+            || is_numeric($data['value'])) {
             return $this->escape($data['value']);
         }
         return '';
@@ -107,12 +99,9 @@ class view extends base
 
     public function choice_widget_collapsed(FormView $view, array $data)
     {
-        if (!empty($data['value']))
-        {
-            foreach ($data['choices'] as $choice)
-            {
-                if ($choice->value === $data['value'])
-                {
+        if (!empty($data['value'])) {
+            foreach ($data['choices'] as $choice) {
+                if ($choice->value === $data['value']) {
                     return $choice->label;
                 }
             }
@@ -124,8 +113,7 @@ class view extends base
     {
         $string = '<textarea ' . $this->renderer->block($view, 'widget_attributes') . '>';
         $string .= $data['value'] . '</textarea>';
-        if (!empty($data['codemirror_snippet']))
-        {
+        if (!empty($data['codemirror_snippet'])) {
             $snippet = str_replace('{$id}', $data['id'], $data['codemirror_snippet']);
             $snippet = str_replace('{$read_only}', 'true', $snippet);
             $string .= $this->jsinit($snippet);
@@ -142,8 +130,7 @@ class view extends base
     {
         $string = $this->renderer->widget($view['date']);
 
-        if (isset($view['time']))
-        {
+        if (isset($view['time'])) {
             $string .= ' '. $this->renderer->widget($view['time']);
         }
         return $string;

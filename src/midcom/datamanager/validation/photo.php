@@ -9,5 +9,4 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 
 class photo extends NotBlank
 {
-
 }

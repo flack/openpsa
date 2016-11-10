@@ -33,13 +33,10 @@ class select extends ChoiceType
     {
         parent::configureOptions($resolver);
 
-        $map_options = function (Options $options)
-        {
+        $map_options = function (Options $options) {
             $return_options = array();
-            if (isset($options['type_config']['options']))
-            {
-                foreach($options['type_config']['options'] as $key => $value)
-                {
+            if (isset($options['type_config']['options'])) {
+                foreach ($options['type_config']['options'] as $key => $value) {
                     //symfony expects only strings
                     $return_options[$value] = (string)$key;
                 }
@@ -47,8 +44,7 @@ class select extends ChoiceType
             }
         };
 
-        $resolver->setDefaults(array
-        (
+        $resolver->setDefaults(array(
             'choices' => $map_options,
             'choices_as_values' => true
         ));

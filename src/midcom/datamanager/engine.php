@@ -28,12 +28,9 @@ class engine extends AbstractRendererEngine
     protected function loadResourceForBlockName($cacheKey, FormView $view, $blockName)
     {
         // Check each theme whether it contains the searched block
-        if (isset($this->themes[$cacheKey]))
-        {
-            for ($i = count($this->themes[$cacheKey]) - 1; $i >= 0; --$i)
-            {
-                if (is_callable(array($this->themes[$cacheKey][$i], $blockName)))
-                {
+        if (isset($this->themes[$cacheKey])) {
+            for ($i = count($this->themes[$cacheKey]) - 1; $i >= 0; --$i) {
+                if (is_callable(array($this->themes[$cacheKey][$i], $blockName))) {
                     $this->resources[$cacheKey][$blockName] = $this->themes[$cacheKey][$i];
                     return true;
                 }

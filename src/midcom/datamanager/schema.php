@@ -18,8 +18,7 @@ use midcom\datamanager\extension\compat;
  */
 class schema
 {
-    private $defaults = array
-    (
+    private $defaults = array(
         'operations' => array('save' => '', 'cancel' => '')
     );
 
@@ -62,10 +61,8 @@ class schema
      */
     public function build_form(FormBuilderInterface $builder)
     {
-        foreach ($this->config['fields'] as $name => $config)
-        {
-            $options = array
-            (
+        foreach ($this->config['fields'] as $name => $config) {
+            $options = array(
                 'label' => $config['title'],
                 'widget_config' => $config['widget_config'],
                 'type_config' => $config['type_config'],
@@ -78,12 +75,9 @@ class schema
             );
 
             // Symfony < 2.8 compat
-            if (compat::is_legacy())
-            {
+            if (compat::is_legacy()) {
                 $options['read_only'] = $config['readonly'];
-            }
-            else
-            {
+            } else {
                 $options['attr']['readonly'] = $config['readonly'];
             }
 
@@ -110,16 +104,12 @@ class schema
     public function get_l10n()
     {
         // Populate the l10n_schema member
-        if (array_key_exists('l10n_db', $this->config))
-        {
+        if (array_key_exists('l10n_db', $this->config)) {
             $l10n_name = $this->config['l10n_db'];
-        }
-        else
-        {
+        } else {
             $l10n_name = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_COMPONENT);
         }
-        if (!midcom::get()->componentloader->is_installed($l10n_name))
-        {
+        if (!midcom::get()->componentloader->is_installed($l10n_name)) {
             $l10n_name = 'midcom';
         }
         return midcom::get()->i18n->get_l10n($l10n_name);
@@ -128,8 +118,7 @@ class schema
 
     private function complete_fields()
     {
-        foreach ($this->config['fields'] as $name => &$config)
-        {
+        foreach ($this->config['fields'] as $name => &$config) {
             $config = $this->resolve_field_options($config, $name);
         }
     }
@@ -138,8 +127,7 @@ class schema
     {
         $resolver = new OptionsResolver();
 
-        $resolver->setDefaults(array
-        (
+        $resolver->setDefaults(array(
             'title' => '',
             'type' => null,
             'type_config' => array(),
@@ -154,54 +142,42 @@ class schema
             'end_fieldset' => null
         ));
 
-        $normalize_widget = function (Options $options, $value) use ($name)
-        {
+        $normalize_widget = function (Options $options, $value) use ($name) {
             if (   $value == 'images'
-                || $value == 'downloads')
-            {
+                || $value == 'downloads') {
                 return 'subform';
             }
             return $value;
         };
 
-        $normalize_storage = function (Options $options, $value) use ($name)
-        {
-            $default = array
-            (
+        $normalize_storage = function (Options $options, $value) use ($name) {
+            $default = array(
                 'location' => 'parameter',
                 'domain' => 'midcom.helper.datamanager2',
                 'name' => $name
             );
-            if ($value === '__UNSET__')
-            {
+            if ($value === '__UNSET__') {
                 return $default;
             }
-            if ($value === null)
-            {
+            if ($value === null) {
                 return null;
             }
-            if (is_string($value))
-            {
-                if ($value === 'metadata')
-                {
+            if (is_string($value)) {
+                if ($value === 'metadata') {
                     return array('location' => $value, 'name' => $name);
                 }
-                if ($value === 'parameter')
-                {
+                if ($value === 'parameter') {
                     return $default;
                 }
                 return array('location' => $value);
             }
-            if (strtolower($value['location']) === 'parameter')
-            {
+            if (strtolower($value['location']) === 'parameter') {
                 $value['location'] = strtolower($value['location']);
-                if (!array_key_exists('domain', $value))
-                {
+                if (!array_key_exists('domain', $value)) {
                     $value['domain'] = 'midcom.helper.datamanager2';
                 }
             }
-            if (strtolower($value['location']) === 'configuration')
-            {
+            if (strtolower($value['location']) === 'configuration') {
                 $value['location'] = 'parameter';
             }
             return $value;

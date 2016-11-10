@@ -133,13 +133,11 @@ class document extends midcom_services_indexer_document_midcom
         $this->content .= "{$this->author}\n{$this->title}\n";
 
         // Add the abstract only if we haven't done so already.
-        if (strstr($this->abstract, $this->content) === false)
-        {
+        if (strstr($this->abstract, $this->content) === false) {
             $this->content .= "{$this->abstract}\n";
         }
 
-        if (! $this->title)
-        {
+        if (! $this->title) {
             $this->title = $this->document_url;
         }
     }
@@ -155,16 +153,13 @@ class document extends midcom_services_indexer_document_midcom
         $view = $this->datamanager->get_form()->createView();
         $renderer = $this->datamanager->get_renderer();
         $renderer->set_template($view, new view($renderer));
-        foreach ($view as $name => $field)
-        {
+        foreach ($view as $name => $field) {
             $method = $field->vars['index_method'];
-            if ($method == 'auto')
-            {
+            if ($method == 'auto') {
                 $method = $this->resolve_auto_method($field->vars['name']);
             }
 
-            switch ($method)
-            {
+            switch ($method) {
                 case 'abstract':
                 case 'title':
                 case 'author':
@@ -180,19 +175,16 @@ class document extends midcom_services_indexer_document_midcom
                     break;
 
                 case 'attachment':
-                    if (!empty($field->vars['value']))
-                    {
+                    if (!empty($field->vars['value'])) {
                         //only index the first attachment for now
                         $attachment = array_shift($field->vars['value']);
                         if (   !$attachment instanceof \midcom_db_attachment
-                            && !empty($attachment['object']))
-                        {
+                            && !empty($attachment['object'])) {
                             //This is the form edit case
                             //@todo: In create case, nothing is found currently
                             $attachment = $attachment['object'];
                         }
-                        if ($attachment instanceof \midcom_db_attachment)
-                        {
+                        if ($attachment instanceof \midcom_db_attachment) {
                             $att_doc = new \midcom_services_indexer_document_attachment($attachment, $view->vars['value']->get_value());
                             $this->content .= $att_doc->content;
                             $this->abstract .= $att_doc->abstract;
@@ -208,8 +200,7 @@ class document extends midcom_services_indexer_document_midcom
                     $data = $renderer->widget($field);
                     $function = 'add_' . $method;
                     $this->$function($name, $data);
-                    if ($field->vars['index_merge_with_content'])
-                    {
+                    if ($field->vars['index_merge_with_content']) {
                         $this->content .= $data . "\n";
                     }
                     break;
@@ -222,11 +213,9 @@ class document extends midcom_services_indexer_document_midcom
             }
         }
 
-        if ($this->abstract == '')
-        {
+        if ($this->abstract == '') {
             $this->abstract = $this->html2text($this->content);
-            if (strlen($this->abstract) > 200)
-            {
+            if (strlen($this->abstract) > 200) {
                 $this->abstract = substr($this->abstract, 0, 200) . ' ...';
             }
         }
@@ -249,21 +238,16 @@ class document extends midcom_services_indexer_document_midcom
      */
     private function add_as_date_field(FormView $field)
     {
-        if ($field->vars['dm2_type'] == 'date')
-        {
+        if ($field->vars['dm2_type'] == 'date') {
             $timestamp = 0;
-            if (!$this->datamanager->types[$name]->is_empty())
-            {
+            if (!$this->datamanager->types[$name]->is_empty()) {
                 $timestamp = $this->datamanager->types[$name]->value->format('U');
             }
             $this->add_date_pair($name, $timestamp);
-        }
-        else
-        {
+        } else {
             $string = $this->datamanager->types[$name]->convert_to_html();
             $timestamp = strtotime($string);
-            if ($timestamp === -1)
-            {
+            if ($timestamp === -1) {
                 debug_add("The string representation of the field {$name} could not be parsed into a timestamp; treating as 0.", MIDCOM_LOG_INFO);
                 debug_print_r('String representation was:', $string);
                 $timestamp = 0;
@@ -280,8 +264,7 @@ class document extends midcom_services_indexer_document_midcom
     {
         if (   $name == 'abstract'
             || $name == 'title'
-            || $name == 'author')
-        {
+            || $name == 'author') {
             return $name;
         }
         return 'content';

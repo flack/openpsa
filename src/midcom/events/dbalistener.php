@@ -19,8 +19,7 @@ class dbalistener
 
     private $_component;
 
-    private $_operations = array
-    (
+    private $_operations = array(
         dbaevent::CREATE => \MIDCOM_OPERATION_DBA_CREATE,
         dbaevent::UPDATE => \MIDCOM_OPERATION_DBA_UPDATE,
         dbaevent::DELETE => \MIDCOM_OPERATION_DBA_DELETE,
@@ -37,25 +36,19 @@ class dbalistener
     {
         $object = $event->get_object();
         $found = empty($this->_classes);
-        foreach ($this->_classes as $classname)
-        {
-            if (is_a($object, $classname))
-            {
+        foreach ($this->_classes as $classname) {
+            if (is_a($object, $classname)) {
                 $found = true;
                 break;
             }
         }
-        if (!$found)
-        {
+        if (!$found) {
             return;
         }
 
-        try
-        {
+        try {
             $interface = \midcom::get()->componentloader->get_interface_class($this->_component);
-        }
-        catch (\midcom_error $e)
-        {
+        } catch (\midcom_error $e) {
             debug_add("Failed to load the component {$this->_component}: " . $e->getMessage(), MIDCOM_LOG_INFO);
             return;
         }

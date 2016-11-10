@@ -33,8 +33,7 @@ class toolbar extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array
-        (
+        $resolver->setDefaults(array(
             'operations' => array(),
             'mapped' => false
         ));
@@ -46,28 +45,21 @@ class toolbar extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $l10n = midcom::get()->i18n->get_l10n('midcom.helper.datamanager2');
-        foreach ($options['operations'] as $operation => $button_labels)
-        {
-            foreach ((array) $button_labels as $key => $label)
-            {
-                if ($label == '')
-                {
+        foreach ($options['operations'] as $operation => $button_labels) {
+            foreach ((array) $button_labels as $key => $label) {
+                if ($label == '') {
                     $label = "form submit: {$operation}";
                 }
-                $attributes = array
-                (
+                $attributes = array(
                     'operation' => $operation,
                     'label' => $l10n->get($label),
                     'attr' => array('class' => 'submit ' . $operation)
                 );
-                if ($operation == controller::SAVE)
-                {
+                if ($operation == controller::SAVE) {
                     //@todo Move to template?
                     $attributes['attr']['accesskey'] = 's';
                     $attributes['attr']['class'] .= ' save_' . $key;
-                }
-                else if ($operation == controller::CANCEL)
-                {
+                } elseif ($operation == controller::CANCEL) {
                     //@todo Move to template?
                     $attributes['attr']['accesskey'] = 'd';
                     $attributes['attr']['formnovalidate'] = true;

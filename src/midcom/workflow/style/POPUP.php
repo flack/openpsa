@@ -21,8 +21,7 @@ $head->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.workflow/dialog.css');
     <(content)>
     <script type="text/javascript">
     <?php
-    foreach (midcom::get()->uimessages->get_messages() as $message)
-    {
+    foreach (midcom::get()->uimessages->get_messages() as $message) {
         echo "window.parent.$('#midcom_services_uimessages_wrapper').midcom_services_uimessage(" . $message . ");\n";
     }
     ?>

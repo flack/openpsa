@@ -24,35 +24,28 @@ class jsdate implements DataTransformerInterface
     public function transform($input)
     {
         $result = array('date' => null);
-        if ($this->config['widget_config']['show_time'])
-        {
+        if ($this->config['widget_config']['show_time']) {
             $result['hours'] = null;
             $result['minutes'] = null;
-            if (!$this->config['widget_config']['hide_seconds'])
-            {
+            if (!$this->config['widget_config']['hide_seconds']) {
                 $result['seconds'] = null;
             }
         }
 
         if (   $input === null
             || (   $input instanceof DateTime
-                && $input->format('Y-m-d H:i:s') == '0001-01-01 00:00:00'))
-        {
+                && $input->format('Y-m-d H:i:s') == '0001-01-01 00:00:00')) {
             return $result;
         }
 
         $date = new \DateTime;
-        if ($this->config['type_config']['storage_type'] === datetype::UNIXTIME)
-        {
+        if ($this->config['type_config']['storage_type'] === datetype::UNIXTIME) {
             $date->setTimestamp($input);
-        }
-        else if ($this->config['type_config']['storage_type'] === datetype::ISO)
-        {
+        } elseif ($this->config['type_config']['storage_type'] === datetype::ISO) {
             $date->modify($input);
         }
         $result['date'] = $date;
-        if ($this->config['widget_config']['show_time'])
-        {
+        if ($this->config['widget_config']['show_time']) {
             $result['time'] = $date;
         }
 
@@ -67,21 +60,16 @@ class jsdate implements DataTransformerInterface
 
         if (empty($array['date'])
             || (   $array['date'] instanceof DateTime
-                && $array['date']->format('Y-m-d H:i:s') == '0001-01-01 00:00:00'))
-        {
+                && $array['date']->format('Y-m-d H:i:s') == '0001-01-01 00:00:00')) {
             return;
         }
-        if (!empty($array['time']))
-        {
-            $array['date']->setTime((int) $array['time']->format('G'), (int) $array['time']->format('i'), (int) $array['time']->format('s')); ;
+        if (!empty($array['time'])) {
+            $array['date']->setTime((int) $array['time']->format('G'), (int) $array['time']->format('i'), (int) $array['time']->format('s'));
         }
 
-        if ($this->config['type_config']['storage_type'] === datetype::UNIXTIME)
-        {
+        if ($this->config['type_config']['storage_type'] === datetype::UNIXTIME) {
             return $array['date']->format('U');
-        }
-        else if ($this->config['type_config']['storage_type'] === datetype::ISO)
-        {
+        } elseif ($this->config['type_config']['storage_type'] === datetype::ISO) {
             return $array['date']->format('Y-m-d H:i:s');
         }
     }

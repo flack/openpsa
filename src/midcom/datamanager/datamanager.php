@@ -74,8 +74,7 @@ class datamanager
      */
     private static function get_factory()
     {
-        if (static::$factory === null)
-        {
+        if (static::$factory === null) {
             $fb = new FormFactoryBuilder();
             $fb->addExtension(new schemaextension());
             $fb->addExtension(new CoreExtension());
@@ -100,8 +99,7 @@ class datamanager
         $data = midcom_helper_misc::get_snippet_content($path);
         $data = midcom_helper_misc::parse_config($data);
         $schemadb = new schemadb;
-        foreach ($data as $name => $config)
-        {
+        foreach ($data as $name => $config) {
             $schemadb->add($name, new schema($config));
         }
         return new static($schemadb);
@@ -127,19 +125,15 @@ class datamanager
     public function set_storage(midcom_core_dbaobject $storage = null, $schema = null)
     {
         if (   $schema === null
-            && !empty($storage->id))
-        {
+            && !empty($storage->id)) {
             $schema = $storage->get_parameter('midcom.helper.datamanager2', 'schema_name');
         }
 
         $this->schema = ($schema) ? $this->schemadb->get($schema) : $this->schemadb->get_first();
 
-        if ($storage === null)
-        {
+        if ($storage === null) {
             $this->storage = new storage\container\nullcontainer($this->schema, $this->defaults);
-        }
-        else
-        {
+        } else {
             $this->storage = new storage\container\dbacontainer($this->schema, $storage, $this->defaults);
         }
         $this->form = null;
@@ -153,8 +147,7 @@ class datamanager
      */
     public function get_storage()
     {
-        if (!$this->storage)
-        {
+        if (!$this->storage) {
             $this->set_storage(null);
         }
         return $this->storage;
@@ -166,8 +159,7 @@ class datamanager
      */
     public function get_renderer()
     {
-        if ($this->renderer === null)
-        {
+        if ($this->renderer === null) {
             $this->renderer = new renderer(new engine);
             $this->renderer->set_l10n($this->schema->get_l10n());
         }
@@ -191,21 +183,18 @@ class datamanager
      */
     public function get_form($name = null)
     {
-        if ($name == null)
-        {
+        if ($name == null) {
             $name = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_COMPONENT);
             // Replace the dots in the component name with underscores
             $name = midcom::get()->componentloader->path_to_prefix($name);
         }
-        if (! $name)
-        {
+        if (! $name) {
             // Fallback for componentless operation
             $name = 'midcom_helper_datamanager2';
         }
 
         if (   $this->form === null
-            || $this->form->getName() != $name)
-        {
+            || $this->form->getName() != $name) {
             $this->get_storage();
             $builder = self::get_factory()->createNamedBuilder($name, compat::get_type_name('form'), $this->storage);
             $this->form = $this->schema->build_form($builder);
@@ -222,10 +211,8 @@ class datamanager
         $renderer = $this->get_renderer();
         $renderer->set_template($view, new template\view($renderer));
 
-        foreach ($view->children as $name => $value)
-        {
-            if ($name == 'form_toolbar')
-            {
+        foreach ($view->children as $name => $value) {
+            if ($name == 'form_toolbar') {
                 continue;
             }
             $ret[$name] = $renderer->widget($value);

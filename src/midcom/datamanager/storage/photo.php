@@ -20,32 +20,26 @@ class photo extends images
      */
     public function save()
     {
-        if ($this->value === null)
-        {
+        if ($this->value === null) {
             //delete?
         }
 
         $existing = $this->load();
-        if (!empty($this->value['file']))
-        {
+        if (!empty($this->value['file'])) {
             $this->convert_to_web_type($this->value['file']);
             $attachment = $this->get_attachment($this->value['file'], $existing, 'archival');
-            if (!$attachment->copy_from_file($this->value['file']['tmp_name']))
-            {
+            if (!$attachment->copy_from_file($this->value['file']['tmp_name'])) {
                 throw new midcom_error('Failed to copy attachment');
             }
 
-            if (!empty($this->config['type_config']['filter_chain']))
-            {
+            if (!empty($this->config['type_config']['filter_chain'])) {
                 $this->apply_filter($attachment, $this->config['type_config']['filter_chain']);
             }
 
             $this->set_imagedata($attachment);
             $this->map = array('archival' => $attachment);
-            if (!empty($this->config['type_config']['derived_images']))
-            {
-                foreach ($this->config['type_config']['derived_images'] as $identifier => $filter_chain)
-                {
+            if (!empty($this->config['type_config']['derived_images'])) {
+                foreach ($this->config['type_config']['derived_images'] as $identifier => $filter_chain) {
                     $derived = $this->get_attachment($this->value['file'], $existing, $identifier);
                     $this->apply_filter($attachment, $filter_chain, $derived);
                     $this->set_imagedata($derived);
@@ -54,9 +48,7 @@ class photo extends images
             }
 
             return $this->save_attachment_list();
-        }
-        elseif (!empty($this->value['delete']))
-        {
+        } elseif (!empty($this->value['delete'])) {
             $this->map = array();
             return $this->save_attachment_list();
         }
@@ -73,11 +65,9 @@ class photo extends images
     protected function get_attachment(array $data, $existing, $identifier)
     {
         $filename = midcom_db_attachment::safe_filename($identifier . '_' . $data['name'], true);
-        if (!empty($existing[$identifier]))
-        {
+        if (!empty($existing[$identifier])) {
             $attachment = $existing[$identifier];
-            if ($attachment->name != $filename)
-            {
+            if ($attachment->name != $filename) {
                 $attachment->name = $this->generate_unique_name($filename);
             }
             $attachment->title = $data['name'];
@@ -100,8 +90,7 @@ class photo extends images
     protected function convert_to_web_type(array &$data)
     {
         $original_mimetype = $data['type'];
-        switch (preg_replace('/;.+$/', '', $original_mimetype))
-        {
+        switch (preg_replace('/;.+$/', '', $original_mimetype)) {
             case 'image/png':
             case 'image/gif':
             case 'image/jpeg':
@@ -126,8 +115,7 @@ class photo extends images
         $filter->convert($conversion);
 
         // Prevent double .jpg.jpg
-        if (!preg_match("/\.{$conversion}$/", $data['tmp_name']))
-        {
+        if (!preg_match("/\.{$conversion}$/", $data['tmp_name'])) {
             // Make sure there is only one extension on the file ??
             $data['name'] = midcom_db_attachment::safe_filename($data['tmp_name'] . ".{$conversion}", true);
         }

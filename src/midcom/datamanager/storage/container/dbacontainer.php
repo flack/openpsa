@@ -26,17 +26,14 @@ class dbacontainer extends container
         $this->object = $object;
         $this->schema = $schema;
 
-        foreach ($this->schema->get_fields() as $name => $config)
-        {
-            if (array_key_exists($name, $defaults))
-            {
+        foreach ($this->schema->get_fields() as $name => $config) {
+            if (array_key_exists($name, $defaults)) {
                 $config['default'] = $defaults[$name];
             }
             $config['name'] = $name;
             $field = $this->prepare_field($config);
             if (   isset($config['default'])
-                && !$this->object->id)
-            {
+                && !$this->object->id) {
                 $field->set_value($config['default']);
             }
 
@@ -70,27 +67,17 @@ class dbacontainer extends container
         if (   empty($config['storage']['location'])
                // This line is needed because a parameter default is set by the schema parser and then ignored
                // by the type. The things we do for backwards compatibility...
-            || $config['storage']['location'] === 'parameter')
-        {
-            if (class_exists('midcom\datamanager\storage\\' . $config['type']))
-            {
+            || $config['storage']['location'] === 'parameter') {
+            if (class_exists('midcom\datamanager\storage\\' . $config['type'])) {
                 $classname = 'midcom\datamanager\storage\\' . $config['type'];
-            }
-            else if (strtolower($config['storage']['location']) === 'parameter')
-            {
+            } elseif (strtolower($config['storage']['location']) === 'parameter') {
                 $classname = 'midcom\datamanager\storage\parameter';
-            }
-            else
-            {
+            } else {
                 return new transientnode($config);
             }
-        }
-        else if (strtolower($config['storage']['location']) === 'metadata')
-        {
+        } elseif (strtolower($config['storage']['location']) === 'metadata') {
             $classname = 'midcom\datamanager\storage\metadata';
-        }
-        else
-        {
+        } else {
             $classname = 'midcom\datamanager\storage\property';
         }
         return new $classname($this->object, $config);
@@ -98,25 +85,19 @@ class dbacontainer extends container
 
     public function save()
     {
-        if ($this->object->id)
-        {
+        if ($this->object->id) {
             $stat = $this->object->update();
-        }
-        else if ($stat = $this->object->create())
-        {
+        } elseif ($stat = $this->object->create()) {
             $this->object->set_parameter('midcom.helper.datamanager2', 'schema_name', $this->schema->get_name());
         }
-        if (!$stat)
-        {
-            if (\midcom_connection::get_error() === MGD_ERR_ACCESS_DENIED)
-            {
+        if (!$stat) {
+            if (\midcom_connection::get_error() === MGD_ERR_ACCESS_DENIED) {
                 throw new \midcom_error_forbidden('Failed to save: ' . \midcom_connection::get_error_string());
             }
             throw new \midcom_error('Failed to save: ' . \midcom_connection::get_error_string());
         }
 
-        foreach ($this->fields as $node)
-        {
+        foreach ($this->fields as $node) {
             $node->save();
         }
     }

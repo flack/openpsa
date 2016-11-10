@@ -44,10 +44,8 @@ class tinymce extends TextareaType
     {
         parent::configureOptions($resolver);
 
-        $map_attr = function (Options $options, $value)
-        {
-            if ($value === null)
-            {
+        $map_attr = function (Options $options, $value) {
+            if ($value === null) {
                 $value = array();
             }
             $value['rows'] = !empty($options['widget_config']['height']) ? $options['widget_config']['height'] : 6;
@@ -56,21 +54,17 @@ class tinymce extends TextareaType
             return $value;
         };
 
-        $get_config = function (Options $options, $value)
-        {
+        $get_config = function (Options $options, $value) {
             return \midcom_baseclasses_components_configuration::get('midcom.helper.datamanager2', 'config');
         };
 
-        $resolver->setDefaults(array
-        (
+        $resolver->setDefaults(array(
             'attr' => $map_attr,
             'config' => $get_config
         ));
 
-        $resolver->setNormalizer('widget_config', function (Options $options, $value)
-        {
-            $widget_defaults = array
-            (
+        $resolver->setNormalizer('widget_config', function (Options $options, $value) {
+            $widget_defaults = array(
                 'mode' => 'exact',
                 'theme' => $options['config']->get('tinymce_default_theme'),
                 'local_config' => '',
@@ -79,10 +73,8 @@ class tinymce extends TextareaType
             );
             return helper::resolve_options($widget_defaults, $value);
         });
-        $resolver->setNormalizer('type_config', function (Options $options, $value)
-        {
-            $type_defaults = array
-            (
+        $resolver->setNormalizer('type_config', function (Options $options, $value) {
+            $type_defaults = array(
 
             );
             return helper::resolve_options($type_defaults, $value);
@@ -109,8 +101,7 @@ class tinymce extends TextareaType
 
         $schema_name = 'default';
         $config = $this->get_configuration($options);
-        $tiny_options = array
-        (
+        $tiny_options = array(
             'config' => $config,
             'mode' => $options['widget_config']['mode'],
             'elements' => $view->vars['id'],
@@ -154,12 +145,10 @@ class tinymce extends TextareaType
      */
     private function get_configuration(array $options)
     {
-        if (!empty($options['widget_config']['mce_config_snippet']))
-        {
+        if (!empty($options['widget_config']['mce_config_snippet'])) {
             $config = midcom_helper_misc::get_snippet_content_graceful($options['widget_config']['mce_config_snippet']);
         }
-        if (empty($config))
-        {
+        if (empty($config)) {
             $config = midcom_helper_misc::get_snippet_content_graceful($options['config']->get('tinymce_default_config_snippet'));
         }
         return $config;
@@ -187,7 +176,7 @@ language : "{$language}",
 {$img}
 });
 EOT;
-    return $script;
+        return $script;
     }
 
     /**
@@ -203,8 +192,7 @@ EOT;
         $imagepopup_url = $prefix . '__ais/imagepopup/open/' . $schema_name . '/';
 
         $data = $form->getParent()->getData();
-        if ($object = $data->get_value())
-        {
+        if ($object = $data->get_value()) {
             $suffix = $object->guid . '/';
         }
 

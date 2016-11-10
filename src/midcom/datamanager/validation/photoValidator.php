@@ -13,8 +13,7 @@ class photoValidator extends ConstraintValidator
     public function validate($value, Constraint $constraint)
     {
         if (   empty($value['archival'])
-            && empty($value['file']))
-        {
+            && empty($value['file'])) {
             $this->context->buildViolation($constraint->message)
                 ->addViolation();
         }

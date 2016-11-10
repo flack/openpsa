@@ -23,14 +23,11 @@ class compat
      */
     public static function get_type_name($shortname)
     {
-        if (!static::is_legacy())
-        {
-            if (class_exists('midcom\datamanager\extension\type\\' . $shortname))
-            {
+        if (!static::is_legacy()) {
+            if (class_exists('midcom\datamanager\extension\type\\' . $shortname)) {
                 return 'midcom\datamanager\extension\type\\' . $shortname;
             }
-            if (class_exists('Symfony\Component\Form\Extension\Core\Type\\' . ucfirst($shortname) . 'Type'))
-            {
+            if (class_exists('Symfony\Component\Form\Extension\Core\Type\\' . ucfirst($shortname) . 'Type')) {
                 return 'Symfony\Component\Form\Extension\Core\Type\\' . ucfirst($shortname) . 'Type';
             }
         }

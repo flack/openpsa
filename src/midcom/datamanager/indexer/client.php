@@ -19,10 +19,8 @@ abstract class client extends midcom_services_indexer_client
     {
         $documents = array();
 
-        foreach ($results as $object)
-        {
-            if (!$datamanager->set_storage($object))
-            {
+        foreach ($results as $object) {
+            if (!$datamanager->set_storage($object)) {
                 debug_add("Warning, failed to initialize datamanager for object {$object->id}. See debug log for details.", MIDCOM_LOG_WARN);
                 debug_print_r('Object dump:', $object);
                 continue;

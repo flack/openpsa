@@ -36,8 +36,7 @@ class datamanager2 extends dialog
     public function configure(OptionsResolver $resolver)
     {
         $resolver
-            ->setDefaults(array
-            (
+            ->setDefaults(array(
                 'controller' => null,
                 'save_callback' => null
             ))
@@ -46,12 +45,10 @@ class datamanager2 extends dialog
 
     public function get_button_config()
     {
-        return array
-        (
+        return array(
             MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_l10n('midcom')->get('edit'),
             MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
-            MIDCOM_TOOLBAR_OPTIONS => array
-            (
+            MIDCOM_TOOLBAR_OPTIONS => array(
                 'data-dialog' => 'dialog',
                 'data-dialog-cancel-label' => midcom::get()->i18n->get_l10n('midcom')->get('cancel')
             )
@@ -65,22 +62,17 @@ class datamanager2 extends dialog
         midcom::get()->style->append_styledir(__DIR__ . '/style');
         $this->state = $this->controller->process_form();
 
-        if ($this->state == 'save')
-        {
+        if ($this->state == 'save') {
             $url = '';
-            if (is_callable($this->save_callback))
-            {
+            if (is_callable($this->save_callback)) {
                 $url = call_user_func($this->save_callback, $this->controller);
-                if ($url !== null)
-                {
+                if ($url !== null) {
                     $url = $this->prepare_url($url);
                 }
             }
             midcom::get()->head->add_jscript('refresh_opener(' . $url . ');');
             $context->set_key(MIDCOM_CONTEXT_SHOWCALLBACK, array(midcom::get(), 'finish'));
-        }
-        else
-        {
+        } else {
             $context->set_key(MIDCOM_CONTEXT_SHOWCALLBACK, array($this->controller, 'display_form'));
         }
         return new \midcom_response_styled($context, 'POPUP');
@@ -102,8 +94,7 @@ class datamanager2 extends dialog
     private function prepare_url($url)
     {
         if (   substr($url, 0, 1) != '/'
-            && ! preg_match('|^https?://|', $url))
-        {
+            && ! preg_match('|^https?://|', $url)) {
             $url = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . $url;
         }
         return '"' . $url . '"';

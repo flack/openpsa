@@ -20,8 +20,7 @@ class formextension extends AbstractTypeExtension
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array
-        (
+        $resolver->setDefaults(array(
             'widget_config' => array(),
             'type_config' => array(),
             'dm2_type' => null,

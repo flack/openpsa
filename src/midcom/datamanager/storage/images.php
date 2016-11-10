@@ -16,20 +16,16 @@ class images extends blobs
 {
     public function save()
     {
-        if (!parent::save())
-        {
+        if (!parent::save()) {
             return false;
         }
-        foreach ($this->value as $data)
-        {
+        foreach ($this->value as $data) {
             $attachment = $this->map[$data['identifier']];
-            if (!empty($this->config['type_config']['filter_chain']))
-            {
+            if (!empty($this->config['type_config']['filter_chain'])) {
                 $this->apply_filter($attachment, $this->config['type_config']['filter_chain']);
             }
             $this->set_imagedata($attachment);
-            if (!empty($this->config['widget_config']['show_description']))
-            {
+            if (!empty($this->config['widget_config']['show_description'])) {
                 $attachment->set_parameter('midcom.helper.datamanager2.type.blobs', 'description', $data['description']);
             }
         }
@@ -41,8 +37,7 @@ class images extends blobs
         $blob = new midgard_blob($attachment->__object);
         $path = $blob->get_path();
 
-        if ($data = @getimagesize($path))
-        {
+        if ($data = @getimagesize($path)) {
             $attachment->set_parameter('midcom.helper.datamanager2.type.blobs', 'size_x', $data[0]);
             $attachment->set_parameter('midcom.helper.datamanager2.type.blobs', 'size_y', $data[1]);
             $attachment->set_parameter('midcom.helper.datamanager2.type.blobs', 'size_line', $data[3]);
@@ -58,15 +53,13 @@ class images extends blobs
      */
     protected function apply_filter(midcom_db_attachment $source, $filterchain, $target = null)
     {
-        if ($target === null)
-        {
+        if ($target === null) {
             $target = $source;
         }
         $filter = new midcom_helper_imagefilter($source);
         $filter->process_chain($filterchain);
 
-        if (!$filter->write($target))
-        {
+        if (!$filter->write($target)) {
             throw new midcom_error("Failed to update image '{$target->guid}'");
         }
     }

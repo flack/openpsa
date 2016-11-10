@@ -33,12 +33,9 @@ class createphp
 
     public function __construct(array $config, RdfMapperInterface $mapper = null)
     {
-        if (null === $mapper)
-        {
+        if (null === $mapper) {
             $this->_mapper = new dba2rdfMapper;
-        }
-        else
-        {
+        } else {
             $this->_mapper = $mapper;
         }
         $loader = new ArrayLoader($config);
@@ -105,12 +102,9 @@ class createphp
 
     public function get_object(array $data = null)
     {
-        if (!empty($data))
-        {
+        if (!empty($data)) {
             $object = $this->_mapper->getBySubject(trim($data['@subject'], '<>'));
-        }
-        else if (!empty($_GET['subject']))
-        {
+        } elseif (!empty($_GET['subject'])) {
             $object = $this->_mapper->getBySubject(trim($_GET['subject'], '<>'));
         }
 
@@ -124,13 +118,11 @@ class createphp
      */
     public function process_rest($data, $rdf_schema_name = false)
     {
-        if (null === $data)
-        {
+        if (null === $data) {
             $data = array();
         }
 
-        if (!$rdf_schema_name)
-        {
+        if (!$rdf_schema_name) {
             $rdf_schema_name = $this->_get_rdf_schema_name($data);
         }
 
@@ -142,9 +134,8 @@ class createphp
 
     public function process_workflow()
     {
-        if (empty($_GET["subject"]))
-        {
-            throw new midcom_error ("no subject passed");
+        if (empty($_GET["subject"])) {
+            throw new midcom_error("no subject passed");
         }
 
         return new \midcom_response_json($this->_manager->getRestHandler()->getWorkflows($_GET["subject"]));

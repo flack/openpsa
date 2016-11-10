@@ -14,25 +14,18 @@ class photo extends blobs
 {
     public function transform($input)
     {
-        if ($input === null)
-        {
+        if ($input === null) {
             return;
         }
         $result = array();
-        foreach ($input as $key => $value)
-        {
-            if ($value instanceof midcom_db_attachment)
-            {
+        foreach ($input as $key => $value) {
+            if ($value instanceof midcom_db_attachment) {
                 //This is converting from storage
                 $result[$key] = $this->transform_persistent($value);
-            }
-            else if (!empty($value['object']))
-            {
+            } elseif (!empty($value['object'])) {
                 //This is during validation errors
                 $result[$key] = $this->transform_persistent($value['object']);
-            }
-            else if ($value !== null)
-            {
+            } elseif ($value !== null) {
                 $result[$key] = $this->transform_nonpersistent(array('file' => $value, 'identifier' => 'archival'));
             }
         }

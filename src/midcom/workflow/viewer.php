@@ -19,11 +19,9 @@ class viewer extends dialog
 {
     public function get_button_config()
     {
-        return array
-        (
+        return array(
             MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('view', 'midcom'),
-            MIDCOM_TOOLBAR_OPTIONS => array
-            (
+            MIDCOM_TOOLBAR_OPTIONS => array(
                 'data-dialog' => 'dialog',
             )
         );

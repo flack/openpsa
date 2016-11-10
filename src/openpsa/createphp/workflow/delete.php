@@ -20,15 +20,12 @@ class delete implements WorkflowInterface
     public function getToolbarConfig($object)
     {
         if (    $object->can_do('midgard:delete')
-             && !empty($object->up))
-        {
+             && !empty($object->up)) {
             // show delete for all collection children
-            return array
-            (
+            return array(
                 'name' => "delete",
                 'label' => \midcom::get()->i18n->get_l10n('midcom')->get('delete'),
-                'action' => array
-                (
+                'action' => array(
                     'type' => "backbone_destroy"
                 ),
                 'type' => "button"
@@ -39,8 +36,7 @@ class delete implements WorkflowInterface
 
     public function run($object)
     {
-        if (!$object->delete())
-        {
+        if (!$object->delete()) {
             throw new \midcom_error("failed to delete " . get_class($object) . " #" . $object->id . ': ' . \midcom_connection::get_error_string());
         }
         return array();

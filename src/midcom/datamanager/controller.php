@@ -48,23 +48,19 @@ class controller
 
     public function process()
     {
-        if (!$this->form->isSubmitted())
-        {
+        if (!$this->form->isSubmitted()) {
             $this->form->handleRequest();
         }
         // we add the stylesheet regardless of processing result, since save does not automatically mean relocate...
         midcom::get()->head->add_stylesheet(MIDCOM_STATIC_URL . "/midcom.datamanager/default.css");
 
-        if ($this->form->isSubmitted())
-        {
+        if ($this->form->isSubmitted()) {
             $button = $this->form->getClickedButton();
             if (   $button
-                && $button->getConfig()->getOption('operation') == self::CANCEL)
-            {
+                && $button->getConfig()->getOption('operation') == self::CANCEL) {
                 return self::CANCEL;
             }
-            if ($this->form->isValid())
-            {
+            if ($this->form->isValid()) {
                 $this->storage->save();
                 return self::SAVE;
             }
@@ -80,15 +76,12 @@ class controller
     public function get_errors()
     {
         $errors = array();
-        foreach ($this->form as $child)
-        {
+        foreach ($this->form as $child) {
             $messages = '';
-            foreach ($child->getErrors(true) as $error)
-            {
+            foreach ($child->getErrors(true) as $error) {
                 $messages .= $error->getMessage();
             }
-            if (!empty($messages))
-            {
+            if (!empty($messages)) {
                 $errors[$child->getName()] = $messages;
             }
         }
@@ -97,8 +90,7 @@ class controller
 
     public function get_form_values()
     {
-        if (!$this->form->isSubmitted())
-        {
+        if (!$this->form->isSubmitted()) {
             throw new midcom_error('form is not submitted');
         }
         return $this->form->getData();

@@ -45,14 +45,11 @@ class jsdate extends AbstractType
     {
         parent::configureOptions($resolver);
 
-        $resolver->setDefaults(array
-        (
+        $resolver->setDefaults(array(
             'error_bubbling' => false
         ));
-        $resolver->setNormalizer('widget_config', function (Options $options, $value)
-        {
-            $widget_defaults = array
-            (
+        $resolver->setNormalizer('widget_config', function (Options $options, $value) {
+            $widget_defaults = array(
                 'showOn' => 'both',
                 'format' => '%Y-%m-%d %H:%M',
                 'hide_seconds' => true,
@@ -62,10 +59,8 @@ class jsdate extends AbstractType
             );
             return helper::resolve_options($widget_defaults, $value);
         });
-        $resolver->setNormalizer('type_config', function (Options $options, $value)
-        {
-            $type_defaults = array
-            (
+        $resolver->setNormalizer('type_config', function (Options $options, $value) {
+            $type_defaults = array(
                 'storage_type' => jsdate::ISO,
             );
             return helper::resolve_options($type_defaults, $value);
@@ -79,33 +74,27 @@ class jsdate extends AbstractType
     {
         $builder->addModelTransformer(new jsdatetransformer($options));
 
-        $date_options = array
-        (
+        $date_options = array(
             'widget' => 'single_text'
         );
 
-        if ($options['required'])
-        {
+        if ($options['required']) {
             $date_options['constraints'] = array(new NotBlank());
         }
 
         $builder->add('date', compat::get_type_name('date'), $date_options);
-        if ($options['widget_config']['show_time'])
-        {
+        if ($options['widget_config']['show_time']) {
             $pattern = '[0-2][0-9]:[0-5][0-9]';
-            if (!$options['widget_config']['hide_seconds'])
-            {
+            if (!$options['widget_config']['hide_seconds']) {
                 $pattern .= ':[0-5][0-9]';
             }
-            $time_options = array
-            (
+            $time_options = array(
                 'widget' => 'single_text',
                 'with_seconds' => !$options['widget_config']['hide_seconds'],
                 'attr' => array('size' => 11, 'pattern' => $pattern),
                 'error_bubbling' => true,
             );
-            if ($options['required'])
-            {
+            if ($options['required']) {
                 $time_options['constraints'] = array(new NotBlank());
             }
 
@@ -121,17 +110,14 @@ class jsdate extends AbstractType
          * Since a missing lang file causes the calendar to break, let's make extra sure
          * that this won't happen
          */
-        if (!file_exists(MIDCOM_STATIC_ROOT . "/jQuery/jquery-ui-" . midcom::get()->config->get('jquery_ui_version') . "/ui/i18n/datepicker-{$lang}.min.js"))
-        {
+        if (!file_exists(MIDCOM_STATIC_ROOT . "/jQuery/jquery-ui-" . midcom::get()->config->get('jquery_ui_version') . "/ui/i18n/datepicker-{$lang}.min.js")) {
             $lang = midcom::get()->i18n->get_fallback_language();
-            if (!file_exists(MIDCOM_STATIC_ROOT . "/jQuery/jquery-ui-" . midcom::get()->config->get('jquery_ui_version') . "/ui/i18n/datepicker-{$lang}.min.js"))
-            {
+            if (!file_exists(MIDCOM_STATIC_ROOT . "/jQuery/jquery-ui-" . midcom::get()->config->get('jquery_ui_version') . "/ui/i18n/datepicker-{$lang}.min.js")) {
                 $lang = false;
             }
         }
 
-        if ($lang)
-        {
+        if ($lang) {
             $head->add_jsfile(MIDCOM_JQUERY_UI_URL . "/ui/i18n/datepicker-{$lang}.min.js");
         }
     }
@@ -143,12 +129,10 @@ class jsdate extends AbstractType
     {
         $init_max = new DateTime($options['widget_config']['maxyear'] . '-12-31');
         $init_min = new DateTime($options['widget_config']['minyear'] . '-01-01');
-        if (!empty($options['max_date']))
-        {
+        if (!empty($options['max_date'])) {
             $init_max = new DateTime($options['max_date']);
         }
-        if (!empty($options['min_date']))
-        {
+        if (!empty($options['min_date'])) {
             $init_min = new DateTime($options['min_date']);
         }
 

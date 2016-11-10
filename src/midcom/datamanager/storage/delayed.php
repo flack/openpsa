@@ -22,8 +22,7 @@ abstract class delayed extends dbanode
 
     public function get_value()
     {
-        if (!$this->initialized)
-        {
+        if (!$this->initialized) {
             $this->value = $this->load();
             $this->initialized = true;
         }

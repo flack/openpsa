@@ -30,8 +30,7 @@ abstract class dialog
         $resolver = new OptionsResolver();
         $this->configure($resolver);
 
-        foreach ($resolver->resolve($options) as $key => $value)
-        {
+        foreach ($resolver->resolve($options) as $key => $value) {
             $this->$key = $value;
         }
     }
@@ -73,11 +72,9 @@ abstract class dialog
         $button_config = $this->get_button_config();
         $button_config[MIDCOM_TOOLBAR_URL] = $url;
         //The constants are numeric, so array_merge won't work...
-        foreach ($options as $key => $value)
-        {
+        foreach ($options as $key => $value) {
             if (   is_array($value)
-                && !empty($button_config[$key]))
-            {
+                && !empty($button_config[$key])) {
                 $value = array_merge($button_config[$key], $value);
             }
             $button_config[$key] = $value;
@@ -95,8 +92,7 @@ abstract class dialog
 
         $output = ' title="' . htmlspecialchars($button_config[MIDCOM_TOOLBAR_LABEL]) . '"';
 
-        foreach ($button_config[MIDCOM_TOOLBAR_OPTIONS] as $key => $val)
-        {
+        foreach ($button_config[MIDCOM_TOOLBAR_OPTIONS] as $key => $val) {
             $output .= ' ' . $key . '="' . htmlspecialchars($val) . '"';
         }
 
