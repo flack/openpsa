@@ -44,7 +44,7 @@ class midcom_helper_nav_itemlist_score extends midcom_helper_nav_itemlist
      * @param array $b    Navigation item array
      * @return integer    Preferred order
      */
-    public static function sort_cmp ($a, $b)
+    public static function sort_cmp($a, $b)
     {
         // This should also sort out the situation were score is not set.
         if ($a[MIDCOM_NAV_SCORE] === $b[MIDCOM_NAV_SCORE])

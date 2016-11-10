@@ -137,7 +137,7 @@ class net_nehmer_blog_handler_view extends midcom_baseclasses_components_handler
      * @param array &$data The local request data.
      * @return boolean True if the request can be handled, false otherwise.
      */
-    public function _can_handle_view ($handler_id, array $args, array &$data)
+    public function _can_handle_view($handler_id, array $args, array &$data)
     {
         $qb = midcom_db_article::new_query_builder();
         net_nehmer_blog_viewer::article_qb_constraints($qb, $data, $handler_id);
@@ -163,7 +163,7 @@ class net_nehmer_blog_handler_view extends midcom_baseclasses_components_handler
      * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_view ($handler_id, array $args, array &$data)
+    public function _handler_view($handler_id, array $args, array &$data)
     {
         if ($handler_id == 'view-raw')
         {
@@ -257,7 +257,7 @@ class net_nehmer_blog_handler_view extends midcom_baseclasses_components_handler
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_view ($handler_id, array &$data)
+    public function _show_view($handler_id, array &$data)
     {
         if ($this->_config->get('enable_ajax_editing'))
         {

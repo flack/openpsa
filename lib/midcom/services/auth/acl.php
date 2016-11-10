@@ -382,7 +382,7 @@ class midcom_services_auth_acl
      *
      * @param array $privileges An associative privilege_name => default_values listing.
      */
-    public function register_default_privileges ($privileges)
+    public function register_default_privileges($privileges)
     {
         foreach ($privileges as $name => $values)
         {

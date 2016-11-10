@@ -435,7 +435,7 @@ class midcom_services_auth
      * @param string $domain The domain to request sudo for. This is a component name.
      * @return boolean True if admin privileges were granted, false otherwise.
      */
-    public function request_sudo ($domain = null)
+    public function request_sudo($domain = null)
     {
         if (!midcom::get()->config->get('auth_allow_sudo'))
         {

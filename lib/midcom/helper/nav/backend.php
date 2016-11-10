@@ -990,7 +990,7 @@ class midcom_helper_nav_backend
      * @param string $leaf_id    The leaf-id to be retrieved.
      * @return Array        The leaf-data as outlined in the class introduction, false on failure
      */
-    public function get_leaf ($leaf_id)
+    public function get_leaf($leaf_id)
     {
         if (!$this->_check_leaf_id($leaf_id))
         {

@@ -326,7 +326,7 @@ class midcom_helper__componentloader
      * @param string $path    Input string.
      * @return string        Converted string.
      */
-    public function path_to_prefix ($path)
+    public function path_to_prefix($path)
     {
         return strtr($path, ".", "_");
     }

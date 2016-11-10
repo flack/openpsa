@@ -115,7 +115,7 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
     /**
      * DM2 creation callback, binds to the current content topic.
      */
-    public function & dm2_create_callback (&$controller)
+    public function & dm2_create_callback(&$controller)
     {
         $this->_new_topic = new midcom_db_topic();
         $this->_new_topic->up = $this->_topic->id;

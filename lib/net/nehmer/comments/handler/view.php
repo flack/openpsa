@@ -149,7 +149,7 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
     /**
      * DM2 creation callback, binds the new object directly to the _objectguid.
      */
-    public function & dm2_create_callback (&$controller)
+    public function & dm2_create_callback(&$controller)
     {
         $this->_new_comment = new net_nehmer_comments_comment();
         $this->_new_comment->objectguid = $this->_objectguid;
@@ -346,7 +346,7 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
      */
     private function _get_last_modified()
     {
-        return array_reduce($this->_comments, function($carry, net_nehmer_comments_comment $item)
+        return array_reduce($this->_comments, function ($carry, net_nehmer_comments_comment $item)
         {
             return max($item->metadata->revised, $carry);
         }, 0);

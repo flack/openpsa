@@ -58,7 +58,7 @@ implements midcom_helper_datamanager2_interfaces_create
     /**
      * DM2 creation callback.
      */
-    public function & dm2_create_callback (&$controller)
+    public function & dm2_create_callback(&$controller)
     {
         // Create a new group
         $this->_group = new midcom_db_group();

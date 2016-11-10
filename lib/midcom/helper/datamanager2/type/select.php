@@ -520,7 +520,7 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
      * CSV conversion works from the storage representation, converting the arrays
      * into simple text lists.
      */
-    public function convert_from_csv ($source)
+    public function convert_from_csv($source)
     {
         $source = explode(',', $source);
         $this->convert_from_storage($source);

@@ -157,7 +157,7 @@ class midcom_helper_datamanager2_type_text extends midcom_helper_datamanager2_ty
         }
     }
 
-    public function convert_from_storage ($source)
+    public function convert_from_storage($source)
     {
         $this->value = $source;
     }
@@ -245,7 +245,7 @@ class midcom_helper_datamanager2_type_text extends midcom_helper_datamanager2_ty
         return $this->value;
     }
 
-    public function convert_from_csv ($source)
+    public function convert_from_csv($source)
     {
         $this->value = $source;
     }

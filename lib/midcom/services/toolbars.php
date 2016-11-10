@@ -207,7 +207,7 @@ class midcom_services_toolbars
      *
      * @param int $context_id The context ID for whicht the toolbars should be created.
      */
-    private function _create_toolbars ($context_id)
+    private function _create_toolbars($context_id)
     {
         $component = midcom_core_context::get($context_id)->get_key(MIDCOM_CONTEXT_COMPONENT);
         $topic = midcom_core_context::get($context_id)->get_key(MIDCOM_CONTEXT_CONTENTTOPIC);

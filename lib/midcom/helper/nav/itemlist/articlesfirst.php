@@ -16,7 +16,7 @@
  */
 class midcom_helper_nav_itemlist_articlesfirst extends midcom_helper_nav_itemlist
 {
-    public function get_sorted_list ()
+    public function get_sorted_list()
     {
         $nodes_list = $this->_nap->list_nodes($this->parent_node_id);
         if ($nodes_list === false)

@@ -916,7 +916,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
      * @param string $namespace The plugin namespace to use.
      * @param string $plugin The plugin to load from the namespace.
      */
-    public function _prepare_plugin ($namespace, $plugin)
+    public function _prepare_plugin($namespace, $plugin)
     {
         $handlers = $this->_active_plugin->get_plugin_handlers();
 

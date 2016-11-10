@@ -175,7 +175,7 @@ abstract class midcom_helper_datamanager2_type extends midcom_baseclasses_compon
      *
      * @param mixed $source The storage data structure.
      */
-    abstract public function convert_from_storage ($source);
+    abstract public function convert_from_storage($source);
 
     /**
      * Converts from "operational" format to from storage format.
@@ -193,7 +193,7 @@ abstract class midcom_helper_datamanager2_type extends midcom_baseclasses_compon
      *
      * @param string $source The CSV representation that has to be parsed.
      */
-    abstract public function convert_from_csv ($source);
+    abstract public function convert_from_csv($source);
 
     /**
      * Transforms the current object's state into a CSV string representation.

@@ -617,7 +617,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
      * @param string $string The string to be translated.
      * @return string The translated string.
      */
-    public function translate_schema_string ($string)
+    public function translate_schema_string($string)
     {
         $translate_string = strtolower($string);
 

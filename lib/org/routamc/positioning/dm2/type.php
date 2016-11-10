@@ -76,7 +76,7 @@ class org_routamc_positioning_dm2_type extends midcom_helper_datamanager2_type
         return '';
     }
 
-    public function convert_from_csv ($source)
+    public function convert_from_csv($source)
     {
         // TODO: Not yet supported
         return '';

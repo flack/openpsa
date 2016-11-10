@@ -79,7 +79,7 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
      * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_welcome ($handler_id, array $args, array &$data)
+    public function _handler_welcome($handler_id, array $args, array &$data)
     {
         $this->_compute_welcome_data();
         $this->_prepare_request_data();
@@ -302,7 +302,7 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
      * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_list ($handler_id, array $args, array &$data)
+    public function _handler_list($handler_id, array $args, array &$data)
     {
         // Get Articles, distinguish by handler.
         $qb = midcom_db_article::new_query_builder();

@@ -203,7 +203,7 @@ class midcom_helper_datamanager2_type_privilege extends midcom_helper_datamanage
         }
     }
 
-    public function convert_from_csv ($source)
+    public function convert_from_csv($source)
     {
         $this->set_value((int) $source);
     }

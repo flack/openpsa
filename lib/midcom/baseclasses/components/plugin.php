@@ -27,5 +27,5 @@ abstract class midcom_baseclasses_components_plugin extends midcom_baseclasses_c
         $this->_on_initialize();
     }
 
-    public function _on_initialize(){}
+    public function _on_initialize() {}
 }

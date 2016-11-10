@@ -524,7 +524,7 @@ class midcom_services_i18n_l10n
      * @param string $language The language to search in, uses the current language as default.
      * @see get()
      */
-    public function show ($string, $language = null)
+    public function show($string, $language = null)
     {
         echo $this->get($string, $language);
     }
@@ -552,7 +552,7 @@ class midcom_services_i18n_l10n
      * @param string $language        The language to edit.
      * @param string $translation    The UTF-8 encoded string to add/update.
      */
-    function update ($string, $language, $translation)
+    function update($string, $language, $translation)
     {
         $this->_check_for_language($language);
         $this->_stringdb[$language][$string] = $translation;
@@ -565,7 +565,7 @@ class midcom_services_i18n_l10n
      * @param string $string        The string-ID to edit.
      * @param string $language        The language to edit.
      */
-    function delete ($string, $language)
+    function delete($string, $language)
     {
         // This is error-resilient, deleting a non-existent string will
         // just do nothing.

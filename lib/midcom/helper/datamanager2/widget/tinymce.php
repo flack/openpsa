@@ -240,7 +240,7 @@ EOT;
     /**
      * Returns the "advanced" configuration
      */
-    private function _get_advanced_configuration ()
+    private function _get_advanced_configuration()
     {
         return <<<EOT
 theme: "modern",
@@ -256,7 +256,7 @@ EOT;
     /**
      * Returns the "tiny" configuration
      */
-    private function _get_tiny_configuration ()
+    private function _get_tiny_configuration()
     {
         return <<<EOT
 theme : "modern",

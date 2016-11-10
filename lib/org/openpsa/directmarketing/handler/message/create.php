@@ -56,7 +56,7 @@ implements midcom_helper_datamanager2_interfaces_create
     /**
      * DM2 creation callback, binds to the current content topic.
      */
-    public function & dm2_create_callback (&$controller)
+    public function & dm2_create_callback(&$controller)
     {
         $this->_message = new org_openpsa_directmarketing_campaign_message_dba();
         $this->_message->campaign = $this->_request_data['campaign']->id;

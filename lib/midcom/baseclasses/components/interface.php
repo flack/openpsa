@@ -377,7 +377,7 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
      * @param midcom_db_topic $topic The topic this document is assigned to.
      * @return boolean True if the object may be shown, false otherwise.
      */
-    public function check_document_permissions (&$document, $topic)
+    public function check_document_permissions(&$document, $topic)
     {
         return $this->_on_check_document_permissions($document, $this->get_config_for_topic($topic), $topic);
     }
@@ -558,7 +558,7 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
      * @param MidgardTopic $topic The topic this document is assigned to.
      * @return boolean True if the object may be shown, false otherwise.
      */
-    public function _on_check_document_permissions (&$document, $config, $topic)
+    public function _on_check_document_permissions(&$document, $config, $topic)
     {
         return true;
     }

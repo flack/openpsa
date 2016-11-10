@@ -104,7 +104,7 @@ class org_openpsa_mail_template
      *
      * @param array $parameters The parameters to replace
      */
-    public function __construct (array $parameters)
+    public function __construct(array $parameters)
     {
         $this->_parameters = $parameters;
 

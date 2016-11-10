@@ -128,7 +128,7 @@ class midcom_services_i18n
      *
      * @param string $charset    Charset name.
      */
-    public function set_charset ($charset)
+    public function set_charset($charset)
     {
         $charset = strtolower($charset);
         $this->_current_charset = $charset;

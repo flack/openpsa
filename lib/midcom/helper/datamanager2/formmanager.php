@@ -507,7 +507,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
      *
      * @param HTML_QuickForm_Renderer $renderer A prepared renderer instance.
      */
-    function set_renderer (HTML_QuickForm_Renderer $renderer)
+    function set_renderer(HTML_QuickForm_Renderer $renderer)
     {
         $this->renderer = $renderer;
     }

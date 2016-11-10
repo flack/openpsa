@@ -43,7 +43,7 @@ class midcom_services_metadata
      * @param int $context_id The context to retrieve the node metadata for, this
      *     defaults to the current context.
      */
-    function & get_node_metadata ($context_id = null)
+    function & get_node_metadata($context_id = null)
     {
         if ($context_id === null)
         {
@@ -65,7 +65,7 @@ class midcom_services_metadata
      * @param int $context_id The context to retrieve the view metadata for, this
      *     defaults to the current context.
      */
-    function & get_view_metadata ($context_id = null)
+    function & get_view_metadata($context_id = null)
     {
         if ($context_id === null)
         {
@@ -85,7 +85,7 @@ class midcom_services_metadata
      *
      * @param int $context_id The context ID for which the metadata should be created.
      */
-    private function _create_metadata ($context_id)
+    private function _create_metadata($context_id)
     {
         $this->_metadata[$context_id] = Array();
         $this->_metadata[$context_id][MIDCOM_METADATA_VIEW] = null;

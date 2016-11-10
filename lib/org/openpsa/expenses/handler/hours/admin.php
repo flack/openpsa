@@ -68,7 +68,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
     /**
      * DM2 creation callback
      */
-    public function & dm2_create_callback (&$controller)
+    public function & dm2_create_callback(&$controller)
     {
         $this->_hour_report = new org_openpsa_projects_hour_report_dba();
 

@@ -211,7 +211,7 @@ class midcom_helper_head
      * @param  array  $attributes Array of attribute=> value pairs to be placed in the tag.
      * @see print_head_elements()
      */
-    public function add_object_head ($script, $attributes = null)
+    public function add_object_head($script, $attributes = null)
     {
         $this->_object_head .= '<object' . $this->_get_attribute_string($attributes) . '>' . $script . "</object>\n";
     }

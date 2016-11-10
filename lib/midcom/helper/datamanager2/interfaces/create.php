@@ -27,5 +27,5 @@ interface midcom_helper_datamanager2_interfaces_create extends midcom_helper_dat
      * @param midcom_helper_datamanager2_controller_create &$controller The current controller
      * @return midcom_core_dbaobject The newly-created object
      */
-    public function & dm2_create_callback (&$controller);
+    public function & dm2_create_callback(&$controller);
 }

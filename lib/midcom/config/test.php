@@ -270,7 +270,7 @@ class midcom_config_test
         }
     }
 
-    private function check_for_utility ($testname, $fail_code, $fail_recommendations, $ok_notice = '&nbsp;')
+    private function check_for_utility($testname, $fail_code, $fail_recommendations, $ok_notice = '&nbsp;')
     {
         $executable = midcom::get()->config->get("utility_{$testname}");
         if (is_null($executable))

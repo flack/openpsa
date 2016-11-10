@@ -287,7 +287,7 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
      *
      * @var mixed $source
      */
-    public function convert_from_storage ($source)
+    public function convert_from_storage($source)
     {
         $this->selection = array();
         // Check for the defaults section first

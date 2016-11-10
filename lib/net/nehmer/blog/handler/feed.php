@@ -60,7 +60,7 @@ class net_nehmer_blog_handler_feed extends midcom_baseclasses_components_handler
      * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_feed ($handler_id, array $args, array &$data)
+    public function _handler_feed($handler_id, array $args, array &$data)
     {
         midcom::get()->cache->content->content_type("text/xml; charset=UTF-8");
         midcom::get()->header("Content-type: text/xml; charset=UTF-8");
@@ -217,7 +217,7 @@ class net_nehmer_blog_handler_feed extends midcom_baseclasses_components_handler
      * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_index ($handler_id, array $args, array &$data)
+    public function _handler_index($handler_id, array $args, array &$data)
     {
         $this->set_active_leaf(net_nehmer_blog_navigation::LEAFID_FEEDS);
         midcom::get()->metadata->set_request_metadata($this->_topic->metadata->revised, $this->_topic->guid);
@@ -229,7 +229,7 @@ class net_nehmer_blog_handler_feed extends midcom_baseclasses_components_handler
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_index ($handler_id, array &$data)
+    public function _show_index($handler_id, array &$data)
     {
         midcom_show_style('feeds');
     }

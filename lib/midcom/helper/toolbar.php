@@ -582,7 +582,7 @@ class midcom_helper_toolbar
      */
     public function render()
     {
-        $visible_items = array_filter($this->items, function($item)
+        $visible_items = array_filter($this->items, function ($item)
         {
             return !$item[MIDCOM_TOOLBAR_HIDDEN];
         });

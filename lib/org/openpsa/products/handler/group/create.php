@@ -66,7 +66,7 @@ implements midcom_helper_datamanager2_interfaces_create
     /**
      * DM2 creation callback, binds to the current content topic.
      */
-    public function & dm2_create_callback (&$controller)
+    public function & dm2_create_callback(&$controller)
     {
         $this->_group = new org_openpsa_products_product_group_dba();
         $this->_group->up = $this->_request_data['up'];

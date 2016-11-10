@@ -632,7 +632,7 @@ class midcom_helper__styleloader
      * @param dirname path of style directory within midcom.
      * @throws midcom exception if directory does not exist.
      */
-    function append_styledir ($dirname)
+    function append_styledir($dirname)
     {
         if (!file_exists($dirname))
         {
@@ -648,7 +648,7 @@ class midcom_helper__styleloader
      * @return boolean true if directory appended
      * @throws midcom_error if directory does not exist.
      */
-    function prepend_styledir ($dirname)
+    function prepend_styledir($dirname)
     {
         if (!file_exists($dirname))
         {
@@ -664,7 +664,7 @@ class midcom_helper__styleloader
      * @param string componentname
      * @throws midcom exception if directory does not exist.
      */
-    function append_component_styledir ($component)
+    function append_component_styledir($component)
     {
         $loader = midcom::get()->componentloader;
         $path = $loader->path_to_snippetpath($component) . "/style";
@@ -749,7 +749,7 @@ class midcom_helper__styleloader
      *
      * @param string component style
      */
-    private function _merge_styledirs ($component_style)
+    private function _merge_styledirs($component_style)
     {
         $current_context = midcom_core_context::get()->id;
         /* first the prepend styles */

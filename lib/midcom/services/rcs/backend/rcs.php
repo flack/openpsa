@@ -91,7 +91,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
      *      3 on missing object->guid
      *      nonzero on error in one of the commands.
      */
-    public function rcs_update ($object, $message)
+    public function rcs_update($object, $message)
     {
         if (empty($object->guid))
         {
@@ -399,7 +399,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
     /**
      * Writes $data to file $guid, does not return anything.
      */
-    private function rcs_writefile ($guid, $data)
+    private function rcs_writefile($guid, $data)
     {
         if (   !is_writable($this->_config->get_rcs_root())
             || empty($guid))
@@ -416,7 +416,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
      * @param string guid
      * @return string xml representation of guid
      */
-    private function rcs_readfile ($guid)
+    private function rcs_readfile($guid)
     {
         if (!empty($guid))
         {

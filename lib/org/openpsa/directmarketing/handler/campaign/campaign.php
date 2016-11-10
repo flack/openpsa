@@ -95,7 +95,7 @@ implements org_openpsa_widgets_grid_provider_client
     /**
      * Looks up an campaign to display.
      */
-    public function _handler_view ($handler_id, array $args, array &$data)
+    public function _handler_view($handler_id, array $args, array &$data)
     {
         $this->_campaign = $this->_master->load_campaign($args[0]);
 
@@ -182,7 +182,7 @@ implements org_openpsa_widgets_grid_provider_client
     /**
      * Shows the loaded campaign.
      */
-    public function _show_view ($handler_id, array &$data)
+    public function _show_view($handler_id, array &$data)
     {
         $data['view_campaign'] = $this->_datamanager->get_content_html();
         midcom_show_style('show-campaign');

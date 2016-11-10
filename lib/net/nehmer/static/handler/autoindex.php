@@ -51,7 +51,7 @@ class net_nehmer_static_handler_autoindex extends midcom_baseclasses_components_
      * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_autoindex ($handler_id, array $args, array &$data)
+    public function _handler_autoindex($handler_id, array $args, array &$data)
     {
         // Get last modified timestamp
         $qb = net_nehmer_static_viewer::get_topic_qb($this->_config, $this->_content_topic->id);
@@ -158,7 +158,7 @@ class net_nehmer_static_handler_autoindex extends midcom_baseclasses_components_
     /**
      * Converts the main document to a view entry.
      */
-    private function _process_datamanager ($datamanager, $article, array &$view)
+    private function _process_datamanager($datamanager, $article, array &$view)
     {
         $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
         $filename = "{$article->name}/";

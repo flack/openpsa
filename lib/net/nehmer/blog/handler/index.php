@@ -62,7 +62,7 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
      * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_index ($handler_id, array $args, array &$data)
+    public function _handler_index($handler_id, array $args, array &$data)
     {
         if ($handler_id == 'ajax-latest')
         {

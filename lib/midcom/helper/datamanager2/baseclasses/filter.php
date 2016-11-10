@@ -55,7 +55,7 @@ abstract class midcom_helper_datamanager2_baseclasses_filter
      *
      * @param string $name The new field name
      */
-    function set_fieldname ($name)
+    function set_fieldname($name)
     {
         $this->_fieldname = $name;
     }
@@ -67,5 +67,5 @@ abstract class midcom_helper_datamanager2_baseclasses_filter
      * @param mixed $input The form values which should be filtered.
      * @return mixed The filtered values.
      */
-    abstract public function execute ($input);
+    abstract public function execute($input);
 }

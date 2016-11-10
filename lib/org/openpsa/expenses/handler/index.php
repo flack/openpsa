@@ -23,7 +23,7 @@ class org_openpsa_expenses_handler_index  extends midcom_baseclasses_components_
      * @param array &$data The local request data.
      * @return boolean True if the request can be handled, false otherwise.
      */
-    public function _can_handle_index ($handler_id, array $args, array &$data)
+    public function _can_handle_index($handler_id, array $args, array &$data)
     {
         if (isset($args[0]))
         {
@@ -65,7 +65,7 @@ class org_openpsa_expenses_handler_index  extends midcom_baseclasses_components_
      * @param array $args the arguments given to the handler
      * @param array &$data The local request data.
      */
-    public function _handler_index ($handler_id, array $args, array &$data)
+    public function _handler_index($handler_id, array $args, array &$data)
     {
         midcom::get()->auth->require_valid_user();
 
