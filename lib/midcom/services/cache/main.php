@@ -89,8 +89,7 @@ class midcom_services_cache implements EventSubscriberInterface
     {
         $object = $event->get_object();
         $parent = $object->get_parent();
-        if (   $parent
-            && $parent->guid) {
+        if (!empty($parent->guid)) {
             // Invalidate parent from cache so content caches have chance to react
             $this->invalidate($parent);
         }
@@ -170,7 +169,7 @@ class midcom_services_cache implements EventSubscriberInterface
     /**
      * Invalidates all cache records associated with a given content object.
      *
-     * @param mixed $guid This is either a GUID or a MidgardObject, in which case the Guid is auto-dtermined.
+     * @param mixed $guid This is either a GUID or a MidgardObject, in which case the Guid is auto-determined.
      * @param string $skip_module If specified, the module mentioned here is skipped during invalidation.
      *     This option <i>should</i> be avoided by component authors at all costs, it is there for
      *     optimizations within the core cache modules (which sometimes need to invalidate only other

@@ -85,10 +85,8 @@ class midcom_baseclasses_core_dbobject
      */
     public static function update_post_ops(midcom_core_dbaobject $object)
     {
-        if (   midcom::get()->config->get('midcom_services_rcs_enable')
-            && $object->_use_rcs) {
-            $rcs = midcom::get()->rcs;
-            $rcs->update($object, $object->get_rcs_message());
+        if ($object->_use_rcs) {
+            midcom::get()->rcs->update($object, $object->get_rcs_message());
         }
 
         $object->_on_updated();
@@ -308,10 +306,8 @@ class midcom_baseclasses_core_dbobject
         $object->_on_created();
         midcom::get()->dispatcher->dispatch(dbaevent::CREATE, new dbaevent($object));
 
-        if (   midcom::get()->config->get('midcom_services_rcs_enable')
-            && $object->_use_rcs) {
-            $rcs = midcom::get()->rcs;
-            $rcs->update($object, $object->get_rcs_message());
+        if ($object->_use_rcs) {
+            midcom::get()->rcs->update($object, $object->get_rcs_message());
         }
     }
 
@@ -427,10 +423,8 @@ class midcom_baseclasses_core_dbobject
     {
         $object->_on_deleted();
         midcom::get()->dispatcher->dispatch(dbaevent::DELETE, new dbaevent($object));
-        if (   midcom::get()->config->get('midcom_services_rcs_enable')
-            && $object->_use_rcs) {
-            $rcs = midcom::get()->rcs;
-            $rcs->update($object, $object->get_rcs_message());
+        if ($object->_use_rcs) {
+            midcom::get()->rcs->update($object, $object->get_rcs_message());
         }
     }
 
