@@ -12,3 +12,4 @@ foreach ($view_toolbar->items as $key => $item) {
     }
 }
 echo $view_toolbar->render();
+?>
