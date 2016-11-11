@@ -25,7 +25,7 @@ $title_prefix = $topic->extra . ': ' . $context->get_key(MIDCOM_CONTEXT_PAGETITL
         <title>&(title_prefix); - <(title)> OpenPSA</title>
         <link type="image/x-icon" href="<?php echo MIDCOM_STATIC_URL; ?>/org.openpsa.core/openpsa-16x16.png" rel="shortcut icon"/>
         <?php
-          $head->add_stylesheet(MIDCOM_STATIC_URL . '/OpenPsa2/style.css', 'screen,projection');
+          $head->add_stylesheet(MIDCOM_STATIC_URL . '/OpenPsa2/style.css', 'screen');
           $head->add_stylesheet(MIDCOM_STATIC_URL . '/OpenPsa2/content.css', 'all');
           $head->add_stylesheet(MIDCOM_STATIC_URL . '/OpenPsa2/print.css', 'print');
           $head->add_stylesheet(MIDCOM_STATIC_URL . '/OpenPsa2/ui-elements.css', 'all');
@@ -58,7 +58,7 @@ $title_prefix = $topic->extra . ': ' . $context->get_key(MIDCOM_CONTEXT_PAGETITL
                 margin-left: &(content_offset);px;
             }
             </style>
-        <?php 
+        <?php
         } ?>
 
     </head>
