@@ -52,6 +52,7 @@
         ),
         'person' => array
         (
+            // NEEDED FOR VALIDATION
             'title'    => 'person',
             'storage'  => null,
             'type'     => 'text',

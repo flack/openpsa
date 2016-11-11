@@ -46,7 +46,7 @@
  */
 'user_passwords' => array
 (
-    'handler' => array('midcom_admin_user_handler_user_edit', 'passwords'),
+    'handler' => array('midcom_admin_user_handler_user_account', 'passwords'),
     'fixed_args' => 'password',
 ),
 /**
@@ -56,19 +56,19 @@
  */
 'user_edit_account' => array
 (
-    'handler' => array('midcom_admin_user_handler_user_edit', 'edit_account'),
+    'handler' => array('midcom_admin_user_handler_user_account', 'edit'),
     'fixed_args' => 'account',
     'variable_args' => 1,
 ),
 /**
  * Delete a user's account
  *
- * Match /user-editor/account/<guid>/
+ * Match /user-editor/account/delete/<guid>/
  */
 'user_delete_account' => array
 (
-    'handler' => array('midcom_admin_user_handler_user_edit', 'delete_account'),
-    'fixed_args' => 'delete_account',
+    'handler' => array('midcom_admin_user_handler_user_account', 'delete'),
+    'fixed_args' => array('account', 'delete'),
     'variable_args' => 1,
 ),
 /**

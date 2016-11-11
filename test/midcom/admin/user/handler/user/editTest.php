@@ -29,24 +29,4 @@ class midcom_admin_user_handler_user_editTest extends openpsa_testcase
 
         midcom::get()->auth->drop_sudo();
     }
-
-    public function testHandler_edit_account()
-    {
-        midcom::get()->auth->request_sudo('midcom.admin.user');
-
-        $data = $this->run_handler('net.nehmer.static', array('__mfa', 'asgard_midcom.admin.user', 'account', self::$_user->guid));
-        $this->assertEquals('____mfa-asgard_midcom.admin.user-user_edit_account', $data['handler_id']);
-
-        midcom::get()->auth->drop_sudo();
-    }
-
-    public function testHandler_passwords()
-    {
-        midcom::get()->auth->request_sudo('midcom.admin.user');
-
-        $data = $this->run_handler('net.nehmer.static', array('__mfa', 'asgard_midcom.admin.user', 'password'));
-        $this->assertEquals('____mfa-asgard_midcom.admin.user-user_passwords', $data['handler_id']);
-
-        midcom::get()->auth->drop_sudo();
-    }
 }

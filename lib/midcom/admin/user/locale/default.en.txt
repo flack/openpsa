@@ -38,6 +38,10 @@ Choose action
 City
 ---STRINGEND
 
+---STRING create account
+Create account
+---STRINGEND
+
 ---STRING create group
 Create group
 ---STRINGEND

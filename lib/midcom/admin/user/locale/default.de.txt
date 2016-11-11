@@ -38,6 +38,10 @@ Aktion auswählen
 Stadt
 ---STRINGEND
 
+---STRING create account
+Benutzerkonto erstellen
+---STRINGEND
+
 ---STRING create group
 Gruppe erstellen
 ---STRINGEND
