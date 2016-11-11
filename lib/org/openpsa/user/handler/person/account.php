@@ -79,8 +79,16 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
 
     public function load_schemadb()
     {
-        $schemadb = ($this->_request_data["handler_id"] == "account_edit") ? 'schemadb_account_edit' : 'schemadb_account';
-        return midcom_helper_datamanager2_schema::load_database($this->_config->get($schemadb));
+        $handler = $this->_request_data["handler_id"];
+        $schemadb = ($handler == "account_edit") ? 'schemadb_account_edit' : 'schemadb_account';
+        $db = midcom_helper_datamanager2_schema::load_database($this->_config->get($schemadb));
+
+        if ($handler == "account_edit") {
+            //set defaults
+            $db["default"]->fields["username"]["default"] = $this->_account->get_username();
+            $db["default"]->fields["person"]["default"] = $this->_person->guid;
+        }
+        return $db;
     }
 
     /**

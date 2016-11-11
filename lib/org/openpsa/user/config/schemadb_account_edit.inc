@@ -53,5 +53,13 @@
             'required' => false,
             'storage' => null,
         ),
+        // needed for validation
+        'person' => array
+        (
+            'title'    => 'person',
+            'storage'  => null,
+            'type'     => 'text',
+            'widget'   => 'hidden',
+        ),
     )
 ),
