@@ -99,7 +99,6 @@ class tinymce extends TextareaType
     {
         parent::buildView($view, $form, $options);
 
-        $schema_name = 'default';
         $config = $this->get_configuration($options);
         $tiny_options = array(
             'config' => $config,
@@ -107,7 +106,7 @@ class tinymce extends TextareaType
             'elements' => $view->vars['id'],
             'local_config' => $options['widget_config']['local_config'],
             'language' => midcom::get()->i18n->get_current_language(),
-            'img' => ($options['widget_config']['use_imagepopup'])? $this->_get_image_popup($schema_name, $form) : '',
+            'img' => ($options['widget_config']['use_imagepopup'])? $this->_get_image_popup($form) : '',
         );
         $snippet = $this->_get_snippet($tiny_options);
         $view->vars['tinymce_snippet'] = $snippet;
@@ -182,14 +181,13 @@ EOT;
     /**
      * Build image popup with schema name & object
      *
-     * @param string $schema_name
-     * @param unknown_type $object
+     * @param FormInterface $form
      */
-    private function _get_image_popup($schema_name, FormInterface $form)
+    private function _get_image_popup(FormInterface $form)
     {
         $prefix = \midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
         $suffix = '';
-        $imagepopup_url = $prefix . '__ais/imagepopup/open/' . $schema_name . '/';
+        $imagepopup_url = $prefix . '__ais/imagepopup/open/';
 
         $data = $form->getParent()->getData();
         if ($object = $data->get_value()) {

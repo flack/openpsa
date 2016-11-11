@@ -147,7 +147,7 @@ class midcom_helper_datamanager2_widget_tinymce extends midcom_helper_datamanage
         if ($this->use_imagepopup) {
             $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
             $suffix = '';
-            $imagepopup_url = $prefix . '__ais/imagepopup/open/' . $this->_schema->name . '/';
+            $imagepopup_url = $prefix . '__ais/imagepopup/open/';
 
             if ($this->_type->storage->object) {
                 $suffix = $this->_type->storage->object->guid . '/';

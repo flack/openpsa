@@ -19,22 +19,22 @@ class midcom_helper_imagepopup_viewer extends midcom_baseclasses_components_plug
 
         $navlinks = array(
             'links' => array(
-                'url' => $prefix . 'links/' . $data['schema_name'] . '/' . $data['filetype'] . '/',
+                'url' => $prefix . 'links/' . $data['filetype'] . '/',
                 'label' => $data['l10n']->get('links'),
                 'selected' => false
             ),
             'page' => array(
-                'url' => $prefix . $data['schema_name'] . '/' . $data['filetype'] . '/',
+                'url' => $prefix . $data['filetype'] . '/',
                 'label' => $data['l10n_midcom']->get('page'),
                 'selected' => false
             ),
             'folder' => array(
-                'url' => $prefix . 'folder/' . $data['schema_name'] . '/' . $data['filetype'] . '/',
+                'url' => $prefix . 'folder/' . $data['filetype'] . '/',
                 'label' => $data['l10n_midcom']->get('folder'),
                 'selected' => false
             ),
             'unified' => array(
-                'url' => $prefix . 'unified/' . $data['schema_name'] . '/' . $data['filetype'] . '/',
+                'url' => $prefix . 'unified/' . $data['filetype'] . '/',
                 'label' => $data['l10n']->get('unified search'),
                 'selected' => false
             )

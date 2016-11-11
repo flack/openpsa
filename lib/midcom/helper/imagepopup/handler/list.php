@@ -36,24 +36,14 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
         midcom::get()->auth->require_valid_user();
         midcom::get()->skip_page_style = true;
 
-        if (!$this->_config->get('enable_page')) {
-            if (   $handler_id == '____ais-imagepopup-list_object'
-                || $handler_id == '____ais-imagepopup-list_folder'
-                || $handler_id == '____ais-imagepopup-list_unified') {
-                return new midcom_response_relocate('__ais/imagepopup/unified/default/');
-            }
-        }
-
         $this->add_stylesheet(MIDCOM_STATIC_URL ."/midcom.helper.imagepopup/styling.css", 'screen');
 
-        $data['schema_name'] = $args[0];
-        $data['filetype'] = $args[1];
+        $data['filetype'] = $args[0];
         $data['object'] = null;
         $data['folder'] = $this->_topic;
 
-        if (   $handler_id != '____ais-imagepopup-list_folder_noobject'
-            && isset($args[2])) {
-            $data['object'] = midcom::get()->dbfactory->get_object_by_guid($args[2]);
+        if (isset($args[1])) {
+            $data['object'] = midcom::get()->dbfactory->get_object_by_guid($args[1]);
         }
 
         switch ($handler_id) {
@@ -96,7 +86,7 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
         // Run datamanager for handling the images
         $this->_controller = midcom_helper_datamanager2_controller::create('simple');
         $this->_controller->schemadb = $this->_load_schema();
-        $this->_controller->schemaname = $data['schema_name'];
+        $this->_controller->schemaname = 'default';
 
         if ($data['list_type'] == 'page') {
             $this->_controller->set_storage($data['object']);
@@ -106,10 +96,8 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
 
         $this->_controller->initialize();
         $this->_request_data['form'] = $this->_controller;
-        switch ($this->_controller->process_form()) {
-            case 'cancel':
-                midcom::get()->head->add_jsonload("top.tinymce.activeEditor.windowManager.close();");
-                break;
+        if ($this->_controller->process_form() == 'cancel') {
+            midcom::get()->head->add_jsonload("top.tinymce.activeEditor.windowManager.close();");
         }
     }
 
@@ -163,32 +151,6 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
      */
     private function _load_schema()
     {
-        return array(
-            $this->_request_data['schema_name'] => new midcom_helper_datamanager2_schema(
-                array(
-                    $this->_request_data['schema_name'] => array(
-                        'description' => 'generated schema',
-                        'fields' => array(
-                            'midcom_helper_imagepopup_images' => array(
-                                'title' => $this->_l10n->get('images'),
-                                'storage' => null,
-                                'type' => 'images',
-                                'widget' => 'images',
-                                'widget_config' => array(
-                                    'set_name_and_title_on_upload' => false
-                                ),
-                            ),
-
-                            'midcom_helper_imagepopup_files' => array(
-                                'title' => $this->_l10n->get('files'),
-                                'storage' => null,
-                                'type' => 'blobs',
-                                'widget' => 'downloads',
-                            )
-                        )
-                    )
-                )
-            )
-        );
+        return midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb'));
     }
 }

@@ -20,10 +20,10 @@ class midcom_helper_imagepopup_handler_links extends midcom_baseclasses_componen
     public function _handler_open($handler_id, array $args, array &$data)
     {
         $url = '__ais/imagepopup/';
-        $filetype = $args[1];
+        $filetype = $args[0];
         if ($filetype === 'file') {
             $url .= 'links/';
-        } elseif (empty($args[2])) {
+        } elseif (empty($args[1])) {
             $url .= 'folder/';
         }
         $url .= implode('/', $args) . '/';
@@ -45,8 +45,7 @@ class midcom_helper_imagepopup_handler_links extends midcom_baseclasses_componen
         $data['nav'] = new fi_protie_navigation;
         $data['nav']->follow_all = true;
         $data['list_type'] = 'links';
-        $data['schema_name'] = $args[0];
-        $data['filetype'] = $args[1];
+        $data['filetype'] = $args[0];
 
         $head = midcom::get()->head;
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/jQuery/fancytree-2.18.0/skin-win7/ui.fancytree.min.css");
