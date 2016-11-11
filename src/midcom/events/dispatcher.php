@@ -25,7 +25,7 @@ class dispatcher extends EventDispatcher
      *
      * @var array
      */
-    private $_watches = array(
+    private $watches = array(
         \MIDCOM_OPERATION_DBA_CREATE => dbaevent::CREATE,
         \MIDCOM_OPERATION_DBA_UPDATE => dbaevent::UPDATE,
         \MIDCOM_OPERATION_DBA_DELETE => dbaevent::DELETE,
@@ -40,7 +40,7 @@ class dispatcher extends EventDispatcher
      */
     public function trigger_watch($operation_id, $object)
     {
-        $event_name = $this->_watches[$operation_id];
+        $event_name = $this->watches[$operation_id];
         $event = new dbaevent($object);
         $this->dispatch($event_name, $event);
     }
@@ -48,11 +48,11 @@ class dispatcher extends EventDispatcher
     public function add_watches(array $watches, $component)
     {
         foreach ($watches as $watch) {
-            foreach ($this->_watches as $operation_id => $event_name) {
+            foreach ($this->watches as $operation_id => $event_name) {
                 // Check whether the operations flag list from the component
                 // contains the operation_id we're checking a watch for.
                 if ($watch['operations'] & $operation_id) {
-                    $listener = new dbalistener($component, $watch['classes']);
+                    $listener = new watcher($component, $watch['classes']);
                     $this->addListener($event_name, array($listener, 'handle_event'));
                 }
             }

@@ -13,13 +13,13 @@ namespace midcom\events;
  *
  * @package midcom.events
  */
-class dbalistener
+class watcher
 {
-    private $_classes = array();
+    private $classes = array();
 
-    private $_component;
+    private $component;
 
-    private $_operations = array(
+    private $operations = array(
         dbaevent::CREATE => \MIDCOM_OPERATION_DBA_CREATE,
         dbaevent::UPDATE => \MIDCOM_OPERATION_DBA_UPDATE,
         dbaevent::DELETE => \MIDCOM_OPERATION_DBA_DELETE,
@@ -28,15 +28,15 @@ class dbalistener
 
     public function __construct($component, array $classes = array())
     {
-        $this->_component = $component;
-        $this->_classes = $classes;
+        $this->component = $component;
+        $this->classes = $classes;
     }
 
     public function handle_event(dbaevent $event, $name)
     {
         $object = $event->get_object();
-        $found = empty($this->_classes);
-        foreach ($this->_classes as $classname) {
+        $found = empty($this->classes);
+        foreach ($this->classes as $classname) {
             if (is_a($object, $classname)) {
                 $found = true;
                 break;
@@ -47,13 +47,13 @@ class dbalistener
         }
 
         try {
-            $interface = \midcom::get()->componentloader->get_interface_class($this->_component);
+            $interface = \midcom::get()->componentloader->get_interface_class($this->component);
         } catch (\midcom_error $e) {
-            debug_add("Failed to load the component {$this->_component}: " . $e->getMessage(), MIDCOM_LOG_INFO);
+            debug_add("Failed to load the component {$this->component}: " . $e->getMessage(), MIDCOM_LOG_INFO);
             return;
         }
-        $operation = $this->_operations[$name];
-        debug_add("Calling [{$this->_component}]_interface->trigger_watch({$operation}, \$object)");
+        $operation = $this->operations[$name];
+        debug_add("Calling [{$this->component}]_interface->trigger_watch({$operation}, \$object)");
 
         $interface->trigger_watch($operation, $object);
     }
