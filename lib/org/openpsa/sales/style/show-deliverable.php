@@ -16,10 +16,6 @@ if (   $data['product']
                 echo "<h2>" . $data['l10n']->get('customer') . "</h2>\n";
                 echo $customer->render_link();
             }
-            foreach (array_keys($data['salesproject']->contacts) as $contact_id) {
-                $person_card = org_openpsa_widgets_contact::get($contact_id);
-                $person_card->show();
-            }
             ?>
         </div>
 
@@ -30,7 +26,7 @@ if (   $data['product']
             echo "<h2>" . $data['l10n']->get('product') . "</h2>\n";
                 echo $data['product']->render_link() . "\n"; ?>
         </div>
-        <?php 
+        <?php
             } ?>
     </div>
 
@@ -100,13 +96,13 @@ if (   $data['product']
                               <td class="numeric"><?php echo $view['costPerUnit']; ?> %</td>
                               <td class="numeric">&nbsp;</td>
                               <td class="numeric">&nbsp;</td>
-                          <?php 
+                          <?php
                           } else {
                               ?>
                               <td class="numeric"><?php echo $formatter->number($data['deliverable']->costPerUnit); ?></td>
                               <td class="numeric"><?php echo $view['plannedUnits']; ?></td>
                               <td class="numeric"><?php echo $view['units']; ?></td>
-                          <?php 
+                          <?php
                           } ?>
                               <td class="numeric"><?php echo $formatter->number($data['deliverable']->cost); ?></td>
                         </tr>
@@ -121,7 +117,7 @@ if (   $data['product']
                             echo "<li>" . $data['l10n']->get('invoice approved only') . "</li>\n";
                         } ?>
                     </ul>
-                    <?php 
+                    <?php
                           } ?>
                     </div>
                 </div>
