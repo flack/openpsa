@@ -27,12 +27,10 @@ class project_converter
         $this->_move_attachments($this->_project, $this->_new_object);
         $this->_move_privileges($this->_project, $this->_new_object);
 
-        if (empty($this->_salesproject))
-        {
+        if (empty($this->_salesproject)) {
             $this->_find_salesproject();
         }
-        if (!empty($this->_salesproject))
-        {
+        if (!empty($this->_salesproject)) {
             $this->_process_salesproject();
         }
 
@@ -49,8 +47,7 @@ class project_converter
 
     private function _commit($action, &$object)
     {
-        if (!$object->$action())
-        {
+        if (!$object->$action()) {
             $this->_output('Could not ' . $action . ' ' . get_class($object) . ', reason: ' . midcom_connection::get_error_string());
         }
     }
@@ -59,15 +56,12 @@ class project_converter
     {
         $params = $source->list_parameters();
 
-        if (count($params) === 0)
-        {
+        if (count($params) === 0) {
             return;
         }
 
-        foreach ($params as $parameter)
-        {
-            if (!$target->set_parameter($parameter->domain, $parameter->name, $parameter->value))
-            {
+        foreach ($params as $parameter) {
+            if (!$target->set_parameter($parameter->domain, $parameter->name, $parameter->value)) {
                 $this->_output('Failed to move parameter ' . $parameter->guid);
             }
             $this->_commit('delete', $parameter);
@@ -76,8 +70,7 @@ class project_converter
 
     private function _move_attachments(&$source, &$target)
     {
-        foreach ($source->list_attachments() as $attachment)
-        {
+        foreach ($source->list_attachments() as $attachment) {
             $attachment->parentguid = $target->guid;
             $this->_commit('update', $attachment);
         }
@@ -88,8 +81,7 @@ class project_converter
         $qb = new midgard_query_builder('midcom_core_privilege_db');
         $qb->add_constraint('objectguid', '=', $source->guid);
         $privileges = $qb->execute();
-        foreach ($privileges as $privilege)
-        {
+        foreach ($privileges as $privilege) {
             $privilege->objectguid = $target->guid;
             $this->_commit('update', $privilege);
         }
@@ -106,8 +98,7 @@ class project_converter
         $qb = new midgard_query_builder('org_openpsa_task_status');
         $qb->add_constraint('task', '=', $this->_project->id);
         $statuses = $qb->execute();
-        foreach ($statuses as $status)
-        {
+        foreach ($statuses as $status) {
             $this->_commit('delete', $status);
         }
     }
@@ -117,8 +108,7 @@ class project_converter
         $qb = new midgard_query_builder('org_openpsa_task_resource');
         $qb->add_constraint('task', '=', $this->_project->id);
         $members = $qb->execute();
-        foreach ($members as $member)
-        {
+        foreach ($members as $member) {
             $role = new org_openpsa_role();
             $role->person = $member->person;
             $role->objectGuid = $this->_new_object->guid;
@@ -133,8 +123,7 @@ class project_converter
         $qb = new midgard_query_builder('org_openpsa_task_resource');
         $qb->add_constraint('task', '=', $this->_salesproject->id);
         $members = $qb->execute();
-        foreach ($members as $member)
-        {
+        foreach ($members as $member) {
             $role = new org_openpsa_role();
             $role->person = $member->person;
             $role->objectGuid = $this->_new_object->guid;
@@ -149,8 +138,7 @@ class project_converter
         $qb = new midgard_query_builder('org_openpsa_task');
         $qb->add_constraint('up', '=', $this->_project->id);
         $tasks = $qb->execute();
-        foreach ($tasks as $task)
-        {
+        foreach ($tasks as $task) {
             $task->project = $this->_new_object->id;
             $task->up = 0;
             $this->_commit('update', $task);
@@ -176,14 +164,10 @@ class project_converter
         $qb->add_constraint('fromGuid', '=', $this->_project->guid);
 
         $relations = $qb->execute();
-        foreach ($relations as $relation)
-        {
-            try
-            {
+        foreach ($relations as $relation) {
+            try {
                 $this->_salesproject = new org_openpsa_salesproject_old($relation->toGuid);
-            }
-            catch (Exception $e)
-            {
+            } catch (Exception $e) {
                 $this->_output('Failed to load salesproject ' . $relation->toGuid . ' reason: ' . $e->getMessage());
             }
             $this->_commit('delete', $relation);
@@ -195,8 +179,7 @@ class project_converter
         $qb = new midgard_query_builder('org_openpsa_salesproject_deliverable');
         $qb->add_constraint('salesproject', '=', $this->_salesproject->id);
         $deliverables = $qb->execute();
-        foreach ($deliverables as $deliverable)
-        {
+        foreach ($deliverables as $deliverable) {
             $deliverable->salesproject = $this->_new_object->id;
             $this->_commit('update', $deliverable);
         }
@@ -207,16 +190,14 @@ class project_converter
         $qb = new midgard_query_builder('org_openpsa_relatedto');
         $qb->add_constraint('toGuid', '=', $guid);
         $relations = $qb->execute();
-        foreach ($relations as $relation)
-        {
+        foreach ($relations as $relation) {
             $relation->toGuid = $this->_new_object->guid;
             $this->_commit('update', $relation);
         }
         $qb = new midgard_query_builder('org_openpsa_relatedto');
         $qb->add_constraint('fromGuid', '=', $guid);
         $relations = $qb->execute();
-        foreach ($relations as $relation)
-        {
+        foreach ($relations as $relation) {
             $relation->fromGuid = $this->_new_object->guid;
             $this->_commit('update', $relation);
         }
@@ -224,20 +205,16 @@ class project_converter
 
     private function _copy_from_salesproject()
     {
-        try
-        {
+        try {
             $this->_new_object = new org_openpsa_salesproject($this->_new_object->id);
-        }
-        catch (Exception $e)
-        {
+        } catch (Exception $e) {
             $this->_output('Failed to cast ID ' . $this->_new_object->id . ' to salesproject, reason: ' . $e->getMessage());
             die;
         }
 
         $this->_output('Merging data from salesproject ' . $this->_salesproject->title, false);
 
-        $property_map = array
-        (
+        $property_map = array(
             'title' => 'title',
             'description' => 'description',
             'start' => 'start',
@@ -247,24 +224,19 @@ class project_converter
             'customer' => 'customer',
             'owner' => 'owner',
         );
-        foreach ($property_map as $source => $destination)
-        {
+        foreach ($property_map as $source => $destination) {
             if (   $source == 'start'
                 && $this->_new_object->start > 0
-                && $this->_new_object->start < $this->_salesproject->start)
-            {
+                && $this->_new_object->start < $this->_salesproject->start) {
                 continue;
-            }
-            else if (   $source == 'end'
-                     && $this->_new_object->end > $this->_salesproject->end)
-            {
+            } elseif (   $source == 'end'
+                     && $this->_new_object->end > $this->_salesproject->end) {
                 continue;
-            }
-            else if (   $source == 'customer'
-                     || $source == 'owner')
-            {
-                if ($this->_salesproject->$source == 0)
-                continue;
+            } elseif (   $source == 'customer'
+                     || $source == 'owner') {
+                if ($this->_salesproject->$source == 0) {
+                    continue;
+                }
             }
             $this->_new_object->$destination = $this->_salesproject->$source;
         }
@@ -275,8 +247,7 @@ class project_converter
     {
         $this->_new_object = new org_openpsa_project();
 
-        $property_map = array
-        (
+        $property_map = array(
             'title' => 'title',
             'description' => 'description',
             'start' => 'start',
@@ -294,8 +265,7 @@ class project_converter
             'orgOpenpsaWgtype' => 'orgOpenpsaWgtype',
             'orgOpenpsaOwnerWg' => 'orgOpenpsaOwnerWg',
         );
-        foreach ($property_map as $source => $destination)
-        {
+        foreach ($property_map as $source => $destination) {
             $this->_new_object->$destination = $this->_project->$source;
         }
         $this->_commit('create', $this->_new_object);

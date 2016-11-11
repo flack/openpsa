@@ -6,8 +6,7 @@
  */
 function openpsa_prepare_topics()
 {
-    $openpsa_topics = array
-    (
+    $openpsa_topics = array(
         'Calendar' => 'org.openpsa.calendar',
         'Contacts' => 'org.openpsa.contacts',
         'Documents' => 'org.openpsa.documents',
@@ -24,8 +23,7 @@ function openpsa_prepare_topics()
     $qb->add_constraint('name', '=', 'openpsa');
     $qb->add_constraint('up', '=', 0);
     $topics = $qb->execute();
-    if ($topics)
-    {
+    if ($topics) {
         return $topics[0]->guid;
     }
 
@@ -34,13 +32,11 @@ function openpsa_prepare_topics()
     $root_topic->name = 'openpsa';
     $root_topic->component = 'org.openpsa.mypage';
     $root_topic->extra = 'OpenPSA';
-    if (!$root_topic->create())
-    {
+    if (!$root_topic->create()) {
         throw new Exception('Failed to create root topic for OpenPSA: ' . midgard_connection::get_instance()->get_error_string());
     }
 
-    foreach ($openpsa_topics as $title => $component)
-    {
+    foreach ($openpsa_topics as $title => $component) {
         $topic = new midgard_topic();
         $topic->name = strtolower(preg_replace('/\W/', '-', $title));
         $topic->component = $component;

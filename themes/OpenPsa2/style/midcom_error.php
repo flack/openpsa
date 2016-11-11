@@ -31,8 +31,7 @@ $head->print_head_elements();
   </p>
 
   <div class="error-exception">
-<?php if (!empty($this->data['error_exception']))
-{
+<?php if (!empty($this->data['error_exception'])) {
     $e = $this->data['error_exception'];
     echo '<p>' . get_class($e) . ' in ' . $e->getFile() . ', line ' . $e->getLine() . "</p>";
 }
@@ -41,8 +40,7 @@ $head->print_head_elements();
 
 $stacktrace = $this->data['error_handler']->get_function_stack();
 
-if (!empty($stacktrace))
-{
+if (!empty($stacktrace)) {
     echo '<h3>Stacktrace:</h3>';
     echo "<pre>" . implode("\n", $stacktrace) . "</pre>\n";
 }

@@ -29,8 +29,7 @@ $title = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_PAGETITLE);
         </div>
         <script type="text/javascript">
         <?php
-        foreach (midcom::get()->uimessages->get_messages() as $message)
-        {
+        foreach (midcom::get()->uimessages->get_messages() as $message) {
             echo "window.parent.$('#midcom_services_uimessages_wrapper').midcom_services_uimessage(" . $message . ");\n";
         }
         ?>

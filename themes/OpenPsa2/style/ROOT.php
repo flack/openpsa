@@ -3,15 +3,13 @@ $i18n = midcom::get()->i18n;
 $head = midcom::get()->head;
 $context = midcom_core_context::get();
 
-if (!defined('MIDCOM_STATIC_URL'))
-{
+if (!defined('MIDCOM_STATIC_URL')) {
     define('MIDCOM_STATIC_URL', '/midcom-static');
 }
 
 $pref_found = false;
 $width = midgard_admin_asgard_plugin::get_preference('openpsa2_offset');
-if ($width !== false)
-{
+if ($width !== false) {
     $navigation_width = $width - 2;
     $content_offset = $width;
     $pref_found = true;
@@ -47,8 +45,8 @@ $title_prefix = $topic->extra . ': ' . $context->get_key(MIDCOM_CONTEXT_PAGETITL
         $head->add_jsfile(MIDCOM_STATIC_URL . '/OpenPsa2/ui.js');
         $head->print_head_elements();
 
-        if ($pref_found)
-        {?>
+        if ($pref_found) {
+            ?>
             <style type="text/css">
             #container #leftframe
             {
@@ -60,7 +58,8 @@ $title_prefix = $topic->extra . ': ' . $context->get_key(MIDCOM_CONTEXT_PAGETITL
                 margin-left: &(content_offset);px;
             }
             </style>
-        <?php } ?>
+        <?php 
+        } ?>
 
     </head>
     <body<?php $head->print_jsonload(); ?>>

@@ -2,8 +2,7 @@
 $toolbars = midcom::get()->toolbars;
 $i18n = midcom::get()->i18n;
 $toolbar_class = "midcom_services_toolbars_simple";
-if (midcom::get()->auth->can_user_do('midcom:ajax', null, 'midcom_services_toolbars'))
-{
+if (midcom::get()->auth->can_user_do('midcom:ajax', null, 'midcom_services_toolbars')) {
     $toolbar_class = "midcom_services_toolbars_fancy";
 }
 echo "<div class=\"{$toolbar_class}\" style=\"display:none\">\n";
@@ -25,4 +24,3 @@ echo " </div>\n";
 echo " </div>\n";
 echo " <div class=\"dragbar\"></div>\n";
 echo "</div>\n";
-?>

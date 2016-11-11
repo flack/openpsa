@@ -4,14 +4,11 @@ $message = $l10n->get('login message - please enter credentials');
 $login_warning = '';
 $title = $l10n->get('login');
 
-if (isset($this->data['midcom_services_auth_access_denied_message']))
-{
+if (isset($this->data['midcom_services_auth_access_denied_message'])) {
     $message = $this->data['midcom_services_auth_access_denied_message'];
     $title = $this->data['midcom_services_auth_access_denied_title'];
     $login_warning = $this->data['midcom_services_auth_access_denied_login_warning'];
-}
-else
-{
+} else {
     $login_warning = $this->data['midcom_services_auth_show_login_page_login_warning'];
 }
 ?>
@@ -58,8 +55,7 @@ else
   </noscript>
 
   <?php
-  if ($login_warning)
-  {
+  if ($login_warning) {
       echo '<p class="login_warning">' . $login_warning . "</p>\n";
   } ?>
   </div>

@@ -6,26 +6,22 @@ if (typeof $ === 'undefined')
 </script>
 
 <?php
-if (!defined('MIDCOM_STATIC_URL'))
-{
+if (!defined('MIDCOM_STATIC_URL')) {
     define('MIDCOM_STATIC_URL', '/midcom-static');
 }
 
 $matches = array();
-$content_array = array
-(
+$content_array = array(
     'head_js' => midcom::get()->head->get_jshead_elements(),
     'head_css' => array()
 );
 
 $link_head = midcom::get()->head->get_link_head();
 
-foreach ($link_head as $link)
-{
+foreach ($link_head as $link) {
     if (   array_key_exists('type', $link)
         && array_key_exists('href', $link)
-        && $link['type'] == 'text/css')
-    {
+        && $link['type'] == 'text/css') {
         $content_array['head_css'][] = $link;
     }
 }

@@ -10,8 +10,7 @@ class gallery_converter
     public function __construct()
     {
         if (   !class_exists('org_routamc_gallery_photolink')
-            || !class_exists('org_routamc_photostream_photo'))
-        {
+            || !class_exists('org_routamc_photostream_photo')) {
             throw new midcom_error('MgdSchemas for the converter could not be found');
         }
     }
@@ -21,15 +20,13 @@ class gallery_converter
         $qb = new midgard_query_builder('midgard_topic');
         $qb->add_constraint('component', '=', 'org.routamc.gallery');
         $results = $qb->execute();
-        foreach ($results as $result)
-        {
+        foreach ($results as $result) {
             $this->_process_gallery_node($result);
         }
         $qb = new midgard_query_builder('midgard_topic');
         $qb->add_constraint('component', '=', 'org.routamc.photostream');
         $results = $qb->execute();
-        foreach ($results as $result)
-        {
+        foreach ($results as $result) {
             $this->_process_photostream_node($result);
         }
     }
@@ -42,8 +39,7 @@ class gallery_converter
         $links = $this->_get_photolinks();
         $this->_output('Found ' . sizeof($links) . ' photolinks');
 
-        foreach ($links as $i => $link)
-        {
+        foreach ($links as $i => $link) {
             $photo = new org_routamc_photostream_photo($link->photo);
             $slide = new org_openpsa_slideshow_image();
             $slide->title = $photo->title;
@@ -53,16 +49,14 @@ class gallery_converter
             $slide->image = $photo->main;
             $slide->thumbnail = $photo->thumb;
             $slide->position = $i;
-            if (!$slide->create())
-            {
+            if (!$slide->create()) {
                 throw new midcom_error('Could not save new image: ' . midcom_connection::get_error_string());
             }
             $link->delete();
         }
 
         $this->_node->component = 'org.openpsa.slideshow';
-        if (!$this->_node->update())
-        {
+        if (!$this->_node->update()) {
             throw new midcom_error('Could not update node: ' . midcom_connection::get_error_string());
         }
         $this->_output('Done.');
@@ -77,12 +71,10 @@ class gallery_converter
         $this->_output('Found ' . sizeof($photos) . ' photos');
 
         $i = 0;
-        foreach ($photos as $photo)
-        {
+        foreach ($photos as $photo) {
             $qb = new midgard_query_builder('org_openpsa_slideshow_image');
             $qb->add_constraint('attachment', '=', $photo->archival);
-            if ($qb->count() > 0)
-            {
+            if ($qb->count() > 0) {
                 $photo->delete();
                 continue;
             }
@@ -94,24 +86,19 @@ class gallery_converter
             $slide->image = $photo->main;
             $slide->thumbnail = $photo->thumb;
             $slide->position = $i;
-            if (!$slide->create())
-            {
+            if (!$slide->create()) {
                 throw new midcom_error('Could not save new image: ' . midcom_connection::get_error_string());
             }
 
             $i++;
         }
 
-        if ($i > 0)
-        {
+        if ($i > 0) {
             $this->_node->component = 'org.openpsa.slideshow';
-            if (!$this->_node->update())
-            {
+            if (!$this->_node->update()) {
                 throw new midcom_error('Could not update node: ' . midcom_connection::get_error_string());
             }
-        }
-        else
-        {
+        } else {
             $this->_node->delete();
         }
         $this->_output('Done.');
@@ -136,29 +123,22 @@ class gallery_converter
         $qb->add_constraint('node', '=', $this->_node->id);
         $orders = (array) $this->_node->get_parameter('org.routamc.gallery', 'nav_order');
 
-        if (sizeof($orders) == 0)
-        {
-            $orders = array
-            (
+        if (sizeof($orders) == 0) {
+            $orders = array(
                 'metadata.score reverse',
                 'photo.taken reverse',
             );
         }
 
-        foreach ($orders as $order)
-        {
+        foreach ($orders as $order) {
             // Probably an empty string
-            if (!preg_match('/^([^\s]+)\s*(.*)/', $order, $regs))
-            {
+            if (!preg_match('/^([^\s]+)\s*(.*)/', $order, $regs)) {
                 continue;
             }
 
-            if (preg_match('/(rev|desc)/i', $regs[2]))
-            {
+            if (preg_match('/(rev|desc)/i', $regs[2])) {
                 $qb->add_order($regs[1], 'DESC');
-            }
-            else
-            {
+            } else {
                 $qb->add_order($regs[1]);
             }
         }

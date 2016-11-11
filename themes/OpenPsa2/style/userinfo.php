@@ -2,15 +2,11 @@
 $auth = midcom::get()->auth;
 $i18n = midcom::get()->i18n;
 
-if ($auth->user)
-{
+if ($auth->user) {
     $siteconf = org_openpsa_core_siteconfig::get_instance();
-    if ($user_url = $siteconf->get_node_full_url('org.openpsa.user'))
-    {
+    if ($user_url = $siteconf->get_node_full_url('org.openpsa.user')) {
         $person_string = '<a href="' . $user_url . 'view/' . $auth->user->guid . '/">' . $auth->user->name . "</a>";
-    }
-    else
-    {
+    } else {
         $person_string = $auth->user->name;
     }
     echo "<ul>\n";
@@ -19,4 +15,3 @@ if ($auth->user)
     echo "    <li class=\"midgard\"><div id=\"midcom_services_toolbars_minimizer\"></div></li>\n";
     echo "</ul>\n";
 }
-?>
