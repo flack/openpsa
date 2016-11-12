@@ -1,10 +1,8 @@
 <?php
 $constraint = '';
-$disabled = false;
 
 if ($data['disabled']) {
     $constraint = ' disabled="disabled"';
-    $disabled = true;
 }
 
 if ($data['id'] === $data['group']->owner) {

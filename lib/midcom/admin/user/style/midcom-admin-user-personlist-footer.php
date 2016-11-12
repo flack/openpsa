@@ -47,6 +47,5 @@ if (count($data['persons']) > 0) {
     </table>
     </form>
     <?php
-
 }
 ?>

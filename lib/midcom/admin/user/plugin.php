@@ -7,8 +7,7 @@
  */
 
 /**
- * user editor interface for on-site editing of user elements, CSS and JavaScript
- * files and pictures
+ * user editor interface
  *
  * @package midcom.admin.user
  */

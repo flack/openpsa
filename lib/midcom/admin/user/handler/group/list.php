@@ -103,8 +103,13 @@ class midcom_admin_user_handler_group_list extends midcom_baseclasses_components
     {
         // Get the prefix
         $data['prefix'] = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
-
         $data['view_title'] = $this->_l10n->get('groups');
+
+        $data['asgard_toolbar']->add_item(array(
+            MIDCOM_TOOLBAR_URL => "__mfa/asgard_midcom.admin.user/group/create/",
+            MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create group'),
+            MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_people-new.png',
+        ));
 
         $this->_update_breadcrumb($handler_id);
         return new midgard_admin_asgard_response($this, '_show_list');
@@ -147,8 +152,6 @@ class midcom_admin_user_handler_group_list extends midcom_baseclasses_components
         if (count($groups) === 0) {
             return;
         }
-
-        $data['parent_id'] = $id;
 
         // Group header
         midcom_show_style('midcom-admin-user-group-list-header');

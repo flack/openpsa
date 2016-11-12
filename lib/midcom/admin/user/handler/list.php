@@ -29,18 +29,13 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
             array(
                 MIDCOM_TOOLBAR_URL => "__mfa/asgard_midcom.admin.user/create/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create user'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_people.png',
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_person-new.png',
                 MIDCOM_TOOLBAR_ENABLED => $this->_config->get('allow_manage_accounts'),
             ),
             array(
                 MIDCOM_TOOLBAR_URL => "__mfa/asgard_midcom.admin.user/group/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('groups'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_person-new.png',
-            ),
-            array(
-                MIDCOM_TOOLBAR_URL => "__mfa/asgard_midcom.admin.user/group/create/",
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create group'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_people-new.png',
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_people.png',
             )
         );
         $data['asgard_toolbar']->add_items($buttons);
@@ -131,8 +126,6 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
             return;
         }
 
-        $data['parent_id'] = $id;
-
         foreach ($groupdata as $group) {
             $group['title'] = $group['official'] ?: $group['name'];
             if (!$group['title']) {
@@ -141,9 +134,7 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
             $group['level'] = $level;
 
             $data['groups_for_select'][] = $group;
-            $level++;
-            $this->list_groups_for_select($group['id'], $data, $level);
-            $level--;
+            $this->list_groups_for_select($group['id'], $data, $level + 1);
         }
     }
 
@@ -175,8 +166,7 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
         if (!empty($_GET)) {
             $relocate_url .= '?' . http_build_query($_GET);
         }
-        if (   empty($_POST['midcom_admin_user'])
-            || !is_array($_POST['midcom_admin_user'])) {
+        if (empty($_POST['midcom_admin_user']) || !is_array($_POST['midcom_admin_user'])) {
             midcom::get()->uimessages->add($this->_l10n->get('midcom.admin.user'), $this->_l10n->get('empty selection'));
             return new midcom_response_relocate($relocate_url);
         }
@@ -313,7 +303,7 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
             '__USERNAME__' => $this->_l10n->get('username'),
             '__EMAIL__' => $this->_l10n->get('email'),
             '__PASSWORD__' => $this->_l10n->get('password'),
-            '__FROM__' => $this->_l10n->get('sender'),
+            '__FROM__' => $this->_l10n->get('sender') . ' (' . $this->_config->get('message_sender') . ')',
             '__LONGDATE__' => sprintf($this->_l10n->get('long dateformat (%s)'), $formatter->datetime($now, 'full')),
             '__SHORTDATE__' => sprintf($this->_l10n->get('short dateformat (%s)'), $formatter->date($now)),
             '__TIME__' => sprintf($this->_l10n->get('current time (%s)'), $formatter->time($now)),
@@ -330,6 +320,7 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
     {
         $data['message_subject'] = $this->_l10n->get($this->_config->get('message_subject'));
         $data['message_body'] = $this->_l10n->get($this->_config->get('message_body'));
+        $data['message_footer'] = $this->_config->get('message_footer');
 
         midcom_show_style('midcom-admin-user-password-email');
     }

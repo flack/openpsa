@@ -8,7 +8,7 @@
 <label for="midcom_admin_user_email_body">
     <?php echo $data['l10n']->get('message'); ?>
 </label>
-<textarea name="body" id="midcom_admin_user_email_body">&(data['message_body']:h);</textarea>
+<textarea name="body" id="midcom_admin_user_email_body">&(data['message_body']:h);&(data['message_footer']:h);</textarea>
 <table>
     <thead>
         <tr>

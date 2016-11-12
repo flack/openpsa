@@ -21,8 +21,7 @@
             $account = new midcom_core_account($data['person']);
             $value = $account->get_username();
         }
-        if (   $linked < 2
-            && $data['person']->can_do('midgard:update')) {
+        if ($linked < 2 && $data['person']->can_do('midgard:update')) {
             if (!$value) {
                 $value = '&lt;' . $data['l10n']->get($field) . '&gt;';
             }

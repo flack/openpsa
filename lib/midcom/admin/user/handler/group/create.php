@@ -63,7 +63,7 @@ implements midcom_helper_datamanager2_interfaces_create
                 return new midcom_response_relocate("__mfa/asgard_midcom.admin.user/group/edit/{$this->_group->guid}/");
 
             case 'cancel':
-                return new midcom_response_relocate('__mfa/asgard_midcom.admin.user/');
+                return new midcom_response_relocate('__mfa/asgard_midcom.admin.user/group/');
         }
 
         $data['view_title'] = $this->_l10n->get('create group');

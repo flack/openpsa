@@ -211,7 +211,7 @@ Benutzer %s gespeichert
 ---STRINGEND
 
 ---STRING personalized equal
-Personalized equal
+Personalisiertes Äquivalent
 ---STRINGEND
 
 ---STRING postcode

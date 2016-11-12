@@ -22,7 +22,8 @@
     'city',
 ),
 'message_subject' => 'your password has been changed',
-'message_body' => "Your password has been changed. Your new password is __PASSWORD__
+'message_body' => "Your password has been changed. Your new password is __PASSWORD__",
+'message_footer' => "
 
 --
 __FROM__ - __LONGDATE__
