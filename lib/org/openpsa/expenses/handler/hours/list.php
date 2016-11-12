@@ -183,7 +183,7 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
         $invoice_conf = midcom_helper_datamanager2_widget_autocomplete::get_widget_config('invoice');
 
         return array(
-            'none' => array('label' => midcom::get()->i18n->get_string("choose action", "midcom.admin.user")),
+            'none' => array('label' => midcom::get()->i18n->get_string("choose action", "midgard.admin.user")),
             'invoiceable' => array(
                 'label' => $this->_l10n->get('mark_' . ($status ? 'invoiceable' : 'uninvoiceable')),
                 'value' => $status

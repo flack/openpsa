@@ -1,0 +1,128 @@
+form.midgard_admin_user_search .helptext
+{
+    font-size: smaller;
+}
+
+form.midgard_admin_user_search
+{
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+table.midgard_admin_user_search_results
+{
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+table.midgard_admin_user_search_results thead
+{
+    background-color: #555753;
+    color: #ffffff;
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+
+table.midgard_admin_user_search_results thead th,
+table.midgard_admin_user_search_results td
+{
+    padding-left: 4px;
+    padding-right: 2px;
+    text-align: left;
+}
+
+table.midgard_admin_user_search_results thead th
+{
+  background-repeat: no-repeat;
+  background-position: right center;
+  padding-right: 20px;
+  cursor: pointer;
+}
+
+table.midgard_admin_user_search_results thead th.headerSortDown
+{
+  background-image: url('../stock-icons/16x16/down.png');
+}
+
+table.midgard_admin_user_search_results thead th.headerSortUp
+{
+  background-image: url('../stock-icons/16x16/up.png');
+}
+
+table.midgard_admin_user_search_results tr.even td
+{
+    background-color: #eeeeef;
+}
+
+table.midgard_admin_user_search_results tr.row_selected td
+{
+    background-color: #C0CEDE;
+    color: #000000;
+}
+
+table.midgard_admin_user_search_results tr.even.row_selected td
+{
+    background-color: #DFE6EE;
+}
+
+table.midgard_admin_user_search_results tr.row_selected td.first
+{
+}
+
+table.midgard_admin_user_search_results tr.row_selected td.last
+{
+}
+
+form.datamanager2 fieldset label,
+form.datamanager2 fieldset input
+{
+    display: inline;
+}
+
+#midgard_admin_user_passwords
+{
+  float: right;
+  width: 25em;
+  border-radius: 6px;
+  padding: 1em;
+  background-color: #eeeeef;
+  margin-bottom: 1em;
+}
+
+#midgard_admin_user_passwords pre
+{
+  background-color: #ffffff;
+  padding: 6px;
+}
+
+#midgard_admin_user_passwords input.plain-text
+{
+    border-style: none;
+    background-color: transparent;
+    font-family: monospace;
+    font-size: 100%;
+}
+
+#midgard_admin_user_passwords label,
+#midgard_admin_user_action_passwords label
+{
+  display: block;
+  margin-top: 1em;
+}
+
+#midgard_admin_user_passwords label .label,
+#midgard_admin_user_action_passwords label
+{
+  font-weight: bold;
+}
+
+#midgard_admin_user_action_passwords h1
+{
+  font-size: 120%;
+}
+
+#midgard_admin_user_email_body
+{
+  width: 20em;
+  height: 15em;
+}

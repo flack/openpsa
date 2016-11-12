@@ -1,0 +1,276 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---LANGUAGE sv
+
+---STRING User Management
+Administrera Användare
+---STRINGEND
+
+---STRING Your password has been changed. Your new password is __PASSWORD__
+Ditt lösenord har ändrats. Ditt lösenord är __PASSWORD__
+---STRINGEND
+
+---STRING add to group
+Lägg till i grupp
+---STRINGEND
+
+---STRING amount
+Mängd
+---STRINGEND
+
+---STRING apply to selected
+Värkställ för valda
+---STRINGEND
+
+---STRING batch generate passwords
+Batch generera lösenord
+---STRINGEND
+
+---STRING change passwords
+Ändra lösenord
+---STRINGEND
+
+---STRING city
+Stad
+---STRINGEND
+
+---STRING create group
+Skapa grupp
+---STRINGEND
+
+---STRING create user
+Skapa användare
+---STRINGEND
+
+---STRING current time (%s)
+nuvarande tid (%s)
+---STRINGEND
+
+---STRING edit %s
+Ändra %s
+---STRINGEND
+
+---STRING edit account
+Editera konto
+---STRINGEND
+
+---STRING email
+Epost
+---STRINGEND
+
+---STRING empty selection
+Tomt val
+---STRINGEND
+
+---STRING enable ajax in toolbar
+Slå på AJAX finesser för centraliserad meny.
+---STRINGEND
+
+---STRING enable ajax in uimessages
+Slå på AJAX finesser för notifieringar
+---STRINGEND
+
+---STRING enable asgard
+Slå på Asgard användande
+---STRINGEND
+
+---STRING enable centralized toolbar
+Slå på centraliserad meny
+---STRINGEND
+
+---STRING enable unlocking locked objects
+Slå på upplåsning av låsta objekt
+---STRINGEND
+
+---STRING failed to send the message to %s
+Misslyckades att skicka meddelandet till %s
+---STRINGEND
+
+---STRING failed to update the password for %s
+Misslyckades med att uppdatera lösenordet för %s
+---STRINGEND
+
+---STRING firstname
+Förnnamn
+---STRINGEND
+
+---STRING folders
+Kataloger
+---STRINGEND
+
+---STRING folders of %s
+Kataloger för %s
+---STRINGEND
+
+---STRING generate
+Generera
+---STRINGEND
+
+---STRING generate new passwords
+Generera nya lösenord
+---STRINGEND
+
+---STRING generate passwords
+Generera lösenord
+---STRINGEND
+
+---STRING go
+Gå
+---STRINGEND
+
+---STRING group %s saved
+Grupp %s sparad
+---STRINGEND
+
+---STRING groups
+Grupper
+---STRINGEND
+
+---STRING invert selection
+Invertera val
+---STRINGEND
+
+---STRING lastname
+Efternamn
+---STRINGEND
+
+---STRING long dateformat (%s)
+Långt datumformat (%s)
+---STRINGEND
+
+---STRING maximum %s
+Max %s
+---STRINGEND
+
+---STRING members
+Medlemmar
+---STRINGEND
+
+---STRING message
+Meddelande
+---STRINGEND
+
+---STRING midgard.admin.user
+Administrera användare
+---STRINGEND
+
+---STRING move %s
+Flytta %s
+---STRINGEND
+
+---STRING move group
+Flytta grupp
+---STRINGEND
+
+---STRING no email address defined for %s
+Ingen epostadress definierad för %s
+---STRINGEND
+
+---STRING official
+Officiellt namn
+---STRINGEND
+
+---STRING owner group
+Ägargrupp
+---STRINGEND
+
+---STRING password
+Lösenord
+---STRINGEND
+
+---STRING password length
+Lösenords längd
+---STRINGEND
+
+---STRING passwords
+Lösenord
+---STRINGEND
+
+---STRING passwords updated and mail sent
+Lösenorden uppdaterade och epost skickat
+---STRINGEND
+
+---STRING passwords will be sent to the following users
+Lösenord kommer att skickas till följande användare
+---STRINGEND
+
+---STRING person %s saved
+Användare %s sparad
+---STRINGEND
+
+---STRING postcode
+Postnummer
+---STRINGEND
+
+---STRING prevent repeating characters
+Förhindra upprepning av tecken
+---STRINGEND
+
+---STRING prevent similar characters
+Förhindra liknande tecken
+---STRINGEND
+
+---STRING remove account
+Radera konto
+---STRINGEND
+
+---STRING search person
+Sök användare
+---STRINGEND
+
+---STRING select all
+Välj allt
+---STRINGEND
+
+---STRING sender
+Avsändare
+---STRINGEND
+
+---STRING short dateformat (%s)
+Kort datumformat (%s)
+---STRINGEND
+
+---STRING string
+Sträng
+---STRINGEND
+
+---STRING subject
+Ämne
+---STRINGEND
+
+---STRING the following fields will be searched: %s
+Följande fält kommer att sökas: %s
+---STRINGEND
+
+---STRING user %s added to group
+Användaren%s tillagd i grupp
+---STRINGEND
+
+---STRING user account revoked for %s
+Användarkonto återtaget för %s
+---STRINGEND
+
+---STRING username
+Användarnamn
+---STRINGEND
+
+---STRING variable
+Variabel
+---STRINGEND
+
+---STRING workphone
+Arbetstelefon
+---STRINGEND
+
+---STRING write the message that will be sent to the recipients
+Skriv meddelande som kommer att skickas till mottagarna
+---STRINGEND
+
+---STRING your password has been changed
+Ditt lösenord är ändrat
+---STRINGEND
+
+---STRING choose action
+Välj funktion
+---STRINGEND
+

@@ -1,0 +1,299 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---LANGUAGE de
+
+---STRING User Management
+Benutzer-Verwaltung
+---STRINGEND
+
+---STRING Your password has been changed. Your new password is __PASSWORD__
+Ihr Passwort wurde geändert. Ihr neues Passwort lautet __PASSWORD__
+---STRINGEND
+
+---STRING add to group
+Zu Gruppe hinzufügen
+---STRINGEND
+
+---STRING amount
+Anzahl
+---STRINGEND
+
+---STRING apply to selected
+Auf Auswahl anwenden
+---STRINGEND
+
+---STRING batch generate passwords
+Passwörter automatisiert erzeugen
+---STRINGEND
+
+---STRING change passwords
+Passwörter ändern
+---STRINGEND
+
+---STRING choose action
+Aktion auswählen
+---STRINGEND
+
+---STRING city
+Stadt
+---STRINGEND
+
+---STRING create account
+Benutzerkonto erstellen
+---STRINGEND
+
+---STRING create group
+Gruppe erstellen
+---STRINGEND
+
+---STRING create user
+Benutzer erstellen
+---STRINGEND
+
+---STRING current time (%s)
+Aktuelle Zeit (%s)
+---STRINGEND
+
+---STRING delete account
+Benutzerkonto löschen
+---STRINGEND
+
+---STRING edit %s
+%s bearbeiten
+---STRINGEND
+
+---STRING edit account
+Benutzerkonto bearbeiten
+---STRINGEND
+
+---STRING email
+E-Mail
+---STRINGEND
+
+---STRING empty selection
+Auswahl leeren
+---STRINGEND
+
+---STRING enable ajax in toolbar
+AJAX-Features der zentralen Toolbar
+---STRINGEND
+
+---STRING enable ajax in uimessages
+AJAX-Features für Benachrichtigungen
+---STRINGEND
+
+---STRING enable asgard
+Asgard-Zugang
+---STRINGEND
+
+---STRING enable centralized toolbar
+Zentrale Toolbar
+---STRINGEND
+
+---STRING failed to send the message to %s
+Nachricht an %s konnte nicht gesendet werden
+---STRINGEND
+
+---STRING failed to update the password for %s
+Passwort für %s konnte nicht aktualisiert werden
+---STRINGEND
+
+---STRING firstname
+Vorname
+---STRINGEND
+
+---STRING folders
+Ordner
+---STRINGEND
+
+---STRING folders of %s
+Ordner von %s
+---STRINGEND
+
+---STRING generate
+Generieren
+---STRINGEND
+
+---STRING generate new passwords
+Neue Passwörter generieren
+---STRINGEND
+
+---STRING generate passwords
+Passwörter generieren
+---STRINGEND
+
+---STRING go
+Los
+---STRINGEND
+
+---STRING group %s saved
+Gruppe %s gespeichert
+---STRINGEND
+
+---STRING groups
+Gruppen
+---STRINGEND
+
+---STRING invert selection
+Auswahl umkehren
+---STRINGEND
+
+---STRING lastname
+Nachname
+---STRINGEND
+
+---STRING long dateformat (%s)
+Ausführliches Datumsformat (%s)
+---STRINGEND
+
+---STRING maximum %s
+Maximum %s
+---STRINGEND
+
+---STRING members
+Mitglieder
+---STRINGEND
+
+---STRING message
+Nachricht
+---STRINGEND
+
+---STRING midgard.admin.user
+Benutzer-Verwaltung
+---STRINGEND
+
+---STRING move %s
+%s verschieben
+---STRINGEND
+
+---STRING move group
+Gruppe verschieben
+---STRINGEND
+
+---STRING no email address defined for %s
+Für %s ist keine E-Mail-Adresse hinterlegt
+---STRINGEND
+
+---STRING no username defined for %s
+Für %s ist kein Benutzername hinterlegt
+---STRINGEND
+
+---STRING official
+Offizieller Name
+---STRINGEND
+
+---STRING owner group
+Übergeordnete Gruppe
+---STRINGEND
+
+---STRING password
+Passwort
+---STRINGEND
+
+---STRING password length
+Passwortlänge
+---STRINGEND
+
+---STRING passwords
+Passwörter
+---STRINGEND
+
+---STRING passwords updated and mail sent
+Die Passwörter wurden aktualisiert und eine Mail verschickt
+---STRINGEND
+
+---STRING passwords will be sent to the following users
+Die Passwörter werden an folgende User verschickt
+---STRINGEND
+
+---STRING person %s saved
+Benutzer %s gespeichert
+---STRINGEND
+
+---STRING personalized equal
+Personalisiertes Äquivalent
+---STRINGEND
+
+---STRING postcode
+Postleitzahl
+---STRINGEND
+
+---STRING prevent repeating characters
+Sich wiederholende Zeichen verhindern
+---STRINGEND
+
+---STRING prevent similar characters
+Ähnliche Zeichen verhindern
+---STRINGEND
+
+---STRING remove account
+Benutzerkonto löschen
+---STRINGEND
+
+---STRING search person
+Benutzer suchen
+---STRINGEND
+
+---STRING select all
+Alle auswählen
+---STRINGEND
+
+---STRING sender
+Absender
+---STRINGEND
+
+---STRING short dateformat (%s)
+Kurzes Datumsformat (%s)
+---STRINGEND
+
+---STRING string
+String
+---STRINGEND
+
+---STRING subject
+Betreff
+---STRINGEND
+
+---STRING the following fields will be searched: %s
+folgende Felder werden durchsucht: %s
+---STRINGEND
+
+---STRING user %s added to group
+Benutzer %s wurde zur Gruppe hinzugefügt
+---STRINGEND
+
+---STRING user account revoked for %s
+Benutzerkonto von %s wurde entzogen
+---STRINGEND
+
+---STRING user type
+Benutzertyp
+---STRINGEND
+
+---STRING username
+Benutzername
+---STRINGEND
+
+---STRING username %s is already in use
+Der Benutzername "%s" ist bereits vergeben
+---STRINGEND
+
+---STRING variable
+Variable
+---STRINGEND
+
+---STRING workphone
+Telefon (geschäftlich)
+---STRINGEND
+
+---STRING write the message that will be sent to the recipients
+Verfassen Sie die Nachricht, die dem Empfänger zugestellt wird
+---STRINGEND
+
+---STRING your password has been changed
+Ihr Passwort wurde geändert
+---STRINGEND
+
+---STRING enable unlocking locked objects
+Entsperren gesperrter Objekte aktivieren
+---STRINGEND

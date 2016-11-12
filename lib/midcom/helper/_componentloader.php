@@ -520,7 +520,7 @@ class midcom_helper__componentloader
             'fi.protie.navigation',
             'midcom.admin.folder',
             'midcom.admin.help',
-            'midcom.admin.user',
+            'midgard.admin.user',
             'midcom',
             'midcom.core.nullcomponent',
             'midcom.helper.datamanager2',

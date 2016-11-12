@@ -11,7 +11,7 @@
  *
  * @package org.openpsa.user
  */
-class org_openpsa_user_validator extends midcom_admin_user_validator
+class org_openpsa_user_validator extends midgard_admin_user_validator
 {
     /**
      * Validation rules for edit forms
