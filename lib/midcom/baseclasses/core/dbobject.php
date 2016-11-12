@@ -1341,13 +1341,10 @@ class midcom_baseclasses_core_dbobject
         $attachment->title = $title;
         $attachment->mimetype = $mimetype;
         $attachment->parentguid = $object->guid;
-        $result = $attachment->create();
 
-        if (   !$result
-            || !$attachment->id) {
+        if (!$attachment->create()) {
             debug_add("Could not create the attachment '{$name}' for " . get_class($object) . " {$object->guid}: "  . midcom_connection::get_error_string(),
                 MIDCOM_LOG_INFO);
-            debug_add('Return code was: ' . $result);
             return false;
         }
 

@@ -142,9 +142,7 @@ class midcom_helper_filesync_importer_structure extends midcom_helper_filesync_i
         $structuredata = file_get_contents($path);
         $structure = midcom_helper_misc::parse_config($structuredata);
 
-        if (   !is_array($structure)
-            || !isset($structure[$structure_name])
-            || !isset($structure[$structure_name]['root'])) {
+        if (empty($structure[$structure_name]['root'])) {
             throw new midcom_error("Invalid structure file {$path}");
         }
 

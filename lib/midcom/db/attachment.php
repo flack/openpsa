@@ -240,8 +240,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
             return;
         }
 
-        if (   file_exists($filename)
-            && is_link($filename)) {
+        if (file_exists($filename) && is_link($filename)) {
             debug_add("Attachment {$this->name} ({$this->guid}) is already in cache as {$filename}, skipping.");
             return;
         }
@@ -255,20 +254,10 @@ class midcom_db_attachment extends midcom_core_dbaobject
         }
 
         // Symlink failed, actually copy the data
-        $fh = $this->open('r');
-        if (!$fh) {
-            debug_add("Failed to cache attachment {$this->name} ({$this->guid}), opening failed.");
+        if (!copy($blob->get_path(), $filename)) {
+            debug_add("Failed to cache attachment {$this->name} ({$this->guid}), copying failed.");
             return;
         }
-
-        $data = '';
-        while (!feof($fh)) {
-            $data .= fgets($fh);
-        }
-        fclose($fh);
-        $this->_open_handle = null;
-
-        file_put_contents($filename, $data);
 
         debug_add("Symlinking attachment {$this->name} ({$this->guid}) as {$filename} failed, data copied instead.");
     }
@@ -350,8 +339,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
         if (   midcom::get()->config->get('attachment_cache_enabled')
             && !$this->can_do('midgard:read', 'EVERYONE')) {
             // Not public file, ensure it is removed
-            $subdir = substr($this->guid, 0, 1);
-            $filename = midcom::get()->config->get('attachment_cache_root') . "/{$subdir}/{$this->guid}_{$this->name}";
+            $filename = $this->get_cache_path();
             if (file_exists($filename)) {
                 @unlink($filename);
             }

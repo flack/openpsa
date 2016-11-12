@@ -63,12 +63,9 @@ class midcom_core_service_implementation_urlparsertopic implements midcom_core_s
      */
     private function check_style_inheritance($topic)
     {
-        if (   !$topic->styleInherit
-            || !$topic->style) {
-            return;
+        if ($topic->styleInherit && $topic->style) {
+            $GLOBALS['midcom_style_inherited'] = $topic->style;
         }
-
-        $GLOBALS['midcom_style_inherited'] = $topic->style;
     }
 
     /**
