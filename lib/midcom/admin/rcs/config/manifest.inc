@@ -1,4 +1,4 @@
-'name' => 'no.bergfald.rcs',
+'name' => 'midcom.admin.rcs',
 'icon' => 'stock-icons/16x16/history.png',
 'description' => 'Front and backend for a versioning library',
 'purecode' => true,

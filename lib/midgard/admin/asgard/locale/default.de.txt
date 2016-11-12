@@ -566,7 +566,7 @@ Keine Revisionen vorhanden
 Kein Titel
 ---STRINGEND
 
----STRING no.bergfald.rcs
+---STRING midcom.admin.rcs
 Revisionskontrolle
 ---STRINGEND
 

@@ -554,7 +554,7 @@ Brak plików
 Bez nazwy
 ---STRINGEND
 
----STRING no.bergfald.rcs
+---STRING midcom.admin.rcs
 Kontrola wersji
 ---STRINGEND
 

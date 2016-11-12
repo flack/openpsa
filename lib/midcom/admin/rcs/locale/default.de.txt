@@ -1,100 +1,104 @@
 ---# MidCOM String Database
 ---VERSION 2.1.0
----LANGUAGE pl
+---LANGUAGE de
 
 ---STRING back to %s
-Idź do strony "%s"
+zurück zu "%s"
 ---STRINGEND
 
 ---STRING changes done in revision %s to %s
-Zmiany z wersji %s do %s
+Änderungen in Revision %s von "%s"
 ---STRINGEND
 
 ---STRING changes from version %s
-Zmiany z wersji %s
+Änderungen seit Version %s
 ---STRINGEND
 
 ---STRING date
-Data
+Datum
 ---STRINGEND
 
 ---STRING lines
-Linie
+Zeilen
 ---STRINGEND
 
 ---STRING message
-Info
+Nachricht
 ---STRINGEND
 
----STRING no.bergfald.rcs
-Kontrola wersji
+---STRING midcom.admin.rcs
+Revisionskontrolle
+---STRINGEND
+
+---STRING no revisions exist
+Keine Revisionen vorhanden
 ---STRINGEND
 
 ---STRING restore this revision (%s)
-Przywróć tą wersję (%s)
+Diese Revision wiederherstellen
 ---STRINGEND
 
 ---STRING restore to version %s failed, reason %s
-Przywrócenie wersji %s nieudane: %s
+Die Wiederherstellung der Revision %s ist fehlgeschlagen, Ursache: %s
 ---STRINGEND
 
 ---STRING restore to version %s successful
-Przywrócono wersję %s
+Die Wiederherstellung der Version %s war erfolgreich
 ---STRINGEND
 
 ---STRING revision
-Wersja
+Revision
 ---STRINGEND
 
 ---STRING revision history of %s
-Historia wersji %s
+Revisionsgeschichte von %s
 ---STRINGEND
 
 ---STRING show history
-Pokaż historię
+Revisionsgeschichte zeigen
 ---STRINGEND
 
 ---STRING user
-Użytkownik
+Benutzer
 ---STRINGEND
 
 ---STRING version %s
-Wersja %s
+Version %s
 ---STRINGEND
 
 ---STRING view %s differences with next (%s)
-Zobacz zmiany między %s a %s
+Unterschiede zwischen Version %s und der folgenden (%s) anzeigen
 ---STRINGEND
 
 ---STRING view %s differences with previous (%s)
-Zobacz zmiany między %s a %s
+Unterschiede zwischen Version %s und der vorherigen (%s) anzeigen
 ---STRINGEND
 
 ---STRING view this revision (%s)
-Zobacz wersję %s
+Diese Revision (%s) anzeigen
 ---STRINGEND
 
 ---STRING viewing version %s of %s
-%s: wersja %s
+Version %s von %s
 ---STRINGEND
 
 ---STRING differences between %s and %s
-Zmiany między wersją %s i %s
+Unterschiede zwischen %s und %s
 ---STRINGEND
 
 ---STRING differences between versions %s and %s
-Zmiany między wersją %s i %s
+Unterschiede zwischen den Versionen %s und %s
 ---STRINGEND
 
 ---STRING no changes in content
-Brak zmian w treści
+Keine Änderungen im Inhalt
 ---STRINGEND
 
 ---STRING show differences
-Pokaż zmiany
+Unterschiede anzeigen
 ---STRINGEND
 
 ---STRING title
-Tytuł
+Titel
 ---STRINGEND
 

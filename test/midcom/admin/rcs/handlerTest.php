@@ -11,7 +11,7 @@
  *
  * @package openpsa.test
  */
-class no_bergfald_rcs_handlerTest extends openpsa_testcase
+class midcom_admin_rcs_handlerTest extends openpsa_testcase
 {
     protected static $_object;
 
@@ -28,7 +28,7 @@ class no_bergfald_rcs_handlerTest extends openpsa_testcase
     {
         $object_without_history = self::create_class_object('midcom_db_topic', array('_use_rcs' => false));
 
-        midcom::get()->auth->request_sudo('no.bergfald.rcs');
+        midcom::get()->auth->request_sudo('midcom.admin.rcs');
 
         $data = $this->run_handler('net.nehmer.static', array('__ais', 'rcs', self::$_object->guid));
         $this->assertEquals('____ais-rcs-history', $data['handler_id']);
@@ -42,7 +42,7 @@ class no_bergfald_rcs_handlerTest extends openpsa_testcase
 
     public function testHandler_preview()
     {
-        midcom::get()->auth->request_sudo('no.bergfald.rcs');
+        midcom::get()->auth->request_sudo('midcom.admin.rcs');
 
         $data = $this->run_handler('net.nehmer.static', array('__ais', 'rcs', 'preview', self::$_object->guid, '1.1'));
         $this->assertEquals('____ais-rcs-preview', $data['handler_id']);
@@ -53,7 +53,7 @@ class no_bergfald_rcs_handlerTest extends openpsa_testcase
 
     public function testHandler_diff()
     {
-        midcom::get()->auth->request_sudo('no.bergfald.rcs');
+        midcom::get()->auth->request_sudo('midcom.admin.rcs');
 
         $data = $this->run_handler('net.nehmer.static', array('__ais', 'rcs', 'diff', self::$_object->guid, '1.1', '1.2'));
         $this->assertEquals('____ais-rcs-diff', $data['handler_id']);

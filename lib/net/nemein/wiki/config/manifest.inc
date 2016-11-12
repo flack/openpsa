@@ -30,7 +30,7 @@
     'dependencies' => array
     (
         'midcom.helper.datamanager2' => array(),
-        'no.bergfald.rcs' => array(),
+        'midcom.admin.rcs' => array(),
         'org.openpsa.widgets' => array(),
         'org.openpsa.notifications' => array(),
         'org.openpsa.mail' => array(),

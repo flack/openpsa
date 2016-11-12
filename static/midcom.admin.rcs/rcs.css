@@ -1,19 +1,19 @@
-dl.no_bergfald_rcs_diff dt
+dl.midcom_admin_rcs_diff dt
 {
     font-weight: bold;
 }
-dl.no_bergfald_rcs_diff span.deleted
+dl.midcom_admin_rcs_diff span.deleted
 {
     color: #cc0000;
     text-decoration: line-through;
 }
-dl.no_bergfald_rcs_diff span.inserted
+dl.midcom_admin_rcs_diff span.inserted
 {
     background-color: #e0ffa0;
     color: #000000;
 }
 
-dl.no_bergfald_rcs_diff tbody th
+dl.midcom_admin_rcs_diff tbody th
 {
     color: #555;
     font-weight: normal;
@@ -21,7 +21,7 @@ dl.no_bergfald_rcs_diff tbody th
     padding-right: .7em;
 }
 
-dl.no_bergfald_rcs_diff tbody tr:hover
+dl.midcom_admin_rcs_diff tbody tr:hover
 {
     background-color: #ffc
 }

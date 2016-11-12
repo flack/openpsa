@@ -518,7 +518,7 @@ Inga filer
 Ingen titel
 ---STRINGEND
 
----STRING no.bergfald.rcs
+---STRING midcom.admin.rcs
 Revisions kontroll
 ---STRINGEND
 

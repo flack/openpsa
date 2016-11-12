@@ -58,7 +58,7 @@ class midcom_helper_toolbar_view extends midcom_helper_toolbar
             && $object->_use_rcs) {
             $buttons[] = array(
                 MIDCOM_TOOLBAR_URL => "__ais/rcs/{$object->guid}/",
-                MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('show history', 'no.bergfald.rcs'),
+                MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('show history', 'midcom.admin.rcs'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/history.png',
                 MIDCOM_TOOLBAR_ACCESSKEY => 'v',
             );

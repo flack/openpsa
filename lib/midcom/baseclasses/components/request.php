@@ -903,7 +903,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
                     'config' => null,
                 ),
                 'rcs' => array(
-                    'class' => 'no_bergfald_rcs_handler',
+                    'class' => 'midcom_admin_rcs_handler',
                     'name' => 'Revision control',
                     'config' => null,
                 ),

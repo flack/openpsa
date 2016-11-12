@@ -550,7 +550,7 @@ Ei tiedostoja
 Ei otsikkoa
 ---STRINGEND
 
----STRING no.bergfald.rcs
+---STRING midcom.admin.rcs
 Versionhallinta
 ---STRINGEND
 

@@ -22,7 +22,7 @@ if ($data['next_revision']) {
 }
 ?>
 </div>
-<dl class="no_bergfald_rcs_diff">
+<dl class="midcom_admin_rcs_diff">
 <?php
 $changes = false;
 foreach ($diff as $attribute => $values) {

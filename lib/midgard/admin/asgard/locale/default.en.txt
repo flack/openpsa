@@ -590,7 +590,7 @@ No revisions exist
 No title
 ---STRINGEND
 
----STRING no.bergfald.rcs
+---STRING midcom.admin.rcs
 Revision control
 ---STRINGEND
 

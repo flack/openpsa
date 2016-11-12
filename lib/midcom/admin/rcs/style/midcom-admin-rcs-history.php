@@ -9,7 +9,7 @@ if (count($history) == 0) {
     echo $data['l10n']->get('no revisions exist');
 } else {
     ?>
-    <form name="no_bergfald_rcs_history" action="" >
+    <form name="midcom_admin_rcs_history" action="" >
         <table>
             <thead>
                 <tr>

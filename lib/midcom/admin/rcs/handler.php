@@ -1,7 +1,7 @@
 <?php
 /**
  * @author tarjei huse
- * @package no.bergfald.rcs
+ * @package midcom.admin.rcs
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
@@ -14,7 +14,7 @@
  * request_switch array in the main handler class:
  *
  * <code>
- *      $rcs_array =  no_bergfald_rcs_handler::get_plugin_handlers();
+ *      $rcs_array =  midcom_admin_rcs_handler::get_plugin_handlers();
  *      foreach ($rcs_array as $key => $switch) {
  *            $this->_request_switch[] = $switch;
  *      }
@@ -30,9 +30,9 @@
  *
  * @todo add support for schemas.
  *
- * @package no.bergfald.rcs
+ * @package midcom.admin.rcs
  */
-class no_bergfald_rcs_handler extends midcom_baseclasses_components_plugin
+class midcom_admin_rcs_handler extends midcom_baseclasses_components_plugin
 {
     /**
      * Current object Guid.
@@ -60,8 +60,8 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_plugin
      */
     public function _on_initialize()
     {
-        midcom::get()->style->prepend_component_styledir('no.bergfald.rcs');
-        $this->add_stylesheet(MIDCOM_STATIC_URL . "/no.bergfald.rcs/rcs.css");
+        midcom::get()->style->prepend_component_styledir('midcom.admin.rcs');
+        $this->add_stylesheet(MIDCOM_STATIC_URL . "/midcom.admin.rcs/rcs.css");
     }
 
     /**
@@ -186,7 +186,7 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_plugin
     {
         $this->_request_data['history'] = $this->_backend->list_history();
         $this->_request_data['guid'] = $this->_guid;
-        midcom_show_style('bergfald-rcs-history');
+        midcom_show_style('midcom-admin-rcs-history');
     }
 
     private function _resolve_object_title()
@@ -244,7 +244,7 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_plugin
     public function _show_diff($handler_id, array &$data)
     {
         $data['handler'] = $this;
-        midcom_show_style('bergfald-rcs-diff');
+        midcom_show_style('midcom-admin-rcs-diff');
     }
 
     public function translate($string)
@@ -303,7 +303,7 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_plugin
     public function _show_preview($handler_id, array &$data)
     {
         $data['handler'] = $this;
-        midcom_show_style('bergfald-rcs-preview');
+        midcom_show_style('midcom-admin-rcs-preview');
     }
 
     /**

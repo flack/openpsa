@@ -1,100 +1,100 @@
 ---# MidCOM String Database
 ---VERSION 2.1.0
----LANGUAGE sv
+---LANGUAGE fi
 
 ---STRING back to %s
-Tillbaka till sida %s
+Takaisin sivulle "%s"
 ---STRINGEND
 
 ---STRING changes done in revision %s to %s
-Ändringar gjorda i revision %s till %s
+Version %s muutokset tietueeseen %s
 ---STRINGEND
 
 ---STRING changes from version %s
-Ändringar från version %s
+Muutokset versiosta %s
 ---STRINGEND
 
 ---STRING date
-Datum
+Päivämäärä
 ---STRINGEND
 
 ---STRING differences between %s and %s
-Skillnader mellan %s och %s
+Versioiden %s ja %s väliset erot
 ---STRINGEND
 
 ---STRING differences between versions %s and %s
-Skillnader mellan versioner %s och %s
+Versioiden %s ja %s väliset erot
 ---STRINGEND
 
 ---STRING lines
-Rader
+Rivit
 ---STRINGEND
 
 ---STRING message
-Medelande
+Viesti
 ---STRINGEND
 
 ---STRING no changes in content
-Inga ändringar i innehållet
+Sisällössä ei muutoksia
 ---STRINGEND
 
----STRING no.bergfald.rcs
-Versions hantering
+---STRING midcom.admin.rcs
+Versionhallinta
 ---STRINGEND
 
 ---STRING restore this revision (%s)
-Återställ till version (%s)
+Palauta tähän versioon (%s)
 ---STRINGEND
 
 ---STRING restore to version %s failed, reason %s
-Återställning till version %s misslyckades, anledning %s
+Palautus versioon %s epäonnistui, syy %s
 ---STRINGEND
 
 ---STRING restore to version %s successful
-Återställning till version %s lyckades
+Palautus versioon %s onnistui
 ---STRINGEND
 
 ---STRING revision
-Version
+Versio
 ---STRINGEND
 
 ---STRING revision history of %s
-Versionshistorik av %s
----STRINGEND
-
----STRING show differences
-Visa skillnader
+Muutoshistoria tietueelle %s
 ---STRINGEND
 
 ---STRING show history
-Visa  versionshistorik
+Näytä versiohistoria
 ---STRINGEND
 
 ---STRING title
-Titel
+Otsikko
 ---STRINGEND
 
 ---STRING user
-Användare
+Käyttäjä
 ---STRINGEND
 
 ---STRING version %s
-Version %s
+Versio %s
 ---STRINGEND
 
 ---STRING view %s differences with next (%s)
-Visa skillnader av version %s med nästa (%s)
+Näytä version %s erot seuraavaan (%s)
 ---STRINGEND
 
 ---STRING view %s differences with previous (%s)
-Visa skillnader av version %s med föregående (%s)
+Näytä version %s erot edelliseen (%s)
 ---STRINGEND
 
 ---STRING view this revision (%s)
-Visa denna version (%s)
+Näytä tämä versio (%s)
 ---STRINGEND
 
 ---STRING viewing version %s of %s
-Version %s av %s
+Versio %s tietueesta %s
+---STRINGEND
+
+---STRING show differences
+Näytä erot
 ---STRINGEND
 

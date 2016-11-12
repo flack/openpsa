@@ -1,100 +1,104 @@
 ---# MidCOM String Database
 ---VERSION 2.1.0
----LANGUAGE fi
+---LANGUAGE en
 
 ---STRING back to %s
-Takaisin sivulle "%s"
+Back to page "%s"
 ---STRINGEND
 
 ---STRING changes done in revision %s to %s
-Version %s muutokset tietueeseen %s
+Changes done in revision %s to %s
 ---STRINGEND
 
 ---STRING changes from version %s
-Muutokset versiosta %s
+Changes from version %s
 ---STRINGEND
 
 ---STRING date
-Päivämäärä
+Date
 ---STRINGEND
 
 ---STRING differences between %s and %s
-Versioiden %s ja %s väliset erot
+Differences between %s and %s
 ---STRINGEND
 
 ---STRING differences between versions %s and %s
-Versioiden %s ja %s väliset erot
+Differences between versions %s and %s
 ---STRINGEND
 
 ---STRING lines
-Rivit
+Lines
 ---STRINGEND
 
 ---STRING message
-Viesti
+Message
 ---STRINGEND
 
 ---STRING no changes in content
-Sisällössä ei muutoksia
+No changes in content
 ---STRINGEND
 
----STRING no.bergfald.rcs
-Versionhallinta
+---STRING midcom.admin.rcs
+Revision control
+---STRINGEND
+
+---STRING no revisions exist
+No revisions exist
 ---STRINGEND
 
 ---STRING restore this revision (%s)
-Palauta tähän versioon (%s)
+Restore to this revision (%s)
 ---STRINGEND
 
 ---STRING restore to version %s failed, reason %s
-Palautus versioon %s epäonnistui, syy %s
+Restore to version %s failed, reason %s
 ---STRINGEND
 
 ---STRING restore to version %s successful
-Palautus versioon %s onnistui
+Restore to version %s was successful
 ---STRINGEND
 
 ---STRING revision
-Versio
+Revision
 ---STRINGEND
 
 ---STRING revision history of %s
-Muutoshistoria tietueelle %s
----STRINGEND
-
----STRING show history
-Näytä versiohistoria
----STRINGEND
-
----STRING title
-Otsikko
----STRINGEND
-
----STRING user
-Käyttäjä
----STRINGEND
-
----STRING version %s
-Versio %s
----STRINGEND
-
----STRING view %s differences with next (%s)
-Näytä version %s erot seuraavaan (%s)
----STRINGEND
-
----STRING view %s differences with previous (%s)
-Näytä version %s erot edelliseen (%s)
----STRINGEND
-
----STRING view this revision (%s)
-Näytä tämä versio (%s)
----STRINGEND
-
----STRING viewing version %s of %s
-Versio %s tietueesta %s
+Revision history of %s
 ---STRINGEND
 
 ---STRING show differences
-Näytä erot
+Show differences
+---STRINGEND
+
+---STRING show history
+Show revision history
+---STRINGEND
+
+---STRING title
+Title
+---STRINGEND
+
+---STRING user
+User
+---STRINGEND
+
+---STRING version %s
+Version %s
+---STRINGEND
+
+---STRING view %s differences with next (%s)
+View differences of version %s with next (%s)
+---STRINGEND
+
+---STRING view %s differences with previous (%s)
+View differences of version %s with previous (%s)
+---STRINGEND
+
+---STRING view this revision (%s)
+View this revision (%s)
+---STRINGEND
+
+---STRING viewing version %s of %s
+Version %s of %s
 ---STRINGEND
 

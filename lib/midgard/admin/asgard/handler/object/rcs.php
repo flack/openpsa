@@ -391,7 +391,7 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
 
         if (   $this->_backend->version_exists($args[1])
             && $this->_backend->restore_to_revision($args[1])) {
-            midcom::get()->uimessages->add($this->_l10n->get('no.bergfald.rcs'), sprintf($this->_l10n->get('restore to version %s successful'), $args[1]));
+            midcom::get()->uimessages->add($this->_l10n->get('midcom.admin.rcs'), sprintf($this->_l10n->get('restore to version %s successful'), $args[1]));
             return new midcom_response_relocate("__mfa/asgard/object/open/{$this->_guid}/");
         }
         throw new midcom_error(sprintf($this->_l10n->get('restore to version %s failed, reason %s'), $args[1], $this->_backend->get_error()));
