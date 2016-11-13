@@ -20,16 +20,8 @@ class midcom_helper_nav_itemlist_score extends midcom_helper_nav_itemlist
      */
     public function get_sorted_list()
     {
-        $nodes_list = $this->_nap->list_nodes($this->parent_node_id);
-        $leaves_list = $this->_nap->list_leaves($this->parent_node_id);
-        if (   $nodes_list === false
-            || $leaves_list === false) {
-            return false;
-        }
-
-        $result = array_map(array($this->_nap, 'get_node'), $nodes_list);
-        $result = array_merge($result, array_map(array($this->_nap, 'get_leaf'), $leaves_list));
-        if (!uasort($result, array('midcom_helper_nav_itemlist_score', 'sort_cmp'))) {
+        $result = array_merge($this->get_nodes(), $this->get_leaves());
+        if (!uasort($result, array($this, 'sort_cmp'))) {
             throw new midcom_error('Failed to sort the navigation');
         }
         return $result;
@@ -42,7 +34,7 @@ class midcom_helper_nav_itemlist_score extends midcom_helper_nav_itemlist
      * @param array $b    Navigation item array
      * @return integer    Preferred order
      */
-    public static function sort_cmp($a, $b)
+    private function sort_cmp($a, $b)
     {
         // This should also sort out the situation were score is not set.
         if ($a[MIDCOM_NAV_SCORE] === $b[MIDCOM_NAV_SCORE]) {

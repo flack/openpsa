@@ -18,23 +18,6 @@ class midcom_helper_nav_itemlist_articlesfirst extends midcom_helper_nav_itemlis
 {
     public function get_sorted_list()
     {
-        $nodes_list = $this->_nap->list_nodes($this->parent_node_id);
-        if ($nodes_list === false) {
-            throw new midcom_error("Could not retrieve the subnode listing.");
-        }
-
-        $leaves_list = $this->_nap->list_leaves($this->parent_node_id);
-        if ($leaves_list === false) {
-            throw new midcom_error("Could not retrieve the leaf listing.");
-        }
-
-        $result = array();
-        foreach ($leaves_list as $id) {
-            $result[] = $this->_nap->get_leaf($id);
-        }
-        foreach ($nodes_list as $id) {
-            $result[] = $this->_nap->get_node($id);
-        }
-        return $result;
+        return array_merge($this->get_leaves(), $this->get_nodes());
     }
 }

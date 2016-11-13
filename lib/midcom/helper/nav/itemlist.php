@@ -40,6 +40,30 @@ abstract class midcom_helper_nav_itemlist
     }
 
     /**
+     * @return array
+     */
+    protected function get_nodes()
+    {
+        $nodes_list = $this->_nap->list_nodes($this->parent_node_id);
+        if ($nodes_list === false) {
+            throw new midcom_error("Could not retrieve the subnode listing.");
+        }
+        return array_map(array($this->_nap, 'get_node'), $nodes_list);
+    }
+
+    /**
+     * @return array
+     */
+    protected function get_leaves()
+    {
+        $leaves_list = $this->_nap->list_leaves($this->parent_node_id);
+        if ($leaves_list === false) {
+            throw new midcom_error("Could not retrieve the leaf listing.");
+        }
+        return array_map(array($this->_nap, 'get_leaf'), $leaves_list);
+    }
+
+    /**
      * Returns the sorted list for this topic according to our sorting criteria.
      *
      * It has to be overridden. Throw midcom_error on any critical failure.
@@ -67,7 +91,7 @@ abstract class midcom_helper_nav_itemlist
      * @param string $sorting sorttype (e.g. topicsfirst)
      * @param midcom_helper_nav $nap pointer to the NAP object.
      * @param integer $parent_topic pointer to the topic to base the list on.
-     * @return midcom_helper_nav_itemlist sortobject
+     * @return midcom_helper_nav_itemlist
      */
     public static function factory($sorting, midcom_helper_nav $nap, $parent_topic)
     {
