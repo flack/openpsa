@@ -379,120 +379,8 @@ class midcom_helper_nav_backend
      */
     private function _get_node($topic_id, $up = null)
     {
-        $nodedata = false;
-
-        if (!$up) {
-            $nodedata = $this->_nap_cache->get_node($topic_id);
-        }
-
-        if (!$nodedata) {
-            midcom::get()->auth->request_sudo('midcom.helper.nav');
-            $nodedata = $this->_get_node_from_database($topic_id, $up);
-            midcom::get()->auth->drop_sudo();
-
-            if (is_null($nodedata)) {
-                debug_add('We got null for this node, so we do not have any NAP information, returning null directly.');
-                return null;
-            }
-
-            $this->_nap_cache->put_node($nodedata[MIDCOM_NAV_ID], $nodedata);
-            debug_add("Added the ID {$nodedata[MIDCOM_NAV_ID]} to the cache.");
-        }
-
-        // Rewrite all host dependant URLs based on the relative URL within our topic tree.
-        $nodedata[MIDCOM_NAV_FULLURL] = midcom::get()->config->get('midcom_site_url') . $nodedata[MIDCOM_NAV_RELATIVEURL];
-        $nodedata[MIDCOM_NAV_ABSOLUTEURL] = midcom_connection::get_url('self') . $nodedata[MIDCOM_NAV_RELATIVEURL];
-        $nodedata[MIDCOM_NAV_PERMALINK] = midcom::get()->permalinks->create_permalink($nodedata[MIDCOM_NAV_GUID]);
-
-        return $nodedata;
-    }
-
-    /**
-     * Reads a node data structure from the database, completes all defaults and
-     * derived properties.
-     *
-     * @param mixed $topic_id The ID of the node for which the NAP information is requested.
-     * @param mixed $up    The node ID of the parent node.    Optional and not normally needed.
-     * @return Array Node data structure or null in case no NAP information is available for this topic.
-     */
-    private function _get_node_from_database($topic_id, $up = null)
-    {
-        $topic = new midcom_core_dbaproxy($topic_id, 'midcom_db_topic');
-
-        if (!$topic->guid) {
-            debug_add("Could not load Topic #{$topic_id}: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-            return null;
-        }
-
-        $urltopic = $topic;
-        $id = $this->_nodeid($urltopic->id, $up);
-
-        if (   midcom::get()->config->get('symlinks')
-            && !empty($urltopic->symlink)) {
-            $topic = new midcom_core_dbaproxy($urltopic->symlink, 'midcom_db_topic');
-
-            if (!$topic->guid) {
-                debug_add("Could not load target for symlinked topic {$urltopic->id}: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-                $topic = $urltopic;
-            }
-        }
-
-        // Retrieve a NAP instance
-        $interface = $this->_get_component_interface($topic->component, $topic);
-        if (!$interface) {
-            return null;
-        }
-
-        // Get the node data and verify this is a node that actually has any relevant NAP
-        // information. Internal components which don't have
-        // a NAP interface yet return null here, to be exempt from any NAP processing.
-        $nodedata = $interface->get_node();
-        if (is_null($nodedata)) {
-            debug_add("The component '{$topic->component}' did return null for the topic {$topic->id}, indicating no NAP information is available.");
-            return null;
-        }
-
-        // Now complete the node data structure
-        $nodedata[MIDCOM_NAV_URL] = $urltopic->name . '/';
-        $nodedata[MIDCOM_NAV_NAME] = trim($nodedata[MIDCOM_NAV_NAME]) == '' ? $topic->name : $nodedata[MIDCOM_NAV_NAME];
-        $nodedata[MIDCOM_NAV_GUID] = $urltopic->guid;
-        $nodedata[MIDCOM_NAV_ID] = $id;
-        $nodedata[MIDCOM_NAV_TYPE] = 'node';
-        $nodedata[MIDCOM_NAV_SCORE] = $urltopic->metadata->score;
-        $nodedata[MIDCOM_NAV_COMPONENT] = $topic->component;
-        $nodedata[MIDCOM_NAV_SORTABLE] = true;
-
-        if (!isset($nodedata[MIDCOM_NAV_CONFIGURATION])) {
-            $nodedata[MIDCOM_NAV_CONFIGURATION] = null;
-        }
-
-        if (empty($nodedata[MIDCOM_NAV_NOENTRY])) {
-            $nodedata[MIDCOM_NAV_NOENTRY] = (bool) $urltopic->metadata->get('navnoentry');
-        }
-
-        if ($urltopic->id == $this->_root) {
-            $nodedata[MIDCOM_NAV_NODEID] = -1;
-            $nodedata[MIDCOM_NAV_RELATIVEURL] = '';
-        } else {
-            if (!$up || $this->_loadNode($up) !== MIDCOM_ERROK) {
-                $up = $urltopic->up;
-            }
-            $nodedata[MIDCOM_NAV_NODEID] = $up;
-
-            if (   !$nodedata[MIDCOM_NAV_NODEID]
-                || $this->_loadNode($nodedata[MIDCOM_NAV_NODEID]) !== MIDCOM_ERROK) {
-                return null;
-            }
-            if (!array_key_exists(MIDCOM_NAV_RELATIVEURL, self::$_nodes[$nodedata[MIDCOM_NAV_NODEID]])) {
-                return null;
-            }
-
-            $nodedata[MIDCOM_NAV_RELATIVEURL] = self::$_nodes[$nodedata[MIDCOM_NAV_NODEID]][MIDCOM_NAV_RELATIVEURL] . $nodedata[MIDCOM_NAV_URL];
-        }
-
-        $nodedata[MIDCOM_NAV_OBJECT] = $topic;
-
-        return $nodedata;
+        $node = new midcom_helper_nav_node($this, $topic_id, $up);
+        return $node->get_data();
     }
 
     /**
@@ -731,15 +619,7 @@ class midcom_helper_nav_backend
         $subnodes = $mc->get_values('id');
         midcom::get()->auth->drop_sudo();
 
-        $cachedata = $this->_nap_cache->get_node($parent_node);
-
-        if (false === $cachedata) {
-            /* It seems that the parent node is not in cache. This may happen when list_nodes is called from cache_invalidate
-             * We load it again from db (which automatically puts it in the cache if it's active)
-             */
-            $cachedata = $this->_get_node($parent_node);
-        }
-
+        $cachedata = $this->_get_node($parent_node);
         $cachedata[MIDCOM_NAV_SUBNODES] = $subnodes;
         self::$_nodes[$parent_node][MIDCOM_NAV_SUBNODES] = $subnodes;
         $this->_nap_cache->put_node($parent_node, $cachedata);
