@@ -30,6 +30,14 @@ abstract class midcom_helper_nav_item
 
     abstract protected function prepare_data();
 
+    /**
+     * @return midcom_services_cache_module_nap
+     */
+    protected function get_cache()
+    {
+        return midcom::get()->cache->nap;
+    }
+
     public function __get($name)
     {
         $name = $this->translate_name($name);
@@ -58,7 +66,18 @@ abstract class midcom_helper_nav_item
     public function  __isset($name)
     {
         $data = $this->get_data();
+        $name = $this->translate_name($name);
+
         return array_key_exists($name, $data);
+    }
+
+    private function translate_name($name)
+    {
+        $const = 'MIDCOM_NAV_' . strtoupper($name);
+        if (defined($const)) {
+            $name = constant($const);
+        }
+        return $name;
     }
 
     /**
@@ -105,14 +124,5 @@ abstract class midcom_helper_nav_item
             $this->loaded = true;
         }
         return $this->data;
-    }
-
-    private function translate_name($name)
-    {
-        $const = 'MIDCOM_NAV_' . strtoupper($name);
-        if (defined($const)) {
-            $name = constant($const);
-        }
-        return $name;
     }
 }

@@ -28,12 +28,92 @@ class midcom_helper_nav_node extends midcom_helper_nav_item
         $this->up = $up;
     }
 
+    /**
+     * @return midcom_helper_nav_leaf[]
+     */
+    public function get_leaves()
+    {
+        $entry_name = "{$this->id}-leaves";
+
+        $leaves = $this->get_cache()->get_leaves($entry_name);
+
+        if (false === $leaves) {
+            debug_add('The leaves have not yet been loaded from the database, we do this now.');
+
+            //we always write all the leaves to cache and filter for ACLs after the fact
+            midcom::get()->auth->request_sudo('midcom.helper.nav');
+            $leaves = $this->load_leaves();
+            midcom::get()->auth->drop_sudo();
+
+            $this->write_leaves_to_cache($leaves);
+        }
+        return $leaves;
+    }
+
+
+    /**
+     * Load the leaves from the database
+     *
+     * Important note:
+     * - The IDs constructed for the leaves are the concatenation of the ID delivered by the component
+     *   and the topics' GUID.
+     *
+     * @return midcom_helper_nav_leaf[] All leaves found for this node
+     */
+    private function load_leaves()
+    {
+        // Retrieve a NAP instance
+        $interface = $this->get_component_interface($this->object);
+        if (!$interface) {
+            return null;
+        }
+
+        $leafdata = $interface->get_leaves();
+        $leaves = array();
+
+        foreach ($leafdata as $id => $leaf) {
+            $leaf = new midcom_helper_nav_leaf($this, $leaf, $id);
+            // The leaf is complete, add it.
+            $leaves[$leaf->id] = $leaf;
+        }
+
+        return $leaves;
+    }
+
+    /**
+     * Writes the passed leaves to the cache, assigning them to the specified node.
+     *
+     * The function will bail out on any critical error. Data inconsistencies will be
+     * logged and overwritten silently otherwise.
+     *
+     * @param midcom_helper_nav_leaf[] $leaves The leaves to store in the cache.
+     */
+    private function write_leaves_to_cache($leaves)
+    {
+        debug_add('Writing ' . count($leaves) . ' leaves to the cache.');
+
+        $cached_node = $this->get_cache()->get_node($this->id);
+
+        if (!$cached_node) {
+            debug_add("NAP Caching Engine: Tried to update the topic {$this->name} (#{$this->object->id}) "
+            . 'which was supposed to be in the cache already, but failed to load the object from the database.
+                  Aborting write_to_cache, this is a critical cache inconsistency.', MIDCOM_LOG_WARN);
+            return;
+        }
+        $cachedata = array();
+        foreach ($leaves as $leaf) {
+            $cachedata[$leaf->id] = $leaf->write_to_cache();
+        }
+
+        $this->get_cache()->put_leaves("{$this->id}-leaves", $cachedata);
+    }
+
     protected function prepare_data()
     {
         $data = false;
 
         if (!$this->up) {
-            $data = midcom::get()->cache->nap->get_node($this->topic_id);
+            $data = $this->get_cache()->get_node($this->topic_id);
         }
 
         if (!$data) {

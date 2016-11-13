@@ -25,6 +25,15 @@ class midcom_helper_nav_leaf extends midcom_helper_nav_item
         $this->leafid = $leafid;
     }
 
+    public function write_to_cache()
+    {
+        if (is_object($this->object)) {
+            $this->object = new midcom_core_dbaproxy($this->object->guid, get_class($this->object));
+            $this->get_cache()->put_guid($this->object->guid, $this->get_data());
+        }
+        return $this->get_data();
+    }
+
     protected function prepare_data()
     {
         $topic = $this->node->object;

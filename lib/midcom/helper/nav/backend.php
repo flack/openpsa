@@ -398,26 +398,11 @@ class midcom_helper_nav_backend
      */
     private function _get_leaves(midcom_helper_nav_node $node)
     {
-        $entry_name = "{$node->id}-leaves";
-
-        $leaves = $this->_nap_cache->get_leaves($entry_name);
-
-        if (false === $leaves) {
-            debug_add('The leaves have not yet been loaded from the database, we do this now.');
-
-            //we always write all the leaves to cache and filter for ACLs after the fact
-            midcom::get()->auth->request_sudo('midcom.helper.nav');
-            $leaves = $this->_get_leaves_from_database($node);
-            midcom::get()->auth->drop_sudo();
-
-            $this->_write_leaves_to_cache($node, $leaves);
-        }
-
-        $result = array();
         $fullprefix = midcom::get()->config->get('midcom_site_url');
         $absoluteprefix = midcom_connection::get_url('self');
+        $result = array();
 
-        foreach ($leaves as $id => $leaf) {
+        foreach ($node->get_leaves() as $id => $leaf) {
             if (   !empty($leaf->object)
                 && $leaf->guid
                 && $this->_user_id
@@ -438,71 +423,6 @@ class midcom_helper_nav_backend
         }
 
         return $result;
-    }
-
-    /**
-     * Load the leaves for a given node from the database. Will complete all default fields to
-     * provide full blown nap structures, and also build the base relative URLs which will
-     * later be completed by the _get_leaves() interface functions.
-     *
-     * Important note:
-     * - The IDs constructed for the leaves are the concatenation of the ID delivered by the component
-     *   and the topics' GUID.
-     *
-     * @param midcom_helper_nav_node $node The node data structure for which to retrieve the leaves.
-     * @return midcom_helper_nav_leaf[] All leaves found for that node, in complete post processed leave data structures.
-     */
-    private function _get_leaves_from_database(midcom_helper_nav_node $node)
-    {
-        // Retrieve a NAP instance
-        $interface = $this->_get_component_interface($node->component, $node->object);
-        if (!$interface) {
-            return null;
-        }
-
-        $leafdata = $interface->get_leaves();
-        $leaves = array();
-
-        foreach ($leafdata as $id => $leaf) {
-            $leaf = new midcom_helper_nav_leaf($node, $leaf, $id);
-            // The leaf is complete, add it.
-            $leaves[$leaf->id] = $leaf;
-        }
-
-        return $leaves;
-    }
-
-    /**
-     * Writes the passed leaves to the cache, assigning them to the specified node.
-     *
-     * The function will bail out on any critical error. Data inconsistencies will be
-     * logged and overwritten silently otherwise.
-     *
-     * @param midcom_helper_nav_node $node The node data structure to which the leaves should be assigned.
-     * @param midcom_helper_nav_leaf[] $leaves The leaves to store in the cache.
-     */
-    private function _write_leaves_to_cache(midcom_helper_nav_node $node, $leaves)
-    {
-        debug_add('Writing ' . count($leaves) . ' leaves to the cache.');
-
-        $cached_node = $this->_nap_cache->get_node($node->id);
-
-        if (!$cached_node) {
-            debug_add("NAP Caching Engine: Tried to update the topic {$node->name} (#{$node->object->id}) "
-                . 'which was supposed to be in the cache already, but failed to load the object from the database.
-                  Aborting write_to_cache, this is a critical cache inconsistency.', MIDCOM_LOG_WARN);
-            return;
-        }
-        $cachedata = array();
-        foreach ($leaves as $leaf) {
-            if (is_object($leaf->object)) {
-                $leaf->object = new midcom_core_dbaproxy($leaf->object->guid, get_class($leaf->object));
-                $this->_nap_cache->put_guid($leaf->object->guid, $leaf->get_data());
-            }
-            $cachedata[$leaf->id] = $leaf->get_data();
-        }
-
-        $this->_nap_cache->put_leaves("{$node->id}-leaves", $cachedata);
     }
 
     private function _get_subnodes($parent_node)
@@ -577,11 +497,10 @@ class midcom_helper_nav_backend
         $result = array();
 
         foreach ($subnodes as $id) {
-            $subnode_id = $this->_nodeid($id, $up);
-
             if ($this->_loadNode($id, $up) !== MIDCOM_ERROK) {
                 continue;
             }
+            $subnode_id = $this->_nodeid($id, $up);
 
             if (   !$show_noentry
                 && self::$_nodes[$subnode_id]->noentry) {
