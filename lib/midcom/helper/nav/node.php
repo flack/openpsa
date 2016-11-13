@@ -46,8 +46,13 @@ class midcom_helper_nav_node extends midcom_helper_nav_item
             midcom::get()->auth->drop_sudo();
 
             $this->write_leaves_to_cache($leaves);
+            return $leaves;
         }
-        return $leaves;
+        $result = array();
+        foreach ($leaves as $id => $leaf) {
+            $result[$id] = new midcom_helper_nav_leaf($this, $leaf, $id);
+        }
+        return $result;
     }
 
 
