@@ -336,7 +336,7 @@ class midcom_helper_nav_backend
     {
         $node = new midcom_helper_nav_node($this, $topic_id, $up);
 
-        if (    !$this->_is_object_visible($node->get_data())
+        if (    !$node->is_object_visible()
              || (   $this->_user_id
                  && !midcom::get()->auth->acl->can_do_byguid('midgard:read', $node->guid, 'midcom_db_topic', $this->_user_id))) {
             throw new midcom_error_forbidden('Node cannot be read or is invisible');
@@ -377,9 +377,11 @@ class midcom_helper_nav_backend
 
         $this->_loaded_leaves[$node->id] = array();
 
-        $leaves = array_filter($this->_get_leaves($node), array($this, '_is_object_visible'));
+        $leaves = array_filter($this->_get_leaves($node), function($leaf) {
+            return $leaf->is_object_visible();
+        });
         foreach ($leaves as $id => $leaf) {
-            $this->_leaves[$id] = $leaf;
+            $this->_leaves[$id] = $leaf->get_data();
             $this->_loaded_leaves[$node->id][$id] =& $this->_leaves[$id];
         }
     }
@@ -432,7 +434,7 @@ class midcom_helper_nav_backend
                 $leaf->permalink = midcom::get()->permalinks->create_permalink($leaf->guid);
             }
 
-            $result[$id] = $leaf->get_data();
+            $result[$id] = $leaf;
         }
 
         return $result;
@@ -868,47 +870,6 @@ class midcom_helper_nav_backend
             return false;
         }
         return array_shift($result);
-    }
-
-    /**
-     * Checks if the NAP object indicated by $napdata is visible within the current
-     * runtime environment. It will work with both nodes and leaves.
-     * This includes checks for:
-     *
-     * - Nonexistent NAP information (null values)
-     * - Scheduling/Hiding (only on-site)
-     * - Approval (only on-site)
-     *
-     * @param array $napdata The NAP data structure for the object to check (supports null values).
-     * @return boolean Indicating visibility.
-     */
-    private function _is_object_visible($napdata)
-    {
-        if (is_null($napdata)) {
-            debug_add('Got a null value as napdata, so this object does not have any NAP info, so we cannot display it.');
-            return false;
-        }
-
-        // Check the Metadata if and only if we are configured to do so.
-        if (   is_object($napdata[MIDCOM_NAV_OBJECT])
-            && (   midcom::get()->config->get('show_hidden_objects') == false
-                || midcom::get()->config->get('show_unapproved_objects') == false)) {
-            // Check Hiding, Scheduling and Approval
-            $metadata = $napdata[MIDCOM_NAV_OBJECT]->metadata;
-
-            if (!$metadata) {
-                // For some reason, the metadata for this object could not be retrieved. so we skip
-                // Approval/Visibility checks.
-                debug_add("Warning, no Metadata available for the {$napdata[MIDCOM_NAV_TYPE]} {$napdata[MIDCOM_NAV_GUID]}.", MIDCOM_LOG_INFO);
-                return true;
-            }
-
-            if (!$metadata->is_object_visible_onsite()) {
-                return false;
-            }
-        }
-
-        return true;
     }
 
     /**

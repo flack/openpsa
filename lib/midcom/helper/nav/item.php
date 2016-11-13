@@ -9,6 +9,7 @@
 /**
  * @property string $guid
  * @property mixed $id
+ * @property string $type
  * @property string $name
  * @property string $component
  * @property string $url
@@ -39,6 +40,12 @@ abstract class midcom_helper_nav_item
         return $data[$name];
     }
 
+    /**
+     * Magic setter. Also allows setting arbitrary non-constant keys for backward compatibility
+     *
+     * @param string $name
+     * @param mixed $value
+     */
     public function __set($name, $value)
     {
         $name = $this->translate_name($name);
@@ -52,6 +59,43 @@ abstract class midcom_helper_nav_item
     {
         $data = $this->get_data();
         return array_key_exists($name, $data);
+    }
+
+    /**
+     * Checks if the NAP object is visible within the current runtime environment.
+     * This includes checks for:
+     *
+     * - Nonexistent NAP information (null values)
+     * - Scheduling/Hiding (only on-site)
+     * - Approval (only on-site)
+     *
+     * @return boolean Indicating visibility.
+     */
+    public function is_object_visible()
+    {
+        if (is_null($this->get_data())) {
+            debug_add('Got a null value as napdata, so this object does not have any NAP info, so we cannot display it.');
+            return false;
+        }
+
+        // Check the Metadata if and only if we are configured to do so.
+        if (   is_object($this->object)
+            && (   midcom::get()->config->get('show_hidden_objects') == false
+                || midcom::get()->config->get('show_unapproved_objects') == false)) {
+            // Check Hiding, Scheduling and Approval
+            $metadata = $this->object->metadata;
+
+            if (!$metadata) {
+                // For some reason, the metadata for this object could not be retrieved. so we skip
+                // Approval/Visibility checks.
+                debug_add("Warning, no Metadata available for the {$this->type} {$this->guid}.", MIDCOM_LOG_INFO);
+                return true;
+            }
+
+            return $metadata->is_object_visible_onsite();
+        }
+
+        return true;
     }
 
     public function get_data()
