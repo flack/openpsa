@@ -345,13 +345,13 @@ class midcom_helper_nav_backend
         // The node is visible, add it to the list.
         self::$_nodes[$node->id] = $node;
 
-        // Load the current leaf, this does *not* load the leaves from the DB, this is done
-        // during get_leaf now.
+        // Set the current leaf, this does *not* load the leaves from the DB, this is done during get_leaf.
         if ($node->id === $this->_current) {
-            $interface = $this->_get_component_interface($node->component);
+            $interface = $this->_loader->get_interface_class($node->component);
             if (!$interface) {
                 throw new midcom_error('Failed to load interface class for ' . $node->component);
             }
+
             $currentleaf = $interface->get_current_leaf();
             if ($currentleaf !== false) {
                 $this->_currentleaf = "{$node->id}-{$currentleaf}";
@@ -425,35 +425,6 @@ class midcom_helper_nav_backend
         return $result;
     }
 
-    private function _get_subnodes($parent_node)
-    {
-        if (isset(self::$_nodes[$parent_node]->subnodes)) {
-            return self::$_nodes[$parent_node]->subnodes;
-        }
-
-        // Use midgard_collector to get the subnodes
-        $id = (int) $parent_node;
-        if (midcom::get()->config->get('symlinks')) {
-            $id = self::$_nodes[$parent_node]->object->id;
-        }
-        $mc = midcom_db_topic::new_collector('up', $id);
-
-        $mc->add_constraint('name', '<>', '');
-
-        $mc->add_order('metadata.score', 'DESC');
-        $mc->add_order('metadata.created');
-
-        //we always write all the subnodes to cache and filter for ACLs after the fact
-        midcom::get()->auth->request_sudo('midcom.helper.nav');
-        $subnodes = $mc->get_values('id');
-        midcom::get()->auth->drop_sudo();
-
-        self::$_nodes[$parent_node]->subnodes = $subnodes;
-        $this->_nap_cache->put_node($parent_node, self::$_nodes[$parent_node]->get_data());
-
-        return $subnodes;
-    }
-
     /**
      * Lists all Sub-nodes of $parent_node. If there are no subnodes you will get
      * an empty array, if there was an error (for instance an unknown parent node
@@ -477,7 +448,7 @@ class midcom_helper_nav_backend
             return $listed[$cache_identifier];
         }
 
-        $subnodes = $this->_get_subnodes($parent_node);
+        $subnodes = self::$_nodes[$parent_node]->get_subnodes();
 
         // No results, return an empty array
         if (count($subnodes) === 0) {
@@ -789,25 +760,5 @@ class midcom_helper_nav_backend
             return false;
         }
         return array_shift($result);
-    }
-
-    /**
-     * @param string $component
-     * @param midcom_db_topic $topic
-     * @return midcom_baseclasses_components_interface
-     */
-    private function _get_component_interface($component, $topic = null)
-    {
-        $interface = $this->_loader->get_interface_class($component);
-        if (!$interface) {
-            debug_add("Could not get interface class of '{$component}'", MIDCOM_LOG_ERROR);
-            return null;
-        }
-        if (   $topic !== null
-            && !$interface->set_object($topic)) {
-            debug_add("Could not set the NAP instance of '{$component}' to the topic {$topic->id}.", MIDCOM_LOG_ERROR);
-            return null;
-        }
-        return $interface;
     }
 }
