@@ -412,19 +412,28 @@ class midcom_helper_nav_backend
         }
 
         $result = array();
-        foreach ($leaves as $id => $data) {
-            if (   !empty($data[MIDCOM_NAV_OBJECT])
-                && $data[MIDCOM_NAV_GUID]
+        $fullprefix = midcom::get()->config->get('midcom_site_url');
+        $absoluteprefix = midcom_connection::get_url('self');
+
+        foreach ($leaves as $id => $leaf) {
+            if (   !empty($leaf->object)
+                && $leaf->guid
                 && $this->_user_id
-                && !midcom::get()->auth->acl->can_do_byguid('midgard:read', $data[MIDCOM_NAV_GUID], $data[MIDCOM_NAV_OBJECT]->__midcom_class_name__, $this->_user_id)) {
+                && !midcom::get()->auth->acl->can_do_byguid('midgard:read', $leaf->guid, $leaf->object->__midcom_class_name__, $this->_user_id)) {
                 continue;
             }
-            $result[$id] = $data;
-        }
+            // Rewrite all host-dependent URLs based on the relative URL within our topic tree.
+            $leaf->fullurl = $fullprefix . $leaf->relativeurl;
+            $leaf->absoluteurl = $absoluteprefix . $leaf->relativeurl;
 
-        // Post process the leaves for URLs and the like.
-        // Rewrite all host dependant URLs based on the relative URL within our topic tree.
-        $this->_update_leaflist_urls($result);
+            if (is_null($leaf->guid)) {
+                $leaf->permalink = $leaf->fullurl;
+            } else {
+                $leaf->permalink = midcom::get()->permalinks->create_permalink($leaf->guid);
+            }
+
+            $result[$id] = $leaf->get_data();
+        }
 
         return $result;
     }
@@ -439,7 +448,7 @@ class midcom_helper_nav_backend
      *   and the topics' GUID.
      *
      * @param midcom_helper_nav_node $node The node data structure for which to retrieve the leaves.
-     * @return Array All leaves found for that node, in complete post processed leave data structures.
+     * @return midcom_helper_nav_leaf[] All leaves found for that node, in complete post processed leave data structures.
      */
     private function _get_leaves_from_database(midcom_helper_nav_node $node)
     {
@@ -453,37 +462,12 @@ class midcom_helper_nav_backend
         $leaves = array();
 
         foreach ($leafdata as $id => $leaf) {
-            $obj = new midcom_helper_nav_leaf($node, $leaf, $id);
-            $leaf = $obj->get_data();
+            $leaf = new midcom_helper_nav_leaf($node, $leaf, $id);
             // The leaf is complete, add it.
-            $leaves[$leaf[MIDCOM_NAV_ID]] = $leaf;
+            $leaves[$leaf->id] = $leaf;
         }
 
         return $leaves;
-    }
-
-    /**
-     * Update the URLs in the reference-passed leaf list.
-     * FULLURL, ABSOLUTEURL and PERMALINK are built upon RELATIVEURL, NAV_NAME
-     * and NAV_URL are populated based on the administration mode with NAV_SITE values
-     *
-     * @param array $leaves A reference to the list of leaves which has to be processed.
-     */
-    private function _update_leaflist_urls(array &$leaves)
-    {
-        $fullprefix = midcom::get()->config->get('midcom_site_url');
-        $absoluteprefix = midcom_connection::get_url('self');
-
-        foreach ($leaves as &$leaf) {
-            $leaf[MIDCOM_NAV_FULLURL] = $fullprefix . $leaf[MIDCOM_NAV_RELATIVEURL];
-            $leaf[MIDCOM_NAV_ABSOLUTEURL] = $absoluteprefix . $leaf[MIDCOM_NAV_RELATIVEURL];
-
-            if (is_null($leaf[MIDCOM_NAV_GUID])) {
-                $leaf[MIDCOM_NAV_PERMALINK] = $leaf[MIDCOM_NAV_FULLURL];
-            } else {
-                $leaf[MIDCOM_NAV_PERMALINK] = midcom::get()->permalinks->create_permalink($leaf[MIDCOM_NAV_GUID]);
-            }
-        }
     }
 
     /**
@@ -493,7 +477,7 @@ class midcom_helper_nav_backend
      * logged and overwritten silently otherwise.
      *
      * @param midcom_helper_nav_node $node The node data structure to which the leaves should be assigned.
-     * @param array $leaves The leaves to store in the cache.
+     * @param midcom_helper_nav_leaf[] $leaves The leaves to store in the cache.
      */
     private function _write_leaves_to_cache(midcom_helper_nav_node $node, $leaves)
     {
@@ -507,15 +491,16 @@ class midcom_helper_nav_backend
                   Aborting write_to_cache, this is a critical cache inconsistency.', MIDCOM_LOG_WARN);
             return;
         }
-
-        foreach ($leaves as $id => $leaf) {
-            if (is_object($leaf[MIDCOM_NAV_OBJECT])) {
-                $leaves[$id][MIDCOM_NAV_OBJECT] = new midcom_core_dbaproxy($leaf[MIDCOM_NAV_OBJECT]->guid, get_class($leaf[MIDCOM_NAV_OBJECT]));
-                $this->_nap_cache->put_guid($leaf[MIDCOM_NAV_OBJECT]->guid, $leaves[$id]);
+        $cachedata = array();
+        foreach ($leaves as $leaf) {
+            if (is_object($leaf->object)) {
+                $leaf->object = new midcom_core_dbaproxy($leaf->object->guid, get_class($leaf->object));
+                $this->_nap_cache->put_guid($leaf->object->guid, $leaf->get_data());
             }
+            $cachedata[$leaf->id] = $leaf->get_data();
         }
 
-        $this->_nap_cache->put_leaves("{$node->id}-leaves", $leaves);
+        $this->_nap_cache->put_leaves("{$node->id}-leaves", $cachedata);
     }
 
     private function _get_subnodes($parent_node)

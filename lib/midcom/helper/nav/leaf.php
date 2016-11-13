@@ -9,25 +9,23 @@
 /**
  * @package midcom.helper.nav
  */
-class midcom_helper_nav_leaf
+class midcom_helper_nav_leaf extends midcom_helper_nav_item
 {
     /**
      * @var midcom_helper_nav_node
      */
     private $node;
 
-    private $data;
+    private $leafid;
 
-    private $id;
-
-    public function __construct(midcom_helper_nav_node $node, array $data, $id)
+    public function __construct(midcom_helper_nav_node $node, array $data, $leafid)
     {
         $this->node = $node;
         $this->data = $data;
-        $this->id = $id;
+        $this->leafid = $leafid;
     }
 
-    public function get_data()
+    protected function prepare_data()
     {
         $topic = $this->node->object;
 
@@ -39,12 +37,12 @@ class midcom_helper_nav_leaf
             } catch (midcom_error $e) {
             }
         } else {
-            debug_add("Warning: The leaf {$this->id} of topic {$topic->id} does set neither a GUID nor an object.");
+            debug_add("Warning: The leaf {$this->leafid} of topic {$topic->id} does set neither a GUID nor an object.");
             $this->data[MIDCOM_NAV_GUID] = null;
             $this->data[MIDCOM_NAV_OBJECT] = null;
 
             // Get the pseudo leaf score from the topic
-            if (($score = $topic->get_parameter('midcom.helper.nav.score', "{$topic->id}-{$this->id}"))) {
+            if (($score = $topic->get_parameter('midcom.helper.nav.score', "{$topic->id}-{$this->leafid}"))) {
                 $this->data[MIDCOM_NAV_SCORE] = (int) $score;
             }
         }
@@ -74,7 +72,7 @@ class midcom_helper_nav_leaf
 
         // Some basic information
         $this->data[MIDCOM_NAV_TYPE] = 'leaf';
-        $this->data[MIDCOM_NAV_ID] = "{$this->node->id}-{$this->id}";
+        $this->data[MIDCOM_NAV_ID] = "{$this->node->id}-{$this->leafid}";
         $this->data[MIDCOM_NAV_NODEID] = $this->node->id;
         $this->data[MIDCOM_NAV_RELATIVEURL] = $this->node->relativeurl . $this->data[MIDCOM_NAV_URL];
         if (!array_key_exists(MIDCOM_NAV_ICON, $this->data)) {
@@ -82,7 +80,7 @@ class midcom_helper_nav_leaf
         }
 
         // Save the original Leaf ID so that it is easier to query in topic-specific NAP code
-        $this->data[MIDCOM_NAV_LEAFID] = $this->id;
+        $this->data[MIDCOM_NAV_LEAFID] = $this->leafid;
 
         return $this->data;
     }

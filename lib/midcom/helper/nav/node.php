@@ -7,19 +7,10 @@
  */
 
 /**
- * @property string $guid
- * @property mixed $id
- * @property string $name
- * @property string $component
- * @property string $url
- * @property string $relativeurl
  * @property array $subnodes
- * @property mixed $object
- * @property boolean $noentry
- * @property int $nodeid
  * @package midcom.helper.nav
  */
-class midcom_helper_nav_node
+class midcom_helper_nav_node extends midcom_helper_nav_item
 {
     private $topic_id;
 
@@ -30,10 +21,6 @@ class midcom_helper_nav_node
      */
     private $backend;
 
-    private $data;
-
-    private $loaded = false;
-
     public function __construct(midcom_helper_nav_backend $backend, $topic_id, $up = null)
     {
         $this->backend = $backend;
@@ -41,50 +28,7 @@ class midcom_helper_nav_node
         $this->up = $up;
     }
 
-    public function __get($name)
-    {
-        $name = $this->translate_name($name);
-        $data = $this->get_data();
-        if (!array_key_exists($name, $data)) {
-            return null;
-        }
-        return $data[$name];
-    }
-
-    public function __set($name, $value)
-    {
-        $name = $this->translate_name($name);
-        if (!$this->loaded) {
-            $this->data = $this->prepare_data();
-        }
-        $this->data[$name] = $value;
-    }
-
-    public function  __isset($name)
-    {
-        $data = $this->get_data();
-        return array_key_exists($name, $data);
-    }
-
-    private function translate_name($name)
-    {
-        $const = 'MIDCOM_NAV_' . strtoupper($name);
-        if (defined($const)) {
-            $name = constant($const);
-        }
-        return $name;
-    }
-
-    public function get_data()
-    {
-        if (!$this->loaded) {
-            $this->data = $this->prepare_data();
-            $this->loaded = true;
-        }
-        return $this->data;
-    }
-
-    private function prepare_data()
+    protected function prepare_data()
     {
         $data = false;
 
