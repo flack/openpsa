@@ -11,13 +11,16 @@
  */
 class midcom_helper_nav_leaf
 {
+    /**
+     * @var midcom_helper_nav_node
+     */
     private $node;
 
     private $data;
 
     private $id;
 
-    public function __construct(array $node, array $data, $id)
+    public function __construct(midcom_helper_nav_node $node, array $data, $id)
     {
         $this->node = $node;
         $this->data = $data;
@@ -26,7 +29,7 @@ class midcom_helper_nav_leaf
 
     public function get_data()
     {
-        $topic = $this->node[MIDCOM_NAV_OBJECT];
+        $topic = $this->node->object;
 
         if (!empty($this->data[MIDCOM_NAV_OBJECT])) {
             $this->data[MIDCOM_NAV_GUID] = $this->data[MIDCOM_NAV_OBJECT]->guid;
@@ -71,9 +74,9 @@ class midcom_helper_nav_leaf
 
         // Some basic information
         $this->data[MIDCOM_NAV_TYPE] = 'leaf';
-        $this->data[MIDCOM_NAV_ID] = "{$this->node[MIDCOM_NAV_ID]}-{$this->id}";
-        $this->data[MIDCOM_NAV_NODEID] = $this->node[MIDCOM_NAV_ID];
-        $this->data[MIDCOM_NAV_RELATIVEURL] = $this->node[MIDCOM_NAV_RELATIVEURL] . $this->data[MIDCOM_NAV_URL];
+        $this->data[MIDCOM_NAV_ID] = "{$this->node->id}-{$this->id}";
+        $this->data[MIDCOM_NAV_NODEID] = $this->node->id;
+        $this->data[MIDCOM_NAV_RELATIVEURL] = $this->node->relativeurl . $this->data[MIDCOM_NAV_URL];
         if (!array_key_exists(MIDCOM_NAV_ICON, $this->data)) {
             $this->data[MIDCOM_NAV_ICON] = null;
         }
