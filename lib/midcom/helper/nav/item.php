@@ -26,9 +26,11 @@ abstract class midcom_helper_nav_item
 {
     protected $data;
 
-    private $loaded = false;
+    protected $loaded = false;
 
     abstract protected function prepare_data();
+
+    abstract public function is_readable_by($user_id);
 
     /**
      * @return midcom_services_cache_module_nap

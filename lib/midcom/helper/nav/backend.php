@@ -337,8 +337,7 @@ class midcom_helper_nav_backend
         $node = new midcom_helper_nav_node($this, $topic_id, $up);
 
         if (    !$node->is_object_visible()
-             || (   $this->_user_id
-                 && !midcom::get()->auth->acl->can_do_byguid('midgard:read', $node->guid, 'midcom_db_topic', $this->_user_id))) {
+             || !$node->is_readable_by($this->_user_id)) {
             throw new midcom_error_forbidden('Node cannot be read or is invisible');
         }
 
@@ -403,10 +402,7 @@ class midcom_helper_nav_backend
         $result = array();
 
         foreach ($node->get_leaves() as $id => $leaf) {
-            if (   !empty($leaf->object)
-                && $leaf->guid
-                && $this->_user_id
-                && !midcom::get()->auth->acl->can_do_byguid('midgard:read', $leaf->guid, $leaf->object->__midcom_class_name__, $this->_user_id)) {
+            if (!$leaf->is_readable_by($this->_user_id)) {
                 continue;
             }
             // Rewrite all host-dependent URLs based on the relative URL within our topic tree.

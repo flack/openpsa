@@ -18,11 +18,20 @@ class midcom_helper_nav_leaf extends midcom_helper_nav_item
 
     private $leafid;
 
-    public function __construct(midcom_helper_nav_node $node, array $data, $leafid)
+    public function __construct(midcom_helper_nav_node $node, array $data, $leafid, $from_cache = false)
     {
+        $this->loaded = $from_cache;
         $this->node = $node;
         $this->data = $data;
         $this->leafid = $leafid;
+    }
+
+    public function is_readable_by($user_id)
+    {
+        return (   empty($this->object)
+                || !$this->guid
+                || !$user_id
+                || midcom::get()->auth->acl->can_do_byguid('midgard:read', $this->guid, $this->object->__midcom_class_name__, $user_id));
     }
 
     public function write_to_cache()
