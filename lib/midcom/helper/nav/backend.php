@@ -96,7 +96,7 @@ class midcom_helper_nav_backend
      * - MIDCOM_NAV_NAME => Textual name of the leaf (string)
      *
      * @todo Update the data structure documentation
-     * @var Array
+     * @var midcom_helper_nav_leaf[]
      */
     private $_leaves = array();
 
@@ -118,7 +118,7 @@ class midcom_helper_nav_backend
      * If the id of the node is in this array, the leaves are available, otherwise,
      * the leaves have to be loaded.
      *
-     * @var Array
+     * @var midcom_helper_nav_leaf[]
      */
     private $_loaded_leaves = array();
 
@@ -381,7 +381,7 @@ class midcom_helper_nav_backend
             return $leaf->is_object_visible();
         });
         foreach ($leaves as $id => $leaf) {
-            $this->_leaves[$id] = $leaf->get_data();
+            $this->_leaves[$id] = $leaf;
             $this->_loaded_leaves[$node->id][$id] =& $this->_leaves[$id];
         }
     }
@@ -623,7 +623,7 @@ class midcom_helper_nav_backend
 
         $result = array();
         foreach ($this->_loaded_leaves[self::$_nodes[$parent_node]->id] as $id => $leaf) {
-            if ($show_noentry || !$leaf[MIDCOM_NAV_NOENTRY]) {
+            if ($show_noentry || !$leaf->noentry) {
                 $result[] = $id;
             }
         }
@@ -689,7 +689,7 @@ class midcom_helper_nav_backend
             return false;
         }
 
-        return $this->_leaves[$leaf_id];
+        return $this->_leaves[$leaf_id]->get_data();
     }
 
     /**
@@ -768,7 +768,7 @@ class midcom_helper_nav_backend
             return false;
         }
 
-        return $this->_leaves[$leaf_id][MIDCOM_NAV_NODEID];
+        return $this->_leaves[$leaf_id]->nodeid;
     }
 
     /**
