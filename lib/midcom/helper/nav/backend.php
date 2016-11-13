@@ -466,10 +466,8 @@ class midcom_helper_nav_backend
      */
     private function _get_leaves_from_database($node)
     {
-        $topic = $node[MIDCOM_NAV_OBJECT];
-
         // Retrieve a NAP instance
-        $interface = $this->_get_component_interface($node[MIDCOM_NAV_COMPONENT], $topic);
+        $interface = $this->_get_component_interface($node[MIDCOM_NAV_COMPONENT], $node[MIDCOM_NAV_OBJECT]);
         if (!$interface) {
             return null;
         }
@@ -478,61 +476,8 @@ class midcom_helper_nav_backend
         $leaves = array();
 
         foreach ($leafdata as $id => $leaf) {
-            if (!empty($leaf[MIDCOM_NAV_OBJECT])) {
-                $leaf[MIDCOM_NAV_GUID] = $leaf[MIDCOM_NAV_OBJECT]->guid;
-            } elseif (!empty($leaf[MIDCOM_NAV_GUID])) {
-                try {
-                    $leaf[MIDCOM_NAV_OBJECT] = midcom::get()->dbfactory->get_object_by_guid($leaf[MIDCOM_NAV_GUID]);
-                } catch (midcom_error $e) {
-                }
-            } else {
-                debug_add("Warning: The leaf {$id} of topic {$topic->id} does set neither a GUID nor an object.");
-                $leaf[MIDCOM_NAV_GUID] = null;
-                $leaf[MIDCOM_NAV_OBJECT] = null;
-
-                // Get the pseudo leaf score from the topic
-                if (($score = $topic->get_parameter('midcom.helper.nav.score', "{$topic->id}-{$id}"))) {
-                    $leaf[MIDCOM_NAV_SCORE] = (int) $score;
-                }
-            }
-
-            if (!isset($leaf[MIDCOM_NAV_SORTABLE])) {
-                $leaf[MIDCOM_NAV_SORTABLE] = true;
-            }
-
-            // Now complete the actual leaf information
-
-            // Score
-            if (!isset($leaf[MIDCOM_NAV_SCORE])) {
-                if (!empty($leaf[MIDCOM_NAV_OBJECT]->metadata->score)) {
-                    $leaf[MIDCOM_NAV_SCORE] = $leaf[MIDCOM_NAV_OBJECT]->metadata->score;
-                } else {
-                    $leaf[MIDCOM_NAV_SCORE] = 0;
-                }
-            }
-
-            // NAV_NOENTRY Flag
-            if (!isset($leaf[MIDCOM_NAV_NOENTRY])) {
-                $leaf[MIDCOM_NAV_NOENTRY] = false;
-            }
-
-            // complete NAV_NAMES where necessary
-            if (trim($leaf[MIDCOM_NAV_NAME]) == '') {
-                $leaf[MIDCOM_NAV_NAME] = midcom::get()->i18n->get_string('unknown', 'midcom');
-            }
-
-            // Some basic information
-            $leaf[MIDCOM_NAV_TYPE] = 'leaf';
-            $leaf[MIDCOM_NAV_ID] = "{$node[MIDCOM_NAV_ID]}-{$id}";
-            $leaf[MIDCOM_NAV_NODEID] = $node[MIDCOM_NAV_ID];
-            $leaf[MIDCOM_NAV_RELATIVEURL] = $node[MIDCOM_NAV_RELATIVEURL] . $leaf[MIDCOM_NAV_URL];
-            if (!array_key_exists(MIDCOM_NAV_ICON, $leaf)) {
-                $leaf[MIDCOM_NAV_ICON] = null;
-            }
-
-            // Save the original Leaf ID so that it is easier to query in topic-specific NAP code
-            $leaf[MIDCOM_NAV_LEAFID] = $id;
-
+            $obj = new midcom_helper_nav_leaf($node, $leaf, $id);
+            $leaf = $obj->get_data();
             // The leaf is complete, add it.
             $leaves[$leaf[MIDCOM_NAV_ID]] = $leaf;
         }
