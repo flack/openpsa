@@ -254,18 +254,13 @@ class org_openpsa_calendar_conflictmanager
 
     private function is_processed($type, $eid, $id)
     {
-        static $processed = array(
-            'members' => array(),
-            'resources' => array()
-        );
+        static $processed = array();
+        $cache_key = $type . '::' . $eid . '::' . $id;
 
-        if (!empty($processed[$type][$eid][$id])) {
+        if (!empty($processed[$cache_key])) {
             return true;
         }
-        if (!array_key_exists($eid, $processed[$type])) {
-            $processed[$type][$eid] = array();
-        }
-        $processed[$type][$eid][$id] = true;
+        $processed[$cache_key] = true;
         return false;
     }
 }

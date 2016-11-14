@@ -232,9 +232,6 @@ class org_routamc_positioning_utils extends midcom_baseclasses_components_pureco
             $qb->add_constraint('parentclass', '=', $class);
         }
 
-        static $rounds = 0;
-        $rounds++;
-
         // Limit to earth coordinates
         $from['latitude'] = min($center['latitude'] + $modifier, 90);
         $from['longitude'] = max($center['longitude'] - $modifier, -180);

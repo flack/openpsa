@@ -12,7 +12,7 @@ function midgard_admin_asgard_trash_type_show($object, $indent = 0, $prefix = ''
     static $shown = array();
     static $url_prefix = '';
     if (!$url_prefix) {
-        $url_prefix =midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
+        $url_prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
     }
 
     if (isset($shown[$object->guid])) {

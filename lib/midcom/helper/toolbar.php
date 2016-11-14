@@ -381,6 +381,7 @@ class midcom_helper_toolbar
             } else {
                 $item[MIDCOM_TOOLBAR_HELPTEXT] .= " ({$hotkey})";
             }
+            $used_access_keys[$item[MIDCOM_TOOLBAR_ACCESSKEY]] = true;
         }
 
         $this->set_url($item, $item[MIDCOM_TOOLBAR_URL]);

@@ -140,7 +140,7 @@ class org_routamc_positioning_map extends midcom_baseclasses_components_purecode
     /**
      * Include the javascript files and code needed for map display
      */
-    function add_jsfiles($echo_output=true)
+    function add_jsfiles($echo_output = true)
     {
         static $added = array();
         if (isset($added[$this->type])) {

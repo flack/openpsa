@@ -357,8 +357,8 @@ EOT;
             }
         }
 
-        static $valid_date_format = '/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/';
-        static $valid_datetime_format = '/^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}$/';
+        $valid_date_format = '/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/';
+        $valid_datetime_format = '/^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}$/';
 
         // Input is strict ISO date with time
         if (preg_match($valid_datetime_format, $input)) {
