@@ -508,17 +508,6 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
 
         $results = $qb->execute();
 
-        static $privilege_fields = null;
-
-        if (is_null($privilege_fields)) {
-            $privilege_fields = array(
-                'classname',
-                'assignee',
-                'name',
-                'value',
-            );
-        }
-
         foreach ($results as $privilege) {
             $new = new midcom_db_privilege();
             $new->objectguid = $target->guid;

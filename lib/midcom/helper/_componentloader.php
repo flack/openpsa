@@ -389,10 +389,8 @@ class midcom_helper__componentloader
         foreach ($config->get('midcom_components', array()) as $path) {
             $candidates[] = $path . '/config/manifest.inc';
         }
-        foreach ($candidates as $filename) {
-            if (file_exists($filename)) {
-                $manifests[] = new midcom_core_manifest($filename);
-            }
+        foreach (array_filter($candidates, 'file_exists') as $filename) {
+            $manifests[] = new midcom_core_manifest($filename);
         }
 
         return $manifests;
