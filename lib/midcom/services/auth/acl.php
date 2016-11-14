@@ -420,25 +420,23 @@ class midcom_services_auth_acl
      *
      * @param string $class The class name for which defaults should be loaded.
      */
-    private function _load_class_magic_privileges($class)
+    private function _get_class_magic_privileges($class)
     {
-        // Check if we have loaded these privileges already...
-        if (array_key_exists($class, self::$_default_magic_class_privileges)) {
-            return;
+        if (!array_key_exists($class, self::$_default_magic_class_privileges)) {
+            $privs = array(
+                'EVERYONE' => array(),
+                'ANONYMOUS' => array(),
+                'USERS' => array()
+            );
+
+            if (method_exists($class, 'get_class_magic_default_privileges')) {
+                $object = new $class();
+                $privs = $object->get_class_magic_default_privileges();
+            }
+
+            self::$_default_magic_class_privileges[$class] = $privs;
         }
-
-        $privs = array(
-            'EVERYONE' => array(),
-            'ANONYMOUS' => array(),
-            'USERS' => array()
-        );
-
-        if (method_exists($class, 'get_class_magic_default_privileges')) {
-            $object = new $class();
-            $privs = $object->get_class_magic_default_privileges();
-        }
-
-        self::$_default_magic_class_privileges[$class] = $privs;
+        return self::$_default_magic_class_privileges[$class];
     }
 
     private function _get_user_per_class_privileges($classname, $user)
@@ -548,8 +546,6 @@ class midcom_services_auth_acl
      */
     private function _load_privileges_byguid($object_guid, $object_class, $user_id)
     {
-        $this->_load_class_magic_privileges($object_class);
-
         // content privileges
         $content_privileges = self::_collect_content_privileges($object_guid, $user_id, $object_class);
 
@@ -565,13 +561,14 @@ class midcom_services_auth_acl
         }
 
         // default magic class privileges user
+        $dmcp = $this->_get_class_magic_privileges($object_class);
         $dmcp_user = is_null($this->auth->user) ? 'ANONYMOUS' : 'USERS';
 
         // Remember to sync this merging chain with can_user_do.
         $full_privileges = array_merge(
             self::$_default_privileges,
-            self::$_default_magic_class_privileges[$object_class]['EVERYONE'],
-            self::$_default_magic_class_privileges[$object_class][$dmcp_user],
+            $dmcp['EVERYONE'],
+            $dmcp[$dmcp_user],
             $user_privileges,
             $user_per_class_privileges,
             $content_privileges
@@ -731,9 +728,9 @@ class midcom_services_auth_acl
         $user_per_class_privileges = array();
 
         if (is_null($user)) {
-            $user_magic_group = 'ANONYMOUS';
+            $dmcp_user = 'ANONYMOUS';
         } else {
-            $user_magic_group = 'USERS';
+            $dmcp_user = 'USERS';
             $user_privileges = $user->get_privileges();
         }
 
@@ -749,12 +746,9 @@ class midcom_services_auth_acl
                 $tmp_object = $class;
                 $class = get_class($tmp_object);
             }
-            $this->_load_class_magic_privileges($class);
 
-            $default_magic_class_privileges = array_merge(
-                self::$_default_magic_class_privileges[$class]['EVERYONE'],
-                self::$_default_magic_class_privileges[$class][$user_magic_group]
-            );
+            $dmcp = $this->_get_class_magic_privileges($class);
+            $default_magic_class_privileges = array_merge($dmcp['EVERYONE'], $dmcp[$dmcp_user]);
             if (!is_null($user)) {
                 $user_per_class_privileges = $user->get_per_class_privileges($tmp_object);
             }
@@ -840,18 +834,17 @@ class midcom_services_auth_acl
             }
         }
 
-        $this->_load_class_magic_privileges($object_class);
-
         // default magic class privileges user
+        $dmcp = $this->_get_class_magic_privileges($object_class);
         $dmcp_user = is_null($this->auth->user) ? 'ANONYMOUS' : 'USERS';
 
-        if (array_key_exists($privilege, self::$_default_magic_class_privileges[$object_class][$dmcp_user])) {
-            self::$_privileges_cache[$cache_key][$privilege] = (self::$_default_magic_class_privileges[$object_class][$dmcp_user][$privilege] == MIDCOM_PRIVILEGE_ALLOW);
+        if (array_key_exists($privilege, $dmcp[$dmcp_user])) {
+            self::$_privileges_cache[$cache_key][$privilege] = ($dmcp[$dmcp_user][$privilege] == MIDCOM_PRIVILEGE_ALLOW);
             return self::$_privileges_cache[$cache_key][$privilege];
         }
 
-        if (array_key_exists($privilege, self::$_default_magic_class_privileges[$object_class]['EVERYONE'])) {
-            self::$_privileges_cache[$cache_key][$privilege] = (self::$_default_magic_class_privileges[$object_class]['EVERYONE'][$privilege] == MIDCOM_PRIVILEGE_ALLOW);
+        if (array_key_exists($privilege, $dmcp['EVERYONE'])) {
+            self::$_privileges_cache[$cache_key][$privilege] = ($dmcp['EVERYONE'][$privilege] == MIDCOM_PRIVILEGE_ALLOW);
             return self::$_privileges_cache[$cache_key][$privilege];
         }
 
