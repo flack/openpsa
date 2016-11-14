@@ -84,27 +84,14 @@ class midcom_helper_datamanager2_storage_midgard extends midcom_helper_datamanag
 
     public function _on_load_data($name)
     {
-        // Cache parameter queries so we get them once
-        static $loaded_domains = array();
-
         switch ($this->_schema->fields[$name]['storage']['location']) {
             case 'parameter':
-                if (!isset($loaded_domains[$this->_schema->fields[$name]['storage']['domain']])) {
-                    // Run the list here so all parameters of the domain go to cache
-                    $loaded_domains[$this->_schema->fields[$name]['storage']['domain']] = $this->object->list_parameters($this->_schema->fields[$name]['storage']['domain']);
-                }
-
                 return $this->object->get_parameter(
                     $this->_schema->fields[$name]['storage']['domain'],
                     $name
                 );
 
             case 'configuration':
-                if (!isset($loaded_domains[$this->_schema->fields[$name]['storage']['domain']])) {
-                    // Run the list here so all parameters of the domain go to cache
-                    $loaded_domains[$this->_schema->fields[$name]['storage']['domain']] = $this->object->list_parameters($this->_schema->fields[$name]['storage']['domain']);
-                }
-
                 return $this->object->get_parameter(
                     $this->_schema->fields[$name]['storage']['domain'],
                     $this->_schema->fields[$name]['storage']['name']
