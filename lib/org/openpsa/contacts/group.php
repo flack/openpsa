@@ -90,11 +90,7 @@ class org_openpsa_contacts_group_dba extends midcom_core_dbaobject
     public function _on_loaded()
     {
         if (empty($this->official)) {
-            if (!empty($this->name)) {
-                $this->official = $this->name;
-            } else {
-                $this->official = "Group #{$this->id}";
-            }
+            $this->official = $this->name ?: "Group #{$this->id}";
         }
     }
 
