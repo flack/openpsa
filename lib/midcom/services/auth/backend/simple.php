@@ -64,27 +64,25 @@ class midcom_services_auth_backend_simple extends midcom_services_auth_backend
     public function read_login_session()
     {
         $reset_cookie = false;
-        if (   array_key_exists($this->_cookie_id, $_GET)
-            && !array_key_exists($this->_cookie_id, $_COOKIE)) {
-            /**
-             * Loginbroker passed us the session data via GET (browsers can be very finicky about
-             * cross-host cookies these days), make it available via $_COOKIE as well
-             *
-             * @todo checksumming ? (though hijacking this is only slightly simpler than hijacking cookies)
-             */
-            debug_add('Found cookie-id in _GET but not in _COOKIE, referencing', MIDCOM_LOG_INFO);
-            $_COOKIE[$this->_cookie_id] =& $_GET[$this->_cookie_id];
-            $reset_cookie = true;
-        }
-
         if (!array_key_exists($this->_cookie_id, $_COOKIE)) {
-            return false;
+            if (array_key_exists($this->_cookie_id, $_GET)) {
+                /**
+                 * Loginbroker passed us the session data via GET (browsers can be very finicky about
+                 * cross-host cookies these days), make it available via $_COOKIE as well
+                 *
+                 * @todo checksumming ? (though hijacking this is only slightly simpler than hijacking cookies)
+                 */
+                debug_add('Found cookie-id in _GET but not in _COOKIE, referencing', MIDCOM_LOG_INFO);
+                $_COOKIE[$this->_cookie_id] =& $_GET[$this->_cookie_id];
+                $reset_cookie = true;
+            } else {
+                return false;
+            }
         }
 
         $data = explode('-', $_COOKIE[$this->_cookie_id]);
         if (count($data) != 2) {
-            debug_add("The cookie data could not be parsed, assuming tampered session.",
-                MIDCOM_LOG_ERROR);
+            debug_add("The cookie data could not be parsed, assuming tampered session.", MIDCOM_LOG_ERROR);
             debug_add('Killing the cookie...', MIDCOM_LOG_INFO);
             $this->_delete_cookie();
             return false;
@@ -104,8 +102,7 @@ class midcom_services_auth_backend_simple extends midcom_services_auth_backend
         $this->session_id = $this->auth->sessionmgr->load_login_session($session_id, $this->user);
 
         if (!$this->session_id) {
-            debug_add("The session {$session_id} is invalid (usually this means an expired session).",
-                MIDCOM_LOG_ERROR);
+            debug_add("The session {$session_id} is invalid (usually this means an expired session).", MIDCOM_LOG_ERROR);
             debug_add('Killing the cookie...');
             $this->_delete_cookie();
             return false;

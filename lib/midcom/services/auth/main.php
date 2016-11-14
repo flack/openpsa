@@ -629,16 +629,12 @@ class midcom_services_auth
     {
         debug_print_function_stack("require_valid_user called at this level");
         if (!$this->is_valid_user()) {
-            switch ($method) {
-                case 'basic':
-                    $this->_http_basic_auth();
-                    break;
-
-                case 'form':
-                default:
-                    $this->show_login_page();
-                    // This will exit.
+            if ($method == 'basic') {
+                $this->_http_basic_auth();
+            } else {
+                $this->show_login_page();
             }
+            // This will exit.
         }
     }
 
