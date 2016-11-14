@@ -269,11 +269,6 @@
  */
 abstract class midcom_baseclasses_components_request extends midcom_baseclasses_components_base
 {
-    /**#@+
-     * Request state variable, set during startup. There should be no need to change it
-     * in most cases.
-     */
-
     /**
      * The topic for which we are handling a request.
      *
@@ -333,8 +328,6 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
      */
     private $_active_plugin;
 
-    /**#@-*/
-
     /**
      * Request execution switch configuration.
      *
@@ -346,11 +339,6 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
      */
     public $_request_switch = array();
 
-    /**#@+
-     * Internal request handling state variable, these are considered read-only for
-     * all purposes (except this base class).
-     */
-
     /**
      * This is a reference to the handler which declared to be able to handle the
      * request. The array will contain the original index of the handler in the
@@ -360,8 +348,6 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
      * @var Array
      */
     public $_handler = null;
-
-    /**#@-*/
 
     /**
      * Initializes the class, only basic variable assignment.
@@ -668,10 +654,6 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
         $this->_on_shown($this->_handler['id']);
     }
 
-    /**#@+
-     * Event Handler callback.
-     */
-
     /**
      * Initialization event handler, called at the end of the initialization process
      * immediately before the request handler configuration is read.
@@ -748,8 +730,6 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
     public function _on_shown($handler)
     {
     }
-
-    /**#@-*/
 
     /**
      * Create a new plugin namespace and map the configuration to it.

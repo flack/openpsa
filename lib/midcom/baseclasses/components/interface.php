@@ -432,11 +432,6 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
 
     // ===================== START OF THE EVENT HANDLERS =====================
 
-    /**#@+
-     * This is an event handler which is called during MidCOM's component interaction.
-     * For most basic components, the default implementation should actually be enough.
-     */
-
     /**
      * This function is triggered at the end of the request for each watched operation
      * that has been done during the request.
@@ -607,5 +602,4 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
     }
 
     // END OF THE EVENT HANDLERS
-    /**#@-*/
 }

@@ -201,11 +201,6 @@ class midcom_core_manifest
      */
     public $_raw_data = null;
 
-    /**#@+
-     * Component meta-information, read and post-processed from the manifest
-     * file.
-     */
-
     /**
      * The name of the component.
      *
@@ -292,7 +287,6 @@ class midcom_core_manifest
      * the filename the manifest was loaded from
      */
     public $filename;
-    /**#@-*/
 
     /**
      * The constructor loads the manifest indicated by the filename passed to it.

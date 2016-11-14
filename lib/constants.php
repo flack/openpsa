@@ -8,7 +8,7 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
-/**#@+
+/**
  *MidCOM Default Error Codes (-> HTTP)
  */
 define('MIDCOM_ERROK', 200);
@@ -16,11 +16,10 @@ define('MIDCOM_ERRNOTFOUND', 404);
 define('MIDCOM_ERRFORBIDDEN', 403);
 define('MIDCOM_ERRAUTH', 401);
 define('MIDCOM_ERRCRIT', 500);
-/**#@-*/
 
 // MidCOM NAP URL Information Constants
 
-/**#@+
+/**
  * MidCOM Meta Data Constants
  */
 define('MIDCOM_NAV_URL', 0);
@@ -44,9 +43,8 @@ define('MIDCOM_NAV_ICON', 23);
 define('MIDCOM_NAV_CONFIGURATION', 24);
 define('MIDCOM_NAV_LEAFID', 25);
 define('MIDCOM_NAV_SORTABLE', 26);
-/**#@-*/
 
-/**#@+
+/**
  * MidCOM Component Context Keys
  */
 define('MIDCOM_CONTEXT_ANCHORPREFIX', 0);
@@ -63,14 +61,12 @@ define('MIDCOM_CONTEXT_ROOTTOPICID', 14);
 define('MIDCOM_CONTEXT_URLTOPICS', 15);
 define('MIDCOM_CONTEXT_SHOWCALLBACK', 16);
 
-/**#@-*/
-
 /**
  * INTERNAL Context Keys, not accessible from outside midcom_application.
  */
 define('MIDCOM_CONTEXT_CUSTOMDATA', 1000);
 
-/**#@+
+/**
  * Debugger
  */
 define('MIDCOM_LOG_DEBUG', 4);
@@ -78,9 +74,8 @@ define('MIDCOM_LOG_INFO', 3);
 define('MIDCOM_LOG_WARN', 2);
 define('MIDCOM_LOG_ERROR', 1);
 define('MIDCOM_LOG_CRIT', 0);
-/**#@-*/
 
-/**#@+
+/**
  * MidCOM Core Status Codes
  */
 define('MIDCOM_STATUS_PREPARE', 0);
@@ -89,18 +84,16 @@ define('MIDCOM_STATUS_HANDLE', 2);
 define('MIDCOM_STATUS_CONTENT', 3);
 define('MIDCOM_STATUS_CLEANUP', 4);
 define('MIDCOM_STATUS_ABORT', 5);
-/**#@-*/
 
-/**#@+
+/**
  * MidCOM NAP Sorting Modes
  */
 define('MIDCOM_NAVORDER_DEFAULT', 0);
 define('MIDCOM_NAVORDER_ARTICLESFIRST', 1);
 define('MIDCOM_NAVORDER_TOPICSFIRST', 2);
 define('MIDCOM_NAVORDER_SCORE', 3);
-/**#@-*/
 
-/**#@+
+/**
  * MidCOM Toolbar Service
  */
 
@@ -231,9 +224,7 @@ define('MIDCOM_METADATA_NODE', 100);
  */
 define('MIDCOM_METADATA_VIEW', 101);
 
-/**#@-*/
-
-/**#@+
+/**
  * MidCOM Privilege System
  */
 
@@ -288,9 +279,7 @@ define('MIDCOM_PRIVILEGE_SCOPE_OWNER', 65050);
  */
 define('MIDCOM_PRIVILEGE_SCOPE_USER', 65100);
 
-/**#@-*/
-
-/**#@+
+/**
  * MidCOM Operation Bitfield constant, used for the definition of watch operations
  * in component manifests.
  *
@@ -327,9 +316,7 @@ define('MIDCOM_OPERATION_DBA_IMPORT', 0x8);
  */
 define('MIDCOM_OPERATION_DBA_ALL', 0xF);
 
-/**#@-*/
-
-/**#@+
+/**
  * MidCOM Cron constants
  *
  * @see midcom_services_cron
@@ -349,5 +336,3 @@ define('MIDCOM_CRON_HOUR', 20);
  * Execute once every day.
  */
 define('MIDCOM_CRON_DAY', 30);
-
-/**#@-*/

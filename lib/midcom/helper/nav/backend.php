@@ -61,10 +61,6 @@
  */
 class midcom_helper_nav_backend
 {
-    /**#@+
-     * NAP data variable.
-     */
-
     /**
      * The GUID of the MidCOM Root Content Topic
      *
@@ -121,12 +117,6 @@ class midcom_helper_nav_backend
      * @var midcom_helper_nav_leaf[]
      */
     private $_loaded_leaves = array();
-
-    /**#@-*/
-
-    /**#@+
-     * Internal runtime state variable.
-     */
 
     /**
      * Reference to the systemwide component loader class.

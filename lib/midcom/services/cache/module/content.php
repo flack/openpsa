@@ -64,10 +64,6 @@
  */
 class midcom_services_cache_module_content extends midcom_services_cache_module
 {
-    /**#@+
-     * Internal runtime state variable.
-     */
-
     /**
      * Flag, indicating whether the current page may be cached. If
      * false, the usual no-cache headers will be generated.
@@ -123,12 +119,6 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      */
     private $_live_mode = false;
 
-    /**#@-*/
-
-    /**#@+
-     * Module configuration variable.
-     */
-
     /**
      * Set this to true if you want to inhibit storage of the generated pages in
      * the cache database. All other headers will be created as usual though, so
@@ -172,8 +162,6 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      * @var int
      */
     private $_default_lifetime_authenticated = 0;
-
-    /**#@-*/
 
     /**
      * Cache backend instance.
