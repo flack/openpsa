@@ -60,25 +60,6 @@ class midcom_core_account
         $this->_user = $this->_get_user();
     }
 
-    /**
-     * Static account getter
-     *
-     * @param midcom_db_person $person
-     * @throws midcom_error
-     * @return midcom_core_account
-     * @deprecated This can cause all kinds of headaches, especially under midgard1, use only for read access
-     */
-    public static function get($person)
-    {
-        if (empty($person->guid)) {
-            throw new midcom_error('Empty person GUID');
-        }
-        if (!array_key_exists($person->guid, self::$_instances)) {
-            self::$_instances[$person->guid] = new self($person);
-        }
-        return self::$_instances[$person->guid];
-    }
-
     public function save()
     {
         midcom::get()->auth->require_do('midgard:update', $this->_person);

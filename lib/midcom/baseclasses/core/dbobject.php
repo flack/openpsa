@@ -7,7 +7,6 @@
  */
 
 use midcom\events\dbaevent;
-use midgard\introspection\helper;
 
 /**
  * This class only contains static functions which are there to hook into
@@ -659,33 +658,6 @@ class midcom_baseclasses_core_dbobject
         }
 
         return $purged_size;
-    }
-
-    /**
-     * Copies values from oldobject to newobject in case the types are compatible
-     *
-     * @param midcom_core_dbaobject $newobject A class inherited from one of the MgdSchema driven Midgard classes supporting the above callbacks.
-     * @param midcom_core_dbaobject $oldobject a parent object (usually a midgard_* base class) which to copy.
-     * @deprecated
-     * @return bool Indicating success.
-     */
-    public static function cast_object(midcom_core_dbaobject $newobject, $oldobject)
-    {
-        if (!is_a($oldobject, $newobject->__mgdschema_class_name__)) {
-            debug_add('Failed to cast ' . get_class($oldobject) . " to a {$newobject->__mgdschema_class_name__}: Incompatible Types", MIDCOM_LOG_INFO);
-            return false;
-        }
-        $helper = new helper;
-        $vars = $helper->get_object_vars($oldobject);
-        foreach ($vars as $name => $value) {
-            if (   substr($name, 0, 2) == '__'
-                && substr($name, -2) == '__') {
-                // This is a special variable, we must not overwrite it.
-                continue;
-            }
-            $newobject->$name = $value;
-        }
-        return true;
     }
 
     /**

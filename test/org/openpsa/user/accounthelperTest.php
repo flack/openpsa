@@ -157,7 +157,7 @@ class org_openpsa_user_accounthelperTest extends openpsa_testcase
         // try valid username
         $username = uniqid("PBF");
         $person = self::create_user();
-        $account = midcom_core_account::get($person);
+        $account = new midcom_core_account($person);
         $account->set_username($username);
         $account->save();
 
@@ -228,7 +228,7 @@ class org_openpsa_user_accounthelperTest extends openpsa_testcase
     public function testCheck_password_reuse()
     {
         $accounthelper = new org_openpsa_user_accounthelper(self::$_user);
-        $account = midcom_core_account::get(self::$_user);
+        $account = new midcom_core_account(self::$_user);
         $password = $account->get_password();
         $this->assertFalse($accounthelper->check_password_reuse($password));
 
@@ -270,12 +270,12 @@ class org_openpsa_user_accounthelperTest extends openpsa_testcase
     public function testDisable_account()
     {
         $accounthelper = new org_openpsa_user_accounthelper(self::$_user);
-        $account = midcom_core_account::get(self::$_user);
+        $account = new midcom_core_account(self::$_user);
         $password = $account->get_password();
 
         midcom::get()->auth->request_sudo('org.openpsa.user');
         $this->assertTrue($accounthelper->disable_account());
-        $account = midcom_core_account::get(self::$_user);
+        $account = new midcom_core_account(self::$_user);
         $this->assertEquals('', $account->get_password());
         $this->assertEquals($password, self::$_user->get_parameter('org_openpsa_user_blocked_account', 'account_password'));
 

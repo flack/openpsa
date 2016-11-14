@@ -39,8 +39,6 @@
  * The following options can be used to parametrize the component's startup and operation.
  * See the individual member documentation for now.
  *
- * - $_autoload_files
- * - $_autoload_libraries
  * - $_component
  * - $_nap_class_suffix
  * - $_site_class_suffix
@@ -121,27 +119,6 @@
 abstract class midcom_baseclasses_components_interface extends midcom_baseclasses_components_base
 {
     /**
-     * A list of files, relative to the component's root directory, that
-     * should be loaded during initialization.
-     *
-     * @var array
-     * @deprecated This field is provided mainly for backwards compatibility. Dependencies should be
-     * loaded on-demand by the autoloader instead
-     */
-    protected $_autoload_files = array();
-
-    /**
-     * A list of libraries which should by loaded during initialization.
-     * This will be done before actually loading the script files from
-     * _autoload_files.
-     *
-     * @var array
-     * @deprecated This field is provided mainly for backwards compatibility. Dependencies should be
-     * loaded on-demand by the autoloader instead
-     */
-    protected $_autoload_libraries = array();
-
-    /**
      * Class suffix used when constructing the NAP handler class.
      * It is appended to the component class prefix, f.x. resulting in
      * net_nehmer_static_navigation (as a default).
@@ -164,10 +141,7 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
     // ===================== INITIALIZATION (startup) INTERFACE ======================
 
     /**
-     * Initializes the component. It will first load all dependent libraries and
-     * then include the snippets referenced by the component. The component's local
-     * data storage area is initialized and referenced into the global storage area.
-     * Finally, the on_init event handler is called.
+     * Initializes the component.
      *
      * This should <i>not</i> be overwritten by the client. Instead, use the on_initialize
      * event handler.
@@ -179,19 +153,6 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
     {
         // Preparation
         $this->_component = $component;
-
-        // Load libraries
-        foreach ($this->_autoload_libraries as $library) {
-            if (!midcom::get()->componentloader->load_library($library)) {
-                throw new midcom_error("Failed to load library {$library} while initializing {$this->_component}");
-            }
-        }
-
-        // Load scripts
-        $loader = midcom::get()->componentloader;
-        foreach ($this->_autoload_files as $file) {
-            require_once $loader->path_to_snippetpath($this->_component) . '/' . $file;
-        }
 
         // Call the event handler.
         return $this->_on_initialize();

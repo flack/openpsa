@@ -417,33 +417,6 @@ class midcom_helper__componentloader
     }
 
     /**
-     * This is called by the framework whenever watchable events occur.
-     * The object referenced by $object may be null where appropriate for
-     * the operation in question, it is not taken by reference.
-     *
-     * Call this only if the operation in question has completed successfully.
-     *
-     * An instance in this respect is a unique combination of class type and guid values.
-     *
-     * A watchable object must therefore have the following properties:
-     *
-     * - <i>string $guid</i> The guid identifying the object.
-     * - <i>boolean refresh()</i> A method used to refresh the object against its datasource.
-     *
-     * So, two instances are equal <i>if and only if</i> they are of the same class and
-     * have the same $guid property value.
-     *
-     * @param int $operation The operation that has occurred.
-     * @param mixed $object The object on which the operation occurred. The system will
-     *     do is_a checks against any registered class restriction on the watch
-     * @deprecated Use dispatcher directly instead
-     */
-    public function trigger_watches($operation, $object)
-    {
-        midcom::get()->dispatcher->trigger_watch($operation, $object);
-    }
-
-    /**
      * Build a complete set of custom data associated with a given component
      * identifier. In case a given component does not have the key set and the boolean parameter
      * is set to true, an empty array is added implicitly.
