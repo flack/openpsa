@@ -55,29 +55,24 @@ class midcom_db_parameter extends midcom_core_dbaobject
     public static function get_by_objectguid($objectguid, $domain, $name)
     {
         static $parameter_cache = array();
+        $cache_key = $objectguid . '::' . $domain . '::' . $name;
 
-        if (!isset($parameter_cache[$objectguid])) {
-            $parameter_cache[$objectguid] = array();
+        if (!array_key_exists($cache_key, $parameter_cache)) {
+            $parameter_cache[$cache_key] = null;
+
+            $mc = midgard_parameter::new_collector('parentguid', $objectguid);
+            $mc->set_key_property('value');
+            $mc->add_constraint('name', '=', $name);
+            $mc->add_constraint('domain', '=', $domain);
+            $mc->set_limit(1);
+            $mc->execute();
+            $parameters = $mc->list_keys();
+
+            if (count($parameters) > 0) {
+                $parameter_cache[$cache_key] = key($parameters);
+            }
         }
-
-        if (isset($parameter_cache[$objectguid][$name])) {
-            return $parameter_cache[$objectguid][$name];
-        }
-        $parameter_cache[$objectguid][$name] = null;
-
-        $mc = midgard_parameter::new_collector('parentguid', $objectguid);
-        $mc->set_key_property('value');
-        $mc->add_constraint('name', '=', $name);
-        $mc->add_constraint('domain', '=', $domain);
-        $mc->set_limit(1);
-        $mc->execute();
-        $parameters = $mc->list_keys();
-
-        if (count($parameters) > 0) {
-            $parameter_cache[$objectguid][$name] = key($parameters);
-        }
-
-        return $parameter_cache[$objectguid][$name];
+        return $parameter_cache[$cache_key];
     }
 
     public function get_label()

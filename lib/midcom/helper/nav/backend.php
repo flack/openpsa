@@ -499,12 +499,12 @@ class midcom_helper_nav_backend
             return array();
         }
 
-        if (!array_key_exists($parent_node, $this->_loaded_leaves)) {
-            $this->_load_leaves(self::$_nodes[$parent_node]);
-        }
-
         if (isset($listed[$parent_node])) {
             return $listed[$parent_node];
+        }
+
+        if (!array_key_exists($parent_node, $this->_loaded_leaves)) {
+            $this->_load_leaves(self::$_nodes[$parent_node]);
         }
 
         $result = array();

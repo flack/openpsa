@@ -410,15 +410,13 @@ class midcom_core_context
     private function _loadconfig($context_id, midcom_db_topic $object)
     {
         static $configs = array();
-        if (!isset($configs[$context_id])) {
-            $configs[$context_id] = array();
-        }
+        $cache_key = $context_id . '::' . $object->guid;
 
-        if (!isset($configs[$context_id][$object->guid])) {
+        if (!isset($configs[$cache_key])) {
             $path = $this->get_key(MIDCOM_CONTEXT_COMPONENT);
-            $configs[$context_id][$object->guid] = new midcom_helper_configuration($object, $path);
+            $configs[$cache_key] = new midcom_helper_configuration($object, $path);
         }
 
-        return $configs[$context_id][$object->guid];
+        return $configs[$cache_key];
     }
 }

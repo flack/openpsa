@@ -291,13 +291,10 @@ class midcom_helper_misc
         if (is_null($cache_node)) {
             $cache_node = 0;
         }
+        $cache_key = $cache_node . '::' . $component;
 
-        if (!isset($cache[$cache_node])) {
-            $cache[$cache_node] = array();
-        }
-
-        if (array_key_exists($component, $cache[$cache_node])) {
-            return $cache[$cache_node][$component];
+        if (array_key_exists($cache_key, $cache)) {
+            return $cache[$cache_key];
         }
 
         if (null === $nap) {
@@ -309,7 +306,7 @@ class midcom_helper_misc
 
             $root_node = $nap->get_node($node_id);
             if ($root_node[MIDCOM_NAV_COMPONENT] == $component) {
-                $cache[$cache_node][$component] = $root_node;
+                $cache[$cache_key] = $root_node;
                 return $root_node;
             }
         }
@@ -323,12 +320,12 @@ class midcom_helper_misc
         $topics = $qb->execute();
 
         if (count($topics) == 0) {
-            $cache[$cache_node][$component] = null;
+            $cache[$cache_key] = null;
             return null;
         }
 
         $node = $nap->get_node($topics[0]->id);
-        $cache[$cache_node][$component] = $node;
+        $cache[$cache_key] = $node;
 
         return $node;
     }

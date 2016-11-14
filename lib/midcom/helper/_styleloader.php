@@ -143,34 +143,35 @@ class midcom_helper__styleloader
     public function get_style_path_from_id($id)
     {
         static $path_cache = array();
-        if (!isset($path_cache[$id])) {
-            // Construct the path
-            $path_parts = array();
-            $original_id = $id;
-
-            try {
-                while (($style = new midcom_db_style($id))) {
-                    $path_parts[] = $style->name;
-                    $id = $style->up;
-
-                    if ($style->up == 0) {
-                        // Toplevel style
-                        break;
-                    }
-
-                    if (   midcom::get()->config->get('styleengine_relative_paths')
-                        && $style->up == midcom_connection::get('style')) {
-                        // Relative path, stop before going to main Midgard style
-                        break;
-                    }
-                }
-            } catch (midcom_error $e) {
-            }
-
-            $path_parts = array_reverse($path_parts);
-
-            $path_cache[$original_id] = '/' . implode('/', $path_parts);
+        if (isset($path_cache[$id])) {
+            return $path_cache[$id];
         }
+        // Construct the path
+        $path_parts = array();
+        $original_id = $id;
+
+        try {
+            while (($style = new midcom_db_style($id))) {
+                $path_parts[] = $style->name;
+                $id = $style->up;
+
+                if ($style->up == 0) {
+                    // Toplevel style
+                    break;
+                }
+
+                if (   midcom::get()->config->get('styleengine_relative_paths')
+                    && $style->up == midcom_connection::get('style')) {
+                    // Relative path, stop before going to main Midgard style
+                    break;
+                }
+            }
+        } catch (midcom_error $e) {
+        }
+
+        $path_parts = array_reverse($path_parts);
+
+        $path_cache[$original_id] = '/' . implode('/', $path_parts);
 
         return $path_cache[$original_id];
     }
@@ -195,16 +196,14 @@ class midcom_helper__styleloader
             // Relative paths in use, start seeking from under the style used for the Midgard host
             $rootstyle = midcom_connection::get('style');
         }
+        $cache_key = $rootstyle . '::' . $path;
 
-        if (!isset($cached[$rootstyle])) {
-            $cached[$rootstyle] = array();
-        }
-        if (array_key_exists($path, $cached[$rootstyle])) {
-            return $cached[$rootstyle][$path];
+        if (array_key_exists($cache_key, $cached)) {
+            return $cached[$cache_key];
         }
 
         $path = preg_replace("/^\/(.*)/", "$1", $path); // leading "/"
-        $cached[$rootstyle][$path] = false;
+        $cached[$cache_key] = false;
         $current_style = 0;
 
         $path_array = array_filter(explode('/', $path));
@@ -227,10 +226,10 @@ class midcom_helper__styleloader
         }
 
         if ($current_style != 0) {
-            $cached[$rootstyle][$path] = $current_style;
+            $cached[$cache_key] = $current_style;
         }
 
-        return $cached[$rootstyle][$path];
+        return $cached[$cache_key];
     }
 
     /**
@@ -245,11 +244,10 @@ class midcom_helper__styleloader
     private function _get_element_in_styletree($id, $name)
     {
         static $cached = array();
-        if (!isset($cached[$id])) {
-            $cached[$id] = array();
-        }
-        if (array_key_exists($name, $cached[$id])) {
-            return $cached[$id][$name];
+        $cache_key = $id . '::' . $name;
+
+        if (array_key_exists($cache_key, $cached)) {
+            return $cached[$cache_key];
         }
 
         $element_mc = midgard_element::new_collector('style', $id);
@@ -262,7 +260,7 @@ class midcom_helper__styleloader
         foreach ($elements as $element_guid => $value) {
             $value = $element_mc->get_subkey($element_guid, 'value');
             midcom::get()->cache->content->register($element_guid);
-            $cached[$id][$name] = $value;
+            $cached[$cache_key] = $value;
             return $value;
         }
 
@@ -279,13 +277,13 @@ class midcom_helper__styleloader
 
             if ($up = $style_mc->get_subkey($style_guid, 'up')) {
                 $value = $this->_get_element_in_styletree($up, $name);
-                $cached[$id][$name] = $value;
+                $cached[$cache_key] = $value;
                 return $value;
             }
         }
 
-        $cached[$id][$name] = false;
-        return $cached[$id][$name];
+        $cached[$cache_key] = false;
+        return $cached[$cache_key];
     }
 
     /**
