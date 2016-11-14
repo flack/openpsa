@@ -66,10 +66,8 @@ class midcom_helper_imagefilter
 
     public function __destruct()
     {
-        foreach ($this->_tmpfiles as $filename) {
-            if (file_exists($filename)) {
-                unlink($filename);
-            }
+        foreach (array_filter($this->_tmpfiles, 'file_exists') as $filename) {
+            unlink($filename);
         }
     }
 

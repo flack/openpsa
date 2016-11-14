@@ -68,17 +68,11 @@ class midcom_helper_serviceloader
     public function load($service)
     {
         if (!isset($this->instances[$service])) {
-            $implementation_class = $this->get_implementation($service);
-            if (empty($implementation_class)) {
-                // Service disabled for this site
-                throw new midcom_error("Service implementation for {$service} not defined");
-            }
-
             if (!$this->can_load($service)) {
                 // Service disabled for this site
                 throw new midcom_error("Service implementation for {$service} could not be loaded");
             }
-
+            $implementation_class = $this->get_implementation($service);
             $this->instances[$service] = new $implementation_class();
         }
         return $this->instances[$service];

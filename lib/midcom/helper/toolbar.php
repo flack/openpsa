@@ -227,11 +227,11 @@ class midcom_helper_toolbar
      */
     public function add_help_item($help_id, $component = null, $label = null, $anchor = null, $before = -1)
     {
-        if (is_null($component)) {
-            $uri = "__ais/help/{$help_id}/";
-        } else {
-            $uri = "__ais/help/{$component}/{$help_id}/";
+        $uri = "__ais/help/";
+        if (!is_null($component)) {
+            $uri .= $component . '/';
         }
+        $uri .= $help_id . '/';
 
         if (!is_null($anchor)) {
             $uri .= "#{$anchor}";

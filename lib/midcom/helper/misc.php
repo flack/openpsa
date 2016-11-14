@@ -358,10 +358,8 @@ class midcom_helper_misc
 
             $candidates[] = $theme_root . $theme_path .  "/style/{$element_name}.php";
 
-            foreach ($candidates as $candidate) {
-                if (file_exists($candidate)) {
-                    return file_get_contents($candidate);
-                }
+            foreach (array_filter($candidates, 'file_exists') as $candidate) {
+                return file_get_contents($candidate);
             }
 
             //remove last theme part
