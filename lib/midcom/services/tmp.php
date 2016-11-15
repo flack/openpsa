@@ -49,7 +49,7 @@ class midcom_services_tmp
      *
      * @return midcom_core_temporary_object The newly created object.
      */
-    function create_object()
+    public function create_object()
     {
         midcom::get()->auth->require_user_do('midgard:create', null, 'midcom_core_temporary_object');
 
@@ -77,7 +77,7 @@ class midcom_services_tmp
      * @return midcom_core_temporary_object The associated object or null in case that it
      *     is unavailable.
      */
-    function request_object($id)
+    public function request_object($id)
     {
         if (!$id) {
             debug_add("Invalid argument, may not evaluate to false", MIDCOM_LOG_INFO);
