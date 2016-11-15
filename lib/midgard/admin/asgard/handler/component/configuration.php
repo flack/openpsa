@@ -339,8 +339,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
 
             if (is_array($val)) {
                 //try make sure entries have the same format before deciding if there was a change
-                $val = var_export($val, true);
-                $newval = str_replace("\r\n", "\n", $newval);
+                eval("\$newval = $newval;");
             }
 
             if ($newval != $val) {
