@@ -69,28 +69,6 @@ class midcom_services_indexer_document_attachment extends midcom_services_indexe
         $this->process_topic();
     }
 
-    /**
-     * Tries to determine the topic GUID and component using NAPs reverse-lookup capabilities.
-     *
-     * If this fails, you have to set the members $topic_guid, $topic_url and
-     * $component manually.
-     */
-    private function process_topic()
-    {
-        $nav = new midcom_helper_nav();
-        $object = $nav->resolve_guid($this->source);
-        if (!$object) {
-            debug_add("Failed to resolve the topic, skipping autodetection.");
-            return;
-        }
-        if ($object[MIDCOM_NAV_TYPE] == 'leaf') {
-            $object = $nav->get_node($object[MIDCOM_NAV_NODEID]);
-        }
-        $this->topic_guid = $object[MIDCOM_NAV_GUID];
-        $this->topic_url = $object[MIDCOM_NAV_FULLURL];
-        $this->component = $object[MIDCOM_NAV_COMPONENT];
-    }
-
     private function process_attachment()
     {
         if (   !isset($this->attachment->metadata)

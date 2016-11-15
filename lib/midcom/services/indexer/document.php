@@ -599,6 +599,28 @@ class midcom_services_indexer_document
     }
 
     /**
+     * Tries to determine the topic GUID and component using NAPs reverse-lookup capabilities.
+     *
+     * If this fails, you have to set the members $topic_guid, $topic_url and
+     * $component manually.
+     */
+    protected function process_topic()
+    {
+        $nav = new midcom_helper_nav();
+        $object = $nav->resolve_guid($this->source, true);
+        if (!$object) {
+            debug_add("Failed to resolve the topic, skipping autodetection.");
+            return;
+        }
+        if ($object[MIDCOM_NAV_TYPE] == 'leaf') {
+            $object = $nav->get_node($object[MIDCOM_NAV_NODEID]);
+        }
+        $this->topic_guid = $object[MIDCOM_NAV_GUID];
+        $this->topic_url = $object[MIDCOM_NAV_FULLURL];
+        $this->component = $object[MIDCOM_NAV_COMPONENT];
+    }
+
+    /**
      * Tries to resolve created, revised, author, editor and creator for the document from Midgard object
      *
      * @param midgard_object $object object to use as source for the info

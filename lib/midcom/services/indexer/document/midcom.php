@@ -113,30 +113,9 @@ class midcom_services_indexer_document_midcom extends midcom_services_indexer_do
             || empty($this->topic_url)
             || empty($this->component)) {
             //if one of those is missing, we override all three to ensure consistency
-            $this->_process_topic();
+            $this->process_topic();
         }
 
         parent::members_to_fields();
-    }
-
-    /**
-     * Tries to determine the topic GUID and component, we use NAPs
-     * reverse-lookup capabilities.
-     */
-    private function _process_topic()
-    {
-        $nav = new midcom_helper_nav();
-        // TODO: Is there a better way ?
-        $object = $nav->resolve_guid($this->source, true);
-        if (!$object) {
-            debug_add("Failed to resolve the topic, skipping autodetection.");
-            return;
-        }
-        if ($object[MIDCOM_NAV_TYPE] == 'leaf') {
-            $object = $nav->get_node($object[MIDCOM_NAV_NODEID]);
-        }
-        $this->topic_guid = $object[MIDCOM_NAV_GUID];
-        $this->topic_url = $object[MIDCOM_NAV_FULLURL];
-        $this->component = $object[MIDCOM_NAV_COMPONENT];
     }
 }
