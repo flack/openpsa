@@ -129,7 +129,7 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
             if (is_a($object, 'midcom_db_topic')) {
                 $napobject = $nav->get_node($object->id);
             } elseif (   ($node = $nav->find_closest_topic($object))
-                     && $nodeobject = $nav->get_node($node->id)) {
+                      && $nodeobject = $nav->get_node($node->id)) {
                 $napobject = $nav->get_leaf($nodeobject[MIDCOM_NAV_ID] . '-' . $object->id);
             }
         } catch (midcom_error $e) {
@@ -199,12 +199,8 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
 
         $lang_id = midcom::get()->i18n->get_current_language();
         $result = $this->_cache->fetch("{$this->_prefix}-{$key}");
-        if (   !is_array($result)
-            || !isset($result[$lang_id])) {
-            return false;
-        }
 
-        return true;
+        return (is_array($result) && isset($result[$lang_id]));
     }
 
     /**

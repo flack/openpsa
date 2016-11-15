@@ -82,7 +82,7 @@ class midcom_services_dbclassloader
      * component 'midcom' goes for the MIDCOM_ROOT/midcom/config directory and is reserved
      * for MidCOM core classes and compatibility classes.
      */
-    function load_classes($component, $filename, $definition_list = null)
+    public function load_classes($component, $filename, $definition_list = null)
     {
         if (is_null($definition_list)) {
             $definition_list = $this->_read_class_definition_file($component, $filename);
@@ -98,7 +98,7 @@ class midcom_services_dbclassloader
      *
      * @param array $definition_list A reference to the definition list to verify.
      */
-    function _validate_class_definition_list(array $definition_list)
+    private function _validate_class_definition_list(array $definition_list)
     {
         foreach ($definition_list as $mgdschema_class => $midcom_class) {
             if (!class_exists($mgdschema_class)) {

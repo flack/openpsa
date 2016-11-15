@@ -48,7 +48,7 @@ class midcom_services_i18n
     /**
      * Cache of all instantiated localization classes.
      *
-     * @var Array
+     * @var midcom_services_i18n_l10n[]
      */
     private $_obj_l10n = array();
 

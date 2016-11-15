@@ -985,7 +985,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
                 continue;
             }
             $value = $header_string;
-            $matched =  true;
+            $matched = true;
             break;
         }
         if (!$matched) {
