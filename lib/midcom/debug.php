@@ -150,8 +150,7 @@ class midcom_debug
      */
     public function log($message, $loglevel = MIDCOM_LOG_DEBUG)
     {
-        if (   !$this->_enabled
-            || $this->_loglevel < $loglevel) {
+        if (!$this->check_level($loglevel)) {
             return;
         }
 
@@ -197,6 +196,11 @@ class midcom_debug
                 // Ignore FirePHP errors for now
             }
         }
+    }
+
+    private function check_level($loglevel)
+    {
+        return (!$this->_enabled && $this->_loglevel >= $loglevel);
     }
 
     private function _get_caller()
@@ -245,8 +249,7 @@ class midcom_debug
      */
     public function print_r($message, $variable, $loglevel = MIDCOM_LOG_DEBUG)
     {
-        if (   !$this->_enabled
-            || $this->_loglevel < $loglevel) {
+        if (!$this->check_level($loglevel)) {
             return;
         }
 
@@ -266,8 +269,7 @@ class midcom_debug
      */
     public function print_function_stack($message, $loglevel = MIDCOM_LOG_DEBUG)
     {
-        if (   !$this->_enabled
-            || $this->_loglevel < $loglevel) {
+        if (!$this->check_level($loglevel)) {
             return;
         }
 
@@ -313,8 +315,7 @@ class midcom_debug
      */
     public function print_type($message, $variable, $loglevel = MIDCOM_LOG_DEBUG)
     {
-        if (   !$this->_enabled
-            || $this->_loglevel < $loglevel) {
+        if (!$this->check_level($loglevel)) {
             return;
         }
 
@@ -339,8 +340,7 @@ class midcom_debug
      */
     public function print_dump_mem($message, $loglevel = MIDCOM_LOG_DEBUG)
     {
-        if (   !$this->_enabled
-            || $this->_loglevel < $loglevel) {
+        if (!$this->check_level($loglevel)) {
             return;
         }
 
