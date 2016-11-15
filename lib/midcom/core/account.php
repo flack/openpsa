@@ -264,10 +264,10 @@ class midcom_core_account
         }
         $this->_user->authtype = midcom::get()->config->get('auth_type');
 
-        if (midcom::get()->config->get('person_class') != 'midgard_person') {
-            $mgd_person = new midgard_person($this->_person->guid);
-        } else {
+        if ($this->_person instanceof midgard_person) {
             $mgd_person = $this->_person;
+        } else {
+            $mgd_person = new midgard_person($this->_person->guid);
         }
         $this->_user->set_person($mgd_person);
         $this->_user->active = true;
