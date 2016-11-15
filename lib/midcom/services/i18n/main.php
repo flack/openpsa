@@ -39,24 +39,6 @@ class midcom_services_i18n
     private $_language_db;
 
     /**
-     * Preferred languages extracted out of the HTTP content negotiation.
-     *
-     * Array keys are the languages, the value is their q-index.
-     *
-     * @var Array
-     */
-    private $_http_lang = array();
-
-    /**
-     * Preferred charsets extracted out of the HTTP content negotiation.
-     *
-     * Array keys are the charsets, the value is their q-index.
-     *
-     * @var Array
-     */
-    private $_http_charset = array();
-
-    /**
      * Fallback language, in case the selected language is not available.
      *
      * @var string
@@ -98,7 +80,7 @@ class midcom_services_i18n
      * from these different sources: HTTP Content Negotiation, Client side language cookie.
      *
      * It uses the MidCOM Language database now located at
-     * /lib/midcom/config/language-db.inc for any decisions. Its two
+     * /lib/midcom/config/language_db.inc for any decisions. Its two
      * parameters set the default language in case that none is supplied
      * via HTTP Content Negotiation or through Cookies.
      *
@@ -111,15 +93,112 @@ class midcom_services_i18n
      */
     public function __construct()
     {
-        if (!$this->_load_language_db()) {
-            debug_add("Could not load language database. Aborting.", MIDCOM_LOG_CRIT);
-            return false;
-        }
+        $path = midcom::get()->config->get('i18n_language_db_path');
+        $data = midcom_helper_misc::get_snippet_content($path);
+        $this->_language_db = midcom_helper_misc::parse_config($data);
 
         $this->_fallback_language = midcom::get()->config->get('i18n_fallback_language');
         $this->set_language($this->_fallback_language);
 
         $this->_set_startup_langs();
+    }
+
+    /**
+     * Scans the HTTP negotiation and the cookie data and tries to set a
+     * suitable default language. Cookies have priority here.
+     */
+    private function _set_startup_langs()
+    {
+        if ($cookie_data = $this->_read_cookie()) {
+            $this->_current_language = $cookie_data['language'];
+            $this->_current_charset = $cookie_data['charset'];
+            return;
+        }
+
+        if ($http_langs = $this->_read_http_negotiation()) {
+            foreach (array_keys($http_langs) as $name) {
+                if (array_key_exists($name, $this->_language_db)) {
+                    $this->set_language($name);
+                    break;
+                }
+            }
+        }
+    }
+
+    /**
+     * Try to pull the user's preferred language and
+     * character set out of a cookie named "midcom_services_i18n".
+     */
+    private function _read_cookie()
+    {
+        if (empty($_COOKIE['midcom_services_i18n'])) {
+            return;
+        }
+
+        $rawdata = base64_decode($_COOKIE['midcom_services_i18n']);
+        $array = unserialize($rawdata);
+
+        if (   !array_key_exists('language', $array)
+            || !array_key_exists('charset', $array)) {
+            debug_add("Rejecting cookie, it seems invalid.");
+            return;
+        }
+
+        return $array;
+    }
+
+    /**
+     * Pull available language out of the HTTP Headers
+     *
+     * q-parameters for prioritization are supported.
+     *
+     * @return array Keys are the languages, the value is their q-index.
+     */
+    private function _read_http_negotiation()
+    {
+        $http_langs = array();
+        if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
+            $rawdata = explode(",", $_SERVER['HTTP_ACCEPT_LANGUAGE']);
+            foreach ($rawdata as $data) {
+                $params = explode(";", $data);
+                $lang = array_shift($params);
+
+                // we can't use strings like en-US, so we only use the first two characters
+                $lang = substr($lang, 0, 2);
+                $q = $this->_get_q($params);
+
+                if (   !isset($http_langs[$lang])
+                    || $http_langs[$lang] < $q) {
+                    $http_langs[$lang] = $q;
+                }
+            }
+        }
+        arsort($http_langs, SORT_NUMERIC);
+        return $http_langs;
+    }
+
+    private function _get_q(array $params)
+    {
+        $q = 1.0;
+        $option = array_shift($params);
+        while (!is_null($option)) {
+            $option_params = explode("=", $option);
+            if (count($option_params) != 2) {
+                $option = array_shift($params);
+                continue;
+            }
+            if ($option_params[0] == "q") {
+                $q = $option_params[1];
+                if (!is_numeric($q)) {
+                    $q = 1.0;
+                } else {
+                    //make sure that 0.0 <= $q <= 1.0
+                    $q = max(0.0, min(1.0, $q));
+                }
+            }
+            $option = array_shift($params);
+        }
+        return $q;
     }
 
     /**
@@ -384,134 +463,6 @@ class midcom_services_i18n
         $obj->set_charset($this->_current_charset);
         $obj->set_fallback_language($this->_fallback_language);
         $this->_obj_l10n[$cacheid] = $obj;
-    }
-
-    /**
-     * Scans the HTTP negotiation and the cookie data and tries to set a
-     * suitable default language. Cookies have priority here.
-     */
-    private function _set_startup_langs()
-    {
-        $cookie_data = $this->_read_cookie();
-        if (!is_null($cookie_data)) {
-            $this->_current_language = $cookie_data['language'];
-            $this->_current_charset = $cookie_data['charset'];
-            return;
-        }
-
-        $this->_read_http_negotiation();
-
-        if (count($this->_http_lang) > 0) {
-            foreach (array_keys($this->_http_lang) as $name) {
-                if (array_key_exists($name, $this->_language_db)) {
-                    $this->set_language($name);
-                    break;
-                }
-            }
-        }
-    }
-
-    /**
-     * Try to pull the user's preferred language and
-     * character set out of a cookie named "midcom_services_i18n".
-     */
-    private function _read_cookie()
-    {
-        if (empty($_COOKIE['midcom_services_i18n'])) {
-            return;
-        }
-
-        $rawdata = base64_decode($_COOKIE['midcom_services_i18n']);
-        $array = unserialize($rawdata);
-
-        if (   !array_key_exists('language', $array)
-            || !array_key_exists('charset', $array)) {
-            debug_add("Rejecting cookie, it seems invalid.");
-            return;
-        }
-
-        return $array;
-    }
-
-    /**
-     * Pull available language and content type data out of the HTTP Headers delivered
-     * by the browser and populate the member variables $_http_lang and $_http_content_type.
-     *
-     * q-parameters for prioritization are supported.
-     */
-    private function _read_http_negotiation()
-    {
-        if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
-            $accept_langs = $_SERVER['HTTP_ACCEPT_LANGUAGE'];
-
-            $rawdata = explode(",", $accept_langs);
-            foreach ($rawdata as $data) {
-                $params = explode(";", $data);
-                $lang = array_shift($params);
-
-                // we can't use strings like en-US, so we only use the first two characters
-                $lang = substr($lang, 0, 2);
-                $q = $this->_get_q($params);
-
-                if (   !isset($this->_http_lang[$lang])
-                    || $this->_http_lang[$lang] < $q) {
-                    $this->_http_lang[$lang] = $q;
-                }
-            }
-        }
-        arsort($this->_http_lang, SORT_NUMERIC);
-
-        if (isset($_SERVER['HTTP_ACCEPT_CHARSET'])) {
-            $rawdata = explode(",", $_SERVER['HTTP_ACCEPT_CHARSET']);
-            foreach ($rawdata as $data) {
-                $params = explode(";", $data);
-                $lang = array_shift($params);
-                $q = $this->_get_q($params);
-
-                $this->_http_charset[$lang] = $q;
-            }
-            arsort($this->_http_charset, SORT_NUMERIC);
-        }
-    }
-
-    private function _get_q(array $params)
-    {
-        $q = 1.0;
-        $option = array_shift($params);
-        while (!is_null($option)) {
-            $option_params = explode("=", $option);
-            if (count($option_params) != 2) {
-                $option = array_shift($params);
-                continue;
-            }
-            if ($option_params[0] == "q") {
-                $q = $option_params[1];
-                if (!is_numeric($q)) {
-                    $q = 1.0;
-                } else {
-                    //make sure that 0.0 <= $q <= 1.0
-                    $q = max(0.0, min(1.0, $q));
-                }
-            }
-            $option = array_shift($params);
-        }
-        return $q;
-    }
-
-    /**
-     * Loads the language database.
-     */
-    private function _load_language_db()
-    {
-        $path = midcom::get()->config->get('i18n_language_db_path');
-        try {
-            $data = midcom_helper_misc::get_snippet_content($path);
-            $this->_language_db = midcom_helper_misc::parse_config($data);
-            return true;
-        } catch (midcom_error $e) {
-            $e->log();
-            return false;
-        }
     }
 
     /**
