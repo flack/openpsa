@@ -61,36 +61,10 @@ class midcom_helper_filesync_exporter_structure extends midcom_helper_filesync_e
 
     private function draw_array($array, $prefix = '')
     {
-        $data = '';
-        foreach ($array as $key => $val) {
-            $data .= $prefix;
-            if (!is_numeric($key)) {
-                $data .= "'{$key}' => ";
-            }
-
-            switch (gettype($val)) {
-                case 'boolean':
-                    $data .= ($val)?'true':'false';
-                    break;
-                case 'array':
-                    if (empty($val)) {
-                        $data .= 'array()';
-                    } else {
-                        $data .= "array\n{$prefix}(\n" . $this->draw_array($val, "{$prefix}    ") . "{$prefix})";
-                    }
-                    break;
-
-                default:
-                    if (is_numeric($val)) {
-                        $data .= $val;
-                    } else {
-                        $data .= "'" . str_replace("'", "\'", $val) . "'";
-                    }
-            }
-
-            $data .= ",\n";
-        }
-        return $data;
+        $data = var_export($array, true);
+        // Remove opening and closing array( ) lines, because that's the way midcom likes it
+        $data = preg_replace('/^.*?\n/', '', $data);
+        return preg_replace('/\n.*?$/', '', $data);
     }
 
     public function export()

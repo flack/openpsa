@@ -126,7 +126,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         $config = array_intersect_key($this->_request_data['config']->get_all(), $schemadb[$schema]->fields);
         foreach ($config as $key => $value) {
             if (is_array($value)) {
-                $schemadb[$schema]->fields[$key]['default'] = "array(\n" . $this->_draw_array($value, '    ') . ")";
+                $schemadb[$schema]->fields[$key]['default'] = var_export($value, true);
             } else {
                 $schemadb[$schema]->fields[$key]['default'] = $value;
             }
@@ -310,7 +310,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
                 || is_object($value)) {
                 /**
                  * See http://trac.midgard-project.org/ticket/1442
-                $topic->set_parameter($this->_request_data['name'], $key, "array(\n" . $this->_draw_array($value, '    ') . ")");
+                $topic->set_parameter($this->_request_data['name'], var_export($value, true));
                  */
                  continue;
             }
@@ -339,7 +339,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
 
             if (is_array($val)) {
                 //try make sure entries have the same format before deciding if there was a change
-                $val = "array(\n" . $this->_draw_array($val, "    ") . ")";
+                $val = var_export($val, true);
                 $newval = str_replace("\r\n", "\n", $newval);
             }
 
@@ -408,7 +408,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
     {
         $config_array = $this->_get_config_from_controller();
 
-        $config = $this->_draw_array($config_array, '', $data['config']->_global);
+        $config = $this->_draw_array($config_array);
 
         try {
             $this->_check_config($config);
@@ -488,40 +488,11 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         return $result;
     }
 
-    private function _draw_array($array, $prefix = '', $type_array = null)
+    private function _draw_array($array)
     {
-        $data = '';
-        foreach ($array as $key => $val) {
-            $data .= $prefix;
-            if (!is_numeric($key)) {
-                $data .= "'{$key}' => ";
-            }
-
-            $type = gettype($val);
-            if (   $type_array
-                && isset($type_array[$key])) {
-                $type = gettype($type_array[$key]);
-            }
-
-            if ($type === 'boolean') {
-                $data .= ($val) ? 'true' : 'false';
-            } elseif ($type === 'array') {
-                if (empty($val)) {
-                    $data .= 'array()';
-                } else {
-                    if (is_string($val)) {
-                        eval("\$val = $val;");
-                    }
-                    $data .= "array\n{$prefix}(\n" . $this->_draw_array($val, "{$prefix}    ") . "{$prefix})";
-                }
-            } elseif (is_numeric($val)) {
-                $data .= $val;
-            } else {
-                $data .= "'{$val}'";
-            }
-
-            $data .= ",\n";
-        }
-        return $data;
+        $data = var_export($array, true);
+        // Remove opening and closing array( ) lines, because that's the way midcom likes it
+        $data = preg_replace('/^.*?\n/', '', $data);
+        return preg_replace('/\n.*?$/', '', $data);
     }
 }
