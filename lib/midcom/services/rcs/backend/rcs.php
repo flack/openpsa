@@ -166,24 +166,12 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
     public function get_prev_version($version)
     {
         $versions = $this->list_history_numeric();
+        $position = array_search($version, $versions);
 
-        if (   !in_array($version, $versions)
-            || $version === end($versions)) {
+        if ($position === false || $position == count($versions) - 1) {
             return '';
         }
-
-        $mode = end($versions);
-
-        while ( $mode
-            && $mode !== $version) {
-            $mode = prev($versions);
-
-            if ($mode === $version) {
-                return next($versions);
-            }
-        }
-
-        return '';
+        return $versions[$position + 1];
     }
 
     /**
@@ -206,24 +194,12 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
     public function get_next_version($version)
     {
         $versions = $this->list_history_numeric();
+        $position = array_search($version, $versions);
 
-        if (   !in_array($version, $versions)
-            || $version === current($versions)) {
+        if ($position === false || $position == 0) {
             return '';
         }
-
-        $mode = current($versions);
-
-        while (   $mode
-               && $mode !== $version) {
-            $mode = next($versions);
-
-            if ($mode === $version) {
-                return prev($versions);
-            }
-        }
-
-        return '';
+        return $versions[$position - 1];
     }
 
     /**
