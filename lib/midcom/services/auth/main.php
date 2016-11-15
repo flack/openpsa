@@ -185,14 +185,14 @@ class midcom_services_auth
         $person_class = midcom::get()->config->get('person_class');
         $person = new $person_class($this->user->guid);
         if (   midcom::get()->config->get('auth_save_prev_login')
-            && $person->parameter('midcom', 'last_login')) {
-            $person->parameter('midcom', 'prev_login', $person->parameter('midcom', 'last_login'));
+            && $person->set_parameter('midcom', 'last_login')) {
+            $person->set_parameter('midcom', 'prev_login', $person->set_parameter('midcom', 'last_login'));
         }
 
-        $person->parameter('midcom', 'last_login', time());
+        $person->set_parameter('midcom', 'last_login', time());
 
-        if (!$person->parameter('midcom', 'first_login')) {
-            $person->parameter('midcom', 'first_login', time());
+        if (!$person->set_parameter('midcom', 'first_login')) {
+            $person->set_parameter('midcom', 'first_login', time());
         }
 
         if (is_callable(midcom::get()->config->get('auth_success_callback'))) {

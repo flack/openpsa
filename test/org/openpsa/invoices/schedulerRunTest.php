@@ -202,7 +202,7 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
                 }
                 $this->assertEquals($value, $invoice->$field, 'Difference in invoice field ' . $field);
             }
-            $this->assertEquals($cycle_number, (int) $invoice->parameter('org.openpsa.sales', 'cycle_number'), 'Incorrect cycle number');
+            $this->assertEquals($cycle_number, (int) $invoice->get_parameter('org.openpsa.sales', 'cycle_number'), 'Incorrect cycle number');
         }
     }
 

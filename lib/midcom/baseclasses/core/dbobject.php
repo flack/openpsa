@@ -1019,7 +1019,7 @@ class midcom_baseclasses_core_dbobject
         }
 
         // Set via MgdSchema API directly
-        if (!$object->__object->parameter($domain, $name, (string) $value)) {
+        if (!$object->__object->set_parameter($domain, $name, (string) $value)) {
             return false;
         }
 
@@ -1076,7 +1076,7 @@ class midcom_baseclasses_core_dbobject
         unset(self::$parameter_cache[$object->guid][$domain]);
 
         // Unset via MgdSchema API directly
-        $result = $object->__object->parameter($domain, $name, '');
+        $result = $object->__object->set_parameter($domain, $name, '');
 
         midcom::get()->dispatcher->dispatch(dbaevent::PARAMETER, new dbaevent($object));
 

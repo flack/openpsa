@@ -548,23 +548,6 @@ abstract class midcom_core_dbaobject
         return call_user_func(array($classname, 'new_reflection_property'));
     }
 
-    // Legacy API
-    // TODO: Get rid of these
-    public function parameter($domain, $name)
-    {
-        if (func_num_args() == 2) {
-            return $this->get_parameter($domain, $name);
-        } else {
-            $value = func_get_arg(2);
-            if (   $value === false
-                || $value === null
-                || $value === '') {
-                return $this->delete_parameter($domain, $name);
-            }
-            return $this->set_parameter($domain, $name, $value);
-        }
-    }
-
     // ACL Shortcuts
     public function can_do($privilege, $user = null)
     {

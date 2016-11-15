@@ -79,7 +79,7 @@ class mnrelation extends delayed
                         break;
 
                     case 'parameter':
-                        $member->parameter('midcom.helper.datamanager2.mnrelation', $key, $value);
+                        $member->set_parameter('midcom.helper.datamanager2.mnrelation', $key, $value);
                         break;
                 }
 

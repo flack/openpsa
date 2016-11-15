@@ -157,13 +157,13 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
         }
 
         if (   $this->_config->get('jabber_enable_presence')
-            && $person->parameter('org.openpsa.jabber', 'jid')) {
-            $this->contact_details['jid'] = $person->parameter('org.openpsa.jabber', 'jid');
+            && $person->get_parameter('org.openpsa.jabber', 'jid')) {
+            $this->contact_details['jid'] = $person->get_parameter('org.openpsa.jabber', 'jid');
         }
 
         if (   $this->_config->get('skype_enable_presence')
-            && $person->parameter('org.openpsa.skype', 'name')) {
-            $this->contact_details['skype'] = $person->parameter('org.openpsa.skype', 'name');
+            && $person->get_parameter('org.openpsa.skype', 'name')) {
+            $this->contact_details['skype'] = $person->get_parameter('org.openpsa.skype', 'name');
         }
 
         return true;

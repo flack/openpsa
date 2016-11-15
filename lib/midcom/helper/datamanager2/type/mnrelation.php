@@ -429,7 +429,7 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
                                     break;
 
                                 case 'parameter':
-                                    $member->parameter('midcom.helper.datamanager2.mnrelation', $key, $value);
+                                    $member->set_parameter('midcom.helper.datamanager2.mnrelation', $key, $value);
                                     break;
                             }
 
