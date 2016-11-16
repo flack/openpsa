@@ -26,18 +26,13 @@ class midgard_admin_asgard_handler_components extends midcom_baseclasses_compone
         $component_array['purecode'] = $manifest->purecode;
         $component_array['icon'] = midcom::get()->componentloader->get_component_icon($name);
 
-        if (isset($manifest->_raw_data['package.xml']['description'])) {
-            $component_array['description'] = $manifest->_raw_data['package.xml']['description'];
+        if (isset($manifest->_raw_data['description'])) {
+            $component_array['description'] = $manifest->_raw_data['description'];
         } else {
             $component_array['description'] = '';
         }
 
         $component_array['version'] = $manifest->_raw_data['version'];
-
-        $component_array['maintainers'] = array();
-        if (isset($manifest->_raw_data['package.xml']['maintainers'])) {
-            $component_array['maintainers'] = $manifest->_raw_data['package.xml']['maintainers'];
-        }
 
         $component_array['toolbar'] = new midcom_helper_toolbar();
         $component_array['toolbar']->add_item(
@@ -66,11 +61,6 @@ class midgard_admin_asgard_handler_components extends midcom_baseclasses_compone
         $this->_request_data['libraries'] = array();
 
         foreach (midcom::get()->componentloader->manifests as $name => $manifest) {
-            if (!array_key_exists('package.xml', $manifest->_raw_data)) {
-                // This component is not yet packaged, skip
-                continue;
-            }
-
             $type = 'components';
             if ($manifest->purecode) {
                 $type = 'libraries';
@@ -142,7 +132,6 @@ class midgard_admin_asgard_handler_components extends midcom_baseclasses_compone
         }
 
         $data['component_data'] = $this->_load_component_data($data['component'], midcom::get()->componentloader->manifests[$data['component']]);
-        $data['component_dependencies'] = midcom::get()->componentloader->get_component_dependencies($data['component']);
 
         $data['view_title'] = $data['component_data']['title'];
 

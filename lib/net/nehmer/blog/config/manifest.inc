@@ -6,43 +6,7 @@
 (
     'net_nehmer_blog_link' => 'net_nehmer_blog_link_dba',
 ),
-'package.xml' => array
-(
-    'summary' => 'Weblog system',
-    'description' => 'System for displaying and managing news posts',
-    'maintainers' => array
-    (
-        'torben' => array
-        (
-            'name' => 'Torben Nehmer',
-            'email' => 'torben@nehmer.net',
-            'role' => 'lead',
-            'active' => 'no',
-        ),
-        'bergie' => array
-        (
-            'name' => 'Henri Bergius',
-            'email' => 'henri.bergius@iki.fi',
-            'role' => 'lead',
-            'active' => 'yes',
-        ),
-        'adrenalin' => array
-        (
-            'name' => 'Arttu Manninen',
-            'email' => 'arttu@kaktus.cc',
-            'role' => 'developer',
-            'active' => 'yes',
-        ),
-    ),
-    'dependencies' => array
-    (
-        'midcom.helper.datamanager2' => array(),
-        'net.nehmer.comments' => array(),
-        'org.openpsa.mail' => array(),
-        'org.openpsa.qbpager' => array(),
-        'net.nemein.rss' => array(),
-    ),
-),
+'description' => 'System for displaying and managing news posts',
 'watches' => array
 (
     array

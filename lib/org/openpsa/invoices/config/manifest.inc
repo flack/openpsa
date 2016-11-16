@@ -21,34 +21,4 @@
         'operations' => MIDCOM_OPERATION_DBA_DELETE,
     ),
 ),
-'package.xml' => array
-(
-    'summary' => 'Invoice management',
-    'description' => 'Simple invoicing status tracker',
-    'maintainers' => array
-    (
-        'flack' => array
-        (
-            'name' => 'Andreas Flack',
-            'email' => 'flack@contentcontrol-berlin.de',
-            'role' => 'lead',
-        ),
-        'bergie' => array
-        (
-            'name' => 'Henri Bergius',
-            'email' => 'henri.bergius@iki.fi',
-            'role' => 'lead',
-            'active' => 'no',
-        ),
-    ),
-    'dependencies' => array
-    (
-        'midcom.helper.datamanager2' => array(),
-        'org.openpsa.widgets' => array(),
-        'org.openpsa.contacts' => array(),
-        'org.openpsa.projects' => array(),
-        'org.openpsa.relatedto' => array(),
-        'org.openpsa.helpers' => array(),
-        'midcom' => array(),
-    ),
-),
+'description' => 'Simple invoicing status tracker',

@@ -10,22 +10,5 @@
 (
     'net_nemein_redirector_tinyurl' => 'net_nemein_redirector_tinyurl_dba',
 ),
-'package.xml' => array
-(
-    'summary' => 'Redirector',
-    'description' => 'Folder that redirects to subnode or given URL',
-    'maintainers' => array
-    (
-        'bergie' => array
-        (
-            'name' => 'Henri Bergius',
-            'email' => 'henri.bergius@iki.fi',
-            'role' => 'lead',
-        ),
-    ),
-    'dependencies' => array
-    (
-        'midcom' => array(),
-    ),
-),
+'description' => 'Folder that redirects to subnode or given URL',
 'state' => 'stable',

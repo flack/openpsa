@@ -14,48 +14,7 @@
         'operations' => MIDCOM_OPERATION_DBA_DELETE,
     ),
 ),
-'package.xml' => array
-(
-    'summary' => 'Page commenting',
-    'description' => 'Page commenting tool',
-    'maintainers' => array
-    (
-        'torben' => array
-        (
-            'name' => 'Torben Nehmer',
-            'email' => 'torben@nehmer.net',
-            'role' => 'lead',
-            'active' => 'no',
-        ),
-        'bergie' => array
-        (
-            'name' => 'Henri Bergius',
-            'email' => 'henri.bergius@iki.fi',
-            'role' => 'lead',
-            'active' => 'yes',
-        ),
-        'xfade' => array
-        (
-            'name' => 'Niels Breet',
-            'email' => 'nbreet@gmail.com',
-            'role' => 'developer',
-            'active' => 'yes',
-        ),
-        'jbergius' => array
-        (
-            'name' => 'Joonas Bergius',
-            'email' => 'joonas.bergius@gmail.com',
-            'role' => 'developer',
-        ),
-    ),
-    'dependencies' => array
-    (
-        'midcom.helper.datamanager2' => array(),
-        'org.openpsa.notifications' => array(),
-        'org.openpsa.qbpager' => array(),
-        'midcom' => array(),
-    ),
-),
+'description' => 'Page commenting tool',
 'customdata' => array
 (
     'midcom.services.cron' => array

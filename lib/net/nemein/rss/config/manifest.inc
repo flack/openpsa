@@ -8,26 +8,7 @@
 (
     'net_nemein_rss_feed' => 'net_nemein_rss_feed_dba',
 ),
-'package.xml' => array
-(
-    'summary' => 'RSS and Atom aggregator',
-    'description' => 'Aggregator that supports populating news items from remote RSS and Atom sources.',
-    'maintainers' => array
-    (
-        'bergie' => array
-        (
-            'name' => 'Henri Bergius',
-            'email' => 'henri.bergius@iki.fi',
-            'role' => 'lead',
-        ),
-    ),
-    'dependencies' => array
-    (
-        'org.openpsa.httplib' => array(),
-        'net.nemein.tag' => array(),
-        'midcom' => array(),
-    ),
-),
+'description' => 'Aggregator that supports populating news items from remote RSS and Atom sources.',
 'customdata' => array
 (
     'midcom.services.cron' => array

@@ -218,10 +218,6 @@ Delete %s
 Description
 ---STRINGEND
 
----STRING developer
-Developer
----STRINGEND
-
 ---STRING do not index (midcom's indexer)
 Do not index for site search
 ---STRINGEND
@@ -304,10 +300,6 @@ Keywords
 
 ---STRING last modified
 Last modified
----STRINGEND
-
----STRING lead
-Lead developer
 ---STRINGEND
 
 ---STRING library

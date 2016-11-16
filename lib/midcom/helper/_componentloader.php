@@ -368,8 +368,6 @@ class midcom_helper__componentloader
     /**
      * This function is called from the class manifest loader in case of a cache
      * miss.
-     *
-     * @todo investigate if we should unset the package.xml part of the arrays and serialize them
      */
     public function get_manifests()
     {
@@ -440,41 +438,6 @@ class midcom_helper__componentloader
     }
 
     /**
-     * Get list of component and its dependencies depend on
-     *
-     * @param string $component Name of a component
-     * @param string $called_from When dependencies are recursively resolved, this is used to avoid circular calls
-     * @return array List of dependencies
-     */
-    public function get_component_dependencies($component, $called_from = false)
-    {
-        static $checked = array();
-        if (isset($checked[$component])) {
-            return $checked[$component];
-        }
-        $checked[$component] = array();
-
-        if (   !$this->is_installed($component)
-            || empty($this->manifests[$component]->_raw_data['package.xml']['dependencies'])) {
-            return $checked[$component];
-        }
-
-        foreach (array_keys($this->manifests[$component]->_raw_data['package.xml']['dependencies']) as $dependency) {
-            if (   $dependency == 'midcom'
-                || $dependency == $called_from) {
-                // Ignore
-                continue;
-            }
-
-            $checked[$component][] = $dependency;
-            $subdependencies = $this->get_component_dependencies($dependency, $component);
-            $checked[$component] = array_merge($checked[$component], $subdependencies);
-        }
-        $checked[$component] = array_unique($checked[$component]);
-        return $checked[$component];
-    }
-
-    /**
      * Checks if component is a part of the default MidCOM distribution
      * or an external component
      *
@@ -514,14 +477,6 @@ class midcom_helper__componentloader
             'org.openpsa.qbpager',
             'org.routamc.positioning',
         );
-
-        // Gather dependencies too
-        $dependencies = array();
-        foreach ($core_components as $core_component) {
-            $component_dependencies = $this->get_component_dependencies($core_component);
-            $dependencies = array_merge($dependencies, $component_dependencies);
-        }
-        $core_components = array_unique(array_merge($core_components, $dependencies));
 
         return (in_array($component, $core_components));
     }

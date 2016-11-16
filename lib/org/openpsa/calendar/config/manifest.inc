@@ -14,44 +14,7 @@
 ),
 'version' => '9.1.0-dev',
 'state' => 'stable',
-'package.xml' => array
-(
-    'summary' => 'Group calendar',
-    'description' => 'Group calendar for workgroups.',
-    'maintainers' => array
-    (
-        'rambo' => array
-        (
-            'name' => 'Eero af Heurlin',
-            'email' => 'eero.afheurlin@iki.fi',
-            'role' => 'lead',
-        ),
-        'bergie' => array
-        (
-            'name' => 'Henri Bergius',
-            'email' => 'henri.bergius@iki.fi',
-            'role' => 'lead',
-            'active' => 'no',
-        ),
-        'adrenalin' => array
-        (
-            'name' => 'Arttu Manninen',
-            'email' => 'arttu@kaktus.cc',
-            'role' => 'developer',
-        ),
-    ),
-    'dependencies' => array
-    (
-        'midcom.helper.datamanager2' => array(),
-        'org.openpsa.core' => array(),
-        'org.openpsa.mail' => array(),
-        'org.openpsa.helpers' => array(),
-        'org.openpsa.widgets' => array(),
-        'org.openpsa.contacts' => array(),
-        'org.openpsa.notifications' => array(),
-        'midcom' => array(),
-    ),
-),
+'description' => 'Group calendar for workgroups.',
 'customdata' => array
 (
     'midcom.services.cron' => array

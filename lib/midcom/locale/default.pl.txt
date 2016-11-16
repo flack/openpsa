@@ -202,10 +202,6 @@ Usuń %s
 Opis
 ---STRINGEND
 
----STRING developer
-Programista
----STRINGEND
-
 ---STRING domain
 Domena
 ---STRINGEND
@@ -276,10 +272,6 @@ Słowa kluczowe
 
 ---STRING last modified
 Ostatnia modyfikacja
----STRINGEND
-
----STRING lead
-Główny programista
 ---STRINGEND
 
 ---STRING library

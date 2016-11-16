@@ -78,11 +78,6 @@ class midcom_admin_help_helpTest extends openpsa_testcase
                 'org.openpsa.core',
                 false,
                 array(
-                    'dependencies' => array(
-                        'path' => '/dependencies',
-                        'subject' => 'Component dependencies',
-                        'lang' => 'en'
-                    ),
                     'urlmethods' => array(
                         'path' => '/urlmethods',
                         'subject' => 'Additional URL methods',
@@ -94,11 +89,6 @@ class midcom_admin_help_helpTest extends openpsa_testcase
                 'net.nehmer.blog',
                 false,
                 array(
-                    'dependencies' => array(
-                        'path' => '/dependencies',
-                        'subject' => 'Component dependencies',
-                        'lang' => 'en'
-                    ),
                     '01_component_config' => array(
                         'path' => MIDCOM_ROOT . '/net/nehmer/blog/documentation/01_component_config.en.txt',
                         'subject' => 'Component configuration',

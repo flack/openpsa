@@ -22,10 +22,6 @@ Dokumentacja modułu
 Kontroler
 ---STRINGEND
 
----STRING dependencies
-Zależności
----STRINGEND
-
 ---STRING description
 Opis
 ---STRINGEND
@@ -52,10 +48,6 @@ Pomoc online dla %s
 
 ---STRING help for %s in %s
 Pomoc online dla %s w %s
----STRINGEND
-
----STRING help_dependencies
-Zależności modułu
 ---STRINGEND
 
 ---STRING help_handlers

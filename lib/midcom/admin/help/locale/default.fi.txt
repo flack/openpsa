@@ -22,10 +22,6 @@ Komponentin käyttöohjeet
 Kontrolleri
 ---STRINGEND
 
----STRING dependencies
-Riippuvuudet
----STRINGEND
-
 ---STRING description
 Kuvaus
 ---STRINGEND
@@ -52,10 +48,6 @@ Komponentin %s käyttöohjeet
 
 ---STRING help for %s in %s
 Käyttöohjeet toiminnolle %s komponentissa %s
----STRINGEND
-
----STRING help_dependencies
-Komponentin riippuvuudet
 ---STRINGEND
 
 ---STRING help_handlers

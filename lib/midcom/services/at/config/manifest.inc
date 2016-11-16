@@ -8,24 +8,7 @@
 ),
 'version' => '9.1.0-dev',
 'state' => 'stable',
-'package.xml' => array
-(
-    'summary' => 'Library for stored queries',
-    'description' => 'AT service',
-    'maintainers' => array
-    (
-        'rambo' => array
-        (
-            'name' => 'Eero af Heurlin',
-            'email' => 'eero.afheurlin@iki.fi',
-            'role' => 'lead',
-        ),
-    ),
-    'dependencies' => array
-    (
-        'midcom' => array(),
-    ),
-),
+'description' => 'AT service',
 'customdata' => array
 (
     'midcom.services.cron' => array

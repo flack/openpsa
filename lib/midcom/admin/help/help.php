@@ -221,15 +221,6 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
             );
         }
 
-        // Dependencies
-        $this->_request_data['dependencies'] = midcom::get()->componentloader->get_component_dependencies($component);
-        if (count($this->_request_data['dependencies'])) {
-            $files['dependencies'] = array(
-                'path' => '/dependencies',
-                'subject' => $this->_l10n->get('help_dependencies'),
-                'lang' => 'en',
-            );
-        }
         return $files;
     }
 
@@ -405,19 +396,13 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         $manifest = midcom::get()->componentloader->manifests[$name];
         $component_array['purecode'] = $manifest->purecode;
 
-        if (isset($manifest->_raw_data['package.xml']['description'])) {
-            $component_array['description'] = $manifest->_raw_data['package.xml']['description'];
+        if (isset($manifest->_raw_data['description'])) {
+            $component_array['description'] = $manifest->_raw_data['description'];
         } else {
             $component_array['description'] = '';
         }
 
         $component_array['version'] = $manifest->_raw_data['version'];
-
-        $component_array['maintainers'] = array();
-        if (isset($manifest->_raw_data['package.xml']['maintainers'])) {
-            $component_array['maintainers'] = $manifest->_raw_data['package.xml']['maintainers'];
-        }
-
         return $component_array;
     }
 
@@ -431,11 +416,6 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         $this->_request_data['core_components']['midcom'] = $this->_load_component_data('midcom');
 
         foreach (midcom::get()->componentloader->manifests as $name => $manifest) {
-            if (!array_key_exists('package.xml', $manifest->_raw_data)) {
-                // This component is not yet packaged, skip
-                continue;
-            }
-
             $type = ($manifest->purecode) ? 'libraries' : 'components';
 
             if (midcom::get()->componentloader->is_core_component($name)) {
@@ -467,7 +447,6 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
 
         if ($handler_id == '____ais-help-help') {
             if (   $this->_request_data['help_id'] == 'handlers'
-                || $this->_request_data['help_id'] == 'dependencies'
                 || $this->_request_data['help_id'] == 'urlmethods'
                 || $this->_request_data['help_id'] == 'mgdschemas') {
                 $this->add_breadcrumb(
@@ -626,16 +605,6 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
             case 'urlmethods':
                 midcom_show_style('midcom_admin_help_show');
                 midcom_show_style('midcom_admin_help_urlmethods');
-                break;
-            case 'dependencies':
-                midcom_show_style('midcom_admin_help_show');
-                $data['list_type'] = 'dependencies';
-                midcom_show_style('midcom_admin_help_list_header');
-                foreach ($data['dependencies'] as $component) {
-                    $data['component_data'] = $this->_load_component_data($component);
-                    midcom_show_style('midcom_admin_help_list_item');
-                }
-                midcom_show_style('midcom_admin_help_list_footer');
                 break;
             default:
                 midcom_show_style('midcom_admin_help_show');

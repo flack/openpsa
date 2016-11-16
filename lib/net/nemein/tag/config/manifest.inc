@@ -17,30 +17,7 @@
         'operations' => MIDCOM_OPERATION_DBA_DELETE,
     ),
 ),
-'package.xml' => array
-(
-    'summary' => 'Tag library',
-    'description' => 'Tag library',
-    'maintainers' => array
-    (
-        'rambo' => array
-        (
-            'name' => 'Eero af Heurlin',
-            'email' => 'eero.afheurlin@iki.fi',
-            'role' => 'lead',
-        ),
-        'bergie' => array
-        (
-            'name' => 'Henri Bergius',
-            'email' => 'henri.bergius@iki.fi',
-            'role' => 'lead',
-        ),
-    ),
-    'dependencies' => array
-    (
-        'midcom' => array(),
-    ),
-),
+'description' => 'Tag library',
 'customdata' => array
 (
     'midcom.services.cron' => array

@@ -22,10 +22,6 @@ Komponenten-Dokumentation
 Controller
 ---STRINGEND
 
----STRING dependencies
-Abhängigkeiten
----STRINGEND
-
 ---STRING description
 Beschreibung
 ---STRINGEND
@@ -48,10 +44,6 @@ Online-Hilfe für "%s"
 
 ---STRING help for %s in %s
 Online-Hilfe für %s in %s
----STRINGEND
-
----STRING help_dependencies
-Komponenten-Abhängigkeiten
 ---STRINGEND
 
 ---STRING help_index

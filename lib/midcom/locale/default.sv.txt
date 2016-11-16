@@ -186,10 +186,6 @@ Radera
 Beskrivning
 ---STRINGEND
 
----STRING developer
-Utvecklare
----STRINGEND
-
 ---STRING down
 ner
 ---STRINGEND
@@ -256,10 +252,6 @@ Nyckelord
 
 ---STRING last modified
 Senast ändrad
----STRINGEND
-
----STRING lead
-Huvudutvecklare
 ---STRINGEND
 
 ---STRING library

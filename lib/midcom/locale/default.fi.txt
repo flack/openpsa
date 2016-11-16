@@ -198,10 +198,6 @@ Poista
 Kuvaus
 ---STRINGEND
 
----STRING developer
-Kehittäjä
----STRINGEND
-
 ---STRING do not index (midcom's indexer)
 Älä indeksoi sivuston omaan hakuun
 ---STRINGEND
@@ -276,10 +272,6 @@ Avainsanat
 
 ---STRING last modified
 Viimeksi muokattu
----STRINGEND
-
----STRING lead
-Pääkehittäjä
 ---STRINGEND
 
 ---STRING library

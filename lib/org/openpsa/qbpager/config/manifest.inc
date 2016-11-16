@@ -5,27 +5,4 @@
 'class_mapping' => array(),
 'version' => '9.1.0-dev',
 'state' => 'stable',
-'package.xml' => array
-(
-    'summary' => 'Paged Query-Builder library',
-    'description' => 'Library for automatically splitting query builder results to multiple pages',
-    'maintainers' => array
-    (
-        'rambo' => array
-        (
-            'name' => 'Eero af Heurlin',
-            'email' => 'eero.afheurlin@iki.fi',
-            'role' => 'lead',
-        ),
-        'neithan' => array
-        (
-            'name' => 'Lauri Manner',
-            'email' => 'neithan@nemein.com',
-            'role' => 'developer',
-        ),
-    ),
-    'dependencies' => array
-    (
-        'midcom' => array(),
-    ),
-),
+'description' => 'Library for automatically splitting query builder results to multiple pages',

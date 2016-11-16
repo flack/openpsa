@@ -5,27 +5,4 @@
 'state' => 'stable',
 'privileges' => array(),
 'class_mapping' => array(),
-'package.xml' => array
-(
-    'summary' => 'HTTP client library',
-    'description' => 'HTTP client library',
-    'maintainers' => array
-    (
-        'bergie' => array
-        (
-            'name' => 'Henri Bergius',
-            'email' => 'henri.bergius@iki.fi',
-            'role' => 'lead',
-        ),
-        'rambo' => array
-        (
-            'name' => 'Eero af Heurlin',
-            'email' => 'eero.afheurlin@nemein.com',
-            'role' => 'lead',
-        ),
-    ),
-    'dependencies' => array
-    (
-        'midcom' => array(),
-    ),
-),
+'description' => 'HTTP client library',

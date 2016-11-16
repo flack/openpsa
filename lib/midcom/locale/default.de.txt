@@ -210,10 +210,6 @@ Löschen
 Beschreibung
 ---STRINGEND
 
----STRING developer
-Entwickler
----STRINGEND
-
 ---STRING domain
 Domain
 ---STRINGEND
@@ -292,10 +288,6 @@ Stichworte
 
 ---STRING last modified
 Letzte Änderung
----STRINGEND
-
----STRING lead
-Hauptentwickler
 ---STRINGEND
 
 ---STRING library

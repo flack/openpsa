@@ -12,32 +12,6 @@
 ),
 'version' => '9.1.0-dev',
 'state' => 'stable',
-'package.xml' => array
-(
-    'summary' => 'Geopositioning library',
-    'maintainers' => array
-    (
-        'bergie' => array
-        (
-            'name' => 'Henri Bergius',
-            'email' => 'henri.bergius@iki.fi',
-            'role' => 'lead',
-        ),
-        'w_i' => array
-        (
-            'name' => 'Jerry Jalava',
-            'email' => 'jerry.jalava@gmail.com',
-            'role' => 'developer',
-            'active' => 'no',
-        ),
-    ),
-    'dependencies' => array
-    (
-        'org.openpsa.httplib' => array(),
-        'net.nemein.rss' => array(),
-        'midcom' => array(),
-    ),
-),
 'customdata' => array
 (
     'midcom.services.cron' => array

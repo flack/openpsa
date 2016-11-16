@@ -22,10 +22,6 @@ Component documentation
 Controller
 ---STRINGEND
 
----STRING dependencies
-Dependencies
----STRINGEND
-
 ---STRING description
 Description
 ---STRINGEND
@@ -52,10 +48,6 @@ Online help for %s
 
 ---STRING help for %s in %s
 Online help for %s in %s
----STRINGEND
-
----STRING help_dependencies
-Component dependencies
 ---STRINGEND
 
 ---STRING help_handlers

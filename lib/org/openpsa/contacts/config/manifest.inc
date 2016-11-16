@@ -11,39 +11,7 @@
 ),
 'version' => '9.1.0-dev',
 'state' => 'stable',
-'package.xml' => array
-(
-    'summary' => 'Contact and user manager',
-    'description' => 'Application for managing contact persons and organizations, with support for user management and automatic finding of duplicates',
-    'maintainers' => array
-    (
-        'rambo' => array
-        (
-            'name' => 'Eero af Heurlin',
-            'email' => 'eero.afheurlin@iki.fi',
-            'role' => 'lead',
-        ),
-        'bergie' => array
-        (
-            'name' => 'Henri Bergius',
-            'email' => 'henri.bergius@iki.fi',
-            'role' => 'lead',
-            'active' => 'no',
-        ),
-    ),
-    'dependencies' => array
-    (
-        'midcom.helper.datamanager2' => array(),
-        'org.openpsa.core' => array(),
-        'org.openpsa.helpers' => array(),
-        'org.openpsa.widgets' => array(),
-        'org.openpsa.qbpager' => array(),
-        'org.openpsa.relatedto' => array(),
-        'org.routamc.positioning' => array(),
-        'midcom' => array(),
-        'midcom.services.at' => array(),
-    ),
-),
+'description' => 'Application for managing contact persons and organizations, with support for user management and automatic finding of duplicates',
 'customdata' => array
 (
     'midcom.services.cron' => array

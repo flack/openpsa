@@ -216,7 +216,7 @@ implements midcom_helper_datamanager2_interfaces_edit
                         'type_config' => array(
                             'privilege_name' => $privilege,
                             'assignee'       => $assignee,
-                            ),
+                        ),
                         'widget' => 'privilegeselection'
                     )
                 );

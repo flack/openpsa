@@ -11,51 +11,7 @@
 ),
 'version' => '9.1.0-dev',
 'state' => 'stable',
-'package.xml' => array
-(
-    'summary' => 'Direct marketing and mailing lists',
-    'description' => 'Application for sending emails and newsletters to registered users.',
-    'maintainers' => array
-    (
-        'rambo' => array
-        (
-            'name' => 'Eero af Heurlin',
-            'email' => 'eero.afheurlin@iki.fi',
-            'role' => 'lead',
-        ),
-        'bergie' => array
-        (
-            'name' => 'Henri Bergius',
-            'email' => 'henri.bergius@iki.fi',
-            'role' => 'lead',
-            'active' => 'no',
-        ),
-        'netblade' => array
-        (
-            'name' => 'Oskari Kokko',
-            'email' => 'oskari.kokko@iki.fi',
-            'role' => 'lead',
-        ),
-        'adrenalin' => array
-        (
-            'name' => 'Arttu Manninen',
-            'email' => 'arttu@kaktus.cc',
-            'role' => 'developer',
-        ),
-    ),
-    'dependencies' => array
-    (
-        'org.openpsa.core' => array(),
-        'org.openpsa.contacts' => array(),
-        'org.openpsa.mail' => array(),
-        'org.openpsa.helpers' => array(),
-        'midcom.helper.datamanager2' => array(),
-        'org.openpsa.widgets' => array(),
-        'org.openpsa.qbpager' => array(),
-        'midcom.services.at' => array(),
-        'midcom' => array(),
-    ),
-),
+'description' => 'Application for sending emails and newsletters to registered users.',
 'customdata' => array
 (
     'midcom.services.cron' => array
