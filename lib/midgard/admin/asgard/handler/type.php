@@ -218,17 +218,9 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
         $data['type_name'] = $this->type;
         $data['type_translated'] = $data['reflector']->get_class_label();
         $data['parent_type'] = $data['reflector']->get_parent_class();
-
-        midcom_show_style('midgard_admin_asgard_type');
-
-        $used_types = array(
-            $this->type,
-            midcom::get()->dbclassloader->get_midcom_class_name_for_mgdschema_object($this->type)
-        );
-
         $data['prefix'] = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 
-        $this->_show_headers = false;
+        midcom_show_style('midgard_admin_asgard_type');
 
         $types = $data['reflector']->get_child_classes();
 
