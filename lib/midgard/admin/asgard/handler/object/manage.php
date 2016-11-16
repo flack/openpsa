@@ -295,24 +295,16 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         }
 
         switch ($this->_controller->process_form()) {
-            case 'edit':
-                if ($this->_new_object) {
-                    $this->_new_object = null;
-                }
-                break;
-
             case 'save':
                 // Reindex the object
                 //$indexer = midcom::get()->indexer;
                 //net_nemein_wiki_viewer::index($this->_request_data['controller']->datamanager, $indexer, $this->_topic);
-                // *** FALL-THROUGH ***
                 $this->_new_object->set_parameter('midcom.helper.datamanager2', 'schema_name', 'default');
 
                 if ($handler_id !== '____mfa-asgard-object_create_chooser') {
                     return $this->_prepare_relocate($this->_new_object);
                 }
                 break;
-
             case 'cancel':
                 $data['cancelled'] = true;
                 if ($handler_id !== '____mfa-asgard-object_create_chooser') {
@@ -616,10 +608,6 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         }
 
         $new_object = $copy->get_object();
-
-        if (empty($new_object->guid)) {
-            throw new midcom_error('Failed to copy the object');
-        }
 
         if ($this->_request_data['handler_id'] === '____mfa-asgard-object_copy_tree') {
             midcom::get()->uimessages->add($this->_l10n->get('midgard.admin.asgard'), $this->_l10n->get('copy successful, you have been relocated to the root of the new object tree'));
