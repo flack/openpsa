@@ -4,8 +4,7 @@
                         if (!empty($data['object']->guid)) {
                             echo "GUID: {$data['object']->guid}, ID: {$data['object']->id}.\n";
                         }
-                        $view_metadata = midcom::get()->metadata->get_view_metadata();
-                        if ($view_metadata) {
+                        if ($view_metadata = midcom::get()->metadata->get_view_metadata()) {
                             try {
                                 $creator = new midcom_db_person($view_metadata->get('creator'));
                                 $creator_string = "<a href=\"" . midcom_connection::get_url('self') . "__mfa/asgard/object/view/{$creator->guid}/\">$creator->name</a>";

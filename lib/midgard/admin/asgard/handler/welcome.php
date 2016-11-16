@@ -257,10 +257,8 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
                 continue;
             }
 
-            if ($object->can_do('midgard:delete')) {
-                if ($object->delete()) {
-                    midcom::get()->uimessages->add($this->_l10n->get('midgard.admin.asgard'), sprintf($this->_l10n->get('object %s removed'), $object->guid));
-                }
+            if ($object->delete()) {
+                midcom::get()->uimessages->add($this->_l10n->get('midgard.admin.asgard'), sprintf($this->_l10n->get('object %s removed'), $object->guid));
             }
         }
     }
