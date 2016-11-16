@@ -221,8 +221,10 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
 
         midcom_show_style('midgard_admin_asgard_type');
 
-        $data['used_types'][] = $data['type'];
-        $data['used_types'][] = midcom::get()->dbclassloader->get_midcom_class_name_for_mgdschema_object($this->type);
+        $used_types = array(
+            $this->type,
+            midcom::get()->dbclassloader->get_midcom_class_name_for_mgdschema_object($this->type)
+        );
 
         $data['prefix'] = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 
@@ -239,32 +241,14 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
 
     private function show_child_types(array $types, &$data)
     {
-        $first = true;
+        midcom_show_style('midgard_admin_asgard_type_children_header');
 
         foreach ($types as $child_type) {
-            if (in_array($child_type, $data['used_types'])) {
-                continue;
-            }
-
-            // Show the header on first item. Has to be inside foreach loop
-            if ($first) {
-                $first = false;
-                midcom_show_style('midgard_admin_asgard_type_children_header');
-            }
-
             $data['reflector'] = new midcom_helper_reflector_tree($child_type);
-
             $data['type_name'] = $child_type;
             $data['type_translated'] = $data['reflector']->get_class_label();
 
-            $data['used_types'][] = $child_type;
-
             midcom_show_style('midgard_admin_asgard_type_children_item');
-        }
-
-        // Not a single type was shown, skip the footer item
-        if ($first) {
-            return;
         }
 
         midcom_show_style('midgard_admin_asgard_type_children_footer');
