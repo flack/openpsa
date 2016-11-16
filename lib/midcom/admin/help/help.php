@@ -389,20 +389,12 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         $component_array['title'] = midcom::get()->i18n->get_string($name, $name);
         $component_array['icon'] = midcom::get()->componentloader->get_component_icon($name);
 
-        if (!isset(midcom::get()->componentloader->manifests[$name])) {
-            return $component_array;
+        if (isset(midcom::get()->componentloader->manifests[$name])) {
+            $manifest = midcom::get()->componentloader->manifests[$name];
+            $component_array['purecode'] = $manifest->purecode;
+            $component_array['description'] = $manifest->description;
+            $component_array['version'] = $manifest->version;
         }
-
-        $manifest = midcom::get()->componentloader->manifests[$name];
-        $component_array['purecode'] = $manifest->purecode;
-
-        if (isset($manifest->_raw_data['description'])) {
-            $component_array['description'] = $manifest->_raw_data['description'];
-        } else {
-            $component_array['description'] = '';
-        }
-
-        $component_array['version'] = $manifest->_raw_data['version'];
         return $component_array;
     }
 

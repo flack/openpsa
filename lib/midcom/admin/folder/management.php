@@ -87,15 +87,9 @@ class midcom_admin_folder_management extends midcom_baseclasses_components_plugi
                 continue;
             }
 
-            if (array_key_exists('description', $manifest->_raw_data)) {
-                $description = midcom::get()->i18n->get_string($manifest->_raw_data['description'], $manifest->name);
-            } else {
-                $description = '';
-            }
-
             $components[$manifest->name] = array(
                 'name'        => $manifest->get_name_translated(),
-                'description' => $description,
+                'description' => midcom::get()->i18n->get_string($manifest->description, $manifest->name),
                 'state'       => @$manifest->state,
                 'version'     => $manifest->version,
             );

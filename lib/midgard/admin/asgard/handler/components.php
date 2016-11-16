@@ -18,23 +18,17 @@ class midgard_admin_asgard_handler_components extends midcom_baseclasses_compone
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/midgard.admin.asgard/components.css');
     }
 
-    private function _load_component_data($name, $manifest)
+    private function _load_component_data($name, midcom_core_manifest $manifest)
     {
-        $component_array = array();
-        $component_array['name'] = $name;
-        $component_array['title'] = $this->_i18n->get_string($name, $name);
-        $component_array['purecode'] = $manifest->purecode;
-        $component_array['icon'] = midcom::get()->componentloader->get_component_icon($name);
-
-        if (isset($manifest->_raw_data['description'])) {
-            $component_array['description'] = $manifest->_raw_data['description'];
-        } else {
-            $component_array['description'] = '';
-        }
-
-        $component_array['version'] = $manifest->_raw_data['version'];
-
-        $component_array['toolbar'] = new midcom_helper_toolbar();
+        $component_array = array(
+            'name' => $name,
+            'title' => $this->_i18n->get_string($name, $name),
+            'purecode' => $manifest->purecode,
+            'icon' => midcom::get()->componentloader->get_component_icon($name),
+            'description' => $manifest->description,
+            'version' => $manifest->version,
+            'toolbar' => new midcom_helper_toolbar()
+        );
         $component_array['toolbar']->add_item(
             array(
                 MIDCOM_TOOLBAR_URL => "__mfa/asgard/components/configuration/{$name}/",

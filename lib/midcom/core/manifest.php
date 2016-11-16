@@ -195,18 +195,25 @@
 class midcom_core_manifest
 {
     /**
-     * The raw manifest array as loaded from disc.
-     *
-     * @var array
-     */
-    public $_raw_data = null;
-
-    /**
      * The name of the component.
      *
      * @var string
      */
     public $name = '';
+
+    /**
+     * The description of the component.
+     *
+     * @var string
+     */
+    public $description = '';
+
+    /**
+     * The icon of the component.
+     *
+     * @var string
+     */
+    public $icon = 'stock-icons/16x16/component.png';
 
     /**
      * The name of the parent component, if any.
@@ -299,24 +306,13 @@ class midcom_core_manifest
     public function __construct($filename)
     {
         $this->filename = $filename;
-        $this->_raw_data = midcom_baseclasses_components_configuration::read_array_from_file($filename);
+        $raw_data = midcom_baseclasses_components_configuration::read_array_from_file($filename);
 
-        $this->_load_manifest();
-    }
-
-    /**
-     * Load and evaluate the given manifest file.
-     *
-     * @todo move this into the constructor, use isset.
-     */
-    private function _load_manifest()
-    {
-        if (!is_array($this->_raw_data)) {
+        if (!is_array($raw_data)) {
             debug_add("Manifest read from file {$this->filename} does not evaluate properly", MIDCOM_LOG_ERROR);
         } else {
-            foreach ($this->_raw_data as $field => $value) {
-                if (   property_exists($this, $field)
-                    && $field != '_raw_data') {
+            foreach ($raw_data as $field => $value) {
+                if (property_exists($this, $field)) {
                     $this->$field = $value;
                 }
             }

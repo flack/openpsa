@@ -487,8 +487,7 @@ class midcom_helper__componentloader
             return midcom::get_version();
         }
 
-        if (   !$this->is_installed($component)
-            || !isset($this->manifests[$component]->version)) {
+        if (!$this->is_installed($component)) {
             return null;
         }
 
@@ -505,8 +504,8 @@ class midcom_helper__componentloader
             return null;
         }
 
-        if (isset($this->manifests[$component]->_raw_data['icon'])) {
-            return $this->manifests[$component]->_raw_data['icon'];
+        if (!empty($this->manifests[$component]->icon)) {
+            return $this->manifests[$component]->icon;
         }
 
         if (!$provide_fallback) {
