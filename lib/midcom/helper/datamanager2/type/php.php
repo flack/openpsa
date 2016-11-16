@@ -92,6 +92,9 @@ class midcom_helper_datamanager2_type_php extends midcom_helper_datamanager2_typ
             $this->validation_error = $this->_l10n->get('type text: value may not be array or object');
             return false;
         }
+        if (trim($this->value) == '') {
+            return true;
+        }
 
         $tmpfile = tempnam(midcom::get()->config->get('midcom_tempdir'), 'midcom_helper_datamanager2_type_php_');
         file_put_contents($tmpfile, $this->value);
