@@ -390,10 +390,6 @@ Filename
 Filter
 ---STRINGEND
 
----STRING floating freely
-Floating freely
----STRINGEND
-
 ---STRING folder
 folder
 ---STRINGEND
@@ -628,10 +624,6 @@ Objects expiring within
 
 ---STRING objects revised within
 Objects changed within
----STRINGEND
-
----STRING on top of the content area
-On top of the content area
 ---STRINGEND
 
 ---STRING only mine

@@ -338,10 +338,6 @@ Filnamn
 Filter
 ---STRINGEND
 
----STRING floating freely
-Fritt flytande
----STRINGEND
-
 ---STRING folder
 katalog
 ---STRINGEND
@@ -548,10 +544,6 @@ Objekt som upphör inom
 
 ---STRING objects revised within
 Objekt ändrade inom
----STRINGEND
-
----STRING on top of the content area
-Överst in innehållsrutan
 ---STRINGEND
 
 ---STRING only mine

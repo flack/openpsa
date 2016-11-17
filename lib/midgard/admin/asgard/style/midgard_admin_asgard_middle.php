@@ -50,47 +50,11 @@ $extra_class = (!empty($data['asgard_toolbar']->items)) ? ' page-title-with-tool
                         echo "{$data['view_title']}</h1>\n";
                         ?>
                     </div>
-<?php
-$toolbar_style = '';
-if ($position = midgard_admin_asgard_plugin::get_preference('toolbar_mode')) {
-    $toolbar_style = " style=\"position: {$position}\" class=\"{$position}\"";
-}
-?>
-                    <div id="toolbar"&(toolbar_style:h);>
-<?php
-echo $data['asgard_toolbar']->render();
 
-if ($position === 'absolute') {
-    ?>
-<script type="text/javascript">
-    // <![CDATA[
-        jQuery('#toolbar')
-            .draggable({
-                stop: function()
-                {
-                    var offset = jQuery('#toolbar').offset();
-                    jQuery.post(MIDCOM_PAGE_PREFIX + '__mfa/asgard/preferences/ajax/',
-                    {
-                        toolbar_x: offset.left,
-                        toolbar_y: offset.top
-                    });
-                }
-            })
-            .css({
-                position: 'fixed !important',
-                top: '<?php echo midgard_admin_asgard_plugin::get_preference('toolbar_y'); ?>px',
-                left: '<?php echo midgard_admin_asgard_plugin::get_preference('toolbar_x'); ?>px',
-                cursor: 'move'
-            })
-            .resizable();
-
-    // ]]>
-</script>
-<?php
-
-}
-?>
-
+                    <div id="toolbar">
+                    <?php
+                    echo $data['asgard_toolbar']->render();
+                    ?>
                     </div>
 
                     <div id="content-text">

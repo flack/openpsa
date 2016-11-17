@@ -366,10 +366,6 @@ Dateiname
 Filtern
 ---STRINGEND
 
----STRING floating freely
-Freischwebend
----STRINGEND
-
 ---STRING folder
 Ordner
 ---STRINGEND
@@ -600,10 +596,6 @@ Objekte mit Ablaufdatum innerhalb
 
 ---STRING objects revised within
 Objekte mit Änderungen seit
----STRINGEND
-
----STRING on top of the content area
-Am Kopfende des Inhaltsbereichs
 ---STRINGEND
 
 ---STRING only mine

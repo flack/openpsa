@@ -362,10 +362,6 @@ Nazwa pliku
 Filtr
 ---STRINGEND
 
----STRING floating freely
-Pływające
----STRINGEND
-
 ---STRING folder
 folder
 ---STRINGEND
@@ -592,10 +588,6 @@ Obiekty wygasające w ciągu
 
 ---STRING objects revised within
 Obiekty zmienione w ciągu
----STRINGEND
-
----STRING on top of the content area
-Na górze
 ---STRINGEND
 
 ---STRING only mine

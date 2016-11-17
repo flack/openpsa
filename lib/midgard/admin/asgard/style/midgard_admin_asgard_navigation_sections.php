@@ -18,19 +18,17 @@ foreach ($data['label_mapping'] as $type => $label) {
     </p>
 </form>
 <script type="text/javascript">
-    // <![CDATA[
-        jQuery('#midgard_admin_asgard_navigation_form input[type="submit"]').css({display:'none'});
+    $('#midgard_admin_asgard_navigation_form input[type="submit"]').css({display:'none'});
 
-        jQuery('#midgard_admin_asgard_navigation_chooser').change(function()
+    $('#midgard_admin_asgard_navigation_chooser').change(function()
+    {
+        if (!this.value)
         {
-            if (!this.value)
-            {
-                window.location = '<?php echo midcom_connection::get_url('self') . '__mfa/asgard/'; ?>';
-            }
-            else
-            {
-                window.location = '<?php echo midcom_connection::get_url('self') . '__mfa/asgard/'; ?>' + jQuery(this).val() + '/';
-            }
-        });
-    // ]]>
+            window.location = '<?php echo midcom_connection::get_url('self') . '__mfa/asgard/'; ?>';
+        }
+        else
+        {
+            window.location = '<?php echo midcom_connection::get_url('self') . '__mfa/asgard/'; ?>' + $(this).val() + '/';
+        }
+    });
 </script>

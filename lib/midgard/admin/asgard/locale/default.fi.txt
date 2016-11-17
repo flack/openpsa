@@ -358,10 +358,6 @@ Tiedostonimi
 Suodatin
 ---STRINGEND
 
----STRING floating freely
-Vapaasti kelluva
----STRINGEND
-
 ---STRING folder
 kansio
 ---STRINGEND
@@ -588,10 +584,6 @@ Ajan sisällä tarkistettavat kohteet
 
 ---STRING objects revised within
 Kohteet muutettu aikavälillä
----STRINGEND
-
----STRING on top of the content area
-Sisältöalueen yläreunassa
 ---STRINGEND
 
 ---STRING only mine
