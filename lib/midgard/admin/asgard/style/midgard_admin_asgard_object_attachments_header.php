@@ -5,8 +5,6 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
     <div class="filelist">
         <?php
         if (count($data['files']) > 0) {
-            $persons = array();
-
             echo "<table class=\"attachments table_widget\" id=\"attachment_table\">\n";
             echo "    <thead>\n";
             echo "        <tr>\n";
@@ -21,10 +19,7 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
             foreach ($data['files'] as $file) {
                 $mime_icon = midcom_helper_misc::get_mime_icon($file->mimetype);
                 $workflow = new midcom\workflow\delete(array('object' => $file, 'label' => $file->name));
-                if (!isset($persons[$file->metadata->revisor])) {
-                    $persons[$file->metadata->revisor] = midcom::get()->auth->get_user($file->metadata->revisor);
-                }
-
+                $revisor = midcom::get()->auth->get_user($file->metadata->revisor);
                 $class = '';
                 if (   isset($data['file'])
                     && $file->name == $data['file']->name) {
@@ -41,8 +36,8 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
                 echo "  </td>\n";
                 $last_edit = $file->metadata->revised ?: $file->metadata->created;
                 echo "  <td>" . strftime('%x %X', $last_edit) . "</td>\n";
-                if (!empty($persons[$file->metadata->revisor]->guid)) {
-                    echo "<td><a href=\"{$prefix}__mfa/asgard/object/open/{$persons[$file->metadata->revisor]->guid}/\">{$persons[$file->metadata->revisor]->name}</a></td>\n";
+                if (!empty($revisor->guid)) {
+                    echo "<td><a href=\"{$prefix}__mfa/asgard/object/open/{$revisor->guid}/\">{$revisor->name}</a></td>\n";
                 } else {
                     echo "<td>&nbsp;</td>\n";
                 }
@@ -69,7 +64,6 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 
             echo "    </tbody>\n";
             echo "</table>\n";
-            echo "</form>\n";
             echo "<script type=\"text/javascript\">\n";
             echo "// <![CDATA[\n";
             echo "jQuery('#attachment_table').tablesorter(\n";

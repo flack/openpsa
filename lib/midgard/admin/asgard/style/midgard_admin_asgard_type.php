@@ -54,22 +54,18 @@ if (isset($data['search_results'])) {
         echo "        </tr>\n";
         echo "    </thead>\n";
         echo "    <tbody>\n";
-        $persons = array();
         foreach ($data['search_results'] as $result) {
             $reflector = midcom_helper_reflector_tree::get($result);
             $icon = $reflector->get_object_icon($result);
             $label = $reflector->resolve_path($result, '/');
-
-            if (!isset($persons[$result->metadata->creator])) {
-                $persons[$result->metadata->creator] = midcom::get()->auth->get_user($result->metadata->creator);
-            }
+            $creator = midcom::get()->auth->get_user($result->metadata->creator);
 
             echo "        <tr>\n";
             echo "            <td><a href=\"{$prefix}__mfa/asgard/object/{$data['default_mode']}/{$result->guid}/\">{$icon} {$label}</a></td>\n";
             echo "            <td>" . strftime('%x %X', $result->metadata->created) . "</td>\n";
 
-            if (!empty($persons[$result->metadata->creator]->guid)) {
-                echo "            <td><a href=\"{$prefix}__mfa/asgard/object/view/{$persons[$result->metadata->creator]->guid}/\">{$persons[$result->metadata->creator]->name}</a></td>\n";
+            if (!empty($creator->guid)) {
+                echo "            <td><a href=\"{$prefix}__mfa/asgard/object/view/{$creator->guid}/\">{$creator->name}</a></td>\n";
             } else {
                 echo "            <td>&nbsp;</td>\n";
             }

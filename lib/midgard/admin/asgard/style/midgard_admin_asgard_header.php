@@ -8,7 +8,7 @@ if (   midgard_admin_asgard_plugin::get_preference('escape_frameset')
 
 $pref_found = false;
 
-if (($width = midgard_admin_asgard_plugin::get_preference('offset'))) {
+if ($width = midgard_admin_asgard_plugin::get_preference('offset')) {
     $navigation_width = $width - 31;
     $content_offset = $width + 1;
     $pref_found = true;
@@ -44,7 +44,7 @@ midcom::get()->head->add_jscript("var MIDGARD_ROOT = '" . midcom_connection::get
                   margin-left: &(content_offset);px;
                 }
             </style>
-        <?php 
+        <?php
         } ?>
     </head>
     <body class="asgard"<?php midcom::get()->head->print_jsonload(); ?>>

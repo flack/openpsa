@@ -8,7 +8,6 @@ $shown = array();
 
 function midgard_admin_asgard_trash_type_show($object, $indent = 0, $prefix = '', $enable_undelete = true)
 {
-    static $persons = array();
     static $shown = array();
     static $url_prefix = '';
     if (!$url_prefix) {
@@ -19,9 +18,7 @@ function midgard_admin_asgard_trash_type_show($object, $indent = 0, $prefix = ''
         return;
     }
 
-    if (!isset($persons[$object->metadata->revisor])) {
-        $persons[$object->metadata->revisor] = midcom::get()->auth->get_user($object->metadata->revisor);
-    }
+    $revisor = midcom::get()->auth->get_user($object->metadata->revisor);
 
     $reflector = midcom_helper_reflector_tree::get($object);
     $icon = $reflector->get_object_icon($object);
@@ -41,8 +38,8 @@ function midgard_admin_asgard_trash_type_show($object, $indent = 0, $prefix = ''
     echo "{$prefix}    <td class=\"label\" style=\"padding-left: {$indent}px\"><label for=\"guid_{$object->guid}\">{$icon}" . $object_label . "</label></td>\n";
     echo "{$prefix}    <td class=\"nowrap\">" . strftime('%x %X', strtotime($object->metadata->revised)) . "</td>\n";
 
-    if (!empty($persons[$object->metadata->revisor]->guid)) {
-        echo "{$prefix}    <td><a href=\"{$url_prefix}__mfa/asgard/object/view/{$persons[$object->metadata->revisor]->guid}/\">{$persons[$object->metadata->revisor]->name}</a></td>\n";
+    if (!empty($revisor->guid)) {
+        echo "{$prefix}    <td><a href=\"{$url_prefix}__mfa/asgard/object/view/{$revisor->guid}/\">{$revisor->name}</a></td>\n";
     } else {
         echo "{$prefix}    <td>&nbsp;</td>\n";
     }
