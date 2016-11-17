@@ -19,7 +19,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
         midcom::get()->cache->content->no_cache();
 
         // Preferred language
-        if (($language = self::get_preference('interface_language'))) {
+        if ($language = self::get_preference('interface_language')) {
             $this->_i18n->set_language($language);
         }
 

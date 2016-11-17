@@ -80,8 +80,7 @@ class midgard_admin_asgard_schemadb
         $this->_schemadb = array('object' => $empty_db);
         //workaround end
 
-        $component = midcom::get()->dbclassloader->get_component_for_class($type);
-        if ($component) {
+        if ($component = midcom::get()->dbclassloader->get_component_for_class($type)) {
             $this->_schemadb['object']->l10n_schema = midcom::get()->i18n->get_l10n($component);
         }
 
