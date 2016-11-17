@@ -54,7 +54,6 @@ class midgard_admin_user_handler_group_permissions extends midcom_baseclasses_co
 
         $qb = new midgard_query_builder('midcom_core_privilege_db');
         $qb->add_constraint('assignee', '=', "group:{$this->_group->guid}");
-        $qb->add_constraint('objectguid', '<>', '');
         $privileges = $qb->execute();
         $data['objects'] = array();
         $data['privileges'] = array();

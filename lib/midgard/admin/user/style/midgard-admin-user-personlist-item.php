@@ -1,17 +1,11 @@
 <tr>
     <?php
-    $checked = '';
-    if (isset($_POST['midgard_admin_user'])
-        && is_array($_POST['midgard_admin_user'])
-        && in_array($data['person']->guid, $_POST['midgard_admin_user'])) {
-        $checked = ' checked="checked"';
-    }
-
+    $disabled = '';
     if (!$data['person']->can_do('midgard:update')) {
-        $checked .= ' disabled="disabled"';
+        $disabled .= ' disabled="disabled"';
     }
     ?>
-    <td><input type="checkbox" name="midgard_admin_user[]" value="<?php echo $data['person']->guid; ?>" <?php echo $checked; ?>/></td>
+    <td><input type="checkbox" name="midgard_admin_user[]" value="<?php echo $data['person']->guid; ?>" <?php echo $disabled; ?>/></td>
     <?php
     $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
     $linked = 0;

@@ -33,9 +33,9 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
                     continue;
                 }
 
-                if ($privs[$privilege] == 1) {
+                if ($privs[$privilege] == MIDCOM_PRIVILEGE_ALLOW) {
                     echo $data['l10n_midcom']->get('yes');
-                } elseif ($privs[$privilege] == 2) {
+                } elseif ($privs[$privilege] == MIDCOM_PRIVILEGE_DENY) {
                     echo $data['l10n_midcom']->get('no');
                 }
 
