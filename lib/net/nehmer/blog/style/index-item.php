@@ -32,7 +32,7 @@ if (array_key_exists('ajax_comments_enable', $data)) {
             }
             ?>
     </p>
-    <?php if (array_key_exists('image', $view) && $view['image']) {
+    <?php if (!empty($view['image'])) {
                 ?>
         <div style="float: left; padding: 5px;">&(view['image']:h);</div>
     <?php

@@ -60,40 +60,29 @@ class net_nehmer_blog_handler_view extends midcom_baseclasses_components_handler
                 // Get the link
                 $results = $qb->execute_unchecked();
                 $article = $results[0];
-            }
-        }
-        if ($article->can_do('midgard:delete')) {
-            if ($this->_article->topic !== $this->_content_topic->id) {
-                $qb = net_nehmer_blog_link_dba::new_query_builder();
-                $qb->add_constraint('topic', '=', $this->_content_topic->id);
-                $qb->add_constraint('article', '=', $this->_article->id);
-                if ($qb->count() === 1) {
-                    // Get the link
-                    $results = $qb->execute_unchecked();
-                    if ($results[0]->can_do('midgard:delete')) {
-                        $nap = new midcom_helper_nav();
-                        $node = $nap->get_node($this->_article->topic);
 
-                        $topic_url = $node[MIDCOM_NAV_ABSOLUTEURL];
-                        $topic_name = $node[MIDCOM_NAV_NAME];
-                        $delete_url = $node[MIDCOM_NAV_ABSOLUTEURL] . 'delete/' . $this->_article->guid . '/"';
+                if ($article->can_do('midgard:delete')) {
+                    $nap = new midcom_helper_nav();
+                    $node = $nap->get_node($this->_article->topic);
 
-                        $delete_original = $this->get_workflow('delete', array('object' => $this->_article));
-                        $delete_url .= ' ' . $delete_original->render_attributes();
+                    $topic_url = $node[MIDCOM_NAV_ABSOLUTEURL];
+                    $topic_name = $node[MIDCOM_NAV_NAME];
+                    $delete_url = $node[MIDCOM_NAV_ABSOLUTEURL] . 'delete/' . $this->_article->guid . '/"';
+                    $delete_original = $this->get_workflow('delete', array('object' => $this->_article));
+                    $delete_url .= ' ' . $delete_original->render_attributes();
 
-                        $delete = $this->get_workflow('delete', array(
-                            'object' => $results[0],
-                            'dialog_text' => '<p>' . sprintf($this->_l10n->get("this blog entry has been linked from <a href=\"%s\">%s</a> and confirming will delete only the link"), $topic_url, $topic_name) . '</p>' .
-                                             '<p>' . sprintf($this->_l10n->get("if you want to delete the original article, <a href=\"%s\">click here</a>"), $delete_url) . '</p>'
-                        ));
+                    $delete = $this->get_workflow('delete', array(
+                        'object' => $article,
+                        'dialog_text' => '<p>' . sprintf($this->_l10n->get("this blog entry has been linked from <a href=\"%s\">%s</a> and confirming will delete only the link"), $topic_url, $topic_name) . '</p>' .
+                        '<p>' . sprintf($this->_l10n->get("if you want to delete the original article, <a href=\"%s\">click here</a>"), $delete_url) . '</p>'
+                    ));
 
-                        $buttons[] = $delete->get_button("delete/link/{$this->_article->guid}/");
-                    }
+                    $buttons[] = $delete->get_button("delete/link/{$this->_article->guid}/");
                 }
-            } else {
-                $delete = $this->get_workflow('delete', array('object' => $this->_article));
-                $buttons[] = $delete->get_button("delete/{$this->_article->guid}/");
             }
+        } elseif ($article->can_do('midgard:delete')) {
+            $delete = $this->get_workflow('delete', array('object' => $this->_article));
+            $buttons[] = $delete->get_button("delete/{$this->_article->guid}/");
         }
 
         if (   $this->_config->get('enable_article_links')
@@ -165,8 +154,7 @@ class net_nehmer_blog_handler_view extends midcom_baseclasses_components_handler
         }
 
         if ($this->_config->get('comments_enable')) {
-            $comments_node = $this->_seek_comments();
-            if ($comments_node) {
+            if ($comments_node = $this->_seek_comments()) {
                 $this->_request_data['comments_url'] = $comments_node[MIDCOM_NAV_RELATIVEURL] . "comment/{$this->_article->guid}";
                 if (   $this->_topic->can_do('midgard:update')
                     && $this->_topic->can_do('net.nehmer.comments:moderation')) {

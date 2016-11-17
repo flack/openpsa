@@ -133,8 +133,7 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
 
         // TODO: check schema storage to get fieldname
         $multiple_categories = true;
-        if (   isset($this->_request_data['schemadb']['default'])
-            && isset($this->_request_data['schemadb']['default']->fields['categories'])
+        if (   !empty($this->_request_data['schemadb']['default']->fields['categories'])
             && array_key_exists('allow_multiple', $this->_request_data['schemadb']['default']->fields['categories']['type_config'])
             && !$this->_request_data['schemadb']['default']->fields['categories']['type_config']['allow_multiple']) {
             $multiple_categories = false;
@@ -182,16 +181,14 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
 
         if ($this->_config->get('ajax_comments_enable')) {
             if ($comments_node = $this->_seek_comments()) {
-                $this->_request_data['ajax_comments_enable'] = true;
-                $this->_request_data['base_ajax_comments_url'] = $comments_node[MIDCOM_NAV_RELATIVEURL] . "comment/";
+                $data['ajax_comments_enable'] = true;
+                $data['base_ajax_comments_url'] = $comments_node[MIDCOM_NAV_RELATIVEURL] . "comment/";
             }
         }
 
         midcom_show_style('index-start');
 
-        if ($this->_config->get('comments_enable')) {
-            $this->_request_data['comments_enable'] = true;
-        }
+        $data['comments_enable'] = (bool) $this->_config->get('comments_enable');
 
         if ($this->_articles) {
             $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);

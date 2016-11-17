@@ -359,8 +359,7 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
      */
     private function _set_startend_from_year($year)
     {
-        if (   !is_numeric($year)
-            || strlen($year) != 4) {
+        if (strlen($year) != 4) {
             throw new midcom_error_notfound("The year '{$year}' is not a valid year identifier.");
         }
 
@@ -386,13 +385,11 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
      */
     private function _set_startend_from_month($year, $month)
     {
-        if (   !is_numeric($year)
-            || strlen($year) != 4) {
+        if (strlen($year) != 4) {
             throw new midcom_error_notfound("The year '{$year}' is not a valid year identifier.");
         }
 
-        if (   !is_numeric($month)
-            || $month < 1
+        if (   $month < 1
             || $month > 12) {
             throw new midcom_error_notfound("The year {$month} is not a valid year identifier.");
         }
@@ -443,13 +440,8 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
                 $data['article'] = $article;
                 $data['article_counter'] = $article_counter;
                 $data['article_count'] = $total_count;
-                $data['view_url'] = $prefix . $this->_master->get_url($article);
+                $data['view_url'] = $prefix . $this->_master->get_url($article, $this->_config->get('link_to_external_url'));
                 $data['local_view_url'] = $data['view_url'];
-                if (   $this->_config->get('link_to_external_url')
-                    && !empty($article->url)) {
-                    $data['view_url'] = $article->url;
-                }
-
                 $data['linked'] = ($article->topic !== $this->_content_topic->id);
                 if ($data['linked']) {
                     $nap = new midcom_helper_nav();

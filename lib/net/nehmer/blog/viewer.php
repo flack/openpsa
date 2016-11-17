@@ -182,12 +182,10 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
 
         foreach ($this->_request_data['schemadb'] as $name => $schema) {
             if (   array_key_exists('categories', $schema->fields)
-                && $this->_request_data['schemadb'][$name]->fields['categories']['type'] == 'select') {
+                && $schema->fields['categories']['type'] == 'select') {
                 // TODO: Merge schema local and component config categories?
-                $this->_request_data['schemadb'][$name]->fields['categories']['type_config']['options'] = array();
-                foreach ($this->_request_data['categories'] as $category) {
-                    $this->_request_data['schemadb'][$name]->fields['categories']['type_config']['options'][$category] = $category;
-                }
+                $options = array_combine($this->_request_data['categories'], $this->_request_data['categories']);
+                $schema->fields['categories']['type_config']['options'] = $options;
             }
         }
     }
@@ -310,9 +308,7 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
             $list_from_folders_categories = explode(',', $list_from_folders_categories);
             // TODO: check schema storage to get fieldname
             $multiple_categories = true;
-            if (   isset($data['schemadb']['default'])
-                && isset($data['schemadb']['default']->fields['list_from_folders_categories'])
-                && array_key_exists('allow_multiple', $data['schemadb']['default']->fields['list_from_folders_categories']['type_config'])
+            if (   !empty($data['schemadb']['default']->fields['list_from_folders_categories']['type_config'])
                 && !$data['schemadb']['default']->fields['list_from_folders_categories']['type_config']['allow_multiple']) {
                 $multiple_categories = false;
             }

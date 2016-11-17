@@ -77,18 +77,21 @@
     'handler' => array('net_nehmer_blog_handler_archive', 'list'),
     'fixed_args' => array('archive', 'year'),
     'variable_args' => 1,
+    'validation' => array(0 => array('is_numeric'))
 ),
 'archive-year-category' => Array
 (
     'handler' => array('net_nehmer_blog_handler_archive', 'list'),
     'fixed_args' => array('archive', 'year'),
     'variable_args' => 2,
+    'validation' => array(0 => array('is_numeric'))
 ),
 'archive-month' => Array
 (
     'handler' => array('net_nehmer_blog_handler_archive', 'list'),
     'fixed_args' => array('archive', 'month'),
     'variable_args' => 2,
+    'validation' => array(0 => array('is_numeric'), 1 => array('is_numeric'))
 ),
 
 // Administrative stuff
