@@ -20,6 +20,13 @@ class net_nehmer_comments_handler_moderate extends midcom_baseclasses_components
      */
     private $_comment;
 
+    public function _on_initialize()
+    {
+        if (empty($_POST)) {
+            throw new midcom_error('No post data found');
+        }
+    }
+
     /**
      * Marks comment as possible abuse
      *
@@ -27,66 +34,9 @@ class net_nehmer_comments_handler_moderate extends midcom_baseclasses_components
      * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_report($handler_id, array $args, array &$data)
+    public function _handler_abuse($handler_id, array $args, array &$data)
     {
-        if (!array_key_exists('mark', $_POST)) {
-            throw new midcom_error('No post data found');
-        }
-
-        $this->_comment = new net_nehmer_comments_comment($args[0]);
-        $this->_comment->_sudo_requested = false;
-
-        if (!$this->_comment->can_do('midgard:update')) {
-            $this->_comment->_sudo_requested = true;
-            midcom::get()->auth->request_sudo('net.nehmer.comments');
-        }
-
-        switch ($_POST['mark']) {
-            case 'abuse':
-                $this->_report_abuse();
-                break;
-
-            case 'confirm_abuse':
-                $this->_comment->require_do('net.nehmer.comments:moderation');
-                // Confirm the message is abuse
-                $this->_comment->confirm_abuse();
-
-                // Update the index
-                $indexer = midcom::get()->indexer;
-                $indexer->delete($this->_comment->guid);
-                break;
-
-            case 'confirm_junk':
-                $this->_comment->require_do('net.nehmer.comments:moderation');
-                // Confirm the message is abuse
-                $this->_comment->confirm_junk();
-
-                // Update the index
-                $indexer = midcom::get()->indexer;
-                $indexer->delete($this->_comment->guid);
-                break;
-
-            case 'not_abuse':
-                $this->_comment->require_do('net.nehmer.comments:moderation');
-                // Confirm the message is abuse
-                $this->_comment->report_not_abuse();
-                break;
-        }
-        if ($this->_comment->_sudo_requested) {
-            $this->_comment->_sudo_requested = false;
-            midcom::get()->auth->drop_sudo();
-        }
-
-        if (isset($_POST['return_url'])) {
-            return new midcom_response_relocate($_POST['return_url']);
-        }
-
-        return new midcom_response_relocate('');
-    }
-
-    private function _report_abuse()
-    {
-        // Report the abuse
+        $this->load_comment($args[0], false);
         $moderators = $this->_config->get('moderators');
         if (   $this->_comment->report_abuse()
             && $moderators) {
@@ -113,5 +63,79 @@ class net_nehmer_comments_handler_moderate extends midcom_baseclasses_components
                 org_openpsa_notifications::notify('net.nehmer.comments:report_abuse', $moderator_guid, $message);
             }
         }
+        return $this->reply();
+    }
+
+    /**
+     * Marks comment as not abuse
+     *
+     * @param mixed $handler_id The ID of the handler.
+     * @param array $args The argument list.
+     * @param array &$data The local request data.
+     */
+    public function _handler_not_abuse($handler_id, array $args, array &$data)
+    {
+        $this->load_comment($args[0]);
+        $this->_comment->report_not_abuse();
+        return $this->reply();
+    }
+
+    /**
+     * Marks comment as confirmed abuse
+     *
+     * @param mixed $handler_id The ID of the handler.
+     * @param array $args The argument list.
+     * @param array &$data The local request data.
+     */
+    public function _handler_confirm_abuse($handler_id, array $args, array &$data)
+    {
+        $this->load_comment($args[0]);
+        $this->_comment->confirm_abuse();
+
+        $indexer = midcom::get()->indexer;
+        $indexer->delete($this->_comment->guid);
+        return $this->reply();
+    }
+
+    /**
+     * Marks comment as confirmed junk
+     *
+     * @param mixed $handler_id The ID of the handler.
+     * @param array $args The argument list.
+     * @param array &$data The local request data.
+     */
+    public function _handler_confirm_junk($handler_id, array $args, array &$data)
+    {
+        $this->load_comment($args[0]);
+        $this->_comment->confirm_junk();
+
+        $indexer = midcom::get()->indexer;
+        $indexer->delete($this->_comment->guid);
+        return $this->reply();
+    }
+
+    private function load_comment($identifier, $require_moderation_privilege = true)
+    {
+        $this->_comment = new net_nehmer_comments_comment($identifier);
+
+        if (!$this->_comment->can_do('midgard:update')) {
+            $this->_comment->_sudo_requested = midcom::get()->auth->request_sudo('net.nehmer.comments');;
+        }
+        if ($require_moderation_privilege) {
+            $this->_comment->require_do('net.nehmer.comments:moderation');
+        }
+    }
+
+    private function reply()
+    {
+        if ($this->_comment->_sudo_requested) {
+            midcom::get()->auth->drop_sudo();
+        }
+
+        if (isset($_POST['return_url'])) {
+            return new midcom_response_relocate($_POST['return_url']);
+        }
+
+        return new midcom_response_relocate('');
     }
 }

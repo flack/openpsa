@@ -39,10 +39,31 @@
     'fixed_args' => array('moderate', 'ajax'),
     'variable_args' => 1,
 ),
-// Match /report/<comment guid>
-'report' => array
+// Match /report/abuse/<comment guid>
+'report_abuse' => array
 (
-    'handler' => array('net_nehmer_comments_handler_moderate', 'report'),
-    'fixed_args' => array('report'),
+    'handler' => array('net_nehmer_comments_handler_moderate', 'abuse'),
+    'fixed_args' => array('report', 'abuse'),
+    'variable_args' => 1,
+),
+// Match /report/confirm_abuse/<comment guid>
+'report_confirm_abuse' => array
+(
+    'handler' => array('net_nehmer_comments_handler_moderate', 'confirm_abuse'),
+    'fixed_args' => array('report', 'confirm_abuse'),
+    'variable_args' => 1,
+),
+// Match /report/not_abuse/<comment guid>
+'report_not_abuse' => array
+(
+    'handler' => array('net_nehmer_comments_handler_moderate', 'not_abuse'),
+    'fixed_args' => array('report', 'not_abuse'),
+    'variable_args' => 1,
+),
+// Match /report/confirm_junk/<comment guid>
+'report_confirm_junk' => array
+(
+    'handler' => array('net_nehmer_comments_handler_moderate', 'confirm_junk'),
+    'fixed_args' => array('report', 'confirm_junk'),
     'variable_args' => 1,
 ),
