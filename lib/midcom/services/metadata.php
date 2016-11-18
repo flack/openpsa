@@ -207,7 +207,7 @@ class midcom_services_metadata
     }
 
     /**
-     * Populates appropriate metadata into XHTML documents based on metadata information
+     * Populates appropriate metadata into HTML documents based on metadata information
      * available to MidCOM for the request.
      */
     public function populate_meta_head()
@@ -220,14 +220,6 @@ class midcom_services_metadata
             array(
                 'name' => 'generator',
                 'content' => 'Midgard/' . mgd_version() . ' MidCOM/' . midcom::get_version() . ' PHP/' . phpversion()
-            )
-        );
-
-        // PermaLink into machine-detectable format
-        midcom::get()->head->add_link_head(
-            array(
-                'rel' => 'bookmark',
-                'href' => $request_metadata['permalink']
             )
         );
 
