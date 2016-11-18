@@ -109,20 +109,19 @@ class net_nemein_redirector_viewer extends midcom_baseclasses_components_request
         // Get the topic link and relocate accordingly
         $data['url'] = net_nemein_redirector_viewer::topic_links_to($data);
 
-        // Metatag redirection
-        if ($this->_config->get('redirection_metatag')) {
-            $data['redirection_url'] = $data['url'];
-            $data['redirection_speed'] = $this->_config->get('redirection_metatag_speed');
-
-            midcom::get()->head->add_meta_head(
-                array(
-                    'http-equiv' => 'refresh',
-                    'content' => "{$data['redirection_speed']};url={$data['url']}",
-                )
-            );
-        } else {
+        if (!$this->_config->get('redirection_metatag')) {
             return new midcom_response_relocate($data['url'], $this->_config->get('redirection_code'));
         }
+        // Metatag redirection
+        $data['redirection_url'] = $data['url'];
+        $data['redirection_speed'] = $this->_config->get('redirection_metatag_speed');
+
+        midcom::get()->head->add_meta_head(
+            array(
+                'http-equiv' => 'refresh',
+                'content' => "{$data['redirection_speed']};url={$data['url']}",
+            )
+        );
     }
 
     /**
