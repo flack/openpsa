@@ -65,20 +65,14 @@ implements midcom_helper_datamanager2_interfaces_create
      */
     private function _populate_request_data($handler_id)
     {
-        if ($this->_tinyurl) {
+        if ($handler_id === 'edit') {
             $this->add_breadcrumb("{$this->_tinyurl->name}/", $this->_tinyurl->title);
+            $this->add_breadcrumb("edit/{$this->_tinyurl->name}", $this->_l10n_midcom->get('edit'));
+            $workflow = $this->get_workflow('delete', array('object' => $this->_tinyurl));
+            $this->_view_toolbar->add_item($workflow->get_button('delete/' . $this->_tinyurl->guid . '/'));
             $this->_view_toolbar->bind_to($this->_tinyurl);
-        }
-
-        switch ($handler_id) {
-            case 'edit':
-            case 'delete':
-                $this->add_breadcrumb("{$this->_tinyurl->name}/{$handler_id}", $this->_l10n->get($this->_l10n_midcom->get($handler_id)));
-                break;
-
-            case 'create':
-                $this->add_breadcrumb("create/", sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('tinyurl')));
-                break;
+        } elseif ($handler_id === 'create') {
+            $this->add_breadcrumb("create/", sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('tinyurl')));
         }
     }
 
@@ -103,7 +97,7 @@ implements midcom_helper_datamanager2_interfaces_create
             throw new midcom_error_notfound('Item not found');
         }
 
-        return new $results[0];
+        return $results[0];
     }
 
     /**
@@ -167,6 +161,21 @@ implements midcom_helper_datamanager2_interfaces_create
 
         // Set the request data
         $this->_populate_request_data($handler_id);
+    }
+
+
+    /**
+     * Delete an existing TinyURL
+     *
+     * @param mixed $handler_id The ID of the handler.
+     * @param array $args The argument list.
+     * @param array &$data The local request data.
+     */
+    public function _handler_delete($handler_id, array $args, array &$data)
+    {
+        $this->_tinyurl = $this->_get_item($args[0]);
+        $workflow = $this->get_workflow('delete', array('object' => $this->_tinyurl));
+        return $workflow->run();
     }
 
     /**
