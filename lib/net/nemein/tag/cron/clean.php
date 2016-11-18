@@ -23,11 +23,10 @@ class net_nemein_tag_cron_clean extends midcom_baseclasses_components_cron_handl
 
         foreach ($tags as $tag) {
             debug_add("Processing tag #{$tag->id} ('{$tag->tag}')");
-            $qb_links = net_nemein_tag_link_dba::new_query_builder();
-            $qb_links->add_constraint('tag', '=', $tag->id);
-            $count = $qb_links->count_unchecked();
+            $qb = net_nemein_tag_link_dba::new_query_builder();
+            $qb->add_constraint('tag', '=', $tag->id);
 
-            if ($count > 0) {
+            if ($qb->count_unchecked() > 0) {
                 // Tag has links, skip
                 debug_add("Tag has links to it, do not clean");
                 continue;

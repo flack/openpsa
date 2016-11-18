@@ -26,15 +26,8 @@ class net_nemein_tag_link_dba extends midcom_core_dbaobject
         }
         $class = $this->fromClass;
         if (!class_exists($class)) {
-            debug_add("Class '{$class}' is missing, trying to find it", MIDCOM_LOG_WARN);
-            if (empty($this->fromComponent)) {
-                debug_add("\$this->fromComponent is empty, don't know how to load missing class '{$class}'", MIDCOM_LOG_ERROR);
-                return null;
-            }
-            if (!midcom::get()->componentloader->load_graceful($this->fromComponent)) {
-                debug_add("Could not load component '{$this->fromComponent}' (to load missing class '{$class}')", MIDCOM_LOG_ERROR);
-                return null;
-            }
+            debug_add("Class '{$class}' is missing", MIDCOM_LOG_ERROR);
+            return null;
         }
         $parent = new $class($this->fromGuid);
         if (empty($parent->guid)) {
@@ -56,23 +49,28 @@ class net_nemein_tag_link_dba extends midcom_core_dbaobject
 
     private function _sanity_check()
     {
-        return (   !empty($this->fromGuid)
-                && !empty($this->fromClass)
-                && !empty($this->tag));
+        if (empty($this->fromGuid) || empty($this->fromClass) || empty($this->tag)) {
+            debug_add("Sanity check failed with tag #{$this->tag}", MIDCOM_LOG_WARN);
+            return false;
+        }
+        $qb = net_nemein_tag_link_dba::new_query_builder();
+        if ($this->id) {
+            $qb->add_constraint('id', '<>', $this->id);
+        }
+        $qb->add_constraint('fromGuid', '=', $this->fromGuid);
+        $qb->add_constraint('tag', '=', $this->tag);
+        $qb->add_constraint('context', '=', $this->context);
+
+        if ($qb->count_unchecked() > 0) {
+            debug_add("Duplicate check failed with tag #{$this->tag}", MIDCOM_LOG_WARN);
+            return false;
+        }
+        return true;
     }
 
     public function _on_creating()
     {
-        if (!$this->_sanity_check()) {
-            debug_add("Sanity check failed with tag #{$this->tag}", MIDCOM_LOG_WARN);
-            return false;
-        }
-        if ($this->_check_duplicates() > 0) {
-            debug_add("Duplicate check failed with tag #{$this->tag}", MIDCOM_LOG_WARN);
-            return false;
-        }
-
-        return true;
+        return $this->_sanity_check();
     }
 
     public function _on_created()
@@ -84,15 +82,7 @@ class net_nemein_tag_link_dba extends midcom_core_dbaobject
 
     public function _on_updating()
     {
-        if (!$this->_sanity_check()) {
-            debug_add("Sanity check failed with tag #{$this->tag}", MIDCOM_LOG_WARN);
-            return false;
-        }
-        if ($this->_check_duplicates() > 0) {
-            debug_add("Duplicate check failed with tag #{$this->tag}", MIDCOM_LOG_WARN);
-            return false;
-        }
-        return true;
+        return $this->_sanity_check();
     }
 
     public function _on_updated()
@@ -100,19 +90,6 @@ class net_nemein_tag_link_dba extends midcom_core_dbaobject
         if ($this->context == 'geo') {
             $this->_geotag();
         }
-    }
-
-    private function _check_duplicates()
-    {
-        $qb = net_nemein_tag_link_dba::new_query_builder();
-        if ($this->id) {
-            $qb->add_constraint('id', '<>', $this->id);
-        }
-        $qb->add_constraint('fromGuid', '=', $this->fromGuid);
-        $qb->add_constraint('tag', '=', $this->tag);
-        $qb->add_constraint('context', '=', $this->context);
-
-        return $qb->count_unchecked();
     }
 
     /**

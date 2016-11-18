@@ -287,10 +287,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
                     // No such tag in DB
                     continue;
                 }
-
-                foreach ($tag_names as $tag_name) {
-                    $tags_by_id[$tag_id] = $tag_name;
-                }
+                $tags_by_id[$tag_id] = array_pop($tag_names);
             }
 
             $tagname = $tags_by_id[$tag_id];
@@ -494,7 +491,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
         $tags = array();
         $current_tag = '';
         $quote_open = false;
-        for ($i = 0; $i < (strlen($tags_string)+1); $i++) {
+        for ($i = 0; $i < (strlen($tags_string) + 1); $i++) {
             $char = substr($tags_string, $i, 1);
             if (   (   $char == ' '
                     && !$quote_open)
