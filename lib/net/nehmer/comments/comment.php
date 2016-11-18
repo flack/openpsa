@@ -62,13 +62,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
      */
     public static function list_by_objectguid($guid, $limit = false, $order = 'ASC', $paging = false, $status = false)
     {
-        $qb = self::_prepare_query($guid, $status, $paging);
-
-        if (   $limit
-            && !$paging) {
-            $qb->set_limit($limit);
-        }
-
+        $qb = self::_prepare_query($guid, $status, $paging, $limit);
         $qb->add_order('metadata.published', $order);
 
         if ($paging !== false) {
@@ -88,16 +82,10 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
      */
     public static function list_by_objectguid_filter_anonymous($guid, $limit = false, $order = 'ASC', $paging = false, $status = false)
     {
-        $qb = self::_prepare_query($guid, $status, $paging);
+        $qb = self::_prepare_query($guid, $status, $paging, $limit);
+        $qb->add_order('metadata.published', $order);
         $qb->add_constraint('author', '<>', '');
         $qb->add_constraint('content', '<>', '');
-
-        if (   $limit
-            && !$paging) {
-            $qb->set_limit($limit);
-        }
-
-        $qb->add_order('metadata.published', $order);
 
         if ($paging !== false) {
             return $qb;
@@ -133,13 +121,16 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
         return $qb->count_unchecked();
     }
 
-    private static function _prepare_query($guid, $status = false, $paging = false)
+    private static function _prepare_query($guid, $status, $paging = false, $limit = false)
     {
         if ($paging !== false) {
             $qb = new org_openpsa_qbpager('net_nehmer_comments_comment', 'net_nehmer_comments_comment');
             $qb->results_per_page = $paging;
         } else {
             $qb = net_nehmer_comments_comment::new_query_builder();
+            if ($limit) {
+                $qb->set_limit($limit);
+            }
         }
 
         if (!is_array($status)) {

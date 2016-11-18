@@ -199,9 +199,6 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
      */
     public function _handler_comments($handler_id, array $args, array &$data)
     {
-        $this->_process_admintoolbar();
-        // This might exit.
-
         if (!mgd_is_guid($args[0])) {
             throw new midcom_error("The GUID '{$args[0]}' is invalid. Cannot continue.");
         }
@@ -252,30 +249,6 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
         if (   isset($_SERVER['HTTP_X_REQUESTED_WITH'])
             && $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest') {
             midcom::get()->skip_page_style = true;
-        }
-    }
-
-    /**
-     * Checks if a button of the admin toolbar was pressed. Detected by looking for the
-     * net_nehmer_comment_adminsubmit value in the Request.
-     *
-     * As of this point, this tool assumes at least owner level privileges for all
-     */
-    private function _process_admintoolbar()
-    {
-        if (!array_key_exists('net_nehmer_comment_adminsubmit', $_REQUEST)) {
-            // Nothing to do.
-            return;
-        }
-
-        if (array_key_exists('action_delete', $_REQUEST)) {
-            $comment = new net_nehmer_comments_comment($_REQUEST['guid']);
-            if (!$comment->delete()) {
-                throw new midcom_error("Failed to delete comment GUID '{$_REQUEST['guid']}': " . midcom_connection::get_error_string());
-            }
-
-            midcom::get()->cache->invalidate($comment->objectguid);
-            $this->_relocate_to_self();
         }
     }
 
