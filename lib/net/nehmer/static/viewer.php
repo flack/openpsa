@@ -106,7 +106,6 @@ class net_nehmer_static_viewer extends midcom_baseclasses_components_request
                         $this->_l10n_midcom->get('create %s'),
                         $this->_l10n->get($this->_request_data['schemadb'][$name]->description)
                     ),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/attach.png',
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-text.png',
                     MIDCOM_TOOLBAR_ACCESSKEY => 'n',
                 ));

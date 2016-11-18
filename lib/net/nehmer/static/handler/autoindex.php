@@ -127,7 +127,6 @@ class net_nehmer_static_handler_autoindex extends midcom_baseclasses_components_
             }
         }
         $qb->add_order($sort_property, $sort_order);
-
         $qb->add_order('title');
         $qb->add_order('name');
 
