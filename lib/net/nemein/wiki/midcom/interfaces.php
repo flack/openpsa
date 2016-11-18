@@ -21,9 +21,8 @@ implements midcom_services_permalinks_resolver
     {
         $qb = net_nemein_wiki_wikipage::new_query_builder();
         $qb->add_constraint('topic', '=', $topic->id);
-        $result = $qb->execute();
 
-        if ($result) {
+        if ($result = $qb->execute()) {
             $schemadb = midcom_helper_datamanager2_schema::load_database($config->get('schemadb'));
             $datamanager = new midcom_helper_datamanager2_datamanager($schemadb);
 

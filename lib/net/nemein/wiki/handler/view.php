@@ -126,7 +126,6 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
         midcom::get()->auth->drop_sudo();
         if (count($result) > 0) {
             $this->_page = $result[0];
-            $this->_page->require_do('midgard:read');
             return true;
         }
 
@@ -190,10 +189,6 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
      */
     public function _handler_view($handler_id, $args, &$data)
     {
-        if (!$this->_page) {
-            throw new midcom_error_notfound('The requested page could not be found.');
-        }
-
         $this->_load_datamanager();
 
         if ($this->_datamanager->schema->name == 'redirect') {
@@ -221,7 +216,6 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
         }
 
         midcom::get()->head->set_pagetitle($this->_page->title);
-
         midcom::get()->metadata->set_request_metadata($this->_page->metadata->revised, $this->_page->guid);
     }
 
@@ -316,8 +310,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
      */
     public function _handler_raw($handler_id, $args, &$data)
     {
-        $this->_load_page($args[0]);
-        if (!$this->_page) {
+        if (!$this->_load_page($args[0])) {
             throw new midcom_error_notfound('The page ' . $args[0] . ' could not be found.');
         }
         midcom::get()->skip_page_style = true;
@@ -403,8 +396,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
      */
     public function _handler_whatlinks($handler_id, $args, &$data)
     {
-        $this->_load_page($args[0]);
-        if (!$this->_page) {
+        if (!$this->_load_page($args[0])) {
             throw new midcom_error_notfound('The page ' . $args[0] . ' could not be found.');
         }
 

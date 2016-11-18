@@ -71,7 +71,6 @@ class net_nemein_wiki_resolver
             }
 
             $subnode_children = $this->_list_wiki_nodes($subnode, "{$node_identifier}/");
-
             $nodes = array_merge($nodes, $subnode_children);
         }
 

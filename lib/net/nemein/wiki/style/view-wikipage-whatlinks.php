@@ -29,6 +29,5 @@ if (count($data['wikilinks']) > 0) {
     ?>
     <p><?php echo $data['l10n']->get('no links to page'); ?></p>
     <?php
-
 }
 ?>

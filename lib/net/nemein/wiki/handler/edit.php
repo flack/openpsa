@@ -87,12 +87,12 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
             'save_callback' => array($this, 'save_callback')
         ));
 
-        foreach (array_keys($this->_request_data['schemadb']) as $name) {
+        foreach ($data['schemadb'] as $name => $schema) {
             if ($name == $this->_controller->datamanager->schema->name) {
                 // The page is already of this type, skip
                 continue;
             }
-            $label = sprintf($this->_l10n->get('change to %s'), $this->_l10n->get($data['schemadb'][$name]->description));
+            $label = sprintf($this->_l10n->get('change to %s'), $this->_l10n->get($schema->description));
             $workflow->add_post_button("change/{$this->_page->name}/", $label, array('change_to' => $name));
         }
 

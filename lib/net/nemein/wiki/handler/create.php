@@ -81,62 +81,58 @@ implements midcom_helper_datamanager2_interfaces_create
         } else {
             $to_node = $resolved['folder'];
         }
-        switch (true) {
-            case (strstr($resolved['remaining_path'], '/')):
-                // One or more namespaces left, find first, create it and recurse
-                $paths = explode('/', $resolved['remaining_path']);
-                $folder_title = array_shift($paths);
-                $topic = new midcom_db_topic();
-                $topic->up = $to_node[MIDCOM_NAV_ID];
-                $topic->extra = trim($folder_title);
-                $topic->title = $topic->extra;
-                $generator = midcom::get()->serviceloader->load('midcom_core_service_urlgenerator');
-                $topic->name = $generator->from_string($folder_title);
-                $topic->component = 'net.nemein.wiki';
-                if (!$topic->create()) {
-                    throw new midcom_error("Could not create wiki namespace '{$folder_title}', last Midgard error was: " . midcom_connection::get_error_string());
+        if (strstr($resolved['remaining_path'], '/')) {
+            // One or more namespaces left, find first, create it and recurse
+            $paths = explode('/', $resolved['remaining_path']);
+            $folder_title = array_shift($paths);
+            $topic = new midcom_db_topic();
+            $topic->up = $to_node[MIDCOM_NAV_ID];
+            $topic->extra = trim($folder_title);
+            $topic->title = $topic->extra;
+            $generator = midcom::get()->serviceloader->load('midcom_core_service_urlgenerator');
+            $topic->name = $generator->from_string($folder_title);
+            $topic->component = 'net.nemein.wiki';
+            if (!$topic->create()) {
+                throw new midcom_error("Could not create wiki namespace '{$folder_title}', last Midgard error was: " . midcom_connection::get_error_string());
+            }
+            // refresh
+            $topic = new midcom_db_topic($topic->id);
+
+            // See if we have article with same title in immediate parent
+            $qb = net_nemein_wiki_wikipage::new_query_builder();
+            $qb->add_constraint('title', '=', $folder_title);
+            $qb->add_constraint('topic', '=', $topic->up);
+            $results = $qb->execute();
+
+            if (count($results) == 1) {
+                $article = $results[0];
+                $article->name = 'index';
+                $article->topic = $topic->id;
+                if (!$article->update()) {
+                    // Could not move article, do something ?
                 }
-                // refresh
-                $topic = new midcom_db_topic($topic->id);
-
-                // See if we have article with same title in immediate parent
-                $qb = net_nemein_wiki_wikipage::new_query_builder();
-                $qb->add_constraint('title', '=', $folder_title);
-                $qb->add_constraint('topic', '=', $topic->up);
-                $results = $qb->execute();
-
-                if (count($results) == 1) {
-                    $article = $results[0];
-                    $article->name = 'index';
-                    $article->topic = $topic->id;
-                    if (!$article->update()) {
-                        // Could not move article, do something ?
-                    }
-                } else {
-                    try {
-                        net_nemein_wiki_viewer::initialize_index_article($topic);
-                    } catch (midcom_error $e) {
-                        // Could not create index
-                        $topic->delete();
-                        throw $e;
-                    }
+            } else {
+                try {
+                    net_nemein_wiki_viewer::initialize_index_article($topic);
+                } catch (midcom_error $e) {
+                    // Could not create index
+                    $topic->delete();
+                    throw $e;
                 }
-                // We have created a new topic, now recurse to create the rest of the path.
-                return $this->_check_unique_wikiword($wikiword);
-
-            case (is_object($resolved['wikipage'])):
-                // Page exists
-                throw new midcom_error('Wiki page with that name already exists.');
-
-            default:
-                // No more namespaces left, create the page to latest parent
-                if ($to_node[MIDCOM_NAV_ID] != $this->_topic->id) {
-                    // Last parent is not this topic, redirect there
-                    $wikiword_url = rawurlencode($resolved['remaining_path']);
-                    midcom::get()->relocate($to_node[MIDCOM_NAV_ABSOLUTEURL] . "create/{$this->_schema}?wikiword={$wikiword_url}");
-                    // This will exit()
-                }
-                break;
+            }
+            // We have created a new topic, now recurse to create the rest of the path.
+            return $this->_check_unique_wikiword($wikiword);
+        }
+        if (is_object($resolved['wikipage'])) {
+            // Page exists
+            throw new midcom_error('Wiki page with that name already exists.');
+        }
+        // No more namespaces left, create the page to latest parent
+        if ($to_node[MIDCOM_NAV_ID] != $this->_topic->id) {
+            // Last parent is not this topic, redirect there
+            $wikiword_url = rawurlencode($resolved['remaining_path']);
+            midcom::get()->relocate($to_node[MIDCOM_NAV_ABSOLUTEURL] . "create/{$this->_schema}?wikiword={$wikiword_url}");
+            // This will exit()
         }
         return true;
     }
