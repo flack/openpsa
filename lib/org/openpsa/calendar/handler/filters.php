@@ -29,44 +29,20 @@ implements midcom_helper_datamanager2_interfaces_edit
     public function _handler_edit($handler_id, array $args, array &$data)
     {
         midcom::get()->auth->require_valid_user();
+        midcom::get()->head->set_pagetitle($this->_l10n->get('choose calendars'));
 
         // Get the current user
         $this->_person = new midcom_db_person(midcom_connection::get_user());
         $this->_person->require_do('midgard:update');
-
         // Load the controller
         $data['controller'] = $this->get_controller('simple', $this->_person);
 
-        // Process the form
-        switch ($data['controller']->process_form()) {
-            case 'save':
-            case 'cancel':
-                if (isset($_GET['org_openpsa_calendar_returnurl'])) {
-                    $url = $_GET['org_openpsa_calendar_returnurl'];
-                } else {
-                    $url = '';
-                }
-                return new midcom_response_relocate($url);
+        $workflow = $this->get_workflow('datamanager2', array('controller' => $data['controller']));
+        $response = $workflow->run();
+        if ($workflow->get_state() == 'save') {
+            midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.calendar/calendar.js');
+            midcom::get()->head->add_jsonload('openpsa_calendar_widget.refresh();');
         }
-
-        // Add the breadcrumb pieces
-        if (isset($_GET['org_openpsa_calendar_returnurl'])) {
-            $this->add_breadcrumb($_GET['org_openpsa_calendar_returnurl'], $this->_l10n->get('calendar'));
-        }
-
-        $this->add_breadcrumb('filters/', $this->_l10n->get('choose calendars'));
-    }
-
-    /**
-     * Show the contact editing interface
-     *
-     * @param String $handler_id    Name of the request handler
-     * @param array &$data          Public request data, passed by reference
-     */
-    public function _show_edit($handler_id, array &$data)
-    {
-        $data['person'] = $this->_person;
-
-        midcom_show_style('calendar-filter-chooser');
+        return $response;
     }
 }

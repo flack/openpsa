@@ -56,11 +56,10 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
                 )
             ));
         }
-        $buttons[] = array(
-            MIDCOM_TOOLBAR_URL => "filters/?org_openpsa_calendar_returnurl=" . midcom_connection::get_url('uri'),
+        $buttons[] = $workflow->get_button('filters/', array(
             MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('choose calendars'),
             MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/preferences-desktop.png',
-        );
+        ));
 
         $buttons[] = array(
             MIDCOM_TOOLBAR_URL => '#',

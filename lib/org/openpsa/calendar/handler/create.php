@@ -108,7 +108,7 @@ implements midcom_helper_datamanager2_interfaces_create
         if ($workflow->get_state() == 'save') {
             $indexer = new org_openpsa_calendar_midcom_indexer($this->_topic);
             $indexer->index($data['controller']->datamanager);
-            midcom::get()->head->add_jsonload('openpsa_calendar_widget.refresh_parent();');
+            midcom::get()->head->add_jsonload('openpsa_calendar_widget.refresh();');
         } elseif (!empty($conflictmanager->busy_members)) {
             midcom::get()->uimessages->add($this->_l10n->get('event conflict'), $conflictmanager->get_message($this->_l10n->get_formatter()), 'warning');
         }
