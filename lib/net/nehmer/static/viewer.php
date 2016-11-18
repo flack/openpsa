@@ -72,12 +72,8 @@ class net_nehmer_static_viewer extends midcom_baseclasses_components_request
      * @param midcom_db_topic $topic The topic which we are bound to. If this is not an object, the code
      *     tries to load a new topic instance from the database identified by this parameter.
      */
-    public static function index($dm, $indexer, $topic)
+    public static function index($dm, $indexer, midcom_db_topic $topic)
     {
-        if (!is_object($topic)) {
-            $topic = new midcom_db_topic($topic);
-        }
-
         // Don't index directly, that would lose a reference due to limitations
         // of the index() method. Needs fixes there.
 
