@@ -1,5 +1,5 @@
 <?php
-// Available request data: comments, objectguid, comment, display_datamanager
+// Available request data: comments, comment, display_datamanager
 $view = $data['display_datamanager']->get_content_html();
 $comment = $data['comment'];
 $formatter = $data['l10n']->get_formatter();
@@ -54,7 +54,7 @@ if (   midcom::get()->auth->admin
         &(metadata);
     </div>
 
-<?php 
+<?php
 } ?>
 
     <div class="content">&(view['content']:h);</div>

@@ -14,20 +14,6 @@
 class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_handler
 {
     /**
-     * List of comments we are currently working with.
-     *
-     * @var Array
-     */
-    private $_comments = null;
-
-    /**
-     * The GUID of the object we're bound to.
-     *
-     * @var string GUID
-     */
-    private $_objectguid = null;
-
-    /**
      * This datamanager instance is used to display an existing comment. only set
      * if there are actually comments to display.
      *
@@ -35,13 +21,10 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
      */
     private $_display_datamanager = null;
 
-    /**
-     * Prepares the request data
-     */
-    private function _prepare_request_data()
+    public function _on_initialize()
     {
-        $this->_request_data['comments'] = $this->_comments;
-        $this->_request_data['objectguid'] = $this->_objectguid;
+        midcom::get()->auth->require_valid_user();
+        $this->_topic->require_do('net.nehmer.comments:moderation');
     }
 
     /**
@@ -62,11 +45,6 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
      */
     public function _handler_welcome($handler_id, array $args, array &$data)
     {
-        midcom::get()->auth->require_valid_user();
-
-        if (!$this->_topic->can_do('net.nehmer.comments:moderation')) {
-            return new midcom_response_relocate('/');
-        }
         $this->_request_data['topic'] = $this->_topic;
     }
 
@@ -139,7 +117,6 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
      */
     public function _handler_moderate_ajax($handler_id, array $args, array &$data)
     {
-        $this->_topic->require_do('net.nehmer.comments:moderation');
         $this->_verify_post_data();
 
         $comment = new net_nehmer_comments_comment($_POST['guid']);
@@ -180,8 +157,6 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
             $this->_display_datamanager->autoset_storage($data['comment']);
             $data['comment_toolbar'] = $this->_master->_populate_post_toolbar($data['comment'], $data['handler']);
             midcom_show_style('admin-comments-item');
-        } else {
-            midcom_show_style('comments-nonefound');
         }
     }
 
@@ -193,16 +168,10 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
      */
     public function _handler_moderate($handler_id, array $args, array &$data)
     {
-        midcom::get()->auth->require_valid_user();
+        $data['handler'] = $args[0];
 
-        if (!$this->_topic->can_do('net.nehmer.comments:moderation')) {
-            return new midcom_response_relocate('/');
-        }
-
-        $this->_request_data['handler'] = $args[0];
-
-        $this->_comments = $this->_load_comments();
-        if (!empty($this->_comments)) {
+        $data['comments'] = $this->_load_comments();
+        if (!empty($data['comments'])) {
             $this->_init_display_datamanager();
         }
 
@@ -210,7 +179,6 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
         midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/net.nehmer.comments/moderate.js');
 
         net_nehmer_comments_viewer::add_head_elements();
-        $this->_prepare_request_data();
         $this->add_breadcrumb('', $this->_l10n->get($data['status_to_show']));
     }
 
@@ -222,17 +190,13 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
     public function _show_moderate($handler_id, array &$data)
     {
         midcom_show_style('admin-start');
-        if ($this->_comments) {
+        if ($data['comments']) {
             midcom_show_style('admin-comments-start');
-            foreach ($this->_comments as $comment) {
-                $this->_display_datamanager->autoset_storage($comment);
+            foreach ($data['comments'] as $comment) {
                 $data['comment'] = $comment;
-                $data['comment_toolbar'] = $this->_master->_populate_post_toolbar($comment, $data['handler']);
-                midcom_show_style('admin-comments-item');
+                $this->_show_moderate_ajax($handler_id, $data);
             }
             midcom_show_style('admin-comments-end');
-        } else {
-            midcom_show_style('comments-nonefound');
         }
         midcom_show_style('admin-end');
     }

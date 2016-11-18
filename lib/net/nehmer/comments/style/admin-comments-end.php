@@ -1,5 +1,5 @@
 <?php
-// Available request data: comments, objectguid.
+// Available request data: comments.
 
 if (isset($data['qb_pager'])) {
     echo "<div class=\"net_nehmer_comments_pager\">\n";

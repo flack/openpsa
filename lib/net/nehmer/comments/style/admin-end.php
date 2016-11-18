@@ -1,4 +1,4 @@
 <?php
-// Available request data: comments, objectguid.
+// Available request data: comments.
 ?>
 </div>

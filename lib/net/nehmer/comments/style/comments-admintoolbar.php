@@ -1,5 +1,5 @@
 <?php
-// Available request data: comments, objectguid, comment, display_datamanager
+// Available request data: comments, comment, display_datamanager
 $comment = $data['comment'];
 $formatter = $data['l10n']->get_formatter();
 $creator = $comment->metadata->creator;
