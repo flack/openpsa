@@ -29,11 +29,7 @@ class org_openpsa_contacts_mycontacts
 
     public function __construct(midcom_core_user $user = null)
     {
-        if (null !== $user) {
-            $this->_user = $user;
-        } else {
-            $this->_user = midcom::get()->auth->user;
-        }
+        $this->_user = $user ?: midcom::get()->auth->user;
     }
 
     /**

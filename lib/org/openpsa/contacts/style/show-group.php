@@ -27,9 +27,6 @@ $node = $nap->get_node($nap->get_current_node());
     // Display the group information
     foreach (array_filter($data['view']) as $fieldname => $fielddata) {
         switch ($fieldname) {
-            case 'members':
-            case 'organization_type':
-                break;
             case 'homepage':
                 echo "<h2>" . $data['l10n']->get('contact information') . "</h2>\n";
                 echo "<div><strong>" . $data['l10n']->get($fieldname) . ": </strong>";
@@ -44,10 +41,6 @@ $node = $nap->get_node($nap->get_current_node());
                 echo "<pre>" . $fielddata . "</pre>";
                 break;
             case 'categories':
-                echo "<div><strong>" . $data['l10n']->get($fieldname) . ": </strong>";
-                echo $data['l10n']->get($fielddata) . "</div>";
-                break;
-
             case 'official':
             case 'company_id':
             case 'phone':

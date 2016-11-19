@@ -1,10 +1,7 @@
 <?php
 $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 $view_group = $data['subgroup'];
-$view_group_name = $view_group->official;
-if ($view_group_name == '') {
-    $view_group_name = $view_group->name;
-}
+$view_group_name = $view_group->get_label();
 ?>
 <div class="vcard">
     <div class="organization-name">

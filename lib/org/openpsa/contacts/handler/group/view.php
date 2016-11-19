@@ -19,9 +19,9 @@ implements midcom_helper_datamanager2_interfaces_view, org_openpsa_widgets_grid_
      *
      * @var string
      */
-    private $_type;
+    private $type;
 
-    private $_group;
+    private $group;
 
     /**
      * Loads and prepares the schema database.
@@ -35,23 +35,23 @@ implements midcom_helper_datamanager2_interfaces_view, org_openpsa_widgets_grid_
 
     public function get_schema_name()
     {
-        return $this->_type;
+        return $this->type;
     }
 
     private function _populate_toolbar()
     {
         $workflow = $this->get_workflow('datamanager2');
         $buttons = array();
-        if ($this->_group->can_do('midgard:update')) {
+        if ($this->group->can_do('midgard:update')) {
             $buttons = array(
-                $workflow->get_button("group/edit/{$this->_group->guid}/", array(
+                $workflow->get_button("group/edit/{$this->group->guid}/", array(
                     MIDCOM_TOOLBAR_ACCESSKEY => 'e',
                 )),
-                $workflow->get_button("group/create/organization/{$this->_group->guid}/", array(
+                $workflow->get_button("group/create/organization/{$this->group->guid}/", array(
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create suborganization'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_people-new.png',
                 )),
-                $workflow->get_button("group/create/group/{$this->_group->guid}/", array(
+                $workflow->get_button("group/create/group/{$this->group->guid}/", array(
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create subgroup'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_people-new.png',
                 ))
@@ -59,8 +59,8 @@ implements midcom_helper_datamanager2_interfaces_view, org_openpsa_widgets_grid_
         }
 
         if (   midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_contacts_person_dba')
-            && $this->_group->can_do('midgard:create')) {
-            $buttons[] = $workflow->get_button("person/create/{$this->_group->guid}/", array(
+            && $this->group->can_do('midgard:create')) {
+            $buttons[] = $workflow->get_button("person/create/{$this->group->guid}/", array(
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create person'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_person-new.png',
             ));
@@ -71,7 +71,7 @@ implements midcom_helper_datamanager2_interfaces_view, org_openpsa_widgets_grid_
         if (   $user_url
             && midcom::get()->auth->can_user_do('org.openpsa.user:access', null, 'org_openpsa_user_interface')) {
             $buttons[] = array(
-                MIDCOM_TOOLBAR_URL => $user_url . "group/{$this->_group->guid}/",
+                MIDCOM_TOOLBAR_URL => $user_url . "group/{$this->group->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_i18n->get_string('user management', 'org.openpsa.user'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/properties.png',
             );
@@ -80,7 +80,7 @@ implements midcom_helper_datamanager2_interfaces_view, org_openpsa_widgets_grid_
         $cal_node = midcom_helper_misc::find_node_by_component('org.openpsa.calendar');
         if (!empty($cal_node)) {
             //TODO: Check for privileges somehow
-            $buttons[] = org_openpsa_calendar_interface::get_create_button($cal_node, $this->_group->guid . '/');
+            $buttons[] = org_openpsa_calendar_interface::get_create_button($cal_node, $this->group->guid . '/');
         }
         $this->_view_toolbar->add_items($buttons);
     }
@@ -92,7 +92,7 @@ implements midcom_helper_datamanager2_interfaces_view, org_openpsa_widgets_grid_
      */
     public function _show_view($handler_id, array &$data)
     {
-        if ($this->_group->orgOpenpsaObtype < org_openpsa_contacts_group_dba::MYCONTACTS) {
+        if ($this->group->orgOpenpsaObtype < org_openpsa_contacts_group_dba::MYCONTACTS) {
             midcom_show_style('show-group-other');
         } else {
             midcom_show_style('show-group');
@@ -108,25 +108,25 @@ implements midcom_helper_datamanager2_interfaces_view, org_openpsa_widgets_grid_
      */
     public function _handler_view($handler_id, array $args, array &$data)
     {
-        $this->_group = new org_openpsa_contacts_group_dba($args[0]);
-        $data['group'] = $this->_group;
+        $this->group = new org_openpsa_contacts_group_dba($args[0]);
+        $data['group'] = $this->group;
 
-        if ($this->_group->orgOpenpsaObtype < org_openpsa_contacts_group_dba::MYCONTACTS) {
-            $this->_type = 'group';
+        if ($this->group->orgOpenpsaObtype < org_openpsa_contacts_group_dba::MYCONTACTS) {
+            $this->type = 'group';
             $data['group_tree'] = $this->_master->get_group_tree();
             $data['members_grid'] = new org_openpsa_widgets_grid('members_grid', 'json');
             org_openpsa_widgets_tree::add_head_elements();
         } else {
-            $this->_type = 'organization';
+            $this->type = 'organization';
             $root_group = org_openpsa_contacts_interface::find_root_group();
-            if ($this->_group->owner != $root_group->id) {
-                $data['parent_group'] = $this->_group->get_parent();
+            if ($this->group->owner != $root_group->id) {
+                $data['parent_group'] = $this->group->get_parent();
             } else {
                 $data['parent_group'] = false;
             }
 
             $qb_billing_data = org_openpsa_invoices_billing_data_dba::new_query_builder();
-            $qb_billing_data->add_constraint('linkGuid', '=', $this->_group->guid);
+            $qb_billing_data->add_constraint('linkGuid', '=', $this->group->guid);
             $billing_data = $qb_billing_data->execute();
             if (count($billing_data) > 0) {
                 $this->_request_data['billing_data'] = $billing_data[0];
@@ -135,16 +135,37 @@ implements midcom_helper_datamanager2_interfaces_view, org_openpsa_widgets_grid_
             midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . "/org.openpsa.helpers/editable.js");
             org_openpsa_widgets_ui::enable_ui_tab();
         }
-        $data['view'] = midcom_helper_datamanager2_handler::get_view($this, $this->_group);
+        $data['view'] = midcom_helper_datamanager2_handler::get_view($this, $this->group);
 
         // Add toolbar items
         $this->_populate_toolbar();
 
-        $this->bind_view_to_object($this->_group);
+        $this->bind_view_to_object($this->group);
 
-        midcom::get()->head->set_pagetitle($this->_group->official);
+        midcom::get()->head->set_pagetitle($this->group->official);
 
-        org_openpsa_contacts_viewer::add_breadcrumb_path_for_group($this->_group, $this);
+        $this->add_breadcrumb_path_for_group();
+    }
+
+    private function add_breadcrumb_path_for_group()
+    {
+        $tmp = array(
+            $this->group->guid => $this->group->official
+        );
+
+        $root_id = org_openpsa_contacts_interface::find_root_group()->id;
+        $parent = $this->group->get_parent();
+
+        while ($parent && $parent->id != $root_id) {
+            $tmp[$parent->guid] = $parent->official;
+            $parent = $parent->get_parent();
+        }
+
+        $tmp = array_reverse($tmp, true);
+
+        foreach ($tmp as $guid => $title) {
+            $this->add_breadcrumb('group/' . $guid . '/', $title);
+        }
     }
 
     /**

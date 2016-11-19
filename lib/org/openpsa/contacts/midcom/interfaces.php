@@ -98,8 +98,7 @@ implements midcom_services_permalinks_resolver
         $html = $client->get($url);
 
         // Check for ICBM coordinate information
-        $icbm = org_openpsa_httplib_helpers::get_meta_value($html, 'icbm');
-        if ($icbm) {
+        if ($icbm = org_openpsa_httplib_helpers::get_meta_value($html, 'icbm')) {
             $data['icbm'] = $icbm;
         }
 
@@ -112,12 +111,11 @@ implements midcom_services_permalinks_resolver
             // We have a feed URL, but we should check if it is GeoRSS as well
             $items = net_nemein_rss_fetch::raw_fetch($data['rss_url'])->get_items();
 
-            if (count($items) > 0) {
-                if (   $items[0]->get_latitude()
-                    || $items[0]->get_longitude()) {
-                    // This is a GeoRSS feed
-                    $data['georss_url'] = $data['rss_url'];
-                }
+            if (   count($items) > 0
+                && (   $items[0]->get_latitude()
+                    || $items[0]->get_longitude())) {
+                // This is a GeoRSS feed
+                $data['georss_url'] = $data['rss_url'];
             }
         }
 

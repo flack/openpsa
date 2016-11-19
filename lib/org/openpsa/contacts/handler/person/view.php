@@ -111,12 +111,11 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
         $user_url = $siteconfig->get_node_full_url('org.openpsa.user');
 
         if (   $invoices_url
-            && midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_invoices_invoice_dba')) {
-            if ($this->_contact->can_do('midgard:update')) {
-                $buttons[] = $workflow->get_button($invoices_url . "billingdata/" . $this->_contact->guid . '/', array(
-                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('edit billingdata'),
-                ));
-            }
+            && midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_invoices_invoice_dba')
+            && $this->_contact->can_do('midgard:update')) {
+            $buttons[] = $workflow->get_button($invoices_url . "billingdata/" . $this->_contact->guid . '/', array(
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('edit billingdata'),
+            ));
         }
 
         if (   $user_url
@@ -187,7 +186,7 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
         $qb->add_constraint('gid.orgOpenpsaObtype', '<', org_openpsa_contacts_group_dba::MYCONTACTS);
         $data['groups'] = $qb->execute();
 
-        // Group person listing, always work even if there are none
+        // This is most likely a dynamic_load
         midcom::get()->skip_page_style = true;
     }
 
@@ -198,7 +197,6 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
      */
     public function _show_group_memberships($handler_id, array &$data)
     {
-        // This is most likely a dynamic_load
         if (   count($data['organizations']) == 0
             && count($data['groups']) == 0) {
             midcom_show_style('show-person-groups-empty');

@@ -106,9 +106,7 @@ class org_openpsa_contacts_group_dba extends midcom_core_dbaobject
     public function _on_updated()
     {
         if ($this->_register_prober) {
-            $args = array(
-                'group' => $this->guid,
-            );
+            $args = array('group' => $this->guid);
             midcom_services_at_interface::register(time() + 60, 'org.openpsa.contacts', 'check_url', $args);
         }
     }

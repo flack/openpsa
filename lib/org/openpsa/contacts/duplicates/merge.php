@@ -175,10 +175,8 @@ class org_openpsa_contacts_duplicates_merge
             $changed = true;
         }
         // Avoid unnecessary updates
-        if ($changed) {
-            if (!$person1->update()) {
-                throw new midcom_error("Error updating person #{$person1->id}, errstr: " . midcom_connection::get_error_string());
-            }
+        if ($changed && !$person1->update()) {
+            throw new midcom_error("Error updating person #{$person1->id}, errstr: " . midcom_connection::get_error_string());
         }
         // PONDER: sensible way to do the same for parameters ??
     }

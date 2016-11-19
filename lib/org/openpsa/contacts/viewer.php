@@ -75,30 +75,4 @@ class org_openpsa_contacts_viewer extends midcom_baseclasses_components_request
 
         return null;
     }
-
-    public static function add_breadcrumb_path_for_group($group, $handler)
-    {
-        if (!is_object($group)) {
-            return;
-        }
-        $tmp = array();
-
-        $root_group = org_openpsa_contacts_interface::find_root_group();
-        $root_id = $root_group->id;
-
-        $tmp[$group->guid] = $group->official;
-
-        $parent = $group->get_parent();
-        while ($parent && $parent->id != $root_id) {
-            $group = $parent;
-            $tmp[$group->guid] = $group->official;
-            $parent = $group->get_parent();
-        }
-
-        $tmp = array_reverse($tmp, true);
-
-        foreach ($tmp as $guid => $title) {
-            $handler->add_breadcrumb('group/' . $guid . '/', $title);
-        }
-    }
 }

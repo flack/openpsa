@@ -159,13 +159,10 @@ class org_openpsa_contacts_duplicates_check
                 if (!empty($person1['guid'])) {
                     $person1_memberships = $this->load_memberships($person1['id']);
                     $person2_memberships = $this->load_memberships($person2['id']);
-
-                    foreach ($person1_memberships as $gid) {
-                        if (!empty($person2_memberships[$gid])) {
-                            $ret['fname_lname_company_match'] = true;
-                            $ret['p'] += 0.5;
-                            break;
-                        }
+                    $matches = array_intersect($person1_memberships, $person2_memberships);
+                    if (count($matches) > 0) {
+                        $ret['fname_lname_company_match'] = true;
+                        $ret['p'] += (count($matches) * 0.5);
                     }
                 }
             }
@@ -438,32 +435,21 @@ class org_openpsa_contacts_duplicates_check
     function mark_all_persons($output = false)
     {
         $time_start = time();
-        debug_add("Called on {$time_start}");
-        if ($output) {
-            echo "INFO: Starting with persons<br/>\n";
-            flush();
-        }
-        $ret_persons = $this->check_all_persons();
+        $this->output($output, 'Starting with persons');
 
+        $ret_persons = $this->check_all_persons();
         foreach ($ret_persons as $p1guid => $duplicates) {
             $person1 = org_openpsa_contacts_person_dba::get_cached($p1guid);
             foreach ($duplicates as $p2guid => $details) {
                 $person2 = org_openpsa_contacts_person_dba::get_cached($p2guid);
                 $msg = "Marking persons {$p1guid} (#{$person1->id}) and {$p2guid} (#{$person2->id}) as duplicates with P {$details['p']}";
-                debug_add($msg, MIDCOM_LOG_INFO);
                 $person1->set_parameter('org.openpsa.contacts.duplicates:possible_duplicate', $p2guid, $details['p']);
                 $person2->set_parameter('org.openpsa.contacts.duplicates:possible_duplicate', $p1guid, $details['p']);
-                if ($output) {
-                    echo "&nbsp;&nbsp;&nbsp;INFO: {$msg}<br/>\n";
-                    flush();
-                }
+                $this->output($output, $msg, '&nbsp;&nbsp;&nbsp;');
             }
         }
-        debug_add("Done on " . time() . ", took: " . (time() - $time_start) .  " seconds");
-        if ($output) {
-            echo "INFO: DONE with persons. Elapsed time " . (time() - $time_start) . " seconds<br/>\n";
-            flush();
-        }
+
+        $this->output($output, "DONE with persons. Elapsed time " . (time() - $time_start) . " seconds");
     }
 
     /**
@@ -472,11 +458,7 @@ class org_openpsa_contacts_duplicates_check
     function mark_all_groups($output = false)
     {
         $time_start = time();
-        debug_add("Called on {$time_start}");
-        if ($output) {
-            echo "INFO: Starting with groups<br/>\n";
-            flush();
-        }
+        $this->output($output, 'Starting with groups');
 
         $ret_groups = $this->check_all_groups();
         foreach ($ret_groups as $g1guid => $duplicates) {
@@ -484,19 +466,20 @@ class org_openpsa_contacts_duplicates_check
             foreach ($duplicates as $g2guid => $details) {
                 $group2 = org_openpsa_contacts_group_dba::get_cached($g2guid);
                 $msg = "Marking groups {$g1guid} (#{$group1->id}) and {$g2guid} (#{$group2->id}) as duplicates with P {$details['p']}";
-                debug_add($msg);
                 $group1->set_parameter('org.openpsa.contacts.duplicates:possible_duplicate', $g2guid, $details['p']);
                 $group2->set_parameter('org.openpsa.contacts.duplicates:possible_duplicate', $g1guid, $details['p']);
-                if ($output) {
-                    echo "&nbsp;&nbsp;&nbsp;INFO: {$msg}<br/>\n";
-                    flush();
-                }
+                $this->output($output, $msg, '&nbsp;&nbsp;&nbsp;');
             }
         }
 
-        debug_add("Done on " . time() . ", took: " . (time()-$time_start) .  " seconds");
+        $this->output($output, "DONE with groups. Elapsed time " . (time() - $time_start) . " seconds");
+    }
+
+    private function output($outpud, $message, $indent = '')
+    {
+        debug_add($message);
         if ($output) {
-            echo "INFO: DONE with groups. Elapsed time: " . (time()-$time_start) ." seconds<br/>\n";
+            echo $indent . 'INFO: ' . $message  . "<br/>\n";
             flush();
         }
     }
