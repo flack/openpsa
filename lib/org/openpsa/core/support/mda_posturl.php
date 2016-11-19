@@ -33,15 +33,11 @@ if (empty($message_source)) {
 }
 
 //Post to target
-$client = new HTTP_Client();
-$stat = $client->post($POST_TO, array('message_source' => $message_source));
-$response = $client->currentResponse();
+$client = new org_openpsa_httplib();
+$response = $client->post($POST_TO, array('message_source' => $message_source));
 //If anything at all goes wrong dump debug data and exit with errorcode
-if (   $stat != 200
-    || $response['code'] != 200
-    || stristr($response['body'], 'error')) {
-    $response_str = print_r($response, true);
-    error_log("Error posting message to: {$POST_TO} ({$stat}), dumping response data:\n===\n{$response_str}===\n");
+if ($response === false) {
+    error_log("Error posting message to {$POST_TO}:\n===\n{$client->error}===\n");
     exit(1);
 }
 

@@ -92,8 +92,7 @@ class org_openpsa_core_acl_synchronizer
 
     private function _set_attachment_permission($object, $privilege, $assignee, $value)
     {
-        $attachments = $object->list_attachments();
-        if ($attachments) {
+        if ($attachments = $object->list_attachments()) {
             foreach ($attachments as $attachment) {
                 debug_add("Setting {$value} to privilege {$privilege} for {$assignee} to attachment #{$attachment->id}");
                 $attachment->set_privilege($privilege, $assignee, $value);
