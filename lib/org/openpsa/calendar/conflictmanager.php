@@ -137,10 +137,9 @@ class org_openpsa_calendar_conflictmanager
         foreach ($modified_events as $event) {
             //These events have been robbed of (some of) their resources
             $creator = midcom_db_person::get_cached($event->metadata->creator);
-            if (   (   count($event->participants) == 0
-                    || (   count($event->participants) == 1
-                        && array_key_exists($creator->id, $event->participants)))
-                &&  count($event->resources) == 0) {
+            $other_participants = array_diff_key($event->participants, array($creator->id => true));
+            if (   count($other_participants) == 0
+                && count($event->resources) == 0) {
                 /* If modified event has no-one or only creator as participant and no resources
                    then delete it (as it's unlikely the stub event is useful anymore) */
                 debug_add("event {$event->title} (#{$event->id}) has been robbed of all of its resources, calling delete");

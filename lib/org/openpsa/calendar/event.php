@@ -92,45 +92,27 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
     {
         $l10n = midcom::get()->i18n->get_l10n('org.openpsa.calendar');
 
-        // Check for empty title in existing events
-        if (!$this->title) {
-            $this->title = $l10n->get('untitled');
-        }
-
         // Preserve vCal GUIDs once set
         if (isset($this->externalGuid)) {
             $this->old_externalGuid = $this->externalGuid;
         }
 
-        // Populates resources and participants list
-        $this->_get_em();
-
         // Hide details if we're not allowed to see them
         if (!$this->can_do('org.openpsa.calendar:read')) {
-            // Hide almost all properties
-            foreach ($this->get_properties() as $key) {
-                switch ($key) {
-                    //Internal fields, do nothing
-                    case 'metadata':
-                    case 'id':
-                    case 'guid':
-                         break;
-                    //These fields we keep unchanged
-                    case 'start':
-                    case 'end':
-                    case 'resources':
-                    case 'participants':
-                    case 'orgOpenpsaAccesstype':
-                        break;
-                    case 'title':
-                        $this->$key = $l10n->get('private event');
-                        break;
-                    default:
-                        $this->$key = null;
-                        break;
-                }
+            $keep = array('metadata', 'id', 'guid', 'start', 'end', 'orgOpenpsaAccesstype');
+            $hide = array_diff($this->get_properties(), $keep);
+            foreach ($hide as $key) {
+                $this->$key = null;
             }
+            $this->title = $l10n->get('private event');
         }
+        // Check for empty title
+        if (!$this->title) {
+            $this->title = $l10n->get('untitled');
+        }
+
+        // Populate resources and participants list
+        $this->_get_em();
     }
 
     /**
@@ -370,6 +352,9 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
         }
     }
 
+    /**
+     * @return org_openpsa_calendar_event_member_dba[]
+     */
     private function _get_participants()
     {
         $qb = org_openpsa_calendar_event_member_dba::new_query_builder();
@@ -377,6 +362,9 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
         return $qb->execute_unchecked();
     }
 
+    /**
+     * @return org_openpsa_calendar_event_resource_dba[]
+     */
     private function _get_resources()
     {
         $qb = org_openpsa_calendar_event_resource_dba::new_query_builder();

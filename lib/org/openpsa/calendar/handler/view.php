@@ -173,7 +173,6 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
         // Find all events that occur during [$from, $to]
         $mc->add_constraint('eid.start', '<=', $to);
         $mc->add_constraint('eid.end', '>=', $from);
-
         $mc->add_constraint('uid', 'IN', $uids);
 
         $memberships = $mc->get_rows(array('uid', 'eid'));
@@ -306,10 +305,10 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
     {
         if ($handler_id == 'event_view') {
             // Set title to popup
-            $this->_request_data['title'] = sprintf($this->_l10n->get('event %s'), $this->_request_data['event']->title);
+            $data['title'] = sprintf($this->_l10n->get('event %s'), $data['event']->title);
 
             // Show popup
-            $this->_request_data['event_dm'] = $this->_datamanager;
+            $data['event_dm'] = $this->_datamanager;
             midcom_show_style('show-event');
         } else {
             midcom_show_style('show-event-raw');

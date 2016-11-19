@@ -130,7 +130,6 @@ class org_openpsa_calendar_cron_reporthours extends midcom_baseclasses_component
         $hr->description .= "\n{$event->description}\n";
 
         if (!$hr->create()) {
-            debug_add("failed to create hour_report to task #{$task->id} for person #{$person_id}", MIDCOM_LOG_ERROR);
             return false;
         }
         debug_add("created hour_report #{$hr->id}");

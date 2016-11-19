@@ -26,8 +26,6 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
      */
     private function _get_events()
     {
-        $this->_request_data['events'] = array();
-
         $root_event = org_openpsa_calendar_interface::find_root_event();
 
         $mc = org_openpsa_calendar_event_member_dba::new_collector('uid', $this->_request_data['person']->id);
@@ -35,14 +33,10 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
         // Display events two weeks back
         $mc->add_constraint('eid.start', '>', mktime(0, 0, 0, date('n'), date('j') - 14, date('Y')));
 
-        $members = $mc->get_values('eid');
-
-        if (!empty($members)) {
-            $qb = org_openpsa_calendar_event_dba::new_query_builder();
-            $qb->add_constraint('id', 'IN', $members);
-            $qb->add_order('start', 'ASC');
-            $this->_request_data['events'] = $qb->execute();
-        }
+        $qb = org_openpsa_calendar_event_dba::new_query_builder();
+        $qb->add_constraint('id', 'IN', $mc->get_values('eid'));
+        $qb->add_order('start', 'ASC');
+        $this->_request_data['events'] = $qb->execute();
     }
 
     /**
@@ -93,7 +87,7 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
      * Returns full object or false in case of failure.
      *
      * @param string username
-     * @return object person
+     * @return org_openpsa_contacts_person_dba person
      */
     private function _find_person_by_name($username)
     {

@@ -239,7 +239,7 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
                 $last_end_time = $workday_starts_ts;
             }
             if (   $last_end_time < $workday_ends_ts
-                && (($workday_ends_ts- $last_end_time) >= $amount)) {
+                && (($workday_ends_ts - $last_end_time) >= $amount)) {
                 $slots[] = self::_create_slot($last_end_time, $workday_ends_ts, $last_event);
             }
         }
