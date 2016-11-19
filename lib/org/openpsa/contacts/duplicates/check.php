@@ -475,7 +475,7 @@ class org_openpsa_contacts_duplicates_check
         $this->output($output, "DONE with groups. Elapsed time " . (time() - $time_start) . " seconds");
     }
 
-    private function output($outpud, $message, $indent = '')
+    private function output($output, $message, $indent = '')
     {
         debug_add($message);
         if ($output) {
