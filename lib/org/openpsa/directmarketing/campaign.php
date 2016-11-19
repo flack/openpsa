@@ -44,9 +44,6 @@ class org_openpsa_directmarketing_campaign_dba extends midcom_core_dbaobject
     public function _on_loaded()
     {
         $this->_unserialize_rules();
-        if (!is_array($this->rules)) {
-            $this->rules = array();
-        }
     }
 
     public function _on_creating()
