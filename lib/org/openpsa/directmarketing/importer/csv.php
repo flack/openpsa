@@ -25,12 +25,7 @@ class org_openpsa_directmarketing_importer_csv extends org_openpsa_directmarketi
             if ($total_columns == 0) {
                 $total_columns = count($csv_line);
             }
-            $columns_with_content = 0;
-            foreach ($csv_line as $value) {
-                if ($value != '') {
-                    $columns_with_content++;
-                }
-            }
+            $columns_with_content = count(array_filter($csv_line));
             $percentage = round(100 / $total_columns * $columns_with_content);
 
             if ($percentage < 20) {

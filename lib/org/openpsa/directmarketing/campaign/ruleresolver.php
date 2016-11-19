@@ -94,7 +94,6 @@ class org_openpsa_directmarketing_campaign_ruleresolver
     }
 
     /**
-     *
      * @param string $ruleset
      * @throws midcom_error
      * @return array
@@ -133,6 +132,7 @@ class org_openpsa_directmarketing_campaign_ruleresolver
             debug_add('rules[type] is not defined', MIDCOM_LOG_ERROR);
             return false;
         }
+
         $this->rules = $rules;
         $stat = true;
         //start with first group
@@ -395,8 +395,6 @@ class org_openpsa_directmarketing_campaign_ruleresolver
             $skip_properties[] = 'topic';
             $skip_properties[] = 'subtopic';
             $skip_properties[] = 'office';
-            // This makes very little sense as a constraint
-            $skip_properties[] = 'img';
             // Duh
             $skip_properties[] = 'password';
         }

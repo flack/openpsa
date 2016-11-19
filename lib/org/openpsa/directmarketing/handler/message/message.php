@@ -85,12 +85,8 @@ class org_openpsa_directmarketing_handler_message_message extends midcom_basecla
             ));
         }
 
-        $preview_url = "message/compose/{$this->_message->guid}/";
-        if (!empty(midcom::get()->auth->user->guid)) {
-            $preview_url .= midcom::get()->auth->user->guid . '/';
-        }
         $buttons[] = array(
-            MIDCOM_TOOLBAR_URL => $preview_url,
+            MIDCOM_TOOLBAR_URL => "message/compose/{$this->_message->guid}/" . midcom::get()->auth->user->guid . '/',
             MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('preview message'),
             MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/view.png',
             MIDCOM_TOOLBAR_ACCESSKEY => 'p',

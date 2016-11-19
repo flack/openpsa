@@ -23,9 +23,7 @@ implements org_openpsa_widgets_grid_provider_client
     public function get_qb($field = null, $direction = 'ASC', array $search = array())
     {
         $qb = org_openpsa_directmarketing_campaign_dba::new_query_builder();
-        if ($this->_topic->component = 'org.openpsa.directmarketing') {
-            $qb->add_constraint('node', '=', $this->_topic->id);
-        }
+        $qb->add_constraint('node', '=', $this->_topic->id);
         $qb->add_constraint('archived', '=', 0);
         if (!is_null($field)) {
             $qb->add_order($field, $direction);

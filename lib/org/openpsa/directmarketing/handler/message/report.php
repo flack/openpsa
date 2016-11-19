@@ -120,11 +120,12 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
         if ($segmentation_param) {
             $link_data['segments'] = array();
         }
-        $segment_prototype = array();
-        $segment_prototype['counts'] = array();
-        $segment_prototype['percentages'] = array('of_links' => array(), 'of_recipients' => array());
-        $segment_prototype['rules'] = array();
-        $segment_prototype['tokens'] = array();
+        $segment_prototype = array(
+            'counts' => array(),
+            'percentages' => array('of_links' => array(), 'of_recipients' => array()),
+            'rules' => array(),
+            'tokens' => array()
+        );
 
         $qb_links = org_openpsa_directmarketing_link_log_dba::new_query_builder();
         $qb_links->add_constraint('message', '=', $this->_message->id);
@@ -255,7 +256,7 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
         );
     }
 
-    private function _calculate_percentages(&$array, &$link)
+    private function _calculate_percentages(&$array, $link)
     {
         $this->_initialize_field($array['percentages']['of_links'], $link);
         $this->_initialize_field($array['percentages']['of_recipients'], $link);
@@ -274,7 +275,7 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
         }
     }
 
-    private function _initialize_field(&$array, &$link)
+    private function _initialize_field(&$array, $link)
     {
         if (!isset($array[$link->target])) {
             $array[$link->target] = array();
@@ -285,7 +286,7 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
         }
     }
 
-    private function _increment_totals(&$array, &$link)
+    private function _increment_totals(&$array, $link)
     {
         if (!isset($array['tokens'][$link->token])) {
             $array['tokens'][$link->token] = 0;
@@ -344,11 +345,6 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
         $this->add_breadcrumb("message/{$this->_message->guid}/", $this->_message->title);
         $this->add_breadcrumb("message/report/{$this->_message->guid}/", sprintf($this->_l10n->get('report for message %s'), $this->_message->title));
 
-        $preview_url = "message/compose/{$this->_message->guid}/";
-        if (!empty(midcom::get()->auth->user->guid)) {
-            $preview_url .= midcom::get()->auth->user->guid .'/';
-        }
-
         $buttons = array(
             array(
                 MIDCOM_TOOLBAR_URL => "message/{$this->_message->guid}/",
@@ -356,7 +352,7 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_left.png',
             ),
             array(
-                MIDCOM_TOOLBAR_URL => $preview_url,
+                MIDCOM_TOOLBAR_URL => "message/compose/{$this->_message->guid}/" . midcom::get()->auth->user->guid . '/',
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('preview message'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/view.png',
                 MIDCOM_TOOLBAR_ACCESSKEY => 'p',

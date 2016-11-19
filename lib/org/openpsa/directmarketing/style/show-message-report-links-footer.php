@@ -15,6 +15,5 @@ $l10n = $data['l10n'];
     <input class="button" type="submit" value="<?php echo midcom::get()->i18n->get_string('download as CSV', 'org.openpsa.core'); ?>" />
 </form>
     <?php
-
         }
 ?>

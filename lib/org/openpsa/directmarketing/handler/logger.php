@@ -171,13 +171,13 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
         if (empty($args[0])) {
             throw new midcom_error('Token empty');
         }
-        $this->_request_data['token'] = $args[0];
+        $token = $args[0];
 
         if (count($args) == 2 && !empty($args[1])) {
             //Due to the way browsers handle the URLs this form only works for root pages
-            $this->_request_data['target'] = $args[1];
+            $target = $args[1];
         } elseif (!empty($_GET['link'])) {
-            $this->_request_data['target'] = $_GET['link'];
+            $target = $_GET['link'];
         } else {
             throw new midcom_error('Target not present in address or GET, or is empty');
         }
@@ -185,19 +185,19 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
         //TODO: valid target domains check
 
         //If we have a dummy token don't bother with looking for it, just go on.
-        if ($this->_request_data['token'] === 'dummy') {
-            return new midcom_response_relocate($this->_request_data['target']);
+        if ($token === 'dummy') {
+            return new midcom_response_relocate($target);
         }
 
-        midcom::get()->auth->request_sudo('org.openpsa.directmarketing');
-        $ret = $this->_qb_token_receipts($this->_request_data['token']);
+        midcom::get()->auth->request_sudo($this->_component);
+        $ret = $this->_qb_token_receipts($token);
 
         //While in theory we should have only one token lets use foreach just to be sure
         foreach ($ret as $receipt) {
-            $this->_create_link_receipt($receipt, $this->_request_data['token'], $this->_request_data['target']);
+            $this->_create_link_receipt($receipt, $token, $target);
         }
 
         midcom::get()->auth->drop_sudo();
-        return new midcom_response_relocate($this->_request_data['target']);
+        return new midcom_response_relocate($target);
     }
 }

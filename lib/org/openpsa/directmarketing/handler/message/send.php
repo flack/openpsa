@@ -79,16 +79,15 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
     {
         $nap = new midcom_helper_nav();
         $node = $nap->get_node($nap->get_current_node());
-        $data['compose_url'] = $node[MIDCOM_NAV_RELATIVEURL] . 'message/compose/' . $data['message']->guid;
+        $compose_url = $node[MIDCOM_NAV_RELATIVEURL] . 'message/compose/' . $data['message']->guid;
         $data['batch_url_base_full'] = $node[MIDCOM_NAV_RELATIVEURL] . 'message/send_bg/' . $data['message']->guid;
-        debug_add("compose_url: {$data['compose_url']}");
+        debug_add("compose_url: {$compose_url}");
         debug_add("batch_url base: {$data['batch_url_base_full']}");
         $le_backup = ini_set('log_errors', true);
         $de_backup = ini_set('display_errors', false);
         ob_start();
-        midcom::get()->dynamic_load($data['compose_url']);
-        $composed = ob_get_contents();
-        ob_end_clean();
+        midcom::get()->dynamic_load($compose_url);
+        $composed = ob_get_clean();
         ini_set('display_errors', $de_backup);
         ini_set('log_errors', $le_backup);
         //We force the content-type since the compositor might have set it to something else in compositor for preview purposes
@@ -171,11 +170,11 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
     public function _show_send($handler_id, array &$data)
     {
         $data['sender'] = $this->_get_sender($data);
-        $composed = $this->_prepare_send($data);
         // TODO: Figure out the correct use of style elements, this is how it was but it's not exactly optimal...
         switch ($handler_id) {
             case 'test_send_message':
                 // on-line send
+                $composed = $this->_prepare_send($data);
                 $data['sender']->test_mode = true;
                 $data['sender']->send_output = true;
                 $data['sender']->send($data['compose_subject'], $composed, $data['compose_from']);

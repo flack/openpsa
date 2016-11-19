@@ -20,7 +20,6 @@ if ($data['campaigns_all']) {
         <input type="submit" value="<?php echo $data['l10n']->get('add'); ?>" />
     </form>
     <?php
-
 }
 ?>
 </div>

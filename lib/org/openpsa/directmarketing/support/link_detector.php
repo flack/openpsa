@@ -53,6 +53,7 @@ if ($domains) {
     foreach ($domains as $domain) {
         if (strpos($link, $domain) !== false) {
             $found = true;
+            break;
         }
     }
     if (!$found) {
@@ -72,7 +73,7 @@ if (substr($logger, 0, strlen("file://")) == "file://") {
         fclose($fh);
     }
 } elseif (preg_match('/https?:\/\//', $logger)) {
-    $client = new HTTP_Client();
+    $client = new org_openpsa_httplib();
     $client->post($logger, array("token" => $token, "link" => $link));
 } else {
     error_log("link detected: $token $link");

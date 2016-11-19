@@ -12,10 +12,8 @@ function update_sent_status()
     $('#org_openpsa_directmarketing_send_uimessages').data('repeater', window.setTimeout('update_sent_status()', 10000));
     $.get('&(ajax_url);', function(data)
     {
-        if (data.status)
-        {
-            message =
-            {
+        if (data.status) {
+            message = {
                 title: 'Request failed',
                 message: data.status,
                 type: MIDCOM_SERVICES_UIMESSAGES_TYPE_ERROR

@@ -52,6 +52,17 @@ class org_openpsa_directmarketing_handler_message_compose extends midcom_basecla
         $data['campaign'] = $this->_master->load_campaign($this->_message->campaign);
 
         $this->_load_datamanager();
+        $data['message_array'] = $this->_datamanager->get_content_raw();
+        if (!array_key_exists('content', $data['message_array'])) {
+            throw new midcom_error('"content" not defined in schema');
+        }
+
+        //Substyle handling
+        if (   !empty($data['message_array']['substyle'])
+            && !preg_match('/^builtin:/', $data['message_array']['substyle'])) {
+            debug_add("Appending substyle {$data['message_array']['substyle']}");
+            midcom::get()->style->append_substyle($data['message_array']['substyle']);
+        }
         $data['message'] = $this->_message;
         $data['message_dm'] = $this->_datamanager;
 
@@ -69,17 +80,6 @@ class org_openpsa_directmarketing_handler_message_compose extends midcom_basecla
             }
         }
 
-        $data['message_array'] = $this->_datamanager->get_content_raw();
-
-        if (!array_key_exists('content', $data['message_array'])) {
-            throw new midcom_error('"content" not defined in schema');
-        }
-        //Substyle handling
-        if (   !empty($data['message_array']['substyle'])
-            && !preg_match('/^builtin:/', $data['message_array']['substyle'])) {
-            debug_add("Appending substyle {$data['message_array']['substyle']}");
-            midcom::get()->style->append_substyle($data['message_array']['substyle']);
-        }
         //This isn't necessary for dynamic-loading, but is nice for "preview".
         midcom::get()->skip_page_style = true;
         debug_add('message type: ' . $this->_message->orgOpenpsaObtype);
@@ -106,8 +106,7 @@ class org_openpsa_directmarketing_handler_message_compose extends midcom_basecla
         if ($handler_id === 'compose4person') {
             ob_start();
             $this->_real_show_compose($handler_id, $data);
-            $composed = ob_get_contents();
-            ob_end_clean();
+            $composed = ob_get_clean();
             $personalized = $data['member']->personalize_message($composed, $this->_message->orgOpenpsaObtype, $data['person']);
             echo $personalized;
             return;

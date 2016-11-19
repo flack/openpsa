@@ -58,7 +58,7 @@ class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_comp
     private function process_member(org_openpsa_directmarketing_campaign_member_dba $member, array &$rows)
     {
         try {
-            $person = org_openpsa_contacts_person_dba::get_cached($member->person);
+            $person = new org_openpsa_contacts_person_dba($member->person);
         } catch (midcom_error $e) {
             $e->log();
             return;

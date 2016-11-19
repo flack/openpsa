@@ -151,9 +151,9 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
     {
         $this->_request_data['time_start'] = time();
 
-        $this->_request_data['contacts'] = $importer->parse($input);
-        if (count($this->_request_data['contacts']) > 0) {
-            $this->_request_data['import_status'] = $importer->import_subscribers($this->_request_data['contacts'], $this->_request_data['campaign']);
+        $contacts = $importer->parse($input);
+        if (count($contacts) > 0) {
+            $this->_request_data['import_status'] = $importer->import_subscribers($contacts, $this->_request_data['campaign']);
             if (   $this->_request_data['import_status']['subscribed_new'] > 0
                 || $this->_request_data['import_status']['already_subscribed'] > 0) {
                 $this->_import_success = true;
@@ -251,12 +251,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
                     if ($total_columns == 0) {
                         $total_columns = count($csv_line);
                     }
-                    $columns_with_content = 0;
-                    foreach ($csv_line as $value) {
-                        if ($value != '') {
-                            $columns_with_content++;
-                        }
-                    }
+                    $columns_with_content = count(array_filter($csv_line));
                     $percentage = round(100 / $total_columns * $columns_with_content);
 
                     if ($percentage >= 20) {
