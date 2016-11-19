@@ -1,20 +1,16 @@
-form.org_openpsa_directmarketing_edit_query
+form#org_openpsa_directmarketing_rules_editor .select
 {
+    margin: 3px;
+    width: auto;
 }
 
-
-
-form.org_openpsa_directmarketing_edit_query .select
+form#org_openpsa_directmarketing_rules_editor input
 {
-    margin: 3px
+    margin-right: 5px;
+    width: auto;
 }
 
-form.org_openpsa_directmarketing_edit_query input
-{
-    margin-right: 5px
-}
-
-form.org_openpsa_directmarketing_edit_query input.button
+form#org_openpsa_directmarketing_rules_editor input.button
 {
     padding: 2px;
 }
@@ -95,10 +91,11 @@ div.org_openpsa_directmarketing_edit_query_handler_buttons
     margin-top: 5px;
 }
 
-.groupselect
+form#org_openpsa_directmarketing_rules_editor .groupselect
 {
     margin-top : 3px;
     margin-bottom: 3px;
+    width: auto;
 }
 .remove_group
 {
