@@ -306,7 +306,7 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
                     break;
                 case 'document':
                     if ($data['node'][MIDCOM_NAV_OBJECT]->can_do('midgard:create')) {
-                        $toolbar_buttons[] = $workflow->get_button("{$data['node'][MIDCOM_NAV_ABSOLUTEURL]}document/create/choosefolder/?" . self::relatedto2get(array($related_to)), array(
+                        $toolbar_buttons[] = $workflow->get_button("{$data['node'][MIDCOM_NAV_ABSOLUTEURL]}document/create/?" . self::relatedto2get(array($related_to)), array(
                             MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('create document', $data['component']),
                             MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-text.png',
                             MIDCOM_TOOLBAR_OPTIONS  => array('data-refresh-opener' => 'true'),

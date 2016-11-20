@@ -24,6 +24,17 @@ class org_openpsa_documents_handler_document_adminTest extends openpsa_testcase
         self::$_document = self::create_class_object('org_openpsa_documents_document_dba', array('topic' => $topic->id));
     }
 
+    public function testHandler_create()
+    {
+        midcom::get()->auth->request_sudo('org.openpsa.documents');
+
+        $data = $this->run_handler('org.openpsa.documents', array('document', 'create'));
+        $this->assertEquals('document-create', $data['handler_id']);
+
+        $this->show_handler($data);
+        midcom::get()->auth->drop_sudo();
+    }
+
     public function testHandler_delete()
     {
         midcom::get()->auth->request_sudo('org.openpsa.documents');

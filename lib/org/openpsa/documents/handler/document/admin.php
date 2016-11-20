@@ -12,6 +12,7 @@
  * @package org.openpsa.documents
  */
 class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_components_handler
+ implements midcom_helper_datamanager2_interfaces_create
 {
     /**
      * The document we're working with (if any).
@@ -23,41 +24,69 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
     /**
      * The Controller of the document used for creating or editing
      *
-     * @var midcom_helper_datamanager2_controller_simple
+     * @var midcom_helper_datamanager2_controller
      */
     private $_controller = null;
-
-    /**
-     * The schema database in use, available only while a datamanager is loaded.
-     *
-     * @var Array
-     */
-    private $_schemadb = null;
-
-    /**
-     * The schema to use for the new document.
-     *
-     * @var string
-     */
-    private $_schema = 'default';
 
     public function _on_initialize()
     {
         midcom::get()->auth->require_valid_user();
-        $this->_schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_document'));
+    }
+
+    public function load_schemadb()
+    {
+        return midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_document'));
+    }
+
+    public function get_schema_defaults()
+    {
+        return array(
+            'topic' => $this->_topic->id,
+            'author' => midcom_connection::get_user(),
+            'orgOpenpsaAccesstype' => $this->_topic->get_parameter('org.openpsa.core', 'orgOpenpsaAccesstype'),
+            'orgOpenpsaOwnerWg' => $this->_topic->get_parameter('org.openpsa.core', 'orgOpenpsaOwnerWg'),
+        );
     }
 
     /**
-     * Internal helper, loads the controller for the current document. Any error triggers a 500.
+     * This is what Datamanager calls to actually create a document
      */
-    private function _load_edit_controller()
+    public function & dm2_create_callback(&$datamanager)
     {
-        $this->_controller = midcom_helper_datamanager2_controller::create('simple');
-        $this->_controller->schemadb =& $this->_schemadb;
-        $this->_controller->set_storage($this->_document, $this->_schema);
-        if (!$this->_controller->initialize()) {
-            throw new midcom_error( "Failed to initialize a DM2 controller instance for document {$this->_document->id}.");
+        $this->_document = new org_openpsa_documents_document_dba();
+        $this->_document->topic = $this->_request_data['directory']->id;
+        $this->_document->orgOpenpsaAccesstype = org_openpsa_core_acl::ACCESS_WGPRIVATE;
+
+        if (!$this->_document->create()) {
+            debug_print_r('We operated on this object:', $this->_document);
+            throw new midcom_error("Failed to create a new document. Error: " . midcom_connection::get_error_string());
         }
+
+        return $this->_document;
+    }
+
+    /**
+     * @param mixed $handler_id The ID of the handler.
+     * @param array $args The argument list.
+     * @param array &$data The local request data.
+     */
+    public function _handler_create($handler_id, array $args, array &$data)
+    {
+        $data['directory']->require_do('midgard:create');
+
+        $this->_controller = $this->get_controller('create');
+
+        midcom::get()->head->set_pagetitle($this->_l10n->get('create document'));
+        return $this->run_workflow();
+    }
+
+    private function run_workflow()
+    {
+        $workflow = $this->get_workflow('datamanager2', array(
+            'controller' => $this->_controller,
+            'save_callback' => array($this, 'save_callback')
+        ));
+        return $workflow->run();
     }
 
     private function _load_document($guid)
@@ -83,19 +112,14 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
         $this->_document = $this->_load_document($args[0]);
         $this->_document->require_do('midgard:update');
 
-        $this->_load_edit_controller();
+        $this->_controller = $this->get_controller('simple', $this->_document);
 
         if (   $data['enable_versioning']
             && !empty($_POST)) {
             $this->_backup_attachment();
         }
         midcom::get()->head->set_pagetitle(sprintf($this->_l10n_midcom->get('edit %s'), $this->_document->title));
-
-        $workflow = $this->get_workflow('datamanager2', array(
-            'controller' => $this->_controller,
-            'save_callback' => array($this, 'save_callback')
-        ));
-        return $workflow->run();
+        return $this->run_workflow();
     }
 
     public function save_callback(midcom_helper_datamanager2_controller $controller)

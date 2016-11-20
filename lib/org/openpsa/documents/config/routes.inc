@@ -1,14 +1,7 @@
-// Match /document/create/choosefolder
-'document-create-choosefolder' => array
-(
-    'handler' => array('org_openpsa_documents_handler_document_create', 'create'),
-    'fixed_args' => array('document', 'create', 'choosefolder'),
-),
-
 // Match /document/create
 'document-create' => array
 (
-    'handler' => array('org_openpsa_documents_handler_document_create', 'create'),
+    'handler' => array('org_openpsa_documents_handler_document_admin', 'create'),
     'fixed_args' => array('document', 'create'),
 ),
 
