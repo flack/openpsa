@@ -194,9 +194,6 @@ implements org_openpsa_widgets_grid_provider_client
 
     private function _add_version_navigation()
     {
-        $previous_version = false;
-        $next_version = false;
-
         $qb = org_openpsa_documents_document_dba::new_query_builder();
         if ($this->_document->nextVersion) {
             $qb->add_constraint('nextVersion', '=', $this->_document->nextVersion);
@@ -210,7 +207,11 @@ implements org_openpsa_widgets_grid_provider_client
             $qb->add_order('metadata.created', 'DESC');
             $qb->set_limit(1);
             $results = $qb->execute();
-            $previous_version = $results[0];
+            $this->_view_toolbar->add_item(array(
+                MIDCOM_TOOLBAR_URL => "document/{$results[0]->guid}/",
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('previous version'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/back.png',
+            ));
         }
 
         if ($this->_document->nextVersion != 0) {
@@ -226,7 +227,12 @@ implements org_openpsa_widgets_grid_provider_client
             $qb->add_order('metadata.created', 'ASC');
             $qb->set_limit(1);
             $results = $qb->execute();
-            $next_version = $results[0];
+
+            $this->_view_toolbar->add_item(array(
+                MIDCOM_TOOLBAR_URL => "document/{$results[0]->guid}/",
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('next version'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/next.png',
+            ));
 
             $current_version = org_openpsa_documents_document_dba::get_cached($this->_document->nextVersion);
             $version_date = $this->_l10n->get_formatter()->datetime($this->_document->metadata->revised);
@@ -234,25 +240,6 @@ implements org_openpsa_widgets_grid_provider_client
             $this->add_breadcrumb('', sprintf($this->_l10n->get('version %s (%s)'), $version, $version_date));
         } else {
             $this->add_breadcrumb('document/' . $this->_document->guid . '/', $this->_document->title);
-        }
-
-        if ($next_version) {
-            $this->_view_toolbar->add_item(
-                array(
-                    MIDCOM_TOOLBAR_URL => "document/{$next_version->guid}/",
-                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('next version'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/up.png',
-                )
-             );
-        }
-        if ($previous_version) {
-            $this->_view_toolbar->add_item(
-                array(
-                    MIDCOM_TOOLBAR_URL => "document/{$previous_version->guid}/",
-                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('previous version'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/down.png',
-                )
-            );
         }
     }
 

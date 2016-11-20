@@ -75,11 +75,6 @@ class org_openpsa_documents_handler_finder extends midcom_baseclasses_components
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('edit directory'),
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
             ));
-            $buttons[] = array(
-                MIDCOM_TOOLBAR_URL => "__ais/folder/move/{$this->_request_data['directory']->guid}/",
-                MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('move', 'midcom.admin.folder'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/save-as.png',
-            );
         }
         if ($this->_request_data['directory']->can_do('midgard:delete')) {
             $workflow = $this->get_workflow('delete', array('object' => $this->_request_data['directory'], 'recursive' => true));
