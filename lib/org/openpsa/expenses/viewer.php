@@ -39,13 +39,14 @@ class org_openpsa_expenses_viewer extends midcom_baseclasses_components_request
      */
     public function _on_handle($handler, array $args)
     {
-        $task = false;
-        if (   $handler == 'list_hours_task'
-            || $handler == 'list_hours_task_all') {
-            $task = $args[0];
-        }
         if (   strpos($handler, 'index') !== false
             || strpos($handler, 'list') !== false) {
+            $task = false;
+            if (   $handler == 'list_hours_task'
+                || $handler == 'list_hours_task_all') {
+                $task = $args[0];
+            }
+
             $this->_populate_view_toolbar($task);
         }
     }

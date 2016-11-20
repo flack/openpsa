@@ -62,9 +62,7 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
                 $data['breadcrumb_title'] = $task->get_label();
 
                 $siteconfig = org_openpsa_core_siteconfig::get_instance();
-                $projects_url = $siteconfig->get_node_full_url('org.openpsa.projects');
-
-                if ($projects_url) {
+                if ($projects_url = $siteconfig->get_node_full_url('org.openpsa.projects')) {
                     $this->_view_toolbar->add_item(
                         array(
                             MIDCOM_TOOLBAR_URL => $projects_url . "task/{$task->guid}/",
@@ -131,16 +129,12 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
                 }
             }
 
-            switch (true) {
-                case ($report->invoice):
-                    $category = 'invoiced';
-                    break;
-                case ($report->invoiceable):
-                    $category = 'invoiceable';
-                    break;
-                default:
-                    $category = 'uninvoiceable';
-                    break;
+            if ($report->invoice) {
+                $category = 'invoiced';
+            } elseif ($report->invoiceable) {
+                $category = 'invoiceable';
+            } else {
+                $category = 'uninvoiceable';
             }
             $reports[$category]['reports'][] = $report;
             $reports[$category]['hours'] += $report->hours;
