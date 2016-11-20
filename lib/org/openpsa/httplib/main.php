@@ -20,7 +20,7 @@ use Buzz\Util\Url;
  */
 class org_openpsa_httplib extends midcom_baseclasses_components_purecode
 {
-    private $_params = array(
+    private $params = array(
         'timeout' => 30,
         'ssl_verify_peer' => false,
         'follow_redirects' => true
@@ -41,13 +41,16 @@ class org_openpsa_httplib extends midcom_baseclasses_components_purecode
      */
     public function set_param($name, $value)
     {
-        $this->_params[$name] = $value;
+        $this->params[$name] = $value;
     }
 
-    private function _get_browser()
+    /**
+     * @return \Buzz\Browser
+     */
+    private function get_browser()
     {
         $client = new FileGetContents;
-        foreach ($this->_params as $key => $value) {
+        foreach ($this->params as $key => $value) {
             switch ($key) {
                 case 'timeout':
                     $client->setTimeout($value);
@@ -56,11 +59,7 @@ class org_openpsa_httplib extends midcom_baseclasses_components_purecode
                     $client->setVerifyPeer($value);
                     break;
                 case 'follow_redirects':
-                    if ($value) {
-                        $value = 10;
-                    } else {
-                        $value = 0;
-                    }
+                    $value = ($value) ? 10 : 0;
                     $client->setMaxRedirects($value);
                     break;
                 default:
@@ -70,17 +69,12 @@ class org_openpsa_httplib extends midcom_baseclasses_components_purecode
         return new Browser($client);
     }
 
-    private function _get_request($method, $url, $headers = null, $username = null, $password = null)
+    private function prepare_request(Request $request, $method, $url, array $headers = array(), $username = null, $password = null)
     {
-        if ($method == RequestInterface::METHOD_POST) {
-            $request = new FormRequest;
-        } else {
-            $request = new Request($method);
-        }
         $url = new Url($url);
         $url->applyToRequest($request);
 
-        $request->addHeader('User-Agent: ' . $this->_user_agent());
+        $request->addHeader('User-Agent: ' . $this->user_agent());
 
         // Handle basic auth
         if (   !empty($username)
@@ -92,8 +86,6 @@ class org_openpsa_httplib extends midcom_baseclasses_components_purecode
         if (!empty($headers)) {
             $request->addHeaders($headers);
         }
-
-        return $request;
     }
 
     /**
@@ -105,24 +97,12 @@ class org_openpsa_httplib extends midcom_baseclasses_components_purecode
      * @param string $password Password, if any
      * @return string Contents
      */
-    public function get($url, $headers = null, $username = null, $password = null)
+    public function get($url, array $headers = array(), $username = null, $password = null)
     {
-        $browser = $this->_get_browser();
-        $request = $this->_get_request(RequestInterface::METHOD_GET, $url);
+        $request = new Request(RequestInterface::METHOD_GET);
+        $this->prepare_request($request, $url, $headers, $username, $password);
 
-        try {
-            $response = $browser->send($request);
-        } catch (Exception $e) {
-            $this->error = $e->getMessage();
-            debug_add("Got error '{$this->error}' from HTTP request", MIDCOM_LOG_INFO);
-            return '';
-        }
-        if (!$response->isSuccessful()) {
-            $this->error = $response->getReasonPhrase();
-            debug_add("Got error '{$this->error}' from '{$url}'", MIDCOM_LOG_INFO);
-            return '';
-        }
-        return $response->getContent();
+        return (string) $this->send($request);
     }
 
     /**
@@ -133,18 +113,25 @@ class org_openpsa_httplib extends midcom_baseclasses_components_purecode
      * @param array $headers Additional HTTP headers
      * @return string Contents
      */
-    public function post($uri, array $variables, $headers = null)
+    public function post($uri, array $variables, array $headers = array())
     {
-        $browser = $this->_get_browser();
-        $request = $this->_get_request(RequestInterface::METHOD_POST, $uri, $headers, $this->basicauth['user'], $this->basicauth['password']);
-
         // Handle the variables to POST
         if (empty($variables)) {
             $this->error = '$variables is empty';
             debug_add($this->error, MIDCOM_LOG_ERROR);
             return false;
         }
+        $request = new FormRequest;
+        $this->prepare_request($request, $uri, $headers, $this->basicauth['user'], $this->basicauth['password']);
+
         $request->setFields($variables);
+
+        return $this->send($request);
+    }
+
+    private function send(Request $request)
+    {
+        $browser = $this->get_browser();
 
         try {
             $response = $browser->send($request);
@@ -161,7 +148,7 @@ class org_openpsa_httplib extends midcom_baseclasses_components_purecode
         return $response->getContent();
     }
 
-    private function _user_agent()
+    private function user_agent()
     {
         return 'Midgard/' . substr(mgd_version(), 0, 4);
     }

@@ -17,21 +17,17 @@ if (!isset($_REQUEST['url'])) {
 
 } else {
     $client = new org_openpsa_httplib();
-    eval("\$vars = array({$_REQUEST['variables']});");
     if (   !empty($_REQUEST['username'])
         && !empty($_REQUEST['password'])) {
         $client->basicauth['user'] = $_REQUEST['username'];
         $client->basicauth['password'] = $_REQUEST['password'];
     }
-    if (!isset($vars)) {
-        $display = "<h1>Error</h1>\n<p>Could not determine variables to post</p>";
+    $vars = midcom_helper_misc::parse_config($_REQUEST['variables']);
+    $response = $client->post($_REQUEST['url'], $vars);
+    if (!$response) {
+        $display = "<h1>Error</h1>\n<p>Client error: {$client->error}</p>";
     } else {
-        $response = $client->post($_REQUEST['url'], $vars);
-        if (!$response) {
-            $display = "<h1>Error</h1>\n<p>Client error: {$client->error}</p>";
-        } else {
-            $display = "<h1>Success</h1>\n{$response}";
-        }
+        $display = "<h1>Success</h1>\n{$response}";
     }
     echo $display;
 }
