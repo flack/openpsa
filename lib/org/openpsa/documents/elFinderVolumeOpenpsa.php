@@ -452,8 +452,7 @@ class elFinderVolumeOpenpsa extends elFinderVolumeDriver
         if (!$dir->create()) {
             return false;
         }
-        $groups = org_openpsa_helpers_list::workgroups();
-        if ($groups) {
+        if ($groups = org_openpsa_helpers_list::workgroups()) {
             $dir->set_parameter('org.openpsa.core', 'orgOpenpsaOwnerWg', key($groups));
         }
         $access_types = org_openpsa_core_acl::get_options();
@@ -489,7 +488,7 @@ class elFinderVolumeOpenpsa extends elFinderVolumeDriver
     protected function _mkfile($path, $name)
     {
         if ($document = $this->create_document($path, $name)) {
-            return $document;
+            return $document->guid;
         }
         return false;
     }
@@ -543,8 +542,7 @@ class elFinderVolumeOpenpsa extends elFinderVolumeDriver
     protected function _move($source, $targetDir, $name)
     {
         $target = org_openpsa_documents_directory::get_cached($targetDir);
-        $object = $this->get_by_path($source);
-        if ($object !== false) {
+        if ($object = $this->get_by_path($source)) {
             if ($object instanceof org_openpsa_documents_document_dba) {
                 $object->topic = $target->id;
                 $object->title = $name;

@@ -39,8 +39,7 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
             },
             handlers:  {
                 resize: function(event, elfinder) {
-                    if ($('#elfinder').height() !== $('#elfinder').parent().parent().height() - 2)
-                    {
+                    if ($('#elfinder').height() !== $('#elfinder').parent().parent().height() - 2) {
                         $('#elfinder')
                             .css('width', 'auto')
                             .height($('#elfinder').parent().parent().height() - 2)

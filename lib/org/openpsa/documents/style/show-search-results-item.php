@@ -9,10 +9,7 @@ $score = round($data['document_search']->score * 100);
 $url = $data['document_search']->topic_url . 'document/' . $data['document']->guid . '/';
 
 // MIME type
-$icon = MIDCOM_STATIC_URL . '/stock-icons/mime/gnome-text-blank.png';
-if ($att) {
-    $icon = midcom_helper_misc::get_mime_icon($att['mimetype']);
-}
+$icon = midcom_helper_misc::get_mime_icon($att['mimetype'], MIDCOM_STATIC_URL . '/stock-icons/mime/gnome-text-blank.png');
 ?>
 <dt><a href="&(url);"><?php echo $view['title']; ?></a></dt>
 <dd>

@@ -39,10 +39,9 @@ implements midcom_services_permalinks_resolver
 
     public function resolve_object_link(midcom_db_topic $topic, midcom_core_dbaobject $object)
     {
-        if ($object instanceof org_openpsa_documents_document_dba) {
-            if ($object->topic == $topic->id) {
-                return "document/{$object->guid}/";
-            }
+        if (   $object instanceof org_openpsa_documents_document_dba
+            && $object->topic == $topic->id) {
+            return "document/{$object->guid}/";
         }
         return null;
     }

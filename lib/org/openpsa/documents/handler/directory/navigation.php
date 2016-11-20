@@ -47,12 +47,7 @@ class org_openpsa_documents_handler_directory_navigation extends midcom_baseclas
     {
         foreach ($topic_array as $topic) {
             if ($topic->up == $root_topic->id) {
-                if (!is_array($tree_array[$root_topic->id])) {
-                    $tree_array[$root_topic->id] = array('topic' => $root_topic);
-                }
-                $tree_array[$root_topic->id][$topic->id] = array(
-                    "topic" => $topic
-                );
+                $tree_array[$root_topic->id][$topic->id] = array("topic" => $topic);
                 $this->_tree_array_build($topic_array, $topic, $tree_array[$root_topic->id]);
             }
         }
@@ -65,20 +60,17 @@ class org_openpsa_documents_handler_directory_navigation extends midcom_baseclas
      */
     public function _handler_navigation($handler_id, array $args, array &$data)
     {
-        $current_topic = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_CONTENTTOPIC);
-        $current_component = $current_topic->component;
-        $root_topic = $current_topic;
-        while ($root_topic->get_parent()->component == $current_component) {
+        $root_topic = $this->_topic;
+        while ($root_topic->get_parent()->component == $this->_component) {
             $root_topic = $root_topic->get_parent();
         }
-        $this->_request_data['root_topic'] = $root_topic;
-        $this->_request_data['current_topic'] = $current_topic;
+        $data['root_topic'] = $root_topic;
 
         $qb = midcom_db_topic::new_query_builder();
-        $qb->add_constraint("component", "=", $current_component);
+        $qb->add_constraint("component", "=", $this->_component);
         $qb->add_constraint("up", "INTREE", $root_topic->id);
         $qb->add_order('extra');
-        $this->_request_data['topic_array'] = $qb->execute();
+        $data['topic_array'] = $qb->execute();
 
         //This handler is supposed to be used with dynamic_load or AJAX, so skip page style
         midcom::get()->skip_page_style = true;
@@ -92,9 +84,9 @@ class org_openpsa_documents_handler_directory_navigation extends midcom_baseclas
     public function _show_navigation($handler_id, array &$data)
     {
         $tree_array = array(
-            $this->_request_data['root_topic']->id => $this->_request_data['root_topic']
+            $data['root_topic']->id => array('topic' => $data['root_topic'])
         );
-        $this->_tree_array_build($this->_request_data['topic_array'], $this->_request_data['root_topic'], $tree_array);
+        $this->_tree_array_build($data['topic_array'], $data['root_topic'], $tree_array);
 
         midcom_show_style('show-navigation-start');
         $this->_show_navigation_tree($tree_array, midcom_connection::get_url('prefix'));

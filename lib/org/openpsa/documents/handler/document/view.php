@@ -57,13 +57,6 @@ implements org_openpsa_widgets_grid_provider_client
         $qb->add_constraint('topic', '=', $this->_request_data['directory']->id);
         $qb->add_constraint('orgOpenpsaObtype', '=', org_openpsa_documents_document_dba::OBTYPE_DOCUMENT);
 
-        if (!is_null($field)) {
-            if ($field == 'created') {
-                $field = 'metadata.created';
-            }
-            $qb->add_order($field, $direction);
-        }
-
         return $qb;
     }
 
@@ -81,9 +74,7 @@ implements org_openpsa_widgets_grid_provider_client
 
         $icon = MIDCOM_STATIC_URL . '/stock-icons/mime/gnome-text-blank.png';
         $alt = '';
-        $att = $document->load_attachment();
-
-        if ($att) {
+        if ($att = $document->load_attachment()) {
             $icon = midcom_helper_misc::get_mime_icon($att->mimetype);
             $alt = $att->name;
             $stats = $att->stat();
@@ -94,14 +85,12 @@ implements org_openpsa_widgets_grid_provider_client
 
         $title = '<a class="tab_escape" href="' .$prefix . 'document/' . $document->guid .'/"><img src="' . $icon . '"';
         $title .= 'alt="' . $alt . '" style="border: 0px; height: 16px; vertical-align: middle" /> ' . $document->title . '</a>';
-
         $entry['title'] = $title;
 
         $entry['created'] = strftime('%Y-%m-%d %X', $document->metadata->created);
 
         $entry['index_author'] = '';
         $entry['author'] = '';
-
         if ($document->author) {
             $author = org_openpsa_contacts_person_dba::get_cached($document->author);
             $entry['index_author'] = $author->rname;
@@ -171,23 +160,12 @@ implements org_openpsa_widgets_grid_provider_client
         $this->_document = $this->_load_document($args[0]);
 
         // Get number of older versions
-        $this->_request_data['document_versions'] = 0;
-        $qb = org_openpsa_documents_document_dba::new_query_builder();
-        $qb->add_constraint('topic', '=', $this->_request_data['directory']->id);
-        if ($this->_document->nextVersion == 0) {
-            $qb->add_constraint('nextVersion', '=', $this->_document->id);
-        } else {
-            $qb->add_constraint('nextVersion', '=', $this->_document->nextVersion);
-            $qb->add_constraint('metadata.created', '<', gmstrftime('%Y-%m-%d %T', $this->_document->metadata->created));
-        }
-        $qb->add_constraint('orgOpenpsaObtype', '=', org_openpsa_documents_document_dba::OBTYPE_DOCUMENT);
-        $this->_request_data['document_versions'] = $qb->count();
+        $data['document_versions'] = $this->get_qb()->count();
+        $data['document_dm'] = $this->_datamanager;
+        $data['document'] = $this->_document;
 
         org_openpsa_widgets_ui::enable_ui_tab();
         org_openpsa_widgets_contact::add_head_elements();
-
-        $this->_request_data['document_dm'] = $this->_datamanager;
-        $this->_request_data['document'] = $this->_document;
 
         midcom::get()->head->set_pagetitle($this->_document->title);
 
