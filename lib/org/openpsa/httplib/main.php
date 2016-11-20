@@ -69,25 +69,6 @@ class org_openpsa_httplib extends midcom_baseclasses_components_purecode
         return new Browser($client);
     }
 
-    private function prepare_request(Request $request, $method, $url, array $headers = array(), $username = null, $password = null)
-    {
-        $url = new Url($url);
-        $url->applyToRequest($request);
-
-        $request->addHeader('User-Agent: ' . $this->user_agent());
-
-        // Handle basic auth
-        if (   !empty($username)
-            && !empty($password)) {
-            // Set basic auth
-            $request->addHeader('Authorization: Basic ' . base64_encode($username . ':' . $password));
-        }
-        // add custom headers
-        if (!empty($headers)) {
-            $request->addHeaders($headers);
-        }
-    }
-
     /**
      * Get contents of given URL
      *
@@ -100,9 +81,8 @@ class org_openpsa_httplib extends midcom_baseclasses_components_purecode
     public function get($url, array $headers = array(), $username = null, $password = null)
     {
         $request = new Request(RequestInterface::METHOD_GET);
-        $this->prepare_request($request, $url, $headers, $username, $password);
 
-        return (string) $this->send($request);
+        return (string) $this->send($request, $url, $username, $password);
     }
 
     /**
@@ -122,15 +102,29 @@ class org_openpsa_httplib extends midcom_baseclasses_components_purecode
             return false;
         }
         $request = new FormRequest;
-        $this->prepare_request($request, $uri, $headers, $this->basicauth['user'], $this->basicauth['password']);
-
         $request->setFields($variables);
 
-        return $this->send($request);
+        return $this->send($request, $uri, $headers, $this->basicauth['user'], $this->basicauth['password']);
     }
 
-    private function send(Request $request)
+    private function send(Request $request, $url, array $headers, $username, $password)
     {
+        $url = new Url($url);
+        $url->applyToRequest($request);
+
+        $request->addHeader('User-Agent: Midgard/' . substr(mgd_version(), 0, 4));
+
+        // Handle basic auth
+        if (   !empty($username)
+            && !empty($password)) {
+            // Set basic auth
+            $request->addHeader('Authorization: Basic ' . base64_encode($username . ':' . $password));
+        }
+        // add custom headers
+        if (!empty($headers)) {
+            $request->addHeaders($headers);
+        }
+
         $browser = $this->get_browser();
 
         try {
@@ -142,14 +136,9 @@ class org_openpsa_httplib extends midcom_baseclasses_components_purecode
         }
         if (!$response->isSuccessful()) {
             $this->error = $response->getReasonPhrase();
-            debug_add("Got error '{$this->error}' from '{$uri}'", MIDCOM_LOG_INFO);
+            debug_add("Got error '{$this->error}' from '{$url}'", MIDCOM_LOG_INFO);
             return false;
         }
         return $response->getContent();
-    }
-
-    private function user_agent()
-    {
-        return 'Midgard/' . substr(mgd_version(), 0, 4);
     }
 }

@@ -15,8 +15,6 @@ use Symfony\Component\DomCrawler\Crawler;
  */
 class org_openpsa_httplib_helpers extends midcom_baseclasses_components_purecode
 {
-    private static $_quotes = '"\'';
-
     /**
      * Get value of a meta tag in HTML page.
      *
