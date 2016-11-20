@@ -37,7 +37,6 @@ class org_openpsa_invoices_handler_projects extends midcom_baseclasses_component
         $invoice->description = $invoice->get_default('remarks');
 
         if (!$invoice->create()) {
-            midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.invoices'), $this->_l10n->get('failed to create invoice, reason') . midcom_connection::get_error_string(), 'error');
             return false;
         }
 
@@ -66,15 +65,10 @@ class org_openpsa_invoices_handler_projects extends midcom_baseclasses_component
         }
 
         // Generate "Send invoice" task
-        $invoice_sender_guid = $this->_config->get('invoice_sender');
-        if (!empty($invoice_sender_guid)) {
-            $invoice->generate_invoicing_task($invoice_sender_guid);
+        if ($guid = $this->_config->get('invoice_sender')) {
+            $invoice->generate_invoicing_task($guid);
         }
-
-        midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.invoices'), sprintf($this->_l10n->get('invoice %s created'), $invoice->get_label()));
-
-        midcom::get()->relocate("invoice/{$invoice->guid}/");
-        // This will exit
+        return $invoice;
     }
 
     /**
@@ -99,9 +93,7 @@ class org_openpsa_invoices_handler_projects extends midcom_baseclasses_component
         $qb->end_group();
         $qb->end_group();
 
-        $tasks = $qb->execute();
-
-        foreach ($tasks as $task) {
+        foreach ($qb->execute() as $task) {
             $this->_tasks[$task->id] = $task;
 
             if (!array_key_exists($task->customer, $this->_customers)) {
@@ -113,7 +105,10 @@ class org_openpsa_invoices_handler_projects extends midcom_baseclasses_component
 
         // Check if we're sending an invoice here
         if (array_key_exists('org_openpsa_invoices_invoice', $_POST)) {
-            $this->_generate_invoice();
+            if ($invoice = $this->_generate_invoice()) {
+                return new midcom_response_relocate("invoice/{$invoice->guid}/");
+            }
+            midcom::get()->uimessages->add($this->_l10n->get($this->_component), $this->_l10n->get('failed to create invoice, reason') . midcom_connection::get_error_string(), 'error');
         }
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/list.css");
@@ -134,7 +129,6 @@ class org_openpsa_invoices_handler_projects extends midcom_baseclasses_component
     public function _show_uninvoiced($handler_id, array &$data)
     {
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
-
         $data['projects_url'] = $siteconfig->get_node_full_url('org.openpsa.projects');
 
         midcom_show_style('show-projects-header');

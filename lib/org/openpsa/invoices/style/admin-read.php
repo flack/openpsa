@@ -86,8 +86,7 @@ if ($invoice->cancelationInvoice) {
         echo "</div>";
     }
     // is the invoice a cancelation invoice itself?
-    $canceled_invoice = $invoice->get_canceled_invoice();
-    if ($canceled_invoice) {
+    if ($canceled_invoice = $invoice->get_canceled_invoice()) {
         $canceled_invoice_link = $prefix . 'invoice/' . $canceled_invoice->guid . '/';
 
         echo "<div class=\"field\">";
@@ -177,13 +176,15 @@ if (!empty($data['reports'])) {
         $guids[] = $report->guid;
 
         try {
-            $task = org_openpsa_projects_task_dba::get_cached($report->task);
             $reporter = org_openpsa_contacts_person_dba::get_cached($report->person);
+            $reporter_card = org_openpsa_widgets_contact::get($report->person);
+            $row['index_reporter'] = $reporter->rname;
+            $row['reporter'] = $reporter_card->show_inline();
+            $task = org_openpsa_projects_task_dba::get_cached($report->task);
+            $row['task'] = "<a href=\"{$projects_url}task/{$task->guid}/\">{$task->title}</a>";
         } catch (midcom_error $e) {
-            continue;
+            $e->log();
         }
-
-        $reporter_card = org_openpsa_widgets_contact::get($report->person);
 
         $approved_img_src = MIDCOM_STATIC_URL . '/stock-icons/16x16/';
         if ($report->is_approved()) {
@@ -198,12 +199,9 @@ if (!empty($data['reports'])) {
         $row['id'] = $report->id;
         $row['index_date'] = $report->date;
         $row['date'] = $formatter->date($report->date);
-        $row['index_reporter'] = $reporter->rname;
-        $row['reporter'] = $reporter_card->show_inline();
         $row['hours'] = $report->hours;
         $row['description'] = $report->get_description();
         $row['approved'] = $approved_img;
-        $row['task'] = "<a href=\"{$projects_url}task/{$task->guid}/\">{$task->title}</a>";
 
         $rows[] = $row;
     } ?>

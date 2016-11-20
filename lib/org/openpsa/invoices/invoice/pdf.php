@@ -75,13 +75,11 @@ class org_openpsa_invoices_invoice_pdf
             throw new midcom_error('Could not find PDF renderer ' . $client_class);
         }
 
-        if ($this->invoice->date == 0 || $this->invoice->deliverydate == 0) {
-            if ($this->invoice->date == 0) {
-                $this->invoice->date = time();
-            }
-            if ($this->invoice->deliverydate == 0) {
-                $this->invoice->deliverydate = time();
-            }
+        if ($this->invoice->date == 0) {
+            $this->invoice->date = time();
+        }
+        if ($this->invoice->deliverydate == 0) {
+            $this->invoice->deliverydate = time();
         }
         // renders the pdf and attaches it to the invoice
         $pdf_builder = new $client_class($this->invoice);
@@ -94,24 +92,24 @@ class org_openpsa_invoices_invoice_pdf
         // render pdf to tmp filename
         $pdf_builder->render($tmp_file);
 
-        // cleanup old attachments
-        if ($attachment = $this->get_attachment()) {
-            $attachment->delete();
-        }
-
-        $attachment = $this->invoice->create_attachment($filename, $this->invoice->get_label(), "application/pdf");
-
-        if (!$attachment) {
-            throw new midcom_error("Failed to create invoice attachment for pdf");
+        $attachment = $this->get_attachment();
+        if ($attachment) {
+            $attachment->name = $filename;
+            $attachment->title = $this->invoice->get_label();
+            $attachment->mimetype = "application/pdf";
+            $attachment->update();
+        } else {
+            $attachment = $this->invoice->create_attachment($filename, $this->invoice->get_label(), "application/pdf");
+            if (!$attachment) {
+                throw new midcom_error("Failed to create invoice attachment for pdf");
+            }
         }
 
         if (!$attachment->copy_from_file($tmp_file)) {
             throw new midcom_error("Failed to copy pdf from " . $tmp_file . " to attachment");
         }
 
-        // set parameter for datamanager to find the pdf
-        if (   !$this->invoice->set_parameter("midcom.helper.datamanager2.type.blobs", "guids_pdf_file", $attachment->guid . ":" . $attachment->guid)
-            || !$attachment->set_parameter('org.openpsa.invoices', 'auto_generated', md5_file($tmp_file))) {
+        if (!$attachment->set_parameter('org.openpsa.invoices', 'auto_generated', md5_file($tmp_file))) {
             throw new midcom_error("Failed to create attachment parameters, last midgard error was: " . midcom_connection::get_error_string());
         }
         // only save potential invoice changes when everything worked (also refreshes revised timestamp)

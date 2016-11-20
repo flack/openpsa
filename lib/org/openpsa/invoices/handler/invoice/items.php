@@ -109,31 +109,26 @@ class org_openpsa_invoices_handler_invoice_items extends midcom_baseclasses_comp
 
         $invoice = new org_openpsa_invoices_invoice_dba($args[0]);
 
-        switch ($_POST['oper']) {
-            case 'edit':
-                if (strpos($_POST['id'], 'new_') === 0) {
-                    $item = new org_openpsa_invoices_invoice_item_dba();
-                    $item->invoice = $invoice->id;
-                    $item->create();
-                } else {
-                    $item = new org_openpsa_invoices_invoice_item_dba((int) $_POST['id']);
-                }
-                $item->units = (float) str_replace(',', '.', $_POST['quantity']);
-                $item->pricePerUnit = (float) str_replace(',', '.', $_POST['price']);
-                $item->description = $_POST['description'];
-
-                if (!$item->update()) {
-                    throw new midcom_error('Failed to update item: ' . midcom_connection::get_error_string());
-                }
-                break;
-            case 'del':
+        if ($_POST['oper'] == 'edit') {
+            if (strpos($_POST['id'], 'new_') === 0) {
+                $item = new org_openpsa_invoices_invoice_item_dba();
+                $item->invoice = $invoice->id;
+                $item->create();
+            } else {
                 $item = new org_openpsa_invoices_invoice_item_dba((int) $_POST['id']);
-                if (!$item->delete()) {
-                    throw new midcom_error('Failed to delete item: ' . midcom_connection::get_error_string());
-                }
-                break;
-            default:
-                throw new midcom_error('Invalid operation "' . $_POST['oper'] . '"');
+            }
+            $item->units = (float) str_replace(',', '.', $_POST['quantity']);
+            $item->pricePerUnit = (float) str_replace(',', '.', $_POST['price']);
+            $item->description = $_POST['description'];
+
+            if (!$item->update()) {
+                throw new midcom_error('Failed to update item: ' . midcom_connection::get_error_string());
+            }
+        } else {
+            $item = new org_openpsa_invoices_invoice_item_dba((int) $_POST['id']);
+            if (!$item->delete()) {
+                throw new midcom_error('Failed to delete item: ' . midcom_connection::get_error_string());
+            }
         }
         $result = array(
             'id' => $item->id,
@@ -154,6 +149,9 @@ class org_openpsa_invoices_handler_invoice_items extends midcom_baseclasses_comp
             || !isset($_POST['price'])
             || !isset($_POST['quantity'])) {
             throw new midcom_error('Incomplete POST data');
+        }
+        if (!in_array($_POST['oper'], array('edit', 'del'))) {
+            throw new midcom_error('Invalid operation "' . $_POST['oper'] . '"');
         }
     }
 

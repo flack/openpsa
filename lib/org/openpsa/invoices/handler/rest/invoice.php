@@ -28,17 +28,11 @@ class org_openpsa_invoices_handler_rest_invoice extends midcom_baseclasses_compo
         }
 
         // got filter
-        $person_guid = isset($filter['person_guid']) ? $filter['person_guid'] : false;
-        if (!$person_guid) {
-            $this->_stop("Invalid filter options");
+        if (!isset($filter['person_guid'])) {
+            throw new midcom_error("Invalid filter options");
         }
 
-        // person exists?
-        try {
-            $person = new org_openpsa_contacts_person_dba($person_guid);
-        } catch (Exception $e) {
-            $this->_stop("Invalid person: " . $e->getMessage());
-        }
+        $person = new org_openpsa_contacts_person_dba($filter['person_guid']);
 
         $qb = org_openpsa_invoices_invoice_dba::new_query_builder();
         $qb->add_constraint("customerContact", "=", $person->id);

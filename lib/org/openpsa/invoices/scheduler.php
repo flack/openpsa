@@ -89,13 +89,13 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
             return $this->_deliverable->end_subscription();
         }
 
-        if ($this->_create_at_entry($cycle_number + 1, $next_cycle_start)) {
-            if ($send_invoice) {
-                $this->_notify_owner($calculator, $cycle_number, $next_cycle_start, $this_cycle_amount, $tasks_completed, $tasks_not_completed);
-            }
-            return true;
+        if (!$this->_create_at_entry($cycle_number + 1, $next_cycle_start)) {
+            return false;
         }
-        return false;
+        if ($send_invoice) {
+            $this->_notify_owner($calculator, $cycle_number, $next_cycle_start, $this_cycle_amount, $tasks_completed, $tasks_not_completed);
+        }
+        return true;
     }
 
     private function _create_at_entry($cycle_number, $start)

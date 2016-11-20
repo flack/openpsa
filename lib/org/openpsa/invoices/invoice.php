@@ -401,16 +401,16 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
         $qb_invoice_item->add_constraint('task', '=', $task_id);
 
         $invoice_items = $qb_invoice_item->execute();
-        if (count($invoice_items) == 1) {
-            $invoice_item = $invoice_items[0];
-        } elseif (count($invoice_items) > 1) {
-            debug_add('More than one item found for task #' . $task_id . ', only returning the first', MIDCOM_LOG_INFO);
-            $invoice_item = $invoice_items[0];
-        } else {
+        if (count($invoice_items) == 0) {
             $invoice_item = new org_openpsa_invoices_invoice_item_dba();
             $invoice_item->task = $task_id;
             $invoice_item->invoice = $this->id;
             $invoice_item->create();
+        } else {
+            $invoice_item = $invoice_items[0];
+            if (count($invoice_items) > 1) {
+                debug_add('More than one item found for task #' . $task_id . ', only returning the first', MIDCOM_LOG_INFO);
+            }
         }
 
         return $invoice_item;

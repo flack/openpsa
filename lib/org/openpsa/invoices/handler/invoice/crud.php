@@ -15,6 +15,16 @@ class org_openpsa_invoices_handler_invoice_crud extends midcom_baseclasses_compo
 {
     protected $_dba_class = 'org_openpsa_invoices_invoice_dba';
 
+    /**
+     * @var org_openpsa_contacts_group_dba
+     */
+    private $customer;
+
+    /**
+     * @var org_openpsa_contacts_person_dba
+     */
+    private $contact;
+
     public function _load_schemadb()
     {
         $this->_schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb'));
@@ -22,9 +32,9 @@ class org_openpsa_invoices_handler_invoice_crud extends midcom_baseclasses_compo
             && count($this->_master->_handler['args']) == 1) {
             // We're creating invoice for chosen customer
             try {
-                $this->_request_data['customer'] = new org_openpsa_contacts_group_dba($this->_master->_handler['args'][0]);
+                $this->customer = new org_openpsa_contacts_group_dba($this->_master->_handler['args'][0]);
             } catch (midcom_error $e) {
-                $this->_request_data['customer'] = new org_openpsa_contacts_person_dba($this->_master->_handler['args'][0]);
+                $this->contact = new org_openpsa_contacts_person_dba($this->_master->_handler['args'][0]);
             }
         }
         $this->_modify_schema();
@@ -55,16 +65,14 @@ class org_openpsa_invoices_handler_invoice_crud extends midcom_baseclasses_compo
 
         if (!empty($this->_object->customerContact)) {
             $this->_populate_schema_customers_for_contact($this->_object->customerContact);
-        } elseif (array_key_exists('customer', $this->_request_data)) {
-            if (is_a($this->_request_data['customer'], 'org_openpsa_contacts_group_dba')) {
-                $this->_populate_schema_contacts_for_customer($this->_request_data['customer']);
-            } else {
-                $this->_populate_schema_customers_for_contact($this->_request_data['customer']->id);
-            }
+        } elseif ($this->customer) {
+            $this->_populate_schema_contacts_for_customer($this->customer);
+        } elseif ($this->contact) {
+                $this->_populate_schema_customers_for_contact($this->contact->id);
         } elseif (!empty($this->_object->customer)) {
             try {
-                $this->_request_data['customer'] = org_openpsa_contacts_group_dba::get_cached($this->_object->customer);
-                $this->_populate_schema_contacts_for_customer($this->_request_data['customer']);
+                $this->customer = org_openpsa_contacts_group_dba::get_cached($this->_object->customer);
+                $this->_populate_schema_contacts_for_customer($this->customer);
             } catch (midcom_error $e) {
                 $fields['customer']['hidden'] = true;
                 $e->log();
@@ -144,30 +152,23 @@ class org_openpsa_invoices_handler_invoice_crud extends midcom_baseclasses_compo
     {
         $this->_defaults['date'] = time();
         $this->_defaults['deliverydate'] = time();
+        $this->_defaults['owner'] = midcom_connection::get_user();
 
-        // Set default due date and copy customer remarks to invoice description
-        if (array_key_exists('customer', $this->_request_data)) {
-            $dummy = new org_openpsa_invoices_invoice_dba();
-            $dummy->customer = $this->_request_data['customer']->id;
-            $this->_defaults['vat'] = $dummy->get_default('vat');
-
-            if (is_a($this->_request_data['customer'], 'org_openpsa_contacts_person_dba')) {
-                $this->_defaults['customerContact'] = $this->_request_data['customer']->id;
-            }
-
-            // we got a customer, set description default
-            $this->_defaults['description'] = $dummy->get_default('remarks');
-        } else {
-            $due_date = ($this->_config->get('default_due_days') * 3600 * 24) + time();
-            $this->_defaults['due'] = $due_date;
+        $dummy = new org_openpsa_invoices_invoice_dba();
+        if ($this->customer) {
+            $dummy->customer = $this->customer->id;
+            $this->_defaults['customer'] = $this->customer->id;
+        } else if ($this->contact) {
+            $dummy->customerContact = $this->contact->id;
+            $this->_defaults['customerContact'] = $this->contact->id;
         }
+        $this->_defaults['description'] = $dummy->get_default('remarks');
+        $this->_defaults['vat'] = $dummy->get_default('vat');
 
         // Generate invoice number
         $client_class = midcom_baseclasses_components_configuration::get('org.openpsa.sales', 'config')->get('calculator');
         $calculator = new $client_class;
         $this->_defaults['number'] = $calculator->generate_invoice_number();
-
-        $this->_defaults['owner'] = midcom_connection::get_user();
     }
 
     /**

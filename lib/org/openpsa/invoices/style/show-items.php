@@ -61,13 +61,11 @@ $grid->set_column('actions', '',  'width: 65, fixed: true, sortable: false');
                     //Get the id of the tr in witch this(=td) is
                     trId = $(this).parent().attr('id');
 
-                if (idx !== oldPos)
-                {
+                if (idx !== oldPos) {
                     // Set new Position-Number in this td
                     $(this).html(idx);
 
-                    if (trId.substring(0,4) !== 'new_')
-                    {
+                    if (trId.substring(0,4) !== 'new_') {
                         saveSingleItemPosition(trId, idx);
                     }
                 }
@@ -88,12 +86,10 @@ $grid->set_column('actions', '',  'width: 65, fixed: true, sortable: false');
             grid.jqGrid('setRowData', rowid, {sum: parseFloat(price) * parseFloat(quantity)});
 
             //if saved row was new_... then refresh tr-id
-            if (response.responseText !== undefined)
-            {
+            if (response.responseText !== undefined) {
                 var return_values = $.parseJSON(response.responseText),
                 oldId = return_values.oldid;
-                if (oldId.substring(0,4) === 'new_')
-                {
+                if (oldId.substring(0,4) === 'new_') {
                     var pos = $("#<?php echo $grid->get_identifier(); ?> tr[id='" + oldId + "']").prevAll().length;
                     rowid = return_values.id;
 
@@ -107,8 +103,7 @@ $grid->set_column('actions', '',  'width: 65, fixed: true, sortable: false');
                 }
             }
 
-            for (i = 0; i < rows.length; i++)
-            {
+            for (i = 0; i < rows.length; i++) {
                 total += parseFloat(grid.jqGrid('getCell', rows[i].id, 7));
             }
 

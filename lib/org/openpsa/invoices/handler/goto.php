@@ -21,8 +21,7 @@ class org_openpsa_invoices_handler_goto extends midcom_baseclasses_components_ha
     public function _handler_goto($handler_id, array $args, array &$data)
     {
         if (!isset($_GET['query'])) {
-            midcom::get()->uimessages->add($this->_l10n->get('invoice was not found'), $this->_l10n->get('no invoice number was handed over'), 'info');
-            return new midcom_response_relocate('');
+            return $this->fail($this->_l10n->get('no invoice number was handed over'));
         }
 
         $invoicenumber = (int) $_GET['query'] ;
@@ -31,13 +30,12 @@ class org_openpsa_invoices_handler_goto extends midcom_baseclasses_components_ha
             return new midcom_response_relocate('invoice/' . $invoice->guid . '/');
         }
 
-        $MessageContent = sprintf(
-            $this->_l10n->get('there is no invoice with number %s'),
-            $this->_l10n->get($invoicenumber)
-        );
+        return $this->fail(sprintf($this->_l10n->get('there is no invoice with number %s'), $invoicenumber));
+    }
 
-        midcom::get()->uimessages->add($this->_l10n->get('invoice was not found'), $MessageContent, 'info');
-
+    private function fail($message)
+    {
+        midcom::get()->uimessages->add($this->_l10n->get('invoice was not found'), $message, 'info');
         return new midcom_response_relocate('');
     }
 }

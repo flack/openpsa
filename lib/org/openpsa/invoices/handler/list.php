@@ -91,10 +91,6 @@ implements org_openpsa_widgets_grid_provider_client
         $number = $invoice->get_label();
         $link_html = "<a href='{$prefix}invoice/{$invoice->guid}/'>" . $number . "</a>";
 
-        if ($number == "") {
-            $number = "n/a";
-        }
-
         $entry['id'] = $invoice->id;
         $entry['index_number'] = $number;
         $entry['number'] = $link_html;
@@ -346,10 +342,6 @@ implements org_openpsa_widgets_grid_provider_client
      */
     public function _handler_deliverable($handler_id, array $args, array &$data)
     {
-        if (count($args) != 1) {
-            throw new midcom_error('Incomplete request data');
-        }
-
         // We're displaying invoices of a specific deliverable
         $this->_deliverable = new org_openpsa_sales_salesproject_deliverable_dba($args[0]);
         $data['deliverable'] = $this->_deliverable;
@@ -358,9 +350,7 @@ implements org_openpsa_widgets_grid_provider_client
         $data['customer'] = $this->_customer;
 
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
-        $sales_url = $siteconfig->get_node_full_url('org.openpsa.sales');
-
-        if ($sales_url) {
+        if ($sales_url = $siteconfig->get_node_full_url('org.openpsa.sales')) {
             $this->_view_toolbar->add_item(
                 array(
                     MIDCOM_TOOLBAR_URL => $sales_url . "deliverable/{$this->_deliverable->guid}/",

@@ -29,16 +29,12 @@ class org_openpsa_invoices_handler_rest_billingdata extends midcom_baseclasses_c
 
         // got no billingdata so far.. auto-create!
         // before autocreation, check if person exists
-        try {
-            $person = new org_openpsa_contacts_person_dba($linkGuid);
-        } catch (midcom_error $e) {
-            $this->_stop("Failed to autocreate billingdata. Invalid linkGuid: " . $e->getMessage());
-        }
+        $person = new org_openpsa_contacts_person_dba($linkGuid);
 
         $billingdata = new org_openpsa_invoices_billing_data_dba();
         $billingdata->linkGuid = $person->guid;
         if (!$billingdata->create()) {
-            return false;
+            throw new midcom_error("Failed to create billingdata, last error was: " . midcom_connection::get_error_string());
         }
 
         return $billingdata;
@@ -53,17 +49,11 @@ class org_openpsa_invoices_handler_rest_billingdata extends midcom_baseclasses_c
             return parent::handle_get();
         }
         // got filter
-        $linkGuid = isset($filter['linkGuid']) ? $filter['linkGuid'] : false;
-        if (!$linkGuid) {
-            $this->_stop("Invalid filter options");
+        if (!isset($filter['linkGuid'])) {
+            throw new midcom_error("Invalid filter options");
         }
 
-        $billingdata = $this->get_billingdata($linkGuid);
-        if (!$billingdata) {
-            $this->_stop("Failed to retrieve billingdata, last error was: " . midcom_connection::get_error_string());
-        }
-
-        $this->_object = $billingdata;
+        $this->_object = $this->get_billingdata($filter['linkGuid']);
         $this->_responseStatus = MIDCOM_ERROK;
         $this->_response["object"] = $this->_object;
         $this->_response["message"] = "get ok";

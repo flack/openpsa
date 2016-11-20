@@ -59,10 +59,9 @@ class org_openpsa_invoices_invoice_item_dba extends midcom_core_dbaobject
         $link = nl2br($this->description);
 
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
-        $projects_url = $siteconfig->get_node_full_url('org.openpsa.projects');
         $sales_url = $siteconfig->get_node_full_url('org.openpsa.sales');
 
-        if ($projects_url) {
+        if ($projects_url = $siteconfig->get_node_full_url('org.openpsa.projects')) {
             try {
                 $task = org_openpsa_projects_task_dba::get_cached($this->task);
                 $url = $projects_url . 'task/' . $task->guid . '/';
