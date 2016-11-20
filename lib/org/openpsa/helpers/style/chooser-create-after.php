@@ -12,14 +12,7 @@
    }
    function add_item(data)
    {
-       if (widget_id.match(/_chooser$/))
-       {
-           window.parent.jQuery('#' + widget_id + '_search_input').midcom_helper_datamanager2_widget_chooser_add_result_item(data);
-       }
-       else
-       {
-           window.parent.midcom_helper_datamanager2_autocomplete.add_result_item(widget_id, data);
-       }
+       window.parent.midcom_helper_datamanager2_autocomplete.add_result_item(widget_id, data);
    }
     <?php
     if ($data['action'] == 'save') {

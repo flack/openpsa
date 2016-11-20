@@ -28,6 +28,11 @@ class org_openpsa_helpers_list
         $ret = array(0 => '');
         self::$_seen = array();
 
+        if (!in_array($mode, array('id', 'guid'))) {
+            debug_add('Mode ' . $mode . ' not supported', MIDCOM_LOG_ERROR);
+            return $ret;
+        }
+
         //Make sure the currently selected customer (if any) is listed
         if ($task->customer > 0) {
             //Make sure we can read the current customer for the name
@@ -59,27 +64,17 @@ class org_openpsa_helpers_list
         return $ret;
     }
 
-    static function task_groups_put(array &$ret, $mode, $company_id)
+    private static function task_groups_put(array &$ret, $mode, $company_id)
     {
-        if (!empty(self::$_seen[$company_id])) {
-            return;
-        }
-        try {
-            $company = new org_openpsa_contacts_group_dba($company_id);
-        } catch (midcom_error $e) {
-            return;
-        }
-        self::$_seen[$company->id] = true;
+        if (empty(self::$_seen[$company_id])) {
+            try {
+                $company = new org_openpsa_contacts_group_dba($company_id);
+            } catch (midcom_error $e) {
+                return;
+            }
+            self::$_seen[$company->id] = true;
 
-        switch ($mode) {
-            case 'id':
-                $ret[$company->id] = $company->official;
-                break;
-            case 'guid':
-                $ret[$company->guid] = $company->official;
-                break;
-            default:
-                debug_add('Mode ' . $mode . ' not supported', MIDCOM_LOG_ERROR);
+            $ret[$company->$mode] = $company->get_label();
         }
     }
 
@@ -113,43 +108,40 @@ class org_openpsa_helpers_list
      */
     public static function workgroups($add_me = 'last', $show_members = false)
     {
+        if (!midcom::get()->auth->user) {
+            return array();
+        }
         static $cache = array();
         // List user's ACL groups for usage in DM arrays
         $array_name = $add_me . '_' . $show_members;
         if (!array_key_exists($array_name, $cache)) {
             $cache[$array_name] = array();
-            if (midcom::get()->auth->user) {
-                if ($add_me == 'first') {
-                    //TODO: Localization
-                    $cache[$array_name][midcom::get()->auth->user->id] = 'me';
-                }
+            if ($add_me == 'first') {
+                //TODO: Localization
+                $cache[$array_name][midcom::get()->auth->user->id] = 'me';
+            }
 
-                $users_groups = midcom::get()->auth->user->list_memberships();
-                foreach ($users_groups as $key => $vgroup) {
-                    if (is_object($vgroup)) {
-                        $label = $vgroup->name;
-                    } else {
-                        $label = $vgroup;
-                    }
-
-                    $cache[$array_name][$key] = $label;
-
+            $users_groups = midcom::get()->auth->user->list_memberships();
+            foreach ($users_groups as $key => $vgroup) {
+                if (is_object($vgroup)) {
+                    $cache[$array_name][$key] = $vgroup->name;
                     //TODO: get the vgroup object based on the key or something, this check fails always.
-                    if (   $show_members
-                        && is_object($vgroup)) {
+                    if ($show_members) {
                         $vgroup_members = $vgroup->list_members();
                         foreach ($vgroup_members as $key2 => $person) {
                             $cache[$array_name][$key2] = '&nbsp;&nbsp;&nbsp;' . $person->name;
                         }
                     }
+                } else {
+                    $cache[$array_name][$key] = $vgroup;
                 }
+            }
 
-                asort($cache[$array_name]);
+            asort($cache[$array_name]);
 
-                if ($add_me == 'last') {
-                    //TODO: Localization
-                    $cache[$array_name][midcom::get()->auth->user->id] = 'me';
-                }
+            if ($add_me == 'last') {
+                //TODO: Localization
+                $cache[$array_name][midcom::get()->auth->user->id] = 'me';
             }
         }
         return $cache[$array_name];
