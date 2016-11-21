@@ -94,29 +94,13 @@ class org_openpsa_mail_formmailer extends midcom_baseclasses_components_purecode
 
         if (!empty($values['subject'])) {
             $mail->subject = $values['subject'];
-        } elseif (!empty($this->subject)) {
-            $mail->subject = $this->subject;
         } else {
-            $mail->subject = $this->_config->get('formmailer_subject');
+            $mail->subject = $this->get('subject');
         }
 
-        if (!empty($this->from)) {
-            $mail->from = $this->from;
-        } else {
-            $mail->from = $this->_config->get('formmailer_from');
-        }
-
-        if (!empty($this->to)) {
-            $mail->to = $this->to;
-        } else {
-            $mail->to = $this->_config->get('formmailer_to');
-        }
-
-        if (!empty($this->body)) {
-            $mail->body = $this->body;
-        } else {
-            $mail->body = $this->_config->get('formmailer_body');
-        }
+        $mail->from = $this->get('from');
+        $mail->to = $this->get('to');
+        $mail->body = $this->get('body');
 
         $parameters = array();
         foreach ($values as $field => $value) {
@@ -129,5 +113,13 @@ class org_openpsa_mail_formmailer extends midcom_baseclasses_components_purecode
         } else {
             echo $this->_l10n->get('error sending form');
         }
+    }
+
+    private function get($field)
+    {
+        if (!empty($this->$field)) {
+            return $this->$field;
+        }
+        return $this->_config->get('formmailer_' . $field);
     }
 }

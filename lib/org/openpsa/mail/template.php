@@ -171,15 +171,7 @@ class org_openpsa_mail_template
                 continue;
             }
             $key = trim($key);
-            if (is_object($value)) {
-                $value = get_class($value) . " object";
-                debug_add("The key {$key} contains another object of type {$value}, can't dump this.");
-            }
-            if (is_array($value)) {
-                $value = "Array";
-                debug_add("The key {$key} contains an array, can't dump this.");
-            }
-            $value = trim($value);
+            $value = $this->prepare_value($key, $value);
             $result .= "$key: ";
             $result .= wordwrap($value, 74 - strlen($key), "\n" . str_repeat(" ", 2 + strlen($key)));
             $result .= "\n";
@@ -200,20 +192,25 @@ class org_openpsa_mail_template
         $result = "";
         foreach ($array as $key => $value) {
             $key = trim($key);
-            if (is_object($value)) {
-                $value = get_class($value) . " object";
-                debug_add("The key {$key} contains another object of type {$value}, can't dump this.");
-            }
-
-            if (is_array($value)) {
-                $value = "Array";
-                debug_add("The key {$key} contains an array, can't dump this.");
-            }
-            $value = trim($value);
+            $value = $this->prepare_value($key, $value);
             $result .= "{$key}: ";
             $result .= wordwrap($value, 74 - strlen($key), "\n" . str_repeat(" ", 2 + strlen($key)));
             $result .= "\n";
         }
         return $result;
+    }
+
+    private function prepare_value($key, $value)
+    {
+        if (is_object($value)) {
+            $value = get_class($value) . " object";
+            debug_add("The key {$key} contains another object of type {$value}, can't dump this.");
+        }
+
+        if (is_array($value)) {
+            $value = "Array";
+            debug_add("The key {$key} contains an array, can't dump this.");
+        }
+        return trim($value);
     }
 }

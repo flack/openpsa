@@ -214,11 +214,6 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
      */
     public function send()
     {
-        if (!is_object($this->_backend)) {
-            debug_add('no backend object available, aborting', MIDCOM_LOG_WARN);
-            return false;
-        }
-
         // prepare mail for sending
         $message = $this->_prepare_message();
 
@@ -239,9 +234,6 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
      */
     public function get_error_message()
     {
-        if (is_object($this->_backend)) {
-            return $this->_backend->get_error_message();
-        }
-        return 'Unknown error';
+        return $this->_backend->get_error_message();
     }
 }

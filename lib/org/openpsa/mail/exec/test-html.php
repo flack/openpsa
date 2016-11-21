@@ -1,8 +1,6 @@
 <?php
 midcom::get()->auth->require_admin_user();
 
-echo "<p>\n";
-
 if (   empty($_POST['to'])
     || empty($_POST['from'])) {
     ?>
@@ -51,8 +49,6 @@ if (   empty($_POST['to'])
     $mail->embed_images();
     $ret = $mail->send();
 
-    echo "mail->send returned {$ret}<br>\n";
+    echo "<p>mail->send returned {$ret}</p>\n";
 }
-
-echo "</p>\n";
 ?>
