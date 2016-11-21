@@ -14,12 +14,6 @@
 class org_openpsa_projects_handler_workflow extends midcom_baseclasses_components_handler
 {
     /**
-     *
-     * @var string
-     */
-    private $action;
-
-    /**
      * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
      * @param array &$data The local request data.
@@ -27,14 +21,7 @@ class org_openpsa_projects_handler_workflow extends midcom_baseclasses_component
     public function _handler_action($handler_id, array $args, array &$data)
     {
         midcom::get()->auth->require_valid_user();
-        if (empty($this->action)) {
-            $this->action = $args[1];
-        }
-        $task = new org_openpsa_projects_task_dba($args[0]);
-
-        if (!org_openpsa_projects_workflow::run($this->action, $task)) {
-            throw new midcom_error('Error when saving: ' . midcom_connection::get_error_string());
-        }
+        $this->run($args[1], $args[0]);
         //TODO: return ajax status
         return new midcom_response_json;
     }
@@ -52,18 +39,20 @@ class org_openpsa_projects_handler_workflow extends midcom_baseclasses_component
             || !is_array($_POST['org_openpsa_projects_workflow_action'])) {
             throw new midcom_error('Incomplete request');
         }
-
-        //Go trough the array, in theory it should have only one element and in any case only the last of them will be processed
-        foreach (array_keys($_POST['org_openpsa_projects_workflow_action']) as $action) {
-            $this->action = $action;
-        }
-
-        $this->_handler_action($handler_id, $args, $data);
+        $this->run(key($_POST['org_openpsa_projects_workflow_action']), $args[0]);
 
         if (isset($_POST['org_openpsa_projects_workflow_action_redirect'])) {
             return new midcom_response_relocate($_POST['org_openpsa_projects_workflow_action_redirect']);
         }
         //NOTE: This header might not be trustworthy...
         return new midcom_response_relocate($_SERVER['HTTP_REFERER']);
+    }
+
+    private function run($action, $identifier)
+    {
+        $task = new org_openpsa_projects_task_dba($identifier);
+        if (!org_openpsa_projects_workflow::run($action, $task)) {
+            throw new midcom_error('Error when saving: ' . midcom_connection::get_error_string());
+        }
     }
 }

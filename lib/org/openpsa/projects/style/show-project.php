@@ -15,9 +15,7 @@ $node = $nap->get_node($nap->get_current_node());
         $customer_html = $customer->official;
 
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
-        $contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts');
-
-        if ($contacts_url) {
+        if ($contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts')) {
             $customer_html = '<a href="' . $contacts_url . '/group/' . $customer->guid . '/">' . $customer_html . "</a>\n";
         }
         echo $customer_html;
@@ -28,7 +26,8 @@ $node = $nap->get_node($nap->get_current_node());
         echo "<h2>" . $data['l10n']->get('manager') . "</h2>\n";
         $contact = org_openpsa_widgets_contact::get($project->manager);
         echo $contact->show_inline();
-    } elseif (count($project->resources) > 0) {
+    }
+    if (count($project->resources) > 0) {
         echo "<h2>" . $data['l10n']->get('resources') . "</h2>\n";
         foreach (array_keys($project->resources) as $contact_id) {
             $contact = org_openpsa_widgets_contact::get($contact_id);

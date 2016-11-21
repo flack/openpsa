@@ -94,8 +94,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
     {
         // Sync the object's ACL properties into MidCOM ACL system
         if (   !$this->_skip_acl_refresh) {
-            if ($this->orgOpenpsaAccesstype
-                && $this->orgOpenpsaOwnerWg) {
+            if ($this->orgOpenpsaAccesstype && $this->orgOpenpsaOwnerWg) {
                 debug_add("Synchronizing task ACLs to MidCOM");
                 $sync = new org_openpsa_core_acl_synchronizer();
                 $sync->write_acls($this, $this->orgOpenpsaOwnerWg, $this->orgOpenpsaAccesstype);
@@ -133,8 +132,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
     {
         $label_elements = array($this->title);
         $task = $this;
-        while (   !is_null($task)
-               && $task = $task->get_parent()) {
+        while ($task = $task->get_parent()) {
             if (isset($task->title)) {
                 $label_elements[] = $task->title;
             }
@@ -301,15 +299,11 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
         );
 
         // Check agreement for invoiceability rules
-        $invoice_approved = false;
-
         try {
             $agreement = new org_openpsa_sales_salesproject_deliverable_dba($this->agreement);
-
-            if ($agreement->invoiceApprovedOnly) {
-                $invoice_approved = true;
-            }
+            $invoice_approved_only = $agreement->invoiceApprovedOnly;
         } catch (midcom_error $e) {
+            $invoice_approved_only = false;
         }
 
         $report_mc = org_openpsa_projects_hour_report_dba::new_collector('task', $this->id);
@@ -322,29 +316,19 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
         $reports = $report_mc->list_keys();
         foreach ($reports as $guid => $empty) {
             $report_data = $report_mc->get($guid);
-
             $report_hours = $report_data['hours'];
-            $is_approved = $report_data['isapproved'];
 
             $hours['reported'] += $report_hours;
 
-            if ($is_approved) {
+            if ($report_data['isapproved']) {
                 $hours['approved'] += $report_hours;
             }
 
             if ($report_data['invoice']) {
                 $hours['invoiced'] += $report_hours;
-            } elseif ($report_data['invoiceable']) {
-                // Check agreement for invoiceability rules
-                if ($invoice_approved) {
-                    // Count only uninvoiced approved hours as invoiceable
-                    if ($is_approved) {
-                        $hours['invoiceable'] += $report_hours;
-                    }
-                } else {
-                    // Count all uninvoiced invoiceable hours as invoiceable regardless of approval status
-                    $hours['invoiceable'] += $report_hours;
-                }
+            } elseif (   $report_data['invoiceable']
+                      && ($report_data['isapproved'] || !$invoice_approved_only)) {
+                $hours['invoiceable'] += $report_hours;
             }
         }
         return $hours;

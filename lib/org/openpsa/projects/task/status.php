@@ -50,7 +50,6 @@ class org_openpsa_projects_task_status_dba extends midcom_core_dbaobject
         if ($this->targetPerson) {
             $mc->add_constraint('targetPerson', '=', $this->targetPerson);
         }
-        $mc->execute();
         if ($mc->count() > 0) {
             debug_add('Duplicate statuses found, aborting create', MIDCOM_LOG_WARN);
             debug_print_r("List of duplicate status objects:", $mc->list_keys());

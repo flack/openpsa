@@ -40,7 +40,7 @@ $formatter = $data['l10n']->get_formatter();
         echo "    </tr>\n";
 
         $class = "odd";
-
+        $total = count($projects);
         $position = '';
 
         foreach ($projects as $i => $project) {
@@ -49,7 +49,7 @@ $formatter = $data['l10n']->get_formatter();
             } else {
                 $class = "even";
             }
-            if ($i == sizeof($projects) - 1) {
+            if ($i == $total - 1) {
                 $position = 'bottom';
             }
 

@@ -39,8 +39,9 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
      */
     public function _populate_toolbar($handler_id)
     {
-        if ($this->_mode == 'read') {
-            $this->_populate_read_toolbar($handler_id);
+        if (   $this->_mode == 'read'
+            && $this->_object->can_do('midgard:update')) {
+            $this->_populate_read_toolbar();
         }
     }
 
@@ -68,14 +69,9 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
 
     /**
      * Special helper for adding the supported operations from read into the toolbar.
-     *
-     * @param mixed $handler_id The ID of the handler.
      */
-    private function _populate_read_toolbar($handler_id)
+    private function _populate_read_toolbar()
     {
-        if (!$this->_object->can_do('midgard:update')) {
-            return;
-        }
         $buttons = array();
         $workflow = $this->get_workflow('datamanager2');
         $buttons[] = $workflow->get_button("task/edit/{$this->_object->guid}/", array(
@@ -260,13 +256,12 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
     public function & dm2_create_callback(&$controller)
     {
         $this->_object = new org_openpsa_projects_task_dba();
-        $project = $controller->formmanager->get_value('project');
-        if ($project) {
+
+        if ($project = $controller->formmanager->get_value('project')) {
             $project = org_openpsa_projects_project::get_cached((int) $project);
         } else {
             $project = $this->_parent;
         }
-
         $this->_object->project = $project->id;
 
         // Populate some default data from parent as needed

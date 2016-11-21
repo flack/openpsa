@@ -38,8 +38,7 @@ $expenses_url = $siteconfig->get_node_relative_url('org.openpsa.expenses');
             echo '</div>';
         }
 
-        $remote_search = $task->get_parameter('org.openpsa.projects.projectbroker', 'remote_search');
-        if ($remote_search) {
+        if ($remote_search = $task->get_parameter('org.openpsa.projects.projectbroker', 'remote_search')) {
             echo "<div class=\"area resources search\">\n";
             if ($remote_search == 'REQUEST_SEARCH') {
                 echo $data['l10n']->get('remote resource search requested');
@@ -77,7 +76,7 @@ $expenses_url = $siteconfig->get_node_relative_url('org.openpsa.expenses');
         <?php if ($view_task['tags']) {
             ?>
             <div class="tags">(&(view_task['tags']:h);)</div>
-        <?php 
+        <?php
         } ?>
         <h1><?php echo $data['l10n']->get('task'); ?>: &(view_task['title']:h);</h1>
   <div class="midcom_helper_datamanager2_view">

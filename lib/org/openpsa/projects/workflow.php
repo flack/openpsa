@@ -106,9 +106,7 @@ class org_openpsa_projects_workflow
     {
         debug_print_function_stack('create_status called from: ');
         $status = new org_openpsa_projects_task_status_dba();
-        if ($target_person != 0) {
-            $status->targetPerson = $target_person;
-        }
+        $status->targetPerson = $target_person;
         $status->task = $task->id;
         $status->type = $status_type;
         $status->comment = $comment;
@@ -194,8 +192,7 @@ class org_openpsa_projects_workflow
             return false;
         }
         //PONDER: Check ACL instead ?
-        if (   $task->manager == 0
-            || midcom_connection::get_user() == $task->manager) {
+        if (self::is_manager($task)) {
             //Manager marking task completed also approves it at the same time
             debug_add('We\'re the manager of this task (or it is orphaned), approving straight away');
             return self::approve($task, $comment);
@@ -244,8 +241,7 @@ class org_openpsa_projects_workflow
         debug_add("task->approve() called with user #" . midcom_connection::get_user());
         //TODO: Check deliverables / Require to be completed first
         //PONDER: Check ACL instead ?
-        if (   $task->manager != 0
-            && midcom_connection::get_user() != $task->manager) {
+        if (!self::is_manager($task)) {
             debug_add("Current user #" . midcom_connection::get_user() . " is not manager of task, thus cannot approve", MIDCOM_LOG_ERROR);
             return false;
         }
@@ -262,7 +258,7 @@ class org_openpsa_projects_workflow
         debug_add("task->reject() called with user #" . midcom_connection::get_user());
         //TODO: Check deliverables / Require to be completed first
         //PONDER: Check ACL instead ?
-        if (midcom_connection::get_user() != $task->manager) {
+        if (!self::is_manager($task)) {
             debug_add("Current user #" . midcom_connection::get_user() . " is not manager of task, thus cannot reject", MIDCOM_LOG_ERROR);
             return false;
         }
@@ -294,8 +290,7 @@ class org_openpsa_projects_workflow
         debug_add("task->close() called with user #" . midcom_connection::get_user());
         //TODO: Check deliverables / require to be approved first
         //PONDER: Check ACL instead?
-        if (   $task->manager != 0
-            && midcom_connection::get_user() != $task->manager) {
+        if (!self::is_manager($task)) {
             debug_add("Current user #" . midcom_connection::get_user() . " is not manager of task, thus cannot close", MIDCOM_LOG_ERROR);
             return false;
         }
@@ -383,5 +378,11 @@ class org_openpsa_projects_workflow
         // Notify user
         midcom::get()->uimessages->add(midcom::get()->i18n->get_string('org.openpsa.projects', 'org.openpsa.projects'), sprintf(midcom::get()->i18n->get_string('marked %s hours as invoiced in task "%s"', 'org.openpsa.projects'), $hours_marked, $task->title));
         return $hours_marked;
+    }
+
+    private static function is_manager($task)
+    {
+        return (   $task->manager == 0
+                || midcom_connection::get_user() == $task->manager);
     }
 }

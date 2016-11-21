@@ -92,7 +92,7 @@ class org_openpsa_projects_task_resource_dba extends midcom_core_dbaobject
         $mc->add_constraint('task.project', 'INTREE', $parent->id);
         $mc->execute();
         if ($mc->count() > 0) {
-            //Resource is still present in silbling tasks, aborting
+            //Resource is still present in sibling tasks, aborting
             return;
         }
 
@@ -134,7 +134,6 @@ class org_openpsa_projects_task_resource_dba extends midcom_core_dbaobject
                 $this->set_privilege('midgard:read', $personobject->id, MIDCOM_PRIVILEGE_ALLOW);
                 $this->set_privilege('midgard:delete', $personobject->id, MIDCOM_PRIVILEGE_ALLOW);
                 $this->set_privilege('midgard:update', $personobject->id, MIDCOM_PRIVILEGE_ALLOW);
-                $this->set_privilege('midgard:read', $personobject->id, MIDCOM_PRIVILEGE_ALLOW);
 
                 $task->set_privilege('midgard:read', $personobject->id, MIDCOM_PRIVILEGE_ALLOW);
                 // Resources must be permitted to create hour/expense reports into tasks

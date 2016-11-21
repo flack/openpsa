@@ -17,7 +17,7 @@ class org_openpsa_projects_projectbroker
      * Does a local search for persons that match the task constraints
      *
      * @param org_openpsa_projects_task_dba $task Task object to search prospect resources for
-     * @return org_openpsa_contacts_person_dba[] Array of prospect persons (or false on critical failure)
+     * @return org_openpsa_contacts_person_dba[] Array of prospect persons
      */
     function find_task_prospects($task)
     {
@@ -36,11 +36,12 @@ class org_openpsa_projects_projectbroker
             $tags[$tag] = $tag;
         }
         $persons = net_nemein_tag_handler::get_objects_with_tags($tags, $classes, 'AND');
-        if (!is_array($persons)) {
-            return false;
-        }
-        // Normalize to contacts person class if necessary
+        // Normalize to contacts person class if necessary and filter out existing resources
+        $task->get_members();
         foreach ($persons as $obj) {
+            if (!empty($task->resources[$obj->id])) {
+                continue;
+            }
             if (!$obj instanceof org_openpsa_contacts_person_dba) {
                 try {
                     $obj = new org_openpsa_contacts_person_dba($obj->id);
@@ -88,15 +89,9 @@ class org_openpsa_projects_projectbroker
     {
         midcom::get()->auth->request_sudo('org.openpsa.projects');
         $task->set_parameter('org.openpsa.projects.projectbroker', 'local_search', 'SEARCH_IN_PROGRESS');
-        $task->get_members();
         $prospects = $this->find_task_prospects($task);
-        if (!is_array($prospects)) {
-            return false;
-        }
+
         foreach ($prospects as $person) {
-            if (!empty($task->resources[$person->id])) {
-                continue;
-            }
             $prospect = new org_openpsa_projects_task_resource_dba();
             $prospect->person = $person->id;
             $prospect->task = $task->id;

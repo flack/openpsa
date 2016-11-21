@@ -93,13 +93,10 @@ implements org_openpsa_widgets_grid_provider_client
     private function _get_status_type(org_openpsa_projects_task_dba $task)
     {
         $type = 'closed';
+        $is_manager = $task->manager != midcom_connection::get_user();
         switch ($task->status) {
             case org_openpsa_projects_task_status_dba::PROPOSED:
-                if ($task->manager != midcom_connection::get_user()) {
-                    $type = 'proposed';
-                } else {
-                    $type = 'pending_accept';
-                }
+                $type = ($is_manager) ? 'pending_accept' : 'proposed';
                 break;
             case org_openpsa_projects_task_status_dba::STARTED:
             case org_openpsa_projects_task_status_dba::REOPENED:
@@ -110,11 +107,7 @@ implements org_openpsa_widgets_grid_provider_client
                 $type = 'declined';
                 break;
             case org_openpsa_projects_task_status_dba::COMPLETED:
-                if ($task->manager != midcom_connection::get_user()) {
-                    $type = 'completed';
-                } else {
-                    $type = 'pending_approve';
-                }
+                $type = ($is_manager) ? 'pending_approve' : 'completed';
                 break;
         }
 
@@ -125,13 +118,9 @@ implements org_openpsa_widgets_grid_provider_client
     {
         $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 
-        $html = '';
         switch ($this->_get_status_type($task)) {
             case 'proposed':
-                if ($task->manager) {
-                    $contact = org_openpsa_widgets_contact::get($task->manager);
-                    $html .= sprintf($this->_l10n->get("from %s"), $contact->show_inline());
-                }
+                $html = $this->render_status($task->manager, "from %s");
                 $task->get_members();
                 if (   $task->can_do('midgard:update')
                     && isset($task->resources[midcom_connection::get_user()])) {
@@ -142,57 +131,49 @@ implements org_openpsa_widgets_grid_provider_client
                     $html .= '<li><input type="submit" name="org_openpsa_projects_workflow_action[decline]" class="no" value="' . $this->_l10n->get('decline') . '" /></li>';
                     $html .= "</ul></form>";
                 }
-                break;
+                return $html;
 
             case 'pending_accept':
                 $task->get_members();
-                if ( count($task->resources) > 0) {
-                    $resources_string = '';
-                    foreach (array_keys($task->resources) as $id) {
-                        $contact = org_openpsa_widgets_contact::get($id);
-                        $resources_string .= ' ' . $contact->show_inline();
-                    }
-                    $html .= sprintf($this->_l10n->get("proposed to %s"), $resources_string);
-                }
-                break;
+                return $this->render_status($task->resources, "proposed to %s");
 
             case 'pending_approve':
                 //PONDER: Check ACL instead?
                 if (midcom_connection::get_user() == $task->manager) {
-                    $html .= '<form method="post" action="' . $prefix . 'workflow/' . $task->guid . '">';
+                    $html = '<form method="post" action="' . $prefix . 'workflow/' . $task->guid . '">';
                     $html .= '  <ul class="area_toolbar">';
                     $html .= '<li><input type="submit" name="org_openpsa_projects_workflow_action[approve]" class="yes" value="' . $this->_l10n->get('approve') . '" /></li>';
                     //PONDER: This is kind of redundant  when one can just remove the checkbox -->
                     $html .=  '<li><input type="submit" name="org_openpsa_projects_workflow_action[reject]" class="no" value="' . $this->_l10n->get('dont approve') . '" /></li>';
                     $html .= "</ul></form>";
-                } elseif ($task->manager) {
-                    $contact = org_openpsa_widgets_contact::get($task->manager);
-                    $html .= sprintf($this->_l10n->get("pending approval by %s"), $contact->show_inline());
+                    return $html;
                 }
-                break;
+                return $this->render_status($task->manager, "pending approval by %s");
 
             case 'declined':
                 $task->get_members();
-                if ( count($task->resources) > 0) {
-                    $resources_string = '';
-                    foreach (array_keys($task->resources) as $id) {
-                        $contact = org_openpsa_widgets_contact::get($id);
-                        $resources_string .= ' ' . $contact->show_inline();
-                    }
-                    $html .= sprintf($this->_l10n->get("declined by %s"), $resources_string);
-                }
-                break;
+                return $this->render_status($task->resources, "declined by %s");
 
             case 'completed':
-                if ($task->manager) {
-                    $contact = org_openpsa_widgets_contact::get($task->manager);
-
-                    $html .= sprintf($this->_l10n->get("pending approval by %s"), $contact->show_inline());
-                }
-
-                break;
+                return $this->render_status($task->manager, "pending approval by %s");
         }
-        return $html;
+        return '';
+    }
+
+    private function render_status($ids, $message)
+    {
+        if (empty($ids)) {
+            return '';
+        }
+        if (is_scalar($ids)) {
+            $ids = array($ids => true);
+        }
+        $person_string = '';
+        foreach (array_keys($ids) as $id) {
+            $contact = org_openpsa_widgets_contact::get($id);
+            $person_string .= ' ' . $contact->show_inline();
+        }
+        return sprintf($this->_l10n->get($message), $person_string);
     }
 
     public function _handler_list_user($handler_id, array $args, array &$data)
@@ -345,8 +326,6 @@ implements org_openpsa_widgets_grid_provider_client
                 $this->_provider->add_order('end', 'DESC');
                 break;
             case 'all':
-            case 'both':
-                $args[1] = 'all';
                 $this->_provider->add_order('end', 'DESC');
                 break;
             case 'open':
@@ -476,8 +455,8 @@ implements org_openpsa_widgets_grid_provider_client
         if (array_key_exists('priority', $schemadb['default']->fields)) {
             $this->_request_data['priority_array'] = $schemadb['default']->fields['priority']['type_config']['options'];
             $this->_request_data['priority_array'][0] = $this->_l10n->get("none");
-            foreach ($this->_request_data['priority_array'] as $key => $title) {
-                $this->_request_data['priority_array'][$key] = $this->_l10n->get($title);
+            foreach ($this->_request_data['priority_array'] as &$title) {
+                $title = $this->_l10n->get($title);
             }
         }
     }

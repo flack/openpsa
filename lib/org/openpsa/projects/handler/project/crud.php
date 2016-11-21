@@ -56,9 +56,7 @@ class org_openpsa_projects_handler_project_crud extends midcom_baseclasses_compo
         }
 
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
-        $sales_url = $siteconfig->get_node_full_url('org.openpsa.sales');
-
-        if (!empty($sales_url)) {
+        if ($sales_url = $siteconfig->get_node_full_url('org.openpsa.sales')) {
             $buttons[] = array(
                 MIDCOM_TOOLBAR_URL => $sales_url . "salesproject/{$this->_object->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_i18n->get_string('salesproject', 'org.openpsa.sales'),
