@@ -17,9 +17,8 @@ class org_openpsa_products_handler_product_csv extends midcom_baseclasses_compon
         if (!empty($_POST)) {
             $data['session']->set('POST_data', $_POST);
         }
-        $root_group_guid = $this->_config->get('root_group');
         $group_name_to_filename = '';
-        if ($root_group_guid) {
+        if ($root_group_guid = $this->_config->get('root_group')) {
             $root_group = org_openpsa_products_product_group_dba::get_cached($root_group_guid);
             $group_name_to_filename = strtolower(str_replace(' ', '_', $root_group->code)) . '_';
         }
@@ -36,18 +35,18 @@ class org_openpsa_products_handler_product_csv extends midcom_baseclasses_compon
             midcom::get()->relocate(midcom_connection::get_url('uri') . "{$schemaname}");
             // This will exit
         } else {
-            $this->_request_data['schemadb_to_use'] = $this->_config->get('csv_export_schema');
+            $data['schemadb_to_use'] = $this->_config->get('csv_export_schema');
         }
 
         $this->_schema = $this->_config->get('csv_export_schema');
 
-        if (isset($this->_request_data['schemadb_product'][$this->_request_data['schemadb_to_use']])) {
-            $this->_schema = $this->_request_data['schemadb_to_use'];
+        if (isset($data['schemadb_product'][$data['schemadb_to_use']])) {
+            $this->_schema = $data['schemadb_to_use'];
         }
 
         $this->_schema_fields_to_skip = explode(',', $this->_config->get('export_skip_fields'));
 
-        return array($this->_request_data['schemadb_product']);
+        return array($data['schemadb_product']);
     }
 
     function _load_data($handler_id, &$args, &$data)
@@ -63,7 +62,7 @@ class org_openpsa_products_handler_product_csv extends midcom_baseclasses_compon
         $qb->add_order('title');
 
         if ($root_group_guid = $this->_config->get('root_group')) {
-            $root_group = new org_openpsa_products_product_group_dba($root_group_guid);
+            $root_group = org_openpsa_products_product_group_dba::get_cached($root_group_guid);
             if (empty($_POST['org_openpsa_products_export_all'])) {
                 $qb->add_constraint('productGroup', '=', $root_group->id);
                 // We have data only from one product group, though this seems to be too late...
@@ -81,14 +80,10 @@ class org_openpsa_products_handler_product_csv extends midcom_baseclasses_compon
             }
         }
         $products = array();
-        $all_products = $qb->execute();
-        foreach ($all_products as $product) {
-            $schema = $product->get_parameter('midcom.helper.datamanager2', 'schema_name');
-            if ($schema != $this->_schema) {
-                continue;
+        foreach ($qb->execute() as $product) {
+            if ($product->get_parameter('midcom.helper.datamanager2', 'schema_name')) {
+                $products[] = $product;
             }
-
-            $products[] = $product;
         }
 
         return $products;

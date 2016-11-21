@@ -288,9 +288,7 @@ class org_openpsa_products_handler_product_search extends midcom_baseclasses_com
             $data['results_count'] = count($data['results']);
 
             midcom_show_style('product_search_result_header');
-            foreach ($data['results'] as $i => $result) {
-                $data['results_counter'] = $i;
-
+            foreach ($data['results'] as $result) {
                 if (!$data['datamanager']->autoset_storage($result)) {
                     debug_add("The datamanager for product {$result->id} could not be initialized, skipping it.");
                     debug_print_r('Object was:', $result);

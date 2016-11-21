@@ -128,7 +128,6 @@ class org_openpsa_products_handler_product_csvimport extends midcom_baseclasses_
         if (!$product) {
             // We didn't have group matching the code in DB. Create a new one.
             $product = new org_openpsa_products_product_dba();
-
             $product->productGroup = $data['new_products_product_group'];
 
             if (!$product->create()) {
@@ -214,20 +213,8 @@ class org_openpsa_products_handler_product_csvimport extends midcom_baseclasses_
 
         if (array_key_exists('org_openpsa_products_import_separator', $_POST)) {
             $data['time_start'] = time();
-
             $data['rows'] = array();
-
-            switch ($_POST['org_openpsa_products_import_separator']) {
-                case ';':
-                    $data['separator'] = ';';
-                    break;
-
-                case ',':
-                default:
-                    $data['separator'] = ',';
-                    break;
-            }
-
+            $data['separator'] = ($_POST['org_openpsa_products_import_separator'] == ';') ? ';' : ',';
             $data['new_products_product_group'] = $_POST['org_openpsa_products_import_new_products_product_group'];
 
             if (is_uploaded_file($_FILES['org_openpsa_products_import_upload']['tmp_name'])) {
@@ -311,9 +298,7 @@ class org_openpsa_products_handler_product_csvimport extends midcom_baseclasses_
         }
 
         $data['fields_to_skip'] = explode(',', $data['config']->get('import_skip_fields'));
-
         $data['time_start'] = time();
-
         $data['rows'] = array();
         $data['groups'] = array();
         $data['separator'] = $_POST['org_openpsa_products_import_separator'];
@@ -335,8 +320,7 @@ class org_openpsa_products_handler_product_csvimport extends midcom_baseclasses_
                 $value = str_replace(array('\\n', "\\\n"), "\n", $value);
 
                 // Process the row accordingly
-                $field_matching = $_POST['org_openpsa_products_import_csv_field'][$field];
-                if ($field_matching) {
+                if ($field_matching = $_POST['org_openpsa_products_import_csv_field'][$field]) {
                     $schema_field = $field_matching;
 
                     if (   !array_key_exists($schema_field, $data['schemadb_product'][$data['schema']]->fields)

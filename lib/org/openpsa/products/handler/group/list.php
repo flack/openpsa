@@ -93,8 +93,6 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
             $data['view_title'] = sprintf($this->_l10n_midcom->get('All %s'), $data['view_title']);
         }
 
-        $data['acl_object'] = $data['group'];
-
         return true;
     }
 
@@ -149,34 +147,25 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
                 }
             }
             $this->bind_view_to_object($data['group'], $data['datamanager_group']->schema->name);
+
+            // Set the active leaf
+            if ($this->_config->get('display_navigation')) {
+                $group = $data['group'];
+
+                // Loop until root group
+                while (   $group->id !== $this->_config->get('root_group')
+                       && $group->guid !== $this->_config->get('root_group')) {
+                    if ($group->up == 0) {
+                        // Active leaf of the topic
+                        $this->set_active_leaf($group->id);
+                        break;
+                    }
+                    $group = new org_openpsa_products_product_group_dba($group->up);
+                }
+            }
         }
 
         $this->_update_breadcrumb_line();
-
-        // Set the active leaf
-        if (   $this->_config->get('display_navigation')
-            && $this->_request_data['group']) {
-            $group = $this->_request_data['group'];
-
-            // Loop as long as it is possible to get the parent group
-            while ($group->guid) {
-                // Break to the requested level (probably the root group of the products content topic)
-                if (   $group->id === $this->_config->get('root_group')
-                    || $group->guid === $this->_config->get('root_group')) {
-                    break;
-                }
-                $temp = $group->id;
-                if ($group->up == 0) {
-                    break;
-                }
-                $group = new org_openpsa_products_product_group_dba($group->up);
-            }
-
-            if (isset($temp)) {
-                // Active leaf of the topic
-                $this->set_active_leaf($temp);
-            }
-        }
 
         midcom::get()->head->set_pagetitle($this->_request_data['view_title']);
     }
@@ -382,8 +371,7 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
 
                 midcom_show_style('group_subgroups_header');
                 $parent_category = (isset($data["parent_category"])) ? $data["parent_category"] : null;
-                foreach ($data['groups'] as $i => $group) {
-                    $data['groups_counter'] = $i;
+                foreach ($data['groups'] as $group) {
                     $data['group'] = $group;
                     if (!$data['datamanager_group']->autoset_storage($group)) {
                         debug_add("The datamanager for group #{$group->id} could not be initialized, skipping it.");

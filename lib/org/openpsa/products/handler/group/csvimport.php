@@ -125,19 +125,8 @@ class org_openpsa_products_handler_group_csvimport extends midcom_baseclasses_co
 
         if (array_key_exists('org_openpsa_products_import_separator', $_POST)) {
             $data['time_start'] = time();
-
             $data['rows'] = array();
-
-            switch ($_POST['org_openpsa_products_import_separator']) {
-                case ';':
-                    $data['separator'] = ';';
-                    break;
-
-                case ',':
-                default:
-                    $data['separator'] = ',';
-                    break;
-            }
+            $data['separator'] = ($_POST['org_openpsa_products_import_separator'] == ';') ? ';' : ',';
 
             if (is_uploaded_file($_FILES['org_openpsa_products_import_upload']['tmp_name'])) {
                 // Copy the file for later processing
@@ -154,12 +143,7 @@ class org_openpsa_products_handler_group_csvimport extends midcom_baseclasses_co
                     if ($total_columns == 0) {
                         $total_columns = count($csv_line);
                     }
-                    $columns_with_content = 0;
-                    foreach ($csv_line as $value) {
-                        if ($value != '') {
-                            $columns_with_content++;
-                        }
-                    }
+                    $columns_with_content = count(array_filter($csv_line));
                     $percentage = round(100 / $total_columns * $columns_with_content);
 
                     if ($percentage >= 20) {
@@ -242,8 +226,7 @@ class org_openpsa_products_handler_group_csvimport extends midcom_baseclasses_co
             }
             foreach ($csv_line as $field => $value) {
                 // Process the row accordingly
-                $field_matching = $_POST['org_openpsa_products_import_csv_field'][$field];
-                if ($field_matching) {
+                if ($field_matching = $_POST['org_openpsa_products_import_csv_field'][$field]) {
                     $schema_field = $field_matching;
 
                     if (   !array_key_exists($schema_field, $data['schemadb_group']['default']->fields)

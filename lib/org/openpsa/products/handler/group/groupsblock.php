@@ -45,7 +45,6 @@ class org_openpsa_products_handler_group_groupsblock  extends midcom_baseclasses
 
         $data['parent_group'] = $data['group']->id;
         $data['view_title'] = "{$data['group']->code} {$data['group']->title}";
-        $data['acl_object'] = $data['group'];
 
         return true;
     }
@@ -102,33 +101,23 @@ class org_openpsa_products_handler_group_groupsblock  extends midcom_baseclasses
                 throw new midcom_error("Failed to create a DM2 instance for product group {$data['group']->guid}.");
             }
         }
+
         $this->bind_view_to_object($data['group'], $data['datamanager_group']->schema->name);
-
         $this->_populate_toolbar();
-
         $this->_update_breadcrumb_line();
 
         // Set the active leaf
         if ($this->_config->get('display_navigation')) {
             $group =& $data['group'];
 
-            // Loop as long as it is possible to get the parent group
-            while ($group->guid) {
-                // Break to the requested level (probably the root group of the products content topic)
-                if (   $group->id === $this->_config->get('root_group')
-                    || $group->guid === $this->_config->get('root_group')) {
-                    break;
-                }
-                $temp = $group->id;
+            // Loop until root group
+            while (   $group->id !== $this->_config->get('root_group')
+                   && $group->guid !== $this->_config->get('root_group')) {
                 if ($group->up == 0) {
+                    $this->set_active_leaf($group->id);
                     break;
                 }
                 $group = new org_openpsa_products_product_group_dba($group->up);
-            }
-
-            if (isset($temp)) {
-                // Active leaf of the topic
-                $this->set_active_leaf($temp);
             }
         }
 
@@ -223,15 +212,13 @@ class org_openpsa_products_handler_group_groupsblock  extends midcom_baseclasses
             $data['view_group'] = $data['datamanager_group']->get_content_html();
         }
 
-        $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
-
         if (count($data['groups']) > 0) {
             $data['groups_count'] = count($data['groups']);
 
             midcom_show_style('groupsblock_subgroups_header');
             $parent_category = (isset($data["parent_category"])) ? $data["parent_category"] : null;
-            foreach ($data['groups'] as $i => $group) {
-                $data['groups_counter'] = $i;
+            $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
+            foreach ($data['groups'] as $group) {
 
                 $data['group'] = $group;
                 if (!$data['datamanager_group']->autoset_storage($group)) {

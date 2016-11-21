@@ -44,19 +44,17 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
         // of the index() method. Needs fixes there.
 
         $document = $indexer->new_document($dm);
-        if (midcom::get()->dbfactory->is_a($object, 'org_openpsa_products_product_dba')) {
-            if ($config->get('enable_scheduling')) {
-                // Check start/end for products
-                if (   (   $object->start != 0
-                        && $object->start > time())
-                    || (   $object->end != 0
-                        && $object->end < time())) {
-                    // Not in market, remove from index
-                    $indexer->delete($document->RI);
-                    return;
-                }
-                // FIXME: add midcom at job or somesuch to reindex products after their end time (and start time if in the future)
+        if (   $config->get('enable_scheduling')
+            && midcom::get()->dbfactory->is_a($object, 'org_openpsa_products_product_dba')) {
+            // Check start/end for products
+            if (   $object->start > time()
+                || (   $object->end != 0
+                    && $object->end < time())) {
+                // Not in market, remove from index
+                $indexer->delete($document->RI);
+                return;
             }
+            // FIXME: add midcom at job or somesuch to reindex products after their end time (and start time if in the future)
         }
 
         $document->topic_guid = $topic->guid;
@@ -75,29 +73,29 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
     private function _populate_node_toolbar()
     {
         $buttons = array();
-        if (   $this->_topic->can_do('midgard:update')
-            && $this->_topic->can_do('midgard:create')) {
-            $buttons[] = array(
-                MIDCOM_TOOLBAR_URL => 'export/product/csv/',
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('export products'),
-                MIDCOM_TOOLBAR_HELPTEXT => $this->_l10n->get('export products'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/editshred.png',
-            );
-            $buttons[] = array(
-                MIDCOM_TOOLBAR_URL => 'import/product/csv/',
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('import products'),
-                MIDCOM_TOOLBAR_HELPTEXT => $this->_l10n->get('import products from csv-file'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/editshred.png',
-            );
-        }
-        if (   $this->_topic->can_do('midgard:update')
-            && $this->_topic->can_do('midcom:component_config')) {
-            $workflow = $this->get_workflow('datamanager2');
-            $buttons[] = $workflow->get_button('config/', array(
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('component configuration'),
-                MIDCOM_TOOLBAR_HELPTEXT => $this->_l10n_midcom->get('component configuration helptext'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_folder-properties.png',
-            ));
+        if ($this->_topic->can_do('midgard:update')) {
+            if ($this->_topic->can_do('midgard:create')) {
+                $buttons[] = array(
+                    MIDCOM_TOOLBAR_URL => 'export/product/csv/',
+                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('export products'),
+                    MIDCOM_TOOLBAR_HELPTEXT => $this->_l10n->get('export products'),
+                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/editshred.png',
+                );
+                $buttons[] = array(
+                    MIDCOM_TOOLBAR_URL => 'import/product/csv/',
+                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('import products'),
+                    MIDCOM_TOOLBAR_HELPTEXT => $this->_l10n->get('import products from csv-file'),
+                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/editshred.png',
+                );
+            }
+            if ($this->_topic->can_do('midcom:component_config')) {
+                $workflow = $this->get_workflow('datamanager2');
+                $buttons[] = $workflow->get_button('config/', array(
+                    MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('component configuration'),
+                    MIDCOM_TOOLBAR_HELPTEXT => $this->_l10n_midcom->get('component configuration helptext'),
+                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_folder-properties.png',
+                ));
+            }
         }
         $this->_node_toolbar->add_items($buttons);
     }

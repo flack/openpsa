@@ -90,9 +90,8 @@ class org_openpsa_products_handler_product_latest extends midcom_baseclasses_com
      */
     public function _show_updated($handler_id, array &$data)
     {
-        $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
-
         if (count($data['products']) > 0) {
+            $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
             midcom_show_style('updated_products_header');
 
             foreach ($data['products'] as $product) {
@@ -171,7 +170,6 @@ class org_openpsa_products_handler_product_latest extends midcom_baseclasses_com
             }
         }
 
-        $data['rss'] = $data['rss_creator']->createFeed('RSS2.0');
-        echo $data['rss'];
+        echo $data['rss_creator']->createFeed('RSS2.0');
     }
 }
