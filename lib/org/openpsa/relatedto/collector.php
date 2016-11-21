@@ -254,8 +254,6 @@ class org_openpsa_relatedto_collector extends midcom_core_collector
      */
     public function get_related_guids($component = false)
     {
-        $guids = array();
-
         if ($component) {
             $this->add_constraint($this->_other_prefix . 'Component', '=', $component);
         }
