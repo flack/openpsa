@@ -19,7 +19,7 @@ class org_openpsa_reports_cron_clearold extends midcom_baseclasses_components_cr
         $days = $this->_config->get('temporary_report_max_age');
         if ($days == 0) {
             debug_add('temporary_report_max_age evaluates to zero, aborting');
-            return;
+            return false;
         }
 
         $this->cutoff = gmstrftime('%Y-%m-%d %T', time() - ($days * 3600 * 24));

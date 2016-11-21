@@ -115,7 +115,7 @@ implements org_openpsa_widgets_grid_provider_client
         midcom_show_style('sales_report-deliverable-start');
 
         // Quick workaround to Bergies lazy determination of whether this is user's or everyone's report...
-        if ($this->_request_data['query_data']['resource'] == 'user:' . midcom::get()->auth->user->guid) {
+        if ($data['query_data']['resource'] == 'user:' . midcom::get()->auth->user->guid) {
             // My report
             $data['handler_id'] = 'deliverable_report';
         } else {

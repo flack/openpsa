@@ -4,12 +4,9 @@
     <script type="text/javascript">
     $('.datamanager2 input[type="submit"]').on('click', function()
     {
-        if ($(this).hasClass('save'))
-        {
+        if ($(this).hasClass('save')) {
             $(this).closest('form').attr('target', '_blank');
-        }
-        else
-        {
+        } else {
             $(this).closest('form').removeAttr('target');
         }
     });
