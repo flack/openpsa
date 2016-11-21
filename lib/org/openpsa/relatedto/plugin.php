@@ -147,18 +147,12 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
             );
 
             //To save GET space we only append these if they have values
-            if ($rel->status) {
-                $entry['status'] = $rel->status;
+            foreach (array('status', 'fromComponent', 'fromClass', 'fromGuid') as $key) {
+                if ($rel->$key) {
+                    $entry[$key] = $rel->$key;
+                }
             }
-            if ($rel->fromComponent) {
-                $entry['fromComponent'] = $rel->fromComponent;
-            }
-            if ($rel->fromClass) {
-                $entry['fromClass'] = $rel->fromClass;
-            }
-            if ($rel->fromGuid) {
-                $entry['fromGuid'] = $rel->fromGuid;
-            }
+
             $ret['org_openpsa_relatedto'][] = $entry;
         }
         return http_build_query($ret, '', '&');

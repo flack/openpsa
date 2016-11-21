@@ -47,10 +47,7 @@ implements midcom_helper_datamanager2_interfaces_create
     public function _handler_entry($handler_id, array $args, array &$data)
     {
         $this->_current_object = midcom::get()->dbfactory->get_object_by_guid($args[0]);
-
-        if ($args[1]) {
-            $this->_output_mode = $args[1];
-        }
+        $this->_output_mode = $args[1];
 
         $this->_relocate_url = midcom::get()->permalinks->create_permalink($this->_current_object->guid);
         $data['url_prefix'] = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . "__mfa/org.openpsa.relatedto/journalentry/";
@@ -61,26 +58,24 @@ implements midcom_helper_datamanager2_interfaces_create
         $this->qb_journal_entries->add_order('followUp', 'DESC');
         $this->_prepare_journal_query();
 
-        $this->_request_data['entries'] = $this->qb_journal_entries->execute();
-        $this->_request_data['object'] = $this->_current_object;
-        $this->_request_data['page'] = 1;
+        $data['entries'] = $this->qb_journal_entries->execute();
+        $data['object'] = $this->_current_object;
+        $data['page'] = 1;
 
         //because we only show entries of one object there is no need to show the object for every entry
-        $this->_request_data['show_closed'] = true;
-        $this->_request_data['show_object'] = false;
+        $data['show_closed'] = true;
+        $data['show_object'] = false;
 
         if ($this->_output_mode == 'html') {
             $this->_prepare_output();
             org_openpsa_widgets_grid::add_head_elements();
             //pass url where to get the data for js-plugin
-            $this->_request_data['data_url'] = $data['url_prefix'] . $this->_current_object->guid ."/xml/";
+            $data['data_url'] = $data['url_prefix'] . $this->_current_object->guid . "/xml/";
 
             //prepare breadcrumb
-            $ref = midcom_helper_reflector::get($this->_current_object);
-            $object_label = $ref->get_object_label($this->_current_object);
-            $object_url = midcom::get()->permalinks->create_permalink($this->_current_object->guid);
-            if ($object_url) {
-                $this->add_breadcrumb($object_url, $object_label);
+            if ($object_url = midcom::get()->permalinks->create_permalink($this->_current_object->guid)) {
+                $ref = midcom_helper_reflector::get($this->_current_object);
+                $this->add_breadcrumb($object_url, $ref->get_object_label($this->_current_object));
             }
             $this->add_breadcrumb(
                 midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . "__mfa/org.openpsa.relatedto/render/" . $this->_current_object->guid . "/both/",
@@ -114,11 +109,7 @@ implements midcom_helper_datamanager2_interfaces_create
 
     public function _show_entry($handler_id, &$data)
     {
-        if ($this->_output_mode == 'xml') {
-            midcom_show_style('show_entries_xml');
-        } else {
-            midcom_show_style('show_entries_html');
-        }
+        midcom_show_style('show_entries_' . $this->_output_mode);
     }
 
     public function _handler_create($handler_id, array $args, array &$data)
@@ -186,67 +177,61 @@ implements midcom_helper_datamanager2_interfaces_create
 
     public function _handler_delete($handler_id, array $args, array &$data)
     {
-        $this->_journal_entry = new org_openpsa_relatedto_journal_entry_dba($args[0]);
-        $this->_current_object = midcom::get()->dbfactory->get_object_by_guid($this->_journal_entry->linkGuid);
+        $journal_entry = new org_openpsa_relatedto_journal_entry_dba($args[0]);
 
-        if (!$this->_journal_entry->delete()) {
+        if (!$journal_entry->delete()) {
             throw new midcom_error("Failed to delete journal_entry: " . $args[0] . " Last Error was :" . midcom_connection::get_error_string());
         }
 
-        return new midcom_response_relocate("__mfa/org.openpsa.relatedto/journalentry/" . $this->_current_object->guid . "/html/");
+        $object = midcom::get()->dbfactory->get_object_by_guid($journal_entry->linkGuid);
+        return new midcom_response_relocate("__mfa/org.openpsa.relatedto/journalentry/" . $object->guid . "/html/");
     }
 
     public function _handler_list($handler_id, $args, &$data)
     {
-        if (isset($args[0])) {
-            $this->_output_mode = $args[0];
-        }
-        //output_mode different from html means we just want the data
-        if ($this->_output_mode != 'html') {
+        $this->_output_mode = $args[0];
+
+        if ($this->_output_mode == 'xml') {
             $this->qb_journal_entries = org_openpsa_relatedto_journal_entry_dba::new_query_builder();
             $this->qb_journal_entries->add_order('followUp');
             $this->_prepare_journal_query();
 
             //show the corresponding object of the entry
-            $this->_request_data['show_object'] = true;
-            $this->_request_data['show_closed'] = false;
-            $this->_request_data['page'] = 1;
+            $data['show_object'] = true;
+            $data['show_closed'] = array_key_exists('show_closed', $_POST);
+            $data['page'] = 1;
 
-            if (array_key_exists('show_closed', $_POST)) {
-                $this->_request_data['show_closed'] = true;
-            }
-            $this->_request_data['entries'] = $this->qb_journal_entries->execute();
+            $data['entries'] = $this->qb_journal_entries->execute();
 
             //get the corresponding objects
-            if (   $this->_request_data['show_object'] == true
-                && !empty($this->_request_data['entries'])) {
-                $this->_request_data['linked_objects'] = array();
-                $this->_request_data['linked_raw_objects'] = array();
+            if (!empty($data['entries'])) {
+                $data['linked_objects'] = array();
+                $data['linked_raw_objects'] = array();
 
-                foreach ($this->_request_data['entries'] as $i => $entry) {
-                    if (array_key_exists($entry->linkGuid, $this->_request_data['linked_objects'])) {
+                foreach ($data['entries'] as $i => $entry) {
+                    if (array_key_exists($entry->linkGuid, $data['linked_objects'])) {
                         continue;
                     }
                     //create reflector with linked object to get the right label
                     try {
                         $linked_object = midcom::get()->dbfactory->get_object_by_guid($entry->linkGuid);
                     } catch (midcom_error $e) {
-                        unset($this->_request_data['entries'][$i]);
+                        unset($data['entries'][$i]);
                         $e->log();
                         continue;
                     }
 
-                    $reflector = new midcom_helper_reflector($linked_object);
+                    $reflector = midcom_helper_reflector::get($linked_object);
                     $link_html = "<a href='" . midcom::get()->permalinks->create_permalink($linked_object->guid) . "'>" . $reflector->get_object_label($linked_object) ."</a>";
-                    $this->_request_data['linked_objects'][$entry->linkGuid] = $link_html;
-                    $this->_request_data['linked_raw_objects'][$entry->linkGuid] = $reflector->get_object_label($linked_object);
+                    $data['linked_objects'][$entry->linkGuid] = $link_html;
+                    $data['linked_raw_objects'][$entry->linkGuid] = $reflector->get_object_label($linked_object);
                 }
             }
             //url_prefix to build the links to the entries
-            $this->_request_data['url_prefix'] = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . "__mfa/org.openpsa.relatedto/journalentry/";
+            $data['url_prefix'] = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . "__mfa/org.openpsa.relatedto/journalentry/";
         } else {
             //url where the xml-data can be loaded
-            $this->_request_data['data_url'] =midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . "__mfa/org.openpsa.relatedto/journalentry/list/xml/" ;
+            $data['data_url'] = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . "__mfa/org.openpsa.relatedto/journalentry/list/xml/" ;
             //enable jqgrid for html-output
             org_openpsa_widgets_grid::add_head_elements();
         }

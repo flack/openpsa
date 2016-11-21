@@ -30,7 +30,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
      *
      * @var string
      */
-    private $_sort = null;
+    private $_sort = 'default';
 
     /**
      * The link array
@@ -57,24 +57,17 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
     {
         $this->_object = midcom::get()->dbfactory->get_object_by_guid($args[0]);
         $this->_mode = $args[1];
-        $this->_sort = 'default';
         if (isset($args[2])) {
             $this->_sort = $args[2];
         }
 
         switch ($this->_mode) {
-            case 'in-paged':
-                //Fall-trough intentional
             case 'in':
                 $this->_get_object_links($this->_links['incoming'], $this->_object, true);
                 break;
-            case 'out-paged':
-                //Fall-trough intentional
             case 'out':
                 $this->_get_object_links($this->_links['outgoing'], $this->_object, false);
                 break;
-            case 'both-paged':
-                //Fall-trough intentional
             case 'both':
                 $this->_get_object_links($this->_links['incoming'], $this->_object, true);
                 $this->_get_object_links($this->_links['outgoing'], $this->_object, false);
@@ -89,10 +82,10 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
     private function _prepare_request_data()
     {
         org_openpsa_relatedto_plugin::add_header_files();
+        $ref = midcom_helper_reflector::get($this->_object);
+        $object_label = $ref->get_object_label($this->_object);
 
-        $object_url = midcom::get()->permalinks->create_permalink($this->_object->guid);
-
-        if ($object_url) {
+        if ($object_url = midcom::get()->permalinks->create_permalink($this->_object->guid)) {
             $this->_view_toolbar->add_item(
                 array(
                     MIDCOM_TOOLBAR_URL => $object_url,
@@ -100,32 +93,22 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_left.png',
                 )
             );
+            $this->add_breadcrumb($object_url, $object_label);
         }
+        $this->add_breadcrumb("", $this->_l10n->get('view related information'));
+
         // Load "Create X" buttons for all the related info
         $relatedto_button_settings = org_openpsa_relatedto_plugin::common_toolbar_buttons_defaults();
 
-        $ref = midcom_helper_reflector::get($this->_object);
         $class_label = $ref->get_class_label();
-        $object_label = $ref->get_object_label($this->_object);
         $date_label = $this->_l10n->get_formatter()->datetime();
         $relatedto_button_settings['wikinote']['wikiword'] = str_replace('/', '-', sprintf($this->_l10n->get('notes for %s %s on %s'), $class_label, $object_label, $date_label));
 
         org_openpsa_relatedto_plugin::common_node_toolbar_buttons($this->_view_toolbar, $this->_object, $this->_request_data['topic']->component, $relatedto_button_settings);
-
         org_openpsa_relatedto_plugin::add_journal_entry_button($this->_view_toolbar, $this->_object->guid);
 
         $this->_request_data['object'] = $this->_object;
-
-        $this->_request_data['show_title'] = false;
-        if (   $this->_mode == 'both'
-            || $this->_mode == 'both-paged') {
-            $this->_request_data['show_title'] = true;
-        }
-
-        if ($object_url) {
-            $this->add_breadcrumb($object_url, $object_label);
-        }
-        $this->add_breadcrumb("", $this->_l10n->get('view related information'));
+        $this->_request_data['show_title'] = ($this->_mode == 'both');
     }
 
     /**
@@ -251,19 +234,8 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
 
         $this->_request_data['icon'] = $ref->get_object_icon($other_obj);
 
-        //Make sure we have the component classes available and
-        //fallback to default renderer if not
-        if (!midcom::get()->componentloader->load_graceful($link['component'])) {
-            $this->_render_line_default($link, $other_obj);
-            return;
-        }
-
         if (get_class($other_obj) != $link['class']) {
             $other_obj = new $link['class']($other_obj);
-        }
-        if (!is_object($other_obj)) {
-            //probably ACL prevents us from seeing anything about it
-            return;
         }
 
         switch ($link['class']) {
@@ -293,12 +265,17 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
         }
     }
 
+    private function get_node_url($component)
+    {
+        return org_openpsa_core_siteconfig::get_instance()->get_node_full_url($component);
+    }
+
     /**
      * Renders a document line
      *
-     * @param object $other_obj The link target
+     * @param org_openpsa_documents_document_dba $other_obj The link target
      */
-    private function _render_line_document($other_obj)
+    private function _render_line_document(org_openpsa_documents_document_dba $other_obj)
     {
         $this->_request_data['document_url'] = midcom::get()->permalinks->create_permalink($other_obj->guid);
 
@@ -308,9 +285,9 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
     /**
      * Renders a wikipage line
      *
-     * @param object $other_obj The link target
+     * @param net_nemein_wiki_wikipage $other_obj The link target
      */
-    private function _render_line_wikipage($other_obj)
+    private function _render_line_wikipage(net_nemein_wiki_wikipage $other_obj)
     {
         $nap = new midcom_helper_nav();
         $node = $nap->get_node($other_obj->topic);
@@ -333,16 +310,13 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
     {
         $this->_request_data['raw_url'] = '';
 
-        $siteconfig = org_openpsa_core_siteconfig::get_instance();
-        $calendar_url = $siteconfig->get_node_full_url('org.openpsa.calendar');
-
         $title = $other_obj->title;
 
-        if ($calendar_url) {
+        if ($url = $this->get_node_url('org.openpsa.calendar')) {
             //Calendar node found, render a better view
-            $this->_request_data['raw_url'] = $calendar_url . 'event/raw/' . $other_obj->guid . '/';
+            $this->_request_data['raw_url'] = $url . 'event/raw/' . $other_obj->guid . '/';
             $workflow = $this->get_workflow('viewer');
-            $title = '<a href="' . $calendar_url . 'event/' . $other_obj->guid .  '/" ' . $workflow->render_attributes() . '>' . $title . "</a>\n";
+            $title = '<a href="' . $url . 'event/' . $other_obj->guid .  '/" ' . $workflow->render_attributes() . '>' . $title . "</a>\n";
         }
 
         $this->_request_data['title'] = $title;
@@ -363,16 +337,12 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
             $type = 'project';
         }
 
-        $siteconfig = org_openpsa_core_siteconfig::get_instance();
-        $projects_url = $siteconfig->get_node_full_url('org.openpsa.projects');
-
         $title = $other_obj->title;
 
-        if ($projects_url) {
-            $title = '<a href="' . $projects_url . $type . '/' . $other_obj->guid  . '/" target="task_' . $other_obj->guid . '">' . $other_obj->title . "</a>\n";
+        if ($url = $this->get_node_url('org.openpsa.projects')) {
+            $title = '<a href="' . $url . $type . '/' . $other_obj->guid  . '/" target="task_' . $other_obj->guid . '">' . $title . "</a>\n";
         }
         $this->_request_data['title'] = $title;
-
         $this->_request_data['type'] = $type;
 
         midcom_show_style('relatedto_list_item_task');
@@ -381,17 +351,14 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
     /**
      * Renders a sales project line
      *
-     * @param object $other_obj The link target
+     * @param org_openpsa_sales_salesproject_dba $other_obj The link target
      */
-    private function _render_line_salesproject($other_obj)
+    private function _render_line_salesproject(org_openpsa_sales_salesproject_dba $other_obj)
     {
-        $siteconfig = org_openpsa_core_siteconfig::get_instance();
-        $sales_url = $siteconfig->get_node_full_url('org.openpsa.sales');
-
         $title = $other_obj->title;
 
-        if ($sales_url) {
-            $title = '<a href="' . $sales_url . 'salesproject/' . $other_obj->guid  . '/" target="salesproject_' . $other_obj->guid . '">' . $title . "</a>\n";
+        if ($url = $this->get_node_url('org.openpsa.sales')) {
+            $title = '<a href="' . $url . 'salesproject/' . $other_obj->guid  . '/" target="salesproject_' . $other_obj->guid . '">' . $title . "</a>\n";
         }
 
         $this->_request_data['title'] = $title;
@@ -402,17 +369,14 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
     /**
      * Renders an invoice line
      *
-     * @param object $other_obj The link target
+     * @param org_openpsa_invoices_invoice_dba $other_obj The link target
      */
-    private function _render_line_invoice($other_obj)
+    private function _render_line_invoice(org_openpsa_invoices_invoice_dba $other_obj)
     {
-        $siteconfig = org_openpsa_core_siteconfig::get_instance();
-        $invoices_url = $siteconfig->get_node_full_url('org.openpsa.invoices');
-
         $title = $this->_i18n->get_string('invoice', 'org.openpsa.invoices') . ' ' . $other_obj->get_label();
 
-        if ($invoices_url) {
-            $title = '<a href="' . $invoices_url . 'invoice/' . $other_obj->guid  . '/" target="invoice_' . $other_obj->guid . '">' . $title . "</a>\n";
+        if ($url = $this->get_node_url('org.openpsa.invoices')) {
+            $title = '<a href="' . $url . 'invoice/' . $other_obj->guid  . '/" target="invoice_' . $other_obj->guid . '">' . $title . "</a>\n";
         }
         $this->_request_data['title'] = $title;
 
@@ -432,20 +396,17 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
     {
         $class = get_class($other_obj);
 
-        $object_url = midcom::get()->permalinks->create_permalink($other_obj->guid);
-
         $ref = midcom_helper_reflector::get($other_obj);
-        $class_label = $ref->get_class_label();
         $object_label = $ref->get_object_label($other_obj);
-        if ($object_url) {
-            $object_label = '<a href="' . $object_url . '" target="' . $class . $this->_object->guid . '">' . $object_label . '</a>';
+        if ($url = midcom::get()->permalinks->create_permalink($other_obj->guid)) {
+            $object_label = '<a href="' . $url . '" target="' . $class . $this->_object->guid . '">' . $object_label . '</a>';
         }
 
         echo "            <li class=\"unknown {$class}\" id=\"org_openpsa_relatedto_line_{$link['guid']}\">\n";
         echo '                <span class="icon">' . $this->_request_data['icon'] . "</span>\n";
         echo '                <span class="title">' . $object_label . "</span>\n";
         echo '                <ul class="metadata">';
-        echo '                    <li>' . $class_label . "</li>\n";
+        echo '                    <li>' . $ref->get_class_label() . "</li>\n";
         echo "                </ul>\n";
         self::render_line_controls($link, $other_obj);
         echo "</li>\n";
@@ -472,7 +433,6 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
         }
 
         echo '<li><input type="button" class="button delete" id="org_openpsa_relatedto_delete-' . $link['guid'] . '" value="' . midcom::get()->i18n->get_string('delete relation', 'org.openpsa.relatedto') . '" /></li>';
-
         echo "</ul>\n";
     }
 

@@ -36,10 +36,7 @@ class org_openpsa_relatedto_suspect extends midcom_baseclasses_components_pureco
                 //Skip midcom core
                 continue;
             }
-            $component_ret = self::find_links_object_component($object, $component, $defaults);
-            foreach ($component_ret as $linkdata) {
-                $ret[] = $linkdata;
-            }
+            $ret = array_merge($ret, self::find_links_object_component($object, $component, $defaults));
         }
 
         //TODO: Filter out duplicates (not likely but theoretically possible)
@@ -81,7 +78,6 @@ class org_openpsa_relatedto_suspect extends midcom_baseclasses_components_pureco
                 unset($ret[$k]);
             }
         }
-        reset($ret);
 
         return $ret;
     }

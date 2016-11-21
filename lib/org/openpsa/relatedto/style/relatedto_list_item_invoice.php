@@ -6,9 +6,9 @@ $formatter = $data['l10n']->get_formatter();
 // Sum and due date
 $paid = '';
 if ($invoice->paid > 0) {
-    $paid = ", " . midcom::get()->i18n->get_string('paid', 'org.openpsa.invoices') . ": " . $formatter->date($invoice->paid);
+    $paid = midcom::get()->i18n->get_string('paid', 'org.openpsa.invoices') . ": " . $formatter->date($invoice->paid);
 } elseif ($invoice->due < time()) {
-    $paid = ", " . midcom::get()->i18n->get_string('not paid', 'org.openpsa.invoices');
+    $paid = midcom::get()->i18n->get_string('not paid', 'org.openpsa.invoices');
 }
 ?>
 
@@ -23,7 +23,7 @@ if ($invoice->paid > 0) {
         echo "<li>" . midcom::get()->i18n->get_string('customer', 'org.openpsa.invoices') . ": {$customer->official}</li>";
     }
 
-    echo "<li>" . midcom::get()->i18n->get_string('sum', 'org.openpsa.invoices') . ": " . $formatter->number($invoice->sum) . " (" . midcom::get()->i18n->get_string('due', 'org.openpsa.invoices') . ": " . $formatter->date($invoice->due) . "{$paid})</li>";
+    echo "<li>" . midcom::get()->i18n->get_string('sum', 'org.openpsa.invoices') . ": " . $formatter->number($invoice->sum) . " (" . midcom::get()->i18n->get_string('due', 'org.openpsa.invoices') . ": " . $formatter->date($invoice->due) . ", {$paid})</li>";
     ?>
     </ul>
 

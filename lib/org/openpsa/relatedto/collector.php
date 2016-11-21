@@ -193,7 +193,7 @@ class org_openpsa_relatedto_collector extends midcom_core_collector
         $this->add_constraint('status', '<>', org_openpsa_relatedto_dba::NOTRELATED);
         $relations = $this->get_rows(array($key));
 
-        if (sizeof($relations) == 0) {
+        if (count($relations) == 0) {
             return $entries;
         }
 
@@ -232,7 +232,7 @@ class org_openpsa_relatedto_collector extends midcom_core_collector
 
         $guids = $this->get_related_guids($component);
 
-        if (sizeof($guids) == 0) {
+        if (count($guids) == 0) {
             return $entries;
         }
 
@@ -261,17 +261,7 @@ class org_openpsa_relatedto_collector extends midcom_core_collector
         }
 
         $this->add_constraint('status', '<>', org_openpsa_relatedto_dba::NOTRELATED);
-        $this->execute();
-        $relations = $this->list_keys();
 
-        if (sizeof($relations) == 0) {
-            return $guids;
-        }
-
-        foreach ($relations as $guid => $empty) {
-            $guids[] = $this->get_subkey($guid, $this->_other_prefix . 'Guid');
-        }
-
-        return $guids;
+        return array_values($this->get_values($this->_other_prefix . 'Guid'));
     }
 }

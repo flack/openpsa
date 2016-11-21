@@ -10,18 +10,18 @@
  */
 class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
 {
-    protected $_midcom_qb;
-    protected $_midcom_qb_count;
-    protected $_pager_id = false;
-    private $_offset = 0;
-    protected $_prefix = '';
-    private $_current_page = 1;
     public $results_per_page = 25;
-    private $count = false;
-    private $_count_mode;
     public $display_pages = 10;
     public $string_next = 'next';
     public $string_previous = 'previous';
+    protected $_midcom_qb;
+    protected $_midcom_qb_count;
+    protected $_pager_id = false;
+    protected $_prefix = '';
+    private $_offset = 0;
+    private $count = false;
+    private $_count_mode;
+    private $_current_page = 1;
 
     public function __construct($classname, $pager_id)
     {

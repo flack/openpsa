@@ -19,9 +19,8 @@
                 'index_date' => $entry->followUp,
             );
 
-            $link_html = '<a href="' . $data['url_prefix'] . 'edit/' . $entry->guid . '" ' . $workflow->render_attributes() . '>';
-            $link_html .= "<span>" . $entry->title . "</span></a>";
-            $row['name'] = $link_html;
+            $row['name'] = '<a href="' . $data['url_prefix'] . 'edit/' . $entry->guid . '" ' . $workflow->render_attributes() . '>';
+            $row['name'] .= "<span>" . $entry->title . "</span></a>";
 
             $row['date'] = date('Y-m-d', $entry->metadata->created);
 
@@ -35,11 +34,7 @@
                 $row['creator'] = '';
             }
 
-            if ($entry->closed) {
-                $row['closed'] = midcom::get()->i18n->get_string('finished', 'org.openpsa.relatedto');
-            } else {
-                $row['closed'] = midcom::get()->i18n->get_string('open', 'org.openpsa.relatedto');
-            }
+            $row['closed'] = $data['l10n']->get(($entry->closed) ? 'finished' : 'open');
             $rows[] = $row;
         }
         echo 'var entries = ' . json_encode($rows) . ";\n";
@@ -59,26 +54,26 @@
             ?>
             datatype: "local",
             data: entries,
-        <?php 
+        <?php
         } else {
             ?>
             url: '<?php echo $data['data_url'] ; ?>',
             datatype: "xml",
             mtype: "POST",
-        <?php 
+        <?php
         } ?>
-        colNames:["id",
+        colNames: ["id",
                   <?php
                   //index is needed for sorting
                   echo "'index_name',";
-                  echo "'" . midcom::get()->i18n->get_string('entry title', 'org.openpsa.relatedto') ."',";
-                  echo "'" . midcom::get()->i18n->get_string('entry text', 'org.openpsa.relatedto') . "',";
-                  echo "'" . midcom::get()->i18n->get_string('entry created', 'org.openpsa.relatedto') . "',";
-                  echo "'index_creator', '" . midcom::get()->i18n->get_string('creator', 'midcom') . "',";
-                  echo "'" . midcom::get()->i18n->get_string('status', 'org.openpsa.relatedto') . "'";
+                  echo "'" . $data['l10n']->get('entry title') ."',";
+                  echo "'" . $data['l10n']->get('entry text') . "',";
+                  echo "'" . $data['l10n']->get('entry created') . "',";
+                  echo "'index_creator', '" . $data['l10n_midcom']->get('creator') . "',";
+                  echo "'" . $data['l10n']->get('status') . "'";
                   ?>
         ],
-        colModel:[
+        colModel: [
                   {name:'id',index:'id', hidden: true, key: true },
                   {name:'index_name',index:'index_name', hidden: true},
                   {name:'name', index: 'index_name', width: 100 },
@@ -90,8 +85,7 @@
         ],
         gridComplete: function()
         {
-            if (loaded_in_tab)
-            {
+            if (loaded_in_tab) {
                 new_height = $(this).attr('clientHeight') + $("#gbox_journal_entry_grid").siblings('.org_openpsa_toolbar').attr('clientHeight') + 15;
                 $("#gbox_journal_entry_grid").parent().css('height', new_height);
             }

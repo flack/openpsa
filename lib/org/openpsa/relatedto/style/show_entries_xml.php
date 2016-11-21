@@ -41,11 +41,7 @@ foreach ($data['entries'] as $entry) {
         echo "<cell><![CDATA[" . $data['linked_objects'][$entry->linkGuid] . "]]></cell>";
     }
     if ($data['show_closed']) {
-        if ($entry->closed) {
-            echo "<cell>" . midcom::get()->i18n->get_string('finished', 'org.openpsa.relatedto') . "</cell>";
-        } else {
-            echo "<cell>" . midcom::get()->i18n->get_string('open', 'org.openpsa.relatedto') . "</cell>";
-        }
+        echo "<cell>" . $data['l10n']->get(($entry->closed) ? 'finished' : 'open') . "</cell>";
     }
 
     echo "</row>";
