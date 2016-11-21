@@ -48,13 +48,12 @@ class org_openpsa_mypage_workingon
      *
      * @param midcom_db_person $person Person to handle "now working on" for. By default current user
      */
-    public function __construct($person = null)
+    public function __construct(midcom_db_person $person = null)
     {
         if (is_null($person)) {
             midcom::get()->auth->require_valid_user();
             $this->person = midcom::get()->auth->user->get_storage();
         } else {
-            // TODO: Check that this is really a person object
             $this->person = $person;
         }
 
@@ -111,19 +110,16 @@ class org_openpsa_mypage_workingon
         if ($task_guid == '') {
             // We won't be working on anything from now on. Delete existing parameter
             $stat = $this->person->delete_parameter('org.openpsa.mypage', 'workingon');
-
-            midcom::get()->auth->drop_sudo();
-            return $stat;
+        } else {
+            // Mark the new task work session as started
+            $workingon = array(
+                'task' => $task_guid,
+                'description' => $description,
+                'invoiceable' => $invoiceable,
+                'start' => gmdate('Y-m-d H:i:s', time())
+            );
+            $stat = $this->person->set_parameter('org.openpsa.mypage', 'workingon', json_encode($workingon));
         }
-
-        // Mark the new task work session as started
-        $workingon = array(
-            'task' => $task_guid,
-            'description' => $description,
-            'invoiceable' => $invoiceable,
-            'start' => gmdate('Y-m-d H:i:s', time())
-        );
-        $stat = $this->person->set_parameter('org.openpsa.mypage', 'workingon', json_encode($workingon));
         midcom::get()->auth->drop_sudo();
         return $stat;
     }

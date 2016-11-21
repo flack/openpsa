@@ -4,7 +4,7 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 
 <div class="sidebar">
     <?php
-    if ($data['projects_url']) {
+    if ($data['projects_relative_url']) {
         midcom::get()->dynamic_load('workingon/');
     }
     if ($data['calendar_url']) {

@@ -66,7 +66,7 @@ midcom::get()->uimessages->show();
                    format: 'x:i:s'
              });
          </script>
-    <?php 
+    <?php
     } ?>
       <input type="button" id="org_openpsa_mypage_workingon_stop" value="<?php echo $data['l10n']->get('stop'); ?>"/>
       <input type="button" id="org_openpsa_mypage_workingon_start" value="<?php echo $data['l10n']->get('start'); ?>"/>
@@ -78,8 +78,8 @@ midcom::get()->uimessages->show();
 
 <?php
 if ($data['expenses_url']) {
-        midcom_show_style('workingon_expenses');
-    }
+    midcom_show_style('workingon_expenses');
+}
 ?>
 
 </div>

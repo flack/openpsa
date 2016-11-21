@@ -87,8 +87,7 @@ class org_openpsa_mypage_handler_workingon extends midcom_baseclasses_components
                 $mc->set_key_property('id');
                 $mc->add_value_property('customer');
                 $mc->execute();
-                $customer_id = $mc->get_subkey($array['task'], 'customer');
-                if ($customer_id) {
+                if ($customer_id = $mc->get_subkey($array['task'], 'customer')) {
                     try {
                         $customer = new org_openpsa_contacts_group_dba($customer_id);
                         $customer_label = $customer->official;
@@ -104,11 +103,7 @@ class org_openpsa_mypage_handler_workingon extends midcom_baseclasses_components
         }
 
         $customer = $customer_cache[$array['task']];
-
-        $category = 'uninvoiceable';
-        if ($array['invoiceable']) {
-            $category = 'invoiceable';
-        }
+        $category = ($array['invoiceable']) ? 'invoiceable' : 'uninvoiceable';
 
         if (!isset($this->_request_data['hours'][$category][$customer])) {
             $this->_request_data['hours'][$category][$customer] = $array['hours'];
