@@ -100,7 +100,7 @@ implements org_openpsa_widgets_grid_provider_client
     {
         midcom::get()->skip_page_style = true;
         $data['provider'] = $this->_provider;
-        if (sizeof($args) == 1) {
+        if (count($args) == 1) {
             $this->_group = new org_openpsa_contacts_group_dba($args[0]);
         }
     }
@@ -122,7 +122,6 @@ implements org_openpsa_widgets_grid_provider_client
     public function get_qb($field = null, $direction = 'ASC', array $search = array())
     {
         $qb = midcom_db_person::new_collector('metadata.deleted', false);
-        //@todo constraint username <> '' ?
 
         if ($this->_group) {
             $mc = midcom_db_member::new_collector('gid', $this->_group->id);

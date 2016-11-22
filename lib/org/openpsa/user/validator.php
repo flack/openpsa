@@ -109,8 +109,7 @@ class org_openpsa_user_validator extends midgard_admin_user_validator
             $qb = new midgard_query_builder(midcom::get()->config->get('person_class'));
             $qb->add_constraint('email', '=', $fields["email"]);
             $qb->add_constraint('guid', '=', $user->guid);
-            $count = $qb->count();
-            if ($count == 0) {
+            if ($qb->count() == 0) {
                 $result["username"] = midcom::get()->i18n->get_string("no user found with this username and email address", "org.openpsa.user");
             }
         }

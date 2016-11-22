@@ -55,40 +55,35 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         $workflow = $this->get_workflow('datamanager2', array('controller' => $data['controller']));
         $response = $workflow->run();
 
-        if ($workflow->get_state() == 'save') {
-            if ($this->_master->create_account($this->person, $data["controller"]->formmanager)) {
-                midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.user'), sprintf($this->_l10n->get('person %s created'), $this->person->name));
-            }
+        if (   $workflow->get_state() == 'save'
+            && $this->_master->create_account($this->person, $data["controller"]->formmanager)) {
+            midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.user'), sprintf($this->_l10n->get('person %s created'), $this->person->name));
         }
         return $response;
     }
 
     public function get_schema_defaults()
     {
+        $defaults = array(
+            'person' => $this->person->guid
+        );
         if ($this->account->get_username()) {
-            return array('username' => $this->account->get_username());
-        }
-        if ($this->person->email) {
+            $defaults['username'] = $this->account->get_username();
+        } elseif ($this->person->email) {
             // Email address (first part) is the default username
-            return array('username' => preg_replace('/@.*/', '', $this->person->email));
+            $defaults['username'] = preg_replace('/@.*/', '', $this->person->email);
+        } else {
+            // Otherwise use cleaned up firstname.lastname
+            $generator = midcom::get()->serviceloader->load('midcom_core_service_urlgenerator');
+            $defaults['username'] = $generator->from_string($this->person->firstname) . '.' . $generator->from_string($this->person->lastname);
         }
-        // Otherwise use cleaned up firstname.lastname
-        $generator = midcom::get()->serviceloader->load('midcom_core_service_urlgenerator');
-        return array('username' => $generator->from_string($this->person->firstname) . '.' . $generator->from_string($this->person->lastname));
+        return $defaults;
     }
 
     public function load_schemadb()
     {
-        $handler = $this->_request_data["handler_id"];
-        $schemadb = ($handler == "account_edit") ? 'schemadb_account_edit' : 'schemadb_account';
-        $db = midcom_helper_datamanager2_schema::load_database($this->_config->get($schemadb));
-
-        if ($handler == "account_edit") {
-            //set defaults
-            $db["default"]->fields["username"]["default"] = $this->account->get_username();
-            $db["default"]->fields["person"]["default"] = $this->person->guid;
-        }
-        return $db;
+        $schemadb = ($this->_request_data["handler_id"] == "account_edit") ? 'schemadb_account_edit' : 'schemadb_account';
+        return midcom_helper_datamanager2_schema::load_database($this->_config->get($schemadb));
     }
 
     /**
@@ -122,23 +117,13 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      */
     public function _handler_edit($handler_id, array $args, array &$data)
     {
-        $this->person = new midcom_db_person($args[0]);
-        $this->person->require_do('midgard:update');
-        if ($this->person->id != midcom_connection::get_user()) {
-            midcom::get()->auth->require_user_do('org.openpsa.user:manage', null, 'org_openpsa_user_interface');
-        }
-
-        //get existing account for gui
-        $this->account = new midcom_core_account($this->person);
-        //if we have no username there is no account
-        if (!$this->account->get_username()) {
+        if (!$this->load_person($args[0])) {
             // Account needs to be created first, relocate
             return new midcom_response_relocate("account/create/" . $this->person->guid . "/");
         }
 
         // if there is no password set (due to block), show ui-message for info
-        $midcom_person = midcom_db_person::get_cached($this->person->id);
-        $account_helper = new org_openpsa_user_accounthelper($midcom_person);
+        $account_helper = new org_openpsa_user_accounthelper($this->person);
         if ($account_helper->is_blocked()) {
             midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.user'), $this->_l10n->get("Account was blocked, since there is no password set."), 'error');
         }
@@ -165,11 +150,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
 
     private function update_account(midcom_helper_datamanager2_formmanager $formmanager)
     {
-        $password = null;
-        //new password?
-        if ($formmanager->get_value("new_password")) {
-            $password = $formmanager->get_value("new_password");
-        }
+        $password = $formmanager->get_value("new_password") ?: null;
         $accounthelper = new org_openpsa_user_accounthelper($this->person);
 
         // Update account
@@ -180,6 +161,18 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         }
     }
 
+    private function load_person($identifier)
+    {
+        $this->person = new midcom_db_person($identifier);
+        $this->person->require_do('midgard:update');
+        if ($this->person->id != midcom_connection::get_user()) {
+            midcom::get()->auth->require_user_do('org.openpsa.user:manage', null, 'org_openpsa_user_interface');
+        }
+
+        $this->account = new midcom_core_account($this->person);
+        return (bool) $this->account->get_username();
+    }
+
     /**
      * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
@@ -187,15 +180,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      */
     public function _handler_delete($handler_id, array $args, array &$data)
     {
-        // Check if we get the person
-        $this->person = new midcom_db_person($args[0]);
-        $this->person->require_do('midgard:update');
-        if ($this->person->id != midcom_connection::get_user()) {
-            midcom::get()->auth->require_user_do('org.openpsa.user:manage', null, 'org_openpsa_user_interface');
-        }
-
-        $this->account = new midcom_core_account($this->person);
-        if (!$this->account->get_username()) {
+        if (!$this->load_person($args[0])) {
             // Account needs to be created first, relocate
             return new midcom_response_relocate("view/" . $this->person->guid . "/");
         }

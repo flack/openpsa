@@ -93,7 +93,6 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
                 $this->_processing_msg = $this->_l10n->get('password reset, mail sent.');
                 $this->_processing_msg_raw = 'password reset, mail sent.';
                 $this->_success = true;
-
                 break;
 
             case 'cancel':

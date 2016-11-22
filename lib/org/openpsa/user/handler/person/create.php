@@ -36,7 +36,7 @@ implements midcom_helper_datamanager2_interfaces_create
         $person_schema = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_person'));
         $account_schema = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_account'));
         $current = 0;
-        $last = sizeof($account_schema['default']->fields);
+        $last = count($account_schema['default']->fields);
         foreach ($account_schema['default']->fields as $name => $field) {
             if ($current++ == 0) {
                 $field['start_fieldset'] = array(
@@ -55,11 +55,10 @@ implements midcom_helper_datamanager2_interfaces_create
 
     public function get_schema_defaults()
     {
-        $defaults = array();
         if ($this->_group) {
-            $defaults['groups'] = array($this->_group->id);
+            return array($this->_group->id);
         }
-        return $defaults;
+        return array();
     }
 
     /**

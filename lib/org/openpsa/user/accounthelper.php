@@ -312,8 +312,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
         //check $password with rules
         $rules = $this->_config->get('password_score_rules');
         foreach ($rules as $rule) {
-            $match = preg_match($rule['match'], $password);
-            if ($match > 0) {
+            if (preg_match($rule['match'], $password) > 0) {
                 $score += $rule['score'];
             }
         }
@@ -520,9 +519,8 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
         }
 
         midcom::get()->auth->request_sudo('org.openpsa.user');
-        $attempts = $this->_person->get_parameter("org_openpsa_user_password", "attempts");
 
-        if (!empty($attempts)) {
+        if ($attempts = $this->_person->get_parameter("org_openpsa_user_password", "attempts")) {
             $attempts = unserialize($attempts);
             if (is_array($attempts)) {
                 $attempts = array_slice($attempts, 0, ($max_attempts - 1));
@@ -537,8 +535,8 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
          * If the maximum number of attemps is reached and the oldest attempt
          * on the stack is within our defined timeframe, we block the account
          */
-        if (   sizeof($attempts) >= $max_attempts
-            && $attempts[$max_attempts-1] >= (time() - ($timeframe * 60))) {
+        if (   count($attempts) >= $max_attempts
+            && $attempts[$max_attempts - 1] >= (time() - ($timeframe * 60))) {
             $this->disable_account();
             $stat = false;
         }

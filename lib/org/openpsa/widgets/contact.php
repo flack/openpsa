@@ -239,7 +239,7 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
         if (   $this->_config->get('gravatar_enable')
             && !empty($this->contact_details['email'])) {
             $size = $this->_config->get('gravatar_size');
-            $gravatar_url = "http://www.gravatar.com/avatar.php?gravatar_id=" . md5($this->contact_details['email']) . "&size=".$size;
+            $gravatar_url = "http://www.gravatar.com/avatar.php?gravatar_id=" . md5($this->contact_details['email']) . "&size=" . $size;
             echo "<img src=\"{$gravatar_url}\" class=\"photo\" style=\"float: right; margin-left: 4px;\" />\n";
         }
 
@@ -372,8 +372,8 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
 
             $property = $cardname . 'Street';
 
-            if (sizeof($cards_to_show) == 0) {
-                if ($property != 'street' && $customer->$property) {
+            if (count($cards_to_show) == 0) {
+                if ($customer->$property) {
                     $inherited_cards_only = false;
                     $cards_to_show[] = $cardname;
                 } elseif (!$default_shown && $customer->street) {
