@@ -24,56 +24,52 @@ class org_routamc_positioning_importer_georss extends org_routamc_positioning_im
         $qb->add_constraint('domain', '=', 'org.routamc.positioning:georss');
         $qb->add_constraint('name', '=', 'georss_url');
         $accounts = $qb->execute();
-        if (count($accounts) > 0) {
-            foreach ($accounts as $account_param) {
-                $user = new midcom_db_person($account_param->parentguid);
-                $this->get_georss_location($user, true);
-            }
+        foreach ($accounts as $account_param) {
+            $user = new midcom_db_person($account_param->parentguid);
+            $this->get_georss_location($user, true);
         }
     }
 
     private function _fetch_georss_position($url)
     {
         $items = net_nemein_rss_fetch::raw_fetch($url)->get_items();
-        if (!empty($items)) {
-            foreach ($items as $item) {
-                $latitude = $item->get_latitude();
-                $longitude = $item->get_longitude();
 
-                if (   !is_null($latitude)
-                    && !is_null($longitude)) {
-                    if (   $latitude > 90
-                        || $latitude < -90) {
-                        // This is no earth coordinate, my friend
-                        $this->error = 'POSITIONING_GEORSS_INCORRECT_LATITUDE';
-                        // Skip to next
-                        continue;
-                    }
+        foreach ($items as $item) {
+            $latitude = $item->get_latitude();
+            $longitude = $item->get_longitude();
 
-                    if (   $longitude > 180
-                        || $longitude < -180) {
-                        // This is no earth coordinate, my friend
-                        $this->error = 'POSITIONING_GEORSS_INCORRECT_LONGITUDE';
-                        // Skip to next
-                        continue;
-                    }
-
-                    $time = $item->get_date('U');
-                    if (empty($time)) {
-                        $time = time();
-                    }
-
-                    $position = array(
-                        'latitude'    => $latitude,
-                        'longitude'   => $longitude,
-                        'time'        => $time,
-                    );
-
-                    // We're happy with the first proper match
-                    return $position;
+            if (   !is_null($latitude)
+                && !is_null($longitude)) {
+                if (abs($latitude) > 90) {
+                    // This is no earth coordinate, my friend
+                    $this->error = 'POSITIONING_GEORSS_INCORRECT_LATITUDE';
+                    // Skip to next
+                    continue;
                 }
+
+                if (abs($longitude) > 180) {
+                    // This is no earth coordinate, my friend
+                    $this->error = 'POSITIONING_GEORSS_INCORRECT_LONGITUDE';
+                    // Skip to next
+                    continue;
+                }
+
+                $time = $item->get_date('U');
+                if (empty($time)) {
+                    $time = time();
+                }
+
+                $position = array(
+                    'latitude'    => $latitude,
+                    'longitude'   => $longitude,
+                    'time'        => $time,
+                );
+
+                // We're happy with the first proper match
+                return $position;
             }
         }
+
         $this->error = 'POSITIONING_GEORSS_CONNECTION_NORESULTS';
         return null;
     }
@@ -87,9 +83,7 @@ class org_routamc_positioning_importer_georss extends org_routamc_positioning_im
      */
     function get_georss_location($user, $cache = true)
     {
-        $georss_url = $user->get_parameter('org.routamc.positioning:georss', 'georss_url');
-
-        if ($georss_url) {
+        if ($georss_url = $user->get_parameter('org.routamc.positioning:georss', 'georss_url')) {
             $position = $this->_fetch_georss_position($georss_url);
 
             if (is_null($position)) {

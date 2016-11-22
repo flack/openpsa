@@ -29,11 +29,9 @@ class org_routamc_positioning_geocoder_geonames extends org_routamc_positioning_
             'style' => 'FULL',
         );
 
-        if (!empty($options)) {
-            foreach ($options as $key => $value) {
-                if (isset($parameters[$key])) {
-                    $parameters[$key] = $value;
-                }
+        foreach ($options as $key => $value) {
+            if (isset($parameters[$key])) {
+                $parameters[$key] = $value;
             }
         }
 
@@ -45,23 +43,23 @@ class org_routamc_positioning_geocoder_geonames extends org_routamc_positioning_
         $params = array();
 
         if (isset($location['postalcode'])) {
-            $params[] = 'postalcode=' . urlencode($location['postalcode']);
+            $params['postalcode'] = $location['postalcode'];
         }
         if (isset($location['city'])) {
-            $params[] = 'placename=' . urlencode($location['city']);
+            $params['placename'] = $location['city'];
         }
         if (isset($location['country'])) {
-            $params[] = 'country=' . urlencode($location['country']);
+            $params['country'] = $location['country'];
         }
 
         foreach ($parameters as $key => $value) {
             if (!is_null($value)) {
-                $params[] = "{$key}=" . urlencode($value);
+                $params[$key] = $value;
             }
         }
 
         $http_request = new org_openpsa_httplib();
-        $response = $http_request->get('http://ws.geonames.org/postalCodeSearch?' . implode('&', $params));
+        $response = $http_request->get('http://ws.geonames.org/postalCodeSearch?' . http_build_query($params));
         if (empty($response)) {
             $this->error = 'POSITIONING_SERVICE_NOT_AVAILABLE';
             return null;
@@ -105,7 +103,7 @@ class org_routamc_positioning_geocoder_geonames extends org_routamc_positioning_
      * @param array $coordinates Contains latitude and longitude values
      * @return Array containing geocoded information
      */
-    function reverse_geocode($coordinates, $options=array())
+    function reverse_geocode($coordinates, $options = array())
     {
         $results = array();
 
@@ -128,19 +126,19 @@ class org_routamc_positioning_geocoder_geonames extends org_routamc_positioning_
             $this->error = 'POSITIONING_MISSING_ATTRIBUTES';
             return null;
         }
-        $params = array();
-
-        $params[] = 'lat=' . urlencode($coordinates['latitude']);
-        $params[] = 'lng=' . urlencode($coordinates['longitude']);
+        $params = array(
+            'lat' => $coordinates['latitude'],
+            'lng' => $coordinates['longitude']
+        );
 
         foreach ($parameters as $key => $value) {
             if (!is_null($value)) {
-                $params[] = "{$key}=" . urlencode($value);
+                $params[$key] = $value;
             }
         }
 
         $http_request = new org_openpsa_httplib();
-        $url = 'http://ws.geonames.org/findNearbyPlaceName?' . implode('&', $params);
+        $url = 'http://ws.geonames.org/findNearbyPlaceName?' . http_build_query($params);
         $response = $http_request->get($url);
         $simplexml = simplexml_load_string($response);
 

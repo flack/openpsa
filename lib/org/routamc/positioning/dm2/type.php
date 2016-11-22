@@ -51,8 +51,7 @@ class org_routamc_positioning_dm2_type extends midcom_helper_datamanager2_type
 
     public function convert_to_storage()
     {
-        if (   !$this->storage
-            || !$this->storage->object) {
+        if (empty($this->storage->object)) {
             return '';
         }
 
@@ -85,30 +84,27 @@ class org_routamc_positioning_dm2_type extends midcom_helper_datamanager2_type
         $result = '';
 
         $adr_properties = array();
-        if ($this->location->description) {
-            $adr_properties[] = "<span class=\"description\">{$this->location->description}</span>";
-        }
-        if ($this->location->text) {
-            $adr_properties[] = "<span class=\"text\">{$this->location->text}</span>";
-        }
-        if ($this->location->room) {
-            $adr_properties[] = "<span class=\"room\">{$this->location->room}</span>";
-        }
-        if ($this->location->street) {
-            $adr_properties[] = "<span class=\"street-address\">{$this->location->street}</span>";
-        }
-        if ($this->location->postalcode) {
-            $adr_properties[] = "<span class=\"postal-code\">{$this->location->postalcode}</span>";
-        }
-        if ($this->location->city) {
-            $city = new org_routamc_positioning_city_dba($this->location->city);
-            $adr_properties[] = "<span class=\"locality\">{$city->city}</span>";
-        }
-        if ($this->location->region) {
-            $adr_properties[] = "<span class=\"region\">{$this->location->region}</span>";
-        }
-        if ($this->location->country) {
-            $adr_properties[] = "<span class=\"country-name\">{$this->location->country}</span>";
+
+        $map = array(
+            'description' => 'description',
+            'text' => 'text',
+            'room' => 'room',
+            'street' => 'street-address',
+            'postalcode' => 'postal-code',
+            'city' => 'locality',
+            'region' => 'region',
+            'country' => 'country-name'
+        );
+
+        foreach ($map as $field => $class) {
+            if ($this->location->$field) {
+                $value = $this->location->$field;
+                if ($field === 'city') {
+                    $city = new org_routamc_positioning_city_dba($this->location->city);
+                    $value = $city->city;
+                }
+                $adr_properties[] = '<span class="' . $class . '">' . $value . '</span>';
+            }
         }
 
         if (count($adr_properties) > 0) {

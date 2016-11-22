@@ -122,8 +122,7 @@ class org_routamc_positioning_map extends midcom_baseclasses_components_purecode
     function add_marker($marker)
     {
         // Perform sanity checks
-        if (   !isset($marker['coordinates'])
-            || !is_array($marker['coordinates'])
+        if (   empty($marker['coordinates'])
             || !isset($marker['coordinates']['latitude'])
             || !isset($marker['coordinates']['longitude'])) {
             return false;
@@ -282,8 +281,7 @@ class org_routamc_positioning_map extends midcom_baseclasses_components_purecode
             $script .= "marker_{$i}.setIconSize([{$marker['icon']['width']}, {$marker['icon']['height']}]);\n";
         }
 
-        if (   isset($marker['shadow_icon'])
-            && is_array($marker['shadow_icon'])) {
+        if (!empty($marker['shadow_icon'])) {
             if (   isset($marker['shadow_icon']['width'])
                 && isset($marker['shadow_icon']['height'])) {
                 $script .= "marker_{$i}.setShadowIcon('{$marker['shadow_icon']['path']}', [{$marker['shadow_icon']['width']}, {$marker['shadow_icon']['height']}]);\n";

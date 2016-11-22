@@ -45,7 +45,7 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
      *
      * @var array
      */
-    public $enabled_methods = null;
+    public $enabled_methods = array('place', 'map', 'coordinates');
 
     /**
      * The service backend to use for searches. Defaults to geonames
@@ -102,14 +102,6 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
     public function _on_initialize()
     {
         $this->_require_type_class('org_routamc_positioning_dm2_type');
-
-        if (is_null($this->enabled_methods)) {
-            $this->enabled_methods = array(
-                'place',
-                'map',
-                'coordinates'
-            );
-        }
 
         if (is_null($this->service)) {
             $this->service = 'geonames';
@@ -205,12 +197,12 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
     {
         $value = $this->_type->location->$fieldname;
         $value_input = $this->_get_input($fieldname, $_REQUEST);
-        if (!$value && $value_input !== null) {
-            $value = $value_input;
-        }
-        if (   !$value
-            && isset($this->input_defaults[$fieldname])) {
-            $value = $this->input_defaults[$fieldname];
+        if (!$value) {
+            if ($value_input) {
+                $value = $value_input;
+            } elseif (isset($this->input_defaults[$fieldname])) {
+                $value = $this->input_defaults[$fieldname];
+            }
         }
         return $value;
     }
@@ -266,14 +258,13 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
             $city_id = $this->_get_city_by_name($city_input);
             if (!$city_id) {
                 $city_name = $city_input;
+                if (   isset($this->input_defaults['city'])
+                    && is_numeric($this->input_defaults['city'])) {
+                    $city_id = $this->input_defaults['city'];
+                }
             }
         }
 
-        if (   !$city_id
-            && isset($this->input_defaults['city'])
-            && is_numeric($this->input_defaults['city'])) {
-            $city_id = $this->input_defaults['city'];
-        }
         if (   !$city_name
             && isset($this->input_defaults['city'])
             && is_string($this->input_defaults['city'])) {
@@ -395,7 +386,7 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
         }
     }
 
-    public function _render_country_list($current='')
+    public function _render_country_list($current = '')
     {
         $html = '';
 
@@ -519,27 +510,18 @@ class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widg
 
     public function sync_type_with_widget($results)
     {
-        $country = $this->_get_input("country", $results);
-        if ($country !== null) {
-            $this->_type->location->country = $country;
+        $properties = array('country', 'city', 'street', 'region', 'postalcode');
+
+        foreach ($properties as $property) {
+            $value = $this->_get_input($property, $results);
+            if ($property === 'city') {
+                $value = $this->_get_city_by_name($value, $results);
+            }
+            if ($value !== null) {
+                $this->_type->location->$property = $value;
+            }
         }
-        $city = $this->_get_input("city", $results);
-        if ($city !== null) {
-            $city_id = $this->_get_city_by_name($city, $results);
-            $this->_type->location->city = $city_id;
-        }
-        $street = $this->_get_input("street", $results);
-        if ($street !== null) {
-            $this->_type->location->street = $street;
-        }
-        $region = $this->_get_input("region", $results);
-        if ($region !== null) {
-            $this->_type->location->region = $region;
-        }
-        $postalcode = $this->_get_input("postalcode", $results);
-        if ($postalcode !== null) {
-            $this->_type->location->postalcode = $postalcode;
-        }
+
         $lat = $this->_get_input("latitude", $results);
         if (!empty($lat)) {
             $this->_type->location->latitude = $lat;

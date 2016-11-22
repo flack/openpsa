@@ -23,8 +23,7 @@ foreach ($simplexml->country as $id => $countryinfo) {
     $country->bboxeast = (float) $countryinfo->bBoxEast;
     $country->bboxsouth = (float) $countryinfo->bBoxSouth;
 
-    $capital = org_routamc_positioning_city_dba::get_by_name((string) $countryinfo->capital);
-    if ($capital) {
+    if ($capital = org_routamc_positioning_city_dba::get_by_name((string) $countryinfo->capital)) {
         $country->capital = $capital->id;
     }
 

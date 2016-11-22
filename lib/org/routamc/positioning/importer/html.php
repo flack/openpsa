@@ -24,11 +24,9 @@ class org_routamc_positioning_importer_html extends org_routamc_positioning_impo
         $qb->add_constraint('domain', '=', 'org.routamc.positioning:html');
         $qb->add_constraint('name', '=', 'icbm_url');
         $accounts = $qb->execute();
-        if (count($accounts) > 0) {
-            foreach ($accounts as $account_param) {
-                $user = new midcom_db_person($account_param->parentguid);
-                $this->get_icbm_location($user, true);
-            }
+        foreach ($accounts as $account_param) {
+            $user = new midcom_db_person($account_param->parentguid);
+            $this->get_icbm_location($user, true);
         }
     }
 
@@ -41,16 +39,14 @@ class org_routamc_positioning_importer_html extends org_routamc_positioning_impo
             $icbm_parts = explode(',', $icbm);
             if (count($icbm_parts) == 2) {
                 $latitude = (float) $icbm_parts[0];
-                if (   $latitude > 90
-                    || $latitude < -90) {
+                if (abs($latitude) > 90) {
                     // This is no earth coordinate, my friend
                     $this->error = 'POSITIONING_HTML_INCORRECT_LATITUDE';
                     return null;
                 }
 
                 $longitude = (float) $icbm_parts[1];
-                if (   $longitude > 180
-                    || $longitude < -180) {
+                if (abs($longitude) > 180) {
                     // This is no earth coordinate, my friend
                     $this->error = 'POSITIONING_HTML_INCORRECT_LONGITUDE';
                     return null;
@@ -76,9 +72,7 @@ class org_routamc_positioning_importer_html extends org_routamc_positioning_impo
      */
     function get_icbm_location($user, $cache = true)
     {
-        $icbm_url = $user->get_parameter('org.routamc.positioning:html', 'icbm_url');
-
-        if ($icbm_url) {
+        if ($icbm_url = $user->get_parameter('org.routamc.positioning:html', 'icbm_url')) {
             $position = $this->_fetch_icbm_position($icbm_url);
 
             if (is_null($position)) {

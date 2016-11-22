@@ -24,21 +24,15 @@ class org_routamc_positioning_geocoder_city extends org_routamc_positioning_geoc
     {
         $results = array();
 
-        $parameters = array(
-            'maxRows' => 1,
-        );
+        $parameters = array('maxRows' => 1);
 
-        if (!empty($options)) {
-            foreach ($options as $key => $value) {
-                if (isset($parameters[$key])) {
-                    $parameters[$key] = $value;
-                }
+        foreach ($options as $key => $value) {
+            if (isset($parameters[$key])) {
+                $parameters[$key] = $value;
             }
         }
 
-        if ($parameters['maxRows'] < 1) {
-            $parameters['maxRows'] = 1;
-        }
+        $parameters['maxRows'] = max(1, $parameters['maxRows']);
 
         if (!isset($location['city'])) {
             $this->error = 'POSITIONING_MISSING_ATTRIBUTES';
@@ -100,13 +94,11 @@ class org_routamc_positioning_geocoder_city extends org_routamc_positioning_geoc
      * @param array $options
      * @return Array containing geocoded information
      */
-    function reverse_geocode($coordinates, $options=array())
+    function reverse_geocode($coordinates, $options = array())
     {
         $results = array();
 
-        $parameters = array(
-            'maxRows' => 1,
-        );
+        $parameters = array('maxRows' => 1);
 
         if (!empty($options)) {
             foreach ($options as $key => $value) {

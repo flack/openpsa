@@ -9,20 +9,10 @@ if (array_key_exists('add_position', $_POST)) {
 
     $manual_position = array();
 
-    if (array_key_exists('geocoder', $_POST)) {
-        $manual_position['geocoder'] = $_POST['geocoder'];
-    }
-
-    if (array_key_exists('street', $_POST)) {
-        $manual_position['street'] = $_POST['street'];
-    }
-
-    if (array_key_exists('city', $_POST)) {
-        $manual_position['city'] = $_POST['city'];
-    }
-
-    if (array_key_exists('country', $_POST)) {
-        $manual_position['country'] = $_POST['country'];
+    foreach (array('geocoder', 'street', 'city', 'country') as $property) {
+        if (array_key_exists($property, $_POST)) {
+            $manual_position[$property] = $_POST[$property];
+        }
     }
 
     if (!empty($_POST['latitude'])) {
