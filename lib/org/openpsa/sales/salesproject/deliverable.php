@@ -302,18 +302,10 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
             if (!$scheduler->run_cycle(1, false)) {
                 return false;
             }
-        } else {
-            // Check if we need to create task or ship goods
-            switch ($product->orgOpenpsaObtype) {
-                case org_openpsa_products_product_dba::TYPE_SERVICE:
-                    $scheduler->create_task($this->start, $this->end, $this->title);
-                    break;
-                case org_openpsa_products_product_dba::TYPE_GOODS:
-                    // TODO: Warehouse management: create new order
-                default:
-                    break;
-            }
+        } elseif ($product->orgOpenpsaObtype === org_openpsa_products_product_dba::TYPE_SERVICE) {
+            $scheduler->create_task($this->start, $this->end, $this->title);
         }
+        // TODO: Warehouse management: create new order (for org_openpsa_products_product_dba::TYPE_GOODS)
 
         $this->state = self::STATE_ORDERED;
 
@@ -345,22 +337,17 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
 
         // Check if we need to create task or ship goods
         if ($update_deliveries) {
-            switch ($product->orgOpenpsaObtype) {
-                case org_openpsa_products_product_dba::TYPE_SERVICE:
-                    // Change status of tasks connected to the deliverable
-                    $task_qb = org_openpsa_projects_task_dba::new_query_builder();
-                    $task_qb->add_constraint('agreement', '=', $this->id);
-                    $task_qb->add_constraint('status', '<', org_openpsa_projects_task_status_dba::CLOSED);
-                    $tasks = $task_qb->execute();
-                    foreach ($tasks as $task) {
-                        org_openpsa_projects_workflow::close($task, sprintf(midcom::get()->i18n->get_string('completed from deliverable %s', 'org.openpsa.sales'), $this->title));
-                    }
-                    break;
-                case org_openpsa_products_product_dba::TYPE_GOODS:
-                    // TODO: Warehouse management: mark product as shipped
-                default:
-                    break;
+            if ($product->orgOpenpsaObtype === org_openpsa_products_product_dba::TYPE_SERVICE) {
+                // Change status of tasks connected to the deliverable
+                $task_qb = org_openpsa_projects_task_dba::new_query_builder();
+                $task_qb->add_constraint('agreement', '=', $this->id);
+                $task_qb->add_constraint('status', '<', org_openpsa_projects_task_status_dba::CLOSED);
+                $tasks = $task_qb->execute();
+                foreach ($tasks as $task) {
+                    org_openpsa_projects_workflow::close($task, sprintf(midcom::get()->i18n->get_string('completed from deliverable %s', 'org.openpsa.sales'), $this->title));
+                }
             }
+            // TODO: Warehouse management: mark product as shipped (for org_openpsa_products_product_dba::TYPE_GOODS)
         }
 
         $this->state = self::STATE_DELIVERED;

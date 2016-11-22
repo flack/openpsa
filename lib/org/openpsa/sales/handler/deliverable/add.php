@@ -111,8 +111,7 @@ implements midcom_helper_datamanager2_interfaces_create
 
         // adjust cost per unit label
         if ($this->_product->costType == "%") {
-            $cost_per_unit_title = "cost per unit (percentage)";
-            $controller->schemadb["default"]->fields['costPerUnit']['title'] = $this->_l10n->get($cost_per_unit_title);
+            $controller->schemadb["default"]->fields['costPerUnit']['title'] = $this->_l10n->get("cost per unit (percentage)");
         }
 
         $controller->initialize();

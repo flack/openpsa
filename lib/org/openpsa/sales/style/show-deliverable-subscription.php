@@ -24,15 +24,14 @@ if (   $data['product']
         <div class="products area">
             <?php
             echo "<h2>" . $data['l10n']->get('product') . "</h2>\n";
-                echo $data['product']->render_link() . "\n"; ?>
+            echo $data['product']->render_link() . "\n"; ?>
         </div>
         <?php
             } ?>
 
         <div class="at area">
         <?php
-        $at_entries = $data['deliverable']->get_at_entries();
-        if (count($at_entries) > 0) {
+        if ($at_entries = $data['deliverable']->get_at_entries()) {
             echo "<h2>" . $data['l10n']->get('next run') . "</h2>\n";
             echo "<table>\n";
             echo "    <thead>\n";
@@ -200,14 +199,13 @@ if (   $data['product']
     }
 
     if (   $data['projects_url']
-        && $data['deliverable']->state >= org_openpsa_sales_salesproject_deliverable_dba::STATE_ORDERED) {
-        if (   $data['product']
-            && $data['product']->orgOpenpsaObtype == org_openpsa_products_product_dba::TYPE_SERVICE) {
-            $tabs[] = array(
-                'url' => $data['projects_url'] . "task/list/all/agreement/{$data['deliverable']->id}/",
-                'title' => midcom::get()->i18n->get_string('tasks', 'org.openpsa.projects'),
-            );
-        }
+        && $data['deliverable']->state >= org_openpsa_sales_salesproject_deliverable_dba::STATE_ORDERED
+        && $data['product']
+        && $data['product']->orgOpenpsaObtype == org_openpsa_products_product_dba::TYPE_SERVICE) {
+        $tabs[] = array(
+            'url' => $data['projects_url'] . "task/list/all/agreement/{$data['deliverable']->id}/",
+            'title' => midcom::get()->i18n->get_string('tasks', 'org.openpsa.projects'),
+        );
     }
     org_openpsa_widgets_ui::render_tabs($data['deliverable']->guid, $tabs);
     ?>

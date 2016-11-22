@@ -98,40 +98,23 @@ implements midcom_services_permalinks_resolver
      */
     private function _find_suspects_person(midcom_core_dbaobject $object, $defaults, array &$links_array)
     {
-        $seen_sp = array();
-        $mc = org_openpsa_contacts_role_dba::new_collector('role', org_openpsa_sales_salesproject_dba::ROLE_MEMBER);
-        $mc->add_constraint('person', '=', $object->id);
-        $guids = $mc->get_values('objectGuid');
+        $qb = org_openpsa_sales_salesproject_dba::new_query_builder();
+        $qb->add_constraint('state', '=', org_openpsa_sales_salesproject_dba::STATE_ACTIVE);
+        $qb->begin_group('OR');
+            $mc = org_openpsa_contacts_role_dba::new_collector('role', org_openpsa_sales_salesproject_dba::ROLE_MEMBER);
+            $mc->add_constraint('person', '=', $object->id);
+            $qb->add_constraint('guid', 'IN', $mc->get_values('objectGuid'));
+            $qb->add_constraint('owner', '=', $object->id);
+        $qb->end_group();
 
-        if (!empty($guids)) {
-            $qb = org_openpsa_sales_salesproject_dba::new_query_builder();
-            $qb->add_constraint('state', '=', org_openpsa_sales_salesproject_dba::STATE_ACTIVE);
-            $qb->add_constraint('guid', 'IN', $guids);
-            $qbret = $qb->execute();
-            foreach ($qbret as $salesproject) {
-                $seen_sp[$salesproject->id] = true;
-                $to_array = array('other_obj' => false, 'link' => false);
-                $link = new org_openpsa_relatedto_dba();
-                org_openpsa_relatedto_suspect::defaults_helper($link, $defaults, $this->_component, $salesproject);
-                $to_array['other_obj'] = $salesproject;
-                $to_array['link'] = $link;
-
-                $links_array[] = $to_array;
-            }
-        }
-        $qb2 = org_openpsa_sales_salesproject_dba::new_query_builder();
-        $qb2->add_constraint('owner', '=', $object->id);
-        $qb2->add_constraint('state', '=', org_openpsa_sales_salesproject_dba::STATE_ACTIVE);
-        $qb2->add_constraint('id', 'NOT IN', array_keys($seen_sp));
-        $qb2ret = $qb2->execute();
-        foreach ($qb2ret as $sp) {
-            $to_array = array('other_obj' => false, 'link' => false);
+        foreach ($qb->execute() as $salesproject) {
             $link = new org_openpsa_relatedto_dba();
-            org_openpsa_relatedto_suspect::defaults_helper($link, $defaults, $this->_component, $sp);
-            $to_array['other_obj'] = $sp;
-            $to_array['link'] = $link;
+            org_openpsa_relatedto_suspect::defaults_helper($link, $defaults, $this->_component, $salesproject);
 
-            $links_array[] = $to_array;
+            $links_array[] = array(
+                'other_obj' => $salesproject,
+                'link' => $link
+            );
         }
     }
 
@@ -153,8 +136,7 @@ implements midcom_services_permalinks_resolver
         try {
             $deliverable = new org_openpsa_sales_salesproject_deliverable_dba($args['deliverable']);
         } catch (midcom_error $e) {
-            $msg = "Deliverable {$args['deliverable']} not found, error " . midcom_connection::get_error_string();
-            $handler->print_error($msg);
+            $handler->print_error("Deliverable {$args['deliverable']} not found: " . midcom_connection::get_error_string());
             return false;
         }
         $scheduler = new org_openpsa_invoices_scheduler($deliverable);

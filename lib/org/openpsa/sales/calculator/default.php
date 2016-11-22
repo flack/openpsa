@@ -40,15 +40,7 @@ class org_openpsa_sales_calculator_default implements org_openpsa_invoices_inter
     public function run(org_openpsa_sales_salesproject_deliverable_dba $deliverable)
     {
         $this->_deliverable = $deliverable;
-
-        if (   $this->_deliverable->invoiceByActualUnits
-            || $this->_deliverable->plannedUnits == 0) {
-            // In most cases we calculate the price based on the actual units entered
-            $units = $this->_deliverable->units;
-        } else {
-            // But in some deals we use the planned units instead
-            $units = $this->_deliverable->plannedUnits;
-        }
+        $units = $this->get_units();
         $this->_price = $units * $this->_deliverable->pricePerUnit;
 
         // Count cost based on the cost type
@@ -63,6 +55,17 @@ class org_openpsa_sales_calculator_default implements org_openpsa_invoices_inter
                 $this->_cost = $units * $this->_deliverable->costPerUnit;
                 break;
         }
+    }
+
+    private function get_units()
+    {
+        if (   $this->_deliverable->invoiceByActualUnits
+            || $this->_deliverable->plannedUnits == 0) {
+            // In most cases we calculate the price based on the actual units entered
+            return $this->_deliverable->units;
+        }
+        // But in some deals we use the planned units instead
+        return $this->_deliverable->plannedUnits;
     }
 
     /**
@@ -116,13 +119,7 @@ class org_openpsa_sales_calculator_default implements org_openpsa_invoices_inter
         $item->description = $description;
         $item->invoice = $this->_invoice->id;
         $item->pricePerUnit = $this->_deliverable->pricePerUnit;
-
-        if (   $this->_deliverable->invoiceByActualUnits
-            || $this->_deliverable->plannedUnits == 0) {
-            $item->units = $units;
-        } else {
-            $item->units = $this->_deliverable->plannedUnits;
-        }
+        $item->units = $this->get_units();
 
         if (null !== $task) {
             $item->task = $task->id;

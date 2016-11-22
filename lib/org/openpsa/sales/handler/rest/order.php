@@ -69,7 +69,7 @@ class org_openpsa_sales_handler_rest_order extends midcom_baseclasses_components
 
         // check param
         if (!$person_guid || !$product_id) {
-            $this->_stop("Missing param for creating the order");
+            throw new midcom_error("Missing param for creating the order");
         }
         $salesproject = $this->get_salesproject($person_guid);
 
@@ -81,7 +81,7 @@ class org_openpsa_sales_handler_rest_order extends midcom_baseclasses_components
         $deliverable->salesproject = $salesproject->id;
 
         if (!$deliverable->create()) {
-            $this->_stop("Failed creating deliverable: " . midcom_connection::get_error_string());
+            throw new midcom_error("Failed creating deliverable: " . midcom_connection::get_error_string());
         }
 
         // is a subscription?
@@ -94,7 +94,7 @@ class org_openpsa_sales_handler_rest_order extends midcom_baseclasses_components
 
         // finally, order the product
         if (!$deliverable->order()) {
-            $this->_stop("Failed ordering deliverable: " . midcom_connection::get_error_string());
+            throw new midcom_error("Failed ordering deliverable: " . midcom_connection::get_error_string());
         }
         if ($run_cycle) {
             $deliverable->run_cycle();

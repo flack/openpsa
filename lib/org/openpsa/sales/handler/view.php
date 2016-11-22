@@ -209,8 +209,7 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
         } elseif ($deliverable->state < org_openpsa_sales_salesproject_deliverable_dba::STATE_DELIVERED) {
             //started, ordered
             if ($deliverable->orgOpenpsaObtype == org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION) {
-                $entries = $deliverable->get_at_entries();
-                if (isset($entries[0])) {
+                if ($entries = $deliverable->get_at_entries()) {
                     $toolbar['label'] = sprintf($this->_l10n->get('next invoice will be generated on %s'), $formatter->date($entries[0]->start));
                     if (   $entries[0]->status == midcom_services_at_entry_dba::SCHEDULED
                         && midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_invoices_invoice_dba')) {

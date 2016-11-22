@@ -35,13 +35,13 @@ class org_openpsa_sales_handler_list extends midcom_baseclasses_components_handl
         $qb = org_openpsa_sales_salesproject_dba::new_query_builder();
 
         if ($handler_id == 'list_customer') {
-            $qb = $this->_add_customer_constraint($args[0], $qb);
+            $this->_add_customer_constraint($args[0], $qb);
             $data['mode'] = 'customer';
             $data['list_title'] = sprintf($this->_l10n->get('salesprojects with %s'), $data['customer']->get_label());
             $this->add_breadcrumb("", $data['list_title']);
         } else {
             $data['mode'] = $this->get_list_mode($args);
-            $qb = $this->_add_state_constraint($data['mode'], $qb);
+            $this->_add_state_constraint($data['mode'], $qb);
             $data['list_title'] = $this->_l10n->get('salesprojects ' . $data['mode']);
             $this->set_active_leaf($this->_topic->id . ':' . $data['mode']);
         }
@@ -111,7 +111,6 @@ class org_openpsa_sales_handler_list extends midcom_baseclasses_components_handl
         }
 
         $qb->add_constraint('state', '=', constant($code));
-        return $qb;
     }
 
     private function _add_customer_constraint($guid, midcom_core_query $qb)
@@ -123,7 +122,6 @@ class org_openpsa_sales_handler_list extends midcom_baseclasses_components_handl
             $this->_request_data['customer'] = new org_openpsa_contacts_person_dba($guid);
             $qb->add_constraint('customerContact', '=', $this->_request_data['customer']->id);
         }
-        return $qb;
     }
 
     /**

@@ -150,7 +150,6 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
         $this->next_action = $default;
 
         $mc = new org_openpsa_relatedto_collector($this->guid, array('org_openpsa_calendar_event_dba', 'org_openpsa_projects_task_dba'));
-
         $related_objects = $mc->get_related_objects();
 
         if (count($related_objects) == 0) {
@@ -244,7 +243,7 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
     public function _on_updated()
     {
         //Ensure owner can do stuff regardless of other ACLs
-        if (($owner_person = midcom::get()->auth->get_user($this->owner))) {
+        if ($owner_person = midcom::get()->auth->get_user($this->owner)) {
             $this->set_privilege('midgard:read', $owner_person->id, MIDCOM_PRIVILEGE_ALLOW);
             $this->set_privilege('midgard:create', $owner_person->id, MIDCOM_PRIVILEGE_ALLOW);
             $this->set_privilege('midgard:delete', $owner_person->id, MIDCOM_PRIVILEGE_ALLOW);
