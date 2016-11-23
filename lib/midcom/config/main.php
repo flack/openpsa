@@ -362,9 +362,10 @@ class midcom_config implements arrayaccess
 
         'indexer_config_options' => array('fl' => '*,score', 'rows' => 1000, 'defType' => 'dismax', 'qf' => 'content'),
 
-        // XMLTCP indexer backend (THE RECOMMENDED ONE)
+        // XMLTCP indexer backend
         'indexer_xmltcp_host' => "127.0.0.1",
         'indexer_xmltcp_port' => 8983,
+        'indexer_xmltcp_core' => null,
 
         // Logging Configuration
         'log_filename' => '/tmp/midcom.log',

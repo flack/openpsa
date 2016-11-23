@@ -190,11 +190,18 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
 
     private function prepare_request($action)
     {
-        $host = "http://" . midcom::get()->config->get('indexer_xmltcp_host') . ":" . midcom::get()->config->get('indexer_xmltcp_port');
+        $host = "http://" . midcom::get()->config->get('indexer_xmltcp_host');
+        $host .= ":" . midcom::get()->config->get('indexer_xmltcp_port');
+
+        $resource = '/solr/';
+        if (midcom::get()->config->get('indexer_xmltcp_core')) {
+            $resource .= midcom::get()->config->get('indexer_xmltcp_core') . '/';
+        }
+        $resource .= $action;
 
         $request = new Request;
         $request->setHost($host);
-        $request->setResource('/solr/' . $action);
+        $request->setResource($resource);
         $request->addHeader('Accept-Charset: UTF-8');
         $request->addHeader('Content-type: text/xml; charset=utf-8');
         $request->addHeader('Connection: close');
