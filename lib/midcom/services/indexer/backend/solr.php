@@ -33,13 +33,6 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
     private $factory = null;
 
     /**
-     * The http_request wrapper
-     *
-     * @var midcom_services_indexer_solrRequest
-     */
-    private $request = null;
-
-    /**
      * Constructor is empty at this time.
      */
     public function __construct($index_name = null)
@@ -53,7 +46,6 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
             $this->_index_name = $index_name;
         }
         $this->factory = new midcom_services_indexer_solrDocumentFactory($this->_index_name);
-        $this->request = new midcom_services_indexer_solrRequest($this->factory);
     }
 
     /**
@@ -84,7 +76,7 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
             return true;
         }
 
-        return $this->request->execute();
+        return $this->post();
     }
 
     /**
@@ -97,7 +89,7 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
     {
         $this->factory->reset();
         array_map(array($this->factory, 'delete'), $RIs);
-        return $this->request->execute();
+        return $this->post();
     }
 
     /**
@@ -105,10 +97,36 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
      *
      * @return boolean Indicating success.
      */
-    function delete_all($constraint)
+    public function delete_all($constraint)
     {
         $this->factory->delete_all($constraint);
-        return $this->request->execute(empty($constraint));
+        return $this->post(empty($constraint));
+    }
+
+    /**
+     * Posts the xml to the suggested url using Buzz.
+     */
+    private function post($optimize = false)
+    {
+        $request = $this->prepare_request('update');
+        $request->setMethod(RequestInterface::METHOD_POST);
+        $request->setContent($this->factory->to_xml());
+
+        if (!$this->send_request($request)) {
+            return false;
+        }
+
+        if ($optimize) {
+            $request->setContent('<optimize/>');
+        } else {
+            $request->setContent('<commit/>');
+        }
+
+        if (!$this->send_request($request)) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -116,8 +134,6 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
      */
     public function query($querystring, midcom_services_indexer_filter $filter = null, array $options = array())
     {
-        $url = 'http://' . midcom::get()->config->get('indexer_xmltcp_host') . ':' . midcom::get()->config->get('indexer_xmltcp_port') . '/solr/select';
-
         // FIXME: adapt the whole indexer system to fetching enable querying for counts and slices
         $query = array_merge(midcom::get()->config->get('indexer_config_options'), $options);
         $query['q'] = $querystring;
@@ -129,26 +145,9 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
             $query['fq'] = (isset($query['fq']) ? $query['fq'] . ' AND ' : '') . $filter->get_query_string();
         }
 
-        $url = $url . '?' . http_build_query($query);
-
-        $headers = array(
-            'Accept-Charset' => 'UTF-8',
-            'Content-type' => 'text/xml; charset=utf-8',
-            'Connection' => 'close'
-        );
-
-        $browser = new Browser;
-
-        try {
-            $response = $browser->get($url, $headers);
-        } catch (Exception $e) {
-            debug_add("Failed to execute request " . $url . ": " . $e->getMessage(), MIDCOM_LOG_WARN);
-            return false;
-        }
-        $this->code = $response->getStatusCode();
-
-        if ($this->code != 200) {
-            debug_print_r($url . " returned response code {$this->code}, body:", $response->getContent());
+        $request = $this->prepare_request('select?' . http_build_query($query));
+        $response = $this->send_request($request);
+        if ($response === false) {
             return false;
         }
 
@@ -188,6 +187,38 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
         debug_add(sprintf('Returning %d results', count($result)), MIDCOM_LOG_INFO);
         return $result;
     }
+
+    private function prepare_request($action)
+    {
+        $host = "http://" . midcom::get()->config->get('indexer_xmltcp_host') . ":" . midcom::get()->config->get('indexer_xmltcp_port');
+
+        $request = new Request;
+        $request->setHost($host);
+        $request->setResource('/solr/' . $action);
+        $request->addHeader('Accept-Charset: UTF-8');
+        $request->addHeader('Content-type: text/xml; charset=utf-8');
+        $request->addHeader('Connection: close');
+        return $request;
+    }
+
+    private function send_request(Request $request)
+    {
+        $browser = new Browser;
+        try {
+            $response = $browser->send($request);
+        } catch (Exception $e) {
+            debug_add("Failed to execute request " . $request->getUrl() . ": " . $e->getMessage(), MIDCOM_LOG_WARN);
+            return false;
+        }
+        $code = $response->getStatusCode();
+
+        if ($code != 200) {
+            debug_print_r($request->getUrl() . " returned response code {$code}, body:", $response->getContent());
+            debug_print_r('Request content:', $request->getContent());
+            return false;
+        }
+        return $response;
+    }
 }
 
 /**
@@ -213,10 +244,10 @@ class midcom_services_indexer_solrDocumentFactory
     public function __construct($index_name)
     {
         $this->_index_name = $index_name;
-        $this->xml = new DomDocument('1.0', 'UTF-8');
+        $this->reset();
     }
 
-    function reset()
+    public function reset()
     {
         $this->xml = new DomDocument('1.0', 'UTF-8');
     }
@@ -296,94 +327,5 @@ class midcom_services_indexer_solrDocumentFactory
     public function to_xml()
     {
         return $this->xml->saveXML();
-    }
-}
-
-/**
- * This class handles the posting to the server.
- * It's a simple wrapper around the Buzz library.
- *
- * @package midcom.services
- */
-class midcom_services_indexer_solrRequest
-{
-    /**
-     * The Buzz Request object
-     *
-     * @var Buzz\Message\Request
-     */
-    private $request;
-
-    /**
-     * The xml factory
-     */
-    private $factory;
-
-    public function __construct($factory)
-    {
-        $this->factory = $factory;
-    }
-
-    function execute($optimize = false)
-    {
-        return $this->do_post($this->factory->to_xml(), $optimize);
-    }
-
-    /**
-     * Posts the xml to the suggested url using Buzz.
-     */
-    function do_post($xml, $optimize = false)
-    {
-        $host = "http://" . midcom::get()->config->get('indexer_xmltcp_host') .
-            ":" . midcom::get()->config->get('indexer_xmltcp_port');
-        $this->request = new Request(RequestInterface::METHOD_POST, "/solr/update", $host);
-
-        $this->request->setContent($xml);
-        $this->request->addHeader('Accept-Charset: UTF-8');
-        $this->request->addHeader('Content-type: text/xml; charset=utf-8');
-        $this->request->addHeader('Connection: close');
-
-        if (!$this->_send_request()) {
-            return false;
-        }
-
-        if ($optimize) {
-            $this->request->setContent('<optimize/>');
-        } else {
-            $this->request->setContent('<commit/>');
-        }
-
-        if (!$this->_send_request()) {
-            return false;
-        }
-
-        if ($optimize) {
-            $this->request->setContent('<optimize/>');
-            if (!$this->_send_request()) {
-                return false;
-            }
-        }
-
-        debug_add('POST ok');
-        return true;
-    }
-
-    private function _send_request()
-    {
-        $browser = new Browser;
-        try {
-            $response = $browser->send($this->request);
-        } catch (Exception $e) {
-            debug_add("Failed to execute request " . $this->request->getUrl() . ": " . $e->getMessage(), MIDCOM_LOG_WARN);
-            return false;
-        }
-        $this->code = $response->getStatusCode();
-
-        if ($this->code != 200) {
-            debug_print_r($this->request->getUrl() . " returned response code {$this->code}, body:", $response->getContent());
-            debug_print_r('Request content:', $this->request->getContent());
-            return false;
-        }
-        return true;
     }
 }
