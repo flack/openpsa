@@ -24,7 +24,7 @@ class org_openpsa_products_handler_group_groupsblockTest extends openpsa_testcas
     {
         midcom::get()->auth->request_sudo('org.openpsa.products');
 
-        $data = $this->run_handler('org.openpsa.products', array('groupsblock', self::$_group->code, 'foo'));
+        $data = $this->run_handler('org.openpsa.products', array('groupsblock', self::$_group->guid, 'foo'));
         $this->assertEquals('groupsblock', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();

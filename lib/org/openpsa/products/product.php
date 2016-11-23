@@ -34,37 +34,6 @@ class org_openpsa_products_product_dba extends midcom_core_dbaobject
      */
     const TYPE_SOLUTION = 2001;
 
-    public function get_path(midcom_db_topic $topic)
-    {
-        $path = $this->code ?: $this->guid;
-        try {
-            $parent = org_openpsa_products_product_group_dba::get_cached($this->productGroup);
-            $config = new midcom_helper_configuration($topic, 'org.openpsa.products');
-
-            if ($config->get('root_group')) {
-                $root_group = org_openpsa_products_product_group_dba::get_cached($config->get('root_group'));
-                if ($root_group->id != $parent->id) {
-                    $qb_intree = org_openpsa_products_product_group_dba::new_query_builder();
-                    $qb_intree->add_constraint('up', 'INTREE', $root_group->id);
-                    $qb_intree->add_constraint('id', '=', $parent->id);
-
-                    if ($qb_intree->count() == 0) {
-                        return null;
-                    }
-                    //Check if the product is in a nested category.
-                    if (!empty($parent->up)) {
-                        $parent = org_openpsa_products_product_group_dba::get_cached($parent->up);
-                    }
-                }
-            }
-
-            $path = $parent->code . '/' . $path;
-        } catch (midcom_error $e) {
-            $e->log();
-        }
-        return $path . '/';
-    }
-
     public function render_link()
     {
         $siteconfig = new org_openpsa_core_siteconfig();

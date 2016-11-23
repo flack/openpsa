@@ -100,31 +100,7 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
     private function _load_product($handler_id, array $args)
     {
         $qb = org_openpsa_products_product_dba::new_query_builder();
-        if (preg_match('/^view_product_intree/', $handler_id)) {
-            $group_qb = org_openpsa_products_product_group_dba::new_query_builder();
-            $this->_add_identifier_constraint($group_qb, $args[0]);
-            $groups = $group_qb->execute();
-
-            if (empty($groups)) {
-                throw new midcom_error_notfound("Product group {$args[0]} not found" );
-            }
-
-            $categories_mc = org_openpsa_products_product_group_dba::new_collector('up', $groups[0]->id);
-            $categories_in = $categories_mc->get_values('id');
-
-            if (count($categories_in) == 0) {
-                /* No matching categories belonging to this group
-                 * So we can search for the application using only this group id
-                 */
-                $qb->add_constraint('productGroup', 'INTREE', $groups[0]->id);
-            } else {
-                $categories_in[] = $groups[0]->id;
-                $qb->add_constraint('productGroup', 'IN', $categories_in);
-            }
-            $this->_add_identifier_constraint($qb, $args[1]);
-        } else {
-            $this->_add_identifier_constraint($qb, $args[0]);
-        }
+        $qb->add_constraint('guid', '=', $args[0]);
 
         if ($this->_config->get('enable_scheduling')) {
             /* List products that either have no defined end-of-market dates
@@ -139,24 +115,10 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
 
         $results = $qb->execute();
 
-        if (!empty($results)) {
-            $this->_product = $results[0];
-        } else {
-            if (preg_match('/^view_product_intree/', $handler_id)) {
-                $this->_product = new org_openpsa_products_product_dba($args[1]);
-            } else {
-                $this->_product = new org_openpsa_products_product_dba($args[0]);
-            }
+        if (empty($results)) {
+            throw new midcom_error_notfound('Product is not available (or hidden)');
         }
-    }
-
-    private function _add_identifier_constraint(midcom_core_query $qb, $identifier)
-    {
-        if (mgd_is_guid($identifier)) {
-            $qb->add_constraint('guid', '=', $identifier);
-        } else {
-            $qb->add_constraint('code', '=', $identifier);
-        }
+        $this->_product = $results[0];
     }
 
     /**

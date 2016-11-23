@@ -41,56 +41,18 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
         }
 
         // We're in some level of groups
-        $qb = org_openpsa_products_product_group_dba::new_query_builder();
-        if ($handler_id == 'list') {
-            $qb->add_constraint('code', '=', $args[0]);
-        } else {
-            // in midgard-portable, we could simply do
-            //$qb->add_constraint('up.code', '=', $args[0]);
-            // but for now, let's stay compatible with mgd extension..
-            $parentgroup_mc = org_openpsa_products_product_group_dba::new_collector('code', $args[0]);
-            $groups = $parentgroup_mc->get_values('id');
-            if (empty($groups)) {
-                // No such parent group found
-                return false;
-            }
-            $qb->add_constraint('up', '=', reset($groups));
-            if ($handler_id == 'listall') {
-                $qb->add_constraint('code', '=', $args[1]);
-            }
-        }
-        $results = $qb->execute();
-
-        if (count($results) == 0) {
-            try {
-                $data['group'] = new org_openpsa_products_product_group_dba($args[0]);
-            } catch (midcom_error $e) {
-                return false;
-            }
-        } else {
-            $data['group'] = $results[0];
+        try {
+            $data['group'] = new org_openpsa_products_product_group_dba($args[0]);
+        } catch (midcom_error $e) {
+            return false;
         }
 
         $data['parent_group'] = $data['group']->id;
-
-        if ($handler_id == 'listall') {
-            try {
-                $group_up = new org_openpsa_products_product_group_dba($data['group']->up);
-                if (isset($group_up->title)) {
-                    $data['group'] = $group_up;
-                }
-            } catch (midcom_error $e) {
-            }
-        }
 
         if ($this->_config->get('code_in_title')) {
             $data['view_title'] = "{$data['group']->code} {$data['group']->title}";
         } else {
             $data['view_title'] = $data['group']->title;
-        }
-
-        if ($handler_id == 'listall') {
-            $data['view_title'] = sprintf($this->_l10n_midcom->get('All %s'), $data['view_title']);
         }
 
         return true;
@@ -105,15 +67,6 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
      */
     public function _handler_list($handler_id, array $args, array &$data)
     {
-        // Query for sub-objects
-        if ($handler_id == 'list_intree') {
-            $this->_handle_list_intree($args);
-        } elseif ($handler_id == 'listall') {
-            $this->_handle_listall($args);
-        } elseif ($handler_id == 'list') {
-            $this->_handle_list($args);
-        }
-
         $group_qb = org_openpsa_products_product_group_dba::new_query_builder();
         $group_qb->add_constraint('up', '=', $data['parent_group']);
 
@@ -168,52 +121,6 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
         $this->_update_breadcrumb_line();
 
         midcom::get()->head->set_pagetitle($this->_request_data['view_title']);
-    }
-
-    private function _handle_list_intree($args)
-    {
-        $parentgroup_qb = org_openpsa_products_product_group_dba::new_query_builder();
-        $parentgroup_qb->add_constraint('code', '=', $args[0]);
-        $groups = $parentgroup_qb->execute();
-        if (count($groups) == 0) {
-            throw new midcom_error_notfound('No matching group');
-        }
-        $categories_qb = org_openpsa_products_product_group_dba::new_query_builder();
-        $categories_qb->add_constraint('up', '=', $groups[0]->id);
-        $categories_qb->add_constraint('code', '=', $args[1]);
-        $categories = $categories_qb->execute();
-
-        $this->_request_data['parent_category_id'] = $categories[0]->id;
-        $this->_request_data['parent_category'] = $groups[0]->code;
-    }
-
-    private function _handle_listall($args)
-    {
-        $parentgroup_qb = org_openpsa_products_product_group_dba::new_query_builder();
-        $parentgroup_qb->add_constraint('code', '=', $args[0]);
-        $groups = $parentgroup_qb->execute();
-
-        if (count($groups) == 0) {
-            throw new midcom_error_notfound('No matching group');
-        }
-        $this->_request_data['group'] = $groups[0];
-    }
-
-    private function _handle_list($args)
-    {
-        $guidgroup_qb = org_openpsa_products_product_group_dba::new_query_builder();
-        $guidgroup_qb->add_constraint('guid', '=', $args[0]);
-        $groups = $guidgroup_qb->execute();
-
-        if (count($groups) > 0) {
-            $categories_qb = org_openpsa_products_product_group_dba::new_query_builder();
-            $categories_qb->add_constraint('id', '=', $groups[0]->up);
-            $categories = $categories_qb->execute();
-
-            if (count($categories) > 0) {
-                $this->_request_data['parent_category'] = $categories[0]->code;
-            }
-        }
         org_openpsa_widgets_grid::add_head_elements();
     }
 
@@ -232,7 +139,6 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
         if ($this->_request_data['group']) {
             $workflow = $this->get_workflow('datamanager2');
             $this->_view_toolbar->add_item($workflow->get_button("edit/{$this->_request_data['group']->guid}/", array(
-                MIDCOM_TOOLBAR_URL => "edit/{$this->_request_data['group']->guid}/",
                 MIDCOM_TOOLBAR_ENABLED => $this->_request_data['group']->can_do('midgard:update'),
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
             )));
@@ -315,10 +221,6 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
                 }
                 $product_qb->add_constraint($constraint_members[0], $constraint_members[1], $constraint_members[2]);
             }
-        } elseif ($this->_request_data['handler_id'] == 'list_intree') {
-            $product_qb->add_constraint('productGroup', '=', $this->_request_data['parent_category_id']);
-        } elseif ($this->_request_data['handler_id'] == 'listall') {
-            $product_qb->add_constraint('productGroup.up', '=', $this->_request_data['group']->id);
         } else {
             $product_qb->add_constraint('productGroup', '=', $this->_request_data['parent_group']);
         }
@@ -370,7 +272,6 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
                 $data['groups_count'] = count($data['groups']);
 
                 midcom_show_style('group_subgroups_header');
-                $parent_category = (isset($data["parent_category"])) ? $data["parent_category"] : null;
                 foreach ($data['groups'] as $group) {
                     $data['group'] = $group;
                     if (!$data['datamanager_group']->autoset_storage($group)) {
@@ -379,7 +280,7 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
                         continue;
                     }
                     $data['view_group'] = $data['datamanager_group']->get_content_html();
-                    $data['view_group_url'] = $prefix . $group->get_path($parent_category);
+                    $data['view_group_url'] = $prefix . $group->guid . '/';
 
                     midcom_show_style('group_subgroups_item');
                 }

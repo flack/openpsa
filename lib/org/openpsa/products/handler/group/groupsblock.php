@@ -28,19 +28,10 @@ class org_openpsa_products_handler_group_groupsblock  extends midcom_baseclasses
     public function _can_handle_groupsblock($handler_id, array $args, array &$data)
     {
         // We're in some level of groups
-        $qb = org_openpsa_products_product_group_dba::new_query_builder();
-        $qb->add_constraint('code', '=', $args[0]);
-        $qb->set_limit(1);
-        $results = $qb->execute();
-
-        if (count($results) == 0) {
-            try {
-                $data['group'] = new org_openpsa_products_product_group_dba($args[0]);
-            } catch (midcom_error $e) {
-                return false;
-            }
-        } else {
-            $data['group'] = $results[0];
+        try {
+            $data['group'] = new org_openpsa_products_product_group_dba($args[0]);
+        } catch (midcom_error $e) {
+            return false;
         }
 
         $data['parent_group'] = $data['group']->id;
@@ -60,19 +51,6 @@ class org_openpsa_products_handler_group_groupsblock  extends midcom_baseclasses
     {
         // Query for sub-objects
         $group_qb = org_openpsa_products_product_group_dba::new_query_builder();
-
-        $guidgroup_qb = org_openpsa_products_product_group_dba::new_query_builder();
-        $guidgroup_qb->add_constraint('guid', '=', $args[0]);
-        $groups = $guidgroup_qb->execute();
-
-        if (count($groups) > 0) {
-            $categories_qb = org_openpsa_products_product_group_dba::new_query_builder();
-            $categories_qb->add_constraint('id', '=', $groups[0]->up);
-            $categories = $categories_qb->execute();
-
-            $data['parent_category'] = $categories[0]->code;
-        }
-
         $group_qb->add_constraint('up', '=', $data['parent_group']);
 
         foreach ($this->_config->get('groups_listing_order') as $ordering) {
@@ -216,10 +194,8 @@ class org_openpsa_products_handler_group_groupsblock  extends midcom_baseclasses
             $data['groups_count'] = count($data['groups']);
 
             midcom_show_style('groupsblock_subgroups_header');
-            $parent_category = (isset($data["parent_category"])) ? $data["parent_category"] : null;
             $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
             foreach ($data['groups'] as $group) {
-
                 $data['group'] = $group;
                 if (!$data['datamanager_group']->autoset_storage($group)) {
                     debug_add("The datamanager for group #{$group->id} could not be initialized, skipping it.");
@@ -227,7 +203,7 @@ class org_openpsa_products_handler_group_groupsblock  extends midcom_baseclasses
                     continue;
                 }
                 $data['view_group'] = $data['datamanager_group']->get_content_html();
-                $data['view_group_url'] = $prefix . $group->get_path($parent_category);
+                $data['view_group_url'] = $prefix . $group->guid . '/';
 
                 midcom_show_style('group_subgroups_item');
             }

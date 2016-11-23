@@ -67,10 +67,9 @@ implements org_openpsa_widgets_grid_provider_client
 
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
         $products_url = $siteconfig->get_node_full_url('org.openpsa.products');
-        $product_guid = $siteconfig->get_node_guid('org.openpsa.products');
         $this->_view_toolbar->add_item(
             array(
-                MIDCOM_TOOLBAR_URL => $products_url . 'product/' . $this->_product->get_path(new midcom_db_topic($product_guid)),
+                MIDCOM_TOOLBAR_URL => $products_url . 'product/' . $this->_product->guid . '/',
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('go to product'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/jump-to.png',
             )

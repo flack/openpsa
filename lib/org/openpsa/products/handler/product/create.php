@@ -36,6 +36,12 @@ implements midcom_helper_datamanager2_interfaces_create
     private $_schema = 'default';
 
     /**
+     *
+     * @var org_openpsa_products_product_group_dba
+     */
+    private $parent;
+
+    /**
      * Loads and prepares the schema database.
      *
      * The operations are done on all available schemas within the DB.
@@ -43,7 +49,6 @@ implements midcom_helper_datamanager2_interfaces_create
     public function load_schemadb()
     {
         $this->_schemadb =& $this->_request_data['schemadb_product'];
-
         return $this->_schemadb;
     }
 
@@ -54,7 +59,10 @@ implements midcom_helper_datamanager2_interfaces_create
 
     public function get_schema_defaults()
     {
-        return array('productGroup' => $this->_request_data['up']);
+        if (!$this->parent) {
+            return array();
+        }
+        return array('productGroup' => $this->parent->id);
     }
 
     /**
@@ -63,13 +71,11 @@ implements midcom_helper_datamanager2_interfaces_create
     public function & dm2_create_callback(&$controller)
     {
         $this->_product = new org_openpsa_products_product_dba();
-
-        $this->_request_data['up'] = $controller->formmanager->get_value('productGroup');
-        $this->_product->productGroup = $this->_request_data['up'];
+        $this->_product->productGroup = $controller->formmanager->get_value('productGroup');
 
         if (!$this->_product->create()) {
             debug_print_r('We operated on this object:', $this->_product);
-            throw new midcom_error("Failed to create a new product under product group #{$this->_request_data['up']}. Error: " . midcom_connection::get_error_string());
+            throw new midcom_error("Failed to create a new product under product group #{$this->_product->productGroup}. Error: " . midcom_connection::get_error_string());
         }
 
         return $this->_product;
@@ -84,7 +90,7 @@ implements midcom_helper_datamanager2_interfaces_create
      */
     public function _handler_create($handler_id, array $args, array &$data)
     {
-        $this->_master->find_parent($args);
+        $this->find_parent($args);
 
         if ($handler_id == 'create_product') {
             $this->_schema = $args[0];
@@ -104,6 +110,38 @@ implements midcom_helper_datamanager2_interfaces_create
             'save_callback' => array($this, 'save_callback')
         ));
         return $workflow->run();
+    }
+
+    private function find_parent($args)
+    {
+        if (mgd_is_guid($args[0])) {
+            $qb2 = org_openpsa_products_product_group_dba::new_query_builder();
+            $qb2->add_constraint('guid', '=', $args[0]);
+            $up_group = $qb2->execute();
+            if (count($up_group)) {
+                //We just pick the first category here
+                $qb = org_openpsa_products_product_group_dba::new_query_builder();
+                $qb->add_constraint('up', '=', $up_group[0]->id);
+                $qb->add_order('code', 'ASC');
+                $qb->set_limit(1);
+                $up_group = $qb->execute();
+                if (count($up_group) == 1) {
+                    $this->parent = $up_group[0];
+                }
+            }
+        } elseif ((int) $args[0] > 0) {
+            try {
+                $this->parent = new org_openpsa_products_product_group_dba((int) $args[0]);
+            } catch (midcom_error $e) {
+                $e->log();
+            }
+        }
+
+        if (!$this->parent) {
+            midcom::get()->auth->require_user_do('midgard:create', null, 'org_openpsa_products_product_dba');
+        } else {
+            $this->parent->require_do('midgard:create');
+        }
     }
 
     public function save_callback(midcom_helper_datamanager2_controller $controller)

@@ -41,24 +41,4 @@ class org_openpsa_products_handler_product_viewTest extends openpsa_testcase
 
         midcom::get()->auth->drop_sudo();
     }
-
-    public function testHandler_view_intree_raw()
-    {
-        midcom::get()->auth->request_sudo('org.openpsa.products');
-
-        $data = $this->run_handler('org.openpsa.products', array('product', 'raw', self::$_group->code, self::$_product->guid));
-        $this->assertEquals('view_product_intree_raw', $data['handler_id']);
-
-        midcom::get()->auth->drop_sudo();
-    }
-
-    public function testHandler_view_intree()
-    {
-        midcom::get()->auth->request_sudo('org.openpsa.products');
-
-        $data = $this->run_handler('org.openpsa.products', array('product', self::$_group->code, self::$_product->guid));
-        $this->assertEquals('view_product_intree', $data['handler_id']);
-
-        midcom::get()->auth->drop_sudo();
-    }
 }

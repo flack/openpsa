@@ -23,13 +23,7 @@ class org_openpsa_products_handler_product_latest extends midcom_baseclasses_com
         $product_qb->add_order('metadata.published', 'DESC');
 
         if ($product_group != '') {
-            $group_qb = org_openpsa_products_product_group_dba::new_query_builder();
-            $group_qb->add_constraint('code', '=', $product_group);
-            $groups = $group_qb->execute();
-            if (count($groups) == 0) {
-                return false;
-                // No matching group
-            }
+            $group = new org_openpsa_products_product_group_dba($product_group);
             $categories_mc = org_openpsa_products_product_group_dba::new_collector('up', $groups[0]->id);
             $categories = $categories_mc->get_values('id');
 
@@ -102,11 +96,7 @@ class org_openpsa_products_handler_product_latest extends midcom_baseclasses_com
                     continue;
                 }
                 $data['view_product'] = $data['datamanager_product']->get_content_html();
-                $path = $product->code ?: $product->guid;
-                if ($handler_id == 'updated_products_intree') {
-                    $path = $data['product_group'] . '/' . $path;
-                }
-                $data['view_product_url'] = "{$prefix}product/" . $path . '/';
+                $data['view_product_url'] = "{$prefix}product/" . $product->guid . '/';
                 midcom_show_style('updated_products_item');
             }
 
@@ -164,7 +154,7 @@ class org_openpsa_products_handler_product_latest extends midcom_baseclasses_com
                     continue;
                 }
                 $data['view_product'] = $data['datamanager_product']->get_content_html();
-                $data['view_product_url'] = "{$prefix}product/" . $product->get_path($this->_topic);
+                $data['view_product_url'] = "{$prefix}product/" . $product->guid . '/';
 
                 midcom_show_style('feed_products_item');
             }

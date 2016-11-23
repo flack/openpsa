@@ -34,42 +34,8 @@ class org_openpsa_products_handler_group_listTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('org.openpsa.products');
 
-        $data = $this->run_handler('org.openpsa.products', array(self::$_group->code));
+        $data = $this->run_handler('org.openpsa.products', array(self::$_group->guid));
         $this->assertEquals('list', $data['handler_id']);
-
-        midcom::get()->auth->drop_sudo();
-    }
-
-    public function testHandler_listall()
-    {
-        midcom::get()->auth->request_sudo('org.openpsa.products');
-
-        $group_attributes = array(
-            'code' => 'TEST_' . __FUNCTION__ . time(),
-            'up' => self::$_group->id
-        );
-
-        $childgroup = $this->create_object('org_openpsa_products_product_group_dba', $group_attributes);
-
-        $data = $this->run_handler('org.openpsa.products', array('list', self::$_group->code, $childgroup->code));
-        $this->assertEquals('listall', $data['handler_id']);
-
-        midcom::get()->auth->drop_sudo();
-    }
-
-    public function testHandler_listintree()
-    {
-        midcom::get()->auth->request_sudo('org.openpsa.products');
-
-        $group_attributes = array(
-            'code' => 'TEST_' . __FUNCTION__ . time(),
-            'up' => self::$_group->id
-        );
-
-        $childgroup = $this->create_object('org_openpsa_products_product_group_dba', $group_attributes);
-
-        $data = $this->run_handler('org.openpsa.products', array(self::$_group->code, $childgroup->code));
-        $this->assertEquals('list_intree', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();
     }

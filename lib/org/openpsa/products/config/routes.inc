@@ -45,13 +45,6 @@
     'variable_args' => 1,
 ),
 
-'listall' => Array
-(
-    'handler' => Array('org_openpsa_products_handler_group_list', 'list'),
-    'fixed_args' => Array('list'),
-    'variable_args' => 2,
-),
-
 // Handle /groupsblock/<productgroup>/
 'groupsblock' => Array
 (
@@ -144,28 +137,12 @@
     'variable_args' => 1,
 ),
 
-// Handle /product/raw/<product guid/code>
+// Handle /product/raw/<product guid>
 'view_product_raw' => Array
 (
     'handler' => Array('org_openpsa_products_handler_product_view', 'view'),
     'fixed_args' => Array('product', 'raw'),
     'variable_args' => 1,
-),
-
-// Handle /product/raw/<product group guid/code>/<product guid/code>
-'view_product_intree_raw' => Array
-(
-    'handler' => Array('org_openpsa_products_handler_product_view', 'view'),
-    'fixed_args' => Array('product', 'raw'),
-    'variable_args' => 2,
-),
-
-// Handle /product/<product group>/<product guid>
-'view_product_intree' => Array
-(
-    'handler' => Array('org_openpsa_products_handler_product_view', 'view'),
-    'fixed_args' => Array('product'),
-    'variable_args' => 2,
 ),
 
 // Handle /updated/<N>
@@ -212,11 +189,4 @@
     'handler' => Array('org_openpsa_products_handler_product_csv', 'csv'),
     'fixed_args' => Array('export', 'product', 'csv'),
     'variable_args' => 1,
-),
-
-// Handle /<product group>/<group guid>
-'list_intree' => Array
-(
-    'handler' => Array('org_openpsa_products_handler_group_list', 'list'),
-    'variable_args' => 2,
 ),

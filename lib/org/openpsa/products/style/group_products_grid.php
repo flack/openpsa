@@ -15,8 +15,7 @@ foreach ($data['products'] as $product) {
 
     $entry = array();
 
-    $path = $product->get_path($data['topic']);
-    $link_html = "<a href='{$prefix}product/{$path}'>";
+    $link_html = "<a href='{$prefix}product/{$product->guid}/'>";
     $next_marker = false;
 
     $entry['id'] = $product->id;
