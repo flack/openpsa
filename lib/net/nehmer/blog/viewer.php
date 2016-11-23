@@ -217,10 +217,10 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
      *
      * @param midcom_helper_datamanager2_datamanager $dm The Datamanager encapsulating the event.
      * @param midcom_services_indexer $indexer The indexer instance to use.
-     * @param midcom_db_topic The topic which we are bound to. If this is not an object, the code
+     * @param midcom_db_topic|midcom_core_dbaproxy The topic which we are bound to. If this is not an object, the code
      *     tries to load a new topic instance from the database identified by this parameter.
      */
-    public static function index($dm, $indexer, midcom_db_topic $topic)
+    public static function index($dm, $indexer, $topic)
     {
         $config = new midcom_helper_configuration($topic, 'net.nehmer.blog');
 
