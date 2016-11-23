@@ -24,7 +24,7 @@ class org_openpsa_products_handler_product_latest extends midcom_baseclasses_com
 
         if ($product_group != '') {
             $group = new org_openpsa_products_product_group_dba($product_group);
-            $categories_mc = org_openpsa_products_product_group_dba::new_collector('up', $groups[0]->id);
+            $categories_mc = org_openpsa_products_product_group_dba::new_collector('up', $group->id);
             $categories = $categories_mc->get_values('id');
 
             if (count($categories) == 0) {
@@ -32,7 +32,7 @@ class org_openpsa_products_handler_product_latest extends midcom_baseclasses_com
                  * So we can search for the application using only
                  * this group id
                  */
-                $product_qb->add_constraint('productGroup', 'INTREE', $groups[0]->id);
+                $product_qb->add_constraint('productGroup', 'INTREE', $group->id);
             } else {
                 $product_qb->add_constraint('productGroup', 'IN', $categories);
             }
