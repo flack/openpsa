@@ -130,22 +130,6 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
         }
         $this->bind_view_to_object($data['group'], $data['datamanager_group']->schema->name);
 
-        // Set the active leaf
-        if ($this->_config->get('display_navigation')) {
-            $group = $data['group'];
-
-            // Loop until root group
-            while (   $group->id !== $this->_config->get('root_group')
-                   && $group->guid !== $this->_config->get('root_group')) {
-                if ($group->up == 0) {
-                    // Active leaf of the topic
-                    $this->set_active_leaf($group->id);
-                    break;
-                }
-                $group = new org_openpsa_products_product_group_dba($group->up);
-            }
-        }
-
         $this->prepare_group_tree();
         $this->_update_breadcrumb_line();
 
@@ -306,13 +290,6 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
     private function _update_breadcrumb_line()
     {
         $tmp = $this->_master->update_breadcrumb_line($this->_request_data['group']);
-
-        // If navigation is configured to display product groups, remove the lowest level
-        // parent to prevent duplicate entries in breadcrumb display
-        if ($this->_config->get('display_navigation')) {
-            array_shift($tmp);
-        }
-
         midcom_core_context::get()->set_custom_key('midcom.helper.nav.breadcrumb', $tmp);
     }
 }

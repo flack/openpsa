@@ -49,9 +49,6 @@
 // default schema to use when importing products
 'csv_import_schema' => 'default',
 
-// Navigation
-'display_navigation' => true,
-
 // Use custom rss feeds
 'custom_rss_feeds' => false, // array('title' => 'http://example.com')
 
