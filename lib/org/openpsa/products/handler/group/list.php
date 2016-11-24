@@ -13,81 +13,6 @@
 class org_openpsa_products_handler_group_list  extends midcom_baseclasses_components_handler
 {
     /**
-     * @param mixed $handler_id the array key from the request array
-     * @param array $args the arguments given to the handler
-     * @param array &$data The local request data.
-     */
-    public function _handler_index($handler_id, array $args, array &$data)
-    {
-        $data['parent_group'] = $data['root_group'];
-
-        $group_qb = org_openpsa_products_product_group_dba::new_query_builder();
-        $group_qb->add_constraint('up', '=', $data['parent_group']);
-
-        foreach ($this->_config->get('groups_listing_order') as $ordering) {
-            $this->_add_ordering($group_qb, $ordering);
-        }
-
-        $data['groups'] = $group_qb->execute();
-        $data['products'] = array();
-        if ($this->_config->get('group_list_products')) {
-            $this->_list_group_products();
-        }
-
-        $data['datamanager_group'] = new midcom_helper_datamanager2_datamanager($data['schemadb_group']);
-        $this->prepare_group_tree();
-        $this->_populate_toolbar();
-        $data['view_title'] = $this->_l10n->get('product database');
-        midcom::get()->head->set_pagetitle($data['view_title']);
-        org_openpsa_widgets_grid::add_head_elements();
-    }
-
-    /**
-     * This function does the output.
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_index($handler_id, array &$data)
-    {
-        $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
-
-        midcom_show_style('group_header');
-
-        if (   count($data['groups']) >= 1
-            && (   count($data['products']) == 0
-                || $this->_config->get('listing_primary') == 'groups')) {
-            if ($this->_config->get('disable_subgroups_on_frontpage') !== true) {
-
-                $data['groups_count'] = count($data['groups']);
-
-                midcom_show_style('group_subgroups_header');
-                foreach ($data['groups'] as $group) {
-                    $data['group'] = $group;
-                    if (!$data['datamanager_group']->autoset_storage($group)) {
-                        debug_add("The datamanager for group #{$group->id} could not be initialized, skipping it.");
-                        debug_print_r('Object was:', $group);
-                        continue;
-                    }
-                    $data['view_group'] = $data['datamanager_group']->get_content_html();
-                    $data['view_group_url'] = $prefix . $group->guid . '/';
-
-                    midcom_show_style('group_subgroups_item');
-                }
-
-                midcom_show_style('group_subgroups_footer');
-            }
-        } elseif (count($data['products']) > 0) {
-            $data['datamanager_product'] = new midcom_helper_datamanager2_datamanager($data['schemadb_product']);
-            midcom_show_style('group_products_grid');
-            midcom_show_style('group_products_footer');
-        } else {
-            midcom_show_style('group_empty');
-        }
-        midcom_show_style('group_footer');
-    }
-
-    /**
      * The handler for the group_list article.
      *
      * @param mixed $handler_id the array key from the request array
@@ -165,21 +90,16 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
 
     private function _populate_toolbar()
     {
-        if (!empty($this->_request_data['group'])) {
-            $workflow = $this->get_workflow('datamanager2');
-            $this->_view_toolbar->add_item($workflow->get_button("edit/{$this->_request_data['group']->guid}/", array(
-                MIDCOM_TOOLBAR_ENABLED => $this->_request_data['group']->can_do('midgard:update'),
-                MIDCOM_TOOLBAR_ACCESSKEY => 'e',
-            )));
-            $allow_create_group = $this->_request_data['group']->can_do('midgard:create');
-            $allow_create_product = $this->_request_data['group']->can_do('midgard:create');
+        $workflow = $this->get_workflow('datamanager2');
+        $this->_view_toolbar->add_item($workflow->get_button("edit/{$this->_request_data['group']->guid}/", array(
+            MIDCOM_TOOLBAR_ENABLED => $this->_request_data['group']->can_do('midgard:update'),
+            MIDCOM_TOOLBAR_ACCESSKEY => 'e',
+        )));
+        $allow_create_group = $this->_request_data['group']->can_do('midgard:create');
+        $allow_create_product = $this->_request_data['group']->can_do('midgard:create');
 
-            if ($this->_request_data['group']->orgOpenpsaObtype == org_openpsa_products_product_group_dba::TYPE_SMART) {
-                $allow_create_product = false;
-            }
-        } else {
-            $allow_create_group = midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_products_product_group_dba');
-            $allow_create_product = midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_products_product_dba');
+        if ($this->_request_data['group']->orgOpenpsaObtype == org_openpsa_products_product_group_dba::TYPE_SMART) {
+            $allow_create_product = false;
         }
 
         $this->_add_schema_buttons('schemadb_group', 'new-dir', '', $allow_create_group);
@@ -247,7 +167,6 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
             $product_qb->add_constraint('productGroup', '=', $this->_request_data['parent_group']);
         }
 
-        // This should be a helper function, same functionality, but with different config-parameter is used in /handler/product/search.php
         foreach ($this->_config->get('products_listing_order') as $ordering) {
             $this->_add_ordering($product_qb, $ordering);
         }
@@ -281,7 +200,41 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
             $data['view_group'] = $data['datamanager_group']->get_content_html();
         }
 
-        $this->_show_index($handler_id, $data);
+        $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
+
+        midcom_show_style('group_header');
+
+        if (   count($data['groups']) >= 1
+            && (   count($data['products']) == 0
+                || $this->_config->get('listing_primary') == 'groups')) {
+            if ($this->_config->get('disable_subgroups_on_frontpage') !== true) {
+
+                $data['groups_count'] = count($data['groups']);
+
+                midcom_show_style('group_subgroups_header');
+                foreach ($data['groups'] as $group) {
+                    $data['group'] = $group;
+                    if (!$data['datamanager_group']->autoset_storage($group)) {
+                        debug_add("The datamanager for group #{$group->id} could not be initialized, skipping it.");
+                        debug_print_r('Object was:', $group);
+                        continue;
+                    }
+                    $data['view_group'] = $data['datamanager_group']->get_content_html();
+                    $data['view_group_url'] = $prefix . $group->guid . '/';
+
+                    midcom_show_style('group_subgroups_item');
+                }
+
+                midcom_show_style('group_subgroups_footer');
+            }
+        } elseif (count($data['products']) > 0) {
+            $data['datamanager_product'] = new midcom_helper_datamanager2_datamanager($data['schemadb_product']);
+            midcom_show_style('group_products_grid');
+            midcom_show_style('group_products_footer');
+        } else {
+            midcom_show_style('group_empty');
+        }
+        midcom_show_style('group_footer');
     }
 
     /**

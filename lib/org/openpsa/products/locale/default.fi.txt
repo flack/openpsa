@@ -142,18 +142,6 @@ Tuotteet
 kvartaali
 ---STRINGEND
 
----STRING search
-Tuotehaku
----STRINGEND
-
----STRING search all items on default
-Etsi kaikista kohteista oletuksena
----STRINGEND
-
----STRING search index order
-Haun tulosten järjestely
----STRINGEND
-
 ---STRING service
 Palvelu
 ---STRINGEND
@@ -200,10 +188,6 @@ vuosi
 
 ---STRING you can import csv files here
 Voit tuoda CSV-tiedostoja kantaan täällä
----STRINGEND
-
----STRING display search on front page
-Näytä haku etusivulla
 ---STRINGEND
 
 ---STRING display settings

@@ -46,10 +46,6 @@ Tag
 Auslieferungsart
 ---STRINGEND
 
----STRING display search on front page
-Suche auf der Startseite anzeigen
----STRINGEND
-
 ---STRING display settings
 Anzeigeeinstellungen
 ---STRINGEND
@@ -200,18 +196,6 @@ Oberste Produktgruppe
 
 ---STRING schema
 Schema
----STRINGEND
-
----STRING search
-Produktsuche
----STRINGEND
-
----STRING search all items on default
-Stadardmässig alle Einträge durchsuchen
----STRINGEND
-
----STRING search index order
-Reihenfolge für den Suchindex
 ---STRINGEND
 
 ---STRING service

@@ -3,64 +3,6 @@
     'description' => 'Default Configuration Schema',
     'fields' => array
     (
-        'search_first' => array
-        (
-            'title' => 'display search on front page',
-            'storage' => array
-            (
-                'location' => 'configuration',
-                'domain' => 'org.openpsa.products',
-                'name' => 'search_first',
-            ),
-            'type' => 'select',
-            'type_config' => array
-            (
-                'options' => array
-                (
-                    '' => 'default setting',
-                    '1' => 'yes',
-                    '0' => 'no',
-                ),
-            ),
-            'widget' => 'select',
-            'start_fieldset' => array
-            (
-                'title' => 'display settings',
-            ),
-        ),
-        'search_default_to_all' => array
-        (
-            'title' => 'search all items on default',
-            'storage' => array
-            (
-                'location' => 'configuration',
-                'domain' => 'org.openpsa.products',
-                'name' => 'search_default_to_all',
-            ),
-            'type' => 'select',
-            'type_config' => array
-            (
-                'options' => array
-                (
-                    '' => 'default setting',
-                    '1' => 'yes',
-                    '0' => 'no',
-                ),
-            ),
-            'widget' => 'select',
-        ),
-        'search_index_order' => array
-        (
-            'title' => 'search index order',
-            'storage' => array
-            (
-                'location' => 'configuration',
-                'domain' => 'org.openpsa.products',
-                'name' => 'search_index_order',
-            ),
-            'type' => 'text',
-            'widget' => 'text',
-        ),
         'product_page_title' => array
         (
             'title' => 'product page title',

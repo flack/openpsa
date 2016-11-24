@@ -46,10 +46,6 @@ day
 Delivery type
 ---STRINGEND
 
----STRING display search on front page
-Display search on the front page
----STRINGEND
-
 ---STRING display settings
 Display Settings
 ---STRINGEND
@@ -200,18 +196,6 @@ Root product group
 
 ---STRING schema
 Schema
----STRINGEND
-
----STRING search
-Product search
----STRINGEND
-
----STRING search all items on default
-Search all items on default
----STRINGEND
-
----STRING search index order
-Search index order
 ---STRINGEND
 
 ---STRING service

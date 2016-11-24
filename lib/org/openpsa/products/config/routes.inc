@@ -9,33 +9,17 @@
     'fixed_args' => array ('config', 'recreate'),
 ),
 
-// Handle /search/
-'view_search_redirect' => Array
-(
-    'handler' => Array('org_openpsa_products_handler_product_search', 'search_redirect'),
-    'fixed_args' => Array('search'),
-),
-
-// Handle /search/<product schema>
-'view_search' => Array
-(
-    'handler' => Array('org_openpsa_products_handler_product_search', 'search'),
-    'fixed_args' => Array('search'),
-    'variable_args' => 1,
-),
-
-// Handle /search/raw/<product schema>
-'view_search_raw' => Array
-(
-    'handler' => Array('org_openpsa_products_handler_product_search', 'search'),
-    'fixed_args' => Array('search', 'raw'),
-    'variable_args' => 1,
-),
-
-// Handle / (might be changed by config option search_first)
+// Handle /
 'index' => Array
 (
-    'handler' => Array('org_openpsa_products_handler_group_list', 'index'),
+    'handler' => Array('org_openpsa_products_handler_index', 'index'),
+),
+
+// Handle /json/
+'index_json' => Array
+(
+    'handler' => Array('org_openpsa_products_handler_index', 'json'),
+    'fixed_args' => Array('json'),
 ),
 
 // Handle /<group guid>

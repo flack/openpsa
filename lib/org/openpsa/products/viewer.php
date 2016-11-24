@@ -14,18 +14,6 @@
 class org_openpsa_products_viewer extends midcom_baseclasses_components_request
 {
     /**
-     * Initialize the request switch and the content topic.
-     */
-    public function _on_initialize()
-    {
-        if ($this->_config->get('search_first')) {
-            $this->_request_switch['index'] = array(
-                'handler' => array('org_openpsa_products_handler_product_search', 'search_redirect'),
-            );
-        }
-    }
-
-    /**
      * Indexes a product
      *
      * @param midcom_helper_datamanager2_datamanager $dm The Datamanager encapsulating the event.

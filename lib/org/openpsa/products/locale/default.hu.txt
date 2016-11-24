@@ -102,10 +102,6 @@ Termékek
 negyed
 ---STRINGEND
 
----STRING search
-Termék keresése
----STRINGEND
-
 ---STRING service
 Szolgáltatás
 ---STRINGEND

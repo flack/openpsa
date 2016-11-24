@@ -22,12 +22,6 @@
 
 'code_in_title' => false,
 
-// Search related
-'search_first' => false,
-'search_default_to_all' => true,
-// How the search results should be indexed. You can use metadata and linked options, for example metadata.score
-'search_index_order' => array('productGroup', 'code'),
-
 // Indexer related
 'index_products' => true, // wheter to index products
 'index_groups' => true, // wheter to index groups
