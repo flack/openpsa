@@ -35,7 +35,7 @@
 // Handle / (might be changed by config option search_first)
 'index' => Array
 (
-    'handler' => Array('org_openpsa_products_handler_group_list', 'list'),
+    'handler' => Array('org_openpsa_products_handler_group_list', 'index'),
 ),
 
 // Handle /<group guid>
