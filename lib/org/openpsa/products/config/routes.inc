@@ -45,14 +45,6 @@
     'variable_args' => 1,
 ),
 
-// Handle /groupsblock/<productgroup>/
-'groupsblock' => Array
-(
-    'handler' => Array('org_openpsa_products_handler_group_groupsblock', 'groupsblock'),
-    'fixed_args' => Array('groupsblock'),
-    'variable_args' => 2,
-),
-
 // Handle /edit/<product_group guid>
 'edit_product_group' => Array
 (
