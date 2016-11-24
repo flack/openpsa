@@ -1,16 +1,17 @@
+<div class="sidebar">
+  <div class="area org_openpsa_helper_box">
+    <h3><?php echo $data['l10n']->get('groups'); ?></h3>
+<?php
+$data['tree']->render();
+?>
+  </div>
+</div>
+<div class="main">
 <?php
 if (array_key_exists('view_group', $data)) {
     $view = $data['view_group']; ?>
     <h1>&(view['code']:h); &(view['title']:h);</h1>
 
-    <?php if (!empty($data['group']->up)) {
-        ?>
-    <div class="parent_group">
-        <span class="label"><?php echo $data['l10n']->get('parent group'); ?>: </span>
-        <span class="parent">&(view['up']:h);</span>
-    </div>
-    <?php 
-    } ?>
     &(view['description']:h);
     <?php
 

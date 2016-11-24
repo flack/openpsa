@@ -35,7 +35,7 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
         }
 
         $data['datamanager_group'] = new midcom_helper_datamanager2_datamanager($data['schemadb_group']);
-
+        $this->prepare_group_tree();
         $this->_populate_toolbar();
         $data['view_title'] = $this->_l10n->get('product database');
         midcom::get()->head->set_pagetitle($data['view_title']);
@@ -52,11 +52,12 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
     {
         $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 
+        midcom_show_style('group_header');
+
         if (   count($data['groups']) >= 1
             && (   count($data['products']) == 0
                 || $this->_config->get('listing_primary') == 'groups')) {
             if ($this->_config->get('disable_subgroups_on_frontpage') !== true) {
-                midcom_show_style('group_header');
 
                 $data['groups_count'] = count($data['groups']);
 
@@ -75,17 +76,15 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
                 }
 
                 midcom_show_style('group_subgroups_footer');
-                midcom_show_style('group_footer');
             }
         } elseif (count($data['products']) > 0) {
             $data['datamanager_product'] = new midcom_helper_datamanager2_datamanager($data['schemadb_product']);
-            midcom_show_style('group_header');
             midcom_show_style('group_products_grid');
             midcom_show_style('group_products_footer');
-            midcom_show_style('group_footer');
         } else {
             midcom_show_style('group_empty');
         }
+        midcom_show_style('group_footer');
     }
 
     /**
@@ -147,6 +146,7 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
             }
         }
 
+        $this->prepare_group_tree();
         $this->_update_breadcrumb_line();
 
         $data['view_title'] = $data['group']->title;
@@ -156,6 +156,17 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
 
         midcom::get()->head->set_pagetitle($data['view_title']);
         org_openpsa_widgets_grid::add_head_elements();
+    }
+
+    private function prepare_group_tree()
+    {
+        $tree = new org_openpsa_widgets_tree('org_openpsa_products_product_group_dba', 'up');
+        $tree->title_fields = array('title', 'code');
+        $tree->link_callback = function($guid) {
+            $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
+            return $prefix . '/' . $guid . '/';
+        };
+        $this->_request_data['tree'] = $tree;
     }
 
     private function _add_ordering($qb, $ordering)
