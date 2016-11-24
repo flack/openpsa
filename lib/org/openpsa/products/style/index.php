@@ -25,10 +25,6 @@ $grid->set_option('scroll', 1)
     ->set_option('url', $prefix . 'json/')
     ->set_option('sortname', 'index_lastname');
 
-if (isset($data['group'])) {
-    $grid->set_option('caption', $data['l10n']->get('members'));
-}
-
 $grid->set_column('code', $data['l10n']->get('code'), 'width: 80, fixed: true', 'string')
     ->set_column('title', $data['l10n_midcom']->get('title'), 'classes: "title ui-ellipsis"', 'string')
     ->set_select_column('orgOpenpsaObtype', $data['l10n']->get('type'), 'width: 130, fixed: true', $type_options)
