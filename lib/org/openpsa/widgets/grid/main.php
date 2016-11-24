@@ -187,6 +187,30 @@ class org_openpsa_widgets_grid extends midcom_baseclasses_components_purecode
      * @param string $name The column's name
      * @param string $label The column's label
      * @param string $options The column's options
+     * @param array $selectdata Should the column have a separate index, if so, which sort type
+     */
+    public function set_select_column($name, $label, $options, array $selectdata)
+    {
+        $selectstring = implode(';', array_map(
+            function ($key, $value) {
+                return $key . ':' . $value;
+            },
+            array_keys($selectdata),
+            $selectdata
+        ));
+
+        $options .= ', stype: "select", searchoptions: {sopt: ["eq"], value: ":;' . $selectstring . '"}';
+        $options .= ', edittype:"select", formatter:"select", editoptions:{value:"' . $selectstring . '"}';
+
+        return $this->set_column($name, $label, $options);
+    }
+
+    /**
+     * Set a column
+     *
+     * @param string $name The column's name
+     * @param string $label The column's label
+     * @param string $options The column's options
      * @param string $separate_index Should the column have a separate index, if so, which sort type
      */
     public function set_column($name, $label, $options = '', $separate_index = false)
