@@ -228,7 +228,6 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
                 midcom_show_style('group_subgroups_footer');
             }
         } elseif (count($data['products']) > 0) {
-            $data['datamanager_product'] = new midcom_helper_datamanager2_datamanager($data['schemadb_product']);
             midcom_show_style('group_products_grid');
             midcom_show_style('group_products_footer');
         } else {
