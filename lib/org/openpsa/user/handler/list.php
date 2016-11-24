@@ -169,24 +169,7 @@ implements org_openpsa_widgets_grid_provider_client
         $entry['index_firstname'] = $user->firstname;
         $account = new midcom_core_account($user);
         $entry['username'] = $account->get_username();
-        $entry['groups'] = array();
-
-        //get groups
-        $mc_member = org_openpsa_contacts_member_dba::new_collector('uid', $user->id);
-        $mc_member->add_constraint('gid.orgOpenpsaObtype', '<', org_openpsa_contacts_group_dba::MYCONTACTS);
-        $mc_member->add_order('gid.official');
-        $mc_member->add_order('gid.name');
-        $gids = $mc_member->get_values('gid');
-
-        foreach ($gids as $gid) {
-            try {
-                $group = org_openpsa_contacts_group_dba::get_cached($gid);
-                $entry['groups'][] = '<a href="' . $prefix . 'group/' . $group->guid . '/">' . $group->get_label() . '</a>';
-            } catch (midcom_error $e) {
-                $e->log();
-            }
-        }
-        $entry['groups'] = implode(', ', $entry['groups']);
+        $entry['email'] = $user->email;
 
         return $entry;
     }

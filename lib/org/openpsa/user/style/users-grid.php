@@ -15,10 +15,10 @@ if (isset($data['group'])) {
     $grid->set_option('caption', $data['l10n']->get('members'));
 }
 
-$grid->set_column('lastname', $data['l10n']->get('lastname'), 'classes: "title ui-ellipsis"', 'string')
-    ->set_column('firstname', $data['l10n']->get('firstname'), 'width: 100, classes: "ui-ellipsis"', 'string')
-    ->set_column('username', $data['l10n']->get('username'), 'width: 100, classes: "ui-ellipsis"')
-    ->set_column('groups', $data['l10n']->get('groups'), 'sortable: false, classes: "ui-ellipsis", search: false');
+$grid->set_column('lastname', $data['l10n']->get('lastname'), 'width: 80, classes: "title ui-ellipsis"', 'string')
+    ->set_column('firstname', $data['l10n']->get('firstname'), 'width: 80, classes: "ui-ellipsis"', 'string')
+    ->set_column('username', $data['l10n']->get('username'), 'width: 80, classes: "ui-ellipsis"')
+    ->set_column('email', $data['l10n']->get('email'), 'width: 100, classes: "ui-ellipsis", formatter: "email"');
 ?>
 
 <div class="main">
