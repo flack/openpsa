@@ -33,12 +33,9 @@ $grid->set_column('code', $data['l10n']->get('code'), 'width: 80, fixed: true', 
     ->set_select_column('unit', $data['l10n']->get('unit'), 'width: 70, fixed: true', $unit_options);
 ?>
 <div class="sidebar">
-<div class="area org_openpsa_helper_box">
-<h3><?php echo $data['l10n']->get('groups'); ?></h3>
 <?php
-$data['tree']->render();
+midcom_show_style('group-tree');
 ?>
-  </div>
 </div>
 <div class="main">
 <div class="org_openpsa_user full-width fill-height">

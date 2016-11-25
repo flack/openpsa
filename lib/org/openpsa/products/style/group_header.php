@@ -1,10 +1,7 @@
 <div class="sidebar">
-  <div class="area org_openpsa_helper_box">
-    <h3><?php echo $data['l10n']->get('groups'); ?></h3>
 <?php
-$data['tree']->render();
+midcom_show_style('group-tree');
 ?>
-  </div>
 </div>
 <div class="main">
 <?php
