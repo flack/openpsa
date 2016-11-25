@@ -23,18 +23,11 @@
 'code_in_title' => false,
 
 // Indexer related
-'index_products' => true, // wheter to index products
-'index_groups' => true, // wheter to index groups
+'index_products' => true, // whether to index products
+'index_groups' => true, // whether to index groups
 
-// How to list groups when browsing groups
-'groups_listing_order' => array('code', 'title'),
-
-// How to list products when browsing groups
-'products_listing_order' => array('code', 'title'),
 'enable_scheduling' => false,
 
-'group_list_products' => true,
-'products_per_page' => 30,
 'show_items_in_feed' => 10,
 
 // default schema to use when exporting products
@@ -45,12 +38,6 @@
 
 // Use custom rss feeds
 'custom_rss_feeds' => false, // array('title' => 'http://example.com')
-
-//When using the subgroups sidebar, you can disable the subgroups block on the frontpage.
-'disable_subgroups_on_frontpage' => false,
-
-// if we have subgroups and products in group, what shall we show. Allowed options 'products' and 'groups'.
-'listing_primary' => 'products',
 
 'import_csv_data_percentage' => 0,
 

@@ -13,6 +13,16 @@
 class org_openpsa_products_handler_group_list  extends midcom_baseclasses_components_handler
 {
     /**
+     * @var midcom_helper_datamanager2_datamanager
+     */
+    private $datamanager;
+
+    /**
+     * @var midcom_helper_datamanager2_controller_ajax
+     */
+    private $controller;
+
+    /**
      * The handler for the group_list article.
      *
      * @param mixed $handler_id the array key from the request array
@@ -22,38 +32,25 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
     public function _handler_list($handler_id, array $args, array &$data)
     {
         $data['group'] = new org_openpsa_products_product_group_dba($args[0]);
-        $data['parent_group'] = $data['group']->id;
-
-        $group_qb = org_openpsa_products_product_group_dba::new_query_builder();
-        $group_qb->add_constraint('up', '=', $data['parent_group']);
-
-        foreach ($this->_config->get('groups_listing_order') as $ordering) {
-            $this->_add_ordering($group_qb, $ordering);
-        }
-
-        $data['groups'] = $group_qb->execute();
+        $this->datamanager = new midcom_helper_datamanager2_datamanager($data['schemadb_group']);
         $data['products'] = array();
-        if ($this->_config->get('group_list_products')) {
-            $this->_list_group_products();
-        }
-
-        $data['datamanager_group'] = new midcom_helper_datamanager2_datamanager($data['schemadb_group']);
+        $this->_list_group_products();
 
         $this->_populate_toolbar();
 
         if (midcom::get()->config->get('enable_ajax_editing')) {
-            $data['controller'] = midcom_helper_datamanager2_controller::create('ajax');
-            $data['controller']->schemadb =& $data['schemadb_group'];
-            $data['controller']->set_storage($data['group']);
-            $data['controller']->process_ajax();
-            $data['datamanager_group'] = $data['controller']->datamanager;
+            $this->controller = midcom_helper_datamanager2_controller::create('ajax');
+            $this->controller->schemadb =& $data['schemadb_group'];
+            $this->controller->set_storage($data['group']);
+            $this->controller->process_ajax();
+            $this->datamanager = $this->controller->datamanager;
         } else {
-            $data['controller'] = null;
-            if (!$data['datamanager_group']->autoset_storage($data['group'])) {
+            $this->controller = null;
+            if (!$this->datamanager->autoset_storage($data['group'])) {
                 throw new midcom_error("Failed to create a DM2 instance for product group {$data['group']->guid}.");
             }
         }
-        $this->bind_view_to_object($data['group'], $data['datamanager_group']->schema->name);
+        $this->bind_view_to_object($data['group'], $this->datamanager->schema->name);
 
         $this->_update_breadcrumb_line();
 
@@ -64,16 +61,6 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
 
         midcom::get()->head->set_pagetitle($data['view_title']);
         org_openpsa_widgets_grid::add_head_elements();
-    }
-
-    private function _add_ordering($qb, $ordering)
-    {
-        if (preg_match('/\s*reversed?\s*/', $ordering)) {
-            $ordering = preg_replace('/\s*reversed?\s*/', '', $ordering);
-            $qb->add_order($ordering, 'DESC');
-        } else {
-            $qb->add_order($ordering);
-        }
     }
 
     private function _populate_toolbar()
@@ -109,7 +96,7 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
             if (isset($this->_request_data[$schemadb_name][$name]->customdata['icon'])) {
                 $config[MIDCOM_TOOLBAR_ICON] = $this->_request_data[$schemadb_name][$name]->customdata['icon'];
             }
-            $create_url = 'create/' . $this->_request_data['parent_group'] . '/' . $name . '/';
+            $create_url = 'create/' . $this->_request_data['group']->id . '/' . $name . '/';
             $this->_view_toolbar->add_item($workflow->get_button($prefix . $create_url, $config));
         }
     }
@@ -123,7 +110,7 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
             // Smart group, query products by stored constraints
             $constraints = $this->_request_data['group']->list_parameters('org.openpsa.products:constraints');
             if (empty($constraints)) {
-                $product_qb->add_constraint('productGroup', '=', $this->_request_data['parent_group']);
+                $product_qb->add_constraint('productGroup', '=', $this->_request_data['group']->id);
             }
 
             $reflector = new midgard_reflection_property('org_openpsa_products_product');
@@ -152,11 +139,7 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
                 $product_qb->add_constraint($constraint_members[0], $constraint_members[1], $constraint_members[2]);
             }
         } else {
-            $product_qb->add_constraint('productGroup', '=', $this->_request_data['parent_group']);
-        }
-
-        foreach ($this->_config->get('products_listing_order') as $ordering) {
-            $this->_add_ordering($product_qb, $ordering);
+            $product_qb->add_constraint('productGroup', '=', $this->_request_data['group']->id);
         }
 
         if ($this->_config->get('enable_scheduling')) {
@@ -182,40 +165,15 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
      */
     public function _show_list($handler_id, array &$data)
     {
-        if ($data['controller']) {
-            $data['view_group'] = $data['controller']->get_content_html();
+        if ($this->controller) {
+            $data['view_group'] = $this->controller->get_content_html();
         } else {
-            $data['view_group'] = $data['datamanager_group']->get_content_html();
+            $data['view_group'] = $this->datamanager->get_content_html();
         }
-
-        $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 
         midcom_show_style('group_header');
 
-        if (   count($data['groups']) >= 1
-            && (   count($data['products']) == 0
-                || $this->_config->get('listing_primary') == 'groups')) {
-            if ($this->_config->get('disable_subgroups_on_frontpage') !== true) {
-
-                $data['groups_count'] = count($data['groups']);
-
-                midcom_show_style('group_subgroups_header');
-                foreach ($data['groups'] as $group) {
-                    $data['group'] = $group;
-                    if (!$data['datamanager_group']->autoset_storage($group)) {
-                        debug_add("The datamanager for group #{$group->id} could not be initialized, skipping it.");
-                        debug_print_r('Object was:', $group);
-                        continue;
-                    }
-                    $data['view_group'] = $data['datamanager_group']->get_content_html();
-                    $data['view_group_url'] = $prefix . $group->guid . '/';
-
-                    midcom_show_style('group_subgroups_item');
-                }
-
-                midcom_show_style('group_subgroups_footer');
-            }
-        } elseif (count($data['products']) > 0) {
+        if (count($data['products']) > 0) {
             midcom_show_style('group_products_grid');
             midcom_show_style('group_products_footer');
         } else {
