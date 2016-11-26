@@ -63,7 +63,6 @@
     "prefer-stable": true,
     "minimum-stability": "dev",
     "suggest": {
-        "ext-midgard2": ">=10.05.5",
         "openpsa/midcom-console": "dev-master"
     },
     "provide": {

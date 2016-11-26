@@ -7,33 +7,8 @@ php:
   - 5.6
   - 7.0
 
-env:
-  - MIDGARD_EXT_VERSION=ratatoskr
-  - MIDGARD_EXT_VERSION=master
-  - MIDGARD_EXT_VERSION=portable
-
-matrix:
-  exclude:
-    - php: 5.5
-      env: "MIDGARD_EXT_VERSION=ratatoskr"
-    - php: 5.5
-      env: "MIDGARD_EXT_VERSION=master"
-    - php: 5.6
-      env: "MIDGARD_EXT_VERSION=ratatoskr"
-    - php: 5.6
-      env: "MIDGARD_EXT_VERSION=master"
-    - php: 7.0
-      env: "MIDGARD_EXT_VERSION=ratatoskr"
-    - php: 7.0
-      env: "MIDGARD_EXT_VERSION=master"
-  allow_failures:
-    - php: 5.3
-      env: "MIDGARD_EXT_VERSION=ratatoskr"
-    - php: 5.3
-      env: "MIDGARD_EXT_VERSION=master"
-
 before_script:
-  - ./test/travis_midgard2.sh
+  - ./test/travis.sh
 
 script: phpunit --debug
 
