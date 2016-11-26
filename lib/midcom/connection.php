@@ -308,29 +308,12 @@ class midcom_connection
             }
         }
         if (!$crypted) {
-            /*
-             It seems having nonprintable characters in the password breaks replication
-             Here we recreate salt and hash until we have a combination where only
-             printable characters exist
-             */
-            while (   empty($crypted)
-                   || preg_match('/[\x00-\x20\x7f-\xff]/', $crypted)) {
-                $crypted = crypt($password, self::generate_des_salt());
-            }
+            $factory = new RandomLib\Factory();
+            $des_options = './abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            $salt = $factory->getMediumStrengthGenerator()->generateString(2, $des_options);
+            $crypted = crypt($password, $salt);
         }
         return $crypted;
-    }
-
-    private static function generate_des_salt()
-    {
-        $options = './abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-        $salt = '';
-
-        while (strlen($salt) < 2) {
-            $salt .= $options[mt_rand(0, strlen($options) - 1)];
-        }
-
-        return $salt;
     }
 
     public static function is_user($person)

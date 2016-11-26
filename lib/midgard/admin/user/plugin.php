@@ -25,24 +25,19 @@ class midgard_admin_user_plugin extends midcom_baseclasses_components_plugin
      */
     public static function generate_password($length = 8, $no_similars = true, $strong = true)
     {
-        $similars = array(
-            'I', 'l', '1', '0', 'O',
-        );
-
-        $string = '';
-        for ($x = 0; $x < (int) $length; $x++) {
-            do {
-                $char = chr(rand(48, 122));
-            } while (   !preg_match('/[a-zA-Z0-9]/', $char)
-                   || (   $strong
-                       && strlen($string) > 0
-                       && strstr($string, $char))
-                   || (   $no_similars
-                       && in_array($char, $similars)));
-
-            $string .= $char;
+        if ($no_similars) {
+            $options = 'abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+        } else {
+            $options = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
         }
 
-        return $string;
+        $factory = new RandomLib\Factory();
+
+        if ($strong) {
+            $generator = $factory->getMediumStrengthGenerator();
+        } else {
+            $generator = $factory->getLowStrengthGenerator();
+        }
+        return $generator->generateString($length, $options);
     }
 }

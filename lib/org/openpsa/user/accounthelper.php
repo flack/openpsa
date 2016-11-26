@@ -191,16 +191,15 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
         }
         // Valid characters for default password (PONDER: make configurable ?)
         $passwdchars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,-*!:+=()/&%$<>?#@';
-        $password = "";
-        while ($length--) {
-            $offset = 1;
-            if (   $length == 1
-                || $password == '') {
-                //make sure password doesn't begin or end in punctuation character
-                $offset = 20;
-            }
-            $password .= $passwdchars[mt_rand(0, strlen($passwdchars) - $offset)];
-        }
+        $first_last_chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+
+        $factory = new RandomLib\Factory();
+        $generator = $factory->getMediumStrengthGenerator();
+
+        //make sure password doesn't begin or end in punctuation character
+        $password = $generator->generateString(1, $first_last_chars);
+        $password .= $generator->generateString($length - 2, $passwdchars);
+        $password .= $generator->generateString(1, $first_last_chars);
         return $password;
     }
 

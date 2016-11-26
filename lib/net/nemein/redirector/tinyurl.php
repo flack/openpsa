@@ -59,13 +59,7 @@ class net_nemein_redirector_tinyurl_dba extends midcom_core_dbaobject
             $chars = '23456789abcdefghjkmnopqrstuvwxyz';
         }
 
-        $url = '';
-        $tmp = (int) strlen($chars);
-
-        for ($i = 0; $i < $length; $i++) {
-            $url .= substr($chars, rand(0, $tmp - 1), 1);
-        }
-
-        return $url;
+        $factory = new RandomLib\Factory();
+        return $factory->getLowStrengthGenerator()->generateString($length, $chars);
     }
 }

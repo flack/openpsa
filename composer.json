@@ -21,6 +21,7 @@
         "php": ">=5.3.0",
         "ext-mbstring": "*",
         "ext-iconv": "*",
+        "ircmaxell/random-lib": "^1.2.0",
         "kriswallsmith/buzz": "~0.10",
         "phpspec/php-diff": "^1.0.2",
         "midgard/midgardmvc-helper-urlize": "^1.1.1",

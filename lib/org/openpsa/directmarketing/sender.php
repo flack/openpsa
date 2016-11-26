@@ -256,11 +256,11 @@ class org_openpsa_directmarketing_sender extends midcom_baseclasses_components_p
             return 'dummy';
         }
 
-        $tokenchars = 'abcdefghijklmnopqrstuvwxyz0123456789';
-        $token = $tokenchars[mt_rand(0, strlen($tokenchars) - 11)];
-        for ($i = 1; $i < $this->token_size; $i++) {
-            $token .= $tokenchars[mt_rand(0, strlen($tokenchars) - 1)];
-        }
+        $factory = new RandomLib\Factory();
+        $generator = $factory->getLowStrengthGenerator();
+        $token = $generator->generateString(1, 'abcdefghijklmnopqrstuvwxyz');
+        $token .= $generator->generateString($this->token_size - 1, 'abcdefghijklmnopqrstuvwxyz0123456789');
+
         //If token is not free or (very, very unlikely) matches our dummy token, recurse.
         if (   $token === 'dummy'
             || !org_openpsa_directmarketing_campaign_messagereceipt_dba::token_is_free($token)) {
