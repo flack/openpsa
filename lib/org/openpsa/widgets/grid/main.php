@@ -199,7 +199,10 @@ class org_openpsa_widgets_grid extends midcom_baseclasses_components_purecode
             $selectdata
         ));
 
-        $options .= ', stype: "select", searchoptions: {sopt: ["eq"], value: ":;' . $selectstring . '"}';
+        if ($options !== '') {
+            $options .= ', ';
+        }
+        $options .= 'stype: "select", searchoptions: {sopt: ["eq"], value: ":;' . $selectstring . '"}';
         $options .= ', edittype:"select", formatter:"select", editoptions:{value:"' . $selectstring . '"}';
 
         return $this->set_column($name, $label, $options);

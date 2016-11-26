@@ -5,12 +5,12 @@ $rows = array();
 $formatter = $data['l10n']->get_formatter();
 
 $state_labels = array(
-    org_openpsa_sales_salesproject_dba::STATE_LOST => 'lost',
-    org_openpsa_sales_salesproject_dba::STATE_CANCELED => 'canceled',
-    org_openpsa_sales_salesproject_dba::STATE_ACTIVE => 'active',
-    org_openpsa_sales_salesproject_dba::STATE_WON => 'won',
-    org_openpsa_sales_salesproject_dba::STATE_DELIVERED => 'delivered',
-    org_openpsa_sales_salesproject_dba::STATE_INVOICED => 'invoiced'
+    org_openpsa_sales_salesproject_dba::STATE_LOST => $data['l10n']->get('lost'),
+    org_openpsa_sales_salesproject_dba::STATE_CANCELED => $data['l10n']->get('canceled'),
+    org_openpsa_sales_salesproject_dba::STATE_ACTIVE => $data['l10n']->get('active'),
+    org_openpsa_sales_salesproject_dba::STATE_WON => $data['l10n']->get('won'),
+    org_openpsa_sales_salesproject_dba::STATE_DELIVERED => $data['l10n']->get('delivered'),
+    org_openpsa_sales_salesproject_dba::STATE_INVOICED => $data['l10n']->get('invoiced')
 );
 
 foreach ($data['salesprojects'] as $salesproject) {
@@ -40,8 +40,7 @@ foreach ($data['salesprojects'] as $salesproject) {
             }
         }
     } else {
-        $row['index_state'] = $salesproject->state;
-        $row['state'] = $data['l10n']->get($state_labels[$salesproject->state]);
+        $row['state'] = $salesproject->state;
     }
 
     try {
@@ -93,7 +92,7 @@ $grid->set_column('title', $data['l10n']->get('title'), 'width: 100, classes: "u
 if ($data['mode'] != 'customer') {
     $grid->set_column('customer', $data['l10n']->get('customer'), 'width: 80, classes: "ui-ellipsis"', 'string');
 } else {
-    $grid->set_column('state', $data['l10n']->get('state'), 'hidden: true', 'number');
+    $grid->set_select_column('state', $data['l10n']->get('state'), 'hidden: true', $state_labels);
 }
 $grid->set_column('owner', $data['l10n']->get('owner'), 'width: 70, classes: "ui-ellipsis"', 'string')
 ->set_column('closeest', $data['l10n']->get('estimated closing date'), 'width: 85, align: "right", formatter: "date", fixed: true')
@@ -148,7 +147,7 @@ org_openpsa_export_csv.add({
           <?php if ($data['mode'] != 'customer') {
     ?>
             index_customer: '<?php echo $data['l10n']->get('customer'); ?>',
-          <?php 
+          <?php
 } ?>
           index_owner: '<?php echo $data['l10n']->get('owner'); ?>',
           closeest: '<?php echo $data['l10n']->get('estimated closing date'); ?>',
@@ -157,7 +156,7 @@ org_openpsa_export_csv.add({
     ?>
               probability: '<?php echo $data['l10n']->get('probability'); ?>',
               index_weightedvalue: '<?php echo $data['l10n']->get('weighted value'); ?>',
-          <?php 
+          <?php
 } ?>
           index_profit: '<?php echo $data['l10n']->get('profit'); ?>',
           prev_action: '<?php echo $data['l10n']->get('previous action'); ?>',

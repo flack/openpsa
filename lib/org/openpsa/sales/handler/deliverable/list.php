@@ -31,25 +31,19 @@ implements org_openpsa_widgets_grid_provider_client
         $deliverable_link = "<a href='{$prefix}deliverable/{$deliverable->guid}/'>" . $deliverable->title . "</a>";
         $salesproject_link = "<a href='{$prefix}salesproject/{$salesproject->guid}/'>" . $salesproject->title . "</a>";
 
-        $entry = array();
-        $entry['id'] = $deliverable->id;
-        $entry['index_title'] = $deliverable->title;
-        $entry['title'] = $deliverable_link;
-        $entry['index_salesproject'] = $salesproject->title;
-        $entry['salesproject'] = $salesproject_link;
-        $entry['unit'] = org_openpsa_products_viewer::get_unit_option($deliverable->unit);
-        $entry['index_state'] = $deliverable->state;
-        $entry['state'] = $this->_l10n->get($deliverable->get_state());
-        if ($deliverable->invoiceByActualUnits) {
-            $entry['type'] = $this->_l10n->get('invoice by actual units');
-        } else {
-            $entry['type'] = $this->_i18n->get_string('fixed price', 'org.openpsa.reports');
-        }
-        $entry['pricePerUnit'] = $deliverable->pricePerUnit;
-        $entry['units'] = $deliverable->units;
-        $entry['invoiced'] = $deliverable->invoiced;
-
-        return $entry;
+        return array(
+            'id' => $deliverable->id,
+            'index_title' => $deliverable->title,
+            'title' => $deliverable_link,
+            'index_salesproject' => $salesproject->title,
+            'salesproject' => $salesproject_link,
+            'unit' => org_openpsa_products_viewer::get_unit_option($deliverable->unit),
+            'state' => $deliverable->state,
+            'type' => $deliverable->invoiceByActualUnits,
+            'pricePerUnit' => $deliverable->pricePerUnit,
+            'units' => $deliverable->units,
+            'invoiced' => $deliverable->invoiced
+        );
     }
 
     /**

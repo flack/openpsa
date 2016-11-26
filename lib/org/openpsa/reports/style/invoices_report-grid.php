@@ -2,6 +2,14 @@
 $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 $l10n = midcom::get()->i18n->get_l10n('org.openpsa.invoices');
 
+$status_options = array(
+    'scheduled' => $l10n->get('scheduled'),
+    'canceled' => $l10n->get('canceled'),
+    'unsent' => $l10n->get('unsent'),
+    'paid' => $l10n->get('paid'),
+    'overdue' => $l10n->get('overdue'),
+    'open' => $l10n->get('open')
+);
 $entries = array();
 
 $grid_id = 'invoices_report_grid';
@@ -19,31 +27,36 @@ $sortorder = 'asc';
 $cancelations = array();
 
 foreach ($data['invoices'] as $invoice) {
-    $entry = array();
-
-    $vat_sum = ($invoice->sum / 100) * $invoice->vat;
+    $entry = array(
+        'id' => $invoice->id,
+        'index_number' => $invoice->number,
+        'number' => $invoice->description,
+        'date' => '',
+        'year' => '',
+        'month' => '',
+        'index_month' => '',
+        'customer' => '',
+        'index_customer' => '',
+        'status' => $invoice->get_status(),
+        'index_contact' => '',
+        'contact' => '',
+        'sum' => $invoice->sum,
+        'vat' => $invoice->vat,
+        'vat_sum' => ($invoice->sum / 100) * $invoice->vat
+    );
 
     $footer_data['sum'] += $invoice->sum;
-    $footer_data['vat_sum'] += $vat_sum;
+    $footer_data['vat_sum'] += $entry['vat_sum'];
 
-    $number = $invoice->get_label();
-    $link_html = "<a href='{$prefix}invoice/{$invoice->guid}/'>" . $number . "</a>";
+    $link_html = "<a href='{$prefix}invoice/{$invoice->guid}/'>" . $invoice->get_label() . "</a>";
     $next_marker = false;
 
-    if ($number == "") {
-        $number = "n/a";
-    }
-
-    $entry['id'] = $invoice->id;
-
-    $entry['index_number'] = $invoice->number;
-
-    if ($data['invoices_url'] && $invoice->id) {
-        $entry['number'] = "<a target='_blank' href=\"{$data['invoices_url']}invoice/{$invoice->guid}/\">" . $invoice->get_label() . "</a>";
-    } elseif ($invoice->id) {
-        $entry['number'] = $invoice->get_label();
-    } else {
-        $entry['number'] = $invoice->description;
+    if ($invoice->id) {
+        if ($data['invoices_url']) {
+            $entry['number'] = "<a target='_blank' href=\"{$data['invoices_url']}invoice/{$invoice->guid}/\">" . $invoice->get_label() . "</a>";
+        } else {
+            $entry['number'] = $invoice->get_label();
+        }
     }
 
     if ($invoice->{$data['date_field']} > 0) {
@@ -51,11 +64,6 @@ foreach ($data['invoices'] as $invoice) {
         $entry['year'] = strftime('%Y', $invoice->{$data['date_field']});
         $entry['month'] = strftime('%B %Y', $invoice->{$data['date_field']});
         $entry['index_month'] = strftime('%Y%m', $invoice->{$data['date_field']});
-    } else {
-        $entry['date'] = '';
-        $entry['year'] = '';
-        $entry['month'] = '';
-        $entry['index_month'] = '';
     }
     try {
         $customer = org_openpsa_contacts_group_dba::get_cached($invoice->customer);
@@ -66,17 +74,9 @@ foreach ($data['invoices'] as $invoice) {
             $entry['customer'] = $customer->official;
         }
     } catch (midcom_error $e) {
-        $entry['customer'] = '';
-        $entry['index_customer'] = '';
     }
 
-    $entry['index_contact'] = '';
-    $entry['contact'] = '';
-
-    $entry['index_status'] = $invoice->get_status();
-    $entry['status'] = $l10n->get($entry['index_status']);
-
-    if ($entry['index_status'] === 'canceled') {
+    if ($entry['status'] === 'canceled') {
         $cancelations[] = $invoice->cancelationInvoice;
     }
 
@@ -88,20 +88,13 @@ foreach ($data['invoices'] as $invoice) {
     } catch (midcom_error $e) {
     }
 
-    $entry['sum'] = $invoice->sum;
-
-    $entry['index_vat'] = $invoice->vat;
-    $entry['vat'] = $invoice->vat . ' %';
-    $entry['vat_sum'] = $vat_sum;
-
     $entries[] = $entry;
 }
 
 if (count($cancelations) > 0) {
     foreach ($entries as &$entry) {
         if (in_array($entry['id'], $cancelations)) {
-            $entry['index_status'] = 'canceled';
-            $entry['status'] = $l10n->get('canceled');
+            $entry['status'] = 'canceled';
             $entry['number'] .= ' (' . $l10n->get('cancelation invoice') . ')';
         }
     }
@@ -114,14 +107,14 @@ if ($data['date_field'] == 'date') {
 $grid = new org_openpsa_widgets_grid($grid_id, 'local');
 
 $grid->set_column('number', $l10n->get('invoice number'), 'width: 120', 'string')
-    ->set_column('status', $data['l10n']->get('invoice status'), '', 'string')
+    ->set_select_column('status', $data['l10n']->get('invoice status'), '', $status_options)
     ->set_column('date', $l10n->get($data['date_field']), 'width: 80, fixed: true, formatter: "date", align: "right"')
     ->set_column('month', '', 'hidden: true', 'number')
     ->set_column('year', '', 'hidden: true')
     ->set_column('customer', $l10n->get('customer'), 'width: 100', 'string')
     ->set_column('contact', $l10n->get('customer contact'), 'width: 100', 'string')
     ->set_column('sum', $l10n->get('sum excluding vat'), 'width: 90, fixed: true, template: "number", summaryType:"sum"')
-    ->set_column('vat', $l10n->get('vat'), 'width: 40, fixed: true, align: "right"', 'number')
+    ->set_column('vat', $l10n->get('vat'), 'width: 40, fixed: true, align: "right", formatter: "currency", formatoptions: {suffix: " %", decimalPlaces: 0}')
     ->set_column('vat_sum', $l10n->get('vat sum'), 'width: 70, fixed: true, template: "number", summaryType:"sum"');
 
 $grid->set_option('loadonce', true)
