@@ -709,10 +709,9 @@ class midcom_helper_metadata
     /**
      * Set the object lock
      *
-     * @param int $timeout   Length of the lock timeout
      * @return boolean       Indicating success
      */
-    public function lock($timeout = null)
+    public function lock()
     {
         midcom::get()->auth->require_do('midgard:update', $this->__object);
 
