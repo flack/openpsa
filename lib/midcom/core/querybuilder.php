@@ -16,7 +16,7 @@
  * It essentially wraps the calls to {@link midcom_helper__dbfactory::new_query_builder()}.
  *
  * Normally you should never have to create an instance of this type directly,
- * instead use the get_new_qb() method available in the MidCOM DBA API or the
+ * instead use the new_query_builder() method available in the MidCOM DBA API or the
  * midcom_helper__dbfactory::new_query_builder() method which is still available.
  *
  * If you have to do create the instance manually however, do not forget to call the

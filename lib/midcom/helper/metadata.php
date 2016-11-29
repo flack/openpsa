@@ -716,10 +716,6 @@ class midcom_helper_metadata
     {
         midcom::get()->auth->require_do('midgard:update', $this->__object);
 
-        if (!$timeout) {
-            $timeout = midcom::get()->config->get('metadata_lock_timeout');
-        }
-
         if (   is_object($this->__object)
             && $this->__object->lock()) {
             $this->_cache = array();
