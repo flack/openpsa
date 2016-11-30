@@ -195,9 +195,6 @@ class midcom_core_group
     /**
      * Returns the parent group.
      *
-     * You must adhere the reference that is returned, otherwise the internal caching
-     * and runtime state strategy will fail.
-     *
      * @return midcom_core_group The parent group of the current group or null if there is none.
      */
     function get_parent_group()

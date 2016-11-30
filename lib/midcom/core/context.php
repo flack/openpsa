@@ -404,8 +404,8 @@ class midcom_core_context
      * parameter domain has to be used.
      *
      * @param int $context_id The context ID
-     * @param midcom_db_topic $object    The node from which to load the configuration.
-     * @return midcom_helper_configuration    Reference to the newly constructed configuration object.
+     * @param midcom_db_topic $object      The node from which to load the configuration.
+     * @return midcom_helper_configuration The newly constructed configuration object.
      */
     private function _loadconfig($context_id, midcom_db_topic $object)
     {

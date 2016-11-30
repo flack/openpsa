@@ -132,7 +132,7 @@ class midcom_core_resolver
      *
      * If expires is set to -1, no expires header gets sent.
      *
-     * @param MidgardAttachment $attachment    A reference to the attachment to be delivered.
+     * @param MidgardAttachment $attachment    The attachment to be delivered.
      * @param int $expires HTTP-Expires timeout in seconds, set this to 0 for uncacheable pages, or to -1 for no Expire header.
      */
     public function serve_attachment($attachment, $expires = -1)

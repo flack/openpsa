@@ -8,9 +8,9 @@
 
 /**
  * Base class used for writing pure code components, retrieves a few common variables
- * from the components current environment.
+ * from the component's current environment.
  *
- * Note, that the request data, for ease of use, already contains references to the L10n
+ * Note, that the request data, for ease of use, already contains the L10n
  * Databases of the Component and MidCOM itself located in this class. They are stored
  * as 'l10n' and 'l10n_midcom'. Also available as 'config' is the current component
  * configuration.

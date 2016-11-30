@@ -26,7 +26,7 @@
 class midcom_helper_nav
 {
     /**
-     * A reference to the backend instance in use.
+     * The backend instance in use.
      *
      * @var midcom_helper_nav_backend
      */

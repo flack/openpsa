@@ -52,7 +52,7 @@ abstract class midcom_baseclasses_components_handler extends midcom_baseclasses_
     var $_request_data = array();
 
     /**
-     * A reference to the request class that has invoked this handler instance.
+     * The request class that has invoked this handler instance.
      *
      * @var midcom_baseclasses_components_request
      */
@@ -93,8 +93,7 @@ abstract class midcom_baseclasses_components_handler extends midcom_baseclasses_
      * during runtime based on the system defaults and all parameters attached to the
      * topic <i>we're currently operating on.</i>
      *
-     * @param midcom_baseclasses_components_request $master A reference to the request class
-     *     handling the request.
+     * @param midcom_baseclasses_components_request $master The request class
      */
     public function initialize($master)
     {

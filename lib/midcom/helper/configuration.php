@@ -84,7 +84,7 @@ class midcom_helper_configuration
      * domain. It will then use the contents of this domain as global
      * configuration.
      *
-     * @param mixed $param1        Either an associative array or a reference to a Midgard object.
+     * @param mixed $param1        Either an associative array or a Midgard object.
      * @param mixed $param2        Either null or the name of a Parameter domain.
      */
     public function __construct($param1, $param2 = null)

@@ -387,7 +387,7 @@ class midcom_services_i18n
      * @see midcom_services_i18n_l10n
      * @param string $component    The component for which to retrieve a string database.
      * @param string $database    The string table to retrieve from the component's locale directory.
-     * @return midcom_services_i18n_l10n    The cached L10n database; honor the reference for memory consumptions sake.
+     * @return midcom_services_i18n_l10n    The cached L10n database
      */
     public function get_l10n($component = 'midcom', $database = 'default')
     {

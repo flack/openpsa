@@ -55,7 +55,7 @@ class midcom_services_indexer_document
     private $_fields = array();
 
     /**
-     * A reference to the i18n service, used for charset conversion.
+     * The i18n service, used for charset conversion.
      *
      * @var midcom_services_i18n
      */

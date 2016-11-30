@@ -28,9 +28,6 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
         }
         $object = $dm->storage->object;
 
-        // Don't index directly, that would lose a reference due to limitations
-        // of the index() method. Needs fixes there.
-
         $document = $indexer->new_document($dm);
         if (   $config->get('enable_scheduling')
             && midcom::get()->dbfactory->is_a($object, 'org_openpsa_products_product_dba')) {

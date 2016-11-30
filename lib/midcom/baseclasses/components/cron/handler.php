@@ -23,7 +23,7 @@ abstract class midcom_baseclasses_components_cron_handler extends midcom_basecla
 {
     /**
      * Initialize the cron job. Before calling the on_initialize callback, it prepares
-     * the instance with various configuration variables and helper references.
+     * the instance with various configuration variables
      *
      * @param array $config The full cron job configuration data.
      */

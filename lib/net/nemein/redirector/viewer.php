@@ -128,7 +128,7 @@ class net_nemein_redirector_viewer extends midcom_baseclasses_components_request
      * Show redirection page.
      *
      * @param string $handler_id    Handler ID
-     * @param array &$data          Pass-by-reference of request data
+     * @param array &$data          Reference to the request data
      */
     public function _show_redirect($handler_id, array &$data)
     {

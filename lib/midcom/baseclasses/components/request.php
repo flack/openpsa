@@ -47,27 +47,26 @@
  *   handle the request. You have two options here. First you can refer to a method of this
  *   request handler class, in that case you just supply the name of the method. Alternatively,
  *   you can refer to an external class for request processing using an array syntax. The
- *   first array member must either contain the name of an existing class or a reference to
- *   an already instantiated class. This value has
- *   no default and must be set. The actual methods called will have either an _handle_ or _show_
+ *   first array member must either contain the name of an existing class or an already instantiated class.
+ *   This value has no default and must be set. The actual methods called will have either an _handle_ or _show_
  *   prefixed to the exec_handler value, respectively. See below for automatic handler instances,
  *   the preferred way to set things up.
  *
  * Example:
  *
  * <code>
- * $this->_request_switch[] = Array
+ * $this->_request_switch[] = array
  * (
- *     'fixed_args' => Array ('registrations', 'view'),
+ *     'fixed_args' => array ('registrations', 'view'),
  *     'variable_args' => 1,
  *     'no_cache' => false,
  *     'expires' => -1,
  *     'handler' => 'view_registration'
  *     //
  *     // Alternative, use a class with automatic instantiation:
- *     // 'handler' => Array('net_nemein_registrations_regadmin', 'view')
+ *     // 'handler' => array('net_nemein_registrations_regadmin', 'view')
  *     //
- *     // Alternative, use existing class (first parameter must be a reference):
+ *     // Alternative, use existing instance:
  *     // 'handler' => Array($regadmin, 'view')
  * );
  * </code>
@@ -141,7 +140,7 @@
  * The data array can also be accessed by using the $_request_data member of this class,
  * which is the original data storage location for the request data.
  *
- * Note that the request data, for ease of use, already contains references to the L10n
+ * Note that the request data, for ease of use, already contains the L10n
  * Databases of the Component and MidCOM itself located in this class. They are stored
  * as 'l10n' and 'l10n_midcom'. Also available as 'config' is the current component
  * configuration and 'topic' will hold the current content topic.
@@ -159,9 +158,7 @@
  * {
  *     public function _on_initialize()
  *     {
- *         // Add class initialization code here, all members have
- *         // been prepared, and the instance is already stable, so
- *         // you can safely work with references to $this here.
+ *         // Add class initialization code here, all members have been prepared
  *     }
  * }
  * </code>
@@ -340,7 +337,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
     public $_request_switch = array();
 
     /**
-     * This is a reference to the handler which declared to be able to handle the
+     * The handler which has been declared to be able to handle the
      * request. The array will contain the original index of the handler in the
      * 'id' member for backtracking purposes. The variable argument list will be
      * placed into 'args' for performance reasons.

@@ -54,14 +54,14 @@ class midcom_services_auth
     public $admin = false;
 
     /**
-     * This is a reference to the login session management system.
+     * The login session management system.
      *
      * @var midcom_services_auth_sessionmgr
      */
     public $sessionmgr;
 
     /**
-     * This is a reference to the ACL management system.
+     * The ACL management system.
      *
      * @var midcom_services_auth_acl
      */
@@ -102,14 +102,14 @@ class midcom_services_auth
     private $_component_sudo = 0;
 
     /**
-     * A reference to the authentication backend we should use by default.
+     * The authentication backend we should use by default.
      *
      * @var midcom_services_auth_backend
      */
     private $_auth_backend = null;
 
     /**
-     * A reference to the authentication frontend we should use by default.
+     * The authentication frontend we should use by default.
      *
      * @var midcom_services_auth_frontend
      */
@@ -663,12 +663,9 @@ class midcom_services_auth
     /**
      * Resolve any assignee identifier known by the system into an appropriate user/group object.
      *
-     * You must adhere the reference that is returned, otherwise the internal caching
-     * and runtime state strategy will fail.
-     *
      * @param string $id A valid user or group identifier useable as assignee (e.g. the $id member
      *     of any midcom_core_user or midcom_core_group object).
-     * @return object A reference to the corresponding object or false on failure.
+     * @return object|false corresponding object or false on failure.
      */
     public function get_assignee($id)
     {
@@ -698,8 +695,7 @@ class midcom_services_auth
      * If the username is unknown, false is returned.
      *
      * @param string $name The name of the user to look up.
-     * @return midcom_core_user A reference to the user object matching the username,
-     *     or false if the username is unknown.
+     * @return midcom_core_user|false The user object matching the username, or false if the username is unknown.
      */
     public function get_user_by_name($name)
     {
@@ -733,8 +729,7 @@ class midcom_services_auth
      * Note, that this should not happen as midgard group names should be unique according to the specs.
      *
      * @param string $name The name of the group to look up.
-     * @return midcom_core_group A reference to the group object matching the group name,
-     *     or false if the group name is unknown.
+     * @return midcom_core_group|false The group object matching the name, or false if the group name is unknown.
      */
     public function & get_midgard_group_by_name($name)
     {
@@ -753,12 +748,9 @@ class midcom_services_auth
     /**
      * Load a user from the database and returns an object instance.
      *
-     * You must adhere the reference that is returned, otherwise the internal caching
-     * and runtime state strategy will fail.
-     *
      * @param mixed $id A valid identifier for a MidgardPerson: An existing midgard_person class
      *     or subclass thereof, a Person ID or GUID or a midcom_core_user identifier.
-     * @return midcom_core_user A reference to the user object matching the identifier or false on failure.
+     * @return midcom_core_user|false The user object matching the identifier or false on failure.
      */
     public function get_user($id)
     {
@@ -797,11 +789,8 @@ class midcom_services_auth
      * (group:...), any valid identifier for the midcom_core_group
      * constructor or a valid object of that type.
      *
-     * You must adhere the reference that is returned, otherwise the internal caching
-     * and runtime state strategy will fail.
-     *
      * @param mixed $id The identifier of the group as outlined above.
-     * @return midcom_core_group A group object instance matching the identifier, or false on failure.
+     * @return midcom_core_group|false A group object instance matching the identifier, or false on failure.
      */
     public function get_group($id)
     {

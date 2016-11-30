@@ -82,9 +82,6 @@ class net_nemein_wiki_viewer extends midcom_baseclasses_components_request
      */
     public static function index($dm, $indexer, $topic)
     {
-        // Don't index directly, that would lose a reference due to limitations
-        // of the index() method. Needs fixes there.
-
         $nav = new midcom_helper_nav();
         $node = $nav->get_node($topic->id);
 

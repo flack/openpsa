@@ -51,13 +51,10 @@
  * initialize() which should load everything necessary.
  *
  * Stage 3 is the final stage where the loader stays in memory in
- * order to return references (!) to the loaded component's
- * Interface Classes upon request.
+ * order to return the loaded component's Interface instances upon request.
  *
  * In case you need an instance of the component loader to verify or
- * transform component paths, use the function
- * midcom::get()->componentloader, which returns a
- * <i>reference</i> to the loader.
+ * transform component paths, use midcom::get()->componentloader
  *
  * @package midcom.helper
  */
@@ -85,12 +82,10 @@ class midcom_helper__componentloader
     private $_tried_to_load = array();
 
     /**
-     * This is a part of the component cache. It stores references to
-     * the interface classes of the different loaded components, indexed by
-     * their MidCOM Path.
+     * This is a part of the component cache. It stores the interface instances
+     * of the different loaded components, indexed by their MidCOM Path.
      *
-     * @var array
-     * @see midcom_baseclasses_components_interface
+     * @var midcom_baseclasses_components_interface[]
      */
     private $_interface_classes = array();
 
@@ -266,7 +261,7 @@ class midcom_helper__componentloader
     }
 
     /**
-     * Returns a reference to an instance of the specified component's
+     * Returns an instance of the specified component's
      * interface class. The component is given in $path as a MidCOM path.
      * Such an instance will be cached by the framework so that only
      * one instance is always active for each component. Missing

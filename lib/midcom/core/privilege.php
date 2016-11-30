@@ -165,13 +165,12 @@ class midcom_core_privilege
 
     /**
      * If the assignee has an object representation (at this time, only users and groups have), this call
-     * will return a reference to the assignee object held by the authentication service.
+     * will return the assignee object held by the authentication service.
      *
      * Use is_magic_assignee to determine if you have an assignee object.
      *
      * @see midcom_services_auth::get_assignee()
-     * @return mixed A midcom_core_user or midcom_core_group object reference as returned by the auth service,
-     *     returns false on failure.
+     * @return midcom_core_user|midcom_core_group|false object as returned by the auth service, false on failure.
      */
     public function get_assignee()
     {

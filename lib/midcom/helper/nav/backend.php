@@ -119,7 +119,7 @@ class midcom_helper_nav_backend
     private $_loaded_leaves = array();
 
     /**
-     * Reference to the systemwide component loader class.
+     * The systemwide component loader instance
      *
      * @var midcom_helper__componentloader
      */
@@ -135,7 +135,7 @@ class midcom_helper_nav_backend
     private $_lastgoodnode = -1;
 
     /**
-     * A reference to the NAP cache store
+     * The NAP cache store
      *
      * @var midcom_services_cache_module_nap
      */

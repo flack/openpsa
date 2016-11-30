@@ -228,9 +228,6 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
             return;
         }
 
-        // Don't index directly, that would lose a reference due to limitations
-        // of the index() method. Needs fixes there.
-
         $nav = new midcom_helper_nav();
         $node = $nav->get_node($topic->id);
 
@@ -269,8 +266,8 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
     /**
      * Sets the constraints for QB for articles, supports article links etc.
      *
-     * @param midgard_query_builder $qb reference to the QB object
-     * @param array $data reference to the request_data array
+     * @param midgard_query_builder $qb The QB object
+     * @param array $data The request_data array
      */
     public static function article_qb_constraints($qb, array $data, $handler_id)
     {

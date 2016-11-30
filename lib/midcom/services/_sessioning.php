@@ -15,9 +15,6 @@ use Symfony\Component\HttpFoundation\Session\Attribute\NamespacedAttributeBag;
  * This is a singleton class, that is accessible through the MidCOM Service
  * infrastructure. It manages session data of MidCOM driven applications.
  *
- * This sessioning interface will always work with copies, never with references
- * to work around a couple of bugs mentioned in the details below.
- *
  * This class provides a generic interface to store keyed session values in the
  * domain of the corresponding component.
  *

@@ -37,7 +37,7 @@ class midcom_services_metadata
     private $_page_classes = array();
 
     /**
-     * Returns a reference to the node metadata of the specified context. The metadata
+     * Returns the node metadata of the specified context. The metadata
      * will be created if this is the first request.
      *
      * @param int $context_id The context to retrieve the node metadata for, this
@@ -57,7 +57,7 @@ class midcom_services_metadata
     }
 
     /**
-     * Returns a reference to the view metadata of the specified context. The metadata
+     * Returns the view metadata of the specified context. The metadata
      * will be created if this is the first request.
      *
      * @param int $context_id The context to retrieve the view metadata for, this

@@ -16,7 +16,7 @@ use midcom\events\dbaevent;
  *
  * Do not instantiate this class directly. Instead use the get_service
  * method on midcom_application using the service name 'indexer' to obtain
- * a running instance. You <i>must</i> honor the reference of that call.
+ * a running instance.
  *
  * @see midcom_services_indexer_document
  * @see midcom_services_indexer_backend
@@ -125,7 +125,6 @@ class midcom_services_indexer implements EventSubscriberInterface
 
         foreach ($documents as &$value) {
             // We don't have a document. Try auto-cast to a suitable document.
-            // arg to _cast_to_document is passed by-reference.
             if (!is_a($value, 'midcom_services_indexer_document')) {
                 $this->_index_cast_to_document($value);
             }
