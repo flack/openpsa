@@ -1366,14 +1366,14 @@ body .ui-tooltip {
 
 .jqgrow
 {
-    border-bottom-color: #ddd;
+    border-color: #e2e6de;
     height: 20px;
     padding: 1px 4px
 }
 
 .jqgrow.ui-state-hover
 {
-    border-bottom-color: #b9d7e7;
+    border-color: #b9d7e7;
 }
 
 .ui-jqgrid .ui-jqgrid-hdiv
@@ -1384,7 +1384,7 @@ body .ui-tooltip {
 
 .ui-jqgrid .ui-jqgrid-hbox
 {
-    border-top: 1px solid #ccc;
+    border-top: 1px solid #daddd6;
 }
 
 .ui-jqgrid-hbox .ui-jqgrid-htable
@@ -1424,12 +1424,11 @@ body .ui-tooltip {
 .ui-jqgrid .ui-jqgrid-htable th
 {
     height: 15px;
-    border-right-color: rgba(0, 0, 0, .1);
+    border-right-color: rgba(0, 0, 0, .07);
 }
 
 .ui-jqgrid .ui-jqgrid-htable th div
 {
-    height: 15px;
     font-weight: normal;
     position: relative
 }
