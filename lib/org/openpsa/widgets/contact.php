@@ -271,12 +271,7 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
 
         if (!empty($this->contact_details['skype'])) {
             echo "<li class=\"tel skype\">";
-            echo "<a href=\"skype:{$this->contact_details['skype']}?call\"";
-            if (empty($_SERVER['HTTPS'])) {
-                // TODO: either complain enough to Skype to have them allow SSL to this server or have some component (o.o.contacts) proxy the image
-                echo " style=\"background-image: url('http://mystatus.skype.com/smallicon/{$this->contact_details['skype']}');\"";
-            }
-            echo ">{$this->contact_details['skype']}</a></li>\n";
+            echo "<a href=\"skype:{$this->contact_details['skype']}?call\">{$this->contact_details['skype']}</a></li>\n";
         }
 
         // Instant messaging contact information
