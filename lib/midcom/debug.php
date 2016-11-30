@@ -200,7 +200,7 @@ class midcom_debug
 
     private function check_level($loglevel)
     {
-        return (!$this->_enabled && $this->_loglevel >= $loglevel);
+        return ($this->_enabled && $this->_loglevel >= $loglevel);
     }
 
     private function _get_caller()
