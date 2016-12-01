@@ -333,23 +333,9 @@ class midcom_core_collector extends midcom_core_query
     public function get_objects()
     {
         $qb = new midcom_core_querybuilder($this->_real_class);
-
-        if (!empty($this->_orders)) {
-            //Reset offset/limit, otherwise sorting won't work properly
-            $limit = $this->_limit;
-            $offset = $this->_offset;
-            $this->_offset = 0;
-            $this->_limit = 0;
-            $qb->set_limit($limit);
-            $qb->set_offset($offset);
-        }
         $this->execute();
         $guids = $this->list_keys();
 
-        if (!empty($this->_orders)) {
-            $this->_offset = $offset;
-            $this->_limit = $limit;
-        }
         if (sizeof($guids) == 0) {
             return array();
         }
