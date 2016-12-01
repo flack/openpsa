@@ -468,7 +468,10 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
             $tmpclass = $link->fromClass;
             try {
                 $tmpobject = new $tmpclass($link->fromGuid);
-                $return[] = midcom::get()->dbfactory->convert_midgard_to_midcom($tmpobject);
+                if (!midcom::get()->dbclassloader->is_midcom_db_object($tmpobject)) {
+                    $tmpobject = midcom::get()->dbfactory->convert_midgard_to_midcom($tmpobject);
+                }
+                $return[] = $tmpobject;
             } catch (midcom_error $e) {
                 $e->log();
             }
