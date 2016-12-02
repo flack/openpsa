@@ -19,9 +19,9 @@
             'type' => 'text',
             'widget'  => 'textarea',
         ),
-        'followUp' => Array
+        'followup' => Array
         (
-            'title' => midcom::get()->i18n->get_string('followUp', 'org.openpsa.relatedto'),
+            'title' => 'followup',
             'storage' => 'followUp',
             'type' => 'date',
             'type_config' => array

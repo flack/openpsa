@@ -54,7 +54,7 @@ Hiermit verbunden
 Verbundene Daten anzeigen
 ---STRINGEND
 
----STRING followUp
+---STRING followup
 Wiedervorlagedatum
 ---STRINGEND
 

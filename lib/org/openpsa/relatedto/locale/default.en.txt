@@ -46,7 +46,7 @@ Outgoing Links
 View related information
 ---STRINGEND
 
----STRING followUp
+---STRING followup
 follow-up
 ---STRINGEND
 

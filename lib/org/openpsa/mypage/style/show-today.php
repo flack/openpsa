@@ -46,7 +46,7 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
                     echo "'index_name',";
         echo "'" . midcom::get()->i18n->get_string('entry title', 'org.openpsa.relatedto') ."',";
         echo "'" . midcom::get()->i18n->get_string('entry text', 'org.openpsa.relatedto') . "',";
-        echo "'" . midcom::get()->i18n->get_string('followUp', 'org.openpsa.relatedto') . "',";
+        echo "'" . midcom::get()->i18n->get_string('followup', 'org.openpsa.relatedto') . "',";
         echo "'index_object',";
         echo "'" . midcom::get()->i18n->get_string('linked object', 'org.openpsa.relatedto') . "'"; ?>
                 ],
