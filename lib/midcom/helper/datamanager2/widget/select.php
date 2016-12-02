@@ -116,7 +116,7 @@ class midcom_helper_datamanager2_widget_select extends midcom_helper_datamanager
             $this->_select_element = $select_element;
 
             $separator = $this->_translate($this->othertext);
-            $this->_form->addGroup($elements, $this->name, $this->_field['title'], " {$separator}: ");
+            $this->_form->addGroup($elements, $this->name, $this->_translate($this->_field['title']), " {$separator}: ");
         } else {
             $this->_select_element = $this->_form->addElement($select_element);
         }
