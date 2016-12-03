@@ -102,7 +102,7 @@ class org_openpsa_widgets_ui extends midcom_baseclasses_components_purecode
         if (null !== $guid) {
             //pass the urls & titles for the tabs
             $tabdata[] = array(
-               'url' => '__mfa/org.openpsa.relatedto/journalentry/' . $guid . '/html/',
+               'url' => '__mfa/org.openpsa.relatedto/journalentry/' . $guid . '/',
                'title' => midcom::get()->i18n->get_string('journal entries', 'org.openpsa.relatedto'),
             );
             $tabdata[] = array(

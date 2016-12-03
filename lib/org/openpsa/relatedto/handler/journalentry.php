@@ -25,11 +25,6 @@ implements midcom_helper_datamanager2_interfaces_create
     private $qb_journal_entries = null;
 
     /**
-     * Way the entries should be outputed
-     */
-    private $_output_mode = "html";
-
-    /**
      * Contains the object the journal_entry is bind to
      */
     private $_current_object = null;
@@ -47,7 +42,6 @@ implements midcom_helper_datamanager2_interfaces_create
     public function _handler_entry($handler_id, array $args, array &$data)
     {
         $this->_current_object = midcom::get()->dbfactory->get_object_by_guid($args[0]);
-        $this->_output_mode = $args[1];
 
         $this->_relocate_url = midcom::get()->permalinks->create_permalink($this->_current_object->guid);
         $data['url_prefix'] = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . "__mfa/org.openpsa.relatedto/journalentry/";
@@ -66,24 +60,19 @@ implements midcom_helper_datamanager2_interfaces_create
         $data['show_closed'] = true;
         $data['show_object'] = false;
 
-        if ($this->_output_mode == 'html') {
-            $this->_prepare_output();
-            org_openpsa_widgets_grid::add_head_elements();
-            //pass url where to get the data for js-plugin
-            $data['data_url'] = $data['url_prefix'] . $this->_current_object->guid . "/xml/";
+        $this->_prepare_output();
+        org_openpsa_widgets_grid::add_head_elements();
 
-            //prepare breadcrumb
-            if ($object_url = midcom::get()->permalinks->create_permalink($this->_current_object->guid)) {
-                $ref = midcom_helper_reflector::get($this->_current_object);
-                $this->add_breadcrumb($object_url, $ref->get_object_label($this->_current_object));
-            }
-            $this->add_breadcrumb(
-                midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . "__mfa/org.openpsa.relatedto/render/" . $this->_current_object->guid . "/both/",
-                $this->_l10n->get('view related information')
-            );
-            $this->add_breadcrumb("", $this->_l10n->get('journal entries'));
+        //prepare breadcrumb
+        if ($object_url = midcom::get()->permalinks->create_permalink($this->_current_object->guid)) {
+            $ref = midcom_helper_reflector::get($this->_current_object);
+            $this->add_breadcrumb($object_url, $ref->get_object_label($this->_current_object));
         }
-        $this->_prepare_header();
+        $this->add_breadcrumb(
+            midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . "__mfa/org.openpsa.relatedto/render/" . $this->_current_object->guid . "/both/",
+            $this->_l10n->get('view related information')
+        );
+        $this->add_breadcrumb("", $this->_l10n->get('journal entries'));
     }
 
     /**
@@ -109,7 +98,7 @@ implements midcom_helper_datamanager2_interfaces_create
 
     public function _show_entry($handler_id, &$data)
     {
-        midcom_show_style('show_entries_' . $this->_output_mode);
+        midcom_show_style('show_entries_html');
     }
 
     public function _handler_create($handler_id, array $args, array &$data)
@@ -184,71 +173,55 @@ implements midcom_helper_datamanager2_interfaces_create
         }
 
         $object = midcom::get()->dbfactory->get_object_by_guid($journal_entry->linkGuid);
-        return new midcom_response_relocate("__mfa/org.openpsa.relatedto/journalentry/" . $object->guid . "/html/");
+        return new midcom_response_relocate("__mfa/org.openpsa.relatedto/journalentry/" . $object->guid . '/');
     }
 
     public function _handler_list($handler_id, $args, &$data)
     {
-        $this->_output_mode = $args[0];
+        $this->qb_journal_entries = org_openpsa_relatedto_journal_entry_dba::new_query_builder();
+        $this->qb_journal_entries->add_order('followUp');
+        $this->_prepare_journal_query();
 
-        if ($this->_output_mode == 'xml') {
-            $this->qb_journal_entries = org_openpsa_relatedto_journal_entry_dba::new_query_builder();
-            $this->qb_journal_entries->add_order('followUp');
-            $this->_prepare_journal_query();
+        //show the corresponding object of the entry
+        $data['show_object'] = true;
+        $data['show_closed'] = array_key_exists('show_closed', $_POST);
+        $data['page'] = 1;
 
-            //show the corresponding object of the entry
-            $data['show_object'] = true;
-            $data['show_closed'] = array_key_exists('show_closed', $_POST);
-            $data['page'] = 1;
+        $data['entries'] = $this->qb_journal_entries->execute();
 
-            $data['entries'] = $this->qb_journal_entries->execute();
+        //get the corresponding objects
+        if (!empty($data['entries'])) {
+            $data['linked_objects'] = array();
+            $data['linked_raw_objects'] = array();
 
-            //get the corresponding objects
-            if (!empty($data['entries'])) {
-                $data['linked_objects'] = array();
-                $data['linked_raw_objects'] = array();
-
-                foreach ($data['entries'] as $i => $entry) {
-                    if (array_key_exists($entry->linkGuid, $data['linked_objects'])) {
-                        continue;
-                    }
-                    //create reflector with linked object to get the right label
-                    try {
-                        $linked_object = midcom::get()->dbfactory->get_object_by_guid($entry->linkGuid);
-                    } catch (midcom_error $e) {
-                        unset($data['entries'][$i]);
-                        $e->log();
-                        continue;
-                    }
-
-                    $reflector = midcom_helper_reflector::get($linked_object);
-                    $link_html = "<a href='" . midcom::get()->permalinks->create_permalink($linked_object->guid) . "'>" . $reflector->get_object_label($linked_object) ."</a>";
-                    $data['linked_objects'][$entry->linkGuid] = $link_html;
-                    $data['linked_raw_objects'][$entry->linkGuid] = $reflector->get_object_label($linked_object);
+            foreach ($data['entries'] as $i => $entry) {
+                if (array_key_exists($entry->linkGuid, $data['linked_objects'])) {
+                    continue;
                 }
+                //create reflector with linked object to get the right label
+                try {
+                    $linked_object = midcom::get()->dbfactory->get_object_by_guid($entry->linkGuid);
+                } catch (midcom_error $e) {
+                    unset($data['entries'][$i]);
+                    $e->log();
+                    continue;
+                }
+
+                $reflector = midcom_helper_reflector::get($linked_object);
+                $link_html = "<a href='" . midcom::get()->permalinks->create_permalink($linked_object->guid) . "'>" . $reflector->get_object_label($linked_object) ."</a>";
+                $data['linked_objects'][$entry->linkGuid] = $link_html;
+                $data['linked_raw_objects'][$entry->linkGuid] = $reflector->get_object_label($linked_object);
             }
-            //url_prefix to build the links to the entries
-            $data['url_prefix'] = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . "__mfa/org.openpsa.relatedto/journalentry/";
-        } else {
-            //url where the xml-data can be loaded
-            $data['data_url'] = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . "__mfa/org.openpsa.relatedto/journalentry/list/xml/" ;
-            //enable jqgrid for html-output
-            org_openpsa_widgets_grid::add_head_elements();
         }
-        $this->_prepare_header();
+        //url_prefix to build the links to the entries
+        $data['url_prefix'] = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . "__mfa/org.openpsa.relatedto/journalentry/";
+        midcom::get()->header("Content-type: text/xml; charset=UTF-8");
+        midcom::get()->skip_page_style = true;
     }
 
     public function _show_list($handler_id, array &$data)
     {
-        midcom_show_style('show_entries_' . $this->_output_mode);
-    }
-
-    private function _prepare_header()
-    {
-        if ($this->_output_mode == 'xml') {
-            midcom::get()->header("Content-type: text/xml; charset=UTF-8");
-            midcom::get()->skip_page_style = true;
-        }
+        midcom_show_style('show_entries_xml');
     }
 
     private function _prepare_journal_query()

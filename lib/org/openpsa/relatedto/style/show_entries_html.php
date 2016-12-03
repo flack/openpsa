@@ -7,8 +7,7 @@
     <?php
     //add static data to jqgrid if wanted
     $start = true;
-    if (    !array_key_exists('dynamic_load', $data)
-         && array_key_exists('entries', $data)) {
+    if (array_key_exists('entries', $data)) {
         $rows = array();
         $workflow = new midcom\workflow\datamanager2;
         foreach ($data['entries'] as $entry) {
@@ -49,19 +48,8 @@
 
     //jqgrid call
     jQuery("#journal_entry_grid").jqGrid({
-        <?php
-        if (!array_key_exists('dynamic_load', $data)) {
-            ?>
-            datatype: "local",
-            data: entries,
-        <?php
-        } else {
-            ?>
-            url: '<?php echo $data['data_url'] ; ?>',
-            datatype: "xml",
-            mtype: "POST",
-        <?php
-        } ?>
+        datatype: "local",
+        data: entries,
         colNames: ["id",
                   <?php
                   //index is needed for sorting

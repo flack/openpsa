@@ -37,12 +37,11 @@
     'fixed_args' => array('ajax'),
     'variable_args' => 1,
 ),
-// Match journalentry/list/<mode>
+// Match journalentry/list/
 'journal_entry_list' => array
 (
     'handler' => array('org_openpsa_relatedto_handler_journalentry', 'list'),
-    'fixed_args' => array('journalentry', 'list'),
-    'variable_args' => 1,
+    'fixed_args' => array('journalentry', 'list')
 ),
 // Match journalentry/create/<guid>
 'journal_entry_create' => array
@@ -65,12 +64,12 @@
     'fixed_args' => array('journalentry', 'delete'),
     'variable_args' => 1,
 ),
-// Match journalentry/<guid>/<mode>
+// Match journalentry/<guid>/
 'journal_entry' => array
 (
     'handler' => array('org_openpsa_relatedto_handler_journalentry', 'entry'),
     'fixed_args' => array('journalentry'),
-    'variable_args' => 2,
+    'variable_args' => 1,
 ),
 
 // Match rest/journalentry/

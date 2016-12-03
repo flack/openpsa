@@ -27,7 +27,7 @@ class org_openpsa_relatedto_handler_journalentryTest extends openpsa_testcase
     public function testHandler_list()
     {
         midcom::get()->auth->request_sudo('org.openpsa.relatedto');
-        $data = $this->run_handler('org.openpsa.contacts', array('__mfa', 'org.openpsa.relatedto', 'journalentry', 'list', self::$_object->guid));
+        $data = $this->run_handler('org.openpsa.contacts', array('__mfa', 'org.openpsa.relatedto', 'journalentry', 'list'));
         $this->assertEquals('____mfa-org.openpsa.relatedto-journal_entry_list', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();
@@ -60,7 +60,7 @@ class org_openpsa_relatedto_handler_journalentryTest extends openpsa_testcase
         midcom::get()->auth->request_sudo('org.openpsa.relatedto');
 
         $url = $this->run_relocate_handler('org.openpsa.contacts', array('__mfa', 'org.openpsa.relatedto', 'journalentry', 'delete', $entry->guid));
-        $this->assertEquals('__mfa/org.openpsa.relatedto/journalentry/' . self::$_object->guid . '/html/', $url);
+        $this->assertEquals('__mfa/org.openpsa.relatedto/journalentry/' . self::$_object->guid . '/', $url);
 
         midcom::get()->auth->drop_sudo();
     }
@@ -69,7 +69,7 @@ class org_openpsa_relatedto_handler_journalentryTest extends openpsa_testcase
     {
         midcom::get()->auth->request_sudo('org.openpsa.relatedto');
 
-        $data = $this->run_handler('org.openpsa.contacts', array('__mfa', 'org.openpsa.relatedto', 'journalentry', self::$_object->guid, self::$_entry->guid));
+        $data = $this->run_handler('org.openpsa.contacts', array('__mfa', 'org.openpsa.relatedto', 'journalentry', self::$_object->guid));
         $this->assertEquals('____mfa-org.openpsa.relatedto-journal_entry', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();
