@@ -17,7 +17,7 @@ class midcom_services_rcs_mainTest extends openpsa_testcase
     {
         $conf = new midcom_config;
         $conf['midcom_services_rcs_root'] = '/tmp';
-        $conf['midcom_services_rcs_bin_dir'] = '/usr/bin';
+        $conf['midcom_services_rcs_bin_dir'] = midcom::get()->config->get('midcom_services_rcs_bin_dir');
         $conf['midcom_services_rcs_enable'] = true;
 
         $rcs = new midcom_services_rcs($conf);
@@ -34,7 +34,7 @@ class midcom_services_rcs_mainTest extends openpsa_testcase
     {
         $conf = new midcom_config;
         $conf['midcom_services_rcs_root'] = '/tmp';
-        $conf['midcom_services_rcs_bin_dir'] = '/usr/bin';
+        $conf['midcom_services_rcs_bin_dir'] = midcom::get()->config->get('midcom_services_rcs_bin_dir');
         $conf['midcom_services_rcs_enable'] = true;
         $topic = $this->create_object('midcom_db_topic');
 

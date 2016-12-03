@@ -21,9 +21,12 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
      */
     private $_history;
 
+    /**
+     * @var midcom_services_rcs_config
+     */
     private $_config;
 
-    public function __construct($object, $config)
+    public function __construct($object, midcom_services_rcs_config $config)
     {
         $this->_config = $config;
         $this->_guid = $object->guid;
@@ -99,14 +102,12 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
             return $this->rcs_create($object, $message);
         }
 
-        $command = 'co -q -f -l ' . escapeshellarg($filename);
-        $this->exec($command);
+        $this->exec('co -q -f -l ' . escapeshellarg($filename));
 
         $data = $this->rcs_object2data($object);
 
         $this->rcs_writefile($object->guid, $data);
-        $command = 'ci -q -m' . escapeshellarg($message) . " {$filename}";
-        $status = $this->exec($command);
+        $status = $this->exec('ci -q -m' . escapeshellarg($message) . " {$filename}");
 
         chmod($rcsfilename, 0770);
 
@@ -131,16 +132,14 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
         // this seems to cause problems:
         //settype ($revision, "float");
 
-        $command = 'co -q -f -r' . escapeshellarg(trim($revision)) .  " {$filepath} 2>/dev/null";
-        $this->exec($command);
+        $this->exec('co -q -f -r' . escapeshellarg(trim($revision)) .  " {$filepath} 2>/dev/null");
 
         $data = $this->rcs_readfile($this->_guid);
 
         $mapper = new midcom_helper_exporter_xml();
         $revision = $mapper->data2array($data);
 
-        $command = "rm -f {$filepath}";
-        $this->exec($command);
+        $this->exec("rm -f {$filepath}", false);
 
         return $revision;
     }
@@ -329,7 +328,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
             debug_add('file ' . $filename . ' is not readable, returning empty result', MIDCOM_LOG_INFO);
             return '';
         }
-        $fh = popen($command . ' "' . $filename . '" 2>&1', "r");
+        $fh = popen($this->_config->get_bin_prefix() . $command . ' "' . $filename . '" 2>&1', "r");
         $ret = "";
         while ($reta = fgets($fh, 1024)) {
             $ret .= $reta;
@@ -404,26 +403,28 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
         }
         $this->rcs_writefile($object->guid, $data);
         $filepath = $this->_generate_rcs_filename($object->guid);
+        $description = escapeshellarg($description);
 
-        $command = 'ci -q -i -t-' . escapeshellarg($description) . ' -m' . escapeshellarg($description) . " {$filepath}";
-
-        $status = $this->exec($command);
+        $status = $this->exec('ci -q -i -t-' . $description . ' -m' . $description . " {$filepath}");
 
         $filename = $filepath . ",v";
-
         if (file_exists($filename)) {
             chmod($filename, 0770);
         }
         return $status;
     }
 
-    private function exec($command)
+    private function exec($command, $use_rcs_bindir = true)
     {
         $status = null;
         $output = null;
 
         // Always append stderr redirect
         $command .= ' 2>&1';
+
+        if ($use_rcs_bindir) {
+            $command = $this->_config->get_bin_prefix() . $command;
+        }
 
         debug_add("Executing '{$command}'");
 

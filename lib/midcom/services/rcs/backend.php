@@ -11,7 +11,7 @@
  */
 interface midcom_services_rcs_backend
 {
-    public function __construct($object, $config);
+    public function __construct($object, midcom_services_rcs_config $config);
 
     /**
      * Save a revision of an object, or create a revision if none exists
