@@ -60,7 +60,7 @@ class org_openpsa_relatedto_handler_journalentryTest extends openpsa_testcase
         midcom::get()->auth->request_sudo('org.openpsa.relatedto');
 
         $url = $this->run_relocate_handler('org.openpsa.contacts', array('__mfa', 'org.openpsa.relatedto', 'journalentry', 'delete', $entry->guid));
-        $this->assertEquals('__mfa/org.openpsa.relatedto/journalentry/' . self::$_object->guid . '/', $url);
+        $this->assertEquals('', $url);
 
         midcom::get()->auth->drop_sudo();
     }

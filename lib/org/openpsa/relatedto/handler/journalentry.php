@@ -50,7 +50,6 @@ implements midcom_helper_datamanager2_interfaces_create
         $this->qb_journal_entries = org_openpsa_relatedto_journal_entry_dba::new_query_builder();
         $this->qb_journal_entries->add_constraint('linkGuid', '=', $args[0]);
         $this->qb_journal_entries->add_order('followUp', 'DESC');
-        $this->_prepare_journal_query();
 
         $data['entries'] = $this->qb_journal_entries->execute();
         $data['object'] = $this->_current_object;
@@ -80,17 +79,18 @@ implements midcom_helper_datamanager2_interfaces_create
      */
     private function _prepare_output()
     {
-        $buttons = array();
-        $buttons[] = array(
-            MIDCOM_TOOLBAR_URL => $this->_relocate_url,
-            MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('back'),
-            MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_left.png',
-        );
         $workflow = $this->get_workflow('datamanager2');
-        $buttons[] = $workflow->get_button($this->_request_data['url_prefix'] . "create/" . $this->_current_object->guid . "/", array(
-            MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('add journal entry'),
-            MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-text.png'
-        ));
+        $buttons = array(
+            array(
+                MIDCOM_TOOLBAR_URL => $this->_relocate_url,
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('back'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_left.png',
+            ),
+            $workflow->get_button($this->_request_data['url_prefix'] . "create/" . $this->_current_object->guid . "/", array(
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('add journal entry'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-text.png'
+            ))
+        );
         $this->_view_toolbar->add_items($buttons);
 
         org_openpsa_widgets_contact::add_head_elements();
@@ -126,19 +126,6 @@ implements midcom_helper_datamanager2_interfaces_create
         return $reminder;
     }
 
-    public function _handler_remove($handler_id, array $args, array &$data)
-    {
-        $this->_current_object = midcom::get()->dbfactory->get_object_by_guid($args[0]);
-        $reminder = new org_openpsa_relatedto_journal_entry_dba($args[1]);
-
-        $reminder->delete();
-
-        $add_url = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . "__mfa/org.openpsa.relatedto/reminder/";
-        $add_url = $add_url . $this->_current_object->guid . "/";
-
-        return new midcom_response_relocate($add_url);
-    }
-
     public function load_schemadb()
     {
         $schemadb_name = midcom_baseclasses_components_configuration::get('org.openpsa.relatedto', 'config')->get('schemadb_journalentry');
@@ -167,13 +154,8 @@ implements midcom_helper_datamanager2_interfaces_create
     public function _handler_delete($handler_id, array $args, array &$data)
     {
         $journal_entry = new org_openpsa_relatedto_journal_entry_dba($args[0]);
-
-        if (!$journal_entry->delete()) {
-            throw new midcom_error("Failed to delete journal_entry: " . $args[0] . " Last Error was :" . midcom_connection::get_error_string());
-        }
-
-        $object = midcom::get()->dbfactory->get_object_by_guid($journal_entry->linkGuid);
-        return new midcom_response_relocate("__mfa/org.openpsa.relatedto/journalentry/" . $object->guid . '/');
+        $workflow = $this->get_workflow('delete', array('object' => $journal_entry));
+        return $workflow->run();
     }
 
     public function _handler_list($handler_id, $args, &$data)
