@@ -23,6 +23,8 @@ class org_openpsa_relatedto_handler_journal_list extends midcom_baseclasses_comp
      */
     private $object;
 
+    private $object_url;
+
     public function _on_initialize()
     {
         midcom::get()->style->prepend_component_styledir('org.openpsa.relatedto');
@@ -36,24 +38,21 @@ class org_openpsa_relatedto_handler_journal_list extends midcom_baseclasses_comp
     public function _handler_object($handler_id, array $args, array &$data)
     {
         $this->object = midcom::get()->dbfactory->get_object_by_guid($args[0]);
-
-        $this->_relocate_url = midcom::get()->permalinks->create_permalink($this->object->guid);
+        $this->object_url = midcom::get()->permalinks->create_permalink($this->object->guid);
         $data['url_prefix'] = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . "__mfa/org.openpsa.relatedto/journalentry/";
 
-         //add needed constraints etc. to the query-builder
         $this->qb = org_openpsa_relatedto_journal_entry_dba::new_query_builder();
         $this->qb->add_constraint('linkGuid', '=', $args[0]);
         $this->qb->add_order('followUp', 'DESC');
-
         $data['entries'] = $this->qb->execute();
 
         $this->_prepare_output();
         org_openpsa_widgets_grid::add_head_elements();
 
         //prepare breadcrumb
-        if ($object_url = midcom::get()->permalinks->create_permalink($this->object->guid)) {
+        if ($this->object_url) {
             $ref = midcom_helper_reflector::get($this->object);
-            $this->add_breadcrumb($object_url, $ref->get_object_label($this->object));
+            $this->add_breadcrumb($this->object_url, $ref->get_object_label($this->object));
         }
         $this->add_breadcrumb(
             midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . "__mfa/org.openpsa.relatedto/render/" . $this->object->guid . "/both/",
@@ -84,12 +83,67 @@ class org_openpsa_relatedto_handler_journal_list extends midcom_baseclasses_comp
         org_openpsa_widgets_contact::add_head_elements();
     }
 
-    public function _show_object($handler_id, &$data)
+    /**
+     * @param mixed $handler_id The ID of the handler.
+     * @param array &$data The local request data.
+     */
+    public function _show_object($handler_id, array &$data)
     {
         midcom_show_style('show_entries_html');
     }
 
-    public function _handler_xml($handler_id, $args, &$data)
+    /**
+     * @param mixed $handler_id The ID of the handler.
+     * @param array $args The argument list.
+     * @param array &$data The local request data.
+     */
+    public function _handler_list($handler_id, array $args, array &$data)
+    {
+        //set the start-constraints for journal-entries
+        $time_span = 7 * 24 * 60 * 60 ; //7 days
+
+        $data['journal_constraints'] = array(
+            //just show entries of current_user
+            array(
+                'property' => 'metadata.creator',
+                'operator' => '=',
+                'value' => midcom::get()->auth->user->guid,
+            ),
+            //only show entries with followUp set and within the next 7 days
+            array(
+                'property' => 'followUp',
+                'operator' => '<',
+                'value' => $args[0] + $time_span,
+            ),
+            array(
+                'property' => 'followUp',
+                'operator' => '>',
+                'value' => 0,
+            ),
+            array(
+                'property' => 'closed',
+                'operator' => '=',
+                'value' => false,
+            )
+        );
+        $data['url_prefix'] = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . "__mfa/org.openpsa.relatedto/journalentry/";
+    }
+
+    /**
+     * @param mixed $handler_id The ID of the handler.
+     * @param array &$data The local request data.
+     */
+    public function _show_list($handler_id, array &$data)
+    {
+        midcom_show_style('show_entries_list');
+    }
+
+    /**
+     * @param mixed $handler_id The ID of the handler.
+     * @param array $args The argument list.
+     * @param array &$data The local request data.
+     */
+    public function _handler_xml($handler_id, array $args, array &$data)
     {
         $this->qb = org_openpsa_relatedto_journal_entry_dba::new_query_builder();
         $this->qb->add_order('followUp');
@@ -132,6 +186,10 @@ class org_openpsa_relatedto_handler_journal_list extends midcom_baseclasses_comp
         midcom::get()->skip_page_style = true;
     }
 
+    /**
+     * @param mixed $handler_id The ID of the handler.
+     * @param array &$data The local request data.
+     */
     public function _show_xml($handler_id, array &$data)
     {
         midcom_show_style('show_entries_xml');

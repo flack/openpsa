@@ -68,34 +68,6 @@ class org_openpsa_mypage_handler_today extends midcom_baseclasses_components_han
         org_openpsa_widgets_grid::add_head_elements();
         midcom\workflow\datamanager2::add_head_elements();
         org_openpsa_widgets_calendar::add_head_elements();
-
-        //set the start-constraints for journal-entries
-        $time_span = 7 * 24 * 60 * 60 ; //7 days
-
-        $this->_request_data['journal_constraints'] = array(
-            //just show entries of current_user
-            array(
-                'property' => 'metadata.creator',
-                'operator' => '=',
-                'value' => midcom::get()->auth->user->guid,
-            ),
-            //only show entries with followUp set and within the next 7 days
-            array(
-                'property' => 'followUp',
-                'operator' => '<',
-                'value' => $this->_request_data['day_start'] + $time_span,
-            ),
-            array(
-                'property' => 'followUp',
-                'operator' => '>',
-                'value' => 0,
-            ),
-            array(
-                'property' => 'closed',
-                'operator' => '=',
-                'value' => false,
-            )
-        );
     }
 
     /**
@@ -110,7 +82,7 @@ class org_openpsa_mypage_handler_today extends midcom_baseclasses_components_han
         $data['projects_relative_url'] = $siteconfig->get_node_relative_url('org.openpsa.projects');
         $data['expenses_url'] = $siteconfig->get_node_full_url('org.openpsa.expenses');
         $data['wiki_url'] = $siteconfig->get_node_relative_url('net.nemein.wiki');
-        $data['journal_url'] = midcom_connection::get_url('self') . '__mfa/org.openpsa.relatedto/journalentry/list/';
+        $data['journal_url'] = midcom_connection::get_url('self') . '__mfa/org.openpsa.relatedto/journalentry/list/' . $data['day_start'] . '/';
 
         midcom_show_style('show-today');
     }

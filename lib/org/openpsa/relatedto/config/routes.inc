@@ -37,11 +37,18 @@
     'fixed_args' => array('ajax'),
     'variable_args' => 1,
 ),
-// Match journalentry/list/
+// Match journalentry/list/<time>
 'journal_entry_list' => array
 (
+    'handler' => array('org_openpsa_relatedto_handler_journal_list', 'list'),
+    'fixed_args' => array('journalentry', 'list'),
+    'variable_args' => 1
+),
+// Match journalentry/xml/
+'journal_entry_xml' => array
+(
     'handler' => array('org_openpsa_relatedto_handler_journal_list', 'xml'),
-    'fixed_args' => array('journalentry', 'list')
+    'fixed_args' => array('journalentry', 'xml')
 ),
 // Match journalentry/create/<guid>
 'journal_entry_create' => array
