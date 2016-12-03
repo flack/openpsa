@@ -83,7 +83,7 @@ class midcom_services_rcs_config
         if (!isset($this->config['midcom_services_rcs_bin_dir'])) {
             return null;
         }
-        return $this->config['midcom_services_rcs_bin_dir'];
+        return $this->config['midcom_services_rcs_bin_dir'] . '/';
     }
 
     /**
