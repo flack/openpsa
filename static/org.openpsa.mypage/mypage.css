@@ -52,3 +52,7 @@ div.org_openpsa_mypage_workingon .controls
     height: 9.8em;
     padding-top: 2em
 }
+.org_openpsa_mypage.main .tasks
+{
+    padding-bottom: 2em;
+}

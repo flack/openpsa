@@ -34,7 +34,6 @@ echo "'" . midcom::get()->i18n->get_string('linked object', 'org.openpsa.related
      ],
     rownumbers: false,
     loadonce: true,
-    caption: "<?php echo midcom::get()->i18n->get_string('journal entries', 'org.openpsa.relatedto'); ?>",
     sortname: 'remind_date'
  });
 </script>
