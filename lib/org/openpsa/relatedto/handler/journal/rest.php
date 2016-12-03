@@ -11,7 +11,7 @@
  *
  * @package org.openpsa.relatedto
  */
-class org_openpsa_relatedto_handler_rest_journalentry extends midcom_baseclasses_components_handler_rest
+class org_openpsa_relatedto_handler_journal_rest extends midcom_baseclasses_components_handler_rest
 {
     public function get_object_classname()
     {
