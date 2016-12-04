@@ -173,3 +173,8 @@ div.net_nemein_wiki_wikipage span.wiki_missing_nouser
 {
     border-bottom: dashed 1px #c0c0c0;
 }
+
+table.net_nemein_wiki_latest th
+{
+    text-align: left;
+}

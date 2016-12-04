@@ -10,6 +10,11 @@ $formatter = $data['l10n']->get_formatter();
 ?>
 <tr>
     <td>
+        <?php
+        echo "<abbr class=\"dtposted\" title=\"" . gmdate('Y-m-d\TH:i:s\Z', $history['date']) . "\">" . $formatter->time($history['date']) . "</abbr>\n";
+        ?>
+    </td>
+    <td>
         <a rel="note" class="subject url" href="&(url);">&(page.title);</a>
     </td>
     <td>
@@ -26,17 +31,7 @@ $formatter = $data['l10n']->get_formatter();
         }
         ?>
     </td>
-    <td>
-        <?php
-        echo "<abbr class=\"dtposted\" title=\"" . gmdate('Y-m-d\TH:i:s\Z', $history['date']) . "\">" . $formatter->datetime($history['date']) . "</abbr>\n";
-        ?>
-    </td>
     <td class="message">
-        <?php
-        if (strlen($history['message']) > 42) {
-            echo substr($history['message'], 0, 40) . '...';
-        } else {
-            echo $history['message'];
-        } ?>
+        &(history['message']);
     </td>
 </tr>
