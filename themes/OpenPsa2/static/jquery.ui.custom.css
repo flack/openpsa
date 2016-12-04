@@ -1392,20 +1392,9 @@ body .ui-tooltip {
     font-size: .9em
 }
 
-.ui-jqgrid tr.jqgroup td
+.ui-jqgrid-jquery-ui.ui-jqgrid .ui-jqgrid-bdiv tr.jqfoot > td
 {
-    border-top: 1px solid #daddd6;
-}
-
-.ui-jqgrid tr.jqgfirstrow+tr.jqgroup td
-{
-    border-top: none;
-}
-
-.ui-jqgrid tr.jqfoot td
-{
-    border-top: 1px solid #BABDB6;
-    border-bottom: none;
+    border-color: transparent;
 }
 
 .ui-jqgrid-ftable tr,
