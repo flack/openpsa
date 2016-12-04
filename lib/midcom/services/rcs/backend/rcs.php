@@ -58,14 +58,6 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
             $update_string = "NOBODY|{$_SERVER['REMOTE_ADDR']}";
         }
 
-        // Generate update message if needed
-        if (!$updatemessage) {
-            if (midcom::get()->auth->user !== null) {
-                $updatemessage = sprintf("Updated on %s by %s", strftime("%x %X"), midcom::get()->auth->user->name);
-            } else {
-                $updatemessage = sprintf("Updated on %s.", strftime("%x %X"));
-            }
-        }
         $update_string .= "|{$updatemessage}";
 
         $result = $this->rcs_update($object, $update_string);
@@ -97,7 +89,6 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
         $rcsfilename =  "{$filename},v";
 
         if (!file_exists($rcsfilename)) {
-            $message = str_replace('|Updated ', '|Created ', $message);
             // The methods return basically what the RCS unix level command returns, so nonzero value is error and zero is ok...
             return $this->rcs_create($object, $message);
         }
@@ -265,7 +256,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
         }
 
         // Entry message is in format
-        // user:27b841929d1e04118d53dd0a45e4b93a|84.34.133.194|Updated on Tue 10.Jan 2006 by admin kw
+        // user:27b841929d1e04118d53dd0a45e4b93a|84.34.133.194|message
         $message_array = explode('|', $entry[2]);
         if (count($message_array) == 1) {
             $history['message'] = $message_array[0];
