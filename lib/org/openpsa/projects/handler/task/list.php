@@ -93,7 +93,7 @@ implements org_openpsa_widgets_grid_provider_client
     private function _get_status_type(org_openpsa_projects_task_dba $task)
     {
         $type = 'closed';
-        $is_manager = $task->manager != midcom_connection::get_user();
+        $is_manager = $task->manager == midcom_connection::get_user();
         switch ($task->status) {
             case org_openpsa_projects_task_status_dba::PROPOSED:
                 $type = ($is_manager) ? 'pending_accept' : 'proposed';
