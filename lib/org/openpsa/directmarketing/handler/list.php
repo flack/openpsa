@@ -51,6 +51,10 @@ implements org_openpsa_widgets_grid_provider_client
         $qb->add_constraint('orgOpenpsaObtype', '<>', org_openpsa_directmarketing_campaign_member_dba::UNSUBSCRIBED);
 
         $entry['subscribers'] = $qb->count_unchecked();
+
+        $qb = org_openpsa_directmarketing_campaign_message_dba::new_query_builder();
+        $qb->add_constraint('campaign', '=', $campaign->id);
+        $entry['messages'] = $qb->count_unchecked();
         return $entry;
     }
 

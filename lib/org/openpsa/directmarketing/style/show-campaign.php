@@ -11,7 +11,7 @@ $grid->add_pager(30)
     ->set_option('url', $member_url)
     ->set_option('sortname', 'index_lastname');
 
-$grid->set_option('caption', $data['l10n']->get('members'));
+$grid->set_option('caption', $data['l10n']->get('recipients'));
 
 $grid->set_column('lastname', $data['l10n']->get('lastname'), 'classes: "title ui-ellipsis"', 'string')
     ->set_column('firstname', $data['l10n']->get('firstname'), 'width: 100, classes: "ui-ellipsis"', 'string')
