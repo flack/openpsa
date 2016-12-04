@@ -19,6 +19,7 @@ a.ui-jqgrid-titlebar-maximize {
 .ui-jqgrid tr.jqgrow td a img
 {
     border: none;
+    vertical-align: text-bottom;
 }
 
 .ui-jqgrid tr.jqgrow td.longtext

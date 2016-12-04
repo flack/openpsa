@@ -141,10 +141,10 @@ implements org_openpsa_widgets_grid_provider_client
                 //PONDER: Check ACL instead?
                 if (midcom_connection::get_user() == $task->manager) {
                     $html = '<form method="post" action="' . $prefix . 'workflow/' . $task->guid . '">';
-                    $html .= '  <ul class="area_toolbar">';
+                    $html .= '<ul class="area_toolbar">';
                     $html .= '<li><input type="submit" name="org_openpsa_projects_workflow_action[approve]" class="yes" value="' . $this->_l10n->get('approve') . '" /></li>';
                     //PONDER: This is kind of redundant  when one can just remove the checkbox -->
-                    $html .=  '<li><input type="submit" name="org_openpsa_projects_workflow_action[reject]" class="no" value="' . $this->_l10n->get('dont approve') . '" /></li>';
+                    $html .= '<li><input type="submit" name="org_openpsa_projects_workflow_action[reject]" class="no" value="' . $this->_l10n->get('dont approve') . '" /></li>';
                     $html .= "</ul></form>";
                     return $html;
                 }
