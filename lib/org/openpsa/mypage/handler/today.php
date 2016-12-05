@@ -84,7 +84,7 @@ class org_openpsa_mypage_handler_today extends midcom_baseclasses_components_han
         $data['expenses_url'] = $siteconfig->get_node_full_url('org.openpsa.expenses');
         $data['wiki_url'] = $siteconfig->get_node_relative_url('net.nemein.wiki');
         $data['wiki_guid'] = $siteconfig->get_node_guid('net.nemein.wiki');
-        $data['journal_url'] = midcom_connection::get_url('self') . '__mfa/org.openpsa.relatedto/journalentry/list/' . $data['day_start'] . '/';
+        $data['journal_url'] = '__mfa/org.openpsa.relatedto/journalentry/list/' . $data['day_start'] . '/';
 
         midcom_show_style('show-today');
     }

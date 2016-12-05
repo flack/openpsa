@@ -127,6 +127,9 @@ class org_openpsa_relatedto_handler_journal_list extends midcom_baseclasses_comp
             )
         );
         $data['url_prefix'] = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . "__mfa/org.openpsa.relatedto/journalentry/";
+        org_openpsa_widgets_grid::add_head_elements();
+        midcom::get()->head->set_pagetitle($this->_l10n->get('journal entries'));
+        $this->add_breadcrumb('', $this->_l10n->get('journal entries'));
     }
 
     /**
