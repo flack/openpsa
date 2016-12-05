@@ -54,8 +54,6 @@ a:hover
   overflow-y: visible;
 
   background: #31373b; /* Old browsers */
-  background: -webkit-linear-gradient(top, #31373b  60px,#264977 115px,#264977 100%); /* Chrome10+,Safari5.1+ */
-  background: -o-linear-gradient(top, #31373b 60px,#264977 115px,#264977 100%); /* Opera 11.10+ */
   background: -ms-linear-gradient(top, #31373b 60px,#264977 115px,#264977 100%); /* IE10+ */
   background: linear-gradient(to bottom, #31373b 60px,#264977 115px,#264977 100%); /* W3C */
   box-shadow: -4px 72px 12px rgba(0, 0, 0, 0.2) inset
@@ -263,12 +261,8 @@ a:hover
   height: 39px;
 
   background: #ededeb; /* Old browsers */
-  background: -moz-linear-gradient(top, #ededeb 0%, #e8e8e5 60%, #e5e5de 100%); /* FF3.6+ */
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ededeb), color-stop(60%,#e8e8e5), color-stop(100%,e5e5de)); /* Chrome,Safari4+ */
-  background: -webkit-linear-gradient(top, #ededeb 0%,#e8e8e5 60%,#e5e5de 100%); /* Chrome10+,Safari5.1+ */
-  background: -o-linear-gradient(top, #ededeb 0%,#e8e8e5 60%,#e5e5de 100%); /* Opera 11.10+ */
   background: -ms-linear-gradient(top, #ededeb 0%,#e8e8e5 60%,#e5e5de 100%); /* IE10+ */
-  background: linear-gradient(top, #ededeb 0%,#e8e8e5 60%,#e5e5de 100%); /* W3C */
+  background: linear-gradient(to bottom, #ededeb 0%,#e8e8e5 60%,#e5e5de 100%); /* W3C */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ededeb', endColorstr='#e5e5de',GradientType=0 ); /* IE6-9 */
 
   padding: 0.5em 1em 2em 1em;
@@ -482,8 +476,7 @@ input#org_openpsa_search_query
 #content .org_openpsa_toolbar
 {
     background: #cccec9;
-    background: -moz-linear-gradient(top, #cccec9 0%, #bcbfbb 76%, #b1b5b4 93%, #b3b7b6 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#cccec9), color-stop(76%,#bcbfbb), color-stop(93%,#b1b5b4), color-stop(100%,#b3b7b6));
+    background: linear-gradient(to bottom, #cccec9 0%, #bcbfbb 76%, #b1b5b4 93%, #b3b7b6 100%);
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#CCCEC9', endColorstr='#B3B7B6',GradientType=0 ); /* ie */
     box-shadow: 0 -2px 7px rgba(0, 0, 0, 0.1) inset;
 }
@@ -560,8 +553,7 @@ input#org_openpsa_search_query
 .org_openpsa_toolbar ul.midcom_toolbar li button:hover
 {
     background: #fcfcfc;
-    background: -moz-linear-gradient(top, #fcfcfc 0%, #efefef 14%, #ededed 30%, #ffffff 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #fcfcfc), color-stop(14%, #efefef), color-stop(30%, #ededed), color-stop(100%, #ffffff));
+    background: linear-gradient(to bottom, #fcfcfc 0%, #efefef 14%, #ededed 30%, #ffffff 100%);
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#FCFCFC', endColorstr='#FFFFFF',GradientType=0 ); /* ie */
 }
 

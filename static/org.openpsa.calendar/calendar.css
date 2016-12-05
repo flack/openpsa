@@ -54,8 +54,7 @@
 .ui-widget .fc-event {
     border: 1px solid #826647;
     background: #E0C39E;
-    background: -moz-linear-gradient(top, #E0C39E 0%, #E0C39E 50%, #DDB585 51%, #DDC5A8 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#E0C39E), color-stop(50%,#E0C39E), color-stop(51%,#DDB585), color-stop(100%,#DDC5A8));
+    background: linear-gradient(to bottom, #E0C39E 0%, #E0C39E 50%, #DDB585 51%, #DDC5A8 100%);
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#E0C39E', endColorstr='#DDC5A8',GradientType=0 );
     box-shadow: inset 0 0 5px #EFDFBF;
     text-shadow: 1px 0px 3px rgba(255, 255, 255, 0.7);
@@ -71,8 +70,7 @@
 .fc-event:hover {
     cursor: pointer;
     background: #EFCFA5;
-    background: -moz-linear-gradient(top, #EFCFA5 0%, #E5C599 50%, #DDB67E 51%, #E5C497 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#EFCFA5), color-stop(50%,#E5C599), color-stop(51%,#DDB67E), color-stop(100%,#E5C497));
+    background: linear-gradient(to bottom, #EFCFA5 0%, #E5C599 50%, #DDB67E 51%, #E5C497 100%);
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#EFCFA5', endColorstr='#E5C497',GradientType=0 ); /* ie */
     box-shadow: inset 0 0 5px #EFDFBF, 1px 1px 2px rgba(0,0,0,.2);
     border-color: #523617;

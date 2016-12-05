@@ -244,8 +244,7 @@ form.datamanager2 .form fieldset.fieldset
     border-color: #ccc;
     border-radius: 5px;
     background: #FFFFFF;
-    background: -moz-linear-gradient(top, #FFFFFF 0%, #F9F9F9 32%, #F9F9F8 96%, #FCFCFC 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#FFFFFF), color-stop(32%,#F9F9F9), color-stop(96%,#F9F9F8), color-stop(100%,#FCFCFC));
+    background: linear-gradient(to bottom, #FFFFFF 0%, #F9F9F9 32%, #F9F9F8 96%, #FCFCFC 100%);
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#FFFFFF', endColorstr='#FCFCFC',GradientType=0 ); /* ie */
 }
 
@@ -485,8 +484,7 @@ dl.campaigns dt.unsubscribed {
     border: 1px solid #babdb6;
     border-radius: 6px;
     background: #FFFFFF;
-    background: -moz-linear-gradient(top, #ffffff 0%, #fbfbfb 72%, #f7f7f7 73%, #fcfcfc 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(72%, #fbfbfb), color-stop(73%, #f7f7f7), color-stop(100%, #fcfcfc));
+    background: linear-gradient(to bottom, #ffffff 0%, #fbfbfb 72%, #f7f7f7 73%, #fcfcfc 100%);
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#FFFFFF', endColorstr='#FCFCFC',GradientType=0 );
     box-shadow: inset -1px -1px 3px rgba(255, 255, 255, 0.7);
     padding: 4px;
