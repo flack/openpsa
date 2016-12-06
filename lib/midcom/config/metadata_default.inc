@@ -93,13 +93,11 @@
             (
                 'privilege' => 'midcom.admin.folder:topic_management',
             ),
-            'end_fieldset' => '',
         ),
         'hidden' => array
         (
             'title' => 'prevent entering',
             'type' => 'boolean',
-            'hidden' => true,
             'storage' => 'metadata',
             'widget' => 'checkbox',
             'end_fieldset' => '',
