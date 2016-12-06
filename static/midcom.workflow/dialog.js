@@ -66,7 +66,7 @@ $(document).ready(function()
     var title = document.title,
         buttons = [];
 
-    if (typeof window.parent.$ !== "undefined")
+    if (typeof window.parent.$ !== "undefined"  && window.parent.$('#midcom-dialog').length > 0 )
     {
         var dialog = window.parent.$('#midcom-dialog');
         dialog.dialog('option', 'title', title);
