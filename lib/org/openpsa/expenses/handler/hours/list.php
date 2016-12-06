@@ -58,7 +58,7 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
                 $qb->add_constraint('task', '=', $task->id);
 
                 $mode = 'simple';
-                $data['view_title'] = sprintf($data['l10n']->get($handler_id . " %s"), $task->title);
+                $data['view_title'] = sprintf($data['l10n']->get(str_replace('_all', '', $handler_id) . " %s"), $task->title);
                 $data['breadcrumb_title'] = $task->get_label();
 
                 $siteconfig = org_openpsa_core_siteconfig::get_instance();
