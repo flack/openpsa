@@ -64,11 +64,11 @@ function add_post_button(url, label, options)
 $(document).ready(function()
 {
     var title = document.title,
-        buttons = [],
-        dialog = window.parent.$('#midcom-dialog');
+        buttons = [];
 
-    if (dialog.length > 0)
+    if (typeof window.parent.$ !== "undefined")
     {
+        var dialog = window.parent.$('#midcom-dialog');
         dialog.dialog('option', 'title', title);
 
         $('body').on('submit', '.midcom-dialog-delete-form', function(e)
