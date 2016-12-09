@@ -1,4 +1,4 @@
-OpenPSA [![Build Status](https://secure.travis-ci.org/flack/openpsa.png?branch=master)](https://travis-ci.org/flack/openpsa)
+OpenPSA [![Build Status](https://secure.travis-ci.org/flack/openpsa.svg?branch=master)](https://travis-ci.org/flack/openpsa)
 =======
 
 [OpenPSA](http://midgard-project.org/openpsa/) is a management suite for web agencies and consultants that provides a unified interface for handling many common business processes. It is built on a component architecture that makes it easy to integrate new components for specific requirements and is available as free software under the terms of the LGPL license.
