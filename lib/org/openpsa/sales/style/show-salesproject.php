@@ -3,15 +3,21 @@ $view = $data['view_salesproject'];
 $salesproject = $data['salesproject'];
 $formatter = $data['l10n']->get_formatter();
 ?>
-<div class="sidebar contacts">
-    <?php
-    if ($customer = $data['salesproject']->get_customer()) {
-        echo "<h2>{$customer->get_label()}</h2>\n";
-    }
-    foreach (array_keys($data['salesproject']->contacts) as $contact_id) {
-        $person_card = org_openpsa_widgets_contact::get($contact_id);
-        $person_card->show();
-    } ?>
+<div class="sidebar">
+    <div class="contacts area">
+        <?php
+        if ($customer = $data['salesproject']->get_customer()) {
+            echo "<h2>" . $data['l10n']->get('customer') . "</h2>\n";
+            echo $customer->render_link();
+        }
+        if ($data['salesproject']->contacts) {
+            echo "<h2>" . midcom::get()->i18n->get_string('contacts', 'org.openpsa.projects') . "</h2>\n";
+            foreach (array_keys($data['salesproject']->contacts) as $contact_id) {
+                $person_card = org_openpsa_widgets_contact::get($contact_id);
+                $person_card->show();
+            }
+        } ?>
+    </div>
 </div>
 
 <div class="main salesproject">
@@ -39,7 +45,7 @@ $formatter = $data['l10n']->get_formatter();
          <div class="title"><?php echo $data['l10n']->get('probability'); ?></div>
          <div class="value">&(view['probability']:h);</div>
         </div>
-    <?php 
+    <?php
     } ?>
     <div class="field">
      <div class="title"><?php echo $data['l10n']->get('value'); ?></div>

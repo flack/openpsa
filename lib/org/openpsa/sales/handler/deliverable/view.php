@@ -34,7 +34,6 @@ class org_openpsa_sales_handler_deliverable_view extends midcom_baseclasses_comp
     private function _prepare_request_data()
     {
         $this->_request_data['deliverable'] = $this->_deliverable;
-        $this->_request_data['salesproject'] = $this->_salesproject;
 
         if ($this->_deliverable->can_do('midgard:update')) {
             $workflow = $this->get_workflow('datamanager2');

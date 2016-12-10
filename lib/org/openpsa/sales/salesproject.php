@@ -256,15 +256,16 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
      */
     function get_members()
     {
+        $this->_contacts = array();
+        // Make sure primary contact comes out on top
+        if ($this->customerContact) {
+            $this->_contacts[$this->customerContact] = true;
+        }
         if ($this->id) {
             $mc = org_openpsa_contacts_role_dba::new_collector('objectGuid', $this->guid);
             $mc->add_constraint('role', '=', self::ROLE_MEMBER);
 
-            $this->_contacts = array_fill_keys($mc->get_values('person'), true);
-
-            if ($this->customerContact) {
-                $this->_contacts[$this->customerContact] = true;
-            }
+            $this->_contacts = $this->_contacts + array_fill_keys($mc->get_values('person'), true);
         }
     }
 

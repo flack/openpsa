@@ -10,15 +10,6 @@ if (   $data['product']
 ?>
 <div class="org_openpsa_sales_salesproject_deliverable &(state);">
     <div class="sidebar">
-        <div class="contacts area">
-            <?php
-            if ($customer = $data['salesproject']->get_customer()) {
-                echo "<h2>" . $data['l10n']->get('customer') . "</h2>\n";
-                echo $customer->render_link();
-            }
-            ?>
-        </div>
-
         <?php if ($data['product']) {
                 ?>
         <div class="products area">
@@ -132,6 +123,7 @@ if (   $data['product']
 
                 }
                 ?>
+	    </div>
     </div>
 
     <div class="wide">
