@@ -13,6 +13,9 @@ $ppu = $formatter->number($data['deliverable_object']->pricePerUnit);
     echo "<h3><a href=\"{$prefix}deliverable/{$data['deliverable_object']->guid}/\">{$data['deliverable_object']->title}</a></h3>\n";
     ?>
     <div class="information" id="information_<?php echo $data['deliverable_object']->guid; ?>">
+    <div class="description">
+        &(deliverable['description']:h);
+    </div>
     <table class="details">
         <tbody>
             <tr>
@@ -29,7 +32,7 @@ $ppu = $formatter->number($data['deliverable_object']->pricePerUnit);
                 <th><?php echo $data['l10n']->get('subscription ends'); ?></th>
                 <td>&(deliverable['end']:h);</td>
             </tr>
-            <?php 
+            <?php
     } ?>
             <tr>
                 <th><?php echo $data['l10n']->get('continuous subscription'); ?></th>
@@ -65,30 +68,6 @@ $ppu = $formatter->number($data['deliverable_object']->pricePerUnit);
             </tr>
         </tbody>
     </table>
-
-    <div class="description">
-        &(deliverable['description']:h);
-    </div>
-
-    <div class="tasks">
-        <?php
-        if (   $data['projects_url']
-            && $data['product']
-            && $data['product']->orgOpenpsaObtype == org_openpsa_products_product_dba::TYPE_SERVICE
-            && $data['deliverable_object']->state >= org_openpsa_sales_salesproject_deliverable_dba::STATE_ORDERED) {
-            midcom::get()->dynamic_load($data['projects_url'] . "task/list/all/agreement/{$data['deliverable_object']->id}/");
-        }
-        ?>
-    </div>
-    <div class="invoices">
-        <?php
-        if ($data['invoices_url']
-            && (   $data['deliverable_object']->state == org_openpsa_sales_salesproject_deliverable_dba::STATE_STARTED
-                || $data['deliverable_object']->state == org_openpsa_sales_salesproject_deliverable_dba::STATE_INVOICED)) {
-            midcom::get()->dynamic_load($data['invoices_url'] . "list/deliverable/{$data['deliverable_object']->guid}/");
-        }
-        ?>
-    </div>
     </div>
     <div class="toolbar">
         <form method="post" action="&(prefix);deliverable/process/<?php echo $data['deliverable_object']->guid; ?>/">

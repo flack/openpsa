@@ -32,7 +32,6 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
 
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
         $this->_request_data['projects_url'] = $siteconfig->get_node_relative_url('org.openpsa.projects');
-        $this->_request_data['invoices_url'] = $siteconfig->get_node_relative_url('org.openpsa.invoices');
 
         $this->_request_data['products'] = $this->_list_products();
     }
@@ -180,11 +179,6 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
             $data['deliverable'] = $this->_controllers[$deliverable->id]->get_content_html();
             $data['deliverable_object'] = $deliverable;
             $data['deliverable_toolbar'] = $this->build_status_toolbar($deliverable);
-            try {
-                $data['product'] = org_openpsa_products_product_dba::get_cached($deliverable->product);
-            } catch (midcom_error $e) {
-                $data['product'] = false;
-            }
             if ($deliverable->orgOpenpsaObtype == org_openpsa_products_product_dba::DELIVERY_SUBSCRIPTION) {
                 midcom_show_style('show-salesproject-deliverables-subscription');
             } else {

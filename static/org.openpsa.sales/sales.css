@@ -88,13 +88,18 @@ div.salesproject div.deliverables ol.deliverable_list li.deliverable div.informa
 {
     display: none;
 }
+div.salesproject div.deliverables ol.deliverable_list li.deliverable div.description,
+div.salesproject div.deliverables ol.deliverable_list li.deliverable table.details
+{
+    display: inline-block;
+    vertical-align: top;
+}
 div.salesproject div.deliverables ol.deliverable_list li.deliverable div.description
 {
     width: 60%;
 }
 div.salesproject div.deliverables ol.deliverable_list li.deliverable table.details
 {
-    float: right;
     width: 35%;
     font-size: smaller;
 }
