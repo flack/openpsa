@@ -150,9 +150,14 @@ $expenses_url = $siteconfig->get_node_relative_url('org.openpsa.expenses');
             echo ".</p>\n";
             ?>
         </div>
-        <div class="hours">
-          <?php midcom::get()->dynamic_load($expenses_url . "hours/task/all/" . $task->guid . "/"); ?>
-        </div>
+        <?php
+            $tabs = array(array(
+                'url' => $expenses_url . "hours/task/all/" . $task->guid . "/",
+                'title' => $data['l10n']->get('hour reports'),
+            ));
+
+            org_openpsa_widgets_ui::render_tabs($task->guid, $tabs);
+        ?>
     </div>
 
 </div>

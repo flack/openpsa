@@ -42,6 +42,7 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
         if (   $this->_mode == 'read'
             && $this->_object->can_do('midgard:update')) {
             $this->_populate_read_toolbar();
+            org_openpsa_widgets_ui::enable_ui_tab();
         }
     }
 
@@ -108,25 +109,7 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
             );
         }
 
-        $siteconfig = org_openpsa_core_siteconfig::get_instance();
-        if ($expenses_url = $siteconfig->get_node_full_url('org.openpsa.expenses')) {
-            midcom_helper_datamanager2_widget_autocomplete::add_head_elements();
-            org_openpsa_widgets_grid::add_head_elements();
-            if ($this->_object->status < org_openpsa_projects_task_status_dba::CLOSED) {
-                $buttons[] = $workflow->get_button($expenses_url . "hours/create/hour_report/{$this->_object->guid}/", array(
-                    MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('hour report')),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_new-event.png',
-                ));
-            }
-            $buttons[] = array(
-                MIDCOM_TOOLBAR_URL => $expenses_url . "hours/task/all/{$this->_object->guid}",
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('hour reports'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/scheduled_and_shown.png',
-                MIDCOM_TOOLBAR_ACCESSKEY => 'h',
-            );
-        }
         $this->_view_toolbar->add_items($buttons);
-        org_openpsa_relatedto_plugin::add_button($this->_view_toolbar, $this->_object->guid);
     }
 
     /**
