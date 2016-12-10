@@ -182,11 +182,14 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
             $qb = org_openpsa_projects_hour_report_dba::new_query_builder();
             $qb->add_constraint('id', 'IN', $_POST['entries']);
 
+            $_POST['action'] = str_replace('uninvoiceable', 'invoiceable', $_POST['action']);
             $value = $this->parse_input($_POST);
             $field = $_POST['action'];
             foreach ($qb->execute() as $hour_report) {
-                $hour_report->$field = $value;
-                $hour_report->update();
+                if ($hour_report->$field != $value) {
+                    $hour_report->$field = $value;
+                    $hour_report->update();
+                }
             }
         }
 

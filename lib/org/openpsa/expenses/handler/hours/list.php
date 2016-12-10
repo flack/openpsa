@@ -17,13 +17,6 @@
 class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_components_handler
 {
     /**
-     * The reporter cache
-     *
-     * @var Array
-     */
-    private $reporters = array();
-
-    /**
      * The handler for the list view
      *
      * @param mixed $handler_id the array key from the request array
@@ -79,8 +72,6 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
         $qb->add_order('date', 'DESC');
         $data['hours'] = $qb->execute();
 
-        $this->_load_hour_data($data['hours']);
-
         $data['mode'] = $mode;
         $data['qb'] = $qb;
 
@@ -93,56 +84,6 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
     }
 
     /**
-     * Load the data linked to the hour reports
-     *
-     * @param array $hours the hour reports we're working with
-     */
-    private function _load_hour_data(array $hours)
-    {
-        $reports = array(
-            'invoiceable' => array(
-                'hours' => 0,
-                'reports' => array(),
-            ),
-            'uninvoiceable' => array(
-                'hours' => 0,
-                'reports' => array(),
-            ),
-            'invoiced' => array(
-                'hours' => 0,
-                'reports' => array(),
-            ),
-        );
-
-        foreach ($hours as $report) {
-            if (!array_key_exists($report->person, $this->reporters)) {
-                try {
-                    $reporter = new midcom_db_person($report->person);
-                    $reporter_card = new org_openpsa_widgets_contact($reporter);
-                    $this->reporters[$report->person] = array(
-                        'card' => $reporter_card->show_inline(),
-                        'rname' => $reporter->rname
-                    );
-                } catch (midcom_error $e) {
-                    $e->log();
-                    $this->reporters[$report->person] = array('card' => '', 'rname' => '');
-                }
-            }
-
-            if ($report->invoice) {
-                $category = 'invoiced';
-            } elseif ($report->invoiceable) {
-                $category = 'invoiceable';
-            } else {
-                $category = 'uninvoiceable';
-            }
-            $reports[$category]['reports'][] = $report;
-            $reports[$category]['hours'] += $report->hours;
-        }
-        $this->_request_data['sorted_reports'] = $reports;
-    }
-
-    /**
      * This function does the output.
      *
      * @param mixed $handler_id The ID of the handler.
@@ -150,28 +91,17 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
      */
     public function _show_list($handler_id, array &$data)
     {
-        $data['reporters'] = $this->reporters;
+        $data['action_options'] = $this->_prepare_batch_options();
 
         midcom_show_style('hours_list_top');
-
-        foreach ($data['sorted_reports'] as $status => $reports) {
-            if (sizeof($reports['reports']) == 0) {
-                continue;
-            }
-            $data['subheading'] = $this->_l10n->get($status . ' reports');
-            $data['status'] = $status;
-            $data['action_options'] = $this->_prepare_batch_options($status === 'uninvoiceable');
-            $data['reports'] = $reports;
-
-            midcom_show_style('hours_grid');
-        }
+        midcom_show_style('hours_grid');
         midcom_show_style('hours_list_bottom');
     }
 
     /**
      * Set options array for JS, to show the right choosers
      */
-    private function _prepare_batch_options($status)
+    private function _prepare_batch_options()
     {
         $task_conf = midcom_helper_datamanager2_widget_autocomplete::get_widget_config('task');
         $invoice_conf = midcom_helper_datamanager2_widget_autocomplete::get_widget_config('invoice');
@@ -179,8 +109,12 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
         return array(
             'none' => array('label' => midcom::get()->i18n->get_string("choose action", "midgard.admin.user")),
             'invoiceable' => array(
-                'label' => $this->_l10n->get('mark_' . ($status ? 'invoiceable' : 'uninvoiceable')),
-                'value' => $status
+                'label' => $this->_l10n->get('mark_invoiceable'),
+                'value' => true
+            ),
+            'uninvoiceable' => array(
+                'label' => $this->_l10n->get('mark_uninvoiceable'),
+                'value' => false
             ),
             'task' => array(
                 'label' => $this->_l10n->get('change_task'),

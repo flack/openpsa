@@ -46,6 +46,10 @@ Abrechenbar
 Abrechenbare Stundenberichte
 ---STRINGEND
 
+---STRING invoiced
+Abgerechnet
+---STRINGEND
+
 ---STRING invoiced reports
 Abgerechnete Stundenberichte
 ---STRINGEND

@@ -1,21 +1,12 @@
 <?php
 $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
-$reporters = $data['reporters'];
-$reports = $data['reports'];
 $invoice_url = org_openpsa_core_siteconfig::get_instance()->get_node_full_url('org.openpsa.invoices');
-
-$class = $data['status'];
-if ($data['status'] === 'invoiced') {
-    $class .= ' good';
-}
-if ($data['status'] === 'invoiceable') {
-    $class .= ' normal';
-}
-
+$footer_data = array('hours' => 0);
+$categories = array($data['l10n']->get('uninvoiceable'), $data['l10n']->get('invoiceable'), $data['l10n']->get('invoiced'));
 $entries = array();
-$grid_id = $data['status'] . '_hours_grid';
+$grid_id = $data['mode'] . '_hours_grid';
 $workflow = new midcom\workflow\datamanager2;
-foreach ($reports['reports'] as $report) {
+foreach ($data['hours'] as $report) {
     $entry = array();
 
     $entry['id'] = $report->id;
@@ -27,15 +18,34 @@ foreach ($reports['reports'] as $report) {
         $entry['index_task'] = $task->get_label();
     }
 
+    if ($report->invoice) {
+        $entry['category'] = 2;
+    } elseif ($report->invoiceable) {
+        $entry['category'] = 1;
+    } else {
+        $entry['category'] = 0;
+    }
+
     $entry['index_description'] = $report->description;
     $entry['description'] = '<a' . $workflow->render_attributes() . ' href="' . $prefix . 'hours/edit/' . $report->guid . '/">' . $report->get_description() . '</a>';
 
-    $entry['index_reporter'] = $reporters[$report->person]['rname'];
-    $entry['reporter'] = $reporters[$report->person]['card'];
+    try {
+        $reporter = midcom_db_person::get_cached($report->person);
+        $reporter_card = new org_openpsa_widgets_contact($reporter);
+        $entry['index_reporter'] = $reporter->rname;
+        $entry['reporter'] = $reporter_card->show_inline();
+    } catch (midcom_error $e) {
+        $e->log();
+        $entry['index_reporter'] = '';
+        $entry['reporter'] = '';
+    }
 
     $entry['hours'] = $report->hours;
+    $footer_data['hours'] += $report->hours;
 
-    if ($data['status'] === 'invoiced') {
+    $entry['index_invoice'] = '';
+    $entry['invoice'] = '';
+    if ($report->invoice) {
         $invoice = org_openpsa_invoices_invoice_dba::get_cached($report->invoice);
         $entry['index_invoice'] = $invoice->number;
         $entry['invoice'] = $invoice->get_label();
@@ -54,27 +64,28 @@ $grid->set_column('date', $data['l10n']->get('date'), "width: 80, align: 'right'
 if ($data['mode'] != 'simple') {
     $grid->set_column('task', $data['l10n']->get('task'), "classes: 'ui-ellipsis'", 'string');
 }
-$grid->set_column('description', $data['l10n']->get('description'), "width: 250, classes: 'ui-ellipsis'", 'string');
-if ($data['status'] === 'invoiced') {
-    $grid->set_column('invoice', $data['l10n']->get('invoice'), "width: 60, align: 'center'", 'integer');
-}
-$grid->set_column('hours', $data['l10n']->get('hours'), "width: 50, align: 'right', formatter: 'number'");
+$grid->set_column('description', $data['l10n']->get('description'), "width: 250, classes: 'multiline'", 'string');
+$grid->set_column('hours', $data['l10n']->get('hours'), "width: 50, align: 'right', formatter: 'number', summaryType: 'sum'");
+$grid->set_select_column('category', $data['l10n']->get('category'), "width: 50, hidden: true", $categories);
+$grid->set_column('invoice', $data['l10n']->get('invoice'), "width: 50, align: 'center'", 'integer');
 
 $grid->set_option('loadonce', true)
-    ->set_option('caption', $data['subheading'])
     ->set_option('sortname', 'date')
     ->set_option('sortorder', 'desc')
-    ->set_option('multiselect', true);
-
-$grid->add_pager();
-
-$footer_data = array(
-    'hours' => $reports['hours']
-);
+    ->set_option('multiselect', true)
+    ->set_option('grouping', true)
+    ->set_option('groupingView', array(
+        'groupField' => array('category'),
+        'groupColumnShow' => array(false),
+        'groupText' => array('<strong>{0}</strong> ({1})'),
+        'groupOrder' => array('asc'),
+        'groupSummary' => array(true),
+        'showSummaryOnHide' => true
+    ));
 
 $grid->set_footer_data($footer_data);
 ?>
-<div class="org_openpsa_expenses <?php echo $class ?> batch-processing full-width crop-height" style="margin-top: 1em">
+<div class="org_openpsa_expenses batch-processing full-width crop-height">
 
 <?php $grid->render($entries); ?>
 

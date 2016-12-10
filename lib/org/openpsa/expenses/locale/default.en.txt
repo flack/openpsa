@@ -50,6 +50,10 @@ Billable
 Billable Reports
 ---STRINGEND
 
+---STRING invoiced
+Invoiced
+---STRINGEND
+
 ---STRING invoiced reports
 Invoiced Reports
 ---STRINGEND
