@@ -45,6 +45,48 @@
             'storage'  => 'title',
             'required' => true,
         ),
+        'description' => Array
+        (
+            'title' => 'description',
+            'storage' => 'description',
+            'type' => 'text',
+            'type_config' => array
+            (
+                'output_mode' => 'markdown'
+            ),
+            'widget' => 'textarea',
+        ),
+                'start' => Array
+        (
+            'title' => 'start time',
+            'storage' => 'start',
+            'type' => 'date',
+            'type_config' => Array
+            (
+                'storage_type' => 'UNIXTIME'
+            ),
+            'widget' => 'jsdate',
+            'widget_config' => Array
+            (
+                'show_time' => false,
+            ),
+        ),
+        'end' => Array
+        (
+            'title' => 'deadline',
+            'storage' => 'end',
+            'type' => 'date',
+            'type_config' => Array
+            (
+                'storage_type' => 'UNIXTIME',
+                'later_than' => 'start'
+            ),
+            'widget' => 'jsdate',
+            'widget_config' => Array
+            (
+                'show_time' => false,
+            ),
+        ),
         'priority' => array
         (
             'title' => 'Priority',
@@ -85,108 +127,56 @@
             ),
             'widget' => 'select',
         ),
-        'tags' => Array
+        'contacts' => array
         (
-            'title' => 'skills required',
+            'title' => 'contacts',
             'storage' => null,
-            'type' => 'tags',
-            'widget' => 'text',
-        ),
-        'start' => Array
-        (
-            'title' => 'start time',
-            'storage' => 'start',
-            'type' => 'date',
-            'type_config' => Array
-            (
-                'storage_type' => 'UNIXTIME'
-            ),
-            'widget' => 'jsdate',
-            'widget_config' => Array
-            (
-                'show_time' => false,
-            ),
-        ),
-        'end' => Array
-        (
-            'title' => 'deadline',
-            'storage' => 'end',
-            'type' => 'date',
-            'type_config' => Array
-            (
-                'storage_type' => 'UNIXTIME',
-                'later_than' => 'start'
-            ),
-            'widget' => 'jsdate',
-            'widget_config' => Array
-            (
-                'show_time' => false,
-            ),
-        ),
-        'plannedHours' => array
-        (
-            'title'    => 'planned hours',
-            'type'     => 'number',
-            'widget'   => 'text',
-            'storage'  => 'plannedHours',
-        ),
-        'minimum_slot' => Array
-        (
-            'title' => 'minimum time slot needed for task bookings',
-            'storage' => Array(
-                'location' => 'configuration',
-                'domain'   => 'org.openpsa.projects.projectbroker',
-                'name'     => 'minimum_slot',
-            ),
-            'type' => 'number',
-            'widget'  => 'text',
-        ),
-        'agreement' => array
-        (
-            'title'   => 'agreement',
-            'storage' => 'agreement',
-            'type' => 'select',
+            'type' => 'mnrelation',
             'type_config' => array
             (
-                 'require_corresponding_option' => false,
-                 'options' => array(),
+                'mapping_class_name' => 'org_openpsa_projects_task_resource_dba',
+                'master_fieldname' => 'task',
+                'member_fieldname' => 'person',
+                'master_is_id' => true,
+                'additional_fields' => array('orgOpenpsaObtype' => org_openpsa_projects_task_resource_dba::CONTACT)
             ),
             'widget' => 'autocomplete',
             'widget_config' => array
             (
-                'class'       => 'org_openpsa_sales_salesproject_deliverable_dba',
-                'component'   => 'org.openpsa.sales',
-                'titlefield'  => 'deliverable_html',
-                'id_field'     => 'id',
-                'searchfields'  => array
-                (
-                    'title',
-                    'salesproject.title'
-                ),
+                'class' => 'org_openpsa_contacts_person_dba',
+                'component' => 'org.openpsa.contacts',
+                'titlefield' => 'name',
+
                 'result_headers' => array
                 (
                     array
                     (
-                        'title' => 'title',
-                        'name' => 'title',
+                        'title' => 'name',
+                        'name' => 'name',
+                    ),
+                    array
+                    (
+                        'title' => 'email',
+                        'name' => 'email',
                     ),
                 ),
-                'orders'        => array
+
+                'searchfields' => array
                 (
-                    array('title'    => 'ASC'),
+                    'firstname',
+                    'lastname',
+                    'username',
                 ),
+                'orders' => array
+                (
+                    array('lastname' => 'ASC'),
+                    array('firstname' => 'ASC'),
+                ),
+                'id_field' => 'id',
+                'creation_mode_enabled' => true,
+                'creation_handler' => midcom_connection::get_url('self') . "__mfa/org.openpsa.helpers/chooser/create/org_openpsa_contacts_person_dba/",
+                'creation_default_key' => 'lastname',
             ),
-        ),
-        'description' => Array
-        (
-            'title' => 'description',
-            'storage' => 'description',
-            'type' => 'text',
-            'type_config' => array
-            (
-                'output_mode' => 'markdown'
-            ),
-            'widget' => 'textarea',
         ),
         'manager' => array
         (
@@ -293,7 +283,56 @@
                 'creation_default_key' => 'lastname',
             ),
         ),
-
+        'tags' => Array
+        (
+            'title' => 'skills required',
+            'storage' => null,
+            'type' => 'tags',
+            'widget' => 'text',
+        ),
+        'agreement' => array
+        (
+            'title'   => 'agreement',
+            'storage' => 'agreement',
+            'type' => 'select',
+            'type_config' => array
+            (
+                 'require_corresponding_option' => false,
+                 'options' => array(),
+            ),
+            'widget' => 'autocomplete',
+            'widget_config' => array
+            (
+                'class'       => 'org_openpsa_sales_salesproject_deliverable_dba',
+                'component'   => 'org.openpsa.sales',
+                'titlefield'  => 'deliverable_html',
+                'id_field'     => 'id',
+                'searchfields'  => array
+                (
+                    'title',
+                    'salesproject.title'
+                ),
+                'result_headers' => array
+                (
+                    array
+                    (
+                        'title' => 'title',
+                        'name' => 'title',
+                    ),
+                ),
+                'orders'        => array
+                (
+                    array('title'    => 'ASC'),
+                ),
+            ),
+        ),
+        'plannedHours' => array
+        (
+            'title'    => 'planned hours',
+            'type'     => 'number',
+            'widget'   => 'text',
+            'storage'  => 'plannedHours',
+        ),
         'invoiceable_default' => array
         (
             'title' => 'hours are invoiceable by default',
@@ -302,57 +341,16 @@
             'widget' => 'checkbox',
             'end_fieldset' => '',
         ),
-
-        'contacts' => array
+        'minimum_slot' => Array
         (
-            'title' => 'contacts',
-            'storage' => null,
-            'type' => 'mnrelation',
-            'type_config' => array
-            (
-                'mapping_class_name' => 'org_openpsa_projects_task_resource_dba',
-                'master_fieldname' => 'task',
-                'member_fieldname' => 'person',
-                'master_is_id' => true,
-                'additional_fields' => array('orgOpenpsaObtype' => org_openpsa_projects_task_resource_dba::CONTACT)
+            'title' => 'minimum time slot needed for task bookings',
+            'storage' => Array(
+                'location' => 'configuration',
+                'domain'   => 'org.openpsa.projects.projectbroker',
+                'name'     => 'minimum_slot',
             ),
-            'widget' => 'autocomplete',
-            'widget_config' => array
-            (
-                'class' => 'org_openpsa_contacts_person_dba',
-                'component' => 'org.openpsa.contacts',
-                'titlefield' => 'name',
-
-                'result_headers' => array
-                (
-                    array
-                    (
-                        'title' => 'name',
-                        'name' => 'name',
-                    ),
-                    array
-                    (
-                        'title' => 'email',
-                        'name' => 'email',
-                    ),
-                ),
-
-                'searchfields' => array
-                (
-                    'firstname',
-                    'lastname',
-                    'username',
-                ),
-                'orders' => array
-                (
-                    array('lastname' => 'ASC'),
-                    array('firstname' => 'ASC'),
-                ),
-                'id_field' => 'id',
-                'creation_mode_enabled' => true,
-                'creation_handler' => midcom_connection::get_url('self') . "__mfa/org.openpsa.helpers/chooser/create/org_openpsa_contacts_person_dba/",
-                'creation_default_key' => 'lastname',
-            ),
+            'type' => 'number',
+            'widget'  => 'text',
         ),
     )
 ),

@@ -61,7 +61,7 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
                 $view_title = $this->_object->get_label();
                 break;
             case 'update':
-                $view_title = sprintf($this->_l10n_midcom->get('edit %s'), $this->_object->get_label());
+                $view_title = sprintf($this->_l10n_midcom->get('edit %s'), $this->_l10n->get('task'));
                 break;
         }
 
