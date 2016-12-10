@@ -109,6 +109,22 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
             );
         }
 
+        if ($this->_object->agreement) {
+            try {
+                $agreement = org_openpsa_sales_salesproject_deliverable_dba::get_cached($this->_object->agreement);
+                $siteconfig = org_openpsa_core_siteconfig::get_instance();
+                if ($sales_url = $siteconfig->get_node_full_url('org.openpsa.sales')) {
+                    $buttons[] = array(
+                        MIDCOM_TOOLBAR_URL => "{$sales_url}deliverable/{$agreement->guid}/",
+                        MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('agreement'),
+                        MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/jump-to.png',
+                    );
+                }
+
+            } catch (midcom_error $e) {
+            }
+        }
+
         $this->_view_toolbar->add_items($buttons);
     }
 

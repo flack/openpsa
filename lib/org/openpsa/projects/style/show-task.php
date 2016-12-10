@@ -6,30 +6,11 @@ $formatter = $data['l10n']->get_formatter();
 $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
 
 $siteconfig = org_openpsa_core_siteconfig::get_instance();
-$sales_url = $siteconfig->get_node_full_url('org.openpsa.sales');
 $expenses_url = $siteconfig->get_node_relative_url('org.openpsa.expenses');
 ?>
 <div class="org_openpsa_projects_task">
     <div class="sidebar">
         <?php
-        if ($task->agreement) {
-            try {
-                $agreement = org_openpsa_sales_salesproject_deliverable_dba::get_cached($task->agreement);
-                $output = $agreement->deliverable_html;
-
-                if ($sales_url) {
-                    $salesproject = org_openpsa_sales_salesproject_dba::get_cached($agreement->salesproject);
-                    $output = "<a href=\"{$sales_url}salesproject/{$salesproject->guid}/#deliverable_{$agreement->guid}\">{$output}</a>\n";
-                }
-
-                echo '<div class="area">';
-                echo "<h2>" . $data['l10n']->get('agreement') . "</h2>\n";
-                echo $output;
-                echo '</div>';
-            } catch (midcom_error $e) {
-            }
-        }
-
         if ($task->manager) {
             echo '<div class="area">';
             echo "<h2>" . $data['l10n']->get('manager') . "</h2>\n";
