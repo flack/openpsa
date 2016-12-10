@@ -46,3 +46,12 @@ dl.search_results ul
 .elfinder-button-icon.elfinder-button-icon-details {
     background-position: 0 -176px;
 }
+/** copied from theme since selectors are too weak */
+.elfinder .elfinder-contextmenu .ui-state-active {
+    background: #6293df;
+    color: #fff;
+}
+.elfinder .elfinder-contextmenu .ui-state-hover {
+    background: #3875d7;
+    color:#fff;
+}

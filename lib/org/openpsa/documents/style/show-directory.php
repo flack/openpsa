@@ -13,8 +13,9 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
             url : '&(prefix);connector/',
             defaultView: 'list',
             lang: '&(data["lang"]);',
-            uiOptions : {
-                cwd : {
+            cssAutoLoad: false,
+            uiOptions: {
+                cwd: {
                     listView : {
                         columns : ['owner', 'date', 'size', 'kind'],
                         columnsCustomName : {

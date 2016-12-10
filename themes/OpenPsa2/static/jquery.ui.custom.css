@@ -494,8 +494,9 @@ button.ui-button::-moz-focus-inner {
     overflow: hidden;
     text-overflow: ellipsis;
 }
-.ui-dialog .ui-dialog-titlebar-close {
+.ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close {
     position: absolute;
+    left: auto;
     right: .3em;
     top: 50%;
     width: 20px;
@@ -1251,17 +1252,20 @@ body .ui-tooltip {
 .ui-widget-content .ui-state-focus,
 .ui-widget-header .ui-state-focus,
 .ui-jqgrid-btable tr:nth-child(odd).jqgrow.ui-state-focus,
-.ui-jqgrid-btable tr:nth-child(odd).jqgrow.ui-state-hover
+.ui-jqgrid-btable tr:nth-child(odd).jqgrow.ui-state-hover,
+.elfinder-cwd table thead td.ui-state-hover
 {
     background: -ms-linear-gradient(top, #ffffff 0%,#e0f2ff 3%,#d0e5f5 100%); /* IE10+ */
     background: linear-gradient(to bottom, #ffffff 0%,#e0f2ff 3%,#d0e5f5 100%); /* W3C */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#d0e5f5',GradientType=0 ); /* IE6-9 */
+    color: inherit;
 }
 
 .ui-state-active,
 .ui-widget-content .ui-state-active,
 .ui-widget-header .ui-state-active,
-.ui-jqgrid-btable tr:nth-child(odd).jqgrow.ui-state-active
+.ui-jqgrid-btable tr:nth-child(odd).jqgrow.ui-state-active,
+.elfinder .elfinder-cwd table thead td.ui-state-active
 {
     background: -ms-linear-gradient(top, #ffffff 0%,#f5f8f9 6%,#ffffff 100%); /* IE10+ */
     background: linear-gradient(to bottom, #ffffff 0%,#f5f8f9 6%,#ffffff 100%); /* W3C */

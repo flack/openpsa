@@ -25,14 +25,14 @@ class org_openpsa_documents_handler_finder extends midcom_baseclasses_components
      */
     public function _handler_view($handler_id, array $args, array &$data)
     {
-        $prefix = '/' . $this->_component . '/elFinder-2.1.15/';
-        $this->add_stylesheet($prefix . 'layout.css');
+        $prefix = '/' . $this->_component . '/elFinder-2.1.19/';
         org_openpsa_widgets_contact::add_head_elements();
 
         $head = midcom::get()->head;
         $head->add_jsfile(MIDCOM_JQUERY_UI_URL. '/ui/draggable.min.js');
         $head->add_jsfile(MIDCOM_JQUERY_UI_URL. '/ui/droppable.min.js');
         $head->add_jsfile(MIDCOM_JQUERY_UI_URL. '/ui/selectable.min.js');
+        $head->add_jsfile(MIDCOM_JQUERY_UI_URL. '/ui/tabs.min.js');
         $head->add_jsfile(MIDCOM_STATIC_URL . $prefix . 'js/elfinder.min.js');
 
         $lang = midcom::get()->i18n->get_current_language();
@@ -49,6 +49,7 @@ class org_openpsa_documents_handler_finder extends midcom_baseclasses_components
 
         $head->add_stylesheet(MIDCOM_STATIC_URL . $prefix . 'css/elfinder.min.css');
         $head->add_stylesheet(MIDCOM_STATIC_URL . $prefix . 'css/theme.css');
+        $this->add_stylesheet(MIDCOM_STATIC_URL . '/' . $this->_component . '/layout.css');
 
         $this->_populate_toolbar();
     }
