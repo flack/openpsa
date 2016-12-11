@@ -49,6 +49,9 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
         $operations['cancel'] = '';
         foreach ($this->_schemadb as $schema) {
             $schema->operations = $operations;
+            if (!empty($schema->fields['title'])) {
+                $schema->fields['title']['hidden'] = true;
+            }
         }
     }
 
