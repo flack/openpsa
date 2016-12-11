@@ -1,5 +1,6 @@
 </ol>
 </div>
+</div>
 
 <script type="text/javascript">
 $('.deliverable_list .deliverable > .icon').click(function(e)

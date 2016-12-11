@@ -186,7 +186,6 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
             }
         }
         midcom_show_style('show-salesproject-deliverables-footer');
-        midcom_show_style('show-salesproject-related');
     }
 
     private function build_status_toolbar(org_openpsa_sales_salesproject_deliverable_dba $deliverable)
