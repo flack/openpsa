@@ -174,6 +174,28 @@ div.net_nemein_wiki_wikipage span.wiki_missing_nouser
     border-bottom: dashed 1px #c0c0c0;
 }
 
+div.net_nemein_wiki_wikipage table,
+div.net_nemein_wiki_wikipage th,
+div.net_nemein_wiki_wikipage td
+{
+    border: 1px solid #eee;
+}
+
+div.net_nemein_wiki_wikipage table
+{
+    border-collapse: collapse
+}
+
+div.net_nemein_wiki_wikipage th,
+div.net_nemein_wiki_wikipage td
+{
+    padding: .3em .5em;
+}
+div.net_nemein_wiki_wikipage tbody tr:nth-child(odd)
+{
+    background-color: #f8f8f7;
+}
+
 table.net_nemein_wiki_latest
 {
     width: 100%;
