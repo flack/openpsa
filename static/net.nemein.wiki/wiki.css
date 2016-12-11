@@ -15,6 +15,11 @@ div.wiki_preview
     background-image: url('../midcom.helper.datamanager2/previewbg.gif');
 }
 
+form.datamanager2 #content_container > label
+{
+    display: none;
+}
+
 /* Tags view should resemble MediaWiki categories list */
 div.net_nemein_wiki_wikipage .tags
 {
