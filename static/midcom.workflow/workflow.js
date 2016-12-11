@@ -93,7 +93,7 @@ $(document).ready(function()
             create_dialog($(this), $(this).find('.toolbar_label').text() || $(this).attr('title') || '', $(this).attr('href'));
         }
     });
-    
+
     $('body').on('click', '[data-dialog="confirm"]', function(event)
     {
         event.preventDefault();
@@ -214,5 +214,7 @@ function create_dialog(control, title, url)
         //todo: find out why the click doesn't bubble automatically
         control.parent().trigger('click');
     }
-    dialog.dialog(config);
+    dialog
+        .dialog(config)
+        .dialog("instance").uiDialog.draggable("option", "containment", false);
 }
