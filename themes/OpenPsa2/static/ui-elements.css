@@ -406,14 +406,6 @@ form.datamanager2 div.form_toolbar input.submit
     padding-left: 21px
 }
 
-form.datamanager2 div.input textarea.markItUpEditor
-{
-    padding: 5px 5px 5px 35px;
-    box-shadow: none;
-    background-color: white;
-    width: 643px
-}
-
 form.datamanager2 fieldset.checkbox label,
 form.datamanager2 fieldset.radiobox label {
     display: inline;
