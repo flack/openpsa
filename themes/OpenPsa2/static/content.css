@@ -19,6 +19,7 @@ body
 #content-text div.sidebar div.vcard
 {
     float: none;
+    display: inline-block;
 }
 
 #content-text div.wide
