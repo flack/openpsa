@@ -1251,8 +1251,9 @@ body .ui-tooltip {
 .ui-state-focus,
 .ui-widget-content .ui-state-focus,
 .ui-widget-header .ui-state-focus,
-.ui-jqgrid-btable tr:nth-child(odd).jqgrow.ui-state-focus,
 .ui-jqgrid-btable tr:nth-child(odd).jqgrow.ui-state-hover,
+.ui-jqgrid-btable tr:nth-child(odd).jqgrow.ui-state-focus,
+.ui-jqgrid .ui-jqgrid-view th.ui-state-hover,
 .elfinder-cwd table thead td.ui-state-hover
 {
     background: -ms-linear-gradient(top, #ffffff 0%,#e0f2ff 3%,#d0e5f5 100%); /* IE10+ */
@@ -1406,8 +1407,26 @@ body .ui-tooltip {
 
 .ui-jqgrid .ui-jqgrid-htable th
 {
+    background: transparent;
     height: 15px;
     border-right-color: rgba(0, 0, 0, .07);
+}
+.ui-jqgrid .ui-jqgrid-htable .ui-search-toolbar th
+{
+    border-top-color: rgba(0, 0, 0, .07);
+}
+
+.ui-jqgrid .ui-jqgrid-htable .ui-search-toolbar th input,
+.ui-jqgrid .ui-jqgrid-htable .ui-search-toolbar th select
+{
+    opacity: .75;
+}
+.ui-jqgrid .ui-jqgrid-htable .ui-search-toolbar:hover input,
+.ui-jqgrid .ui-jqgrid-htable .ui-search-toolbar:hover select,
+.ui-jqgrid .ui-jqgrid-htable .ui-search-toolbar th input:focus,
+.ui-jqgrid .ui-jqgrid-htable .ui-search-toolbar th select:focus
+{
+    opacity: 1;
 }
 
 .ui-jqgrid .ui-jqgrid-htable th div
