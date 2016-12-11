@@ -194,10 +194,6 @@ bestellt
 Bestellung "%s" als geliefert markiert
 ---STRINGEND
 
----STRING next action
-Nächste Aktion
----STRINGEND
-
 ---STRING next invoice will be generated on %s
 Die nächste Rechnung wird am %s erstellt
 ---STRINGEND
@@ -248,10 +244,6 @@ Geplante Stückzahl
 
 ---STRING plan
 Plan
----STRINGEND
-
----STRING previous action
-Letzte Aktion
 ---STRINGEND
 
 ---STRING price

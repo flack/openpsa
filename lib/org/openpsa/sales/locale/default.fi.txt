@@ -146,10 +146,6 @@ Merkkaa tilatuksi
 Merkittiin toimitus "%s" toimitetuksi
 ---STRINGEND
 
----STRING next action
-Seuraava toimenpide
----STRINGEND
-
 ---STRING next invoice will be generated on %s
 Seuraava lasku lähetetään %s
 ---STRINGEND
@@ -180,10 +176,6 @@ per yksikkö
 
 ---STRING planned units
 Suunnitellut yksiköt
----STRINGEND
-
----STRING previous action
-Edellinen toimenpide
 ---STRINGEND
 
 ---STRING price

@@ -193,10 +193,6 @@ Mark ordered
 Marked deliverable "%s" delivered
 ---STRINGEND
 
----STRING next action
-Next action
----STRINGEND
-
 ---STRING next invoice will be generated on %s
 The next invoice will be generated on %s
 ---STRINGEND
@@ -247,10 +243,6 @@ Planned units
 
 ---STRING plan
 Plan
----STRINGEND
-
----STRING previous action
-Previous action
 ---STRINGEND
 
 ---STRING price

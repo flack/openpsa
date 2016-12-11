@@ -36,16 +36,6 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
      */
     private $_contacts = null;
 
-    /**
-     * These two are filled correctly as arrays with the get_actions method
-     */
-    var $prev_action = false;
-
-    /**
-     * These two are filled correctly as arrays with the get_actions method
-     */
-    var $next_action = false;
-
     public function refresh()
     {
         $this->_contacts = null;
@@ -132,69 +122,6 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
             }
         }
         return null;
-    }
-
-    /**
-     * Fills the next and previous action properties
-     * based on the confirmed relatedto links
-     */
-    public function get_actions()
-    {
-        $default = array(
-            'time'  => false,
-            'obj'   => false,
-            /* valid types are: noaction, task, event */
-            'type'  => 'noaction',
-        );
-        $this->prev_action = $default;
-        $this->next_action = $default;
-
-        $mc = new org_openpsa_relatedto_collector($this->guid, array('org_openpsa_calendar_event_dba', 'org_openpsa_projects_task_dba'));
-        $related_objects = $mc->get_related_objects();
-
-        if (count($related_objects) == 0) {
-            return;
-        }
-
-        $sort_prev = array();
-        $sort_next = array();
-
-        foreach ($related_objects as $object) {
-            $to_sort = $default;
-            $to_sort['obj'] = $object;
-
-            switch ($object->__mgdschema_class_name__) {
-                case 'org_openpsa_task':
-                    $to_sort['type'] = 'task';
-                    if ($object->status >= org_openpsa_projects_task_status_dba::COMPLETED) {
-                        $to_sort['time'] = $object->status_time;
-                        $sort_prev[] = $to_sort;
-                    } else {
-                        $to_sort['time'] = $object->end;
-                        $sort_next[] = $to_sort;
-                    }
-                    break;
-                case 'org_openpsa_event':
-                    $to_sort['type'] = 'event';
-                    if ($object->end < time()) {
-                        $to_sort['time'] = $object->end;
-                        $sort_prev[] = $to_sort;
-                    } else {
-                        $to_sort['time'] = $object->start;
-                        $sort_next[] = $to_sort;
-                    }
-                    break;
-            }
-        }
-        usort($sort_prev, array('self', '_sort_action_by_time_reverse'));
-        usort($sort_next, array('self', '_sort_action_by_time'));
-
-        if (isset($sort_next[0])) {
-            $this->next_action = $sort_next[0];
-        }
-        if (isset($sort_prev[0])) {
-            $this->prev_action = $sort_prev[0];
-        }
     }
 
     public function __get($property)
@@ -307,21 +234,5 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
             $this->state = self::STATE_INVOICED;
             $this->update();
         }
-    }
-
-    /**
-     * For sorting arrays in get_actions method
-     */
-    private static function _sort_action_by_time($a, $b)
-    {
-        return $a['time'] - $b['time'];
-    }
-
-    /**
-     * For sorting arrays in get_actions method
-     */
-    private static function _sort_action_by_time_reverse($a, $b)
-    {
-        return $b['time'] - $a['time'];
     }
 }

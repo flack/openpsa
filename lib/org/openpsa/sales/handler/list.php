@@ -47,11 +47,6 @@ class org_openpsa_sales_handler_list extends midcom_baseclasses_components_handl
         }
 
         $this->_salesprojects = $qb->execute();
-
-        foreach ($this->_salesprojects as $salesproject) {
-            // Populate previous/next actions in the project
-            $salesproject->get_actions();
-        }
         // TODO: Filtering
 
         $data['grid'] = new org_openpsa_widgets_grid($data['mode'] . '_salesprojects_grid', 'local');

@@ -26,22 +26,37 @@ foreach ($data['salesprojects'] as $salesproject) {
     if ($data['mode'] != 'customer') {
         $row['index_customer'] = '';
         $row['customer'] = '';
-        if ($customer = $salesproject->get_customer()) {
-            $label = $customer->get_label();
-            $row['index_customer'] = $label;
-            if ($data['contacts_url']) {
-                $type = 'group';
-                if (is_a($customer, 'org_openpsa_contacts_person_dba')) {
-                    $type = 'person';
-                }
-                $row['customer'] = "<a href=\"{$data['contacts_url']}{$type}/{$customer->guid}/\">{$label}</a>";
-            } else {
+        if ($salesproject->customer) {
+            try {
+                $customer = org_openpsa_contacts_group_dba::get_cached($salesproject->customer);
+                $label = $customer->get_label();
+                $row['index_customer'] = $label;
                 $row['customer'] = $label;
+                if ($data['contacts_url']) {
+                    $row['customer'] = "<a href=\"{$data['contacts_url']}group/{$customer->guid}/\">{$label}</a>";
+                }
+            } catch (midcom_error $e) {
+                $e->log();
             }
         }
-    } else {
-        $row['state'] = $salesproject->state;
     }
+    $row['index_customerContact'] = '';
+    $row['customerContact'] = '';
+    if ($salesproject->customerContact) {
+        try {
+            $customer = org_openpsa_contacts_person_dba::get_cached($salesproject->customerContact);
+            $label = $customer->get_label();
+            $row['index_customerContact'] = $label;
+            $row['customerContact'] = $label;
+            if ($data['contacts_url']) {
+                $row['customerContact'] = "<a href=\"{$data['contacts_url']}person/{$customer->guid}/\">{$label}</a>";
+            }
+        } catch (midcom_error $e) {
+            $e->log();
+        }
+    }
+
+    $row['state'] = $salesproject->state;
 
     try {
         $owner = org_openpsa_contacts_person_dba::get_cached($salesproject->owner);
@@ -66,22 +81,6 @@ foreach ($data['salesprojects'] as $salesproject) {
         $row['weightedvalue'] = $salesproject->value / 100 * $salesproject->probability;
     }
     $row['profit'] = $salesproject->profit;
-
-    $row['prev_action'] = '';
-
-    $action = $salesproject->prev_action;
-    if ($action['type'] != 'noaction') {
-        $format = ($action['type'] == 'event') ? 'datetime' : 'date';
-        $row['prev_action'] = "<a href=\"{$salesproject_url}#{$action['obj']->guid}\" class=\"{$action['type']}\">" . $formatter->{$format}($action['time']) . ": {$action['obj']->title}</a>";
-    }
-
-    $row['next_action'] = '';
-
-    $action = $salesproject->next_action;
-    if ($action['type'] != 'noaction') {
-        $format = ($action['type'] == 'event') ? 'datetime' : 'date';
-        $row['next_action'] = "<a href=\"{$salesproject_url}#{$action['obj']->guid}\" class=\"{$action['type']}\">" . $formatter->{$format}($action['time']) . ": {$action['obj']->title}</a>";
-    }
     $rows[] = $row;
 }
 ?>
@@ -91,23 +90,21 @@ foreach ($data['salesprojects'] as $salesproject) {
 $grid->set_column('title', $data['l10n']->get('title'), 'width: 100, classes: "ui-ellipsis"', 'string');
 if ($data['mode'] != 'customer') {
     $grid->set_column('customer', $data['l10n']->get('customer'), 'width: 80, classes: "ui-ellipsis"', 'string');
-} else {
-    $grid->set_select_column('state', $data['l10n']->get('state'), 'hidden: true', $state_labels);
 }
+$grid->set_column('customerContact', $data['l10n']->get('customer contact'), 'width: 80, classes: "ui-ellipsis"', 'string');
+$grid->set_select_column('state', $data['l10n']->get('state'), 'hidden: true', $state_labels);
 $grid->set_column('owner', $data['l10n']->get('owner'), 'width: 70, classes: "ui-ellipsis"', 'string')
-->set_column('closeest', $data['l10n']->get('estimated closing date'), 'width: 85, align: "right", formatter: "date", fixed: true')
-->set_column('value', $data['l10n']->get('value'), 'width: 60, summaryType: "sum", template: "number"');
+    ->set_column('closeest', $data['l10n']->get('estimated closing date'), 'width: 85, align: "right", formatter: "date", fixed: true')
+    ->set_column('value', $data['l10n']->get('value'), 'width: 60, summaryType: "sum", template: "number"');
 if ($data['mode'] == 'active') {
     $grid->set_column('probability', $data['l10n']->get('probability'), 'width: 55, fixed: true, align: "right"')
     ->set_column('weightedvalue', $data['l10n']->get('weighted value'), 'width: 55, template: "number"');
 }
-$grid->set_column('profit', $data['l10n']->get('profit'), 'width: 60, summaryType: "sum", template: "number"')
-->set_column('prev_action', $data['l10n']->get('previous action'), 'width: 75, align: "center", classes: "ui-ellipsis"')
-->set_column('next_action', $data['l10n']->get('next action'), 'width: 75, align: "center", classes: "ui-ellipsis"');
+$grid->set_column('profit', $data['l10n']->get('profit'), 'width: 60, summaryType: "sum", template: "number"');
 
 $grid->set_option('scroll', 1)
-->set_option('loadonce', true)
-->set_option('sortname', 'index_title');
+    ->set_option('loadonce', true)
+    ->set_option('sortname', 'index_title');
 
 $grid->set_option('grouping', true)
     ->set_option('groupingView', array(
@@ -144,7 +141,8 @@ org_openpsa_export_csv.add({
       id: '&(grid_id);',
       fields: {
           index_title: '<?php echo $data['l10n']->get('title'); ?>',
-          <?php if ($data['mode'] != 'customer') {
+          <?php
+          if ($data['mode'] != 'customer') {
     ?>
             index_customer: '<?php echo $data['l10n']->get('customer'); ?>',
           <?php
@@ -158,9 +156,7 @@ org_openpsa_export_csv.add({
               index_weightedvalue: '<?php echo $data['l10n']->get('weighted value'); ?>',
           <?php
 } ?>
-          index_profit: '<?php echo $data['l10n']->get('profit'); ?>',
-          prev_action: '<?php echo $data['l10n']->get('previous action'); ?>',
-          next_action: '<?php echo $data['l10n']->get('next action'); ?>'
+          index_profit: '<?php echo $data['l10n']->get('profit'); ?>'
         }
 });
 
