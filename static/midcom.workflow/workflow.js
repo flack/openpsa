@@ -215,6 +215,30 @@ function create_dialog(control, title, url)
         control.parent().trigger('click');
     }
     dialog
+        .on('dialogcreate', function() {
+            var maximized = false,
+                saved_options = {};
+            $(this).prevAll('.ui-dialog-titlebar').on('dblclick', function() {
+                if (!maximized) {
+                    saved_options.position = dialog.dialog('option', 'position');
+                    saved_options.width = dialog.dialog('option', 'width');
+                    saved_options.height = dialog.dialog('option', 'height');
+                    dialog.dialog('option', {
+                        width: '99%',
+                        height: $(window).height(),
+                        position: {my: 'center top', at: 'center top', of: window}
+                    });
+                    maximized = true;
+                } else {
+                    dialog.dialog('option', {
+                        height: saved_options.height,
+                        width: saved_options.width,
+                        position: saved_options.position
+                    });
+                    maximized = false;
+                }
+            });
+        })
         .dialog(config)
         .dialog("instance").uiDialog.draggable("option", "containment", false);
 }
