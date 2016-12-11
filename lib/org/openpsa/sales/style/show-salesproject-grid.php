@@ -94,7 +94,7 @@ if ($data['mode'] != 'customer') {
 $grid->set_column('customerContact', $data['l10n']->get('customer contact'), 'width: 80, classes: "ui-ellipsis"', 'string');
 $grid->set_select_column('state', $data['l10n']->get('state'), 'hidden: true', $state_labels);
 $grid->set_column('owner', $data['l10n']->get('owner'), 'width: 70, classes: "ui-ellipsis"', 'string')
-    ->set_column('closeest', $data['l10n']->get('estimated closing date'), 'width: 85, align: "right", formatter: "date", fixed: true')
+    ->set_column('closeest', $data['l10n']->get('estimated closing date'), 'width: 95, align: "right", formatter: "date", fixed: true')
     ->set_column('value', $data['l10n']->get('value'), 'width: 60, summaryType: "sum", template: "number"');
 if ($data['mode'] == 'active') {
     $grid->set_column('probability', $data['l10n']->get('probability'), 'width: 55, fixed: true, align: "right"')
@@ -136,6 +136,8 @@ $filename = preg_replace('/[^a-z0-9-]/i', '_', $filename);
 </form>
 
 <script type="text/javascript">
+
+$('#&(grid_id);').jqGrid('filterToolbar');
 
 org_openpsa_export_csv.add({
       id: '&(grid_id);',
