@@ -145,7 +145,7 @@ function create_dialog(control, title, url)
             buttons: [],
             title: title,
             height:  590,
-            width: 700,
+            width: 800,
             close: function() {
                 control.removeClass('active');
                 iframe.css('visibility', 'hidden');
