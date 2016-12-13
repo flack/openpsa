@@ -99,30 +99,23 @@ class org_openpsa_notifications extends midcom_baseclasses_components_purecode
         }
 
         // Seek possible preferences for this action from user's groups
-        $qb = new midgard_query_builder('midgard_parameter');
-        $qb->add_constraint('domain', '=', 'org.openpsa.notifications');
-        $qb->add_constraint('name', '=', "{$component}:{$action}");
+        $member_mc = midcom_db_member::new_collector('uid', $recipient->id);
+        if ($gids = $member_mc->get_values('gid')) {
+            $qb = new midgard_query_builder('midgard_parameter');
+            $qb->add_constraint('domain', '=', 'org.openpsa.notifications');
+            $qb->add_constraint('name', '=', "{$component}:{$action}");
 
-        // Seek user's groups
-        $member_qb = midcom_db_member::new_query_builder();
-        $member_qb->add_constraint('uid', '=', (int)$recipient->id);
-        $memberships = $member_qb->execute();
-        $qb->begin_group('OR');
-        foreach ($memberships as $member) {
-            try {
-                $group = new midcom_db_group($member->gid);
-                $qb->add_constraint('parentguid', '=', $group->guid);
-            } catch (midcom_error $e) {
-                $e->log();
+            $group_mc = midcom_db_group::new_collector('metadata.deleted', false);
+            $group_mc->add_constraint('id', 'IN', $gids);
+            $group_guids = $group_mc->list_keys();
+
+            $qb->add_constraint('parentguid', 'IN', array_keys($group_guids));
+            $group_preferences = $qb->execute();
+
+            if (count($group_preferences) > 0) {
+                return $group_preferences[0]->value;
             }
         }
-        $qb->end_group();
-
-        $group_preferences = $qb->execute();
-        if (count($group_preferences) > 0) {
-            return $group_preferences[0]->value;
-        }
-
         // Fall back to component defaults
         $customdata = midcom::get()->componentloader->get_all_manifest_customdata('org.openpsa.notifications');
         if (!empty($customdata[$component][$action]['default'])) {
