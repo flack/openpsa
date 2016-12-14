@@ -107,9 +107,9 @@ class org_openpsa_httplib extends midcom_baseclasses_components_purecode
         return $this->send($request, $uri, $headers, $this->basicauth['user'], $this->basicauth['password']);
     }
 
-    private function send(Request $request, $url, array $headers, $username, $password)
+    private function send(Request $request, $uri, array $headers, $username, $password)
     {
-        $url = new Url($url);
+        $url = new Url($uri);
         $url->applyToRequest($request);
 
         $request->addHeader('User-Agent: Midgard/' . substr(mgd_version(), 0, 4));
@@ -136,7 +136,7 @@ class org_openpsa_httplib extends midcom_baseclasses_components_purecode
         }
         if (!$response->isSuccessful()) {
             $this->error = $response->getReasonPhrase();
-            debug_add("Got error '{$this->error}' from '{$url}'", MIDCOM_LOG_INFO);
+            debug_add("Got error '{$this->error}' from '{$uri}'", MIDCOM_LOG_INFO);
             return false;
         }
         return $response->getContent();
