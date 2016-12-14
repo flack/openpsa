@@ -106,7 +106,7 @@ class net_nemein_tag_handlerTest extends openpsa_testcase
     public function test_get_objects_with_tags()
    {
        $person = $this->create_object('midcom_db_person');
-       $tag = $this->create_object('net_nemein_tag_tag_dba', array('tag' => uniqid()));
+       $tag = $this->create_object('net_nemein_tag_tag_dba', array('tag' => uniqid('tag')));
        $this->create_object('net_nemein_tag_link_dba', array(
            'tag' => $tag->id,
            'fromGuid' => $person->guid,
