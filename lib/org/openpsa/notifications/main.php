@@ -67,7 +67,7 @@ class org_openpsa_notifications extends midcom_baseclasses_components_purecode
         $message['action'] = $component_action;
 
         // Figure out notification rendering handler
-        $class_name = 'org_openpsa_notifications_' . $notification_type;
+        $class_name = 'org_openpsa_notifications_notifier_' . $notification_type;
         if (!class_exists($class_name)) {
             return false;
         }
@@ -78,7 +78,8 @@ class org_openpsa_notifications extends midcom_baseclasses_components_purecode
 
         $ret = $notifier->send($recipient, $message);
         if ($ret) {
-            midcom::get()->uimessages->add($this->_l10n->get($this->_component), sprintf($this->_l10n->get('notification sent to %s'), $person->name));
+            $l10n = midcom::get()->i18n->get_l10n('org.openpsa.notifications');
+            midcom::get()->uimessages->add($l10n->get('org.openpsa.notifications'), sprintf($l10n->get('notification sent to %s'), $recipient->name));
         }
         return $ret;
     }
