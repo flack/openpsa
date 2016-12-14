@@ -38,7 +38,7 @@ class org_openpsa_notifications extends midcom_baseclasses_components_purecode
      * @param string $recipient GUID of the receiving person
      * @param array $message Notification message in array format
      */
-    public static function notify($component_action, $recipient, $message)
+    public static function notify($component_action, $recipient, array $message)
     {
         // Parse action to component and action
         $action_parts = explode(':', $component_action);
@@ -48,6 +48,13 @@ class org_openpsa_notifications extends midcom_baseclasses_components_purecode
 
         $component = $action_parts[0];
         $action = $action_parts[1];
+
+        // TODO: Should we sudo here to ensure getting correct prefs regardless of ACLs?
+        try {
+            $recipient = midcom_db_person::get_cached($recipient);
+        } catch (midcom_error $e) {
+            return false;
+        }
 
         // Find in which ways to notify the user
         $notification_type = self::_merge_notification_prefences($component, $action, $recipient);
@@ -60,17 +67,20 @@ class org_openpsa_notifications extends midcom_baseclasses_components_purecode
         $message['action'] = $component_action;
 
         // Figure out notification rendering handler
-        // TODO: Support component-specific renderers via class_exists() or handler-like autoloading
-        // For example: if (class_exists('org_openpsa_calendar_notifications'))
-        $notifier = new org_openpsa_notifications_notifier($recipient);
-
-        // Send the type requested by user
-        debug_add("Notifying {$recipient} with type {$notification_type}");
-        $method = "send_{$notification_type}";
-        if (!method_exists($notifier, $method)) {
+        $class_name = 'org_openpsa_notifications_' . $notification_type;
+        if (!class_exists($class_name)) {
             return false;
         }
-        return $notifier->$method($message);
+        $notifier = new $class_name();
+
+        // Send the type requested by user
+        debug_add("Notifying {$recipient->guid} with type {$notification_type}");
+
+        $ret = $notifier->send($recipient, $message);
+        if ($ret) {
+            midcom::get()->uimessages->add($this->_l10n->get($this->_component), sprintf($this->_l10n->get('notification sent to %s'), $person->name));
+        }
+        return $ret;
     }
 
     /**
@@ -78,18 +88,12 @@ class org_openpsa_notifications extends midcom_baseclasses_components_purecode
      *
      * @param string $component Component name
      * @param string $action Event name
-     * @param string $recipient GUID of the receiving person
+     * @param midcom_db_person $recipient The receiving person
      * @return Array options supported by user
      */
-    private static function _merge_notification_prefences($component, $action, $recipient)
+    private static function _merge_notification_prefences($component, $action, midcom_db_person $recipient)
     {
-        // TODO: Should we sudo here to ensure getting correct prefs regardless of ACLs?
         $preference = 'none';
-        try {
-            $recipient = new midcom_db_person($recipient);
-        } catch (midcom_error $e) {
-            return $preference;
-        }
 
         // If user has preference for this message, we use that
         $personal_preferences = $recipient->list_parameters('org.openpsa.notifications');
