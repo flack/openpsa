@@ -551,7 +551,7 @@ class midcom_helper_toolbar
         });
 
         if (count($visible_items) == 0) {
-            debug_add('midcom_helper_toolbar: Tried to render an empty toolbar, returning an empty string.');
+            debug_add('Tried to render an empty toolbar, returning an empty string.');
             return '';
         }
 
