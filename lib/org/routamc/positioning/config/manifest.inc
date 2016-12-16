@@ -10,7 +10,7 @@
     'org_routamc_positioning_location' => 'org_routamc_positioning_location_dba',
     'org_routamc_positioning_log' => 'org_routamc_positioning_log_dba',
 ),
-'version' => '9.1.0',
+'version' => '9.1.0+git',
 'state' => 'stable',
 'customdata' => array
 (

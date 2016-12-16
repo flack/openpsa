@@ -1,6 +1,6 @@
 'name' => 'fi.protie.navigation',
 'icon' => 'fi.protie.navigation/navigation.png',
-'version' => '9.1.0',
+'version' => '9.1.0+git',
 'state' => 'stable',
 'purecode' => true,
 'description' => 'Versatile class for drawing dynamically navigation elements according to user preferences.',

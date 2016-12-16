@@ -8,6 +8,6 @@
     'su' => MIDCOM_PRIVILEGE_DENY,
 ),
 'class_mapping' => array(),
-'version' => '9.1.0',
+'version' => '9.1.0+git',
 'state' => 'stable',
 'description' => 'User and Group management for OpenPSA',

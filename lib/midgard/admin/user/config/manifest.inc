@@ -2,7 +2,7 @@
 'description' => 'User management tool',
 'icon' => 'midgard.admin.user/user-manager.png',
 'purecode' => true,
-'version' => '9.1.0',
+'version' => '9.1.0+git',
 'privileges' => array
 (
     'access' => MIDCOM_PRIVILEGE_DENY,
