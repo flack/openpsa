@@ -12,7 +12,7 @@
     'org_openpsa_calendar_resource' => 'org_openpsa_calendar_resource_dba',
     'org_openpsa_calendar_event_resource' => 'org_openpsa_calendar_event_resource_dba',
 ),
-'version' => '9.1.0-dev',
+'version' => '9.1.0',
 'state' => 'stable',
 'description' => 'Group calendar for workgroups.',
 'customdata' => array

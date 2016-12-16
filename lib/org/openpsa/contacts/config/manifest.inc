@@ -9,7 +9,7 @@
     'org_openpsa_contacts_list' => 'org_openpsa_contacts_list_dba',
     'org_openpsa_member' => 'org_openpsa_contacts_member_dba',
 ),
-'version' => '9.1.0-dev',
+'version' => '9.1.0',
 'state' => 'stable',
 'description' => 'Application for managing contact persons and organizations, with support for user management and automatic finding of duplicates',
 'customdata' => array

@@ -3,6 +3,6 @@
 'purecode' => true,
 'privileges' => array(),
 'class_mapping' => array(),
-'version' => '9.1.0-dev',
+'version' => '9.1.0',
 'state' => 'stable',
 'description' => 'Library for automatically splitting query builder results to multiple pages',

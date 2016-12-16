@@ -6,7 +6,7 @@
 (
     'midcom_services_at_entry_db' => 'midcom_services_at_entry_dba',
 ),
-'version' => '9.1.0-dev',
+'version' => '9.1.0',
 'state' => 'stable',
 'description' => 'AT service',
 'customdata' => array

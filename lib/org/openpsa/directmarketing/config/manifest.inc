@@ -9,7 +9,7 @@
     'org_openpsa_campaign_message_receipt' => 'org_openpsa_directmarketing_campaign_messagereceipt_dba',
     'org_openpsa_link_log' => 'org_openpsa_directmarketing_link_log_dba',
 ),
-'version' => '9.1.0-dev',
+'version' => '9.1.0',
 'state' => 'stable',
 'description' => 'Application for sending emails and newsletters to registered users.',
 'customdata' => array

@@ -2,7 +2,7 @@
 'icon' => 'stock-icons/16x16/history.png',
 'description' => 'Front and backend for a versioning library',
 'purecode' => true,
-'version' => '9.1.0-dev',
+'version' => '9.1.0',
 'state' => 'stable',
 'privileges' => array(),
 'class_mapping' => array(),

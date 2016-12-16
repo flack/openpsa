@@ -2,6 +2,6 @@
 'purecode' => true,
 'privileges' => array(),
 'class_mapping' => array(),
-'version' => '9.1.0-dev',
+'version' => '9.1.0',
 'state' => 'stable',
 'description' => 'OpenPSA common UI elements',

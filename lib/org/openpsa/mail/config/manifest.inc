@@ -3,6 +3,6 @@
 'purecode' => true,
 'privileges' => array(),
 'class_mapping' => array(),
-'version' => '9.1.0-dev',
+'version' => '9.1.0',
 'state' => 'stable',
 'description' => 'Library for handling outgoing and incoming emails, including HTML emails and attachments',

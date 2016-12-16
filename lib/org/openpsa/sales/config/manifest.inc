@@ -1,7 +1,7 @@
 'name' => 'org.openpsa.sales',
 'icon' => 'stock-icons/16x16/currency.png',
 'purecode' => false,
-'version' => '9.1.0-dev',
+'version' => '9.1.0',
 'state' => 'stable',
 'class_mapping' => array
 (

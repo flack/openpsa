@@ -2,6 +2,6 @@
 'purecode' => false,
 'privileges' => array(),
 'class_mapping' => array(),
-'version' => '9.1.0-dev',
+'version' => '9.1.0',
 'state' => 'stable',
 'description' => 'At a glance view of your documents, tasks etc',

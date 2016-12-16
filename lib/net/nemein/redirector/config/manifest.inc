@@ -1,7 +1,7 @@
 'name' => 'net.nemein.redirector',
 'icon' => 'stock-icons/16x16/stock_jump-to.png',
 'purecode' => false,
-'version' => '9.1.0-dev',
+'version' => '9.1.0',
 'privileges' => array
 (
     'noredirect' => MIDCOM_PRIVILEGE_DENY,

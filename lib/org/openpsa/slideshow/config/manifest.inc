@@ -4,6 +4,6 @@
 (
     'org_openpsa_slideshow_image' => 'org_openpsa_slideshow_image_dba',
 ),
-'version' => '9.1.0-dev',
+'version' => '9.1.0',
 'state' => 'stable',
 'description' => 'Simple Slideshow/Image Gallery Viewer',

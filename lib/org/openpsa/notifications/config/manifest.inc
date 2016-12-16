@@ -2,7 +2,7 @@
 'icon' => 'org.openpsa.notifications/notification-system.png',
 'purecode' => true,
 'privileges' => array(),
-'version' => '9.1.0-dev',
+'version' => '9.1.0',
 'state' => 'stable',
 'class_mapping' => array
 (
