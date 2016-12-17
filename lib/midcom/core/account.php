@@ -319,32 +319,10 @@ class midcom_core_account
     private function _get_user()
     {
         if ($this->_midgard2) {
-            if (class_exists('midgard_query_storage')) {
-                $storage = new midgard_query_storage('midgard_user');
-                $qs = new midgard_query_select($storage);
-
-                $group = new midgard_query_constraint_group('AND');
-                $group->add_constraint(
-                    new midgard_query_constraint(
-                        new midgard_query_property('person'),
-                        '=',
-                        new midgard_query_value($this->_person->guid)));
-                $group->add_constraint(
-                    new midgard_query_constraint(
-                        new midgard_query_property('authtype'),
-                        '=',
-                        new midgard_query_value(midcom::get()->config->get('auth_type'))));
-                $qs->set_constraint($group);
-                $qs->toggle_readonly(false);
-                $qs->execute();
-
-                $result = $qs->list_objects();
-            } else {
-                $qb = new midgard_query_builder('midgard_user');
-                $qb->add_constraint('person', '=', $this->_person->guid);
-                $qb->add_constraint('authtype', '=', midcom::get()->config->get('auth_type'));
-                $result = $qb->execute();
-            }
+            $qb = new midgard_query_builder('midgard_user');
+            $qb->add_constraint('person', '=', $this->_person->guid);
+            $qb->add_constraint('authtype', '=', midcom::get()->config->get('auth_type'));
+            $result = $qb->execute();
             if (sizeof($result) != 1) {
                 return new midgard_user();
             }

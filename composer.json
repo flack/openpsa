@@ -1,7 +1,7 @@
 {
     "name": "openpsa/midcom",
     "type": "midcom-package",
-    "description": "Content-oriented Model-View-Controller library for PHP and the Midgard Content Repository",
+    "description": "Content-oriented Model-View-Controller framework for PHP",
     "keywords": ["mvc", "midgard", "framework"],
     "homepage": "http://midgard-project.org/midcom/",
     "license": "LGPL",

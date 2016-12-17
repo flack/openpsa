@@ -87,10 +87,6 @@
     'midcom_helper_replicator_subscription',
     /* Activities are shown in their own Activity Stream view */
     'midcom_helper_activitystream_activity',
-    /* Midgard2 builtin types */
-    'nt_unstructured',
-    'nt_address',
-    'nt_query',
 ),
 // Classes that should always be listed as root class (mainly workaround for schema bugs)
 'root_class_exceptions_forceroot' => array

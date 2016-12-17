@@ -108,8 +108,7 @@ class midcom_helper_datamanager2_type_php extends midcom_helper_datamanager2_typ
         if ($return_status !== 0) {
             $parse_result = array_pop($parse_results);
             if (strpos($parse_result, 'No syntax errors detected in ' . $tmpfile) !== false) {
-                // We have an error, but it's most likely a false positive,
-                // e.g. a PHP startup error under mgd2
+                // We have an error, but it's most likely a false positive, e.g. a PHP startup error
                 return true;
             }
             $parse_result = array_pop($parse_results);
