@@ -67,15 +67,6 @@ class midcom_services_i18n
     private $_current_charset;
 
     /**
-     * List of different language versions of the site
-     *
-     * Format: An array indexed by language ID and containing midgard_host objects
-     *
-     * @var array
-     */
-    private $_language_hosts = array();
-
-    /**
      * Initialize the available i18n framework by determining the desired language
      * from these different sources: HTTP Content Negotiation, Client side language cookie.
      *
@@ -359,23 +350,6 @@ class midcom_services_i18n
     public function get_current_charset()
     {
         return $this->_current_charset;
-    }
-
-    function get_language_hosts()
-    {
-        if (count($this->_language_hosts) == 0) {
-            $qb = new midgard_query_builder('midgard_host');
-            $qb->add_constraint('root', '=', midcom_connection::get('page'));
-
-            // TODO: Check online status?
-
-            $hosts = $qb->execute();
-
-            foreach ($hosts as $host) {
-                $this->_language_hosts[$host->lang] = $host;
-            }
-        }
-        return $this->_language_hosts;
     }
 
     /**

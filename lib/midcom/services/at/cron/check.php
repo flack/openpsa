@@ -24,10 +24,6 @@ class midcom_services_at_cron_check extends midcom_baseclasses_components_cron_h
     {
         $qb = midcom_services_at_entry_dba::new_query_builder();
         $qb->add_constraint('start', '<=', time());
-        $qb->begin_group('OR');
-        $qb->add_constraint('host', '=', midcom_connection::get('host'));
-        $qb->add_constraint('host', '=', 0);
-        $qb->end_group();
         $qb->add_constraint('status', '=', midcom_services_at_entry_dba::SCHEDULED);
         $qb->set_limit((int) $this->_config->get('limit_per_run'));
 

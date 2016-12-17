@@ -48,9 +48,6 @@ class midcom_services_at_entry_dba extends midcom_core_dbaobject
         if (!$this->status) {
             $this->status = self::SCHEDULED;
         }
-        if (!$this->host) {
-            $this->host = midcom_connection::get('host');
-        }
         $this->_serialize_arguments();
         return true;
     }

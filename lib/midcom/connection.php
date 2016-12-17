@@ -31,11 +31,8 @@ class midcom_connection
         'cookieauth' => false,
 
         // General host setup
-        'page' => 0,
         'debug' => false,
 
-        'host' => 0,
-        'style' => 0,
         'author' => 0,
         'config' => array(
             'prefix' => '',

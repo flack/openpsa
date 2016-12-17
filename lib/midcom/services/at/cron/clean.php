@@ -21,10 +21,6 @@ class midcom_services_at_cron_clean extends midcom_baseclasses_components_cron_h
         $qb = midcom_services_at_entry_dba::new_query_builder();
         // (to be) start(ed) AND last touched over two days ago
         $qb->add_constraint('start', '<=', time() - 3600 * 24 * 2);
-        $qb->begin_group('OR');
-        $qb->add_constraint('host', '=', midcom_connection::get('host'));
-        $qb->add_constraint('host', '=', 0);
-        $qb->end_group();
         $qb->add_constraint('metadata.revised', '<=', date('Y-m-d H:i:s', time() - 3600 * 24 * 2));
         $qb->add_constraint('status', '>=', midcom_services_at_entry_dba::RUNNING);
 

@@ -73,7 +73,7 @@
  *
  * - <b>auth_backend_simple_cookie_secure:</b> Set the "secure" flag on cookie, defaults to true, applies only when actually using SSL/TLS
  * - <b>auth_backend_simple_cookie_id:</b> The ID appended to the cookie prefix, separating
- *   auth cookies for different sites. Defaults to the GUID of the current host.
+ *   auth cookies for different sites. Defaults to 1.
  * - <b>auth_backend_simple_cookie_path:</b> Controls the valid path of the cookie,
  *   defaults to midcom_connection::get_url('self').
  * - <b>auth_backend_simple_cookie_domain:</b> Controls the valid domain of the cookie.
@@ -218,8 +218,6 @@
  *
  * <b>Style Engine</b>
  *
- * - <b>boolean styleengine_relative_paths:</b> Whether folder styles should be loaded
- *   with paths relative to the current Midgard style path, or with absolute paths.
  * - <b>Array styleengine_default_styles:</b> Use this array to set site-wide default
  *   styles to be used for the components. This is an array indexing component name to
  *   style path. Components not present in this array use the default style delivered
@@ -381,7 +379,6 @@ class midcom_config implements arrayaccess
         'show_hidden_objects' => true,
         'show_unapproved_objects' => true,
         // Style Engine defaults
-        'styleengine_relative_paths' => false,
         'styleengine_default_styles' => array(),
 
         // Toolbars service
@@ -524,13 +521,7 @@ class midcom_config implements arrayaccess
 
     private function _complete_defaults()
     {
-        if (midcom_connection::get('config', 'auth_cookie_id')) {
-            $auth_cookie_id = midcom_connection::get('config', 'auth_cookie_id');
-        } else {
-            // Generate host identifier from Midgard host
-            $auth_cookie_id = "host" . midcom_connection::get('host');
-        }
-        $this->_default_config['auth_backend_simple_cookie_id'] = $auth_cookie_id;
+        $this->_default_config['auth_backend_simple_cookie_id'] = midcom_connection::get('config', 'auth_cookie_id');
 
         if (class_exists('Memcache')) {
             $this->_default_config['cache_module_content_backend'] = array('driver' => 'memcached');

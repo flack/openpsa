@@ -99,10 +99,7 @@
 (
     'midgard_style',
     'midgard_element',
-    'midgard_host',
-    'midgard_page',
     'midgard_attachment',
-    'midgard_pageelement',
     'midgard_parameter',
     'midgard_snippetdir',
     'midgard_snippet',

@@ -158,12 +158,6 @@ class midcom_admin_folder_management extends midcom_baseclasses_components_plugi
         // Give an option for creating a new layout template
         $style_array['__create'] = midcom::get()->i18n->get_string('new layout template', 'midcom.admin.folder');
 
-        if (   midcom::get()->config->get('styleengine_relative_paths')
-            && $up == 0) {
-            // Relative paths in use, start seeking from under the style used for the Midgard host
-            $up = midcom_connection::get('style');
-        }
-
         $qb = midcom_db_style::new_query_builder();
         $qb->add_constraint('up', '=', $up);
         $styles = $qb->execute();

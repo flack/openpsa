@@ -289,17 +289,13 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
      */
     private function _create_style($style_name)
     {
-        if (isset($GLOBALS['midcom_style_inherited'])) {
-            $up = midcom::get()->style->get_style_id_from_path($GLOBALS['midcom_style_inherited']);
-            debug_add("Style inherited from {$GLOBALS['midcom_style_inherited']}");
-        } else {
-            $up = midcom_connection::get('style');
-            debug_add("No inherited style found, placing the new style under host style ID: " . midcom_connection::get('style'));
-        }
-
         $style = new midcom_db_style();
         $style->name = $style_name;
-        $style->up = $up;
+
+        if (isset($GLOBALS['midcom_style_inherited'])) {
+            $style->up = midcom::get()->style->get_style_id_from_path($GLOBALS['midcom_style_inherited']);
+            debug_add("Style inherited from {$GLOBALS['midcom_style_inherited']}");
+        }
 
         if (!$style->create()) {
             debug_print_r('Failed to create a new style due to ' . midcom_connection::get_error_string(), $style, MIDCOM_LOG_WARN);

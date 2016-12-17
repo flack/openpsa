@@ -42,8 +42,6 @@ class midgard_admin_asgard_toolbar extends midcom_helper_toolbar_view
             && !is_a($object, 'midcom_db_element')
             && !is_a($object, 'midcom_db_snippetdir')
             && !is_a($object, 'midcom_db_snippet')
-            && !is_a($object, 'midcom_db_page')
-            && !is_a($object, 'midcom_db_pageelement')
             && !is_a($object, 'midcom_db_parameter')
             && substr($object->__mgdschema_class_name__, 0, 23) != 'org_routamc_positioning'
             && substr($object->__mgdschema_class_name__, 0, 14) != 'net_nemein_tag') {

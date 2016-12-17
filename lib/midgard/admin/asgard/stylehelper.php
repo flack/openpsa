@@ -115,20 +115,6 @@ class midgard_admin_asgard_stylehelper
             $results['nodes'][$node->component][] = $node;
         }
 
-        if ($style_id == midcom_connection::get('style')) {
-            // We're in site main style, append elements from there to the list of "common elements"
-            $mc = midcom_db_element::new_collector('style', $style_id);
-            $elements = $mc->get_values('name');
-            foreach ($elements as $name) {
-                $results['elements']['midcom'][$name] = '';
-            }
-
-            if (!isset($results['elements']['midcom']['ROOT'])) {
-                // There should always be the ROOT element available
-                $results['elements']['midcom']['ROOT'] = '';
-            }
-        }
-
         return $results;
     }
 

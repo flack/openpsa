@@ -18,7 +18,7 @@
  * cookie. If it is set, the domain parameter of the cookie will be set accordingly.
  *
  * The basic cookie id (username prefix) is taken from the config option
- * <i>auth_backend_simple_cookie_id</i>, which defaults to the current host GUID.
+ * <i>auth_backend_simple_cookie_id</i>, which defaults to 1
  *
  * @package midcom.services
  */

@@ -3,11 +3,12 @@
     <type name="midcom_services_at_entry_db" table="midcom_services_at_entry_db">
         <property name="id" type="unsigned integer" primaryfield="id"/>
         <property name="status" type="integer" index="yes"/>
-        <property name="host" type="unsigned integer" link="midgard_host:id"/>
-        <property name="start" type="integer" index="yes"/>
+         <property name="start" type="integer" index="yes"/>
         <property name="component" type="string"/>
         <property name="method" type="string"/>
         <!-- arguments array is stored serialized -->
         <property name="argumentsstore" type="text"/>
-    </type>
+        <!-- backwards compatibility for openpsa-installer -->
+		<property name="host" type="unsigned integer"/>
+   </type>
 </Schema>

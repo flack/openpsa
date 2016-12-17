@@ -27,27 +27,27 @@ class midcom_helper_datamanager2_widget_codemirrorTest extends openpsa_testcase
 
         $this->assertEquals('TEST', $widget->get_default(), 'nullstorage/default test failed');
 
-        $page = new midcom_db_page;
-        $dm2_helper = new openpsa_test_dm2_helper($page);
-        $widget = $dm2_helper->get_widget('codemirror', 'php', array('storage' => 'content'));
+        $topic = new midcom_db_topic;
+        $dm2_helper = new openpsa_test_dm2_helper($topic);
+        $widget = $dm2_helper->get_widget('codemirror', 'php', array('storage' => 'extra'));
 
         $this->assertNull($widget->get_default(), 'create test failed');
 
         $dm2_helper->defaults = array('test_codemirror_1' => 'TEST');
-        $widget = $dm2_helper->get_widget('codemirror', 'php', array('storage' => 'content'));
+        $widget = $dm2_helper->get_widget('codemirror', 'php', array('storage' => 'extra'));
 
         $this->assertEquals('TEST', $widget->get_default(), 'create/default test failed');
 
-        $page = $this->create_object('midcom_db_page');
-        $dm2_helper = new openpsa_test_dm2_helper($page);
-        $widget = $dm2_helper->get_widget('codemirror', 'php', array('storage' => 'content'));
+        $topic = $this->create_object('midcom_db_topic');
+        $dm2_helper = new openpsa_test_dm2_helper($topic);
+        $widget = $dm2_helper->get_widget('codemirror', 'php', array('storage' => 'extra'));
 
         $this->assertEquals('', $widget->get_default(), 'simple test failed, ');
 
-        $page->content = 'TEST';
+        $topic->extra = 'TEST';
 
-        $dm2_helper = new openpsa_test_dm2_helper($page);
-        $widget = $dm2_helper->get_widget('codemirror', 'php', array('storage' => 'content'));
+        $dm2_helper = new openpsa_test_dm2_helper($topic);
+        $widget = $dm2_helper->get_widget('codemirror', 'php', array('storage' => 'extra'));
 
         $this->assertEquals('TEST', $widget->get_default(), 'simple/storage test failed');
     }

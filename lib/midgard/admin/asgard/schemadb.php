@@ -167,12 +167,6 @@ class midgard_admin_asgard_schemadb
             return false;
         }
 
-        // Only hosts have lang field that we will actually display
-        if (   $key == 'lang'
-            && !is_a($this->_object, 'midcom_db_host')) {
-            return false;
-        }
-
         // Skip topic symlink field because it is a special field not meant to be touched directly
         if (   $key == 'symlink'
             && is_a($this->_object, 'midcom_db_topic')) {
@@ -187,32 +181,6 @@ class midgard_admin_asgard_schemadb
             && $type == 'midcom_db_topic') {
             $this->_add_component_dropdown($key);
             return;
-        }
-        // Special page treatment
-        if ($key === 'info') {
-            if ($type === 'midcom_db_page') {
-                $this->_add_info_field_for_page($key);
-                return;
-            }
-
-            if ($type === 'midcom_db_pageelement') {
-                $this->_schemadb['object']->append_field(
-                    $key,
-                    array(
-                        'title'       => $key,
-                        'storage'     => $key,
-                        'type'        => 'select',
-                        'type_config' => array(
-                            'options' => array(
-                                '' => 'not inherited',
-                                'inherit' => 'inherited',
-                                ),
-                            ),
-                        'widget'      => 'select',
-                        )
-                    );
-                return;
-            }
         }
 
         // Special name handling, start by checking if given type is same as $this->_object and if not making a dummy copy (we're probably in creation mode then)
@@ -296,14 +264,7 @@ class midgard_admin_asgard_schemadb
         $widget = 'textarea';
         $dm_type = 'text';
 
-        // Workaround for the content field of pages
-        $adjusted_key = $key;
-        if (   $type == 'midcom_db_page'
-            && $key == 'content') {
-            $adjusted_key = 'code';
-        }
-
-        switch ($adjusted_key) {
+        switch ($key) {
             case 'content':
             case 'description':
                 $height = 30;
@@ -354,31 +315,6 @@ class midgard_admin_asgard_schemadb
                     'width' => '100%',
                 ),
             )
-        );
-    }
-
-    private function _add_info_field_for_page($key)
-    {
-        $this->_schemadb['object']->append_field(
-            $key,
-            array(
-                'title'       => $key,
-                'storage'     => $key,
-                'type'        => 'select',
-                'type_config' => array(
-                    'allow_multiple' => true,
-                    'multiple_separator' => ',',
-                    'multiple_storagemode' => 'imploded',
-                    'options' => array(
-                        'auth'        => 'require authentication',
-                        'active'      => 'active url parsing',
-                        ),
-                    ),
-                'widget'      => 'select',
-                'widget_config' => array(
-                    'height' => 2,
-                    ),
-                )
         );
     }
 

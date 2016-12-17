@@ -123,11 +123,6 @@ class midcom_helper__styleloader
     private $_styledirs = array();
 
     /**
-     * The actual Midgard style object
-     */
-    private $object = null;
-
-    /**
      * Data to pass to the style
      *
      * @var array
@@ -159,12 +154,6 @@ class midcom_helper__styleloader
                     // Toplevel style
                     break;
                 }
-
-                if (   midcom::get()->config->get('styleengine_relative_paths')
-                    && $style->up == midcom_connection::get('style')) {
-                    // Relative path, stop before going to main Midgard style
-                    break;
-                }
             }
         } catch (midcom_error $e) {
         }
@@ -191,11 +180,6 @@ class midcom_helper__styleloader
     {
         static $cached = array();
 
-        if (   midcom::get()->config->get('styleengine_relative_paths')
-            && $rootstyle == 0) {
-            // Relative paths in use, start seeking from under the style used for the Midgard host
-            $rootstyle = midcom_connection::get('style');
-        }
         $cache_key = $rootstyle . '::' . $path;
 
         if (array_key_exists($cache_key, $cached)) {
@@ -501,8 +485,6 @@ class midcom_helper__styleloader
             $styleengine_default_styles = midcom::get()->config->get('styleengine_default_styles');
             if (isset($styleengine_default_styles[$topic->component])) {
                 $_st = $this->get_style_id_from_path($styleengine_default_styles[$topic->component]);
-            } elseif (midcom::get()->config->get('styleengine_relative_paths')) {
-                $_st = midcom_connection::get('style');
             }
         }
 
@@ -747,14 +729,6 @@ class midcom_helper__styleloader
 
         $this->_snippetdir = $this->_get_component_snippetdir($this->_topic);
         return true;
-    }
-
-    function get_style()
-    {
-        if (is_null($this->object)) {
-            $this->object = new midcom_db_style(midcom_connection::get('style'));
-        }
-        return $this->object;
     }
 
     /**

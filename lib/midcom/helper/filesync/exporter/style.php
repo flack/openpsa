@@ -63,6 +63,6 @@ class midcom_helper_filesync_exporter_style extends midcom_helper_filesync_expor
 
     public function export()
     {
-        $this->read_root(midcom_connection::get('style'));
+        $this->read_root(0);
     }
 }

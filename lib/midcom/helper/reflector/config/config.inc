@@ -29,7 +29,6 @@
     'midgard_person' => false,
     'org_openpsa_person' => false,
     'midgard_parameter' => false,
-    'midgard_host' => false,
     'midcom_core_privilege_db' => false,
     'midcom_core_temporary_object_db' => false,
     'org_routamc_positioning_country' => false,
@@ -47,7 +46,6 @@
     'midgard_person' => 'lastname',
     'org_openpsa_person' => 'lastname',
     'org_openpsa_organization' => 'official',
-    'midgard_host' => 'name',
 ),
 // Classes that never should be listed as root class
 'root_class_exceptions_notroot' => array
@@ -122,7 +120,6 @@
         'midgard_topic',
         'midgard_snippetdir',
         'midgard_style',
-        'midgard_page',
         'org_openpsa_products_product_group',
     ),
     'stock_people.png' => array
@@ -161,7 +158,6 @@
     'new-dir.png' => array
     (
         'midgard_topic',
-        'midgard_page',
         'midgard_snippetdir',
         'midgard_style',
     ),
