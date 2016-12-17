@@ -91,10 +91,7 @@ class midgard_admin_asgard_schemadb
 
         $type_fields = array_filter($type_fields, array($this, '_filter_schema_fields'));
 
-        if (extension_loaded('midgard')) {
-            // Midgard1 returns properties in random order so we need to sort them heuristically
-            usort($type_fields, array($this, 'sort_schema_fields'));
-        }
+        usort($type_fields, array($this, 'sort_schema_fields'));
 
         // Iterate through object properties
         foreach ($type_fields as $key) {

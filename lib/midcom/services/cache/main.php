@@ -159,11 +159,6 @@ class midcom_services_cache implements EventSubscriberInterface
             debug_add("Invalidating the cache module {$name} completely.");
             $this->_modules[$name]->invalidate_all();
         }
-
-        // Invalidate Midgard cache, too
-        if (extension_loaded('midgard')) {
-            mgd_cache_invalidate();
-        }
     }
 
     /**

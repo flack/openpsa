@@ -284,122 +284,55 @@ class midcom_helper_reflector_reflectorTest extends openpsa_testcase
 
     public function providerGet_link_properties()
     {
-        if (!extension_loaded('midgard')) {
-            return array(
-                1 => array('midcom_db_article', array(
-                     'lang' => array(
-                         'class' => 'midgard_language',
-                         'target' => 'id',
-                         'parent' => false,
-                         'up' => false,
-                         'type' => MGD_TYPE_UINT,
-                     ),
-                     'topic' => array(
-                         'class' => 'midgard_topic',
-                         'target' => 'id',
-                         'parent' => true,
-                         'up' => false,
-                         'type' => MGD_TYPE_UINT,
-                     ),
-                     'up' => array(
-                         'class' => 'midgard_article',
-                         'target' => 'id',
-                         'parent' => false,
-                         'up' => true,
-                         'type' => MGD_TYPE_UINT,
-                     ),
-                )),
-                2 => array('midcom_db_snippet', array(
-                     'snippetdir' => array(
-                         'class' => 'midgard_snippetdir',
-                         'target' => 'id',
-                         'parent' => true,
-                         'up' => false,
-                         'type' => MGD_TYPE_UINT,
-                     ),
-                 )),
-                 3 => array('org_openpsa_relatedto_dba', array(
-                     'fromGuid' => array(
-                         'class' => null,
-                         'target' => 'guid',
-                         'parent' => false,
-                         'up' => false,
-                         'type' => MGD_TYPE_GUID,
-                     ),
-                     'toGuid' => array(
-                         'class' => null,
-                         'target' => 'guid',
-                         'parent' => false,
-                         'up' => false,
-                         'type' => MGD_TYPE_GUID,
-                     ),
-                 )),
-            );
-        } else {
-            return array(
-                1 => array('midcom_db_article', array(
-                     'contentauthor' => array(
-                         'class' => 'midgard_person',
-                         'target' => 'id',
-                         'parent' => false,
-                         'up' => false,
-                         'type' => MGD_TYPE_UINT,
-                     ),
-                     'lang' => array(
-                         'class' => 'midgard_language',
-                         'target' => 'id',
-                         'parent' => false,
-                         'up' => false,
-                         'type' => MGD_TYPE_UINT,
-                     ),
-                     'topic' => array(
-                         'class' => 'midgard_topic',
-                         'target' => 'id',
-                         'parent' => true,
-                         'up' => false,
-                         'type' => MGD_TYPE_UINT,
-                     ),
-                     'up' => array(
-                         'class' => 'midgard_article',
-                         'target' => 'id',
-                         'parent' => false,
-                         'up' => true,
-                         'type' => MGD_TYPE_UINT,
-                     ),
-                )),
-                2 => array('midcom_db_snippet', array(
-                     'lang' => array(
-                         'class' => 'midgard_language',
-                         'target' => 'id',
-                         'parent' => false,
-                         'up' => false,
-                         'type' => MGD_TYPE_UINT,
-                     ),
-                     'up' => array(
-                         'class' => 'midgard_snippetdir',
-                         'target' => 'id',
-                         'parent' => true,
-                         'up' => false,
-                         'type' => MGD_TYPE_UINT,
-                     ),
-                 )),
-                 3 => array('org_openpsa_relatedto_dba', array(
-                     'fromGuid' => array(
-                         'class' => null,
-                         'target' => 'guid',
-                         'parent' => false,
-                         'up' => false,
-                         'type' => MGD_TYPE_GUID,
-                     ),
-                     'toGuid' => array(
-                         'class' => null,
-                         'target' => 'guid',
-                         'parent' => false,
-                         'up' => false,
-                         'type' => MGD_TYPE_GUID,
-                     ),
-                 )),
-            );
-        }
+        return array(
+            1 => array('midcom_db_article', array(
+                 'lang' => array(
+                     'class' => 'midgard_language',
+                     'target' => 'id',
+                     'parent' => false,
+                     'up' => false,
+                     'type' => MGD_TYPE_UINT,
+                 ),
+                 'topic' => array(
+                     'class' => 'midgard_topic',
+                     'target' => 'id',
+                     'parent' => true,
+                     'up' => false,
+                     'type' => MGD_TYPE_UINT,
+                 ),
+                 'up' => array(
+                     'class' => 'midgard_article',
+                     'target' => 'id',
+                     'parent' => false,
+                     'up' => true,
+                     'type' => MGD_TYPE_UINT,
+                 ),
+            )),
+            2 => array('midcom_db_snippet', array(
+                 'snippetdir' => array(
+                     'class' => 'midgard_snippetdir',
+                     'target' => 'id',
+                     'parent' => true,
+                     'up' => false,
+                     'type' => MGD_TYPE_UINT,
+                 ),
+             )),
+             3 => array('org_openpsa_relatedto_dba', array(
+                 'fromGuid' => array(
+                     'class' => null,
+                     'target' => 'guid',
+                     'parent' => false,
+                     'up' => false,
+                     'type' => MGD_TYPE_GUID,
+                 ),
+                 'toGuid' => array(
+                     'class' => null,
+                     'target' => 'guid',
+                     'parent' => false,
+                     'up' => false,
+                     'type' => MGD_TYPE_GUID,
+                 ),
+             )),
+        );
     }
 }

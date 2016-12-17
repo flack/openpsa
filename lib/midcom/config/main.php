@@ -60,13 +60,6 @@
  *   defaults to 3600 seconds (1 hour).
  * - <b>string auth_frontend:</b> The authentication frontend to use, the "form" frontend
  *   is used by default.
- * - <b>string auth_sitegroup_mode:</b> This parameter determines in which sitegroup
- *   context the MidCOM authentication should work in. If set to 'sitegrouped', the
- *   system automatically works within the current sitegroup, appending the corresponding
- *   suffix. If set to 'not-sitegrouped', no processing is done, which means the user
- *   has to specify the correct sitegroup always. The setting 'auto', which is the default,
- *   uses sitegrouped if the current host is in a sitegroup (that is, midcom_connection::get('sitegroup')
- *   is nonzero) or non-sitegrouped mode if we are in SG0.
  * - <b>int auth_login_form_httpcode</b>: HTTP return code used in MidCOM login screens,
  *   either 403 (403 Forbidden) or 200 (200 OK), defaulting to 403.
  * - <b>boolean auth_openid_enable:</b> Whether to enable OpenID authentication handled with
@@ -301,7 +294,6 @@ class midcom_config implements arrayaccess
         'auth_login_session_timeout' => 3600,
         'auth_login_session_update_interval' => 300,
         'auth_frontend' => 'form',
-        'auth_sitegroup_mode' => 'auto',
         'auth_check_client_ip' => true,
         'auth_allow_sudo' => true,
         'auth_login_form_httpcode' => 403,
@@ -310,7 +302,7 @@ class midcom_config implements arrayaccess
         'auth_success_callback' => null,
         'auth_failure_callback' => null,
         'auth_allow_trusted' => false,
-        'person_class' => 'midgard_person',
+        'person_class' => 'openpsa_person',
 
         'auth_backend_simple_cookie_path' => 'auto',
         'auth_backend_simple_cookie_domain' => null,
@@ -551,10 +543,6 @@ class midcom_config implements arrayaccess
             $this->_default_config['midcom_site_title'] = $_SERVER['SERVER_NAME'];
         }
         $this->_default_config['toolbars_simple_css_path'] = MIDCOM_STATIC_URL . "/midcom.services.toolbars/simple.css";
-
-        if (!extension_loaded('midgard')) {
-            $this->_default_config['person_class'] = 'openpsa_person';
-        }
     }
 
     public function get($key, $default = null)

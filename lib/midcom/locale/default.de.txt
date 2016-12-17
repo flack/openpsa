@@ -538,10 +538,6 @@ Wird von %s bis %s angezeigt
 Wird bis %s angezeigt
 ---STRINGEND
 
----STRING sitegroup
-Sitegroup
----STRINGEND
-
 ---STRING sort_by_calendar
 nach Kalendar sortieren
 ---STRINGEND

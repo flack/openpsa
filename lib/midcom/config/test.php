@@ -51,12 +51,7 @@ class midcom_config_test
     private function check_midcom()
     {
         $this->section = 'midcom';
-        if (   extension_loaded('midgard')
-            && version_compare(mgd_version(), '8.09.9', '<')) {
-            $this->add('Midgard Version', self::ERROR, 'Midgard 8.09.9 or greater is required for OpenPSA.');
-        } else {
-            $this->add('Midgard Version', self::OK, mgd_version());
-        }
+        $this->add('Midgard Version', self::OK, mgd_version());
 
         // Validate the Cache Base Directory.
         $cachedir = midcom::get()->config->get('cache_base_directory');

@@ -55,11 +55,8 @@ test]]></value>
     <style>33</style>
     <name><![CDATA[Test]]></name>
     <guid><![CDATA[]]></guid>
-    <sitegroup>1</sitegroup>
     <action><![CDATA[]]></action>
     <id>0</id>
-    <sid>0</sid>
-    <lang>0</lang>
 </midgard_element>
 EOX;
 
@@ -79,7 +76,6 @@ EOX;
                 'guid' => 'a4de2d4263af11df90631192dd1df1f4f1f4'
             ),
             'guid' => 'a4de2d4263af11df90631192dd1df1f4f1f4',
-            'sitegroup' => '1',
             'action' => '',
             'invoiceableHours' => '',
             'projectCode' => '',

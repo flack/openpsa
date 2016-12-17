@@ -84,14 +84,6 @@ $_SERVER = array(
     'SCRIPT_NAME' => 'unittest-run'
 );
 
-if (   function_exists('gc_enabled')
-    && gc_enabled()
-    && (   extension_loaded('midgard')
-        || extension_loaded('midgard2'))) {
-    // workaround for segfaults (mostly under mgd2) that might have something to do with https://bugs.php.net/bug.php?id=51091
-    gc_disable();
-}
-
 // Include the MidCOM environment for running OpenPSA
 require MIDCOM_ROOT . '/midcom.php';
 

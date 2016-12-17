@@ -699,23 +699,16 @@ class midcom_services_auth
      */
     public function get_user_by_name($name)
     {
-        $person_class = midcom::get()->config->get('person_class');
-        if (method_exists('midgard_user', 'login')) {
-            //Midgard2
-            $mc = new midgard_collector('midgard_user', 'login', $name);
-            $mc->set_key_property('person');
-            $mc->add_constraint('authtype', '=', midcom::get()->config->get('auth_type'));
-        } else {
-            //Midgard1
-            $mc = new midgard_collector($person_class, 'username', $name);
-            $mc->set_key_property('guid');
-        }
+        $mc = new midgard_collector('midgard_user', 'login', $name);
+        $mc->set_key_property('person');
+        $mc->add_constraint('authtype', '=', midcom::get()->config->get('auth_type'));
         $mc->execute();
         $keys = $mc->list_keys();
         if (count($keys) != 1) {
             return false;
         }
 
+        $person_class = midcom::get()->config->get('person_class');
         $person = new $person_class(key($keys));
 
         return $this->get_user($person);

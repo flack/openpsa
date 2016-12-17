@@ -21,11 +21,8 @@ class org_openpsa_projects_taskTest extends openpsa_testcase
         $task->_use_activitystream = false;
         $task->_use_rcs = false;
 
-        if (!extension_loaded('midgard')) {
-            $stat = $task->create();
-
-            $this->assertFalse($stat);
-        }
+        $stat = $task->create();
+        $this->assertFalse($stat);
 
         $project = $this->create_object('org_openpsa_projects_project');
         $task->project = $project->id;

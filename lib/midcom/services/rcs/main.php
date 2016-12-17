@@ -96,7 +96,6 @@ class midcom_services_rcs
         switch ($field) {
             case 'guid':
             case 'id':
-            case 'sitegroup':
                 return false;
             case 'password':
                 return midcom::get()->auth->admin;

@@ -178,23 +178,7 @@ class midcom_services_dbclassloader
             return true;
         }
 
-        if (!extension_loaded('midgard')) {
-            return is_a($object, 'midgard_object');
-        }
-
-        // Midgard1 compat, the quick way
-        if (in_array(get_class($object), midcom_connection::get_schema_types())) {
-            return true;
-        }
-
-        // Then, do a thorough scan
-        foreach (midcom_connection::get_schema_types() as $mgdschema_class) {
-            if (is_a($object, $mgdschema_class)) {
-                return true;
-            }
-        }
-
-        return false;
+        return is_a($object, 'midgard_object');
     }
 
     /**

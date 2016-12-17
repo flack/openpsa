@@ -13,39 +13,10 @@
  *
  * @package midcom.db
  */
-class midcom_db_snippet extends midcom_db_cachemember
+class midcom_db_snippet extends midcom_core_dbaobject
 {
     public $__midcom_class_name__ = __CLASS__;
     public $__mgdschema_class_name__ = 'midgard_snippet';
-
-    public function __set($property, $value)
-    {
-        if ($property == 'up') {
-            $property = self::get_parent_fieldname();
-        }
-        return parent::__set($property, $value);
-    }
-
-    public function __get($property)
-    {
-        if ($property == 'up') {
-            $property = self::get_parent_fieldname();
-        }
-        return parent::__get($property);
-    }
-
-    /**
-     * Compat workaround for schema change between mgd1 and mgd2
-     *
-     * @return string 'up' under Midgard1, otherwise 'snippetdir'
-     */
-    public static function get_parent_fieldname()
-    {
-        if (extension_loaded('midgard')) {
-            return 'up';
-        }
-        return 'snippetdir';
-    }
 
     public function get_icon()
     {

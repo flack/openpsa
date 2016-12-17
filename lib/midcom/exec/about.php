@@ -45,16 +45,6 @@ midcom::get()->auth->require_valid_user();
             <p>
                     <a href="http://www.midgard-project.org/">Midgard CMS</a> is a Content management Toolkit. It is Free Software that can be used to construct interactive web applications. <a href="http://www.midgard-project.org/">Learn more &raquo;</a>
             </p>
-            <?php
-            if (extension_loaded('midgard')) {
-                ?>
-                <p>
-                        The <a href="http://www.midgard-project.org/midgard/8.09/">Ragnaroek LTS</a> generation of Midgard is supported until <strong>October 1st 2013</strong>.
-                </p>
-                <?php
-
-            }
-            ?>
             <p>
                     Copyright &copy;1999&ndash;<?php echo date('Y'); ?> <a href="http://www.midgard-project.org/community/">The Midgard Project</a>. <a href="http://www.gnu.org/licenses/lgpl.html">Free software</a>.
             </p>
@@ -65,13 +55,9 @@ midcom::get()->auth->require_valid_user();
                 </thead>
                 <tbody>
                     <tr>
-                        <td><?php
-                            if (!extension_loaded('midgard')) {
-                                echo "<a href=\"http://midgard-project.org/midgard2/\">Midgard2</a>";
-                            } else {
-                                echo "<a href=\"http://midgard-project.org/midgard1/\">Midgard</a>";
-                            }
-                            ?></td>
+                        <td>
+                            <a href="https://github.com/flack/midgard-portable">Midgard</a>
+                        </td>
                         <td><?php echo mgd_version(); ?></td>
                         <td>Content Repository</td>
                     </tr>

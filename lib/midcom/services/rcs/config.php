@@ -49,13 +49,7 @@ class midcom_services_rcs_config
     {
         if (empty($this->config['midcom_services_rcs_root'])) {
             $basedir = "/var/lib/midgard";
-            // TODO: Would be good to include DB name into the path
-            if (extension_loaded('midgard')) {
-                $prefix = midcom_connection::get('config', 'prefix');
-                if ($prefix == '/usr/local') {
-                    $basedir = '/var/local/lib/midgard';
-                }
-            } elseif (midgard_connection::get_instance()) {
+            if (midgard_connection::get_instance()) {
                 $basedir = dirname(midgard_connection::get_instance()->config->sharedir);
             }
             $this->config['midcom_services_rcs_root'] = $basedir . '/rcs';

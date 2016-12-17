@@ -42,8 +42,6 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
             }
         }
         self::$_class_objects[$person->guid] = $person;
-        //Sync to get password under mgd1
-        $person->refresh();
         return $person;
     }
 

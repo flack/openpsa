@@ -526,10 +526,6 @@ Näytä %s-%s
 Näytä %s asti
 ---STRINGEND
 
----STRING sitegroup
-Yritystietokanta
----STRINGEND
-
 ---STRING sort_by_calendar
 Järjestä ajan mukaan
 ---STRINGEND

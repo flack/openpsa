@@ -3,7 +3,6 @@
 /.settings
 /config.inc.php
 /test/config.inc.php
-/config/mgd1-connection.inc.php
 /test/__output
 /vendor/*/
 /vendor/autoload.php

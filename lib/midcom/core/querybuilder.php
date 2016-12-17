@@ -364,21 +364,4 @@ class midcom_core_querybuilder extends midcom_core_query
         }
         return $this->_query->count();
     }
-
-    /**
-     * Sets read-only mode for underlying midgard_query_builder instance.
-     * If $toggle is true, all objects returned with execute method have read-only properties,
-     * which can not be set, and all intances are created with better performance.
-     * This method is dedicated for resultsets which are not meant to be updated or edited.
-     *
-     * If underlying midgard_query_builder doesn't provide read-only toggle, this method does nothing.
-     *
-     * @param bool $toggle enables or disables query builder read-only mode.
-     */
-    public function toggle_read_only($toggle = false)
-    {
-        if (method_exists($this->_query, "toggle_read_only")) {
-            $this->_query->toggle_read_only($toggle);
-        }
-    }
 }

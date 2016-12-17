@@ -24,7 +24,7 @@ class midcom_helper_filesync_exporter_snippet extends midcom_helper_filesync_exp
         $foldernames = array();
 
         $snippet_qb = midcom_db_snippet::new_query_builder();
-        $snippet_qb->add_constraint(midcom_db_snippet::get_parent_fieldname(), '=', $snippetdir->id);
+        $snippet_qb->add_constraint('snippetdir', '=', $snippetdir->id);
         $snippets = $snippet_qb->execute();
         foreach ($snippets as $snippet) {
             file_put_contents("{$snippetdir_path}/{$snippet->name}.php", $snippet->code);

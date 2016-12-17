@@ -1,8 +1,4 @@
 <?php
-if (extension_loaded('midgard')) {
-    throw new midcom_error("This script requires Midgard2 API support");
-}
-
 $ip_sudo = midcom::get()->auth->require_admin_or_ip('midcom.services.indexer');
 
 midcom::get()->disable_limits();

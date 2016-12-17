@@ -81,7 +81,6 @@ class midcom_helper_datamanager2_ajax_autocomplete
         $mgdschema_class = midcom_helper_reflector::resolve_baseclass($query->get_classname());
         $reflector = new midgard_reflection_property($mgdschema_class);
 
-        $mgd2 = (!extension_loaded('midgard'));
         ksort($constraints);
         foreach ($constraints as $key => $data) {
             if (   !array_key_exists('value', $data)
@@ -90,9 +89,7 @@ class midcom_helper_datamanager2_ajax_autocomplete
                 debug_add("Constraint #{$key} is not correctly defined, skipping", MIDCOM_LOG_WARN);
                 continue;
             }
-            if (   $mgd2
-                && $data['field'] === 'username') {
-                debug_add("enable workaround for mg2 username constraint", MIDCOM_LOG_INFO);
+            if ($data['field'] === 'username') {
                 midcom_core_account::add_username_constraint($query, $data['op'], $data['value']);
             } else {
                 switch ($reflector->get_midgard_type($data['field'])) {

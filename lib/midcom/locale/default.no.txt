@@ -257,7 +257,3 @@ Vis
 ---STRING yes
 Ja
 ---STRINGEND
-
----STRING sitegroup
-Kunde
----STRINGEND

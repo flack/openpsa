@@ -351,17 +351,10 @@ class midcom_helper_metadata
                 if (!is_numeric($value)) {
                     $value = 0;
                 }
-                if ($value == 0) {
-                    $value = '0000-00-00 00:00:00';
+                if ($value == 0 || $value == '0000-00-00 00:00:00') {
+                    $value = null;
                 } else {
-                    $value = gmstrftime('%Y-%m-%d %T', $value);
-                }
-                if (!extension_loaded('midgard')) {
-                    if ($value == '0000-00-00 00:00:00') {
-                        $value = null;
-                    } else {
-                        $value = new midgard_datetime($value);
-                    }
+                    $value = new midgard_datetime(gmstrftime('%Y-%m-%d %T', $value));
                 }
                 $this->__metadata->$key = $value;
                 $value = true;
@@ -445,8 +438,7 @@ class midcom_helper_metadata
             case 'scheduleend':
             case 'exported':
             case 'imported':
-                if (   !extension_loaded('midgard')
-                    && isset($this->__metadata->$key)) {
+                if (isset($this->__metadata->$key)) {
                     //This is ugly, but seems the only possible way...
                     if ((string) $this->__metadata->$key === "0001-01-01T00:00:00+00:00") {
                         $value = 0;

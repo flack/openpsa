@@ -88,7 +88,7 @@ class midcom_helper_filesync_importer_snippet extends midcom_helper_filesync_imp
     public function get_leaf_qb($parent_id)
     {
         $qb = midcom_db_snippet::new_query_builder();
-        $qb->add_constraint(midcom_db_snippet::get_parent_fieldname(), '=', $parent_id);
+        $qb->add_constraint('snippetdir', '=', $parent_id);
         return $qb;
     }
 

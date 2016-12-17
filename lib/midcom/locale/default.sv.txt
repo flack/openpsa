@@ -494,10 +494,6 @@ Visade från %s till %s
 Visade till %s
 ---STRINGEND
 
----STRING sitegroup
-Sitegrupp
----STRINGEND
-
 ---STRING sort_by_calendar
 Sortera efter kalender
 ---STRINGEND

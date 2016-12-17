@@ -457,12 +457,6 @@ class midcom_baseclasses_core_dbobject
                     // Invalidate parent from cache so content caches have chance to react
                     midcom::get()->cache->invalidate($parent->guid);
                 }
-
-                // Invalidate Midgard pagecache if we touched style/page element
-                if (   extension_loaded('midgard')
-                    && is_a($object, 'midcom_db_cachemember')) {
-                    $object->_on_updated();
-                }
             } else {
                 debug_add("Failed to undelete object with GUID {$guid} errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
             }

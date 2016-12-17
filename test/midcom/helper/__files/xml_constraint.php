@@ -8,7 +8,6 @@
 
 /**
  * Constraint for comparing XML strings produced by objectmapper. It removes
- * differences between Midgard 1 and Midgard 2, f.x. removed properties, and
  * the order, which doesn't seem to be stable between different installations
  *
  * @package openpsa.test
@@ -40,12 +39,6 @@ class xml_comparison extends PHPUnit_Framework_Constraint_IsEqual
         $nodes = $xpath->query('//*/*');
         $map = array();
         foreach ($nodes as $node) {
-            if (   $node->tagName == 'lang'
-                || $node->tagName == 'sid'
-                || $node->tagName == 'sitegroup') {
-                //skip midgard 1 properties
-                continue;
-            }
             $map[$node->tagName] = $node;
         }
         ksort($map);

@@ -35,16 +35,11 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
 
     public function get_schema_defaults()
     {
-        $defaults = array(
+        return array(
             'username' => $this->account->get_username(),
-            'person' => $this->person->guid
+            'person' => $this->person->guid,
+            'usertype' => $this->account->get_usertype()
         );
-
-        if (!extension_loaded('midgard')) {
-            $defaults['usertype'] = $this->account->get_usertype();
-        }
-
-        return $defaults;
     }
 
     /**
@@ -115,9 +110,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         if (trim($password) !== '') {
             $this->account->set_password($password);
         }
-        if (!extension_loaded('midgard')) {
-            $this->account->set_usertype($controller->formmanager->_types['usertype']->convert_to_storage());
-        }
+        $this->account->set_usertype($controller->formmanager->_types['usertype']->convert_to_storage());
         $this->account->save();
     }
 

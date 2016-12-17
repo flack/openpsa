@@ -578,10 +578,6 @@ Shown from %s to %s
 Shown until %s
 ---STRINGEND
 
----STRING sitegroup
-Sitegroup
----STRINGEND
-
 ---STRING sort_by_calendar
 Sort by calendar
 ---STRINGEND

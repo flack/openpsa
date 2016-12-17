@@ -25,8 +25,7 @@
                     1 => 'user',
                     2 => 'admin'
                 )
-            ),
-            'hidden' => (extension_loaded('midgard'))
+            )
         ),
         'username' => array
         (

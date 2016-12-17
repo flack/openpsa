@@ -11,7 +11,7 @@
  *
  * @package midcom.db
  */
-class midcom_db_element extends midcom_db_cachemember
+class midcom_db_element extends midcom_core_dbaobject
 {
     public $__midcom_class_name__ = __CLASS__;
     public $__mgdschema_class_name__ = 'midgard_element';

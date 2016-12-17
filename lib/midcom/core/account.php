@@ -28,13 +28,6 @@ class midcom_core_account
     private $_user;
 
     /**
-     * Flag to tell us whether we use midgard2 API or not
-     *
-     * @param boolean
-     */
-    private $_midgard2 = false;
-
-    /**
      * Currently open accounts
      *
      * @param array
@@ -54,9 +47,6 @@ class midcom_core_account
     public function __construct($person)
     {
         $this->_person = $person;
-        if (method_exists('midgard_user', 'login')) {
-            $this->_midgard2 = true;
-        }
         $this->_user = $this->_get_user();
     }
 
@@ -90,18 +80,7 @@ class midcom_core_account
     public function delete()
     {
         midcom::get()->auth->require_do('midgard:delete', $this->_person);
-        if ($this->_midgard2) {
-            // Ratatoskr
-            if (!$this->_user) {
-                return false;
-            }
-            $stat = $this->_user->delete();
-        } else {
-            $this->_person->password = '';
-            $this->_person->username = '';
-            $stat = $this->_person->update();
-        }
-        if (!$stat) {
+        if (!$this->_user->delete()) {
             return false;
         }
         $user = new midcom_core_user($this->_person);
@@ -123,11 +102,7 @@ class midcom_core_account
     public function set_username($username)
     {
         $this->_old_username = $this->get_username();
-        if ($this->_midgard2) {
-            $this->_user->login = $username;
-        } else {
-            $this->_person->username = $username;
-        }
+        $this->_user->login = $username;
     }
 
     /**
@@ -141,18 +116,11 @@ class midcom_core_account
         if ($encode) {
             $password = midcom_connection::prepare_password($password);
         }
-        if ($this->_midgard2) {
-            $this->_user->password = $password;
-        } else {
-            $this->_person->password = $password;
-        }
+        $this->_user->password = $password;
     }
 
     public function set_usertype($type)
     {
-        if (!$this->_midgard2) {
-            throw new midcom_error('Currently unsupported under midgard 1');
-        }
         $this->_user->usertype = $type;
     }
 
@@ -163,25 +131,16 @@ class midcom_core_account
 
     public function get_username()
     {
-        if ($this->_midgard2) {
-            // Ratatoskr
-            return $this->_user->login;
-        }
-        // Ragnaroek
-        return $this->_person->username;
+        return $this->_user->login;
     }
 
     public function get_usertype()
     {
-        if (!$this->_midgard2) {
-            throw new midcom_error('Currently unsupported under midgard 1');
-        }
         return $this->_user->usertype;
     }
 
     /**
-     * Modify a query instance for searching by username, with differences between
-     * mgd1 and mgd2 abstracted away
+     * Modify a query instance for searching by username
      *
      * @param midcom_core_query $query The QB or MC instance to work on
      * @param string $operator The operator for the username constraint
@@ -189,36 +148,31 @@ class midcom_core_account
      */
     public static function add_username_constraint(midcom_core_query $query, $operator, $value)
     {
-        if (method_exists('midgard_user', 'login')) {
-            $mc = new midgard_collector('midgard_user', 'authtype', midcom::get()->config->get('auth_type'));
-            $mc->set_key_property('person');
+        $mc = new midgard_collector('midgard_user', 'authtype', midcom::get()->config->get('auth_type'));
+        $mc->set_key_property('person');
 
-            if (   $operator !== '='
-                || $value !== '') {
-                $mc->add_constraint('login', $operator, $value);
-            }
-            $mc->execute();
-            $user_results = $mc->list_keys();
+        if (   $operator !== '='
+            || $value !== '') {
+            $mc->add_constraint('login', $operator, $value);
+        }
+        $mc->execute();
+        $user_results = $mc->list_keys();
 
-            if (   $operator === '='
-                && $value === '') {
-                $query->add_constraint('guid', 'NOT IN', array_keys($user_results));
-            } elseif (count($user_results) < 1) {
-                // make sure we don't return any results if no midgard_user entry was found
-                $query->add_constraint('id', '=', 0);
-            } else {
-                $query->add_constraint('guid', 'IN', array_keys($user_results));
-            }
+        if (   $operator === '='
+            && $value === '') {
+            $query->add_constraint('guid', 'NOT IN', array_keys($user_results));
+        } elseif (count($user_results) < 1) {
+            // make sure we don't return any results if no midgard_user entry was found
+            $query->add_constraint('id', '=', 0);
         } else {
-            $query->add_constraint('username', $operator, $value);
+            $query->add_constraint('guid', 'IN', array_keys($user_results));
         }
     }
 
     /**
-     * Add username order to a query instance, with differences between
-     * mgd1 and mgd2 abstracted away.
+     * Add username order to a query instance
      *
-     * Note that it actually does nothing under mgd2 right now, because it's still
+     * Note that it actually does nothing right now, because it's still
      * unclear how this could be implemented
      *
      * @param midcom_core_query $query The QB or MC instance to work on
@@ -226,35 +180,13 @@ class midcom_core_account
      */
     public static function add_username_order(midcom_core_query $query, $direction)
     {
-        if (method_exists('midgard_user', 'login')) {
-            debug_add('Ordering persons by username is not yet implemented for Midgard2', MIDCOM_LOG_ERROR);
-            //@todo Find a way to do this
-        } else {
-            $query->add_order('username', $direction);
-        }
+        debug_add('Ordering persons by username is not yet implemented for Midgard2', MIDCOM_LOG_ERROR);
+        //@todo Find a way to do this
     }
 
     public function is_admin()
     {
-        // mgd2
-        if ($this->_user instanceof midgard_user) {
-            return $this->_user->is_admin();
-        }
-        /*
-          In principle, this code works under midgard1, but it causes
-
-          invalid uninstantiatable type `(null)' in cast to `midgard_user'
-
-          in later code, so we can only return false for users other than the current one
-
-          $user = new midgard_user(midcom::get()->dbfactory->convert_midcom_to_midgard($this->_person));
-          return $user->is_admin();
-        */
-        if (   midcom::get()->auth->user
-            && midcom::get()->auth->user->guid === $this->_person->guid) {
-            return midcom::get()->auth->admin;
-        }
-        return false;
+        return $this->_user->is_admin();
     }
 
     private function _create_user()
@@ -263,13 +195,7 @@ class midcom_core_account
             return false;
         }
         $this->_user->authtype = midcom::get()->config->get('auth_type');
-
-        if ($this->_person instanceof midgard_person) {
-            $mgd_person = $this->_person;
-        } else {
-            $mgd_person = new midgard_person($this->_person->guid);
-        }
-        $this->_user->set_person($mgd_person);
+        $this->_user->set_person(new midgard_person($this->_person->guid));
         $this->_user->active = true;
 
         try {
@@ -285,19 +211,12 @@ class midcom_core_account
         $new_username = $this->get_username();
         $new_password = $this->get_password();
 
-        if ($this->_midgard2) {
-            $this->_user->login = $new_username;
-            $this->_user->password = $new_password;
-            try {
-                $stat = $this->_user->update();
-            } catch (midgard_error_exception $e) {
-                $e->log();
-            }
-        } else {
-            // Ragnaroek
-            $this->_person->username = $new_username;
-            $this->_person->password = $new_password;
-            $stat = $this->_person->update();
+        $this->_user->login = $new_username;
+        $this->_user->password = $new_password;
+        try {
+            $stat = $this->_user->update();
+        } catch (midgard_error_exception $e) {
+            $e->log();
         }
         if (!$stat) {
             return false;
@@ -318,29 +237,21 @@ class midcom_core_account
 
     private function _get_user()
     {
-        if ($this->_midgard2) {
-            $qb = new midgard_query_builder('midgard_user');
-            $qb->add_constraint('person', '=', $this->_person->guid);
-            $qb->add_constraint('authtype', '=', midcom::get()->config->get('auth_type'));
-            $result = $qb->execute();
-            if (sizeof($result) != 1) {
-                return new midgard_user();
-            }
-            return $result[0];
+        $qb = new midgard_query_builder('midgard_user');
+        $qb->add_constraint('person', '=', $this->_person->guid);
+        $qb->add_constraint('authtype', '=', midcom::get()->config->get('auth_type'));
+        $result = $qb->execute();
+        if (sizeof($result) != 1) {
+            return new midgard_user();
         }
-        return $this->_person;
+        return $result[0];
     }
 
     private function _is_username_unique()
     {
-        if ($this->_midgard2) {
-            $qb = new midgard_query_builder('midgard_user');
-            $qb->add_constraint('login', '=', $this->get_username());
-            $qb->add_constraint('authtype', '=', midcom::get()->config->get('auth_type'));
-        } else {
-            $qb = new midgard_query_builder(midcom::get()->config->get('person_class'));
-            $qb->add_constraint('username', '=', $this->get_username());
-        }
+        $qb = new midgard_query_builder('midgard_user');
+        $qb->add_constraint('login', '=', $this->get_username());
+        $qb->add_constraint('authtype', '=', midcom::get()->config->get('auth_type'));
         $qb->add_constraint('guid', '<>', $this->_user->guid);
         return ($qb->count() == 0);
     }

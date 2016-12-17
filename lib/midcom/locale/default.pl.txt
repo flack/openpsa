@@ -526,10 +526,6 @@ Wyświetlane od %s do %s
 Wyświetlane do %s
 ---STRINGEND
 
----STRING sitegroup
-Sitegroup
----STRINGEND
-
 ---STRING sort_by_calendar
 wg daty utworzenia
 ---STRINGEND

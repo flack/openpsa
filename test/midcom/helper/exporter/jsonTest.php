@@ -59,9 +59,6 @@ class midcom_helper_exporter_jsonTest extends openpsa_testcase
     private function _get_data()
     {
         $data = '{"id":0,"name":"Test","value":"test","guid":"","style":33,"action":"",';
-        if (extension_loaded('midgard')) {
-            $data .= '"sitegroup":1,"sid":0,"lang":0,';
-        }
         $data .= '"metadata":{"guid":"","created":0,"hidden":false,"deleted":false,"isapproved":false,"islocked":false}}';
 
         return $data;
@@ -85,12 +82,6 @@ class midcom_helper_exporter_jsonTest extends openpsa_testcase
                 'islocked' => false
            )
         );
-        // different results according to different extension versions
-        if (extension_loaded('midgard')) {
-            $data['sitegroup'] = 1;
-            $data['sid'] = 0;
-            $data['lang'] = 0;
-        }
         return $data;
     }
 }

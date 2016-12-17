@@ -7,7 +7,7 @@
  */
 
 /**
- * Pure-PHP implementation of Midgard1 APIs required by OpenPSA that are not present in Midgard2.
+ * Formatting helpers for style elements.
  *
  * @package midcom.helper
  */
