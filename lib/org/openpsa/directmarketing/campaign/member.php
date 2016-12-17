@@ -94,14 +94,6 @@ class org_openpsa_directmarketing_campaign_member_dba extends midcom_core_dbaobj
             $sep_end = '&gt;';
         }
 
-        // Password (if plaintext)
-        // @todo Not mgd2 compatible!
-        if (preg_match('/^\*\*(.*)/', $person->password, $pwd_matches)) {
-            $plaintext_password = $pwd_matches[1];
-        } else {
-            $plaintext_password = $sep_start . 'unknown' . $sep_end;
-        }
-
         $replace_map = array(
             $sep_start . 'UNSUBSCRIBE_URL' . $sep_end => $this->get_unsubscribe_url($node),
             $sep_start . 'UNSUBSCRIBE_ALL_URL' . $sep_end => "{$node[MIDCOM_NAV_FULLURL]}campaign/unsubscribe_all/{$person->guid}/",
@@ -112,7 +104,6 @@ class org_openpsa_directmarketing_campaign_member_dba extends midcom_core_dbaobj
             $sep_start . 'FNAME' . $sep_end => $person->firstname,
             $sep_start . 'LNAME' . $sep_end => $person->lastname,
             $sep_start . 'UNAME' . $sep_end => $person->username,
-            $sep_start . 'PASSWD' . $sep_end => $plaintext_password,
         );
         $content = str_replace(array_keys($replace_map), $replace_map, $content);
 
