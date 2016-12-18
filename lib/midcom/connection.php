@@ -9,7 +9,7 @@
 use midgard\introspection\helper;
 
 /**
- * Wrapper for Midgard-related functionality, provides compatibility between versions
+ * Wrapper for Midgard-related functionality
  *
  * @package midcom
  */
@@ -36,7 +36,6 @@ class midcom_connection
         'author' => 0,
         'config' => array(
             'prefix' => '',
-            'quota' => false,
             'auth_cookie_id' => 1,
         ),
 

@@ -53,7 +53,6 @@
     /* These are core special cases */
     'midgard_parameter',
     'midgard_attachment',
-    'midgard_quota',
     'midgard_activity',
     /* members should not be root classes */
     'org_openpsa_campaign_member',

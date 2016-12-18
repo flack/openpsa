@@ -30,37 +30,4 @@
             <description>Documentation of the snippet</description>
         </property>
     </type>
-
-    <type name="midgard_quota" table="quota">
-        <property name="id" type="unsigned integer" primaryfield="id">
-            <description>Local non-replication-safe database identifier</description>
-        </property>
-        <property name="sgsizelimit" type="integer" field="limit_sg_size">
-            <description>Quota for the sitegroup (in bytes)</description>
-        </property>
-        <property name="sgsize"       type="integer"     field="sg_size">
-            <description>Disk usage of the sitegroup (in bytes)</description>
-        </property>
-        <property name="sgrecordslimit" type="integer" field="limit_sg_records">
-            <description>Limit of number of records for the sitegroup</description>
-        </property>
-        <property name="sgrecords"     type="integer"     field="sg_records">
-            <description>Number of records for the sitegroup</description>
-        </property>
-        <property name="typename"     type="string" index="yes">
-            <description>MgdSchema type the quota applies to</description>
-        </property>
-        <property name="typesizelimit" type="integer" field="limit_type_size">
-            <description>Quota of the type for the sitegroup (in bytes)</description>
-        </property>
-        <property name="typesize"     type="integer"     field="type_size">
-            <description>Disk usage of the type of the sitegroup (in bytes)</description>
-        </property>
-        <property name="typerecordslimit" type="integer" field="limit_type_records">
-            <description>Limit of number of records of the type for the sitegroup</description>
-        </property>
-        <property name="typerecords" type="integer" field="type_records">
-            <description>Number of records of the type for the sitegroup</description>
-        </property>
-    </type>
 </Schema>
