@@ -4,7 +4,6 @@
 'midgard_event' => 'midcom_db_event',
 'midgard_eventmember' => 'midcom_db_eventmember',
 'midgard_group' => 'midcom_db_group',
-'midgard_language' => 'midcom_db_language',
 'midgard_member' => 'midcom_db_member',
 'midgard_parameter' => 'midcom_db_parameter',
 midcom::get()->config->get('person_class') => 'midcom_db_person',

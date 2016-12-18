@@ -96,23 +96,6 @@
                 ),
                 'widget' => 'radiocheckselect',
             ),
-            'language' => array
-            (
-                'title' => 'language',
-                'storage' => array
-                (
-                    'location' => 'configuration',
-                    'domain' => 'net.nehmer.blog',
-                    'name' => 'language',
-                ),
-                'type' => 'select',
-                'type_config' => array
-                (
-                    'options' => array_merge(array('' => 'default setting'), midcom::get()->i18n->list_languages()),
-                ),
-                'widget' => 'select',
-                'readonly' => net_nehmer_blog_viewer::disable_language_select(),
-            ),
             'list_from_folders' => array
             (
                 'title' => 'folders',

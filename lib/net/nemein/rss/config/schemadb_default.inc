@@ -77,48 +77,6 @@
             'type'    => 'boolean',
             'widget'  => 'checkbox',
         ),
-        'item_lang'   => array
-        (
-            'title'   => 'store items in language',
-            'storage' => 'itemlang',
-            'type'    => 'select',
-            'type_config' => array
-            (
-                'require_corresponding_option' => false,
-                'options' => array(),
-            ),
-            'widget'  => 'autocomplete',
-            'widget_config' => array
-            (
-                'class' => 'midcom_db_language',
-                'component' => 'midcom.helper.datamanager2',
-                'searchfields' => array
-                (
-                    'code',
-                    'name',
-                    'native',
-                ),
-                'result_headers' => array
-                (
-                    array
-                    (
-                        'name' => 'code',
-                        'title' =>  midcom::get()->i18n->get_string('ISO code', 'net.nemein.rss'),
-                    ),
-                    array
-                    (
-                        'name' => 'name',
-                        'title' =>  midcom::get()->i18n->get_string('language (in english)', 'net.nemein.rss'),
-                    ),
-                    array
-                    (
-                        'name' => 'native',
-                        'title' =>  midcom::get()->i18n->get_string('language (native)', 'net.nemein.rss'),
-                    ),
-                ),
-                'id_field' => 'id',
-            ),
-        ),
     )
 ),
 

@@ -10,10 +10,6 @@
 "%s" was imported from feed %s
 ---STRINGEND
 
----STRING ISO code
-ISO code
----STRINGEND
-
 ---STRING add new feed
 Add new feed
 ---STRINGEND
@@ -72,14 +68,6 @@ Import subscriptions in OPML format
 
 ---STRING keep removed items
 Keep items removed from feed locally
----STRINGEND
-
----STRING language (in english)
-Language
----STRINGEND
-
----STRING language (native)
-Language (native)
 ---STRINGEND
 
 ---STRING latest fetch %s
@@ -164,10 +152,6 @@ Webmaster email address
 
 ---STRING save
 Save
----STRINGEND
-
----STRING store items in language
-Store items in language
 ---STRINGEND
 
 ---STRING subscribe feeds

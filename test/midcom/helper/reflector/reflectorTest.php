@@ -286,13 +286,6 @@ class midcom_helper_reflector_reflectorTest extends openpsa_testcase
     {
         return array(
             1 => array('midcom_db_article', array(
-                 'lang' => array(
-                     'class' => 'midgard_language',
-                     'target' => 'id',
-                     'parent' => false,
-                     'up' => false,
-                     'type' => MGD_TYPE_UINT,
-                 ),
                  'topic' => array(
                      'class' => 'midgard_topic',
                      'target' => 'id',

@@ -53,7 +53,6 @@
     /* These are core special cases */
     'midgard_parameter',
     'midgard_attachment',
-    'midgard_language',
     'midgard_quota',
     'midgard_activity',
     /* members should not be root classes by MgSchema, workaround a bug */

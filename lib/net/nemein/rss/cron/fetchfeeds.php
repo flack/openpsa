@@ -25,8 +25,6 @@ class net_nemein_rss_cron_fetchfeeds extends midcom_baseclasses_components_cron_
         midcom::get()->disable_limits();
 
         $qb = net_nemein_rss_feed_dba::new_query_builder();
-        // Process lang0 subscriptions first
-        $qb->add_order('itemlang', 'ASC');
         $feeds = $qb->execute();
         foreach ($feeds as $feed) {
             try {

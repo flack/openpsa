@@ -339,10 +339,6 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
                 $e->log();
             }
         }
-        if ($node_lang_code = $node->get_parameter('net.nehmer.blog', 'language')) {
-            $lang_id = midcom::get()->i18n->code_to_id($node_lang_code);
-            $article->lang = $lang_id;
-        }
         return $article;
     }
 

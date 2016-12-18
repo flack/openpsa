@@ -71,8 +71,6 @@
 // $callback_function($article, $topic)
 'callback_function' => null,
 
-'language' => null,
-
 'disable_permalinks' => false,
 'disable_indexing' => false,
 

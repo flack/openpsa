@@ -36,27 +36,6 @@
         </property>
     </type>
 
-    <type name="midgard_language" table="midgard_language">
-        <property name="id" type="unsigned integer" primaryfield="id">
-            <description>Local non-replication-safe database identifier</description>
-        </property>
-        <property name="code"        type="string" dbtype="varchar(2)" index="yes">
-            <description>ISO 639-1 two-letter language code</description>
-        </property>
-        <property name="name"        type="string" index="yes" unique="yes">
-            <description>Name of the language in English</description>
-        </property>
-        <property name="native"        type="string">
-            <description>Name of the language in the language itself</description>
-        </property>
-        <property name="locale"        type="string">
-            <description>System locale for the language</description>
-        </property>
-        <property name="description"    type="text">
-            <description>Description of the language</description>
-        </property>
-    </type>
-
     <type name="midgard_article" table="article" parent="midgard_topic">
         <property name="id" type="unsigned integer" primaryfield="id">
             <description>Local non-replication-safe database identifier</description>
@@ -93,9 +72,6 @@
         </property>
         <property name="url"      type="string" index="yes">
             <description>External URL of the article</description>
-        </property>
-        <property name="lang"     type="unsigned integer" link="midgard_language:id">
-            <description>Language the article is in</description>
         </property>
         <!-- Legacy -->
         <property name="calstart" type="datetime">
@@ -152,9 +128,6 @@
         </property>
         <property name="description" type="text">
             <description>Topic description</description>
-        </property>
-        <property name="lang"     type="unsigned integer" link="midgard_language:id">
-            <description>Language the article is in</description>
         </property>
         <!-- Legacy -->
         <property name="score"    type="integer">

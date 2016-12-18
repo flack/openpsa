@@ -218,7 +218,6 @@ class midcom_services_i18n
      * after calling this method.
      *
      * @param string $lang    Language ISO 639-1 code
-     * @see _synchronize_midgard_language()
      */
     public function set_language($lang)
     {
@@ -239,54 +238,6 @@ class midcom_services_i18n
         foreach ($this->_obj_l10n as $object) {
             $object->set_language($lang);
         }
-    }
-
-    /**
-     * Convert the language code to its corresponding ID in Midgard database
-     *
-     * @param string $code    Two-letter code
-     * @return int            ID field of the database
-     */
-    public function code_to_id($code)
-    {
-        if ($code == '') {
-            return 0;
-        }
-        static $cache = array();
-        if (!isset($cache[$code])) {
-            $cache[$code] = null;
-            $qb = new midgard_query_builder('midgard_language');
-            $qb->add_constraint('code', '=', $code);
-            $ret = $qb->execute();
-            if (!empty($ret)) {
-                $cache[$code] = $ret[0]->id;
-            }
-        }
-        return $cache[$code];
-    }
-
-    /**
-     * Convert the ID to its corresponding language code in Midgard database
-     *
-     * @param int $id   ID field of the database
-     * @return String Two-letter code
-     */
-    public function id_to_code($id)
-    {
-        if ($id == 0) {
-            return '';
-        }
-        static $cache = array();
-        if (!isset($cache[$id])) {
-            $cache[$id] = null;
-            try {
-                $lang = new midgard_language($id);
-                $cache[$id] = $lang->code;
-            } catch (midcom_error $e) {
-                return '';
-            }
-        }
-        return $cache[$id];
     }
 
     /**

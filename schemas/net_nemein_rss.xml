@@ -11,11 +11,6 @@
         <property name="keepremoved" type="boolean"/>
         <!-- Whether to auto-approve new items from feed -->
         <property name="autoapprove" type="boolean" index="yes"/>
-
-        <property name="itemlang" type="unsigned integer" link="midgard_language:id">
-            <description>Store imported items in this language</description>
-        </property>
-
         
         <!-- cached data -->
         <property name="latestupdate" type="integer" index="yes"/>

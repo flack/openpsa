@@ -146,18 +146,6 @@ Bez tytułu
 "%s" został zaimportowany z wsadu %s
 ---STRINGEND
 
----STRING ISO code
-kod ISO
----STRINGEND
-
----STRING language (in english)
-Język
----STRINGEND
-
----STRING language (native)
-Język (naturalny)
----STRINGEND
-
 ---STRING rss_count
 Wyświetl tyle elementów w rss.xml
 ---STRINGEND
@@ -181,8 +169,3 @@ Tytuł wsadu (puste = tytuł folderu)
 ---STRING rss_webmaster
 Adres webmastera
 ---STRINGEND
-
----STRING store items in language
-Sortuj elementy w języku
----STRINGEND
-

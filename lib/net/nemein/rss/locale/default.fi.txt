@@ -6,10 +6,6 @@
 %s uutista tuotu
 ---STRINGEND
 
----STRING ISO code
-ISO kielikoodi
----STRINGEND
-
 ---STRING add new feed
 Lisää uusi RSS-lähde
 ---STRINGEND
@@ -74,10 +70,6 @@ Lisää lähteitä OPML-muodossa
 Säilytä syötteestä poistetut uutiset paikallisesti
 ---STRINGEND
 
----STRING language (in english)
-Kieli (ENG)
----STRINGEND
-
 ---STRING latest fetch %s
 Viimeisin sisäänluku oli %s
 ---STRINGEND
@@ -138,10 +130,6 @@ RSS-tulosteen asetukset
 Tallenna
 ---STRINGEND
 
----STRING store items in language
-Tallenna kieleen
----STRINGEND
-
 ---STRING subscribe feeds
 Tilaa uusia uutissyötteitä
 ---STRINGEND
@@ -156,10 +144,6 @@ Pelkkä otsikko
 
 ---STRING untitled
 Nimetön
----STRINGEND
-
----STRING language (native)
-Kieli
 ---STRINGEND
 
 ---STRING rss_title

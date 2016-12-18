@@ -141,21 +141,6 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
         $this->_node_toolbar->add_items($buttons);
     }
 
-    /**
-     * If the folder already has content in it we should disable the language chooser to avoid confusion
-     *
-     * @return boolean
-     */
-    public static function disable_language_select()
-    {
-        // We cannot use $this->_topic in a static method
-        $topic = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_CONTENTTOPIC);
-        $qb = midcom_db_article::new_query_builder();
-        $qb->add_constraint('topic', '=', $topic->id);
-        $qb->set_limit(1);
-        return ($qb->count() > 0);
-    }
-
     public function _on_handle($handler, array $args)
     {
         $this->_request_data['schemadb'] =
