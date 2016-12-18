@@ -1,55 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Schema xmlns="http://www.midgard-project.org/repligard/1.4">
-    <type name="midgard_person" table="person">
-        <property name="id" type="unsigned integer" primaryfield="id">
-            <description>Local non-replication-safe database identifier</description>
-        </property>
-        <property name="firstname" type="string" index="yes">
-            <description>First name of the person</description>
-        </property>
-        <property name="lastname" type="string" index="yes">
-            <description>Last name of the person</description>
-        </property>
-    </type>
-
-    <type name="midgard_attachment" table="blobs">
-        <property name="id" type="unsigned integer" primaryfield="id">
-            <description>Local non-replication-safe database identifier</description>
-        </property>
-        <property name="name"     type="string" index="yes">
-            <description>Filename of the attachment</description>
-        </property>
-        <property name="title"    type="string">
-            <description>Title of the attachment</description>
-        </property>
-        <property name="location" type="string" index="yes">
-            <description>Location of the attachment in the blob directory structure</description>
-        </property>
-        <property name="mimetype" type="string" index="yes">
-            <description>MIME type of the attachment</description>
-        </property>
-        <property name="parentguid" type="guid" field="parent_guid" parentfield="parent_guid">
-            <description>GUID of the object the attachment is attached to</description>
-        </property>
-    </type>
-
-    <type name="midgard_parameter" table="record_extension">
-        <property name="id" type="unsigned integer" primaryfield="id">
-            <description>Local non-replication-safe database identifier</description>
-        </property>
-        <property name="domain"   type="string" index="yes">
-            <description>Namespace of the parameter</description>
-        </property>
-        <property name="name"     type="string" index="yes">
-            <description>Key of the parameter</description>
-        </property>
-        <property name="value"    type="text">
-            <description>Value of the parameter</description>
-        </property>
-        <property name="parentguid" type="guid" field="parent_guid" parentfield="parent_guid">
-            <description>GUID of the object the parameter extends</description>
-        </property>
-    </type>
 
     <type name="midgard_snippetdir" table="snippetdir">
         <property name="id" type="unsigned integer" primaryfield="id">
