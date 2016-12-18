@@ -99,13 +99,6 @@ class midcom_core_collector extends midcom_core_query
             // so we have to prevent this...
             return true;
         }
-        // Add the limit / offsets
-        if ($this->_limit) {
-            $this->_query->set_limit($this->_limit);
-        }
-        // Disabled because of http://trac.midgard-project.org/ticket/1964
-        // offset is applied in list_keys() instead
-        //$this->_query->set_offset($this->_offset);
 
         $this->_add_visibility_checks();
 
@@ -130,7 +123,13 @@ class midcom_core_collector extends midcom_core_query
     {
         $this->_reset();
 
-        $newresult = $this->_list_keys_and_check_privileges();
+        // Add the limit / offsets
+        if ($this->_limit) {
+            $this->_query->set_limit($this->_limit);
+        }
+        $this->_query->set_offset($this->_offset);
+
+        $newresult = $this->_list_keys_and_check_privileges(false);
 
         call_user_func_array(array($this->_real_class, '_on_process_collector_result'), array(&$newresult));
 
@@ -139,7 +138,7 @@ class midcom_core_collector extends midcom_core_query
         return $newresult;
     }
 
-    private function _list_keys_and_check_privileges()
+    private function _list_keys_and_check_privileges($apply_offset_limit = true)
     {
         $this->execute();
         $result = $this->_query->list_keys();
@@ -148,6 +147,7 @@ class midcom_core_collector extends midcom_core_query
         }
         $newresult = array();
         $classname = $this->_real_class;
+        $counter = 0;
 
         foreach ($result as $object_guid => $empty_copy) {
             if (    $this->_user_id
@@ -155,8 +155,17 @@ class midcom_core_collector extends midcom_core_query
                 debug_add("Failed to load result, read privilege on {$object_guid} not granted for the current user.", MIDCOM_LOG_INFO);
                 continue;
             }
-
             // TODO: Implement $this->hide_invisible
+            if ($apply_offset_limit) {
+                $counter++;
+                if ($counter <= $this->_offset) {
+                    continue;
+                }
+                if (   $this->_limit
+                    && $counter > ($this->_offset + $this->_limit)) {
+                    break;
+                }
+            }
 
             // Register the GUID as loaded in this request
             midcom::get()->cache->content->register($object_guid);
@@ -224,23 +233,6 @@ class midcom_core_collector extends midcom_core_query
     public function list_keys()
     {
         $result = $this->_list_keys_and_check_privileges();
-
-        $size = sizeof($result);
-
-        if ($this->_offset) {
-            if ($this->_offset > $size) {
-                $result = array();
-                $size = 0;
-            } else {
-                $result = array_slice($result, $this->_offset);
-                $size = $size - $this->_offset;
-            }
-        }
-
-        if (   $this->_limit > 0
-            && $this->_limit < $size) {
-            $result = array_slice($result, 0, $this->_limit);
-        }
 
         call_user_func_array(array($this->_real_class, '_on_process_collector_result'), array(&$result));
 
