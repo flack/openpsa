@@ -55,8 +55,7 @@
     'midgard_attachment',
     'midgard_quota',
     'midgard_activity',
-    /* members should not be root classes by MgSchema, workaround a bug */
-    'midgard_member',
+    /* members should not be root classes */
     'org_openpsa_campaign_member',
     'org_openpsa_role',
     /* These use GUID to link to many parents */

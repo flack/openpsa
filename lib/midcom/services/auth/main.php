@@ -747,12 +747,6 @@ class midcom_services_auth
      */
     public function get_user($id)
     {
-        if (is_double($id)) {
-            // This is some crazy workaround for cases where the ID passed is a double
-            // (coming from midcom_connection::get_user() possibly) and is_object($id), again for
-            // whatever reason, evaluates to true for that object...
-            $id = (int) $id;
-        }
         $param = $id;
 
         if (isset($param->id)) {
