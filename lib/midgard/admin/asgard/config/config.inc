@@ -84,7 +84,6 @@
     'midcom_helper_activitystream_activity',
     'midcom_core_privilege_db',
     'midcom_services_at_entry_db',
-    '__midgard_cache',
 ),
 'attachment_text_types' => array
 (
