@@ -257,25 +257,23 @@ class midcom_baseclasses_core_dbobject
             return false;
         }
 
-        if (   !is_null(midcom::get()->auth->user)
-            && is_object($object->metadata)) {
-            // Default the authors to current user
-            if (empty($object->metadata->authors)) {
-                $object->metadata->set('authors', "|" . midcom::get()->auth->user->guid ."|");
-            }
+        if (is_object($object->metadata)) {
+            if (!is_null(midcom::get()->auth->user)) {
+                // Default the authors to current user
+                if (empty($object->metadata->authors)) {
+                    $object->metadata->set('authors', "|" . midcom::get()->auth->user->guid . "|");
+                }
 
-            // Default the owner to first group of current user
-            if (   empty($object->metadata->owner)
-                && $first_group = midcom::get()->auth->user->get_first_group_guid()) {
-                $object->metadata->set('owner', $first_group);
+                // Default the owner to first group of current user
+                if (   empty($object->metadata->owner)
+                    && $first_group = midcom::get()->auth->user->get_first_group_guid()) {
+                    $object->metadata->set('owner', $first_group);
+                }
             }
-        }
-
-        // Default the publication time to current date/time
-        // FIXME: Check with Piotras if this is necessary
-        if (   empty($object->metadata->published)
-            && is_object($object->metadata)) {
-            $object->metadata->set('published', time());
+            // Default the publication time to current date/time
+            if (empty($object->metadata->published)) {
+                $object->metadata->set('published', time());
+            }
         }
 
         if (!$object->__exec_create()) {
