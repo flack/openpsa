@@ -27,13 +27,6 @@
 class midcom_core_collector extends midcom_core_query
 {
     /**
-     * Keep track if $this->execute has been called
-     *
-     * @var boolean
-     */
-    private $_executed = false;
-
-    /**
      * User id for ACL checks. This is set when executing to avoid unnecessary overhead
      *
      * @var string
@@ -70,7 +63,7 @@ class midcom_core_collector extends midcom_core_query
      * 1. boolean _on_prepare_exec_collector(&$this) is called before the actual query execution. Return false to
      *    abort the operation.
      *
-     * @return boolean indicating success/failure
+     * @return boolean True if the query was executed, false otherwise (e.g. if it had been executed already)
      * @see _real_execute()
      */
     public function execute()
@@ -94,17 +87,8 @@ class midcom_core_collector extends midcom_core_query
      */
     private function _real_execute()
     {
-        if ($this->_executed) {
-            // mgd gets stuck in an infinite loop if execute() is called more than once,
-            // so we have to prevent this...
-            return true;
-        }
-
         $this->_add_visibility_checks();
-
-        $stat = $this->_query->execute();
-        $this->_executed = true;
-        return $stat;
+        return $this->_query->execute();
     }
 
     /**
@@ -182,10 +166,8 @@ class midcom_core_collector extends midcom_core_query
      */
     public function get_values($field)
     {
-        if (!$this->_executed) {
-            $this->add_value_property($field);
-            $this->execute();
-        }
+        $this->add_value_property($field);
+        $this->execute();
         $results = $this->list_keys();
         foreach ($results as $guid => &$value) {
             $value = $this->get_subkey($guid, $field);
@@ -203,15 +185,13 @@ class midcom_core_collector extends midcom_core_query
      */
     public function get_rows(array $fields, $indexed_by = 'guid')
     {
-        if (!$this->_executed) {
-            array_map(array($this, 'add_value_property'), $fields);
+        array_map(array($this, 'add_value_property'), $fields);
 
-            if ($indexed_by !== 'guid') {
-                $this->add_value_property($indexed_by);
-            }
-
-            $this->execute();
+        if ($indexed_by !== 'guid') {
+            $this->add_value_property($indexed_by);
         }
+
+        $this->execute();
         $results = array();
         $keys = $this->list_keys();
         foreach ($keys as $guid => $values) {
@@ -292,9 +272,7 @@ class midcom_core_collector extends midcom_core_query
     public function count()
     {
         if ($this->count == -1) {
-            if (!$this->_executed) {
-                $this->execute();
-            }
+            $this->execute();
             $this->list_keys();
         }
         return $this->count;
