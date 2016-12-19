@@ -352,7 +352,6 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
             foreach ($class_props as $prop) {
                 switch ($prop) {
                     case 'action':
-                    case 'sid':
                         // Midgard-internal properties, skip
                         break;
                     case 'guid':
