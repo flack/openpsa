@@ -28,13 +28,6 @@ class midcom_core_account
     private $_user;
 
     /**
-     * Currently open accounts
-     *
-     * @param array
-     */
-    private static $_instances = array();
-
-    /**
      * Change tracking variable
      *
      * @var string
@@ -58,8 +51,7 @@ class midcom_core_account
             midcom_connection::set_error(MGD_ERR_DUPLICATE);
             return false;
         }
-        //empty cache, since we might have come from a separate instantiation
-        unset(self::$_instances[$this->_person->guid]);
+
         if (!$this->_user->guid) {
             return $this->_create_user();
         }
@@ -95,7 +87,7 @@ class midcom_core_account
                 $entry->delete();
             }
         }
-        unset(self::$_instances[$this->_person->guid]);
+
         return true;
     }
 
