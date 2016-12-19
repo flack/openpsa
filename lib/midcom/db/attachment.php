@@ -38,12 +38,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
     }
 
     /**
-     * Returns the Parent of the Attachment, which is identified by the table/id combination
-     * in the attachment record. The table in question is used to identify the object to
-     * use. If multiple objects are registered for a given table, the first matching class
-     * returned by the dbfactory is used (which is usually rather arbitrary).
-     *
-     * @return string Parent GUID.
+     * @return string Parent GUID
      */
     public static function get_parent_guid_uncached_static($guid, $classname = __CLASS__)
     {
@@ -113,9 +108,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
      */
     public function read()
     {
-        $attachment = new midgard_attachment($this->guid);
-        $blob = new midgard_blob($attachment);
-
+        $blob = new midgard_blob($this->__object);
         return $blob->read_content();
     }
 
