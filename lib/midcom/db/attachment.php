@@ -64,11 +64,10 @@ class midcom_db_attachment extends midcom_core_dbaobject
      * notification switches will fail.
      *
      * @param string $mode The mode which should be used to open the attachment, same as
-     *     the mode parameter of the PHP fopen call. This defaults to write access (see
-     *     mgd_open_attachmentl for details).
+     *     the mode parameter of the PHP fopen call. This defaults to write access.
      * @return resource A file handle to the attachment if successful, false on failure.
      */
-    public function open($mode = 'default')
+    public function open($mode = 'w')
     {
         if (!$this->id) {
             debug_add('Cannot open a non-persistent attachment.', MIDCOM_LOG_WARN);
@@ -78,24 +77,17 @@ class midcom_db_attachment extends midcom_core_dbaobject
 
         if ($this->_open_handle !== null) {
             debug_add("Warning, the Attachment {$this->id} already had an open file handle, we close it implicitly.", MIDCOM_LOG_WARN);
-            fclose($this->_open_handle);
-            $this->_open_handle = null;
+            $this->close();
         }
 
         $blob = new midgard_blob($this->__object);
-        if ($mode == 'default') {
-            $this->_open_write_mode = true;
-            $handle = $blob->get_handler();
-        } else {
-            /* WARNING, read mode not supported by midgard_blob! */
-            $this->_open_write_mode = ($mode{0} != 'r');
-            $handle = fopen($blob->get_path(), $mode);
-        }
+        $handle = $blob->get_handler($mode);
 
         if (!$handle) {
             debug_add("Failed to open attachment with mode {$mode}, last Midgard error was: " . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
         }
 
+        $this->_open_write_mode = ($mode{0} != 'r');
         $this->_open_handle = $handle;
 
         return $handle;
@@ -136,6 +128,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
             }
 
             $this->file_to_cache();
+            $this->_open_write_mode = false;
         }
     }
 
