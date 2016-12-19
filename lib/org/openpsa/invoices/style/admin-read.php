@@ -32,9 +32,8 @@ if ($invoice->cancelationInvoice) {
             echo $contact->show();
             echo '</div>';
         }
-        if ($customer) {
+        if ($billing_data = $invoice->get_billing_data()) {
             echo '<div class="area">';
-            $billing_data = $invoice->get_billing_data();
             $billing_data->render_address();
             echo '</div>';
         }
