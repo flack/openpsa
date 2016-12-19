@@ -76,9 +76,6 @@ class org_openpsa_contacts_person_dba extends midcom_db_person
 
     public function get_label_property()
     {
-        if ($this->rname) {
-            return 'rname';
-        }
-        return 'username';
+        return 'rname';
     }
 }

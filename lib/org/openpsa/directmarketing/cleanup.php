@@ -14,7 +14,7 @@
  * - org_openpsa_campaign_messagereceipt
  * - org_openpsa_link_log
  * - org_openpsa_campaign_member (where orgOpenpsaObtype is not org_openpsa_directmarketing_campaign_member_dba::TESTER)
- * - org_openpsa_person (without username)
+ * - org_openpsa_person (without account)
  *
  * that have not been updated within the configured time (by default one month).
  *
@@ -77,13 +77,13 @@ class org_openpsa_directmarketing_cleanup extends midcom_baseclasses_components_
         if ($kept) {
             $qb->begin_group('OR');
             $qb->add_constraint('metadata.revised', '>=', $this->get_deletion_timestamp());
-            $qb->add_constraint('username', '<>', '');
+            midcom_core_account::add_username_constraint($qb, '<>', '');
             $qb->end_group();
         } else {
             $qb->add_constraint('metadata.revised', '<', $this->get_deletion_timestamp());
 
             // Don't delete OpenPSA users
-            $qb->add_constraint('username', '=', '');
+            midcom_core_account::add_username_constraint($qb, '=', '');
         }
         return $qb;
     }

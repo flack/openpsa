@@ -4,7 +4,6 @@
     'title',
     'official',
     'customerId',
-    'username',
     'firstname',
     'lastname',
     'prefix',

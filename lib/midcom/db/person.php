@@ -144,13 +144,7 @@ class midcom_db_person extends midcom_core_dbaobject
 
     public function get_label()
     {
-        if ($this->rname) {
-            return $this->rname;
-        }
-        if ($this->username) {
-            return $this->username;
-        }
-        return '#' . $this->id;
+        return $this->rname;
     }
 
     /**

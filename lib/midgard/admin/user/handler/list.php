@@ -202,8 +202,8 @@ class midgard_admin_user_handler_list extends midcom_baseclasses_components_hand
         if (!$this->_config->get('allow_manage_accounts')) {
             return;
         }
-        $person->set_parameter('midgard.admin.user', 'username', $person->username);
         $account = new midcom_core_account($person);
+        $person->set_parameter('midgard.admin.user', 'username', $account->get_username());
         if ($account->delete()) {
             midcom::get()->uimessages->add($this->_l10n->get('midgard.admin.user'), sprintf($this->_l10n->get('user account revoked for %s'), $person->name));
         }

@@ -210,7 +210,6 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
             case (midcom::get()->dbfactory->is_a($obj, 'midcom_db_person')):
                 $property = array(
                     'rname',
-                    'username',
                     'id',
                 );
                 break;
