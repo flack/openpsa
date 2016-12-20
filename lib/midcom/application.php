@@ -266,6 +266,120 @@ class midcom_application
     }
 
     /**
+     * Deliver a blob to the client. It will add the following HTTP Headers:
+     *
+     * - Cache-Control: public max-age=$expires
+     * - Expires: GMT Date $now+$expires
+     * - Last-Modified: GMT Date of the last modified timestamp of the Attachment
+     * - Content-Length: The Length of the Attachment in Bytes
+     * - Accept-Ranges: none
+     *
+     * This should enable caching of browsers for Navigation images and so on. You can
+     * influence the expiration of the served attachment with the parameter $expires.
+     * It is the time in seconds till the client should refetch the file. The default
+     * for this is 24 hours. If you set it to "0" caching will be prohibited by
+     * changing the sent headers like this:
+     *
+     * - Pragma: no-cache
+     * - Cache-Control: no-cache
+     * - Expires: Current GMT Date
+     *
+     * If expires is set to -1, no expires header gets sent.
+     *
+     * @param MidgardAttachment $attachment    The attachment to be delivered.
+     * @param int $expires HTTP-Expires timeout in seconds, set this to 0 for uncacheable pages, or to -1 for no Expire header.
+     */
+    public function serve_attachment($attachment, $expires = -1)
+    {
+        if ($this->config->get('attachment_cache_enabled')) {
+            $path = '/' . substr($attachment->guid, 0, 1) . "/{$attachment->guid}_{$attachment->name}";
+            if (file_exists($this->config->get('attachment_cache_root') . $path)) {
+                $response = new midcom_response_relocate($this->config->get('attachment_cache_url') . $path, 301);
+                $response->send();
+            }
+        }
+
+        // Sanity check expires
+        if (   !is_int($expires)
+            || $expires < -1) {
+            throw new midcom_error("\$expires has to be a positive integer or zero or -1, is now {$expires}.");
+        }
+
+        // Doublecheck that this is registered
+        $this->cache->content->register($attachment->guid);
+        $stats = $attachment->stat();
+        $last_modified = $stats[9];
+
+        $etag = md5("{$last_modified}{$attachment->name}{$attachment->mimetype}{$attachment->guid}");
+
+        // Check etag and return 304 if necessary
+        if (   $expires <> 0
+            && $this->cache->content->_check_not_modified($last_modified, $etag)) {
+            if (!_midcom_headers_sent()) {
+                $this->cache->content->cache_control_headers();
+                // Doublemakesure these are present
+                $this->header('HTTP/1.0 304 Not Modified', 304);
+                $this->header("ETag: {$etag}");
+            }
+            while (@ob_end_flush());
+            debug_add("End of MidCOM run: {$_SERVER['REQUEST_URI']}");
+            _midcom_stop_request();
+        }
+
+        $f = $attachment->open('r');
+        if (!$f) {
+            throw new midcom_error('Failed to open attachment for reading: ' . midcom_connection::get_error_string());
+        }
+
+        $this->header("ETag: {$etag}");
+        $this->cache->content->content_type($attachment->mimetype);
+        $this->cache->content->register_sent_header("Content-Type: {$attachment->mimetype}");
+        $this->header("Last-Modified: " . gmdate("D, d M Y H:i:s", $last_modified) . ' GMT');
+        $this->header("Content-Length: " . $stats[7]);
+        $this->header("Content-Description: {$attachment->title}");
+
+        // PONDER: Support ranges ("continue download") somehow ?
+        $this->header("Accept-Ranges: none");
+
+        if ($expires > 0) {
+            // If custom expiry now+expires is set use that
+            $this->cache->content->expires(time() + $expires);
+        } elseif ($expires == 0) {
+            // expires set to 0 means disable cache, so we shall
+            $this->cache->content->no_cache();
+        }
+        // TODO: Check metadata service for the real expiry timestamp ?
+
+        $this->cache->content->cache_control_headers();
+
+        $send_att_body = true;
+        if ($this->config->get('attachment_xsendfile_enable')) {
+            $blob = new midgard_blob($attachment->__object);
+            $att_local_path = $blob->get_path();
+            debug_add("Checking is_readable({$att_local_path})");
+            if (is_readable($att_local_path)) {
+                $this->header("X-Sendfile: {$att_local_path}");
+                $send_att_body = false;
+            }
+        }
+
+        // Store metadata in cache so _check_hit() can help us
+        $this->cache->content->write_meta_cache('A-' . $etag, $etag);
+
+        while (@ob_end_flush());
+
+        if (!$send_att_body) {
+            debug_add('NOT sending file (X-Sendfile will take care of that, _midcom_stop_request()ing so nothing has a chance the mess things up anymore');
+            _midcom_stop_request();
+        }
+
+        fpassthru($f);
+        $attachment->close();
+        debug_add("End of MidCOM run: {$_SERVER['REQUEST_URI']}");
+        _midcom_stop_request();
+    }
+
+    /**
      * Exit from the framework, execute after all output has been made.
      *
      * Does all necessary clean-up work. Must be called after output is completed as

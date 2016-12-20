@@ -435,9 +435,7 @@ abstract class midcom_core_dbaobject
     }
     public static function serve_attachment($guid)
     {
-        $attachment = new midcom_db_attachment($guid);
-        $resolver = new midcom_core_resolver(midcom_core_context::get());
-        $resolver->serve_attachment($attachment);
+        midcom::get()->serve_attachment(new midcom_db_attachment($guid));
     }
     public function has_parameters()
     {

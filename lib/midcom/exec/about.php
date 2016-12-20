@@ -72,7 +72,6 @@ midcom::get()->auth->require_valid_user();
                         <td>Web programming language</td>
                     </tr>
                     <?php
-                    // FIXME: IIRC, there was a function for getting this info
                     $server_software = explode(' ', $_SERVER['SERVER_SOFTWARE']);
                     $apache = explode('/', $server_software[0]);
                     if (!empty($apache)) {
