@@ -13,8 +13,6 @@
  */
 interface midcom_core_service_urlparser
 {
-    public function __construct();
-
     /**
      * Tokenize URL path to an argument vector array
      */

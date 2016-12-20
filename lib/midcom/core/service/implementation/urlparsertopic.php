@@ -17,22 +17,12 @@ class midcom_core_service_implementation_urlparsertopic implements midcom_core_s
     public $argv = array();
     private $argv_original = array();
 
-    private $root_topic = null;
     private $current_object = null;
 
     private $url = '';
 
     // Run-time cache of objects by URL
     private $objects = array();
-
-    public function __construct()
-    {
-        $this->root_topic = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ROOTTOPIC);
-        $this->current_object = $this->root_topic;
-
-        // TODO: Remove
-        $this->check_style_inheritance($this->root_topic);
-    }
 
     public function tokenize($url)
     {
@@ -76,8 +66,6 @@ class midcom_core_service_implementation_urlparsertopic implements midcom_core_s
         $this->argc = count($argv);
         $this->argv = $argv;
         $this->argv_original = $argv;
-
-        $this->current_object = $this->root_topic;
         $this->url = '';
     }
 
@@ -86,6 +74,12 @@ class midcom_core_service_implementation_urlparsertopic implements midcom_core_s
      */
     public function get_current_object()
     {
+        if (!$this->current_object) {
+            $this->current_object = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ROOTTOPIC);
+
+            // TODO: Remove
+            $this->check_style_inheritance($this->current_object);
+        }
         return $this->current_object;
     }
 
@@ -117,7 +111,7 @@ class midcom_core_service_implementation_urlparsertopic implements midcom_core_s
 
         $qb = midcom_db_topic::new_query_builder();
         $qb->add_constraint('name', '=', $this->argv[0]);
-        $qb->add_constraint('up', '=', $this->current_object->id);
+        $qb->add_constraint('up', '=', $this->get_current_object()->id);
 
         if ($qb->count() == 0) {
             //last load returned ACCESS DENIED, no sense to dig deeper
@@ -128,7 +122,7 @@ class midcom_core_service_implementation_urlparsertopic implements midcom_core_s
             // No topics matching path, check for attachments
             $att_qb =  midcom_db_attachment::new_query_builder();
             $att_qb->add_constraint('name', '=', $this->argv[0]);
-            $att_qb->add_constraint('parentguid', '=', $this->current_object->guid);
+            $att_qb->add_constraint('parentguid', '=', $this->get_current_object()->guid);
             if ($att_qb->count() == 0) {
                 // allow for handler switches to work
                 return false;
