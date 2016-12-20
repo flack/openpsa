@@ -210,8 +210,7 @@ class midcom_helper_datamanager2_type_date extends midcom_helper_datamanager2_ty
 
     /**
      * Tries to detect whether the date value entered is empty in terms of the Midgard
-     * core. For this, all values are compared to zero, if all tests succeed, the date
-     * is considered empty.
+     * core.
      *
      * @return boolean Indicating Emptyness state.
      */
@@ -221,7 +220,7 @@ class midcom_helper_datamanager2_type_date extends midcom_helper_datamanager2_ty
             return true;
         }
 
-        return ($this->value->format('Y') == '-0001');
+        return (abs($this->value->format('Y')) == 1);
     }
 
     private function _validate_date_range()
