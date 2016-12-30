@@ -190,11 +190,7 @@ class midcom_core_account
         $this->_user->set_person(new midgard_person($this->_person->guid));
         $this->_user->active = true;
 
-        try {
-            return $this->_user->create();
-        } catch (midgard_error_exception $e) {
-            return false;
-        }
+        return $this->_user->create();
     }
 
     private function _update()
@@ -205,12 +201,7 @@ class midcom_core_account
 
         $this->_user->login = $new_username;
         $this->_user->password = $new_password;
-        try {
-            $stat = $this->_user->update();
-        } catch (midgard_error_exception $e) {
-            $e->log();
-        }
-        if (!$stat) {
+        if (!$this->_user->update()) {
             return false;
         }
 
