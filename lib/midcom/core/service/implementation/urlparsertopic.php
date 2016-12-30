@@ -66,6 +66,7 @@ class midcom_core_service_implementation_urlparsertopic implements midcom_core_s
         $this->argc = count($argv);
         $this->argv = $argv;
         $this->argv_original = $argv;
+        $this->current_object = null;
         $this->url = '';
     }
 
