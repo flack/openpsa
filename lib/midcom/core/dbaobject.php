@@ -646,15 +646,15 @@ abstract class midcom_core_dbaobject
     // Exec handlers
     public function __exec_create()
     {
-        return @$this->__object->create();
+        return $this->__object->create();
     }
     public function __exec_update()
     {
-        return @$this->__object->update();
+        return $this->__object->update();
     }
     public function __exec_delete()
     {
-        return @$this->__object->delete();
+        return $this->__object->delete();
     }
     public function __exec_get_by_id($id)
     {

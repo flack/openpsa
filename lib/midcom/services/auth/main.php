@@ -729,7 +729,7 @@ class midcom_services_auth
         $qb = new midgard_query_builder('midgard_group');
         $qb->add_constraint('name', '=', $name);
 
-        $result = @$qb->execute();
+        $result = $qb->execute();
         if (empty($result)) {
             $result = false;
             return $result;

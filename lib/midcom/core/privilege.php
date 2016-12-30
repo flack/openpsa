@@ -443,7 +443,7 @@ class midcom_core_privilege
         $qb->add_constraint('privilegename', '=', $name);
         $qb->add_constraint('assignee', '=', $assignee);
         $qb->add_constraint('classname', '=', $classname);
-        $result = @$qb->execute();
+        $result = $qb->execute();
 
         if (empty($result)) {
             // No such privilege stored, return non-persistent one

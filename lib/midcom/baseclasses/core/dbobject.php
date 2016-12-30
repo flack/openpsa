@@ -343,7 +343,7 @@ class midcom_baseclasses_core_dbobject
 
         $query = new midgard_query_builder('midgard_parameter');
         $query->add_constraint('parentguid', '=', $object->guid);
-        $result = @$query->execute();
+        $result = $query->execute();
         if ($result) {
             foreach ($result as $parameter) {
                 if (!$parameter->delete()) {

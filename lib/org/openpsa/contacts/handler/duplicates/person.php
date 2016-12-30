@@ -53,7 +53,7 @@ class org_openpsa_contacts_handler_duplicates_person extends midcom_baseclasses_
             if ($i > 0) {
                 $qb->set_offset($i);
             }
-            $ret = @$qb->execute();
+            $ret = $qb->execute();
 
             if (empty($ret)) {
                 debug_add("No more results to be had, setting notfound and breaking out of loop");

@@ -89,7 +89,7 @@ abstract class midcom_core_query
     /**
      * The query backend, should be set in constructor. Currently collector or querybuilder
      *
-     * @var object
+     * @var \midgard\portable\query
      */
     protected $_query;
 
@@ -241,12 +241,10 @@ abstract class midcom_core_query
      */
     public function begin_group($operator = 'OR')
     {
-        $this->_groups++;
-        try {
-            @$this->_query->begin_group($operator);
-        } catch (Exception $e) {
-            debug_add("Failed to execute begin_group {$operator}, Midgard Exception: " . $e->getMessage(), MIDCOM_LOG_ERROR);
-            $this->_groups--;
+        if (!$this->_query->begin_group($operator)) {
+            debug_add("Failed to execute begin_group {$operator}", MIDCOM_LOG_ERROR);
+        } else {
+            $this->_groups++;
         }
     }
 
@@ -255,12 +253,10 @@ abstract class midcom_core_query
      */
     public function end_group()
     {
-        $this->_groups--;
-
-        try {
-            @$this->_query->end_group();
-        } catch (Exception $e) {
-            debug_add("Failed to execute end_group, Midgard Exception: " . $e->getMessage(), MIDCOM_LOG_ERROR);
+        if (!$this->_query->end_group()) {
+            debug_add("Failed to execute end_group", MIDCOM_LOG_ERROR);
+        } else {
+            $this->_groups--;
         }
     }
 
