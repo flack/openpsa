@@ -492,8 +492,7 @@ class midcom_application
     {
         if (!$this->_cached_host_name) {
             if (   array_key_exists("SSL_PROTOCOL", $_SERVER)
-                ||
-                   (   array_key_exists('HTTPS', $_SERVER)
+                || (   array_key_exists('HTTPS', $_SERVER)
                     && $_SERVER['HTTPS'] == 'on')
                 || $_SERVER["SERVER_PORT"] == 443) {
                 $protocol = "https";

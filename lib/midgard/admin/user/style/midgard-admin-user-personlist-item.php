@@ -30,10 +30,6 @@
     $memberships = $qb->execute();
     $groups = array();
     foreach ($memberships as $member) {
-        if ($member->gid == 0) {
-            $groups[] = 'Midgard Administrators';
-            continue;
-        }
         try {
             $group = midcom_db_group::get_cached($member->gid);
             $value = $group->get_label();

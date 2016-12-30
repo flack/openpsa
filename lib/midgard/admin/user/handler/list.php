@@ -59,13 +59,6 @@ class midgard_admin_user_handler_list extends midcom_baseclasses_components_hand
 
         // Used in select
         $data['groups_for_select'] = array();
-        if (midcom::get()->auth->admin) {
-            $data['groups_for_select'][] = array(
-                'title' => 'Midgard Administrators',
-                'level' => '0',
-                'id' => 0,
-            );
-        }
 
         if (count($this->_persons) > 0) {
             $this->list_groups_for_select(0, $data, 0);

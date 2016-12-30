@@ -328,10 +328,9 @@ class midcom_core_user
 
         //Not yet initialized, try to load one midgard group
         $mc = new midgard_collector('midgard_member', 'uid', $this->_storage->id);
-        $mc->add_constraint('gid', '<>', 0);
         $mc->set_key_property('gid');
         $mc->set_limit(1);
-        @$mc->execute();
+        $mc->execute();
         $result = $mc->list_keys();
         if (!empty($result)) {
             if ($group = midcom::get()->auth->get_group(key($result))) {

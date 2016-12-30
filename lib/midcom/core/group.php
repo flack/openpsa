@@ -170,9 +170,8 @@ class midcom_core_group
     public static function list_memberships($user)
     {
         $mc = new midgard_collector('midgard_member', 'uid.guid', $user->guid);
-        $mc->add_constraint('gid', '<>', 0);
         $mc->set_key_property('gid');
-        @$mc->execute();
+        $mc->execute();
         $result = $mc->list_keys();
         if (empty($result)) {
             return array();
