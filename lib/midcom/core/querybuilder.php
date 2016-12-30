@@ -227,21 +227,11 @@ class midcom_core_querybuilder extends midcom_core_query
         $this->_query->set_limit($this->_window_size);
     }
 
-    private function _check_groups()
-    {
-        while ($this->_groups > 0) {
-            debug_add('Ending unterminated QB group', MIDCOM_LOG_INFO);
-            $this->end_group();
-        }
-    }
-
     /**
      * @return midcom_core_dbaobject[]
      */
     public function execute()
     {
-        $this->_check_groups();
-
         return $this->execute_windowed();
     }
 
@@ -259,8 +249,6 @@ class midcom_core_querybuilder extends midcom_core_query
      */
     public function execute_unchecked()
     {
-        $this->_check_groups();
-
         $this->_reset();
 
         if (!call_user_func_array(array($this->_real_class, '_on_prepare_exec_query_builder'), array(&$this))) {
@@ -354,8 +342,6 @@ class midcom_core_querybuilder extends midcom_core_query
      */
     public function count_unchecked()
     {
-        $this->_check_groups();
-
         if ($this->_limit) {
             $this->_query->set_limit($this->_limit);
         }

@@ -72,13 +72,6 @@ abstract class midcom_core_query
     protected $_real_class;
 
     /**
-     * The number of groups open
-     *
-     * @var int
-     */
-    protected $_groups = 0;
-
-    /**
      * The number of records found by the last execute() run. This is -1 as long as no
      * query has been executed. This member is read-only.
      *
@@ -243,8 +236,6 @@ abstract class midcom_core_query
     {
         if (!$this->_query->begin_group($operator)) {
             debug_add("Failed to execute begin_group {$operator}", MIDCOM_LOG_ERROR);
-        } else {
-            $this->_groups++;
         }
     }
 
@@ -255,8 +246,6 @@ abstract class midcom_core_query
     {
         if (!$this->_query->end_group()) {
             debug_add("Failed to execute end_group", MIDCOM_LOG_ERROR);
-        } else {
-            $this->_groups--;
         }
     }
 
