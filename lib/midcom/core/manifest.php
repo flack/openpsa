@@ -239,20 +239,6 @@ class midcom_core_manifest
     public $purecode = false;
 
     /**
-     * Version number of the components.
-     *
-     * @var string
-     */
-    public $version = '0.0.1';
-
-    /**
-     * State of the components.
-     *
-     * @var string
-     */
-    public $state = 'devel';
-
-    /**
      * Privileges array definition.
      *
      * Indexes are the full privilege names (including the component

@@ -26,7 +26,6 @@ class midgard_admin_asgard_handler_components extends midcom_baseclasses_compone
             'purecode' => $manifest->purecode,
             'icon' => midcom::get()->componentloader->get_component_icon($name),
             'description' => $manifest->description,
-            'version' => $manifest->version,
             'toolbar' => new midcom_helper_toolbar()
         );
         $component_array['toolbar']->add_item(

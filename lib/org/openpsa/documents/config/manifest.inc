@@ -6,6 +6,4 @@
 (
     'org_openpsa_document' => 'org_openpsa_documents_document_dba',
 ),
-'version' => '9.1.0+git',
 'description' => 'Organize and manage documents with metadata, search inside documents.',
-'state' => 'stable',

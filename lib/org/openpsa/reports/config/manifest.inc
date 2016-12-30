@@ -5,7 +5,6 @@
 (
     'org_openpsa_query' => 'org_openpsa_reports_query_dba',
 ),
-'version' => '9.1.0+git',
 'description' => 'Run reports on data from various other modules',
 'customdata' => array
 (
@@ -18,4 +17,3 @@
         ),
     ),
 ),
-'state' => 'stable',

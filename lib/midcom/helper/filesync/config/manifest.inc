@@ -1,7 +1,5 @@
 'name' => 'midcom.helper.filesync',
 'icon' => 'stock-icons/16x16/stock_refresh.png',
 'purecode' => true,
-'version' => '9.1.0+git',
-'state' => 'stable',
 'privileges' => array(),
 'description' => 'Site template filesystem synchronization',

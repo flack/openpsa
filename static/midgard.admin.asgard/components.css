@@ -64,14 +64,6 @@
     vertical-align: middle;
 }
 
-#content div.components ul li span.version
-{
-    margin-right: 1em;
-    font-family: monospace;
-    font-size: small;
-    color: #222
-}
-
 #content div.components ul.midcom_toolbar
 {
     margin-left: 0px;

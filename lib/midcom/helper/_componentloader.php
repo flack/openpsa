@@ -476,19 +476,6 @@ class midcom_helper__componentloader
         return (in_array($component, $core_components));
     }
 
-    public function get_component_version($component)
-    {
-        if ($component == 'midcom') {
-            return midcom::get_version();
-        }
-
-        if (!$this->is_installed($component)) {
-            return null;
-        }
-
-        return $this->manifests[$component]->version;
-    }
-
     public function get_component_icon($component, $provide_fallback = true)
     {
         if ($component == 'midcom') {

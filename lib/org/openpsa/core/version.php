@@ -25,7 +25,7 @@ class org_openpsa_core_version
      */
     public static function get_version_number()
     {
-        return midcom::get()->componentloader->get_component_version('org.openpsa.core');
+        return midcom::get_version();
     }
 
     /**

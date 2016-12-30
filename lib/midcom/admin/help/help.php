@@ -392,7 +392,6 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
             $manifest = midcom::get()->componentloader->manifests[$name];
             $component_array['purecode'] = $manifest->purecode;
             $component_array['description'] = $manifest->description;
-            $component_array['version'] = $manifest->version;
         }
         return $component_array;
     }

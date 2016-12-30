@@ -89,9 +89,7 @@ class midcom_admin_folder_management extends midcom_baseclasses_components_plugi
 
             $components[$manifest->name] = array(
                 'name'        => $manifest->get_name_translated(),
-                'description' => midcom::get()->i18n->get_string($manifest->description, $manifest->name),
-                'state'       => @$manifest->state,
-                'version'     => $manifest->version,
+                'description' => midcom::get()->i18n->get_string($manifest->description, $manifest->name)
             );
         }
 
@@ -140,7 +138,7 @@ class midcom_admin_folder_management extends midcom_baseclasses_components_plugi
                     continue;
                 }
             }
-            $list[$component] = "{$details['name']} ({$component} {$details['version']})";
+            $list[$component] = "{$details['name']} ({$component})";
         }
 
         return $list;

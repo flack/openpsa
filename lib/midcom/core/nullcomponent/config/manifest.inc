@@ -1,8 +1,6 @@
 'name' => 'midcom.core.nullcomponent',
 'icon' => 'stock-icons/16x16/script.png',
 'purecode' => false,
-'version' => '0.0.1',
-'state' => 'devel',
 'privileges' => array(),
 'class_mapping' => array(),
 'description' => 'MidCOM nomodule handler',

@@ -1,8 +1,6 @@
 'name' => 'net.nemein.rss',
 'icon' => 'net.nemein.rss/rss-16.png',
 'purecode' => true,
-'version' => '9.1.0+git',
-'state' => 'stable',
 'privileges' => array(),
 'class_mapping' => array
 (

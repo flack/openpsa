@@ -2,6 +2,4 @@
 'purecode' => false,
 'privileges' => array(),
 'class_mapping' => array(),
-'version' => '9.1.0+git',
-'state' => 'stable',
 'description' => 'At a glance view of your documents, tasks etc',

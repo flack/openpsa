@@ -2,8 +2,6 @@
 'purecode' => true,
 'privileges' => array(),
 'class_mapping' => array(),
-'version' => '9.1.0+git',
-'state' => 'stable',
 'description' => 'OpenPSA helpers for AJAX and workgroup filtering, and some common housekeeping tasks',
 'customdata' => array
 (

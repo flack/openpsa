@@ -1,6 +1,4 @@
 'name' => 'midcom.helper.datamanager2',
 'icon' => 'midcom.helper.datamanager2/datamanager.png',
-'version' => '9.1.0+git',
-'state' => 'stable',
 'purecode' => true,
 'description' => 'Component providing database abstraction and form processing features to MidCOM components.',

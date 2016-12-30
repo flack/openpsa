@@ -8,10 +8,6 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
     <h2><img src="<?php echo MIDCOM_STATIC_URL; ?>/&(component['icon']);" alt="" /> &(component['name']);</h2>
 
     <div class="meta">
-        <p class="version">
-            <?php echo $component['version']; ?>
-        </p>
-
         <p class="description">&(component['title']);</p>
 
     </div>
