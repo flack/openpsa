@@ -656,13 +656,8 @@ class midcom_core_privilege
             return $privilege->drop();
         }
 
-        try {
-            if (!$this->__privilege_object->delete()) {
-                debug_add('Failed to delete privilege record, aborting. Error: ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-                return false;
-            }
-        } catch (Exception $e) {
-            debug_add('Failed to delete privilege record, aborting. Error: ' . $e->getMessage(), MIDCOM_LOG_ERROR);
+        if (!$this->__privilege_object->delete()) {
+            debug_add('Failed to delete privilege record, aborting. Error: ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
             return false;
         }
 

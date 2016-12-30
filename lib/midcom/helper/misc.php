@@ -80,9 +80,7 @@ class midcom_helper_misc
             $data = file_get_contents($filename);
         } else {
             $snippet = new midgard_snippet();
-            try {
-                $snippet->get_by_path($path);
-            } catch (Exception $e) {
+            if (!$snippet->get_by_path($path)) {
                 $cached_snippets[$path] = null;
                 return null;
             }

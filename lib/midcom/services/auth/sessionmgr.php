@@ -202,12 +202,8 @@ class midcom_services_auth_sessionmgr
         if ($session->timestamp < time() - midcom::get()->config->get('auth_login_session_update_interval')) {
             // Update the timestamp if previous timestamp is older than specified interval
             $session->timestamp = time();
-            try {
-                if (!$session->update()) {
-                    debug_add("Failed to update the session {$session->guid} (#{$session->id}) to the current timestamp: " . midcom_connection::get_error_string(), MIDCOM_LOG_INFO);
-                }
-            } catch (Exception $e) {
-                debug_add("Failed to update the session {$session->guid} (#{$session->id}) to the current timestamp: " . $e->getMessage(), MIDCOM_LOG_INFO);
+            if (!$session->update()) {
+                debug_add("Failed to update the session {$session->guid} (#{$session->id}) to the current timestamp: " . midcom_connection::get_error_string(), MIDCOM_LOG_INFO);
             }
         }
 

@@ -254,13 +254,8 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
         }
 
         $snippet = new midgard_snippet();
-        try {
-            $snippet->get_by_path($path);
-
-            if ($snippet->guid) {
-                return "<a href=\"" . midcom_connection::get_url('self') . "__mfa/asgard/object/edit/{$snippet->guid}/\">{$path}</a>";
-            }
-        } catch (Exception $e) {
+        if ($snippet->get_by_path($path)) {
+            return "<a href=\"" . midcom_connection::get_url('self') . "__mfa/asgard/object/edit/{$snippet->guid}/\">{$path}</a>";
         }
 
         return $path;
