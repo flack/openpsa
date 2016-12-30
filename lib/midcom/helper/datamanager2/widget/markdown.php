@@ -6,8 +6,6 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
-use Michelf\MarkdownExtra;
-
 /**
  * Datamanager 2 simple markdown widget
  *
@@ -59,9 +57,10 @@ class midcom_helper_datamanager2_widget_markdown extends midcom_helper_datamanag
     {
         $this->_require_type_value();
 
+        $this->add_stylesheet(MIDCOM_STATIC_URL . '/stock-icons/font-awesome-4.7.0/css/font-awesome.min.css');
+        $this->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/simplemde/simplemde.min.css');
         midcom::get()->head->enable_jquery();
         midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/simplemde/simplemde.min.js');
-        $this->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/simplemde/simplemde.min.css');
     }
 
     /**
