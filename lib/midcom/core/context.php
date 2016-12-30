@@ -306,6 +306,28 @@ class midcom_core_context
         $this->_data[MIDCOM_CONTEXT_CUSTOMDATA][$component][$key] =& $value;
     }
 
+    public function get_component()
+    {
+        do {
+            $object = $this->parser->get_current_object();
+            if (empty($object->guid)) {
+                throw new midcom_error('Root node missing.');
+            }
+
+            if (is_a($object, 'midcom_db_attachment')) {
+                midcom::get()->serve_attachment($object);
+                // This will exit
+            }
+
+            // Check whether the component can handle the request.
+            // If so, execute it, if not, continue.
+            if ($handler = $this->get_handler($object)) {
+                return $handler;
+            }
+        } while ($this->parser->get_object() !== false);
+        return false;
+    }
+
     /**
      * Check whether a given component is able to handle the current request.
      *

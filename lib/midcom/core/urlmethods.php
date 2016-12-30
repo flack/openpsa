@@ -64,7 +64,7 @@
  *
  * @package midcom
  */
-class midcom_core_resolver
+class midcom_core_urlmethods
 {
     /**
      * The context we're working on
@@ -78,40 +78,7 @@ class midcom_core_resolver
         $this->_context = $context;
     }
 
-    /**
-     * Matches the current request to a handler if possible
-     *
-     * @throws midcom_error If topic can't be loaded
-     * @return mixed Handler or false if there is no match
-     */
     public function process()
-    {
-        $this->_process_urlmethods();
-
-        midcom::get()->set_status(MIDCOM_STATUS_CANHANDLE);
-
-        do {
-            $object = $this->_context->parser->get_current_object();
-            if (   !is_object($object)
-                || !$object->guid) {
-                throw new midcom_error('Root node missing.');
-            }
-
-            if (is_a($object, 'midcom_db_attachment')) {
-                midcom::get()->serve_attachment($object);
-            }
-
-            // Check whether the component can handle the request.
-            // If so, execute it, if not, continue.
-            if ($handler = $this->_context->get_handler($object)) {
-                return $handler;
-            }
-        } while ($this->_context->parser->get_object() !== false);
-
-        return false;
-    }
-
-    private function _process_urlmethods()
     {
         while (($tmp = $this->_context->parser->get_variable('midcom')) !== false) {
             foreach ($tmp as $key => $value) {

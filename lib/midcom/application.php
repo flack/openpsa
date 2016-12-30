@@ -423,8 +423,12 @@ class midcom_application
      */
     private function _process(midcom_core_context $context)
     {
-        $resolver = new midcom_core_resolver($context);
-        $handler = $resolver->process();
+        $this->_status = MIDCOM_STATUS_CANHANDLE;
+
+        $urlmethods = new midcom_core_urlmethods($context);
+        $urlmethods->process();
+
+        $handler = $context->get_component();
 
         if (false === $handler) {
             /**
