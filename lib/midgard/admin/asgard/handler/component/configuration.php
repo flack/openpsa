@@ -248,37 +248,31 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
     {
         $basedir = midcom::get()->config->get('midcom_sgconfig_basedir');
         $sg_snippetdir = new midcom_db_snippetdir();
-        $sg_snippetdir->get_by_path($basedir);
-        if (!$sg_snippetdir->guid) {
-            // Create SG config snippetdir
-            $sd = new midcom_db_snippetdir();
-            $sd->up = 0;
-            $sd->name = $basedir;
+        if (!$sg_snippetdir->get_by_path($basedir)) {
+            // Create config snippetdir
+            $sg_snippetdir = new midcom_db_snippetdir();
+            $sg_snippetdir->name = $basedir;
             // remove leading slash from name
-            $sd->name = preg_replace("/^\//", "", $sd->name);
-            if (!$sd->create()) {
+            $sg_snippetdir->name = preg_replace("/^\//", "", $sg_snippetdir->name);
+            if (!$sg_snippetdir->create()) {
                 throw new midcom_error("Failed to create snippetdir {$basedir}: " . midcom_connection::get_error_string());
             }
-            $sg_snippetdir = new midcom_db_snippetdir($sd->guid);
         }
 
         $lib_snippetdir = new midcom_db_snippetdir();
-        $lib_snippetdir->get_by_path("{$basedir}/{$this->_request_data['name']}");
-        if (!$lib_snippetdir->guid) {
-            $sd = new midcom_db_snippetdir();
-            $sd->up = $sg_snippetdir->id;
-            $sd->name = $this->_request_data['name'];
-            if (!$sd->create()) {
-                throw new midcom_error("Failed to create snippetdir {$basedir}/{$sd->name}: " . midcom_connection::get_error_string());
+        if (!$lib_snippetdir->get_by_path("{$basedir}/{$this->_request_data['name']}")) {
+            $lib_snippetdir = new midcom_db_snippetdir();
+            $lib_snippetdir->up = $sg_snippetdir->id;
+            $lib_snippetdir->name = $this->_request_data['name'];
+            if (!$lib_snippetdir->create()) {
+                throw new midcom_error("Failed to create snippetdir {$basedir}/{$lib_snippetdir->name}: " . midcom_connection::get_error_string());
             }
-            $lib_snippetdir = new midcom_db_snippetdir($sd->guid);
         }
 
         $snippet = new midcom_db_snippet();
-        $snippet->get_by_path("{$basedir}/{$this->_request_data['name']}/config");
-        if ($snippet->id == false) {
+        if (!$snippet->get_by_path("{$basedir}/{$this->_request_data['name']}/config")) {
             $sn = new midcom_db_snippet();
-            $sn->up = $lib_snippetdir->id;
+            $sn->snippetdir = $lib_snippetdir->id;
             $sn->name = 'config';
             $sn->code = $config;
             return $sn->create();

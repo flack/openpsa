@@ -96,22 +96,18 @@ class org_openpsa_core_siteconfig extends midcom_baseclasses_components_purecode
     {
         midcom::get()->auth->request_sudo('org.openpsa.core');
         $lib_snippetdir = new midcom_db_snippetdir();
-        $lib_snippetdir->get_by_path("/org.openpsa.cache");
-        if (!$lib_snippetdir->guid) {
-            $sd = new midcom_db_snippetdir();
-            $sd->name = 'org.openpsa.cache';
-            if (!$sd->create()) {
+        if (!$lib_snippetdir->get_by_path("/org.openpsa.cache")) {
+            $lib_snippetdir = new midcom_db_snippetdir();
+            $lib_snippetdir->name = 'org.openpsa.cache';
+            if (!$lib_snippetdir->create()) {
                 throw new midcom_error("Failed to create snippetdir /org.openpsa.cache: " . midcom_connection::get_error_string());
             }
-            $lib_snippetdir = new midcom_db_snippetdir($sd->guid);
         }
 
         $this->snippet = new midcom_db_snippet();
-        $this->snippet->get_by_path("/org.openpsa.cache/siteconfig");
-
-        if ($this->snippet->id == false) {
+        if (!$this->snippet->get_by_path("/org.openpsa.cache/siteconfig")) {
             $this->snippet = new midcom_db_snippet();
-            $this->snippet->up = $lib_snippetdir->id;
+            $this->snippet->snippetdir = $lib_snippetdir->id;
             $this->snippet->name = 'siteconfig';
             $this->snippet->create();
             $this->initialize_site_structure();

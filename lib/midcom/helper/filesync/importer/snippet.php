@@ -60,7 +60,7 @@ class midcom_helper_filesync_importer_snippet extends midcom_helper_filesync_imp
             if ($qb->count() == 0) {
                 // New element
                 $snippet = new midcom_db_snippet();
-                $snippet->up = $snippetdir->id;
+                $snippet->snippetdir = $snippetdir->id;
                 $snippet->name = $snippet_name;
                 $snippet->$field = $file_contents;
                 $snippet->create();
