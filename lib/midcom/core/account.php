@@ -195,7 +195,6 @@ class midcom_core_account
 
     private function _update()
     {
-        $stat = false;
         $new_username = $this->get_username();
         $new_password = $this->get_password();
 
