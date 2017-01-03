@@ -23,7 +23,7 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
     /**
      * The calendar root event
      *
-     * @var midcom_db_event
+     * @var org_openpsa_calendar_event_dba
      */
     private $_root_event = null;
 

@@ -39,8 +39,6 @@
         <property name="id" type="unsigned integer" primaryfield="id">
             <description>Local non-replication-safe database identifier</description>
         </property>
-        <property name="period" type="integer"/>
-        <property name="count" type="integer"/>
         <property name="extra" type="text"/>
         <property name="uid" link="midgard_person:id" type="unsigned integer"/>
         <property name="eid" link="org_openpsa_event:id" type="unsigned integer" parentfield="eid"/>

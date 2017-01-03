@@ -49,7 +49,7 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
     private function _list_events_between(array &$data_array, $person, $from, $to)
     {
         // List user's event memberships
-        $qb = midcom_db_eventmember::new_query_builder();
+        $qb = org_openpsa_calendar_event_member_dba::new_query_builder();
         $qb->add_constraint('uid', '=', $person);
 
         // Find all events that occur during [$from, $to]

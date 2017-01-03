@@ -216,7 +216,7 @@ class org_openpsa_directmarketing_campaign_ruleresolver
                     return $this->add_group_rule($rule);
 
                 case 'midgard_member':
-                case 'midgard_eventmember':
+                case 'org_openpsa_eventmember':
                     return $this->add_misc_rule($rule, $class, 'uid');
 
                 case 'org_openpsa_campaign_member':

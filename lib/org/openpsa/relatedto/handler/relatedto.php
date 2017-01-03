@@ -163,7 +163,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
     private function _get_object_links_sort_time($obj)
     {
         switch (true) {
-            case midcom::get()->dbfactory->is_a($obj, 'midcom_db_event'):
+            case midcom::get()->dbfactory->is_a($obj, 'org_openpsa_calendar_event_dba'):
             case midcom::get()->dbfactory->is_a($obj, 'org_openpsa_projects_task_dba'):
                 return $obj->start;
             default:
@@ -242,7 +242,6 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
             case 'net_nemein_wiki_wikipage':
                 $this->_render_line_wikipage($other_obj);
                 break;
-            case 'midcom_db_event':
             case 'org_openpsa_calendar_event_dba':
                 $this->_render_line_event($other_obj);
                 break;

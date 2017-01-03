@@ -56,7 +56,7 @@ class org_openpsa_calendar_handler_createTest extends openpsa_testcase
 
         $this->assertEquals('new_event', $data['handler_id']);
 
-        $qb = midcom_db_event::new_query_builder();
+        $qb = org_openpsa_calendar_event_dba::new_query_builder();
         $qb->add_constraint('title', '=', $title);
         $results = $qb->execute();
         $this->register_objects($results);

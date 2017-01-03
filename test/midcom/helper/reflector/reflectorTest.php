@@ -140,7 +140,7 @@ class midcom_helper_reflector_reflectorTest extends openpsa_testcase
             1 => array('midcom_db_article', 'name'),
             2 => array('midgard_topic', 'name'),
             3 => array('midcom_db_snippet', 'name'),
-            4 => array('midcom_db_event', 'extra'),
+            4 => array('org_openpsa_calendar_event_dba', 'extra'),
             5 => array('org_openpsa_contacts_person_dba', ''),
         );
     }
@@ -161,7 +161,7 @@ class midcom_helper_reflector_reflectorTest extends openpsa_testcase
             2 => array('midgard_topic', 'new-dir.png'),
             3 => array('midcom_db_snippet', 'new-text.png'),
             4 => array('org_openpsa_organization', 'stock_people-new.png'),
-            5 => array('midcom_db_event', 'stock_event_new.png'),
+            5 => array('org_openpsa_calendar_event_dba', 'stock_event_new.png'),
             6 => array('org_openpsa_contacts_person_dba', 'stock_person-new.png'),
         );
     }
@@ -183,7 +183,7 @@ class midcom_helper_reflector_reflectorTest extends openpsa_testcase
             2 => array('midgard_topic', '/stock-icons/16x16/stock_folder.png'),
             3 => array('midcom_db_snippet', '/stock-icons/16x16/script.png'),
             4 => array('org_openpsa_organization', '/stock-icons/16x16/stock_people.png'),
-            5 => array('midcom_db_event', '/stock-icons/16x16/stock_event.png'),
+            5 => array('org_openpsa_calendar_event_dba', '/stock-icons/16x16/stock_event.png'),
             6 => array('org_openpsa_contacts_person_dba', '/stock-icons/16x16/stock_person.png'),
             7 => array('midcom_db_element', '/stock-icons/16x16/text-x-generic-template.png'),
         );
@@ -208,7 +208,7 @@ class midcom_helper_reflector_reflectorTest extends openpsa_testcase
             2 => array('midgard_topic', array('name', 'title', 'extra')),
             3 => array('midcom_db_snippet', array('name')),
             4 => array('org_openpsa_organization', array('official', 'name')),
-            5 => array('midcom_db_event', array('title')),
+            5 => array('org_openpsa_calendar_event_dba', array('title')),
             6 => array('org_openpsa_person', array('lastname', 'title', 'username', 'firstname', 'email')),
         );
     }
@@ -225,7 +225,6 @@ class midcom_helper_reflector_reflectorTest extends openpsa_testcase
     {
         return array(
             1 => array('org_openpsa_calendar_event_dba', 'org_openpsa_event'),
-            2 => array('midgard_eventmember', 'org_openpsa_eventmember'),
             3 => array('midgard_snippet', 'midgard_snippet'),
         );
     }
@@ -242,7 +241,6 @@ class midcom_helper_reflector_reflectorTest extends openpsa_testcase
     {
         return array(
             1 => array('org_openpsa_calendar_event_dba', 'org_openpsa_event', true),
-            2 => array('midgard_eventmember', 'org_openpsa_eventmember', true),
             3 => array('midgard_snippet', 'org_openpsa_invoices_billing_data_dba', false),
         );
     }

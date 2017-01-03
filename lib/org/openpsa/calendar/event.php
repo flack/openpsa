@@ -75,15 +75,18 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
         if ($this->start == 0) {
             return $this->title;
         }
-        $l10n = midcom::get()->i18n->get_l10n('org.openpsa.calendar');
-        return $l10n->get_formatter()->date($this->start) . " {$this->title}";
+        $formatter = midcom::get()->i18n->get_l10n()->get_formatter();
+        return $formatter->date($this->start) . " {$this->title}";
     }
 
     public function get_parent_guid_uncached()
     {
-        $root_event = org_openpsa_calendar_interface::find_root_event();
-        if ($this->id != $root_event->id) {
-            return $root_event->guid;
+        if (   $this->up
+            || $this->title != '__org_openpsa_calendar') {
+            $root_event = org_openpsa_calendar_interface::find_root_event();
+            if ($this->id != $root_event->id) {
+                return $root_event->guid;
+            }
         }
         return null;
     }

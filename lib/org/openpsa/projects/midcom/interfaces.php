@@ -36,11 +36,9 @@ implements midcom_services_permalinks_resolver
             case midcom::get()->dbfactory->is_a($object, 'midcom_db_person'):
                 $this->_find_suspects_person($object, $defaults, $links_array);
                 break;
-            case midcom::get()->dbfactory->is_a($object, 'midcom_db_event'):
             case midcom::get()->dbfactory->is_a($object, 'org_openpsa_calendar_event_dba'):
                 $this->_find_suspects_event($object, $defaults, $links_array);
                 break;
-
                 //TODO: groups ? other objects ?
         }
     }

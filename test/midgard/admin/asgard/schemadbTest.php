@@ -80,25 +80,25 @@ class midgard_admin_asgard_schemadbTest extends openpsa_testcase
                 1
             ),
             array(
-                new midcom_db_event,
+                new org_openpsa_calendar_event_dba,
                 'start',
                 'title',
                 1
             ),
             array(
-                new midcom_db_event,
+                new org_openpsa_calendar_event_dba,
                 'start',
                 'description',
                 1
             ),
             array(
-                new midcom_db_event,
+                new org_openpsa_calendar_event_dba,
                 'start',
                 'up',
                 1
             ),
             array(
-                new midcom_db_event,
+                new org_openpsa_calendar_event_dba,
                 'start',
                 'end',
                 -1

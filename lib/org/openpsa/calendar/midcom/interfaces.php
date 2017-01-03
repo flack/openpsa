@@ -15,10 +15,13 @@
 class org_openpsa_calendar_interface extends midcom_baseclasses_components_interface
 implements midcom_services_permalinks_resolver
 {
+    /**
+     * @return org_openpsa_calendar_event_dba
+     */
     public static function create_root_event()
     {
         midcom::get()->auth->request_sudo('org.openpsa.calendar');
-        $event = new midcom_db_event();
+        $event = new org_openpsa_calendar_event_dba();
         $event->up = 0;
         $event->title = '__org_openpsa_calendar';
         //Fill in dummy dates to get around date range error
@@ -44,6 +47,8 @@ implements midcom_services_permalinks_resolver
 
     /**
      * Locates the root event
+     *
+     * @return org_openpsa_calendar_event_dba
      */
     public static function find_root_event()
     {

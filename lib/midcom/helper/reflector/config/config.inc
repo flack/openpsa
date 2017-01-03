@@ -4,16 +4,13 @@
  * All classes must be defined as MgdSchema level names
  */
 /*
- Used to replace one classname with another, for example org_openpsa_event
- extends midgard_event, so we wish to display only the more complete type.
+ Used to replace one classname with another
 
  Keyed by the type we wish to replace, value is the type we wish to replace to
 */
 'class_extends' => array
 (
-    'midgard_event' => 'org_openpsa_event',
     'org_openpsa_calendar_event_dba' => 'org_openpsa_event',
-    'midgard_eventmember' => 'org_openpsa_eventmember',
     'midgard_person' => 'org_openpsa_person',
     'midgard_group' => 'org_openpsa_organization',
 ),
@@ -24,8 +21,7 @@
  */
 'name_exceptions' => array
 (
-    'midgard_event' => 'extra',
-    'org_openpsa_calendar_event' => 'extra',
+    'org_openpsa_event' => 'extra',
     'midgard_person' => false,
     'org_openpsa_person' => false,
     'midgard_parameter' => false,

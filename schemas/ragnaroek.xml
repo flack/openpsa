@@ -135,59 +135,6 @@
         </property>
     </type>
 
-    <type name="midgard_event" table="event">
-        <property name="id" type="unsigned integer" primaryfield="id">
-            <description>Local non-replication-safe database identifier</description>
-        </property>
-        <property name="start"    type="integer" index="yes">
-            <description>Start timestamp of the event</description>
-        </property>
-        <!-- Do not use end column, it's postgres reserved word -->
-        <property name="end"      type="integer" field="event_end" index="yes">
-            <description>End timestamp of the event</description>
-        </property>
-        <property name="title"    type="string">
-            <description>Title of the event</description>
-        </property>
-        <property name="description" type="text">
-            <description>Description of the event</description>
-        </property>
-        <property name="type"     type="integer" index="yes">
-            <description>Type of the event</description>
-        </property>
-        <property name="extra"    type="text">
-            <description>Additional information about the event</description>
-        </property>
-        <property name="busy"     type="boolean">
-            <description>Whether the event should make members reserved</description>
-        </property>
-        <property name="up"       type="unsigned integer" upfield="up" link="midgard_event:id">
-            <description>Event the event is under</description>
-        </property>
-    </type>
-
-    <type name="midgard_eventmember" table="eventmember" parent="midgard_event">
-        <property name="id" type="unsigned integer" primaryfield="id">
-            <description>Local non-replication-safe database identifier</description>
-        </property>
-        <property name="uid"      type="unsigned integer" link="midgard_person:id">
-            <description>Identifier of a person that belongs to the event</description>
-        </property>
-        <property name="eid"      type="unsigned integer" link="midgard_event:id" parentfield="eid">
-            <description>Identifier of the event that a person belongs to</description>
-        </property>
-        <property name="extra"    type="text">
-            <description>Additional information about the membership</description>
-        </property>
-        <!-- Legacy -->
-        <property name="period"   type="integer">
-            <description>Period of the membership (legacy field)</description>
-        </property>
-        <property name="count"    type="integer">
-            <description>Count of the membership (legacy field)</description>
-        </property>
-    </type>
-
     <type name="midgard_snippetdir" table="snippetdir">
         <property name="id" type="unsigned integer" primaryfield="id">
             <description>Local non-replication-safe database identifier</description>
