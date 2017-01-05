@@ -135,7 +135,6 @@ class midcom_admin_folder_handler_move extends midcom_baseclasses_components_han
         if (is_a($this->_object, 'midcom_db_topic')) {
             $name = $this->_object->name;
             $this->_object->name = ''; // Prevents problematic location to break the site, we set this back below...
-            $up = $this->_object->up;
             $this->_object->up = $move_to_topic->id;
             if (!$this->_object->update()) {
                 throw new midcom_error('Failed to move the topic, reason ' . midcom_connection::get_error_string());
