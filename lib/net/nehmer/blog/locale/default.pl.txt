@@ -258,14 +258,6 @@ Pokaż pseudo strony w nawigacji
 Sortowanie
 ---STRINGEND
 
----STRING symlink_topic
-Link do innej kategorii ("symlink")
----STRINGEND
-
----STRING symlink_topic disabled
-Nie wybrano kategorii
----STRINGEND
-
 ---STRING there is a total of %d posts.
 %d postów.
 ---STRINGEND

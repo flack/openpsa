@@ -282,14 +282,6 @@ Show pseudo leaves in navigation
 Sort order
 ---STRINGEND
 
----STRING symlink_topic
-Link to another content topic ("symlink")
----STRINGEND
-
----STRING symlink_topic disabled
-No topic selected
----STRINGEND
-
 ---STRING there is a total of %d posts.
 There is a total of %d posts.
 ---STRINGEND

@@ -140,15 +140,6 @@ class midcom_admin_folder_handler_move extends midcom_baseclasses_components_han
             if (!$this->_object->update()) {
                 throw new midcom_error('Failed to move the topic, reason ' . midcom_connection::get_error_string());
             }
-            if (!midcom_admin_folder_management::is_child_listing_finite($this->_object)) {
-                $this->_object->up = $up;
-                $this->_object->name = $name;
-                $this->_object->update();
-                throw new midcom_error(
-                    "Refusing to move this folder because the move would have created an
-                    infinite loop situation caused by the symlinks on this site."
-                );
-            }
             // It was ok, so set name back now
             $this->_object->name = $name;
             $this->_object->update();

@@ -94,14 +94,6 @@ Velg skjema
 Innstillinger
 ---STRINGEND
 
----STRING symlink_topic
-Link denne mappen til en annen mappe
----STRINGEND
-
----STRING symlink_topic disabled
-Ingen mappe valgt
----STRINGEND
-
 ---STRING unapprove
 Ikke vis på siden
 ---STRINGEND

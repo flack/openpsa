@@ -17,13 +17,6 @@
 class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handler
 {
     /**
-     * The content topic to use
-     *
-     * @var midcom_db_topic
-     */
-    private $_content_topic = null;
-
-    /**
      * The articles to display
      *
      * @var Array
@@ -36,14 +29,6 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
      * @var midcom_helper_datamanager2_datamanager
      */
     private $_datamanager = null;
-
-    /**
-     * Maps the content topic from the request data to local member variables.
-     */
-    public function _on_initialize()
-    {
-        $this->_content_topic = $this->_request_data['content_topic'];
-    }
 
     /**
      * Simple helper which references all important members to the request data listing
@@ -71,7 +56,7 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
         $this->_datamanager = new midcom_helper_datamanager2_datamanager($data['schemadb']);
         $qb = new org_openpsa_qbpager('midcom_db_article', 'net_nehmer_blog_index');
         $data['qb'] = $qb;
-        net_nehmer_blog_viewer::article_qb_constraints($qb, $data, $handler_id);
+        $this->_master->article_qb_constraints($qb, $handler_id);
 
         // Set default page title
         $data['page_title'] = $this->_topic->extra;
@@ -111,7 +96,7 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
         $this->_articles = $qb->execute();
 
         $this->_prepare_request_data();
-        midcom::get()->metadata->set_request_metadata(net_nehmer_blog_viewer::get_last_modified($this->_topic, $this->_content_topic), $this->_topic->guid);
+        midcom::get()->metadata->set_request_metadata(net_nehmer_blog_viewer::get_last_modified($this->_topic), $this->_topic->guid);
 
         if ($qb->get_current_page() > 1) {
             $this->add_breadcrumb(
@@ -209,7 +194,7 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
                 if (!preg_match('/^http(s):\/\//', $data['view_url'])) {
                     $data['view_url'] = $prefix . $data['view_url'];
                 }
-                $data['linked'] = ($article->topic !== $this->_content_topic->id);
+                $data['linked'] = ($article->topic !== $this->_topic->id);
                 if ($data['linked']) {
                     $nap = new midcom_helper_nav();
                     $data['node'] = $nap->get_node($article->topic);

@@ -182,16 +182,12 @@ class midcom_helper_nav_backend
             $this->_user_id = midcom::get()->auth->acl->get_user_id();
         }
 
-        $up = null;
         $node_path_candidates = array($this->_root);
         $this->_current = $this->_root;
         foreach (midcom_core_context::get($context)->get_key(MIDCOM_CONTEXT_URLTOPICS) as $topic) {
-            $id = $this->_nodeid($topic->id, $up);
+            $id = $this->_nodeid($topic->id, null);
             $node_path_candidates[] = $id;
             $this->_current = $id;
-            if ($up || !empty($topic->symlink)) {
-                $up = $id;
-            }
         }
 
         $root_set = false;
@@ -265,13 +261,7 @@ class midcom_helper_nav_backend
             try {
                 self::$_nodes[$parent_id] = $this->_loadNodeData($parent_id);
             } catch (midcom_error_forbidden $e) {
-                $log_level = MIDCOM_LOG_WARN;
-                if (!$this->_get_parent_id($topic_id)) {
-                    // This can happen only when a target for a symlink pointing outside the tree is tried to be accessed.
-                    // It is normal then, so use info as log level in that case.
-                    $log_level = MIDCOM_LOG_INFO;
-                }
-                debug_add("The Node {$parent_id} is invisible, could not satisfy the dependency chain to Node #{$node_id}", $log_level);
+                debug_add("The Node {$parent_id} is invisible, could not satisfy the dependency chain to Node #{$node_id}", MIDCOM_LOG_WARN);
                 return $e->getCode();
             } catch (midcom_error $e) {
                 return $e->getCode();
@@ -445,9 +435,7 @@ class midcom_helper_nav_backend
         $up = $this->_up($parent_node);
         $node = (int) $parent_node;
 
-        if (   $up
-            || (   midcom::get()->config->get('symlinks')
-                && $node != self::$_nodes[$parent_node]->object->id)) {
+        if ($up) {
             $up = $this->_nodeid($node, $up);
         }
 

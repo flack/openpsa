@@ -158,14 +158,6 @@ Visa blobs i autoindex
 Sorterings ordning
 ---STRINGEND
 
----STRING symlink_topic
-Hämta innehåll från ett annat ämne ("mjuklänk")
----STRINGEND
-
----STRING symlink_topic disabled
-Inget ämne valt
----STRINGEND
-
 ---STRING unapprove
 Godkänn inte
 ---STRINGEND

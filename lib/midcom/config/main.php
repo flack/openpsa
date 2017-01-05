@@ -481,19 +481,6 @@ class midcom_config implements arrayaccess
         'cron_purge_deleted_after' => 25,
 
         /**
-         * MidCOM core level symlink support
-         *
-         * Same kind of functionality as directory symlinks in the file system
-         * but with Midgard topics. These folder symlinks are followed
-         * recursively in case the target folder has subfolders. If enabled,
-         * component level topic symlink support is disabled.
-         *
-         * Disabled by default because component level symlinks were introduced
-         * first and we need to be backwards compatible by default.
-         */
-        'symlinks' => false,
-
-        /**
          * Theme support
          */
         'theme' => '',

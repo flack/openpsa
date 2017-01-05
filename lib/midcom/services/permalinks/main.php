@@ -109,8 +109,7 @@ class midcom_services_permalinks
         while ($parent) {
             if (is_a($parent, 'midcom_db_topic')) {
                 // Verify that this topic is within the current sites tree, if it is not,
-                // we ignore it. This might happen on symlink topics with static & co
-                // which point to the outside f.x.
+                // we ignore it.
                 if ($nav->is_node_in_tree($parent->id, $nav->get_root_node())) {
                     if ($return_value = $this->_resolve_permalink_in_topic($parent, $object)) {
                         return $return_value;

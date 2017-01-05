@@ -202,14 +202,6 @@ Visa senaste artiklar i navigering
 Sorterings ordning
 ---STRINGEND
 
----STRING symlink_topic
-Länk till annat ämne ("mjuk länk")
----STRINGEND
-
----STRING symlink_topic disabled
-Inget ämne valt
----STRINGEND
-
 ---STRING there is a total of %d posts.
 Det finns totalt %d postningar.
 ---STRINGEND

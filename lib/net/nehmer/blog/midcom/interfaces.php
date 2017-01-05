@@ -36,9 +36,7 @@ implements midcom_services_permalinks_resolver
      */
     public function _on_reindex($topic, $config, &$indexer)
     {
-        if ($config->get('symlink_topic')) {
-            debug_add("The topic {$topic->id} is symlinked to another topic, skipping indexing.");
-        } elseif (!$config->get('disable_indexing')) {
+        if (!$config->get('disable_indexing')) {
             debug_add("The topic {$topic->id} is not to be indexed, skipping indexing.");
         } else {
             $qb = midcom::get()->dbfactory->new_query_builder('midcom_db_article');
@@ -72,16 +70,6 @@ implements midcom_services_permalinks_resolver
         $config = $this->get_config_for_topic($topic);
         if ($config->get('disable_permalinks')) {
             return null;
-        }
-
-        $topic_guid = $config->get('symlink_topic');
-        if (mgd_is_guid($topic_guid)) {
-            try {
-                $new_topic = new midcom_db_topic($topic_guid);
-                $topic = $new_topic;
-            } catch (midcom_error $e) {
-                $e->log();
-            }
         }
 
         if ($object->topic != $topic->id) {

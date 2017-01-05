@@ -16,13 +16,6 @@
 class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_handler
 {
     /**
-     * The content topic to use
-     *
-     * @var midcom_db_topic
-     */
-    private $_content_topic = null;
-
-    /**
      * The articles to display
      *
      * @var array
@@ -49,14 +42,6 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
      * @var DateTime
      */
     private $_end = null;
-
-    /**
-     * Maps the content topic from the request data to local member variables.
-     */
-    public function _on_initialize()
-    {
-        $this->_content_topic = $this->_request_data['content_topic'];
-    }
 
     /**
      * Simple helper which references all important members to the request data listing
@@ -90,7 +75,7 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
 
         midcom::get()->head->set_pagetitle("{$this->_topic->extra}: " . $this->_l10n->get('archive'));
 
-        midcom::get()->metadata->set_request_metadata(net_nehmer_blog_viewer::get_last_modified($this->_topic, $this->_content_topic), $this->_topic->guid);
+        midcom::get()->metadata->set_request_metadata(net_nehmer_blog_viewer::get_last_modified($this->_topic), $this->_topic->guid);
     }
 
     /**
@@ -106,8 +91,7 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
     private function _compute_welcome_first_post()
     {
         $qb = midcom_db_article::new_query_builder();
-        $data =& $this->_request_data;
-        net_nehmer_blog_viewer::article_qb_constraints($qb, $data, 'archive_welcome');
+        $this->_master->article_qb_constraints($qb, 'archive_welcome');
         $qb->add_constraint('metadata.published', '>', '1970-01-02 23:59:59');
 
         $qb->add_order('metadata.published');
@@ -140,7 +124,7 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
 
         $qb->add_constraint('metadata.published', '>=', $start->format('Y-m-d H:i:s'));
         $qb->add_constraint('metadata.published', '<', $end->format('Y-m-d H:i:s'));
-        net_nehmer_blog_viewer::article_qb_constraints($qb, $data, 'archive_welcome');
+        $this->_master->article_qb_constraints($qb, 'archive_welcome');
 
         return $qb->count();
     }
@@ -288,7 +272,7 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
     {
         // Get Articles, distinguish by handler.
         $qb = midcom_db_article::new_query_builder();
-        net_nehmer_blog_viewer::article_qb_constraints($qb, $data, $handler_id);
+        $this->_master->article_qb_constraints($qb, $handler_id);
 
         // Use helper functions to determine start/end
         switch ($handler_id) {
@@ -345,7 +329,7 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
             $this->set_active_leaf($this->_topic->id . '_ARCHIVE_' . $args[0]);
         }
 
-        midcom::get()->metadata->set_request_metadata(net_nehmer_blog_viewer::get_last_modified($this->_topic, $this->_content_topic), $this->_topic->guid);
+        midcom::get()->metadata->set_request_metadata(net_nehmer_blog_viewer::get_last_modified($this->_topic), $this->_topic->guid);
         midcom::get()->head->set_pagetitle("{$this->_topic->extra}: {$timeframe}");
     }
 
@@ -442,7 +426,7 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
                 $data['article_count'] = $total_count;
                 $data['view_url'] = $prefix . $this->_master->get_url($article, $this->_config->get('link_to_external_url'));
                 $data['local_view_url'] = $data['view_url'];
-                $data['linked'] = ($article->topic !== $this->_content_topic->id);
+                $data['linked'] = ($article->topic !== $this->_topic->id);
                 if ($data['linked']) {
                     $nap = new midcom_helper_nav();
                     $data['node'] = $nap->get_node($article->topic);

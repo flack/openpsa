@@ -24,10 +24,6 @@
 // Automatically approve new articles ?
 'auto_approve' => false,
 
-// Use the content from another topic instead of the current one.
-// Do not overwrite this except on a per-topic level!!!
-'symlink_topic' => null,
-
 // Set this to false if you want all users to have full control over URL names.
 'simple_name_handling' => true,
 

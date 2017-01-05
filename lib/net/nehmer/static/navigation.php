@@ -18,14 +18,6 @@ use midgard\introspection\helper;
 class net_nehmer_static_navigation extends midcom_baseclasses_components_navigation
 {
     /**
-     * The topic in which to look for articles. This defaults to the current content topic
-     * unless overridden by the symlink topic feature.
-     *
-     * @var midcom_db_topic
-     */
-    private $_content_topic = null;
-
-    /**
      * Returns all leaves for the current content topic.
      *
      * It will hide the index leaf from the NAP information unless we are in Autoindex
@@ -39,7 +31,7 @@ class net_nehmer_static_navigation extends midcom_baseclasses_components_navigat
             return $leaves;
         }
 
-        $qb = net_nehmer_static_viewer::get_topic_qb($this->_config, $this->_content_topic->id);
+        $qb = net_nehmer_static_viewer::get_topic_qb($this->_config, $this->_topic->id);
 
         $qb->add_constraint('up', '=', 0);
         $qb->add_constraint('metadata.navnoentry', '=', 0);
@@ -82,33 +74,5 @@ class net_nehmer_static_navigation extends midcom_baseclasses_components_navigat
         }
 
         return $leaves;
-    }
-
-    /**
-     * This event handler will determine the content topic, which might differ due to a
-     * set content symlink.
-     */
-    public function _on_set_object()
-    {
-        $this->_determine_content_topic();
-        return true;
-    }
-
-    /**
-     * Set the content topic to use. This will check against the configuration setting 'symlink_topic'.
-     * We don't do sanity checking here for performance reasons, it is done when accessing the topic,
-     * that should be enough.
-     */
-    private function _determine_content_topic()
-    {
-        $guid = $this->_config->get('symlink_topic');
-        if (is_null($guid)) {
-            // No symlink topic
-            // Workaround, we should talk to a DBA object automatically here in fact.
-            $this->_content_topic = midcom_db_topic::get_cached($this->_topic->id);
-            return;
-        }
-
-        $this->_content_topic = midcom_db_topic::get_cached($guid);
     }
 }

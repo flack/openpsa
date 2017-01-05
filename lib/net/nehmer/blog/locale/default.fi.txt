@@ -262,14 +262,6 @@ Näytä valesivut navigaatiossa
 Järjestys
 ---STRINGEND
 
----STRING symlink_topic
-Hae sisältö toisesta ("symlink"-) kansiosta
----STRINGEND
-
----STRING symlink_topic disabled
-Kansiota ei valittu
----STRINGEND
-
 ---STRING there is a total of %d posts.
 Yhteensä %s uutista.
 ---STRINGEND

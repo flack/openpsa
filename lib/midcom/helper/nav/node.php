@@ -38,11 +38,7 @@ class midcom_helper_nav_node extends midcom_helper_nav_item
     {
         if (!isset($this->subnodes)) {
             // Use midgard_collector to get the subnodes
-            $id = (int) $this->topic_id;
-            if (midcom::get()->config->get('symlinks')) {
-                $id = $this->object->id;
-            }
-            $mc = midcom_db_topic::new_collector('up', $id);
+            $mc = midcom_db_topic::new_collector('up', (int) $this->topic_id);
             $mc->add_constraint('name', '<>', '');
             $mc->add_order('metadata.score', 'DESC');
             $mc->add_order('metadata.created');
@@ -151,18 +147,6 @@ class midcom_helper_nav_node extends midcom_helper_nav_item
             return null;
         }
 
-        $urltopic = $topic;
-
-        if (   midcom::get()->config->get('symlinks')
-            && !empty($urltopic->symlink)) {
-            $topic = new midcom_core_dbaproxy($urltopic->symlink, 'midcom_db_topic');
-
-            if (!$topic->guid) {
-                debug_add("Could not load target for symlinked topic {$urltopic->id}: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-                $topic = $urltopic;
-            }
-        }
-
         // Retrieve a NAP instance
         $interface = $this->get_component_interface($topic);
         if (!$interface) {
@@ -178,18 +162,18 @@ class midcom_helper_nav_node extends midcom_helper_nav_item
             return null;
         }
 
-        $id = $urltopic->id;
+        $id = $topic->id;
         if ($this->up) {
             $id .= "_" . $this->up;
         }
         // Now complete the node data structure
 
-        $data[MIDCOM_NAV_URL] = $urltopic->name . '/';
+        $data[MIDCOM_NAV_URL] = $topic->name . '/';
         $data[MIDCOM_NAV_NAME] = trim($data[MIDCOM_NAV_NAME]) == '' ? $topic->name : $data[MIDCOM_NAV_NAME];
-        $data[MIDCOM_NAV_GUID] = $urltopic->guid;
+        $data[MIDCOM_NAV_GUID] = $topic->guid;
         $data[MIDCOM_NAV_ID] = $id;
         $data[MIDCOM_NAV_TYPE] = 'node';
-        $data[MIDCOM_NAV_SCORE] = $urltopic->metadata->score;
+        $data[MIDCOM_NAV_SCORE] = $topic->metadata->score;
         $data[MIDCOM_NAV_COMPONENT] = $topic->component;
         $data[MIDCOM_NAV_SORTABLE] = true;
 
@@ -198,16 +182,16 @@ class midcom_helper_nav_node extends midcom_helper_nav_item
         }
 
         if (empty($data[MIDCOM_NAV_NOENTRY])) {
-            $data[MIDCOM_NAV_NOENTRY] = (bool) $urltopic->metadata->get('navnoentry');
+            $data[MIDCOM_NAV_NOENTRY] = (bool) $topic->metadata->get('navnoentry');
         }
         $data[MIDCOM_NAV_OBJECT] = $topic;
 
-        if ($urltopic->id == $this->backend->get_root_node()) {
+        if ($topic->id == $this->backend->get_root_node()) {
             $data[MIDCOM_NAV_NODEID] = -1;
             $data[MIDCOM_NAV_RELATIVEURL] = '';
         } else {
             if (!$this->up || $this->backend->get_node($this->up) === false) {
-                $this->up = $urltopic->up;
+                $this->up = $topic->up;
             }
             $data[MIDCOM_NAV_NODEID] = $this->up;
 

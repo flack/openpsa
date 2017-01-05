@@ -16,13 +16,6 @@ use midgard\introspection\helper;
 class net_nehmer_static_handler_autoindex extends midcom_baseclasses_components_handler
 {
     /**
-     * The content topic to use
-     *
-     * @var midcom_db_topic
-     */
-    private $_content_topic;
-
-    /**
      * The list of index entries
      *
      * @var array
@@ -39,7 +32,6 @@ class net_nehmer_static_handler_autoindex extends midcom_baseclasses_components_
      */
     public function _on_initialize()
     {
-        $this->_content_topic = $this->_request_data['content_topic'];
         $this->formatter = $this->_l10n->get_formatter();
     }
 
@@ -54,13 +46,13 @@ class net_nehmer_static_handler_autoindex extends midcom_baseclasses_components_
     public function _handler_autoindex($handler_id, array $args, array &$data)
     {
         // Get last modified timestamp
-        $qb = net_nehmer_static_viewer::get_topic_qb($this->_config, $this->_content_topic->id);
+        $qb = net_nehmer_static_viewer::get_topic_qb($this->_config, $this->_topic->id);
 
         $qb->add_order('metadata.revised', 'DESC');
         $qb->set_limit(1);
         $result = $qb->execute();
         $article_time = (!empty($result)) ? $result[0]->metadata->revised : 0;
-        $topic_time = $this->_content_topic->metadata->revised;
+        $topic_time = $this->_topic->metadata->revised;
         midcom::get()->metadata->set_request_metadata(max($article_time, $topic_time), null);
 
         $this->_index_entries = $this->_load_autoindex_data();
@@ -111,7 +103,7 @@ class net_nehmer_static_handler_autoindex extends midcom_baseclasses_components_
     {
         $view = array();
         $datamanager = new midcom_helper_datamanager2_datamanager($this->_request_data['schemadb']);
-        $qb = net_nehmer_static_viewer::get_topic_qb($this->_config, $this->_content_topic->id);
+        $qb = net_nehmer_static_viewer::get_topic_qb($this->_config, $this->_topic->id);
 
         $sort_order = 'ASC';
         $sort_property = $this->_config->get('sort_order');

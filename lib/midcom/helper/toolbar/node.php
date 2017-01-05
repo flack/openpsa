@@ -110,13 +110,6 @@ class midcom_helper_toolbar_node extends midcom_helper_toolbar_view
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-dir.png',
                 MIDCOM_TOOLBAR_ACCESSKEY => 'f',
             ));
-            if (   midcom::get()->config->get('symlinks')
-                && $this->topic->can_do('midcom.admin.folder:symlinks')) {
-                $buttons[] = $workflow->get_button("__ais/folder/createlink/", array(
-                    MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('create folder link', 'midcom.admin.folder'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-dir.png',
-                ));
-            }
         }
         if (   $urltopic->guid !== midcom::get()->config->get('midcom_root_topic_guid')
             && $urltopic->can_do('midgard:delete')

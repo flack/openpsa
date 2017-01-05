@@ -89,8 +89,3 @@ Mappák rendezése
 ---STRING sort pages
 Oldalak rendezése
 ---STRINGEND
-
----STRING symlinks are currently disabled                 
-(Symlinks are currently disabled.)
----STRINGEND
-

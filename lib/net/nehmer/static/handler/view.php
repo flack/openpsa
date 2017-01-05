@@ -14,13 +14,6 @@
 class net_nehmer_static_handler_view extends midcom_baseclasses_components_handler
 {
     /**
-     * The content topic to use
-     *
-     * @var midcom_db_topic
-     */
-    private $_content_topic;
-
-    /**
      * The article to display
      *
      * @var midcom_db_article
@@ -51,9 +44,9 @@ class net_nehmer_static_handler_view extends midcom_baseclasses_components_handl
             ));
         }
 
-        if ($this->_article->topic !== $this->_content_topic->id) {
+        if ($this->_article->topic !== $this->_topic->id) {
             $qb = net_nehmer_static_link_dba::new_query_builder();
-            $qb->add_constraint('topic', '=', $this->_content_topic->id);
+            $qb->add_constraint('topic', '=', $this->_topic->id);
             $qb->add_constraint('article', '=', $this->_article->id);
             if ($qb->count() === 1) {
                 // Get the link
@@ -82,21 +75,13 @@ class net_nehmer_static_handler_view extends midcom_baseclasses_components_handl
             $buttons[] = $delete->get_button("delete/{$this->_article->guid}/");
         }
         if (   $this->_config->get('enable_article_links')
-            && $this->_content_topic->can_do('midgard:create')) {
+            && $this->_topic->can_do('midgard:create')) {
             $buttons[] = $workflow->get_button("create/link/?article={$this->_article->id}", array(
                 MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('article link')),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/attach.png',
             ));
         }
         $this->_view_toolbar->add_items($buttons);
-    }
-
-    /**
-     * Maps the content topic from the request data to local member variables.
-     */
-    public function _on_initialize()
-    {
-        $this->_content_topic = $this->_request_data['content_topic'];
     }
 
     /**
@@ -117,7 +102,7 @@ class net_nehmer_static_handler_view extends midcom_baseclasses_components_handl
             return true;
         }
 
-        $qb = net_nehmer_static_viewer::get_topic_qb($this->_config, $this->_content_topic->id);
+        $qb = net_nehmer_static_viewer::get_topic_qb($this->_config, $this->_topic->id);
         $qb->add_constraint('name', '=', $args[0]);
         $qb->add_constraint('up', '=', 0);
         $qb->set_limit(1);
@@ -193,16 +178,16 @@ class net_nehmer_static_handler_view extends midcom_baseclasses_components_handl
 
     private function _load_index_article()
     {
-        $qb = net_nehmer_static_viewer::get_topic_qb($this->_config, $this->_content_topic->id);
+        $qb = net_nehmer_static_viewer::get_topic_qb($this->_config, $this->_topic->id);
         $qb->add_constraint('name', '=', 'index');
         $qb->set_limit(1);
         $result = $qb->execute();
 
         if (empty($result)) {
-            if ($this->_content_topic->can_do('midgard:create')) {
+            if ($this->_topic->can_do('midgard:create')) {
                 // Check via non-ACLd QB that the topic really doesn't have index article before relocating
                 $index_qb = midcom_db_article::new_query_builder();
-                $index_qb->add_constraint('topic', '=', $this->_content_topic->id);
+                $index_qb->add_constraint('topic', '=', $this->_topic->id);
                 $index_qb->add_constraint('name', '=', 'index');
                 if ($index_qb->count_unchecked() == 0) {
                     $schemas = array_keys($this->_request_data['schemadb']);

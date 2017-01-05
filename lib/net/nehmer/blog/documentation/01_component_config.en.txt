@@ -19,7 +19,6 @@ Newsticker/Blog component can be customized to users' needs by setting the follo
 * __Archive item order__
 * __Enable creating news items from remote RSS and Atom feeds__
 * __Link items to external URL if available__
-* __Link to another content topic ("symlink")__
 
 ##Navigation options
 

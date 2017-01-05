@@ -37,11 +37,8 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
         // Get the configured schemas
         $schemadbs = $this->_config->get('schemadbs_folder');
 
-        if ($this->_handler_id === 'createlink') {
-            $schemadb = 'link';
-        }
         // Check if a custom schema exists
-        elseif (array_key_exists($this->_topic->component, $schemadbs)) {
+        if (array_key_exists($this->_topic->component, $schemadbs)) {
             $schemadb = $this->_topic->component;
         } else {
             $schemadb = 'default';
@@ -83,13 +80,6 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
                 $this->_controller->defaults = array(
                     'component' => $component_suggestion,
                 );
-                break;
-
-            case 'createlink':
-                $this->_controller = midcom_helper_datamanager2_controller::create('create');
-                $this->_controller->schemadb =& $schemadb;
-                $this->_controller->schemaname = 'link';
-                $this->_controller->callback_object =& $this;
                 break;
 
             default:
@@ -136,10 +126,6 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
         } else {
             $this->_topic->require_do('midgard:create');
             $title = $this->_l10n->get('create folder');
-            if ($this->_handler_id == 'createlink') {
-                $this->_topic->require_do('midcom.admin.folder:symlinks');
-                $title = $this->_l10n->get('create folder link');
-            }
         }
         midcom::get()->head->set_pagetitle($title);
 
@@ -148,14 +134,8 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
 
         // Store the old name before editing
         $this->old_name = $this->_topic->name;
-        // Symlink support requires that we use actual URL topic object here
-        $urltopics = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_URLTOPICS);
-        if ($urltopic = end($urltopics)) {
-            $this->old_name = $urltopic->name;
-        }
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.admin.folder/folder.css');
-
         midcom::get()->head->set_pagetitle($title);
 
         $workflow = $this->get_workflow('datamanager2', array(
@@ -176,12 +156,6 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
 
     private function _update_topic($prefix, $old_name)
     {
-        if (   !empty($this->_topic->symlink)
-            && !empty($this->_topic->component)) {
-            $this->_topic->symlink = null;
-            $this->_topic->update();
-        }
-
         if ($_REQUEST['style'] === '__create') {
             $this->_topic->style = $this->_create_style($this->_topic->name);
 
@@ -198,20 +172,6 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
             }
         }
 
-        midcom::get()->auth->request_sudo('midcom.admin.folder');
-        // Because edit from a symlink edits its target, it is best to keep name properties in sync to get the expected behavior
-        $qb_topic = midcom_db_topic::new_query_builder();
-        $qb_topic->add_constraint('symlink', '=', $this->_topic->id);
-        foreach ($qb_topic->execute() as $symlink_topic) {
-            if ($symlink_topic->name !== $this->_topic->name) {
-                $symlink_topic->name = $this->_topic->name;
-                // This might fail if the URL name is already taken,
-                // but in such case we can just ignore it silently which keeps the original value
-                $symlink_topic->update();
-            }
-        }
-        midcom::get()->auth->drop_sudo();
-
         midcom::get()->uimessages->add($this->_l10n->get('midcom.admin.folder'), $this->_l10n->get('folder saved'));
 
         // Get the relocation url
@@ -220,54 +180,6 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
 
     private function _create_topic($prefix)
     {
-        if (!empty($this->_new_topic->symlink)) {
-            $name = $this->_new_topic->name;
-            $target = $this->_new_topic;
-            while (!empty($target->symlink)) {
-                // Only direct symlinks are supported, but indirect symlinks are ok as we change them to direct ones here
-                $this->_new_topic->symlink = $target->symlink;
-                try {
-                    $target = new midcom_db_topic($target->symlink);
-                } catch (midcom_error $e) {
-                    debug_add("Could not get target for symlinked topic #{$this->_new_topic->id}: " .
-                        $e->getMessage(), MIDCOM_LOG_ERROR);
-
-                    $this->_new_topic->purge();
-                    throw new midcom_error(
-                        "Refusing to create this symlink because its target folder was not found: " .
-                        $e->getMessage()
-                    );
-                }
-                $name = $target->name;
-            }
-            if ($this->_new_topic->up == $target->up) {
-                $this->_new_topic->purge();
-                throw new midcom_error(
-                    "Refusing to create this symlink because it is located in the same
-                    folder as its target"
-                );
-            }
-            if ($this->_new_topic->up == $target->id) {
-                $this->_new_topic->purge();
-                throw new midcom_error(
-                    "Refusing to create this symlink because its parent folder is the same
-                    folder as its target."
-                );
-            }
-            $this->_new_topic->update();
-            if (!midcom_admin_folder_management::is_child_listing_finite($target)) {
-                $this->_new_topic->purge();
-                throw new midcom_error(
-                    "Refusing to create this symlink because it would have created an
-                    infinite loop situation."
-                );
-            }
-            $this->_new_topic->name = $name;
-            while (!$this->_new_topic->update() && midcom_connection::get_error() == MGD_ERR_DUPLICATE) {
-                $this->_new_topic->name .= "-link";
-            }
-        }
-
         midcom::get()->uimessages->add($this->_l10n->get('midcom.admin.folder'), $this->_l10n->get('folder created'));
 
         // Generate name if it is missing

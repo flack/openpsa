@@ -226,14 +226,6 @@ Pseudo-Leaves in der Navigation anzeigen
 Sortierreihenfolge
 ---STRINGEND
 
----STRING symlink_topic
-Daten aus einem anderen Ordner nehmen ("Symlink")
----STRINGEND
-
----STRING symlink_topic disabled
-Kein Ordner ausgewählt
----STRINGEND
-
 ---STRING there is a total of %d posts.
 Es sind insgesamt %d Nachrichten vorhanden.
 ---STRINGEND

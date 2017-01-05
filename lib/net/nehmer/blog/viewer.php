@@ -14,21 +14,10 @@
 class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
 {
     /**
-     * The topic in which to look for articles. This defaults to the current content topic
-     * unless overridden by the symlink topic feature.
-     *
-     * @var midcom_db_topic
-     */
-    private $_content_topic = null;
-
-    /**
      * Initialize the request switch and the content topic.
      */
     public function _on_initialize()
     {
-        $this->_determine_content_topic();
-        $this->_request_data['content_topic'] = $this->_content_topic;
-
         if ($this->_config->get('view_in_url')) {
             $this->_request_switch['view-raw'] = array(
                 'handler' => array('net_nehmer_blog_handler_view', 'view'),
@@ -105,7 +94,7 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
     {
         $buttons = array();
         $workflow = $this->get_workflow('datamanager2');
-        if ($this->_content_topic->can_do('midgard:create')) {
+        if ($this->_topic->can_do('midgard:create')) {
             foreach (array_keys($this->_request_data['schemadb']) as $name) {
                 $buttons[] = $workflow->get_button("create/{$name}/", array(
                     MIDCOM_TOOLBAR_LABEL => sprintf(
@@ -123,7 +112,7 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
         }
 
         if (   $this->_config->get('enable_article_links')
-            && $this->_content_topic->can_do('midgard:create')) {
+            && $this->_topic->can_do('midgard:create')) {
             $buttons[] = $workflow->get_button("create/link/", array(
                 MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('article link')),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/attach.png'
@@ -176,28 +165,6 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
     }
 
     /**
-     * Set the content topic to use. This will check against the configuration setting
-     * 'symlink_topic'.
-     */
-    private function _determine_content_topic()
-    {
-        $guid = $this->_config->get('symlink_topic');
-        if (is_null($guid)) {
-            // No symlink topic
-            // Workaround, we should talk to a DBA object automatically here in fact.
-            $this->_content_topic = midcom_db_topic::get_cached($this->_topic->id);
-            return;
-        }
-
-        $this->_content_topic = midcom_db_topic::get_cached($guid);
-
-        if ($this->_content_topic->component != 'net.nehmer.blog') {
-            debug_print_r('Retrieved topic was:', $this->_content_topic);
-            throw new midcom_error('Symlink content topic is invalid, see the debug level log for details.');
-        }
-    }
-
-    /**
      * Indexes an article.
      *
      * @param midcom_helper_datamanager2_datamanager $dm The Datamanager encapsulating the event.
@@ -225,18 +192,17 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
     }
 
     /**
-     * Simple helper, gets the last modified timestamp of the topic/content_topic combination
+     * Simple helper, gets the last modified timestamp of the topic combination
      * specified.
      *
      * @param midcom_db_topic $topic The base topic to use.
-     * @param mdicom_db_topic $content_topic The topic where the articles are stored.
      */
-    public static function get_last_modified($topic, $content_topic)
+    public static function get_last_modified($topic)
     {
         // Get last modified timestamp
         $qb = midcom_db_article::new_query_builder();
         // FIXME: use the constraints method below
-        $qb->add_constraint('topic', '=', $content_topic->id);
+        $qb->add_constraint('topic', '=', $topic->id);
         $qb->add_order('metadata.revised', 'DESC');
         $qb->set_limit(1);
 
@@ -252,25 +218,23 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
      * Sets the constraints for QB for articles, supports article links etc.
      *
      * @param midgard_query_builder $qb The QB object
-     * @param array $data The request_data array
      */
-    public static function article_qb_constraints($qb, array $data, $handler_id)
+    public function article_qb_constraints($qb, $handler_id)
     {
-        $config = $data['config'];
-        $topic_guids = array($data['content_topic']->guid);
+        $topic_guids = array($this->_topic->guid);
 
         // Resolve any other topics we may need
-        if ($list_from_folders = $config->get('list_from_folders')) {
+        if ($list_from_folders = $this->_config->get('list_from_folders')) {
             // We have specific folders to list from, therefore list from them and current node
             $guids = explode('|', $list_from_folders);
             $topic_guids = array_merge($topic_guids, array_filter($guids, 'mgd_is_guid'));
         }
 
         // Include the article links to the indexes if enabled
-        if ($config->get('enable_article_links')) {
-            $mc = net_nehmer_blog_link_dba::new_collector('topic', $data['content_topic']->id);
+        if ($this->_config->get('enable_article_links')) {
+            $mc = net_nehmer_blog_link_dba::new_collector('topic', $this->_topic->id);
             $mc->add_order('metadata.published', 'DESC');
-            $mc->set_limit((int) $config->get('index_entries'));
+            $mc->set_limit((int) $this->_config->get('index_entries'));
 
             // Get the results
             $qb->begin_group('OR');
@@ -282,12 +246,12 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
         }
 
         if (   count($topic_guids) > 1
-            && $list_from_folders_categories = $config->get('list_from_folders_categories')) {
+            && $list_from_folders_categories = $this->_config->get('list_from_folders_categories')) {
             $list_from_folders_categories = explode(',', $list_from_folders_categories);
             // TODO: check schema storage to get fieldname
             $multiple_categories = true;
-            if (   !empty($data['schemadb']['default']->fields['list_from_folders_categories']['type_config'])
-                && !$data['schemadb']['default']->fields['list_from_folders_categories']['type_config']['allow_multiple']) {
+            if (   !empty($this->_request_data['schemadb']['default']->fields['list_from_folders_categories']['type_config'])
+                && !$this->_request_data['schemadb']['default']->fields['list_from_folders_categories']['type_config']['allow_multiple']) {
                 $multiple_categories = false;
             }
             debug_add("multiple_categories={$multiple_categories}");
@@ -310,7 +274,7 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
 
         // Hide the articles that have the publish time in the future and if
         // the user is not administrator
-        if (   $config->get('enable_scheduled_publishing')
+        if (   $this->_config->get('enable_scheduled_publishing')
             && !midcom::get()->auth->admin) {
             // Show the article only if the publishing time has passed or the viewer
             // is the author

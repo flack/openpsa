@@ -167,11 +167,6 @@ class midgard_admin_asgard_schemadb
             return false;
         }
 
-        // Skip topic symlink field because it is a special field not meant to be touched directly
-        if (   $key == 'symlink'
-            && is_a($this->_object, 'midcom_db_topic')) {
-            return false;
-        }
         return true;
     }
 

@@ -252,10 +252,6 @@ class midcom_helper_nav
         }
 
         $guid = $parent_node[MIDCOM_NAV_GUID];
-        if (midcom::get()->config->get('symlinks')) {
-            $guid = $parent_node[MIDCOM_NAV_OBJECT]->guid;
-        }
-
         $navorder = (int) midcom_db_parameter::get_by_objectguid($guid, 'midcom.helper.nav', 'navorder');
         if ($navorder == MIDCOM_NAVORDER_ARTICLESFIRST) {
             $navorder = 'articlesfirst';
@@ -384,8 +380,7 @@ class midcom_helper_nav
         while ($parent = $object->get_parent()) {
             if (is_a($parent, 'midcom_db_topic')) {
                 // Verify that this topic is within the current sites tree, if it is not,
-                // we ignore it. This might happen on symlink topics with n.n.static & co
-                // which point to the outside f.x.
+                // we ignore it.
                 if ($this->is_node_in_tree($parent->id, $this->get_root_node())) {
                     return $parent;
                 }

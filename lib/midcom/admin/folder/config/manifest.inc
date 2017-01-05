@@ -5,6 +5,5 @@
 (
     'topic_management' => MIDCOM_PRIVILEGE_DENY,
     'template_management' => MIDCOM_PRIVILEGE_DENY,
-    'symlinks' => MIDCOM_PRIVILEGE_DENY,
 ),
 'description' => 'Management of MidCOM site folders',

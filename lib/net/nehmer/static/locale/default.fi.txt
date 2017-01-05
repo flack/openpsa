@@ -178,14 +178,6 @@ Luodaanko artikkelin URL-nimi automaattisesti?
 Järjestely
 ---STRINGEND
 
----STRING symlink_topic
-Hae sisällöt toisesta kansiosta ("symlink")
----STRINGEND
-
----STRING symlink_topic disabled
-Ei kansiota
----STRINGEND
-
 ---STRING this article has been linked from <a href="%s">%s</a> and confirming will delete only the link
 Tämä artikkeli on linkitetty osoitteesta <a href="%s">%s</a> ja vahvistaminen poistaa vain linkin.
 ---STRINGEND

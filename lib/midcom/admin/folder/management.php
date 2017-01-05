@@ -15,13 +15,6 @@ use Symfony\Component\Finder\Finder;
 class midcom_admin_folder_management extends midcom_baseclasses_components_plugin
 {
     /**
-     * Anchor prefix stores the link back to the edited content topic
-     *
-     * @var string
-     */
-    private $_anchor_prefix = null;
-
-    /**
      * Initializes the context data and toolbar objects
      */
     public function _on_initialize()
@@ -32,36 +25,11 @@ class midcom_admin_folder_management extends midcom_baseclasses_components_plugi
                 $this->$key = $value;
             }
         }
-        $this->_anchor_prefix = $this->_request_data['plugin_anchorprefix'];
 
         // Ensure we get the correct styles
         midcom::get()->style->prepend_component_styledir('midcom.admin.folder');
 
         $this->_request_data['folder'] = $this->_topic;
-    }
-
-    /**
-     * Get the plugin handlers, which act alike with Request Switches of MidCOM
-     * Baseclasses Components (midcom.baseclasses.components.request)
-     *
-     * @return mixed Array of the plugin handlers
-     */
-    public function get_plugin_handlers()
-    {
-        $return = parent::get_plugin_handlers();
-
-        if (midcom::get()->config->get('symlinks')) {
-            /**
-             * Create a new topic symlink
-             *
-             * Match /createlink/
-             */
-            $return['createlink'] = array(
-                'handler' => array('midcom_admin_folder_handler_edit', 'edit'),
-                'fixed_args' => array('createlink'),
-            );
-        }
-        return $return;
     }
 
     /**
@@ -184,45 +152,5 @@ class midcom_admin_folder_management extends midcom_baseclasses_components_plugi
             $styles['theme:/' . $dir->getRelativePathname()] = $label;
         }
         return $styles;
-    }
-
-    /**
-     * Checks if the folder has finite (healthy) tree below it.
-     *
-     * @param object $topic The folder to be checked.
-     * @return boolean Indicating success
-     */
-    public static function is_child_listing_finite($topic, $stop = array())
-    {
-        if (!empty($topic->symlink)) {
-            midcom::get()->auth->request_sudo('midcom.admin.folder');
-            try {
-                $topic = new midcom_db_topic($topic->symlink);
-            } catch (midcom_error $e) {
-                debug_add("Could not get target for symlinked topic #{$topic->id}: " .
-                          $e->getMessage(), MIDCOM_LOG_ERROR);
-            }
-            midcom::get()->auth->drop_sudo();
-        }
-
-        if (in_array($topic->id, $stop)) {
-            return false;
-        }
-
-        $stop[] = $topic->id;
-
-        midcom::get()->auth->request_sudo('midcom.admin.folder');
-        $qb = midcom_db_topic::new_query_builder();
-        $qb->add_constraint('up', '=', $topic->id);
-        $results = $qb->execute();
-        midcom::get()->auth->drop_sudo();
-
-        foreach ($results as $topic) {
-            if (!self::is_child_listing_finite($topic, $stop)) {
-                return false;
-            }
-        }
-
-        return true;
     }
 }

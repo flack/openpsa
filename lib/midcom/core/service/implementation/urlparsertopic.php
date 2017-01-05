@@ -147,16 +147,6 @@ class midcom_core_service_implementation_urlparsertopic implements midcom_core_s
         // Set to current topic
         $this->current_object = $topics[0];
         $this->objects[$object_url] = $this->current_object;
-        if (   midcom::get()->config->get('symlinks')
-            && !empty($this->current_object->symlink)) {
-            try {
-                $topic = midcom_db_topic::get_cached($this->current_object->symlink);
-                $this->current_object = $topic;
-            } catch (midcom_error $e) {
-                debug_add("Could not get target for symlinked topic #{$this->current_object->id}: " .
-                    $e->getMessage(), MIDCOM_LOG_ERROR);
-            }
-        }
 
         // TODO: Remove
         $this->check_style_inheritance($this->current_object);

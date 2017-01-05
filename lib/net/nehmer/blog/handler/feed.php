@@ -17,13 +17,6 @@
 class net_nehmer_blog_handler_feed extends midcom_baseclasses_components_handler
 {
     /**
-     * The content topic to use
-     *
-     * @var midcom_db_topic
-     */
-    private $_content_topic = null;
-
-    /**
      * The articles to display
      *
      * @var Array
@@ -45,14 +38,6 @@ class net_nehmer_blog_handler_feed extends midcom_baseclasses_components_handler
     private $_feed = null;
 
     /**
-     * Maps the content topic from the request data to local member variables.
-     */
-    public function _on_initialize()
-    {
-        $this->_content_topic = $this->_request_data['content_topic'];
-    }
-
-    /**
      * Shows the autoindex list. Nothing to do in the handle phase except setting last modified
      * dates.
      *
@@ -72,7 +57,7 @@ class net_nehmer_blog_handler_feed extends midcom_baseclasses_components_handler
 
         // Get the articles,
         $qb = midcom_db_article::new_query_builder();
-        net_nehmer_blog_viewer::article_qb_constraints($qb, $data, $handler_id);
+        $this->_master->article_qb_constraints($qb, $handler_id);
 
         $qb->add_order('metadata.published', 'DESC');
 
@@ -109,7 +94,7 @@ class net_nehmer_blog_handler_feed extends midcom_baseclasses_components_handler
         // Prepare the feed (this will also validate the handler_id)
         $this->_create_feed($handler_id);
 
-        midcom::get()->metadata->set_request_metadata(net_nehmer_blog_viewer::get_last_modified($this->_topic, $this->_content_topic), $this->_topic->guid);
+        midcom::get()->metadata->set_request_metadata(net_nehmer_blog_viewer::get_last_modified($this->_topic, $this->_topic), $this->_topic->guid);
     }
 
     /**

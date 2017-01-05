@@ -117,9 +117,6 @@
         <property name="styleInherit"    type="boolean" field="style_inherit" index="yes">
             <description>Whether the MidCOM style should be inherited to subtopics</description>
         </property>
-        <property name="symlink"    link="midgard_topic:id" type="unsigned integer" index="yes">
-            <description>MidCOM topic symlink</description>
-        </property>
         <property name="title"    type="string">
             <description>Title of the topic</description>
         </property>

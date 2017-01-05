@@ -15,26 +15,11 @@ class net_nehmer_blog_handler_link extends midcom_baseclasses_components_handler
 implements midcom_helper_datamanager2_interfaces_create
 {
     /**
-     * The content topic to use
-     *
-     * @var midcom_db_topic
-     */
-    private $_content_topic = null;
-
-    /**
      * The article link which has been created
      *
      * @var net_nehmer_blog_link_dba
      */
     private $_link = null;
-
-    /**
-     * Maps the content topic from the request data to local member variables.
-     */
-    public function _on_initialize()
-    {
-        $this->_content_topic = $this->_request_data['content_topic'];
-    }
 
     public function load_schemadb()
     {
@@ -82,7 +67,7 @@ implements midcom_helper_datamanager2_interfaces_create
      */
     public function _handler_create($handler_id, array $args, array &$data)
     {
-        $this->_content_topic->require_do('midgard:create');
+        $this->_topic->require_do('midgard:create');
 
         if (!$this->_config->get('enable_article_links')) {
             throw new midcom_error_notfound('Article linking disabled');
@@ -102,7 +87,7 @@ implements midcom_helper_datamanager2_interfaces_create
     {
         // Reindex the article
         $indexer = midcom::get()->indexer;
-        net_nehmer_blog_viewer::index($controller->datamanager, $indexer, $this->_content_topic);
+        net_nehmer_blog_viewer::index($controller->datamanager, $indexer, $this->_topic);
         $article = new midcom_db_article($this->_link->article);
         return $article->name . '/';
     }
@@ -119,7 +104,7 @@ implements midcom_helper_datamanager2_interfaces_create
         $article = new midcom_db_article($args[0]);
 
         $qb = net_nehmer_blog_link_dba::new_query_builder();
-        $qb->add_constraint('topic', '=', $this->_content_topic->id);
+        $qb->add_constraint('topic', '=', $this->_topic->id);
         $qb->add_constraint('article', '=', $article->id);
 
         if ($qb->count() === 0) {

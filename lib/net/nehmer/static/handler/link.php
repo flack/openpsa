@@ -15,26 +15,11 @@ class net_nehmer_static_handler_link extends midcom_baseclasses_components_handl
 implements midcom_helper_datamanager2_interfaces_create
 {
     /**
-     * The content topic to use
-     *
-     * @var midcom_db_topic
-     */
-    private $_content_topic;
-
-    /**
      * The article link which has been created
      *
      * @var net_nehmer_static_link_dba
      */
     private $_link;
-
-    /**
-     * Maps the content topic from the request data to local member variables.
-     */
-    public function _on_initialize()
-    {
-        $this->_content_topic = $this->_request_data['content_topic'];
-    }
 
     public function load_schemadb()
     {
@@ -85,7 +70,7 @@ implements midcom_helper_datamanager2_interfaces_create
      */
     public function _handler_create($handler_id, array $args, array &$data)
     {
-        $this->_content_topic->require_do('midgard:create');
+        $this->_topic->require_do('midgard:create');
 
         if (!$this->_config->get('enable_article_links')) {
             throw new midcom_error_notfound('Article linking disabled');

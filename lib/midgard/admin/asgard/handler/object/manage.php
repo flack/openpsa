@@ -175,14 +175,6 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
 
         switch ($this->_controller->process_form()) {
             case 'save':
-                if (is_a($this->_object, 'midcom_db_topic')) {
-                    if (   !empty($this->_object->symlink)
-                        && !empty($this->_object->component)) {
-                        $this->_object->symlink = null;
-                        $this->_object->update();
-                    }
-                }
-
                 // Reindex the object
                 //$indexer = midcom::get()->indexer;
                 //net_nemein_wiki_viewer::index($this->_request_data['controller']->datamanager, $indexer, $this->_topic);

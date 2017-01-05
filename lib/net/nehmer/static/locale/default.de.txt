@@ -178,14 +178,6 @@ Soll die URL des Artikels automatisch generiert werden?
 Sortierreihenfolge
 ---STRINGEND
 
----STRING symlink_topic
-Daten aus einem anderen Ordner nehmen ("Symlink")
----STRINGEND
-
----STRING symlink_topic disabled
-Kein Ordner ausgewählt
----STRINGEND
-
 ---STRING this article has been linked from <a href="%s">%s</a> and confirming will delete only the link
 Dieser Artikel wurde von <a href="%s">%s</a> verlinkt, Bestätigen löscht ausschließlich den Link.
 ---STRINGEND

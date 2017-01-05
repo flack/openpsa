@@ -14,13 +14,6 @@
 class net_nehmer_static_handler_admin extends midcom_baseclasses_components_handler
 {
     /**
-     * The content topic to use
-     *
-     * @var midcom_db_topic
-     */
-    private $_content_topic = null;
-
-    /**
      * The article to operate on
      *
      * @var midcom_db_article
@@ -33,14 +26,6 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
      * @var Array
      */
     private $_schemadb = null;
-
-    /**
-     * Maps the content topic from the request data to local member variables.
-     */
-    public function _on_initialize()
-    {
-        $this->_content_topic = $this->_request_data['content_topic'];
-    }
 
     /**
      * Loads and prepares the schema database.
@@ -92,7 +77,7 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
         $this->_article = new midcom_db_article($args[0]);
 
         // Relocate for the correct content topic, let the true content topic take care of the ACL
-        if ($this->_article->topic !== $this->_content_topic->id) {
+        if ($this->_article->topic !== $this->_topic->id) {
             $nap = new midcom_helper_nav();
             $node = $nap->get_node($this->_article->topic);
 
@@ -116,7 +101,7 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
     {
         // Reindex the article
         $indexer = midcom::get()->indexer;
-        net_nehmer_static_viewer::index($controller->datamanager, $indexer, $this->_content_topic);
+        net_nehmer_static_viewer::index($controller->datamanager, $indexer, $this->_topic);
         if ($this->_article->name == 'index') {
             return '';
         }
@@ -135,7 +120,7 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
         $this->_article = new midcom_db_article($args[0]);
 
         $qb = net_nehmer_static_link_dba::new_query_builder();
-        $qb->add_constraint('topic', '=', $this->_content_topic->id);
+        $qb->add_constraint('topic', '=', $this->_topic->id);
         $qb->add_constraint('article', '=', $this->_article->id);
 
         if ($qb->count() === 0) {
@@ -163,7 +148,7 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
     {
         $this->_article = new midcom_db_article($args[0]);
         // Relocate to delete the link instead of the article itself
-        if ($this->_article->topic !== $this->_content_topic->id) {
+        if ($this->_article->topic !== $this->_topic->id) {
             return new midcom_response_relocate("delete/link/{$args[0]}/");
         }
         $workflow = $this->get_workflow('delete', array('object' => $this->_article));

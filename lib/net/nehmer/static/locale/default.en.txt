@@ -182,14 +182,6 @@ Should the article's URL be generated automatically?
 Sort order
 ---STRINGEND
 
----STRING symlink_topic
-Get content from another topic ("symlink")
----STRINGEND
-
----STRING symlink_topic disabled
-No topic selected
----STRINGEND
-
 ---STRING this article has been linked from <a href="%s">%s</a> and confirming will delete only the link
 This article has been linked from <a href="%s">%s</a> and confirming will delete only the link.
 ---STRINGEND

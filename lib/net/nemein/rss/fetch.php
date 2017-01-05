@@ -329,16 +329,6 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
         // This is a new item
         $article = new midcom_db_article();
         $article->topic = $this->_feed->node;
-
-        $node = new midcom_db_topic($this->_feed->node);
-        if ($symlink = $node->get_parameter('net.nehmer.blog', 'symlink_topic')) {
-            try {
-                $symlink_topic = new midcom_db_topic($symlink);
-                $article->topic = $symlink_topic->id;
-            } catch (midcom_error $e) {
-                $e->log();
-            }
-        }
         return $article;
     }
 

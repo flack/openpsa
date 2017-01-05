@@ -15,13 +15,6 @@ class net_nehmer_static_handler_create extends midcom_baseclasses_components_han
 implements midcom_helper_datamanager2_interfaces_create
 {
     /**
-     * The content topic to use
-     *
-     * @var midcom_db_topic
-     */
-    private $_content_topic = null;
-
-    /**
      * The article which has been created
      *
      * @var midcom_db_article
@@ -48,14 +41,6 @@ implements midcom_helper_datamanager2_interfaces_create
      * @var Array
      */
     private $_defaults = array();
-
-    /**
-     * Maps the content topic from the request data to local member variables.
-     */
-    public function _on_initialize()
-    {
-        $this->_content_topic = $this->_request_data['content_topic'];
-    }
 
     /**
      * Loads and prepares the schema database.
@@ -96,7 +81,7 @@ implements midcom_helper_datamanager2_interfaces_create
     public function &dm2_create_callback(&$controller)
     {
         $this->_article = new midcom_db_article();
-        $this->_article->topic = $this->_content_topic->id;
+        $this->_article->topic = $this->_topic->id;
 
         if (   array_key_exists('name', $this->_defaults)
             && $this->_defaults['name'] == 'index') {
@@ -116,7 +101,7 @@ implements midcom_helper_datamanager2_interfaces_create
             }
 
             $callback = $this->_config->get('callback_function');
-            $callback($this->_article, $this->_content_topic);
+            $callback($this->_article, $this->_topic);
         }
 
         return $this->_article;
@@ -131,7 +116,7 @@ implements midcom_helper_datamanager2_interfaces_create
      */
     public function _handler_create($handler_id, array $args, array &$data)
     {
-        $this->_content_topic->require_do('midgard:create');
+        $this->_topic->require_do('midgard:create');
         $this->_schema = $args[0];
 
         $workflow = $this->get_workflow('datamanager2', array(
@@ -146,7 +131,7 @@ implements midcom_helper_datamanager2_interfaces_create
     {
         // Reindex the article
         $indexer = midcom::get()->indexer;
-        net_nehmer_static_viewer::index($controller->datamanager, $indexer, $this->_content_topic);
+        net_nehmer_static_viewer::index($controller->datamanager, $indexer, $this->_topic);
         if ($this->_article->name == 'index') {
             return '';
         }

@@ -7,9 +7,6 @@
 'schemadb_link' => 'file:/net/nehmer/static/config/schemadb_link.inc',
 'schemadb_config' => 'file:/net/nehmer/blog/config/schemadb_config.inc',
 
-// Use the content from another topic instead of the current one.
-// Do not overwrite this except on a per-topic level!!!
-'symlink_topic' => null,
 'list_from_folders'     => null,   // List of the event topics displayed in this topic
 // Comma-separated list of categories to limit the listing (if empty, all will be listed)
 'list_from_folders_categories' => '',

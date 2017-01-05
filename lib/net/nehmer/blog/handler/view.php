@@ -14,13 +14,6 @@
 class net_nehmer_blog_handler_view extends midcom_baseclasses_components_handler
 {
     /**
-     * The content topic to use
-     *
-     * @var midcom_db_topic
-     */
-    private $_content_topic = null;
-
-    /**
      * The article to display
      *
      * @var midcom_db_article
@@ -52,9 +45,9 @@ class net_nehmer_blog_handler_view extends midcom_baseclasses_components_handler
         }
 
         $article = $this->_article;
-        if ($this->_article->topic !== $this->_content_topic->id) {
+        if ($this->_article->topic !== $this->_topic->id) {
             $qb = net_nehmer_blog_link_dba::new_query_builder();
-            $qb->add_constraint('topic', '=', $this->_content_topic->id);
+            $qb->add_constraint('topic', '=', $this->_topic->id);
             $qb->add_constraint('article', '=', $this->_article->id);
             if ($qb->count() === 1) {
                 // Get the link
@@ -86,21 +79,13 @@ class net_nehmer_blog_handler_view extends midcom_baseclasses_components_handler
         }
 
         if (   $this->_config->get('enable_article_links')
-            && $this->_content_topic->can_do('midgard:create')) {
+            && $this->_topic->can_do('midgard:create')) {
             $buttons[] = $workflow->get_button("create/link/?article={$this->_article->id}", array(
                 MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('article link')),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/attach.png'
             ));
         }
         $this->_view_toolbar->add_items($buttons);
-    }
-
-    /**
-     * Maps the content topic from the request data to local member variables.
-     */
-    public function _on_initialize()
-    {
-        $this->_content_topic = $this->_request_data['content_topic'];
     }
 
     /**
@@ -116,7 +101,7 @@ class net_nehmer_blog_handler_view extends midcom_baseclasses_components_handler
     public function _can_handle_view($handler_id, array $args, array &$data)
     {
         $qb = midcom_db_article::new_query_builder();
-        net_nehmer_blog_viewer::article_qb_constraints($qb, $data, $handler_id);
+        $this->_master->article_qb_constraints($qb, $handler_id);
 
         $qb->begin_group('OR');
         $qb->add_constraint('name', '=', $args[0]);

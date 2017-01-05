@@ -14,21 +14,10 @@
 class net_nehmer_static_viewer extends midcom_baseclasses_components_request
 {
     /**
-     * The topic in which to look for articles. This defaults to the current content topic
-     * unless overridden by the symlink topic feature.
-     *
-     * @var midcom_db_topic
-     */
-    private $_content_topic = null;
-
-    /**
      * Initialize the request switch and the content topic.
      */
     public function _on_initialize()
     {
-        $this->_determine_content_topic();
-        $this->_request_data['content_topic'] = $this->_content_topic;
-
         // View mode handler, set index viewer according to autoindex setting.
         // These, especially the general view handler, must come last, otherwise we'll hide other
         // handlers
@@ -40,27 +29,6 @@ class net_nehmer_static_viewer extends midcom_baseclasses_components_request
             $this->_request_switch['index'] = array(
                 'handler' => array('net_nehmer_static_handler_view', 'view'),
             );
-        }
-    }
-
-    /**
-     * Set the content topic to use. This will check against the configuration setting 'symlink_topic'.
-     */
-    private function _determine_content_topic()
-    {
-        $guid = $this->_config->get('symlink_topic');
-        if (is_null($guid)) {
-            // No symlink topic
-            // Workaround, we should talk to a DBA object automatically here in fact.
-            $this->_content_topic = midcom_db_topic::get_cached($this->_topic->id);
-            return;
-        }
-
-        $this->_content_topic = midcom_db_topic::get_cached($guid);
-        // Validate topic.
-        if ($this->_content_topic->component != 'net.nehmer.static') {
-            debug_print_r('Retrieved topic was:', $this->_content_topic);
-            throw new midcom_error('Symlink content topic is invalid, see the debug level log for details.');
         }
     }
 
@@ -92,7 +60,7 @@ class net_nehmer_static_viewer extends midcom_baseclasses_components_request
     {
         $buttons = array();
         $workflow = $this->get_workflow('datamanager2');
-        if ($this->_content_topic->can_do('midgard:create')) {
+        if ($this->_topic->can_do('midgard:create')) {
             foreach (array_keys($this->_request_data['schemadb']) as $name) {
                 $buttons[] = $workflow->get_button("create/{$name}/", array(
                     MIDCOM_TOOLBAR_LABEL => sprintf(
@@ -106,7 +74,7 @@ class net_nehmer_static_viewer extends midcom_baseclasses_components_request
         }
 
         if (   $this->_config->get('enable_article_links')
-            && $this->_content_topic->can_do('midgard:create')) {
+            && $this->_topic->can_do('midgard:create')) {
             $buttons[] = $workflow->get_button("create/link/", array(
                 MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('article link')),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/attach.png',
