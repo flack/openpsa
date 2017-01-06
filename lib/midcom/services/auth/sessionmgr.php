@@ -341,11 +341,6 @@ class midcom_services_auth_sessionmgr
         $qb->add_constraint('userid', '=', $user->id);
         $result = $qb->execute();
 
-        if (!$result) {
-            // No login sessions found
-            return true;
-        }
-
         foreach ($result as $session) {
             $session->username = $new;
             $session->update();

@@ -485,7 +485,7 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
 
         midcom::get()->auth->request_sudo('org.openpsa.user');
         $qb = midcom_db_person::new_query_builder();
-        midcom_core_account::add_username_constraint($qb, '=', $_POST['username']);
+        midcom_core_account::add_username_constraint($qb, '=', $data['username']);
         $results = $qb->execute();
         midcom::get()->auth->drop_sudo();
 

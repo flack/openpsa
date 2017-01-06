@@ -131,9 +131,6 @@ class org_openpsa_user_accounthelperTest extends openpsa_testcase
 
     private function _get_person_by_formdata($data, $expected_result)
     {
-        if (isset($data["username"])) {
-            $_POST["username"] = $data["username"];
-        }
         $person = org_openpsa_user_accounthelper::get_person_by_formdata($data);
         if ($expected_result) {
             $this->assertTrue($person instanceof midcom_db_person);

@@ -10,10 +10,11 @@
     $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
     $linked = 0;
     foreach ($data['list_fields'] as $field) {
-        $value = $data['person']->$field;
         if ($field == 'username') {
             $account = new midcom_core_account($data['person']);
             $value = $account->get_username();
+        } else {
+            $value = $data['person']->$field;
         }
         if ($linked < 2 && $data['person']->can_do('midgard:update')) {
             if (!$value) {

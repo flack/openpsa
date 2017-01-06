@@ -54,7 +54,6 @@
 (
     'guid',
     'id',
-    'password',
 ),
 'schemadb_permissions' => 'file:/midgard/admin/asgard/config/schemadb_permissions.inc',
 'schemadb_shell' => 'file:/midgard/admin/asgard/config/schemadb_shell.inc',

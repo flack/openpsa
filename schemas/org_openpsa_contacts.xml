@@ -85,8 +85,6 @@
         <property name="id" type="unsigned integer" primaryfield="id">
             <description>Local non-replication-safe database identifier</description>
         </property>
-        <property name="username" type="string" index="yes" />
-        <property name="password" type="string" dbtype="varchar(13) binary" />
         <property name="salutation" type="integer" />
         <property name="title" type="string" />
         <property name="firstname" type="string" index="yes" />

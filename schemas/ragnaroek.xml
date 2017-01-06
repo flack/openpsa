@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Schema xmlns="http://www.midgard-project.org/repligard/1.4">
     <type name="openpsa_person" extends="midgard_person" table="person">
-        <property name="username" type="string" index="yes">
-            <description>Username (legacy Midgard1) of the person</description>
-        </property>
-        <property name="password" type="string">
-            <description> Password (legacy Midgard1) of the person</description>
-        </property>
         <property name="homephone" type="string">
             <description>Home phone number of the person</description>
         </property>

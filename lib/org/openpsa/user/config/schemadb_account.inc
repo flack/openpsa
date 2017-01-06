@@ -14,7 +14,7 @@
         'username' => array
         (
             'title'    => 'username',
-            'storage'  => 'username',
+            'storage'  => null,
             'type'     => 'text',
             'widget'   => 'text',
         ),

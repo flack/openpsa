@@ -93,14 +93,6 @@ class midcom_services_rcs
      */
     public static function is_field_showable($field)
     {
-        switch ($field) {
-            case 'guid':
-            case 'id':
-                return false;
-            case 'password':
-                return midcom::get()->auth->admin;
-            default:
-                return true;
-        }
+        return ($field !== 'id' && $field !== 'guid');
     }
 }

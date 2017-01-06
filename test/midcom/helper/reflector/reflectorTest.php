@@ -209,7 +209,7 @@ class midcom_helper_reflector_reflectorTest extends openpsa_testcase
             3 => array('midcom_db_snippet', array('name')),
             4 => array('org_openpsa_organization', array('official', 'name')),
             5 => array('org_openpsa_calendar_event_dba', array('title')),
-            6 => array('org_openpsa_person', array('lastname', 'title', 'username', 'firstname', 'email')),
+            6 => array('org_openpsa_person', array('lastname', 'title', 'firstname', 'email')),
         );
     }
 

@@ -395,8 +395,6 @@ class org_openpsa_directmarketing_campaign_ruleresolver
             $skip_properties[] = 'topic';
             $skip_properties[] = 'subtopic';
             $skip_properties[] = 'office';
-            // Duh
-            $skip_properties[] = 'password';
         }
         if (midcom::get()->dbfactory->is_a($object, 'midgard_member')) {
             // The info field is a special case
