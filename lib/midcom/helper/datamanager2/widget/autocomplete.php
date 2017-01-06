@@ -460,11 +460,10 @@ EOT;
                 continue;
             }
 
-            $ref = new midcom_helper_reflector($object);
-
-            $labels[] = $ref->get_object_label($object);
+            $labels[] = self::create_item_label($object, $this->result_headers, $this->get_label_for);
         }
-        return implode(', ', $labels);
+
+        return implode('; ', $labels);
     }
 
     public static function create_item_label($object, $result_headers, $get_label_for)
@@ -487,6 +486,7 @@ EOT;
         if (empty($label)) {
             $label = get_class($object) . ' #' . $object->id;
         }
+
         return $label;
     }
 
