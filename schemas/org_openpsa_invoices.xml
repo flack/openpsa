@@ -18,9 +18,6 @@
         <property name="sum" type="float" dbtype="double" />
         <property name="vat" type="integer"/>
 
-        <!-- Legacy property for converting to the new number field -->
-        <property name="invoiceNumber" type="string"/>
-
         <!-- The cancelation for the invoice, if any -->
         <property name="cancelationInvoice" link="org_openpsa_invoice:id" type="unsigned integer" upfield="cancelationInvoice"/>
         

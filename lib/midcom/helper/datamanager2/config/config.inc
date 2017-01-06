@@ -329,7 +329,6 @@
         'searchfields' => array
         (
             'number',
-            'invoiceNumber',
             'description',
         ),
         'orders' => array
