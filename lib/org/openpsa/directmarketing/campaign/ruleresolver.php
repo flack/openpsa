@@ -388,14 +388,6 @@ class org_openpsa_directmarketing_campaign_ruleresolver
             'metadata'
         );
 
-        if (midcom::get()->dbfactory->is_a($object, 'org_openpsa_person')) {
-            // The info field is a special case
-            $skip_properties[] = 'info';
-            // These legacy fields are rarely used
-            $skip_properties[] = 'topic';
-            $skip_properties[] = 'subtopic';
-            $skip_properties[] = 'office';
-        }
         if (midcom::get()->dbfactory->is_a($object, 'midgard_member')) {
             // The info field is a special case
             $skip_properties[] = 'info';

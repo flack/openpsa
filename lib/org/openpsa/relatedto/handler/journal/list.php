@@ -100,7 +100,7 @@ class org_openpsa_relatedto_handler_journal_list extends midcom_baseclasses_comp
     public function _handler_list($handler_id, array $args, array &$data)
     {
         //set the start-constraints for journal-entries
-        $time_span = 7 * 24 * 60 * 60 ; //7 days
+        $time_span = 7 * 24 * 60 * 60; //7 days
 
         $data['journal_constraints'] = array(
             //just show entries of current_user

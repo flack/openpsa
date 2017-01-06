@@ -67,25 +67,6 @@
         <property name="url"      type="string" index="yes">
             <description>External URL of the article</description>
         </property>
-        <!-- Legacy -->
-        <property name="calstart" type="datetime">
-            <description>Date the article applies to (legacy field)</description>
-        </property>
-        <property name="caldays"  type="integer">
-            <description>Time range the article applies to, in days (legacy field)</description>
-        </property>
-        <property name="icon"     type="integer">
-            <description>Icon for the article (legacy field)</description>
-        </property>
-        <property name="view"     type="integer">
-            <description>View-scale for the article (legacy field)</description>
-        </property>
-        <property name="print"    type="integer">
-            <description>Print quality for the article (legacy field)</description>
-        </property>
-        <property name="score"    type="integer">
-            <description>Arrangement score of the article (legacy field)</description>
-        </property>
     </type>
 
     <type name="midgard_topic" table="topic">
@@ -119,10 +100,6 @@
         </property>
         <property name="description" type="text">
             <description>Topic description</description>
-        </property>
-        <!-- Legacy -->
-        <property name="score"    type="integer">
-            <description>Arrangement score of the topic (legacy field)</description>
         </property>
     </type>
 
@@ -162,9 +139,6 @@
         </property>
         <property name="name"     type="string" index="yes" unique="yes">
             <description>Path name of the style</description>
-        </property>
-        <property name="owner"    type ="unsigned integer" link="midgard_group:id">
-            <description>Style owner group (legacy field)</description>
         </property>
         <property name="up"       type="unsigned integer" link="midgard_style:id" upfield="up">
             <description>Style the style is under</description>

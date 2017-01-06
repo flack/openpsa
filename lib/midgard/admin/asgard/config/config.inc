@@ -14,8 +14,6 @@
 (
     'start',
     'end',
-    'calstart',
-    'caldays',
     'openregistration',
     'closeregistration',
 ),
