@@ -69,6 +69,8 @@ class midcom_helper_datamanager2_widget_jsdate extends midcom_helper_datamanager
      */
     public $showOn = 'both';
 
+    private $lang;
+
     /**
      * Adapts the min/maxyear defaults if the base date is set to UNIXTIME storage.
      */
@@ -87,10 +89,7 @@ class midcom_helper_datamanager2_widget_jsdate extends midcom_helper_datamanager
     public function _on_initialize()
     {
         $this->_require_type_class('midcom_helper_datamanager2_type_date');
-
-        if ($this->_initialize_dependencies) {
-            self::add_head_elements();
-        }
+        $this->lang = self::add_head_elements();
     }
 
     /**
@@ -99,32 +98,29 @@ class midcom_helper_datamanager2_widget_jsdate extends midcom_helper_datamanager
      */
     public static function add_head_elements()
     {
-        static $executed = false;
+        static $lang = false;
 
-        if ($executed) {
-            return;
-        }
+        if ($lang === false) {
+            midcom::get()->head->enable_jquery_ui(array('datepicker'));
 
-        $executed = true;
-
-        midcom::get()->head->enable_jquery_ui(array('datepicker'));
-
-        $lang = midcom::get()->i18n->get_current_language();
-        /*
-         * The calendar doesn't have all lang files and some are named differently
-         * Since a missing lang file causes the calendar to break, let's make extra sure
-         * that this won't happen
-         */
-        if (!file_exists(MIDCOM_STATIC_ROOT . "/jQuery/jquery-ui-" . midcom::get()->config->get('jquery_ui_version') . "/ui/i18n/datepicker-{$lang}.min.js")) {
-            $lang = midcom::get()->i18n->get_fallback_language();
+            $lang = midcom::get()->i18n->get_current_language();
+            /*
+             * The calendar doesn't have all lang files and some are named differently
+             * Since a missing lang file causes the calendar to break, let's make extra sure
+             * that this won't happen
+             */
             if (!file_exists(MIDCOM_STATIC_ROOT . "/jQuery/jquery-ui-" . midcom::get()->config->get('jquery_ui_version') . "/ui/i18n/datepicker-{$lang}.min.js")) {
-                $lang = false;
+                $lang = midcom::get()->i18n->get_fallback_language();
+                if (!file_exists(MIDCOM_STATIC_ROOT . "/jQuery/jquery-ui-" . midcom::get()->config->get('jquery_ui_version') . "/ui/i18n/datepicker-{$lang}.min.js")) {
+                    $lang = null;
+                }
+            }
+
+            if ($lang) {
+                midcom::get()->head->add_jsfile(MIDCOM_JQUERY_UI_URL . "/ui/i18n/datepicker-{$lang}.min.js");
             }
         }
-
-        if ($lang) {
-            midcom::get()->head->add_jsfile(MIDCOM_JQUERY_UI_URL . "/ui/i18n/datepicker-{$lang}.min.js");
-        }
+        return $lang;
     }
 
     /**
@@ -132,7 +128,7 @@ class midcom_helper_datamanager2_widget_jsdate extends midcom_helper_datamanager
      *
      * @return string The init script.
      */
-    function _create_initscript()
+    private function _create_initscript()
     {
         $init_max = new DateTime($this->maxyear . '-12-31');
         $init_min = new DateTime($this->minyear . '-01-01');
@@ -145,22 +141,26 @@ class midcom_helper_datamanager2_widget_jsdate extends midcom_helper_datamanager
         //need this due to js Date begins to count the months with 0 instead of 1
         $init_max_month = $init_max->format('n') - 1;
         $init_min_month = $init_min->format('n') - 1;
+        $date_format = $this->lang ? '$.datepicker.regional.' . $this->lang . '.dateFormat' : '$.datepicker.ISO_8601';
         $script = <<<EOT
 <script type="text/javascript">
-        jQuery(document).ready(
+        $(document).ready(
         function()
         {
-            jQuery("#{$this->_namespace}{$this->name}_date").datepicker(
+            $("#{$this->_namespace}{$this->name}_input").datepicker(
             {
               maxDate: new Date({$init_max->format('Y')}, {$init_max_month}, {$init_max->format('d')}),
               minDate: new Date({$init_min->format('Y')}, {$init_min_month}, {$init_min->format('d')}),
-              dateFormat: 'yy-mm-dd',
+              dateFormat: {$date_format},
+              altField: "#{$this->_namespace}{$this->name}_date",
+              altFormat: $.datepicker.ISO_8601,
               prevText: '',
               nextText: '',
               showOn: '{$this->showOn}'
-                    //altFormat: 'yyyy-mm-dd',
-                    //altField: '#ID',
-                    });
+            });
+            if ($("#{$this->_namespace}{$this->name}_date").val()) {
+                $("#{$this->_namespace}{$this->name}_input").datepicker('setDate', new Date($("#{$this->_namespace}{$this->name}_date").val()));
+            }
         });
 </script>
 EOT;
@@ -200,11 +200,15 @@ EOT;
     {
         $elements = array();
         $attributes = array(
-            'class' => 'jsdate',
             'id'    => "{$this->_namespace}{$this->name}_date",
+        );
+        $elements[] = $this->_form->createElement('hidden', $this->name . '_date', '', $attributes);
+        $attributes = array(
+            'class' => 'jsdate',
+            'id'    => "{$this->_namespace}{$this->name}_input",
             'size'  => 10
         );
-        $elements[] = $this->_form->createElement('text', $this->name . '_date', '', $attributes);
+        $elements[] = $this->_form->createElement('text', $this->name . '_input', '', $attributes);
 
         if ($this->show_time) {
             $attributes = array(
