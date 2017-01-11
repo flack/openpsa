@@ -157,6 +157,10 @@ class midcom_helper_datamanager2_widget_jsdate extends midcom_helper_datamanager
               prevText: '',
               nextText: '',
               showOn: '{$this->showOn}'
+            }).on('change', function() {
+                if ($(this).val() == '') {
+                    $("#{$this->_namespace}{$this->name}_date").val('');
+                }
             });
             if ($("#{$this->_namespace}{$this->name}_date").val()) {
                 $("#{$this->_namespace}{$this->name}_input").datepicker('setDate', new Date($("#{$this->_namespace}{$this->name}_date").val()));
