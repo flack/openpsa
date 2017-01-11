@@ -162,7 +162,7 @@ class midcom_helper_datamanager2_widget_jsdate extends midcom_helper_datamanager
                     $("#{$this->_namespace}{$this->name}_date").val('');
                 }
             });
-            if ($("#{$this->_namespace}{$this->name}_date").val()) {
+            if ($("#{$this->_namespace}{$this->name}_date").val() && $("#{$this->_namespace}{$this->name}_date").val() !== '0000-00-00') {
                 $("#{$this->_namespace}{$this->name}_input").datepicker('setDate', new Date($("#{$this->_namespace}{$this->name}_date").val()));
             }
         });
