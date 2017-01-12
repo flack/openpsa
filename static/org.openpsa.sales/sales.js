@@ -108,7 +108,7 @@
                 .val( "" )
                 .attr( "title", value + " didn't match any item" );
             this.element.val( "" );
-            this.input.data( "ui-autocomplete" ).term = "";
+            this.input.autocomplete( "instance" ).term = "";
         },
         _destroy: function() {
             this.wrapper.remove();
