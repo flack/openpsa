@@ -75,6 +75,7 @@ $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
                     'rm', '|', 'edit', 'rename', 'resize', '|', 'archive', 'extract', '|', 'info'
                 ]
             },
+            sound: false
         });
     });
 </script>

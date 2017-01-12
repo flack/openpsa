@@ -23,14 +23,6 @@ class elFinderVolumeOpenpsa extends elFinderVolumeDriver
         });
     }
 
-    public function __destruct()
-    {
-        //workaround for https://github.com/Studio-42/elFinder/issues/1800
-        if (version_compare(PHP_VERSION, '5.4.0', '>=')) {
-            parent::__destruct();
-        }
-    }
-
     /**
      * Save uploaded file.
      * On success return array with new file stat and with removed file hash (if existed file was replaced)
