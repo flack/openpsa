@@ -415,6 +415,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
      * @param array of tags to search for
      * @param array of classes to search in
      * @param string AND or OR, depending if you require all of the given tags on any of them, defaults to 'OR'
+     * @param string ASC or DESC, to set the order of the returned list, defaults to 'ASC'
      * @return array of objects or false on critical failure
      */
     public static function get_objects_with_tags(array $tags, array $classes, $match = 'OR', $order = 'ASC')
