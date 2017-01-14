@@ -46,10 +46,6 @@ Dostępne wsady
 Dostępne są następujące wsady
 ---STRINGEND
 
----STRING blog link deleted
-Link do newsa usunięto.
----STRINGEND
-
 ---STRING blog settings
 Ustawienia bloga
 ---STRINGEND
@@ -76,14 +72,6 @@ Generuj URL'e na podstawie tytułów
 
 ---STRING create news article
 Dodaj news
----STRINGEND
-
----STRING delete article link
-Usuń link
----STRINGEND
-
----STRING delete link
-Usuń link
 ---STRINGEND
 
 ---STRING descending
@@ -116,10 +104,6 @@ Włącz filtry pola (jako parametry GET)
 
 ---STRING enable scheduled publishing
 Włącz planowanie publikacji
----STRINGEND
-
----STRING failed to delete the blog link, contact the site administrator
-Błąd usuwania linku.
 ---STRINGEND
 
 ---STRING first post was made on %s.
@@ -262,20 +246,12 @@ Sortowanie
 %d postów.
 ---STRINGEND
 
----STRING this blog entry has been linked from <a href="%s">%s</a> and confirming will delete only the link
-Ten news jest linkiem do <a href="%s">%s</a> i tylko ten link zostanie usunięty.
----STRINGEND
-
 ---STRING use view prefix in url
 Używaj elementu 'view' w URLach
 ---STRINGEND
 
 ---STRING visible
 Widoczny?
----STRINGEND
-
----STRING article link
-Link do artykułu
 ---STRINGEND
 
 ---STRING disable indexing

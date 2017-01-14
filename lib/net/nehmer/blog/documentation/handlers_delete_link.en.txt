@@ -1,2 +1,0 @@
-
-Deletes post link __{$args[0]}__. Argument is [net_nehmer_blog_link](../mgdschemas/#net_nehmer_blog_link) GUID.

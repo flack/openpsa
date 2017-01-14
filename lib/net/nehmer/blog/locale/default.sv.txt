@@ -30,10 +30,6 @@ ATOM feed
 Tillgängliga feeds
 ---STRINGEND
 
----STRING blog link deleted
-Blog länk raderad
----STRINGEND
-
 ---STRING blog settings
 Blog inställningar
 ---STRINGEND
@@ -60,14 +56,6 @@ Skapa URL-namn från artikel titlar
 
 ---STRING create news article
 Skapa nyhets artikel
----STRINGEND
-
----STRING delete article link
-Radera artiklens länk
----STRINGEND
-
----STRING delete link
-Radera länk
 ---STRINGEND
 
 ---STRING descending
@@ -226,10 +214,6 @@ Slå på bläddring för arkiv
 Följande innehålls syndikerings format är tillgängliga:
 ---STRINGEND
 
----STRING failed to delete the blog link, contact the site administrator
-Misslyckades att radera blog länken, kontakta sajt administratören
----STRINGEND
-
 ---STRING rss_subscription_enable
 Slå på skapande av nyhetsartiklar från andra RSS och Atom feeds
 ---STRINGEND
@@ -244,9 +228,5 @@ Sätt till nej för kompabilitet med de.linkm.newsticker
 
 ---STRING show pseudo leaves in navigation
 Visa pseudo leaves i navigering
----STRINGEND
-
----STRING this blog entry has been linked from <a href="%s">%s</a> and confirming will delete only the link
-Detta blog inlägg är länkat från < href="%s">%s</a> och bekräftning kommer bara att ta bort länken.
 ---STRINGEND
 

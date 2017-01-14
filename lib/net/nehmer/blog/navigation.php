@@ -54,16 +54,8 @@ class net_nehmer_blog_navigation extends midcom_baseclasses_components_navigatio
             $qb->end_group();
         }
 
-        if (!$this->_config->get('enable_article_links')) {
-            $qb->add_constraint('topic', '=', $this->_topic->id);
-            $qb->add_constraint('up', '=', 0);
-        } else {
-            $mc = net_nehmer_blog_link_dba::new_collector('topic', $this->_topic->id);
-            $qb->begin_group('OR');
-            $qb->add_constraint('id', 'IN', $mc->get_values('article'));
-            $qb->add_constraint('topic', '=', $this->_topic->id);
-            $qb->end_group();
-        }
+        $qb->add_constraint('topic', '=', $this->_topic->id);
+        $qb->add_constraint('up', '=', 0);
         $qb->add_order('metadata.published', 'DESC');
         $qb->set_limit((int) $this->_config->get('index_entries'));
 

@@ -30,10 +30,6 @@ Salli arkistojen käyttö
 Artikkeli
 ---STRINGEND
 
----STRING article link
-Artikkelilinkki
----STRINGEND
-
 ---STRING ascending
 Nouseva
 ---STRINGEND
@@ -48,10 +44,6 @@ Uutissyötteet
 
 ---STRING available feeds introduction
 Seuraavat sisällön syndikointiformaatit ovat saatavilla:
----STRINGEND
-
----STRING blog link deleted
-Blogilinkki poistettu
 ---STRINGEND
 
 ---STRING blog settings
@@ -80,14 +72,6 @@ Luo tiedostonimet artikkelien otsikoista
 
 ---STRING create news article
 Luo uutisartikkeli
----STRINGEND
-
----STRING delete article link
-Poista artikkelilinkki
----STRINGEND
-
----STRING delete link
-Poista linkki
 ---STRINGEND
 
 ---STRING descending
@@ -120,10 +104,6 @@ Salli sisältökentillä suodatus (GET-parametri)
 
 ---STRING enable scheduled publishing
 Käytä ajastettua julkaisua
----STRINGEND
-
----STRING failed to delete the blog link, contact the site administrator
-Blogilinkin poistaminen epäonnistui, ota yhteyttä sivuston ylläpitäjään
 ---STRINGEND
 
 ---STRING first post was made on %s.
@@ -264,10 +244,6 @@ Järjestys
 
 ---STRING there is a total of %d posts.
 Yhteensä %s uutista.
----STRINGEND
-
----STRING this blog entry has been linked from <a href="%s">%s</a> and confirming will delete only the link
-Tämä blogiartikkeli on linkitetty kansiosta <a href="%s">%s</a> ja vahvistaminen poistaa vain linkin.
 ---STRINGEND
 
 ---STRING use view prefix in url

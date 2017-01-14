@@ -30,10 +30,6 @@ Enable archive browsing
 Article
 ---STRINGEND
 
----STRING article link
-Article link
----STRINGEND
-
 ---STRING ascending
 Ascending
 ---STRINGEND
@@ -48,10 +44,6 @@ Available feeds
 
 ---STRING available feeds introduction
 The following content syndication feed formats are available:
----STRINGEND
-
----STRING blog link deleted
-Blog link deleted
 ---STRINGEND
 
 ---STRING blog settings
@@ -84,14 +76,6 @@ Generate URL names from article titles
 
 ---STRING create news article
 Create news article
----STRINGEND
-
----STRING delete article link
-Delete article link
----STRINGEND
-
----STRING delete link
-Delete link
 ---STRINGEND
 
 ---STRING descending
@@ -132,10 +116,6 @@ Enable field filters (GET parameter)
 
 ---STRING enable scheduled publishing
 Enable scheduled publishing
----STRINGEND
-
----STRING failed to delete the blog link, contact the site administrator
-Failed to delete the blog link, contact the site administrator
 ---STRINGEND
 
 ---STRING first post was made on %s.
@@ -284,10 +264,6 @@ Sort order
 
 ---STRING there is a total of %d posts.
 There is a total of %d posts.
----STRINGEND
-
----STRING this blog entry has been linked from <a href="%s">%s</a> and confirming will delete only the link
-This blog entry has been linked from <a href="%s">%s</a> and confirming will delete only the link.
 ---STRINGEND
 
 ---STRING use view prefix in url

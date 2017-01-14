@@ -18,10 +18,6 @@ Freigeben
 Artikel
 ---STRINGEND
 
----STRING article link
-Artikel-Link
----STRINGEND
-
 ---STRING auto_approve
 Neue Artikel standardmäßig freigegeben
 ---STRINGEND
@@ -39,7 +35,7 @@ Die automatische Index-Seite ersetzt den Artikel mit dem URL-Namen index und bes
 ---STRINGEND
 
 ---STRING callback_function
-Callback-Funktion, die nach Erstellung ausgeführt wird, um z.B. ein Interface zum Seitenverlinkungssystem bereitzustellen
+Callback-Funktion, die nach Erstellung ausgeführt wird
 ---STRINGEND
 
 ---STRING callback_snippet
@@ -58,18 +54,6 @@ Artikel anlegen
 Default
 ---STRINGEND
 
----STRING delete article link
-Artikel-Link löschen
----STRINGEND
-
----STRING delete link
-Link löschen
----STRINGEND
-
----STRING delete_link
-Link löschen
----STRINGEND
-
 ---STRING directory index for %s
 Verzeichnis-Index für %s
 ---STRINGEND
@@ -84,14 +68,6 @@ Artikel bearbeiten
 
 ---STRING enable_ajax_editing
 AJAX-basierte on-site-Bearbeitung aktivieren
----STRINGEND
-
----STRING enable_article_links
-Seitenverlinkungs-System
----STRINGEND
-
----STRING failed to delete the article link, contact the site administrator
-Artikel-Link konnte nicht gelöscht werden, verständigen Sie den Site-Administrator
 ---STRINGEND
 
 ---STRING file lastmodified
@@ -120,10 +96,6 @@ Von
 
 ---STRING hide_navigation
 Artikel in der Navigation verstecken
----STRINGEND
-
----STRING if you want to delete the original article, <a href="%s">click here</a>
-<a href="%s">Klicken Sie hier</a>, um den Original-Artikel zu löschen
 ---STRINGEND
 
 ---STRING indexinnav
@@ -176,10 +148,6 @@ Soll die URL des Artikels automatisch generiert werden?
 
 ---STRING sort_order
 Sortierreihenfolge
----STRINGEND
-
----STRING this article has been linked from <a href="%s">%s</a> and confirming will delete only the link
-Dieser Artikel wurde von <a href="%s">%s</a> verlinkt, Bestätigen löscht ausschließlich den Link.
 ---STRINGEND
 
 ---STRING unapprove

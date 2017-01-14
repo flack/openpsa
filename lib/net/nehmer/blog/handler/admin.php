@@ -119,9 +119,8 @@ class net_nehmer_blog_handler_admin extends midcom_baseclasses_components_handle
     public function _handler_delete($handler_id, array $args, array &$data)
     {
         $this->_article = new midcom_db_article($args[0]);
-        // Relocate to delete the link instead of the article itself
         if ($this->_article->topic !== $this->_topic->id) {
-            return new midcom_response_relocate("delete/link/{$args[0]}/");
+            throw new midcom_error_forbidden('Article does not belong to this topic');
         }
         $workflow = $this->get_workflow('delete', array('object' => $this->_article));
         return $workflow->run();

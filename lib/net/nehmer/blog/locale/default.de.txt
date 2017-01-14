@@ -46,10 +46,6 @@ Verfügbare Newsfeeds
 Die folgenden Formate zur Content Syndication sind verfügbar:
 ---STRINGEND
 
----STRING blog link deleted
-Blog-link gelöscht
----STRINGEND
-
 ---STRING blog settings
 Blog-Einstellungen
 ---STRINGEND
@@ -78,14 +74,6 @@ URL Namen automatisch aus dem Titel des Artikels generieren
 Neuen News-Artikel erstellen
 ---STRINGEND
 
----STRING delete article link
-Artikel-Link löschen
----STRINGEND
-
----STRING delete link
-Link löschen
----STRINGEND
-
 ---STRING descending
 Absteigend
 ---STRINGEND
@@ -112,10 +100,6 @@ Detail-Seiten aktivieren
 
 ---STRING enable filters get
 Feldfilter via HTTP GET aktivieren
----STRINGEND
-
----STRING failed to delete the blog link, contact the site administrator
-Der Blog-Link konnte nicht gelöscht werden, verständigen Sie bitte den Site-Administrator
 ---STRINGEND
 
 ---STRING first post was made on %s.
@@ -228,10 +212,6 @@ Sortierreihenfolge
 
 ---STRING there is a total of %d posts.
 Es sind insgesamt %d Nachrichten vorhanden.
----STRINGEND
-
----STRING this blog entry has been linked from <a href="%s">%s</a> and confirming will delete only the link
-Dieser Blog-Eintrag wurde von <a href="%s">%s</a> verlinkt, Bestätigung löscht lediglich den Link.
 ---STRINGEND
 
 ---STRING use view prefix in url

@@ -11,17 +11,6 @@
     'fixed_args' => 'delete',
     'variable_args' => 1,
 ),
-'delete_link' => array
-(
-    'handler' => array('net_nehmer_static_handler_admin', 'deletelink'),
-    'fixed_args' => array('delete', 'link'),
-    'variable_args' => 1,
-),
-'create_link' => array
-(
-    'handler' => array('net_nehmer_static_handler_link', 'create'),
-    'fixed_args' => array('create', 'link'),
-),
 'create' => array
 (
     'handler' => array('net_nehmer_static_handler_create', 'create'),

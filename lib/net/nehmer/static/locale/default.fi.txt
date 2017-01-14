@@ -18,10 +18,6 @@ Hyväksy
 Artikkeli
 ---STRINGEND
 
----STRING article link
-Artikkelilinkki
----STRINGEND
-
 ---STRING auto_approve
 Hyväksy uudet artikkelit oletuksena
 ---STRINGEND
@@ -35,7 +31,7 @@ Sisällysluettelo korvaa index-artikkelin ja sisältää listan kaikista kansios
 ---STRINGEND
 
 ---STRING callback_function
-Luonnin jälkeen kutsuttava callback-funktio jota käytetään esim. sivujen linkitykseen
+Luonnin jälkeen kutsuttava callback-funktio jota käytetään
 ---STRINGEND
 
 ---STRING callback_snippet
@@ -54,18 +50,6 @@ Luo artikkeli
 Oletus-tietokantakuvaus uusille artikkeleille
 ---STRINGEND
 
----STRING delete article link
-Poista artikkelilinkki
----STRINGEND
-
----STRING delete link
-Poista linkki
----STRINGEND
-
----STRING delete_link
-Poista linkki
----STRINGEND
-
 ---STRING directory index for %s
 Kansion %s sisällysluettelo
 ---STRINGEND
@@ -80,14 +64,6 @@ Muokkaa artikkelia
 
 ---STRING enable_ajax_editing
 Salli sivustolla AJAX-editointi
----STRINGEND
-
----STRING enable_article_links
-Salli sivujen linkitys
----STRINGEND
-
----STRING failed to delete the article link, contact the site administrator
-Artikkelilinkin poistaminen epäonnistui, ota yhteys sivuston ylläpitäjään.
 ---STRINGEND
 
 ---STRING file lastmodified
@@ -120,10 +96,6 @@ Kansiosta
 
 ---STRING hide_navigation
 Piilota artikkelit navigaatiosta
----STRINGEND
-
----STRING if you want to delete the original article, <a href="%s">click here</a>
-Jos haluat poistaa alkuperäisen artikkelin, <a href="%s">klikkaa tästä</a>.
 ---STRINGEND
 
 ---STRING indexinnav
@@ -176,10 +148,6 @@ Luodaanko artikkelin URL-nimi automaattisesti?
 
 ---STRING sort_order
 Järjestely
----STRINGEND
-
----STRING this article has been linked from <a href="%s">%s</a> and confirming will delete only the link
-Tämä artikkeli on linkitetty osoitteesta <a href="%s">%s</a> ja vahvistaminen poistaa vain linkin.
 ---STRINGEND
 
 ---STRING unapprove

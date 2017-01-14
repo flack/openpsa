@@ -107,18 +107,6 @@
     'fixed_args' => 'delete',
     'variable_args' => 1,
 ),
-'delete_link' => array
-(
-    'handler' => array('net_nehmer_blog_handler_link', 'delete'),
-    'fixed_args' => array('delete', 'link'),
-    'variable_args' => 1,
-),
-'create_link' => Array
-(
-    'handler' => array('net_nehmer_blog_handler_link', 'create'),
-    'fixed_args' => array('create', 'link'),
-),
-
 'create' => Array
 (
     'handler' => array('net_nehmer_blog_handler_create', 'create'),

@@ -15,23 +15,6 @@ class net_nehmer_static_interface extends midcom_baseclasses_components_interfac
 implements midcom_services_permalinks_resolver
 {
     /**
-     * {@inheritdoc}
-     */
-    public function _on_watched_dba_delete($object)
-    {
-        midcom::get()->auth->request_sudo($this->_component);
-        // Delete all the links pointing to the article
-        $qb = net_nehmer_static_link_dba::new_query_builder();
-        $qb->add_constraint('article', '=', $object->id);
-        $links = $qb->execute_unchecked();
-
-        foreach ($links as $link) {
-            $link->delete();
-        }
-        midcom::get()->auth->drop_sudo();
-    }
-
-    /**
      * Iterate over all articles and create index record using the datamanager indexer method.
      */
     public function _on_reindex($topic, $config, &$indexer)

@@ -109,35 +109,6 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
     }
 
     /**
-     * Displays article link delete confirmation
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array $args The argument list.
-     * @param array &$data The local request data.
-     */
-    public function _handler_deletelink($handler_id, array $args, array &$data)
-    {
-        $this->_article = new midcom_db_article($args[0]);
-
-        $qb = net_nehmer_static_link_dba::new_query_builder();
-        $qb->add_constraint('topic', '=', $this->_topic->id);
-        $qb->add_constraint('article', '=', $this->_article->id);
-
-        if ($qb->count() === 0) {
-            throw new midcom_error_notfound('No links were found');
-        }
-
-        // Get the link
-        $results = $qb->execute_unchecked();
-        $this->_link = $results[0];
-        $workflow = $this->get_workflow('delete', array(
-            'object' => $this->_link,
-            'label' => $this->_l10n->get('article link')
-        ));
-        return $workflow->run();
-    }
-
-    /**
      * Displays an article delete confirmation view.
      *
      * @param mixed $handler_id The ID of the handler.
@@ -147,9 +118,8 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
     public function _handler_delete($handler_id, array $args, array &$data)
     {
         $this->_article = new midcom_db_article($args[0]);
-        // Relocate to delete the link instead of the article itself
         if ($this->_article->topic !== $this->_topic->id) {
-            return new midcom_response_relocate("delete/link/{$args[0]}/");
+            throw new midcom_error_forbidden('Article does not belong to this topic');
         }
         $workflow = $this->get_workflow('delete', array('object' => $this->_article));
         return $workflow->run();

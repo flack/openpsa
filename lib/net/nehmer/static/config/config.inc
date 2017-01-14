@@ -5,7 +5,6 @@
     'file:/net/nehmer/static/config/schemadb_default.inc' => 'Default Schema Database',
 ),
 
-'schemadb_link' => 'file:/net/nehmer/static/config/schemadb_link.inc',
 'schemadb_config' => 'file:/net/nehmer/static/config/config_schemadb.inc',
 
 // A valid sort order usable with QB
@@ -30,13 +29,10 @@
 // Set this to true if you want to enable on-site AJAX editing
 'enable_ajax_editing' => midcom::get()->config->get('enable_ajax_editing'),
 
-// Page linking system
-'enable_article_links' => false,
-
 // Creation callback snippet for defining site-specific function
 'callback_snippet' => null,
 
-// Callback function will be called after creation e.g. to provide interface for page linking system
+// Callback function will be called after creation
 // $callback_function($article, $topic)
 'callback_function' => null,
 

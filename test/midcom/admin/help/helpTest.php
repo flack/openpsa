@@ -94,11 +94,6 @@ class midcom_admin_help_helpTest extends openpsa_testcase
                         'subject' => 'Component configuration',
                         'lang' => 'en'
                     ),
-                    'mgdschemas' => array(
-                        'path' => '/mgdschemas',
-                        'subject' => 'MgdSchema classes',
-                        'lang' => 'en'
-                    ),
                     'style' => array(
                         'path' => MIDCOM_ROOT . '/net/nehmer/blog/documentation/style.en.txt',
                         'subject' => 'net.nehmer.blog style elements',

@@ -4,7 +4,6 @@
 (
     'file:/net/nehmer/blog/config/schemadb_default.inc' => 'Default Schema Database',
 ),
-'schemadb_link' => 'file:/net/nehmer/static/config/schemadb_link.inc',
 'schemadb_config' => 'file:/net/nehmer/blog/config/schemadb_config.inc',
 
 'list_from_folders'     => null,   // List of the event topics displayed in this topic
@@ -56,15 +55,10 @@
 'rss_subscription_enable' => false,
 'link_to_external_url' => false,
 
-// Page linking system
-'enable_article_links' => false,
-'enable_editing_of_linked_articles' => false,
-'include_linked_articles_to_feeds' => true,
-
 // Creation callback snippet for defining site-specific function
 'callback_snippet' => null,
 
-// Callback function will be called after creation e.g. to provide interface for page linking system
+// Callback function will be called after creation
 // $callback_function($article, $topic)
 'callback_function' => null,
 

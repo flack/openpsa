@@ -73,14 +73,6 @@ class net_nehmer_static_viewer extends midcom_baseclasses_components_request
             }
         }
 
-        if (   $this->_config->get('enable_article_links')
-            && $this->_topic->can_do('midgard:create')) {
-            $buttons[] = $workflow->get_button("create/link/", array(
-                MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('article link')),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/attach.png',
-            ));
-        }
-
         if (   $this->_topic->can_do('midgard:update')
             && $this->_topic->can_do('midcom:component_config')) {
             $buttons[] = $workflow->get_button('config/', array(
@@ -111,18 +103,7 @@ class net_nehmer_static_viewer extends midcom_baseclasses_components_request
     public static function get_topic_qb(midcom_helper_configuration $config, $id)
     {
         $qb = midcom_db_article::new_query_builder();
-
-        // Include the article links to the indexes if enabled
-        if ($config->get('enable_article_links')) {
-            $mc = net_nehmer_static_link_dba::new_collector('topic', $id);
-
-            $qb->begin_group('OR');
-            $qb->add_constraint('id', 'IN', $mc->get_values('article'));
-            $qb->add_constraint('topic', '=', $id);
-            $qb->end_group();
-        } else {
-            $qb->add_constraint('topic', '=', $id);
-        }
+        $qb->add_constraint('topic', '=', $id);
         return $qb;
     }
 }

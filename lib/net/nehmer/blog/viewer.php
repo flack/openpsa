@@ -111,14 +111,6 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
             net_nemein_rss_manage::add_toolbar_buttons($this->_node_toolbar, $this->_topic->can_do('midgard:create'));
         }
 
-        if (   $this->_config->get('enable_article_links')
-            && $this->_topic->can_do('midgard:create')) {
-            $buttons[] = $workflow->get_button("create/link/", array(
-                MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('article link')),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/attach.png'
-            ));
-        }
-
         if (   $this->_topic->can_do('midgard:update')
             && $this->_topic->can_do('midcom:component_config')) {
             $buttons[] = $workflow->get_button('config/', array(
@@ -215,7 +207,7 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
     }
 
     /**
-     * Sets the constraints for QB for articles, supports article links etc.
+     * Sets the constraints for QB for articles
      *
      * @param midgard_query_builder $qb The QB object
      */
@@ -230,20 +222,7 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
             $topic_guids = array_merge($topic_guids, array_filter($guids, 'mgd_is_guid'));
         }
 
-        // Include the article links to the indexes if enabled
-        if ($this->_config->get('enable_article_links')) {
-            $mc = net_nehmer_blog_link_dba::new_collector('topic', $this->_topic->id);
-            $mc->add_order('metadata.published', 'DESC');
-            $mc->set_limit((int) $this->_config->get('index_entries'));
-
-            // Get the results
-            $qb->begin_group('OR');
-            $qb->add_constraint('id', 'IN', $mc->get_values('article'));
-            $qb->add_constraint('topic.guid', 'IN', $topic_guids);
-            $qb->end_group();
-        } else {
-            $qb->add_constraint('topic.guid', 'IN', $topic_guids);
-        }
+        $qb->add_constraint('topic.guid', 'IN', $topic_guids);
 
         if (   count($topic_guids) > 1
             && $list_from_folders_categories = $this->_config->get('list_from_folders_categories')) {

@@ -18,10 +18,6 @@ Godkänn
 Artikel
 ---STRINGEND
 
----STRING article link
-Artikellänk
----STRINGEND
-
 ---STRING auto_approve
 Godkänn nya artiklar automatiskt
 ---STRINGEND
@@ -46,32 +42,12 @@ Skapa artikel
 Standard schema för artiklar
 ---STRINGEND
 
----STRING delete article link
-Radera artikellänken
----STRINGEND
-
----STRING delete link
-Radera länk
----STRINGEND
-
----STRING delete_link
-Radera länk
----STRINGEND
-
 ---STRING directory index for %s
 Katalogs index för %s
 ---STRINGEND
 
 ---STRING edit article
 Ändra artikel
----STRINGEND
-
----STRING enable_article_links
-Sidlänknings system
----STRINGEND
-
----STRING failed to delete the article link, contact the site administrator
-Misslyckades med att radera artikellänken, kontakta administratören
 ---STRINGEND
 
 ---STRING file lastmodified
@@ -104,10 +80,6 @@ Från
 
 ---STRING hide_navigation
 Dölj artiklar från navigation
----STRINGEND
-
----STRING if you want to delete the original article, <a href="%s">click here</a>
-Om du vill radera orginal artikeln, <a href="%s">klicka här</a>
 ---STRINGEND
 
 ---STRING indexinnav
@@ -181,8 +153,3 @@ Artikel visnings konfiguration
 ---STRING simple_name_handling
 Ska artikelns URL genereras automatiskt?
 ---STRINGEND
-
----STRING this article has been linked from <a href="%s">%s</a> and confirming will delete only the link
-Den här artikeln är länkad från <a href="%s">%s</a> och bekräftning kommer endast att radera länken.
----STRINGEND
-

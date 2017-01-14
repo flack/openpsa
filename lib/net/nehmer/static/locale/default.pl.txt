@@ -54,18 +54,6 @@ Utwórz artykuł
 Domyślny schemat artykułu
 ---STRINGEND
 
----STRING delete article link
-Usuń link
----STRINGEND
-
----STRING delete link
-Usuń link
----STRINGEND
-
----STRING delete_link
-Usuń link
----STRINGEND
-
 ---STRING directory index for %s
 Zawartość folderu %s
 ---STRINGEND
@@ -80,14 +68,6 @@ Edytuj artykuł
 
 ---STRING enable_ajax_editing
 Włącz edycję poprzez AJAX
----STRINGEND
-
----STRING enable_article_links
-Linkowanie stron
----STRINGEND
-
----STRING failed to delete the article link, contact the site administrator
-Błąd usuwania linku.
 ---STRINGEND
 
 ---STRING file lastmodified
@@ -120,10 +100,6 @@ Z
 
 ---STRING hide_navigation
 Ukryj artykuły w nawigacji
----STRINGEND
-
----STRING if you want to delete the original article, <a href="%s">click here</a>
-Jeśli chcesz usunąć artykuł oryginalny <a href="%s">kliknij tu</a>.
 ---STRINGEND
 
 ---STRING indexinnav
@@ -178,10 +154,6 @@ Automatyczne tworzenie URLi.
 Kolejność
 ---STRINGEND
 
----STRING this article has been linked from <a href="%s">%s</a> and confirming will delete only the link
-Ten artykuł jest linkiem do <a href="%s">%s</a> usunięty zostanie tylko link.
----STRINGEND
-
 ---STRING unapprove
 Odtwierdź
 ---STRINGEND
@@ -193,8 +165,3 @@ Pokaż artykuł
 ---STRING visible
 Folder jest widoczny
 ---STRINGEND
-
----STRING article link
-Link do artykułu
----STRINGEND
-

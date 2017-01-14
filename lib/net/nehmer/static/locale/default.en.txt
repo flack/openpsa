@@ -18,10 +18,6 @@ Approve
 Article
 ---STRINGEND
 
----STRING article link
-Article link
----STRINGEND
-
 ---STRING auto_approve
 Approve new articles by default
 ---STRINGEND
@@ -39,7 +35,7 @@ The index page replaces the article with the URL name index and consists of a li
 ---STRINGEND
 
 ---STRING callback_function
-Callback function will be called after creation e.g. to provide interface for page linking system
+Callback function will be called after creation
 ---STRINGEND
 
 ---STRING callback_snippet
@@ -58,18 +54,6 @@ Create Article
 Default schema for new articles
 ---STRINGEND
 
----STRING delete article link
-Delete article link
----STRINGEND
-
----STRING delete link
-Delete link
----STRINGEND
-
----STRING delete_link
-Delete link
----STRINGEND
-
 ---STRING directory index for %s
 Directory index for %s
 ---STRINGEND
@@ -84,14 +68,6 @@ Edit Article
 
 ---STRING enable_ajax_editing
 Enable AJAX on-site editing
----STRINGEND
-
----STRING enable_article_links
-Page linking system
----STRINGEND
-
----STRING failed to delete the article link, contact the site administrator
-Failed to delete the article link, contact the site administrator
 ---STRINGEND
 
 ---STRING file lastmodified
@@ -124,10 +100,6 @@ From
 
 ---STRING hide_navigation
 Hide articles from navigation
----STRINGEND
-
----STRING if you want to delete the original article, <a href="%s">click here</a>
-If you want to delete the original article, <a href="%s">click here</a>.
 ---STRINGEND
 
 ---STRING indexinnav
@@ -180,10 +152,6 @@ Should the article's URL be generated automatically?
 
 ---STRING sort_order
 Sort order
----STRINGEND
-
----STRING this article has been linked from <a href="%s">%s</a> and confirming will delete only the link
-This article has been linked from <a href="%s">%s</a> and confirming will delete only the link.
 ---STRINGEND
 
 ---STRING unapprove
