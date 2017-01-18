@@ -13,17 +13,21 @@ class midcom_helper_datamanager2_qfrule_checkjsdate extends HTML_QuickForm_Rule
 {
     function validate($value, $options = null)
     {
-        if (   !is_array($value)
-            || !isset($value[0][$options . '_date'])) {
-            debug_add('value is not an array or date is missing');
+        if (!is_array($value)) {
+            debug_add('value is not an array');
             return false;
         }
         // This comes from AJAX editor. @todo: Find out why the format is different
         if (is_string($value[0])) {
             $date = $value[0];
         } else {
+            if (!isset($value[0][$options . '_date'])) {
+                debug_add('date is missing');
+                return false;
+            }
             $date = $value[0][$options . '_date'];
         }
+
         if (isset($value[0][$options . '_hours'])) {
             $time = $this->_sanitize_time($value, $options);
             if ($time === false) {
