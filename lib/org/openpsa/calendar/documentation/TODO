@@ -35,6 +35,3 @@ org.openpsa.calendar TODO
   codes, city names etc)
 * Recognize time zones for the From and To locations to enable inputting
   times in local time (to aid entering flights)
-* Generally utilize org.routamc.positioning to determine user's local time zone,
-  and display times accordingly (this should probably be handled in MidCOM
-  core level actually)

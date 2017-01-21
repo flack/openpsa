@@ -27,7 +27,6 @@
     'midgard_parameter' => false,
     'midcom_core_privilege_db' => false,
     'midcom_core_temporary_object_db' => false,
-    'org_routamc_positioning_country' => false,
 ),
 /**
  * Define the property to use as 'title' per class, use false for skipping heuristics and not using any property as title
@@ -59,7 +58,6 @@
     'org_openpsa_relatedto',
     'org_openpsa_relatedto_journal_entry',
     'org_openpsa_billing_data',
-    'org_routamc_positioning_location',
     /* These we just don't anybody mucking about with */
     'midcom_core_login_session_db',
     'midcom_core_temporary_object_db',
@@ -123,14 +121,6 @@
     (
         'org_openpsa_notifications_notification',
         'net_nemein_rss_feed',
-    ),
-    'locale.png' => array
-    (
-        'org_routamc_positioning_country',
-    ),
-    'geoclue.png' => array
-    (
-        'org_routamc_positioning_location',
     ),
     'stock-discussion.png' => array
     (

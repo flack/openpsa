@@ -262,7 +262,7 @@ class midcom_services_metadata
                 $this->_add_opengraph_metadata($view_metadata);
             }
 
-            if (midcom::get()->config->get('positioning_enable')) {
+            if (midcom::get()->componentloader->is_installed('org.routamc.positioning')) {
                 // Display position metadata
                 $object_position = new org_routamc_positioning_object($view_metadata->object);
                 $object_position->set_metadata();

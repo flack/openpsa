@@ -174,7 +174,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
                 array_shift($classname_parts);
             }
             // FIXME: Remove hardcoded class prefixes
-            $use_label = preg_replace('/(openpsa|positioning|notifications)_/', '', implode('_', $classname_parts));
+            $use_label = preg_replace('/(openpsa|notifications)_/', '', implode('_', $classname_parts));
 
             $use_label = str_replace('_', ' ', $use_label);
             $label = $component_l10n->get($use_label);

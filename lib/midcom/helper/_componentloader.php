@@ -470,7 +470,6 @@ class midcom_helper__componentloader
             'org.openpsa.httplib',
             'org.openpsa.mail',
             'org.openpsa.qbpager',
-            'org.routamc.positioning',
         );
 
         return (in_array($component, $core_components));

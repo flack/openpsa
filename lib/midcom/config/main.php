@@ -275,11 +275,6 @@
  * - <b>boolean show_unapproved_objects:</b> This flag indicates whether objects should be
  *   shown even if they are not approved. This defaults to true.
  *
- * <b>Geopositioning settings</b>
- *
- * - <b>boolean positioning_enable:</b> This flag indicates whether components should start
- * tracking and displaying the geographical position where they were created.
- *
  * @package midcom
  */
 class midcom_config implements arrayaccess
@@ -447,11 +442,6 @@ class midcom_config implements arrayaccess
         // Show only these components when creating or editing
         'component_listing_allowed' => null,
         'component_listing_excluded' => null,
-
-        // Positioning system
-        // If this argument is set to true, various components will start gathering
-        // and displaying geolocation information.
-        'positioning_enable' => false,
 
         // Page class (body class)
         // If this argument is set to true, sanitized name of the component is added to the page class string.

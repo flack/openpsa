@@ -97,7 +97,7 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
 
     private function _list_positions_between(array &$data_array, $person, $from, $to)
     {
-        if (!midcom::get()->config->get('positioning_enable')) {
+        if (!midcom::get()->componentloader->is_installed('org.routamc.positioning')) {
             return false;
         }
 

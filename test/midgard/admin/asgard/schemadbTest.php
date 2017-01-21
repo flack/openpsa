@@ -162,55 +162,7 @@ class midgard_admin_asgard_schemadbTest extends openpsa_testcase
                 'street',
                 'email',
                 -1
-            ),
-            array(
-                new org_routamc_positioning_aerodrome,
-                'latitude',
-                'name',
-                1
-            ),
-            array(
-                new org_routamc_positioning_aerodrome,
-                'latitude',
-                'city',
-                1
-            ),
-            array(
-                new org_routamc_positioning_location,
-                'latitude',
-                'street',
-                1
-            ),
-            array(
-                new org_routamc_positioning_location,
-                'latitude',
-                'altitude',
-                -1
-            ),
-            array(
-                new org_routamc_positioning_location,
-                'latitude',
-                'parentclass',
-                -1
-            ),
-            array(
-                new org_routamc_positioning_aerodrome,
-                'icao',
-                'name',
-                1
-            ),
-            array(
-                new org_routamc_positioning_aerodrome,
-                'icao',
-                'city',
-                1
-            ),
-            array(
-                new org_routamc_positioning_aerodrome,
-                'icao',
-                'wmo',
-                -1
-            ),
+            )
         );
     }
 }

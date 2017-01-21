@@ -101,7 +101,7 @@ class net_nemein_tag_link_dba extends midcom_core_dbaobject
      */
     private function _geotag()
     {
-        if (!midcom::get()->config->get('positioning_enable')) {
+        if (!midcom::get()->componentloader->is_installed('org.routamc.positioning')) {
             return false;
         }
 
