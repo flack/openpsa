@@ -37,14 +37,15 @@ class midgard_admin_asgard_toolbar extends midcom_helper_toolbar_view
                 MIDCOM_TOOLBAR_ACCESSKEY => 'v',
             );
         }
-
-        if (   !is_a($object, 'midcom_db_style')
-            && !is_a($object, 'midcom_db_element')
-            && !is_a($object, 'midcom_db_snippetdir')
-            && !is_a($object, 'midcom_db_snippet')
-            && !is_a($object, 'midcom_db_parameter')
-            && substr($object->__mgdschema_class_name__, 0, 23) != 'org_routamc_positioning'
-            && substr($object->__mgdschema_class_name__, 0, 14) != 'net_nemein_tag') {
+        $config = midcom_baseclasses_components_configuration::get('midgard.admin.asgard', 'config');
+        $no_permalink = false;
+        foreach ($config->get('no_permalinks_for') as $classname) {
+            if (is_a($object, $classname)) {
+                $no_permalink = true;
+                break;
+            }
+        }
+        if (!$no_permalink) {
             $link = midcom::get()->permalinks->resolve_permalink($object->guid);
             if ($link) {
                 $buttons[] = array(

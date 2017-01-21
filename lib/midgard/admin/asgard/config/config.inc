@@ -100,3 +100,19 @@
 ),
 
 'enable_review_dates' => false,
+
+'no_permalinks_for' => array
+(
+    'midcom_db_style',
+    'midcom_db_element',
+    'midcom_db_snippetdir',
+    'midcom_db_snippet',
+    'midcom_db_parameter',
+    'org_routamc_positioning_aerodrome_dba',
+    'org_routamc_positioning_city_dba',
+    'org_routamc_positioning_country_dba',
+    'org_routamc_positioning_location_dba',
+    'org_routamc_positioning_log_dba',
+    'net_nemein_tag_tag_dba',
+    'net_nemein_tag_link_dba',
+),
