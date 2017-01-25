@@ -383,7 +383,6 @@ class midcom_helper__componentloader
             $candidates[] = "{$directory}/manifest.inc";
         }
         // now we look for extra components the user my have registered
-        $config = midcom::get()->config;
         foreach ($config->get('midcom_components', array()) as $path) {
             $candidates[] = $path . '/config/manifest.inc';
         }
