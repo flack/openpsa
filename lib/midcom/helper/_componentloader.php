@@ -363,9 +363,14 @@ class midcom_helper__componentloader
     /**
      * This function is called from the class manifest loader in case of a cache
      * miss.
+     *
+     * @param midcom_config $config The configuration object (useful for  calling this function without initializing midcom)
      */
-    public function get_manifests()
+    public function get_manifests(midcom_config $config = null)
     {
+        if ($config === null) {
+            $config = midcom::get()->config;
+        }
         $candidates = array();
         // First, we locate all manifest includes:
         // We use some find construct like find -follow -type d -name "config"
