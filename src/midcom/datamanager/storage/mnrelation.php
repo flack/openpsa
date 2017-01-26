@@ -6,6 +6,8 @@
 namespace midcom\datamanager\storage;
 
 use midcom;
+use midcom_error;
+use midcom_connection;
 use midcom\datamanager\extension\helper;
 
 /**

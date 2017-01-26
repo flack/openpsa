@@ -6,6 +6,7 @@
 namespace midcom\datamanager\storage;
 
 use midgard_blob;
+use midcom_error;
 use midcom_db_attachment;
 use midcom_helper_imagefilter;
 

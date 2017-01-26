@@ -8,6 +8,7 @@
 
 namespace openpsa\createphp;
 
+use midcom_error;
 use openpsa\createphp\workflow\delete;
 use Midgard\CreatePHP\RdfMapperInterface;
 use Midgard\CreatePHP\ArrayLoader;

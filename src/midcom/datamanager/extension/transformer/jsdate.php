@@ -6,6 +6,7 @@
 namespace midcom\datamanager\extension\transformer;
 
 use Symfony\Component\Form\DataTransformerInterface;
+use Symfony\Component\Form\Exception\TransformationFailedException;
 use midcom\datamanager\extension\type\jsdate as datetype;
 use DateTime;
 
