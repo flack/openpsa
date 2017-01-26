@@ -34,15 +34,6 @@
 class midcom_application
 {
     /**
-     * Integer constant resembling the current MidCOM state.
-     *
-     * See the MIDCOM_STATUS_... constants
-     *
-     * @var int
-     */
-    private $_status = null;
-
-    /**
      * Host prefix cache to avoid computing it each time.
      *
      * @var string
@@ -111,8 +102,6 @@ class midcom_application
      */
     public function initialize()
     {
-        $this->_status = MIDCOM_STATUS_PREPARE;
-
         // Start-up some of the services
         $this->dbclassloader->load_classes('midcom', 'legacy_classes.inc');
         $this->dbclassloader->load_classes('midcom', 'core_classes.inc');
@@ -210,10 +199,6 @@ class midcom_application
             $url = substr($url, 0, -5);
         }
 
-        if ($this->_status < MIDCOM_STATUS_CONTENT) {
-            throw new midcom_error("dynamic_load content request called before content output phase.");
-        }
-
         // Determine new Context ID and set current context,
         // enter that context and prepare its data structure.
         $oldcontext = midcom_core_context::get();
@@ -237,9 +222,7 @@ class midcom_application
         $argv = $context->parser->tokenize($url);
         $context->parser->parse($argv);
 
-        $this->_process($context);
-
-        if ($this->_status == MIDCOM_STATUS_ABORT) {
+        if ($this->_process($context) === false) {
             debug_add("Dynamic load _process() phase ended up with 404 Error. Aborting...", MIDCOM_LOG_ERROR);
 
             // Leave Context
@@ -390,8 +373,6 @@ class midcom_application
      */
     public function finish()
     {
-        $this->_status = MIDCOM_STATUS_CLEANUP;
-
         // Shutdown content-cache (ie flush content to user :) before possibly slow DBA watches
         // done this way since it's slightly less hacky than calling shutdown and then mucking about with the cache->_modules etc
         $this->cache->content->_finish_caching();
@@ -426,7 +407,6 @@ class midcom_application
         $urlmethods = new midcom_core_urlmethods($context);
         $urlmethods->process();
 
-        $this->_status = MIDCOM_STATUS_CANHANDLE;
         $handler = $context->get_component();
 
         if (false === $handler) {
@@ -442,10 +422,10 @@ class midcom_application
                 throw new midcom_error_notfound("This page is not available on this server.");
             }
 
-            $this->_status = MIDCOM_STATUS_ABORT;
             return false;
         }
         $context->run($handler);
+        return true;
     }
 
     /**
@@ -459,8 +439,6 @@ class midcom_application
      */
     private function _output(midcom_core_context $context, $include_template = true)
     {
-        $this->_status = MIDCOM_STATUS_CONTENT;
-
         // Enter Context
         $oldcontext = midcom_core_context::get();
         if ($oldcontext->id != $context->id) {
@@ -564,27 +542,6 @@ class midcom_application
         return $this->_cached_host_prefix;
     }
 
-    /**
-     * Get the current MidCOM processing state.
-     *
-     * @return int    One of the MIDCOM_STATUS_... constants indicating current state.
-     */
-    function get_status()
-    {
-        return $this->_status;
-    }
-
-    /**
-     * Manually override the current MidCOM processing state.
-     * Don't use this unless you know what you're doing
-     *
-     * @param int One of the MIDCOM_STATUS_... constants indicating current state.
-     */
-    function set_status($status)
-    {
-        $this->_status = $status;
-    }
-
     /* *************************************************************************
      * Generic Helper Functions not directly related with MidCOM:
      *
@@ -631,7 +588,7 @@ class midcom_application
      * @param string $url    The URL to redirect to, will be preprocessed as outlined above.
      * @param string $response_code HTTP response code to send with the relocation, from 3xx series
      */
-    function relocate($url, $response_code = 302)
+    public function relocate($url, $response_code = 302)
     {
         $response = new midcom_response_relocate($url, $response_code);
         $response->send();

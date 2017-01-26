@@ -231,8 +231,6 @@ class midcom_core_urlmethods
 
         midcom::get()->cache->content->enable_live_mode();
 
-        midcom::get()->set_status(MIDCOM_STATUS_CONTENT);
-
         // We seem to be in a valid place. Exec the file with the current permissions.
         require($path);
 

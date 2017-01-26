@@ -76,16 +76,6 @@ define('MIDCOM_LOG_ERROR', 1);
 define('MIDCOM_LOG_CRIT', 0);
 
 /**
- * MidCOM Core Status Codes
- */
-define('MIDCOM_STATUS_PREPARE', 0);
-define('MIDCOM_STATUS_CANHANDLE', 1);
-define('MIDCOM_STATUS_HANDLE', 2);
-define('MIDCOM_STATUS_CONTENT', 3);
-define('MIDCOM_STATUS_CLEANUP', 4);
-define('MIDCOM_STATUS_ABORT', 5);
-
-/**
  * MidCOM NAP Sorting Modes
  */
 define('MIDCOM_NAVORDER_DEFAULT', 0);

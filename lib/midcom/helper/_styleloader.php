@@ -603,8 +603,7 @@ class midcom_helper__styleloader
     /**
      * Appends a substyle after the currently selected component style.
      *
-     * Enables a depth of more than one style during substyle selection. The system
-     * must have completed the CAN_HANDLE Phase before this function will be available.
+     * Enables a depth of more than one style during substyle selection.
      *
      * @param string $newsub The substyle to append.
      */
@@ -613,10 +612,6 @@ class midcom_helper__styleloader
         // Make sure try to use only the first argument if we get space separated list, fixes #1788
         if (strpos($newsub, ' ') !== false) {
             $newsub = preg_replace('/^(.+?) .+/', '$1', $newsub);
-        }
-
-        if (midcom::get()->get_status() < MIDCOM_STATUS_HANDLE) {
-            throw new midcom_error("Cannot append a substyle before the HANDLE phase.");
         }
 
         $context = midcom_core_context::get();
@@ -632,17 +627,12 @@ class midcom_helper__styleloader
     /**
      * Prepends a substyle before the currently selected component style.
      *
-     * Enables a depth of more than one style during substyle selection. The system
-     * must have completed the CAN_HANDLE Phase before this function will be available.
+     * Enables a depth of more than one style during substyle selection.
      *
      * @param string $newsub The substyle to prepend.
      */
     function prepend_substyle($newsub)
     {
-        if (midcom::get()->get_status() < MIDCOM_STATUS_HANDLE) {
-            throw new midcom_error("Cannot prepend a substyle before the HANDLE phase.");
-        }
-
         $context = midcom_core_context::get();
         $current_style = $context->get_key(MIDCOM_CONTEXT_SUBSTYLE);
 

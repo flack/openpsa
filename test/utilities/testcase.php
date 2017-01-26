@@ -119,14 +119,12 @@ abstract class openpsa_testcase extends PHPUnit_Framework_TestCase
         $context = midcom_core_context::get();
         $show_handler = $context->get_key(MIDCOM_CONTEXT_SHOWCALLBACK);
 
-        midcom::get()->set_status(MIDCOM_STATUS_CONTENT);
         midcom::get()->style->enter_context($context->id);
         ob_start();
         call_user_func($show_handler, $context->id);
         $output = ob_get_contents();
         ob_end_clean();
         midcom::get()->style->leave_context();
-        midcom::get()->set_status(MIDCOM_STATUS_PREPARE);
         return $output;
     }
 

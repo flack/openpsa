@@ -220,7 +220,6 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
      */
     public function handle()
     {
-        midcom::get()->set_status(MIDCOM_STATUS_HANDLE);
         return $this->_context_data[midcom_core_context::get()->id]['handler']->handle();
     }
 
