@@ -142,7 +142,7 @@ class schema
             'end_fieldset' => null
         ));
 
-        $normalize_widget = function (Options $options, $value) use ($name) {
+        $normalize_widget = function (Options $options, $value) {
             if (   $value == 'images'
                 || $value == 'downloads') {
                 return 'subform';

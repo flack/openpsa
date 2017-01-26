@@ -14,13 +14,6 @@
 class org_openpsa_relatedto_collector extends midcom_core_collector
 {
     /**
-     * Which type of links are we looking for, incoming or outgoing
-     *
-     * @var string
-     */
-    private $_direction = '';
-
-    /**
      * The prefix for query constraints concerning the object(s) at hand
      *
      * @var string
@@ -94,7 +87,6 @@ class org_openpsa_relatedto_collector extends midcom_core_collector
 
     private function _set_direction($dir)
     {
-        $this->_direction = $dir;
         if ($dir == 'incoming') {
             $this->_object_prefix = 'to';
             $this->_other_prefix = 'from';

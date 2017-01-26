@@ -225,13 +225,6 @@ class fi_protie_navigation
     public $css_active = 'active';
 
     /**
-     * parameter listening enabled
-     *
-     * @var boolean
-     */
-    private $_listen_params = false;
-
-    /**
      * Registered get -parameters for listening
      *
      * @var array
@@ -269,8 +262,6 @@ class fi_protie_navigation
             return;
         }
         $this->_get_params[$name] = $value;
-
-        $this->_listen_params = true;
     }
 
     private function _get_parameter_string()

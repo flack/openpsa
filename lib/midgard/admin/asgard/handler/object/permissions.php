@@ -60,13 +60,6 @@ implements midcom_helper_datamanager2_interfaces_edit
      */
     private $_rendered_row_labels = array();
 
-    /**
-     * Rendered row actions
-     *
-     * @var Array
-     */
-    private $_rendered_row_actions = array();
-
     private $additional_assignee;
 
     public function _on_initialize()
@@ -419,8 +412,6 @@ implements midcom_helper_datamanager2_interfaces_edit
     {
         foreach (array_keys($this->_row_labels) as $key) {
             if (strpos($row_name, $key) !== false) {
-                $this->_rendered_row_actions[$key] = true;
-
                 $actions = "<div class=\"actions\" id=\"privilege_row_actions_{$key}\"></div>";
                 return "      <td class=\"row_value row_actions\">{$actions}</td>\n";
             }

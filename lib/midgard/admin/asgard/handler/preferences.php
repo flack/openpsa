@@ -22,13 +22,6 @@ implements midcom_helper_datamanager2_interfaces_edit
     private $_person;
 
     /**
-     * Status of the request
-     *
-     * @var boolean
-     */
-    private $_status = true;
-
-    /**
      * Get the user preferences schema
      */
     public function load_schemadb()
@@ -151,7 +144,6 @@ implements midcom_helper_datamanager2_interfaces_edit
             }
 
             if (!$this->_person->set_parameter('midgard.admin.asgard:preferences', $key, $value)) {
-                $this->_status = false;
                 midcom::get()->uimessages->add($this->_l10n->get($this->_component), sprintf($this->_l10n->get('failed to save the preference for %s'), $this->_l10n->get($key)));
             }
 

@@ -12,7 +12,6 @@
 class org_openpsa_products_handler_group_csvimport extends midcom_baseclasses_components_handler
 {
     private $_datamanager = null;
-    private $_groups_processed = array();
 
     private function _prepare_handler($args)
     {
@@ -108,8 +107,6 @@ class org_openpsa_products_handler_group_csvimport extends midcom_baseclasses_co
             }
             return false;
         }
-
-        $this->_groups_processed[$group->code] = $group;
 
         return $group;
     }

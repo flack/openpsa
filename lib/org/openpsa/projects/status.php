@@ -25,18 +25,11 @@ class org_openpsa_projects_status extends org_openpsa_widgets_status
 
     /**
      *
-     * @var midcom_services_i18n_l10n
-     */
-    private $l10n_midcom;
-
-    /**
-     *
      * @param org_openpsa_projects_task_dba $invoice
      */
     public function __construct(org_openpsa_projects_task_dba $task)
     {
         $this->l10n = midcom::get()->i18n->get_l10n('org.openpsa.projects');
-        $this->l10n_midcom = midcom::get()->i18n->get_l10n('midcom');
         $this->task = $task;
     }
 
