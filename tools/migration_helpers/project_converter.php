@@ -87,7 +87,7 @@ class project_converter
         }
     }
 
-    private function _output($message, $show_mgd_error = true)
+    private function _output($message)
     {
         echo $message . "\n";
         flush();
@@ -212,7 +212,7 @@ class project_converter
             die;
         }
 
-        $this->_output('Merging data from salesproject ' . $this->_salesproject->title, false);
+        $this->_output('Merging data from salesproject ' . $this->_salesproject->title);
 
         $property_map = array(
             'title' => 'title',
