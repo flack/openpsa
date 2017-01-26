@@ -76,7 +76,6 @@ use midgard\introspection\helper;
  */
 class org_openpsa_directmarketing_campaign_ruleresolver
 {
-    private $rules = array(); //Copy of rules as received
     private $mc; // Contact-qb containing results
 
     public function __construct()
@@ -133,7 +132,6 @@ class org_openpsa_directmarketing_campaign_ruleresolver
             return false;
         }
 
-        $this->rules = $rules;
         $stat = true;
         //start with first group
         $this->mc->begin_group(strtoupper($rules['type']));

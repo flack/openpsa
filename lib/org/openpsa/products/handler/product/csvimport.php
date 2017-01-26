@@ -12,7 +12,6 @@
 class org_openpsa_products_handler_product_csvimport extends midcom_baseclasses_components_handler
 {
     private $_datamanager = null;
-    private $_products_processed = array();
 
     private function _prepare_handler($args)
     {
@@ -155,8 +154,6 @@ class org_openpsa_products_handler_product_csvimport extends midcom_baseclasses_
             }
             return false;
         }
-
-        $this->_products_processed[$product->code] = $product;
 
         if ($new) {
             $this->_request_data['import_status']['created']++;
