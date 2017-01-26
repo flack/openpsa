@@ -6,8 +6,6 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
-use midcom\workflow\delete;
-
 /**
  * Handle the folder deleting requests
  *

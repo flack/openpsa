@@ -1,6 +1,4 @@
 <?php
-use midcom\workflow\dialog;
-
 /**
  * @package midcom.baseclasses
  * @author CONTENT CONTROL http://www.contentcontrol-berlin.de/
@@ -98,7 +96,7 @@ abstract class midcom_baseclasses_components_base
      *
      * @param string $identifier
      * @param array $options
-     * @return midcom\workflow\dialog
+     * @return \midcom\workflow\dialog
      */
     public function get_workflow($identifier, array $options = array())
     {

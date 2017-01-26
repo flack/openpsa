@@ -6,8 +6,6 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General
  */
 
-use midgard\introspection\helper;
-
 /**
  * generic REST handler baseclass
  * this needs to be extended by every REST handler in the application

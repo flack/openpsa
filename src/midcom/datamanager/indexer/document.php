@@ -11,7 +11,6 @@ namespace midcom\datamanager\indexer;
 use Symfony\Component\Form\FormView;
 use midcom\datamanager\datamanager;
 use midcom\datamanager\template\view;
-use midcom\datamanager\renderer;
 use midcom_services_indexer_document_midcom;
 use midcom_error;
 

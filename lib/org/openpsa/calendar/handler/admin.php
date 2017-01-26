@@ -6,8 +6,6 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
-use midcom\workflow\delete;
-
 /**
  * org.openpsa.calendar site interface class.
  *
