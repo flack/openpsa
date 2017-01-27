@@ -11,7 +11,7 @@
  *
  * @package openpsa.test
  */
-class org_openpsa_products_handler_group_listTest extends openpsa_testcase
+class org_openpsa_products_handler_listTest extends openpsa_testcase
 {
     protected static $_group;
 
@@ -25,7 +25,7 @@ class org_openpsa_products_handler_group_listTest extends openpsa_testcase
         midcom::get()->auth->request_sudo('org.openpsa.products');
 
         $data = $this->run_handler('org.openpsa.products');
-        $this->assertEquals('index', $data['handler_id']);
+        $this->assertEquals('list', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();
     }
@@ -35,7 +35,7 @@ class org_openpsa_products_handler_group_listTest extends openpsa_testcase
         midcom::get()->auth->request_sudo('org.openpsa.products');
 
         $data = $this->run_handler('org.openpsa.products', array(self::$_group->guid));
-        $this->assertEquals('list', $data['handler_id']);
+        $this->assertEquals('list_group', $data['handler_id']);
 
         midcom::get()->auth->drop_sudo();
     }

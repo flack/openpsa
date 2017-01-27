@@ -10,22 +10,30 @@
 ),
 
 // Handle /
-'index' => Array
+'list' => Array
 (
-    'handler' => Array('org_openpsa_products_handler_index', 'index'),
+    'handler' => Array('org_openpsa_products_handler_list', 'list'),
 ),
 
 // Handle /json/
-'index_json' => Array
+'list_json' => Array
 (
-    'handler' => Array('org_openpsa_products_handler_index', 'json'),
+    'handler' => Array('org_openpsa_products_handler_list', 'json'),
     'fixed_args' => Array('json'),
 ),
 
-// Handle /<group guid>
-'list' => Array
+// Handle /json/<group guid>
+'list_json_group' => Array
 (
-    'handler' => Array('org_openpsa_products_handler_group_list', 'list'),
+    'handler' => Array('org_openpsa_products_handler_list', 'json'),
+    'fixed_args' => Array('json'),
+    'variable_args' => 1
+),
+
+// Handle /<group guid>
+'list_group' => Array
+(
+    'handler' => Array('org_openpsa_products_handler_list', 'list'),
     'variable_args' => 1,
 ),
 
