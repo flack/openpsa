@@ -3,7 +3,6 @@ $ip_sudo = midcom::get()->auth->require_admin_or_ip('midcom.services.indexer');
 
 midcom::get()->disable_limits();
 
-while (@ob_end_flush());
 echo "<pre>\n";
 
 echo "<h1>Update Class Storage</h1>\n";
@@ -35,4 +34,3 @@ echo "</pre>";
 if ($ip_sudo) {
     midcom::get()->auth->drop_sudo();
 }
-ob_start();

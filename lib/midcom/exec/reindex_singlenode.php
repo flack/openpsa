@@ -42,8 +42,6 @@ if (empty($node)) {
 
 debug_dump_mem("Initial Memory Usage");
 
-// Disable ob
-while (@ob_end_flush());
 echo "<pre>\n";
 echo "Processing node {$node[MIDCOM_NAV_FULLURL]}\n";
 debug_print_r("Processing node id {$nodeid}", $node);
@@ -89,5 +87,3 @@ if ($ip_sudo) {
 
 echo "Reindex complete for node {$node[MIDCOM_NAV_FULLURL]}\n</pre>";
 flush();
-// re-enable ob
-ob_start();

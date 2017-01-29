@@ -44,8 +44,6 @@ if ($existing_documents === false) {
     throw new midcom_error($msg);
 }
 unset($existing_documents, $root_node);
-// Disable ob
-while (@ob_end_flush());
 
 echo "<pre>\n";
 
@@ -101,9 +99,6 @@ ignore_user_abort(false);
 if ($ip_sudo) {
     midcom::get()->auth->drop_sudo();
 }
-
-//re-enable ob
-ob_start();
 ?>
 
 Reindex complete. Time elapsed: <?php echo round(microtime(true) - $start, 2) . 's'; ?>

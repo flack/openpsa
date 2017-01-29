@@ -15,7 +15,6 @@ $handler->set_cutoff((int) $grace_days);
 echo "<h1>Purge deleted objects</h1>\n";
 echo "<p>Current grace period is {$grace_days} days, use ?days=x to set to other value</p>\n";
 
-while (@ob_end_flush());
 echo "<pre>\n";
 flush();
 
@@ -43,4 +42,3 @@ foreach ($handler->get_classes() as $mgdschema) {
 
 echo "Done.\n";
 echo "</pre>";
-ob_start();

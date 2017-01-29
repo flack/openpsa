@@ -23,8 +23,6 @@ if (midcom::get()->config->get('indexer_backend') === false) {
 <?php
 debug_add('Disabling script abort through client.');
 ignore_user_abort(true);
-// Disable ob
-while (@ob_end_flush());
 
 midcom::get()->disable_limits();
 
@@ -74,9 +72,6 @@ ignore_user_abort(false);
 if ($ip_sudo) {
     midcom::get()->auth->drop_sudo();
 }
-
-//re-enable OB
-ob_start();
 ?>
 
 Reindex complete
