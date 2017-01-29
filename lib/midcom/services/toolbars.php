@@ -104,10 +104,10 @@ class midcom_services_toolbars
             midcom::get()->head->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.services.toolbars/fancy.css', 'screen');
 
             $script = "jQuery('body div.midcom_services_toolbars_fancy').midcom_services_toolbar();";
-
             midcom::get()->head->add_jquery_state_script($script);
         } else {
-            midcom::get()->head->add_stylesheet(midcom::get()->config->get('toolbars_simple_css_path'), 'screen');
+            $path = midcom::get()->config->get('toolbars_simple_css_path', MIDCOM_STATIC_URL . "/midcom.services.toolbars/simple.css");
+            midcom::get()->head->add_stylesheet($path, 'screen');
         }
 
         // We've included CSS and JS, path is clear for centralized mode

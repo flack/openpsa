@@ -236,7 +236,7 @@
  * - <b>string toolbars_view_style_class:</b> defaults to midcom_toolbar view_toolbar
  * - <b>string toolbars_view_style_id:</b> defaults to ""
  * - <b>string toolbars_object_style_class:</b> defaults to midcom_toolbar object_toolbar
- * - <b>string toolbars_simple_css_path:</b> this defaults to MIDCOM_ROOT_URL/midcom.services.toolbars/simple.css
+ * - <b>string toolbars_simple_css_path:</b> this defaults to MIDCOM_STATIC_URL/midcom.services.toolbars/simple.css
  *   and is used to set the css for the toolbars used with onsite editing.
  * - <b>boolean toolbars_enable_centralized:</b> defaults to true, whether to enable the centralized,
  *   javascript-floating MidCOM toolbar that users can display with midcom::get()->toolbars->show();
@@ -385,7 +385,7 @@ class midcom_config implements arrayaccess
         'toolbars_view_style_id' => null,
         'toolbars_help_style_class' => 'midcom_toolbar help_toolbar',
         'toolbars_help_style_id' => null,
-        'toolbars_simple_css_path' => '',
+        'toolbars_simple_css_path' => null,
         'toolbars_enable_centralized' => true,
 
         // Service implementation defaults
@@ -510,7 +510,6 @@ class midcom_config implements arrayaccess
         if (!empty($_SERVER['SERVER_NAME'])) {
             $this->_default_config['midcom_site_title'] = $_SERVER['SERVER_NAME'];
         }
-        $this->_default_config['toolbars_simple_css_path'] = MIDCOM_STATIC_URL . "/midcom.services.toolbars/simple.css";
     }
 
     public function get($key, $default = null)
