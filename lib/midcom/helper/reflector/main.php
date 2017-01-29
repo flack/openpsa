@@ -195,36 +195,20 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
     {
         $midcom_class = midcom::get()->dbclassloader->get_midcom_class_name_for_mgdschema_object($this->mgdschema_class);
         $obj = ($midcom_class) ? new $midcom_class : new $this->mgdschema_class;
-        $properties = array_flip(self::get_object_fieldnames($obj));
 
-        // TODO: less trivial implementation
-        // FIXME: Remove hardcoded class logic
-        switch (true) {
-            case (method_exists($obj, 'get_label_property')):
-                $property = $obj->get_label_property();
-                break;
-            // TODO: Switch to use the get_name/title_property helpers below
-            case (midcom::get()->dbfactory->is_a($obj, 'midcom_db_topic')):
-                $property = 'extra';
-                break;
-            case (midcom::get()->dbfactory->is_a($obj, 'midcom_db_person')):
-                $property = array(
-                    'rname',
-                    'id',
-                );
-                break;
-            // TODO: Switch to use the get_name/title_property helpers
-            case (array_key_exists('title', $properties)):
-                $property = 'title';
-                break;
-            case (array_key_exists('name', $properties)):
-                $property = 'name';
-                break;
-            default:
-                $property = 'guid';
+        if (method_exists($obj, 'get_label_property')) {
+            return $obj->get_label_property();
         }
-
-        return $property;
+        if (midcom::get()->dbfactory->is_a($obj, 'midcom_db_person')) {
+            return array('rname', 'id');
+        }
+        if ($this->get_title_property_nonstatic($obj) !== false) {
+            return $this->get_title_property_nonstatic($obj);
+        }
+        if ($this->get_name_property_nonstatic($obj) !== false) {
+            return $this->get_name_property_nonstatic($obj);
+        }
+        return 'guid';
     }
 
     /**
@@ -248,6 +232,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         if (method_exists($obj, 'get_label')) {
             return $obj->get_label();
         }
+
         $properties = array_flip($obj->get_properties());
         if (empty($properties)) {
             debug_add("Could not list object properties, aborting", MIDCOM_LOG_ERROR);
