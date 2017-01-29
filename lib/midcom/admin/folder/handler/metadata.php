@@ -59,8 +59,6 @@ class midcom_admin_folder_handler_metadata extends midcom_baseclasses_components
     public function _handler_metadata($handler_id, array $args, array &$data)
     {
         $this->_object = midcom::get()->dbfactory->get_object_by_guid($args[0]);
-
-        // FIXME: We should modify the schema according to whether or not scheduling is used
         $this->_object->require_do('midgard:update');
 
         if (is_a($this->_object, 'midcom_db_topic')) {

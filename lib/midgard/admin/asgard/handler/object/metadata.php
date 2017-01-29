@@ -82,7 +82,6 @@ implements midcom_helper_datamanager2_interfaces_edit
     public function _handler_edit($handler_id, array $args, array &$data)
     {
         $this->_object = midcom::get()->dbfactory->get_object_by_guid($args[0]);
-        // FIXME: We should modify the schema according to whether or not scheduling is used
         $this->_object->require_do('midgard:update');
         midcom::get()->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
 

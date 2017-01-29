@@ -685,8 +685,6 @@ class midcom_baseclasses_core_dbobject
      */
     public static function refresh(midcom_core_dbaobject $object)
     {
-        // FIXME: be GUID based, but needs further testing...
-
         /**
          * Use try/catch here since the object might have been deleted...
          * @see http://trac.midgard-project.org/ticket/927

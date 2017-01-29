@@ -256,7 +256,6 @@ class midcom_helper__styleloader
         $styles = $style_mc->list_keys();
 
         foreach ($styles as $style_guid => $value) {
-            // FIXME: Should we register this also in the other case
             midcom::get()->cache->content->register($style_guid);
 
             if ($up = $style_mc->get_subkey($style_guid, 'up')) {
