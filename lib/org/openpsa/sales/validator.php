@@ -15,7 +15,8 @@ class org_openpsa_sales_validator
 {
     public function validate_subscription(array $fields)
     {
-        $result = $this->validate_single_delivery($fields);
+        $result = $this->validate_units($fields);
+
         if ($result === true) {
             $result = array();
         }
@@ -23,13 +24,14 @@ class org_openpsa_sales_validator
                 || $fields['end_date'] == '0000-00-00')
             && empty($fields['continuous'])) {
             $result['end'] = midcom::get()->i18n->get_string('select either end date or continuous', 'org.openpsa.sales');
-            return $result;
         }
-
-        return true;
+        if (empty($result)) {
+            return true;
+        }
+        return $result;
     }
 
-    public function validate_single_delivery(array $fields)
+    public function validate_units(array $fields)
     {
         $result = array();
         if (   empty($fields['invoiceByActualUnits'])

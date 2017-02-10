@@ -66,7 +66,8 @@ class org_openpsa_sales_handler_deliverable_adminTest extends openpsa_testcase
             'next_cycle_date' => '',
             'title' => 'test',
             'start_date' => '2012-10-10',
-            'end_date' => $year . '-10-10'
+            'end_date' => $year . '-10-10',
+            'plannedUnits' => '1'
         );
 
         $this->submit_dm2_no_relocate_form('controller', $formdata, 'org.openpsa.sales', array('deliverable', 'edit', $deliverable->guid));

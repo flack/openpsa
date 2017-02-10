@@ -5,7 +5,7 @@
     (
         array
         (
-            'callback' => array(new org_openpsa_sales_validator, 'validate_single_delivery'),
+            'callback' => array(new org_openpsa_sales_validator, 'validate_units'),
         ),
     ),
     'fields'      => array

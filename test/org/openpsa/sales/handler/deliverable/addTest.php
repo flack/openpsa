@@ -87,7 +87,8 @@ class org_openpsa_sales_handler_deliverable_addTest extends openpsa_testcase
         $formdata = array(
             'title' => 'TEST ' . __CLASS__ . '_' . time(),
             'continuous' => true,
-            'start_date' => strftime('%Y-%m-%d')
+            'start_date' => strftime('%Y-%m-%d'),
+            'plannedUnits' => '1'
         );
 
         $this->set_dm2_formdata($data['controller'], $formdata);
