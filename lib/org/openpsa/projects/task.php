@@ -209,13 +209,13 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
 
     private function _prepare_save()
     {
-        //Make sure we have start
-        if (!$this->start) {
-            $this->start = time();
-        }
         //Make sure we have end
         if (!$this->end || $this->end == -1) {
             $this->end = time();
+        }
+        //Make sure we have start
+        if (!$this->start) {
+            $this->start = min(time(), $this->end - 1);
         }
 
         //Reset start and end to start/end of day
