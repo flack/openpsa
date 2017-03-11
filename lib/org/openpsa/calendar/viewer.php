@@ -76,7 +76,7 @@ class org_openpsa_calendar_viewer extends midcom_baseclasses_components_request
             )
         );
 
-        $prefix = '/org.openpsa.widgets/fullcalendar-3.0.0/';
+        $prefix = '/org.openpsa.widgets/fullcalendar-3.2.0/';
         $lang = midcom::get()->i18n->get_current_language();
         if (!file_exists(MIDCOM_STATIC_ROOT . $prefix . "locale/{$lang}.js")) {
             $lang = midcom::get()->i18n->get_fallback_language();
