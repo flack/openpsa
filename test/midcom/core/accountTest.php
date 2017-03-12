@@ -105,7 +105,9 @@ class midcom_core_accountTest extends openpsa_testcase
 
     private function getQueryMock()
     {
-        return $this->getMock('midcom_core_query', array('add_constraint', 'execute', 'count', 'count_unchecked'));
+        return $this->getMockBuilder('midcom_core_query')
+            ->setMethods(array('add_constraint', 'execute', 'count', 'count_unchecked'))
+            ->getMock();
     }
 
     public function testAddUsernameConstraint()
