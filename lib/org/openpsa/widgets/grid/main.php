@@ -92,7 +92,7 @@ class org_openpsa_widgets_grid extends midcom_baseclasses_components_purecode
         if (self::$_head_elements_added) {
             return;
         }
-        $version = '4.13.3';
+        $version = '4.14.0';
         $jqgrid_path = '/org.openpsa.widgets/jqGrid-' . $version . '/';
 
         $head = midcom::get()->head;
@@ -101,10 +101,10 @@ class org_openpsa_widgets_grid extends midcom_baseclasses_components_purecode
         //needed js/css-files for jqgrid
         $lang = "en";
         $language = midcom::get()->i18n->get_current_language();
-        if (file_exists(MIDCOM_STATIC_ROOT . $jqgrid_path . 'i18n/grid.locale-' . $language . '.min.js')) {
+        if (file_exists(MIDCOM_STATIC_ROOT . $jqgrid_path . 'i18n/grid.locale-' . $language . '.js')) {
             $lang = $language;
         }
-        $head->add_jsfile(MIDCOM_STATIC_URL . $jqgrid_path . 'i18n/grid.locale-'. $lang . '.min.js');
+        $head->add_jsfile(MIDCOM_STATIC_URL . $jqgrid_path . 'i18n/grid.locale-'. $lang . '.js');
         $head->add_jsfile(MIDCOM_STATIC_URL . $jqgrid_path . 'jquery.jqgrid.min.js');
 
         org_openpsa_widgets_ui::add_head_elements();

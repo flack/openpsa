@@ -1444,11 +1444,6 @@ body .ui-tooltip {
     top: 2px
 }
 
-.ui-jqgrid .ui-jqgrid-htable th .s-ico .ui-icon-asc
-{
-    margin-left: 1px
-}
-
 .ui-jqgrid .ui-widget-content td.title,
 .ui-jqgrid .ui-widget-content td.title a
 {
