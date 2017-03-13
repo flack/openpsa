@@ -181,8 +181,8 @@ JSINIT;
         $head = midcom::get()->head;
         $head->enable_jquery_ui(array('effect', 'effect-blind'));
         $head->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.cookie.js');
-        $head->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/fancytree-2.18.0/jquery.fancytree-all.min.js');
-        $head->add_stylesheet(MIDCOM_STATIC_URL . "/jQuery/fancytree-2.18.0/skin-win7/ui.fancytree.min.css");
+        $head->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/fancytree-2.21.0/jquery.fancytree-all.min.js');
+        $head->add_stylesheet(MIDCOM_STATIC_URL . "/jQuery/fancytree-2.21.0/skin-win7/ui.fancytree.min.css");
         $head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.widgets/fancytree.custom.js');
         self::$_head_elements_added = true;
     }
