@@ -117,3 +117,10 @@
 (
     'handler' => array('org_openpsa_sales_handler_list', 'list'),
 ),
+
+// Match salesproject/action/create_pdf/
+'create_pdf' => array
+(
+    'handler' => array('org_openpsa_sales_handler_sales_action', 'create_pdf'),
+    'fixed_args' => array('salesproject', 'action', 'create_pdf'),
+),

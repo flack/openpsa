@@ -232,7 +232,7 @@ class org_openpsa_invoices_handler_invoice_crud extends midcom_baseclasses_compo
             $buttons[] = $button;
 
             // sending per email enabled in billing data?
-            $billing_data = $this->_object->get_billing_data();
+            $billing_data = org_openpsa_invoices_billing_data_dba::get_by_object($this->_object);
             if (    !$this->_object->sent
                  && intval($billing_data->sendingoption) == 2) {
                 $buttons[] = $this->build_button('send_by_mail', 'stock-icons/16x16/stock_mail-reply.png');
@@ -242,6 +242,7 @@ class org_openpsa_invoices_handler_invoice_crud extends midcom_baseclasses_compo
         if ($this->_object->is_cancelable()) {
             $buttons[] = $this->build_button('create_cancelation', 'stock-icons/16x16/cancel.png');
         }
+
         $this->_view_toolbar->add_items($buttons);
         org_openpsa_relatedto_plugin::add_button($this->_view_toolbar, $this->_object->guid);
 

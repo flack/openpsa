@@ -69,4 +69,10 @@ $formatter = $data['l10n']->get_formatter();
      <div class="title"><?php echo $data['l10n']->get('owner'); ?></div>
      <div class="value"><?php echo $owner_card->show_inline(); ?></div>
     </div>
+ <?php // printing files on screen
+    if (org_openpsa_helpers::render_fileinfo($salesproject, 'pdf_file') != "") {
+        ?>
+        <p><strong><?php echo $data['l10n']->get('pdf file'); ?></strong></p>
+        <?php echo org_openpsa_helpers::render_fileinfo($salesproject, 'pdf_file');
+    }?>
 </div>

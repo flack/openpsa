@@ -11,7 +11,7 @@
  *
  * @package org.openpsa.sales
  */
-class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
+class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject implements org_openpsa_invoices_interfaces_customer
 {
     public $__midcom_class_name__ = __CLASS__;
     public $__mgdschema_class_name__ = 'org_openpsa_salesproject';

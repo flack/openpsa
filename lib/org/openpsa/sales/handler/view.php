@@ -82,6 +82,14 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/jump-to.png',
             );
         }
+
+        if ($this->_config->get('sales_pdfbuilder_class')) {
+            $button = $this->build_button('create_pdf', 'stock-icons/32x32/PDF.png');
+            $pdf_helper = new org_openpsa_sales_sales_pdf($this->_salesproject);
+            $button[MIDCOM_TOOLBAR_OPTIONS] = $pdf_helper->get_button_options();
+            $buttons[] = $button;
+        }
+
         $this->_view_toolbar->add_items($buttons);
 
         $relatedto_button_settings = org_openpsa_relatedto_plugin::common_toolbar_buttons_defaults();
@@ -93,7 +101,24 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
         $this->bind_view_to_object($this->_salesproject);
     }
 
-    private function _load_controller()
+    /**
+     * This function manages all configuration for a new toolbar-button
+     */
+    private function build_button($action, $icon)
+    {
+        return array(
+            MIDCOM_TOOLBAR_URL => 'salesproject/action/' . $action . '/',
+            MIDCOM_TOOLBAR_LABEL => $this->_l10n->get($action),
+            MIDCOM_TOOLBAR_ICON => $icon,
+            MIDCOM_TOOLBAR_POST => true,
+            MIDCOM_TOOLBAR_POST_HIDDENARGS => array(
+                'id' => $this->_salesproject->id,
+            ),
+            MIDCOM_TOOLBAR_ENABLED => $this->_salesproject->can_do('midgard:update'),
+        );
+    }
+
+    private function _load_controller($type = 'simple')
     {
         $this->_request_data['schemadb_salesproject'] = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_salesproject'));
         $this->_request_data['schemadb_salesproject_deliverable'] = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_deliverable'));

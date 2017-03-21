@@ -86,6 +86,14 @@ Verkaufsprojekt anlegen
 Aufgabe anlegen
 ---STRINGEND
 
+---STRING create_pdf
+PDF erzeugen
+---STRINGEND
+
+---STRING pdf file
+PDF-Datei
+---STRINGEND
+
 ---STRING created project "%s"
 Projekt "%s" wurde angelegt
 ---STRINGEND

@@ -33,7 +33,7 @@ class org_openpsa_invoices_viewer extends midcom_baseclasses_components_request
         // unsent invoices
         if ($invoice->sent == 0) {
             // sending per mail enabled in billing data?
-            $billing_data = $invoice->get_billing_data();
+            $billing_data = org_openpsa_invoices_billing_data_dba::get_by_object($invoice);
             // only show if mail was chosen as option
             if (intval($billing_data->sendingoption) == 2) {
                 $next[] = 'send_by_mail';
