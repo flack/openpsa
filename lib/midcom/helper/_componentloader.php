@@ -382,12 +382,17 @@ class midcom_helper__componentloader
         foreach ($directories as $directory) {
             $candidates[] = "{$directory}/manifest.inc";
         }
-        // now we look for extra components the user my have registered
-        foreach ($config->get('midcom_components', array()) as $path) {
-            $candidates[] = $path . '/config/manifest.inc';
-        }
         foreach (array_filter($candidates, 'file_exists') as $filename) {
             $manifests[] = new midcom_core_manifest($filename);
+        }
+
+        // now we look for extra components the user may have registered
+        foreach ($config->get('midcom_components', array()) as $path) {
+            if (!file_exists($path . '/config/manifest.inc')) {
+                debug_add('No manifest found in path ' . $path . ', skipping', MIDCOM_LOG_ERROR);
+            } else {
+                $manifests[] = new midcom_core_manifest($path . '/config/manifest.inc');
+            }
         }
 
         return $manifests;
