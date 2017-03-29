@@ -146,7 +146,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
         if ($force_single_extension) {
             $regex = '/^(.*)(\..*?)$/';
         } else {
-            $regex = '/^(.*?)(\..*)$/';
+            $regex = '/^(.*?)(\.[a-zA-Z0-9\.]*)$/';
         }
         if (preg_match($regex, $filename, $ext_matches)) {
             $name = $ext_matches[1];

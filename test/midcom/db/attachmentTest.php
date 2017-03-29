@@ -127,6 +127,7 @@ class midcom_db_attachmentTest extends openpsa_testcase
             array('Minä olen huono tiedosto.foo.jpg', false, 'mina-olen-huono-tiedosto.foo.jpg'),
             array('Minä olen huono tiedosto ilman päätettä', true, 'mina-olen-huono-tiedosto-ilman-paatetta'),
             array('Minä olen huono tiedosto ilman päätettä', false, 'mina-olen-huono-tiedosto-ilman-paatetta'),
+            array('www.openpsa2.org - Home.htm', false, 'www-openpsa2-org-home.htm'),
         );
     }
 }
