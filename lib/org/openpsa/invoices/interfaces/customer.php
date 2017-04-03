@@ -7,7 +7,7 @@
  */
 
 /**
- * Interface for identifying the invoice_dba and salesproject_dba
+ * Interface for identifying DBA entities which can have both person & organization links
  *
  * @package org.openpsa.invoice
  */

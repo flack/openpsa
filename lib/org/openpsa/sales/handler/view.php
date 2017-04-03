@@ -83,11 +83,13 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
             );
         }
 
-        if ($this->_config->get('sales_pdfbuilder_class')) {
-            $button = $this->build_button('create_pdf', 'stock-icons/32x32/PDF.png');
-            $pdf_helper = new org_openpsa_sales_sales_pdf($this->_salesproject);
-            $button[MIDCOM_TOOLBAR_OPTIONS] = $pdf_helper->get_button_options();
-            $buttons[] = $button;
+        if ($this->_config->get('sales_pdfbuilder_class') && $this->_salesproject->can_do('midgard:update')) {
+            $workflow = $this->get_workflow('datamanager2');
+            $buttons[] = $workflow->get_button("salesproject/render/{$this->_salesproject->guid}/", array(
+                MIDCOM_TOOLBAR_ACCESSKEY => 'p',
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/32x32/PDF.png',
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create_pdf'),
+            ));
         }
 
         $this->_view_toolbar->add_items($buttons);
@@ -101,24 +103,7 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
         $this->bind_view_to_object($this->_salesproject);
     }
 
-    /**
-     * This function manages all configuration for a new toolbar-button
-     */
-    private function build_button($action, $icon)
-    {
-        return array(
-            MIDCOM_TOOLBAR_URL => 'salesproject/action/' . $action . '/',
-            MIDCOM_TOOLBAR_LABEL => $this->_l10n->get($action),
-            MIDCOM_TOOLBAR_ICON => $icon,
-            MIDCOM_TOOLBAR_POST => true,
-            MIDCOM_TOOLBAR_POST_HIDDENARGS => array(
-                'id' => $this->_salesproject->id,
-            ),
-            MIDCOM_TOOLBAR_ENABLED => $this->_salesproject->can_do('midgard:update'),
-        );
-    }
-
-    private function _load_controller($type = 'simple')
+    private function _load_controller()
     {
         $this->_request_data['schemadb_salesproject'] = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_salesproject'));
         $this->_request_data['schemadb_salesproject_deliverable'] = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_deliverable'));

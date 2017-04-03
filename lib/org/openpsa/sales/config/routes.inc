@@ -118,9 +118,10 @@
     'handler' => array('org_openpsa_sales_handler_list', 'list'),
 ),
 
-// Match salesproject/action/create_pdf/
+// Match salesproject/render/<guid>/
 'create_pdf' => array
 (
-    'handler' => array('org_openpsa_sales_handler_sales_action', 'create_pdf'),
-    'fixed_args' => array('salesproject', 'action', 'create_pdf'),
+    'handler' => array('org_openpsa_sales_handler_render', 'create_pdf'),
+    'fixed_args' => array('salesproject', 'render'),
+    'variable_args' => 1,
 ),
