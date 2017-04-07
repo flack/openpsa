@@ -11,7 +11,7 @@
  *
  * @package org.openpsa.invoices
  */
-class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
+class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject implements org_openpsa_invoices_interfaces_customer
 {
     public $__midcom_class_name__ = __CLASS__;
     public $__mgdschema_class_name__ = 'org_openpsa_invoice';
@@ -320,53 +320,13 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
     }
 
     /**
-     * Get the billing data for given contact if any
-     *
-     * @param string $dba_class
-     * @param mixed $contact_id
-     */
-    private function _get_billing_data($dba_class, $contact_id)
-    {
-        if ($contact_id == 0) {
-            return false;
-        }
-
-        try {
-            $contact = call_user_func(array($dba_class, 'get_cached'), $contact_id);
-            $qb = org_openpsa_invoices_billing_data_dba::new_query_builder();
-            $qb->add_constraint('linkGuid', '=', $contact->guid);
-            $billing_data = $qb->execute();
-            if (count($billing_data) == 0) {
-                return false;
-            }
-
-            // call set_address so the billing_data contains address of the linked contact
-            // if the property useContactAddress is set
-            $billing_data[0]->set_address();
-            return $billing_data[0];
-        } catch (midcom_error $e) {
-            $e->log();
-        }
-    }
-
-    /**
      * Get the billing data for the invoice
      */
     public function get_billing_data()
     {
-        // check if we got the billing data cached already
-        if (   !$this->_billing_data
-            // check if there is a customer set with invoice_data
-            && !($this->_billing_data = $this->_get_billing_data('org_openpsa_contacts_group_dba', $this->customer))
-            // check if the customerContact is set and has invoice_data
-            && !($this->_billing_data = $this->_get_billing_data('org_openpsa_contacts_person_dba', $this->customerContact))) {
-            // set the default-values for vat and due from config
-            $this->_billing_data = new org_openpsa_invoices_billing_data_dba();
-            $due = midcom_baseclasses_components_configuration::get('org.openpsa.invoices', 'config')->get('default_due_days');
-            $vat = explode(',', midcom_baseclasses_components_configuration::get('org.openpsa.invoices', 'config')->get('vat_percentages'));
-
-            $this->_billing_data->vat = (int) $vat[0];
-            $this->_billing_data->due = $due;
+        if (!$this->_billing_data) {
+            //checks for billing_data already attached to a customer relocated previous private class to data.php
+            $this->_billing_data = org_openpsa_invoices_billing_data_dba::get_by_object($this);
         }
         return $this->_billing_data;
     }

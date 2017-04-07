@@ -85,6 +85,14 @@ Create sales project
 Create task
 ---STRINGEND
 
+---STRING create_pdf
+Create PDF
+---STRINGEND
+
+---STRING pdf file
+PDF file
+---STRINGEND
+
 ---STRING created project "%s"
 Created project "%s"
 ---STRINGEND

@@ -117,3 +117,11 @@
 (
     'handler' => array('org_openpsa_sales_handler_list', 'list'),
 ),
+
+// Match salesproject/render/<guid>/
+'create_pdf' => array
+(
+    'handler' => array('org_openpsa_sales_handler_render', 'create_pdf'),
+    'fixed_args' => array('salesproject', 'render'),
+    'variable_args' => 1,
+),

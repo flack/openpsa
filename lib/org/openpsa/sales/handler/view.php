@@ -82,6 +82,16 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/jump-to.png',
             );
         }
+
+        if ($this->_config->get('sales_pdfbuilder_class') && $this->_salesproject->can_do('midgard:update')) {
+            $workflow = $this->get_workflow('datamanager2');
+            $buttons[] = $workflow->get_button("salesproject/render/{$this->_salesproject->guid}/", array(
+                MIDCOM_TOOLBAR_ACCESSKEY => 'p',
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/32x32/PDF.png',
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create_pdf'),
+            ));
+        }
+
         $this->_view_toolbar->add_items($buttons);
 
         $relatedto_button_settings = org_openpsa_relatedto_plugin::common_toolbar_buttons_defaults();
