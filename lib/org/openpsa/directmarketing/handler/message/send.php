@@ -170,11 +170,11 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
     public function _show_send($handler_id, array &$data)
     {
         $data['sender'] = $this->_get_sender($data);
+        $composed = $this->_prepare_send($data);
         // TODO: Figure out the correct use of style elements, this is how it was but it's not exactly optimal...
         switch ($handler_id) {
             case 'test_send_message':
                 // on-line send
-                $composed = $this->_prepare_send($data);
                 $data['sender']->test_mode = true;
                 $data['sender']->send_output = true;
                 $data['sender']->send($data['compose_subject'], $composed, $data['compose_from']);
