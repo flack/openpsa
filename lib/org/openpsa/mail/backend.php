@@ -48,7 +48,7 @@ abstract class org_openpsa_mail_backend
             }
             throw new midcom_error('All configured backends failed to load');
         }
-        return self::_load_backend($backend, $params);
+        return self::_load_backend($implementation, $params);
     }
 
     private static function _load_backend($backend, array $params)
