@@ -83,7 +83,9 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
             );
         }
 
-        if ($this->_config->get('sales_pdfbuilder_class') && $this->_salesproject->can_do('midgard:update')) {
+        if (   $this->_config->get('sales_pdfbuilder_class')
+            && $this->_salesproject->can_do('midgard:update')
+            && $this->is_pdf_creatable()) {
             $workflow = $this->get_workflow('datamanager2');
             $buttons[] = $workflow->get_button("salesproject/render/{$this->_salesproject->guid}/", array(
                 MIDCOM_TOOLBAR_ACCESSKEY => 'p',
@@ -101,6 +103,18 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
         org_openpsa_relatedto_plugin::common_node_toolbar_buttons($this->_view_toolbar, $this->_salesproject, $this->_component, $relatedto_button_settings);
 
         $this->bind_view_to_object($this->_salesproject);
+    }
+
+    private function is_pdf_creatable()
+    {
+        if ($this->_salesproject->state != org_openpsa_sales_salesproject_dba::STATE_LOST) {
+            $qb = org_openpsa_sales_salesproject_deliverable_dba::new_query_builder();
+            $qb->add_constraint('salesproject', '=', $this->_salesproject->id);
+            $qb->add_constraint('up', '=', 0);
+            $qb->add_constraint('state', '<', org_openpsa_sales_salesproject_deliverable_dba::STATE_DECLINED);
+            return $qb->count() > 0;
+        }
+        return false;
     }
 
     private function _load_controller()
