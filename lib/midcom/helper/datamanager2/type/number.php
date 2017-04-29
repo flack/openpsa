@@ -147,6 +147,10 @@ class midcom_helper_datamanager2_type_number extends midcom_helper_datamanager2_
         if ($this->precision !== null) {
             $this->value = round($this->value, $this->precision);
         }
+        if (strpos($this->value, 'E') !== false) {
+            // get rid of scientific notation
+            $this->value = rtrim(sprintf('%.' . ini_get('serialize_precision') . 'F', $this->value), '0.');
+        }
     }
 
     /**
