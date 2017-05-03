@@ -1,4 +1,6 @@
 <?php
+use midcom\datamanager\datamanager;
+
 /**
  * @package midgard.admin.asgard
  * @author CONTENT CONTROL http://www.contentcontrol-berlin.de/
@@ -28,18 +30,20 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
     {
         midcom::get()->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
 
-        $controller = $this->get_controller('nullstorage');
+        $dm = datamanager::from_schemadb($this->_config->get('schemadb_shell'));
+        $dm->set_storage();
+        $controller = $dm->get_controller();
 
-        switch ($controller->process_form()) {
+        switch ($controller->process()) {
             case 'save':
-                $data['code'] = $controller->formmanager->get_value('code');
+                $data['code'] = $controller->get_form_values('code');
                 break;
 
             case 'edit':
-                if (   $controller->formmanager->form->isSubmitted()
-                    && !empty($controller->datamanager->validation_errors)) {
-                    foreach ($controller->datamanager->validation_errors as $field => $error) {
-                        $element =& $controller->formmanager->form->getElement($field);
+                if (   $dm->get_form()->isSubmitted()
+                    && !empty($controller->get_errors())) {
+                    foreach ($controller->get_errors() as $field => $error) {
+                        $element =& $dm->get_form()->getElement($field);
                         $message = sprintf($this->_l10n->get('validation error in field %s: %s'), $element->getLabel(), $error);
                         midcom::get()->uimessages->add(
                                 $this->_l10n->get('midgard.admin.asgard'),

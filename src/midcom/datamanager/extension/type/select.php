@@ -35,9 +35,12 @@ class select extends ChoiceType
 
         $map_options = function (Options $options) {
             $return_options = array();
+            $l10n_midcom = \midcom::get()->i18n->get_l10n('midcom');
             if (isset($options['type_config']['options'])) {
+
                 foreach ($options['type_config']['options'] as $key => $value) {
-                    //symfony expects only strings
+                    //symfony expects only string
+                    $value = $l10n_midcom->get(strtolower($value));
                     $return_options[$value] = (string)$key;
                 }
                 return $return_options;
