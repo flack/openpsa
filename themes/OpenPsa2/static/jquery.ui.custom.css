@@ -1700,7 +1700,8 @@ ul.fancytree-container span.fancytree-folder a
 
 .elfinder-quicklook
 {
-    padding: 20px 0 40px
+    padding: 20px 0 40px;
+    position: absolute;
 }
 
 .elfinder-dialog-error .ui-dialog-content,
