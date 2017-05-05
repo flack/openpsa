@@ -21,16 +21,6 @@ class controller
 
     const CANCEL = 'cancel';
 
-
-    /**
-     * The form manager instance which is currently in use by this class.
-     *
-     * This should always be the a single instance, even for multi-page forms.
-     * Usually, it is created by the controller class during initialization.
-     *
-     * @var midcom_helper_datamanager2_formmanager
-     */
-    var $formmanager = null;
     /**
      *
      * @var Form

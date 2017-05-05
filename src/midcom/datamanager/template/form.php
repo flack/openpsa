@@ -40,7 +40,7 @@ class form extends base
                 && $child->vars['start_fieldset'] !== null) {
                 $string .= '<fieldset class="fieldset">';
                 if (!empty($child->vars['start_fieldset']['title'])) {
-                    $string .= '<legend>' . $child->vars['start_fieldset']['title'] . '</legend>';
+                    $string .= '<legend>' . $this->renderer->humanize($child->vars['start_fieldset']['title']) . '</legend>';
                 }
             }
             $string .= $this->renderer->row($child);
@@ -162,9 +162,9 @@ class form extends base
     {
         $type = isset($data['type']) ? $data['type'] : 'button';
         if (!$data['label']) {
-            $data['label'] = $this->renderer->humanize($data['name']);
+            $data['label'] = $data['name'];
         }
-        return '<button type="' . $type . '" ' . $this->renderer->block($view, 'button_attributes') . '>' . $data['label'] . '</button>';
+        return '<button type="' . $type . '" ' . $this->renderer->block($view, 'button_attributes') . '>' . $this->renderer->humanize($data['label']) . '</button>';
     }
 
     public function hidden_widget(FormView $view, array $data)
@@ -225,7 +225,9 @@ class form extends base
             && $data['multiple'] === false) {
             $data['required'] = false;
         }
+        //$string .= ' id="org_openpsa_mypage_midgard_types" name="org_openpsa_mypage[midgard_types][]"';
         $string .= $this->renderer->block($view, 'widget_attributes', array('required' => $data['required']));
+
         if ($data['multiple']) {
             $string .= ' multiple="multiple"';
         }
@@ -259,7 +261,7 @@ class form extends base
         $string = '<fieldset ' . $this->renderer->block($view, 'widget_container_attributes') . '>';
         foreach ($view as $child) {
             $string .= $this->renderer->widget($child);
-            $string .= $this->renderer->label($child);
+            $string .= $this->renderer->humanize($this->renderer->label($child));
         }
 
         return $string . '</fieldset>';
@@ -278,7 +280,7 @@ class form extends base
                 if ($data['is_selected']($choice->value, $data['value'])) {
                     $string .= ' selected="selected"';
                 }
-                $string .= '>' . $choice->label . '</option>';
+                $string .= '>' . $this->renderer->humanize($choice->label) . '</option>';
             }
         }
         return $string;
@@ -419,7 +421,7 @@ class form extends base
         if (!$data['label']) {
             $data['label'] = $data['name'];
         }
-        $data['label'] = $this->renderer->humanize($data['label']);
+        $data['label'] = $data['label'];
 
         $label_attr = $data['label_attr'];
         if ($data['required']) {
@@ -429,6 +431,6 @@ class form extends base
         if (!$data['compound']) {
             $label_attr['for'] = $data['id'];
         }
-        return '<label' . $this->attributes($label_attr) . '><span class="field_text">' . $data['label'] . '</span></label>';
+        return '<label' . $this->attributes($label_attr) . '><span class="field_text">' . $this->renderer->humanize($data['label']) . '</span></label>';
     }
 }
