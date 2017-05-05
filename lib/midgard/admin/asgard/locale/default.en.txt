@@ -391,7 +391,7 @@ Filter
 ---STRINGEND
 
 ---STRING folder
-folder
+Folder
 ---STRINGEND
 
 ---STRING global
