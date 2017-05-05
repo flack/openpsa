@@ -14,7 +14,7 @@ use midcom\datamanager\datamanager;
  * @package midgard.admin.asgard
  */
 class midgard_admin_asgard_handler_shell extends midcom_baseclasses_components_handler
-implements midcom_helper_datamanager2_interfaces_nullstorage
+
 {
     public function load_schemadb()
     {

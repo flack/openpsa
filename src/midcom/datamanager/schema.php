@@ -115,7 +115,7 @@ class schema
         return midcom::get()->i18n->get_l10n($l10n_name);
     }
 
-
+    
     private function complete_fields()
     {
         foreach ($this->config['fields'] as $name => &$config) {
