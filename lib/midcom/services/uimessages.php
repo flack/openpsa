@@ -158,7 +158,7 @@ class midcom_services_uimessages
         echo "        {\n";
         echo "            if (jQuery('#midcom_services_uimessages_wrapper').length == 0)\n";
         echo "            {\n";
-        echo "                jQuery('<div id=\"midcom_services_uimessages_wrapper\"></div>')\n";
+        echo "                jQuery('<div id=\"midcom_services_uimessages_wrapper\" class=\"uimessages-fancy\"></div>')\n";
         echo "                    .appendTo('{$this->uimessage_holder}');\n";
         echo "            }\n";
 

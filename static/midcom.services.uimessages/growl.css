@@ -12,6 +12,10 @@
     position: absolute;
     top: 0;
     right: 30%;
+}
+
+#midcom_services_uimessages_wrapper.uimessages-fancy
+{
     z-index: 10000
 }
 
