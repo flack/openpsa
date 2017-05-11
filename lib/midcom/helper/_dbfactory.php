@@ -135,7 +135,7 @@ class midcom_helper__dbfactory
 
         if (!midcom::get()->dbclassloader->is_mgdschema_object($object)) {
             debug_print_r("Object dump:", $object);
-            throw new midcom_error("Cannot cast the object to a MidCOM DBA type, it is not a regular MgdSchema object, we got this type:");
+            throw new midcom_error("Cannot cast the object to a MidCOM DBA type, it is not a regular MgdSchema object");
         }
         $classname = midcom::get()->dbclassloader->get_midcom_class_name_for_mgdschema_object($object);
 
