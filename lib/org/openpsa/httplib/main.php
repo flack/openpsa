@@ -82,7 +82,7 @@ class org_openpsa_httplib extends midcom_baseclasses_components_purecode
     {
         $request = new Request(RequestInterface::METHOD_GET);
 
-        return (string) $this->send($request, $url, $username, $password);
+        return (string) $this->send($request, $url, $headers, $username, $password);
     }
 
     /**
