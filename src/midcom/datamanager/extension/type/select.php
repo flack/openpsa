@@ -11,6 +11,7 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\OptionsResolver\Options;
 use midcom\datamanager\extension\compat;
 
+
 /**
  * Experimental select type
  */
@@ -48,6 +49,7 @@ class select extends ChoiceType
         $multiple_options = function (Options $options)
         {
             $return_options = array();
+
             if(isset($options['type_config']['allow_multiple'])) {
                 $return_options[] = $options['type_config']['allow_multiple'];
             }

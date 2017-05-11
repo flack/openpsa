@@ -81,7 +81,7 @@ class form extends base
         $string .= $this->renderer->label($view);
         $string .= $this->renderer->errors($view);
         $string .= '<div class="input">';
-        $string .= $this->renderer->widget($view);
+        $string .= $this->renderer->humanize($this->renderer->widget($view));
         return $string . '</div></div>';
     }
 
@@ -419,7 +419,7 @@ class form extends base
             return '';
         }
         if (!$data['label']) {
-            $data['label'] = $data['name'];
+            $data['label'] = $this->renderer->humanize($data['name']);
         }
         $data['label'] = $data['label'];
 
