@@ -11,7 +11,6 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\OptionsResolver\Options;
 use midcom\datamanager\extension\compat;
 
-
 /**
  * Experimental select type
  */
@@ -36,24 +35,17 @@ class select extends ChoiceType
 
         $map_options = function (Options $options) {
             $return_options = array();
-
             if (isset($options['type_config']['options'])) {
                 foreach ($options['type_config']['options'] as $key => $value) {
                     //symfony expects only strings
-                    $return_options[$value] = (string)$key;
+                    $return_options[(string)$value] = (string)$key;
                 }
                 return $return_options;
             }
         };
 
-        $multiple_options = function (Options $options)
-        {
-            $return_options = array();
-
-            if(isset($options['type_config']['allow_multiple'])) {
-                $return_options[] = $options['type_config']['allow_multiple'];
-            }
-            return $return_options;
+        $map_multiple = function (Options $options) {
+            return !empty($options['type_config']['allow_multiple']);
         };
 
         $resolver->setDefaults(array(

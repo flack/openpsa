@@ -6,14 +6,13 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
-use midcom\datamanager\datamanager;
-
 /**
  * Preferences interface
  *
  * @package midgard.admin.asgard
  */
 class midgard_admin_asgard_handler_preferences extends midcom_baseclasses_components_handler
+implements midcom_helper_datamanager2_interfaces_edit
 {
     /**
      * User for the preferences page
@@ -64,16 +63,14 @@ class midgard_admin_asgard_handler_preferences extends midcom_baseclasses_compon
         }
 
         // Load the controller instance
-        $dm = datamanager::from_schemadb($this->_config->get('schemadb_preferences'));
-        $dm->set_storage($this->_person);
-        $data['controller'] = $dm->get_controller();
+        $data['controller'] = $this->get_controller('simple', $this->_person);
 
         $return_page = '__mfa/asgard/';
         if (isset($_GET['return_uri'])) {
             $return_page = $_GET['return_uri'];
         }
         // Process the requested form
-        switch ($data['controller']->process()) {
+        switch ($data['controller']->process_form()) {
             case 'save':
                 midcom::get()->uimessages->add($this->_l10n->get($this->_component), $this->_l10n->get('preferences saved'));
                 return new midcom_response_relocate($return_page);

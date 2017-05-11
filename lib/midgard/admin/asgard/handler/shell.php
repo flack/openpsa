@@ -6,15 +6,13 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
-use midcom\datamanager\datamanager;
-
 /**
  * Shell interface
  *
  * @package midgard.admin.asgard
  */
 class midgard_admin_asgard_handler_shell extends midcom_baseclasses_components_handler
-
+implements midcom_helper_datamanager2_interfaces_nullstorage
 {
     public function load_schemadb()
     {
@@ -30,20 +28,18 @@ class midgard_admin_asgard_handler_shell extends midcom_baseclasses_components_h
     {
         midcom::get()->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
 
-        $dm = datamanager::from_schemadb($this->_config->get('schemadb_shell'));
-        $dm->set_storage();
-        $controller = $dm->get_controller();
+        $controller = $this->get_controller('nullstorage');
 
-        switch ($controller->process()) {
+        switch ($controller->process_form()) {
             case 'save':
-                $data['code'] = $controller->get_form_values('code');
+                $data['code'] = $controller->formmanager->get_value('code');
                 break;
 
             case 'edit':
-                if (   $dm->get_form()->isSubmitted()
-                    && !empty($controller->get_errors())) {
-                    foreach ($controller->get_errors() as $field => $error) {
-                        $element =& $dm->get_form()->getElement($field);
+                if (   $controller->formmanager->form->isSubmitted()
+                    && !empty($controller->datamanager->validation_errors)) {
+                    foreach ($controller->datamanager->validation_errors as $field => $error) {
+                        $element =& $controller->formmanager->form->getElement($field);
                         $message = sprintf($this->_l10n->get('validation error in field %s: %s'), $element->getLabel(), $error);
                         midcom::get()->uimessages->add(
                                 $this->_l10n->get('midgard.admin.asgard'),

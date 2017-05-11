@@ -65,7 +65,7 @@ class view extends base
         $string = '<div class="' . $class . '">';
         $string .= $this->renderer->label($view);
         $string .= '<div class="value">';
-        $string .= $this->renderer->humanize($this->renderer->widget($view));
+        $string .= $this->renderer->widget($view);
         return $string . '</div></div>';
     }
 
@@ -77,7 +77,7 @@ class view extends base
         $label_attr = $data['label_attr'];
         $label_attr['class'] = trim('title ' . (isset($label_attr['class']) ? $label_attr['class'] : ''));
         if (!$data['label']) {
-            $data['label'] = $this->renderer->humanize($data['name']);
+            $data['label'] = $data['name'];
         }
         return '<div' . $this->attributes($label_attr) . '>' . $this->renderer->humanize($data['label']) . '</div>';
     }
