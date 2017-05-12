@@ -69,7 +69,7 @@ class org_openpsa_relatedto_handler_journal_list extends midcom_baseclasses_comp
         $workflow = $this->get_workflow('datamanager2');
         $buttons = array(
             array(
-                MIDCOM_TOOLBAR_URL => $this->_relocate_url,
+                MIDCOM_TOOLBAR_URL => $this->object_url,
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('back'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_left.png',
             ),
