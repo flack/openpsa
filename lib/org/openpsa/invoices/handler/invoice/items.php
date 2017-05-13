@@ -86,7 +86,7 @@ class org_openpsa_invoices_handler_invoice_items extends midcom_baseclasses_comp
         $this->_master->add_next_previous($this->_object, $this->_view_toolbar, 'invoice/items/');
 
         //This Source is used (and necessary) for the Drag&Drop sorting of grid's <tr>s
-        midcom::get()->head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/sortable.min.js');
+        midcom::get()->head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/widgets/sortable.min.js');
     }
 
     /**

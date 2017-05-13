@@ -74,7 +74,7 @@ class autocomplete extends AbstractType
 
         $head = midcom::get()->head;
 
-        $components = array('position', 'menu', 'autocomplete');
+        $components = array('menu', 'autocomplete');
 
         if ($options['widget_config']['sortable']) {
             $components[] = 'mouse';

@@ -50,15 +50,9 @@ class createphp
     public static function add_head_elements()
     {
         $head = \midcom::get()->head;
-        $head->enable_jquery();
-        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/core.min.js');
-        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/position.min.js');
-        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/widget.min.js');
-        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/button.min.js');
-        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/dialog.min.js');
-        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/droppable.min.js');
-        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/effect.min.js');
-        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/effect-highlight.min.js');
+        $head->enable_jquery_ui(array(
+            'button', 'dialog', 'droppable', 'effect', 'effect-highlight'
+        ));
 
         $prefix = MIDCOM_STATIC_URL . '/openpsa.createphp/';
 

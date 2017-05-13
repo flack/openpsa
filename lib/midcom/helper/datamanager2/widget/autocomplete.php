@@ -232,7 +232,7 @@ class midcom_helper_datamanager2_widget_autocomplete extends midcom_helper_datam
 
         $head->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/autocomplete.css');
 
-        $components = array('position', 'menu', 'autocomplete');
+        $components = array('menu', 'autocomplete');
         if ($sortable) {
             $components[] = 'sortable';
         }

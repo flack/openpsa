@@ -133,12 +133,7 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
             $help_toolbar->add_help_item('navigation_order', 'midcom.admin.folder', null, null, 1);
 
             // jQuery sorting
-            midcom::get()->head->enable_jquery();
-
-            midcom::get()->head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/core.min.js');
-            midcom::get()->head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/widget.min.js');
-            midcom::get()->head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/mouse.min.js');
-            midcom::get()->head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/sortable.min.js');
+            midcom::get()->head->enable_jquery_ui(array('mouse', 'sortable'));
 
             midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL.'/midcom.admin.folder/jquery-postfix.js');
 

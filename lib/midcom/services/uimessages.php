@@ -84,8 +84,8 @@ class midcom_services_uimessages
         if (midcom::get()->auth->can_user_do('midcom:ajax', null, 'midcom_services_uimessages')) {
             midcom::get()->head->enable_jquery();
             midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.services.uimessages/jquery.midcom_services_uimessages.js');
-            midcom::get()->head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/effect.min.js');
-            midcom::get()->head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/effect-pulsate.min.js');
+            midcom::get()->head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/effect.min.js');
+            midcom::get()->head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/effects/effect-pulsate.min.js');
 
             midcom::get()->head->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.services.uimessages/growl.css', 'screen');
         } else {

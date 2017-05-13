@@ -155,7 +155,7 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
         midcom_helper_datamanager2_widget_autocomplete::add_head_elements();
         org_openpsa_invoices_viewer::add_head_elements_for_invoice_grid();
 
-        midcom::get()->head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/button.min.js');
+        midcom::get()->head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/widgets/button.min.js');
         midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/' . $this->_component . '/sales.js');
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/list.css");

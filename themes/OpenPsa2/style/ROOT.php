@@ -30,11 +30,7 @@ $title_prefix = $topic->extra . ': ' . $context->get_key(MIDCOM_CONTEXT_PAGETITL
           $head->add_stylesheet(MIDCOM_STATIC_URL . '/OpenPsa2/print.css', 'print');
           $head->add_stylesheet(MIDCOM_STATIC_URL . '/OpenPsa2/ui-elements.css', 'all');
 
-        $head->enable_jquery();
-        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/core.min.js');
-        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/widget.min.js');
-        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/mouse.min.js');
-        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/draggable.min.js');
+        $head->enable_jquery_ui(array('mouse', 'draggable'));
 
         org_openpsa_widgets_ui::add_head_elements();
         org_openpsa_widgets_tree::add_head_elements();

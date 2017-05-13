@@ -15,10 +15,9 @@ if ($width = midgard_admin_asgard_plugin::get_preference('offset')) {
 }
 
 // JavasScript libraries required by Asgard
-midcom::get()->head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/core.min.js');
-midcom::get()->head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/widget.min.js');
-midcom::get()->head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/mouse.min.js');
-midcom::get()->head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/draggable.min.js');
+midcom::get()->head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/core.min.js');
+midcom::get()->head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/widgets/mouse.min.js');
+midcom::get()->head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/widgets/draggable.min.js');
 midcom::get()->head->add_jsfile(MIDCOM_STATIC_URL . '/midgard.admin.asgard/ui.js');
 midcom::get()->head->add_jscript("var MIDGARD_ROOT = '" . midcom_connection::get_url('self') . "';");
 ?>

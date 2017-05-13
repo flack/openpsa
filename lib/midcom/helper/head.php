@@ -530,11 +530,19 @@ class midcom_helper_head
     public function enable_jquery_ui(array $components = array())
     {
         $this->enable_jquery();
-        $this->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/core.min.js');
-        $this->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/widget.min.js');
+        $this->add_jsfile(MIDCOM_JQUERY_UI_URL . '/core.min.js');
 
         foreach ($components as $component) {
-            $this->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/' . $component . '.min.js');
+            $path = $component;
+            if (strpos($component, 'effect') === 0) {
+                if ($component !== 'effect') {
+                    $path = 'effects/' . $component;
+                }
+            } else {
+                $path = 'widgets/' . $component;
+            }
+
+            $this->add_jsfile(MIDCOM_JQUERY_UI_URL . '/' . $path . '.min.js');
         }
 
         if (midcom::get()->config->get('jquery_ui_theme')) {

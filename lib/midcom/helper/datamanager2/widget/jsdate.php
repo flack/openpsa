@@ -109,15 +109,15 @@ class midcom_helper_datamanager2_widget_jsdate extends midcom_helper_datamanager
              * Since a missing lang file causes the calendar to break, let's make extra sure
              * that this won't happen
              */
-            if (!file_exists(MIDCOM_STATIC_ROOT . "/jQuery/jquery-ui-" . midcom::get()->config->get('jquery_ui_version') . "/ui/i18n/datepicker-{$lang}.min.js")) {
+            if (!file_exists(MIDCOM_STATIC_ROOT . "/jQuery/jquery-ui-" . midcom::get()->config->get('jquery_ui_version') . "/i18n/datepicker-{$lang}.min.js")) {
                 $lang = midcom::get()->i18n->get_fallback_language();
-                if (!file_exists(MIDCOM_STATIC_ROOT . "/jQuery/jquery-ui-" . midcom::get()->config->get('jquery_ui_version') . "/ui/i18n/datepicker-{$lang}.min.js")) {
+                if (!file_exists(MIDCOM_STATIC_ROOT . "/jQuery/jquery-ui-" . midcom::get()->config->get('jquery_ui_version') . "/i18n/datepicker-{$lang}.min.js")) {
                     $lang = null;
                 }
             }
 
             if ($lang) {
-                midcom::get()->head->add_jsfile(MIDCOM_JQUERY_UI_URL . "/ui/i18n/datepicker-{$lang}.min.js");
+                midcom::get()->head->add_jsfile(MIDCOM_JQUERY_UI_URL . "/i18n/datepicker-{$lang}.min.js");
             }
         }
         return $lang;
