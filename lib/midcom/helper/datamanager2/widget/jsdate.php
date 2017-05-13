@@ -89,7 +89,7 @@ class midcom_helper_datamanager2_widget_jsdate extends midcom_helper_datamanager
     public function _on_initialize()
     {
         $this->_require_type_class('midcom_helper_datamanager2_type_date');
-        $this->lang = self::add_head_elements();
+        self::add_head_elements();
     }
 
     /**
@@ -98,29 +98,7 @@ class midcom_helper_datamanager2_widget_jsdate extends midcom_helper_datamanager
      */
     public static function add_head_elements()
     {
-        static $lang = false;
-
-        if ($lang === false) {
-            midcom::get()->head->enable_jquery_ui(array('datepicker'));
-
-            $lang = midcom::get()->i18n->get_current_language();
-            /*
-             * The calendar doesn't have all lang files and some are named differently
-             * Since a missing lang file causes the calendar to break, let's make extra sure
-             * that this won't happen
-             */
-            if (!file_exists(MIDCOM_STATIC_ROOT . "/jQuery/jquery-ui-" . midcom::get()->config->get('jquery_ui_version') . "/i18n/datepicker-{$lang}.min.js")) {
-                $lang = midcom::get()->i18n->get_fallback_language();
-                if (!file_exists(MIDCOM_STATIC_ROOT . "/jQuery/jquery-ui-" . midcom::get()->config->get('jquery_ui_version') . "/i18n/datepicker-{$lang}.min.js")) {
-                    $lang = null;
-                }
-            }
-
-            if ($lang) {
-                midcom::get()->head->add_jsfile(MIDCOM_JQUERY_UI_URL . "/i18n/datepicker-{$lang}.min.js");
-            }
-        }
-        return $lang;
+        midcom::get()->head->enable_jquery_ui(array('datepicker'));
     }
 
     /**
@@ -141,7 +119,6 @@ class midcom_helper_datamanager2_widget_jsdate extends midcom_helper_datamanager
         //need this due to js Date begins to count the months with 0 instead of 1
         $init_max_month = $init_max->format('n') - 1;
         $init_min_month = $init_min->format('n') - 1;
-        $date_format = $this->lang ? '$.datepicker.regional.' . $this->lang . '.dateFormat' : '$.datepicker.ISO_8601';
         $script = <<<EOT
 <script type="text/javascript">
         $(document).ready(
@@ -151,7 +128,7 @@ class midcom_helper_datamanager2_widget_jsdate extends midcom_helper_datamanager
             {
               maxDate: new Date({$init_max->format('Y')}, {$init_max_month}, {$init_max->format('d')}),
               minDate: new Date({$init_min->format('Y')}, {$init_min_month}, {$init_min->format('d')}),
-              dateFormat: {$date_format},
+              dateFormat: $.datepicker.regional[Object.keys($.datepicker.regional)[Object.keys($.datepicker.regional).length - 1]].dateFormat || $.datepicker.ISO_8601,
               altField: "#{$this->_namespace}{$this->name}_date",
               altFormat: $.datepicker.ISO_8601,
               prevText: '',
