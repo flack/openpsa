@@ -402,6 +402,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
 
         if (!$types_shown) {
             $this->_request_data['section_name'] = $this->_l10n->get('midgard objects');
+            $this->_request_data['section_url'] = null;
             $this->_request_data['expanded'] = true;
             midcom_show_style('midgard_admin_asgard_navigation_section_header');
             $collapsed_types = array_diff_key($label_mapping, array_flip($expanded_types));
