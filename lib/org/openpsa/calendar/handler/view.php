@@ -126,7 +126,7 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
 
                 case 'groups':
                     $mc = midcom_db_member::new_collector('metadata.deleted', false);
-                    $mc->add_constraint('gid.uid', 'IN', $selected);
+                    $mc->add_constraint('gid.guid', 'IN', $selected);
                     $uids = array_merge($uids, $mc->get_values('uid'));
                     break;
             }
