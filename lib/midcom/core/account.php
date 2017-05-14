@@ -143,8 +143,9 @@ class midcom_core_account
     public static function add_username_constraint(midcom_core_query $query, $operator, $value)
     {
         $qb = $query->get_doctrine();
-        if (!in_array('u', $qb->getAllAliases())) {
+        if (empty($query->join_added)) {
             $qb->leftJoin('midgard_user', 'u', Join::WITH, 'u.person = c.guid');
+            $query->join_added = true;
         }
         $query->get_current_group()->add('u.login ' . $operator . ' :value');
         $qb->setParameter('value', $value);
@@ -159,8 +160,9 @@ class midcom_core_account
     public static function add_username_order(midcom_core_query $query, $direction)
     {
         $qb = $query->get_doctrine();
-        if (!in_array('u', $qb->getAllAliases())) {
+        if (empty($query->join_added)) {
             $qb->leftJoin('midgard_user', 'u', Join::WITH, 'u.person = c.guid');
+            $query->join_added = true;
         }
         $qb->addOrderBy('u.login', $direction);
     }
