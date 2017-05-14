@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+use Doctrine\ORM\Query\Expr\Join;
+
 /**
  * Helper class for account management
  *
@@ -140,40 +142,27 @@ class midcom_core_account
      */
     public static function add_username_constraint(midcom_core_query $query, $operator, $value)
     {
-        $mc = new midgard_collector('midgard_user', 'authtype', midcom::get()->config->get('auth_type'));
-        $mc->set_key_property('person');
-
-        if (   $operator !== '='
-            || $value !== '') {
-            $mc->add_constraint('login', $operator, $value);
+        $qb = $query->get_doctrine();
+        if (!in_array('u', $qb->getAllAliases())) {
+            $qb->leftJoin('midgard_user', 'u', Join::WITH, 'u.person = c.guid');
         }
-        $mc->execute();
-        $user_results = $mc->list_keys();
-
-        if (   $operator === '='
-            && $value === '') {
-            $query->add_constraint('guid', 'NOT IN', array_keys($user_results));
-        } elseif (count($user_results) < 1) {
-            // make sure we don't return any results if no midgard_user entry was found
-            $query->add_constraint('id', '=', 0);
-        } else {
-            $query->add_constraint('guid', 'IN', array_keys($user_results));
-        }
+        $query->get_current_group()->add('u.login ' . $operator . ' :value');
+        $qb->setParameter('value', $value);
     }
 
     /**
      * Add username order to a query instance
-     *
-     * Note that it actually does nothing right now, because it's still
-     * unclear how this could be implemented
      *
      * @param midcom_core_query $query The QB or MC instance to work on
      * @param string $direction The value for the username constraint
      */
     public static function add_username_order(midcom_core_query $query, $direction)
     {
-        debug_add('Ordering persons by username is not yet implemented for Midgard2', MIDCOM_LOG_ERROR);
-        //@todo Find a way to do this
+        $qb = $query->get_doctrine();
+        if (!in_array('u', $qb->getAllAliases())) {
+            $qb->leftJoin('midgard_user', 'u', Join::WITH, 'u.person = c.guid');
+        }
+        $qb->addOrderBy('u.login', $direction);
     }
 
     public function is_admin()

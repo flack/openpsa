@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use Doctrine\ORM\Query\Expr\Join;
+
 /**
  * Task list handler
  *
@@ -187,37 +189,28 @@ implements org_openpsa_widgets_grid_provider_client
         $this->_get_priorities();
         $this->_provider = new org_openpsa_widgets_grid_provider($this, 'local');
 
-        $resource_statuses = array(
-            org_openpsa_projects_task_status_dba::PROPOSED,
-            org_openpsa_projects_task_status_dba::ACCEPTED,
-            org_openpsa_projects_task_status_dba::STARTED,
-            org_openpsa_projects_task_status_dba::REOPENED,
-            org_openpsa_projects_task_status_dba::COMPLETED
-        );
-
-        $task_statuses = array(
-            org_openpsa_projects_task_status_dba::PROPOSED,
-            org_openpsa_projects_task_status_dba::DECLINED,
-            org_openpsa_projects_task_status_dba::COMPLETED,
-            org_openpsa_projects_task_status_dba::ONHOLD
-        );
-
-        $mc = org_openpsa_projects_task_resource_dba::new_collector('person', midcom_connection::get_user());
-        $mc->add_constraint('orgOpenpsaObtype', '=', org_openpsa_projects_task_resource_dba::RESOURCE);
-        $mc->add_constraint('task.orgOpenpsaObtype', '=', org_openpsa_projects_task_dba::OBTYPE);
-        $mc->add_constraint('task.status', 'IN', $resource_statuses);
-
         $this->_qb = org_openpsa_projects_task_dba::new_query_builder();
 
-        $this->_qb->begin_group('OR');
-            //Get active tasks where user is a resource
-            $this->_qb->add_constraint('id', 'IN', $mc->get_values('task'));
-            //Get relevant tasks where user is manager
-            $this->_qb->begin_group('AND');
-        $this->_qb->add_constraint('manager', '=', midcom_connection::get_user());
-        $this->_qb->add_constraint('status', 'IN', $task_statuses);
-        $this->_qb->end_group();
-        $this->_qb->end_group();
+        $this->_qb->get_doctrine()
+            ->leftJoin('org_openpsa_task_resource', 'r', Join::WITH, 'c.id = r.task')
+            ->where('(r.orgOpenpsaObtype = :rtype AND r.person = :user AND c.status IN(:r_statuses)) OR (c.manager = :user AND c.status IN(:m_statuses))')
+            ->setParameters(array(
+                'rtype' => org_openpsa_projects_task_resource_dba::RESOURCE,
+                'user' => midcom_connection::get_user(),
+                'r_statuses' => array(
+                    org_openpsa_projects_task_status_dba::PROPOSED,
+                    org_openpsa_projects_task_status_dba::ACCEPTED,
+                    org_openpsa_projects_task_status_dba::STARTED,
+                    org_openpsa_projects_task_status_dba::REOPENED,
+                    org_openpsa_projects_task_status_dba::COMPLETED
+                ),
+                'm_statuses' => array(
+                    org_openpsa_projects_task_status_dba::PROPOSED,
+                    org_openpsa_projects_task_status_dba::DECLINED,
+                    org_openpsa_projects_task_status_dba::COMPLETED,
+                    org_openpsa_projects_task_status_dba::ONHOLD
+                )
+            ));
 
         org_openpsa_widgets_grid::add_head_elements();
     }

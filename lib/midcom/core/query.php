@@ -153,6 +153,22 @@ abstract class midcom_core_query
     }
 
     /**
+     * @return \Doctrine\ORM\QueryBuilder
+     */
+    public function get_doctrine()
+    {
+        return $this->_query->get_doctrine();
+    }
+
+    /**
+     * @return \Doctrine\ORM\Query\Expr:
+     */
+    public function get_current_group()
+    {
+        return $this->_query->get_current_group();
+    }
+
+    /**
      * Add a constraint to the query.
      *
      * @param string $field The name of the MgdSchema property to query against.
