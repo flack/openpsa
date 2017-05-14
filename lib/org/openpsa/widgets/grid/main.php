@@ -331,7 +331,7 @@ class org_openpsa_widgets_grid extends midcom_baseclasses_components_purecode
         }
         $string .= "});\n";
 
-        if ($this->get_option('footerrow')) {
+        if ($this->_footer_data) {
             $format = $this->format_footer ? 'true' : 'false';
             $string .= 'jQuery("#' . $this->_identifier . '").jqGrid("footerData", "set", ' . json_encode($this->_footer_data) . ", " . $format . ");\n";
         }
