@@ -1,4 +1,6 @@
 <?php
+use Doctrine\ORM\Query\Expr\Join;
+
 /**
  * @package org.openpsa.contacts
  * @author Nemein Oy http://www.nemein.com/
@@ -199,8 +201,10 @@ implements midcom_helper_datamanager2_interfaces_view, org_openpsa_widgets_grid_
     public function get_qb($field = null, $direction = 'ASC', array $search = array())
     {
         $qb = midcom_db_person::new_collector('metadata.deleted', false);
-        $member_ids = array_keys($this->_request_data['group']->get_members());
-        $qb->add_constraint('id', 'IN', $member_ids);
+        $qb->get_current_group()->add('m.gid = :gid');
+        $qb->get_doctrine()
+            ->leftJoin('midgard_member', 'm', Join::WITH, 'm.uid = c.id')
+            ->setParameter('gid', $this->_request_data['group']->id);
 
         if (!is_null($field)) {
             $qb->add_order($field, $direction);

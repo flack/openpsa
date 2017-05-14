@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use Doctrine\ORM\Query\Expr\Join;
+
 /**
  * Invoice list handler
  *
@@ -229,8 +231,10 @@ implements org_openpsa_widgets_grid_provider_client
     private function _add_filters($qb)
     {
         if ($this->_deliverable) {
-            $mc = org_openpsa_invoices_invoice_item_dba::new_collector('deliverable', $this->_deliverable->id);
-            $qb->add_constraint('id', 'IN', $mc->get_values('invoice'));
+            $qb->get_doctrine()
+                ->leftJoin('org_openpsa_invoice_item', 'i', Join::WITH, 'i.invoice = c.id')
+                ->setParameter('deliverable', $this->_deliverable->id);
+            $qb->get_current_group()->add('i.deliverable = :deliverable');
         } elseif ($this->_customer) {
             if (is_a($this->_customer, 'org_openpsa_contacts_group_dba')) {
                 $qb->add_constraint('customer', '=', $this->_customer->id);

@@ -1,4 +1,6 @@
 <?php
+use Doctrine\ORM\Query\Expr\Join;
+
 /**
  * @package org.openpsa.user
  * @author CONTENT CONTROL http://www.contentcontrol-berlin.de/
@@ -124,8 +126,10 @@ implements org_openpsa_widgets_grid_provider_client
         $qb = midcom_db_person::new_collector('metadata.deleted', false);
 
         if ($this->_group) {
-            $mc = midcom_db_member::new_collector('gid', $this->_group->id);
-            $qb->add_constraint('id', 'IN', $mc->get_values('uid'));
+            $qb->get_doctrine()
+                ->leftJoin('midgard_member', 'm', Join::WITH, 'm.uid = c.id')
+                ->setParameter('gid', $this->_group->id);
+            $qb->get_current_group()->add('m.gid = :gid');
         }
 
         if (!empty($search)) {

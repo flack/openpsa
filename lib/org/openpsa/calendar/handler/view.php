@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+use Doctrine\ORM\Query\Expr\Join;
+
 /**
  * org.openpsa.calendar site interface class.
  *
@@ -98,40 +100,9 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
     public function _handler_json($handler_id, array $args, array &$data)
     {
         midcom::get()->auth->require_valid_user();
-        $uids = $this->_load_uids(midcom::get()->auth->user->get_storage());
-        $events = $this->_load_events($uids, $_GET['start'], $_GET['end']);
+        $events = $this->_load_events($_GET['start'], $_GET['end']);
         $this->add_holidays($events, $_GET['start'], $_GET['end']);
         return new midcom_response_json($events);
-    }
-
-    private function _load_uids($user)
-    {
-        $uids = array($user->guid => $user->id);
-        // New UI for showing resources
-        foreach ($user->list_parameters('org.openpsa.calendar.filters') as $type => $value) {
-            $selected = @unserialize($value);
-
-            // Skip empty
-            if (empty($selected)) {
-                continue;
-            }
-
-            // Include each type
-            switch ($type) {
-                case 'people':
-                    $mc = midcom_db_person::new_collector('metadata.deleted', false);
-                    $mc->add_constraint('guid', 'IN', $selected);
-                    $uids = array_merge($uids, $mc->get_values('id'));
-                    break;
-
-                case 'groups':
-                    $mc = midcom_db_member::new_collector('metadata.deleted', false);
-                    $mc->add_constraint('gid.guid', 'IN', $selected);
-                    $uids = array_merge($uids, $mc->get_values('uid'));
-                    break;
-            }
-        }
-        return $uids;
     }
 
     private function add_holidays(array &$events, $from, $to)
@@ -157,27 +128,57 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
         }
     }
 
-    /**
-     * Loads calendar events
-     *
-     * @param array $uids
-     * @param int $from Start time
-     * @param int $to End time
-     */
-    private function _load_events(array $uids, $from, $to)
+    private function load_memberships($from, $to)
     {
-        $events = array();
-
+        $user = midcom::get()->auth->user->get_storage();
         $mc = org_openpsa_calendar_event_member_dba::new_collector('eid.up', $this->_root_event->id);
-
         // Find all events that occur during [$from, $to]
         $mc->add_constraint('eid.start', '<=', $to);
         $mc->add_constraint('eid.end', '>=', $from);
-        $mc->add_constraint('uid', 'IN', $uids);
 
-        $memberships = $mc->get_rows(array('uid', 'eid'));
+        $mc->begin_group('OR');
+        $mc->add_constraint('uid', '=', $user->id);
+        $join_added = false;
 
-        if ($memberships) {
+        // New UI for showing resources
+        foreach ($user->list_parameters('org.openpsa.calendar.filters') as $type => $value) {
+            $selected = @unserialize($value);
+
+            // Skip empty
+            if (empty($selected)) {
+                continue;
+            }
+
+            // Include each type
+            if ($type === 'people') {
+                $mc->add_constraint('uid.guid', 'IN', $selected);
+            }
+            else if ($type == 'groups') {
+                if (!$join_added) {
+                    $mc->get_doctrine()->leftJoin('midgard_member', 'm', Join::WITH, 'm.uid = c.uid');
+                    $mc->get_doctrine()->leftJoin('midgard_group', 'g', Join::WITH, 'g.id = m.gid');
+                    $join_added = true;
+                }
+                $mc->get_current_group()->add('g.guid IN(:selected)');
+                $mc->get_doctrine()->setParameter('selected', $selected);
+            }
+        }
+        $mc->end_group();
+
+        return $mc->get_rows(array('uid', 'eid'));
+    }
+
+    /**
+     * Loads calendar events
+     *
+     * @param int $from Start time
+     * @param int $to End time
+     */
+    private function _load_events($from, $to)
+    {
+        $events = array();
+
+        if ($memberships = $this->load_memberships($from, $to)) {
             // Customize label
             $label_field = $this->_config->get('event_label');
             if (!$label_field) {

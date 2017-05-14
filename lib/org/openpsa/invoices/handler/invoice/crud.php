@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use Doctrine\ORM\Query\Expr\Join;
+
 /**
  * Invoice create/read/update/delete handler
  *
@@ -90,17 +92,18 @@ class org_openpsa_invoices_handler_invoice_crud extends midcom_baseclasses_compo
     {
         $fields =& $this->_schemadb['default']->fields;
         $organizations = array(0 => '');
-        $member_mc = org_openpsa_contacts_member_dba::new_collector('uid', $contact_id);
-        $member_mc->add_constraint('gid.orgOpenpsaObtype', '>', org_openpsa_contacts_group_dba::MYCONTACTS);
-        $groups = $member_mc->get_values('gid');
-        if (!empty($groups)) {
-            $qb = org_openpsa_contacts_group_dba::new_query_builder();
-            $qb->add_constraint('id', 'IN', $groups);
-            $qb->add_order('official');
-            $qb->add_order('name');
-            foreach ($qb->execute() as $group) {
-                $organizations[$group->id] = $group->official;
-            }
+
+        $qb = org_openpsa_contacts_group_dba::new_query_builder();
+        $qb->get_doctrine()
+            ->leftJoin('org_openpsa_member', 'm', Join::WITH, 'm.gid = c.id')
+            ->where('m.uid = :uid')
+            ->setParameter('uid', $contact_id);
+
+        $qb->add_constraint('orgOpenpsaObtype', '>', org_openpsa_contacts_group_dba::MYCONTACTS);
+        $qb->add_order('official');
+        $qb->add_order('name');
+        foreach ($qb->execute() as $group) {
+            $organizations[$group->id] = $group->official;
         }
 
         //Fill the customer field to DM
@@ -112,14 +115,14 @@ class org_openpsa_invoices_handler_invoice_crud extends midcom_baseclasses_compo
         $fields =& $this->_schemadb['default']->fields;
         // We know the customer company, present contact as a select widget
         $persons_array = array();
-        $member_mc = midcom_db_member::new_collector('gid', $customer->id);
-        $members = $member_mc->get_values('uid');
-        foreach ($members as $member) {
-            try {
-                $person = org_openpsa_contacts_person_dba::get_cached($member);
-                $persons_array[$person->id] = $person->rname;
-            } catch (midcom_error $e) {
-            }
+        $qb = org_openpsa_contacts_person_dba::new_query_builder();
+        $qb->get_doctrine()
+            ->leftJoin('midgard_member', 'm', Join::WITH, 'm.uid = c.id')
+            ->where('m.gid = :gid')
+            ->setParameter('gid', $customer->id);
+
+        foreach ($qb->execute() as $person) {
+            $persons_array[$person->id] = $person->rname;
         }
         asort($persons_array);
         $fields['customerContact']['widget'] = 'select';
