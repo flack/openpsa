@@ -190,7 +190,7 @@ abstract class midcom_core_dbaobject
      * Shortcut for accessing MidCOM object cache.
      *
      * @param mixed $src GUID of object (ids work but are discouraged)
-     * @return midcom_core_dbaobject Reference to the object or false
+     * @return self Reference to the object or false
      */
     public static function &get_cached($src)
     {
