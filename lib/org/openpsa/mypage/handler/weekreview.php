@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+use Doctrine\ORM\Query\Expr\Join;
+
 /**
  * My page weekreview handler
  *
@@ -46,19 +48,28 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
         $this->_view_toolbar->add_items($buttons);
     }
 
+    /**
+     * List user's event memberships
+     *
+     * @param array $data_array
+     * @param integer $person
+     * @param integer $from
+     * @param integer $to
+     */
     private function _list_events_between(array &$data_array, $person, $from, $to)
     {
-        // List user's event memberships
-        $qb = org_openpsa_calendar_event_member_dba::new_query_builder();
-        $qb->add_constraint('uid', '=', $person);
+        $qb = org_openpsa_calendar_event_dba::new_query_builder();
+        $qb->get_doctrine()
+            ->leftJoin('org_openpsa_eventmember', 'm', Join::WITH, 'm.eid = c.id')
+            ->where('m.uid = :person')
+            ->setParameter('person', $person);
 
         // Find all events that occur during [$from, $to]
-        $qb->add_constraint('eid.start', '<=', $to);
-        $qb->add_constraint('eid.end', '>=', $from);
-        $eventmembers = $qb->execute();
+        $qb->add_constraint('start', '<=', $to);
+        $qb->add_constraint('end', '>=', $from);
+        $events = $qb->execute();
 
-        foreach ($eventmembers as $eventmember) {
-            $event = new org_openpsa_calendar_event_dba($eventmember->eid);
+        foreach ($events as $event) {
             $this->_add_to($data_array, $event, $event->start);
         }
     }

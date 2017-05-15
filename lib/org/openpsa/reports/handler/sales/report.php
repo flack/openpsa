@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use Doctrine\ORM\Query\Expr\Join;
+
 /**
  * Deliverable reports
  *
@@ -21,14 +23,21 @@ implements org_openpsa_widgets_grid_provider_client
     {
         $qb = org_openpsa_invoices_invoice_item_dba::new_query_builder();
 
-        $deliverable_mc = org_openpsa_sales_salesproject_deliverable_dba::new_collector('metadata.deleted', false);
-        $deliverable_mc->add_constraint('state', '<>', org_openpsa_sales_salesproject_deliverable_dba::STATE_DECLINED);
-        $deliverable_mc->add_constraint('salesproject.state', '<>', org_openpsa_sales_salesproject_dba::STATE_LOST);
+        $qb->get_doctrine()
+            ->leftJoin('org_openpsa_salesproject_deliverable', 'd', Join::WITH, 'd.id = c.deliverable')
+            ->leftJoin('org_openpsa_salesproject', 's', Join::WITH, 's.id = d.salesproject')
+            ->where('d.state <> :state AND s.state <> :s_state')
+            ->setParameters(array(
+                'state' => org_openpsa_sales_salesproject_deliverable_dba::STATE_DECLINED,
+                's_state' => org_openpsa_sales_salesproject_dba::STATE_LOST)
+            );
+
         if ($this->_request_data['query_data']['resource'] != 'all') {
-            $resource_expanded = $this->_expand_resource($this->_request_data['query_data']['resource']);
-            $deliverable_mc->add_constraint('salesproject.owner', 'IN', $resource_expanded);
+            $qb->get_doctrine()
+                ->andWhere('s.owner IN(:resource)')
+                ->setParameter('resource', $this->_expand_resource($this->_request_data['query_data']['resource']));
         }
-        $qb->add_constraint('deliverable', 'IN', $deliverable_mc->get_values('id'));
+
         $qb->add_constraint('invoice.sent', '>=', $this->_request_data['start']);
         $qb->add_constraint('invoice.sent', '<=', $this->_request_data['end']);
 

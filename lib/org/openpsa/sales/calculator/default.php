@@ -1,4 +1,6 @@
 <?php
+use Doctrine\ORM\Query\Expr\Join;
+
 /**
  * @package org.openpsa.sales
  * @author CONTENT CONTROL http://www.contentcontrol-berlin.de/
@@ -131,14 +133,16 @@ class org_openpsa_sales_calculator_default implements org_openpsa_invoices_inter
     private function _find_tasks()
     {
         $qb = org_openpsa_projects_task_dba::new_query_builder();
-        $qb->add_constraint('agreement', '=', $this->_deliverable->id);
 
         if ($this->_deliverable->invoiceByActualUnits) {
             $qb->add_constraint('invoiceableHours', '>', 0);
         } else {
-            $item_mc = org_openpsa_invoices_invoice_item_dba::new_collector('deliverable', $this->_deliverable->id);
-            $qb->add_constraint('id', 'NOT IN', $item_mc->get_values('task'));
+            $qb->get_doctrine()
+                ->leftJoin('org_openpsa_invoice_item', 'i', Join::WITH, 'i.task = c.id')
+                ->where('i.deliverable IS NULL');
         }
+        $qb->add_constraint('agreement', '=', $this->_deliverable->id);
+        $qb->execute();
         return $qb->execute();
     }
 
