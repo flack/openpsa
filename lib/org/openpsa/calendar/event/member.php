@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
+use Doctrine\ORM\Query\Expr\Join;
+
 /**
  * MidCOM wants this class present and QB etc use this, so keep logic here
  *
@@ -166,27 +168,27 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
         $slots = array();
 
         // Get current events for person
-        $mc = self::new_collector('uid', $person->id);
+        $qb = org_openpsa_calendar_event_dba::new_query_builder();
+        $qb->get_doctrine()
+            ->leftJoin('org_openpsa_eventmember', 'm', Join::WITH, 'm.eid = c.id')
+            ->where('m.uid = :person')
+            ->setParameter('person', $person->id);
+
         // All events that somehow overlap the given time.
-        $mc->add_constraint('eid.start', '<=', $end);
-        $mc->add_constraint('eid.end', '>=', $start);
-        $mc->add_order('eid.start', 'ASC');
-        $mc->add_order('eid.end', 'ASC');
-        $eventmembers = $mc->get_values('eid');
+        $qb->add_constraint('start', '<=', $end);
+        $qb->add_constraint('end', '>=', $start);
+        $qb->add_order('start', 'ASC');
+        $qb->add_order('end', 'ASC');
 
         $events_by_date = array();
-        foreach ($eventmembers as $eid) {
-            try {
-                $event = org_openpsa_calendar_event_dba::get_cached($eid);
-            } catch (midcom_error $e) {
-                continue;
-            }
+        foreach ($qb->execute() as $event) {
             $ymd = date('Ymd', $event->start);
             if (!array_key_exists($ymd, $events_by_date)) {
                 $events_by_date[$ymd] = array();
             }
             $events_by_date[$ymd][] = $event;
         }
+
         // Make sure each date between start and end has at least a dummy event
         $stamp = mktime(0, 0, 1, date('m', $start), date('d', $start), date('Y', $start));
         while ($stamp <= $end) {
@@ -202,6 +204,7 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
             $dummy->end = $stamp + 1;
             $events_by_date[$ymd] = array($dummy);
         }
+
         foreach ($events_by_date as $ymd => $events) {
             preg_match('/([0-9]{4})([0-9]{2})([0-9]{2})/', $ymd, $ymd_matches);
             // TODO: get from person's data based on event's weekday
