@@ -38,15 +38,20 @@ class select extends ChoiceType
             if (isset($options['type_config']['options'])) {
                 foreach ($options['type_config']['options'] as $key => $value) {
                     //symfony expects only strings
-                    $return_options[$value] = (string)$key;
+                    $return_options[(string)$value] = (string)$key;
                 }
                 return $return_options;
             }
         };
 
+        $map_multiple = function (Options $options) {
+            return !empty($options['type_config']['allow_multiple']);
+        };
+
         $resolver->setDefaults(array(
             'choices' => $map_options,
-            'choices_as_values' => true
+            'choices_as_values' => true,
+            'multiple' => $multiple_options,
         ));
     }
 

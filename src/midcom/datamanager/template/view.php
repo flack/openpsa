@@ -77,9 +77,9 @@ class view extends base
         $label_attr = $data['label_attr'];
         $label_attr['class'] = trim('title ' . (isset($label_attr['class']) ? $label_attr['class'] : ''));
         if (!$data['label']) {
-            $data['label'] = $this->renderer->humanize($data['name']);
+            $data['label'] = $data['name'];
         }
-        return '<div' . $this->attributes($label_attr) . '>' . $data['label'] . '</div>';
+        return '<div' . $this->attributes($label_attr) . '>' . $this->renderer->humanize($data['label']) . '</div>';
     }
 
     public function form_widget_simple(FormView $view, array $data)
@@ -102,7 +102,7 @@ class view extends base
         if (!empty($data['value'])) {
             foreach ($data['choices'] as $choice) {
                 if ($choice->value === $data['value']) {
-                    return $choice->label;
+                    return $this->renderer->humanize($choice->label);
                 }
             }
         }
