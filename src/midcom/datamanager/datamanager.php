@@ -219,4 +219,9 @@ class datamanager
         }
         return $ret;
     }
+
+    public function get_schemadb()
+    {
+        return $this->schemadb;
+    }
 }

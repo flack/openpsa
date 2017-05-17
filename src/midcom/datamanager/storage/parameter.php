@@ -5,6 +5,8 @@
 
 namespace midcom\datamanager\storage;
 
+use midcom_error;
+
 /**
  * Experimental storage class
  */

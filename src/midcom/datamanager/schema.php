@@ -5,6 +5,7 @@
 
 namespace midcom\datamanager;
 
+use midcom_error;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -139,7 +140,8 @@ class schema
             'storage' => '__UNSET__',
             'index_method' => 'auto',
             'start_fieldset' => null,
-            'end_fieldset' => null
+            'end_fieldset' => null,
+            'validation' => array()
         ));
 
         $normalize_widget = function (Options $options, $value) {
@@ -183,8 +185,35 @@ class schema
             return $value;
         };
 
+        $normalize_validation = function (Options $options, $config) {
+            $validation = array();
+            if (array_key_exists('validation',(array) $config)) {
+                $validation = (array) $config['validation'];
+            }
+
+            foreach ($validation as $key => $rule) {
+                if (!is_array($rule)) {
+                    $rule = array('type' => $rule);
+                } elseif (!array_key_exists('type', $rule)) {
+                    throw new midcom_error("Missing validation rule type for rule {$key} on field {$config['name']}, this is a required option.");
+                } elseif (   $rule['type'] == 'compare'
+                          && !array_key_exists('compare_with', $rule)) {
+                    throw new midcom_error("Missing compare_with option for compare type rule {$key} on field {$config['name']}, this is a required option.");
+                }
+
+                $defaults = array(
+                    'message' => "validation failed: {$rule['type']}",
+                    'format' => ''
+                );
+
+                $validation[$key] = array_merge($defaults, $rule);
+            }
+            return $validation;
+        };
+
         $resolver->setNormalizer('storage', $normalize_storage);
         $resolver->setNormalizer('widget', $normalize_widget);
+        $resolver->setNormalizer('validation', $normalize_validation);
 
         return $resolver->resolve($config);
     }
