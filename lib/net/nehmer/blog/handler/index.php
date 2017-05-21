@@ -73,24 +73,12 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
 
         $qb->add_order('metadata.published', 'DESC');
 
-        switch ($handler_id) {
-            case 'index':
-            case 'index-category':
-                $qb->results_per_page = $this->_config->get('index_entries');
-                break;
-
-            case 'latest':
-            case 'ajax-latest':
-                $qb->results_per_page = $args[0];
-                break;
-
-            case 'latest-category':
-                $qb->results_per_page = $args[1];
-                break;
-
-            default:
-                $qb->results_per_page = $this->_config->get('index_entries');
-                break;
+        if ($handler_id == 'latest' || $handler_id == 'ajax-latest') {
+            $qb->results_per_page = $args[0];
+        } elseif ($handler_id == 'latest-category') {
+            $qb->results_per_page = $args[1];
+        } else {
+            $qb->results_per_page = $this->_config->get('index_entries');
         }
 
         $this->_articles = $qb->execute();
@@ -116,19 +104,7 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
             // TODO: Check here if there are actually items in this cat?
         }
 
-        // TODO: check schema storage to get fieldname
-        $multiple_categories = true;
-        if (   !empty($this->_request_data['schemadb']['default']->fields['categories'])
-            && array_key_exists('allow_multiple', $this->_request_data['schemadb']['default']->fields['categories']['type_config'])
-            && !$this->_request_data['schemadb']['default']->fields['categories']['type_config']['allow_multiple']) {
-            $multiple_categories = false;
-        }
-        debug_add("multiple_categories={$multiple_categories}");
-        if ($multiple_categories) {
-            $qb->add_constraint('extra1', 'LIKE', "%|{$this->_request_data['category']}|%");
-        } else {
-            $qb->add_constraint('extra1', '=', (string) $this->_request_data['category']);
-        }
+        $this->_master->apply_category_constraint($qb, $this->_request_data['category']);
 
         // Add category to title
         $this->_request_data['page_title'] = sprintf($this->_l10n->get('%s category %s'), $this->_topic->extra, $this->_request_data['category']);

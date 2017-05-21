@@ -72,19 +72,7 @@ class net_nehmer_blog_handler_feed extends midcom_baseclasses_components_handler
             // TODO: Check for ".xml" suffix
             $this->_request_data['category'] = trim(strip_tags($args[0]));
 
-            $multiple_categories = true;
-            // TODO: check schema storage to get fieldname
-            if (   isset($this->_request_data['schemadb']['default']->fields['categories'])
-                && array_key_exists('allow_multiple', $this->_request_data['schemadb']['default']->fields['categories']['type_config'])
-                && !$this->_request_data['schemadb']['default']->fields['categories']['type_config']['allow_multiple']) {
-                $multiple_categories = false;
-            }
-            debug_add("multiple_categories={$multiple_categories}");
-            if ($multiple_categories) {
-                $qb->add_constraint('extra1', 'LIKE', "%|{$this->_request_data['category']}|%");
-            } else {
-                $qb->add_constraint('extra1', '=', (string)$this->_request_data['category']);
-            }
+            $this->_master->apply_category_constraint($qb, $this->_request_data['category']);
         }
 
         $qb->set_limit($this->_config->get('rss_count'));

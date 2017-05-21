@@ -227,25 +227,12 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
         if (   count($topic_guids) > 1
             && $list_from_folders_categories = $this->_config->get('list_from_folders_categories')) {
             $list_from_folders_categories = explode(',', $list_from_folders_categories);
-            // TODO: check schema storage to get fieldname
-            $multiple_categories = true;
-            if (   !empty($this->_request_data['schemadb']['default']->fields['list_from_folders_categories']['type_config'])
-                && !$this->_request_data['schemadb']['default']->fields['list_from_folders_categories']['type_config']['allow_multiple']) {
-                $multiple_categories = false;
-            }
-            debug_add("multiple_categories={$multiple_categories}");
 
             $qb->begin_group('OR');
             $qb->add_constraint('topic.guid', '=', $topic_guids[0]);
             $qb->begin_group('OR');
             foreach ($list_from_folders_categories as $category) {
-                if ($category = trim($category)) {
-                    if ($multiple_categories) {
-                        $qb->add_constraint('extra1', 'LIKE', "%|{$category}|%");
-                    } else {
-                        $qb->add_constraint('extra1', '=', $category);
-                    }
-                }
+                $this->apply_category_constraint($qb, $category);
             }
             $qb->end_group();
             $qb->end_group();
@@ -267,5 +254,28 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
         }
 
         $qb->add_constraint('up', '=', 0);
+    }
+
+    /**
+     * @param midgard_query_builder $qb
+     * @param string $category
+     */
+    public function apply_category_constraint($qb, $category)
+    {
+        if ($category = trim($category)) {
+
+            // TODO: check schema storage to get fieldname
+            $multiple_categories = true;
+            if (!empty($this->_request_data['schemadb']['default']->fields['list_from_folders_categories']['type_config'])) {
+                $multiple_categories = $this->_request_data['schemadb']['default']->fields['list_from_folders_categories']['type_config']['allow_multiple'];
+            }
+            debug_add("multiple_categories={$multiple_categories}");
+
+            if ($multiple_categories) {
+                $qb->add_constraint('extra1', 'LIKE', "%|{$category}|%");
+            } else {
+                $qb->add_constraint('extra1', '=', $category);
+            }
+        }
     }
 }
