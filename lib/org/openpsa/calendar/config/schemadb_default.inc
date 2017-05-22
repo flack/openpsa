@@ -63,7 +63,7 @@
             (
                 'output_mode' => 'markdown',
             ),
-            'widget' => 'textarea',
+            'widget' => 'markdown',
         ),
         'participants' => array
         (

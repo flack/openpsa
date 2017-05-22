@@ -40,7 +40,7 @@
             (
                 'output_mode' => 'markdown'
             ),
-            'widget' => 'textarea',
+            'widget' => 'markdown',
         ),
         'invoiceable' => array
         (

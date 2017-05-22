@@ -54,9 +54,9 @@
             (
                 'output_mode' => 'markdown'
             ),
-            'widget' => 'textarea',
+            'widget' => 'markdown',
         ),
-                'start' => Array
+        'start' => Array
         (
             'title' => 'start time',
             'storage' => 'start',

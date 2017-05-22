@@ -30,7 +30,7 @@
             (
                 'output_mode' => 'markdown'
             ),
-            'widget' => 'textarea',
+            'widget' => 'markdown',
         ),
         'state' => array
         (

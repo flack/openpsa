@@ -27,7 +27,7 @@
             'type_config' => Array (
                 'output_mode' => 'markdown'
             ),
-            'widget' => 'textarea',
+            'widget' => 'markdown',
         ),
         'tags' => Array
         (
@@ -256,7 +256,7 @@
             'type_config' => Array (
                 'output_mode' => 'markdown'
             ),
-            'widget' => 'textarea',
+            'widget' => 'markdown',
         ),
         'tags' => Array
         (

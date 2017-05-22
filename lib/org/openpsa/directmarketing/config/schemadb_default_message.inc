@@ -25,7 +25,7 @@
             (
                 'output_mode' => 'markdown'
             ),
-            'widget' => 'textarea',
+            'widget' => 'markdown',
             'end_fieldset' => ''
         ),
         'subject' => array
@@ -108,7 +108,7 @@
             (
                 'output_mode' => 'markdown'
             ),
-            'widget' => 'textarea',
+            'widget' => 'markdown',
             'end_fieldset' => ''
         ),
         'subject' => array
@@ -209,7 +209,7 @@
             (
                 'output_mode' => 'markdown'
             ),
-            'widget' => 'textarea',
+            'widget' => 'markdown',
         ),
         'subject' => array
         (
