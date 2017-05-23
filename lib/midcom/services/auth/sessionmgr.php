@@ -180,9 +180,7 @@ class midcom_services_auth_sessionmgr
             return false;
         }
 
-        $timed_out = time() - midcom::get()->config->get('auth_login_session_timeout');
-
-        if ($session->timestamp < $timed_out) {
+        if ($session->timestamp < $this->get_timeout()) {
             $session->delete();
             debug_add("The session {$session->guid} (#{$session->id}) has timed out.", MIDCOM_LOG_INFO);
             return false;
@@ -209,6 +207,14 @@ class midcom_services_auth_sessionmgr
 
         $this->_loaded_sessions[$sessionid] = $session;
         return $sessionid;
+    }
+
+    private function get_timeout()
+    {
+        if (!midcom::get()->config->get('auth_login_session_timeout')) {
+            return 0;
+        }
+        return time() - midcom::get()->config->get('auth_login_session_timeout');
     }
 
     /**
@@ -377,10 +383,9 @@ class midcom_services_auth_sessionmgr
             return 'unknown';
         }
 
-        $timed_out = time() - midcom::get()->config->get('auth_login_session_timeout');
         $qb = new midgard_query_builder('midcom_core_login_session_db');
         $qb->add_constraint('userid', '=', $user->id);
-        $qb->add_constraint('timestamp', '>=', $timed_out);
+        $qb->add_constraint('timestamp', '>=', $this->get_timeout());
         $result = $qb->execute();
 
         if (!$result) {
@@ -400,10 +405,9 @@ class midcom_services_auth_sessionmgr
      */
     function get_online_users_count()
     {
-        $timed_out = time() - midcom::get()->config->get('auth_login_session_timeout');
         $mc = new midgard_collector('midcom_core_login_session_db', 'metadata.deleted', false);
         $mc->set_key_property('userid');
-        $mc->add_constraint('timestamp', '>=', $timed_out);
+        $mc->add_constraint('timestamp', '>=', $this->get_timeout());
         $mc->execute();
 
         return count($mc->list_keys());
@@ -421,10 +425,9 @@ class midcom_services_auth_sessionmgr
      */
     function get_online_users()
     {
-        $timed_out = time() - midcom::get()->config->get('auth_login_session_timeout');
         $mc = new midgard_collector('midcom_core_login_session_db', 'metadata.deleted', false);
         $mc->set_key_property('userid');
-        $mc->add_constraint('timestamp', '>=', $timed_out);
+        $mc->add_constraint('timestamp', '>=', $this->get_timeout());
         $mc->execute();
 
         $result = array();

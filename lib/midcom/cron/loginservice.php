@@ -13,17 +13,19 @@ class midcom_cron_loginservice extends midcom_baseclasses_components_cron_handle
 {
     public function _on_execute()
     {
-        $qb = new midgard_query_builder('midcom_core_login_session_db');
-        $qb->add_constraint('timestamp', '<', time() - midcom::get()->config->get('auth_login_session_timeout'));
-        $qb->set_limit(500);
-        $result = $qb->execute();
-        foreach ($result as $tmp) {
-            if (!$tmp->delete()) {
-                $msg = "Failed to delete login session {$tmp->id}, last Midgard error was: " . midcom_connection::get_error_string();
-                $this->print_error($msg, $tmp);
-            } else {
-                $tmp->purge();
-                debug_add("Deleted login session {$tmp->id}.");
+        if (midcom::get()->config->get('auth_login_session_timeout')) {
+            $qb = new midgard_query_builder('midcom_core_login_session_db');
+            $qb->add_constraint('timestamp', '<', time() - midcom::get()->config->get('auth_login_session_timeout'));
+            $qb->set_limit(500);
+            $result = $qb->execute();
+            foreach ($result as $tmp) {
+                if (!$tmp->delete()) {
+                    $msg = "Failed to delete login session {$tmp->id}, last Midgard error was: " . midcom_connection::get_error_string();
+                    $this->print_error($msg, $tmp);
+                } else {
+                    $tmp->purge();
+                    debug_add("Deleted login session {$tmp->id}.");
+                }
             }
         }
     }

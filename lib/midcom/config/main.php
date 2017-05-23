@@ -57,7 +57,7 @@
  *   as it will make session hijacking much harder. You should not turn it off unless
  *   you have very good reasons to do.
  * - <b>int auth_login_session_timeout:</b> The login session timeout to use, this
- *   defaults to 3600 seconds (1 hour).
+ *   defaults to 3600 seconds (1 hour). Use 0 to have the session stay active until manual logout
  * - <b>string auth_frontend:</b> The authentication frontend to use, the "form" frontend
  *   is used by default.
  * - <b>int auth_login_form_httpcode</b>: HTTP return code used in MidCOM login screens,
