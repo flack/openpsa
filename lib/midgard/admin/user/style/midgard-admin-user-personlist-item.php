@@ -1,3 +1,6 @@
+<?php
+use Doctrine\ORM\Query\Expr\Join;
+?>
 <tr>
     <?php
     $disabled = '';
@@ -26,21 +29,20 @@
         echo "<td>{$value}</td>\n";
     }
 
-    $qb = midcom_db_member::new_query_builder();
-    $qb->add_constraint('uid', '=', $data['person']->id);
+    $qb = midcom_db_group::new_query_builder();
+    $qb->get_doctrine()
+        ->leftJoin('midgard_member', 'm', Join::WITH, 'm.gid = c.id')
+        ->where('m.uid = :person')
+        ->setParameter('person', $data['person']->id);
+
     $memberships = $qb->execute();
     $groups = array();
-    foreach ($memberships as $member) {
-        try {
-            $group = midcom_db_group::get_cached($member->gid);
-            $value = $group->get_label();
-            if ($group->can_do('midgard:update')) {
-                $value = "<a href=\"{$prefix}__mfa/asgard_midgard.admin.user/group/edit/{$group->guid}/\">{$value}</a>";
-            }
-            $groups[] = $value;
-        } catch (midcom_error $e) {
-            $groups[] = "#{$member->gid}";
+    foreach ($memberships as $group) {
+        $value = $group->get_label();
+        if ($group->can_do('midgard:update')) {
+            $value = "<a href=\"{$prefix}__mfa/asgard_midgard.admin.user/group/edit/{$group->guid}/\">{$value}</a>";
         }
+        $groups[] = $value;
     }
     echo "<td>" . implode(', ', $groups) . "</td>\n";
     ?>
