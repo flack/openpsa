@@ -19,7 +19,7 @@ abstract class midcom_core_dbaobject
     /**
      * MgdSchema object
      *
-     * @var mixed MgdSchema object
+     * @var midgard\portable\api\object MgdSchema object
      */
     public $__object = null;
 

@@ -73,12 +73,6 @@ class midcom_core_querybuilder extends midcom_core_query
             debug_add("Query failed: " . $e->getMessage(), MIDCOM_LOG_ERROR);
             return array();
         }
-
-        if (!is_array($result)) {
-            debug_add('Last Midgard error was: ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-            midcom::get()->debug->log_php_error(MIDCOM_LOG_ERROR);
-            return array();
-        }
         if (   empty($result)
             && $false_on_empty_mgd_resultset) {
             return false;

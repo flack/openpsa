@@ -180,12 +180,7 @@ class midcom_helper_datamanager2_ajax_autocomplete
 
     public function get_objects()
     {
-        $qb = $this->_prepare_qb();
-        $results = $qb->execute();
-        if (!is_array($results)) {
-            throw new midcom_error('Error when executing QB');
-        }
-        return $results;
+        return $this->_prepare_qb()->execute();
     }
 
     public function get_results()

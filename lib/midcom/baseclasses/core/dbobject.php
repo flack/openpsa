@@ -343,13 +343,10 @@ class midcom_baseclasses_core_dbobject
 
         $query = new midgard_query_builder('midgard_parameter');
         $query->add_constraint('parentguid', '=', $object->guid);
-        $result = $query->execute();
-        if ($result) {
-            foreach ($result as $parameter) {
-                if (!$parameter->delete()) {
-                    debug_add("Failed to delete parameter ID {$parameter->id}", MIDCOM_LOG_ERROR);
-                    return false;
-                }
+        foreach ($query->execute() as $parameter) {
+            if (!$parameter->delete()) {
+                debug_add("Failed to delete parameter ID {$parameter->id}", MIDCOM_LOG_ERROR);
+                return false;
             }
         }
 
@@ -604,10 +601,6 @@ class midcom_baseclasses_core_dbobject
         $qb->add_constraint('parentguid', '=', $guid);
         $params = $qb->execute();
         foreach ($params as $param) {
-            if (!$param->metadata->deleted) {
-                $param->delete();
-            }
-
             if ($param->purge()) {
                 $purged_size += $param->metadata->size;
             } else {
@@ -637,10 +630,6 @@ class midcom_baseclasses_core_dbobject
         $qb->add_constraint('parentguid', '=', $guid);
         $atts = $qb->execute();
         foreach ($atts as $att) {
-            if (!$att->metadata->deleted) {
-                $att->delete();
-            }
-
             if ($att->purge()) {
                 $purged_size += $att->metadata->size;
                 self::purge_parameters($att->guid);

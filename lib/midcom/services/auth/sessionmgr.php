@@ -358,11 +358,9 @@ class midcom_services_auth_sessionmgr
         // Delete login sessions
         $qb = new midgard_query_builder('midcom_core_login_session_db');
         $qb->add_constraint('userid', '=', $user->id);
-        if ($result = $qb->execute()) {
-            foreach ($result as $entry) {
-                debug_add("Deleting login session ID {$entry->id} for user {$entry->username} with timestamp {$entry->timestamp}");
-                $entry->delete();
-            }
+        foreach ($qb->execute() as $entry) {
+            debug_add("Deleting login session ID {$entry->id} for user {$entry->username} with timestamp {$entry->timestamp}");
+            $entry->delete();
         }
     }
 

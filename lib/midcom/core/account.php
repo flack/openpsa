@@ -83,11 +83,9 @@ class midcom_core_account
         // Delete all ACL records which have the user as assignee
         $qb = new midgard_query_builder('midcom_core_privilege_db');
         $qb->add_constraint('assignee', '=', $user->id);
-        if ($result = $qb->execute()) {
-            foreach ($result as $entry) {
-                debug_add("Deleting privilege {$entry->privilegename} ID {$entry->id} on {$entry->objectguid}");
-                $entry->delete();
-            }
+        foreach ($qb->execute() as $entry) {
+            debug_add("Deleting privilege {$entry->privilegename} ID {$entry->id} on {$entry->objectguid}");
+            $entry->delete();
         }
 
         return true;
