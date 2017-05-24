@@ -45,14 +45,6 @@
     'variable_args' => 1,
 ),
 
-// Match /tags/<tag>
-'tags' => array
-(
-    'handler' => Array('net_nemein_wiki_handler_tag', 'tagged'),
-    'fixed_args' => 'tags',
-    'variable_args' => 1,
-),
-
 // Match /notfound/<wikiword>
 'notfound' => array
 (
