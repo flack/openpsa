@@ -347,11 +347,7 @@ class midcom_helper_metadata
             case 'published':
             case 'schedulestart':
             case 'scheduleend':
-                // Cast to ISO datetime
-                if (!is_numeric($value)) {
-                    $value = 0;
-                }
-                if ($value == 0 || $value == '0000-00-00 00:00:00') {
+                if (!is_numeric($value) || $value == 0) {
                     $value = null;
                 } else {
                     $value = new midgard_datetime(gmstrftime('%Y-%m-%d %T', $value));
@@ -445,11 +441,8 @@ class midcom_helper_metadata
                     } else {
                         $value = (int) $this->__metadata->$key->format('U');
                     }
-                } elseif (   empty($this->__metadata->$key)
-                          || $this->__metadata->$key == '0000-00-00 00:00:00') {
-                    $value = 0;
                 } else {
-                    $value = strtotime("{$this->__metadata->$key} UTC");
+                    $value = 0;
                 }
                 break;
 
