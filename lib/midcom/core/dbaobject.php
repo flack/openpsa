@@ -532,14 +532,6 @@ abstract class midcom_core_dbaobject
         return midcom_helper_reflector::get_object_fieldnames($this);
     }
 
-    public function connect($signal, $callback, $user_data = null)
-    {
-        $this->__object->connect($signal, $callback, $user_data);
-    }
-    public function emit($signal)
-    {
-        $this->__object->emit($signal);
-    }
     public static function new_reflection_property()
     {
         $classname = midcom::get()->dbclassloader->get_mgdschema_class_name_for_midcom_class(get_called_class());
