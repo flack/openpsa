@@ -51,7 +51,7 @@ class midcom_baseclasses_core_dbobject
      *
      * 1. Validate privileges using can_do. The user needs midgard:update privilege on the content object.
      * 2. bool $object->_on_updating() is executed. If it returns false, update is aborted.
-     * 3. bool $object->__exec_update() is executed to do the actual DB update. This has to execute parent::update()
+     * 3. bool $object->__object->update() is executed to do the actual DB update. This has to execute parent::update()
      *    and return its value, nothing else.
      * 4. void $object->_on_updated() is executed to notify the class from a successful DB update.
      *
@@ -65,7 +65,7 @@ class midcom_baseclasses_core_dbobject
             return false;
         }
 
-        if (!$object->__exec_update()) {
+        if (!$object->__object->update()) {
             debug_add("Failed to update the record, last Midgard error: " . midcom_connection::get_error_string());
             return false;
         }
@@ -243,7 +243,7 @@ class midcom_baseclasses_core_dbobject
      *
      * 1. Validate privileges using can_do. The user needs midgard:create privilege to the parent object or in general, if there is no parent.
      * 2. bool $object->_on_creating() is executed. If it returns false, create is aborted.
-     * 3. bool $object->__exec_create() is executed to do the actual DB create. This has to execute parent::create()
+     * 3. bool $object->__object->create() is executed to do the actual DB create. This has to execute parent::create()
      *    and return its value, nothing else.
      * 4. void $object->_on_created() is executed to notify the class from a successful DB creation.
      *
@@ -276,7 +276,7 @@ class midcom_baseclasses_core_dbobject
             }
         }
 
-        if (!$object->__exec_create()) {
+        if (!$object->__object->create()) {
             debug_add("Failed to create " . get_class($object) . ", last Midgard error: " . midcom_connection::get_error_string());
             return false;
         }
@@ -315,7 +315,7 @@ class midcom_baseclasses_core_dbobject
      * 1. Validate privileges using can_do. The user needs midgard:delete privilege on the content object.
      * 2. bool $object->_on_deleting() is executed. If it returns false, delete is aborted.
      * 3. All extensions of the object are deleted
-     * 4. bool $object->__exec_delete() is executed to do the actual DB delete. This has to execute parent::delete()
+     * 4. bool $object->__object->delete() is executed to do the actual DB delete. This has to execute parent::delete()
      *    and return its value, nothing else.
      * 5. void $object->_on_deleted() is executed to notify the class from a successful DB deletion.
      *
@@ -356,7 +356,7 @@ class midcom_baseclasses_core_dbobject
         }
 
         // Finally, delete the object itself
-        if (!$object->__exec_delete()) {
+        if (!$object->__object->delete()) {
             debug_add("Failed to delete " . get_class($object) . ", last Midgard error: " . midcom_connection::get_error_string(), MIDCOM_LOG_INFO);
             return false;
         }
@@ -700,7 +700,7 @@ class midcom_baseclasses_core_dbobject
             return false;
         }
 
-        $object->__exec_get_by_id((int) $id);
+        $object->__object->get_by_id((int) $id);
 
         if (   $object->id != 0
             && $object->action != 'delete') {
@@ -733,7 +733,7 @@ class midcom_baseclasses_core_dbobject
             debug_add("Failed to load object, read privilege on the " . get_class($object) . " {$guid} not granted for the current user.", MIDCOM_LOG_ERROR);
             return false;
         }
-        $object->__exec_get_by_guid((string) $guid);
+        $object->__object->get_by_guid((string) $guid);
 
         if (   $object->id != 0
             && $object->action != 'delete') {
@@ -754,7 +754,7 @@ class midcom_baseclasses_core_dbobject
      */
     public static function get_by_path(midcom_core_dbaobject $object, $path)
     {
-        $object->__exec_get_by_path((string) $path);
+        $object->__object->get_by_path((string) $path);
 
         if (   $object->id != 0
             && $object->action != 'delete') {

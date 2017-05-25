@@ -635,32 +635,6 @@ abstract class midcom_core_dbaobject
         return true;
     }
 
-    // Exec handlers
-    public function __exec_create()
-    {
-        return $this->__object->create();
-    }
-    public function __exec_update()
-    {
-        return $this->__object->update();
-    }
-    public function __exec_delete()
-    {
-        return $this->__object->delete();
-    }
-    public function __exec_get_by_id($id)
-    {
-        return $this->__object->get_by_id($id);
-    }
-    public function __exec_get_by_guid($guid)
-    {
-        return $this->__object->get_by_guid($guid);
-    }
-    public function __exec_get_by_path($path)
-    {
-        return $this->__object->get_by_path($path);
-    }
-
     // functions related to the RCS service.
     public function disable_rcs()
     {
