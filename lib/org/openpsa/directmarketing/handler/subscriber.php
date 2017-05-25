@@ -71,7 +71,6 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
      */
     public function _show_list($handler_id, array &$data)
     {
-        $qb_all = org_openpsa_directmarketing_campaign_dba::new_query_builder();
         $campaigns = array();
 
         midcom_show_style('show-campaign-list-header');
@@ -92,6 +91,7 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
         }
 
         // List active campaigns for the "add to campaign" selector
+        $qb_all = org_openpsa_directmarketing_campaign_dba::new_query_builder();
         $qb_all->add_constraint('archived', '=', 0);
         $qb_all->add_constraint('id', 'NOT IN', array_keys($campaigns));
         $qb_all->add_order('metadata.created', $this->_config->get('campaign_list_order'));

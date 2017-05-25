@@ -17,7 +17,7 @@ class org_openpsa_core_queryfilter
     /**
      * Currently registered filters
      *
-     * @var array
+     * @var org_openpsa_core_filter[]
      */
     private $_filters = array();
 

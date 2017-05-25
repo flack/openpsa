@@ -29,51 +29,41 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
 
         // List hours
         $qb = org_openpsa_projects_hour_report_dba::new_query_builder();
+        $this->_master->add_list_filter($qb);
 
         $mode = 'full';
 
         //url for batch_handler
         $this->_request_data['action_target_url'] = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . "hours/task/batch/";
 
-        switch ($handler_id) {
-            case 'list_hours':
-                $this->_master->add_list_filter($qb);
+        if ($handler_id == 'list_hours') {
+            $data['view_title'] = $data['l10n']->get('hour reports');
+            $data['breadcrumb_title'] = $data['view_title'];
+        } else {
+            $task = new org_openpsa_projects_task_dba($args[0]);
+            $qb->add_constraint('task', '=', $task->id);
 
-                $data['view_title'] = $data['l10n']->get('hour reports');
-                $data['breadcrumb_title'] = $data['view_title'];
-                break;
+            $mode = 'simple';
+            $data['view_title'] = sprintf($data['l10n']->get("list_hours_task %s"), $task->title);
+            $data['breadcrumb_title'] = $task->get_label();
 
-            case 'list_hours_task':
-                $this->_master->add_list_filter($qb);
-                // Fallthrough
-            case 'list_hours_task_all':
-                $task = new org_openpsa_projects_task_dba($args[0]);
-                $qb->add_constraint('task', '=', $task->id);
-
-                $mode = 'simple';
-                $data['view_title'] = sprintf($data['l10n']->get(str_replace('_all', '', $handler_id) . " %s"), $task->title);
-                $data['breadcrumb_title'] = $task->get_label();
-
-                $siteconfig = org_openpsa_core_siteconfig::get_instance();
-                if ($projects_url = $siteconfig->get_node_full_url('org.openpsa.projects')) {
-                    $this->_view_toolbar->add_item(
-                        array(
-                            MIDCOM_TOOLBAR_URL => $projects_url . "task/{$task->guid}/",
-                            MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n->get('show task %s'), $task->title),
-                            MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/jump-to.png',
-                            MIDCOM_TOOLBAR_ACCESSKEY => 'g',
-                        )
-                    );
-                }
-
-                break;
+            $siteconfig = org_openpsa_core_siteconfig::get_instance();
+            if ($projects_url = $siteconfig->get_node_full_url('org.openpsa.projects')) {
+                $this->_view_toolbar->add_item(
+                    array(
+                        MIDCOM_TOOLBAR_URL => $projects_url . "task/{$task->guid}/",
+                        MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n->get('show task %s'), $task->title),
+                        MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/jump-to.png',
+                        MIDCOM_TOOLBAR_ACCESSKEY => 'g',
+                    )
+                );
+            }
         }
 
         $qb->add_order('date', 'DESC');
         $data['hours'] = $qb->execute();
 
         $data['mode'] = $mode;
-        $data['qb'] = $qb;
 
         org_openpsa_widgets_grid::add_head_elements();
         midcom_helper_datamanager2_widget_autocomplete::add_head_elements();
