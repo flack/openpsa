@@ -89,7 +89,9 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
         );
         $data['action_options'] = $this->_prepare_batch_options();
 
-        midcom_show_style('hours_list_top');
+        if ($data['mode'] != 'simple') {
+            midcom_show_style('hours_list_top');
+        }
         midcom_show_style('hours_grid');
         midcom_show_style('hours_list_bottom');
     }
