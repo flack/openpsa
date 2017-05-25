@@ -1,4 +1,3 @@
-<h1>&(data['view_title']);</h1>
 <div class="area">
     <?php
     $data['qf']->render();

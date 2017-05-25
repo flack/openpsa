@@ -26,6 +26,10 @@ $data['grid']->set_option('footerrow', true)
         'showSummaryOnHide' => true
 ));
 ?>
+<h1>&(data['view_title']);</h1>
+<?php
+    midcom_show_style('hours_filters');
+?>
 
 <script type="text/javascript">
 

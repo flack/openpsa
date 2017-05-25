@@ -83,6 +83,13 @@ $data['grid']->set_option('loadonce', true)
 
 $data['grid']->set_footer_data($footer_data);
 ?>
+<h1>&(data['view_title']);</h1>
+<?php
+if ($data['mode'] != 'simple') {
+    midcom_show_style('hours_filters');
+}
+?>
+
 <div class="org_openpsa_expenses batch-processing full-width crop-height">
 
 <?php

@@ -197,7 +197,6 @@ class org_openpsa_expenses_handler_index  extends midcom_baseclasses_components_
             'person' => $this->_l10n->get('person')
         );
 
-        midcom_show_style('hours_list_top');
         midcom_show_style('hours_week');
     }
 }
