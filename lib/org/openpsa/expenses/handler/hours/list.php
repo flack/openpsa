@@ -81,6 +81,12 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
      */
     public function _show_list($handler_id, array &$data)
     {
+        $data['grid'] = new org_openpsa_widgets_grid($data['mode'] . '_hours_grid', 'local');
+        $data['group_options'] = array(
+            'category' => $this->_l10n->get('category'),
+            'task' => $this->_l10n->get('task'),
+            'reporter' => $this->_l10n->get('person')
+        );
         $data['action_options'] = $this->_prepare_batch_options();
 
         midcom_show_style('hours_list_top');

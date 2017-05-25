@@ -4,7 +4,6 @@ $invoice_url = org_openpsa_core_siteconfig::get_instance()->get_node_full_url('o
 $footer_data = array('hours' => 0);
 $categories = array($data['l10n']->get('uninvoiceable'), $data['l10n']->get('invoiceable'), $data['l10n']->get('invoiced'));
 $entries = array();
-$grid_id = $data['mode'] . '_hours_grid';
 $workflow = new midcom\workflow\datamanager2;
 foreach ($data['hours'] as $report) {
     $entry = array();
@@ -56,20 +55,19 @@ foreach ($data['hours'] as $report) {
 
     $entries[] = $entry;
 }
-$grid = new org_openpsa_widgets_grid($grid_id, 'local');
 
-$grid->set_column('date', $data['l10n']->get('date'), "width: 80, align: 'right', formatter: 'date', fixed: true")
+$data['grid']->set_column('date', $data['l10n']->get('date'), "width: 80, align: 'right', formatter: 'date', fixed: true")
     ->set_column('reporter', $data['l10n']->get('person'), "width: 80, classes: 'ui-ellipsis'", 'string');
 
 if ($data['mode'] != 'simple') {
-    $grid->set_column('task', $data['l10n']->get('task'), "classes: 'ui-ellipsis'", 'string');
+    $data['grid']->set_column('task', $data['l10n']->get('task'), "classes: 'ui-ellipsis'", 'string');
 }
-$grid->set_column('description', $data['l10n']->get('description'), "width: 250, classes: 'multiline'", 'string');
-$grid->set_column('hours', $data['l10n']->get('hours'), "width: 50, align: 'right', formatter: 'number', summaryType: 'sum'");
-$grid->set_select_column('category', $data['l10n']->get('category'), "width: 50, hidden: true", $categories);
-$grid->set_column('invoice', $data['l10n']->get('invoice'), "width: 50, align: 'center'", 'integer');
+$data['grid']->set_column('description', $data['l10n']->get('description'), "width: 250, classes: 'multiline'", 'string');
+$data['grid']->set_column('hours', $data['l10n']->get('hours'), "width: 50, align: 'right', formatter: 'number', summaryType: 'sum'");
+$data['grid']->set_select_column('category', $data['l10n']->get('category'), "width: 50, hidden: true", $categories);
+$data['grid']->set_column('invoice', $data['l10n']->get('invoice'), "width: 50, align: 'center'", 'integer');
 
-$grid->set_option('loadonce', true)
+$data['grid']->set_option('loadonce', true)
     ->set_option('sortname', 'date')
     ->set_option('sortorder', 'desc')
     ->set_option('multiselect', true)
@@ -83,11 +81,14 @@ $grid->set_option('loadonce', true)
         'showSummaryOnHide' => true
     ));
 
-$grid->set_footer_data($footer_data);
+$data['grid']->set_footer_data($footer_data);
 ?>
 <div class="org_openpsa_expenses batch-processing full-width crop-height">
 
-<?php $grid->render($entries); ?>
+<?php
+$data['grid']->render($entries);
+$grid_id = $data['grid']->get_identifier();
+?>
 
 <form id="form_&(grid_id);" method="post" action="<?php echo $data['action_target_url']; ?>">
 <input type="hidden" name="relocate_url" value="<?php echo $_SERVER['REQUEST_URI']; ?>" />
@@ -95,6 +96,7 @@ $grid->set_footer_data($footer_data);
 </div>
 
 <script type="text/javascript">
+org_openpsa_grid_helper.bind_grouping_switch('&(grid_id);');
 
 org_openpsa_batch_processing.initialize(
 {

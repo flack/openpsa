@@ -78,7 +78,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
         }
         if (!$this->_hour_report->create()) {
             debug_print_r('We operated on this object:', $this->_hour_report);
-            throw new midcom_error("Failed to create a new hour_report under hour_report group #{$this->_request_data['task']}. Error: " . midcom_connection::get_error_string());
+            throw new midcom_error("Failed to create a new hour_report under task #{$this->_request_data['task']}: " . midcom_connection::get_error_string());
         }
 
         return $this->_hour_report;

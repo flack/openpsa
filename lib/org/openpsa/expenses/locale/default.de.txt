@@ -2,6 +2,10 @@
 ---VERSION 2.1.0
 ---LANGUAGE de
 
+---STRING category
+Kategorie
+---STRINGEND
+
 ---STRING date
 Datum
 ---STRINGEND
