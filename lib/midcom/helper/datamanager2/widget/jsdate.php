@@ -157,7 +157,7 @@ EOT;
 
         $elements = $this->_create_elements();
 
-        $this->_form->addGroup($elements, $this->name, $this->_translate($this->_field['title']), array(' ', '', '', '', ''), false);
+        $this->_form->addGroup($elements, $this->name, $this->_translate($this->_field['title']), array(' ', '', '', '', '', ''), false);
 
         $rules = array();
         if ($this->_field['required']) {
@@ -183,7 +183,7 @@ EOT;
         $attributes = array(
             'id'    => "{$this->_namespace}{$this->name}_date",
         );
-        $elements[] = $this->_form->createElement('hidden', $this->name . '_date', '', $attributes);
+        $elements[] = $this->_form->createElement($frozen ? 'static' : 'hidden', $this->name . '_date', '', $attributes);
         $attributes = array(
             'class' => 'jsdate',
             'id'    => "{$this->_namespace}{$this->name}_input",
@@ -237,7 +237,6 @@ EOT;
         foreach ($new_elements as $element) {
             $element->freeze();
         }
-
         $group = $this->_form->getElement($this->name);
         $group->setElements($new_elements);
         $group->freeze();
