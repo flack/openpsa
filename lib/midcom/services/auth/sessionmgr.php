@@ -30,7 +30,7 @@ class midcom_services_auth_sessionmgr
      * A list of loaded login sessions, indexed by their session identifier.
      * This is used for authentication purposes.
      *
-     * @var array
+     * @var midcom_core_login_session_db[]
      */
     private $_loaded_sessions = array();
 
@@ -319,11 +319,10 @@ class midcom_services_auth_sessionmgr
 
         $session = $this->_loaded_sessions[$sessionid];
 
-        if (!$session->delete()) {
+        if (!$session->purge()) {
             debug_add("Failed to delete the delete session {$session->guid} (#{$session->id}): " . midcom_connection::get_error_string(), MIDCOM_LOG_INFO);
             return false;
         }
-        $session->purge();
 
         unset($this->_loaded_sessions[$sessionid]);
         return true;

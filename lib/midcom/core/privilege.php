@@ -656,14 +656,13 @@ class midcom_core_privilege
             return $privilege->drop();
         }
 
-        if (!$this->__privilege_object->delete()) {
+        if (!$this->__privilege_object->purge()) {
             debug_add('Failed to delete privilege record, aborting. Error: ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
             return false;
         }
 
-        debug_add("Delete privilege record {$this->__guid} ({$this->__privilege_object->objectguid} {$this->__privilege_object->privilegename} {$this->__privilege_object->assignee} {$this->__privilege_object->value}");
+        debug_add("Deleted privilege record {$this->__guid} ({$this->__privilege_object->objectguid} {$this->__privilege_object->privilegename} {$this->__privilege_object->assignee} {$this->__privilege_object->value}");
 
-        $this->__privilege_object->purge();
         $this->_invalidate_cache();
         $this->value = MIDCOM_PRIVILEGE_INHERIT;
 
