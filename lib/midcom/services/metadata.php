@@ -165,12 +165,9 @@ class midcom_services_metadata
         }
 
         // Folder's class
-        if ($page_class = $object->get_parameter('midcom.services.metadata', 'page_class')) {
+        if (   $object instanceof midcom_db_topic
+            && $page_class = $object->get_parameter('midcom.services.metadata', 'page_class')) {
             $css_classes[] = $page_class;
-        }
-
-        if (empty($css_classes)) {
-            return '';
         }
 
         return implode(' ', $css_classes);
