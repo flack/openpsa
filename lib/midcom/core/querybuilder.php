@@ -42,6 +42,8 @@ class midcom_core_querybuilder extends midcom_core_query
     private $max_window_size = 500;
 
     /**
+     * The initialization routine executes the _on_prepare_new_querybuilder callback on the class.
+     *
      * @param string $classname The classname which should be queried.
      */
     public function __construct($classname)
@@ -49,14 +51,7 @@ class midcom_core_querybuilder extends midcom_core_query
         $mgdschemaclass = $this->_convert_class($classname);
 
         $this->_query = new midgard_query_builder($mgdschemaclass);
-    }
-
-    /**
-     * The initialization routine executes the _on_prepare_new_querybuilder callback on the class.
-     */
-    function initialize()
-    {
-        call_user_func_array(array($this->_real_class, '_on_prepare_new_query_builder'), array(&$this));
+        call_user_func_array(array($classname, '_on_prepare_new_query_builder'), array(&$this));
     }
 
     /**

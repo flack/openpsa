@@ -34,6 +34,8 @@ class midcom_core_collector extends midcom_core_query
     private $_user_id = false;
 
     /**
+     * The initialization routine executes the _on_prepare_new_collector callback on the class.
+     *
      * @param string $classname The classname which should be queried.
      */
     public function __construct($classname, $domain, $value)
@@ -44,14 +46,7 @@ class midcom_core_collector extends midcom_core_query
 
         // MidCOM's collector always uses the GUID as the key for ACL purposes
         $this->_query->set_key_property('guid');
-    }
-
-    /**
-     * The initialization routine executes the _on_prepare_new_collector callback on the class.
-     */
-    function initialize()
-    {
-        call_user_func_array(array($this->_real_class, '_on_prepare_new_collector'), array(&$this));
+        call_user_func_array(array($classname, '_on_prepare_new_collector'), array(&$this));
     }
 
     /**

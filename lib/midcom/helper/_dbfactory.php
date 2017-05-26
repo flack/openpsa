@@ -97,9 +97,7 @@ class midcom_helper__dbfactory
      */
     public function new_collector($classname, $domain, $value)
     {
-        $mc = new midcom_core_collector($classname, $domain, $value);
-        $mc->initialize();
-        return $mc;
+        return new midcom_core_collector($classname, $domain, $value);
     }
 
     /**
@@ -112,9 +110,7 @@ class midcom_helper__dbfactory
      */
     public function new_query_builder($classname)
     {
-        $qb = new midcom_core_querybuilder($classname);
-        $qb->initialize();
-        return $qb;
+        return new midcom_core_querybuilder($classname);
     }
 
     /**

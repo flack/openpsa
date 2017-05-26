@@ -77,7 +77,6 @@ class org_openpsa_relatedto_collector extends midcom_core_collector
         } else {
             throw new midcom_error('None of the arguments was passed as a string');
         }
-        $this->initialize();
 
         //save target classes for later use
         $this->_target_classes = (array) $classes;
