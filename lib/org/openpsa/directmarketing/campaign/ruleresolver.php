@@ -400,15 +400,7 @@ class org_openpsa_directmarketing_campaign_ruleresolver
                 // Skip private or otherwise invalid properties
                 continue;
             }
-            if (   is_object($value)
-                && !is_a($value, 'midgard_datetime')) {
-                while (list($property2, $value2) = each($value)) {
-                    $prop_merged = "{$property}.{$property2}";
-                    $ret[$prop_merged] = $l10n->get("property:{$prop_merged}");
-                }
-            } else {
-                $ret[$property] = $l10n->get("property:{$property}");
-            }
+            $ret[$property] = $l10n->get("property:{$property}");
         }
         asort($ret);
         return $ret;
