@@ -119,9 +119,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
         $filepath = $this->_generate_rcs_filename($this->_guid);
 
         // , must become . to work. Therefore this:
-        str_replace(',', '.', $revision );
-        // this seems to cause problems:
-        //settype ($revision, "float");
+        str_replace(',', '.', $revision);
 
         $this->exec('co -q -f -r' . escapeshellarg(trim($revision)) .  " {$filepath} 2>/dev/null");
 
