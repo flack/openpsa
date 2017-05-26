@@ -225,20 +225,6 @@ class fi_protie_navigation
     public $css_active = 'active';
 
     /**
-     * Registered get -parameters for listening
-     *
-     * @var array
-     */
-    private $_get_params = array();
-
-    /**
-     * Cache for parameters to be listened
-     *
-     * @var string
-     */
-    private $_params_cache = false;
-
-    /**
      * Here we initialize the classes and variables needed through the class.
      */
     public function __construct($id = null)
@@ -249,47 +235,6 @@ class fi_protie_navigation
         if (!is_null($id)) {
             $this->root_id = $id;
         }
-    }
-
-    function listen_parameter($name, $value = false)
-    {
-        if (empty($name)) {
-            return;
-        }
-
-        if (   isset($this->_get_params[$name])
-            && $this->_get_params[$name] == $value) {
-            return;
-        }
-        $this->_get_params[$name] = $value;
-    }
-
-    private function _get_parameter_string()
-    {
-        if (false !== $this->_params_cache) {
-            return $this->_params_cache;
-        }
-
-        $this->_params_cache = '';
-        $registered_params = array_intersect_key($this->_get_params, $_GET);
-        if (empty($registered_params)) {
-            return $this->_params_cache;
-        }
-
-        $params = array();
-        foreach ($registered_params as $key => $value) {
-            if ($value) {
-                if ($_GET[$key] == $value) {
-                    $params[$key] = $value;
-                }
-            } elseif (!$_GET[$key]) {
-                $params[$key] = '';
-            }
-        }
-
-        $this->_params_cache = '?' . http_build_query($params);
-
-        return $this->_params_cache;
     }
 
     /**
@@ -456,10 +401,8 @@ class fi_protie_navigation
         $class = ($css_classes !== '') ? ' class="' . $css_classes . '"' : '';
         $link_class = ($this->class_to_link) ? $class : '';
 
-        $get_params = $this->_get_parameter_string();
-
         echo "<li{$class}>";
-        echo "<a href=\"{$item[MIDCOM_NAV_ABSOLUTEURL]}{$get_params}\"{$link_class}>{$item[MIDCOM_NAV_NAME]}</a>";
+        echo "<a href=\"{$item[MIDCOM_NAV_ABSOLUTEURL]}\"{$link_class}>{$item[MIDCOM_NAV_NAME]}</a>";
         // If either of the follow nodes switches is on, follow all the nodes
 
         if (   $item[MIDCOM_NAV_TYPE] === 'node'
