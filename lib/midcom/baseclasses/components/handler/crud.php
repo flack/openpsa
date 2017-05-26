@@ -247,7 +247,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
      * Simple helper which references all important members to the request data listing
      * for usage within the style listing.
      */
-    function _prepare_request_data()
+    protected function _prepare_request_data()
     {
         $this->_request_data['object'] = $this->_object;
         $this->_request_data['datamanager'] = $this->_datamanager;

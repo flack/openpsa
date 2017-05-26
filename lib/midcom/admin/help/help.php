@@ -255,7 +255,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         return $files;
     }
 
-    function read_component_handlers($component)
+    private function read_component_handlers($component)
     {
         $data = array();
 
@@ -305,7 +305,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         return $data;
     }
 
-    function read_url_methods($component)
+    private function read_url_methods($component)
     {
         $data = array();
 
@@ -339,7 +339,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         return $data;
     }
 
-    function read_schema_properties()
+    private function read_schema_properties()
     {
         $helper = new helper;
         foreach (array_keys($this->_request_data['mgdschemas']) as $mgdschema_class) {
