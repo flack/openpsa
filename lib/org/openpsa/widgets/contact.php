@@ -130,7 +130,7 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
     /**
      * Read properties of a person object and populate local fields accordingly
      */
-    function read_object($person)
+    private function read_object($person)
     {
         if (   !is_object($person)
             || !midcom::get()->dbfactory->is_a($person, 'midcom_db_person')) {

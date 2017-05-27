@@ -16,27 +16,18 @@ class org_openpsa_qbpager_direct extends org_openpsa_qbpager
         $this->_midcom_qb_count = new midgard_query_builder($classname);
     }
 
-    function execute()
-    {
-        if (!$this->_sanity_check()) {
-            return false;
-        }
-        $this->_qb_limits($this->_midcom_qb);
-        return $this->_midcom_qb->execute();
-    }
-
     /**
-     * Wraps to count since midgard QB does not support said method yet
+     * Wraps to execute since this is what midcom QB does, too
      */
-    function execute_unchecked()
+    public function execute_unchecked()
     {
         return $this->execute();
     }
 
     /**
-     * Wraps to count since midgard QB does not support said method yet
+     * Wraps to count since this is what midcom QB does, too
      */
-    function count_unchecked()
+    public function count_unchecked()
     {
         return $this->count();
     }
