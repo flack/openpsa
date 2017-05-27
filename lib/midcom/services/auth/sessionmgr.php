@@ -374,7 +374,7 @@ class midcom_services_auth_sessionmgr
      * @return string One of 'online', 'offline' or 'unknown', indicating the current online
      *     state.
      */
-    function is_user_online($user)
+    public function is_user_online($user)
     {
         if (!$user->get_storage()->can_do('midcom:isonline')) {
             return 'unknown';
