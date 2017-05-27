@@ -552,7 +552,7 @@ class midcom_services_auth_acl
     private function _load_privileges_byguid($object_guid, $object_class, $user_id)
     {
         // content privileges
-        $content_privileges = self::_collect_content_privileges($object_guid, $user_id, $object_class);
+        $content_privileges = $this->_collect_content_privileges($object_guid, $user_id, $object_class);
 
         $user = $this->auth->get_user($user_id);
 
@@ -604,7 +604,7 @@ class midcom_services_auth_acl
      * @param string $class The DBA classname
      * @return Array An array of privilege_name => privilege_value pairs valid for the given user.
      */
-    private static function _collect_content_privileges($guid, $user_id, $class)
+    private function _collect_content_privileges($guid, $user_id, $class)
     {
         static $cached_collected_privileges = array();
 
@@ -619,23 +619,14 @@ class midcom_services_auth_acl
         //
         // We look up the parent guid in internal sudo mode, as we could run into a fully fledged loop
         // otherwise. (get_parent_data calling get_object_by_guid calling can_do ...)
-
-        // ==> into SUDO
-        $previous_sudo = midcom::get()->auth->acl->_internal_sudo;
-        midcom::get()->auth->acl->_internal_sudo = true;
-
-        $parent_data = midcom::get()->dbfactory->get_parent_data($guid, $class);
-        $parent_guid = current($parent_data);
-
-        midcom::get()->auth->acl->_internal_sudo = $previous_sudo;
-        // <== out of SUDO
+        list ($parent_guid, $parent_class) = $this->get_parent_data($guid, $class);
 
         if (   $parent_guid == $guid
             || !mgd_is_guid($parent_guid)) {
             $base_privileges = array();
         } else {
             // recursion
-            $base_privileges = self::_collect_content_privileges($parent_guid, $user_id, key($parent_data));
+            $base_privileges = $this->_collect_content_privileges($parent_guid, $user_id, $parent_class);
         }
 
         // Determine parent ownership
@@ -906,15 +897,7 @@ class midcom_services_auth_acl
         }
 
         //if nothing was found, we try to recurse to parent
-
-        // ==> into SUDO
-        $previous_sudo = midcom::get()->auth->acl->_internal_sudo;
-        midcom::get()->auth->acl->_internal_sudo = true;
-
-        $parent_data = midcom::get()->dbfactory->get_parent_data($guid, $class);
-        $parent_guid = current($parent_data);
-        midcom::get()->auth->acl->_internal_sudo = $previous_sudo;
-        // <== out of SUDO
+        list ($parent_guid, $parent_class) = $this->get_parent_data($guid, $class);
 
         if (   $parent_guid == $guid
             || !mgd_is_guid($parent_guid)) {
@@ -926,12 +909,23 @@ class midcom_services_auth_acl
             self::$_content_privileges_cache[$parent_cache_id] = array();
         }
 
-        if ($this->_load_content_privilege($privilegename, $parent_guid, key($parent_data), $user_id)) {
+        if ($this->_load_content_privilege($privilegename, $parent_guid, $parent_class, $user_id)) {
             self::$_content_privileges_cache[$cache_id][$privilegename] = self::$_content_privileges_cache[$parent_cache_id][$privilegename];
             return true;
         }
 
         return false;
+    }
+
+    private function get_parent_data($guid, $class)
+    {
+        // ==> into SUDO
+        $previous_sudo = $this->_internal_sudo;
+        $this->_internal_sudo = true;
+        $parent_data = midcom::get()->dbfactory->get_parent_data($guid, $class);
+        $this->_internal_sudo = $previous_sudo;
+        // <== out of SUDO
+        return array(current($parent_data), key($parent_data));
     }
 
     /**
