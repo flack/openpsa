@@ -41,11 +41,8 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
                 continue;
             }
 
-            // In Midgard2 we can have objects that don't
-            // have metadata. These should not be shown
-            // in trash.
-            if (   class_exists('midgard_reflector_object')
-                && !midgard_reflector_object::has_metadata_class($type)) {
+            // Objects that don't have metadata should not be shown in trash.
+            if (!midgard_reflector_object::has_metadata_class($type)) {
                 debug_add("{$type} has no metadata, skipping");
                 continue;
             }
