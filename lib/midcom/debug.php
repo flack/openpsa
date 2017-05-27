@@ -64,13 +64,6 @@ class midcom_debug
     private $_enabled;
 
     /**
-     * Access to installed FirePHP logger
-     *
-     * @var FirePHP
-     */
-    public $firephp = null;
-
-    /**
      * Standard constructor
      */
     public function __construct($filename = null)
@@ -81,13 +74,6 @@ class midcom_debug
         $this->_filename = $filename;
         $this->_enabled = true;
         $this->_loglevel = midcom::get()->config->get('log_level');
-
-        // Load FirePHP logger if enabled
-        if (midcom::get()->config->get('log_firephp')) {
-            if (class_exists('FirePHP')) {
-                $this->firephp = FirePHP::getInstance(true);
-            }
-        }
     }
 
     /**
@@ -180,22 +166,6 @@ class midcom_debug
         $prefix .= $this->_get_caller();
         fputs($file, $prefix . trim($message) . "\n");
         fclose($file);
-
-        if (   $this->firephp
-            && !_midcom_headers_sent()) {
-            try {
-                $log_method = $this->_loglevels[$loglevel];
-                if ($loglevel == MIDCOM_LOG_DEBUG) {
-                    $log_method = 'log';
-                }
-                if ($loglevel == MIDCOM_LOG_CRIT) {
-                    $log_method = 'error';
-                }
-                $this->firephp->$log_method($message);
-            } catch (Exception $e) {
-                // Ignore FirePHP errors for now
-            }
-        }
     }
 
     private function check_level($loglevel)
