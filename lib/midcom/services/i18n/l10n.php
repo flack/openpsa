@@ -156,39 +156,6 @@ class midcom_services_i18n_l10n
     }
 
     /**
-     * This will flush the complete string table to the filesystem.
-     * No locking code is in place, so check that there are no concurrent
-     * accesses to the file have to be done on a social level.
-     *
-     * It will write all loaded languages to disk, regardless of changes.
-     */
-    function flush()
-    {
-        foreach ($this->_stringdb as $lang => $table) {
-            $file = fopen("{$this->_library_filename}.{$lang}.txt", 'w');
-            if (!$file) {
-                midcom::get()->uimessages->add("L10N Error", "Failed to open the file '{$this->_library_filename}.{$lang}.txt' for writing.", 'error');
-                debug_add("Failed to open the file '{$this->_library_filename}.{$lang}.txt' for writing.", MIDCOM_LOG_ERROR);
-                return false;
-            }
-
-            fwrite($file, "---# MidCOM String Database\n");
-            fwrite($file, "---VERSION 2.1.0\n");
-            fwrite($file, "---LANGUAGE {$lang}\n\n");
-
-            foreach ($table as $key => $translation) {
-                $key = trim($key);
-                $translation = str_replace("\r\n", "\n", trim($translation));
-                fwrite($file, "---STRING {$key}\n");
-                fwrite($file, "{$translation}\n");
-                fwrite($file, "---STRINGEND\n\n");
-            }
-
-            fclose($file);
-        }
-    }
-
-    /**
      * Load a language database
      *
      * - Leading and trailing whitespace will be eliminated
@@ -503,51 +470,6 @@ class midcom_services_i18n_l10n
             return array();
         }
         return $this->_stringdb[$language];
-    }
-
-    /**
-     * Updates a string in the database. If it does not exist, it will be created
-     * automatically.
-     *
-     * @param string $string        The string-ID to edit.
-     * @param string $language        The language to edit.
-     * @param string $translation    The UTF-8 encoded string to add/update.
-     */
-    function update($string, $language, $translation)
-    {
-        $this->_check_for_language($language);
-        $this->_stringdb[$language][$string] = $translation;
-    }
-
-    /**
-     * Deletes a string from the database. If the string is not present, it
-     * will fail silently.
-     *
-     * @param string $string        The string-ID to edit.
-     * @param string $language        The language to edit.
-     */
-    function delete($string, $language)
-    {
-        // This is error-resilient, deleting a non-existent string will
-        // just do nothing.
-        unset($this->_stringdb[$language][$string]);
-    }
-
-    /**
-     * Scans the current library and delivers all string ids that are in use.
-     *
-     * @return Array A list of all string-IDs
-     */
-    function get_all_string_ids()
-    {
-        $this->_load_all_languages();
-
-        $found_strings = array();
-        foreach ($this->_stringdb as $stringtable) {
-            $found_strings = array_unique(array_merge(array_keys($stringtable), $found_strings));
-        }
-        sort($found_strings, SORT_STRING);
-        return $found_strings;
     }
 
     public function get_language_name($lang)
