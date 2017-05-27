@@ -303,17 +303,6 @@ class midcom_services_i18n_l10n
     }
 
     /**
-     * This tries to load the language files for all languages defined
-     * in the i18n's language database.
-     */
-    private function _load_all_languages()
-    {
-        foreach (array_keys($this->_language_db) as $lang) {
-            $this->_check_for_language($lang);
-        }
-    }
-
-    /**
      * Set output character set.
      *
      * This is usually set through midcom_services_i18n.
