@@ -97,36 +97,6 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
     }
 
     /**
-     * Used to convert our GET parameters into session data
-     *
-     * For use with DM2 or any other form that loses the GET parameters
-     * when POSTing
-     */
-    function get2session()
-    {
-        $arr = self::get2relatedto();
-        if (count($arr) > 0) {
-            $session = new midcom_services_session('org.openpsa.relatedto');
-            $session->set('relatedto2get_array', $arr);
-        }
-    }
-
-    /**
-     * Clean up after get2session() (in case we cancel or something)
-     *
-     * To be used in case we do not get to call on_created_handle_relatedto()
-     * or some other method that reads and saves the data (and while at it cleans
-     * up after itself)
-     */
-    function get2session_cleanup()
-    {
-        $session = new midcom_services_session('org.openpsa.relatedto');
-        if ($session->exists('relatedto2get_array')) {
-            $session->remove('relatedto2get_array');
-        }
-    }
-
-    /**
      * Serializes an array or relatedto objects into GET parameters
      *
      * NOTE: does not prefix the ? for the first parameter in case this needs
