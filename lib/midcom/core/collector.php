@@ -59,7 +59,7 @@ class midcom_core_collector extends midcom_core_query
      *    abort the operation.
      *
      * @return boolean True if the query was executed, false otherwise (e.g. if it had been executed already)
-     * @see _real_execute()
+     * @see midgard_collector::execute()
      */
     public function execute()
     {
@@ -72,16 +72,6 @@ class midcom_core_collector extends midcom_core_query
             $this->_user_id = midcom::get()->auth->acl->get_user_id();
         }
 
-        return $this->_real_execute();
-    }
-
-    /**
-     * Executes the MC
-     *
-     * @see midgard_collector::execute()
-     */
-    private function _real_execute()
-    {
         $this->_add_visibility_checks();
         return $this->_query->execute();
     }
