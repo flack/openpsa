@@ -377,3 +377,9 @@ form.datamanager2 table.jquery-enabled thead .deleted img.delete
 {
     background-color: #eff5ff;
 }
+
+.midcom_helper_datamanager2_widget_markdown .CodeMirror,
+.midcom_helper_datamanager2_widget_markdown .CodeMirror-scroll
+{
+	min-height: 3em;
+}
