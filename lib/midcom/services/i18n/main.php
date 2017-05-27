@@ -258,7 +258,7 @@ class midcom_services_i18n
      *
      * @return Array
      */
-    function get_language_db()
+    public function get_language_db()
     {
         return $this->_language_db;
     }
@@ -395,7 +395,7 @@ class midcom_services_i18n
      *
      * @return Array
      */
-    function list_languages()
+    public function list_languages()
     {
         $languages = array();
         foreach ($this->_language_db as $identifier => $language) {
@@ -418,7 +418,7 @@ class midcom_services_i18n
      * @param string $string The string to convert.
      * @return mixed The converted string or false on any error.
      */
-    function iconv($source_charset, $destination_charset, $string)
+    private function iconv($source_charset, $destination_charset, $string)
     {
         $result = @iconv($source_charset, $destination_charset, $string);
         if (   $result === false
@@ -469,7 +469,7 @@ class midcom_services_i18n
      * @param string $charset The charset in which string currently is, omit this parameter to use mb_detect_encoding (error prone!)
      * @return string The converted string.
      */
-    function convert_to_current_charset($string, $charset = null)
+    public function convert_to_current_charset($string, $charset = null)
     {
         if (is_null($charset)) {
             // Try to detect source encoding.
@@ -485,7 +485,7 @@ class midcom_services_i18n
      * @param string $text The text with HTML entities, which should be replaced by their native equivalents.
      * @return string The translated string.
      */
-    function html_entity_decode($text)
+    public function html_entity_decode($text)
     {
         return html_entity_decode($text, ENT_COMPAT, $this->_current_charset);
     }
