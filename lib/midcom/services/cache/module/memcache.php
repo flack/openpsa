@@ -96,8 +96,7 @@ class midcom_services_cache_module_memcache extends midcom_services_cache_module
 
     /**
      * Looks up a value in the cache and returns it. Not existent
-     * keys are caught in this call as well, so you do not need
-     * to call exists first.
+     * keys are caught in this call as well
      *
      * @param string $data_group The Data Group to look in.
      * @param string $key The key to look up.
@@ -110,25 +109,6 @@ class midcom_services_cache_module_memcache extends midcom_services_cache_module
         }
 
         return $this->_cache->fetch("{$data_group}-{$key}");
-    }
-
-    /**
-     * Checks for the existence of a key in the cache.
-     *
-     * @param string $data_group The Data Group to look in.
-     * @param string $key The key to look up.
-     * @return boolean Indicating existence
-     */
-    function exists($data_group, $key)
-    {
-        if ($this->_cache === null) {
-            return false;
-        }
-        // Workaround for https://github.com/doctrine/cache/issues/182
-        if ($this->is_operational()) {
-            return (bool) $this->_cache->fetch("{$data_group}-{$key}");
-        }
-        return $this->_cache->contains("{$data_group}-{$key}");
     }
 
     /**

@@ -186,24 +186,6 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
     }
 
     /**
-     * Checks for the existence of a key in the cache.
-     *
-     * @param string $key The key to look up.
-     * @return boolean Indicating existence
-     */
-    function exists($key)
-    {
-        if ($this->_cache === null) {
-            return false;
-        }
-
-        $lang_id = midcom::get()->i18n->get_current_language();
-        $result = $this->_cache->fetch("{$this->_prefix}-{$key}");
-
-        return (is_array($result) && isset($result[$lang_id]));
-    }
-
-    /**
      * Sets a given node key in the cache.
      *
      * @param string $key The key to look up.
