@@ -142,6 +142,10 @@ Verschieben
 Verschiebe %s
 ---STRINGEND
 
+---STRING moved %s to %s
+%s wurde nach %s verschoben
+---STRINGEND
+
 ---STRING nav order
 Reihenfolge der Navigationselemente
 ---STRINGEND

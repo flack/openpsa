@@ -18,9 +18,9 @@ class midcom_admin_folder_handler_move extends midcom_baseclasses_components_han
     /**
      * Object requested for move editing
      *
-     * @var mixed Object for move editing
+     * @var midcom_core_dbaobject Object for move editing
      */
-    private $_object = null;
+    private $_object;
 
     /**
      * Handler for folder move. Checks for updating permissions, initializes
@@ -42,8 +42,13 @@ class midcom_admin_folder_handler_move extends midcom_baseclasses_components_han
         $this->_object->require_do('midgard:update');
 
         if (isset($_POST['move_to'])) {
-            $this->_move_object((int) $_POST['move_to']);
-            return new midcom_response_relocate(midcom::get()->permalinks->create_permalink($this->_object->guid));
+            try {
+                $target = new midcom_db_topic((int) $_POST['move_to']);
+                $this->_move_object($target);
+                midcom::get()->uimessages->add($this->_l10n->get($this->_component), sprintf($this->_l10n->get('moved %s to %s'), $this->_topic->get_label(), $target->get_label()));
+            } catch (midcom_error $e) {
+                midcom::get()->uimessages->add($this->_l10n->get($this->_component), $e->getMessage(), 'error');
+            }
         }
 
         $object_label = midcom_helper_reflector::get($this->_object)->get_object_label($this->_object);
@@ -51,25 +56,17 @@ class midcom_admin_folder_handler_move extends midcom_baseclasses_components_han
         if (is_a($this->_object, 'midcom_db_topic')) {
             // This is a topic
             $this->_object->require_do('midcom.admin.folder:topic_management');
-            $this->_node_toolbar->hide_item("__ais/folder/move/{$this->_object->guid}/");
             $data['current_folder'] = new midcom_db_topic($this->_object->up);
         } else {
-            // This is a regular object, bind to view
-            $this->bind_view_to_object($this->_object);
-
-            $this->add_breadcrumb(midcom::get()->permalinks->create_permalink($this->_object->guid), $object_label);
-            $this->_view_toolbar->hide_item("__ais/folder/move/{$this->_object->guid}/");
-
+            // This is a regular object
             $data['current_folder'] = new midcom_db_topic($this->_object->topic);
         }
         $data['handler'] = $this;
 
-        $this->add_breadcrumb("__ais/folder/move/{$this->_object->guid}/", $this->_l10n->get('move'));
-
-        $data['title'] = sprintf($this->_l10n->get('move %s'), $object_label);
-        midcom::get()->head->set_pagetitle($data['title']);
+        midcom::get()->head->set_pagetitle(sprintf($this->_l10n->get('move %s'), $object_label));
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.admin.folder/folder.css');
+        return $this->get_workflow('viewer')->run();
     }
 
     public function show_tree(midcom_db_topic $folder = null, $tree_disabled = false)
@@ -122,20 +119,14 @@ class midcom_admin_folder_handler_move extends midcom_baseclasses_components_han
         echo "</ul>\n";
     }
 
-    private function _move_object($target)
+    private function _move_object(midcom_db_topic $target)
     {
-        $move_to_topic = new midcom_db_topic();
-
-        if (!$move_to_topic->get_by_id($target)) {
-            throw new midcom_error( 'Failed to move the topic. Could not get the target topic');
-        }
-
-        $move_to_topic->require_do('midgard:create');
+        $target->require_do('midgard:create');
 
         if (is_a($this->_object, 'midcom_db_topic')) {
             $name = $this->_object->name;
             $this->_object->name = ''; // Prevents problematic location to break the site, we set this back below...
-            $this->_object->up = $move_to_topic->id;
+            $this->_object->up = $target->id;
             if (!$this->_object->update()) {
                 throw new midcom_error('Failed to move the topic, reason ' . midcom_connection::get_error_string());
             }
@@ -143,7 +134,7 @@ class midcom_admin_folder_handler_move extends midcom_baseclasses_components_han
             $this->_object->name = $name;
             $this->_object->update();
         } else {
-            $this->_object->topic = $move_to_topic->id;
+            $this->_object->topic = $target->id;
             if (!$this->_object->update()) {
                 throw new midcom_error('Failed to move the article, reason ' . midcom_connection::get_error_string());
             }

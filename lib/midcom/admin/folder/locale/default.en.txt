@@ -142,6 +142,10 @@ Move
 Move %s
 ---STRINGEND
 
+---STRING moved %s to %s
+moved %s to %s
+---STRINGEND
+
 ---STRING nav order
 Order of navigation items
 ---STRINGEND

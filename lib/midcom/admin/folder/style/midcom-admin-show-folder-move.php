@@ -1,6 +1,4 @@
-<h1><?php echo $data['title']; ?></h1>
-
-<form method="post">
+<form method="post" class="datamanager2">
     <div class="midcom_admin_content_folderlist">
         <?php $data['handler']->show_tree(); ?>
     </div>

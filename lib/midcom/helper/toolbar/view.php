@@ -37,13 +37,14 @@ class midcom_helper_toolbar_view extends midcom_helper_toolbar
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/metadata.png',
                 MIDCOM_TOOLBAR_ACCESSKEY => 'm',
             ));
+            $viewer = new midcom\workflow\viewer;
             $buttons = array_merge($buttons, array(
-                array(
-                    MIDCOM_TOOLBAR_URL => "__ais/folder/move/{$object->guid}/",
-                    MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('move', 'midcom.admin.folder'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/save-as.png',
-                    MIDCOM_TOOLBAR_ENABLED => is_a($object, 'midcom_db_article')
-                ),
+                $viewer->get_button("__ais/folder/move/{$object->guid}/",
+                    array(
+                        MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('move', 'midcom.admin.folder'),
+                        MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/save-as.png',
+                        MIDCOM_TOOLBAR_ENABLED => is_a($object, 'midcom_db_article')
+                    )),
                 array(
                     MIDCOM_TOOLBAR_URL => midcom_connection::get_url('self') . "__mfa/asgard/object/open/{$object->guid}/",
                     MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('manage object', 'midgard.admin.asgard'),

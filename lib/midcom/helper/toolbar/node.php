@@ -53,11 +53,11 @@ class midcom_helper_toolbar_node extends midcom_helper_toolbar_view
             && $urltopic->can_do('midcom.admin.folder:topic_management')) {
             // Allow to move other than root folder
             if ($urltopic->guid !== midcom::get()->config->get('midcom_root_topic_guid')) {
-                $buttons[] = array(
-                    MIDCOM_TOOLBAR_URL => "__ais/folder/move/{$urltopic->guid}/",
+                $viewer = new midcom\workflow\viewer;
+                $buttons[] = $viewer->get_button("__ais/folder/move/{$urltopic->guid}/", array(
                     MIDCOM_TOOLBAR_LABEL => midcom::get()->i18n->get_string('move', 'midcom.admin.folder'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/save-as.png',
-                );
+                ));
             }
         }
 
