@@ -289,7 +289,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
         return $stat;
     }
 
-    function list_hours()
+    private function list_hours()
     {
         $hours = array(
             'reported'    => 0,

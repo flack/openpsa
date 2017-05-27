@@ -264,7 +264,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
         return false;
     }
 
-    function get_logs()
+    public function get_logs()
     {
         $log_entries = array();
         $logs = $this->list_parameters('net.nehmer.comments:moderation_log');

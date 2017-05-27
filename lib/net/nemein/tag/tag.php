@@ -52,7 +52,7 @@ class net_nemein_tag_tag_dba extends midcom_core_dbaobject
      * @param string $tag Tag to validate
      * @return boolean Whether tag is valid
      */
-    function validate_tag($tag)
+    private function validate_tag($tag)
     {
         if (empty($tag)) {
             midcom::get()->uimessages->add(midcom::get()->i18n->get_string('net.nemein.tag', 'net.nemein.tag'), sprintf(midcom::get()->i18n->get_string('tag "%s" is not valid. tags may not be empty', 'net.nemein.tag'), $tag), 'info');

@@ -200,7 +200,7 @@ class net_nemein_wiki_parser extends midcom_baseclasses_components_purecode
     /**
      * Replace wiki syntax in the document with HTML for display purposes
      */
-    function replace_wikiwords($match)
+    private function replace_wikiwords($match)
     {
         // Refactored using code from the WordPress SimpleLink plugin
         // http://warpedvisions.org/projects/simplelink
