@@ -127,11 +127,6 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
             case '____mfa-asgard-object_delete':
                 $title_string = midcom::get()->i18n->get_string('delete %s %s', 'midgard.admin.asgard');
                 break;
-            case '____mfa-asgard-object_rcs_history':
-            case '____mfa-asgard-object_rcs_diff':
-            case '____mfa-asgard-object_rcs_preview':
-                $title_string = midcom::get()->i18n->get_string('revision history of %s %s', 'midgard.admin.asgard');
-                break;
             default:
                 $title_string = midcom::get()->i18n->get_string('%s %s', 'midgard.admin.asgard');
                 break;
@@ -195,8 +190,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
         $parent = $object->get_parent();
 
         if (   is_a($object, 'midcom_db_parameter')
-            && is_object($parent)
-            && $parent->guid) {
+            && !empty($parent->guid)) {
             // Add "parameters" list to breadcrumb if we're in a param
             $breadcrumb[] = array(
                 MIDCOM_NAV_URL => self::_generate_url('parameters', $parent->guid),
@@ -205,8 +199,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
         }
 
         $i = 0;
-        while (   is_object($parent)
-               && $parent->guid
+        while (   !empty($parent->guid)
                && $i < 10) {
             $i++;
             $parent_reflector = midcom_helper_reflector::get($parent);
@@ -300,29 +293,6 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
                     MIDCOM_NAV_URL => "__mfa/asgard_midcom.helper.replicator/object/{$object->guid}/",
                     MIDCOM_NAV_NAME => midcom::get()->i18n->get_string('replication information', 'midcom.helper.replicator'),
                 );
-                break;
-            case '____mfa-asgard-object_rcs_diff':
-                $tmp[] = array(
-                    MIDCOM_NAV_URL => "__mfa/asgard/object/rcs/preview/{$object->guid}/{$data['compare_revision']}/{$data['latest_revision']}",
-                    MIDCOM_NAV_NAME => sprintf($data['l10n']->get('differences between %s and %s'), $data['compare_revision'], $data['latest_revision']),
-                );
-
-            case '____mfa-asgard-object_rcs_preview':
-                $tmp[] = array(
-                    MIDCOM_NAV_URL => "__mfa/asgard/object/rcs/preview/{$object->guid}/{$data['latest_revision']}/",
-                    MIDCOM_NAV_NAME => sprintf($data['l10n']->get('version %s'), $data['latest_revision']),
-                );
-
-            case '____mfa-asgard-object_rcs_history':
-                $tmp[] = array(
-                    MIDCOM_NAV_URL => "__mfa/asgard/object/rcs/{$object->guid}/",
-                    MIDCOM_NAV_NAME => $data['l10n']->get('show history'),
-                );
-
-                $tmp = array_reverse($tmp);
-
-                $breadcrumb = array_merge($breadcrumb, $tmp);
-
                 break;
         }
 

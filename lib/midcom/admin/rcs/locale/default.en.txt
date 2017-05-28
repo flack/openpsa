@@ -10,10 +10,6 @@ Back to page "%s"
 Changes done in revision %s to %s
 ---STRINGEND
 
----STRING changes from version %s
-Changes from version %s
----STRINGEND
-
 ---STRING date
 Date
 ---STRINGEND

@@ -138,10 +138,6 @@ CSS-tyylitiedosto
 Version %s muutokset kohteeseen %s
 ---STRINGEND
 
----STRING changes from version %s
-Muutokset versiosta %s
----STRINGEND
-
 ---STRING child types of %s
 Tyypin %s alatyypit
 ---STRINGEND

@@ -10,10 +10,6 @@ Idź do strony "%s"
 Zmiany z wersji %s do %s
 ---STRINGEND
 
----STRING changes from version %s
-Zmiany z wersji %s
----STRINGEND
-
 ---STRING date
 Data
 ---STRINGEND

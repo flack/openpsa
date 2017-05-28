@@ -32,6 +32,8 @@ abstract class midcom_services_rcs_handler extends midcom_baseclasses_components
 
     abstract protected function handler_callback($handler_id);
 
+    abstract protected function get_breadcrumbs();
+
     protected function resolve_object_title()
     {
         return midcom_helper_reflector::get($this->object)->get_object_label($this->object);
@@ -159,6 +161,33 @@ abstract class midcom_services_rcs_handler extends midcom_baseclasses_components
         $this->_request_data['rcs_toolbar_2']->add_items($buttons);
     }
 
+    private function prepare_request_data($view_title)
+    {
+        $breadcrumbs = $this->get_breadcrumbs();
+        if (!empty($breadcrumbs)) {
+            foreach ($breadcrumbs as $item) {
+                $this->add_breadcrumb($item[MIDCOM_NAV_URL], $item[MIDCOM_NAV_NAME]);
+            }
+        }
+        $this->add_breadcrumb($this->url_prefix . "{$this->object->guid}/", $this->_l10n->get('show history'));
+
+        if (!empty($this->_request_data['latest_revision'])) {
+            $this->add_breadcrumb(
+                $this->url_prefix . "preview/{$this->object->guid}/{$this->_request_data['latest_revision']}/",
+                sprintf($this->_l10n->get('version %s'), $this->_request_data['latest_revision'])
+            );
+        }
+        if (!empty($this->_request_data['compare_revision'])) {
+            $this->add_breadcrumb(
+                $this->url_prefix . "diff/{$this->object->guid}/{$this->_request_data['compare_revision']}/{$this->_request_data['latest_revision']}/",
+                sprintf($this->_l10n->get('differences between %s and %s'), $this->_request_data['compare_revision'], $this->_request_data['latest_revision'])
+            );
+        }
+        $this->_request_data['handler'] = $this;
+        $this->_request_data['view_title'] = $view_title;
+        midcom::get()->head->set_pagetitle($view_title);
+    }
+
     public function translate($string)
     {
         $translated = $string;
@@ -191,9 +220,10 @@ abstract class midcom_services_rcs_handler extends midcom_baseclasses_components
         }
 
         $this->load_object($args[0]);
-        $data['view_title'] = sprintf($this->_l10n->get('revision history of %s'), $this->resolve_object_title());
+        $view_title = sprintf($this->_l10n->get('revision history of %s'), $this->resolve_object_title());
 
         $this->rcs_toolbar();
+        $this->prepare_request_data($view_title);
         return $this->handler_callback($handler_id);
     }
 
@@ -233,11 +263,11 @@ abstract class midcom_services_rcs_handler extends midcom_baseclasses_components
         $data['latest_revision'] = $args[2];
         $data['guid'] = $args[0];
 
-        $data['view_title'] = sprintf($this->_l10n->get('changes done in revision %s to %s'), $data['latest_revision'], $this->resolve_object_title());
-        $data['handler'] = $this;
+        $view_title = sprintf($this->_l10n->get('changes done in revision %s to %s'), $data['latest_revision'], $this->resolve_object_title());
 
         // Load the toolbars
         $this->rcs_toolbar($args[2], true);
+        $this->prepare_request_data($view_title);
         return $this->handler_callback($handler_id);
     }
 
@@ -267,10 +297,10 @@ abstract class midcom_services_rcs_handler extends midcom_baseclasses_components
 
         $this->_view_toolbar->hide_item($this->url_prefix . "preview/{$this->object->guid}/{$revision}/");
 
-        $data['view_title'] = sprintf($this->_l10n->get('viewing version %s of %s'), $revision, $this->resolve_object_title());
-        $data['handler'] = $this;
+        $view_title = sprintf($this->_l10n->get('viewing version %s of %s'), $revision, $this->resolve_object_title());
         // Load the toolbars
         $this->rcs_toolbar($revision);
+        $this->prepare_request_data($view_title);
         return $this->handler_callback($handler_id);
     }
 

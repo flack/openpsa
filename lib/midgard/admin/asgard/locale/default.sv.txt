@@ -130,10 +130,6 @@ Acscading Style Sheet
 Ändringar gjorda i revision %s till %s
 ---STRINGEND
 
----STRING changes from version %s
-Ändringar från version %s
----STRINGEND
-
 ---STRING child types of %s
 Undertyper till %s
 ---STRINGEND

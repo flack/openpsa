@@ -10,10 +10,6 @@ Tillbaka till sida %s
 Ändringar gjorda i revision %s till %s
 ---STRINGEND
 
----STRING changes from version %s
-Ändringar från version %s
----STRINGEND
-
 ---STRING date
 Datum
 ---STRINGEND

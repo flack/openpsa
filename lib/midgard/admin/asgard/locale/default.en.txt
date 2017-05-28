@@ -142,10 +142,6 @@ Cascading Style Sheet
 Changes done in revision %s to %s
 ---STRINGEND
 
----STRING changes from version %s
-Changes from version %s
----STRINGEND
-
 ---STRING child types of %s
 Child types of %s
 ---STRINGEND

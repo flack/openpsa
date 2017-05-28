@@ -10,10 +10,6 @@ Takaisin sivulle "%s"
 Version %s muutokset tietueeseen %s
 ---STRINGEND
 
----STRING changes from version %s
-Muutokset versiosta %s
----STRINGEND
-
 ---STRING date
 Päivämäärä
 ---STRINGEND

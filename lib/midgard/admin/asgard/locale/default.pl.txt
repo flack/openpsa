@@ -142,10 +142,6 @@ Styl CSS
 Zmiany z wersji %s do %s
 ---STRINGEND
 
----STRING changes from version %s
-Zmiany z wersji %s
----STRINGEND
-
 ---STRING child types of %s
 Typy podrzędne w %s
 ---STRINGEND

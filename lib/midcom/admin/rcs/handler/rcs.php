@@ -14,12 +14,27 @@ class midcom_admin_rcs_handler_rcs extends midcom_services_rcs_handler
 
     protected $url_prefix = '__ais/rcs/';
 
+    protected function get_breadcrumbs()
+    {
+        $items = array();
+        if (!is_a($this->object, 'midcom_db_topic')) {
+            $items[] = array(
+                MIDCOM_NAV_URL => $this->get_object_url(),
+                MIDCOM_NAV_NAME => $this->resolve_object_title()
+            );
+        }
+        return $items;
+    }
+
     protected function handler_callback($handler_id)
     {
-        $parts = explode('-', $handler_id);
-        $mode = end($parts);
-
-        $this->prepare_request_data($mode);
+        $this->_view_toolbar->add_item(
+            array(
+                MIDCOM_TOOLBAR_URL => $this->get_object_url(),
+                MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n->get('back to %s'), $this->resolve_object_title()),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_up.png',
+            )
+        );
     }
 
     protected function get_object_url()
@@ -33,39 +48,5 @@ class midcom_admin_rcs_handler_rcs extends midcom_services_rcs_handler
     public function _on_initialize()
     {
         midcom::get()->style->prepend_component_styledir('midcom.admin.rcs');
-    }
-
-    private function prepare_request_data($mode)
-    {
-        $this->_view_toolbar->add_item(
-            array(
-                MIDCOM_TOOLBAR_URL => $this->get_object_url(),
-                MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n->get('back to %s'), $this->resolve_object_title()),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_up.png',
-            )
-        );
-
-        if (!is_a($this->object, 'midcom_db_topic')) {
-            $this->add_breadcrumb($this->get_object_url(), $this->resolve_object_title());
-        }
-        $this->add_breadcrumb("__ais/rcs/{$this->object->guid}/", $this->_l10n->get('show history'));
-
-        if ($mode == 'diff') {
-            $this->add_breadcrumb(
-                "__ais/rcs/preview/{$this->object->guid}/{$this->_request_data['latest_revision']}/",
-                sprintf($this->_l10n->get('version %s'), $this->_request_data['latest_revision'])
-            );
-            $this->add_breadcrumb(
-                "__ais/rcs/diff/{$this->object->guid}/{$this->_request_data['compare_revision']}/{$this->_request_data['latest_revision']}/",
-                sprintf($this->_l10n->get('changes from version %s'), $this->_request_data['compare_revision'])
-            );
-        } elseif ($mode == 'preview') {
-            $this->add_breadcrumb(
-                    "__ais/rcs/preview/{$this->object->guid}/{$this->_request_data['latest_revision']}/",
-                sprintf($this->_l10n->get('version %s'), $this->_request_data['latest_revision'])
-            );
-        }
-
-        midcom::get()->head->set_pagetitle($this->_request_data['view_title']);
     }
 }

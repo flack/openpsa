@@ -10,10 +10,6 @@ zurück zu "%s"
 Änderungen in Revision %s von "%s"
 ---STRINGEND
 
----STRING changes from version %s
-Änderungen seit Version %s
----STRINGEND
-
 ---STRING date
 Datum
 ---STRINGEND
