@@ -178,8 +178,6 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
      */
     private static function _set_object_breadcrumb($object, $handler_id, array $data)
     {
-        $tmp = array();
-
         $breadcrumb = array();
         $label = $data['object_reflector']->get_object_label($object);
         $breadcrumb[] = array(
