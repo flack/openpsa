@@ -16,7 +16,7 @@ class midcom_admin_rcs_handler_rcs extends midcom_services_rcs_handler
 
     protected function handler_callback($handler_id)
     {
-        $parts = explode('_', $handler_id);
+        $parts = explode('-', $handler_id);
         $mode = end($parts);
 
         $this->prepare_request_data($mode);
@@ -57,13 +57,13 @@ class midcom_admin_rcs_handler_rcs extends midcom_services_rcs_handler
                 sprintf($this->_l10n->get('version %s'), $this->_request_data['latest_revision'])
             );
             $this->add_breadcrumb(
-                "__ais/rcs/diff/{$this->object->guid}/{$this->_request_data['previous_revision']}/{$this->_request_data['latest_revision']}/",
-                sprintf($this->_l10n->get('changes from version %s'), $this->_request_data['previous_revision'])
+                "__ais/rcs/diff/{$this->object->guid}/{$this->_request_data['compare_revision']}/{$this->_request_data['latest_revision']}/",
+                sprintf($this->_l10n->get('changes from version %s'), $this->_request_data['compare_revision'])
             );
         } elseif ($mode == 'preview') {
             $this->add_breadcrumb(
-                    "__ais/rcs/preview/{$this->object->guid}/{$this->_request_data['revision']}/",
-                sprintf($this->_l10n->get('version %s'), $this->_request_data['revision'])
+                    "__ais/rcs/preview/{$this->object->guid}/{$this->_request_data['latest_revision']}/",
+                sprintf($this->_l10n->get('version %s'), $this->_request_data['latest_revision'])
             );
         }
 
