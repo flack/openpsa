@@ -48,7 +48,7 @@
         "checkdomain/holiday": "~2.0.0",
         "studio-42/elfinder": "^2.1.20",
         "openpsa/ranger": "^0.1.0",
-        "openpsa/midgard-portable": "dev-master",
+        "openpsa/midgard-portable": "^1.0",
         "doctrine/cache": "^1.5.4",
         "mf2/mf2": ">=0.2.12"
     },
