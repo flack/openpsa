@@ -211,7 +211,7 @@ class midcom_services_cron
      *
      * @param array $job The job to execute.
      */
-    function _execute_job(array $job)
+    private function _execute_job(array $job)
     {
         debug_print_r('Executing job:', $job);
 
