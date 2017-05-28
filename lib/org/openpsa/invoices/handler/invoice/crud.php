@@ -193,7 +193,7 @@ class org_openpsa_invoices_handler_invoice_crud extends midcom_baseclasses_compo
         }
     }
 
-    function _populate_toolbar($handler_id)
+    public function _populate_toolbar($handler_id)
     {
         if ($this->_mode == 'read') {
             $this->_populate_read_toolbar($handler_id);
@@ -272,7 +272,7 @@ class org_openpsa_invoices_handler_invoice_crud extends midcom_baseclasses_compo
      *
      * @param string $handler_id The current handler
      */
-    function _update_breadcrumb($handler_id)
+    public function _update_breadcrumb($handler_id)
     {
         if ($customer = $this->_object->get_customer()) {
             $this->add_breadcrumb("list/customer/all/{$customer->guid}/", $customer->get_label());
@@ -303,7 +303,7 @@ class org_openpsa_invoices_handler_invoice_crud extends midcom_baseclasses_compo
         midcom::get()->head->set_pagetitle($view_title);
     }
 
-    function _prepare_request_data()
+    protected function _prepare_request_data()
     {
         $this->_request_data['object'] = $this->_object;
         $this->_request_data['datamanager'] = $this->_datamanager;
