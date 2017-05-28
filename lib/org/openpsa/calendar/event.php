@@ -402,24 +402,6 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
     }
 
     /**
-     * Find event with arbitrary GUID either in externalGuid or guid
-     */
-    function search_vCal_uid($uid)
-    {
-        $qb = self::new_query_builder();
-        $qb->begin_group('OR');
-        $qb->add_constraint('guid', '=', $uid);
-        $qb->add_constraint('externalGuid', '=', $uid);
-        $qb->end_group();
-        $ret = $qb->execute();
-        if (!empty($ret)) {
-            //It's unlikely to have more than one result and this should return an object (or false)
-            return $ret[0];
-        }
-        return false;
-    }
-
-    /**
      * Fills $this->participants and $this->resources
      */
     private function _get_em()
