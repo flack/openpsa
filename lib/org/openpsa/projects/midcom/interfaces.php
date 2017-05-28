@@ -56,7 +56,7 @@ implements midcom_services_permalinks_resolver
             //We have invalid list or zero participants, abort
             return;
         }
-        $mc = org_openpsa_projects_task_resource_dba::new_collector('metadata.deleted', false);
+        $mc = org_openpsa_projects_task_resource_dba::new_collector();
         //Target task starts or ends inside given events window or starts before and ends after
         $mc->add_constraint('task.start', '<=', $object->end);
         $mc->add_constraint('task.end', '>=', $object->start);

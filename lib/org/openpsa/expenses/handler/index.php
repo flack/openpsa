@@ -63,7 +63,7 @@ class org_openpsa_expenses_handler_index  extends midcom_baseclasses_components_
     {
         midcom::get()->auth->require_valid_user();
 
-        $hours_mc = org_openpsa_projects_hour_report_dba::new_collector('metadata.deleted', false);
+        $hours_mc = org_openpsa_projects_hour_report_dba::new_collector();
         $this->_master->add_list_filter($hours_mc);
         $hours_mc->add_constraint('date', '>=', $data['week_start']);
         $hours_mc->add_constraint('date', '<=', $data['week_end']);

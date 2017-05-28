@@ -110,7 +110,7 @@ class org_openpsa_notifications extends midcom_baseclasses_components_purecode
             $qb->add_constraint('domain', '=', 'org.openpsa.notifications');
             $qb->add_constraint('name', '=', "{$component}:{$action}");
 
-            $group_mc = midcom_db_group::new_collector('metadata.deleted', false);
+            $group_mc = midcom_db_group::new_collector();
             $group_mc->add_constraint('id', 'IN', $gids);
             $group_guids = $group_mc->list_keys();
 

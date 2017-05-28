@@ -145,7 +145,7 @@ class org_openpsa_slideshow_image_dba extends midcom_core_dbaobject
             $ids[] = $image->thumbnail;
         }
 
-        $mc = midcom_db_attachment::new_collector('metadata.deleted', false);
+        $mc = midcom_db_attachment::new_collector();
         $mc->add_constraint('id', 'IN', $ids);
         $rows = $mc->get_rows(array('id', 'name', 'guid'), 'id');
 

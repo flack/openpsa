@@ -200,10 +200,10 @@ implements midcom_helper_datamanager2_interfaces_view, org_openpsa_widgets_grid_
      */
     public function get_qb($field = null, $direction = 'ASC', array $search = array())
     {
-        $qb = midcom_db_person::new_collector('metadata.deleted', false);
-        $qb->get_current_group()->add('m.gid = :gid');
+        $qb = midcom_db_person::new_collector();
         $qb->get_doctrine()
             ->leftJoin('midgard_member', 'm', Join::WITH, 'm.uid = c.id')
+            ->where('m.gid = :gid')
             ->setParameter('gid', $this->_request_data['group']->id);
 
         if (!is_null($field)) {

@@ -226,7 +226,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
             return $tags;
         }
 
-        $mc = net_nemein_tag_tag_dba::new_collector('metadata.deleted', false);
+        $mc = net_nemein_tag_tag_dba::new_collector();
         $mc->add_constraint('id', 'IN', array_keys($links));
         $results = $mc->get_rows(array('tag', 'url', 'id'));
 
@@ -321,7 +321,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
             return $tags;
         }
 
-        $mc = net_nemein_tag_tag_dba::new_collector('metadata.deleted', false);
+        $mc = net_nemein_tag_tag_dba::new_collector();
         $mc->add_constraint('id', 'IN', array_keys($links));
         $results = $mc->get_rows(array('tag', 'url', 'id'));
 

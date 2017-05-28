@@ -38,7 +38,7 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
 
     private function _list_products()
     {
-        $mc = org_openpsa_products_product_dba::new_collector('metadata.deleted', false);
+        $mc = org_openpsa_products_product_dba::new_collector();
 
         $mc->add_order('productGroup');
         $mc->add_order('code');
@@ -50,7 +50,7 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
              * or are still in market
              */
             $mc->add_constraint('end', '=', 0);
-        $mc->add_constraint('end', '>=', time());
+            $mc->add_constraint('end', '>=', time());
         $mc->end_group();
 
         return $mc->get_rows(array('code', 'title', 'delivery', 'price', 'unit', 'productGroup'), 'id');

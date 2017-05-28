@@ -49,7 +49,7 @@ class org_openpsa_helpers_list
             return $ret;
         }
 
-        $mc = midcom_db_member::new_collector('metadata.deleted', false);
+        $mc = midcom_db_member::new_collector();
         $mc->add_constraint('uid', 'IN', array_keys($contacts));
         /* Skip magic groups */
         $mc->add_constraint('gid.name', 'NOT LIKE', '\_\_%');

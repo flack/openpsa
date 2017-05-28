@@ -123,7 +123,7 @@ implements org_openpsa_widgets_grid_provider_client
      */
     public function get_qb($field = null, $direction = 'ASC', array $search = array())
     {
-        $qb = midcom_db_person::new_collector('metadata.deleted', false);
+        $qb = midcom_db_person::new_collector();
 
         if ($this->_group) {
             $qb->get_doctrine()

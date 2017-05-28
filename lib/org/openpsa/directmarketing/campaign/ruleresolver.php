@@ -81,7 +81,7 @@ class org_openpsa_directmarketing_campaign_ruleresolver
     public function __construct()
     {
         // if querybuilder is used response-time will increase -> set_key_property has to be removed
-        $this->mc = org_openpsa_contacts_person_dba::new_collector('metadata.deleted', false);
+        $this->mc = org_openpsa_contacts_person_dba::new_collector();
     }
 
     /**

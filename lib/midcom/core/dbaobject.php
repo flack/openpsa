@@ -181,7 +181,7 @@ abstract class midcom_core_dbaobject
      * @param mixed $value Value match for the collector instance
      * @return midcom_core_collector The initialized instance of the collector.
      */
-    public static function new_collector($domain, $value)
+    public static function new_collector($domain = null, $value = null)
     {
         return midcom::get()->dbfactory->new_collector(get_called_class(), $domain, $value);
     }

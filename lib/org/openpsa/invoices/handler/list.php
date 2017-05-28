@@ -56,7 +56,7 @@ implements org_openpsa_widgets_grid_provider_client
 
     public function get_qb($field = null, $direction = 'ASC', array $search = array())
     {
-        $qb = org_openpsa_invoices_invoice_dba::new_collector('metadata.deleted', false);
+        $qb = org_openpsa_invoices_invoice_dba::new_collector();
         if (!is_null($field)) {
             $qb->add_order($field, $direction);
         }

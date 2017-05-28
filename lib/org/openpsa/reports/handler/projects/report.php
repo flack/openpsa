@@ -31,7 +31,7 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
     private function _expand_task($project_guid)
     {
         $project = org_openpsa_projects_project::get_cached($project_guid);
-        $mc = org_openpsa_projects_task_dba::new_collector('metadata.deleted', false);
+        $mc = org_openpsa_projects_task_dba::new_collector();
         $mc->add_constraint('project', 'INTREE', $project->id);
         return $mc->get_values('id');
     }

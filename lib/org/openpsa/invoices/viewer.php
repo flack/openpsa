@@ -81,7 +81,7 @@ class org_openpsa_invoices_viewer extends midcom_baseclasses_components_request
     public function add_next_previous($object, $toolbar, $urlprefix)
     {
         if ($object->number > 1) {
-            $mc = org_openpsa_invoices_invoice_dba::new_collector('metadata.deleted', false);
+            $mc = org_openpsa_invoices_invoice_dba::new_collector();
             $mc->add_constraint('number', '<', $object->number);
             $mc->set_limit(1);
             $mc->add_order('number', 'DESC');
@@ -100,7 +100,7 @@ class org_openpsa_invoices_viewer extends midcom_baseclasses_components_request
         }
 
         if (($object->number + 1) < $object->generate_invoice_number()) {
-            $mc = org_openpsa_invoices_invoice_dba::new_collector('metadata.deleted', false);
+            $mc = org_openpsa_invoices_invoice_dba::new_collector();
             $mc->add_constraint('number', '>', $object->number);
             $mc->set_limit(1);
             $mc->add_order('number', 'ASC');

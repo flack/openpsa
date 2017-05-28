@@ -38,7 +38,7 @@ class midcom_core_collector extends midcom_core_query
      *
      * @param string $classname The classname which should be queried.
      */
-    public function __construct($classname, $domain, $value)
+    public function __construct($classname, $domain = null, $value = null)
     {
         $mgdschemaclass = $this->_convert_class($classname);
 

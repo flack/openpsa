@@ -67,7 +67,7 @@ class org_openpsa_contacts_duplicates_check
 
     private function get_person_candidates(org_openpsa_contacts_person_dba $person = null)
     {
-        $mc = org_openpsa_contacts_person_dba::new_collector('metadata.deleted', false);
+        $mc = org_openpsa_contacts_person_dba::new_collector();
 
         if ($person) {
             if ($person->id) {
@@ -233,7 +233,7 @@ class org_openpsa_contacts_duplicates_check
 
     private function get_group_candidates(org_openpsa_contacts_group_dba $group = null)
     {
-        $mc = org_openpsa_contacts_group_dba::new_collector('metadata.deleted', false);
+        $mc = org_openpsa_contacts_group_dba::new_collector();
 
         if ($group) {
             if ($group->id) {

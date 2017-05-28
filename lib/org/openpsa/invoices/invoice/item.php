@@ -107,11 +107,9 @@ class org_openpsa_invoices_invoice_item_dba extends midcom_core_dbaobject
             throw new midcom_error('Invalid constraints given');
         }
 
-        $field = key($constraints);
-        $value = array_shift($constraints);
         $sum = 0;
 
-        $mc = self::new_collector($field, $value);
+        $mc = self::new_collector();
         foreach ($constraints as $field => $value) {
             $mc->add_constraint($field, '=', $value);
         }
