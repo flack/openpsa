@@ -1,3 +1,33 @@
+div.rcs_navigation
+{
+  text-align: center;
+}
+
+div.rcs_navigation ul
+{
+  margin: 0;
+  list-style: none;
+  margin-top: 4px;
+}
+
+div.rcs_navigation ul li
+{
+  display: inline;
+  padding: 0 0.5em;
+}
+
+div.rcs_navigation ul li img,
+div.rcs_navigation ul li a img
+{
+  border: none;
+  vertical-align: middle;
+}
+
+div.rcs_navigation ul li abbr
+{
+  border: none;
+}
+
 dl.midcom_admin_rcs_diff dt
 {
     font-weight: bold;

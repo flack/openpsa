@@ -22,10 +22,6 @@ Päivämäärä
 Versioiden %s ja %s väliset erot
 ---STRINGEND
 
----STRING differences between versions %s and %s
-Versioiden %s ja %s väliset erot
----STRINGEND
-
 ---STRING lines
 Rivit
 ---STRINGEND
@@ -76,18 +72,6 @@ Käyttäjä
 
 ---STRING version %s
 Versio %s
----STRINGEND
-
----STRING view %s differences with next (%s)
-Näytä version %s erot seuraavaan (%s)
----STRINGEND
-
----STRING view %s differences with previous (%s)
-Näytä version %s erot edelliseen (%s)
----STRINGEND
-
----STRING view this revision (%s)
-Näytä tämä versio (%s)
 ---STRINGEND
 
 ---STRING viewing version %s of %s

@@ -262,10 +262,6 @@ Raderad på
 Skillnader mellan %s och %s
 ---STRINGEND
 
----STRING differences between versions %s and %s
-Skillnader mellan versioner %s och %s
----STRINGEND
-
 ---STRING edit %s %s
 Editera %s "%s"
 ---STRINGEND
@@ -638,10 +634,6 @@ Sök
 Välj allt
 ---STRINGEND
 
----STRING select exactly two choices
-Välj exakt två val
----STRINGEND
-
 ---STRING select the types
 Välj typerna
 ---STRINGEND
@@ -734,20 +726,8 @@ Värde
 Version %s
 ---STRINGEND
 
----STRING view %s differences with next (%s)
-Visa skillnader mellan %s och nästa (%s)
----STRINGEND
-
----STRING view %s differences with previous (%s)
-Visa skillnader mellan version % med föregående (%s)
----STRINGEND
-
 ---STRING view on site
 Visa på websajt
----STRINGEND
-
----STRING view this revision (%s)
-Visa denna revision (%s)
 ---STRINGEND
 
 ---STRING viewing version %s of %s

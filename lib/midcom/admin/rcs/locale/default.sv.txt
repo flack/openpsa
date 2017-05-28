@@ -22,10 +22,6 @@ Datum
 Skillnader mellan %s och %s
 ---STRINGEND
 
----STRING differences between versions %s and %s
-Skillnader mellan versioner %s och %s
----STRINGEND
-
 ---STRING lines
 Rader
 ---STRINGEND
@@ -80,18 +76,6 @@ Användare
 
 ---STRING version %s
 Version %s
----STRINGEND
-
----STRING view %s differences with next (%s)
-Visa skillnader av version %s med nästa (%s)
----STRINGEND
-
----STRING view %s differences with previous (%s)
-Visa skillnader av version %s med föregående (%s)
----STRINGEND
-
----STRING view this revision (%s)
-Visa denna version (%s)
 ---STRINGEND
 
 ---STRING viewing version %s of %s

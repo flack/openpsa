@@ -298,10 +298,6 @@ Dependencies
 Differences between %s and %s
 ---STRINGEND
 
----STRING differences between versions %s and %s
-Differences between versions %s and %s
----STRINGEND
-
 ---STRING disable rcs
 Disable RCS for this action
 ---STRINGEND
@@ -746,10 +742,6 @@ Search
 Select all
 ---STRINGEND
 
----STRING select exactly two choices
-Select exactly two choices
----STRINGEND
-
 ---STRING select the types
 Select the types
 ---STRINGEND
@@ -866,20 +858,8 @@ Value
 Version %s
 ---STRINGEND
 
----STRING view %s differences with next (%s)
-View differences of version %s with next (%s)
----STRINGEND
-
----STRING view %s differences with previous (%s)
-View differences of version %s with previous (%s)
----STRINGEND
-
 ---STRING view on site
 View on-site
----STRINGEND
-
----STRING view this revision (%s)
-View this revision (%s)
 ---STRINGEND
 
 ---STRING viewing version %s of %s

@@ -274,10 +274,6 @@ Vaatimukset
 Versioiden %s ja %s väliset erot
 ---STRINGEND
 
----STRING differences between versions %s and %s
-Versioiden %s ja %s väliset erot
----STRINGEND
-
 ---STRING disable rcs
 Älä käytä versionhallintaa
 ---STRINGEND
@@ -686,10 +682,6 @@ Hae
 Valitse kaikki
 ---STRINGEND
 
----STRING select exactly two choices
-Valitse täsmälleen kaksi vaihtoehtoa
----STRINGEND
-
 ---STRING select the types
 Valitse tyypit
 ---STRINGEND
@@ -794,20 +786,8 @@ Arvo
 Versio %s
 ---STRINGEND
 
----STRING view %s differences with next (%s)
-Näytä version %s erot seuraavaan (%s)
----STRINGEND
-
----STRING view %s differences with previous (%s)
-Näytä version %s erot edelliseen (%s)
----STRINGEND
-
 ---STRING view on site
 Katso sivustolla
----STRINGEND
-
----STRING view this revision (%s)
-Näytä tämä versio (%s)
 ---STRINGEND
 
 ---STRING viewing version %s of %s

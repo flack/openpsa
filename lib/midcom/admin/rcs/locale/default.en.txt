@@ -22,10 +22,6 @@ Date
 Differences between %s and %s
 ---STRINGEND
 
----STRING differences between versions %s and %s
-Differences between versions %s and %s
----STRINGEND
-
 ---STRING lines
 Lines
 ---STRINGEND
@@ -84,18 +80,6 @@ User
 
 ---STRING version %s
 Version %s
----STRINGEND
-
----STRING view %s differences with next (%s)
-View differences of version %s with next (%s)
----STRINGEND
-
----STRING view %s differences with previous (%s)
-View differences of version %s with previous (%s)
----STRINGEND
-
----STRING view this revision (%s)
-View this revision (%s)
 ---STRINGEND
 
 ---STRING viewing version %s of %s

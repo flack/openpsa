@@ -19,7 +19,7 @@ foreach ($preview as $attribute => $value) {
     }
 
     // Three fold fallback in localization
-    echo "<dt>". $data['l10n_midcom']->get($data['l10n']->get($attribute)) ."</dt>\n";
+    echo "<dt>" . $data['handler']->translate($attribute) . "</dt>\n";
     echo "    <dd>" . htmlentities($value) . "</dd>\n";
 }
 ?>

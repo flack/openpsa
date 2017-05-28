@@ -278,10 +278,6 @@ Zależności
 Zmiany między wersją %s i %s
 ---STRINGEND
 
----STRING differences between versions %s and %s
-Zmiany między wersją %s i %s
----STRINGEND
-
 ---STRING disable rcs
 Wyłącz kontrolę wersji dla tego działania
 ---STRINGEND
@@ -690,10 +686,6 @@ Szukaj
 Zaznacz wszystko
 ---STRINGEND
 
----STRING select exactly two choices
-Wybierz tylko dwie ocje
----STRINGEND
-
 ---STRING select the types
 Wybierz typy
 ---STRINGEND
@@ -798,20 +790,8 @@ Wartość
 Wersja %s
 ---STRINGEND
 
----STRING view %s differences with next (%s)
-Zobacz zmiany między %s a %s
----STRINGEND
-
----STRING view %s differences with previous (%s)
-Zobacz zmiany między %s a %s
----STRINGEND
-
 ---STRING view on site
 Pokaż w serwisie
----STRINGEND
-
----STRING view this revision (%s)
-Zobacz wersję %s
 ---STRINGEND
 
 ---STRING viewing version %s of %s

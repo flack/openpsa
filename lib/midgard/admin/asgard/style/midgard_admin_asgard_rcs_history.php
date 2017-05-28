@@ -18,7 +18,7 @@ echo $data['rcs_toolbar']->render();
         <table>
             <thead>
                 <tr>
-                    <th></th>
+                    <th colspan="2"></th>
                     <th><?php echo $data['l10n']->get('revision'); ?></th>
                     <th><?php echo $data['l10n']->get('date'); ?></th>
                     <th><?php echo $data['l10n']->get('user'); ?></th>
@@ -33,7 +33,8 @@ echo $data['rcs_toolbar']->render();
             foreach ($history as $rev => $history) {
                 $i++;
                 echo "                <tr id=\"midgard_admin_asgard_rcs_version_compare_{$i}_row\">\n";
-                echo "                    <td><input id=\"midgard_admin_asgard_rcs_version_compare_{$i}\" type=\"checkbox\" name=\"compare[]\" value=\"{$rev}\" />\n";
+                echo "                    <td><input type=\"radio\" name=\"first\" value=\"{$rev}\" />\n";
+                echo "                    <td><input type=\"radio\" name=\"last\" value=\"{$rev}\" />\n";
                 echo "                    <td><span style=\"display: none;\">". substr($rev, 2) ."</span><a href='{$prefix}__mfa/asgard/object/rcs/preview/$guid/$rev'>{$rev}</a></td>\n";
                 echo "                    <td><span style=\"display: none;\">{$history['date']}</span>".strftime('%x %X Z', $history['date'])."</td>\n";
                 echo "                    <td>";
@@ -55,6 +56,3 @@ echo $data['rcs_toolbar']->render();
         <input type="submit" name="f_compare" value="<?php echo $data['l10n']->get('compare'); ?>" />
     </div>
 </form>
-<script type="text/javascript">
-    var _l10n_select_two = '<?php echo $data['l10n']->get('select exactly two choices'); ?>';
-</script>

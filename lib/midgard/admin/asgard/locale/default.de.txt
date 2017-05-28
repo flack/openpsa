@@ -282,10 +282,6 @@ Abhängigkeiten
 Unterschiede zwischen %s und %s
 ---STRINGEND
 
----STRING differences between versions %s and %s
-Unterschiede zwischen Versionen %s und %s
----STRINGEND
-
 ---STRING disable rcs
 RCS für diese Aktion deaktivieren
 ---STRINGEND
@@ -714,10 +710,6 @@ Suche
 Alle auswählen
 ---STRINGEND
 
----STRING select exactly two choices
-Genau zwei Möglichkeiten zeigen
----STRINGEND
-
 ---STRING select the types
 Typen auswählen
 ---STRINGEND
@@ -834,20 +826,8 @@ Wert
 Version %s
 ---STRINGEND
 
----STRING view %s differences with next (%s)
-Unterschiede zwischen Version %s und der folgenden (%s) anzeigen
----STRINGEND
-
----STRING view %s differences with previous (%s)
-Unterschiede zwischen Version %s und der vorherigen (%s) anzeigen
----STRINGEND
-
 ---STRING view on site
 Auf der Site anzeigen
----STRINGEND
-
----STRING view this revision (%s)
-Diese Revision (%s) anzeigen
 ---STRINGEND
 
 ---STRING viewing version %s of %s

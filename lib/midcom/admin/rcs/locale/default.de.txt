@@ -34,8 +34,8 @@ Revisionskontrolle
 Keine Revisionen vorhanden
 ---STRINGEND
 
----STRING restore this revision (%s)
-Diese Revision wiederherstellen
+---STRING restore version %s
+Revision %s wiederherstellen
 ---STRINGEND
 
 ---STRING restore to version %s failed, reason %s
@@ -66,28 +66,12 @@ Benutzer
 Version %s
 ---STRINGEND
 
----STRING view %s differences with next (%s)
-Unterschiede zwischen Version %s und der folgenden (%s) anzeigen
----STRINGEND
-
----STRING view %s differences with previous (%s)
-Unterschiede zwischen Version %s und der vorherigen (%s) anzeigen
----STRINGEND
-
----STRING view this revision (%s)
-Diese Revision (%s) anzeigen
----STRINGEND
-
 ---STRING viewing version %s of %s
 Version %s von %s
 ---STRINGEND
 
 ---STRING differences between %s and %s
 Unterschiede zwischen %s und %s
----STRINGEND
-
----STRING differences between versions %s and %s
-Unterschiede zwischen den Versionen %s und %s
 ---STRINGEND
 
 ---STRING no changes in content

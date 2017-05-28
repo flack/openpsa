@@ -13,6 +13,7 @@ if (count($history) == 0) {
         <table>
             <thead>
                 <tr>
+                    <th colspan="2"></th>
                     <th><?php echo $data['l10n']->get('revision'); ?></th>
                     <th><?php echo $data['l10n']->get('date'); ?></th>
                     <th><?php echo $data['l10n']->get('user'); ?></th>
@@ -26,7 +27,9 @@ if (count($history) == 0) {
             $formatter = $data['l10n']->get_formatter();
     foreach ($history as $rev => $history) {
         echo "                <tr>\n";
-        echo "                    <td><a href='{$prefix}__ais/rcs/preview/$guid/$rev'>{$rev}</a></td>\n";
+        echo "                    <td><input type=\"radio\" name=\"first\" value=\"{$rev}\" />\n";
+        echo "                    <td><input type=\"radio\" name=\"last\" value=\"{$rev}\" />\n";
+        echo "                    <td><a href='{$prefix}__ais/rcs/preview/{$guid}/{$rev}/'>{$rev}</a></td>\n";
         echo "                    <td>" . $formatter->datetime($history['date']) . "</td>\n";
 
         if ($history['user']) {
@@ -51,8 +54,8 @@ if (count($history) == 0) {
     } ?>
             </tbody>
         </table>
+        <input type="submit" name="f_compare" value="<?php echo $data['l10n']->get('show differences'); ?>" />
     </form>
     <?php
-
 }
 ?>
