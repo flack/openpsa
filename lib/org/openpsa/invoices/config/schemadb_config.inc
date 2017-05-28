@@ -33,63 +33,6 @@
              ),
             'widget' => 'text',
         ),
-        'invoice_sender' => array
-        (
-            'title'   => 'invoice sender',
-            'type'      => 'select',
-            'type_config' => array
-            (
-                 'require_corresponding_option' => false,
-                 'options' => array(),
-            ),
-            'storage' => array
-            (
-                'location'      => 'configuration',
-                'domain' => 'org.openpsa.invoices',
-                'name'    => 'invoice_sender',
-             ),
-            'widget' => 'autocomplete',
-            'widget_config' => array
-            (
-                'class'       => 'org_openpsa_contacts_person_dba',
-                'component'   => 'org.openpsa.contacts',
-                'titlefield'  => 'name',
-                'constraints' => array
-                (
-                    array
-                    (
-                        'field' => 'username',
-                        'op'    => '<>',
-                        'value' => '',
-                    ),
-                ),
-                'searchfields'  => array
-                (
-                    'firstname',
-                    'lastname',
-                    'username',
-                ),
-                'result_headers' => array
-                (
-                    array
-                    (
-                        'title' => 'name',
-                        'name' => 'name',
-                    ),
-                    array
-                    (
-                        'title' => 'email',
-                        'name' => 'email',
-                    ),
-                ),
-                'orders'        => array
-                (
-                    array('lastname'    => 'ASC'),
-                    array('firstname'    => 'ASC'),
-
-                ),
-            ),
-        ),
         'default_hourly_price' => array
         (
             'title'   => 'default hourly price',

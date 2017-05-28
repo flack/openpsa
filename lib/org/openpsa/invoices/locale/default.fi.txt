@@ -22,10 +22,6 @@ Perustiedot
 Luo lasku
 ---STRINGEND
 
----STRING created "%s" task to %s
-Luotu tehtävä "%s" käyttäjälle %s
----STRINGEND
-
 ---STRING customer
 Asiakas
 ---STRINGEND

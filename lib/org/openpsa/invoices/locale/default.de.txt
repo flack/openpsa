@@ -50,10 +50,6 @@ Storniert
 Rechnung erstellen
 ---STRINGEND
 
----STRING created "%s" task to %s
-Aufgabe "%s" für %s erstellt
----STRINGEND
-
 ---STRING customer
 Kunde
 ---STRINGEND

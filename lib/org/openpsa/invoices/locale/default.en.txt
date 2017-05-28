@@ -46,10 +46,6 @@ Billing data
 Create invoice
 ---STRINGEND
 
----STRING created "%s" task to %s
-Created "%s" task to %s
----STRINGEND
-
 ---STRING customer
 Customer
 ---STRINGEND

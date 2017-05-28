@@ -8,7 +8,6 @@
 //contains the class file to create the pdf for the invoice, if set to false pdf-creation is disabled
 'invoice_pdfbuilder_class' => false, //implements org_openpsa_invoices_interfaces_pdfbuilder
 
-'invoice_sender'       => '',
 'invoice_mail_bcc'       => false,
 'invoice_mail_from_address' => 'foo@example.org',
 
