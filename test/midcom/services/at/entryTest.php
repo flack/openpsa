@@ -26,7 +26,7 @@ class midcom_services_at_entryTest extends openpsa_testcase
         $stat = $entry->create();
         $this->assertTrue($stat);
         //@todo For some reason, this throws a "Critical internal error". Needs to be investigated
-        //$this->register_object($entry);
+        $this->register_object($entry);
 
         $this->assertEquals($args, $entry->arguments);
         $this->assertEquals(midcom_services_at_entry_dba::SCHEDULED, $entry->status);
