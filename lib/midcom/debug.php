@@ -57,13 +57,6 @@ class midcom_debug
     );
 
     /**
-     * Flag which is true if the debugger is enabled.
-     *
-     * @var boolean
-     */
-    private $_enabled;
-
-    /**
      * Standard constructor
      */
     public function __construct($filename = null)
@@ -72,34 +65,7 @@ class midcom_debug
             $filename = midcom::get()->config->get('log_filename');
         }
         $this->_filename = $filename;
-        $this->_enabled = true;
         $this->_loglevel = midcom::get()->config->get('log_level');
-    }
-
-    /**
-     * Enable the Debugger
-     */
-    function enable()
-    {
-        $this->_enabled = true;
-    }
-
-    /**
-     * Disable the Debugger
-     */
-    function disable()
-    {
-        $this->_enabled = false;
-    }
-
-    /**
-     * Is the debugger enabled?
-     *
-     * @return boolean    Debugger state
-     */
-    function is_enabled()
-    {
-        return $this->_enabled;
     }
 
     /**
@@ -114,8 +80,10 @@ class midcom_debug
 
     /**
      * Get log level
+     *
+     * @return int
      */
-    function get_loglevel()
+    public function get_loglevel()
     {
         return $this->_loglevel;
     }
@@ -170,7 +138,7 @@ class midcom_debug
 
     private function check_level($loglevel)
     {
-        return ($this->_enabled && $this->_loglevel >= $loglevel);
+        return ($this->_loglevel >= $loglevel);
     }
 
     private function _get_caller()
