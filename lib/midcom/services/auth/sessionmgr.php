@@ -402,7 +402,7 @@ class midcom_services_auth_sessionmgr
      */
     function get_online_users_count()
     {
-        $mc = new midgard_collector('midcom_core_login_session_db', 'metadata.deleted', false);
+        $mc = new midgard_collector('midcom_core_login_session_db');
         $mc->set_key_property('userid');
         $mc->add_constraint('timestamp', '>=', $this->get_timeout());
         $mc->execute();
@@ -422,7 +422,7 @@ class midcom_services_auth_sessionmgr
      */
     function get_online_users()
     {
-        $mc = new midgard_collector('midcom_core_login_session_db', 'metadata.deleted', false);
+        $mc = new midgard_collector('midcom_core_login_session_db');
         $mc->set_key_property('userid');
         $mc->add_constraint('timestamp', '>=', $this->get_timeout());
         $mc->execute();

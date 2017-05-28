@@ -247,7 +247,7 @@ class org_openpsa_directmarketing_campaign_ruleresolver
     private function add_parameter_rule(array $rules)
     {
         //get parents of wanted midgard_parameter
-        $mc_parameter = new midgard_collector('midgard_parameter', 'metadata.deleted', false);
+        $mc_parameter = new midgard_collector('midgard_parameter');
         $mc_parameter->set_key_property('id');
         $mc_parameter->add_value_property('parentguid');
         foreach ($rules as $rule) {
@@ -327,7 +327,7 @@ class org_openpsa_directmarketing_campaign_ruleresolver
             $match = 'LIKE';
         }
 
-        $mc_misc = new midgard_collector($class, 'metadata.deleted', false);
+        $mc_misc = new midgard_collector($class);
         $mc_misc->set_key_property('id');
         $mc_misc->add_constraint($rule['property'], $match, $rule['value']);
         $mc_misc->add_value_property($person_property);
