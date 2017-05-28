@@ -76,9 +76,6 @@
  *
  * The script produces no output unless anything goes wrong.
  *
- * At this time, this script does also do a request_sudo to gain Administrator privileges.
- * This is a temporary workaround until we can deal with HTTP authentication at this point.
- *
  * @package midcom.services
  */
 class midcom_services_cron
