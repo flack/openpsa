@@ -23,7 +23,7 @@ class org_openpsa_projects_task_resource_dba extends midcom_core_dbaobject
     public $_use_activitystream = false;
     public $_use_rcs = false;
 
-    private function _find_duplicates()
+    private function find_duplicates()
     {
         $qb = org_openpsa_projects_task_resource_dba::new_query_builder();
         $qb->add_constraint('person', '=', (int)$this->person);
@@ -39,7 +39,7 @@ class org_openpsa_projects_task_resource_dba extends midcom_core_dbaobject
 
     public function _on_creating()
     {
-        return (!$this->_find_duplicates());
+        return (!$this->find_duplicates());
     }
 
     /**
@@ -47,7 +47,7 @@ class org_openpsa_projects_task_resource_dba extends midcom_core_dbaobject
      *
      * @param org_openpsa_projects_task_dba $object The object for which we search the parent
      */
-    function add_resource_to_parent($object)
+    private function add_resource_to_parent($object)
     {
         $parent = $object->get_parent();
         if (!$parent) {
@@ -80,7 +80,7 @@ class org_openpsa_projects_task_resource_dba extends midcom_core_dbaobject
      *
      * @param org_openpsa_projects_task_dba $object The object for which we search the parent
      */
-    function remove_resource_from_parent($object)
+    private function remove_resource_from_parent($object)
     {
         $parent = $object->get_parent();
         if (!$parent) {
@@ -148,6 +148,6 @@ class org_openpsa_projects_task_resource_dba extends midcom_core_dbaobject
 
     public function _on_updating()
     {
-        return (!$this->_find_duplicates());
+        return (!$this->find_duplicates());
     }
 }
