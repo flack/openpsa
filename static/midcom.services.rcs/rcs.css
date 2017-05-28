@@ -1,0 +1,81 @@
+div.rcs_navigation
+{
+  text-align: center;
+}
+
+div.rcs_navigation ul
+{
+  margin: 0;
+  list-style: none;
+  margin-top: 4px;
+}
+
+div.rcs_navigation ul li
+{
+  display: inline;
+  padding: 0 0.5em;
+}
+
+div.rcs_navigation ul li img,
+div.rcs_navigation ul li a img
+{
+  border: none;
+  vertical-align: middle;
+}
+
+div.rcs_navigation ul li abbr
+{
+  border: none;
+}
+
+dl.midcom_services_rcs_diff dt
+{
+    font-weight: bold;
+}
+
+table.DifferencesSideBySide
+{
+	width: 90%;
+	border-collapse: collapse;
+	line-height: 1.4
+}
+
+table.DifferencesSideBySide .Left,
+table.DifferencesSideBySide .Right
+{
+    width: 45%;
+}
+
+dl.midcom_services_rcs_diff .ChangeReplace .Left,
+dl.midcom_services_rcs_diff .ChangeDelete .Left
+{
+    background-color: rgba(255, 160, 150, 0.3);
+}
+
+dl.midcom_services_rcs_diff span.deleted
+{
+    background-color: rgba(255, 160, 150, 0.6);
+}
+
+dl.midcom_services_rcs_diff .ChangeReplace .Right,
+dl.midcom_services_rcs_diff .ChangeInsert .Right
+{
+    background-color: rgba(170, 255, 150, 0.3);
+}
+dl.midcom_services_rcs_diff span.inserted
+{
+    background-color: rgba(170, 255, 150, 0.6);
+}
+
+dl.midcom_services_rcs_diff tbody th
+{
+    color: #555;
+    font-weight: normal;
+    text-align: right;
+    padding-right: .7em;
+}
+
+dl.midcom_services_rcs_diff tbody tr:hover
+{
+    background-color: rgba(255, 255, 150, 0.3);
+}

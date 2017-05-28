@@ -59,6 +59,8 @@ abstract class midcom_services_rcs_handler extends midcom_baseclasses_components
      */
     private function rcs_toolbar($current = null, $diff_view = false)
     {
+        $this->add_stylesheet(MIDCOM_STATIC_URL . "/midcom.services.rcs/rcs.css");
+
         $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX) . $this->url_prefix;
 
         $keys = array_keys($this->backend->list_history());
@@ -224,7 +226,6 @@ abstract class midcom_services_rcs_handler extends midcom_baseclasses_components
         }
 
         $data['diff'] = $this->backend->get_diff($args[1], $args[2]);
-
         $data['comment'] = $this->backend->get_comment($args[2]);
 
         // Set the version numbers

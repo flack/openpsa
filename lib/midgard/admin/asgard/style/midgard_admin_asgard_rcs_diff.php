@@ -11,7 +11,7 @@ echo $data['rcs_toolbar_2']->render();
 ?>
 </div>
 <p>&(comment['message']);</p>
-<dl class="midgard_admin_asgard_rcs_diff">
+<dl class="midcom_services_rcs_diff">
 <?php
 $changes = false;
 foreach ($diff as $attribute => $values) {

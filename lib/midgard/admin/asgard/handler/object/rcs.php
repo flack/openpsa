@@ -39,7 +39,6 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_services_rcs_handle
     public function _on_initialize()
     {
         midcom::get()->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
-        $this->add_stylesheet(MIDCOM_STATIC_URL . "/midgard.admin.asgard/rcs.css");
     }
 
     private function prepare_request_data($handler_id)

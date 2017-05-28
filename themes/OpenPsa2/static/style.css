@@ -647,14 +647,6 @@ input#org_openpsa_search_query
 	margin-top: .5em
 }
 
-table.DifferencesSideBySide{
-	width:90%;
-}
-table.DifferencesSideBySide .Left,
-table.DifferencesSideBySide .Right{
-    width:45%;
-}
-
 body#org_openpsa_popup {
     background-color: transparent;
 }

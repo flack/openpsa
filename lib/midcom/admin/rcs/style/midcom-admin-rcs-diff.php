@@ -12,7 +12,7 @@ echo $data['rcs_toolbar_2']->render();
 ?>
 </div>
 <p>&(data['comment']['message']);</p>
-<dl class="midcom_admin_rcs_diff">
+<dl class="midcom_services_rcs_diff">
 <?php
 $changes = false;
 foreach ($diff as $attribute => $values) {

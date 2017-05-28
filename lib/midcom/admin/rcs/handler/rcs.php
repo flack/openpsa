@@ -33,7 +33,6 @@ class midcom_admin_rcs_handler_rcs extends midcom_services_rcs_handler
     public function _on_initialize()
     {
         midcom::get()->style->prepend_component_styledir('midcom.admin.rcs');
-        $this->add_stylesheet(MIDCOM_STATIC_URL . "/midcom.admin.rcs/rcs.css");
     }
 
     private function prepare_request_data($mode)
