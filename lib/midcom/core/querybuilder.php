@@ -57,24 +57,18 @@ class midcom_core_querybuilder extends midcom_core_query
     /**
      * Executes the internal QB and filters objects based on ACLs and metadata
      *
-     * @param boolean $false_on_empty_mgd_resultset used in the moving window loop to get false instead of empty array back from this method in case the **core** QB returns empty resultset
-     * @return midcom_core_dbaobject[] Array filtered by ACL and metadata visibility (or false in case of failure)
+     * @return midcom_core_dbaobject[] Array filtered by ACL and metadata visibility
      */
-    private function _execute_and_check_privileges($false_on_empty_mgd_resultset = false)
+    private function _execute_and_check_privileges()
     {
+        $newresult = array();
         try {
             $result = $this->_query->execute();
         } catch (Exception $e) {
             debug_add("Query failed: " . $e->getMessage(), MIDCOM_LOG_ERROR);
-            return array();
-        }
-        if (   empty($result)
-            && $false_on_empty_mgd_resultset) {
-            return false;
+            return $newresult;
         }
 
-        $newresult = array();
-        $this->denied = 0;
         foreach ($result as $object) {
             $classname = $this->_real_class;
             try {
@@ -115,7 +109,7 @@ class midcom_core_querybuilder extends midcom_core_query
      *
      * @return midcom_core_dbaobject[] The result of the query builder.
      */
-    function execute_windowed()
+    public function execute()
     {
         $this->_reset();
 
@@ -134,45 +128,54 @@ class midcom_core_querybuilder extends midcom_core_query
             // No point to do windowing
             $newresult = $this->_execute_and_check_privileges();
         } else {
-            $newresult = array();
-            // Must be copies
-            $limit = $this->_limit;
-            $offset = $this->_offset;
-            $i = 0;
-            $this->_set_limit_offset_window($i);
-
-            while (($resultset = $this->_execute_and_check_privileges(true)) !== false) {
-                $size = count($resultset);
-
-                if ($offset >= $size) {
-                    // We still have offset left to skip
-                    $offset -= $size;
-                } else {
-                    if ($offset) {
-                        $resultset = array_slice($resultset, $offset);
-                        $size = $size - $offset;
-                        $offset = 0;
-                    }
-
-                    if ($limit > $size) {
-                        $limit -= $size;
-                    } elseif ($limit > 0) {
-                        // We have reached the limit
-                        $resultset = array_slice($resultset, 0, $limit);
-                        $newresult = array_merge($newresult, $resultset);
-                        break;
-                    }
-
-                    $newresult = array_merge($newresult, $resultset);
-                }
-                $this->_set_limit_offset_window(++$i);
-            }
+            $newresult = $this->execute_windowed();
         }
 
         call_user_func_array(array($this->_real_class, '_on_process_query_result'), array(&$newresult));
 
         $this->count = count($newresult);
 
+        return $newresult;
+    }
+
+    private function execute_windowed()
+    {
+        $newresult = array();
+        // Must be copies
+        $limit = $this->_limit;
+        $offset = $this->_offset;
+        $i = 0;
+        $this->_set_limit_offset_window($i);
+        $denied = $this->denied;
+
+        while (    ($resultset = $this->_execute_and_check_privileges())
+                || $this->denied != $denied) {
+            $denied = $this->denied;
+            $size = count($resultset);
+
+            if ($offset >= $size) {
+                // We still have offset left to skip
+                $offset -= $size;
+            } else {
+                if ($offset) {
+                    $resultset = array_slice($resultset, $offset);
+                    $size = $size - $offset;
+                    $offset = 0;
+                }
+
+                if ($limit > $size) {
+                    $limit -= $size;
+                } elseif ($limit > 0) {
+                    // We have reached the limit
+                    $resultset = array_slice($resultset, 0, $limit);
+                    $newresult = array_merge($newresult, $resultset);
+                    break;
+                }
+
+                $newresult = array_merge($newresult, $resultset);
+            }
+            $this->_set_limit_offset_window(++$i);
+        }
         return $newresult;
     }
 
@@ -214,14 +217,6 @@ class midcom_core_querybuilder extends midcom_core_query
             $this->_query->set_offset($offset);
         }
         $this->_query->set_limit($this->_window_size);
-    }
-
-    /**
-     * @return midcom_core_dbaobject[]
-     */
-    public function execute()
-    {
-        return $this->execute_windowed();
     }
 
     /**

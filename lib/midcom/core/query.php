@@ -91,7 +91,7 @@ abstract class midcom_core_query
      *
      * @var int
      */
-    protected $_denied = 0;
+    public $denied = 0;
 
     /**
      * Class resolution into the MidCOM DBA system.
