@@ -77,13 +77,6 @@ class midcom_helper_metadata
     private $__metadata = null;
 
     /**
-     * The guid of the object
-     *
-     * @var string GUID
-     */
-    var $guid = '';
-
-    /**
      * Holds the values already read from the database.
      *
      * @var Array
@@ -115,13 +108,12 @@ class midcom_helper_metadata
      * as the parameter call is available normally.
      *
      * @param string $guid The GUID of the object
-     * @param mixed $object The MidgardObject to attach to.
+     * @param midcom_core_dbaobject $object The MidgardObject to attach to.
      * @param string $schemadb The URL of the schemadb to use.
      * @see midcom_helper_metadata::retrieve()
      */
-    public function __construct($guid, $object, $schemadb)
+    public function __construct(midcom_core_dbaobject $object, $schemadb)
     {
-        $this->guid = $guid;
         $this->__metadata = $object->__object->metadata;
         $this->__object = $object;
         $this->_schemadb_path = $schemadb;
@@ -397,8 +389,8 @@ class midcom_helper_metadata
             $this->_cache = array();
         }
 
-        if (!empty($this->guid)) {
-            midcom::get()->cache->invalidate($this->guid);
+        if (!empty($this->__object->guid)) {
+            midcom::get()->cache->invalidate($this->__object->guid);
         }
     }
 
@@ -660,7 +652,7 @@ class midcom_helper_metadata
         }
 
         // $object is now populated, too
-        return new self($guid, $object, midcom::get()->config->get('metadata_schema'));
+        return new self($object, midcom::get()->config->get('metadata_schema'));
     }
 
     /**

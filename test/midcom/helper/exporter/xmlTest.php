@@ -48,7 +48,6 @@ class midcom_helper_exporter_xmlTest extends openpsa_testcase
         $expected = <<<EOX
 <midgard_element>
     <midcom_helper_metadata>
-        <guid><![CDATA[]]></guid>
     </midcom_helper_metadata>    <value><![CDATA[test
 
 test]]></value>
