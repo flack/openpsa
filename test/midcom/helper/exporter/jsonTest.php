@@ -59,7 +59,7 @@ class midcom_helper_exporter_jsonTest extends openpsa_testcase
     private function _get_data()
     {
         $data = '{"id":0,"name":"Test","value":"test","guid":"","style":33,"action":"",';
-        $data .= '"metadata":{"guid":"","created":0,"hidden":false,"deleted":false,"isapproved":false,"islocked":false}}';
+        $data .= '"metadata":{"created":0,"hidden":false,"deleted":false,"isapproved":false,"islocked":false}}';
 
         return $data;
     }
@@ -74,7 +74,6 @@ class midcom_helper_exporter_jsonTest extends openpsa_testcase
             'style' => 33,
             'value' => 'test',
             'metadata' => array(
-                'guid' => '',
                 'created' => 0,
                 'hidden' => false,
                 'deleted' => false,
