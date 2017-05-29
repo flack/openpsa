@@ -102,7 +102,7 @@ abstract class midcom_helper_exporter
     {
         // workaround for problem with _get_object_fields / instrospection helper returning only array("__object", "guid") and is missing all other fields under midgard2
         if ($all_metadata_fields && $object instanceof midcom_helper_metadata) {
-            return array("guid", "created", "hidden", "deleted", "isapproved", "islocked");
+            return array("created", "hidden", "deleted", "isapproved", "islocked");
         }
 
         if (method_exists($object, 'get_properties')) {
