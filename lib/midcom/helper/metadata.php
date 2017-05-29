@@ -65,16 +65,16 @@ class midcom_helper_metadata
      * Object to which we are attached to. This object can be accessed from
      * the outside, where necessary.
      *
-     * @var MidgardObject
+     * @var midcom_core_dbaobject
      */
-    public $__object = null;
+    public $__object;
 
     /**
      * Metadata object of the current object
      *
-     * @var midgard_metadata
+     * @var midgard\portable\api\metadata
      */
-    private $__metadata = null;
+    private $__metadata;
 
     /**
      * Holds the values already read from the database.
@@ -107,7 +107,6 @@ class midcom_helper_metadata
      * You may use objects derived from any MidgardObject will do as well as long
      * as the parameter call is available normally.
      *
-     * @param string $guid The GUID of the object
      * @param midcom_core_dbaobject $object The MidgardObject to attach to.
      * @param string $schemadb The URL of the schemadb to use.
      * @see midcom_helper_metadata::retrieve()
