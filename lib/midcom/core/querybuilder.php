@@ -62,24 +62,13 @@ class midcom_core_querybuilder extends midcom_core_query
         foreach ($result as $object) {
             $classname = $this->_real_class;
             try {
-                $object = new $classname($object);
+                $newresult[] = new $classname($object);
             } catch (midcom_error $e) {
                 if ($e->getCode() == MIDCOM_ERRFORBIDDEN) {
                     $this->denied++;
                 }
                 $e->log();
-                continue;
             }
-
-            // Check approval
-            if (   $this->hide_invisible
-                && !midcom::get()->config->get('show_unapproved_objects')
-                && !$object->__object->is_approved()) {
-                $this->denied++;
-                continue;
-            }
-
-            $newresult[] = $object;
         }
 
         return $newresult;
@@ -113,6 +102,8 @@ class midcom_core_querybuilder extends midcom_core_query
             debug_add('This Query Builder instance has no constraints (set loglevel to debug to see stack trace)', MIDCOM_LOG_WARN);
             debug_print_function_stack('We were called from here:');
         }
+
+        $this->_add_visibility_checks();
 
         if (   empty($this->_limit)
             && empty($this->_offset)) {
@@ -236,6 +227,7 @@ class midcom_core_querybuilder extends midcom_core_query
         if ($this->_offset) {
             $this->_query->set_offset($this->_offset);
         }
+        $this->_add_visibility_checks();
 
         $newresult = $this->_execute_and_check_privileges();
 

@@ -128,19 +128,23 @@ abstract class midcom_core_query
 
     protected function _add_visibility_checks()
     {
-        if (   !$this->_visibility_checks_added
-            && $this->hide_invisible
-            && !midcom::get()->config->get('show_hidden_objects')) {
-            $this->add_constraint('metadata.hidden', '=', false);
-            $now = strftime('%Y-%m-%d %H:%M:%S');
-            $this->begin_group('OR');
-            $this->add_constraint('metadata.schedulestart', '>', $now);
-            $this->add_constraint('metadata.schedulestart', '=', '0000-00-00 00:00:00');
-            $this->end_group();
-            $this->add_constraint('metadata.scheduleend', '<', $now);
-        }
+        if (   $this->hide_invisible
+            && !$this->_visibility_checks_added) {
+            if (!midcom::get()->config->get('show_hidden_objects')) {
+                $this->add_constraint('metadata.hidden', '=', false);
+                $now = strftime('%Y-%m-%d %H:%M:%S');
+                $this->begin_group('OR');
+                    $this->add_constraint('metadata.schedulestart', '>', $now);
+                    $this->add_constraint('metadata.schedulestart', '=', '0000-00-00 00:00:00');
+                $this->end_group();
+                $this->add_constraint('metadata.scheduleend', '<', $now);
+            }
 
-        $this->_visibility_checks_added = true;
+            if (!midcom::get()->config->get('show_unapproved_objects')) {
+                $this->add_constraint('metadata.isapproved', '=', true);
+            }
+            $this->_visibility_checks_added = true;
+        }
     }
 
     /**
