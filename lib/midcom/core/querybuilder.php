@@ -27,16 +27,6 @@
 class midcom_core_querybuilder extends midcom_core_query
 {
     /**
-     * Which window size to use. Is calculated when executing for the first time
-     */
-    private $_window_size = 0;
-
-    /**
-     * When determining window sizes for offset/limit queries use this as minimum size
-     */
-    private $min_window_size = 10;
-
-    /**
      * When determining window sizes for offset/limit queries use this as maximum size
      */
     private $max_window_size = 500;
@@ -85,6 +75,7 @@ class midcom_core_querybuilder extends midcom_core_query
             if (   $this->hide_invisible
                 && !midcom::get()->config->get('show_unapproved_objects')
                 && !$object->__object->is_approved()) {
+                $this->denied++;
                 continue;
             }
 
@@ -138,20 +129,40 @@ class midcom_core_querybuilder extends midcom_core_query
         return $newresult;
     }
 
+    /**
+     * Windowed querying.
+     *
+     * Since ACLs/approval can hide objects on the PHP level, we cannot apply offsets
+     * directly to the QB, but must instead verify that all objects are visible to the
+     * current user before discarding them until the offset is met. To reduce memory consumption,
+     * a maximum number of entries is loaded in each iteration.
+     *
+     * If we have a limit, we use it to dynamically adjust the window size between
+     * iterations to try to not load too much data, i.e. we start by querying the minimum number
+     * required to fill the offset and limit. If we end up with too few results,
+     * we do another iteration where we adjust the window according to how many we still need
+     * plus a padding that corresponds to the weighted number of denieds so far. This is repeated
+     * until the limit is filled or we run out of db results
+     *
+     * @return midcom_core_dbaobject[]
+     */
     private function execute_windowed()
     {
         $newresult = array();
-        // Must be copies
-        $limit = $this->_limit;
-        $offset = $this->_offset;
-        $i = 0;
-        $this->_set_limit_offset_window($i);
         $denied = $this->denied;
+        $offset = $this->_offset;
+        $limit = $this->_limit;
+        $total_queried = 0;
+        $window_size = $this->max_window_size;
+        if ($limit > 0) {
+            $window_size = min($offset + $limit, $this->max_window_size);
+        }
+        $this->_query->set_limit($window_size);
 
         while (    ($resultset = $this->_execute_and_check_privileges())
-                || $this->denied != $denied) {
-            $denied = $this->denied;
+                || $this->denied > $denied) {
             $size = count($resultset);
+            $total_size = $size + ($this->denied - $denied);
 
             if ($offset >= $size) {
                 // We still have offset left to skip
@@ -174,49 +185,22 @@ class midcom_core_querybuilder extends midcom_core_query
 
                 $newresult = array_merge($newresult, $resultset);
             }
-            $this->_set_limit_offset_window(++$i);
-        }
-        return $newresult;
-    }
 
-    private function _set_limit_offset_window($iteration)
-    {
-        if (!$this->_window_size) {
-            // Try to be smart about the window size
-            switch (true) {
-                case (   empty($this->_offset)
-                      && $this->_limit):
-                    // Get limited number from start (I supposed generally less than 50% will be unreadable)
-                    $this->_window_size = round($this->_limit * 1.5);
-                    break;
-                case (   empty($this->_limit)
-                      && $this->_offset):
-                    // Get rest from offset
-                    /* TODO: Somehow factor in that if we have huge number of objects and relatively small offset we want to increase window size
-                    $full_object_count = $this->_query->count();
-                    */
-                    $this->_window_size = $this->_offset * 2;
-                case (   $this->_offset > $this->_limit):
-                    // Offset is greater than limit, basically this is almost the same problem as above
-                    $this->_window_size = $this->_offset * 2;
-                    break;
-                case (   $this->_limit > $this->_offset):
-                    // Limit is greater than offset, this is probably similar to getting limited number from beginning
-                    $this->_window_size = $this->_limit * 2;
-                    break;
-                case ($this->_limit == $this->_offset):
-                    $this->_window_size = $this->_offset * 2;
-                    break;
+            if ($total_size < $window_size) {
+                // if we got less results than we asked for, we've reached the end of data
+                break;
             }
 
-            $this->_window_size = min(max($this->_window_size, $this->min_window_size), $this->max_window_size);
+            $denied = $this->denied;
+            $total_queried += $window_size;
+            if ($limit > 0) {
+                $denied_ratio = $denied / $total_queried;
+                $window_size = min(ceil($limit + ($denied * $denied_ratio)), $this->max_window_size);
+            }
+            $this->_query->set_offset($total_queried);
+            $this->_query->set_limit($window_size);
         }
-
-        $offset = $iteration * $this->_window_size;
-        if ($offset) {
-            $this->_query->set_offset($offset);
-        }
-        $this->_query->set_limit($this->_window_size);
+        return $newresult;
     }
 
     /**
