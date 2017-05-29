@@ -51,13 +51,8 @@ class midcom_core_querybuilder extends midcom_core_query
      */
     private function _execute_and_check_privileges()
     {
+        $result = $this->_query->execute();
         $newresult = array();
-        try {
-            $result = $this->_query->execute();
-        } catch (Exception $e) {
-            debug_add("Query failed: " . $e->getMessage(), MIDCOM_LOG_ERROR);
-            return $newresult;
-        }
 
         foreach ($result as $object) {
             $classname = $this->_real_class;
