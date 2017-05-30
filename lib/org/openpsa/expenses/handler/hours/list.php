@@ -29,7 +29,6 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
 
         // List hours
         $qb = org_openpsa_projects_hour_report_dba::new_query_builder();
-        $this->_master->add_list_filter($qb);
 
         $mode = 'full';
 
@@ -59,7 +58,9 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
                 );
             }
         }
-
+        if ($mode !== 'simple') {
+            $this->_master->add_list_filter($qb, true);
+        }
         $qb->add_order('date', 'DESC');
         $data['hours'] = $qb->execute();
 
