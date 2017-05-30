@@ -118,18 +118,6 @@ class midcom_core_group
     }
 
     /**
-     * Retrieves a list of groups owned by this group.
-     *
-     * @return midgard_group[] A list of group objects in which are owned by the current group
-     */
-    function list_subordinate_groups()
-    {
-        $qb = new midgard_query_builder('midgard_group');
-        $qb->add_constraint('owner', '=', $this->_storage->id);
-        return $qb->execute();
-    }
-
-    /**
      * Retrieves a list of users for which are a member in this group.
      *
      * @return midcom_core_user[] A list of user objects in which are members of the current group, indexed by their ID.
