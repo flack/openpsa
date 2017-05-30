@@ -50,14 +50,6 @@ abstract class midcom_core_query
     protected $_offset = 0;
 
     /**
-     * Count which is incremented by one each time a constraint is added.
-     * It is used to emit a warning if no constraints have been added to the QB during execution.
-     *
-     * @var int
-     */
-    protected $_constraint_count = 0;
-
-    /**
      * The ordering instructions used for this query
      *
      * @var array
@@ -211,8 +203,6 @@ abstract class midcom_core_query
             return false;
         }
 
-        $this->_constraint_count++;
-
         return true;
     }
 
@@ -235,8 +225,6 @@ abstract class midcom_core_query
 
             return false;
         }
-
-        $this->_constraint_count++;
 
         return true;
     }

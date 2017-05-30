@@ -93,11 +93,6 @@ class midcom_core_querybuilder extends midcom_core_query
             return array();
         }
 
-        if ($this->_constraint_count == 0) {
-            debug_add('This Query Builder instance has no constraints (set loglevel to debug to see stack trace)', MIDCOM_LOG_WARN);
-            debug_print_function_stack('We were called from here:');
-        }
-
         $this->_add_visibility_checks();
 
         if (   empty($this->_limit)
@@ -208,11 +203,6 @@ class midcom_core_querybuilder extends midcom_core_query
         if (!call_user_func_array(array($this->_real_class, '_on_prepare_exec_query_builder'), array(&$this))) {
             debug_add('The _on_prepare_exec_query_builder callback returned false, so we abort now.');
             return array();
-        }
-
-        if ($this->_constraint_count == 0) {
-            debug_add('This Query Builder instance has no constraints, see debug level log for stacktrace', MIDCOM_LOG_WARN);
-            debug_print_function_stack('We were called from here:');
         }
 
         // Add the limit / offsets
