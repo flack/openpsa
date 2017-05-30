@@ -13,3 +13,19 @@ File
 ---STRING delete photo
 Delete
 ---STRINGEND
+
+---STRING widget privilege: allow
+Allow
+---STRINGEND
+
+---STRING widget privilege: deny
+Deny
+---STRINGEND
+
+---STRING widget privilege: inherit
+Not set (inherited)
+---STRINGEND
+
+---STRING widget privilege: inherit %s
+Inherited (%s)
+---STRINGEND

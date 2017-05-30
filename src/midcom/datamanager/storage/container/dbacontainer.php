@@ -77,6 +77,8 @@ class dbacontainer extends container
             }
         } elseif (strtolower($config['storage']['location']) === 'metadata') {
             $classname = 'midcom\datamanager\storage\metadata';
+        } elseif (strtolower($config['storage']['location']) === 'privilege') {
+            $classname = 'midcom\datamanager\storage\privilege';
         } else {
             $classname = 'midcom\datamanager\storage\property';
         }

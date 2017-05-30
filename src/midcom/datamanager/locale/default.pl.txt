@@ -9,3 +9,19 @@ Dodaj plik
 ---STRING delete photo
 Usunąć
 ---STRINGEND
+
+---STRING widget privilege: allow
+Zezwalaj
+---STRINGEND
+
+---STRING widget privilege: deny
+Zabroń
+---STRINGEND
+
+---STRING widget privilege: inherit
+Nie ustawione (dziedziczone)
+---STRINGEND
+
+---STRING widget privilege: inherit %s
+Dziedziczone (%s)
+---STRINGEND

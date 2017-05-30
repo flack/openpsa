@@ -162,6 +162,12 @@ class schema
                 return $default;
             }
             if ($value === null) {
+                if ($options['type'] === 'privilege') {
+                    return array(
+                        'location' => 'privilege',
+                        'name' => $name
+                    );
+                }
                 return null;
             }
             if (is_string($value)) {
@@ -187,7 +193,7 @@ class schema
 
         $normalize_validation = function (Options $options, $config) {
             $validation = array();
-            if (array_key_exists('validation',(array) $config)) {
+            if (array_key_exists('validation', (array) $config)) {
                 $validation = (array) $config['validation'];
             }
 

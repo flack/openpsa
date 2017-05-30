@@ -47,6 +47,18 @@ class autocomplete extends AbstractType
                 'min_chars' => 2,
                 'sortable' => false
             );
+
+            if (!empty($value['clever_class'])) {
+                $config = \midcom_baseclasses_components_configuration::get('midcom.helper.datamanager2', 'config');
+
+                /** @var \midcom_helper_configuration $config */
+                $config = $config->get('clever_classes');
+                $value = $config[$value['clever_class']];
+                if (!$value) {
+                    throw new midcom_error('Invalid clever class specified');
+                }
+            }
+
             return helper::resolve_options($widget_defaults, $value);
         });
         $resolver->setNormalizer('type_config', function (Options $options, $value) {

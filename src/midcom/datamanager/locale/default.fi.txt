@@ -9,3 +9,19 @@ Lisää uusi tiedosto
 ---STRING delete photo
 Poistaa
 ---STRINGEND
+
+---STRING widget privilege: allow
+Salli
+---STRINGEND
+
+---STRING widget privilege: deny
+Estä
+---STRINGEND
+
+---STRING widget privilege: inherit
+Ei asetettu (peritty)
+---STRINGEND
+
+---STRING widget privilege: inherit %s
+Peritty (%s)
+---STRINGEND

@@ -51,11 +51,12 @@ class parameter extends delayed
             return true;
         }
 
+        $value = $this->value;
         if (!empty($this->config['type_config']['multiple_storagemode'])) {
-            $this->value = $this->convert_multiple_to_storage();
+            $value = $this->convert_multiple_to_storage();
         }
 
-        return $this->object->set_parameter($this->config['storage']['domain'], $this->config['storage']['name'], $this->value);
+        return $this->object->set_parameter($this->config['storage']['domain'], $this->config['storage']['name'], $value);
     }
 
     private function convert_multiple_from_storage($source)
@@ -92,8 +93,8 @@ class parameter extends delayed
      * Converts the selected options according to the multiple_storagemode setting.
      *
      * @return mixed The data converted to the final data storage.
-    */
-    function convert_multiple_to_storage()
+     */
+    private function convert_multiple_to_storage()
     {
         switch ($this->config['type_config']['multiple_storagemode']) {
             case 'array':
