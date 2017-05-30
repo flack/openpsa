@@ -36,7 +36,7 @@ abstract class midcom_helper_exporter
         $fields = $this->_get_object_fields($object, $all_metadata_fields);
 
         foreach ($fields as $key) {
-            if (substr($key, 0, 1) == '_' && $key != "__metadata") {
+            if (substr($key, 0, 1) == '_') {
                 // Remove private fields
                 continue;
             }
