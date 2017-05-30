@@ -313,22 +313,29 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
 
         if (sizeof($this->_query) > 1) {
             //if we have more than one token in the query, we try to match the entire string as well
-            $qb->begin_group('OR');
-            foreach ($fields as $field) {
-                $qb->add_constraint($field, 'LIKE', str_replace('__TERM__', $this->_query_string_processed, $this->_wildcard_template));
-            }
+            $this->add_constraints($qb, $fields, $this->_query_string_processed);
         }
         $qb->begin_group('AND');
         foreach ($this->_query as $term) {
-            $qb->begin_group('OR');
-            foreach ($fields as $field) {
-                $qb->add_constraint($field, 'LIKE', str_replace('__TERM__', $term, $this->_wildcard_template));
-            }
-            $qb->end_group();
+            $this->add_constraints($qb, $fields, $term);
         }
         $qb->end_group();
         if (sizeof($this->_query) > 1) {
             $qb->end_group();
         }
+    }
+
+    private function add_constraints(midcom_core_query $qb, array $fields, $term)
+    {
+        $term = str_replace('__TERM__', $term, $this->_wildcard_template);
+        $qb->begin_group('OR');
+        foreach ($fields as $field) {
+            if ($field == 'username') {
+                midcom_core_account::add_username_constraint($qb, 'LIKE', $term);
+            } else {
+                $qb->add_constraint($field, 'LIKE', $term);
+            }
+        }
+        $qb->end_group();
     }
 }
