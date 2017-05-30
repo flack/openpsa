@@ -83,6 +83,14 @@
     'fixed_args' => 'event',
     'variable_args' => 1,
 ),
+
+// Match /resource/new
+'new_resource' => array
+(
+    'handler' => array('org_openpsa_calendar_handler_resource', 'create'),
+    'fixed_args' => array('resource', 'new'),
+),
+
 // Match /json/
 'calendar_view_json' => array
 (

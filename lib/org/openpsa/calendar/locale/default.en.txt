@@ -134,6 +134,10 @@ Print
 Private event
 ---STRINGEND
 
+---STRING resource
+Resource
+---STRINGEND
+
 ---STRING resources
 Resources
 ---STRINGEND

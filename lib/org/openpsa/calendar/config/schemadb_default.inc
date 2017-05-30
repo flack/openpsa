@@ -84,6 +84,41 @@
                 'id_field' => 'id',
             ),
         ),
+        'resources' => array
+        (
+            'title' => 'resources',
+            'storage' => null,
+            'type' => 'mnrelation',
+            'type_config' => array
+            (
+                'mapping_class_name' => 'org_openpsa_calendar_event_resource_dba',
+                'master_fieldname' => 'event',
+                'member_fieldname' => 'resource',
+                'master_is_id' => true,
+            ),
+            'widget' => 'autocomplete',
+            'widget_config' => array
+            (
+                'class' => 'org_openpsa_calendar_resource_dba',
+                'id_field' => 'id',
+                'searchfields' => array
+                (
+                    'title',
+                    'location'
+                ),
+                'result_headers' => array
+                (
+                    array(
+                        'name' => 'title',
+                        'title' => 'title',
+                    ),
+                    array(
+                        'name' => 'location',
+                        'title' => 'location',
+                    ),
+                ),
+            ),
+        ),
         'orgOpenpsaAccesstype' => array
         (
             'title' => 'access type',

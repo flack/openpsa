@@ -151,6 +151,10 @@ Gruppen
 Leute
 ---STRINGEND
 
+---STRING resource
+Ressource
+---STRINGEND
+
 ---STRING resources
 Ressourcen
 ---STRINGEND

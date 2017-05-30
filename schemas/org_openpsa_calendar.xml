@@ -54,16 +54,12 @@
         <!-- /Common OpenPSA properties -->
     </type>
 
-    <type name="org_openpsa_calendar_resource" table="org_openpsa_calendar_resource" parent="midgard_person">
+    <type name="org_openpsa_calendar_resource" table="org_openpsa_calendar_resource">
         <property name="id" type="unsigned integer" primaryfield="id"/>
-        <property name="name" type="string"/>
         <property name="title" type="string"/>
         <property name="description" type="text"/>
         <property name="location" type="string"/>
         <property name="capacity" type="float"/>
-        <property name="type" type="string"/>
-        <property name="period" type="string" dbtype="varchar(1)" />
-        <property name="owner" link="midgard_person:id" type="unsigned integer" parentfield="owner"/>
     </type>
 
     <type name="org_openpsa_calendar_event_resource" table="org_openpsa_calendar_event_resource" parent="org_openpsa_event">

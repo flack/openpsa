@@ -83,12 +83,17 @@
             'widget' => 'autocomplete',
             'widget_config' => array
             (
-                'class' => 'org_openpsa_calendar_event_resource_dba',
-                'component' => 'org.openpsa.calendar',
-                'headers' => array
+                'class' => 'org_openpsa_calendar_resource_dba',
+                'result_headers' => array
                 (
-                    'title',
-                    'location',
+                    array(
+                        'name' => 'title',
+                        'title' => 'title',
+                    ),
+                    array(
+                        'name' => 'location',
+                        'title' => 'location',
+                    ),
                 ),
                 'searchfields' => array
                 (
@@ -102,7 +107,7 @@
                     array('name' => 'ASC'),
                     array('location' => 'ASC'),
                 ),
-                'id_field' => 'guid',
+                'id_field' => 'id',
             ),
         ),
     ),

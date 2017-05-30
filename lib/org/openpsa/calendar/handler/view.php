@@ -29,6 +29,10 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
      */
     private $_root_event = null;
 
+    private $filters;
+
+    private $events = array();
+
     /**
      * Initialization of the handler class
      */
@@ -57,6 +61,12 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
                     'id' => 'openpsa_calendar_add_event',
                 )
             ));
+            if (midcom::get()->auth->can_user_do('midgard:create', null, 'org_openpsa_calendar_resource_dba')) {
+                $buttons[] = $workflow->get_button('resource/new/', array(
+                    MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('resource')),
+                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/printer.png',
+                ));
+            }
         }
         $buttons[] = $workflow->get_button('filters/', array(
             MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('choose calendars'),
@@ -100,12 +110,12 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
     public function _handler_json($handler_id, array $args, array &$data)
     {
         midcom::get()->auth->require_valid_user();
-        $events = $this->_load_events($_GET['start'], $_GET['end']);
-        $this->add_holidays($events, $_GET['start'], $_GET['end']);
-        return new midcom_response_json($events);
+        $this->_load_events($_GET['start'], $_GET['end']);
+        $this->add_holidays($_GET['start'], $_GET['end']);
+        return new midcom_response_json(array_values($this->events));
     }
 
-    private function add_holidays(array &$events, $from, $to)
+    private function add_holidays($from, $to)
     {
         $from = new DateTime(strftime('%Y-%m-%d', $from));
         $to = new DateTime(strftime('%Y-%m-%d', $to));
@@ -116,7 +126,7 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
 
             do {
                 if ($holiday = $util->getHoliday($country, $from, $region)) {
-                    $events[] = array(
+                    $this->events[] = array(
                         'title' => $holiday->getName(),
                         'start' => $from->format('Y-m-d'),
                         'className' => array(),
@@ -126,6 +136,22 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
                 $from->modify('+1 day');
             } while ($from < $to);
         }
+    }
+
+    private function get_filters($type)
+    {
+        if (!$this->filters) {
+            $this->filters = array('people' => array(), 'groups' => array(), 'resources' => array());
+            foreach (midcom::get()->auth->user->get_storage()->list_parameters('org.openpsa.calendar.filters') as $key => $value) {
+                $selected = @unserialize($value);
+
+                if (!empty($selected)) {
+                    $this->filters[$key] = array_unique(array_merge($selected, $this->filters[$key]));
+                }
+            }
+        }
+
+        return $this->filters[$type];
     }
 
     private function load_memberships($from, $to)
@@ -138,34 +164,33 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
 
         $mc->begin_group('OR');
         $mc->add_constraint('uid', '=', $user->id);
-        $join_added = false;
 
-        // New UI for showing resources
-        foreach ($user->list_parameters('org.openpsa.calendar.filters') as $type => $value) {
-            $selected = @unserialize($value);
-
-            // Skip empty
-            if (empty($selected)) {
-                continue;
-            }
-
-            // Include each type
-            if ($type === 'people') {
-                $mc->add_constraint('uid.guid', 'IN', $selected);
-            }
-            else if ($type == 'groups') {
-                if (!$join_added) {
-                    $mc->get_doctrine()->leftJoin('midgard_member', 'm', Join::WITH, 'm.uid = c.uid');
-                    $mc->get_doctrine()->leftJoin('midgard_group', 'g', Join::WITH, 'g.id = m.gid');
-                    $join_added = true;
-                }
-                $mc->get_current_group()->add('g.guid IN(:selected)');
-                $mc->get_doctrine()->setParameter('selected', $selected);
-            }
+        if ($selected = $this->get_filters('people')) {
+            $mc->add_constraint('uid.guid', 'IN', $selected);
+        }
+        if ($selected = $this->get_filters('groups')) {
+            $mc->get_doctrine()->leftJoin('midgard_member', 'm', Join::WITH, 'm.uid = c.uid');
+            $mc->get_doctrine()->leftJoin('midgard_group', 'g', Join::WITH, 'g.id = m.gid');
+            $mc->get_current_group()->add('g.guid IN(:selected)');
+            $mc->get_doctrine()->setParameter('selected', $selected);
         }
         $mc->end_group();
 
         return $mc->get_rows(array('uid', 'eid'));
+    }
+
+    private function load_resources($from, $to)
+    {
+        $selected = $this->get_filters('resources');
+        if (empty($selected)) {
+            return array();
+        }
+        $mc = org_openpsa_calendar_event_resource_dba::new_collector();
+        // Find all events that occur during [$from, $to]
+        $mc->add_constraint('event.start', '<=', $to);
+        $mc->add_constraint('event.end', '>=', $from);
+        $mc->add_constraint('resource', 'IN', $selected);
+        return $mc->get_rows(array('event', 'resource'));
     }
 
     /**
@@ -176,50 +201,54 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
      */
     private function _load_events($from, $to)
     {
-        $events = array();
-
-        if ($memberships = $this->load_memberships($from, $to)) {
-            // Customize label
-            $label_field = $this->_config->get('event_label');
-            if (!$label_field) {
-                $label_field = 'title';
+        foreach ($this->load_memberships($from, $to) as $membership) {
+            $event = org_openpsa_calendar_event_dba::get_cached($membership['eid']);
+            $this->add_event($event);
+            if ($membership['uid'] == midcom_connection::get_user()) {
+                $this->events[$event->guid]['participants'][] = $this->_l10n->get('me');
+                $this->events[$event->guid]['className'][] = 'paticipant_me';
+            } else {
+                $person = org_openpsa_contacts_person_dba::get_cached($membership['uid']);
+                $this->events[$event->guid]['participants'][] = $person->get_label();
             }
-            foreach ($memberships as $membership) {
-                $event = org_openpsa_calendar_event_dba::get_cached($membership['eid']);
-
-                if (!isset($events[$event->guid])) {
-                    $label = $event->$label_field;
-                    if ($label_field == 'creator') {
-                        $user = midcom::get()->auth->get_user($event->metadata->creator);
-                        $label = $user->name;
-                    }
-
-                    $events[$event->guid] = array(
-                        'id' => $event->guid,
-                        'title' => $label,
-                        'location' => $event->location,
-                        'start' => strftime('%Y-%m-%dT%T', $event->start),
-                        'end' => strftime('%Y-%m-%dT%T', $event->end),
-                        'className' => array(),
-                        'participants' => array(),
-                        'allDay' => (($event->end - $event->start) > 8 * 60 * 60)
-                    );
-                    if ($event->orgOpenpsaAccesstype == org_openpsa_core_acl::ACCESS_PRIVATE) {
-                        $events[$event->guid]['className'][] = 'private';
-                    }
-                }
-                if ($membership['uid'] == midcom_connection::get_user()) {
-                    $events[$event->guid]['participants'][] = $this->_l10n->get('me');
-                    $events[$event->guid]['className'][] = 'paticipant_me';
-                } else {
-                    $person = org_openpsa_contacts_person_dba::get_cached($membership['uid']);
-                    $events[$event->guid]['participants'][] = $person->get_label();
-                }
-                $events[$event->guid]['className'][] = 'paticipant_' . $membership['uid'];
-            }
+            $this->events[$event->guid]['className'][] = 'paticipant_' . $membership['uid'];
         }
 
-        return array_values($events);
+        foreach ($this->load_resources($from, $to) as $event_resource) {
+            $event = org_openpsa_calendar_event_dba::get_cached($event_resource['event']);
+            $this->add_event($event);
+            $this->events[$event->guid]['className'][] = 'resource_' . $event_resource['resource'];
+        }
+    }
+
+    private function add_event(org_openpsa_calendar_event_dba $event)
+    {
+        // Customize label
+        $label_field = $this->_config->get('event_label');
+        if (!$label_field) {
+            $label_field = 'title';
+        }
+        if (!isset($this->events[$event->guid])) {
+            $label = $event->$label_field;
+            if ($label_field == 'creator') {
+                $user = midcom::get()->auth->get_user($event->metadata->creator);
+                $label = $user->name;
+            }
+
+            $this->events[$event->guid] = array(
+                'id' => $event->guid,
+                'title' => $label,
+                'location' => $event->location,
+                'start' => strftime('%Y-%m-%dT%T', $event->start),
+                'end' => strftime('%Y-%m-%dT%T', $event->end),
+                'className' => array(),
+                'participants' => array(),
+                'allDay' => (($event->end - $event->start) > 8 * 60 * 60)
+            );
+            if ($event->orgOpenpsaAccesstype == org_openpsa_core_acl::ACCESS_PRIVATE) {
+                $this->events[$event->guid]['className'][] = 'private';
+            }
+        }
     }
 
     /**
