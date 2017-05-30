@@ -111,9 +111,6 @@ class midcom_core_collector extends midcom_core_query
     {
         $this->execute();
         $result = $this->_query->list_keys();
-        if (!is_array($result)) {
-            return array();
-        }
         $newresult = array();
         $classname = $this->_real_class;
         $counter = 0;
@@ -124,7 +121,7 @@ class midcom_core_collector extends midcom_core_query
                 debug_add("Failed to load result, read privilege on {$object_guid} not granted for the current user.", MIDCOM_LOG_INFO);
                 continue;
             }
-            // TODO: Implement $this->hide_invisible
+
             if ($apply_offset_limit) {
                 $counter++;
                 if ($counter <= $this->_offset) {
