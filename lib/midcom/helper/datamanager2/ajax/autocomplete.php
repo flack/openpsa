@@ -242,9 +242,11 @@ class midcom_helper_datamanager2_ajax_autocomplete
                     }
                     break;
             }
-        } else {
-            $value = $object->$item_name;
+        } elseif (   $item_name == 'username'
+                  && $object instanceof midcom_db_person) {
+          $account = new midcom_core_account($object);
+          return $account->get_username();
         }
-        return $value;
+        return $object->$item_name;
     }
 }
