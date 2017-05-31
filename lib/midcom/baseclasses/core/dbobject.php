@@ -702,8 +702,7 @@ class midcom_baseclasses_core_dbobject
 
         $object->__object->get_by_id((int) $id);
 
-        if (   $object->id != 0
-            && $object->action != 'delete') {
+        if ($object->id != 0) {
             if (!$object->can_do('midgard:read')) {
                 debug_add("Failed to load object, read privilege on the " . get_class($object) . " {$object->guid} not granted for the current user.",
                     MIDCOM_LOG_ERROR);
@@ -735,8 +734,7 @@ class midcom_baseclasses_core_dbobject
         }
         $object->__object->get_by_guid((string) $guid);
 
-        if (   $object->id != 0
-            && $object->action != 'delete') {
+        if ($object->id != 0) {
             $object->_on_loaded();
             return true;
         }
@@ -756,8 +754,7 @@ class midcom_baseclasses_core_dbobject
     {
         $object->__object->get_by_path((string) $path);
 
-        if (   $object->id != 0
-            && $object->action != 'delete') {
+        if ($object->id != 0) {
             if (!$object->can_do('midgard:read')) {
                 $object->__object = new $object->__mgdschema_class_name__;
                 return false;
