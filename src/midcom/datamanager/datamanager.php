@@ -128,7 +128,6 @@ class datamanager
             && !empty($storage->id)) {
             $schema = $storage->get_parameter('midcom.helper.datamanager2', 'schema_name');
         }
-
         $this->schema = ($schema) ? $this->schemadb->get($schema) : $this->schemadb->get_first();
 
         if ($storage === null) {

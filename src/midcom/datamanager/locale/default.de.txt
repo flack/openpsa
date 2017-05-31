@@ -13,3 +13,19 @@ Datei
 ---STRING delete photo
 Löschen
 ---STRINGEND
+
+---STRING widget privilege: allow
+Erlauben
+---STRINGEND
+
+---STRING widget privilege: deny
+Verbieten
+---STRINGEND
+
+---STRING widget privilege: inherit
+Nicht gesetzt (vererbt)
+---STRINGEND
+
+---STRING widget privilege: inherit %s
+Vererbt (%s)
+---STRINGEND

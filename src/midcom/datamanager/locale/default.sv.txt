@@ -9,3 +9,19 @@ Lägg till ny fil
 ---STRING delete photo
 Radera
 ---STRINGEND
+
+---STRING widget privilege: allow
+Tillåt
+---STRINGEND
+
+---STRING widget privilege: deny
+Neka
+---STRINGEND
+
+---STRING widget privilege: inherit
+Inte satt (ärvd)
+---STRINGEND
+
+---STRING widget privilege: inherit %s
+Ärvd (%s)
+---STRINGEND
