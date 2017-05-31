@@ -71,7 +71,7 @@ class privilege extends RadioType
             return $defaults[$options['privilege_name']] === MIDCOM_PRIVILEGE_ALLOW;
         }
         if ($options['assignee'] == 'SELF') {
-            if ($object instanceof midcom_db_group) {
+            if ($object instanceof \midcom_db_group) {
                 //There's no sane way to query group privileges in auth right now, so we only return defaults
                 $defaults = midcom::get()->auth->acl->get_default_privileges();
                 return (($defaults[$options['privilege_name']] === MIDCOM_PRIVILEGE_ALLOW));
@@ -88,35 +88,26 @@ class privilege extends RadioType
     public function render_choices(array $options, $object = null)
     {
         $l10n = midcom::get()->i18n->get_l10n('midcom.datamanager');
-        $inherit = $this->get_effective_value($options,$object);
-        $allow = 'widget privilege: allow';
-        $deny = 'widget privilege: deny';
-        $base = $l10n->get('widget privilege: inherit %s');
 
-        if ($inherit === true) {
-            $allow = $l10n->get($allow);
-            return sprintf($base, $allow);
-        } elseif ($inherit === false) {
-            $deny = $l10n->get($deny);
-            return sprintf($base, $deny);
+        if ($this->get_effective_value($options, $object)) {
+            $label = $l10n->get('widget privilege: allow');
+        } else {
+            $label = $l10n->get('widget privilege: deny');
         }
-        return 'widget privilege: inherit';
+        return sprintf($l10n->get('widget privilege: inherit %s'), $label);
     }
 
     public function search_for_object($object)
     {
-        $help_obj = $object;
-
         while (true)
         {
-            if ($help_obj instanceof dbacontainer) {
-                return $help_obj->get_value();
+            if ($object instanceof dbacontainer) {
+                return $object->get_value();
+            }
+            if (!empty($object->parent)) {
+                $object = $object->parent->vars['data'];
             } else {
-                if (!empty($help_obj->parent)) {
-                    $help_obj = $help_obj->parent->vars['data'];
-                } else {
-                    return null;
-                }
+                return null;
             }
         }
     }
