@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
+use midgard\introspection\helper;
+
 /**
  * n.n.static site interface class
  *
@@ -100,10 +102,27 @@ class net_nehmer_static_viewer extends midcom_baseclasses_components_request
      * @param integer $id The topic ID
      * @return midcom_core_querybuilder The querybuilder instance
      */
-    public static function get_topic_qb(midcom_helper_configuration $config, $id)
+    public static function get_topic_qb(midcom_helper_configuration $config, $id, $order = true)
     {
         $qb = midcom_db_article::new_query_builder();
         $qb->add_constraint('topic', '=', $id);
+
+        if ($order) {
+            $sort_order = 'ASC';
+            $sort_property = $config->get('sort_order');
+            if (strpos($sort_property, 'reverse ') === 0) {
+                $sort_order = 'DESC';
+                $sort_property = substr($sort_property, strlen('reverse '));
+            }
+            if (strpos($sort_property, 'metadata.') === false) {
+                $helper = new helper;
+                $article = new midgard_article();
+                if (!$helper->property_exists($article, $sort_property)) {
+                    $sort_property = 'metadata.' . $sort_property;
+                }
+            }
+            $qb->add_order($sort_property, $sort_order);
+        }
         return $qb;
     }
 }

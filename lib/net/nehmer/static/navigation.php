@@ -6,8 +6,6 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
-use midgard\introspection\helper;
-
 /**
  * n.n.static NAP interface class
  *
@@ -42,21 +40,6 @@ class net_nehmer_static_navigation extends midcom_baseclasses_components_navigat
             && !$this->_config->get('indexinnav')) {
             $qb->add_constraint('name', '<>', 'index');
         }
-
-        $sort_order = 'ASC';
-        $sort_property = $this->_config->get('sort_order');
-        if (strpos($sort_property, 'reverse ') === 0) {
-            $sort_order = 'DESC';
-            $sort_property = substr($sort_property, strlen('reverse '));
-        }
-        if (strpos($sort_property, 'metadata.') === false) {
-            $helper = new helper;
-            $article = new midgard_article();
-            if (!$helper->property_exists($article, $sort_property)) {
-                $sort_property = 'metadata.' . $sort_property;
-            }
-        }
-        $qb->add_order($sort_property, $sort_order);
 
         // Sort items with the same primary sort key by title.
         $qb->add_order('title');
