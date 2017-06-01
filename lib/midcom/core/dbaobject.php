@@ -47,10 +47,9 @@ abstract class midcom_core_dbaobject
     /**
      * Change message used for RCS and the Activity Log summary
      *
-     * @access private
      * @var string
      */
-    var $_rcs_message = false;
+    private $_rcs_message = false;
 
     /**
      * Verb to use for Activity Log. Should be an URL conforming to activitystrea.ms specification.

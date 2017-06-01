@@ -201,7 +201,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
 
         $article->allow_name_catenate = true;
         $article->_activitystream_verb = 'http://community-equity.org/schema/1.0/clone';
-        $article->_rcs_message = sprintf(midcom::get()->i18n->get_string('%s was imported from %s', 'net.nemein.rss'), $title, $this->_feed->title);
+        $article->set_rcs_message(sprintf(midcom::get()->i18n->get_string('%s was imported from %s', 'net.nemein.rss'), $title, $this->_feed->title));
 
         $values = array(
             'title' => $title,

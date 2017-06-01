@@ -207,8 +207,8 @@ class midgard_admin_asgard_schemadb
             '_rcs_message',
             array(
                 'title'       => $this->_l10n->get('revision comment'),
-                'storage'     => '_rcs_message',
-                'type'        => 'text',
+                'storage'     => null,
+                'type'        => 'rcsmessage',
                 'widget'      => 'text',
                 'start_fieldset' => array(
                     'title' => $this->_l10n->get('revision'),
