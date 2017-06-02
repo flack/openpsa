@@ -118,13 +118,6 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
     public $new_root_object = null;
 
     /**
-     * Properties for each encountered MgdSchema object
-     *
-     * @var array         class_name => array of properties
-     */
-    private $properties = array();
-
-    /**
      * Get the newly created root object
      *
      * @return mixed     Lowest level new MgdSchema object
