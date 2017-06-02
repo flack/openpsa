@@ -6,8 +6,6 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
-use midgard\introspection\helper;
-
 /**
  * Datamanager 2 Data storage implementation: Pure Midgard object.
  *
@@ -18,22 +16,24 @@ use midgard\introspection\helper;
 class midcom_helper_datamanager2_storage_midgard extends midcom_helper_datamanager2_storage
 {
     /**
+     * @var midcom_helper_reflector
+     */
+    private $reflector;
+
+    /**
      * Start up the storage manager and bind it to a given MidgardObject.
      * The passed object must be a MidCOM DBA object, otherwise the system bails with
      * midcom_error. In this case, no automatic conversion is done, as this would
      * destroy the reference.
      *
      * @param midcom_helper_datamanager2_schema $schema The data schema to use for processing.
-     * @param MidCOMDBAObject $object A reference to the DBA object to user for Data I/O.
+     * @param midcom_core_dbaobject $object A reference to the DBA object to user for Data I/O.
      */
-    public function __construct($schema, $object)
+    public function __construct($schema, midcom_core_dbaobject $object)
     {
         parent::__construct($schema);
-        if (!midcom::get()->dbclassloader->is_mgdschema_object($object)) {
-            debug_print_r('Object passed:', $object);
-            throw new midcom_error('The midgard storage backend requires a MidCOM DBA object.');
-        }
         $this->object = $object;
+        $this->reflector = midcom_helper_reflector::get($object);
     }
 
     public function _on_store_data($name, $data)
@@ -72,9 +72,8 @@ class midcom_helper_datamanager2_storage_midgard extends midcom_helper_datamanag
 
             default:
                 $fieldname = $this->_schema->fields[$name]['storage']['location'];
-                $helper = new helper;
-                if (   !$helper->property_exists($this->object, $fieldname)
-                    && !$helper->property_exists($this->object->__object, $fieldname)) {
+                if (   !property_exists($this->object, $fieldname)
+                    && !$this->reflector->property_exists($fieldname)) {
                     throw new midcom_error("Missing {$fieldname} field in object: " . get_class($this->object));
                 }
                 $this->object->$fieldname = $data;
@@ -98,10 +97,9 @@ class midcom_helper_datamanager2_storage_midgard extends midcom_helper_datamanag
                 );
 
             case 'metadata':
-                $helper = new helper;
                 if (   !isset($this->object->metadata)
-                    || (   !$helper->property_exists($this->object->metadata, $name)
-                        && !$helper->property_exists($this->object->__object->metadata, $name))) {
+                    || (   !property_exists($this->object->metadata, $name)
+                        && !$this->reflector->property_exists($name, true))) {
                     throw new midcom_error("Missing {$name} metadata field in object: " . get_class($this->object));
                 }
                 return $this->object->metadata->$name;

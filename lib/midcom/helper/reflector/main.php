@@ -1,11 +1,12 @@
 <?php
-use midgard\introspection\helper;
 /**
  * @package midcom.helper.reflector
  * @author The Midgard Project, http://www.midgard-project.org
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
+
+use midgard\portable\storage\connection;
 
 /**
  * The Grand Unified Reflector
@@ -77,13 +78,6 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
     /**
      * Get object's (mgdschema) fieldnames.
      *
-     * This uses a static classname cache to avoid duplicate
-     * lookups. This is a lot more memory-efficient than calling
-     * get_object_vars on each instance directly, since this returns
-     * values as well, which unecessarily consume memory.
-     * get_class_vars() does not work on MgdSchema classes,
-     * so we resort to this
-     *
      * @param object $object Object The object to query
      * @return array The object vars
      */
@@ -92,18 +86,40 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         if (!is_object($object)) {
             throw new midcom_error('Invalid parameter type');
         }
-        $class = get_class($object);
+        $classname = get_class($object);
+        $cache_key = $classname;
 
-        if (!isset(self::$_cache['fielnames'][$class])) {
+        if (!isset(self::$_cache['fieldnames'][$cache_key])) {
+            $metadata = false;
+
             if (midcom::get()->dbclassloader->is_midcom_db_object($object)) {
                 $classname = $object->__mgdschema_class_name__;
-                $object = new $classname;
+            } elseif (is_a($object, 'midcom_helper_metadata')) {
+                $metadata = true;
+                $classname = $object->__object->__mgdschema_class_name__;
             }
-            $helper = new helper;
-            self::$_cache['fieldnames'][$class] = $helper->get_all_properties($object);
+
+            if (is_subclass_of($classname, 'midgard_object')) {
+                $cm = connection::get_em()->getClassMetadata($classname);
+                self::$_cache['fieldnames'][$cache_key] = $cm->get_schema_properties($metadata);
+            } else {
+                // for some strange reason, when this is cached, we get errors from
+                // DateTime objects (at least under PHP 5.5)
+                return array_keys(get_object_vars($object));
+            }
         }
 
-        return self::$_cache['fieldnames'][$class];
+        return self::$_cache['fieldnames'][$cache_key];
+    }
+
+    /**
+     * @param string $property
+     * @param boolean $metadata
+     * @return boolean
+     */
+    public function property_exists($property, $metadata = false)
+    {
+        return $this->_mgd_reflector->property_exists($property, $metadata);
     }
 
     /**
@@ -417,7 +433,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
 
         if (    is_string($label_prop)
              && $label_prop != 'guid'
-             && midcom::get()->dbfactory->property_exists($this->_dummy_object, $label_prop)) {
+             && $this->_mgd_reflector->property_exists($label_prop)) {
             $search_properties[$label_prop] = true;
         }
 
@@ -655,7 +671,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         foreach ($name_exceptions as $class => $property) {
             if (midcom::get()->dbfactory->is_a($object, $class)) {
                 if (   $property !== false
-                    && !midcom::get()->dbfactory->property_exists($object, $property)) {
+                    && !$this->_mgd_reflector->property_exists($property)) {
                     debug_add("Matched class '{$key}' to '{$class}' via is_a but property '{$property}' does not exist", MIDCOM_LOG_ERROR);
                     self::$_cache['name'][$key] = false;
                     return self::$_cache['name'][$key];
@@ -666,10 +682,9 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         }
 
         // The simple heuristic
-        if (midcom::get()->dbfactory->property_exists($object, 'name')) {
+        if ($this->_mgd_reflector->property_exists('name')) {
             self::$_cache['name'][$key] = 'name';
         }
-
         return self::$_cache['name'][$key];
     }
 
@@ -684,14 +699,13 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
     {
         // Cache results per class within request
         $key = get_class($object);
-        if (isset(self::$_cache['name'][$key])) {
-            return self::$_cache['name'][$key];
-        }
-        try {
-            self::$_cache['name'][$key] = self::get($object)->get_name_property_nonstatic($object);
-        } catch (midcom_error $e) {
-            debug_add('Could not get reflector instance for class ' . $key . ': ' . $e->getMessage(), MIDCOM_LOG_ERROR);
-            self::$_cache['name'][$key] = null;
+        if (!isset(self::$_cache['name'][$key])) {
+            try {
+                self::$_cache['name'][$key] = self::get($object)->get_name_property_nonstatic($object);
+            } catch (midcom_error $e) {
+                debug_add('Could not get reflector instance for class ' . $key . ': ' . $e->getMessage(), MIDCOM_LOG_ERROR);
+                self::$_cache['name'][$key] = null;
+            }
         }
         return self::$_cache['name'][$key];
     }
@@ -713,7 +727,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
             $title_property = self::get_title_property($object);
         }
         if (   empty($title_property)
-            || !midcom::get()->dbfactory->property_exists($object, $title_property)) {
+            || !self::get($object)->property_exists($title_property)) {
             // Could not resolve valid property
             return false;
         }
@@ -760,7 +774,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         foreach ($title_exceptions as $class => $property) {
             if (midcom::get()->dbfactory->is_a($object, $class)) {
                 if (   $property !== false
-                    && !midcom::get()->dbfactory->property_exists($object, $property)) {
+                    && !$this->_mgd_reflector->property_exists($property)) {
                     debug_add("Matched class '{$key}' to '{$class}' via is_a but property '{$property}' does not exist", MIDCOM_LOG_ERROR);
                     self::$_cache['title'][$key] = false;
                     return self::$_cache['title'][$key];
@@ -771,7 +785,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         }
 
         // The easy check
-        if (midcom::get()->dbfactory->property_exists($object, 'title')) {
+        if ($this->_mgd_reflector->property_exists('title')) {
             self::$_cache['title'][$key] = 'title';
         }
 

@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
-use midgard\introspection\helper;
+use Doctrine\Common\Util\Debug;
 
 /**
  * This is a debugger class.
@@ -191,9 +191,12 @@ class midcom_debug
             return;
         }
 
-        //This is mainly for midgard-portable, because print_r on Entities can choke the system pretty badly
-        $helper = new helper;
-        $varstring = $helper->print_r($variable, true);
+        // This is mainly for midgard objects, because print_r on Entities can
+        // choke the system pretty badly
+        ob_start();
+        Debug::dump($variable);
+        $varstring = ob_get_contents();
+        ob_end_clean();
 
         $this->log(trim($message) . $varstring, $loglevel);
     }

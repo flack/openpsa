@@ -7,7 +7,7 @@
  */
 
 use Michelf\MarkdownExtra;
-use midgard\introspection\helper;
+use midgard\portable\storage\connection;
 
 /**
  * Online help display
@@ -341,10 +341,10 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
 
     private function read_schema_properties()
     {
-        $helper = new helper;
         foreach (array_keys($this->_request_data['mgdschemas']) as $mgdschema_class) {
             $mrp = new midgard_reflection_property($mgdschema_class);
-            $class_props = $helper->get_all_properties($mgdschema_class);
+            $class_props = connection::get_em()->getClassMetadata($mgdschema_class)->get_schema_properties();
+
             unset($class_props['metadata']);
             $default_properties = array();
             $additional_properties = array();

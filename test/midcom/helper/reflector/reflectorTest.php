@@ -14,6 +14,53 @@
 class midcom_helper_reflector_reflectorTest extends openpsa_testcase
 {
     /**
+     * @dataProvider provider_property_exists
+     */
+    public function test_property_exists($input)
+    {
+        $reflector = midcom_helper_reflector::get($input);
+        $test_properties = array(
+            'guid',
+            'name',
+            'title',
+        );
+
+        foreach ($test_properties as $property) {
+            $this->assertTrue($reflector->property_exists($property), 'Property ' . $property . ' not found');
+        }
+    }
+
+    public function provider_property_exists()
+    {
+        return array(
+            array(
+                new midgard_article
+            ),
+            array(
+                new midcom_db_article,
+            ),
+            array(
+                'midgard_article',
+            ),
+            array(
+                'midcom_db_article',
+            ),
+            array(
+                new midgard_topic,
+            ),
+            array(
+                new midcom_db_topic,
+            ),
+            array(
+                'midgard_topic',
+            ),
+            array(
+                'midcom_db_topic',
+            )
+        );
+    }
+
+    /**
      * @dataProvider providerGet_class_label
      */
     public function testGet_class_label($classname, $label)

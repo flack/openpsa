@@ -23,7 +23,7 @@ class midcom_helper_exporter_json extends midcom_helper_exporter
     {
         foreach ($array as $key => $val) {
             if (is_object($array[$key])) {
-                $array[$key] = $this->object2array($val, true);
+                $array[$key] = $this->object2array($val);
             }
         }
         return json_encode($array);
@@ -52,7 +52,7 @@ class midcom_helper_exporter_json extends midcom_helper_exporter
      */
     public function object2data($object)
     {
-        $arr = $this->object2array($object, true);
+        $arr = $this->object2array($object);
         return json_encode($arr);
     }
 }

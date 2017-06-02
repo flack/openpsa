@@ -48,13 +48,36 @@ class midcom_helper_exporter_xmlTest extends openpsa_testcase
         $expected = <<<EOX
 <midgard_element>
     <midcom_helper_metadata>
+        <approved>0</approved>
+        <approver><![CDATA[{$object->metadata->approver}]]></approver>
+        <authors><![CDATA[]]></authors>
+        <created>0</created>
+        <creator><![CDATA[{$object->metadata->creator}]]></creator>
+        <deleted/>
+        <exported>0</exported>
+        <hidden/>
+        <imported>0</imported>
+        <isapproved/>
+        <islocked/>
+        <locked>0</locked>
+        <locker><![CDATA[{$object->metadata->locker}]]></locker>
+        <navnoentry/>
+        <owner><![CDATA[]]></owner>
+        <published>0</published>
+        <revised>0</revised>
+        <revision>0</revision>
+        <revisor><![CDATA[{$object->metadata->revisor}]]></revisor>
+        <scheduleend>0</scheduleend>
+        <schedulestart>0</schedulestart>
+        <score>0</score>
+        <size>0</size>
+
     </midcom_helper_metadata>    <value><![CDATA[test
 
 test]]></value>
     <style>33</style>
     <name><![CDATA[Test]]></name>
     <guid><![CDATA[]]></guid>
-    <action><![CDATA[]]></action>
     <id>0</id>
 </midgard_element>
 EOX;
@@ -75,7 +98,6 @@ EOX;
                 'guid' => 'a4de2d4263af11df90631192dd1df1f4f1f4'
             ),
             'guid' => 'a4de2d4263af11df90631192dd1df1f4f1f4',
-            'action' => '',
             'invoiceableHours' => '',
             'projectCode' => '',
             'agreement' => '102',

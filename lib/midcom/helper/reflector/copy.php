@@ -6,8 +6,6 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
-use midgard\introspection\helper;
-
 /**
  * The Grand Unified Reflector, copying helper class
  *
@@ -134,35 +132,6 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
     public function get_object()
     {
         return $this->new_root_object;
-    }
-
-    /**
-     * Get object properties
-     *
-     * @param mixed $object
-     * @return array
-     */
-    public function get_object_properties($object)
-    {
-        $mgdschema_class = midcom_helper_reflector::resolve_baseclass(get_class($object));
-
-        if (!isset($this->properties[$mgdschema_class])) {
-            // Get property list and start checking (or abort on error)
-            if (midcom::get()->dbclassloader->is_midcom_db_object($object)) {
-                $properties = $object->get_object_vars();
-            } else {
-                $helper = new helper;
-                $properties = $helper->get_all_properties($object);
-            }
-
-            $return = array_diff($properties, array('id', 'guid', 'metadata'));
-
-            // Cache them
-            $this->properties[$mgdschema_class] = $return;
-        }
-
-        // ...and return
-        return $this->properties[$mgdschema_class];
     }
 
     /**
@@ -333,7 +302,7 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
         $class_name = get_class($source);
         $target = new $class_name();
 
-        $properties = $this->get_object_properties($source);
+        $properties = midcom_helper_reflector::get_object_fieldnames($source);
 
         // Copy the object properties
         foreach ($properties as $property) {

@@ -36,8 +36,8 @@ class midcom_helper_reflector_nameresolver
         if (is_null($name_property)) {
             $name_property = midcom_helper_reflector::get_name_property($this->_object);
         }
-        if (   empty($name_property)
-            || !midcom::get()->dbfactory->property_exists($this->_object, $name_property)) {
+        if (    empty($name_property)
+            || !midcom_helper_reflector::get($this->_object)->property_exists($name_property)) {
             // Could not resolve valid property
             return false;
         }

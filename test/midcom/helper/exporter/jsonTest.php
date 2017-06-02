@@ -15,23 +15,30 @@ class midcom_helper_exporter_jsonTest extends openpsa_testcase
 {
     public function test_array2data()
     {
-        $arr = array("message" => "hello world", "code" => 200, "object" => $this->_get_object());
+        $arr = array(
+            "message" => "hello world",
+            "code" => 200,
+            "object" => $this->_get_object()
+        );
 
         $mapper = new midcom_helper_exporter_json();
         $data = $mapper->array2data($arr);
 
-        $expected = json_encode(array("message" => $arr["message"], "code" => $arr["code"], "object" => $this->_get_data_array()));
+        $expected = json_encode(array(
+            "message" => $arr["message"],
+            "code" => $arr["code"],
+            "object" => $this->_get_data_array($arr['object']->metadata->creator))
+        );
         $this->assertJsonStringEqualsJsonString($expected, $data);
     }
 
     public function test_data2array()
     {
-        $data = $this->_get_data();
+        $expected = $this->_get_data_array('');
 
         $mapper = new midcom_helper_exporter_json();
-        $arr = $mapper->data2array($data);
+        $arr = $mapper->data2array(json_encode($expected));
 
-        $expected = $this->_get_data_array();
         // assert arrays are equal
         $this->assertEquals($expected, $arr);
     }
@@ -43,7 +50,7 @@ class midcom_helper_exporter_jsonTest extends openpsa_testcase
         $mapper = new midcom_helper_exporter_json();
         $data = $mapper->object2data($object);
 
-        $expected = $this->_get_data();
+        $expected = json_encode($this->_get_data_array($object->metadata->creator));
         $this->assertJsonStringEqualsJsonString($expected, $data);
     }
 
@@ -56,29 +63,38 @@ class midcom_helper_exporter_jsonTest extends openpsa_testcase
         return $object;
     }
 
-    private function _get_data()
-    {
-        $data = '{"id":0,"name":"Test","value":"test","guid":"","style":33,"action":"",';
-        $data .= '"metadata":{"created":0,"hidden":false,"deleted":false,"isapproved":false,"islocked":false}}';
-
-        return $data;
-    }
-
-    private function _get_data_array()
+    private function _get_data_array($creator)
     {
         $data = array(
             'guid' => '',
-            'action' => '',
             'id' => 0,
             'name' => 'Test',
             'style' => 33,
             'value' => 'test',
             'metadata' => array(
+                'creator' => $creator,
                 'created' => 0,
+                'revisor' => $creator,
+                'revised' => 0,
+                'revision' => 0,
+                'locker' => $creator,
+                'locked' => 0,
+                'approver' => $creator,
+                'approved' => 0,
+                'authors' => '',
+                'owner' => '',
+                'schedulestart' => 0,
+                'scheduleend' => 0,
+                'navnoentry' => false,
+                'size' => 0,
+                'published' => 0,
+                'score' => 0,
+                'imported' => 0,
                 'hidden' => false,
                 'deleted' => false,
                 'isapproved' => false,
-                'islocked' => false
+                'islocked' => false,
+                'exported' => 0
            )
         );
         return $data;

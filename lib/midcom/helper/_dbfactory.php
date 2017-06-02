@@ -6,8 +6,6 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
-use midgard\introspection\helper;
-
 /**
  * This class contains various factory methods to retrieve objects from the database.
  * The only instance of this class you should ever use is available through
@@ -208,39 +206,6 @@ class midcom_helper__dbfactory
         }
 
         return false;
-    }
-
-    /**
-     * This is a helper for emulating property_exists() functionality with MidCOM DBA objects that are decorators.
-     * This method can be used to check whether the original MgdSchema class has a given property.
-     *
-     * @param mixed $object MgdSchema or MidCOM DBA object or class
-     * @param string $property Property to check for
-     * @return boolean
-     */
-    public function property_exists($object, $property)
-    {
-        if (is_object($object)) {
-            $helper = new helper;
-            // We're dealing with either MgdSchema or MidCOM DBA object
-            if (   isset($object->__object)
-                && is_object($object->__object)) {
-                // MidCOM DBA decorator
-                return $helper->property_exists($object->__object, $property);
-            }
-
-            return $helper->property_exists($object, $property);
-        }
-
-        if (   !is_string($object)
-            || !class_exists($object)) {
-            // TODO: Raise exception?
-            debug_add("\$object is not string or class_exists() returned false", MIDCOM_LOG_WARN);
-            debug_print_r('$object', $object);
-            return false;
-        }
-        $instance = new $object();
-        return $this->property_exists($instance, $property);
     }
 
     /**

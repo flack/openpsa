@@ -6,8 +6,6 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
-use midgard\introspection\helper;
-
 /**
  * n.n.static site interface class
  *
@@ -115,9 +113,8 @@ class net_nehmer_static_viewer extends midcom_baseclasses_components_request
                 $sort_property = substr($sort_property, strlen('reverse '));
             }
             if (strpos($sort_property, 'metadata.') === false) {
-                $helper = new helper;
-                $article = new midgard_article();
-                if (!$helper->property_exists($article, $sort_property)) {
+                $ref = midcom_helper_reflector::get('midgard_article');
+                if (!$ref->property_exists($sort_property)) {
                     $sort_property = 'metadata.' . $sort_property;
                 }
             }

@@ -6,8 +6,6 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
-use midgard\introspection\helper;
-
 /**
  * Resolves smart-campaign rules array to one or more QB instances
  * with correct constraints, and merges the results.
@@ -391,9 +389,8 @@ class org_openpsa_directmarketing_campaign_ruleresolver
             $skip_properties[] = 'info';
         }
         $ret = array();
-        $helper = new helper;
 
-        foreach ($helper->get_object_vars($object) as $property => $value) {
+        foreach ($object->get_properties() as $property) {
             if (   preg_match('/^_/', $property)
                 || in_array($property, $skip_properties)
                 || property_exists($object, $property)) {

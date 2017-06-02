@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
-use midgard\introspection\helper;
+use midgard\portable\storage\connection;
 
 /**
  * Wrapper for Midgard-related functionality
@@ -294,8 +294,11 @@ class midcom_connection
     public static function get_schema_types()
     {
         if (!isset(self::$_data['schema_types'])) {
-            $helper = new helper;
-            self::$_data['schema_types'] = $helper->get_all_schemanames();
+            $classnames = connection::get_em()->getConfiguration()->getMetadataDriverImpl()->getAllClassNames();
+
+            self::$_data['schema_types'] = array_filter($classnames, function($input) {
+                return is_subclass_of($input, 'midgard_object');
+            });
         }
         return self::$_data['schema_types'];
     }

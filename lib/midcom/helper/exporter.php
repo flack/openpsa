@@ -6,8 +6,6 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
-use midgard\introspection\helper;
-
 /**
  * Exporter baseclass
  *
@@ -22,10 +20,10 @@ abstract class midcom_helper_exporter
     /**
      * Take an object and return an array of useful fields (removing private properties)
      *
-     * @param midcom_core_dbaobject $object
+     * @param object $object
      * @return array
      */
-    public function object2array($object, $all_metadata_fields = false)
+    public function object2array($object)
     {
         if (!is_object($object)) {
             debug_add("Missing object needed as parameter.", MIDCOM_LOG_ERROR);
@@ -33,7 +31,7 @@ abstract class midcom_helper_exporter
         }
 
         $out = array();
-        $fields = $this->_get_object_fields($object, $all_metadata_fields);
+        $fields = midcom_helper_reflector::get_object_fieldnames($object);
 
         foreach ($fields as $key) {
             if (substr($key, 0, 1) == '_') {
@@ -41,12 +39,11 @@ abstract class midcom_helper_exporter
                 continue;
             }
             if (is_object($object->{$key})) {
-                $out[$key] = $this->object2array($object->{$key}, $all_metadata_fields);
+                $out[$key] = $this->object2array($object->{$key});
             } else {
                 $out[$key] = $object->{$key};
             }
         }
-
         return $out;
     }
 
@@ -65,7 +62,7 @@ abstract class midcom_helper_exporter
         }
 
         // set the object's values to the ones from the data
-        $fields = $this->_get_object_fields($object);
+        $fields = midcom_helper_reflector::get_object_fieldnames($object);
         foreach ($fields as $field_name) {
             // skip private fields.
             if (substr($field_name, 0, 1) == '_') {
@@ -98,27 +95,11 @@ abstract class midcom_helper_exporter
         return $this->array2object($data, $object);
     }
 
-    protected function _get_object_fields($object, $all_metadata_fields = false)
-    {
-        // workaround for problem with _get_object_fields / instrospection helper returning only array("__object", "guid") and is missing all other fields under midgard2
-        if ($all_metadata_fields && $object instanceof midcom_helper_metadata) {
-            return array("created", "hidden", "deleted", "isapproved", "islocked");
-        }
-
-        if (method_exists($object, 'get_properties')) {
-            // MidCOM DBA decorator object
-            return $object->get_properties();
-        }
-
-        $helper = new helper;
-        return $helper->get_all_properties($object);
-    }
-
     /**
      * Get the correct classname
      *
      * @param object $object the object
-     * @return string the mgdschmea classname
+     * @return string the mgdschema classname
      */
     protected function _get_classname($object)
     {

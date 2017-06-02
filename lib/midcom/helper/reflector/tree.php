@@ -533,14 +533,10 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         // Sort by "title" and "name" if available
         $ref = self::get($schema_type);
         $dummy = new $schema_type();
-        $title_property = $ref->get_title_property($dummy);
-        if (   is_string($title_property)
-            && midcom::get()->dbfactory->property_exists($schema_type, $title_property)) {
+        if ($title_property = $ref->get_title_property($dummy)) {
             $qb->add_order($title_property);
         }
-        $name_property = $ref->get_name_property($dummy);
-        if (   is_string($name_property)
-            && midcom::get()->dbfactory->property_exists($schema_type, $name_property)) {
+        if ($name_property = $ref->get_name_property($dummy)) {
             $qb->add_order($name_property);
         }
     }
