@@ -6,8 +6,6 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
-use midgard\introspection\helper;
-
 /**
  * This class contains an email template engine. It can take a template and fill
  * it in with the parameters that have been passed.
@@ -41,15 +39,9 @@ use midgard\introspection\helper;
  * 3. Generic objects
  *
  * You can pass any object as a value. In this case, the same semantic as with an
- * Array can be used to access the object: "__KEY__" will give you a complete
- * dump, while "__KEY_SUBKEY__" accesses a specific property.
- *
- * The complete dump will omit all properties that are prefixed with an "_";
- * according to the MidCOM namespace conventions, these are private members
- * of a class and should not be touched. You can still access them with the
- * direct index, though this is strongly discouraged within a MidCOM context.
- * Also note that variables with more than one underscore as a prefix might cause
- * trouble with the regular expression used to parse the template.
+ * Array can be used to access the object: "__KEY__", while "__KEY_SUBKEY__"
+ * accesses a specific property. Be aware that you need to implement the __toString
+ * method if you want to output the entire object
  *
  * <b>Example usage code</b>
  *
@@ -65,8 +57,8 @@ use midgard\introspection\helper;
  *     "LOCALEND" => $this->dm->data["end"]["local_strfulldate"],
  * );
  * $mail->parameters = $parameters;
- * $mail->body = $this->_config_dm->data["mail_newreservation"];
- * $mail->to = $this->dm->data["email"];
+ * $mail->body = $this->_config->get("mail_newreservation");
+ * $mail->to = $email;
  *
  * if (!$mail->send())
  * {
@@ -145,38 +137,14 @@ class org_openpsa_mail_template
         }
         if (is_object($value)) {
             if (empty($matches[2])) {
-                return $this->_format_object($value);
+                if (method_exists($value, '__toString')) {
+                    return $value->__toString();
+                }
+                throw new midcom_error("__toString method not found on " . get_class($value));
             }
             return $value->{$matches[2]};
         }
         return $value;
-    }
-
-    /**
-     * Convert an object into a string representation.
-     *
-     * Uses word wrapping and skips members beginning with an underscore
-     * (which are private per definition). Relies on reflection to parse
-     * the object.
-     *
-     * @param object $obj    Any PHP object that can be parsed with get_object_vars().
-     * @return string        String representation.
-     */
-    private function _format_object($obj)
-    {
-        $helper = new helper;
-        $result = "";
-        foreach ($helper->get_object_vars($obj) as $key => $value) {
-            if (substr($key, 0, 1) == "_") {
-                continue;
-            }
-            $key = trim($key);
-            $value = $this->prepare_value($key, $value);
-            $result .= "$key: ";
-            $result .= wordwrap($value, 74 - strlen($key), "\n" . str_repeat(" ", 2 + strlen($key)));
-            $result .= "\n";
-        }
-        return $result;
     }
 
     /**
