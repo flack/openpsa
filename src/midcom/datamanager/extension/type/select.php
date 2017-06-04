@@ -7,7 +7,6 @@ namespace midcom\datamanager\extension\type;
 
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\OptionsResolver\Options;
 use midcom\datamanager\extension\compat;
 
@@ -16,16 +15,6 @@ use midcom\datamanager\extension\compat;
  */
 class select extends ChoiceType
 {
-    /**
-     *  Symfony 2.6 compat
-     *
-     * {@inheritDoc}
-     */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
-    {
-        $this->configureOptions($resolver);
-    }
-
     /**
      * {@inheritdoc}
      */

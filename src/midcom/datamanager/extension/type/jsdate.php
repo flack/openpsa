@@ -6,7 +6,6 @@
 namespace midcom\datamanager\extension\type;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\Form\AbstractType;
@@ -27,16 +26,6 @@ class jsdate extends AbstractType
     const UNIXTIME = 'UNIXTIME';
 
     const ISO = 'ISO';
-
-    /**
-     *  Symfony 2.6 compat
-     *
-     * {@inheritDoc}
-     */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
-    {
-        $this->configureOptions($resolver);
-    }
 
     /**
      * {@inheritdoc}

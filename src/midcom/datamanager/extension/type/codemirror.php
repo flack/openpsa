@@ -7,7 +7,6 @@ namespace midcom\datamanager\extension\type;
 
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\Options;
 use midcom;
@@ -25,16 +24,6 @@ class codemirror extends TextareaType
      * Widget version
      */
     public $version = '4.3';
-
-    /**
-     *  Symfony 2.6 compat
-     *
-     * {@inheritDoc}
-     */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
-    {
-        $this->configureOptions($resolver);
-    }
 
     /**
      * {@inheritdoc}

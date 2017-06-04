@@ -18,7 +18,7 @@
         }
     ],
     "require": {
-        "php": ">=5.3.0",
+        "php": ">=5.3.9",
         "ext-mbstring": "*",
         "ext-iconv": "*",
         "ircmaxell/random-lib": "^1.2.0",
@@ -37,7 +37,7 @@
         "symfony/css-selector": "~2.6",
         "symfony/dom-crawler": "~2.6",
         "symfony/event-dispatcher": "~2.5",
-        "symfony/form": "~2.5",
+        "symfony/form": "~2.7",
         "symfony/http-foundation": "~2.5",
         "symfony/security-csrf": "~2.5",
         "symfony/validator": "~2.5",
