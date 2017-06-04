@@ -72,15 +72,9 @@ class schema
                 'dm2_type' => $config['type'],
                 'start_fieldset' => $config['start_fieldset'],
                 'end_fieldset' => $config['end_fieldset'],
-                'index_method' => $config['index_method']
+                'index_method' => $config['index_method'],
+                'attr' => array('readonly' => $config['readonly'])
             );
-
-            // Symfony < 2.8 compat
-            if (compat::is_legacy()) {
-                $options['read_only'] = $config['readonly'];
-            } else {
-                $options['attr']['readonly'] = $config['readonly'];
-            }
 
             $builder->add($name, compat::get_type_name($config['widget']), $options);
         }

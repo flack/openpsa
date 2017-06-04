@@ -7,7 +7,6 @@ namespace midcom\datamanager\extension\type;
 
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use midcom\datamanager\extension\compat;
 use Symfony\Component\Form\Extension\Core\Type\RadioType;
 use midcom;
@@ -26,16 +25,6 @@ class privilege extends RadioType
         'widget privilege: deny' => MIDCOM_PRIVILEGE_DENY,
         'widget privilege: inherit' => MIDCOM_PRIVILEGE_INHERIT,
     );
-
-    /**
-     *  Symfony 2.6 compat
-     *
-     * {@inheritDoc}
-     */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
-    {
-        $this->configureOptions($resolver);
-    }
 
     /**
      * {@inheritdoc}
@@ -110,16 +99,6 @@ class privilege extends RadioType
                 return null;
             }
         }
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * Symfony < 2.8 compat
-     */
-    public function getName()
-    {
-        return $this->getBlockPrefix();
     }
 
     /**

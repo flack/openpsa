@@ -104,16 +104,6 @@ class codemirror extends TextareaType
 
     /**
      * {@inheritdoc}
-     *
-     * Symfony < 2.8 compat
-     */
-    public function getName()
-    {
-        return $this->getBlockPrefix();
-    }
-
-    /**
-     * {@inheritdoc}
      */
     public function getBlockPrefix()
     {

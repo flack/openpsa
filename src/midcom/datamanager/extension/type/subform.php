@@ -78,9 +78,7 @@ class subform extends CollectionType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        if (!compat::is_legacy()) {
-            $options['entry_type'] = compat::get_type_name($options['type']);
-        }
+        $options['entry_type'] = compat::get_type_name($options['type']);
         parent::buildForm($builder, $options);
 
         $builder->addEventSubscriber(new ResizeFormListener(compat::get_type_name($options['type']), array('widget_config' => $options['widget_config'])));
@@ -101,16 +99,6 @@ class subform extends CollectionType
         parent::buildView($view, $form, $options);
         $view->vars['max_count'] = $options['type_config']['max_count'];
         $view->vars['sortable'] = ($options['widget_config']['sortable']) ? 'true' : 'false';
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * Symfony < 2.8 compat
-     */
-    public function getName()
-    {
-        return $this->getBlockPrefix();
     }
 
     /**
