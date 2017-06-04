@@ -56,11 +56,6 @@ class midcom_services_i18n_formatter
         if ($value === null) {
             $value = time();
         }
-        //PHP < 5.3.4 compat
-        if (   version_compare(PHP_VERSION, '5.3.5', '<')
-            && $value instanceof DateTime) {
-            $value = (int) $value->format('U') + timezone_offset_get($value->getTimeZone(), $value);
-        }
         $formatter = new IntlDateFormatter($this->get_locale(), $this->constant($dateformat), $this->constant($timeformat));
         return $formatter->format($value);
     }
