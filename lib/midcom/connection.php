@@ -147,22 +147,13 @@ class midcom_connection
 
     public static function prepare_password($password, $username = null)
     {
-        switch (midcom::get()->config->get('auth_type')) {
-            case 'Plaintext':
-                // Compare plaintext to plaintext
-                break;
-            case 'Legacy':
-                // Midgard1 legacy auth
-                $salt = self::_crypt_password($password, $username);
-                $password = crypt($password, $salt);
-                break;
-            case 'SHA256':
-                $password = hash('sha256', $password);
-                break;
-            default:
-                throw new midcom_error('Unsupported authentication type attempted');
+        if (midcom::get()->config->get('auth_type') == 'Legacy') {
+            // Midgard1 legacy auth
+            $salt = self::_crypt_password($password, $username);
+            $password = crypt($password, $salt);
+        } elseif (midcom::get()->config->get('auth_type') == 'SHA256') {
+            $password = hash('sha256', $password);
         }
-        // TODO: Support other types
 
         return $password;
     }

@@ -517,6 +517,10 @@ class midcom_config implements arrayaccess
             return $default;
         }
 
+        if (   $key === 'auth_type'
+            && !in_array($this->_merged_config[$key], ['Plaintext', 'Legacy', 'SHA256'])) {
+            throw new midcom_error('Unsupported authentication type');
+        }
         // Check the midcom_config site prefix for absolute local urls
         if (   $key === 'midcom_site_url'
             && substr($this->_merged_config[$key], 0, 1) === '/') {
