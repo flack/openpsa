@@ -129,23 +129,19 @@ class midcom_core_service_implementation_urlparsertopic implements midcom_core_s
                 return false;
             }
 
-            $atts = $att_qb->execute();
-
             // Remove this component from path
             $this->argc -= 1;
             array_shift($this->argv);
 
             // Set as current object
             $this->url = $object_url;
-            $this->current_object = $atts[0];
+            $this->current_object = $att_qb->get_result(0);
             $this->objects[$object_url] = $this->current_object;
             return $this->objects[$object_url];
         }
 
-        $topics = $qb->execute();
-
         // Set to current topic
-        $this->current_object = $topics[0];
+        $this->current_object = $qb->get_result(0);
         $this->objects[$object_url] = $this->current_object;
 
         // TODO: Remove

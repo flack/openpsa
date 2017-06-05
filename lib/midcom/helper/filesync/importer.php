@@ -77,8 +77,7 @@ abstract class midcom_helper_filesync_importer extends midcom_baseclasses_compon
                 throw new midcom_error(midcom_connection::get_error_string());
             }
         } else {
-            $nodes = $object_qb->execute();
-            $node = $nodes[0];
+            $node = $object_qb->get_result(0);
         }
         return $node;
     }

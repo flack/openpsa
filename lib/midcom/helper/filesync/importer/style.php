@@ -62,8 +62,7 @@ class midcom_helper_filesync_importer_style extends midcom_helper_filesync_impor
                 continue;
             }
 
-            $elements = $qb->execute();
-            $element = $elements[0];
+            $element = $qb->get_result(0);
 
             // Update existing elements only if they have actually changed
             if ($element->$field != $file_contents) {

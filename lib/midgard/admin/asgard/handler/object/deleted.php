@@ -49,9 +49,8 @@ class midgard_admin_asgard_handler_object_deleted extends midcom_baseclasses_com
         $qb = midcom::get()->dbfactory->new_query_builder($dba_type);
         $qb->include_deleted();
         $qb->add_constraint('guid', '=', $this->_request_data['guid']);
-        $result = $qb->execute();
 
-        $this->_request_data['object'] = $result[0];
+        $this->_request_data['object'] = $qb->get_result(0);
 
         $this->_request_data['asgard_toolbar']->add_item(
             [

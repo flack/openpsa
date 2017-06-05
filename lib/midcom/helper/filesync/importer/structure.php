@@ -90,8 +90,7 @@ class midcom_helper_filesync_importer_structure extends midcom_helper_filesync_i
                 $article->create();
             }
         } else {
-            $topics = $object_qb->execute();
-            $topic = $topics[0];
+            $topic = $object_qb->get_result(0);
         }
         return $topic;
     }

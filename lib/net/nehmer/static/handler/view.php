@@ -76,10 +76,7 @@ class net_nehmer_static_handler_view extends midcom_baseclasses_components_handl
         $qb->add_constraint('up', '=', 0);
         $qb->set_limit(1);
 
-        $result = $qb->execute();
-
-        if (!empty($result)) {
-            $this->_article = $result[0];
+        if ($this->_article = $qb->get_result(0)) {
             return true;
         }
 
@@ -150,9 +147,9 @@ class net_nehmer_static_handler_view extends midcom_baseclasses_components_handl
         $qb = net_nehmer_static_viewer::get_topic_qb($this->_config, $this->_topic->id);
         $qb->add_constraint('name', '=', 'index');
         $qb->set_limit(1);
-        $result = $qb->execute();
+        $this->_article = $qb->get_result(0);
 
-        if (empty($result)) {
+        if (empty($this->_article)) {
             if ($this->_topic->can_do('midgard:create')) {
                 // Check via non-ACLd QB that the topic really doesn't have index article before relocating
                 $index_qb = midcom_db_article::new_query_builder();
@@ -167,8 +164,6 @@ class net_nehmer_static_handler_view extends midcom_baseclasses_components_handl
 
             throw new midcom_error_forbidden('Directory index forbidden');
         }
-
-        $this->_article = $result[0];
     }
 
     /**

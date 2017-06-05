@@ -71,9 +71,7 @@ class net_nehmer_blog_handler_view extends midcom_baseclasses_components_handler
         $qb->add_constraint('name', '=', $args[0]);
         $qb->add_constraint('guid', '=', $args[0]);
         $qb->end_group();
-        $articles = $qb->execute();
-        if (count($articles) > 0) {
-            $this->_article = $articles[0];
+        if ($this->_article = $qb->get_result(0)) {
             return true;
         }
 

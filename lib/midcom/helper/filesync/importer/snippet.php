@@ -67,8 +67,7 @@ class midcom_helper_filesync_importer_snippet extends midcom_helper_filesync_imp
                 continue;
             }
 
-            $snippets = $qb->execute();
-            $snippet = $snippets[0];
+            $snippet = $qb->get_result(0);
 
             // Update existing elements only if they have actually changed
             if ($snippet->$field != $file_contents) {

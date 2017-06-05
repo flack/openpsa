@@ -705,9 +705,7 @@ class midcom_helper_nav_backend
             return true;
         }
 
-        $id_elements = explode('-', $leaf_id);
-
-        $node_id = $id_elements[0];
+        $node_id = explode('-', $leaf_id)[0];
 
         if ($this->_loadNode($node_id) !== MIDCOM_ERROK) {
             debug_add("Tried to verify the leaf id {$leaf_id}, which should belong to node {$node_id}, but this node cannot be loaded, see debug level log for details.",

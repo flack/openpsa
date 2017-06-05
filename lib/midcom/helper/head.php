@@ -508,9 +508,7 @@ class midcom_helper_head
         echo '<script type="text/javascript">' . "\n";
 
         foreach ($this->_jquery_states as $status => $scripts) {
-            $status_parts = explode('.', $status);
-            $status_target = $status_parts[0];
-            $status_method = $status_parts[1];
+            list($status_target, $status_method) = explode('.', $status);
             echo "\njQuery({$status_target}).{$status_method}(function() {\n";
             echo $scripts;
             echo "\n" . '});' . "\n";
