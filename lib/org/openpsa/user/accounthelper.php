@@ -143,10 +143,8 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
     {
         $account = $this->_get_account();
         if (!empty($new_password)) {
-            $new_password_encrypted = midcom_connection::prepare_password($new_password);
-
             //check if the new encrypted password was already used
-            if (    $this->check_password_reuse($new_password_encrypted)
+            if (    $this->check_password_reuse($new_password)
                  && $this->check_password_strength($new_password)) {
                 $this->_save_old_password();
                 $account->set_password($new_password);
@@ -225,19 +223,21 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
      */
     function check_password_reuse($password)
     {
-        //check current password
-        if (($this->_get_account()->get_password() == $password)) {
+        // check current password
+        if (midcom_connection::verify_password($password, $this->_get_account()->get_password())) {
             midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.user'), $this->_l10n->get('password is the same as the current one'), 'error');
             return false;
         }
 
-        //get last passwords
+        // get last passwords
         $old_passwords = $this->_get_old_passwords();
 
-        //check last passwords
-        if (in_array($password, $old_passwords)) {
-            midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.user'), $this->_l10n->get('password was already used'), 'error');
-            return false;
+        // check last passwords
+        foreach ($old_passwords as $old) {
+            if (midcom_connection::verify_password($password, $old)) {
+                midcom::get()->uimessages->add($this->_l10n->get('org.openpsa.user'), $this->_l10n->get('password was already used'), 'error');
+                return false;
+            }
         }
         return true;
     }

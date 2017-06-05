@@ -25,6 +25,7 @@
         "doctrine/cache": "^1.5.4",
         "ezyang/htmlpurifier": "^4.7",
         "gregwar/captcha": "^1.0",
+        "ircmaxell/password-compat": "^1.0",
         "ircmaxell/random-lib": "^1.2.0",
         "kriswallsmith/buzz": "~0.10",
         "mf2/mf2": ">=0.2.12",

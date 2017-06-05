@@ -226,7 +226,7 @@ class org_openpsa_user_accounthelperTest extends openpsa_testcase
     {
         $accounthelper = new org_openpsa_user_accounthelper(self::$_user);
         $account = new midcom_core_account(self::$_user);
-        $password = $account->get_password();
+        $password = self::$_user->extra;
         $this->assertFalse($accounthelper->check_password_reuse($password));
 
         do {
@@ -300,14 +300,12 @@ class org_openpsa_user_accounthelperTest extends openpsa_testcase
      */
     public function testSet_account()
     {
-        $accounthelper = new org_openpsa_user_accounthelper(self::$_user);
-        $account = new midcom_core_account(self::$_user);
-        $password = $account->get_password();
+        $user = self::create_user();
+        $accounthelper = new org_openpsa_user_accounthelper($user);
+        $account = new midcom_core_account($user);
+        $password = $user->extra;
         $username = $account->get_username();
-
         midcom::get()->auth->request_sudo('org.openpsa.user');
-        self::$_user->delete_parameter('org_openpsa_user_password', 'old_passwords');
-        self::$_user->delete_parameter('org_openpsa_user_password', 'last_change');
         do {
             $new_password = $accounthelper->generate_safe_password();
         } while ($password === $new_password);
@@ -316,10 +314,12 @@ class org_openpsa_user_accounthelperTest extends openpsa_testcase
 
         $this->assertTrue($accounthelper->set_account($new_username, $new_password));
         midcom::get()->auth->drop_sudo();
-        $account = new midcom_core_account(self::$_user);
-        $this->assertEquals(midcom_connection::prepare_password($new_password), $account->get_password());
+        $account = new midcom_core_account($user);
+        $this->assertTrue(midcom_connection::verify_password($new_password, $account->get_password()));
         $this->assertEquals($new_username, $account->get_username());
-        $this->assertFalse(is_null(self::$_user->get_parameter('org_openpsa_user_password', 'last_change')));
-        $this->assertEquals(serialize([$password]), self::$_user->get_parameter('org_openpsa_user_password', 'old_passwords'));
+        $this->assertFalse(is_null($user->get_parameter('org_openpsa_user_password', 'last_change')));
+        $old = unserialize($user->get_parameter('org_openpsa_user_password', 'old_passwords'));
+        $this->assertCount(1, $old);
+        $this->assertTrue(midcom_connection::verify_password($password, $old[0]));
     }
 }

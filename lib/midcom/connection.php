@@ -145,6 +145,18 @@ class midcom_connection
         return $user;
     }
 
+    public static function verify_password($password, $hash)
+    {
+        if (midcom::get()->config->get('auth_type') == 'Legacy') {
+            // Midgard1 legacy auth
+            $password = crypt($password, substr($hash, 0, 2));
+        } elseif (midcom::get()->config->get('auth_type') == 'SHA256') {
+            $password = hash('sha256', $password);
+        }
+
+        return $password === $hash;
+    }
+
     public static function prepare_password($password, $username = null)
     {
         if (midcom::get()->config->get('auth_type') == 'Legacy') {
