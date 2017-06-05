@@ -18,7 +18,7 @@
         }
     ],
     "require": {
-        "php": ">=5.3.9",
+        "php": ">=5.4",
         "ext-mbstring": "*",
         "ext-iconv": "*",
         "ircmaxell/random-lib": "^1.2.0",
