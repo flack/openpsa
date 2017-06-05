@@ -29,7 +29,7 @@ class midcom_core_accountTest extends openpsa_testcase
 
         $password = 'password_' . time();
         $account->set_password($password);
-        $this->assertEquals(midcom_connection::prepare_password($password), $account->get_password());
+        $this->assertTrue(midcom_connection::verify_password($password, $account->get_password()));
 
         $username = uniqid(__FUNCTION__ . ' user');
         $account->set_username($username);

@@ -281,7 +281,7 @@ class midcom_config implements arrayaccess
 {
     private $_default_config = [
         // Authentication configuration
-        'auth_type' => 'Plaintext',
+        'auth_type' => 'Legacy',
         'auth_backend' => 'simple',
         'auth_backend_simple_cookie_id' => '',
         'auth_login_session_timeout' => 3600,

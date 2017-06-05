@@ -238,7 +238,10 @@ class org_openpsa_user_accounthelperTest extends openpsa_testcase
         do {
             $password3 = $accounthelper->generate_safe_password();
         } while ($password3 === $password || $password3 === $password1 || $password3 === $password2);
-        $old_passwords = [$password1, $password2];
+        $old_passwords = [
+            midcom_connection::prepare_password($password1),
+            midcom_connection::prepare_password($password2)
+        ];
 
         midcom::get()->auth->request_sudo('org.openpsa.user');
         self::$_user->set_parameter('org_openpsa_user_password', 'old_passwords', serialize($old_passwords));

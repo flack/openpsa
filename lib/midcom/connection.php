@@ -129,13 +129,12 @@ class midcom_connection
             'authtype' => midcom::get()->config->get('auth_type'),
         ];
 
-        if (!$trusted) {
-            $login_tokens['password'] = self::prepare_password($password, $username);
-        }
-
         try {
             $user = new midgard_user($login_tokens);
         } catch (midgard_error_exception $e) {
+            return false;
+        }
+        if (!$trusted && !self::verify_password($password, $user->password)) {
             return false;
         }
 
@@ -148,9 +147,9 @@ class midcom_connection
     public static function verify_password($password, $hash)
     {
         if (midcom::get()->config->get('auth_type') == 'Legacy') {
-            // Midgard1 legacy auth
-            $password = crypt($password, substr($hash, 0, 2));
-        } elseif (midcom::get()->config->get('auth_type') == 'SHA256') {
+            return password_verify($password, $hash);
+        }
+        if (midcom::get()->config->get('auth_type') == 'SHA256') {
             $password = hash('sha256', $password);
         }
 
@@ -160,37 +159,13 @@ class midcom_connection
     public static function prepare_password($password, $username = null)
     {
         if (midcom::get()->config->get('auth_type') == 'Legacy') {
-            // Midgard1 legacy auth
-            $salt = self::_crypt_password($password, $username);
-            $password = crypt($password, $salt);
-        } elseif (midcom::get()->config->get('auth_type') == 'SHA256') {
-            $password = hash('sha256', $password);
+            return password_hash($password, PASSWORD_DEFAULT);
+        }
+        if (midcom::get()->config->get('auth_type') == 'SHA256') {
+            return hash('sha256', $password);
         }
 
         return $password;
-    }
-
-    private static function _crypt_password($password, $username = null)
-    {
-        $crypted = false;
-
-        if (null !== $username) {
-            $mc = new midgard_collector('midgard_user', 'login', $username);
-            $mc->set_key_property('password');
-            $mc->add_constraint('authtype', '=', 'Legacy');
-            $mc->execute();
-            $keys = $mc->list_keys();
-            if (count($keys) == 1) {
-                $crypted = crypt($password, substr(key($keys), 0, 2));
-            }
-        }
-        if (!$crypted) {
-            $factory = new RandomLib\Factory();
-            $des_options = './abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-            $salt = $factory->getMediumStrengthGenerator()->generateString(2, $des_options);
-            $crypted = crypt($password, $salt);
-        }
-        return $crypted;
     }
 
     public static function is_user($person)
