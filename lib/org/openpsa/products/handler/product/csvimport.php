@@ -117,11 +117,7 @@ class org_openpsa_products_handler_product_csvimport extends midcom_baseclasses_
             $qb = org_openpsa_products_product_dba::new_query_builder();
             $qb->add_constraint('code', '=', (string) $productdata['code']);
 
-            $products = $qb->execute();
-            if (count($products) > 0) {
-                // Match found, use it
-                $product = $products[0];
-            }
+            $product = $qb->get_result(0);
         }
 
         if (!$product) {

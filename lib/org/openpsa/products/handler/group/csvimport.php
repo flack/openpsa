@@ -61,10 +61,8 @@ class org_openpsa_products_handler_group_csvimport extends midcom_baseclasses_co
         if (isset($groupdata['code'])) {
             $qb = org_openpsa_products_product_group_dba::new_query_builder();
             $qb->add_constraint('code', '=', (string) $groupdata['code']);
-            $groups = $qb->execute();
-            if (count($groups) > 0) {
+            if ($group = $qb->get_result(0)) {
                 // Match found, use it
-                $group = $groups[0];
                 $this->_request_data['import_status']['already_created']++;
             }
         }

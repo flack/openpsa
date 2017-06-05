@@ -134,9 +134,7 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
         }
 
         //if nothing is found, do some heuristics
-        $parts = explode('/', $mimetype);
-        $type = $parts[0];
-        $subtype = $parts[1];
+        list($type, $subtype) = explode('/', $mimetype);
 
         switch ($type) {
             case 'image':

@@ -113,12 +113,11 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
             $qb->end_group();
         }
 
-        $results = $qb->execute();
+        $this->_product = $qb->get_result(0);
 
-        if (empty($results)) {
+        if (!$this->_product) {
             throw new midcom_error_notfound('Product is not available (or hidden)');
         }
-        $this->_product = $results[0];
     }
 
     /**

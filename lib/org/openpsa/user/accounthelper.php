@@ -400,10 +400,8 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
         $qb = midcom_services_at_entry_dba::new_query_builder();
         $qb->add_constraint('argumentsstore', '=', serialize($args));
         $qb->add_constraint('status', '=', midcom_services_at_entry_dba::SCHEDULED);
-        $results = $qb->execute();
-        if (sizeof($results) > 0) {
+        if ($entry = $qb->get_result(0)) {
             //the account is already blocked, so we just extend the block's duration
-            $entry = $results[0];
             $entry->start = $release_time;
             return $entry->update();
         }
