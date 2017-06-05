@@ -93,12 +93,6 @@ class midcom_config_test
             $this->add('Setting: memory_limit', self::ERROR, "MidCOM requires a minimum memory limit of 40 MB to operate correctly. Smaller amounts will lead to PHP Errors. Detected limit was {$cur_limit}.");
         }
 
-        if ($this->ini_get_boolean('register_globals')) {
-            $this->add('Setting: register_globals', self::WARNING, 'register_globals is enabled, it is recommended to turn this off for security reasons');
-        } else {
-            $this->add('Setting: register_globals', self::OK);
-        }
-
         $upload_limit = $this->ini_get_filesize('upload_max_filesize');
         if ($upload_limit >= (50 * 1024 * 1024)) {
             $this->add('Setting: upload_max_filesize', self::OK, ini_get('upload_max_filesize'));
@@ -112,17 +106,6 @@ class midcom_config_test
             $this->add('Setting: post_max_size', self::OK, ini_get('post_max_size'));
         } else {
             $this->add('Setting: post_max_size', self::WARNING, 'post_max_size should be larger than upload_max_filesize, as both limits apply during uploads.');
-        }
-
-        if (!$this->ini_get_boolean('magic_quotes_gpc')) {
-            $this->add('Setting: magic_quotes_gpc', self::OK);
-        } else {
-            $this->add('Setting: magic_quotes_gpc', self::ERROR, 'Magic Quotes must be turned off, Midgard/MidCOM does this explicitly where required.');
-        }
-        if (!$this->ini_get_boolean('magic_quotes_runtime')) {
-            $this->add('Setting: magic_quotes_runtime', self::OK);
-        } else {
-            $this->add('Setting: magic_quotes_runtime', self::ERROR, 'Magic Quotes must be turned off, Midgard/MidCOM does this explicitly where required.');
         }
 
         if (ini_get("opcache.enable") == "1") {
@@ -162,15 +145,6 @@ class midcom_config_test
             $result = substr($result, 0, -1) * 1024 * 1024 * 1024;
         }
         return $result;
-    }
-
-    private function ini_get_boolean($setting)
-    {
-        $result = ini_get($setting);
-        if (empty($result) || strtolower($result) == "off" || $result == "0") {
-            return false;
-        }
-        return true;
     }
 
     private function check_external()
